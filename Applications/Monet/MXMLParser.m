@@ -8,16 +8,6 @@
 
 @implementation MXMLParser
 
-- (id)initWithContentsOfURL:(NSURL *)url;
-{
-    if ([super initWithContentsOfURL:url] == nil)
-        return nil;
-
-    delegateStack = [[NSMutableArray alloc] init];
-
-    return self;
-}
-
 - (id)initWithData:(NSData *)data;
 {
     if ([super initWithData:data] == nil)

@@ -14,7 +14,6 @@
     id context;
 }
 
-- (id)initWithContentsOfURL:(NSURL *)url;
 - (id)initWithData:(NSData *)data;
 - (void)dealloc;
 
