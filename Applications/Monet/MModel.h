@@ -1,5 +1,5 @@
 //
-// $Id: MModel.h,v 1.25 2004/03/25 21:03:13 nygard Exp $
+// $Id: MModel.h,v 1.26 2004/03/30 02:22:28 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -8,7 +8,7 @@
 #import <Foundation/NSObject.h>
 
 @class CategoryList, MonetList, ParameterList, PhoneList, RuleList, SymbolList;
-@class MMCategory, MMEquation, MMParameter, MMPosture, MMRule, MMSymbol, MMTransition;
+@class MMCategory, MMEquation, MMParameter, MMPosture, MMRule, MMSymbol, MMSynthesisParameters, MMTransition;
 
 extern NSString *MCategoryInUseException;
 
@@ -26,6 +26,9 @@ extern NSString *MCategoryInUseException;
 
     RuleList *rules;
     int cacheTag;
+
+    // This doesn't really belong here, but I'll put it here for now.
+    MMSynthesisParameters *synthesisParameters;
 }
 
 - (id)init;
@@ -44,7 +47,6 @@ extern NSString *MCategoryInUseException;
 - (MonetList *)specialTransitions;
 
 - (RuleList *)rules;
-
 
 // Categories
 - (void)addCategory:(MMCategory *)newCategory;
@@ -124,5 +126,8 @@ extern NSString *MCategoryInUseException;
 - (int)nextCacheTag;
 - (void)parameter:(MMParameter *)aParameter willChangeDefaultValue:(double)newDefaultValue;
 - (void)symbol:(MMSymbol *)aSymbol willChangeDefaultValue:(double)newDefaultValue;
+
+// Other
+- (MMSynthesisParameters *)synthesisParameters;
 
 @end

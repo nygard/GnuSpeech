@@ -20,6 +20,7 @@
 #import "MMPosture.h"
 #import "MMRule.h"
 #import "MMSymbol.h"
+#import "MMSynthesisParameters.h"
 #import "MMTarget.h"
 #import "MMTransition.h"
 #import "RuleList.h"
@@ -67,6 +68,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
     cacheTag = 1;
 
+    synthesisParameters = [[MMSynthesisParameters alloc] init];
+
     return self;
 }
 
@@ -81,6 +84,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [transitions release];
     [specialTransitions release];
     [rules release];
+
+    [synthesisParameters release];
 
     [super dealloc];
 }
@@ -826,6 +831,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     //NSLog(@"rules: %d", [rules count]);
     [rules makeObjectsPerformSelector:@selector(setModel:) withObject:self];
 
+    synthesisParameters = [[MMSynthesisParameters alloc] init];
+
     return self;
 }
 
@@ -1424,6 +1431,15 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
             [[[[postures objectAtIndex:index] symbolList] objectAtIndex:symbolIndex] changeDefaultValueFrom:oldDefaultValue to:newDefaultValue];
         }
     }
+}
+
+//
+// Other
+//
+
+- (MMSynthesisParameters *)synthesisParameters;
+{
+    return synthesisParameters;
 }
 
 @end

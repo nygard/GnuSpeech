@@ -1,6 +1,6 @@
 #import <Foundation/NSObject.h>
 
-@class EventList, MMSynthesisParameters, MonetList, PhoneList;
+@class EventList, MModel, MonetList, PhoneList;
 @class EventListView, IntonationScrollView, IntonationView;
 
 /*===========================================================================
@@ -42,7 +42,7 @@
 
     IBOutlet NSTextField *radiusMultiplyField;
 
-    MMSynthesisParameters *synthesisParameters;
+    MModel *model;
 }
 
 + (NSCharacterSet *)gsStringParserWhitespaceCharacterSet;
@@ -50,6 +50,10 @@
 
 - (id)init;
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
+
+- (MModel *)model;
+- (void)setModel:(MModel *)newModel;
+
 - (void)parseStringButton:(id)sender;
 - (void)synthesizeWithSoftware:(id)sender;
 

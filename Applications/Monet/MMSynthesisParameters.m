@@ -488,4 +488,61 @@ static NSString *MonetDefKeys[] = {
     outputChannels = value;
 }
 
+- (void)writeToFile:(NSString *)aFilename includeComments:(BOOL)shouldIncludeComments;
+{
+    FILE *fp;
+    float sRate;
+
+    if (samplingRate == MMSamplingRate44100)
+        sRate = 44100.0;
+    else
+        sRate = 22050.0;
+
+    fp = fopen("/tmp/Monet.parameters", "w");
+
+    if (shouldIncludeComments == YES) {
+        fprintf(fp, "%d\t\t; %s\n", 0, "output file format (0 = AU, 1 = AIFF, 2 = WAVE)");
+        fprintf(fp, "%f\t; %s\n", sRate, "output sample rate (22050.0, 44100.0)");
+        fprintf(fp, "%d\t\t; %s\n", 250, "input control rate (1 - 1000 Hz)");
+        fprintf(fp, "%f\t; %s\n", masterVolume, "master volume (0 - 60 dB)");
+        fprintf(fp, "%d\t\t; %s\n", outputChannels + 1, "number of sound output channels (1 or 2)");
+        fprintf(fp, "%f\t; %s\n", balance, "stereo balance (-1 to +1)");
+        fprintf(fp, "%d\t\t; %s\n", glottalPulseShape, "glottal source waveform type (0 = pulse, 1 = sine)");
+        fprintf(fp, "%f\t; %s\n", tp, "glottal pulse rise time (5 - 50 % of GP period)");
+        fprintf(fp, "%f\t; %s\n", tnMin, "glottal pulse fall time minimum (5 - 50 % of GP period)");
+        fprintf(fp, "%f\t; %s\n", tnMax, "glottal pulse fall time maximum (5 - 50 % of GP period)");
+        fprintf(fp, "%f\t; %s\n", breathiness, "glottal source breathiness (0 - 10 % of GS amplitude)");
+        fprintf(fp, "%f\t; %s\n", vocalTractLength, "nominal tube length (10 - 20 cm)");
+        fprintf(fp, "%f\t; %s\n", temperature, "tube temperature (25 - 40 degrees celsius)");
+        fprintf(fp, "%f\t; %s\n", lossFactor, "junction loss factor (0 - 5 % of unity gain)");
+        fprintf(fp, "%f\t; %s\n", apertureScaling, "aperture scaling radius (3.05 - 12 cm)");
+        fprintf(fp, "%f\t; %s\n", mouthCoef, "mouth aperture coefficient (0 - 0.99)");
+        fprintf(fp, "%f\t; %s\n", noseCoef, "nose aperture coefficient (0 - 0.99)");
+        fprintf(fp, "%f\t; %s\n", n1, "radius of nose section 1 (0 - 3 cm)");
+        fprintf(fp, "%f\t; %s\n", n2, "radius of nose section 2 (0 - 3 cm)");
+        fprintf(fp, "%f\t; %s\n", n3, "radius of nose section 3 (0 - 3 cm)");
+        fprintf(fp, "%f\t; %s\n", n4, "radius of nose section 4 (0 - 3 cm)");
+        fprintf(fp, "%f\t; %s\n", n5, "radius of nose section 5 (0 - 3 cm)");
+        fprintf(fp, "%f\t; %s\n", throatCutoff, "throat lowpass frequency cutoff (50 - nyquist Hz)");
+        fprintf(fp, "%f\t; %s\n", throatVolume, "throat volume (0 - 48 dB)");
+        fprintf(fp, "%d\t\t; %s\n", shouldUseNoiseModulation, "pulse modulation of noise (0 = off, 1 = on)");
+        fprintf(fp, "%f\t; %s\n", mixOffset, "noise crossmix offset (30 - 60 db)");
+    } else {
+        fprintf(fp,"0\n%f\n250\n%f\n%d\n%f\n%d\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%d\n%f\n",
+                sRate, masterVolume,
+                outputChannels + 1, balance,
+                glottalPulseShape, tp, tnMin,
+                tnMax, breathiness,
+                vocalTractLength, temperature,
+                lossFactor, apertureScaling,
+                mouthCoef, noseCoef,
+                n1, n2, n3,
+                n4, n5,
+                throatCutoff, throatVolume,
+                shouldUseNoiseModulation, mixOffset);
+    }
+
+    fclose(fp);
+}
+
 @end

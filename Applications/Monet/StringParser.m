@@ -9,6 +9,7 @@
 #import "EventList.h"
 #import "EventListView.h"
 #import "IntonationView.h"
+#import "MModel.h"
 #import "MMPosture.h"
 #import "MMSynthesisParameters.h"
 #import "PhoneList.h"
@@ -62,15 +63,13 @@
     eventList = [[EventList alloc] initWithCapacity:1000];
     NXNameObject(@"mainEventList", eventList, NSApp);
 
-    synthesisParameters = [[MMSynthesisParameters alloc] init];
-
     return self;
 }
 
 - (void)dealloc;
 {
     [eventList release];
-    [synthesisParameters release];
+    [model release];
 
     [super dealloc];
 }
@@ -84,49 +83,35 @@
     NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }
 
+- (MModel *)model;
+{
+    return model;
+}
+
+- (void)setModel:(MModel *)newModel;
+{
+    if (newModel == model)
+        return;
+
+    [model release];
+    model = [newModel retain];
+}
+
 - (void)parseStringButton:(id)sender;
 {
     struct timeval tp1, tp2;
     struct timezone tzp;
     int i;
     float intonationParameters[5];
-    float sRate;
-    //float silencePage[16] = {0.0, 0.0, 0.0, 0.0, 5.5, 2500.0, 500.0, 0.8, 0.89, 0.99, 0.81, 0.76, 1.05, 1.23, 0.01, 0.0};
 
-    NSLog(@"%.2f %.2f %.2f %.2f %.2f \n%.2f %.2f %.2f %.2f %.2f\n%.2f %.2f %.2f %.2f %.2f\n%.2f %.2f %.2f %.2f %.2f",
-          [synthesisParameters masterVolume], [synthesisParameters balance], [synthesisParameters tp], [synthesisParameters tnMin],
-          [synthesisParameters tnMax], [synthesisParameters breathiness], [synthesisParameters vocalTractLength], [synthesisParameters temperature],
-          [synthesisParameters lossFactor], [synthesisParameters apertureScaling], [synthesisParameters mouthCoef], [synthesisParameters noseCoef],
-          [synthesisParameters n1], [synthesisParameters n2], [synthesisParameters n3], [synthesisParameters n4], [synthesisParameters n5],
-          [synthesisParameters throatCutoff], [synthesisParameters throatVolume], [synthesisParameters mixOffset]);
-
-    if ([synthesisParameters samplingRate] == MMSamplingRate44100)
-        sRate = 44100.0;
-    else
-        sRate = 22050.0;
-
-#ifdef HAVE_DSP
-    set_utterance_rate_parameters(sRate, 250.0, [masterVolume floatValue],
-                                  [stereoMono selectedColumn]+1, [balance floatValue],
-                                  [waveform selectedColumn], [tp floatValue], [tnMin floatValue],
-                                  [tnMax floatValue], [breathiness floatValue],
-                                  [length floatValue], [temperature floatValue],
-                                  [lossFactor floatValue], [apScale floatValue],
-                                  [mouthCoef floatValue], [noseCoef floatValue],
-                                  [n1 floatValue], [n2 floatValue], [n3 floatValue],
-                                  [n4 floatValue], [n5 floatValue],
-                                  [throatCutoff floatValue], [throatVolume floatValue],
-                                  [modulation selectedColumn], [mixOffset floatValue], [pitchMean doubleValue],
-                                  silencePage);
-#endif
-
+    NSLog(@" > %s", _cmd);
 
     //[self parseString:[stringTextField stringValue]];
 
     gettimeofday(&tp1, &tzp);
 
     [eventList setUp];
-    [eventList setPitchMean:[synthesisParameters pitch]];
+    [eventList setPitchMean:[[[self model] synthesisParameters] pitch]];
     [eventList setGlobalTempo:[tempoField doubleValue]];
     [eventList setShouldStoreParameters:[parametersStore state]];
 
@@ -183,70 +168,22 @@
     [[intonationView documentView] setEventList:eventList];
 
     [stringTextField selectText:self];
+
+    NSLog(@"<  %s", _cmd);
 }
 
 - (void)synthesizeWithSoftware:(id)sender;
 {
-    FILE *fp;
-    float sRate;
     //char commandLine[256];
 
     NSLog(@" > %s", _cmd);
     //NSLog(@"eventList: %@", eventList);
     //[[NSApp delegate] generateXML:@"before software synthesis"];
 
-    if ([synthesisParameters samplingRate] == MMSamplingRate44100)
-        sRate = 44100.0;
-    else
-        sRate = 22050.0;
-
-    fp = fopen("/tmp/Monet.parameters", "w");
-#if 1
-    fprintf(fp, "%d\t\t; %s\n", 0, "output file format (0 = AU, 1 = AIFF, 2 = WAVE)");
-    fprintf(fp, "%f\t; %s\n", sRate, "output sample rate (22050.0, 44100.0)");
-    fprintf(fp, "%d\t\t; %s\n", 250, "input control rate (1 - 1000 Hz)");
-    fprintf(fp, "%f\t; %s\n", [synthesisParameters masterVolume], "master volume (0 - 60 dB)");
-    fprintf(fp, "%d\t\t; %s\n", [synthesisParameters outputChannels] + 1, "number of sound output channels (1 or 2)");
-    fprintf(fp, "%f\t; %s\n", [synthesisParameters balance], "stereo balance (-1 to +1)");
-    fprintf(fp, "%d\t\t; %s\n", [synthesisParameters glottalPulseShape], "glottal source waveform type (0 = pulse, 1 = sine)");
-    fprintf(fp, "%f\t; %s\n", [synthesisParameters tp], "glottal pulse rise time (5 - 50 % of GP period)");
-    fprintf(fp, "%f\t; %s\n", [synthesisParameters tnMin], "glottal pulse fall time minimum (5 - 50 % of GP period)");
-    fprintf(fp, "%f\t; %s\n", [synthesisParameters tnMax], "glottal pulse fall time maximum (5 - 50 % of GP period)");
-    fprintf(fp, "%f\t; %s\n", [synthesisParameters breathiness], "glottal source breathiness (0 - 10 % of GS amplitude)");
-    fprintf(fp, "%f\t; %s\n", [synthesisParameters vocalTractLength], "nominal tube length (10 - 20 cm)");
-    fprintf(fp, "%f\t; %s\n", [synthesisParameters temperature], "tube temperature (25 - 40 degrees celsius)");
-    fprintf(fp, "%f\t; %s\n", [synthesisParameters lossFactor], "junction loss factor (0 - 5 % of unity gain)");
-    fprintf(fp, "%f\t; %s\n", [synthesisParameters apertureScaling], "aperture scaling radius (3.05 - 12 cm)");
-    fprintf(fp, "%f\t; %s\n", [synthesisParameters mouthCoef], "mouth aperture coefficient (0 - 0.99)");
-    fprintf(fp, "%f\t; %s\n", [synthesisParameters noseCoef], "nose aperture coefficient (0 - 0.99)");
-    fprintf(fp, "%f\t; %s\n", [synthesisParameters n1], "radius of nose section 1 (0 - 3 cm)");
-    fprintf(fp, "%f\t; %s\n", [synthesisParameters n2], "radius of nose section 2 (0 - 3 cm)");
-    fprintf(fp, "%f\t; %s\n", [synthesisParameters n3], "radius of nose section 3 (0 - 3 cm)");
-    fprintf(fp, "%f\t; %s\n", [synthesisParameters n4], "radius of nose section 4 (0 - 3 cm)");
-    fprintf(fp, "%f\t; %s\n", [synthesisParameters n5], "radius of nose section 5 (0 - 3 cm)");
-    fprintf(fp, "%f\t; %s\n", [synthesisParameters throatCutoff], "throat lowpass frequency cutoff (50 - nyquist Hz)");
-    fprintf(fp, "%f\t; %s\n", [synthesisParameters throatVolume], "throat volume (0 - 48 dB)");
-    fprintf(fp, "%d\t\t; %s\n", [synthesisParameters shouldUseNoiseModulation], "pulse modulation of noise (0 = off, 1 = on)");
-    fprintf(fp, "%f\t; %s\n", [synthesisParameters mixOffset], "noise crossmix offset (30 - 60 db)");
-#else
-    fprintf(fp,"0\n%f\n250\n%f\n%d\n%f\n%d\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%d\n%f\n",
-            sRate, [synthesisParameters masterVolume],
-            [synthesisParameters outputChannels] + 1, [synthesisParameters balance],
-            [synthesisParameters glottalPulseShape], [synthesisParameters tp], [synthesisParameters tnMin],
-            [synthesisParameters tnMax], [synthesisParameters breathiness],
-            [synthesisParameters vocalTractLength], [synthesisParameters temperature],
-            [synthesisParameters lossFactor], [synthesisParameters apertureScaling],
-            [synthesisParameters mouthCoef], [synthesisParameters noseCoef],
-            [synthesisParameters n1], [synthesisParameters n2], [synthesisParameters n3],
-            [synthesisParameters n4], [synthesisParameters n5],
-            [synthesisParameters throatCutoff], [synthesisParameters throatVolume],
-            [synthesisParameters shouldUseNoiseModulation], [synthesisParameters mixOffset]);
-#endif
-
-    fclose(fp);
+    [[[self model] synthesisParameters] writeToFile:@"/tmp/Monet.parameters" includeComments:YES];
 
     [eventList setUp];
-    [eventList setPitchMean:[synthesisParameters pitch]];
+    [eventList setPitchMean:[[[self model] synthesisParameters] pitch]];
     [eventList setGlobalTempo:[tempoField doubleValue]];
     [eventList setShouldStoreParameters:[parametersStore state]];
     [eventList setShouldUseSoftwareSynthesis:YES];

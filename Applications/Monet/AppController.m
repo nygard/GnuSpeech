@@ -86,6 +86,16 @@
     NXNameObject(@"intonationView", intonationView, NSApp);
     NXNameObject(@"stringParser", stringParser, NSApp);
 
+    //[prototypeManager setModel:model];
+    //[dataEntryController setModel:model];
+    //[postureEditor setModel:model];
+    //[newPrototypeManager setModel:model];
+    //[transitionEditor setModel:model];
+    //[specialTransitionEditor setModel:model];
+    //[ruleTester setModel:model];
+    //[newRuleManager setModel:model];
+    [stringParser setModel:model];
+
     //NSLog(@"getting it by name: %@", NXGetNamedObject(@"mainSymbolList", NSApp));
 
     if (inspectorController)
@@ -364,6 +374,7 @@
             [specialTransitionEditor setModel:model];
             [ruleTester setModel:model];
             [newRuleManager setModel:model];
+            [stringParser setModel:model];
 
             [stream release];
 #ifdef PORTING

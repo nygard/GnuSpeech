@@ -1,5 +1,5 @@
 //
-// $Id: MMSynthesisParameters.h,v 1.2 2004/03/29 23:24:08 nygard Exp $
+// $Id: MMSynthesisParameters.h,v 1.3 2004/03/30 02:22:28 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -147,5 +147,7 @@ typedef enum {
 
 - (MMChannels)outputChannels;
 - (void)setOutputChannels:(MMChannels)value;
+
+- (void)writeToFile:(NSString *)aFilename includeComments:(BOOL)shouldIncludeComments;
 
 @end
