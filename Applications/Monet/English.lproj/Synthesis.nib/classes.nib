@@ -50,6 +50,7 @@
                 driftCutoffField = NSTextField; 
                 driftDeviationField = NSTextField; 
                 eventListView = EventListView; 
+                eventTableView = NSTableView; 
                 fileTypePopUpButton = NSPopUpButton; 
                 filenameField = NSTextField; 
                 hertzTextField = NSTextField; 

@@ -19,4 +19,17 @@
     return instance;
 }
 
++ (NSNumberFormatter *)defaultNumberFormatter2;
+{
+    static NSNumberFormatter *instance = nil;
+
+    if (instance == nil) {
+        instance = [[NSNumberFormatter alloc] init];
+        [instance setFormat:@"#,##0.###"];
+        [instance setAttributedStringForNotANumber:nil];
+    }
+
+    return instance;
+}
+
 @end

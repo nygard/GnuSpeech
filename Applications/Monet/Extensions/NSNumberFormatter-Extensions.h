@@ -6,5 +6,6 @@
 @interface NSNumberFormatter (Extensions)
 
 + (NSNumberFormatter *)defaultNumberFormatter;
++ (NSNumberFormatter *)defaultNumberFormatter2;
 
 @end

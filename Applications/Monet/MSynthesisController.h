@@ -53,6 +53,9 @@
     MMPostureRewriter *postureRewriter;
 
     TRMSynthesizer *synthesizer;
+
+    // Event Table stuff
+    IBOutlet NSTableView *eventTableView;
 }
 
 + (void)initialize;

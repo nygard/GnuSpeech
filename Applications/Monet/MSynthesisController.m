@@ -11,6 +11,7 @@
 #import "NSScanner-Extensions.h"
 #import "NSString-Extensions.h"
 
+#import "Event.h" // For MAX_EVENTS
 #import "EventList.h"
 #import "EventListView.h"
 #import "IntonationPoint.h"
@@ -123,6 +124,7 @@
     [checkboxCell setEditable:NO];
 
     [[parameterTableView tableColumnWithIdentifier:@"shouldDisplay"] setDataCell:checkboxCell];
+    [[eventTableView tableColumnWithIdentifier:@"flag"] setDataCell:checkboxCell];
 
     [checkboxCell release];
 
@@ -151,6 +153,26 @@
     [stringTextField removeAllItems];
     [stringTextField addItemsWithObjectValues:[[NSUserDefaults standardUserDefaults] objectForKey:MDK_DefaultUtterances]];
     [stringTextField selectItemAtIndex:0];
+
+    [[[eventTableView tableColumnWithIdentifier:@"flag"] dataCell] setFormatter:defaultNumberFormatter];
+
+    {
+        unsigned int index;
+
+        defaultNumberFormatter = [NSNumberFormatter defaultNumberFormatter2];
+        for (index = 0; index < MAX_EVENTS; index++) {
+            NSTableColumn *tableColumn;
+
+            tableColumn = [[NSTableColumn alloc] initWithIdentifier:[NSNumber numberWithInt:index]];
+            [[tableColumn headerCell] setTitle:[NSString stringWithFormat:@"%d", index]];
+            [[tableColumn dataCell] setFormatter:defaultNumberFormatter];
+            [[tableColumn dataCell] setAlignment:NSRightTextAlignment];
+            [[tableColumn dataCell] setDrawsBackground:NO];
+            [tableColumn setWidth:60.0];
+            [eventTableView addTableColumn:tableColumn];
+            [tableColumn release];
+        }
+    }
 }
 
 - (void)_updateDisplayParameters;
@@ -397,10 +419,12 @@
 #endif
 
     [eventList printDataStructures:@"Before synthesis"];
+    [eventTableView reloadData];
     {
         [synthesizer setupSynthesisParameters:[[self model] synthesisParameters]];
         [synthesizer removeAllParameters];
         [eventList setDelegate:synthesizer];
+        NSLog(@"eventList: %@", eventList);
         [eventList generateOutput];
         [eventList setDelegate:nil];
         if (shouldSaveToSoundFile == YES)
@@ -742,6 +766,9 @@
     if (tableView == intonationRuleTableView)
         return [eventList numberOfRules];
 
+    if (tableView == eventTableView)
+        return [eventList count];
+
     return 0;
 }
 
@@ -764,6 +791,17 @@
             return [eventList ruleDescriptionAtIndex:row];
         } else if ([@"number" isEqual:identifier] == YES) {
             return [NSString stringWithFormat:@"%d.", row + 1];
+        }
+    } else if (tableView == eventTableView) {
+        if ([@"time" isEqual:identifier] == YES) {
+            return [NSNumber numberWithInt:[[eventList objectAtIndex:row] time]];
+        } else if ([@"flag" isEqual:identifier] == YES) {
+            return [NSNumber numberWithBool:[[eventList objectAtIndex:row] flag]];
+        } else if ([identifier isKindOfClass:[NSNumber class]]) {
+            double value;
+
+            value = [[eventList objectAtIndex:row] getValueAtIndex:[identifier intValue]];
+            return [NSNumber numberWithDouble:value];
         }
     }
 
