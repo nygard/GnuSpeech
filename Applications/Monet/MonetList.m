@@ -104,6 +104,7 @@
     unsigned archivedVersion;
     int count;
 
+    // TODO (2004-03-05): On second thought I don't think these should call init -- also doing so in subclasses may cause problems, multiple-initialization
     if ([self init] == nil)
         return nil;
 

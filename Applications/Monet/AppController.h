@@ -1,5 +1,5 @@
 //
-// $Id: AppController.h,v 1.8 2004/03/05 04:59:43 nygard Exp $
+// $Id: AppController.h,v 1.9 2004/03/05 19:04:55 nygard Exp $
 //
 
 /*===========================================================================
@@ -35,6 +35,7 @@ History:
 
     NSMutableDictionary *namedObjects;
 
+    // These seem to be the components of a document:
     PhoneList *mainPhoneList;
     CategoryList *mainCategoryList;
     SymbolList *mainSymbolList;

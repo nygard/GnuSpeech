@@ -176,6 +176,7 @@
 }
 
 
+// Open a .degas file.
 - (void)openFile:(id)sender;
 {
 #ifdef PORTING
@@ -273,26 +274,32 @@
     }
 }
 
+// Open a .monet file.
 - (void)readFromDisk:(id)sender;
 {
     int i, count;
     NSArray *types;
     NSArray *fnames;
-    NSString *directory;
     NSString *filename;
     NSArchiver *stream;
+    NSOpenPanel *openPanel;
 
-    types = [NSArray arrayWithObject: @"monet"];
-    [[NSOpenPanel openPanel] setAllowsMultipleSelection:NO];
-    if ([[NSOpenPanel openPanel] runModalForTypes:types])
-    {
-        fnames = [[NSOpenPanel openPanel] filenames];
-        directory = [[NSOpenPanel openPanel] directory];
+    NSLog(@" > %s", _cmd);
+
+    types = [NSArray arrayWithObject:@"monet"];
+    openPanel = [NSOpenPanel openPanel]; // Each call resets values, including filenames
+    [openPanel setAllowsMultipleSelection:NO];
+
+    if ([openPanel runModalForTypes:types] == NSOKButton) {
+        fnames = [openPanel filenames];
+        NSLog(@"fnames: %@", [fnames description]);
         count = [fnames count];
-        for (i = 0; i < count; i++)
-        {
-            filename = [directory stringByAppendingPathComponent:[fnames objectAtIndex:i]];
+        NSLog(@"count: %d", count);
+        for (i = 0; i < count; i++) {
+            filename = [fnames objectAtIndex:i];
+            NSLog(@"filename: %@", filename);
             stream = [[NSUnarchiver alloc] initForReadingWithData:[NSData dataWithContentsOfFile:filename]];
+            NSLog(@"stream: %p", stream);
 
             if (stream) {
                 NXUnnameObject(@"mainCategoryList", NSApp);
@@ -310,7 +317,7 @@
                 /* Category list must be named immediately */
                 mainCategoryList = [[stream decodeObject] retain];
                 NXNameObject(@"mainCategoryList", mainCategoryList, NSApp);
-
+#ifdef PORTING
                 mainSymbolList = [[stream decodeObject] retain];
                 mainParameterList = [[stream decodeObject] retain];
                 mainMetaParameterList = [[stream decodeObject] retain];
@@ -327,17 +334,19 @@
                 [dataBrowser updateLists];
 
                 [dataBrowser updateBrowser];
-                [transitionBuilder applicationDidFinishLaunching: nil];
-                [specialTransitionBuilder applicationDidFinishLaunching: nil];
+                [transitionBuilder applicationDidFinishLaunching:nil];
+                [specialTransitionBuilder applicationDidFinishLaunching:nil];
 
                 [stream release];
                 initStringParser();
+#endif
             } else {
                 NSLog(@"Not a MONET file");
             }
-
         }
     }
+
+    NSLog(@"<  %s", _cmd);
 }
 
 - (void)savePrototypes:(id)sender;
