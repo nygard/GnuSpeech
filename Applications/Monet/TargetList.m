@@ -4,7 +4,7 @@
 #import "NSString-Extensions.h"
 
 #import "GSXMLFunctions.h"
-#import "Target.h"
+#import "MMTarget.h"
 
 /*===========================================================================
 
@@ -18,9 +18,9 @@
 
 - (void)addDefaultTargetWithValue:(double)newValue;
 {
-    Target *newTarget;
+    MMTarget *newTarget;
 
-    newTarget = [[Target alloc] initWithValue:newValue isDefault:YES];
+    newTarget = [[MMTarget alloc] initWithValue:newValue isDefault:YES];
     [self addObject:newTarget];
     [newTarget release];
 }

@@ -1,4 +1,4 @@
-#import "Target.h"
+#import "MMTarget.h"
 
 #import <Foundation/Foundation.h>
 #import "NSObject-Extensions.h"
@@ -6,7 +6,7 @@
 
 #import "GSXMLFunctions.h"
 
-@implementation Target
+@implementation MMTarget
 
 - (id)init;
 {

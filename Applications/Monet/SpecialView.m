@@ -15,7 +15,7 @@
 #import "PrototypeManager.h"
 #import "ProtoTemplate.h"
 #import "SymbolList.h"
-#import "Target.h"
+#import "MMTarget.h"
 #import "TargetList.h"
 
 #define LABEL_MARGIN 5
@@ -117,10 +117,10 @@ static NSImage *_selectionBox = nil;
     mainMetaParameterList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
 
     aPhone = [[Phone alloc] initWithSymbol:@"dummy" parameters:mainParameterList metaParameters:mainMetaParameterList symbols:symbols];
-    [(Target *)[[aPhone symbolList] objectAtIndex:0] setValue:100.0]; // Rule Duration
-    [(Target *)[[aPhone symbolList] objectAtIndex:1] setValue:33.3333]; // Beat Location
-    [(Target *)[[aPhone symbolList] objectAtIndex:2] setValue:33.3333]; // Mark 1
-    [(Target *)[[aPhone symbolList] objectAtIndex:3] setValue:33.3333]; // Mark 2
+    [(MMTarget *)[[aPhone symbolList] objectAtIndex:0] setValue:100.0]; // Rule Duration
+    [(MMTarget *)[[aPhone symbolList] objectAtIndex:1] setValue:33.3333]; // Beat Location
+    [(MMTarget *)[[aPhone symbolList] objectAtIndex:2] setValue:33.3333]; // Mark 1
+    [(MMTarget *)[[aPhone symbolList] objectAtIndex:3] setValue:33.3333]; // Mark 2
     [dummyPhoneList addObject:aPhone];
     [dummyPhoneList addObject:aPhone];
     [dummyPhoneList addObject:aPhone];

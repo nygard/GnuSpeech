@@ -10,7 +10,7 @@
 #import "NiftyMatrixCell.h"
 #import "MMParameter.h"
 #import "Phone.h"
-#import "Target.h" // Or Point.h
+#import "MMTarget.h" // Or Point.h
 #import "TargetList.h"
 
 @implementation PhoneInspector
@@ -234,19 +234,19 @@
     switch (currentBrowser) {
       case 1:
           tempList = [currentPhone parameterList];
-          value = [(Target *)[tempList objectAtIndex:[[browser matrixInColumn:0] selectedRow]] value];
+          value = [(MMTarget *)[tempList objectAtIndex:[[browser matrixInColumn:0] selectedRow]] value];
           [[valueField cellAtIndex:0] setDoubleValue:value];
           [valueField selectTextAtIndex:0];
           break;
       case 2:
           tempList = [currentPhone metaParameterList];
-          value = [(Target *)[tempList objectAtIndex:[[browser matrixInColumn:0] selectedRow]] value];
+          value = [(MMTarget *)[tempList objectAtIndex:[[browser matrixInColumn:0] selectedRow]] value];
           [[valueField cellAtIndex:0] setDoubleValue:value];
           [valueField selectTextAtIndex:0];
           break;
       case 3:
           tempList = [currentPhone symbolList];
-          value = [(Target *)[tempList objectAtIndex:[[browser matrixInColumn:0] selectedRow]] value];
+          value = [(MMTarget *)[tempList objectAtIndex:[[browser matrixInColumn:0] selectedRow]] value];
           [[valueField cellAtIndex:0] setDoubleValue:value];
           [valueField selectTextAtIndex:0];
           break;
@@ -266,7 +266,7 @@
 
 - (IBAction)browserDoubleHit:(id)sender;
 {
-    Target *aTarget;
+    MMTarget *aTarget;
     MMParameter *aParameter;
     double defaultValue;
 
@@ -329,7 +329,7 @@
           return;
     }
 
-    str = [NSString stringWithFormat:@"%20@ %10.2f", [[currentMainList objectAtIndex:row] symbol], [(Target *)[list objectAtIndex:row] value]];
+    str = [NSString stringWithFormat:@"%20@ %10.2f", [[currentMainList objectAtIndex:row] symbol], [(MMTarget *)[list objectAtIndex:row] value]];
 
     [cell setStringValue:str];
     if ([[list objectAtIndex:row] isDefault])

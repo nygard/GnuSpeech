@@ -10,7 +10,7 @@
 #import "GSXMLFunctions.h"
 #import "MMParameter.h"
 #import "ParameterList.h"
-#import "Target.h"
+#import "MMTarget.h"
 #import "TargetList.h"
 #import "MMSymbol.h"
 #import "SymbolList.h"
@@ -49,7 +49,7 @@
 - (id)initWithSymbol:(NSString *)newSymbol parameters:(ParameterList *)parms metaParameters:(ParameterList *)metaparms symbols:(SymbolList *)symbols;
 {
     int count, index;
-    Target *newTarget;
+    MMTarget *newTarget;
 
     if ([self init] == nil)
         return nil;
@@ -58,21 +58,21 @@
 
     count = [parms count];
     for (index = 0; index < count; index++) {
-        newTarget = [[Target alloc] initWithValue:[[parms objectAtIndex:index] defaultValue] isDefault:YES];
+        newTarget = [[MMTarget alloc] initWithValue:[[parms objectAtIndex:index] defaultValue] isDefault:YES];
         [parameterList addObject:newTarget];
         [newTarget release];
     }
 
     count = [metaparms count];
     for (index = 0; index < count; index++) {
-        newTarget = [[Target alloc] initWithValue:[[metaparms objectAtIndex:index] defaultValue] isDefault:YES];
+        newTarget = [[MMTarget alloc] initWithValue:[[metaparms objectAtIndex:index] defaultValue] isDefault:YES];
         [metaParameterList addObject:newTarget];
         [newTarget release];
     }
 
     count = [symbols count];
     for (index = 0; index < count; index++) {
-        newTarget = [[Target alloc] initWithValue:[[symbols objectAtIndex:index] defaultValue] isDefault:YES];
+        newTarget = [[MMTarget alloc] initWithValue:[[symbols objectAtIndex:index] defaultValue] isDefault:YES];
         [symbolList addObject:newTarget];
         [newTarget release];
     }
@@ -311,7 +311,7 @@
     ParameterList *mainParameterList;
     int count, index;
     MMParameter *aParameter;
-    Target *aTarget;
+    MMTarget *aTarget;
 
     mainParameterList = NXGetNamedObject(@"mainParameterList", NSApp);
     count = [mainParameterList count];
@@ -343,7 +343,7 @@
     ParameterList *mainMetaParameterList;
     int count, index;
     MMParameter *aParameter;
-    Target *aTarget;
+    MMTarget *aTarget;
 
     mainMetaParameterList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
     count = [mainMetaParameterList count];
@@ -375,7 +375,7 @@
     SymbolList *mainSymbolList;
     int count, index;
     MMSymbol *aSymbol;
-    Target *aTarget;
+    MMTarget *aTarget;
 
     mainSymbolList = NXGetNamedObject(@"mainSymbolList", NSApp);
     count = [mainSymbolList count];

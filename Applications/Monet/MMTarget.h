@@ -9,7 +9,7 @@
 =============================================================================
 */
 
-@interface Target : NSObject
+@interface MMTarget : NSObject
 {
     BOOL isDefault;
     double value;

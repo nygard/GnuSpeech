@@ -9,7 +9,7 @@
 #import "PhoneList.h"
 #import "MMSymbol.h"
 #import "SymbolList.h"
-#import "Target.h"
+#import "MMTarget.h"
 #import "TargetList.h"
 
 #import "MModel.h"
@@ -102,7 +102,7 @@
 - (double)evaluate:(double *)ruleSymbols tempos:(double *)tempos phones:(PhoneList *)phones;
 {
     SymbolList *mainSymbolList;
-    Target *tempTarget;
+    MMTarget *tempTarget;
     int index;
 
     /* Duration of the rule itself */

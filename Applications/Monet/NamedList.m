@@ -2,7 +2,7 @@
 
 #import <Foundation/Foundation.h>
 #import "NSString-Extensions.h"
-#import "Target.h" // Just to get -appendXMLToString:level:, this is just a quick hack
+#import "MMTarget.h" // Just to get -appendXMLToString:level:, this is just a quick hack
 
 #import "GSXMLFunctions.h"
 

@@ -15,7 +15,7 @@
 @end
 
 
-#import "Target.h" // Hack, just to get -appendXMLToString:level:
+#import "MMTarget.h" // Hack, just to get -appendXMLToString:level:
 
 @implementation MonetList
 

@@ -12,7 +12,7 @@
 #import "Phone.h"
 #import "MMSymbol.h"
 #import "SymbolList.h"
-#import "Target.h"
+#import "MMTarget.h"
 #import "TargetList.h"
 #import "TRMData.h"
 
@@ -181,7 +181,7 @@
     CategoryList *categories;
     SymbolList *symbols;
     ParameterList *mainParameterList, *mainMetaParameterList;
-    Target *tempTarget;
+    MMTarget *tempTarget;
     char tempSymbol[SYMBOL_LENGTH_MAX + 1];
     NSString *str;
 
@@ -281,7 +281,7 @@
         aParameterList = [aPhone parameterList];
         for (j = 0; j < [aParameterList count] / 2; j++) {
             MMParameter *mainParameter;
-            Target *aParameter;
+            MMTarget *aParameter;
 
             aParameter = [aParameterList objectAtIndex:j];
             mainParameter = [mainParameterList objectAtIndex:j];
@@ -302,7 +302,7 @@
         aSymbolList = [aPhone symbolList];
         for (j = 0; j < [aSymbolList count]; j++) {
             MMSymbol *mainSymbol;
-            Target *aSymbol;
+            MMTarget *aSymbol;
 
             aSymbol = [aSymbolList objectAtIndex:j];
             mainSymbol = [mainSymbolList objectAtIndex:j];
