@@ -3,10 +3,13 @@
 #include "fir.h"
 #include "tube.h"
 #include "wavetable.h"
+#include <vecLib/vecLib.h>
 
 //  Glottal source oscillator table variables
 #define TABLE_LENGTH              512
 #define TABLE_MODULUS             (TABLE_LENGTH-1)
+
+#define USE_VECLIB
 
 static double mod0(double value);
 static void TRMWavetableIncrementPosition(TRMWavetable *wavetable, double frequency);
@@ -102,21 +105,47 @@ void TRMWavetableFree(TRMWavetable *wavetable)
 void TRMWavetableUpdate(TRMWavetable *wavetable, double amplitude)
 {
     int i;
-    double j;
 
     //  Calculate new closure point, based on amplitude
     double newDiv2 = wavetable->tableDiv2 - rint(amplitude * wavetable->tnDelta);
     double newTnLength = newDiv2 - wavetable->tableDiv1;
+    double j;
 
     //  Recalculate the falling portion of the glottal pulse
-    for (i = wavetable->tableDiv1, j = 0.0; i < newDiv2; i++, j++) {
-        double x = j / newTnLength;
-        wavetable->wavetable[i] = 1.0 - (x * x);
+#ifdef USE_VECLIB
+    {
+        double aj[TABLE_LENGTH], ajj[TABLE_LENGTH], one[TABLE_LENGTH];
+        double scale = 1.0 / (newTnLength * newTnLength);
+        int len;
+
+        len = newTnLength;
+        for (i = 0, j = 0.0; i < len; i++, j += 1.0) {
+            aj[i] = j;
+            one[i] = 1.0;
+        }
+
+        vsqD(aj, 1, ajj, 1, len);
+        vsmulD(ajj, 1, &scale, aj, 1, len);
+        vsubD(aj, 1, one, 1, &(wavetable->wavetable[wavetable->tableDiv1]), 1, len); // The docs seem to be wrong about which one gets subtracted...
+    }
+#else
+    {
+        for (i = wavetable->tableDiv1, j = 0.0; i < newDiv2; i++, j++) {
+            double x = j / newTnLength;
+            wavetable->wavetable[i] = 1.0 - (x * x);
+        }
     }
 
+#endif
+
     //  Fill in with closed portion of glottal pulse
+#if 0
     for (i = newDiv2; i < wavetable->tableDiv2; i++)
         wavetable->wavetable[i] = 0.0;
+#else
+    i = newDiv2;
+    memset(&(wavetable[i]), 0, (wavetable->tableDiv2 - i) * sizeof(double));
+#endif
 }
 
 

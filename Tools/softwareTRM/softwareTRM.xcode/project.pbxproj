@@ -197,8 +197,6 @@
 			};
 		};
 		014CEA520018CE5811CA2923 = {
-			buildRules = (
-			);
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
@@ -213,8 +211,6 @@
 			name = Development;
 		};
 		014CEA530018CE5811CA2923 = {
-			buildRules = (
-			);
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -343,6 +339,20 @@
 			settings = {
 			};
 		};
+		01F2C67D06DAEB1700E2A458 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = vecLib.framework;
+			path = /System/Library/Frameworks/vecLib.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		01F2C67E06DAEB1700E2A458 = {
+			fileRef = 01F2C67D06DAEB1700E2A458;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 //010
 //011
 //012
@@ -402,6 +412,7 @@
 //1A4
 		1AB674ADFE9D54B511CA2CBB = {
 			children = (
+				01F2C67D06DAEB1700E2A458,
 				8DD76FB20486AB0100D96B5E,
 				011806DC0646E7B700FDB3AE,
 			);
@@ -491,6 +502,7 @@
 		8DD76FAD0486AB0100D96B5E = {
 			buildActionMask = 2147483647;
 			files = (
+				01F2C67E06DAEB1700E2A458,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

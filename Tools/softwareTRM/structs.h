@@ -6,24 +6,24 @@
 #include "wavetable.h"
 
 /*  OROPHARYNX REGIONS  */
-#define R1                        0      /*  S1  */
-#define R2                        1      /*  S2  */
-#define R3                        2      /*  S3  */
-#define R4                        3      /*  S4 & S5  */
-#define R5                        4      /*  S6 & S7  */
-#define R6                        5      /*  S8  */
-#define R7                        6      /*  S9  */
-#define R8                        7      /*  S10  */
+#define TRM_R1                        0      /*  S1  */
+#define TRM_R2                        1      /*  S2  */
+#define TRM_R3                        2      /*  S3  */
+#define TRM_R4                        3      /*  S4 & S5  */
+#define TRM_R5                        4      /*  S6 & S7  */
+#define TRM_R6                        5      /*  S8  */
+#define TRM_R7                        6      /*  S9  */
+#define TRM_R8                        7      /*  S10  */
 #define TOTAL_REGIONS             8
 
 /*  NASAL TRACT SECTIONS  */
-#define N1                        0
-#define VELUM                     N1
-#define N2                        1
-#define N3                        2
-#define N4                        3
-#define N5                        4
-#define N6                        5
+#define TRM_N1                        0
+#define TRM_VELUM                     TRM_N1
+#define TRM_N2                        1
+#define TRM_N3                        2
+#define TRM_N4                        3
+#define TRM_N5                        4
+#define TRM_N6                        5
 #define TOTAL_NASAL_SECTIONS      6
 
 
@@ -127,14 +127,14 @@ typedef struct _TRMSampleRateConverter {
 } TRMSampleRateConverter;
 
 /*  OROPHARYNX SCATTERING JUNCTION COEFFICIENTS (BETWEEN EACH REGION)  */
-#define C1                        R1     /*  R1-R2 (S1-S2)  */
-#define C2                        R2     /*  R2-R3 (S2-S3)  */
-#define C3                        R3     /*  R3-R4 (S3-S4)  */
-#define C4                        R4     /*  R4-R5 (S5-S6)  */
-#define C5                        R5     /*  R5-R6 (S7-S8)  */
-#define C6                        R6     /*  R6-R7 (S8-S9)  */
-#define C7                        R7     /*  R7-R8 (S9-S10)  */
-#define C8                        R8     /*  R8-AIR (S10-AIR)  */
+#define C1                        TRM_R1     /*  R1-R2 (S1-S2)  */
+#define C2                        TRM_R2     /*  R2-R3 (S2-S3)  */
+#define C3                        TRM_R3     /*  R3-R4 (S3-S4)  */
+#define C4                        TRM_R4     /*  R4-R5 (S5-S6)  */
+#define C5                        TRM_R5     /*  R5-R6 (S7-S8)  */
+#define C6                        TRM_R6     /*  R6-R7 (S8-S9)  */
+#define C7                        TRM_R7     /*  R7-R8 (S9-S10)  */
+#define C8                        TRM_R8     /*  R8-AIR (S10-AIR)  */
 #define TOTAL_COEFFICIENTS        TOTAL_REGIONS
 
 /*  OROPHARYNX SECTIONS  */
@@ -151,12 +151,12 @@ typedef struct _TRMSampleRateConverter {
 #define TOTAL_SECTIONS            10
 
 /*  NASAL TRACT COEFFICIENTS  */
-#define NC1                       N1     /*  N1-N2  */
-#define NC2                       N2     /*  N2-N3  */
-#define NC3                       N3     /*  N3-N4  */
-#define NC4                       N4     /*  N4-N5  */
-#define NC5                       N5     /*  N5-N6  */
-#define NC6                       N6     /*  N6-AIR  */
+#define NC1                       TRM_N1     /*  N1-N2  */
+#define NC2                       TRM_N2     /*  N2-N3  */
+#define NC3                       TRM_N3     /*  N3-N4  */
+#define NC4                       TRM_N4     /*  N4-N5  */
+#define NC5                       TRM_N5     /*  N5-N6  */
+#define NC6                       TRM_N6     /*  N6-AIR  */
 #define TOTAL_NASAL_COEFFICIENTS  TOTAL_NASAL_SECTIONS
 
 /*  THREE-WAY JUNCTION ALPHA COEFFICIENTS  */

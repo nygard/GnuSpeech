@@ -521,14 +521,14 @@ void initializeNasalCavity(TRMTubeModel *tubeModel, struct _TRMInputParameters *
 
 
     /*  CALCULATE COEFFICIENTS FOR INTERNAL FIXED SECTIONS OF NASAL CAVITY  */
-    for (i = N2, j = NC2; i < N6; i++, j++) {
+    for (i = TRM_N2, j = NC2; i < TRM_N6; i++, j++) {
         radA2 = inputParameters->noseRadius[i] * inputParameters->noseRadius[i];
         radB2 = inputParameters->noseRadius[i+1] * inputParameters->noseRadius[i+1];
         tubeModel->nasal_coeff[j] = (radA2 - radB2) / (radA2 + radB2);
     }
 
     /*  CALCULATE THE FIXED COEFFICIENT FOR THE NOSE APERTURE  */
-    radA2 = inputParameters->noseRadius[N6] * inputParameters->noseRadius[N6];
+    radA2 = inputParameters->noseRadius[TRM_N6] * inputParameters->noseRadius[TRM_N6];
     radB2 = inputParameters->apScale * inputParameters->apScale;
     tubeModel->nasal_coeff[NC6] = (radA2 - radB2) / (radA2 + radB2);
 }
@@ -596,13 +596,13 @@ void calculateTubeCoefficients(TRMTubeModel *tubeModel, struct _TRMInputParamete
     }
 
     /*  CALCULATE THE COEFFICIENT FOR THE MOUTH APERTURE  */
-    radA2 = tubeModel->current.parameters.radius[R8] * tubeModel->current.parameters.radius[R8];
+    radA2 = tubeModel->current.parameters.radius[TRM_R8] * tubeModel->current.parameters.radius[TRM_R8];
     radB2 = inputParameters->apScale * inputParameters->apScale;
     tubeModel->oropharynx_coeff[C8] = (radA2 - radB2) / (radA2 + radB2);
 
     /*  CALCULATE ALPHA COEFFICIENTS FOR 3-WAY JUNCTION  */
     /*  NOTE:  SINCE JUNCTION IS IN MIDDLE OF REGION 4, r0_2 = r1_2  */
-    r0_2 = r1_2 = tubeModel->current.parameters.radius[R4] * tubeModel->current.parameters.radius[R4];
+    r0_2 = r1_2 = tubeModel->current.parameters.radius[TRM_R4] * tubeModel->current.parameters.radius[TRM_R4];
     r2_2 = tubeModel->current.parameters.velum * tubeModel->current.parameters.velum;
     sum = 2.0 / (r0_2 + r1_2 + r2_2);
     tubeModel->alpha[LEFT] = sum * r0_2;
@@ -611,7 +611,7 @@ void calculateTubeCoefficients(TRMTubeModel *tubeModel, struct _TRMInputParamete
 
     /*  AND 1ST NASAL PASSAGE COEFFICIENT  */
     radA2 = tubeModel->current.parameters.velum * tubeModel->current.parameters.velum;
-    radB2 = inputParameters->noseRadius[N2] * inputParameters->noseRadius[N2];
+    radB2 = inputParameters->noseRadius[TRM_N2] * inputParameters->noseRadius[TRM_N2];
     tubeModel->nasal_coeff[NC1] = (radA2 - radB2) / (radA2 + radB2);
 }
 
@@ -765,12 +765,12 @@ double vocalTract(TRMTubeModel *tubeModel, double input, double frication)
     /*  UPDATE 3-WAY JUNCTION BETWEEN THE MIDDLE OF R4 AND NASAL CAVITY  */
     junctionPressure = (tubeModel->alpha[LEFT] * tubeModel->oropharynx[S4][TOP][prev_ptr])+
         (tubeModel->alpha[RIGHT] * tubeModel->oropharynx[S5][BOTTOM][prev_ptr]) +
-        (tubeModel->alpha[UPPER] * tubeModel->nasal[VELUM][BOTTOM][prev_ptr]);
+        (tubeModel->alpha[UPPER] * tubeModel->nasal[TRM_VELUM][BOTTOM][prev_ptr]);
     tubeModel->oropharynx[S4][BOTTOM][current_ptr] = (junctionPressure - tubeModel->oropharynx[S4][TOP][prev_ptr]) * dampingFactor;
     tubeModel->oropharynx[S5][TOP][current_ptr] =
         ((junctionPressure - tubeModel->oropharynx[S5][BOTTOM][prev_ptr]) * dampingFactor)
             + (tubeModel->fricationTap[FC3] * frication);
-    tubeModel->nasal[VELUM][TOP][current_ptr] = (junctionPressure - tubeModel->nasal[VELUM][BOTTOM][prev_ptr]) * dampingFactor;
+    tubeModel->nasal[TRM_VELUM][TOP][current_ptr] = (junctionPressure - tubeModel->nasal[TRM_VELUM][BOTTOM][prev_ptr]) * dampingFactor;
 
     /*  CALCULATE JUNCTION BETWEEN R4 AND R5 (S5-S6)  */
     delta = tubeModel->oropharynx_coeff[C4] * (tubeModel->oropharynx[S5][TOP][prev_ptr] - tubeModel->oropharynx[S6][BOTTOM][prev_ptr]);
@@ -803,17 +803,17 @@ double vocalTract(TRMTubeModel *tubeModel, double input, double frication)
 
 
     /*  UPDATE NASAL CAVITY  */
-    for (i = VELUM, j = NC1; i < N6; i++, j++) {
+    for (i = TRM_VELUM, j = NC1; i < TRM_N6; i++, j++) {
         delta = tubeModel->nasal_coeff[j] * (tubeModel->nasal[i][TOP][prev_ptr] - tubeModel->nasal[i+1][BOTTOM][prev_ptr]);
         tubeModel->nasal[i+1][TOP][current_ptr] = (tubeModel->nasal[i][TOP][prev_ptr] + delta) * dampingFactor;
         tubeModel->nasal[i][BOTTOM][current_ptr] = (tubeModel->nasal[i+1][BOTTOM][prev_ptr] + delta) * dampingFactor;
     }
 
     /*  REFLECTED SIGNAL AT NOSE GOES THROUGH A LOWPASS FILTER  */
-    tubeModel->nasal[N6][BOTTOM][current_ptr] = dampingFactor * nasalReflectionFilter(tubeModel, tubeModel->nasal_coeff[NC6] * tubeModel->nasal[N6][TOP][prev_ptr]);
+    tubeModel->nasal[TRM_N6][BOTTOM][current_ptr] = dampingFactor * nasalReflectionFilter(tubeModel, tubeModel->nasal_coeff[NC6] * tubeModel->nasal[TRM_N6][TOP][prev_ptr]);
 
     /*  OUTPUT FROM NOSE GOES THROUGH A HIGHPASS FILTER  */
-    output += nasalRadiationFilter(tubeModel, (1.0 + tubeModel->nasal_coeff[NC6]) * tubeModel->nasal[N6][TOP][prev_ptr]);
+    output += nasalRadiationFilter(tubeModel, (1.0 + tubeModel->nasal_coeff[NC6]) * tubeModel->nasal[TRM_N6][TOP][prev_ptr]);
 
     /*  RETURN SUMMED OUTPUT FROM MOUTH AND NOSE  */
     return output;
