@@ -5,7 +5,6 @@
 #import "NSString-Extensions.h"
 
 #import "EventList.h"
-#import "FormulaExpression.h"
 #import "GSXMLFunctions.h"
 #import "MMEquation.h"
 #import "MMTransition.h"

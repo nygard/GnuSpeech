@@ -4,7 +4,6 @@
 #import "NSBezierPath-Extensions.h"
 #include <math.h>
 
-#import "FormulaExpression.h"
 #import "MonetList.h"
 #import "NamedList.h"
 #import "MMPosture.h"

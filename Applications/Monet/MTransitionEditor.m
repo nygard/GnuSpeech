@@ -7,8 +7,8 @@
 #import "NSNumberFormatter-Extensions.h"
 #import "NSOutlineView-Extensions.h"
 
-#import "FormulaExpression.h"
 #import "MMEquation.h"
+#import "MMFormulaNode.h"
 #import "MModel.h"
 #import "MMPoint.h"
 #import "MMTransition.h"
