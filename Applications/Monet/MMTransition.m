@@ -16,6 +16,31 @@
 #import "MXMLParser.h"
 #import "MXMLPCDataDelegate.h"
 
+static NSString *MMStringFromTransitionType(int type)
+{
+    switch (type) {
+      case 2: return @"diphone";
+      case 3: return @"triphone";
+      case 4: return @"tetraphone";
+    }
+
+    [NSException raise:NSInvalidArgumentException format:@"Unkonwn transition type: %d", type];
+    return nil;
+}
+
+static int MMTransitionTypeFromString(NSString *str)
+{
+    if ([str isEqualToString:@"diphone"])
+        return 2;
+    else if ([str isEqualToString:@"triphone"])
+        return 3;
+    else if ([str isEqualToString:@"tetraphone"])
+        return 4;
+
+    [NSException raise:NSInvalidArgumentException format:@"Unkonwn transition type: %@", str];
+    return 0;
+}
+
 @implementation MMTransition
 
 - (id)init;
@@ -364,8 +389,8 @@
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 {
     [resultString indentToLevel:level];
-    [resultString appendFormat:@"<transition name=\"%@\" type=\"%d\">\n",
-                  GSXMLAttributeString(name, NO), type];
+    [resultString appendFormat:@"<transition name=\"%@\" type=\"%@\">\n",
+                  GSXMLAttributeString(name, NO), GSXMLAttributeString(MMStringFromTransitionType(type), NO)];
 
     if (comment != nil) {
         [resultString indentToLevel:level + 1];
@@ -401,6 +426,9 @@
         newDelegate = [[MXMLPCDataDelegate alloc] initWithElementName:elementName delegate:self setSelector:@selector(setComment:)];
         [(MXMLParser *)parser pushDelegate:newDelegate];
         [newDelegate release];
+#if 0
+    } else if ([elementName isEqualToString:@"point-or-slopes"]) {
+#endif
     } else {
         NSLog(@"%@, Unknown element: '%@', skipping", [self shortDescription], elementName);
         [(MXMLParser *)parser skipTree];

@@ -1,5 +1,5 @@
-<!ELEMENT myroot (categories, parameters, symbols, postures, equations, transitions, special-transitions, rules)>
-<!ATTLIST myroot version CDATA #REQUIRED>
+<!ELEMENT root (categories, parameters, symbols, postures, equations, transitions, special-transitions, rules)>
+<!ATTLIST root version CDATA #REQUIRED>
 
 <!ELEMENT categories (category*)>
 <!ELEMENT parameters (parameter*)>
@@ -60,7 +60,7 @@
 
 <!ELEMENT equation (comment?)>
 <!ATTLIST equation name CDATA #REQUIRED
-                   formula CDATA #REQUIRED>
+                   formula CDATA #IMPLIED>
 
 <!-- Transitions -->
 
@@ -70,7 +70,7 @@
 <!-- again, a problem with duplicate points element -->
 <!ELEMENT transition (comment?, point-or-slopes)>
 <!ATTLIST transition name CDATA #REQUIRED
-                     type CDATA #REQUIRED>
+                     type (diphone | triphone | tetraphone) #REQUIRED>
 
 <!ELEMENT point-or-slopes ( (point | slope-ratio)* )>
 <!ELEMENT slope-ratio (points, slopes)>
