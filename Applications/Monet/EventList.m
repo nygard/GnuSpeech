@@ -967,7 +967,7 @@ static void page_consumed(void)
     [tempEvent setFlag:1];
 }
 
-- (void)synthesizeToFile:(const char *)filename;
+- (void)synthesizeToFile:(NSString *)filename;
 {
 #ifdef HAVE_DSP
     set_synthesizer_output(filename, getuid(), getgid(), 1);

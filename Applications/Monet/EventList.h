@@ -172,7 +172,7 @@ struct _rule {
 - (void)generateEventList;
 
 - (void)applyRule:rule withPhones:phoneList andTempos:(double *)tempos phoneIndex:(int)phoneIndex;
-- (void)synthesizeToFile:(const char *)filename;
+- (void)synthesizeToFile:(NSString *)filename;
 
 - (void)applyIntonation;
 
