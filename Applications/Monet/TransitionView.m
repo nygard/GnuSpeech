@@ -123,56 +123,56 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 
 - (double)ruleDuration;
 {
-    return _parameters[0];
+    return _parameters.ruleDuration;
 }
 
 - (void)setRuleDuration:(double)newValue;
 {
-    _parameters[0] = newValue;
+    _parameters.ruleDuration = newValue;
     [self setNeedsDisplay:YES];
 }
 
 - (double)beatLocation;
 {
-    return _parameters[1];
+    return _parameters.beat;
 }
 
 - (void)setBeatLocation:(double)newValue;
 {
-    _parameters[1] = newValue;
+    _parameters.beat = newValue;
     [self setNeedsDisplay:YES];
 }
 
 - (double)mark1;
 {
-    return _parameters[2];
+    return _parameters.mark1;
 }
 
 - (void)setMark1:(double)newValue;
 {
-    _parameters[2] = newValue;
+    _parameters.mark1 = newValue;
     [self setNeedsDisplay:YES];
 }
 
 - (double)mark2;
 {
-    return _parameters[3];
+    return _parameters.mark2;
 }
 
 - (void)setMark2:(double)newValue;
 {
-    _parameters[3] = newValue;
+    _parameters.mark2 = newValue;
     [self setNeedsDisplay:YES];
 }
 
 - (double)mark3;
 {
-    return _parameters[4];
+    return _parameters.mark3;
 }
 
 - (void)setMark3:(double)newValue;
 {
-    _parameters[4] = newValue;
+    _parameters.mark3 = newValue;
     [self setNeedsDisplay:YES];
 }
 
@@ -376,7 +376,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         for (j = 0; j < [namedList count]; j++) {
             equation = [namedList objectAtIndex:j];
             if ([[equation formula] maxPhone] <= type) {
-                time = [equation evaluate:_parameters phones:samplePostures andCacheWith:cache];
+                time = [equation evaluate:&_parameters phones:samplePostures andCacheWith:cache];
                 //NSLog(@"\t%@", [equation name]);
                 //NSLog(@"\t\ttime = %f", time);
                 //NSLog(@"equation name: %@, formula: %@, time: %f", [equation name], [[equation expression] expressionString], time);
@@ -485,7 +485,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         currentPoint = [currentPoints objectAtIndex:index];
         //NSLog(@"%2d: object class: %@", index, NSStringFromClass([currentPoint class]));
         //NSLog(@"%2d (a): value: %g, freeTime: %g, type: %d, isPhantom: %d", index, [currentPoint value], [currentPoint freeTime], [currentPoint type], [currentPoint isPhantom]);
-        [currentPoint calculatePoints:_parameters tempos:tempos phones:samplePostures andCacheWith:cache toDisplay:displayPoints];
+        [currentPoint calculatePoints:&_parameters tempos:tempos phones:samplePostures andCacheWith:cache toDisplay:displayPoints];
         //NSLog(@"%2d (b): value: %g, freeTime: %g, type: %d, isPhantom: %d", index, [currentPoint value], [currentPoint freeTime], [currentPoint type], [currentPoint isPhantom]);
 
         if ([currentPoint isKindOfClass:[MMSlopeRatio class]])
@@ -1054,7 +1054,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         if (currentExpression == nil)
             currentPoint.x = [currentDisplayPoint freeTime];
         else
-            currentPoint.x = [[currentDisplayPoint expression] evaluate:_parameters phones:samplePostures andCacheWith:cache];
+            currentPoint.x = [[currentDisplayPoint expression] evaluate:&_parameters phones:samplePostures andCacheWith:cache];
 
         currentPoint.x *= timeScale;
         currentPoint.y = (yScale * ZERO_INDEX) + ([currentDisplayPoint value] * yScale / SECTION_AMOUNT);

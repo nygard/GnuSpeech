@@ -1,5 +1,7 @@
 #import <Foundation/NSObject.h>
 
+#import "MMFRuleSymbols.h"
+
 @class MonetList;
 @class MMPoint, MMSlope;
 
@@ -33,10 +35,10 @@
 - (double)startTime;
 - (double)endTime;
 
-- (void)calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag
+- (void)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag
               toDisplay:(MonetList *)displayList;
 
-- (double)calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag
+- (double)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag
                  baseline:(double)baseline delta:(double)parameterDelta min:(double)min max:(double)max
               toEventList:eventList atIndex:(int)index;
 

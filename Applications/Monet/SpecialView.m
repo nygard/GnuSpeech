@@ -147,7 +147,7 @@
         if ([currentPoint expression] == nil)
             time = (float)[currentPoint freeTime];
         else
-            time = (float)[[currentPoint expression] evaluate:_parameters phones:samplePostures andCacheWith:cache];
+            time = (float)[[currentPoint expression] evaluate:&_parameters phones:samplePostures andCacheWith:cache];
         //NSLog(@"%2d (b): value: %g, freeTime: %g, type: %d, isPhantom: %d", index, [currentPoint value], [currentPoint freeTime], [currentPoint type], [currentPoint isPhantom]);
 
         if (index == 0)
@@ -186,7 +186,7 @@
         if ([currentPoint expression] == nil)
             eventTime = [currentPoint freeTime];
         else
-            eventTime = [[currentPoint expression] evaluate:_parameters phones:samplePostures andCacheWith:cache];
+            eventTime = [[currentPoint expression] evaluate:&_parameters phones:samplePostures andCacheWith:cache];
         myPoint.x = graphOrigin.x + timeScale * eventTime;
         myPoint.y = graphOrigin.y + (yScale * ZERO_INDEX) + (y * (float)yScale / SECTION_AMOUNT);
         [bezierPath lineToPoint:myPoint];
@@ -273,7 +273,7 @@
             if ([currentPoint expression] == nil)
                 eventTime = [currentPoint freeTime];
             else
-                eventTime = [[currentPoint expression] evaluate:_parameters phones:samplePostures andCacheWith:cache];
+                eventTime = [[currentPoint expression] evaluate:&_parameters phones:samplePostures andCacheWith:cache];
 
             myPoint.x = graphOrigin.x + timeScale * eventTime;
             myPoint.y = graphOrigin.y + (yScale * ZERO_INDEX) + (y * (float)yScale / SECTION_AMOUNT);
@@ -408,7 +408,7 @@
         if (currentExpression == nil)
             currentPoint.x = [currentDisplayPoint freeTime];
         else
-            currentPoint.x = [[currentDisplayPoint expression] evaluate:_parameters phones:samplePostures andCacheWith:cache];
+            currentPoint.x = [[currentDisplayPoint expression] evaluate:&_parameters phones:samplePostures andCacheWith:cache];
 
         currentPoint.x *= timeScale;
         currentPoint.y = (yScale * ZERO_INDEX) + ([currentDisplayPoint value] * yScale / SECTION_AMOUNT);

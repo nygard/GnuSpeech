@@ -431,14 +431,14 @@
     return [expressionSymbols objectAtIndex:index];
 }
 
-- (void)evaluateExpressionSymbols:(double *)buffer tempos:(double *)tempos phones:(NSArray *)phones withCache:(int)cache;
+- (void)evaluateExpressionSymbols:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos phones:(NSArray *)phones withCache:(int)cache;
 {
     // TODO (2004-03-02): Is it okay to do these in order? (2004-04-01): No.
-    buffer[0] = [(MMEquation *)[expressionSymbols objectAtIndex:0] evaluate:buffer tempos:tempos phones:phones andCacheWith:cache];
-    buffer[2] = [(MMEquation *)[expressionSymbols objectAtIndex:2] evaluate:buffer tempos:tempos phones:phones andCacheWith:cache];
-    buffer[3] = [(MMEquation *)[expressionSymbols objectAtIndex:3] evaluate:buffer tempos:tempos phones:phones andCacheWith:cache];
-    buffer[4] = [(MMEquation *)[expressionSymbols objectAtIndex:4] evaluate:buffer tempos:tempos phones:phones andCacheWith:cache];
-    buffer[1] = [(MMEquation *)[expressionSymbols objectAtIndex:1] evaluate:buffer tempos:tempos phones:phones andCacheWith:cache];
+    ruleSymbols->ruleDuration = [(MMEquation *)[expressionSymbols objectAtIndex:0] evaluate:ruleSymbols tempos:tempos phones:phones andCacheWith:cache];
+    ruleSymbols->mark1 = [(MMEquation *)[expressionSymbols objectAtIndex:2] evaluate:ruleSymbols tempos:tempos phones:phones andCacheWith:cache];
+    ruleSymbols->mark2 = [(MMEquation *)[expressionSymbols objectAtIndex:3] evaluate:ruleSymbols tempos:tempos phones:phones andCacheWith:cache];
+    ruleSymbols->mark3 = [(MMEquation *)[expressionSymbols objectAtIndex:4] evaluate:ruleSymbols tempos:tempos phones:phones andCacheWith:cache];
+    ruleSymbols->beat = [(MMEquation *)[expressionSymbols objectAtIndex:1] evaluate:ruleSymbols tempos:tempos phones:phones andCacheWith:cache];
 }
 
 - (MonetList *)parameterList;

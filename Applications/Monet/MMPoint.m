@@ -110,7 +110,7 @@
     isPhantom = newFlag;
 }
 
-- (void)calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag toDisplay:(NSMutableArray *)displayList;
+- (void)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag toDisplay:(NSMutableArray *)displayList;
 {
     float dummy;
 
@@ -124,14 +124,14 @@
 }
 
 
-- (double)calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag
+- (double)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag
                  baseline:(double)baseline delta:(double)delta min:(double)min max:(double)max
               toEventList:(EventList *)eventList atIndex:(int)index;
 {
     double time, returnValue;
 
     if (expression)
-        time = [expression evaluate: ruleSymbols tempos: tempos phones: phones andCacheWith: (int) newCacheTag];
+        time = [expression evaluate:ruleSymbols tempos:tempos phones:phones andCacheWith:(int)newCacheTag];
     else
         time = freeTime;
 

@@ -1,5 +1,7 @@
 #import "MMObject.h"
 
+#import "MMFRuleSymbols.h"
+
 @class MMFormulaNode, NamedList;
 
 /*===========================================================================
@@ -42,8 +44,8 @@
 
 - (void)setFormulaString:(NSString *)formulaString;
 
-- (double)evaluate:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag;
-- (double)evaluate:(double *)ruleSymbols phones:(NSArray *)phones andCacheWith:(int)newCacheTag;
+- (double)evaluate:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag;
+- (double)evaluate:(MMFRuleSymbols *)ruleSymbols phones:(NSArray *)phones andCacheWith:(int)newCacheTag;
 - (double)cacheValue;
 
 - (id)initWithCoder:(NSCoder *)aDecoder;

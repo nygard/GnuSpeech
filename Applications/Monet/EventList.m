@@ -6,6 +6,7 @@
 #import "Event.h"
 #import "IntonationPoint.h"
 #import "MMEquation.h"
+#import "MMFRuleSymbols.h"
 #import "MModel.h"
 #import "MMParameter.h"
 #import "MMPoint.h"
@@ -694,6 +695,7 @@
         matchedRule = [aModel findRuleMatchingCategories:tempCategoryList ruleIndex:&ruleIndex];
         rules[currentRule].number = ruleIndex + 1;
 
+        NSLog(@"Applying rule %d", ruleIndex + 1);
         [self applyRule:matchedRule withPhones:tempPhoneList andTempos:&phoneTempo[index] phoneIndex:index+1];
 
         index += [matchedRule numberExpressions] - 1;
@@ -708,42 +710,45 @@
     NSLog(@"<  %s", _cmd);
 }
 
+// 1. Calculate the rule symbols (Rule Duration, Beat, Mark 1, Mark 2, Mark 3), given tempos and phones.
+// 2.
 - (void)applyRule:(MMRule *)rule withPhones:(NSArray *)phoneList andTempos:(double *)tempos phoneIndex:(int)phoneIndex;
 {
     int i, j, type, cont;
     int currentType;
     double currentDelta, value, maxValue;
-    double ruleSymbols[5], tempTime, targets[4];
+    double tempTime, targets[4];
+    MMFRuleSymbols ruleSymbols;
     MMTransition *protoTemplate;
     MMPoint *currentPoint;
     MonetList *tempTargets, *points;
     Event *tempEvent;
 
-    bzero(ruleSymbols, sizeof(double)*5);
-    [rule evaluateExpressionSymbols:ruleSymbols tempos:tempos phones:phoneList withCache:(int)++cache];
+    bzero(&ruleSymbols, sizeof(MMFRuleSymbols));
+    [rule evaluateExpressionSymbols:&ruleSymbols tempos:tempos phones:phoneList withCache:(int)++cache];
 
     multiplier = 1.0 / (double)(phones[phoneIndex-1].ruleTempo);
 
     type = [rule numberExpressions];
-    [self setDuration:(int)(ruleSymbols[0]*multiplier)];
+    [self setDuration:(int)(ruleSymbols.ruleDuration * multiplier)];
 
     rules[currentRule].firstPhone = phoneIndex - 1;
     rules[currentRule].lastPhone = phoneIndex - 2 + type;
-    rules[currentRule].beat = (ruleSymbols[1]*multiplier) + (double)zeroRef;
-    rules[currentRule++].duration = ruleSymbols[0] * multiplier;
+    rules[currentRule].beat = (ruleSymbols.beat * multiplier) + (double)zeroRef;
+    rules[currentRule++].duration = ruleSymbols.ruleDuration * multiplier;
 
     switch (type) {
         /* Note: Case 4 should execute all of the below, case 3 the last two */
       case 4:
-          phones[phoneIndex+2].onset = (double)zeroRef + ruleSymbols[1];
-          tempEvent = [self insertEvent:-1 atTime:ruleSymbols[3] withValue:0.0];
+          phones[phoneIndex+2].onset = (double)zeroRef + ruleSymbols.beat;
+          tempEvent = [self insertEvent:-1 atTime:ruleSymbols.mark2 withValue:0.0];
           [tempEvent setFlag:YES];
       case 3:
-          phones[phoneIndex+1].onset = (double)zeroRef + ruleSymbols[1];
-          tempEvent = [self insertEvent:-1 atTime:ruleSymbols[2] withValue:0.0];
+          phones[phoneIndex+1].onset = (double)zeroRef + ruleSymbols.beat;
+          tempEvent = [self insertEvent:-1 atTime:ruleSymbols.mark2 withValue:0.0];
           [tempEvent setFlag:YES];
       case 2:
-          phones[phoneIndex].onset = (double)zeroRef + ruleSymbols[1];
+          phones[phoneIndex].onset = (double)zeroRef + ruleSymbols.beat;
           tempEvent = [self insertEvent:-1 atTime:0.0 withValue:0.0];
           [tempEvent setFlag:YES];
           break;
@@ -812,7 +817,7 @@
                     //tempEvent = [self insertEvent:i atTime:tempTime withValue:value];
                 }
                 // TODO (2004-03-01): I don't see how this works...
-                maxValue = [currentPoint calculatePoints:ruleSymbols tempos:tempos phones:phoneList
+                maxValue = [currentPoint calculatePoints:&ruleSymbols tempos:tempos phones:phoneList
                                          andCacheWith:cache baseline:targets[currentType-2] delta:currentDelta
                                          min:min[i] max:max[i] toEventList:self atIndex:(int)i];
             }
@@ -835,7 +840,7 @@
                 if ([currentPoint expression] == nil)
                     tempTime = [currentPoint freeTime];
                 else
-                    tempTime = [[currentPoint expression] evaluate:ruleSymbols tempos:tempos phones:phoneList andCacheWith:(int)cache];
+                    tempTime = [[currentPoint expression] evaluate:&ruleSymbols tempos:tempos phones:phoneList andCacheWith:(int)cache];
 
                 /* Calculate value of event */
                 //value = (([currentPoint value]/100.0) * (max[i] - min[i])) + min[i];
@@ -848,7 +853,7 @@
         }
     }
 
-    [self setZeroRef:(int)(ruleSymbols[0]*multiplier) +  zeroRef];
+    [self setZeroRef:(int)(ruleSymbols.ruleDuration * multiplier) +  zeroRef];
     tempEvent = [self insertEvent:(-1) atTime:0.0 withValue:0.0];
     [tempEvent setFlag:YES];
 }

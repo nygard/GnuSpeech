@@ -114,7 +114,7 @@
     return [[(MMPoint *)[points lastObject] expression] cacheValue];
 }
 
-- (void)calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag
+- (void)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag
               toDisplay:(MonetList *)displayList;
 {
     int i, numSlopes;
@@ -171,7 +171,7 @@
     }
 }
 
-- (double)calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag
+- (double)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag
                  baseline:(double)baseline delta:(double)parameterDelta min:(double)min max:(double)max
               toEventList:eventList atIndex:(int)index;
 {

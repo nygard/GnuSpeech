@@ -1,5 +1,7 @@
 #import "MMObject.h"
 
+#import "MMFRuleSymbols.h"
+
 @class MMBooleanNode, MMCategory, MonetList, PhoneList, MMEquation, MMTransition;
 
 /*===========================================================================
@@ -57,7 +59,7 @@
 - (int)matchRule:(MonetList *)categories;
 
 - (MMEquation *)getExpressionSymbol:(int)index;
-- (void)evaluateExpressionSymbols:(double *)buffer tempos:(double *)tempos phones:(NSArray *)phones withCache:(int)cache;
+- (void)evaluateExpressionSymbols:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos phones:(NSArray *)phones withCache:(int)cache;
 
 - (MonetList *)parameterList;
 - (MonetList *)metaParameterList;

@@ -127,7 +127,7 @@
     [formulaParser release];
 }
 
-- (double)evaluate:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag;
+- (double)evaluate:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag;
 {
     if (newCacheTag != cacheTag) {
         cacheTag = newCacheTag;
@@ -137,7 +137,7 @@
     return cacheValue;
 }
 
-- (double)evaluate:(double *)ruleSymbols phones:(NSArray *)phones andCacheWith:(int)newCacheTag;
+- (double)evaluate:(MMFRuleSymbols *)ruleSymbols phones:(NSArray *)phones andCacheWith:(int)newCacheTag;
 {
     if (newCacheTag != cacheTag) {
         cacheTag = newCacheTag;

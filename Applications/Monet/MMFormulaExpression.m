@@ -97,14 +97,14 @@
     return 0;
 }
 
-- (double)evaluate:(double *)ruleSymbols phones:(NSArray *)phones;
+- (double)evaluate:(MMFRuleSymbols *)ruleSymbols phones:(NSArray *)phones;
 {
     double tempos[4] = {1.0, 1.0, 1.0, 1.0};
 
     return [self evaluate:ruleSymbols phones:phones tempos:tempos];
 }
 
-- (double)evaluate:(double *)ruleSymbols phones:(NSArray *)phones tempos:(double *)tempos;
+- (double)evaluate:(MMFRuleSymbols *)ruleSymbols phones:(NSArray *)phones tempos:(double *)tempos;
 {
     switch (operation) {
       case TK_F_ADD:

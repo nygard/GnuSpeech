@@ -1,5 +1,7 @@
 #import <AppKit/NSControl.h>
+
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
+#import "MMFRuleSymbols.h"
 
 @class MonetList, MModel, MMPoint, MMSlope, MMTransition;
 @class TransitionView;
@@ -27,7 +29,7 @@ extern NSString *TransitionViewSelectionDidChangeNotification;
 // TODO (2004-03-22): Make this an NSControl subclass.
 @interface TransitionView : NSControl
 {
-    double _parameters[5];
+    MMFRuleSymbols _parameters;
 
     NSFont *timesFont;
 

@@ -44,8 +44,8 @@
 // Methods overridden from MMFormulaNode
 - (int)precedence;
 
-- (double)evaluate:(double *)ruleSymbols phones:(NSArray *)phones;
-- (double)evaluate:(double *)ruleSymbols phones:(NSArray *)phones tempos:(double *)tempos;
+- (double)evaluate:(MMFRuleSymbols *)ruleSymbols phones:(NSArray *)phones;
+- (double)evaluate:(MMFRuleSymbols *)ruleSymbols phones:(NSArray *)phones tempos:(double *)tempos;
 
 - (int)maxPhone;
 

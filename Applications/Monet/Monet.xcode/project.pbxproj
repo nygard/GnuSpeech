@@ -1341,6 +1341,20 @@
 			settings = {
 			};
 		};
+		0165FBB406C1859B00C6D2C9 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = MMFRuleSymbols.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0165FBB506C1859B00C6D2C9 = {
+			fileRef = 0165FBB406C1859B00C6D2C9;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		016FACCE065D6FCF003ED09E = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -3090,6 +3104,7 @@
 				0143DD22065B1C1800DB5F6D,
 				0143DD23065B1C1800DB5F6D,
 				0143DD24065B1C1800DB5F6D,
+				0165FBB406C1859B00C6D2C9,
 			);
 			isa = PBXGroup;
 			name = "Mathematical Expresson Parser";
@@ -3729,6 +3744,7 @@
 				0165F99F06BEF71D00C6D2C9,
 				0165FA1106BF121400C6D2C9,
 				0165FA4306BF1F1900C6D2C9,
+				0165FBB506C1859B00C6D2C9,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

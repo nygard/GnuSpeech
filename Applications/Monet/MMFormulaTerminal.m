@@ -75,29 +75,29 @@
     return 3;
 }
 
-- (double)evaluate:(double *)ruleSymbols phones:(NSArray *)phones;
+- (double)evaluate:(MMFRuleSymbols *)ruleSymbols phones:(NSArray *)phones;
 {
     double tempos[4] = {1.0, 1.0, 1.0, 1.0};
 
     return [self evaluate:ruleSymbols phones:phones tempos:tempos];
 }
 
-- (double)evaluate:(double *)ruleSymbols phones:(NSArray *)phones tempos:(double *)tempos;
+- (double)evaluate:(MMFRuleSymbols *)ruleSymbols phones:(NSArray *)phones tempos:(double *)tempos;
 {
     MMTarget *symbolTarget;
 
     /* Duration of the rule itself */
     switch (whichPhone) {
       case RULEDURATION:
-          return ruleSymbols[0];
+          return ruleSymbols->ruleDuration;
       case BEAT:
-          return ruleSymbols[1];
+          return ruleSymbols->beat;
       case MARK1:
-          return ruleSymbols[2];
+          return ruleSymbols->mark1;
       case MARK2:
-          return ruleSymbols[3];
+          return ruleSymbols->mark2;
       case MARK3:
-          return ruleSymbols[4];
+          return ruleSymbols->mark3;
 
       case TEMPO0:
           return tempos[0];

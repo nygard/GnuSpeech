@@ -7,6 +7,7 @@
 #import "NSNumberFormatter-Extensions.h"
 
 #import "MMEquation.h"
+#import "MMFRuleSymbols.h"
 #import "MModel.h"
 #import "MMPosture.h"
 #import "MMRule.h"
@@ -87,12 +88,11 @@
 - (IBAction)parseRule:(id)sender;
 {
     int ruleIndex;
-    int j;
     MonetList *testCategoryLists;
     NSMutableArray *testPostures;
     MMPosture *aPosture;
     MMRule *aRule;
-    double ruleSymbols[5] = {0.0, 0.0, 0.0, 0.0, 0.0};
+    MMFRuleSymbols ruleSymbols = {0.0, 0.0, 0.0, 0.0, 0.0};
     NSString *posture1Name, *posture2Name, *posture3Name, *posture4Name;
 
     testCategoryLists = [[[MonetList alloc] initWithCapacity:4] autorelease];
@@ -158,15 +158,17 @@
 
         // TODO (2004-03-02): Is being out of order significant?
         // TODO (2004-03-23): I think that the last value may not always be accurate, i.e. for diphones, triphones
-        ruleSymbols[0] = [[aRule getExpressionSymbol:0] evaluate:ruleSymbols phones:testPostures andCacheWith:[[self model] nextCacheTag]];
-        ruleSymbols[2] = [[aRule getExpressionSymbol:2] evaluate:ruleSymbols phones:testPostures andCacheWith:[[self model] nextCacheTag]];
-        ruleSymbols[3] = [[aRule getExpressionSymbol:3] evaluate:ruleSymbols phones:testPostures andCacheWith:[[self model] nextCacheTag]];
-        ruleSymbols[4] = [[aRule getExpressionSymbol:4] evaluate:ruleSymbols phones:testPostures andCacheWith:[[self model] nextCacheTag]];
-        ruleSymbols[1] = [[aRule getExpressionSymbol:1] evaluate:ruleSymbols phones:testPostures andCacheWith:[[self model] nextCacheTag]];
-        for (j = 0; j < 5; j++) {
-            [[durationOutputForm cellAtIndex:j] setDoubleValue:ruleSymbols[j]];
-            //NSLog(@"ruleSymbols[%d] = %g", j, ruleSymbols[j]);
-        }
+        ruleSymbols.ruleDuration = [[aRule getExpressionSymbol:0] evaluate:&ruleSymbols phones:testPostures andCacheWith:[[self model] nextCacheTag]];
+        ruleSymbols.mark1 = [[aRule getExpressionSymbol:2] evaluate:&ruleSymbols phones:testPostures andCacheWith:[[self model] nextCacheTag]];
+        ruleSymbols.mark2 = [[aRule getExpressionSymbol:3] evaluate:&ruleSymbols phones:testPostures andCacheWith:[[self model] nextCacheTag]];
+        ruleSymbols.mark3 = [[aRule getExpressionSymbol:4] evaluate:&ruleSymbols phones:testPostures andCacheWith:[[self model] nextCacheTag]];
+        ruleSymbols.beat = [[aRule getExpressionSymbol:1] evaluate:&ruleSymbols phones:testPostures andCacheWith:[[self model] nextCacheTag]];
+
+        [[durationOutputForm cellAtIndex:0] setDoubleValue:ruleSymbols.ruleDuration];
+        [[durationOutputForm cellAtIndex:1] setDoubleValue:ruleSymbols.beat];
+        [[durationOutputForm cellAtIndex:2] setDoubleValue:ruleSymbols.mark1];
+        [[durationOutputForm cellAtIndex:3] setDoubleValue:ruleSymbols.mark2];
+        [[durationOutputForm cellAtIndex:4] setDoubleValue:ruleSymbols.mark3];
 
         return;
     }
