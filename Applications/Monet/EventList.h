@@ -35,7 +35,7 @@ struct _intonationParameters {
 
 struct _phone {
     MMPosture *phone;
-    int syllable;
+    int syllable; // TODO (2004-08-12): This isn't used for anything right now.
     double onset;
     float ruleTempo;
 };
