@@ -229,39 +229,6 @@
 #endif
 }
 
-- (IBAction)archiveToDisk:(id)sender;
-{
-#ifdef PORTING
-    NSMutableData *mdata;
-    NSSavePanel *myPanel;
-    NSArchiver *stream;
-
-    myPanel = [NSSavePanel savePanel];
-    if ([myPanel runModal]) {
-        NSLog(@"filename: %@", [myPanel filename]);
-
-        mdata = [NSMutableData dataWithCapacity:16];
-        stream = [[NSArchiver alloc] initForWritingWithMutableData:mdata];
-
-        if (stream) {
-            [stream setObjectZone:[self zone]];
-            [stream encodeRootObject:mainCategoryList];
-            [stream encodeRootObject:mainSymbolList];
-            [stream encodeRootObject:mainParameterList];
-            [stream encodeRootObject:mainMetaParameterList];
-            [stream encodeRootObject:mainPhoneList];
-            //[prototypeManager writePrototypesTo:stream];
-            //[ruleManager writeRulesTo:stream];
-            [mdata writeToFile:[myPanel filename] atomically:NO];
-            [stream release];
-        } else {
-            NSLog(@"Not a MONET file");
-        }
-    }
-#endif
-}
-
-
 - (void)setModel:(MModel *)newModel;
 {
     if (newModel == model)

@@ -57,8 +57,6 @@ History:
 - (IBAction)importTRMData:(id)sender;
 - (IBAction)printData:(id)sender;
 
-- (IBAction)archiveToDisk:(id)sender;
-
 - (void)setModel:(MModel *)newModel;
 
 - (void)_loadFile:(NSString *)aFilename;
