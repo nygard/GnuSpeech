@@ -26,7 +26,7 @@
 
     NSLog(@" > %s", _cmd);
 
-    inputString = [inputTextView string];
+    inputString = [[inputTextView string] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSLog(@"inputString: %@", inputString);
 
     parser = [[TTSParser alloc] init];
@@ -34,6 +34,10 @@
     [parser release];
 
     [outputTextView setString:resultString];
+    [outputTextView selectAll:nil];
+
+    if ([copyPhoneStringCheckBox state])
+        [outputTextView copy:nil];
 
     NSLog(@"<  %s", _cmd);
 }

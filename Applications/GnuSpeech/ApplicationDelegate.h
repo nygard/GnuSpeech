@@ -10,6 +10,7 @@
 @interface ApplicationDelegate : NSObject
 {
     IBOutlet NSTextView *inputTextView;
+    IBOutlet NSButton *copyPhoneStringCheckBox;
     IBOutlet NSTextView *outputTextView;
 
     IBOutlet NSTextField *dictionaryVersionTextField;

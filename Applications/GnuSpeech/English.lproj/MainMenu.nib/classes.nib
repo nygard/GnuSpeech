@@ -5,6 +5,7 @@
             CLASS = ApplicationDelegate; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                copyPhoneStringCheckBox = NSButton; 
                 dictionaryVersionTextField = NSTextField; 
                 inputTextView = NSTextView; 
                 outputTextView = NSTextView; 
