@@ -334,7 +334,7 @@
 {
     unsigned archivedVersion;
     int index, j, k;
-    int parms, metaParms, symbols;
+    int symbolCount, parameterCount, metaParmaterCount;
     PrototypeManager *tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
     id tempParameter;
     char *c_comment;
@@ -342,9 +342,9 @@
     if ([super initWithCoder:aDecoder] == nil)
         return nil;
 
-    NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
+    //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
     archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
-    NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
+    //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
 
     parameterProfiles = [[MonetList alloc] init];
     metaParameterProfiles = [[MonetList alloc] init];
@@ -353,47 +353,53 @@
     [aDecoder decodeValuesOfObjCTypes:"i*", &j, &c_comment];
     comment = [[NSString stringWithASCIICString:c_comment] retain];
 
-    [NSException raise:@"fail here" format:@"Forcing it to fail here."];
-#ifdef PORTING
     bzero(expressions, sizeof(BooleanExpression *) * 4);
+    bzero(specialProfiles, sizeof(id) * 16);
+
     for (index = 0; index < j; index++) {
         expressions[index] = [[aDecoder decodeObject] retain];
     }
 
+    // TODO (2004-03-05): These removeAllObjects: calls should be redundant.
     [expressionSymbols removeAllObjects];
     [parameterProfiles removeAllObjects];
     [metaParameterProfiles removeAllObjects];
-    bzero(specialProfiles, sizeof(id) * 16);
 
-    [aDecoder decodeValuesOfObjCTypes:"iii", &symbols, &parms, &metaParms];
+    [aDecoder decodeValuesOfObjCTypes:"iii", &symbolCount, &parameterCount, &metaParmaterCount];
+    //NSLog(@"symbolCount: %d, parameterCount: %d, metaParmaterCount: %d", symbolCount, parameterCount, metaParmaterCount);
 
-    for (index = 0; index < symbols; index++) {
+    for (index = 0; index < symbolCount; index++) {
         [aDecoder decodeValuesOfObjCTypes:"ii", &j, &k];
+        //NSLog(@"j: %d, k: %d", j, k);
         tempParameter = [tempProto findEquation:j andIndex:k];
         [expressionSymbols addObject:tempParameter];
     }
 
-    for (index = 0; index < parms; index++) {
+    for (index = 0; index < parameterCount; index++) {
         [aDecoder decodeValuesOfObjCTypes:"ii", &j, &k];
+        //NSLog(@"j: %d, k: %d", j, k);
         tempParameter = [tempProto findTransition:j andIndex:k];
         [parameterProfiles addObject:tempParameter];
     }
 
-    for (index = 0; index < metaParms; index++) {
+    for (index = 0; index < metaParmaterCount; index++) {
         [aDecoder decodeValuesOfObjCTypes:"ii", &j, &k];
+        //NSLog(@"j: %d, k: %d", j, k);
         [metaParameterProfiles addObject:[tempProto findTransition:j andIndex:k]];
     }
 
     for (index = 0; index <  16; index++) {
         [aDecoder decodeValuesOfObjCTypes:"ii", &j, &k];
-        if (index == -1) {
+        //NSLog(@"j: %d, k: %d", j, k);
+        // TODO (2004-03-05): Bug fixed from original code
+        if (j == -1) {
             specialProfiles[index] = nil;
         } else {
             specialProfiles[index] = [tempProto findSpecial:j andIndex:k];
         }
     }
-#endif
-    NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
+
+    //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
     return self;
 }
 

@@ -340,10 +340,10 @@
 
                 [prototypeManager readPrototypesFrom:stream];
                 [ruleManager readRulesFrom:stream];
-#ifdef PORTING
-                [dataBrowser updateLists];
 
+                [dataBrowser updateLists];
                 [dataBrowser updateBrowser];
+#ifdef PORTING
                 [transitionBuilder applicationDidFinishLaunching:nil];
                 [specialTransitionBuilder applicationDidFinishLaunching:nil];
 
@@ -475,10 +475,11 @@
 
 // Converted classes:
 // CategoryNode, FormulaExpression, FormulaTerminal, MonetList, NamedList, Parameter, Phone, Point, ProtoEquation, ProtoTemplte, Rule, Symbol, Target
+// BooleanTerminal
 
 - (void)_disableUnconvertedClassLoading;
 {
-    NSString *names[] = { @"BooleanExpression", @"BooleanTerminal", @"IntonationPoint", @"RuleManager", @"Slope", @"SlopeRatio", nil };
+    NSString *names[] = { @"BooleanExpression", @"IntonationPoint", @"RuleManager", @"Slope", @"SlopeRatio", nil };
     int index = 0;
 
     while (names[index] != nil) {

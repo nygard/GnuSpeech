@@ -1,6 +1,6 @@
 #import <Foundation/NSObject.h>
 
-@class CategoryList;
+@class CategoryList, CategoryNode;
 
 /*===========================================================================
 
@@ -36,7 +36,7 @@
 
 @interface BooleanTerminal : NSObject
 {
-    id category;
+    CategoryNode *category;
     BOOL shouldMatchAll;
 }
 
@@ -44,11 +44,10 @@
 - (void)dealloc;
 
 /* Access to instance variables */
-// TODO (2004-03-01): What class is category?
-- category;
-- (void)setCategory:newCategory;
+- (CategoryNode *)category;
+- (void)setCategory:(CategoryNode *)newCategory;
 
-- (int)shouldMatchAll;
+- (BOOL)shouldMatchAll;
 - (void)setShouldMatchAll:(BOOL)newFlag;
 
 // Methods common to "BooleanNode" -- for both BooleanExpress, BooleanTerminal
@@ -65,10 +64,12 @@
 - (NSString *)expressionString;
 - (void)expressionString:(NSMutableString *)resultString;
 
-- (BOOL)isCategoryUsed:aCategory;
+- (BOOL)isCategoryUsed:(CategoryNode *)aCategory;
 
-// Archiving methods
+// Archiving
 - (id)initWithCoder:(NSCoder *)aDecoder;
 - (void)encodeWithCoder:(NSCoder *)aCoder;
+
+- (NSString *)description;
 
 @end
