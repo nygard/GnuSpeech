@@ -21,6 +21,6 @@
 /*  SIZE IN BITS PER OUTPUT SAMPLE  */
 #define BITS_PER_SAMPLE           16
 
-void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMData *data, const char *fileName);
+void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMData *data, const char *filename);
 
 #endif

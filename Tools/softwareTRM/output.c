@@ -27,7 +27,7 @@ static void convertIntToFloat80(unsigned int value, unsigned char buffer[10]);
 // volume scaling, and stereo balance scaling, if 2 channels of
 // output.
 
-void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMData *data, const char *fileName)
+void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMData *data, const char *filename)
 {
     FILE *fd;
     double scale, leftScale = 0.0, rightScale = 0.0;
@@ -63,7 +63,7 @@ void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMData *dat
     rewind(sampleRateConverter->tempFilePtr);
 
     /*  Open the output file  */
-    fd = fopen(fileName, "wb");
+    fd = fopen(filename, "wb");
 
     /*  Scale and write out samples to the output file  */
     if (data->inputParameters.outputFileFormat == AU_FILE_FORMAT) {
