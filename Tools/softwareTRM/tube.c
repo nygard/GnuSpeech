@@ -63,13 +63,6 @@
 
 
 
-/*  LOCAL DEFINES  ***********************************************************/
-
-/*  1 MEANS COMPILE SO THAT INTERPOLATION NOT DONE FOR
-    SOME CONTROL RATE PARAMETERS  */
-#define MATCH_DSP                 0
-
-
 /*  GLOBAL FUNCTIONS (LOCAL TO THIS FILE)  ***********************************/
 
 void initializeMouthCoefficients(TRMTubeModel *tubeModel, double coeff);
@@ -410,43 +403,23 @@ void setControlRateParameters(TRMTubeModel *tubeModel, INPUT *previousInput, INP
 
     /*  ASPIRATION VOLUME  */
     tubeModel->current.parameters.aspVol = aspVolAt(previousInput);
-#if MATCH_DSP
-    tubeModel->current.delta.aspVol = 0.0;
-#else
     tubeModel->current.delta.aspVol = (aspVolAt(currentInput) - tubeModel->current.parameters.aspVol) / (double)tubeModel->controlPeriod;
-#endif
 
     /*  FRICATION VOLUME  */
     tubeModel->current.parameters.fricVol = fricVolAt(previousInput);
-#if MATCH_DSP
-    tubeModel->current.delta.fricVol = 0.0;
-#else
     tubeModel->current.delta.fricVol = (fricVolAt(currentInput) - tubeModel->current.parameters.fricVol) / (double)tubeModel->controlPeriod;
-#endif
 
     /*  FRICATION POSITION  */
     tubeModel->current.parameters.fricPos = fricPosAt(previousInput);
-#if MATCH_DSP
-    tubeModel->current.delta.fricPos = 0.0;
-#else
     tubeModel->current.delta.fricPos = (fricPosAt(currentInput) - tubeModel->current.parameters.fricPos) / (double)tubeModel->controlPeriod;
-#endif
 
     /*  FRICATION CENTER FREQUENCY  */
     tubeModel->current.parameters.fricCF = fricCFAt(previousInput);
-#if MATCH_DSP
-    tubeModel->current.delta.fricCF = 0.0;
-#else
     tubeModel->current.delta.fricCF = (fricCFAt(currentInput) - tubeModel->current.parameters.fricCF) / (double)tubeModel->controlPeriod;
-#endif
 
     /*  FRICATION BANDWIDTH  */
     tubeModel->current.parameters.fricBW = fricBWAt(previousInput);
-#if MATCH_DSP
-    tubeModel->current.delta.fricBW = 0.0;
-#else
     tubeModel->current.delta.fricBW = (fricBWAt(currentInput) - tubeModel->current.parameters.fricBW) / (double)tubeModel->controlPeriod;
-#endif
 
     /*  TUBE REGION RADII  */
     for (i = 0; i < TOTAL_REGIONS; i++) {
