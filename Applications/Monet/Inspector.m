@@ -97,7 +97,7 @@
     [panel setTitle:@"Prototype Transition Inspector"];
     currentInspectorObject = transition;
     currentInspector = protoTransitionInspector;
-    [protoTransitionInspector inspectMMTransition:transition];
+    [protoTransitionInspector inspectTransition:transition];
 }
 
 - (void)inspectRule:(MMRule *)rule;

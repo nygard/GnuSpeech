@@ -51,7 +51,7 @@
     [super dealloc];
 }
 
-- (void)setCurrentMMEquation:(MMEquation *)anEquation;
+- (void)setCurrentEquation:(MMEquation *)anEquation;
 {
     if (anEquation == currentEquation)
         return;
@@ -62,7 +62,7 @@
 
 - (void)inspectEquation:(MMEquation *)anEquation;
 {
-    [self setCurrentMMEquation:anEquation];
+    [self setCurrentEquation:anEquation];
     [mainInspector setPopUpListView:popUpListView];
     [self setUpWindow:popUpList];
 }

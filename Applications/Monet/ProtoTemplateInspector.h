@@ -52,8 +52,8 @@ History:
 - (id)init;
 - (void)dealloc;
 
-- (void)setCurrentMMTransition:(MMTransition *)aTemplate;
-- (void)inspectMMTransition:(MMTransition *)aTemplate;
+- (void)setCurrentTransition:(MMTransition *)aTemplate;
+- (void)inspectTransition:(MMTransition *)aTemplate;
 
 - (void)setUpWindow:(NSPopUpButton *)sender;
 - (void)beginEditting;

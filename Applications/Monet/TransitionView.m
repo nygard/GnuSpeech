@@ -1066,7 +1066,7 @@ static NSImage *_selectionBox = nil;
 }
 
 
-- (IBAction)groupInMMSlopeRatio:(id)sender;
+- (IBAction)groupInSlopeRatio:(id)sender;
 {
     int i, index;
     int type;

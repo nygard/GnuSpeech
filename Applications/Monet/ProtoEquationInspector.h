@@ -56,7 +56,7 @@ History:
 - (id)init;
 - (void)dealloc;
 
-- (void)setCurrentMMEquation:(MMEquation *)anEquation;
+- (void)setCurrentEquation:(MMEquation *)anEquation;
 - (void)inspectEquation:(MMEquation *)anEquation;
 
 - (void)setUpWindow:(NSPopUpButton *)sender;

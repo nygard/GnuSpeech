@@ -42,7 +42,7 @@
     [super dealloc];
 }
 
-- (void)setCurrentMMTransition:(MMTransition *)aTemplate;
+- (void)setCurrentTransition:(MMTransition *)aTemplate;
 {
     if (aTemplate == currentTransition)
         return;
@@ -51,9 +51,9 @@
     currentTransition = [aTemplate retain];
 }
 
-- (void)inspectMMTransition:(MMTransition *)aTemplate;
+- (void)inspectTransition:(MMTransition *)aTemplate;
 {
-    [self setCurrentMMTransition:aTemplate];
+    [self setCurrentTransition:aTemplate];
     [mainInspector setPopUpListView:popUpListView];
     [self setUpWindow:popUpList];
 }
