@@ -144,7 +144,7 @@ struct _rule {
 - (float *)intonParms;
 - (void)setIntonParms:(float *)newValue;
 
-- getPhoneAtIndex:(int)phoneIndex;
+- (MMPosture *)getPhoneAtIndex:(int)phoneIndex;
 - (struct _rule *)getRuleAtIndex:(int)ruleIndex;
 - (double)getBeatAtIndex:(int)ruleIndex;
 - (int)numberOfRules;
@@ -159,8 +159,8 @@ struct _rule {
 - (void)setCurrentFootTempo:(double)tempo;
 
 - (void)newPhone;
-- (void)newPhoneWithObject:(id)anObject;
-- (void)replaceCurrentPhoneWith:(id)anObject;
+- (void)newPhoneWithObject:(MMPosture *)anObject;
+- (void)replaceCurrentPhoneWith:(MMPosture *)anObject;
 - (void)setCurrentPhoneTempo:(double)tempo;
 - (void)setCurrentPhoneRuleTempo:(float)tempo;
 - (void)setCurrentPhoneSyllable;
@@ -173,7 +173,7 @@ struct _rule {
 - (void)printDataStructures;
 - (void)generateEventList;
 
-- (void)applyRule:rule withPhones:phoneList andTempos:(double *)tempos phoneIndex:(int)phoneIndex;
+- (void)applyRule:(MMRule *)rule withPhones:(PhoneList *)phoneList andTempos:(double *)tempos phoneIndex:(int)phoneIndex;
 - (void)synthesizeToFile:(NSString *)filename;
 
 - (void)applyIntonation;

@@ -297,7 +297,7 @@ static void page_consumed(void)
     intonParms = newValue;
 }
 
-- getPhoneAtIndex:(int)phoneIndex;
+- (MMPosture *)getPhoneAtIndex:(int)phoneIndex;
 {
     if (phoneIndex > currentPhone)
         return nil;
@@ -384,7 +384,7 @@ static void page_consumed(void)
     phoneTempo[currentPhone] = 1.0;
 }
 
-- (void)newPhoneWithObject:(id)anObject;
+- (void)newPhoneWithObject:(MMPosture *)anObject;
 {
     if (phones[currentPhone].phone)
         currentPhone++;
@@ -393,7 +393,7 @@ static void page_consumed(void)
     phones[currentPhone].phone = anObject;
 }
 
-- (void)replaceCurrentPhoneWith:(id)anObject;
+- (void)replaceCurrentPhoneWith:(MMPosture *)anObject;
 {
     if (phones[currentPhone].phone)
         phones[currentPhone].phone = anObject;
@@ -841,7 +841,7 @@ static void page_consumed(void)
     NSLog(@"%s, EventList count: %d", _cmd, [self count]);
 }
 
-- (void)applyRule:rule withPhones:phoneList andTempos:(double *)tempos phoneIndex:(int)phoneIndex;
+- (void)applyRule:(MMRule *)rule withPhones:(PhoneList *)phoneList andTempos:(double *)tempos phoneIndex:(int)phoneIndex;
 {
     int i, j, type, cont;
     int currentType;
