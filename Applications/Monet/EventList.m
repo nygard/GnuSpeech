@@ -1028,10 +1028,10 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
 
                 for (postureIndex = feet[footIndex].start; postureIndex <= feet[footIndex].end; postureIndex++) {
                     if (rules[ruleIndex].firstPhone == postureIndex) {
-                        NSLog(@"    Posture %2d  tempo: %.3f, syllable: %d, onset: %7.2f, ruleTempo: %.3f, %@ # Rule %2d  duration %7.2f, start: %2d, end: %2d",
+                        NSLog(@"    Posture %2d  tempo: %.3f, syllable: %d, onset: %7.2f, ruleTempo: %.3f, %@ # Rule %2d, duration: %7.2f",
                               postureIndex, phoneTempo[postureIndex], phones[postureIndex].syllable, phones[postureIndex].onset,
                               phones[postureIndex].ruleTempo, [[phones[postureIndex].phone symbol] leftJustifiedStringPaddedToLength:18],
-                              rules[ruleIndex].number, rules[ruleIndex].duration, rules[ruleIndex].firstPhone, rules[ruleIndex].lastPhone);
+                              rules[ruleIndex].number, rules[ruleIndex].duration);
                         ruleIndex++;
                     } else {
                         NSLog(@"    Posture %2d  tempo: %.3f, syllable: %d, onset: %7.2f, ruleTempo: %.3f, %@",
