@@ -113,7 +113,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
     [ruleCommentTextView setFieldEditor:YES];
 
-    [ruleTableView registerForDraggedTypes:[NSArray arrayWithObjects:MRMLocalRuleDragPasteboardType, nil]];
+    [ruleTableView registerForDraggedTypes:[NSArray arrayWithObject:MRMLocalRuleDragPasteboardType]];
 
     [boolParser setCategoryList:[model categories]];
     [boolParser setPhoneList:[model postures]];
@@ -478,7 +478,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 - (BOOL)tableView:(NSTableView *)tableView writeRows:(NSArray *)rows toPasteboard:(NSPasteboard *)pboard;
 {
     if (tableView == ruleTableView) {
-        [pboard declareTypes:[NSArray arrayWithObjects:MRMLocalRuleDragPasteboardType, nil] owner:nil];
+        [pboard declareTypes:[NSArray arrayWithObject:MRMLocalRuleDragPasteboardType] owner:nil];
         [pboard setPropertyList:rows forType:MRMLocalRuleDragPasteboardType];
         return YES;
     }
@@ -493,7 +493,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
         NSString *availableType;
 
         pasteboard = [info draggingPasteboard];
-        availableType = [pasteboard availableTypeFromArray:[NSArray arrayWithObjects:MRMLocalRuleDragPasteboardType, nil]];
+        availableType = [pasteboard availableTypeFromArray:[NSArray arrayWithObject:MRMLocalRuleDragPasteboardType]];
         //NSLog(@"availableType: %@", availableType);
 
         if (op == NSTableViewDropOn)
@@ -515,7 +515,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
         MMRule *aRule;
 
         pasteboard = [info draggingPasteboard];
-        availableType = [pasteboard availableTypeFromArray:[NSArray arrayWithObjects:MRMLocalRuleDragPasteboardType, nil]];
+        availableType = [pasteboard availableTypeFromArray:[NSArray arrayWithObject:MRMLocalRuleDragPasteboardType]];
         //NSLog(@"availableType: %@", availableType);
 
         if (availableType == nil)
