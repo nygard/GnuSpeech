@@ -1,6 +1,8 @@
 #import "EventListView.h"
 
 #import <AppKit/AppKit.h>
+#import "NSNumberFormatter-Extensions.h"
+
 #import "AppController.h"
 #import "Event.h"
 #import "EventList.h"
@@ -49,6 +51,7 @@
     [minMaxCell setBordered:NO];
     [minMaxCell setEnabled:YES];
     [minMaxCell setFont:timesFontSmall];
+    [minMaxCell setFormatter:[NSNumberFormatter defaultNumberFormatter]];
 
     parameterNameCell = [[NSTextFieldCell alloc] initTextCell:@""];
     [parameterNameCell setControlSize:NSSmallControlSize];
