@@ -1100,6 +1100,7 @@ static NSImage *_selectionBox = nil;
     if (newTransition == currentTemplate)
         return;
 
+    [[self window] endEditingFor:nil];
     [selectedPoints removeAllObjects];
 
     [currentTemplate release];

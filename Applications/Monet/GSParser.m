@@ -69,6 +69,11 @@
 // Error reporting
 //
 
+- (unsigned int)errorLocation;
+{
+    return errorLocation;
+}
+
 - (NSString *)errorMessage;
 {
     // TODO (2004-03-03): Should we return a copy here, since it *is* mutable and used again?
@@ -79,6 +84,12 @@
 {
     NSString *str;
     va_list args;
+
+    // TODO (2004-03-13): Probably need better control over this.  It should start at the beginning of the last token scanned.
+    if ([errorMessage length] == 0) {
+        errorLocation = [scanner scanLocation];
+        NSLog(@"%s, errorLocation: %u", _cmd, errorLocation);
+    }
 
     va_start(args, format);
     str = [[NSString alloc] initWithFormat:format arguments:args];

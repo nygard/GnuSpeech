@@ -368,7 +368,11 @@
 
 - (IBAction)setComment:(id)sender;
 {
-    [currentPhone setComment:[commentText string]];
+    NSString *newComment;
+
+    newComment = [[commentText string] copy]; // Need to copy, becuase it's mutable and owned by the NSTextView
+    [currentPhone setComment:newComment];
+    [newComment release];
 }
 
 - (IBAction)revertComment:(id)sender;

@@ -31,7 +31,7 @@
     if ([super init] == nil)
         return nil;
 
-    formParser = [[FormulaParser alloc] init];
+    formulaParser = [[FormulaParser alloc] init];
     equationList = [[MonetList alloc] initWithCapacity:20];
 
     return self;
@@ -44,7 +44,7 @@
     [usageBox release];
     [popUpListView release];
 
-    [formParser release];
+    [formulaParser release];
     [equationList release];
     [currentProtoEquation release];
 
@@ -151,7 +151,12 @@
 
 - (IBAction)setComment:(id)sender;
 {
-    [currentProtoEquation setComment:[commentText string]];
+    NSString *newComment;
+
+    // TODO (2004-03-13): Maybe just copy it in the -setComment: method, hopefully in a common base class.
+    newComment = [[commentText string] copy]; // Need to copy, becuase it's mutable and owned by the NSTextView
+    [currentProtoEquation setComment:newComment];
+    [newComment release];
 }
 
 - (IBAction)revertComment:(id)sender;
@@ -164,21 +169,40 @@
 
 - (IBAction)setEquation:(id)sender;
 {
-    id temp;
+    FormulaExpression *result;
+    NSString *str;
 
-    [formParser setSymbolList:NXGetNamedObject(@"mainSymbolList", NSApp)];
+    [formulaParser setSymbolList:NXGetNamedObject(@"mainSymbolList", NSApp)];
 
-    temp = [formParser parseString:[equationText string]];
-    if (temp == nil) {
-        [messagesText setString:[formParser errorMessage]];
+    result = [formulaParser parseString:[equationText string]];
+    NSLog(@"%s, result: %p", _cmd, result);
+    str = [formulaParser errorMessage];
+    NSLog(@"errorMessage: '%@'", str);
+    if ([str length] == 0)
+        str = @"Equation parsed.";
+    [messagesText setString:str];
+    if (result == nil) {
+        NSRange errorRange;
+
+        errorRange.location = [formulaParser errorLocation];
+        errorRange.length = [[equationText string] length];
+        NSLog(@"errorRange (1): %@", NSStringFromRange(errorRange));
+        if (errorRange.location > errorRange.length)
+            errorRange.length = 0;
+        else
+            errorRange.length -= errorRange.location;
+        NSLog(@"errorRange (2): %@", NSStringFromRange(errorRange));
+
+        [equationText setSelectedRange:errorRange];
     } else {
-        [currentProtoEquation setExpression:temp];
+        [currentProtoEquation setExpression:result];
     }
 }
 
 - (IBAction)revertEquation:(id)sender;
 {
     [equationText setString:[[currentProtoEquation expression] expressionString]];
+    [messagesText setString:@""];
 }
 
 - (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;

@@ -121,7 +121,11 @@
 
 - (IBAction)setComment:(id)sender;
 {
-    [currentProtoTemplate setComment:[commentText string]];
+    NSString *newComment;
+
+    newComment = [[commentText string] copy]; // Need to copy, becuase it's mutable and owned by the NSTextView
+    [currentProtoTemplate setComment:newComment];
+    [newComment release];
 }
 
 - (IBAction)revertComment:(id)sender;

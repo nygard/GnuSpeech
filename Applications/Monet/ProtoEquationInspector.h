@@ -1,7 +1,7 @@
 #import <Foundation/NSObject.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-@class MonetList, ProtoEquation;
+@class FormulaParser, MonetList, ProtoEquation;
 @class Inspector;
 
 /*===========================================================================
@@ -30,24 +30,24 @@ History:
     IBOutlet NSBox *popUpListView;
     IBOutlet NSPopUpButton *popUpList;
 
-    id commentView;
-    id commentText;
-    id setCommentButton;
-    id revertCommentButton;
+    IBOutlet NSBox *commentView;
+    IBOutlet NSTextView *commentText;
+    IBOutlet NSButtonCell *setCommentButton;
+    IBOutlet NSButtonCell *revertCommentButton;
 
-    id equationBox;
-    id equationText;
-    id messagesText;
-    id setEquationButton;
-    id revertEquationButton;
-    id currentEquationField;
+    IBOutlet NSBox *equationBox;
+    IBOutlet NSTextView *equationText;
+    IBOutlet NSTextView *messagesText;
+    IBOutlet NSButtonCell *setEquationButton;
+    IBOutlet NSButtonCell *revertEquationButton;
+    IBOutlet NSTextField *currentEquationField;
 
-    id usageBox;
-    id usageBrowser;
-    id usageField;
+    IBOutlet NSBox *usageBox;
+    IBOutlet NSBrowser *usageBrowser;
+    IBOutlet NSTextField *usageField;
 
     ProtoEquation *currentProtoEquation;
-    id formParser;
+    FormulaParser *formulaParser;
 
     MonetList *equationList;
 }

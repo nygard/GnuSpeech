@@ -49,6 +49,9 @@
 
 - (void)setOperandOne:(id)operand;
 {
+    if (operand == nil)
+        return;
+
     if ([expressions count] == 0)
         [expressions addObject:operand];
     else
@@ -70,7 +73,8 @@
           NSLog(@"Drat, there should be an operandOne in %s", _cmd);
           break;
       case 1:
-          [expressions addObject:operand];
+          if (operand != nil)
+              [expressions addObject:operand];
           break;
       default:
           [expressions replaceObjectAtIndex:1 withObject:operand];

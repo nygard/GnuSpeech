@@ -39,6 +39,10 @@
 
     [scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:NULL];
 
+    // TODO (2004-03-03): It used to end on a newline as well...
+    if ([scanner isAtEnd])
+        return TK_F_END;
+
     if ([scanner scanString:@"(" intoString:NULL] == YES) {
         [self setSymbolString:@"("];
         return TK_F_LPAREN;
@@ -76,10 +80,6 @@
         return TK_F_ERROR;
     }
 
-    // TODO (2004-03-03): It used to end on a newline as well...
-    if ([scanner isAtEnd])
-        return TK_F_END;
-
     if ([scanner scanIdentifierIntoString:&str] == YES) {
         [self setSymbolString:str];
         return TK_F_SYMBOL;
@@ -109,7 +109,7 @@
 
 - (id)beginParseString;
 {
-    // FormulaTerminal, 
+    // FormulaTerminal,
     id tempExpression = nil;
 
     switch ([self nextToken]) {
@@ -242,7 +242,7 @@
         whichPhone = [symbolString characterAtIndex:[symbolString length] - 1] - '1';
         NSLog(@"Phone = %d", whichPhone);
         if ( (whichPhone < 0) || (whichPhone > 3)) {
-            NSLog(@"\tError, incorrect phone index %d", whichPhone);
+            [self appendErrorFormat:@"Error, incorrect phone index %d", whichPhone];
             return nil;
         }
 
@@ -287,18 +287,18 @@
 
     switch ([self nextToken]) {
       case TK_F_END:
-          NSLog(@"\tError, unexpected END at index %d", [scanner scanLocation]);
+          [self appendErrorFormat:@"Error, unexpected END at index %d", [scanner scanLocation]];
           return nil;
 
       case TK_F_ADD:
       case TK_F_SUB:
       case TK_F_MULT:
       case TK_F_DIV:
-          NSLog(@"\tError, unexpected %@ operation at index %d", symbolString, [scanner scanLocation]);
+          [self appendErrorFormat:@"Error, unexpected %@ operation at index %d", symbolString, [scanner scanLocation]];
           return nil;
 
       case TK_F_RPAREN:
-          NSLog(@"\tError, unexpected ')' at index %d", [scanner scanLocation]);
+          [self appendErrorFormat:@"Error, unexpected ')' at index %d", [scanner scanLocation]];
           return nil;
 
       case TK_F_LPAREN:
@@ -348,18 +348,18 @@
 
     switch ([self nextToken]) {
       case TK_F_END:
-          NSLog(@"\tError, unexpected END at index %d", [scanner scanLocation]);
+          [self appendErrorFormat:@"Error, unexpected END at index %d", [scanner scanLocation]];
           return nil;
 
       case TK_F_ADD:
       case TK_F_SUB:
       case TK_F_MULT:
       case TK_F_DIV:
-          NSLog(@"\tError, unexpected %@ operation at index %d", symbolString, [scanner scanLocation]);
+          [self appendErrorFormat:@"Error, unexpected %@ operation at index %d", symbolString, [scanner scanLocation]];
           return nil;
 
       case TK_F_RPAREN:
-          NSLog(@"\tError, unexpected ')' at index %d", [scanner scanLocation]);
+          [self appendErrorFormat:@"Error, unexpected ')' at index %d", [scanner scanLocation]];
           return nil;
 
       case TK_F_LPAREN:
@@ -409,18 +409,18 @@
 
     switch ([self nextToken]) {
       case TK_F_END:
-          NSLog(@"\tError, unexpected END at index %d", [scanner scanLocation]);
+          [self appendErrorFormat:@"Error, unexpected END at index %d", [scanner scanLocation]];
           return nil;
 
       case TK_F_ADD:
       case TK_F_SUB:
       case TK_F_MULT:
       case TK_F_DIV:
-          NSLog(@"\tError, unexpected %@ operation at index %d", symbolString, [scanner scanLocation]);
+          [self appendErrorFormat:@"Error, unexpected %@ operation at index %d", symbolString, [scanner scanLocation]];
           return nil;
 
       case TK_F_RPAREN:
-          NSLog(@"\tError, unexpected ')' at index %d", [scanner scanLocation]);
+          [self appendErrorFormat:@"Error, unexpected ')' at index %d", [scanner scanLocation]];
           return nil;
 
       case TK_F_LPAREN:
@@ -470,18 +470,18 @@
 
     switch ([self nextToken]) {
       case TK_F_END:
-          NSLog(@"\tError, unexpected END at index %d", [scanner scanLocation]);
+          [self appendErrorFormat:@"Error, unexpected END at index %d", [scanner scanLocation]];
           return nil;
 
       case TK_F_ADD:
       case TK_F_SUB:
       case TK_F_MULT:
       case TK_F_DIV:
-          NSLog(@"\tError, unexpected %@ operation at index %d", symbolString, [scanner scanLocation]);
+          [self appendErrorFormat:@"Error, unexpected %@ operation at index %d", symbolString, [scanner scanLocation]];
           return nil;
 
       case TK_F_RPAREN:
-          NSLog(@"\tError, unexpected ')' at index %d", [scanner scanLocation]);
+          [self appendErrorFormat:@"Error, unexpected ')' at index %d", [scanner scanLocation]];
           return nil;
 
       case TK_F_LPAREN:
@@ -515,7 +515,7 @@
 
     switch ([self nextToken]) {
       case TK_F_END:
-          NSLog(@"\tError, unexpected end at index %d", [scanner scanLocation]);
+          [self appendErrorFormat:@"Error, unexpected end at index %d", [scanner scanLocation]];
           return nil;
 
       case TK_F_RPAREN:
@@ -529,7 +529,7 @@
       case TK_F_SUB:
       case TK_F_MULT:
       case TK_F_DIV:
-          NSLog(@"\tError, unexpected %@ operation at index %d", symbolString, [scanner scanLocation]);
+          [self appendErrorFormat:@"Error, unexpected %@ operation at index %d", symbolString, [scanner scanLocation]];
           break;
 
       case TK_F_SYMBOL:
@@ -549,14 +549,14 @@
     while ( (token = [self nextToken]) != TK_F_RPAREN) {
         switch (token) {
           case TK_F_END:
-              NSLog(@"\tError, unexpected end at index %d", [scanner scanLocation]);
+              [self appendErrorFormat:@"Error, unexpected end at index %d", [scanner scanLocation]];
               return nil;
 
           case TK_F_RPAREN:
               return expression1;
 
           case TK_F_LPAREN:
-              NSLog(@"\tError, unexpected '(' at index %d", [scanner scanLocation]);
+              [self appendErrorFormat:@"Error, unexpected '(' at index %d", [scanner scanLocation]];
               return nil;
 
           case TK_F_ADD:

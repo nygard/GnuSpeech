@@ -41,6 +41,7 @@
 - we could filter the rules, showing which ones match a given symbol input.
 - we could add a column to the rule list to show the total combinations matched.
 - move the NSRunAlertPanel() call out of SlopeRatio!
+  - and adding points to slopes doesn't quite work properly right now -- another slope doesn't get added?
 
 TODO:
 - if a value is at the default, and then you change the default, do you want all of the instances to change as well?  I think so.

@@ -142,6 +142,38 @@
             ACTIONS = {
                 browserDoubleHit = id; 
                 browserHit = id; 
+                revertComment = id; 
+                revertEquation = id; 
+                setComment = id; 
+                setEquation = id; 
+                setUpWindow = id; 
+            }; 
+            CLASS = ProtoEquationInspector; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                commentText = NSTextView; 
+                commentView = NSBox; 
+                currentEquationField = NSTextField; 
+                equationBox = NSBox; 
+                equationText = NSTextView; 
+                mainInspector = Inspector; 
+                messagesText = NSTextView; 
+                popUpList = NSPopUpButton; 
+                popUpListView = NSBox; 
+                revertCommentButton = NSButtonCell; 
+                revertEquationButton = NSButtonCell; 
+                setCommentButton = NSButtonCell; 
+                setEquationButton = NSButtonCell; 
+                usageBox = NSBox; 
+                usageBrowser = NSBrowser; 
+                usageField = NSTextField; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {
+                browserDoubleHit = id; 
+                browserHit = id; 
                 moveRule = id; 
                 revertComment = id; 
                 selectionBrowserDoubleHit = id; 

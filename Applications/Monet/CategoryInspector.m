@@ -76,7 +76,11 @@
 
 - (IBAction)setComment:(id)sender;
 {
-    [currentCategory setComment:[commentText string]];
+    NSString *newComment;
+
+    newComment = [[commentText string] copy]; // Need to copy, becuase it's mutable and owned by the NSTextView
+    [currentCategory setComment:newComment];
+    [newComment release];
 }
 
 - (IBAction)revertComment:(id)sender;

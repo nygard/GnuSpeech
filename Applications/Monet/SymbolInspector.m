@@ -89,7 +89,11 @@
 
 - (IBAction)setComment:(id)sender;
 {
-    [currentSymbol setComment:[commentText string]];
+    NSString *newComment;
+
+    newComment = [[commentText string] copy]; // Need to copy, becuase it's mutable and owned by the NSTextView
+    [currentSymbol setComment:newComment];
+    [newComment release];
 }
 
 - (IBAction)revertComment:(id)sender;
