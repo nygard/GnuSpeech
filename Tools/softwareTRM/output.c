@@ -7,16 +7,6 @@
 #include "tube.h"
 #include "util.h"
 
-/*  FINAL OUTPUT SCALING, SO THAT .SND FILES APPROX. MATCH DSP OUTPUT  */
-//#define OUTPUT_SCALE              0.25
-#define OUTPUT_SCALE              1.0
-
-/*  MAXIMUM SAMPLE VALUE  */
-#define RANGE_MAX                 32767.0
-
-/*  SIZE IN BITS PER OUTPUT SAMPLE  */
-#define BITS_PER_SAMPLE           16
-
 // TODO (2004-05-03): Do we need to declare the function static here, at the implementation, or in both places?
 static void writeAuFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile);
 static void writeAiffFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile);

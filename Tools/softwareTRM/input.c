@@ -5,9 +5,6 @@
 
 /*  VARIABLES FOR INPUT TABLE STORAGE  */
 
-static void addInput(TRMData *data, double glotPitch, double glotVol, double aspVol, double fricVol,
-                     double fricPos, double fricCF, double fricBW, double *radius,
-                     double velum);
 static INPUT *newInputTable(void);
 static int inputTableLength(INPUT *ptr);
 

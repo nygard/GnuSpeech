@@ -4,6 +4,9 @@
 #include "structs.h" // For TRMParameters
 
 struct _TRMData *parseInputFile(const char *inputFile);
+void addInput(TRMData *data, double glotPitch, double glotVol, double aspVol, double fricVol,
+              double fricPos, double fricCF, double fricBW, double *radius,
+              double velum);
 
 double glotPitchAt(INPUT *ptr);
 double glotVolAt(INPUT *ptr);
