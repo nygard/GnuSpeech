@@ -5,6 +5,9 @@
 #include "wavetable.h"
 #include <vecLib/vecLib.h>
 
+//  Compile with oversampling or plain oscillator
+#define OVERSAMPLING_OSCILLATOR   1
+
 //  Glottal source oscillator table variables
 #define TABLE_LENGTH              512
 #define TABLE_MODULUS             (TABLE_LENGTH-1)
@@ -14,20 +17,13 @@
 static double mod0(double value);
 static void TRMWavetableIncrementPosition(TRMWavetable *wavetable, double frequency);
 
-// Returns the modulus of 'value', keeping it in the range 0 -> TABLE_MODULUS.
-static double mod0(double value)
-{
-    if (value > TABLE_MODULUS)
-        value -= TABLE_LENGTH;
-
-    return value;
-}
-
 // Calculates the initial glottal pulse and stores it in the wavetable, for use in the oscillator.
 TRMWavetable *TRMWavetableCreate(int waveform, double tp, double tnMin, double tnMax, double sampleRate)
 {
     TRMWavetable *newWavetable;
-    int i, j;
+    int i;
+
+    //printf("TRMWavetableCreate(waveform=%d, tp=%f, tnMin=%f, tnMax=%f, sampleRate=%f\n", waveform, tp, tnMin, tnMax, sampleRate);
 
     newWavetable = (TRMWavetable *)malloc(sizeof(TRMWavetable));
     if (newWavetable == NULL) {
@@ -35,6 +31,7 @@ TRMWavetable *TRMWavetableCreate(int waveform, double tp, double tnMin, double t
         return NULL;
     }
 
+    newWavetable->waveform = waveform;
     newWavetable->FIRFilter = TRMFIRFilterCreate(FIR_BETA, FIR_GAMMA, FIR_CUTOFF);
 
     //  Allocate memory for wavetable
@@ -80,6 +77,8 @@ TRMWavetable *TRMWavetableCreate(int waveform, double tp, double tnMin, double t
 
     //  Initialize the wavetable with either a glottal pulse or sine tone
     if (waveform == PULSE) {
+        double j;
+
         //  Calculate rise portion of wave table
         for (i = 0; i < newWavetable->tableDiv1; i++) {
             double x = (double)i / (double)newWavetable->tableDiv1;
@@ -88,9 +87,9 @@ TRMWavetable *TRMWavetableCreate(int waveform, double tp, double tnMin, double t
             newWavetable->wavetable[i] = (3.0 * x2) - (2.0 * x3);
         }
 
-        //  Calculate fall portion of wave table
+        //  Calculate falling portion of wave table
         for (i = newWavetable->tableDiv1, j = 0; i < newWavetable->tableDiv2; i++, j++) {
-            double x = (double)j / newWavetable->tnLength;
+            double x = j / newWavetable->tnLength;
             newWavetable->wavetable[i] = 1.0 - (x * x);
         }
 
@@ -100,7 +99,7 @@ TRMWavetable *TRMWavetableCreate(int waveform, double tp, double tnMin, double t
     } else {
         //  Sine wave
         for (i = 0; i < TABLE_LENGTH; i++) {
-            newWavetable->wavetable[i] = sin( ((double)i / (double)TABLE_LENGTH) * 2.0 * PI );
+            newWavetable->wavetable[i] = sin( ((double)i / (double)TABLE_LENGTH) * 2.0 * M_PI);
         }
     }
 
@@ -141,6 +140,11 @@ void TRMWavetableUpdate(TRMWavetable *wavetable, double amplitude)
 {
     int i;
 
+    // Skip if it's not a pulse type, since it wouldn't make sense.  Handled in calling code.
+    if (wavetable->waveform != PULSE)
+        return;
+
+    //printf("TRMWavetableUpdate(self=%p, amplitude=%f)\n", wavetable, amplitude);
     //  Calculate new closure point, based on amplitude
     double newDiv2 = wavetable->tableDiv2 - rint(amplitude * wavetable->tnDelta);
     double newTnLength = newDiv2 - wavetable->tableDiv1;
@@ -154,6 +158,7 @@ void TRMWavetableUpdate(TRMWavetable *wavetable, double amplitude)
 
         len = newTnLength;
 
+        //printf("wavetable update, scale: %g, squares: %p, aj: %p, len: %d\n", scale, wavetable->squares, aj, len);
         vsmulD(wavetable->squares, 1, &scale, aj, 1, len);
         vsubD(aj, 1, wavetable->ones, 1, &(wavetable->wavetable[wavetable->tableDiv1]), 1, len); // The docs seem to be wrong about which one gets subtracted...
     }
@@ -178,14 +183,6 @@ void TRMWavetableUpdate(TRMWavetable *wavetable, double amplitude)
     if (wavetable->tableDiv2 > i)
         memset(&(wavetable[i]), 0, (wavetable->tableDiv2 - i) * sizeof(double)); // This seems to be crashy... possibly with 0 sizes?
 #endif
-}
-
-
-
-// Increments the position in the wavetable according to the desired frequency.
-static void TRMWavetableIncrementPosition(TRMWavetable *wavetable, double frequency)
-{
-    wavetable->currentPosition = mod0(wavetable->currentPosition + (frequency * wavetable->basicIncrement));
 }
 
 // A 2X oversampling interpolating wavetable oscillator.
@@ -222,7 +219,6 @@ double TRMWavetableOscillator(TRMWavetable *wavetable, double frequency)  //  Pl
 {
     int lowerPosition, upperPosition;
 
-
     //  First increment the table position, depending on frequency
     TRMWavetableIncrementPosition(wavetable, frequency);
 
@@ -236,3 +232,18 @@ double TRMWavetableOscillator(TRMWavetable *wavetable, double frequency)  //  Pl
              (wavetable->wavetable[upperPosition] - wavetable->wavetable[lowerPosition])));
 }
 #endif
+
+// Returns the modulus of 'value', keeping it in the range 0 -> TABLE_MODULUS.
+static double mod0(double value)
+{
+    if (value > TABLE_MODULUS)
+        value -= TABLE_LENGTH;
+
+    return value;
+}
+
+// Increments the position in the wavetable according to the desired frequency.
+static void TRMWavetableIncrementPosition(TRMWavetable *wavetable, double frequency)
+{
+    wavetable->currentPosition = mod0(wavetable->currentPosition + (frequency * wavetable->basicIncrement));
+}
