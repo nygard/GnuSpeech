@@ -228,7 +228,7 @@
             fread(&tempValue, sizeof(float), 1, fp);
 
             [tempTarget setValue:tempValue];
-            [tempTarget setDefault:tempDefault];
+            [tempTarget setIsDefault:tempDefault];
         }
 
         /* READ IN CATEGORIES FROM FILE  */
