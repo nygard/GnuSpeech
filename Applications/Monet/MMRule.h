@@ -17,7 +17,7 @@
     MonetList *metaParameterProfiles; // Of MMTransitions?
     MonetList *expressionSymbols; // Of MMEquations
 
-    MMTransition *specialProfiles[16];
+    MMTransition *specialProfiles[16]; // TODO (2004-05-16): We should be able to use an NSMutableDictionary here.
 
     MMBooleanNode *expressions[4];
     NSString *comment;
@@ -31,6 +31,14 @@
 - (void)addDefaultMetaParameter;
 - (void)removeParameterAtIndex:(int)index;
 - (void)removeMetaParameterAtIndex:(int)index;
+
+- (void)addStoredParameterProfile:(MMTransition *)aTransition;
+- (void)addParameterProfilesFromReferenceDictionary:(NSDictionary *)dict;
+
+- (void)addStoredMetaParameterProfile:(MMTransition *)aTransition;
+- (void)addMetaParameterProfilesFromReferenceDictionary:(NSDictionary *)dict;
+
+- (void)addSpecialProfilesFromReferenceDictionary:(NSDictionary *)dict;
 
 - (void)setExpression:(MMBooleanNode *)newExpression number:(int)index;
 - (int)numberExpressions;

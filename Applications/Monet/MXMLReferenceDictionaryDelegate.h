@@ -1,5 +1,5 @@
 //
-// $Id: MXMLReferenceArrayDelegate.h,v 1.1 2004/04/22 20:42:59 nygard Exp $
+// $Id$
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -7,18 +7,18 @@
 
 #import <Foundation/NSObject.h>
 
-@interface MXMLReferenceArrayDelegate : NSObject
+@interface MXMLReferenceDictionaryDelegate : NSObject
 {
     NSString *childElementName;
-    NSString *referenceAttribute;
+    NSString *keyAttributeName;
+    NSString *referenceAttributeName;
     id delegate;
-    SEL addObjectSelector;
-
-    NSMutableArray *references;
+    SEL addObjectsSelector;
+    NSMutableDictionary *objects;
 }
 
-// TODO (2004-05-16): Change this to referenceAttributeName:, to be consistent
-- (id)initWithChildElementName:(NSString *)anElementName referenceAttribute:(NSString *)anAttribute delegate:(id)aDelegate addObjectSelector:(SEL)aSelector;
+- (id)initWithChildElementName:(NSString *)anElementName keyAttributeName:(NSString *)aKeyAttribute referenceAttributeName:(NSString *)aReferenceAttribute
+                      delegate:(id)aDelegate addObjectsSelector:(SEL)aSelector;
 - (void)dealloc;
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)anElementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;

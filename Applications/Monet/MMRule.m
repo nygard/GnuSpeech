@@ -19,6 +19,7 @@
 #import "MXMLArrayDelegate.h"
 #import "MXMLPCDataDelegate.h"
 #import "MXMLStringArrayDelegate.h"
+#import "MXMLReferenceDictionaryDelegate.h"
 
 @implementation MMRule
 
@@ -212,6 +213,85 @@
 - (void)removeMetaParameterAtIndex:(int)index;
 {
     [metaParameterProfiles removeObjectAtIndex:index];
+}
+
+- (void)addStoredParameterProfile:(MMTransition *)aTransition;
+{
+    [parameterProfiles addObject:aTransition];
+}
+
+- (void)addParameterProfilesFromReferenceDictionary:(NSDictionary *)dict;
+{
+    ParameterList *parameters;
+    unsigned int count, index;
+    MMParameter *parameter;
+    NSString *name;
+    MMTransition *transition;
+
+    parameters = [[self model] parameters];
+
+    count = [parameters count];
+    for (index = 0; index < count; index++) {
+
+        parameter = [parameters objectAtIndex:index];
+        name = [dict objectForKey:[parameter symbol]];
+        transition = [[self model] findTransitionWithName:name];
+        if (transition == nil) {
+            NSLog(@"Error: Can't find transition named: %@", name);
+        } else {
+            [self addStoredParameterProfile:transition];
+        }
+    }
+}
+
+- (void)addStoredMetaParameterProfile:(MMTransition *)aTransition;
+{
+    [metaParameterProfiles addObject:aTransition];
+}
+
+- (void)addMetaParameterProfilesFromReferenceDictionary:(NSDictionary *)dict;
+{
+    ParameterList *parameters;
+    unsigned int count, index;
+    MMParameter *parameter;
+    NSString *name;
+    MMTransition *transition;
+
+    parameters = [[self model] metaParameters];
+
+    count = [parameters count];
+    for (index = 0; index < count; index++) {
+
+        parameter = [parameters objectAtIndex:index];
+        name = [dict objectForKey:[parameter symbol]];
+        transition = [[self model] findTransitionWithName:name];
+        if (transition == nil) {
+            NSLog(@"Error: Can't find transition named: %@", name);
+        } else {
+            [self addStoredMetaParameterProfile:transition];
+        }
+    }
+}
+
+- (void)addSpecialProfilesFromReferenceDictionary:(NSDictionary *)dict;
+{
+    ParameterList *parameters;
+    unsigned int count, index;
+    MMParameter *parameter;
+    NSString *name;
+    MMTransition *transition;
+
+    parameters = [[self model] parameters];
+
+    count = [parameters count];
+    for (index = 0; index < count; index++) {
+        parameter = [parameters objectAtIndex:index];
+        name = [dict objectForKey:[parameter symbol]];
+        transition = [[self model] findTransitionWithName:name];
+        if (transition != nil) {
+            [self setSpecialProfile:index to:transition];
+        }
+    }
 }
 
 - (void)setExpression:(MMBooleanNode *)newExpression number:(int)index;
@@ -727,10 +807,28 @@
         //newDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"boolean-expression" class:[NSString class] delegate:self addObjectSelector:@selector(addPoint:)];
         [(MXMLParser *)parser pushDelegate:newDelegate];
         [newDelegate release];
-#if 0
     } else if ([elementName isEqualToString:@"parameter-profiles"]) {
+        MXMLReferenceDictionaryDelegate *newDelegate;
+
+        newDelegate = [[MXMLReferenceDictionaryDelegate alloc] initWithChildElementName:@"parameter-transition" keyAttributeName:@"name" referenceAttributeName:@"transition"
+                                                               delegate:self addObjectsSelector:@selector(addParameterProfilesFromReferenceDictionary:)];
+        [(MXMLParser *)parser pushDelegate:newDelegate];
+        [newDelegate release];
     } else if ([elementName isEqualToString:@"meta-parameter-profiles"]) {
+        MXMLReferenceDictionaryDelegate *newDelegate;
+
+        newDelegate = [[MXMLReferenceDictionaryDelegate alloc] initWithChildElementName:@"parameter-transition" keyAttributeName:@"name" referenceAttributeName:@"transition"
+                                                               delegate:self addObjectsSelector:@selector(addMetaParameterProfilesFromReferenceDictionary:)];
+        [(MXMLParser *)parser pushDelegate:newDelegate];
+        [newDelegate release];
     } else if ([elementName isEqualToString:@"special-profiles"]) {
+        MXMLReferenceDictionaryDelegate *newDelegate;
+
+        newDelegate = [[MXMLReferenceDictionaryDelegate alloc] initWithChildElementName:@"parameter-transition" keyAttributeName:@"name" referenceAttributeName:@"transition"
+                                                               delegate:self addObjectsSelector:@selector(addSpecialProfilesFromReferenceDictionary:)];
+        [(MXMLParser *)parser pushDelegate:newDelegate];
+        [newDelegate release];
+#if 0
     } else if ([elementName isEqualToString:@"expression-symbols"]) {
 #endif
     } else {

@@ -85,6 +85,7 @@ extern NSString *MCategoryInUseException;
 - (void)addSpecialTransitionGroup:(NamedList *)newGroup;
 
 - (MMEquation *)findEquationWithName:(NSString *)anEquationName;
+- (MMTransition *)findTransitionWithName:(NSString *)aTransitionName;
 
 - (MMEquation *)findEquationList:(NSString *)aListName named:(NSString *)anEquationName;
 - (void)findList:(int *)listIndex andIndex:(int *)equationIndex ofEquation:(MMEquation *)anEquation;
