@@ -442,29 +442,36 @@
 
     [eventList setRadiusMultiply:[radiusMultiplyField doubleValue]];
 
-    // TODO (2004-03-25): Should we set up the intonation parameters, like the hardware synthesis did?
-#if 1
-    //[eventList setIntonation:[intonationFlag state]];
     [self _takeIntonationParametersFromUI];
     [eventList setIntonationParameters:intonationParameters];
-#endif
 
     // This adds events to the EventList
     [self parsePhoneString:[stringTextField stringValue]];
 
     [eventList generateEventListWithModel:model];
-#if 1
+
     [eventList generateIntonationPoints];
+    [self continueSynthesisToSoundFile:shouldSaveToSoundFile];
+}
+
+- (IBAction)synthesizeWithContour:(id)sender;
+{
+    [eventList clearIntonationEvents];
+    [self continueSynthesisToSoundFile:NO];
+}
+
+- (void)continueSynthesisToSoundFile:(BOOL)shouldSaveToSoundFile;
+{
+    NSUserDefaults *defaults;
+
+    defaults = [NSUserDefaults standardUserDefaults];
+
     if ([defaults boolForKey:MDK_ShouldUseSmoothIntonation])
         [eventList applySmoothIntonation];
     else
         [eventList applyIntonation_fromIntonationView];
 
     [eventList setShouldUseSmoothIntonation:[defaults boolForKey:MDK_ShouldUseSmoothIntonation]];
-#else
-    // TODO (2004-03-25): What about checking for smooth intonation, like the hardware synthesis did?
-    [eventList applyIntonation_fromIntonationView];
-#endif
 
     [eventList printDataStructures:@"Before synthesis"];
     [eventTableView reloadData];
@@ -484,7 +491,6 @@
     [eventListView display]; // TODO (2004-03-17): It's not updating otherwise
 
     [[intonationView documentView] updateEvents];
-    [stringTextField selectText:self];
 }
 
 - (IBAction)generateContour:(id)sender;
@@ -781,12 +787,14 @@
 {
     [[self selectedIntonationPoint] setSemitone:[semitoneTextField doubleValue]];
     [[intonationView documentView] setNeedsDisplay:YES];
+    [self _updateSelectedPointDetails];
 }
 
 - (IBAction)setHertz:(id)sender;
 {
     [[self selectedIntonationPoint] setSemitoneInHertz:[hertzTextField doubleValue]];
     [[intonationView documentView] setNeedsDisplay:YES];
+    [self _updateSelectedPointDetails];
 }
 
 - (IBAction)setSlope:(id)sender;

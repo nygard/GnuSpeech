@@ -85,6 +85,8 @@
 - (IBAction)synthesizeToFile:(id)sender;
 - (void)synthesizeToSoundFile:(BOOL)shouldSaveToSoundFile;
 
+- (IBAction)synthesizeWithContour:(id)sender;
+- (void)continueSynthesisToSoundFile:(BOOL)shouldSaveToSoundFile;
 - (IBAction)generateContour:(id)sender;
 
 - (IBAction)generateGraphImages:(id)sender;

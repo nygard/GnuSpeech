@@ -211,4 +211,8 @@ struct _rule {
 - (void)applyIntonation_fromIntonationView;
 - (void)applySmoothIntonation;
 
+- (void)clearIntonationEvents;
+- (void)clearEventNumber:(int)number;
+- (void)removeEmptyEvents;
+
 @end

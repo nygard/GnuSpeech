@@ -223,3 +223,7 @@ des: [~ 12 ]> /Local/Public/nygard/Products/Monet.app/Contents/MacOS/Monet
 + alt-clicking to add point in special transition puts point in wrong location, too high. (2004-08-15) Fixed? by sharing more of TransitionView.
 - you should be able to set the free time value for a point in the transition view.
 - need better choice of default point type -- should be able to default to triphone after mark1.
+
+2004-08-16:
+- make sound filename accept "~"
+- show save sheet for synthesizing to sound file

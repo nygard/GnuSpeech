@@ -1200,4 +1200,27 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
     //NSLog(@"<  %s", _cmd);
 }
 
+- (void)clearIntonationEvents;
+{
+    [self clearEventNumber:32];
+    [self clearEventNumber:33];
+    [self clearEventNumber:34];
+    [self clearEventNumber:35];
+    [self removeEmptyEvents];
+}
+
+- (void)clearEventNumber:(int)number;
+{
+    unsigned int count, index;
+
+    count = [events count];
+    for (index = 0; index < count; index++)
+        [[events objectAtIndex:index] setValue:NaN ofIndex:number];
+}
+
+- (void)removeEmptyEvents;
+{
+    // TODO (2004-08-17): not yet implemented.
+}
+
 @end

@@ -35,6 +35,7 @@
                 showIntonationParameterWindow = id; 
                 showIntonationWindow = id; 
                 synthesizeToFile = id; 
+                synthesizeWithContour = id; 
                 synthesizeWithSoftware = id; 
                 updateDrift = id; 
                 updateMacroIntonation = id; 
