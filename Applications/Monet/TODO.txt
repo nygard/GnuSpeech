@@ -19,8 +19,17 @@
                 if (i==(-1))
     - I think it should be checking "j" for -1 value.
 - it looks like I'm getting different results when I load MonetBlank.monet twice in a row...
+- I can't load "Play2.monet".  It looks like there's a point encoded as "di" instead of "ddii".
 
 
 
 - make superclass for FormulaExpression, FormulaTerminal.  Check how this affects archiving.
 - make superclass for BooleanExpression, BooleanTerminal.  Check how this affects archiving.
+
+
+- would like from a working synthesizer/next machine:
+  - sample sound files of generated speech
+  - provide package contents as a standard tar file so we can look at the contents
+  - sample files for the software synthesizer to have it generate speech
+  - descriptions of what each of the ".monet" files is for/demonstrates.
+  - does "Play2.monet" load for them?

@@ -161,9 +161,34 @@
 
     //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
     archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
-    //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
+    NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
 
+#if 1
     [aDecoder decodeValuesOfObjCTypes:"ddii", &value, &freeTime, &type, &phantom];
+#else
+    // Hack to check "Play2.monet".
+    {
+        static int hack_count = 0;
+
+        hack_count++;
+        NSLog(@"hack_count: %d", hack_count);
+
+        NS_DURING {
+            if (hack_count >= 23) {
+                double valueOne;
+                int valueTwo;
+
+                [aDecoder decodeValuesOfObjCTypes:"di", &valueOne, &valueTwo];
+                NSLog(@"read: %g, %d", valueOne, valueTwo);
+            } else {
+                [aDecoder decodeValuesOfObjCTypes:"ddii", &value, &freeTime, &type, &phantom];
+            }
+        } NS_HANDLER {
+            NSLog(@"Caught exception: %@", localException);
+            return nil;
+        } NS_ENDHANDLER;
+    }
+#endif
     //NSLog(@"value: %g, freeTime: %g, type: %d, phantom: %d", value, freeTime, type, phantom);
 
     [aDecoder decodeValuesOfObjCTypes:"ii", &i, &j];
@@ -178,6 +203,7 @@
 
 - (void)encodeWithCoder:(NSCoder *)aCoder;
 {
+#ifdef PORTING
     int i, j;
     id prototypeManager = NXGetNamedObject(@"prototypeManager", NSApp);
 
@@ -185,6 +211,7 @@
 
     [prototypeManager findList:&i andIndex:&j ofEquation:expression];
     [aCoder encodeValuesOfObjCTypes:"ii", &i, &j];
+#endif
 }
 
 - (NSString *)description;
