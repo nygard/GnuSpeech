@@ -39,7 +39,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         return nil;
 
     timesFont = [[NSFont fontWithName:@"Times-Roman" size:12] retain];
-    currentTemplate = nil;
+    transition = nil;
 
     samplePostures = [[NSMutableArray alloc] init];
     displayPoints = [[NSMutableArray alloc] init];
@@ -61,11 +61,16 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 - (void)dealloc;
 {
     [timesFont release];
+    [transition release];
+
     [samplePostures release];
     [displayPoints release];
     [displaySlopes release];
     [selectedPoints release];
+
+    [editingSlope release];
     [textFieldCell release];
+    [model release];
 
     [super dealloc];
 }
@@ -358,8 +363,8 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 
     cache = [[self model] nextCacheTag];
 
-    if (currentTemplate)
-        type = [currentTemplate type];
+    if (transition)
+        type = [transition type];
     else
         type = MMPhoneTypeDiphone;
 
@@ -400,8 +405,8 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     bounds = NSIntegralRect([self bounds]);
     graphOrigin = [self graphOrigin];
 
-    if (currentTemplate)
-        type = [currentTemplate type];
+    if (transition)
+        type = [transition type];
     else
         type = MMPhoneTypeDiphone;
 
@@ -459,7 +464,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     NSMutableArray *diphonePoints, *triphonePoints, *tetraphonePoints;
     int cache;
 
-    if (currentTemplate == nil)
+    if (transition == nil)
         return;
 
     [[NSColor blackColor] set];
@@ -474,7 +479,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 
     cache = [[self model] nextCacheTag];
 
-    currentPoints = [currentTemplate points];
+    currentPoints = [transition points];
     count = [currentPoints count];
     for (index = 0; index < count; index++) {
         currentPoint = [currentPoints objectAtIndex:index];
@@ -672,7 +677,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
             [newPoint setValue:newValue];
             if ([[self delegate] respondsToSelector:@selector(transitionView:shouldAddPoint:)] == NO
                 || [[self delegate] transitionView:self shouldAddPoint:newPoint] == YES) {
-                [currentTemplate insertPoint:newPoint];
+                [transition insertPoint:newPoint];
                 [selectedPoints removeAllObjects];
                 [selectedPoints addObject:newPoint];
             }
@@ -830,8 +835,8 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     graphOrigin = [self graphOrigin];
     rect.origin.y = [self slopeMarkerYPosition];
 
-    for (i = 0; i < [[currentTemplate points] count]; i++) {
-        currentPoint = [[currentTemplate points] objectAtIndex:i];
+    for (i = 0; i < [[transition points] count]; i++) {
+        currentPoint = [[transition points] objectAtIndex:i];
         if ([currentPoint isKindOfClass:[MMSlopeRatio class]]) {
             //NSLog(@"%d: Drawing slope ratio...", i);
             start = graphOrigin.x + [currentPoint startTime] * timeScale;
@@ -957,7 +962,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 
     //NSLog(@"ClickSlopeMarker Row: %f  Col: %f  time = %f", aPoint.y, aPoint.x, tempTime);
 
-    points = [currentTemplate points];
+    points = [transition points];
     for (i = 0; i < [points count]; i++) {
         currentMMSlopeRatio = [points objectAtIndex:i];
         if ([currentMMSlopeRatio isKindOfClass:[MMSlopeRatio class]]) {
@@ -995,8 +1000,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     str = [nonretained_fieldEditor string];
 
     [editingSlope setSlope:[str floatValue]];
-    [editingSlope release];
-    editingSlope = nil;
+    [self _setEditingSlope:nil];
 
     [nonretained_fieldEditor removeFromSuperview];
     nonretained_fieldEditor = nil;
@@ -1085,15 +1089,15 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     int i;
     MMPoint *tempPoint;
 
-    if (currentTemplate == nil || [selectedPoints count] == 0) {
+    if (transition == nil || [selectedPoints count] == 0) {
         NSBeep();
         return;
     }
 
     for (i = 0; i < [selectedPoints count]; i++) {
         tempPoint = [selectedPoints objectAtIndex:i];
-        if ([[currentTemplate points] indexOfObject:tempPoint]) {
-            [[currentTemplate points] removeObject:tempPoint];
+        if ([[transition points] indexOfObject:tempPoint]) {
+            [[transition points] removeObject:tempPoint];
         }
     }
 
@@ -1124,7 +1128,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         }
     }
 
-    tempPoints = [currentTemplate points];
+    tempPoints = [transition points];
 
     index = [tempPoints indexOfObject:[selectedPoints objectAtIndex:0]];
     for (i = 0; i < [selectedPoints count]; i++)
@@ -1148,7 +1152,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 
 - (MMTransition *)transition;
 {
-    return currentTemplate;
+    return transition;
 }
 
 - (void)setTransition:(MMTransition *)newTransition;
@@ -1160,12 +1164,12 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     [displaySlopes removeAllObjects];
 
     // In case we've changed the type of the transition
-    if (newTransition != currentTemplate) {
-        [currentTemplate release];
-        currentTemplate = [newTransition retain];
+    if (newTransition != transition) {
+        [transition release];
+        transition = [newTransition retain];
     }
 
-    switch ([currentTemplate type]) {
+    switch ([transition type]) {
       case MMPhoneTypeDiphone:
           [self setRuleDuration:100];
           [self setBeatLocation:33];

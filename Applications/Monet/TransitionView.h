@@ -31,7 +31,7 @@ extern NSString *TransitionViewSelectionDidChangeNotification;
 
     NSFont *timesFont;
 
-    MMTransition *currentTemplate;
+    MMTransition *transition;
 
     NSMutableArray *samplePostures;
     NSMutableArray *displayPoints;

@@ -124,7 +124,7 @@
     NSMutableArray *diphonePoints, *triphonePoints, *tetraphonePoints;
     int cache;
 
-    if (currentTemplate == nil)
+    if (transition == nil)
         return;
 
     [[NSColor blackColor] set];
@@ -138,7 +138,7 @@
 
     cache = [[self model] nextCacheTag];
 
-    currentPoints = [currentTemplate points];
+    currentPoints = [transition points];
     count = [currentPoints count];
     for (index = 0; index < count; index++) {
         currentPoint = [currentPoints objectAtIndex:index];
@@ -319,7 +319,7 @@
 
             //NSLog(@"NewPoint Time: %f  value: %f", [tempPoint freeTime], [tempPoint value]);
             [newPoint setValue:newValue];
-            if ([currentTemplate insertPoint:newPoint]) {
+            if ([transition insertPoint:newPoint]) {
                 [selectedPoint release];
                 selectedPoint = [newPoint retain];
             }
