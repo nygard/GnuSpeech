@@ -190,7 +190,7 @@
     parms = NXGetNamedObject(@"mainParameterList", NSApp);
     metaParms = NXGetNamedObject(@"mainMetaParameterList", NSApp);
 
-    symbolIndex = [symbols findSymbolIndex:"duration"];
+    symbolIndex = [symbols findSymbolIndex:@"duration"];
 
     if (symbolIndex == -1) {
         [symbols addNewValue:@"duration"];
