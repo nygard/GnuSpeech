@@ -11,11 +11,6 @@
 #import "MXMLParser.h"
 #import "MXMLPCDataDelegate.h"
 
-/*===========================================================================
-
-
-===========================================================================*/
-
 @implementation NamedList
 
 - (id)initWithCapacity:(unsigned)numSlots;
