@@ -174,8 +174,6 @@
     MMParameter *selectedParameter;
     MMTarget *selectedTarget;
 
-    NSLog(@" > %s", _cmd);
-
     selectedRow = [parameterTableView selectedRow];
     selectedParameter = [[[self model] parameters] objectAtIndex:selectedRow];
     assert(selectedParameter != nil);
@@ -185,20 +183,40 @@
 
     [selectedTarget setValue:[selectedParameter defaultValue]];
     [self updateViews];
-
-    NSLog(@"<  %s", _cmd);
 }
 
 - (IBAction)useDefaultValueForMetaParameter:(id)sender;
 {
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
+    int selectedRow;
+    MMParameter *selectedParameter;
+    MMTarget *selectedTarget;
+
+    selectedRow = [metaParameterTableView selectedRow];
+    selectedParameter = [[[self model] metaParameters] objectAtIndex:selectedRow];
+    assert(selectedParameter != nil);
+
+    selectedTarget = [[[self selectedPosture] metaParameterList] objectAtIndex:selectedRow];
+    assert(selectedTarget != nil);
+
+    [selectedTarget setValue:[selectedParameter defaultValue]];
+    [self updateViews];
 }
 
 - (IBAction)useDefaultValueForSymbol:(id)sender;
 {
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
+    int selectedRow;
+    MMSymbol *selectedSymbol;
+    MMTarget *selectedTarget;
+
+    selectedRow = [symbolTableView selectedRow];
+    selectedSymbol = [[[self model] symbols] objectAtIndex:selectedRow];
+    assert(selectedSymbol != nil);
+
+    selectedTarget = [[[self selectedPosture] symbolList] objectAtIndex:selectedRow];
+    assert(selectedTarget != nil);
+
+    [selectedTarget setValue:[selectedSymbol defaultValue]];
+    [self updateViews];
 }
 
 //
