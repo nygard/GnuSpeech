@@ -445,6 +445,7 @@
 
         // TODO (2004-03-22): Need to do something to ensure unique names.
         newTransition = [[MMTransition alloc] initWithName:@"Untitled"];
+        [newTransition addInitialPoint];
         [targetGroup addObject:newTransition];
         [transitionOutlineView reloadItem:targetGroup reloadChildren:YES];
 
@@ -517,6 +518,7 @@
 
         // TODO (2004-03-22): Need to do something to ensure unique names.
         newTransition = [[MMTransition alloc] initWithName:@"Untitled"];
+        [newTransition addInitialPoint];
         [targetGroup addObject:newTransition];
         [specialTransitionOutlineView reloadItem:targetGroup reloadChildren:YES];
 

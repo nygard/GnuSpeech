@@ -26,6 +26,8 @@
 - (id)initWithName:(NSString *)newName;
 - (void)dealloc;
 
+- (void)addInitialPoint;
+
 - (NamedList *)group;
 - (void)setGroup:(NamedList *)newGroup;
 

@@ -21,8 +21,6 @@
 
 - (id)init;
 {
-    MMPoint *aPoint;
-
     if ([super init] == nil)
         return nil;
 
@@ -30,13 +28,6 @@
     comment = nil;
     type = MMPhoneTypeDiphone;
     points = [[MonetList alloc] init];
-
-    aPoint = [[MMPoint alloc] init];
-    [aPoint setType:MMPhoneTypeDiphone];
-    [aPoint setFreeTime:0.0];
-    [aPoint setValue:0.0];
-    [points addObject:aPoint];
-    [aPoint release];
 
     return self;
 }
@@ -58,6 +49,18 @@
     [points release];
 
     [super dealloc];
+}
+
+- (void)addInitialPoint;
+{
+    MMPoint *aPoint;
+
+    aPoint = [[MMPoint alloc] init];
+    [aPoint setType:MMPhoneTypeDiphone];
+    [aPoint setFreeTime:0.0];
+    [aPoint setValue:0.0];
+    [self addPoint:aPoint];
+    [aPoint release];
 }
 
 - (NamedList *)group;

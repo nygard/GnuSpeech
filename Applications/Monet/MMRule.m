@@ -11,7 +11,9 @@
 #import "MMParameter.h"
 #import "ParameterList.h"
 #import "MMEquation.h"
+#import "MMSymbol.h"
 #import "MMTransition.h"
+#import "SymbolList.h"
 
 #import "MModel.h"
 #import "MUnarchiver.h"
@@ -278,20 +280,59 @@
     ParameterList *parameters;
     unsigned int count, index;
     MMParameter *parameter;
-    NSString *name;
+    NSString *transitionName;
     MMTransition *transition;
 
+    //NSLog(@"%s, dict: %@", _cmd, [dict description]);
     parameters = [[self model] parameters];
 
     count = [parameters count];
     for (index = 0; index < count; index++) {
         parameter = [parameters objectAtIndex:index];
-        name = [dict objectForKey:[parameter symbol]];
-        transition = [[self model] findTransitionWithName:name];
-        if (transition != nil) {
-            [self setSpecialProfile:index to:transition];
+        transitionName = [dict objectForKey:[parameter symbol]];
+        if (transitionName != nil) {
+            //NSLog(@"parameter: %@, transition name: %@", [parameter symbol], transitionName);
+            transition = [[self model] findSpecialTransitionWithName:transitionName];
+            if (transition == nil) {
+                NSLog(@"Error: Can't find transition named: %@", transitionName);
+            } else {
+                [self setSpecialProfile:index to:transition];
+            }
         }
     }
+}
+
+- (void)addStoredExpressionSymbol:(MMEquation *)anEquation;
+{
+    [expressionSymbols addObject:anEquation];
+}
+
+- (void)addExpressionSymbolsFromReferenceDictionary:(NSDictionary *)dict;
+{
+    NSArray *symbols;
+    unsigned int count, index;
+    NSString *symbolName, *equationName;
+    MMEquation *equation;
+
+    symbols = [[NSArray alloc] initWithObjects:@"rd", @"beat", @"mark1", @"mark2", @"mark3", nil];
+
+    count = [symbols count];
+    for (index = 0; index < count; index++) {
+
+        symbolName = [symbols objectAtIndex:index];
+        equationName = [dict objectForKey:symbolName];
+        if (equationName == nil)
+            break;
+
+        equation = [[self model] findEquationWithName:equationName];
+        if (equation == nil) {
+            NSLog(@"Error: Can't find equation named: %@", equationName);
+        } else {
+            [self addStoredExpressionSymbol:equation];
+        }
+    }
+
+    [symbols release];
 }
 
 - (void)setExpression:(MMBooleanNode *)newExpression number:(int)index;
@@ -758,11 +799,11 @@
 - (NSString *)expressionSymbolNameAtIndex:(int)index;
 {
     switch (index) {
-      case 0: return @"Rule Duration";
-      case 1: return @"Beat";
-      case 2: return @"Mark 1";
-      case 3: return @"Mark 2";
-      case 4: return @"Mark 3";
+      case 0: return @"rd";
+      case 1: return @"beat";
+      case 2: return @"mark1";
+      case 3: return @"mark2";
+      case 4: return @"mark3";
     }
 
     return nil;
@@ -828,9 +869,13 @@
                                                                delegate:self addObjectsSelector:@selector(addSpecialProfilesFromReferenceDictionary:)];
         [(MXMLParser *)parser pushDelegate:newDelegate];
         [newDelegate release];
-#if 0
     } else if ([elementName isEqualToString:@"expression-symbols"]) {
-#endif
+        MXMLReferenceDictionaryDelegate *newDelegate;
+
+        newDelegate = [[MXMLReferenceDictionaryDelegate alloc] initWithChildElementName:@"symbol-equation" keyAttributeName:@"name" referenceAttributeName:@"equation"
+                                                               delegate:self addObjectsSelector:@selector(addExpressionSymbolsFromReferenceDictionary:)];
+        [(MXMLParser *)parser pushDelegate:newDelegate];
+        [newDelegate release];
     } else {
         NSLog(@"%@, Unknown element: '%@', skipping", [self shortDescription], elementName);
         [(MXMLParser *)parser skipTree];

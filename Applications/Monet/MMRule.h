@@ -40,6 +40,9 @@
 
 - (void)addSpecialProfilesFromReferenceDictionary:(NSDictionary *)dict;
 
+- (void)addStoredExpressionSymbol:(MMEquation *)anEquation;
+- (void)addExpressionSymbolsFromReferenceDictionary:(NSDictionary *)dict;
+
 - (void)setExpression:(MMBooleanNode *)newExpression number:(int)index;
 - (int)numberExpressions;
 - (MMBooleanNode *)getExpressionNumber:(int)index;
