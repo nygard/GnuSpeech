@@ -80,7 +80,6 @@ struct _rule {
     double pitchMean;
     double globalTempo;
     double multiplier;
-    //float *intonParms;
     struct _intonationParameters intonationParameters;
 
     /* NOTE phones and phoneTempo are separate for Optimization reasons */
@@ -102,7 +101,6 @@ struct _rule {
     double min[16];
     double max[16];
 
-    // Moved from IntonationView
     NSMutableArray *intonationPoints;
 
     id delegate;
@@ -154,8 +152,6 @@ struct _rule {
 - (BOOL)shouldUseSmoothIntonation;
 - (void)setShouldUseSmoothIntonation:(BOOL)newValue;
 
-//- (float *)intonParms;
-//- (void)setIntonParms:(float *)newValue;
 - (struct _intonationParameters)intonationParameters;
 - (void)setIntonationParameters:(struct _intonationParameters)newIntonationParameters;
 
