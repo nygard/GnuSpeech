@@ -157,18 +157,29 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
 
 - (void)addParameters:(float *)values;
 {
+    double dvalues[16];
     double radius[TOTAL_REGIONS];
 
+    {
+        int index;
+        char buf[100];
+
+        for (index = 0; index < 16; index++) {
+            sprintf(buf, "%.3f", values[index]);
+            dvalues[index] = strtod(buf, NULL);
+        }
+    }
+
     // TODO (2004-05-07): I don't think the last two are used!
-    radius[0] = values[7];
-    radius[1] = values[8];
-    radius[2] = values[9];
-    radius[3] = values[10];
-    radius[4] = values[11];
-    radius[5] = values[12];
-    radius[6] = values[13];
-    radius[7] = values[14];
-    addInput(inputData, values[0], values[1], values[2], values[3], values[4], values[5], values[6], radius, values[15]);
+    radius[0] = dvalues[7];
+    radius[1] = dvalues[8];
+    radius[2] = dvalues[9];
+    radius[3] = dvalues[10];
+    radius[4] = dvalues[11];
+    radius[5] = dvalues[12];
+    radius[6] = dvalues[13];
+    radius[7] = dvalues[14];
+    addInput(inputData, dvalues[0], dvalues[1], dvalues[2], dvalues[3], dvalues[4], dvalues[5], dvalues[6], radius, dvalues[15]);
 }
 
 - (void)synthesize;
