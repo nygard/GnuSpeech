@@ -1549,6 +1549,18 @@
 			settings = {
 			};
 		};
+		0195DE1F05F5A407006D8386 = {
+			fileRef = 0195DB3605F46E4E006D8386;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0195DE2505F5A408006D8386 = {
+			fileRef = 0195DB3705F46E4E006D8386;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 //010
 //011
 //012
@@ -1920,6 +1932,7 @@
 				0195DDCD05F578D3006D8386,
 				0195DDF105F579EB006D8386,
 				0195DDFF05F57B29006D8386,
+				0195DE1F05F5A407006D8386,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1997,6 +2010,7 @@
 				0195DDD305F578D4006D8386,
 				0195DDF605F579EB006D8386,
 				0195DE0505F57B2A006D8386,
+				0195DE2505F5A408006D8386,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

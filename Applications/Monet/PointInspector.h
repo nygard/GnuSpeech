@@ -1,6 +1,8 @@
 #import <Foundation/NSObject.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
+@class GSMPoint;
+
 /*===========================================================================
 
 	Author: Craig-Richard Taube-Schock
@@ -23,45 +25,43 @@ History:
 
 @interface PointInspector:NSObject
 {
-	id	mainInspector;
-	id	popUpListView;
-	id	popUpList;
+    id mainInspector;
+    id popUpListView;
+    id popUpList;
 
-	id	multipleListView;
+    id multipleListView;
 
-	id	valueBox;
-	id	valueField;
-	id	phantomSwitch;
+    id valueBox;
+    id valueField;
+    id phantomSwitch;
 
-	id	type1Button;
-	id	type2Button;
-	id	type3Button;
+    id type1Button;
+    id type2Button;
+    id type3Button;
 
-	id	expressionBrowser;
-	id	currentTimingField;
+    id expressionBrowser;
+    id currentTimingField;
 
-	Point	*currentPoint;
-
+    GSMPoint *currentPoint;
 }
 
-- init;
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 
 - (void)inspectPoint:point;
-- (void)setUpWindow:sender;
+- (void)setUpWindow:(id)sender;
 - (void)beginEditting;
 
-- (void)browserHit:sender;
-- (void)browserDoubleHit:sender;
+- (void)browserHit:(id)sender;
+- (void)browserDoubleHit:(id)sender;
 
 - (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
 
-- (void)setValue:sender;
-- (void)setType1:sender;
-- (void)setType2:sender;
-- (void)setType3:sender;
+- (void)setValue:(id)sender;
+- (void)setType1:(id)sender;
+- (void)setType2:(id)sender;
+- (void)setType3:(id)sender;
 
-- (void)setPhantom:sender;
+- (void)setPhantom:(id)sender;
 
 @end
