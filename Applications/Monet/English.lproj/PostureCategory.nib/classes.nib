@@ -1,0 +1,13 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = MPostureCategoryController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {postureCategoryTableView = NSTableView; }; 
+            SUPERCLASS = MWindowController; 
+        }, 
+        {CLASS = MWindowController; LANGUAGE = ObjC; SUPERCLASS = NSWindowController; }
+    ); 
+    IBVersion = 1; 
+}

@@ -9,10 +9,14 @@
                 loadPrototypes = id; 
                 openFile = id; 
                 printData = id; 
+                revertDocumentToSaved = id; 
+                saveDocument = id; 
+                saveDocumentAs = id; 
                 savePrototypes = id; 
                 showIntonationParameterWindow = id; 
                 showIntonationWindow = id; 
                 showNewDataEntryWindow = id; 
+                showPostureCategoryWindow = id; 
                 showPostureEditor = id; 
                 showPrototypeManager = id; 
                 showRuleManager = id; 

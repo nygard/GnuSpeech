@@ -12,6 +12,7 @@
 #import "MDocument.h"
 #import "MMPosture.h"
 #import "MMTarget.h"
+#import "MPostureCategoryController.h"
 #import "MPostureEditor.h"
 #import "MPrototypeManager.h"
 #import "MRuleManager.h"
@@ -99,6 +100,7 @@
     [self setFilename:nil];
 
     [[self dataEntryController] showWindowIfVisibleOnLaunch];
+    [[self postureCategoryController] showWindowIfVisibleOnLaunch];
     [[self postureEditor] showWindowIfVisibleOnLaunch];
     [[self prototypeManager] showWindowIfVisibleOnLaunch];
     [[self transitionEditor] showWindowIfVisibleOnLaunch];
@@ -115,6 +117,7 @@
 {
     // I think this will be more reliable that using -windowWillClose:, since the windows do close when the app terminates...
     [[self dataEntryController] saveWindowIsVisibleOnLaunch];
+    [[self postureCategoryController] saveWindowIsVisibleOnLaunch];
     [[self postureEditor] saveWindowIsVisibleOnLaunch];
     [[self prototypeManager] saveWindowIsVisibleOnLaunch];
     [[self transitionEditor] saveWindowIsVisibleOnLaunch];
@@ -265,6 +268,7 @@
     model = [newModel retain];
 
     [dataEntryController setModel:model];
+    [postureCategoryController setModel:model];
     [postureEditor setModel:model];
     [prototypeManager setModel:model];
     [transitionEditor setModel:model];
@@ -489,6 +493,21 @@
     [self dataEntryController]; // Make sure it's been created
     [dataEntryController setModel:model];
     [dataEntryController showWindow:self];
+}
+
+- (MPostureCategoryController *)postureCategoryController;
+{
+    if (postureCategoryController == nil)
+        postureCategoryController = [[MPostureCategoryController alloc] initWithModel:model];
+
+    return postureCategoryController;
+}
+
+- (IBAction)showPostureCategoryWindow:(id)sender;
+{
+    [self postureCategoryController]; // Make sure it's been created
+    [postureCategoryController setModel:model];
+    [postureCategoryController showWindow:self];
 }
 
 - (MPostureEditor *)postureEditor;

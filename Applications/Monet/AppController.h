@@ -21,8 +21,8 @@ History:
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 @class MModel, MMTransition;
-@class MDataEntryController, MPostureEditor, MPrototypeManager, MRuleManager, MRuleTester, MSpecialTransitionEditor;
-@class MSynthesisController, MSynthesisParameterEditor, MTransitionEditor;
+@class MDataEntryController, MPostureCategoryController, MPostureEditor, MPrototypeManager, MRuleManager, MRuleTester;
+@class MSpecialTransitionEditor, MSynthesisController, MSynthesisParameterEditor, MTransitionEditor;
 
 @interface AppController : NSObject
 {
@@ -32,6 +32,7 @@ History:
     MModel *model;
 
     MDataEntryController *dataEntryController;
+    MPostureCategoryController *postureCategoryController;
     MPostureEditor *postureEditor;
     MPrototypeManager *prototypeManager;
     MTransitionEditor *transitionEditor;
@@ -76,6 +77,9 @@ History:
 
 - (MDataEntryController *)dataEntryController;
 - (IBAction)showNewDataEntryWindow:(id)sender;
+
+- (MPostureCategoryController *)postureCategoryController;
+- (IBAction)showPostureCategoryWindow:(id)sender;
 
 - (MPostureEditor *)postureEditor;
 - (IBAction)showPostureEditor:(id)sender;
