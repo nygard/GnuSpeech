@@ -4,8 +4,14 @@
 #import "TRMSynthesizer.h"
 
 #import <Foundation/Foundation.h>
+#ifndef GNUSTEP
 #import <CoreAudio/CoreAudio.h>
 #import <AudioToolbox/AudioToolbox.h>
+#else
+#import <AppKit/NSSound.h>
+#import <AppKit/NSGraphics.h>
+#import <Foundation/NSAutoreleasePool.h>
+#endif
 #import "MMSynthesisParameters.h"
 #include "input.h"
 #include "output.h"
@@ -29,14 +35,18 @@ typedef struct {
 }
 @end
 
+#ifndef GNUSTEP
 int verbose = 0;
+#endif
 
+#ifndef GNUSTEP
 OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlags, const AudioTimeStamp *inTimeStamp, UInt32 inBusNumber, AudioBuffer *ioData)
 {
     [(TRMSynthesizer *)inRefCon fillBuffer:ioData];
 
     return kAudioHardwareNoError;
 }
+#endif
 
 @implementation TRMSynthesizer
 
@@ -58,7 +68,9 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
 
     soundData = [[NSMutableData alloc] init];
 
+#ifndef GNUSTEP
     [self setupSoundDevice];
+#endif
 
     return self;
 }
@@ -168,6 +180,7 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
         inputData->inputParameters.mixOffset = strtod(buf, NULL);
     }
 
+#ifndef GNUSTEP
     {
         OSStatus result;
         UInt32 count;
@@ -206,6 +219,8 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
             //NSLog(@"It worked! (setting the stream data format)");
         }
     }
+#endif
+
 }
 
 - (void)removeAllParameters;
@@ -372,9 +387,17 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
 
 - (void)startPlaying;
 {
+#ifndef GNUSTEP
     AudioOutputUnitStart(outputUnit);
+#else
+    CREATE_AUTORELEASE_POOL(pool);
+    NSSound *sound = [[NSSound alloc] initWithData: soundData];
+    [sound play];
+    RELEASE(pool);
+#endif
 }
 
+#ifndef GNUSTEP
 - (void)stopPlaying;
 {
     AudioOutputUnitStop(outputUnit);
@@ -485,5 +508,6 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
     if (bufferIndex >= bufferLength)
         [self stopPlaying];
 }
+#endif
 
 @end
