@@ -6,6 +6,9 @@
 #import <Foundation/Foundation.h>
 #import "MModel.h"
 
+#import "MMFileConverter.h"
+#import "MMVersion2Upgrader.h"
+
 @implementation MDocument
 
 - (void)dealloc;
@@ -56,6 +59,8 @@
 {
     NSXMLNode *versionAttribute;
     MModel *newModel;
+    //MMFileConverter *converter;
+    //BOOL result;
 
     NSLog(@" > %s", _cmd);
     NSLog(@"root name: %@", [rootElement name]);
@@ -63,8 +68,16 @@
     NSLog(@"versionAttribute: %@", versionAttribute);
     NSLog(@"string value: %@", [versionAttribute stringValue]);
     NSLog(@"object value: %@", [versionAttribute objectValue]);
+#if 0
+    converter = [[MMVersion2Upgrader alloc] init];
+    result = [converter upgradeDocument:[rootElement rootDocument]];
+    NSLog(@"upgrade result: %d", result);
+    [converter release];
+#endif
+    if ([[versionAttribute objectValue] intValue] != [MModel currentVersion])
+        [self upgradeDocument:[rootElement rootDocument]];
 
-    if ([[versionAttribute objectValue] intValue] != 1) {
+    if ([[versionAttribute objectValue] intValue] != [MModel currentVersion]) {
         // TODO (2004-09-03): This would be responsible for upgrading from earlier versions.  Might need document node instead of root element.
         NSLog(@"wrong version.");
         return NO;
@@ -79,6 +92,31 @@
     NSLog(@"<  %s", _cmd);
 
     return YES;
+}
+
+- (void)upgradeDocument:(NSXMLDocument *)document;
+{
+    Class converterClass;
+    MMFileConverter *converter;
+    int sourceVersion;
+    BOOL result;
+
+    NSLog(@" > %s", _cmd);
+
+    do {
+        sourceVersion = [[[[document rootElement] attributeForName:@"version"] stringValue] intValue];
+        converterClass = [MMFileConverter fileConverterFromVersion:sourceVersion];
+        converter = [[[converterClass alloc] init] autorelease];
+        NSLog(@"converter: %@", converter);
+        if (converter == nil)
+            break;
+
+        result = [converter upgradeDocument:document];
+        if (result == YES)
+            NSLog(@"Upgraded from version %d to %d", sourceVersion, [converter targetVersion]);
+    } while (result == YES && [converter targetVersion] < [MModel currentVersion]);
+
+    NSLog(@"<  %s", _cmd);
 }
 
 @end

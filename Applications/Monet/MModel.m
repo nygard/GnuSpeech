@@ -36,6 +36,11 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 @implementation MModel
 
++ (int)currentVersion;
+{
+    return 1;
+}
+
 - (id)init;
 {
     if ([super init] == nil)

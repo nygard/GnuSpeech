@@ -27,6 +27,8 @@ extern NSString *MCategoryInUseException;
     MMSynthesisParameters *synthesisParameters;
 }
 
++ (int)currentVersion;
+
 - (id)init;
 - (void)dealloc;
 

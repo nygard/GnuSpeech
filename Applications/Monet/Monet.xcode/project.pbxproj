@@ -3904,6 +3904,75 @@
 			settings = {
 			};
 		};
+		01FCDE7D06EC2A3900B30D3D = {
+			children = (
+				01FCDE8006EC2A6D00B30D3D,
+				01FCDE8106EC2A6D00B30D3D,
+				01FCDE9906EC2DD200B30D3D,
+				01FCDE9A06EC2DD200B30D3D,
+			);
+			isa = PBXGroup;
+			name = "XML Version Upgrader";
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDE8006EC2A6D00B30D3D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = MMFileConverter.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDE8106EC2A6D00B30D3D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = MMFileConverter.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDE8206EC2A6D00B30D3D = {
+			fileRef = 01FCDE8006EC2A6D00B30D3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01FCDE8306EC2A6D00B30D3D = {
+			fileRef = 01FCDE8106EC2A6D00B30D3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01FCDE9906EC2DD200B30D3D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = MMVersion2Upgrader.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDE9A06EC2DD200B30D3D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = MMVersion2Upgrader.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDE9B06EC2DD200B30D3D = {
+			fileRef = 01FCDE9906EC2DD200B30D3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01FCDE9C06EC2DD200B30D3D = {
+			fileRef = 01FCDE9A06EC2DD200B30D3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 //010
 //011
 //012
@@ -3924,6 +3993,7 @@
 				0195D8E005F3D3F9006D8386,
 				0195DB9A05F46EE1006D8386,
 				0195DB0405F46DB6006D8386,
+				01FCDE7D06EC2A3900B30D3D,
 			);
 			isa = PBXGroup;
 			name = Classes;
@@ -4360,6 +4430,8 @@
 				01FCDE3806EBFBE900B30D3D,
 				01FCDE3A06EBFBE900B30D3D,
 				01FCDE3C06EBFBE900B30D3D,
+				01FCDE8206EC2A6D00B30D3D,
+				01FCDE9B06EC2DD200B30D3D,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4512,6 +4584,8 @@
 				01FCDE3906EBFBE900B30D3D,
 				01FCDE3B06EBFBE900B30D3D,
 				01FCDE3D06EBFBE900B30D3D,
+				01FCDE8306EC2A6D00B30D3D,
+				01FCDE9C06EC2DD200B30D3D,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

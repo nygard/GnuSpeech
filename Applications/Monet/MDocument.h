@@ -18,7 +18,6 @@
 - (BOOL)loadFromXMLFile:(NSString *)filename;
 - (BOOL)loadFromRootElement:(NSXMLElement *)rootElement;
 
-#if 0
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-#endif
+- (void)upgradeDocument:(NSXMLDocument *)document;
+
 @end
