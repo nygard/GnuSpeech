@@ -52,6 +52,17 @@
     return [[NSCharacterSet uppercaseLetterCharacterSet] characterIsMember:[self characterAtIndex:letterRange.location]];
 }
 
+- (BOOL)hasPrefix:(NSString *)aString ignoreCase:(BOOL)shouldIgnoreCase;
+{
+    NSRange range;
+
+    if (shouldIgnoreCase == NO)
+        return [self hasPrefix:aString];
+
+    range = [self rangeOfString:aString options:NSCaseInsensitiveSearch|NSAnchoredSearch];
+    return range.location != NSNotFound;
+}
+
 + (NSString *)stringWithASCIICString:(const char *)bytes;
 {
     if (bytes == NULL)

@@ -12,6 +12,7 @@
 + (NSString *)stringWithUnichar:(unichar)character;
 
 - (BOOL)isFirstLetterUppercase;
+- (BOOL)hasPrefix:(NSString *)aString ignoreCase:(BOOL)shouldIgnoreCase;
 
 + (NSString *)stringWithASCIICString:(const char *)bytes;
 
