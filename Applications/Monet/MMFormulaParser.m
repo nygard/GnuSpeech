@@ -1,8 +1,8 @@
-#import "FormulaParser.h"
+#import "MMFormulaParser.h"
 
 #import <Foundation/Foundation.h>
 #import "NSScanner-Extensions.h"
-#import "FormulaSymbols.h"
+#import "MMFormulaSymbols.h"
 #import "MMFormulaExpression.h"
 #import "MMFormulaTerminal.h"
 #import "MMSymbol.h"

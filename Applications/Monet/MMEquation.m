@@ -4,9 +4,9 @@
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
 
-#import "FormulaParser.h"
 #import "GSXMLFunctions.h"
 #import "MMFormulaNode.h"
+#import "MMFormulaParser.h"
 #import "MModel.h"
 #import "MMOldFormulaNode.h"
 #import "MUnarchiver.h"

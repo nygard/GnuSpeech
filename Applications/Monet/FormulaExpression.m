@@ -2,7 +2,8 @@
 
 #import <Foundation/Foundation.h>
 #import "NSObject-Extensions.h"
-#import "FormulaSymbols.h"
+
+#import "MMFormulaSymbols.h"
 
 @implementation FormulaExpression
 

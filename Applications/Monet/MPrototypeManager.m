@@ -6,14 +6,14 @@
 #import <AppKit/AppKit.h>
 #import "NSOutlineView-Extensions.h"
 
-#import "FormulaExpression.h"
-#import "FormulaParser.h"
 #import "MCommentCell.h"
 #import "MMEquation.h"
+#import "MMFormulaExpression.h"
+#import "MMFormulaParser.h"
 #import "MModel.h"
+#import "MMTransition.h"
 #import "MonetList.h"
 #import "NamedList.h"
-#import "MMTransition.h"
 #import "SpecialView.h"
 #import "TransitionView.h"
 
@@ -379,7 +379,7 @@
 
 - (IBAction)setEquation:(id)sender;
 {
-    FormulaExpression *result;
+    MMFormulaExpression *result;
     NSString *str;
 
     result = [formulaParser parseString:[equationTextView string]];
