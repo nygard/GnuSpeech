@@ -1058,7 +1058,7 @@ static NSImage *_selectionBox = nil;
     [[controller inspector] cleanInspectorWindow];
     [selectedPoints removeAllObjects];
 
-    [self display];
+    [self setNeedsDisplay:YES];
 }
 
 
@@ -1097,7 +1097,7 @@ static NSImage *_selectionBox = nil;
     [tempPoints insertObject:tempSlopeRatio atIndex:index];
     [tempSlopeRatio release];
 
-    [self display];
+    [self setNeedsDisplay:YES];
 }
 
 - (IBAction)updateControlParameter:(id)sender;

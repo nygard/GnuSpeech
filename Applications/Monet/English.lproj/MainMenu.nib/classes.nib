@@ -18,6 +18,8 @@
                 dataBrowser = BrowserManager; 
                 defaultManager = DefaultMgr; 
                 eventListView = EventListView; 
+                infoPanel = NSPanel; 
+                inspectorController = Inspector; 
                 intonationView = IntonationView; 
                 phonesWindow = NSWindow; 
                 prototypeManager = PrototypeManager; 
@@ -25,7 +27,7 @@
                 ruleManager = RuleManager; 
                 ruleManagerWindow = NSWindow; 
                 ruleParserWindow = NSWindow; 
-                specialTransitionBuilder = TransitionView; 
+                specialTransitionBuilder = SpecialView; 
                 specialWindow = NSWindow; 
                 stringParser = StringParser; 
                 synthParmWindow = NSWindow; 
@@ -127,6 +129,17 @@
                 ruleScrollView = NSScrollView; 
             }; 
             SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {delete = id; updateControlParameter = id; }; 
+            CLASS = SpecialView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                controller = AppController; 
+                displayParameters = NSForm; 
+                transitionNameTextField = NSTextField; 
+            }; 
+            SUPERCLASS = NSView; 
         }, 
         {
             ACTIONS = {

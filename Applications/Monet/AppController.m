@@ -16,6 +16,7 @@
 #import "PhoneList.h"
 #import "PrototypeManager.h"
 #import "RuleManager.h"
+#import "SpecialView.h"
 #import "StringParser.h"
 #import "SymbolList.h"
 #import "TransitionView.h"

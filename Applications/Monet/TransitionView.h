@@ -66,6 +66,7 @@
 - (BOOL)acceptsFirstResponder;
 - (BOOL)acceptsFirstMouse:(NSEvent *)theEvent;
 - (void)mouseDown:(NSEvent *)mouseEvent;
+- (void)mouseDragged:(NSEvent *)mouseEvent;
 - (void)mouseUp:(NSEvent *)mouseEvent;
 
 // View geometry
