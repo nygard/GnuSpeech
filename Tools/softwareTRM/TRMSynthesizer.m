@@ -189,7 +189,7 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
         format.mFramesPerPacket = 1;
         format.mBytesPerFrame = 2 * format.mChannelsPerFrame;
         format.mBitsPerChannel = 16;
-
+#if 0
         NSLog(@"sample rate: %f", format.mSampleRate);
         NSLog(@"format id: %08x (%@)", format.mFormatID, [NSString stringWithFourCharCode:format.mFormatID]);
         NSLog(@"format flags: %x", format.mFormatFlags);
@@ -198,12 +198,12 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
         NSLog(@"bytes per frame: %d", format.mBytesPerFrame);
         NSLog(@"channels per frame: %d", format.mChannelsPerFrame);
         NSLog(@"bits per channel: %d", format.mBitsPerChannel);
-
+#endif
         result = AudioUnitSetProperty(outputUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &format, sizeof(format));
         if (result != kAudioHardwareNoError) {
             NSLog(@"AudioUnitSetProperty(StreamFormat) failed: %d %x %@", result, result, [NSString stringWithFourCharCode:result]);
         } else {
-            NSLog(@"It worked! (setting the stream data format)");
+            //NSLog(@"It worked! (setting the stream data format)");
         }
     }
 }
@@ -398,7 +398,7 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
     if (result != kAudioHardwareNoError) {
         NSLog(@"AudioUnitInitialize() failed: %@", [NSString stringWithFourCharCode:result]);
     } else {
-        NSLog(@"initialized.");
+        //NSLog(@"initialized.");
     }
 
     {
@@ -410,7 +410,7 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
             NSLog(@"AudioUnitGetProperty() failed.");
             return;
         }
-
+#if 0
         NSLog(@"sample rate: %f", format.mSampleRate);
         NSLog(@"format id: %08x (%@)", format.mFormatID, [NSString stringWithFourCharCode:format.mFormatID]);
         NSLog(@"format flags: %x", format.mFormatFlags);
@@ -419,7 +419,7 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
         NSLog(@"bytes per frame: %d", format.mBytesPerFrame);
         NSLog(@"channels per frame: %d", format.mChannelsPerFrame);
         NSLog(@"bits per channel: %d", format.mBitsPerChannel);
-
+#endif
         // It looks like you need to use an AudioConverter to change the sampling rate.
         format.mFormatID = kAudioFormatLinearPCM;
         //format.mSampleRate = 22050.0;  // We *can* change the sample rate of the input stream.
@@ -436,7 +436,7 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
             if (result != kAudioHardwareNoError) {
                 NSLog(@"AudioUnitSetProperty(StreamFormat) failed: %d %x %@", result, result, [NSString stringWithFourCharCode:result]);
             } else {
-                NSLog(@"It worked! (setting the stream data format)");
+                //NSLog(@"It worked! (setting the stream data format)");
             }
         }
 #endif
@@ -454,7 +454,7 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
             NSLog(@"AudioUnitSetProperty(SetInputCallback) failed: %d %x %@", result, result, [NSString stringWithFourCharCode:result]);
             return;
         } else {
-            NSLog(@"Set input callback!");
+            //NSLog(@"Set input callback!");
         }
     }
 }
