@@ -1,8 +1,9 @@
-<!ELEMENT root (categories, parameters, symbols, postures, equations, transitions, special-transitions, rules)>
+<!ELEMENT root (categories, parameters, meta-parameters?, symbols, postures, equations, transitions, special-transitions, rules)>
 <!ATTLIST root version CDATA #REQUIRED>
 
 <!ELEMENT categories (category*)>
 <!ELEMENT parameters (parameter*)>
+<!ELEMENT meta-parameters (parameter*)>
 <!ELEMENT symbols (symbol*)>
 <!ELEMENT postures (posture*)>
 <!-- Notice here that the equations groups should only have equations, and the transition groups should only have transitions -->
@@ -20,16 +21,15 @@
 
 <!-- Parameters -->
 
-<!ELEMENT parameter EMPTY>
+<!ELEMENT parameter (comment?)>
 <!ATTLIST parameter name CDATA #REQUIRED
                     minimum CDATA #REQUIRED
                     maximum CDATA #REQUIRED
                     default CDATA #REQUIRED>
 
-
 <!-- Symbols -->
 
-<!ELEMENT symbol EMPTY>
+<!ELEMENT symbol (comment?)>
 <!ATTLIST symbol name CDATA #REQUIRED
                  minimum CDATA #REQUIRED
                  maximum CDATA #REQUIRED
@@ -37,7 +37,7 @@
 
 <!-- Postures -->
 
-<!ELEMENT posture (comment?, posture-categories?, parameter-targets, symbol-targets)>
+<!ELEMENT posture (comment?, posture-categories?, parameter-targets, meta-parameter-targets?, symbol-targets)>
 <!ATTLIST posture symbol CDATA #REQUIRED>
 
 <!-- comment already defined -->
@@ -46,6 +46,7 @@
 <!ATTLIST category-ref name CDATA #REQUIRED>
 
 <!ELEMENT parameter-targets (target*)>
+<!ELEMENT meta-parameter-targets (target*)>
 <!ELEMENT symbol-targets (target*)>
 
 <!ELEMENT target EMPTY>
@@ -93,13 +94,14 @@
 
 <!-- Rules -->
 
-<!ELEMENT rule (boolean-expressions, comment?, parameter-profiles, special-profiles?, expression-symbols)>
+<!ELEMENT rule (boolean-expressions, comment?, parameter-profiles, meta-parameter-profiles?, special-profiles?, expression-symbols)>
 <!ATTLIST rule number CDATA #IMPLIED> <!-- Temporary -->
 
 <!ELEMENT boolean-expressions (boolean-expression*)>
 <!ELEMENT boolean-expression (#PCDATA)>
 
 <!ELEMENT parameter-profiles (parameter-transition*)>
+<!ELEMENT meta-parameter-profiles (parameter-transition*)>
 <!ELEMENT special-profiles (parameter-transition*)>
 
 <!ELEMENT parameter-transition EMPTY>
