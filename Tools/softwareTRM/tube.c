@@ -176,7 +176,7 @@
 float  outputRate;                  /*  output sample rate (22.05, 44.1 KHz)  */
 float  controlRate;                 /*  1.0-1000.0 input tables/second (Hz)  */
 
-int    waveform;                    /*  GS waveform type (0=PULSE, 1=SINE  */
+int    waveform;                    /*  GS waveform type (0=PULSE, 1=SINE)  */
 double tp;                          /*  % glottal pulse rise time  */
 double tnMin;                       /*  % glottal pulse fall time minimum  */
 double tnMax;                       /*  % glottal pulse fall time maximum  */
