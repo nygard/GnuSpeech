@@ -150,13 +150,13 @@
     switch ([self nextToken]) {
       default:
       case TK_B_END:
-          [self outputError:@"Error, unexpected End."];
+          [self appendErrorFormat:@"Error, unexpected End."];
           return nil;
 
       case TK_B_OR:
       case TK_B_AND:
       case TK_B_XOR:
-          [self outputError:@"Error, unexpected %@ operation." with:symbolString];
+          [self appendErrorFormat:@"Error, unexpected %@ operation.", symbolString];
           return nil;
 
       case TK_B_NOT:
@@ -168,13 +168,13 @@
           break;
 
       case TK_B_RPAREN:
-          [self outputError:@"Error, unexpected ')'."];
+          [self appendErrorFormat:@"Error, unexpected ')'."];
           break;
 
       case TK_B_CATEGORY:
           aCategory = [self categorySymbol:symbolString];
           if (aCategory == nil) {
-              [self outputError:@"Error, unknown category %@." with:symbolString];
+              [self appendErrorFormat:@"Error, unknown category %@.", symbolString];
               return nil;
           } else {
               BooleanTerminal *aTerminal = nil;
@@ -204,7 +204,7 @@
         switch (token) {
           default:
           case TK_B_END:
-              [self outputError:@"Error, unexpected End."];
+              [self appendErrorFormat:@"Error, unexpected End."];
               [currentExpression release];
               return nil;
 
@@ -221,23 +221,23 @@
               break;
 
           case TK_B_NOT:
-              [self outputError:@"Error, unexpected NOT operation."];
+              [self appendErrorFormat:@"Error, unexpected NOT operation."];
               [currentExpression release];
               return nil;
 
           case TK_B_LPAREN:
-              [self outputError:@"Error, unexpected '('."];
+              [self appendErrorFormat:@"Error, unexpected '('."];
               [currentExpression release];
               return nil;
 
           case TK_B_RPAREN:
-              [self outputError:@"Error, unexpected ')'."];
+              [self appendErrorFormat:@"Error, unexpected ')'."];
               [currentExpression release];
               return nil;
 
           case TK_B_CATEGORY:
               [currentExpression release];
-              [self outputError:@"Error, unexpected category %@." with:symbolString];
+              [self appendErrorFormat:@"Error, unexpected category %@.", symbolString];
               return nil;
         }
 
@@ -261,13 +261,13 @@
       case TK_B_XOR:
       case TK_B_OR:
       case TK_B_NOT:
-          [self outputError:@"Error, unexpected %@ operation." with:symbolString];
+          [self appendErrorFormat:@"Error, unexpected %@ operation.", symbolString];
           return nil;
 
       case TK_B_CATEGORY:
           aCategory = [self categorySymbol:symbolString];
           if (aCategory == nil) {
-              [self outputError:@"Error, unknown category %@." with:symbolString];
+              [self appendErrorFormat:@"Error, unknown category %@.", symbolString];
               return nil;
           } else {
               BooleanTerminal *aTerminal;
@@ -302,17 +302,17 @@
     switch ([self nextToken])
     {
       case TK_B_END:
-          [self outputError:@"Error, unexpected End."];
+          [self appendErrorFormat:@"Error, unexpected End."];
           return nil;
 
       case TK_B_AND:
       case TK_B_OR:
       case TK_B_XOR:
-          [self outputError:@"Error, unexpected %@ operation." with:symbolString];
+          [self appendErrorFormat:@"Error, unexpected %@ operation.", symbolString];
           return nil;
 
       case TK_B_RPAREN:
-          [self outputError:@"Error, unexpected ')'."];
+          [self appendErrorFormat:@"Error, unexpected ')'."];
           return nil;
 
       case TK_B_NOT:
@@ -330,7 +330,7 @@
       case TK_B_CATEGORY:
           aCategory = [self categorySymbol:symbolString];
           if (aCategory == nil) {
-              [self outputError:@"Error, unknown category %@." with:symbolString];
+              [self appendErrorFormat:@"Error, unknown category %@.", symbolString];
               return nil;
           } else {
               BooleanTerminal *aTerminal;
@@ -359,17 +359,17 @@
 
     switch ([self nextToken]) {
       case TK_B_END:
-          [self outputError:@"Error, unexpected End."];
+          [self appendErrorFormat:@"Error, unexpected End."];
           return nil;
 
       case TK_B_AND:
       case TK_B_OR:
       case TK_B_XOR:
-          [self outputError:@"Error, unexpected %@ operation." with:symbolString];
+          [self appendErrorFormat:@"Error, unexpected %@ operation.", symbolString];
           return nil;
 
       case TK_B_RPAREN:
-          [self outputError:@"Error, unexpected ')'."];
+          [self appendErrorFormat:@"Error, unexpected ')'."];
           return nil;
 
       case TK_B_NOT:
@@ -387,7 +387,7 @@
       case TK_B_CATEGORY:
           aCategory = [self categorySymbol:symbolString];
           if (aCategory == nil) {
-              [self outputError:@"Error, unknown category %@." with:symbolString];
+              [self appendErrorFormat:@"Error, unknown category %@.", symbolString];
               return nil;
           } else {
               BooleanTerminal *aTerminal;
@@ -417,17 +417,17 @@
     switch ([self nextToken])
     {
       case TK_B_END:
-          [self outputError:@"Error, unexpected End."];
+          [self appendErrorFormat:@"Error, unexpected End."];
           return nil;
 
       case TK_B_AND:
       case TK_B_OR:
       case TK_B_XOR:
-          [self outputError:@"Error, unexpected %@ operation." with:symbolString];
+          [self appendErrorFormat:@"Error, unexpected %@ operation.", symbolString];
           return nil;
 
       case TK_B_RPAREN:
-          [self outputError:@"Error, unexpected ')'."];
+          [self appendErrorFormat:@"Error, unexpected ')'."];
           return nil;
 
       case TK_B_NOT:
@@ -445,7 +445,7 @@
       case TK_B_CATEGORY:
           aCategory = [self categorySymbol:symbolString];
           if (aCategory == nil) {
-              [self outputError:@"Error, unknown category %@." with:symbolString];
+              [self appendErrorFormat:@"Error, unknown category %@.", symbolString];
               return nil;
           } else {
               BooleanTerminal *aTerminal;
@@ -471,7 +471,7 @@
 
     switch ([self nextToken]) {
       case TK_B_END:
-          [self outputError:@"Error, unexpected End."];
+          [self appendErrorFormat:@"Error, unexpected End."];
           return nil;
 
       case TK_B_RPAREN:
@@ -484,7 +484,7 @@
       case TK_B_AND:
       case TK_B_OR:
       case TK_B_XOR:
-          [self outputError:@"Error, unexpected %@ operation." with:symbolString];
+          [self appendErrorFormat:@"Error, unexpected %@ operation.", symbolString];
           return nil;
 
       case TK_B_NOT:
@@ -494,7 +494,7 @@
       case TK_B_CATEGORY:
           aCategory = [self categorySymbol:symbolString];
           if (aCategory == nil) {
-              [self outputError:@"Error, unknown category %@." with:symbolString];
+              [self appendErrorFormat:@"Error, unknown category %@.", symbolString];
               return nil;
           } else {
               BooleanTerminal *aTerminal;
@@ -511,14 +511,14 @@
     while ( (token = [self nextToken]) != TK_B_RPAREN) {
         switch (token) {
           case TK_B_END:
-              [self outputError:@"Error, unexpected End."];
+              [self appendErrorFormat:@"Error, unexpected End."];
               return nil;
 
           case TK_B_RPAREN:
               return nil; // Won't happen
 
           case TK_B_LPAREN:
-              [self outputError:@"Error, unexpected '('."];
+              [self appendErrorFormat:@"Error, unexpected '('."];
               return nil;
 
           case TK_B_AND:
@@ -534,11 +534,11 @@
               break;
 
           case TK_B_NOT:
-              [self outputError:@"Error, unexpected NOT operation."];
+              [self appendErrorFormat:@"Error, unexpected NOT operation."];
               return nil;
 
           case TK_B_CATEGORY:
-              [self outputError:@"Error, unexpected category %@." with:symbolString];
+              [self appendErrorFormat:@"Error, unexpected category %@.", symbolString];
               return nil;
         }
     }

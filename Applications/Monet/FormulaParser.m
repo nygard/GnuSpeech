@@ -120,15 +120,15 @@ static int operatorPrec[8] = {1, 1, 2, 2, 3, 0, 4, 4};
           break;
 
       case TK_F_ADD:
-          [self outputError:@"Unary + is the instrument of satan"];
+          [self appendErrorFormat:@"Unary + is the instrument of satan"];
           return nil;
 
       case TK_F_MULT:
-          [self outputError:@"Unexpected * operator."];
+          [self appendErrorFormat:@"Unexpected * operator."];
           return nil;
 
       case TK_F_DIV:
-          [self outputError:@"Unexpected / operator."];
+          [self appendErrorFormat:@"Unexpected / operator."];
           return nil;
 
       case TK_F_LPAREN:
@@ -136,7 +136,7 @@ static int operatorPrec[8] = {1, 1, 2, 2, 3, 0, 4, 4};
           break;
 
       case TK_F_RPAREN:
-          [self outputError:@"Unexpected ')'."];
+          [self appendErrorFormat:@"Unexpected ')'."];
           return nil;
 
       case TK_F_SYMBOL:
@@ -156,7 +156,7 @@ static int operatorPrec[8] = {1, 1, 2, 2, 3, 0, 4, 4};
 
       case TK_F_ERROR:
       case TK_F_END:
-          [self outputError:@"Unexpected End."];
+          [self appendErrorFormat:@"Unexpected End."];
           return nil;
 
     }
@@ -174,7 +174,7 @@ static int operatorPrec[8] = {1, 1, 2, 2, 3, 0, 4, 4};
         switch (tempToken) {
           default:
           case TK_F_END:
-              [self outputError:@"Unexpected End."];
+              [self appendErrorFormat:@"Unexpected End."];
               return nil;
 
           case TK_F_ADD:
@@ -194,19 +194,19 @@ static int operatorPrec[8] = {1, 1, 2, 2, 3, 0, 4, 4};
               break;
 
           case TK_F_LPAREN:
-              [self outputError:@"Unexpected '('."];
+              [self appendErrorFormat:@"Unexpected '('."];
               return nil;
 
           case TK_F_RPAREN:
-              [self outputError:@"Unexpected ')'."];
+              [self appendErrorFormat:@"Unexpected ')'."];
               return nil;
 
           case TK_F_SYMBOL:
-              [self outputError:@"Unexpected symbol %@." with:symbolString];
+              [self appendErrorFormat:@"Unexpected symbol %@.", symbolString];
               return nil;
 
           case TK_F_CONST:
-              [self outputError:@"Unexpected symbol %@." with:symbolString];
+              [self appendErrorFormat:@"Unexpected symbol %@.", symbolString];
               return nil;
         }
     }
@@ -259,7 +259,7 @@ static int operatorPrec[8] = {1, 1, 2, 2, 3, 0, 4, 4};
             [tempTerminal setSymbol:tempSymbol];
             [tempTerminal setWhichPhone:whichPhone];
         } else {
-            [self outputError:@"Unknown symbol %@." with:symbolString];
+            [self appendErrorFormat:@"Unknown symbol %@.", symbolString];
             //NSLog(@"\t Error, Undefined Symbol %@", tempSymbolString);
             return nil;
         }

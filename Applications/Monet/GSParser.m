@@ -5,10 +5,21 @@
 
 @implementation GSParser
 
+- (id)init;
+{
+    if ([super init] == nil)
+        return nil;
+
+    errorMessages = [[NSMutableString alloc] init];
+
+    return self;
+}
+
 - (void)dealloc;
 {
     [scanner release];
     [symbolString release];
+    [errorMessages release];
 
     [super dealloc];
 }
@@ -34,6 +45,7 @@
     if (scanner != nil)
         [scanner release];
 
+    [errorMessages setString:@""];
     [nonretained_errorTextField setStringValue:@""];
 
     nonretained_parseString = aString;
@@ -63,33 +75,16 @@
     nonretained_errorTextField = aTextField;
 }
 
-- (void)outputError:(NSString *)errorText;
+- (void)appendErrorFormat:(NSString *)format, ...;
 {
-    NSString *str;
+    va_list args;
 
-    str = [nonretained_errorTextField stringValue];
-    if (str == nil)
-        str = [NSString stringWithFormat:@"%@\n", errorText];
-    else
-        str = [str stringByAppendingFormat:@"\n%@", errorText];
+    va_start(args, format);
+    [errorMessages appendFormat:format, args];
+    [errorMessages appendString:@"\n"];
+    va_end(args);
 
-    [nonretained_errorTextField setStringValue:str];
-}
-
-- (void)outputError:(NSString *)errorText with:(NSString *)symbol;
-{
-    NSString *str;
-
-    str = [nonretained_errorTextField stringValue];
-    if (str == nil)
-        str = [NSString stringWithFormat:@"%@\n", errorText];
-    else {
-        str = [str stringByAppendingString:@"\n"];
-        str = [str stringByAppendingFormat:errorText, symbol];
-        str = [str stringByAppendingString:@"\n"];
-    }
-
-    [nonretained_errorTextField setStringValue:str];
+    //[nonretained_errorTextField setStringValue:str];
 }
 
 @end

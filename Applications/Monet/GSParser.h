@@ -15,6 +15,7 @@
     NSScanner *scanner;
     NSString *symbolString;
 
+    NSMutableString *errorMessages;
     NSTextField *nonretained_errorTextField; // TODO (2004-03-01): Change this to an NSMutableString, and query it in the interface controller.
 }
 
@@ -28,7 +29,7 @@
 
 // Error reporting
 - (void)setErrorOutput:(NSTextField *)aTextField;
-- (void)outputError:(NSString *)errorText;
-- (void)outputError:(NSString *)errorText with:(NSString *)symbol;
+
+- (void)appendErrorFormat:(NSString *)format, ...;
 
 @end
