@@ -1,5 +1,5 @@
 //
-// $Id: GSPronunciationDictionary.h,v 1.1 2004/04/30 03:27:44 nygard Exp $
+// $Id: GSPronunciationDictionary.h,v 1.2 2004/05/01 00:05:44 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -9,6 +9,7 @@
 
 @interface GSPronunciationDictionary : NSObject
 {
+    NSString *version;
     NSMutableDictionary *pronunciations;
     NSMutableArray *suffixOrder;
     NSMutableDictionary *suffixes;
@@ -20,11 +21,16 @@
 - (id)init;
 - (void)dealloc;
 
+- (NSString *)version;
+- (void)setVersion:(NSString *)newVersion;
+
 - (void)readFile:(NSString *)filename;
 - (void)_readSuffixesFromFile:(NSString *)filename;
 
 - (NSString *)pronunciationForWord:(NSString *)aWord;
 
 - (void)testString:(NSString *)str;
+
+- (NSString *)description;
 
 @end

@@ -31,6 +31,7 @@
     if ([super init] == nil)
         return nil;
 
+    version = nil;
     pronunciations = [[NSMutableDictionary alloc] init]; // This is a case where setting the capacity might be a good idea!
     suffixOrder = [[NSMutableArray alloc] init];
     suffixes = [[NSMutableDictionary alloc] init];
@@ -44,11 +45,26 @@
 
 - (void)dealloc;
 {
+    [version release];
     [pronunciations release];
     [suffixOrder release];
     [suffixes release];
 
     [super dealloc];
+}
+
+- (NSString *)version;
+{
+    return version;
+}
+
+- (void)setVersion:(NSString *)newVersion;
+{
+    if (newVersion == version)
+        return;
+
+    [version release];
+    version = [newVersion retain];
 }
 
 - (void)readFile:(NSString *)filename;
@@ -58,25 +74,27 @@
     NSArray *lines;
     unsigned int count, index;
 
-    NSLog(@" > %s", _cmd);
-
     data = [[NSData alloc] initWithContentsOfFile:filename];
     NSLog(@"data: %p", data);
     //str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]; // utf-8 fails
     str = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-    NSLog(@"str: %p", str);
-    NSLog(@"str length: %d", [str length]);
+    //NSLog(@"str: %p", str);
+    //NSLog(@"str length: %d", [str length]);
     lines = [str componentsSeparatedByString:@"\n"];
 
     count = [lines count];
-    NSLog(@"lines: %d", count);
-    for (index = 0; index < count; index++) {
+    if (count > 0)
+        [self setVersion:[[lines objectAtIndex:0] substringFromIndex:1]];
+
+    //NSLog(@"lines: %d", count);
+    for (index = 1; index < count; index++) {
         NSString *line;
         NSArray *parts;
 
         line = [lines objectAtIndex:index];
-        if ([line hasPrefix:@" "] == YES)
+        if ([line hasPrefix:@" "] == YES) {
             continue;
+        }
 
         parts = [line componentsSeparatedByString:@" "];
         if ([parts count] >= 2) {
@@ -104,12 +122,12 @@
         }
     }
 
-    NSLog(@"pronunciation count: %d", [[pronunciations allKeys] count]);
+    //NSLog(@"pronunciation count: %d", [[pronunciations allKeys] count]);
 
     [str release];
     [data release];
 
-    NSLog(@"<  %s", _cmd);
+    NSLog(@"%s, self: %@", _cmd, self);
 }
 
 - (void)_readSuffixesFromFile:(NSString *)filename;
@@ -205,6 +223,11 @@
     }
 
     //NSLog(@"<  %s", _cmd);
+}
+
+- (NSString *)description;
+{
+    return [NSString stringWithFormat:@"<%@>[%p]: word count: %d, suffix count: %d, version: %@", NSStringFromClass([self class]), self, [[pronunciations allKeys] count], [suffixOrder count], version];
 }
 
 @end
