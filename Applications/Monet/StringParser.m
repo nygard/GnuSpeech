@@ -8,6 +8,8 @@
 #import "EventList.h"
 #import "EventListView.h"
 #import "IntonationView.h"
+#import "Phone.h"
+#import "PhoneList.h"
 #include "driftGenerator.h"
 
 #ifdef HAVE_DSP
@@ -75,6 +77,8 @@
         [waveform selectCellAtRow:0 column:0];
     else
         [waveform selectCellAtRow:0 column:1];
+
+    phoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
 
     NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }
@@ -318,3 +322,169 @@
 }
 
 @end
+
+int parse_string(id eventList, char *string)
+{
+    Phone *tempPhone;
+    int length, dummy;
+    int index = 0, bufferIndex = 0;
+    int chunk = 0;
+    char buffer[128];
+    int lastFoot = 0, markedFoot = 0;
+    double footTempo = 1.0;
+    double ruleTempo = 1.0;
+    double phoneTempo = 1.0;
+    PhoneList *mainPhoneList;
+
+    mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
+
+    length = strlen(string);
+    tempPhone = [mainPhoneList binarySearchPhone:@"^" index:&dummy];
+    [eventList newPhoneWithObject:tempPhone];
+    while (index < length) {
+        while ((isspace(string[index]) || (string[index] == '_')) && (index<length))
+            index++;
+
+        if (index>length)
+            break;
+
+        bzero(buffer, 128);
+        bufferIndex = 0;
+
+        switch (string[index]) {
+          case '/': /* Handle "/" escape sequences */
+              index++;
+              switch (string[index]) {
+                case '0': /* Tone group 0. Statement */
+                    index++;
+                    [eventList setCurrentToneGroupType:STATEMENT];
+                    break;
+                case '1': /* Tone group 1. Exclaimation */
+                    index++;
+                    [eventList setCurrentToneGroupType:EXCLAIMATION];
+                    break;
+                case '2': /* Tone group 2. Question */
+                    index++;
+                    [eventList setCurrentToneGroupType:QUESTION];
+                    break;
+                case '3': /* Tone group 3. Continuation */
+                    index++;
+                    [eventList setCurrentToneGroupType:CONTINUATION];
+                    break;
+                case '4': /* Tone group 4. Semi-colon */
+                    index++;
+                    [eventList setCurrentToneGroupType:SEMICOLON];
+                    break;
+                case ' ':
+                case '_': /* New foot */
+                    [eventList newFoot];
+                    if (lastFoot)
+                        [eventList setCurrentFootLast];
+                    footTempo = 1.0;
+                    lastFoot = 0;
+                    markedFoot = 0;
+                    index++;
+                    break;
+                case '*': /* New Marked foot */
+                    [eventList newFoot];
+                    [eventList setCurrentFootMarked];
+                    if (lastFoot)
+                        [eventList setCurrentFootLast];
+
+                    footTempo = 1.0;
+                    lastFoot = 0;
+                    markedFoot = 1;
+                    index++;
+                    break;
+                case '/': /* New Tone Group */
+                    index++;
+                    [eventList newToneGroup];
+                    break;
+                case 'c': /* New Chunk */
+                    if (chunk) {
+                        //tempPhone = [mainPhoneList binarySearchPhone:"#" index:&dummy];
+                        //[eventList newPhoneWithObject:tempPhone];
+                        //tempPhone = [mainPhoneList binarySearchPhone:"^" index:&dummy];
+                        //[eventList newPhoneWithObject:tempPhone];
+                        index--;
+                        return (index);
+                    } else {
+                        chunk++;
+                        index++;
+                    }
+                    break;
+                case 'l': /* Last Foot in tone group marker */
+                    index++;
+                    lastFoot = 1;
+                    break;
+                case 'f': /* Foot tempo indicator */
+                    index++;
+                    while ((isspace(string[index]) || (string[index] == '_')) && (index < length))
+                        index++;
+                    if (index > length)
+                        break;
+                    while (isdigit(string[index]) || (string[index] == '.')) {
+                        buffer[bufferIndex++] = string[index++];
+                    }
+                    footTempo = atof(buffer);
+                    [eventList setCurrentFootTempo:footTempo];
+                    break;
+                case 'r': /* Foot tempo indicator */
+                    index++;
+                    while ((isspace(string[index]) || (string[index] == '_')) && (index < length))
+                        index++;
+                    if (index > length)
+                        break;
+                    while (isdigit(string[index]) || (string[index] == '.')) {
+                        buffer[bufferIndex++] = string[index++];
+                    }
+                    ruleTempo = atof(buffer);
+                    break;
+                default:
+                    index++;
+                    break;
+              }
+              break;
+          case '.': /* Syllable Marker */
+              [eventList setCurrentPhoneSyllable];
+              index++;
+              break;
+
+          case '0':
+          case '1':
+          case '2':
+          case '3':
+          case '4':
+          case '5':
+          case '6':
+          case '7':
+          case '8':
+          case '9':
+              while (isdigit(string[index]) || (string[index] == '.')) {
+                  buffer[bufferIndex++] = string[index++];
+              }
+              phoneTempo = atof(buffer);
+              break;
+
+          default:
+              if (isalpha(string[index]) || (string[index] == '^') || (string[index] == '\'') || (string[index] == '#') ) {
+                  while ( (isalpha(string[index]) || (string[index] == '^') || (string[index] == '\'') || (string[index] == '#')) && (index < length))
+                      buffer[bufferIndex++] = string[index++];
+                  if (markedFoot)
+                      strcat(buffer,"'");
+                  tempPhone = [mainPhoneList binarySearchPhone:buffer index:&dummy];
+                  if (tempPhone) {
+                      [eventList newPhoneWithObject:tempPhone];
+                      [eventList setCurrentPhoneTempo:phoneTempo];
+                      [eventList setCurrentPhoneRuleTempo:(float)ruleTempo];
+                  }
+                  phoneTempo = 1.0;
+                  ruleTempo = 1.0;
+              } else {
+                  break;
+              }
+        }
+    }
+
+    return index;
+}

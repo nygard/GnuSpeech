@@ -1,6 +1,6 @@
 #import <Foundation/NSObject.h>
 
-@class EventList, MonetList;
+@class EventList, MonetList, PhoneList;
 @class EventListView, IntonationView;
 
 /*===========================================================================
@@ -19,7 +19,7 @@
     //NSString *parseString;
     EventList *eventList;
     MonetList *categoryList;
-    MonetList *phoneList;
+    PhoneList *phoneList;
 
     id intonationSystem;
 
