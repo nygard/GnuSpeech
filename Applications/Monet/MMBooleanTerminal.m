@@ -61,6 +61,7 @@
 
 - (BOOL)evaluateWithCategories:(CategoryList *)categories;
 {
+    // TODO (2004-08-02): This seems a little overkill, searching through the list once with -indexOfObject: and then again with findSymbol:.
     if ([categories indexOfObject:category] == NSNotFound) {
         if (shouldMatchAll) {
             if ([categories findSymbol:[category symbol]] != nil)

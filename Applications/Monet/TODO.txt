@@ -187,3 +187,6 @@ Notes:
 
 2004-07-31:
 - Combine stressed and unstressed postures into single shared data structure.
+
+2004-08-02:
+- In MMBooleanParser.m, a ch* will use the ch native category, not the ch' native category, but they probably want it to match both..

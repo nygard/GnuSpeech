@@ -47,7 +47,7 @@
 - (void)setModel:(MModel *)newModel;
 
 /* General purpose internal methods */
-- (MMCategory *)categorySymbol:(NSString *)symbol;
+- (MMCategory *)categoryWithName:(NSString *)aName;
 - (int)nextToken;
 
 /* General Parse Methods */

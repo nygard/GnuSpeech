@@ -46,27 +46,29 @@
     model = [newModel retain];
 }
 
-- (MMCategory *)categorySymbol:(NSString *)symbol;
+// This strips off the optional "*" suffix before searching.  A "*" will match either a stressed or unstressed posture.  i.e. ee or ee'.
+- (MMCategory *)categoryWithName:(NSString *)aName;
 {
     NSString *baseName;
-    MMPosture *tempPhone;
+    MMPosture *aPosture;
 
-    if ([symbol hasSuffix:@"*"]) {
-        baseName = [symbol substringToIndex:[symbol length] - 1];
+    if ([aName hasSuffix:@"*"]) {
+        baseName = [aName substringToIndex:[aName length] - 1];
     } else {
-        baseName = symbol;
+        baseName = aName;
     }
 
-    tempPhone = [model postureWithName:baseName];
-    //NSLog(@"%s, baseName: %@, tempPhone: %p", _cmd, baseName, tempPhone);
+    // Search first for a native category -- i.e. a posture name
+    aPosture = [model postureWithName:baseName];
+    NSLog(@"%s, baseName: %@, aPosture: %p", _cmd, baseName, aPosture);
 
-    if (tempPhone) {
-        //NSLog(@"%@: native category\n", symbol);
-        return [[tempPhone categoryList] findSymbol:baseName];
+    if (aPosture != nil) {
+        NSLog(@"%@: native category\n", baseName);
+        return [aPosture nativeCategory];
     }
 
-    //NSLog(@"%@: NON native category\n", symbol);
-    return [[model categories] findSymbol:symbol];
+    NSLog(@"%@: NON native category\n", aName);
+    return [model categoryWithName:aName];
 }
 
 - (int)nextToken;
@@ -109,11 +111,11 @@
         return TK_B_END;
 #if 0
     // TODO (2004-03-01): This is a probably programming error, with the ';' at the end of the if statement it doesn't do anything.
-    if (![self categorySymbol:symbolString]);
+    if (![self categoryWithName:symbolString]);
 //     printf("Category Not Found!\n");
     return TK_B_CATEGORY;
 #endif
-    if ([self categorySymbol:symbolString] == nil) {
+    if ([self categoryWithName:symbolString] == nil) {
         /* do nothing? */;
         NSLog(@"Category Not Found! (%@)", symbolString);
     }
@@ -151,7 +153,7 @@
           break;
 
       case TK_B_CATEGORY:
-          aCategory = [self categorySymbol:symbolString];
+          aCategory = [self categoryWithName:symbolString];
           if (aCategory == nil) {
               [self appendErrorFormat:@"Error, unknown category %@.", symbolString];
               return nil;
@@ -239,7 +241,7 @@
           return nil;
 
       case TK_B_CATEGORY:
-          aCategory = [self categorySymbol:symbolString];
+          aCategory = [self categoryWithName:symbolString];
           if (aCategory == nil) {
               [self appendErrorFormat:@"Error, unknown category %@.", symbolString];
               return nil;
@@ -302,7 +304,7 @@
           break;
 
       case TK_B_CATEGORY:
-          aCategory = [self categorySymbol:symbolString];
+          aCategory = [self categoryWithName:symbolString];
           if (aCategory == nil) {
               [self appendErrorFormat:@"Error, unknown category %@.", symbolString];
               return nil;
@@ -359,7 +361,7 @@
           break;
 
       case TK_B_CATEGORY:
-          aCategory = [self categorySymbol:symbolString];
+          aCategory = [self categoryWithName:symbolString];
           if (aCategory == nil) {
               [self appendErrorFormat:@"Error, unknown category %@.", symbolString];
               return nil;
@@ -417,7 +419,7 @@
           break;
 
       case TK_B_CATEGORY:
-          aCategory = [self categorySymbol:symbolString];
+          aCategory = [self categoryWithName:symbolString];
           if (aCategory == nil) {
               [self appendErrorFormat:@"Error, unknown category %@.", symbolString];
               return nil;
@@ -466,7 +468,7 @@
           break;
 
       case TK_B_CATEGORY:
-          aCategory = [self categorySymbol:symbolString];
+          aCategory = [self categoryWithName:symbolString];
           if (aCategory == nil) {
               [self appendErrorFormat:@"Error, unknown category %@.", symbolString];
               return nil;
