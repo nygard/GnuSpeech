@@ -7,6 +7,7 @@
 #import "RuleList.h"
 #import "RuleManager.h"
 #import "Parameter.h"
+#import "ParameterList.h"
 #import "ProtoEquation.h"
 #import "ProtoTemplate.h"
 #import "PrototypeManager.h"
@@ -301,7 +302,6 @@
 
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
 {
-    PrototypeManager *temp;
     id list, tempCell;
     int index;
 
@@ -338,26 +338,36 @@
               break;
           case 4:
           case 2:
-              temp = NXGetNamedObject(@"mainParameterList", NSApp);
-              [cell setStringValue:[[temp objectAtIndex:row] symbol]];
+          {
+              ParameterList *mainParameterList;
+
+              mainParameterList = NXGetNamedObject(@"mainParameterList", NSApp);
+              [cell setStringValue:[[mainParameterList objectAtIndex:row] symbol]];
               [cell setLeaf:YES];
               [cell setLoaded:YES];
               break;
+          }
           case 3:
-              temp = NXGetNamedObject(@"mainMetaParameterList", NSApp);
-              [cell setStringValue:[[temp objectAtIndex:row] symbol]];
+          {
+              ParameterList *mainMetaParameterList;
+
+              mainMetaParameterList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
+              [cell setStringValue:[[mainMetaParameterList objectAtIndex:row] symbol]];
               [cell setLeaf:YES];
               [cell setLoaded:YES];
               break;
+          }
         }
     } else {
-        temp = NXGetNamedObject(@"prototypeManager", NSApp);
+        PrototypeManager *prototypeManager;
+
+        prototypeManager = NXGetNamedObject(@"prototypeManager", NSApp);
         index = [[sender matrixInColumn:0] selectedRow];
         [cell setLoaded:YES];
 
         switch (currentBrowser) {
           case 1:
-              list = [temp equationList];
+              list = [prototypeManager equationList];
               if (column == 0) {
                   [cell setStringValue:[(ProtoTemplate *)[list objectAtIndex:row] name]];
                   [cell setLeaf:NO];
@@ -374,7 +384,7 @@
               }
               break;
           case 2:
-              list = [temp transitionList];
+              list = [prototypeManager transitionList];
               if (column == 0) {
                   [cell setStringValue:[(ProtoTemplate *)[list objectAtIndex:row] name]];
                   [cell setLeaf:NO];
@@ -390,7 +400,7 @@
               }
               break;
           case 3:
-              list = [temp transitionList];
+              list = [prototypeManager transitionList];
               if (column == 0) {
                   [cell setStringValue:[(ProtoTemplate *)[list objectAtIndex:row] name]];
                   [cell setLeaf:NO];
@@ -407,7 +417,7 @@
               break;
 
           case 4:
-              list = [temp specialList];
+              list = [prototypeManager specialList];
               if (column == 0) {
                   [cell setStringValue:[(ProtoTemplate *)[list objectAtIndex:row] name]];
                   [cell setLeaf:NO];
