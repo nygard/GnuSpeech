@@ -25,9 +25,13 @@
         {
             ACTIONS = {
                 addPhoneString = id; 
+                fileTypeDidChange = id; 
                 generateContour = id; 
                 generateGraphImages = id; 
-                parseStringButton = id; 
+                openIntonationContour = id; 
+                printDocument = id; 
+                runPageLayout = id; 
+                saveIntonationContour = id; 
                 setBeatOffset = id; 
                 setHertz = id; 
                 setSemitone = id; 
@@ -53,17 +57,17 @@
                 eventListView = EventListView; 
                 eventTableView = NSTableView; 
                 fileTypePopUpButton = NSPopUpButton; 
-                filenameField = NSTextField; 
                 hertzTextField = NSTextField; 
                 intonParmsField = NSForm; 
                 intonationMatrix = NSMatrix; 
                 intonationParameterWindow = NSWindow; 
                 intonationRuleTableView = NSTableView; 
-                intonationView = NSScrollView; 
+                intonationView = MAIntonationScrollView; 
                 intonationWindow = NSWindow; 
                 parameterTableView = NSTableView; 
                 parametersStore = NSButton; 
                 radiusMultiplyField = NSTextField; 
+                savePanelAccessoryView = NSView; 
                 semitoneTextField = NSTextField; 
                 slopeTextField = NSTextField; 
                 smoothIntonationSwitch = NSButton; 

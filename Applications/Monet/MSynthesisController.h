@@ -16,9 +16,11 @@
     IBOutlet NSComboBox *stringTextField;
     IBOutlet NSTableView *parameterTableView;
     IBOutlet EventListView *eventListView;
-    IBOutlet NSTextField *filenameField;
-    IBOutlet NSPopUpButton *fileTypePopUpButton;
     IBOutlet NSButton *parametersStore;
+
+    // Save panel accessory view
+    IBOutlet NSView *savePanelAccessoryView;
+    IBOutlet NSPopUpButton *fileTypePopUpButton;
 
     // Intonation parameter window
     IBOutlet NSWindow *intonationParameterWindow;
@@ -83,6 +85,7 @@
 
 - (IBAction)synthesizeWithSoftware:(id)sender;
 - (IBAction)synthesizeToFile:(id)sender;
+- (IBAction)fileTypeDidChange:(id)sender;
 - (void)synthesize;
 
 - (IBAction)synthesizeWithContour:(id)sender;

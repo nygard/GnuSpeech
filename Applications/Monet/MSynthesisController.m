@@ -353,12 +353,39 @@
 
 - (IBAction)synthesizeToFile:(id)sender;
 {
+    NSString *directory;
+    NSSavePanel *savePanel;
+
     NSLog(@" > %s", _cmd);
-    [synthesizer setShouldSaveToSoundFile:YES];
-    [synthesizer setFileType:[[fileTypePopUpButton selectedItem] tag]];
-    [synthesizer setFilename:[filenameField stringValue]];
-    [self synthesize];
+
+    directory = [[NSUserDefaults standardUserDefaults] objectForKey:MDK_SoundOutputDirectory];
+
+    savePanel = [NSSavePanel savePanel];
+    [savePanel setCanSelectHiddenExtension:YES];
+    [savePanel setAllowedFileTypes:[NSArray arrayWithObjects:@"au", @"aiff", @"wav", nil]];
+    [savePanel setAccessoryView:savePanelAccessoryView];
+    [self fileTypeDidChange:nil];
+
+    [savePanel beginSheetForDirectory:directory file:@"Untitled" modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(savePanelDidEnd:returnCode:contextInfo:) contextInfo:MDK_SoundOutputDirectory];
+
     NSLog(@"<  %s", _cmd);
+}
+
+- (IBAction)fileTypeDidChange:(id)sender;
+{
+    NSSavePanel *savePanel;
+    NSString *extension;
+
+    savePanel = (NSSavePanel *)[fileTypePopUpButton window];
+    switch ([[fileTypePopUpButton selectedItem] tag]) {
+      case 1: extension = @"aiff"; break;
+      case 2: extension = @"wav"; break;
+      case 0:
+      default:
+              extension = @"au"; break;
+    }
+
+    [savePanel setRequiredFileType:extension];
 }
 
 - (void)synthesize;
@@ -463,7 +490,7 @@
     savePanel = [NSSavePanel savePanel];
     [savePanel setRequiredFileType:nil];
 
-    [savePanel beginSheetForDirectory:directory file:@"Untitled" modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(savePanelDidEnd:returnCode:contextInfo:) contextInfo:[self window]];
+    [savePanel beginSheetForDirectory:directory file:@"Untitled" modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(savePanelDidEnd:returnCode:contextInfo:) contextInfo:MDK_GraphImagesDirectory];
 }
 
 - (void)openPanelDidEnd:(NSOpenPanel *)openPanel returnCode:(int)returnCode contextInfo:(void *)contextInfo;
@@ -484,15 +511,23 @@
 
 - (void)savePanelDidEnd:(NSSavePanel *)savePanel returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 {
-    if (contextInfo == [self window]) {
+    if (contextInfo == MDK_GraphImagesDirectory) {
         if (returnCode == NSOKButton) {
             [[NSUserDefaults standardUserDefaults] setObject:[savePanel directory] forKey:MDK_GraphImagesDirectory];
             [self saveGraphImagesToPath:[savePanel filename]];
         }
-    } else if (contextInfo == intonationWindow) {
+    } else if (contextInfo == MDK_IntonationContourDirectory) {
         if (returnCode == NSOKButton) {
             [[NSUserDefaults standardUserDefaults] setObject:[savePanel directory] forKey:MDK_IntonationContourDirectory];
             [eventList writeXMLToFile:[savePanel filename] comment:nil];
+        }
+    } else if (contextInfo == MDK_SoundOutputDirectory) {
+        if (returnCode == NSOKButton) {
+            [[NSUserDefaults standardUserDefaults] setObject:[savePanel directory] forKey:MDK_SoundOutputDirectory];
+            [synthesizer setShouldSaveToSoundFile:YES];
+            [synthesizer setFileType:[[fileTypePopUpButton selectedItem] tag]];
+            [synthesizer setFilename:[savePanel filename]];
+            [self synthesize];
         }
     }
 }
@@ -652,7 +687,7 @@
     savePanel = [NSSavePanel savePanel];
     [savePanel setRequiredFileType:@"contour"];
 
-    [savePanel beginSheetForDirectory:directory file:@"Untitled" modalForWindow:intonationWindow modalDelegate:self didEndSelector:@selector(savePanelDidEnd:returnCode:contextInfo:) contextInfo:intonationWindow];
+    [savePanel beginSheetForDirectory:directory file:@"Untitled" modalForWindow:intonationWindow modalDelegate:self didEndSelector:@selector(savePanelDidEnd:returnCode:contextInfo:) contextInfo:MDK_IntonationContourDirectory];
 }
 
 - (IBAction)runPageLayout:(id)sneder;
