@@ -323,7 +323,7 @@
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 {
     [resultString indentToLevel:level];
-    [resultString appendFormat:@"<proto-template name=\"%@\" type=\"%d\">\n",
+    [resultString appendFormat:@"<transition name=\"%@\" type=\"%d\">\n",
                   GSXMLAttributeString(name, NO), type];
 
     if (comment != nil) {
@@ -334,7 +334,7 @@
     [points appendXMLToString:resultString elementName:@"points" level:level + 1];
 
     [resultString indentToLevel:level];
-    [resultString appendFormat:@"</proto-template>\n"];
+    [resultString appendFormat:@"</transition>\n"];
 }
 
 @end

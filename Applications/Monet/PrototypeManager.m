@@ -885,7 +885,7 @@ static NSString *specialString = @"ProtoSpecial";
     int count, index;
 
     [resultString indentToLevel:level];
-    [resultString appendString:@"<proto-equations>\n"];
+    [resultString appendString:@"<equations>\n"];
     count = [protoEquations count];
     for (index = 0; index < count; index++) {
         namedList = [protoEquations objectAtIndex:index];
@@ -893,7 +893,7 @@ static NSString *specialString = @"ProtoSpecial";
     }
 
     [resultString indentToLevel:level];
-    [resultString appendString:@"</proto-equations>\n"];
+    [resultString appendString:@"</equations>\n"];
 }
 
 - (void)_appendXMLForProtoTemplatesToString:(NSMutableString *)resultString level:(int)level;
@@ -902,7 +902,7 @@ static NSString *specialString = @"ProtoSpecial";
     int count, index;
 
     [resultString indentToLevel:level];
-    [resultString appendString:@"<proto-templates>\n"];
+    [resultString appendString:@"<transitions>\n"];
     count = [protoTemplates count];
     for (index = 0; index < count; index++) {
         namedList = [protoTemplates objectAtIndex:index];
@@ -910,7 +910,7 @@ static NSString *specialString = @"ProtoSpecial";
     }
 
     [resultString indentToLevel:level];
-    [resultString appendString:@"</proto-templates>\n"];
+    [resultString appendString:@"</transitions>\n"];
 }
 
 - (void)_appendXMLForProtoSpecialsToString:(NSMutableString *)resultString level:(int)level;
@@ -919,7 +919,7 @@ static NSString *specialString = @"ProtoSpecial";
     int count, index;
 
     [resultString indentToLevel:level];
-    [resultString appendString:@"<proto-specials>\n"];
+    [resultString appendString:@"<special-transitions>\n"];
     count = [protoSpecial count];
     for (index = 0; index < count; index++) {
         namedList = [protoSpecial objectAtIndex:index];
@@ -927,7 +927,7 @@ static NSString *specialString = @"ProtoSpecial";
     }
 
     [resultString indentToLevel:level];
-    [resultString appendString:@"</proto-specials>\n"];
+    [resultString appendString:@"</special-transitions>\n"];
 }
 
 @end

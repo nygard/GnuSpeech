@@ -576,7 +576,7 @@
         return;
 
     [resultString indentToLevel:level];
-    [resultString appendString:@"<phones>\n"];
+    [resultString appendString:@"<postures>\n"];
 
     for (index = 0; index < count; index++) {
         Phone *aPhone;
@@ -586,7 +586,7 @@
     }
 
     [resultString indentToLevel:level];
-    [resultString appendString:@"</phones>\n"];
+    [resultString appendString:@"</postures>\n"];
 }
 
 @end

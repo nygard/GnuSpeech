@@ -153,7 +153,7 @@
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 {
     [resultString indentToLevel:level];
-    [resultString appendFormat:@"<proto-equation name=\"%@\" formula=\"%@\"",
+    [resultString appendFormat:@"<equation name=\"%@\" formula=\"%@\"",
                   GSXMLAttributeString(name, NO), GSXMLAttributeString([expression expressionString], NO)];
 
     if (comment == nil) {
@@ -165,7 +165,7 @@
         [resultString appendFormat:@"<comment>%@</comment>\n", GSXMLCharacterData(comment)];
 
         [resultString indentToLevel:level];
-        [resultString appendFormat:@"</proto-equation>\n"];
+        [resultString appendFormat:@"</equation>\n"];
     }
 }
 

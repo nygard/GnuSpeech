@@ -254,7 +254,7 @@
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 {
     [resultString indentToLevel:level];
-    [resultString appendFormat:@"<phone symbol=\"%@\"", GSXMLAttributeString(phoneSymbol, NO)];
+    [resultString appendFormat:@"<posture symbol=\"%@\"", GSXMLAttributeString(phoneSymbol, NO)];
 
     if (comment == nil && [categoryList count] == 0 && [parameterList count] == 0 && [metaParameterList count] == 0 && [symbolList count] == 0) {
         [resultString appendString:@"/>\n"];
@@ -272,7 +272,7 @@
         [self _appendXMLForSymbolsToString:resultString level:level + 1];
 
         [resultString indentToLevel:level];
-        [resultString appendString:@"</phone>\n"];
+        [resultString appendString:@"</posture>\n"];
     }
 }
 
