@@ -4,6 +4,7 @@
 #import "NSString-Extensions.h"
 
 #import "AppController.h" // To get NXGetNamedObject()
+#import "CategoryNode.h"
 #import "CategoryList.h"
 #import "GSXMLFunctions.h"
 #import "Parameter.h"
@@ -165,8 +166,6 @@
 #define SYMBOL_LENGTH_MAX       12
 - (void)readDegasFileFormat:(FILE *)fp;
 {
-#warning Read Degas file not yet ported
-#ifdef PORTING
     int i, j, symbolIndex;
     int phoneCount, targetCount, categoryCount;
 
@@ -183,7 +182,7 @@
     ParameterList *parms, *metaParms;
     Target *tempTarget;
     char tempSymbol[SYMBOL_LENGTH_MAX + 1];
-
+    NSString *str;
 
     categories = NXGetNamedObject(@"mainCategoryList", NSApp);
     symbols = NXGetNamedObject(@"mainSymbolList", NSApp);
@@ -192,10 +191,9 @@
 
     symbolIndex = [symbols findSymbolIndex:"duration"];
 
-    if (symbolIndex == (-1))
-    {
-        [symbols addNewValue:"duration"];
-        symbolIndex = [symbols findSymbolIndex:"duration"];
+    if (symbolIndex == -1) {
+        [symbols addNewValue:@"duration"];
+        symbolIndex = [symbols findSymbolIndex:@"duration"];
         [self addSymbol];
     }
 
@@ -204,12 +202,11 @@
     fread(&targetCount, sizeof(int), 1, fp);
 
     /* READ PHONE DESCRIPTION FROM FILE  */
-    for (i = 0; i < phoneCount; i++)
-    {
+    for (i = 0; i < phoneCount; i++) {
         fread(tempSymbol, SYMBOL_LENGTH_MAX + 1, 1, fp);
+        str = [NSString stringWithASCIICString:tempSymbol];
 
-        tempPhone = [[Phone alloc] initWithSymbol:tempSymbol parmeters:parms metaParameters: metaParms
-                                   symbols: symbols];
+        tempPhone = [[Phone alloc] initWithSymbol:str parmeters:parms metaParameters:metaParms symbols:symbols];
         [self addPhoneObject:tempPhone];
 
         /* READ SYMBOL AND DURATIONS FROM FILE  */
@@ -222,8 +219,7 @@
         [tempTarget setValue:(double) tempDuration isDefault:NO];
 
         /* READ TARGETS IN FROM FILE  */
-        for (j = 0; j < targetCount; j++)
-        {
+        for (j = 0; j < targetCount; j++) {
             tempTarget = [[tempPhone parameterList] objectAtIndex:j];
 
             /* READ IN DATA FROM FILE  */
@@ -232,86 +228,78 @@
 
             [tempTarget setValue:tempValue];
             [tempTarget setDefault:tempDefault];
-
         }
 
         /* READ IN CATEGORIES FROM FILE  */
         fread(&categoryCount, sizeof(int), 1, fp);
-        for (j = 0; j < categoryCount; j++)
-        {
+        for (j = 0; j < categoryCount; j++) {
             /* READ IN DATA FROM FILE  */
             fread(tempSymbol, SYMBOL_LENGTH_MAX + 1, 1, fp);
-            tempCategory = [categories findSymbol:tempSymbol];
-            if (!tempCategory)
-            {
+            str = [NSString stringWithASCIICString:tempSymbol];
+
+            tempCategory = [categories findSymbol:str];
+            if (!tempCategory) {
                 [[tempPhone categoryList] addNativeCategory:tempSymbol];
-            }
-            else
+            } else
                 [[tempPhone categoryList] addObject:tempCategory];
 
         }
     }
-#endif
 }
 
 - (void)printDataTo:(FILE *)fp;
 {
-#warning Print data not yet ported
-#ifdef PORTING
     int i, j;
     id temp;
-    id symbols, parms, metaParms;
+    SymbolList *symbols;
+    ParameterList *parms, *metaParms;
 
     symbols = NXGetNamedObject(@"mainSymbolList", NSApp);
     parms = NXGetNamedObject(@"mainParameterList", NSApp);
     metaParms = NXGetNamedObject(@"mainMetaParameterList", NSApp);
 
     fprintf(fp, "Phones\n");
-    for (i = 0; i<[self count]; i++)
-    {
-        fprintf(fp, "%s\n", [[self objectAtIndex: i] symbol]);
-        temp = [[self objectAtIndex: i] categoryList];
-        for (j = 0; j<[temp count]; j++)
-        {
-            if ([[temp objectAtIndex: j] native])
-                fprintf(fp, "*%s ", [[temp objectAtIndex: j] symbol]);
+    for (i = 0; i< [self count]; i++) {
+        fprintf(fp, "%s\n", [[[self objectAtIndex:i] symbol] UTF8String]);
+        temp = [[self objectAtIndex:i] categoryList];
+        for (j = 0; j < [temp count]; j++) {
+            if ([[temp objectAtIndex:j] isNative])
+                fprintf(fp, "*%s ", [[[temp objectAtIndex:j] symbol] UTF8String]);
             else
-                fprintf(fp, "%s ", [[temp objectAtIndex: j] symbol]);
+                fprintf(fp, "%s ", [[[temp objectAtIndex:j] symbol] UTF8String]);
         }
         fprintf(fp, "\n\n");
 
-        temp = [[self objectAtIndex: i] parameterList];
-        for (j = 0; j<[temp count]/2; j++)
-        {
-            if ([[temp objectAtIndex: j] isDefault])
-                fprintf(fp, "\t%s: *%f\t\t", [[parms objectAtIndex: j] symbol], [[temp objectAtIndex: j] value]);
+        temp = [[self objectAtIndex:i] parameterList];
+        for (j = 0; j < [temp count] / 2; j++) {
+            if ([[temp objectAtIndex:j] isDefault])
+                fprintf(fp, "\t%s: *%f\t\t", [[[parms objectAtIndex:j] symbol] UTF8String], [[temp objectAtIndex:j] value]);
             else
-                fprintf(fp, "\t%s: %f\t\t", [[parms objectAtIndex: j] symbol], [[temp objectAtIndex: j] value]);
+                fprintf(fp, "\t%s: %f\t\t", [[[parms objectAtIndex:j] symbol] UTF8String], [[temp objectAtIndex:j] value]);
 
             if ([[temp objectAtIndex: j+8] isDefault])
-                fprintf(fp, "%s: *%f\n", [[parms objectAtIndex: j+8] symbol], [[temp objectAtIndex: j+8] value]);
+                fprintf(fp, "%s: *%f\n", [[[parms objectAtIndex:j+8] symbol] UTF8String], [[temp objectAtIndex:j+8] value]);
             else
-                fprintf(fp, "%s: %f\n", [[parms objectAtIndex: j+8] symbol], [[temp objectAtIndex: j+8] value]);
+                fprintf(fp, "%s: %f\n", [[[parms objectAtIndex:j+8] symbol] UTF8String], [[temp objectAtIndex:j+8] value]);
         }
         fprintf(fp, "\n\n");
 
-        temp = [[self objectAtIndex: i] symbolList];
+        temp = [[self objectAtIndex:i] symbolList];
         for (j = 0; j<[temp count]; j++)
         {
-            if ([[temp objectAtIndex: j] isDefault])
-                fprintf(fp, "%s: *%f ", [[symbols objectAtIndex: j] symbol], [[temp objectAtIndex: j] value]);
+            if ([[temp objectAtIndex:j] isDefault])
+                fprintf(fp, "%s: *%f ", [[[symbols objectAtIndex:j] symbol] UTF8String], [[temp objectAtIndex:j] value]);
             else
-                fprintf(fp, "%s: %f ", [[symbols objectAtIndex: j] symbol], [[temp objectAtIndex: j] value]);
+                fprintf(fp, "%s: %f ", [[[symbols objectAtIndex:j] symbol] UTF8String], [[temp objectAtIndex:j] value]);
         }
         fprintf(fp, "\n\n");
 
-        if ([[self objectAtIndex: i] comment])
-            fprintf(fp,"%s\n", [[self objectAtIndex: i] comment]);
+        if ([[self objectAtIndex:i] comment])
+            fprintf(fp,"%s\n", [[[self objectAtIndex:i] comment] UTF8String]);
 
         fprintf(fp, "\n");
     }
     fprintf(fp, "\n");
-#endif
 }
 
 - (void)parameterDefaultChange:(Parameter *)parameter to:(double)value;

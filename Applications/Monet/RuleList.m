@@ -1,6 +1,8 @@
 #import "RuleList.h"
 
 #import <Foundation/Foundation.h>
+#import "NSString-Extensions.h"
+
 #import "AppController.h"
 #import "BooleanParser.h"
 #import "Rule.h"
@@ -75,8 +77,6 @@
 #define SYMBOL_LENGTH_MAX 12
 - (void)readDegasFileFormat:(FILE *)fp;
 {
-#warning Read Degas file not yet ported
-#ifdef PORTING
     int numRules;
     int i, j, k, l;
     int j1, k1, l1;
@@ -86,6 +86,7 @@
     char buffer1[1024];
     BooleanParser *boolParser;
     id temp, temp1;
+    NSString *bufferStr, *buffer1Str;
 
     boolParser = [[BooleanParser alloc] init];
     [boolParser setCategoryList:NXGetNamedObject(@"mainCategoryList", NSApp)];
@@ -96,18 +97,20 @@
     for (i = 0; i < numRules; i++) {
         /* READ SPECIFIER CATEGORY #1 FROM FILE  */
         NXRead(fp, &tempLength, sizeof(int));
-        bzero(buffer,1024);
+        bzero(buffer, 1024);
         NXRead(fp, buffer, tempLength+1);
-        temp = [boolParser parseString:buffer];
+        bufferStr = [NSString stringWithASCIICString:buffer];
+        temp = [boolParser parseString:bufferStr];
 
         /* READ SPECIFIER CATEGORY #2 FROM FILE  */
         NXRead(fp, &tempLength, sizeof(int));
-        bzero(buffer1,1024);
+        bzero(buffer1, 1024);
         NXRead(fp, buffer1, tempLength+1);
-        temp1 = [boolParser parseString:buffer1];
-//		printf("%s >> %s\n", buffer, buffer1);
+        buffer1Str = [NSString stringWithASCIICString:buffer1];
+        temp1 = [boolParser parseString:buffer1Str];
+        //printf("%s >> %s\n", buffer, buffer1);
 
-        [self addRuleExp1: temp exp2: temp1 exp3: nil exp4: nil];
+        [self addRuleExp1:temp exp2:temp1 exp3:nil exp4:nil];
 
         /* READ TRANSITION INTERVALS FROM FILE  */
         NXRead(fp, &k1, sizeof(int));
@@ -152,7 +155,6 @@
     }
 
     [boolParser release];
-#endif
 }
 
 - (BOOL)isCategoryUsed:aCategory;

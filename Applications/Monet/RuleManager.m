@@ -758,7 +758,7 @@ static NSString *ruleString = @"Rule";
 
 - (void)readDegasFileFormat:(FILE *)fp;
 {
-    [ruleList readDegasFileFormat:(FILE *) fp];
+    [ruleList readDegasFileFormat:(FILE *)fp];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder;

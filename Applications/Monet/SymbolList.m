@@ -84,21 +84,17 @@
 
 - (void)printDataTo:(FILE *)fp;
 {
-#warning Print data not yet ported
-#ifdef PORTING
     int i;
     fprintf(fp, "Symbols\n");
-    for (i = 0; i<[self count]; i++)
-    {
-        fprintf(fp, "%s\n", [[self objectAtIndex: i] symbol]);
+    for (i = 0; i < [self count]; i++) {
+        fprintf(fp, "%s\n", [[[self objectAtIndex:i] symbol] UTF8String]);
         fprintf(fp, "Min: %f  Max: %f  Default: %f\n",
-                [[self objectAtIndex: i] minimumValue], [[self objectAtIndex: i] maximumValue], [[self objectAtIndex: i] defaultValue]);
-        if ([[self objectAtIndex: i] comment])
-            fprintf(fp,"%s\n", [[self objectAtIndex: i] comment]);
+                [[self objectAtIndex:i] minimumValue], [[self objectAtIndex:i] maximumValue], [[self objectAtIndex:i] defaultValue]);
+        if ([[self objectAtIndex:i] comment])
+            fprintf(fp,"%s\n", [[[self objectAtIndex:i] comment] UTF8String]);
         fprintf(fp, "\n");
     }
     fprintf(fp, "\n");
-#endif
 }
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;

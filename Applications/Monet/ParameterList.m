@@ -96,59 +96,50 @@
 #define SYMBOL_LENGTH_MAX 12
 - (void)readDegasFileFormat:(FILE *)fp;
 {
-#warning Read Degas file not yet ported
-#ifdef PORTING
     int i, sampleSize, number_of_phones, number_of_parameters;
     float tempMin, tempMax, tempDef;
     char tempSymbol[SYMBOL_LENGTH_MAX + 1];
+    NSString *str;
 
     /* READ SAMPLE SIZE FROM FILE  */
     fread((char *)&sampleSize, sizeof(sampleSize), 1, fp);
 
     /* READ PHONE SYMBOLS FROM FILE  */
     fread((char *)&number_of_phones, sizeof(number_of_phones), 1, fp);
-    for (i = 0; i < number_of_phones; i++)
-    {
+    for (i = 0; i < number_of_phones; i++) {
         fread(tempSymbol, SYMBOL_LENGTH_MAX + 1, 1, fp);
     }
 
     /* READ PARAMETERS FROM FILE  */
     fread((char *)&number_of_parameters, sizeof(number_of_parameters), 1, fp);
 
-    for (i = 0; i < number_of_parameters; i++)
-    {
+    for (i = 0; i < number_of_parameters; i++) {
         bzero(tempSymbol, SYMBOL_LENGTH_MAX + 1);
-
         fread(tempSymbol, SYMBOL_LENGTH_MAX +1, 1, fp);
+        str = [NSString stringWithASCIICString:tempSymbol];
 
         fread(&tempMin, sizeof(float), 1, fp);
         fread(&tempMax, sizeof(float), 1, fp);
         fread(&tempDef, sizeof(float), 1, fp);
 
-        [self addParameter:tempSymbol min:tempMin max:tempMax def:tempDef];
-
+        [self addParameter:str min:tempMin max:tempMax def:tempDef];
     }
-#endif
 }
 
 - (void)printDataTo:(FILE *)fp;
 {
-#warning Print data not yet ported
-#ifdef PORTING
     int i;
 
     fprintf(fp, "Parameters\n");
-    for (i = 0; i < [self count]; i++)
-    {
-        fprintf(fp, "%s\n", [[self objectAtIndex:i] symbol]);
+    for (i = 0; i < [self count]; i++) {
+        fprintf(fp, "%s\n", [[[self objectAtIndex:i] symbol] UTF8String]);
         fprintf(fp, "Min: %f  Max: %f  Default: %f\n",
                 [[self objectAtIndex:i] minimumValue], [[self objectAtIndex:i] maximumValue], [[self objectAtIndex:i] defaultValue]);
         if ([[self objectAtIndex:i] comment])
-            fprintf(fp,"%s\n", [[self objectAtIndex:i] comment]);
+            fprintf(fp,"%s\n", [[[self objectAtIndex:i] comment] UTF8String]);
         fprintf(fp, "\n");
     }
     fprintf(fp, "\n");
-#endif
 }
 
 - (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(int)level;

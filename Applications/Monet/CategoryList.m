@@ -86,12 +86,11 @@
 #define SYMBOL_LENGTH_MAX 12
 - (void)readDegasFileFormat:(FILE *)fp;
 {
-#warning Read Degas file not yet ported
-#ifdef PORTING
     int i, count;
 
     CategoryNode *currentNode;
     char tempString[SYMBOL_LENGTH_MAX+1];
+    NSString *str;
 
     /* Load in the count */
     fread(&count, sizeof(int), 1, fp);
@@ -99,30 +98,27 @@
     for (i = 0; i < count; i++) {
         fread(tempString, SYMBOL_LENGTH_MAX+1, 1, fp);
 
-        currentNode = [[CategoryNode alloc] initWithSymbol:tempString];
+        str = [NSString stringWithASCIICString:tempString];
+        currentNode = [[CategoryNode alloc] initWithSymbol:str];
         [self addObject:currentNode];
     }
 
-    if (![self findSymbol:"phone"])
-        [self addCategory:"phone"];
-#endif
+    if (![self findSymbol:@"phone"])
+        [self addCategory:@"phone"];
 }
 
 - (void)printDataTo:(FILE *)fp;
 {
-#warning Print data not yet ported
-#ifdef PORTING
     int i;
 
     fprintf(fp, "Categories\n");
     for (i = 0; i < [self count]; i++) {
-        fprintf(fp, "%s\n", [[self objectAtIndex:i] symbol]);
+        fprintf(fp, "%s\n", [[[self objectAtIndex:i] symbol] UTF8String]);
         if ([[self objectAtIndex:i] comment])
-            fprintf(fp, "%s\n", [[self objectAtIndex:i] comment]);
+            fprintf(fp, "%s\n", [[[self objectAtIndex:i] comment] UTF8String]);
         fprintf(fp, "\n");
     }
     fprintf(fp, "\n");
-#endif
 }
 
 - (NSString *)description;
