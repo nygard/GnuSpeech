@@ -58,7 +58,6 @@
     MMCategory *nativeCategory;
 }
 
-/* init and free methods */
 #if 0
 - (id)init;
 - (id)initWithSymbol:(NSString *)newSymbol;
@@ -70,7 +69,6 @@
 
 - (void)dealloc;
 
-/* Comment and Symbol methods */
 - (NSString *)symbol;
 - (void)setSymbol:(NSString *)newSymbol;
 
@@ -78,7 +76,8 @@
 - (void)setComment:(NSString *)newComment;
 - (BOOL)hasComment;
 
-/* Access to category List instance variable */
+// Categories
+- (MMCategory *)nativeCategory;
 - (CategoryList *)categoryList;
 - (void)addCategory:(MMCategory *)aCategory;
 - (void)removeCategory:(MMCategory *)aCategory;

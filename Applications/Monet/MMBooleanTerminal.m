@@ -102,7 +102,6 @@
 {
     unsigned archivedVersion;
     char *c_string;
-    CategoryList *categoryList;
     MMCategory *aCategory;
     NSString *str;
     MModel *model;
@@ -117,8 +116,6 @@
     archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
     //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
 
-    categoryList = [model categories];
-
     [aDecoder decodeValueOfObjCType:"i" at:&match]; // Can't decode an int into a BOOL
     //NSLog(@"match: %d", match);
     shouldMatchAll = match;
@@ -130,10 +127,9 @@
     //NSLog(@"c_string: %s", c_string);
     str = [NSString stringWithASCIICString:c_string];
 
-    aCategory = [categoryList findSymbol:str];
+    aCategory = [model categoryWithName:str];
     if (aCategory == nil) {
-        aCategory = [[[model postureWithName:str] categoryList] findSymbol:str];
-        category = [aCategory retain];
+        category = [[[model postureWithName:str] nativeCategory] retain];
     } else {
         category = [aCategory retain];
     }

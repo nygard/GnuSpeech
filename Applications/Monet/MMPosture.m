@@ -196,6 +196,15 @@
     return comment != nil && [comment length] > 0;
 }
 
+//
+// Categories
+//
+
+- (MMCategory *)nativeCategory;
+{
+    return nativeCategory;
+}
+
 - (CategoryList *)categoryList;
 {
     return categoryList;
