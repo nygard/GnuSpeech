@@ -386,17 +386,18 @@
 
     [eventList printDataStructures:@"Before synthesis"];
     [eventTableView reloadData];
-    {
-        [synthesizer setupSynthesisParameters:[[self model] synthesisParameters]];
-        [synthesizer removeAllParameters];
-        [eventList setDelegate:synthesizer];
-        [eventList generateOutput];
-        [eventList setDelegate:nil];
-        if (shouldSaveToSoundFile == YES)
-            [synthesizer synthesizeToSoundFile:[filenameField stringValue] type:[[fileTypePopUpButton selectedItem] tag]];
-        else
-            [synthesizer synthesize];
-    }
+
+    [synthesizer setupSynthesisParameters:[[self model] synthesisParameters]];
+    [synthesizer removeAllParameters];
+
+    [eventList setDelegate:synthesizer];
+    [eventList generateOutput];
+    [eventList setDelegate:nil];
+
+    if (shouldSaveToSoundFile == YES)
+        [synthesizer synthesizeToSoundFile:[filenameField stringValue] type:[[fileTypePopUpButton selectedItem] tag]];
+    else
+        [synthesizer synthesize];
 
     [eventListView setEventList:eventList];
     [eventListView display]; // TODO (2004-03-17): It's not updating otherwise
