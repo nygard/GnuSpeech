@@ -30,4 +30,6 @@
 - (double)getValueAtIndex:(int)index;
 - (void)setValue:(double)newValue ofIndex:(int)index;
 
+- (NSString *)description;
+
 @end

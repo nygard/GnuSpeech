@@ -435,7 +435,7 @@ static void page_consumed(void)
 
 
     if ([self count] == 0) {
-        tempEvent = [[Event alloc] init];
+        tempEvent = [[[Event alloc] init] autorelease];
         [tempEvent setTime:tempTime];
         if (number >= 0) {
             if ((number >= 7) && (number <= 8))
@@ -476,7 +476,7 @@ static void page_consumed(void)
     }
 
 
-    tempEvent = [[Event alloc] init];
+    tempEvent = [[[Event alloc] init] autorelease];
     [tempEvent setTime:tempTime];
     if (number >= 0) {
         if ((number >= 7) && (number <= 8))
@@ -493,11 +493,11 @@ static void page_consumed(void)
 
 - (void)finalEvent:(int)number withValue:(double)value;
 {
-    Event *tempEvent;
+    Event *lastEvent;
 
-    tempEvent = [self lastObject];
-    [tempEvent setValue:value ofIndex:number];
-    [tempEvent setFlag:YES];
+    lastEvent = [self lastObject];
+    [lastEvent setValue:value ofIndex:number];
+    [lastEvent setFlag:YES];
 }
 
 - (Event *)lastEvent;
@@ -510,7 +510,9 @@ static void page_consumed(void)
     int i, j, k;
     //int synthStatus = IDLE;
     int currentTime, nextTime;
+#ifdef HAVE_DSP
     int watermark = 0;
+#endif
     double currentValues[36];
     double currentDeltas[36];
     double temp;
@@ -520,6 +522,8 @@ static void page_consumed(void)
     float silencePage[16] = {0.0, 0.0, 0.0, 0.0, 5.5, 2500.0, 500.0, 0.8, 0.89, 0.99, 0.81, 0.76, 1.05, 1.23, 0.01, 0.0};
     DSPFix24 *silenceTable;
 #endif
+
+    NSLog(@"%s, self: %@", _cmd, self);
 
     if ([self count] == 0)
         return;
@@ -546,7 +550,7 @@ static void page_consumed(void)
 
     if (smoothIntonation) {
         j = 0;
-        while( ( temp = [[self objectAtIndex:j] getValueAtIndex:32]) == NaN) {
+        while ( (temp = [[self objectAtIndex:j] getValueAtIndex:32]) == NaN) {
             j++;
             if (j >= [self count])
                 break;
@@ -557,7 +561,7 @@ static void page_consumed(void)
         //NSLog(@"Smooth intonation: %f %f j = %d", currentValues[32], currentDeltas[32], j);
     } else {
         j = 1;
-        while( ( temp = [[self objectAtIndex:j] getValueAtIndex:32]) == NaN) {
+        while ( (temp = [[self objectAtIndex:j] getValueAtIndex:32]) == NaN) {
             j++;
             if (j >= [self count])
                 break;
@@ -579,11 +583,15 @@ static void page_consumed(void)
     nextTime = [[self objectAtIndex:1] time];
     while (i < [self count]) {
         /* If buffer space is available, perform calculations */
-        if (bufferFree[currentInputBuffer] == 1) {
 #ifdef HAVE_DSP
-            bzero(outputBuffer + (currentInputBuffer*NSPageSize()), 8192);
+            //if (bufferFree[currentInputBuffer] == 1) {
+            //bzero(outputBuffer + (currentInputBuffer*NSPageSize()), 8192);
 #endif
-            while (currentIndex < 8192) {
+        {
+#ifdef HAVE_DSP
+            //while (currentIndex < 8192) {
+#endif
+            while (1) { // Keeping this a while loop so I don't break breaks.
                 for (j = 0; j < 16; j++) {
                     table[j] = (float)currentValues[j] + (float)currentValues[j+16];
                 }
@@ -604,8 +612,8 @@ static void page_consumed(void)
                             table[12], table[13], table[14], table[15]);
 #ifdef HAVE_DSP
                 convert_parameter_table(table, outputBuffer + (currentInputBuffer*NSPageSize()) + currentIndex);
-#endif
                 currentIndex += 128;
+#endif
 
                 for (j = 0 ; j < 32; j++) {
                     if (currentDeltas[j])
@@ -630,7 +638,7 @@ static void page_consumed(void)
                     for (j = 0; j < 33; j++) {
                         if ([[self objectAtIndex:i-1] getValueAtIndex:j] != NaN) {
                             k = i;
-                            while (( temp = [[self objectAtIndex:k] getValueAtIndex:j]) == NaN) {
+                            while ((temp = [[self objectAtIndex:k] getValueAtIndex:j]) == NaN) {
                                 if (k >= [self count] - 1) {
                                     currentDeltas[j] = 0.0;
                                     break;
@@ -659,6 +667,7 @@ static void page_consumed(void)
 
             if (i >= [self count])
                 break;
+#ifdef HAVE_DSP
             if (currentIndex >= 8192) {
                 //NSLog(@"Calculated page %d.", currentInputBuffer);
                 bufferFree[currentInputBuffer] = 0;
@@ -667,6 +676,7 @@ static void page_consumed(void)
                 watermark++;
                 //NSLog(@" new page = %d", currentInputBuffer);
             }
+#endif
         }
 #ifdef HAVE_DSP
         if ((synthStatus == IDLE) && (watermark > 14))
@@ -681,12 +691,12 @@ static void page_consumed(void)
         if (start_synthesizer() == ST_NO_ERROR)
             synthStatus = RUNNING;
 #endif
+#ifdef HAVE_DSP
     if (currentIndex < 8192) {
         if (softwareSynthesis) {
             fclose(fp);
             fp = NULL;
         }
-#ifdef HAVE_DSP
         if (fp)
             fprintf(fp, "Start of Padding\n");
         silenceTable = new_dsp_pad_table(silencePage);
@@ -708,10 +718,10 @@ static void page_consumed(void)
         bufferFree[currentInputBuffer] = 0;
         free(silenceTable);
         //NSLog(@"Finished Silencing page %d", currentInputBuffer);
-#endif
     } else {
         bufferFree[currentInputBuffer] = 0;
     }
+#endif
 
 #ifdef HAVE_DSP
     while (bufferFree[currentOutputBuffer] != 1) {
@@ -783,6 +793,7 @@ static void page_consumed(void)
     tempCategoryList = [[MonetList alloc] initWithCapacity:4];
     bzero(tempoList, sizeof(double) * 4);
 
+    NSLog(@"currentFoot: %d", currentFoot);
     for (i = 0; i < currentFoot; i++) {
         rus = feet[i].end - feet[i].start + 1;
         /* Apply rhythm model */
@@ -814,13 +825,14 @@ static void page_consumed(void)
         [tempPhoneList removeAllObjects];
         [tempCategoryList removeAllObjects];
         i = index;
+
         for (j = 0; j < 4; j++) {
             [tempPhoneList addObject:phones[j+i].phone];
             [tempCategoryList addObject:[phones[j+i].phone categoryList]];
         }
-        tempRule = [ruleList findRule:tempCategoryList index:&ruleIndex];
 
-        rules[currentRule].number = ruleIndex+1;
+        tempRule = [ruleList findRule:tempCategoryList index:&ruleIndex];
+        rules[currentRule].number = ruleIndex + 1;
 
         [self applyRule:tempRule withPhones:tempPhoneList andTempos:&phoneTempo[i] phoneIndex:i+1];
 
@@ -856,21 +868,21 @@ static void page_consumed(void)
     rules[currentRule].firstPhone = phoneIndex - 1;
     rules[currentRule].lastPhone = phoneIndex - 2 + type;
     rules[currentRule].beat = (ruleSymbols[1]*multiplier) + (double)zeroRef;
-    rules[currentRule++].duration = ruleSymbols[0]*multiplier;
+    rules[currentRule++].duration = ruleSymbols[0] * multiplier;
 
     switch(type) {
         /* Note: Case 4 should execute all of the below, case 3 the last two */
       case 4:
           phones[phoneIndex+2].onset = (double)zeroRef + ruleSymbols[1];
-          tempEvent = [self insertEvent:(-1) atTime:ruleSymbols[3] withValue:0.0];
+          tempEvent = [self insertEvent:-1 atTime:ruleSymbols[3] withValue:0.0];
           [tempEvent setFlag:YES];
       case 3:
           phones[phoneIndex+1].onset = (double)zeroRef + ruleSymbols[1];
-          tempEvent = [self insertEvent:(-1) atTime:ruleSymbols[2] withValue:0.0];
+          tempEvent = [self insertEvent:-1 atTime:ruleSymbols[2] withValue:0.0];
           [tempEvent setFlag:YES];
       case 2:
           phones[phoneIndex].onset = (double)zeroRef + ruleSymbols[1];
-          tempEvent = [self insertEvent:(-1) atTime:0.0 withValue:0.0];
+          tempEvent = [self insertEvent:-1 atTime:0.0 withValue:0.0];
           [tempEvent setFlag:YES];
           break;
     }
@@ -1084,8 +1096,8 @@ static void page_consumed(void)
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@>[%p]: currentPhone: %d, currentFoot: %d, currentToneGroup: %d, currentRule: %d, + a bunch of other stuff",
-                     NSStringFromClass([self class]), self, currentPhone, currentFoot, currentToneGroup, currentRule];
+    return [NSString stringWithFormat:@"<%@>[%p]: currentPhone: %d, currentFoot: %d, currentToneGroup: %d, currentRule: %d, + a bunch of other stuff, super: %@",
+                     NSStringFromClass([self class]), self, currentPhone, currentFoot, currentToneGroup, currentRule, [super description]];
 }
 
 @end
