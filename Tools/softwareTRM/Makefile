@@ -41,7 +41,27 @@ all:: $(PROGRAM)
 
 $(PROGRAM): $(PROGRAM).c
 	cc $(PROGRAM).c -o $@ $(ARCHS) $(CFLAGS) $(OPTIMIZATION_CFLAGS)
-	strip $@
+#	strip $@
 
 clean::
 	/bin/rm -rf $(PROGRAM)
+
+optcomp:: tube-O0 tube-O1 tube-O2 tube-O3 tube-O4 tube-Os
+
+tube-O0: tube.c
+	cc tube.c -o tube-O0 $(ARCHS) $(CFLAGS) -O0
+
+tube-O1: tube.c
+	cc tube.c -o tube-O1 $(ARCHS) $(CFLAGS) -O1
+
+tube-O2: tube.c
+	cc tube.c -o tube-O2 $(ARCHS) $(CFLAGS) -O2
+
+tube-O3: tube.c
+	cc tube.c -o tube-O3 $(ARCHS) $(CFLAGS) -O3
+
+tube-O4: tube.c
+	cc tube.c -o tube-O4 $(ARCHS) $(CFLAGS) -O4
+
+tube-Os: tube.c
+	cc tube.c -o tube-Os $(ARCHS) $(CFLAGS) -Os
