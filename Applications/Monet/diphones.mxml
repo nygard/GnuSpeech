@@ -6574,9 +6574,6 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <parameter-transition name="velum" transition="velarOpening"/>
       </parameter-profiles>
       <special-profiles>
-        <parameter-transition name="aspVol" transition="Null"/>
-        <parameter-transition name="fricVol" transition="Null"/>
-        <parameter-transition name="r8" transition="Null"/>
       </special-profiles>
       <expression-symbols>
         <symbol-equation name="rd" equation="VStopVTotalDur"/>
@@ -6611,9 +6608,6 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <parameter-transition name="velum" transition="velarOpening"/>
       </parameter-profiles>
       <special-profiles>
-        <parameter-transition name="aspVol" transition="Null"/>
-        <parameter-transition name="fricVol" transition="Null"/>
-        <parameter-transition name="r8" transition="Null"/>
       </special-profiles>
       <expression-symbols>
         <symbol-equation name="rd" equation="VStopVTotalDur"/>
@@ -6648,9 +6642,6 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <parameter-transition name="velum" transition="velarOpening"/>
       </parameter-profiles>
       <special-profiles>
-        <parameter-transition name="aspVol" transition="Null"/>
-        <parameter-transition name="fricVol" transition="Null"/>
-        <parameter-transition name="r8" transition="Null"/>
       </special-profiles>
       <expression-symbols>
         <symbol-equation name="rd" equation="VStopVTotalDur"/>
@@ -6686,7 +6677,6 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <parameter-transition name="velum" transition="voicedStopClosure"/>
       </parameter-profiles>
       <special-profiles>
-        <parameter-transition name="aspVol" transition="Null"/>
         <parameter-transition name="fricVol" transition="jFricBurst"/>
       </special-profiles>
       <expression-symbols>
@@ -6797,7 +6787,6 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
       <special-profiles>
         <parameter-transition name="aspVol" transition="pOrbAspBurst"/>
         <parameter-transition name="fricVol" transition="pOrbFricBurst"/>
-        <parameter-transition name="r8" transition="Null"/>
       </special-profiles>
       <expression-symbols>
         <symbol-equation name="rd" equation="VStopVTotalDur"/>
@@ -6871,7 +6860,6 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
       <special-profiles>
         <parameter-transition name="aspVol" transition="pOrbAspBurst"/>
         <parameter-transition name="fricVol" transition="pOrbFricBurst"/>
-        <parameter-transition name="r8" transition="Null"/>
       </special-profiles>
       <expression-symbols>
         <symbol-equation name="rd" equation="VStopVTotalDur"/>
@@ -6906,7 +6894,6 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <parameter-transition name="velum" transition="voicedStopClosure"/>
       </parameter-profiles>
       <special-profiles>
-        <parameter-transition name="aspVol" transition="Null"/>
         <parameter-transition name="fricVol" transition="tOrdFricFinalBurst"/>
       </special-profiles>
       <expression-symbols>
@@ -6944,9 +6931,6 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
       <special-profiles>
         <parameter-transition name="aspVol" transition="tAspBurst"/>
         <parameter-transition name="fricVol" transition="tTorFricBurst"/>
-        <parameter-transition name="fricPos" transition="Null"/>
-        <parameter-transition name="fricCF" transition="Null"/>
-        <parameter-transition name="fricBW" transition="Null"/>
       </special-profiles>
       <expression-symbols>
         <symbol-equation name="rd" equation="VStopVTotalDur"/>
@@ -7168,7 +7152,6 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <parameter-transition name="microInt" transition="vlessStopMicroInt"/>
         <parameter-transition name="aspVol" transition="pOrbAspBurst"/>
         <parameter-transition name="fricVol" transition="pOrbFricBurst"/>
-        <parameter-transition name="r8" transition="Null"/>
       </special-profiles>
       <expression-symbols>
         <symbol-equation name="rd" equation="VStopVTotalDur"/>
@@ -7206,9 +7189,6 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <parameter-transition name="microInt" transition="vlessStopMicroInt"/>
         <parameter-transition name="aspVol" transition="tAspFinalBurst"/>
         <parameter-transition name="fricVol" transition="tOrdFricFinalBurst"/>
-        <parameter-transition name="fricPos" transition="Null"/>
-        <parameter-transition name="fricCF" transition="Null"/>
-        <parameter-transition name="fricBW" transition="Null"/>
       </special-profiles>
       <expression-symbols>
         <symbol-equation name="rd" equation="VStopVTotalDur"/>
@@ -7246,9 +7226,6 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <parameter-transition name="microInt" transition="vlessStopMicroInt"/>
         <parameter-transition name="aspVol" transition="tAspBurst"/>
         <parameter-transition name="fricVol" transition="tTorFricBurst"/>
-        <parameter-transition name="fricPos" transition="Null"/>
-        <parameter-transition name="fricCF" transition="Null"/>
-        <parameter-transition name="fricBW" transition="Null"/>
       </special-profiles>
       <expression-symbols>
         <symbol-equation name="rd" equation="VStopVTotalDur"/>
@@ -7286,9 +7263,6 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <parameter-transition name="microInt" transition="vlessStopMicroInt"/>
         <parameter-transition name="aspVol" transition="StopToGlideAspBurst"/>
         <parameter-transition name="fricVol" transition="tTolFricBurst"/>
-        <parameter-transition name="fricPos" transition="Null"/>
-        <parameter-transition name="fricCF" transition="Null"/>
-        <parameter-transition name="fricBW" transition="Null"/>
       </special-profiles>
       <expression-symbols>
         <symbol-equation name="rd" equation="VStopVTotalDur"/>
@@ -7326,9 +7300,6 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <parameter-transition name="microInt" transition="vlessStopMicroInt"/>
         <parameter-transition name="aspVol" transition="tAspBurst"/>
         <parameter-transition name="fricVol" transition="tFricBurst"/>
-        <parameter-transition name="fricPos" transition="Null"/>
-        <parameter-transition name="fricCF" transition="Null"/>
-        <parameter-transition name="fricBW" transition="Null"/>
       </special-profiles>
       <expression-symbols>
         <symbol-equation name="rd" equation="VStopVTotalDur"/>
@@ -7366,9 +7337,6 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <parameter-transition name="microInt" transition="vlessStopMicroInt"/>
         <parameter-transition name="aspVol" transition="StopToGlideAspBurst"/>
         <parameter-transition name="fricVol" transition="kTolrFricBurst"/>
-        <parameter-transition name="fricPos" transition="Null"/>
-        <parameter-transition name="fricCF" transition="Null"/>
-        <parameter-transition name="fricBW" transition="Null"/>
       </special-profiles>
       <expression-symbols>
         <symbol-equation name="rd" equation="VStopVTotalDur"/>
@@ -7406,9 +7374,6 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <parameter-transition name="microInt" transition="vlessStopMicroInt"/>
         <parameter-transition name="aspVol" transition="kFinalAspBurst"/>
         <parameter-transition name="fricVol" transition="kFinalFricBurst"/>
-        <parameter-transition name="fricPos" transition="Null"/>
-        <parameter-transition name="fricCF" transition="Null"/>
-        <parameter-transition name="fricBW" transition="Null"/>
       </special-profiles>
       <expression-symbols>
         <symbol-equation name="rd" equation="VStopVTotalDur"/>
@@ -7446,9 +7411,6 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <parameter-transition name="microInt" transition="vlessStopMicroInt"/>
         <parameter-transition name="aspVol" transition="kAspBurst"/>
         <parameter-transition name="fricVol" transition="kFricBurst"/>
-        <parameter-transition name="fricPos" transition="Null"/>
-        <parameter-transition name="fricCF" transition="Null"/>
-        <parameter-transition name="fricBW" transition="Null"/>
       </special-profiles>
       <expression-symbols>
         <symbol-equation name="rd" equation="VStopVTotalDur"/>
@@ -7484,11 +7446,6 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <parameter-transition name="velum" transition="sOrzClosure"/>
       </parameter-profiles>
       <special-profiles>
-        <parameter-transition name="aspVol" transition="Null"/>
-        <parameter-transition name="fricVol" transition="Null"/>
-        <parameter-transition name="fricPos" transition="Null"/>
-        <parameter-transition name="fricCF" transition="Null"/>
-        <parameter-transition name="fricBW" transition="Null"/>
       </special-profiles>
       <expression-symbols>
         <symbol-equation name="rd" equation="VStopVTotalDur"/>
@@ -7524,12 +7481,6 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <parameter-transition name="velum" transition="sOrzClosure"/>
       </parameter-profiles>
       <special-profiles>
-        <parameter-transition name="microInt" transition="Null"/>
-        <parameter-transition name="aspVol" transition="Null"/>
-        <parameter-transition name="fricVol" transition="Null"/>
-        <parameter-transition name="fricPos" transition="Null"/>
-        <parameter-transition name="fricCF" transition="Null"/>
-        <parameter-transition name="fricBW" transition="Null"/>
       </special-profiles>
       <expression-symbols>
         <symbol-equation name="rd" equation="VStopVTotalDur"/>
@@ -7565,12 +7516,6 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <parameter-transition name="velum" transition="sOrzClosure"/>
       </parameter-profiles>
       <special-profiles>
-        <parameter-transition name="microInt" transition="Null"/>
-        <parameter-transition name="aspVol" transition="Null"/>
-        <parameter-transition name="fricVol" transition="Null"/>
-        <parameter-transition name="fricPos" transition="Null"/>
-        <parameter-transition name="fricCF" transition="Null"/>
-        <parameter-transition name="fricBW" transition="Null"/>
       </special-profiles>
       <expression-symbols>
         <symbol-equation name="rd" equation="VStopVTotalDur"/>
@@ -7606,12 +7551,6 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <parameter-transition name="velum" transition="sOrzClosure"/>
       </parameter-profiles>
       <special-profiles>
-        <parameter-transition name="microInt" transition="Null"/>
-        <parameter-transition name="aspVol" transition="Null"/>
-        <parameter-transition name="fricVol" transition="Null"/>
-        <parameter-transition name="fricPos" transition="Null"/>
-        <parameter-transition name="fricCF" transition="Null"/>
-        <parameter-transition name="fricBW" transition="Null"/>
       </special-profiles>
       <expression-symbols>
         <symbol-equation name="rd" equation="VStopVTotalDur"/>
@@ -7648,11 +7587,6 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
       </parameter-profiles>
       <special-profiles>
         <parameter-transition name="microInt" transition="vlessFricMicroInt"/>
-        <parameter-transition name="aspVol" transition="Null"/>
-        <parameter-transition name="fricVol" transition="Null"/>
-        <parameter-transition name="fricPos" transition="Null"/>
-        <parameter-transition name="fricCF" transition="Null"/>
-        <parameter-transition name="fricBW" transition="Null"/>
       </special-profiles>
       <expression-symbols>
         <symbol-equation name="rd" equation="VStopVTotalDur"/>
