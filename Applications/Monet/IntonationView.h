@@ -1,9 +1,6 @@
-
 #import <AppKit/NSView.h>
-#import <AppKit/NSCursor.h>
-#import <AppKit/NSImage.h>
-#import <AppKit/NSFont.h>
-#import "EventList.h"
+
+@class EventList, MonetList;
 
 /*===========================================================================
 
@@ -14,40 +11,38 @@
 =============================================================================
 */
 
-@interface IntonationView:NSView
+@interface IntonationView : NSView
 {
-	id	controller;
+    id controller;
 
-	/* Frame For Display */
-	NSRect totalFrame;
+    /* Frame For Display */
+    NSRect totalFrame;
 
-	NSFont	*timesFont, *timesFontSmall;
+    NSFont *timesFont;
+    NSFont *timesFontSmall;
 
-	EventList *eventList;
+    EventList *eventList;
 
-	NSImage	*dotMarker;
-	NSImage	*squareMarker;
-	NSImage	*triangleMarker;
-	NSImage	*selectionBox;
+    NSImage *dotMarker;
+    NSImage *squareMarker;
+    NSImage *triangleMarker;
+    NSImage *selectionBox;
 
-	float	timeScale;
+    float timeScale;
 
-	int	mouseBeingDragged;
+    int mouseBeingDragged;
 
-	MonetList	*intonationPoints;
-	MonetList	*selectedPoints;
+    MonetList *intonationPoints;
+    MonetList *selectedPoints;
 
-	id	utterance;
-	id	smoothing;
-
+    id utterance;
+    id smoothing;
 }
 
-- initWithFrame:(NSRect)frameRect;
+- (id)initWithFrame:(NSRect)frameRect;
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 
-- (BOOL) acceptsFirstResponder;
-
-- (void)drawRect:(NSRect)rects;
+- (BOOL)acceptsFirstResponder;
 
 - (void)setEventList:aList;
 - (void)setNewController:aController;
@@ -58,17 +53,20 @@
 
 - (void)addIntonationPoint:iPoint;
 
-- (void)clearView;
-- (void)drawGrid;
+- (void)drawRect:(NSRect)rect;
 
-- (void)mouseDown:(NSEvent *)theEvent;
+- (void)clearView;
+
 - (void)mouseEntered:(NSEvent *)theEvent;
+- (void)keyDown:(NSEvent *)theEvent;
 - (void)mouseExited:(NSEvent *)theEvent;
 - (void)mouseMoved:(NSEvent *)theEvent;
+- (void)mouseDown:(NSEvent *)theEvent;
 
 - (BOOL)performKeyEquivalent:(NSEvent *)theEvent;
 
 - (void)updateScale:(float)column;
+- (void)drawGrid;
 
 - (void)applyIntonation;
 - (void)applyIntonationSmooth;
@@ -80,6 +78,6 @@
 
 - (void)smoothPoints;
 - (void)clearIntonationPoints;
-- addPoint:(double) semitone offsetTime:(double) offsetTime slope:(double) slope ruleIndex:(int)ruleIndex eventList: anEventList;
+- (void)addPoint:(double)semitone offsetTime:(double)offsetTime slope:(double)slope ruleIndex:(int)ruleIndex eventList:anEventList;
 
 @end

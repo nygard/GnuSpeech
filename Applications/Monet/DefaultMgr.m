@@ -3,10 +3,6 @@
 #import <Foundation/Foundation.h>
 #import "NSUserDefaults-Extensions.h"
 #import "MonetDefaults.h"
-#import <math.h>
-#ifdef PORTING
-#import <Foundation/NSDictionary.h>
-#endif
 
 /*
 	Revision Information

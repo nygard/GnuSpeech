@@ -1,4 +1,3 @@
-
 #import <AppKit/AppKit.h>
 #import "IntonationPoint.h"
 
@@ -56,7 +55,7 @@ History:
 - (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
 
-- (void)setSemitone:sender;
+- (void)setSemitone:sender; // TODO (2004-03-02): Renamed to "changeSemitone:", so it doens't conflict with setSemitone:(double)newValue;
 - (void)setHertz:sender;
 - (void)setSlope:sender;
 - (void)setBeatOffset:sender;
