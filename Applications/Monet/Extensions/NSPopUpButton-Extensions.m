@@ -7,12 +7,10 @@
 
 @implementation NSPopUpButton (Extensions)
 
-#if 0
 - (BOOL)selectItemWithTag:(int)tag;
 {
     [self selectItemAtIndex:[self indexOfItemWithTag:tag]];
     return NO;
 }
-#endif
 
 @end

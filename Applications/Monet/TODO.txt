@@ -264,3 +264,6 @@ des: [~ 12 ]> /Local/Public/nygard/Products/Monet.app/Contents/MacOS/Monet
 
 2004-09-05:
 - Could just add slope attribute to point.  display-time always appears to be 0.
+
+2004-09-14:
+- Monet needs to be able to synthesize a customized intonation to a sound file, for later analysis.
