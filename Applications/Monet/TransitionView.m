@@ -224,9 +224,12 @@ static NSImage *_selectionBox = nil;
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:1];
 
+#define LABEL_MARGIN 3
+
     for (i = 1; i < 14; i++) {
         NSString *label;
         float currentYPos;
+        NSSize labelSize;
 
         currentYPos = graphOrigin.y + 0.5 + i * sectionHeight;
         [bezierPath moveToPoint:NSMakePoint(graphOrigin.x + 0.5, currentYPos)];
@@ -234,8 +237,11 @@ static NSImage *_selectionBox = nil;
 
         currentYPos = graphOrigin.y + i * sectionHeight - 5;
         label = [NSString stringWithFormat:@"%4d%%", (i - 2) * 10];
-        [label drawAtPoint:NSMakePoint(16.0, currentYPos) withAttributes:nil];
-        [label drawAtPoint:NSMakePoint(bounds.size.width - 47.0, currentYPos) withAttributes:nil];
+        labelSize = [label sizeWithAttributes:nil];
+        //NSLog(@"label (%@) size: %@", label, NSStringFromSize(labelSize));
+        [label drawAtPoint:NSMakePoint(LEFT_MARGIN - LABEL_MARGIN - labelSize.width, currentYPos) withAttributes:nil];
+        // The current max label width is 35, so...
+        [label drawAtPoint:NSMakePoint(bounds.size.width - 10 - labelSize.width, currentYPos) withAttributes:nil];
     }
 
     [bezierPath stroke];
