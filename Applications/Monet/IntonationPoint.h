@@ -15,20 +15,18 @@
 
 @interface IntonationPoint : NSObject
 {
+    EventList *nonretained_eventList;
+
     double semitone; // Value of the point in semitones
     double offsetTime; // Points are timed wrt a beat + this offset
     double slope;  // Slope of point
 
     int ruleIndex; // Index of the rule for the phone which is the focus of this point
-    EventList *eventList; // Current EventList
 }
 
-- (id)init;
-- (id)initWithEventList:(EventList *)aList;
-- (void)dealloc;
+- (id)initWithEventList:(EventList *)anEventList;
 
 - (EventList *)eventList;
-- (void)setEventList:(EventList *)aList;
 
 - (double)semitone;
 - (void)setSemitone:(double)newValue;

@@ -11,49 +11,25 @@
 
 @implementation IntonationPoint
 
-- (id)init;
+// TODO (2004-08-17): Reject unused init method.
+- (id)initWithEventList:(EventList *)anEventList;
 {
     if ([super init] == nil)
         return nil;
+
+    nonretained_eventList = anEventList;
 
     semitone = 0.0;
     offsetTime = 0.0;
     slope = 0.0;
     ruleIndex = 0;
-    eventList = nil;
 
     return self;
-}
-
-- (id)initWithEventList:(EventList *)aList;
-{
-    if ([self init] == nil)
-        return nil;
-
-    eventList = [aList retain];
-
-    return self;
-}
-
-- (void)dealloc;
-{
-    [eventList release];
-
-    [super dealloc];
 }
 
 - (EventList *)eventList;
 {
-    return eventList;
-}
-
-- (void)setEventList:(EventList *)aList;
-{
-    if (aList == eventList)
-        return;
-
-    [eventList release];
-    eventList = [aList retain];
+    return nonretained_eventList;
 }
 
 - (double)semitone;
@@ -98,15 +74,22 @@
 
 - (double)absoluteTime;
 {
-    double time;
+    if (nonretained_eventList == nil) {
+        NSLog(@"Warning: no event list for intonation point in %s, returning 0.0", _cmd);
+        return 0.0;
+    }
 
-    time = [eventList getBeatAtIndex:ruleIndex];
-    return time + offsetTime;
+    return [nonretained_eventList getBeatAtIndex:ruleIndex] + offsetTime;
 }
 
 - (double)beatTime;
 {
-    return [eventList getBeatAtIndex:ruleIndex];
+    if (nonretained_eventList == nil) {
+        NSLog(@"Warning: no event list for intonation point in %s, returning 0.0", _cmd);
+        return 0.0;
+    }
+
+    return [nonretained_eventList getBeatAtIndex:ruleIndex];
 }
 
 - (double)semitoneInHertz;
@@ -130,8 +113,8 @@
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 {
     [resultString indentToLevel:level];
-    [resultString appendFormat:@"<intonation-point semitone=\"%g\" offset-time=\"%g\" slope=\"%g\" rule-index=\"%d\"/>\n",
-                  semitone, offsetTime, slope, ruleIndex];
+    [resultString appendFormat:@"<intonation-point offset-time=\"%g\" semitone=\"%g\" slope=\"%g\" rule-index=\"%d\"/>\n",
+                  offsetTime, semitone, slope, ruleIndex];
 }
 
 @end
