@@ -177,6 +177,7 @@ struct {
 
 TRMSampleRateConverter sampleRateConverter;
 TRMRingBuffer *ringBuffer;
+TRMWavetable *wavetable = NULL;
 
 /*  GLOBAL FUNCTIONS (LOCAL TO THIS FILE)  ***********************************/
 
@@ -249,7 +250,7 @@ int initializeSynthesizer(TRMInputParameters *inputParameters)
     dampingFactor = (1.0 - (inputParameters->lossFactor / 100.0));
 
     /*  INITIALIZE THE WAVE TABLE  */
-    initializeWavetable(inputParameters->waveform, inputParameters->tp, inputParameters->tnMin, inputParameters->tnMax);
+    wavetable = TRMWavetableCreate(inputParameters->waveform, inputParameters->tp, inputParameters->tnMin, inputParameters->tnMax);
 
     /*  INITIALIZE THE FIR FILTER  */
     initializeFIR(FIR_BETA, FIR_GAMMA, FIR_CUTOFF);
@@ -501,10 +502,10 @@ void synthesize(TRMData *data)
 
             /*  UPDATE THE SHAPE OF THE GLOTTAL PULSE, IF NECESSARY  */
             if (data->inputParameters.waveform == PULSE)
-                updateWavetable(ax);
+                TRMWavetableUpdate(wavetable, ax);
 
             /*  CREATE GLOTTAL PULSE (OR SINE TONE)  */
-            pulse = oscillator(f0);
+            pulse = TRMWavetableOscillator(wavetable, f0);
 
             /*  CREATE PULSED NOISE  */
             pulsed_noise = lp_noise * pulse;
