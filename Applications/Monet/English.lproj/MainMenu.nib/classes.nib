@@ -102,10 +102,7 @@
                 paste = id; 
                 remove = id; 
                 rename = id; 
-                setExpression1 = id; 
-                setExpression2 = id; 
-                setExpression3 = id; 
-                setExpression4 = id; 
+                setExpression = id; 
                 shiftPhonesLeft = id; 
             }; 
             CLASS = RuleManager; 

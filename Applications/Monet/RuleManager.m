@@ -8,6 +8,7 @@
 #import "AppController.h"
 #import "BooleanExpression.h"
 #import "BooleanParser.h"
+#import "CategoryList.h"
 #import "DelegateResponder.h"
 #import "GSXMLFunctions.h"
 #import "Inspector.h"
@@ -61,6 +62,10 @@
     [boolParser release];
     [delegateResponder setDelegate:nil];
     [delegateResponder release];
+    [expressions[0] release];
+    [expressions[1] release];
+    [expressions[2] release];
+    [expressions[3] release];
 
     [super dealloc];
 }
@@ -83,6 +88,8 @@
     temp1 = [boolParser parseString:@"phone"];
     [ruleList seedListWith:temp:temp1];
 
+    [errorTextField setStringValue:@""];
+
     NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }
 
@@ -93,31 +100,33 @@
 - (IBAction)browserHit:(id)sender;
 {
     Inspector *inspector;
-    int index;
+    int selectedRow;
     Rule *aRule;
     NSString *str;
+    BooleanExpression *anExpression;
+    int index;
 
-    index = [[sender matrixInColumn:0] selectedRow];
-    aRule = [ruleList objectAtIndex:index];
+    if (sender != ruleMatrix)
+        NSLog(@"Warning: Unexpected sender in %s", _cmd);
+
+    selectedRow = [[sender matrixInColumn:0] selectedRow];
+    aRule = [ruleList objectAtIndex:selectedRow];
 
     inspector = [controller inspector];
-    [inspector inspectRule:[ruleList objectAtIndex:index]];
+    [inspector inspectRule:[ruleList objectAtIndex:selectedRow]];
 
-    str = [[aRule getExpressionNumber:0] expressionString];
-    [[expressionFields cellAtIndex:0] setStringValue:str];
-
-    str = [[aRule getExpressionNumber:1] expressionString];
-    [[expressionFields cellAtIndex:1] setStringValue:str];
-
-    str = [[aRule getExpressionNumber:2] expressionString];
-    [[expressionFields cellAtIndex:2] setStringValue:str];
-
-    str = [[aRule getExpressionNumber:3] expressionString];
-    [[expressionFields cellAtIndex:3] setStringValue:str];
+    for (index = 0; index < 4; index++) {
+        anExpression = [aRule getExpressionNumber:index];
+        str = [anExpression expressionString];
+        if (str == nil)
+            str = @"";
+        [[expressionFields cellAtIndex:index] setStringValue:str];
+        [self setExpression:anExpression atIndex:index];
+    }
 
     [self evaluateMatchLists];
 
-    [[sender window] makeFirstResponder:delegateResponder];
+    //[[sender window] makeFirstResponder:delegateResponder];
 }
 
 - (IBAction)browserDoubleHit:(id)sender;
@@ -176,172 +185,96 @@
     [cell setLeaf:YES];
 }
 
-- (IBAction)setExpression1:(id)sender;
+- (void)setExpression:(BooleanExpression *)anExpression atIndex:(int)index;
 {
-    id tempList;
-    PhoneList *mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
-    BooleanExpression *tempExpression;
-    int i;
-
-    if ([[[sender cellAtIndex:0] stringValue] isEqualToString:@""]) {
-        [self realignExpressions];
-        [sender selectTextAtIndex:0];
+    if (anExpression == expressions[index])
         return;
-    }
 
-    [boolParser setCategoryList:NXGetNamedObject(@"mainCategoryList", NSApp)];
-    [boolParser setPhoneList:mainPhoneList];
-
-    tempExpression = [boolParser parseString:[[sender cellAtIndex:0] stringValue]];
-    [errorTextField setStringValue:[boolParser errorMessage]];
-    if (tempExpression == nil) {
-        [sender selectTextAtIndex:0];
-        NSBeep();
-        return;
-    }
-
-    [sender selectTextAtIndex:1];
-
-    tempList = [matchLists objectAtIndex:0];
-    [tempList removeAllObjects];
-
-    for (i = 0; i < [mainPhoneList count]; i++) {
-        if ([tempExpression evaluate:[[mainPhoneList objectAtIndex:i] categoryList]]) {
-            [tempList addObject:[mainPhoneList objectAtIndex:i]];
-        }
-    }
-
-    [tempExpression release];
-
-    [matchBrowser1 setTitle:[NSString stringWithFormat:@"Total Matches: %d", [tempList count]] ofColumn:0];
-    [matchBrowser1 loadColumnZero];
-    [self updateCombinations];
+    [expressions[index] release];
+    expressions[index] = [anExpression retain];
 }
 
-- (IBAction)setExpression2:(id)sender;
-{
-    id tempList;
-    PhoneList *mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
-    BooleanExpression *tempExpression;
-    int i;
 
-    if ([[[sender cellAtIndex:1] stringValue] isEqualToString:@""]) {
+// Sender should be the form for phones 1-4
+- (IBAction)setExpression:(id)sender;
+{
+    PhoneList *matchedPhoneList;
+    PhoneList *mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
+    BooleanExpression *parsedExpression;
+    int i;
+    int tag;
+    NSString *expressionString;
+    NSBrowser *aBrowser;
+
+    tag = [[sender selectedCell] tag];
+    NSLog(@" > %s, tag: %d", _cmd, tag);
+    NSLog(@"sender class: %@", NSStringFromClass([sender class]));
+
+    if (tag < 0 || tag > 3) {
+        NSLog(@"%s, tag out of range (0-3)", _cmd);
+        return;
+    }
+
+    expressionString = [[sender cellAtIndex:tag] stringValue];
+    if ([expressionString isEqualToString:@""]) {
+        NSLog(@"Realigning...");
         [self realignExpressions];
-        [sender selectTextAtIndex:0];
+        //[sender selectTextAtIndex:tag];
+        NSLog(@"<  %s", _cmd);
         return;
     }
 
     [boolParser setCategoryList:NXGetNamedObject(@"mainCategoryList", NSApp)];
     [boolParser setPhoneList:mainPhoneList];
 
-    tempExpression = [boolParser parseString:[[sender cellAtIndex:1] stringValue]];
+    parsedExpression = [boolParser parseString:expressionString];
     [errorTextField setStringValue:[boolParser errorMessage]];
-    if (tempExpression == nil) {
-        [sender selectTextAtIndex:1];
+    if (parsedExpression == nil) {
+        NSLog(@"parse error: %@", [boolParser errorMessage]);
+        //[sender selectTextAtIndex:tag];
         NSBeep();
+        NSLog(@"<  %s", _cmd);
         return;
     }
 
-    [sender selectTextAtIndex:2];
+    [self setExpression:parsedExpression atIndex:tag];
 
-    tempList = [matchLists objectAtIndex:1];
-    [tempList removeAllObjects];
+    //[sender selectTextAtIndex:(tag + 1) % 4];
+
+    matchedPhoneList = [matchLists objectAtIndex:tag];
+    [matchedPhoneList removeAllObjects];
 
     for (i = 0; i < [mainPhoneList count]; i++) {
-        if ([tempExpression evaluate:[[mainPhoneList objectAtIndex:i] categoryList]]) {
-            [tempList addObject:[mainPhoneList objectAtIndex:i]];
+        Phone *currentPhone;
+
+        currentPhone = [mainPhoneList objectAtIndex:i];
+        if ([parsedExpression evaluate:[currentPhone categoryList]]) {
+            [matchedPhoneList addObject:currentPhone];
         }
     }
 
-    [tempExpression release];
+    //[parsedExpression release];  // We didn't retain it.
 
-    [matchBrowser2 setTitle:[NSString stringWithFormat:@"Total Matches: %d", [tempList count]] ofColumn:0];
-    [matchBrowser2 loadColumnZero];
+    switch (tag) {
+      case 0:
+          aBrowser = matchBrowser1;
+          break;
+      case 1:
+          aBrowser = matchBrowser2;
+          break;
+      case 2:
+          aBrowser = matchBrowser3;
+          break;
+      case 3:
+          aBrowser = matchBrowser4;
+          break;
+    }
+
+    [aBrowser setTitle:[NSString stringWithFormat:@"Total Matches: %d", [matchedPhoneList count]] ofColumn:0];
+    [aBrowser loadColumnZero];
     [self updateCombinations];
-}
 
-- (IBAction)setExpression3:(id)sender;
-{
-    id tempList;
-    PhoneList *mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
-    BooleanExpression *tempExpression;
-    int i;
-
-    if ([[[sender cellAtIndex:2] stringValue] isEqualToString:@""]) {
-        [self realignExpressions];
-        [sender selectTextAtIndex:0];
-        return;
-    }
-
-    [boolParser setCategoryList:NXGetNamedObject(@"mainCategoryList", NSApp)];
-    [boolParser setPhoneList:mainPhoneList];
-
-    tempExpression = [boolParser parseString:[[sender cellAtIndex:2] stringValue]];
-    [errorTextField setStringValue:[boolParser errorMessage]];
-    if (tempExpression == nil) {
-        [sender selectTextAtIndex:2];
-        NSBeep();
-        return;
-    }
-
-    [sender selectTextAtIndex:3];
-
-    tempList = [matchLists objectAtIndex:2];
-    [tempList removeAllObjects];
-
-    for (i = 0; i < [mainPhoneList count]; i++) {
-        if ([tempExpression evaluate:[[mainPhoneList objectAtIndex:i] categoryList]]) {
-            [tempList addObject:[mainPhoneList objectAtIndex:i]];
-        }
-    }
-
-    [tempExpression release];
-
-    [matchBrowser3 setTitle:[NSString stringWithFormat:@"Total Matches: %d", [tempList count]] ofColumn:0];
-    [matchBrowser3 loadColumnZero];
-    [self updateCombinations];
-}
-
-- (IBAction)setExpression4:(id)sender;
-{
-    id tempList;
-    PhoneList *mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
-    BooleanExpression *tempExpression;
-    int i;
-
-    if ([[[sender cellAtIndex:3] stringValue] isEqualToString:@""]) {
-        [self realignExpressions];
-        [sender selectTextAtIndex:0];
-        return;
-    }
-
-    [boolParser setCategoryList:NXGetNamedObject(@"mainCategoryList", NSApp)];
-    [boolParser setPhoneList:mainPhoneList];
-
-    tempExpression = [boolParser parseString:[[sender cellAtIndex:3] stringValue]];
-    [errorTextField setStringValue:[boolParser errorMessage]];
-    if (tempExpression == nil) {
-        [sender selectTextAtIndex:3];
-        NSBeep();
-        return;
-    }
-
-    [sender selectTextAtIndex:0];
-
-    tempList = [matchLists objectAtIndex:3];
-    [tempList removeAllObjects];
-
-    for (i = 0; i < [mainPhoneList count]; i++) {
-        if ([tempExpression evaluate:[[mainPhoneList objectAtIndex:i] categoryList]]) {
-            [tempList addObject:[mainPhoneList objectAtIndex:i]];
-        }
-    }
-
-    [tempExpression release];
-
-    [matchBrowser4 setTitle:[NSString stringWithFormat:@"Total Matches: %d", [tempList count]] ofColumn:0];
-    [matchBrowser4 loadColumnZero];
-    [self updateCombinations];
+    NSLog(@"<  %s", _cmd);
 }
 
 /*===========================================================================
@@ -353,44 +286,57 @@
 ===========================================================================*/
 - (void)realignExpressions;
 {
-    if ([[[expressionFields cellAtIndex:0] stringValue] isEqualToString:@""]) {
-        [[expressionFields cellAtIndex:0] setStringValue:[[expressionFields cellAtIndex:1] stringValue]];
-        [[expressionFields cellAtIndex:1] setStringValue:@""];
+    int index;
+    NSCell *thisCell, *nextCell;
+
+    NSLog(@" > %s", _cmd);
+
+    for (index = 0; index < 3; index++) {
+
+        thisCell = [expressionFields cellAtIndex:index];
+        nextCell = [expressionFields cellAtIndex:index + 1];
+
+        if ([[thisCell stringValue] isEqualToString:@""]) {
+            [thisCell setStringValue:[nextCell stringValue]];
+            [nextCell setStringValue:@""];
+            [self setExpression:expressions[index + 1] atIndex:index];
+            [self setExpression:nil atIndex:index + 1];
+        }
     }
 
-    if ([[[expressionFields cellAtIndex:1] stringValue] isEqualToString:@""]) {
-        [[expressionFields cellAtIndex:1] setStringValue:[[expressionFields cellAtIndex:2] stringValue]];
-        [[expressionFields cellAtIndex:2] setStringValue:@""];
-    }
-
-    if ([[[expressionFields cellAtIndex:2] stringValue] isEqualToString:@""]) {
-        [[expressionFields cellAtIndex:2] setStringValue:[[expressionFields cellAtIndex:3] stringValue]];
-        [[expressionFields cellAtIndex:3] setStringValue:@""];
-    }
-
-    if ([[[expressionFields cellAtIndex:3] stringValue] isEqualToString:@""]) {
-        [expressions removeObjectAtIndex:3];
+    thisCell = [expressionFields cellAtIndex:3];
+    if ([[thisCell stringValue] isEqualToString:@""]) {
+        [self setExpression:nil atIndex:3];
     }
 
     [self evaluateMatchLists];
+
+    NSLog(@"<  %s", _cmd);
 }
 
 - (void)evaluateMatchLists;
 {
     int i, j;
-    id tempList;
+    PhoneList *aMatchedPhoneList;
     PhoneList *mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
     NSString *str;
 
+    //NSLog(@"[mainPhoneList count]: %d", [mainPhoneList count]);
+
     for (j = 0; j < 4; j++) {
-        tempList = [matchLists objectAtIndex:j];
-        [tempList removeAllObjects];
+        aMatchedPhoneList = [matchLists objectAtIndex:j];
+        [aMatchedPhoneList removeAllObjects];
 
         for (i = 0; i < [mainPhoneList count]; i++) {
-            if ([[expressions objectAtIndex:j] evaluate:[[mainPhoneList objectAtIndex:i] categoryList]]) {
-                [tempList addObject:[mainPhoneList objectAtIndex:i]];
+            Phone *aPhone;
+
+            aPhone = [mainPhoneList objectAtIndex:i];
+            //NSLog(@"i: %d, phone categoryList count: %d", i, [[aPhone categoryList] count]);
+            if ([expressions[j] evaluate:[aPhone categoryList]]) {
+                [aMatchedPhoneList addObject:aPhone];
             }
         }
+        //NSLog(@"expressions[%d]: %p, matches[%d] count: %d", j, expressions[j], j, [aMatchedPhoneList count]);
     }
 
     str = [NSString stringWithFormat:@"Total Matches: %d", [[matchLists objectAtIndex:0] count]];

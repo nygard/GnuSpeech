@@ -2,7 +2,7 @@
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 @class NSBrowser, NSForm, NSMatrix, NSScrollView, NSTextField, NSTextView;
-@class BooleanParser, CategoryNode, MonetList, ProtoEquation, ProtoTemplate, RuleList;
+@class BooleanExpression, BooleanParser, CategoryNode, MonetList, ProtoEquation, ProtoTemplate, RuleList;
 @class AppController, DelegateResponder;
 
 /*===========================================================================
@@ -21,7 +21,7 @@
     IBOutlet AppController *controller;
 
     IBOutlet NSBrowser *ruleMatrix;
-    IBOutlet NSScrollView *ruleScrollView;
+    IBOutlet NSScrollView *ruleScrollView; // not used
 
     IBOutlet NSBrowser *matchBrowser1;
     IBOutlet NSBrowser *matchBrowser2;
@@ -34,8 +34,8 @@
 
     BooleanParser *boolParser;
 
-    MonetList *matchLists;
-    MonetList *expressions;
+    MonetList *matchLists; // Of PhoneLists?
+    BooleanExpression *expressions[4];
 
     RuleList *ruleList;
 
@@ -62,10 +62,9 @@
 - (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
 
-- (IBAction)setExpression1:(id)sender;
-- (IBAction)setExpression2:(id)sender;
-- (IBAction)setExpression3:(id)sender;
-- (IBAction)setExpression4:(id)sender;
+- (void)setExpression:(BooleanExpression *)anExpression atIndex:(int)index;
+
+- (IBAction)setExpression:(id)sender;
 
 - (void)realignExpressions;
 - (void)evaluateMatchLists;
