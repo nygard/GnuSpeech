@@ -1,7 +1,7 @@
 #import <Foundation/NSObject.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-@class CategoryNode, GSMPoint, IntonationPoint, Parameter, Phone, ProtoEquation, ProtoTemplate, Rule, Symbol;
+@class CategoryNode, GSMPoint, IntonationPoint, MonetList, Parameter, Phone, ProtoEquation, ProtoTemplate, Rule, Symbol;
 @class CategoryInspector, IntonationPointInspector, ParameterInspector, PhoneInspector, PointInspector, ProtoEquationInspector, RuleInspector, SymbolInspector;
 
 /*===========================================================================
@@ -67,6 +67,8 @@ History:
 - (void)inspectRule:(Rule *)rule;
 
 - (void)inspectPoint:(GSMPoint *)point;
+- (void)inspectPoints:(MonetList *)points;
+
 - (void)inspectIntonationPoint:(IntonationPoint *)point;
 
 @end

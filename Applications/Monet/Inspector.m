@@ -147,6 +147,14 @@
     [pointInspector inspectPoint:point];
 }
 
+- (void)inspectPoints:(MonetList *)points;
+{
+    [panel setTitle:@"Point Inspector"];
+    currentInspectorObject = points;
+    currentInspector = pointInspector;
+    [pointInspector inspectPoints:points];
+}
+
 - (void)inspectIntonationPoint:(IntonationPoint *)point;
 {
     [intonationPointInspector inspectIntonationPoint:point];

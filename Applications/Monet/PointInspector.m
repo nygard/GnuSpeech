@@ -22,13 +22,15 @@
 
 - (void)inspectPoint:(GSMPoint *)point;
 {
-    /* Hack for Single Point Inspections */
-    if ([point isKindOfClass:[GSMPoint class]]) {
-        currentPoint = point;
-        [mainInspector setPopUpListView:popUpListView];
-        [self setUpWindow:popUpList];
-    } else if ([point count] == 1) {
-        currentPoint = [point objectAtIndex:0];
+    currentPoint = point;
+    [mainInspector setPopUpListView:popUpListView];
+    [self setUpWindow:popUpList];
+}
+
+- (void)inspectPoints:(MonetList *)points;
+{
+    if ([points count] == 1) {
+        currentPoint = [points objectAtIndex:0];
         [mainInspector setPopUpListView:popUpListView];
         [self setUpWindow:popUpList];
     } else {
@@ -41,7 +43,6 @@
 {
     NSString *str;
     PrototypeManager *tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
-    id tempCell;
     int index1, index2;
 
     str = [[sender selectedCell] title];
@@ -60,6 +61,7 @@
 #endif
     } else if ([str hasPrefix:@"G"]) {
         NSString *path;
+        ProtoEquation *aProtoEquation;
 
         [mainInspector setGeneralView:valueBox];
         [expressionBrowser loadColumnZero];
@@ -85,13 +87,13 @@
 
         [phantomSwitch setState:[currentPoint phantom]];
 
-        tempCell = [currentPoint expression];
-        if (tempCell) {
-            [currentTimingField setStringValue:[[tempCell expression] expressionString]];
+        aProtoEquation = [currentPoint expression];
+        if (aProtoEquation) {
+            [currentTimingField setStringValue:[[aProtoEquation expression] expressionString]];
         } else {
             [currentTimingField setStringValue:[NSString stringWithFormat:@"Fixed: %.3f ms", [currentPoint freeTime]]];
         }
-        [tempProto findList:&index1 andIndex:&index2 ofEquation:tempCell];
+        [tempProto findList:&index1 andIndex:&index2 ofEquation:aProtoEquation];
 
         path = [NSString stringWithFormat:@"/%@/%@",
                          [(ProtoEquation *)[[tempProto equationList] objectAtIndex:index1] name],

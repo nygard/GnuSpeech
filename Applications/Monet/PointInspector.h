@@ -1,7 +1,7 @@
 #import <Foundation/NSObject.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-@class GSMPoint;
+@class GSMPoint, MonetList;
 @class Inspector;
 
 /*===========================================================================
@@ -48,7 +48,9 @@ History:
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 
-- (void)inspectPoint:point;
+- (void)inspectPoint:(GSMPoint *)point;
+- (void)inspectPoints:(MonetList *)points;
+
 - (void)setUpWindow:(NSPopUpButton *)sender;
 - (void)beginEditting;
 

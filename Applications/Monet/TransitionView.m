@@ -559,7 +559,7 @@
             [tempImage release];
         }
 
-        [[controller inspector] inspectPoint:selectedPoints];
+        [[controller inspector] inspectPoints:selectedPoints];
         [self display];
     }
 
@@ -578,7 +578,7 @@
 
         [tempPoint release];
 
-        [[controller inspector] inspectPoint:selectedPoints];
+        [[controller inspector] inspectPoints:selectedPoints];
         [self display];
     }
 }
