@@ -56,7 +56,6 @@
 #include "main.h"
 #include "tube.h"
 #include "input.h"
-#include "fir.h"
 #include "util.h"
 #include "structs.h"
 #include "ring_buffer.h"
