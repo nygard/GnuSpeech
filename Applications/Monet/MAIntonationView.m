@@ -461,9 +461,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
         currentX += ruleFrame.size.width - extraWidth;
     }
 
-    [[NSColor darkGrayColor] set];
     [[NSColor blackColor] set];
-    [[NSColor greenColor] set];
     [bezierPath stroke];
     [bezierPath release];
 }
@@ -482,7 +480,6 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     graphOrigin = [self graphOrigin];
 
     [[NSColor blackColor] set];
-    [[NSColor redColor] set];
 
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:1];
