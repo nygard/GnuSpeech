@@ -322,6 +322,7 @@
 
                 [prototypeManager setModel:model];
                 [ruleManager setModel:model];
+                [dataEntryController setModel:model];
 
                 [dataBrowser updateLists];
                 [dataBrowser updateBrowser];
