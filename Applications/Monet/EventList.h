@@ -190,7 +190,7 @@ struct _rule {
 - (void)generateOutput;
 - (void)generateEventListWithModel:(MModel *)aModel;
 
-- (void)applyRule:(MMRule *)rule withPhones:(NSArray *)phoneList andTempos:(double *)tempos phoneIndex:(int)phoneIndex model:(MModel *)aModel;
+- (void)applyRule:(MMRule *)rule withPostures:(NSArray *)somePostures andTempos:(double *)tempos phoneIndex:(int)phoneIndex model:(MModel *)aModel;
 - (void)synthesizeToFile:(NSString *)filename;
 
 - (void)applyIntonation;

@@ -696,10 +696,10 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
     }
 
     {
-        NSMutableArray *tempPhoneList, *tempCategoryList;
+        NSMutableArray *tempPostures, *tempCategoryList;
         int index, j;
 
-        tempPhoneList = [[NSMutableArray alloc] init];
+        tempPostures = [[NSMutableArray alloc] init];
         tempCategoryList = [[NSMutableArray alloc] init];
 
         // Apply rules
@@ -707,12 +707,12 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
             int ruleIndex;
             MMRule *matchedRule;
 
-            [tempPhoneList removeAllObjects];
+            [tempPostures removeAllObjects];
             [tempCategoryList removeAllObjects];
 
             for (j = 0; j < 4; j++) {
                 if (phones[j+index].phone != nil) {
-                    [tempPhoneList addObject:phones[j+index].phone];
+                    [tempPostures addObject:phones[j+index].phone];
                     [tempCategoryList addObject:[phones[j+index].phone categories]];
                 }
             }
@@ -722,12 +722,12 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
 
             NSLog(@"----------------------------------------------------------------------");
             NSLog(@"Applying rule %d", ruleIndex + 1);
-            [self applyRule:matchedRule withPhones:tempPhoneList andTempos:&phoneTempo[index] phoneIndex:index model:aModel];
+            [self applyRule:matchedRule withPostures:tempPostures andTempos:&phoneTempo[index] phoneIndex:index model:aModel];
 
             index += [matchedRule numberExpressions] - 1;
         }
 
-        [tempPhoneList release];
+        [tempPostures release];
         [tempCategoryList release];
     }
 
@@ -746,7 +746,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
 
 // 1. Calculate the rule symbols (Rule Duration, Beat, Mark 1, Mark 2, Mark 3), given tempos and phones.
 // 2.
-- (void)applyRule:(MMRule *)rule withPhones:(NSArray *)phoneList andTempos:(double *)tempos phoneIndex:(int)phoneIndex model:(MModel *)aModel;
+- (void)applyRule:(MMRule *)rule withPostures:(NSArray *)somePostures andTempos:(double *)tempos phoneIndex:(int)phoneIndex model:(MModel *)aModel;
 {
     int i, j, type;
     BOOL shouldCalculate;
@@ -761,7 +761,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
     int cache = [aModel nextCacheTag];
 
     bzero(&ruleSymbols, sizeof(MMFRuleSymbols));
-    [rule evaluateSymbolEquations:&ruleSymbols tempos:tempos phones:phoneList withCache:cache];
+    [rule evaluateSymbolEquations:&ruleSymbols tempos:tempos phones:somePostures withCache:cache];
     NSLog(@"Rule symbols, duration: %.2f, beat: %.2f, mark1: %.2f, mark2: %.2f, mark3: %.2f",
           ruleSymbols.ruleDuration, ruleSymbols.beat, ruleSymbols.mark1, ruleSymbols.mark2, ruleSymbols.mark3);
 
@@ -801,9 +801,9 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
         unsigned int targetIndex;
 
         /* Get actual parameter target values */
-        postureCount = [phoneList count];
+        postureCount = [somePostures count];
         for (targetIndex = 0; targetIndex < 4 && targetIndex < postureCount; targetIndex++)
-            targets[targetIndex] = [(MMTarget *)[[[phoneList objectAtIndex:targetIndex] parameterTargets] objectAtIndex:i] value];
+            targets[targetIndex] = [(MMTarget *)[[[somePostures objectAtIndex:targetIndex] parameterTargets] objectAtIndex:i] value];
         for (; targetIndex < 4; targetIndex++)
             targets[targetIndex] = 0.0;
 
@@ -857,7 +857,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
                     //tempEvent = [self insertEvent:i atTime:tempTime withValue:value];
                 }
                 // TODO (2004-03-01): I don't see how this works...
-                maxValue = [currentPoint calculatePoints:&ruleSymbols tempos:tempos phones:phoneList
+                maxValue = [currentPoint calculatePoints:&ruleSymbols tempos:tempos phones:somePostures
                                          andCacheWith:cache baseline:targets[currentType-2] delta:currentDelta
                                          min:min[i] max:max[i] toEventList:self atIndex:(int)i];
             }
@@ -879,7 +879,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
                 if ([currentPoint expression] == nil)
                     tempTime = [currentPoint freeTime];
                 else
-                    tempTime = [[currentPoint expression] evaluate:&ruleSymbols tempos:tempos phones:phoneList andCacheWith:cache];
+                    tempTime = [[currentPoint expression] evaluate:&ruleSymbols tempos:tempos phones:somePostures andCacheWith:cache];
 
                 /* Calculate value of event */
                 //value = (([currentPoint value]/100.0) * (max[i] - min[i])) + min[i];
