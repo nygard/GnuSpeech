@@ -114,30 +114,30 @@
 {
     double tempos[4] = {1.0, 1.0, 1.0, 1.0};
 
-    return [self evaluate:ruleSymbols tempos:tempos phones:phones];
+    return [self evaluate:ruleSymbols phones:phones tempos:tempos];
 }
 
-- (double)evaluate:(double *)ruleSymbols tempos:(double *)tempos phones:(PhoneList *)phones;
+- (double)evaluate:(double *)ruleSymbols phones:(PhoneList *)phones tempos:(double *)tempos;
 {
     switch (operation) {
       case TK_F_ADD:
-          return ([[self operandOne] evaluate:ruleSymbols tempos:tempos phones:phones] +
-                  [[self operandTwo] evaluate:ruleSymbols tempos:tempos phones:phones]);
+          return ([[self operandOne] evaluate:ruleSymbols phones:phones tempos:tempos] +
+                  [[self operandTwo] evaluate:ruleSymbols phones:phones tempos:tempos]);
           break;
 
       case TK_F_SUB:
-          return ([[self operandOne] evaluate:ruleSymbols tempos:tempos phones:phones] -
-                  [[self operandTwo] evaluate:ruleSymbols tempos:tempos phones:phones]);
+          return ([[self operandOne] evaluate:ruleSymbols phones:phones tempos:tempos] -
+                  [[self operandTwo] evaluate:ruleSymbols phones:phones tempos:tempos]);
           break;
 
       case TK_F_MULT:
-          return ([[self operandOne] evaluate:ruleSymbols tempos:tempos phones:phones] *
-                  [[self operandTwo] evaluate:ruleSymbols tempos:tempos phones:phones]);
+          return ([[self operandOne] evaluate:ruleSymbols phones:phones tempos:tempos] *
+                  [[self operandTwo] evaluate:ruleSymbols phones:phones tempos:tempos]);
           break;
 
       case TK_F_DIV:
-          return ([[self operandOne] evaluate:ruleSymbols tempos:tempos phones:phones] /
-                  [[self operandTwo] evaluate:ruleSymbols tempos:tempos phones:phones]);
+          return ([[self operandOne] evaluate:ruleSymbols phones:phones tempos:tempos] /
+                  [[self operandTwo] evaluate:ruleSymbols phones:phones tempos:tempos]);
           break;
 
       default:

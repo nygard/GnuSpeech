@@ -105,7 +105,7 @@
 {
     if (newCacheTag != cacheTag) {
         cacheTag = newCacheTag;
-        cacheValue = [expression evaluate:ruleSymbols tempos:tempos phones:phones];
+        cacheValue = [expression evaluate:ruleSymbols phones:phones tempos:tempos];
     }
 
     return cacheValue;

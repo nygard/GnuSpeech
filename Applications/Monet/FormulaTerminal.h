@@ -50,7 +50,7 @@
 - (void)setPrecedence:(int)newPrec;
 
 - (double)evaluate:(double *)ruleSymbols phones:(PhoneList *)phones;
-- (double)evaluate:(double *)ruleSymbols tempos:(double *)tempos phones:(PhoneList *)phones;
+- (double)evaluate:(double *)ruleSymbols phones:(PhoneList *)phones tempos:(double *)tempos;
 
 - (void)optimize;
 - (void)optimizeSubExpressions;
