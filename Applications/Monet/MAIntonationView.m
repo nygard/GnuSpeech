@@ -679,8 +679,15 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
         switch (ch) {
           case NSDeleteFunctionKey:
+          case NSDeleteCharacter:
+          {
+              NSArray *points = [NSArray arrayWithArray:selectedPoints];
+
               //NSLog(@"delete");
-              [self deletePoints];
+              // We need to be careful that intermediate notifications don't change the selectedPoints array here.
+              [self deselectAllPoints];
+              [eventList removeIntonationPointsFromArray:points];
+          }
               break;
 
           case NSLeftArrowFunctionKey:
@@ -734,6 +741,9 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
               for (pointIndex = 0; pointIndex < pointCount; pointIndex++)
                   [[selectedPoints objectAtIndex:pointIndex] decrementSemitone];
               break;
+
+          default:
+              NSLog(@"index: %d, character: %@ (%d)", index, [characters substringWithRange:NSMakeRange(index, 1)], [characters characterAtIndex:index]);
         }
     }
 }
@@ -760,35 +770,31 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
     if ([mouseEvent clickCount] == 1) {
         //NSLog(@"[mouseEvent modifierFlags]: %x", [mouseEvent modifierFlags]);
-#if 0
         if ([mouseEvent modifierFlags] & NSAlternateKeyMask) {
-            MMPoint *newPoint;
-            NSPoint graphOrigin = [self graphOrigin];
-            int yScale = [self sectionHeight];
-            float newValue;
+            MMIntonationPoint *newIntonationPoint;
+            NSPoint graphOrigin;
+            int yScale, absoluteTime;
+            int ruleIndex;
+            double offsetTime;
 
             NSLog(@"Alt-clicked!");
-            newPoint = [[MMPoint alloc] init];
-            [newPoint setFreeTime:(hitPoint.x - graphOrigin.x) / [self timeScale]];
-            //NSLog(@"hitPoint: %@, graphOrigin: %@, yScale: %d", NSStringFromPoint(hitPoint), NSStringFromPoint(graphOrigin), yScale);
-            newValue = (hitPoint.y - graphOrigin.y - (zeroIndex * yScale)) * sectionAmount / yScale;
+            graphOrigin = [self graphOrigin];
+            yScale = [self sectionHeight];
 
-            //NSLog(@"NewPoint Time: %f  value: %f", [tempPoint freeTime], [tempPoint value]);
-            [newPoint setValue:newValue];
-            if ([[self delegate] respondsToSelector:@selector(transitionView:shouldAddPoint:)] == NO
-                || [[self delegate] transitionView:self shouldAddPoint:newPoint] == YES) {
-                [transition insertPoint:newPoint];
-                [selectedPoints removeAllObjects];
-                [selectedPoints addObject:newPoint];
-            }
+            absoluteTime = [self convertXPositionToTime:hitPoint.x];
+            [eventList getRuleIndex:&ruleIndex offsetTime:&offsetTime forAbsoluteTime:absoluteTime];
 
-            [newPoint release];
+            newIntonationPoint = [[MMIntonationPoint alloc] init];
+            [newIntonationPoint setSemitone:[self convertYPositionToSemitone:hitPoint.y]];
+            [newIntonationPoint setRuleIndex:ruleIndex];
+            [newIntonationPoint setOffsetTime:offsetTime];
+            [eventList addIntonationPoint:newIntonationPoint];
 
-            [self _selectionDidChange];
-            [self setNeedsDisplay:YES];
+            [self selectIntonationPoint:newIntonationPoint];
+
+            [newIntonationPoint release];
             return;
         }
-#endif
     }
 
 
@@ -1068,26 +1074,6 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     [self _selectionDidChange];
 }
 
-- (void)deletePoints;
-{
-    int i;
-    id tempPoint;
-
-    if ([selectedPoints count]) {
-        for (i = 0; i < [selectedPoints count]; i++) {
-            tempPoint = [selectedPoints objectAtIndex:i];
-            [eventList removeIntonationPoint:tempPoint];
-            [tempPoint release];
-        }
-
-        [selectedPoints removeAllObjects];
-        [self setNeedsDisplay:YES];
-        [self _selectionDidChange];
-    } else {
-        NSBeep();
-    }
-}
-
 - (MMIntonationPoint *)selectedIntonationPoint;
 {
     if ([selectedPoints count] == 0)
@@ -1186,6 +1172,20 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     rect.size.height = maxy - miny;
 
     return rect;
+}
+
+- (float)convertYPositionToSemitone:(float)yPosition;
+{
+    NSPoint graphOrigin;
+
+    graphOrigin = [self graphOrigin];
+
+    return ((yPosition - graphOrigin.y) / [self sectionHeight]) - ZERO_SECTION;
+}
+
+- (float)convertXPositionToTime:(float)xPosition;
+{
+    return xPosition * timeScale;
 }
 
 - (void)intonationPointDidChange:(NSNotification *)aNotification;

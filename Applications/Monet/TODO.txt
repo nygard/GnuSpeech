@@ -237,5 +237,6 @@ des: [~ 12 ]> /Local/Public/nygard/Products/Monet.app/Contents/MacOS/Monet
 - draw line from beat for each intonation point.
 - add mouse tracking to intonation view.
 - allow direct manipulation of intonation points.
-- Use save panel/sheet when synthesizing to a file.
++ Use save panel/sheet when synthesizing to a file.
 - Try tweaking the page breaks when printing the intonation view.  Try to break on rule boundaries.
++ add, remove intonation poitns.

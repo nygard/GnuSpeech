@@ -93,7 +93,6 @@ extern NSString *MAIntonationViewSelectionDidChangeNotification;
 - (void)updateScale:(float)column;
 
 - (void)deselectAllPoints;
-- (void)deletePoints;
 
 - (MMIntonationPoint *)selectedIntonationPoint;
 - (void)selectIntonationPoint:(MMIntonationPoint *)anIntonationPoint;
@@ -109,6 +108,9 @@ extern NSString *MAIntonationViewSelectionDidChangeNotification;
 - (float)scaleXPosition:(float)xPosition;
 - (float)scaleWidth:(float)width;
 - (NSRect)rectFormedByPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
+
+- (float)convertYPositionToSemitone:(float)yPosition;
+- (float)convertXPositionToTime:(float)xPosition;
 
 - (void)intonationPointDidChange:(NSNotification *)aNotification;
 - (void)removeOldSelectedPoints;

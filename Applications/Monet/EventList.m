@@ -370,6 +370,28 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     return currentRule;
 }
 
+- (void)getRuleIndex:(int *)ruleIndexPtr offsetTime:(double *)offsetTimePtr forAbsoluteTime:(double)absoluteTime;
+{
+    unsigned int index;
+    double onset;
+
+    for (index = 0; index <= currentRule; index++) {
+        onset = phones[rules[index].firstPhone].onset;
+        if (absoluteTime >= onset && absoluteTime < onset + rules[index].duration) {
+            if (ruleIndexPtr != NULL)
+                *ruleIndexPtr = index;
+            if (offsetTimePtr != NULL)
+                *offsetTimePtr = absoluteTime - rules[index].beat;
+            return;
+        }
+    }
+
+    if (ruleIndexPtr != NULL)
+        *ruleIndexPtr = -1;
+    if (offsetTimePtr != NULL)
+        *offsetTimePtr = 0.0;
+}
+
 //
 // Tone groups
 //
@@ -1355,6 +1377,24 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
     [anIntonationPoint setEventList:nil];
     [intonationPoints removeObject:anIntonationPoint];
+
+    userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:NSKeyValueChangeRemoval], NSKeyValueChangeKindKey, nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidChangeIntonationPoints object:self userInfo:userInfo];
+    [userInfo release];
+}
+
+- (void)removeIntonationPointsFromArray:(NSArray *)someIntonationPoints;
+{
+    unsigned int count, index;
+    MMIntonationPoint *anIntonationPoint;
+    NSDictionary *userInfo;
+
+    count = [someIntonationPoints count];
+    for (index = 0; index < count; index++) {
+        anIntonationPoint = [someIntonationPoints objectAtIndex:index];
+        [anIntonationPoint setEventList:nil];
+        [intonationPoints removeObject:anIntonationPoint];
+    }
 
     userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:NSKeyValueChangeRemoval], NSKeyValueChangeKindKey, nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidChangeIntonationPoints object:self userInfo:userInfo];

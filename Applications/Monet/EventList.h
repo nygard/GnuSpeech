@@ -183,6 +183,7 @@ extern NSString *EventListDidChangeIntonationPoints;
 - (NSString *)ruleDescriptionAtIndex:(int)ruleIndex;
 - (double)getBeatAtIndex:(int)ruleIndex;
 - (int)ruleCount;
+- (void)getRuleIndex:(int *)ruleIndexPtr offsetTime:(double *)offsetTimePtr forAbsoluteTime:(double)absoluteTime;
 
 // Tone groups
 - (void)endCurrentToneGroup;
@@ -228,6 +229,7 @@ extern NSString *EventListDidChangeIntonationPoints;
 - (NSArray *)intonationPoints;
 - (void)addIntonationPoint:(MMIntonationPoint *)newIntonationPoint;
 - (void)removeIntonationPoint:(MMIntonationPoint *)anIntonationPoint;
+- (void)removeIntonationPointsFromArray:(NSArray *)someIntonationPoints;
 - (void)removeAllIntonationPoints;
 
 // Intonation
