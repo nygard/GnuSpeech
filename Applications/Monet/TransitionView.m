@@ -278,7 +278,7 @@ static NSImage *_selectionBox = nil;
 
 - (void)drawRect:(NSRect)rect;
 {
-    NSLog(@" > %s, cache: %d", _cmd, cache);
+    //NSLog(@" > %s, cache: %d", _cmd, cache);
 
     [self clearView];
     [self drawGrid];
@@ -310,7 +310,7 @@ static NSImage *_selectionBox = nil;
         NSFrameRect(editingRect);
     }
 
-    NSLog(@"<  %s", _cmd);
+    //NSLog(@"<  %s", _cmd);
 }
 
 - (void)clearView;
@@ -822,6 +822,15 @@ static NSImage *_selectionBox = nil;
     [self setShouldDrawSelection:NO];
 }
 
+- (void)keyDown:(NSEvent *)keyEvent;
+{
+    NSArray *keyEvents;
+
+    keyEvents = [[NSArray alloc] initWithObjects:keyEvent, nil];
+    [self interpretKeyEvents:keyEvents];
+    [keyEvents release];
+}
+
 //
 // View geometry
 //
@@ -1187,12 +1196,12 @@ static NSImage *_selectionBox = nil;
 // Actions
 //
 
-- (IBAction)delete:(id)sender;
+- (IBAction)deleteBackward:(id)sender;
 {
     int i;
     MMPoint *tempPoint;
 
-    if ((currentTemplate == nil) || (![selectedPoints count])) {
+    if (currentTemplate == nil || [selectedPoints count] == 0) {
         NSBeep();
         return;
     }
@@ -1300,4 +1309,5 @@ static NSImage *_selectionBox = nil;
     [[self window] orderWindow:NSWindowBelow relativeTo:otherWindow];
 }
 #endif
+
 @end

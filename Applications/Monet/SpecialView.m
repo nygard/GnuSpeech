@@ -186,7 +186,7 @@
     for (index = 0; index < count; index++) {
         currentPoint = [displayPoints objectAtIndex:index];
         y = [currentPoint value];
-        NSLog(@"%d: y = %f", index, y);
+        //NSLog(@"%d: y = %f", index, y);
         if ([currentPoint expression] == nil)
             eventTime = [currentPoint freeTime];
         else

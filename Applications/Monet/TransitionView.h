@@ -1,4 +1,4 @@
-#import <AppKit/NSView.h>
+#import <AppKit/NSControl.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 @class MonetList, MModel, MMPoint, MMSlope, MMTransition;
@@ -20,7 +20,7 @@
 extern NSString *TransitionViewSelectionDidChangeNotification;
 
 // TODO (2004-03-22): Make this an NSControl subclass.
-@interface TransitionView : NSView
+@interface TransitionView : NSControl
 {
     IBOutlet AppController *controller;
     double _parameters[5];
@@ -114,6 +114,7 @@ extern NSString *TransitionViewSelectionDidChangeNotification;
 - (void)mouseDown:(NSEvent *)mouseEvent;
 - (void)mouseDragged:(NSEvent *)mouseEvent;
 - (void)mouseUp:(NSEvent *)mouseEvent;
+- (void)keyDown:(NSEvent *)keyEvent;
 
 // View geometry
 - (int)sectionHeight;
@@ -138,7 +139,7 @@ extern NSString *TransitionViewSelectionDidChangeNotification;
 - (void)_selectionDidChange;
 
 // Actions
-- (IBAction)delete:(id)sender;
+- (IBAction)deleteBackward:(id)sender;
 - (IBAction)groupInSlopeRatio:(id)sender;
 
 // Publicly used API
