@@ -27,6 +27,7 @@
 - (void)readFile:(NSString *)filename;
 - (void)_readSuffixesFromFile:(NSString *)filename;
 
+- (NSString *)lookupPronunciationForWord:(NSString *)aWord;
 - (NSString *)pronunciationForWord:(NSString *)aWord;
 
 - (void)testString:(NSString *)str;

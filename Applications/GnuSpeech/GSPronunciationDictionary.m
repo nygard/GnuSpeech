@@ -175,11 +175,16 @@
     NSLog(@"<  %s", _cmd);
 }
 
+- (NSString *)lookupPronunciationForWord:(NSString *)aWord;
+{
+    return [pronunciations objectForKey:aWord];
+}
+
 - (NSString *)pronunciationForWord:(NSString *)aWord;
 {
     NSString *pronunciation;
 
-    pronunciation = [pronunciations objectForKey:aWord];
+    pronunciation = [self lookupPronunciationForWord:aWord];
     if (pronunciation == nil) {
         unsigned int count, index;
 
@@ -195,7 +200,7 @@
                 NSString *newPronunciation;
 
                 newWord = [[aWord substringToIndex:range.location] stringByAppendingString:[suffix replacementString]];
-                newPronunciation = [pronunciations objectForKey:newWord];
+                newPronunciation = [self lookupPronunciationForWord:newWord];
                 //NSLog(@"newWord: %@, newPronunciation: %@", newWord, newPronunciation);
                 if (newPronunciation != nil)
                     return [newPronunciation stringByAppendingString:[suffix appendedPronunciation]];
