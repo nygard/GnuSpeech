@@ -1,5 +1,5 @@
 //
-// $Id: AppController.h,v 1.48 2004/04/21 22:41:49 nygard Exp $
+// $Id: AppController.h,v 1.49 2004/04/22 01:02:21 nygard Exp $
 //
 
 /*===========================================================================
@@ -60,6 +60,7 @@ History:
 
 - (void)_loadMonetFile:(NSString *)filename;
 - (void)_loadDegasFile:(NSString *)filename;
+- (void)_loadMonetXMLFile:(NSString *)filename;
 
 - (IBAction)savePrototypes:(id)sender;
 - (IBAction)loadPrototypes:(id)sender;

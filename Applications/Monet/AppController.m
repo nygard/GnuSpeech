@@ -20,6 +20,9 @@
 #import "MSynthesisParameterEditor.h"
 #import "MTransitionEditor.h"
 
+#import "MMXMLNode.h"
+#import "MMXMLElementNode.h"
+
 @implementation AppController
 
 - (id)init;
@@ -139,7 +142,7 @@
 
     NSLog(@" > %s", _cmd);
 
-    types = [NSArray arrayWithObjects:@"monet", @"degas", nil];
+    types = [NSArray arrayWithObjects:@"monet", @"degas", @"mxml", nil];
     openPanel = [NSOpenPanel openPanel]; // Each call resets values, including filenames
     [openPanel setAllowsMultipleSelection:NO];
 
@@ -157,6 +160,8 @@
             [self _loadMonetFile:filename];
         } else if ([extension isEqualToString:@"degas"] == YES) {
             [self _loadDegasFile:filename];
+        } else if ([extension isEqualToString:@"mxml"] == YES) {
+            [self _loadMonetXMLFile:filename];
         }
     }
 
@@ -305,6 +310,20 @@
     }
 
     fclose(fp);
+}
+
+- (void)_loadMonetXMLFile:(NSString *)filename;
+{
+    MMXMLElementNode *tree;
+
+    NSLog(@" > %s", _cmd);
+
+    tree = [MMXMLNode xmlTreeFromContentsOfFile:filename];
+    NSLog(@"tree: %@", tree);
+
+    [model loadFromXMLTree:tree];
+
+    NSLog(@"<  %s", _cmd);
 }
 
 - (IBAction)savePrototypes:(id)sender;

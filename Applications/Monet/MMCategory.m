@@ -5,6 +5,7 @@
 #import "NSString-Extensions.h"
 
 #import "GSXMLFunctions.h"
+#import "MMXMLElementNode.h"
 
 @implementation MMCategory
 
@@ -134,6 +135,23 @@
         [resultString indentToLevel:level];
         [resultString appendString:@"</category>\n"];
     }
+}
+
+- (id)initWithXMLElementNode:(MMXMLElementNode *)element;
+{
+    NSArray *children;
+    unsigned int count, index;
+
+    if ([super init] == nil)
+        return nil;
+
+    symbol = [[element attributeWithName:@"name"] retain];
+    children = [element children];
+    count = [children count];
+    for (index = 0; index < count; index++) {
+    }
+
+    return self;
 }
 
 @end

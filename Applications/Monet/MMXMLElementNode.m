@@ -50,6 +50,11 @@
     [attributes setObject:attributeValue forKey:attributeName];
 }
 
+- (NSString *)attributeWithName:(NSString *)attributeName;
+{
+    return [attributes objectForKey:attributeName];
+}
+
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"<%@>[%p]: name: %@, child count: %d", NSStringFromClass([self class]), self, name, [children count]];

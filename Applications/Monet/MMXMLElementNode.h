@@ -1,5 +1,5 @@
 //
-// $Id: MMXMLElementNode.h,v 1.1 2004/04/21 22:25:21 nygard Exp $
+// $Id: MMXMLElementNode.h,v 1.2 2004/04/22 01:02:21 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -21,6 +21,7 @@
 
 - (NSDictionary *)attributes;
 - (void)addAttributeName:(NSString *)attributeName value:(NSString *)attributeValue;
+- (NSString *)attributeWithName:(NSString *)attributeName;
 
 - (NSString *)description;
 

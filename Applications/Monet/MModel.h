@@ -1,5 +1,5 @@
 //
-// $Id: MModel.h,v 1.27 2004/04/06 21:50:07 nygard Exp $
+// $Id: MModel.h,v 1.28 2004/04/22 01:02:21 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -9,6 +9,7 @@
 
 @class CategoryList, MonetList, ParameterList, PhoneList, RuleList, SymbolList;
 @class MMCategory, MMEquation, MMParameter, MMPosture, MMRule, MMSymbol, MMSynthesisParameters, MMTransition;
+@class MMXMLElementNode;
 
 extern NSString *MCategoryInUseException;
 
@@ -109,6 +110,16 @@ extern NSString *MCategoryInUseException;
 - (void)_appendXMLForEquationsToString:(NSMutableString *)resultString level:(int)level;
 - (void)_appendXMLForTransitionsToString:(NSMutableString *)resultString level:(int)level;
 - (void)_appendXMLForProtoSpecialsToString:(NSMutableString *)resultString level:(int)level;
+
+- (void)loadFromXMLTree:(MMXMLElementNode *)rootElement;
+- (void)_loadCategoriesFromXMLTree:(MMXMLElementNode *)element;
+- (void)_loadParametersFromXMLTree:(MMXMLElementNode *)element;
+- (void)_loadSymbolsFromXMLTree:(MMXMLElementNode *)element;
+- (void)_loadPosturesFromXMLTree:(MMXMLElementNode *)element;
+- (void)_loadEquationsFromXMLTree:(MMXMLElementNode *)element;
+- (void)_loadTransitionsFromXMLTree:(MMXMLElementNode *)element;
+- (void)_loadSpecialTransitionsFromXMLTree:(MMXMLElementNode *)element;
+- (void)_loadRulesFromXMLTree:(MMXMLElementNode *)element;
 
 // Archiving - Degas support
 - (void)readDegasFileFormat:(FILE *)fp;
