@@ -75,7 +75,7 @@
     unsigned int count, index;
 
     data = [[NSData alloc] initWithContentsOfFile:filename];
-    NSLog(@"data: %p", data);
+    //NSLog(@"data: %p", data);
     //str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]; // utf-8 fails
     str = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
     //NSLog(@"str: %p", str);
