@@ -55,12 +55,12 @@
                 intonParmsField = NSForm; 
                 intonationMatrix = NSMatrix; 
                 intonationParameterWindow = NSWindow; 
+                intonationRuleTableView = NSTableView; 
                 intonationView = NSScrollView; 
                 intonationWindow = NSWindow; 
                 parameterTableView = NSTableView; 
                 parametersStore = NSButton; 
                 radiusMultiplyField = NSTextField; 
-                ruleBrowser = NSBrowser; 
                 semitoneTextField = NSTextField; 
                 slopeTextField = NSTextField; 
                 smoothIntonationSwitch = NSButton; 

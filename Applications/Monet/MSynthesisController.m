@@ -186,6 +186,10 @@
         [beatTextField setDoubleValue:[selectedIntonationPoint beatTime]];
         [beatOffsetTextField setDoubleValue:[selectedIntonationPoint offsetTime]];
         [absTimeTextField setDoubleValue:[selectedIntonationPoint absoluteTime]];
+
+        NSLog(@"ruleIndex: %d", [selectedIntonationPoint ruleIndex]);
+        [intonationRuleTableView scrollRowToVisible:[selectedIntonationPoint ruleIndex]];
+        [intonationRuleTableView selectRow:[selectedIntonationPoint ruleIndex] byExtendingSelection:NO];
     }
 }
 
@@ -354,6 +358,7 @@
     [eventList setIntonationParameters:intonationParameters];
 
     [eventList applyIntonation];
+    [intonationRuleTableView reloadData];
     if ([[eventList intonationPoints] count] > 0)
         [[intonationView documentView] selectIntonationPoint:[[eventList intonationPoints] objectAtIndex:0]];
     [intonationView display];
@@ -549,7 +554,13 @@
 
 - (int)numberOfRowsInTableView:(NSTableView *)tableView;
 {
-    return [displayParameters count];
+    if (tableView == parameterTableView)
+        return [displayParameters count];
+
+    if (tableView == intonationRuleTableView)
+        return [eventList numberOfRules];
+
+    return 0;
 }
 
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row;
@@ -565,6 +576,12 @@
             return [displayParameter name];
         } else if ([@"shouldDisplay" isEqual:identifier] == YES) {
             return [NSNumber numberWithBool:[displayParameter shouldDisplay]];
+        }
+    } else if (tableView == intonationRuleTableView) {
+        if ([@"rule" isEqual:identifier] == YES) {
+            return [eventList ruleDescriptionAtIndex:row];
+        } else if ([@"number" isEqual:identifier] == YES) {
+            return [NSString stringWithFormat:@"%d.", row + 1];
         }
     }
 

@@ -160,6 +160,7 @@ struct _rule {
 
 - (MMPosture *)getPhoneAtIndex:(int)phoneIndex;
 - (struct _rule *)getRuleAtIndex:(int)ruleIndex;
+- (NSString *)ruleDescriptionAtIndex:(int)ruleIndex;
 - (double)getBeatAtIndex:(int)ruleIndex;
 - (int)numberOfRules;
 

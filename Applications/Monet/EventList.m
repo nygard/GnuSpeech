@@ -262,6 +262,25 @@
     return &rules[ruleIndex];
 }
 
+- (NSString *)ruleDescriptionAtIndex:(int)ruleIndex;
+{
+    NSMutableString *str;
+    struct _rule *rule;
+    int index;
+
+    rule = [self getRuleAtIndex:ruleIndex];
+    str = [NSMutableString string];
+
+    for (index = rule->firstPhone; index <= rule->lastPhone; index++) {
+        [str appendString:[[self getPhoneAtIndex:index] symbol]];
+        if (index == rule->lastPhone)
+            break;
+        [str appendString:@" > "];
+    }
+
+    return str;
+}
+
 - (double)getBeatAtIndex:(int)ruleIndex;
 {
     if (ruleIndex > currentRule)
