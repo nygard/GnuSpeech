@@ -6,8 +6,15 @@
             LANGUAGE = ObjC; 
             OUTLETS = {
                 controlParametersForm = NSForm; 
+                equationOutlineView = NSOutlineView; 
+                equationTextView = NSTextView; 
+                isPhantomSwitch = NSButton; 
                 transitionNameTextField = NSTextField; 
                 transitionView = TransitionView; 
+                type1Button = NSButton; 
+                type2Button = NSButton; 
+                type3Button = NSButton; 
+                valueTextField = NSTextField; 
             }; 
             SUPERCLASS = NSWindowController; 
         }, 
@@ -23,7 +30,7 @@
             }; 
             CLASS = TransitionView; 
             LANGUAGE = ObjC; 
-            OUTLETS = {controller = AppController; }; 
+            OUTLETS = {controller = AppController; "nonretained_delegate" = id; }; 
             SUPERCLASS = NSView; 
         }
     ); 

@@ -31,6 +31,8 @@
 #define ZERO_INDEX 2
 #define SECTION_AMOUNT 10
 
+NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelectionDidChangeNotification";
+
 // TODO (2004-03-15): Should have methods to convert between points in the view and graph values.
 
 @implementation TransitionView
@@ -47,19 +49,19 @@ static NSImage *_selectionBox = nil;
 
     mainBundle = [NSBundle mainBundle];
     path = [mainBundle pathForResource:@"dotMarker" ofType:@"tiff"];
-    NSLog(@"path: %@", path);
+    //NSLog(@"path: %@", path);
     _dotMarker = [[NSImage alloc] initWithContentsOfFile:path];
 
     path = [mainBundle pathForResource:@"squareMarker" ofType:@"tiff"];
-    NSLog(@"path: %@", path);
+    //NSLog(@"path: %@", path);
     _squareMarker = [[NSImage alloc] initWithContentsOfFile:path];
 
     path = [mainBundle pathForResource:@"triangleMarker" ofType:@"tiff"];
-    NSLog(@"path: %@", path);
+    //NSLog(@"path: %@", path);
     _triangleMarker = [[NSImage alloc] initWithContentsOfFile:path];
 
     path = [mainBundle pathForResource:@"selectionBox" ofType:@"tiff"];
-    NSLog(@"path: %@", path);
+    //NSLog(@"path: %@", path);
     _selectionBox = [[NSImage alloc] initWithContentsOfFile:path];
 }
 
@@ -259,6 +261,16 @@ static NSImage *_selectionBox = nil;
 
     flags.shouldDrawSlopes = newFlag;
     [self setNeedsDisplay:YES];
+}
+
+- (id)delegate;
+{
+    return nonretained_delegate;
+}
+
+- (void)setDelegate:(id)newDelegate;
+{
+    nonretained_delegate = newDelegate;
 }
 
 //
@@ -525,7 +537,7 @@ static NSImage *_selectionBox = nil;
     for (index = 0; index < count; index++) {
         currentPoint = [displayPoints objectAtIndex:index];
         y = [currentPoint value];
-        NSLog(@"%d: [%p] y = %f", index, currentPoint, y);
+        //NSLog(@"%d: [%p] y = %f", index, currentPoint, y);
         if ([currentPoint expression] == nil)
             eventTime = [currentPoint freeTime];
         else
@@ -735,13 +747,14 @@ static NSImage *_selectionBox = nil;
     NSLog(@" > %s", _cmd);
 
     hitPoint = [self convertPoint:[mouseEvent locationInWindow] fromView:nil];
-    NSLog(@"hitPoint: %@", NSStringFromPoint(hitPoint));
+    //NSLog(@"hitPoint: %@", NSStringFromPoint(hitPoint));
 
     hitSlope = [self getSlopeMarkerAtPoint:hitPoint startTime:&startTime endTime:&endTime];
 
     [self setShouldDrawSelection:NO];
     [selectedPoints removeAllObjects];
     [[controller inspector] inspectPoint:nil];
+    [self _selectionDidChange];
     [self setNeedsDisplay:YES];
 
     if ([mouseEvent clickCount] == 1) {
@@ -775,6 +788,7 @@ static NSImage *_selectionBox = nil;
             [newPoint release];
 
             [[controller inspector] inspectPoints:selectedPoints];
+            [self _selectionDidChange];
             [self setNeedsDisplay:YES];
             return;
         }
@@ -808,9 +822,7 @@ static NSImage *_selectionBox = nil;
 
 - (void)mouseUp:(NSEvent *)mouseEvent;
 {
-    NSLog(@" > %s", _cmd);
     [self setShouldDrawSelection:NO];
-    NSLog(@"<  %s", _cmd);
 }
 
 //
@@ -1107,6 +1119,14 @@ static NSImage *_selectionBox = nil;
 // Selection
 //
 
+- (MMPoint *)selectedPoint;
+{
+    if ([selectedPoints count] > 0)
+        return [selectedPoints objectAtIndex:0];
+
+    return nil;
+}
+
 - (void)selectGraphPointsBetweenPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
 {
     NSPoint graphOrigin;
@@ -1152,7 +1172,19 @@ static NSImage *_selectionBox = nil;
     }
 
     [[controller inspector] inspectPoints:selectedPoints];
+    [self _selectionDidChange];
     [self setNeedsDisplay:YES];
+}
+
+- (void)_selectionDidChange;
+{
+    NSNotification *aNotification;
+
+    aNotification = [NSNotification notificationWithName:TransitionViewSelectionDidChangeNotification object:self];
+    [[NSNotificationCenter defaultCenter] postNotification:aNotification];
+
+    if ([[self delegate] respondsToSelector:@selector(transitionViewSelectionDidChange:)] == YES)
+        [[self delegate] transitionViewSelectionDidChange:aNotification];
 }
 
 //
@@ -1179,6 +1211,7 @@ static NSImage *_selectionBox = nil;
     [[controller inspector] cleanInspectorWindow];
     [selectedPoints removeAllObjects];
     [[controller inspector] inspectPoint:nil];
+    [self _selectionDidChange];
 
     [self setNeedsDisplay:YES];
 }
@@ -1232,6 +1265,7 @@ static NSImage *_selectionBox = nil;
     [[self window] endEditingFor:nil];
     [selectedPoints removeAllObjects];
     [[controller inspector] inspectPoint:nil];
+    [self _selectionDidChange];
 
     // In case we've changed the type of the transition
     if (newTransition != currentTemplate) {
@@ -1265,10 +1299,10 @@ static NSImage *_selectionBox = nil;
 
     [self setNeedsDisplay:YES];
 }
-
+#if 1
 - (void)showWindow:(int)otherWindow;
 {
     [[self window] orderWindow:NSWindowBelow relativeTo:otherWindow];
 }
-
+#endif
 @end

@@ -1,7 +1,7 @@
 #import <AppKit/NSView.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-@class MonetList, MModel, MMSlope, MMTransition;
+@class MonetList, MModel, MMPoint, MMSlope, MMTransition;
 @class AppController;
 
 /*===========================================================================
@@ -12,6 +12,12 @@
 
 =============================================================================
 */
+
+@protocol TransitionViewNotifications
+- (void)transitionViewSelectionDidChange:(NSNotification *)aNotification;
+@end
+
+extern NSString *TransitionViewSelectionDidChangeNotification;
 
 // TODO (2004-03-22): Make this an NSControl subclass.
 @interface TransitionView : NSView
@@ -43,6 +49,8 @@
         unsigned int shouldDrawSelection:1;
         unsigned int shouldDrawSlopes:1;
     } flags;
+
+    id nonretained_delegate;
 }
 
 + (void)initialize;
@@ -81,6 +89,9 @@
 
 - (BOOL)shouldDrawSlopes;
 - (void)setShouldDrawSlopes:(BOOL)newFlag;
+
+- (id)delegate;
+- (void)setDelegate:(id)newDelegate;
 
 // Drawing
 - (void)drawRect:(NSRect)rect;
@@ -122,7 +133,9 @@
 - (void)textDidEndEditing:(NSNotification *)notification;
 
 // Selection
+- (MMPoint *)selectedPoint;
 - (void)selectGraphPointsBetweenPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
+- (void)_selectionDidChange;
 
 // Actions
 - (IBAction)delete:(id)sender;

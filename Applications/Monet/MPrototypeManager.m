@@ -661,6 +661,7 @@
         }
     }
 }
+
 //
 // NSOutlineView delegate
 //
