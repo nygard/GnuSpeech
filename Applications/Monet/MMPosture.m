@@ -12,7 +12,6 @@
 #import "MMTarget.h"
 #import "TargetList.h"
 #import "MMSymbol.h"
-#import "SymbolList.h"
 
 #import "MModel.h"
 #import "MUnarchiver.h"
@@ -29,62 +28,6 @@
 #if 0
 - (id)init;
 {
-    if ([super init] == nil)
-        return nil;
-
-    phoneSymbol = nil;
-    comment = nil;
-
-    categoryList = [[CategoryList alloc] initWithCapacity:15];
-    parameterList = [[TargetList alloc] initWithCapacity:15];
-    metaParameterList = [[TargetList alloc] initWithCapacity:15];
-    symbolList = [[TargetList alloc] initWithCapacity:15];
-
-    return self;
-}
-
-- (id)initWithSymbol:(NSString *)newSymbol;
-{
-    if ([self init] == nil)
-        return nil;
-
-    [self setSymbol:newSymbol];
-
-    return self;
-}
-
-- (id)initWithSymbol:(NSString *)newSymbol parameters:(ParameterList *)parms metaParameters:(ParameterList *)metaparms symbols:(SymbolList *)symbols;
-{
-    int count, index;
-    MMTarget *newTarget;
-
-    if ([self init] == nil)
-        return nil;
-
-    [self setSymbol:newSymbol];
-
-    count = [parms count];
-    for (index = 0; index < count; index++) {
-        newTarget = [[MMTarget alloc] initWithValue:[[parms objectAtIndex:index] defaultValue] isDefault:YES];
-        [parameterList addObject:newTarget];
-        [newTarget release];
-    }
-
-    count = [metaparms count];
-    for (index = 0; index < count; index++) {
-        newTarget = [[MMTarget alloc] initWithValue:[[metaparms objectAtIndex:index] defaultValue] isDefault:YES];
-        [metaParameterList addObject:newTarget];
-        [newTarget release];
-    }
-
-    count = [symbols count];
-    for (index = 0; index < count; index++) {
-        newTarget = [[MMTarget alloc] initWithValue:[[symbols objectAtIndex:index] defaultValue] isDefault:YES];
-        [symbolList addObject:newTarget];
-        [newTarget release];
-    }
-
-    return self;
 }
 #endif
 
@@ -116,7 +59,7 @@
     int count, index;
     MMTarget *newTarget;
     ParameterList *mainParameters;
-    SymbolList *mainSymbols;
+    NSArray *mainSymbols;
 
     [self addCategory:[[self model] categoryWithName:@"phone"]];
 
@@ -349,7 +292,7 @@
 
 - (void)addSymbolTargetsFromDictionary:(NSDictionary *)aDictionary;
 {
-    SymbolList *symbols;
+    NSArray *symbols;
     unsigned int count, index;
 
     symbols = [[self model] symbols];
@@ -575,7 +518,7 @@
 
 - (void)_appendXMLForSymbolsToString:(NSMutableString *)resultString level:(int)level;
 {
-    SymbolList *mainSymbolList;
+    NSArray *mainSymbolList;
     int count, index;
     MMSymbol *aSymbol;
     MMTarget *aTarget;

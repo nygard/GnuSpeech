@@ -4,6 +4,7 @@
 #import "MModel.h"
 
 #import <Foundation/Foundation.h>
+#import "NSArray-Extensions.h"
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
 
@@ -43,7 +44,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     categories = [[CategoryList alloc] init];
     parameters = [[ParameterList alloc] init];
     metaParameters = [[ParameterList alloc] init];
-    symbols = [[SymbolList alloc] init];
+    symbols = [[NSMutableArray alloc] init];
     postures = [[PhoneList alloc] init];
 
     equations = [[MonetList alloc] init];
@@ -130,7 +131,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     return metaParameters;
 }
 
-- (SymbolList *)symbols;
+- (NSMutableArray *)symbols;
 {
     return symbols;
 }

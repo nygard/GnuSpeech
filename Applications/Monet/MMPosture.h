@@ -1,6 +1,6 @@
 #import "MMObject.h"
 
-@class CategoryList, MMCategory, MMSymbol, MMTarget, ParameterList, TargetList, SymbolList;
+@class CategoryList, MMCategory, MMSymbol, MMTarget, ParameterList, TargetList;
 
 /*===========================================================================
 
@@ -57,12 +57,6 @@
 
     MMCategory *nativeCategory;
 }
-
-#if 0
-- (id)init;
-- (id)initWithSymbol:(NSString *)newSymbol;
-- (id)initWithSymbol:(NSString *)newSymbol parameters:(ParameterList *)parms metaParameters:(ParameterList *)metaparms symbols:(SymbolList *)symbols;
-#endif
 
 - (id)initWithModel:(MModel *)aModel;
 - (void)_addDefaultValues;

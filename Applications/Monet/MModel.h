@@ -3,7 +3,7 @@
 
 #import <Foundation/NSObject.h>
 
-@class CategoryList, MonetList, NamedList, ParameterList, PhoneList, SymbolList;
+@class CategoryList, MonetList, NamedList, ParameterList, PhoneList;
 @class MMCategory, MMEquation, MMParameter, MMPosture, MMRule, MMSymbol, MMSynthesisParameters, MMTransition;
 
 extern NSString *MCategoryInUseException;
@@ -13,7 +13,7 @@ extern NSString *MCategoryInUseException;
     CategoryList *categories; // Keep this list sorted by name
     ParameterList *parameters;
     ParameterList *metaParameters;
-    SymbolList *symbols;
+    NSMutableArray *symbols;
     PhoneList *postures; // Keep this list sorted by name
 
     MonetList *equations; // Of NamedLists of MMEquations
@@ -35,7 +35,7 @@ extern NSString *MCategoryInUseException;
 - (CategoryList *)categories;
 - (ParameterList *)parameters;
 - (ParameterList *)metaParameters;
-- (SymbolList *)symbols;
+- (NSMutableArray *)symbols;
 - (PhoneList *)postures;
 
 - (MonetList *)equations;
