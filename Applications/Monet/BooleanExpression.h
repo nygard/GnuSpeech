@@ -62,9 +62,6 @@
 - (id)init;
 - (void)dealloc;
 
-/* Evaluate yourself.*/
-- (int)evaluate:(CategoryList *)categories;
-
 /* Access to instance variables */
 - (int)operation;
 - (void)setOperation:(int)newOperation;
@@ -72,6 +69,13 @@
 - (void)addSubExpression:(BooleanExpression *)newExpression;
 - (BooleanExpression *)operandOne;
 - (BooleanExpression *)operandTwo;
+
+- (NSString *)opString;
+
+// Methods common to "BooleanNode" -- for both BooleanExpress, BooleanTerminal
+
+/* Evaluate yourself.*/
+- (int)evaluate:(CategoryList *)categories;
 
 /* Optimization methods.  Not yet implemented */
 - (void)optimize;
@@ -81,11 +85,10 @@
 - (int)maxExpressionLevels;
 - (NSString *)expressionString;
 - (void)expressionString:(NSMutableString *)resultString;
-- (NSString *)opString;
 
 - (BOOL)isCategoryUsed:aCategory;
 
-/* Archiving methods */
+// Archiving
 //- (id)initWithCoder:(NSCoder *)aDecoder;
 //- (void)encodeWithCoder:(NSCoder *)aCoder;
 

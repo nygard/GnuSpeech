@@ -22,6 +22,55 @@
     [super dealloc];
 }
 
+- (int)operation;
+{
+    return operation;
+}
+
+- (void)setOperation:(int)newOperation;
+{
+    operation = newOperation;
+}
+
+- (void)addSubExpression:(BooleanExpression *)newExpression;
+{
+    [expressions addObject:newExpression];
+}
+
+- (BooleanExpression *)operandOne;
+{
+    if  ([expressions count] > 0)
+        return [expressions objectAtIndex:0];
+
+    return nil;
+}
+
+- (BooleanExpression *)operandTwo;
+{
+    if  ([expressions count] > 1)
+        return [expressions objectAtIndex:1];
+
+    return nil;
+}
+
+- (NSString *)opString;
+{
+    switch (operation) {
+      default:
+      case NO_OP: return @"";
+      case NOT_OP: return @" not ";
+      case OR_OP: return @" or ";
+      case AND_OP: return @" and ";
+      case XOR_OP: return @" xor ";
+    }
+
+    return @"";
+}
+
+//
+// Methods common to "BooleanNode" -- for both BooleanExpress, BooleanTerminal
+//
+
 - (int)evaluate:(CategoryList *)categories;
 {
     switch (operation) {
@@ -47,38 +96,6 @@
     }
 
     return 0;
-}
-
-- (int)operation;
-{
-    return operation;
-}
-
-- (void)setOperation:(int)newOperation;
-{
-    operation = newOperation;
-}
-
-
-- (void)addSubExpression:(BooleanExpression *)newExpression;
-{
-    [expressions addObject:newExpression];
-}
-
-- (BooleanExpression *)operandOne;
-{
-    if  ([expressions count] > 0)
-        return [expressions objectAtIndex:0];
-
-    return nil;
-}
-
-- (BooleanExpression *)operandTwo;
-{
-    if  ([expressions count] > 1)
-        return [expressions objectAtIndex:1];
-
-    return nil;
 }
 
 - (void)optimize;
@@ -148,20 +165,6 @@
     [resultString appendString:@")"];
 }
 
-- (NSString *)opString;
-{
-    switch (operation) {
-      default:
-      case NO_OP: return @"";
-      case NOT_OP: return @" not ";
-      case OR_OP: return @" or ";
-      case AND_OP: return @" and ";
-      case XOR_OP: return @" xor ";
-    }
-
-    return @"";
-}
-
 - (BOOL)isCategoryUsed:aCategory;
 {
     int count, index;
@@ -174,6 +177,10 @@
 
     return NO;
 }
+
+//
+// Archiving methods
+//
 
 #ifdef PORINT
 - (id)initWithCoder:(NSCoder *)aDecoder;

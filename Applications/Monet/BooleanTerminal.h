@@ -51,6 +51,8 @@
 - (int)shouldMatchAll;
 - (void)setShouldMatchAll:(BOOL)newFlag;
 
+// Methods common to "BooleanNode" -- for both BooleanExpress, BooleanTerminal
+
 /* Evaluate yourself */
 - (int)evaluate:(CategoryList *)categories;
 
@@ -60,11 +62,12 @@
 
 /* General purpose routines */
 - (int)maxExpressionLevels;
+- (NSString *)expressionString;
 - (void)expressionString:(NSMutableString *)resultString;
 
 - (BOOL)isCategoryUsed:aCategory;
 
-/* Archiving methods */
+// Archiving methods
 //- (id)initWithCoder:(NSCoder *)aDecoder;
 //- (void)encodeWithCoder:(NSCoder *)aCoder;
 

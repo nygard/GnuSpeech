@@ -52,6 +52,10 @@
     shouldMatchAll = newFlag;
 }
 
+//
+// Methods common to "BooleanNode" -- for both BooleanExpress, BooleanTerminal
+//
+
 - (int)evaluate:(CategoryList *)categories;
 {
     if ([categories indexOfObject:category] == NSNotFound) {
@@ -82,6 +86,16 @@
     return 1;
 }
 
+- (NSString *)expressionString;
+{
+    NSMutableString *resultString;
+
+    resultString = [NSMutableString string];
+    [self expressionString:resultString];
+
+    return resultString;
+}
+
 - (void)expressionString:(NSMutableString *)resultString;
 {
     if (category == nil)
@@ -99,6 +113,10 @@
 
     return NO;
 }
+
+//
+// Archiving methods
+//
 
 #ifdef PORTING
 - (id)initWithCoder:(NSCoder *)aDecoder
