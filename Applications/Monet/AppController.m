@@ -110,6 +110,9 @@
     [[self synthesisParameterEditor] showWindowIfVisibleOnLaunch];
     [[self synthesisController] showWindowIfVisibleOnLaunch];
 
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shouldActivateOnLaunch"])
+        [NSApp activateIgnoringOtherApps:YES];
+
     //NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }
 
