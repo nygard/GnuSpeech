@@ -91,3 +91,17 @@ TODO:
 - Use MM prefix for model objects (MMPoint, MMEquation, MMTransition, MMParameter, MMPosture, ...)
   - try M prefix for remaining object (MMonetModel, MTransitionView, MInspector, ...)
 - Just noticed that "Drift Parmeters" is misspelled in the original Intonation Window.
+- Rename classes
+  - Phone -> MMPosture
+  - NamedList -> MMGroup (where appropriate)
+  - CateogoryNode -> MMCategory
+  - Parameter -> MMParameter
+  - Symbol -> MMParameter
+  - Point(GSMPoint) -> MMPoint
+  - Rule -> MMRule
+  - ProtoEquation -> MMEquation
+  - ProtoTemplate -> MMTransition
+  - GSParser -> MParser
+  - Slope -> MMSlope
+  - SlopeRatio -> MMSlopeRatio
+  - Target -> MMTarget
