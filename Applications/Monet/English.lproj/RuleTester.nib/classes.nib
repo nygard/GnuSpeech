@@ -1,0 +1,21 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {parseRule = id; shiftPhonesLeft = id; }; 
+            CLASS = MRuleTester; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                consumedTokensTextField = NSTextField; 
+                durationOutputForm = NSForm; 
+                phone1Form = NSForm; 
+                phone2Form = NSForm; 
+                phone3Form = NSForm; 
+                phone4Form = NSForm; 
+                ruleOutputTextField = NSTextField; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

@@ -24,6 +24,7 @@
 #import "MDataEntryController.h"
 #import "MPostureEditor.h"
 #import "MPrototypeManager.h"
+#import "MRuleTester.h"
 #import "MSpecialTransitionEditor.h"
 #import "MTransitionEditor.h"
 
@@ -87,8 +88,6 @@
 
     if (inspectorController)
         [inspectorController applicationDidFinishLaunching:aNotification];
-
-    [prototypeManager applicationDidFinishLaunching:aNotification];
 
     //NSLog(@"decode List as %@", [NSUnarchiver classNameDecodedForArchiveClassName:@"List"]);
     //NSLog(@"decode Object as %@", [NSUnarchiver classNameDecodedForArchiveClassName:@"Object"]);
@@ -326,6 +325,7 @@
                 [newPrototypeManager setModel:model];
                 [transitionEditor setModel:model];
                 [specialTransitionEditor setModel:model];
+                [ruleTester setModel:model];
 
                 [stream release];
 #ifdef PORTING
@@ -487,6 +487,21 @@
     [self specialTransitionEditor]; // Make sure it's been created
     [specialTransitionEditor setModel:model];
     [specialTransitionEditor showWindow:self];
+}
+
+- (MRuleTester *)ruleTester;
+{
+    if (ruleTester == nil)
+        ruleTester = [[MRuleTester alloc] initWithModel:model];
+
+    return ruleTester;
+}
+
+- (IBAction)showRuleTester:(id)sender;
+{
+    [self ruleTester]; // Make sure it's been created
+    [ruleTester setModel:model];
+    [ruleTester showWindow:self];
 }
 
 - (IBAction)generateXML:(id)sender;
