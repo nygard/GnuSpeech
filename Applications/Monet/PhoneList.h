@@ -1,7 +1,6 @@
 #import "MonetList.h"
-#import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-@class MMParameter, MMPosture;
+@class MMPosture;
 
 /*===========================================================================
 
