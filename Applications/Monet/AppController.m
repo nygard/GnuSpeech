@@ -462,4 +462,9 @@
     NSLog(@"<  %s", _cmd);
 }
 
+- (IBAction)generateXML:(id)sender;
+{
+    [model generateXML:@""];
+}
+
 @end

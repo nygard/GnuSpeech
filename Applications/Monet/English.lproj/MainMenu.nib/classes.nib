@@ -5,6 +5,7 @@
                 archiveToDisk = id; 
                 displayInfoPanel = id; 
                 displayInspectorWindow = id; 
+                generateXML = id; 
                 importTRMData = id; 
                 loadPrototypes = id; 
                 openFile = id; 

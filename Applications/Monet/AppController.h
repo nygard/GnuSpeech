@@ -1,5 +1,5 @@
 //
-// $Id: AppController.h,v 1.22 2004/03/19 22:33:22 nygard Exp $
+// $Id: AppController.h,v 1.23 2004/03/19 23:05:39 nygard Exp $
 //
 
 /*===========================================================================
@@ -92,6 +92,8 @@ History:
 
 - (IBAction)showNewDataEntryWindow:(id)sender;
 - (IBAction)showPostureEditor:(id)sender;
+
+- (IBAction)generateXML:(id)sender;
 
 @end
 
