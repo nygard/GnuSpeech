@@ -21,11 +21,11 @@ void TRMRingBufferFree(TRMRingBuffer *ringBuffer);
 
 void dataFill(TRMRingBuffer *ringBuffer, double data);
 void dataEmpty(TRMRingBuffer *ringBuffer);
-void RBIncrement(TRMRingBuffer *ringBuffer);
-void RBDecrement(TRMRingBuffer *ringBuffer);
+inline void RBIncrement(TRMRingBuffer *ringBuffer);
+inline void RBDecrement(TRMRingBuffer *ringBuffer);
 void flushBuffer(TRMRingBuffer *ringBuffer);
 
-int RBIncrementIndex(int index);
-int RBDecrementIndex(int index);
+inline int RBIncrementIndex(int index);
+inline int RBDecrementIndex(int index);
 
 #endif
