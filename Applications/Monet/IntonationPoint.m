@@ -5,7 +5,6 @@
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
 
-#import "AppController.h"
 #import "EventList.h"
 
 #define MIDDLEC	261.6255653

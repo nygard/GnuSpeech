@@ -21,7 +21,7 @@
         }, 
         {
             ACTIONS = {
-                delete = id; 
+                deleteBackward = id; 
                 groupInSlopeRatio = id; 
                 takeBeatLocationFrom = id; 
                 takeMark1From = id; 
@@ -31,8 +31,8 @@
             }; 
             CLASS = TransitionView; 
             LANGUAGE = ObjC; 
-            OUTLETS = {controller = AppController; "nonretained_delegate" = id; }; 
-            SUPERCLASS = NSView; 
+            OUTLETS = {"nonretained_delegate" = id; }; 
+            SUPERCLASS = NSControl; 
         }
     ); 
     IBVersion = 1; 

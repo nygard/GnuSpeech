@@ -4,7 +4,6 @@
 #import "NSBezierPath-Extensions.h"
 #include <math.h>
 
-#import "AppController.h"
 #import "FormulaExpression.h"
 #import "MMEquation.h"
 #import "MMPosture.h"

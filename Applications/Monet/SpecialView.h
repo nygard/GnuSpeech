@@ -1,8 +1,4 @@
 #import "TransitionView.h"
-#import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
-
-@class MModel, MMPoint, MonetList, MMTransition;
-@class AppController, MMSlope;
 
 /*===========================================================================
 

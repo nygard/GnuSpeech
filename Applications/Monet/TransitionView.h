@@ -2,7 +2,6 @@
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 @class MonetList, MModel, MMPoint, MMSlope, MMTransition;
-@class AppController;
 @class TransitionView;
 
 /*===========================================================================
@@ -28,7 +27,6 @@ extern NSString *TransitionViewSelectionDidChangeNotification;
 // TODO (2004-03-22): Make this an NSControl subclass.
 @interface TransitionView : NSControl
 {
-    IBOutlet AppController *controller;
     double _parameters[5];
 
     NSFont *timesFont;
