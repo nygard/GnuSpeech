@@ -1,5 +1,5 @@
 //
-// $Id: MRuleManager.h,v 1.4 2004/03/24 19:43:35 nygard Exp $
+// $Id: MRuleManager.h,v 1.5 2004/03/24 20:53:05 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -90,5 +90,8 @@
 // NSOutlineView delegate
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item;
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldCollapseItem:(id)item;
+
+// NSTextView delegate
+- (void)textDidEndEditing:(NSNotification *)aNotification;
 
 @end

@@ -102,6 +102,8 @@
     [errorTextField setStringValue:@""];
     [possibleCombinationsTextField setIntValue:0];
 
+    [ruleCommentTextView setFieldEditor:YES];
+
     [self updateViews];
     [self expandOutlines];
 
@@ -629,6 +631,39 @@
             [[[self selectedRule] metaParameterList] replaceObjectAtIndex:[metaParameterTableView selectedRow] withObject:selectedTransition];
         }
     }
+}
+
+//
+// NSTextView delegate
+//
+
+- (void)textDidEndEditing:(NSNotification *)aNotification;
+{
+    NSTextView *textView;
+    NSString *newStringValue;
+
+    textView = [aNotification object];
+    // NSTextMovement is a key in the user info
+    //NSLog(@"[aNotification userInfo]: %@", [aNotification userInfo]);
+
+    newStringValue = [[textView string] copy];
+
+    //NSLog(@"(1) newStringValue: %@", newStringValue);
+    if ([newStringValue length] == 0) {
+        [newStringValue release];
+        newStringValue = nil;
+    }
+    //NSLog(@"(2) newStringValue: %@", newStringValue);
+
+    if (textView == ruleCommentTextView) {
+        MMRule *selectedRule;
+
+        selectedRule = [self selectedRule];
+        [selectedRule setComment:newStringValue];
+        [ruleTableView reloadData]; // To update the icon for the row
+    }
+
+    [newStringValue release];
 }
 
 @end
