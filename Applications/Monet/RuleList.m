@@ -194,7 +194,7 @@
     return NO;
 }
 
-- (void)findEquation:anEquation andPutIn:(MonetList *)aList;
+- findEquation:anEquation andPutIn:(MonetList *)aList;
 {
     int count, index;
     id anObject;
@@ -202,9 +202,13 @@
     count = [self count];
     for (index = 0; index < count; index++) {
         anObject = [self objectAtIndex:index];
-        if ([anObject isEquationUsed:anEquation])
+        if ([anObject isEquationUsed:anEquation]) {
             [aList addObject:anObject];
+            return anObject;
+        }
     }
+
+    return nil;
 }
 
 - (void)findTemplate:aTemplate andPutIn:aList;

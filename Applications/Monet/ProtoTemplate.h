@@ -41,7 +41,7 @@
 - (void)setType:(int)type;
 
 - (BOOL)isEquationUsed:anEquation;
-- findEquation:anEquation andPutIn:aList;
+- findEquation:anEquation andPutIn:(MonetList *)aList;
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 - (void)encodeWithCoder:(NSCoder *)aCoder;

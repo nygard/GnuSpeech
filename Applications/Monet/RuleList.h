@@ -26,7 +26,7 @@
 - (BOOL)isEquationUsed:anEquation;
 - (BOOL)isTransitionUsed:aTransition;
 
-- (void)findEquation:anEquation andPutIn:(MonetList *)aList;
+- findEquation:anEquation andPutIn:(MonetList *)aList;
 - (void)findTemplate:aTemplate andPutIn:aList;
 
 - (id)initWithCoder:(NSCoder *)aDecoder;

@@ -173,7 +173,7 @@
     return NO;
 }
 
-- findEquation:anEquation andPutIn:aList;
+- findEquation:anEquation andPutIn:(MonetList *)aList;
 {
     int i, j;
     id temp, temp1;

@@ -1,138 +1,136 @@
 #import "ProtoEquation.h"
-#import <Foundation/NSString.h>
-#import <Foundation/NSCoder.h>
-#import <stdio.h>
-#import <string.h>
-#import <stdlib.h>
+
+#import <Foundation/Foundation.h>
+#import "FormulaExpression.h"
 
 @implementation ProtoEquation
 
-- init
+- (id)init;
 {
-	name = NULL;
-	comment = NULL;
-	expression = nil;
-	return self;
+    if ([super init] == nil)
+        return nil;
+
+    name = nil;
+    comment = nil;
+    expression = nil;
+
+    return self;
 }
 
-- initWithName:(NSString *)newName
+- (id)initWithName:(NSString *)newName;
 {
-	[self setName:newName];
-	return self;
+    if ([self init] == nil)
+        return nil;
+
+    [self setName:newName];
+
+    return self;
 }
 
-- setName:(NSString *)newName
+- (void)dealloc;
 {
-int len;
-	if (name)
-		free(name);
+    [name release];
+    [comment release];
+    [expression release];
 
-	len = [newName length];
-	name = (char *) malloc(len+1);
-	strcpy(name, [newName cString]);
-
-	return self;
+    [super dealloc];
 }
 
-- (NSString *)name
+- (NSString *)name;
 {
-	return [NSString stringWithCString:( (const char *) name)];
+    return name;
 }
 
-- (void)setComment:(const char *)newComment
+- (void)setName:(NSString *)newName;
 {
-int len;
+    if (newName == name)
+        return;
 
-	if (comment)
-		free(comment);
-
-	len = strlen(newComment);
-	comment = (char *) malloc(len+1);
-	strcpy(comment, newComment);
+    [name release];
+    name = [newName retain];
 }
 
-- (const char *) comment
+- (NSString *)comment;
 {
-	return comment;
+    return comment;
 }
 
-- (void)setExpression:newExpression
+- (void)setComment:(NSString *)newComment;
 {
-	expression = newExpression;
+    if (newComment == comment)
+        return;
+
+    [comment release];
+    comment = [newComment retain];
 }
 
-- expression
+- expression;
 {
-	return expression;
+    return expression;
 }
 
-- (double) evaluate: (double *) ruleSymbols tempos: (double * ) tempos phones: phones andCacheWith: (int) newCacheTag
+- (void)setExpression:newExpression;
 {
-	if (newCacheTag != cacheTag)
-	{
-		cacheTag = newCacheTag;
-		cacheValue = [expression evaluate: ruleSymbols tempos: tempos phones: phones];
-	}
-	return cacheValue;
+    if (newExpression == expression)
+        return;
 
-}
-- (double) evaluate: (double *) ruleSymbols phones: phones andCacheWith: (int) newCacheTag
-{
-	if (newCacheTag != cacheTag)
-	{
-		cacheTag = newCacheTag;
-		cacheValue = [expression evaluate: ruleSymbols phones: phones];
-	}
-	return cacheValue;
+    [expression release];
+    expression = [newExpression retain];
 }
 
-- (double) cacheValue
+- (double)evaluate:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag;
 {
-	return cacheValue;
+    if (newCacheTag != cacheTag) {
+        cacheTag = newCacheTag;
+        cacheValue = [expression evaluate:ruleSymbols tempos:tempos phones:phones];
+    }
+
+    return cacheValue;
 }
 
-- (void)dealloc
+- (double)evaluate:(double *)ruleSymbols phones:phones andCacheWith:(int)newCacheTag;
 {
-	if (name)
-		free(name);
+    if (newCacheTag != cacheTag) {
+        cacheTag = newCacheTag;
+        cacheValue = [expression evaluate:ruleSymbols phones:phones];
+    }
 
-	if (comment)
-		free(comment);
-
-	if (expression)
-		[expression release];
-
-	[super dealloc];
+    return cacheValue;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+- (double)cacheValue;
 {
-	cacheTag = 0;
-	cacheValue = 0.0;
-
-	[aDecoder decodeValuesOfObjCTypes:"**", &name, &comment];
-	expression = [[aDecoder decodeObject] retain];
-
-	return self;
+    return cacheValue;
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder
+- (id)initWithCoder:(NSCoder *)aDecoder;
 {
-	[aCoder encodeValuesOfObjCTypes:"**", &name, &comment];
-	[aCoder encodeObject:expression];
+    cacheTag = 0;
+    cacheValue = 0.0;
+
+    [aDecoder decodeValuesOfObjCTypes:"**", &name, &comment];
+    expression = [[aDecoder decodeObject] retain];
+
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder;
+{
+    [aCoder encodeValuesOfObjCTypes:"**", &name, &comment];
+    [aCoder encodeObject:expression];
 }
 
 #ifdef NeXT
-- read:(NXTypedStream *)stream
+- read:(NXTypedStream *)stream;
 {
 
-        cacheTag = 0;
-        cacheValue = 0.0;
+    cacheTag = 0;
+    cacheValue = 0.0;
 
-        NXReadTypes(stream, "**", &name, &comment);
-        expression = NXReadObject(stream);
+    NXReadTypes(stream, "**", &name, &comment);
+    expression = NXReadObject(stream);
 
-        return self;
+    return self;
 }
 #endif
 

@@ -1,16 +1,6 @@
 #import <Foundation/NSObject.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-#ifdef PORTING
-#import <Foundation/NSArray.h>
-#import <AppKit/NSBrowser.h>
-#import <AppKit/NSBrowserCell.h>
-#import <AppKit/NSForm.h>
-#import "RuleList.h"
-#import "CategoryList.h"
-#import "BooleanParser.h"
-#endif
-
 @class NSBrowser, NSForm, NSMatrix, NSScrollView, NSTextField, NSTextView;
 @class BooleanParser, DelegateResponder, MonetList, MyController, RuleList;
 
@@ -99,7 +89,7 @@
 - (BOOL)isEquationUsed:anEquation;
 - (BOOL)isTransitionUsed:aTransition;
 
-- findEquation:anEquation andPutIn:aList;
+- findEquation:anEquation andPutIn:(MonetList *)aList;
 - findTemplate:aTemplate andPutIn:aList;
 
 - (void)cut:(id)sender;

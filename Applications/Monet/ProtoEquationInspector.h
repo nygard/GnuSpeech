@@ -23,51 +23,52 @@ History:
 ===========================================================================*/
 
 
-@interface ProtoEquationInspector:NSObject
+@interface ProtoEquationInspector : NSObject
 {
-	id	mainInspector;
-	id	popUpListView;
-	id	popUpList;
+    id mainInspector;
+    id popUpListView;
+    id popUpList;
 
-	id	commentView;
-	id	commentText;
-	id	setCommentButton;
-	id	revertCommentButton;
+    id commentView;
+    id commentText;
+    id setCommentButton;
+    id revertCommentButton;
 
-	id	equationBox;
-	id	equationText;
-	id	messagesText;
-	id	setEquationButton;
-	id	revertEquationButton;
-	id	currentEquationField;
+    id equationBox;
+    id equationText;
+    id messagesText;
+    id setEquationButton;
+    id revertEquationButton;
+    id currentEquationField;
 
-	id	usageBox;
-	id	usageBrowser;
-	id	usageField;
+    id usageBox;
+    id usageBrowser;
+    id usageField;
 
-	ProtoEquation *protoEquation;
-	id	formParser;
+    ProtoEquation *protoEquation;
+    id formParser;
 
-	MonetList	*equationList;
+    MonetList *equationList;
 }
 
-- init;
-- (void)inspectProtoEquation:equation;
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
+- (id)init;
+- (void)dealloc;
+- (void)inspectProtoEquation:equation;
 
-- (void)setUpWindow:sender;
+- (void)setUpWindow:(id)sender;
 - (void)beginEditting;
 
-- (void)setComment:sender;
-- (void)revertComment:sender;
+- (void)setComment:(id)sender;
+- (void)revertComment:(id)sender;
 
-- (void)setEquation:sender;
-- (void)revertEquation:sender;
+- (void)setEquation:(id)sender;
+- (void)revertEquation:(id)sender;
 
 - (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
-- (void)browserHit:sender;
-- (void)browserDoubleHit:sender;
+- (void)browserHit:(id)sender;
+- (void)browserDoubleHit:(id)sender;
 
 
 @end

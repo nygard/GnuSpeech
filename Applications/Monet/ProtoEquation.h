@@ -1,5 +1,4 @@
 #import <Foundation/NSObject.h>
-#import "FormulaExpression.h"
 
 /*===========================================================================
 
@@ -10,33 +9,32 @@
 =============================================================================
 */
 
-@interface ProtoEquation:NSObject
+@interface ProtoEquation : NSObject
 {
-	char	*name;
-	char	*comment;
-	id	expression;
+    NSString *name;
+    NSString *comment;
+    id expression;
 
-	int     cacheTag;
-	double  cacheValue;
+    int cacheTag;
+    double cacheValue;
 }
 
-- init;
-- initWithName:(NSString *)newName;
-
-- setName:(NSString *)newName;
-- (NSString *)name;
-
-- (void)setComment:(const char *)newComment;
-- (const char *) comment;
-
-- (void)setExpression:newExpression;
-- expression;
-
-- (double) evaluate: (double *) ruleSymbols phones: phones andCacheWith: (int) newCacheTag;
-- (double) evaluate: (double *) ruleSymbols tempos: (double *) tempos phones: phones andCacheWith: (int) newCacheTag;
-- (double) cacheValue;
-
+- (id)init;
+- (id)initWithName:(NSString *)newName;
 - (void)dealloc;
+
+- (NSString *)name;
+- (void)setName:(NSString *)newName;
+
+- (NSString *)comment;
+- (void)setComment:(NSString *)newComment;
+
+- expression;
+- (void)setExpression:newExpression;
+
+- (double)evaluate:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag;
+- (double)evaluate:(double *)ruleSymbols phones:phones andCacheWith:(int)newCacheTag;
+- (double)cacheValue;
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 - (void)encodeWithCoder:(NSCoder *)aCoder;

@@ -664,7 +664,7 @@
     return [ruleList isTransitionUsed: aTransition];
 }
 
-- findEquation:anEquation andPutIn:aList;
+- findEquation:anEquation andPutIn:(MonetList *)aList;
 {
     return [ruleList findEquation:anEquation andPutIn:aList];
 }
