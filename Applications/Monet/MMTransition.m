@@ -2,6 +2,7 @@
 
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
+#import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
 
 #import "AppController.h"
@@ -27,7 +28,7 @@
     name = nil;
     comment = nil;
     type = DIPHONE;
-    points = [[MonetList alloc] initWithCapacity:2];
+    points = [[MonetList alloc] init];
 
     aPoint = [[MMPoint alloc] init];
     [aPoint setType:DIPHONE];
@@ -223,8 +224,16 @@
     MonetList *archivedPoints;
     MModel *model;
 
-    if ([self init] == nil)
+    if ([super initWithCoder:aDecoder] == nil)
         return nil;
+
+//    if ([self init] == nil)
+//        return nil;
+
+    name = nil;
+    comment = nil;
+    type = 2;
+    points = [[MonetList alloc] init];
 
     model = [(MUnarchiver *)aDecoder userInfo];
 
@@ -242,10 +251,11 @@
 
     //NSLog(@"Points = %d", [points count]);
 
-    if (points == nil) {
+    if (archivedPoints == nil) {
         MonetList *defaultPoints;
         MMPoint *aPoint;
 
+        NSLog(@"Archived points were nil, using defaults.");
         defaultPoints = [[MonetList alloc] initWithCapacity:3];
 
         aPoint = [[MMPoint alloc] init];
