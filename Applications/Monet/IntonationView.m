@@ -243,8 +243,6 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
     graphOrigin = [self graphOrigin];
     sectionHeight = [self sectionHeight];
 
-    [timesFontSmall set];
-
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:1];
     currentX = 0.0;

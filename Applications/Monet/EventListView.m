@@ -37,10 +37,9 @@
     trackTag = 0;
 
     ruleCell = [[NSTextFieldCell alloc] initTextCell:@""];
-    [ruleCell setControlSize:NSSmallControlSize];
+    [ruleCell setFont:[NSFont labelFontOfSize:10.0]];
     [ruleCell setAlignment:NSCenterTextAlignment];
     [ruleCell setBordered:YES];
-    //[ruleCell setBezeled:YES];
     [ruleCell setEnabled:YES];
 
     minMaxCell = [[NSTextFieldCell alloc] initTextCell:@""];
@@ -301,27 +300,30 @@
 - (void)drawRules;
 {
     int count, index;
-    float currentX;
+    float currentX, extraWidth;
     struct _rule *rule;
     NSRect bounds, cellFrame;
 
-    bounds = [self bounds];
+    bounds = NSIntegralRect([self bounds]);
 
     [timesFontSmall set];
     currentX = 0;
+    extraWidth = 0.0;
 
     count = [eventList numberOfRules];
     for (index = 0; index < count; index++) {
         rule = [eventList getRuleAtIndex:index];
+
         cellFrame.origin.x = 80.0 + currentX;
         cellFrame.origin.y = bounds.size.height - 25.0;
         cellFrame.size.height = 18.0;
-        cellFrame.size.width = [self scaledWidth:rule->duration];
+        cellFrame.size.width = [self scaledWidth:rule->duration] + extraWidth;
 
         [ruleCell setIntValue:rule->number];
         [ruleCell drawWithFrame:cellFrame inView:self];
 
-        currentX += [self scaledWidth:rule->duration];
+        extraWidth = 1.0;
+        currentX += cellFrame.size.width - extraWidth;
     }
 }
 
