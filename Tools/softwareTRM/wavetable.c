@@ -10,7 +10,7 @@
 
 //  Glottal source oscillator table variables
 #define TABLE_LENGTH              512
-#define TABLE_MODULUS             (TABLE_LENGTH-1)
+#define TABLE_LENGTH_F            512.0
 
 #define USE_VECLIB
 
@@ -200,7 +200,7 @@ double TRMWavetableOscillator(TRMWavetable *wavetable, double frequency)
 
         //  Find surrounding integer table positions
         lowerPosition = (int)wavetable->currentPosition;
-        upperPosition = (lowerPosition + 1) % TABLE_MODULUS;
+        upperPosition = (lowerPosition + 1) % TABLE_LENGTH;
 
         lowerValue = wavetable->wavetable[lowerPosition];
         upperValue = wavetable->wavetable[upperPosition];
@@ -227,7 +227,7 @@ double TRMWavetableOscillator(TRMWavetable *wavetable, double frequency)
 
     //  Find surrounding integer table positions
     lowerPosition = (int)wavetable->currentPosition;
-    upperPosition = (lowerPosition + 1) % TABLE_MODULUS;
+    upperPosition = (lowerPosition + 1) % TABLE_LENGTH;
 
     lowerValue = wavetable->wavetable[lowerPosition];
     upperValue = wavetable->wavetable[upperPosition];
@@ -237,11 +237,11 @@ double TRMWavetableOscillator(TRMWavetable *wavetable, double frequency)
 }
 #endif
 
-// Returns the modulus of 'value', keeping it in the range 0 -> TABLE_MODULUS.
+// Returns the modulus of 'value', keeping it in the range 0 <= value < TABLE_LENGTH.
 static double mod0(double value)
 {
-    if (value > TABLE_MODULUS)
-        value -= TABLE_LENGTH;
+    if (value >= TABLE_LENGTH_F)
+        value -= TABLE_LENGTH_F;
 
     return value;
 }
