@@ -276,7 +276,7 @@
         if ([@"hasComment" isEqual:identifier] == YES) {
             return [NSNumber numberWithBool:[posture hasComment]];
         } else if ([@"name" isEqual:identifier] == YES) {
-            return [posture symbol];
+            return [posture name];
         }
     } else if (tableView == categoryTableView) {
         MMCategory *category = [[[self model] categories] objectAtIndex:row];
@@ -350,7 +350,7 @@
         MMPosture *posture = [[[self model] postures] objectAtIndex:row];
 
         if ([@"name" isEqual:identifier] == YES) {
-            [posture setSymbol:object];
+            [posture setName:object];
         }
     } else if (tableView == categoryTableView) {
         MMCategory *category = [[[self model] categories] objectAtIndex:row];
@@ -447,7 +447,7 @@
     count = [postures count];
     for (index = 0; index < count; index++) {
         posture = [postures objectAtIndex:index];
-        if ([[posture symbol] hasPrefix:characters] == YES) {
+        if ([[posture name] hasPrefix:characters] == YES) {
             [postureTableView selectRow:index byExtendingSelection:NO];
             [postureTableView scrollRowToVisible:index];
             return NO;

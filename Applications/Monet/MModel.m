@@ -469,8 +469,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)addPosture:(MMPosture *)newPosture;
 {
-    if ([newPosture symbol] == nil)
-        [newPosture setSymbol:@"untitled"];
+    if ([newPosture name] == nil)
+        [newPosture setName:@"untitled"];
 
     [newPosture setModel:self];
     [self _uniqueNameForPosture:newPosture];
@@ -489,13 +489,13 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     names = [[NSMutableSet alloc] init];
     count = [postures count];
     for (index = 0; index < count; index++) {
-        name = [[postures objectAtIndex:index] symbol];
+        name = [[postures objectAtIndex:index] name];
         if (name != nil)
             [names addObject:name];
     }
 
     index = 1;
-    name = basename = [newPosture symbol];
+    name = basename = [newPosture name];
     isUsed = [names containsObject:name];
 
     if (isUsed == YES) {
@@ -518,7 +518,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         name = [NSString stringWithFormat:@"%@%d", basename, index++];
     }
 
-    [newPosture setSymbol:name];
+    [newPosture setName:name];
 
     [names release];
 }
@@ -543,7 +543,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     count = [postures count];
     for (index = 0; index < count; index++) {
         aPosture = [postures objectAtIndex:index];
-        if ([[aPosture symbol] isEqual:aName])
+        if ([[aPosture name] isEqual:aName])
             return aPosture;
     }
 
@@ -1012,7 +1012,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     }
 
     newPosture = [[MMPosture alloc] initWithModel:self];
-    [newPosture setSymbol:postureName];
+    [newPosture setName:postureName];
     [self addPosture:newPosture];
 
     parameterTargets = [newPosture parameterTargets];
@@ -1036,7 +1036,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [[parameterTargets objectAtIndex:14] setValue:[trmData r8]];
     [[parameterTargets objectAtIndex:15] setValue:[trmData velum]];
 
-    NSLog(@"Imported posture \"%@\"", [newPosture symbol]);
+    NSLog(@"Imported posture \"%@\"", [newPosture name]);
     [newPosture release];
     [trmData release];
 
@@ -1251,7 +1251,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         str = [NSString stringWithASCIICString:tempSymbol];
 
         newPhone = [[MMPosture alloc] initWithModel:self];
-        [newPhone setSymbol:str];
+        [newPhone setName:str];
         [self addPosture:newPhone];
 
         /* READ SYMBOL AND DURATIONS FROM FILE  */
@@ -1464,7 +1464,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         NSMutableArray *aParameterList, *aSymbolList;
 
         aPhone = [postures objectAtIndex:index];
-        fprintf(fp, "%s\n", [[aPhone symbol] UTF8String]);
+        fprintf(fp, "%s\n", [[aPhone name] UTF8String]);
         aCategoryList = [aPhone categories];
         for (j = 0; j < [aCategoryList count]; j++) {
             MMCategory *aCategory;

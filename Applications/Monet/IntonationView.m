@@ -195,14 +195,14 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
         if ([[events objectAtIndex:index] flag]) {
             currentPosture = [eventList getPhoneAtIndex:phoneIndex++];
             if (currentPosture != nil) {
-                NSLog(@"[currentPosture symbol]: %@", [currentPosture symbol]);
+                NSLog(@"[currentPosture name]: %@", [currentPosture name]);
 #if 0
                 [[NSColor blueColor] set];
                 NSRectFill(NSMakeRect(currentX - 5.0, bounds.size.height - 62, 10, 20));
 #endif
                 [[NSColor blackColor] set];
-                [[currentPosture symbol] drawAtPoint:NSMakePoint(currentX - 5.0, bounds.size.height - 62.0) withAttributes:nil];
-                //[postureTextFieldCell setStringValue:[currentPosture symbol]];
+                [[currentPosture name] drawAtPoint:NSMakePoint(currentX - 5.0, bounds.size.height - 62.0) withAttributes:nil];
+                //[postureTextFieldCell setStringValue:[currentPosture name]];
             }
         }
     }

@@ -45,7 +45,7 @@
 
 @interface MMPosture : MMObject
 {
-    NSString *phoneSymbol;
+    NSString *name;
     NSString *comment;
 
     CategoryList *categories; // Of MMCategorys
@@ -61,8 +61,8 @@
 
 - (void)dealloc;
 
-- (NSString *)symbol;
-- (void)setSymbol:(NSString *)newSymbol;
+- (NSString *)name;
+- (void)setName:(NSString *)newName;
 
 - (NSString *)comment;
 - (void)setComment:(NSString *)newComment;

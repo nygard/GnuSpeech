@@ -246,7 +246,7 @@
             currentPhone = [eventList getPhoneAtIndex:phoneIndex++];
             if (currentPhone) {
                 [[NSColor blackColor] set];
-                [[currentPhone symbol] drawAtPoint:NSMakePoint(currentX - 5.0, bounds.size.height - 42.0) withAttributes:nil];
+                [[currentPhone name] drawAtPoint:NSMakePoint(currentX - 5.0, bounds.size.height - 42.0) withAttributes:nil];
             }
         }
 

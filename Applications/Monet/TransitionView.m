@@ -102,7 +102,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     [selectedPoints removeAllObjects];
 
     aPosture = [[MMPosture alloc] initWithModel:model];
-    [aPosture setSymbol:@"dummy"];
+    [aPosture setName:@"dummy"];
     if ([[aPosture symbolTargets] count] >= 4) {
         [(MMTarget *)[[aPosture symbolTargets] objectAtIndex:0] setValue:100.0]; // duration
         [(MMTarget *)[[aPosture symbolTargets] objectAtIndex:1] setValue:33.3333]; // transition

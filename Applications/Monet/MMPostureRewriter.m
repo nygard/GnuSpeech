@@ -178,7 +178,7 @@
           {
               NSString *str;
 
-              str = [lastPosture symbol];
+              str = [lastPosture name];
               //NSLog(@"state 2, 4, 11: lastPosture symbol: %@", str);
               if ([str hasPrefix:@"d"] == YES || [str hasPrefix:@"t"] == YES) {
                   insertPosture = returnPostures[1];
@@ -195,7 +195,7 @@
           {
               MMPosture *replacementPosture;
 
-              if ([[lastPosture symbol] hasSuffix:@"'"] == YES)
+              if ([[lastPosture name] hasSuffix:@"'"] == YES)
                   replacementPosture = [model postureWithName:@"l'"];
               else
                   replacementPosture = [model postureWithName:@"l"];

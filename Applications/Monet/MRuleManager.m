@@ -608,16 +608,16 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
     if (sender == match1Browser) {
         aPosture = [[matchLists objectAtIndex:0] objectAtIndex:row];
-        [cell setStringValue:[aPosture symbol]];
+        [cell setStringValue:[aPosture name]];
     } else if (sender == match2Browser) {
         aPosture = [[matchLists objectAtIndex:1] objectAtIndex:row];
-        [cell setStringValue:[aPosture symbol]];
+        [cell setStringValue:[aPosture name]];
     } else if (sender == match3Browser) {
         aPosture = [[matchLists objectAtIndex:2] objectAtIndex:row];
-        [cell setStringValue:[aPosture symbol]];
+        [cell setStringValue:[aPosture name]];
     } else if (sender == match4Browser) {
         aPosture = [[matchLists objectAtIndex:3] objectAtIndex:row];
-        [cell setStringValue:[aPosture symbol]];
+        [cell setStringValue:[aPosture name]];
     }
 
     [cell setLeaf:YES];

@@ -37,7 +37,7 @@
     if ([super init] == nil)
         return nil;
 
-    phoneSymbol = nil;
+    name = nil;
     comment = nil;
 
     categories = [[CategoryList alloc] init];
@@ -91,7 +91,7 @@
 
 - (void)dealloc;
 {
-    [phoneSymbol release];
+    [name release];
     [comment release];
 
     [categories release];
@@ -103,23 +103,23 @@
     [super dealloc];
 }
 
-- (NSString *)symbol;
+- (NSString *)name;
 {
-    return phoneSymbol;
+    return name;
 }
 
 // TODO (2004-03-19): Enforce unique names.
-- (void)setSymbol:(NSString *)newSymbol;
+- (void)setName:(NSString *)newName;
 {
-    if (newSymbol == phoneSymbol)
+    if (newName == name)
         return;
 
-    [phoneSymbol release];
-    phoneSymbol = [newSymbol retain];
+    [name release];
+    name = [newName retain];
 
     [[self model] sortPostures];
 
-    [nativeCategory setName:newSymbol];
+    [nativeCategory setName:newName];
 }
 
 - (NSString *)comment;
@@ -325,14 +325,14 @@
     assert([self model] != nil);
     symbolIndex = [[[self model] symbols] indexOfObject:aSymbol];
     if (symbolIndex == NSNotFound)
-        NSLog(@"Warning: Couldn't find symbol %@ in posture %@", [aSymbol name], phoneSymbol);
+        NSLog(@"Warning: Couldn't find symbol %@ in posture %@", [aSymbol name], name);
 
     return [symbolTargets objectAtIndex:symbolIndex];
 }
 
 - (NSComparisonResult)compareByAscendingName:(MMPosture *)otherPosture;
 {
-    return [phoneSymbol compare:[otherPosture symbol]];
+    return [name compare:[otherPosture name]];
 }
 
 //
@@ -344,7 +344,7 @@
     unsigned archivedVersion;
     int count, index;
     MMCategory *temp1;
-    char *c_phoneSymbol, *c_comment, *c_str;
+    char *c_name, *c_comment, *c_str;
     MModel *model;
 
     if ([super initWithCoder:aDecoder] == nil)
@@ -356,10 +356,10 @@
     archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
     //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
 
-    [aDecoder decodeValuesOfObjCTypes:"**", &c_phoneSymbol, &c_comment];
-    //NSLog(@"c_phoneSymbol: %s, c_comment: %s", c_phoneSymbol, c_comment);
+    [aDecoder decodeValuesOfObjCTypes:"**", &c_name, &c_comment];
+    //NSLog(@"c_name: %s, c_comment: %s", c_name, c_comment);
 
-    phoneSymbol = [[NSString stringWithASCIICString:c_phoneSymbol] retain];
+    name = [[NSString stringWithASCIICString:c_name] retain];
     comment = [[NSString stringWithASCIICString:c_comment] retain];
 
     {
@@ -387,11 +387,11 @@
     assert(categories == nil);
 
     [aDecoder decodeValueOfObjCType:"i" at:&count];
-    //NSLog(@"TOTAL Categories for %@ = %d", phoneSymbol, count);
+    //NSLog(@"TOTAL Categories for %@ = %d", name, count);
 
     categories = [[CategoryList alloc] initWithCapacity:count];
 
-    nativeCategory = [[MMCategory alloc] initWithName:[self symbol]];
+    nativeCategory = [[MMCategory alloc] initWithName:[self name]];
     [nativeCategory setIsNative:YES];
     [categories addObject:nativeCategory];
 
@@ -417,14 +417,14 @@
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@>[%p]: phoneSymbol: %@, comment: %@, categories: %@, parameterTargets: %@, metaParameterTargets: %@, symbolTargets: %@",
-                     NSStringFromClass([self class]), self, phoneSymbol, comment, categories, parameterTargets, metaParameterTargets, symbolTargets];
+    return [NSString stringWithFormat:@"<%@>[%p]: name: %@, comment: %@, categories: %@, parameterTargets: %@, metaParameterTargets: %@, symbolTargets: %@",
+                     NSStringFromClass([self class]), self, name, comment, categories, parameterTargets, metaParameterTargets, symbolTargets];
 }
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 {
     [resultString indentToLevel:level];
-    [resultString appendFormat:@"<posture symbol=\"%@\"", GSXMLAttributeString(phoneSymbol, NO)];
+    [resultString appendFormat:@"<posture symbol=\"%@\"", GSXMLAttributeString(name, NO)];
 
     if (comment == nil && [categories count] == 0 && [parameterTargets count] == 0 && [metaParameterTargets count] == 0 && [symbolTargets count] == 0) {
         [resultString appendString:@"/>\n"];
@@ -512,7 +512,7 @@
     mainMetaParameterList = [[self model] metaParameters];
     count = [mainMetaParameterList count];
     if (count != [metaParameterTargets count])
-        NSLog(@"%s, (%@) main meta count: %d, count: %d", _cmd, [self symbol], count, [metaParameterTargets count]);
+        NSLog(@"%s, (%@) main meta count: %d, count: %d", _cmd, [self name], count, [metaParameterTargets count]);
     //assert(count == [metaParameterTargets count]);
 
     if (count == 0)
@@ -575,7 +575,7 @@
     if ([self initWithModel:nil] == nil)
         return nil;
 
-    [self setSymbol:[attributes objectForKey:@"symbol"]];
+    [self setName:[attributes objectForKey:@"symbol"]];
 
     return self;
 }

@@ -295,7 +295,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
     str = [NSMutableString string];
 
     for (index = rule->firstPhone; index <= rule->lastPhone; index++) {
-        [str appendString:[[self getPhoneAtIndex:index] symbol]];
+        [str appendString:[[self getPhoneAtIndex:index] name]];
         if (index == rule->lastPhone)
             break;
         [str appendString:@" > "];
@@ -392,7 +392,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
         phones[currentPhone].phone = anObject;
     else
         phones[currentPhone-1].phone = anObject;
-    NSLog(@"Replacing %@ with %@", [phones[currentPhone].phone symbol], [anObject symbol]);
+    NSLog(@"Replacing %@ with %@", [phones[currentPhone].phone name], [anObject name]);
 }
 
 - (void)setCurrentPhoneTempo:(double)tempo;
@@ -935,7 +935,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
             phoneIndex = feet[j].start;
             while ([phones[phoneIndex].phone isMemberOfCategoryNamed:@"vocoid"] == NO) {
                 phoneIndex++;
-                NSLog(@"Checking phone %@ for vocoid", [phones[phoneIndex].phone symbol]);
+                NSLog(@"Checking phone %@ for vocoid", [phones[phoneIndex].phone name]);
                 if (phoneIndex > feet[j].end) {
                     phoneIndex = feet[j].start;
                     break;
@@ -1047,13 +1047,13 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
                     if (rules[ruleIndex].firstPhone == postureIndex) {
                         NSLog(@"    Posture %2d  tempo: %.3f, syllable: %d, onset: %7.2f, ruleTempo: %.3f, %@ # Rule %2d, duration: %7.2f",
                               postureIndex, phoneTempo[postureIndex], phones[postureIndex].syllable, phones[postureIndex].onset,
-                              phones[postureIndex].ruleTempo, [[phones[postureIndex].phone symbol] leftJustifiedStringPaddedToLength:18],
+                              phones[postureIndex].ruleTempo, [[phones[postureIndex].phone name] leftJustifiedStringPaddedToLength:18],
                               rules[ruleIndex].number, rules[ruleIndex].duration);
                         ruleIndex++;
                     } else {
                         NSLog(@"    Posture %2d  tempo: %.3f, syllable: %d, onset: %7.2f, ruleTempo: %.3f, %@",
                               postureIndex, phoneTempo[postureIndex], phones[postureIndex].syllable, phones[postureIndex].onset,
-                              phones[postureIndex].ruleTempo, [phones[postureIndex].phone symbol]);
+                              phones[postureIndex].ruleTempo, [phones[postureIndex].phone name]);
                     }
                 }
             }
