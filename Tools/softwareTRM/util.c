@@ -4,10 +4,6 @@
 // Range of all volume controls
 #define VOL_MAX                   60
 
-// Constants for noise generator
-#define FACTOR                    377.0
-#define INITIAL_SEED              0.7892347
-
 // Pitch variables
 #define PITCH_BASE                220.0
 #define PITCH_OFFSET              3.0           //  Middle C = 0
@@ -129,25 +125,24 @@ double Izero(double x)
 *
 *       function:       noise
 *
-*       purpose:        Returns one value of a random sequence.
-*
-*       arguments:      none
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      none
+*       purpose:        Returns one value of a random sequence in the
+*                       range of [-0.5, 0.5].
 *
 ******************************************************************************/
+
+// Constants for noise generator
+#define FACTOR                    377.0
+#define INITIAL_SEED              0.7892347
 
 double noise(void)
 {
     static double seed = INITIAL_SEED;
+    double product;
 
-    double product = seed * FACTOR;
+    product = seed * FACTOR;
     seed = product - (int)product;
-    return (seed - 0.5);
+
+    return seed - 0.5;
 }
 
 
@@ -158,21 +153,18 @@ double noise(void)
 *
 *       purpose:        One-zero lowpass filter.
 *
-*       arguments:      input
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      none
+* Difference equation:  y(n) = x(n) + x(n-1)
+* "The Simplest Low-Pass filter" <http://ccrma.stanford.edu/~jos/filters/Definition_Simplest_Low_Pass.html>
 *
 ******************************************************************************/
 
 double noiseFilter(double input)
 {
-    static double noiseX = 0.0;
+    static double previous = 0.0;
+    double output;
 
-    double output = input + noiseX;
-    noiseX = input;
+    output = input + previous;
+    previous = input;
+
     return output;
 }
