@@ -3835,7 +3835,6 @@
 //4A4
 		4A9504CCFFE6A4B311CA0CBA = {
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -3849,8 +3848,12 @@
 		};
 		4A9504CDFFE6A4B311CA0CBA = {
 			buildSettings = {
-				COPY_PHASE_STRIP = YES;
+				DSTROOT = /tmp/install;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				INSTALL_MODE_FLAG = "og-w,a+rX";
+				INSTALL_PATH = /GnuSpeech;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				UNSTRIPPED_PRODUCT = YES;
 				ZERO_LINK = NO;
 			};
 			isa = PBXBuildStyle;
@@ -3877,7 +3880,7 @@
 			);
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 2;
-				DEPLOYMENT_POSTPROCESSING = NO;
+				DSTROOT = /tmp/install2;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -3888,18 +3891,17 @@
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
+				INSTALL_PATH = /GnuSpeech2;
 				LIBRARY_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = Monet;
 				SECTORDER_FLAGS = "";
-				UNSTRIPPED_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
 				WRAPPER_EXTENSION = app;
 			};
+			comments = "With Xcode 1.5 it seems that \"Installation Build Products Location\" and \"Installation Path\" need to be set for the project in order for overrides in the Deployent build style to take effect.  This was tested by doing \"xcodebuild -buildstyle Deployment install\".  On the other hand, the \"Install Permissions\" work fine.\n\n";
 			dependencies = (
 			);
 			isa = PBXNativeTarget;
