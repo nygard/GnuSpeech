@@ -6,6 +6,8 @@
 	<string>English</string>
 	<key>CFBundleExecutable</key>
 	<string>Monet</string>
+	<key>CFBundleGetInfoString</key>
+	<string>Monet 0.9.1 (v2)</string>
 	<key>CFBundleIconFile</key>
 	<string>Monet</string>
 	<key>CFBundleIdentifier</key>
@@ -16,19 +18,17 @@
 	<string>Monet</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
 	<key>CFBundleShortVersionString</key>
 	<string>0.9.1</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2</string>
+	<string>3</string>
+	<key>NSHumanReadableCopyright</key>
+	<string></string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
-	<key>CFBundleGetInfoString</key>
-	<string>Monet 0.9.1 (v2)</string>
-	<key>NSHumanReadableCopyright</key>
-	<string></string>
 </dict>
 </plist>
