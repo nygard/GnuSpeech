@@ -139,12 +139,13 @@ void TRMWavetableUpdate(TRMWavetable *wavetable, double amplitude)
 #endif
 
     //  Fill in with closed portion of glottal pulse
-#if 0
+#if 1
     for (i = newDiv2; i < wavetable->tableDiv2; i++)
         wavetable->wavetable[i] = 0.0;
 #else
     i = newDiv2;
-    memset(&(wavetable[i]), 0, (wavetable->tableDiv2 - i) * sizeof(double));
+    if (wavetable->tableDiv2 > i)
+        memset(&(wavetable[i]), 0, (wavetable->tableDiv2 - i) * sizeof(double)); // This seems to be crashy... possibly with 0 sizes?
 #endif
 }
 
