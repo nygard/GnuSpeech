@@ -16,7 +16,43 @@
 #import "tube_module/synthesizer_module.h"
 #endif
 
+int parse_string(id eventList, NSString *str);
+
 @implementation StringParser
+
++ (NSCharacterSet *)gsStringParserWhitespaceCharacterSet;
+{
+    static NSCharacterSet *characterSet = nil;
+
+    if (characterSet == nil) {
+        NSMutableCharacterSet *aSet;
+
+        aSet = [[NSCharacterSet whitespaceCharacterSet] mutableCopy];
+        [aSet addCharactersInString:@"_"];
+        characterSet = [aSet copy];
+
+        [aSet release];
+    }
+
+    return characterSet;
+}
+
++ (NSCharacterSet *)gsStringParserDefaultCharacterSet;
+{
+    static NSCharacterSet *characterSet = nil;
+
+    if (characterSet == nil) {
+        NSMutableCharacterSet *aSet;
+
+        aSet = [[NSCharacterSet letterCharacterSet] mutableCopy];
+        [aSet addCharactersInString:@"^'#"];
+        characterSet = [aSet copy];
+
+        [aSet release];
+    }
+
+    return characterSet;
+}
 
 - (id)init;
 {
@@ -323,168 +359,144 @@
 
 @end
 
-int parse_string(id eventList, char *string)
+int parse_string(id eventList, NSString *str)
 {
     Phone *tempPhone;
-    int length, dummy;
-    int index = 0, bufferIndex = 0;
-    int chunk = 0;
-    char buffer[128];
+    int dummy;
+    //int chunk = 0;
     int lastFoot = 0, markedFoot = 0;
     double footTempo = 1.0;
     double ruleTempo = 1.0;
     double phoneTempo = 1.0;
+    double aDouble;
     PhoneList *mainPhoneList;
+    NSScanner *scanner;
+    NSCharacterSet *whitespaceCharacterSet = [StringParser gsStringParserWhitespaceCharacterSet];
+    NSCharacterSet *defaultCharacterSet = [StringParser gsStringParserDefaultCharacterSet]; // I know, it's not a great name.
+    NSString *buffer;
 
     mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
 
-    length = strlen(string);
     tempPhone = [mainPhoneList binarySearchPhone:@"^" index:&dummy];
     [eventList newPhoneWithObject:tempPhone];
-    while (index < length) {
-        while ((isspace(string[index]) || (string[index] == '_')) && (index<length))
-            index++;
 
-        if (index>length)
+    scanner = [[[NSScanner alloc] initWithString:str] autorelease];
+    [scanner setCharactersToBeSkipped:nil];
+
+    while ([scanner isAtEnd] == NO) {
+        [scanner scanCharactersFromSet:whitespaceCharacterSet intoString:NULL];
+        if ([scanner isAtEnd] == YES)
             break;
 
-        bzero(buffer, 128);
-        bufferIndex = 0;
+        if ([scanner scanString:@"/" intoString:NULL] == YES) {
+            /* Handle "/" escape sequences */
+            if ([scanner scanString:@"0" intoString:NULL] == YES) {
+                /* Tone group 0. Statement */
+                NSLog(@"Tone group 0. Statement");
+                [eventList setCurrentToneGroupType:STATEMENT];
+            } else if ([scanner scanString:@"1" intoString:NULL] == YES) {
+                /* Tone group 1. Exclaimation */
+                NSLog(@"Tone group 1. Exclaimation");
+                [eventList setCurrentToneGroupType:EXCLAIMATION];
+            } else if ([scanner scanString:@"2" intoString:NULL] == YES) {
+                /* Tone group 2. Question */
+                NSLog(@"Tone group 2. Question");
+                [eventList setCurrentToneGroupType:QUESTION];
+            } else if ([scanner scanString:@"3" intoString:NULL] == YES) {
+                /* Tone group 3. Continuation */
+                NSLog(@"Tone group 3. Continuation");
+                [eventList setCurrentToneGroupType:CONTINUATION];
+            } else if ([scanner scanString:@"4" intoString:NULL] == YES) {
+                /* Tone group 4. Semi-colon */
+                NSLog(@"Tone group 4. Semi-colon");
+                [eventList setCurrentToneGroupType:SEMICOLON];
+            } else if ([scanner scanString:@" " intoString:NULL] == YES || [scanner scanString:@"_" intoString:NULL] == YES) {
+                /* New foot */
+                NSLog(@"New foot");
+                [eventList newFoot];
+                if (lastFoot)
+                    [eventList setCurrentFootLast];
+                footTempo = 1.0;
+                lastFoot = 0;
+                markedFoot = 0;
+            } else if ([scanner scanString:@"*" intoString:NULL] == YES) {
+                /* New Marked foot */
+                NSLog(@"New Marked foot");
+                [eventList newFoot];
+                [eventList setCurrentFootMarked];
+                if (lastFoot)
+                    [eventList setCurrentFootLast];
 
-        switch (string[index]) {
-          case '/': /* Handle "/" escape sequences */
-              index++;
-              switch (string[index]) {
-                case '0': /* Tone group 0. Statement */
+                footTempo = 1.0;
+                lastFoot = 0;
+                markedFoot = 1;
+            } else if ([scanner scanString:@"/" intoString:NULL] == YES) {
+                /* New Tone Group */
+                NSLog(@"New Tone Group");
+                [eventList newToneGroup];
+            } else if ([scanner scanString:@"c" intoString:NULL] == YES) {
+                /* New Chunk */
+                NSLog(@"New Chunk -- not sure that this is working.");
+#ifdef PORTING
+                if (chunk) {
+                    //tempPhone = [mainPhoneList binarySearchPhone:"#" index:&dummy];
+                    //[eventList newPhoneWithObject:tempPhone];
+                    //tempPhone = [mainPhoneList binarySearchPhone:"^" index:&dummy];
+                    //[eventList newPhoneWithObject:tempPhone];
+                    index--;
+                    return index;
+                } else {
+                    chunk++;
                     index++;
-                    [eventList setCurrentToneGroupType:STATEMENT];
-                    break;
-                case '1': /* Tone group 1. Exclaimation */
-                    index++;
-                    [eventList setCurrentToneGroupType:EXCLAIMATION];
-                    break;
-                case '2': /* Tone group 2. Question */
-                    index++;
-                    [eventList setCurrentToneGroupType:QUESTION];
-                    break;
-                case '3': /* Tone group 3. Continuation */
-                    index++;
-                    [eventList setCurrentToneGroupType:CONTINUATION];
-                    break;
-                case '4': /* Tone group 4. Semi-colon */
-                    index++;
-                    [eventList setCurrentToneGroupType:SEMICOLON];
-                    break;
-                case ' ':
-                case '_': /* New foot */
-                    [eventList newFoot];
-                    if (lastFoot)
-                        [eventList setCurrentFootLast];
-                    footTempo = 1.0;
-                    lastFoot = 0;
-                    markedFoot = 0;
-                    index++;
-                    break;
-                case '*': /* New Marked foot */
-                    [eventList newFoot];
-                    [eventList setCurrentFootMarked];
-                    if (lastFoot)
-                        [eventList setCurrentFootLast];
-
-                    footTempo = 1.0;
-                    lastFoot = 0;
-                    markedFoot = 1;
-                    index++;
-                    break;
-                case '/': /* New Tone Group */
-                    index++;
-                    [eventList newToneGroup];
-                    break;
-                case 'c': /* New Chunk */
-                    if (chunk) {
-                        //tempPhone = [mainPhoneList binarySearchPhone:"#" index:&dummy];
-                        //[eventList newPhoneWithObject:tempPhone];
-                        //tempPhone = [mainPhoneList binarySearchPhone:"^" index:&dummy];
-                        //[eventList newPhoneWithObject:tempPhone];
-                        index--;
-                        return (index);
-                    } else {
-                        chunk++;
-                        index++;
-                    }
-                    break;
-                case 'l': /* Last Foot in tone group marker */
-                    index++;
-                    lastFoot = 1;
-                    break;
-                case 'f': /* Foot tempo indicator */
-                    index++;
-                    while ((isspace(string[index]) || (string[index] == '_')) && (index < length))
-                        index++;
-                    if (index > length)
-                        break;
-                    while (isdigit(string[index]) || (string[index] == '.')) {
-                        buffer[bufferIndex++] = string[index++];
-                    }
-                    footTempo = atof(buffer);
-                    [eventList setCurrentFootTempo:footTempo];
-                    break;
-                case 'r': /* Foot tempo indicator */
-                    index++;
-                    while ((isspace(string[index]) || (string[index] == '_')) && (index < length))
-                        index++;
-                    if (index > length)
-                        break;
-                    while (isdigit(string[index]) || (string[index] == '.')) {
-                        buffer[bufferIndex++] = string[index++];
-                    }
-                    ruleTempo = atof(buffer);
-                    break;
-                default:
-                    index++;
-                    break;
-              }
-              break;
-          case '.': /* Syllable Marker */
-              [eventList setCurrentPhoneSyllable];
-              index++;
-              break;
-
-          case '0':
-          case '1':
-          case '2':
-          case '3':
-          case '4':
-          case '5':
-          case '6':
-          case '7':
-          case '8':
-          case '9':
-              while (isdigit(string[index]) || (string[index] == '.')) {
-                  buffer[bufferIndex++] = string[index++];
-              }
-              phoneTempo = atof(buffer);
-              break;
-
-          default:
-              if (isalpha(string[index]) || (string[index] == '^') || (string[index] == '\'') || (string[index] == '#') ) {
-                  while ( (isalpha(string[index]) || (string[index] == '^') || (string[index] == '\'') || (string[index] == '#')) && (index < length))
-                      buffer[bufferIndex++] = string[index++];
-                  if (markedFoot)
-                      strcat(buffer,"'");
-                  tempPhone = [mainPhoneList binarySearchPhone:buffer index:&dummy];
-                  if (tempPhone) {
-                      [eventList newPhoneWithObject:tempPhone];
-                      [eventList setCurrentPhoneTempo:phoneTempo];
-                      [eventList setCurrentPhoneRuleTempo:(float)ruleTempo];
-                  }
-                  phoneTempo = 1.0;
-                  ruleTempo = 1.0;
-              } else {
-                  break;
-              }
+                }
+#endif
+            } else if ([scanner scanString:@"l" intoString:NULL] == YES) {
+                /* Last Foot in tone group marker */
+                NSLog(@"Last Foot in tone group");
+                lastFoot = 1;
+            } else if ([scanner scanString:@"f" intoString:NULL] == YES) {
+                /* Foot tempo indicator */
+                NSLog(@"Foot tempo indicator - 'f'");
+                [scanner scanCharactersFromSet:whitespaceCharacterSet intoString:NULL];
+                if ([scanner scanDouble:&aDouble] == YES) {
+                    NSLog(@"current foot tempo: %g", aDouble);
+                    [eventList setCurrentFootTempo:aDouble];
+                }
+            } else if ([scanner scanString:@"r" intoString:NULL] == YES) {
+                /* Foot tempo indicator */
+                NSLog(@"Foot tempo indicator - 'r'");
+                [scanner scanCharactersFromSet:whitespaceCharacterSet intoString:NULL];
+                if ([scanner scanDouble:&aDouble] == YES) {
+                    NSLog(@"ruleTemp = %g", aDouble);
+                    ruleTempo = aDouble;
+                }
+            }
+        } else if ([scanner scanString:@"." intoString:NULL] == YES) {
+            /* Syllable Marker */
+            NSLog(@"Syllable Marker");
+            [eventList setCurrentPhoneSyllable];
+        } else if ([scanner scanDouble:&aDouble] == YES) {
+            // TODO (2004-03-05): The original scanned digits and '.', and then used atof.
+            NSLog(@"phoneTempo = %g", aDouble);
+            phoneTempo = aDouble;
+        } else {
+            if ([scanner scanCharactersFromSet:defaultCharacterSet intoString:&buffer] == YES) {
+                NSLog(@"Scanned this: '%@'", buffer);
+                if (markedFoot)
+                    buffer = [buffer stringByAppendingString:@"'"];
+                tempPhone = [mainPhoneList binarySearchPhone:buffer index:&dummy];
+                if (tempPhone) {
+                    [eventList newPhoneWithObject:tempPhone];
+                    [eventList setCurrentPhoneTempo:phoneTempo];
+                    [eventList setCurrentPhoneRuleTempo:(float)ruleTempo];
+                }
+                phoneTempo = 1.0;
+                ruleTempo = 1.0;
+            } else {
+                break;
+            }
         }
     }
 
-    return index;
+    return [scanner scanLocation];
 }

@@ -80,6 +80,9 @@
     IBOutlet NSTextField *radiusMultiplyField;
 }
 
++ (NSCharacterSet *)gsStringParserWhitespaceCharacterSet;
++ (NSCharacterSet *)gsStringParserDefaultCharacterSet;
+
 - (id)init;
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 - (void)saveDefaults:(id)sender;
