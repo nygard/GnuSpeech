@@ -150,7 +150,7 @@
 
     // TODO (2004-03-15): Changing the view frame in drawRect: can cause problems.  Should do before drawRect:
     clipRect = [[self superview] frame];
-    lastEvent = [eventList lastEvent];
+    lastEvent = [eventList lastObject];
     timeValue = [lastEvent time] / timeScale;
     if (clipRect.size.width < timeValue)
         clipRect.size.width = timeValue;

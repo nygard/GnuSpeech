@@ -94,7 +94,7 @@ static void page_consumed(void)
 
 - (void)setUp;
 {
-    int i;
+    int index;
 
     NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
 
@@ -116,8 +116,8 @@ static void page_consumed(void)
     bzero(outputBuffer, NSPageSize()*PAGES);
     currentInputBuffer = currentOutputBuffer = currentConsumed = 0;
     currentIndex = 0;
-    for (i = 0; i < PAGES; i++)
-        bufferFree[i] = 1;
+    for (index = 0; index < PAGES; index++)
+        bufferFree[index] = 1;
 
     bzero(phones, MAXPHONES * sizeof(struct _phone));
     bzero(feet, MAXFEET * sizeof(struct _foot));
@@ -144,18 +144,17 @@ static void page_consumed(void)
 
 - (void)setZeroRef:(int)newValue;
 {
-    int i;
+    int index;
     zeroRef = newValue;
     zeroIndex = 0;
 
     if ([self count] == 0)
         return;
 
-    for (i = [self count] - 1; i >= 0; i--)
-    {
-        //printf("i = %d\n", i);
-        if ([[self objectAtIndex:i] time] < newValue) {
-            zeroIndex = i;
+    for (index = [self count] - 1; index >= 0; index--) {
+        //NSLog(@"index = %d", index);
+        if ([[self objectAtIndex:index] time] < newValue) {
+            zeroIndex = index;
             return;
         }
     }
@@ -208,14 +207,14 @@ static void page_consumed(void)
     parameterStore = newFlag;
 }
 
-- (int)softwareSynthesis;
+- (BOOL)softwareSynthesis;
 {
     return softwareSynthesis;
 }
 
-- (void)setSoftwareSynthesis:(int)newValue;
+- (void)setSoftwareSynthesis:(BOOL)newFlag;
 {
-    softwareSynthesis = newValue;
+    softwareSynthesis = newFlag;
 }
 
 - (double)pitchMean;
@@ -346,7 +345,9 @@ static void page_consumed(void)
     toneGroups[currentToneGroup].type = type;
 }
 
-/* Feet */
+//
+// Feet
+//
 
 - (void)newFoot;
 {
@@ -497,11 +498,6 @@ static void page_consumed(void)
     lastEvent = [self lastObject];
     [lastEvent setValue:value ofIndex:number];
     [lastEvent setFlag:YES];
-}
-
-- (Event *)lastEvent;
-{
-    return [self lastObject];
 }
 
 - (void)generateOutput;

@@ -62,7 +62,7 @@ struct _rule {
     int duration;
     int timeQuantization;
     BOOL parameterStore;
-    int softwareSynthesis;
+    BOOL softwareSynthesis;
     int macroFlag;
     int microFlag;
     int driftFlag;
@@ -116,8 +116,8 @@ struct _rule {
 - (BOOL)parameterStore;
 - (void)setParameterStore:(BOOL)newFlag;
 
-- (int)softwareSynthesis;
-- (void)setSoftwareSynthesis:(int)newValue;
+- (BOOL)softwareSynthesis;
+- (void)setSoftwareSynthesis:(BOOL)newFlag;
 
 - (double)pitchMean;
 - (void)setPitchMean:(double)newMean;
@@ -167,7 +167,6 @@ struct _rule {
 
 - (Event *)insertEvent:(int)number atTime:(double)time withValue:(double)value;
 - (void)finalEvent:(int)number withValue:(double)value;
-- (Event *)lastEvent;
 
 - (void)generateOutput;
 - (void)printDataStructures;

@@ -325,7 +325,7 @@ int parse_string(EventList *eventList, NSString *str);
 
     fclose(fp);
     [eventList setParameterStore:NO];
-    [eventList setSoftwareSynthesis:1];
+    [eventList setSoftwareSynthesis:YES];
 
     [eventList setUp];
     [eventList setPitchMean:[pitchMean doubleValue]];
