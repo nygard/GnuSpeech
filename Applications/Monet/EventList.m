@@ -358,7 +358,7 @@ NSString *EventListDidRemoveIntonationPoints = @"EventListDidRemoveIntonationPoi
     return rules[ruleIndex].beat;
 }
 
-- (int)numberOfRules;
+- (int)ruleCount;
 {
     return currentRule;
 }
@@ -1343,8 +1343,8 @@ NSString *EventListDidRemoveIntonationPoints = @"EventListDidRemoveIntonationPoi
 //    NSLog(@"Point  Semitone: %f  timeOffset:%f slope:%f phoneIndex:%d", [iPoint semitone], [iPoint offsetTime],
 //           [iPoint slope], [iPoint ruleIndex]);
 
-    if ([iPoint ruleIndex] > [self numberOfRules]) {
-        NSLog(@"%d > %d", [iPoint ruleIndex], [self numberOfRules]);
+    if ([iPoint ruleIndex] > [self ruleCount]) {
+        NSLog(@"%d > %d", [iPoint ruleIndex], [self ruleCount]);
         return;
     }
 

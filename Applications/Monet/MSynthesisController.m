@@ -592,7 +592,7 @@
         return [displayParameters count];
 
     if (tableView == intonationRuleTableView)
-        return [eventList numberOfRules];
+        return [eventList ruleCount];
 
     if (tableView == eventTableView)
         return [[eventList events] count] * 2;

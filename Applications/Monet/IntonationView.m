@@ -302,7 +302,7 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
     currentX = 0.0;
     extraWidth = 0.0;
 
-    count = [eventList numberOfRules];
+    count = [eventList ruleCount];
     for (index = 0; index < count; index++) {
         NSPoint aPoint;
         NSRect ruleFrame;
@@ -500,7 +500,7 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
 
     NSLog(@" > %s", _cmd);
 
-    ruleCount = [eventList numberOfRules];
+    ruleCount = [eventList ruleCount];
 
     characters = [keyEvent characters];
     length = [characters length];
@@ -832,7 +832,7 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
 
     /* Double Click mouse events */
     if ([theEvent clickCount] == 2) {
-        if (![eventList numberOfRules])
+        if (![eventList ruleCount])
             return;
 
         temp = column * timeScale;
@@ -842,7 +842,7 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
 
         tally = tally1 = 0.0;
 
-        for (i = 0; i < [eventList numberOfRules]; i++) {
+        for (i = 0; i < [eventList ruleCount]; i++) {
             rule = [eventList getRuleAtIndex:i];
             distance1 = (float) fabs(temp - rule->beat);
             //NSLog(@"temp: %f  beat: %f  dist: %f  distance1: %f", temp, rule->beat, distance, distance1);

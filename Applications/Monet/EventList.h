@@ -179,7 +179,7 @@ extern NSString *EventListDidRemoveIntonationPoints;
 - (struct _rule *)getRuleAtIndex:(int)ruleIndex;
 - (NSString *)ruleDescriptionAtIndex:(int)ruleIndex;
 - (double)getBeatAtIndex:(int)ruleIndex;
-- (int)numberOfRules;
+- (int)ruleCount;
 
 // Tone groups
 - (void)endCurrentToneGroup;

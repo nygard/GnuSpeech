@@ -310,7 +310,7 @@
     currentX = 0;
     extraWidth = 0.0;
 
-    count = [eventList numberOfRules];
+    count = [eventList ruleCount];
     for (index = 0; index < count; index++) {
         rule = [eventList getRuleAtIndex:index];
 
