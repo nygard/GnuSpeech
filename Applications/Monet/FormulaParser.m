@@ -8,7 +8,7 @@
 #import "Symbol.h"
 #import "SymbolList.h"
 
-static int operatorPrec[8] = {1, 1, 2, 2, 3, 0, 4, 4};
+//static int operatorPrec[8] = {1, 1, 2, 2, 3, 0, 4, 4};
 
 @implementation FormulaParser
 

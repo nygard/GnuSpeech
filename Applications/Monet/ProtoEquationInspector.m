@@ -2,6 +2,7 @@
 
 #import <AppKit/AppKit.h>
 #import "AppController.h"
+#import "FormulaExpression.h"
 #import "FormulaParser.h"
 #import "Inspector.h"
 #import "MonetList.h"
