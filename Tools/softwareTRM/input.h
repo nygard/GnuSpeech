@@ -1,22 +1,14 @@
 #ifndef __INPUT_H
 #define __INPUT_H
 
-#include "tube.h" // For TOTAL_REGIONS
+#include "structs.h" // For TRMParameters
 
 /*  VARIABLES FOR INPUT TABLES  */
 typedef struct _INPUT {
     struct _INPUT *previous;
     struct _INPUT *next;
 
-    double glotPitch;
-    double glotVol;
-    double aspVol;
-    double fricVol;
-    double fricPos;
-    double fricCF;
-    double fricBW;
-    double radius[TOTAL_REGIONS];
-    double velum;
+    TRMParameters parameters;
 } INPUT;
 
 extern INPUT *inputHead;

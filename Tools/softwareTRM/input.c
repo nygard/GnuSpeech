@@ -2,6 +2,7 @@
 
 #include <stdlib.h>
 #include "output.h"
+#include "tube.h"
 
 /*  VARIABLES FOR INPUT TABLE STORAGE  */
 INPUT *inputHead = NULL;
@@ -284,24 +285,24 @@ void addInput(double glotPitch, double glotVol, double aspVol, double fricVol,
     inputTail->next = NULL;
 
     /*  ADD GLOTTAL PITCH AND VOLUME  */
-    inputTail->glotPitch = glotPitch;
-    inputTail->glotVol = glotVol;
+    inputTail->parameters.glotPitch = glotPitch;
+    inputTail->parameters.glotVol = glotVol;
 
     /*  ADD ASPIRATION  */
-    inputTail->aspVol = aspVol;
+    inputTail->parameters.aspVol = aspVol;
 
     /*  ADD FRICATION PARAMETERS  */
-    inputTail->fricVol = fricVol;
-    inputTail->fricPos = fricPos;
-    inputTail->fricCF = fricCF;
-    inputTail->fricBW = fricBW;
+    inputTail->parameters.fricVol = fricVol;
+    inputTail->parameters.fricPos = fricPos;
+    inputTail->parameters.fricCF = fricCF;
+    inputTail->parameters.fricBW = fricBW;
 
     /*  ADD TUBE REGION RADII  */
     for (i = 0; i < TOTAL_REGIONS; i++)
-	inputTail->radius[i] = radius[i];
+	inputTail->parameters.radius[i] = radius[i];
 
     /*  ADD VELUM RADIUS  */
-    inputTail->velum = velum;
+    inputTail->parameters.velum = velum;
 
     /*  INCREMENT NUMBER OF TABLES  */
     numberInputTables++;
@@ -334,7 +335,7 @@ INPUT *newInputTable(void)
 double glotPitchAt(INPUT *ptr)
 {
     if (ptr)
-	return ptr->glotPitch;
+	return ptr->parameters.glotPitch;
 
     return 0.0;
 }
@@ -343,7 +344,7 @@ double glotPitchAt(INPUT *ptr)
 double glotVolAt(INPUT *ptr)
 {
     if (ptr)
-	return ptr->glotVol;
+	return ptr->parameters.glotVol;
 
     return 0.0;
 }
@@ -352,7 +353,7 @@ double glotVolAt(INPUT *ptr)
 double *radiiAt(INPUT *ptr)
 {
     if (ptr)
-	return ptr->radius;
+	return ptr->parameters.radius;
 
     return NULL;
 }
@@ -361,7 +362,7 @@ double *radiiAt(INPUT *ptr)
 double radiusAtRegion(INPUT *ptr, int region)
 {
     if (ptr)
-	return ptr->radius[region];
+	return ptr->parameters.radius[region];
 
     return 0.0;
 }
@@ -370,7 +371,7 @@ double radiusAtRegion(INPUT *ptr, int region)
 double velumAt(INPUT *ptr)
 {
     if (ptr)
-	return ptr->velum;
+	return ptr->parameters.velum;
 
     return 0.0;
 }
@@ -379,7 +380,7 @@ double velumAt(INPUT *ptr)
 double aspVolAt(INPUT *ptr)
 {
     if (ptr)
-	return ptr->aspVol;
+	return ptr->parameters.aspVol;
 
     return 0.0;
 }
@@ -388,7 +389,7 @@ double aspVolAt(INPUT *ptr)
 double fricVolAt(INPUT *ptr)
 {
     if (ptr)
-	return ptr->fricVol;
+	return ptr->parameters.fricVol;
 
     return 0.0;
 }
@@ -397,7 +398,7 @@ double fricVolAt(INPUT *ptr)
 double fricPosAt(INPUT *ptr)
 {
     if (ptr)
-	return ptr->fricPos;
+	return ptr->parameters.fricPos;
 
     return 0.0;
 }
@@ -406,7 +407,7 @@ double fricPosAt(INPUT *ptr)
 double fricCFAt(INPUT *ptr)
 {
     if (ptr)
-	return ptr->fricCF;
+	return ptr->parameters.fricCF;
 
     return 0.0;
 }
@@ -415,7 +416,7 @@ double fricCFAt(INPUT *ptr)
 double fricBWAt(INPUT *ptr)
 {
     if (ptr)
-	return ptr->fricBW;
+	return ptr->parameters.fricBW;
 
     return 0.0;
 }

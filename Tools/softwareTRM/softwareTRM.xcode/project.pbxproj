@@ -104,6 +104,7 @@
 		};
 		011806FE0646ED2E00FDB3AE = {
 			children = (
+				01D9F8AC064738E7003E4F4D,
 				011806F60646EACA00FDB3AE,
 				011807010646EDDD00FDB3AE,
 				011807050646F30A00FDB3AE,
@@ -268,6 +269,20 @@
 			settings = {
 			};
 		};
+		01D9F8AC064738E7003E4F4D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = structs.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01D9F8AD064738E7003E4F4D = {
+			fileRef = 01D9F8AC064738E7003E4F4D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 //010
 //011
 //012
@@ -391,6 +406,7 @@
 				011807080646F30A00FDB3AE,
 				01D9F8A306472FFA003E4F4D,
 				01D9F8A9064732FC003E4F4D,
+				01D9F8AD064738E7003E4F4D,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

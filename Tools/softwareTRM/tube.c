@@ -683,7 +683,7 @@ double nasalRadiationFilter(double input)
 *
 ******************************************************************************/
 
-void synthesize(void)
+void synthesize(INPUT *inputHead)
 {
 
     int i, j;

@@ -211,7 +211,7 @@ int main(int argc, char *argv[])
 	printf("\nStarting synthesis\n");
 	fflush(stdout);
     }
-    synthesize();
+    synthesize(inputHead);
 
     /*  BE SURE TO FLUSH SRC BUFFER  */
     flushBuffer();
