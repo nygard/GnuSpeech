@@ -79,7 +79,7 @@
 <!ELEMENT slopes (slope*)>
 
 <!ELEMENT point EMPTY>
-<!ATTLIST point type CDATA #REQUIRED
+<!ATTLIST point type (diphone | triphone | tetraphone) #REQUIRED
                 value CDATA #REQUIRED
                 free-time CDATA #IMPLIED
                 time-expression CDATA #IMPLIED

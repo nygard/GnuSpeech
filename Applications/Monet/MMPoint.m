@@ -221,7 +221,7 @@
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 {
     [resultString indentToLevel:level];
-    [resultString appendFormat:@"<point type=\"%d\" value=\"%g\"", type, value];
+    [resultString appendFormat:@"<point type=\"%@\" value=\"%g\"", MMStringFromPhoneType(type), value];
     if (expression == nil) {
         [resultString appendFormat:@" free-time=\"%g\"", freeTime];
     } else {
@@ -244,7 +244,7 @@
     // TODO (2004-05-14): Use diphone/triphone/tetraphone instead of 2/3/4
     str = [attributes objectForKey:@"type"];
     if (str != nil)
-        [self setType:[str intValue]];
+        [self setType:MMPhoneTypeFromString(str)];
 
     str = [attributes objectForKey:@"value"];
     if (str != nil)
