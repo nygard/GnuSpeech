@@ -77,6 +77,9 @@
     NSNumberFormatter *defaultNumberFormatter;
     NSButtonCell *checkboxCell;
 
+    [intonationParameterWindow setFrameAutosaveName:@"Intonation Parameters"];
+    [intonationWindow setFrameAutosaveName:@"Intonation"];
+
     checkboxCell = [[NSButtonCell alloc] initTextCell:@""];
     [checkboxCell setControlSize:NSSmallControlSize];
     [checkboxCell setButtonType:NSSwitchButton];
@@ -316,10 +319,9 @@
     [eventList generateEventListWithModel:model];
 #if 1
     NSLog(@"[smoothIntonationSwitch state]: %d", [smoothIntonationSwitch state]);
+    [eventList applyIntonation];
     if ([smoothIntonationSwitch state])
         [eventList applySmoothIntonation];
-    else
-        [eventList applyIntonation_fromIntonationView];
 
     [eventList setShouldUseSmoothIntonation:[smoothIntonationSwitch state]];
 #else
@@ -485,10 +487,10 @@
     NSCharacterSet *defaultCharacterSet = [NSCharacterSet phoneStringIdentifierCharacterSet];
     NSString *buffer;
 
-    NSLog(@" > %s", _cmd);
+    //NSLog(@" > %s", _cmd);
 
     mainPhoneList = [[self model] postures];
-    NSLog(@"mainPhoneList: %p", mainPhoneList);
+    //NSLog(@"mainPhoneList: %p", mainPhoneList);
 
     aPhone = [mainPhoneList findPhone:@"^"];
     [eventList newPhoneWithObject:aPhone];
@@ -505,27 +507,27 @@
             /* Handle "/" escape sequences */
             if ([scanner scanString:@"0" intoString:NULL] == YES) {
                 /* Tone group 0. Statement */
-                NSLog(@"Tone group 0. Statement");
+                //NSLog(@"Tone group 0. Statement");
                 [eventList setCurrentToneGroupType:STATEMENT];
             } else if ([scanner scanString:@"1" intoString:NULL] == YES) {
                 /* Tone group 1. Exclaimation */
-                NSLog(@"Tone group 1. Exclaimation");
+                //NSLog(@"Tone group 1. Exclaimation");
                 [eventList setCurrentToneGroupType:EXCLAIMATION];
             } else if ([scanner scanString:@"2" intoString:NULL] == YES) {
                 /* Tone group 2. Question */
-                NSLog(@"Tone group 2. Question");
+                //NSLog(@"Tone group 2. Question");
                 [eventList setCurrentToneGroupType:QUESTION];
             } else if ([scanner scanString:@"3" intoString:NULL] == YES) {
                 /* Tone group 3. Continuation */
-                NSLog(@"Tone group 3. Continuation");
+                //NSLog(@"Tone group 3. Continuation");
                 [eventList setCurrentToneGroupType:CONTINUATION];
             } else if ([scanner scanString:@"4" intoString:NULL] == YES) {
                 /* Tone group 4. Semi-colon */
-                NSLog(@"Tone group 4. Semi-colon");
+                //NSLog(@"Tone group 4. Semi-colon");
                 [eventList setCurrentToneGroupType:SEMICOLON];
             } else if ([scanner scanString:@" " intoString:NULL] == YES || [scanner scanString:@"_" intoString:NULL] == YES) {
                 /* New foot */
-                NSLog(@"New foot");
+                //NSLog(@"New foot");
                 [eventList newFoot];
                 if (lastFoot)
                     [eventList setCurrentFootLast];
@@ -534,7 +536,7 @@
                 markedFoot = 0;
             } else if ([scanner scanString:@"*" intoString:NULL] == YES) {
                 /* New Marked foot */
-                NSLog(@"New Marked foot");
+                //NSLog(@"New Marked foot");
                 [eventList newFoot];
                 [eventList setCurrentFootMarked];
                 if (lastFoot)
@@ -545,11 +547,11 @@
                 markedFoot = 1;
             } else if ([scanner scanString:@"/" intoString:NULL] == YES) {
                 /* New Tone Group */
-                NSLog(@"New Tone Group");
+                //NSLog(@"New Tone Group");
                 [eventList newToneGroup];
             } else if ([scanner scanString:@"c" intoString:NULL] == YES) {
                 /* New Chunk */
-                NSLog(@"New Chunk -- not sure that this is working.");
+                //NSLog(@"New Chunk -- not sure that this is working.");
 #ifdef PORTING
                 if (chunk) {
                     //aPhone = [mainPhoneList findPhone:"#"];
@@ -565,22 +567,22 @@
 #endif
             } else if ([scanner scanString:@"l" intoString:NULL] == YES) {
                 /* Last Foot in tone group marker */
-                NSLog(@"Last Foot in tone group");
+                //NSLog(@"Last Foot in tone group");
                 lastFoot = 1;
             } else if ([scanner scanString:@"f" intoString:NULL] == YES) {
                 /* Foot tempo indicator */
-                NSLog(@"Foot tempo indicator - 'f'");
+                //NSLog(@"Foot tempo indicator - 'f'");
                 [scanner scanCharactersFromSet:whitespaceCharacterSet intoString:NULL];
                 if ([scanner scanDouble:&aDouble] == YES) {
-                    NSLog(@"current foot tempo: %g", aDouble);
+                    //NSLog(@"current foot tempo: %g", aDouble);
                     [eventList setCurrentFootTempo:aDouble];
                 }
             } else if ([scanner scanString:@"r" intoString:NULL] == YES) {
                 /* Foot tempo indicator */
-                NSLog(@"Foot tempo indicator - 'r'");
+                //NSLog(@"Foot tempo indicator - 'r'");
                 [scanner scanCharactersFromSet:whitespaceCharacterSet intoString:NULL];
                 if ([scanner scanDouble:&aDouble] == YES) {
-                    NSLog(@"ruleTemp = %g", aDouble);
+                    //NSLog(@"ruleTemp = %g", aDouble);
                     ruleTempo = aDouble;
                 }
             } else {
@@ -589,19 +591,19 @@
             }
         } else if ([scanner scanString:@"." intoString:NULL] == YES) {
             /* Syllable Marker */
-            NSLog(@"Syllable Marker");
+            //NSLog(@"Syllable Marker");
             [eventList setCurrentPhoneSyllable];
         } else if ([scanner scanDouble:&aDouble] == YES) {
             // TODO (2004-03-05): The original scanned digits and '.', and then used atof.
-            NSLog(@"phoneTempo = %g", aDouble);
+            //NSLog(@"phoneTempo = %g", aDouble);
             phoneTempo = aDouble;
         } else {
             if ([scanner scanCharactersFromSet:defaultCharacterSet intoString:&buffer] == YES) {
-                NSLog(@"Scanned this: '%@'", buffer);
+                //NSLog(@"Scanned this: '%@'", buffer);
                 if (markedFoot)
                     buffer = [buffer stringByAppendingString:@"'"];
                 aPhone = [mainPhoneList findPhone:buffer];
-                NSLog(@"aPhone: %p, eventList: %p", aPhone, eventList);
+                //NSLog(@"aPhone: %p, eventList: %p", aPhone, eventList);
                 if (aPhone) {
                     [eventList newPhoneWithObject:aPhone];
                     [eventList setCurrentPhoneTempo:phoneTempo];
@@ -615,7 +617,7 @@
         }
     }
 
-    NSLog(@"<  %s", _cmd);
+    //NSLog(@"<  %s", _cmd);
 }
 
 //
