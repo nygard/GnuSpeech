@@ -1,749 +1,693 @@
-
 #import "FormulaParser.h"
-#import <ctype.h>
-#import <string.h>
-#import <stdlib.h>
-#import <AppKit/NSText.h>
+
+#import <Foundation/Foundation.h>
+#import "NSScanner-Extensions.h"
+#import "FormulaExpression.h"
+#import "FormulaSymbols.h"
+#import "FormulaTerminal.h"
+#import "Symbol.h"
+#import "SymbolList.h"
 
 static int operatorPrec[8] = {1, 1, 2, 2, 3, 0, 4, 4};
 
 @implementation FormulaParser
 
-- init
+- (void)dealloc;
 {
-	return self;
+    [scanner release];
+    [symbolString release];
+    [symbolList release];
+
+    [super dealloc];
 }
 
-- setSymbolList:(SymbolList *)newSymbolList
+- (NSString *)symbolString;
 {
-	symbolList = newSymbolList; 
-	return self;
-}
-- symbolList
-{
-	return symbolList;
+    return symbolString;
 }
 
-- (int) nextToken
+- (void)setSymbolString:(NSString *)newString;
 {
-int i;
+    if (newString == symbolString)
+        return;
 
-	consumed = 0;
-	i = stringIndex;
-	bzero(symbolString, 256);
-
-	while( (parseString[i] == ' ') || (parseString[i] =='\t')) i++;
-
-	stringIndex = i;
-
-	switch(parseString[i])
-	{
-		case '(':
-			symbolString[0] = '(';
-			stringIndex = i+1;
-			return LPAREN;
-
-		case ')':
-			symbolString[0] = ')';
-			stringIndex = i+1;
-			return RPAREN;
-
-		case '+':
-			symbolString[0] = '+';
-			stringIndex = i+1;
-			return ADD;
-			
-		case '-':
-			symbolString[0] = '-';
-			stringIndex = i+1;
-			return SUB;
-			
-		case '*':
-			symbolString[0] = '*';
-			stringIndex = i+1;
-			return MULT;
-			
-		case '/':
-			symbolString[0] = '/';
-			stringIndex = i+1;
-			return DIV;
-			
-		case '0':
-		case '1':
-		case '2':
-		case '3':
-		case '4':
-		case '5':
-		case '6':
-		case '7':
-		case '8':
-		case '9':
-			if ([self scanNumber])
-				return CONST;
-			else
-				return ERROR;
-		case '\n':
-		case '\000':
-			return END;
-
-		default:
-			if ([self scanSymbol])
-			{
-				if (strlen(symbolString)==0)
-					return END;
-				else
-					return SYMBOL;
-			}
-			else
-				return ERROR;
-	}
+    [symbolString release];
+    symbolString = [newString retain];
 }
 
-- (int) scanNumber
+- (SymbolList *)symbolList;
 {
-int i, j, decimal;
-
-	decimal = 0;
-	i = stringIndex;
-	j = 0;
-
-	while( isdigit(parseString[i]) || (parseString[i] == '.'))
-	{
-		if (parseString[i] == '.')
-		{
-			if (decimal == 1)
-			{
-				stringIndex = i;
-				return 1;
-			}
-			decimal = 1;
-		}
-		symbolString[j++] = parseString[i++];
-	}
-	stringIndex = i;
-	if (strlen(symbolString) == 0) 
-		return 0;
-	else
-		return 1;
+    return symbolList;
 }
 
-- (int) scanSymbol
+- (void)setSymbolList:(SymbolList *)newSymbolList;
 {
-int i, j;
+    if (newSymbolList == symbolList)
+        return;
 
-	i = stringIndex;
-	j = 0;
-
-	if (!isalpha(parseString[i]))
-		return 0;
-
-	while( isalnum(parseString[i]))
-	{
-		symbolString[j++] = parseString[i++];
-	}
-	stringIndex = i;
-	return 1;
+    [symbolList release];
+    symbolList = [newSymbolList retain];
 }
 
-- (void)consumeToken
+- (int)nextToken;
 {
-	consumed = 1; 
+    NSString *str;
+
+    consumed = NO;
+
+    [scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:NULL];
+
+    if ([scanner scanString:@"(" intoString:NULL] == YES) {
+        [self setSymbolString:@"("];
+        return TK_F_LPAREN;
+    }
+
+    if ([scanner scanString:@")" intoString:NULL] == YES) {
+        [self setSymbolString:@")"];
+        return TK_F_RPAREN;
+    }
+
+    if ([scanner scanString:@"+" intoString:NULL] == YES) {
+        [self setSymbolString:@"+"];
+        return TK_F_ADD;
+    }
+
+    if ([scanner scanString:@"-" intoString:NULL] == YES) {
+        [self setSymbolString:@"-"];
+        return TK_F_SUB;
+    }
+
+    if ([scanner scanString:@"*" intoString:NULL] == YES) {
+        [self setSymbolString:@"*"];
+        return TK_F_MULT;
+    }
+
+    if ([scanner scanString:@"/" intoString:NULL] == YES) {
+        [self setSymbolString:@"/"];
+        return TK_F_DIV;
+    }
+
+    if ([[NSCharacterSet decimalDigitCharacterSet] characterIsMember:[scanner peekChar]]) {
+        if ([self scanNumber])
+            return TK_F_CONST;
+
+        return TK_F_ERROR;
+    }
+
+    // TODO (2004-03-03): It used to end on a newline as well...
+    if ([scanner isAtEnd])
+        return TK_F_END;
+
+    if ([scanner scanIdentifierIntoString:&str] == YES) {
+        [self setSymbolString:str];
+        return TK_F_SYMBOL;
+    }
+
+    return TK_F_ERROR;
 }
 
-- parseString:(const char *)string
+- (BOOL)scanNumber;
 {
-id tempExpression = nil;
-FormulaTerminal *tempTerminal;
-int temp;
+    NSString *firstPart, *secondPart;
 
-	[errorText setString:@""];
-	stringIndex = 0;
-	parseString = string;
+    if ([scanner scanCharactersFromSet:[NSCharacterSet decimalDigitCharacterSet] intoString:&firstPart] == YES) {
+        if ([scanner scanString:@"." intoString:NULL] == YES) {
+            if ([scanner scanCharactersFromSet:[NSCharacterSet decimalDigitCharacterSet] intoString:&secondPart] == YES) {
+                [self setSymbolString:[NSString stringWithFormat:@"%@.%@", firstPart, secondPart]];
+                return YES;
+            }
+        }
 
-	temp = [self nextToken];
-	switch(temp)
-	{
-		case SUB: //printf("Sub\n");
-			break;
+        [self setSymbolString:firstPart];
+        return YES;
+    }
 
-		case ADD: [self outputError:"Unary + is the instrument of satan"];
-			return nil;
-
-		case MULT: [self outputError:"Unexpected * operator."];
-			return nil;
-
-		case DIV: [self outputError:"Unexpected / operator."];
-			return nil;
-
-		case LPAREN: tempExpression = [self leftParen];
-			break;
-
-		case RPAREN: [self outputError:"Unexpected ')'."];
-			return nil;
-
-		case SYMBOL: 
-			tempTerminal = [self parseSymbol]; 
-			if (tempTerminal)
-			{
-				tempExpression = tempTerminal;
-			}
-			else
-			{
-				return nil;
-			}
-			break;
-
-		case CONST: 
-			tempTerminal = [[FormulaTerminal alloc] init];
-			[tempTerminal setValue:(double) atof(symbolString)];
-			tempExpression = tempTerminal;
-			break;
-
-		case ERROR:
-		case END:  [self outputError:"Unexpected End."];
-			return nil;
-
-		}
-	tempExpression = [self continueParse:tempExpression];
-	return tempExpression;
+    return NO;
 }
 
-- continueParse:currentExpression
+- (void)consumeToken;
 {
-int tempToken;
-
-	while( (tempToken = [self nextToken])!=END)
-	{
-		switch(tempToken)
-		{
-			default:
-			case END: [self outputError:"Unexpected End."];
-				return nil;
-
-			case ADD: currentExpression = [self addOperation:currentExpression];
-				 break;
-
-			case SUB:currentExpression = [self subOperation:currentExpression];
-				 break;
-
-			case MULT:currentExpression = [self multOperation:currentExpression];
-				 break;
-
-			case DIV:currentExpression = [self divOperation:currentExpression];
-				 break;
-
-			case LPAREN:[self outputError:"Unexpected '('."];
-				return nil;
-
-			case RPAREN: [self outputError:"Unexpected ')'."];
-				return nil;
-
-			case SYMBOL:
-				[self outputError:"Unexpected symbol %s." with: symbolString];
-				return nil;
-
-			case CONST:
-				[self outputError:"Unexpected symbol %s." with: symbolString];
-				return nil;
-		}
-	}
-	return currentExpression;
-
+    consumed = YES;
 }
 
-- parseSymbol
+- parseString:(NSString *)aString;
 {
-FormulaTerminal *tempTerminal = nil;
-Symbol *tempSymbol;
-int whichPhone;
-char tempSymbolString[256];
+    id result;
 
-	printf("Symbol = |%s|\n", symbolString);
-	if (strcmp(symbolString, "rd") ==0)
-	{
-		tempTerminal = [[FormulaTerminal alloc] init];
-		[tempTerminal setWhichPhone:RULEDURATION];
-	}
-	else
-	if (strcmp(symbolString, "beat") ==0)
-	{
-		tempTerminal = [[FormulaTerminal alloc] init];
-		[tempTerminal setWhichPhone:BEAT];
-	}
-	else
-	if (strcmp(symbolString, "mark1") ==0)
-	{
-		tempTerminal = [[FormulaTerminal alloc] init];
-		[tempTerminal setWhichPhone:MARK1];
-	}
-	else
-	if (strcmp(symbolString, "mark2") ==0)
-	{
-		tempTerminal = [[FormulaTerminal alloc] init];
-		[tempTerminal setWhichPhone:MARK2];
-	}
-	else
-	if (strcmp(symbolString, "mark3") ==0)
-	{
-		tempTerminal = [[FormulaTerminal alloc] init];
-		[tempTerminal setWhichPhone:MARK3];
-	}
-	else
-	if (strcmp(symbolString, "tempo1") ==0)
-	{
-		tempTerminal = [[FormulaTerminal alloc] init];
-		[tempTerminal setWhichPhone:TEMPO0];
-	}
-	else
-	if (strcmp(symbolString, "tempo2") ==0)
-	{
-		tempTerminal = [[FormulaTerminal alloc] init];
-		[tempTerminal setWhichPhone:TEMPO1];
-	}
-	else
-	if (strcmp(symbolString, "tempo3") ==0)
-	{
-		tempTerminal = [[FormulaTerminal alloc] init];
-		[tempTerminal setWhichPhone:TEMPO2];
-	}
-	else
-	if (strcmp(symbolString, "tempo4") ==0)
-	{
-		tempTerminal = [[FormulaTerminal alloc] init];
-		[tempTerminal setWhichPhone:TEMPO3];
-	}
-	else
-	{
-		whichPhone = (int) symbolString[strlen(symbolString)-1]-'1';
-		printf("Phone = %d\n", whichPhone);
-		if ( (whichPhone<0) || (whichPhone>3))
-		{
-			printf("\tError, incorrect phone index %d\n", whichPhone);
-			return nil;
-		}
+    if (scanner != nil)
+        [scanner release];
 
-		bzero(tempSymbolString, 256);
-		strcpy(tempSymbolString, symbolString);
-		tempSymbolString[strlen(symbolString)-1] = '\000';
+    [nonretained_errorTextField setStringValue:@""];
+    nonretained_parseString = aString;
 
-		tempSymbol = [symbolList findSymbol:tempSymbolString];
-		if (tempSymbol)
-		{
-			tempTerminal = [[FormulaTerminal alloc] init];
-			[tempTerminal setSymbol:tempSymbol];
-			[tempTerminal setWhichPhone:whichPhone];
-		}
-		else
-		{
-			[self outputError:"Unknown symbol %s." with: symbolString];
-//			printf("\t Error, Undefined Symbol %s\n", tempSymbolString);
-			return nil;
-		}
-	}
-	return tempTerminal;
+    scanner = [[NSScanner alloc] initWithString:aString];
+    [scanner setCharactersToBeSkipped:nil];
+
+    result = [self beginParseString];
+
+    nonretained_parseString = nil;
+    [scanner release];
+    scanner = nil;
+
+    return result;
 }
 
-- addOperation:operand
+- beginParseString;
 {
-id temp = nil, temp1 = nil, returnExp = nil;
-FormulaTerminal *tempTerminal;
+    id tempExpression = nil;
+    FormulaTerminal *tempTerminal;
+    int temp;
 
-//	printf("ADD\n");
+    temp = [self nextToken];
+    switch (temp) {
+      case TK_F_SUB:
+          //NSLog(@"Sub");
+          break;
 
-	temp = [[FormulaExpression alloc] init];
-	[temp setPrecedence:1];
-	[temp setOperation:ADD];
+      case TK_F_ADD:
+          [self outputError:@"Unary + is the instrument of satan"];
+          return nil;
 
-	if ([operand precedence]>=1)
-	{
-		/* Current Sub Expression has higher precedence */
-		[temp setOperandOne:operand];
-		returnExp = temp;
-	}
-	else
-	{
-		/* Currend Sub Expression has lower Precedence.  Restructure Tree */
-		temp1 = [operand operandTwo];
-		[temp setOperandOne:temp1];
-		[operand setOperandTwo:temp];
-		returnExp = operand;
-	}
+      case TK_F_MULT:
+          [self outputError:@"Unexpected * operator."];
+          return nil;
 
-	switch([self nextToken])
-	{
-		case END: printf("\tError, unexpected END at index %d\n", stringIndex);
-			  return nil;
+      case TK_F_DIV:
+          [self outputError:@"Unexpected / operator."];
+          return nil;
 
-		case ADD:
-		case SUB:
-		case MULT:
-		case DIV:
-			printf("\tError, unexpected %s operation at index %d\n", symbolString, stringIndex);
-			return nil;
+      case TK_F_LPAREN:
+          tempExpression = [self leftParen];
+          break;
 
-		case RPAREN: 
-			printf("\tError, unexpected ')' at index %d\n", stringIndex);
-			return nil;
+      case TK_F_RPAREN:
+          [self outputError:@"Unexpected ')'."];
+          return nil;
 
-		case LPAREN:
-			[temp setOperandTwo: [self leftParen]];
-			break;
+      case TK_F_SYMBOL:
+          tempTerminal = [self parseSymbol];
+          if (tempTerminal) {
+              tempExpression = tempTerminal;
+          } else {
+              return nil;
+          }
+          break;
 
-		case SYMBOL:
-			tempTerminal = [self parseSymbol];
-			if (tempTerminal)
-			{
-				[temp setOperandTwo:tempTerminal];
-			}
-			else
-			{
-				return nil;
-			}
-			break;
+      case TK_F_CONST:
+          tempTerminal = [[[FormulaTerminal alloc] init] autorelease];
+          [tempTerminal setValue:[symbolString doubleValue]];
+          tempExpression = tempTerminal;
+          break;
 
-		case CONST:
-			tempTerminal = [[FormulaTerminal alloc] init];
-			[tempTerminal setValue:(double) atof(symbolString)];
-			[temp setOperandTwo:tempTerminal];	
-			break;
-	}
-	return returnExp;
+      case TK_F_ERROR:
+      case TK_F_END:
+          [self outputError:@"Unexpected End."];
+          return nil;
+
+    }
+
+    tempExpression = [self continueParse:tempExpression];
+
+    return tempExpression;
 }
 
-- subOperation:operand
+- continueParse:currentExpression;
 {
-id temp = nil, temp1 = nil, returnExp = nil;
-FormulaTerminal *tempTerminal;
+    int tempToken;
 
-//	printf("SUB\n");
+    while ( (tempToken = [self nextToken]) != TK_F_END) {
+        switch (tempToken) {
+          default:
+          case TK_F_END:
+              [self outputError:@"Unexpected End."];
+              return nil;
 
-	temp = [[FormulaExpression alloc] init];
-	[temp setPrecedence:1];
-	[temp setOperation:SUB];
+          case TK_F_ADD:
+              currentExpression = [self addOperation:currentExpression];
+              break;
 
-	if ([operand precedence]>=1)
-	{
-		/* Current Sub Expression has higher precedence */
-		[temp setOperandOne:operand];
-		returnExp = temp;
-	}
-	else
-	{
-		/* Currend Sub Expression has lower Precedence.  Restructure Tree */
-		temp1 = [operand operandTwo];
-		[temp setOperandOne:temp1];
-		[operand setOperandTwo:temp];
-		returnExp = operand;
-	}
+          case TK_F_SUB:
+              currentExpression = [self subOperation:currentExpression];
+              break;
 
-	switch([self nextToken])
-	{
-		case END: printf("\tError, unexpected END at index %d\n", stringIndex);
-			  return nil;
+          case TK_F_MULT:
+              currentExpression = [self multOperation:currentExpression];
+              break;
 
-		case ADD:
-		case SUB:
-		case MULT:
-		case DIV:
-			printf("\tError, unexpected %s operation at index %d\n", symbolString, stringIndex);
-			return nil;
+          case TK_F_DIV:
+              currentExpression = [self divOperation:currentExpression];
+              break;
 
-		case RPAREN: 
-			printf("\tError, unexpected ')' at index %d\n", stringIndex);
-			return nil;
+          case TK_F_LPAREN:
+              [self outputError:@"Unexpected '('."];
+              return nil;
 
-		case LPAREN:
-			[temp setOperandTwo: [self leftParen]];
-			break;
+          case TK_F_RPAREN:
+              [self outputError:@"Unexpected ')'."];
+              return nil;
 
-		case SYMBOL:
-			tempTerminal = [self parseSymbol];
-			if (tempTerminal)
-			{
-				[temp setOperandTwo:tempTerminal];
-			}
-			else
-			{
-				return nil;
-			}
-			break;
+          case TK_F_SYMBOL:
+              [self outputError:@"Unexpected symbol %@." with:symbolString];
+              return nil;
 
-		case CONST:
-			tempTerminal = [[FormulaTerminal alloc] init];
-			[tempTerminal setValue:(double) atof(symbolString)];
-			[temp setOperandTwo:tempTerminal];
-			break;
-	}
-	return returnExp;
+          case TK_F_CONST:
+              [self outputError:@"Unexpected symbol %@." with:symbolString];
+              return nil;
+        }
+    }
+
+    return currentExpression;
 }
 
-- multOperation:operand
+- parseSymbol;
 {
-id temp = nil, temp1 = nil, returnExp = nil;
-FormulaTerminal *tempTerminal;
+    FormulaTerminal *tempTerminal = nil;
+    Symbol *tempSymbol;
 
-//	printf("MULT\n");
+    NSLog(@"Symbol = |%@|", symbolString);
 
-	temp = [[FormulaExpression alloc] init];
-	[temp setPrecedence:2];
-	[temp setOperation:MULT];
+    tempTerminal = [[[FormulaTerminal alloc] init] autorelease];
 
-	if ([operand precedence]>=2)
-	{
-		/* Current Sub Expression has higher precedence */
-		[temp setOperandOne:operand];
-		returnExp = temp;
-	}
-	else
-	{
-		/* Currend Sub Expression has lower Precedence.  Restructure Tree */
-		temp1 = [operand operandTwo];
-		[temp setOperandOne:temp1];
-		[operand setOperandTwo:temp];
-		returnExp = operand;
-	}
+    if ([symbolString isEqualToString:@"rd"]) {
+        [tempTerminal setWhichPhone:RULEDURATION];
+    } else if ([symbolString isEqualToString:@"beat"]) {
+        [tempTerminal setWhichPhone:BEAT];
+    } else if ([symbolString isEqualToString:@"mark1"]) {
+        [tempTerminal setWhichPhone:MARK1];
+    } else if ([symbolString isEqualToString:@"mark2"]) {
+        [tempTerminal setWhichPhone:MARK2];
+    } else if ([symbolString isEqualToString:@"mark3"]) {
+        [tempTerminal setWhichPhone:MARK3];
+    } else if ([symbolString isEqualToString:@"tempo1"]) {
+        [tempTerminal setWhichPhone:TEMPO0];
+    } else if ([symbolString isEqualToString:@"tempo2"]) {
+        [tempTerminal setWhichPhone:TEMPO1];
+    } else if ([symbolString isEqualToString:@"tempo3"]) {
+        [tempTerminal setWhichPhone:TEMPO2];
+    } else if ([symbolString isEqualToString:@"tempo4"]) {
+        [tempTerminal setWhichPhone:TEMPO3];
+    } else {
+        int whichPhone;
+        NSString *baseSymbolName;
 
-	switch([self nextToken])
-	{
-		case END: printf("\tError, unexpected END at index %d\n", stringIndex);
-			  return nil;
+        whichPhone = [symbolString characterAtIndex:[symbolString length] - 1] - '1';
+        NSLog(@"Phone = %d", whichPhone);
+        if ( (whichPhone < 0) || (whichPhone > 3)) {
+            NSLog(@"\tError, incorrect phone index %d", whichPhone);
+            return nil;
+        }
 
-		case ADD:
-		case SUB:
-		case MULT:
-		case DIV:
-			printf("\tError, unexpected %s operation at index %d\n", symbolString, stringIndex);
-			return nil;
+        baseSymbolName = [symbolString substringToIndex:[symbolString length] - 1];
 
-		case RPAREN: 
-			printf("\tError, unexpected ')' at index %d\n", stringIndex);
-			return nil;
+        tempSymbol = [symbolList findSymbol:baseSymbolName];
+        if (tempSymbol) {
+            [tempTerminal setSymbol:tempSymbol];
+            [tempTerminal setWhichPhone:whichPhone];
+        } else {
+            [self outputError:@"Unknown symbol %@." with:symbolString];
+            //NSLog(@"\t Error, Undefined Symbol %@", tempSymbolString);
+            return nil;
+        }
+    }
 
-		case LPAREN:
-			[temp setOperandTwo: [self leftParen]];
-			break;
-
-		case SYMBOL:
-			tempTerminal = [self parseSymbol];
-			if (tempTerminal)
-			{
-				[temp setOperandTwo:tempTerminal];
-			}
-			else
-			{
-				return nil;
-			}
-			break;
-
-		case CONST:
-			tempTerminal = [[FormulaTerminal alloc] init];
-			[tempTerminal setValue:(double) atof(symbolString)];
-			[temp setOperandTwo:tempTerminal];
-			break;
-	}
-	return returnExp;
+    return tempTerminal;
 }
 
-- divOperation:operand
+- addOperation:operand;
 {
-id temp = nil, temp1 = nil, returnExp = nil;
-FormulaTerminal *tempTerminal;
+    id temp = nil, temp1 = nil, returnExp = nil;
+    FormulaTerminal *tempTerminal;
 
-//	printf("DIV\n");
+    //NSLog(@"ADD");
 
-	temp = [[FormulaExpression alloc] init];
-	[temp setPrecedence:2];
-	[temp setOperation:DIV];
+    temp = [[FormulaExpression alloc] init];
+    [temp setPrecedence:1];
+    [temp setOperation:TK_F_ADD];
 
-	if ([operand precedence]>=2)
-	{
-		/* Current Sub Expression has higher precedence */
-		[temp setOperandOne:operand];
-		returnExp = temp;
-	}
-	else
-	{
-		/* Currend Sub Expression has lower Precedence.  Restructure Tree */
-		temp1 = [operand operandTwo];
-		[temp setOperandOne:temp1];
-		[operand setOperandTwo:temp];
-		returnExp = operand;
-	}
+    if ([operand precedence] >= 1) {
+        /* Current Sub Expression has higher precedence */
+        [temp setOperandOne:operand];
+        returnExp = temp;
+    } else {
+        /* Currend Sub Expression has lower Precedence.  Restructure Tree */
+        temp1 = [operand operandTwo];
+        [temp setOperandOne:temp1];
+        [operand setOperandTwo:temp];
+        returnExp = operand;
+    }
 
-	switch([self nextToken])
-	{
-		case END: printf("\tError, unexpected END at index %d\n", stringIndex);
-			  return nil;
+    switch ([self nextToken]) {
+      case TK_F_END:
+          NSLog(@"\tError, unexpected END at index %d", [scanner scanLocation]);
+          return nil;
 
-		case ADD:
-		case SUB:
-		case MULT:
-		case DIV:
-			printf("\tError, unexpected %s operation at index %d\n", symbolString, stringIndex);
-			return nil;
+      case TK_F_ADD:
+      case TK_F_SUB:
+      case TK_F_MULT:
+      case TK_F_DIV:
+          NSLog(@"\tError, unexpected %@ operation at index %d", symbolString, [scanner scanLocation]);
+          return nil;
 
-		case RPAREN: 
-			printf("\tError, unexpected ')' at index %d\n", stringIndex);
-			return nil;
+      case TK_F_RPAREN:
+          NSLog(@"\tError, unexpected ')' at index %d", [scanner scanLocation]);
+          return nil;
 
-		case LPAREN:
-			[self leftParen];
-			[temp setOperandTwo: [self leftParen]];
-			break;
+      case TK_F_LPAREN:
+          [temp setOperandTwo:[self leftParen]];
+          break;
 
-		case SYMBOL:
-			tempTerminal = [self parseSymbol];
-			if (tempTerminal)
-			{
-				[temp setOperandTwo:tempTerminal];
-			}
-			else
-			{
-				return nil;
-			}
-			break;
+      case TK_F_SYMBOL:
+          tempTerminal = [self parseSymbol];
+          if (tempTerminal) {
+              [temp setOperandTwo:tempTerminal];
+          } else {
+              return nil;
+          }
+          break;
 
-		case CONST:
-			tempTerminal = [[FormulaTerminal alloc] init];
-			[tempTerminal setValue:(double) atof(symbolString)];
-			[temp setOperandTwo:tempTerminal];
-			break;
-	}
-	return returnExp;
+      case TK_F_CONST:
+          tempTerminal = [[FormulaTerminal alloc] init];
+          [tempTerminal setValue:[symbolString doubleValue]];
+          [temp setOperandTwo:tempTerminal];
+          break;
+    }
+
+    return returnExp;
 }
 
-
-- leftParen
+- subOperation:operand;
 {
-id temp = nil;
-FormulaTerminal *tempTerminal, *tempTerm;
-int tempToken;
+    id temp = nil, temp1 = nil, returnExp = nil;
+    FormulaTerminal *tempTerminal;
 
-	switch([self nextToken])
-	{
-		case END: printf("\tError, unexpected end at index %d\n", stringIndex);
-			return nil;
+    //NSLog(@"SUB");
 
-		case RPAREN: return temp;
+    temp = [[FormulaExpression alloc] init];
+    [temp setPrecedence:1];
+    [temp setOperation:TK_F_SUB];
 
-		case LPAREN: 
-			temp = [self leftParen]; 
-			break;
+    if ([operand precedence] >= 1) {
+        /* Current Sub Expression has higher precedence */
+        [temp setOperandOne:operand];
+        returnExp = temp;
+    } else {
+        /* Currend Sub Expression has lower Precedence.  Restructure Tree */
+        temp1 = [operand operandTwo];
+        [temp setOperandOne:temp1];
+        [operand setOperandTwo:temp];
+        returnExp = operand;
+    }
 
-		case ADD:
-		case SUB:
-		case MULT:
-		case DIV:
-			printf("\tError, unexpected %s operation at index %d\n", symbolString, stringIndex);
-			break;
+    switch ([self nextToken]) {
+      case TK_F_END:
+          NSLog(@"\tError, unexpected END at index %d", [scanner scanLocation]);
+          return nil;
 
-		case SYMBOL:
-			tempTerm = [self parseSymbol];
-			if (tempTerm)
-			{
-				temp = tempTerm;
-			}
-			else
-			{
-				return nil;
-			}
-			break;
+      case TK_F_ADD:
+      case TK_F_SUB:
+      case TK_F_MULT:
+      case TK_F_DIV:
+          NSLog(@"\tError, unexpected %@ operation at index %d", symbolString, [scanner scanLocation]);
+          return nil;
 
-		case CONST:
-			temp = [[FormulaTerminal alloc] init];
-			[temp setValue:(double) atof(symbolString)];
-//			printf("%s = %f\n", symbolString, [temp value]);
-			break;
-	}
+      case TK_F_RPAREN:
+          NSLog(@"\tError, unexpected ')' at index %d", [scanner scanLocation]);
+          return nil;
 
-	while( (tempToken=[self nextToken]) != RPAREN)
-	{
-		switch(tempToken)
-		{
-			case END: printf("\tError, unexpected end at index %d\n", stringIndex);
-				return nil;
+      case TK_F_LPAREN:
+          [temp setOperandTwo:[self leftParen]];
+          break;
 
-			case RPAREN: return temp;
+      case TK_F_SYMBOL:
+          tempTerminal = [self parseSymbol];
+          if (tempTerminal) {
+              [temp setOperandTwo:tempTerminal];
+          } else {
+              return nil;
+          }
+          break;
 
-			case LPAREN: 
-				printf("\tError, unexpected '(' at index %d\n", stringIndex);
-				return nil;
+      case TK_F_CONST:
+          tempTerminal = [[FormulaTerminal alloc] init];
+          [tempTerminal setValue:[symbolString doubleValue]];
+          [temp setOperandTwo:tempTerminal];
+          break;
+    }
 
-			case ADD: temp = [self addOperation:temp];
-				break;
-
-			case SUB: temp = [self subOperation:temp];
-				break;
-
-			case MULT: temp = [self multOperation:temp];
-				break;
-
-			case DIV: temp = [self divOperation:temp];
-				break;
-
-			case SYMBOL:
-				tempTerminal = [self parseSymbol];
-				if (tempTerminal)
-				{
-					[temp setOperandTwo:tempTerminal];
-				}
-				else
-				{
-					return nil;
-				}
-				break;
-
-			case CONST:
-//				printf("Here!!\n");
-				tempTerminal = [[FormulaTerminal alloc] init];
-				[tempTerminal setValue:(double) atof(symbolString)];
-				[temp setOperandTwo:tempTerminal];
-				break;
-		}
-	}
-
-	/* Set Paren precedence */
-	[temp setPrecedence:3];
-
-	return temp;
+    return returnExp;
 }
 
-- (void)setErrorOutput:aTextObject
+- multOperation:operand;
 {
-	errorText = aTextObject; 
+    id temp = nil, temp1 = nil, returnExp = nil;
+    FormulaTerminal *tempTerminal;
+
+    //NSLog(@"MULT");
+
+    temp = [[FormulaExpression alloc] init];
+    [temp setPrecedence:2];
+    [temp setOperation:TK_F_MULT];
+
+    if ([operand precedence] >= 2) {
+        /* Current Sub Expression has higher precedence */
+        [temp setOperandOne:operand];
+        returnExp = temp;
+    } else {
+        /* Currend Sub Expression has lower Precedence.  Restructure Tree */
+        temp1 = [operand operandTwo];
+        [temp setOperandOne:temp1];
+        [operand setOperandTwo:temp];
+        returnExp = operand;
+    }
+
+    switch ([self nextToken]) {
+      case TK_F_END:
+          NSLog(@"\tError, unexpected END at index %d", [scanner scanLocation]);
+          return nil;
+
+      case TK_F_ADD:
+      case TK_F_SUB:
+      case TK_F_MULT:
+      case TK_F_DIV:
+          NSLog(@"\tError, unexpected %@ operation at index %d", symbolString, [scanner scanLocation]);
+          return nil;
+
+      case TK_F_RPAREN:
+          NSLog(@"\tError, unexpected ')' at index %d", [scanner scanLocation]);
+          return nil;
+
+      case TK_F_LPAREN:
+          [temp setOperandTwo:[self leftParen]];
+          break;
+
+      case TK_F_SYMBOL:
+          tempTerminal = [self parseSymbol];
+          if (tempTerminal) {
+              [temp setOperandTwo:tempTerminal];
+          } else {
+              return nil;
+          }
+          break;
+
+      case TK_F_CONST:
+          tempTerminal = [[FormulaTerminal alloc] init];
+          [tempTerminal setValue:[symbolString doubleValue]];
+          [temp setOperandTwo:tempTerminal];
+          break;
+    }
+
+    return returnExp;
 }
 
-
-- (void)outputError:(const char *)outputText
+- divOperation:operand;
 {
-char outputString[2048];
+    id temp = nil, temp1 = nil, returnExp = nil;
+    FormulaTerminal *tempTerminal;
 
-	sprintf(outputString, "%s\n%s", [[errorText string] cString],
-		 outputText);
-	[errorText setString:[NSString stringWithCString:outputString]];
+    //NSLog(@"DIV");
+
+    temp = [[FormulaExpression alloc] init];
+    [temp setPrecedence:2];
+    [temp setOperation:TK_F_DIV];
+
+    if ([operand precedence] >= 2) {
+        /* Current Sub Expression has higher precedence */
+        [temp setOperandOne:operand];
+        returnExp = temp;
+    } else {
+        /* Currend Sub Expression has lower Precedence.  Restructure Tree */
+        temp1 = [operand operandTwo];
+        [temp setOperandOne:temp1];
+        [operand setOperandTwo:temp];
+        returnExp = operand;
+    }
+
+    switch ([self nextToken]) {
+      case TK_F_END:
+          NSLog(@"\tError, unexpected END at index %d", [scanner scanLocation]);
+          return nil;
+
+      case TK_F_ADD:
+      case TK_F_SUB:
+      case TK_F_MULT:
+      case TK_F_DIV:
+          NSLog(@"\tError, unexpected %@ operation at index %d", symbolString, [scanner scanLocation]);
+          return nil;
+
+      case TK_F_RPAREN:
+          NSLog(@"\tError, unexpected ')' at index %d", [scanner scanLocation]);
+          return nil;
+
+      case TK_F_LPAREN:
+          [self leftParen];
+          [temp setOperandTwo:[self leftParen]];
+          break;
+
+      case TK_F_SYMBOL:
+          tempTerminal = [self parseSymbol];
+          if (tempTerminal) {
+              [temp setOperandTwo:tempTerminal];
+          } else {
+              return nil;
+          }
+          break;
+
+      case TK_F_CONST:
+          tempTerminal = [[FormulaTerminal alloc] init];
+          [tempTerminal setValue:[symbolString doubleValue]];
+          [temp setOperandTwo:tempTerminal];
+          break;
+    }
+
+    return returnExp;
 }
 
-- (void)outputError: (const char *) outputText with:(const char *) string
+- leftParen;
 {
-char outputString[2048];
-char tempString[1024];
-int length;
+    id temp = nil;
+    FormulaTerminal *tempTerminal, *tempTerm;
+    int tempToken;
 
-	sprintf(tempString, outputText, string);
+    switch ([self nextToken]) {
+      case TK_F_END:
+          NSLog(@"\tError, unexpected end at index %d", [scanner scanLocation]);
+          return nil;
 
-	length = [[errorText string] length];
+      case TK_F_RPAREN:
+          return temp;
 
-	if (length==0)
-	{
-		[errorText setString:[NSString stringWithCString:tempString]];
-	}
-	else
-	{
-		sprintf(outputString, "%s\n%s", [[errorText string] cString],
-			 tempString);
-		[errorText setString:[NSString stringWithCString:outputString]];
-	}
+      case TK_F_LPAREN:
+          temp = [self leftParen];
+          break;
+
+      case TK_F_ADD:
+      case TK_F_SUB:
+      case TK_F_MULT:
+      case TK_F_DIV:
+          NSLog(@"\tError, unexpected %@ operation at index %d", symbolString, [scanner scanLocation]);
+          break;
+
+      case TK_F_SYMBOL:
+          tempTerm = [self parseSymbol];
+          if (tempTerm) {
+              temp = tempTerm;
+          } else {
+              return nil;
+          }
+          break;
+
+      case TK_F_CONST:
+          temp = [[FormulaTerminal alloc] init];
+          [temp setValue:[symbolString doubleValue]];
+          //NSLog(@"%@ = %f", symbolString, [temp value]);
+          break;
+    }
+
+    while ( (tempToken = [self nextToken]) != TK_F_RPAREN) {
+        switch (tempToken) {
+          case TK_F_END:
+              NSLog(@"\tError, unexpected end at index %d", [scanner scanLocation]);
+              return nil;
+
+          case TK_F_RPAREN:
+              return temp;
+
+          case TK_F_LPAREN:
+              NSLog(@"\tError, unexpected '(' at index %d", [scanner scanLocation]);
+              return nil;
+
+          case TK_F_ADD:
+              temp = [self addOperation:temp];
+              break;
+
+          case TK_F_SUB:
+              temp = [self subOperation:temp];
+              break;
+
+          case TK_F_MULT:
+              temp = [self multOperation:temp];
+              break;
+
+          case TK_F_DIV:
+              temp = [self divOperation:temp];
+              break;
+
+          case TK_F_SYMBOL:
+              tempTerminal = [self parseSymbol];
+              if (tempTerminal) {
+                  [temp setOperandTwo:tempTerminal];
+              } else {
+                  return nil;
+              }
+              break;
+
+          case TK_F_CONST:
+              //NSLog(@"Here!!");
+              tempTerminal = [[FormulaTerminal alloc] init];
+              [tempTerminal setValue:[symbolString doubleValue]];
+              [temp setOperandTwo:tempTerminal];
+              break;
+        }
+    }
+
+    /* Set Paren precedence */
+    [temp setPrecedence:3];
+
+    return temp;
 }
 
+- (void)setErrorOutput:(NSTextField *)aTextField;
+{
+    nonretained_errorTextField = aTextField;
+}
+
+- (void)outputError:(NSString *)errorText;
+{
+    NSString *str;
+
+    str = [nonretained_errorTextField stringValue];
+    if (str == nil)
+        str = [NSString stringWithFormat:@"%@\n", errorText];
+    else
+        str = [str stringByAppendingFormat:@"\n%@", errorText];
+
+    [nonretained_errorTextField setStringValue:str];
+}
+
+- (void)outputError:(NSString *)errorText with:(NSString *)symbol;
+{
+    NSString *str;
+
+    str = [nonretained_errorTextField stringValue];
+    if (str == nil)
+        str = [NSString stringWithFormat:@"%@\n", errorText];
+    else {
+        str = [str stringByAppendingString:@"\n"];
+        str = [str stringByAppendingFormat:errorText, symbol];
+        str = [str stringByAppendingString:@"\n"];
+    }
+
+    [nonretained_errorTextField setStringValue:str];
+}
 
 @end

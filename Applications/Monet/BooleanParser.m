@@ -141,7 +141,7 @@
     }
 
     scannedString = nil;
-    [scanner scanCharactersFromSet:[NSScanner gsIdentifierCharacterSet] intoString:&scannedString];
+    [scanner scanCharactersFromSet:[NSScanner gsBooleanIdentifierCharacterSet] intoString:&scannedString];
     if ([scanner scanString:@"*" intoString:NULL] == YES) {
         if (scannedString == nil)
             scannedString = @"*";
@@ -193,6 +193,7 @@
     [scanner setCharactersToBeSkipped:nil];
 
     result = [self beginParseString];
+
     nonretained_parseString = nil;
     [scanner release];
     scanner = nil;

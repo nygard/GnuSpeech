@@ -1,6 +1,6 @@
-
 #import <Foundation/NSObject.h>
-#import "Symbol.h"
+
+@class Symbol;
 
 /*===========================================================================
 
@@ -22,44 +22,43 @@
 #define TEMPO3		(-10)
 
 
-@interface FormulaTerminal:NSObject
+@interface FormulaTerminal : NSObject
 {
-	Symbol	*symbol;
-	double	value;
-	int	whichPhone;
-	int	precedence;
+    Symbol *symbol;
+    double value;
+    int whichPhone;
+    int precedence;
 
-	int     cacheTag;
-	double  cacheValue;
-
+    int cacheTag;
+    double cacheValue;
 }
 
-- init;
+- (id)init;
+- (void)dealloc;
 
-- (void)setSymbol:newSymbol;
-- symbol;
+- (Symbol *)symbol;
+- (void)setSymbol:(Symbol *)newSymbol;
 
+- (double)value;
 - (void)setValue:(double)newValue;
-- (double) value;
 
+- (int)whichPhone;
 - (void)setWhichPhone:(int)newValue;
-- (int) whichPhone;
 
+- (int)precedence;
 - (void)setPrecedence:(int)newPrec;
-- (int) precedence;
 
-- (double) evaluate:(double *) ruleSymbols phones: phones;
-- (double) evaluate:(double *) ruleSymbols tempos: (double *) tempos  phones: phones;
+- (double)evaluate:(double *)ruleSymbols phones:phones;
+- (double)evaluate:(double *)ruleSymbols tempos:(double *)tempos phones:phones;
 
 - (void)optimize;
 - (void)optimizeSubExpressions;
 
-- (int) maxExpressionLevels;
-- (int) maxPhone;
-- expressionString:(char *)string;
+- (int)maxExpressionLevels;
+- (int)maxPhone;
+- (void)expressionString:(NSMutableString *)resultString;
 
-- (id)initWithCoder:(NSCoder *)aDecoder;
-- (void)encodeWithCoder:(NSCoder *)aCoder;
-
+//- (id)initWithCoder:(NSCoder *)aDecoder;
+//- (void)encodeWithCoder:(NSCoder *)aCoder;
 
 @end

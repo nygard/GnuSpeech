@@ -1,11 +1,6 @@
-
 #import <Foundation/NSObject.h>
-#import "CategoryList.h"
-//#import "PhoneList.h"
-#import "FormulaExpression.h"
-#import "FormulaTerminal.h"
-#import "FormulaSymbols.h"
-#import "SymbolList.h"
+
+@class SymbolList;
 
 /*===========================================================================
 
@@ -16,32 +11,34 @@
 =============================================================================
 */
 
-@interface FormulaParser:NSObject
+@interface FormulaParser : NSObject
 {
-	int consumed;
-	int stringIndex;
-	const char *parseString;
-	char symbolString[256];
+    BOOL consumed;
+    NSString *nonretained_parseString;
+    NSScanner *scanner;
+    NSString *symbolString;
 
-	SymbolList *symbolList;
+    SymbolList *symbolList;
 
-	id	errorText;
+    NSTextField *nonretained_errorTextField; // TODO (2004-03-01): Change this to an NSMutableString, and query it in the interface controller.
 }
 
-- init;
+- (void)dealloc;
 
-- (int) nextToken;
+- (NSString *)symbolString;
+- (void)setSymbolString:(NSString *)newString;
+
+- (SymbolList *)symbolList;
+- (void)setSymbolList:(SymbolList *)newSymbolList;
+
+- (int)nextToken;
+- (BOOL)scanNumber;
+
 - (void)consumeToken;
-- parseString:(const char *)string;
+- parseString:(NSString *)aString;
+- beginParseString;
 - continueParse:currentExpression;
 - parseSymbol;
-
-
-- setSymbolList:(SymbolList *)newSymbolList;
-- symbolList;
-
-- (int) scanNumber;
-- (int) scanSymbol;
 
 - addOperation:operand;
 - subOperation:operand;
@@ -50,9 +47,8 @@
 
 - leftParen;
 
-- (void)setErrorOutput:aTextObject;
-- (void)outputError:(const char *)outputText;
-- (void)outputError:(const char *) outputText with: (const char *) symbol;
-
+- (void)setErrorOutput:(NSTextField *)aTextField;
+- (void)outputError:(NSString *)errorText;
+- (void)outputError:(NSString *)errorText with:(NSString *)symbol;
 
 @end

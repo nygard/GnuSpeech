@@ -10,7 +10,7 @@
 @implementation NSScanner (CDExtensions)
 
 // gs for GnuSpeech
-+ (NSCharacterSet *)gsIdentifierCharacterSet;
++ (NSCharacterSet *)gsBooleanIdentifierCharacterSet;
 {
     static NSCharacterSet *identifierCharacterSet = nil;
 
@@ -119,6 +119,32 @@
     }
 
     return YES;
+}
+
+- (BOOL)scanIdentifierIntoString:(NSString **)stringPointer;
+{
+    NSString *start, *remainder;
+
+    if ([self scanString:@"?" intoString:stringPointer] == YES) {
+        return YES;
+    }
+
+    if ([self scanCharacterFromSet:[NSCharacterSet letterCharacterSet] intoString:&start] == YES) {
+        NSString *str;
+
+        if ([self my_scanCharactersFromSet:[NSCharacterSet alphanumericCharacterSet] intoString:&remainder] == YES) {
+            str = [start stringByAppendingString:remainder];
+        } else {
+            str = start;
+        }
+
+        if (stringPointer != NULL)
+            *stringPointer = str;
+
+        return YES;
+    }
+
+    return NO;
 }
 
 @end

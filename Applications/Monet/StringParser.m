@@ -8,20 +8,8 @@
 #import "MyController.h"
 #include "driftGenerator.h"
 
-#ifdef PORTING
-#import <stdio.h>
-#import <string.h>
-#import <stdlib.h>
-#import "Parameter.h"
-#import "ProtoTemplate.h"
-#import "ProtoEquation.h"
-#import "Point.h"
-#import "PhoneList.h"
-#import "EventListView.h"
-#import "IntonationView.h"
 #ifdef HAVE_DSP
 #import "tube_module/synthesizer_module.h"
-#endif
 #endif
 
 @implementation StringParser

@@ -3,11 +3,6 @@
 @class NSScanner;
 @class NSTextField; // Yuck!
 @class BooleanExpression, CategoryNode, CategoryList, PhoneList;
-#ifdef PORTING
-#import "BooleanExpression.h"
-#import "BooleanTerminal.h"
-#import "BooleanSymbols.h"
-#endif
 
 /*===========================================================================
 
@@ -58,11 +53,8 @@
 @interface BooleanParser : NSObject
 {
     BOOL consumed;
-    //int stringIndex;
-    //int lastStringIndex;
     NSString *nonretained_parseString;
     NSScanner *scanner;
-    //char symbolString[256];
     NSString *symbolString;
 
     CategoryList *categoryList;

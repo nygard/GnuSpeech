@@ -7,19 +7,19 @@
 =============================================================================
 */
 
+// Formula Tokens
+
 /* Operators */
-#define ADD	0
-#define SUB	1
-#define MULT	2
-#define DIV	3
+#define TK_F_ADD	0
+#define TK_F_SUB	1
+#define TK_F_MULT	2
+#define TK_F_DIV	3
 
-#define LPAREN	4
-#define RPAREN	5
-#define SYMBOL	6
-#define CONST	7
+#define TK_F_LPAREN	4
+#define TK_F_RPAREN	5
+#define TK_F_SYMBOL	6
+#define TK_F_CONST	7
 
-#ifndef END
-#define END	8
-#endif
+#define TK_F_END	8
 
-#define ERROR	(-1)
+#define TK_F_ERROR	(-1)

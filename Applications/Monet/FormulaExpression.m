@@ -9,7 +9,7 @@
     if ([super init] == nil)
         return nil;
 
-    operation = END;
+    operation = TK_F_END;
     expressions = [[NSMutableArray alloc] init];
 
     return self;
@@ -52,27 +52,28 @@
 - (double)evaluate:(double *)ruleSymbols tempos:(double *)tempos phones:phones;
 {
     switch (operation) {
-      case ADD:
+      case TK_F_ADD:
           return ([[self operandOne] evaluate:ruleSymbols tempos:tempos phones:phones] +
                   [[self operandTwo] evaluate:ruleSymbols tempos:tempos phones:phones]);
           break;
 
-      case SUB:
+      case TK_F_SUB:
           return ([[self operandOne] evaluate:ruleSymbols tempos:tempos phones:phones] -
                   [[self operandTwo] evaluate:ruleSymbols tempos:tempos phones:phones]);
           break;
 
-      case MULT:
+      case TK_F_MULT:
           return ([[self operandOne] evaluate:ruleSymbols tempos:tempos phones:phones] *
                   [[self operandTwo] evaluate:ruleSymbols tempos:tempos phones:phones]);
           break;
 
-      case DIV:
+      case TK_F_DIV:
           return ([[self operandOne] evaluate:ruleSymbols tempos:tempos phones:phones] /
                   [[self operandTwo] evaluate:ruleSymbols tempos:tempos phones:phones]);
           break;
 
-      default: return 1.0;
+      default:
+          return 1.0;
     }
 
     return 0.0;
@@ -200,11 +201,11 @@
 {
     switch (operation) {
       default:
-      case END: return @"";
-      case ADD: return @" + ";
-      case SUB: return @" - ";
-      case MULT: return @" * ";
-      case DIV: return @" / ";
+      case TK_F_END: return @"";
+      case TK_F_ADD: return @" + ";
+      case TK_F_SUB: return @" - ";
+      case TK_F_MULT: return @" * ";
+      case TK_F_DIV: return @" / ";
     }
 
     return @"";
