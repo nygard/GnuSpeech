@@ -143,7 +143,7 @@
         returnValue = max;
 
     if (!isPhantom)
-        [eventList insertEvent:index atTime:time withValue:returnValue];
+        [eventList insertEvent:index atTimeOffset:time withValue:returnValue];
 
     return returnValue;
 }

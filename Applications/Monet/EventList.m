@@ -418,7 +418,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
 
 // Get the event a time "time", creating it if necessary and insserting into "events" array.
 // Time relative to zeroRef
-- (Event *)eventAtTime:(double)time;
+- (Event *)eventAtTimeOffset:(double)time;
 {
     Event *newEvent = nil;
     int i, tempTime;
@@ -461,11 +461,11 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
 }
 
 // Time relative to zeroRef
-- (Event *)insertEvent:(int)number atTime:(double)time withValue:(double)value;
+- (Event *)insertEvent:(int)number atTimeOffset:(double)time withValue:(double)value;
 {
     Event *event;
 
-    event = [self eventAtTime:time];
+    event = [self eventAtTimeOffset:time];
     if (number >= 0) {
         if ((number >= 7) && (number <= 8))
             [event setValue:value*radiusMultiply ofIndex:number];
@@ -786,13 +786,13 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
         /* Note: Case 4 should execute all of the below, case 3 the last two */
       case MMPhoneTypeTetraphone:
           phones[phoneIndex+3].onset = (double)zeroRef + ruleSymbols.beat;
-          [[self insertEvent:-1 atTime:ruleSymbols.mark2 withValue:0.0] setFlag:YES];
+          [[self insertEvent:-1 atTimeOffset:ruleSymbols.mark2 withValue:0.0] setFlag:YES];
       case MMPhoneTypeTriphone:
           phones[phoneIndex+2].onset = (double)zeroRef + ruleSymbols.beat;
-          [[self insertEvent:-1 atTime:ruleSymbols.mark1 withValue:0.0] setFlag:YES];
+          [[self insertEvent:-1 atTimeOffset:ruleSymbols.mark1 withValue:0.0] setFlag:YES];
       case MMPhoneTypeDiphone:
           phones[phoneIndex+1].onset = (double)zeroRef + ruleSymbols.beat;
-          [[self insertEvent:-1 atTime:0.0 withValue:0.0] setFlag:YES];
+          [[self insertEvent:-1 atTimeOffset:0.0 withValue:0.0] setFlag:YES];
           break;
     }
 
@@ -857,7 +857,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
                     }
 
                     /* insert event into event list */
-                    //tempEvent = [self insertEvent:i atTime:tempTime withValue:value];
+                    //tempEvent = [self insertEvent:i atTimeOffset:tempTime withValue:value];
                 }
                 // TODO (2004-03-01): I don't see how this works...
                 maxValue = [currentPoint calculatePoints:&ruleSymbols tempos:tempos postures:somePostures
@@ -866,7 +866,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
             }
         } else {
             // TODO (2004-08-15): This doesn't look right -- the time shouldn't be 0.
-            [self insertEvent:transitionIndex atTime:0.0 withValue:targets[0]];
+            [self insertEvent:transitionIndex atTimeOffset:0.0 withValue:targets[0]];
         }
     }
 
@@ -895,13 +895,13 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
                 //maxValue = value;
 
                 /* insert event into event list */
-                [self insertEvent:parameterIndex+16 atTime:tempTime withValue:value];
+                [self insertEvent:parameterIndex+16 atTimeOffset:tempTime withValue:value];
             }
         }
     }
 
     [self setZeroRef:(int)(ruleSymbols.ruleDuration * multiplier) + zeroRef];
-    [[self insertEvent:-1 atTime:0.0 withValue:0.0] setFlag:YES];
+    [[self insertEvent:-1 atTimeOffset:0.0 withValue:0.0] setFlag:YES];
 }
 
 - (void)synthesizeToFile:(NSString *)filename;
@@ -914,7 +914,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
 {
     int firstFoot, endFoot;
     int ruleIndex, phoneIndex;
-    int i, j, k;
+    int i, j;
     double startTime, endTime, pretonicDelta, offsetTime = 0.0;
     double randomSemitone, randomSlope;
 
@@ -1110,16 +1110,16 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
     NSLog(@" > %s", _cmd);
 
     [self setFullTimeScale];
-    [self insertEvent:32 atTime:0.0 withValue:-20.0];
+    [self insertEvent:32 atTimeOffset:0.0 withValue:-20.0];
     NSLog(@"Applying intonation, %d points", [intonationPoints count]);
 
     for (i = 0; i < [intonationPoints count]; i++) {
         anIntonationPoint = [intonationPoints objectAtIndex:i];
         NSLog(@"Added Event at Time: %f withValue: %f", [anIntonationPoint absoluteTime], [anIntonationPoint semitone]);
-        [self insertEvent:32 atTime:[anIntonationPoint absoluteTime] withValue:[anIntonationPoint semitone]];
-        [self insertEvent:33 atTime:[anIntonationPoint absoluteTime] withValue:0.0];
-        [self insertEvent:34 atTime:[anIntonationPoint absoluteTime] withValue:0.0];
-        [self insertEvent:35 atTime:[anIntonationPoint absoluteTime] withValue:0.0];
+        [self insertEvent:32 atTimeOffset:[anIntonationPoint absoluteTime] withValue:[anIntonationPoint semitone]];
+        [self insertEvent:33 atTimeOffset:[anIntonationPoint absoluteTime] withValue:0.0];
+        [self insertEvent:34 atTimeOffset:[anIntonationPoint absoluteTime] withValue:0.0];
+        [self insertEvent:35 atTimeOffset:[anIntonationPoint absoluteTime] withValue:0.0];
     }
 
     [self finalEvent:32 withValue:-20.0];
@@ -1152,7 +1152,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
 
     NSLog(@"[intonationPoints count]: %d", [intonationPoints count]);
 
-    //[self insertEvent:32 atTime: 0.0 withValue: -20.0];
+    //[self insertEvent:32 atTimeOffset:0.0 withValue:-20.0];
     for (j = 0; j < [intonationPoints count] - 1; j++) {
         point1 = [intonationPoints objectAtIndex:j];
         point2 = [intonationPoints objectAtIndex:j + 1];
@@ -1179,19 +1179,19 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
         b = ( 3*y2*x1 + m1*x12 + 2*m2*x12 - 3*x1*y1 + 3*x2*y2 + m1*x1*x2 - m2*x1*x2 - 3*y1*x2 - 2*m1*x22 - m2*x22) / denominator;
         a = ( -2*y2 - m1*x1 - m2*x1 + 2*y1 + m1*x2 + m2*x2) / denominator;
 
-        [self insertEvent:32 atTime:[point1 absoluteTime] withValue:[point1 semitone]];
+        [self insertEvent:32 atTimeOffset:[point1 absoluteTime] withValue:[point1 semitone]];
 
         yTemp = (3.0*a*x12) + (2.0*b*x1) + c;
         NSLog(@"j: %d, event 33: %g", j, yTemp);
-        [self insertEvent:33 atTime:[point1 absoluteTime] withValue:yTemp];
+        [self insertEvent:33 atTimeOffset:[point1 absoluteTime] withValue:yTemp];
 
         yTemp = (6.0*a*x1) + (2.0*b);
         NSLog(@"j: %d, event 34: %g", j, yTemp);
-        [self insertEvent:34 atTime:[point1 absoluteTime] withValue:yTemp];
+        [self insertEvent:34 atTimeOffset:[point1 absoluteTime] withValue:yTemp];
 
         yTemp = (6.0*a);
         NSLog(@"j: %d, event 35: %g", j, yTemp);
-        [self insertEvent:35 atTime:[point1 absoluteTime] withValue:yTemp];
+        [self insertEvent:35 atTimeOffset:[point1 absoluteTime] withValue:yTemp];
     }
 
     [intonationPoints removeObjectAtIndex:0];

@@ -183,8 +183,8 @@ struct _rule {
 
 - (NSArray *)events;
 
-- (Event *)eventAtTime:(double)time;
-- (Event *)insertEvent:(int)number atTime:(double)time withValue:(double)value;
+- (Event *)eventAtTimeOffset:(double)time;
+- (Event *)insertEvent:(int)number atTimeOffset:(double)time withValue:(double)value;
 - (void)finalEvent:(int)number withValue:(double)value;
 
 - (void)generateOutput;
