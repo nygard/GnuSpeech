@@ -23,7 +23,6 @@
                 infoPanel = NSPanel; 
                 inspectorController = Inspector; 
                 intonationView = IntonationScrollView; 
-                phonesWindow = NSWindow; 
                 prototypeManager = PrototypeManager; 
                 prototypeWindow = NSWindow; 
                 ruleManager = RuleManager; 

@@ -1,5 +1,5 @@
 //
-// $Id: AppController.h,v 1.24 2004/03/20 20:34:02 nygard Exp $
+// $Id: AppController.h,v 1.25 2004/03/21 02:26:58 nygard Exp $
 //
 
 /*===========================================================================
@@ -52,7 +52,6 @@ History:
     /* Window pointers */
     IBOutlet NSWindow *transitionWindow;
     IBOutlet NSWindow *ruleManagerWindow;
-    IBOutlet NSWindow *phonesWindow;
     IBOutlet NSWindow *ruleParserWindow;
     IBOutlet NSWindow *prototypeWindow;
     IBOutlet NSWindow *synthesisWindow;

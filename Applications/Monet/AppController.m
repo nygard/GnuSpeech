@@ -153,7 +153,6 @@
 
     [transitionWindow setFrameAutosaveName:@"TransitionWindow"];
     [ruleManagerWindow setFrameAutosaveName:@"RuleManagerWindow"];
-    [phonesWindow setFrameAutosaveName:@"DataEntryWindow"];
     [ruleParserWindow setFrameAutosaveName:@"RuleParserWindow"];
     [prototypeWindow setFrameAutosaveName:@"PrototypeManagerWindow"];
     [synthesisWindow setFrameAutosaveName:@"SynthesisWindow"];
