@@ -193,15 +193,19 @@ static NSImage *_selectionBox = nil;
     int sectionHeight;
     NSBezierPath *bezierPath;
     NSRect bounds, rect;
+    NSPoint graphOrigin; // But not the zero point on the graph.
 
     bounds = NSIntegralRect([self bounds]);
     sectionHeight = (bounds.size.height - 2 * BOTTOM_MARGIN) / 14;
 
+    graphOrigin.x = LEFT_MARGIN;
+    graphOrigin.y = bounds.size.height - BOTTOM_MARGIN - 14 * sectionHeight;
+
     [[NSColor lightGrayColor] set];
-    rect = NSMakeRect(LEFT_MARGIN + 1.0, BOTTOM_MARGIN + 1.0, bounds.size.width - 2 * (LEFT_MARGIN + 1), 2 * sectionHeight);
+    rect = NSMakeRect(graphOrigin.x + 1.0, graphOrigin.y + 1.0, bounds.size.width - 2 * (LEFT_MARGIN + 1), 2 * sectionHeight);
     NSRectFill(rect);
 
-    rect = NSMakeRect(LEFT_MARGIN + 1.0, BOTTOM_MARGIN + 1.0 + 12 * sectionHeight,
+    rect = NSMakeRect(graphOrigin.x + 1.0, graphOrigin.y + 1.0 + 12 * sectionHeight,
                       bounds.size.width - 2 * (LEFT_MARGIN + 1), 2 * sectionHeight);
     NSRectFill(rect);
 
@@ -210,7 +214,7 @@ static NSImage *_selectionBox = nil;
     [[NSColor blackColor] set];
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:2];
-    [bezierPath appendBezierPathWithRect:NSMakeRect(LEFT_MARGIN, BOTTOM_MARGIN, bounds.size.width - 2 * LEFT_MARGIN, 14 * sectionHeight)];
+    [bezierPath appendBezierPathWithRect:NSMakeRect(graphOrigin.x, graphOrigin.y, bounds.size.width - 2 * LEFT_MARGIN, 14 * sectionHeight)];
     [bezierPath stroke];
     [bezierPath release];
 
@@ -224,13 +228,14 @@ static NSImage *_selectionBox = nil;
         NSString *label;
         float currentYPos;
 
-        currentYPos = i * sectionHeight + BOTTOM_MARGIN + 0.5;
-        [bezierPath moveToPoint:NSMakePoint(LEFT_MARGIN + 0.5, currentYPos)];
+        currentYPos = graphOrigin.y + 0.5 + i * sectionHeight;
+        [bezierPath moveToPoint:NSMakePoint(graphOrigin.x + 0.5, currentYPos)];
         [bezierPath lineToPoint:NSMakePoint(bounds.size.width - LEFT_MARGIN + 0.5, currentYPos)];
 
+        currentYPos = graphOrigin.y + i * sectionHeight - 5;
         label = [NSString stringWithFormat:@"%4d%%", (i - 2) * 10];
-        [label drawAtPoint:NSMakePoint(16.0, i * sectionHeight + 45.0) withAttributes:nil];
-        [label drawAtPoint:NSMakePoint(bounds.size.width - 47.0, i * sectionHeight + 45.0) withAttributes:nil];
+        [label drawAtPoint:NSMakePoint(16.0, currentYPos) withAttributes:nil];
+        [label drawAtPoint:NSMakePoint(bounds.size.width - 47.0, currentYPos) withAttributes:nil];
     }
 
     [bezierPath stroke];
