@@ -709,16 +709,16 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
         fclose(fp);
 }
 
-- (void)generateEventListWithModel:(MModel *)aModel;
+- (void)generateEvents;
 {
     NSLog(@" > %s", _cmd);
 
-    [self printDataStructures:@"Start of generateEventListWithModel:"];
-    assert(aModel != nil);
+    [self printDataStructures:@"Start of generateEvents"];
+    assert(model != nil);
 
     // Record min/max values for each of the parameters
     {
-        NSMutableArray *parameters = [aModel parameters];
+        NSMutableArray *parameters = [model parameters];
         int count, index;
         MMParameter *aParameter = nil;
 
@@ -798,12 +798,12 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
                 }
             }
 
-            matchedRule = [aModel findRuleMatchingCategories:tempCategoryList ruleIndex:&ruleIndex];
+            matchedRule = [model findRuleMatchingCategories:tempCategoryList ruleIndex:&ruleIndex];
             rules[currentRule].number = ruleIndex + 1;
 
             NSLog(@"----------------------------------------------------------------------");
             NSLog(@"Applying rule %d", ruleIndex + 1);
-            [self applyRule:matchedRule withPostures:tempPostures andTempos:&phoneTempo[index] phoneIndex:index model:aModel];
+            [self applyRule:matchedRule withPostures:tempPostures andTempos:&phoneTempo[index] phoneIndex:index];
 
             index += [matchedRule numberExpressions] - 1;
         }
@@ -827,7 +827,7 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
 
 // 1. Calculate the rule symbols (Rule Duration, Beat, Mark 1, Mark 2, Mark 3), given tempos and phones.
 // 2.
-- (void)applyRule:(MMRule *)rule withPostures:(NSArray *)somePostures andTempos:(double *)tempos phoneIndex:(int)phoneIndex model:(MModel *)aModel;
+- (void)applyRule:(MMRule *)rule withPostures:(NSArray *)somePostures andTempos:(double *)tempos phoneIndex:(int)phoneIndex;
 {
     int transitionIndex, parameterIndex;
     int type;
@@ -840,7 +840,7 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
     MMPoint *currentPoint;
     NSArray *parameterTransitions;
     NSArray *points;
-    int cache = [aModel nextCacheTag];
+    int cache = [model nextCacheTag];
 
     bzero(&ruleSymbols, sizeof(MMFRuleSymbols));
     [rule evaluateSymbolEquations:&ruleSymbols tempos:tempos postures:somePostures withCache:cache];
@@ -1059,7 +1059,7 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
         }
     }
 
-    //[self printDataStructures:@"After applyIntonation generateEventListWithModel:"];
+    //[self printDataStructures:@"After applyIntonation generateEvents"];
 }
 
 - (int)ruleIndexForPostureAtIndex:(int)postureIndex;
@@ -1315,7 +1315,7 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
 //  - newPhoneWithObject:
 //  - setCurrentPhoneTempo:
 //  - setCurrentPhoneRuleTempo:
-- (void)parsePhoneString:(NSString *)str withModel:(MModel *)aModel;
+- (void)parsePhoneString:(NSString *)str;
 {
     MMPosture *aPhone;
     int lastFoot = 0, markedFoot = 0;
@@ -1428,7 +1428,7 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
                 //NSLog(@"Scanned this: '%@'", buffer);
                 if (markedFoot)
                     buffer = [buffer stringByAppendingString:@"'"];
-                aPhone = [aModel postureWithName:buffer];
+                aPhone = [model postureWithName:buffer];
                 //NSLog(@"aPhone: %p (%@), eventList: %p", aPhone, [aPhone name], self); // Each has the same event list
                 if (aPhone) {
                     [postureRewriter rewriteEventList:self withNextPosture:aPhone wordMarker:wordMarker];

@@ -199,9 +199,9 @@ extern NSString *EventListDidRemoveIntonationPoint;
 - (void)finalEvent:(int)number withValue:(double)value;
 
 - (void)generateOutput;
-- (void)generateEventListWithModel:(MModel *)aModel;
+- (void)generateEvents;
 
-- (void)applyRule:(MMRule *)rule withPostures:(NSArray *)somePostures andTempos:(double *)tempos phoneIndex:(int)phoneIndex model:(MModel *)aModel;
+- (void)applyRule:(MMRule *)rule withPostures:(NSArray *)somePostures andTempos:(double *)tempos phoneIndex:(int)phoneIndex;
 - (void)synthesizeToFile:(NSString *)filename;
 
 - (void)generateIntonationPoints;
@@ -229,7 +229,7 @@ extern NSString *EventListDidRemoveIntonationPoint;
 - (void)intonationPointDidChange:(MMIntonationPoint *)anIntonationPoint;
 
 // Other
-- (void)parsePhoneString:(NSString *)str withModel:(MModel *)aModel;
+- (void)parsePhoneString:(NSString *)str;
 
 // Archiving - XML
 - (BOOL)writeXMLToFile:(NSString *)aFilename comment:(NSString *)aComment;

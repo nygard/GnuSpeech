@@ -354,9 +354,9 @@
     [self _takeIntonationParametersFromUI];
     [eventList setIntonationParameters:intonationParameters];
 
-    [eventList parsePhoneString:[stringTextField stringValue] withModel:[self model]];
+    [eventList parsePhoneString:[stringTextField stringValue]];
 
-    [eventList generateEventListWithModel:model];
+    [eventList generateEvents];
 
     if ([defaults boolForKey:MDK_ShouldUseSmoothIntonation])
         [eventList applySmoothIntonation];
@@ -439,9 +439,9 @@
     [eventList setIntonationParameters:intonationParameters];
 
     // This adds events to the EventList
-    [eventList parsePhoneString:[stringTextField stringValue] withModel:[self model]];
+    [eventList parsePhoneString:[stringTextField stringValue]];
 
-    [eventList generateEventListWithModel:model];
+    [eventList generateEvents];
 
     [eventList generateIntonationPoints];
     [self continueSynthesisToSoundFile:shouldSaveToSoundFile];
