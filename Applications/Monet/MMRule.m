@@ -436,7 +436,7 @@
     unsigned int count;
 
     count = [expressionSymbols count];
-    // TODO (2004-03-02): Is it okay to do these in order? (2004-04-01): No.
+    // It is not okay to do these in order -- beat often depends on duration, mark1, mark2, and/or mark3.
 
     if (count > 0)
         ruleSymbols->ruleDuration = [(MMEquation *)[expressionSymbols objectAtIndex:0] evaluate:ruleSymbols tempos:tempos phones:phones andCacheWith:cache];

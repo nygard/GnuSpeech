@@ -156,8 +156,6 @@
         [ruleOutputTextField setStringValue:str];
         [consumedTokensTextField setIntValue:[aRule numberExpressions] - 1];
 
-        // TODO (2004-03-02): Is being out of order significant?
-        // TODO (2004-03-23): I think that the last value may not always be accurate, i.e. for diphones, triphones
         [aRule evaluateExpressionSymbols:&ruleSymbols tempos:tempos phones:testPostures withCache:[[self model] nextCacheTag]];
 
         [[durationOutputForm cellAtIndex:0] setDoubleValue:ruleSymbols.ruleDuration];
