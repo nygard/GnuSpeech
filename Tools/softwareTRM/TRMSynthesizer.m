@@ -36,6 +36,7 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
     TRMSynthesizer *synthesizer;
     int sampleCount;
     BOOL shouldStop;
+    static int where = 0;
 
     //NSLog(@"myInputCallback()");
     synthesizer = (TRMSynthesizer *)inRefCon;
@@ -44,6 +45,23 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
     //NSLog(@"mDataByteSize: %d", ioData->mDataByteSize);
 
     sampleCount = (ioData->mDataByteSize / sizeof(float)) / 2;
+#if 0
+    // This reduces the strange artifact, but I think it's still there... :(
+    memset(ioData->mData, 0, ioData->mDataByteSize);
+
+    {
+        int index;
+        float freq = 1000;
+        float *buf = ioData->mData;
+
+        for (index = 0; index < sampleCount; index++) {
+            buf[2 * index] = .75 * sin(2 * M_PI * freq / 44100.0 * (where + index));
+            buf[2 * index + 1] = .75 * sin(2 * M_PI * freq / 44100.0 * (where + index));
+        }
+
+        where += sampleCount;
+    }
+#endif
     shouldStop = [synthesizer fillBuffer:ioData->mData count:sampleCount];
 
     if (shouldStop)
