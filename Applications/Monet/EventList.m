@@ -644,68 +644,74 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
 
 - (void)generateEventListWithModel:(MModel *)aModel;
 {
-    int count, index;
-    int i, j;
-    NSMutableArray *mainParameterList = [aModel parameters];
-    MMParameter *tempParameter = nil;
-
     NSLog(@" > %s", _cmd);
 
     [self printDataStructures:@"Start of generateEventListWithModel:"];
     assert(aModel != nil);
 
     // Record min/max values for each of the parameters
-    //NSLog(@"mainParameterList: %@", mainParameterList);
-    count = [mainParameterList count];
-    for (i = 0; i < count && i < 16; i++) {
-        tempParameter = [mainParameterList objectAtIndex:i];
+    {
+        NSMutableArray *parameters = [aModel parameters];
+        int count, index;
+        MMParameter *aParameter = nil;
 
-        min[i] = [tempParameter minimumValue];
-        max[i] = [tempParameter maximumValue];
-        //NSLog(@"Min: %9.3f Max: %9.3f", min[i], max[i]);
+        //NSLog(@"parameters: %@", parameters);
+        count = [parameters count];
+        for (index = 0; index < count && index < 16; index++) {
+            aParameter = [parameters objectAtIndex:index];
+
+            min[index] = [aParameter minimumValue];
+            max[index] = [aParameter maximumValue];
+            //NSLog(@"Min: %9.3f Max: %9.3f", min[index], max[index]);
+        }
     }
 
     // Adjust the tempos of each of the feet.  They start out at 1.0.
-    NSLog(@"currentFoot: %d", currentFoot);
-    for (i = 0; i < currentFoot; i++) {
-        int rus;
-        double footTempo;
+    {
+        int i, j;
 
-        rus = feet[i].end - feet[i].start + 1;
+        NSLog(@"currentFoot: %d", currentFoot);
+        for (i = 0; i < currentFoot; i++) {
+            int rus;
+            double footTempo;
 
-        /* Apply rhythm model */
-        if (feet[i].marked) {
-            double tempo;
+            rus = feet[i].end - feet[i].start + 1;
 
-            tempo = 117.7 - (19.36 * (double)rus);
-            feet[i].tempo -= tempo / 180.0;
-            //NSLog(@"Rus = %d tempTempo = %f", rus, tempo);
-            footTempo = globalTempo * feet[i].tempo;
-        } else {
-            double tempo;
+            /* Apply rhythm model */
+            if (feet[i].marked) {
+                double tempo;
 
-            tempo = 18.5 - (2.08 * (double)rus);
-            feet[i].tempo -= tempo / 140.0;
-            //NSLog(@"Rus = %d tempTempo = %f", rus, tempTempo);
-            footTempo = globalTempo * feet[i].tempo;
+                tempo = 117.7 - (19.36 * (double)rus);
+                feet[i].tempo -= tempo / 180.0;
+                //NSLog(@"Rus = %d tempTempo = %f", rus, tempo);
+                footTempo = globalTempo * feet[i].tempo;
+            } else {
+                double tempo;
+
+                tempo = 18.5 - (2.08 * (double)rus);
+                feet[i].tempo -= tempo / 140.0;
+                //NSLog(@"Rus = %d tempTempo = %f", rus, tempTempo);
+                footTempo = globalTempo * feet[i].tempo;
+            }
+
+            // Adjust the posture tempos for postures in this foot, limiting it to a minimum of 0.2 and maximum of 2.0.
+            //NSLog(@"Foot Tempo = %f", footTempo);
+            for (j = feet[i].start; j < feet[i].end + 1; j++) {
+                phoneTempo[j] *= footTempo;
+                if (phoneTempo[j] < 0.2)
+                    phoneTempo[j] = 0.2;
+                else if (phoneTempo[j] > 2.0)
+                    phoneTempo[j] = 2.0;
+
+                //NSLog(@"PhoneTempo[%d] = %f, teed[%d].tempo = %f", j, phoneTempo[j], i, feet[i].tempo);
+            }
         }
-
-        // Adjust the posture tempos for postures in this foot, limiting it to a minimum of 0.2 and maximum of 2.0.
-        //NSLog(@"Foot Tempo = %f", footTempo);
-        for (j = feet[i].start; j < feet[i].end + 1; j++) {
-            phoneTempo[j] *= footTempo;
-            if (phoneTempo[j] < 0.2)
-                phoneTempo[j] = 0.2;
-            else if (phoneTempo[j] > 2.0)
-                phoneTempo[j] = 2.0;
-
-            //NSLog(@"PhoneTempo[%d] = %f, teed[%d].tempo = %f", j, phoneTempo[j], i, feet[i].tempo);
-        }
+        [self printDataStructures:@"Changed tempos"];
     }
-    [self printDataStructures:@"Changed tempos"];
 
     {
         NSMutableArray *tempPhoneList, *tempCategoryList;
+        int index, j;
 
         tempPhoneList = [[NSMutableArray alloc] init];
         tempCategoryList = [[NSMutableArray alloc] init];
