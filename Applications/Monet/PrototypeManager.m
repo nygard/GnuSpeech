@@ -718,9 +718,19 @@ static NSString *specialString = @"ProtoSpecial";
 
 - (void)readPrototypesFrom:(NSArchiver *)stream;
 {
+    id anObject;
+
     [protoEquations release];
     [protoTemplates release];
     [protoSpecial release];
+
+    anObject = [stream decodeObject];
+    NSLog(@"anObject: %@", anObject);
+    return;
+
+    anObject = [stream decodeNXObject];
+    NSLog(@"anObject: %@", anObject);
+    return;
 
     protoEquations = [[stream decodeObject] retain];
     protoTemplates = [[stream decodeObject] retain];
@@ -779,6 +789,5 @@ static NSString *specialString = @"ProtoSpecial";
 {
     [[controller inspector] cleanInspectorWindow];
 }
-
 
 @end

@@ -56,12 +56,18 @@
     comment = [newComment retain];
 }
 
-#if PORTING
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
+    char *c_name, *c_comment;
+
+    NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
+
     [super initWithCoder:aDecoder];
 
-    [aDecoder decodeValuesOfObjCTypes:"**", &name, &comment];
+    [aDecoder decodeValuesOfObjCTypes:"**", &c_name, &c_comment];
+    NSLog(@"name: %s, comment: %s", c_name, c_comment);
+
+    NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
 
     return self;
 }
@@ -70,8 +76,8 @@
 {
     [super encodeWithCoder:aCoder];
 
-    [aCoder encodeValuesOfObjCTypes:"**", &name, &comment];
+    [aCoder encodeObject:name];
+    [aCoder encodeObject:comment];
 }
-#endif
 
 @end

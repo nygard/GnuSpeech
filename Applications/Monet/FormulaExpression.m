@@ -228,20 +228,27 @@
 // Archiving
 //
 
-#ifdef PORTING
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
-    int i;
+    unsigned archivedVersion;
+    int index;
+    int numExpressions, maxExpressions;
+
+    NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
+    archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
+    NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
 
     [aDecoder decodeValuesOfObjCTypes:"iiii", &operation, &numExpressions, &maxExpressions, &precedence];
-    expressions = (id *) malloc (sizeof (id *) *maxExpressions);
+    NSLog(@"operation: %d, numExpressions: %d, maxExpressions: %d, precedence: %d", operation, numExpressions, maxExpressions, precedence);
+    for (index = 0; index < numExpressions; index++)
+        [self addSubExpression:[aDecoder decodeObject]];
 
-    for (i = 0; i<numExpressions; i++)
-        expressions[i] = [[aDecoder decodeObject] retain];
+    NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
 
     return self;
 }
 
+#ifdef PORTING
 - (void)encodeWithCoder:(NSCoder *)aCoder;
 {
 int i;

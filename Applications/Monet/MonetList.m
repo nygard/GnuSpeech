@@ -4,10 +4,9 @@
  * Date: Dec, 2002
  */
 
-#define DEFINE_MONET_LIST
 #import "MonetList.h"
+
 #import <Foundation/Foundation.h>
-#include <stdio.h>
 
 @implementation MonetList
 
@@ -102,7 +101,32 @@
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
-    ilist = [[aDecoder decodeObject] retain];
+    unsigned archivedVersion;
+    int count;
+
+    NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
+    archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
+    NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
+
+    count = 0;
+    [aDecoder decodeValueOfObjCType:@encode(int) at:&count];
+    NSLog(@"count: %d", count);
+
+    if (count > 0) {
+        id *array;
+
+        array = malloc(count * sizeof(id *));
+        if (array == NULL) {
+            NSLog(@"malloc()'ing %d id *'s failed.", count);
+        } else {
+            [aDecoder decodeArrayOfObjCType:@encode(id) count:count at:array];
+            NSLog(@"After decode array.");
+        }
+    }
+
+
+    //ilist = [[aDecoder decodeObject] retain];
+    NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
     return self;
 }
 

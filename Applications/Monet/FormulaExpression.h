@@ -53,7 +53,7 @@
 - (void)expressionString:(NSMutableString *)resultString;
 
 // Archiving
-//- (id)initWithCoder:(NSCoder *)aDecoder;
+- (id)initWithCoder:(NSCoder *)aDecoder;
 //- (void)encodeWithCoder:(NSCoder *)aCoder;
 
 @end

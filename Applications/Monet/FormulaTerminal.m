@@ -10,6 +10,13 @@
 
 @implementation FormulaTerminal
 
++ (void)initialize;
+{
+    NSLog(@" > %s", _cmd);
+    [self setVersion:1];
+    NSLog(@"<  %s", _cmd);
+}
+
 - (id)init;
 {
     if ([super init] == nil)
@@ -207,27 +214,42 @@
 // Archiving
 //
 
-#ifdef PORTING
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
+    unsigned archivedVersion;
     char *string;
     SymbolList *temp;
 
+    NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
+    archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
+    NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
+
     temp = NXGetNamedObject(@"mainSymbolList", NSApp);
 
-    [aDecoder decodeValuesOfObjCTypes:"dii", &value, &whichPhone, &precedence];
+    switch (archivedVersion) {
+      case 0:
+          [aDecoder decodeValuesOfObjCTypes:"dii", &value, &whichPhone, &precedence];
+          NSLog(@"value: %g, whichPhone: %d, precedence: %d", value, whichPhone, precedence);
 
-    [aDecoder decodeValueOfObjCType:"*" at:&string];
-    if (!strcmp(string, "No Symbol"))
-        symbol = nil;
-    else
-        symbol = [temp findSymbol:string];
+          [aDecoder decodeValueOfObjCType:"*" at:&string];
+          if (!strcmp(string, "No Symbol"))
+              symbol = nil;
+          else
+              symbol = [temp findSymbol:string];
 
-    free(string);
+          free(string);
+          break;
+      default:
+          NSLog(@"Unknown version %u", archivedVersion);
+          NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
+          return nil;
+    }
 
+    NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
     return self;
 }
 
+#ifdef PORTING
 - (void)encodeWithCoder:(NSCoder *)aCoder;
 {
     const char *temp;
