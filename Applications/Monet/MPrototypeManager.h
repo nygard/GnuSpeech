@@ -1,5 +1,5 @@
 //
-// $Id: MPrototypeManager.h,v 1.2 2004/03/21 18:22:19 nygard Exp $
+// $Id: MPrototypeManager.h,v 1.3 2004/03/22 04:02:08 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -8,7 +8,8 @@
 #import <AppKit/NSWindowController.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-@class MModel;
+@class FormulaParser;
+@class MMEquation, MModel, MMTransition;
 
 @interface MPrototypeManager : NSWindowController
 {
@@ -31,6 +32,8 @@
     IBOutlet NSTextView *specialTransitionCommentTextView;
 
     MModel *model;
+
+    FormulaParser *formulaParser;
 }
 
 - (id)initWithModel:(MModel *)aModel;
@@ -49,11 +52,14 @@
 - (void)_updateTransitionDetails;
 - (void)_updateSpecialTransitionDetails;
 
+- (MMEquation *)selectedEquation;
+- (MMTransition *)selectedTransition;
+- (MMTransition *)selectedSpecialTransition;
+
 // Equations
 - (IBAction)addEquationGroup:(id)sender;
 - (IBAction)addEquation:(id)sender;
 - (IBAction)removeEquation:(id)sender;
-- (IBAction)parseEquation:(id)sender; // We may not need this.
 - (IBAction)setEquation:(id)sender;
 - (IBAction)revertEquation:(id)sender;
 

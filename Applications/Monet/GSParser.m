@@ -69,9 +69,9 @@
 // Error reporting
 //
 
-- (unsigned int)errorLocation;
+- (NSRange)errorRange;
 {
-    return errorLocation;
+    return errorRange;
 }
 
 - (NSString *)errorMessage;
@@ -87,8 +87,9 @@
 
     // TODO (2004-03-13): Probably need better control over this.  It should start at the beginning of the last token scanned.
     if ([errorMessage length] == 0) {
-        errorLocation = [scanner scanLocation];
-        //NSLog(@"%s, errorLocation: %u", _cmd, errorLocation);
+        errorRange.location = startOfTokenLocation;
+        errorRange.length = [scanner scanLocation] - errorRange.location;
+        NSLog(@"%s, errorLocation: %@", _cmd, NSStringFromRange(errorRange));
     }
 
     va_start(args, format);

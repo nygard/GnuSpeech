@@ -38,6 +38,7 @@
     NSString *str;
 
     [scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:NULL];
+    startOfTokenLocation = [scanner scanLocation];
 
     // TODO (2004-03-03): It used to end on a newline as well...
     if ([scanner isAtEnd])

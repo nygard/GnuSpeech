@@ -4,7 +4,10 @@
 #import "MPrototypeManager.h"
 
 #import <AppKit/AppKit.h>
+#import "NSOutlineView-Extensions.h"
+
 #import "FormulaExpression.h"
+#import "FormulaParser.h"
 #import "MCommentCell.h"
 #import "MMEquation.h"
 #import "MModel.h"
@@ -20,8 +23,10 @@
         return nil;
 
     model = [aModel retain];
+    formulaParser = [[FormulaParser alloc] init];
+    [formulaParser setSymbolList:[model symbols]];
 
-    [self setWindowFrameAutosaveName:@"Data Entry"];
+    [self setWindowFrameAutosaveName:@"Prototype Manager"];
 
     return self;
 }
@@ -29,6 +34,7 @@
 - (void)dealloc;
 {
     [model release];
+    [formulaParser release];
 
     [super dealloc];
 }
@@ -45,6 +51,8 @@
 
     [model release];
     model = [newModel retain];
+
+    [formulaParser setSymbolList:[model symbols]];
 
     [self updateViews];
     [self expandOutlines];
@@ -150,6 +158,8 @@
             [equationTextView setEditable:NO];
             [equationTextView setString:@""];
         }
+
+        [equationParserMessagesTextView setString:@""];
     } else {
         [equationTextView setEditable:NO];
         [equationTextView setString:@""];
@@ -221,6 +231,21 @@
     }
 }
 
+- (MMEquation *)selectedEquation;
+{
+    return [equationOutlineView selectedItemOfClass:[MMEquation class]];
+}
+
+- (MMTransition *)selectedTransition;
+{
+    return [transitionOutlineView selectedItemOfClass:[MMTransition class]];
+}
+
+- (MMTransition *)selectedSpecialTransition;
+{
+    return [specialTransitionOutlineView selectedItemOfClass:[MMTransition class]];
+}
+
 //
 // Equations
 //
@@ -243,22 +268,29 @@
     NSLog(@"<  %s", _cmd);
 }
 
-- (IBAction)parseEquation:(id)sender;
-{
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
-}
-
 - (IBAction)setEquation:(id)sender;
 {
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
+    FormulaExpression *result;
+    NSString *str;
+
+    result = [formulaParser parseString:[equationTextView string]];
+
+    str = [formulaParser errorMessage];
+    if ([str length] == 0)
+        str = @"Equation parsed.";
+    [equationParserMessagesTextView setString:str];
+
+    if (result == nil) {
+        [equationTextView setSelectedRange:[formulaParser errorRange]];
+        [[self window] makeFirstResponder:equationTextView];
+    } else {
+        [[self selectedEquation] setExpression:result];
+    }
 }
 
 - (IBAction)revertEquation:(id)sender;
 {
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
+    [self _updateEquationDetails];
 }
 
 //
@@ -456,6 +488,24 @@
     }
 }
 
+- (void)outlineView:(NSOutlineView *)outlineView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn byItem:(id)item;
+{
+    id identifier;
+
+    identifier = [tableColumn identifier];
+
+    if (outlineView == equationOutlineView) {
+        if ([@"name" isEqual:identifier] == YES) {
+            if ([item respondsToSelector:@selector(setName:)] == YES)
+                [(MMEquation *)item setName:object];
+        }
+    } else if (outlineView == transitionOutlineView || outlineView == specialTransitionOutlineView) {
+        if ([@"name" isEqual:identifier] == YES) {
+            if ([item respondsToSelector:@selector(setName:)] == YES)
+                [(MMTransition *)item setName:object];
+        }
+    }
+}
 //
 // NSOutlineView delegate
 //
@@ -485,7 +535,54 @@
 
 - (void)textDidEndEditing:(NSNotification *)aNotification;
 {
+    NSTextView *textView;
+
     NSLog(@" > %s", _cmd);
+
+    textView = [aNotification object];
+    // NSTextMovement is a key in the user info
+    //NSLog(@"[aNotification userInfo]: %@", [aNotification userInfo]);
+
+    if (textView == equationTextView) {
+        [self setEquation:nil];
+    } else {
+        NSString *newStringValue;
+        id selectedItem;
+
+        newStringValue = [[textView string] copy];
+
+        //NSLog(@"(1) newStringValue: %@", newStringValue);
+        if ([newStringValue length] == 0) {
+            [newStringValue release];
+            newStringValue = nil;
+        }
+        //NSLog(@"(2) newStringValue: %@", newStringValue);
+
+        if (textView == equationCommentTextView) {
+            selectedItem = [equationOutlineView selectedItem];
+            if ([selectedItem respondsToSelector:@selector(setComment:)] == YES) {
+                [selectedItem setComment:newStringValue];
+                // TODO (2004-03-18): Bleck.  Need notification from model that things have changed.
+                [equationOutlineView reloadItem:selectedItem]; // To show note icon
+            }
+        } else if (textView == transitionCommentTextView) {
+            selectedItem = [transitionOutlineView selectedItem];
+            if ([selectedItem respondsToSelector:@selector(setComment:)] == YES) {
+                [selectedItem setComment:newStringValue];
+                [transitionOutlineView reloadItem:selectedItem]; // To show note icon
+            }
+        } else if (textView == specialTransitionCommentTextView) {
+            selectedItem = [transitionOutlineView selectedItem];
+            if ([selectedItem respondsToSelector:@selector(setComment:)] == YES) {
+                [selectedItem setComment:newStringValue];
+                [specialTransitionOutlineView reloadItem:selectedItem]; // To show note icon
+            }
+        }
+
+        [newStringValue release];
+    }
+
+
     NSLog(@"<  %s", _cmd);
 }
 

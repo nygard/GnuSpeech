@@ -15,7 +15,8 @@
     NSScanner *scanner;
     NSString *symbolString;
 
-    unsigned int errorLocation;
+    unsigned int startOfTokenLocation;
+    NSRange errorRange;
     NSMutableString *errorMessage;
 }
 
@@ -28,7 +29,7 @@
 - (id)beginParseString;
 
 // Error reporting
-- (unsigned int)errorLocation;
+- (NSRange)errorRange;
 - (NSString *)errorMessage;
 - (void)appendErrorFormat:(NSString *)format, ...;
 

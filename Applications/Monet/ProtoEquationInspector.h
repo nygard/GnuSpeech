@@ -46,7 +46,7 @@ History:
     IBOutlet NSBrowser *usageBrowser;
     IBOutlet NSTextField *usageField;
 
-    MMEquation *currentMMEquation;
+    MMEquation *currentEquation;
     FormulaParser *formulaParser;
 
     MonetList *equationList;

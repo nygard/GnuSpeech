@@ -46,18 +46,18 @@
 
     [formulaParser release];
     [equationList release];
-    [currentMMEquation release];
+    [currentEquation release];
 
     [super dealloc];
 }
 
 - (void)setCurrentMMEquation:(MMEquation *)anEquation;
 {
-    if (anEquation == currentMMEquation)
+    if (anEquation == currentEquation)
         return;
 
-    [currentMMEquation release];
-    currentMMEquation = [anEquation retain];
+    [currentEquation release];
+    currentEquation = [anEquation retain];
 }
 
 - (void)inspectEquation:(MMEquation *)anEquation;
@@ -87,8 +87,8 @@
         [revertCommentButton setTarget:self];
         [revertCommentButton setAction:@selector(revertComment:)];
 
-        if ([currentMMEquation comment] != nil)
-            [commentText setString:[currentMMEquation comment]];
+        if ([currentEquation comment] != nil)
+            [commentText setString:[currentEquation comment]];
         else
             [commentText setString:@""];
     } else if ([str hasPrefix:@"E"]) {
@@ -102,9 +102,9 @@
         [revertEquationButton setTarget:self];
         [revertEquationButton setAction:@selector(revertEquation:)];
 
-        [equationText setString:[[currentMMEquation expression] expressionString]];
+        [equationText setString:[[currentEquation expression] expressionString]];
 
-        [prototypeManager findList:&index1 andIndex:&index2 ofEquation:currentMMEquation];
+        [prototypeManager findList:&index1 andIndex:&index2 ofEquation:currentEquation];
         equation = [NSString stringWithFormat:@"%@:%@",
                              [(NamedList *)[[prototypeManager equationList] objectAtIndex:index1] name],
                              [(MMEquation *)[[[prototypeManager equationList] objectAtIndex:index1] objectAtIndex:index2] name]];
@@ -118,19 +118,19 @@
         [mainInspector setGeneralView:usageBox];
         [usageBrowser setDelegate:self];
         [equationList removeAllObjects];
-        [tempRuleManager findEquation:currentMMEquation andPutIn:equationList];
+        [tempRuleManager findEquation:currentEquation andPutIn:equationList];
 
         tempList1 = [prototypeManager transitionList];
         for (i = 0; i < [tempList1 count]; i++) {
             tempList2 = [tempList1 objectAtIndex:i];
             for (j = 0; j < [tempList2 count]; j++)
-                [[tempList2 objectAtIndex:j] findEquation:currentMMEquation andPutIn:equationList];
+                [[tempList2 objectAtIndex:j] findEquation:currentEquation andPutIn:equationList];
         }
         tempList1 = [prototypeManager specialList];
         for (i = 0; i < [tempList1 count]; i++) {
             tempList2 = [tempList1 objectAtIndex:i];
             for (j = 0; j < [tempList2 count]; j++)
-                [[tempList2 objectAtIndex:j] findEquation:currentMMEquation andPutIn:equationList];
+                [[tempList2 objectAtIndex:j] findEquation:currentEquation andPutIn:equationList];
         }
 
         [usageBrowser loadColumnZero];
@@ -155,14 +155,14 @@
 
     // TODO (2004-03-13): Maybe just copy it in the -setComment: method, hopefully in a common base class.
     newComment = [[commentText string] copy]; // Need to copy, becuase it's mutable and owned by the NSTextView
-    [currentMMEquation setComment:newComment];
+    [currentEquation setComment:newComment];
     [newComment release];
 }
 
 - (IBAction)revertComment:(id)sender;
 {
-    if ([currentMMEquation comment] != nil)
-        [commentText setString:[currentMMEquation comment]];
+    if ([currentEquation comment] != nil)
+        [commentText setString:[currentEquation comment]];
     else
         [commentText setString:@""];
 }
@@ -182,26 +182,15 @@
         str = @"Equation parsed.";
     [messagesText setString:str];
     if (result == nil) {
-        NSRange errorRange;
-
-        errorRange.location = [formulaParser errorLocation];
-        errorRange.length = [[equationText string] length];
-        NSLog(@"errorRange (1): %@", NSStringFromRange(errorRange));
-        if (errorRange.location > errorRange.length)
-            errorRange.length = 0;
-        else
-            errorRange.length -= errorRange.location;
-        NSLog(@"errorRange (2): %@", NSStringFromRange(errorRange));
-
-        [equationText setSelectedRange:errorRange];
+        [equationText setSelectedRange:[formulaParser errorRange]];
     } else {
-        [currentMMEquation setExpression:result];
+        [currentEquation setExpression:result];
     }
 }
 
 - (IBAction)revertEquation:(id)sender;
 {
-    [equationText setString:[[currentMMEquation expression] expressionString]];
+    [equationText setString:[[currentEquation expression] expressionString]];
     [messagesText setString:@""];
 }
 

@@ -1104,6 +1104,8 @@
 				01848D14060A902E005E9B67,
 				01B201AF05F909C900C1F65D,
 				01B201B005F909C900C1F65D,
+				01C24914060E33D100521DB1,
+				01C24915060E33D100521DB1,
 				0195D94C05F40DDB006D8386,
 				0195D94D05F40DDB006D8386,
 				0195D95F05F40E25006D8386,
@@ -2273,6 +2275,34 @@
 			settings = {
 			};
 		};
+		01C24914060E33D100521DB1 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = "NSOutlineView-Extensions.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01C24915060E33D100521DB1 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = "NSOutlineView-Extensions.m";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01C24916060E33D100521DB1 = {
+			fileRef = 01C24914060E33D100521DB1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01C24917060E33D100521DB1 = {
+			fileRef = 01C24915060E33D100521DB1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		01D1487705FD150F00F1AF4B = {
 			fileRef = 0195DB2E05F46E4E006D8386;
 			isa = PBXBuildFile;
@@ -2711,6 +2741,7 @@
 				01848D5C060AA9BB005E9B67,
 				01848D89060BA278005E9B67,
 				01C248EB060D3EC500521DB1,
+				01C24916060E33D100521DB1,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2825,6 +2856,7 @@
 				01848D5D060AA9BB005E9B67,
 				01848D8A060BA278005E9B67,
 				01C248EC060D3EC500521DB1,
+				01C24917060E33D100521DB1,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
