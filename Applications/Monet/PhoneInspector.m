@@ -21,6 +21,11 @@
     NSSize interCellSpacing = {0.0, 0.0};
     NSSize cellSize;
 
+    [commentView retain];
+    [niftyMatrixBox retain];
+    [browserBox retain];
+    [phonePopUpListView retain];
+
     [browser setTarget:self];
     [browser setAction:@selector(browserHit:)];
     [browser setDoubleAction:@selector(browserDoubleHit:)];
@@ -90,6 +95,11 @@
 
 - (void)dealloc;
 {
+    [commentView release];
+    [niftyMatrixBox release];
+    [browserBox release];
+    [phonePopUpListView release];
+
     [currentPhone release];
 
     [super dealloc];
@@ -129,7 +139,10 @@
         [revertCommentButton setTarget:self];
         [revertCommentButton setAction:@selector(revertComment:)];
 
-        [commentText setString:[currentPhone comment]];
+        if ([currentPhone comment] != nil)
+            [commentText setString:[currentPhone comment]];
+        else
+            [commentText setString:@""];
     } else if ([str hasPrefix:@"C"]) {
         tempList = [currentPhone categoryList];
         mainCategoryList = NXGetNamedObject(@"mainCategoryList", NSApp);
@@ -350,7 +363,10 @@
 
 - (IBAction)revertComment:(id)sender;
 {
-    [commentText setString:[currentPhone comment]];
+    if ([currentPhone comment] != nil)
+        [commentText setString:[currentPhone comment]];
+    else
+        [commentText setString:@""];
 }
 
 - (IBAction)setValueNextText:(id)sender;

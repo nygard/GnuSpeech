@@ -8,8 +8,19 @@
 
 @implementation ParameterInspector
 
+- (void)applicationDidFinishLaunching:(NSNotification *)notification;
+{
+    [commentView retain];
+    [valueBox retain];
+    [parameterPopUpListView retain];
+}
+
 - (void)dealloc;
 {
+    [commentView release];
+    [valueBox release];
+    [parameterPopUpListView release];
+
     [currentParameter release];
 
     [super dealloc];
@@ -46,7 +57,10 @@
         [revertCommentButton setTarget:self];
         [revertCommentButton setAction:@selector(revertComment:)];
 
-        [commentText setString:[currentParameter comment]];
+        if ([currentParameter comment] != nil)
+            [commentText setString:[currentParameter comment]];
+        else
+            [commentText setString:@""];
     } else if ([str hasPrefix:@"D"]) {
         [mainInspector setGeneralView:valueBox];
 
@@ -82,7 +96,10 @@
 
 - (IBAction)revertComment:(id)sender;
 {
-    [commentText setString:[currentParameter comment]];
+    if ([currentParameter comment] != nil)
+        [commentText setString:[currentParameter comment]];
+    else
+        [commentText setString:@""];
 }
 
 - (IBAction)setValue:(id)sender;

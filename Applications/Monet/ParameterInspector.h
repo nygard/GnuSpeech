@@ -43,6 +43,8 @@ History:
     Parameter *currentParameter;
 }
 
+- (void)applicationDidFinishLaunching:(NSNotification *)notification;
+
 - (void)dealloc;
 
 - (void)setCurrentParameter:(Parameter *)aParameter;

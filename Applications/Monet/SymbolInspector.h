@@ -43,6 +43,8 @@ History:
     Symbol *currentSymbol;
 }
 
+- (void)applicationDidFinishLaunching:(NSNotification *)notification;
+
 - (void)dealloc;
 
 - (void)setCurrentSymbol:(Symbol *)aSymbol;

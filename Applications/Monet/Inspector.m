@@ -13,17 +13,35 @@
 
 @implementation Inspector
 
-- (void)applicationDidFinishLaunching:(NSNotification *)notification
+- (void)applicationDidFinishLaunching:(NSNotification *)notification;
 {
     NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
 
     [panel setFloatingPanel:YES];
+
+    [noInspectorView retain];
+    [noPopUpListView retain];
+
     [phoneInspector applicationDidFinishLaunching:notification];
+    [categoryInspector applicationDidFinishLaunching:notification];
+    [parameterInspector applicationDidFinishLaunching:notification];
+    [metaParameterInspector applicationDidFinishLaunching:notification];
+    [symbolInspector applicationDidFinishLaunching:notification];
+    [protoEquationInspector applicationDidFinishLaunching:notification];
+    [protoTransitionInspector applicationDidFinishLaunching:notification];
     [ruleInspector applicationDidFinishLaunching:notification];
     [pointInspector applicationDidFinishLaunching:notification];
-    [protoEquationInspector applicationDidFinishLaunching:notification];
+    [intonationPointInspector applicationDidFinishLaunching:notification];
 
     NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
+}
+
+- (void)dealloc;
+{
+    [noInspectorView release];
+    [noPopUpListView release];
+
+    [super dealloc];
 }
 
 - (NSWindow *)window;

@@ -38,6 +38,8 @@ History:
     CategoryNode *currentCategory;
 }
 
+- (void)applicationDidFinishLaunching:(NSNotification *)notification;
+
 - (void)dealloc;
 
 - (void)setCurrentCategory:(CategoryNode *)aCategory;

@@ -11,6 +11,14 @@
 
 @implementation ProtoTemplateInspector
 
+- (void)applicationDidFinishLaunching:(NSNotification *)notification;
+{
+    [commentView retain];
+    [genInfoView retain];
+    [usageBox retain];
+    [popUpListView retain];
+}
+
 - (id)init;
 {
     if ([super init] == nil)
@@ -24,6 +32,11 @@
 
 - (void)dealloc;
 {
+    [commentView release];
+    [genInfoView release];
+    [usageBox release];
+    [popUpListView release];
+
     [formParser release];
     [templateList release];
     [currentProtoTemplate release];
@@ -63,7 +76,10 @@
         [revertCommentButton setTarget:self];
         [revertCommentButton setAction:@selector(revertComment:)];
 
-        [commentText setString:[currentProtoTemplate comment]];
+        if ([currentProtoTemplate comment] != nil)
+            [commentText setString:[currentProtoTemplate comment]];
+        else
+            [commentText setString:@""];
     } else if ([str hasPrefix:@"G"]) {
         [mainInspector setGeneralView:genInfoView];
 
@@ -110,7 +126,10 @@
 
 - (IBAction)revertComment:(id)sender;
 {
-    [commentText setString:[currentProtoTemplate comment]];
+    if ([currentProtoTemplate comment] != nil)
+        [commentText setString:[currentProtoTemplate comment]];
+    else
+        [commentText setString:@""];
 }
 
 - (IBAction)setDiphone:(id)sender;

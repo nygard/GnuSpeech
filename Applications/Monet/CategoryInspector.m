@@ -6,8 +6,20 @@
 
 @implementation CategoryInspector
 
+- (void)applicationDidFinishLaunching:(NSNotification *)notification;
+{
+    NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
+    NSLog(@"commentView: %p", commentView);
+    [commentView retain];
+    [categoryPopUpListView retain];
+    NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
+}
+
 - (void)dealloc;
 {
+    [commentView release];
+    [categoryPopUpListView release];
+
     [currentCategory release];
 
     [super dealloc];
@@ -44,7 +56,10 @@
         [revertButton setTarget:self];
         [revertButton setAction:@selector(revertComment:)];
 
-        [commentText setString:[currentCategory comment]];
+        if ([currentCategory comment] != nil)
+            [commentText setString:[currentCategory comment]];
+        else
+            [commentText setString:@""];
     }
 }
 
@@ -66,7 +81,10 @@
 
 - (IBAction)revertComment:(id)sender;
 {
-    [commentText setString:[currentCategory comment]];
+    if ([currentCategory comment] != nil)
+        [commentText setString:[currentCategory comment]];
+    else
+        [commentText setString:@""];
 }
 
 

@@ -8,8 +8,19 @@
 
 @implementation SymbolInspector
 
+- (void)applicationDidFinishLaunching:(NSNotification *)notification;
+{
+    [commentView retain];
+    [valueBox retain];
+    [symbolPopUpListView retain];
+}
+
 - (void)dealloc;
 {
+    [commentView release];
+    [valueBox release];
+    [symbolPopUpListView release];
+
     [currentSymbol release];
 
     [super dealloc];
@@ -46,7 +57,10 @@
         [revertButton setTarget:self];
         [revertButton setAction:@selector(revertComment:)];
 
-        [commentText setString:[currentSymbol comment]];
+        if ([currentSymbol comment] != nil)
+            [commentText setString:[currentSymbol comment]];
+        else
+            [commentText setString:@""];
     } else if ([str hasPrefix:@"D"]) {
         [mainInspector setGeneralView:valueBox];
 
@@ -80,7 +94,10 @@
 
 - (IBAction)revertComment:(id)sender;
 {
-    [commentText setString:[currentSymbol comment]];
+    if ([currentSymbol comment] != nil)
+        [commentText setString:[currentSymbol comment]];
+    else
+        [commentText setString:@""];
 }
 
 - (IBAction)setValue:(id)sender;

@@ -15,6 +15,10 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 {
+    [multipleListView retain];
+    [valueBox retain];
+    [popUpListView retain];
+
     [expressionBrowser setTarget:self];
     [expressionBrowser setAction:@selector(browserHit:)];
     [expressionBrowser setDoubleAction:@selector(browserDoubleHit:)];
@@ -22,6 +26,10 @@
 
 - (void)dealloc;
 {
+    [multipleListView release];
+    [valueBox release];
+    [popUpListView release];
+
     [currentPoint release];
 
     [super dealloc];

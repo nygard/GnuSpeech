@@ -2,7 +2,7 @@
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 @class CategoryNode, GSMPoint, IntonationPoint, MonetList, Parameter, Phone, ProtoEquation, ProtoTemplate, Rule, Symbol;
-@class CategoryInspector, IntonationPointInspector, ParameterInspector, PhoneInspector, PointInspector, ProtoEquationInspector, RuleInspector, SymbolInspector;
+@class CategoryInspector, IntonationPointInspector, ParameterInspector, PhoneInspector, PointInspector, ProtoEquationInspector, ProtoTemplateInspector, RuleInspector, SymbolInspector;
 
 /*===========================================================================
 
@@ -41,13 +41,15 @@ History:
     IBOutlet ParameterInspector *metaParameterInspector;
     IBOutlet SymbolInspector *symbolInspector;
     IBOutlet ProtoEquationInspector *protoEquationInspector;
-    IBOutlet id protoTransitionInspector;
+    IBOutlet ProtoTemplateInspector *protoTransitionInspector;
     IBOutlet RuleInspector *ruleInspector;
     IBOutlet PointInspector *pointInspector;
     IBOutlet IntonationPointInspector *intonationPointInspector;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
+- (void)dealloc;
+
 - (NSWindow *)window;
 
 - (void)cleanInspectorWindow;

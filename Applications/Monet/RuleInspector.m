@@ -22,6 +22,11 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 {
+    [commentView retain];
+    [genInfoBox retain];
+    [browserView retain];
+    [popUpListView retain];
+
     [mainBrowser setTarget:self];
     [mainBrowser setAction:@selector(browserHit:)];
     [mainBrowser setDoubleAction:@selector(browserDoubleHit:)];
@@ -43,6 +48,11 @@
 
 - (void)dealloc;
 {
+    [commentView release];
+    [genInfoBox release];
+    [browserView release];
+    [popUpListView release];
+
     [currentRule release];
 
     [super dealloc];
@@ -81,7 +91,10 @@
         [revertCommentButton setTarget:self];
         [revertCommentButton setAction:@selector(revertComment:)];
 
-        [commentText setString:[currentRule comment]];
+        if ([currentRule comment] != nil)
+            [commentText setString:[currentRule comment]];
+        else
+            [commentText setString:@""];
     } else if ([str hasPrefix:@"G"]) {
         [popUpList setTitle:@"General Information"];
         [mainInspector setGeneralView:genInfoBox];
@@ -455,7 +468,10 @@
 
 - (IBAction)revertComment:(id)sender;
 {
-    [commentText setString:[currentRule comment]];
+    if ([currentRule comment] != nil)
+        [commentText setString:[currentRule comment]];
+    else
+        [commentText setString:@""];
 }
 
 - (IBAction)moveRule:(id)sender;

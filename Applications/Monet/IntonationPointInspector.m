@@ -15,10 +15,15 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 {
+    [mainBox retain];
+    [popUpListView retain];
 }
 
 - (void)dealloc;
 {
+    [mainBox release];
+    [popUpListView release];
+
     [currentIntonationPoint release];
 
     [super dealloc];

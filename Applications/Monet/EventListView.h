@@ -1,6 +1,7 @@
 #import <AppKit/NSView.h>
 
 @class EventList;
+@class AppController;
 
 /*===========================================================================
 
@@ -13,7 +14,7 @@
 
 @interface EventListView : NSView
 {
-    id controller;
+    AppController *controller;
 
     /* Frame For Display */
     NSRect totalFrame;

@@ -1,6 +1,7 @@
 #import <AppKit/NSView.h>
 
 @class GSMPoint, MonetList, ProtoTemplate;
+@class AppController;
 
 /*===========================================================================
 
@@ -13,7 +14,7 @@
 
 @interface SpecialView : NSView
 {
-    id controller;
+    AppController *controller;
 
     /* Frame For Display */
     NSRect totalFrame;

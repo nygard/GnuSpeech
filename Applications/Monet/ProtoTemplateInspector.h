@@ -48,6 +48,8 @@ History:
     MonetList *templateList;
 }
 
+- (void)applicationDidFinishLaunching:(NSNotification *)notification;
+
 - (id)init;
 - (void)dealloc;
 

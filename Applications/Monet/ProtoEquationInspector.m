@@ -15,6 +15,11 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 {
+    [commentView retain];
+    [equationBox retain];
+    [usageBox retain];
+    [popUpListView retain];
+
     [usageBrowser setTarget:self];
     [usageBrowser setAction:@selector(browserHit:)];
     [usageBrowser setDoubleAction:@selector(browserDoubleHit:)];
@@ -33,6 +38,11 @@
 
 - (void)dealloc;
 {
+    [commentView release];
+    [equationBox release];
+    [usageBox release];
+    [popUpListView release];
+
     [formParser release];
     [equationList release];
     [currentProtoEquation release];
@@ -46,7 +56,7 @@
         return;
 
     [currentProtoEquation release];
-    currentProtoEquation = [anEquation release];
+    currentProtoEquation = [anEquation retain];
 }
 
 - (void)inspectProtoEquation:(ProtoEquation *)anEquation;
@@ -77,7 +87,10 @@
         [revertCommentButton setTarget:self];
         [revertCommentButton setAction:@selector(revertComment:)];
 
-        [commentText setString:[currentProtoEquation comment]];
+        if ([currentProtoEquation comment] != nil)
+            [commentText setString:[currentProtoEquation comment]];
+        else
+            [commentText setString:@""];
     } else if ([str hasPrefix:@"E"]) {
         NSString *equation;
 
@@ -143,7 +156,10 @@
 
 - (IBAction)revertComment:(id)sender;
 {
-    [commentText setString:[currentProtoEquation comment]];
+    if ([currentProtoEquation comment] != nil)
+        [commentText setString:[currentProtoEquation comment]];
+    else
+        [commentText setString:@""];
 }
 
 - (IBAction)setEquation:(id)sender;
