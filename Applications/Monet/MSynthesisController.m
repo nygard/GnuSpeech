@@ -452,7 +452,7 @@
 
     [eventList generateEventListWithModel:model];
 #if 1
-    [eventList applyIntonation];
+    [eventList generateIntonationPoints];
     if ([defaults boolForKey:MDK_ShouldUseSmoothIntonation])
         [eventList applySmoothIntonation];
     else
@@ -493,7 +493,7 @@
     [[intonationView documentView] setShouldDrawSmoothPoints:[[NSUserDefaults standardUserDefaults] boolForKey:MDK_ShouldUseSmoothIntonation]];
     [eventList setIntonationParameters:intonationParameters];
 
-    [eventList applyIntonation];
+    [eventList generateIntonationPoints];
     [intonationRuleTableView reloadData];
     [eventTableView reloadData];
     if ([[eventList intonationPoints] count] > 0)

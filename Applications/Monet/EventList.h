@@ -193,7 +193,7 @@ struct _rule {
 - (void)applyRule:(MMRule *)rule withPostures:(NSArray *)somePostures andTempos:(double *)tempos phoneIndex:(int)phoneIndex model:(MModel *)aModel;
 - (void)synthesizeToFile:(NSString *)filename;
 
-- (void)applyIntonation;
+- (void)generateIntonationPoints;
 
 - (NSString *)description;
 - (void)printDataStructures:(NSString *)comment;

@@ -735,7 +735,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
 
 
 //    if (currentPhone)
-//        [self applyIntonation];
+//        [self generateIntonationPoints];
 
     [[events lastObject] setFlag:YES];
 
@@ -911,8 +911,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
 
 // Warning (building for 10.2 deployment) (2004-04-02): ruleIndex might be used uninitialized in this function.
 // Use a 0.0 offset time for the first intonation point in each tone group, -40.0 for the rest.
-// TODO (2004-08-16): Rename this method to something like "generateIntonationPoints", because it *doesn't* apply intonation -- there are two other methods for that.
-- (void)applyIntonation;
+- (void)generateIntonationPoints;
 {
     int firstFoot, endFoot;
     int ruleIndex, phoneIndex;
