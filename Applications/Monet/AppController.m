@@ -25,6 +25,7 @@
 #import "MUnarchiver.h"
 
 #import "MDataEntryController.h"
+#import "MPostureEditor.h"
 
 @implementation AppController
 
@@ -438,14 +439,24 @@
 
 - (IBAction)showNewDataEntryWindow:(id)sender;
 {
-    NSLog(@" > %s", _cmd);
-
     if (dataEntryController == nil) {
         dataEntryController = [[MDataEntryController alloc] initWithModel:model];
     }
 
     [dataEntryController setModel:model];
     [dataEntryController showWindow:self];
+}
+
+- (IBAction)showPostureEditor:(id)sender;
+{
+    NSLog(@" > %s", _cmd);
+
+    if (postureEditor == nil) {
+        postureEditor = [[MPostureEditor alloc] initWithModel:model];
+    }
+
+    [postureEditor setModel:model];
+    [postureEditor showWindow:self];
 
     NSLog(@"<  %s", _cmd);
 }

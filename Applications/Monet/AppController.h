@@ -1,5 +1,5 @@
 //
-// $Id: AppController.h,v 1.21 2004/03/19 21:21:36 nygard Exp $
+// $Id: AppController.h,v 1.22 2004/03/19 22:33:22 nygard Exp $
 //
 
 /*===========================================================================
@@ -28,7 +28,7 @@ History:
 @class CategoryList, ParameterList, PhoneList, StringParser, SymbolList;
 @class BrowserManager, DefaultMgr, EventListView, Inspector, IntonationScrollView, PrototypeManager, RuleManager, SpecialView, TransitionView;
 @class MModel;
-@class MDataEntryController;
+@class MDataEntryController, MPostureEditor;
 
 @interface AppController : NSObject
 {
@@ -61,6 +61,7 @@ History:
     IBOutlet NSWindow *synthParmWindow;
 
     MDataEntryController *dataEntryController;
+    MPostureEditor *postureEditor;
 }
 
 - (id)init;
@@ -90,6 +91,7 @@ History:
 - (void)_disableUnconvertedClassLoading;
 
 - (IBAction)showNewDataEntryWindow:(id)sender;
+- (IBAction)showPostureEditor:(id)sender;
 
 @end
 

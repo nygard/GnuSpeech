@@ -125,12 +125,10 @@
 - (void)_updateCategoryComment;
 {
     if ([categoryTableView numberOfSelectedRows] == 1) {
-        int selectedRow;
         MMCategory *selectedCategory;
         NSString *comment;
 
-        selectedRow = [categoryTableView selectedRow];
-        selectedCategory = [[[self model] categories] objectAtIndex:selectedRow];
+        selectedCategory = [self selectedCategory];
         [categoryCommentTextView setEditable:YES];
         comment = [selectedCategory comment];
         if (comment == nil)
@@ -147,12 +145,10 @@
 - (void)_updateParameterComment;
 {
     if ([parameterTableView numberOfSelectedRows] == 1) {
-        int selectedRow;
         MMParameter *selectedParameter;
         NSString *comment;
 
-        selectedRow = [parameterTableView selectedRow];
-        selectedParameter = [[[self model] parameters] objectAtIndex:selectedRow];
+        selectedParameter = [self selectedParameter];
         [parameterCommentTextView setEditable:YES];
         comment = [selectedParameter comment];
         if (comment == nil)
@@ -169,12 +165,10 @@
 - (void)_updateMetaParameterComment;
 {
     if ([metaParameterTableView numberOfSelectedRows] == 1) {
-        int selectedRow;
         MMParameter *selectedMetaParameter;
         NSString *comment;
 
-        selectedRow = [metaParameterTableView selectedRow];
-        selectedMetaParameter = [[[self model] metaParameters] objectAtIndex:selectedRow];
+        selectedMetaParameter = [self selectedMetaParameter];
         [metaParameterCommentTextView setEditable:YES];
         comment = [selectedMetaParameter comment];
         if (comment == nil)
@@ -191,12 +185,10 @@
 - (void)_updateSymbolComment;
 {
     if ([symbolTableView numberOfSelectedRows] == 1) {
-        int selectedRow;
         MMSymbol *selectedSymbol;
         NSString *comment;
 
-        selectedRow = [symbolTableView selectedRow];
-        selectedSymbol = [[[self model] symbols] objectAtIndex:selectedRow];
+        selectedSymbol = [self selectedSymbol];
         [symbolCommentTextView setEditable:YES];
         comment = [selectedSymbol comment];
         if (comment == nil)
@@ -340,7 +332,7 @@
 
 - (int)numberOfRowsInTableView:(NSTableView *)tableView;
 {
-    if (tableView ==  categoryTableView)
+    if (tableView == categoryTableView)
         return [[[self model] categories] count];
 
     if (tableView == parameterTableView)

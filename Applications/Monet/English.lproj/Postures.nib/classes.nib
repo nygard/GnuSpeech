@@ -1,4 +1,31 @@
 {
-    IBClasses = ({CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }); 
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                addPosture = id; 
+                removePosture = id; 
+                useDefaultValueForMetaParameter = id; 
+                useDefaultValueForParameter = id; 
+                useDefaultValueForSymbol = id; 
+            }; 
+            CLASS = MPostureEditor; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                categoryTableView = NSTableView; 
+                metaParameterTableView = NSTableView; 
+                parameterTableView = NSTableView; 
+                postureCommentTextView = NSTextView; 
+                postureTableView = NSTableView; 
+                postureTotalTextField = NSTextField; 
+                removePostureButtonCell = NSButtonCell; 
+                symbolTableView = NSTableView; 
+                useDefaultMetaParameterButton = NSButton; 
+                useDefaultParameterButton = NSButton; 
+                useDefaultSymbolButton = NSButton; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
     IBVersion = 1; 
 }

@@ -67,10 +67,12 @@
 
 - (NSString *)comment;
 - (void)setComment:(NSString *)newComment;
+- (BOOL)hasComment;
 
 /* Access to category List instance variable */
 - (CategoryList *)categoryList;
 - (void)addToCategoryList:(MMCategory *)aCategory;
+- (BOOL)isMemberOfCategory:(MMCategory *)aCategory;
 
 /* Access to target lists */
 - (TargetList *)parameterList;

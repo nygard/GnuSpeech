@@ -12,6 +12,7 @@
                 readFromDisk = id; 
                 savePrototypes = id; 
                 showNewDataEntryWindow = id; 
+                showPostureEditor = id; 
             }; 
             CLASS = AppController; 
             LANGUAGE = ObjC; 

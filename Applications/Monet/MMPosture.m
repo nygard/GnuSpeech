@@ -134,6 +134,11 @@
     comment = [newComment retain];
 }
 
+- (BOOL)hasComment;
+{
+    return comment != nil && [comment length] > 0;
+}
+
 - (CategoryList *)categoryList;
 {
     return categoryList;
@@ -141,6 +146,11 @@
 
 - (void)addToCategoryList:(MMCategory *)aCategory;
 {
+}
+
+- (BOOL)isMemberOfCategory:(MMCategory *)aCategory;
+{
+    return [categoryList containsObject:aCategory];
 }
 
 - (TargetList *)parameterList;

@@ -134,6 +134,11 @@
     [ilist removeLastObject];
 }
 
+- (BOOL)containsObject:(id)anObject;
+{
+    return [ilist containsObject:anObject];
+}
+
 - (void)encodeWithCoder:(NSCoder *)aCoder;
 {
     [aCoder encodeObject:ilist];

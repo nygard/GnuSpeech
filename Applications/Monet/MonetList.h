@@ -38,6 +38,7 @@
 
 - (void)removeAllObjects;
 - (void)removeLastObject;
+- (BOOL)containsObject:(id)anObject;
 
 - (void)encodeWithCoder:(NSCoder *)aCoder;
 - (id)initWithCoder:(NSCoder *)aDecoder;
