@@ -10,7 +10,7 @@ typedef struct _TRMRingBuffer {
 
     int fillPtr;
     int emptyPtr;
-    int fillCounter;
+    int length;
 
     void *context;
     void (*callbackFunction)(struct _TRMRingBuffer *, void *);

@@ -22,7 +22,7 @@ TRMRingBuffer *TRMRingBufferCreate(int aPadSize)
 
     newRingBuffer->fillPtr = newRingBuffer->padSize;
     newRingBuffer->emptyPtr = 0;
-    newRingBuffer->fillCounter = 0;
+    newRingBuffer->length = 0;
 
     newRingBuffer->context = NULL;
     newRingBuffer->callbackFunction = NULL;
@@ -32,7 +32,7 @@ TRMRingBuffer *TRMRingBufferCreate(int aPadSize)
     printf("\tfillSize:         %d\n", newRingBuffer->fillSize);
     printf("\tfillPtr:          %d\n", newRingBuffer->fillPtr);
     printf("\temptyPtr:         %d\n", newRingBuffer->emptyPtr);
-    printf("\tfillCounter:      %d\n", newRingBuffer->fillCounter);
+    printf("\tlength:           %d\n", newRingBuffer->length);
     printf("\tcontext:          %p\n", newRingBuffer->context);
     printf("\tcallbackFunction: %p\n", newRingBuffer->callbackFunction);
 
@@ -58,10 +58,10 @@ void dataFill(TRMRingBuffer *ringBuffer, double data)
     RBIncrement(ringBuffer);
 
     // Increment the counter, and empty the buffer if full
-    if (++(ringBuffer->fillCounter) >= ringBuffer->fillSize) {
+    if (++(ringBuffer->length) >= ringBuffer->fillSize) {
         dataEmpty(ringBuffer);
         // Reset the fill counter
-        ringBuffer->fillCounter = 0;
+        ringBuffer->length = 0;
     }
 }
 
