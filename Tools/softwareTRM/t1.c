@@ -41,7 +41,8 @@ double myIzero(double x)
     Ak = A = x * x / 4.0;
     k = 2.0;
     denominator = 1.0;
-    sum = 1.0 + A;
+
+    sum = 1.0 + A; // The first two terms
 
     do {
         Ak *= A;

@@ -98,7 +98,7 @@ double frequency(double pitch)
 *	purpose:	Returns the value for the modified Bessel function of
 *                       the first kind, order 0, as a double.
 *
-*       arguments:      x - input argument
+*                       That is, it computes the sum of (A^k)/((k!)^2), where A = (1/4)x^2, k = 0, 1, 2, ...
 *
 *       reference:      <http://en.wikipedia.org/wiki/Bessel_function>
 *                       <http://mathworld.wolfram.com/ModifiedBesselFunctionoftheFirstKind.html>
@@ -107,18 +107,20 @@ double frequency(double pitch)
 
 double Izero(double x)
 {
-    double sum, u, halfx, temp, n;
+    double sum, A, Ak, k, denominator, u;
 
-    n = 1.0;
-    sum = u = 1;
-    halfx = x / 2.0;
+    Ak = A = x * x / 4.0;
+    k = 2.0;
+    denominator = 1.0;
+
+    sum = 1.0 + A; // The first two terms
 
     do {
-	temp = halfx / n;
-	n += 1.0;
-	temp *= temp;
-	u *= temp;
-	sum += u;
+        Ak *= A;
+        denominator *= k * k;
+        k += 1.0;
+        u = Ak / denominator;
+        sum += u;
     } while (u >= (IzeroEPSILON * sum));
 
     return sum;
