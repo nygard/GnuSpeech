@@ -1,5 +1,9 @@
-
 #import "PrototypeManager.h"
+
+#import <Foundation/Foundation.h>
+#import <AppKit/AppKit.h>
+
+#ifdef PORTING
 #import "ProtoEquation.h"
 #import "ProtoTemplate.h"
 #import "MyController.h"
@@ -9,6 +13,7 @@
 #import "TransitionView.h"
 #import "SpecialView.h"
 #import <AppKit/NSPasteboard.h>
+#endif
 
 @implementation PrototypeManager
 
@@ -75,7 +80,7 @@ id ruleManager = NXGetNamedObject(@"ruleManager", NSApp);
 
 	switch([[browserSelector selectedCell] tag])
 	{
-		case 0: 
+		case 0:
 			tempList = [protoEquations objectAtIndex: [[sender matrixInColumn:0] selectedRow]];
 			tempEntry = [tempList objectAtIndex:[[sender matrixInColumn:1] selectedRow]];
 			bzero(string, 256);
@@ -85,7 +90,7 @@ id ruleManager = NXGetNamedObject(@"ruleManager", NSApp);
 				[self isEquationUsed:tempEntry] )] ;
 			[temp inspectProtoEquation:tempEntry];
 			break;
-		case 1: 
+		case 1:
 			tempList = [protoTemplates objectAtIndex: [[sender matrixInColumn:0] selectedRow]];
 			tempEntry = [tempList objectAtIndex:[[sender matrixInColumn:1] selectedRow]];
 			[removeButton setEnabled:![ruleManager isTransitionUsed:tempEntry]];
@@ -100,7 +105,7 @@ id ruleManager = NXGetNamedObject(@"ruleManager", NSApp);
 					break;
 			}
 			break;
-		case 2: 
+		case 2:
 			tempList = [protoSpecial objectAtIndex: [[sender matrixInColumn:0] selectedRow]];
 			tempEntry = [tempList objectAtIndex:[[sender matrixInColumn:1] selectedRow]];
 			[removeButton setEnabled:![ruleManager isTransitionUsed:tempEntry]];
@@ -119,7 +124,7 @@ id ruleManager = NXGetNamedObject(@"ruleManager", NSApp);
 			break;
 	}
 
-	[[sender window] makeFirstResponder:delegateResponder]; 
+	[[sender window] makeFirstResponder:delegateResponder];
 }
 
 - (void)browserDoubleHit:sender
@@ -132,15 +137,15 @@ int column = [protoBrowser selectedColumn];
 
 	switch([[browserSelector selectedCell] tag])
 	{
-		case 0: 
+		case 0:
 			break;
-		case 1: 
+		case 1:
 			temp = NXGetNamedObject(@"transitionBuilder", NSApp);
 			tempList = [protoTemplates objectAtIndex: [[sender matrixInColumn:0] selectedRow]];
 			[temp setTransition:[tempList objectAtIndex:[[sender matrixInColumn:1] selectedRow]]];
 			[(TransitionView *)temp showWindow:[[protoBrowser window] windowNumber]];
 			break;
-		case 2: 
+		case 2:
 			temp = NXGetNamedObject(@"specialTransitionBuilder", NSApp);
 			tempList = [protoSpecial objectAtIndex: [[sender matrixInColumn:0] selectedRow]];
 			[temp setTransition:[tempList objectAtIndex:[[sender matrixInColumn:1] selectedRow]]];
@@ -148,7 +153,7 @@ int column = [protoBrowser selectedColumn];
 			break;
 		default: printf("WHAT?\n");
 			break;
-	} 
+	}
 }
 
 - (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column
@@ -291,7 +296,7 @@ NamedList *tempList;
 			[protoSpecial addObject: tempList];
 			[protoBrowser loadColumnZero];
 			break;
-	} 
+	}
 }
 
 - (void)add:sender
@@ -319,7 +324,7 @@ ProtoEquation *tempEquation;
 			[tempList addObject: tempEquation];
 			[protoBrowser reloadColumn:1];
 			break;
-	} 
+	}
 }
 
 - (void)rename:sender
@@ -375,12 +380,12 @@ int column = [protoBrowser selectedColumn];
 
 
 	[temp setName:[inputTextField stringValue]];
-	[protoBrowser reloadColumn:column]; 
+	[protoBrowser reloadColumn:column];
 }
 
 - (void)remove:sender
 {
-	 
+
 }
 
 - (void)setEquations:sender
@@ -392,7 +397,7 @@ id temp = [controller inspector];
 	[outputBox setTitle:@"Selected Prototype Equation"];
 	[outputBox display];
 	[protoBrowser loadColumnZero];
-	[temp cleanInspectorWindow]; 
+	[temp cleanInspectorWindow];
 }
 
 - (void)setTransitions:sender
@@ -404,7 +409,7 @@ id temp = [controller inspector];
 	[outputBox setTitle:@"Selected Prototype Transition Type"];
 	[outputBox display];
 	[protoBrowser loadColumnZero];
-	[temp cleanInspectorWindow]; 
+	[temp cleanInspectorWindow];
 }
 
 - (void)setSpecial:sender
@@ -416,7 +421,7 @@ id temp = [controller inspector];
 	[outputBox setTitle:@"Selected Prototype Transition Type"];
 	[outputBox display];
 	[protoBrowser loadColumnZero];
-	[temp cleanInspectorWindow]; 
+	[temp cleanInspectorWindow];
 }
 
 - equationList
@@ -434,7 +439,7 @@ id temp = [controller inspector];
 	return protoSpecial;
 }
 
-- findEquationList: (const char *) list named: (const char *) name
+- findEquationList:(NSString *)list named:(NSString *)name;
 {
 id tempList;
 int i, j;
@@ -455,7 +460,7 @@ int i, j;
 	return nil;
 }
 
-- findList: (int *) listIndex andIndex: (int *) index ofEquation: equation
+- findList:(int *)listIndex andIndex:(int *)index ofEquation:equation;
 {
 int i, temp;
 
@@ -474,7 +479,7 @@ int i, temp;
 	return self;
 }
 
-- findEquation: (int) listIndex andIndex: (int) index
+- findEquation:(int)listIndex andIndex:(int)index;
 {
 	return [[protoEquations objectAtIndex: listIndex] objectAtIndex: index];
 }
@@ -522,7 +527,7 @@ int i, temp;
 - findTransition: (int) listIndex andIndex: (int) index
 {
 //	printf("Name: %s (%d)\n", [[protoTemplates objectAtIndex: listIndex] name], listIndex);
-//	printf("\tCount: %d  index: %d  count: %d\n", [protoTemplates count], 
+//	printf("\tCount: %d  index: %d  count: %d\n", [protoTemplates count],
 //		index, [[protoTemplates objectAtIndex: listIndex] count]);
 	return [[protoTemplates objectAtIndex: listIndex] objectAtIndex: index];
 }
@@ -764,7 +769,7 @@ int column = [protoBrowser selectedColumn];
 
 	protoEquations = [[stream decodeObject] retain];
 	protoTemplates = [[stream decodeObject] retain];
-	protoSpecial = [[stream decodeObject] retain]; 
+	protoSpecial = [[stream decodeObject] retain];
 }
 
 #ifdef NeXT
@@ -792,7 +797,7 @@ int column = [protoBrowser selectedColumn];
 {
 	[stream encodeObject:protoEquations];
 	[stream encodeObject:protoTemplates];
-	[stream encodeObject:protoSpecial]; 
+	[stream encodeObject:protoSpecial];
 }
 
 - (void)windowDidBecomeMain:(NSNotification *)notification
@@ -810,17 +815,17 @@ int column = [protoBrowser selectedColumn];
 
 	switch([[browserSelector selectedCell] tag])
 	{
-		case 0: 
+		case 0:
 			tempList = [protoEquations objectAtIndex: [[protoBrowser matrixInColumn:0] selectedRow]];
 			tempEntry = [tempList objectAtIndex:[[protoBrowser matrixInColumn:1] selectedRow]];
 			[temp inspectProtoEquation:tempEntry];
 			break;
-		case 1: 
+		case 1:
 			tempList = [protoTemplates objectAtIndex: [[protoBrowser matrixInColumn:0] selectedRow]];
 			tempEntry = [tempList objectAtIndex:[[protoBrowser matrixInColumn:1] selectedRow]];
 			[temp inspectProtoTransition:tempEntry];
 			break;
-		case 2: 
+		case 2:
 			tempList = [protoSpecial objectAtIndex: [[protoBrowser matrixInColumn:0] selectedRow]];
 			tempEntry = [tempList objectAtIndex:[[protoBrowser matrixInColumn:1] selectedRow]];
 			[temp inspectProtoTransition:tempEntry];

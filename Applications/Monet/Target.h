@@ -18,7 +18,7 @@
 - (id)init;
 - (id)initWithValue:(double)newValue isDefault:(BOOL)shouldBeDefault;
 
-- (double) value;
+- (double)value;
 - (void)setValue:(double)newValue;
 
 - (BOOL)isDefault;

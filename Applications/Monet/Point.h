@@ -1,5 +1,6 @@
-
 #import <Foundation/NSObject.h>
+
+@class ProtoEquation;
 
 /*===========================================================================
 
@@ -10,43 +11,44 @@
 =============================================================================
 */
 
-@interface Point:NSObject
+@interface GSMPoint : NSObject
 {
-	double	value;		/* Value of the point */
-	double	freeTime;	/* Free Floating time */
-	id	expression;	/* Time of the point */
-	int	type;		/* Which phone it is targeting */
-	int	phantom;	/* Phantom point for place marking purposes only */
+    double value;  /* Value of the point */
+    double freeTime; /* Free Floating time */
+    ProtoEquation *expression; /* Time of the point */
+    int type;  /* Which phone it is targeting */
+    int phantom; /* Phantom point for place marking purposes only */
 }
 
-- init;
+- (id)init;
+- (void)dealloc;
 
+- (double)value;
 - (void)setValue:(double)newValue;
-- (double) value;
 
-- (double) multiplyValueByFactor:(double) factor;
-- (double) addValue:(double) newValue;
+- (double)multiplyValueByFactor:(double)factor;
+- (double)addValue:(double)newValue;
 
-- (void)setExpression:newExpression;
 - expression;
+- (void)setExpression:newExpression;
 
+- (double)freeTime;
 - (void)setFreeTime:(double)newTime;
-- (double) freeTime;
 
-- (double) getTime;
+- (double)getTime;
 
+- (int)type;
 - (void)setType:(int)newType;
-- (int) type;
 
+- (int)phantom;
 - (void)setPhantom:(int)phantomFlag;
-- (int) phantom;
 
-- calculatePoints: (double *) ruleSymbols tempos: (double *) tempos phones: phones andCacheWith: (int) newCacheTag 
-	toDisplay: displayList ;
+- calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag
+	toDisplay:displayList;
 
-- (double) calculatePoints: (double *) ruleSymbols tempos: (double *) tempos phones: phones andCacheWith: (int) newCacheTag
-        baseline: (double) baseline delta: (double) delta min:(double) min max:(double) max 
-	toEventList: eventList atIndex: (int) index;
+- (double)calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag
+                 baseline:(double)baseline delta:(double)delta min:(double)min max:(double)max
+              toEventList:eventList atIndex:(int)index;
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 - (void)encodeWithCoder:(NSCoder *)aCoder;

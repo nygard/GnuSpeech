@@ -17,33 +17,31 @@
 
 @interface ProtoTemplate : NSObject
 {
-	char	*name;
-	char	*comment;
-	int	type;
-	MonetList	*points;
+    NSString *name;
+    NSString *comment;
+    int type;
+    MonetList *points;
 }
 
-- init;
-- initWithName:(NSString *)newName;
-
-- setName:(NSString *)newName;
-- (NSString *)name;
-
-- (void)setComment:(const char *)newComment;
-- (const char *) comment;
-
-- (void)setPoints:newList;
-- points;
-
-- insertPoint:aPoint;
-
-- (void)setType:(int)type;
-- (int) type;
-
+- (id)init;
+- (id)initWithName:(NSString *)newName;
 - (void)dealloc;
 
-- (BOOL) isEquationUsed: anEquation;
-- findEquation: anEquation andPutIn: aList;
+- (NSString *)name;
+- (void)setName:(NSString *)newName;
+
+- (NSString *)comment;
+- (void)setComment:(NSString *)newComment;
+
+- (MonetList *)points;
+- (void)setPoints:(MonetList *)newList;
+- insertPoint:aPoint;
+
+- (int)type;
+- (void)setType:(int)type;
+
+- (BOOL)isEquationUsed:anEquation;
+- findEquation:anEquation andPutIn:aList;
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 - (void)encodeWithCoder:(NSCoder *)aCoder;

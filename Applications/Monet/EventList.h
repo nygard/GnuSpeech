@@ -1,6 +1,6 @@
-
 #import "MonetList.h"
-#import "Event.h"
+
+@class Event;
 
 /*===========================================================================
 
@@ -47,7 +47,7 @@ struct _toneGroup {
 };
 
 struct _rule {
-	int 	number;
+	int	number;
 	int	firstPhone;
 	int	lastPhone;
 	double	duration;
@@ -57,90 +57,89 @@ struct _rule {
 
 @interface EventList : MonetList
 {
-	int	zeroRef;
-	int	zeroIndex;
-	int	duration;
-	int	timeQuantization;
-	int	parameterStore;
-	int	softwareSynthesis;
-	int	macroFlag;
-	int	microFlag;
-	int	driftFlag;
-	int	smoothIntonation;
+    int zeroRef;
+    int zeroIndex;
+    int duration;
+    int timeQuantization;
+    int parameterStore;
+    int softwareSynthesis;
+    int macroFlag;
+    int microFlag;
+    int driftFlag;
+    int smoothIntonation;
 
-	double	radiusMultiply;
-	double 	pitchMean;
-	double	globalTempo;
-	double	multiplier;
-	float	*intonParms;
+    double radiusMultiply;
+    double pitchMean;
+    double globalTempo;
+    double multiplier;
+    float *intonParms;
 
-	/* NOTE phones and phoneTempo are separate for Optimization reasons */
-	struct _phone phones[MAXPHONES];
-	double phoneTempo[MAXPHONES];
+    /* NOTE phones and phoneTempo are separate for Optimization reasons */
+    struct _phone phones[MAXPHONES];
+    double phoneTempo[MAXPHONES];
 
-	struct _foot feet[MAXFEET];
-	struct _toneGroup toneGroups[MAXTONEGROUPS];
+    struct _foot feet[MAXFEET];
+    struct _toneGroup toneGroups[MAXTONEGROUPS];
 
-	struct _rule rules[MAXRULES];
+    struct _rule rules[MAXRULES];
 
-	int	currentPhone;
-	int	currentFoot;
-	int	currentToneGroup;
+    int currentPhone;
+    int currentFoot;
+    int currentToneGroup;
 
-	int	currentRule;
+    int currentRule;
 
-	int	cache;
-	double min[16], max[16];
+    int cache;
+    double min[16], max[16];
 }
 
-- (id)init;
 - (id)initWithCapacity:(unsigned int)numSlots;
 - (void)dealloc;
 
 - (void)setUp;
 
-- (void)setZeroRef:(int)newValue;
 - (int)zeroRef;
+- (void)setZeroRef:(int)newValue;
 
-- (void)setDuration:(int)newValue;
 - (int)duration;
+- (void)setDuration:(int)newValue;
 
-- (void)setRadiusMultiply:(double)newValue;
 - (double)radiusMultiply;
+- (void)setRadiusMultiply:(double)newValue;
 
-- (void)setFullTimeScale;;
+- (void)setFullTimeScale;
 
-- (void)setTimeQuantization:(int)newValue;
 - (int)timeQuantization;
+- (void)setTimeQuantization:(int)newValue;
 
-- (void)setParameterStore:(int)newValue;
 - (int)parameterStore;
+- (void)setParameterStore:(int)newValue;
 
-- (void)setSoftwareSynthesis:(int)newValue;
 - (int)softwareSynthesis;
+- (void)setSoftwareSynthesis:(int)newValue;
 
-- (void)setPitchMean:(double)newMean;
 - (double)pitchMean;
+- (void)setPitchMean:(double)newMean;
 
-- (void)setGlobalTempo:(double)newTempo;
 - (double)globalTempo;
-- (void)setMultiplier:(double)newValue;
+- (void)setGlobalTempo:(double)newTempo;
 - (double)multiplier;
+- (void)setMultiplier:(double)newValue;
 
-- (void)setMacroIntonation:(int)newValue;
 - (int)macroIntonation;
+- (void)setMacroIntonation:(int)newValue;
 
-- (void)setMicroIntonation:(int)newValue;
 - (int)microIntonation;
+- (void)setMicroIntonation:(int)newValue;
 
-- (void)setDrift:(int)newValue;
 - (int)drift;
+- (void)setDrift:(int)newValue;
 
-- (void)setSmoothIntonation:(int)newValue;
 - (int)smoothIntonation;
+- (void)setSmoothIntonation:(int)newValue;
 
-- (void)setIntonParms:(float *)newValue;
 - (float *)intonParms;
+- (void)setIntonParms:(float *)newValue;
 
 - getPhoneAtIndex:(int)phoneIndex;
 - (struct _rule *)getRuleAtIndex:(int)ruleIndex;
@@ -164,15 +163,15 @@ struct _rule {
 - (void)setCurrentPhoneSyllable;
 
 
-- insertEvent:(int)number atTime:(double)time withValue:(double)value;
-- finalEvent:(int)number withValue:(double)value;
-- lastEvent;
+- (Event *)insertEvent:(int)number atTime:(double)time withValue:(double)value;
+- (void)finalEvent:(int)number withValue:(double)value;
+- (Event *)lastEvent;
 
 - (void)generateOutput;
 - (void)printDataStructures;
 - (void)generateEventList;
 
-- applyRule:rule withPhones:phoneList andTempos:(double *)tempos phoneIndex:(int)phoneIndex;
+- (void)applyRule:rule withPhones:phoneList andTempos:(double *)tempos phoneIndex:(int)phoneIndex;
 - (void)synthesizeToFile:(const char *)filename;
 
 - (void)applyIntonation;

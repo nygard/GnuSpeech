@@ -1,4 +1,3 @@
-
 #import <Foundation/NSObject.h>
 #import "FormulaExpression.h"
 
@@ -13,8 +12,8 @@
 
 @interface ProtoEquation:NSObject
 {
-	char 	*name;
-	char 	*comment;
+	char	*name;
+	char	*comment;
 	id	expression;
 
 	int     cacheTag;

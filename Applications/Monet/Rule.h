@@ -32,7 +32,7 @@
 - (void)removeMetaParameter:(int)index;
 - (void)dealloc;
 
-- setExpression: (BooleanExpression *) expression number:(int) index;
+- setExpression:(BooleanExpression *) expression number:(int)index;
 - getExpressionNumber:(int)index;
 - (int) numberExpressions;
 - (int) matchRule: (MonetList *) categories;

@@ -2,6 +2,12 @@
 
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
+#import "CategoryNode.h"
+#import "CategoryList.h"
+#import "ParameterList.h"
+#import "PhoneList.h"
+#import "SymbolList.h"
+
 #ifdef PORTING
 #import "PrototypeManager.h"
 #import "RuleManager.h"
@@ -152,14 +158,14 @@
 
             fread(&magic, sizeof(int), 1, fp);
             if (magic == 0x2e646567) {
-                printf("Loading DEGAS File \n");
+                NSLog(@"Loading DEGAS File");
                 [mainParameterList readDegasFileFormat:fp];
                 [mainCategoryList readDegasFileFormat:fp];
                 [mainPhoneList readDegasFileFormat:fp];
                 [ruleManager readDegasFileFormat:fp];
                 [dataBrowser updateBrowser];
             } else {
-                printf("Not a DEGAS file \n");
+                NSLog(@"Not a DEGAS file");
             }
 
             fclose(fp);
@@ -229,7 +235,7 @@
     NSArray *types;
     NSArray *fnames;
     NSString *directory;
-    char buf[MAXPATHLEN+1];
+    NSString *filename;
     NSArchiver *stream;
 
     types = [NSArray arrayWithObject: @"monet"];
@@ -241,14 +247,10 @@
         count = [fnames count];
         for (i = 0; i < count; i++)
         {
-            strcpy(buf, [directory cString]);
-            strcat(buf, "/");
-            strcat(buf, [[fnames objectAtIndex: i] cString]);
+            filename = [directory stringByAppendingPathComponent:[fnames objectAtIndex:i]];
+            stream = [[NSUnarchiver alloc] initForReadingWithData:[NSData dataWithContentsOfFile:filename]];
 
-            stream = [[NSUnarchiver alloc] initForReadingWithData:[NSData dataWithContentsOfFile: [NSString stringWithCString: buf]]];
-
-            if (stream)
-            {
+            if (stream) {
                 NXUnnameObject(@"mainCategoryList", NSApp);
                 NXUnnameObject(@"mainSymbolList", NSApp);
                 NXUnnameObject(@"mainParameterList", NSApp);
@@ -278,7 +280,6 @@
                 [prototypeManager readPrototypesFrom:stream];
                 [ruleManager readRulesFrom:stream];
 
-
                 [dataBrowser updateLists];
 
                 [dataBrowser updateBrowser];
@@ -287,10 +288,8 @@
 
                 [stream release];
                 initStringParser();
-            }
-            else
-            {
-                printf("Not a MONET file\n");
+            } else {
+                NSLog(@"Not a MONET file");
             }
 
         }
@@ -305,7 +304,7 @@
 
     myPanel = [NSSavePanel savePanel];
     if ([myPanel runModal]) {
-        mdata = [NSMutableData dataWithCapacity: 16];
+        mdata = [NSMutableData dataWithCapacity:16];
         stream = [[NSArchiver alloc] initForWritingWithMutableData:mdata];
 
         if (stream) {

@@ -1,12 +1,8 @@
-#import <Foundatin/NSObject.h>
+#import <Foundation/NSObject.h>
 
 #ifdef PORTING
 #import "Inspector.h"
 #import "BrowserManager.h"
-#import "PhoneList.h"
-#import "CategoryList.h"
-#import "SymbolList.h"
-#import "ParameterList.h"
 #endif
 
 @class NSMutableDictionary;

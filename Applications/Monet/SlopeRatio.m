@@ -1,7 +1,10 @@
-
 #import "SlopeRatio.h"
+
+#import <Foundation/Foundation.h>
+#import "MonetList.h"
 #import "Point.h"
 #import "ProtoEquation.h"
+#import "Slope.h"
 
 /*===========================================================================
 
@@ -14,250 +17,249 @@
 
 @implementation SlopeRatio
 
-- init
+- (id)init;
 {
-	points = [[MonetList alloc] initWithCapacity:4];
-	slopes = [[MonetList alloc] initWithCapacity:4];
-	return self;
+    if ([super init] == nil)
+        return nil;
+
+    points = [[MonetList alloc] initWithCapacity:4];
+    slopes = [[MonetList alloc] initWithCapacity:4];
+
+    return self;
 }
 
-- (void)setPoints:newList
+- (void)dealloc;
 {
-	if (points)
-		[points release];
-	points = newList;
+    [points release];
+    [slopes release];
 
-	[self updateSlopes]; 
+    [super dealloc];
 }
 
-- points
+- (MonetList *)points;
 {
-	return points;
+    return points;
 }
 
-- (void)setSlopes:newList
+- (void)setPoints:(MonetList *)newList;
 {
-	if (slopes)
-		[slopes release];
-	slopes = newList; 
+    if (newList == points)
+        return;
+
+    [points release];
+    points = [newList retain];
+
+    [self updateSlopes];
 }
 
-- (void)updateSlopes
+- (MonetList *)slopes;
 {
-Slope *tempSlope;
-
-	if ([slopes count]>([points count]-1))
-	{
-		while([slopes count]>([points count]-1))
-		{
-			[slopes removeLastObject];
-		}
-		return;
-	}
-
-	if ([slopes count]<([points count]-1))
-	{
-		while([slopes count]<([points count]-1))
-		{
-			tempSlope = [[Slope alloc] init];
-			[tempSlope setSlope:1.0];
-			[slopes addObject:tempSlope];
-		}
-		return;
-	} 
+    return slopes;
 }
 
-- slopes
+- (void)setSlopes:(MonetList *)newList;
 {
-	return slopes;
+    if (newList == slopes)
+        return;
+
+    [slopes release];
+    slopes = [newList retain];
 }
 
-- (void)dealloc
+- (void)updateSlopes;
 {
-	[points release];
+    if ([slopes count] > ([points count] - 1)) {
+        while ([slopes count] > ([points count] - 1)) {
+            [slopes removeLastObject];
+        }
+        return;
+    }
+
+    if ([slopes count] < ([points count] - 1)) {
+        while ([slopes count] < ([points count] - 1)) {
+            Slope *aSlope;
+
+            aSlope = [[Slope alloc] init];
+            [aSlope setSlope:1.0];
+            [slopes addObject:aSlope];
+            [aSlope release];
+        }
+    }
 }
 
-- (double) startTime
+- (double)startTime;
 {
-	return [[[points objectAtIndex:0] expression] cacheValue];
+    return [[[points objectAtIndex:0] expression] cacheValue];
 }
 
-- (double) endTime
+- (double)endTime;
 {
-	return [[[points lastObject] expression] cacheValue];
+    return [[[points lastObject] expression] cacheValue];
 }
 
-- calculatePoints: (double *) ruleSymbols tempos: (double *) tempos phones: phones andCacheWith: (int) newCacheTag 
-        toDisplay: displayList ;
+- calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag
+        toDisplay:displayList ;
 {
-int i, numSlopes;
-double temp = 0.0, temp1 = 0.0, intervalTime = 0.0, sum = 0.0, factor = 0.0;
-double dummy, baseTime = 0.0, endTime = 0.0, totalTime = 0.0, delta = 0.0;
-double startValue;
-Point *currentPoint;
+    int i, numSlopes;
+    double temp = 0.0, temp1 = 0.0, intervalTime = 0.0, sum = 0.0, factor = 0.0;
+    double dummy, baseTime = 0.0, endTime = 0.0, totalTime = 0.0, delta = 0.0;
+    double startValue;
+    GSMPoint *currentPoint;
 
-	/* Calculate the times for all points */
-	for (i = 0; i< [points count]; i++)
-	{
-		currentPoint = [points objectAtIndex:i];
-		dummy = [[currentPoint expression] evaluate: ruleSymbols 
-						   tempos: tempos phones: phones 
-						   andCacheWith: newCacheTag];
+    /* Calculate the times for all points */
+    for (i = 0; i < [points count]; i++) {
+        currentPoint = [points objectAtIndex:i];
+        dummy = [[currentPoint expression] evaluate:ruleSymbols
+                                           tempos:tempos phones:phones
+                                           andCacheWith:newCacheTag];
 
-		[displayList addObject:currentPoint];
-	}
+        [displayList addObject:currentPoint];
+    }
 
-	baseTime = [[points objectAtIndex: 0] getTime];
-	endTime = [[points lastObject] getTime];
+    baseTime = [[points objectAtIndex:0] getTime];
+    endTime = [[points lastObject] getTime];
 
-	startValue = [[points objectAtIndex:0] value];
-	delta = [[points lastObject] value] - startValue;
+    startValue = [(GSMPoint *)[points objectAtIndex:0] value];
+    delta = [(GSMPoint *)[points lastObject] value] - startValue;
 
-	temp = [self totalSlopeUnits];
-	totalTime = endTime-baseTime;
+    temp = [self totalSlopeUnits];
+    totalTime = endTime - baseTime;
 
-	numSlopes = [slopes count];
-	for (i = 1; i< numSlopes+1; i++)
-	{
-		temp1 = [[slopes objectAtIndex:i-1] slope] / temp;	/* Calculate normal slope */
+    numSlopes = [slopes count];
+    for (i = 1; i < numSlopes+1; i++) {
+        temp1 = [[slopes objectAtIndex:i-1] slope] / temp;	/* Calculate normal slope */
 
-		/* Calculate time interval */
-		intervalTime = [[points objectAtIndex:i] getTime] - [[points objectAtIndex:i-1] getTime];
+        /* Calculate time interval */
+        intervalTime = [[points objectAtIndex:i] getTime] - [[points objectAtIndex:i-1] getTime];
 
-		/* Apply interval percentage to slope */
-		temp1 = temp1*(intervalTime/totalTime);
+        /* Apply interval percentage to slope */
+        temp1 = temp1 * (intervalTime / totalTime);
 
-		/* Multiply by delta and add to last point */
-		temp1 = (temp1*delta);
-		sum+=temp1;
+        /* Multiply by delta and add to last point */
+        temp1 = (temp1 * delta);
+        sum += temp1;
 
-		if (i<numSlopes)
-			[[points objectAtIndex: i] setValue:temp1];
-	}
-	factor = delta/sum;
+        if (i < numSlopes)
+            [[points objectAtIndex:i] setValue:temp1];
+    }
+    factor = delta / sum;
 
-	temp = startValue;
-	for(i = 1; i< [points count]-1; i++)
-	{
-		temp1 = [[points objectAtIndex: i] multiplyValueByFactor:factor];
-		temp = [[points objectAtIndex: i] addValue:temp];
-	}
+    temp = startValue;
+    for (i = 1; i < [points count]-1; i++) {
+        temp1 = [[points objectAtIndex:i] multiplyValueByFactor:factor];
+        temp = [[points objectAtIndex:i] addValue:temp];
+    }
 
-	return self;
+    return self;
 }
 
-- (double) calculatePoints: (double *) ruleSymbols tempos: (double *) tempos phones: phones andCacheWith: (int) newCacheTag
-	baseline: (double) baseline delta: (double) parameterDelta min: (double) min max:(double) max
-	toEventList: eventList atIndex: (int) index
+- (double)calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag
+                 baseline:(double)baseline delta:(double)parameterDelta min:(double)min max:(double)max
+              toEventList:eventList atIndex:(int)index;
 {
-double returnValue = 0.0;
-int i, numSlopes;
-double temp = 0.0, temp1 = 0.0, intervalTime = 0.0, sum = 0.0, factor = 0.0;
-double dummy, baseTime = 0.0, endTime = 0.0, totalTime = 0.0, delta = 0.0;
-double startValue;
-Point *currentPoint;
+    double returnValue = 0.0;
+    int i, numSlopes;
+    double temp = 0.0, temp1 = 0.0, intervalTime = 0.0, sum = 0.0, factor = 0.0;
+    double dummy, baseTime = 0.0, endTime = 0.0, totalTime = 0.0, delta = 0.0;
+    double startValue;
+    GSMPoint *currentPoint;
 
-	/* Calculate the times for all points */
-	for (i = 0; i< [points count]; i++)
-	{
-		currentPoint = [points objectAtIndex:i];
-		dummy = [[currentPoint expression] evaluate: ruleSymbols tempos: tempos phones: phones 
-				andCacheWith: newCacheTag];
-	}
+    /* Calculate the times for all points */
+    for (i = 0; i < [points count]; i++) {
+        currentPoint = [points objectAtIndex:i];
+        dummy = [[currentPoint expression] evaluate:ruleSymbols tempos:tempos phones:phones
+                                           andCacheWith:newCacheTag];
+    }
 
-	baseTime = [[points objectAtIndex: 0] getTime];
-	endTime = [[points lastObject] getTime];
+    baseTime = [[points objectAtIndex:0] getTime];
+    endTime = [[points lastObject] getTime];
 
-	startValue = [[points objectAtIndex:0] value];
-	delta = [[points lastObject] value] - startValue;
+    startValue = [(GSMPoint *)[points objectAtIndex:0] value];
+    delta = [(GSMPoint *)[points lastObject] value] - startValue;
 
-	temp = [self totalSlopeUnits];
-	totalTime = endTime-baseTime;
+    temp = [self totalSlopeUnits];
+    totalTime = endTime - baseTime;
 
-	numSlopes = [slopes count];
-	for (i = 1; i< numSlopes+1; i++)
-	{
-		temp1 = [[slopes objectAtIndex:i-1] slope] / temp;	/* Calculate normal slope */
+    numSlopes = [slopes count];
+    for (i = 1; i < numSlopes+1; i++) {
+        temp1 = [[slopes objectAtIndex:i-1] slope] / temp;	/* Calculate normal slope */
 
-		/* Calculate time interval */
-		intervalTime = [[points objectAtIndex:i] getTime] - [[points objectAtIndex:i-1] getTime];
+        /* Calculate time interval */
+        intervalTime = [[points objectAtIndex:i] getTime] - [[points objectAtIndex:i-1] getTime];
 
-		/* Apply interval percentage to slope */
-		temp1 = temp1*(intervalTime/totalTime);
+        /* Apply interval percentage to slope */
+        temp1 = temp1 * (intervalTime / totalTime);
 
-		/* Multiply by delta and add to last point */
-		temp1 = (temp1*delta);
-		sum+=temp1;
+        /* Multiply by delta and add to last point */
+        temp1 = (temp1 * delta);
+        sum += temp1;
 
-		if (i<numSlopes)
-			[[points objectAtIndex: i] setValue:temp1];
-	}
-	factor = delta/sum;
-	temp = startValue;
+        if (i < numSlopes)
+            [[points objectAtIndex:i] setValue:temp1];
+    }
+    factor = delta / sum;
+    temp = startValue;
 
-	for(i = 1; i< [points count]-1; i++)
-	{
-		temp1 = [[points objectAtIndex: i] multiplyValueByFactor:factor];
-		temp = [[points objectAtIndex: i] addValue:temp];
-	}
+    for (i = 1; i < [points count]-1; i++) {
+        temp1 = [[points objectAtIndex:i] multiplyValueByFactor:factor];
+        temp = [[points objectAtIndex:i] addValue:temp];
+    }
 
-	for(i = 0; i<[points count]; i++)
-	{
-		returnValue = [[points objectAtIndex: i] calculatePoints: ruleSymbols tempos: tempos phones: phones 
-					andCacheWith: newCacheTag baseline: baseline delta: parameterDelta
-					min: min max:max toEventList: eventList atIndex: index];
-	}
+    for (i = 0; i < [points count]; i++) {
+        returnValue = [[points objectAtIndex:i] calculatePoints:ruleSymbols tempos:tempos phones:phones
+                                                 andCacheWith:newCacheTag baseline:baseline delta:parameterDelta
+                                                 min:min max:max toEventList:eventList atIndex:index];
+    }
 
-	return returnValue;
+    return returnValue;
 }
 
-- (double)totalSlopeUnits
+- (double)totalSlopeUnits;
 {
-int i;
-double temp = 0.0;
+    int i;
+    double temp = 0.0;
 
-	for (i = 0; i<[slopes count]; i++)
-		temp+=[[slopes objectAtIndex:i] slope];
+    for (i = 0; i < [slopes count]; i++)
+        temp += [[slopes objectAtIndex:i] slope];
 
-	return temp;
+    return temp;
 }
 
-- (void)displaySlopesInList:(MonetList *)displaySlopes
+- (void)displaySlopesInList:(MonetList *)displaySlopes;
 {
-int i;
-double tempTime;
+    int i;
+    double tempTime;
 
-	printf("DisplaySlopesInList: Count = %d\n", [slopes count]);
-	for (i = 0; i< [slopes count]; i++)
-	{
-		tempTime = ([[points objectAtIndex:i] getTime] + [[points objectAtIndex:i+1] getTime]) /2.0;
-		[[slopes objectAtIndex:i] setDisplayTime:tempTime];
-		printf("TempTime = %f\n", tempTime);
-		[displaySlopes addObject: [slopes objectAtIndex:i]];
-	} 
+    NSLog(@"DisplaySlopesInList: Count = %d", [slopes count]);
+    for (i = 0; i < [slopes count]; i++) {
+        tempTime = ([[points objectAtIndex:i] getTime] + [[points objectAtIndex:i+1] getTime]) / 2.0;
+        [[slopes objectAtIndex:i] setDisplayTime:tempTime];
+        NSLog(@"TempTime = %f", tempTime);
+        [displaySlopes addObject:[slopes objectAtIndex:i]];
+    }
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+- (id)initWithCoder:(NSCoder *)aDecoder;
 {
-	points = [[aDecoder decodeObject] retain];
-	slopes = [[aDecoder decodeObject] retain];
+    points = [[aDecoder decodeObject] retain];
+    slopes = [[aDecoder decodeObject] retain];
 
-	return self;
+    return self;
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder
+- (void)encodeWithCoder:(NSCoder *)aCoder;
 {
-	[aCoder encodeObject:points];
-	[aCoder encodeObject:slopes];
+    [aCoder encodeObject:points];
+    [aCoder encodeObject:slopes];
 }
 
 #ifdef NeXT
-- read:(NXTypedStream *)stream
+- read:(NXTypedStream *)stream;
 {
-        points = NXReadObject(stream);
-        slopes = NXReadObject(stream);
+    points = NXReadObject(stream);
+    slopes = NXReadObject(stream);
 
-        return self;
+    return self;
 }
 #endif
 

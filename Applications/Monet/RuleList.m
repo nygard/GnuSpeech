@@ -1,242 +1,232 @@
-
 #import "RuleList.h"
+
+#import <Foundation/Foundation.h>
 #import "BooleanParser.h"
 #import "MyController.h"
-#import <AppKit/NSApplication.h>
-#import <string.h>
+#import "Rule.h"
 
 /*===========================================================================
 
 ===========================================================================*/
-//- findRule:(const char *) searchSymbol;
 
 
 @implementation RuleList
 
-/*-findSymbol:(const char *) searchSymbol
+- (void)seedListWith:(BooleanExpression *)expression1:(BooleanExpression *)expression2;
 {
-	return self;
-}*/
+    Rule *aRule;
 
-- seedListWith: expression1 : expression2
-{
-Rule *tempRule;
-
-	tempRule = [[Rule alloc] init];
-	[tempRule setExpression: expression1 number:0];
-	[tempRule setExpression: expression2 number:1];
-
-	[tempRule setDefaultsTo:[tempRule numberExpressions]];
-
-	[self addObject: tempRule];
-
-	return self;
+    aRule = [[Rule alloc] init];
+    [aRule setExpression:expression1 number:0];
+    [aRule setExpression:expression2 number:1];
+    [aRule setDefaultsTo:[aRule numberExpressions]];
+    [self addObject:aRule];
+    [aRule release];
 }
 
-- addRuleExp1: exp1 exp2: exp2 exp3: exp3 exp4: exp4;
+- (void)addRuleExp1:(BooleanExpression *)exp1 exp2:(BooleanExpression *)exp2 exp3:(BooleanExpression *)exp3 exp4:(BooleanExpression *)exp4;
 {
-Rule *tempRule;
+    Rule *aRule;
 
-	tempRule = [[Rule alloc] init];
-	[tempRule setExpression: exp1 number:0];
-	[tempRule setExpression: exp2 number:1];
-	[tempRule setExpression: exp3 number:2];
-	[tempRule setExpression: exp4 number:3];
-
-	[tempRule setDefaultsTo:[tempRule numberExpressions]];
-
-	[self insertObject: tempRule atIndex: [self count] - 1 ];
-
-	return self;
+    aRule = [[Rule alloc] init];
+    [aRule setExpression:exp1 number:0];
+    [aRule setExpression:exp2 number:1];
+    [aRule setExpression:exp3 number:2];
+    [aRule setExpression:exp4 number:3];
+    [aRule setDefaultsTo:[aRule numberExpressions]];
+    [self insertObject:aRule atIndex:[self count] - 1];
+    [aRule release];
 }
 
-- changeRuleAt: (int) index exp1: exp1 exp2: exp2 exp3: exp3 exp4: exp4
+- (void)changeRuleAt:(int)index exp1:(BooleanExpression *)exp1 exp2:(BooleanExpression *)exp2 exp3:(BooleanExpression *)exp3 exp4:(BooleanExpression *)exp4;
 {
-Rule *tempRule;
-int i;
+    Rule *aRule;
+    int i;
 
-	tempRule = [self objectAtIndex: index];
-	i = [tempRule numberExpressions];
+    aRule = [self objectAtIndex:index];
+    i = [aRule numberExpressions];
 
-	[tempRule setExpression: exp1 number:0];
-	[tempRule setExpression: exp2 number:1];
-	[tempRule setExpression: exp3 number:2];
-	[tempRule setExpression: exp4 number:3];
+    [aRule setExpression:exp1 number:0];
+    [aRule setExpression:exp2 number:1];
+    [aRule setExpression:exp3 number:2];
+    [aRule setExpression:exp4 number:3];
 
-	if (i!=[tempRule numberExpressions])
-		[tempRule setDefaultsTo:[tempRule numberExpressions]];
-
-	return self;
+    if (i != [aRule numberExpressions])
+        [aRule setDefaultsTo:[aRule numberExpressions]];
 }
 
-- findRule: (MonetList *) categories index:(int *) index
+- (Rule *)findRule:(MonetList *)categories index:(int *)index;
 {
-int i;
-	for(i = 0 ; i < [self count] ; i++)
-	{
-		if ([(Rule *) [self objectAtIndex: i] numberExpressions]<=[categories count])
-			if ([(Rule *) [self objectAtIndex: i] matchRule: categories])
-			{
-				*index = i;
-				return [self objectAtIndex: i];
-			}
-	}
-	return [self lastObject];
+    int i;
+
+    for (i = 0; i < [self count]; i++) {
+        if ([(Rule *)[self objectAtIndex:i] numberExpressions] <= [categories count])
+            if ([(Rule *)[self objectAtIndex:i] matchRule:categories]) {
+                *index = i;
+                return [self objectAtIndex:i];
+            }
+    }
+
+    return [self lastObject];
 }
 
 
 
 #define SYMBOL_LENGTH_MAX 12
-- (void)readDegasFileFormat:(FILE *)fp
+- (void)readDegasFileFormat:(FILE *)fp;
 {
-int numRules;
-int i, j, k, l;
-int j1, k1, l1;
-int dummy;
-int tempLength;
-char buffer[1024];
-char buffer1[1024];
-BooleanParser *boolParser;
-id temp, temp1;
+    int numRules;
+    int i, j, k, l;
+    int j1, k1, l1;
+    int dummy;
+    int tempLength;
+    char buffer[1024];
+    char buffer1[1024];
+    BooleanParser *boolParser;
+    id temp, temp1;
 
+    boolParser = [[BooleanParser alloc] init];
+    [boolParser setCategoryList:NXGetNamedObject(@"mainCategoryList", NSApp)];
+    [boolParser setPhoneList:NXGetNamedObject(@"mainPhoneList", NSApp)];
 
-	boolParser = [[BooleanParser alloc] init];
-	[boolParser setCategoryList:NXGetNamedObject(@"mainCategoryList", NSApp)];
-	[boolParser setPhoneList:NXGetNamedObject(@"mainPhoneList", NSApp)];
+    /* READ FROM FILE  */
+    NXRead(fp, &numRules, sizeof(int));
+    for (i = 0; i < numRules; i++) {
+        /* READ SPECIFIER CATEGORY #1 FROM FILE  */
+        NXRead(fp, &tempLength, sizeof(int));
+        bzero(buffer,1024);
+        NXRead(fp, buffer, tempLength+1);
+        temp = [boolParser parseString:buffer];
 
-	/* READ FROM FILE  */
-	NXRead(fp, &numRules, sizeof(int));
-	for (i = 0; i < numRules; i++)
-	{
-		/* READ SPECIFIER CATEGORY #1 FROM FILE  */
-		NXRead(fp, &tempLength, sizeof(int));
-		bzero(buffer,1024);
-		NXRead(fp, buffer, tempLength+1);
-		temp = [boolParser parseString:buffer];
-
-		/* READ SPECIFIER CATEGORY #2 FROM FILE  */
-		NXRead(fp, &tempLength, sizeof(int));
-		bzero(buffer1,1024);
-		NXRead(fp, buffer1, tempLength+1);
-		temp1 = [boolParser parseString:buffer1];
+        /* READ SPECIFIER CATEGORY #2 FROM FILE  */
+        NXRead(fp, &tempLength, sizeof(int));
+        bzero(buffer1,1024);
+        NXRead(fp, buffer1, tempLength+1);
+        temp1 = [boolParser parseString:buffer1];
 //		printf("%s >> %s\n", buffer, buffer1);
 
-		[self addRuleExp1: temp exp2: temp1 exp3: nil exp4: nil];
+        [self addRuleExp1: temp exp2: temp1 exp3: nil exp4: nil];
 
-		/* READ TRANSITION INTERVALS FROM FILE  */	
-		NXRead(fp, &k1, sizeof(int));
-		for (j = 0; j < k1; j++)
-		{
-			NXRead(fp, &dummy, sizeof(short int));
-			NXRead(fp, &dummy, sizeof(short int));
-			NXRead(fp, &dummy, sizeof(int));
-			NXRead(fp, &dummy, sizeof(float));
-			NXRead(fp, &dummy, sizeof(float));
-		}
+        /* READ TRANSITION INTERVALS FROM FILE  */
+        NXRead(fp, &k1, sizeof(int));
+        for (j = 0; j < k1; j++) {
+            NXRead(fp, &dummy, sizeof(short int));
+            NXRead(fp, &dummy, sizeof(short int));
+            NXRead(fp, &dummy, sizeof(int));
+            NXRead(fp, &dummy, sizeof(float));
+            NXRead(fp, &dummy, sizeof(float));
+        }
 
-		/* READ TRANSITION INTERVAL MODE FROM FILE  */
-		NXRead(fp, &dummy, sizeof(short int));
+        /* READ TRANSITION INTERVAL MODE FROM FILE  */
+        NXRead(fp, &dummy, sizeof(short int));
 
-		/* READ SPLIT MODE FROM FILE  */
-		NXRead(fp, &dummy, sizeof(short int));
+        /* READ SPLIT MODE FROM FILE  */
+        NXRead(fp, &dummy, sizeof(short int));
 
-		/* READ SPECIAL EVENTS FROM FILE  */
-		NXRead(fp, &j1, sizeof(int));
-		for (j = 0; j < j1; j++)
-		{
-			/* READ SPECIAL EVENT SYMBOL FROM FILE  */
-			NXRead(fp, buffer, SYMBOL_LENGTH_MAX + 1);
-			/* READ SPECIAL EVENT INTERVALS FROM FILE  */
-			for (k = 0; k < k1; k++)
-			{
+        /* READ SPECIAL EVENTS FROM FILE  */
+        NXRead(fp, &j1, sizeof(int));
 
-				/* READ SUB-INTERVALS FROM FILE  */
-				NXRead(fp, &l1, sizeof(int));
-				for (l = 0; l < l1; l++)
-				{
-					/* READ SUB-INTERVAL PARAMETERS FROM FILE  */
-					NXRead(fp, &dummy, sizeof(short int));
-					NXRead(fp, &dummy, sizeof(int));
-					NXRead(fp, &dummy, sizeof(float));
-				}
-			}
-		}
-		/* READ DURATION RULE INFORMATION FROM FILE  */
-		NXRead(fp, &dummy, sizeof(int));
-		NXRead(fp, &dummy, sizeof(int));
-	}
+        for (j = 0; j < j1; j++) {
+            /* READ SPECIAL EVENT SYMBOL FROM FILE  */
+            NXRead(fp, buffer, SYMBOL_LENGTH_MAX + 1);
 
-	[boolParser release]; 
+            /* READ SPECIAL EVENT INTERVALS FROM FILE  */
+            for (k = 0; k < k1; k++) {
+
+                /* READ SUB-INTERVALS FROM FILE  */
+                NXRead(fp, &l1, sizeof(int));
+                for (l = 0; l < l1; l++) {
+                    /* READ SUB-INTERVAL PARAMETERS FROM FILE  */
+                    NXRead(fp, &dummy, sizeof(short int));
+                    NXRead(fp, &dummy, sizeof(int));
+                    NXRead(fp, &dummy, sizeof(float));
+                }
+            }
+        }
+
+        /* READ DURATION RULE INFORMATION FROM FILE  */
+        NXRead(fp, &dummy, sizeof(int));
+        NXRead(fp, &dummy, sizeof(int));
+    }
+
+    [boolParser release];
 }
 
-- (BOOL) isCategoryUsed: aCategory
+- (BOOL)isCategoryUsed:aCategory;
 {
-int i;
-	for (i = 0; i<[self count]; i++)
-	{
-		if ([[self objectAtIndex: i] isCategoryUsed:aCategory])
-			return YES;
-	}
-	return NO;
+    int count, index;
+
+    count = [self count];
+    for (index = 0; index < count; index++) {
+        if ([[self objectAtIndex:index] isCategoryUsed:aCategory])
+            return YES;
+    }
+
+    return NO;
 }
 
-- (BOOL) isEquationUsed: anEquation
+- (BOOL)isEquationUsed:anEquation;
 {
-int i;
-	for (i = 0; i<[self count]; i++)
-	{
-		if ([[self objectAtIndex: i] isEquationUsed:anEquation])
-			return YES;
-	}
-	return NO;
+    int count, index;
 
+    count = [self count];
+    for (index = 0; index < count; index++) {
+        if ([[self objectAtIndex:index] isEquationUsed:anEquation])
+            return YES;
+    }
+
+    return NO;
 }
 
-- findEquation: anEquation andPutIn: aList
+- (BOOL)isTransitionUsed:aTransition
 {
-int i;
-	for (i = 0; i<[self count]; i++)
-	{
-		if ([[self objectAtIndex: i] isEquationUsed:anEquation])
-			[aList addObject: [self objectAtIndex: i]];
-	}
-	return self;
+    int count, index;
+
+    count = [self count];
+    for (index = 0; index < count; index++) {
+        if ([[self objectAtIndex:index] isTransitionUsed:aTransition])
+            return YES;
+    }
+
+    return NO;
 }
 
-- findTemplate: aTemplate andPutIn: aList
+- (void)findEquation:anEquation andPutIn:(MonetList *)aList;
 {
-int i;
+    int count, index;
+    id anObject;
 
-	for (i = 0 ; i<[self count]; i++)
-	{
-		if ([[self objectAtIndex: i] isTransitionUsed:aTemplate])
-			[aList addObject: [self objectAtIndex: i]];
-	}
-	return self;
+    count = [self count];
+    for (index = 0; index < count; index++) {
+        anObject = [self objectAtIndex:index];
+        if ([anObject isEquationUsed:anEquation])
+            [aList addObject:anObject];
+    }
 }
 
-- (BOOL) isTransitionUsed: aTransition
+- (void)findTemplate:aTemplate andPutIn:aList;
 {
-int i;
-	for (i = 0; i<[self count]; i++)
-	{
-		if ([[self objectAtIndex: i] isTransitionUsed:aTransition])
-			return YES;
-	}
-	return NO;
+    int count, index;
+    id anObject;
 
+    count = [self count];
+    for (index = 0; index < count; index++) {
+        anObject = [self objectAtIndex:index];
+        if ([anObject isTransitionUsed:aTemplate])
+            [aList addObject:anObject];
+    }
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+- (id)initWithCoder:(NSCoder *)aDecoder;
 {
-	[super initWithCoder:aDecoder];
+    [super initWithCoder:aDecoder];
 
-	return self;
+    return self;
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder
+- (void)encodeWithCoder:(NSCoder *)aCoder;
 {
-	[super encodeWithCoder:aCoder];
+    [super encodeWithCoder:aCoder];
 }
 
 @end

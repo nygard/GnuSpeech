@@ -1,8 +1,5 @@
-
 #import <Foundation/NSObject.h>
-#ifdef NeXT
-#import <objc/typedstream.h>
-#endif
+
 #import "FormulaSymbols.h"
 
 /*===========================================================================
@@ -14,50 +11,48 @@
 =============================================================================
 */
 
-@interface FormulaExpression:NSObject
+@interface FormulaExpression : NSObject
 {
-	int	operation;
-	int	numExpressions;
-	int	maxExpressions;
-	int	precedence;
-	id	*expressions;
+    int operation;
+    int precedence;
+    NSMutableArray *expressions;
 
-	/* Cached evaluation */
-	int	cacheTag;
-	double	cacheValue;
+    /* Cached evaluation */
+    int cacheTag;
+    double cacheValue;
 }
 
-- init;
+- (id)init;
 - (void)dealloc;
 
-- (double) evaluate: (double *) ruleSymbols phones: phones;
-- (double) evaluate: (double *) ruleSymbols tempos: (double *) tempos phones: phones;
-
+- (int)operation;
 - (void)setOperation:(int)newOp;
-- (int) operation;
 
+- (int)precedence;
 - (void)setPrecedence:(int)newPrec;
-- (int) precedence;
+
+- (double)evaluate:(double *)ruleSymbols phones:phones;
+- (double)evaluate:(double *)ruleSymbols tempos:(double *)tempos phones:phones;
 
 - (void)addSubExpression:newExpression;
 
-- (void)setOperandOne:operand;
 - operandOne;
+- (void)setOperandOne:operand;
 
-- (void)setOperandTwo:operand;
 - operandTwo;
+- (void)setOperandTwo:operand;
 
 
 - (void)optimize;
 - (void)optimizeSubExpressions;
 
-- (int) maxExpressionLevels;
-- (int) maxPhone;
-- expressionString:(char *)string;
+- (int)maxExpressionLevels;
+- (int)maxPhone;
 
-- (char *) opString;
+- (void)expressionString:(NSMutableString *)resultString;
+- (NSString *)opString;
 
-- (id)initWithCoder:(NSCoder *)aDecoder;
-- (void)encodeWithCoder:(NSCoder *)aCoder;
+//- (id)initWithCoder:(NSCoder *)aDecoder;
+//- (void)encodeWithCoder:(NSCoder *)aCoder;
 
 @end

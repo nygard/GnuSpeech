@@ -1,179 +1,194 @@
-
 #import "Point.h"
-#import <stdio.h>
-#import <string.h>
-#import <stdlib.h>
-#import "PrototypeManager.h"
-#import "ProtoTemplate.h"
-#import "ProtoEquation.h"
+
+#import <Foundation/Foundation.h>
 #import "EventList.h"
 #import "MyController.h"
+#import "ProtoEquation.h"
+#import "PrototypeManager.h"
+#import "ProtoTemplate.h"
+
+#ifdef PORTING
 #import <AppKit/NSApplication.h>
 #import <Foundation/NSCoder.h>
+#endif
 
-@implementation Point
+@implementation GSMPoint
 
-- init
+- (id)init;
 {
-	value = 0.0;
-	freeTime = 0.0;
-	expression = nil;
-	phantom = 0;
-	type = DIPHONE;
-	return self;
+    if ([super init] == nil)
+        return nil;
+
+    value = 0.0;
+    freeTime = 0.0;
+    expression = nil;
+    phantom = 0;
+    type = DIPHONE;
+
+    return self;
 }
 
-- (void)setValue:(double)newValue
+- (void)dealloc;
 {
-	value = newValue; 
+    [expression release];
+
+    [super dealloc];
 }
 
-- (double) value
+- (double)value;
 {
-	return value;
-}	
-
-- (double) multiplyValueByFactor:(double) factor
-{
-	value *=factor;
-	return value;
+    return value;
 }
 
-- (double) addValue:(double) newValue;
+- (void)setValue:(double)newValue;
 {
-	value +=newValue;
-	return value;
+    value = newValue;
 }
 
-- (void)setExpression:newExpression
+- (double)multiplyValueByFactor:(double)factor;
 {
-	expression = newExpression; 
+    value *= factor;
+    return value;
 }
 
-- expression
+- (double)addValue:(double)newValue;
 {
-	return expression;
+    value += newValue;
+    return value;
 }
 
-- (void)setFreeTime:(double)newTime
+- expression;
 {
-	freeTime = newTime; 
+    return expression;
 }
 
-- (double) freeTime
+- (void)setExpression:newExpression;
 {
-	return freeTime;
+    if (newExpression == expression)
+        return;
+
+    [expression release];
+    expression = [newExpression retain];
 }
 
-- (void)setType:(int)newType
+- (double)freeTime;
 {
-	type = newType;
+    return freeTime;
 }
 
-- (int) type
+- (void)setFreeTime:(double)newTime;
 {
-	return type;
+    freeTime = newTime;
 }
 
-- (void)setPhantom:(int)phantomFlag
+- (double)getTime;
 {
-	phantom = phantomFlag; 
+    if (expression)
+        return [expression cacheValue];
+
+    return freeTime;
 }
 
-- (int) phantom
+- (int)type;
 {
-	return phantom;
+    return type;
 }
 
-- calculatePoints: (double *) ruleSymbols tempos: (double *) tempos phones: phones andCacheWith: (int) newCacheTag
-	toDisplay: displayList
+- (void)setType:(int)newType;
 {
-float dummy;
+    type = newType;
+}
 
-	if (expression)
-	{
-		dummy = [expression evaluate: ruleSymbols tempos: tempos phones: phones andCacheWith: (int) newCacheTag];
-	}
-	printf("Dummy %f\n", dummy);
+- (int)phantom;
+{
+    return phantom;
+}
 
-	[displayList addObject:self];
+- (void)setPhantom:(int)phantomFlag;
+{
+    phantom = phantomFlag;
+}
 
-	return self;
+- calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag
+	toDisplay:displayList;
+{
+    float dummy;
+
+    if (expression) {
+        dummy = [expression evaluate:ruleSymbols tempos:tempos phones:phones andCacheWith:(int)newCacheTag];
+    }
+    NSLog(@"Dummy %f", dummy);
+
+    [displayList addObject:self];
+
+    return self;
 }
 
 
-- (double) calculatePoints: (double *) ruleSymbols tempos: (double *) tempos phones: phones andCacheWith: (int) newCacheTag
-	baseline: (double) baseline delta: (double) delta min:(double) min max:(double) max
-	toEventList: eventList atIndex: (int) index;
+- (double)calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag
+                 baseline:(double)baseline delta:(double)delta min:(double)min max:(double)max
+              toEventList:eventList atIndex:(int)index;
 {
-double time, returnValue;
+    double time, returnValue;
 
-	if (expression)
-		time = [expression evaluate: ruleSymbols tempos: tempos phones: phones andCacheWith: (int) newCacheTag];
-	else
-		time = freeTime;
+    if (expression)
+        time = [expression evaluate: ruleSymbols tempos: tempos phones: phones andCacheWith: (int) newCacheTag];
+    else
+        time = freeTime;
 
-//	printf("|%s| = %f tempos: %f %f %f %f \n", [[phones objectAtIndex:0] symbol], time, tempos[0], tempos[1],tempos[2],tempos[3]);
+    //NSLog(@"|%@| = %f tempos: %f %f %f %f", [[phones objectAtIndex:0] symbol], time, tempos[0], tempos[1],tempos[2],tempos[3]);
 
-	returnValue = baseline + ((value/100.0) * delta);
+    returnValue = baseline + ((value / 100.0) * delta);
 
-//	printf("Inserting event %d atTime %f  withValue %f\n", index, time, returnValue);
+    //NSLog(@"Inserting event %d atTime %f  withValue %f", index, time, returnValue);
 
-	if (returnValue<min)
-		returnValue = min;
-	else
-	if (returnValue>max)
-		returnValue = max;
+    if (returnValue < min)
+        returnValue = min;
+    else if (returnValue > max)
+        returnValue = max;
 
-	if (!phantom) [eventList insertEvent:index atTime: time withValue: returnValue];
+    if (!phantom)
+        [eventList insertEvent:index atTime:time withValue:returnValue];
 
-	return returnValue;
+    return returnValue;
 }
 
-- (double) getTime
+- (id)initWithCoder:(NSCoder *)aDecoder;
 {
-	if (expression)
-		return [expression cacheValue];
-	else
-		return freeTime;
+    int i, j;
+    id tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
+
+    [aDecoder decodeValuesOfObjCTypes:"ddii", &value, &freeTime, &type, &phantom];
+
+    [aDecoder decodeValuesOfObjCTypes:"ii", &i,&j];
+    expression = [tempProto findEquation:i andIndex:j];
+
+    return self;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+- (void)encodeWithCoder:(NSCoder *)aCoder;
 {
-int i, j;
-id tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
+    int i, j;
+    id tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
 
-	[aDecoder decodeValuesOfObjCTypes:"ddii", &value, &freeTime, &type, &phantom];
+    [aCoder encodeValuesOfObjCTypes:"ddii", &value, &freeTime, &type, &phantom];
 
-	[aDecoder decodeValuesOfObjCTypes:"ii", &i,&j];
-	expression = [tempProto findEquation: i andIndex: j];
-
-	return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)aCoder
-{
-int i, j;
-id tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
-
-	[aCoder encodeValuesOfObjCTypes:"ddii", &value, &freeTime, &type, &phantom];
-
-	[tempProto findList: &i andIndex: &j ofEquation: expression];
-	[aCoder encodeValuesOfObjCTypes:"ii", &i, &j];
+    [tempProto findList:&i andIndex:&j ofEquation:expression];
+    [aCoder encodeValuesOfObjCTypes:"ii", &i, &j];
 }
 
 #ifdef NeXT
-- read:(NXTypedStream *)stream
+- read:(NXTypedStream *)stream;
 {
-int i, j;
-id tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
+    int i, j;
+    id tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
 
-        NXReadTypes(stream, "ddii", &value, &freeTime, &type, &phantom);
+    NXReadTypes(stream, "ddii", &value, &freeTime, &type, &phantom);
 
-        NXReadTypes(stream, "ii", &i,&j);
-        expression = [tempProto findEquation: i andIndex: j];
+    NXReadTypes(stream, "ii", &i,&j);
+    expression = [tempProto findEquation: i andIndex: j];
 
-        return self;
+    return self;
 }
 #endif
 

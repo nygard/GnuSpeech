@@ -1,10 +1,16 @@
+#import <Foundation/NSObject.h>
 
+#ifdef PORTING
 #import <Foundation/NSArray.h>
 #import <AppKit/NSBrowser.h>
 #import <AppKit/NSBrowserCell.h>
 #import <AppKit/NSForm.h>
 #import "NamedList.h"
 #import <AppKit/NSFont.h>
+#endif
+
+@class NSFont;
+@class MonetList;
 
 /*===========================================================================
 
@@ -15,28 +21,28 @@
 =============================================================================
 */
 
-@interface PrototypeManager:NSObject
+@interface PrototypeManager : NSObject
 {
-	id	controller;
+    id controller;
 
-	id	protoBrowser;
-	id	browserSelector;
+    id protoBrowser;
+    id browserSelector;
 
-	id	newButton;
-	id	removeButton;
-	id	inputTextField;
+    id newButton;
+    id removeButton;
+    id inputTextField;
 
-	id	outputBox;
-	id	selectedOutput;
+    id outputBox;
+    id selectedOutput;
 
-	MonetList *protoEquations;
-	MonetList *protoTemplates;
-	MonetList *protoSpecial;
+    MonetList *protoEquations;
+    MonetList *protoTemplates;
+    MonetList *protoSpecial;
 
-	NSFont    *courier, *courierBold;
+    NSFont *courier;
+    NSFont *courierBold;
 
-	id	delegateResponder;
-
+    id delegateResponder;
 }
 
 - init;
@@ -62,9 +68,9 @@
 - (void)setTransitions:sender;
 - (void)setSpecial:sender;
 
-- findEquationList: (const char *) list named: (const char *) name;
-- findList: (int *) listIndex andIndex: (int *) index ofEquation: equation;
-- findEquation: (int) listIndex andIndex: (int) index;
+- findEquationList:(NSString *)list named:(NSString *)name;
+- findList:(int *)listIndex andIndex:(int *)index ofEquation:equation;
+- findEquation:(int)listIndex andIndex:(int)index;
 
 - findTransitionList: (const char *) list named: (const char *) name;
 - findList: (int *) listIndex andIndex: (int *) index ofTransition: transition;

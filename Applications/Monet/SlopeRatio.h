@@ -13,34 +13,33 @@
 
 @interface SlopeRatio : NSObject
 {
-	MonetList	*points;
-	MonetList	*slopes;
+    MonetList *points;
+    MonetList *slopes;
 }
 
-- init;
+- (id)init;
+- (void)dealloc;
 
-- (void)setPoints:newList;
-- points;
-- (void)setSlopes:newList;
-- slopes;
+- (MonetList *)points;
+- (void)setPoints:(MonetList *)newList;
+
+- (MonetList *)slopes;
+- (void)setSlopes:(MonetList *)newList;
 - (void)updateSlopes;
 
-- (double) startTime;
-- (double) endTime;
+- (double)startTime;
+- (double)endTime;
 
 
-- calculatePoints: (double *) ruleSymbols tempos: (double *) tempos phones: phones andCacheWith: (int) newCacheTag
-        toDisplay: displayList ;
+- calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag
+        toDisplay:displayList ;
 
-- (double) calculatePoints: (double *) ruleSymbols tempos: (double *) tempos phones: phones andCacheWith: (int) newCacheTag
-	baseline: (double) baseline delta: (double) delta min: (double) min max:(double) max
-	toEventList: eventList atIndex: (int) index;
+- (double)calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag
+                 baseline:(double)baseline delta:(double)parameterDelta min:(double)min max:(double)max
+              toEventList:eventList atIndex:(int)index;
 
 - (double)totalSlopeUnits;
 - (void)displaySlopesInList:(MonetList *)displaySlopes;
-
-
-- (void)dealloc;
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 - (void)encodeWithCoder:(NSCoder *)aCoder;

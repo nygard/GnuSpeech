@@ -1,12 +1,10 @@
 #import "Target.h"
 
 #import <Foundation/Foundation.h>
+
 #ifdef NeXT
 #import <objc/typedstream.h>
 #endif
-//#import <stdio.h>
-//#import <string.h>
-//#import <stdlib.h>
 
 @implementation Target
 

@@ -1,4 +1,3 @@
-
 #import "Rule.h"
 #import "MyController.h"
 #import <stdio.h>
@@ -26,7 +25,7 @@ id tempList;
 	expressionSymbols = [[MonetList alloc] initWithCapacity: 5];
 
 	/* Zero out expressions and special Profiles */
-	bzero(expressions, sizeof(BooleanExpression *) * 4); 
+	bzero(expressions, sizeof(BooleanExpression *) * 4);
 	bzero(specialProfiles, sizeof(id) * 16);
 
 	return self;
@@ -110,7 +109,7 @@ int i;
 			[expressionSymbols addObject: tempDuration];	/* make the duration the mark3 value */
 
 			break;
-	} 
+	}
 }
 
 - (void)addDefaultParameter
@@ -129,7 +128,7 @@ id tempProto, tempEntry;
 			break;
 	}
 
-	[parameterProfiles addObject:tempEntry]; 
+	[parameterProfiles addObject:tempEntry];
 }
 
 - (void)addDefaultMetaParameter
@@ -148,7 +147,7 @@ id tempProto, tempEntry;
 			break;
 	}
 
-	[metaParameterProfiles addObject:tempEntry]; 
+	[metaParameterProfiles addObject:tempEntry];
 }
 
 - (void)removeParameter:(int)index
@@ -159,7 +158,7 @@ id tempProto, tempEntry;
 
 - (void)removeMetaParameter:(int)index
 {
-	[metaParameterProfiles removeObjectAtIndex: index]; 
+	[metaParameterProfiles removeObjectAtIndex: index];
 }
 
 - (void)dealloc
@@ -194,7 +193,7 @@ int len;
 
 	len = strlen(newComment);
 	comment = (char *) malloc(len+1);
-	strcpy(comment, newComment); 
+	strcpy(comment, newComment);
 }
 
 - (const char *) comment
@@ -340,7 +339,7 @@ id tempParameter, tempList;
 	expressionSymbols = [[MonetList alloc] initWithCapacity: 5];
 
 	[aDecoder decodeValuesOfObjCTypes:"i*", &i, &comment];
-	bzero(expressions, sizeof(BooleanExpression *) * 4); 
+	bzero(expressions, sizeof(BooleanExpression *) * 4);
 	for (j = 0; j<i; j++)
 	{
 		expressions[j] = [[aDecoder decodeObject] retain];

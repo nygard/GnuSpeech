@@ -1,11 +1,18 @@
-
 #import "RuleManager.h"
+
+#import <Foundation/Foundation.h>
+#import <AppKit/AppKit.h>
+#import "BooleanParser.h"
+#import "MonetList.h"
+#import "MyController.h"
+
+#ifdef PORTING
 #import "PhoneList.h"
 #import "SymbolList.h"
 #import "ParameterList.h"
 #import "ProtoEquation.h"
-#import <AppKit/NSApplication.h>
 #import "DelegateResponder.h"
+#endif
 
 
 @implementation RuleManager
@@ -82,12 +89,12 @@ char string[256];
 
 	[self evaluateMatchLists];
 
-	[[sender window] makeFirstResponder:delegateResponder]; 
+	[[sender window] makeFirstResponder:delegateResponder];
 }
 
 - (void)browserDoubleHit:sender
 {
-	 
+
 }
 
 - expressionString:(char *) string forRule:(int) index
@@ -264,13 +271,13 @@ int i;
 			[tempList addObject: [mainPhoneList objectAtIndex: i]];
 		}
 	}
-	
+
 	[tempExpression release];
 
 	sprintf(string,"Total Matches: %d", [tempList count]);
 	[matchBrowser1 setTitle:[NSString stringWithCString:string] ofColumn:0];
 	[matchBrowser1 loadColumnZero];
-	[self updateCombinations]; 
+	[self updateCombinations];
 }
 
 - (void)setExpression2:sender
@@ -313,13 +320,13 @@ int i;
 			[tempList addObject: [mainPhoneList objectAtIndex: i]];
 		}
 	}
-	
+
 	[tempExpression release];
 
 	sprintf(string,"Total Matches: %d", [tempList count]);
 	[matchBrowser2 setTitle:[NSString stringWithCString:string] ofColumn:0];
 	[matchBrowser2 loadColumnZero];
-	[self updateCombinations]; 
+	[self updateCombinations];
 }
 
 - (void)setExpression3:sender
@@ -362,13 +369,13 @@ int i;
 			[tempList addObject: [mainPhoneList objectAtIndex: i]];
 		}
 	}
-	
+
 	[tempExpression release];
 
 	sprintf(string,"Total Matches: %d", [tempList count]);
 	[matchBrowser3 setTitle:[NSString stringWithCString:string] ofColumn:0];
 	[matchBrowser3 loadColumnZero];
-	[self updateCombinations]; 
+	[self updateCombinations];
 }
 
 - (void)setExpression4:sender
@@ -411,25 +418,25 @@ int i;
 			[tempList addObject: [mainPhoneList objectAtIndex: i]];
 		}
 	}
-	
+
 	[tempExpression release];
 
 	sprintf(string,"Total Matches: %d", [tempList count]);
 	[matchBrowser4 setTitle:[NSString stringWithCString:string] ofColumn:0];
 	[matchBrowser4 loadColumnZero];
-	[self updateCombinations]; 
+	[self updateCombinations];
 }
 
 /*===========================================================================
 
 	Method: realignExpressions
-	Purpose: The purpose of this method is to align the sub-expressions 
+	Purpose: The purpose of this method is to align the sub-expressions
 		if one happens to have been removed.
 
 ===========================================================================*/
 - (void)realignExpressions
 {
-	
+
 	if ([[[expressionFields cellAtIndex:0] stringValue] isEqualToString:@""])
 	{
 		[[expressionFields cellAtIndex:0] setStringValue:[[expressionFields cellAtIndex:1] stringValue]];
@@ -452,7 +459,7 @@ int i;
 		[expressions removeObjectAtIndex:3];
 	}
 
-	[self evaluateMatchLists]; 
+	[self evaluateMatchLists];
 }
 
 - (void)evaluateMatchLists
@@ -492,7 +499,7 @@ char string[256];
 	[matchBrowser4 setTitle:[NSString stringWithCString:string] ofColumn:0];
 	[matchBrowser4 loadColumnZero];
 
-	[self updateCombinations]; 
+	[self updateCombinations];
 }
 
 - (void)updateCombinations
@@ -506,12 +513,12 @@ int i;
 		if ((temp1 = [[matchLists objectAtIndex:i] count]))
 			temp*=temp1;
 
-	[possibleCombinations setIntValue:temp]; 
+	[possibleCombinations setIntValue:temp];
 }
 
 - (void)updateRuleDisplay
 {
-	[ruleMatrix loadColumnZero]; 
+	[ruleMatrix loadColumnZero];
 }
 
 - (void)add:sender
@@ -534,10 +541,10 @@ BooleanExpression *exp1=nil, *exp2=nil, *exp3=nil, *exp4=nil;
 		exp4 = [boolParser parseString:[[[expressionFields cellAtIndex:3] stringValue] cString]];
 
 	[ruleList addRuleExp1: exp1 exp2: exp2 exp3: exp3 exp4: exp4];
-	
+
 	sprintf(string,"Total Rules: %d", [ruleList count]);
 	[ruleMatrix setTitle:[NSString stringWithCString:string] ofColumn:0];
-	[ruleMatrix loadColumnZero]; 
+	[ruleMatrix loadColumnZero];
 }
 
 - (void)rename:sender
@@ -560,8 +567,8 @@ int index = [[ruleMatrix matrixInColumn:0] selectedRow];
 		exp4 = [boolParser parseString:[[[expressionFields cellAtIndex:3] stringValue] cString]];
 
 	[ruleList changeRuleAt: index exp1: exp1 exp2: exp2 exp3: exp3 exp4: exp4];
-	
-	[ruleMatrix loadColumnZero]; 
+
+	[ruleMatrix loadColumnZero];
 }
 
 - (void)remove:sender
@@ -569,7 +576,7 @@ int index = [[ruleMatrix matrixInColumn:0] selectedRow];
 int index = [[ruleMatrix matrixInColumn:0] selectedRow];
 
 	[ruleList removeObjectAtIndex: index];
-	[ruleMatrix loadColumnZero]; 
+	[ruleMatrix loadColumnZero];
 }
 
 - (void)parseRule:sender
@@ -580,7 +587,7 @@ PhoneList *mainPhoneList;
 Phone *tempPhone;
 Rule *tempRule;
 char string[1024];
-double ruleSymbols[5] = {0.0, 0.0, 0.0, 0.0, 0.0}; 
+double ruleSymbols[5] = {0.0, 0.0, 0.0, 0.0, 0.0};
 
 	tempList = [[MonetList alloc] initWithCapacity:4];
 	phoneList = [[MonetList alloc] initWithCapacity:4];
@@ -679,7 +686,7 @@ double ruleSymbols[5] = {0.0, 0.0, 0.0, 0.0, 0.0};
 	NSBeep();
 	[ruleOutput setStringValue:@"Cannot find rule"];
 	[consumedTokens setIntValue:0];
-	[tempList release]; 
+	[tempList release];
 }
 
 - ruleList
@@ -690,26 +697,26 @@ double ruleSymbols[5] = {0.0, 0.0, 0.0, 0.0, 0.0};
 
 - (void)addParameter
 {
-	[ruleList makeObjectsPerform: (SEL)(@selector(addDefaultParameter))]; 
+	[ruleList makeObjectsPerform: (SEL)(@selector(addDefaultParameter))];
 }
 
 - (void)addMetaParameter
 {
-	[ruleList makeObjectsPerform: (SEL)(@selector(addDefaultMetaParameter))]; 
+	[ruleList makeObjectsPerform: (SEL)(@selector(addDefaultMetaParameter))];
 }
 
 - (void)removeParameter:(int)index
 {
 int i;
 	for (i = 0; i< [ruleList count]; i++)
-		[[ruleList objectAtIndex:i] removeParameter:index]; 
+		[[ruleList objectAtIndex:i] removeParameter:index];
 }
 
 - (void)removeMetaParameter:(int)index
 {
 int i;
 	for (i = 0; i< [ruleList count]; i++)
-		[[ruleList objectAtIndex:i] removeMetaParameter:index]; 
+		[[ruleList objectAtIndex:i] removeMetaParameter:index];
 }
 
 - (BOOL) isCategoryUsed: aCategory
@@ -728,12 +735,12 @@ int i;
 
 - findEquation: anEquation andPutIn: aList
 {
-	return [ruleList findEquation:anEquation andPutIn:  aList]; 
+	return [ruleList findEquation:anEquation andPutIn:  aList];
 }
 
 - findTemplate: aTemplate andPutIn: aList
 {
-	return [ruleList findTemplate:aTemplate andPutIn:  aList]; 
+	return [ruleList findTemplate:aTemplate andPutIn:  aList];
 }
 
 - (void)cut:(id)sender
@@ -812,7 +819,7 @@ id temp;
 
 - (void)readDegasFileFormat:(FILE *)fp
 {
-	[ruleList readDegasFileFormat:(FILE *) fp]; 
+	[ruleList readDegasFileFormat:(FILE *) fp];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -846,7 +853,7 @@ int i;
 
 	cacheValue = 1;
 
-	ruleList = [[stream decodeObject] retain]; 
+	ruleList = [[stream decodeObject] retain];
 }
 
 #ifdef NeXT
@@ -865,7 +872,7 @@ int i;
 - (void)writeRulesTo:(NSArchiver *)stream
 {
 
-	[stream encodeObject:ruleList]; 
+	[stream encodeObject:ruleList];
 }
 
 - (void)windowDidBecomeMain:(NSNotification *)notification

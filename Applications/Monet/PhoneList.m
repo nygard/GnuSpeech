@@ -2,6 +2,7 @@
 
 #import <Foundation/Foundation.h>
 #import "CategoryList.h"
+#import "MyController.h" // To get NXGetNamedObject()
 #import "Parameter.h"
 #import "ParameterList.h"
 #import "Phone.h"
@@ -12,7 +13,6 @@
 #ifdef PORTING
 #import "SymbolList.h"
 #import "TRMData.h"
-#import "MyController.h"
 #import <strings.h>
 #endif
 

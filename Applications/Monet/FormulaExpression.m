@@ -1,224 +1,230 @@
-
 #import "FormulaExpression.h"
-#import <Foundation/NSCoder.h>
-#import <string.h>
-#import <stdlib.h>
+
+#import <Foundation/Foundation.h>
 
 @implementation FormulaExpression
 
-- init
+- (id)init;
 {
-	numExpressions = 0;
-	operation = END;
+    if ([super init] == nil)
+        return nil;
 
-	/* Set up 4 sub expressions as the default.  Realloc later to increase */
-	maxExpressions = 4;
-	expressions = (id *) malloc (sizeof (id *) *4);
+    operation = END;
+    expressions = [[NSMutableArray alloc] init];
 
-	/* Set all Sub-Expressions to nil */
-	bzero(expressions, sizeof (id *) *4);
-
-	return self;
+    return self;
 }
 
-- (void)dealloc
+- (void)dealloc;
 {
-int i;
+    [expressions release];
 
-	for (i = 0; i<numExpressions; i++)
-		[expressions[i] release];
-	[super dealloc];
+    [super dealloc];
 }
 
-- (void)setPrecedence:(int)newPrec
+- (int)operation;
 {
-	precedence = newPrec; 
+    return operation;
 }
 
-- (int) precedence
+- (void)setOperation:(int)newOp;
 {
-	return precedence;
+    operation = newOp;
 }
 
-- (double) evaluate: (double *) ruleSymbols phones: phones
+- (int)precedence;
 {
-double tempos[4] = {1.0, 1.0, 1.0, 1.0};
-
-	return [self evaluate: ruleSymbols tempos: tempos phones: phones];
+    return precedence;
 }
 
-- (double) evaluate: (double *) ruleSymbols tempos: (double *) tempos phones: phones
+- (void)setPrecedence:(int)newPrec;
 {
-	switch(operation)
-	{
-		case ADD: 
-			return ([expressions[0] evaluate:ruleSymbols tempos: tempos phones: phones] + 
-				[expressions[1] evaluate:ruleSymbols tempos: tempos phones:phones]);
-			break;
-
-		case SUB: 
-			return ([expressions[0] evaluate:ruleSymbols tempos: tempos phones:phones] - 
-				[expressions[1] evaluate:ruleSymbols tempos: tempos phones:phones]);
-			break;
-
-		case MULT: 
-			return ([expressions[0] evaluate:ruleSymbols tempos: tempos phones:phones] *
-				[expressions[1] evaluate:ruleSymbols tempos: tempos phones:phones]);
-			break;
-
-		case DIV: 
-			return ([expressions[0] evaluate:ruleSymbols tempos: tempos phones:phones] /
-				[expressions[1] evaluate:ruleSymbols tempos: tempos phones:phones]);
-			break;
-
-		default: return 1.0;
-	}
-	return 0.0;
+    precedence = newPrec;
 }
 
-- (void)setOperation:(int)newOp
+- (double)evaluate:(double *)ruleSymbols phones:phones;
 {
-	operation = newOp; 
+    double tempos[4] = {1.0, 1.0, 1.0, 1.0};
+
+    return [self evaluate:ruleSymbols tempos:tempos phones:phones];
 }
 
-
-- (int) operation
+- (double)evaluate:(double *)ruleSymbols tempos:(double *)tempos phones:phones;
 {
-	return operation;
+    switch (operation) {
+      case ADD:
+          return ([[self operandOne] evaluate:ruleSymbols tempos:tempos phones:phones] +
+                  [[self operandTwo] evaluate:ruleSymbols tempos:tempos phones:phones]);
+          break;
+
+      case SUB:
+          return ([[self operandOne] evaluate:ruleSymbols tempos:tempos phones:phones] -
+                  [[self operandTwo] evaluate:ruleSymbols tempos:tempos phones:phones]);
+          break;
+
+      case MULT:
+          return ([[self operandOne] evaluate:ruleSymbols tempos:tempos phones:phones] *
+                  [[self operandTwo] evaluate:ruleSymbols tempos:tempos phones:phones]);
+          break;
+
+      case DIV:
+          return ([[self operandOne] evaluate:ruleSymbols tempos:tempos phones:phones] /
+                  [[self operandTwo] evaluate:ruleSymbols tempos:tempos phones:phones]);
+          break;
+
+      default: return 1.0;
+    }
+
+    return 0.0;
 }
 
-
-- (void)addSubExpression:newExpression
+- (void)addSubExpression:newExpression;
 {
-	expressions[numExpressions] = newExpression;
-	numExpressions++; 
+    [expressions addObject:newExpression];
 }
 
-- (void)setOperandOne:operand
+- operandOne;
 {
-	expressions[0] = operand;
-	if (expressions[0] == nil)
-		numExpressions = 0;
-	else 
-	if (expressions[1] != nil)
-		numExpressions = 2;
-	else
-		numExpressions = 1; 
+    if ([expressions count] > 0)
+        return [expressions objectAtIndex:0];
+
+    return nil;
 }
 
-- operandOne
+- (void)setOperandOne:operand;
 {
-	return expressions[0];
+    if ([expressions count] == 0)
+        [expressions addObject:operand];
+    else
+        [expressions replaceObjectAtIndex:0 withObject:operand];
 }
 
-- (void)setOperandTwo:operand
+- operandTwo;
 {
-	expressions[1] = operand;
-	if (operand!=nil)
-		numExpressions = 2; 
+    if ([expressions count] > 1)
+        return [expressions objectAtIndex:1];
+
+    return nil;
 }
 
-- operandTwo
+- (void)setOperandTwo:operand;
 {
-	return expressions[1];
+    switch ([expressions count]) {
+      case 0:
+          NSLog(@"Drat, there should be an operandOne in %s", _cmd);
+          break;
+      case 1:
+          [expressions addObject:operand];
+          break;
+      default:
+          [expressions replaceObjectAtIndex:1 withObject:operand];
+          break;
+    }
 }
 
-- (void)optimize
+- (void)optimize;
 {
-	 
-}
-
-
-- (void)optimizeSubExpressions
-{
-int i;
-	for (i = 0 ; i<numExpressions; i++)
-		[expressions[i] optimizeSubExpressions];
-
-	[self optimize]; 
 }
 
 
-- (int) maxExpressionLevels
+- (void)optimizeSubExpressions;
 {
-int i, max = 0;
-int temp;
+    int count, index;
 
-	for (i = 0 ; i<numExpressions; i++)
-	{
-		temp = [ expressions[i] maxExpressionLevels];
-		if (temp>max)
-			max = temp;
-	}
-	return max+1;
+    count = [expressions count];
+    for (index = 0; index < count; index++)
+        [[expressions objectAtIndex:index] optimizeSubExpressions];
+
+    [self optimize];
 }
 
-- (int) maxPhone
+
+- (int)maxExpressionLevels;
 {
-int i, max = 0;
-int temp;
+    int count, index;
+    int max = 0;
+    int temp;
 
-	for (i = 0 ; i<numExpressions; i++)
-	{
-		temp = [ expressions[i] maxPhone];
-		if (temp>max)
-			max = temp;
-	}
+    count = [expressions count];
+    for (index = 0; index < count; index++) {
+        temp = [[expressions objectAtIndex:index] maxExpressionLevels];
+        if (temp > max)
+            max = temp;
+    }
 
-	return max+1;
-}
-- expressionString:(char *)string
-{
-char buffer[1024];
-char *opString;
-int i;
-
-	bzero(buffer, 1024);
-	opString = [self opString];
-
-	if (precedence == 3)
-		strcat(string,"(");
-	for (i = 0 ; i<numExpressions; i++)
-	{
-		if (i!=0)
-			strcat(string, opString);
-		[expressions[i] expressionString:string];
-
-	}
-	if (precedence == 3)
-		strcat(string,")"); 
-	return self;
+    return max + 1;
 }
 
-- (char *) opString 
+- (int)maxPhone;
 {
-	switch(operation)
-	{
-		default:
-		case END: return ("");
-		case ADD: return (" + ");
-		case SUB: return (" - ");
-		case MULT: return (" * ");
-		case DIV: return (" / ");
+    int count, index;
+    int max = 0;
+    int temp;
 
-	}
+    count = [expressions count];
+    for (index = 0; index < count; index++) {
+        temp = [[expressions objectAtIndex:index] maxPhone];
+        if (temp > max)
+            max = temp;
+    }
+
+    return max + 1;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+- (void)expressionString:(NSMutableString *)resultString;
 {
-int i;
+    int count, index;
+    char buffer[1024];
+    NSString *opString;
 
-	[aDecoder decodeValuesOfObjCTypes:"iiii", &operation, &numExpressions, &maxExpressions, &precedence];
-	expressions = (id *) malloc (sizeof (id *) *maxExpressions);
+    bzero(buffer, 1024);
+    opString = [self opString];
 
+    if (precedence == 3)
+        [resultString appendString:@"("];
 
-	for (i = 0; i<numExpressions; i++)
-		expressions[i] = [[aDecoder decodeObject] retain];
+    count = [expressions count];
+    for (index = 0; index < count; index++) {
+        if (index != 0)
+            [resultString appendString:opString];
 
-	return self;
+        [[expressions objectAtIndex:index] expressionString:resultString];
+
+    }
+
+    if (precedence == 3)
+        [resultString appendString:@")"];
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder
+- (NSString *)opString;
+{
+    switch (operation) {
+      default:
+      case END: return @"";
+      case ADD: return @" + ";
+      case SUB: return @" - ";
+      case MULT: return @" * ";
+      case DIV: return @" / ";
+    }
+
+    return @"";
+}
+
+#ifdef PORTING
+- (id)initWithCoder:(NSCoder *)aDecoder;
+{
+    int i;
+
+    [aDecoder decodeValuesOfObjCTypes:"iiii", &operation, &numExpressions, &maxExpressions, &precedence];
+    expressions = (id *) malloc (sizeof (id *) *maxExpressions);
+
+    for (i = 0; i<numExpressions; i++)
+        expressions[i] = [[aDecoder decodeObject] retain];
+
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder;
 {
 int i;
 
@@ -226,9 +232,10 @@ int i;
 	for (i = 0; i<numExpressions; i++)
 		[aCoder encodeObject:expressions[i]];
 }
+#endif
 
 #ifdef NeXT
-- read:(NXTypedStream *)stream
+- read:(NXTypedStream *)stream;
 {
 int i;
 

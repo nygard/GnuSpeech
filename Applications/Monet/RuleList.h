@@ -1,5 +1,7 @@
 #import "MonetList.h"
 
+@class BooleanExpression, Rule;
+
 /*===========================================================================
 
 	Author: Craig-Richard Taube-Schock
@@ -13,20 +15,19 @@
 {
 }
 
-//- findRule:(const char *) searchSymbol;
+- (void)seedListWith:(BooleanExpression *)expression1:(BooleanExpression *)expression2;
+- (void)addRuleExp1:(BooleanExpression *)exp1 exp2:(BooleanExpression *)exp2 exp3:(BooleanExpression *)exp3 exp4:(BooleanExpression *)exp4;
+- (void)changeRuleAt:(int)index exp1:(BooleanExpression *)exp1 exp2:(BooleanExpression *)exp2 exp3:(BooleanExpression *)exp3 exp4:(BooleanExpression *)exp4;
 
-- addRuleExp1: exp1 exp2: exp2 exp3: exp3 exp4: exp4;
-- changeRuleAt: (int) index exp1: exp1 exp2: exp2 exp3: exp3 exp4: exp4;
+- (Rule *)findRule:(MonetList *)categories index:(int *)index;
 - (void)readDegasFileFormat:(FILE *)fp;
-- seedListWith: expression1 : expression2;
-- findRule: categories index:(int *) index;
 
-- (BOOL) isCategoryUsed: aCategory;
-- (BOOL) isEquationUsed: anEquation;
-- (BOOL) isTransitionUsed: aTransition;
+- (BOOL)isCategoryUsed:aCategory;
+- (BOOL)isEquationUsed:anEquation;
+- (BOOL)isTransitionUsed:aTransition;
 
-- findEquation: anEquation andPutIn: aList;
-- findTemplate: aTemplate andPutIn: aList;
+- (void)findEquation:anEquation andPutIn:(MonetList *)aList;
+- (void)findTemplate:aTemplate andPutIn:aList;
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 - (void)encodeWithCoder:(NSCoder *)aCoder;

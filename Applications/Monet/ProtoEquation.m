@@ -1,4 +1,3 @@
-
 #import "ProtoEquation.h"
 #import <Foundation/NSString.h>
 #import <Foundation/NSCoder.h>
@@ -49,7 +48,7 @@ int len;
 
 	len = strlen(newComment);
 	comment = (char *) malloc(len+1);
-	strcpy(comment, newComment); 
+	strcpy(comment, newComment);
 }
 
 - (const char *) comment
@@ -59,7 +58,7 @@ int len;
 
 - (void)setExpression:newExpression
 {
-	expression = newExpression; 
+	expression = newExpression;
 }
 
 - expression
@@ -94,10 +93,10 @@ int len;
 
 - (void)dealloc
 {
-	if (name) 
+	if (name)
 		free(name);
 
-	if (comment) 
+	if (comment)
 		free(comment);
 
 	if (expression)
