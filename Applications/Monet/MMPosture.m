@@ -25,7 +25,6 @@
 
 @implementation MMPosture
 
-// TODO (2004-03-19): Reject unused init method
 // This is now used from -[MMNamedObject initWithXMLAttributes:context:]
 - (id)init;
 {
