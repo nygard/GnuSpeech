@@ -917,7 +917,13 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     //NSLog(@"categories: %@", categories);
     //NSLog(@"categories: %d", [categories count]);
 
-    symbols = [[aDecoder decodeObject] retain];
+    {
+        SymbolList *archivedSymbols;
+
+        archivedSymbols = [aDecoder decodeObject];
+        symbols = [[NSMutableArray alloc] init];
+        [symbols addObjectsFromArray:[archivedSymbols allObjects]];
+    }
     //NSLog(@"symbols: %@", symbols);
     //NSLog(@"symbols: %d", [symbols count]);
     [symbols makeObjectsPerformSelector:@selector(setModel:) withObject:self];
