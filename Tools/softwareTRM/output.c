@@ -56,7 +56,7 @@ void writeOutputToFile(struct _TRMData *data, char *fileName)
     scale = OUTPUT_SCALE * (RANGE_MAX / sampleRateConverter.maximumSampleValue) * amplitude(data->inputParameters.volume);
 
     /*  Print out info  */
-    if (verbose) {
+    /*if (verbose)*/ {
 	printf("\nnumber of samples:\t%-ld\n", sampleRateConverter.numberSamples);
 	printf("maximum sample value:\t%.4f\n", sampleRateConverter.maximumSampleValue);
 	printf("scale:\t\t\t%.4f\n", scale);
@@ -304,6 +304,7 @@ void writeSamplesMonoMsb(FILE *tempFile, long int numberSamples, double scale, F
 
         fread(&sample, sizeof(sample), 1, tempFile);
         fwriteShortMsb((short)rint(sample * scale), outputFile);
+        //printf("%8ld: %g -> %hd\n", i, sample, (short)rint(sample * scale));
     }
 }
 

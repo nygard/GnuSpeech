@@ -1081,6 +1081,7 @@ void initializeConversion(struct _TRMInputParameters *inputParameters)
     sampleRateConverter.timeRegister = 0;
     sampleRateConverter.maximumSampleValue = 0.0;
     sampleRateConverter.numberSamples = 0;
+    printf("initializeConversion(), sampleRateConverter.maximumSampleValue: %g\n", sampleRateConverter.maximumSampleValue);
 
     /*  INITIALIZE FILTER IMPULSE RESPONSE  */
     initializeFilter();
@@ -1174,7 +1175,8 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context)
 
     //printf(" > resampleBuffer()\n");
     //printf("buffer size: %d\n", BUFFER_SIZE);
-    //printf("&sampleRateConverter: %p, aConverter: %p\n", &sampleRateConverter, aConverter);
+    printf("&sampleRateConverter: %p, aConverter: %p\n", &sampleRateConverter, aConverter);
+    printf("aRingBuffer: %p\n", aRingBuffer);
     //printf("numberSamples before: %ld\n", aConverter->numberSamples);
     //printf("fillPtr: %d, padSize: %d\n", aRingBuffer->fillPtr, aRingBuffer->padSize);
 
@@ -1194,7 +1196,7 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context)
     /*  UPSAMPLE LOOP (SLIGHTLY MORE EFFICIENT THAN DOWNSAMPLING)  */
     //printf("aConverter->sampleRateRatio: %g\n", aConverter->sampleRateRatio);
     if (aConverter->sampleRateRatio >= 1.0) {
-        //printf("Upsampling...\n");
+        printf("Upsampling...\n");
         while (aRingBuffer->emptyPtr < endPtr) {
             int index;
             unsigned int filterIndex;
@@ -1229,8 +1231,11 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context)
 
             /*  RECORD MAXIMUM SAMPLE VALUE  */
             absoluteSampleValue = fabs(output);
-            if (absoluteSampleValue > aConverter->maximumSampleValue)
+            //printf("%g > %g ?\n", absoluteSampleValue, aConverter->maximumSampleValue);
+            if (absoluteSampleValue > aConverter->maximumSampleValue) {
+                printf("Setting new maximum: %g\n", absoluteSampleValue);
                 aConverter->maximumSampleValue = absoluteSampleValue;
+            }
 
             /*  INCREMENT SAMPLE NUMBER  */
             aConverter->numberSamples++;
@@ -1256,7 +1261,7 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context)
             aConverter->timeRegister &= (~N_MASK);
         }
     } else {
-        //printf("Downsampling...\n");
+        printf("Downsampling...\n");
         /*  DOWNSAMPLING CONVERSION LOOP  */
         while (aRingBuffer->emptyPtr < endPtr) {
             int index;
@@ -1295,8 +1300,11 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context)
 
             /*  RECORD MAXIMUM SAMPLE VALUE  */
             absoluteSampleValue = fabs(output);
-            if (absoluteSampleValue > aConverter->maximumSampleValue)
+            //printf("%g > %g ?\n", absoluteSampleValue, aConverter->maximumSampleValue);
+            if (absoluteSampleValue > aConverter->maximumSampleValue) {
+                printf("Setting new maximum: %g\n", absoluteSampleValue);
                 aConverter->maximumSampleValue = absoluteSampleValue;
+            }
 
             /*  INCREMENT SAMPLE NUMBER  */
             aConverter->numberSamples++;

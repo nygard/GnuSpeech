@@ -36,7 +36,6 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
     TRMSynthesizer *synthesizer;
     int sampleCount;
     BOOL shouldStop;
-    static int where = 0;
 
     //NSLog(@"myInputCallback()");
     synthesizer = (TRMSynthesizer *)inRefCon;
@@ -44,28 +43,28 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
     //NSLog(@"mNumberChannels: %d", ioData->mNumberChannels);
     //NSLog(@"mDataByteSize: %d", ioData->mDataByteSize);
 
-    sampleCount = (ioData->mDataByteSize / sizeof(float)) / 2;
+    sampleCount = (ioData->mDataByteSize / sizeof(short));
+    shouldStop = [synthesizer fillBuffer:ioData->mData count:sampleCount];
+
+    if (shouldStop)
+        [synthesizer stopPlaying];
 #if 0
     // This reduces the strange artifact, but I think it's still there... :(
-    memset(ioData->mData, 0, ioData->mDataByteSize);
+    //memset(ioData->mData, 0, ioData->mDataByteSize);
 
     {
         int index;
         float freq = 1000;
-        float *buf = ioData->mData;
+        short *buf = ioData->mData;
+        static int where = 0;
 
         for (index = 0; index < sampleCount; index++) {
-            buf[2 * index] = .75 * sin(2 * M_PI * freq / 44100.0 * (where + index));
-            buf[2 * index + 1] = .75 * sin(2 * M_PI * freq / 44100.0 * (where + index));
+            buf[index] = 32767 * .75 * sin(2 * M_PI * freq / 44100.0 * (where + index));
         }
 
         where += sampleCount;
     }
 #endif
-    shouldStop = [synthesizer fillBuffer:ioData->mData count:sampleCount];
-
-    if (shouldStop)
-        [synthesizer stopPlaying];
 
     return kAudioHardwareNoError;
 }
@@ -96,6 +95,7 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
 
 - (void)dealloc;
 {
+    NSLog(@"%s, free(inputData)", _cmd);
     free(inputData);
     [soundData release];
 
@@ -140,6 +140,8 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
 {
     INPUT *ptr, *next;
 
+    NSLog(@" > %s", _cmd);
+
     ptr = inputData->inputHead;
     while (ptr != NULL) {
         next = ptr->next;
@@ -149,6 +151,8 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
 
     inputData->inputHead = NULL;
     inputData->inputTail = NULL;
+
+    NSLog(@"<   %s", _cmd);
 }
 
 - (void)addParameters:(float *)values;
@@ -196,28 +200,30 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
     // TODO (2004-05-07): Would need to reset maximumSampleValue at the beginning of each synthesis
     //scale = (RANGE_MAX / sampleRateConverter.maximumSampleValue) * amplitude(inputData->inputParameters.volume);
     NSLog(@"amplitude(inputData->inputParameters.volume): %g", amplitude(inputData->inputParameters.volume));
-    NSLog(@"sampleRateConverter.maximumSampleValue: %g", sampleRateConverter.maximumSampleValue);
+    NSLog(@"sampleRateConverter.maximumSampleValue: %.4f", sampleRateConverter.maximumSampleValue);
     if (sampleRateConverter.maximumSampleValue == 0)
         NSBeep();
-    scale = 0.5 * amplitude(inputData->inputParameters.volume) / sampleRateConverter.maximumSampleValue;
-    NSLog(@"scale: %g", scale);
+    scale = (RANGE_MAX / sampleRateConverter.maximumSampleValue) * amplitude(inputData->inputParameters.volume) ;
+    NSLog(@"scale: %.4f", scale);
 
     /*  Rewind the temporary file to beginning  */
     rewind(sampleRateConverter.tempFilePtr);
 
     for (index = 0; index < sampleRateConverter.numberSamples; index++) {
         double sample;
-        float value;
+        short value;
 
         fread(&sample, sizeof(sample), 1, sampleRateConverter.tempFilePtr);
 
-        value = sample * scale;
-        //NSLog(@"value: %f", value);
+        value = rint(sample * scale);
+        //printf("%8ld: %g -> %hd\n", index, sample, (short)rint(sample * scale));
+        //NSLog(@"value: %hd", value);
         [soundData appendBytes:&value length:sizeof(value)];
     }
 
     NSLog(@"soundData: %p, length: %d", soundData, [soundData length]);
-    bufferLength = [soundData length] / sizeof(float);
+    bufferLength = [soundData length] / sizeof(short);
+    NSLog(@"bufferLength: %ld", bufferLength);
 }
 
 - (void)startPlaying;
@@ -298,7 +304,7 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
     }
 
     NSLog(@"sampleRate: %g", sampleRate);
-
+#if 0
     sampleRate = 22050.0;
 
     result = AudioUnitSetProperty(outputUnit, kAudioUnitProperty_SampleRate, kAudioUnitScope_Output, 0, &sampleRate, sizeof(sampleRate));
@@ -307,7 +313,7 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
     } else {
         NSLog(@"Set property, sampleRate = 22050");
     }
-
+#endif
     //
     NSLog(@"**********************************************************************");
 
@@ -376,13 +382,22 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
         NSLog(@"bits per channel: %d", format.mBitsPerChannel);
 
         // It looks like you need to use an AudioConverter to change the sampling rate.
-#if 0
-        format.mSampleRate = 22050.0;
+        format.mFormatID = kAudioFormatLinearPCM;
+        format.mFormatFlags = kAudioFormatFlagIsBigEndian | kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked;
+        format.mBytesPerPacket = 2;
+        format.mFramesPerPacket = 1;
+        format.mBytesPerFrame = 2;
+        format.mChannelsPerFrame = 1;
+        format.mBitsPerChannel = 16;
 
-        result = AudioUnitSetProperty(outputUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 0, &format, sizeof(format));
-        if (result != kAudioHardwareNoError) {
-            NSLog(@"AudioUnitSetProperty(format.mSampleRate) failed: %@", [NSString stringWithFourCharCode:result]);
-            return;
+#if 1
+        {
+            result = AudioUnitSetProperty(outputUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &format, sizeof(format));
+            if (result != kAudioHardwareNoError) {
+                NSLog(@"AudioUnitSetProperty(StreamFormat) failed: %d %x %@", result, result, [NSString stringWithFourCharCode:result]);
+            } else {
+                NSLog(@"It worked! (setting the stream data format)");
+            }
         }
 #endif
     }
@@ -404,26 +419,26 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
     }
 }
 
-- (BOOL)fillBuffer:(float *)buffer count:(int)count;
+- (BOOL)fillBuffer:(short *)buffer count:(int)count;
 {
     int index;
-    const float *ptr = [soundData bytes];
+    const short *ptr = [soundData bytes];
 
     // It looks like the buffer size is 4096
     //NSLog(@"ptr: %p", ptr);
-    //NSLog(@"%s, bufferIndex: %d, bufferLength: %d", _cmd, bufferIndex, bufferLength);
+    NSLog(@"%s, bufferIndex: %d, bufferLength: %d", _cmd, bufferIndex, bufferLength);
     for (index = 0; index < count && bufferIndex < bufferLength; index++) {
         //buffer[2 * index] = ptr[bufferIndex] / (float)RANGE_MAX;
         //buffer[2 * index + 1] = ptr[bufferIndex] / (float)RANGE_MAX;
-        buffer[2 * index] = ptr[bufferIndex];
-        buffer[2 * index + 1] = ptr[bufferIndex];
+        buffer[index] = ptr[bufferIndex];
+        //buffer[2 * index + 1] = ptr[bufferIndex];
         //NSLog(@"value: %hd %f", ptr[bufferIndex], buffer[2 * index]);
         bufferIndex++;
     }
 
     for (; index < count; index++) {
-        buffer[2 * index] = 0;
-        buffer[2 * index + 1] = 0;
+        buffer[index] = 0;
+        //buffer[2 * index + 1] = 0;
     }
 
     return bufferIndex >= bufferLength;

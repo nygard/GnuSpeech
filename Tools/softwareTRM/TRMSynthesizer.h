@@ -38,6 +38,6 @@ extern int verbose;
 - (void)stopPlaying;
 
 - (void)setupSoundDevice;
-- (BOOL)fillBuffer:(float *)buffer count:(int)count;
+- (BOOL)fillBuffer:(short *)buffer count:(int)count;
 
 @end
