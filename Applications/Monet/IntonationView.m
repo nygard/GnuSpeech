@@ -48,7 +48,6 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
     [ruleDurationTextFieldCell setAlignment:NSCenterTextAlignment];
     [ruleDurationTextFieldCell setFont:[NSFont labelFontOfSize:8.0]];
     [ruleDurationTextFieldCell setFormatter:durationFormatter];
-    NSLog(@"font: %@", [ruleDurationTextFieldCell font]);
 
     [durationFormatter release];
 
@@ -57,7 +56,7 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
 
     [postureTextFieldCell setFont:timesFont];
 
-    timeScale = 2.0;
+    timeScale = 1.0;
     flags.mouseBeingDragged = NO;
 
     eventList = nil;
@@ -143,7 +142,6 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
     Event *lastEvent;
     float width;
 
-    NSLog(@"%s", _cmd);
     // TODO (2004-03-15): Changing the view frame in drawRect: can cause problems.  Should do before drawRect:
     clipRect = [[self superview] frame];
     lastEvent = [[eventList events] lastObject];
