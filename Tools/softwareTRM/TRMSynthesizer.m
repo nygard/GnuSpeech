@@ -242,36 +242,13 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
 {
     OSStatus result;
     UInt32 count;
-    double sampleRate;
-    float volume;
 
-#if 1
     result = OpenDefaultAudioOutput(&outputUnit);
     if (result != kAudioHardwareNoError) {
         NSLog(@"OpenDefaultAudioOutput() failed: %@", [NSString stringWithFourCharCode:result]);
     } else {
         NSLog(@"Got default audio output.");
     }
-#else
-    {
-        Component comp;
-        ComponentDescription desc;
-
-        desc.componentType = kAudioUnitType_Output;
-        desc.componentSubType = kAudioUnitSubType_DefaultOutput;
-        desc.componentManufacturer = kAudioUnitManufacturer_Apple;
-        desc.componentFlags = 0;
-        desc.componentFlagsMask = 0;
-
-        comp = FindNextComponent(NULL, &desc);
-        if (comp == NULL) {
-            NSLog(@"Couldn't find component.");
-            return;
-        }
-
-        OpenAComponent(comp, &outputUnit);
-    }
-#endif
 
     result = AudioUnitInitialize(outputUnit);
     if (result != kAudioHardwareNoError) {
@@ -279,88 +256,6 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
     } else {
         NSLog(@"initialized.");
     }
-
-    {
-        Boolean isWritable;
-
-        result = AudioUnitGetPropertyInfo(outputUnit, kAudioUnitProperty_SampleRate, kAudioUnitScope_Output, 0, &count, &isWritable);
-        if (result != kAudioHardwareNoError) {
-            NSLog(@"AudioUnitGetPropertyInfo() failed.");
-        } else {
-            NSLog(@"sample rate size: %d, isWritable: %d", count, isWritable);
-        }
-    }
-
-    //
-
-    sampleRate = 45;
-
-    count = sizeof(sampleRate);
-    result = AudioUnitGetProperty(outputUnit, kAudioUnitProperty_SampleRate, kAudioUnitScope_Global, 0, &sampleRate, &count);
-    if (result != kAudioHardwareNoError) {
-        NSLog(@"AudioUnitGetProperty() failed: %@", [NSString stringWithFourCharCode:result]);
-    } else {
-        NSLog(@"Got property.");
-    }
-
-    NSLog(@"sampleRate: %g", sampleRate);
-#if 0
-    sampleRate = 22050.0;
-
-    result = AudioUnitSetProperty(outputUnit, kAudioUnitProperty_SampleRate, kAudioUnitScope_Output, 0, &sampleRate, sizeof(sampleRate));
-    if (result != kAudioHardwareNoError) {
-        NSLog(@"AudioUnitSetProperty() failed: %d %x %@", result, result, [NSString stringWithFourCharCode:result]);
-    } else {
-        NSLog(@"Set property, sampleRate = 22050");
-    }
-#endif
-    //
-    NSLog(@"**********************************************************************");
-
-    {
-        AudioUnitParameterInfo parameterInfo;
-
-        count = sizeof(parameterInfo);
-        result = AudioUnitGetProperty(outputUnit, kAudioUnitProperty_ParameterInfo, kAudioUnitScope_Global, kHALOutputParam_Volume,
-                                      &parameterInfo, &count);
-        if (result != kAudioHardwareNoError) {
-            NSLog(@"AudioUnitGetProperty(volume) failed: %d %x %@", result, result, [NSString stringWithFourCharCode:result]);
-        } else {
-            NSLog(@"Got parameter info - volume.");
-            if (parameterInfo.flags & kAudioUnitParameterFlag_HasCFNameString) {
-                NSLog(@"kAudioUnitParameterFlag_HasCFNameString: %@", parameterInfo.cfNameString);
-            }
-            NSLog(@"unit: %d", parameterInfo.unit);
-            NSLog(@"minValue: %f", parameterInfo.minValue);
-            NSLog(@"maxValue: %f", parameterInfo.maxValue);
-            NSLog(@"defaultValue: %f", parameterInfo.defaultValue);
-            NSLog(@"flags: %x", parameterInfo.flags);
-        }
-    }
-    NSLog(@"**********************************************************************");
-
-    volume = 2;
-
-    count = sizeof(volume);
-    result = AudioUnitGetProperty(outputUnit, kHALOutputParam_Volume, kAudioUnitScope_Global, 0, &volume, &count);
-    if (result != kAudioHardwareNoError) {
-        NSLog(@"AudioUnitGetProperty(volume) failed: %@", [NSString stringWithFourCharCode:result]);
-    } else {
-        NSLog(@"Got property.");
-    }
-
-    NSLog(@"volume: %f", volume);
-
-#if 0
-    result = AudioUnitSetProperty(outputUnit, kHALOutputParam_Volume, kAudioUnitScope_Output, 0, &volume, sizeof(volume));
-    if (result != kAudioHardwareNoError) {
-        NSLog(@"AudioUnitSetProperty(volume) failed: %@", [NSString stringWithFourCharCode:result]);
-        NSLog(@"result: %d", result);
-        // Result is generally kAudioUnitErr_PropertyNotWritable :(
-    } else {
-        NSLog(@"Set property, sampleRate = 22050");
-    }
-#endif
 
     {
         AudioStreamBasicDescription format;
@@ -428,17 +323,12 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
     //NSLog(@"ptr: %p", ptr);
     NSLog(@"%s, bufferIndex: %d, bufferLength: %d", _cmd, bufferIndex, bufferLength);
     for (index = 0; index < count && bufferIndex < bufferLength; index++) {
-        //buffer[2 * index] = ptr[bufferIndex] / (float)RANGE_MAX;
-        //buffer[2 * index + 1] = ptr[bufferIndex] / (float)RANGE_MAX;
         buffer[index] = ptr[bufferIndex];
-        //buffer[2 * index + 1] = ptr[bufferIndex];
-        //NSLog(@"value: %hd %f", ptr[bufferIndex], buffer[2 * index]);
         bufferIndex++;
     }
 
     for (; index < count; index++) {
         buffer[index] = 0;
-        //buffer[2 * index + 1] = 0;
     }
 
     return bufferIndex >= bufferLength;
