@@ -26,6 +26,11 @@
 #define SECTION_COUNT 14
 #define SLOPE_MARKER_HEIGHT 18
 
+#define ZERO_INDEX 2
+#define SECTION_AMOUNT 10
+
+// TODO (2004-03-15): Should have methods to convert between points in the view and graph values.
+
 @implementation TransitionView
 
 static NSImage *_dotMarker = nil;
@@ -201,10 +206,10 @@ static NSImage *_selectionBox = nil;
     graphOrigin = [self graphOrigin];
 
     [[NSColor lightGrayColor] set];
-    rect = NSMakeRect(graphOrigin.x + 1.0, graphOrigin.y + 1.0, bounds.size.width - 2 * (LEFT_MARGIN + 1), 2 * sectionHeight);
+    rect = NSMakeRect(graphOrigin.x + 1.0, graphOrigin.y + 1.0, bounds.size.width - 2 * (LEFT_MARGIN + 1), ZERO_INDEX * sectionHeight);
     NSRectFill(rect);
 
-    rect = NSMakeRect(graphOrigin.x + 1.0, graphOrigin.y + 1.0 + 12 * sectionHeight,
+    rect = NSMakeRect(graphOrigin.x + 1.0, graphOrigin.y + 1.0 + (10 + ZERO_INDEX) * sectionHeight,
                       bounds.size.width - 2 * (LEFT_MARGIN + 1), 2 * sectionHeight);
     NSRectFill(rect);
 
@@ -233,7 +238,7 @@ static NSImage *_selectionBox = nil;
         [bezierPath lineToPoint:NSMakePoint(bounds.size.width - LEFT_MARGIN + 0.5, currentYPos)];
 
         currentYPos = graphOrigin.y + i * sectionHeight - 5;
-        label = [NSString stringWithFormat:@"%4d%%", (i - 2) * 10];
+        label = [NSString stringWithFormat:@"%4d%%", (i - ZERO_INDEX) * SECTION_AMOUNT];
         labelSize = [label sizeWithAttributes:nil];
         //NSLog(@"label (%@) size: %@", label, NSStringFromSize(labelSize));
         [label drawAtPoint:NSMakePoint(LEFT_MARGIN - LABEL_MARGIN - labelSize.width, currentYPos) withAttributes:nil];
@@ -406,7 +411,7 @@ static NSImage *_selectionBox = nil;
 
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:2];
-    [bezierPath moveToPoint:NSMakePoint(graphOrigin.x, graphOrigin.y + (yScale * 2))];
+    [bezierPath moveToPoint:NSMakePoint(graphOrigin.x, graphOrigin.y + (yScale * ZERO_INDEX))];
 
     // TODO (2004-03-02): With the bezier path change, we may want to do the compositing after we draw the path.
     count = [displayPoints count];
@@ -420,7 +425,7 @@ static NSImage *_selectionBox = nil;
         else
             eventTime = [[currentPoint expression] cacheValue];
         myPoint.x = graphOrigin.x + timeScale * eventTime;
-        myPoint.y = graphOrigin.y + (yScale * 2) + (y * (float)yScale / 10.0);
+        myPoint.y = graphOrigin.y + (yScale * ZERO_INDEX) + (y * (float)yScale / SECTION_AMOUNT);
         [bezierPath lineToPoint:myPoint];
         switch ([currentPoint type]) {
           case TETRAPHONE:
@@ -438,13 +443,13 @@ static NSImage *_selectionBox = nil;
             if ([currentPoint type] == [(GSMPoint *)[displayPoints objectAtIndex:index+1] type])
                 [bezierPath moveToPoint:myPoint];
             else
-                [bezierPath moveToPoint:NSMakePoint(myPoint.x, graphOrigin.y + (2 * yScale))];
+                [bezierPath moveToPoint:NSMakePoint(myPoint.x, graphOrigin.y + (ZERO_INDEX * yScale))];
         }
         else
             [bezierPath moveToPoint:NSMakePoint(myPoint.x, myPoint.y)];
     }
 
-    [bezierPath lineToPoint:NSMakePoint([self bounds].size.width - LEFT_MARGIN, [self bounds].size.height - BOTTOM_MARGIN - (2 * yScale))];
+    [bezierPath lineToPoint:NSMakePoint([self bounds].size.width - LEFT_MARGIN, [self bounds].size.height - BOTTOM_MARGIN - (ZERO_INDEX * yScale))];
     [bezierPath stroke];
     [bezierPath release];
 
@@ -496,7 +501,7 @@ static NSImage *_selectionBox = nil;
             else
                 eventTime = [[tempPoint expression] cacheValue];
             myPoint.x = graphOrigin.x + timeScale * eventTime;
-            myPoint.y = graphOrigin.y + (yScale * 2) + (y * (float)yScale / 10.0);
+            myPoint.y = graphOrigin.y + (yScale * ZERO_INDEX) + (y * (float)yScale / SECTION_AMOUNT);
 
             //NSLog(@"Selection; x: %f y:%f", myPoint.x, myPoint.y);
 
@@ -634,7 +639,7 @@ static NSImage *_selectionBox = nil;
             newPoint = [[GSMPoint alloc] init];
             [newPoint setFreeTime:(hitPoint.x - graphOrigin.x) / [self timeScale]];
             //NSLog(@"hitPoint: %@, graphOrigin: %@, yScale: %d", NSStringFromPoint(hitPoint), NSStringFromPoint(graphOrigin), yScale);
-            newValue = (hitPoint.y - graphOrigin.y - (2.0 * yScale)) * 10.0 / (yScale);
+            newValue = (hitPoint.y - graphOrigin.y - (ZERO_INDEX * yScale)) * SECTION_AMOUNT / yScale;
 
             //NSLog(@"NewPoint Time: %f  value: %f", [tempPoint freeTime], [tempPoint value]);
             [newPoint setValue:newValue];
@@ -1018,7 +1023,7 @@ static NSImage *_selectionBox = nil;
             currentPoint.x = [[currentDisplayPoint expression] evaluate:symbols phones:dummyPhoneList andCacheWith:cache];
 
         currentPoint.x *= timeScale;
-        currentPoint.y = (yScale * 2) + ([currentDisplayPoint value] * yScale / 10.0);
+        currentPoint.y = (yScale * ZERO_INDEX) + ([currentDisplayPoint value] * yScale / SECTION_AMOUNT);
 
         //NSLog(@"%2d: currentPoint: %@", index, NSStringFromPoint(currentPoint));
         if (NSPointInRect(currentPoint, selectionRect) == YES) {
