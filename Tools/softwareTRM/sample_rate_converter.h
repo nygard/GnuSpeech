@@ -22,7 +22,8 @@ typedef struct _TRMSampleRateConverter {
     double sampleRateRatio;
     double h[FILTER_LENGTH];
     double deltaH[FILTER_LENGTH];
-    unsigned int timeRegisterIncrement, filterIncrement, phaseIncrement;
+    unsigned int timeRegisterIncrement;
+    unsigned int filterIncrement, phaseIncrement;
     unsigned int timeRegister;
 
     TRMRingBuffer *ringBuffer; // input ring buffer

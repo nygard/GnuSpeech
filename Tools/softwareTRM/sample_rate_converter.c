@@ -17,7 +17,7 @@
 #define fractionValue(x)          ((x) & FRACTION_MASK)
 
 static void initializeFilter(TRMSampleRateConverter *sampleRateConverter);
-static void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context);
+static void resampleBuffer(TRMRingBuffer *aRingBuffer, void *context);
 
 /******************************************************************************
 *
@@ -42,7 +42,6 @@ TRMSampleRateConverter *TRMSampleRateConverterCreate(double sampleRate, double o
     newSampleRateConverter->timeRegister = 0;
     newSampleRateConverter->maximumSampleValue = 0.0;
     newSampleRateConverter->numberSamples = 0;
-    printf("initializeConversion(), newSampleRateConverter.maximumSampleValue: %g\n", newSampleRateConverter->maximumSampleValue);
 
     // Initialize filter impulse response
     initializeFilter(newSampleRateConverter);
@@ -60,7 +59,9 @@ TRMSampleRateConverter *TRMSampleRateConverterCreate(double sampleRate, double o
     // Calculate phase or filter increment
     if (newSampleRateConverter->sampleRateRatio >= 1.0) {
         newSampleRateConverter->filterIncrement = L_RANGE;
+        newSampleRateConverter->phaseIncrement = 0.0;
     } else {
+        newSampleRateConverter->filterIncrement = 0.0;
         newSampleRateConverter->phaseIncrement = (unsigned int)rint(newSampleRateConverter->sampleRateRatio * (double)FRACTION_RANGE);
     }
 
@@ -69,7 +70,6 @@ TRMSampleRateConverter *TRMSampleRateConverterCreate(double sampleRate, double o
         (int)((float)ZERO_CROSSINGS / roundedSampleRateRatio) + 1;
 
     newSampleRateConverter->ringBuffer = TRMRingBufferCreate(padSize);
-
     newSampleRateConverter->ringBuffer->context = newSampleRateConverter;
     newSampleRateConverter->ringBuffer->callbackFunction = resampleBuffer;
 
@@ -144,7 +144,7 @@ static void initializeFilter(TRMSampleRateConverter *sampleRateConverter)
 // Converts available portion of the input signal to the new sampling
 // rate, and outputs the samples to the sound struct.
 
-static void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context)
+static void resampleBuffer(TRMRingBuffer *aRingBuffer, void *context)
 {
     TRMSampleRateConverter *aConverter = (TRMSampleRateConverter *)context;
     int endPtr;
