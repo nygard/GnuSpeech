@@ -213,10 +213,10 @@
 - (void)drawGrid;
 {
     NSRect drawFrame;
-    NSArray *list;
+    NSArray *cellList;
     MonetList *displayList;
     int i, j, k, parameterIndex, phoneIndex;
-    id tempCell;
+    NiftyMatrixCell *aCell;
     float currentX, currentY;
     float currentMin, currentMax;
     ParameterList *parameterList = NXGetNamedObject(@"mainParameterList", NSApp);
@@ -231,11 +231,11 @@
     phoneIndex = 0;
     displayList = [[MonetList alloc] initWithCapacity:10];
 
-    list = [niftyMatrix cells];
-    for (i = 0; i < [list count]; i++) {
-        tempCell = [list objectAtIndex:i];
-        if ([tempCell toggleValue]) {
-            [displayList addObject:tempCell];
+    cellList = [niftyMatrix cells];
+    for (i = 0; i < [cellList count]; i++) {
+        aCell = [cellList objectAtIndex:i];
+        if ([aCell toggleValue]) {
+            [displayList addObject:aCell];
         }
     }
 
@@ -252,27 +252,23 @@
     [[NSColor blackColor] set];
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:2];
-    [bezierPath moveToPoint:NSMakePoint(80.0, 50.0)];
-    [bezierPath lineToPoint:NSMakePoint(80.0, bounds.size.height - 50.0)];
-    [bezierPath lineToPoint:NSMakePoint(bounds.size.width - 20.0, bounds.size.height - 50.0)];
-    [bezierPath lineToPoint:NSMakePoint(bounds.size.width - 20.0, 50.0)];
-    [bezierPath lineToPoint:NSMakePoint(80.0, 50.0)];
+    [bezierPath appendBezierPathWithRect:NSMakeRect(80, 50, bounds.size.width - 80 - 20, bounds.size.height - 50 - 50)];
     [bezierPath stroke];
     [bezierPath release];
 
     /* Draw the space for each Track */
     [[NSColor darkGrayColor] set];
     for (i = 0; i < j; i++) {
-        NSRectFill(NSMakeRect(80.0, bounds.size.height - (50.0 + (float)(i + 1) * TRACKHEIGHT), bounds.size.width - 100.0, BORDERHEIGHT));
+        NSRectFill(NSMakeRect(80.0 + 1, bounds.size.height - (50.0 + (float)(i + 1) * TRACKHEIGHT), bounds.size.width - 100.0 - 2, BORDERHEIGHT));
     }
 
     [[NSColor blackColor] set];
     [timesFont set];
     for (i = 0; i < j; i++) {
-        id anObject;
+        Parameter *aParameter;
 
-        anObject = [parameterList objectAtIndex:[[displayList objectAtIndex:i] orderTag]];
-        [[anObject symbol] drawAtPoint:NSMakePoint(15.0, bounds.size.height - ((float)(i + 1) * TRACKHEIGHT) + 15.0) withAttributes:nil];
+        aParameter = [parameterList objectAtIndex:[[displayList objectAtIndex:i] orderTag]];
+        [[aParameter symbol] drawAtPoint:NSMakePoint(15.0, bounds.size.height - ((float)(i + 1) * TRACKHEIGHT) + 15.0) withAttributes:nil];
     }
 
     [timesFontSmall set];
