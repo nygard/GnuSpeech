@@ -46,7 +46,7 @@ History:
     id usageBrowser;
     id usageField;
 
-    ProtoEquation *protoEquation;
+    ProtoEquation *currentProtoEquation;
     id formParser;
 
     MonetList *equationList;
@@ -55,7 +55,9 @@ History:
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 - (id)init;
 - (void)dealloc;
-- (void)inspectProtoEquation:(ProtoEquation *)equation;
+
+- (void)setCurrentProtoEquation:(ProtoEquation *)anEquation;
+- (void)inspectProtoEquation:(ProtoEquation *)anEquation;
 
 - (void)setUpWindow:(NSPopUpButton *)sender;
 - (void)beginEditting;

@@ -26,13 +26,23 @@
 {
     [formParser release];
     [templateList release];
+    [currentProtoTemplate release];
 
     [super dealloc];
 }
 
-- (void)inspectProtoTemplate:(ProtoTemplate *)template;
+- (void)setCurrentProtoTemplate:(ProtoTemplate *)aTemplate;
 {
-    protoTemplate = template;
+    if (aTemplate == currentProtoTemplate)
+        return;
+
+    [currentProtoTemplate release];
+    currentProtoTemplate = [aTemplate retain];
+}
+
+- (void)inspectProtoTemplate:(ProtoTemplate *)aTemplate;
+{
+    [self setCurrentProtoTemplate:aTemplate];
     [mainInspector setPopUpListView:popUpListView];
     [self setUpWindow:popUpList];
 }
@@ -53,11 +63,11 @@
         [revertCommentButton setTarget:self];
         [revertCommentButton setAction:@selector(revertComment:)];
 
-        [commentText setString:[protoTemplate comment]];
+        [commentText setString:[currentProtoTemplate comment]];
     } else if ([str hasPrefix:@"G"]) {
         [mainInspector setGeneralView:genInfoView];
 
-        switch ([protoTemplate type]) {
+        switch ([currentProtoTemplate type]) {
           case DIPHONE:
               [typeMatrix selectCellAtRow:0 column:0];
               break;
@@ -76,7 +86,7 @@
         [usageBrowser setDoubleAction:@selector(browserDoubleHit:)];
         [mainInspector setGeneralView:usageBox];
         [templateList removeAllObjects];
-        [tempRuleManager findTemplate:protoTemplate andPutIn:templateList];
+        [tempRuleManager findTemplate:currentProtoTemplate andPutIn:templateList];
 
         [usageBrowser loadColumnZero];
     }
@@ -95,31 +105,31 @@
 
 - (IBAction)setComment:(id)sender;
 {
-    [protoTemplate setComment:[commentText string]];
+    [currentProtoTemplate setComment:[commentText string]];
 }
 
 - (IBAction)revertComment:(id)sender;
 {
-    [commentText setString:[protoTemplate comment]];
+    [commentText setString:[currentProtoTemplate comment]];
 }
 
 - (IBAction)setDiphone:(id)sender;
 {
-    [protoTemplate setType:DIPHONE];
+    [currentProtoTemplate setType:DIPHONE];
     [NXGetNamedObject(@"transitionBuilder", NSApp) display];
     [NXGetNamedObject(@"specialTransitionBuilder", NSApp) display];
 }
 
 - (IBAction)setTriphone:(id)sender;
 {
-    [protoTemplate setType:TRIPHONE];
+    [currentProtoTemplate setType:TRIPHONE];
     [NXGetNamedObject(@"transitionBuilder", NSApp) display];
     [NXGetNamedObject(@"specialTransitionBuilder", NSApp) display];
 }
 
 - (IBAction)setTetraphone:(id)sender;
 {
-    [protoTemplate setType:TETRAPHONE];
+    [currentProtoTemplate setType:TETRAPHONE];
     [NXGetNamedObject(@"transitionBuilder", NSApp) display];
     [NXGetNamedObject(@"specialTransitionBuilder", NSApp) display];
 }

@@ -8,9 +8,25 @@
 
 @implementation ParameterInspector
 
-- (void)inspectParameter:(Parameter *)parameter;
+- (void)dealloc;
 {
-    currentParameter = parameter;
+    [currentParameter release];
+
+    [super dealloc];
+}
+
+- (void)setCurrentParameter:(Parameter *)aParameter;
+{
+    if (aParameter == currentParameter)
+        return;
+
+    [currentParameter release];
+    currentParameter = [aParameter retain];
+}
+
+- (void)inspectParameter:(Parameter *)aParameter;
+{
+    [self setCurrentParameter:aParameter];
     [mainInspector setPopUpListView:parameterPopUpListView];
     [self setUpWindow:parameterPopUpList];
 }

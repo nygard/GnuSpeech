@@ -43,7 +43,10 @@ History:
     Symbol *currentSymbol;
 }
 
-- (void)inspectSymbol:(Symbol *)symbol;
+- (void)dealloc;
+
+- (void)setCurrentSymbol:(Symbol *)aSymbol;
+- (void)inspectSymbol:(Symbol *)aSymbol;
 - (void)setUpWindow:(NSPopUpButton *)sender;
 - (void)beginEditting;
 

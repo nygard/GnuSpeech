@@ -59,8 +59,10 @@ History:
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 - (id)init;
-- (IBAction)itemsChanged:(id)sender;
-- (void)inspectPhone:(Phone *)phone;
+- (void)dealloc;
+
+- (void)setCurrentPhone:(Phone *)aPhone;
+- (void)inspectPhone:(Phone *)aPhone;
 - (void)setUpWindow:(NSPopUpButton *)sender;
 - (void)beginEditting;
 
@@ -68,6 +70,8 @@ History:
 - (IBAction)browserDoubleHit:(id)sender;
 - (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
+
+- (IBAction)itemsChanged:(id)sender;
 
 - (IBAction)setComment:(id)sender;
 - (IBAction)revertComment:(id)sender;

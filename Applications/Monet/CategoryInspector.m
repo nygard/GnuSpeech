@@ -6,17 +6,25 @@
 
 @implementation CategoryInspector
 
-- (id)init;
+- (void)dealloc;
 {
-    if ([super init] == nil)
-        return nil;
+    [currentCategory release];
 
-    return self;
+    [super dealloc];
+}
+
+- (void)setCurrentCategory:(CategoryNode *)aCategory;
+{
+    if (aCategory == currentCategory)
+        return;
+
+    [currentCategory release];
+    currentCategory = [aCategory retain];
 }
 
 - (void)inspectCategory:(CategoryNode *)aCategory;
 {
-    currentCategory = aCategory;
+    [self setCurrentCategory:aCategory];
     [mainInspector setPopUpListView:categoryPopUpListView];
     [self setUpWindow:categoryPopUpList];
 }

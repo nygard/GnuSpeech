@@ -88,36 +88,25 @@
     return self;
 }
 
-- (IBAction)itemsChanged:(id)sender;
+- (void)dealloc;
 {
-    CategoryList *tempList;
-    CategoryNode *tempNode;
-    NSArray *list;
-    id tempCell;
-    id mainCategoryList;
-    int i;
+    [currentPhone release];
 
-    tempList = [currentPhone categoryList];
-    mainCategoryList = NXGetNamedObject(@"mainCategoryList", NSApp);
-    list = [niftyMatrix cells];
-    for (i = 0 ; i < [list count]; i++) {
-        tempCell = [list objectAtIndex:i];
-        if ([tempCell toggleValue]) {
-            if (![tempList findSymbol:[tempCell stringValue]])  {
-                tempNode = [mainCategoryList findSymbol:[tempCell stringValue]];
-                [tempList addObject:tempNode];
-            }
-        } else {
-            if ((tempNode = [tempList findSymbol:[tempCell stringValue]])) {
-                [tempList removeObject:tempNode];
-            }
-        }
-    }
+    [super dealloc];
 }
 
-- (void)inspectPhone:(Phone *)phone;
+- (void)setCurrentPhone:(Phone *)aPhone;
 {
-    currentPhone = phone;
+    if (aPhone == currentPhone)
+        return;
+
+    [currentPhone release];
+    currentPhone = [aPhone retain];
+}
+
+- (void)inspectPhone:(Phone *)aPhone;
+{
+    [self setCurrentPhone:aPhone];
     [mainInspector setPopUpListView:phonePopUpListView];
     [self setUpWindow:phonePopUpList];
 }
@@ -325,6 +314,33 @@
     else
         [cell setFont:courier];
     [cell setLeaf:YES];
+}
+
+- (IBAction)itemsChanged:(id)sender;
+{
+    CategoryList *tempList;
+    CategoryNode *tempNode;
+    NSArray *list;
+    id tempCell;
+    id mainCategoryList;
+    int i;
+
+    tempList = [currentPhone categoryList];
+    mainCategoryList = NXGetNamedObject(@"mainCategoryList", NSApp);
+    list = [niftyMatrix cells];
+    for (i = 0 ; i < [list count]; i++) {
+        tempCell = [list objectAtIndex:i];
+        if ([tempCell toggleValue]) {
+            if (![tempList findSymbol:[tempCell stringValue]])  {
+                tempNode = [mainCategoryList findSymbol:[tempCell stringValue]];
+                [tempList addObject:tempNode];
+            }
+        } else {
+            if ((tempNode = [tempList findSymbol:[tempCell stringValue]])) {
+                [tempList removeObject:tempNode];
+            }
+        }
+    }
 }
 
 - (IBAction)setComment:(id)sender;

@@ -40,12 +40,15 @@ History:
     id beatOffsetField;
     id absTimeField;
 
-    IntonationPoint *currentPoint;
+    IntonationPoint *currentIntonationPoint;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 
-- (void)inspectIntonationPoint:(IntonationPoint *)point;
+- (void)dealloc;
+
+- (void)setCurrentIntonationPoint:(IntonationPoint *)anIntonationPoint;
+- (void)inspectIntonationPoint:(IntonationPoint *)anIntonationPoint;
 - (void)setUpWindow:(NSPopUpButton *)sender;
 - (void)beginEditting;
 

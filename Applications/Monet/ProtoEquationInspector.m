@@ -35,13 +35,23 @@
 {
     [formParser release];
     [equationList release];
+    [currentProtoEquation release];
 
     [super dealloc];
 }
 
-- (void)inspectProtoEquation:(ProtoEquation *)equation;
+- (void)setCurrentProtoEquation:(ProtoEquation *)anEquation;
 {
-    protoEquation = equation;
+    if (anEquation == currentProtoEquation)
+        return;
+
+    [currentProtoEquation release];
+    currentProtoEquation = [anEquation release];
+}
+
+- (void)inspectProtoEquation:(ProtoEquation *)anEquation;
+{
+    [self setCurrentProtoEquation:anEquation];
     [mainInspector setPopUpListView:popUpListView];
     [self setUpWindow:popUpList];
 }
@@ -67,7 +77,7 @@
         [revertCommentButton setTarget:self];
         [revertCommentButton setAction:@selector(revertComment:)];
 
-        [commentText setString:[protoEquation comment]];
+        [commentText setString:[currentProtoEquation comment]];
     } else if ([str hasPrefix:@"E"]) {
         NSString *equation;
 
@@ -79,9 +89,9 @@
         [revertEquationButton setTarget:self];
         [revertEquationButton setAction:@selector(revertEquation:)];
 
-        [equationText setString:[[protoEquation expression] expressionString]];
+        [equationText setString:[[currentProtoEquation expression] expressionString]];
 
-        [tempProto findList:&index1 andIndex:&index2 ofEquation:protoEquation];
+        [tempProto findList:&index1 andIndex:&index2 ofEquation:currentProtoEquation];
         equation = [NSString stringWithFormat:@"%@:%@",
                              [(ProtoEquation *)[[tempProto equationList] objectAtIndex:index1] name],
                              [(ProtoEquation *)[[[tempProto equationList] objectAtIndex:index1] objectAtIndex:index2] name]];
@@ -95,19 +105,19 @@
         [mainInspector setGeneralView:usageBox];
         [usageBrowser setDelegate:self];
         [equationList removeAllObjects];
-        [tempRuleManager findEquation:protoEquation andPutIn:equationList];
+        [tempRuleManager findEquation:currentProtoEquation andPutIn:equationList];
 
         tempList1 = [tempProtoManager transitionList];
         for (i = 0; i < [tempList1 count]; i++) {
             tempList2 = [tempList1 objectAtIndex:i];
             for (j = 0; j < [tempList2 count]; j++)
-                [[tempList2 objectAtIndex:j] findEquation:protoEquation andPutIn:equationList];
+                [[tempList2 objectAtIndex:j] findEquation:currentProtoEquation andPutIn:equationList];
         }
         tempList1 = [tempProtoManager specialList];
         for (i = 0; i < [tempList1 count]; i++) {
             tempList2 = [tempList1 objectAtIndex:i];
             for (j = 0; j < [tempList2 count]; j++)
-                [[tempList2 objectAtIndex:j] findEquation:protoEquation andPutIn:equationList];
+                [[tempList2 objectAtIndex:j] findEquation:currentProtoEquation andPutIn:equationList];
         }
 
         [usageBrowser loadColumnZero];
@@ -128,12 +138,12 @@
 
 - (IBAction)setComment:(id)sender;
 {
-    [protoEquation setComment:[commentText string]];
+    [currentProtoEquation setComment:[commentText string]];
 }
 
 - (IBAction)revertComment:(id)sender;
 {
-    [commentText setString:[protoEquation comment]];
+    [commentText setString:[currentProtoEquation comment]];
 }
 
 - (IBAction)setEquation:(id)sender;
@@ -146,13 +156,13 @@
     if (temp == nil) {
         [messagesText setString:[formParser errorMessage]];
     } else {
-        [protoEquation setExpression:temp];
+        [currentProtoEquation setExpression:temp];
     }
 }
 
 - (IBAction)revertEquation:(id)sender;
 {
-    [equationText setString:[[protoEquation expression] expressionString]];
+    [equationText setString:[[currentProtoEquation expression] expressionString]];
 }
 
 - (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;

@@ -35,10 +35,12 @@ History:
     IBOutlet NSButtonCell *setButton;
     IBOutlet NSButtonCell *revertButton;
 
-    CategoryNode *currentCategory; // nonretained
+    CategoryNode *currentCategory;
 }
 
-- (id)init;
+- (void)dealloc;
+
+- (void)setCurrentCategory:(CategoryNode *)aCategory;
 - (void)inspectCategory:(CategoryNode *)aCategory;
 - (void)setUpWindow:(NSPopUpButton *)sender;
 - (void)beginEditting;

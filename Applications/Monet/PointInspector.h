@@ -48,7 +48,10 @@ History:
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 
-- (void)inspectPoint:(GSMPoint *)point;
+- (void)dealloc;
+
+- (void)setCurrentPoint:(GSMPoint *)aPoint;
+- (void)inspectPoint:(GSMPoint *)aPoint;
 - (void)inspectPoints:(MonetList *)points;
 
 - (void)setUpWindow:(NSPopUpButton *)sender;

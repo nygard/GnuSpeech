@@ -43,7 +43,10 @@ History:
     Parameter *currentParameter;
 }
 
-- (void)inspectParameter:(Parameter *)parameter;
+- (void)dealloc;
+
+- (void)setCurrentParameter:(Parameter *)aParameter;
+- (void)inspectParameter:(Parameter *)aParameter;
 - (void)setUpWindow:(NSPopUpButton *)sender;
 - (void)beginEditting;
 

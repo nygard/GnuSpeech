@@ -41,9 +41,25 @@
     return self;
 }
 
-- (void)inspectRule:(Rule *)rule;
+- (void)dealloc;
 {
-    currentRule = rule;
+    [currentRule release];
+
+    [super dealloc];
+}
+
+- (void)setCurrentRule:(Rule *)aRule;
+{
+    if (aRule == currentRule)
+        return;
+
+    [currentRule release];
+    currentRule = [aRule retain];
+}
+
+- (void)inspectRule:(Rule *)aRule;
+{
+    [self setCurrentRule:aRule];
     [mainInspector setPopUpListView:popUpListView];
     [self setUpWindow:popUpList];
 }

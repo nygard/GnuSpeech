@@ -20,9 +20,25 @@
     [expressionBrowser setDoubleAction:@selector(browserDoubleHit:)];
 }
 
-- (void)inspectPoint:(GSMPoint *)point;
+- (void)dealloc;
 {
-    currentPoint = point;
+    [currentPoint release];
+
+    [super dealloc];
+}
+
+- (void)setCurrentPoint:(GSMPoint *)aPoint;
+{
+    if (aPoint == currentPoint)
+        return;
+
+    [currentPoint release];
+    currentPoint = [aPoint retain];
+}
+
+- (void)inspectPoint:(GSMPoint *)aPoint;
+{
+    [self setCurrentPoint:aPoint];
     [mainInspector setPopUpListView:popUpListView];
     [self setUpWindow:popUpList];
 }
@@ -30,7 +46,7 @@
 - (void)inspectPoints:(MonetList *)points;
 {
     if ([points count] == 1) {
-        currentPoint = [points objectAtIndex:0];
+        [self setCurrentPoint:[points objectAtIndex:0]];
         [mainInspector setPopUpListView:popUpListView];
         [self setUpWindow:popUpList];
     } else {
@@ -49,7 +65,7 @@
     if ([str hasPrefix:@"C"]) {
         /* Comment Window */
 #if 0
-        [mainInspector setGeneralView: commentView];
+        [mainInspector setGeneralView:commentView];
 
         [setCommentButton setTarget:self];
         [setCommentButton setAction:@selector(setComment:)];

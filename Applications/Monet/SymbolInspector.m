@@ -8,9 +8,25 @@
 
 @implementation SymbolInspector
 
-- (void)inspectSymbol:(Symbol *)symbol;
+- (void)dealloc;
 {
-    currentSymbol = symbol;
+    [currentSymbol release];
+
+    [super dealloc];
+}
+
+- (void)setCurrentSymbol:(Symbol *)aSymbol;
+{
+    if (aSymbol == currentSymbol)
+        return;
+
+    [currentSymbol release];
+    currentSymbol = [aSymbol retain];
+}
+
+- (void)inspectSymbol:(Symbol *)aSymbol;
+{
+    [self setCurrentSymbol:aSymbol];
     [mainInspector setPopUpListView:symbolPopUpListView];
     [self setUpWindow:symbolPopUpList];
 }

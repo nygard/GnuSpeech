@@ -17,9 +17,25 @@
 {
 }
 
-- (void)inspectIntonationPoint:(IntonationPoint *)point;
+- (void)dealloc;
 {
-    currentPoint = point;
+    [currentIntonationPoint release];
+
+    [super dealloc];
+}
+
+- (void)setCurrentIntonationPoint:(IntonationPoint *)anIntonationPoint;
+{
+    if (anIntonationPoint == currentIntonationPoint)
+        return;
+
+    [currentIntonationPoint release];
+    currentIntonationPoint = [anIntonationPoint retain];
+}
+
+- (void)inspectIntonationPoint:(IntonationPoint *)anIntonationPoint;
+{
+    [self setCurrentIntonationPoint:anIntonationPoint];
     [mainInspector setPopUpListView:popUpListView];
     [self setUpWindow:popUpList];
 }
@@ -35,8 +51,8 @@
 
         [ruleBrowser loadColumnZero];
 
-        [[ruleBrowser matrixInColumn:0] scrollCellToVisibleAtRow:[currentPoint ruleIndex] column:0];
-        [[ruleBrowser matrixInColumn:0] selectCellAtRow:[currentPoint ruleIndex] column:0];
+        [[ruleBrowser matrixInColumn:0] scrollCellToVisibleAtRow:[currentIntonationPoint ruleIndex] column:0];
+        [[ruleBrowser matrixInColumn:0] selectCellAtRow:[currentIntonationPoint ruleIndex] column:0];
 
         [ruleBrowser setTarget:self];
         [ruleBrowser setAction:@selector(browserHit:)];
@@ -62,8 +78,8 @@
     int index;
 
     index = [[ruleBrowser matrixInColumn:0] selectedRow];
-    [currentPoint setRuleIndex:index];
-    [[tempView documentView] addIntonationPoint:currentPoint];
+    [currentIntonationPoint setRuleIndex:index];
+    [[tempView documentView] addIntonationPoint:currentIntonationPoint];
     [tempView display];
     [self updateInspector];
 }
@@ -74,7 +90,7 @@
 
 - (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;
 {
-    return [[currentPoint eventList] numberOfRules];
+    return [[currentIntonationPoint eventList] numberOfRules];
 }
 
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
@@ -86,11 +102,11 @@
     [cell setLoaded:YES];
     [cell setLeaf:YES];
 
-    rule = [[currentPoint eventList] getRuleAtIndex:row];
+    rule = [[currentIntonationPoint eventList] getRuleAtIndex:row];
 
     str = [[NSMutableString alloc] init];
     for (i = rule->firstPhone; i <= rule->lastPhone; i++) {
-        [str appendString:[[[currentPoint eventList] getPhoneAtIndex:i] symbol]];
+        [str appendString:[[[currentIntonationPoint eventList] getPhoneAtIndex:i] symbol]];
         if (i == rule->lastPhone)
             break;
         [str appendString:@" > "];
@@ -104,7 +120,7 @@
 {
     IntonationView *tempView = NXGetNamedObject(@"intonationView", NSApp);
 
-    [currentPoint setSemitone:[sender doubleValue]];
+    [currentIntonationPoint setSemitone:[sender doubleValue]];
     [tempView display];
     [self updateInspector];
 }
@@ -115,7 +131,7 @@
     double temp;
 
     temp = 12.0 * (log10([sender doubleValue]/MIDDLEC)/log10(2.0));
-    [currentPoint setSemitone:temp];
+    [currentIntonationPoint setSemitone:temp];
     [tempView display];
     [self updateInspector];
 }
@@ -124,7 +140,7 @@
 {
     IntonationView *tempView = NXGetNamedObject(@"intonationView", NSApp);
 
-    [currentPoint setSlope:[sender doubleValue]];
+    [currentIntonationPoint setSlope:[sender doubleValue]];
     [tempView display];
     [self updateInspector];
 }
@@ -133,8 +149,8 @@
 {
     IntonationView *tempView = NXGetNamedObject(@"intonationView", NSApp);
 
-    [currentPoint setOffsetTime:[sender doubleValue]];
-    [[tempView documentView] addIntonationPoint:currentPoint];
+    [currentIntonationPoint setOffsetTime:[sender doubleValue]];
+    [[tempView documentView] addIntonationPoint:currentIntonationPoint];
     [tempView display];
     [self updateInspector];
 }
@@ -143,13 +159,13 @@
 {
     double temp;
 
-    temp = pow(2, [currentPoint semitone]/12.0)*MIDDLEC;
-    [semitoneField setDoubleValue:[currentPoint semitone]];
+    temp = pow(2, [currentIntonationPoint semitone]/12.0)*MIDDLEC;
+    [semitoneField setDoubleValue:[currentIntonationPoint semitone]];
     [hertzField setDoubleValue:temp];
-    [slopeField setDoubleValue:[currentPoint slope]];
-    [beatField setDoubleValue:[currentPoint beatTime]];
-    [beatOffsetField setDoubleValue:[currentPoint offsetTime]];
-    [absTimeField setDoubleValue:[currentPoint absoluteTime]];
+    [slopeField setDoubleValue:[currentIntonationPoint slope]];
+    [beatField setDoubleValue:[currentIntonationPoint beatTime]];
+    [beatOffsetField setDoubleValue:[currentIntonationPoint offsetTime]];
+    [absTimeField setDoubleValue:[currentIntonationPoint absoluteTime]];
 }
 
 @end

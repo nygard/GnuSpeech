@@ -42,7 +42,7 @@ History:
     id usageBrowser;
     id usageField;
 
-    ProtoTemplate *protoTemplate;
+    ProtoTemplate *currentProtoTemplate;
     id formParser;
 
     MonetList *templateList;
@@ -51,7 +51,8 @@ History:
 - (id)init;
 - (void)dealloc;
 
-- (void)inspectProtoTemplate:(ProtoTemplate *)template;
+- (void)setCurrentProtoTemplate:(ProtoTemplate *)aTemplate;
+- (void)inspectProtoTemplate:(ProtoTemplate *)aTemplate;
 
 - (void)setUpWindow:(NSPopUpButton *)sender;
 - (void)beginEditting;

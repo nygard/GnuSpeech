@@ -50,7 +50,10 @@ History:
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 - (id)init;
-- (void)inspectRule:(Rule *)rule;
+- (void)dealloc;
+
+- (void)setCurrentRule:(Rule *)aRule;
+- (void)inspectRule:(Rule *)aRule;
 - (void)setUpWindow:(NSPopUpButton *)sender;
 - (void)beginEditting;
 
