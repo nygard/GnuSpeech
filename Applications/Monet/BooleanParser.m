@@ -3,8 +3,9 @@
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
 #import "NSScanner-Extensions.h"
-#import "BooleanExpression.h"
 #import "BooleanSymbols.h"
+#import "MMBooleanNode.h"
+#import "BooleanExpression.h"
 #import "BooleanTerminal.h"
 #import "MMCategory.h"
 #import "CategoryList.h"
@@ -159,9 +160,9 @@
               [self appendErrorFormat:@"Error, unknown category %@.", symbolString];
               return nil;
           } else {
-              BooleanTerminal *aTerminal = nil;
+              MMBooleanTerminal *aTerminal = nil;
 
-              aTerminal = [[[BooleanTerminal alloc] init] autorelease];
+              aTerminal = [[[MMBooleanTerminal alloc] init] autorelease];
               [aTerminal setCategory:aCategory];
               if ([symbolString hasSuffix:@"*"])
                   [aTerminal setShouldMatchAll:YES];
@@ -227,10 +228,10 @@
 
 - (id)notOperation;
 {
-    BooleanExpression *resultExpression = nil, *subExpression;
+    MMBooleanExpression *resultExpression = nil, *subExpression;
     MMCategory *aCategory;
 
-    resultExpression = [[[BooleanExpression alloc] init] autorelease];
+    resultExpression = [[[MMBooleanExpression alloc] init] autorelease];
     [resultExpression setOperation:NOT_OP];
 
     switch ([self nextToken]) {
@@ -247,13 +248,13 @@
               [self appendErrorFormat:@"Error, unknown category %@.", symbolString];
               return nil;
           } else {
-              BooleanTerminal *aTerminal;
+              MMBooleanTerminal *aTerminal;
 
-              aTerminal = [[BooleanTerminal alloc] init];
+              aTerminal = [[MMBooleanTerminal alloc] init];
               [aTerminal setCategory:aCategory];
               if ([symbolString hasSuffix:@"*"])
                   [aTerminal setShouldMatchAll:YES];
-              [resultExpression addSubExpression:(BooleanExpression *)aTerminal];
+              [resultExpression addSubExpression:aTerminal];
               [aTerminal release];
           }
           break;
@@ -269,10 +270,10 @@
 
 - (id)andOperation:(id)operand;
 {
-    BooleanExpression *resultExpression = nil, *subExpression;
+    MMBooleanExpression *resultExpression = nil, *subExpression;
     MMCategory *aCategory;
 
-    resultExpression = [[[BooleanExpression alloc] init] autorelease];
+    resultExpression = [[[MMBooleanExpression alloc] init] autorelease];
     [resultExpression addSubExpression:operand];
     [resultExpression setOperation:AND_OP];
 
@@ -310,13 +311,13 @@
               [self appendErrorFormat:@"Error, unknown category %@.", symbolString];
               return nil;
           } else {
-              BooleanTerminal *aTerminal;
+              MMBooleanTerminal *aTerminal;
 
-              aTerminal = [[BooleanTerminal alloc] init];
+              aTerminal = [[MMBooleanTerminal alloc] init];
               [aTerminal setCategory:aCategory];
               if ([symbolString hasSuffix:@"*"])
                   [aTerminal setShouldMatchAll:YES];
-              [resultExpression addSubExpression:(BooleanExpression *)aTerminal];
+              [resultExpression addSubExpression:aTerminal];
               [aTerminal release];
           }
           break;
@@ -327,10 +328,10 @@
 
 - (id)orOperation:(id)operand;
 {
-    BooleanExpression *resultExpression = nil, *subExpression;
+    MMBooleanExpression *resultExpression = nil, *subExpression;
     MMCategory *aCategory;
 
-    resultExpression = [[[BooleanExpression alloc] init] autorelease];
+    resultExpression = [[[MMBooleanExpression alloc] init] autorelease];
     [resultExpression addSubExpression:operand];
     [resultExpression setOperation:OR_OP];
 
@@ -367,13 +368,13 @@
               [self appendErrorFormat:@"Error, unknown category %@.", symbolString];
               return nil;
           } else {
-              BooleanTerminal *aTerminal;
+              MMBooleanTerminal *aTerminal;
 
-              aTerminal = [[BooleanTerminal alloc] init];
+              aTerminal = [[MMBooleanTerminal alloc] init];
               [aTerminal setCategory:aCategory];
               if ([symbolString hasSuffix:@"*"])
                   [aTerminal setShouldMatchAll:YES];
-              [resultExpression addSubExpression:(BooleanExpression *)aTerminal];
+              [resultExpression addSubExpression:aTerminal];
               [aTerminal release];
           }
           break;
@@ -384,10 +385,10 @@
 
 - (id)xorOperation:(id)operand;
 {
-    BooleanExpression *resultExpression = nil, *subExpression;
+    MMBooleanExpression *resultExpression = nil, *subExpression;
     MMCategory *aCategory;
 
-    resultExpression = [[[BooleanExpression alloc] init] autorelease];
+    resultExpression = [[[MMBooleanExpression alloc] init] autorelease];
     [resultExpression addSubExpression:operand];
     [resultExpression setOperation:XOR_OP];
 
@@ -425,13 +426,13 @@
               [self appendErrorFormat:@"Error, unknown category %@.", symbolString];
               return nil;
           } else {
-              BooleanTerminal *aTerminal;
+              MMBooleanTerminal *aTerminal;
 
-              aTerminal = [[BooleanTerminal alloc] init];
+              aTerminal = [[MMBooleanTerminal alloc] init];
               [aTerminal setCategory:aCategory];
               if ([symbolString hasSuffix:@"*"])
                   [aTerminal setShouldMatchAll:YES];
-              [resultExpression addSubExpression:(BooleanExpression *)aTerminal];
+              [resultExpression addSubExpression:aTerminal];
               [aTerminal release];
           }
           break;
@@ -474,9 +475,9 @@
               [self appendErrorFormat:@"Error, unknown category %@.", symbolString];
               return nil;
           } else {
-              BooleanTerminal *aTerminal;
+              MMBooleanTerminal *aTerminal;
 
-              aTerminal = [[[BooleanTerminal alloc] init] autorelease];
+              aTerminal = [[[MMBooleanTerminal alloc] init] autorelease];
               [aTerminal setCategory:aCategory];
               if ([symbolString hasSuffix:@"*"])
                   [aTerminal setShouldMatchAll:YES];

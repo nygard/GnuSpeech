@@ -98,7 +98,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 {
     MMRule *newRule;
     BooleanParser *boolParser;
-    BooleanExpression *expr1, *expr2;
+    MMBooleanNode *expr1, *expr2;
 
     boolParser = [[BooleanParser alloc] init];
     [boolParser setCategoryList:[self categories]];

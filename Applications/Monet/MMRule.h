@@ -1,6 +1,6 @@
 #import "MMObject.h"
 
-@class BooleanExpression, MMCategory, MonetList, PhoneList, MMEquation, MMTransition;
+@class MMBooleanNode, MMCategory, MonetList, PhoneList, MMEquation, MMTransition;
 
 /*===========================================================================
 
@@ -19,7 +19,7 @@
 
     MMTransition *specialProfiles[16];
 
-    BooleanExpression *expressions[4];
+    MMBooleanNode *expressions[4];
     NSString *comment;
 }
 
@@ -32,9 +32,9 @@
 - (void)removeParameterAtIndex:(int)index;
 - (void)removeMetaParameterAtIndex:(int)index;
 
-- (void)setExpression:(BooleanExpression *)newExpression number:(int)index;
+- (void)setExpression:(MMBooleanNode *)newExpression number:(int)index;
 - (int)numberExpressions;
-- (BooleanExpression *)getExpressionNumber:(int)index;
+- (MMBooleanNode *)getExpressionNumber:(int)index;
 
 - (NSString *)comment;
 - (void)setComment:(NSString *)newComment;
@@ -70,7 +70,7 @@
 - (void)_appendXMLForExpressionSymbolsToString:(NSMutableString *)resultString level:(int)level;
 
 - (NSString *)expressionSymbolNameAtIndex:(int)index;
-- (void)setRuleExpression1:(BooleanExpression *)exp1 exp2:(BooleanExpression *)exp2 exp3:(BooleanExpression *)exp3 exp4:(BooleanExpression *)exp4;
+- (void)setRuleExpression1:(MMBooleanNode *)exp1 exp2:(MMBooleanNode *)exp2 exp3:(MMBooleanNode *)exp3 exp4:(MMBooleanNode *)exp4;
 
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;

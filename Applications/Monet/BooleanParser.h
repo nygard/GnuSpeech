@@ -1,6 +1,6 @@
 #import "GSParser.h"
 
-@class BooleanExpression, MMCategory, CategoryList, PhoneList;
+@class MMCategory, CategoryList, PhoneList;
 
 /*===========================================================================
 
@@ -32,11 +32,6 @@
 			specific phone.  If a category cannot be found in the
 			main category list, the main phone list is consulted.
 
-	Import Files:
-
-	"BooleanExpression.h", "BooleanTerminal.h", "CategoryList.h", and
-		"PhoneList.h" for object definitions.
-
 	"BooleanSymbols.h" for some TOKEN defines.
 */
 
@@ -60,7 +55,7 @@
 - (int)nextToken;
 
 /* General Parse Methods */
-// BooleanExpression or maybe BooleanTerminal
+// TODO (2004-05-15): BooleanExpression or maybe BooleanTerminal.  Change thiese to return MMBooleanNode
 - (id)beginParseString;
 - (id)continueParse:(id)currentExpression;
 

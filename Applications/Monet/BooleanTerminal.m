@@ -12,7 +12,7 @@
 #import "MModel.h"
 #import "MUnarchiver.h"
 
-@implementation BooleanTerminal
+@implementation MMBooleanTerminal
 
 - (id)init;
 {

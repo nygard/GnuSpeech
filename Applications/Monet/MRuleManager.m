@@ -6,9 +6,9 @@
 #import <AppKit/AppKit.h>
 #import "NSOutlineView-Extensions.h"
 
-#import "BooleanExpression.h"
 #import "BooleanParser.h"
 #import "MCommentCell.h"
+#import "MMBooleanNode.h"
 #import "MMEquation.h"
 #import "MModel.h"
 #import "MMParameter.h"
@@ -168,7 +168,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 {
     MMRule *aRule;
     NSString *str;
-    BooleanExpression *anExpression;
+    MMBooleanNode *anExpression;
     int index;
 
     aRule = [self selectedRule];
@@ -267,7 +267,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     [metaParameterTransitionOutlineView selectItem:aTransition];
 }
 
-- (void)setExpression:(BooleanExpression *)anExpression atIndex:(int)index;
+- (void)setExpression:(MMBooleanNode *)anExpression atIndex:(int)index;
 {
     if (anExpression == expressions[index])
         return;
@@ -787,7 +787,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 {
     PhoneList *matchedPhoneList;
     PhoneList *mainPhoneList = [[self model] postures];
-    BooleanExpression *parsedExpression;
+    MMBooleanNode *parsedExpression;
     int i;
     int tag;
     NSString *expressionString;
@@ -852,7 +852,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
 - (IBAction)addRule:(id)sender;
 {
-    BooleanExpression *exps[4];
+    MMBooleanNode *exps[4];
     int index;
     MMRule *newRule;
 
@@ -888,7 +888,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
 - (IBAction)updateRule:(id)sender;
 {
-    BooleanExpression *exps[4];
+    MMBooleanNode *exps[4];
     int index;
     MMRule *selectedRule;
 

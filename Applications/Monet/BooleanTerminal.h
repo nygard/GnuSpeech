@@ -34,7 +34,7 @@
 
 */
 
-@interface BooleanTerminal : MMBooleanNode
+@interface MMBooleanTerminal : MMBooleanNode
 {
     MMCategory *category;
     BOOL shouldMatchAll;

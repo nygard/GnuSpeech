@@ -51,7 +51,7 @@
 #define AND_OP	3
 #define XOR_OP	4
 
-@interface BooleanExpression : MMBooleanNode
+@interface MMBooleanExpression : MMBooleanNode
 {
     int operation;
 
@@ -66,9 +66,9 @@
 - (int)operation;
 - (void)setOperation:(int)newOperation;
 
-- (void)addSubExpression:(BooleanExpression *)newExpression;
-- (BooleanExpression *)operandOne;
-- (BooleanExpression *)operandTwo;
+- (void)addSubExpression:(MMBooleanNode *)newExpression;
+- (MMBooleanNode *)operandOne;
+- (MMBooleanNode *)operandTwo;
 
 - (NSString *)opString;
 

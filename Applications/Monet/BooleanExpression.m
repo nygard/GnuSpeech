@@ -3,7 +3,7 @@
 #import <Foundation/Foundation.h>
 #import "NSObject-Extensions.h"
 
-@implementation BooleanExpression
+@implementation MMBooleanExpression
 
 - (id)init;
 {
@@ -33,13 +33,13 @@
     operation = newOperation;
 }
 
-- (void)addSubExpression:(BooleanExpression *)newExpression;
+- (void)addSubExpression:(MMBooleanNode *)newExpression;
 {
     if (newExpression != nil)
         [expressions addObject:newExpression];
 }
 
-- (BooleanExpression *)operandOne;
+- (MMBooleanNode *)operandOne;
 {
     if  ([expressions count] > 0)
         return [expressions objectAtIndex:0];
@@ -47,7 +47,7 @@
     return nil;
 }
 
-- (BooleanExpression *)operandTwo;
+- (MMBooleanNode *)operandTwo;
 {
     if  ([expressions count] > 1)
         return [expressions objectAtIndex:1];
@@ -164,7 +164,7 @@
     expressions = [[NSMutableArray alloc] init];
 
     for (i = 0; i < numExpressions; i++) {
-        BooleanExpression *anExpression;
+        MMBooleanNode *anExpression;
 
         anExpression = [aDecoder decodeObject];
         if (anExpression != nil)

@@ -8,7 +8,7 @@
 #import <AppKit/NSWindowController.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-@class BooleanExpression, BooleanParser, MModel, MMRule, MonetList;
+@class MMBooleanNode, BooleanParser, MModel, MMRule, MonetList;
 
 @interface MRuleManager : NSWindowController
 {
@@ -40,7 +40,7 @@
     MModel *model;
 
     MonetList *matchLists; // Of PhoneLists?
-    BooleanExpression *expressions[4];
+    MMBooleanNode *expressions[4];
 
     NSFont *regularControlFont;
     NSFont *boldControlFont;
@@ -67,7 +67,7 @@
 - (void)_updateSelectedSpecialParameterDetails;
 - (void)_updateSelectedMetaParameterDetails;
 
-- (void)setExpression:(BooleanExpression *)anExpression atIndex:(int)index;
+- (void)setExpression:(MMBooleanNode *)anExpression atIndex:(int)index;
 - (void)evaluateMatchLists;
 - (void)updateCombinations;
 
