@@ -401,6 +401,7 @@
     [eventList printDataStructures];
     {
         [synthesizer setupSynthesisParameters:[[self model] synthesisParameters]];
+        [synthesizer removeAllParameters];
         [eventList setDelegate:synthesizer];
         [eventList generateOutput];
         [eventList setDelegate:nil];
