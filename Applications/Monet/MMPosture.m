@@ -313,7 +313,7 @@
     MMParameter *aParameter;
     MMTarget *aTarget;
 
-    mainParameterList = NXGetNamedObject(@"mainParameterList", NSApp);
+    mainParameterList = [[self model] parameters];
     count = [mainParameterList count];
     assert(count == [parameterList count]);
 
@@ -345,7 +345,7 @@
     MMParameter *aParameter;
     MMTarget *aTarget;
 
-    mainMetaParameterList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
+    mainMetaParameterList = [[self model] metaParameters];
     count = [mainMetaParameterList count];
     assert(count == [metaParameterList count]);
 
@@ -377,7 +377,7 @@
     MMSymbol *aSymbol;
     MMTarget *aTarget;
 
-    mainSymbolList = NXGetNamedObject(@"mainSymbolList", NSApp);
+    mainSymbolList = [[self model] symbols];
     count = [mainSymbolList count];
     assert(count == [symbolList count]);
 

@@ -32,7 +32,7 @@
     parameters = [[ParameterList alloc] init];
     metaParameters = [[ParameterList alloc] init];
     symbols = [[SymbolList alloc] init];
-    phones = [[PhoneList alloc] init];
+    postures = [[PhoneList alloc] init];
 
     equations = [[MonetList alloc] init];
     transitions = [[MonetList alloc] init];
@@ -53,7 +53,7 @@
     [parameters release];
     [metaParameters release];
     [symbols release];
-    [phones release];
+    [postures release];
     [equations release];
     [transitions release];
     [specialTransitions release];
@@ -82,9 +82,9 @@
     return symbols;
 }
 
-- (PhoneList *)phones;
+- (PhoneList *)postures;
 {
-    return phones;
+    return postures;
 }
 
 - (MonetList *)equations;
@@ -277,14 +277,15 @@
     //NSLog(@"metaParameters: %@", metaParameters);
     NSLog(@"metaParameters: %d", [metaParameters count]);
 
-    phones = [[aDecoder decodeObject] retain];
-    //NSLog(@"phones: %@", phones);
-    NSLog(@"phones: %d", [phones count]);
+    postures = [[aDecoder decodeObject] retain];
+    //NSLog(@"postures: %@", postures);
+    NSLog(@"postures: %d", [postures count]);
+    [postures makeObjectsPerformSelector:@selector(setModel:) withObject:self];
 
     NXNameObject(@"mainSymbolList", symbols, NSApp);
     NXNameObject(@"mainParameterList", parameters, NSApp);
     NXNameObject(@"mainMetaParameterList", metaParameters, NSApp);
-    NXNameObject(@"mainPhoneList", phones, NSApp);
+    NXNameObject(@"mainPhoneList", postures, NSApp);
 
     equations = [[aDecoder decodeObject] retain];
     NSLog(@"equations: %d", [equations count]);
@@ -331,7 +332,7 @@
     [parameters appendXMLToString:resultString elementName:@"parameters" level:1];
     [metaParameters appendXMLToString:resultString elementName:@"meta-parameters" level:1];
     [symbols appendXMLToString:resultString level:1];
-    [phones appendXMLToString:resultString level:1];
+    [postures appendXMLToString:resultString level:1];
 
     [self _appendXMLForMMEquationsToString:resultString level:1];
     [self _appendXMLForMMTransitionsToString:resultString level:1];

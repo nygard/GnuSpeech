@@ -72,11 +72,15 @@
     return [ilist objectAtIndex:index];
 }
 
-- (void)makeObjectsPerform:(SEL)aSelector;
+- (void)makeObjectsPerformSelector:(SEL)aSelector;
 {
     [ilist makeObjectsPerformSelector:aSelector];
 }
 
+- (void)makeObjectsPerformSelector:(SEL)aSelector withObject:(id)argument;
+{
+    [ilist makeObjectsPerformSelector:aSelector withObject:argument];
+}
 
 - (void)_addNilWarning;
 {

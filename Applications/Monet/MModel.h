@@ -1,5 +1,5 @@
 //
-// $Id: MModel.h,v 1.4 2004/03/19 00:44:01 nygard Exp $
+// $Id: MModel.h,v 1.5 2004/03/19 02:00:56 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -15,7 +15,7 @@
     ParameterList *parameters;
     ParameterList *metaParameters;
     SymbolList *symbols;
-    PhoneList *phones; // Keep this list sorted by name
+    PhoneList *postures; // Keep this list sorted by name
 
     MonetList *equations; // Of NamedLists of MMEquations
     MonetList *transitions; // Of NamedLists of MMTransitions
@@ -31,7 +31,7 @@
 - (ParameterList *)parameters;
 - (ParameterList *)metaParameters;
 - (SymbolList *)symbols;
-- (PhoneList *)phones;
+- (PhoneList *)postures;
 
 - (MonetList *)equations;
 - (MonetList *)transitions;

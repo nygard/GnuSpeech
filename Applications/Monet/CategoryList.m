@@ -60,7 +60,7 @@
 #ifdef PORTING
 - (void)freeNativeCategories;
 {
-    [self makeObjectsPerform:@selector(freeIfNative)];
+    [self makeObjectsPerformSelector:@selector(freeIfNative)];
 }
 #endif
 

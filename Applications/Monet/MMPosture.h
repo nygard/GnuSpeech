@@ -1,4 +1,4 @@
-#import <Foundation/NSObject.h>
+#import "MMObject.h"
 
 @class MMCategory, CategoryList, ParameterList, TargetList, SymbolList;
 
@@ -44,7 +44,7 @@
 
 ===========================================================================*/
 
-@interface MMPosture : NSObject
+@interface MMPosture : MMObject
 {
     NSString *phoneSymbol;
     NSString *comment;

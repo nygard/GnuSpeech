@@ -556,12 +556,12 @@
 
 - (void)addParameter;
 {
-    [[model rules] makeObjectsPerform:@selector(addDefaultParameter)];
+    [[model rules] makeObjectsPerformSelector:@selector(addDefaultParameter)];
 }
 
 - (void)addMetaParameter;
 {
-    [[model rules] makeObjectsPerform:@selector(addDefaultMetaParameter)];
+    [[model rules] makeObjectsPerformSelector:@selector(addDefaultMetaParameter)];
 }
 
 - (void)removeParameter:(int)index;

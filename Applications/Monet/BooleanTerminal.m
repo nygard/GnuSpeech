@@ -143,7 +143,7 @@
     //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
 
     categoryList = [model categories];
-    phoneList = [model phones];
+    phoneList = [model postures];
 
     [aDecoder decodeValueOfObjCType:"i" at:&shouldMatchAll];
     //NSLog(@"shouldMatchAll: %d", shouldMatchAll);

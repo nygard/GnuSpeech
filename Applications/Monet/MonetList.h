@@ -23,7 +23,8 @@
 - (void)_warning;
 - (id)objectAtIndex:(unsigned)index;
 
-- (void)makeObjectsPerform:(SEL)aSelector;
+- (void)makeObjectsPerformSelector:(SEL)aSelector;
+- (void)makeObjectsPerformSelector:(SEL)aSelector withObject:(id)argument;
 
 
 - (void)_addNilWarning;

@@ -61,7 +61,7 @@
     //NSLog(@"[NSApp delegate]: %@", [NSApp delegate]);
 
     // Name them here to make sure all the outlets have been connected
-    NXNameObject(@"mainPhoneList", [model phones], NSApp);
+    NXNameObject(@"mainPhoneList", [model postures], NSApp);
     NXNameObject(@"mainCategoryList", [model categories], NSApp);
     NXNameObject(@"mainSymbolList", [model symbols], NSApp);
     NXNameObject(@"mainParameterList", [model parameters], NSApp);
@@ -212,7 +212,7 @@
                 NSLog(@"Loading DEGAS File");
                 [[model parameters] readDegasFileFormat:fp];
                 [[model categories] readDegasFileFormat:fp];
-                [[model phones] readDegasFileFormat:fp];
+                [[model postures] readDegasFileFormat:fp];
                 [ruleManager readDegasFileFormat:fp];
                 [dataBrowser updateBrowser];
             } else {
@@ -226,7 +226,7 @@
 
 - (void)importTRMData:(id)sender;
 {
-    [[model phones] importTRMData:sender];
+    [[model postures] importTRMData:sender];
 }
 
 - (void)printData:(id)sender;
@@ -243,7 +243,7 @@
             [[model categories] printDataTo:fp];
             [[model parameters] printDataTo:fp];
             [[model symbols] printDataTo:fp];
-            [[model phones] printDataTo:fp];
+            [[model postures] printDataTo:fp];
             fclose(fp);
         }
     }
@@ -399,19 +399,19 @@
 
 - (void)addParameter;
 {
-    [[model phones] addParameter];
+    [[model postures] addParameter];
     [(RuleManager *)ruleManager addParameter];
 }
 
 - (void)addMetaParameter;
 {
-    [[model phones] addMetaParameter];
+    [[model postures] addMetaParameter];
     [(RuleManager *)ruleManager addMetaParameter];
 }
 
 - (void)addSymbol;
 {
-    [[model phones] addSymbol];
+    [[model postures] addSymbol];
 }
 
 - (int)removeCategory:(int)index;
@@ -421,13 +421,13 @@
 
 - (void)removeParameter:(int)index;
 {
-    [[model phones] removeParameter:index];
+    [[model postures] removeParameter:index];
     [(RuleManager *)ruleManager removeParameter:index];
 }
 
 - (void)removeMetaParameter:(int)index;
 {
-    [[model phones] removeMetaParameter:index];
+    [[model postures] removeMetaParameter:index];
     [(RuleManager *)ruleManager removeMetaParameter:index];
 }
 
