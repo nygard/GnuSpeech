@@ -26,7 +26,12 @@
 
 - (NSString *)expressionString;
 {
-    return nil;
+    NSMutableString *resultString;
+
+    resultString = [NSMutableString string];
+    [self expressionString:resultString];
+
+    return resultString;
 }
 
 - (void)expressionString:(NSMutableString *)resultString;

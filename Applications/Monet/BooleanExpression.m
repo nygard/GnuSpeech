@@ -117,16 +117,6 @@
     [self optimize];
 }
 
-- (NSString *)expressionString;
-{
-    NSMutableString *resultString;
-
-    resultString = [NSMutableString string];
-    [self expressionString:resultString];
-
-    return resultString;
-}
-
 - (void)expressionString:(NSMutableString *)resultString;
 {
     NSString *opString;

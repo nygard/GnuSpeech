@@ -82,7 +82,6 @@
 - (void)optimizeSubExpressions;
 
 /* General purpose methods */
-- (NSString *)expressionString;
 - (void)expressionString:(NSMutableString *)resultString;
 
 - (BOOL)isCategoryUsed:(MMCategory *)aCategory;

@@ -60,7 +60,6 @@
 - (void)optimizeSubExpressions;
 
 /* General purpose routines */
-- (NSString *)expressionString;
 - (void)expressionString:(NSMutableString *)resultString;
 
 - (BOOL)isCategoryUsed:(MMCategory *)aCategory;
