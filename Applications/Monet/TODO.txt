@@ -184,3 +184,6 @@ Notes:
 
 2004-07-21:
 - In the Rule Manager, limit selectable transitions to one appropriate to the type of the rule.  i.e. diphone vs triphone transitions.
+
+2004-07-31:
+- Combine stressed and unstressed postures into single shared data structure.
