@@ -1,7 +1,3 @@
-//
-// $Id: GSPronunciationDictionary.h,v 1.2 2004/05/01 00:05:44 nygard Exp $
-//
-
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
 //  Copyright (C) 2004 __OWNER__.  All rights reserved.
 
