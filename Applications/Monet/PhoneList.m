@@ -54,25 +54,6 @@
     }
 }
 
-// 2004-03-20: This assumes that the last parameter is the one we need.
-- (void)addParameter;
-{
-    unsigned int count, index;
-    double value;
-    TargetList *aTargetList;
-
-    value = [[NXGetNamedObject(@"mainParameterList", NSApp) lastObject] defaultValue];
-    count = [self count];
-    for (index = 0; index < count; index++) {
-        MMTarget *newTarget;
-
-        aTargetList = [[self objectAtIndex:index] parameterTargets];
-        newTarget = [[MMTarget alloc] initWithValue:value isDefault:YES];
-        [aTargetList addObject:newTarget];
-        [newTarget release];
-    }
-}
-
 - (void)removeParameterAtIndex:(int)index;
 {
     int i;
@@ -81,24 +62,6 @@
     for (i = 0; i < [self count]; i++) {
         temp = [[self objectAtIndex:i] parameterTargets];
         [temp removeObjectAtIndex:index];
-    }
-}
-
-- (void)addMetaParameter;
-{
-    unsigned int count, index;
-    double value;
-    TargetList *aTargetList;
-
-    value = [[NXGetNamedObject(@"mainMetaParameterList", NSApp) lastObject] defaultValue];
-    count = [self count];
-    for (index = 0; index < count; index++) {
-        MMTarget *newTarget;
-
-        aTargetList = [[self objectAtIndex:index] metaParameterTargets];
-        newTarget = [[MMTarget alloc] initWithValue:value isDefault:YES];
-        [aTargetList addObject:newTarget];
-        [newTarget release];
     }
 }
 

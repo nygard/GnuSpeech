@@ -244,7 +244,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [self _uniqueNameForParameter:newParameter inList:parameters];
 
     [parameters addObject:newParameter];
-    [postures addParameter];
+    [newParameter setModel:self];
+    [self _addDefaultPostureTargetsForParameter:newParameter];
     [rules makeObjectsPerformSelector:@selector(addDefaultParameter)];
 }
 
@@ -272,6 +273,22 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [newParameter setSymbol:name];
 
     [names release];
+}
+
+- (void)_addDefaultPostureTargetsForParameter:(MMParameter *)newParameter;
+{
+    unsigned int count, index;
+    double value;
+
+    value = [newParameter defaultValue];
+    count = [postures count];
+    for (index = 0; index < count; index++) {
+        MMTarget *newTarget;
+
+        newTarget = [[MMTarget alloc] initWithValue:value isDefault:YES];
+        [[postures objectAtIndex:index] addParameterTarget:newTarget];
+        [newTarget release];
+    }
 }
 
 - (void)removeParameter:(MMParameter *)aParameter;
@@ -303,8 +320,25 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [self _uniqueNameForParameter:newParameter inList:metaParameters];
 
     [metaParameters addObject:newParameter];
-    [postures addMetaParameter];
+    [newParameter setModel:self];
+    [self _addDefaultPostureTargetsForMetaParameter:newParameter];
     [rules makeObjectsPerformSelector:@selector(addDefaultMetaParameter)];
+}
+
+- (void)_addDefaultPostureTargetsForMetaParameter:(MMParameter *)newParameter;
+{
+    unsigned int count, index;
+    double value;
+
+    value = [newParameter defaultValue];
+    count = [postures count];
+    for (index = 0; index < count; index++) {
+        MMTarget *newTarget;
+
+        newTarget = [[MMTarget alloc] initWithValue:value isDefault:YES];
+        [[postures objectAtIndex:index] addMetaParameterTarget:newTarget];
+        [newTarget release];
+    }
 }
 
 - (void)removeMetaParameter:(MMParameter *)aParameter;

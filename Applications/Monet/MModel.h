@@ -1,5 +1,5 @@
 //
-// $Id: MModel.h,v 1.22 2004/03/25 04:49:54 nygard Exp $
+// $Id: MModel.h,v 1.23 2004/03/25 05:11:27 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -56,10 +56,12 @@ extern NSString *MCategoryInUseException;
 // Parameters
 - (void)addParameter:(MMParameter *)newParameter;
 - (void)_uniqueNameForParameter:(MMParameter *)newParameter inList:(ParameterList *)aParameterList;
+- (void)_addDefaultPostureTargetsForParameter:(MMParameter *)newParameter;
 - (void)removeParameter:(MMParameter *)aParameter;
 
 // Meta Parameters
 - (void)addMetaParameter:(MMParameter *)newParameter;
+- (void)_addDefaultPostureTargetsForMetaParameter:(MMParameter *)newParameter;
 - (void)removeMetaParameter:(MMParameter *)aParameter;
 
 // Symbols

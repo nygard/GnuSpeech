@@ -1,6 +1,6 @@
 #import "MMObject.h"
 
-@class MMCategory, CategoryList, ParameterList, TargetList, SymbolList;
+@class CategoryList, MMCategory, MMTarget, ParameterList, TargetList, SymbolList;
 
 /*===========================================================================
 
@@ -88,6 +88,9 @@
 - (TargetList *)parameterTargets;
 - (TargetList *)metaParameterTargets;
 - (TargetList *)symbolList;
+
+- (void)addParameterTarget:(MMTarget *)newTarget;
+- (void)addMetaParameterTarget:(MMTarget *)newTarget;
 
 - (NSComparisonResult)compareByAscendingName:(MMPosture *)otherPosture;
 

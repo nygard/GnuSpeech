@@ -229,6 +229,16 @@
     return symbolList;
 }
 
+- (void)addParameterTarget:(MMTarget *)newTarget;
+{
+    [parameterList addObject:newTarget];
+}
+
+- (void)addMetaParameterTarget:(MMTarget *)newTarget;
+{
+    [metaParameterList addObject:newTarget];
+}
+
 - (NSComparisonResult)compareByAscendingName:(MMPosture *)otherPosture;
 {
     return [phoneSymbol compare:[otherPosture symbol]];

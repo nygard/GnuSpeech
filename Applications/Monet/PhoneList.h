@@ -31,10 +31,8 @@
 /* List maintenance Methods */
 - (void)symbolDefaultChange:(MMParameter *)parameter to:(double)value;
 
-- (void)addParameter;
 - (void)removeParameterAtIndex:(int)index;
 
-- (void)addMetaParameter;
 - (void)removeMetaParameterAtIndex:(int)index;
 
 - (void)addSymbol;
