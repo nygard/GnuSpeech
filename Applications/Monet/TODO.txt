@@ -235,3 +235,5 @@ des: [~ 12 ]> /Local/Public/nygard/Products/Monet.app/Contents/MacOS/Monet
 - MAIntonationView should autoscroll when necessary when drawing the selection rect.
   - need model loop and periodic events for this.
 - draw line from beat for each intonation point.
+- add mouse tracking to intonation view.
+- allow direct manipulation of intonation points.

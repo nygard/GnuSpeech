@@ -42,6 +42,8 @@
                                  @"/c // /0 # /w /_ah_i /w /_w_u_d /w /_l_ah_i_k /w t_uu /w /_b_ah_i /w /_s_a_m /w /l /*ch_ee_z # // /c ",
                                  @"/c // /2 # /w /_h_aa_v /w y_uu /w /_s_ee_n /w dh_uh /w /_s_i_ll_k_s /w /_w_i /w /_g_o_t /w f_r_a_m /w /l /*f_r_aa_n_s # // /c ",
                                  @"/c // /3 # /w /_ah_i /w /_n_uh_uu /w y_uu /w b_i./_l_ee_v /w y_uu /w a_n.d_uh_r./_s_t_aa_n_d /w /_w_o_t /w y_uu /w /_th_i_ng_k /w /_ah_i /w /l /*s_e_d # ^ // /0 # /w b_a_t /w /_ah_i /w /_aa_m /w /_n_o_t /w /_sh_u_r /w y_uu /w /_r_ee.uh_l.ah_i_z /w /_dh_aa_t /w /_w_o_t /w y_uu /w /_h_uh_r_d /w i_z /w /_n_o_t /w /_w_o_t /w /_ah_i /w /l /*m_e_n_t # // /c ",
+                                 @"/c // /0 # /w /_aw_l /w /_y_aw_r /w /_b_e_i_s /w ar_r /w b_i./_l_o_ng /w t_uu /w /l /*a_s # // /c ",
+                                 @"/c // /0 # /w /_s_a_m.w_a_n /w /_s_e_t /w /_a_p /w /_a_s /w dh_uh /w /l /*b_o_m # // /c ",
                                  nil];
 
     defaultValues = [[NSMutableDictionary alloc] init];
