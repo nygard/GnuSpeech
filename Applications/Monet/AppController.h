@@ -1,5 +1,5 @@
 //
-// $Id: AppController.h,v 1.11 2004/03/06 03:13:26 nygard Exp $
+// $Id: AppController.h,v 1.12 2004/03/06 22:31:25 nygard Exp $
 //
 
 /*===========================================================================
@@ -30,8 +30,8 @@ History:
 
 @interface AppController : NSObject
 {
-    Inspector *inspectorController;
-    NSPanel *infoPanel;
+    IBOutlet Inspector *inspectorController;
+    IBOutlet NSPanel *infoPanel;
 
     NSMutableDictionary *namedObjects;
 
@@ -71,7 +71,7 @@ History:
 
 - (void)displayInfoPanel:(id)sender;
 - (void)displayInspectorWindow:(id)sender;
-- inspector;
+- (Inspector *)inspector;
 
 - (void)openFile:(id)sender;
 - (void)importTRMData:(id)sender;

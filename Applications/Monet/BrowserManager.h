@@ -32,15 +32,15 @@
 
     IBOutlet NSForm *nameField;
 
-    NSFont *courier;
-    NSFont *courierBold;
+    NSFont *courierFont;
+    NSFont *courierBoldFont;
 }
 
 - (void)dealloc;
 
-- (BOOL)acceptsFirstResponder;
-- (BOOL)becomeFirstResponder;
-- (BOOL)resignFirstResponder;
+//- (BOOL)acceptsFirstResponder;
+//- (BOOL)becomeFirstResponder;
+//- (BOOL)resignFirstResponder;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 - (void)setCurrentList:(id)sender;
@@ -48,13 +48,13 @@
 - (void)updateLists;
 - (void)addObjectToCurrentList:tempEntry;
 
-
 /* Browser Delegate Methods */
 - (void)browserHit:(id)sender;
 - (void)browserDoubleHit:(id)sender;
 - (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
 
+// Actions
 - (void)add:(id)sender;
 - (void)rename:(id)sender;
 - (void)remove:(id)sender;
@@ -62,7 +62,6 @@
 - (void)cut:(id)sender;
 - (void)copy:(id)sender;
 - (void)paste:(id)sender;
-
 
 /* Window Delegate Methods */
 - (void)windowDidBecomeMain:(NSNotification *)notification;

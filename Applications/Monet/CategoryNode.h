@@ -27,6 +27,6 @@
 
 - (NSString *)description;
 
-- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level useReferences:(BOOL)shouldUseReferences;
 
 @end

@@ -123,21 +123,26 @@
                      NSStringFromClass([self class]), self, symbol, comment, isNative];
 }
 
-- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level useReferences:(BOOL)shouldUseReferences;
 {
     [resultString indentToLevel:level];
-    [resultString appendFormat:@"<category ptr=\"%p\" symbol=\"%@\" is-native=\"%@\"",
-                  self, GSXMLAttributeString(symbol, NO), GSXMLBoolAttributeString(isNative)];
-
-    if (comment == nil) {
+    [resultString appendFormat:@"<category ptr=\"%p\"", self];
+    if (shouldUseReferences == YES && isNative == NO) {
         [resultString appendString:@"/>\n"];
     } else {
-        [resultString appendString:@">\n"];
-        [resultString indentToLevel:level + 1];
-        [resultString appendFormat:@"<comment>%@</comment>\n", GSXMLCharacterData(comment)];
+        [resultString appendFormat:@" symbol=\"%@\" is-native=\"%@\"",
+                      GSXMLAttributeString(symbol, NO), GSXMLBoolAttributeString(isNative)];
 
-        [resultString indentToLevel:level];
-        [resultString appendString:@"</category>\n"];
+        if (comment == nil) {
+            [resultString appendString:@"/>\n"];
+        } else {
+            [resultString appendString:@">\n"];
+            [resultString indentToLevel:level + 1];
+            [resultString appendFormat:@"<comment>%@</comment>\n", GSXMLCharacterData(comment)];
+
+            [resultString indentToLevel:level];
+            [resultString appendString:@"</category>\n"];
+        }
     }
 }
 

@@ -36,7 +36,7 @@
     }
 }
 
-- (void)setUpWindow:(id)sender;
+- (void)setUpWindow:(NSPopUpButton *)sender;
 {
     NSString *str;
     PrototypeManager *tempProto = NXGetNamedObject(@"prototypeManager", NSApp);

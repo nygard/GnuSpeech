@@ -56,7 +56,7 @@ History:
 - (void)dealloc;
 - (void)inspectProtoEquation:equation;
 
-- (void)setUpWindow:(id)sender;
+- (void)setUpWindow:(NSPopUpButton *)sender;
 - (void)beginEditting;
 
 - (void)setComment:(id)sender;

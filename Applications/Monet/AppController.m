@@ -83,8 +83,8 @@
     //NSLog(@"getting it by name: %@", NXGetNamedObject(@"mainSymbolList", NSApp));
 
     [dataBrowser applicationDidFinishLaunching:aNotification];
-    //if (inspectorController)
-    //    [inspectorController applicationDidFinishLaunching:aNotification];
+    if (inspectorController)
+        [inspectorController applicationDidFinishLaunching:aNotification];
 
     [prototypeManager applicationDidFinishLaunching:aNotification];
 
@@ -175,7 +175,7 @@
     [[inspectorController window] makeKeyAndOrderFront:self];
 }
 
-- inspector;
+- (Inspector *)inspector;
 {
     return inspectorController;
 }
@@ -501,8 +501,9 @@
     [resultString appendString:@"<?xml version='1.0' encoding='utf-8'?>\n"];
     [resultString appendFormat:@"<!-- %@ -->\n", name];
     [resultString appendString:@"<root version='1'>\n"];
+    [mainCategoryList appendXMLToString:resultString level:1 useReferences:NO];
+
     [mainPhoneList appendXMLToString:resultString level:1];
-    [mainCategoryList appendXMLToString:resultString level:1];
     [mainSymbolList appendXMLToString:resultString level:1];
     [mainParameterList appendXMLToString:resultString elementName:@"parameters" level:1];
     [mainMetaParameterList appendXMLToString:resultString elementName:@"meta-parameters" level:1];

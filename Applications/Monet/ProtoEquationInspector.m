@@ -45,7 +45,7 @@
     [self setUpWindow:popUpList];
 }
 
-- (void)setUpWindow:(id)sender;
+- (void)setUpWindow:(NSPopUpButton *)sender;
 {
     PrototypeManager *tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
     RuleManager *tempRuleManager = NXGetNamedObject(@"ruleManager", NSApp);

@@ -24,7 +24,7 @@
     [self setUpWindow:popUpList];
 }
 
-- (void)setUpWindow:(id)sender;
+- (void)setUpWindow:(NSPopUpButton *)sender;
 {
     NSString *str;
 

@@ -24,26 +24,26 @@ History:
 
 @interface Inspector : NSObject
 {
-    id	panel;
-    id	generalView;			/* General Box on Inspector Panel for Coordinates */
-    id	popUpListView;			/* View for PopUpList */
-    id	noInspectorView;		/* "No Inspector" Sign */
-    id	noPopUpListView;		/* "No Inspector" Sign */
-    id	mainInspectorWindow;		/* Pointer to window */
+    IBOutlet NSPanel *panel;
+    id generalView;   /* General Box on Inspector Panel for Coordinates */
+    id popUpListView;   /* View for PopUpList */
+    IBOutlet NSBox *noInspectorView;  /* "No Inspector" Sign */
+    IBOutlet NSBox *noPopUpListView;  /* "No Inspector" Sign */
+    IBOutlet NSWindow *mainInspectorWindow;  /* Pointer to window */
 
-    id	currentInspectorObject;		/* Object with is currently the focus of the inspector */
-    id	currentInspector;
+    id currentInspectorObject;  /* Object with is currently the focus of the inspector */
+    id currentInspector;
 
-    PhoneInspector *phoneInspector;
-    CategoryInspector *categoryInspector;
-    ParameterInspector *parameterInspector;
-    ParameterInspector *metaParameterInspector;
-    SymbolInspector *symbolInspector;
-    ProtoEquationInspector *protoEquationInspector;
-    id protoTransitionInspector;
-    RuleInspector *ruleInspector;
-    PointInspector *pointInspector;
-    IntonationPointInspector *intonationPointInspector;
+    IBOutlet PhoneInspector *phoneInspector;
+    IBOutlet CategoryInspector *categoryInspector;
+    IBOutlet ParameterInspector *parameterInspector;
+    IBOutlet ParameterInspector *metaParameterInspector;
+    IBOutlet SymbolInspector *symbolInspector;
+    IBOutlet ProtoEquationInspector *protoEquationInspector;
+    IBOutlet id protoTransitionInspector;
+    IBOutlet RuleInspector *ruleInspector;
+    IBOutlet PointInspector *pointInspector;
+    IBOutlet IntonationPointInspector *intonationPointInspector;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;

@@ -131,7 +131,7 @@
                      NSStringFromClass([self class]), self, [super description]];
 }
 
-- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level useReferences:(BOOL)shouldUseReferences;
 {
     int count, index;
 
@@ -146,7 +146,7 @@
         CategoryNode *aCategory;
 
         aCategory = [self objectAtIndex:index];
-        [aCategory appendXMLToString:resultString level:level+1];
+        [aCategory appendXMLToString:resultString level:level+1 useReferences:shouldUseReferences];
     }
 
     [resultString indentToLevel:level];

@@ -50,7 +50,7 @@ History:
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 - (id)init;
 - (void)inspectRule:rule;
-- (void)setUpWindow:(id)sender;
+- (void)setUpWindow:(NSPopUpButton *)sender;
 - (void)beginEditting;
 
 - (void)browserHit:(id)sender;

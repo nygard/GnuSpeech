@@ -60,7 +60,7 @@ History:
 - (id)init;
 - (void)itemsChanged:(id)sender;
 - (void)inspectPhone:phone;
-- (void)setUpWindow:(id)sender;
+- (void)setUpWindow:(NSPopUpButton *)sender;
 - (void)beginEditting;
 
 - (void)browserHit:(id)sender;

@@ -19,12 +19,13 @@
 
 - (void)dealloc;
 {
-    [courier release];
-    [courierBold release];
+    [courierFont release];
+    [courierBoldFont release];
 
     [super dealloc];
 }
 
+#if 0
 - (BOOL)acceptsFirstResponder;
 {
     return YES;
@@ -41,6 +42,7 @@
     NSLog(@"Resigning first responder");
     return YES;
 }
+#endif
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 {
@@ -60,8 +62,8 @@
 
     currentList = 0;
 
-    courier = [[NSFont fontWithName:@"Courier" size:12] retain];
-    courierBold = [[NSFont fontWithName:@"Courier-Bold" size:12] retain]; // TODO (2004-03-02): Should use NSFontManager instead.
+    courierFont = [[NSFont fontWithName:@"Courier" size:12] retain];
+    courierBoldFont = [[NSFont fontWithName:@"Courier-Bold" size:12] retain]; // TODO (2004-03-02): Should use NSFontManager instead.
 
     NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }
@@ -134,33 +136,33 @@
 
 - (void)browserHit:(id)sender;
 {
-    id temp;
+    Inspector *inspector;
     int index;
 
-    [[browser window] makeFirstResponder:self];
-    temp = [controller inspector];
+    //[[browser window] makeFirstResponder:self];
+    inspector = [controller inspector];
     index = [[sender matrixInColumn:0] selectedRow];
-    if (temp) {
+    if (inspector) {
         if (index == -1) {
-            [temp cleanInspectorWindow];
+            [inspector cleanInspectorWindow];
             return;
         }
 
         switch (currentList) {
           case 0:
-              [temp inspectPhone:[list[currentList] objectAtIndex:index]];
+              [inspector inspectPhone:[list[currentList] objectAtIndex:index]];
               break;
           case 1:
-              [temp inspectCategory:[list[currentList] objectAtIndex:index]];
+              [inspector inspectCategory:[list[currentList] objectAtIndex:index]];
               break;
           case 2:
-              [temp inspectParameter:[list[currentList] objectAtIndex:index]];
+              [inspector inspectParameter:[list[currentList] objectAtIndex:index]];
               break;
           case 3:
-              [temp inspectMetaParameter:[list[currentList] objectAtIndex:index]];
+              [inspector inspectMetaParameter:[list[currentList] objectAtIndex:index]];
               break;
           case 4:
-              [temp inspectSymbol:[list[currentList] objectAtIndex:index]];
+              [inspector inspectSymbol:[list[currentList] objectAtIndex:index]];
               break;
         }
     }
@@ -168,39 +170,40 @@
 
 - (void)browserDoubleHit:(id)sender;
 {
-    id temp;
+    id inspector;
     int index;
 
-    temp = [controller inspector];
+    inspector = [controller inspector];
     index = [[sender matrixInColumn:0] selectedRow];
 
-    if (!temp) {
+    if (!inspector) {
         [controller displayInspectorWindow:self];
-        temp = [controller inspector];
+        inspector = [controller inspector];
         switch (currentList) {
           case 0:
-              [temp inspectPhone:[list[currentList] objectAtIndex:index]];
+              [inspector inspectPhone:[list[currentList] objectAtIndex:index]];
               break;
           case 1:
-              [temp inspectCategory:[list[currentList] objectAtIndex:index]];
+              [inspector inspectCategory:[list[currentList] objectAtIndex:index]];
               break;
           case 2:
-              [temp inspectParameter:[list[currentList] objectAtIndex:index]];
+              [inspector inspectParameter:[list[currentList] objectAtIndex:index]];
               break;
           case 3:
-              [temp inspectMetaParameter:[list[currentList] objectAtIndex:index]];
+              [inspector inspectMetaParameter:[list[currentList] objectAtIndex:index]];
               break;
           case 4:
-              [temp inspectSymbol:[list[currentList] objectAtIndex:index]];
+              [inspector inspectSymbol:[list[currentList] objectAtIndex:index]];
               break;
         }
     }
 
-    [temp beginEdittingCurrentInspector];
+    [inspector beginEdittingCurrentInspector];
 }
 
 - (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;
 {
+    NSLog(@"%s, count: %d", _cmd, [list[currentList] count]);
     return [list[currentList] count];
 }
 
@@ -217,9 +220,9 @@
           break;
       case 1:
           if ([ruleManager isCategoryUsed:[list[currentList] objectAtIndex:row]])
-              [cell setFont:courierBold];
+              [cell setFont:courierBoldFont];
           else
-              [cell setFont:courier];
+              [cell setFont:courierFont];
           break;
       case 2:
           break;
@@ -231,6 +234,10 @@
           break;
     }
 }
+
+//
+// Actions
+//
 
 - (void)add:(id)sender;
 {

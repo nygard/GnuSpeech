@@ -1,0 +1,83 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {
+                archiveToDisk = id; 
+                displayInfoPanel = id; 
+                displayInspectorWindow = id; 
+                importTRMData = id; 
+                loadPrototypes = id; 
+                openFile = id; 
+                printData = id; 
+                readFromDisk = id; 
+                savePrototypes = id; 
+            }; 
+            CLASS = AppController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                dataBrowser = BrowserManager; 
+                defaultManager = DefaultMgr; 
+                eventListView = EventListView; 
+                infoPanel = NSPanel; 
+                inspectorController = Inspector; 
+                intonationView = IntonationView; 
+                phonesWindow = NSWindow; 
+                prototypeManager = PrototypeManager; 
+                prototypeWindow = NSWindow; 
+                ruleManager = RuleManager; 
+                ruleManagerWindow = NSWindow; 
+                ruleParserWindow = NSWindow; 
+                specialTransitionBuilder = TransitionView; 
+                specialWindow = NSWindow; 
+                stringParser = StringParser; 
+                synthParmWindow = NSWindow; 
+                synthesisWindow = NSWindow; 
+                transitionBuilder = TransitionView; 
+                transitionWindow = NSWindow; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {revertComment = id; setComment = id; setUpWindow = id; }; 
+            CLASS = CategoryInspector; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                categoryPopUpList = NSPopUpButton; 
+                categoryPopUpListView = NSBox; 
+                commentText = NSTextView; 
+                commentView = NSBox; 
+                mainInspector = Inspector; 
+                revertButton = NSButtonCell; 
+                setButton = NSButtonCell; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = Inspector; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                categoryInspector = CategoryInspector; 
+                currentInspector = id; 
+                currentInspectorObject = id; 
+                generalView = id; 
+                intonationPointInspector = IntonationPointInspector; 
+                mainInspectorWindow = NSWindow; 
+                metaParameterInspector = ParameterInspector; 
+                noInspectorView = NSBox; 
+                noPopUpListView = NSBox; 
+                panel = NSPanel; 
+                parameterInspector = ParameterInspector; 
+                phoneInspector = PhoneInspector; 
+                pointInspector = PointInspector; 
+                popUpListView = id; 
+                protoEquationInspector = ProtoEquationInspector; 
+                protoTransitionInspector = id; 
+                ruleInspector = RuleInspector; 
+                symbolInspector = SymbolInspector; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

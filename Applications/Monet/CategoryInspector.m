@@ -14,14 +14,14 @@
     return self;
 }
 
-- (void)inspectCategory:category;
+- (void)inspectCategory:(CategoryNode *)aCategory;
 {
-    currentCategory = category;
+    currentCategory = aCategory;
     [mainInspector setPopUpListView:categoryPopUpListView];
     [self setUpWindow:categoryPopUpList];
 }
 
-- (void)setUpWindow:(id)sender;
+- (void)setUpWindow:(NSPopUpButton *)sender;
 {
     NSString *str;
 
@@ -51,12 +51,12 @@
     }
 }
 
-- (void)setComment:(id)sender;
+- (IBAction)setComment:(id)sender;
 {
     [currentCategory setComment:[commentText string]];
 }
 
-- (void)revertComment:(id)sender;
+- (IBAction)revertComment:(id)sender;
 {
     [commentText setString:[currentCategory comment]];
 }

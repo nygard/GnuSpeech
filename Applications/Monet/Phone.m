@@ -265,7 +265,7 @@
             [resultString appendFormat:@"<comment>%@</comment>\n", GSXMLCharacterData(comment)];
         }
 
-        [categoryList appendXMLToString:resultString level:level + 1];
+        [categoryList appendXMLToString:resultString level:level + 1 useReferences:YES];
         [parameterList appendXMLToString:resultString elementName:@"parameters" level:level + 1];
         [metaParameterList appendXMLToString:resultString elementName:@"meta-parameters" level:level + 1];
         [symbolList appendXMLToString:resultString elementName:@"symbols" level:level + 1];

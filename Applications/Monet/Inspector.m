@@ -15,11 +15,15 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
+    NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
+
     [panel setFloatingPanel:YES];
     [phoneInspector applicationDidFinishLaunching:notification];
     [ruleInspector applicationDidFinishLaunching:notification];
     [pointInspector applicationDidFinishLaunching:notification];
     [protoEquationInspector applicationDidFinishLaunching:notification];
+
+    NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }
 
 - (NSWindow *)window;

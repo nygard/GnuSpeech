@@ -44,7 +44,7 @@ History:
 }
 
 - (void)inspectSymbol:symbol;
-- (void)setUpWindow:(id)sender;
+- (void)setUpWindow:(NSPopUpButton *)sender;
 - (void)beginEditting;
 
 - (void)setComment:(id)sender;

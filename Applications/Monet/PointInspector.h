@@ -48,7 +48,7 @@ History:
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 
 - (void)inspectPoint:point;
-- (void)setUpWindow:(id)sender;
+- (void)setUpWindow:(NSPopUpButton *)sender;
 - (void)beginEditting;
 
 - (void)browserHit:(id)sender;

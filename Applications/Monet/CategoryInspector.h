@@ -3,6 +3,7 @@
 
 @class NSButton;
 @class CategoryNode;
+@class Inspector;
 
 /*===========================================================================
 
@@ -25,24 +26,24 @@ History:
 
 @interface CategoryInspector : NSObject
 {
-    id mainInspector;
-    id categoryPopUpListView;
-    id categoryPopUpList;
-    id commentView;
-    id commentText;
+    IBOutlet Inspector *mainInspector;
+    IBOutlet NSBox *categoryPopUpListView;
+    IBOutlet NSPopUpButton *categoryPopUpList;
+    IBOutlet NSBox *commentView;
+    IBOutlet NSTextView *commentText;
 
-    IBOutlet NSButton *setButton;
-    IBOutlet NSButton *revertButton;
+    IBOutlet NSButtonCell *setButton;
+    IBOutlet NSButtonCell *revertButton;
 
-    CategoryNode *currentCategory;
+    CategoryNode *currentCategory; // nonretained
 }
 
 - (id)init;
-- (void)inspectCategory:category;
-- (void)setUpWindow:(id)sender;
+- (void)inspectCategory:(CategoryNode *)aCategory;
+- (void)setUpWindow:(NSPopUpButton *)sender;
 - (void)beginEditting;
 
-- (void)setComment:(id)sender;
-- (void)revertComment:(id)sender;
+- (IBAction)setComment:(id)sender;
+- (IBAction)revertComment:(id)sender;
 
 @end

@@ -5,6 +5,30 @@
 	};
 	objectVersion = 39;
 	objects = {
+		0175901B05FA74A1004632CC = {
+			children = (
+				0175901C05FA74A1004632CC,
+			);
+			isa = PBXVariantGroup;
+			name = Inspector.nib;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0175901C05FA74A1004632CC = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = English.lproj/Inspector.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0175901D05FA74A1004632CC = {
+			fileRef = 0175901B05FA74A1004632CC;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		0195D77305F3B296006D8386 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -2205,6 +2229,7 @@
 				8D1107310486CEB800E47090,
 				089C165CFE840E0CC02AAC07,
 				29B97318FDCFA39411CA2CEA,
+				0175901B05FA74A1004632CC,
 			);
 			isa = PBXGroup;
 			name = Resources;
@@ -2448,6 +2473,7 @@
 				01B2014505F82F3800C1F65D,
 				01B2015605F82F9B00C1F65D,
 				01B2016905F8305A00C1F65D,
+				0175901D05FA74A1004632CC,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
