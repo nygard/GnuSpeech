@@ -75,6 +75,8 @@ extern NSString *EventListDidRemoveIntonationPoint;
 
     MMPostureRewriter *postureRewriter;
 
+    NSString *phoneString;
+
     int zeroRef;
     int zeroIndex; // Event index derived from zeroRef.
 
@@ -126,6 +128,8 @@ extern NSString *EventListDidRemoveIntonationPoint;
 
 - (id)delegate;
 - (void)setDelegate:(id)newDelegate;
+
+- (void)_setPhoneString:(NSString *)newPhoneString;
 
 - (int)zeroRef;
 - (void)setZeroRef:(int)newValue;

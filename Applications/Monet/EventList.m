@@ -50,6 +50,7 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
 
     model = nil;
     postureRewriter = [[MMPostureRewriter alloc] initWithModel:nil];
+    phoneString = nil;
 
     events = [[NSMutableArray alloc] init];
     intonationPoints = [[NSMutableArray alloc] init];
@@ -66,6 +67,7 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
 {
     [model release];
     [postureRewriter release];
+    [phoneString release];
 
     [events release];
     [intonationPoints release];
@@ -105,6 +107,15 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
 
     [delegate release];
     delegate = [newDelegate retain];
+}
+
+- (void)_setPhoneString:(NSString *)newPhoneString;
+{
+    if (newPhoneString == phoneString)
+        return;
+
+    [phoneString release];
+    phoneString = [newPhoneString retain];
 }
 
 - (int)zeroRef;
@@ -621,6 +632,7 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
     NSString *buffer;
     BOOL wordMarker = NO;
 
+    [self _setPhoneString:str];
     [postureRewriter resetState];
 
     scanner = [[[NSScanner alloc] initWithString:str] autorelease];
@@ -1075,6 +1087,8 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
 
     if (fp)
         fclose(fp);
+
+    [self writeXMLToFile:@"/tmp/contour.xml" comment:nil];
 }
 
 // 1. Calculate the rule symbols (Rule Duration, Beat, Mark 1, Mark 2, Mark 3), given tempos and phones.
@@ -1498,11 +1512,14 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
     //[resultString appendString:@"<!DOCTYPE root PUBLIC \"\" \"monet-v1.dtd\">\n"];
     if (aComment != nil)
         [resultString appendFormat:@"<!-- %@ -->\n", aComment];
-    [resultString appendString:@"<root version='1'>\n"];
+    [resultString appendString:@"<intonation-contour version='1'>\n"];
+
+    [resultString indentToLevel:1];
+    [resultString appendFormat:@"<utterance>%@</utterance>\n", GSXMLCharacterData(phoneString)];
 
     [intonationPoints appendXMLToString:resultString elementName:@"intonation-points" level:1];
 
-    [resultString appendString:@"</root>\n"];
+    [resultString appendString:@"</intonation-contour>\n"];
 
     result = [[resultString dataUsingEncoding:NSUTF8StringEncoding] writeToFile:aFilename atomically:YES];
 
