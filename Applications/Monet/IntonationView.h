@@ -1,7 +1,7 @@
 #import <AppKit/NSView.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-@class EventList, MonetList;
+@class EventList, IntonationPoint, MonetList;
 @class AppController;
 
 /*===========================================================================
@@ -22,40 +22,43 @@
 
     EventList *eventList;
 
-    //NSImage *dotMarker;
-    //NSImage *squareMarker;
-    //NSImage *triangleMarker;
-    //NSImage *selectionBox;
-
     float timeScale;
-
     int mouseBeingDragged;
 
     MonetList *intonationPoints;
     MonetList *selectedPoints;
 
-    id utterance;
-    id smoothing;
+    NSTextField *utterance;
+    NSButton *smoothing;
 }
 
 - (id)initWithFrame:(NSRect)frameRect;
+- (void)dealloc;
+
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 
 - (BOOL)acceptsFirstResponder;
 
-- (void)setEventList:aList;
-- (void)setNewController:aController;
-- controller;
+- (void)setEventList:(EventList *)newEventList;
 
-- (void)setUtterance:newUtterance;
-- (void)setSmoothing:smoothingSwitch;
+- (AppController *)controller;
+- (void)setNewController:(AppController *)newController;
 
-- (void)addIntonationPoint:iPoint;
+- (void)setUtterance:(NSTextField *)newUtterance;
+- (void)setSmoothing:(NSButton *)smoothingSwitch;
+
+- (void)addIntonationPoint:(IntonationPoint *)iPoint;
 
 - (void)drawRect:(NSRect)rect;
 
-- (void)clearView;
+- (void)drawBackground;
+- (void)drawGrid;
+- (void)drawPhoneLabels;
+- (void)drawRules;
+- (void)drawIntonationPoints;
+- (void)drawSmoothPoints;
 
+// Event handling
 - (void)mouseEntered:(NSEvent *)theEvent;
 - (void)keyDown:(NSEvent *)theEvent;
 - (void)mouseExited:(NSEvent *)theEvent;
@@ -63,17 +66,15 @@
 - (void)mouseDown:(NSEvent *)theEvent;
 
 - (void)updateScale:(float)column;
-- (void)drawGrid;
 
 - (void)applyIntonation;
 - (void)applyIntonationSmooth;
 - (void)deletePoints;
 
-- (void)saveIntonationContour:sender;
-- (void)loadContour:sender;
-- (void)loadContourAndUtterance:sender;
+- (IBAction)saveIntonationContour:(id)sender;
+- (IBAction)loadContour:(id)sender;
+- (IBAction)loadContourAndUtterance:(id)sender;
 
-- (void)smoothPoints;
 - (void)clearIntonationPoints;
 - (void)addPoint:(double)semitone offsetTime:(double)offsetTime slope:(double)slope ruleIndex:(int)ruleIndex eventList:anEventList;
 
@@ -82,5 +83,9 @@
 - (void)drawTriangleMarkerAtPoint:(NSPoint)aPoint;
 - (void)drawSquareMarkerAtPoint:(NSPoint)aPoint;
 - (void)highlightMarkerAtPoint:(NSPoint)aPoint;
+
+// View geometry
+- (int)sectionHeight;
+- (NSPoint)graphOrigin;
 
 @end

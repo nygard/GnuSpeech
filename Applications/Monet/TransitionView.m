@@ -228,7 +228,7 @@ static NSImage *_selectionBox = nil;
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:1];
 
-    for (i = 1; i < 14; i++) {
+    for (i = 1; i < SECTION_COUNT; i++) {
         NSString *label;
         float currentYPos;
         NSSize labelSize;
@@ -710,7 +710,7 @@ static NSImage *_selectionBox = nil;
     NSPoint graphOrigin;
 
     graphOrigin.x = LEFT_MARGIN;
-    graphOrigin.y = [self bounds].size.height - BOTTOM_MARGIN - 14 * [self sectionHeight];
+    graphOrigin.y = [self bounds].size.height - BOTTOM_MARGIN - SECTION_COUNT * [self sectionHeight];
 
     return graphOrigin;
 }
