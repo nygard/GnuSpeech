@@ -22,6 +22,7 @@ extern NSString *GSParserSyntaxErrorException;
     NSMutableString *errorMessage;
 }
 
+- (id)init;
 - (void)dealloc;
 
 - (NSString *)symbolString;
