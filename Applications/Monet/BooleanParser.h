@@ -1,6 +1,6 @@
 #import "GSParser.h"
 
-@class BooleanExpression, CategoryNode, CategoryList, PhoneList;
+@class BooleanExpression, MMCategory, CategoryList, PhoneList;
 
 /*===========================================================================
 
@@ -22,12 +22,12 @@
 		symbolString: (char[256]) Buffer for the current symbol.
 
 		categoryList: In MONET, terminals for the boolean expression
-			system are instances of the CategoryNode class.
+			system are instances of the MMCategory class.
 			The majority of those instances are stored in a
 			named object which is of the "CategoryList" class.
 			When a category symbol is to be resolved, this list
 			is consulted.
-		phoneList:  Not all CategoryNodes are stored in the
+		phoneList:  Not all MMCategorys are stored in the
 			mainCategoryList.  Some are categories native to a
 			specific phone.  If a category cannot be found in the
 			main category list, the main phone list is consulted.
@@ -56,7 +56,7 @@
 - (void)setPhoneList: (PhoneList *)aList;
 
 /* General purpose internal methods */
-- (CategoryNode *)categorySymbol:(NSString *)symbol;
+- (MMCategory *)categorySymbol:(NSString *)symbol;
 - (int)nextToken;
 
 /* General Parse Methods */

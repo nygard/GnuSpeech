@@ -5,7 +5,7 @@
 
 #import <Foundation/Foundation.h>
 #import "BrowserManager.h"
-#import "CategoryNode.h"
+#import "MMCategory.h"
 #import "CategoryList.h"
 #import "EventListView.h"
 #import "GSXMLFunctions.h"
@@ -89,6 +89,8 @@
 
     [NSUnarchiver decodeClassName:@"Object" asClassName:@"NSObject"];
     [NSUnarchiver decodeClassName:@"List" asClassName:@"MonetList"];
+
+    [NSUnarchiver decodeClassName:@"CategoryNode" asClassName:@"MMCategory"];
     [NSUnarchiver decodeClassName:@"Point" asClassName:@"MMPoint"];
 
     [self _disableUnconvertedClassLoading];
@@ -450,7 +452,7 @@
 }
 
 // Converted classes:
-// CategoryNode, FormulaExpression, FormulaTerminal, MonetList, NamedList, Parameter, Phone, Point, ProtoEquation, ProtoTemplte, Rule, Symbol, Target
+// MMCategory, FormulaExpression, FormulaTerminal, MonetList, NamedList, Parameter, Phone, Point, ProtoEquation, ProtoTemplte, Rule, Symbol, Target
 // BooleanExpression, BooleanTerminal, Slope, SlopeRatio
 
 - (void)_disableUnconvertedClassLoading;

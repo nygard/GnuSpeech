@@ -1,6 +1,6 @@
 #import <Foundation/NSObject.h>
 
-@class CategoryNode, CategoryList, ParameterList, TargetList, SymbolList;
+@class MMCategory, CategoryList, ParameterList, TargetList, SymbolList;
 
 /*===========================================================================
 
@@ -49,7 +49,7 @@
     NSString *phoneSymbol;
     NSString *comment;
 
-    CategoryList *categoryList; // Of CategoryNodes
+    CategoryList *categoryList; // Of MMCategorys
     TargetList *parameterList; // Of Targets
     TargetList *metaParameterList; // Of Targets
     TargetList *symbolList; // Of Targets
@@ -70,7 +70,7 @@
 
 /* Access to category List instance variable */
 - (CategoryList *)categoryList;
-- (void)addToCategoryList:(CategoryNode *)aCategory;
+- (void)addToCategoryList:(MMCategory *)aCategory;
 
 /* Access to target lists */
 - (TargetList *)parameterList;

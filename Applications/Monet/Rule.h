@@ -1,6 +1,6 @@
 #import <Foundation/NSObject.h>
 
-@class BooleanExpression, CategoryNode, MonetList, PhoneList, ProtoEquation, ProtoTemplate;
+@class BooleanExpression, MMCategory, MonetList, PhoneList, ProtoEquation, ProtoTemplate;
 
 /*===========================================================================
 
@@ -51,7 +51,7 @@
 - (ProtoTemplate *)getSpecialProfile:(int)index;
 - (void)setSpecialProfile:(int)index to:(ProtoTemplate *)special;
 
-- (BOOL)isCategoryUsed:(CategoryNode *)aCategory;
+- (BOOL)isCategoryUsed:(MMCategory *)aCategory;
 - (BOOL)isEquationUsed:(ProtoEquation *)anEquation;
 - (BOOL)isTransitionUsed:(ProtoTemplate *)aTransition;
 

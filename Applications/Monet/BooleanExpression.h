@@ -1,6 +1,6 @@
 #import <Foundation/NSObject.h>
 
-@class CategoryList, CategoryNode;
+@class CategoryList, MMCategory;
 
 /*===========================================================================
 
@@ -34,7 +34,7 @@
 
 	Import Files:
 
-	"CategoryList.h":  In MONET, terminals are of the "CategoryNode"
+	"CategoryList.h":  In MONET, terminals are of the "MMCategory"
 		class.  The named object "mainCategoryList" is checked to
 		ensure the existence of a selected category.
 
@@ -86,7 +86,7 @@
 - (NSString *)expressionString;
 - (void)expressionString:(NSMutableString *)resultString;
 
-- (BOOL)isCategoryUsed:(CategoryNode *)aCategory;
+- (BOOL)isCategoryUsed:(MMCategory *)aCategory;
 
 // Archiving
 - (id)initWithCoder:(NSCoder *)aDecoder;

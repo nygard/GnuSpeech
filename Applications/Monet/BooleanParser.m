@@ -6,7 +6,7 @@
 #import "BooleanExpression.h"
 #import "BooleanSymbols.h"
 #import "BooleanTerminal.h"
-#import "CategoryNode.h"
+#import "MMCategory.h"
 #import "CategoryList.h"
 #import "Phone.h"
 #import "PhoneList.h"
@@ -49,7 +49,7 @@
     phoneList = [aList retain];
 }
 
-- (CategoryNode *)categorySymbol:(NSString *)symbol;
+- (MMCategory *)categorySymbol:(NSString *)symbol;
 {
     NSString *baseName;
     Phone *tempPhone;
@@ -126,7 +126,7 @@
 
 - (id)beginParseString;
 {
-    CategoryNode *aCategory;
+    MMCategory *aCategory;
     id resultExpression = nil;
 
     switch ([self nextToken]) {
@@ -233,7 +233,7 @@
 - (id)notOperation;
 {
     BooleanExpression *resultExpression = nil, *subExpression;
-    CategoryNode *aCategory;
+    MMCategory *aCategory;
 
     resultExpression = [[[BooleanExpression alloc] init] autorelease];
     [resultExpression setOperation:NOT_OP];
@@ -275,7 +275,7 @@
 - (id)andOperation:(id)operand;
 {
     BooleanExpression *resultExpression = nil, *subExpression;
-    CategoryNode *aCategory;
+    MMCategory *aCategory;
 
     resultExpression = [[[BooleanExpression alloc] init] autorelease];
     [resultExpression addSubExpression:operand];
@@ -333,7 +333,7 @@
 - (id)orOperation:(id)operand;
 {
     BooleanExpression *resultExpression = nil, *subExpression;
-    CategoryNode *aCategory;
+    MMCategory *aCategory;
 
     resultExpression = [[[BooleanExpression alloc] init] autorelease];
     [resultExpression addSubExpression:operand];
@@ -390,7 +390,7 @@
 - (id)xorOperation:(id)operand;
 {
     BooleanExpression *resultExpression = nil, *subExpression;
-    CategoryNode *aCategory;
+    MMCategory *aCategory;
 
     resultExpression = [[[BooleanExpression alloc] init] autorelease];
     [resultExpression addSubExpression:operand];
@@ -448,7 +448,7 @@
 - (id)leftParen;
 {
     id resultExpression = nil;
-    CategoryNode *aCategory;
+    MMCategory *aCategory;
     int token;
 
     switch ([self nextToken]) {

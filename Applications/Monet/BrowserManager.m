@@ -4,7 +4,7 @@
 #import <AppKit/AppKit.h>
 #import "AppController.h"
 #import "CategoryList.h"
-#import "CategoryNode.h"
+#import "MMCategory.h"
 #import "Inspector.h"
 #import "MonetList.h"
 #import "Parameter.h"
@@ -217,7 +217,7 @@
 {
     RuleManager *ruleManager = NXGetNamedObject(@"ruleManager", NSApp);
 
-    /* Get CategoryNode Object From Category List (indexed by row) */
+    /* Get MMCategory Object From Category List (indexed by row) */
     [cell setStringValue:[[list[currentList] objectAtIndex:row] symbol]];
     [cell setLeaf:YES];
 
@@ -415,7 +415,7 @@ static NSString *symbolString = @"Symbol";
               return;
           }
 
-          tempEntry = [[CategoryNode alloc] init];
+          tempEntry = [[MMCategory alloc] init];
           break;
 
       case 2:

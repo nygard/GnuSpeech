@@ -4,7 +4,7 @@
 #import "NSString-Extensions.h"
 
 #import "AppController.h" // To get NXGetNamedObject()
-#import "CategoryNode.h"
+#import "MMCategory.h"
 #import "CategoryList.h"
 #import "GSXMLFunctions.h"
 #import "Parameter.h"
@@ -177,7 +177,7 @@
     float tempValue;
 
     Phone *tempPhone;
-    CategoryNode *tempCategory;
+    MMCategory *tempCategory;
     CategoryList *categories;
     SymbolList *symbols;
     ParameterList *mainParameterList, *mainMetaParameterList;
@@ -268,7 +268,7 @@
         fprintf(fp, "%s\n", [[aPhone symbol] UTF8String]);
         aCategoryList = [aPhone categoryList];
         for (j = 0; j < [aCategoryList count]; j++) {
-            CategoryNode *aCategory;
+            MMCategory *aCategory;
 
             aCategory = [aCategoryList objectAtIndex:j];
             if ([aCategory isNative])

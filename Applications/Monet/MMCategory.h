@@ -1,8 +1,8 @@
 #import <Foundation/NSObject.h>
 
-@interface CategoryNode : NSObject
+@interface MMCategory : NSObject
 {
-    NSString *symbol;
+    NSString *symbol; // TODO (2004-03-18): Rename to "name".  Or create named/commented object.
     NSString *comment;
     BOOL isNative;
 }

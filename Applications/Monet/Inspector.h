@@ -1,7 +1,7 @@
 #import <Foundation/NSObject.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-@class CategoryNode, IntonationPoint, MMPoint, MonetList, Parameter, Phone, ProtoEquation, ProtoTemplate, Rule, Symbol;
+@class MMCategory, IntonationPoint, MMPoint, MonetList, Parameter, Phone, ProtoEquation, ProtoTemplate, Rule, Symbol;
 @class CategoryInspector, IntonationPointInspector, ParameterInspector, PhoneInspector, PointInspector, ProtoEquationInspector, ProtoTemplateInspector, RuleInspector, SymbolInspector;
 
 /*===========================================================================
@@ -57,7 +57,7 @@ History:
 - (void)setPopUpListView:(NSBox *)aView;
 
 - (void)inspectPhone:(Phone *)phone;
-- (void)inspectCategory:(CategoryNode *)category;
+- (void)inspectCategory:(MMCategory *)category;
 - (void)inspectSymbol:(Symbol *)symbol;
 - (void)inspectParameter:(Parameter *)parameter;
 - (void)inspectMetaParameter:(Parameter *)metaParameter;

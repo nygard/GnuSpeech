@@ -2,7 +2,7 @@
 
 #import <AppKit/AppKit.h>
 #import "AppController.h"
-#import "CategoryNode.h"
+#import "MMCategory.h"
 #import "CategoryList.h"
 #import "Inspector.h"
 #import "NiftyMatrix.h"
@@ -342,7 +342,7 @@
 - (IBAction)itemsChanged:(id)sender;
 {
     CategoryList *tempList;
-    CategoryNode *tempNode;
+    MMCategory *tempNode;
     NSArray *list;
     id tempCell;
     id mainCategoryList;

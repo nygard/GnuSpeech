@@ -9,7 +9,7 @@
 
 #import "AppController.h"
 #import "CategoryList.h"
-#import "CategoryNode.h"
+#import "MMCategory.h"
 #import "MonetList.h"
 #import "NamedList.h"
 #import "ParameterList.h"

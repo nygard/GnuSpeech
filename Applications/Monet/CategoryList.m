@@ -3,23 +3,23 @@
 #import <Foundation/Foundation.h>
 #import "NSString-Extensions.h"
 
-#import "CategoryNode.h"
+#import "MMCategory.h"
 #import "GSXMLFunctions.h"
 
 /*===========================================================================
 
 	This Class currently adds no functionality to the List class.
 	However, it is planned that this object will provide sorting functions
-	to the CategoryNode class.
+	to the MMCategory class.
 
 ===========================================================================*/
 
 @implementation CategoryList
 
-- (CategoryNode *)findSymbol:(NSString *)searchSymbol;
+- (MMCategory *)findSymbol:(NSString *)searchSymbol;
 {
     int count, index;
-    CategoryNode *aCategory;
+    MMCategory *aCategory;
 
     //NSLog(@"CategoryList searching for: %@\n", searchSymbol);
 
@@ -36,11 +36,11 @@
     return nil;
 }
 
-- (CategoryNode *)addCategory:(NSString *)newCategoryName;
+- (MMCategory *)addCategory:(NSString *)newCategoryName;
 {
-    CategoryNode *newCategory;
+    MMCategory *newCategory;
 
-    newCategory = [[CategoryNode alloc] initWithSymbol:newCategoryName];
+    newCategory = [[MMCategory alloc] initWithSymbol:newCategoryName];
     [self addObject:newCategory];
     [newCategory release];
 
@@ -49,9 +49,9 @@
 
 - (void)addNativeCategory:(NSString *)newCategoryName;
 {
-    CategoryNode *newCategory;
+    MMCategory *newCategory;
 
-    newCategory = [[CategoryNode alloc] initWithSymbol:newCategoryName];
+    newCategory = [[MMCategory alloc] initWithSymbol:newCategoryName];
     [newCategory setIsNative:YES];
     [self addObject:newCategory];
     [newCategory release];
@@ -88,7 +88,7 @@
 {
     int i, count;
 
-    CategoryNode *currentNode;
+    MMCategory *currentNode;
     char tempString[SYMBOL_LENGTH_MAX+1];
     NSString *str;
 
@@ -99,7 +99,7 @@
         fread(tempString, SYMBOL_LENGTH_MAX+1, 1, fp);
 
         str = [NSString stringWithASCIICString:tempString];
-        currentNode = [[CategoryNode alloc] initWithSymbol:str];
+        currentNode = [[MMCategory alloc] initWithSymbol:str];
         [self addObject:currentNode];
     }
 
@@ -139,7 +139,7 @@
     [resultString appendString:@"<categories>\n"];
 
     for (index = 0; index < count; index++) {
-        CategoryNode *aCategory;
+        MMCategory *aCategory;
 
         aCategory = [self objectAtIndex:index];
         [aCategory appendXMLToString:resultString level:level+1 useReferences:shouldUseReferences];

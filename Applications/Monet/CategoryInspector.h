@@ -2,7 +2,7 @@
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 @class NSButton;
-@class CategoryNode;
+@class MMCategory;
 @class Inspector;
 
 /*===========================================================================
@@ -35,15 +35,15 @@ History:
     IBOutlet NSButtonCell *setButton;
     IBOutlet NSButtonCell *revertButton;
 
-    CategoryNode *currentCategory;
+    MMCategory *currentCategory;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 
 - (void)dealloc;
 
-- (void)setCurrentCategory:(CategoryNode *)aCategory;
-- (void)inspectCategory:(CategoryNode *)aCategory;
+- (void)setCurrentCategory:(MMCategory *)aCategory;
+- (void)inspectCategory:(MMCategory *)aCategory;
 - (void)setUpWindow:(NSPopUpButton *)sender;
 - (void)beginEditting;
 

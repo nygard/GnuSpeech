@@ -5,7 +5,7 @@
 #import "NSString-Extensions.h"
 
 #import "AppController.h"
-#import "CategoryNode.h"
+#import "MMCategory.h"
 #import "CategoryList.h"
 #import "GSXMLFunctions.h"
 #import "Parameter.h"
@@ -110,7 +110,7 @@
 
     count = [categoryList count];
     for (index = 0; index < count; index++) {
-        CategoryNode *aCategory;
+        MMCategory *aCategory;
 
         aCategory = [categoryList objectAtIndex:index];
         if ([aCategory isNative]) {
@@ -139,7 +139,7 @@
     return categoryList;
 }
 
-- (void)addToCategoryList:(CategoryNode *)aCategory;
+- (void)addToCategoryList:(MMCategory *)aCategory;
 {
 }
 
@@ -167,7 +167,7 @@
     unsigned archivedVersion;
     int count, index;
     CategoryList *mainCategoryList;
-    CategoryNode *temp1;
+    MMCategory *temp1;
     char *c_phoneSymbol, *c_comment, *c_str;
     MModel *model;
 
@@ -294,7 +294,7 @@
     [resultString appendString:@"<categories>\n"];
 
     for (index = 0; index < count; index++) {
-        CategoryNode *aCategory;
+        MMCategory *aCategory;
 
         aCategory = [categoryList objectAtIndex:index];
 

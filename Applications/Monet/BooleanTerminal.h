@@ -1,6 +1,6 @@
 #import <Foundation/NSObject.h>
 
-@class CategoryList, CategoryNode;
+@class CategoryList, MMCategory;
 
 /*===========================================================================
 
@@ -36,7 +36,7 @@
 
 @interface BooleanTerminal : NSObject
 {
-    CategoryNode *category;
+    MMCategory *category;
     BOOL shouldMatchAll;
 }
 
@@ -44,8 +44,8 @@
 - (void)dealloc;
 
 /* Access to instance variables */
-- (CategoryNode *)category;
-- (void)setCategory:(CategoryNode *)newCategory;
+- (MMCategory *)category;
+- (void)setCategory:(MMCategory *)newCategory;
 
 - (BOOL)shouldMatchAll;
 - (void)setShouldMatchAll:(BOOL)newFlag;
@@ -64,7 +64,7 @@
 - (NSString *)expressionString;
 - (void)expressionString:(NSMutableString *)resultString;
 
-- (BOOL)isCategoryUsed:(CategoryNode *)aCategory;
+- (BOOL)isCategoryUsed:(MMCategory *)aCategory;
 
 // Archiving
 - (id)initWithCoder:(NSCoder *)aDecoder;

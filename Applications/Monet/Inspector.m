@@ -95,7 +95,7 @@
     [phoneInspector inspectPhone:phone];
 }
 
-- (void)inspectCategory:(CategoryNode *)category;
+- (void)inspectCategory:(MMCategory *)category;
 {
     [panel setTitle:@"Category Inspector"];
     currentInspectorObject = category;

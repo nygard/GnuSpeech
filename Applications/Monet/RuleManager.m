@@ -580,7 +580,7 @@
         [[[model rules] objectAtIndex:i] removeMetaParameter:index];
 }
 
-- (BOOL)isCategoryUsed:(CategoryNode *)aCategory;
+- (BOOL)isCategoryUsed:(MMCategory *)aCategory;
 {
     return [[model rules] isCategoryUsed:aCategory];
 }

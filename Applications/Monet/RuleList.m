@@ -157,7 +157,7 @@
     [boolParser release];
 }
 
-- (BOOL)isCategoryUsed:(CategoryNode *)aCategory;
+- (BOOL)isCategoryUsed:(MMCategory *)aCategory;
 {
     int count, index;
 

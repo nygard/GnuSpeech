@@ -3,7 +3,7 @@
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
 #import "BrowserManager.h"
-#import "CategoryNode.h"
+#import "MMCategory.h"
 #import "CategoryList.h"
 #import "EventListView.h"
 #import "Inspector.h"

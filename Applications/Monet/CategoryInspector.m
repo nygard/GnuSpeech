@@ -1,7 +1,7 @@
 #import "CategoryInspector.h"
 
 #import <AppKit/AppKit.h>
-#import "CategoryNode.h"
+#import "MMCategory.h"
 #import "Inspector.h"
 
 @implementation CategoryInspector
@@ -25,7 +25,7 @@
     [super dealloc];
 }
 
-- (void)setCurrentCategory:(CategoryNode *)aCategory;
+- (void)setCurrentCategory:(MMCategory *)aCategory;
 {
     if (aCategory == currentCategory)
         return;
@@ -34,7 +34,7 @@
     currentCategory = [aCategory retain];
 }
 
-- (void)inspectCategory:(CategoryNode *)aCategory;
+- (void)inspectCategory:(MMCategory *)aCategory;
 {
     [self setCurrentCategory:aCategory];
     [mainInspector setPopUpListView:categoryPopUpListView];

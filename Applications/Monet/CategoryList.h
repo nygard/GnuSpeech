@@ -1,6 +1,6 @@
 #import "MonetList.h"
 
-@class CategoryNode;
+@class MMCategory;
 
 /*===========================================================================
 
@@ -15,8 +15,8 @@
 {
 }
 
-- (CategoryNode *)findSymbol:(NSString *)searchSymbol;
-- (CategoryNode *)addCategory:(NSString *)newCategoryName; // TODO (2004-03-01): Make this return void
+- (MMCategory *)findSymbol:(NSString *)searchSymbol;
+- (MMCategory *)addCategory:(NSString *)newCategoryName; // TODO (2004-03-01): Make this return void
 - (void)addNativeCategory:(NSString *)newCategoryName;
 //- (void)freeNativeCategories;
 

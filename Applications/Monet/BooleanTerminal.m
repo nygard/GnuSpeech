@@ -6,7 +6,7 @@
 
 #import "AppController.h"
 #import "CategoryList.h"
-#import "CategoryNode.h"
+#import "MMCategory.h"
 #import "Phone.h"
 #import "PhoneList.h"
 
@@ -33,12 +33,12 @@
     [super dealloc];
 }
 
-- (CategoryNode *)category;
+- (MMCategory *)category;
 {
     return category;
 }
 
-- (void)setCategory:(CategoryNode *)newCategory;
+- (void)setCategory:(MMCategory *)newCategory;
 {
     if (newCategory == category)
         return;
@@ -111,7 +111,7 @@
         [resultString appendString:@"*"];
 }
 
-- (BOOL)isCategoryUsed:(CategoryNode *)aCategory;
+- (BOOL)isCategoryUsed:(MMCategory *)aCategory;
 {
     if (category == aCategory)
         return YES;
@@ -129,7 +129,7 @@
     char *c_string;
     CategoryList *categoryList;
     PhoneList *phoneList;
-    CategoryNode *aCategoryNode;
+    MMCategory *aMMCategory;
     NSString *str;
     MModel *model;
 
@@ -152,12 +152,12 @@
     //NSLog(@"c_string: %s", c_string);
     str = [NSString stringWithASCIICString:c_string];
 
-    aCategoryNode = [categoryList findSymbol:str];
-    if (aCategoryNode == nil) {
-        aCategoryNode = [[[phoneList findPhone:str] categoryList] findSymbol:str];
-        category = [aCategoryNode retain];
+    aMMCategory = [categoryList findSymbol:str];
+    if (aMMCategory == nil) {
+        aMMCategory = [[[phoneList findPhone:str] categoryList] findSymbol:str];
+        category = [aMMCategory retain];
     } else {
-        category = [aCategoryNode retain];
+        category = [aMMCategory retain];
     }
 
     free(c_string);

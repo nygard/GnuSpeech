@@ -1,4 +1,4 @@
-#import "CategoryNode.h"
+#import "MMCategory.h"
 
 #import <Foundation/Foundation.h>
 #import "NSObject-Extensions.h"
@@ -6,7 +6,7 @@
 
 #import "GSXMLFunctions.h"
 
-@implementation CategoryNode
+@implementation MMCategory
 
 - (id)init;
 {
