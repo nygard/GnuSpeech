@@ -102,21 +102,6 @@
     return 0;
 }
 
-- (void)optimize;
-{
-}
-
-- (void)optimizeSubExpressions;
-{
-    int count, index;
-
-    count = [expressions count];
-    for (index = 0; index < count; index++)
-        [[expressions objectAtIndex:index] optimizeSubExpressions];
-
-    [self optimize];
-}
-
 - (void)expressionString:(NSMutableString *)resultString;
 {
     NSString *opString;

@@ -50,14 +50,8 @@
 - (BOOL)shouldMatchAll;
 - (void)setShouldMatchAll:(BOOL)newFlag;
 
-// Methods common to "BooleanNode" -- for both BooleanExpress, BooleanTerminal
-
 /* Evaluate yourself */
 - (int)evaluateWithCategories:(CategoryList *)categories;
-
-/* Optimization methods.  Not yet implemented */
-- (void)optimize;
-- (void)optimizeSubExpressions;
 
 /* General purpose routines */
 - (void)expressionString:(NSMutableString *)resultString;

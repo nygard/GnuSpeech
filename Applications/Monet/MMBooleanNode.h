@@ -16,10 +16,6 @@
 // Evaluate yourself
 - (int)evaluateWithCategories:(CategoryList *)categories;
 
-// Optimization methods.  Not yet implemented
-- (void)optimize;
-- (void)optimizeSubExpressions;
-
 // General purpose routines
 - (NSString *)expressionString;
 - (void)expressionString:(NSMutableString *)resultString;

@@ -72,14 +72,8 @@
 
 - (NSString *)opString;
 
-// Methods common to "BooleanNode" -- for both BooleanExpress, BooleanTerminal
-
 /* Evaluate yourself.*/
 - (int)evaluateWithCategories:(CategoryList *)categories;
-
-/* Optimization methods.  Not yet implemented */
-- (void)optimize;
-- (void)optimizeSubExpressions;
 
 /* General purpose methods */
 - (void)expressionString:(NSMutableString *)resultString;

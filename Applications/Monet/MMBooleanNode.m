@@ -14,14 +14,6 @@
     return 0;
 }
 
-- (void)optimize;
-{
-}
-
-- (void)optimizeSubExpressions;
-{
-}
-
 // General purpose routines
 
 - (NSString *)expressionString;

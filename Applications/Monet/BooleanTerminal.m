@@ -77,14 +77,6 @@
     return 1;
 }
 
-- (void)optimize;
-{
-}
-
-- (void)optimizeSubExpressions;
-{
-}
-
 - (void)expressionString:(NSMutableString *)resultString;
 {
     if (category == nil)
