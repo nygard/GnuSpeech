@@ -736,7 +736,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
 
             NSLog(@"----------------------------------------------------------------------");
             NSLog(@"Applying rule %d", ruleIndex + 1);
-            [self applyRule:matchedRule withPhones:tempPhoneList andTempos:&phoneTempo[index] phoneIndex:index+1 model:aModel];
+            [self applyRule:matchedRule withPhones:tempPhoneList andTempos:&phoneTempo[index] phoneIndex:index model:aModel];
 
             index += [matchedRule numberExpressions] - 1;
         }
@@ -781,29 +781,29 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
 
     // TODO (2004-08-14): Is this supposed to change the multiplier?  I suppose so, since setMultiplier: is never used.
     NSLog(@"multiplier before: %f", multiplier);
-    multiplier = 1.0 / (double)(phones[phoneIndex-1].ruleTempo);
+    multiplier = 1.0 / (double)(phones[phoneIndex].ruleTempo);
     NSLog(@"multiplier after: %f", multiplier);
 
     type = [rule numberExpressions];
     [self setDuration:(int)(ruleSymbols.ruleDuration * multiplier)];
 
-    rules[currentRule].firstPhone = phoneIndex - 1;
-    rules[currentRule].lastPhone = phoneIndex + (type - 2);
+    rules[currentRule].firstPhone = phoneIndex;
+    rules[currentRule].lastPhone = phoneIndex + (type - 1);
     rules[currentRule].beat = (ruleSymbols.beat * multiplier) + (double)zeroRef;
     rules[currentRule++].duration = ruleSymbols.ruleDuration * multiplier;
 
     switch (type) {
         /* Note: Case 4 should execute all of the below, case 3 the last two */
       case 4:
-          phones[phoneIndex+2].onset = (double)zeroRef + ruleSymbols.beat;
+          phones[phoneIndex+3].onset = (double)zeroRef + ruleSymbols.beat;
           tempEvent = [self insertEvent:-1 atTime:ruleSymbols.mark2 withValue:0.0];
           [tempEvent setFlag:YES];
       case 3:
-          phones[phoneIndex+1].onset = (double)zeroRef + ruleSymbols.beat;
+          phones[phoneIndex+2].onset = (double)zeroRef + ruleSymbols.beat;
           tempEvent = [self insertEvent:-1 atTime:ruleSymbols.mark1 withValue:0.0];
           [tempEvent setFlag:YES];
       case 2:
-          phones[phoneIndex].onset = (double)zeroRef + ruleSymbols.beat;
+          phones[phoneIndex+1].onset = (double)zeroRef + ruleSymbols.beat;
           tempEvent = [self insertEvent:-1 atTime:0.0 withValue:0.0];
           [tempEvent setFlag:YES];
           break;
