@@ -633,11 +633,13 @@
 {
     unsigned int index;
 
+    if (aNumber != -1) {
+        [resultString indentToLevel:level];
+        [resultString appendFormat:@"<!-- %d -->\n", aNumber];
+    }
+
     [resultString indentToLevel:level];
-    if (aNumber == -1)
-        [resultString appendFormat:@"<rule>\n"];
-    else
-        [resultString appendFormat:@"<rule number=\"%d\">\n", aNumber];
+    [resultString appendString:@"<rule>\n"];
 
     [resultString indentToLevel:level + 1];
     [resultString appendString:@"<boolean-expressions>\n"];

@@ -166,3 +166,7 @@ Notes:
 
 2004-05-18:
 - Replace DefaultPrototypes with an XML version of it.
+- note some limitations of current system:
+  - assumes names of equations and transitions are unique across groups, but doesn't enforce it.  Failure upon load.
+  - note parenthesis use in equations
+
