@@ -4,7 +4,10 @@
 #include "tube.h"
 #include "wavetable.h"
 
-// Wavetable
+//  Glottal source oscillator table variables
+#define TABLE_LENGTH              512
+#define TABLE_MODULUS             (TABLE_LENGTH-1)
+
 double *wavetable;
 int tableDiv1;
 int tableDiv2;
@@ -14,35 +17,19 @@ double tnDelta;
 double basicIncrement;
 double currentPosition;
 
-double mod0(double value);
-void incrementTablePosition(double frequency);
+static double mod0(double value);
+static void incrementTablePosition(double frequency);
 
-/******************************************************************************
-*
-*       function:       initializeWavetable
-*
-*       purpose:        Calculates the initial glottal pulse and stores it
-*                       in the wavetable, for use in the oscillator.
-*
-*       arguments:      none
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      calloc, rint
-*
-******************************************************************************/
-
+// Calculates the initial glottal pulse and stores it in the wavetable, for use in the oscillator.
 void initializeWavetable(struct _TRMInputParameters *inputParameters)
 {
     int i, j;
 
 
-    /*  ALLOCATE MEMORY FOR WAVETABLE  */
+    //  Allocate memory for wavetable
     wavetable = (double *)calloc(TABLE_LENGTH, sizeof(double));
 
-    /*  CALCULATE WAVE TABLE PARAMETERS  */
+    //  Calculate wave table parameters
     tableDiv1 = rint(TABLE_LENGTH * (inputParameters->tp / 100.0));
     tableDiv2 = rint(TABLE_LENGTH * ((inputParameters->tp + inputParameters->tnMax) / 100.0));
     tnLength = tableDiv2 - tableDiv1;
@@ -50,9 +37,9 @@ void initializeWavetable(struct _TRMInputParameters *inputParameters)
     basicIncrement = (double)TABLE_LENGTH / (double)sampleRate;
     currentPosition = 0;
 
-    /*  INITIALIZE THE WAVETABLE WITH EITHER A GLOTTAL PULSE OR SINE TONE  */
+    //  Initialize the wavetable with either a glottal pulse or sine tone
     if (inputParameters->waveform == PULSE) {
-        /*  CALCULATE RISE PORTION OF WAVE TABLE  */
+        //  Calculate rise portion of wave table
         for (i = 0; i < tableDiv1; i++) {
             double x = (double)i / (double)tableDiv1;
             double x2 = x * x;
@@ -60,17 +47,17 @@ void initializeWavetable(struct _TRMInputParameters *inputParameters)
             wavetable[i] = (3.0 * x2) - (2.0 * x3);
         }
 
-        /*  CALCULATE FALL PORTION OF WAVE TABLE  */
+        //  Calculate fall portion of wave table
         for (i = tableDiv1, j = 0; i < tableDiv2; i++, j++) {
             double x = (double)j / tnLength;
             wavetable[i] = 1.0 - (x * x);
         }
 
-        /*  SET CLOSED PORTION OF WAVE TABLE  */
+        //  Set closed portion of wave table
         for (i = tableDiv2; i < TABLE_LENGTH; i++)
             wavetable[i] = 0.0;
     } else {
-        /*  SINE WAVE  */
+        //  Sine wave
         for (i = 0; i < TABLE_LENGTH; i++) {
             wavetable[i] = sin( ((double)i/(double)TABLE_LENGTH) * 2.0 * PI );
         }
@@ -79,61 +66,29 @@ void initializeWavetable(struct _TRMInputParameters *inputParameters)
 
 
 
-/******************************************************************************
-*
-*       function:       updateWavetable
-*
-*       purpose:        Rewrites the changeable part of the glottal pulse
-*                       according to the amplitude.
-*
-*       arguments:      amplitude
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      rint
-*
-******************************************************************************/
-
+// Rewrites the changeable part of the glottal pulse according to the amplitude.
 void updateWavetable(double amplitude)
 {
     int i, j;
 
-    /*  CALCULATE NEW CLOSURE POINT, BASED ON AMPLITUDE  */
+    //  Calculate new closure point, based on amplitude
     double newDiv2 = tableDiv2 - rint(amplitude * tnDelta);
     double newTnLength = newDiv2 - tableDiv1;
 
-    /*  RECALCULATE THE FALLING PORTION OF THE GLOTTAL PULSE  */
+    //  Recalculate the falling portion of the glottal pulse
     for (i = tableDiv1, j = 0; i < newDiv2; i++, j++) {
         double x = (double)j / newTnLength;
         wavetable[i] = 1.0 - (x * x);
     }
 
-    /*  FILL IN WITH CLOSED PORTION OF GLOTTAL PULSE  */
+    //  Fill in with closed portion of glottal pulse
     for (i = newDiv2; i < tableDiv2; i++)
         wavetable[i] = 0.0;
 }
 
 
 
-/******************************************************************************
-*
-*       function:       mod0
-*
-*       purpose:        Returns the modulus of 'value', keeping it in the
-*                       range 0 -> TABLE_MODULUS.
-*
-*       arguments:      value
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      none
-*
-******************************************************************************/
-
+// Returns the modulus of 'value', keeping it in the range 0 -> TABLE_MODULUS.
 double mod0(double value)
 {
     if (value > TABLE_MODULUS)
@@ -144,23 +99,7 @@ double mod0(double value)
 
 
 
-/******************************************************************************
-*
-*       function:       incrementTablePosition
-*
-*       purpose:        Increments the position in the wavetable according to
-*                       the desired frequency.
-*
-*       arguments:      frequency
-*
-*       internal
-*       functions:      mod0
-*
-*       library
-*       functions:      none
-*
-******************************************************************************/
-
+// Increments the position in the wavetable according to the desired frequency.
 void incrementTablePosition(double frequency)
 {
     currentPosition = mod0(currentPosition + (frequency * basicIncrement));
@@ -168,22 +107,7 @@ void incrementTablePosition(double frequency)
 
 
 
-/******************************************************************************
-*
-*       function:       oscillator
-*
-*       purpose:        Is a 2X oversampling interpolating wavetable
-*                       oscillator.
-*
-*       arguments:      frequency
-*
-*       internal
-*       functions:      incrementTablePosition, mod0, FIRFilter
-*
-*       library
-*       functions:      none
-*
-******************************************************************************/
+// Is a 2X oversampling interpolating wavetable oscillator.
 
 #if OVERSAMPLING_OSCILLATOR
 double oscillator(double frequency)  /*  2X OVERSAMPLING OSCILLATOR  */
