@@ -10,11 +10,6 @@
 #import "ParameterList.h"
 #import "MMPosture.h"
 
-#ifdef PORTING
-#import "StringParser.h"
-#import "PhoneList.h"
-#endif
-
 @implementation EventListView
 
 /*===========================================================================

@@ -13,7 +13,6 @@
 #import "ParameterList.h"
 #import "PhoneList.h"
 #import "PrototypeManager.h"
-#import "StringParser.h"
 #import "SymbolList.h"
 #import "TargetList.h"
 
@@ -82,7 +81,6 @@
 
     NXNameObject(@"prototypeManager", prototypeManager, NSApp);
     NXNameObject(@"intonationView", intonationView, NSApp);
-    NXNameObject(@"stringParser", stringParser, NSApp);
 
     //[prototypeManager setModel:model];
     //[dataEntryController setModel:model];
@@ -92,7 +90,6 @@
     //[specialTransitionEditor setModel:model];
     //[ruleTester setModel:model];
     //[ruleManager setModel:model];
-    [stringParser setModel:model];
 
     //NSLog(@"getting it by name: %@", NXGetNamedObject(@"mainSymbolList", NSApp));
 
@@ -347,14 +344,11 @@
             [specialTransitionEditor setModel:model];
             [ruleTester setModel:model];
             [ruleManager setModel:model];
-            [stringParser setModel:model];
             [synthesisParameterEditor setModel:model];
             [synthesisController setModel:model];
 
             [stream release];
-#ifdef PORTING
-            initStringParser();
-#endif
+
             [model generateXML:filename];
         } else {
             NSLog(@"Not a MONET file");

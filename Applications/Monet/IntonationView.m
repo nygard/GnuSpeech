@@ -10,7 +10,6 @@
 #import "IntonationPoint.h"
 #import "MonetList.h"
 #import "MMPosture.h"
-#import "StringParser.h"
 
 #define TOP_MARGIN 65
 #define BOTTOM_MARGIN 5

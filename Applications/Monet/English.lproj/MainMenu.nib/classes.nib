@@ -4,7 +4,6 @@
             ACTIONS = {
                 archiveToDisk = id; 
                 displayInfoPanel = id; 
-                displayInspectorWindow = id; 
                 generateXML = id; 
                 importTRMData = id; 
                 loadPrototypes = id; 
@@ -29,10 +28,8 @@
             OUTLETS = {
                 eventListView = EventListView; 
                 infoPanel = NSPanel; 
-                inspectorController = Inspector; 
                 intonationView = IntonationScrollView; 
                 prototypeManager = PrototypeManager; 
-                stringParser = StringParser; 
                 synthesisWindow = NSWindow; 
             }; 
             SUPERCLASS = NSObject; 

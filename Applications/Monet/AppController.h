@@ -1,5 +1,5 @@
 //
-// $Id: AppController.h,v 1.41 2004/03/31 22:48:56 nygard Exp $
+// $Id: AppController.h,v 1.42 2004/03/31 22:53:58 nygard Exp $
 //
 
 /*===========================================================================
@@ -25,7 +25,7 @@ History:
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 @class NSMutableDictionary;
-@class CategoryList, ParameterList, PhoneList, StringParser, SymbolList;
+@class CategoryList, ParameterList, PhoneList, SymbolList;
 @class EventListView, IntonationScrollView, PrototypeManager;
 @class MModel, MMTransition;
 @class MDataEntryController, MPostureEditor, MPrototypeManager, MRuleManager, MRuleTester, MSpecialTransitionEditor;
@@ -40,7 +40,6 @@ History:
     MModel *model;
 
     IBOutlet PrototypeManager *prototypeManager;
-    IBOutlet StringParser *stringParser;
     IBOutlet EventListView *eventListView;
     IBOutlet IntonationScrollView *intonationView;
 
