@@ -2,7 +2,7 @@
 #define __TUBE_H
 
 #include <stdio.h> // For FILE
-#include "input.h" // For INPUT
+#include <math.h> // For M_PI
 #include "structs.h" // For TRMSampleRateConverter
 
 /*  FUNCTION RETURN CONSTANTS  */
@@ -14,13 +14,7 @@
 #define SINE                      1
 
 /*  MATH CONSTANTS  */
-#define PI                        3.14159265358979
-#define TWO_PI                    (2.0 * PI)
-
-//extern int controlPeriod;
-//extern int sampleRate;
-//extern double actualTubeLength;
-
+#define TWO_PI                    (2.0 * M_PI)
 
 TRMTubeModel *TRMTubeModelCreate(TRMInputParameters *inputParameters);
 void TRMTubeModelFree(TRMTubeModel *model);

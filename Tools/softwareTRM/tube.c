@@ -691,8 +691,8 @@ void calculateBandpassCoefficients(TRMTubeModel *tubeModel, int sampleRate)
     double tanValue, cosValue;
 
 
-    tanValue = tan((PI * tubeModel->current.parameters.fricBW) / sampleRate);
-    cosValue = cos((2.0 * PI * tubeModel->current.parameters.fricCF) / sampleRate);
+    tanValue = tan((M_PI * tubeModel->current.parameters.fricBW) / sampleRate);
+    cosValue = cos((2.0 * M_PI * tubeModel->current.parameters.fricCF) / sampleRate);
 
     tubeModel->bpBeta = (1.0 - tanValue) / (2.0 * (1.0 + tanValue));
     tubeModel->bpGamma = (0.5 + tubeModel->bpBeta) * cosValue;
@@ -917,6 +917,7 @@ void initializeConversion(TRMTubeModel *tubeModel, struct _TRMInputParameters *i
 
     /*  CALCULATE SAMPLE RATE RATIO  */
     tubeModel->sampleRateConverter.sampleRateRatio = (double)inputParameters->outputRate / (double)tubeModel->sampleRate;
+    printf("sampleRateRatio: %g\n", tubeModel->sampleRateConverter.sampleRateRatio);
 
     /*  CALCULATE TIME REGISTER INCREMENT  */
     tubeModel->sampleRateConverter.timeRegisterIncrement = (int)rint(pow(2.0, FRACTION_BITS) / tubeModel->sampleRateConverter.sampleRateRatio);
@@ -969,17 +970,24 @@ void initializeFilter(TRMSampleRateConverter *sampleRateConverter)
 
 
     /*  INITIALIZE THE FILTER IMPULSE RESPONSE  */
+    // This is probably a sinc() function.
     sampleRateConverter->h[0] = LP_CUTOFF;
-    x = PI / (double)L_RANGE;
+    x = M_PI / (double)L_RANGE;
     for (i = 1; i < FILTER_LENGTH; i++) {
         double y = (double)i * x;
         sampleRateConverter->h[i] = sin(y * LP_CUTOFF) / y;
     }
 
     /*  APPLY A KAISER WINDOW TO THE IMPULSE RESPONSE  */
+    // See <http://en.wikipedia.org/wiki/Kaiser_window>
+    // ALPHA = 1.8
+    // BETA = M_PI * ALPHA
+    // Looks like this is intended to be the right lobe of a kaiser window.
     IBeta = 1.0 / Izero(BETA);
     for (i = 0; i < FILTER_LENGTH; i++) {
         double temp = (double)i / FILTER_LENGTH;
+        //double temp = (double)i / (FILTER_LENGTH - 1);
+        //double temp = 2.0 * (double)i / (FILTER_LENGTH - 1);
         sampleRateConverter->h[i] *= Izero(BETA * sqrt(1.0 - (temp * temp))) * IBeta;
     }
 
@@ -1157,6 +1165,7 @@ TRMTubeModel *TRMTubeModelCreate(TRMInputParameters *inputParameters)
 
         newTubeModel->controlPeriod = rint((c * TOTAL_SECTIONS * 100.0) / (inputParameters->length * inputParameters->controlRate));
         newTubeModel->sampleRate = inputParameters->controlRate * newTubeModel->controlPeriod;
+        printf("newTubeModel->sampleRate: %d\n", newTubeModel->sampleRate);
         newTubeModel->actualTubeLength = (c * TOTAL_SECTIONS * 100.0) / newTubeModel->sampleRate;
         nyquist = (double)newTubeModel->sampleRate / 2.0;
     } else {
