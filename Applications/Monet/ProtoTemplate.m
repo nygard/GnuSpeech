@@ -2,6 +2,8 @@
 
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
+#import "NSString-Extensions.h"
+
 #import "MonetList.h"
 #import "MyController.h"
 #import "Point.h"
@@ -192,93 +194,114 @@
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
-    GSMPoint *aPoint;
+    unsigned archivedVersion;
     PrototypeManager *tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
+    char *c_name, *c_comment;
+    MonetList *archivedPoints;
 
-    [aDecoder decodeValuesOfObjCTypes:"**i", &name, &comment, &type];
-    points = [[aDecoder decodeObject] retain];
+    if ([self init] == nil)
+        return nil;
+
+    //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
+    archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
+    //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
+
+    [aDecoder decodeValuesOfObjCTypes:"**i", &c_name, &c_comment, &type];
+    //NSLog(@"c_name: %s, c_comment: %s, type: %d", c_name, c_comment, type);
+    [self setName:[NSString stringWithASCIICString:c_name]];
+    [self setComment:[NSString stringWithASCIICString:c_comment]];
+
+    archivedPoints = [aDecoder decodeObject];
+    //NSLog(@"archivedPoints: %@", archivedPoints);
 
     //NSLog(@"Points = %d", [points count]);
 
     if (points == nil) {
-        points = [[MonetList alloc] initWithCapacity:3];
+        MonetList *defaultPoints;
+        GSMPoint *aPoint;
+
+        defaultPoints = [[MonetList alloc] initWithCapacity:3];
 
         aPoint = [[GSMPoint alloc] init];
         [aPoint setValue:0.0];
         [aPoint setType:DIPHONE];
         [aPoint setExpression:[tempProto findEquationList:@"Test" named:@"Zero"]];
-        [points addObject:aPoint];
+        [defaultPoints addObject:aPoint];
         [aPoint release];
 
         aPoint = [[GSMPoint alloc] init];
         [aPoint setValue:12.5];
         [aPoint setType:DIPHONE];
         [aPoint setExpression:[tempProto findEquationList:@"Test" named:@"diphoneOneThree"]];
-        [points addObject:aPoint];
+        [defaultPoints addObject:aPoint];
         [aPoint release];
 
         aPoint = [[GSMPoint alloc] init];
         [aPoint setValue:87.5];
         [aPoint setType:DIPHONE];
         [aPoint setExpression:[tempProto findEquationList:@"Test" named:@"diphoneTwoThree"]];
-        [points addObject:aPoint];
+        [defaultPoints addObject:aPoint];
         [aPoint release];
 
         aPoint = [[GSMPoint alloc] init];
         [aPoint setValue:100.0];
         [aPoint setType:DIPHONE];
         [aPoint setExpression:[tempProto findEquationList:@"Defaults" named:@"Mark1"]];
-        [points addObject:aPoint];
+        [defaultPoints addObject:aPoint];
         [aPoint release];
 
-        if (type == DIPHONE)
-            return self;
+        if (type != DIPHONE) {
+            aPoint = [[GSMPoint alloc] init];
+            [aPoint setValue:12.5];
+            [aPoint setType:TRIPHONE];
+            [aPoint setExpression:[tempProto findEquationList:@"Test" named:@"triphoneOneThree"]];
+            [defaultPoints addObject:aPoint];
+            [aPoint release];
 
-        aPoint = [[GSMPoint alloc] init];
-        [aPoint setValue:12.5];
-        [aPoint setType:TRIPHONE];
-        [aPoint setExpression:[tempProto findEquationList:@"Test" named:@"triphoneOneThree"]];
-        [points addObject:aPoint];
-        [aPoint release];
+            aPoint = [[GSMPoint alloc] init];
+            [aPoint setValue:87.5];
+            [aPoint setType:TRIPHONE];
+            [aPoint setExpression:[tempProto findEquationList:@"Test" named:@"triphoneTwoThree"]];
+            [defaultPoints addObject:aPoint];
+            [aPoint release];
 
-        aPoint = [[GSMPoint alloc] init];
-        [aPoint setValue:87.5];
-        [aPoint setType:TRIPHONE];
-        [aPoint setExpression:[tempProto findEquationList:@"Test" named:@"triphoneTwoThree"]];
-        [points addObject:aPoint];
-        [aPoint release];
+            aPoint = [[GSMPoint alloc] init];
+            [aPoint setValue:100.0];
+            [aPoint setType:TRIPHONE];
+            [aPoint setExpression:[tempProto findEquationList:@"Defaults" named:@"Mark2"]];
+            [defaultPoints addObject:aPoint];
+            [aPoint release];
 
-        aPoint = [[GSMPoint alloc] init];
-        [aPoint setValue:100.0];
-        [aPoint setType:TRIPHONE];
-        [aPoint setExpression:[tempProto findEquationList:@"Defaults" named:@"Mark2"]];
-        [points addObject:aPoint];
-        [aPoint release];
+            if (type != TRIPHONE) {
+                aPoint = [[GSMPoint alloc] init];
+                [aPoint setValue:12.5];
+                [aPoint setType:TETRAPHONE];
+                [aPoint setExpression:[tempProto findEquationList:@"Test" named:@"tetraphoneOneThree"]];
+                [defaultPoints addObject:aPoint];
+                [aPoint release];
 
-        if (type == TRIPHONE)
-            return self;
+                aPoint = [[GSMPoint alloc] init];
+                [aPoint setValue:87.5];
+                [aPoint setType:TETRAPHONE];
+                [aPoint setExpression:[tempProto findEquationList:@"Test" named:@"tetraphoneTwoThree"]];
+                [defaultPoints addObject:aPoint];
+                [aPoint release];
 
-        aPoint = [[GSMPoint alloc] init];
-        [aPoint setValue:12.5];
-        [aPoint setType:TETRAPHONE];
-        [aPoint setExpression:[tempProto findEquationList:@"Test" named:@"tetraphoneOneThree"]];
-        [points addObject:aPoint];
-        [aPoint release];
+                aPoint = [[GSMPoint alloc] init];
+                [aPoint setValue:100.0];
+                [aPoint setType:TETRAPHONE];
+                [aPoint setExpression:[tempProto findEquationList:@"Durations" named:@"TetraphoneDefault"]];
+                [defaultPoints addObject:aPoint];
+                [aPoint release];
+            }
+        }
 
-        aPoint = [[GSMPoint alloc] init];
-        [aPoint setValue:87.5];
-        [aPoint setType:TETRAPHONE];
-        [aPoint setExpression:[tempProto findEquationList:@"Test" named:@"tetraphoneTwoThree"]];
-        [points addObject:aPoint];
-        [aPoint release];
+        [self setPoints:defaultPoints];
+        [defaultPoints release];
+    } else
+        [self setPoints:archivedPoints];
 
-        aPoint = [[GSMPoint alloc] init];
-        [aPoint setValue:100.0];
-        [aPoint setType:TETRAPHONE];
-        [aPoint setExpression:[tempProto findEquationList:@"Durations" named:@"TetraphoneDefault"]];
-        [points addObject:aPoint];
-        [aPoint release];
-    }
+    //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
 
     return self;
 }
@@ -287,6 +310,12 @@
 {
     [aCoder encodeValuesOfObjCTypes:"**i", &name, &comment, &type];
     [aCoder encodeObject:points];
+}
+
+- (NSString *)description;
+{
+    return [NSString stringWithFormat:@"<%@>[%p]: name: %@, comment: %@, type: %d, points: %@",
+                     NSStringFromClass([self class]), self, name, comment, type, points];
 }
 
 @end

@@ -1,7 +1,41 @@
 {
     IBClasses = (
-        {CLASS = AppController; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+        {
+            CLASS = AppController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {prototypeManager = PrototypeManager; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                add = id; 
+                addCategory = id; 
+                browserDoubleHit = id; 
+                browserHit = id; 
+                copy = id; 
+                cut = id; 
+                paste = id; 
+                remove = id; 
+                rename = id; 
+                setEquations = id; 
+                setSpecial = id; 
+                setTransitions = id; 
+            }; 
+            CLASS = PrototypeManager; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                browserSelector = NSControl; 
+                controller = MyController; 
+                inputTextField = NSTextField; 
+                newButton = NSButton; 
+                outputBox = NSBox; 
+                protoBrowser = NSBrowser; 
+                removeButton = NSButton; 
+                selectedOutput = NSTextField; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }
     ); 
     IBVersion = 1; 
 }

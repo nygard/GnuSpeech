@@ -473,6 +473,12 @@
 
 - findEquation:(int)listIndex andIndex:(int)index;
 {
+    //NSLog(@"-> %s, listIndex: %d, index: %d", _cmd, listIndex, index);
+    if (listIndex < 0 || listIndex > [protoEquations count]) {
+        NSLog(@"-[%@ %s]: listIndex: %d out of range.  index: %d", NSStringFromClass([self class]), _cmd, listIndex, index);
+        return nil;
+    }
+
     return [[protoEquations objectAtIndex:listIndex] objectAtIndex:index];
 }
 
@@ -721,25 +727,19 @@ static NSString *specialString = @"ProtoSpecial";
     MonetList *aList;
     id anObject;
 
-    //[protoTemplates release];
-    //[protoSpecial release];
+    [self _setProtoEquations:nil];
+    [self _setProtoTemplates:nil];
+    [self _setProtoSpecial:nil];
 
     aList = [stream decodeObject];
-    NSLog(@"archived proto equations: %@", aList);
     [self _setProtoEquations:aList];
 
-    return;
     aList = [stream decodeObject];
-    NSLog(@"archived proto templates: %@", aList);
 
     [self _setProtoTemplates:aList];
 
     aList = [stream decodeObject];
-    NSLog(@"archived proto special: %@", aList);
     [self _setProtoSpecial:aList];
-
-    //protoTemplates = [[stream decodeObject] retain];
-    //protoSpecial = [[stream decodeObject] retain];
 }
 
 - (void)writePrototypesTo:(NSArchiver *)stream;

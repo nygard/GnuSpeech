@@ -149,13 +149,28 @@
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
+    unsigned archivedVersion;
     int i, j;
-    id tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
+    PrototypeManager *prototypeManager = NXGetNamedObject(@"prototypeManager", NSApp);
+    ProtoEquation *anExpression;
+
+    if ([self init] == nil)
+        return nil;
+
+    //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
+    archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
+    //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
 
     [aDecoder decodeValuesOfObjCTypes:"ddii", &value, &freeTime, &type, &phantom];
+    //NSLog(@"value: %g, freeTime: %g, type: %d, phantom: %d", value, freeTime, type, phantom);
 
-    [aDecoder decodeValuesOfObjCTypes:"ii", &i,&j];
-    expression = [tempProto findEquation:i andIndex:j];
+    [aDecoder decodeValuesOfObjCTypes:"ii", &i, &j];
+    //NSLog(@"i: %d, j: %d", i, j);
+    anExpression = [prototypeManager findEquation:i andIndex:j];
+    //NSLog(@"anExpression: %@", anExpression);
+    [self setExpression:anExpression];
+
+    //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
 
     return self;
 }
@@ -163,12 +178,18 @@
 - (void)encodeWithCoder:(NSCoder *)aCoder;
 {
     int i, j;
-    id tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
+    id prototypeManager = NXGetNamedObject(@"prototypeManager", NSApp);
 
     [aCoder encodeValuesOfObjCTypes:"ddii", &value, &freeTime, &type, &phantom];
 
-    [tempProto findList:&i andIndex:&j ofEquation:expression];
+    [prototypeManager findList:&i andIndex:&j ofEquation:expression];
     [aCoder encodeValuesOfObjCTypes:"ii", &i, &j];
+}
+
+- (NSString *)description;
+{
+    return [NSString stringWithFormat:@"<%@>[%p]: value: %g, freeTime: %g, expression: %@, type: %d, phantom: %d",
+                     NSStringFromClass([self class]), self, value, freeTime, expression, type, phantom];
 }
 
 @end

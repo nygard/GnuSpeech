@@ -264,8 +264,13 @@ int i;
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@>[%p]: operation: %d, precedence: %d, expressions: %@, cacheTag: %d, cacheValue: %g",
-                     NSStringFromClass([self class]), self, operation, precedence, expressions, cacheTag, cacheValue];
+#if 0
+    return [NSString stringWithFormat:@"<%@>[%p]: operation: %d, precedence: %d, expressions: %@, cacheTag: %d, cacheValue: %g, expressionString: %@",
+                     NSStringFromClass([self class]), self, operation, precedence, expressions, cacheTag, cacheValue, [self expressionString]];
+#else
+    return [NSString stringWithFormat:@"<%@>[%p]: operation: %d, precedence: %d, cacheTag: %d, cacheValue: %g, expressionString: %@",
+                     NSStringFromClass([self class]), self, operation, precedence, cacheTag, cacheValue, [self expressionString]];
+#endif
 }
 
 @end

@@ -32,7 +32,7 @@
     [super dealloc];
 }
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotificatin;
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification;
 {
     NSString *path;
     NSArchiver *stream;
@@ -41,15 +41,19 @@
     NXNameObject(@"mainSymbolList", mainSymbolList, NSApp);
     NSLog(@"getting it by name: %@", NXGetNamedObject(@"mainSymbolList", NSApp));
 
+    NXNameObject(@"prototypeManager", prototypeManager, NSApp);
+
     //NSLog(@" > %s", _cmd);
+
+    [prototypeManager applicationDidFinishLaunching:aNotification];
+
 
     //NSLog(@"decode List as %@", [NSUnarchiver classNameDecodedForArchiveClassName:@"List"]);
     //NSLog(@"decode Object as %@", [NSUnarchiver classNameDecodedForArchiveClassName:@"Object"]);
-#if 1
+
     [NSUnarchiver decodeClassName:@"Object" asClassName:@"NSObject"];
-    //[NSUnarchiver decodeClassName:@"List" asClassName:@"MyList"];
     [NSUnarchiver decodeClassName:@"List" asClassName:@"MonetList"];
-#endif
+    [NSUnarchiver decodeClassName:@"Point" asClassName:@"GSMPoint"];
 
     {
         NamedList *aList;
@@ -80,27 +84,28 @@
     path = [[NSBundle mainBundle] pathForResource:@"DefaultPrototypes" ofType:nil];
     //NSLog(@"path: %@", path);
 
-    // Archiver hack
+    // Archiver hack for Mac OS X 10.3.  Use nm to find location of archiverDebug, and hope that Foundation doesn't get relocated somewhere else!
 #if 0
     {
         char *archiverDebug = (char *)0xa09faf18;
-
+        char *NSDebugEnabled = (char *)0xa09f0338;
         //NSLog(@"archiverDebug: %d", *archiverDebug);
+#if 1
         if (*archiverDebug == 0)
             *archiverDebug = 1;
+#else
+        *NSDebugEnabled = 1;
+#endif
     }
 #endif
 
     stream = [[NSUnarchiver alloc] initForReadingWithData:[NSData dataWithContentsOfFile:path]];
     //NSLog(@"stream: %x", stream);
     if (stream) {
-        PrototypeManager *aPrototypeManager;
-
         NSLog(@"systemVersion: %u", [stream systemVersion]);
-        aPrototypeManager = [[PrototypeManager alloc] init];
 
         NS_DURING {
-            [aPrototypeManager readPrototypesFrom:stream];
+            [prototypeManager readPrototypesFrom:stream];
         } NS_HANDLER {
             NSLog(@"localException: %@", localException);
             NSLog(@"name: %@", [localException name]);
@@ -109,7 +114,6 @@
             return;
         } NS_ENDHANDLER;
 
-        //[aPrototypeManager release];
         [stream release];
     }
 

@@ -110,6 +110,7 @@
     //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
     archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
     //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
+    //NSLog(@"aDecoder version for class %@ is: %u", @"List", archivedVersion);
 
     count = 0;
     [aDecoder decodeValueOfObjCType:@encode(int) at:&count];
@@ -134,7 +135,6 @@
     }
 
 
-    //ilist = [[aDecoder decodeObject] retain];
     //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
     return self;
 }

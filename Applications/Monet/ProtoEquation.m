@@ -122,6 +122,7 @@
     //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
 
     [aDecoder decodeValuesOfObjCTypes:"**", &c_name, &c_comment];
+    //NSLog(@"c_name: %s, c_comment: %s", c_name, c_comment);
     [self setName:[NSString stringWithASCIICString:c_name]];
     [self setComment:[NSString stringWithASCIICString:c_comment]];
 

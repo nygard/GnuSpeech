@@ -278,8 +278,8 @@
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@>[%p]: symbol: %@, value: %g, whichPhone: %d, precedence: %d, cacheTag: %d, cacheValue: %g",
-                     NSStringFromClass([self class]), self, symbol, value, whichPhone, precedence, cacheTag, cacheValue];
+    return [NSString stringWithFormat:@"<%@>[%p]: symbol: %@, value: %g, whichPhone: %d, precedence: %d, cacheTag: %d, cacheValue: %g, expressionString: %@",
+                     NSStringFromClass([self class]), self, symbol, value, whichPhone, precedence, cacheTag, cacheValue, [self expressionString]];
 }
 
 @end

@@ -4,6 +4,8 @@
   - it's totally wrong, adding the parser.  Sheesh!
 - what does it mean to be "native"?
 - correct spelling, change "editting" to "editing"
+- it looks like one Point in "DefaultPrototypes" is bad, with list index of -1, secondary index of 0x5037312 (84112146).
+  - actually it looks like three points.
 
 - make superclass for FormulaExpression, FormulaTerminal.  Check how this affects archiving.
 - make superclass for BooleanExpression, BooleanTerminal.  Check how this affects archiving.

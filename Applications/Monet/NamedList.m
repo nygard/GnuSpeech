@@ -85,8 +85,8 @@
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@>[%p]: name: %@, comment: %@",
-                     NSStringFromClass([self class]), self, name, comment];
+    return [NSString stringWithFormat:@"<%@>[%p]: name: %@, comment: %@, super: %@",
+                     NSStringFromClass([self class]), self, name, comment, [super description]];
 }
 
 @end
