@@ -773,17 +773,9 @@ static NSString *specialString = @"ProtoSpecial";
     [self _setProtoSpecial:nil];
 
     aList = [stream decodeObject];
-    //NSLog(@"protoEquations: %@", aList);
-    if ([aList count] > 0) {
-        NSLog(@"First proto equation: %@", [aList objectAtIndex:0]);
-    }
     [self _setProtoEquations:aList];
 
     aList = [stream decodeObject];
-    //NSLog(@"protoTemplates: %@", aList);
-    if ([aList count] > 0) {
-        NSLog(@"First proto template: %@", [aList objectAtIndex:0]);
-    }
     [self _setProtoTemplates:aList];
 
     aList = [stream decodeObject];
@@ -878,8 +870,8 @@ static NSString *specialString = @"ProtoSpecial";
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 {
     [self _appendXMLForProtoEquationsToString:resultString level:level];
-    //[self _appendXMLForProtoTemplatesToString:resultString level:level];
-    //[self _appendXMLForProtoSpecialsToString:resultString level:level];
+    [self _appendXMLForProtoTemplatesToString:resultString level:level];
+    [self _appendXMLForProtoSpecialsToString:resultString level:level];
 }
 
 - (void)_appendXMLForProtoEquationsToString:(NSMutableString *)resultString level:(int)level;
@@ -893,17 +885,6 @@ static NSString *specialString = @"ProtoSpecial";
     for (index = 0; index < count; index++) {
         namedList = [protoEquations objectAtIndex:index];
         [namedList appendXMLToString:resultString elementName:@"group" level:level + 1];
-#if 0
-        [resultString indentToLevel:level+1];
-        [resultString appendFormat:@"<list name=\"%@\" count=\"%d\">\n", GSXMLAttributeString([namedList name], NO), [namedList count]];
-        if ([namedList count] > 0) {
-            anObject = [namedList objectAtIndex:0];
-            [resultString indentToLevel:level+2];
-            [resultString appendFormat:@"<proto-equation class=%@>\n", NSStringFromClass([anObject class])];
-        }
-        [resultString indentToLevel:level+1];
-        [resultString appendString:@"</list>\n"];
-#endif
     }
 
     [resultString indentToLevel:level];

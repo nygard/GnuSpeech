@@ -225,13 +225,8 @@
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 {
     [resultString indentToLevel:level];
-    [resultString appendFormat:@"<point value=\"%g\" free-time=\"%g\" type=\"%d\" phantom=\"%d\">\n", value, freeTime, type, phantom];
-
-    [resultString indentToLevel:level + 1];
-    [resultString appendFormat:@"<expression ptr=\"%p\">etc.</expression>\n", expression];
-
-    [resultString indentToLevel:level];
-    [resultString appendFormat:@"</point>\n"];
+    [resultString appendFormat:@"<point value=\"%g\" free-time=\"%g\" type=\"%d\" phantom=\"%d\" expr-ptr=\"%p\" expression=\"%@\"/>\n",
+                  value, freeTime, type, phantom, expression, GSXMLAttributeString([expression name], NO)];
 }
 
 @end

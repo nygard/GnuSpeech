@@ -29,4 +29,6 @@
 
 - (NSString *)description;
 
+- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+
 @end

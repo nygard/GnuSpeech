@@ -13,8 +13,8 @@
 
 @interface SlopeRatio : NSObject
 {
-    MonetList *points;
-    MonetList *slopes;
+    MonetList *points; // Of GSMPoints
+    MonetList *slopes; // Of Slopes
 }
 
 - (id)init;
@@ -46,5 +46,7 @@
 - (void)encodeWithCoder:(NSCoder *)aCoder;
 
 - (NSString *)description;
+
+- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 
 @end

@@ -2,6 +2,9 @@
 
 #import <Foundation/Foundation.h>
 #import "NSObject-Extensions.h"
+#import "NSString-Extensions.h"
+
+#import "GSXMLFunctions.h"
 
 /*===========================================================================
 
@@ -79,6 +82,12 @@
 {
     return [NSString stringWithFormat:@"<%@>[%p]: slope: %g, displayTime: %g",
                      NSStringFromClass([self class]), self, slope, displayTime];
+}
+
+- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+{
+    [resultString indentToLevel:level];
+    [resultString appendFormat:@"<slope slope=\"%g\" display-time=\"%g\"/>\n", slope, displayTime];
 }
 
 @end

@@ -20,7 +20,7 @@
     NSString *name;
     NSString *comment;
     int type;
-    MonetList *points;
+    MonetList *points; // Of SlopeRatios
 }
 
 - (id)init;

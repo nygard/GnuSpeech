@@ -2,7 +2,9 @@
 
 #import <Foundation/Foundation.h>
 #import "NSObject-Extensions.h"
+#import "NSString-Extensions.h"
 
+#import "GSXMLFunctions.h"
 #import "MonetList.h"
 #import "Point.h"
 #import "ProtoEquation.h"
@@ -275,6 +277,18 @@
 {
     return [NSString stringWithFormat:@"<%@>[%p]: points: %@, slopes: %@",
                      NSStringFromClass([self class]), self, points, slopes];
+}
+
+- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+{
+    [resultString indentToLevel:level];
+    [resultString appendString:@"<slope-ratio>\n"];
+
+    [points appendXMLToString:resultString elementName:@"points" level:level + 1];
+    [slopes appendXMLToString:resultString elementName:@"slopes" level:level + 1];
+
+    [resultString indentToLevel:level];
+    [resultString appendString:@"</slope-ratio>\n"];
 }
 
 @end
