@@ -175,3 +175,4 @@ Notes:
 + can't change comments for special transitions
 + selecting points in the special transition view doesn't seem to change selected equation
 + changing marks in special transition editor doesn't work.
+- when rule numbers don't fit in the width they take up multiple lines.
