@@ -255,3 +255,10 @@ des: [~ 12 ]> /Local/Public/nygard/Products/Monet.app/Contents/MacOS/Monet
 - hypot() !!!
 
 - using -O3 instead of -Os on software trm improves speed by about 6% right now.
+
+2004-08-29:
++ don't use temporary file in synthsizer.
+
+2004-08-30:
+- Switch software TRM stuff to C++?  How well does ObjC++ work these days?
+
