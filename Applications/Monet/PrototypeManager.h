@@ -1,14 +1,5 @@
 #import <Foundation/NSObject.h>
 
-#ifdef PORTING
-#import <Foundation/NSArray.h>
-#import <AppKit/NSBrowser.h>
-#import <AppKit/NSBrowserCell.h>
-#import <AppKit/NSForm.h>
-#import "NamedList.h"
-#import <AppKit/NSFont.h>
-#endif
-
 @class NSFont;
 @class MonetList;
 
@@ -45,46 +36,43 @@
     id delegateResponder;
 }
 
-- init;
+- (id)init;
+- (void)dealloc;
+
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 
-/* Window Delegate Methods */
-- (void)windowDidBecomeMain:(NSNotification *)notification;
-- (BOOL)windowShouldClose:(id)sender;
-- (void)windowDidResignMain:(NSNotification *)notification;
-
 /* Browser Delegate Methods */
-- (void)browserHit:sender;
-- (void)browserDoubleHit:sender;
+- (void)browserHit:(id)sender;
+- (void)browserDoubleHit:(id)sender;
 - (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
 
-- (void)add:sender;
-- (void)addCategory:sender;
-- (void)rename:sender;
-- (void)remove:sender;
+- (void)addCategory:(id)sender;
+- (void)add:(id)sender;
+- (void)rename:(id)sender;
+- (void)remove:(id)sender;
 
-- (void)setEquations:sender;
-- (void)setTransitions:sender;
-- (void)setSpecial:sender;
+- (void)setEquations:(id)sender;
+- (void)setTransitions:(id)sender;
+- (void)setSpecial:(id)sender;
+
+- (MonetList *)equationList;
+- (MonetList *)transitionList;
+- (MonetList *)specialList;
 
 - findEquationList:(NSString *)list named:(NSString *)name;
-- findList:(int *)listIndex andIndex:(int *)index ofEquation:equation;
+- (void)findList:(int *)listIndex andIndex:(int *)index ofEquation:equation;
 - findEquation:(int)listIndex andIndex:(int)index;
 
-- findTransitionList: (const char *) list named: (const char *) name;
-- findList: (int *) listIndex andIndex: (int *) index ofTransition: transition;
-- findTransition: (int) listIndex andIndex: (int) index;
+- findTransitionList:(NSString *)list named:(NSString *)name;
+- (void)findList:(int *)listIndex andIndex:(int *)index ofTransition:transition;
+- findTransition:(int)listIndex andIndex:(int)index;
 
-- findSpecialList: (const char *) list named: (const char *) name;
-- findList: (int *) listIndex andIndex: (int *) index ofSpecial: transition;
-- findSpecial: (int) listIndex andIndex: (int) index;
+- findSpecialList:(NSString *)list named:(NSString *)name;
+- (void)findList:(int *)listIndex andIndex:(int *)index ofSpecial:transition;
+- findSpecial:(int)listIndex andIndex:(int)index;
 
-- equationList;
-- transitionList;
-- specialList;
-
-- (BOOL) isEquationUsed: anEquation;
+- (BOOL)isEquationUsed:anEquation;
 
 - (void)cut:(id)sender;
 - (void)copy:(id)sender;
@@ -92,5 +80,10 @@
 
 - (void)readPrototypesFrom:(NSArchiver *)stream;
 - (void)writePrototypesTo:(NSArchiver *)stream;
+
+/* Window Delegate Methods */
+- (void)windowDidBecomeMain:(NSNotification *)notification;
+- (BOOL)windowShouldClose:(id)sender;
+- (void)windowDidResignMain:(NSNotification *)notification;
 
 @end

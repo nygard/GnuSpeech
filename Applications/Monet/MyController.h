@@ -2,7 +2,7 @@
 
 @class NSMutableDictionary;
 @class CategoryList, ParameterList, PhoneList, StringParser, SymbolList;
-@class BrowserManager, EventListView, Inspector, IntonationView, PrototypeManager, RuleManager, TransitionView;
+@class BrowserManager, DefaultMgr, EventListView, Inspector, IntonationView, PrototypeManager, RuleManager, TransitionView;
 
 /*===========================================================================
 
@@ -43,7 +43,7 @@ History:
     EventListView *eventListView;
     IntonationView *intonationView;
 
-    id defaultManager;
+    DefaultMgr *defaultManager;
 
     /* Window pointers */
     NSWindow *transitionWindow;
