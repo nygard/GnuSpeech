@@ -200,7 +200,7 @@ double TRMWavetableOscillator(TRMWavetable *wavetable, double frequency)  //  2X
 
         //  Find surrounding integer table positions
         lowerPosition = (int)wavetable->currentPosition;
-        upperPosition = mod0(lowerPosition + 1);
+        upperPosition = (lowerPosition + 1) % TABLE_MODULUS;
 
         //  Calculate interpolated table value
         interpolatedValue = (wavetable->wavetable[lowerPosition] +
@@ -218,18 +218,20 @@ double TRMWavetableOscillator(TRMWavetable *wavetable, double frequency)  //  2X
 double TRMWavetableOscillator(TRMWavetable *wavetable, double frequency)  //  Plain oscillator
 {
     int lowerPosition, upperPosition;
+    double lowerValue, upperValue;
 
     //  First increment the table position, depending on frequency
     TRMWavetableIncrementPosition(wavetable, frequency);
 
     //  Find surrounding integer table positions
     lowerPosition = (int)wavetable->currentPosition;
-    upperPosition = mod0(lowerPosition + 1);
+    upperPosition = (lowerPosition + 1) % TABLE_MODULUS;
+
+    lowerValue = wavetable->wavetable[lowerPosition];
+    upperValue = wavetable->wavetable[upperPosition];
 
     //  Return interpolated table value
-    return (wavetable->wavetable[lowerPosition] +
-            ((wavetable->currentPosition - lowerPosition) *
-             (wavetable->wavetable[upperPosition] - wavetable->wavetable[lowerPosition])));
+    return lowerValue + ((wavetable->currentPosition - lowerPosition) * (upperValue - lowerValue));
 }
 #endif
 
