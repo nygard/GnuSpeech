@@ -62,6 +62,8 @@
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification;
 - (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(int)row;
 
+- (BOOL)control:(NSControl *)aControl shouldProcessCharacters:(NSString *)characters;
+
 // NSTextView delegate
 - (void)textDidEndEditing:(NSNotification *)aNotification;
 
