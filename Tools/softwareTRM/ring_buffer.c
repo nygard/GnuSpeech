@@ -2,10 +2,11 @@
 
 typedef struct _TRMRingBuffer {
     double buffer[BUFFER_SIZE];
-    int fillPtr;
-    int emptyPtr;
     int padSize;
     int fillSize; // Derived from BUFFER_SIZE and padSize.  Remains constant.
+
+    int fillPtr;
+    int emptyPtr;
     int fillCounter;
 } TRMRingBuffer;
 
@@ -23,11 +24,11 @@ TRMRingBuffer *createRingBuffer(int aPadSize)
     for (index = 0; index < BUFFER_SIZE; index++)
         buffer[index] = 0;
 
-    fillPtr = aPadSize;
-    emptyPtr = 0;
     padSize = aPadSize;
     fillSize = BUFFER_SIZE - (2 * padSize);
 
+    fillPtr = padSize;
+    emptyPtr = 0;
     fillCounter = 0;
 
     return newRingBuffer;
