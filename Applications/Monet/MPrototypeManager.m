@@ -30,7 +30,9 @@
 
     [self setWindowFrameAutosaveName:@"Prototype Manager"];
 
-    cachedEquationUsages = [[NSMutableDictionary alloc] init];
+    cachedEquationUsage = [[NSMutableDictionary alloc] init];
+    cachedTransitionUsage = [[NSMutableDictionary alloc] init];
+    //cachedSpecialTransitionUsage = [[NSMutableDictionary alloc] init];
 
     return self;
 }
@@ -39,7 +41,9 @@
 {
     [model release];
     [formulaParser release];
-    [cachedEquationUsages release];
+    [cachedEquationUsage release];
+    [cachedTransitionUsage release];
+    //[cachedSpecialTransitionUsage release];
 
     [super dealloc];
 }
@@ -202,13 +206,23 @@
         NSString *comment;
 
         selectedTransitionOrGroup = [transitionOutlineView itemAtRow:[transitionOutlineView selectedRow]];
-        [transitionCommentTextView setEditable:YES];
-        comment = [selectedTransitionOrGroup comment];
-        if (comment == nil)
-            comment = @"";
-        [transitionCommentTextView setString:comment];
-        [addTransitionButtonCell setEnabled:YES];
-        [removeTransitionButtonCell setEnabled:YES];
+        if ([selectedTransitionOrGroup isKindOfClass:[NSString class]] == YES) {
+            [transitionCommentTextView setEditable:NO];
+            [transitionCommentTextView setString:@""];
+            [addTransitionButtonCell setEnabled:NO];
+            [removeTransitionButtonCell setEnabled:NO];
+
+            [transitionTypeMatrix setEnabled:NO];
+            [transitionTypeMatrix selectCellWithTag:2];
+        } else {
+            [transitionCommentTextView setEditable:YES];
+            comment = [selectedTransitionOrGroup comment];
+            if (comment == nil)
+                comment = @"";
+            [transitionCommentTextView setString:comment];
+            [addTransitionButtonCell setEnabled:YES];
+            [removeTransitionButtonCell setEnabled:YES];
+        }
 
         if ([selectedTransitionOrGroup isKindOfClass:[MMTransition class]] == YES) {
             [transitionTypeMatrix setEnabled:YES];
@@ -237,13 +251,23 @@
         NSString *comment;
 
         selectedSpecialTransitionOrGroup = [specialTransitionOutlineView itemAtRow:[specialTransitionOutlineView selectedRow]];
-        [specialTransitionCommentTextView setEditable:YES];
-        comment = [selectedSpecialTransitionOrGroup comment];
-        if (comment == nil)
-            comment = @"";
-        [specialTransitionCommentTextView setString:comment];
-        [addSpecialTransitionButtonCell setEnabled:YES];
-        [removeSpecialTransitionButtonCell setEnabled:YES];
+        if ([selectedSpecialTransitionOrGroup isKindOfClass:[NSString class]] == YES) {
+            [specialTransitionCommentTextView setEditable:NO];
+            [specialTransitionCommentTextView setString:@""];
+            [addSpecialTransitionButtonCell setEnabled:NO];
+            [removeSpecialTransitionButtonCell setEnabled:NO];
+
+            [specialTransitionTypeMatrix setEnabled:NO];
+            [specialTransitionTypeMatrix selectCellWithTag:2];
+        } else {
+            [specialTransitionCommentTextView setEditable:YES];
+            comment = [selectedSpecialTransitionOrGroup comment];
+            if (comment == nil)
+                comment = @"";
+            [specialTransitionCommentTextView setString:comment];
+            [addSpecialTransitionButtonCell setEnabled:YES];
+            [removeSpecialTransitionButtonCell setEnabled:YES];
+        }
 
         if ([selectedSpecialTransitionOrGroup isKindOfClass:[MMTransition class]] == YES) {
             [specialTransitionTypeMatrix setEnabled:YES];
@@ -551,11 +575,15 @@
     } else if (outlineView == transitionOutlineView) {
         if (item == nil)
             return [[model transitions] count];
+        else if ([item isKindOfClass:[MMTransition class]] == YES)
+            return [[self usageOfTransition:item] count];
         else
             return [item count];
     } else if (outlineView == specialTransitionOutlineView) {
         if (item == nil)
             return [[model specialTransitions] count];
+        else if ([item isKindOfClass:[MMTransition class]] == YES)
+            return [[self usageOfTransition:item] count];
         else
             return [item count];
     }
@@ -575,11 +603,15 @@
     } else if (outlineView == transitionOutlineView) {
         if (item == nil)
             return [[model transitions] objectAtIndex:index];
+        else if ([item isKindOfClass:[MMTransition class]] == YES)
+            return [[self usageOfTransition:item] objectAtIndex:index];
         else
             return [item objectAtIndex:index];
     } else if (outlineView == specialTransitionOutlineView) {
         if (item == nil)
             return [[model specialTransitions] objectAtIndex:index];
+        else if ([item isKindOfClass:[MMTransition class]] == YES)
+            return [[self usageOfTransition:item] objectAtIndex:index];
         else
             return [item objectAtIndex:index];
     }
@@ -592,9 +624,9 @@
     if (outlineView == equationOutlineView) {
         return [item isKindOfClass:[NamedList class]] || ([item isKindOfClass:[MMEquation class]] && [self isEquationUsed:item]);
     } else if (outlineView == transitionOutlineView) {
-        return [item isKindOfClass:[NamedList class]];
+        return [item isKindOfClass:[NamedList class]] || ([item isKindOfClass:[MMTransition class]] && [self isTransitionUsed:item]);
     } else if (outlineView == specialTransitionOutlineView) {
-        return [item isKindOfClass:[NamedList class]];
+        return [item isKindOfClass:[NamedList class]] || ([item isKindOfClass:[MMTransition class]] && [self isTransitionUsed:item]);
     }
 
     return NO;
@@ -622,16 +654,32 @@
                 return [NSNumber numberWithBool:[self isEquationUsed:item]];
         }
     } else if (outlineView == transitionOutlineView) {
-        if ([@"name" isEqual:identifier] == YES) {
+        if ([item isKindOfClass:[NSString class]] == YES) {
+            if ([@"name" isEqual:identifier] == YES)
+                return item;
+
+            return nil;
+        } else if ([@"name" isEqual:identifier] == YES) {
             return [item name];
         } else if ([@"hasComment" isEqual:identifier] == YES) {
             return [NSNumber numberWithBool:[item hasComment]];
+        } else if ([@"isUsed" isEqual:identifier] == YES) {
+            if ([item isKindOfClass:[MMTransition class]] == YES)
+                return [NSNumber numberWithBool:[self isTransitionUsed:item]];
         }
     } else if (outlineView == specialTransitionOutlineView) {
-        if ([@"name" isEqual:identifier] == YES) {
+        if ([item isKindOfClass:[NSString class]] == YES) {
+            if ([@"name" isEqual:identifier] == YES)
+                return item;
+
+            return nil;
+        } else if ([@"name" isEqual:identifier] == YES) {
             return [item name];
         } else if ([@"hasComment" isEqual:identifier] == YES) {
             return [NSNumber numberWithBool:[item hasComment]];
+        } else if ([@"isUsed" isEqual:identifier] == YES) {
+            if ([item isKindOfClass:[MMTransition class]] == YES)
+                return [NSNumber numberWithBool:[self isTransitionUsed:item]];
         }
     }
 
@@ -787,7 +835,7 @@
 
 - (void)clearEquationUsageCache;
 {
-    [cachedEquationUsages removeAllObjects];
+    [cachedEquationUsage removeAllObjects];
 }
 
 - (NSArray *)usageOfEquation:(MMEquation *)anEquation;
@@ -802,12 +850,12 @@
 
     key = [anEquation equationPath];
     if (shouldRecache == YES)
-        [cachedEquationUsages removeObjectForKey:key];
+        [cachedEquationUsage removeObjectForKey:key];
 
-    usage = [cachedEquationUsages objectForKey:key];
+    usage = [cachedEquationUsage objectForKey:key];
     if (usage == nil) {
         usage = [[self model] usageOfEquation:anEquation];
-        [cachedEquationUsages setObject:usage forKey:key];
+        [cachedEquationUsage setObject:usage forKey:key];
     }
 
     return usage;
@@ -816,6 +864,45 @@
 - (BOOL)isEquationUsed:(MMEquation *)anEquation;
 {
     return [[self usageOfEquation:anEquation] count] > 0;
+}
+
+//
+// Transition usage caching
+//
+
+- (void)clearTransitionUsageCache;
+{
+    [cachedTransitionUsage removeAllObjects];
+}
+
+- (NSArray *)usageOfTransition:(MMTransition *)aTransition;
+{
+    return [self usageOfTransition:aTransition recache:NO];
+}
+
+// TODO (2004-03-22): Could we just cache these in the model?
+- (NSArray *)usageOfTransition:(MMTransition *)aTransition recache:(BOOL)shouldRecache;
+{
+    NSString *key;
+    NSArray *usage;
+
+    NSLog(@"-> %s, aTransition: %p", _cmd, aTransition);
+    key = [aTransition transitionPath];
+    if (shouldRecache == YES)
+        [cachedTransitionUsage removeObjectForKey:key];
+
+    usage = [cachedTransitionUsage objectForKey:key];
+    if (usage == nil) {
+        usage = [[self model] usageOfTransition:aTransition];
+        [cachedTransitionUsage setObject:usage forKey:key];
+    }
+
+    return usage;
+}
+
+- (BOOL)isTransitionUsed:(MMTransition *)aTransition;
+{
+    return [[self usageOfTransition:aTransition] count] > 0;
 }
 
 - (IBAction)doubleHit:(id)sender;

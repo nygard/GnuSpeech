@@ -1,5 +1,5 @@
 //
-// $Id: MPrototypeManager.h,v 1.8 2004/03/23 06:51:03 nygard Exp $
+// $Id: MPrototypeManager.h,v 1.9 2004/03/23 07:32:14 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -39,7 +39,9 @@
 
     FormulaParser *formulaParser;
 
-    NSMutableDictionary *cachedEquationUsages;
+    NSMutableDictionary *cachedEquationUsage;
+    NSMutableDictionary *cachedTransitionUsage;
+    //NSMutableDictionary *cachedSpecialTransitionUsage;
 }
 
 - (id)initWithModel:(MModel *)aModel;
@@ -105,6 +107,12 @@
 - (NSArray *)usageOfEquation:(MMEquation *)anEquation;
 - (NSArray *)usageOfEquation:(MMEquation *)anEquation recache:(BOOL)shouldRecache;
 - (BOOL)isEquationUsed:(MMEquation *)anEquation;
+
+// Transition usage caching
+- (void)clearTransitionUsageCache;
+- (NSArray *)usageOfTransition:(MMTransition *)aTransition;
+- (NSArray *)usageOfTransition:(MMTransition *)aTransition recache:(BOOL)shouldRecache;
+- (BOOL)isTransitionUsed:(MMTransition *)aTransition;
 
 - (IBAction)doubleHit:(id)sender;
 

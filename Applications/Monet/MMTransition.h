@@ -56,4 +56,6 @@
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 
+- (NSString *)transitionPath;
+
 @end

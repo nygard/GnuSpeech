@@ -683,6 +683,44 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 }
 #endif
 
+- (NSArray *)usageOfTransition:(MMTransition *)aTransition;
+{
+    NSMutableArray *array;
+    unsigned int count, index;
+    MMRule *aRule;
+
+    NSLog(@" > %s", _cmd);
+    NSLog(@"aTransition: %p, name: %@", aTransition, [aTransition name]);
+
+    array = [NSMutableArray array];
+
+    count = [rules count];
+    NSLog(@"count: %u", count);
+    for (index = 0; index < count; index++) {
+        aRule = [rules objectAtIndex:index];
+        if ([aRule isTransitionUsed:aTransition]) {
+            [array addObject:[NSString stringWithFormat:@"Rule: %d", index + 1]];
+            NSLog(@"Added rule reference: %@", [array lastObject]);
+        }
+    }
+
+    NSLog(@"<  %s", _cmd);
+
+    return array;
+}
+
+#if 0
+- (NSArray *)usageOfSpecialTransition:(MMTransition *)aTransition;
+{
+    NSMutableArray *array;
+
+    array = [NSMutableArray array];
+    // TODO (2004-03-23): Impelment
+
+    return array;
+}
+#endif
+
 //
 // Archiving
 //

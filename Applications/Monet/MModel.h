@@ -1,5 +1,5 @@
 //
-// $Id: MModel.h,v 1.15 2004/03/23 06:23:04 nygard Exp $
+// $Id: MModel.h,v 1.16 2004/03/23 07:32:13 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -88,6 +88,9 @@ extern NSString *MCategoryInUseException;
 //- (NSArray *)transitionsUsingEquation:(MMEquation *)anEquation;
 //- (NSArray *)specialTransitionsUsingEquation:(MMEquation *)anEquation;
 //- (NSAray *)objectUsingEquation:(MMEquation *)anEquation;
+
+- (NSArray *)usageOfTransition:(MMTransition *)aTransition;
+//- (NSArray *)usageOfSpecialTransition:(MMTransition *)aTransition;
 
 // Archiving
 - (id)initWithCoder:(NSCoder *)aDecoder;

@@ -8,8 +8,9 @@
 #import "GSXMLFunctions.h"
 #import "MonetList.h"
 #import "MMPoint.h"
-#import "PrototypeManager.h"
 #import "MMSlopeRatio.h"
+#import "NamedList.h"
+#import "PrototypeManager.h"
 
 #import "MModel.h"
 #import "MUnarchiver.h"
@@ -358,6 +359,11 @@
 
     [resultString indentToLevel:level];
     [resultString appendFormat:@"</transition>\n"];
+}
+
+- (NSString *)transitionPath;
+{
+    return [NSString stringWithFormat:@"%@:%@", [[self group] name], name];
 }
 
 @end
