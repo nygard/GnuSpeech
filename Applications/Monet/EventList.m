@@ -721,7 +721,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
             for (j = 0; j < 4; j++) {
                 if (phones[j+index].phone != nil) {
                     [tempPhoneList addObject:phones[j+index].phone];
-                    [tempCategoryList addObject:[phones[j+index].phone categoryList]];
+                    [tempCategoryList addObject:[phones[j+index].phone categories]];
                 }
             }
 

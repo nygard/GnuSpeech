@@ -115,7 +115,7 @@
         [ruleOutputTextField setStringValue:[NSString stringWithFormat:@"Unknown posture: \"%@\"", posture1Name]];
         return;
     }
-    [testCategoryLists addObject:[aPosture categoryList]];
+    [testCategoryLists addObject:[aPosture categories]];
     [testPostures addObject:aPosture];
 
     aPosture = [model postureWithName:posture2Name];
@@ -123,7 +123,7 @@
         [ruleOutputTextField setStringValue:[NSString stringWithFormat:@"Unknown posture: \"%@\"", posture2Name]];
         return;
     }
-    [testCategoryLists addObject:[aPosture categoryList]];
+    [testCategoryLists addObject:[aPosture categories]];
     [testPostures addObject:aPosture];
 
     if ([posture3Name length]) {
@@ -132,7 +132,7 @@
             [ruleOutputTextField setStringValue:[NSString stringWithFormat:@"Unknown posture: \"%@\"", posture3Name]];
             return;
         }
-        [testCategoryLists addObject:[aPosture categoryList]];
+        [testCategoryLists addObject:[aPosture categories]];
         [testPostures addObject:aPosture];
     }
 
@@ -142,7 +142,7 @@
             [ruleOutputTextField setStringValue:[NSString stringWithFormat:@"Unknown posture: \"%@\"", posture4Name]];
             return;
         }
-        [testCategoryLists addObject:[aPosture categoryList]];
+        [testCategoryLists addObject:[aPosture categories]];
         [testPostures addObject:aPosture];
     }
 

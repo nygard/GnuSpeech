@@ -1284,7 +1284,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
             tempCategory = [self categoryWithName:str];
             if (tempCategory != nil)
-                [[newPhone categoryList] addObject:tempCategory];
+                [[newPhone categories] addObject:tempCategory];
         }
 
         [newPhone release];
@@ -1465,7 +1465,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
         aPhone = [postures objectAtIndex:index];
         fprintf(fp, "%s\n", [[aPhone symbol] UTF8String]);
-        aCategoryList = [aPhone categoryList];
+        aCategoryList = [aPhone categories];
         for (j = 0; j < [aCategoryList count]; j++) {
             MMCategory *aCategory;
 

@@ -40,14 +40,14 @@
     phoneSymbol = nil;
     comment = nil;
 
-    categoryList = [[CategoryList alloc] init];
+    categories = [[CategoryList alloc] init];
     parameterList = [[NSMutableArray alloc] init];
     metaParameterList = [[NSMutableArray alloc] init];
     symbolList = [[NSMutableArray alloc] init];
 
     nativeCategory = [[MMCategory alloc] init];
     [nativeCategory setIsNative:YES];
-    [categoryList addObject:nativeCategory];
+    [categories addObject:nativeCategory];
 
     [self setModel:aModel];
     [self _addDefaultValues];
@@ -94,7 +94,7 @@
     [phoneSymbol release];
     [comment release];
 
-    [categoryList release];
+    [categories release];
     [parameterList release];
     [metaParameterList release];
     [symbolList release];
@@ -150,9 +150,9 @@
     return nativeCategory;
 }
 
-- (CategoryList *)categoryList;
+- (CategoryList *)categories;
 {
-    return categoryList;
+    return categories;
 }
 
 - (void)addCategory:(MMCategory *)aCategory;
@@ -160,27 +160,27 @@
     if (aCategory == nil)
         return;
 
-    if ([categoryList containsObject:aCategory] == NO)
-        [categoryList addObject:aCategory];
+    if ([categories containsObject:aCategory] == NO)
+        [categories addObject:aCategory];
 }
 
 - (void)removeCategory:(MMCategory *)aCategory;
 {
-    [categoryList removeObject:aCategory];
+    [categories removeObject:aCategory];
 }
 
 - (BOOL)isMemberOfCategory:(MMCategory *)aCategory;
 {
-    return [categoryList containsObject:aCategory];
+    return [categories containsObject:aCategory];
 }
 
 - (BOOL)isMemberOfCategoryNamed:(NSString *)aCategoryName;
 {
     unsigned int count, index;
 
-    count = [categoryList count];
+    count = [categories count];
     for (index = 0; index < count; index++) {
-        if ([[[categoryList objectAtIndex:index] symbol] isEqualToString:aCategoryName] == YES)
+        if ([[[categories objectAtIndex:index] symbol] isEqualToString:aCategoryName] == YES)
             return YES;
     }
 
@@ -384,16 +384,16 @@
         [symbolList addObjectsFromArray:[archivedSymbols allObjects]];
     }
 
-    assert(categoryList == nil);
+    assert(categories == nil);
 
     [aDecoder decodeValueOfObjCType:"i" at:&count];
     //NSLog(@"TOTAL Categories for %@ = %d", phoneSymbol, count);
 
-    categoryList = [[CategoryList alloc] initWithCapacity:count];
+    categories = [[CategoryList alloc] initWithCapacity:count];
 
     nativeCategory = [[MMCategory alloc] initWithSymbol:[self symbol]];
     [nativeCategory setIsNative:YES];
-    [categoryList addObject:nativeCategory];
+    [categories addObject:nativeCategory];
 
     for (index = 0; index < count; index++) {
         NSString *str;
@@ -405,7 +405,7 @@
         temp1 = [model categoryWithName:str];
         if (temp1) {
             //NSLog(@"Read category: %@", str);
-            [categoryList addObject:temp1];
+            [categories addObject:temp1];
         } else {
             //NSLog(@"Read NATIVE category: %@", str);
         }
@@ -417,8 +417,8 @@
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@>[%p]: phoneSymbol: %@, comment: %@, categoryList: %@, parameterList: %@, metaParameterList: %@, symbolList: %@",
-                     NSStringFromClass([self class]), self, phoneSymbol, comment, categoryList, parameterList, metaParameterList, symbolList];
+    return [NSString stringWithFormat:@"<%@>[%p]: phoneSymbol: %@, comment: %@, categories: %@, parameterList: %@, metaParameterList: %@, symbolList: %@",
+                     NSStringFromClass([self class]), self, phoneSymbol, comment, categories, parameterList, metaParameterList, symbolList];
 }
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
@@ -426,7 +426,7 @@
     [resultString indentToLevel:level];
     [resultString appendFormat:@"<posture symbol=\"%@\"", GSXMLAttributeString(phoneSymbol, NO)];
 
-    if (comment == nil && [categoryList count] == 0 && [parameterList count] == 0 && [metaParameterList count] == 0 && [symbolList count] == 0) {
+    if (comment == nil && [categories count] == 0 && [parameterList count] == 0 && [metaParameterList count] == 0 && [symbolList count] == 0) {
         [resultString appendString:@"/>\n"];
     } else {
         [resultString appendString:@">\n"];
@@ -450,7 +450,7 @@
 {
     int count, index;
 
-    count = [categoryList count];
+    count = [categories count];
     if (count == 0)
         return;
 
@@ -460,7 +460,7 @@
     for (index = 0; index < count; index++) {
         MMCategory *aCategory;
 
-        aCategory = [categoryList objectAtIndex:index];
+        aCategory = [categories objectAtIndex:index];
 
         [resultString indentToLevel:level + 1];
         [resultString appendFormat:@"<category-ref name=\"%@\"/>\n", [aCategory symbol]];
