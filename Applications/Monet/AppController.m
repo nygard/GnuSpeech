@@ -38,8 +38,6 @@
     if ([super init] == nil)
         return nil;
 
-    namedObjects = [[NSMutableDictionary alloc] init];
-
     model = [[MModel alloc] init];
 
     return self;
@@ -47,7 +45,6 @@
 
 - (void)dealloc;
 {
-    [namedObjects release];
     [model release];
 
     [dataEntryController release];
@@ -70,9 +67,6 @@
     NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
 
     //NSLog(@"[NSApp delegate]: %@", [NSApp delegate]);
-
-    // Name them here to make sure all the outlets have been connected
-    NXNameObject(@"mainSymbolList", [model symbols], NSApp);
 
     //NSLog(@"decode List as %@", [NSUnarchiver classNameDecodedForArchiveClassName:@"List"]);
     //NSLog(@"decode Object as %@", [NSUnarchiver classNameDecodedForArchiveClassName:@"Object"]);
@@ -300,12 +294,8 @@
         stream = [[MUnarchiver alloc] initForReadingWithData:[NSData dataWithContentsOfFile:filename]];
 
         if (stream) {
-            NXUnnameObject(@"mainSymbolList", NSApp);
-
             [model release];
             model = [[MModel alloc] initWithCoder:stream];
-
-            NXNameObject(@"mainSymbolList", [model symbols], NSApp);
 
             [prototypeManager setModel:model];
             [dataEntryController setModel:model];
@@ -378,25 +368,6 @@
         }
     }
 #endif
-}
-
-- (void)setObject:(id)object forKey:(id)key;
-{
-    if (object == nil) {
-        NSLog(@"Error: object for key %@ is nil!", key);
-        return;
-    }
-    [namedObjects setObject:object forKey:key];
-}
-
-- (id)objectForKey:(id)key;
-{
-    return [namedObjects objectForKey:key];
-}
-
-- (void)removeObjectForKey:(id)key;
-{
-    [namedObjects removeObjectForKey:key];
 }
 
 // Converted classes:

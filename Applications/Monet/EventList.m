@@ -2,7 +2,6 @@
 
 #import <Foundation/Foundation.h>
 #import "driftGenerator.h"
-#import "AppController.h"
 #import "CategoryList.h"
 #import "Event.h"
 #import "IntonationPoint.h"

@@ -791,7 +791,6 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
     //NSLog(@"categories: %@", categories);
     //NSLog(@"categories: %d", [categories count]);
-    NXNameObject(@"mainCategoryList", categories, NSApp);
 
     symbols = [[aDecoder decodeObject] retain];
     //NSLog(@"symbols: %@", symbols);
@@ -812,11 +811,6 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     //NSLog(@"postures: %@", postures);
     //NSLog(@"postures: %d", [postures count]);
     [postures makeObjectsPerformSelector:@selector(setModel:) withObject:self];
-
-    NXNameObject(@"mainSymbolList", symbols, NSApp);
-    NXNameObject(@"mainParameterList", parameters, NSApp);
-    NXNameObject(@"mainMetaParameterList", metaParameters, NSApp);
-    NXNameObject(@"mainPhoneList", postures, NSApp);
 
     equations = [[aDecoder decodeObject] retain];
     //NSLog(@"equations: %d", [equations count]);

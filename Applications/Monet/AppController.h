@@ -1,5 +1,5 @@
 //
-// $Id: AppController.h,v 1.42 2004/03/31 22:53:58 nygard Exp $
+// $Id: AppController.h,v 1.43 2004/04/02 03:22:01 nygard Exp $
 //
 
 /*===========================================================================
@@ -24,7 +24,6 @@ History:
 #import <Foundation/NSObject.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-@class NSMutableDictionary;
 @class CategoryList, ParameterList, PhoneList, SymbolList;
 @class EventListView, IntonationScrollView, PrototypeManager;
 @class MModel, MMTransition;
@@ -34,8 +33,6 @@ History:
 @interface AppController : NSObject
 {
     IBOutlet NSPanel *infoPanel;
-
-    NSMutableDictionary *namedObjects;
 
     MModel *model;
 
@@ -75,10 +72,6 @@ History:
 - (IBAction)savePrototypes:(id)sender;
 - (IBAction)loadPrototypes:(id)sender;
 
-- (void)setObject:(id)object forKey:(id)key;
-- (id)objectForKey:(id)key;
-- (void)removeObjectForKey:(id)key;
-
 - (void)_disableUnconvertedClassLoading;
 
 - (IBAction)showNewDataEntryWindow:(id)sender;
@@ -111,16 +104,6 @@ History:
 - (void)editSpecialTransition:(MMTransition *)aTransition;
 
 @end
-
-/* Replace some obsolete NeXT functions */
-#define NXNameObject(key, object, controller) \
-  [[controller delegate] setObject:object forKey:key]
-
-#define NXUnnameObject(key, controller) \
-  [[controller delegate] removeObjectForKey:key]
-
-#define NXGetNamedObject(key, controller) \
-  [[controller delegate] objectForKey:key]
 
 /* NeXT Streams */
 #undef NXRead
