@@ -1498,22 +1498,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		0195DB3605F46E4E006D8386 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = PointInspector.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0195DB3705F46E4E006D8386 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = PointInspector.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
 		0195DB3805F46E4E006D8386 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -1616,8 +1600,6 @@
 				0195DB2505F46E4E006D8386,
 				0195DB2805F46E4E006D8386,
 				0195DB2905F46E4E006D8386,
-				0195DB3605F46E4E006D8386,
-				0195DB3705F46E4E006D8386,
 				0195DB3805F46E4E006D8386,
 				0195DB3905F46E4E006D8386,
 				0195DD9905F57393006D8386,
@@ -1851,18 +1833,6 @@
 		};
 		0195DDD305F578D4006D8386 = {
 			fileRef = 0195DB2905F46E4E006D8386;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0195DE1F05F5A407006D8386 = {
-			fileRef = 0195DB3605F46E4E006D8386;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0195DE2505F5A408006D8386 = {
-			fileRef = 0195DB3705F46E4E006D8386;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -2813,7 +2783,6 @@
 				0195DD0705F55EBA006D8386,
 				0195DD8805F5731A006D8386,
 				0195DDCD05F578D3006D8386,
-				0195DE1F05F5A407006D8386,
 				0195DE2F05F5A827006D8386,
 				0195DE9B05F5AE3D006D8386,
 				01B2FEDB05F5B39100C1F65D,
@@ -2934,7 +2903,6 @@
 				0195DD0D05F55EBA006D8386,
 				0195DD8E05F5731B006D8386,
 				0195DDD305F578D4006D8386,
-				0195DE2505F5A408006D8386,
 				0195DE3405F5A827006D8386,
 				0195DE9D05F5AE3D006D8386,
 				01B2FEE105F5B39200C1F65D,

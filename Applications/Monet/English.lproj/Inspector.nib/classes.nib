@@ -50,7 +50,6 @@
                 noInspectorView = NSBox; 
                 noPopUpListView = NSBox; 
                 panel = NSPanel; 
-                pointInspector = PointInspector; 
                 popUpListView = NSBox; 
                 protoEquationInspector = ProtoEquationInspector; 
                 protoTransitionInspector = ProtoTemplateInspector; 

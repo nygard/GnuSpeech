@@ -15,7 +15,6 @@
 #import "MMTarget.h"
 #import "MonetList.h"
 #import "NamedList.h"
-#import "PointInspector.h"
 #import "PrototypeManager.h"
 #import "SymbolList.h"
 #import "TargetList.h"
@@ -753,7 +752,6 @@ static NSImage *_selectionBox = nil;
 
     [self setShouldDrawSelection:NO];
     [selectedPoints removeAllObjects];
-    [[controller inspector] inspectPoint:nil];
     [self _selectionDidChange];
     [self setNeedsDisplay:YES];
 
@@ -787,7 +785,6 @@ static NSImage *_selectionBox = nil;
 
             [newPoint release];
 
-            [[controller inspector] inspectPoints:selectedPoints];
             [self _selectionDidChange];
             [self setNeedsDisplay:YES];
             return;
@@ -1171,7 +1168,6 @@ static NSImage *_selectionBox = nil;
         }
     }
 
-    [[controller inspector] inspectPoints:selectedPoints];
     [self _selectionDidChange];
     [self setNeedsDisplay:YES];
 }
@@ -1210,7 +1206,6 @@ static NSImage *_selectionBox = nil;
 
     [[controller inspector] cleanInspectorWindow];
     [selectedPoints removeAllObjects];
-    [[controller inspector] inspectPoint:nil];
     [self _selectionDidChange];
 
     [self setNeedsDisplay:YES];
@@ -1264,7 +1259,6 @@ static NSImage *_selectionBox = nil;
 
     [[self window] endEditingFor:nil];
     [selectedPoints removeAllObjects];
-    [[controller inspector] inspectPoint:nil];
     [self _selectionDidChange];
 
     // In case we've changed the type of the transition

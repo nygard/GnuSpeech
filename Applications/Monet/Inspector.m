@@ -2,7 +2,6 @@
 
 #import <AppKit/AppKit.h>
 #import "IntonationPointInspector.h"
-#import "PointInspector.h"
 #import "ProtoEquationInspector.h"
 #import "ProtoTemplateInspector.h"
 #import "RuleInspector.h"
@@ -21,7 +20,6 @@
     [protoEquationInspector applicationDidFinishLaunching:notification];
     [protoTransitionInspector applicationDidFinishLaunching:notification];
     [ruleInspector applicationDidFinishLaunching:notification];
-    [pointInspector applicationDidFinishLaunching:notification];
     [intonationPointInspector applicationDidFinishLaunching:notification];
 
     NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
@@ -106,22 +104,6 @@
     currentInspectorObject = rule;
     currentInspector = ruleInspector;
     [ruleInspector inspectRule:rule];
-}
-
-- (void)inspectPoint:(MMPoint *)point;
-{
-    [panel setTitle:@"Point Inspector"];
-    currentInspectorObject = point;
-    currentInspector = pointInspector;
-    [pointInspector inspectPoint:point];
-}
-
-- (void)inspectPoints:(MonetList *)points;
-{
-    [panel setTitle:@"Point Inspector"];
-    currentInspectorObject = points;
-    currentInspector = pointInspector;
-    [pointInspector inspectPoints:points];
 }
 
 - (void)inspectIntonationPoint:(IntonationPoint *)point;

@@ -10,7 +10,6 @@
 #import "NamedList.h"
 #import "MMPosture.h"
 #import "MMPoint.h"
-#import "PointInspector.h"
 #import "MMEquation.h"
 #import "PrototypeManager.h"
 #import "MMTransition.h"
@@ -330,7 +329,6 @@
 
             [newPoint release];
 
-            [[controller inspector] inspectPoint:selectedPoint];
             [self _selectionDidChange];
             [self setNeedsDisplay:YES];
             return;
@@ -425,7 +423,6 @@
         }
     }
 
-    [[controller inspector] inspectPoints:selectedPoints];
     [self _selectionDidChange];
     [self setNeedsDisplay:YES];
 }
