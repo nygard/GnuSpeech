@@ -5,6 +5,7 @@
 #include <math.h>
 #include "main.h"
 #include "tube.h"
+#include "util.h"
 
 /*  FINAL OUTPUT SCALING, SO THAT .SND FILES APPROX. MATCH DSP OUTPUT  */
 #define OUTPUT_SCALE              0.25
@@ -14,13 +15,6 @@
 
 /*  SIZE IN BITS PER OUTPUT SAMPLE  */
 #define BITS_PER_SAMPLE           16
-
-int    outputFileFormat;            /*  file format (0=AU, 1=AIFF, 2=WAVE)  */
-
-double volume;                      /*  master volume (0 - 60 dB)  */
-int    channels;                    /*  # of sound output channels (1, 2)  */
-double balance;                     /*  stereo balance (-1 to +1)  */
-
 
 // TODO (2004-05-03): Do we need to declare the function static here, at the implementation, or in both places?
 static void writeAuFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile);
@@ -60,14 +54,14 @@ static void convertIntToFloat80(unsigned int value, unsigned char buffer[10]);
 *
 ******************************************************************************/
 
-void writeOutputToFile(char *fileName)
+void writeOutputToFile(struct _TRMData *data, char *fileName)
 {
     FILE *fd;
     double scale, leftScale = 0.0, rightScale = 0.0;
 
 
     /*  Calculate scaling constant  */
-    scale = OUTPUT_SCALE * (RANGE_MAX / maximumSampleValue) * amplitude(volume);
+    scale = OUTPUT_SCALE * (RANGE_MAX / maximumSampleValue) * amplitude(data->inputParameters.volume);
 
     /*  Print out info  */
     if (verbose) {
@@ -77,10 +71,10 @@ void writeOutputToFile(char *fileName)
     }
 
     /*  If stereo, calculate left and right scaling constants  */
-    if (channels == 2) {
+    if (data->inputParameters.channels == 2) {
 	/*  Calculate left and right channel amplitudes  */
-	leftScale = -((balance / 2.0) - 0.5) * scale * 2.0;
-	rightScale = ((balance / 2.0) + 0.5) * scale * 2.0;
+	leftScale = -((data->inputParameters.balance / 2.0) - 0.5) * scale * 2.0;
+	rightScale = ((data->inputParameters.balance / 2.0) + 0.5) * scale * 2.0;
 
 	/*  Print out info  */
 	if (verbose) {
@@ -93,27 +87,24 @@ void writeOutputToFile(char *fileName)
     fd = fopen(fileName, "wb");
 
     /*  Scale and write out samples to the output file  */
-    if (outputFileFormat == AU_FILE_FORMAT) {
-        writeAuFileHeader(channels, numberSamples, outputRate, fd);
-        if (channels == 1)
+    if (data->inputParameters.outputFileFormat == AU_FILE_FORMAT) {
+        writeAuFileHeader(data->inputParameters.channels, numberSamples, data->inputParameters.outputRate, fd);
+        if (data->inputParameters.channels == 1)
             writeSamplesMonoMsb(tempFilePtr, numberSamples, scale, fd);
         else
-            writeSamplesStereoMsb(tempFilePtr, numberSamples, leftScale,
-                                  rightScale, fd);
-    } else if (outputFileFormat == AIFF_FILE_FORMAT) {
-        writeAiffFileHeader(channels, numberSamples, outputRate, fd);
-        if (channels == 1)
+            writeSamplesStereoMsb(tempFilePtr, numberSamples, leftScale, rightScale, fd);
+    } else if (data->inputParameters.outputFileFormat == AIFF_FILE_FORMAT) {
+        writeAiffFileHeader(data->inputParameters.channels, numberSamples, data->inputParameters.outputRate, fd);
+        if (data->inputParameters.channels == 1)
             writeSamplesMonoMsb(tempFilePtr, numberSamples, scale, fd);
         else
-            writeSamplesStereoMsb(tempFilePtr, numberSamples, leftScale,
-                                  rightScale, fd);
-    } else if (outputFileFormat == WAVE_FILE_FORMAT) {
-        writeWaveFileHeader(channels, numberSamples, outputRate, fd);
-        if (channels == 1)
+            writeSamplesStereoMsb(tempFilePtr, numberSamples, leftScale, rightScale, fd);
+    } else if (data->inputParameters.outputFileFormat == WAVE_FILE_FORMAT) {
+        writeWaveFileHeader(data->inputParameters.channels, numberSamples, data->inputParameters.outputRate, fd);
+        if (data->inputParameters.channels == 1)
             writeSamplesMonoLsb(tempFilePtr, numberSamples, scale, fd);
         else
-            writeSamplesStereoLsb(tempFilePtr, numberSamples, leftScale,
-                                  rightScale, fd);
+            writeSamplesStereoLsb(tempFilePtr, numberSamples, leftScale, rightScale, fd);
     }
 
     /*  Close the output file  */

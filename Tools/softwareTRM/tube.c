@@ -58,6 +58,7 @@
 #include "input.h"
 #include "fir.h"
 #include "util.h"
+#include "structs.h"
 
 
 
@@ -173,30 +174,6 @@
 /*  GLOBAL VARIABLES *********************************************************/
 
 /*  INPUT VARIABLES  */
-float  outputRate;                  /*  output sample rate (22.05, 44.1 KHz)  */
-float  controlRate;                 /*  1.0-1000.0 input tables/second (Hz)  */
-
-int    waveform;                    /*  GS waveform type (0=PULSE, 1=SINE)  */
-double tp;                          /*  % glottal pulse rise time  */
-double tnMin;                       /*  % glottal pulse fall time minimum  */
-double tnMax;                       /*  % glottal pulse fall time maximum  */
-double breathiness;                 /*  % glottal source breathiness  */
-
-double length;                      /*  nominal tube length (10 - 20 cm)  */
-double temperature;                 /*  tube temperature (25 - 40 C)  */
-double lossFactor;                  /*  junction loss factor in (0 - 5 %)  */
-
-double apScale;                     /*  aperture scl. radius (3.05 - 12 cm)  */
-double mouthCoef;                   /*  mouth aperture coefficient  */
-double noseCoef;                    /*  nose aperture coefficient  */
-
-double noseRadius[TOTAL_NASAL_SECTIONS];  /*  fixed nose radii (0 - 3 cm)  */
-
-double throatCutoff;                /*  throat lp cutoff (50 - nyquist Hz)  */
-double throatVol;                   /*  throat volume (0 - 48 dB) */
-
-int    modulation;                  /*  pulse mod. of noise (0=OFF, 1=ON)  */
-double mixOffset;                   /*  noise crossmix offset (30 - 60 dB)  */
 
 
 /*  DERIVED VALUES  */
@@ -251,8 +228,8 @@ double fricationTap[TOTAL_FRIC_COEFFICIENTS];
 
 /*  VARIABLES FOR INTERPOLATION  */
 struct {
-    TRMParameters parameters;
-    TRMParameters delta;
+    struct _TRMParameters parameters;
+    struct _TRMParameters delta;
 } current;
 
 /*  VARIABLES FOR SAMPLE RATE CONVERSION  */
@@ -266,7 +243,7 @@ unsigned int timeRegister = 0;
 
 /*  GLOBAL FUNCTIONS (LOCAL TO THIS FILE)  ***********************************/
 
-void initializeWavetable(void);
+void initializeWavetable(struct _TRMInputParameters *inputParameters);
 void updateWavetable(double amplitude);
 void initializeMouthCoefficients(double coeff);
 double reflectionFilter(double input);
@@ -276,9 +253,9 @@ double nasalReflectionFilter(double input);
 double nasalRadiationFilter(double input);
 void setControlRateParameters(INPUT *previousInput, INPUT *currentInput);
 void sampleRateInterpolation(void);
-void initializeNasalCavity(void);
-void initializeThroat(void);
-void calculateTubeCoefficients(void);
+void initializeNasalCavity(struct _TRMInputParameters *inputParameters);
+void initializeThroat(struct _TRMInputParameters *inputParameters);
+void calculateTubeCoefficients(struct _TRMInputParameters *inputParameters);
 void setFricationTaps(void);
 void calculateBandpassCoefficients(void);
 double mod0(double value);
@@ -287,7 +264,7 @@ double oscillator(double frequency);
 double vocalTract(double input, double frication);
 double throat(double input);
 double bandpassFilter(double input);
-void initializeConversion(void);
+void initializeConversion(struct _TRMInputParameters *inputParameters);
 void initializeFilter(void);
 void initializeBuffer(void);
 void dataFill(double data);
@@ -319,16 +296,16 @@ void srDecrement(int *pointer, int modulus);
 *
 ******************************************************************************/
 
-int initializeSynthesizer(void)
+int initializeSynthesizer(struct _TRMData *data)
 {
     double nyquist;
 
     /*  CALCULATE THE SAMPLE RATE, BASED ON NOMINAL
 	TUBE LENGTH AND SPEED OF SOUND  */
-    if (length > 0.0) {
-	double c = speedOfSound(temperature);
-	controlPeriod = rint((c * TOTAL_SECTIONS * 100.0) /(length * controlRate));
-	sampleRate = controlRate * controlPeriod;
+    if (data->inputParameters.length > 0.0) {
+	double c = speedOfSound(data->inputParameters.temperature);
+	controlPeriod = rint((c * TOTAL_SECTIONS * 100.0) / (data->inputParameters.length * data->inputParameters.controlRate));
+	sampleRate = data->inputParameters.controlRate * controlPeriod;
 	actualTubeLength = (c * TOTAL_SECTIONS * 100.0) / sampleRate;
 	nyquist = (double)sampleRate / 2.0;
     } else {
@@ -337,34 +314,34 @@ int initializeSynthesizer(void)
     }
 
     /*  CALCULATE THE BREATHINESS FACTOR  */
-    breathinessFactor = breathiness / 100.0;
+    breathinessFactor = data->inputParameters.breathiness / 100.0;
 
     /*  CALCULATE CROSSMIX FACTOR  */
-    crossmixFactor = 1.0 / amplitude(mixOffset);
+    crossmixFactor = 1.0 / amplitude(data->inputParameters.mixOffset);
 
     /*  CALCULATE THE DAMPING FACTOR  */
-    dampingFactor = (1.0 - (lossFactor / 100.0));
+    dampingFactor = (1.0 - (data->inputParameters.lossFactor / 100.0));
 
     /*  INITIALIZE THE WAVE TABLE  */
-    initializeWavetable();
+    initializeWavetable(&(data->inputParameters));
 
     /*  INITIALIZE THE FIR FILTER  */
     initializeFIR(FIR_BETA, FIR_GAMMA, FIR_CUTOFF);
 
     /*  INITIALIZE REFLECTION AND RADIATION FILTER COEFFICIENTS FOR MOUTH  */
-    initializeMouthCoefficients((nyquist - mouthCoef) / nyquist);
+    initializeMouthCoefficients((nyquist - data->inputParameters.mouthCoef) / nyquist);
 
     /*  INITIALIZE REFLECTION AND RADIATION FILTER COEFFICIENTS FOR NOSE  */
-    initializeNasalFilterCoefficients((nyquist - noseCoef) / nyquist);
+    initializeNasalFilterCoefficients((nyquist - data->inputParameters.noseCoef) / nyquist);
 
     /*  INITIALIZE NASAL CAVITY FIXED SCATTERING COEFFICIENTS  */
-    initializeNasalCavity();
+    initializeNasalCavity(&(data->inputParameters));
 
     /*  INITIALIZE THE THROAT LOWPASS FILTER  */
-    initializeThroat();
+    initializeThroat(&(data->inputParameters));
 
     /*  INITIALIZE THE SAMPLE RATE CONVERSION ROUTINES  */
-    initializeConversion();
+    initializeConversion(&(data->inputParameters));
 
     /*  INITIALIZE THE TEMPORARY OUTPUT FILE  */
     tempFilePtr = tmpfile();
@@ -373,7 +350,6 @@ int initializeSynthesizer(void)
     /*  RETURN SUCCESS  */
     return SUCCESS;
 }
-
 
 
 /******************************************************************************
@@ -393,7 +369,7 @@ int initializeSynthesizer(void)
 *
 ******************************************************************************/
 
-void initializeWavetable(void)
+void initializeWavetable(struct _TRMInputParameters *inputParameters)
 {
     int i, j;
 
@@ -402,15 +378,15 @@ void initializeWavetable(void)
     wavetable = (double *)calloc(TABLE_LENGTH, sizeof(double));
 
     /*  CALCULATE WAVE TABLE PARAMETERS  */
-    tableDiv1 = rint(TABLE_LENGTH * (tp / 100.0));
-    tableDiv2 = rint(TABLE_LENGTH * ((tp + tnMax) / 100.0));
+    tableDiv1 = rint(TABLE_LENGTH * (inputParameters->tp / 100.0));
+    tableDiv2 = rint(TABLE_LENGTH * ((inputParameters->tp + inputParameters->tnMax) / 100.0));
     tnLength = tableDiv2 - tableDiv1;
-    tnDelta = rint(TABLE_LENGTH * ((tnMax - tnMin) / 100.0));
+    tnDelta = rint(TABLE_LENGTH * ((inputParameters->tnMax - inputParameters->tnMin) / 100.0));
     basicIncrement = (double)TABLE_LENGTH / (double)sampleRate;
     currentPosition = 0;
 
     /*  INITIALIZE THE WAVETABLE WITH EITHER A GLOTTAL PULSE OR SINE TONE  */
-    if (waveform == PULSE) {
+    if (inputParameters->waveform == PULSE) {
 	/*  CALCULATE RISE PORTION OF WAVE TABLE  */
 	for (i = 0; i < tableDiv1; i++) {
 	    double x = (double)i / (double)tableDiv1;
@@ -647,7 +623,6 @@ double nasalRadiationFilter(double input)
     return output;
 }
 
-
 /******************************************************************************
 *
 *	function:	synthesize
@@ -667,7 +642,7 @@ double nasalRadiationFilter(double input)
 *
 ******************************************************************************/
 
-void synthesize(INPUT *inputHead)
+void synthesize(TRMData *data)
 {
     int j;
     double f0, ax, ah1, pulse, lp_noise, pulsed_noise, signal, crossmix;
@@ -677,8 +652,8 @@ void synthesize(INPUT *inputHead)
 
     /*  CONTROL RATE LOOP  */
 
-    previousInput = inputHead;
-    currentInput = inputHead->next;
+    previousInput = data->inputHead;
+    currentInput = data->inputHead->next;
 
     while (currentInput != NULL) {
 	/*  SET CONTROL RATE PARAMETERS FROM INPUT TABLES  */
@@ -692,7 +667,7 @@ void synthesize(INPUT *inputHead)
 	    f0 = frequency(current.parameters.glotPitch);
 	    ax = amplitude(current.parameters.glotVol);
 	    ah1 = amplitude(current.parameters.aspVol);
-	    calculateTubeCoefficients();
+	    calculateTubeCoefficients(&(data->inputParameters));
 	    setFricationTaps();
 	    calculateBandpassCoefficients();
 
@@ -702,7 +677,7 @@ void synthesize(INPUT *inputHead)
 	    lp_noise = noiseFilter(noise());
 
 	    /*  UPDATE THE SHAPE OF THE GLOTTAL PULSE, IF NECESSARY  */
-	    if (waveform == PULSE)
+	    if (data->inputParameters.waveform == PULSE)
 		updateWavetable(ax);
 
 	    /*  CREATE GLOTTAL PULSE (OR SINE TONE)  */
@@ -715,7 +690,7 @@ void synthesize(INPUT *inputHead)
 	    pulse = ax * ((pulse * (1.0 - breathinessFactor)) + (pulsed_noise * breathinessFactor));
 
 	    /*  CROSS-MIX PURE NOISE WITH PULSED NOISE  */
-	    if (modulation) {
+	    if (data->inputParameters.modulation) {
 		crossmix = ax * crossmixFactor;
 		crossmix = (crossmix < 1.0) ? crossmix : 1.0;
 		signal = (pulsed_noise * crossmix) + (lp_noise * (1.0 - crossmix));
@@ -757,7 +732,6 @@ void synthesize(INPUT *inputHead)
     /*  BE SURE TO FLUSH SRC BUFFER  */
     flushBuffer();
 }
-
 
 
 /******************************************************************************
@@ -894,7 +868,7 @@ void sampleRateInterpolation(void)
 *
 ******************************************************************************/
 
-void initializeNasalCavity(void)
+void initializeNasalCavity(struct _TRMInputParameters *inputParameters)
 {
     int i, j;
     double radA2, radB2;
@@ -902,14 +876,14 @@ void initializeNasalCavity(void)
 
     /*  CALCULATE COEFFICIENTS FOR INTERNAL FIXED SECTIONS OF NASAL CAVITY  */
     for (i = N2, j = NC2; i < N6; i++, j++) {
-	radA2 = noseRadius[i] * noseRadius[i];
-	radB2 = noseRadius[i+1] * noseRadius[i+1];
+	radA2 = inputParameters->noseRadius[i] * inputParameters->noseRadius[i];
+	radB2 = inputParameters->noseRadius[i+1] * inputParameters->noseRadius[i+1];
 	nasal_coeff[j] = (radA2 - radB2) / (radA2 + radB2);
     }
 
     /*  CALCULATE THE FIXED COEFFICIENT FOR THE NOSE APERTURE  */
-    radA2 = noseRadius[N6] * noseRadius[N6];
-    radB2 = apScale * apScale;
+    radA2 = inputParameters->noseRadius[N6] * inputParameters->noseRadius[N6];
+    radB2 = inputParameters->apScale * inputParameters->apScale;
     nasal_coeff[NC6] = (radA2 - radB2) / (radA2 + radB2);
 }
 
@@ -933,12 +907,12 @@ void initializeNasalCavity(void)
 *
 ******************************************************************************/
 
-void initializeThroat(void)
+void initializeThroat(struct _TRMInputParameters *inputParameters)
 {
-    ta0 = (throatCutoff * 2.0) / sampleRate;
+    ta0 = (inputParameters->throatCutoff * 2.0) / sampleRate;
     tb1 = 1.0 - ta0;
 
-    throatGain = amplitude(throatVol);
+    throatGain = amplitude(inputParameters->throatVol);
 }
 
 
@@ -962,7 +936,7 @@ void initializeThroat(void)
 *
 ******************************************************************************/
 
-void calculateTubeCoefficients(void)
+void calculateTubeCoefficients(struct _TRMInputParameters *inputParameters)
 {
     int i;
     double radA2, radB2, r0_2, r1_2, r2_2, sum;
@@ -977,7 +951,7 @@ void calculateTubeCoefficients(void)
 
     /*  CALCULATE THE COEFFICIENT FOR THE MOUTH APERTURE  */
     radA2 = current.parameters.radius[R8] * current.parameters.radius[R8];
-    radB2 = apScale * apScale;
+    radB2 = inputParameters->apScale * inputParameters->apScale;
     oropharynx_coeff[C8] = (radA2 - radB2) / (radA2 + radB2);
 
     /*  CALCULATE ALPHA COEFFICIENTS FOR 3-WAY JUNCTION  */
@@ -991,7 +965,7 @@ void calculateTubeCoefficients(void)
 
     /*  AND 1ST NASAL PASSAGE COEFFICIENT  */
     radA2 = current.parameters.velum * current.parameters.velum;
-    radB2 = noseRadius[N2] * noseRadius[N2];
+    radB2 = inputParameters->noseRadius[N2] * inputParameters->noseRadius[N2];
     nasal_coeff[NC1] = (radA2 - radB2) / (radA2 + radB2);
 }
 
@@ -1391,7 +1365,7 @@ double bandpassFilter(double input)
 *
 ******************************************************************************/
 
-void initializeConversion(void)
+void initializeConversion(struct _TRMInputParameters *inputParameters)
 {
     double roundedSampleRateRatio;
 
@@ -1400,7 +1374,7 @@ void initializeConversion(void)
     initializeFilter();
 
     /*  CALCULATE SAMPLE RATE RATIO  */
-    sampleRateRatio = (double)outputRate / (double)sampleRate;
+    sampleRateRatio = (double)inputParameters->outputRate / (double)sampleRate;
 
     /*  CALCULATE TIME REGISTER INCREMENT  */
     timeRegisterIncrement = (int)rint( pow(2.0, FRACTION_BITS) / sampleRateRatio );

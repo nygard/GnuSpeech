@@ -7,7 +7,7 @@
 #include "tube.h"
 #include "input.h"
 #include "output.h"
-
+#include "structs.h"
 
 //#define SHARK
 
@@ -18,7 +18,7 @@
 /*  COMMAND LINE ARGUMENT VARIABLES  */
 int verbose = FALSE;
 
-void printInfo(char *inputFile);
+void printInfo(struct _TRMData *data, char *inputFile);
 
 /******************************************************************************
 *
@@ -38,7 +38,7 @@ void printInfo(char *inputFile);
 *
 ******************************************************************************/
 
-void printInfo(char *inputFile)
+void printInfo(struct _TRMData *data, char *inputFile)
 {
     int i;
 
@@ -47,50 +47,50 @@ void printInfo(char *inputFile)
 
     /*  ECHO INPUT PARAMETERS  */
     printf("outputFileFormat:\t");
-    if (outputFileFormat == AU_FILE_FORMAT)
+    if (data->inputParameters.outputFileFormat == AU_FILE_FORMAT)
         printf("AU\n");
-    else if (outputFileFormat == AIFF_FILE_FORMAT)
+    else if (data->inputParameters.outputFileFormat == AIFF_FILE_FORMAT)
         printf("AIFF\n");
-    else if (outputFileFormat == WAVE_FILE_FORMAT)
+    else if (data->inputParameters.outputFileFormat == WAVE_FILE_FORMAT)
         printf("WAVE\n");
 
-    printf("outputRate:\t\t%.1f Hz\n", outputRate);
-    printf("controlRate:\t\t%.2f Hz\n\n", controlRate);
+    printf("outputRate:\t\t%.1f Hz\n", data->inputParameters.outputRate);
+    printf("controlRate:\t\t%.2f Hz\n\n", data->inputParameters.controlRate);
 
-    printf("volume:\t\t\t%.2f dB\n", volume);
-    printf("channels:\t\t%-d\n", channels);
-    printf("balance:\t\t%+1.2f\n\n", balance);
+    printf("volume:\t\t\t%.2f dB\n", data->inputParameters.volume);
+    printf("channels:\t\t%-d\n", data->inputParameters.channels);
+    printf("balance:\t\t%+1.2f\n\n", data->inputParameters.balance);
 
     printf("waveform:\t\t");
-    if (waveform == PULSE)
+    if (data->inputParameters.waveform == PULSE)
 	printf("pulse\n");
-    else if (waveform == SINE)
+    else if (data->inputParameters.waveform == SINE)
 	printf("sine\n");
-    printf("tp:\t\t\t%.2f%%\n", tp);
-    printf("tnMin:\t\t\t%.2f%%\n", tnMin);
-    printf("tnMax:\t\t\t%.2f%%\n", tnMax);
-    printf("breathiness:\t\t%.2f%%\n\n", breathiness);
+    printf("tp:\t\t\t%.2f%%\n", data->inputParameters.tp);
+    printf("tnMin:\t\t\t%.2f%%\n", data->inputParameters.tnMin);
+    printf("tnMax:\t\t\t%.2f%%\n", data->inputParameters.tnMax);
+    printf("breathiness:\t\t%.2f%%\n\n", data->inputParameters.breathiness);
 
-    printf("nominal tube length:\t%.2f cm\n", length);
-    printf("temperature:\t\t%.2f degrees C\n", temperature);
-    printf("lossFactor:\t\t%.2f%%\n\n", lossFactor);
+    printf("nominal tube length:\t%.2f cm\n", data->inputParameters.length);
+    printf("temperature:\t\t%.2f degrees C\n", data->inputParameters.temperature);
+    printf("lossFactor:\t\t%.2f%%\n\n", data->inputParameters.lossFactor);
 
-    printf("apScale:\t\t%.2f cm\n", apScale);
-    printf("mouthCoef:\t\t%.1f Hz\n", mouthCoef);
-    printf("noseCoef:\t\t%.1f Hz\n\n", noseCoef);
+    printf("apScale:\t\t%.2f cm\n", data->inputParameters.apScale);
+    printf("mouthCoef:\t\t%.1f Hz\n", data->inputParameters.mouthCoef);
+    printf("noseCoef:\t\t%.1f Hz\n\n", data->inputParameters.noseCoef);
 
     for (i = 1; i < TOTAL_NASAL_SECTIONS; i++)
-	printf("n%-d:\t\t\t%.2f cm\n", i, noseRadius[i]);
+	printf("n%-d:\t\t\t%.2f cm\n", i, data->inputParameters.noseRadius[i]);
 
-    printf("\nthroatCutoff:\t\t%.1f Hz\n", throatCutoff);
-    printf("throatVol:\t\t%.2f dB\n\n", throatVol);
+    printf("\nthroatCutoff:\t\t%.1f Hz\n", data->inputParameters.throatCutoff);
+    printf("throatVol:\t\t%.2f dB\n\n", data->inputParameters.throatVol);
 
     printf("modulation:\t\t");
-    if (modulation)
+    if (data->inputParameters.modulation)
 	printf("on\n");
     else
 	printf("off\n");
-    printf("mixOffset:\t\t%.2f dB\n\n", mixOffset);
+    printf("mixOffset:\t\t%.2f dB\n\n", data->inputParameters.mixOffset);
 
     /*  PRINT OUT DERIVED VALUES  */
     printf("\nactual tube length:\t%.4f cm\n", actualTubeLength);
@@ -105,7 +105,7 @@ void printInfo(char *inputFile)
 	printf("table[%-d] = %.4f\n", i, wavetable[i]);
 #endif
 
-    printControlRateInputTable();
+    printControlRateInputTable(data);
 }
 
 /******************************************************************************
@@ -129,6 +129,7 @@ int main(int argc, char *argv[])
 {
     char inputFile[MAXPATHLEN + 1];
     char outputFile[MAXPATHLEN + 1];
+    TRMData *inputData;
 
     /*  PARSE THE COMMAND LINE  */
     if (argc == 3) {
@@ -152,20 +153,21 @@ int main(int argc, char *argv[])
 #endif
 
     /*  PARSE THE INPUT FILE FOR INPUT INFORMATION  */
-    if (parseInputFile(inputFile) == ERROR) {
+    inputData = parseInputFile(inputFile);
+    if (inputData == NULL) {
 	fprintf(stderr, "Aborting...\n");
 	exit(-1);
     }
 
     /*  INITIALIZE THE SYNTHESIZER  */
-    if (initializeSynthesizer() == ERROR) {
+    if (initializeSynthesizer(inputData) == ERROR) {
 	fprintf(stderr, "Aborting...\n");
 	exit(-1);
     }
 
     /*  PRINT OUT PARAMETER INFORMATION  */
     if (verbose)
-	printInfo(inputFile);
+	printInfo(inputData, inputFile);
 
     /*  PRINT OUT CALCULATING MESSAGE  */
     if (verbose) {
@@ -178,14 +180,14 @@ int main(int argc, char *argv[])
 	printf("\nStarting synthesis\n");
 	fflush(stdout);
     }
-    synthesize(inputHead);
+    synthesize(inputData);
 
     /*  PRINT OUT DONE MESSAGE  */
     if (verbose)
 	printf("done.\n");
 
     /*  OUTPUT SAMPLES TO OUTPUT FILE  */
-    writeOutputToFile(outputFile);
+    writeOutputToFile(inputData, outputFile);
 
     /*  PRINT OUT FINISHED MESSAGE  */
     if (verbose)
