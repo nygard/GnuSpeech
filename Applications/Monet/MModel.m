@@ -504,6 +504,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         }
     }
 
+    NSLog(@"Couldn't find transition: %@/%@", aListName, aTransitionName);
+
     return nil;
 }
 
@@ -548,6 +550,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
             }
         }
     }
+
+    NSLog(@"Couldn't find special transition: %@/%@", aListName, aSpecialName);
 
     return nil;
 }
