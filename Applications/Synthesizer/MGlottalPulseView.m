@@ -1,9 +1,9 @@
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
 //  Copyright (C) 2004 __OWNER__.  All rights reserved.
 
-#import "MWaveShapeView.h"
+#import "MGlottalPulseView.h"
 
-@implementation MWaveShapeView
+@implementation MGlottalPulseView
 
 - (id)initWithFrame:(NSRect)frameRect;
 {

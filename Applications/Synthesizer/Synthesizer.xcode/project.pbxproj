@@ -463,6 +463,34 @@
 			settings = {
 			};
 		};
+		0169CCBD06E404EB009FBDCF = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = MGlottalPulseView.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		0169CCBE06E404EB009FBDCF = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = MGlottalPulseView.m;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		0169CCBF06E404EB009FBDCF = {
+			fileRef = 0169CCBD06E404EB009FBDCF;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0169CCC006E404EB009FBDCF = {
+			fileRef = 0169CCBE06E404EB009FBDCF;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 //010
 //011
 //012
@@ -483,6 +511,8 @@
 				0169CB0D06E2F950009FBDCF,
 				0169CB8406E306BF009FBDCF,
 				0169CB8506E306BF009FBDCF,
+				0169CCBD06E404EB009FBDCF,
+				0169CCBE06E404EB009FBDCF,
 				0169CADC06E2F297009FBDCF,
 				0169CADD06E2F297009FBDCF,
 			);
@@ -788,6 +818,7 @@
 				0169CB6206E2FE06009FBDCF,
 				0169CB6406E2FE06009FBDCF,
 				0169CB8606E306BF009FBDCF,
+				0169CCBF06E404EB009FBDCF,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -821,6 +852,7 @@
 				0169CB6106E2FE06009FBDCF,
 				0169CB6306E2FE06009FBDCF,
 				0169CB8706E306BF009FBDCF,
+				0169CCC006E404EB009FBDCF,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

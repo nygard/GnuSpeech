@@ -99,7 +99,7 @@
     unsigned int index;
     NSRect activeRect;
     NSPoint point;
-    float yRange;
+    float yRange, yOffset;
 
     NSLog(@" > %s", _cmd);
     NSLog(@"values: %p, count: %d", values, count);
@@ -110,15 +110,17 @@
     yRange = maxYValue - minYValue;
     NSLog(@"minYValue: %f, maxYValue: %f, yRange: %f", minYValue, maxYValue, yRange);
     activeRect = [self activeRect];
+    yOffset = activeRect.origin.y + (-minYValue / yRange) * activeRect.size.height;
+
     path = [[NSBezierPath alloc] init];
 
     point.x = activeRect.origin.x;
-    point.y = activeRect.origin.y + (values[0] / yRange) * activeRect.size.height;
+    point.y = yOffset + (values[0] / yRange) * activeRect.size.height;
     [path moveToPoint:point];
 
     for (index = 1; index < count; index++) {
         point.x = activeRect.origin.x + index * activeRect.size.width / count;
-        point.y = activeRect.origin.y + (values[index] / yRange) * activeRect.size.height;
+        point.y = yOffset + (values[index] / yRange) * activeRect.size.height;
         [path lineToPoint:point];
     }
 

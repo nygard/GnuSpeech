@@ -3,11 +3,12 @@
 
 #import "MWindowController.h"
 
-@class MWaveShapeView;
+@class MGlottalPulseView, MWaveShapeView;
 
 @interface MGlottalSourceController : MWindowController
 {
     IBOutlet MWaveShapeView *waveShapeView;
+    IBOutlet MGlottalPulseView *glottalPulseView;
 
     IBOutlet NSTextField *riseTimeTextField;
     IBOutlet NSTextField *minimumFallTimeTextField;

@@ -3,6 +3,7 @@
 
 #import "MGlottalSourceController.h"
 
+#import "MGlottalPulseView.h"
 #import "MWaveShapeView.h"
 
 @implementation MGlottalSourceController
@@ -19,24 +20,24 @@
 
 - (void)windowDidLoad;
 {
-    [riseTimeTextField setDoubleValue:[waveShapeView riseTime]];
-    [minimumFallTimeTextField setDoubleValue:[waveShapeView minimumFallTime]];
-    [maximumFallTimeTextField setDoubleValue:[waveShapeView maximumFallTime]];
+    [riseTimeTextField setDoubleValue:[glottalPulseView riseTime]];
+    [minimumFallTimeTextField setDoubleValue:[glottalPulseView minimumFallTime]];
+    [maximumFallTimeTextField setDoubleValue:[glottalPulseView maximumFallTime]];
 }
 
 - (IBAction)changeRiseTime:(id)sender;
 {
-    [waveShapeView setRiseTime:[riseTimeTextField doubleValue]];
+    [glottalPulseView setRiseTime:[riseTimeTextField doubleValue]];
 }
 
 - (IBAction)changeMinimumFallTime:(id)sender;
 {
-    [waveShapeView setMinimumFallTime:[minimumFallTimeTextField doubleValue]];
+    [glottalPulseView setMinimumFallTime:[minimumFallTimeTextField doubleValue]];
 }
 
 - (IBAction)changeMaximumFallTime:(id)sender;
 {
-    [waveShapeView setMaximumFallTime:[maximumFallTimeTextField doubleValue]];
+    [glottalPulseView setMaximumFallTime:[maximumFallTimeTextField doubleValue]];
 }
 
 @end

@@ -1,11 +1,13 @@
 {
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = MGlottalPulseView; LANGUAGE = ObjC; SUPERCLASS = MGraphView; }, 
         {
             ACTIONS = {changeMaximumFallTime = id; changeMinimumFallTime = id; changeRiseTime = id; }; 
             CLASS = MGlottalSourceController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                glottalPulseView = MGlottalPulseView; 
                 maximumFallTimeTextField = NSTextField; 
                 minimumFallTimeTextField = NSTextField; 
                 riseTimeTextField = NSTextField; 
