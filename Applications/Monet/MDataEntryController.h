@@ -1,7 +1,3 @@
-//
-// $Id: MDataEntryController.h,v 1.6 2004/03/24 20:25:58 nygard Exp $
-//
-
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
 //  Copyright (C) 2004 __OWNER__.  All rights reserved.
 

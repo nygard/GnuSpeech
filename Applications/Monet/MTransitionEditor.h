@@ -1,7 +1,3 @@
-//
-// $Id: MTransitionEditor.h,v 1.5 2004/03/25 20:28:24 nygard Exp $
-//
-
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
 //  Copyright (C) 2004 __OWNER__.  All rights reserved.
 

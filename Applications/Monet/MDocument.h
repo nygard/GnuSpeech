@@ -1,7 +1,3 @@
-//
-// $Id: MDocument.h,v 1.3 2004/04/22 19:00:18 nygard Exp $
-//
-
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
 //  Copyright (C) 2004 __OWNER__.  All rights reserved.
 

@@ -1,7 +1,3 @@
-//
-// $Id: MRuleTester.h,v 1.2 2004/03/23 22:53:02 nygard Exp $
-//
-
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
 //  Copyright (C) 2004 __OWNER__.  All rights reserved.
 

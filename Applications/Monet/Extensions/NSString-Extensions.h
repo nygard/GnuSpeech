@@ -1,7 +1,3 @@
-//
-// $Id: NSString-Extensions.h,v 1.3 2004/03/06 03:13:26 nygard Exp $
-//
-
 //  This file is part of class-dump, a utility for examining the
 //  Objective-C segment of Mach-O files.
 //  Copyright (C) 1997-1998, 2000-2001, 2004  Steve Nygard

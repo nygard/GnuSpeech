@@ -1,7 +1,3 @@
-//
-// $Id: MPostureEditor.h,v 1.1 2004/03/19 23:36:37 nygard Exp $
-//
-
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
 //  Copyright (C) 2004 __OWNER__.  All rights reserved.
 
