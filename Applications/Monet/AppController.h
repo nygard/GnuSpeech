@@ -1,5 +1,5 @@
 //
-// $Id: AppController.h,v 1.47 2004/04/02 03:55:25 nygard Exp $
+// $Id: AppController.h,v 1.48 2004/04/21 22:41:49 nygard Exp $
 //
 
 /*===========================================================================
@@ -56,9 +56,10 @@ History:
 - (IBAction)importTRMData:(id)sender;
 - (IBAction)printData:(id)sender;
 
-
 - (IBAction)archiveToDisk:(id)sender;
-- (IBAction)readFromDisk:(id)sender;
+
+- (void)_loadMonetFile:(NSString *)filename;
+- (void)_loadDegasFile:(NSString *)filename;
 
 - (IBAction)savePrototypes:(id)sender;
 - (IBAction)loadPrototypes:(id)sender;

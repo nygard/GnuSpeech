@@ -9,7 +9,6 @@
                 loadPrototypes = id; 
                 openFile = id; 
                 printData = id; 
-                readFromDisk = id; 
                 savePrototypes = id; 
                 showIntonationParameterWindow = id; 
                 showIntonationWindow = id; 

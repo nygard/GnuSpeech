@@ -129,36 +129,38 @@
     [infoPanel makeKeyAndOrderFront:self];
 }
 
-// Open a .degas file.
 - (IBAction)openFile:(id)sender;
 {
-    int i, count;
+    int count, index;
     NSArray *types;
     NSArray *fnames;
-    FILE *fp;
-    unsigned int magic;
+    NSString *filename;
     NSOpenPanel *openPanel;
 
-    types = [NSArray arrayWithObject: @"degas"];
+    NSLog(@" > %s", _cmd);
+
+    types = [NSArray arrayWithObjects:@"monet", @"degas", nil];
     openPanel = [NSOpenPanel openPanel]; // Each call resets values, including filenames
     [openPanel setAllowsMultipleSelection:NO];
-    if ([openPanel runModalForTypes:types]) {
-        fnames = [openPanel filenames];
-        count = [fnames count];
-        for (i = 0; i < count; i++) {
-            fp = fopen([[fnames objectAtIndex:i] UTF8String], "r");
 
-            fread(&magic, sizeof(int), 1, fp);
-            if (magic == 0x2e646567) {
-                NSLog(@"Loading DEGAS File");
-                [model readDegasFileFormat:fp];
-            } else {
-                NSLog(@"Not a DEGAS file");
-            }
+    if ([openPanel runModalForTypes:types] == NSCancelButton)
+        return;
 
-            fclose(fp);
+    fnames = [openPanel filenames];
+    count = [fnames count];
+    for (index = 0; index < count; index++) {
+        NSString *extension;
+
+        filename = [fnames objectAtIndex:index];
+        extension = [filename pathExtension];
+        if ([extension isEqualToString:@"monet"] == YES) {
+            [self _loadMonetFile:filename];
+        } else if ([extension isEqualToString:@"degas"] == YES) {
+            [self _loadDegasFile:filename];
         }
     }
+
+    NSLog(@"<  %s", _cmd);
 }
 
 - (IBAction)importTRMData:(id)sender;
@@ -256,54 +258,53 @@
 #endif
 }
 
-// Open a .monet file.
-- (IBAction)readFromDisk:(id)sender;
+- (void)_loadMonetFile:(NSString *)filename;
 {
-    int count, index;
-    NSArray *types;
-    NSArray *fnames;
-    NSString *filename;
     NSArchiver *stream;
-    NSOpenPanel *openPanel;
 
-    NSLog(@" > %s", _cmd);
+    stream = [[MUnarchiver alloc] initForReadingWithData:[NSData dataWithContentsOfFile:filename]];
 
-    types = [NSArray arrayWithObject:@"monet"];
-    openPanel = [NSOpenPanel openPanel]; // Each call resets values, including filenames
-    [openPanel setAllowsMultipleSelection:NO];
+    if (stream) {
+        [model release];
+        model = [[MModel alloc] initWithCoder:stream];
 
-    if ([openPanel runModalForTypes:types] == NSCancelButton)
-        return;
+        [dataEntryController setModel:model];
+        [postureEditor setModel:model];
+        [prototypeManager setModel:model];
+        [transitionEditor setModel:model];
+        [specialTransitionEditor setModel:model];
+        [ruleTester setModel:model];
+        [ruleManager setModel:model];
+        [synthesisParameterEditor setModel:model];
+        [synthesisController setModel:model];
 
-    fnames = [openPanel filenames];
-    count = [fnames count];
-    for (index = 0; index < count; index++) {
-        filename = [fnames objectAtIndex:index];
-        stream = [[MUnarchiver alloc] initForReadingWithData:[NSData dataWithContentsOfFile:filename]];
+        [stream release];
 
-        if (stream) {
-            [model release];
-            model = [[MModel alloc] initWithCoder:stream];
+        [model generateXML:filename];
+    } else {
+        NSLog(@"Not a MONET file");
+    }
+}
 
-            [dataEntryController setModel:model];
-            [postureEditor setModel:model];
-            [prototypeManager setModel:model];
-            [transitionEditor setModel:model];
-            [specialTransitionEditor setModel:model];
-            [ruleTester setModel:model];
-            [ruleManager setModel:model];
-            [synthesisParameterEditor setModel:model];
-            [synthesisController setModel:model];
+#define DEGAS_MAGIC 0x2e646567
 
-            [stream release];
+// TODO (2004-04-21): This actually imports instead of loading.  Should create new model, like in Monet file case
+- (void)_loadDegasFile:(NSString *)filename;
+{
+    FILE *fp;
+    unsigned int magic;
 
-            [model generateXML:filename];
-        } else {
-            NSLog(@"Not a MONET file");
-        }
+    fp = fopen([filename UTF8String], "r");
+
+    fread(&magic, sizeof(int), 1, fp);
+    if (magic == DEGAS_MAGIC) {
+        NSLog(@"Loading DEGAS File");
+        [model readDegasFileFormat:fp];
+    } else {
+        NSLog(@"Not a DEGAS file");
     }
 
-    NSLog(@"<  %s", _cmd);
+    fclose(fp);
 }
 
 - (IBAction)savePrototypes:(id)sender;
