@@ -802,7 +802,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     NSLog(@" > %s", _cmd);
 
     [self printDataStructures:@"Start of generateEvents"];
-    assert(model != nil);
+    NSParameterAssert(model != nil);
 
     // Record min/max values for each of the parameters
     {
