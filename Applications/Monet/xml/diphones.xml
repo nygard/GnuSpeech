@@ -6549,7 +6549,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
   </special-transitions>
   <rules>
     <rule number="1">
-      <boolean-expression>silence >> m >> (vocoid or glide)</boolean-expression>
+      <boolean-expression>silence >> m* >> (vocoid or glide)</boolean-expression>
       <parameter-profiles>
         <parameter name="microInt" transition="sOrzClosure"/>
         <parameter name="glotVol" transition="glotOnset"/>
@@ -6581,7 +6581,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
       </expression-symbols>
     </rule>
     <rule number="2">
-      <boolean-expression>(vocoid or glide) >> m >> silence</boolean-expression>
+      <boolean-expression>(vocoid or glide) >> m* >> silence</boolean-expression>
       <parameter-profiles>
         <parameter name="microInt" transition="sOrzClosure"/>
         <parameter name="glotVol" transition="glotOffset"/>
@@ -6613,7 +6613,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
       </expression-symbols>
     </rule>
     <rule number="3">
-      <boolean-expression>(vocoid or glide) >> m >> (vocoid or glide)</boolean-expression>
+      <boolean-expression>(vocoid or glide) >> m* >> (vocoid or glide)</boolean-expression>
       <parameter-profiles>
         <parameter name="microInt" transition="sOrzClosure"/>
         <parameter name="glotVol" transition="voicedStopClosure"/>
@@ -6645,7 +6645,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
       </expression-symbols>
     </rule>
     <rule number="4">
-      <boolean-expression>(((((vocoid or glide) or stopped) or fricative) or nasal) or silence) >> j >> ((((vocoid or nasal) or glide) or fricative) or silence)</boolean-expression>
+      <boolean-expression>(((((vocoid or glide) or stopped) or fricative) or nasal) or silence) >> j* >> ((((vocoid or nasal) or glide) or fricative) or silence)</boolean-expression>
       <comment>If we put stops on the right hand side of this rule, we don't get the stop release, so we didn't.</comment>
       <parameter-profiles>
         <parameter name="microInt" transition="voicedStopClosure"/>
@@ -6677,7 +6677,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
       </expression-symbols>
     </rule>
     <rule number="5">
-      <boolean-expression>silence >> ch >> (((vocoid or nasal) or glide) or silence)</boolean-expression>
+      <boolean-expression>silence >> ch* >> (((vocoid or nasal) or glide) or silence)</boolean-expression>
       <parameter-profiles>
         <parameter name="microInt" transition="voicedStopClosure"/>
         <parameter name="glotVol" transition="initChGlotOnset"/>
@@ -6708,7 +6708,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
       </expression-symbols>
     </rule>
     <rule number="6">
-      <boolean-expression>((((vocoid or glide) or stopped) or fricative) or nasal) >> ch >> ((((vocoid or nasal) or glide) or fricative) or silence)</boolean-expression>
+      <boolean-expression>((((vocoid or glide) or stopped) or fricative) or nasal) >> ch* >> ((((vocoid or nasal) or glide) or fricative) or silence)</boolean-expression>
       <comment>If we put stops on the right hand side of this rule, we don't get the stop release, so we didn't.</comment>
       <parameter-profiles>
         <parameter name="microInt" transition="voicedStopClosure"/>
@@ -6740,7 +6740,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
       </expression-symbols>
     </rule>
     <rule number="7">
-      <boolean-expression>silence >> (b or bx) >> ((((vocoid or nasal) or glide) or fricative) or silence)</boolean-expression>
+      <boolean-expression>silence >> (b* or bx*) >> ((((vocoid or nasal) or glide) or fricative) or silence)</boolean-expression>
       <parameter-profiles>
         <parameter name="microInt" transition="bLipClosure"/>
         <parameter name="glotVol" transition="InitBVolOnset"/>
@@ -6772,7 +6772,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
       </expression-symbols>
     </rule>
     <rule number="8">
-      <boolean-expression>((((vocoid or glide) or nasal) or stopped) or fricative) >> (b or bx) >> silence</boolean-expression>
+      <boolean-expression>((((vocoid or glide) or nasal) or stopped) or fricative) >> (b* or bx*) >> silence</boolean-expression>
       <parameter-profiles>
         <parameter name="microInt" transition="bLipClosure"/>
         <parameter name="glotVol" transition="bLipClosure"/>
@@ -6804,7 +6804,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
       </expression-symbols>
     </rule>
     <rule number="9">
-      <boolean-expression>((((vocoid or glide) or nasal) or stopped) or fricative) >> (b or bx) >> (((vocoid or nasal) or fricative) or glide)</boolean-expression>
+      <boolean-expression>((((vocoid or glide) or nasal) or stopped) or fricative) >> (b* or bx*) >> (((vocoid or nasal) or fricative) or glide)</boolean-expression>
       <parameter-profiles>
         <parameter name="microInt" transition="bLipClosure"/>
         <parameter name="glotVol" transition="bLipClosure"/>
@@ -6836,7 +6836,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
       </expression-symbols>
     </rule>
     <rule number="10">
-      <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence) >> (d or dx) >> silence</boolean-expression>
+      <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence) >> (d* or dx*) >> silence</boolean-expression>
       <parameter-profiles>
         <parameter name="microInt" transition="voicedStopClosure"/>
         <parameter name="glotVol" transition="voicedStopClosure"/>
@@ -6867,7 +6867,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
       </expression-symbols>
     </rule>
     <rule number="11">
-      <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence) >> (d or dx) >> ((r or rr) or (l or ll))</boolean-expression>
+      <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence) >> (d* or dx*) >> ((r* or rr*) or (l* or ll*))</boolean-expression>
       <parameter-profiles>
         <parameter name="microInt" transition="voicedStopClosure"/>
         <parameter name="glotVol" transition="voicedStopClosure"/>
@@ -6901,7 +6901,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
       </expression-symbols>
     </rule>
     <rule number="12">
-      <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence) >> (d or dx) >> ((((vocoid or nasal) or y) or w) or fricative)</boolean-expression>
+      <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence) >> (d* or dx*) >> ((((vocoid or nasal) or y*) or w*) or fricative)</boolean-expression>
       <parameter-profiles>
         <parameter name="microInt" transition="voicedStopClosure"/>
         <parameter name="glotVol" transition="voicedStopClosure"/>
@@ -6932,7 +6932,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
       </expression-symbols>
     </rule>
     <rule number="13">
-      <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence) >> g >> silence</boolean-expression>
+      <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence) >> g* >> silence</boolean-expression>
       <parameter-profiles>
         <parameter name="microInt" transition="voicedStopClosure"/>
         <parameter name="glotVol" transition="voicedStopClosure"/>
@@ -6963,7 +6963,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
       </expression-symbols>
     </rule>
     <rule number="14">
-      <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence) >> g >> (((vocoid or nasal) or glide) or fricative)</boolean-expression>
+      <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence) >> g* >> (((vocoid or nasal) or glide) or fricative)</boolean-expression>
       <parameter-profiles>
         <parameter name="microInt" transition="voicedStopClosure"/>
         <parameter name="glotVol" transition="voicedStopClosure"/>
@@ -6994,7 +6994,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
       </expression-symbols>
     </rule>
     <rule number="15">
-      <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence) >> (p or px) >> silence</boolean-expression>
+      <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence) >> (p* or px*) >> silence</boolean-expression>
       <parameter-profiles>
         <parameter name="microInt" transition="NullTriphone"/>
         <parameter name="glotVol" transition="lipClosure"/>
@@ -7027,7 +7027,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
       </expression-symbols>
     </rule>
     <rule number="16">
-      <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence) >> (p or px) >> (((r or rr) or l) or ll)</boolean-expression>
+      <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence) >> (p* or px*) >> (((r* or rr*) or l*) or ll*)</boolean-expression>
       <parameter-profiles>
         <parameter name="microInt" transition="NullTriphone"/>
         <parameter name="glotVol" transition="UVStopTolOrrGlotVol"/>
@@ -7060,7 +7060,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
       </expression-symbols>
     </rule>
     <rule number="17">
-      <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence) >> (p or px) >> ((((vocoid or nasal) or y) or w) or fricative)</boolean-expression>
+      <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence) >> (p* or px*) >> ((((vocoid or nasal) or y*) or w*) or fricative)</boolean-expression>
       <parameter-profiles>
         <parameter name="microInt" transition="NullTriphone"/>
         <parameter name="glotVol" transition="lipClosure"/>
@@ -7093,7 +7093,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
       </expression-symbols>
     </rule>
     <rule number="18">
-      <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence) >> (t or tx) >> silence</boolean-expression>
+      <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence) >> (t* or tx*) >> silence</boolean-expression>
       <parameter-profiles>
         <parameter name="microInt" transition="NullTriphone"/>
         <parameter name="glotVol" transition="unvoicedStopClosure"/>
@@ -7128,7 +7128,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
       </expression-symbols>
     </rule>
     <rule number="19">
-      <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence) >> (t or tx) >> (r or rr)</boolean-expression>
+      <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence) >> (t* or tx*) >> (r* or rr*)</boolean-expression>
       <parameter-profiles>
         <parameter name="microInt" transition="NullTriphone"/>
         <parameter name="glotVol" transition="UVStopTolOrrGlotVol"/>
@@ -7163,7 +7163,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
       </expression-symbols>
     </rule>
     <rule number="20">
-      <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence) >> (t or tx) >> (l or ll)</boolean-expression>
+      <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence) >> (t* or tx*) >> (l* or ll*)</boolean-expression>
       <parameter-profiles>
         <parameter name="microInt" transition="NullTriphone"/>
         <parameter name="glotVol" transition="UVStopTolOrrGlotVol"/>
@@ -7198,7 +7198,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
       </expression-symbols>
     </rule>
     <rule number="21">
-      <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence) >> (t or tx) >> ((((vocoid or nasal) or y) or w) or fricative)</boolean-expression>
+      <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence) >> (t* or tx*) >> ((((vocoid or nasal) or y*) or w*) or fricative)</boolean-expression>
       <parameter-profiles>
         <parameter name="microInt" transition="NullTriphone"/>
         <parameter name="glotVol" transition="unvoicedStopClosure"/>
@@ -7233,7 +7233,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
       </expression-symbols>
     </rule>
     <rule number="22">
-      <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence) >> (k or kx) >> (((r or rr) or l) or ll)</boolean-expression>
+      <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence) >> (k* or kx*) >> (((r* or rr*) or l*) or ll*)</boolean-expression>
       <parameter-profiles>
         <parameter name="microInt" transition="NullTriphone"/>
         <parameter name="glotVol" transition="UVStopTolOrrGlotVol"/>
@@ -7268,7 +7268,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
       </expression-symbols>
     </rule>
     <rule number="23">
-      <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence) >> (k or kx) >> silence</boolean-expression>
+      <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence) >> (k* or kx*) >> silence</boolean-expression>
       <parameter-profiles>
         <parameter name="microInt" transition="NullTriphone"/>
         <parameter name="glotVol" transition="unvoicedStopClosure"/>
@@ -7303,7 +7303,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
       </expression-symbols>
     </rule>
     <rule number="24">
-      <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence) >> (k or kx) >> ((((vocoid or nasal) or y) or w) or fricative)</boolean-expression>
+      <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence) >> (k* or kx*) >> ((((vocoid or nasal) or y*) or w*) or fricative)</boolean-expression>
       <parameter-profiles>
         <parameter name="microInt" transition="NullTriphone"/>
         <parameter name="glotVol" transition="unvoicedStopClosure"/>
@@ -7338,7 +7338,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
       </expression-symbols>
     </rule>
     <rule number="25">
-      <boolean-expression>((((vocoid or glide) or nasal) or fricative) or silence) >> (z or zh) >> silence</boolean-expression>
+      <boolean-expression>((((vocoid or glide) or nasal) or fricative) or silence) >> (z* or zh*) >> silence</boolean-expression>
       <comment>Note: this rtule must precede the rule for phone >> (s* or z*) >> phone so that devoicing final z gets handled correctly. </comment>
       <parameter-profiles>
         <parameter name="microInt" transition="voicedStopClosure"/>
@@ -7373,7 +7373,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
       </expression-symbols>
     </rule>
     <rule number="26">
-      <boolean-expression>((((vocoid or glide) or nasal) or fricative) or silence) >> (v or f) >> (((vocoid or glide) or nasal) or silence)</boolean-expression>
+      <boolean-expression>((((vocoid or glide) or nasal) or fricative) or silence) >> (v* or f*) >> (((vocoid or glide) or nasal) or silence)</boolean-expression>
       <comment>Note: This rule was split off from other fricatives because we get tongue radii co-articulation.  We did not split voiced and voicless because Len agreed we couldn't hear the difference.  Should maybe recombine other  voiced & unvoiced fricatives under one rule again.</comment>
       <parameter-profiles>
         <parameter name="microInt" transition="voicedStopClosure"/>
@@ -7409,7 +7409,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
       </expression-symbols>
     </rule>
     <rule number="27">
-      <boolean-expression>((((vocoid or glide) or nasal) or fricative) or silence) >> (dh or th) >> (((vocoid or glide) or nasal) or silence)</boolean-expression>
+      <boolean-expression>((((vocoid or glide) or nasal) or fricative) or silence) >> (dh* or th*) >> (((vocoid or glide) or nasal) or silence)</boolean-expression>
       <comment>Note: this rule must be preceded by the rule for phone >> z >> silence, so that devoicing inal z gets handled correctly.</comment>
       <parameter-profiles>
         <parameter name="microInt" transition="voicedStopClosure"/>
