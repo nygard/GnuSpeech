@@ -346,18 +346,22 @@
 - (IBAction)synthesizeWithSoftware:(id)sender;
 {
     NSLog(@" > %s", _cmd);
-    [self synthesizeToSoundFile:NO];
+    [synthesizer setShouldSaveToSoundFile:NO];
+    [self synthesize];
     NSLog(@"<  %s", _cmd);
 }
 
 - (IBAction)synthesizeToFile:(id)sender;
 {
     NSLog(@" > %s", _cmd);
-    [self synthesizeToSoundFile:YES];
+    [synthesizer setShouldSaveToSoundFile:YES];
+    [synthesizer setFileType:[[fileTypePopUpButton selectedItem] tag]];
+    [synthesizer setFilename:[filenameField stringValue]];
+    [self synthesize];
     NSLog(@"<  %s", _cmd);
 }
 
-- (void)synthesizeToSoundFile:(BOOL)shouldSaveToSoundFile;
+- (void)synthesize;
 {
     [self prepareForSynthesis];
 
@@ -367,13 +371,14 @@
     [eventList generateIntonationPoints];
     [intonationRuleTableView reloadData];
 
-    [self continueSynthesisToSoundFile:shouldSaveToSoundFile];
+    [self continueSynthesis];
 }
 
 - (IBAction)synthesizeWithContour:(id)sender;
 {
     [eventList clearIntonationEvents];
-    [self continueSynthesisToSoundFile:NO];
+    [synthesizer setShouldSaveToSoundFile:NO];
+    [self continueSynthesis];
 }
 
 - (void)prepareForSynthesis;
@@ -403,7 +408,7 @@
     [eventList setIntonationParameters:intonationParameters];
 }
 
-- (void)continueSynthesisToSoundFile:(BOOL)shouldSaveToSoundFile;
+- (void)continueSynthesis;
 {
     NSUserDefaults *defaults;
 
@@ -415,17 +420,14 @@
     [eventList printDataStructures:@"Before synthesis"];
     [eventTableView reloadData];
 
-    [synthesizer setupSynthesisParameters:[[self model] synthesisParameters]];
+    [synthesizer setupSynthesisParameters:[[self model] synthesisParameters]]; // TODO (2004-08-22): This may overwrite the file type...
     [synthesizer removeAllParameters];
 
     [eventList setDelegate:synthesizer];
     [eventList generateOutput];
     [eventList setDelegate:nil];
 
-    if (shouldSaveToSoundFile == YES)
-        [synthesizer synthesizeToSoundFile:[filenameField stringValue] type:[[fileTypePopUpButton selectedItem] tag]];
-    else
-        [synthesizer synthesize];
+    [synthesizer synthesize];
 
     [eventListView setEventList:eventList];
     [eventListView display]; // TODO (2004-03-17): It's not updating otherwise
@@ -576,7 +578,10 @@
 
     [[html dataUsingEncoding:NSUTF8StringEncoding] writeToFile:[basePath stringByAppendingPathComponent:@"index.html"] atomically:YES];
 
-    [synthesizer synthesizeToSoundFile:[basePath stringByAppendingPathComponent:@"output.au"] type:0];
+    [synthesizer setFileType:0];
+    [synthesizer setFilename:[basePath stringByAppendingPathComponent:@"output.au"]];
+    [synthesizer setShouldSaveToSoundFile:YES];
+    [synthesizer synthesize];
 
     [jpegProperties release];
 
