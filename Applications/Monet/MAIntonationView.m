@@ -165,13 +165,22 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
 - (float)minimumWidth;
 {
-    Event *lastEvent;
+    float minimumWidth;
 
-    if ([[eventList events] count] == 0)
-        return 0.0;
-    lastEvent = [[eventList events] lastObject];
+    if ([[eventList events] count] == 0) {
+        minimumWidth = 0.0;
+    } else {
+        Event *lastEvent;
+        lastEvent = [[eventList events] lastObject];
 
-    return [self scaleWidth:[lastEvent time]] + RIGHT_MARGIN;
+        minimumWidth = [self scaleWidth:[lastEvent time]] + RIGHT_MARGIN;
+    }
+
+    // Make sure that we at least show something.
+    if (minimumWidth < 50.0)
+        minimumWidth = 50.0;
+
+    return minimumWidth;
 }
 
 - (void)resizeWithOldSuperviewSize:(NSSize)oldSize;
