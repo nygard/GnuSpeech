@@ -235,7 +235,7 @@
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:1];
     for (i = 0; i < [eventList count]; i++) {
-        currentX = rint(80.0 + ((float)[[eventList objectAtIndex:i] time] / timeScale));
+        currentX = [self scaledX:[[eventList objectAtIndex:i] time]];
         if (currentX > bounds.size.width - 20.0)
             break;
 
@@ -271,7 +271,7 @@
         k = 0;
         for (j = 0; j < [eventList count]; j++) {
             currentEvent = [eventList objectAtIndex:j];
-            currentX = 80.0 + (float)([currentEvent time] / timeScale);
+            currentX = [self scaledX:[currentEvent time]];
             if (currentX > bounds.size.width - 20.0)
                 break;
             if ([currentEvent getValueAtIndex:parameterIndex] != NaN) {
@@ -313,12 +313,12 @@
         cellFrame.origin.x = 80.0 + currentX;
         cellFrame.origin.y = bounds.size.height - 25.0;
         cellFrame.size.height = 18.0;
-        cellFrame.size.width = floor((float)rule->duration / timeScale);
+        cellFrame.size.width = [self scaledWidth:rule->duration];
 
         [ruleCell setIntValue:rule->number];
         [ruleCell drawWithFrame:cellFrame inView:self];
 
-        currentX += floor((float)rule->duration / timeScale);
+        currentX += [self scaledWidth:rule->duration];
     }
 }
 
@@ -415,6 +415,16 @@
 {
     [self removeTrackingRect:trackTag];
     trackTag = [self addTrackingRect:[self bounds] owner:self userData:NULL assumeInside:NO];
+}
+
+- (float)scaledX:(float)x;
+{
+    return rint(80.0 + x / timeScale);
+}
+
+- (float)scaledWidth:(float)width;
+{
+    return floor(width / timeScale);
 }
 
 @end

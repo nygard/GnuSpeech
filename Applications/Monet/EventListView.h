@@ -65,4 +65,7 @@
 - (void)frameDidChange:(NSNotification *)aNotification;
 - (void)resetTrackingRect;
 
+- (float)scaledX:(float)x;
+- (float)scaledWidth:(float)width;
+
 @end
