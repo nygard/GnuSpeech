@@ -350,7 +350,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     NSMutableSet *names;
     int count, index;
     NSString *name, *basename;
-    BOOL isUnique;
+    BOOL isUsed;
 
     names = [[NSMutableSet alloc] init];
     count = [postures count];
@@ -362,26 +362,21 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
     index = 1;
     name = basename = [newPosture symbol];
-    isUnique = [names containsObject:name];
+    isUsed = [names containsObject:name];
+    NSLog(@"%s, name: %@, isUsed: %d", _cmd, name, isUsed);
 
-    if (isUnique == NO) {
+    if (isUsed == YES) {
         char ch1, ch2;
 
-        for (ch1 = 'A'; ch1 <= 'Z'; ch1++) {
+        for (ch1 = 'A'; isUsed == YES && ch1 <= 'Z'; ch1++) {
             name = [NSString stringWithFormat:@"%@%c", basename, ch1];
-            if ([names containsObject:name] == NO) {
-                isUnique = YES;
-                break;
-            }
+            isUsed = [names containsObject:name];
         }
 
-        for (ch1 = 'A'; isUnique == NO && ch1 <= 'Z'; ch1++) {
-            for (ch2 = 'A'; ch2 <= 'Z'; ch2++) {
+        for (ch1 = 'A'; isUsed == YES && ch1 <= 'Z'; ch1++) {
+            for (ch2 = 'A'; isUsed == YES && ch2 <= 'Z'; ch2++) {
                 name = [NSString stringWithFormat:@"%@%c%c", basename, ch1, ch2];
-                if ([names containsObject:name] == NO) {
-                    isUnique = YES;
-                    break;
-                }
+                isUsed = [names containsObject:name];
             }
         }
     }
