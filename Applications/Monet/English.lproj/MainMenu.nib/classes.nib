@@ -71,7 +71,11 @@
             SUPERCLASS = NSView; 
         }, 
         {
-            ACTIONS = {groupInSlopeRatio = id; }; 
+            ACTIONS = {
+                groupInSlopeRatio = id; 
+                openIntonationContour = id; 
+                saveIntonationContour = id; 
+            }; 
             CLASS = FirstResponder; 
             LANGUAGE = ObjC; 
             SUPERCLASS = NSObject; 

@@ -117,6 +117,9 @@ extern NSString *EventListDidChangeIntonationPoints;
     NSMutableArray *intonationPoints; // Sorted by absolute time
 
     id delegate;
+
+    // Hack for inflexible XML parsing.  I have plan to change how I parse XML.
+    int parseState;
 }
 
 - (id)init;
@@ -128,6 +131,7 @@ extern NSString *EventListDidChangeIntonationPoints;
 - (id)delegate;
 - (void)setDelegate:(id)newDelegate;
 
+- (NSString *)phoneString;
 - (void)_setPhoneString:(NSString *)newPhoneString;
 
 - (int)zeroRef;
@@ -240,5 +244,10 @@ extern NSString *EventListDidChangeIntonationPoints;
 
 // Archiving - XML
 - (BOOL)writeXMLToFile:(NSString *)aFilename comment:(NSString *)aComment;
+
+- (BOOL)loadIntonationContourFromXMLFile:(NSString *)filename;
+- (void)loadStoredPhoneString:(NSString *)aPhoneString;
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
+- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 
 @end

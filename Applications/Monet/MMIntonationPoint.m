@@ -6,6 +6,7 @@
 #import "NSString-Extensions.h"
 
 #import "EventList.h"
+#import "MXMLParser.h"
 
 #define MIDDLEC	261.6255653
 
@@ -166,11 +167,61 @@
     return NSOrderedSame;
 }
 
+//
+// XML - Archiving
+//
+
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 {
     [resultString indentToLevel:level];
     [resultString appendFormat:@"<intonation-point offset-time=\"%g\" semitone=\"%g\" slope=\"%g\" rule-index=\"%d\"/>\n",
                   offsetTime, semitone, slope, ruleIndex];
+}
+
+- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
+{
+    NSString *value;
+
+    if ([self init] == nil)
+        return nil;
+
+    value = [attributes objectForKey:@"offset-time"];
+    if (value != nil)
+        [self setOffsetTime:[value doubleValue]];
+
+    value = [attributes objectForKey:@"semitone"];
+    if (value != nil)
+        [self setSemitone:[value doubleValue]];
+
+    value = [attributes objectForKey:@"slope"];
+    if (value != nil)
+        [self setSlope:[value doubleValue]];
+
+    value = [attributes objectForKey:@"rule-index"];
+    if (value != nil)
+        [self setRuleIndex:[value intValue]];
+
+    return self;
+}
+
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
+{
+    [(MXMLParser *)parser skipTree];
+}
+
+- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
+{
+    [(MXMLParser *)parser popDelegate];
+}
+
+//
+// Debugging
+//
+
+- (NSString *)description;
+{
+    return [NSString stringWithFormat:@"<intonation-point offset-time=\"%g\" semitone=\"%g\" slope=\"%g\" rule-index=\"%d\"/>\n",
+                     offsetTime, semitone, slope, ruleIndex];
 }
 
 @end

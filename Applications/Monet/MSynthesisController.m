@@ -32,6 +32,7 @@
 
 #define MDK_GraphImagesDirectory @"GraphImagesDirectory"
 #define MDK_SoundOutputDirectory @"SoundOutputDirectory"
+#define MDK_IntonationContourDirectory @"IntonationContourDirectory"
 
 @implementation MSynthesisController
 
@@ -53,6 +54,7 @@
     [defaultValues setObject:defaultUtterances forKey:MDK_DefaultUtterances];
     [defaultValues setObject:[@"~/Desktop" stringByExpandingTildeInPath] forKey:MDK_GraphImagesDirectory];
     [defaultValues setObject:[@"~/Desktop" stringByExpandingTildeInPath] forKey:MDK_SoundOutputDirectory];
+    [defaultValues setObject:[@"~/Desktop" stringByExpandingTildeInPath] forKey:MDK_IntonationContourDirectory];
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaultValues];
     [defaultValues release];
 }
@@ -357,6 +359,25 @@
 
 - (void)synthesizeToSoundFile:(BOOL)shouldSaveToSoundFile;
 {
+    [self prepareForSynthesis];
+
+    [eventList parsePhoneString:[stringTextField stringValue]]; // This creates the tone groups, feet.
+    [eventList applyRhythm];
+    [eventList applyRules]; // This applies the rules, adding events to the EventList.
+    [eventList generateIntonationPoints];
+    [intonationRuleTableView reloadData];
+
+    [self continueSynthesisToSoundFile:shouldSaveToSoundFile];
+}
+
+- (IBAction)synthesizeWithContour:(id)sender;
+{
+    [eventList clearIntonationEvents];
+    [self continueSynthesisToSoundFile:NO];
+}
+
+- (void)prepareForSynthesis;
+{
     NSUserDefaults *defaults;
 
     defaults = [NSUserDefaults standardUserDefaults];
@@ -380,19 +401,6 @@
 
     [self _takeIntonationParametersFromUI];
     [eventList setIntonationParameters:intonationParameters];
-
-    [eventList parsePhoneString:[stringTextField stringValue]]; // This creates the tone groups, feet.
-    [eventList applyRhythm];
-    [eventList applyRules]; // This applies the rules, adding events to the EventList.
-    [eventList generateIntonationPoints];
-    [intonationRuleTableView reloadData];
-    [self continueSynthesisToSoundFile:shouldSaveToSoundFile];
-}
-
-- (IBAction)synthesizeWithContour:(id)sender;
-{
-    [eventList clearIntonationEvents];
-    [self continueSynthesisToSoundFile:NO];
 }
 
 - (void)continueSynthesisToSoundFile:(BOOL)shouldSaveToSoundFile;
@@ -456,11 +464,34 @@
     [savePanel beginSheetForDirectory:directory file:@"Untitled" modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(savePanelDidEnd:returnCode:contextInfo:) contextInfo:[self window]];
 }
 
+- (void)openPanelDidEnd:(NSOpenPanel *)openPanel returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+{
+    if (contextInfo == intonationWindow) {
+        if (returnCode == NSOKButton) {
+            [[NSUserDefaults standardUserDefaults] setObject:[openPanel directory] forKey:MDK_IntonationContourDirectory];
+
+            [self prepareForSynthesis];
+
+            [eventList loadIntonationContourFromXMLFile:[openPanel filename]];
+
+            [stringTextField setStringValue:[eventList phoneString]];
+            [intonationRuleTableView reloadData];
+        }
+    }
+}
+
 - (void)savePanelDidEnd:(NSSavePanel *)savePanel returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 {
-    if (returnCode == NSOKButton) {
-        [[NSUserDefaults standardUserDefaults] setObject:[savePanel directory] forKey:MDK_GraphImagesDirectory];
-        [self saveGraphImagesToPath:[savePanel filename]];
+    if (contextInfo == [self window]) {
+        if (returnCode == NSOKButton) {
+            [[NSUserDefaults standardUserDefaults] setObject:[savePanel directory] forKey:MDK_GraphImagesDirectory];
+            [self saveGraphImagesToPath:[savePanel filename]];
+        }
+    } else if (contextInfo == intonationWindow) {
+        if (returnCode == NSOKButton) {
+            [[NSUserDefaults standardUserDefaults] setObject:[savePanel directory] forKey:MDK_IntonationContourDirectory];
+            [eventList writeXMLToFile:[savePanel filename] comment:nil];
+        }
     }
 }
 
@@ -593,6 +624,30 @@
 - (IBAction)setBeatOffset:(id)sender;
 {
     [[self selectedIntonationPoint] setOffsetTime:[beatOffsetTextField doubleValue]];
+}
+
+- (IBAction)openIntonationContour:(id)sender;
+{
+    NSString *directory;
+    NSOpenPanel *openPanel;
+
+    directory = [[NSUserDefaults standardUserDefaults] objectForKey:MDK_IntonationContourDirectory];
+    openPanel = [NSOpenPanel openPanel];
+    [openPanel setRequiredFileType:@"contour"];
+
+    [openPanel beginSheetForDirectory:directory file:nil types:[NSArray arrayWithObject:@"contour"] modalForWindow:intonationWindow modalDelegate:self didEndSelector:@selector(openPanelDidEnd:returnCode:contextInfo:) contextInfo:intonationWindow];
+}
+
+- (IBAction)saveIntonationContour:(id)sender;
+{
+    NSString *directory;
+    NSSavePanel *savePanel;
+
+    directory = [[NSUserDefaults standardUserDefaults] objectForKey:MDK_IntonationContourDirectory];
+    savePanel = [NSSavePanel savePanel];
+    [savePanel setRequiredFileType:@"contour"];
+
+    [savePanel beginSheetForDirectory:directory file:@"Untitled" modalForWindow:intonationWindow modalDelegate:self didEndSelector:@selector(savePanelDidEnd:returnCode:contextInfo:) contextInfo:intonationWindow];
 }
 
 - (IBAction)runPageLayout:(id)sneder;

@@ -86,10 +86,12 @@
 - (void)synthesizeToSoundFile:(BOOL)shouldSaveToSoundFile;
 
 - (IBAction)synthesizeWithContour:(id)sender;
+- (void)prepareForSynthesis;
 - (void)continueSynthesisToSoundFile:(BOOL)shouldSaveToSoundFile;
 - (IBAction)generateContour:(id)sender;
 
 - (IBAction)generateGraphImages:(id)sender;
+- (void)openPanelDidEnd:(NSOpenPanel *)openPanel returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 - (void)savePanelDidEnd:(NSSavePanel *)savePanel returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 - (void)saveGraphImagesToPath:(NSString *)basePath;
 
@@ -101,6 +103,9 @@
 - (IBAction)setHertz:(id)sender;
 - (IBAction)setSlope:(id)sender;
 - (IBAction)setBeatOffset:(id)sender;
+
+- (IBAction)openIntonationContour:(id)sender;
+- (IBAction)saveIntonationContour:(id)sender;
 
 - (IBAction)runPageLayout:(id)sneder;
 - (IBAction)printDocument:(id)sender;

@@ -20,6 +20,9 @@
 #import "MMSlopeRatio.h"
 #import "MMTarget.h"
 #import "MMTransition.h"
+#import "MXMLParser.h"
+#import "MXMLArrayDelegate.h"
+#import "MXMLPCDataDelegate.h"
 #import "PhoneList.h"
 
 #import "TRMSynthesizer.h" // For addParameters:
@@ -87,7 +90,6 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
     // TODO (2004-08-19): Maybe it's better just to allocate a new one?  Or create it just before synthesis?
     [self setUp]; // So that we don't have stuff left over from the previous model, which can cause a crash.
-    [self removeAllIntonationPoints];
 
     [model release];
     model = [newModel retain];
@@ -107,6 +109,11 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
     [delegate release];
     delegate = [newDelegate retain];
+}
+
+- (NSString *)phoneString;
+{
+    return phoneString;
 }
 
 - (void)_setPhoneString:(NSString *)newPhoneString;
@@ -272,6 +279,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
 
     [events removeAllObjects];
+    [self removeAllIntonationPoints];
 
     zeroRef = 0;
     zeroIndex = 0;
@@ -1553,6 +1561,71 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     [resultString release];
 
     return result;
+}
+
+#define PARSE_STATE_INITIAL 0
+#define PARSE_STATE_ROOT 1
+
+- (BOOL)loadIntonationContourFromXMLFile:(NSString *)filename;
+{
+    NSURL *fileURL;
+    MXMLParser *parser;
+    BOOL result;
+
+    parseState = PARSE_STATE_INITIAL;
+
+    fileURL = [NSURL fileURLWithPath:filename];
+    parser = [[MXMLParser alloc] initWithContentsOfURL:fileURL];
+    [(MXMLParser *)parser setContext:self];
+    [parser pushDelegate:self];
+    [parser setShouldResolveExternalEntities:YES];
+    result = [parser parse];
+    if (result == NO) {
+        NSLog(@"Error: Failed to load file %@, (%@)", filename, [[parser parserError] localizedDescription]);
+        NSRunAlertPanel(@"Error", @"Failed to load file %@, (%@)", @"OK", nil, nil, filename, [[parser parserError] localizedDescription]);
+    }
+    [parser release];
+
+    return result;
+}
+
+- (void)loadStoredPhoneString:(NSString *)aPhoneString;
+{
+    [self parsePhoneString:aPhoneString];
+    [self applyRhythm];
+    [self applyRules];
+}
+
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
+{
+    if (parseState == PARSE_STATE_INITIAL) {
+        if ([elementName isEqualToString:@"intonation-contour"]) {
+            parseState = PARSE_STATE_ROOT;
+        }
+    } else if (parseState == PARSE_STATE_ROOT) {
+        if ([elementName isEqualToString:@"utterance"]) {
+            MXMLPCDataDelegate *newDelegate;
+
+            newDelegate = [[MXMLPCDataDelegate alloc] initWithElementName:elementName delegate:self setSelector:@selector(loadStoredPhoneString:)];
+            [(MXMLParser *)parser pushDelegate:newDelegate];
+            [newDelegate release];
+        } else if([elementName isEqualToString:@"intonation-points"]) {
+            MXMLArrayDelegate *newDelegate;
+
+            // TODO (2004-08-21): Perhaps not the most efficient, since a notification will go out each time an intonation point is added.  But good enough for now.
+            newDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"intonation-point" class:[MMIntonationPoint class] delegate:self addObjectSelector:@selector(addIntonationPoint:)];
+            [(MXMLParser *)parser pushDelegate:newDelegate];
+            [newDelegate release];
+        } else {
+            NSLog(@"starting unknown element: '%@'", elementName);
+            [(MXMLParser *)parser skipTree];
+        }
+    }
+}
+
+- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
+{
+    parseState = PARSE_STATE_INITIAL;
 }
 
 @end
