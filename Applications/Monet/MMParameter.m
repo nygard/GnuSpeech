@@ -7,6 +7,10 @@
 #import "GSXMLFunctions.h"
 #import "MModel.h"
 
+#import "MXMLParser.h"
+#import "MXMLIgnoreTreeDelegate.h"
+#import "MXMLPCDataDelegate.h"
+
 #define DEFAULT_MIN 100.0
 #define DEFAULT_MAX 1000.0
 
@@ -160,6 +164,56 @@
         [resultString indentToLevel:level];
         [resultString appendString:@"</parameter>\n"];
     }
+}
+
+- (id)initWithXMLAttributes:(NSDictionary *)attributes;
+{
+    id value;
+
+    if ([self init] == nil)
+        return nil;
+
+    [self setSymbol:[attributes objectForKey:@"name"]];
+
+    value = [attributes objectForKey:@"minimum"];
+    if (value != nil)
+        [self setMinimumValue:[value doubleValue]];
+
+    value = [attributes objectForKey:@"maximum"];
+    if (value != nil)
+        [self setMaximumValue:[value doubleValue]];
+
+    value = [attributes objectForKey:@"default"];
+    if (value != nil)
+        [self setDefaultValue:[value doubleValue]];
+
+    return self;
+}
+
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
+{
+    if ([elementName isEqualToString:@"comment"]) {
+        MXMLPCDataDelegate *newDelegate;
+
+        newDelegate = [[MXMLPCDataDelegate alloc] initWithElementName:elementName delegate:self setSelector:@selector(setComment:)];
+        [(MXMLParser *)parser pushDelegate:newDelegate];
+        [newDelegate release];
+    } else {
+        MXMLIgnoreTreeDelegate *newDelegate;
+
+        NSLog(@"%@, Unknown element: '%@', skipping", [self shortDescription], elementName);
+        newDelegate = [[MXMLIgnoreTreeDelegate alloc] init];
+        [(MXMLParser *)parser pushDelegate:newDelegate];
+        [newDelegate release];
+    }
+}
+
+- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
+{
+    if ([elementName isEqualToString:@"parameter"])
+        [(MXMLParser *)parser popDelegate];
+    else
+        [NSException raise:@"Unknown close tag" format:@"Unknown closing tag (%@) in %@", elementName, NSStringFromClass([self class])];
 }
 
 @end

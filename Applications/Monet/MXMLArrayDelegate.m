@@ -13,7 +13,7 @@
     if ([super init] == nil)
         return nil;
 
-    elementName = [anElementName retain];
+    childElementName = [anElementName retain];
     objectClass = aClass;
     delegate = [aDelegate retain];
     addObjectSelector = aSelector;
@@ -23,7 +23,7 @@
 
 - (void)dealloc;
 {
-    [elementName release];
+    [childElementName release];
     [delegate release];
 
     [super dealloc];
@@ -31,7 +31,7 @@
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)anElementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
 {
-    if ([anElementName isEqualToString:elementName]) {
+    if ([anElementName isEqualToString:childElementName]) {
         id newObject;
 
         newObject = [[objectClass alloc] initWithXMLAttributes:attributeDict];
@@ -42,17 +42,15 @@
         [(MXMLParser *)parser pushDelegate:newObject];
         [newObject release];
     } else {
-        NSLog(@"MXMLArrayDelegate: skipping element: %@", elementName);
+        NSLog(@"MXMLArrayDelegate: skipping element: %@", anElementName);
         [(MXMLParser *)parser skipTree];
     }
 }
 
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)anElementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 {
-    if ([anElementName isEqualToString:elementName]) {
-    } else {
-        NSLog(@"MXMLArrayDelegate, unexpected closing tag: %@", elementName);
-    }
+    NSLog(@"closing array element: '%@', popping delegate", anElementName);
+    [(MXMLParser *)parser popDelegate];
 }
 
 @end

@@ -1,5 +1,5 @@
 //
-// $Id: MXMLArrayDelegate.h,v 1.2 2004/04/22 19:00:18 nygard Exp $
+// $Id: MXMLArrayDelegate.h,v 1.3 2004/04/22 19:17:21 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -9,7 +9,7 @@
 
 @interface MXMLArrayDelegate : NSObject
 {
-    NSString *elementName;
+    NSString *childElementName;
     Class objectClass;
     id delegate;
     SEL addObjectSelector;

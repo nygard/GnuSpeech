@@ -1449,8 +1449,19 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"category" class:[MMCategory class] delegate:self addObjectSelector:@selector(addCategory:)];
         [(MXMLParser *)parser pushDelegate:arrayDelegate];
         [arrayDelegate release];
-#if 0
     } else if ([elementName isEqualToString:@"parameters"]) {
+        MXMLArrayDelegate *arrayDelegate;
+
+        arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"parameter" class:[MMParameter class] delegate:self addObjectSelector:@selector(addParameter:)];
+        [(MXMLParser *)parser pushDelegate:arrayDelegate];
+        [arrayDelegate release];
+    } else if ([elementName isEqualToString:@"meta-parameters"]) {
+        MXMLArrayDelegate *arrayDelegate;
+
+        arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"parameter" class:[MMParameter class] delegate:self addObjectSelector:@selector(addMetaParameter:)];
+        [(MXMLParser *)parser pushDelegate:arrayDelegate];
+        [arrayDelegate release];
+#if 0
     } else if ([elementName isEqualToString:@"symbols"]) {
     } else if ([elementName isEqualToString:@"postures"]) {
     } else if ([elementName isEqualToString:@"equations"]) {
@@ -1460,6 +1471,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 #endif
     } else {
         NSLog(@"starting unknown element: '%@'", elementName);
+        [(MXMLParser *)parser skipTree];
     }
 }
 
