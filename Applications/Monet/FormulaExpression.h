@@ -49,6 +49,7 @@
 - (int)maxExpressionLevels;
 - (int)maxPhone;
 
+- (NSString *)expressionString;
 - (void)expressionString:(NSMutableString *)resultString;
 
 // Archiving
