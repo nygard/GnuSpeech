@@ -153,3 +153,6 @@ Notes:
 
 2004-04-01:
 - Replace parameter array with structure for FormulaExpression's -evaluate: method.
+
+2004-04-02:
+- Changing selection in Special Transition Editor doesn't update details.
