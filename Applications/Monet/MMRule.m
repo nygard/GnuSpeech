@@ -29,8 +29,8 @@
         return nil;
 
     /* Alloc lists to point to prototype transition specifiers */
-    parameterProfiles = [[MonetList alloc] init];
-    metaParameterProfiles = [[MonetList alloc] init];
+    parameterTransitions = [[MonetList alloc] init];
+    metaParameterTransitions = [[MonetList alloc] init];
 
     /* Set up list for Expression symbols */
     expressionSymbols = [[NSMutableArray alloc] init];
@@ -48,8 +48,8 @@
 {
     int index;
 
-    [parameterProfiles release];
-    [metaParameterProfiles release];
+    [parameterTransitions release];
+    [metaParameterTransitions release];
     [expressionSymbols release];
 
     for (index = 0 ; index < 4; index++)
@@ -70,8 +70,8 @@
     int i;
 
     /* Empty out the lists */
-    [parameterProfiles removeAllObjects];
-    [metaParameterProfiles removeAllObjects];
+    [parameterTransitions removeAllObjects];
+    [metaParameterTransitions removeAllObjects];
     [expressionSymbols removeAllObjects];
 
     if ((numPhones < 2) || (numPhones > 4))
@@ -95,13 +95,13 @@
 
     aParameterList = [[self model] parameters];
     for (i = 0; i < [aParameterList count]; i++) {
-        [parameterProfiles addObject:tempEntry];
+        [parameterTransitions addObject:tempEntry];
     }
 
     /* Alloc lists to point to prototype transition specifiers */
     aParameterList = [[self model] metaParameters];
     for (i = 0; i < [aParameterList count]; i++) {
-        [metaParameterProfiles addObject:tempEntry];
+        [metaParameterTransitions addObject:tempEntry];
     }
 
     switch (numPhones) {
@@ -181,7 +181,7 @@
     }
 
     if (aTransition != nil)
-        [parameterProfiles addObject:aTransition];
+        [parameterTransitions addObject:aTransition];
 }
 
 // Warning (building for 10.2 deployment) (2004-04-02): tempEntry might be used uninitialized in this function
@@ -202,25 +202,25 @@
     }
 
     if (aTransition != nil)
-        [metaParameterProfiles addObject:aTransition];
+        [metaParameterTransitions addObject:aTransition];
 }
 
 - (void)removeParameterAtIndex:(int)index;
 {
-    [parameterProfiles removeObjectAtIndex:index];
+    [parameterTransitions removeObjectAtIndex:index];
 }
 
 - (void)removeMetaParameterAtIndex:(int)index;
 {
-    [metaParameterProfiles removeObjectAtIndex:index];
+    [metaParameterTransitions removeObjectAtIndex:index];
 }
 
-- (void)addStoredParameterProfile:(MMTransition *)aTransition;
+- (void)addStoredParameterTransition:(MMTransition *)aTransition;
 {
-    [parameterProfiles addObject:aTransition];
+    [parameterTransitions addObject:aTransition];
 }
 
-- (void)addParameterProfilesFromReferenceDictionary:(NSDictionary *)dict;
+- (void)addParameterTransitionsFromReferenceDictionary:(NSDictionary *)dict;
 {
     NSArray *parameters;
     unsigned int count, index;
@@ -239,17 +239,17 @@
         if (transition == nil) {
             NSLog(@"Error: Can't find transition named: %@", name);
         } else {
-            [self addStoredParameterProfile:transition];
+            [self addStoredParameterTransition:transition];
         }
     }
 }
 
-- (void)addStoredMetaParameterProfile:(MMTransition *)aTransition;
+- (void)addStoredMetaParameterTransition:(MMTransition *)aTransition;
 {
-    [metaParameterProfiles addObject:aTransition];
+    [metaParameterTransitions addObject:aTransition];
 }
 
-- (void)addMetaParameterProfilesFromReferenceDictionary:(NSDictionary *)dict;
+- (void)addMetaParameterTransitionsFromReferenceDictionary:(NSDictionary *)dict;
 {
     NSArray *parameters;
     unsigned int count, index;
@@ -268,7 +268,7 @@
         if (transition == nil) {
             NSLog(@"Error: Can't find transition named: %@", name);
         } else {
-            [self addStoredMetaParameterProfile:transition];
+            [self addStoredMetaParameterTransition:transition];
         }
     }
 }
@@ -466,12 +466,12 @@
 
 - (MonetList *)parameterList;
 {
-    return parameterProfiles;
+    return parameterTransitions;
 }
 
 - (MonetList *)metaParameterList;
 {
-    return metaParameterProfiles;
+    return metaParameterTransitions;
 }
 
 - (NSMutableArray *)symbols;
@@ -520,9 +520,9 @@
 {
     int index;
 
-    if ([parameterProfiles indexOfObject:aTransition] != NSNotFound)
+    if ([parameterTransitions indexOfObject:aTransition] != NSNotFound)
         return YES;
-    if ([metaParameterProfiles indexOfObject:aTransition] != NSNotFound)
+    if ([metaParameterTransitions indexOfObject:aTransition] != NSNotFound)
         return YES;
 
     for (index = 0; index < 16; index++) {
@@ -552,8 +552,8 @@
     archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
     //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
 
-    parameterProfiles = [[MonetList alloc] init];
-    metaParameterProfiles = [[MonetList alloc] init];
+    parameterTransitions = [[MonetList alloc] init];
+    metaParameterTransitions = [[MonetList alloc] init];
     expressionSymbols = [[NSMutableArray alloc] init];
 
     [aDecoder decodeValuesOfObjCTypes:"i*", &j, &c_comment];
@@ -569,8 +569,8 @@
 
     // TODO (2004-03-05): These removeAllObjects: calls should be redundant.
     [expressionSymbols removeAllObjects];
-    [parameterProfiles removeAllObjects];
-    [metaParameterProfiles removeAllObjects];
+    [parameterTransitions removeAllObjects];
+    [metaParameterTransitions removeAllObjects];
 
     [aDecoder decodeValuesOfObjCTypes:"iii", &symbolCount, &parameterCount, &metaParmaterCount];
     //NSLog(@"symbolCount: %d, parameterCount: %d, metaParmaterCount: %d", symbolCount, parameterCount, metaParmaterCount);
@@ -586,13 +586,13 @@
         [aDecoder decodeValuesOfObjCTypes:"ii", &j, &k];
         //NSLog(@"j: %d, k: %d", j, k);
         tempParameter = [model findTransition:j andIndex:k];
-        [parameterProfiles addObject:tempParameter];
+        [parameterTransitions addObject:tempParameter];
     }
 
     for (index = 0; index < metaParmaterCount; index++) {
         [aDecoder decodeValuesOfObjCTypes:"ii", &j, &k];
         //NSLog(@"j: %d, k: %d", j, k);
-        [metaParameterProfiles addObject:[model findTransition:j andIndex:k]];
+        [metaParameterTransitions addObject:[model findTransition:j andIndex:k]];
     }
 
     for (index = 0; index <  16; index++) {
@@ -638,8 +638,8 @@
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@>[%p]: parameterProfiles: %@, metaParameterProfiles: %@, expressionSymbols(%d): %@, comment: %@, e1: %@, e2: %@, e3: %@, e4: %@",
-                     NSStringFromClass([self class]), self, parameterProfiles, metaParameterProfiles, [expressionSymbols count], expressionSymbols,
+    return [NSString stringWithFormat:@"<%@>[%p]: parameterTransitions: %@, metaParameterTransitions: %@, expressionSymbols(%d): %@, comment: %@, e1: %@, e2: %@, e3: %@, e4: %@",
+                     NSStringFromClass([self class]), self, parameterTransitions, metaParameterTransitions, [expressionSymbols count], expressionSymbols,
                      comment, [expressions[0] expressionString], [expressions[1] expressionString], [expressions[2] expressionString],
                      [expressions[3] expressionString]];
 }
@@ -672,8 +672,8 @@
         [resultString appendFormat:@"<comment>%@</comment>\n", GSXMLCharacterData(comment)];
     }
 
-    [self _appendXMLForParameterProfilesToString:resultString level:level + 1];
-    [self _appendXMLForMetaParameterProfilesToString:resultString level:level + 1];
+    [self _appendXMLForParameterTransitionsToString:resultString level:level + 1];
+    [self _appendXMLForMetaParameterTransitionsToString:resultString level:level + 1];
     [self _appendXMLForSpecialProfilesToString:resultString level:level + 1];
     [self _appendXMLForExpressionSymbolsToString:resultString level:level + 1];
 
@@ -681,15 +681,15 @@
     [resultString appendFormat:@"</rule>\n"];
 }
 
-- (void)_appendXMLForParameterProfilesToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForParameterTransitionsToString:(NSMutableString *)resultString level:(int)level;
 {
     NSArray *mainParameterList;
     int count, index;
 
     mainParameterList = [[self model] parameters];
-    assert([mainParameterList count] == [parameterProfiles count]);
+    assert([mainParameterList count] == [parameterTransitions count]);
 
-    if ([parameterProfiles count] == 0)
+    if ([parameterTransitions count] == 0)
         return;
 
     [resultString indentToLevel:level];
@@ -701,7 +701,7 @@
         MMTransition *aTransition;
 
         aParameter = [mainParameterList objectAtIndex:index];
-        aTransition = [parameterProfiles objectAtIndex:index];
+        aTransition = [parameterTransitions objectAtIndex:index];
 
         [resultString indentToLevel:level + 1];
         [resultString appendFormat:@"<parameter-transition name=\"%@\" transition=\"%@\"/>\n",
@@ -712,15 +712,15 @@
     [resultString appendString:@"</parameter-profiles>\n"];
 }
 
-- (void)_appendXMLForMetaParameterProfilesToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForMetaParameterTransitionsToString:(NSMutableString *)resultString level:(int)level;
 {
     NSArray *mainMetaParameterList;
     int count, index;
 
     mainMetaParameterList = [[self model] metaParameters];
-    assert([mainMetaParameterList count] == [metaParameterProfiles count]);
+    assert([mainMetaParameterList count] == [metaParameterTransitions count]);
 
-    if ([metaParameterProfiles count] == 0)
+    if ([metaParameterTransitions count] == 0)
         return;
 
     [resultString indentToLevel:level];
@@ -732,7 +732,7 @@
         MMTransition *aTransition;
 
         aParameter = [mainMetaParameterList objectAtIndex:index];
-        aTransition = [metaParameterProfiles objectAtIndex:index];
+        aTransition = [metaParameterTransitions objectAtIndex:index];
 
         [resultString indentToLevel:level + 1];
         [resultString appendFormat:@"<parameter-transition name=\"%@\" transition=\"%@\"/>\n",
@@ -862,14 +862,14 @@
         MXMLReferenceDictionaryDelegate *newDelegate;
 
         newDelegate = [[MXMLReferenceDictionaryDelegate alloc] initWithChildElementName:@"parameter-transition" keyAttributeName:@"name" referenceAttributeName:@"transition"
-                                                               delegate:self addObjectsSelector:@selector(addParameterProfilesFromReferenceDictionary:)];
+                                                               delegate:self addObjectsSelector:@selector(addParameterTransitionsFromReferenceDictionary:)];
         [(MXMLParser *)parser pushDelegate:newDelegate];
         [newDelegate release];
     } else if ([elementName isEqualToString:@"meta-parameter-profiles"]) {
         MXMLReferenceDictionaryDelegate *newDelegate;
 
         newDelegate = [[MXMLReferenceDictionaryDelegate alloc] initWithChildElementName:@"parameter-transition" keyAttributeName:@"name" referenceAttributeName:@"transition"
-                                                               delegate:self addObjectsSelector:@selector(addMetaParameterProfilesFromReferenceDictionary:)];
+                                                               delegate:self addObjectsSelector:@selector(addMetaParameterTransitionsFromReferenceDictionary:)];
         [(MXMLParser *)parser pushDelegate:newDelegate];
         [newDelegate release];
     } else if ([elementName isEqualToString:@"special-profiles"]) {

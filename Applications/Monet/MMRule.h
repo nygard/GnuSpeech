@@ -15,8 +15,8 @@
 
 @interface MMRule : MMObject
 {
-    MonetList *parameterProfiles; // Of MMTransitions
-    MonetList *metaParameterProfiles; // Of MMTransitions?
+    MonetList *parameterTransitions; // Of MMTransitions
+    MonetList *metaParameterTransitions; // Of MMTransitions?
     NSMutableArray *expressionSymbols; // Of MMEquations
 
     MMTransition *specialProfiles[16]; // TODO (2004-05-16): We should be able to use an NSMutableDictionary here.
@@ -34,16 +34,18 @@
 - (void)removeParameterAtIndex:(int)index;
 - (void)removeMetaParameterAtIndex:(int)index;
 
-- (void)addStoredParameterProfile:(MMTransition *)aTransition;
-- (void)addParameterProfilesFromReferenceDictionary:(NSDictionary *)dict;
 
-- (void)addStoredMetaParameterProfile:(MMTransition *)aTransition;
-- (void)addMetaParameterProfilesFromReferenceDictionary:(NSDictionary *)dict;
+- (void)addStoredParameterTransition:(MMTransition *)aTransition;
+- (void)addParameterTransitionsFromReferenceDictionary:(NSDictionary *)dict;
+
+- (void)addStoredMetaParameterTransition:(MMTransition *)aTransition;
+- (void)addMetaParameterTransitionsFromReferenceDictionary:(NSDictionary *)dict;
 
 - (void)addSpecialProfilesFromReferenceDictionary:(NSDictionary *)dict;
 
 - (void)addStoredExpressionSymbol:(MMEquation *)anEquation;
 - (void)addExpressionSymbolsFromReferenceDictionary:(NSDictionary *)dict;
+
 
 - (void)setExpression:(MMBooleanNode *)newExpression number:(int)index;
 - (int)numberExpressions;
@@ -79,8 +81,8 @@
 - (NSString *)description;
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
-- (void)_appendXMLForParameterProfilesToString:(NSMutableString *)resultString level:(int)level;
-- (void)_appendXMLForMetaParameterProfilesToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForParameterTransitionsToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForMetaParameterTransitionsToString:(NSMutableString *)resultString level:(int)level;
 - (void)_appendXMLForSpecialProfilesToString:(NSMutableString *)resultString level:(int)level;
 - (void)_appendXMLForExpressionSymbolsToString:(NSMutableString *)resultString level:(int)level;
 
