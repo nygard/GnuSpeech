@@ -216,7 +216,34 @@ static NSDictionary *_specialAcronyms = nil;
         }
     }
 
-    // TODO (2004-04-29): And some more stuff....
+    // TODO (2004-04-30): We could preprocess the dictionary to do these transformations on the pronunciations.
+    {
+        NSScanner *scanner;
+
+        scanner = [[NSScanner alloc] initWithString:pronunciation];
+        // TODO (2004-04-30): I'm assuming there are no spaces in the pronunciation.
+
+        while ([scanner isAtEnd] == NO) {
+            if ([scanner scanString:@"'" intoString:NULL] == YES) {
+                [resultString appendString:TTS_FOOT_BEGIN];
+                lastPhoneme = nil;
+            } else if ([scanner scanString:@"\"" intoString:NULL] == YES) {
+                [resultString appendString:TTS_SECONDARY_STRESS];
+                lastPhoneme = nil;
+            } else if ([scanner scanString:@"_" intoString:NULL] == YES) {
+                [resultString appendString:@"_"];
+                lastPhoneme = nil;
+            } else if ([scanner scanString:@"." intoString:NULL] == YES) {
+                [resultString appendString:@"."];
+                lastPhoneme = nil;
+            } else if ([scanner scanCharactersFromSet:[NSCharacterSet letterCharacterSet] intoString:&lastPhoneme] == YES) {
+                [resultString appendString:lastPhoneme];
+            }
+        }
+
+        [scanner release];
+    }
+    //[resultString appendString:pronunciation];
 
     if (isPossessive == YES) {
         if ([lastPhoneme isEqualToString:@"f"]
