@@ -80,16 +80,22 @@
     }
 }
 
+// 2004-03-20: This assumes that the last parameter is the one we need.
 - (void)addParameter;
 {
-    int i;
+    unsigned int count, index;
     double value;
-    id temp;
+    TargetList *aTargetList;
 
     value = [[NXGetNamedObject(@"mainParameterList", NSApp) lastObject] defaultValue];
-    for (i = 0; i < [self count]; i++) {
-        temp = [[self objectAtIndex:i] parameterList];
-        [temp addDefaultTargetWithValue:value];
+    count = [self count];
+    for (index = 0; index < count; index++) {
+        MMTarget *newTarget;
+
+        aTargetList = [[self objectAtIndex:index] parameterList];
+        newTarget = [[MMTarget alloc] initWithValue:value isDefault:YES];
+        [aTargetList addObject:newTarget];
+        [newTarget release];
     }
 }
 
@@ -106,14 +112,19 @@
 
 - (void)addMetaParameter;
 {
-    int i;
+    unsigned int count, index;
     double value;
-    id temp;
+    TargetList *aTargetList;
 
     value = [[NXGetNamedObject(@"mainMetaParameterList", NSApp) lastObject] defaultValue];
-    for (i = 0; i < [self count]; i++) {
-        temp = [[self objectAtIndex:i] metaParameterList];
-        [temp addDefaultTargetWithValue:value];
+    count = [self count];
+    for (index = 0; index < count; index++) {
+        MMTarget *newTarget;
+
+        aTargetList = [[self objectAtIndex:index] metaParameterList];
+        newTarget = [[MMTarget alloc] initWithValue:value isDefault:YES];
+        [aTargetList addObject:newTarget];
+        [newTarget release];
     }
 }
 
@@ -130,12 +141,18 @@
 
 - (void)addSymbol;
 {
-    int i;
-    id temp;
+    unsigned int count, index;
+    TargetList *aTargetList;
 
-    for (i = 0; i < [self count]; i++) {
-        temp = [[self objectAtIndex:i] symbolList];
-        [temp addDefaultTargetWithValue:(double)0.0];
+    // TODO (2004-03-20): The original code didn't take the default value from the main symbol list.
+    count = [self count];
+    for (index = 0; index < count; index++) {
+        MMTarget *newTarget;
+
+        aTargetList = [[self objectAtIndex:index] symbolList];
+        newTarget = [[MMTarget alloc] initWithValue:0 isDefault:YES];
+        [aTargetList addObject:newTarget];
+        [newTarget release];
     }
 }
 

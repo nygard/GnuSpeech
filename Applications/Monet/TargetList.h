@@ -13,6 +13,4 @@
 {
 }
 
-- (void)addDefaultTargetWithValue:(double)newValue;
-
 @end

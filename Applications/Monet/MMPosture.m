@@ -276,6 +276,10 @@
 
     categoryList = [[CategoryList alloc] initWithCapacity:count];
 
+    nativeCategory = [[MMCategory alloc] initWithSymbol:[self symbol]];
+    [nativeCategory setIsNative:YES];
+    [categoryList addObject:nativeCategory];
+
     for (index = 0; index < count; index++) {
         NSString *str;
 

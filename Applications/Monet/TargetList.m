@@ -16,13 +16,4 @@
 
 @implementation TargetList
 
-- (void)addDefaultTargetWithValue:(double)newValue;
-{
-    MMTarget *newTarget;
-
-    newTarget = [[MMTarget alloc] initWithValue:newValue isDefault:YES];
-    [self addObject:newTarget];
-    [newTarget release];
-}
-
 @end
