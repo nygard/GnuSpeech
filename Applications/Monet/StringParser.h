@@ -14,11 +14,9 @@
 
 @interface StringParser : NSObject
 {
-    //int stringIndex;
     int cache;
-    //NSString *parseString;
+
     EventList *eventList;
-    MonetList *categoryList;
     PhoneList *phoneList;
 
     IBOutlet IntonationScrollView *intonationSystem;
