@@ -71,7 +71,9 @@ def main(argv=None):
             _main(argv)
       except Usage, err:
             print >>sys.stderr, err.msg
-            print >>sys.stderr, "for help use --help"
+#            print >>sys.stderr, "for help use --help"
+            print >>sys.stderr
+            usage()
             return 2
 
 def _main(argv=None):
@@ -95,7 +97,10 @@ def _main(argv=None):
             if o == "-v":
                   verbose = True
 
-      f = open('2.0eMainDictionary', 'r')
+      if len(args) < 1:
+            raise Usage('Error: Must specify filename')
+
+      f = open(args[0], 'r')
 
       copyright = f.readline();
       if clean or verbose:
