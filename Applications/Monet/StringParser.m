@@ -38,6 +38,8 @@
 {
     DefaultMgr *defaultManager;
 
+    NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
+
     defaultManager = NXGetNamedObject(@"defaultManager", NSApp);
 
     [masterVolume setDoubleValue:[defaultManager masterVolume]];
@@ -73,6 +75,8 @@
         [waveform selectCellAtRow:0 column:0];
     else
         [waveform selectCellAtRow:0 column:1];
+
+    NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }
 
 - (void)saveDefaults:(id)sender;

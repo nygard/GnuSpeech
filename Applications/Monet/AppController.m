@@ -29,7 +29,7 @@
 #ifdef HAVE_DSP
     initialize_synthesizer_module();
 #endif
-    initStringParser();
+    //initStringParser();
 
     namedObjects = [[NSMutableDictionary alloc] init];
 
@@ -136,7 +136,7 @@
     [eventListView applicationDidFinishLaunching:aNotification]; // not connected yet
     [intonationView applicationDidFinishLaunching:aNotification]; // not connected yet
 
-    [stringParser applicationDidFinishLaunching:aNotification]; // not connected yet
+    [stringParser applicationDidFinishLaunching:aNotification];
 
     [transitionWindow setFrameAutosaveName:@"TransitionWindow"];
     [ruleManagerWindow setFrameAutosaveName:@"RuleManagerWindow"];
