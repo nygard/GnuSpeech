@@ -81,19 +81,15 @@
           break;
 
       case AND_OP:
-          if (![[self operandOne] evaluateWithCategories:categories])
-              return NO;
-          return [[self operandTwo] evaluateWithCategories:categories];
+          return [[self operandOne] evaluateWithCategories:categories] && [[self operandTwo] evaluateWithCategories:categories];
           break;
 
       case OR_OP:
-          if ([[self operandOne] evaluateWithCategories:categories])
-              return YES;
-          return [[self operandTwo] evaluateWithCategories:categories];
+          return [[self operandOne] evaluateWithCategories:categories] || [[self operandTwo] evaluateWithCategories:categories];
           break;
 
       case XOR_OP:
-          return ([[self operandOne] evaluateWithCategories:categories] ^ [[self operandTwo] evaluateWithCategories:categories]);
+          return [[self operandOne] evaluateWithCategories:categories] ^ [[self operandTwo] evaluateWithCategories:categories];
           break;
 
       default:
