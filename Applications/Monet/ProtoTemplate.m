@@ -110,6 +110,7 @@
                 return self;
             } else	/* Insert point into Slope Ratio */
                 if (pointTime < [temp endTime]) {
+                    // TODO (2004-03-12): Move this out of the model.
                     if (NSRunAlertPanel(@"Insert Point", @"Insert Point into Slope Ratio?", @"Yes", @"Cancel", nil) == NSAlertDefaultReturn) {
                         temp1 = [temp points];
                         for (j = 1; j < [temp1 count]; j++) {
