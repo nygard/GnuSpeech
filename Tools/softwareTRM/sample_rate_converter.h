@@ -36,7 +36,7 @@ typedef struct _TRMSampleRateConverter {
 //TRMSampleRateConverter *TRMSampleRateConverterCreate();
 //void TRMSampleRateConverterFree(TRMSampleRateConverter *converter);
 
-//void initializeConversion(TRMTubeModel *tubeModel, struct _TRMInputParameters *inputParameters);
+void initializeConversion(TRMSampleRateConverter *sampleRateConverter, double sampleRate, double outputRate);
 //void initializeFilter(TRMSampleRateConverter *sampleRateConverter);
 //void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context);
 

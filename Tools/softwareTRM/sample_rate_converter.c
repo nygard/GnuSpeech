@@ -15,7 +15,6 @@
 #define mValue(x)                 ((x) & M_MASK)
 #define fractionValue(x)          ((x) & FRACTION_MASK)
 
-void initializeConversion(TRMTubeModel *tubeModel, struct _TRMInputParameters *inputParameters);
 void initializeFilter(TRMSampleRateConverter *sampleRateConverter);
 void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context);
 
@@ -27,50 +26,48 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context);
 *
 ******************************************************************************/
 
-// tubeModel->sampleRate, tubeModel->ringBuffer (created), 
-
-void initializeConversion(TRMTubeModel *tubeModel, struct _TRMInputParameters *inputParameters)
+void initializeConversion(TRMSampleRateConverter *sampleRateConverter, double sampleRate, double outputRate)
 {
     double roundedSampleRateRatio;
     int padSize;
 
-    tubeModel->sampleRateConverter.timeRegister = 0;
-    tubeModel->sampleRateConverter.maximumSampleValue = 0.0;
-    tubeModel->sampleRateConverter.numberSamples = 0;
-    printf("initializeConversion(), sampleRateConverter.maximumSampleValue: %g\n", tubeModel->sampleRateConverter.maximumSampleValue);
+    sampleRateConverter->timeRegister = 0;
+    sampleRateConverter->maximumSampleValue = 0.0;
+    sampleRateConverter->numberSamples = 0;
+    printf("initializeConversion(), sampleRateConverter.maximumSampleValue: %g\n", sampleRateConverter->maximumSampleValue);
 
     /*  INITIALIZE FILTER IMPULSE RESPONSE  */
-    initializeFilter(&(tubeModel->sampleRateConverter));
+    initializeFilter(sampleRateConverter);
 
     /*  CALCULATE SAMPLE RATE RATIO  */
-    tubeModel->sampleRateConverter.sampleRateRatio = (double)inputParameters->outputRate / (double)tubeModel->sampleRate;
-    printf("sampleRateRatio: %g\n", tubeModel->sampleRateConverter.sampleRateRatio);
+    sampleRateConverter->sampleRateRatio = outputRate / sampleRate;
+    printf("sampleRateRatio: %g\n", sampleRateConverter->sampleRateRatio);
 
     /*  CALCULATE TIME REGISTER INCREMENT  */
-    tubeModel->sampleRateConverter.timeRegisterIncrement = (int)rint(pow(2.0, FRACTION_BITS) / tubeModel->sampleRateConverter.sampleRateRatio);
+    sampleRateConverter->timeRegisterIncrement = (int)rint(pow(2.0, FRACTION_BITS) / sampleRateConverter->sampleRateRatio);
 
     /*  CALCULATE ROUNDED SAMPLE RATE RATIO  */
-    roundedSampleRateRatio = pow(2.0, FRACTION_BITS) / (double)tubeModel->sampleRateConverter.timeRegisterIncrement;
+    roundedSampleRateRatio = pow(2.0, FRACTION_BITS) / (double)sampleRateConverter->timeRegisterIncrement;
 
     /*  CALCULATE PHASE OR FILTER INCREMENT  */
-    if (tubeModel->sampleRateConverter.sampleRateRatio >= 1.0) {
-        tubeModel->sampleRateConverter.filterIncrement = L_RANGE;
+    if (sampleRateConverter->sampleRateRatio >= 1.0) {
+        sampleRateConverter->filterIncrement = L_RANGE;
     } else {
-        tubeModel->sampleRateConverter.phaseIncrement = (unsigned int)rint(tubeModel->sampleRateConverter.sampleRateRatio * (double)FRACTION_RANGE);
+        sampleRateConverter->phaseIncrement = (unsigned int)rint(sampleRateConverter->sampleRateRatio * (double)FRACTION_RANGE);
     }
 
     /*  CALCULATE PAD SIZE  */
-    padSize = (tubeModel->sampleRateConverter.sampleRateRatio >= 1.0) ? ZERO_CROSSINGS :
+    padSize = (sampleRateConverter->sampleRateRatio >= 1.0) ? ZERO_CROSSINGS :
         (int)((float)ZERO_CROSSINGS / roundedSampleRateRatio) + 1;
 
-    tubeModel->sampleRateConverter.ringBuffer = TRMRingBufferCreate(padSize);
+    sampleRateConverter->ringBuffer = TRMRingBufferCreate(padSize);
 
-    tubeModel->sampleRateConverter.ringBuffer->context = &(tubeModel->sampleRateConverter);
-    tubeModel->sampleRateConverter.ringBuffer->callbackFunction = resampleBuffer;
+    sampleRateConverter->ringBuffer->context = sampleRateConverter;
+    sampleRateConverter->ringBuffer->callbackFunction = resampleBuffer;
 
     /*  INITIALIZE THE TEMPORARY OUTPUT FILE  */
-    tubeModel->sampleRateConverter.tempFilePtr = tmpfile();
-    rewind(tubeModel->sampleRateConverter.tempFilePtr);
+    sampleRateConverter->tempFilePtr = tmpfile();
+    rewind(sampleRateConverter->tempFilePtr);
 }
 
 /******************************************************************************

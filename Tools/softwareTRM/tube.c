@@ -905,7 +905,7 @@ TRMTubeModel *TRMTubeModelCreate(TRMInputParameters *inputParameters)
     initializeThroat(newTubeModel, inputParameters);
 
     /*  INITIALIZE THE SAMPLE RATE CONVERSION ROUTINES  */
-    initializeConversion(newTubeModel, inputParameters);
+    initializeConversion(&newTubeModel->sampleRateConverter, newTubeModel->sampleRate, inputParameters->outputRate);
 
     // These get calculated each time through the synthesize() loop:
     //newTubeModel->bpAlpha = 0.0;
