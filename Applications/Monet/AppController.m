@@ -461,8 +461,7 @@
     return dataEntryController;
 }
 
-// TODO (2004-05-26): Rename method, without the "New"
-- (IBAction)showNewDataEntryWindow:(id)sender;
+- (IBAction)showDataEntryWindow:(id)sender;
 {
     [self dataEntryController]; // Make sure it's been created
     [dataEntryController setModel:model];

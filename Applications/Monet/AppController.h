@@ -75,7 +75,7 @@ History:
 - (void)_disableUnconvertedClassLoading;
 
 - (MDataEntryController *)dataEntryController;
-- (IBAction)showNewDataEntryWindow:(id)sender;
+- (IBAction)showDataEntryWindow:(id)sender;
 
 - (MPostureCategoryController *)postureCategoryController;
 - (IBAction)showPostureCategoryWindow:(id)sender;

@@ -12,9 +12,9 @@
                 saveDocument = id; 
                 saveDocumentAs = id; 
                 savePrototypes = id; 
+                showDataEntryWindow = id; 
                 showIntonationParameterWindow = id; 
                 showIntonationWindow = id; 
-                showNewDataEntryWindow = id; 
                 showPostureCategoryWindow = id; 
                 showPostureEditor = id; 
                 showPrototypeManager = id; 
