@@ -10,6 +10,7 @@
 #import "Parameter.h"
 #import "ParameterList.h"
 #import "Phone.h"
+#import "Symbol.h"
 #import "SymbolList.h"
 #import "Target.h"
 #import "TargetList.h"
@@ -250,52 +251,70 @@
 - (void)printDataTo:(FILE *)fp;
 {
     int i, j;
-    id temp;
-    SymbolList *symbols;
-    ParameterList *parms, *metaParms;
+    SymbolList *mainSymbolList;
+    ParameterList *mainParameterList, *mainMetaParameterList;
 
-    symbols = NXGetNamedObject(@"mainSymbolList", NSApp);
-    parms = NXGetNamedObject(@"mainParameterList", NSApp);
-    metaParms = NXGetNamedObject(@"mainMetaParameterList", NSApp);
+    mainSymbolList = NXGetNamedObject(@"mainSymbolList", NSApp);
+    mainParameterList = NXGetNamedObject(@"mainParameterList", NSApp);
+    mainMetaParameterList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
 
     fprintf(fp, "Phones\n");
-    for (i = 0; i< [self count]; i++) {
-        fprintf(fp, "%s\n", [[[self objectAtIndex:i] symbol] UTF8String]);
-        temp = [[self objectAtIndex:i] categoryList];
-        for (j = 0; j < [temp count]; j++) {
-            if ([[temp objectAtIndex:j] isNative])
-                fprintf(fp, "*%s ", [[[temp objectAtIndex:j] symbol] UTF8String]);
+    for (i = 0; i < [self count]; i++) {
+        Phone *aPhone;
+        CategoryList *aCategoryList;
+        TargetList *aParameterList, *aSymbolList;
+
+        aPhone = [self objectAtIndex:i];
+        fprintf(fp, "%s\n", [[aPhone symbol] UTF8String]);
+        aCategoryList = [aPhone categoryList];
+        for (j = 0; j < [aCategoryList count]; j++) {
+            CategoryNode *aCategory;
+
+            aCategory = [aCategoryList objectAtIndex:j];
+            if ([aCategory isNative])
+                fprintf(fp, "*%s ", [[aCategory symbol] UTF8String]);
             else
-                fprintf(fp, "%s ", [[[temp objectAtIndex:j] symbol] UTF8String]);
+                fprintf(fp, "%s ", [[aCategory symbol] UTF8String]);
         }
         fprintf(fp, "\n\n");
 
-        temp = [[self objectAtIndex:i] parameterList];
-        for (j = 0; j < [temp count] / 2; j++) {
-            if ([[temp objectAtIndex:j] isDefault])
-                fprintf(fp, "\t%s: *%f\t\t", [[[parms objectAtIndex:j] symbol] UTF8String], [[temp objectAtIndex:j] value]);
-            else
-                fprintf(fp, "\t%s: %f\t\t", [[[parms objectAtIndex:j] symbol] UTF8String], [[temp objectAtIndex:j] value]);
+        aParameterList = [aPhone parameterList];
+        for (j = 0; j < [aParameterList count] / 2; j++) {
+            Parameter *mainParameter;
+            Target *aParameter;
 
-            if ([[temp objectAtIndex: j+8] isDefault])
-                fprintf(fp, "%s: *%f\n", [[[parms objectAtIndex:j+8] symbol] UTF8String], [[temp objectAtIndex:j+8] value]);
+            aParameter = [aParameterList objectAtIndex:j];
+            mainParameter = [mainParameterList objectAtIndex:j];
+            if ([aParameter isDefault])
+                fprintf(fp, "\t%s: *%f\t\t", [[mainParameter symbol] UTF8String], [aParameter value]);
             else
-                fprintf(fp, "%s: %f\n", [[[parms objectAtIndex:j+8] symbol] UTF8String], [[temp objectAtIndex:j+8] value]);
+                fprintf(fp, "\t%s: %f\t\t", [[mainParameter symbol] UTF8String], [aParameter value]);
+
+            aParameter = [aParameterList objectAtIndex:j+8];
+            mainParameter = [mainParameterList objectAtIndex:j+8];
+            if ([aParameter isDefault])
+                fprintf(fp, "%s: *%f\n", [[mainParameter symbol] UTF8String], [aParameter value]);
+            else
+                fprintf(fp, "%s: %f\n", [[mainParameter symbol] UTF8String], [aParameter value]);
         }
         fprintf(fp, "\n\n");
 
-        temp = [[self objectAtIndex:i] symbolList];
-        for (j = 0; j<[temp count]; j++)
-        {
-            if ([[temp objectAtIndex:j] isDefault])
-                fprintf(fp, "%s: *%f ", [[[symbols objectAtIndex:j] symbol] UTF8String], [[temp objectAtIndex:j] value]);
+        aSymbolList = [aPhone symbolList];
+        for (j = 0; j < [aSymbolList count]; j++) {
+            Symbol *mainSymbol;
+            Target *aSymbol;
+
+            aSymbol = [aSymbolList objectAtIndex:j];
+            mainSymbol = [mainSymbolList objectAtIndex:j];
+            if ([aSymbol isDefault])
+                fprintf(fp, "%s: *%f ", [[mainSymbol symbol] UTF8String], [aSymbol value]);
             else
-                fprintf(fp, "%s: %f ", [[[symbols objectAtIndex:j] symbol] UTF8String], [[temp objectAtIndex:j] value]);
+                fprintf(fp, "%s: %f ", [[mainSymbol symbol] UTF8String], [aSymbol value]);
         }
         fprintf(fp, "\n\n");
 
-        if ([[self objectAtIndex:i] comment])
-            fprintf(fp,"%s\n", [[[self objectAtIndex:i] comment] UTF8String]);
+        if ([aPhone comment])
+            fprintf(fp,"%s\n", [[aPhone comment] UTF8String]);
 
         fprintf(fp, "\n");
     }
@@ -306,7 +325,7 @@
 {
     int i, index;
     id temp;
-    ParameterList *parms, *metaParms; // TODO (2004-03-01): Not sure of types here.
+    ParameterList *parms, *mainMetaParameterList; // TODO (2004-03-01): Not sure of types here.
 
     parms = NXGetNamedObject(@"mainParameterList", NSApp);
     index = [parms indexOfObject:parameter];
@@ -317,8 +336,8 @@
                 [temp setValue:value];
         }
     } else {
-        metaParms = NXGetNamedObject(@"mainMetaParameterList", NSApp);
-        index = [metaParms indexOfObject:parameter];
+        mainMetaParameterList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
+        index = [mainMetaParameterList indexOfObject:parameter];
         if (index != NSNotFound)
             for(i = 0; i < [self count]; i++) {
                 temp = [[[self objectAtIndex:i] metaParameterList] objectAtIndex:index];
@@ -332,10 +351,10 @@
 {
     int i, index;
     id temp;
-    SymbolList *symbols;
+    SymbolList *mainSymbolList;
 
-    symbols = NXGetNamedObject(@"mainSymbolList", NSApp);
-    index = [symbols indexOfObject:parameter];
+    mainSymbolList = NXGetNamedObject(@"mainSymbolList", NSApp);
+    index = [mainSymbolList indexOfObject:parameter];
     if (index != NSNotFound) {
         for (i = 0; i < [self count]; i++) {
             temp = [[[self objectAtIndex:i] symbolList] objectAtIndex:index];
@@ -417,8 +436,8 @@
 
 - (IBAction)importTRMData:(id)sender;
 {
-    SymbolList *symbols;
-    ParameterList *parms, *metaParms;
+    SymbolList *mainSymbolList;
+    ParameterList *parms, *mainMetaParameterList;
     NSArray *types;
     TRMData *myData;
     NSArray *fnames;
@@ -427,9 +446,9 @@
     double aValue;
     int count, index;
 
-    symbols = NXGetNamedObject(@"mainSymbolList", NSApp);
+    mainSymbolList = NXGetNamedObject(@"mainSymbolList", NSApp);
     parms = NXGetNamedObject(@"mainParameterList", NSApp);
-    metaParms = NXGetNamedObject(@"mainMetaParameterList", NSApp);
+    mainMetaParameterList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
 
     types = [NSArray arrayWithObject:@"dunno"]; // TODO (2004-03-02): I dunno what the extension should be.
 
@@ -451,7 +470,7 @@
         filename = [[[NSOpenPanel openPanel] directory] stringByAppendingPathComponent:aFilename];
         str = [aFilename stringByDeletingPathExtension];
 
-        aPhone = [[[Phone alloc] initWithSymbol:str parmeters:parms metaParameters:metaParms symbols:symbols] autorelease];
+        aPhone = [[[Phone alloc] initWithSymbol:str parmeters:parms metaParameters:mainMetaParameterList symbols:mainSymbolList] autorelease];
         aPhone = [self makePhoneUniqueName:aPhone];
         [self addPhoneObject:aPhone];
         [[aPhone categoryList] addNativeCategory:str];
