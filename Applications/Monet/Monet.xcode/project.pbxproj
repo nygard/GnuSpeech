@@ -165,6 +165,104 @@
 			settings = {
 			};
 		};
+		011C70D70624D5E70011BFB0 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = MMXMLElementNode.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		011C70D80624D5E70011BFB0 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = MMXMLElementNode.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		011C70D90624D5E70011BFB0 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = MMXMLNode.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		011C70DA0624D5E70011BFB0 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = MMXMLNode.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		011C70DB0624D5E70011BFB0 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = MMXMLTextNode.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		011C70DC0624D5E70011BFB0 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = MMXMLTextNode.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		011C70DD0624D5E70011BFB0 = {
+			fileRef = 011C70D70624D5E70011BFB0;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		011C70DE0624D5E70011BFB0 = {
+			fileRef = 011C70D80624D5E70011BFB0;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		011C70DF0624D5E70011BFB0 = {
+			fileRef = 011C70D90624D5E70011BFB0;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		011C70E00624D5E70011BFB0 = {
+			fileRef = 011C70DA0624D5E70011BFB0;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		011C70E10624D5E70011BFB0 = {
+			fileRef = 011C70DB0624D5E70011BFB0;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		011C70E20624D5E70011BFB0 = {
+			fileRef = 011C70DC0624D5E70011BFB0;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		011C70EA0624D5EB0011BFB0 = {
+			children = (
+				011C70D70624D5E70011BFB0,
+				011C70D80624D5E70011BFB0,
+				011C70D90624D5E70011BFB0,
+				011C70DA0624D5E70011BFB0,
+				011C70DB0624D5E70011BFB0,
+				011C70DC0624D5E70011BFB0,
+			);
+			isa = PBXGroup;
+			name = "XML Handling";
+			refType = 4;
+			sourceTree = "<group>";
+		};
 		01710CFB060FAE1B0059DE9A = {
 			children = (
 				01710CFC060FAE1B0059DE9A,
@@ -1209,6 +1307,7 @@
 		};
 		0195D8E005F3D3F9006D8386 = {
 			children = (
+				011C70EA0624D5EB0011BFB0,
 				01848B91060A505A005E9B67,
 				01848B92060A505A005E9B67,
 				01848CF7060A871A005E9B67,
@@ -2646,7 +2745,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "-lxml2";
 				PRODUCT_NAME = Monet;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
@@ -2731,6 +2830,9 @@
 				01104D100618D1D300B529E8,
 				01104DB2061A294000B529E8,
 				01104DCC061A53BA00B529E8,
+				011C70DD0624D5E70011BFB0,
+				011C70DF0624D5E70011BFB0,
+				011C70E10624D5E70011BFB0,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2845,6 +2947,9 @@
 				01104D110618D1D300B529E8,
 				01104DB3061A294000B529E8,
 				01104DCD061A53BA00B529E8,
+				011C70DE0624D5E70011BFB0,
+				011C70E00624D5E70011BFB0,
+				011C70E20624D5E70011BFB0,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

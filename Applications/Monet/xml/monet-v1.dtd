@@ -1,5 +1,5 @@
-<!ELEMENT root (categories, parameters, symbols, postures, equations, transitions, special-transitions, rules)>
-<!ATTLIST root version CDATA #REQUIRED>
+<!ELEMENT myroot (categories, parameters, symbols, postures, equations, transitions, special-transitions, rules)>
+<!ATTLIST myroot version CDATA #REQUIRED>
 
 <!ELEMENT categories (category*)>
 <!ELEMENT parameters (parameter*)>
