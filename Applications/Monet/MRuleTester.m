@@ -88,15 +88,14 @@
 - (IBAction)parseRule:(id)sender;
 {
     int ruleIndex;
-    MonetList *testCategoryLists;
-    NSMutableArray *testPostures;
+    NSMutableArray *testPostures, *testCategoryLists;
     MMPosture *aPosture;
     MMRule *aRule;
     MMFRuleSymbols ruleSymbols = {0.0, 0.0, 0.0, 0.0, 0.0};
     double tempos[4] = {1.0, 1.0, 1.0, 1.0};
     NSString *posture1Name, *posture2Name, *posture3Name, *posture4Name;
 
-    testCategoryLists = [[[MonetList alloc] initWithCapacity:4] autorelease];
+    testCategoryLists = [NSMutableArray array];
     testPostures = [NSMutableArray array];
 
     posture1Name = [[posture1Form cellAtIndex:0] stringValue];

@@ -874,8 +874,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [rules addObject:newRule];
 }
 
-// categoryLists is a list of lists of categories
-- (MMRule *)findRuleMatchingCategories:(MonetList *)categoryLists ruleIndex:(int *)indexPtr;
+// categoryLists is a list of lists of categories.
+- (MMRule *)findRuleMatchingCategories:(NSArray *)categoryLists ruleIndex:(int *)indexPtr;
 {
     unsigned int count, index;
 

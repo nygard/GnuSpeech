@@ -56,7 +56,7 @@
 - (void)setComment:(NSString *)newComment;
 - (BOOL)hasComment;
 
-- (int)matchRule:(MonetList *)categories;
+- (BOOL)matchRule:(NSArray *)categories;
 
 - (MMEquation *)getExpressionSymbol:(int)index;
 - (void)evaluateExpressionSymbols:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos phones:(NSArray *)phones withCache:(int)cache;

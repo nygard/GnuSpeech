@@ -705,11 +705,10 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
     [self printDataStructures:@"Changed tempos"];
 
     {
-        MonetList *tempCategoryList;
-        NSMutableArray *tempPhoneList;
+        NSMutableArray *tempPhoneList, *tempCategoryList;
 
         tempPhoneList = [[NSMutableArray alloc] init];
-        tempCategoryList = [[MonetList alloc] init];
+        tempCategoryList = [[NSMutableArray alloc] init];
 
         // Apply rules
         for (index = 0; index < currentPhone - 1; ) {
@@ -729,7 +728,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
             matchedRule = [aModel findRuleMatchingCategories:tempCategoryList ruleIndex:&ruleIndex];
             rules[currentRule].number = ruleIndex + 1;
 
-            NSLog(@"Applying rule %d", ruleIndex + 1);
+            //NSLog(@"Applying rule %d", ruleIndex + 1);
             [self applyRule:matchedRule withPhones:tempPhoneList andTempos:&phoneTempo[index] phoneIndex:index+1];
 
             index += [matchedRule numberExpressions] - 1;

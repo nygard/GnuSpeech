@@ -414,16 +414,16 @@
     return comment != nil && [comment length] > 0;
 }
 
-- (int)matchRule:(MonetList *)categories;
+- (BOOL)matchRule:(NSArray *)categories;
 {
     int index;
 
     for (index = 0; index < [self numberExpressions]; index++) {
         if (![expressions[index] evaluateWithCategories:[categories objectAtIndex:index]])
-            return 0;
+            return NO;
     }
 
-    return 1;
+    return YES;
 }
 
 - (MMEquation *)getExpressionSymbol:(int)index;
