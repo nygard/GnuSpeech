@@ -43,6 +43,20 @@
     //[ruleCell setBezeled:YES];
     [ruleCell setEnabled:YES];
 
+    minMaxCell = [[NSTextFieldCell alloc] initTextCell:@""];
+    [minMaxCell setControlSize:NSSmallControlSize];
+    [minMaxCell setAlignment:NSRightTextAlignment];
+    [minMaxCell setBordered:NO];
+    [minMaxCell setEnabled:YES];
+    [minMaxCell setFont:timesFontSmall];
+
+    parameterNameCell = [[NSTextFieldCell alloc] initTextCell:@""];
+    [parameterNameCell setControlSize:NSSmallControlSize];
+    [parameterNameCell setAlignment:NSLeftTextAlignment];
+    [parameterNameCell setBordered:NO];
+    [parameterNameCell setEnabled:YES];
+    [parameterNameCell setFont:timesFont];
+
     displayParameters = nil;
 
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -64,6 +78,8 @@
     [timesFontSmall release];
     [eventList release];
     [ruleCell release];
+    [minMaxCell release];
+    [parameterNameCell release];
     [displayParameters release];
 
     [super dealloc];
@@ -176,29 +192,38 @@
 
     // Draw parameter names
     [[NSColor blackColor] set];
-    [timesFont set];
     for (i = 0; i < j; i++) {
         MMDisplayParameter *displayParameter;
+        NSRect cellFrame;
 
         displayParameter = [displayList objectAtIndex:i];
-        [[displayParameter label] drawAtPoint:NSMakePoint(15.0, bounds.size.height - ((float)(i + 1) * TRACKHEIGHT) + 15.0) withAttributes:nil];
+        cellFrame.origin.x = 15;
+        cellFrame.origin.y = bounds.size.height - ((float)(i + 1) * TRACKHEIGHT) + 15.0;
+        cellFrame.size.width = 60;
+        cellFrame.size.height = 18;
+        [parameterNameCell setStringValue:[displayParameter label]];
+        [parameterNameCell drawWithFrame:cellFrame inView:self];
     }
 
     // Draw min/max parameter values
-    [timesFontSmall set];
     for (i = 0; i < j; i++) {
         MMDisplayParameter *displayParameter;
         MMParameter *aParameter;
-        NSString *str;
+        NSRect cellFrame;
 
         displayParameter = [displayList objectAtIndex:i];
         aParameter = [displayParameter parameter];
 
-        str = [NSString stringWithFormat:@"%d", (int)[aParameter minimumValue]];
-        [str drawAtPoint:NSMakePoint(55.0, bounds.size.height - (50.0 + (float)(i + 1) * TRACKHEIGHT) + BORDERHEIGHT) withAttributes:nil];
+        cellFrame.origin.x = 0;
+        cellFrame.origin.y = bounds.size.height - 50 - (float)(i + 1) * TRACKHEIGHT + BORDERHEIGHT - 9;
+        cellFrame.size.height = 18;
+        cellFrame.size.width = 75;
+        [minMaxCell setIntValue:[aParameter minimumValue]];
+        [minMaxCell drawWithFrame:cellFrame inView:self];
 
-        str = [NSString stringWithFormat:@"%d", (int)[aParameter maximumValue]];
-        [str drawAtPoint:NSMakePoint(55.0, bounds.size.height - (50.0 + (float)(i) * TRACKHEIGHT + 3.0)) withAttributes:nil];
+        cellFrame.origin.y = bounds.size.height - 50 - (float)i * TRACKHEIGHT - 9;
+        [minMaxCell setIntValue:[aParameter maximumValue]];
+        [minMaxCell drawWithFrame:cellFrame inView:self];
     }
 
     // Draw phones/postures along top

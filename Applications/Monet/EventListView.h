@@ -32,6 +32,8 @@
     NSTrackingRectTag trackTag;
 
     NSTextFieldCell *ruleCell;
+    NSTextFieldCell *minMaxCell;
+    NSTextFieldCell *parameterNameCell;
 
     NSArray *displayParameters;
 }
