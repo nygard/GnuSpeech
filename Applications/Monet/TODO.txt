@@ -1,8 +1,3 @@
-- it looks like one Point in "DefaultPrototypes" is bad, with list index of -1, secondary index of 0x5037312 (84112146).
-  - actually it looks like three points.
-  - look at similar code in Rule.m that checks for -1 value.
-- move the NSRunAlertPanel() call out of SlopeRatio!
-  - and adding points to slopes doesn't quite work properly right now -- another slope doesn't get added?
 - Parameter and Symbol look pretty close to identical!
 - do we need to free the strings that we get from:
     [aDecoder decodeValueOfObjCType:"*" at:&c_string];
@@ -22,6 +17,8 @@
 - check that we aren't returning floats/doubles from calls to methods that might return nil;
 - we could filter the rules, showing which ones match a given symbol input.
 - we could add a column to the rule list to show the total combinations matched.
+
+
 
 Done
 + change -makeObjectsPerform: to -makeObjectsPerformSelector:
@@ -48,9 +45,17 @@ Done
   What?!
 + fixed spelling of "parmeters" in Phone init method
 + rename Phone to Posture
++ move the NSRunAlertPanel() call out of SlopeRatio!
+  + and adding points to slopes doesn't quite work properly right now -- another slope doesn't get added?
++ it looks like one Point in "DefaultPrototypes" is bad, with list index of -1, secondary index of 0x5037312 (84112146).
+  + actually it looks like three points.
+  + look at similar code in Rule.m that checks for -1 value.
 
 2004-11-14:
 - +SpecialView, +PointInspector, +RuleInspector, *IntonationView, +IntonationScrollView, *IntonationPointInspector, EventListView
+
+
+
 
 TODO:
 - if a value is at the default, and then you change the default, do you want all of the instances to change as well?  I think so.
@@ -76,10 +81,13 @@ TODO:
   - update boolean parser to recognize postures at well
 
 
+
 Notes:
 - bezier paths may need to be on 1/2 pixel coordinates, depending on the line width.
 - when using NSRectFill you need to use integral coordinates.
 - I see that the time formulas should produce monotonically increasing values for times.  Fricatives/Dud12 is an example that doesn't do this.
+
+
 
 2004-03-12:
 - BUG: slope ratio button for diZeroTwelveOne doesn't go all the way to the left.
