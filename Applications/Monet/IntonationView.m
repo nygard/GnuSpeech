@@ -161,7 +161,7 @@
 - (void)keyDown:(NSEvent *)theEvent;
 {
     int i, numRules, pointCount;
-    id tempPoint;
+    IntonationPoint *tempPoint;
     //NSLog(@"KeyDown %d", theEvent->data.key.keyCode);
 
     numRules = [eventList numberOfRules];
@@ -593,8 +593,8 @@
 - (void)applyIntonationSmooth;
 {
     int j;
-    id point1, point2;
-    id tempPoint;
+    IntonationPoint *point1, *point2;
+    IntonationPoint *tempPoint;
     double a, b, c, d;
     double x1, y1, m1, x12, x13;
     double x2, y2, m2, x22, x23;
