@@ -8,6 +8,11 @@
 #define FACTOR                    377.0
 #define INITIAL_SEED              0.7892347
 
+/*  PITCH VARIABLES  */
+#define PITCH_BASE                220.0
+#define PITCH_OFFSET              3           /*  MIDDLE C = 0  */
+#define LOG_FACTOR                3.32193
+
 
 /******************************************************************************
 *
@@ -60,6 +65,28 @@ double amplitude(double decibelLevel)
 
     /*  ELSE RETURN INVERSE LOG VALUE  */
     return pow(10.0, (decibelLevel / 20.0));
+}
+
+
+
+/******************************************************************************
+*
+*       function:       frequency
+*
+*       purpose:        Converts a given pitch (0 = middle C) to the
+*                       corresponding frequency.
+*
+*       internal
+*       functions:      none
+*
+*       library
+*       functions:      pow
+*
+******************************************************************************/
+
+double frequency(double pitch)
+{
+    return PITCH_BASE * pow(2.0, (((double)(pitch + PITCH_OFFSET)) / 12.0));
 }
 
 

@@ -126,11 +126,6 @@
 #define TABLE_LENGTH              512
 #define TABLE_MODULUS             (TABLE_LENGTH-1)
 
-/*  PITCH VARIABLES  */
-#define PITCH_BASE                220.0
-#define PITCH_OFFSET              3           /*  MIDDLE C = 0  */
-#define LOG_FACTOR                3.32193
-
 /*  SCALING CONSTANT FOR INPUT TO VOCAL TRACT & THROAT (MATCHES DSP)  */
 //#define VT_SCALE                  0.03125     /*  2^(-5)  */
 // this is a temporary fix only, to try to match dsp synthesizer
@@ -1122,7 +1117,7 @@ double mod0(double value)
     if (value > TABLE_MODULUS)
 	value -= TABLE_LENGTH;
 
-    return (value);
+    return value;
 }
 
 
@@ -1391,28 +1386,6 @@ double bandpassFilter(double input)
     yn1 = output;
 
     return output;
-}
-
-
-
-/******************************************************************************
-*
-*       function:       frequency
-*
-*       purpose:        Converts a given pitch (0 = middle C) to the
-*                       corresponding frequency.
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      pow
-*
-******************************************************************************/
-
-double frequency(double pitch)
-{
-    return PITCH_BASE * pow(2.0, (((double)(pitch + PITCH_OFFSET)) / 12.0));
 }
 
 
