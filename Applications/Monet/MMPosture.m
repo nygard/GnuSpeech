@@ -42,7 +42,7 @@
     categoryList = [[CategoryList alloc] init];
     parameterList = [[NSMutableArray alloc] init];
     metaParameterList = [[NSMutableArray alloc] init];
-    symbolList = [[TargetList alloc] init];
+    symbolList = [[NSMutableArray alloc] init];
 
     nativeCategory = [[MMCategory alloc] init];
     [nativeCategory setIsNative:YES];
@@ -203,7 +203,7 @@
     return metaParameterList;
 }
 
-- (TargetList *)symbolList;
+- (NSMutableArray *)symbolList;
 {
     return symbolList;
 }
@@ -374,7 +374,13 @@
         metaParameterList = [[NSMutableArray alloc] init];
         [metaParameterList addObjectsFromArray:[archivedMetaParameters allObjects]];
     }
-    symbolList = [[aDecoder decodeObject] retain];
+    {
+        TargetList *archivedSymbols;
+
+        archivedSymbols = [aDecoder decodeObject];
+        symbolList = [[NSMutableArray alloc] init];
+        [symbolList addObjectsFromArray:[archivedSymbols allObjects]];
+    }
 
     assert(categoryList == nil);
 

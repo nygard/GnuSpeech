@@ -1442,8 +1442,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     for (index = 0; index < count; index++) {
         MMPosture *aPhone;
         CategoryList *aCategoryList;
-        NSMutableArray *aParameterList;
-        TargetList *aSymbolList;
+        NSMutableArray *aParameterList, *aSymbolList;
 
         aPhone = [postures objectAtIndex:index];
         fprintf(fp, "%s\n", [[aPhone symbol] UTF8String]);

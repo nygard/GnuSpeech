@@ -53,7 +53,7 @@
     CategoryList *categoryList; // Of MMCategorys
     NSMutableArray *parameterList; // Of Targets
     NSMutableArray *metaParameterList; // Of Targets
-    TargetList *symbolList; // Of Targets
+    NSMutableArray *symbolList; // Of Targets
 
     MMCategory *nativeCategory;
 }
@@ -82,7 +82,7 @@
 /* Access to target lists */
 - (NSMutableArray *)parameterTargets;
 - (NSMutableArray *)metaParameterTargets;
-- (TargetList *)symbolList;
+- (NSMutableArray *)symbolList;
 
 - (void)addParameterTarget:(MMTarget *)newTarget;
 - (void)removeParameterTargetAtIndex:(unsigned int)index;
