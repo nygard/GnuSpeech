@@ -65,6 +65,10 @@ extern NSString *MAIntonationViewSelectionDidChangeNotification;
 - (id)delegate;
 - (void)setDelegate:(id)newDelegate;
 
+- (float)minimumWidth;
+- (void)resizeWithOldSuperviewSize:(NSSize)oldSize;
+- (void)resizeWidth;
+
 - (void)drawRect:(NSRect)rect;
 
 - (void)drawGrid;

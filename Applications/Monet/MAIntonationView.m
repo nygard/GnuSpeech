@@ -163,21 +163,48 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     nonretained_delegate = newDelegate;
 }
 
-- (void)drawRect:(NSRect)rect;
+- (float)minimumWidth;
 {
-    NSRect clipRect;
     Event *lastEvent;
-    float width;
 
-    // TODO (2004-03-15): Changing the view frame in drawRect: can cause problems.  Should do before drawRect:
-    clipRect = [[self superview] frame];
+    if ([[eventList events] count] == 0)
+        return 0.0;
     lastEvent = [[eventList events] lastObject];
 
-    width = [self scaleWidth:[lastEvent time]] + RIGHT_MARGIN;
-    if (clipRect.size.width < width)
-        clipRect.size.width = width;
-    [self setFrame:clipRect];
+    return [self scaleWidth:[lastEvent time]] + RIGHT_MARGIN;
+}
 
+- (void)resizeWithOldSuperviewSize:(NSSize)oldSize;
+{
+    [super resizeWithOldSuperviewSize:oldSize];
+    [self resizeWidth];
+}
+
+- (void)resizeWidth;
+{
+    NSScrollView *enclosingScrollView;
+
+    enclosingScrollView = [self enclosingScrollView];
+    if (enclosingScrollView != nil) {
+        NSRect documentVisibleRect, bounds;
+
+        documentVisibleRect = [enclosingScrollView documentVisibleRect];
+        bounds = [self bounds];
+        //NSLog(@"documentVisibleRect: %@", NSStringFromRect(documentVisibleRect));
+        //NSLog(@"bounds: %@", NSStringFromRect(bounds));
+
+        bounds.size.width = [self minimumWidth];
+        if (bounds.size.width < documentVisibleRect.size.width)
+            bounds.size.width = documentVisibleRect.size.width;
+
+        [self setFrameSize:bounds.size];
+        [self setNeedsDisplay:YES];
+        [[self superview] setNeedsDisplay:YES];
+    }
+}
+
+- (void)drawRect:(NSRect)rect;
+{
     [[NSColor whiteColor] set];
     NSRectFill(rect);
 
@@ -993,6 +1020,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 {
     [self deselectAllPoints];
     // TODO (2004-08-09): And select the first point again?
+    [self resizeWidth];
     [self setNeedsDisplay:YES];
 }
 

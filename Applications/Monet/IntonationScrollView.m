@@ -53,14 +53,25 @@
 
 - (void)awakeFromNib;
 {
+    NSSize contentSize;
     NSRect frameRect, scaleFrame;
+    NSRect documentVisibleRect;
 
+    contentSize = [self contentSize];
     frameRect = [self frame];
-    scaleFrame = NSMakeRect(0, 0, SCALE_WIDTH, frameRect.size.height);
+
+    scaleFrame = NSMakeRect(0, 0, SCALE_WIDTH, contentSize.height);
     scaleView = [[MAIntonationScaleView alloc] initWithFrame:scaleFrame];
     [self addSubview:scaleView];
 
     [[self documentView] setScaleView:scaleView];
+
+    [self tile];
+
+    documentVisibleRect = [self documentVisibleRect];
+
+    [[self documentView] setFrame:documentVisibleRect];
+    [[self documentView] setNeedsDisplay:YES];
 }
 
 /*===========================================================================
@@ -75,10 +86,13 @@
 
     [super tile];
 
-    contentFrame = [[self contentView] frame];
+    contentFrame.origin = NSZeroPoint;
+    contentFrame.size = [self contentSize];
     NSDivideRect(contentFrame, &scaleFrame, &contentFrame, SCALE_WIDTH, NSMinXEdge);
-    [[self contentView] setFrame:contentFrame];
     [scaleView setFrame:scaleFrame];
+    [scaleView setNeedsDisplay:YES];
+    [[self contentView] setFrame:contentFrame];
+    [[self contentView] setNeedsDisplay:YES];
 }
 
 /*===========================================================================
