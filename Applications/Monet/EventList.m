@@ -769,7 +769,7 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
     [self printDataStructures:@"Applied rhythm"];
 }
 
-- (void)generateEvents;
+- (void)applyRules;
 {
     NSLog(@" > %s", _cmd);
 

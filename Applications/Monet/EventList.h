@@ -208,9 +208,9 @@ extern NSString *EventListDidRemoveIntonationPoint;
 // Other
 - (void)generateOutput;
 - (void)applyRhythm;
-- (void)generateEvents;
-
+- (void)applyRules;
 - (void)applyRule:(MMRule *)rule withPostures:(NSArray *)somePostures andTempos:(double *)tempos phoneIndex:(int)phoneIndex;
+
 - (void)synthesizeToFile:(NSString *)filename;
 
 - (void)generateIntonationPoints;
