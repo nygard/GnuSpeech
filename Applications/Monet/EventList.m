@@ -5,17 +5,17 @@
 #import "driftGenerator.h"
 #import "CategoryList.h"
 #import "Event.h"
-#import "IntonationPoint.h"
 #import "MMEquation.h"
 #import "MMFRuleSymbols.h"
+#import "MMIntonationPoint.h"
 #import "MModel.h"
 #import "MMParameter.h"
 #import "MMPoint.h"
 #import "MMPosture.h"
 #import "MMRule.h"
-#import "MMTransition.h"
 #import "MMSlopeRatio.h"
 #import "MMTarget.h"
+#import "MMTransition.h"
 #import "PhoneList.h"
 
 #import "TRMSynthesizer.h" // For addParameters:
@@ -1093,7 +1093,7 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
     return intonationPoints;
 }
 
-- (void)removeIntonationPoint:(IntonationPoint *)aPoint;
+- (void)removeIntonationPoint:(MMIntonationPoint *)aPoint;
 {
     [intonationPoints removeObject:aPoint];
 }
@@ -1107,7 +1107,7 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
     [intonationPoints removeAllObjects];
 }
 
-- (void)addIntonationPoint:(IntonationPoint *)iPoint;
+- (void)addIntonationPoint:(MMIntonationPoint *)iPoint;
 {
     double time;
     int i;
@@ -1134,9 +1134,9 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
 
 - (void)addIntonationPoint:(double)semitone offsetTime:(double)offsetTime slope:(double)slope ruleIndex:(int)ruleIndex;
 {
-    IntonationPoint *newIntonationPoint;
+    MMIntonationPoint *newIntonationPoint;
 
-    newIntonationPoint = [[IntonationPoint alloc] initWithEventList:self];
+    newIntonationPoint = [[MMIntonationPoint alloc] initWithEventList:self];
     [newIntonationPoint setRuleIndex:ruleIndex];
     [newIntonationPoint setOffsetTime:offsetTime];
     [newIntonationPoint setSemitone:semitone];
@@ -1148,7 +1148,7 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
 - (void)applyIntonation_fromIntonationView;
 {
     int i;
-    IntonationPoint *anIntonationPoint;
+    MMIntonationPoint *anIntonationPoint;
 
     NSLog(@" > %s", _cmd);
 
@@ -1173,8 +1173,8 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
 - (void)applySmoothIntonation;
 {
     int j;
-    IntonationPoint *point1, *point2;
-    IntonationPoint *tempPoint;
+    MMIntonationPoint *point1, *point2;
+    MMIntonationPoint *tempPoint;
     double a, b, c, d;
     double x1, y1, m1, x12, x13;
     double x2, y2, m2, x22, x23;
@@ -1184,7 +1184,7 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
     //NSLog(@" > %s", _cmd);
 
     [self setFullTimeScale];
-    tempPoint = [[IntonationPoint alloc] initWithEventList:self];
+    tempPoint = [[MMIntonationPoint alloc] initWithEventList:self];
     if ([intonationPoints count] > 0)
         [tempPoint setSemitone:[[intonationPoints objectAtIndex:0] semitone]];
     [tempPoint setSlope:0.0];
@@ -1266,7 +1266,7 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
     // TODO (2004-08-17): not yet implemented.
 }
 
-- (void)intonationPointDidChange:(IntonationPoint *)anIntonationPoint;
+- (void)intonationPointDidChange:(MMIntonationPoint *)anIntonationPoint;
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidChangeIntonationPoint object:self userInfo:nil];
 }

@@ -14,10 +14,10 @@
 #import "Event.h" // For MAX_EVENTS
 #import "EventList.h"
 #import "EventListView.h"
-#import "IntonationPoint.h"
 #import "IntonationView.h"
 #import "MExtendedTableView.h"
 #import "MMDisplayParameter.h"
+#import "MMIntonationPoint.h"
 #import "MModel.h"
 #import "MMParameter.h"
 #import "MMPostureRewriter.h"
@@ -292,7 +292,7 @@
 
 - (void)_updateSelectedPointDetails;
 {
-    IntonationPoint *selectedIntonationPoint;
+    MMIntonationPoint *selectedIntonationPoint;
 
     selectedIntonationPoint = [self selectedIntonationPoint];
 
@@ -776,7 +776,7 @@
 // Intonation Point details
 //
 
-- (IntonationPoint *)selectedIntonationPoint;
+- (MMIntonationPoint *)selectedIntonationPoint;
 {
     return [[intonationView documentView] selectedIntonationPoint];
 }

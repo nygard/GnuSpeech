@@ -1,4 +1,4 @@
-#import "IntonationPoint.h"
+#import "MMIntonationPoint.h"
 
 #include <math.h>
 #import <Foundation/Foundation.h>
@@ -9,7 +9,7 @@
 
 #define MIDDLEC	261.6255653
 
-@implementation IntonationPoint
+@implementation MMIntonationPoint
 
 // TODO (2004-08-17): Reject unused init method.
 - (id)initWithEventList:(EventList *)anEventList;

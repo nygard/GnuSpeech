@@ -6,8 +6,8 @@
 
 #import "EventList.h" // for struct _intonationParameters
 
-@class MModel, MMPostureRewriter;
-@class EventListView, IntonationPoint, IntonationView;
+@class MMIntonationPoint, MModel, MMPostureRewriter;
+@class EventListView, IntonationView;
 @class TRMSynthesizer;
 
 @interface MSynthesisController : MWindowController
@@ -95,7 +95,7 @@
 - (void)parsePhoneString:(NSString *)str;
 
 // Intonation Point details
-- (IntonationPoint *)selectedIntonationPoint;
+- (MMIntonationPoint *)selectedIntonationPoint;
 - (IBAction)setSemitone:(id)sender;
 - (IBAction)setHertz:(id)sender;
 - (IBAction)setSlope:(id)sender;

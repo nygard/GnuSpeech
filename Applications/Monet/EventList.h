@@ -1,6 +1,6 @@
 #import <Foundation/NSObject.h>
 
-@class Event, IntonationPoint, MModel, MMPosture, MMRule, PhoneList;
+@class Event, MMIntonationPoint, MModel, MMPosture, MMRule, PhoneList;
 
 /*===========================================================================
 
@@ -205,11 +205,11 @@ extern NSString *EventListDidRemoveIntonationPoint;
 - (void)printDataStructures:(NSString *)comment;
 
 - (NSArray *)intonationPoints;
-- (void)removeIntonationPoint:(IntonationPoint *)aPoint;
+- (void)removeIntonationPoint:(MMIntonationPoint *)aPoint;
 
 // Moved from IntonationView
 - (void)clearIntonationPoints;
-- (void)addIntonationPoint:(IntonationPoint *)iPoint;
+- (void)addIntonationPoint:(MMIntonationPoint *)iPoint;
 - (void)addIntonationPoint:(double)semitone offsetTime:(double)offsetTime slope:(double)slope ruleIndex:(int)ruleIndex;
 
 - (void)applyIntonation_fromIntonationView;
@@ -219,6 +219,6 @@ extern NSString *EventListDidRemoveIntonationPoint;
 - (void)clearEventNumber:(int)number;
 - (void)removeEmptyEvents;
 
-- (void)intonationPointDidChange:(IntonationPoint *)anIntonationPoint;
+- (void)intonationPointDidChange:(MMIntonationPoint *)anIntonationPoint;
 
 @end

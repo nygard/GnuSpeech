@@ -1,7 +1,7 @@
 #import <AppKit/NSView.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-@class EventList, IntonationPoint;
+@class EventList, MMIntonationPoint;
 
 /*===========================================================================
 
@@ -81,8 +81,8 @@ extern NSString *IntonationViewSelectionDidChangeNotification;
 - (void)deselectAllPoints;
 - (void)deletePoints;
 
-- (IntonationPoint *)selectedIntonationPoint;
-- (void)selectIntonationPoint:(IntonationPoint *)anIntonationPoint;
+- (MMIntonationPoint *)selectedIntonationPoint;
+- (void)selectIntonationPoint:(MMIntonationPoint *)anIntonationPoint;
 - (void)_selectionDidChange;
 
 // View geometry

@@ -13,7 +13,7 @@
 
 // TODO (2004-08-09): absoluteTime is derived from offsetTime and beatTime.  And beatTime is derived from ruleIndex and eventList.
 
-@interface IntonationPoint : NSObject
+@interface MMIntonationPoint : NSObject
 {
     EventList *nonretained_eventList;
 

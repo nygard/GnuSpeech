@@ -8,9 +8,9 @@
 #import "Event.h"
 #import "EventList.h"
 #import "GSXMLFunctions.h"
-#import "IntonationPoint.h"
-#import "MonetList.h"
+#import "MMIntonationPoint.h"
 #import "MMPosture.h"
+#import "MonetList.h"
 
 #define TOP_MARGIN 65
 #define BOTTOM_MARGIN 5
@@ -349,7 +349,7 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
     NSRect bounds;
     NSPoint graphOrigin;
     NSArray *intonationPoints = [eventList intonationPoints];
-    IntonationPoint *currentIntonationPoint;
+    MMIntonationPoint *currentIntonationPoint;
 
     bounds = [self bounds];
     graphOrigin = [self graphOrigin];
@@ -496,7 +496,7 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
     unichar ch;
 
     unsigned int ruleCount;
-    IntonationPoint *tempPoint;
+    MMIntonationPoint *tempPoint;
 
     NSLog(@" > %s", _cmd);
 
@@ -697,7 +697,7 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
     count = [intonationPoints count];
     //NSLog(@"%d display points", count);
     for (index = 0; index < count; index++) {
-        IntonationPoint *currentIntonationPoint;
+        MMIntonationPoint *currentIntonationPoint;
         NSPoint currentPoint;
 
         currentIntonationPoint = [intonationPoints objectAtIndex:index];
@@ -730,7 +730,7 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
     NSEvent *newEvent;
     int i, ruleIndex = 0;
     struct _rule *rule;
-    IntonationPoint *iPoint;
+    MMIntonationPoint *iPoint;
     id tempPoint;
 
     [[self window] setAcceptsMouseMovedEvents:YES];
@@ -854,7 +854,7 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
                 //NSLog(@"Selecting Rule: %d posture index %d", ruleIndex, rule->lastPhone);
 
                 // TODO (2004-08-09): Should just use -[EventList addIntonationPoint:offsetTime:slope:ruleIndex:]
-                iPoint = [[IntonationPoint alloc] initWithEventList:eventList];
+                iPoint = [[MMIntonationPoint alloc] initWithEventList:eventList];
                 [iPoint setRuleIndex:ruleIndex];
                 [iPoint setOffsetTime:(double)temp - rule->beat];
                 [iPoint setSemitone:semitone];
@@ -932,7 +932,7 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
     }
 }
 
-- (IntonationPoint *)selectedIntonationPoint;
+- (MMIntonationPoint *)selectedIntonationPoint;
 {
     if ([selectedPoints count] == 0)
         return nil;
@@ -940,7 +940,7 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
     return [selectedPoints objectAtIndex:0];
 }
 
-- (void)selectIntonationPoint:(IntonationPoint *)anIntonationPoint;
+- (void)selectIntonationPoint:(MMIntonationPoint *)anIntonationPoint;
 {
     [selectedPoints removeAllObjects];
     if (anIntonationPoint != nil)
