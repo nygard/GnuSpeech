@@ -17,7 +17,6 @@
 #import "StringParser.h"
 #import "SymbolList.h"
 #import "TargetList.h"
-#import "TRMData.h"
 
 #import "MModel.h"
 #import "MUnarchiver.h"
@@ -224,7 +223,6 @@
 - (IBAction)importTRMData:(id)sender;
 {
     NSArray *types;
-    TRMData *trmData;
     NSArray *fnames;
     int count, index;
     NSOpenPanel *openPanel;
@@ -238,60 +236,26 @@
 
     fnames = [openPanel filenames];
 
-    trmData = [[TRMData alloc] init];
-
     count = [fnames count];
     for (index = 0; index < count; index++) {
         NSString *filename;
-        NSString *str;
+        NSString *postureName;
         NSData *data;
         NSUnarchiver *unarchiver;
-        MMPosture *newPhone;
-        TargetList *parameterTargets;
 
         filename = [fnames objectAtIndex:index];
-        str = [[filename lastPathComponent] stringByDeletingPathExtension];
+        postureName = [[filename lastPathComponent] stringByDeletingPathExtension];
 
         data = [NSData dataWithContentsOfFile:filename];
         unarchiver = [[NSUnarchiver alloc] initForReadingWithData:data];
-        if ([trmData readFromCoder:unarchiver] == NO) {
+        if ([model importPostureNamed:postureName fromTRMData:unarchiver] == NO) {
             [unarchiver release];
             NSBeep();
             break;
         }
 
         [unarchiver release];
-
-        newPhone = [[MMPosture alloc] initWithModel:model];
-        [newPhone setSymbol:str];
-        [model addPosture:newPhone];
-
-        parameterTargets = [newPhone parameterTargets];
-
-        // TODO (2004-03-25): These used to set the default flag as well, but I plan to remove that flag.
-        // TODO (2004-03-25): Look up parameter indexes by name, so this will still work if they get rearranged in the Monet file.
-        /*  Get the values of the needed parameters  */
-        [[parameterTargets objectAtIndex:0] setValue:[trmData glotPitch]];
-        [[parameterTargets objectAtIndex:1] setValue:[trmData glotVol]];
-        [[parameterTargets objectAtIndex:2] setValue:[trmData aspVol]];
-        [[parameterTargets objectAtIndex:3] setValue:[trmData fricVol]];
-        [[parameterTargets objectAtIndex:4] setValue:[trmData fricPos]];
-        [[parameterTargets objectAtIndex:5] setValue:[trmData fricCF]];
-        [[parameterTargets objectAtIndex:6] setValue:[trmData fricBW]];
-        [[parameterTargets objectAtIndex:7] setValue:[trmData r1]];
-        [[parameterTargets objectAtIndex:8] setValue:[trmData r2]];
-        [[parameterTargets objectAtIndex:9] setValue:[trmData r3]];
-        [[parameterTargets objectAtIndex:10] setValue:[trmData r4]];
-        [[parameterTargets objectAtIndex:11] setValue:[trmData r5]];
-        [[parameterTargets objectAtIndex:12] setValue:[trmData r6]];
-        [[parameterTargets objectAtIndex:13] setValue:[trmData r7]];
-        [[parameterTargets objectAtIndex:14] setValue:[trmData r8]];
-        [[parameterTargets objectAtIndex:15] setValue:[trmData velum]];
-
-        [newPhone release];
     }
-
-    [trmData release];
 }
 
 - (IBAction)printData:(id)sender;

@@ -1,5 +1,5 @@
 //
-// $Id: MModel.h,v 1.24 2004/03/25 05:32:10 nygard Exp $
+// $Id: MModel.h,v 1.25 2004/03/25 21:03:13 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -99,6 +99,7 @@ extern NSString *MCategoryInUseException;
 // Archiving
 - (id)initWithCoder:(NSCoder *)aDecoder;
 - (void)readPrototypes:(NSCoder *)aDecoder;
+- (BOOL)importPostureNamed:(NSString *)postureName fromTRMData:(NSCoder *)aDecoder;
 
 // Archiving - XML
 - (void)generateXML:(NSString *)name;

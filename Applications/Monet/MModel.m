@@ -25,6 +25,7 @@
 #import "RuleList.h"
 #import "SymbolList.h"
 #import "TargetList.h"
+#import "TRMData.h"
 
 #import "MUnarchiver.h"
 
@@ -486,7 +487,6 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     index = 1;
     name = basename = [newPosture symbol];
     isUsed = [names containsObject:name];
-    NSLog(@"%s, name: %@, isUsed: %d", _cmd, name, isUsed);
 
     if (isUsed == YES) {
         char ch1, ch2;
@@ -840,6 +840,50 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
     [specialTransitions release];
     specialTransitions = [[aDecoder decodeObject] retain];
+}
+
+- (BOOL)importPostureNamed:(NSString *)postureName fromTRMData:(NSCoder *)aDecoder;
+{
+    TRMData *trmData;
+    MMPosture *newPosture;
+    TargetList *parameterTargets;
+
+    trmData = [[TRMData alloc] init];
+    if ([trmData readFromCoder:aDecoder] == NO) {
+        [trmData release];
+        return NO;
+    }
+
+    newPosture = [[MMPosture alloc] initWithModel:self];
+    [newPosture setSymbol:postureName];
+    [self addPosture:newPosture];
+
+    parameterTargets = [newPosture parameterTargets];
+
+    // TODO (2004-03-25): These used to set the default flag as well, but I plan to remove that flag.
+    // TODO (2004-03-25): Look up parameter indexes by name, so this will still work if they get rearranged in the Monet file.
+    [[parameterTargets objectAtIndex:0] setValue:[trmData glotPitch]];
+    [[parameterTargets objectAtIndex:1] setValue:[trmData glotVol]];
+    [[parameterTargets objectAtIndex:2] setValue:[trmData aspVol]];
+    [[parameterTargets objectAtIndex:3] setValue:[trmData fricVol]];
+    [[parameterTargets objectAtIndex:4] setValue:[trmData fricPos]];
+    [[parameterTargets objectAtIndex:5] setValue:[trmData fricCF]];
+    [[parameterTargets objectAtIndex:6] setValue:[trmData fricBW]];
+    [[parameterTargets objectAtIndex:7] setValue:[trmData r1]];
+    [[parameterTargets objectAtIndex:8] setValue:[trmData r2]];
+    [[parameterTargets objectAtIndex:9] setValue:[trmData r3]];
+    [[parameterTargets objectAtIndex:10] setValue:[trmData r4]];
+    [[parameterTargets objectAtIndex:11] setValue:[trmData r5]];
+    [[parameterTargets objectAtIndex:12] setValue:[trmData r6]];
+    [[parameterTargets objectAtIndex:13] setValue:[trmData r7]];
+    [[parameterTargets objectAtIndex:14] setValue:[trmData r8]];
+    [[parameterTargets objectAtIndex:15] setValue:[trmData velum]];
+
+    NSLog(@"Imported posture \"%@\"", [newPosture symbol]);
+    [newPosture release];
+    [trmData release];
+
+    return YES;
 }
 
 //
