@@ -35,6 +35,7 @@ extern int verbose;
 //- (TRMInputParameters *)inputParameters;
 - (void)setupSynthesisParameters:(MMSynthesisParameters *)synthesisParameters;
 - (void)addParameters:(float *)values;
+- (void)removeAllParameters;
 
 - (void)synthesize;
 - (void)convertSamplesIntoData;

@@ -118,6 +118,21 @@ OSStatus playIOProc(AudioDeviceID inDevice,
     NSLog(@"<  %s", _cmd);
 }
 
+- (void)removeAllParameters;
+{
+    INPUT *ptr, *next;
+
+    ptr = inputData->inputHead;
+    while (ptr != NULL) {
+        next = ptr->next;
+        free(ptr);
+        ptr = next;
+    }
+
+    inputData->inputHead = NULL;
+    inputData->inputTail = NULL;
+}
+
 - (void)addParameters:(float *)values;
 {
     double radius[TOTAL_REGIONS];
