@@ -1,5 +1,5 @@
 //
-// $Id: AppController.h,v 1.43 2004/04/02 03:22:01 nygard Exp $
+// $Id: AppController.h,v 1.44 2004/04/02 03:37:16 nygard Exp $
 //
 
 /*===========================================================================
@@ -25,7 +25,6 @@ History:
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 @class CategoryList, ParameterList, PhoneList, SymbolList;
-@class EventListView, IntonationScrollView, PrototypeManager;
 @class MModel, MMTransition;
 @class MDataEntryController, MPostureEditor, MPrototypeManager, MRuleManager, MRuleTester, MSpecialTransitionEditor;
 @class MSynthesisController, MSynthesisParameterEditor, MTransitionEditor;
@@ -35,13 +34,6 @@ History:
     IBOutlet NSPanel *infoPanel;
 
     MModel *model;
-
-    IBOutlet PrototypeManager *prototypeManager;
-    IBOutlet EventListView *eventListView;
-    IBOutlet IntonationScrollView *intonationView;
-
-    /* Window pointers */
-    IBOutlet NSWindow *synthesisWindow;
 
     MDataEntryController *dataEntryController;
     MPostureEditor *postureEditor;

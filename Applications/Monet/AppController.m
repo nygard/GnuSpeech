@@ -6,13 +6,10 @@
 #import <Foundation/Foundation.h>
 #import "MMCategory.h"
 #import "CategoryList.h"
-#import "EventListView.h"
 #import "GSXMLFunctions.h"
-#import "IntonationScrollView.h"
 #import "NamedList.h"
 #import "ParameterList.h"
 #import "PhoneList.h"
-#import "PrototypeManager.h"
 #import "SymbolList.h"
 #import "TargetList.h"
 
@@ -55,6 +52,7 @@
     [ruleTester release];
     [ruleManager release];
     [synthesisParameterEditor release];
+    [synthesisController release];
 
     [super dealloc];
 }
@@ -125,8 +123,6 @@
     }
 
     //[model generateXML:@"DefaultPrototypes"];
-
-    [synthesisWindow setFrameAutosaveName:@"SynthesisWindow"];
 
     NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }
@@ -257,7 +253,7 @@
             [stream encodeRootObject:mainParameterList];
             [stream encodeRootObject:mainMetaParameterList];
             [stream encodeRootObject:mainPhoneList];
-            [prototypeManager writePrototypesTo:stream];
+            //[prototypeManager writePrototypesTo:stream];
             //[ruleManager writeRulesTo:stream];
             [mdata writeToFile:[myPanel filename] atomically:NO];
             [stream release];
@@ -297,7 +293,6 @@
             [model release];
             model = [[MModel alloc] initWithCoder:stream];
 
-            [prototypeManager setModel:model];
             [dataEntryController setModel:model];
             [postureEditor setModel:model];
             [newPrototypeManager setModel:model];
@@ -332,7 +327,7 @@
         stream = [[NSArchiver alloc] initForWritingWithMutableData:mdata];
 
         if (stream) {
-            [prototypeManager writePrototypesTo:stream];
+            //[prototypeManager writePrototypesTo:stream];
             [mdata writeToFile:[myPanel filename] atomically:NO];
             [stream release];
         } else {
@@ -361,7 +356,7 @@
         stream = [[NSUnarchiver alloc] initForReadingWithData:[NSData dataWithContentsOfFile:filename]];
 
         if (stream) {
-            [prototypeManager readPrototypesFrom:stream];
+            //[prototypeManager readPrototypesFrom:stream];
             [stream release];
         } else {
             NSLog(@"Not a MONET file");

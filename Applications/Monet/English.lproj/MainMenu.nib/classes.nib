@@ -25,13 +25,7 @@
             }; 
             CLASS = AppController; 
             LANGUAGE = ObjC; 
-            OUTLETS = {
-                eventListView = EventListView; 
-                infoPanel = NSPanel; 
-                intonationView = IntonationScrollView; 
-                prototypeManager = PrototypeManager; 
-                synthesisWindow = NSWindow; 
-            }; 
+            OUTLETS = {infoPanel = NSPanel; }; 
             SUPERCLASS = NSObject; 
         }, 
         {
