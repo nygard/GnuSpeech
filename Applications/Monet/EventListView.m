@@ -200,11 +200,14 @@
         NSRect cellFrame;
 
         displayParameter = [displayList objectAtIndex:i];
-        cellFrame.origin.x = 15;
-        cellFrame.origin.y = bounds.size.height - ((float)(i + 1) * TRACKHEIGHT) + 15.0;
-        cellFrame.size.width = 60;
-        cellFrame.size.height = 18;
         [parameterNameCell setStringValue:[displayParameter label]];
+
+        cellFrame.size.height = [parameterNameCell cellSize].height;
+
+        cellFrame.origin.x = 15;
+        cellFrame.origin.y = bounds.size.height - 50 - ((float)(i + 1) * TRACKHEIGHT) + BORDERHEIGHT + (TRACKHEIGHT - BORDERHEIGHT - cellFrame.size.height) / 2;
+        cellFrame.size.width = 60;
+        //cellFrame.size.height = TRACKHEIGHT - BORDERHEIGHT;
         [parameterNameCell drawWithFrame:cellFrame inView:self];
     }
 
