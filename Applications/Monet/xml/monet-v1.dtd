@@ -1,4 +1,4 @@
-<!ELEMENT root (categories, parameters, meta-parameters?, symbols, postures, equations, transitions, special-transitions, rules)>
+<!ELEMENT root (categories?, parameters?, meta-parameters?, symbols?, postures?, equations, transitions, special-transitions, rules?)>
 <!ATTLIST root version CDATA #REQUIRED>
 
 <!ELEMENT categories (category*)>
@@ -6,18 +6,17 @@
 <!ELEMENT meta-parameters (parameter*)>
 <!ELEMENT symbols (symbol*)>
 <!ELEMENT postures (posture*)>
-<!-- Notice here that the equations groups should only have equations, and the transition groups should only have transitions -->
 <!ELEMENT equations (equation-group*)>
 <!ELEMENT transitions (transition-group*)>
 <!ELEMENT special-transitions (transition-group*)>
 <!ELEMENT rules (rule*)>
 
+<!ELEMENT comment (#PCDATA)>
+
 <!-- Categories -->
 
 <!ELEMENT category (comment?)>
 <!ATTLIST category name CDATA #REQUIRED>
-
-<!ELEMENT comment (#PCDATA)>
 
 <!-- Parameters -->
 
@@ -37,7 +36,7 @@
 
 <!-- Postures -->
 
-<!ELEMENT posture (comment?, posture-categories?, parameter-targets, meta-parameter-targets?, symbol-targets)>
+<!ELEMENT posture (comment?, posture-categories?, parameter-targets?, meta-parameter-targets?, symbol-targets?)>
 <!ATTLIST posture symbol CDATA #REQUIRED>
 
 <!-- comment already defined -->
@@ -55,9 +54,11 @@
                  is-default CDATA #IMPLIED>
 
 <!-- Equations -->
+<!-- Note that storing comments for groups as an attribute is inconsistent with the rest of the format. -->
 
 <!ELEMENT equation-group (equation*)>
-<!ATTLIST equation-group name CDATA #REQUIRED>
+<!ATTLIST equation-group name CDATA #REQUIRED
+                         comment CDATA #IMPLIED>
 
 <!ELEMENT equation (comment?)>
 <!ATTLIST equation name CDATA #REQUIRED
@@ -66,15 +67,17 @@
 <!-- Transitions -->
 
 <!ELEMENT transition-group (transition*)>
-<!ATTLIST transition-group name CDATA #REQUIRED>
+<!ATTLIST transition-group name CDATA #REQUIRED
+                           comment CDATA #IMPLIED>
 
 <!-- again, a problem with duplicate points element -->
-<!ELEMENT transition (comment?, point-or-slopes)>
+<!ELEMENT transition (comment?, point-or-slopes?)>
 <!ATTLIST transition name CDATA #REQUIRED
                      type (diphone | triphone | tetraphone) #REQUIRED>
 
+<!-- This is a little awkward, but since there is a "points" element I don't want to call it "points-or-slopes". -->
 <!ELEMENT point-or-slopes ( (point | slope-ratio)* )>
-<!ELEMENT slope-ratio (points, slopes)>
+<!ELEMENT slope-ratio (points?, slopes?)>
 
 <!ELEMENT points (point*)>
 <!ELEMENT slopes (slope*)>
@@ -94,8 +97,7 @@
 
 <!-- Rules -->
 
-<!ELEMENT rule (boolean-expressions, comment?, parameter-profiles, meta-parameter-profiles?, special-profiles?, expression-symbols)>
-<!ATTLIST rule number CDATA #IMPLIED> <!-- Temporary -->
+<!ELEMENT rule (boolean-expressions, comment?, parameter-profiles?, meta-parameter-profiles?, special-profiles?, expression-symbols?)>
 
 <!ELEMENT boolean-expressions (boolean-expression*)>
 <!ELEMENT boolean-expression (#PCDATA)>
