@@ -89,7 +89,6 @@
     int ruleIndex;
     int j;
     MonetList *testCategoryLists, *testPostures;
-    PhoneList *mainPhoneList;
     MMPosture *aPosture;
     MMRule *aRule;
     double ruleSymbols[5] = {0.0, 0.0, 0.0, 0.0, 0.0};
@@ -97,7 +96,6 @@
 
     testCategoryLists = [[[MonetList alloc] initWithCapacity:4] autorelease];
     testPostures = [[[MonetList alloc] initWithCapacity:4] autorelease];
-    mainPhoneList = [model postures];
 
     posture1Name = [[posture1Form cellAtIndex:0] stringValue];
     posture2Name = [[posture2Form cellAtIndex:0] stringValue];
@@ -110,7 +108,7 @@
         return;
     }
 
-    aPosture = [mainPhoneList findPhone:posture1Name];
+    aPosture = [model postureWithName:posture1Name];
     if (aPosture == nil) {
         [self clearOutput];
         [ruleOutputTextField setStringValue:[NSString stringWithFormat:@"Unknown posture: \"%@\"", posture1Name]];
@@ -119,7 +117,7 @@
     [testCategoryLists addObject:[aPosture categoryList]];
     [testPostures addObject:aPosture];
 
-    aPosture = [mainPhoneList findPhone:posture2Name];
+    aPosture = [model postureWithName:posture2Name];
     if (aPosture == nil) {
         [ruleOutputTextField setStringValue:[NSString stringWithFormat:@"Unknown posture: \"%@\"", posture2Name]];
         return;
@@ -128,7 +126,7 @@
     [testPostures addObject:aPosture];
 
     if ([posture3Name length]) {
-        aPosture = [mainPhoneList findPhone:posture3Name];
+        aPosture = [model postureWithName:posture3Name];
         if (aPosture == nil) {
             [ruleOutputTextField setStringValue:[NSString stringWithFormat:@"Unknown posture: \"%@\"", posture3Name]];
             return;
@@ -138,7 +136,7 @@
     }
 
     if ([posture4Name length]) {
-        aPosture = [mainPhoneList findPhone:posture4Name];
+        aPosture = [model postureWithName:posture4Name];
         if (aPosture == nil) {
             [ruleOutputTextField setStringValue:[NSString stringWithFormat:@"Unknown posture: \"%@\"", posture4Name]];
             return;
