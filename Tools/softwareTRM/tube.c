@@ -63,9 +63,13 @@ Initial import.
 #include <stdlib.h>
 #include <sys/param.h>
 #include <math.h>
-#include <sound/sound.h>
+//#include <sound/sound.h>
 #include <architecture/byte_order.h>
 
+#include "soundstruct.h"
+#include <string.h>
+#define TRUE (1)
+#define FALSE (0)
 
 
 /*  LOCAL DEFINES  ***********************************************************/
@@ -471,7 +475,7 @@ void srDecrement(int *pointer, int modulus);
 *
 ******************************************************************************/
 
-void main (int argc, char *argv[])
+int main(int argc, char *argv[])
 {
     /*  PARSE THE COMMAND LINE  */
     if (argc == 3) {
@@ -523,6 +527,8 @@ void main (int argc, char *argv[])
     /*  PRINT OUT FINISHED MESSAGE  */
     if (verbose)
 	printf("\nWrote scaled samples to file:  %s\n", outputFile);
+
+    return 0;
 }
 
 

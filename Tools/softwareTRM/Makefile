@@ -34,7 +34,7 @@ PROGRAM = tube
 # use -g -DDEBUG if debugging desired, comment out strip
 CFLAGS = -Wall
 OPTIMIZATION_CFLAGS = -O4
-ARCHS = -arch m68k -arch i386
+ARCHS =
 
 
 all:: $(PROGRAM)
