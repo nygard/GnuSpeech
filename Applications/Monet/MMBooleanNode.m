@@ -8,10 +8,9 @@
 
 @implementation MMBooleanNode
 
-// TODO (2004-05-15): Change this to return a BOOL
-- (int)evaluateWithCategories:(CategoryList *)categories;
+- (BOOL)evaluateWithCategories:(CategoryList *)categories;
 {
-    return 0;
+    return NO;
 }
 
 // General purpose routines

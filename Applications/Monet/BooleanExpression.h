@@ -73,7 +73,7 @@
 - (NSString *)opString;
 
 /* Evaluate yourself.*/
-- (int)evaluateWithCategories:(CategoryList *)categories;
+- (BOOL)evaluateWithCategories:(CategoryList *)categories;
 
 /* General purpose methods */
 - (void)expressionString:(NSMutableString *)resultString;

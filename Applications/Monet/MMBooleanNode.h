@@ -14,7 +14,7 @@
 }
 
 // Evaluate yourself
-- (int)evaluateWithCategories:(CategoryList *)categories;
+- (BOOL)evaluateWithCategories:(CategoryList *)categories;
 
 // General purpose routines
 - (NSString *)expressionString;

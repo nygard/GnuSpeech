@@ -60,21 +60,21 @@
 // Methods common to "BooleanNode" -- for both BooleanExpress, BooleanTerminal
 //
 
-- (int)evaluateWithCategories:(CategoryList *)categories;
+- (BOOL)evaluateWithCategories:(CategoryList *)categories;
 {
     if ([categories indexOfObject:category] == NSNotFound) {
         if (shouldMatchAll) {
             if ([categories findSymbol:[category symbol]] != nil)
-                return 1;
+                return YES;
 
             if ([categories findSymbol:[NSString stringWithFormat:@"%@'", [category symbol]]] != nil)
-                return 1;
+                return YES;
         }
 
-        return 0;
+        return NO;
     }
 
-    return 1;
+    return YES;
 }
 
 - (void)expressionString:(NSMutableString *)resultString;

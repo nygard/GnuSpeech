@@ -73,7 +73,7 @@
 // Methods common to "BooleanNode" -- for both BooleanExpress, BooleanTerminal
 //
 
-- (int)evaluateWithCategories:(CategoryList *)categories;
+- (BOOL)evaluateWithCategories:(CategoryList *)categories;
 {
     switch (operation) {
       case NOT_OP:
@@ -82,13 +82,13 @@
 
       case AND_OP:
           if (![[self operandOne] evaluateWithCategories:categories])
-              return 0;
+              return NO;
           return [[self operandTwo] evaluateWithCategories:categories];
           break;
 
       case OR_OP:
           if ([[self operandOne] evaluateWithCategories:categories])
-              return 1;
+              return YES;
           return [[self operandTwo] evaluateWithCategories:categories];
           break;
 
@@ -96,10 +96,11 @@
           return ([[self operandOne] evaluateWithCategories:categories] ^ [[self operandTwo] evaluateWithCategories:categories]);
           break;
 
-      default: return 1;
+      default:
+          return YES;
     }
 
-    return 0;
+    return NO;
 }
 
 - (void)expressionString:(NSMutableString *)resultString;

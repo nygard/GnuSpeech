@@ -51,7 +51,7 @@
 - (void)setShouldMatchAll:(BOOL)newFlag;
 
 /* Evaluate yourself */
-- (int)evaluateWithCategories:(CategoryList *)categories;
+- (BOOL)evaluateWithCategories:(CategoryList *)categories;
 
 /* General purpose routines */
 - (void)expressionString:(NSMutableString *)resultString;
