@@ -1,10 +1,10 @@
-#import "IntonationScrollView.h"
+#import "MAIntonationScrollView.h"
 
 #import <AppKit/AppKit.h>
 #import "MAIntonationView.h"
 #import "MAIntonationScaleView.h"
 
-@implementation IntonationScrollView
+@implementation MAIntonationScrollView
 
 #define SCALE_WIDTH 50
 

@@ -12,7 +12,7 @@
 #import "Event.h" // For MAX_EVENTS
 #import "EventList.h"
 #import "EventListView.h"
-#import "IntonationScrollView.h"
+#import "MAIntonationScrollView.h"
 #import "MAIntonationView.h"
 #import "MExtendedTableView.h"
 #import "MMDisplayParameter.h"
@@ -594,7 +594,7 @@
 // Currently set up to print the intonation contour.
 - (IBAction)printDocument:(id)sender;
 {
-    IntonationScrollView *printView;
+    MAIntonationScrollView *printView;
     NSPrintOperation *printOperation;
     NSRect printFrame;
     NSSize printableSize;
@@ -603,7 +603,7 @@
     printFrame.origin = NSZeroPoint;
     printFrame.size = [NSScrollView frameSizeForContentSize:printableSize hasHorizontalScroller:NO hasVerticalScroller:NO borderType:NSNoCellMask];
 
-    printView = [[IntonationScrollView alloc] initWithFrame:printFrame];
+    printView = [[MAIntonationScrollView alloc] initWithFrame:printFrame];
     [printView setBorderType:NSNoCellMask];
     [printView setHasHorizontalScroller:NO];
 

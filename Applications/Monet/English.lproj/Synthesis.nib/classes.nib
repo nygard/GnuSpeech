@@ -9,7 +9,7 @@
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
             ACTIONS = {print = id; }; 
-            CLASS = IntonationScrollView; 
+            CLASS = MAIntonationScrollView; 
             LANGUAGE = ObjC; 
             OUTLETS = {scaleView = NSView; }; 
             SUPERCLASS = NSScrollView; 

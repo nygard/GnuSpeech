@@ -2795,22 +2795,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		0195DB2A05F46E4E006D8386 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = IntonationScrollView.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0195DB2B05F46E4E006D8386 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = IntonationScrollView.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
 		0195DB3C05F46E4E006D8386 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -2861,10 +2845,7 @@
 		};
 		0195DB9A05F46EE1006D8386 = {
 			children = (
-				0147B5FD06D6EA6F00E0A5C1,
-				0147B5FE06D6EA6F00E0A5C1,
-				0147B64506D6F4A300E0A5C1,
-				0147B64606D6F4A400E0A5C1,
+				01D001BC06D7ED66009C6C3C,
 				01848D5A060AA9BB005E9B67,
 				01848D5B060AA9BB005E9B67,
 				015A674B0679930C00EE5AE9,
@@ -2873,8 +2854,6 @@
 				01710D4806100F160059DE9A,
 				0195DB1D05F46E4E006D8386,
 				0195DB1E05F46E4E006D8386,
-				0195DB2A05F46E4E006D8386,
-				0195DB2B05F46E4E006D8386,
 				0195DB3C05F46E4E006D8386,
 				0195DB3D05F46E4E006D8386,
 				0195DB4205F46E4E006D8386,
@@ -2918,18 +2897,6 @@
 		};
 		0195DCE205F5563C006D8386 = {
 			fileRef = 0195DB4305F46E4E006D8386;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0195DCFB05F55AA8006D8386 = {
-			fileRef = 0195DB2A05F46E4E006D8386;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0195DD0105F55AA9006D8386 = {
-			fileRef = 0195DB2B05F46E4E006D8386;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -3461,6 +3428,48 @@
 			settings = {
 			};
 		};
+		01D001B806D7ED59009C6C3C = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = MAIntonationScrollView.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01D001B906D7ED59009C6C3C = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = MAIntonationScrollView.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01D001BA06D7ED59009C6C3C = {
+			fileRef = 01D001B806D7ED59009C6C3C;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01D001BB06D7ED59009C6C3C = {
+			fileRef = 01D001B906D7ED59009C6C3C;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01D001BC06D7ED66009C6C3C = {
+			children = (
+				0147B5FD06D6EA6F00E0A5C1,
+				0147B5FE06D6EA6F00E0A5C1,
+				0147B64506D6F4A300E0A5C1,
+				0147B64606D6F4A400E0A5C1,
+				01D001B806D7ED59009C6C3C,
+				01D001B906D7ED59009C6C3C,
+			);
+			isa = PBXGroup;
+			name = "Intonation View";
+			refType = 4;
+			sourceTree = "<group>";
+		};
 		01F6E26B060EA6470073E196 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -3866,7 +3875,6 @@
 				0195DBC305F4F81B006D8386,
 				0195DCB205F54B87006D8386,
 				0195DCDC05F5563C006D8386,
-				0195DCFB05F55AA8006D8386,
 				0195DD0705F55EBA006D8386,
 				01B2FFB205F68A3000C1F65D,
 				01B2FFF405F6DF1B00C1F65D,
@@ -3955,6 +3963,7 @@
 				0161CE1406D5426E00CB63DD,
 				0147B5FF06D6EA6F00E0A5C1,
 				0147B64706D6F4A400E0A5C1,
+				01D001BA06D7ED59009C6C3C,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4012,7 +4021,6 @@
 				0195DBC905F4F81C006D8386,
 				0195DCB805F54B88006D8386,
 				0195DCE205F5563C006D8386,
-				0195DD0105F55AA9006D8386,
 				0195DD0D05F55EBA006D8386,
 				01B2FFB305F68A3000C1F65D,
 				01B2FFF505F6DF1B00C1F65D,
@@ -4096,6 +4104,7 @@
 				0161CE1506D5426E00CB63DD,
 				0147B60006D6EA6F00E0A5C1,
 				0147B64806D6F4A400E0A5C1,
+				01D001BB06D7ED59009C6C3C,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

@@ -10,7 +10,7 @@
 
 @class MAIntonationScaleView;
 
-@interface IntonationScrollView : NSScrollView
+@interface MAIntonationScrollView : NSScrollView
 {
     IBOutlet MAIntonationScaleView *scaleView;
 }

@@ -7,7 +7,7 @@
 #import "EventList.h" // for struct _intonationParameters
 
 @class MMIntonationPoint, MModel;
-@class EventListView, IntonationScrollView;
+@class EventListView, MAIntonationScrollView;
 @class TRMSynthesizer;
 
 @interface MSynthesisController : MWindowController
@@ -34,7 +34,7 @@
 
     // Intonation window
     IBOutlet NSWindow *intonationWindow;
-    IBOutlet IntonationScrollView *intonationView;
+    IBOutlet MAIntonationScrollView *intonationView;
 
     IBOutlet NSTextField *semitoneTextField;
     IBOutlet NSTextField *hertzTextField;
