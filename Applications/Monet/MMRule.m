@@ -854,9 +854,7 @@
     } else if ([elementName isEqualToString:@"boolean-expressions"]) {
         MXMLArrayDelegate *newDelegate;
 
-        // TODO (2004-05-14): It will need to implement initWithXMLAttributes:context:, and use the boolean parser.  Hmm, need a BooleanNode baseclass?
         newDelegate = [[MXMLStringArrayDelegate alloc] initWithChildElementName:@"boolean-expression" delegate:self addObjectSelector:@selector(addBooleanExpressionString:)];
-        //newDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"boolean-expression" class:[NSString class] delegate:self addObjectSelector:@selector(addPoint:)];
         [(MXMLParser *)parser pushDelegate:newDelegate];
         [newDelegate release];
     } else if ([elementName isEqualToString:@"parameter-profiles"]) {
