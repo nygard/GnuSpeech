@@ -103,7 +103,6 @@ static NSDictionary *_specialAcronyms = nil;
 
     resultString = [NSMutableString string];
     [self finalConversion:aString resultString:resultString];
-    //[self expandWord:aString tonic:NO resultString:resultString];
 
     NSLog(@"resultString: %@", resultString);
 
@@ -190,8 +189,6 @@ static NSDictionary *_specialAcronyms = nil;
     unsigned int lastWordEndLocation = NSNotFound;
     NSString *currentWord, *nextWord;
 
-    NSLog(@" > %s", _cmd);
-
     previousState = TTS_STATE_BEGIN;
 
     words = [aString componentsSeparatedByString:@" "];
@@ -212,7 +209,7 @@ static NSDictionary *_specialAcronyms = nil;
             currentState = [self stateForWord:currentWord];
             nextState = [self stateForWord:nextWord];
 
-            NSLog(@"previousState: %d, currentState: %d (%@), nextState: %d (%@)", previousState, currentState, currentWord, nextState, nextWord);
+            //NSLog(@"previousState: %d, currentState: %d (%@), nextState: %d (%@)", previousState, currentState, currentWord, nextState, nextWord);
 
             switch (currentState) {
               case TTS_STATE_WORD:
@@ -227,7 +224,6 @@ static NSDictionary *_specialAcronyms = nil;
                         priorTonic = NO;
                     case TTS_STATE_MEDIAL_PUNC:
                         toneGroupMarkerLocation = [resultString length];
-                        NSLog(@"toneGroupMarkerLocation = %d", toneGroupMarkerLocation);
                         [resultString appendString:TG_UNDEFINED];
                         [resultString appendString:@" "];
                     case TTS_STATE_SILENCE:
@@ -282,14 +278,12 @@ static NSDictionary *_specialAcronyms = nil;
                         [resultString appendString:TTS_TONE_GROUP_BOUNDARY];
                         [resultString appendString:@" "];
                         priorTonic = NO;
-                        NSLog(@"(1)toneGroupMarkerLocation: %d", toneGroupMarkerLocation);
                         if (toneGroupMarkerLocation != NSNotFound)
                             [resultString replaceCharactersInRange:NSMakeRange(toneGroupMarkerLocation, 2)
                                           withString:[self toneGroupStringForPunctuation:currentWord]];
                           else
                               NSLog(@"Warning: Couldn't set tone group");
                         toneGroupMarkerLocation = NSNotFound;
-                        NSLog(@"toneGroupMarkerLocation = %d", toneGroupMarkerLocation);
                   }
                   break;
 
@@ -299,14 +293,12 @@ static NSDictionary *_specialAcronyms = nil;
                       } else {
                           [resultString appendFormat:@"%@ %@ %@ ", TTS_UTTERANCE_BOUNDARY, TTS_TONE_GROUP_BOUNDARY, TTS_CHUNK_BOUNDARY];
                           priorTonic = NO;
-                          NSLog(@"(2)toneGroupMarkerLocation: %d", toneGroupMarkerLocation);
                           if (toneGroupMarkerLocation != NSNotFound)
                               [resultString replaceCharactersInRange:NSMakeRange(toneGroupMarkerLocation, 2)
                                             withString:[self toneGroupStringForPunctuation:currentWord]];
                           else
                               NSLog(@"Warning: Couldn't set tone group");
                           toneGroupMarkerLocation = NSNotFound;
-                        NSLog(@"toneGroupMarkerLocation = %d", toneGroupMarkerLocation);
                       }
                   } else if (previousState == TTS_STATE_SILENCE) {
                   }
@@ -340,21 +332,17 @@ static NSDictionary *_specialAcronyms = nil;
           [resultString appendString:@" "];
           [resultString appendString:TTS_CHUNK_BOUNDARY];
           priorTonic = NO;
-          NSLog(@"(3)toneGroupMarkerLocation: %d", toneGroupMarkerLocation);
           if (toneGroupMarkerLocation != NSNotFound)
               [resultString replaceCharactersInRange:NSMakeRange(toneGroupMarkerLocation, 2)
                             withString:[self toneGroupStringForPunctuation:TTS_DEFAULT_END_PUNC]];
           else
               NSLog(@"Warning: Couldn't set tone group");
           toneGroupMarkerLocation = NSNotFound;
-          NSLog(@"toneGroupMarkerLocation = %d", toneGroupMarkerLocation);
           break;
 
       case TTS_STATE_BEGIN:
           break;
     }
-
-    NSLog(@"<  %s", _cmd);
 }
 
 - (int)stateForWord:(NSString *)word;
@@ -381,8 +369,6 @@ static NSDictionary *_specialAcronyms = nil;
     unsigned int lastFootBegin;
     NSString *lastPhoneme = nil;
 
-    NSLog(@" > %s, word: %@, isTonic: %d", _cmd, word, isTonic);
-
     // Strip of possessive if word ends with 's
     isPossessive = [word hasSuffix:@"'s"];
     if (isPossessive == YES)
@@ -405,8 +391,6 @@ static NSDictionary *_specialAcronyms = nil;
         // TODO (2004-04-29): And that should set the dictionary
     }
 
-    NSLog(@"pronunciation: %@", pronunciation);
-
     lastFootBegin = NSNotFound;
     if (isTonic == YES && [pronunciation containsPrimaryStress] == NO) {
         NSString *convertedStress;
@@ -414,18 +398,16 @@ static NSDictionary *_specialAcronyms = nil;
         convertedStress = [pronunciation convertedStress];
         if (convertedStress != nil) {
             // For example, "saltwater"
-            NSLog(@"Converted stress... from %@ to %@", pronunciation, convertedStress);
             pronunciation = convertedStress;
         } else {
             // For example, "times"
-            NSLog(@"This other case...");
             lastFootBegin = [resultString length];
             [resultString appendString:TTS_FOOT_BEGIN];
         }
     }
 
     // TODO (2004-04-30): We could preprocess the dictionary to do these transformations on the pronunciations.
-    {
+    if (pronunciation != nil) {
         NSScanner *scanner;
 
         scanner = [[NSScanner alloc] initWithString:pronunciation];
@@ -451,6 +433,10 @@ static NSDictionary *_specialAcronyms = nil;
         }
 
         [scanner release];
+    } else {
+        NSLog(@"Warning: No pronunciation for: %@", word);
+        // Insert a noticable sound to make it obvious that something is missing.
+        [resultString appendString:@"/_b_z_z_z_z_t_uh"];
     }
     //[resultString appendString:pronunciation];
 
@@ -480,8 +466,6 @@ static NSDictionary *_specialAcronyms = nil;
     if (isTonic == YES && lastFootBegin != NSNotFound) {
         [resultString replaceCharactersInRange:NSMakeRange(lastFootBegin, 2) withString:TTS_TONIC_BEGIN];
     }
-
-    NSLog(@"<  %s, word: %@, isTonic: %d", _cmd, word, isTonic);
 }
 
 // Returns a string which contains a character-by-character pronunciation for the string pointed at by the argument word.
@@ -607,8 +591,6 @@ static NSDictionary *_specialAcronyms = nil;
 
 - (NSString *)toneGroupStringForPunctuation:(NSString *)str;
 {
-    NSLog(@"%s, str: '%@'", _cmd, str);
-
     if ([str isEqualToString:@"."]) {
         return TG_STATEMENT;
     } else if ([str isEqualToString:@"!"]) {
