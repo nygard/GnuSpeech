@@ -3,7 +3,6 @@
 #import <AppKit/AppKit.h>
 #import "NSNumberFormatter-Extensions.h"
 
-#import "AppController.h"
 #import "Event.h"
 #import "EventList.h"
 #import "MonetList.h"

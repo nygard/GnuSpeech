@@ -1,16 +1,9 @@
 {
     IBClasses = (
         {
-            ACTIONS = {itemsChanged = id; }; 
             CLASS = EventListView; 
             LANGUAGE = ObjC; 
-            OUTLETS = {
-                controller = AppController; 
-                mouseTimeField = NSTextField; 
-                mouseValueField = NSTextField; 
-                niftyMatrix = NiftyMatrix; 
-                niftyMatrixScrollView = NSScrollView; 
-            }; 
+            OUTLETS = {mouseTimeField = NSTextField; mouseValueField = NSTextField; }; 
             SUPERCLASS = NSView; 
         }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 

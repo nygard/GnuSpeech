@@ -16,8 +16,6 @@
 
 @interface EventListView : NSView
 {
-    IBOutlet AppController *controller;
-
     NSFont *timesFont;
     NSFont *timesFontSmall;
 
