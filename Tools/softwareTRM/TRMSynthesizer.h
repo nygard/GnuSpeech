@@ -23,17 +23,28 @@ extern int verbose;
 
     int bufferLength;
     int bufferIndex;
+
+    BOOL shouldSaveToSoundFile;
+    NSString *filename;
 }
 
 - (id)init;
 - (void)dealloc;
 
 - (void)setupSynthesisParameters:(MMSynthesisParameters *)synthesisParameters;
-- (void)addParameters:(float *)values;
 - (void)removeAllParameters;
+- (void)addParameters:(float *)values;
+
+- (BOOL)shouldSaveToSoundFile;
+- (void)setShouldSaveToSoundFile:(BOOL)newFlag;
+
+- (NSString *)filename;
+- (void)setFilename:(NSString *)newFilename;
+
+- (int)fileType;
+- (void)setFileType:(int)newFileType;
 
 - (void)synthesize;
-- (void)synthesizeToSoundFile:(NSString *)filename type:(int)type;
 - (void)convertSamplesIntoData:(TRMSampleRateConverter *)sampleRateConverter;
 - (void)startPlaying;
 - (void)stopPlaying;

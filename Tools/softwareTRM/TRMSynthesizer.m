@@ -52,6 +52,7 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
         return nil;
     }
 
+    inputData->inputParameters.outputFileFormat = 0;
     inputData->inputHead = NULL;
     inputData->inputTail = NULL;
 
@@ -73,7 +74,6 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
 
 - (void)setupSynthesisParameters:(MMSynthesisParameters *)synthesisParameters;
 {
-    inputData->inputParameters.outputFileFormat = 0;
     inputData->inputParameters.outputRate = [MMSynthesisParameters samplingRate:[synthesisParameters samplingRate]];
     inputData->inputParameters.controlRate = 250;
     inputData->inputParameters.volume = [synthesisParameters masterVolume];
@@ -250,6 +250,40 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
     addInput(inputData, dvalues[0], dvalues[1], dvalues[2], dvalues[3], dvalues[4], dvalues[5], dvalues[6], radius, dvalues[15]);
 }
 
+- (BOOL)shouldSaveToSoundFile;
+{
+    return shouldSaveToSoundFile;
+}
+
+- (void)setShouldSaveToSoundFile:(BOOL)newFlag;
+{
+    shouldSaveToSoundFile = newFlag;
+}
+
+- (NSString *)filename;
+{
+    return filename;
+}
+
+- (void)setFilename:(NSString *)newFilename;
+{
+    if (newFilename == filename)
+        return;
+
+    [filename release];
+    filename = [newFilename retain];
+}
+
+- (int)fileType;
+{
+    return inputData->inputParameters.outputFileFormat;
+}
+
+- (void)setFileType:(int)newFileType;
+{
+    inputData->inputParameters.outputFileFormat = newFileType;
+}
+
 - (void)synthesize;
 {
     TRMTubeModel *tube;
@@ -261,30 +295,14 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
     }
 
     synthesize(tube, inputData);
-    //writeOutputToFile(&(tube->sampleRateConverter), inputData, "/tmp/out.au");
 
-    [self convertSamplesIntoData:&(tube->sampleRateConverter)];
-    TRMTubeModelFree(tube);
-
-    [self startPlaying];
-}
-
-- (void)synthesizeToSoundFile:(NSString *)filename type:(int)type;
-{
-    TRMTubeModel *tube;
-
-    filename = [filename stringByExpandingTildeInPath];
-
-    inputData->inputParameters.outputFileFormat = type;
-
-    tube = TRMTubeModelCreate(&(inputData->inputParameters));
-    if (tube == NULL) {
-        NSLog(@"Warning: Failed to create tube model.");
-        return;
+    if (shouldSaveToSoundFile) {
+        writeOutputToFile(&(tube->sampleRateConverter), inputData, [filename UTF8String]);
+    } else {
+        [self convertSamplesIntoData:&(tube->sampleRateConverter)];
+        [self startPlaying];
     }
 
-    synthesize(tube, inputData);
-    writeOutputToFile(&(tube->sampleRateConverter), inputData, [filename UTF8String]);
     TRMTubeModelFree(tube);
 }
 
