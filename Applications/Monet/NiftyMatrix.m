@@ -20,9 +20,8 @@
 }
 
 
-- (void)mouseDown:(NSEvent *)theEvent;
+- (void)mouseDown:(NSEvent *)mouseEvent;
 {
-#if 0
     NSPoint mouseDownLocation, mouseUpLocation, mouseLocation;
     int row, column, newRow;
     NSRect visibleRect, cellCacheBounds, cellFrame;
@@ -36,17 +35,18 @@
      * if the current window is not the key window, and the user simply clicked on the matrix inorder to activate the window.
      * In this case simply return and do nothing
      */
-    if ([theEvent clickCount] == -1) {
+    if ([mouseEvent clickCount] == -1) {
+        NSLog(@"%s, clickCount == -1", _cmd);
         return;
     }
 
     /* if the user double clicked on the cell then toggle the cell */
-    if ([theEvent clickCount] == 2) {
-        mouseDownLocation = [theEvent locationInWindow];
-        mouseDownLocation = [self convertPoint:mouseDownLocation fromView:nil];
+    if ([mouseEvent clickCount] == 2) {
+        NSLog(@"Double click.");
+        mouseDownLocation = [self convertPoint:[mouseEvent locationInWindow] fromView:nil];
         [self getRow:&row column:&column forPoint:mouseDownLocation];
         [[self cellAtRow:row column:column] toggle];
-        [self display];
+        [self setNeedsDisplay:YES];
         [self sendAction];
         return;
     }
@@ -55,26 +55,27 @@
     [self setupCacheWindows];
 
     /* we are now interested in mouse dragged events */
-    [[self window] setAcceptsMouseMovedEvents: YES];
+    [[self window] setAcceptsMouseMovedEvents:YES];
 
     /* find the cell that got clicked on and select it */
-    mouseDownLocation = [theEvent locationInWindow];
-    mouseDownLocation = [self convertPoint:mouseDownLocation fromView:nil];
+    mouseDownLocation = [self convertPoint:[mouseEvent locationInWindow] fromView:nil];
     [self getRow:&row column:&column forPoint:mouseDownLocation];
     activeCell = [self cellAtRow:row column:column];
     [self selectCell:activeCell];
     cellFrame = [self cellFrameAtRow:row column:column];
 
-    /* draw a "well" in place of the selected cell (see drawSelf::) */
+    /* draw a "well" in place of the selected cell (see drawRect:) */
     [self lockFocus];
     [self drawRect:cellFrame];
     [self unlockFocus];
 
+#if 0
     /* copy what is currently visible into the matrix cache */
     matrixCacheContentView = [niftyMatrixCache contentView];
     [matrixCacheContentView lockFocus];
     visibleRect = [self visibleRect];
     [self convertRect:visibleRect toView:nil];
+#warning this will not work...
     PScomposite(NSMinX(visibleRect), NSMinY(visibleRect),
                 NSWidth(visibleRect), NSHeight(visibleRect),
                 [[self window] gState], 0.0, NSHeight(visibleRect), NSCompositeCopy);
@@ -93,15 +94,14 @@
     /* from now on we will be drawing into ourself */
     [self lockFocus];
 
-    event = theEvent;
+    event = mouseEvent;
     loc = [event locationInWindow];
     while ([event type] != NSLeftMouseUp) {
         /* erase the active cell using the image in the matrix cache */
         visibleRect = [self visibleRect];
-        PScomposite(NSMinX(cellFrame), NSHeight(visibleRect) -
-                    NSMinY(cellFrame) + NSMinY(visibleRect) -
-                    NSHeight(cellFrame), NSWidth(cellFrame),
-                    NSHeight(cellFrame),[niftyMatrixCache gState],
+        PScomposite(NSMinX(cellFrame), NSHeight(visibleRect) - NSMinY(cellFrame) + NSMinY(visibleRect) - NSHeight(cellFrame),
+                    NSWidth(cellFrame), NSHeight(cellFrame),
+                    [niftyMatrixCache gState],
                     NSMinX(cellFrame), NSMinY(cellFrame) + NSHeight(cellFrame),
                     NSCompositeCopy);
 
@@ -268,11 +268,11 @@
     /* set the event mask to normal */
     [[self window] setAcceptsMouseMovedEvents: NO];
 #else
-    [super mouseDown:theEvent];
+    [super mouseDown:mouseEvent];
 #endif
 }
 
-- (void)drawRect:(NSRect)rects;
+- (void)drawRect:(NSRect)rect;
 {
     int row, col;
     NSRect cellBorder;
@@ -281,7 +281,7 @@
 
     NSLog(@"->%s", _cmd);
     // do the regular drawing
-    [super drawRect:rects];
+    [super drawRect:rect];
 
     // draw a "well" if the user's dragging a cell
     if (activeCell != nil) {
@@ -289,11 +289,9 @@
         cellBorder = [self cellFrameAtRow:row column:col];
 
         // draw the well
-        if (!NSIsEmptyRect(NSIntersectionRect(cellBorder , rects))) {
-            cellBorder  = NSDrawTiledRects(cellBorder, NSZeroRect, sides, grays, 6);
-            [[NSColor colorWithDeviceWhite:0.17 alpha:1.0] set];
-            //PSsetgray(0.17);
-            NSRectFill(cellBorder);
+        if (NSIsEmptyRect(NSIntersectionRect(cellBorder, rect)) == NO) {
+            //NSDrawGroove(cellBorder, rect);
+            NSDrawGrayBezel(cellBorder, rect);
         }
     }
 }

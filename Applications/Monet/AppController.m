@@ -133,7 +133,7 @@
         [stream release];
     }
 
-    [self generateXML:@"DefaultPrototypes"];
+    //[self generateXML:@"DefaultPrototypes"];
 
     [ruleManager applicationDidFinishLaunching:aNotification];
     [transitionBuilder applicationDidFinishLaunching:aNotification]; // not connected yet
@@ -347,7 +347,7 @@
                 initStringParser();
 #endif
 
-                [self generateXML:filename];
+                //[self generateXML:filename];
             } else {
                 NSLog(@"Not a MONET file");
             }
