@@ -261,7 +261,7 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
     }
 
     synthesize(tube, inputData);
-    writeOutputToFile(&(tube->sampleRateConverter), inputData, "/tmp/out.au");
+    //writeOutputToFile(&(tube->sampleRateConverter), inputData, "/tmp/out.au");
 
     [self convertSamplesIntoData:&(tube->sampleRateConverter)];
     TRMTubeModelFree(tube);
