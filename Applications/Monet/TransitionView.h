@@ -3,6 +3,7 @@
 
 @class MonetList, MModel, MMPoint, MMSlope, MMTransition;
 @class AppController;
+@class TransitionView;
 
 /*===========================================================================
 
@@ -13,8 +14,13 @@
 =============================================================================
 */
 
+
 @protocol TransitionViewNotifications
 - (void)transitionViewSelectionDidChange:(NSNotification *)aNotification;
+@end
+
+@protocol TransitionViewDelegate
+- (BOOL)transitionView:(TransitionView *)aTransitionView shouldAddPoint:(MMPoint *)aPoint;
 @end
 
 extern NSString *TransitionViewSelectionDidChangeNotification;
@@ -143,6 +149,7 @@ extern NSString *TransitionViewSelectionDidChangeNotification;
 - (IBAction)groupInSlopeRatio:(id)sender;
 
 // Publicly used API
+- (MMTransition *)transition;
 - (void)setTransition:(MMTransition *)newTransition;
 - (void)showWindow:(int)otherWindow;
 

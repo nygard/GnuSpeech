@@ -1,6 +1,6 @@
 #import <Foundation/NSObject.h>
 
-@class MonetList, MMEquation, NamedList;
+@class MonetList, MMEquation, MMPoint, NamedList;
 
 /*===========================================================================
 
@@ -41,7 +41,9 @@
 
 - (MonetList *)points;
 - (void)setPoints:(MonetList *)newList;
-- insertPoint:aPoint;
+
+- (BOOL)isTimeInSlopeRatio:(double)aTime;
+- (void)insertPoint:(MMPoint *)aPoint;
 
 - (int)type;
 - (void)setType:(int)type;

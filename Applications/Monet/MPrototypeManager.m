@@ -65,6 +65,7 @@
 
     [formulaParser setSymbolList:[model symbols]];
     [miniTransitionView setModel:model];
+    [miniSpecialTransitionView setModel:model];
 
     [self updateViews];
     [self expandOutlines];
@@ -109,6 +110,11 @@
     [specialTransitionCommentTextView setFieldEditor:YES];
 
     [miniTransitionView setModel:model];
+    [miniSpecialTransitionView setModel:model];
+
+    // We don't need to allow selection, adding points, editing slopes
+    [miniTransitionView setEnabled:NO];
+    [miniSpecialTransitionView setEnabled:NO];
 
     [equationOutlineView setTarget:self];
     [equationOutlineView setDoubleAction:@selector(doubleHit:)];

@@ -1,5 +1,5 @@
 //
-// $Id: MTransitionEditor.h,v 1.3 2004/03/23 04:44:46 nygard Exp $
+// $Id: MTransitionEditor.h,v 1.4 2004/03/24 00:41:18 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -8,7 +8,7 @@
 #import <AppKit/NSWindowController.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-@class MModel, MMTransition;
+@class MModel, MMPoint, MMTransition;
 @class TransitionView;
 
 @interface MTransitionEditor : NSWindowController
@@ -61,6 +61,7 @@
 
 // TransitionView delegate
 - (void)transitionViewSelectionDidChange:(NSNotification *)aNotification;
+- (BOOL)transitionView:(TransitionView *)aTransitionView shouldAddPoint:(MMPoint *)aPoint;
 
 - (void)_updateSelectedPointDetails;
 - (IBAction)setType:(id)sender;

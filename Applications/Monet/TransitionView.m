@@ -745,6 +745,14 @@ static NSImage *_selectionBox = nil;
 
     NSLog(@" > %s", _cmd);
 
+    if ([self isEnabled] == NO) {
+        [super mouseDown:mouseEvent];
+        return;
+    }
+
+    // Force this to be first responder, since nothing else seems to work!
+    [[self window] makeFirstResponder:self];
+
     hitPoint = [self convertPoint:[mouseEvent locationInWindow] fromView:nil];
     //NSLog(@"hitPoint: %@", NSStringFromPoint(hitPoint));
 
@@ -778,7 +786,9 @@ static NSImage *_selectionBox = nil;
 
             //NSLog(@"NewPoint Time: %f  value: %f", [tempPoint freeTime], [tempPoint value]);
             [newPoint setValue:newValue];
-            if ([currentTemplate insertPoint:newPoint]) {
+            if ([[self delegate] respondsToSelector:@selector(transitionView:shouldAddPoint:)] == NO
+                || [[self delegate] transitionView:self shouldAddPoint:newPoint] == YES) {
+                [currentTemplate insertPoint:newPoint];
                 [selectedPoints removeAllObjects];
                 [selectedPoints addObject:newPoint];
             }
@@ -804,6 +814,9 @@ static NSImage *_selectionBox = nil;
     NSPoint hitPoint;
 
     //NSLog(@" > %s", _cmd);
+
+    if ([self isEnabled] == NO)
+        return;
 
     if (flags.shouldDrawSelection == YES) {
         hitPoint = [self convertPoint:[mouseEvent locationInWindow] fromView:nil];
@@ -1262,6 +1275,11 @@ static NSImage *_selectionBox = nil;
 //
 // Publicly used API
 //
+
+- (MMTransition *)transition;
+{
+    return currentTemplate;
+}
 
 - (void)setTransition:(MMTransition *)newTransition;
 {

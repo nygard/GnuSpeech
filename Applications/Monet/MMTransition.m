@@ -116,7 +116,30 @@
     points = [newList retain];
 }
 
-- insertPoint:aPoint;
+//pointTime = [aPoint getTime];
+- (BOOL)isTimeInSlopeRatio:(double)aTime;
+{
+    unsigned pointCount, pointIndex;
+    id currentPointOrSlopeRatio;
+
+    pointCount = [points count];
+    for (pointIndex = 0; pointIndex < pointCount; pointIndex++) {
+        currentPointOrSlopeRatio = [points objectAtIndex:pointIndex];
+
+        if ([currentPointOrSlopeRatio isKindOfClass:[MMSlopeRatio class]]) {
+            if (aTime < [currentPointOrSlopeRatio startTime])
+                return NO;
+            else if (aTime < [currentPointOrSlopeRatio endTime]) /* Insert point into Slope Ratio */
+                return YES;
+        } else if (aTime < [currentPointOrSlopeRatio getTime]) {
+            return NO;
+        }
+    }
+
+    return NO;
+}
+
+- (void)insertPoint:(MMPoint *)aPoint;
 {
     int i, j;
     id temp, temp1, temp2;
@@ -127,37 +150,30 @@
         if ([temp isKindOfClass:[MMSlopeRatio class]]) {
             if (pointTime < [temp startTime]) {
                 [points insertObject:aPoint atIndex:i];
-                return self;
-            } else	/* Insert point into Slope Ratio */
-                if (pointTime < [temp endTime]) {
-                    // TODO (2004-03-12): Move this out of the model.
-                    if (NSRunAlertPanel(@"Insert Point", @"Insert Point into Slope Ratio?", @"Yes", @"Cancel", nil) == NSAlertDefaultReturn) {
-                        temp1 = [temp points];
-                        for (j = 1; j < [temp1 count]; j++) {
-                            temp2 = [temp1 objectAtIndex:j];
-                            if (pointTime < [temp2 getTime]) {
-                                [temp1 insertObject:aPoint atIndex:j];
-                                [temp updateSlopes];
-                                return self;
-                            }
-                        }
-
-                        /* Should never get here, but if it does, signal error */
-                        return nil;
-                    } else
-                        return nil;
+                return;
+            } else if (pointTime < [temp endTime]) { /* Insert point into Slope Ratio */
+                temp1 = [temp points];
+                for (j = 1; j < [temp1 count]; j++) {
+                    temp2 = [temp1 objectAtIndex:j];
+                    if (pointTime < [temp2 getTime]) {
+                        [temp1 insertObject:aPoint atIndex:j];
+                        [temp updateSlopes];
+                        return;
+                    }
                 }
+
+                /* Should never get here */
+                return;
+            }
         } else {
             if (pointTime < [temp getTime]) {
                 [points insertObject:aPoint atIndex:i];
-                return self;
+                return;
             }
         }
     }
 
     [points addObject:aPoint];
-
-    return self;
 }
 
 - (int)type;
