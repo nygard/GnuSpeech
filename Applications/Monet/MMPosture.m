@@ -41,8 +41,8 @@
     comment = nil;
 
     categories = [[CategoryList alloc] init];
-    parameterList = [[NSMutableArray alloc] init];
-    metaParameterList = [[NSMutableArray alloc] init];
+    parameterTargets = [[NSMutableArray alloc] init];
+    metaParameterTargets = [[NSMutableArray alloc] init];
     symbolList = [[NSMutableArray alloc] init];
 
     nativeCategory = [[MMCategory alloc] init];
@@ -68,7 +68,7 @@
     count = [mainParameters count];
     for (index = 0; index < count; index++) {
         newTarget = [[MMTarget alloc] initWithValue:[[mainParameters objectAtIndex:index] defaultValue] isDefault:YES];
-        [parameterList addObject:newTarget];
+        [parameterTargets addObject:newTarget];
         [newTarget release];
     }
 
@@ -76,7 +76,7 @@
     count = [mainParameters count];
     for (index = 0; index < count; index++) {
         newTarget = [[MMTarget alloc] initWithValue:[[mainParameters objectAtIndex:index] defaultValue] isDefault:YES];
-        [metaParameterList addObject:newTarget];
+        [metaParameterTargets addObject:newTarget];
         [newTarget release];
     }
 
@@ -95,8 +95,8 @@
     [comment release];
 
     [categories release];
-    [parameterList release];
-    [metaParameterList release];
+    [parameterTargets release];
+    [metaParameterTargets release];
     [symbolList release];
     [nativeCategory release];
 
@@ -197,12 +197,12 @@
 
 - (NSMutableArray *)parameterTargets;
 {
-    return parameterList;
+    return parameterTargets;
 }
 
 - (NSMutableArray *)metaParameterTargets;
 {
-    return metaParameterList;
+    return metaParameterTargets;
 }
 
 - (NSMutableArray *)symbolList;
@@ -212,12 +212,12 @@
 
 - (void)addParameterTarget:(MMTarget *)newTarget;
 {
-    [parameterList addObject:newTarget];
+    [parameterTargets addObject:newTarget];
 }
 
 - (void)removeParameterTargetAtIndex:(unsigned int)index;
 {
-    [parameterList removeObjectAtIndex:index];
+    [parameterTargets removeObjectAtIndex:index];
 }
 
 - (void)addParameterTargetsFromDictionary:(NSDictionary *)aDictionary;
@@ -248,12 +248,12 @@
 
 - (void)addMetaParameterTarget:(MMTarget *)newTarget;
 {
-    [metaParameterList addObject:newTarget];
+    [metaParameterTargets addObject:newTarget];
 }
 
 - (void)removeMetaParameterTargetAtIndex:(unsigned int)index;
 {
-    [metaParameterList removeObjectAtIndex:index];
+    [metaParameterTargets removeObjectAtIndex:index];
 }
 
 - (void)addMetaParameterTargetsFromDictionary:(NSDictionary *)aDictionary;
@@ -366,15 +366,15 @@
         TargetList *archivedParameters;
 
         archivedParameters = [aDecoder decodeObject];
-        parameterList = [[NSMutableArray alloc] init];
-        [parameterList addObjectsFromArray:[archivedParameters allObjects]];
+        parameterTargets = [[NSMutableArray alloc] init];
+        [parameterTargets addObjectsFromArray:[archivedParameters allObjects]];
     }
     {
         TargetList *archivedMetaParameters;
 
         archivedMetaParameters = [aDecoder decodeObject];
-        metaParameterList = [[NSMutableArray alloc] init];
-        [metaParameterList addObjectsFromArray:[archivedMetaParameters allObjects]];
+        metaParameterTargets = [[NSMutableArray alloc] init];
+        [metaParameterTargets addObjectsFromArray:[archivedMetaParameters allObjects]];
     }
     {
         TargetList *archivedSymbols;
@@ -417,8 +417,8 @@
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@>[%p]: phoneSymbol: %@, comment: %@, categories: %@, parameterList: %@, metaParameterList: %@, symbolList: %@",
-                     NSStringFromClass([self class]), self, phoneSymbol, comment, categories, parameterList, metaParameterList, symbolList];
+    return [NSString stringWithFormat:@"<%@>[%p]: phoneSymbol: %@, comment: %@, categories: %@, parameterTargets: %@, metaParameterTargets: %@, symbolList: %@",
+                     NSStringFromClass([self class]), self, phoneSymbol, comment, categories, parameterTargets, metaParameterTargets, symbolList];
 }
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
@@ -426,7 +426,7 @@
     [resultString indentToLevel:level];
     [resultString appendFormat:@"<posture symbol=\"%@\"", GSXMLAttributeString(phoneSymbol, NO)];
 
-    if (comment == nil && [categories count] == 0 && [parameterList count] == 0 && [metaParameterList count] == 0 && [symbolList count] == 0) {
+    if (comment == nil && [categories count] == 0 && [parameterTargets count] == 0 && [metaParameterTargets count] == 0 && [symbolList count] == 0) {
         [resultString appendString:@"/>\n"];
     } else {
         [resultString appendString:@">\n"];
@@ -479,7 +479,7 @@
 
     mainParameterList = [[self model] parameters];
     count = [mainParameterList count];
-    assert(count == [parameterList count]);
+    assert(count == [parameterTargets count]);
 
     if (count == 0)
         return;
@@ -489,7 +489,7 @@
 
     for (index = 0; index < count; index++) {
         aParameter = [mainParameterList objectAtIndex:index];
-        aTarget = [parameterList objectAtIndex:index];
+        aTarget = [parameterTargets objectAtIndex:index];
 
         [resultString indentToLevel:level + 1];
         [resultString appendFormat:@"<target name=\"%@\" value=\"%g\"", [aParameter symbol], [aTarget value]];
@@ -511,9 +511,9 @@
 
     mainMetaParameterList = [[self model] metaParameters];
     count = [mainMetaParameterList count];
-    if (count != [metaParameterList count])
-        NSLog(@"%s, (%@) main meta count: %d, count: %d", _cmd, [self symbol], count, [metaParameterList count]);
-    //assert(count == [metaParameterList count]);
+    if (count != [metaParameterTargets count])
+        NSLog(@"%s, (%@) main meta count: %d, count: %d", _cmd, [self symbol], count, [metaParameterTargets count]);
+    //assert(count == [metaParameterTargets count]);
 
     if (count == 0)
         return;
@@ -523,7 +523,7 @@
 
     for (index = 0; index < count; index++) {
         aParameter = [mainMetaParameterList objectAtIndex:index];
-        aTarget = [metaParameterList objectAtIndex:index];
+        aTarget = [metaParameterTargets objectAtIndex:index];
 
         [resultString indentToLevel:level + 1];
         [resultString appendFormat:@"<target name=\"%@\" value=\"%g\"", [aParameter symbol], [aTarget value]];

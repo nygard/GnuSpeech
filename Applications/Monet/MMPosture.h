@@ -48,10 +48,10 @@
     NSString *phoneSymbol;
     NSString *comment;
 
-    // TODO (2004-03-19): Rename parametersTargets, metaParametersTargets, and symbolTargets
+    // TODO (2004-03-19): Rename  symbolTargets
     CategoryList *categories; // Of MMCategorys
-    NSMutableArray *parameterList; // Of Targets
-    NSMutableArray *metaParameterList; // Of Targets
+    NSMutableArray *parameterTargets; // Of Targets
+    NSMutableArray *metaParameterTargets; // Of Targets
     NSMutableArray *symbolList; // Of Targets
 
     MMCategory *nativeCategory;
