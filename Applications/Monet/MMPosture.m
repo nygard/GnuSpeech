@@ -37,9 +37,6 @@
     if ([super init] == nil)
         return nil;
 
-    name = nil;
-    comment = nil;
-
     categories = [[CategoryList alloc] init];
     parameterTargets = [[NSMutableArray alloc] init];
     metaParameterTargets = [[NSMutableArray alloc] init];
@@ -91,9 +88,6 @@
 
 - (void)dealloc;
 {
-    [name release];
-    [comment release];
-
     [categories release];
     [parameterTargets release];
     [metaParameterTargets release];
