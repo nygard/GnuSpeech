@@ -11,33 +11,27 @@
 // TODO (2004-03-15): This doesn't get called when loaded from a nib.
 - (id)initWithFrame:(NSRect)frameRect;
 {
-    //NSRect scaleRect, clipRect;
-    NSRect scaleFrame;
-    MAIntonationView *aView;
+    NSRect contentFrame;
+    MAIntonationView *intonationView;
 
     NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
 
+    NSLog(@"ISV %s, frame: %@", _cmd, NSStringFromRect(frameRect));
     if ([super initWithFrame:frameRect] == nil)
         return nil;
 
-    /* Set display attributes */
-    [self setBorderType:NSLineBorder];
-    [self setHasHorizontalScroller:YES];
+    //[self setBorderType:NSLineBorder];
+    //[self setHasHorizontalScroller:YES];
+    //[self setBackgroundColor:[NSColor whiteColor]];
 
-    /* alloc and init a intonation view instance.  Make Doc View */
-    //clipRect = NSZeroRect;
     // TODO (2004-03-31): See if we can remove this code:
-    aView = [[MAIntonationView alloc] initWithFrame:frameRect];
-    [self setDocumentView:aView];
+    contentFrame.origin = NSZeroPoint;
+    contentFrame.size = [self contentSize];
+    intonationView = [[MAIntonationView alloc] initWithFrame:contentFrame];
+    [self setDocumentView:intonationView];
+    [intonationView release];
 
-    scaleFrame = NSMakeRect(0, 0, SCALE_WIDTH, frameRect.size.height);
-    scaleView = [[MAIntonationScaleView alloc] initWithFrame:scaleFrame];
-    [self addSubview:scaleView];
-    [aView setScaleView:scaleView];
-
-    [aView release];
-
-    [self setBackgroundColor:[NSColor whiteColor]];
+    [self addScaleView];
 
     NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 
@@ -53,12 +47,20 @@
 
 - (void)awakeFromNib;
 {
+    [self addScaleView];
+}
+
+- (void)addScaleView;
+{
     NSSize contentSize;
     NSRect frameRect, scaleFrame;
     NSRect documentVisibleRect;
 
+    NSLog(@" > %s", _cmd);
+
     contentSize = [self contentSize];
     frameRect = [self frame];
+    NSLog(@"contentSize: %@, frameRect: %@", NSStringFromSize(contentSize), NSStringFromRect(frameRect));
 
     scaleFrame = NSMakeRect(0, 0, SCALE_WIDTH, contentSize.height);
     scaleView = [[MAIntonationScaleView alloc] initWithFrame:scaleFrame];
@@ -72,14 +74,10 @@
 
     [[self documentView] setFrame:documentVisibleRect];
     [[self documentView] setNeedsDisplay:YES];
+
+    NSLog(@"<  %s", _cmd);
 }
 
-/*===========================================================================
-
-	Method: tile
-	Purpose: Hack to avoid a bug(?) or feature(?).
-
-===========================================================================*/
 - (void)tile;
 {
     NSRect scaleFrame, contentFrame;
@@ -95,29 +93,20 @@
     [[self contentView] setNeedsDisplay:YES];
 }
 
-/*===========================================================================
-
-	Method: printPSCode
-	Purpose: Set up and print post script code of the FFT.
-
-===========================================================================*/
-- (void)print:(id)sender;
-{
-    /* Turn off some things to make output look better */
-    [self setBorderType:NSNoCellMask];
-    [self setHasHorizontalScroller:NO];
-
-    /* Send code */
-    [super print:sender];
-
-    /* Reinstate original settings */
-    [self setBorderType:NSLineBorder];
-    [self setHasHorizontalScroller:YES];
-}
-
 - (NSView *)scaleView;
 {
     return scaleView;
+}
+
+- (NSSize)printableSize;
+{
+    NSSize scaleViewSize, printableSize;
+
+    scaleViewSize = [scaleView frame].size;
+    printableSize = [[self documentView] frame].size;
+    NSLog(@"%s, scaleViewSize: %@, printableSize: %@", _cmd, NSStringFromSize(scaleViewSize), NSStringFromSize(printableSize));
+
+    return printableSize;
 }
 
 @end

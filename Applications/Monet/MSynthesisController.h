@@ -7,7 +7,7 @@
 #import "EventList.h" // for struct _intonationParameters
 
 @class MMIntonationPoint, MModel;
-@class EventListView;
+@class EventListView, IntonationScrollView;
 @class TRMSynthesizer;
 
 @interface MSynthesisController : MWindowController
@@ -34,7 +34,7 @@
 
     // Intonation window
     IBOutlet NSWindow *intonationWindow;
-    IBOutlet NSScrollView *intonationView;
+    IBOutlet IntonationScrollView *intonationView;
 
     IBOutlet NSTextField *semitoneTextField;
     IBOutlet NSTextField *hertzTextField;
@@ -97,6 +97,8 @@
 - (IBAction)setHertz:(id)sender;
 - (IBAction)setSlope:(id)sender;
 - (IBAction)setBeatOffset:(id)sender;
+
+- (IBAction)printDocument:(id)sender;
 
 - (void)intonationPointDidChange:(NSNotification *)aNotification;
 

@@ -3,18 +3,8 @@
 
 /*===========================================================================
 
-	Object: IntonationView
-	Purpose: Highest View in the ScrollView Hierarchy.  This view has
-		two sub views.  They are intonationView and
-		intonationScaleView
-		NOTE: IntonationView is the "docView" of this scrollview, so its
-		instance variable is in the superclass.
-
 	Author: Craig-Richard Taube-Schock
 	Date: Nov. 1, 1993
-
-History:
-	Nov. 23, 1993.  Documentation Completed.
 
 ===========================================================================*/
 
@@ -26,10 +16,15 @@ History:
 }
 
 - (id)initWithFrame:(NSRect)frameRect;
+- (void)dealloc;
+
+- (void)awakeFromNib;
+- (void)addScaleView;
 
 - (void)tile;
-- (IBAction)print:(id)sender;
 
 - (NSView *)scaleView;
+
+- (NSSize)printableSize;
 
 @end

@@ -12,7 +12,9 @@
 #import "Event.h" // For MAX_EVENTS
 #import "EventList.h"
 #import "EventListView.h"
+#import "IntonationScrollView.h"
 #import "MAIntonationView.h"
+#import "MAIntonationScaleView.h"
 #import "MExtendedTableView.h"
 #import "MMDisplayParameter.h"
 #import "MMIntonationPoint.h"
@@ -574,6 +576,60 @@
 - (IBAction)setBeatOffset:(id)sender;
 {
     [[self selectedIntonationPoint] setOffsetTime:[beatOffsetTextField doubleValue]];
+}
+
+// Currently set up to print the intonation contour.
+- (IBAction)printDocument:(id)sender;
+{
+    IntonationScrollView *printView;
+    //NSView *printView;
+    NSPrintOperation *printOperation;
+    NSPrintInfo *printInfo;
+    NSRect printFrame;
+    NSSize printableSize;
+
+    NSLog(@" > %s", _cmd);
+
+    printInfo = [[NSPrintInfo alloc] init];
+    [printInfo setHorizontalPagination:NSAutoPagination];
+    NSLog(@"printInfo: %@", printInfo);
+
+    printableSize = [intonationView printableSize];
+    printFrame.origin = NSZeroPoint;
+    printFrame.size = [NSScrollView frameSizeForContentSize:printableSize hasHorizontalScroller:NO hasVerticalScroller:NO borderType:NSNoCellMask];
+    NSLog(@"printableSize: %@, printFrame: %@", NSStringFromSize(printableSize), NSStringFromRect(printFrame));
+#if 1
+    printView = [[IntonationScrollView alloc] initWithFrame:printFrame];
+    [printView setBorderType:NSNoCellMask];
+    [printView setHasHorizontalScroller:NO];
+
+    [[printView documentView] setEventList:eventList];
+    NSLog(@"printView: %@", printView);
+    NSLog(@"printView frame: %@", NSStringFromRect([printView frame]));
+#else
+    {
+        MAIntonationScaleView *scaleView;
+        MAIntonationView *anIntonationView;
+        NSRect scaleFrame, intonationFrame;
+
+        NSDivideRect(printFrame, &scaleFrame, &intonationFrame, 50, NSMinXEdge);
+        printView = [[NSView alloc] initWithFrame:printFrame];
+        scaleView = [[MAIntonationScaleView alloc] initWithFrame:scaleFrame];
+        anIntonationView = [[MAIntonationView alloc] initWithFrame:intonationFrame];
+        [printView addSubview:scaleView];
+        [printView addSubview:anIntonationView];
+        [anIntonationView setScaleView:scaleView];
+        [anIntonationView setEventList:eventList];
+        // And let's just leak everything :)
+    }
+#endif
+
+    printOperation = [NSPrintOperation printOperationWithView:printView printInfo:printInfo];
+    [printOperation setShowPanels:YES];
+
+    [printOperation runOperation];
+
+    NSLog(@"<  %s", _cmd);
 }
 
 - (void)intonationPointDidChange:(NSNotification *)aNotification;
