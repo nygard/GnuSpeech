@@ -1,7 +1,7 @@
 #import <Foundation/NSObject.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-@class MonetList, ProtoTemplate;
+@class FormulaParser, MonetList, ProtoTemplate;
 @class Inspector;
 
 /*===========================================================================
@@ -30,20 +30,19 @@ History:
     IBOutlet NSBox *popUpListView;
     IBOutlet NSPopUpButton *popUpList;
 
-    id genInfoView;
-    id typeMatrix;
+    IBOutlet NSBox *genInfoView;
+    IBOutlet NSMatrix *typeMatrix;
 
-    id commentView;
-    id commentText;
-    id setCommentButton;
-    id revertCommentButton;
+    IBOutlet NSBox *commentView;
+    IBOutlet NSTextView *commentText;
+    IBOutlet NSButtonCell *setCommentButton;
+    IBOutlet NSButtonCell *revertCommentButton;
 
-    id usageBox;
-    id usageBrowser;
-    id usageField;
+    IBOutlet NSBox *usageBox;
+    IBOutlet NSBrowser *usageBrowser;
+    IBOutlet NSTextField *usageField;
 
     ProtoTemplate *currentProtoTemplate;
-    id formParser;
 
     MonetList *templateList;
 }

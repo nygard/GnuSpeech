@@ -174,6 +174,35 @@
             ACTIONS = {
                 browserDoubleHit = id; 
                 browserHit = id; 
+                revertComment = id; 
+                setComment = id; 
+                setDiphone = id; 
+                setTetraphone = id; 
+                setTriphone = id; 
+                setUpWindow = id; 
+            }; 
+            CLASS = ProtoTemplateInspector; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                commentText = NSTextView; 
+                commentView = NSBox; 
+                genInfoView = NSBox; 
+                mainInspector = Inspector; 
+                popUpList = NSPopUpButton; 
+                popUpListView = NSBox; 
+                revertCommentButton = NSButtonCell; 
+                setCommentButton = NSButtonCell; 
+                typeMatrix = NSMatrix; 
+                usageBox = NSBox; 
+                usageBrowser = NSBrowser; 
+                usageField = NSTextField; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {
+                browserDoubleHit = id; 
+                browserHit = id; 
                 moveRule = id; 
                 revertComment = id; 
                 selectionBrowserDoubleHit = id; 

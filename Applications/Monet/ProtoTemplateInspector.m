@@ -2,7 +2,6 @@
 
 #import <AppKit/AppKit.h>
 #import "AppController.h"
-#import "FormulaParser.h"
 #import "Inspector.h"
 #import "RuleManager.h"
 #import "MonetList.h"
@@ -13,6 +12,7 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 {
+    // TODO (2004-03-14): We'll add an extra retain every time we load a file... That should be handled differently.
     [commentView retain];
     [genInfoView retain];
     [usageBox retain];
@@ -24,7 +24,6 @@
     if ([super init] == nil)
         return nil;
 
-    formParser = [[FormulaParser alloc] init];
     templateList = [[MonetList alloc] initWithCapacity:20];
 
     return self;
@@ -37,7 +36,6 @@
     [usageBox release];
     [popUpListView release];
 
-    [formParser release];
     [templateList release];
     [currentProtoTemplate release];
 

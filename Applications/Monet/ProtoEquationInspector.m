@@ -208,6 +208,7 @@
 - (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;
 {
     [usageBrowser setTitle:[NSString stringWithFormat:@"Equation Usage: %d", [equationList count]] ofColumn:0];
+
     return [equationList count];
 }
 
@@ -225,7 +226,7 @@
 
     if ([[equationList objectAtIndex:row] isKindOfClass:[Rule class]]) {
         str = [NSString stringWithFormat:@"Rule: %d\n",
-                        [tempRuleList indexOfObject:[equationList objectAtIndex:row]]+1];
+                        [tempRuleList indexOfObject:[equationList objectAtIndex:row]] + 1];
         [cell setStringValue:str];
     } else {
         [prototypeManager findList:&i andIndex:&j ofTransition:[equationList objectAtIndex:row]];
