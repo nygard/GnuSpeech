@@ -123,7 +123,6 @@
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
     unsigned archivedVersion;
-    SymbolList *mainSymbolList;
     MModel *model;
 
     if ([super initWithCoder:aDecoder] == nil)
@@ -137,9 +136,6 @@
 
     symbol = nil;
 
-    mainSymbolList = [model symbols];
-    //NSLog(@"mainSymbolList: %@", mainSymbolList);
-
     if (archivedVersion == 0) {
         char *c_symbolName;
         NSString *symbolName;
@@ -152,7 +148,7 @@
         //NSLog(@"FormulaTerminal symbolName: %@", symbolName);
 
         if ([symbolName isEqual:@"No Symbol"] == NO)
-            [self setSymbol:[mainSymbolList findSymbol:symbolName]];
+            [self setSymbol:[model symbolWithName:symbolName]];
 
         free(c_symbolName);
     } else {
