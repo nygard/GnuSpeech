@@ -177,42 +177,27 @@
                   offsetTime, semitone, slope, ruleIndex];
 }
 
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
+- (void)loadFromXMLElement:(NSXMLElement *)element context:(id)context;
 {
     NSString *value;
 
-    if ([self init] == nil)
-        return nil;
-
-    value = [attributes objectForKey:@"offset-time"];
+    value = [[element attributeForName:@"offset-time"] stringValue];
     if (value != nil)
         [self setOffsetTime:[value doubleValue]];
 
-    value = [attributes objectForKey:@"semitone"];
+    value = [[element attributeForName:@"semitone"] stringValue];
     if (value != nil)
         [self setSemitone:[value doubleValue]];
 
-    value = [attributes objectForKey:@"slope"];
+    value = [[element attributeForName:@"slope"] stringValue];
     if (value != nil)
         [self setSlope:[value doubleValue]];
 
-    value = [attributes objectForKey:@"rule-index"];
+    value = [[element attributeForName:@"rule-index"] stringValue];
     if (value != nil)
         [self setRuleIndex:[value intValue]];
-
-    return self;
-}
-#if 0
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-{
-    [(MXMLParser *)parser skipTree];
 }
 
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
-{
-    [(MXMLParser *)parser popDelegate];
-}
-#endif
 //
 // Debugging
 //
