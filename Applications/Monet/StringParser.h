@@ -1,6 +1,6 @@
 #import <Foundation/NSObject.h>
 
-@class DefaultMgr, EventList, MonetList, PhoneList;
+@class EventList, MMSynthesisParameters, MonetList, PhoneList;
 @class EventListView, IntonationScrollView, IntonationView;
 
 /*===========================================================================
@@ -76,7 +76,7 @@
 
     IBOutlet NSTextField *radiusMultiplyField;
 
-    DefaultMgr *defaultManager;
+    MMSynthesisParameters *synthesisParameters;
 }
 
 + (NSCharacterSet *)gsStringParserWhitespaceCharacterSet;

@@ -6,11 +6,11 @@
 #import "NSScanner-Extensions.h"
 
 #import "AppController.h"
-#import "DefaultMgr.h"
 #import "EventList.h"
 #import "EventListView.h"
 #import "IntonationView.h"
 #import "MMPosture.h"
+#import "MMSynthesisParameters.h"
 #import "PhoneList.h"
 #include "driftGenerator.h"
 
@@ -62,7 +62,7 @@
     eventList = [[EventList alloc] initWithCapacity:1000];
     NXNameObject(@"mainEventList", eventList, NSApp);
 
-    defaultManager = [[DefaultMgr alloc] init];
+    synthesisParameters = [[MMSynthesisParameters alloc] init];
 
     return self;
 }
@@ -70,7 +70,7 @@
 - (void)dealloc;
 {
     [eventList release];
-    [defaultManager release];
+    [synthesisParameters release];
 
     [super dealloc];
 }
@@ -79,39 +79,41 @@
 {
     NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
 
-    [masterVolume setDoubleValue:[defaultManager masterVolume]];
-    [length setDoubleValue:[defaultManager vocalTractLength]];
-    [temperature setDoubleValue:[defaultManager temperature]];
-    [balance setDoubleValue:[defaultManager balance]];
-    [breathiness setDoubleValue:[defaultManager breathiness]];
-    [lossFactor setDoubleValue:[defaultManager lossFactor]];
+    [masterVolume setDoubleValue:[synthesisParameters masterVolume]];
+    [length setDoubleValue:[synthesisParameters vocalTractLength]];
+    [temperature setDoubleValue:[synthesisParameters temperature]];
+    [balance setDoubleValue:[synthesisParameters balance]];
+    [breathiness setDoubleValue:[synthesisParameters breathiness]];
+    [lossFactor setDoubleValue:[synthesisParameters lossFactor]];
 
-    [n1 setDoubleValue:[defaultManager n1]];
-    [n2 setDoubleValue:[defaultManager n2]];
-    [n3 setDoubleValue:[defaultManager n3]];
-    [n4 setDoubleValue:[defaultManager n4]];
-    [n5 setDoubleValue:[defaultManager n5]];
+    [n1 setDoubleValue:[synthesisParameters n1]];
+    [n2 setDoubleValue:[synthesisParameters n2]];
+    [n3 setDoubleValue:[synthesisParameters n3]];
+    [n4 setDoubleValue:[synthesisParameters n4]];
+    [n5 setDoubleValue:[synthesisParameters n5]];
 
-    [tp setDoubleValue:[defaultManager tp]];
-    [tnMin setDoubleValue:[defaultManager tnMin]];
-    [tnMax setDoubleValue:[defaultManager tnMax]];
+    [tp setDoubleValue:[synthesisParameters tp]];
+    [tnMin setDoubleValue:[synthesisParameters tnMin]];
+    [tnMax setDoubleValue:[synthesisParameters tnMax]];
 
-    [throatCutoff setDoubleValue:[defaultManager throatCuttoff]];
-    [throatVolume setDoubleValue:[defaultManager throatVolume]];
-    [apScale setDoubleValue:[defaultManager apertureScaling]];
-    [mouthCoef setDoubleValue:[defaultManager mouthCoef]];
-    [noseCoef setDoubleValue:[defaultManager noseCoef]];
-    [mixOffset setDoubleValue:[defaultManager mixOffset]];
+    [throatCutoff setDoubleValue:[synthesisParameters throatCutoff]];
+    [throatVolume setDoubleValue:[synthesisParameters throatVolume]];
+    [apScale setDoubleValue:[synthesisParameters apertureScaling]];
+    [mouthCoef setDoubleValue:[synthesisParameters mouthCoef]];
+    [noseCoef setDoubleValue:[synthesisParameters noseCoef]];
+    [mixOffset setDoubleValue:[synthesisParameters mixOffset]];
 
-    if ([@"ON" isEqualToString:[defaultManager noiseModulation]])
+    if ([synthesisParameters shouldUseNoiseModulation] == YES)
         [modulation selectCellAtRow:0 column:1];
     else
         [modulation selectCellAtRow:0 column:0];
 
-    if ([@"PULSE" isEqualToString:[defaultManager glottalPulseShape]])
+    if ([synthesisParameters glottalPulseShape] == MMGPShapePulse)
         [waveform selectCellAtRow:0 column:0];
     else
         [waveform selectCellAtRow:0 column:1];
+
+    // TODO (2004-03-29): Add three missing fields: pitch, sampling rate, output channels
 
     phoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
 
@@ -120,41 +122,41 @@
 
 - (void)saveDefaults:(id)sender;
 {
-    [defaultManager setMasterVolume:[masterVolume doubleValue]];
-    [defaultManager setVocalTractLength:[length doubleValue]];
-    [defaultManager setTemperature:[temperature doubleValue]];
-    [defaultManager setBalance:[balance doubleValue]];
-    [defaultManager setBreathiness:[breathiness doubleValue]];
-    [defaultManager setLossFactor:[lossFactor doubleValue]];
-    [defaultManager setn1:[n1 doubleValue]];
-    [defaultManager setn2:[n2 doubleValue]];
-    [defaultManager setn3:[n3 doubleValue]];
-    [defaultManager setn4:[n4 doubleValue]];
-    [defaultManager setn5:[n5 doubleValue]];
-    [defaultManager setTp:[tp doubleValue]];
-    [defaultManager setTnMin:[tnMin doubleValue]];
-    [defaultManager setTnMax:[tnMax doubleValue]];
-    [defaultManager setThroatCuttoff:[throatCutoff doubleValue]];
-    [defaultManager setThroatVolume:[throatVolume doubleValue]];
-    [defaultManager setApertureScaling:[apScale doubleValue]];
-    [defaultManager setMouthCoef:[mouthCoef doubleValue]];
-    [defaultManager setNoseCoef:[noseCoef doubleValue]];
-    [defaultManager setMixOffset:[mixOffset doubleValue]];
+    [synthesisParameters setMasterVolume:[masterVolume doubleValue]];
+    [synthesisParameters setVocalTractLength:[length doubleValue]];
+    [synthesisParameters setTemperature:[temperature doubleValue]];
+    [synthesisParameters setBalance:[balance doubleValue]];
+    [synthesisParameters setBreathiness:[breathiness doubleValue]];
+    [synthesisParameters setLossFactor:[lossFactor doubleValue]];
+    [synthesisParameters setN1:[n1 doubleValue]];
+    [synthesisParameters setN2:[n2 doubleValue]];
+    [synthesisParameters setN3:[n3 doubleValue]];
+    [synthesisParameters setN4:[n4 doubleValue]];
+    [synthesisParameters setN5:[n5 doubleValue]];
+    [synthesisParameters setTp:[tp doubleValue]];
+    [synthesisParameters setTnMin:[tnMin doubleValue]];
+    [synthesisParameters setTnMax:[tnMax doubleValue]];
+    [synthesisParameters setThroatCutoff:[throatCutoff doubleValue]];
+    [synthesisParameters setThroatVolume:[throatVolume doubleValue]];
+    [synthesisParameters setApertureScaling:[apScale doubleValue]];
+    [synthesisParameters setMouthCoef:[mouthCoef doubleValue]];
+    [synthesisParameters setNoseCoef:[noseCoef doubleValue]];
+    [synthesisParameters setMixOffset:[mixOffset doubleValue]];
 
     if ([modulation selectedColumn])
-        [defaultManager setNoiseModulation:@"ON"];
+        [synthesisParameters setShouldUseNoiseModulation:YES];
     else
-        [defaultManager setNoiseModulation:@"OFF"];
+        [synthesisParameters setShouldUseNoiseModulation:NO];
 
     if ([waveform selectedColumn])
-        [defaultManager setGlottalPulseShape:@"SINE"];
+        [synthesisParameters setGlottalPulseShape:MMGPShapeSine];
     else
-        [defaultManager setGlottalPulseShape:@"PULSE"];
+        [synthesisParameters setGlottalPulseShape:MMGPShapePulse];
 
 //    [modulation
 //    [waveform
 
-    [defaultManager updateDefaults];
+    //[synthesisParameters updateDefaults];
 }
 
 - (void)parseStringButton:(id)sender;

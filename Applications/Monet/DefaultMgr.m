@@ -28,7 +28,7 @@
 
 ===========================================================================*/
 
-#define MonetDefCount 22
+#define MonetDefCount 25
 
 static NSString *MonetDefVal[] = {
     DEFAULT_MASTER_VOLUME,
@@ -53,6 +53,9 @@ static NSString *MonetDefVal[] = {
     DEFAULT_TN_MAX,
     DEFAULT_GP_SHAPE,
     DEFAULT_NOISE_MODULATION,
+    DEFAULT_PITCH,
+    DEFAULT_SAMPLING_RATE,
+    DEFAULT_OUTPUT_CHANNELS,
     nil
 };
 
@@ -79,6 +82,9 @@ static NSString *MonetDefKeys[] = {
     MDK_TN_MAX,
     MDK_GP_SHAPE,
     MDK_NOISE_MODULATION,
+    MDK_PITCH,
+    MDK_SAMPLING_RATE,
+    MDK_OUTPUT_CHANNELS,
     nil
 };
 
@@ -86,10 +92,12 @@ static NSString *MonetDefKeys[] = {
 
 + (void)initialize;
 {
+#if 0
     NSDictionary *dict;
 
     dict = [NSDictionary dictionaryWithObjects:MonetDefVal forKeys:MonetDefKeys count:MonetDefCount];
     [[NSUserDefaults standardUserDefaults] registerDefaults:dict];
+#endif
 }
 
 - (void)updateDefaults;

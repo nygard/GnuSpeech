@@ -29,6 +29,7 @@
 #import "MRuleManager.h"
 #import "MRuleTester.h"
 #import "MSpecialTransitionEditor.h"
+#import "MSynthesisParameterEditor.h"
 #import "MTransitionEditor.h"
 
 @implementation AppController
@@ -552,6 +553,21 @@
     [self ruleManager]; // Make sure it's been created
     [newRuleManager setModel:model];
     [newRuleManager showWindow:self];
+}
+
+- (MSynthesisParameterEditor *)synthesisParameterEditor;
+{
+    if (synthesisParameterEditor == nil)
+        synthesisParameterEditor = [[MSynthesisParameterEditor alloc] initWithModel:model];
+
+    return synthesisParameterEditor;
+}
+
+- (IBAction)showSynthesisParameterEditor:(id)sender;
+{
+    [self synthesisParameterEditor]; // Make sure it's been created
+    [synthesisParameterEditor setModel:model];
+    [synthesisParameterEditor showWindow:self];
 }
 
 - (IBAction)generateXML:(id)sender;

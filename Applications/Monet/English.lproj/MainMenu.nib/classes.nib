@@ -18,6 +18,7 @@
                 showRuleManager = id; 
                 showRuleTester = id; 
                 showSpecialTransitionEditor = id; 
+                showSynthesisParameterEditor = id; 
                 showTransitionEditor = id; 
             }; 
             CLASS = AppController; 
