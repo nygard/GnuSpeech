@@ -15,6 +15,4 @@
 - (void)selectItem:(id)anItem;
 - (void)scrollRowForItemToVisible:(id)anItem;
 
-- (void)resizeOutlineColumnToFit;
-
 @end

@@ -152,7 +152,6 @@
         [specialTransitionOutlineView expandItem:[[model specialTransitions] objectAtIndex:index]];
 
     //[equationOutlineView sizeToFit];
-    [equationOutlineView resizeOutlineColumnToFit];
     [transitionOutlineView sizeToFit];
     [specialTransitionOutlineView sizeToFit];
 }
