@@ -116,6 +116,8 @@
 				01D9F8A106472FFA003E4F4D,
 				01D9F8A6064732FC003E4F4D,
 				01D9F8A7064732FC003E4F4D,
+				01E80899064C4AD5009B1BF5,
+				01E80895064C49B2009B1BF5,
 			);
 			isa = PBXGroup;
 			name = tube;
@@ -282,6 +284,22 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
+		};
+		01E80895064C49B2009B1BF5 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
+			path = ring_buffer.c;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01E80899064C4AD5009B1BF5 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = ring_buffer.h;
+			refType = 4;
+			sourceTree = "<group>";
 		};
 //010
 //011

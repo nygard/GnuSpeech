@@ -1,17 +1,7 @@
-#define BUFFER_SIZE 1024
+#include <stdio.h>
+#include <stdlib.h>
 
-typedef struct _TRMRingBuffer {
-    double buffer[BUFFER_SIZE];
-    int padSize;
-    int fillSize; // Derived from BUFFER_SIZE and padSize.  Remains constant.
-
-    int fillPtr;
-    int emptyPtr;
-    int fillCounter;
-
-    void *context;
-    void (*callbackFunction)(TRMRingBuffer *, void *);
-} TRMRingBuffer;
+#include "ring_buffer.h"
 
 TRMRingBuffer *createRingBuffer(int aPadSize)
 {
@@ -25,17 +15,17 @@ TRMRingBuffer *createRingBuffer(int aPadSize)
     }
 
     for (index = 0; index < BUFFER_SIZE; index++)
-        buffer[index] = 0;
+        newRingBuffer->buffer[index] = 0;
 
-    padSize = aPadSize;
-    fillSize = BUFFER_SIZE - (2 * padSize);
+    newRingBuffer->padSize = aPadSize;
+    newRingBuffer->fillSize = BUFFER_SIZE - (2 * newRingBuffer->padSize);
 
-    fillPtr = padSize;
-    emptyPtr = 0;
-    fillCounter = 0;
+    newRingBuffer->fillPtr = newRingBuffer->padSize;
+    newRingBuffer->emptyPtr = 0;
+    newRingBuffer->fillCounter = 0;
 
-    context = NULL;
-    callbackFunction = NULL;
+    newRingBuffer->context = NULL;
+    newRingBuffer->callbackFunction = NULL;
 
     return newRingBuffer;
 }
@@ -45,25 +35,25 @@ TRMRingBuffer *createRingBuffer(int aPadSize)
 // full.
 void dataFill(TRMRingBuffer *ringBuffer, double data)
 {
-    buffer[fillPtr] = data;
+    ringBuffer->buffer[ringBuffer->fillPtr] = data;
 
     /*  INCREMENT THE FILL POINTER, MODULO THE BUFFER SIZE  */
     increment(ringBuffer);
 
     /*  INCREMENT THE COUNTER, AND EMPTY THE BUFFER IF FULL  */
-    if (++fillCounter >= fillSize) {
+    if (++(ringBuffer->fillCounter) >= ringBuffer->fillSize) {
 	dataEmpty(ringBuffer);
 	/* RESET THE FILL COUNTER  */
-	fillCounter = 0;
+	ringBuffer->fillCounter = 0;
     }
 }
 
 void dataEmpty(TRMRingBuffer *ringBuffer)
 {
-    if (callbackFunction == NULL) {
+    if (ringBuffer->callbackFunction == NULL) {
         // Just empty the buffer.
     } else {
-        (*callbackFunction)(ringBuffer, context);
+        (*(ringBuffer->callbackFunction))(ringBuffer, ringBuffer->context);
     }
 }
 
@@ -85,7 +75,7 @@ void flushBuffer(TRMRingBuffer *ringBuffer)
     int index;
 
     /*  PAD END OF RING BUFFER WITH ZEROS  */
-    for (index = 0; index < (padSize * 2); index++)
+    for (index = 0; index < (ringBuffer->padSize * 2); index++)
 	dataFill(ringBuffer, 0.0);
 
     /*  FLUSH UP TO FILL POINTER - PADSIZE  */

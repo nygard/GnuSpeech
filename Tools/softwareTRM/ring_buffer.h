@@ -1,0 +1,27 @@
+#ifndef __RING_BUFFER_H
+#define __RING_BUFFER_H
+
+#define BUFFER_SIZE 1024
+
+typedef struct _TRMRingBuffer {
+    double buffer[BUFFER_SIZE];
+    int padSize;
+    int fillSize; // Derived from BUFFER_SIZE and padSize.  Remains constant.
+
+    int fillPtr;
+    int emptyPtr;
+    int fillCounter;
+
+    void *context;
+    void (*callbackFunction)(struct _TRMRingBuffer *, void *);
+} TRMRingBuffer;
+
+TRMRingBuffer *createRingBuffer(int aPadSize);
+void dataFill(TRMRingBuffer *ringBuffer, double data);
+void dataEmpty(TRMRingBuffer *ringBuffer);
+void increment(TRMRingBuffer *ringBuffer);
+void decrement(TRMRingBuffer *ringBuffer);
+void flushBuffer(TRMRingBuffer *ringBuffer);
+
+
+#endif
