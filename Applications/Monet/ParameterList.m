@@ -1,7 +1,6 @@
 #import "ParameterList.h"
 
 #import <Foundation/Foundation.h>
-#import "MMParameter.h"
 
 /*===========================================================================
 
@@ -12,20 +11,5 @@
 ===========================================================================*/
 
 @implementation ParameterList
-
-- (MMParameter *)findParameter:(NSString *)symbol;
-{
-    int count, index;
-    MMParameter *aParameter;
-
-    count = [self count];
-    for (index = 0; index < count; index++) {
-        aParameter = [self objectAtIndex:index];
-        if ([[aParameter symbol] isEqual:symbol] == YES)
-            return aParameter;
-    }
-
-    return nil;
-}
 
 @end

@@ -1,7 +1,5 @@
 #import "MonetList.h"
 
-@class MMParameter;
-
 /*===========================================================================
 
 	Author: Craig-Richard Taube-Schock
@@ -14,7 +12,5 @@
 @interface ParameterList : MonetList
 {
 }
-
-- (MMParameter *)findParameter:(NSString *)symbol;
 
 @end
