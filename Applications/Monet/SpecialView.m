@@ -331,6 +331,7 @@
             [newPoint release];
 
             [[controller inspector] inspectPoint:selectedPoint];
+            [self _selectionDidChange];
             [self setNeedsDisplay:YES];
             return;
         }
@@ -425,6 +426,7 @@
     }
 
     [[controller inspector] inspectPoints:selectedPoints];
+    [self _selectionDidChange];
     [self setNeedsDisplay:YES];
 }
 
