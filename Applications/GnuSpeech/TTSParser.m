@@ -8,6 +8,7 @@
 #import "NSString-Extensions.h"
 
 #import "GSPronunciationDictionary.h"
+#import "GSDBMPronunciationDictionary.h"
 #import "GSSimplePronunciationDictionary.h"
 #import "TTSNumberPronunciations.h"
 
@@ -81,7 +82,9 @@ static NSDictionary *_specialAcronyms = nil;
 
     escapeCharacter = '%';
 
-    mainDictionary = [[GSSimplePronunciationDictionary mainDictionary] retain];
+    //mainDictionary = [[GSSimplePronunciationDictionary mainDictionary] retain];
+    mainDictionary = [[GSDBMPronunciationDictionary alloc] initWithFilename:@"/tmp/test1"];
+    [mainDictionary loadDictionary];
 
     return self;
 }

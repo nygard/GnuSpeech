@@ -8,24 +8,23 @@
 
 @implementation GSSimplePronunciationDictionary
 
-+ (GSPronunciationDictionary *)mainDictionary;
++ (id)mainDictionary;
 {
-    static GSPronunciationDictionary *_mainDictionary = nil;
+    static GSSimplePronunciationDictionary *_mainDictionary = nil;
 
     if (_mainDictionary == nil) {
         NSString *path;
 
-        _mainDictionary = [[GSSimplePronunciationDictionary alloc] init];
         path = [[NSBundle bundleForClass:self] pathForResource:@"2.0eMainDictionary" ofType:@"dict"];
-        [_mainDictionary loadFromFile:path];
+        _mainDictionary = [[GSSimplePronunciationDictionary alloc] initWithFilename:path];
     }
 
     return _mainDictionary;
 }
 
-- (id)init;
+- (id)initWithFilename:(NSString *)aFilename;
 {
-    if ([super init] == nil)
+    if ([super initWithFilename:aFilename] == nil)
         return nil;
 
     pronunciations = [[NSMutableDictionary alloc] init]; // This is a case where setting the capacity might be a good idea!
@@ -40,7 +39,15 @@
     [super dealloc];
 }
 
-- (BOOL)loadFromFile:(NSString *)filename;
+- (NSDate *)modificationDate;
+{
+    NSDictionary *attributes;
+
+    attributes = [[NSFileManager defaultManager] fileAttributesAtPath:filename traverseLink:YES];
+    return [attributes fileModificationDate];
+}
+
+- (BOOL)loadDictionary;
 {
     NSData *data;
     NSString *str;
@@ -103,11 +110,19 @@
 
     NSLog(@"%s, self: %@", _cmd, self);
 
+
     return YES;
+}
+
+- (NSDictionary *)pronunciations;
+{
+    [self loadDictionaryIfNecessary];
+    return pronunciations;
 }
 
 - (NSString *)lookupPronunciationForWord:(NSString *)aWord;
 {
+    [self loadDictionaryIfNecessary];
     return [pronunciations objectForKey:aWord];
 }
 

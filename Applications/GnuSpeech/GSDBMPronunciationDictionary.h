@@ -2,13 +2,17 @@
 //  Copyright (C) 2004 __OWNER__.  All rights reserved.
 
 #import "GSPronunciationDictionary.h"
+#include <fcntl.h>
+#include <ndbm.h>
 
-@interface GSSimplePronunciationDictionary : GSPronunciationDictionary
+@class GSSimplePronunciationDictionary;
+
+@interface GSDBMPronunciationDictionary : GSPronunciationDictionary
 {
-    NSMutableDictionary *pronunciations;
+    DBM *db;
 }
 
-+ (id)mainDictionary;
++ (BOOL)createDatabase:(NSString *)aFilename fromSimpleDictionary:(GSSimplePronunciationDictionary *)simpleDictionary;
 
 - (id)initWithFilename:(NSString *)aFilename;
 - (void)dealloc;
@@ -16,7 +20,6 @@
 - (NSDate *)modificationDate;
 - (BOOL)loadDictionary;
 
-- (NSDictionary *)pronunciations;
 - (NSString *)lookupPronunciationForWord:(NSString *)aWord;
 
 @end

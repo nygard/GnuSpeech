@@ -5,19 +5,31 @@
 
 @interface GSPronunciationDictionary : NSObject
 {
+    NSString *filename;
     NSString *version;
+
     NSMutableArray *suffixOrder;
     NSMutableDictionary *suffixes;
+
+    BOOL hasBeenLoaded;
 }
 
-- (id)init;
++ (id)mainDictionary;
+
+- (id)initWithFilename:(NSString *)aFilename;
 - (void)dealloc;
+
+- (NSString *)filename;
 
 - (NSString *)version;
 - (void)setVersion:(NSString *)newVersion;
 
-- (BOOL)loadFromFile:(NSString *)filename;
-- (void)_readSuffixesFromFile:(NSString *)filename;
+- (NSDate *)modificationDate;
+
+- (void)loadDictionaryIfNecessary;
+- (BOOL)loadDictionary;
+
+- (void)_readSuffixesFromFile:(NSString *)aFilename;
 
 - (NSString *)lookupPronunciationForWord:(NSString *)aWord;
 - (NSString *)pronunciationForWord:(NSString *)aWord;

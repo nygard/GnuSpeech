@@ -5,19 +5,37 @@
 
 #import <Foundation/Foundation.h>
 #import "GSPronunciationDictionary.h"
+#import "GSDBMPronunciationDictionary.h"
 #import "GSSimplePronunciationDictionary.h"
 #import "TTSParser.h"
 
 @implementation ApplicationDelegate
+
+- (id)init;
+{
+    if ([super init] == nil)
+        return nil;
+
+    dictionaryClass = [GSDBMPronunciationDictionary class];
+
+    return self;
+}
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification;
 {
     GSPronunciationDictionary *dict;
 
     NSLog(@" > %s", _cmd);
-    dict = [GSSimplePronunciationDictionary mainDictionary]; // Force it to load right away.
-    [dictionaryVersionTextField setStringValue:[dict version]];
+    dict = [dictionaryClass mainDictionary]; // Force it to load right away (for the simple version only).
+    if ([dict version] != nil)
+        [dictionaryVersionTextField setStringValue:[dict version]];
+
+    //[GSDBMPronunciationDictionary createDatabase:@"/tmp/test1" fromSimpleDictionary:[GSSimplePronunciationDictionary mainDictionary]];
     NSLog(@"<  %s", _cmd);
+}
+
+- (void)_createDBMFileIfNecessary;
+{
 }
 
 - (IBAction)parseText:(id)sender;
@@ -50,9 +68,9 @@
 
     NSLog(@" > %s", _cmd);
 
-    dictionary = [[GSSimplePronunciationDictionary alloc] init];
     path = [[NSBundle bundleForClass:[self class]] pathForResource:@"2.0eMainDictionary" ofType:@"dict"];
-    [dictionary loadFromFile:path];
+    dictionary = [[GSSimplePronunciationDictionary alloc] initWithFilename:path];
+    [dictionary loadDictionary];
     NSLog(@"loaded %@", dictionary);
     [dictionary release];
 

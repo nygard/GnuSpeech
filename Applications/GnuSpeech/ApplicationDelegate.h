@@ -12,14 +12,18 @@
     IBOutlet NSTextField *dictionaryVersionTextField;
     IBOutlet NSTextField *wordTextField;
     IBOutlet NSTextField *pronunciationTextField;
+
+    Class dictionaryClass;
 }
+
+- (id)init;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification;
 
+- (void)_createDBMFileIfNecessary;
+
 - (IBAction)parseText:(id)sender;
-
 - (IBAction)loadMainDictionary:(id)sender;
-
 - (IBAction)lookupPronunication:(id)sender;
 
 @end

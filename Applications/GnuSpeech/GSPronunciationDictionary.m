@@ -8,7 +8,12 @@
 
 @implementation GSPronunciationDictionary
 
-- (id)init;
++ (id)mainDictionary;
+{
+    return nil;
+}
+
+- (id)initWithFilename:(NSString *)aFilename;
 {
     NSBundle *bundle;
     NSString *path;
@@ -16,7 +21,10 @@
     if ([super init] == nil)
         return nil;
 
+    filename = [aFilename retain];
+    NSLog(@"filename: %@", filename);
     version = nil;
+
     suffixOrder = [[NSMutableArray alloc] init];
     suffixes = [[NSMutableDictionary alloc] init];
 
@@ -24,11 +32,14 @@
     path = [bundle pathForResource:@"TTSSuffixList" ofType:@"txt"];
     [self _readSuffixesFromFile:path];
 
+    hasBeenLoaded = NO;
+
     return self;
 }
 
 - (void)dealloc;
 {
+    [filename release];
     [version release];
     [suffixOrder release];
     [suffixes release];
@@ -36,8 +47,15 @@
     [super dealloc];
 }
 
+- (NSString *)filename;
+{
+    return filename;
+}
+
 - (NSString *)version;
 {
+    [self loadDictionaryIfNecessary];
+
     return version;
 }
 
@@ -50,13 +68,26 @@
     version = [newVersion retain];
 }
 
-- (BOOL)loadFromFile:(NSString *)filename;
+- (NSDate *)modificationDate;
+{
+    return nil;
+}
+
+- (void)loadDictionaryIfNecessary;
+{
+    if (hasBeenLoaded == NO) {
+        hasBeenLoaded = [self loadDictionary];
+        NSLog(@"%s, hasBeenLoaded: %d", _cmd, hasBeenLoaded);
+    }
+}
+
+- (BOOL)loadDictionary;
 {
     // Implement in subclases
     return NO;
 }
 
-- (void)_readSuffixesFromFile:(NSString *)filename;
+- (void)_readSuffixesFromFile:(NSString *)aFilename;
 {
     NSData *data;
     NSString *str;
@@ -65,7 +96,7 @@
 
     NSLog(@" > %s", _cmd);
 
-    data = [[NSData alloc] initWithContentsOfFile:filename];
+    data = [[NSData alloc] initWithContentsOfFile:aFilename];
     NSLog(@"data: %p", data);
     //str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]; // utf-8 fails
     str = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
