@@ -300,7 +300,7 @@
 
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
 {
-    id list;
+    TargetList *list;
     NSString *str;
 
     switch (currentBrowser) {
@@ -317,7 +317,7 @@
           return;
     }
 
-    str = [NSString stringWithFormat:@"%20@ %10.2f", [[currentMainList objectAtIndex:row] symbol], [[list objectAtIndex:row] value]];
+    str = [NSString stringWithFormat:@"%20@ %10.2f", [[currentMainList objectAtIndex:row] symbol], [(Target *)[list objectAtIndex:row] value]];
 
     [cell setStringValue:str];
     if ([[list objectAtIndex:row] isDefault])
