@@ -5,6 +5,6 @@
 
 @interface NSPopUpButton (Extensions)
 
-- (void)selectItemWithTag:(int)tag;
+//- (BOOL)selectItemWithTag:(int)tag;
 
 @end
