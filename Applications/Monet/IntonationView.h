@@ -96,4 +96,6 @@ extern NSString *IntonationViewSelectionDidChangeNotification;
 - (float)scaleWidth:(float)width;
 - (NSRect)rectFormedByPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
 
+- (void)intonationPointDidChange:(NSNotification *)aNotification;
+
 @end

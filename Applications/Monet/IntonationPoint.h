@@ -29,16 +29,16 @@
 - (EventList *)eventList;
 
 - (double)semitone;
-- (void)setSemitone:(double)newValue;
+- (void)setSemitone:(double)newSemitone;
 
 - (double)offsetTime;
-- (void)setOffsetTime:(double)newValue;
+- (void)setOffsetTime:(double)newOffsetTime;
 
 - (double)slope;
-- (void)setSlope:(double)newValue;
+- (void)setSlope:(double)newSlope;
 
 - (int)ruleIndex;
-- (void)setRuleIndex:(int)newIndex;
+- (void)setRuleIndex:(int)newRuleIndex;
 
 - (double)absoluteTime;
 - (double)beatTime;

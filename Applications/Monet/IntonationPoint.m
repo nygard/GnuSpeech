@@ -37,9 +37,13 @@
     return semitone;
 }
 
-- (void)setSemitone:(double)newValue;
+- (void)setSemitone:(double)newSemitone;
 {
-    semitone = newValue;
+    if (newSemitone == semitone)
+        return;
+
+    semitone = newSemitone;
+    [nonretained_eventList intonationPointDidChange:self];
 }
 
 - (double)offsetTime;
@@ -47,9 +51,13 @@
     return offsetTime;
 }
 
-- (void)setOffsetTime:(double)newValue;
+- (void)setOffsetTime:(double)newOffsetTime;
 {
-    offsetTime = newValue;
+    if (newOffsetTime == offsetTime)
+        return;
+
+    offsetTime = newOffsetTime;
+    [nonretained_eventList intonationPointDidChange:self];
 }
 
 - (double)slope;
@@ -57,9 +65,13 @@
     return slope;
 }
 
-- (void)setSlope:(double)newValue;
+- (void)setSlope:(double)newSlope;
 {
-    slope = newValue;
+    if (newSlope == slope)
+        return;
+
+    slope = newSlope;
+    [nonretained_eventList intonationPointDidChange:self];
 }
 
 - (int)ruleIndex;
@@ -67,9 +79,13 @@
     return ruleIndex;
 }
 
-- (void)setRuleIndex:(int)newIndex;
+- (void)setRuleIndex:(int)newRuleIndex;
 {
-    ruleIndex = newIndex;
+    if (newRuleIndex == ruleIndex)
+        return;
+
+    ruleIndex = newRuleIndex;
+    [nonretained_eventList intonationPointDidChange:self];
 }
 
 - (double)absoluteTime;

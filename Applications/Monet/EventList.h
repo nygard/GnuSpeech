@@ -65,6 +65,9 @@ struct _rule {
     double beat; // absolute time of beat, in milliseconds
 };
 
+extern NSString *EventListDidAddIntonationPoint;
+extern NSString *EventListDidChangeIntonationPoint;
+extern NSString *EventListDidRemoveIntonationPoint;
 
 @interface EventList : NSObject
 {
@@ -214,5 +217,7 @@ struct _rule {
 - (void)clearIntonationEvents;
 - (void)clearEventNumber:(int)number;
 - (void)removeEmptyEvents;
+
+- (void)intonationPointDidChange:(IntonationPoint *)anIntonationPoint;
 
 @end

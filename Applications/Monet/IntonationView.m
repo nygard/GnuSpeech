@@ -70,6 +70,8 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
 
 - (void)dealloc;
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
     [postureTextFieldCell release];
     [ruleIndexTextFieldCell release];
     [ruleDurationTextFieldCell release];
@@ -92,8 +94,17 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
     if (newEventList == eventList)
         return;
 
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:EventListDidChangeIntonationPoint object:nil];
+
     [eventList release];
     eventList = [newEventList retain];
+
+    if (eventList != nil) {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                              selector:@selector(intonationPointDidChange:)
+                                              name:EventListDidChangeIntonationPoint
+                                              object:eventList];
+    }
 
     [self setNeedsDisplay:YES];
 }
@@ -478,87 +489,97 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
 #endif
 }
 
-- (void)keyDown:(NSEvent *)theEvent;
+- (void)keyDown:(NSEvent *)keyEvent;
 {
+    NSString *characters;
+    int index, length;
+    unichar ch;
+
     int i, numRules, pointCount;
     IntonationPoint *tempPoint;
-    //NSLog(@"KeyDown %d", theEvent->data.key.keyCode);
 
     NSLog(@" > %s", _cmd);
 
     numRules = [eventList numberOfRules];
     pointCount = [selectedPoints count];
 
-    switch ([theEvent keyCode]) {
-      case NSDeleteFunctionKey:
-          NSLog(@"delete");
-          [self deletePoints];
-          break;
+    characters = [keyEvent characters];
+    length = [characters length];
+    for (index = 0; index < length; index++) {
+        ch = [characters characterAtIndex:index];
+        NSLog(@"index: %d, character: %@", index, [characters substringWithRange:NSMakeRange(index, 1)]);
 
-      case NSLeftArrowFunctionKey:
-          NSLog(@"left arrow");
-          for (i = 0; i < pointCount; i++) {
-              if ([[selectedPoints objectAtIndex:i] ruleIndex] - 1 < 0) {
-                  NSBeep();
-                  return;
+        switch (ch) {
+          case NSDeleteFunctionKey:
+              NSLog(@"delete");
+              [self deletePoints];
+              break;
+
+          case NSLeftArrowFunctionKey:
+              NSLog(@"left arrow");
+              for (i = 0; i < pointCount; i++) {
+                  if ([[selectedPoints objectAtIndex:i] ruleIndex] - 1 < 0) {
+                      NSBeep();
+                      return;
+                  }
               }
-          }
 
-          for (i = 0; i < pointCount; i++) {
-              tempPoint = [selectedPoints objectAtIndex:i];
-              [tempPoint setRuleIndex:[tempPoint ruleIndex] - 1];
-              [eventList addIntonationPoint:tempPoint];
-          }
-          break;
-
-      case NSRightArrowFunctionKey:
-          NSLog(@"right arrow");
-          for (i = 0; i < pointCount; i++) {
-              if ([[selectedPoints objectAtIndex:i] ruleIndex] + 1 >= numRules) {
-                  NSBeep();
-                  return;
+              for (i = 0; i < pointCount; i++) {
+                  tempPoint = [selectedPoints objectAtIndex:i];
+                  [tempPoint setRuleIndex:[tempPoint ruleIndex] - 1];
+                  [eventList addIntonationPoint:tempPoint];
               }
-          }
+              break;
 
-          for (i = 0; i < pointCount; i++) {
-              tempPoint = [selectedPoints objectAtIndex:i];
-              [tempPoint setRuleIndex:[tempPoint ruleIndex] + 1];
-              [eventList addIntonationPoint:tempPoint];
-          }
-          break;
-
-      case NSUpArrowFunctionKey:
-          NSLog(@"up arrow");
-          for (i = 0; i < pointCount; i++) {
-              if ([[selectedPoints objectAtIndex:i] semitone] +1.0 > 10.0) {
-                  NSBeep();
-                  return;
+          case NSRightArrowFunctionKey:
+              NSLog(@"right arrow");
+              for (i = 0; i < pointCount; i++) {
+                  if ([[selectedPoints objectAtIndex:i] ruleIndex] + 1 >= numRules) {
+                      NSBeep();
+                      return;
+                  }
               }
-          }
 
-          for (i = 0; i < pointCount; i++) {
-              tempPoint = [selectedPoints objectAtIndex:i];
-              [tempPoint setSemitone:[tempPoint semitone] + 1.0];
-          }
-          break;
-
-      case NSDownArrowFunctionKey:
-          NSLog(@"down arrow");
-          for (i = 0; i < pointCount; i++) {
-              if ([[selectedPoints objectAtIndex:i] semitone] - 1.0 < -20.0) {
-                  NSBeep();
-                  return;
+              for (i = 0; i < pointCount; i++) {
+                  tempPoint = [selectedPoints objectAtIndex:i];
+                  [tempPoint setRuleIndex:[tempPoint ruleIndex] + 1];
+                  [eventList addIntonationPoint:tempPoint];
               }
-          }
+              break;
 
-          for (i = 0; i < pointCount; i++) {
-              tempPoint = [selectedPoints objectAtIndex:i];
-              [tempPoint setSemitone:[tempPoint semitone] - 1.0];
-          }
-          break;
+          case NSUpArrowFunctionKey:
+              NSLog(@"up arrow");
+              for (i = 0; i < pointCount; i++) {
+                  if ([[selectedPoints objectAtIndex:i] semitone] + 1.0 > 10.0) {
+                      NSBeep();
+                      return;
+                  }
+              }
+
+              for (i = 0; i < pointCount; i++) {
+                  tempPoint = [selectedPoints objectAtIndex:i];
+                  [tempPoint setSemitone:[tempPoint semitone] + 1.0];
+              }
+              break;
+
+          case NSDownArrowFunctionKey:
+              NSLog(@"down arrow");
+              for (i = 0; i < pointCount; i++) {
+                  if ([[selectedPoints objectAtIndex:i] semitone] - 1.0 < -20.0) {
+                      NSBeep();
+                      return;
+                  }
+              }
+
+              for (i = 0; i < pointCount; i++) {
+                  tempPoint = [selectedPoints objectAtIndex:i];
+                  [tempPoint setSemitone:[tempPoint semitone] - 1.0];
+              }
+              break;
+        }
     }
 
-    [self setNeedsDisplay:YES];
+    //[self setNeedsDisplay:YES];
 
     NSLog(@"<  %s", _cmd);
 }
@@ -1009,6 +1030,11 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
     rect.size.height = maxy - miny;
 
     return rect;
+}
+
+- (void)intonationPointDidChange:(NSNotification *)aNotification;
+{
+    [self setNeedsDisplay:YES];
 }
 
 @end

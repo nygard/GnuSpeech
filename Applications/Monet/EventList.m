@@ -33,6 +33,10 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
     return nil;
 }
 
+NSString *EventListDidAddIntonationPoint = @"EventListDidAddIntonationPoint";
+NSString *EventListDidChangeIntonationPoint = @"EventListDidChangeIntonationPoint";
+NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoint";
+
 @implementation EventList
 
 - (id)init;
@@ -1221,6 +1225,11 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
 - (void)removeEmptyEvents;
 {
     // TODO (2004-08-17): not yet implemented.
+}
+
+- (void)intonationPointDidChange:(IntonationPoint *)anIntonationPoint;
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidChangeIntonationPoint object:self userInfo:nil];
 }
 
 @end
