@@ -1,7 +1,7 @@
 #import <AppKit/NSView.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-@class EventList, IntonationPoint, MonetList;
+@class EventList, IntonationPoint;
 @class AppController;
 
 /*===========================================================================
@@ -25,8 +25,8 @@
     float timeScale;
     int mouseBeingDragged;
 
-    MonetList *intonationPoints;
-    MonetList *selectedPoints;
+    NSMutableArray *intonationPoints;
+    NSMutableArray *selectedPoints;
 
     NSTextField *utterance;
     NSButton *smoothing;
@@ -67,9 +67,9 @@
 - (void)applySmoothIntonation;
 - (void)deletePoints;
 
-- (IBAction)saveIntonationContour:(id)sender;
-- (IBAction)loadContour:(id)sender;
-- (IBAction)loadContourAndUtterance:(id)sender;
+//- (IBAction)saveIntonationContour:(id)sender;
+//- (IBAction)loadContour:(id)sender;
+//- (IBAction)loadContourAndUtterance:(id)sender;
 
 - (void)clearIntonationPoints;
 - (void)addPoint:(double)semitone offsetTime:(double)offsetTime slope:(double)slope ruleIndex:(int)ruleIndex eventList:anEventList;
@@ -78,7 +78,7 @@
 - (int)sectionHeight;
 - (NSPoint)graphOrigin;
 
-- (NSString *)contourString;
-- (void)appendXMLForContourToString:(NSMutableString *)resultString level:(int)level;
+//- (NSString *)contourString;
+//- (void)appendXMLForContourToString:(NSMutableString *)resultString level:(int)level;
 
 @end

@@ -35,8 +35,6 @@
     if ([super initWithFrame:frameRect] == nil)
         return nil;
 
-    [self allocateGState];
-
     timesFont = [[NSFont fontWithName:@"Times-Roman" size:12] retain];
     timesFontSmall = [[NSFont fontWithName:@"Times-Roman" size:10] retain];
 
@@ -45,8 +43,8 @@
 
     eventList = nil;
 
-    intonationPoints = [[MonetList alloc] initWithCapacity:50];
-    selectedPoints = [[MonetList alloc] initWithCapacity:20];
+    intonationPoints = [[NSMutableArray alloc] init];
+    selectedPoints = [[NSMutableArray alloc] init];
 
     [self setNeedsDisplay:YES];
 
@@ -822,6 +820,7 @@
     }
 }
 
+#ifdef PORTING
 - (IBAction)saveIntonationContour:(id)sender;
 {
     NSString *str;
@@ -915,6 +914,7 @@
         }
     }
 }
+#endif
 
 - (void)clearIntonationPoints;
 {
@@ -962,6 +962,7 @@
     return graphOrigin;
 }
 
+#ifdef PORTING
 - (NSString *)contourString;
 {
     NSMutableString *resultString;
@@ -986,5 +987,6 @@
     [resultString indentToLevel:level];
     [resultString appendString:@"</contour>\n"];
 }
+#endif
 
 @end

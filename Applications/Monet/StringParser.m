@@ -254,7 +254,7 @@
     [eventList applyIntonation];
     [intonationView display];
 
-    NSLog(@"contour:\n%@", [[intonationView documentView] contourString]);
+    //NSLog(@"contour:\n%@", [[intonationView documentView] contourString]);
 }
 
 - (void)parsePhoneString:(NSString *)str;
