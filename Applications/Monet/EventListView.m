@@ -223,7 +223,7 @@
 
     /* Make an outlined white box for display */
     [[NSColor whiteColor] set];
-    PSrectfill(81.0, 51.0, [self frame].size.width - 102.0, [self frame].size.height-102.0);
+    NSRectFill(NSMakeRect(81.0, 51.0, [self frame].size.width - 102.0, [self frame].size.height-102.0));
     PSstroke();
 
     [[NSColor blackColor] set];
@@ -238,7 +238,7 @@
     /* Draw the space for each Track */
     [[NSColor darkGrayColor] set];
     for (i = 0; i < j; i++) {
-        PSrectfill(80.0, [self frame].size.height-(50.0+(float)(i+1)*TRACKHEIGHT), [self frame].size.width - 100.0, BORDERHEIGHT);
+        NSRectFill(NSMakeRect(80.0, [self frame].size.height-(50.0+(float)(i+1)*TRACKHEIGHT), [self frame].size.width - 100.0, BORDERHEIGHT));
     }
     PSstroke();
 

@@ -451,7 +451,7 @@
 
     /* Make an outlined white box for display */
     [[NSColor whiteColor] set];
-    PSrectfill(0.0, 0.0, [self frame].size.width, [self frame].size.height);
+    NSRectFill([self bounds]);
     PSstroke();
 
     [[NSColor blackColor] set];

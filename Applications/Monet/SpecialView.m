@@ -104,8 +104,8 @@
     float temp = ([self frame].size.height - 100.0)/14.0;
 
     [[NSColor lightGrayColor] set];
-    PSrectfill(51.0, 51.0, [self frame].size.width - 102.0, (temp*2) - 2.0);
-    PSrectfill(51.0, [self frame].size.height - 50.0 - (temp*2), [self frame].size.width - 102.0, (temp*2) - 1.0);
+    NSRectFill(NSMakeRect(51.0, 51.0, [self frame].size.width - 102.0, (temp*2) - 2.0));
+    NSRectFill(NSMakeRect(51.0, [self frame].size.height - 50.0 - (temp*2), [self frame].size.width - 102.0, (temp*2) - 1.0));
     PSstroke();
 
     /* Grayed out (unused) data spaces should be placed here */
