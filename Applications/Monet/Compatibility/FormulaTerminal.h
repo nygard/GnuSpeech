@@ -1,6 +1,6 @@
 #import "MMOldFormulaNode.h"
 
-@class PhoneList, MMSymbol;
+@class MMSymbol;
 
 /*===========================================================================
 

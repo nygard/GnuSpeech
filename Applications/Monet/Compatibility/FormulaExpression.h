@@ -1,7 +1,5 @@
 #import "MMOldFormulaNode.h"
 
-@class PhoneList;
-
 /*===========================================================================
 
 	Author: Craig-Richard Taube-Schock
