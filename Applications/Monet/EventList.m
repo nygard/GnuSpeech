@@ -416,7 +416,8 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
     return events;
 }
 
-- (Event *)insertEvent:(int)number atTime:(double)time withValue:(double)value;
+// Get the event a time "time", creating it if necessary and insserting into "events" array.
+- (Event *)eventAtTime:(double)time;
 {
     Event *newEvent = nil;
     int i, tempTime;
@@ -427,7 +428,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
     if (time > (double)(duration + timeQuantization))
         return nil;
 
-    tempTime = zeroRef + (int) time;
+    tempTime = zeroRef + (int)time;
     tempTime = (tempTime >> 2) << 2; // TODO (2004-08-15): Hardcoded timeQuantization of 4
 //    if ((tempTime % timeQuantization) != 0)
 //        tempTime++;
@@ -435,41 +436,19 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
     // If there are no events yet, we can just add it.
     if ([events count] == 0) {
         newEvent = [[[Event alloc] initWithTime:tempTime] autorelease];
-        if (number >= 0) {
-            if ((number >= 7) && (number <= 8))
-                [newEvent setValue:value*radiusMultiply ofIndex:number];
-            else
-                [newEvent setValue:value ofIndex:number];
-        }
-
         [events addObject:newEvent];
         return newEvent;
     }
 
     // Otherwise we need to search through the events to find the correct place to insert it.
     for (i = [events count] - 1; i >= zeroIndex; i--) {
-        // If there is an Event at exactly this time, we can set the value in that event.
-        if ([[events objectAtIndex:i] time] == tempTime) {
-            if (number >= 0) {
-                if ((number >= 7) && (number <= 8))
-                    [[events objectAtIndex:i] setValue:value*radiusMultiply ofIndex:number];
-                else
-                    [[events objectAtIndex:i] setValue:value ofIndex:number];
-            }
-
+        // If there is an Event at exactly this time, we can use that event.
+        if ([[events objectAtIndex:i] time] == tempTime)
             return [events objectAtIndex:i];
-        }
 
         // Otherwise we'll need to create an Event at that time and insert it in the proper place.
         if ([[events objectAtIndex:i] time] < tempTime) {
             newEvent = [[[Event alloc] initWithTime:tempTime] autorelease];
-            if (number >= 0) {
-                if ((number >= 7) && (number <= 8))
-                    [newEvent setValue:value*radiusMultiply ofIndex:number];
-                else
-                    [newEvent setValue:value ofIndex:number];
-            }
-
             [events insertObject:newEvent atIndex:i+1];
             return newEvent;
         }
@@ -477,16 +456,24 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
 
     // In this case the event should come at the end of the list.
     newEvent = [[[Event alloc] initWithTime:tempTime] autorelease];
-    if (number >= 0) {
-        if ((number >= 7) && (number <= 8))
-            [newEvent setValue:value*radiusMultiply ofIndex:number];
-        else
-            [newEvent setValue:value ofIndex:number];
-    }
-
     [events insertObject:newEvent atIndex:i+1];
 
     return newEvent;
+}
+
+- (Event *)insertEvent:(int)number atTime:(double)time withValue:(double)value;
+{
+    Event *event;
+
+    event = [self eventAtTime:time];
+    if (number >= 0) {
+        if ((number >= 7) && (number <= 8))
+            [event setValue:value*radiusMultiply ofIndex:number];
+        else
+            [event setValue:value ofIndex:number];
+    }
+
+    return event;
 }
 
 - (void)finalEvent:(int)number withValue:(double)value;
