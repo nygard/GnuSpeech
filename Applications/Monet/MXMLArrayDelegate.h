@@ -9,13 +9,13 @@
 
 @interface MXMLArrayDelegate : NSObject
 {
-    NSString *childElementName;
-    Class objectClass;
+    NSMutableDictionary *classesByChildElementName;
     id delegate;
     SEL addObjectSelector;
 }
 
 - (id)initWithChildElementName:(NSString *)anElementName class:(Class)aClass delegate:(id)aDelegate addObjectSelector:(SEL)aSelector;
+- (id)initWithElementToClassMapping:(NSDictionary *)aMapping delegate:(id)aDelegate addObjectSelector:(SEL)aSelector;
 - (void)dealloc;
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)anElementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
