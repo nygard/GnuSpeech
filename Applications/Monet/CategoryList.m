@@ -86,7 +86,7 @@
 #define SYMBOL_LENGTH_MAX 12
 - (void)readDegasFileFormat:(FILE *)fp;
 {
-#warning Not yet ported
+#warning Read Degas file not yet ported
 #ifdef PORTING
     int i, count;
 
@@ -110,7 +110,7 @@
 
 - (void)printDataTo:(FILE *)fp;
 {
-#warning Not yet ported
+#warning Print data not yet ported
 #ifdef PORTING
     int i;
 

@@ -84,7 +84,7 @@
 
 - (void)printDataTo:(FILE *)fp;
 {
-#warning Not yet ported
+#warning Print data not yet ported
 #ifdef PORTING
     int i;
     fprintf(fp, "Symbols\n");

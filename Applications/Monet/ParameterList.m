@@ -96,7 +96,7 @@
 #define SYMBOL_LENGTH_MAX 12
 - (void)readDegasFileFormat:(FILE *)fp;
 {
-#warning Not yet ported
+#warning Read Degas file not yet ported
 #ifdef PORTING
     int i, sampleSize, number_of_phones, number_of_parameters;
     float tempMin, tempMax, tempDef;
@@ -133,7 +133,7 @@
 
 - (void)printDataTo:(FILE *)fp;
 {
-#warning Not yet ported
+#warning Print data not yet ported
 #ifdef PORTING
     int i;
 
