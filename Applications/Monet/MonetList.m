@@ -10,6 +10,11 @@
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
 
+@protocol AlternateXMLMethod
+- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level number:(int)number;
+@end
+
+
 #import "Target.h" // Hack, just to get -appendXMLToString:level:
 
 @implementation MonetList
