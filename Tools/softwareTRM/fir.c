@@ -1,7 +1,7 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include "fir.h"
-#include "tube.h" // for TWO_PI
 
 /*  CONSTANTS FOR THE FIR FILTER  */
 #define LIMIT                     200
@@ -203,7 +203,7 @@ int maximallyFlat(double beta, double gamma, int *np, double *coefficient)
         return GAMMA_TOO_SMALL;
 
     /*  CALCULATE THE RATIONAL APPROXIMATION TO THE CUT-OFF POINT  */
-    ac = (1.0 + cos(TWO_PI * beta)) / 2.0;
+    ac = (1.0 + cos(2.0 * M_PI * beta)) / 2.0;
     rationalApproximation(ac, &nt, &numerator, np);
 
     /*  CALCULATE FILTER ORDER  */
@@ -219,7 +219,7 @@ int maximallyFlat(double beta, double gamma, int *np, double *coefficient)
     for (i = 2; i <= (*np); i++) {
         int j;
         double x, sum = 1.0, y;
-        c[i] = cos(TWO_PI * ((double)(i-1)/(double)n));
+        c[i] = cos(2.0 * M_PI * ((double)(i-1)/(double)n));
         x = (1.0 - c[i]) / 2.0;
         y = x;
 
