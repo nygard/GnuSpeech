@@ -38,6 +38,7 @@
 
 - (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(int)level;
 
+// These set the group (if possible) on objects added to the list
 - (void)addObject:(id)anObject;
 - (void)insertObject:(id)anObject atIndex:(unsigned)index;
 - (void)replaceObjectAtIndex:(unsigned)index withObject:(id)anObject;
