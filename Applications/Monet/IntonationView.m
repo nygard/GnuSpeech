@@ -26,10 +26,13 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
     if ([super initWithFrame:frameRect] == nil)
         return nil;
 
+    postureTextFieldCell = [[NSTextFieldCell alloc] initTextCell:@""];
     timesFont = [[NSFont fontWithName:@"Times-Roman" size:12] retain];
     timesFontSmall = [[NSFont fontWithName:@"Times-Roman" size:10] retain];
 
-    timeScale = 1.0;
+    [postureTextFieldCell setFont:timesFont];
+
+    timeScale = 2.0;
     mouseBeingDragged = 0;
 
     eventList = nil;
@@ -43,6 +46,7 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
 
 - (void)dealloc;
 {
+    [postureTextFieldCell release];
     [timesFont release];
     [timesFontSmall release];
     [eventList release];
@@ -74,8 +78,10 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
 
 - (void)setShouldDrawSmoothPoints:(BOOL)newFlag;
 {
-    shouldDrawSmoothPoints = newFlag;
+    if (newFlag == shouldDrawSmoothPoints)
+        return;
 
+    shouldDrawSmoothPoints = newFlag;
     [self setNeedsDisplay:YES];
 }
 
@@ -166,7 +172,7 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
 - (void)drawPhoneLabels;
 {
     int count, index;
-    MMPosture *currentPhone = nil;
+    MMPosture *currentPosture;
     NSRect bounds;
     float currentX;
     int phoneIndex = 0;
@@ -181,12 +187,20 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
         currentX = ((float)[[eventList objectAtIndex:index] time] / timeScale);
         if (currentX > bounds.size.width - 20.0)
             break;
+        if (currentX < 5.0)
+            currentX = 5.0;
 
         if ([[eventList objectAtIndex:index] flag]) {
-            currentPhone = [eventList getPhoneAtIndex:phoneIndex++];
-            if (currentPhone) {
-                NSLog(@"[currentPhone symbol]: %@", [currentPhone symbol]);
-                [[currentPhone symbol] drawAtPoint:NSMakePoint(currentX - 5.0, bounds.size.height - 62.0) withAttributes:nil];
+            currentPosture = [eventList getPhoneAtIndex:phoneIndex++];
+            if (currentPosture != nil) {
+                NSLog(@"[currentPosture symbol]: %@", [currentPosture symbol]);
+#if 0
+                [[NSColor blueColor] set];
+                NSRectFill(NSMakeRect(currentX - 5.0, bounds.size.height - 62, 10, 20));
+#endif
+                [[NSColor blackColor] set];
+                [[currentPosture symbol] drawAtPoint:NSMakePoint(currentX - 5.0, bounds.size.height - 62.0) withAttributes:nil];
+                //[postureTextFieldCell setStringValue:[currentPosture symbol]];
             }
         }
     }
@@ -245,6 +259,7 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
 
     [[NSColor darkGrayColor] set];
     [[NSColor blackColor] set];
+    [[NSColor greenColor] set];
     [bezierPath stroke];
     [bezierPath release];
 }

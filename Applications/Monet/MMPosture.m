@@ -389,7 +389,6 @@
 {
     unsigned archivedVersion;
     int count, index;
-    CategoryList *mainCategoryList;
     MMCategory *temp1;
     char *c_phoneSymbol, *c_comment, *c_str;
     MModel *model;
@@ -402,8 +401,6 @@
     //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
     archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
     //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
-
-    mainCategoryList = [model categories];
 
     [aDecoder decodeValuesOfObjCTypes:"**", &c_phoneSymbol, &c_comment];
     //NSLog(@"c_phoneSymbol: %s, c_comment: %s", c_phoneSymbol, c_comment);
@@ -433,7 +430,7 @@
         //NSLog(@"%d: c_str: %s", index, c_str);
         str = [NSString stringWithASCIICString:c_str];
 
-        temp1 = [mainCategoryList findSymbol:str];
+        temp1 = [model categoryWithName:str];
         if (temp1) {
             //NSLog(@"Read category: %@", str);
             [categoryList addObject:temp1];

@@ -84,6 +84,7 @@
     [checkboxCell setEditable:NO];
 
     [[categoryTableView tableColumnWithIdentifier:@"isMember"] setDataCell:checkboxCell];
+    [[categoryTableView tableColumnWithIdentifier:@"isMember2"] setDataCell:checkboxCell];
 
     [checkboxCell release];
 
@@ -94,17 +95,20 @@
 
     [postureCommentTextView setFieldEditor:YES];
 
-    [[[parameterTableView tableColumnWithIdentifier:@"value"] dataCell] setFormatter:defaultNumberFormatter];
+    [[[parameterTableView tableColumnWithIdentifier:@"unstressedValue"] dataCell] setFormatter:defaultNumberFormatter];
+    [[[parameterTableView tableColumnWithIdentifier:@"stressedValue"] dataCell] setFormatter:defaultNumberFormatter];
     [[[parameterTableView tableColumnWithIdentifier:@"minimum"] dataCell] setFormatter:defaultNumberFormatter];
     [[[parameterTableView tableColumnWithIdentifier:@"maximum"] dataCell] setFormatter:defaultNumberFormatter];
     [[[parameterTableView tableColumnWithIdentifier:@"default"] dataCell] setFormatter:defaultNumberFormatter];
 
-    [[[metaParameterTableView tableColumnWithIdentifier:@"value"] dataCell] setFormatter:defaultNumberFormatter];
+    [[[metaParameterTableView tableColumnWithIdentifier:@"unstressedValue"] dataCell] setFormatter:defaultNumberFormatter];
+    [[[metaParameterTableView tableColumnWithIdentifier:@"stressedValue"] dataCell] setFormatter:defaultNumberFormatter];
     [[[metaParameterTableView tableColumnWithIdentifier:@"minimum"] dataCell] setFormatter:defaultNumberFormatter];
     [[[metaParameterTableView tableColumnWithIdentifier:@"maximum"] dataCell] setFormatter:defaultNumberFormatter];
     [[[metaParameterTableView tableColumnWithIdentifier:@"default"] dataCell] setFormatter:defaultNumberFormatter];
 
-    [[[symbolTableView tableColumnWithIdentifier:@"value"] dataCell] setFormatter:defaultNumberFormatter];
+    [[[symbolTableView tableColumnWithIdentifier:@"unstressedValue"] dataCell] setFormatter:defaultNumberFormatter];
+    [[[symbolTableView tableColumnWithIdentifier:@"stressedValue"] dataCell] setFormatter:defaultNumberFormatter];
     [[[symbolTableView tableColumnWithIdentifier:@"minimum"] dataCell] setFormatter:defaultNumberFormatter];
     [[[symbolTableView tableColumnWithIdentifier:@"maximum"] dataCell] setFormatter:defaultNumberFormatter];
     [[[symbolTableView tableColumnWithIdentifier:@"default"] dataCell] setFormatter:defaultNumberFormatter];

@@ -20,6 +20,7 @@ extern NSString *IntonationViewSelectionDidChangeNotification;
 
 @interface IntonationView : NSView
 {
+    NSTextFieldCell *postureTextFieldCell;
     NSFont *timesFont;
     NSFont *timesFontSmall;
 

@@ -56,7 +56,8 @@
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@>[%p]: time: %d, flag: %d, events: (%g %g %g %g %g %g) (%g %g %g %g %g %g) (%g %g %g %g %g %g) (%g %g %g %g %g %g) (%g %g %g %g %g %g) (%g %g %g %g %g %g)",
+    //return [NSString stringWithFormat:@"<%@>[%p]: time: %d, flag: %d, events: (%g %g %g %g %g %g) (%g %g %g %g %g %g) (%g %g %g %g %g %g) (%g %g %g %g %g %g) (%g %g %g %g %g %g) (%g %g %g %g %g %g)",
+    return [NSString stringWithFormat:@"<%@>[%p]: time: %d, flag: %d, events: (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g) (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g) (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g) (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g) (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g) (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g)",
                      NSStringFromClass([self class]), self, time, flag,
                      events[0], events[1], events[2], events[3], events[4], events[5],
                      events[6], events[7], events[8], events[9], events[10], events[11],

@@ -1299,8 +1299,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
             fread(tempSymbol, SYMBOL_LENGTH_MAX + 1, 1, fp);
             str = [NSString stringWithASCIICString:tempSymbol];
 
-            tempCategory = [categories findSymbol:str];
-            if (tempCategory)
+            tempCategory = [self categoryWithName:str];
+            if (tempCategory != nil)
                 [[newPhone categoryList] addObject:tempCategory];
         }
 
