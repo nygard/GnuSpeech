@@ -1,6 +1,6 @@
 #import "GSParser.h"
 
-@class SymbolList;
+@class FormulaTerminal, MMFormulaNode, SymbolList;
 
 /*===========================================================================
 
@@ -14,6 +14,8 @@
 @interface FormulaParser : GSParser
 {
     SymbolList *symbolList;
+
+    int lookahead;
 }
 
 - (void)dealloc;
@@ -24,16 +26,16 @@
 - (int)nextToken;
 - (BOOL)scanNumber;
 
+
+- (void)match:(int)token;
+- (MMFormulaNode *)parseExpression;
+- (MMFormulaNode *)parseTerm;
+- (MMFormulaNode *)parseFactor;
+
+- (FormulaTerminal *)parseNumber;
+- (MMFormulaNode *)parseSymbol;
+
+
 - (id)beginParseString;
-
-- (id)continueParse:currentExpression;
-- (id)parseSymbol;
-
-- (id)addOperation:operand;
-- (id)subOperation:operand;
-- (id)multOperation:operand;
-- (id)divOperation:operand;
-
-- (id)leftParen;
 
 @end

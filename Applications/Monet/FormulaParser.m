@@ -108,487 +108,194 @@
     return NO;
 }
 
+- (void)match:(int)token;
+{
+    if (lookahead != token) {
+        [self appendErrorFormat:@"Expected token %d, got %d", token, lookahead];
+        [NSException raise:GSParserSyntaxErrorException format:@"Expected token %d, got %d", token, lookahead];
+    }
+
+    lookahead = [self nextToken];
+}
+
+- (MMFormulaNode *)parseExpression;
+{
+    MMFormulaNode *result, *right;
+    FormulaExpression *expr;
+
+    result = [self parseTerm];
+
+    while (1) {
+        if (lookahead == TK_F_ADD) {
+            [self match:TK_F_ADD];
+            right = [self parseTerm];
+
+            expr = [[[FormulaExpression alloc] init] autorelease];
+            [expr setOperation:TK_F_ADD];
+            [expr setPrecedence:1];
+            [expr setOperandOne:result];
+            [expr setOperandTwo:right];
+            result = expr;
+        } else if (lookahead == TK_F_SUB) {
+            [self match:TK_F_SUB];
+            right = [self parseTerm];
+
+            expr = [[[FormulaExpression alloc] init] autorelease];
+            [expr setOperation:TK_F_SUB];
+            [expr setPrecedence:1];
+            [expr setOperandOne:result];
+            [expr setOperandTwo:right];
+            result = expr;
+        } else
+            break;
+    }
+
+    return result;
+}
+
+- (MMFormulaNode *)parseTerm;
+{
+    MMFormulaNode *result, *right;
+    FormulaExpression *expr;
+
+    result = [self parseFactor];
+
+    while (1) {
+        if (lookahead == TK_F_MULT) {
+            [self match:TK_F_MULT];
+            right = [self parseFactor];
+
+            expr = [[[FormulaExpression alloc] init] autorelease];
+            [expr setOperation:TK_F_MULT];
+            [expr setPrecedence:2];
+            [expr setOperandOne:result];
+            [expr setOperandTwo:right];
+            result = expr;
+        } else if (lookahead == TK_F_DIV) {
+            [self match:TK_F_DIV];
+            right = [self parseFactor];
+
+            expr = [[[FormulaExpression alloc] init] autorelease];
+            [expr setOperation:TK_F_DIV];
+            [expr setPrecedence:2];
+            [expr setOperandOne:result];
+            [expr setOperandTwo:right];
+            result = expr;
+        } else
+            break;
+    }
+
+    return result;
+}
+
+- (MMFormulaNode *)parseFactor;
+{
+    MMFormulaNode *result = nil;
+
+    if (lookahead == TK_F_LPAREN) {
+        [self match:TK_F_LPAREN];
+        result = [self parseExpression];
+        [self match:TK_F_RPAREN];
+    } else if (lookahead == TK_F_SYMBOL) {
+        result = [self parseSymbol];
+    } else /*if (lookahead == TK_F_CONST)*/ {
+        result = [self parseNumber];
+    }
+
+    return result;
+}
+
+- (FormulaTerminal *)parseNumber;
+{
+    FormulaTerminal *result = nil;
+
+    // TODO (2004-05-17): Handle unary +, - here.  Hmm, maybe in parseFactor instead, so it can do -(1), or -ident
+    if (lookahead == TK_F_ADD) {
+        [self match:TK_F_ADD];
+        result = [self parseNumber];
+    } else if (lookahead == TK_F_SUB) {
+        [self match:TK_F_SUB];
+        result = [self parseNumber];
+        [result setValue:-[result value]];
+    } else {
+        if (lookahead == TK_F_CONST) {
+            result = [[[FormulaTerminal alloc] init] autorelease];
+            [result setValue:[symbolString doubleValue]];
+        }
+        [self match:TK_F_CONST];
+    }
+
+    return result;
+}
+
+- (MMFormulaNode *)parseSymbol;
+{
+    FormulaTerminal *result = nil;
+
+    if (lookahead == TK_F_SYMBOL) {
+        result = [[[FormulaTerminal alloc] init] autorelease];
+
+        if ([symbolString isEqualToString:@"rd"]) {
+            [result setWhichPhone:RULEDURATION];
+        } else if ([symbolString isEqualToString:@"beat"]) {
+            [result setWhichPhone:BEAT];
+        } else if ([symbolString isEqualToString:@"mark1"]) {
+            [result setWhichPhone:MARK1];
+        } else if ([symbolString isEqualToString:@"mark2"]) {
+            [result setWhichPhone:MARK2];
+        } else if ([symbolString isEqualToString:@"mark3"]) {
+            [result setWhichPhone:MARK3];
+        } else if ([symbolString isEqualToString:@"tempo1"]) {
+            [result setWhichPhone:TEMPO0];
+        } else if ([symbolString isEqualToString:@"tempo2"]) {
+            [result setWhichPhone:TEMPO1];
+        } else if ([symbolString isEqualToString:@"tempo3"]) {
+            [result setWhichPhone:TEMPO2];
+        } else if ([symbolString isEqualToString:@"tempo4"]) {
+            [result setWhichPhone:TEMPO3];
+        } else {
+            int whichPhone;
+            NSString *baseSymbolName;
+            MMSymbol *aSymbol;
+
+            whichPhone = [symbolString characterAtIndex:[symbolString length] - 1] - '1';
+            //NSLog(@"Phone = %d", whichPhone);
+            if ( (whichPhone < 0) || (whichPhone > 3)) {
+                [self appendErrorFormat:@"Error, incorrect phone index %d", whichPhone];
+                [NSException raise:GSParserSyntaxErrorException format:@"incorrect phone index %d", whichPhone];
+                return nil;
+            }
+
+            baseSymbolName = [symbolString substringToIndex:[symbolString length] - 1];
+
+            aSymbol = [symbolList findSymbol:baseSymbolName];
+            if (aSymbol) {
+                [result setSymbol:aSymbol];
+                [result setWhichPhone:whichPhone];
+            } else {
+                [self appendErrorFormat:@"Unknown symbol %@.", symbolString];
+                [NSException raise:GSParserSyntaxErrorException format:@"Unknown symbol %@.", symbolString];
+                //NSLog(@"\t Error, Undefined Symbol %@", tempSymbolString);
+                return nil;
+            }
+        }
+    }
+
+    [self match:TK_F_SYMBOL];
+
+    return result;
+}
+
 - (id)beginParseString;
 {
-    // FormulaTerminal,
-    id tempExpression = nil;
+    id result;
 
-    switch ([self nextToken]) {
-      case TK_F_SUB:
-          NSLog(@"Sub");
-          break;
+    lookahead = [self nextToken];
 
-      case TK_F_ADD:
-          [self appendErrorFormat:@"Unary + is the instrument of satan"];
-          return nil;
+    result = [self parseExpression];
+    [self match:TK_F_END];
 
-      case TK_F_MULT:
-          [self appendErrorFormat:@"Unexpected * operator."];
-          return nil;
-
-      case TK_F_DIV:
-          [self appendErrorFormat:@"Unexpected / operator."];
-          return nil;
-
-      case TK_F_LPAREN:
-          tempExpression = [self leftParen];
-          break;
-
-      case TK_F_RPAREN:
-          [self appendErrorFormat:@"Unexpected ')'."];
-          return nil;
-
-      case TK_F_SYMBOL:
-          tempExpression = [self parseSymbol];
-          if (tempExpression == nil)
-              return nil;
-          break;
-
-      case TK_F_CONST:
-          tempExpression = [[[FormulaTerminal alloc] init] autorelease];
-          [tempExpression setValue:[symbolString doubleValue]];
-          break;
-
-      case TK_F_ERROR:
-      case TK_F_END:
-          [self appendErrorFormat:@"Unexpected End."];
-          return nil;
-
-    }
-
-    tempExpression = [self continueParse:tempExpression];
-
-    return tempExpression;
-}
-
-- (id)continueParse:currentExpression;
-{
-    int token;
-
-    while ( (token = [self nextToken]) != TK_F_END) {
-        switch (token) {
-          default:
-          case TK_F_END:
-              [self appendErrorFormat:@"Unexpected End."];
-              return nil;
-
-          case TK_F_ADD:
-              currentExpression = [self addOperation:currentExpression];
-              break;
-
-          case TK_F_SUB:
-              currentExpression = [self subOperation:currentExpression];
-              break;
-
-          case TK_F_MULT:
-              currentExpression = [self multOperation:currentExpression];
-              break;
-
-          case TK_F_DIV:
-              currentExpression = [self divOperation:currentExpression];
-              break;
-
-          case TK_F_LPAREN:
-              [self appendErrorFormat:@"Unexpected '('."];
-              return nil;
-
-          case TK_F_RPAREN:
-              [self appendErrorFormat:@"Unexpected ')'."];
-              return nil;
-
-          case TK_F_SYMBOL:
-              [self appendErrorFormat:@"Unexpected symbol %@.", symbolString];
-              return nil;
-
-          case TK_F_CONST:
-              [self appendErrorFormat:@"Unexpected symbol %@.", symbolString];
-              return nil;
-        }
-    }
-
-    return currentExpression;
-}
-
-- (id)parseSymbol;
-{
-    FormulaTerminal *aTerminal = nil;
-
-    //NSLog(@"Symbol = |%@|", symbolString);
-
-    aTerminal = [[[FormulaTerminal alloc] init] autorelease];
-
-    if ([symbolString isEqualToString:@"rd"]) {
-        [aTerminal setWhichPhone:RULEDURATION];
-    } else if ([symbolString isEqualToString:@"beat"]) {
-        [aTerminal setWhichPhone:BEAT];
-    } else if ([symbolString isEqualToString:@"mark1"]) {
-        [aTerminal setWhichPhone:MARK1];
-    } else if ([symbolString isEqualToString:@"mark2"]) {
-        [aTerminal setWhichPhone:MARK2];
-    } else if ([symbolString isEqualToString:@"mark3"]) {
-        [aTerminal setWhichPhone:MARK3];
-    } else if ([symbolString isEqualToString:@"tempo1"]) {
-        [aTerminal setWhichPhone:TEMPO0];
-    } else if ([symbolString isEqualToString:@"tempo2"]) {
-        [aTerminal setWhichPhone:TEMPO1];
-    } else if ([symbolString isEqualToString:@"tempo3"]) {
-        [aTerminal setWhichPhone:TEMPO2];
-    } else if ([symbolString isEqualToString:@"tempo4"]) {
-        [aTerminal setWhichPhone:TEMPO3];
-    } else {
-        int whichPhone;
-        NSString *baseSymbolName;
-        MMSymbol *aSymbol;
-
-        whichPhone = [symbolString characterAtIndex:[symbolString length] - 1] - '1';
-        //NSLog(@"Phone = %d", whichPhone);
-        if ( (whichPhone < 0) || (whichPhone > 3)) {
-            [self appendErrorFormat:@"Error, incorrect phone index %d", whichPhone];
-            return nil;
-        }
-
-        baseSymbolName = [symbolString substringToIndex:[symbolString length] - 1];
-
-        aSymbol = [symbolList findSymbol:baseSymbolName];
-        if (aSymbol) {
-            [aTerminal setSymbol:aSymbol];
-            [aTerminal setWhichPhone:whichPhone];
-        } else {
-            [self appendErrorFormat:@"Unknown symbol %@.", symbolString];
-            //NSLog(@"\t Error, Undefined Symbol %@", tempSymbolString);
-            return nil;
-        }
-    }
-
-    return aTerminal;
-}
-
-- (id)addOperation:operand;
-{
-    id expression1 = nil, expression2 = nil, returnExp = nil;
-    FormulaTerminal *aTerminal;
-
-    expression1 = [[[FormulaExpression alloc] init] autorelease];
-    [expression1 setPrecedence:1];
-    [expression1 setOperation:TK_F_ADD];
-
-    if ([operand precedence] >= 1) {
-        /* Current Sub Expression has higher precedence */
-        [expression1 setOperandOne:operand];
-        returnExp = expression1;
-    } else {
-        /* Current Sub Expression has lower Precedence.  Restructure Tree */
-        expression2 = [operand operandTwo];
-        [expression1 setOperandOne:expression2];
-        [operand setOperandTwo:expression1];
-        returnExp = operand;
-    }
-
-    switch ([self nextToken]) {
-      case TK_F_END:
-          [self appendErrorFormat:@"Error, unexpected END at index(1) %d", [scanner scanLocation]];
-          return nil;
-
-      case TK_F_ADD:
-      case TK_F_SUB:
-      case TK_F_MULT:
-      case TK_F_DIV:
-          [self appendErrorFormat:@"Error, unexpected %@ operation at index %d", symbolString, [scanner scanLocation]];
-          return nil;
-
-      case TK_F_RPAREN:
-          [self appendErrorFormat:@"Error, unexpected ')' at index %d", [scanner scanLocation]];
-          return nil;
-
-      case TK_F_LPAREN:
-          [expression1 setOperandTwo:[self leftParen]];
-          break;
-
-      case TK_F_SYMBOL:
-          aTerminal = [self parseSymbol];
-          if (aTerminal == nil)
-              return nil;
-          [expression1 setOperandTwo:aTerminal];
-          break;
-
-      case TK_F_CONST:
-          aTerminal = [[FormulaTerminal alloc] init];
-          [aTerminal setValue:[symbolString doubleValue]];
-          [expression1 setOperandTwo:aTerminal];
-          [aTerminal release];
-          break;
-    }
-
-    return returnExp;
-}
-
-- (id)subOperation:operand;
-{
-    id expression1 = nil, expression2 = nil, returnExp = nil;
-    FormulaTerminal *aTerminal;
-
-    expression1 = [[[FormulaExpression alloc] init] autorelease];;
-    [expression1 setPrecedence:1];
-    [expression1 setOperation:TK_F_SUB];
-
-    if ([operand precedence] >= 1) {
-        /* Current Sub Expression has higher precedence */
-        [expression1 setOperandOne:operand];
-        returnExp = expression1;
-    } else {
-        /* Currend Sub Expression has lower Precedence.  Restructure Tree */
-        expression2 = [operand operandTwo];
-        [expression1 setOperandOne:expression2];
-        [operand setOperandTwo:expression1];
-        returnExp = operand;
-    }
-
-    switch ([self nextToken]) {
-      case TK_F_END:
-          [self appendErrorFormat:@"Error, unexpected END at index(2) %d", [scanner scanLocation]];
-          return nil;
-
-      case TK_F_ADD:
-      case TK_F_SUB:
-      case TK_F_MULT:
-      case TK_F_DIV:
-          [self appendErrorFormat:@"Error, unexpected %@ operation at index %d", symbolString, [scanner scanLocation]];
-          return nil;
-
-      case TK_F_RPAREN:
-          [self appendErrorFormat:@"Error, unexpected ')' at index %d", [scanner scanLocation]];
-          return nil;
-
-      case TK_F_LPAREN:
-          [expression1 setOperandTwo:[self leftParen]];
-          break;
-
-      case TK_F_SYMBOL:
-          aTerminal = [self parseSymbol];
-          if (aTerminal == nil)
-              return nil;
-          [expression1 setOperandTwo:aTerminal];
-          break;
-
-      case TK_F_CONST:
-          aTerminal = [[FormulaTerminal alloc] init];
-          [aTerminal setValue:[symbolString doubleValue]];
-          [expression1 setOperandTwo:aTerminal];
-          [aTerminal release];
-          break;
-    }
-
-    return returnExp;
-}
-
-- (id)multOperation:operand;
-{
-    id expression1 = nil, expression2 = nil, returnExp = nil;
-    FormulaTerminal *aTerminal;
-
-    expression1 = [[[FormulaExpression alloc] init] autorelease];
-    [expression1 setPrecedence:2];
-    [expression1 setOperation:TK_F_MULT];
-
-    if ([operand precedence] >= 2) {
-        /* Current Sub Expression has higher precedence */
-        [expression1 setOperandOne:operand];
-        returnExp = expression1;
-    } else {
-        /* Currend Sub Expression has lower Precedence.  Restructure Tree */
-        expression2 = [operand operandTwo];
-        [expression1 setOperandOne:expression2];
-        [operand setOperandTwo:expression1];
-        returnExp = operand;
-    }
-
-    switch ([self nextToken]) {
-      case TK_F_END:
-          [self appendErrorFormat:@"Error, unexpected END at index(3) %d", [scanner scanLocation]];
-          return nil;
-
-      case TK_F_ADD:
-      case TK_F_SUB:
-      case TK_F_MULT:
-      case TK_F_DIV:
-          [self appendErrorFormat:@"Error, unexpected %@ operation at index %d", symbolString, [scanner scanLocation]];
-          return nil;
-
-      case TK_F_RPAREN:
-          [self appendErrorFormat:@"Error, unexpected ')' at index %d", [scanner scanLocation]];
-          return nil;
-
-      case TK_F_LPAREN:
-          [expression1 setOperandTwo:[self leftParen]];
-          break;
-
-      case TK_F_SYMBOL:
-          aTerminal = [self parseSymbol];
-          if (aTerminal == nil)
-              return nil;
-          [expression1 setOperandTwo:aTerminal];
-          break;
-
-      case TK_F_CONST:
-          aTerminal = [[FormulaTerminal alloc] init];
-          [aTerminal setValue:[symbolString doubleValue]];
-          [expression1 setOperandTwo:aTerminal];
-          [aTerminal release];
-          break;
-    }
-
-    return returnExp;
-}
-
-- (id)divOperation:operand;
-{
-    id expression1 = nil, expression2 = nil, returnExp = nil;
-    FormulaTerminal *aTerminal;
-
-    expression1 = [[[FormulaExpression alloc] init] autorelease];
-    [expression1 setPrecedence:2];
-    [expression1 setOperation:TK_F_DIV];
-
-    if ([operand precedence] >= 2) {
-        /* Current Sub Expression has higher precedence */
-        [expression1 setOperandOne:operand];
-        returnExp = expression1;
-    } else {
-        /* Currend Sub Expression has lower Precedence.  Restructure Tree */
-        expression2 = [operand operandTwo];
-        [expression1 setOperandOne:expression2];
-        [operand setOperandTwo:expression1];
-        returnExp = operand;
-    }
-
-    switch ([self nextToken]) {
-      case TK_F_END:
-          [self appendErrorFormat:@"Error, unexpected END at index(4) %d", [scanner scanLocation]];
-          return nil;
-
-      case TK_F_ADD:
-      case TK_F_SUB:
-      case TK_F_MULT:
-      case TK_F_DIV:
-          [self appendErrorFormat:@"Error, unexpected %@ operation at index %d", symbolString, [scanner scanLocation]];
-          return nil;
-
-      case TK_F_RPAREN:
-          [self appendErrorFormat:@"Error, unexpected ')' at index %d", [scanner scanLocation]];
-          return nil;
-
-      case TK_F_LPAREN:
-          [self leftParen];
-          [expression1 setOperandTwo:[self leftParen]];
-          break;
-
-      case TK_F_SYMBOL:
-          aTerminal = [self parseSymbol];
-          if (aTerminal == nil)
-              return nil;
-          [expression1 setOperandTwo:aTerminal];
-          break;
-
-      case TK_F_CONST:
-          aTerminal = [[FormulaTerminal alloc] init];
-          [aTerminal setValue:[symbolString doubleValue]];
-          [expression1 setOperandTwo:aTerminal];
-          [aTerminal release];
-          break;
-    }
-
-    return returnExp;
-}
-
-- (id)leftParen;
-{
-    id expression1 = nil;
-    FormulaTerminal *aTerminal, *tempTerm;
-    int token;
-
-    switch ([self nextToken]) {
-      case TK_F_END:
-          [self appendErrorFormat:@"Error, unexpected end at index(5) %d", [scanner scanLocation]];
-          return nil;
-
-      case TK_F_RPAREN:
-          return expression1;
-
-      case TK_F_LPAREN:
-          expression1 = [self leftParen];
-          break;
-
-      case TK_F_ADD:
-      case TK_F_SUB:
-      case TK_F_MULT:
-      case TK_F_DIV:
-          [self appendErrorFormat:@"Error, unexpected %@ operation at index %d", symbolString, [scanner scanLocation]];
-          break;
-
-      case TK_F_SYMBOL:
-          tempTerm = [self parseSymbol];
-          if (tempTerm == nil)
-              return nil;
-          expression1 = tempTerm;
-          break;
-
-      case TK_F_CONST:
-          expression1 = [[[FormulaTerminal alloc] init] autorelease];
-          [expression1 setValue:[symbolString doubleValue]];
-          //NSLog(@"%@ = %f", symbolString, [expression1 value]);
-          break;
-    }
-
-    while ( (token = [self nextToken]) != TK_F_RPAREN) {
-        switch (token) {
-          case TK_F_END:
-              [self appendErrorFormat:@"Error, unexpected end at index(6) %d", [scanner scanLocation]];
-              return nil;
-
-          case TK_F_RPAREN:
-              return expression1;
-
-          case TK_F_LPAREN:
-              [self appendErrorFormat:@"Error, unexpected '(' at index %d", [scanner scanLocation]];
-              return nil;
-
-          case TK_F_ADD:
-              expression1 = [self addOperation:expression1];
-              break;
-
-          case TK_F_SUB:
-              expression1 = [self subOperation:expression1];
-              break;
-
-          case TK_F_MULT:
-              expression1 = [self multOperation:expression1];
-              break;
-
-          case TK_F_DIV:
-              expression1 = [self divOperation:expression1];
-              break;
-
-          case TK_F_SYMBOL:
-              aTerminal = [self parseSymbol];
-              if (aTerminal == nil)
-                  return nil;
-              [expression1 setOperandTwo:aTerminal];
-              break;
-
-          case TK_F_CONST:
-              //NSLog(@"Here!!");
-              aTerminal = [[FormulaTerminal alloc] init];
-              [aTerminal setValue:[symbolString doubleValue]];
-              [expression1 setOperandTwo:aTerminal];
-              [aTerminal release];
-              break;
-        }
-    }
-
-    /* Set Paren precedence */
-    [expression1 setPrecedence:3];
-
-    return expression1;
+    return result;
 }
 
 @end

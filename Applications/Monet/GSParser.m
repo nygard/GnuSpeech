@@ -3,6 +3,8 @@
 #import <Foundation/Foundation.h>
 #import "NSScanner-Extensions.h"
 
+NSString *GSParserSyntaxErrorException = @"GSParserSyntaxErrorException";
+
 @implementation GSParser
 
 - (id)init;
@@ -51,7 +53,19 @@
     scanner = [[NSScanner alloc] initWithString:aString];
     [scanner setCharactersToBeSkipped:nil];
 
-    result = [self beginParseString];
+    NS_DURING {
+        result = [self beginParseString];
+    } NS_HANDLER {
+        if ([[localException name] isEqualToString:GSParserSyntaxErrorException]) {
+            NSLog(@"Syntax Error: %@ while parsing: %@, remaining part: %@", [self errorMessage], aString, [aString substringFromIndex:errorRange.location]);
+            result = nil;
+        } else {
+            nonretained_parseString = nil;
+            [scanner release];
+            scanner = nil;
+            [localException raise];
+        }
+    } NS_ENDHANDLER;
 
     nonretained_parseString = nil;
     [scanner release];

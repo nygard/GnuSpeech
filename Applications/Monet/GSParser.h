@@ -9,6 +9,8 @@
 =============================================================================
 */
 
+extern NSString *GSParserSyntaxErrorException;
+
 @interface GSParser : NSObject
 {
     NSString *nonretained_parseString;
