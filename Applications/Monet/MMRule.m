@@ -275,7 +275,7 @@
 
 - (void)evaluateExpressionSymbols:(double *)buffer tempos:(double *)tempos phones:(PhoneList *)phones withCache:(int)cache;
 {
-    // TODO (2004-03-02): Is it okay to do these in order?
+    // TODO (2004-03-02): Is it okay to do these in order? (2004-04-01): No.
     buffer[0] = [(MMEquation *)[expressionSymbols objectAtIndex:0] evaluate:buffer tempos:tempos phones:phones andCacheWith:cache];
     buffer[2] = [(MMEquation *)[expressionSymbols objectAtIndex:2] evaluate:buffer tempos:tempos phones:phones andCacheWith:cache];
     buffer[3] = [(MMEquation *)[expressionSymbols objectAtIndex:3] evaluate:buffer tempos:tempos phones:phones andCacheWith:cache];
