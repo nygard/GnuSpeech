@@ -4,32 +4,34 @@
 #import "NSCharacterSet-Extensions.h"
 #import "NSScanner-Extensions.h"
 
-NSString *GSXMLAttributeString(NSString *aString, BOOL isSingleQuoted)
-{
-    // TODO (2004-03-05): Do stuff necessary to ensure we generate well-formed XML
-    return aString;
-}
-
-NSString *GSXMLCharacterData(NSString *aString)
+NSString *GSXMLEscapeGeneralEntities(NSString *aString, int entityMask)
 {
     NSScanner *scanner;
     NSString *str;
     NSMutableString *result;
-    NSCharacterSet *minimumXMLEntityCharacterSet;
+    NSCharacterSet *generalXMLEntityCharacterSet;
 
-    minimumXMLEntityCharacterSet = [NSCharacterSet minimumXMLEntityCharacterSet];
+    generalXMLEntityCharacterSet = [NSCharacterSet generalXMLEntityCharacterSet];
     result = [NSMutableString string];
 
     scanner = [[NSScanner alloc] initWithString:aString];
     [scanner setCharactersToBeSkipped:nil]; // Keep whitespace
     do {
-        if ([scanner scanUpToCharactersFromSet:minimumXMLEntityCharacterSet intoString:&str] == YES)
+        if ([scanner scanUpToCharactersFromSet:generalXMLEntityCharacterSet intoString:&str] == YES)
             [result appendString:str];
-        if ([scanner scanCharacterFromSet:minimumXMLEntityCharacterSet intoString:&str] == YES) {
-            if ([str isEqual:@"&"] == YES)
+        if ([scanner scanCharacterFromSet:generalXMLEntityCharacterSet intoString:&str] == YES) {
+            if ((entityMask & GSXMLEntityMaskAmpersand) && [str isEqual:@"&"] == YES)
                 [result appendString:@"&amp;"];
-            else if ([str isEqual:@"<"] == YES)
+            else if ((entityMask & GSXMLEntityMaskLessThan) && [str isEqual:@"<"] == YES)
                 [result appendString:@"&lt;"];
+            else if ((entityMask & GSXMLEntityMaskGreaterThan) && [str isEqual:@">"] == YES)
+                [result appendString:@"&gt;"];
+            else if ((entityMask & GSXMLEntityMaskSingleQuote) && [str isEqual:@"'"] == YES)
+                [result appendString:@"&apos;"];
+            else if ((entityMask & GSXMLEntityMaskDoubleQuote) && [str isEqual:@"\""] == YES)
+                [result appendString:@"&quot;"];
+            else
+                [result appendString:str];
         }
     } while ([scanner isAtEnd] == NO);
 
@@ -37,6 +39,25 @@ NSString *GSXMLCharacterData(NSString *aString)
     // TODO (2004-03-05): Create entities for characters that can't be represented in the target encoding
 
     return result;
+}
+
+NSString *GSXMLAttributeString(NSString *aString, BOOL isSingleQuoted)
+{
+    if (aString == nil)
+        return nil;
+
+    if (isSingleQuoted == YES)
+        return GSXMLEscapeGeneralEntities(aString, GSXMLEntityMaskAmpersand|GSXMLEntityMaskSingleQuote);
+
+    return GSXMLEscapeGeneralEntities(aString, GSXMLEntityMaskAmpersand|GSXMLEntityMaskDoubleQuote);
+}
+
+NSString *GSXMLCharacterData(NSString *aString)
+{
+    if (aString == nil)
+        return nil;
+
+    return GSXMLEscapeGeneralEntities(aString, GSXMLEntityMaskAmpersand|GSXMLEntityMaskLessThan);
 }
 
 NSString *GSXMLBoolAttributeString(BOOL aFlag)

@@ -7,12 +7,12 @@
 
 @implementation NSCharacterSet (Extensions)
 
-+ (NSCharacterSet *)minimumXMLEntityCharacterSet;
++ (NSCharacterSet *)generalXMLEntityCharacterSet;
 {
     static NSCharacterSet *characterSet = nil;
 
     if (characterSet == nil)
-        characterSet = [[NSCharacterSet characterSetWithCharactersInString:@"&<"] retain];
+        characterSet = [[NSCharacterSet characterSetWithCharactersInString:@"&<>'\""] retain];
 
     return characterSet;
 }

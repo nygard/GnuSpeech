@@ -142,3 +142,4 @@ Notes:
   that makes changing the name a bit more work.)
 - There seems to be Posture Symbols and Rule Symbols
 - working through PhoneList, removing methods
+- move GSXML functions into NSString category
