@@ -35,4 +35,20 @@
     NSLog(@"<  %s", _cmd);
 }
 
+- (IBAction)loadMainDictionary:(id)sender;
+{
+    NSString *path;
+    GSPronunciationDictionary *dictionary;
+
+    NSLog(@" > %s", _cmd);
+
+    dictionary = [[GSPronunciationDictionary alloc] init];
+    path = [[NSBundle bundleForClass:[self class]] pathForResource:@"2.0eMainDictionary" ofType:@"dict"];
+    [dictionary readFile:path];
+    NSLog(@"loaded %@", dictionary);
+    [dictionary release];
+
+    NSLog(@"<  %s", _cmd);
+}
+
 @end

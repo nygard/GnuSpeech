@@ -1,7 +1,7 @@
 {
     IBClasses = (
         {
-            ACTIONS = {parseText = id; }; 
+            ACTIONS = {loadMainDictionary = id; parseText = id; }; 
             CLASS = ApplicationDelegate; 
             LANGUAGE = ObjC; 
             OUTLETS = {inputTextView = NSTextView; outputTextView = NSTextView; }; 

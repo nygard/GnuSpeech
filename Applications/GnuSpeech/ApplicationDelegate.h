@@ -1,5 +1,5 @@
 //
-// $Id: ApplicationDelegate.h,v 1.2 2004/04/29 01:07:17 nygard Exp $
+// $Id: ApplicationDelegate.h,v 1.3 2004/05/01 00:06:05 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -16,5 +16,7 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification;
 
 - (IBAction)parseText:(id)sender;
+
+- (IBAction)loadMainDictionary:(id)sender;
 
 @end
