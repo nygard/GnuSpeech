@@ -378,6 +378,7 @@
     NSDictionary *jpegProperties;
     NSMutableString *html;
     NSString *basePath;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
 
     NSLog(@" > %s", _cmd);
 
@@ -393,12 +394,15 @@
     [html appendString:@"  <body>\n"];
     [html appendString:@"    <p>Parameter graphs for phone string:</p>\n"];
     [html appendFormat:@"    <p>%@</p>\n", GSXMLCharacterData([stringTextField stringValue])];
+    [html appendString:@"    <p>[<a href='Monet.parameters'>Monet.parameters</a>] [<a href='output.au'>output.au</a>]</p>\n"];
+    [html appendFormat:@"    <p>Generated %@</p>\n", GSXMLCharacterData([[NSCalendarDate calendarDate] description])];
 
     pid = [[NSProcessInfo processInfo] processIdentifier];
     number = 1;
 
     basePath = [NSString stringWithFormat:@"/tmp/Monet-%d-%d", pid, group++];
-    [[NSFileManager defaultManager] createDirectoryAtPath:basePath attributes:nil];
+    [fileManager createDirectoryAtPath:basePath attributes:nil];
+    [fileManager copyPath:@"/tmp/Monet.parameters" toPath:[basePath stringByAppendingPathComponent:@"Monet.parameters"] handler:nil];
 
     jpegProperties = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:0.95], NSImageCompressionFactor,
                                            nil];
@@ -447,6 +451,14 @@
     [html appendString:@"</html>\n"];
 
     [[html dataUsingEncoding:NSUTF8StringEncoding] writeToFile:[basePath stringByAppendingPathComponent:@"index.html"] atomically:YES];
+
+    {
+        NSString *command;
+
+        command = [NSString stringWithFormat:@"~nygard/Source/net/gnuspeech/trillium/src/softwareTRM/tube %@/Monet.parameters %@/output.au", basePath, basePath];
+        if (system([command UTF8String]) != 0)
+            NSLog(@"command failed: %@", command);
+    }
 
     [jpegProperties release];
 
