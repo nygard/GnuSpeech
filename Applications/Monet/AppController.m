@@ -53,7 +53,6 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification;
 {
     NSString *path;
-    NSArchiver *stream;
 
     NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
 
@@ -81,43 +80,10 @@
 
     [self _disableUnconvertedClassLoading];
 
-    path = [[NSBundle mainBundle] pathForResource:@"DefaultPrototypes" ofType:nil];
+    path = [[NSBundle mainBundle] pathForResource:@"Default" ofType:@"mxml"];
     //NSLog(@"path: %@", path);
 
-    // Archiver hack for Mac OS X 10.3.  Use nm to find location of archiverDebug, and hope that Foundation doesn't get relocated somewhere else!
-#if 0
-    {
-        char *archiverDebug = (char *)0xa09faf18;
-        char *NSDebugEnabled = (char *)0xa09f0338;
-        //NSLog(@"archiverDebug: %d", *archiverDebug);
-#if 1
-        if (*archiverDebug == 0)
-            *archiverDebug = 1;
-#else
-        *NSDebugEnabled = 1;
-#endif
-    }
-#endif
-
-    stream = [[MUnarchiver alloc] initForReadingWithData:[NSData dataWithContentsOfFile:path]];
-    //NSLog(@"stream: %x", stream);
-    if (stream) {
-        //NSLog(@"systemVersion: %u", [stream systemVersion]);
-
-        NS_DURING {
-            [model readPrototypes:stream];
-        } NS_HANDLER {
-            NSLog(@"localException: %@", localException);
-            NSLog(@"name: %@", [localException name]);
-            NSLog(@"reason: %@", [localException reason]);
-            NSLog(@"useInfo: %@", [[localException userInfo] description]);
-            return;
-        } NS_ENDHANDLER;
-
-        [stream release];
-    }
-
-    //[model generateXML:@"DefaultPrototypes"];
+    [self _loadMonetXMLFile:path];
 
     NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }

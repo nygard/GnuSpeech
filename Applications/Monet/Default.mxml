@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE root PUBLIC "" "monet-v1.dtd">
+<!--  -->
+<root version='1'>
+  <categories>
+    <category name="phone"/>
+  </categories>
+  <equations>
+    <equation-group name="DefaultDurations">
+      <equation name="DiphoneDefault" formula="0.000000"/>
+      <equation name="TriphoneDefault" formula="0.000000 + 0.000000"/>
+      <equation name="TetraphoneDefault" formula="0.000000 + 0.000000 + 0.000000"/>
+    </equation-group>
+    <equation-group name="SymbolDefaults">
+      <equation name="Beat" formula="0.000000 * 0.330000"/>
+      <equation name="Mark1" formula="0.000000"/>
+      <equation name="Mark2" formula="0.000000 + 0.000000"/>
+      <equation name="Zero" formula="0.000000"/>
+      <equation name="diOneThird" formula="mark1 * 0.333333"/>
+      <equation name="diTwoThird" formula="mark1 * 0.666667"/>
+      <equation name="triOneThird" formula="(mark2 - mark1) * 0.333333 + mark1"/>
+      <equation name="triTwoThird" formula="(mark2 - mark1) * 0.666667 + mark1"/>
+      <equation name="tetraOneThird" formula="(rd - mark2) * 0.333333 + mark2"/>
+      <equation name="tetraTwoThird" formula="(rd - mark2) * 0.666667 + mark2"/>
+    </equation-group>
+    <equation-group name="DiphoneStandard">
+      <equation name="diOneTenth" formula="mark1 * 0.100000"/>
+      <equation name="diTwoTenth" formula="mark1 * 0.200000"/>
+      <equation name="diThreeTenth" formula="mark1 * 0.300000"/>
+      <equation name="diFourTenth" formula="mark1 * 0.400000"/>
+      <equation name="diFiveTenth" formula="mark1 * 0.500000"/>
+      <equation name="diSixTenth" formula="mark1 * 0.600000"/>
+      <equation name="diSevenTenth" formula="mark1 * 0.700000"/>
+      <equation name="diEightTenth" formula="mark1 * 0.800000"/>
+      <equation name="diNineTenth" formula="mark1 * 0.900000"/>
+    </equation-group>
+    <equation-group name="TriphoneStandard">
+      <equation name="triOneTenth" formula="(mark2 - mark1) * 0.100000 + mark1"/>
+      <equation name="triTwoTenth" formula="(mark2 - mark1) * 0.200000 + mark1"/>
+      <equation name="triThreeTenth" formula="(mark2 - mark1) * 0.300000 + mark1"/>
+      <equation name="triFourTenth" formula="(mark2 - mark1) * 0.400000 + mark1"/>
+      <equation name="triFiveTenth" formula="(mark2 - mark1) * 0.500000 + mark1"/>
+      <equation name="triSixTenth" formula="(mark2 - mark1) * 0.600000 + mark1"/>
+      <equation name="triSevenTenth" formula="(mark2 - mark1) * 0.700000 + mark1"/>
+      <equation name="triEightTenth" formula="(mark2 - mark1) * 0.800000 + mark1"/>
+      <equation name="triNineTenth" formula="(mark2 - mark1) * 0.900000 + mark1"/>
+    </equation-group>
+    <equation-group name="TetraphoneStandard">
+      <equation name="tetraOneTenth" formula="(rd - mark2) * 0.100000 + mark2"/>
+      <equation name="tetraTwoTenth" formula="(rd - mark2) * 0.200000 + mark2"/>
+      <equation name="tetraThreeTenth" formula="(rd - mark2) * 0.300000 + mark2"/>
+      <equation name="tetraFourTenth" formula="(rd - mark2) * 0.400000 + mark2"/>
+      <equation name="tetraFiveTenth" formula="(rd - mark2) * 0.500000 + mark2"/>
+      <equation name="tetraSixTenth" formula="(rd - mark2) * 0.600000 + mark2"/>
+      <equation name="tetraSevenTenth" formula="(rd - mark2) * 0.700000 + mark2"/>
+      <equation name="tetraEightTenth" formula="(rd - mark2) * 0.800000 + mark2"/>
+      <equation name="tetraNineTenth" formula="(rd - mark2) * 0.900000 + mark2"/>
+    </equation-group>
+  </equations>
+  <transitions>
+    <transition-group name="Defaults">
+      <transition name="Diphone" type="diphone">
+        <point-or-slopes>
+          <point type="diphone" value="0" free-time="0"/>
+          <point type="diphone" value="12.5" free-time="0"/>
+          <point type="diphone" value="87.5" free-time="0"/>
+        </point-or-slopes>
+      </transition>
+      <transition name="Triphone" type="triphone">
+        <point-or-slopes>
+          <point type="diphone" value="0" free-time="0"/>
+          <point type="diphone" value="100" free-time="0"/>
+          <point type="triphone" value="100" free-time="0"/>
+        </point-or-slopes>
+      </transition>
+      <transition name="Tetraphone" type="tetraphone">
+        <point-or-slopes>
+          <point type="diphone" value="0" free-time="0"/>
+          <point type="diphone" value="100" free-time="0"/>
+          <point type="triphone" value="100" free-time="0"/>
+          <point type="tetraphone" value="100" free-time="0"/>
+        </point-or-slopes>
+      </transition>
+    </transition-group>
+    <transition-group name="Standard">
+      <transition name="diOneSixOne" type="diphone">
+        <point-or-slopes>
+          <point type="diphone" value="0" free-time="0"/>
+          <point type="diphone" value="12.5" free-time="0"/>
+          <point type="diphone" value="87.5" free-time="0"/>
+        </point-or-slopes>
+      </transition>
+      <transition name="diOneTwelveOne" type="diphone">
+        <point-or-slopes>
+          <point type="diphone" value="0" free-time="0"/>
+          <point type="diphone" value="7.14" free-time="0"/>
+          <point type="diphone" value="92.86" free-time="0"/>
+        </point-or-slopes>
+      </transition>
+      <transition name="diZeroSixOne" type="diphone">
+        <point-or-slopes>
+          <point type="diphone" value="0" free-time="0"/>
+          <point type="diphone" value="0" free-time="0"/>
+          <point type="diphone" value="85.71" free-time="0"/>
+        </point-or-slopes>
+      </transition>
+      <transition name="diZeroTwelveOne" type="diphone">
+        <point-or-slopes>
+          <point type="diphone" value="0" free-time="0"/>
+          <point type="diphone" value="0" free-time="0"/>
+          <point type="diphone" value="92.31" free-time="0"/>
+        </point-or-slopes>
+      </transition>
+    </transition-group>
+  </transitions>
+  <special-transitions>
+  </special-transitions>
+  <rules>
+    <!-- 1 -->
+    <rule>
+      <boolean-expressions>
+        <boolean-expression>phone</boolean-expression>
+        <boolean-expression>phone</boolean-expression>
+      </boolean-expressions>
+      <expression-symbols>
+        <symbol-equation name="rd" equation="DiphoneDefault"/>
+      </expression-symbols>
+    </rule>
+  </rules>
+</root>
