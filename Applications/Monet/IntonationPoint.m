@@ -1,6 +1,7 @@
 #import "IntonationPoint.h"
 
 #import <Foundation/Foundation.h>
+#import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
 
 #import "AppController.h"
@@ -108,6 +109,9 @@
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
+    if ([super initWithCoder:aDecoder] == nil)
+        return nil;
+
     [aDecoder decodeValuesOfObjCTypes:"dddi", &semitone, &offsetTime, &slope, &ruleIndex];
     eventList = NXGetNamedObject(@"mainEventList", NSApp);
 

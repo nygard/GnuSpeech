@@ -9,7 +9,7 @@
 - it looks like one Point in "DefaultPrototypes" is bad, with list index of -1, secondary index of 0x5037312 (84112146).
   - actually it looks like three points.
   - look at similar code in Rule.m that checks for -1 value.
-- don't call init methods in -initWithCoder:
++ don't call init methods in -initWithCoder:
 - Parameter and Symbol look pretty close to identical!
 - eliminate MonetList, replace with NSMutableArray.  Or maybe not, since it has an array, but is not an array.
 - do we need to free the strings that we get from:

@@ -227,9 +227,6 @@
     if ([super initWithCoder:aDecoder] == nil)
         return nil;
 
-//    if ([self init] == nil)
-//        return nil;
-
     name = nil;
     comment = nil;
     type = 2;
