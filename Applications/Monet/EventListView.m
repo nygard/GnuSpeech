@@ -202,6 +202,7 @@
     Event *currentEvent;
     Phone *currentPhone = nil;
     struct _rule *rule;
+    NSBezierPath *bezierPath;
 
     phoneIndex = 0;
     displayList = [[MonetList alloc] initWithCapacity:10];
@@ -223,16 +224,17 @@
     /* Make an outlined white box for display */
     [[NSColor whiteColor] set];
     NSRectFill(NSMakeRect(81.0, 51.0, [self frame].size.width - 102.0, [self frame].size.height-102.0));
-    PSstroke();
 
     [[NSColor blackColor] set];
-    PSsetlinewidth(2.0);
-    PSmoveto(80.0, 50.0);
-    PSlineto(80.0, [self frame].size.height - 50.0);
-    PSlineto([self frame].size.width - 20.0, [self frame].size.height - 50.0);
-    PSlineto([self frame].size.width - 20.0, 50.0);
-    PSlineto(80.0, 50.0);
-    PSstroke();
+    bezierPath = [[NSBezierPath alloc] init];
+    [bezierPath setLineWidth:2];
+    [bezierPath moveToPoint:NSMakePoint(80.0, 50.0)];
+    [bezierPath lineToPoint:NSMakePoint(80.0, [self frame].size.height - 50.0)];
+    [bezierPath lineToPoint:NSMakePoint([self frame].size.width - 20.0, [self frame].size.height - 50.0)];
+    [bezierPath lineToPoint:NSMakePoint([self frame].size.width - 20.0, 50.0)];
+    [bezierPath lineToPoint:NSMakePoint(80.0, 50.0)];
+    [bezierPath stroke];
+    [bezierPath release];
 
     /* Draw the space for each Track */
     [[NSColor darkGrayColor] set];
@@ -261,33 +263,39 @@
     }
 
     [timesFont set];
-    PSsetlinewidth(1.0);
-    [[NSColor lightGrayColor] set];
+    bezierPath = [[NSBezierPath alloc] init];
+    [bezierPath setLineWidth:1];
     for (i = 0; i < [eventList count]; i++) {
         currentX = 80.0+((float)[[eventList objectAtIndex:i] time]/timeScale);
         if (currentX > [self frame].size.width-20.0)
             break;
 
         if ([[eventList objectAtIndex:i] flag]) {
-            [[NSColor blackColor] set];
             currentPhone = [eventList getPhoneAtIndex:phoneIndex++];
-            if (currentPhone)
+            if (currentPhone) {
+                [[NSColor blackColor] set];
                 [[currentPhone symbol] drawAtPoint:NSMakePoint(currentX-5.0, [self frame].size.height-42.0) withAttributes:nil];
-            PSmoveto(currentX, [self frame].size.height-(50.0+(float)(j)*TRACKHEIGHT));
-            PSlineto(currentX, [self frame].size.height-50.0);
+            }
+
+            [bezierPath moveToPoint:NSMakePoint(currentX, [self frame].size.height-(50.0+(float)(j)*TRACKHEIGHT))];
+            [bezierPath lineToPoint:NSMakePoint(currentX, [self frame].size.height-50.0)];
         } else {
             if (!mouseBeingDragged) {
-                [[NSColor lightGrayColor] set];
-                PSmoveto(currentX, [self frame].size.height-(50.0+(float)(j)*TRACKHEIGHT));
-                PSlineto(currentX, [self frame].size.height-50.0);
+                [bezierPath moveToPoint:NSMakePoint(currentX, [self frame].size.height-(50.0+(float)(j)*TRACKHEIGHT))];
+                [bezierPath lineToPoint:NSMakePoint(currentX, [self frame].size.height-50.0)];
             }
         }
+#if PORTING
         if (!mouseBeingDragged)
             PSstroke();
+#endif
     }
-    PSstroke();
+    [[NSColor lightGrayColor] set];
+    [bezierPath stroke];
+    [bezierPath release];
 
-    PSsetlinewidth(2.0);
+    bezierPath = [[NSBezierPath alloc] init];
+    [bezierPath setLineWidth:2];
     [[NSColor blackColor] set];
     for (i = 0; i < [displayList count]; i++) {
         parameterIndex = [[displayList objectAtIndex:i] orderTag];
@@ -315,15 +323,16 @@
                 //NSLog(@"cx:%f cy:%f min:%f max:%f", currentX, currentY, currentMin, currentMax);
                 if (k == 0) {
                     k = 1;
-                    PSmoveto(currentX, currentY);
+                    [bezierPath moveToPoint:NSMakePoint(currentX, currentY)];
                 } else
-                    PSlineto(currentX, currentY);
+                    [bezierPath lineToPoint:NSMakePoint(currentX, currentY)];
             }
         }
-        PSstroke();
         if (i >= 4)
             break;
     }
+    [bezierPath stroke];
+    [bezierPath release];
 
     [timesFontSmall set];
     currentX = 0;
