@@ -1000,10 +1000,10 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         if ([currentMMSlopeRatio isKindOfClass:[MMSlopeRatio class]]) {
             if ((tempTime < [currentMMSlopeRatio endTime]) && (tempTime > [currentMMSlopeRatio startTime])) {
                 pointList = [currentMMSlopeRatio points];
-                time1 = [[pointList objectAtIndex:0] getTime];
+                time1 = [[pointList objectAtIndex:0] cachedTime];
 
                 for (j = 1; j < [pointList count]; j++) {
-                    time2 = [[pointList objectAtIndex:j] getTime];
+                    time2 = [[pointList objectAtIndex:j] cachedTime];
                     if ((tempTime < time2) && (tempTime > time1)) {
                         *startTime = time1;
                         *endTime = time2;

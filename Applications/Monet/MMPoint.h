@@ -38,7 +38,7 @@
 - (double)freeTime;
 - (void)setFreeTime:(double)newTime;
 
-- (double)getTime;
+- (double)cachedTime;
 
 - (int)type;
 - (void)setType:(int)newType;

@@ -136,8 +136,8 @@
         [displayList addObject:currentPoint];
     }
 
-    baseTime = [[points objectAtIndex:0] getTime];
-    endTime = [[points lastObject] getTime];
+    baseTime = [[points objectAtIndex:0] cachedTime];
+    endTime = [[points lastObject] cachedTime];
 
     startValue = [(MMPoint *)[points objectAtIndex:0] value];
     delta = [(MMPoint *)[points lastObject] value] - startValue;
@@ -150,7 +150,7 @@
         temp1 = [[slopes objectAtIndex:i-1] slope] / temp;	/* Calculate normal slope */
 
         /* Calculate time interval */
-        intervalTime = [[points objectAtIndex:i] getTime] - [[points objectAtIndex:i-1] getTime];
+        intervalTime = [[points objectAtIndex:i] cachedTime] - [[points objectAtIndex:i-1] cachedTime];
 
         /* Apply interval percentage to slope */
         temp1 = temp1 * (intervalTime / totalTime);
@@ -188,8 +188,8 @@
         [[currentPoint timeEquation] evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:newCacheTag];
     }
 
-    baseTime = [[points objectAtIndex:0] getTime];
-    endTime = [[points lastObject] getTime];
+    baseTime = [[points objectAtIndex:0] cachedTime];
+    endTime = [[points lastObject] cachedTime];
 
     startValue = [(MMPoint *)[points objectAtIndex:0] value];
     delta = [(MMPoint *)[points lastObject] value] - startValue;
@@ -202,7 +202,7 @@
         temp1 = [[slopes objectAtIndex:i-1] slope] / temp;	/* Calculate normal slope */
 
         /* Calculate time interval */
-        intervalTime = [[points objectAtIndex:i] getTime] - [[points objectAtIndex:i-1] getTime];
+        intervalTime = [[points objectAtIndex:i] cachedTime] - [[points objectAtIndex:i-1] cachedTime];
 
         /* Apply interval percentage to slope */
         temp1 = temp1 * (intervalTime / totalTime);
@@ -252,7 +252,7 @@
     for (index = 0; index < [slopes count]; index++) {
         MMSlope *currentSlope;
 
-        tempTime = ([[points objectAtIndex:index] getTime] + [[points objectAtIndex:index+1] getTime]) / 2.0;
+        tempTime = ([[points objectAtIndex:index] cachedTime] + [[points objectAtIndex:index+1] cachedTime]) / 2.0;
         currentSlope = [slopes objectAtIndex:index];
         [currentSlope setDisplayTime:tempTime];
         //NSLog(@"TempTime = %f", tempTime);

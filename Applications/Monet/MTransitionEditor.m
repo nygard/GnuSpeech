@@ -226,7 +226,7 @@
 
 - (BOOL)transitionView:(TransitionView *)aTransitionView shouldAddPoint:(MMPoint *)aPoint;
 {
-    if ([[transitionView transition] isTimeInSlopeRatio:[aPoint getTime]] == YES) {
+    if ([[transitionView transition] isTimeInSlopeRatio:[aPoint cachedTime]] == YES) {
         if (NSRunAlertPanel(@"Insert Point", @"Insert Point into Slope Ratio?", @"Insert", @"Don't Insert", nil) == NSAlertDefaultReturn)
             return YES;
         else

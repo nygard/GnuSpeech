@@ -126,7 +126,7 @@
     [points addObject:newPoint];
 }
 
-// pointTime = [aPoint getTime];
+// pointTime = [aPoint cachedTime];
 - (BOOL)isTimeInSlopeRatio:(double)aTime;
 {
     unsigned pointCount, pointIndex;
@@ -141,7 +141,7 @@
                 return NO;
             else if (aTime < [currentPointOrSlopeRatio endTime]) /* Insert point into Slope Ratio */
                 return YES;
-        } else if (aTime < [currentPointOrSlopeRatio getTime]) {
+        } else if (aTime < [currentPointOrSlopeRatio cachedTime]) {
             return NO;
         }
     }
@@ -153,7 +153,7 @@
 {
     int i, j;
     id temp, temp1, temp2;
-    double pointTime = [aPoint getTime];
+    double pointTime = [aPoint cachedTime];
 
     for (i = 0; i < [points count]; i++) {
         temp = [points objectAtIndex:i];
@@ -165,7 +165,7 @@
                 temp1 = [temp points];
                 for (j = 1; j < [temp1 count]; j++) {
                     temp2 = [temp1 objectAtIndex:j];
-                    if (pointTime < [temp2 getTime]) {
+                    if (pointTime < [temp2 cachedTime]) {
                         [temp1 insertObject:aPoint atIndex:j];
                         [temp updateSlopes];
                         return;
@@ -176,7 +176,7 @@
                 return;
             }
         } else {
-            if (pointTime < [temp getTime]) {
+            if (pointTime < [temp cachedTime]) {
                 [points insertObject:aPoint atIndex:i];
                 return;
             }

@@ -82,7 +82,7 @@
     freeTime = newTime;
 }
 
-- (double)getTime;
+- (double)cachedTime;
 {
     if (timeEquation != nil)
         return [timeEquation cacheValue]; // TODO (2004-03-11): I think this is a little odd.
