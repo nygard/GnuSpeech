@@ -1,6 +1,7 @@
 #include "sample_rate_converter.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 #include "structs.h"
 #include "util.h"
@@ -15,8 +16,8 @@
 #define mValue(x)                 ((x) & M_MASK)
 #define fractionValue(x)          ((x) & FRACTION_MASK)
 
-void initializeFilter(TRMSampleRateConverter *sampleRateConverter);
-void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context);
+static void initializeFilter(TRMSampleRateConverter *sampleRateConverter);
+static void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context);
 
 /******************************************************************************
 *
@@ -26,48 +27,73 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context);
 *
 ******************************************************************************/
 
-void initializeConversion(TRMSampleRateConverter *sampleRateConverter, double sampleRate, double outputRate)
+TRMSampleRateConverter *TRMSampleRateConverterCreate(double sampleRate, double outputRate)
 {
+    TRMSampleRateConverter *newSampleRateConverter;
     double roundedSampleRateRatio;
     int padSize;
 
-    sampleRateConverter->timeRegister = 0;
-    sampleRateConverter->maximumSampleValue = 0.0;
-    sampleRateConverter->numberSamples = 0;
-    printf("initializeConversion(), sampleRateConverter.maximumSampleValue: %g\n", sampleRateConverter->maximumSampleValue);
-
-    /*  INITIALIZE FILTER IMPULSE RESPONSE  */
-    initializeFilter(sampleRateConverter);
-
-    /*  CALCULATE SAMPLE RATE RATIO  */
-    sampleRateConverter->sampleRateRatio = outputRate / sampleRate;
-    printf("sampleRateRatio: %g\n", sampleRateConverter->sampleRateRatio);
-
-    /*  CALCULATE TIME REGISTER INCREMENT  */
-    sampleRateConverter->timeRegisterIncrement = (int)rint(pow(2.0, FRACTION_BITS) / sampleRateConverter->sampleRateRatio);
-
-    /*  CALCULATE ROUNDED SAMPLE RATE RATIO  */
-    roundedSampleRateRatio = pow(2.0, FRACTION_BITS) / (double)sampleRateConverter->timeRegisterIncrement;
-
-    /*  CALCULATE PHASE OR FILTER INCREMENT  */
-    if (sampleRateConverter->sampleRateRatio >= 1.0) {
-        sampleRateConverter->filterIncrement = L_RANGE;
-    } else {
-        sampleRateConverter->phaseIncrement = (unsigned int)rint(sampleRateConverter->sampleRateRatio * (double)FRACTION_RANGE);
+    newSampleRateConverter = (TRMSampleRateConverter *)malloc(sizeof(TRMSampleRateConverter));
+    if (newSampleRateConverter == NULL) {
+        fprintf(stderr, "Couldn't malloc() TRMSampleRateConverter.\n");
+        return NULL;
     }
 
-    /*  CALCULATE PAD SIZE  */
-    padSize = (sampleRateConverter->sampleRateRatio >= 1.0) ? ZERO_CROSSINGS :
+    newSampleRateConverter->timeRegister = 0;
+    newSampleRateConverter->maximumSampleValue = 0.0;
+    newSampleRateConverter->numberSamples = 0;
+    printf("initializeConversion(), newSampleRateConverter.maximumSampleValue: %g\n", newSampleRateConverter->maximumSampleValue);
+
+    // Initialize filter impulse response
+    initializeFilter(newSampleRateConverter);
+
+    // Calculate sample rate ratio
+    newSampleRateConverter->sampleRateRatio = outputRate / sampleRate;
+    printf("sampleRateRatio: %g\n", newSampleRateConverter->sampleRateRatio);
+
+    // Calculate time register increment
+    newSampleRateConverter->timeRegisterIncrement = (int)rint(pow(2.0, FRACTION_BITS) / newSampleRateConverter->sampleRateRatio);
+
+    // Calculate rounded sample rate ratio
+    roundedSampleRateRatio = pow(2.0, FRACTION_BITS) / (double)newSampleRateConverter->timeRegisterIncrement;
+
+    // Calculate phase or filter increment
+    if (newSampleRateConverter->sampleRateRatio >= 1.0) {
+        newSampleRateConverter->filterIncrement = L_RANGE;
+    } else {
+        newSampleRateConverter->phaseIncrement = (unsigned int)rint(newSampleRateConverter->sampleRateRatio * (double)FRACTION_RANGE);
+    }
+
+    // Calculate pad size
+    padSize = (newSampleRateConverter->sampleRateRatio >= 1.0) ? ZERO_CROSSINGS :
         (int)((float)ZERO_CROSSINGS / roundedSampleRateRatio) + 1;
 
-    sampleRateConverter->ringBuffer = TRMRingBufferCreate(padSize);
+    newSampleRateConverter->ringBuffer = TRMRingBufferCreate(padSize);
 
-    sampleRateConverter->ringBuffer->context = sampleRateConverter;
-    sampleRateConverter->ringBuffer->callbackFunction = resampleBuffer;
+    newSampleRateConverter->ringBuffer->context = newSampleRateConverter;
+    newSampleRateConverter->ringBuffer->callbackFunction = resampleBuffer;
 
-    /*  INITIALIZE THE TEMPORARY OUTPUT FILE  */
-    sampleRateConverter->tempFilePtr = tmpfile();
-    rewind(sampleRateConverter->tempFilePtr);
+    // Initialize the temporary output file
+    newSampleRateConverter->tempFilePtr = tmpfile();
+    rewind(newSampleRateConverter->tempFilePtr);
+
+    return newSampleRateConverter;
+}
+
+void TRMSampleRateConverterFree(TRMSampleRateConverter *converter)
+{
+    if (converter == NULL)
+        return;
+
+    if (converter->ringBuffer != NULL) {
+        TRMRingBufferFree(converter->ringBuffer);
+        converter->ringBuffer = NULL;
+    }
+
+    fclose(converter->tempFilePtr);
+    converter->tempFilePtr = NULL;
+
+    free(converter);
 }
 
 /******************************************************************************
@@ -79,7 +105,7 @@ void initializeConversion(TRMSampleRateConverter *sampleRateConverter, double sa
 *
 ******************************************************************************/
 
-void initializeFilter(TRMSampleRateConverter *sampleRateConverter)
+static void initializeFilter(TRMSampleRateConverter *sampleRateConverter)
 {
     double x, IBeta;
     int i;
@@ -118,7 +144,7 @@ void initializeFilter(TRMSampleRateConverter *sampleRateConverter)
 // Converts available portion of the input signal to the new sampling
 // rate, and outputs the samples to the sound struct.
 
-void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context)
+static void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context)
 {
     TRMSampleRateConverter *aConverter = (TRMSampleRateConverter *)context;
     int endPtr;

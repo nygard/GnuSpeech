@@ -194,7 +194,7 @@ int main(int argc, char *argv[])
         printf("done.\n");
 
     /*  OUTPUT SAMPLES TO OUTPUT FILE  */
-    writeOutputToFile(&(tube->sampleRateConverter), inputData, outputFile);
+    writeOutputToFile(tube->sampleRateConverter, inputData, outputFile);
 
     /*  PRINT OUT FINISHED MESSAGE  */
     if (verbose)

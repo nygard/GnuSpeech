@@ -194,7 +194,7 @@ typedef struct {
         TRMParameters delta;
     } current;
 
-    TRMSampleRateConverter sampleRateConverter;
+    TRMSampleRateConverter *sampleRateConverter;
     TRMWavetable *wavetable;
 } TRMTubeModel;
 

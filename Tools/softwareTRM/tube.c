@@ -345,7 +345,7 @@ void synthesize(TRMTubeModel *tubeModel, TRMData *data)
                 printf("\nDone throat\n");
 
             /*  OUTPUT SAMPLE HERE  */
-            dataFill(tubeModel->sampleRateConverter.ringBuffer, signal);
+            dataFill(tubeModel->sampleRateConverter->ringBuffer, signal);
             if (verbose)
                 printf("\nDone datafil\n");
 
@@ -361,7 +361,7 @@ void synthesize(TRMTubeModel *tubeModel, TRMData *data)
     }
 
     /*  BE SURE TO FLUSH SRC BUFFER  */
-    flushBuffer(tubeModel->sampleRateConverter.ringBuffer);
+    flushBuffer(tubeModel->sampleRateConverter->ringBuffer);
 }
 
 
@@ -905,7 +905,7 @@ TRMTubeModel *TRMTubeModelCreate(TRMInputParameters *inputParameters)
     initializeThroat(newTubeModel, inputParameters);
 
     /*  INITIALIZE THE SAMPLE RATE CONVERSION ROUTINES  */
-    initializeConversion(&newTubeModel->sampleRateConverter, newTubeModel->sampleRate, inputParameters->outputRate);
+    newTubeModel->sampleRateConverter = TRMSampleRateConverterCreate(newTubeModel->sampleRate, inputParameters->outputRate);
 
     // These get calculated each time through the synthesize() loop:
     //newTubeModel->bpAlpha = 0.0;
@@ -927,6 +927,11 @@ void TRMTubeModelFree(TRMTubeModel *tubeModel)
 {
     if (tubeModel == NULL)
         return;
+
+    if (tubeModel->sampleRateConverter != NULL) {
+        TRMSampleRateConverterFree(tubeModel->sampleRateConverter);
+        tubeModel->sampleRateConverter = NULL;
+    }
 
     if (tubeModel->wavetable != NULL) {
         TRMWavetableFree(tubeModel->wavetable);

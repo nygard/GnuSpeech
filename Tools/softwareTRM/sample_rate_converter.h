@@ -33,11 +33,9 @@ typedef struct _TRMSampleRateConverter {
     FILE *tempFilePtr;
 } TRMSampleRateConverter;
 
-//TRMSampleRateConverter *TRMSampleRateConverterCreate();
-//void TRMSampleRateConverterFree(TRMSampleRateConverter *converter);
+TRMSampleRateConverter *TRMSampleRateConverterCreate(double sampleRate, double outputRate);
+void TRMSampleRateConverterFree(TRMSampleRateConverter *converter);
 
 void initializeConversion(TRMSampleRateConverter *sampleRateConverter, double sampleRate, double outputRate);
-//void initializeFilter(TRMSampleRateConverter *sampleRateConverter);
-//void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context);
 
 #endif
