@@ -77,7 +77,7 @@ void setControlRateParameters(TRMTubeModel *tubeModel, INPUT *previousInput, INP
 void sampleRateInterpolation(TRMTubeModel *tubeModel);
 void initializeNasalCavity(TRMTubeModel *tubeModel, struct _TRMInputParameters *inputParameters);
 void initializeThroat(TRMTubeModel *tubeModel, struct _TRMInputParameters *inputParameters);
-void calculateTubeCoefficients(TRMTubeModel *tubeModel, struct _TRMInputParameters *inputParameters);
+void calculateTubeCoefficients(TRMTubeModel *tubeModel, TRMParameters *parameters, double apScale, double n2);
 void setFricationTaps(TRMTubeModel *tubeModel);
 void calculateBandpassCoefficients(TRMTubeModel *tubeModel, double fricCF, double fricBW, int sampleRate);
 double vocalTract(TRMTubeModel *tubeModel, double input, double frication);
@@ -248,7 +248,7 @@ void TRMTubeModelSynthesize(TRMTubeModel *tubeModel, TRMData *data)
             ax = amplitude(tubeModel->current.parameters.glotVol);
             ah1 = amplitude(tubeModel->current.parameters.aspVol);
 
-            calculateTubeCoefficients(tubeModel, &data->inputParameters);
+            calculateTubeCoefficients(tubeModel, &tubeModel->current.parameters, data->inputParameters.apScale, data->inputParameters.noseRadius[TRM_N2]);
             setFricationTaps(tubeModel);
             calculateBandpassCoefficients(tubeModel, tubeModel->current.parameters.fricCF, tubeModel->current.parameters.fricBW, tubeModel->sampleRate);
 
@@ -452,7 +452,7 @@ void initializeThroat(TRMTubeModel *tubeModel, struct _TRMInputParameters *input
 *
 ******************************************************************************/
 
-void calculateTubeCoefficients(TRMTubeModel *tubeModel, struct _TRMInputParameters *inputParameters)
+void calculateTubeCoefficients(TRMTubeModel *tubeModel, TRMParameters *parameters, double apScale, double n2)
 {
     int i;
     double radA, radB;
@@ -461,24 +461,24 @@ void calculateTubeCoefficients(TRMTubeModel *tubeModel, struct _TRMInputParamete
 
     // Calculate coefficients for the oropharynx
     for (i = 0; i < TOTAL_REGIONS - 1; i++) {
-        radA = tubeModel->current.parameters.radius[i];
-        radB = tubeModel->current.parameters.radius[i+1];
+        radA = parameters->radius[i];
+        radB = parameters->radius[i+1];
         radA2 = radA * radA;
         radB2 = radB * radB;
         tubeModel->oropharynx_coeff[i] = (radA2 - radB2) / (radA2 + radB2);
     }
 
     // Calculate the coefficient for the mouth aperture
-    radA = tubeModel->current.parameters.radius[TRM_R8];
-    radB = inputParameters->apScale;
+    radA = parameters->radius[TRM_R8];
+    radB = apScale;
     radA2 = radA * radA;
     radB2 = radB * radB;
     tubeModel->oropharynx_coeff[C8] = (radA2 - radB2) / (radA2 + radB2);
 
     // Calculate alpha coefficients for 3-way junction
     // NOTE:  Since junction is in middle of region 4, r0_2 = r1_2
-    radA = tubeModel->current.parameters.radius[TRM_R4];
-    radB = tubeModel->current.parameters.velum;
+    radA = parameters->radius[TRM_R4];
+    radB = parameters->velum;
     r0_2 = r1_2 = radA * radA;
     r2_2 = radB * radB;
     sum = 2.0 / (r0_2 + r1_2 + r2_2);
@@ -487,10 +487,9 @@ void calculateTubeCoefficients(TRMTubeModel *tubeModel, struct _TRMInputParamete
     tubeModel->alpha[UPPER] = sum * r2_2;
 
     // And 1st nasal passage coefficient
-    radA = tubeModel->current.parameters.velum;
-    radB = inputParameters->noseRadius[TRM_N2];
+    radA = parameters->velum;
     radA2 = radA * radA;
-    radB2 = radB * radB;
+    radB2 = n2 * n2;
     tubeModel->nasal_coeff[NC1] = (radA2 - radB2) / (radA2 + radB2);
 }
 
