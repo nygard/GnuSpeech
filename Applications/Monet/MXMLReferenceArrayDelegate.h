@@ -2,8 +2,8 @@
 // $Id: MXMLReferenceArrayDelegate.h,v 1.1 2004/04/22 20:42:59 nygard Exp $
 //
 
-//  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
-//  Copyright (C) 2004 __OWNER__.  All rights reserved.
+//  This file is part of SNFoundation, a personal collection of Foundation extensions.
+//  Copyright (C) 2004 Steve Nygard.  All rights reserved.
 
 #import <Foundation/NSObject.h>
 
