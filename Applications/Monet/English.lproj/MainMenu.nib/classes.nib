@@ -3,7 +3,14 @@
         {
             CLASS = AppController; 
             LANGUAGE = ObjC; 
-            OUTLETS = {prototypeManager = PrototypeManager; }; 
+            OUTLETS = {
+                intonationView = IntonationView; 
+                prototypeManager = PrototypeManager; 
+                ruleManager = RuleManager; 
+                specialTransitionBuilder = TransitionView; 
+                stringParser = StringParser; 
+                transitionBuilder = TransitionView; 
+            }; 
             SUPERCLASS = NSObject; 
         }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
@@ -33,6 +40,45 @@
                 protoBrowser = NSBrowser; 
                 removeButton = NSButton; 
                 selectedOutput = NSTextField; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {
+                add = id; 
+                browserDoubleHit = id; 
+                browserHit = id; 
+                copy = id; 
+                cut = id; 
+                parseRule = id; 
+                paste = id; 
+                remove = id; 
+                rename = id; 
+                setExpression1 = id; 
+                setExpression2 = id; 
+                setExpression3 = id; 
+                setExpression4 = id; 
+            }; 
+            CLASS = RuleManager; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                consumedTokens = NSTextField; 
+                controller = MyController; 
+                durationOutput = NSForm; 
+                errorTextField = NSTextField; 
+                expressionFields = NSForm; 
+                matchBrowser1 = NSBrowser; 
+                matchBrowser2 = NSBrowser; 
+                matchBrowser3 = NSBrowser; 
+                matchBrowser4 = NSBrowser; 
+                phone1 = NSForm; 
+                phone2 = NSForm; 
+                phone3 = NSForm; 
+                phone4 = NSForm; 
+                possibleCombinations = NSTextField; 
+                ruleMatrix = NSBrowser; 
+                ruleOutput = NSTextField; 
+                ruleScrollView = NSScrollView; 
             }; 
             SUPERCLASS = NSObject; 
         }

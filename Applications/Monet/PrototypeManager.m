@@ -3,6 +3,7 @@
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
 #import "DelegateResponder.h"
+#import "FormulaExpression.h"
 #import "Inspector.h"
 #import "MonetList.h"
 #import "MyController.h"
@@ -50,7 +51,7 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 {
-    NSLog(@" > %s", _cmd);
+    NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
 
     [protoBrowser setTarget:self];
     [protoBrowser setAction:@selector(browserHit:)];
@@ -59,8 +60,10 @@
     // TODO (2004-03-03): Check these fonts.
     courier = [NSFont fontWithName:@"Courier" size:12];
     courierBold = [NSFont fontWithName:@"Courier-Bold" size:12];
+    NSLog(@"courier: %@", courier);
+    NSLog(@"courierBold: %@", courierBold);
 
-    NSLog(@"<  %s", _cmd);
+    NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }
 
 - (void)browserHit:(id)sender;
@@ -725,7 +728,6 @@ static NSString *specialString = @"ProtoSpecial";
 - (void)readPrototypesFrom:(NSArchiver *)stream;
 {
     MonetList *aList;
-    id anObject;
 
     [self _setProtoEquations:nil];
     [self _setProtoTemplates:nil];

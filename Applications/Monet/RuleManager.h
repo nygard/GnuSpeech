@@ -17,7 +17,7 @@
 {
     int cacheValue;
 
-    MyController *controller;
+    IBOutlet MyController *controller;
 
     IBOutlet NSBrowser *ruleMatrix;
     IBOutlet NSScrollView *ruleScrollView;

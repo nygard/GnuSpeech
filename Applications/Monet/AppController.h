@@ -1,5 +1,5 @@
 //
-// $Id: AppController.h,v 1.3 2004/03/05 02:55:25 nygard Exp $
+// $Id: AppController.h,v 1.4 2004/03/05 03:23:48 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -9,16 +9,42 @@
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 @class NSMutableDictionary;
-@class SymbolList;
-@class PrototypeManager;
+@class CategoryList, ParameterList, PhoneList, StringParser, SymbolList;
+@class BrowserManager, DefaultMgr, EventListView, Inspector, IntonationView, PrototypeManager, RuleManager, TransitionView;
 
 @interface AppController : NSObject
 {
+    //Inspector *inspectorController;
+    //NSPanel *infoPanel;
+
     NSMutableDictionary *namedObjects;
 
+    PhoneList *mainPhoneList;
+    CategoryList *mainCategoryList;
     SymbolList *mainSymbolList;
+    ParameterList *mainParameterList;
+    ParameterList *mainMetaParameterList;
 
+    //IBOutlet BrowserManager *dataBrowser;
+    IBOutlet RuleManager *ruleManager;
     IBOutlet PrototypeManager *prototypeManager;
+    IBOutlet TransitionView *transitionBuilder;
+    IBOutlet TransitionView *specialTransitionBuilder;
+    IBOutlet StringParser *stringParser;
+    //IBOutlet EventListView *eventListView;
+    IBOutlet IntonationView *intonationView; // TODO (2004-03-03): This might be an NSScrollView.
+
+    //DefaultMgr *defaultManager;
+
+    /* Window pointers */
+    //IBOutlet NSWindow *transitionWindow;
+    //IBOutlet NSWindow *ruleManagerWindow;
+    //IBOutlet NSWindow *phonesWindow;
+    //IBOutlet NSWindow *ruleParserWindow;
+    //IBOutlet NSWindow *prototypeWindow;
+    //IBOutlet NSWindow *synthesisWindow;
+    //IBOutlet NSWindow *specialWindow;
+    //IBOutlet NSWindow *synthParmWindow;
 }
 
 - (id)init;

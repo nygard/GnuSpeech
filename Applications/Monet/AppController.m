@@ -4,10 +4,16 @@
 #import "AppController.h"
 
 #import <Foundation/Foundation.h>
+#import "CategoryNode.h"
+#import "CategoryList.h"
+#import "IntonationView.h"
 #import "MyController.h"
 #import "NamedList.h"
 #import "PrototypeManager.h"
+#import "RuleManager.h"
+#import "StringParser.h"
 #import "SymbolList.h"
+#import "TransitionView.h"
 
 @implementation AppController
 
@@ -18,8 +24,15 @@
 
     namedObjects = [[NSMutableDictionary alloc] init];
 
+    mainPhoneList = [[PhoneList alloc] initWithCapacity:15];
+    mainCategoryList = [[CategoryList alloc] initWithCapacity:15];
     mainSymbolList = [[SymbolList alloc] initWithCapacity:15];
+    mainParameterList = [[ParameterList alloc] initWithCapacity:15];
+    mainMetaParameterList = [[ParameterList alloc] initWithCapacity:15];
+
     [mainSymbolList addNewValue:@"duration"];
+
+    [[mainCategoryList addCategory:@"phone"] setComment:@"This is the static phone category.  It cannot be changed or removed"];
 
     return self;
 }
@@ -37,16 +50,31 @@
     NSString *path;
     NSArchiver *stream;
 
+    NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
+
     NSLog(@"[NSApp delegate]: %@", [NSApp delegate]);
+
+    // Name them here to make sure all the outlets have been connected
+    NXNameObject(@"mainPhoneList", mainPhoneList, NSApp);
+    NXNameObject(@"mainCategoryList", mainCategoryList, NSApp);
     NXNameObject(@"mainSymbolList", mainSymbolList, NSApp);
+    NXNameObject(@"mainParameterList", mainParameterList, NSApp);
+    NXNameObject(@"mainMetaParameterList", mainMetaParameterList, NSApp);
+
+    NXNameObject(@"ruleManager", ruleManager, NSApp);
+    NXNameObject(@"prototypeManager", prototypeManager, NSApp);
+    NXNameObject(@"transitionBuilder", transitionBuilder, NSApp);
+    NXNameObject(@"specialTransitionBuilder", specialTransitionBuilder, NSApp);
+    NXNameObject(@"intonationView", intonationView, NSApp);
+    NXNameObject(@"stringParser", stringParser, NSApp);
+
     NSLog(@"getting it by name: %@", NXGetNamedObject(@"mainSymbolList", NSApp));
 
-    NXNameObject(@"prototypeManager", prototypeManager, NSApp);
-
-    //NSLog(@" > %s", _cmd);
+    //[dataBrowser applicationDidFinishLaunching:notification];
+    //if (inspectorController)
+    //    [inspectorController applicationDidFinishLaunching:notification];
 
     [prototypeManager applicationDidFinishLaunching:aNotification];
-
 
     //NSLog(@"decode List as %@", [NSUnarchiver classNameDecodedForArchiveClassName:@"List"]);
     //NSLog(@"decode Object as %@", [NSUnarchiver classNameDecodedForArchiveClassName:@"Object"]);
@@ -54,32 +82,6 @@
     [NSUnarchiver decodeClassName:@"Object" asClassName:@"NSObject"];
     [NSUnarchiver decodeClassName:@"List" asClassName:@"MonetList"];
     [NSUnarchiver decodeClassName:@"Point" asClassName:@"GSMPoint"];
-
-    {
-        NamedList *aList;
-        NSData *data;
-        NSMutableData *mdata;
-        NSKeyedArchiver *archiver;
-
-        aList = [[NamedList alloc] init];
-
-        data = [NSArchiver archivedDataWithRootObject:aList];
-        [data writeToFile:@"/tmp/test1" atomically:YES];
-
-        data = [NSKeyedArchiver archivedDataWithRootObject:aList];
-        [data writeToFile:@"/tmp/test2" atomically:YES];
-
-        mdata = [[NSMutableData alloc] init];
-        archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:mdata];
-        [archiver setOutputFormat:NSPropertyListXMLFormat_v1_0];
-        [archiver encodeObject:aList forKey:@"theRoot"];
-        [archiver finishEncoding];
-        [mdata writeToFile:@"/tmp/test3" atomically:YES];
-        [archiver release];
-        [mdata release];
-
-        [aList release];
-    }
 
     path = [[NSBundle mainBundle] pathForResource:@"DefaultPrototypes" ofType:nil];
     //NSLog(@"path: %@", path);
@@ -117,13 +119,34 @@
         [stream release];
     }
 
-    NSLog(@"<  %s", _cmd);
+    [ruleManager applicationDidFinishLaunching:aNotification];
+    [transitionBuilder applicationDidFinishLaunching:aNotification];
+    [specialTransitionBuilder applicationDidFinishLaunching:aNotification];
+    //[eventListView applicationDidFinishLaunching:aNotification];
+    [intonationView applicationDidFinishLaunching:aNotification];
+
+    [stringParser applicationDidFinishLaunching:aNotification];
+
+    //[transitionWindow setFrameAutosaveName:@"TransitionWindow"];
+    //[ruleManagerWindow setFrameAutosaveName:@"RuleManagerWindow"];
+    //[phonesWindow setFrameAutosaveName:@"DataEntryWindow"];
+    //[ruleParserWindow setFrameAutosaveName:@"RuleParserWindow"];
+    //[prototypeWindow setFrameAutosaveName:@"PrototypeManagerWindow"];
+    //[synthesisWindow setFrameAutosaveName:@"SynthesisWindow"];
+    //[specialWindow setFrameAutosaveName:@"SpecialTransitionWindow"];
+    //[synthParmWindow setFrameAutosaveName:@"SynthParameterWindow"];
+
+    NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }
 
 - (void)setObject:(id)object forKey:(id)key;
 {
     //NSLog(@" > %s", _cmd);
     //NSLog(@"key: %@, object: (%p)%@", key, object, object);
+    if (object == nil) {
+        NSLog(@"Error: object for key %@ is nil!", key);
+        return;
+    }
     [namedObjects setObject:object forKey:key];
     //NSLog(@"<  %s", _cmd);
 }

@@ -66,6 +66,8 @@
 {
     id temp, temp1;
 
+    NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
+
     [ruleMatrix setTarget:self];
     [ruleMatrix setAction:@selector(browserHit:)];
     [ruleMatrix setDoubleAction:@selector(browserDoubleHit:)];
@@ -76,6 +78,8 @@
     temp = [boolParser parseString:@"phone"];
     temp1 = [boolParser parseString:@"phone"];
     [ruleList seedListWith:temp:temp1];
+
+    NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }
 
 - (void)browserHit:sender;

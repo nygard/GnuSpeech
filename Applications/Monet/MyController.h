@@ -43,7 +43,7 @@ History:
     EventListView *eventListView;
     IntonationView *intonationView; // TODO (2004-03-03): This might be an NSScrollView.
 
-    DefaultMgr *defaultManager;
+    //DefaultMgr *defaultManager; // TODO (2004-03-04): Apparently not used
 
     /* Window pointers */
     NSWindow *transitionWindow;
