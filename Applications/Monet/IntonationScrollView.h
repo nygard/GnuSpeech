@@ -1,14 +1,12 @@
-
-#import <AppKit/AppKit.h>
-#import "IntonationView.h"
+#import <AppKit/NSScrollView.h>
 
 /*===========================================================================
 
 	Object: IntonationView
-	Purpose: Highest View in the ScrollView Hierarchy.  This view has 
-		two sub views.  They are intonationView and 
+	Purpose: Highest View in the ScrollView Hierarchy.  This view has
+		two sub views.  They are intonationView and
 		intonationScaleView
-		NOTE: IntonationView is the "docView" of this scrollview, so its 
+		NOTE: IntonationView is the "docView" of this scrollview, so its
 		instance variable is in the superclass.
 
 	Author: Craig-Richard Taube-Schock
@@ -19,17 +17,17 @@ History:
 
 ===========================================================================*/
 
-@interface IntonationScrollView:NSScrollView
+@interface IntonationScrollView : NSScrollView
 {
-	id	controller;
-	id	scaleView;
-	id	utterance;
-	id	smoothing;
+    id controller;
+    id scaleView;
+    id utterance;
+    id smoothing;
 }
 
+- (id)initWithFrame:(NSRect)frameRect;
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
-- initWithFrame:(NSRect)frameRect;
-- (void)drawRect:(NSRect)rects;
+- (void)drawRect:(NSRect)rect;
 - (void)tile;
 - (void)print:(id)sender;
 
