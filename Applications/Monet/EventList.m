@@ -719,6 +719,7 @@ static void page_consumed(void)
         fclose(fp);
 #else
 #warning No DSP for -generateOutput
+    NSLog(@"%s, no DSP...", _cmd);
 #endif
 }
 
@@ -827,6 +828,7 @@ static void page_consumed(void)
 //        [self applyIntonation];
 
     [[self lastObject] setFlag:YES];
+    NSLog(@"%s, EventList count: %d", _cmd, [self count]);
 }
 
 - (void)applyRule:rule withPhones:phoneList andTempos:(double *)tempos phoneIndex:(int)phoneIndex;

@@ -246,6 +246,7 @@ int parse_string(EventList *eventList, NSString *str);
 #endif
 
     if ([sender tag]) {
+        NSLog(@"this case, trying to synthesize to file.");
         if ([[filenameField stringValue] length])
             [eventList synthesizeToFile:[filenameField stringValue]];
         else
