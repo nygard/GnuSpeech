@@ -429,9 +429,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
         return nil;
 
     tempTime = zeroRef + (int)time;
-    tempTime = (tempTime >> 2) << 2; // TODO (2004-08-15): Hardcoded timeQuantization of 4
-//    if ((tempTime % timeQuantization) != 0)
-//        tempTime++;
+    tempTime = tempTime - (tempTime % timeQuantization);
 
     // If there are no events yet, we can just add it.
     if ([events count] == 0) {
