@@ -31,28 +31,28 @@
 #define MonetDefCount 22
 
 static NSString *MonetDefVal[] = {
-    MASTER_VOLUME_DEF,
-    VOCAL_TRACT_LENGTH_DEF,
-    TEMPERATURE_DEF,
-    BALANCE_DEF,
-    BREATHINESS_DEF,
-    LOSS_FACTOR_DEF,
-    THROAT_CUTTOFF_DEF,
-    THROAT_VOLUME_DEF,
-    APERTURE_SCALING_DEF,
-    MOUTH_COEF_DEF,
-    NOSE_COEF_DEF,
-    MIX_OFFSET_DEF,
-    N1_DEF,
-    N2_DEF,
-    N3_DEF,
-    N4_DEF,
-    N5_DEF,
-    TP_DEF,
-    TN_MIN_DEF,
-    TN_MAX_DEF,
-    GP_SHAPE_DEF,
-    NOISE_MODULATION_DEF,
+    DEFAULT_MASTER_VOLUME,
+    DEFAULT_VOCAL_TRACT_LENGTH,
+    DEFAULT_TEMPERATURE,
+    DEFAULT_BALANCE,
+    DEFAULT_BREATHINESS,
+    DEFAULT_LOSS_FACTOR,
+    DEFAULT_THROAT_CUTTOFF,
+    DEFAULT_THROAT_VOLUME,
+    DEFAULT_APERTURE_SCALING,
+    DEFAULT_MOUTH_COEF,
+    DEFAULT_NOSE_COEF,
+    DEFAULT_MIX_OFFSET,
+    DEFAULT_N1,
+    DEFAULT_N2,
+    DEFAULT_N3,
+    DEFAULT_N4,
+    DEFAULT_N5,
+    DEFAULT_TP,
+    DEFAULT_TN_MIN,
+    DEFAULT_TN_MAX,
+    DEFAULT_GP_SHAPE,
+    DEFAULT_NOISE_MODULATION,
     nil
 };
 
@@ -88,9 +88,7 @@ static NSString *MonetDefKeys[] = {
 {
     NSDictionary *dict;
 
-    dict = [NSDictionary dictionaryWithObjects:MonetDefVal
-                         forKeys:MonetDefKeys
-                         count:MonetDefCount];
+    dict = [NSDictionary dictionaryWithObjects:MonetDefVal forKeys:MonetDefKeys count:MonetDefCount];
     [[NSUserDefaults standardUserDefaults] registerDefaults:dict];
 }
 
