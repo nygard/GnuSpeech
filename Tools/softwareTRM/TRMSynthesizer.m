@@ -297,7 +297,7 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
     if (sampleRateConverter->maximumSampleValue == 0)
         NSBeep();
 
-    scale = (RANGE_MAX / sampleRateConverter->maximumSampleValue) * amplitude(inputData->inputParameters.volume) ;
+    scale = OUTPUT_SCALE * (RANGE_MAX / sampleRateConverter->maximumSampleValue) * amplitude(inputData->inputParameters.volume) ;
 
     NSLog(@"number of samples:\t%-ld\n", sampleRateConverter->numberSamples);
     NSLog(@"maximum sample value:\t%.4f\n", sampleRateConverter->maximumSampleValue);
