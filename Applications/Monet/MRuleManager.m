@@ -843,6 +843,8 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
       case 3:
           aBrowser = match4Browser;
           break;
+      default:
+          aBrowser = nil;
     }
 
     [aBrowser setTitle:[NSString stringWithFormat:@"Total Matches: %d", [matchedPhoneList count]] ofColumn:0];
