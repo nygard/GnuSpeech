@@ -28,10 +28,6 @@
 
 - (MMPosture *)findPhone:(NSString *)phone;
 
-- (void)removeParameterAtIndex:(int)index;
-- (void)removeMetaParameterAtIndex:(int)index;
-- (void)removeSymbol:(int)index;
-
 - (IBAction)importTRMData:(id)sender;
 
 @end

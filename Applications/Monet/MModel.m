@@ -299,7 +299,10 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     if (parameterIndex != NSNotFound) {
         int count, index;
 
-        [postures removeParameterAtIndex:parameterIndex];
+        count = [postures count];
+        for (index = 0; index < count; index++)
+            [[postures objectAtIndex:index] removeParameterTargetAtIndex:parameterIndex];
+
         count = [rules count];
         for (index = 0; index < count; index++)
             [[rules objectAtIndex:index] removeParameterAtIndex:parameterIndex];
@@ -349,7 +352,10 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     if (parameterIndex != NSNotFound) {
         int count, index;
 
-        [postures removeMetaParameterAtIndex:parameterIndex];
+        count = [postures count];
+        for (index = 0; index < count; index++)
+            [[postures objectAtIndex:index] removeMetaParameterTargetAtIndex:parameterIndex];
+
         count = [rules count];
         for (index = 0; index < count; index++)
             [[rules objectAtIndex:index] removeMetaParameterAtIndex:parameterIndex];
@@ -417,11 +423,16 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)removeSymbol:(MMSymbol *)aSymbol;
 {
-    unsigned int index;
+    unsigned int symbolIndex;
 
-    index = [symbols indexOfObject:aSymbol];
-    if (index != NSNotFound) {
-        [postures removeSymbol:index]; // TODO (2004-03-19): Rename, to at "AtIndex"
+    symbolIndex = [symbols indexOfObject:aSymbol];
+    if (symbolIndex != NSNotFound) {
+        unsigned int count, index;
+
+        count = [postures count];
+        for (index = 0; index < count; index++)
+            [[postures objectAtIndex:index] removeSymbolTargetAtIndex:symbolIndex];
+
         [symbols removeObject:aSymbol];
     }
 }

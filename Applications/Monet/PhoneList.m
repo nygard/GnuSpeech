@@ -15,11 +15,6 @@
 #import "TargetList.h"
 #import "TRMData.h"
 
-/*===========================================================================
-
-
-===========================================================================*/
-
 @implementation PhoneList
 
 - (MMPosture *)findPhone:(NSString *)phone;
@@ -35,39 +30,6 @@
     }
 
     return nil;
-}
-
-- (void)removeParameterAtIndex:(int)index;
-{
-    int i;
-    id temp;
-
-    for (i = 0; i < [self count]; i++) {
-        temp = [[self objectAtIndex:i] parameterTargets];
-        [temp removeObjectAtIndex:index];
-    }
-}
-
-- (void)removeMetaParameterAtIndex:(int)index;
-{
-    int i;
-    id temp;
-
-    for (i = 0; i < [self count]; i++) {
-        temp = [[self objectAtIndex:i] metaParameterTargets];
-        [temp removeObjectAtIndex:index];
-    }
-}
-
-- (void)removeSymbol:(int)index;
-{
-    int i;
-    id temp;
-
-    for (i = 0; i < [self count]; i++) {
-        temp = [[self objectAtIndex:i] symbolList];
-        [temp removeObjectAtIndex:index];
-    }
 }
 
 - (IBAction)importTRMData:(id)sender;

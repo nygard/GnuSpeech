@@ -90,8 +90,13 @@
 - (TargetList *)symbolList;
 
 - (void)addParameterTarget:(MMTarget *)newTarget;
+- (void)removeParameterTargetAtIndex:(unsigned int)index;
+
 - (void)addMetaParameterTarget:(MMTarget *)newTarget;
+- (void)removeMetaParameterTargetAtIndex:(unsigned int)index;
+
 - (void)addSymbolTarget:(MMTarget *)newTarget;
+- (void)removeSymbolTargetAtIndex:(unsigned int)index;
 
 - (NSComparisonResult)compareByAscendingName:(MMPosture *)otherPosture;
 

@@ -234,14 +234,29 @@
     [parameterList addObject:newTarget];
 }
 
+- (void)removeParameterTargetAtIndex:(unsigned int)index;
+{
+    [parameterList removeObjectAtIndex:index];
+}
+
 - (void)addMetaParameterTarget:(MMTarget *)newTarget;
 {
     [metaParameterList addObject:newTarget];
 }
 
+- (void)removeMetaParameterTargetAtIndex:(unsigned int)index;
+{
+    [metaParameterList removeObjectAtIndex:index];
+}
+
 - (void)addSymbolTarget:(MMTarget *)newTarget;
 {
     [symbolList addObject:newTarget];
+}
+
+- (void)removeSymbolTargetAtIndex:(unsigned int)index;
+{
+    [symbolList removeObjectAtIndex:index];
 }
 
 - (NSComparisonResult)compareByAscendingName:(MMPosture *)otherPosture;
