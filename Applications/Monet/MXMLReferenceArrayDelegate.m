@@ -42,23 +42,21 @@
             [references addObject:referenceID];
         [(MXMLParser *)parser skipTree];
     } else {
-        NSLog(@"MXMLArrayDelegate: skipping element: %@", anElementName);
+        NSLog(@"Warning: %@: skipping element: %@", NSStringFromClass([self class]), anElementName);
         [(MXMLParser *)parser skipTree];
     }
 }
 
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)anElementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 {
-    NSLog(@"closing array element: '%@', popping delegate", anElementName);
-    NSLog(@"references: %@", [references description]);
+    //NSLog(@"%@: closing element: '%@', popping delegate", NSStringFromClass([self class]), anElementName);
     if ([delegate respondsToSelector:addObjectSelector]) {
         unsigned int count, index;
 
         count = [references count];
-        NSLog(@"Adding %d references to %@ with selector %s", count, delegate, addObjectSelector);
-        for (index = 0; index < count; index++) {
+        //NSLog(@"Adding %d references to %@ with selector %s", count, delegate, addObjectSelector);
+        for (index = 0; index < count; index++)
             [delegate performSelector:addObjectSelector withObject:[references objectAtIndex:index]];
-        }
     }
 
     [(MXMLParser *)parser popDelegate];

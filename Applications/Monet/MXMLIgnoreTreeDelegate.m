@@ -29,7 +29,7 @@
     depth--;
     //NSLog(@"</%@>, depth now %d", elementName, depth);
     if (depth == 0) {
-        NSLog(@"done ignoring tree '%@'", elementName);
+        //NSLog(@"done ignoring tree '%@'", elementName);
         [(MXMLParser *)parser popDelegate];
     }
 }

@@ -8,7 +8,6 @@
 #import "MModel.h"
 
 #import "MXMLParser.h"
-#import "MXMLIgnoreTreeDelegate.h"
 #import "MXMLPCDataDelegate.h"
 
 #define DEFAULT_MIN 100.0
@@ -199,12 +198,8 @@
         [(MXMLParser *)parser pushDelegate:newDelegate];
         [newDelegate release];
     } else {
-        MXMLIgnoreTreeDelegate *newDelegate;
-
         NSLog(@"%@, Unknown element: '%@', skipping", [self shortDescription], elementName);
-        newDelegate = [[MXMLIgnoreTreeDelegate alloc] init];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
+        [(MXMLParser *)parser skipTree];
     }
 }
 

@@ -1,22 +1,24 @@
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
 //  Copyright (C) 2004 __OWNER__.  All rights reserved.
 
-#import "MXMLArrayDelegate.h"
+#import "MXMLDictionaryDelegate.h"
 
 #import <Foundation/Foundation.h>
 #import "MXMLParser.h"
 
-@implementation MXMLArrayDelegate
+@implementation MXMLDictionaryDelegate
 
-- (id)initWithChildElementName:(NSString *)anElementName class:(Class)aClass delegate:(id)aDelegate addObjectSelector:(SEL)aSelector;
+- (id)initWithChildElementName:(NSString *)anElementName class:(Class)aClass keyAttributeName:(NSString *)anAttributeName delegate:(id)aDelegate addObjectsSelector:(SEL)aSelector;
 {
     if ([super init] == nil)
         return nil;
 
     childElementName = [anElementName retain];
     objectClass = aClass;
+    keyAttributeName = [anAttributeName retain];
     delegate = [aDelegate retain];
-    addObjectSelector = aSelector;
+    addObjectsSelector = aSelector;
+    objects = [[NSMutableDictionary alloc] init];
 
     return self;
 }
@@ -24,7 +26,9 @@
 - (void)dealloc;
 {
     [childElementName release];
+    [keyAttributeName release];
     [delegate release];
+    [objects release];
 
     [super dealloc];
 }
@@ -33,11 +37,18 @@
 {
     if ([anElementName isEqualToString:childElementName]) {
         id newObject;
+        NSString *key;
 
         newObject = [[objectClass alloc] initWithXMLAttributes:attributeDict];
-        //NSLog(@"newObject: %@", newObject);
-        if ([delegate respondsToSelector:addObjectSelector]) {
-            [delegate performSelector:addObjectSelector withObject:newObject];
+        key = [attributeDict objectForKey:keyAttributeName];
+        //NSLog(@"newObject: %@, key: %@", newObject, key);
+        if (key == nil) {
+            NSLog(@"Warning: key attribute (%@) not set for element: %@", keyAttributeName, anElementName);
+        } else {
+            if ([objects objectForKey:key] != nil)
+                NSLog(@"Warning: already have an object for key: %@, replacing", key);
+
+            [objects setObject:newObject forKey:key];
         }
         [(MXMLParser *)parser pushDelegate:newObject];
         [newObject release];
@@ -50,6 +61,9 @@
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)anElementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 {
     //NSLog(@"%@: closing element: '%@', popping delegate", NSStringFromClass([self class]), anElementName);
+    if ([delegate respondsToSelector:addObjectsSelector])
+        [delegate performSelector:addObjectsSelector withObject:objects];
+
     [(MXMLParser *)parser popDelegate];
 }
 

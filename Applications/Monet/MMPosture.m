@@ -18,7 +18,8 @@
 #import "MUnarchiver.h"
 
 #import "MXMLParser.h"
-#import "MXMLIgnoreTreeDelegate.h"
+
+#import "MXMLDictionaryDelegate.h"
 #import "MXMLPCDataDelegate.h"
 #import "MXMLReferenceArrayDelegate.h"
 
@@ -237,7 +238,6 @@
     MMCategory *category;
 
     category = [[self model] categoryWithName:aCategoryName];
-    NSLog(@"%s, model: %p, category: %@", _cmd, [self model], category);
     [self addCategory:category];
 }
 
@@ -266,6 +266,32 @@
     [parameterList removeObjectAtIndex:index];
 }
 
+- (void)addParameterTargetsFromDictionary:(NSDictionary *)aDictionary;
+{
+    ParameterList *parameters;
+    unsigned int count, index;
+
+    parameters = [[self model] parameters];
+    count = [parameters count];
+    for (index = 0; index < count; index++) {
+        MMParameter *currentParameter;
+        MMTarget *currentTarget;
+
+        currentParameter = [parameters objectAtIndex:index];
+        currentTarget = [aDictionary objectForKey:[currentParameter symbol]];
+        if (currentTarget == nil) {
+            NSLog(@"Warning: no target for parameter %@ in save file, adding default target.", [currentParameter symbol]);
+            currentTarget = [[MMTarget alloc] initWithValue:[currentParameter defaultValue] isDefault:YES];
+            [self addParameterTarget:currentTarget];
+            [currentTarget release];
+        } else {
+            [self addParameterTarget:currentTarget];
+        }
+
+        // TODO (2004-04-22): Check for targets that were in the save file, but that don't have a matching parameter.
+    }
+}
+
 - (void)addMetaParameterTarget:(MMTarget *)newTarget;
 {
     [metaParameterList addObject:newTarget];
@@ -276,6 +302,32 @@
     [metaParameterList removeObjectAtIndex:index];
 }
 
+- (void)addMetaParameterTargetsFromDictionary:(NSDictionary *)aDictionary;
+{
+    ParameterList *parameters;
+    unsigned int count, index;
+
+    parameters = [[self model] metaParameters];
+    count = [parameters count];
+    for (index = 0; index < count; index++) {
+        MMParameter *currentParameter;
+        MMTarget *currentTarget;
+
+        currentParameter = [parameters objectAtIndex:index];
+        currentTarget = [aDictionary objectForKey:[currentParameter symbol]];
+        if (currentTarget == nil) {
+            NSLog(@"Warning: no target for meta-parameter %@ in save file, adding default target.", [currentParameter symbol]);
+            currentTarget = [[MMTarget alloc] initWithValue:[currentParameter defaultValue] isDefault:YES];
+            [self addMetaParameterTarget:currentTarget];
+            [currentTarget release];
+        } else {
+            [self addMetaParameterTarget:currentTarget];
+        }
+
+        // TODO (2004-04-22): Check for targets that were in the save file, but that don't have a matching parameter.
+    }
+}
+
 - (void)addSymbolTarget:(MMTarget *)newTarget;
 {
     [symbolList addObject:newTarget];
@@ -284,6 +336,32 @@
 - (void)removeSymbolTargetAtIndex:(unsigned int)index;
 {
     [symbolList removeObjectAtIndex:index];
+}
+
+- (void)addSymbolTargetsFromDictionary:(NSDictionary *)aDictionary;
+{
+    SymbolList *symbols;
+    unsigned int count, index;
+
+    symbols = [[self model] symbols];
+    count = [symbols count];
+    for (index = 0; index < count; index++) {
+        MMSymbol *currentSymbol;
+        MMTarget *currentTarget;
+
+        currentSymbol = [symbols objectAtIndex:index];
+        currentTarget = [aDictionary objectForKey:[currentSymbol symbol]];
+        if (currentTarget == nil) {
+            NSLog(@"Warning: no target for symbol %@ in save file, adding default target.", [currentSymbol symbol]);
+            currentTarget = [[MMTarget alloc] initWithValue:[currentSymbol defaultValue] isDefault:YES];
+            [self addSymbolTarget:currentTarget];
+            [currentTarget release];
+        } else {
+            [self addSymbolTarget:currentTarget];
+        }
+
+        // TODO (2004-04-22): Check for targets that were in the save file, but that don't have a matching symbol.
+    }
 }
 
 - (MMTarget *)targetForSymbol:(MMSymbol *)aSymbol;
@@ -472,7 +550,7 @@
         return;
 
     [resultString indentToLevel:level];
-    [resultString appendFormat:@"<meta-parameters-targets>\n"];
+    [resultString appendFormat:@"<meta-parameter-targets>\n"];
 
     for (index = 0; index < count; index++) {
         aParameter = [mainMetaParameterList objectAtIndex:index];
@@ -546,17 +624,27 @@
         newDelegate = [[MXMLReferenceArrayDelegate alloc] initWithChildElementName:@"category-ref" referenceAttribute:@"name" delegate:self addObjectSelector:@selector(addCategoryWithName:)];
         [(MXMLParser *)parser pushDelegate:newDelegate];
         [newDelegate release];
-#if 0
     } else if ([elementName isEqualToString:@"parameter-targets"]) {
-    } else if ([elementName isEqualToString:@"symbol-targets"]) {
-#endif
-    } else {
-        MXMLIgnoreTreeDelegate *newDelegate;
+        MXMLDictionaryDelegate *newDelegate;
 
-        NSLog(@"%@, Unknown element: '%@', skipping", [self shortDescription], elementName);
-        newDelegate = [[MXMLIgnoreTreeDelegate alloc] init];
+        newDelegate = [[MXMLDictionaryDelegate alloc] initWithChildElementName:@"target" class:[MMTarget class] keyAttributeName:@"name" delegate:self addObjectsSelector:@selector(addParameterTargetsFromDictionary:)];
         [(MXMLParser *)parser pushDelegate:newDelegate];
         [newDelegate release];
+    } else if ([elementName isEqualToString:@"meta-parameter-targets"]) {
+        MXMLDictionaryDelegate *newDelegate;
+
+        newDelegate = [[MXMLDictionaryDelegate alloc] initWithChildElementName:@"target" class:[MMTarget class] keyAttributeName:@"name" delegate:self addObjectsSelector:@selector(addMetaParameterTargetsFromDictionary:)];
+        [(MXMLParser *)parser pushDelegate:newDelegate];
+        [newDelegate release];
+    } else if ([elementName isEqualToString:@"symbol-targets"]) {
+        MXMLDictionaryDelegate *newDelegate;
+
+        newDelegate = [[MXMLDictionaryDelegate alloc] initWithChildElementName:@"target" class:[MMTarget class] keyAttributeName:@"name" delegate:self addObjectsSelector:@selector(addSymbolTargetsFromDictionary:)];
+        [(MXMLParser *)parser pushDelegate:newDelegate];
+        [newDelegate release];
+    } else {
+        NSLog(@"Warning: %@, Unknown element: '%@', skipping", [self shortDescription], elementName);
+        [(MXMLParser *)parser skipTree];
     }
 }
 
