@@ -4,8 +4,10 @@
 #import "MTransitionEditor.h"
 
 #import <AppKit/AppKit.h>
+#import "NSNumberFormatter-Extensions.h"
 #import "NSOutlineView-Extensions.h"
 
+#import "FormulaExpression.h"
 #import "MMEquation.h"
 #import "MModel.h"
 #import "MMPoint.h"
@@ -59,6 +61,11 @@
 
 - (void)windowDidLoad;
 {
+    NSNumberFormatter *defaultNumberFormatter;
+
+    defaultNumberFormatter = [NSNumberFormatter defaultNumberFormatter];
+    [[valueTextField cell] setFormatter:defaultNumberFormatter];
+
     [transitionView setModel:model];
     [transitionView setTransition:transition];
 
@@ -182,7 +189,7 @@
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item;
 {
-    return [item isKindOfClass:[MMEquation class]];
+    return [transitionView selectedPoint] != nil && [item isKindOfClass:[MMEquation class]];
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldCollapseItem:(id)item;
@@ -206,6 +213,7 @@
 
         selectedEquation = [equationOutlineView selectedItemOfClass:[MMEquation class]];
         [[transitionView selectedPoint] setExpression:selectedEquation];
+        [self _updateSelectedPointDetails];
         [transitionView setNeedsDisplay:YES];
     }
 }
@@ -220,35 +228,97 @@
     NSLog(@"[aNotification object]: %@", [aNotification object]);
 
     if ([aNotification object] == transitionView) {
-        MMPoint *selectedPoint;
-
-        selectedPoint = [transitionView selectedPoint];
-        NSLog(@"selectedPoint: %p", selectedPoint);
-        if (selectedPoint != nil) {
-            MMEquation *equation;
-
-            equation = [selectedPoint expression];
-            if (equation == nil) {
-                [equationOutlineView deselectAll:nil];
-            } else {
-                NamedList *group;
-                int row, groupRow;
-
-                group = [equation group];
-                groupRow = [equationOutlineView rowForItem:group];
-                row = [equationOutlineView rowForItem:equation];
-                [equationOutlineView selectRow:row byExtendingSelection:NO];
-                if ([equationOutlineView isItemExpanded:group] == NO)
-                    [equationOutlineView expandItem:group];
-                [equationOutlineView scrollRowToVisible:groupRow];
-                [equationOutlineView scrollRowToVisible:row];
-            }
-        } else {
-            [equationOutlineView deselectAll:nil];
-        }
+        [self _updateSelectedPointDetails];
     }
 
     NSLog(@"<  %s", _cmd);
+}
+
+- (void)_updateSelectedPointDetails;
+{
+    MMPoint *selectedPoint;
+
+    selectedPoint = [transitionView selectedPoint];
+    NSLog(@"selectedPoint: %p", selectedPoint);
+    if (selectedPoint != nil) {
+        MMEquation *equation;
+
+        equation = [selectedPoint expression];
+        if (equation == nil) {
+            [equationOutlineView deselectAll:nil];
+
+            [equationTextView setString:[NSString stringWithFormat:@"Fixed: %.3f ms", [selectedPoint freeTime]]];
+        } else {
+            NamedList *group;
+            int row, groupRow;
+
+            group = [equation group];
+            groupRow = [equationOutlineView rowForItem:group];
+            row = [equationOutlineView rowForItem:equation];
+            [equationOutlineView selectRow:row byExtendingSelection:NO];
+            if ([equationOutlineView isItemExpanded:group] == NO)
+                [equationOutlineView expandItem:group];
+            [equationOutlineView scrollRowToVisible:groupRow];
+            [equationOutlineView scrollRowToVisible:row];
+
+            [equationTextView setString:[[equation expression] expressionString]];
+        }
+
+        // TODO (2004-03-22): You shouldn't be able to set the value of points in a SlopeRatio (except maybe the first point).
+        [valueTextField setDoubleValue:[selectedPoint value]];
+        switch ([selectedPoint type]) {
+          case DIPHONE:
+              [type1Button setState:1];
+              [type2Button setState:0];
+              [type3Button setState:0];
+              break;
+          case TRIPHONE:
+              [type1Button setState:0];
+              [type2Button setState:1];
+              [type3Button setState:0];
+              break;
+          case TETRAPHONE:
+              [type1Button setState:0];
+              [type2Button setState:0];
+              [type3Button setState:1];
+              break;
+        }
+        [isPhantomSwitch setState:[selectedPoint isPhantom]];
+    } else {
+        [equationOutlineView deselectAll:nil];
+
+        [valueTextField setStringValue:@""];
+        [type1Button setState:0];
+        [type2Button setState:0];
+        [type3Button setState:0];
+        [isPhantomSwitch setState:0];
+        [equationTextView setString:@""];
+    }
+}
+
+- (IBAction)setType:(id)sender;
+{
+    int tag = [sender tag];
+
+    [type1Button setState:tag == 2];
+    [type2Button setState:tag == 3];
+    [type3Button setState:tag == 4];
+    [[transitionView selectedPoint] setType:tag];
+
+    [transitionView setNeedsDisplay:YES];
+    [self _updateSelectedPointDetails];
+}
+
+- (IBAction)setValue:(id)sender;
+{
+    [[transitionView selectedPoint] setValue:[valueTextField doubleValue]];
+    [transitionView setNeedsDisplay:YES];
+}
+
+- (IBAction)setPhantom:(id)sender;
+{
+    [[transitionView selectedPoint] setIsPhantom:[isPhantomSwitch state]];
+    [transitionView setNeedsDisplay:YES];
 }
 
 @end

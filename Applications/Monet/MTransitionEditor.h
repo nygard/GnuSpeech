@@ -1,5 +1,5 @@
 //
-// $Id: MTransitionEditor.h,v 1.2 2004/03/23 02:37:08 nygard Exp $
+// $Id: MTransitionEditor.h,v 1.3 2004/03/23 04:44:46 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -61,5 +61,10 @@
 
 // TransitionView delegate
 - (void)transitionViewSelectionDidChange:(NSNotification *)aNotification;
+
+- (void)_updateSelectedPointDetails;
+- (IBAction)setType:(id)sender;
+- (IBAction)setValue:(id)sender;
+- (IBAction)setPhantom:(id)sender;
 
 @end
