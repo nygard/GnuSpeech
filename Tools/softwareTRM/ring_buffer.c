@@ -3,7 +3,7 @@
 
 #include "ring_buffer.h"
 
-TRMRingBuffer *createRingBuffer(int aPadSize)
+TRMRingBuffer *TRMRingBufferCreate(int aPadSize)
 {
     TRMRingBuffer *newRingBuffer;
     int index;
@@ -28,6 +28,14 @@ TRMRingBuffer *createRingBuffer(int aPadSize)
     newRingBuffer->callbackFunction = NULL;
 
     return newRingBuffer;
+}
+
+void TRMRingBufferFree(TRMRingBuffer *ringBuffer)
+{
+    if (ringBuffer == NULL)
+        return;
+
+    free(ringBuffer);
 }
 
 // Fills the ring buffer with a single sample, increments

@@ -197,6 +197,8 @@ int main(int argc, char *argv[])
     if (verbose)
 	printf("\nWrote scaled samples to file:  %s\n", outputFile);
 
+    TRMTubeModelFree(tube);
+
 #ifdef SHARK
     {
         char buf[100];

@@ -16,7 +16,9 @@ typedef struct _TRMRingBuffer {
     void (*callbackFunction)(struct _TRMRingBuffer *, void *);
 } TRMRingBuffer;
 
-TRMRingBuffer *createRingBuffer(int aPadSize);
+TRMRingBuffer *TRMRingBufferCreate(int aPadSize);
+void TRMRingBufferFree(TRMRingBuffer *ringBuffer);
+
 void dataFill(TRMRingBuffer *ringBuffer, double data);
 void dataEmpty(TRMRingBuffer *ringBuffer);
 void RBIncrement(TRMRingBuffer *ringBuffer);

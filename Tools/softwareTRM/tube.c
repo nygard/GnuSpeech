@@ -930,7 +930,7 @@ void initializeConversion(TRMTubeModel *tubeModel, struct _TRMInputParameters *i
     padSize = (tubeModel->sampleRateConverter.sampleRateRatio >= 1.0) ? ZERO_CROSSINGS :
         (int)((float)ZERO_CROSSINGS / roundedSampleRateRatio) + 1;
 
-    tubeModel->ringBuffer = createRingBuffer(padSize);
+    tubeModel->ringBuffer = TRMRingBufferCreate(padSize);
 
     tubeModel->ringBuffer->context = &(tubeModel->sampleRateConverter);
     tubeModel->ringBuffer->callbackFunction = resampleBuffer;
@@ -1207,11 +1207,20 @@ TRMTubeModel *TRMTubeModelCreate(TRMInputParameters *inputParameters)
     return newTubeModel;
 }
 
-void TRMTubeModelFree(TRMTubeModel *model)
+void TRMTubeModelFree(TRMTubeModel *tubeModel)
 {
-    fprintf(stderr, "Leaking some stuff from freeTubeModel().\n");
+    if (tubeModel == NULL)
+        return;
 
-    if (model != NULL)
-        free(model);
+    if (tubeModel->ringBuffer != NULL) {
+        TRMRingBufferFree(tubeModel->ringBuffer);
+        tubeModel->ringBuffer = NULL;
+    }
+
+    if (tubeModel->wavetable != NULL) {
+        TRMWavetableFree(tubeModel->wavetable);
+        tubeModel->wavetable = NULL;
+    }
+
+    free(tubeModel);
 }
-

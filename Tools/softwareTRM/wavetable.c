@@ -77,9 +77,16 @@ TRMWavetable *TRMWavetableCreate(int waveform, double tp, double tnMin, double t
     return newWavetable;
 }
 
-void TRMWavetableRelease(TRMWavetable *wavetable)
+void TRMWavetableFree(TRMWavetable *wavetable)
 {
-    free(wavetable->wavetable);
+    if (wavetable == NULL)
+        return;
+
+    if (wavetable->wavetable != NULL) {
+        free(wavetable->wavetable);
+        wavetable->wavetable = NULL;
+    }
+
     free(wavetable);
 }
 

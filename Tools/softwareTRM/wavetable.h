@@ -17,7 +17,7 @@ typedef struct _TRMWavetable {
 } TRMWavetable;
 
 TRMWavetable *TRMWavetableCreate(int waveform, double tp, double tnMin, double tnMax, double sampleRate);
-void TRMWavetableRelease(TRMWavetable *wavetable);
+void TRMWavetableFree(TRMWavetable *wavetable);
 
 void TRMWavetableUpdate(TRMWavetable *wavetable, double amplitude);
 double TRMWavetableOscillator(TRMWavetable *wavetable, double frequency);
