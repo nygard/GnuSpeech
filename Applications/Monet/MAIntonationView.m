@@ -682,6 +682,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 //    if ([self isEnabled] == NO)
 //        return;
 
+    [self autoscroll:mouseEvent];
     if (flags.shouldDrawSelection == YES) {
         hitPoint = [self convertPoint:[mouseEvent locationInWindow] fromView:nil];
         //NSLog(@"hitPoint: %@", NSStringFromPoint(hitPoint));

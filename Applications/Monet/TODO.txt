@@ -230,3 +230,7 @@ des: [~ 12 ]> /Local/Public/nygard/Products/Monet.app/Contents/MacOS/Monet
 
 2004-08-19:
 - trying storing dictionary in dbm file, for faster startup tts stuff
+
+2004-08-21:
+- MAIntonationView should autoscroll when necessary when drawing the selection rect.
+  - need model loop and periodic events for this.
