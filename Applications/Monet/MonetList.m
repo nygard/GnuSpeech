@@ -10,13 +10,6 @@
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
 
-@protocol AlternateXMLMethod
-- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level number:(int)number;
-@end
-
-
-#import "MMTarget.h" // Hack, just to get -appendXMLToString:level:
-
 @implementation MonetList
 
 - (id)init;
@@ -190,11 +183,6 @@
 
 - (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(int)level;
 {
-    [self appendXMLToString:resultString elementName:elementName level:level numberItems:NO];
-}
-
-- (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(int)level numberItems:(BOOL)shouldNumberItems;
-{
     int count, index;
 
     count = [self count];
@@ -204,15 +192,8 @@
     [resultString indentToLevel:level];
     [resultString appendFormat:@"<%@>\n", elementName];
 
-    for (index = 0; index < count; index++) {
-        id anObject;
-
-        anObject = [self objectAtIndex:index];
-        if (shouldNumberItems == YES && [anObject respondsToSelector:@selector(appendXMLToString:level:number:)] == YES)
-            [anObject appendXMLToString:resultString level:level+1 number:index+1];
-        else
-            [anObject appendXMLToString:resultString level:level+1];
-    }
+    for (index = 0; index < count; index++)
+        [[self objectAtIndex:index] appendXMLToString:resultString level:level+1];
 
     [resultString indentToLevel:level];
     [resultString appendFormat:@"</%@>\n", elementName];

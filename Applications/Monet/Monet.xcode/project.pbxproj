@@ -1243,6 +1243,36 @@
 			settings = {
 			};
 		};
+		0165F98106BEF34F00C6D2C9 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = "NSArray-Extensions.h";
+			path = "Extensions/NSArray-Extensions.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0165F98206BEF34F00C6D2C9 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = "NSArray-Extensions.m";
+			path = "Extensions/NSArray-Extensions.m";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0165F98306BEF34F00C6D2C9 = {
+			fileRef = 0165F98106BEF34F00C6D2C9;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0165F98406BEF34F00C6D2C9 = {
+			fileRef = 0165F98206BEF34F00C6D2C9;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		016FACCE065D6FCF003ED09E = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -1325,6 +1355,8 @@
 		};
 		016FACD9065D76A9003ED09E = {
 			children = (
+				0165F98106BEF34F00C6D2C9,
+				0165F98206BEF34F00C6D2C9,
 				019D975D0646E449009C37B4,
 				019D975E0646E449009C37B4,
 				019D975F0646E449009C37B4,
@@ -3690,6 +3722,7 @@
 				0165F92B06BEDB9100C6D2C9,
 				0165F92D06BEDB9100C6D2C9,
 				0165F92F06BEDB9100C6D2C9,
+				0165F98306BEF34F00C6D2C9,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3824,6 +3857,7 @@
 				0165F92C06BEDB9100C6D2C9,
 				0165F92E06BEDB9100C6D2C9,
 				0165F93006BEDB9100C6D2C9,
+				0165F98406BEF34F00C6D2C9,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

@@ -13,3 +13,7 @@
 - (NSString *)shortDescription;
 
 @end
+
+@interface NSObject (Other)
+- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+@end
