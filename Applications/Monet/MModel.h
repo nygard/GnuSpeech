@@ -1,5 +1,5 @@
 //
-// $Id: MModel.h,v 1.19 2004/03/25 00:01:56 nygard Exp $
+// $Id: MModel.h,v 1.20 2004/03/25 01:28:29 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -30,6 +30,8 @@ extern NSString *MCategoryInUseException;
 
 - (id)init;
 - (void)dealloc;
+
+- (void)_addDefaultRule;
 
 - (CategoryList *)categories;
 - (ParameterList *)parameters;

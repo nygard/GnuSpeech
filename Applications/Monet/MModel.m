@@ -51,7 +51,6 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     specialTransitions = [[MonetList alloc] init];
 
     rules = [[RuleList alloc] init];
-    // TODO (2004-03-24): Seed list with "phone >> phone" rule.
 
     // And set up some default values:
     newSymbol = [[MMSymbol alloc] initWithSymbol:@"duration"];
@@ -62,6 +61,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [newCategory setComment:@"This is the static phone category.  It cannot be changed or removed."];
     [self addCategory:newCategory];
     [newCategory release];
+
+    [self _addDefaultRule];
 
     cacheTag = 1;
 
@@ -81,6 +82,29 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [rules release];
 
     [super dealloc];
+}
+
+- (void)_addDefaultRule;
+{
+    MMRule *newRule;
+    BooleanParser *boolParser;
+    BooleanExpression *expr1, *expr2;
+
+    boolParser = [[BooleanParser alloc] init];
+    [boolParser setCategoryList:[self categories]];
+    [boolParser setPhoneList:[self postures]];
+
+    expr1 = [boolParser parseString:@"phone"];
+    expr2 = [boolParser parseString:@"phone"];
+
+    [boolParser release];
+
+    newRule = [[MMRule alloc] init];
+    [newRule setExpression:expr1 number:0];
+    [newRule setExpression:expr2 number:1];
+    [newRule setDefaultsTo:[newRule numberExpressions]];
+    [self addRule:newRule];
+    [newRule release];
 }
 
 - (CategoryList *)categories;

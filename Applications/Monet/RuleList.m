@@ -14,18 +14,6 @@
 
 @implementation RuleList
 
-- (void)seedListWith:(BooleanExpression *)expression1:(BooleanExpression *)expression2;
-{
-    MMRule *aRule;
-
-    aRule = [[MMRule alloc] init];
-    [aRule setExpression:expression1 number:0];
-    [aRule setExpression:expression2 number:1];
-    [aRule setDefaultsTo:[aRule numberExpressions]];
-    [self addObject:aRule];
-    [aRule release];
-}
-
 - (void)changeRuleAt:(int)index exp1:(BooleanExpression *)exp1 exp2:(BooleanExpression *)exp2 exp3:(BooleanExpression *)exp3 exp4:(BooleanExpression *)exp4;
 {
     MMRule *aRule;
