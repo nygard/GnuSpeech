@@ -42,6 +42,7 @@
     mouseBeingDragged = 0;
 
     eventList = nil;
+    trackTag = 0;
 
     ruleCell = [[NSTextFieldCell alloc] initTextCell:@""];
     [ruleCell setControlSize:NSSmallControlSize];
@@ -50,6 +51,11 @@
     //[ruleCell setBezeled:YES];
     [ruleCell setEnabled:YES];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                          selector:@selector(frameDidChange:)
+                                          name:NSViewFrameDidChangeNotification
+                                          object:self];
+
     [self setNeedsDisplay:YES];
 
     return self;
@@ -57,6 +63,9 @@
 
 - (void)dealloc;
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self removeTrackingRect:trackTag];
+
     [timesFont release];
     [timesFontSmall release];
     [eventList release];
@@ -79,7 +88,10 @@
     //trackRect.size.width = frame.size.width - 102.0;
     //trackRect.size.height = frame.size.height - 102.0;
 
-    [[self window] setAcceptsMouseMovedEvents:YES];
+    trackTag = [self addTrackingRect:[self bounds] owner:self userData:NULL assumeInside:NO];
+    //NSLog(@"trackTag: %d", trackTag);
+
+    //[[self window] setAcceptsMouseMovedEvents:YES];
 
     /* set the niftyMatrixScrollView's attributes */
     [niftyMatrixScrollView setBorderType:NSBezelBorder];
@@ -88,13 +100,13 @@
 
     /* get the niftyMatrixScrollView's dimensions */
     scrollRect = [niftyMatrixScrollView frame];
-    NSLog(@"scrollRect: %@", NSStringFromRect(scrollRect));
+    //NSLog(@"scrollRect: %@", NSStringFromRect(scrollRect));
 
     /* determine the matrix bounds */
     matrixRect.origin = NSZeroPoint;
     matrixRect.size = [NSScrollView contentSizeForFrameSize:scrollRect.size hasHorizontalScroller:NO hasVerticalScroller:NO borderType:NSBezelBorder];
 
-    NSLog(@"matrixRect: %@", NSStringFromRect(matrixRect));
+    //NSLog(@"matrixRect: %@", NSStringFromRect(matrixRect));
 
     /* prepare a matrix to go inside our niftyMatrixScrollView */
     niftyMatrix = [[NiftyMatrix allocWithZone:[self zone]] initWithFrame:matrixRect mode:NSRadioModeMatrix cellClass:[NiftyMatrixCell class] numberOfRows:0 numberOfColumns:1];
@@ -173,9 +185,7 @@
 
 - (IBAction)itemsChanged:(id)sender;
 {
-    //NSLog(@" > %s", _cmd);
     [self setNeedsDisplay:YES];
-    //NSLog(@"<  %s", _cmd);
 }
 
 - (BOOL)acceptsFirstResponder;
@@ -196,20 +206,9 @@
 
 - (void)drawRect:(NSRect)rects;
 {
-    NSRect trackRect;
-
-    //NSLog(@" > %s", _cmd);
-
-    trackRect = [self frame];
-    [[self superview] convertRect:trackRect toView:nil];
-
-    trackTag = [self addTrackingRect:trackRect owner:self userData:NULL assumeInside:NO];
-
     [self clearView];
     [self drawGrid];
     [self drawRules];
-
-    //NSLog(@"<  %s", _cmd);
 }
 
 - (void)clearView;
@@ -379,22 +378,15 @@
 
     count = [eventList numberOfRules];
     for (index = 0; index < count; index++) {
-        NSString *str;
-
         rule = [eventList getRuleAtIndex:index];
         cellFrame.origin.x = 80.0 + currentX;
         cellFrame.origin.y = bounds.size.height - 25.0;
         cellFrame.size.height = 18.0;
         cellFrame.size.width = floor((float)rule->duration / timeScale);
-        //NSDrawWhiteBezel(cellFrame, cellFrame);
 
         [ruleCell setIntValue:rule->number];
         [ruleCell drawWithFrame:cellFrame inView:self];
-#if 0
-        [[NSColor blackColor] set];
-        str = [NSString stringWithFormat:@"%d", rule->number];
-        [str drawAtPoint:NSMakePoint(80.0 + currentX + (float)rule->duration / (3 * timeScale), bounds.size.height - 21.0) withAttributes:nil];
-#endif
+
         currentX += floor((float)rule->duration / timeScale);
     }
 }
@@ -426,41 +418,25 @@
 
 - (void)mouseEntered:(NSEvent *)theEvent;
 {
-    NSEvent *nextEvent;
-    NSPoint position;
-    int time;
-
-    [[self window] setAcceptsMouseMovedEvents: YES];
-    while (1) {
-        nextEvent = [[self window] nextEventMatchingMask:NSAnyEventMask];
-        if (([nextEvent type] != NSMouseMoved) && ([nextEvent type] != NSMouseExited))
-            [NSApp sendEvent:nextEvent];
-
-        if ([nextEvent type] == NSMouseExited)
-            break;
-
-        if (([nextEvent type] == NSMouseMoved) && [[self window] isKeyWindow]) {
-            position.x = [nextEvent locationInWindow].x;
-            position.y = [nextEvent locationInWindow].y;
-            position = [self convertPoint:position fromView:nil];
-            time = (int)((position.x-80.0)*timeScale);
-            if ((position.x < 80.0) || (position.x > [self frame].size.width-20.0))
-                [mouseTimeField setStringValue:@"--"];
-            else
-                [mouseTimeField setIntValue:(int)((position.x-80.0)*timeScale)];
-        }
-
-    }
-
-    [[self window] setAcceptsMouseMovedEvents: NO];
+    [[self window] setAcceptsMouseMovedEvents:YES];
 }
 
 - (void)mouseExited:(NSEvent *)theEvent;
 {
+    [[self window] setAcceptsMouseMovedEvents:NO];
 }
 
 - (void)mouseMoved:(NSEvent *)theEvent;
 {
+    NSPoint position;
+    int time;
+
+    position = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+    time = (position.x - 80.0) * timeScale;
+    if ((position.x < 80.0) || (position.x > [self bounds].size.width - 20.0))
+        [mouseTimeField setStringValue:@"--"];
+    else
+        [mouseTimeField setIntValue:(position.x - 80.0) * timeScale];
 }
 
 - (void)updateScale:(float)column;
@@ -497,6 +473,17 @@
     }
 
     [[self window] setAcceptsMouseMovedEvents:NO];
+}
+
+- (void)frameDidChange:(NSNotification *)aNotification;
+{
+    [self resetTrackingRect];
+}
+
+- (void)resetTrackingRect;
+{
+    [self removeTrackingRect:trackTag];
+    trackTag = [self addTrackingRect:[self bounds] owner:self userData:NULL assumeInside:NO];
 }
 
 @end

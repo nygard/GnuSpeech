@@ -33,7 +33,7 @@
     int startingIndex;
     float timeScale;
     int mouseBeingDragged;
-    int trackTag;
+    NSTrackingRectTag trackTag;
 
     NSTextFieldCell *ruleCell;
 }
@@ -61,5 +61,8 @@
 - (void)mouseMoved:(NSEvent *)theEvent;
 
 - (void)updateScale:(float)column;
+
+- (void)frameDidChange:(NSNotification *)aNotification;
+- (void)resetTrackingRect;
 
 @end
