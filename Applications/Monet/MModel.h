@@ -1,5 +1,5 @@
 //
-// $Id: MModel.h,v 1.8 2004/03/19 19:51:07 nygard Exp $
+// $Id: MModel.h,v 1.9 2004/03/19 20:57:44 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -52,13 +52,16 @@ extern NSString *MCategoryInUseException;
 // Parameters
 - (void)addParameter:(MMParameter *)newParameter;
 - (void)_uniqueNameForParameter:(MMParameter *)newParameter inList:(ParameterList *)aParameterList;
+- (void)removeParameter:(MMParameter *)aParameter;
 
 // Meta Parameters
 - (void)addMetaParameter:(MMParameter *)newParameter;
+- (void)removeMetaParameter:(MMParameter *)aParameter;
 
 // Symbols
 - (void)addSymbol:(MMSymbol *)newSymbol;
 - (void)_uniqueNameForSymbol:(MMSymbol *)newSymbol;
+- (void)removeSymbol:(MMSymbol *)aSymbol;
 
 - (MMEquation *)findEquationList:(NSString *)aListName named:(NSString *)anEquationName;
 - (void)findList:(int *)listIndex andIndex:(int *)equationIndex ofEquation:(MMEquation *)anEquation;

@@ -249,8 +249,6 @@
     MMParameter *newParameter;
     unsigned int index;
 
-    NSLog(@" > %s", _cmd);
-
     newParameter = [[MMParameter alloc] initWithSymbol:nil];
     [[self model] addParameter:newParameter];
     [newParameter release];
@@ -263,22 +261,23 @@
     // The row needs to be selected before we start editing it.
     [parameterTableView selectRow:index byExtendingSelection:NO];
     [parameterTableView editColumn:[parameterTableView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
-
-    NSLog(@"<  %s", _cmd);
 }
 
 - (IBAction)removeParameter:(id)sender;
 {
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
+    MMParameter *selectedParameter;
+
+    selectedParameter = [self selectedParameter];
+    if (selectedParameter != nil)
+        [[self model] removeParameter:selectedParameter];
+
+    [self updateViews];
 }
 
 - (IBAction)addMetaParameter:(id)sender;
 {
     MMParameter *newParameter;
     unsigned int index;
-
-    NSLog(@" > %s", _cmd);
 
     newParameter = [[MMParameter alloc] initWithSymbol:nil];
     [[self model] addMetaParameter:newParameter];
@@ -292,22 +291,23 @@
     // The row needs to be selected before we start editing it.
     [metaParameterTableView selectRow:index byExtendingSelection:NO];
     [metaParameterTableView editColumn:[metaParameterTableView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
-
-    NSLog(@"<  %s", _cmd);
 }
 
 - (IBAction)removeMetaParameter:(id)sender;
 {
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
+    MMParameter *selectedParameter;
+
+    selectedParameter = [self selectedMetaParameter];
+    if (selectedParameter != nil)
+        [[self model] removeMetaParameter:selectedParameter];
+
+    [self updateViews];
 }
 
 - (IBAction)addSymbol:(id)sender;
 {
     MMSymbol *newSymbol;
     unsigned int index;
-
-    NSLog(@" > %s", _cmd);
 
     newSymbol = [[MMSymbol alloc] initWithSymbol:nil];
     [[self model] addSymbol:newSymbol];
@@ -321,14 +321,17 @@
     // The row needs to be selected before we start editing it.
     [symbolTableView selectRow:index byExtendingSelection:NO];
     [symbolTableView editColumn:[symbolTableView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
-
-    NSLog(@"<  %s", _cmd);
 }
 
 - (IBAction)removeSymbol:(id)sender;
 {
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
+    MMSymbol *selectedSymbol;
+
+    selectedSymbol = [self selectedSymbol];
+    if (selectedSymbol != nil)
+        [[self model] removeSymbol:selectedSymbol];
+
+    [self updateViews];
 }
 
 //

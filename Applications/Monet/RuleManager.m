@@ -554,6 +554,7 @@
 }
 
 
+#if 1
 - (void)addParameter;
 {
     [[model rules] makeObjectsPerformSelector:@selector(addDefaultParameter)];
@@ -584,6 +585,7 @@
 {
     return [[model rules] isCategoryUsed:aCategory];
 }
+#endif
 
 - (BOOL)isEquationUsed:(MMEquation *)anEquation;
 {

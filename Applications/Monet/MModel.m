@@ -209,6 +209,23 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [names release];
 }
 
+- (void)removeParameter:(MMParameter *)aParameter;
+{
+    unsigned int parameterIndex;
+
+    parameterIndex  = [parameters indexOfObject:aParameter];
+    if (parameterIndex != NSNotFound) {
+        int count, index;
+
+        [postures removeParameter:parameterIndex]; // TODO (2004-03-19): Rename, to at "AtIndex"
+        count = [rules count];
+        for (index = 0; index < count; index++)
+            [[rules objectAtIndex:index] removeParameter:parameterIndex];
+
+        [parameters removeObject:aParameter];
+    }
+}
+
 //
 // Meta Parameters
 //
@@ -223,6 +240,23 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [metaParameters addObject:newParameter];
     [postures addMetaParameter];
     [rules makeObjectsPerformSelector:@selector(addDefaultMetaParameter)];
+}
+
+- (void)removeMetaParameter:(MMParameter *)aParameter;
+{
+    unsigned int parameterIndex;
+
+    parameterIndex  = [metaParameters indexOfObject:aParameter];
+    if (parameterIndex != NSNotFound) {
+        int count, index;
+
+        [postures removeMetaParameter:parameterIndex]; // TODO (2004-03-19): Rename, to at "AtIndex"
+        count = [rules count];
+        for (index = 0; index < count; index++)
+            [[rules objectAtIndex:index] removeMetaParameter:parameterIndex];
+
+        [metaParameters removeObject:aParameter];
+    }
 }
 
 //
@@ -263,6 +297,17 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [newSymbol setSymbol:name];
 
     [names release];
+}
+
+- (void)removeSymbol:(MMSymbol *)aSymbol;
+{
+    unsigned int index;
+
+    index = [symbols indexOfObject:aSymbol];
+    if (index != NSNotFound) {
+        [postures removeSymbol:index]; // TODO (2004-03-19): Rename, to at "AtIndex"
+        [symbols removeObject:aSymbol];
+    }
 }
 
 // TODO (2004-03-06): Find equation named "named" in list named "list"

@@ -395,6 +395,7 @@
 #endif
 }
 
+#if 1
 - (void)addParameter;
 {
     [[model postures] addParameter];
@@ -411,11 +412,7 @@
 {
     [[model postures] addSymbol];
 }
-
-- (int)removeCategory:(int)index;
-{
-    return 0;
-}
+#endif
 
 - (void)removeParameter:(int)index;
 {
@@ -427,10 +424,6 @@
 {
     [[model postures] removeMetaParameter:index];
     [(RuleManager *)ruleManager removeMetaParameter:index];
-}
-
-- (void)removeSymbol:(int)index;
-{
 }
 
 - (void)setObject:(id)object forKey:(id)key;

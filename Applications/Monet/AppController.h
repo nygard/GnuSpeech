@@ -1,5 +1,5 @@
 //
-// $Id: AppController.h,v 1.19 2004/03/19 19:51:06 nygard Exp $
+// $Id: AppController.h,v 1.20 2004/03/19 20:57:44 nygard Exp $
 //
 
 /*===========================================================================
@@ -84,14 +84,14 @@ History:
 - (void)loadPrototypes:(id)sender;
 
 /* List maintenance Methods */
+#if 1
 - (void)addParameter;
 - (void)addMetaParameter;
 - (void)addSymbol;
+#endif
 
-- (int)removeCategory:(int)index;
 - (void)removeParameter:(int)index;
 - (void)removeMetaParameter:(int)index;
-- (void)removeSymbol:(int)index;
 
 - (void)setObject:(id)object forKey:(id)key;
 - (id)objectForKey:(id)key;

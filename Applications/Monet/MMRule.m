@@ -180,7 +180,6 @@
 
 - (void)removeParameter:(int)index;
 {
-    NSLog(@"Removing Object atIndex: %d", index);
     [parameterProfiles removeObjectAtIndex:index];
 }
 
