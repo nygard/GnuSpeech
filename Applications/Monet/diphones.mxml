@@ -68,14 +68,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="phone"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.89"/>
         <target name="r3" value="0.99"/>
         <target name="r4" value="0.81"/>
@@ -83,7 +83,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.05"/>
         <target name="r7" value="1.23"/>
         <target name="r8" value="0.01"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="72"/>
@@ -100,14 +100,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="phone"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.89"/>
         <target name="r3" value="0.99"/>
         <target name="r4" value="0.81"/>
@@ -115,7 +115,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.05"/>
         <target name="r7" value="1.23"/>
         <target name="r8" value="0.01"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="72"/>
@@ -131,14 +131,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="phone"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.89"/>
         <target name="r3" value="0.99"/>
         <target name="r4" value="0.81"/>
@@ -146,10 +146,10 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.05"/>
         <target name="r7" value="1.23"/>
         <target name="r8" value="0.01"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
-        <target name="duration" value="100" is-default="yes"/>
+        <target name="duration" value="100"/><!-- default -->
         <target name="transition" value="40"/>
         <target name="qssa" value="30"/>
         <target name="qssb" value="30"/>
@@ -162,14 +162,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="phone"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.89"/>
         <target name="r3" value="0.99"/>
         <target name="r4" value="0.81"/>
@@ -177,10 +177,10 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.05"/>
         <target name="r7" value="1.23"/>
         <target name="r8" value="0.01"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
-        <target name="duration" value="100" is-default="yes"/>
+        <target name="duration" value="100"/><!-- default -->
         <target name="transition" value="40"/>
         <target name="qssa" value="30"/>
         <target name="qssb" value="30"/>
@@ -194,14 +194,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.65"/>
         <target name="r3" value="0.65"/>
         <target name="r4" value="0.65"/>
@@ -209,11 +209,11 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.23"/>
         <target name="r7" value="1.31"/>
         <target name="r8" value="1.67"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="77"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="25.9"/>
         <target name="qssb" value="25.9"/>
       </symbol-targets>
@@ -226,14 +226,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.65"/>
         <target name="r3" value="0.65"/>
         <target name="r4" value="0.65"/>
@@ -241,11 +241,11 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.23"/>
         <target name="r7" value="1.31"/>
         <target name="r8" value="1.67"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="132.4"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="53.6"/>
         <target name="qssb" value="53.6"/>
       </symbol-targets>
@@ -258,14 +258,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.65"/>
         <target name="r3" value="0.84"/>
         <target name="r4" value="1.15"/>
@@ -273,11 +273,11 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.59"/>
         <target name="r7" value="1.59"/>
         <target name="r8" value="2.61"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="84"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="29.4"/>
         <target name="qssb" value="29.4"/>
       </symbol-targets>
@@ -290,14 +290,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.65"/>
         <target name="r3" value="0.84"/>
         <target name="r4" value="1.15"/>
@@ -305,11 +305,11 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.59"/>
         <target name="r7" value="1.59"/>
         <target name="r8" value="2.61"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="122"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="48.4"/>
         <target name="qssb" value="48.4"/>
       </symbol-targets>
@@ -322,14 +322,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.65"/>
         <target name="r3" value="0.45"/>
         <target name="r4" value="0.94"/>
@@ -337,11 +337,11 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.52"/>
         <target name="r7" value="1.46"/>
         <target name="r8" value="2.45"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="65.4"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="20.1"/>
         <target name="qssb" value="20.1"/>
       </symbol-targets>
@@ -355,14 +355,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.65"/>
         <target name="r3" value="0.45"/>
         <target name="r4" value="0.94"/>
@@ -370,11 +370,11 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.52"/>
         <target name="r7" value="1.46"/>
         <target name="r8" value="2.45"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="118.5"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="46.6"/>
         <target name="qssb" value="46.6"/>
       </symbol-targets>
@@ -387,14 +387,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.52"/>
         <target name="r3" value="0.45"/>
         <target name="r4" value="0.79"/>
@@ -406,7 +406,7 @@ s* >> qt* >> whistlehack</comment>
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="106.8"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="40.8"/>
         <target name="qssb" value="40.8"/>
       </symbol-targets>
@@ -419,14 +419,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.52"/>
         <target name="r3" value="0.45"/>
         <target name="r4" value="0.79"/>
@@ -438,7 +438,7 @@ s* >> qt* >> whistlehack</comment>
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="181.6"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="78.2"/>
         <target name="qssb" value="78.2"/>
       </symbol-targets>
@@ -451,14 +451,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.52"/>
         <target name="r3" value="0.45"/>
         <target name="r4" value="0.79"/>
@@ -466,11 +466,11 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.67"/>
         <target name="r7" value="1.02"/>
         <target name="r8" value="1.59"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="106.8"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="40.8"/>
         <target name="qssb" value="40.8"/>
       </symbol-targets>
@@ -483,14 +483,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.52"/>
         <target name="r3" value="0.45"/>
         <target name="r4" value="0.79"/>
@@ -498,11 +498,11 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.67"/>
         <target name="r7" value="1.02"/>
         <target name="r8" value="1.59"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="181.6"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="78.2"/>
         <target name="qssb" value="78.2"/>
       </symbol-targets>
@@ -515,14 +515,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.1"/>
         <target name="r3" value="0.94"/>
         <target name="r4" value="0.42"/>
@@ -530,11 +530,11 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.67"/>
         <target name="r7" value="1.78"/>
         <target name="r8" value="1.05"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="114"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="44.4"/>
         <target name="qssb" value="44.4"/>
       </symbol-targets>
@@ -547,14 +547,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.1"/>
         <target name="r3" value="0.94"/>
         <target name="r4" value="0.42"/>
@@ -562,11 +562,11 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.67"/>
         <target name="r7" value="1.78"/>
         <target name="r8" value="1.05"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="194"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="84.4"/>
         <target name="qssb" value="84.4"/>
       </symbol-targets>
@@ -584,12 +584,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-2"/>
         <target name="glotVol" value="43.5"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="7"/>
         <target name="fricCF" value="2000"/>
         <target name="fricBW" value="700"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.89"/>
         <target name="r3" value="0.76"/>
         <target name="r4" value="1.28"/>
@@ -597,7 +597,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.99"/>
         <target name="r7" value="0.84"/>
         <target name="r8" value="0.1"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="61"/>
@@ -619,12 +619,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-2"/>
         <target name="glotVol" value="43.5"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="7"/>
         <target name="fricCF" value="2000"/>
         <target name="fricBW" value="700"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.89"/>
         <target name="r3" value="0.76"/>
         <target name="r4" value="1.28"/>
@@ -632,7 +632,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.99"/>
         <target name="r7" value="0.84"/>
         <target name="r8" value="0.1"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="70.8"/>
@@ -654,12 +654,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-2"/>
         <target name="glotVol" value="43.5"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="7"/>
         <target name="fricCF" value="2000"/>
         <target name="fricBW" value="700"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.89"/>
         <target name="r3" value="0.76"/>
         <target name="r4" value="1.28"/>
@@ -667,7 +667,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.99"/>
         <target name="r7" value="0.84"/>
         <target name="r8" value="0.1"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="74"/>
@@ -689,12 +689,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-2"/>
         <target name="glotVol" value="43.5"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="7"/>
         <target name="fricCF" value="2000"/>
         <target name="fricBW" value="700"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.89"/>
         <target name="r3" value="0.76"/>
         <target name="r4" value="1.28"/>
@@ -702,7 +702,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.99"/>
         <target name="r7" value="0.84"/>
         <target name="r8" value="0.1"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="94"/>
@@ -724,12 +724,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-2"/>
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="5.6"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
+        <target name="fricCF" value="2500"/><!-- default -->
         <target name="fricBW" value="2600"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.36"/>
         <target name="r3" value="1.74"/>
         <target name="r4" value="1.87"/>
@@ -737,7 +737,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0"/>
         <target name="r7" value="0.79"/>
         <target name="r8" value="0.79"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="118.6"/>
@@ -758,12 +758,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-2"/>
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="5.6"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
+        <target name="fricCF" value="2500"/><!-- default -->
         <target name="fricBW" value="2600"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.36"/>
         <target name="r3" value="1.74"/>
         <target name="r4" value="1.87"/>
@@ -771,7 +771,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0"/>
         <target name="r7" value="0.79"/>
         <target name="r8" value="0.79"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="118.8"/>
@@ -793,12 +793,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-2"/>
         <target name="glotVol" value="43.5"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="6.7"/>
         <target name="fricCF" value="4500"/>
         <target name="fricBW" value="2000"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.31"/>
         <target name="r3" value="1.49"/>
         <target name="r4" value="1.25"/>
@@ -806,7 +806,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.1"/>
         <target name="r7" value="1.44"/>
         <target name="r8" value="1.3"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="45.6"/>
@@ -828,12 +828,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-2"/>
         <target name="glotVol" value="43.5"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="6.7"/>
         <target name="fricCF" value="4500"/>
         <target name="fricBW" value="2000"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.31"/>
         <target name="r3" value="1.49"/>
         <target name="r4" value="1.25"/>
@@ -841,7 +841,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.1"/>
         <target name="r7" value="1.44"/>
         <target name="r8" value="1.31"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="73.2"/>
@@ -864,20 +864,20 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-1"/>
         <target name="glotVol" value="54"/>
-        <target name="aspVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
         <target name="fricVol" value="0.25"/>
         <target name="fricPos" value="6"/>
         <target name="fricCF" value="4400"/>
         <target name="fricBW" value="4500"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.2"/>
-        <target name="r3" value="1.5" is-default="yes"/>
+        <target name="r3" value="1.5"/><!-- default -->
         <target name="r4" value="1.35"/>
         <target name="r5" value="1.2"/>
         <target name="r6" value="1.2"/>
         <target name="r7" value="0.4"/>
         <target name="r8" value="1"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="41.4"/>
@@ -900,20 +900,20 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-1"/>
         <target name="glotVol" value="54"/>
-        <target name="aspVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
         <target name="fricVol" value="0.25"/>
         <target name="fricPos" value="6"/>
         <target name="fricCF" value="4400"/>
         <target name="fricBW" value="4500"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.2"/>
-        <target name="r3" value="1.5" is-default="yes"/>
+        <target name="r3" value="1.5"/><!-- default -->
         <target name="r4" value="1.35"/>
         <target name="r5" value="1.2"/>
         <target name="r6" value="1.2"/>
         <target name="r7" value="0.4"/>
         <target name="r8" value="1"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="41.4"/>
@@ -935,12 +935,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-2"/>
         <target name="glotVol" value="43.5"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="6.7"/>
         <target name="fricCF" value="4500"/>
         <target name="fricBW" value="2000"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.31"/>
         <target name="r3" value="1.49"/>
         <target name="r4" value="1.25"/>
@@ -948,7 +948,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.1"/>
         <target name="r7" value="1.44"/>
         <target name="r8" value="1.31"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="51.6"/>
@@ -970,12 +970,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-2"/>
         <target name="glotVol" value="43.5"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="6.7"/>
         <target name="fricCF" value="4500"/>
         <target name="fricBW" value="2000"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.31"/>
         <target name="r3" value="1.49"/>
         <target name="r4" value="1.25"/>
@@ -983,7 +983,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.1"/>
         <target name="r7" value="1.44"/>
         <target name="r8" value="1.31"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="65.4"/>
@@ -1000,14 +1000,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.68"/>
         <target name="r3" value="1.12"/>
         <target name="r4" value="1.695"/>
@@ -1015,11 +1015,11 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.07"/>
         <target name="r7" value="1.045"/>
         <target name="r8" value="2.06"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="61"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="17.9"/>
         <target name="qssb" value="17.9"/>
       </symbol-targets>
@@ -1032,14 +1032,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.68"/>
         <target name="r3" value="1.12"/>
         <target name="r4" value="1.695"/>
@@ -1047,11 +1047,11 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.07"/>
         <target name="r7" value="1.045"/>
         <target name="r8" value="2.06"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="77.6"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="26.2"/>
         <target name="qssb" value="26.2"/>
       </symbol-targets>
@@ -1064,14 +1064,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.67"/>
         <target name="r3" value="1.905"/>
         <target name="r4" value="1.985"/>
@@ -1079,11 +1079,11 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.495"/>
         <target name="r7" value="0.73"/>
         <target name="r8" value="1.485"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="82.4"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="28.6"/>
         <target name="qssb" value="28.6"/>
       </symbol-targets>
@@ -1096,14 +1096,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.67"/>
         <target name="r3" value="1.905"/>
         <target name="r4" value="1.985"/>
@@ -1111,11 +1111,11 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.495"/>
         <target name="r7" value="0.73"/>
         <target name="r8" value="1.485"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="141.8"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="58.3"/>
         <target name="qssb" value="58.3"/>
       </symbol-targets>
@@ -1128,14 +1128,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.885"/>
         <target name="r3" value="0.99"/>
         <target name="r4" value="0.81"/>
@@ -1143,11 +1143,11 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.045"/>
         <target name="r7" value="1.225"/>
         <target name="r8" value="1.12"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="132.2"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="53.5"/>
         <target name="qssb" value="53.5"/>
       </symbol-targets>
@@ -1160,14 +1160,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.885"/>
         <target name="r3" value="0.99"/>
         <target name="r4" value="0.81"/>
@@ -1175,11 +1175,11 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.045"/>
         <target name="r7" value="1.225"/>
         <target name="r8" value="1.12"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="167.6"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="71.2"/>
         <target name="qssb" value="71.2"/>
       </symbol-targets>
@@ -1197,12 +1197,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-1"/>
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
         <target name="fricVol" value="0.5"/>
         <target name="fricPos" value="7"/>
         <target name="fricCF" value="3300"/>
         <target name="fricBW" value="1000"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.89"/>
         <target name="r3" value="0.99"/>
         <target name="r4" value="0.81"/>
@@ -1210,7 +1210,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.89"/>
         <target name="r7" value="0.84"/>
         <target name="r8" value="0.5"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="70"/>
@@ -1232,12 +1232,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-1"/>
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
         <target name="fricVol" value="0.5"/>
         <target name="fricPos" value="7"/>
         <target name="fricCF" value="3300"/>
         <target name="fricBW" value="1000"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.89"/>
         <target name="r3" value="0.99"/>
         <target name="r4" value="0.81"/>
@@ -1245,7 +1245,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.89"/>
         <target name="r7" value="0.84"/>
         <target name="r8" value="0.5"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="98"/>
@@ -1267,12 +1267,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-2"/>
         <target name="glotVol" value="43.5"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="4.7"/>
         <target name="fricCF" value="2000"/>
         <target name="fricBW" value="2000"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.7"/>
         <target name="r3" value="1.3"/>
         <target name="r4" value="0.99"/>
@@ -1280,7 +1280,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.07"/>
         <target name="r7" value="0.73"/>
         <target name="r8" value="1.49"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="53.4"/>
@@ -1302,12 +1302,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-2"/>
         <target name="glotVol" value="43.5"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="4.7"/>
         <target name="fricCF" value="2000"/>
         <target name="fricBW" value="2000"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.7"/>
         <target name="r3" value="1.3"/>
         <target name="r4" value="0.99"/>
@@ -1315,7 +1315,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.07"/>
         <target name="r7" value="0.73"/>
         <target name="r8" value="1.49"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="68.2"/>
@@ -1334,14 +1334,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="hlike"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.8"/>
         <target name="r3" value="0.8"/>
         <target name="r4" value="0.8"/>
@@ -1349,7 +1349,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.8"/>
         <target name="r7" value="0.8"/>
         <target name="r8" value="0.8"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="70"/>
@@ -1367,14 +1367,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="stopped"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.8"/>
         <target name="r3" value="0.8"/>
         <target name="r4" value="0.8"/>
@@ -1382,7 +1382,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.8"/>
         <target name="r7" value="0.8"/>
         <target name="r8" value="0.8"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="90"/>
@@ -1400,14 +1400,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="contoid"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
         <target name="glotVol" value="0"/>
         <target name="aspVol" value="10"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.8"/>
         <target name="r3" value="0.8"/>
         <target name="r4" value="0.8"/>
@@ -1415,11 +1415,11 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.8"/>
         <target name="r7" value="0.8"/>
         <target name="r8" value="0.8"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="49.8"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="24.9"/>
         <target name="qssb" value="24.9"/>
       </symbol-targets>
@@ -1433,14 +1433,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="hlike"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
         <target name="glotVol" value="0"/>
         <target name="aspVol" value="10"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.8"/>
         <target name="r3" value="0.8"/>
         <target name="r4" value="0.8"/>
@@ -1448,11 +1448,11 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.8"/>
         <target name="r7" value="0.8"/>
         <target name="r8" value="0.8"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="66.6"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="33.3"/>
         <target name="qssb" value="33.3"/>
       </symbol-targets>
@@ -1465,14 +1465,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="fricative"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
         <target name="glotVol" value="0"/>
         <target name="aspVol" value="10"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="1"/>
         <target name="fricCF" value="1000"/>
         <target name="fricBW" value="1000"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.24"/>
         <target name="r3" value="0.4"/>
         <target name="r4" value="0.81"/>
@@ -1480,7 +1480,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.05"/>
         <target name="r7" value="1.23"/>
         <target name="r8" value="1.12"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="63.8"/>
@@ -1497,14 +1497,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="fricative"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
         <target name="glotVol" value="0"/>
         <target name="aspVol" value="10"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="1"/>
         <target name="fricCF" value="1000"/>
         <target name="fricBW" value="1000"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.24"/>
         <target name="r3" value="0.4"/>
         <target name="r4" value="0.81"/>
@@ -1512,7 +1512,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.05"/>
         <target name="r7" value="1.23"/>
         <target name="r8" value="1.12"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="124.2"/>
@@ -1530,14 +1530,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="contoid"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
         <target name="glotVol" value="42"/>
         <target name="aspVol" value="10"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.8"/>
         <target name="r3" value="0.8"/>
         <target name="r4" value="0.8"/>
@@ -1545,11 +1545,11 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.8"/>
         <target name="r7" value="0.8"/>
         <target name="r8" value="0.8"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="49.8"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="24.9"/>
         <target name="qssb" value="24.9"/>
       </symbol-targets>
@@ -1563,14 +1563,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="hlike"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
         <target name="glotVol" value="42"/>
         <target name="aspVol" value="10"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.8"/>
         <target name="r3" value="0.8"/>
         <target name="r4" value="0.8"/>
@@ -1578,11 +1578,11 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.8"/>
         <target name="r7" value="0.8"/>
         <target name="r8" value="0.8"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="66.6"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="33.3"/>
         <target name="qssb" value="33.3"/>
       </symbol-targets>
@@ -1596,14 +1596,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.045"/>
         <target name="r3" value="1.565"/>
         <target name="r4" value="1.75"/>
@@ -1611,11 +1611,11 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.68"/>
         <target name="r7" value="0.785"/>
         <target name="r8" value="1.12"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="53.2"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="14"/>
         <target name="qssb" value="14"/>
       </symbol-targets>
@@ -1628,14 +1628,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.045"/>
         <target name="r3" value="1.565"/>
         <target name="r4" value="1.75"/>
@@ -1643,11 +1643,11 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.68"/>
         <target name="r7" value="0.785"/>
         <target name="r8" value="1.12"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="76.2"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="25.5"/>
         <target name="qssb" value="25.5"/>
       </symbol-targets>
@@ -1660,14 +1660,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.65"/>
         <target name="r3" value="0.835"/>
         <target name="r4" value="1.15"/>
@@ -1679,7 +1679,7 @@ s* >> qt* >> whistlehack</comment>
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="84"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="29.4"/>
         <target name="qssb" value="29.4"/>
       </symbol-targets>
@@ -1692,14 +1692,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.65"/>
         <target name="r3" value="0.835"/>
         <target name="r4" value="1.15"/>
@@ -1711,7 +1711,7 @@ s* >> qt* >> whistlehack</comment>
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="122"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="48.4"/>
         <target name="qssb" value="48.4"/>
       </symbol-targets>
@@ -1729,12 +1729,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-2"/>
         <target name="glotVol" value="48"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="5.6"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
+        <target name="fricCF" value="2500"/><!-- default -->
         <target name="fricBW" value="2600"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.36"/>
         <target name="r3" value="1.74"/>
         <target name="r4" value="1.87"/>
@@ -1742,7 +1742,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0"/>
         <target name="r7" value="0.79"/>
         <target name="r8" value="0.79"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="93.4"/>
@@ -1764,12 +1764,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-2"/>
         <target name="glotVol" value="48"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="5.6"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
+        <target name="fricCF" value="2500"/><!-- default -->
         <target name="fricBW" value="2600"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.36"/>
         <target name="r3" value="1.74"/>
         <target name="r4" value="1.87"/>
@@ -1777,10 +1777,10 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0"/>
         <target name="r7" value="0.79"/>
         <target name="r8" value="0.79"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
-        <target name="duration" value="100" is-default="yes"/>
+        <target name="duration" value="100"/><!-- default -->
         <target name="transition" value="24.2"/>
         <target name="qssa" value="50"/>
         <target name="qssb" value="50"/>
@@ -1797,12 +1797,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-10"/>
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="4.7"/>
         <target name="fricCF" value="2000"/>
         <target name="fricBW" value="2000"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.7"/>
         <target name="r3" value="1.3"/>
         <target name="r4" value="0.99"/>
@@ -1810,7 +1810,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.07"/>
         <target name="r7" value="0.73"/>
         <target name="r8" value="1.49"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="62.8"/>
@@ -1830,12 +1830,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-10"/>
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="4.7"/>
         <target name="fricCF" value="2000"/>
         <target name="fricBW" value="2000"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.7"/>
         <target name="r3" value="1.3"/>
         <target name="r4" value="0.99"/>
@@ -1843,7 +1843,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.07"/>
         <target name="r7" value="0.73"/>
         <target name="r8" value="1.49"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="82.4"/>
@@ -1863,12 +1863,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-10"/>
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="4.7"/>
         <target name="fricCF" value="2000"/>
         <target name="fricBW" value="2000"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.7"/>
         <target name="r3" value="1.3"/>
         <target name="r4" value="0.99"/>
@@ -1876,7 +1876,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.07"/>
         <target name="r7" value="0.73"/>
         <target name="r8" value="1.49"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="87.2"/>
@@ -1896,12 +1896,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-10"/>
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="4.7"/>
         <target name="fricCF" value="2000"/>
         <target name="fricBW" value="2000"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.7"/>
         <target name="r3" value="1.3"/>
         <target name="r4" value="0.99"/>
@@ -1909,7 +1909,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.07"/>
         <target name="r7" value="0.73"/>
         <target name="r8" value="1.49"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="114.6"/>
@@ -1928,14 +1928,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="checked"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.89"/>
         <target name="r3" value="1.1"/>
         <target name="r4" value="0.97"/>
@@ -1943,7 +1943,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.34"/>
         <target name="r7" value="0.29"/>
         <target name="r8" value="1.12"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="72"/>
@@ -1962,14 +1962,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="checked"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.89"/>
         <target name="r3" value="1.1"/>
         <target name="r4" value="0.97"/>
@@ -1977,7 +1977,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.34"/>
         <target name="r7" value="0.29"/>
         <target name="r8" value="1.12"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="84"/>
@@ -1996,14 +1996,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="checked"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.63"/>
         <target name="r3" value="0.47"/>
         <target name="r4" value="0.65"/>
@@ -2011,7 +2011,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.45"/>
         <target name="r7" value="0.26"/>
         <target name="r8" value="1.05"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="72"/>
@@ -2030,14 +2030,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="checked"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.63"/>
         <target name="r3" value="0.47"/>
         <target name="r4" value="0.65"/>
@@ -2045,7 +2045,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.45"/>
         <target name="r7" value="0.26"/>
         <target name="r8" value="1.05"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="84"/>
@@ -2064,14 +2064,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="checked"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.63"/>
         <target name="r3" value="0.47"/>
         <target name="r4" value="0.65"/>
@@ -2079,10 +2079,10 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.45"/>
         <target name="r7" value="0.26"/>
         <target name="r8" value="1.05"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
-        <target name="duration" value="100" is-default="yes"/>
+        <target name="duration" value="100"/><!-- default -->
         <target name="transition" value="22.6"/>
         <target name="qssa" value="50"/>
         <target name="qssb" value="50"/>
@@ -2098,14 +2098,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="checked"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.63"/>
         <target name="r3" value="0.47"/>
         <target name="r4" value="0.65"/>
@@ -2113,13 +2113,13 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.45"/>
         <target name="r7" value="0.26"/>
         <target name="r8" value="1.05"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="150"/>
         <target name="transition" value="22.6"/>
-        <target name="qssa" value="75" is-default="yes"/>
-        <target name="qssb" value="75" is-default="yes"/>
+        <target name="qssa" value="75"/><!-- default -->
+        <target name="qssb" value="75"/><!-- default -->
       </symbol-targets>
     </posture>
     <posture symbol="m">
@@ -2133,14 +2133,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="lhack"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.89"/>
         <target name="r3" value="0.76"/>
         <target name="r4" value="1.28"/>
@@ -2168,14 +2168,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="lhack"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.89"/>
         <target name="r3" value="0.76"/>
         <target name="r4" value="1.28"/>
@@ -2203,14 +2203,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="lhack"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.31"/>
         <target name="r3" value="1.49"/>
         <target name="r4" value="1.25"/>
@@ -2238,14 +2238,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="lhack"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.31"/>
         <target name="r3" value="1.49"/>
         <target name="r4" value="1.25"/>
@@ -2271,14 +2271,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.7"/>
         <target name="r3" value="1.3"/>
         <target name="r4" value="0.99"/>
@@ -2304,14 +2304,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.7"/>
         <target name="r3" value="1.3"/>
         <target name="r4" value="0.99"/>
@@ -2336,14 +2336,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1"/>
         <target name="r3" value="0.925"/>
         <target name="r4" value="0.6"/>
@@ -2351,11 +2351,11 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.83"/>
         <target name="r7" value="1.97"/>
         <target name="r8" value="1.12"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="70.4"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="22.6"/>
         <target name="qssb" value="22.6"/>
       </symbol-targets>
@@ -2368,14 +2368,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1"/>
         <target name="r3" value="0.93"/>
         <target name="r4" value="0.6"/>
@@ -2383,11 +2383,11 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.83"/>
         <target name="r7" value="1.97"/>
         <target name="r8" value="1.12"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="103.8"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="39.3"/>
         <target name="qssb" value="39.3"/>
       </symbol-targets>
@@ -2402,14 +2402,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.885"/>
         <target name="r3" value="0.99"/>
         <target name="r4" value="0.81"/>
@@ -2417,11 +2417,11 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.045"/>
         <target name="r7" value="1.225"/>
         <target name="r8" value="1.12"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="37.8"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="5"/>
         <target name="qssb" value="5"/>
       </symbol-targets>
@@ -2435,14 +2435,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.885"/>
         <target name="r3" value="0.99"/>
         <target name="r4" value="0.81"/>
@@ -2450,11 +2450,11 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.045"/>
         <target name="r7" value="1.225"/>
         <target name="r8" value="1.12"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="41.8"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="7"/>
         <target name="qssb" value="7"/>
       </symbol-targets>
@@ -2467,14 +2467,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1"/>
         <target name="r3" value="0.925"/>
         <target name="r4" value="0.6"/>
@@ -2486,7 +2486,7 @@ s* >> qt* >> whistlehack</comment>
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="70.4"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="22.6"/>
         <target name="qssb" value="22.6"/>
       </symbol-targets>
@@ -2499,14 +2499,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="7"/>
         <target name="fricCF" value="2000"/>
         <target name="fricBW" value="1000"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1"/>
         <target name="r3" value="0.925"/>
         <target name="r4" value="0.6"/>
@@ -2518,7 +2518,7 @@ s* >> qt* >> whistlehack</comment>
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="103.8"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="39.3"/>
         <target name="qssb" value="39.3"/>
       </symbol-targets>
@@ -2533,14 +2533,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.885"/>
         <target name="r3" value="0.99"/>
         <target name="r4" value="0.81"/>
@@ -2548,11 +2548,11 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.045"/>
         <target name="r7" value="1.225"/>
         <target name="r8" value="1.12"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="37.8"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="5"/>
         <target name="qssb" value="5"/>
       </symbol-targets>
@@ -2566,14 +2566,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.885"/>
         <target name="r3" value="0.99"/>
         <target name="r4" value="0.81"/>
@@ -2581,11 +2581,11 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.045"/>
         <target name="r7" value="1.225"/>
         <target name="r8" value="1.12"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="41.8"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="7"/>
         <target name="qssb" value="7"/>
       </symbol-targets>
@@ -2603,12 +2603,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-10"/>
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="7"/>
         <target name="fricCF" value="2000"/>
         <target name="fricBW" value="700"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.89"/>
         <target name="r3" value="0.76"/>
         <target name="r4" value="1.28"/>
@@ -2616,7 +2616,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.99"/>
         <target name="r7" value="0.84"/>
         <target name="r8" value="0.1"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="76"/>
@@ -2638,12 +2638,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-10"/>
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="7"/>
         <target name="fricCF" value="2000"/>
         <target name="fricBW" value="700"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.89"/>
         <target name="r3" value="0.76"/>
         <target name="r4" value="1.28"/>
@@ -2651,7 +2651,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.99"/>
         <target name="r7" value="0.84"/>
         <target name="r8" value="0.1"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="81.6"/>
@@ -2672,12 +2672,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-1"/>
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
         <target name="fricVol" value="24"/>
         <target name="fricPos" value="7"/>
         <target name="fricCF" value="864"/>
         <target name="fricBW" value="3587"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.89"/>
         <target name="r3" value="0.99"/>
         <target name="r4" value="0.81"/>
@@ -2685,10 +2685,10 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.52"/>
         <target name="r7" value="0.71"/>
         <target name="r8" value="0.24"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
-        <target name="duration" value="100" is-default="yes"/>
+        <target name="duration" value="100"/><!-- default -->
         <target name="transition" value="18.3"/>
         <target name="qssa" value="50"/>
         <target name="qssb" value="50"/>
@@ -2706,12 +2706,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-1"/>
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
         <target name="fricVol" value="24"/>
         <target name="fricPos" value="7"/>
         <target name="fricCF" value="864"/>
         <target name="fricBW" value="3587"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.89"/>
         <target name="r3" value="0.99"/>
         <target name="r4" value="0.81"/>
@@ -2719,7 +2719,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.52"/>
         <target name="r7" value="0.71"/>
         <target name="r8" value="0.24"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="126"/>
@@ -2741,12 +2741,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-10"/>
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="7"/>
         <target name="fricCF" value="2000"/>
         <target name="fricBW" value="700"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.89"/>
         <target name="r3" value="0.76"/>
         <target name="r4" value="1.28"/>
@@ -2754,7 +2754,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.99"/>
         <target name="r7" value="0.84"/>
         <target name="r8" value="0.1"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="89.4"/>
@@ -2776,12 +2776,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-10"/>
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="7"/>
         <target name="fricCF" value="2000"/>
         <target name="fricBW" value="700"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.89"/>
         <target name="r3" value="0.76"/>
         <target name="r4" value="1.28"/>
@@ -2789,7 +2789,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.99"/>
         <target name="r7" value="0.84"/>
         <target name="r8" value="0.1"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="116.2"/>
@@ -2806,14 +2806,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="phone"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.89"/>
         <target name="r3" value="0.99"/>
         <target name="r4" value="0.81"/>
@@ -2821,7 +2821,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.05"/>
         <target name="r7" value="1.23"/>
         <target name="r8" value="0.01"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="18"/>
@@ -2838,14 +2838,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="phone"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.89"/>
         <target name="r3" value="0.99"/>
         <target name="r4" value="0.81"/>
@@ -2853,7 +2853,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.05"/>
         <target name="r7" value="1.23"/>
         <target name="r8" value="0.01"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="21"/>
@@ -2871,12 +2871,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-2"/>
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="5.6"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
+        <target name="fricCF" value="2500"/><!-- default -->
         <target name="fricBW" value="2600"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.36"/>
         <target name="r3" value="1.74"/>
         <target name="r4" value="1.87"/>
@@ -2884,7 +2884,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.1"/>
         <target name="r7" value="0.79"/>
         <target name="r8" value="0.79"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="6"/>
@@ -2902,12 +2902,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-2"/>
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="5.6"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
+        <target name="fricCF" value="2500"/><!-- default -->
         <target name="fricBW" value="2600"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.36"/>
         <target name="r3" value="1.74"/>
         <target name="r4" value="1.87"/>
@@ -2915,7 +2915,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.1"/>
         <target name="r7" value="0.79"/>
         <target name="r8" value="0.79"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="6"/>
@@ -2933,12 +2933,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-10"/>
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="4.7"/>
         <target name="fricCF" value="2000"/>
         <target name="fricBW" value="2000"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.7"/>
         <target name="r3" value="1.3"/>
         <target name="r4" value="0.99"/>
@@ -2946,7 +2946,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.07"/>
         <target name="r7" value="0.73"/>
         <target name="r8" value="1.49"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="6"/>
@@ -2964,12 +2964,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-10"/>
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="4.7"/>
         <target name="fricCF" value="2000"/>
         <target name="fricBW" value="2000"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.7"/>
         <target name="r3" value="1.3"/>
         <target name="r4" value="0.99"/>
@@ -2977,7 +2977,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.07"/>
         <target name="r7" value="0.73"/>
         <target name="r8" value="1.49"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="6"/>
@@ -2995,12 +2995,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-10"/>
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="7"/>
         <target name="fricCF" value="2000"/>
         <target name="fricBW" value="700"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.89"/>
         <target name="r3" value="0.76"/>
         <target name="r4" value="1.28"/>
@@ -3008,7 +3008,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.99"/>
         <target name="r7" value="0.84"/>
         <target name="r8" value="0.1"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="6"/>
@@ -3026,12 +3026,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-10"/>
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="7"/>
         <target name="fricCF" value="2000"/>
         <target name="fricBW" value="700"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.89"/>
         <target name="r3" value="0.76"/>
         <target name="r4" value="1.28"/>
@@ -3039,7 +3039,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.99"/>
         <target name="r7" value="0.84"/>
         <target name="r8" value="0.1"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="6"/>
@@ -3056,14 +3056,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="silence"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="5.8"/>
         <target name="fricCF" value="5500"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.31"/>
         <target name="r3" value="1.49"/>
         <target name="r4" value="1.25"/>
@@ -3071,7 +3071,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.2"/>
         <target name="r7" value="0.4"/>
         <target name="r8" value="1.31"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="6"/>
@@ -3088,14 +3088,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="silence"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="5.8"/>
         <target name="fricCF" value="5500"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.31"/>
         <target name="r3" value="1.49"/>
         <target name="r4" value="1.25"/>
@@ -3103,7 +3103,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.2"/>
         <target name="r7" value="0.4"/>
         <target name="r8" value="1.31"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="6"/>
@@ -3121,12 +3121,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-10"/>
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="7"/>
         <target name="fricCF" value="4500"/>
         <target name="fricBW" value="2000"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.31"/>
         <target name="r3" value="1.49"/>
         <target name="r4" value="1.25"/>
@@ -3134,7 +3134,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.1"/>
         <target name="r7" value="1.44"/>
         <target name="r8" value="1.31"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="6"/>
@@ -3152,12 +3152,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-10"/>
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="7"/>
         <target name="fricCF" value="4500"/>
         <target name="fricBW" value="2000"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.31"/>
         <target name="r3" value="1.49"/>
         <target name="r4" value="1.25"/>
@@ -3165,7 +3165,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.1"/>
         <target name="r7" value="1.44"/>
         <target name="r8" value="1.31"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="6"/>
@@ -3184,12 +3184,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-1"/>
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="5.8"/>
         <target name="fricCF" value="5500"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.31"/>
         <target name="r3" value="1.49"/>
         <target name="r4" value="1.25"/>
@@ -3197,7 +3197,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.2"/>
         <target name="r7" value="0.6"/>
         <target name="r8" value="1.31"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="6"/>
@@ -3216,12 +3216,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-1"/>
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="5.8"/>
         <target name="fricCF" value="5500"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.31"/>
         <target name="r3" value="1.49"/>
         <target name="r4" value="1.25"/>
@@ -3229,7 +3229,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.2"/>
         <target name="r7" value="0.6"/>
         <target name="r8" value="1.31"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="6"/>
@@ -3249,14 +3249,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="lhack"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.31"/>
         <target name="r3" value="0.73"/>
         <target name="r4" value="1.07"/>
@@ -3264,7 +3264,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.47"/>
         <target name="r7" value="1.78"/>
         <target name="r8" value="0.65"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="40.4"/>
@@ -3284,14 +3284,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="lhack"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.31"/>
         <target name="r3" value="0.73"/>
         <target name="r4" value="1.07"/>
@@ -3299,7 +3299,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.47"/>
         <target name="r7" value="1.78"/>
         <target name="r8" value="0.65"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="70.8"/>
@@ -3319,14 +3319,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="lhack"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.31"/>
         <target name="r3" value="0.73"/>
         <target name="r4" value="1.31"/>
@@ -3334,7 +3334,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.63"/>
         <target name="r7" value="1.78"/>
         <target name="r8" value="0.65"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="40.4"/>
@@ -3354,14 +3354,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="lhack"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.31"/>
         <target name="r3" value="0.73"/>
         <target name="r4" value="1.31"/>
@@ -3369,7 +3369,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.63"/>
         <target name="r7" value="1.78"/>
         <target name="r8" value="0.65"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="70.8"/>
@@ -3389,14 +3389,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="lhack"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
         <target name="fricVol" value="0.8"/>
         <target name="fricPos" value="5.8"/>
         <target name="fricCF" value="5500"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.31"/>
         <target name="r3" value="1.49"/>
         <target name="r4" value="1.25"/>
@@ -3404,7 +3404,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.2"/>
         <target name="r7" value="0.4"/>
         <target name="r8" value="1.31"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="78.2"/>
@@ -3424,14 +3424,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="lhack"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
         <target name="fricVol" value="0.8"/>
         <target name="fricPos" value="5.8"/>
         <target name="fricCF" value="5500"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.31"/>
         <target name="r3" value="1.49"/>
         <target name="r4" value="1.25"/>
@@ -3439,7 +3439,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.2"/>
         <target name="r7" value="0.4"/>
         <target name="r8" value="1.31"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="111.6"/>
@@ -3459,14 +3459,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="lhack"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
         <target name="fricVol" value="0.4"/>
         <target name="fricPos" value="5.6"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
+        <target name="fricCF" value="2500"/><!-- default -->
         <target name="fricBW" value="2600"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.36"/>
         <target name="r3" value="1.74"/>
         <target name="r4" value="1.87"/>
@@ -3474,7 +3474,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.37"/>
         <target name="r7" value="0.79"/>
         <target name="r8" value="0.79"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="63.8"/>
@@ -3494,14 +3494,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="lhack"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
         <target name="fricVol" value="0.4"/>
         <target name="fricPos" value="5.6"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
+        <target name="fricCF" value="2500"/><!-- default -->
         <target name="fricBW" value="2600"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.36"/>
         <target name="r3" value="1.74"/>
         <target name="r4" value="1.87"/>
@@ -3509,7 +3509,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.37"/>
         <target name="r7" value="0.79"/>
         <target name="r8" value="0.79"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="124.2"/>
@@ -3531,12 +3531,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-10"/>
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="7"/>
         <target name="fricCF" value="4500"/>
         <target name="fricBW" value="2000"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.31"/>
         <target name="r3" value="1.49"/>
         <target name="r4" value="1.25"/>
@@ -3544,7 +3544,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.1"/>
         <target name="r7" value="1.44"/>
         <target name="r8" value="1.31"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="49.8"/>
@@ -3566,12 +3566,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-10"/>
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="7"/>
         <target name="fricCF" value="4500"/>
         <target name="fricBW" value="2000"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.31"/>
         <target name="r3" value="1.49"/>
         <target name="r4" value="1.25"/>
@@ -3579,7 +3579,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.1"/>
         <target name="r7" value="1.44"/>
         <target name="r8" value="1.31"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="70.4"/>
@@ -3600,22 +3600,22 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="lhack"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
         <target name="fricVol" value="0.25"/>
         <target name="fricPos" value="6"/>
         <target name="fricCF" value="4400"/>
         <target name="fricBW" value="4500"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.2"/>
-        <target name="r3" value="1.5" is-default="yes"/>
+        <target name="r3" value="1.5"/><!-- default -->
         <target name="r4" value="1.35"/>
         <target name="r5" value="1.2"/>
         <target name="r6" value="1.2"/>
         <target name="r7" value="0.4"/>
         <target name="r8" value="1"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="54.6"/>
@@ -3636,22 +3636,22 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="lhack"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
         <target name="fricVol" value="0.25"/>
         <target name="fricPos" value="6"/>
         <target name="fricCF" value="4400"/>
         <target name="fricBW" value="4500"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.2"/>
-        <target name="r3" value="1.5" is-default="yes"/>
+        <target name="r3" value="1.5"/><!-- default -->
         <target name="r4" value="1.35"/>
         <target name="r5" value="1.2"/>
         <target name="r6" value="1.2"/>
         <target name="r7" value="0.4"/>
-        <target name="r8" value="1.5" is-default="yes"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="r8" value="1.5"/><!-- default -->
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="116.2"/>
@@ -3673,12 +3673,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-10"/>
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="6.7"/>
         <target name="fricCF" value="4500"/>
         <target name="fricBW" value="2000"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.31"/>
         <target name="r3" value="1.49"/>
         <target name="r4" value="1.25"/>
@@ -3686,7 +3686,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.1"/>
         <target name="r7" value="1.44"/>
         <target name="r8" value="1.31"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="90"/>
@@ -3708,12 +3708,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-10"/>
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
         <target name="fricPos" value="6.7"/>
         <target name="fricCF" value="4500"/>
         <target name="fricBW" value="2000"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.31"/>
         <target name="r3" value="1.49"/>
         <target name="r4" value="1.25"/>
@@ -3721,7 +3721,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.1"/>
         <target name="r7" value="1.44"/>
         <target name="r8" value="1.31"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="107"/>
@@ -3738,14 +3738,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.625"/>
         <target name="r3" value="0.6"/>
         <target name="r4" value="0.705"/>
@@ -3753,11 +3753,11 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.93"/>
         <target name="r7" value="1.515"/>
         <target name="r8" value="0.625"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="51"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="12.9"/>
         <target name="qssb" value="12.9"/>
       </symbol-targets>
@@ -3770,14 +3770,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.625"/>
         <target name="r3" value="0.6"/>
         <target name="r4" value="0.705"/>
@@ -3785,11 +3785,11 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.93"/>
         <target name="r7" value="1.515"/>
         <target name="r8" value="0.625"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="108.8"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="41.8"/>
         <target name="qssb" value="41.8"/>
       </symbol-targets>
@@ -3804,14 +3804,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.89"/>
         <target name="r3" value="0.99"/>
         <target name="r4" value="0.81"/>
@@ -3819,11 +3819,11 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.05"/>
         <target name="r7" value="1.23"/>
         <target name="r8" value="1.12"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="46.2"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="10.4"/>
         <target name="qssb" value="10.4"/>
       </symbol-targets>
@@ -3837,14 +3837,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.89"/>
         <target name="r3" value="0.99"/>
         <target name="r4" value="0.81"/>
@@ -3852,11 +3852,11 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.05"/>
         <target name="r7" value="1.23"/>
         <target name="r8" value="1.12"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="74"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="24.4"/>
         <target name="qssb" value="24.4"/>
       </symbol-targets>
@@ -3869,14 +3869,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.885"/>
         <target name="r3" value="0.99"/>
         <target name="r4" value="0.81"/>
@@ -3888,7 +3888,7 @@ s* >> qt* >> whistlehack</comment>
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="46.2"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="23.1"/>
         <target name="qssb" value="23.1"/>
       </symbol-targets>
@@ -3901,14 +3901,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.885"/>
         <target name="r3" value="0.99"/>
         <target name="r4" value="0.81"/>
@@ -3920,7 +3920,7 @@ s* >> qt* >> whistlehack</comment>
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="74"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="24.4"/>
         <target name="qssb" value="24.4"/>
       </symbol-targets>
@@ -3934,14 +3934,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.91"/>
         <target name="r3" value="1.44"/>
         <target name="r4" value="0.6"/>
@@ -3949,11 +3949,11 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.33"/>
         <target name="r7" value="1.56"/>
         <target name="r8" value="0.55"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="105.2"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="40"/>
         <target name="qssb" value="40"/>
       </symbol-targets>
@@ -3967,14 +3967,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="voiced"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.91"/>
         <target name="r3" value="1.44"/>
         <target name="r4" value="0.6"/>
@@ -3982,11 +3982,11 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.33"/>
         <target name="r7" value="1.56"/>
         <target name="r8" value="0.55"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="145.2"/>
-        <target name="transition" value="27.8" is-default="yes"/>
+        <target name="transition" value="27.8"/><!-- default -->
         <target name="qssa" value="60"/>
         <target name="qssb" value="60"/>
       </symbol-targets>
@@ -4005,12 +4005,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-1"/>
         <target name="glotVol" value="54"/>
-        <target name="aspVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
         <target name="fricVol" value="0.2"/>
         <target name="fricPos" value="7"/>
         <target name="fricCF" value="3300"/>
         <target name="fricBW" value="1000"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.89"/>
         <target name="r3" value="0.99"/>
         <target name="r4" value="0.81"/>
@@ -4018,7 +4018,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.89"/>
         <target name="r7" value="0.84"/>
         <target name="r8" value="0.5"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="48.4"/>
@@ -4041,12 +4041,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-1"/>
         <target name="glotVol" value="54"/>
-        <target name="aspVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
         <target name="fricVol" value="0.2"/>
         <target name="fricPos" value="7"/>
         <target name="fricCF" value="3300"/>
         <target name="fricBW" value="1000"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="0.89"/>
         <target name="r3" value="0.99"/>
         <target name="r4" value="0.81"/>
@@ -4054,7 +4054,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.89"/>
         <target name="r7" value="0.84"/>
         <target name="r8" value="0.5"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="70"/>
@@ -4074,14 +4074,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="lhack"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.91"/>
         <target name="r3" value="1.44"/>
         <target name="r4" value="0.6"/>
@@ -4089,7 +4089,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.33"/>
         <target name="r7" value="1.56"/>
         <target name="r8" value="0.55"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="47.4"/>
@@ -4109,14 +4109,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="lhack"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.91"/>
         <target name="r3" value="1.44"/>
         <target name="r4" value="0.6"/>
@@ -4124,7 +4124,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.33"/>
         <target name="r7" value="1.56"/>
         <target name="r8" value="0.55"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="68.6"/>
@@ -4141,14 +4141,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="fricative"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
         <target name="fricVol" value="0.5"/>
         <target name="fricPos" value="2"/>
         <target name="fricCF" value="1770"/>
         <target name="fricBW" value="900"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.7"/>
         <target name="r3" value="1.3"/>
         <target name="r4" value="0.4"/>
@@ -4156,7 +4156,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.07"/>
         <target name="r7" value="0.73"/>
         <target name="r8" value="1.49"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="98"/>
@@ -4173,14 +4173,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="fricative"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
         <target name="glotVol" value="0"/>
-        <target name="aspVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
         <target name="fricVol" value="0.5"/>
         <target name="fricPos" value="2"/>
         <target name="fricCF" value="1770"/>
         <target name="fricBW" value="900"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.7"/>
         <target name="r3" value="1.3"/>
         <target name="r4" value="0.4"/>
@@ -4188,7 +4188,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="1.07"/>
         <target name="r7" value="0.73"/>
         <target name="r8" value="1.49"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="124"/>
@@ -4207,14 +4207,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="phone"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.67"/>
         <target name="r3" value="1.91"/>
         <target name="r4" value="1.99"/>
@@ -4241,14 +4241,14 @@ s* >> qt* >> whistlehack</comment>
         <category-ref name="phone"/>
       </posture-categories>
       <parameter-targets>
-        <target name="microInt" value="0" is-default="yes"/>
-        <target name="glotVol" value="60" is-default="yes"/>
-        <target name="aspVol" value="0" is-default="yes"/>
-        <target name="fricVol" value="0" is-default="yes"/>
-        <target name="fricPos" value="5.5" is-default="yes"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="microInt" value="0"/><!-- default -->
+        <target name="glotVol" value="60"/><!-- default -->
+        <target name="aspVol" value="0"/><!-- default -->
+        <target name="fricVol" value="0"/><!-- default -->
+        <target name="fricPos" value="5.5"/><!-- default -->
+        <target name="fricCF" value="2500"/><!-- default -->
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.67"/>
         <target name="r3" value="1.91"/>
         <target name="r4" value="1.99"/>
@@ -4279,12 +4279,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-1"/>
         <target name="glotVol" value="54"/>
-        <target name="aspVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
         <target name="fricVol" value="0.8"/>
         <target name="fricPos" value="5.8"/>
         <target name="fricCF" value="5500"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.31"/>
         <target name="r3" value="1.49"/>
         <target name="r4" value="1.25"/>
@@ -4292,7 +4292,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.2"/>
         <target name="r7" value="0.6"/>
         <target name="r8" value="1.31"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="56.6"/>
@@ -4315,12 +4315,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-1"/>
         <target name="glotVol" value="54"/>
-        <target name="aspVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
         <target name="fricVol" value="0.8"/>
         <target name="fricPos" value="5.8"/>
         <target name="fricCF" value="5500"/>
-        <target name="fricBW" value="500" is-default="yes"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="fricBW" value="500"/><!-- default -->
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.31"/>
         <target name="r3" value="1.49"/>
         <target name="r4" value="1.25"/>
@@ -4328,7 +4328,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.2"/>
         <target name="r7" value="0.6"/>
         <target name="r8" value="1.31"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="84.8"/>
@@ -4351,12 +4351,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-1"/>
         <target name="glotVol" value="54"/>
-        <target name="aspVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
         <target name="fricVol" value="0.4"/>
         <target name="fricPos" value="5.6"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
+        <target name="fricCF" value="2500"/><!-- default -->
         <target name="fricBW" value="2600"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.36"/>
         <target name="r3" value="1.74"/>
         <target name="r4" value="1.87"/>
@@ -4364,7 +4364,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.37"/>
         <target name="r7" value="0.79"/>
         <target name="r8" value="0.79"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="40"/>
@@ -4387,12 +4387,12 @@ s* >> qt* >> whistlehack</comment>
       <parameter-targets>
         <target name="microInt" value="-1"/>
         <target name="glotVol" value="54"/>
-        <target name="aspVol" value="0" is-default="yes"/>
+        <target name="aspVol" value="0"/><!-- default -->
         <target name="fricVol" value="0.4"/>
         <target name="fricPos" value="5.6"/>
-        <target name="fricCF" value="2500" is-default="yes"/>
+        <target name="fricCF" value="2500"/><!-- default -->
         <target name="fricBW" value="2600"/>
-        <target name="r1" value="0.8" is-default="yes"/>
+        <target name="r1" value="0.8"/><!-- default -->
         <target name="r2" value="1.36"/>
         <target name="r3" value="1.74"/>
         <target name="r4" value="1.87"/>
@@ -4400,7 +4400,7 @@ s* >> qt* >> whistlehack</comment>
         <target name="r6" value="0.37"/>
         <target name="r7" value="0.79"/>
         <target name="r8" value="0.79"/>
-        <target name="velum" value="0.1" is-default="yes"/>
+        <target name="velum" value="0.1"/><!-- default -->
       </parameter-targets>
       <symbol-targets>
         <target name="duration" value="83"/>
@@ -6573,8 +6573,6 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <parameter-transition name="r8" transition="lipClosure"/>
         <parameter-transition name="velum" transition="velarOpening"/>
       </parameter-profiles>
-      <special-profiles>
-      </special-profiles>
       <expression-symbols>
         <symbol-equation name="rd" equation="VStopVTotalDur"/>
         <symbol-equation name="beat" equation="triBeat"/>
@@ -6607,8 +6605,6 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <parameter-transition name="r8" transition="lipClosure"/>
         <parameter-transition name="velum" transition="velarOpening"/>
       </parameter-profiles>
-      <special-profiles>
-      </special-profiles>
       <expression-symbols>
         <symbol-equation name="rd" equation="VStopVTotalDur"/>
         <symbol-equation name="beat" equation="triBeat"/>
@@ -6641,8 +6637,6 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <parameter-transition name="r8" transition="lipClosure"/>
         <parameter-transition name="velum" transition="velarOpening"/>
       </parameter-profiles>
-      <special-profiles>
-      </special-profiles>
       <expression-symbols>
         <symbol-equation name="rd" equation="VStopVTotalDur"/>
         <symbol-equation name="beat" equation="triBeat"/>
@@ -7445,8 +7439,6 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <parameter-transition name="r8" transition="sOrzClosure"/>
         <parameter-transition name="velum" transition="sOrzClosure"/>
       </parameter-profiles>
-      <special-profiles>
-      </special-profiles>
       <expression-symbols>
         <symbol-equation name="rd" equation="VStopVTotalDur"/>
         <symbol-equation name="beat" equation="triBeat"/>
@@ -7480,8 +7472,6 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <parameter-transition name="r8" transition="sOrzClosure"/>
         <parameter-transition name="velum" transition="sOrzClosure"/>
       </parameter-profiles>
-      <special-profiles>
-      </special-profiles>
       <expression-symbols>
         <symbol-equation name="rd" equation="VStopVTotalDur"/>
         <symbol-equation name="beat" equation="triBeat"/>
@@ -7515,8 +7505,6 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <parameter-transition name="r8" transition="FricGlide"/>
         <parameter-transition name="velum" transition="sOrzClosure"/>
       </parameter-profiles>
-      <special-profiles>
-      </special-profiles>
       <expression-symbols>
         <symbol-equation name="rd" equation="VStopVTotalDur"/>
         <symbol-equation name="beat" equation="triBeat"/>
@@ -7550,8 +7538,6 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <parameter-transition name="r8" transition="sOrzClosure"/>
         <parameter-transition name="velum" transition="sOrzClosure"/>
       </parameter-profiles>
-      <special-profiles>
-      </special-profiles>
       <expression-symbols>
         <symbol-equation name="rd" equation="VStopVTotalDur"/>
         <symbol-equation name="beat" equation="triBeat"/>
