@@ -88,6 +88,7 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
 
     // TODO (2004-08-19): Maybe it's better just to allocate a new one?  Or create it just before synthesis?
     [self setUp]; // So that we don't have stuff left over from the previous model, which can cause a crash.
+    [self clearIntonationPoints];
 
     [model release];
     model = [newModel retain];
@@ -1313,6 +1314,7 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
 - (void)clearIntonationPoints;
 {
     [intonationPoints removeAllObjects];
+    [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidChangeIntonationPoint object:self userInfo:nil];
 }
 
 - (void)addIntonationPoint:(MMIntonationPoint *)iPoint;

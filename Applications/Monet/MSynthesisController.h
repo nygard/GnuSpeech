@@ -98,6 +98,8 @@
 - (IBAction)setSlope:(id)sender;
 - (IBAction)setBeatOffset:(id)sender;
 
+- (void)intonationPointDidChange:(NSNotification *)aNotification;
+
 // NSTableView data source
 - (int)numberOfRowsInTableView:(NSTableView *)tableView;
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row;

@@ -61,6 +61,10 @@
     [self _updateDisplayParameters];
 
     eventList = [[EventList alloc] init];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                          selector:@selector(intonationPointDidChange:)
+                                          name:EventListDidChangeIntonationPoint
+                                          object:eventList];
 
     [self setWindowFrameAutosaveName:@"Synthesis"];
 
@@ -71,6 +75,8 @@
 
 - (void)dealloc;
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
     [model release];
     [displayParameters release];
     [eventList release];
@@ -93,6 +99,7 @@
     model = [newModel retain];
 
     [eventList setModel:model];
+    [intonationRuleTableView reloadData]; // Because EventList doesn't send out a notification yet.
 
     [self _updateDisplayParameters];
     [self _updateEventColumns];
@@ -366,6 +373,7 @@
     [eventList applyRhythm];
     [eventList applyRules]; // This applies the rules, adding events to the EventList.
     [eventList generateIntonationPoints];
+    [intonationRuleTableView reloadData];
     [self continueSynthesisToSoundFile:shouldSaveToSoundFile];
 }
 
@@ -552,28 +560,26 @@
 - (IBAction)setSemitone:(id)sender;
 {
     [[self selectedIntonationPoint] setSemitone:[semitoneTextField doubleValue]];
-    [[intonationView documentView] setNeedsDisplay:YES];
-    [self _updateSelectedPointDetails];
 }
 
 - (IBAction)setHertz:(id)sender;
 {
     [[self selectedIntonationPoint] setSemitoneInHertz:[hertzTextField doubleValue]];
-    [[intonationView documentView] setNeedsDisplay:YES];
-    [self _updateSelectedPointDetails];
 }
 
 - (IBAction)setSlope:(id)sender;
 {
     [[self selectedIntonationPoint] setSlope:[slopeTextField doubleValue]];
-    [[intonationView documentView] setNeedsDisplay:YES];
 }
 
 - (IBAction)setBeatOffset:(id)sender;
 {
     [[self selectedIntonationPoint] setOffsetTime:[beatOffsetTextField doubleValue]];
-    [eventList addIntonationPoint:[self selectedIntonationPoint]]; // TODO (2004-03-31): Not sure about this.
-    [[intonationView documentView] setNeedsDisplay:YES];
+}
+
+- (void)intonationPointDidChange:(NSNotification *)aNotification;
+{
+    [self _updateSelectedPointDetails];
 }
 
 //
@@ -710,9 +716,7 @@
 
 - (void)intonationViewSelectionDidChange:(NSNotification *)aNotification;
 {
-    NSLog(@" > %s", _cmd);
     [self _updateSelectedPointDetails];
-    NSLog(@"<  %s", _cmd);
 }
 
 //
