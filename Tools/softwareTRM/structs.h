@@ -2,6 +2,8 @@
 #define __STRUCTS_H
 
 #include <stdio.h> // For FILE
+#include "ring_buffer.h"
+#include "wavetable.h"
 
 /*  OROPHARYNX REGIONS  */
 #define R1                        0      /*  S1  */
@@ -123,5 +125,115 @@ typedef struct _TRMSampleRateConverter {
     long int numberSamples;
     FILE *tempFilePtr;
 } TRMSampleRateConverter;
+
+/*  OROPHARYNX SCATTERING JUNCTION COEFFICIENTS (BETWEEN EACH REGION)  */
+#define C1                        R1     /*  R1-R2 (S1-S2)  */
+#define C2                        R2     /*  R2-R3 (S2-S3)  */
+#define C3                        R3     /*  R3-R4 (S3-S4)  */
+#define C4                        R4     /*  R4-R5 (S5-S6)  */
+#define C5                        R5     /*  R5-R6 (S7-S8)  */
+#define C6                        R6     /*  R6-R7 (S8-S9)  */
+#define C7                        R7     /*  R7-R8 (S9-S10)  */
+#define C8                        R8     /*  R8-AIR (S10-AIR)  */
+#define TOTAL_COEFFICIENTS        TOTAL_REGIONS
+
+/*  OROPHARYNX SECTIONS  */
+#define S1                        0      /*  R1  */
+#define S2                        1      /*  R2  */
+#define S3                        2      /*  R3  */
+#define S4                        3      /*  R4  */
+#define S5                        4      /*  R4  */
+#define S6                        5      /*  R5  */
+#define S7                        6      /*  R5  */
+#define S8                        7      /*  R6  */
+#define S9                        8      /*  R7  */
+#define S10                       9      /*  R8  */
+#define TOTAL_SECTIONS            10
+
+/*  NASAL TRACT COEFFICIENTS  */
+#define NC1                       N1     /*  N1-N2  */
+#define NC2                       N2     /*  N2-N3  */
+#define NC3                       N3     /*  N3-N4  */
+#define NC4                       N4     /*  N4-N5  */
+#define NC5                       N5     /*  N5-N6  */
+#define NC6                       N6     /*  N6-AIR  */
+#define TOTAL_NASAL_COEFFICIENTS  TOTAL_NASAL_SECTIONS
+
+/*  THREE-WAY JUNCTION ALPHA COEFFICIENTS  */
+#define LEFT                      0
+#define RIGHT                     1
+#define UPPER                     2
+#define TOTAL_ALPHA_COEFFICIENTS  3
+
+/*  FRICATION INJECTION COEFFICIENTS  */
+#define FC1                       0      /*  S3  */
+#define FC2                       1      /*  S4  */
+#define FC3                       2      /*  S5  */
+#define FC4                       3      /*  S6  */
+#define FC5                       4      /*  S7  */
+#define FC6                       5      /*  S8  */
+#define FC7                       6      /*  S9  */
+#define FC8                       7      /*  S10  */
+#define TOTAL_FRIC_COEFFICIENTS   8
+
+
+/*  SCALING CONSTANT FOR INPUT TO VOCAL TRACT & THROAT (MATCHES DSP)  */
+//#define VT_SCALE                  0.03125     /*  2^(-5)  */
+// this is a temporary fix only, to try to match dsp synthesizer
+#define VT_SCALE                  0.125     /*  2^(-3)  */
+
+/*  BI-DIRECTIONAL TRANSMISSION LINE POINTERS  */
+#define TOP                       0
+#define BOTTOM                    1
+
+
+
+typedef struct {
+    //  DERIVED VALUES
+    int    controlPeriod;
+    int    sampleRate;
+    double actualTubeLength;            /*  actual length in cm  */
+
+    double dampingFactor;               /*  calculated damping factor  */
+    double crossmixFactor;              /*  calculated crossmix factor  */
+
+    double breathinessFactor;
+
+    //  REFLECTION AND RADIATION FILTER MEMORY
+    double a10, b11, a20, a21, b21;
+
+    //  NASAL REFLECTION AND RADIATION FILTER MEMORY
+    double na10, nb11, na20, na21, nb21;
+
+    //  THROAT LOWPASS FILTER MEMORY, GAIN
+    double tb1, ta0, throatGain;
+
+    //  FRICATION BANDPASS FILTER MEMORY
+    double bpAlpha, bpBeta, bpGamma;
+
+    //  MEMORY FOR TUBE AND TUBE COEFFICIENTS
+    double oropharynx[TOTAL_SECTIONS][2][2];
+    double oropharynx_coeff[TOTAL_COEFFICIENTS];
+
+    double nasal[TOTAL_NASAL_SECTIONS][2][2];
+    double nasal_coeff[TOTAL_NASAL_COEFFICIENTS];
+
+    double alpha[TOTAL_ALPHA_COEFFICIENTS];
+    int current_ptr;
+    int prev_ptr;
+
+    //  MEMORY FOR FRICATION TAPS
+    double fricationTap[TOTAL_FRIC_COEFFICIENTS];
+
+    //  VARIABLES FOR INTERPOLATION
+    struct {
+        struct _TRMParameters parameters;
+        struct _TRMParameters delta;
+    } current;
+
+    TRMSampleRateConverter sampleRateConverter;
+    TRMRingBuffer *ringBuffer;
+    TRMWavetable *wavetable;
+} TRMTubeModel;
 
 #endif

@@ -17,14 +17,14 @@
 #define PI                        3.14159265358979
 #define TWO_PI                    (2.0 * PI)
 
-extern int controlPeriod;
-extern int sampleRate;
-extern double actualTubeLength;
-
-extern TRMSampleRateConverter sampleRateConverter;
+//extern int controlPeriod;
+//extern int sampleRate;
+//extern double actualTubeLength;
 
 
-int initializeSynthesizer(TRMInputParameters *inputParameters);
-void synthesize(TRMData *data);
+TRMTubeModel *TRMTubeModelCreate(TRMInputParameters *inputParameters);
+void TRMTubeModelFree(TRMTubeModel *model);
+
+void synthesize(TRMTubeModel *tubeModel, TRMData *data);
 
 #endif

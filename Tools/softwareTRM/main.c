@@ -40,6 +40,7 @@ void printInfo(struct _TRMData *data, char *inputFile);
 
 void printInfo(struct _TRMData *data, char *inputFile)
 {
+#if 0
     int i;
 
     /*  PRINT INPUT FILE NAME  */
@@ -106,6 +107,7 @@ void printInfo(struct _TRMData *data, char *inputFile)
 #endif
 
     printControlRateInputTable(data);
+#endif
 }
 
 /******************************************************************************
@@ -130,6 +132,7 @@ int main(int argc, char *argv[])
     char inputFile[MAXPATHLEN + 1];
     char outputFile[MAXPATHLEN + 1];
     TRMData *inputData;
+    TRMTubeModel *tube;
 
     /*  PARSE THE COMMAND LINE  */
     if (argc == 3) {
@@ -160,7 +163,8 @@ int main(int argc, char *argv[])
     }
 
     /*  INITIALIZE THE SYNTHESIZER  */
-    if (initializeSynthesizer(&(inputData->inputParameters)) == ERROR) {
+    tube = TRMTubeModelCreate(&(inputData->inputParameters));
+    if (tube == NULL) {
 	fprintf(stderr, "Aborting...\n");
 	exit(-1);
     }
@@ -180,14 +184,14 @@ int main(int argc, char *argv[])
 	printf("\nStarting synthesis\n");
 	fflush(stdout);
     }
-    synthesize(inputData);
+    synthesize(tube, inputData);
 
     /*  PRINT OUT DONE MESSAGE  */
     if (verbose)
 	printf("done.\n");
 
     /*  OUTPUT SAMPLES TO OUTPUT FILE  */
-    writeOutputToFile(inputData, outputFile);
+    writeOutputToFile(&(tube->sampleRateConverter), inputData, outputFile);
 
     /*  PRINT OUT FINISHED MESSAGE  */
     if (verbose)

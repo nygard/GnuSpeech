@@ -21,7 +21,7 @@ static double mod0(double value)
 }
 
 // Calculates the initial glottal pulse and stores it in the wavetable, for use in the oscillator.
-TRMWavetable *TRMWavetableCreate(int waveform, double tp, double tnMin, double tnMax)
+TRMWavetable *TRMWavetableCreate(int waveform, double tp, double tnMin, double tnMax, double sampleRate)
 {
     TRMWavetable *newWavetable;
     int i, j;
@@ -45,7 +45,7 @@ TRMWavetable *TRMWavetableCreate(int waveform, double tp, double tnMin, double t
     newWavetable->tableDiv2 = rint(TABLE_LENGTH * ((tp + tnMax) / 100.0));
     newWavetable->tnLength = newWavetable->tableDiv2 - newWavetable->tableDiv1;
     newWavetable->tnDelta = rint(TABLE_LENGTH * ((tnMax - tnMin) / 100.0));
-    newWavetable->basicIncrement = (double)TABLE_LENGTH / (double)sampleRate; // TODO (2004-05-07): Remove this global reference.
+    newWavetable->basicIncrement = (double)TABLE_LENGTH / sampleRate;
     newWavetable->currentPosition = 0;
 
     //  Initialize the wavetable with either a glottal pulse or sine tone

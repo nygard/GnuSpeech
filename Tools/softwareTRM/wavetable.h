@@ -16,7 +16,7 @@ typedef struct _TRMWavetable {
     double currentPosition;
 } TRMWavetable;
 
-TRMWavetable *TRMWavetableCreate(int waveform, double tp, double tnMin, double tnMax);
+TRMWavetable *TRMWavetableCreate(int waveform, double tp, double tnMin, double tnMax, double sampleRate);
 void TRMWavetableRelease(TRMWavetable *wavetable);
 
 void TRMWavetableUpdate(TRMWavetable *wavetable, double amplitude);

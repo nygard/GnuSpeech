@@ -45,20 +45,20 @@ static void convertIntToFloat80(unsigned int value, unsigned char buffer[10]);
 *
 ******************************************************************************/
 
-void writeOutputToFile(struct _TRMData *data, char *fileName)
+void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, struct _TRMData *data, char *fileName)
 {
     FILE *fd;
     double scale, leftScale = 0.0, rightScale = 0.0;
 
 
     /*  Calculate scaling constant  */
-    //printf("maximumSampleValue: %g\n", sampleRateConverter.maximumSampleValue);
-    scale = OUTPUT_SCALE * (RANGE_MAX / sampleRateConverter.maximumSampleValue) * amplitude(data->inputParameters.volume);
+    //printf("maximumSampleValue: %g\n", sampleRateConverter->maximumSampleValue);
+    scale = OUTPUT_SCALE * (RANGE_MAX / sampleRateConverter->maximumSampleValue) * amplitude(data->inputParameters.volume);
 
     /*  Print out info  */
     /*if (verbose)*/ {
-	printf("\nnumber of samples:\t%-ld\n", sampleRateConverter.numberSamples);
-	printf("maximum sample value:\t%.4f\n", sampleRateConverter.maximumSampleValue);
+	printf("\nnumber of samples:\t%-ld\n", sampleRateConverter->numberSamples);
+	printf("maximum sample value:\t%.4f\n", sampleRateConverter->maximumSampleValue);
 	printf("scale:\t\t\t%.4f\n", scale);
     }
 
@@ -76,30 +76,30 @@ void writeOutputToFile(struct _TRMData *data, char *fileName)
     }
 
     /*  Rewind the temporary file to beginning  */
-    rewind(sampleRateConverter.tempFilePtr);
+    rewind(sampleRateConverter->tempFilePtr);
 
     /*  Open the output file  */
     fd = fopen(fileName, "wb");
 
     /*  Scale and write out samples to the output file  */
     if (data->inputParameters.outputFileFormat == AU_FILE_FORMAT) {
-        writeAuFileHeader(data->inputParameters.channels, sampleRateConverter.numberSamples, data->inputParameters.outputRate, fd);
+        writeAuFileHeader(data->inputParameters.channels, sampleRateConverter->numberSamples, data->inputParameters.outputRate, fd);
         if (data->inputParameters.channels == 1)
-            writeSamplesMonoMsb(sampleRateConverter.tempFilePtr, sampleRateConverter.numberSamples, scale, fd);
+            writeSamplesMonoMsb(sampleRateConverter->tempFilePtr, sampleRateConverter->numberSamples, scale, fd);
         else
-            writeSamplesStereoMsb(sampleRateConverter.tempFilePtr, sampleRateConverter.numberSamples, leftScale, rightScale, fd);
+            writeSamplesStereoMsb(sampleRateConverter->tempFilePtr, sampleRateConverter->numberSamples, leftScale, rightScale, fd);
     } else if (data->inputParameters.outputFileFormat == AIFF_FILE_FORMAT) {
-        writeAiffFileHeader(data->inputParameters.channels, sampleRateConverter.numberSamples, data->inputParameters.outputRate, fd);
+        writeAiffFileHeader(data->inputParameters.channels, sampleRateConverter->numberSamples, data->inputParameters.outputRate, fd);
         if (data->inputParameters.channels == 1)
-            writeSamplesMonoMsb(sampleRateConverter.tempFilePtr, sampleRateConverter.numberSamples, scale, fd);
+            writeSamplesMonoMsb(sampleRateConverter->tempFilePtr, sampleRateConverter->numberSamples, scale, fd);
         else
-            writeSamplesStereoMsb(sampleRateConverter.tempFilePtr, sampleRateConverter.numberSamples, leftScale, rightScale, fd);
+            writeSamplesStereoMsb(sampleRateConverter->tempFilePtr, sampleRateConverter->numberSamples, leftScale, rightScale, fd);
     } else if (data->inputParameters.outputFileFormat == WAVE_FILE_FORMAT) {
-        writeWaveFileHeader(data->inputParameters.channels, sampleRateConverter.numberSamples, data->inputParameters.outputRate, fd);
+        writeWaveFileHeader(data->inputParameters.channels, sampleRateConverter->numberSamples, data->inputParameters.outputRate, fd);
         if (data->inputParameters.channels == 1)
-            writeSamplesMonoLsb(sampleRateConverter.tempFilePtr, sampleRateConverter.numberSamples, scale, fd);
+            writeSamplesMonoLsb(sampleRateConverter->tempFilePtr, sampleRateConverter->numberSamples, scale, fd);
         else
-            writeSamplesStereoLsb(sampleRateConverter.tempFilePtr, sampleRateConverter.numberSamples, leftScale, rightScale, fd);
+            writeSamplesStereoLsb(sampleRateConverter->tempFilePtr, sampleRateConverter->numberSamples, leftScale, rightScale, fd);
     }
 
     /*  Close the output file  */
