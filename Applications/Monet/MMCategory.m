@@ -66,6 +66,11 @@
     comment = [newComment retain];
 }
 
+- (BOOL)hasComment;
+{
+    return comment != nil && [comment length] > 0;
+}
+
 - (BOOL)isNative;
 {
     return isNative;

@@ -7,6 +7,7 @@
 #import "NSNumberFormatter-Extensions.h"
 
 #import "CategoryList.h"
+#import "MCommentCell.h"
 #import "MMCategory.h"
 #import "MModel.h"
 #import "MMParameter.h"
@@ -58,6 +59,7 @@
 {
     NSNumberFormatter *defaultNumberFormatter;
     NSButtonCell *checkboxCell;
+    MCommentCell *commentImageCell;
 
     defaultNumberFormatter = [NSNumberFormatter defaultNumberFormatter];
 
@@ -70,6 +72,15 @@
     [[categoryTableView tableColumnWithIdentifier:@"isUsed"] setDataCell:checkboxCell];
 
     [checkboxCell release];
+
+    commentImageCell = [[MCommentCell alloc] initImageCell:nil];
+    [commentImageCell setImageAlignment:NSImageAlignCenter];
+    [[categoryTableView tableColumnWithIdentifier:@"hasComment"] setDataCell:commentImageCell];
+    [[parameterTableView tableColumnWithIdentifier:@"hasComment"] setDataCell:commentImageCell];
+    [[metaParameterTableView tableColumnWithIdentifier:@"hasComment"] setDataCell:commentImageCell];
+    [[symbolTableView tableColumnWithIdentifier:@"hasComment"] setDataCell:commentImageCell];
+    [commentImageCell release];
+
 #if 0
     [[[parameterTableView tableColumnWithIdentifier:@"minimum"] dataCell] setFormatter:defaultNumberFormatter];
     [[[parameterTableView tableColumnWithIdentifier:@"maximum"] dataCell] setFormatter:defaultNumberFormatter];
@@ -181,7 +192,9 @@
     if (tableView == categoryTableView) {
         MMCategory *category = [[[self model] categories] objectAtIndex:row];
 
-        if ([@"isUsed" isEqual:identifier] == YES) {
+        if ([@"hasComment" isEqual:identifier] == YES) {
+            return [NSNumber numberWithBool:[category hasComment]];
+        } else if ([@"isUsed" isEqual:identifier] == YES) {
             return [NSNumber numberWithBool:YES];
         } else if ([@"name" isEqual:identifier] == YES) {
             return [category symbol];
@@ -195,7 +208,9 @@
         else
             parameter = [[[self model] metaParameters] objectAtIndex:row];
 
-        if ([@"name" isEqual:identifier] == YES) {
+        if ([@"hasComment" isEqual:identifier] == YES) {
+            return [NSNumber numberWithBool:[parameter hasComment]];
+        } else if ([@"name" isEqual:identifier] == YES) {
             return [parameter symbol];
         } else if ([@"minimum" isEqual:identifier] == YES) {
             return [NSNumber numberWithDouble:[parameter minimumValue]];
@@ -207,7 +222,9 @@
     } else if (tableView == symbolTableView) {
         MMSymbol *symbol = [[[self model] symbols] objectAtIndex:row];
 
-        if ([@"name" isEqual:identifier] == YES) {
+        if ([@"hasComment" isEqual:identifier] == YES) {
+            return [NSNumber numberWithBool:[symbol hasComment]];
+        } else if ([@"name" isEqual:identifier] == YES) {
             return [symbol symbol];
         } else if ([@"minimum" isEqual:identifier] == YES) {
             return [NSNumber numberWithDouble:[symbol minimumValue]];

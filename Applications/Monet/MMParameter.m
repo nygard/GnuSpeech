@@ -69,6 +69,11 @@
     comment = [newComment retain];
 }
 
+- (BOOL)hasComment;
+{
+    return comment != nil && [comment length] > 0;
+}
+
 - (double)minimumValue;
 {
     return minimum;

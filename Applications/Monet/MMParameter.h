@@ -27,6 +27,7 @@
 
 - (NSString *)comment;
 - (void)setComment:(NSString *)newComment;
+- (BOOL)hasComment;
 
 - (double)minimumValue;
 - (void)setMinimumValue:(double)newMinimum;

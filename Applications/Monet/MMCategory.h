@@ -16,6 +16,7 @@
 
 - (NSString *)comment;
 - (void)setComment:(NSString *)newComment;
+- (BOOL)hasComment;
 
 - (BOOL)isNative;
 - (void)setIsNative:(BOOL)newFlag;
