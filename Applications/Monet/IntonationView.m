@@ -104,7 +104,7 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
     NSLog(@"%s", _cmd);
     // TODO (2004-03-15): Changing the view frame in drawRect: can cause problems.  Should do before drawRect:
     clipRect = [[self superview] frame];
-    lastEvent = [eventList lastObject];
+    lastEvent = [[eventList events] lastObject];
     timeValue = [lastEvent time] / timeScale;
     if (clipRect.size.width < timeValue)
         clipRect.size.width = timeValue;
@@ -176,21 +176,23 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
     NSRect bounds;
     float currentX;
     int phoneIndex = 0;
+    NSArray *events;
 
     bounds = [self bounds];
 
     [[NSColor blackColor] set];
     [timesFont set];
 
-    count = [eventList count];
+    events = [eventList events];
+    count = [events count];
     for (index = 0; index < count; index++) {
-        currentX = ((float)[[eventList objectAtIndex:index] time] / timeScale);
+        currentX = ((float)[[events objectAtIndex:index] time] / timeScale);
         if (currentX > bounds.size.width - 20.0)
             break;
         if (currentX < 5.0)
             currentX = 5.0;
 
-        if ([[eventList objectAtIndex:index] flag]) {
+        if ([[events objectAtIndex:index] flag]) {
             currentPosture = [eventList getPhoneAtIndex:phoneIndex++];
             if (currentPosture != nil) {
                 NSLog(@"[currentPosture symbol]: %@", [currentPosture symbol]);
@@ -767,7 +769,7 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
 {
     [self deselectAllPoints];
     // TODO (2004-08-09): And select the first point again?
-    [self setNeedsDiplay:YES];
+    [self setNeedsDisplay:YES];
 }
 
 @end

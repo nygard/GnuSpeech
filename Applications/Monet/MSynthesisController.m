@@ -811,7 +811,7 @@
         return [eventList numberOfRules];
 
     if (tableView == eventTableView)
-        return [eventList count] * 2;
+        return [[eventList events] count] * 2;
 
     return 0;
 }
@@ -841,9 +841,9 @@
 
         eventNumber = row / 2;
         if ([@"time" isEqual:identifier] == YES) {
-            return [NSNumber numberWithInt:[[eventList objectAtIndex:eventNumber] time]];
+            return [NSNumber numberWithInt:[[[eventList events] objectAtIndex:eventNumber] time]];
         } else if ([@"flag" isEqual:identifier] == YES) {
-            return [NSNumber numberWithBool:[[eventList objectAtIndex:eventNumber] flag]];
+            return [NSNumber numberWithBool:[[[eventList events] objectAtIndex:eventNumber] flag]];
         } else if ([identifier isKindOfClass:[NSNumber class]]) {
             double value;
             int rowOffset, index;
@@ -851,7 +851,7 @@
             rowOffset = row % 2;
             index = [identifier intValue] + rowOffset * 16;
             if (rowOffset == 0 || index < 32) {
-                value = [[eventList objectAtIndex:eventNumber] getValueAtIndex:index];
+                value = [[[eventList events] objectAtIndex:eventNumber] getValueAtIndex:index];
                 return [NSNumber numberWithDouble:value];
             }
         }

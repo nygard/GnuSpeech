@@ -1,4 +1,4 @@
-#import "MonetList.h"
+#import <Foundation/NSObject.h>
 
 @class Event, IntonationPoint, MModel, MMPosture, MMRule, PhoneList;
 
@@ -64,7 +64,7 @@ struct _rule {
 };
 
 
-@interface EventList : MonetList
+@interface EventList : NSObject
 {
     int zeroRef;
     int zeroIndex;
@@ -101,12 +101,13 @@ struct _rule {
     double min[16]; // Min of each parameter value
     double max[16]; // Max of each parameter value
 
+    NSMutableArray *events;
     NSMutableArray *intonationPoints;
 
     id delegate;
 }
 
-- (id)initWithCapacity:(unsigned int)numSlots;
+- (id)init;
 - (void)dealloc;
 
 - (id)delegate;
@@ -177,6 +178,8 @@ struct _rule {
 - (void)setCurrentPhoneRuleTempo:(float)tempo;
 - (void)setCurrentPhoneSyllable;
 
+
+- (NSArray *)events;
 
 - (Event *)insertEvent:(int)number atTime:(double)time withValue:(double)value;
 - (void)finalEvent:(int)number withValue:(double)value;

@@ -21,12 +21,13 @@
 
 @implementation EventList
 
-- (id)initWithCapacity:(unsigned int)numSlots;
+- (id)init;
 {
-    if ([super initWithCapacity:numSlots] == nil)
+    if ([super init] == nil)
         return nil;
 
     cache = 10000000;
+    events = [[NSMutableArray alloc] init];
     intonationPoints = [[NSMutableArray alloc] init];
 
     [self setUp];
@@ -39,6 +40,7 @@
 
 - (void)dealloc;
 {
+    [events release];
     [intonationPoints release];
     [delegate release];
 
@@ -63,7 +65,7 @@
 {
     NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
 
-    [self removeAllObjects];
+    [events removeAllObjects];
 
     zeroRef = 0;
     zeroIndex = 0;
@@ -114,12 +116,12 @@
     zeroRef = newValue;
     zeroIndex = 0;
 
-    if ([self count] == 0)
+    if ([events count] == 0)
         return;
 
-    for (index = [self count] - 1; index >= 0; index--) {
+    for (index = [events count] - 1; index >= 0; index--) {
         //NSLog(@"index = %d", index);
-        if ([[self objectAtIndex:index] time] < newValue) {
+        if ([[events objectAtIndex:index] time] < newValue) {
             zeroIndex = index;
             return;
         }
@@ -150,7 +152,7 @@
 {
     zeroRef = 0;
     zeroIndex = 0;
-    duration = [[self lastObject] time] + 100;
+    duration = [[events lastObject] time] + 100;
 }
 
 - (int)timeQuantization;
@@ -394,6 +396,11 @@
     phones[currentPhone].syllable = 1;
 }
 
+- (NSArray *)events;
+{
+    return events;
+}
+
 - (Event *)insertEvent:(int)number atTime:(double)time withValue:(double)value;
 {
     Event *newEvent = nil;
@@ -411,7 +418,7 @@
 //        tempTime++;
 
 
-    if ([self count] == 0) {
+    if ([events count] == 0) {
         newEvent = [[[Event alloc] init] autorelease];
         [newEvent setTime:tempTime];
         if (number >= 0) {
@@ -421,23 +428,23 @@
                 [newEvent setValue:value ofIndex:number];
         }
 
-        [self addObject:newEvent];
+        [events addObject:newEvent];
         return newEvent;
     }
 
-    for (i = [self count] - 1; i >= zeroIndex; i--) {
-        if ([[self objectAtIndex:i] time] == tempTime) {
+    for (i = [events count] - 1; i >= zeroIndex; i--) {
+        if ([[events objectAtIndex:i] time] == tempTime) {
             if (number >= 0) {
                 if ((number >= 7) && (number <= 8))
-                    [[self objectAtIndex:i] setValue:value*radiusMultiply ofIndex:number];
+                    [[events objectAtIndex:i] setValue:value*radiusMultiply ofIndex:number];
                 else
-                    [[self objectAtIndex:i] setValue:value ofIndex:number];
+                    [[events objectAtIndex:i] setValue:value ofIndex:number];
             }
 
-            return [self objectAtIndex:i];
+            return [events objectAtIndex:i];
         }
 
-        if ([[self objectAtIndex: i] time]< tempTime) {
+        if ([[events objectAtIndex:i] time]< tempTime) {
             newEvent = [[[Event alloc] init] autorelease];
             [newEvent setTime:tempTime];
             if (number >= 0) {
@@ -447,7 +454,7 @@
                     [newEvent setValue:value ofIndex:number];
             }
 
-            [self insertObject:newEvent atIndex:i+1];
+            [events insertObject:newEvent atIndex:i+1];
             return newEvent;
         }
     }
@@ -462,7 +469,7 @@
             [newEvent setValue:value ofIndex:number];
     }
 
-    [self insertObject:newEvent atIndex:i+1];
+    [events insertObject:newEvent atIndex:i+1];
 
     return newEvent;
 }
@@ -471,7 +478,7 @@
 {
     Event *lastEvent;
 
-    lastEvent = [self lastObject];
+    lastEvent = [events lastObject];
     [lastEvent setValue:value ofIndex:number];
     [lastEvent setFlag:YES];
 }
@@ -488,7 +495,7 @@
 
     //NSLog(@"%s, self: %@", _cmd, self);
 
-    if ([self count] == 0)
+    if ([events count] == 0)
         return;
 
     if (shouldStoreParameters == YES) {
@@ -499,11 +506,11 @@
     currentTime = 0;
     for (i = 0; i < 16; i++) {
         j = 1;
-        while ( ( temp = [[self objectAtIndex:j] getValueAtIndex:i]) == NaN)
+        while ( ( temp = [[events objectAtIndex:j] getValueAtIndex:i]) == NaN)
             j++;
 
-        currentValues[i] = [[self objectAtIndex:0] getValueAtIndex:i];
-        currentDeltas[i] = ((temp - currentValues[i]) / (double) ([[self objectAtIndex:j] time])) * 4.0;
+        currentValues[i] = [[events objectAtIndex:0] getValueAtIndex:i];
+        currentDeltas[i] = ((temp - currentValues[i]) / (double) ([[events objectAtIndex:j] time])) * 4.0;
     }
 
     for (i = 16; i < 36; i++)
@@ -511,26 +518,26 @@
 
     if (shouldUseSmoothIntonation) {
         j = 0;
-        while ( (temp = [[self objectAtIndex:j] getValueAtIndex:32]) == NaN) {
+        while ( (temp = [[events objectAtIndex:j] getValueAtIndex:32]) == NaN) {
             j++;
-            if (j >= [self count])
+            if (j >= [events count])
                 break;
         }
 
-        currentValues[32] = [[self objectAtIndex:j] getValueAtIndex:32];
+        currentValues[32] = [[events objectAtIndex:j] getValueAtIndex:32];
         currentDeltas[32] = 0.0;
         //NSLog(@"Smooth intonation: %f %f j = %d", currentValues[32], currentDeltas[32], j);
     } else {
         j = 1;
-        while ( (temp = [[self objectAtIndex:j] getValueAtIndex:32]) == NaN) {
+        while ( (temp = [[events objectAtIndex:j] getValueAtIndex:32]) == NaN) {
             j++;
-            if (j >= [self count])
+            if (j >= [events count])
                 break;
         }
 
-        currentValues[32] = [[self objectAtIndex:0] getValueAtIndex:32];
-        if (j < [self count])
-            currentDeltas[32] = ((temp - currentValues[32]) / (double) ([[self objectAtIndex:j] time])) * 4.0;
+        currentValues[32] = [[events objectAtIndex:0] getValueAtIndex:32];
+        if (j < [events count])
+            currentDeltas[32] = ((temp - currentValues[32]) / (double) ([[events objectAtIndex:j] time])) * 4.0;
         else
             currentDeltas[32] = 0;
     }
@@ -541,8 +548,8 @@
 
     i = 1;
     currentTime = 0;
-    nextTime = [[self objectAtIndex:1] time];
-    while (i < [self count]) {
+    nextTime = [[events objectAtIndex:1] time];
+    while (i < [events count]) {
         for (j = 0; j < 16; j++) {
             table[j] = (float)currentValues[j] + (float)currentValues[j+16];
         }
@@ -583,15 +590,15 @@
 
         if (currentTime >= nextTime) {
             i++;
-            if (i == [self count])
+            if (i == [events count])
                 break;
 
-            nextTime = [[self objectAtIndex:i] time];
+            nextTime = [[events objectAtIndex:i] time];
             for (j = 0; j < 33; j++) {
-                if ([[self objectAtIndex:i-1] getValueAtIndex:j] != NaN) {
+                if ([[events objectAtIndex:i-1] getValueAtIndex:j] != NaN) {
                     k = i;
-                    while ((temp = [[self objectAtIndex:k] getValueAtIndex:j]) == NaN) {
-                        if (k >= [self count] - 1) {
+                    while ((temp = [[events objectAtIndex:k] getValueAtIndex:j]) == NaN) {
+                        if (k >= [events count] - 1) {
                             currentDeltas[j] = 0.0;
                             break;
                         }
@@ -600,16 +607,16 @@
 
                     if (temp != NaN) {
                         currentDeltas[j] = (temp - currentValues[j]) /
-                            (double) ([[self objectAtIndex:k] time] - currentTime) * 4.0;
+                            (double) ([[events objectAtIndex:k] time] - currentTime) * 4.0;
                     }
                 }
             }
             if (shouldUseSmoothIntonation) {
-                if ([[self objectAtIndex:i-1] getValueAtIndex:33] != NaN) {
+                if ([[events objectAtIndex:i-1] getValueAtIndex:33] != NaN) {
                     currentDeltas[32] = 0.0;
-                    currentDeltas[33] = [[self objectAtIndex:i-1] getValueAtIndex:33];
-                    currentDeltas[34] = [[self objectAtIndex:i-1] getValueAtIndex:34];
-                    currentDeltas[35] = [[self objectAtIndex:i-1] getValueAtIndex:35];
+                    currentDeltas[33] = [[events objectAtIndex:i-1] getValueAtIndex:33];
+                    currentDeltas[34] = [[events objectAtIndex:i-1] getValueAtIndex:34];
+                    currentDeltas[35] = [[events objectAtIndex:i-1] getValueAtIndex:35];
                 }
             }
         }
@@ -707,8 +714,8 @@
 //    if (currentPhone)
 //        [self applyIntonation];
 
-    [[self lastObject] setFlag:YES];
-    NSLog(@"%s, EventList count: %d", _cmd, [self count]);
+    [[events lastObject] setFlag:YES];
+    NSLog(@"%s, EventList count: %d", _cmd, [events count]);
 
     NSLog(@"<  %s", _cmd);
 }
@@ -877,7 +884,7 @@
 
     zeroRef = 0;
     zeroIndex = 0;
-    duration = [[self lastObject] time] + 100;
+    duration = [[events lastObject] time] + 100;
 
     [self clearIntonationPoints];
 //    [self addPoint:-20.0 offsetTime:0.0 slope:0.0 ruleIndex:0];

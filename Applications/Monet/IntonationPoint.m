@@ -130,19 +130,8 @@
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 {
     [resultString indentToLevel:level];
-    [resultString appendFormat:@"<intonation-point semitone=\"%g\" offset-time=\"%g\" slope=\"%g\" rule-index=\"%d\"",
+    [resultString appendFormat:@"<intonation-point semitone=\"%g\" offset-time=\"%g\" slope=\"%g\" rule-index=\"%d\"/>\n",
                   semitone, offsetTime, slope, ruleIndex];
-    if (eventList == nil || [eventList count] == 0) {
-        [resultString appendString:@"/>\n"];
-    } else {
-        [resultString appendString:@">\n"];
-
-        [resultString indentToLevel:level + 1];
-        [resultString appendFormat:@"<events ptr=\"%p\" count=\"%d\">etc.</events>\n", eventList, [eventList count]];
-
-        [resultString indentToLevel:level];
-        [resultString appendString:@"</intonation-point>\n"];
-    }
 }
 
 @end

@@ -154,6 +154,7 @@
     NSBezierPath *bezierPath;
     NSRect bounds;
     unsigned count, index;
+    NSArray *events;
 
     bounds = NSIntegralRect([self bounds]);
 
@@ -234,12 +235,14 @@
     [timesFont set];
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:1];
-    for (i = 0; i < [eventList count]; i++) {
-        currentX = [self scaledX:[[eventList objectAtIndex:i] time]];
+
+    events = [eventList events];
+    for (i = 0; i < [events count]; i++) {
+        currentX = [self scaledX:[[events objectAtIndex:i] time]];
         if (currentX > bounds.size.width - 20.0)
             break;
 
-        if ([[eventList objectAtIndex:i] flag]) {
+        if ([[events objectAtIndex:i] flag]) {
             currentPhone = [eventList getPhoneAtIndex:phoneIndex++];
             if (currentPhone) {
                 [[NSColor blackColor] set];
@@ -269,8 +272,8 @@
         currentMax = (float)[[displayParameter parameter] maximumValue];
 
         k = 0;
-        for (j = 0; j < [eventList count]; j++) {
-            currentEvent = [eventList objectAtIndex:j];
+        for (j = 0; j < [events count]; j++) {
+            currentEvent = [events objectAtIndex:j];
             currentX = [self scaledX:[currentEvent time]];
             if (currentX > bounds.size.width - 20.0)
                 break;
