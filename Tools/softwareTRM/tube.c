@@ -251,24 +251,8 @@ double fricationTap[TOTAL_FRIC_COEFFICIENTS];
 
 /*  VARIABLES FOR INTERPOLATION  */
 struct {
-    double glotPitch;
-    double glotPitchDelta;
-    double glotVol;
-    double glotVolDelta;
-    double aspVol;
-    double aspVolDelta;
-    double fricVol;
-    double fricVolDelta;
-    double fricPos;
-    double fricPosDelta;
-    double fricCF;
-    double fricCFDelta;
-    double fricBW;
-    double fricBWDelta;
-    double radius[TOTAL_REGIONS];
-    double radiusDelta[TOTAL_REGIONS];
-    double velum;
-    double velumDelta;
+    TRMParameters parameters;
+    TRMParameters delta;
 } current;
 
 /*  VARIABLES FOR SAMPLE RATE CONVERSION  */
@@ -705,9 +689,9 @@ void synthesize(INPUT *inputHead)
 	for (j = 0; j < controlPeriod; j++) {
 
 	    /*  CONVERT PARAMETERS HERE  */
-	    f0 = frequency(current.glotPitch);
-	    ax = amplitude(current.glotVol);
-	    ah1 = amplitude(current.aspVol);
+	    f0 = frequency(current.parameters.glotPitch);
+	    ax = amplitude(current.parameters.glotVol);
+	    ah1 = amplitude(current.parameters.aspVol);
 	    calculateTubeCoefficients();
 	    setFricationTaps();
 	    calculateBandpassCoefficients();
@@ -799,62 +783,62 @@ void setControlRateParameters(INPUT *previousInput, INPUT *currentInput)
     int i;
 
     /*  GLOTTAL PITCH  */
-    current.glotPitch = glotPitchAt(previousInput);
-    current.glotPitchDelta = (glotPitchAt(currentInput) - current.glotPitch) / (double)controlPeriod;
+    current.parameters.glotPitch = glotPitchAt(previousInput);
+    current.delta.glotPitch = (glotPitchAt(currentInput) - current.parameters.glotPitch) / (double)controlPeriod;
 
     /*  GLOTTAL VOLUME  */
-    current.glotVol = glotVolAt(previousInput);
-    current.glotVolDelta = (glotVolAt(currentInput) - current.glotVol) / (double)controlPeriod;
+    current.parameters.glotVol = glotVolAt(previousInput);
+    current.delta.glotVol = (glotVolAt(currentInput) - current.parameters.glotVol) / (double)controlPeriod;
 
     /*  ASPIRATION VOLUME  */
-    current.aspVol = aspVolAt(previousInput);
+    current.parameters.aspVol = aspVolAt(previousInput);
 #if MATCH_DSP
-    current.aspVolDelta = 0.0;
+    current.delta.aspVol = 0.0;
 #else
-    current.aspVolDelta = (aspVolAt(currentInput) - current.aspVol) / (double)controlPeriod;
+    current.delta.aspVol = (aspVolAt(currentInput) - current.parameters.aspVol) / (double)controlPeriod;
 #endif
 
     /*  FRICATION VOLUME  */
-    current.fricVol = fricVolAt(previousInput);
+    current.parameters.fricVol = fricVolAt(previousInput);
 #if MATCH_DSP
-    current.fricVolDelta = 0.0;
+    current.delta.fricVol = 0.0;
 #else
-    current.fricVolDelta = (fricVolAt(currentInput) - current.fricVol) / (double)controlPeriod;
+    current.delta.fricVol = (fricVolAt(currentInput) - current.parameters.fricVol) / (double)controlPeriod;
 #endif
 
     /*  FRICATION POSITION  */
-    current.fricPos = fricPosAt(previousInput);
+    current.parameters.fricPos = fricPosAt(previousInput);
 #if MATCH_DSP
-    current.fricPosDelta = 0.0;
+    current.delta.fricPos = 0.0;
 #else
-    current.fricPosDelta = (fricPosAt(currentInput) - current.fricPos) / (double)controlPeriod;
+    current.delta.fricPos = (fricPosAt(currentInput) - current.parameters.fricPos) / (double)controlPeriod;
 #endif
 
     /*  FRICATION CENTER FREQUENCY  */
-    current.fricCF = fricCFAt(previousInput);
+    current.parameters.fricCF = fricCFAt(previousInput);
 #if MATCH_DSP
-    current.fricCFDelta = 0.0;
+    current.delta.fricCF = 0.0;
 #else
-    current.fricCFDelta = (fricCFAt(currentInput) - current.fricCF) / (double)controlPeriod;
+    current.delta.fricCF = (fricCFAt(currentInput) - current.parameters.fricCF) / (double)controlPeriod;
 #endif
 
     /*  FRICATION BANDWIDTH  */
-    current.fricBW = fricBWAt(previousInput);
+    current.parameters.fricBW = fricBWAt(previousInput);
 #if MATCH_DSP
-    current.fricBWDelta = 0.0;
+    current.delta.fricBW = 0.0;
 #else
-    current.fricBWDelta = (fricBWAt(currentInput) - current.fricBW) / (double)controlPeriod;
+    current.delta.fricBW = (fricBWAt(currentInput) - current.parameters.fricBW) / (double)controlPeriod;
 #endif
 
     /*  TUBE REGION RADII  */
     for (i = 0; i < TOTAL_REGIONS; i++) {
-	current.radius[i] = radiusAtRegion(previousInput, i);
-	current.radiusDelta[i] = (radiusAtRegion(currentInput,i) - current.radius[i]) / (double)controlPeriod;
+	current.parameters.radius[i] = radiusAtRegion(previousInput, i);
+	current.delta.radius[i] = (radiusAtRegion(currentInput,i) - current.parameters.radius[i]) / (double)controlPeriod;
     }
 
     /*  VELUM RADIUS  */
-    current.velum = velumAt(previousInput);
-    current.velumDelta = (velumAt(currentInput) - current.velum) / (double)controlPeriod;
+    current.parameters.velum = velumAt(previousInput);
+    current.delta.velum = (velumAt(currentInput) - current.parameters.velum) / (double)controlPeriod;
 }
 
 
@@ -879,16 +863,16 @@ void sampleRateInterpolation(void)
 {
     int i;
 
-    current.glotPitch += current.glotPitchDelta;
-    current.glotVol += current.glotVolDelta;
-    current.aspVol += current.aspVolDelta;
-    current.fricVol += current.fricVolDelta;
-    current.fricPos += current.fricPosDelta;
-    current.fricCF += current.fricCFDelta;
-    current.fricBW += current.fricBWDelta;
+    current.parameters.glotPitch += current.delta.glotPitch;
+    current.parameters.glotVol += current.delta.glotVol;
+    current.parameters.aspVol += current.delta.aspVol;
+    current.parameters.fricVol += current.delta.fricVol;
+    current.parameters.fricPos += current.delta.fricPos;
+    current.parameters.fricCF += current.delta.fricCF;
+    current.parameters.fricBW += current.delta.fricBW;
     for (i = 0; i < TOTAL_REGIONS; i++)
-	current.radius[i] += current.radiusDelta[i];
-    current.velum += current.velumDelta;
+	current.parameters.radius[i] += current.delta.radius[i];
+    current.parameters.velum += current.delta.velum;
 }
 
 
@@ -986,27 +970,27 @@ void calculateTubeCoefficients(void)
 
     /*  CALCULATE COEFFICIENTS FOR THE OROPHARYNX  */
     for (i = 0; i < (TOTAL_REGIONS-1); i++) {
-	radA2 = current.radius[i] * current.radius[i];
-	radB2 = current.radius[i+1] * current.radius[i+1];
+	radA2 = current.parameters.radius[i] * current.parameters.radius[i];
+	radB2 = current.parameters.radius[i+1] * current.parameters.radius[i+1];
 	oropharynx_coeff[i] = (radA2 - radB2) / (radA2 + radB2);
     }
 
     /*  CALCULATE THE COEFFICIENT FOR THE MOUTH APERTURE  */
-    radA2 = current.radius[R8] * current.radius[R8];
+    radA2 = current.parameters.radius[R8] * current.parameters.radius[R8];
     radB2 = apScale * apScale;
     oropharynx_coeff[C8] = (radA2 - radB2) / (radA2 + radB2);
 
     /*  CALCULATE ALPHA COEFFICIENTS FOR 3-WAY JUNCTION  */
     /*  NOTE:  SINCE JUNCTION IS IN MIDDLE OF REGION 4, r0_2 = r1_2  */
-    r0_2 = r1_2 = current.radius[R4] * current.radius[R4];
-    r2_2 = current.velum * current.velum;
+    r0_2 = r1_2 = current.parameters.radius[R4] * current.parameters.radius[R4];
+    r2_2 = current.parameters.velum * current.parameters.velum;
     sum = 2.0 / (r0_2 + r1_2 + r2_2);
     alpha[LEFT] = sum * r0_2;
     alpha[RIGHT] = sum * r1_2;
     alpha[UPPER] = sum * r2_2;
 
     /*  AND 1ST NASAL PASSAGE COEFFICIENT  */
-    radA2 = current.velum * current.velum;
+    radA2 = current.parameters.velum * current.parameters.velum;
     radB2 = noseRadius[N2] * noseRadius[N2];
     nasal_coeff[NC1] = (radA2 - radB2) / (radA2 + radB2);
 }
@@ -1034,12 +1018,12 @@ void setFricationTaps(void)
 {
     int i, integerPart;
     double complement, remainder;
-    double fricationAmplitude = amplitude(current.fricVol);
+    double fricationAmplitude = amplitude(current.parameters.fricVol);
 
 
     /*  CALCULATE POSITION REMAINDER AND COMPLEMENT  */
-    integerPart = (int)current.fricPos;
-    complement = current.fricPos - (double)integerPart;
+    integerPart = (int)current.parameters.fricPos;
+    complement = current.parameters.fricPos - (double)integerPart;
     remainder = 1.0 - complement;
 
     /*  SET THE FRICATION TAPS  */
@@ -1086,8 +1070,8 @@ void calculateBandpassCoefficients(void)
     double tanValue, cosValue;
 
 
-    tanValue = tan((PI * current.fricBW) / sampleRate);
-    cosValue = cos((2.0 * PI * current.fricCF) / sampleRate);
+    tanValue = tan((PI * current.parameters.fricBW) / sampleRate);
+    cosValue = cos((2.0 * PI * current.parameters.fricCF) / sampleRate);
 
     bpBeta = (1.0 - tanValue) / (2.0 * (1.0 + tanValue));
     bpGamma = (0.5 + bpBeta) * cosValue;
