@@ -24,7 +24,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
 {
     switch (toneGroupType) {
       case STATEMENT: return @"Statement";
-      case EXCLAIMATION: return @"Exclaimation";
+      case EXCLAMATION: return @"Exclamation";
       case QUESTION: return @"Question";
       case CONTINUATION: return @"Continuation";
       case SEMICOLON: return @"Semicolon";
@@ -701,6 +701,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
             //NSLog(@"PhoneTempo[%d] = %f, teed[%d].tempo = %f", j, phoneTempo[j], i, feet[i].tempo);
         }
     }
+    [self printDataStructures:@"Changed tempos"];
 
     // Apply rules
     for (index = 0; index < currentPhone - 1; ) {
@@ -729,6 +730,9 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
 //        [self applyIntonation];
 
     [[events lastObject] setFlag:YES];
+
+    [self printDataStructures:@"Applied rules"];
+
     NSLog(@"%s, EventList count: %d", _cmd, [events count]);
 
     NSLog(@"<  %s", _cmd);

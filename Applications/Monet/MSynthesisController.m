@@ -661,9 +661,9 @@
                 //NSLog(@"Tone group 0. Statement");
                 [eventList setCurrentToneGroupType:STATEMENT];
             } else if ([scanner scanString:@"1" intoString:NULL] == YES) {
-                // Tone group 1. Exclaimation
-                //NSLog(@"Tone group 1. Exclaimation");
-                [eventList setCurrentToneGroupType:EXCLAIMATION];
+                // Tone group 1. Exclamation
+                //NSLog(@"Tone group 1. Exclamation");
+                [eventList setCurrentToneGroupType:EXCLAMATION];
             } else if ([scanner scanString:@"2" intoString:NULL] == YES) {
                 // Tone group 2. Question
                 //NSLog(@"Tone group 2. Question");

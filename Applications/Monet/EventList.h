@@ -18,7 +18,7 @@
 #define MAXRULES	MAXPHONES-1
 
 #define STATEMENT	0
-#define EXCLAIMATION	1
+#define EXCLAMATION	1
 #define QUESTION	2
 #define CONTINUATION	3
 #define SEMICOLON	4
