@@ -4565,7 +4565,7 @@ Namely rd - (qssa3/2)/tempo3</comment>
               <point type="2" value="0" time-expression="Zero"/>
               <point type="2" value="12.5" time-expression="QssbOne"/>
               <point type="2" value="87.5" time-expression="QssbOneTrOne"/>
-              <point type="2" value="100" time-expression="RuleDuration"/>
+              <point type="2" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="1" display-time="0"/>
@@ -4584,7 +4584,7 @@ Namely rd - (qssa3/2)/tempo3</comment>
               <point type="2" value="8.28535" time-expression="QssbOne"/>
               <point type="2" value="85.0608" time-expression="EndTrans"/>
               <point type="2" value="96.5525" time-expression="qssa2By2"/>
-              <point type="2" value="100" time-expression="RuleDuration"/>
+              <point type="2" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="0.3" display-time="0"/>
@@ -4605,7 +4605,7 @@ Namely rd - (qssa3/2)/tempo3</comment>
               <point type="2" value="100" time-expression="QssbOne"/>
               <point type="2" value="100" time-expression="QssbOneTrOne"/>
               <point type="2" value="100" time-expression="Mark1MinusQssa2ByTwo"/>
-              <point type="2" value="100" time-expression="RuleDuration"/>
+              <point type="2" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="1" display-time="0"/>
@@ -4626,7 +4626,7 @@ Namely rd - (qssa3/2)/tempo3</comment>
               <point type="2" value="0" time-expression="QssbOne"/>
               <point type="2" value="0" time-expression="QssbOneTrOne"/>
               <point type="2" value="49.9999" time-expression="Mark1MinusQssa2ByTwo"/>
-              <point type="2" value="100" time-expression="RuleDuration"/>
+              <point type="2" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="0" display-time="0"/>
@@ -4715,7 +4715,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="2" value="0" free-time="0"/>
               <point type="2" value="0" time-expression="diOneThird"/>
               <point type="2" value="92.3077" time-expression="QssbOneTrTwo"/>
-              <point type="2" value="100" time-expression="RuleDuration"/>
+              <point type="2" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="0" display-time="0"/>
@@ -4740,7 +4740,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="2" value="6.09756" time-expression="diTwoTenth"/>
               <point type="2" value="93.9024" time-expression="diEightTenth"/>
               <point type="2" value="98.7805" time-expression="diNineTenth"/>
-              <point type="2" value="100" time-expression="RuleDuration"/>
+              <point type="2" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="0.5" display-time="0"/>
@@ -4780,7 +4780,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="3" value="0" time-expression="Mark1"/>
               <point type="3" value="0" time-expression="startOfStopClosureOffset"/>
               <point type="3" value="23.9655" time-expression="endOfStopClosureOffset"/>
-              <point type="3" value="100" time-expression="RuleDuration"/>
+              <point type="3" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="0" display-time="0"/>
@@ -4818,7 +4818,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
           <point type="2" value="100" time-expression="MarkOneMinusQssa"/>
           <point type="2" value="100" time-expression="DiphoneDefault"/>
           <point type="3" value="0" time-expression="MarkOnePlusQssb"/>
-          <point type="3" value="100" time-expression="RuleDuration"/>
+          <point type="3" value="100" time-expression="RuleDuration" is-phantom="yes"/>
         </points>
       </transition>
       <transition name="specialEventCharacteristic" type="3">
@@ -4828,7 +4828,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
           <point type="2" value="100" time-expression="Mark1"/>
           <point type="3" value="0" time-expression="VStopBurstTipB"/>
           <point type="3" value="100" time-expression="VStopBurstEnd"/>
-          <point type="3" value="100" time-expression="RuleDuration"/>
+          <point type="3" value="100" time-expression="RuleDuration" is-phantom="yes"/>
         </points>
       </transition>
       <transition name="diZeroTwelveOne" type="2">
@@ -4838,7 +4838,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="2" value="0" free-time="0"/>
               <point type="2" value="0" time-expression="QssbOne"/>
               <point type="2" value="92.3077" time-expression="QssbOneTrOne"/>
-              <point type="2" value="100" time-expression="RuleDuration"/>
+              <point type="2" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="0" display-time="0"/>
@@ -4855,7 +4855,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="2" value="0" free-time="0"/>
               <point type="2" value="0" time-expression="QssbOne"/>
               <point type="2" value="80" time-expression="VlessStopAspPeak"/>
-              <point type="2" value="100" time-expression="RuleDuration"/>
+              <point type="2" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="0" display-time="0"/>
@@ -4872,7 +4872,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="2" value="0" free-time="0"/>
               <point type="2" value="0" time-expression="QssbOne"/>
               <point type="2" value="100" time-expression="RuleDuration"/>
-              <point type="2" value="100" time-expression="RuleDuration"/>
+              <point type="2" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="0" display-time="0"/>
@@ -4889,7 +4889,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="2" value="0" free-time="0"/>
               <point type="2" value="0" time-expression="VlessStopAspOffset"/>
               <point type="2" value="85.7142" time-expression="VlessStopVolOnset2"/>
-              <point type="2" value="100" time-expression="RuleDuration"/>
+              <point type="2" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="0" display-time="0"/>
@@ -4906,7 +4906,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="2" value="0" free-time="0"/>
               <point type="2" value="0" time-expression="VlessStopAspOffset"/>
               <point type="2" value="94.7764" time-expression="VlessStopVolOnset4"/>
-              <point type="2" value="100" time-expression="RuleDuration"/>
+              <point type="2" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="0" display-time="0"/>
@@ -4929,7 +4929,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="2" value="0" time-expression="Zero"/>
               <point type="2" value="7.14286" time-expression="QssbOne"/>
               <point type="2" value="92.8571" time-expression="QssbOneTrTwo"/>
-              <point type="2" value="100" time-expression="RuleDuration"/>
+              <point type="2" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="1" display-time="0"/>
@@ -4945,14 +4945,14 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <points>
           <point type="2" value="0" free-time="0"/>
           <point type="2" value="100" time-expression="TenMS"/>
-          <point type="2" value="100" time-expression="DiphoneDefault"/>
+          <point type="2" value="100" time-expression="DiphoneDefault" is-phantom="yes"/>
         </points>
       </transition>
       <transition name="PhoneToSilence" type="2">
         <points>
           <point type="2" value="0" free-time="0"/>
           <point type="2" value="0" time-expression="RuleDurationMinusTenMs"/>
-          <point type="2" value="100" free-time="100"/>
+          <point type="2" value="100" free-time="100" is-phantom="yes"/>
         </points>
       </transition>
       <transition name="VolumeToSilence" type="2">
@@ -4962,7 +4962,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="2" value="0" free-time="0"/>
               <point type="2" value="3.90073" time-expression="QssbOne"/>
               <point type="2" value="100" time-expression="RuleDurationMinusTenMs"/>
-              <point type="2" value="100" time-expression="DiphoneDefault"/>
+              <point type="2" value="100" time-expression="DiphoneDefault" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="1" display-time="0"/>
@@ -4982,7 +4982,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="2" value="93.8776" time-expression="diTwoThird"/>
               <point type="2" value="95.9184" time-expression="diSevenTenth"/>
               <point type="2" value="100" time-expression="RuleDurationMinusTenMs"/>
-              <point type="2" value="100" time-expression="DiphoneDefault"/>
+              <point type="2" value="100" time-expression="DiphoneDefault" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="1" display-time="0"/>
@@ -5006,7 +5006,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="2" value="4.29131" time-expression="diOneThird"/>
               <point type="2" value="90.1181" time-expression="diTwoThird"/>
               <point type="2" value="94.2126" time-expression="RuleDurationMinusTwentyMS"/>
-              <point type="2" value="100" time-expression="RuleDuration"/>
+              <point type="2" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="0" display-time="0"/>
@@ -5115,7 +5115,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="3" value="-0.5" time-expression="Mark1"/>
               <point type="3" value="11.5158" time-expression="startOfStopClosureOffset"/>
               <point type="3" value="88.9607" time-expression="endOfStopClosureOffset"/>
-              <point type="3" value="100" time-expression="RuleDuration"/>
+              <point type="3" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="1" display-time="0"/>
@@ -5147,7 +5147,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="3" value="-0.5" time-expression="startOfStopClosureOffset"/>
               <point type="3" value="-0.5" time-expression="endOfStopClosureOffset"/>
               <point type="3" value="-0.5" time-expression="RuleDurationMinusTenMs"/>
-              <point type="3" value="100" time-expression="RuleDuration"/>
+              <point type="3" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="0" display-time="0"/>
@@ -5179,7 +5179,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="3" value="-0.5" time-expression="Mark1"/>
               <point type="3" value="-0.5" time-expression="startOfStopClosureOffset"/>
               <point type="3" value="100" time-expression="endOfStopClosureOffset"/>
-              <point type="3" value="100" time-expression="RuleDuration"/>
+              <point type="3" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="0" display-time="0"/>
@@ -5210,7 +5210,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="3" value="-0.5" time-expression="Mark1"/>
               <point type="3" value="-0.5" time-expression="startOfStopClosureOffset"/>
               <point type="3" value="-0.5" time-expression="endOfStopClosureOffset"/>
-              <point type="3" value="100" time-expression="RuleDuration"/>
+              <point type="3" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="0" display-time="0"/>
@@ -5241,7 +5241,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="3" value="-0.5" time-expression="startOfStopClosureOffset"/>
               <point type="3" value="-0.5" time-expression="RuleDurationMinusTenMs"/>
               <point type="3" value="89.95" time-expression="rdMinusOne"/>
-              <point type="3" value="100" time-expression="RuleDuration"/>
+              <point type="3" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="0" display-time="0"/>
@@ -5273,7 +5273,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="3" value="-0.5" time-expression="startOfStopClosureOffset"/>
               <point type="3" value="100" time-expression="endOfStopClosureOffset"/>
               <point type="3" value="100" time-expression="RuleDurationMinusTwentyMS"/>
-              <point type="3" value="100" time-expression="RuleDuration"/>
+              <point type="3" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="0" display-time="0"/>
@@ -5305,7 +5305,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="3" value="-0.5" time-expression="startOfStopClosureOffset"/>
               <point type="3" value="100" time-expression="endOfStopClosureOffset"/>
               <point type="3" value="100" time-expression="RuleDurationMinusTwentyMS"/>
-              <point type="3" value="100" time-expression="RuleDuration"/>
+              <point type="3" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="0" display-time="0"/>
@@ -5337,7 +5337,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="3" value="-0.5" time-expression="Mark1"/>
               <point type="3" value="-0.5" time-expression="endOfStopClosureOffset"/>
               <point type="3" value="16.25" time-expression="RuleDurationMinusTenMs"/>
-              <point type="3" value="100" time-expression="RuleDuration"/>
+              <point type="3" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="0" display-time="0"/>
@@ -5368,7 +5368,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="3" value="-0.5" time-expression="Mark1"/>
               <point type="3" value="-0.5" time-expression="startOfStopClosureOffset"/>
               <point type="3" value="88.8334" time-expression="endOfStopClosureOffset"/>
-              <point type="3" value="100" time-expression="RuleDuration"/>
+              <point type="3" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="0" display-time="0"/>
@@ -5400,7 +5400,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="3" value="-0.5" time-expression="startOfStopClosureOffset"/>
               <point type="3" value="-0.5" time-expression="endOfStopClosureOffset"/>
               <point type="3" value="95.4566" time-expression="RuleDurationMinusTenMs"/>
-              <point type="3" value="100" time-expression="RuleDuration"/>
+              <point type="3" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="0" display-time="0"/>
@@ -5420,7 +5420,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="3" value="7.07255" time-expression="startOfStopClosureOnset"/>
               <point type="3" value="96.3179" time-expression="endOfStopClosureOffset"/>
               <point type="3" value="100" time-expression="RuleDurationMinusTenMs"/>
-              <point type="3" value="100" time-expression="RuleDuration"/>
+              <point type="3" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="1" display-time="0"/>
@@ -5440,7 +5440,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="3" value="5.42373" time-expression="startOfStopClosureOnset"/>
               <point type="3" value="91.8644" time-expression="startOfStopClosureOffset"/>
               <point type="3" value="100" time-expression="endOfStopClosureOffset"/>
-              <point type="3" value="100" time-expression="RuleDuration"/>
+              <point type="3" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="1" display-time="0"/>
@@ -5460,7 +5460,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="3" value="0" time-expression="startOfStopClosureOnset"/>
               <point type="3" value="0" time-expression="endOfStopClosureOffset"/>
               <point type="3" value="0" time-expression="RuleDurationMinusTenMs"/>
-              <point type="3" value="100" time-expression="RuleDuration"/>
+              <point type="3" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="0" display-time="0"/>
@@ -5498,7 +5498,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="3" value="27.6216" time-expression="startOfStopClosureOffset"/>
               <point type="3" value="94.0069" time-expression="startOfFricCharOffset"/>
               <point type="3" value="98.8014" time-expression="endOfVLessAspBurst"/>
-              <point type="3" value="100" time-expression="RuleDuration"/>
+              <point type="3" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="2" display-time="0"/>
@@ -5537,7 +5537,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="3" value="9.32938" time-expression="startOfStopClosureOffset"/>
               <point type="3" value="57.2968" time-expression="startOfFricCharOffset"/>
               <point type="3" value="91.4594" time-expression="endOfVLessAspBurst"/>
-              <point type="3" value="100" time-expression="RuleDuration"/>
+              <point type="3" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="0" display-time="0"/>
@@ -5576,7 +5576,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="3" value="-0.5" time-expression="startOfStopClosureOffset"/>
               <point type="3" value="52.6674" time-expression="startOfFricCharOffset"/>
               <point type="3" value="90.5335" time-expression="endOfVLessAspBurst"/>
-              <point type="3" value="100" time-expression="RuleDuration"/>
+              <point type="3" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="0" display-time="0"/>
@@ -5621,7 +5621,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="3" value="-0.5" time-expression="startOfStopClosureOffset"/>
               <point type="3" value="84.8011" time-expression="startOfFricCharOffset"/>
               <point type="3" value="96.9602" time-expression="endOfVLessAspBurst"/>
-              <point type="3" value="100" time-expression="RuleDuration"/>
+              <point type="3" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="0" display-time="0"/>
@@ -5653,7 +5653,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="3" value="-0.5" time-expression="Mark1"/>
               <point type="3" value="-0.5" time-expression="startOfStopClosureOffset"/>
               <point type="3" value="100" time-expression="startOfFricCharOffset"/>
-              <point type="3" value="100" time-expression="RuleDuration"/>
+              <point type="3" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="0" display-time="0"/>
@@ -5684,7 +5684,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="3" value="-0.5" time-expression="Mark1"/>
               <point type="3" value="84.7393" time-expression="startOfStopClosureOffset"/>
               <point type="3" value="100" time-expression="startOfFricCharOffset"/>
-              <point type="3" value="100" time-expression="RuleDuration"/>
+              <point type="3" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="6" display-time="0"/>
@@ -5715,7 +5715,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="3" value="-0.5" time-expression="Mark1"/>
               <point type="3" value="13.1445" time-expression="startOfStopClosureOffset"/>
               <point type="3" value="100" time-expression="startOfFricCharOffset"/>
-              <point type="3" value="100" time-expression="RuleDuration"/>
+              <point type="3" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="1" display-time="0"/>
@@ -5746,7 +5746,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="3" value="-0.5" time-expression="Mark1"/>
               <point type="3" value="-0.5" time-expression="startOfStopClosureOffset"/>
               <point type="3" value="93.1864" time-expression="startOfFricCharOffset"/>
-              <point type="3" value="100" time-expression="RuleDuration"/>
+              <point type="3" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="0" display-time="0"/>
@@ -5777,7 +5777,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="3" value="-0.5" time-expression="Mark1"/>
               <point type="3" value="-0.5" time-expression="startOfFricCharOffset"/>
               <point type="3" value="100" time-expression="endOfFricCharOffset"/>
-              <point type="3" value="100" time-expression="RuleDuration"/>
+              <point type="3" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="0" display-time="0"/>
@@ -5808,7 +5808,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="3" value="-0.5" time-expression="Mark1"/>
               <point type="3" value="49.7502" time-expression="startOfFricCharOffset"/>
               <point type="3" value="-101.001" time-expression="startOfStopClosureOffset"/>
-              <point type="3" value="100" time-expression="RuleDuration"/>
+              <point type="3" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="1" display-time="0"/>
@@ -5827,7 +5827,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="3" value="3.32019" time-expression="startOfStopClosureOnset"/>
               <point type="3" value="96.7006" time-expression="endOfStopClosureOffset"/>
               <point type="3" value="100" time-expression="RuleDurationMinusTenMs"/>
-              <point type="3" value="100" time-expression="RuleDuration"/>
+              <point type="3" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="1" display-time="0"/>
@@ -5865,7 +5865,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="3" value="-0.5" time-expression="endOfStopClosureOffset"/>
               <point type="3" value="-0.500186" time-expression="QssbTwoTrThree"/>
               <point type="3" value="92.2692" time-expression="RdMinusQssa3ByTwo"/>
-              <point type="3" value="100" time-expression="RuleDuration"/>
+              <point type="3" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="0" display-time="0"/>
@@ -5901,7 +5901,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="3" value="-0.5" time-expression="startOfStopClosureOffset"/>
               <point type="3" value="19.6" time-expression="endOfStopClosureOffset"/>
               <point type="3" value="39.6999" time-expression="RdMinusQssa3ByTwo"/>
-              <point type="3" value="100" time-expression="RuleDuration"/>
+              <point type="3" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="0" display-time="0"/>
@@ -5939,7 +5939,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="3" value="-0.5" time-expression="startOfStopClosureOffset"/>
               <point type="3" value="88.3705" time-expression="startOfFricCharOffset"/>
               <point type="3" value="97.6741" time-expression="endOfVLessAspBurst"/>
-              <point type="3" value="100" time-expression="RuleDuration"/>
+              <point type="3" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="0" display-time="0"/>
@@ -5977,7 +5977,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="3" value="17.1891" time-expression="startOfStopClosureOffset"/>
               <point type="3" value="85.6632" time-expression="startOfFricCharOffset"/>
               <point type="3" value="92.8316" time-expression="endOfVLessAspBurst"/>
-              <point type="3" value="100" time-expression="RuleDuration"/>
+              <point type="3" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="1" display-time="0"/>
@@ -6015,7 +6015,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="3" value="4.90885" time-expression="startOfStopClosureOffset"/>
               <point type="3" value="88.6589" time-expression="startOfFricCharOffset"/>
               <point type="3" value="100" time-expression="endOfVLessAspBurst"/>
-              <point type="3" value="100" time-expression="RuleDuration"/>
+              <point type="3" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="0" display-time="0"/>
@@ -6064,7 +6064,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="3" value="15.4049" time-expression="startOfStopClosureOffset"/>
               <point type="3" value="99.3066" time-expression="endOfStopClosureOffset"/>
               <point type="3" value="99.74" time-expression="RdMinusQssa3ByTwo"/>
-              <point type="3" value="100" time-expression="RuleDuration"/>
+              <point type="3" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="0" display-time="0"/>
@@ -6099,7 +6099,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="3" value="-0.5" time-expression="startOfStopClosureOffset"/>
               <point type="3" value="91.2223" time-expression="endOfStopClosureOffset"/>
               <point type="3" value="97.3667" time-expression="RdMinusQssa3ByTwo"/>
-              <point type="3" value="100" time-expression="RuleDuration"/>
+              <point type="3" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="0" display-time="0"/>
@@ -6120,7 +6120,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
               <point type="2" value="0" time-expression="Zero"/>
               <point type="2" value="0" time-expression="TransByOneThird"/>
               <point type="2" value="100" time-expression="TransByTwoThird"/>
-              <point type="2" value="100" time-expression="RuleDuration"/>
+              <point type="2" value="100" time-expression="RuleDuration" is-phantom="yes"/>
             </points>
             <slopes>
               <slope slope="0" display-time="0"/>
@@ -6217,7 +6217,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
           <point type="3" value="0" time-expression="startOfStopClosureOffset"/>
           <point type="3" value="20" time-expression="VStopBurstTipA"/>
           <point type="3" value="0" time-expression="VStopBurstEnd"/>
-          <point type="3" value="0" time-expression="RuleDuration"/>
+          <point type="3" value="0" time-expression="RuleDuration" is-phantom="yes"/>
         </points>
       </transition>
       <transition name="VStopFric" type="3">
