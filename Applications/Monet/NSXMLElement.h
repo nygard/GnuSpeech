@@ -21,4 +21,6 @@
 
 - (NSArray *)elementsForName:(NSString *)name;
 
+- (void)addChild:(NSXMLNode *)child;
+
 @end

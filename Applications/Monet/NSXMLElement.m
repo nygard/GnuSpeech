@@ -46,4 +46,9 @@
     return nil;
 }
 
+- (void)addChild:(NSXMLNode *)child;
+{
+    [_children addObject:child];
+}
+
 @end

@@ -3,15 +3,23 @@
 
 #import "NSXMLDocument.h"
 
+#import "STXMLTreeBuilder.h"
+
 @implementation NSXMLDocument
 
 - (id)initWithData:(NSData *)data options:(unsigned int)mask error:(NSError **)error;
 {
+    STXMLTreeBuilder *treeBuilder;
+
     if ([super initWithKind:NSXMLDocumentKind] == nil)
         return nil;
 
     _children = [[NSMutableArray alloc] init];
     _rootElement = nil;
+
+    treeBuilder = [[STXMLTreeBuilder alloc] init];
+    [treeBuilder parseData:data intoDocument:self];
+    [treeBuilder release];
 
     return self;
 }
