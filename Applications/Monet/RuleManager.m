@@ -483,8 +483,7 @@
             [ruleOutput setStringValue:[NSString stringWithFormat:@"Unknown phone: \"%@\"", [[phone3 cellAtIndex:0] stringValue]]];
             return;
         }
-        [tempPhone categoryList];
-        [tempList addObject:tempPhone];
+        [tempList addObject:[tempPhone categoryList]];
         [phoneList addObject:tempPhone];
 
         phones++;
@@ -496,8 +495,7 @@
             [ruleOutput setStringValue:[NSString stringWithFormat:@"Unknown phone: \"%@\"", [[phone4 cellAtIndex:0] stringValue]]];
             return;
         }
-        [tempPhone categoryList];
-        [tempList addObject:tempPhone];
+        [tempList addObject:[tempPhone categoryList]];
         [phoneList addObject:tempPhone];
 
         phones++;
