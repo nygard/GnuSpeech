@@ -389,7 +389,7 @@
     [html appendString:@"<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>\n"];
     [html appendString:@"  <head>\n"];
     [html appendString:@"    <title>Monet Parameter Graphs</title>\n"];
-    [html appendString:@"    <meta http-equiv='Content-type' content='text/html; charset=utf-8'>\n"];
+    [html appendString:@"    <meta http-equiv='Content-type' content='text/html; charset=utf-8'/>\n"];
     [html appendString:@"  </head>\n"];
     [html appendString:@"  <body>\n"];
     [html appendString:@"    <p>Parameter graphs for phone string:</p>\n"];
@@ -397,6 +397,7 @@
     [html appendString:@"    <p>[<a href='Monet.parameters'>Monet.parameters</a>] [<a href='output.au'>output.au</a>]</p>\n"];
     [html appendString:@"    <p><object type='audio/basic' data='output.au'></object></p>\n"];
     [html appendFormat:@"    <p>Generated %@</p>\n", GSXMLCharacterData([[NSCalendarDate calendarDate] description])];
+    [html appendString:@"    <p>\n"];
 
     pid = [[NSProcessInfo processInfo] processIdentifier];
     number = 1;
@@ -426,7 +427,7 @@
         pdfData = [eventListView dataWithPDFInsideRect:[eventListView bounds]];
         filename1 = [NSString stringWithFormat:@"graph-%d.pdf", number];
         [pdfData writeToFile:[basePath stringByAppendingPathComponent:filename1] atomically:YES];
-        [html appendFormat:@"    <img src='%@'/>\n", GSXMLAttributeString(filename1, YES)];
+        [html appendFormat:@"      <img src='%@' alt='parameter graph %d'/>\n", GSXMLAttributeString(filename1, YES), number];
 
         image = [[NSImage alloc] initWithData:pdfData];
         //NSLog(@"image: %@", image);
@@ -448,6 +449,7 @@
         number++;
     }
 
+    [html appendString:@"    </p>\n"];
     [html appendString:@"  </body>\n"];
     [html appendString:@"</html>\n"];
 
