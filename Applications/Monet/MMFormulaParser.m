@@ -6,20 +6,17 @@
 #import "MMFormulaExpression.h"
 #import "MMFormulaTerminal.h"
 #import "MMSymbol.h"
-#import "SymbolList.h"
+#import "MModel.h"
 
 @implementation MMFormulaParser
 
-+ (MMFormulaNode *)parsedExpressionFromString:(NSString *)aString symbolList:(SymbolList *)aSymbolList;
++ (MMFormulaNode *)parsedExpressionFromString:(NSString *)aString model:(MModel *)aModel;
 {
     MMFormulaParser *parser;
     MMFormulaNode *result;
 
-    parser = [[MMFormulaParser alloc] init];
-    [parser setSymbolList:aSymbolList];
-
+    parser = [[MMFormulaParser alloc] initWithModel:aModel];
     result = [parser parseString:aString];
-
     [parser release];
 
     return result;
@@ -42,25 +39,35 @@
     return [NSString stringWithFormat:@"<unknown token %d>", aToken];
 }
 
+- (id)initWithModel:(MModel *)aModel;
+{
+    if ([super init] == nil)
+        return nil;
+
+    model = [aModel retain];
+
+    return self;
+}
+
 - (void)dealloc;
 {
-    [symbolList release];
+    [model release];
 
     [super dealloc];
 }
 
-- (SymbolList *)symbolList;
+- (MModel *)model;
 {
-    return symbolList;
+    return model;
 }
 
-- (void)setSymbolList:(SymbolList *)newSymbolList;
+- (void)setModel:(MModel *)newModel;
 {
-    if (newSymbolList == symbolList)
+    if (newModel == model)
         return;
 
-    [symbolList release];
-    symbolList = [newSymbolList retain];
+    [model release];
+    model = [newModel retain];
 }
 
 - (int)nextToken;
@@ -294,7 +301,7 @@
 
             baseSymbolName = [symbolString substringToIndex:[symbolString length] - 1];
 
-            aSymbol = [symbolList findSymbol:baseSymbolName];
+            aSymbol = [model symbolWithName:baseSymbolName];
             if (aSymbol) {
                 [result setSymbol:aSymbol];
                 [result setWhichPhone:whichPhone];

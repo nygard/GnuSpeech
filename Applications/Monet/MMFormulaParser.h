@@ -1,6 +1,6 @@
 #import "GSParser.h"
 
-@class MMFormulaTerminal, MMFormulaNode, SymbolList;
+@class MMFormulaTerminal, MMFormulaNode, MModel;
 
 /*===========================================================================
 
@@ -13,18 +13,19 @@
 
 @interface MMFormulaParser : GSParser
 {
-    SymbolList *symbolList;
+    MModel *model;
 
     int lookahead;
 }
 
-+ (MMFormulaNode *)parsedExpressionFromString:(NSString *)aString symbolList:(SymbolList *)aSymbolList;
++ (MMFormulaNode *)parsedExpressionFromString:(NSString *)aString model:(MModel *)aModel;
 + (NSString *)nameForToken:(int)aToken;
 
+- (id)initWithModel:(MModel *)aModel;
 - (void)dealloc;
 
-- (SymbolList *)symbolList;
-- (void)setSymbolList:(SymbolList *)newSymbolList;
+- (MModel *)model;
+- (void)setModel:(MModel *)newModel;
 
 - (int)nextToken;
 - (BOOL)scanNumber;

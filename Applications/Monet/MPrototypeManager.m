@@ -27,8 +27,7 @@
         return nil;
 
     model = [aModel retain];
-    formulaParser = [[MMFormulaParser alloc] init];
-    [formulaParser setSymbolList:[model symbols]];
+    formulaParser = [[MMFormulaParser alloc] initWithModel:model];
 
     [self setWindowFrameAutosaveName:@"Prototype Manager"];
 
@@ -63,7 +62,7 @@
     [model release];
     model = [newModel retain];
 
-    [formulaParser setSymbolList:[model symbols]];
+    [formulaParser setModel:model];
     [miniTransitionView setModel:model];
     [miniSpecialTransitionView setModel:model];
 
