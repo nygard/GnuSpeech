@@ -1,7 +1,6 @@
 #import "IntonationPointInspector.h"
 
 #import <AppKit/AppKit.h>
-#include <math.h>
 #import "AppController.h"
 #import "EventList.h"
 #import "Inspector.h"
@@ -9,8 +8,6 @@
 #import "IntonationScrollView.h"
 #import "IntonationView.h"
 #import "MMPosture.h"
-
-#define MIDDLEC	261.6255653
 
 @implementation IntonationPointInspector
 
@@ -134,10 +131,8 @@
 - (IBAction)setHertz:(id)sender;
 {
     IntonationView *tempView = NXGetNamedObject(@"intonationView", NSApp);
-    double temp;
 
-    temp = 12.0 * (log10([sender doubleValue] / MIDDLEC) / log10(2.0));
-    [currentIntonationPoint setSemitone:temp];
+    [currentIntonationPoint setSemitoneInHertz:[sender doubleValue]];
     [tempView setNeedsDisplay:YES];
     [self updateInspector];
 }
@@ -163,11 +158,8 @@
 
 - (void)updateInspector;
 {
-    double temp;
-
-    temp = pow(2, [currentIntonationPoint semitone] / 12.0) * MIDDLEC;
     [semitoneField setDoubleValue:[currentIntonationPoint semitone]];
-    [hertzField setDoubleValue:temp];
+    [hertzField setDoubleValue:[currentIntonationPoint semitoneInHertz]];
     [slopeField setDoubleValue:[currentIntonationPoint slope]];
     [beatField setDoubleValue:[currentIntonationPoint beatTime]];
     [beatOffsetField setDoubleValue:[currentIntonationPoint offsetTime]];

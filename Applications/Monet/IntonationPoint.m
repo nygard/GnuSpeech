@@ -1,11 +1,14 @@
 #import "IntonationPoint.h"
 
+#include <math.h>
 #import <Foundation/Foundation.h>
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
 
 #import "AppController.h"
 #import "EventList.h"
+
+#define MIDDLEC	261.6255653
 
 @implementation IntonationPoint
 
@@ -105,6 +108,24 @@
 - (double)beatTime;
 {
     return [eventList getBeatAtIndex:ruleIndex];
+}
+
+- (double)semitoneInHertz;
+{
+    double hertz;
+
+    hertz = pow(2, semitone / 12.0) * MIDDLEC;
+
+    return hertz;
+}
+
+- (void)setSemitoneInHertz:(double)newHertzValue;
+{
+    double newValue;
+
+    // i.e. 12.0 * log_2(newHertzValue / MIDDLEC)
+    newValue = 12.0 * (log10(newHertzValue / MIDDLEC) / log10(2.0));
+    [self setSemitone:newValue];
 }
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;

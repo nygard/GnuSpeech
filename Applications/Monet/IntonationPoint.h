@@ -42,6 +42,9 @@
 - (double)absoluteTime;
 - (double)beatTime;
 
+- (double)semitoneInHertz;
+- (void)setSemitoneInHertz:(double)newHertzValue;
+
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 
 @end
