@@ -6,6 +6,7 @@
 #import "FormulaParser.h"
 #import "Inspector.h"
 #import "MonetList.h"
+#import "NamedList.h"
 #import "ProtoEquation.h"
 #import "PrototypeManager.h"
 #import "RuleList.h"
@@ -68,9 +69,8 @@
 
 - (void)setUpWindow:(NSPopUpButton *)sender;
 {
-    PrototypeManager *tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
+    PrototypeManager *prototypeManager = NXGetNamedObject(@"prototypeManager", NSApp);
     RuleManager *tempRuleManager = NXGetNamedObject(@"ruleManager", NSApp);
-    PrototypeManager *tempProtoManager = NXGetNamedObject(@"prototypeManager", NSApp); // TODO (2004-03-03): We shouldn't need the dupe
     NSString *str;
     int index1, index2;
     int i, j;
@@ -104,10 +104,10 @@
 
         [equationText setString:[[currentProtoEquation expression] expressionString]];
 
-        [tempProto findList:&index1 andIndex:&index2 ofEquation:currentProtoEquation];
+        [prototypeManager findList:&index1 andIndex:&index2 ofEquation:currentProtoEquation];
         equation = [NSString stringWithFormat:@"%@:%@",
-                             [(ProtoEquation *)[[tempProto equationList] objectAtIndex:index1] name],
-                             [(ProtoEquation *)[[[tempProto equationList] objectAtIndex:index1] objectAtIndex:index2] name]];
+                             [(NamedList *)[[prototypeManager equationList] objectAtIndex:index1] name],
+                             [(ProtoEquation *)[[[prototypeManager equationList] objectAtIndex:index1] objectAtIndex:index2] name]];
 
         [currentEquationField setStringValue:equation];
     } else if ([str hasPrefix:@"U"]) {
@@ -120,13 +120,13 @@
         [equationList removeAllObjects];
         [tempRuleManager findEquation:currentProtoEquation andPutIn:equationList];
 
-        tempList1 = [tempProtoManager transitionList];
+        tempList1 = [prototypeManager transitionList];
         for (i = 0; i < [tempList1 count]; i++) {
             tempList2 = [tempList1 objectAtIndex:i];
             for (j = 0; j < [tempList2 count]; j++)
                 [[tempList2 objectAtIndex:j] findEquation:currentProtoEquation andPutIn:equationList];
         }
-        tempList1 = [tempProtoManager specialList];
+        tempList1 = [prototypeManager specialList];
         for (i = 0; i < [tempList1 count]; i++) {
             tempList2 = [tempList1 objectAtIndex:i];
             for (j = 0; j < [tempList2 count]; j++)
@@ -190,7 +190,7 @@
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
 {
     RuleManager *tempRuleManager = NXGetNamedObject(@"ruleManager", NSApp);
-    PrototypeManager *tempProtoManager = NXGetNamedObject(@"prototypeManager", NSApp);
+    PrototypeManager *prototypeManager = NXGetNamedObject(@"prototypeManager", NSApp);
     id tempRuleList;
     NSString *str;
     int i, j;
@@ -204,18 +204,18 @@
                         [tempRuleList indexOfObject:[equationList objectAtIndex:row]]+1];
         [cell setStringValue:str];
     } else {
-        [tempProtoManager findList:&i andIndex:&j ofTransition:[equationList objectAtIndex:row]];
+        [prototypeManager findList:&i andIndex:&j ofTransition:[equationList objectAtIndex:row]];
         if (i >= 0) {
             str = [NSString stringWithFormat:@"T:%@:%@",
-                            [(ProtoEquation *)[[tempProtoManager transitionList] objectAtIndex:i] name],
-                            [(ProtoEquation *)[[[tempProtoManager transitionList] objectAtIndex:i] objectAtIndex:j] name]];
+                            [(NamedList *)[[prototypeManager transitionList] objectAtIndex:i] name],
+                            [(ProtoEquation *)[[[prototypeManager transitionList] objectAtIndex:i] objectAtIndex:j] name]];
             [cell setStringValue:str];
         } else {
-            [tempProtoManager findList:&i andIndex:&j ofSpecial:[equationList objectAtIndex:row]];
+            [prototypeManager findList:&i andIndex:&j ofSpecial:[equationList objectAtIndex:row]];
             if (i >= 0) {
                 str = [NSString stringWithFormat:@"S:%@:%@",
-                                [(ProtoEquation *)[[tempProtoManager specialList] objectAtIndex:i] name],
-                                [(ProtoEquation *)[[[tempProtoManager specialList] objectAtIndex:i] objectAtIndex:j] name]];
+                                [(NamedList *)[[prototypeManager specialList] objectAtIndex:i] name],
+                                [(ProtoEquation *)[[[prototypeManager specialList] objectAtIndex:i] objectAtIndex:j] name]];
                 [cell setStringValue:str];
             }
         }

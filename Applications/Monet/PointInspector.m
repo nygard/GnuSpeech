@@ -5,6 +5,7 @@
 #import "Inspector.h"
 #import "FormulaExpression.h"
 #import "MonetList.h"
+#import "NamedList.h"
 #import "Point.h"
 #import "ProtoEquation.h"
 #import "PrototypeManager.h"
@@ -66,7 +67,7 @@
 - (void)setUpWindow:(NSPopUpButton *)sender;
 {
     NSString *str;
-    PrototypeManager *tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
+    PrototypeManager *prototypeManager = NXGetNamedObject(@"prototypeManager", NSApp);
     int index1, index2;
 
     str = [[sender selectedCell] title];
@@ -117,11 +118,11 @@
         } else {
             [currentTimingField setStringValue:[NSString stringWithFormat:@"Fixed: %.3f ms", [currentPoint freeTime]]];
         }
-        [tempProto findList:&index1 andIndex:&index2 ofEquation:aProtoEquation];
+        [prototypeManager findList:&index1 andIndex:&index2 ofEquation:aProtoEquation];
 
         path = [NSString stringWithFormat:@"/%@/%@",
-                         [(ProtoEquation *)[[tempProto equationList] objectAtIndex:index1] name],
-                         [(ProtoEquation *)[[[tempProto equationList] objectAtIndex:index1] objectAtIndex:index2] name]];
+                         [(NamedList *)[[prototypeManager equationList] objectAtIndex:index1] name],
+                         [(ProtoEquation *)[[[prototypeManager equationList] objectAtIndex:index1] objectAtIndex:index2] name]];
         NSLog(@"Path = |%@|", path);
         [expressionBrowser setPath:path];
     }
@@ -177,15 +178,15 @@
 
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
 {
-    PrototypeManager *temp;
+    PrototypeManager *prototypeManager;
     id list, tempCell;
     int index;
 
-    temp = NXGetNamedObject(@"prototypeManager", NSApp);
+    prototypeManager = NXGetNamedObject(@"prototypeManager", NSApp);
     index = [[sender matrixInColumn:0] selectedRow];
     [cell setLoaded:YES];
 
-    list = [temp equationList];
+    list = [prototypeManager equationList];
     if (column == 0) {
         [cell setStringValue:[(ProtoEquation *)[list objectAtIndex:row] name]];
         [cell setLeaf:NO];

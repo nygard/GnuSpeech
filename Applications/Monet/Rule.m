@@ -56,7 +56,7 @@
 - (void)setDefaultsTo:(int)numPhones;
 {
     id tempEntry = nil, tempOnset = nil, tempDuration = nil;
-    PrototypeManager *tempProto;
+    PrototypeManager *prototypeManager;
     ParameterList *tempList;
     int i;
 
@@ -68,16 +68,16 @@
     if ((numPhones < 2) || (numPhones > 4))
         return;
 
-    tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
+    prototypeManager = NXGetNamedObject(@"prototypeManager", NSApp);
     switch (numPhones) {
       case 2:
-          tempEntry = [tempProto findTransitionList:@"Defaults" named:@"Diphone"];
+          tempEntry = [prototypeManager findTransitionList:@"Defaults" named:@"Diphone"];
           break;
       case 3:
-          tempEntry = [tempProto findTransitionList:@"Defaults" named:@"Triphone"];
+          tempEntry = [prototypeManager findTransitionList:@"Defaults" named:@"Triphone"];
           break;
       case 4:
-          tempEntry = [tempProto findTransitionList:@"Defaults" named:@"Tetraphone"];
+          tempEntry = [prototypeManager findTransitionList:@"Defaults" named:@"Tetraphone"];
           break;
     }
 
@@ -98,38 +98,38 @@
 
     switch (numPhones) {
       case 2:
-          tempDuration = [tempProto findEquationList:@"DefaultDurations" named:@"DiphoneDefault"];
+          tempDuration = [prototypeManager findEquationList:@"DefaultDurations" named:@"DiphoneDefault"];
           [expressionSymbols addObject:tempDuration];
 
-          tempOnset = [tempProto findEquationList:@"SymbolDefaults" named:@"Beat"];
+          tempOnset = [prototypeManager findEquationList:@"SymbolDefaults" named:@"Beat"];
           [expressionSymbols addObject:tempOnset];
 
           [expressionSymbols addObject:tempDuration]; /* Make the duration the mark1 value */
 
           break;
       case 3:
-          tempDuration = [tempProto findEquationList:@"DefaultDurations" named:@"TriphoneDefault"];
+          tempDuration = [prototypeManager findEquationList:@"DefaultDurations" named:@"TriphoneDefault"];
           [expressionSymbols addObject:tempDuration];
 
-          tempOnset = [tempProto findEquationList:@"SymbolDefaults" named:@"Beat"];
+          tempOnset = [prototypeManager findEquationList:@"SymbolDefaults" named:@"Beat"];
           [expressionSymbols addObject:tempOnset];
 
-          tempEntry = [tempProto findEquationList:@"SymbolDefaults" named:@"Mark1"];
+          tempEntry = [prototypeManager findEquationList:@"SymbolDefaults" named:@"Mark1"];
           [expressionSymbols addObject:tempEntry];
           [expressionSymbols addObject:tempDuration];	/* make the duration the mark2 value */
 
           break;
       case 4:
-          tempDuration = [tempProto findEquationList:@"DefaultDurations" named:@"TetraphoneDefault"];
+          tempDuration = [prototypeManager findEquationList:@"DefaultDurations" named:@"TetraphoneDefault"];
           [expressionSymbols addObject:tempDuration];
 
-          tempOnset = [tempProto findEquationList:@"SymbolDefaults" named:@"Beat"];
+          tempOnset = [prototypeManager findEquationList:@"SymbolDefaults" named:@"Beat"];
           [expressionSymbols addObject:tempOnset];
 
-          tempEntry = [tempProto findEquationList:@"SymbolDefaults" named:@"Mark1"];
+          tempEntry = [prototypeManager findEquationList:@"SymbolDefaults" named:@"Mark1"];
           [expressionSymbols addObject:tempEntry];
 
-          tempEntry = [tempProto findEquationList:@"SymbolDefaults" named:@"Mark2"];
+          tempEntry = [prototypeManager findEquationList:@"SymbolDefaults" named:@"Mark2"];
           [expressionSymbols addObject:tempEntry];
           [expressionSymbols addObject:tempDuration];	/* make the duration the mark3 value */
 
@@ -140,18 +140,18 @@
 - (void)addDefaultParameter;
 {
     id tempEntry;
-    PrototypeManager *tempProto;
+    PrototypeManager *prototypeManager;
 
-    tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
+    prototypeManager = NXGetNamedObject(@"prototypeManager", NSApp);
     switch ([self numberExpressions]) {
       case 2:
-          tempEntry = [tempProto findTransitionList:@"Defaults" named:@"Diphone"];
+          tempEntry = [prototypeManager findTransitionList:@"Defaults" named:@"Diphone"];
           break;
       case 3:
-          tempEntry = [tempProto findTransitionList:@"Defaults" named:@"Triphone"];
+          tempEntry = [prototypeManager findTransitionList:@"Defaults" named:@"Triphone"];
           break;
       case 4:
-          tempEntry = [tempProto findTransitionList:@"Defaults" named:@"Tetraphone"];
+          tempEntry = [prototypeManager findTransitionList:@"Defaults" named:@"Tetraphone"];
           break;
     }
 
@@ -161,18 +161,18 @@
 - (void)addDefaultMetaParameter;
 {
     id tempEntry;
-    PrototypeManager *tempProto;
+    PrototypeManager *prototypeManager;
 
-    tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
+    prototypeManager = NXGetNamedObject(@"prototypeManager", NSApp);
     switch ([self numberExpressions]) {
       case 2:
-          tempEntry = [tempProto findTransitionList:@"Defaults" named:@"Diphone"];
+          tempEntry = [prototypeManager findTransitionList:@"Defaults" named:@"Diphone"];
           break;
       case 3:
-          tempEntry = [tempProto findTransitionList:@"Defaults" named:@"Triphone"];
+          tempEntry = [prototypeManager findTransitionList:@"Defaults" named:@"Triphone"];
           break;
       case 4:
-          tempEntry = [tempProto findTransitionList:@"Defaults" named:@"Tetraphone"];
+          tempEntry = [prototypeManager findTransitionList:@"Defaults" named:@"Tetraphone"];
           break;
     }
 
@@ -336,7 +336,7 @@
     unsigned archivedVersion;
     int index, j, k;
     int symbolCount, parameterCount, metaParmaterCount;
-    PrototypeManager *tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
+    PrototypeManager *prototypeManager = NXGetNamedObject(@"prototypeManager", NSApp);
     id tempParameter;
     char *c_comment;
 
@@ -372,21 +372,21 @@
     for (index = 0; index < symbolCount; index++) {
         [aDecoder decodeValuesOfObjCTypes:"ii", &j, &k];
         //NSLog(@"j: %d, k: %d", j, k);
-        tempParameter = [tempProto findEquation:j andIndex:k];
+        tempParameter = [prototypeManager findEquation:j andIndex:k];
         [expressionSymbols addObject:tempParameter];
     }
 
     for (index = 0; index < parameterCount; index++) {
         [aDecoder decodeValuesOfObjCTypes:"ii", &j, &k];
         //NSLog(@"j: %d, k: %d", j, k);
-        tempParameter = [tempProto findTransition:j andIndex:k];
+        tempParameter = [prototypeManager findTransition:j andIndex:k];
         [parameterProfiles addObject:tempParameter];
     }
 
     for (index = 0; index < metaParmaterCount; index++) {
         [aDecoder decodeValuesOfObjCTypes:"ii", &j, &k];
         //NSLog(@"j: %d, k: %d", j, k);
-        [metaParameterProfiles addObject:[tempProto findTransition:j andIndex:k]];
+        [metaParameterProfiles addObject:[prototypeManager findTransition:j andIndex:k]];
     }
 
     for (index = 0; index <  16; index++) {
@@ -396,7 +396,7 @@
         if (j == -1) {
             specialProfiles[index] = nil;
         } else {
-            specialProfiles[index] = [tempProto findSpecial:j andIndex:k];
+            specialProfiles[index] = [prototypeManager findSpecial:j andIndex:k];
         }
     }
 
@@ -409,7 +409,7 @@
 #ifdef PORTING
     int index, j, k, dummy;
     int parms, metaParms, symbols;
-    PrototypeManager *tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
+    PrototypeManager *prototypeManager = NXGetNamedObject(@"prototypeManager", NSApp);
 
     j = [self numberExpressions];
     [aCoder encodeValuesOfObjCTypes:"i*", &j, &comment];
@@ -424,17 +424,17 @@
     [aCoder encodeValuesOfObjCTypes:"iii", &symbols, &parms, &metaParms];
 
     for (index = 0; index < symbols; index++) {
-        [tempProto findList:&j andIndex:&k ofEquation:[expressionSymbols objectAtIndex:index]];
+        [prototypeManager findList:&j andIndex:&k ofEquation:[expressionSymbols objectAtIndex:index]];
         [aCoder encodeValuesOfObjCTypes:"ii", &j, &k];
     }
 
     for (index = 0; index < parms; index++) {
-        [tempProto findList:&j andIndex:&k ofTransition:[parameterProfiles objectAtIndex:index]];
+        [prototypeManager findList:&j andIndex:&k ofTransition:[parameterProfiles objectAtIndex:index]];
         [aCoder encodeValuesOfObjCTypes:"ii", &j, &k];
     }
 
     for (index = 0; index < metaParms; index++) {
-        [tempProto findList:&j andIndex:&k ofTransition:[metaParameterProfiles objectAtIndex:index]];
+        [prototypeManager findList:&j andIndex:&k ofTransition:[metaParameterProfiles objectAtIndex:index]];
         [aCoder encodeValuesOfObjCTypes:"ii", &j, &k];
     }
 
@@ -442,7 +442,7 @@
 
     for (index = 0; index < 16; index++) {
         if (specialProfiles[index] != nil) {
-            [tempProto findList:&j andIndex:&k ofSpecial:specialProfiles[index]];
+            [prototypeManager findList:&j andIndex:&k ofSpecial:specialProfiles[index]];
             [aCoder encodeValuesOfObjCTypes:"ii", &j, &k];
         } else {
             [aCoder encodeValuesOfObjCTypes:"ii", &dummy, &dummy];

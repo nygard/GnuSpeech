@@ -196,7 +196,7 @@
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
     unsigned archivedVersion;
-    PrototypeManager *tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
+    PrototypeManager *prototypeManager = NXGetNamedObject(@"prototypeManager", NSApp);
     char *c_name, *c_comment;
     MonetList *archivedPoints;
 
@@ -226,28 +226,28 @@
         aPoint = [[GSMPoint alloc] init];
         [aPoint setValue:0.0];
         [aPoint setType:DIPHONE];
-        [aPoint setExpression:[tempProto findEquationList:@"Test" named:@"Zero"]];
+        [aPoint setExpression:[prototypeManager findEquationList:@"Test" named:@"Zero"]];
         [defaultPoints addObject:aPoint];
         [aPoint release];
 
         aPoint = [[GSMPoint alloc] init];
         [aPoint setValue:12.5];
         [aPoint setType:DIPHONE];
-        [aPoint setExpression:[tempProto findEquationList:@"Test" named:@"diphoneOneThree"]];
+        [aPoint setExpression:[prototypeManager findEquationList:@"Test" named:@"diphoneOneThree"]];
         [defaultPoints addObject:aPoint];
         [aPoint release];
 
         aPoint = [[GSMPoint alloc] init];
         [aPoint setValue:87.5];
         [aPoint setType:DIPHONE];
-        [aPoint setExpression:[tempProto findEquationList:@"Test" named:@"diphoneTwoThree"]];
+        [aPoint setExpression:[prototypeManager findEquationList:@"Test" named:@"diphoneTwoThree"]];
         [defaultPoints addObject:aPoint];
         [aPoint release];
 
         aPoint = [[GSMPoint alloc] init];
         [aPoint setValue:100.0];
         [aPoint setType:DIPHONE];
-        [aPoint setExpression:[tempProto findEquationList:@"Defaults" named:@"Mark1"]];
+        [aPoint setExpression:[prototypeManager findEquationList:@"Defaults" named:@"Mark1"]];
         [defaultPoints addObject:aPoint];
         [aPoint release];
 
@@ -255,21 +255,21 @@
             aPoint = [[GSMPoint alloc] init];
             [aPoint setValue:12.5];
             [aPoint setType:TRIPHONE];
-            [aPoint setExpression:[tempProto findEquationList:@"Test" named:@"triphoneOneThree"]];
+            [aPoint setExpression:[prototypeManager findEquationList:@"Test" named:@"triphoneOneThree"]];
             [defaultPoints addObject:aPoint];
             [aPoint release];
 
             aPoint = [[GSMPoint alloc] init];
             [aPoint setValue:87.5];
             [aPoint setType:TRIPHONE];
-            [aPoint setExpression:[tempProto findEquationList:@"Test" named:@"triphoneTwoThree"]];
+            [aPoint setExpression:[prototypeManager findEquationList:@"Test" named:@"triphoneTwoThree"]];
             [defaultPoints addObject:aPoint];
             [aPoint release];
 
             aPoint = [[GSMPoint alloc] init];
             [aPoint setValue:100.0];
             [aPoint setType:TRIPHONE];
-            [aPoint setExpression:[tempProto findEquationList:@"Defaults" named:@"Mark2"]];
+            [aPoint setExpression:[prototypeManager findEquationList:@"Defaults" named:@"Mark2"]];
             [defaultPoints addObject:aPoint];
             [aPoint release];
 
@@ -277,21 +277,21 @@
                 aPoint = [[GSMPoint alloc] init];
                 [aPoint setValue:12.5];
                 [aPoint setType:TETRAPHONE];
-                [aPoint setExpression:[tempProto findEquationList:@"Test" named:@"tetraphoneOneThree"]];
+                [aPoint setExpression:[prototypeManager findEquationList:@"Test" named:@"tetraphoneOneThree"]];
                 [defaultPoints addObject:aPoint];
                 [aPoint release];
 
                 aPoint = [[GSMPoint alloc] init];
                 [aPoint setValue:87.5];
                 [aPoint setType:TETRAPHONE];
-                [aPoint setExpression:[tempProto findEquationList:@"Test" named:@"tetraphoneTwoThree"]];
+                [aPoint setExpression:[prototypeManager findEquationList:@"Test" named:@"tetraphoneTwoThree"]];
                 [defaultPoints addObject:aPoint];
                 [aPoint release];
 
                 aPoint = [[GSMPoint alloc] init];
                 [aPoint setValue:100.0];
                 [aPoint setType:TETRAPHONE];
-                [aPoint setExpression:[tempProto findEquationList:@"Durations" named:@"TetraphoneDefault"]];
+                [aPoint setExpression:[prototypeManager findEquationList:@"Durations" named:@"TetraphoneDefault"]];
                 [defaultPoints addObject:aPoint];
                 [aPoint release];
             }

@@ -34,6 +34,7 @@
       case 1: [currentPhone parameterList]; tempList = currentPhone;
   What?!
 - Hmm.  Duration form in Rule Parser window, text shifts when selecting it (tabbing into the field.)
+- stars in rules after phones seems to match, i.e., ch and ch' for "ch*"
 
 TODO:
 - if a value is at the default, and then you change the default, do you want all of the instances to change as well?  I think so.
@@ -51,3 +52,10 @@ TODO:
   - sample files for the software synthesizer to have it generate speech
   - descriptions of what each of the ".monet" files is for/demonstrates.
   - does "Play2.monet" load for them?
+
+
+
+- merge Parameter, Symbol classes
+- remove "native" category
+  - update boolean parser to recognize postures at well
+- rename Phone to Posture
