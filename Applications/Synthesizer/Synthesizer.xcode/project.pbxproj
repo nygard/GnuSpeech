@@ -421,6 +421,48 @@
 			settings = {
 			};
 		};
+		0169CB8406E306BF009FBDCF = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = MWaveShapeView.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		0169CB8506E306BF009FBDCF = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = MWaveShapeView.m;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		0169CB8606E306BF009FBDCF = {
+			fileRef = 0169CB8406E306BF009FBDCF;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0169CB8706E306BF009FBDCF = {
+			fileRef = 0169CB8506E306BF009FBDCF;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0169CBCA06E30A08009FBDCF = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = Accelerate.framework;
+			path = ../../../../../../../../../../System/Library/Frameworks/Accelerate.framework;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		0169CBCB06E30A08009FBDCF = {
+			fileRef = 0169CBCA06E30A08009FBDCF;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 //010
 //011
 //012
@@ -439,6 +481,8 @@
 				0169CAF906E2F606009FBDCF,
 				0169CB0C06E2F950009FBDCF,
 				0169CB0D06E2F950009FBDCF,
+				0169CB8406E306BF009FBDCF,
+				0169CB8506E306BF009FBDCF,
 				0169CADC06E2F297009FBDCF,
 				0169CADD06E2F297009FBDCF,
 			);
@@ -613,6 +657,7 @@
 		};
 		29B97323FDCFA39411CA2CEA = {
 			children = (
+				0169CBCA06E30A08009FBDCF,
 				1058C7A0FEA54F0111CA2CBB,
 				1058C7A2FEA54F0111CA2CBB,
 			);
@@ -742,6 +787,7 @@
 				0169CB6006E2FE06009FBDCF,
 				0169CB6206E2FE06009FBDCF,
 				0169CB6406E2FE06009FBDCF,
+				0169CB8606E306BF009FBDCF,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -774,6 +820,7 @@
 				0169CB5F06E2FE06009FBDCF,
 				0169CB6106E2FE06009FBDCF,
 				0169CB6306E2FE06009FBDCF,
+				0169CB8706E306BF009FBDCF,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -790,6 +837,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072F0486CEB800E47090,
+				0169CBCB06E30A08009FBDCF,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

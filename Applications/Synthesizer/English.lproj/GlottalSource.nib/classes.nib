@@ -7,6 +7,7 @@
             SUPERCLASS = MWindowController; 
         }, 
         {CLASS = MGraphView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {CLASS = MWaveShapeView; LANGUAGE = ObjC; SUPERCLASS = MGraphView; }, 
         {CLASS = MWindowController; LANGUAGE = ObjC; SUPERCLASS = NSWindowController; }
     ); 
     IBVersion = 1; 
