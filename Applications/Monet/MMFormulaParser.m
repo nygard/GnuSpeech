@@ -301,7 +301,11 @@
 
     lookahead = [self nextToken];
 
-    result = [self parseExpression];
+    if (lookahead == TK_F_END)
+        result = nil;
+    else
+        result = [self parseExpression];
+
     [self match:TK_F_END];
 
     return result;
