@@ -32,7 +32,7 @@
 
 - (NSString *)opString;
 
-// Methods common to "MMFormulaNode" -- for both FormulaExpression, FormulaTerminal
+// Methods overridden from MMFormulaNode
 - (int)precedence;
 
 - (double)evaluate:(double *)ruleSymbols phones:(PhoneList *)phones;

@@ -4,7 +4,7 @@
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
 
-#import "FormulaExpression.h"
+#import "MMFormulaNode.h"
 #import "FormulaParser.h"
 #import "GSXMLFunctions.h"
 #import "MModel.h"
@@ -91,12 +91,12 @@
     return comment != nil && [comment length] > 0;
 }
 
-- (FormulaExpression *)expression;
+- (MMFormulaNode *)expression;
 {
     return expression;
 }
 
-- (void)setExpression:(FormulaExpression *)newExpression;
+- (void)setExpression:(MMFormulaNode *)newExpression;
 {
     if (newExpression == expression)
         return;
@@ -108,7 +108,7 @@
 - (void)setFormulaString:(NSString *)formulaString;
 {
     FormulaParser *formulaParser;
-    FormulaExpression *result;
+    MMFormulaNode *result;
     NSString *errorString;
 
     formulaParser = [[FormulaParser alloc] init];

@@ -41,7 +41,7 @@
 - (int)whichPhone;
 - (void)setWhichPhone:(int)newValue;
 
-// Methods common to "FormulaNode" -- for both FormulaExpression, FormulaTerminal
+// Methods overridden from MMFormulaNode
 - (int)precedence;
 
 - (double)evaluate:(double *)ruleSymbols phones:(PhoneList *)phones;

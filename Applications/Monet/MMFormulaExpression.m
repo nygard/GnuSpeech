@@ -78,7 +78,7 @@
 }
 
 //
-// Methods common to "FormulaNode" -- for both FormulaExpression, FormulaTerminal
+// Methods overridden from MMFormulaNode
 //
 
 - (int)precedence;

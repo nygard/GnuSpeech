@@ -1,6 +1,6 @@
 #import "MMObject.h"
 
-@class FormulaExpression, NamedList;
+@class MMFormulaNode, NamedList;
 
 /*===========================================================================
 
@@ -17,7 +17,7 @@
 
     NSString *name;
     NSString *comment;
-    FormulaExpression *expression;
+    MMFormulaNode *expression;
 
     int cacheTag;
     double cacheValue;
@@ -37,8 +37,8 @@
 - (void)setComment:(NSString *)newComment;
 - (BOOL)hasComment;
 
-- (FormulaExpression *)expression;
-- (void)setExpression:(FormulaExpression *)newExpression;
+- (MMFormulaNode *)expression;
+- (void)setExpression:(MMFormulaNode *)newExpression;
 
 - (void)setFormulaString:(NSString *)formulaString;
 
