@@ -1,8 +1,8 @@
 #import "SymbolInspector.h"
 
 #import <AppKit/AppKit.h>
+#import "AppController.h"
 #import "Inspector.h"
-#import "MyController.h"
 #import "PhoneList.h"
 #import "Symbol.h"
 

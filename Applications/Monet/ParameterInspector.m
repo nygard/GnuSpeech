@@ -1,8 +1,8 @@
 #import "ParameterInspector.h"
 
 #import <AppKit/AppKit.h>
+#import "AppController.h"
 #import "Inspector.h"
-#import "MyController.h"
 #import "Parameter.h"
 #import "PhoneList.h"
 

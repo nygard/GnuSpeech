@@ -1,9 +1,9 @@
 #import "Rule.h"
 
 #import <Foundation/Foundation.h>
+#import "AppController.h"
 #import "BooleanExpression.h"
 #import "MonetList.h"
-#import "MyController.h"
 #import "ParameterList.h"
 #import "ProtoEquation.h"
 #import "PrototypeManager.h"

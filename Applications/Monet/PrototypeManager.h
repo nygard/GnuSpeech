@@ -3,7 +3,7 @@
 
 @class NSFont;
 @class MonetList;
-@class DelegateResponder, MyController;
+@class AppController, DelegateResponder;
 
 /*===========================================================================
 
@@ -16,7 +16,7 @@
 
 @interface PrototypeManager : NSObject
 {
-    IBOutlet MyController *controller;
+    IBOutlet AppController *controller;
 
     IBOutlet NSBrowser *protoBrowser;
     IBOutlet NSControl *browserSelector; // TODO (2004-03-03): Not sure what type of control this is.

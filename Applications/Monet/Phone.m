@@ -1,9 +1,9 @@
 #import "Phone.h"
 
 #import <Foundation/Foundation.h>
+#import "AppController.h"
 #import "CategoryNode.h"
 #import "CategoryList.h"
-#import "MyController.h"
 #import "Parameter.h"
 #import "ParameterList.h"
 #import "Target.h"

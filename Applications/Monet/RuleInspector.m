@@ -1,8 +1,8 @@
 #import "RuleInspector.h"
 
 #import <AppKit/AppKit.h>
+#import "AppController.h"
 #import "Inspector.h"
-#import "MyController.h"
 #import "Rule.h"
 #import "RuleList.h"
 #import "RuleManager.h"

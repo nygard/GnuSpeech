@@ -1,6 +1,17 @@
 {
     IBClasses = (
         {
+            ACTIONS = {
+                archiveToDisk = id; 
+                displayInfoPanel = id; 
+                displayInspectorWindow = id; 
+                importTRMData = id; 
+                loadPrototypes = id; 
+                openFile = id; 
+                printData = id; 
+                readFromDisk = id; 
+                savePrototypes = id; 
+            }; 
             CLASS = AppController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
@@ -41,7 +52,7 @@
             OUTLETS = {
                 addButton = NSButton; 
                 browser = NSBrowser; 
-                controller = MyController; 
+                controller = AppController; 
                 nameField = NSForm; 
                 popUpList = NSPopUpButton; 
                 removeButton = NSButton; 
@@ -70,7 +81,7 @@
             LANGUAGE = ObjC; 
             OUTLETS = {
                 browserSelector = NSControl; 
-                controller = MyController; 
+                controller = AppController; 
                 inputTextField = NSTextField; 
                 newButton = NSButton; 
                 outputBox = NSBox; 
@@ -100,7 +111,7 @@
             LANGUAGE = ObjC; 
             OUTLETS = {
                 consumedTokens = NSTextField; 
-                controller = MyController; 
+                controller = AppController; 
                 durationOutput = NSForm; 
                 errorTextField = NSTextField; 
                 expressionFields = NSForm; 

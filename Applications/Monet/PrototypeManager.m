@@ -2,11 +2,11 @@
 
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
+#import "AppController.h"
 #import "DelegateResponder.h"
 #import "FormulaExpression.h"
 #import "Inspector.h"
 #import "MonetList.h"
-#import "MyController.h"
 #import "NamedList.h"
 #import "ProtoEquation.h"
 #import "ProtoTemplate.h"

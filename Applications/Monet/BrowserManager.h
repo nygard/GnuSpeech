@@ -3,7 +3,7 @@
 
 @class NSBrowser, NSFont, NSForm, NSPopUpButton;
 @class MonetList;
-@class MyController;
+@class AppController;
 
 /*===========================================================================
 
@@ -20,7 +20,7 @@
 @interface BrowserManager : NSResponder
 {
     IBOutlet NSBrowser *browser;
-    IBOutlet MyController *controller;
+    IBOutlet AppController *controller;
     IBOutlet NSPopUpButton *popUpList; // TODO (2004-03-04): Looks like this isn't used.
 
     MonetList *list[5];

@@ -2,11 +2,11 @@
 
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
+#import "AppController.h"
 #import "CategoryList.h"
 #import "CategoryNode.h"
 #import "Inspector.h"
 #import "MonetList.h"
-#import "MyController.h"
 #import "Parameter.h"
 #import "ParameterList.h"
 #import "Phone.h"
@@ -288,11 +288,11 @@
             index = [list[currentList] indexOfObject:temp];
             switch (currentList) {
               case 2:
-                  [(MyController *)controller removeParameter:index];
+                  [(AppController *)controller removeParameter:index];
                   //[list[0] removeParameter:index];
                   break;
               case 3:
-                  [(MyController *)controller removeMetaParameter:index];
+                  [(AppController *)controller removeMetaParameter:index];
                   //[list[0] removeMetaParameter:index];
                   break;
               case 4:

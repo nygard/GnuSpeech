@@ -4,8 +4,8 @@
 #import <AppKit/AppKit.h>
 #import "NSString-Extensions.h"
 
+#import "AppController.h"
 #import "MonetList.h"
-#import "MyController.h"
 #import "Point.h"
 #import "PrototypeManager.h"
 #import "SlopeRatio.h"

@@ -2,7 +2,7 @@
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 @class NSBrowser, NSForm, NSMatrix, NSScrollView, NSTextField, NSTextView;
-@class BooleanParser, DelegateResponder, MonetList, MyController, RuleList;
+@class AppController, BooleanParser, DelegateResponder, MonetList, RuleList;
 
 /*===========================================================================
 
@@ -17,7 +17,7 @@
 {
     int cacheValue;
 
-    IBOutlet MyController *controller;
+    IBOutlet AppController *controller;
 
     IBOutlet NSBrowser *ruleMatrix;
     IBOutlet NSScrollView *ruleScrollView;

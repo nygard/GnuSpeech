@@ -2,12 +2,12 @@
 
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
+#import "AppController.h"
 #import "BooleanExpression.h"
 #import "BooleanParser.h"
 #import "DelegateResponder.h"
 #import "Inspector.h"
 #import "MonetList.h"
-#import "MyController.h"
 #import "Phone.h"
 #import "PhoneList.h"
 #import "ProtoEquation.h"

@@ -3,7 +3,7 @@
 #import <Foundation/Foundation.h>
 #import "NSString-Extensions.h"
 
-#import "MyController.h"
+#import "AppController.h"
 #import "Phone.h"
 #import "Symbol.h"
 #import "SymbolList.h"

@@ -1,10 +1,10 @@
 #import "EventListView.h"
 
 #import <AppKit/AppKit.h>
+#import "AppController.h"
 #import "Event.h"
 #import "EventList.h"
 #import "MonetList.h"
-#import "MyController.h"
 #import "NiftyMatrix.h"
 #import "NiftyMatrixCat.h"
 #import "NiftyMatrixCell.h"

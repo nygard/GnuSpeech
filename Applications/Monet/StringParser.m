@@ -3,11 +3,11 @@
 #include <sys/time.h>
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
+#import "AppController.h"
 #import "DefaultMgr.h"
 #import "EventList.h"
 #import "EventListView.h"
 #import "IntonationView.h"
-#import "MyController.h"
 #include "driftGenerator.h"
 
 #ifdef HAVE_DSP

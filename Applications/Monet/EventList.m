@@ -2,10 +2,10 @@
 
 #import <Foundation/Foundation.h>
 #import "driftGenerator.h"
+#import "AppController.h"
 #import "CategoryList.h"
 #import "Event.h"
 #import "IntonationView.h"
-#import "MyController.h"
 #import "Parameter.h"
 #import "ParameterList.h"
 #import "Phone.h"

@@ -1,16 +1,10 @@
 #import "BooleanTerminal.h"
 
 #import <Foundation/Foundation.h>
+#import "AppController.h"
 #import "CategoryList.h"
 #import "CategoryNode.h"
-
-#ifdef PORTING
 #import "PhoneList.h"
-#import "MyController.h"
-#import <AppKit/NSApplication.h>
-#import <stdio.h>
-#import <string.h>
-#endif
 
 @implementation BooleanTerminal
 

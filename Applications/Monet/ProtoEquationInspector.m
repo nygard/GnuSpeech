@@ -1,10 +1,10 @@
 #import "ProtoEquationInspector.h"
 
 #import <AppKit/AppKit.h>
+#import "AppController.h"
 #import "FormulaParser.h"
 #import "Inspector.h"
 #import "MonetList.h"
-#import "MyController.h"
 #import "ProtoEquation.h"
 #import "PrototypeManager.h"
 #import "RuleList.h"

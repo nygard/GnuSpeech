@@ -1,9 +1,9 @@
 #import "PointInspector.h"
 
 #import <AppKit/AppKit.h>
+#import "AppController.h"
 #import "Inspector.h"
 #import "MonetList.h"
-#import "MyController.h"
 #import "Point.h"
 #import "ProtoEquation.h"
 #import "PrototypeManager.h"

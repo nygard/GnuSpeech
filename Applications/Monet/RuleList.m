@@ -1,8 +1,8 @@
 #import "RuleList.h"
 
 #import <Foundation/Foundation.h>
+#import "AppController.h"
 #import "BooleanParser.h"
-#import "MyController.h"
 #import "Rule.h"
 
 /*===========================================================================

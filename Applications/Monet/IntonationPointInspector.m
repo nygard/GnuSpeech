@@ -2,11 +2,11 @@
 
 #import <AppKit/AppKit.h>
 #include <math.h>
+#import "AppController.h"
 #import "EventList.h"
 #import "Inspector.h"
 #import "IntonationPoint.h"
 #import "IntonationView.h"
-#import "MyController.h"
 #import "Phone.h"
 
 #define MIDDLEC	261.6255653

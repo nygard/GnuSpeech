@@ -1,11 +1,11 @@
 #import "ProtoTemplateInspector.h"
 
 #import <AppKit/AppKit.h>
+#import "AppController.h"
 #import "FormulaParser.h"
 #import "Inspector.h"
 #import "RuleManager.h"
 #import "MonetList.h"
-#import "MyController.h"
 #import "ProtoTemplate.h"
 #import "Rule.h"
 

@@ -1,8 +1,8 @@
 #import "PhoneList.h"
 
 #import <Foundation/Foundation.h>
+#import "AppController.h" // To get NXGetNamedObject()
 #import "CategoryList.h"
-#import "MyController.h" // To get NXGetNamedObject()
 #import "Parameter.h"
 #import "ParameterList.h"
 #import "Phone.h"

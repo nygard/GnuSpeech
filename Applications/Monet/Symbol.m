@@ -1,7 +1,7 @@
 #import "Symbol.h"
 
 #import <Foundation/Foundation.h>
-#import "MyController.h"
+#import "AppController.h"
 
 @implementation Symbol
 

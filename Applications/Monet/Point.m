@@ -1,8 +1,8 @@
 #import "Point.h"
 
 #import <Foundation/Foundation.h>
+#import "AppController.h"
 #import "EventList.h"
-#import "MyController.h"
 #import "ProtoEquation.h"
 #import "PrototypeManager.h"
 #import "ProtoTemplate.h"

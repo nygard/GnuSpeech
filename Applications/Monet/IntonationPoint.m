@@ -1,8 +1,8 @@
 #import "IntonationPoint.h"
 
 #import <Foundation/Foundation.h>
+#import "AppController.h"
 #import "EventList.h"
-#import "MyController.h"
 
 @implementation IntonationPoint
 

@@ -1,12 +1,12 @@
 #import "IntonationView.h"
 
 #import <AppKit/AppKit.h>
+#import "AppController.h"
 #import "Event.h"
 #import "EventList.h"
 #import "IntonationPoint.h"
 #import "IntonationPointInspector.h"
 #import "MonetList.h"
-#import "MyController.h"
 #import "Phone.h"
 #import "StringParser.h"
 

@@ -1,10 +1,10 @@
 #import "PhoneInspector.h"
 
 #import <AppKit/AppKit.h>
+#import "AppController.h"
 #import "CategoryNode.h"
 #import "CategoryList.h"
 #import "Inspector.h"
-#import "MyController.h"
 #import "NiftyMatrix.h"
 #import "NiftyMatrixCat.h"
 #import "NiftyMatrixCell.h"
