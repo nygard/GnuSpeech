@@ -21,6 +21,9 @@ extern NSString *IntonationViewSelectionDidChangeNotification;
 @interface IntonationView : NSView
 {
     NSTextFieldCell *postureTextFieldCell;
+    NSTextFieldCell *ruleIndexTextFieldCell;
+    NSTextFieldCell *ruleDurationTextFieldCell;
+
     NSFont *timesFont;
     NSFont *timesFontSmall;
 
@@ -78,6 +81,7 @@ extern NSString *IntonationViewSelectionDidChangeNotification;
 - (void)updateEvents;
 
 
+- (float)scaleXPosition:(float)xPosition;
 - (float)scaleWidth:(float)width;
 
 @end

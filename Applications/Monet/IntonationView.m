@@ -2,6 +2,7 @@
 
 #import <AppKit/AppKit.h>
 #import "NSBezierPath-Extensions.h"
+#import "NSNumberFormatter-extensions.h"
 #import "NSString-Extensions.h"
 
 #import "Event.h"
@@ -28,10 +29,27 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
 
 - (id)initWithFrame:(NSRect)frameRect;
 {
+    NSNumberFormatter *durationFormatter;
+
     if ([super initWithFrame:frameRect] == nil)
         return nil;
 
     postureTextFieldCell = [[NSTextFieldCell alloc] initTextCell:@""];
+    ruleIndexTextFieldCell = [[NSTextFieldCell alloc] initTextCell:@""];
+    [ruleIndexTextFieldCell setFont:[NSFont labelFontOfSize:10.0]];
+    [ruleIndexTextFieldCell setAlignment:NSCenterTextAlignment];
+
+    durationFormatter = [[NSNumberFormatter alloc] init];
+    [durationFormatter setFormat:@"0.##"];
+
+    ruleDurationTextFieldCell = [[NSTextFieldCell alloc] initTextCell:@""];
+    [ruleDurationTextFieldCell setAlignment:NSCenterTextAlignment];
+    [ruleDurationTextFieldCell setFont:[NSFont labelFontOfSize:8.0]];
+    [ruleDurationTextFieldCell setFormatter:durationFormatter];
+    NSLog(@"font: %@", [ruleDurationTextFieldCell font]);
+
+    [durationFormatter release];
+
     timesFont = [[NSFont fontWithName:@"Times-Roman" size:12] retain];
     timesFontSmall = [[NSFont fontWithName:@"Times-Roman" size:10] retain];
 
@@ -52,6 +70,9 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
 - (void)dealloc;
 {
     [postureTextFieldCell release];
+    [ruleIndexTextFieldCell release];
+    [ruleDurationTextFieldCell release];
+
     [timesFont release];
     [timesFontSmall release];
     [eventList release];
@@ -231,35 +252,34 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
 
     count = [eventList numberOfRules];
     for (index = 0; index < count; index++) {
-        NSString *str;
         NSPoint aPoint;
-        NSRect drawFrame;
+        NSRect ruleFrame;
 
         rule = [eventList getRuleAtIndex:index];
 
-        drawFrame.origin.x = currentX;
-        drawFrame.origin.y = bounds.size.height - RULE_Y_OFFSET;
-        drawFrame.size.height = RULE_HEIGHT;
-        drawFrame.size.width = [self scaleWidth:rule->duration] + extraWidth;
-        NSFrameRect(drawFrame);
+        ruleFrame.origin.x = currentX;
+        ruleFrame.origin.y = bounds.size.height - RULE_Y_OFFSET;
+        ruleFrame.size.height = RULE_HEIGHT;
+        ruleFrame.size.width = [self scaleWidth:rule->duration] + extraWidth;
+        NSFrameRect(ruleFrame);
 
-        [[NSColor blackColor] set];
+        ruleFrame.size.height = 15.0;
+        [ruleDurationTextFieldCell setDoubleValue:rule->duration];
+        [ruleDurationTextFieldCell drawWithFrame:ruleFrame inView:self];
 
-        str = [NSString stringWithFormat:@"%d", rule->number];
-        [str drawAtPoint:NSMakePoint(currentX + (float)rule->duration / (3 * timeScale), bounds.size.height - 21.0) withAttributes:nil];
+        ruleFrame.size.height += 12.0;
+        [ruleIndexTextFieldCell setIntValue:rule->number];
+        [ruleIndexTextFieldCell drawWithFrame:ruleFrame inView:self];
 
-        str = [NSString stringWithFormat:@"%.2f", rule->duration];
-        [str drawAtPoint:NSMakePoint(currentX + (float)rule->duration / (3 * timeScale), bounds.size.height - 35.0) withAttributes:nil];
-
-        aPoint.x = floor((float)rule->beat / timeScale) + 0.5;
-        aPoint.y = graphOrigin.y + SECTION_COUNT * sectionHeight;
+        aPoint.x = [self scaleXPosition:rule->beat] + 0.5;
+        aPoint.y = graphOrigin.y + SECTION_COUNT * sectionHeight - 1.0;
         [bezierPath moveToPoint:aPoint];
 
         aPoint.y = graphOrigin.y;
         [bezierPath lineToPoint:aPoint];
 
         extraWidth = 1.0;
-        currentX += drawFrame.size.width - extraWidth;
+        currentX += ruleFrame.size.width - extraWidth;
     }
 
     [[NSColor darkGrayColor] set];
@@ -773,6 +793,11 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
     [self deselectAllPoints];
     // TODO (2004-08-09): And select the first point again?
     [self setNeedsDisplay:YES];
+}
+
+- (float)scaleXPosition:(float)xPosition;
+{
+    return floor(xPosition / timeScale);
 }
 
 - (float)scaleWidth:(float)width;
