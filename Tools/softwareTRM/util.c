@@ -105,6 +105,8 @@ double frequency(double pitch)
 *
 ******************************************************************************/
 
+#define IzeroEPSILON              1E-21
+
 double Izero(double x)
 {
     double sum, A, Ak, k, denominator, u;
