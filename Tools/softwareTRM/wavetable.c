@@ -185,14 +185,14 @@ void TRMWavetableUpdate(TRMWavetable *wavetable, double amplitude)
 #endif
 }
 
-// A 2X oversampling interpolating wavetable oscillator.
 
 #if OVERSAMPLING_OSCILLATOR
-double TRMWavetableOscillator(TRMWavetable *wavetable, double frequency)  //  2X oversampling oscillator
+// A 2X oversampling interpolating wavetable oscillator.
+double TRMWavetableOscillator(TRMWavetable *wavetable, double frequency)
 {
     int i, lowerPosition, upperPosition;
     double interpolatedValue, output;
-
+    double lowerValue, upperValue;
 
     for (i = 0; i < 2; i++) {
         //  First increment the table position, depending on frequency
@@ -202,10 +202,11 @@ double TRMWavetableOscillator(TRMWavetable *wavetable, double frequency)  //  2X
         lowerPosition = (int)wavetable->currentPosition;
         upperPosition = (lowerPosition + 1) % TABLE_MODULUS;
 
+        lowerValue = wavetable->wavetable[lowerPosition];
+        upperValue = wavetable->wavetable[upperPosition];
+
         //  Calculate interpolated table value
-        interpolatedValue = (wavetable->wavetable[lowerPosition] +
-                             ((wavetable->currentPosition - lowerPosition) *
-                              (wavetable->wavetable[upperPosition] - wavetable->wavetable[lowerPosition])));
+        interpolatedValue = lowerValue + (wavetable->currentPosition - lowerPosition) * (upperValue - lowerValue);
 
         //  Put value through FIR filter
         output = FIRFilter(wavetable->FIRFilter, interpolatedValue, i);
@@ -215,7 +216,8 @@ double TRMWavetableOscillator(TRMWavetable *wavetable, double frequency)  //  2X
     return output;
 }
 #else
-double TRMWavetableOscillator(TRMWavetable *wavetable, double frequency)  //  Plain oscillator
+// Plain oscillator
+double TRMWavetableOscillator(TRMWavetable *wavetable, double frequency)
 {
     int lowerPosition, upperPosition;
     double lowerValue, upperValue;
