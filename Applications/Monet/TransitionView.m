@@ -56,6 +56,7 @@ static NSImage *_selectionBox = nil;
     _selectionBox = [[NSImage alloc] initWithContentsOfFile:path];
 }
 
+// The size was originally 700 x 380
 - (id)initWithFrame:(NSRect)frameRect;
 {
     if ([super initWithFrame:frameRect] == nil)
@@ -63,7 +64,6 @@ static NSImage *_selectionBox = nil;
 
     cache = 100000;
     [self allocateGState];
-    totalFrame = NSMakeRect(0.0, 0.0, 700.0, 380.0);
 
     timesFont = [[NSFont fontWithName:@"Times-Roman" size:12] retain];
     currentTemplate = nil;

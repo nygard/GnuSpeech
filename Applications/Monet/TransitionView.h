@@ -19,7 +19,6 @@
     IBOutlet NSForm *displayParameters;
     IBOutlet NSTextField *transitionNameTextField;
 
-    NSRect totalFrame; // Frame for display
     NSFont *timesFont;
 
     ProtoTemplate *currentTemplate;
