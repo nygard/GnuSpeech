@@ -15,8 +15,9 @@
 
 - (double)evaluate:(MMFRuleSymbols *)ruleSymbols phones:(NSArray *)phones;
 {
-    // Implement in subclasses
-    return 0;
+    double tempos[4] = {1.0, 1.0, 1.0, 1.0};
+
+    return [self evaluate:ruleSymbols phones:phones tempos:tempos];
 }
 
 - (double)evaluate:(MMFRuleSymbols *)ruleSymbols phones:(NSArray *)phones tempos:(double *)tempos;
