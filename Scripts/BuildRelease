@@ -1,0 +1,50 @@
+#!/bin/zsh
+
+# This should be run from the tag directory.  i.e. from /tags/GnuSpeech-2004-08-24 run Scripts/BuildReleasea
+
+BUILD_STYLE=Deployment
+DSTROOT=/tmp/install
+INSTALL_PATH=/$1
+
+if [ $ARGC -lt 1 ]; then
+   echo "Usage: BuildRelease <releasename>"
+   echo "  i.e. BuildRelease GnuSpeech-2004-08-24"
+   exit 1
+fi
+
+if [ -e $DSTROOT/$1 ]; then
+   echo "Install destination $DSTROOT/$1 already exists -- remove it first."
+   exit 1
+fi
+
+# Clean first
+foreach i (Applications/Monet Applications/GnuSpeech Tools/softwareTRM)
+    pushd Applications/Monet
+    xcodebuild -buildstyle $BUILD_STYLE clean
+    popd
+end
+
+# And then install
+pushd Applications/Monet
+xcodebuild -buildstyle $BUILD_STYLE install DSTROOT=$DSTROOT INSTALL_PATH=$INSTALL_PATH
+popd
+
+pushd Applications/GnuSpeech
+xcodebuild -buildstyle $BUILD_STYLE install DSTROOT=$DSTROOT INSTALL_PATH=$INSTALL_PATH
+popd
+
+pushd Tools/softwareTRM
+xcodebuild -buildstyle $BUILD_STYLE -alltargets install DSTROOT=$DSTROOT INSTALL_PATH=$INSTALL_PATH
+popd
+
+# And export the source.
+svn export . $DSTROOT/$1/Source
+
+# Copy the data file to a convenient top-level location
+cp $DSTROOT/$1/Source/Appications/Monet/diphones.mxml $DSTROOT/$1
+
+# And now create the disk image
+mkdir -p /tmp/packages
+hdiutil create -srcfolder $DSTROOT/$1 -format UDZO -imagekey zlib-level=9 -o /tmp/packages/$1
+
+exit 0
