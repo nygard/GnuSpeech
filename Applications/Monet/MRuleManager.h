@@ -93,6 +93,7 @@
 // NSOutlineView delegate
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item;
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldCollapseItem:(id)item;
+- (void)outlineViewSelectionDidChange:(NSNotification *)aNotification;
 
 // NSTextView delegate
 - (void)textDidEndEditing:(NSNotification *)aNotification;

@@ -211,6 +211,8 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     int selectedRow;
     MMEquation *anEquation;
 
+    [symbolTableView reloadData]; // To get changes to values
+
     selectedRow = [symbolTableView selectedRow];
     anEquation = [[[self selectedRule] symbols] objectAtIndex:selectedRow];
     if (anEquation == nil) {
@@ -230,6 +232,8 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     int selectedRow;
     MMTransition *aTransition;
 
+    [parameterTableView reloadData]; // To get updated values
+
     selectedRow = [parameterTableView selectedRow];
     aTransition = [[[self selectedRule] parameterList] objectAtIndex:selectedRow];
     if ([aTransition group] != nil) {
@@ -244,6 +248,8 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     int selectedRow;
     MMTransition *aTransition;
 
+    [specialParameterTableView reloadData]; // To get updated values
+
     selectedRow = [specialParameterTableView selectedRow];
     aTransition = [[self selectedRule] getSpecialProfile:selectedRow];
     if ([aTransition group] != nil) {
@@ -257,6 +263,8 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 {
     int selectedRow;
     MMTransition *aTransition;
+
+    [metaParameterTableView reloadData]; // To get updated values
 
     selectedRow = [metaParameterTableView selectedRow];
     aTransition = [[[self selectedRule] metaParameterList] objectAtIndex:selectedRow];
@@ -411,12 +419,16 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
             return [NSNumber numberWithInt:[rule numberExpressions]];
         }
     } else if (tableView == symbolTableView) {
-        switch (row) {
-          case 0: return @"Rule Duration";
-          case 1: return @"Beat";
-          case 2: return @"Mark 1";
-          case 3: return @"Mark 2";
-          case 4: return @"Mark 3";
+        if ([@"name" isEqual:identifier] == YES) {
+            switch (row) {
+              case 0: return @"Rule Duration";
+              case 1: return @"Beat";
+              case 2: return @"Mark 1";
+              case 3: return @"Mark 2";
+              case 4: return @"Mark 3";
+            }
+        } else if ([@"equation" isEqual:identifier] == YES) {
+            return [[[[self selectedRule] symbols] objectAtIndex:row] equationPath];
         }
     } else if (tableView == parameterTableView || tableView == specialParameterTableView) {
         MMParameter *parameter;
@@ -424,6 +436,11 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
         parameter = [[[self model] parameters] objectAtIndex:row];
         if ([@"name" isEqual:identifier] == YES) {
             return [parameter symbol];
+        } else if ([@"transition" isEqual:identifier] == YES) {
+            if (tableView == parameterTableView)
+                return [[[[self selectedRule] parameterList] objectAtIndex:row] transitionPath];
+            else if (tableView == specialParameterTableView)
+                return [[[self selectedRule] getSpecialProfile:row] transitionPath];
         }
     } else if (tableView == metaParameterTableView) {
         MMParameter *parameter;
@@ -431,6 +448,8 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
         parameter = [[[self model] metaParameters] objectAtIndex:row];
         if ([@"name" isEqual:identifier] == YES) {
             return [parameter symbol];
+        } else if ([@"transition" isEqual:identifier] == YES) {
+            return [[[[self selectedRule] metaParameterList] objectAtIndex:row] transitionPath];
         }
     }
 
