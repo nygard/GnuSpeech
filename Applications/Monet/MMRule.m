@@ -650,7 +650,7 @@
         str = [expressions[index] expressionString];
         if (str != nil) {
             [resultString indentToLevel:level + 2];
-            [resultString appendFormat:@"<boolean-expression>%@</boolean-expression>\n", str];
+            [resultString appendFormat:@"<boolean-expression>%@</boolean-expression>\n", GSXMLCharacterData(str)];
         }
     }
 
