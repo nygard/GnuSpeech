@@ -174,6 +174,7 @@
 
     [self evaluateMatchLists];
 
+    [symbolTableView reloadData]; // To change the number of symbols
     [self _updateSelectedSymbolDetails];
     [self _updateSelectedParameterDetails];
     [specialParameterTableView setNeedsDisplay:YES]; // To update bold rows
@@ -202,8 +203,15 @@
 - (void)_updateSelectedSymbolDetails;
 {
     int selectedRow;
+    MMEquation *anEquation;
 
     selectedRow = [symbolTableView selectedRow];
+    anEquation = [[[self selectedRule] symbols] objectAtIndex:selectedRow];
+    if ([anEquation group] != nil) {
+        [symbolEquationOutlineView scrollRowForItemToVisible:[anEquation group]];
+        [symbolEquationOutlineView expandItem:[anEquation group]];
+    }
+    [symbolEquationOutlineView selectItem:anEquation];
 }
 
 - (void)_updateSelectedParameterDetails;
@@ -265,8 +273,6 @@
     PhoneList *mainPhoneList = [[self model] postures];
     NSString *str;
 
-    NSLog(@" > %s", _cmd);
-
     //NSLog(@"[mainPhoneList count]: %d", [mainPhoneList count]);
 
     count = [[model postures] count];
@@ -304,8 +310,6 @@
     [match4Browser loadColumnZero];
 
     [self updateCombinations];
-
-    NSLog(@"<  %s", _cmd);
 }
 
 - (void)updateCombinations;
@@ -334,6 +338,9 @@
     if (tableView == ruleTableView)
         return [[model rules] count];
 
+    if (tableView == symbolTableView)
+        return 2 + [[self selectedRule] numberExpressions] - 1;
+
     if (tableView == parameterTableView || tableView == specialParameterTableView)
         return [[[self model] parameters] count];
 
@@ -361,6 +368,14 @@
             return [rule ruleString];
         } else if ([@"numberOfTokensConsumed" isEqual:identifier] == YES) {
             return [NSNumber numberWithInt:[rule numberExpressions]];
+        }
+    } else if (tableView == symbolTableView) {
+        switch (row) {
+          case 0: return @"Rule Duration";
+          case 1: return @"Beat";
+          case 2: return @"Mark 1";
+          case 3: return @"Mark 2";
+          case 4: return @"Mark 3";
         }
     } else if (tableView == parameterTableView || tableView == specialParameterTableView) {
         MMParameter *parameter;
@@ -590,6 +605,9 @@
         MMEquation *selectedEquation;
 
         selectedEquation = [outlineView selectedItemOfClass:[MMEquation class]];
+        if (selectedEquation != nil) {
+            [[[self selectedRule] symbols] replaceObjectAtIndex:[symbolTableView selectedRow] withObject:selectedEquation];
+        }
     } else if (outlineView == parameterTransitionOutlineView) {
         MMTransition *selectedTransition;
 
@@ -597,7 +615,6 @@
         if (selectedTransition != nil) {
             [[[self selectedRule] parameterList] replaceObjectAtIndex:[parameterTableView selectedRow] withObject:selectedTransition];
         }
-
     } else if (outlineView == specialParameterTransitionOutlineView) {
         MMTransition *selectedTransition;
 
