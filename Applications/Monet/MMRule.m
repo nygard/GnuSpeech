@@ -1,4 +1,4 @@
-#import "Rule.h"
+#import "MMRule.h"
 
 #import <Foundation/Foundation.h>
 #import "NSObject-Extensions.h"
@@ -17,7 +17,7 @@
 #import "MModel.h"
 #import "MUnarchiver.h"
 
-@implementation Rule
+@implementation MMRule
 
 - (id)init;
 {

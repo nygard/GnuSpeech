@@ -12,7 +12,7 @@
 #import "MMPoint.h"
 #import "MMEquation.h"
 #import "MMTransition.h"
-#import "Rule.h"
+#import "MMRule.h"
 #import "RuleList.h"
 #import "RuleManager.h"
 #import "MMSlopeRatio.h"
@@ -782,7 +782,7 @@ static void page_consumed(void)
     int i, j, rus;
     int ruleIndex;
     RuleList *ruleList = [(RuleManager *)NXGetNamedObject(@"ruleManager", NSApp) ruleList];
-    Rule *tempRule;
+    MMRule *tempRule;
     ParameterList *mainParameterList = (ParameterList *) NXGetNamedObject(@"mainParameterList", NSApp);
     MMParameter *tempParameter = nil;
 

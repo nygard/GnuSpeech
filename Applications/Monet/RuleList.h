@@ -1,6 +1,6 @@
 #import "MonetList.h"
 
-@class BooleanExpression, MMCategory, MMEquation, MMTransition, Rule;
+@class BooleanExpression, MMCategory, MMEquation, MMTransition, MMRule;
 
 /*===========================================================================
 
@@ -19,7 +19,7 @@
 - (void)addRuleExp1:(BooleanExpression *)exp1 exp2:(BooleanExpression *)exp2 exp3:(BooleanExpression *)exp3 exp4:(BooleanExpression *)exp4;
 - (void)changeRuleAt:(int)index exp1:(BooleanExpression *)exp1 exp2:(BooleanExpression *)exp2 exp3:(BooleanExpression *)exp3 exp4:(BooleanExpression *)exp4;
 
-- (Rule *)findRule:(MonetList *)categories index:(int *)index;
+- (MMRule *)findRule:(MonetList *)categories index:(int *)index;
 - (void)readDegasFileFormat:(FILE *)fp;
 
 - (BOOL)isCategoryUsed:(MMCategory *)aCategory;

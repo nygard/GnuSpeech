@@ -16,7 +16,7 @@
 #import "MMPosture.h"
 #import "PhoneList.h"
 #import "MMEquation.h"
-#import "Rule.h"
+#import "MMRule.h"
 #import "RuleList.h"
 
 #import "MModel.h"
@@ -110,7 +110,7 @@
 {
     Inspector *inspector;
     int selectedRow;
-    Rule *aRule;
+    MMRule *aRule;
     NSString *str;
     BooleanExpression *anExpression;
     int index;
@@ -169,7 +169,7 @@
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
 {
     MMPosture *aPhone;
-    Rule *aRule;
+    MMRule *aRule;
 
     if (sender == matchBrowser1) {
         aPhone = [[matchLists objectAtIndex:0] objectAtIndex:row];
@@ -462,7 +462,7 @@
     MonetList *tempList, *phoneList;
     PhoneList *mainPhoneList;
     MMPosture *tempPhone;
-    Rule *aRule;
+    MMRule *aRule;
     double ruleSymbols[5] = {0.0, 0.0, 0.0, 0.0, 0.0};
 
     tempList = [[MonetList alloc] initWithCapacity:4];
@@ -666,7 +666,7 @@ static NSString *ruleString = @"Rule";
     mdata = [myPasteboard dataForType:ruleString];
     typed = [[NSUnarchiver alloc] initForReadingWithData:mdata];
 
-    temp = [[Rule alloc] init];
+    temp = [[MMRule alloc] init];
     [temp initWithCoder:typed];
     [typed release];
 

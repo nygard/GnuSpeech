@@ -4,7 +4,7 @@
 #import "AppController.h"
 #import "Inspector.h"
 #import "NamedList.h"
-#import "Rule.h"
+#import "MMRule.h"
 #import "RuleList.h"
 #import "RuleManager.h"
 #import "MMParameter.h"
@@ -59,7 +59,7 @@
     [super dealloc];
 }
 
-- (void)setCurrentRule:(Rule *)aRule;
+- (void)setCurrentRule:(MMRule *)aRule;
 {
     if (aRule == currentRule)
         return;
@@ -68,7 +68,7 @@
     currentRule = [aRule retain];
 }
 
-- (void)inspectRule:(Rule *)aRule;
+- (void)inspectRule:(MMRule *)aRule;
 {
     [self setCurrentRule:aRule];
     [mainInspector setPopUpListView:popUpListView];

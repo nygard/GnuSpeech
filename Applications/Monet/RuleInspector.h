@@ -1,7 +1,7 @@
 #import <Foundation/NSObject.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-@class Rule;
+@class MMRule;
 @class Inspector;
 
 /*===========================================================================
@@ -45,15 +45,15 @@ History:
     IBOutlet NSButtonCell *setCommentButton;
     IBOutlet NSButtonCell *revertCommentButton;
 
-    Rule *currentRule;
+    MMRule *currentRule;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 - (id)init;
 - (void)dealloc;
 
-- (void)setCurrentRule:(Rule *)aRule;
-- (void)inspectRule:(Rule *)aRule;
+- (void)setCurrentRule:(MMRule *)aRule;
+- (void)inspectRule:(MMRule *)aRule;
 - (void)setUpWindow:(NSPopUpButton *)sender;
 - (void)beginEditting;
 

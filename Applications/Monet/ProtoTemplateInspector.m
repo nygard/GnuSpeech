@@ -6,7 +6,7 @@
 #import "RuleManager.h"
 #import "MonetList.h"
 #import "MMTransition.h"
-#import "Rule.h"
+#import "MMRule.h"
 
 @implementation ProtoTemplateInspector
 
@@ -174,7 +174,7 @@
     [cell setLeaf:YES];
     [cell setLoaded:YES];
 
-    if ([[templateList objectAtIndex: row] isKindOfClass:[Rule class]]) {
+    if ([[templateList objectAtIndex: row] isKindOfClass:[MMRule class]]) {
         NSString *str;
 
         str = [NSString stringWithFormat:@"Rule: %d", [tempRuleList indexOfObject:[templateList objectAtIndex:row]]+1];

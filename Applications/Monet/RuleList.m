@@ -5,7 +5,7 @@
 
 #import "AppController.h"
 #import "BooleanParser.h"
-#import "Rule.h"
+#import "MMRule.h"
 
 /*===========================================================================
 
@@ -16,9 +16,9 @@
 
 - (void)seedListWith:(BooleanExpression *)expression1:(BooleanExpression *)expression2;
 {
-    Rule *aRule;
+    MMRule *aRule;
 
-    aRule = [[Rule alloc] init];
+    aRule = [[MMRule alloc] init];
     [aRule setExpression:expression1 number:0];
     [aRule setExpression:expression2 number:1];
     [aRule setDefaultsTo:[aRule numberExpressions]];
@@ -28,9 +28,9 @@
 
 - (void)addRuleExp1:(BooleanExpression *)exp1 exp2:(BooleanExpression *)exp2 exp3:(BooleanExpression *)exp3 exp4:(BooleanExpression *)exp4;
 {
-    Rule *aRule;
+    MMRule *aRule;
 
-    aRule = [[Rule alloc] init];
+    aRule = [[MMRule alloc] init];
     [aRule setExpression:exp1 number:0];
     [aRule setExpression:exp2 number:1];
     [aRule setExpression:exp3 number:2];
@@ -42,7 +42,7 @@
 
 - (void)changeRuleAt:(int)index exp1:(BooleanExpression *)exp1 exp2:(BooleanExpression *)exp2 exp3:(BooleanExpression *)exp3 exp4:(BooleanExpression *)exp4;
 {
-    Rule *aRule;
+    MMRule *aRule;
     int i;
 
     aRule = [self objectAtIndex:index];
@@ -57,13 +57,13 @@
         [aRule setDefaultsTo:[aRule numberExpressions]];
 }
 
-- (Rule *)findRule:(MonetList *)categories index:(int *)index;
+- (MMRule *)findRule:(MonetList *)categories index:(int *)index;
 {
     int i;
 
     for (i = 0; i < [self count]; i++) {
-        if ([(Rule *)[self objectAtIndex:i] numberExpressions] <= [categories count])
-            if ([(Rule *)[self objectAtIndex:i] matchRule:categories]) {
+        if ([(MMRule *)[self objectAtIndex:i] numberExpressions] <= [categories count])
+            if ([(MMRule *)[self objectAtIndex:i] matchRule:categories]) {
                 *index = i;
                 return [self objectAtIndex:i];
             }
@@ -199,7 +199,7 @@
 - (void)findEquation:(MMEquation *)anEquation andPutIn:(MonetList *)aList;
 {
     int count, index;
-    Rule *aRule;
+    MMRule *aRule;
 
     count = [self count];
     for (index = 0; index < count; index++) {
@@ -214,7 +214,7 @@
 - (void)findTemplate:(MMTransition *)aTemplate andPutIn:(MonetList *)aList;
 {
     int count, index;
-    Rule *aRule;
+    MMRule *aRule;
 
     count = [self count];
     for (index = 0; index < count; index++) {

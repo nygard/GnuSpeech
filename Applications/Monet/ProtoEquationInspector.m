@@ -224,7 +224,7 @@
     [cell setLeaf:YES];
     [cell setLoaded:YES];
 
-    if ([[equationList objectAtIndex:row] isKindOfClass:[Rule class]]) {
+    if ([[equationList objectAtIndex:row] isKindOfClass:[MMRule class]]) {
         str = [NSString stringWithFormat:@"Rule: %d\n",
                         [tempRuleList indexOfObject:[equationList objectAtIndex:row]] + 1];
         [cell setStringValue:str];

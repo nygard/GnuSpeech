@@ -149,7 +149,7 @@
     [protoTransitionInspector inspectMMTransition:transition];
 }
 
-- (void)inspectRule:(Rule *)rule;
+- (void)inspectRule:(MMRule *)rule;
 {
     [panel setTitle:@"Rule Inspector"];
     currentInspectorObject = rule;

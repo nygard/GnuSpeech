@@ -426,6 +426,34 @@
 			settings = {
 			};
 		};
+		01848CC5060A84F3005E9B67 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = MMRule.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01848CC6060A84F3005E9B67 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = MMRule.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01848CC7060A84F3005E9B67 = {
+			fileRef = 01848CC5060A84F3005E9B67;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01848CC8060A84F3005E9B67 = {
+			fileRef = 01848CC6060A84F3005E9B67;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		018F79D806064E4600150223 = {
 			isa = PBXFileReference;
 			lastKnownFileType = image.tiff;
@@ -733,6 +761,8 @@
 				01848BFA060A702F005E9B67,
 				01848C9B060A811E005E9B67,
 				01848C9C060A811E005E9B67,
+				01848CC5060A84F3005E9B67,
+				01848CC6060A84F3005E9B67,
 				01848C85060A7A83005E9B67,
 				01848C86060A7A83005E9B67,
 				01848C90060A7CDB005E9B67,
@@ -747,8 +777,6 @@
 				01B2009105F6ED2900C1F65D,
 				0195DB2605F46E4E006D8386,
 				0195DB2705F46E4E006D8386,
-				01B2013205F82D0600C1F65D,
-				01B2013305F82D0600C1F65D,
 				0195DB4405F46E4E006D8386,
 				0195DB4505F46E4E006D8386,
 			);
@@ -1879,34 +1907,6 @@
 			settings = {
 			};
 		};
-		01B2013205F82D0600C1F65D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = Rule.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		01B2013305F82D0600C1F65D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = Rule.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		01B2013405F82D0600C1F65D = {
-			fileRef = 01B2013205F82D0600C1F65D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		01B2013505F82D0600C1F65D = {
-			fileRef = 01B2013305F82D0600C1F65D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		01B2014005F82F3800C1F65D = {
 			isa = PBXFileReference;
 			lastKnownFileType = image.tiff;
@@ -2641,7 +2641,6 @@
 				01B2005B05F6E9F800C1F65D,
 				01B2008905F6EB4D00C1F65D,
 				01B2009205F6ED2900C1F65D,
-				01B2013405F82D0600C1F65D,
 				01B201B105F909C900C1F65D,
 				01BE469E05F960A900172BDB,
 				01D1487705FD150F00F1AF4B,
@@ -2659,6 +2658,7 @@
 				01848C87060A7A83005E9B67,
 				01848C92060A7CDB005E9B67,
 				01848C9D060A811E005E9B67,
+				01848CC7060A84F3005E9B67,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2752,7 +2752,6 @@
 				01B2FFF505F6DF1B00C1F65D,
 				01B2005C05F6E9F800C1F65D,
 				01B2009305F6ED2900C1F65D,
-				01B2013505F82D0600C1F65D,
 				01B201B205F909CA00C1F65D,
 				01BE469F05F960A900172BDB,
 				01D1487D05FD151000F1AF4B,
@@ -2770,6 +2769,7 @@
 				01848C88060A7A83005E9B67,
 				01848C93060A7CDB005E9B67,
 				01848C9E060A811E005E9B67,
+				01848CC8060A84F3005E9B67,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

@@ -11,7 +11,7 @@
 =============================================================================
 */
 
-@interface Rule : NSObject
+@interface MMRule : NSObject
 {
     MonetList *parameterProfiles; // Of MMTransitions
     MonetList *metaParameterProfiles; // Of MMTransitions?

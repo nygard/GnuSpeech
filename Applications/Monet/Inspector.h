@@ -1,7 +1,7 @@
 #import <Foundation/NSObject.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-@class MMCategory, IntonationPoint, MMPoint, MonetList, MMParameter, MMPosture, MMEquation, MMTransition, Rule, MMSymbol;
+@class MMCategory, IntonationPoint, MMPoint, MonetList, MMParameter, MMPosture, MMEquation, MMTransition, MMRule, MMSymbol;
 @class CategoryInspector, IntonationPointInspector, ParameterInspector, PhoneInspector, PointInspector, ProtoEquationInspector, ProtoTemplateInspector, RuleInspector, SymbolInspector;
 
 /*===========================================================================
@@ -66,7 +66,7 @@ History:
 
 - (void)inspectMMEquation:(MMEquation *)equation;
 - (void)inspectProtoTransition:(MMTransition *)transition;
-- (void)inspectRule:(Rule *)rule;
+- (void)inspectRule:(MMRule *)rule;
 
 - (void)inspectPoint:(MMPoint *)point;
 - (void)inspectPoints:(MonetList *)points;
