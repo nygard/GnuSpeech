@@ -18,6 +18,8 @@
     int lookahead;
 }
 
++ (MMFormulaNode *)parsedExpressionFromString:(NSString *)aString symbolList:(SymbolList *)aSymbolList;
+
 - (void)dealloc;
 
 - (SymbolList *)symbolList;

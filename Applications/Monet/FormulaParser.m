@@ -12,6 +12,21 @@
 
 @implementation FormulaParser
 
++ (MMFormulaNode *)parsedExpressionFromString:(NSString *)aString symbolList:(SymbolList *)aSymbolList;
+{
+    FormulaParser *parser;
+    MMFormulaNode *result;
+
+    parser = [[FormulaParser alloc] init];
+    [parser setSymbolList:aSymbolList];
+
+    result = [parser parseString:aString];
+
+    [parser release];
+
+    return result;
+}
+
 - (void)dealloc;
 {
     [symbolList release];

@@ -4,10 +4,12 @@
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
 
-#import "MMFormulaNode.h"
 #import "FormulaParser.h"
 #import "GSXMLFunctions.h"
+#import "MMFormulaNode.h"
 #import "MModel.h"
+#import "MMOldFormulaNode.h"
+#import "MUnarchiver.h"
 #import "MXMLParser.h"
 #import "MXMLPCDataDelegate.h"
 #import "NamedList.h"
@@ -155,9 +157,14 @@
 {
     unsigned archivedVersion;
     char *c_name, *c_comment;
+    MMOldFormulaNode *archivedExpression;
+    NSString *expressionString;
+    MModel *model;
 
     if ([super initWithCoder:aDecoder] == nil)
         return nil;
+
+    model = [(MUnarchiver *)aDecoder userInfo];
 
     cacheTag = 0;
     cacheValue = 0.0;
@@ -171,7 +178,11 @@
 
     name = [[NSString stringWithASCIICString:c_name] retain];
     comment = [[NSString stringWithASCIICString:c_comment] retain];
-    expression = [[aDecoder decodeObject] retain];
+    archivedExpression = [aDecoder decodeObject];
+    if (archivedExpression != nil) {
+        expressionString = [archivedExpression expressionString];
+        expression = [[FormulaParser parsedExpressionFromString:expressionString symbolList:[model symbols]] retain];
+    }
 
     //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
     return self;
