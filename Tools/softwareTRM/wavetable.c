@@ -81,7 +81,7 @@ TRMWavetable *TRMWavetableCreate(int waveform, double tp, double tnMin, double t
     newWavetable->currentPosition = 0;
 
     //  Initialize the wavetable with either a glottal pulse or sine tone
-    if (waveform == PULSE) {
+    if (waveform == TRMWaveformTypePulse) {
         double j;
 
         //  Calculate rise portion of wave table
@@ -146,7 +146,7 @@ void TRMWavetableUpdate(TRMWavetable *wavetable, double amplitude)
     int i;
 
     // Skip if it's not a pulse type, since it wouldn't make sense.  Handled in calling code.
-    if (wavetable->waveform != PULSE)
+    if (wavetable->waveform != TRMWaveformTypePulse)
         return;
 
     //printf("TRMWavetableUpdate(self=%p, amplitude=%f)\n", wavetable, amplitude);

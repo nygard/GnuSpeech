@@ -3,6 +3,12 @@
 
 #include "fir.h"
 
+// Waveform types
+typedef enum {
+    TRMWaveformTypePulse = 0,
+    TRMWaveformTypeSine = 1,
+} TRMWaveformType;
+
 typedef struct _TRMWavetable {
     double *wavetable;
 
@@ -10,9 +16,9 @@ typedef struct _TRMWavetable {
     double currentPosition;
     TRMFIRFilter *FIRFilter; // This is only used for the oversampling oscillator.
 
-    int waveform;
+    TRMWaveformType waveform;
 
-    // These are only used for the PULSE waveform:
+    // These are only used for the TRMWaveformTypePulse waveform:
     int tableDiv1;
     int tableDiv2;
     double tnLength;

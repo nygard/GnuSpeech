@@ -324,8 +324,7 @@ void synthesize(TRMTubeModel *tubeModel, TRMData *data)
             lp_noise = noiseFilter(noise());
 
             /*  UPDATE THE SHAPE OF THE GLOTTAL PULSE, IF NECESSARY  */
-            if (data->inputParameters.waveform == PULSE)
-                TRMWavetableUpdate(tubeModel->wavetable, ax);
+            TRMWavetableUpdate(tubeModel->wavetable, ax);
 
             /*  CREATE GLOTTAL PULSE (OR SINE TONE)  */
             pulse = TRMWavetableOscillator(tubeModel->wavetable, f0);

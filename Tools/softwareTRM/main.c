@@ -63,10 +63,13 @@ void printInfo(struct _TRMData *data, char *inputFile)
     printf("balance:\t\t%+1.2f\n\n", data->inputParameters.balance);
 
     printf("waveform:\t\t");
-    if (data->inputParameters.waveform == PULSE)
+    if (data->inputParameters.waveform == TRMWaveformTypePulse)
 	printf("pulse\n");
-    else if (data->inputParameters.waveform == SINE)
+    else if (data->inputParameters.waveform == TRMWaveformTypeSine)
 	printf("sine\n");
+    else
+	printf("unknown\n");
+
     printf("tp:\t\t\t%.2f%%\n", data->inputParameters.tp);
     printf("tnMin:\t\t\t%.2f%%\n", data->inputParameters.tnMin);
     printf("tnMax:\t\t\t%.2f%%\n", data->inputParameters.tnMax);
