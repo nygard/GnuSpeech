@@ -899,6 +899,8 @@ NSString *EventListDidRemoveIntonationPoints = @"EventListDidRemoveIntonationPoi
 
         /* Set up intonation boundary variables */
         for (j = firstFoot; j <= endFoot; j++) {
+            MMIntonationPoint *newIntonationPoint;
+
             phoneIndex = feet[j].start;
             while ([phones[phoneIndex].phone isMemberOfCategoryNamed:@"vocoid"] == NO) { // TODO (2004-08-16): Hardcoded category
                 phoneIndex++;
@@ -917,8 +919,14 @@ NSString *EventListDidRemoveIntonationPoints = @"EventListDidRemoveIntonationPoi
                 // Slopes from 0.02 to 0.035
                 randomSlope = ((double)random() / (double)0x7fffffff) * 0.015 + 0.02;
 
-                [self addIntonationPoint:((phones[phoneIndex].onset-startTime) * pretonicDelta) + intonationParameters.notionalPitch + randomSemitone
-                      offsetTime:offsetTime slope:randomSlope ruleIndex:ruleIndex];
+                newIntonationPoint = [[MMIntonationPoint alloc] initWithEventList:self];
+                // TODO (2004-08-19): But this will generate extra change notifications.  Try setting the event list for the intonation point in -addIntonationPoint:.
+                [newIntonationPoint setSemitone:((phones[phoneIndex].onset-startTime) * pretonicDelta) + intonationParameters.notionalPitch + randomSemitone];
+                [newIntonationPoint setOffsetTime:offsetTime];
+                [newIntonationPoint setSlope:randomSlope];
+                [newIntonationPoint setRuleIndex:ruleIndex];
+                [self addIntonationPoint:newIntonationPoint];
+                [newIntonationPoint release];
 
 //                NSLog(@"Calculated Delta = %f  time = %f", ((phones[phoneIndex].onset-startTime)*pretonicDelta),
 //                       (phones[phoneIndex].onset-startTime));
@@ -928,14 +936,24 @@ NSString *EventListDidRemoveIntonationPoints = @"EventListDidRemoveIntonationPoi
                 // Slopes from 0.02 to 0.05
                 randomSlope = ((double)random() / (double)0x7fffffff) * 0.03 + 0.02;
 
-                [self addIntonationPoint:intonationParameters.pretonicRange + intonationParameters.notionalPitch
-                      offsetTime:offsetTime slope:randomSlope ruleIndex:ruleIndex];
+                newIntonationPoint = [[MMIntonationPoint alloc] initWithEventList:self];
+                [newIntonationPoint setSemitone:intonationParameters.pretonicRange + intonationParameters.notionalPitch];
+                [newIntonationPoint setOffsetTime:offsetTime];
+                [newIntonationPoint setSlope:randomSlope];
+                [newIntonationPoint setRuleIndex:ruleIndex];
+                [self addIntonationPoint:newIntonationPoint];
+                [newIntonationPoint release];
 
                 phoneIndex = feet[j].end;
                 ruleIndex = [self ruleIndexForPostureAtIndex:phoneIndex];
 
-                [self addIntonationPoint:intonationParameters.pretonicRange + intonationParameters.notionalPitch + intonationParameters.tonicRange
-                      offsetTime:0.0 slope:0.0 ruleIndex:ruleIndex];
+                newIntonationPoint = [[MMIntonationPoint alloc] initWithEventList:self];
+                [newIntonationPoint setSemitone:intonationParameters.pretonicRange + intonationParameters.notionalPitch + intonationParameters.tonicRange];
+                [newIntonationPoint setOffsetTime:0.0];
+                [newIntonationPoint setSlope:0.0];
+                [newIntonationPoint setRuleIndex:ruleIndex];
+                [self addIntonationPoint:newIntonationPoint];
+                [newIntonationPoint release];
             }
 
             offsetTime = -40.0;
@@ -1340,19 +1358,6 @@ NSString *EventListDidRemoveIntonationPoints = @"EventListDidRemoveIntonationPoi
     }
 
     [intonationPoints addObject:iPoint];
-}
-
-- (void)addIntonationPoint:(double)semitone offsetTime:(double)offsetTime slope:(double)slope ruleIndex:(int)ruleIndex;
-{
-    MMIntonationPoint *newIntonationPoint;
-
-    newIntonationPoint = [[MMIntonationPoint alloc] initWithEventList:self];
-    [newIntonationPoint setRuleIndex:ruleIndex];
-    [newIntonationPoint setOffsetTime:offsetTime];
-    [newIntonationPoint setSemitone:semitone];
-    [newIntonationPoint setSlope:slope];
-    [self addIntonationPoint:newIntonationPoint];
-    [newIntonationPoint release];
 }
 
 //

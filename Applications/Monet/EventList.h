@@ -226,7 +226,6 @@ extern NSString *EventListDidRemoveIntonationPoints;
 - (void)removeIntonationPoint:(MMIntonationPoint *)aPoint;
 - (void)clearIntonationPoints;
 - (void)addIntonationPoint:(MMIntonationPoint *)iPoint;
-- (void)addIntonationPoint:(double)semitone offsetTime:(double)offsetTime slope:(double)slope ruleIndex:(int)ruleIndex;
 
 // Intonation
 - (void)applyIntonation;
