@@ -132,6 +132,7 @@
     MMCategory *aCategory;
     NSString *str;
     MModel *model;
+    int match;
 
     if ([super initWithCoder:aDecoder] == nil)
         return nil;
@@ -145,8 +146,12 @@
     categoryList = [model categories];
     phoneList = [model postures];
 
-    [aDecoder decodeValueOfObjCType:"i" at:&shouldMatchAll];
-    //NSLog(@"shouldMatchAll: %d", shouldMatchAll);
+    [aDecoder decodeValueOfObjCType:"i" at:&match]; // Can't decode an int into a BOOL
+    //NSLog(@"match: %d", match);
+    shouldMatchAll = match;
+
+    //[aDecoder decodeValueOfObjCType:"i" at:&shouldMatchAll];
+    NSLog(@"shouldMatchAll: %d", shouldMatchAll);
 
     [aDecoder decodeValueOfObjCType:"*" at:&c_string];
     //NSLog(@"c_string: %s", c_string);
