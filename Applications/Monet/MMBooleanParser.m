@@ -60,14 +60,14 @@
 
     // Search first for a native category -- i.e. a posture name
     aPosture = [model postureWithName:baseName];
-    NSLog(@"%s, baseName: %@, aPosture: %p", _cmd, baseName, aPosture);
+    //NSLog(@"%s, baseName: %@, aPosture: %p", _cmd, baseName, aPosture);
 
     if (aPosture != nil) {
-        NSLog(@"%@: native category\n", baseName);
+        //NSLog(@"%@: native category\n", baseName);
         return [aPosture nativeCategory];
     }
 
-    NSLog(@"%@: NON native category\n", aName);
+    //NSLog(@"%@: NON native category\n", aName);
     return [model categoryWithName:aName];
 }
 
