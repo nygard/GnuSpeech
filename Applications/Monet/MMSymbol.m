@@ -4,7 +4,6 @@
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
 
-#import "AppController.h"
 #import "GSXMLFunctions.h"
 
 #define DEFAULT_VALUE 100.0

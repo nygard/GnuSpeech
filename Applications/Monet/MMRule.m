@@ -4,7 +4,6 @@
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
 
-#import "AppController.h"
 #import "BooleanExpression.h"
 #import "GSXMLFunctions.h"
 #import "MonetList.h"

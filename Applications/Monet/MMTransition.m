@@ -1,11 +1,9 @@
 #import "MMTransition.h"
 
 #import <Foundation/Foundation.h>
-#import <AppKit/AppKit.h>
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
 
-#import "AppController.h"
 #import "GSXMLFunctions.h"
 #import "MonetList.h"
 #import "MMPoint.h"

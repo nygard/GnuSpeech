@@ -4,7 +4,6 @@
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
 
-#import "AppController.h"
 #import "EventList.h"
 #import "FormulaExpression.h"
 #import "GSXMLFunctions.h"

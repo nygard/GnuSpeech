@@ -4,7 +4,6 @@
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
 
-#import "AppController.h"
 #import "MMCategory.h"
 #import "CategoryList.h"
 #import "GSXMLFunctions.h"
