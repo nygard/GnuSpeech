@@ -223,18 +223,11 @@
 
 - (IBAction)importTRMData:(id)sender;
 {
-    //SymbolList *mainSymbolList;
-    //ParameterList *mainParameterList, *mainMetaParameterList;
     NSArray *types;
-    TRMData *myData;
+    TRMData *trmData;
     NSArray *fnames;
-    double aValue;
     int count, index;
     NSOpenPanel *openPanel;
-
-    //mainSymbolList = NXGetNamedObject(@"mainSymbolList", NSApp);
-    //mainParameterList = NXGetNamedObject(@"mainParameterList", NSApp);
-    //mainMetaParameterList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
 
     types = [NSArray arrayWithObject:@"trm"];
 
@@ -245,7 +238,7 @@
 
     fnames = [openPanel filenames];
 
-    myData = [[TRMData alloc] init];
+    trmData = [[TRMData alloc] init];
 
     count = [fnames count];
     for (index = 0; index < count; index++) {
@@ -260,11 +253,10 @@
 
         newPhone = [[[MMPosture alloc] initWithModel:model] autorelease];
         [newPhone setSymbol:str];
-        //newPhone = [self makePhoneUniqueName:newPhone];
         [model addPosture:newPhone];
 
         /*  Read the file data and store it in the object  */
-        if ([myData readFromFile:filename] == NO) {
+        if ([trmData readFromFile:filename] == NO) {
             NSBeep();
             break;
         }
@@ -272,57 +264,27 @@
         parameterTargets = [newPhone parameterTargets];
 
         // TODO (2004-03-25): These used to set the default flag as well, but I plan to remove that flag.
+        // TODO (2004-03-25): Look up parameter indexes by name, so this will still work if they get rearranged in the Monet file.
         /*  Get the values of the needed parameters  */
-        aValue = [myData glotPitch];
-        [[parameterTargets objectAtIndex:0] setValue:aValue];
-
-        aValue = [myData glotVol];
-        [[parameterTargets objectAtIndex:1] setValue:aValue];
-
-        aValue = [myData aspVol];
-        [[parameterTargets objectAtIndex:2] setValue:aValue];
-
-        aValue = [myData fricVol];
-        [[parameterTargets objectAtIndex:3] setValue:aValue];
-
-        aValue = [myData fricPos];
-        [[parameterTargets objectAtIndex:4] setValue:aValue];
-
-        aValue = [myData fricCF];
-        [[parameterTargets objectAtIndex:5] setValue:aValue];
-
-        aValue = [myData fricBW];
-        [[parameterTargets objectAtIndex:6] setValue:aValue];
-
-        aValue = [myData r1];
-        [[parameterTargets objectAtIndex:7] setValue:aValue];
-
-        aValue = [myData r2];
-        [[parameterTargets objectAtIndex:8] setValue:aValue];
-
-        aValue = [myData r3];
-        [[parameterTargets objectAtIndex:9] setValue:aValue];
-
-        aValue = [myData r4];
-        [[parameterTargets objectAtIndex:10] setValue:aValue];
-
-        aValue = [myData r5];
-        [[parameterTargets objectAtIndex:11] setValue:aValue];
-
-        aValue = [myData r6];
-        [[parameterTargets objectAtIndex:12] setValue:aValue];
-
-        aValue = [myData r7];
-        [[parameterTargets objectAtIndex:13] setValue:aValue];
-
-        aValue = [myData r8];
-        [[parameterTargets objectAtIndex:14] setValue:aValue];
-
-        aValue = [myData velum];
-        [[parameterTargets objectAtIndex:15] setValue:aValue];
+        [[parameterTargets objectAtIndex:0] setValue:[trmData glotPitch]];
+        [[parameterTargets objectAtIndex:1] setValue:[trmData glotVol]];
+        [[parameterTargets objectAtIndex:2] setValue:[trmData aspVol]];
+        [[parameterTargets objectAtIndex:3] setValue:[trmData fricVol]];
+        [[parameterTargets objectAtIndex:4] setValue:[trmData fricPos]];
+        [[parameterTargets objectAtIndex:5] setValue:[trmData fricCF]];
+        [[parameterTargets objectAtIndex:6] setValue:[trmData fricBW]];
+        [[parameterTargets objectAtIndex:7] setValue:[trmData r1]];
+        [[parameterTargets objectAtIndex:8] setValue:[trmData r2]];
+        [[parameterTargets objectAtIndex:9] setValue:[trmData r3]];
+        [[parameterTargets objectAtIndex:10] setValue:[trmData r4]];
+        [[parameterTargets objectAtIndex:11] setValue:[trmData r5]];
+        [[parameterTargets objectAtIndex:12] setValue:[trmData r6]];
+        [[parameterTargets objectAtIndex:13] setValue:[trmData r7]];
+        [[parameterTargets objectAtIndex:14] setValue:[trmData r8]];
+        [[parameterTargets objectAtIndex:15] setValue:[trmData velum]];
     }
 
-    [myData release];
+    [trmData release];
 }
 
 - (IBAction)printData:(id)sender;
