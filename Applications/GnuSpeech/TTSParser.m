@@ -168,13 +168,14 @@ static NSDictionary *_specialAcronyms = nil;
 
 - (void)expandWord:(NSString *)word tonic:(BOOL)isTonic resultString:(NSMutableString *)resultString;
 {
-    BOOL possessive;
+    BOOL isPossessive;
     NSString *pronunciation = nil;
-    unsigned int last_foot_begin;
+    unsigned int lastFootBegin;
+    NSString *lastPhoneme = nil;
 
     // Strip of possessive if word ends with 's
-    possessive = [word hasSuffix:@"'s"];
-    if (possessive == YES)
+    isPossessive = [word hasSuffix:@"'s"];
+    if (isPossessive == YES)
         word = [word substringToIndex:[word length] - 2];
 
     if ([word length] == 1 && [word startsWithLetter] == YES) {
@@ -196,8 +197,8 @@ static NSDictionary *_specialAcronyms = nil;
 
     NSLog(@"pronunciation: %@", pronunciation);
 
-    last_foot_begin = NSNotFound;
-    if (/*isTonic && */[pronunciation containsPrimaryStress] == NO) {
+    lastFootBegin = NSNotFound;
+    if (isTonic && [pronunciation containsPrimaryStress] == NO) {
         NSString *convertedStress;
 
         convertedStress = [pronunciation convertedStress];
@@ -208,12 +209,39 @@ static NSDictionary *_specialAcronyms = nil;
         } else {
             // For example, "times"
             NSLog(@"This other case...");
-            last_foot_begin = [resultString length];
+            lastFootBegin = [resultString length];
             [resultString appendString:TTS_FOOT_BEGIN];
         }
     }
 
-    // And some more stuff....
+    // TODO (2004-04-29): And some more stuff....
+
+    if (isPossessive == YES) {
+        if ([lastPhoneme isEqualToString:@"f"]
+            || [lastPhoneme isEqualToString:@"k"]
+            || [lastPhoneme isEqualToString:@"p"]
+            || [lastPhoneme isEqualToString:@"t"]
+            || [lastPhoneme isEqualToString:@"th"]) {
+            [resultString appendString:@"_s"];
+        } else if ([lastPhoneme isEqualToString:@"ch"]
+                   || [lastPhoneme isEqualToString:@"j"]
+                   || [lastPhoneme isEqualToString:@"s"]
+                   || [lastPhoneme isEqualToString:@"sh"]
+                   || [lastPhoneme isEqualToString:@"z"]
+                   || [lastPhoneme isEqualToString:@"zh"]) {
+            [resultString appendString:@".uh_z"];
+        } else {
+            [resultString appendString:@"_z"];
+        }
+    }
+
+    // Add space after word
+    [resultString appendString:@" "];
+
+    // If tonic, convert last foot marker to tonic marker
+    if (isTonic == YES && lastFootBegin != NSNotFound) {
+        [resultString replaceCharactersInRange:NSMakeRange(lastFootBegin, 2) withString:TTS_TONIC_BEGIN];
+    }
 }
 
 // Returns a string which contains a character-by-character pronunciation for the string pointed at by the argument word.
