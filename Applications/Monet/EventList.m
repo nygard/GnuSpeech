@@ -1195,9 +1195,17 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
     [newIntonationPoint release];
 }
 
+- (void)applyIntonation;
+{
+    if (flags.shouldUseSmoothIntonation)
+        [self _applySmoothIntonation];
+    else
+        [self _applyFlatIntonation];
+}
+
 // This just add values for the semitone (event 32) for each of the intonation points, clearing the slope, 3rd, and 4th derivatives.
 // Values with a semitone of -20 are added at the start and end (but their slopes, etc., aren't reset to 0.).
-- (void)applyFlatIntonation;
+- (void)_applyFlatIntonation;
 {
     int i;
     MMIntonationPoint *anIntonationPoint;
@@ -1222,7 +1230,7 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
     NSLog(@"<  %s", _cmd);
 }
 
-- (void)applySmoothIntonation;
+- (void)_applySmoothIntonation;
 {
     int j;
     MMIntonationPoint *point1, *point2;

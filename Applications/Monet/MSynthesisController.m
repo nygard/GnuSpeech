@@ -381,12 +381,8 @@
 
     defaults = [NSUserDefaults standardUserDefaults];
 
-    if ([defaults boolForKey:MDK_ShouldUseSmoothIntonation])
-        [eventList applySmoothIntonation];
-    else
-        [eventList applyFlatIntonation];
-
     [eventList setShouldUseSmoothIntonation:[defaults boolForKey:MDK_ShouldUseSmoothIntonation]];
+    [eventList applyIntonation];
 
     [eventList printDataStructures:@"Before synthesis"];
     [eventTableView reloadData];
