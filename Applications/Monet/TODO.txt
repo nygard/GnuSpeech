@@ -150,3 +150,6 @@ Notes:
 
 2004-03-31:
 - The Diphone/Triphone/Tetraphone radio buttons should be in the Transition Editor, not on the Prototype Manager window.
+
+2004-04-01:
+- Replace parameter array with structure for FormulaExpression's -evaluate: method.

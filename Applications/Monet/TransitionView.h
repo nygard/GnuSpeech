@@ -39,9 +39,7 @@ extern NSString *TransitionViewSelectionDidChangeNotification;
     MonetList *displayPoints;
     MonetList *displaySlopes;
     MonetList *selectedPoints;
-    int cache;
 
-    //BOOL shouldDrawSelection;
     NSPoint selectionPoint1;
     NSPoint selectionPoint2;
 

@@ -41,9 +41,6 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     if ([super initWithFrame:frameRect] == nil)
         return nil;
 
-    cache = 100000;
-    [self allocateGState];
-
     timesFont = [[NSFont fontWithName:@"Times-Roman" size:12] retain];
     currentTemplate = nil;
 
@@ -360,10 +357,11 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     int type;
     NSBezierPath *bezierPath;
     NSPoint graphOrigin;
+    int cache;
 
     graphOrigin = [self graphOrigin];
 
-    cache++;
+    cache = [[self model] nextCacheTag];
 
     if (currentTemplate)
         type = [currentTemplate type];
@@ -464,6 +462,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     NSBezierPath *bezierPath;
     NSPoint graphOrigin;
     NSMutableArray *diphonePoints, *triphonePoints, *tetraphonePoints;
+    int cache;
 
     if (currentTemplate == nil)
         return;
@@ -478,7 +477,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     timeScale = [self timeScale];
     yScale = [self sectionHeight];
 
-    cache++;
+    cache = [[self model] nextCacheTag];
 
     currentPoints = [currentTemplate points];
     count = [currentPoints count];
@@ -1045,10 +1044,11 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     int count, index;
     float timeScale;
     int yScale;
+    int cache;
 
     [selectedPoints removeAllObjects];
 
-    cache++;
+    cache = [[self model] nextCacheTag];
     graphOrigin = [self graphOrigin];
     timeScale = [self timeScale];
     yScale = [self sectionHeight];

@@ -126,6 +126,7 @@
     NSBezierPath *bezierPath;
     NSPoint graphOrigin;
     NSMutableArray *diphonePoints, *triphonePoints, *tetraphonePoints;
+    int cache;
 
     if (currentTemplate == nil)
         return;
@@ -139,7 +140,7 @@
     timeScale = [self timeScale];
     yScale = [self sectionHeight];
 
-    cache++;
+    cache = [[self model] nextCacheTag];
 
     currentPoints = [currentTemplate points];
     count = [currentPoints count];
@@ -256,8 +257,11 @@
         float timeScale, y;
         int yScale;
         NSPoint graphOrigin;
+        int cache;
 
         //NSLog(@"Drawing %d selected points", [selectedPoints count]);
+
+        cache = [[self model] nextCacheTag]; // TODO (2004-04-01): This used to just use the current cache tag.
 
         graphOrigin = [self graphOrigin];
         timeScale = [self timeScale];
@@ -385,10 +389,11 @@
     int count, index;
     float timeScale;
     int yScale;
+    int cache;
 
     [selectedPoints removeAllObjects];
 
-    cache++;
+    cache = [[self model] nextCacheTag];
     graphOrigin = [self graphOrigin];
     timeScale = [self timeScale];
     yScale = [self sectionHeight];

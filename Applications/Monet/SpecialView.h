@@ -15,7 +15,6 @@
 
 @interface SpecialView : TransitionView
 {
-    //MMPoint *selectedPoint;
 }
 
 - (id)initWithFrame:(NSRect)frameRect;
