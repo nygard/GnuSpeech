@@ -1,11 +1,13 @@
-
 #import "DefaultMgr.h"
+
+#import <Foundation/Foundation.h>
+#import "NSUserDefaults-Extensions.h"
 #import "MonetDefaults.h"
-#import <Foundation/NSDictionary.h>
-#import <string.h>
-#import <stdlib.h>
 #import <math.h>
-	
+#ifdef PORTING
+#import <Foundation/NSDictionary.h>
+#endif
+
 /*
 	Revision Information
 	_Author: fedor $
@@ -23,7 +25,7 @@
 		file.
 
 		This object provides two methods for each default database
-		item.  One method sets the item and the other returns the 
+		item.  One method sets the item and the other returns the
 		current value of the item.
 
 	NOTE: All default "#defines" are in file "MonetDefaults.h"
@@ -32,330 +34,248 @@
 
 @implementation DefaultMgr
 
-+ (void)initialize
++ (void)initialize;
 {
-	NSDictionary *dict;
-	dict = [NSDictionary dictionaryWithObjects: MonetDefVal
-			     forKeys: MonetDefKeys
-			     count: MonetDefCount];
-	[[NSUserDefaults standardUserDefaults] registerDefaults: dict];
-	return;
+    NSDictionary *dict;
+
+    dict = [NSDictionary dictionaryWithObjects:MonetDefVal
+                         forKeys:MonetDefKeys
+                         count:MonetDefCount];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:dict];
 }
 
-- (void)updateDefaults
+- (void)updateDefaults;
 {
-	[[NSUserDefaults standardUserDefaults] synchronize]; 
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (void)writeDefaults
+- (void)writeDefaults;
 {
-	int i;
-	NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-	for (i = 0; i < MonetDefCount; i++)
-	  [def setObject: MonetDefVal[i] forKey: MonetDefKeys[i]];
+    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+    int index;
+
+    for (index = 0; index < MonetDefCount; index++)
+        [def setObject:MonetDefVal[index] forKey:MonetDefKeys[index]];
 }
 
-- (void)setMasterVolume:(double)value
+- (double)masterVolume;
 {
-char temp[15];
-
-	sprintf(temp,"%f", value);
-	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithCString:temp] forKey: NXDEFAULT_MASTER_VOLUME]; 
+    return [[NSUserDefaults standardUserDefaults] doubleForKey:NXDEFAULT_MASTER_VOLUME];
 }
 
-- (double) masterVolume
+- (void)setMasterVolume:(double)value;
 {
-	return ([[[NSUserDefaults standardUserDefaults] 
-		objectForKey: NXDEFAULT_MASTER_VOLUME] doubleValue]);
+    [[NSUserDefaults standardUserDefaults] setDouble:value forKey:NXDEFAULT_MASTER_VOLUME];
 }
 
-- (void)setVocalTractLength:(double)value
+- (double)vocalTractLength;
 {
-char temp[15];
-
-	sprintf(temp,"%f", value);
-	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithCString:temp] forKey: NXDEFAULT_VOCAL_TRACT_LENGTH]; 
+    return [[NSUserDefaults standardUserDefaults] doubleForKey:NXDEFAULT_VOCAL_TRACT_LENGTH];
 }
 
-- (double) vocalTractLength
+- (void)setVocalTractLength:(double)value;
 {
-	return ([[[NSUserDefaults standardUserDefaults] 
-		objectForKey: NXDEFAULT_VOCAL_TRACT_LENGTH] doubleValue]);
+    [[NSUserDefaults standardUserDefaults] setDouble:value forKey:NXDEFAULT_VOCAL_TRACT_LENGTH];
 }
 
-- (void)setTemperature:(double)value
+- (double)temperature;
 {
-char temp[15];
-
-	sprintf(temp,"%f", value);
-	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithCString:temp] forKey: NXDEFAULT_TEMPERATURE]; 
+    return [[NSUserDefaults standardUserDefaults] doubleForKey:NXDEFAULT_TEMPERATURE];
 }
 
-- (double) temperature
+- (void)setTemperature:(double)value;
 {
-	return ([[[NSUserDefaults standardUserDefaults] 
-		objectForKey: NXDEFAULT_TEMPERATURE] doubleValue]);
+    [[NSUserDefaults standardUserDefaults] setDouble:value forKey:NXDEFAULT_TEMPERATURE];
 }
 
-- (void)setBalance:(double)value
+- (double)balance;
 {
-char temp[15];
-
-	sprintf(temp,"%f", value);
-	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithCString:temp] forKey: NXDEFAULT_BALANCE]; 
+    return [[NSUserDefaults standardUserDefaults] doubleForKey:NXDEFAULT_BALANCE];
 }
 
-- (double) balance
+- (void)setBalance:(double)value;
 {
-	return ([[[NSUserDefaults standardUserDefaults] 
-		objectForKey: NXDEFAULT_BALANCE] doubleValue]);
+    [[NSUserDefaults standardUserDefaults] setDouble:value forKey:NXDEFAULT_BALANCE];
 }
 
-- (void)setBreathiness:(double)value
+- (double)breathiness;
 {
-char temp[15];
-
-	sprintf(temp,"%f", value);
-	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithCString:temp] forKey: NXDEFAULT_BREATHINESS]; 
+    return [[NSUserDefaults standardUserDefaults] doubleForKey:NXDEFAULT_BREATHINESS];
 }
 
-- (double) breathiness
+- (void)setBreathiness:(double)value;
 {
-	return ([[[NSUserDefaults standardUserDefaults] 
-		objectForKey: NXDEFAULT_BREATHINESS] doubleValue]);
+    [[NSUserDefaults standardUserDefaults] setDouble:value forKey:NXDEFAULT_BREATHINESS];
 }
 
-- (void)setLossFactor:(double)value
+- (double)lossFactor;
 {
-char temp[15];
-
-	sprintf(temp,"%f", value);
-	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithCString:temp] forKey:NXDEFAULT_LOSS_FACTOR]; 
+    return [[NSUserDefaults standardUserDefaults] doubleForKey:NXDEFAULT_LOSS_FACTOR];
 }
 
-- (double) lossFactor
+- (void)setLossFactor:(double)value;
 {
-	return ([[[NSUserDefaults standardUserDefaults] 
-		objectForKey: NXDEFAULT_LOSS_FACTOR] doubleValue]);
+    [[NSUserDefaults standardUserDefaults] setDouble:value forKey:NXDEFAULT_LOSS_FACTOR];
 }
 
-- (void)setThroatCuttoff:(double)value
+- (double)throatCuttoff;
 {
-char temp[15];
-
-	sprintf(temp,"%f", value);
-	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithCString:temp] forKey:NXDEFAULT_THROAT_CUTTOFF]; 
+    return [[NSUserDefaults standardUserDefaults] doubleForKey:NXDEFAULT_THROAT_CUTTOFF];
 }
 
-- (double) throatCuttoff
+- (void)setThroatCuttoff:(double)value;
 {
-	return ([[[NSUserDefaults standardUserDefaults] 
-		objectForKey: NXDEFAULT_THROAT_CUTTOFF] doubleValue]);
+    [[NSUserDefaults standardUserDefaults] setDouble:value forKey:NXDEFAULT_THROAT_CUTTOFF];
 }
 
-- (void)setThroatVolume:(double)value
+- (double)throatVolume;
 {
-char temp[15];
-
-	sprintf(temp,"%f", value);
-	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithCString:temp] forKey:NXDEFAULT_THROAT_VOLUME]; 
+    return [[NSUserDefaults standardUserDefaults] doubleForKey:NXDEFAULT_THROAT_VOLUME];
 }
 
-- (double) throatVolume
+- (void)setThroatVolume:(double)value;
 {
-	return ([[[NSUserDefaults standardUserDefaults] 
-		objectForKey: NXDEFAULT_THROAT_VOLUME] doubleValue]);
+    [[NSUserDefaults standardUserDefaults] setDouble:value forKey:NXDEFAULT_THROAT_VOLUME];
 }
 
-- (void)setApertureScaling:(double)value
+- (double)apertureScaling;
 {
-char temp[15];
-
-	sprintf(temp,"%f", value);
-	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithCString:temp] forKey:NXDEFAULT_APERTURE_SCALING]; 
+    return [[NSUserDefaults standardUserDefaults] doubleForKey:NXDEFAULT_APERTURE_SCALING];
 }
 
-- (double) apertureScaling
+- (void)setApertureScaling:(double)value;
 {
-	return ([[[NSUserDefaults standardUserDefaults] 
-		objectForKey: NXDEFAULT_APERTURE_SCALING] doubleValue]);
+    [[NSUserDefaults standardUserDefaults] setDouble:value forKey:NXDEFAULT_APERTURE_SCALING];
 }
 
-- (void)setMouthCoef:(double)value
+- (double)mouthCoef;
 {
-char temp[15];
-
-	sprintf(temp,"%f", value);
-	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithCString:temp] forKey:NXDEFAULT_MOUTH_COEF]; 
+    return [[NSUserDefaults standardUserDefaults] doubleForKey:NXDEFAULT_MOUTH_COEF];
 }
 
-- (double) mouthCoef
+- (void)setMouthCoef:(double)value;
 {
-	return ([[[NSUserDefaults standardUserDefaults] 
-		objectForKey: NXDEFAULT_MOUTH_COEF] doubleValue]);
+    [[NSUserDefaults standardUserDefaults] setDouble:value forKey:NXDEFAULT_MOUTH_COEF];
 }
 
-- (void)setNoseCoef:(double)value
+- (double)noseCoef;
 {
-char temp[15];
-
-	sprintf(temp,"%f", value);
-	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithCString:temp] forKey:NXDEFAULT_NOSE_COEF]; 
+    return [[NSUserDefaults standardUserDefaults] doubleForKey:NXDEFAULT_NOSE_COEF];
 }
 
-- (double) noseCoef
+- (void)setNoseCoef:(double)value;
 {
-	return ([[[NSUserDefaults standardUserDefaults] 
-		objectForKey: NXDEFAULT_NOSE_COEF] doubleValue]);
+    [[NSUserDefaults standardUserDefaults] setDouble:value forKey:NXDEFAULT_NOSE_COEF];
 }
 
-- (void)setMixOffset:(double)value
+- (double)mixOffset;
 {
-char temp[15];
-
-	sprintf(temp,"%f", value);
-	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithCString:temp] forKey:NXDEFAULT_MIX_OFFSET]; 
+    return [[NSUserDefaults standardUserDefaults] doubleForKey:NXDEFAULT_MIX_OFFSET];
 }
 
-- (double) mixOffset
+- (void)setMixOffset:(double)value;
 {
-	return ([[[NSUserDefaults standardUserDefaults] 
-		objectForKey: NXDEFAULT_MIX_OFFSET] doubleValue]);
+    [[NSUserDefaults standardUserDefaults] setDouble:value forKey:NXDEFAULT_MIX_OFFSET];
 }
 
-- (void)setn1:(double)value
+- (double)n1;
 {
-char temp[15];
-
-	sprintf(temp,"%f", value);
-	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithCString:temp] forKey:NXDEFAULT_N1]; 
+    return [[NSUserDefaults standardUserDefaults] doubleForKey:NXDEFAULT_N1];
 }
 
-- (double) n1
+- (void)setn1:(double)value;
 {
-	return ([[[NSUserDefaults standardUserDefaults] 
-		objectForKey: NXDEFAULT_N1] doubleValue]);
+    [[NSUserDefaults standardUserDefaults] setDouble:value forKey:NXDEFAULT_N1];
 }
 
-- (void)setn2:(double)value
+- (double)n2;
 {
-char temp[15];
-
-	sprintf(temp,"%f", value);
-	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithCString:temp] forKey:NXDEFAULT_N2]; 
+    return [[NSUserDefaults standardUserDefaults] doubleForKey:NXDEFAULT_N2];
 }
 
-- (double) n2
+- (void)setn2:(double)value;
 {
-	return ([[[NSUserDefaults standardUserDefaults] 
-		objectForKey: NXDEFAULT_N2] doubleValue]);
+    [[NSUserDefaults standardUserDefaults] setDouble:value forKey:NXDEFAULT_N2];
 }
 
-- (void)setn3:(double)value
+- (double)n3;
 {
-char temp[15];
-
-	sprintf(temp,"%f", value);
-	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithCString:temp] forKey:NXDEFAULT_N3]; 
+    return [[NSUserDefaults standardUserDefaults] doubleForKey:NXDEFAULT_N3];
 }
 
-- (double) n3
+- (void)setn3:(double)value;
 {
-	return ([[[NSUserDefaults standardUserDefaults] 
-		objectForKey: NXDEFAULT_N3] doubleValue]);
+    [[NSUserDefaults standardUserDefaults] setDouble:value forKey:NXDEFAULT_N3];
 }
 
-- (void)setn4:(double)value
+- (double)n4;
 {
-char temp[15];
-
-	sprintf(temp,"%f", value);
-	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithCString:temp] forKey:NXDEFAULT_N4]; 
+    return [[NSUserDefaults standardUserDefaults] doubleForKey:NXDEFAULT_N4];
 }
 
-- (double) n4
+- (void)setn4:(double)value;
 {
-	return ([[[NSUserDefaults standardUserDefaults] 
-		objectForKey: NXDEFAULT_N4] doubleValue]);
+    [[NSUserDefaults standardUserDefaults] setDouble:value forKey:NXDEFAULT_N4];
 }
 
-- (void)setn5:(double)value
+- (double)n5;
 {
-char temp[15];
-
-	sprintf(temp,"%f", value);
-	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithCString:temp] forKey:NXDEFAULT_N5]; 
+    return [[NSUserDefaults standardUserDefaults] doubleForKey:NXDEFAULT_N5];
 }
 
-- (double) n5
+- (void)setn5:(double)value;
 {
-	return ([[[NSUserDefaults standardUserDefaults] 
-		objectForKey: NXDEFAULT_N5] doubleValue]);
+    [[NSUserDefaults standardUserDefaults] setDouble:value forKey:NXDEFAULT_N5];
 }
 
-- (void)setTp:(double)value
+- (double)tp;
 {
-char temp[15];
-
-	sprintf(temp,"%f", value);
-	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithCString:temp] forKey:NXDEFAULT_TP]; 
+    return [[NSUserDefaults standardUserDefaults] doubleForKey:NXDEFAULT_TP];
 }
 
-- (double) tp
+- (void)setTp:(double)value;
 {
-	return ([[[NSUserDefaults standardUserDefaults] 
-		objectForKey: NXDEFAULT_TP] doubleValue]);
+    [[NSUserDefaults standardUserDefaults] setDouble:value forKey:NXDEFAULT_TP];
 }
 
-- (void)setTnMin:(double)value
+- (double)tnMin;
 {
-char temp[15];
-
-	sprintf(temp,"%f", value);
-	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithCString:temp] forKey:NXDEFAULT_TN_MIN]; 
+    return [[NSUserDefaults standardUserDefaults] doubleForKey:NXDEFAULT_TN_MIN];
 }
 
-- (double) tnMin
+- (void)setTnMin:(double)value;
 {
-	return ([[[NSUserDefaults standardUserDefaults] 
-		objectForKey: NXDEFAULT_TN_MIN] doubleValue]);
+    [[NSUserDefaults standardUserDefaults] setDouble:value forKey:NXDEFAULT_TN_MIN];
 }
 
-- (void)setTnMax:(double)value
+- (double)tnMax;
 {
-char temp[15];
-
-	sprintf(temp,"%f", value);
-	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithCString:temp] forKey:NXDEFAULT_TN_MAX]; 
+    return [[NSUserDefaults standardUserDefaults] doubleForKey:NXDEFAULT_TN_MAX];
 }
 
-- (double) tnMax
+- (void)setTnMax:(double)value;
 {
-	return ([[[NSUserDefaults standardUserDefaults] 
-		objectForKey: NXDEFAULT_TN_MAX] doubleValue]);
+    [[NSUserDefaults standardUserDefaults] setDouble:value forKey:NXDEFAULT_TN_MAX];
 }
 
-- (void)setGlottalPulseShape:(const char *)value
+- (NSString *)glottalPulseShape;
 {
-	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithCString:value] forKey:NXDEFAULT_GP_SHAPE]; 
+    return [[NSUserDefaults standardUserDefaults] stringForKey:NXDEFAULT_GP_SHAPE];
 }
 
-- (const char *) glottalPulseShape
+- (void)setGlottalPulseShape:(NSString *)value;
 {
-	return ([[[NSUserDefaults standardUserDefaults] 
-		objectForKey: NXDEFAULT_GP_SHAPE] cString]);
+    [[NSUserDefaults standardUserDefaults] setObject:value forKey:NXDEFAULT_GP_SHAPE];
 }
 
-- (void)setNoiseModulation:(const char *)value
+- (NSString *)noiseModulation;
 {
-	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithCString:value] forKey:NXDEFAULT_NOISE_MODULATION]; 
+    return [[NSUserDefaults standardUserDefaults] stringForKey:NXDEFAULT_NOISE_MODULATION];
 }
 
-- (const char *) noiseModulation
+- (void)setNoiseModulation:(NSString *)value;
 {
-	return ([[[NSUserDefaults standardUserDefaults] 
-		objectForKey: NXDEFAULT_NOISE_MODULATION] cString]);
+    [[NSUserDefaults standardUserDefaults] setObject:value forKey:NXDEFAULT_NOISE_MODULATION];
 }
-
 
 @end

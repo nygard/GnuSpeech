@@ -561,6 +561,8 @@
 				0195D94D05F40DDB006D8386,
 				0195D95F05F40E25006D8386,
 				0195D96005F40E25006D8386,
+				0195DC6D05F53953006D8386,
+				0195DC6E05F53953006D8386,
 			);
 			isa = PBXGroup;
 			name = Extensions;
@@ -1342,6 +1344,46 @@
 			settings = {
 			};
 		};
+		0195DC6D05F53953006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = "NSUserDefaults-Extensions.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DC6E05F53953006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = "NSUserDefaults-Extensions.m";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DC6F05F53953006D8386 = {
+			fileRef = 0195DC6D05F53953006D8386;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0195DC7005F53953006D8386 = {
+			fileRef = 0195DC6E05F53953006D8386;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0195DC7705F53BCA006D8386 = {
+			fileRef = 0195DB1105F46DE6006D8386;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0195DC7C05F53BCB006D8386 = {
+			fileRef = 0195DB1205F46DE6006D8386;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 //010
 //011
 //012
@@ -1701,6 +1743,8 @@
 				0195DBDF05F4FFDA006D8386,
 				0195DC3905F52923006D8386,
 				0195DC4E05F53128006D8386,
+				0195DC6F05F53953006D8386,
+				0195DC7705F53BCA006D8386,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1766,6 +1810,8 @@
 				0195DBE905F4FFDC006D8386,
 				0195DC3405F52922006D8386,
 				0195DC5305F53129006D8386,
+				0195DC7005F53953006D8386,
+				0195DC7C05F53BCB006D8386,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
