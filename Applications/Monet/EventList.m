@@ -758,7 +758,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
     MMTransition *transition;
     MMPoint *currentPoint;
     NSArray *parameterTransitions;
-    MonetList *points;
+    NSArray *points;
     int cache = [aModel nextCacheTag];
 
     bzero(&ruleSymbols, sizeof(MMFRuleSymbols));

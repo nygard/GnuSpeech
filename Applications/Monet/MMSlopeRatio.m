@@ -1,6 +1,7 @@
 #import "MMSlopeRatio.h"
 
 #import <Foundation/Foundation.h>
+#import "NSArray-Extensions.h"
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
 
@@ -29,7 +30,7 @@
     if ([super init] == nil)
         return nil;
 
-    points = [[MonetList alloc] initWithCapacity:4];
+    points = [[NSMutableArray alloc] init];
     slopes = [[MonetList alloc] initWithCapacity:4];
 
     return self;
@@ -43,12 +44,12 @@
     [super dealloc];
 }
 
-- (MonetList *)points;
+- (NSMutableArray *)points;
 {
     return points;
 }
 
-- (void)setPoints:(MonetList *)newList;
+- (void)setPoints:(NSMutableArray *)newList;
 {
     if (newList == points)
         return;
@@ -275,7 +276,13 @@
     archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
     //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
 
-    points = [[aDecoder decodeObject] retain];
+    {
+        MonetList *archivedPoints;
+
+        archivedPoints = [aDecoder decodeObject];
+        points = [[NSMutableArray alloc] init];
+        [points addObjectsFromArray:[archivedPoints allObjects]];
+    }
     slopes = [[aDecoder decodeObject] retain];
 
     //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);

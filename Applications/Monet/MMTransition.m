@@ -1,6 +1,7 @@
 #import "MMTransition.h"
 
 #import <Foundation/Foundation.h>
+#import "NSArray-Extensions.h"
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
 
@@ -27,7 +28,7 @@
     name = nil;
     comment = nil;
     type = MMPhoneTypeDiphone;
-    points = [[MonetList alloc] init];
+    points = [[NSMutableArray alloc] init];
 
     return self;
 }
@@ -106,12 +107,12 @@
     return comment != nil && [comment length] > 0;
 }
 
-- (MonetList *)points;
+- (NSMutableArray *)points;
 {
     return points;
 }
 
-- (void)setPoints:(MonetList *)newList;
+- (void)setPoints:(NSMutableArray *)newList;
 {
     if (newList == points)
         return;
@@ -226,7 +227,7 @@
     for (index = 0; index < count; index++) {
         pointOrSlopeRatio = [points objectAtIndex:index];
         if ([pointOrSlopeRatio isKindOfClass:[MMSlopeRatio class]]) {
-            MonetList *slopePoints;
+            NSArray *slopePoints;
 
             slopePoints = [pointOrSlopeRatio points];
             for (j = 0; j < [slopePoints count]; j++)
@@ -256,7 +257,7 @@
     name = nil;
     comment = nil;
     type = 2;
-    points = [[MonetList alloc] init];
+    points = [[NSMutableArray alloc] init];
 
     model = [(MUnarchiver *)aDecoder userInfo];
 
@@ -272,43 +273,42 @@
     free(c_comment);
 
     archivedPoints = [aDecoder decodeObject];
+    points = [[NSMutableArray alloc] init];
     //NSLog(@"archivedPoints: %@", archivedPoints);
 
     //NSLog(@"Points = %d", [points count]);
 
     if (archivedPoints == nil) {
-        MonetList *defaultPoints;
         MMPoint *aPoint;
 
         NSLog(@"Archived points were nil, using defaults.");
-        defaultPoints = [[MonetList alloc] initWithCapacity:3];
 
         aPoint = [[MMPoint alloc] init];
         [aPoint setValue:0.0];
         [aPoint setType:MMPhoneTypeDiphone];
         [aPoint setTimeEquation:[model findEquationList:@"Test" named:@"Zero"]];
-        [defaultPoints addObject:aPoint];
+        [points addObject:aPoint];
         [aPoint release];
 
         aPoint = [[MMPoint alloc] init];
         [aPoint setValue:12.5];
         [aPoint setType:MMPhoneTypeDiphone];
         [aPoint setTimeEquation:[model findEquationList:@"Test" named:@"diphoneOneThree"]];
-        [defaultPoints addObject:aPoint];
+        [points addObject:aPoint];
         [aPoint release];
 
         aPoint = [[MMPoint alloc] init];
         [aPoint setValue:87.5];
         [aPoint setType:MMPhoneTypeDiphone];
         [aPoint setTimeEquation:[model findEquationList:@"Test" named:@"diphoneTwoThree"]];
-        [defaultPoints addObject:aPoint];
+        [points addObject:aPoint];
         [aPoint release];
 
         aPoint = [[MMPoint alloc] init];
         [aPoint setValue:100.0];
         [aPoint setType:MMPhoneTypeDiphone];
         [aPoint setTimeEquation:[model findEquationList:@"Defaults" named:@"Mark1"]];
-        [defaultPoints addObject:aPoint];
+        [points addObject:aPoint];
         [aPoint release];
 
         if (type != MMPhoneTypeDiphone) {
@@ -316,21 +316,21 @@
             [aPoint setValue:12.5];
             [aPoint setType:MMPhoneTypeDiphone];
             [aPoint setTimeEquation:[model findEquationList:@"Test" named:@"triphoneOneThree"]];
-            [defaultPoints addObject:aPoint];
+            [points addObject:aPoint];
             [aPoint release];
 
             aPoint = [[MMPoint alloc] init];
             [aPoint setValue:87.5];
             [aPoint setType:MMPhoneTypeTriphone];
             [aPoint setTimeEquation:[model findEquationList:@"Test" named:@"triphoneTwoThree"]];
-            [defaultPoints addObject:aPoint];
+            [points addObject:aPoint];
             [aPoint release];
 
             aPoint = [[MMPoint alloc] init];
             [aPoint setValue:100.0];
             [aPoint setType:MMPhoneTypeTriphone];
             [aPoint setTimeEquation:[model findEquationList:@"Defaults" named:@"Mark2"]];
-            [defaultPoints addObject:aPoint];
+            [points addObject:aPoint];
             [aPoint release];
 
             if (type != MMPhoneTypeTriphone) {
@@ -338,29 +338,27 @@
                 [aPoint setValue:12.5];
                 [aPoint setType:MMPhoneTypeTetraphone];
                 [aPoint setTimeEquation:[model findEquationList:@"Test" named:@"tetraphoneOneThree"]];
-                [defaultPoints addObject:aPoint];
+                [points addObject:aPoint];
                 [aPoint release];
 
                 aPoint = [[MMPoint alloc] init];
                 [aPoint setValue:87.5];
                 [aPoint setType:MMPhoneTypeTetraphone];
                 [aPoint setTimeEquation:[model findEquationList:@"Test" named:@"tetraphoneTwoThree"]];
-                [defaultPoints addObject:aPoint];
+                [points addObject:aPoint];
                 [aPoint release];
 
                 aPoint = [[MMPoint alloc] init];
                 [aPoint setValue:100.0];
                 [aPoint setType:MMPhoneTypeTetraphone];
                 [aPoint setTimeEquation:[model findEquationList:@"Durations" named:@"TetraphoneDefault"]];
-                [defaultPoints addObject:aPoint];
+                [points addObject:aPoint];
                 [aPoint release];
             }
         }
-
-        [self setPoints:defaultPoints];
-        [defaultPoints release];
-    } else
-        [self setPoints:archivedPoints];
+    } else {
+        [points addObjectsFromArray:[archivedPoints allObjects]];
+    }
 
     //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
 

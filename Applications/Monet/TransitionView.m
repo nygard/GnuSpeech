@@ -483,7 +483,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 - (void)drawTransition;
 {
     int count, index;
-    MonetList *currentPoints;
+    NSArray *currentPoints;
     MMPoint *currentPoint;
     double tempos[4] = {1.0, 1.0, 1.0, 1.0};
     NSPoint myPoint;
@@ -858,7 +858,8 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     double start, end;
     NSRect rect = NSMakeRect(0, 0, 2 * LEFT_MARGIN, SLOPE_MARKER_HEIGHT);
     MMSlopeRatio *currentPoint;
-    MonetList *slopes, *points;
+    MonetList *slopes;
+    NSMutableArray *points;
     float timeScale = [self timeScale];
     NSPoint graphOrigin;
     NSRect bounds;
@@ -965,13 +966,13 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 
 - (MMSlope *)getSlopeMarkerAtPoint:(NSPoint)aPoint startTime:(float *)startTime endTime:(float *)endTime;
 {
-    MonetList *pointList;
+    NSMutableArray *pointList;
     MMSlopeRatio *currentMMSlopeRatio;
     float timeScale = [self timeScale];
     float tempTime;
     float time1, time2;
     int i, j;
-    MonetList *points;
+    NSArray *points;
 
     NSRect slopeMarkerRect;
 
@@ -1144,10 +1145,11 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 {
     int i, index;
     int type;
-    MonetList *tempPoints, *newPoints;
-    MMSlopeRatio *tempMMSlopeRatio;
+    NSMutableArray *tempPoints, *newPoints;
+    MMSlopeRatio *newSlopeRatio;
 
     if ([selectedPoints count] < 3) {
+        NSLog(@"You must have at least three points selected to create a Slope Ratio.");
         NSBeep();
         return;
     }
@@ -1155,6 +1157,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     type = [(MMPoint *)[selectedPoints objectAtIndex:0] type];
     for (i = 1; i < [selectedPoints count]; i++) {
         if (type != [(MMPoint *)[selectedPoints objectAtIndex:i] type]) {
+            NSLog(@"All of the selected points should have the same type.");
             NSBeep();
             return;
         }
@@ -1163,17 +1166,15 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     tempPoints = [transition points];
 
     index = [tempPoints indexOfObject:[selectedPoints objectAtIndex:0]];
-    for (i = 0; i < [selectedPoints count]; i++)
-        [tempPoints removeObject:[selectedPoints objectAtIndex:i]];
+    [tempPoints removeObjectsInArray:selectedPoints];
 
-    tempMMSlopeRatio = [[MMSlopeRatio alloc] init];
-    newPoints = [tempMMSlopeRatio points];
-    for (i = 0; i < [selectedPoints count]; i++)
-        [newPoints addObject:[selectedPoints objectAtIndex:i]];
-    [tempMMSlopeRatio updateSlopes];
+    newSlopeRatio = [[MMSlopeRatio alloc] init];
+    newPoints = [newSlopeRatio points];
+    [newPoints addObjectsFromArray:selectedPoints];
+    [newSlopeRatio updateSlopes];
 
-    [tempPoints insertObject:tempMMSlopeRatio atIndex:index];
-    [tempMMSlopeRatio release];
+    [tempPoints insertObject:newSlopeRatio atIndex:index];
+    [newSlopeRatio release];
 
     [self setNeedsDisplay:YES];
 }

@@ -19,7 +19,7 @@
     NSString *name;
     NSString *comment;
     MMPhoneType type;
-    MonetList *points; // Of MMSlopeRatios and/or MMPoints
+    NSMutableArray *points; // Of MMSlopeRatios and/or MMPoints
 }
 
 - (id)init;
@@ -38,8 +38,8 @@
 - (void)setComment:(NSString *)newComment;
 - (BOOL)hasComment;
 
-- (MonetList *)points;
-- (void)setPoints:(MonetList *)newList;
+- (NSMutableArray *)points;
+- (void)setPoints:(NSMutableArray *)newList;
 - (void)addPoint:(id)newPoint;
 
 - (BOOL)isTimeInSlopeRatio:(double)aTime;

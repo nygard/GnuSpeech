@@ -16,15 +16,15 @@
 
 @interface MMSlopeRatio : NSObject
 {
-    MonetList *points; // Of MMPoints
+    NSMutableArray *points; // Of MMPoints
     MonetList *slopes; // Of MMSlopes
 }
 
 - (id)init;
 - (void)dealloc;
 
-- (MonetList *)points;
-- (void)setPoints:(MonetList *)newList;
+- (NSMutableArray *)points;
+- (void)setPoints:(NSMutableArray *)newList;
 - (void)addPoint:(MMPoint *)newPoint;
 
 - (MonetList *)slopes;

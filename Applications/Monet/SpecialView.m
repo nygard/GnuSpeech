@@ -111,7 +111,7 @@
 {
     int count, index;
     int j;
-    MonetList *currentPoints;
+    NSArray *currentPoints;
     MMPoint *currentPoint;
     //double tempos[4] = {1.0, 1.0, 1.0, 1.0};
     NSPoint myPoint;
