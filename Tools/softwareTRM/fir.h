@@ -16,5 +16,4 @@ void TRMFIRFilterFree(TRMFIRFilter *filter);
 
 double FIRFilter(TRMFIRFilter *filter, double input, int needOutput);
 
-
 #endif
