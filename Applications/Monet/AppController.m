@@ -72,26 +72,7 @@
     //NSLog(@"[NSApp delegate]: %@", [NSApp delegate]);
 
     // Name them here to make sure all the outlets have been connected
-    NXNameObject(@"mainCategoryList", [model categories], NSApp);
-    NXNameObject(@"mainParameterList", [model parameters], NSApp);
-    NXNameObject(@"mainMetaParameterList", [model metaParameters], NSApp);
     NXNameObject(@"mainSymbolList", [model symbols], NSApp);
-    NXNameObject(@"mainPhoneList", [model postures], NSApp);
-    NXNameObject(@"rules", [model rules], NSApp);
-
-    NXNameObject(@"prototypeManager", prototypeManager, NSApp);
-    NXNameObject(@"intonationView", intonationView, NSApp);
-
-    //[prototypeManager setModel:model];
-    //[dataEntryController setModel:model];
-    //[postureEditor setModel:model];
-    //[newPrototypeManager setModel:model];
-    //[transitionEditor setModel:model];
-    //[specialTransitionEditor setModel:model];
-    //[ruleTester setModel:model];
-    //[ruleManager setModel:model];
-
-    //NSLog(@"getting it by name: %@", NXGetNamedObject(@"mainSymbolList", NSApp));
 
     //NSLog(@"decode List as %@", [NSUnarchiver classNameDecodedForArchiveClassName:@"List"]);
     //NSLog(@"decode Object as %@", [NSUnarchiver classNameDecodedForArchiveClassName:@"Object"]);
@@ -319,22 +300,12 @@
         stream = [[MUnarchiver alloc] initForReadingWithData:[NSData dataWithContentsOfFile:filename]];
 
         if (stream) {
-            NXUnnameObject(@"mainCategoryList", NSApp);
-            NXUnnameObject(@"mainParameterList", NSApp);
-            NXUnnameObject(@"mainMetaParameterList", NSApp);
             NXUnnameObject(@"mainSymbolList", NSApp);
-            NXUnnameObject(@"mainPhoneList", NSApp);
-            NXUnnameObject(@"rules", NSApp);
 
             [model release];
             model = [[MModel alloc] initWithCoder:stream];
 
-            NXNameObject(@"mainCategoryList", [model categories], NSApp);
-            NXNameObject(@"mainParameterList", [model parameters], NSApp);
-            NXNameObject(@"mainMetaParameterList", [model metaParameters], NSApp);
             NXNameObject(@"mainSymbolList", [model symbols], NSApp);
-            NXNameObject(@"mainPhoneList", [model postures], NSApp);
-            NXNameObject(@"rules", [model rules], NSApp);
 
             [prototypeManager setModel:model];
             [dataEntryController setModel:model];
