@@ -19,9 +19,11 @@ typedef struct _TRMRingBuffer {
 TRMRingBuffer *createRingBuffer(int aPadSize);
 void dataFill(TRMRingBuffer *ringBuffer, double data);
 void dataEmpty(TRMRingBuffer *ringBuffer);
-void increment(TRMRingBuffer *ringBuffer);
-void decrement(TRMRingBuffer *ringBuffer);
+void RBIncrement(TRMRingBuffer *ringBuffer);
+void RBDecrement(TRMRingBuffer *ringBuffer);
 void flushBuffer(TRMRingBuffer *ringBuffer);
 
+void RBIncrementIndex(int *index);
+void RBDecrementIndex(int *index);
 
 #endif

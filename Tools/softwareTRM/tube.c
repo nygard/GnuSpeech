@@ -59,6 +59,7 @@
 #include "fir.h"
 #include "util.h"
 #include "structs.h"
+#include "ring_buffer.h"
 
 
 
@@ -190,16 +191,7 @@ struct {
 } current;
 
 TRMSampleRateConverter sampleRateConverter;
-
-//
-// Ring Buffer
-//
-
-#define BUFFER_SIZE               1024                 /*  ring buffer size  */
-
-double buffer[BUFFER_SIZE];
-int fillPtr, emptyPtr = 0, padSize, fillSize;
-
+TRMRingBuffer *ringBuffer;
 
 /*  GLOBAL FUNCTIONS (LOCAL TO THIS FILE)  ***********************************/
 
@@ -225,14 +217,8 @@ double vocalTract(double input, double frication);
 double throat(double input);
 double bandpassFilter(double input);
 void initializeConversion(struct _TRMInputParameters *inputParameters);
+void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context);
 void initializeFilter(void);
-void initializeBuffer(void);
-void dataFill(double data);
-void dataEmpty(void);
-void srIncrement(int *pointer, int modulus);
-void srDecrement(int *pointer, int modulus);
-
-
 
 
 
@@ -670,7 +656,7 @@ void synthesize(TRMData *data)
                 printf("\nDone throat\n");
 
             /*  OUTPUT SAMPLE HERE  */
-            dataFill(signal);
+            dataFill(ringBuffer, signal);
             if (verbose)
                 printf("\nDone datafil\n");
 
@@ -686,7 +672,7 @@ void synthesize(TRMData *data)
     }
 
     /*  BE SURE TO FLUSH SRC BUFFER  */
-    flushBuffer();
+    flushBuffer(ringBuffer);
 }
 
 
@@ -1324,6 +1310,7 @@ double bandpassFilter(double input)
 void initializeConversion(struct _TRMInputParameters *inputParameters)
 {
     double roundedSampleRateRatio;
+    int padSize;
 
     sampleRateConverter.timeRegister = 0;
     sampleRateConverter.maximumSampleValue = 0.0;
@@ -1352,15 +1339,18 @@ void initializeConversion(struct _TRMInputParameters *inputParameters)
     padSize = (sampleRateConverter.sampleRateRatio >= 1.0) ? ZERO_CROSSINGS :
         (int)((float)ZERO_CROSSINGS / roundedSampleRateRatio) + 1;
 
-    /*  INITIALIZE THE RING BUFFER  */
-    initializeBuffer();
+    ringBuffer = createRingBuffer(padSize);
+    if (ringBuffer == NULL) {
+        fprintf(stderr, "Error: Failed to create ring buffer.\n");
+    }
+
+    ringBuffer->context = &sampleRateConverter;
+    ringBuffer->callbackFunction = resampleBuffer;
 
     /*  INITIALIZE THE TEMPORARY OUTPUT FILE  */
     sampleRateConverter.tempFilePtr = tmpfile();
     rewind(sampleRateConverter.tempFilePtr);
 }
-
-
 
 /******************************************************************************
 *
@@ -1408,128 +1398,38 @@ void initializeFilter(void)
 
 
 
-/******************************************************************************
-*
-*       function:       initializeBuffer
-*
-*       purpose:        Initializes the ring buffer used for sample rate
-*                       conversion.
-*
-*       arguments:      none
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      none
-*
-******************************************************************************/
+// Converts available portion of the input signal to the new sampling
+// rate, and outputs the samples to the sound struct.
 
-void initializeBuffer(void)
+void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context)
 {
-    int i;
-
-    printf("initializeBuffer(), padSize: %d\n", padSize);
-
-    /*  FILL THE RING BUFFER WITH ALL ZEROS  */
-    for (i = 0; i < BUFFER_SIZE; i++)
-        buffer[i] = 0.0;
-
-    /*  INITIALIZE FILL POINTER  */
-    fillPtr = padSize;
-
-    /*  CALCULATE FILL SIZE  */
-    fillSize = BUFFER_SIZE - (2 * padSize);
-
-    printf("initializeBuffer(), padSize: %d, fillPtr: %d, fillSize: %d\n", padSize, fillPtr, fillSize);
-}
-
-
-
-/******************************************************************************
-*
-*       function:       dataFill
-*
-*       purpose:        Fills the ring buffer with a single sample, increments
-*                       the counters and pointers, and empties the buffer when
-*                       full.
-*
-*       arguments:      data
-*
-*       internal
-*       functions:      srIncrement, dataEmpty
-*
-*       library
-*       functions:      none
-*
-******************************************************************************/
-
-void dataFill(double data)
-{
-    static int fillCounter = 0;
-
-
-    /*  PUT THE DATA INTO THE RING BUFFER  */
-    buffer[fillPtr] = data;
-
-    /*  INCREMENT THE FILL POINTER, MODULO THE BUFFER SIZE  */
-    srIncrement(&fillPtr, BUFFER_SIZE);
-
-    /*  INCREMENT THE COUNTER, AND EMPTY THE BUFFER IF FULL  */
-    if (++fillCounter >= fillSize) {
-        dataEmpty();
-        /* RESET THE FILL COUNTER  */
-        fillCounter = 0;
-    }
-}
-
-
-
-/******************************************************************************
-*
-*       function:       dataEmpty
-*
-*       purpose:        Converts available portion of the input signal to the
-*                       new sampling rate, and outputs the samples to the
-*                       sound struct.
-*
-*       arguments:      none
-*
-*       internal
-*       functions:      srDecrement, srIncrement
-*
-*       library
-*       functions:      rint, fabs, fwrite
-*
-******************************************************************************/
-
-void dataEmpty(void)
-{
+    TRMSampleRateConverter *aConverter = (TRMSampleRateConverter *)context;
     int endPtr;
 
-    printf(" > dataEmpty()\n");
+    printf(" > resampleBuffer()\n");
     printf("buffer size: %d\n", BUFFER_SIZE);
+    printf("&sampleRateConverter: %p, aConverter: %p\n", &sampleRateConverter, aConverter);
     printf("numberSamples before: %ld\n", sampleRateConverter.numberSamples);
-    printf("fillPtr: %d, padSize: %d\n", fillPtr, padSize);
+    printf("fillPtr: %d, padSize: %d\n", aRingBuffer->fillPtr, aRingBuffer->padSize);
 
     /*  CALCULATE END POINTER  */
-    endPtr = fillPtr - padSize;
+    endPtr = aRingBuffer->fillPtr - aRingBuffer->padSize;
     printf("endPtr: %d\n", endPtr);
-    printf("emptyPtr: %d\n", emptyPtr);
+    printf("emptyPtr: %d\n", aRingBuffer->emptyPtr);
 
     /*  ADJUST THE END POINTER, IF LESS THAN ZERO  */
     if (endPtr < 0)
         endPtr += BUFFER_SIZE;
 
     /*  ADJUST THE ENDPOINT, IF LESS THEN THE EMPTY POINTER  */
-    if (endPtr < emptyPtr)
+    if (endPtr < aRingBuffer->emptyPtr)
         endPtr += BUFFER_SIZE;
 
     /*  UPSAMPLE LOOP (SLIGHTLY MORE EFFICIENT THAN DOWNSAMPLING)  */
     printf("sampleRateConverter.sampleRateRatio: %g\n", sampleRateConverter.sampleRateRatio);
     if (sampleRateConverter.sampleRateRatio >= 1.0) {
         printf("Upsampling...\n");
-        while (emptyPtr < endPtr) {
+        while (aRingBuffer->emptyPtr < endPtr) {
             int index;
             unsigned int filterIndex;
             double output, interpolation, absoluteSampleValue;
@@ -1541,11 +1441,11 @@ void dataEmpty(void)
             interpolation = (double)mValue(sampleRateConverter.timeRegister) / (double)M_RANGE;
 
             /*  COMPUTE THE LEFT SIDE OF THE FILTER CONVOLUTION  */
-            index = emptyPtr;
+            index = aRingBuffer->emptyPtr;
             for (filterIndex = lValue(sampleRateConverter.timeRegister);
                  filterIndex < FILTER_LENGTH;
-                 srDecrement(&index, BUFFER_SIZE), filterIndex += sampleRateConverter.filterIncrement) {
-                output += buffer[index] * (sampleRateConverter.h[filterIndex] + sampleRateConverter.deltaH[filterIndex] * interpolation);
+                 RBDecrementIndex(&index), filterIndex += sampleRateConverter.filterIncrement) {
+                output += aRingBuffer->buffer[index] * (sampleRateConverter.h[filterIndex] + sampleRateConverter.deltaH[filterIndex] * interpolation);
             }
 
             /*  ADJUST VALUES FOR RIGHT SIDE CALCULATION  */
@@ -1553,12 +1453,12 @@ void dataEmpty(void)
             interpolation = (double)mValue(sampleRateConverter.timeRegister) / (double)M_RANGE;
 
             /*  COMPUTE THE RIGHT SIDE OF THE FILTER CONVOLUTION  */
-            index = emptyPtr;
-            srIncrement(&index, BUFFER_SIZE);
+            index = aRingBuffer->emptyPtr;
+            RBIncrementIndex(&index);
             for (filterIndex = lValue(sampleRateConverter.timeRegister);
                  filterIndex < FILTER_LENGTH;
-                 srIncrement(&index, BUFFER_SIZE), filterIndex += sampleRateConverter.filterIncrement) {
-                output += buffer[index] * (sampleRateConverter.h[filterIndex] + sampleRateConverter.deltaH[filterIndex] * interpolation);
+                 RBIncrementIndex(&index), filterIndex += sampleRateConverter.filterIncrement) {
+                output += aRingBuffer->buffer[index] * (sampleRateConverter.h[filterIndex] + sampleRateConverter.deltaH[filterIndex] * interpolation);
             }
 
             /*  RECORD MAXIMUM SAMPLE VALUE  */
@@ -1579,10 +1479,10 @@ void dataEmpty(void)
             sampleRateConverter.timeRegister += sampleRateConverter.timeRegisterIncrement;
 
             /*  INCREMENT THE EMPTY POINTER, ADJUSTING IT AND END POINTER  */
-            emptyPtr += nValue(sampleRateConverter.timeRegister);
+            aRingBuffer->emptyPtr += nValue(sampleRateConverter.timeRegister);
 
-            if (emptyPtr >= BUFFER_SIZE) {
-                emptyPtr -= BUFFER_SIZE;
+            if (aRingBuffer->emptyPtr >= BUFFER_SIZE) {
+                aRingBuffer->emptyPtr -= BUFFER_SIZE;
                 endPtr -= BUFFER_SIZE;
             }
 
@@ -1592,7 +1492,7 @@ void dataEmpty(void)
     } else {
         printf("Downsampling...\n");
         /*  DOWNSAMPLING CONVERSION LOOP  */
-        while (emptyPtr < endPtr) {
+        while (aRingBuffer->emptyPtr < endPtr) {
             int index;
             unsigned int phaseIndex, impulseIndex;
             double absoluteSampleValue, output, impulse;
@@ -1604,12 +1504,12 @@ void dataEmpty(void)
             phaseIndex = (unsigned int)rint( ((double)fractionValue(sampleRateConverter.timeRegister)) * sampleRateConverter.sampleRateRatio);
 
             /*  COMPUTE THE LEFT SIDE OF THE FILTER CONVOLUTION  */
-            index = emptyPtr;
-            while ((impulseIndex = (phaseIndex>>M_BITS)) < FILTER_LENGTH) {
+            index = aRingBuffer->emptyPtr;
+            while ((impulseIndex = (phaseIndex >> M_BITS)) < FILTER_LENGTH) {
                 impulse = sampleRateConverter.h[impulseIndex] + (sampleRateConverter.deltaH[impulseIndex] *
                                                                  (((double)mValue(phaseIndex)) / (double)M_RANGE));
-                output += (buffer[index] * impulse);
-                srDecrement(&index, BUFFER_SIZE);
+                output += (aRingBuffer->buffer[index] * impulse);
+                RBDecrementIndex(&index);
                 phaseIndex += sampleRateConverter.phaseIncrement;
             }
 
@@ -1617,13 +1517,13 @@ void dataEmpty(void)
             phaseIndex = (unsigned int)rint( ((double)fractionValue(~sampleRateConverter.timeRegister)) * sampleRateConverter.sampleRateRatio);
 
             /*  COMPUTE THE RIGHT SIDE OF THE FILTER CONVOLUTION  */
-            index = emptyPtr;
-            srIncrement(&index, BUFFER_SIZE);
+            index = aRingBuffer->emptyPtr;
+            RBIncrementIndex(&index);
             while ((impulseIndex = (phaseIndex>>M_BITS)) < FILTER_LENGTH) {
                 impulse = sampleRateConverter.h[impulseIndex] + (sampleRateConverter.deltaH[impulseIndex] *
                                                                  (((double)mValue(phaseIndex)) / (double)M_RANGE));
-                output += (buffer[index] * impulse);
-                srIncrement(&index, BUFFER_SIZE);
+                output += (aRingBuffer->buffer[index] * impulse);
+                RBIncrementIndex(&index);
                 phaseIndex += sampleRateConverter.phaseIncrement;
             }
 
@@ -1642,9 +1542,9 @@ void dataEmpty(void)
             sampleRateConverter.timeRegister += sampleRateConverter.timeRegisterIncrement;
 
             /*  INCREMENT THE EMPTY POINTER, ADJUSTING IT AND END POINTER  */
-            emptyPtr += nValue(sampleRateConverter.timeRegister);
-            if (emptyPtr >= BUFFER_SIZE) {
-                emptyPtr -= BUFFER_SIZE;
+            aRingBuffer->emptyPtr += nValue(sampleRateConverter.timeRegister);
+            if (aRingBuffer->emptyPtr >= BUFFER_SIZE) {
+                aRingBuffer->emptyPtr -= BUFFER_SIZE;
                 endPtr -= BUFFER_SIZE;
             }
 
@@ -1653,87 +1553,5 @@ void dataEmpty(void)
         }
     }
     printf("numberSamples after: %ld\n", sampleRateConverter.numberSamples);
-    printf("<  dataEmpty()\n");
-}
-
-
-
-/******************************************************************************
-*
-*       function:       flushBuffer
-*
-*       purpose:        Pads the buffer with zero samples, and flushes it by
-*                       converting the remaining samples.
-*
-*       arguments:      none
-*
-*       internal
-*       functions:      dataFill, dataEmpty
-*
-*       library
-*       functions:      none
-*
-******************************************************************************/
-
-void flushBuffer(void)
-{
-    int i;
-
-
-    /*  PAD END OF RING BUFFER WITH ZEROS  */
-    for (i = 0; i < (padSize * 2); i++)
-        dataFill(0.0);
-
-    /*  FLUSH UP TO FILL POINTER - PADSIZE  */
-    dataEmpty();
-}
-
-
-
-/******************************************************************************
-*
-*       function:       srIncrement
-*
-*       purpose:        Increments the pointer, keeping it within the range
-*                       0 to (modulus-1).
-*
-*       arguments:      pointer, modulus
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      none
-*
-******************************************************************************/
-
-void srIncrement(int *pointer, int modulus)
-{
-    if ( ++(*pointer) >= modulus)
-        (*pointer) -= modulus;
-}
-
-
-
-/******************************************************************************
-*
-*       function:       srDecrement
-*
-*       purpose:        Decrements the pointer, keeping it within the range
-*                       0 to (modulus-1).
-*
-*       arguments:      pointer, modulus
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      none
-*
-******************************************************************************/
-
-void srDecrement(int *pointer, int modulus)
-{
-    if ( --(*pointer) < 0)
-        (*pointer) += modulus;
+    printf("<  resampleBuffer()\n");
 }

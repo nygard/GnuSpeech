@@ -38,7 +38,7 @@ void dataFill(TRMRingBuffer *ringBuffer, double data)
     ringBuffer->buffer[ringBuffer->fillPtr] = data;
 
     /*  INCREMENT THE FILL POINTER, MODULO THE BUFFER SIZE  */
-    increment(ringBuffer);
+    RBIncrement(ringBuffer);
 
     /*  INCREMENT THE COUNTER, AND EMPTY THE BUFFER IF FULL  */
     if (++(ringBuffer->fillCounter) >= ringBuffer->fillSize) {
@@ -52,18 +52,19 @@ void dataEmpty(TRMRingBuffer *ringBuffer)
 {
     if (ringBuffer->callbackFunction == NULL) {
         // Just empty the buffer.
+        fprintf(stderr, "No callback function set, should just empty it...\n");
     } else {
         (*(ringBuffer->callbackFunction))(ringBuffer, ringBuffer->context);
     }
 }
 
-void increment(TRMRingBuffer *ringBuffer)
+void RBIncrement(TRMRingBuffer *ringBuffer)
 {
     if (++(ringBuffer->fillPtr) >= BUFFER_SIZE)
 	ringBuffer->fillPtr -= BUFFER_SIZE;
 }
 
-void decrement(TRMRingBuffer *ringBuffer)
+void RBDecrement(TRMRingBuffer *ringBuffer)
 {
     if (--(ringBuffer->fillPtr) < 0)
 	ringBuffer->fillPtr += BUFFER_SIZE;
@@ -80,4 +81,16 @@ void flushBuffer(TRMRingBuffer *ringBuffer)
 
     /*  FLUSH UP TO FILL POINTER - PADSIZE  */
     dataEmpty(ringBuffer);
+}
+
+void RBIncrementIndex(int *index)
+{
+    if (++(*index) >= BUFFER_SIZE)
+	(*index) -= BUFFER_SIZE;
+}
+
+void RBDecrementIndex(int *index)
+{
+    if (--(*index) < 0)
+	(*index) += BUFFER_SIZE;
 }

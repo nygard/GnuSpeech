@@ -26,6 +26,5 @@ extern TRMSampleRateConverter sampleRateConverter;
 
 int initializeSynthesizer(struct _TRMData *data);
 void synthesize(TRMData *data);
-void flushBuffer(void);
 
 #endif
