@@ -1,0 +1,31 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = MOutlineView; LANGUAGE = ObjC; SUPERCLASS = NSOutlineView; }, 
+        {
+            CLASS = MRuleManager; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                errorTextField = NSTextField; 
+                expressionForm = NSForm; 
+                match1Browser = NSBrowser; 
+                match2Browser = NSBrowser; 
+                match3Browser = NSBrowser; 
+                match4Browser = NSBrowser; 
+                metaParameterTableView = NSTableView; 
+                metaParameterTransitionOutlineView = NSOutlineView; 
+                parameterTableView = NSTableView; 
+                parameterTransitionOutlineView = NSOutlineView; 
+                possibleCombinationsTextField = NSTextField; 
+                ruleCommentTextView = NSTextView; 
+                ruleTableView = NSTableView; 
+                specialParameterTableView = NSTableView; 
+                specialParameterTransitionOutlineView = NSOutlineView; 
+                symbolEquationOutlineView = NSOutlineView; 
+                symbolTableView = NSTableView; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}
