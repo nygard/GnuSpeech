@@ -123,8 +123,7 @@
 - (IBAction)addCategory:(id)sender;
 {
     MMCategory *newCategory;
-
-    NSLog(@" > %s", _cmd);
+    unsigned int index;
 
     newCategory = [[MMCategory alloc] initWithSymbol:nil];
     [[self model] addCategory:newCategory];
@@ -132,9 +131,12 @@
 
     [self updateViews];
 
-    // TODO (2004-03-18): Ideally we'd like to select the name of the category for editing.
+    index = [[[self model] categories] indexOfObject:newCategory];
+    [categoryTableView scrollRowToVisible:index];
 
-    NSLog(@"<  %s", _cmd);
+    // The row needs to be selected before we start editing it.
+    [categoryTableView selectRow:index byExtendingSelection:NO];
+    [categoryTableView editColumn:[categoryTableView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
 }
 
 - (IBAction)removeCategory:(id)sender;
