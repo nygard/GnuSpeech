@@ -104,6 +104,9 @@
 
     [miniTransitionView setModel:model];
 
+    [equationOutlineView setTarget:self];
+    [equationOutlineView setDoubleAction:@selector(doubleHit:)];
+
     [self updateViews];
     [self expandOutlines];
 }
@@ -149,13 +152,23 @@
         NSString *comment;
 
         selectedEquationOrGroup = [equationOutlineView itemAtRow:[equationOutlineView selectedRow]];
-        [equationCommentTextView setEditable:YES];
-        comment = [selectedEquationOrGroup comment];
-        if (comment == nil)
-            comment = @"";
-        [equationCommentTextView setString:comment];
-        [addEquationButtonCell setEnabled:YES];
-        [removeEquationButtonCell setEnabled:YES];
+        if ([selectedEquationOrGroup isKindOfClass:[NSString class]] == YES) {
+            [equationTextView setEditable:NO];
+            [equationTextView setString:@""];
+            [equationCommentTextView setEditable:NO];
+            [equationCommentTextView setString:@""];
+
+            [addEquationButtonCell setEnabled:NO];
+            [removeEquationButtonCell setEnabled:NO];
+        } else {
+            [equationCommentTextView setEditable:YES];
+            comment = [selectedEquationOrGroup comment];
+            if (comment == nil)
+                comment = @"";
+            [equationCommentTextView setString:comment];
+            [addEquationButtonCell setEnabled:YES];
+            [removeEquationButtonCell setEnabled:YES];
+        }
 
         if ([selectedEquationOrGroup isKindOfClass:[MMEquation class]] == YES) {
             NSString *expressionString;
@@ -577,7 +590,7 @@
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item;
 {
     if (outlineView == equationOutlineView) {
-        return [item isKindOfClass:[NamedList class]] || [item isKindOfClass:[MMEquation class]];
+        return [item isKindOfClass:[NamedList class]] || ([item isKindOfClass:[MMEquation class]] && [self isEquationUsed:item]);
     } else if (outlineView == transitionOutlineView) {
         return [item isKindOfClass:[NamedList class]];
     } else if (outlineView == specialTransitionOutlineView) {
@@ -605,6 +618,8 @@
         } else if ([@"hasComment" isEqual:identifier] == YES) {
             return [NSNumber numberWithBool:[item hasComment]];
         } else if ([@"isUsed" isEqual:identifier] == YES) {
+            if ([item isKindOfClass:[MMEquation class]] == YES)
+                return [NSNumber numberWithBool:[self isEquationUsed:item]];
         }
     } else if (outlineView == transitionOutlineView) {
         if ([@"name" isEqual:identifier] == YES) {
@@ -621,12 +636,6 @@
     }
 
     return nil;
-}
-
-- (BOOL)outlineView:(NSOutlineView *)outlineView shouldExpandItem:(id)item;
-{
-    //NSLog(@"-> %s", _cmd);
-    return YES;
 }
 
 - (void)outlineView:(NSOutlineView *)outlineView willDisplayOutlineCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item;
@@ -695,36 +704,27 @@
     }
 }
 
-#if 0
-// NSOutlineView increases the width of the outline column when you expand a row, forcing horizontal scrollers to appear.  Annoying.  Try to work around.
-- (void)outlineViewItemDidExpand:(NSNotification *)aNotification;
+- (BOOL)outlineView:(NSOutlineView *)outlineView shouldEditTableColumn:(NSTableColumn *)tableColumn item:(id)item;
 {
-    NSOutlineView *outlineView;
-
-    outlineView = [aNotification object];
-
-    if (outlineView == equationOutlineView) {
-        NSLog(@"-> %s", _cmd);
-        //[outlineView sizeToFit];
-        //[outlineView sizeLastColumnToFit];
-        //[outlineView resizeOutlineColumnToFit];
-    }
+    return [item isKindOfClass:[NSString class]] == NO;
 }
 
-- (void)outlineViewItemDidCollapse:(NSNotification *)aNotification;
+- (BOOL)outlineView:(NSOutlineView *)outlineView shouldExpandItem:(id)item;
 {
-    NSOutlineView *outlineView;
-
-    outlineView = [aNotification object];
-
+    // This is just a crummy hack.  We really need notification when things that use equations change, so we can recache.
     if (outlineView == equationOutlineView) {
-        NSLog(@"-> %s", _cmd);
-        //[outlineView resizeOutlineColumnToFit];
-        //[outlineView sizeLastColumnToFit];
-    }
-}
-#endif
+        if ([item isKindOfClass:[MMEquation class]] == YES) {
+            NSArray *usage;
 
+            usage = [self usageOfEquation:item recache:YES];
+            [equationOutlineView reloadItem:item reloadChildren:YES];
+            if ([usage count] == 0)
+                return NO;
+        }
+    }
+
+    return YES;
+}
 //
 // NSTextView delegate
 //
@@ -792,10 +792,18 @@
 
 - (NSArray *)usageOfEquation:(MMEquation *)anEquation;
 {
+    return [self usageOfEquation:anEquation recache:NO];
+}
+
+- (NSArray *)usageOfEquation:(MMEquation *)anEquation recache:(BOOL)shouldRecache;
+{
     NSString *key;
     NSArray *usage;
 
     key = [anEquation equationPath];
+    if (shouldRecache == YES)
+        [cachedEquationUsages removeObjectForKey:key];
+
     usage = [cachedEquationUsages objectForKey:key];
     if (usage == nil) {
         usage = [[self model] usageOfEquation:anEquation];
@@ -803,6 +811,18 @@
     }
 
     return usage;
+}
+
+- (BOOL)isEquationUsed:(MMEquation *)anEquation;
+{
+    return [[self usageOfEquation:anEquation] count] > 0;
+}
+
+- (IBAction)doubleHit:(id)sender;
+{
+    NSLog(@" > %s", _cmd);
+    // We could open the selected Rule, Transition, or Special Transition that was double clicked in the Usage.
+    NSLog(@"<  %s", _cmd);
 }
 
 @end

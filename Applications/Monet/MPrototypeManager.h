@@ -1,5 +1,5 @@
 //
-// $Id: MPrototypeManager.h,v 1.7 2004/03/23 06:23:04 nygard Exp $
+// $Id: MPrototypeManager.h,v 1.8 2004/03/23 06:51:03 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -94,8 +94,8 @@
 
 // NSOutlineView delegate
 - (void)outlineViewSelectionDidChange:(NSNotification *)aNotification;
-//- (void)outlineViewItemDidExpand:(NSNotification *)aNotification;
-//- (void)outlineViewItemDidCollapse:(NSNotification *)aNotification;
+- (BOOL)outlineView:(NSOutlineView *)outlineView shouldEditTableColumn:(NSTableColumn *)tableColumn item:(id)item;
+- (BOOL)outlineView:(NSOutlineView *)outlineView shouldExpandItem:(id)item;
 
 // NSTextView delegate
 - (void)textDidEndEditing:(NSNotification *)aNotification;
@@ -103,5 +103,9 @@
 // Equation usage caching
 - (void)clearEquationUsageCache;
 - (NSArray *)usageOfEquation:(MMEquation *)anEquation;
+- (NSArray *)usageOfEquation:(MMEquation *)anEquation recache:(BOOL)shouldRecache;
+- (BOOL)isEquationUsed:(MMEquation *)anEquation;
+
+- (IBAction)doubleHit:(id)sender;
 
 @end
