@@ -2,8 +2,6 @@
 
 #import <AppKit/AppKit.h>
 #import "IntonationPointInspector.h"
-#import "ProtoEquationInspector.h"
-#import "ProtoTemplateInspector.h"
 #import "RuleInspector.h"
 
 @implementation Inspector
@@ -17,8 +15,6 @@
     [noInspectorView retain];
     [noPopUpListView retain];
 
-    [protoEquationInspector applicationDidFinishLaunching:notification];
-    [protoTransitionInspector applicationDidFinishLaunching:notification];
     [ruleInspector applicationDidFinishLaunching:notification];
     [intonationPointInspector applicationDidFinishLaunching:notification];
 
@@ -80,22 +76,6 @@
 {
     [mainInspectorWindow makeKeyAndOrderFront:self];
     [currentInspector beginEditting];
-}
-
-- (void)inspectEquation:(MMEquation *)equation;
-{
-    [panel setTitle:@"Prototype Equation Inspector"];
-    currentInspectorObject = equation;
-    currentInspector = protoEquationInspector;
-    [protoEquationInspector inspectEquation:equation];
-}
-
-- (void)inspectProtoTransition:(MMTransition *)transition;
-{
-    [panel setTitle:@"Prototype Transition Inspector"];
-    currentInspectorObject = transition;
-    currentInspector = protoTransitionInspector;
-    [protoTransitionInspector inspectTransition:transition];
 }
 
 - (void)inspectRule:(MMRule *)rule;

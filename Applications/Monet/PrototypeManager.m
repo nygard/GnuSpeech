@@ -124,13 +124,11 @@
               str = @"";
           [selectedOutput setStringValue:str];
           [removeButton setEnabled:!([ruleManager isEquationUsed:anEquation] || [self isEquationUsed:anEquation] )] ;
-          [inspector inspectEquation:anEquation];
           break;
       case 1:
           aList = [[model transitions] objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
           aMMTransition = [aList objectAtIndex:[[sender matrixInColumn:1] selectedRow]];
           [removeButton setEnabled:![ruleManager isTransitionUsed:aMMTransition]];
-          [inspector inspectProtoTransition:aMMTransition];
           switch ([aMMTransition type]) {
             case DIPHONE:
                 [selectedOutput setStringValue:@"Diphone"];
@@ -147,7 +145,6 @@
           aList = [[model specialTransitions] objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
           aMMTransition = [aList objectAtIndex:[[sender matrixInColumn:1] selectedRow]];
           [removeButton setEnabled:![ruleManager isTransitionUsed:aMMTransition]];
-          [inspector inspectProtoTransition:aMMTransition];
           switch ([aMMTransition type]) {
             case DIPHONE:
                 [selectedOutput setStringValue:@"Diphone"];
@@ -702,17 +699,14 @@ static NSString *specialString = @"ProtoSpecial";
       case 0:
           aList = [[model equations] objectAtIndex:selectedColumn0Row];
           anEquation = [aList objectAtIndex:selectedColumn1Row];
-          [inspector inspectEquation:anEquation];
           break;
       case 1:
           aList = [[model transitions] objectAtIndex:selectedColumn0Row];
           aMMTransition = [aList objectAtIndex:selectedColumn1Row];
-          [inspector inspectProtoTransition:aMMTransition];
           break;
       case 2:
           aList = [[model specialTransitions] objectAtIndex:selectedColumn0Row];
           aMMTransition = [aList objectAtIndex:selectedColumn1Row];
-          [inspector inspectProtoTransition:aMMTransition];
           break;
       default:
           [inspector cleanInspectorWindow];

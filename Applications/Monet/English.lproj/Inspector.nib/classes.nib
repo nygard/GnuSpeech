@@ -51,8 +51,6 @@
                 noPopUpListView = NSBox; 
                 panel = NSPanel; 
                 popUpListView = NSBox; 
-                protoEquationInspector = ProtoEquationInspector; 
-                protoTransitionInspector = ProtoTemplateInspector; 
                 ruleInspector = RuleInspector; 
             }; 
             SUPERCLASS = NSObject; 
