@@ -8,6 +8,7 @@
   - actually it looks like three points.
 - don't call init methods in -initWithCoder:
 - Parameter and Symbol look pretty close to identical!
+- eliminate MonetList, replace with NSMutableArray.  Or maybe not, since it has an array, but is not an array.
 
 - make superclass for FormulaExpression, FormulaTerminal.  Check how this affects archiving.
 - make superclass for BooleanExpression, BooleanTerminal.  Check how this affects archiving.

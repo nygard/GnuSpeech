@@ -29,7 +29,4 @@
 - findEquation:anEquation andPutIn:(MonetList *)aList;
 - (void)findTemplate:aTemplate andPutIn:aList;
 
-- (id)initWithCoder:(NSCoder *)aDecoder;
-- (void)encodeWithCoder:(NSCoder *)aCoder;
-
 @end

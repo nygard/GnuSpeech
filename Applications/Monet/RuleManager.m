@@ -40,8 +40,7 @@
         [aPhoneList release];
     }
 
-    ruleList = [[RuleList alloc] initWithCapacity: 20];
-
+    ruleList = [[RuleList alloc] initWithCapacity:20];
     boolParser = [[BooleanParser alloc] init];
 
     /* Set up responder for cut/copy/paste operations */
@@ -788,11 +787,16 @@ static NSString *ruleString = @"Rule";
 
 - (void)readRulesFrom:(NSArchiver *)stream;
 {
+    NSLog(@" > %s", _cmd);
+
     [ruleList release];
+    ruleList = nil;
 
     cacheValue = 1;
 
     ruleList = [[stream decodeObject] retain];
+
+    NSLog(@"<  %s", _cmd);
 }
 
 - (void)writeRulesTo:(NSArchiver *)stream;

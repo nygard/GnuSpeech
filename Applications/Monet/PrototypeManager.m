@@ -737,7 +737,6 @@ static NSString *specialString = @"ProtoSpecial";
     [self _setProtoEquations:aList];
 
     aList = [stream decodeObject];
-
     [self _setProtoTemplates:aList];
 
     aList = [stream decodeObject];

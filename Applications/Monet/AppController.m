@@ -94,6 +94,8 @@
     [NSUnarchiver decodeClassName:@"List" asClassName:@"MonetList"];
     [NSUnarchiver decodeClassName:@"Point" asClassName:@"GSMPoint"];
 
+    [self _disableUnconvertedClassLoading];
+
     path = [[NSBundle mainBundle] pathForResource:@"DefaultPrototypes" ofType:nil];
     //NSLog(@"path: %@", path);
 
@@ -335,10 +337,10 @@
                 NXNameObject(@"mainParameterList", mainParameterList, NSApp);
                 NXNameObject(@"mainMetaParameterList", mainMetaParameterList, NSApp);
                 NXNameObject(@"mainPhoneList", mainPhoneList, NSApp);
-#ifdef PORTING
+
                 [prototypeManager readPrototypesFrom:stream];
                 [ruleManager readRulesFrom:stream];
-
+#ifdef PORTING
                 [dataBrowser updateLists];
 
                 [dataBrowser updateBrowser];
@@ -469,6 +471,20 @@
     //NSLog(@" > %s", _cmd);
     [namedObjects removeObjectForKey:key];
     //NSLog(@"<  %s", _cmd);
+}
+
+// Converted classes:
+// CategoryNode, FormulaExpression, FormulaTerminal, MonetList, NamedList, Parameter, Phone, Point, ProtoEquation, ProtoTemplte, Rule, Symbol, Target
+
+- (void)_disableUnconvertedClassLoading;
+{
+    NSString *names[] = { @"BooleanExpression", @"BooleanTerminal", @"IntonationPoint", @"RuleManager", @"Slope", @"SlopeRatio", nil };
+    int index = 0;
+
+    while (names[index] != nil) {
+        [NSUnarchiver decodeClassName:names[index] asClassName:[NSString stringWithFormat:@"%@_NOT_CONVERTED", names[index]]];
+        index++;
+    }
 }
 
 @end

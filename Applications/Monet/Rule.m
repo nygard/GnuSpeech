@@ -1,6 +1,9 @@
 #import "Rule.h"
 
 #import <Foundation/Foundation.h>
+#import "NSObject-Extensions.h"
+#import "NSString-Extensions.h"
+
 #import "AppController.h"
 #import "BooleanExpression.h"
 #import "MonetList.h"
@@ -12,18 +15,11 @@
 
 - (id)init;
 {
-    //ParameterList *mainParameterList, *mainMetaParameterList;
-
     if ([super init] == nil)
         return nil;
 
     /* Alloc lists to point to prototype transition specifiers */
-    //mainParameterList = NXGetNamedObject(@"mainParameterList", NSApp);
-    //parameterProfiles = [[MonetList alloc] initWithCapacity:[mainParameterList count]];
     parameterProfiles = [[MonetList alloc] init];
-
-    //mainMetaParameterList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
-    //metaParameterProfiles = [[MonetList alloc] initWithCapacity:[mainMetaParameterList count]];
     metaParameterProfiles = [[MonetList alloc] init];
 
     /* Set up list for Expression symbols */
@@ -333,21 +329,27 @@
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
+    unsigned archivedVersion;
     int index, j, k;
     int parms, metaParms, symbols;
     PrototypeManager *tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
-    ParameterList *tempList;
     id tempParameter;
+    char *c_comment;
 
-    tempList = NXGetNamedObject(@"mainParameterList", NSApp);
-    parameterProfiles = [[MonetList alloc] initWithCapacity:[tempList count]];
+    if ([super initWithCode:aDecoder] == nil)
+        return nil;
 
-    tempList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
-    metaParameterProfiles = [[MonetList alloc] initWithCapacity:[tempList count]];
+    NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
+    archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
+    NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
 
+    parameterProfiles = [[MonetList alloc] init];
+    metaParameterProfiles = [[MonetList alloc] init];
     expressionSymbols = [[MonetList alloc] initWithCapacity:5];
 
-    [aDecoder decodeValuesOfObjCTypes:"i*", &j, &comment];
+    [aDecoder decodeValuesOfObjCTypes:"i*", &j, &c_comment];
+    comment = [[NSString stringWithASCIICString:c_comment] retain];
+#ifdef PORTING
     bzero(expressions, sizeof(BooleanExpression *) * 4);
     for (index = 0; index < j; index++) {
         expressions[index] = [[aDecoder decodeObject] retain];
@@ -385,12 +387,14 @@
             specialProfiles[index] = [tempProto findSpecial:j andIndex:k];
         }
     }
-
+#endif
+    NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder;
 {
+#ifdef PORTING
     int index, j, k, dummy;
     int parms, metaParms, symbols;
     PrototypeManager *tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
@@ -432,6 +436,7 @@
             [aCoder encodeValuesOfObjCTypes:"ii", &dummy, &dummy];
         }
     }
+#endif
 }
 
 @end

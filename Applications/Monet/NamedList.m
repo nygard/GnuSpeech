@@ -59,19 +59,21 @@
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
+    unsigned archivedVersion;
     char *c_name, *c_comment;
-
-    //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
 
     if ([super initWithCoder:aDecoder] == nil)
         return nil;
+
+    //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
+    archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
+    //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
 
     [aDecoder decodeValuesOfObjCTypes:"**", &c_name, &c_comment];
     [self setName:[NSString stringWithASCIICString:c_name]];
     [self setComment:[NSString stringWithASCIICString:c_comment]];
 
     //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
-
     return self;
 }
 
