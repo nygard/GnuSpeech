@@ -87,7 +87,8 @@
 
 - (IBAction)parseRule:(id)sender;
 {
-    int i, j;
+    int ruleIndex;
+    int j;
     MonetList *testCategoryLists, *testPostures;
     PhoneList *mainPhoneList;
     MMPosture *aPosture;
@@ -149,29 +150,27 @@
 
     //NSLog(@"TempList count = %d", [testCategoryLists count]);
 
-    for (i = 0; i < [[model rules] count]; i++) {
-        aRule = [[model rules] objectAtIndex:i];
-        if ([aRule numberExpressions] <= [testCategoryLists count])
-            if ([aRule matchRule:testCategoryLists]) {
-                NSString *str;
+    aRule = [model findRuleMatchingCategories:testCategoryLists ruleIndex:&ruleIndex];
+    if (aRule != nil) {
+        NSString *str;
 
-                str = [NSString stringWithFormat:@"%d. %@", i + 1, [aRule ruleString]];
-                [ruleOutputTextField setStringValue:str];
-                [consumedTokensTextField setIntValue:[aRule numberExpressions]];
+        str = [NSString stringWithFormat:@"%d. %@", ruleIndex + 1, [aRule ruleString]];
+        [ruleOutputTextField setStringValue:str];
+        [consumedTokensTextField setIntValue:[aRule numberExpressions]];
 
-                // TODO (2004-03-02): Is being out of order significant?
-                // TODO (2004-03-23): I think that the last value may not always be accurate, i.e. for diphones, triphones
-                ruleSymbols[0] = [[aRule getExpressionSymbol:0] evaluate:ruleSymbols phones:testPostures andCacheWith:[[self model] nextCacheTag]];
-                ruleSymbols[2] = [[aRule getExpressionSymbol:2] evaluate:ruleSymbols phones:testPostures andCacheWith:[[self model] nextCacheTag]];
-                ruleSymbols[3] = [[aRule getExpressionSymbol:3] evaluate:ruleSymbols phones:testPostures andCacheWith:[[self model] nextCacheTag]];
-                ruleSymbols[4] = [[aRule getExpressionSymbol:4] evaluate:ruleSymbols phones:testPostures andCacheWith:[[self model] nextCacheTag]];
-                ruleSymbols[1] = [[aRule getExpressionSymbol:1] evaluate:ruleSymbols phones:testPostures andCacheWith:[[self model] nextCacheTag]];
-                for (j = 0; j < 5; j++) {
-                    [[durationOutputForm cellAtIndex:j] setDoubleValue:ruleSymbols[j]];
-                    //NSLog(@"ruleSymbols[%d] = %g", j, ruleSymbols[j]);
-                }
-                return;
-            }
+        // TODO (2004-03-02): Is being out of order significant?
+        // TODO (2004-03-23): I think that the last value may not always be accurate, i.e. for diphones, triphones
+        ruleSymbols[0] = [[aRule getExpressionSymbol:0] evaluate:ruleSymbols phones:testPostures andCacheWith:[[self model] nextCacheTag]];
+        ruleSymbols[2] = [[aRule getExpressionSymbol:2] evaluate:ruleSymbols phones:testPostures andCacheWith:[[self model] nextCacheTag]];
+        ruleSymbols[3] = [[aRule getExpressionSymbol:3] evaluate:ruleSymbols phones:testPostures andCacheWith:[[self model] nextCacheTag]];
+        ruleSymbols[4] = [[aRule getExpressionSymbol:4] evaluate:ruleSymbols phones:testPostures andCacheWith:[[self model] nextCacheTag]];
+        ruleSymbols[1] = [[aRule getExpressionSymbol:1] evaluate:ruleSymbols phones:testPostures andCacheWith:[[self model] nextCacheTag]];
+        for (j = 0; j < 5; j++) {
+            [[durationOutputForm cellAtIndex:j] setDoubleValue:ruleSymbols[j]];
+            //NSLog(@"ruleSymbols[%d] = %g", j, ruleSymbols[j]);
+        }
+
+        return;
     }
 
     NSBeep();
