@@ -1,6 +1,7 @@
 {
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = MExtendedTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
         {CLASS = MOutlineView; LANGUAGE = ObjC; SUPERCLASS = NSOutlineView; }, 
         {
             ACTIONS = {addRule = id; removeRule = id; setExpression = id; updateRule = id; }; 

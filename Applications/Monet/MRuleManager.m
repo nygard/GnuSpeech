@@ -563,6 +563,25 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 }
 
 //
+// MExtendedTableView delegate
+//
+
+- (BOOL)control:(NSControl *)aControl shouldProcessCharacters:(NSString *)characters;
+{
+    int count, index;
+
+    count = [[model rules] count];
+    index = [characters intValue];
+    if (index > 0 && index <= count) {
+        [ruleTableView selectRow:index - 1 byExtendingSelection:NO];
+        [ruleTableView scrollRowToVisible:index - 1];
+        return NO;
+    }
+
+    return YES;
+}
+
+//
 // Browser delegate methods
 //
 
