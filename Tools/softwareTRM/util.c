@@ -100,26 +100,22 @@ double frequency(double pitch)
 *
 *       arguments:      x - input argument
 *
-*	internal
-*	functions:	none
-*
-*	library
-*	functions:	none
+*       reference:      <http://en.wikipedia.org/wiki/Bessel_function>
+*                       <http://mathworld.wolfram.com/ModifiedBesselFunctionoftheFirstKind.html>
 *
 ******************************************************************************/
 
 double Izero(double x)
 {
-    double sum, u, halfx, temp;
-    int n;
+    double sum, u, halfx, temp, n;
 
-
-    sum = u = n = 1;
+    n = 1.0;
+    sum = u = 1;
     halfx = x / 2.0;
 
     do {
-	temp = halfx / (double)n;
-	n += 1;
+	temp = halfx / n;
+	n += 1.0;
 	temp *= temp;
 	u *= temp;
 	sum += u;

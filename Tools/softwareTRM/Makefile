@@ -37,7 +37,10 @@ OPTIMIZATION_CFLAGS = -O4 -mdynamic-no-pic
 ARCHS =
 
 
-all:: tube tube2
+t1: t1.c
+	cc $(CFLAGS) t1.c
+
+#all:: tube tube2
 
 #$(PROGRAM): $(PROGRAM).c
 #	cc $(PROGRAM).c -o $@ $(ARCHS) $(CFLAGS) $(OPTIMIZATION_CFLAGS)
