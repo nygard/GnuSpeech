@@ -41,7 +41,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
         [aPhoneList release];
     }
 
-    boolParser = [[MMBooleanParser alloc] init];
+    boolParser = [[MMBooleanParser alloc] initWithModel:model];
 
     [self setWindowFrameAutosaveName:@"New Rule Manager"];
 
@@ -72,8 +72,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     [model release];
     model = [newModel retain];
 
-    [boolParser setCategoryList:[model categories]];
-    [boolParser setPhoneList:[model postures]];
+    [boolParser setModel:model];
 
     [self updateViews];
     [self expandOutlines];
@@ -113,9 +112,6 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     [ruleCommentTextView setFieldEditor:YES];
 
     [ruleTableView registerForDraggedTypes:[NSArray arrayWithObject:MRMLocalRuleDragPasteboardType]];
-
-    [boolParser setCategoryList:[model categories]];
-    [boolParser setPhoneList:[model postures]];
 
     [self updateViews];
     [self expandOutlines];

@@ -100,9 +100,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     MMBooleanParser *boolParser;
     MMBooleanNode *expr1, *expr2;
 
-    boolParser = [[MMBooleanParser alloc] init];
-    [boolParser setCategoryList:[self categories]];
-    [boolParser setPhoneList:[self postures]];
+    boolParser = [[MMBooleanParser alloc] initWithModel:self];
 
     expr1 = [boolParser parseString:@"phone"];
     expr2 = [boolParser parseString:@"phone"];
@@ -1323,9 +1321,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     id temp, temp1;
     NSString *bufferStr, *buffer1Str;
 
-    boolParser = [[MMBooleanParser alloc] init];
-    [boolParser setCategoryList:categories];
-    [boolParser setPhoneList:postures];
+    boolParser = [[MMBooleanParser alloc] initWithModel:self];
 
     /* READ FROM FILE  */
     fread(&numRules, sizeof(int), 1, fp);

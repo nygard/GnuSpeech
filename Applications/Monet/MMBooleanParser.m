@@ -11,43 +11,39 @@
 #import "MMCategory.h"
 #import "MMPosture.h"
 #import "PhoneList.h"
+#import "MModel.h"
 
 @implementation MMBooleanParser
 
+- (id)initWithModel:(MModel *)aModel;
+{
+    if ([super init] == nil)
+        return nil;
+
+    model = [aModel retain];
+
+    return self;
+}
+
 - (void)dealloc;
 {
-    [categoryList release];
-    [phoneList release];
+    [model release];
 
     [super dealloc];
 }
 
-- (CategoryList *)categoryList;
+- (MModel *)model;
 {
-    return categoryList;
+    return model;
 }
 
-- (void)setCategoryList:(CategoryList *)aList;
+- (void)setModel:(MModel *)newModel;
 {
-    if (aList == categoryList)
+    if (newModel == model)
         return;
 
-    [categoryList release];
-    categoryList = [aList retain];
-}
-
-- (PhoneList *)phoneList;
-{
-    return phoneList;
-}
-
-- (void)setPhoneList: (PhoneList *)aList;
-{
-    if (aList == phoneList)
-        return;
-
-    [phoneList release];
-    phoneList = [aList retain];
+    [model release];
+    model = [newModel retain];
 }
 
 - (MMCategory *)categorySymbol:(NSString *)symbol;
@@ -61,7 +57,7 @@
         baseName = symbol;
     }
 
-    tempPhone = [phoneList findPhone:baseName];
+    tempPhone = [model postureWithName:baseName];
     //NSLog(@"%s, baseName: %@, tempPhone: %p", _cmd, baseName, tempPhone);
 
     if (tempPhone) {
@@ -70,7 +66,7 @@
     }
 
     //NSLog(@"%@: NON native category\n", symbol);
-    return [categoryList findSymbol:symbol];
+    return [[model categories] findSymbol:symbol];
 }
 
 - (int)nextToken;

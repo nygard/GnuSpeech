@@ -1,6 +1,6 @@
 #import "GSParser.h"
 
-@class MMCategory, CategoryList, PhoneList;
+@class MMCategory, MModel;
 
 /*===========================================================================
 
@@ -37,18 +37,14 @@
 
 @interface MMBooleanParser : GSParser
 {
-    CategoryList *categoryList;
-    PhoneList *phoneList;
+    MModel *model;
 }
 
+- (id)initWithModel:(MModel *)aModel;
 - (void)dealloc;
 
-/* Access to instance variables */
-- (CategoryList *)categoryList;
-- (void)setCategoryList:(CategoryList *)aList;
-
-- (PhoneList *)phoneList;
-- (void)setPhoneList: (PhoneList *)aList;
+- (MModel *)model;
+- (void)setModel:(MModel *)newModel;
 
 /* General purpose internal methods */
 - (MMCategory *)categorySymbol:(NSString *)symbol;

@@ -385,9 +385,7 @@
     MMBooleanParser *parser;
     MMBooleanNode *result;
 
-    parser = [[MMBooleanParser alloc] init];
-    [parser setCategoryList:[[self model] categories]];
-    [parser setPhoneList:[[self model] postures]];
+    parser = [[MMBooleanParser alloc] initWithModel:[self model]];
 
     result = [parser parseString:aString];
     if (result == nil) {
