@@ -465,6 +465,12 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
         currentX += ruleFrame.size.width - extraWidth;
     }
 
+    {
+        float dashes[2] = {2.0, 2.0};
+        [bezierPath setLineDash:dashes count:2 phase:0.0];
+    }
+
+    [[NSColor darkGrayColor] set];
     [bezierPath stroke];
     [bezierPath release];
 }
