@@ -9,7 +9,6 @@
 #import "MMPoint.h"
 #import "MMSlopeRatio.h"
 #import "NamedList.h"
-#import "PrototypeManager.h"
 
 #import "MModel.h"
 #import "MUnarchiver.h"

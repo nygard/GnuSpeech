@@ -8,7 +8,6 @@
 #import "FormulaExpression.h"
 #import "GSXMLFunctions.h"
 #import "MMEquation.h"
-#import "PrototypeManager.h"
 #import "MMTransition.h"
 
 #import "MModel.h"

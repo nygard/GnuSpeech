@@ -11,7 +11,6 @@
 #import "ParameterList.h"
 #import "MMEquation.h"
 #import "MMTransition.h"
-#import "PrototypeManager.h"
 
 #import "MModel.h"
 #import "MUnarchiver.h"

@@ -15,7 +15,6 @@
 #import "MMTarget.h"
 #import "MonetList.h"
 #import "NamedList.h"
-#import "PrototypeManager.h"
 #import "SymbolList.h"
 #import "TargetList.h"
 

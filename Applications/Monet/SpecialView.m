@@ -11,7 +11,6 @@
 #import "MMPosture.h"
 #import "MMPoint.h"
 #import "MMEquation.h"
-#import "PrototypeManager.h"
 #import "MMTransition.h"
 #import "SymbolList.h"
 #import "MMTarget.h"
