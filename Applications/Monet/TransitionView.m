@@ -5,6 +5,7 @@
 #import "FormulaExpression.h"
 #import "Inspector.h"
 #import "MonetList.h"
+#import "NamedList.h"
 #import "Phone.h"
 #import "Point.h"
 #import "PointInspector.h"
@@ -13,6 +14,7 @@
 #import "ProtoTemplate.h"
 #import "Slope.h"
 #import "SlopeRatio.h"
+#import "Target.h"
 #import "TargetList.h"
 
 @implementation TransitionView
@@ -79,10 +81,10 @@
     metaParms = NXGetNamedObject(@"mainMetaParameterList", NSApp);
 
     dummy = [[Phone alloc] initWithSymbol:@"dummy" parmeters:parms metaParameters: metaParms symbols:symbols];
-    [[[dummy symbolList] objectAtIndex:0] setValue:100.0];
-    [[[dummy symbolList] objectAtIndex:1] setValue:33.3333];
-    [[[dummy symbolList] objectAtIndex:2] setValue:33.3333];
-    [[[dummy symbolList] objectAtIndex:3] setValue:33.3333];
+    [(Target *)[[dummy symbolList] objectAtIndex:0] setValue:100.0];
+    [(Target *)[[dummy symbolList] objectAtIndex:1] setValue:33.3333];
+    [(Target *)[[dummy symbolList] objectAtIndex:2] setValue:33.3333];
+    [(Target *)[[dummy symbolList] objectAtIndex:3] setValue:33.3333];
     [dummyPhoneList addObject:dummy];
     [dummyPhoneList addObject:dummy];
     [dummyPhoneList addObject:dummy];
@@ -165,7 +167,8 @@
     int i, j;
     double symbols[5], time;
     MonetList *equationList = [NXGetNamedObject(@"prototypeManager", NSApp) equationList];
-    id namedList, equation;
+    NamedList *namedList;
+    ProtoEquation *equation;
     float timeScale = ([self frame].size.width - 100.0) / [[displayParameters cellAtIndex:0] floatValue];
     int type;
     NSBezierPath *bezierPath;
@@ -380,7 +383,7 @@
                 NSLog(@"Buffer = %@", str);
 
                 [[NSColor blackColor] set];
-                [str drawAtPoint:NSMakePoint(([[[points objectAtIndex:j] expression] cacheValue])*timeScale + 55.0, 16) withAttributes:nil];
+                [str drawAtPoint:NSMakePoint(([[(GSMPoint *)[points objectAtIndex:j] expression] cacheValue])*timeScale + 55.0, 16) withAttributes:nil];
             }
         }
     }
