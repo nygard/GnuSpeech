@@ -1,5 +1,5 @@
 //
-// $Id: MModel.h,v 1.13 2004/03/20 21:00:36 nygard Exp $
+// $Id: MModel.h,v 1.14 2004/03/20 21:45:25 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -89,6 +89,7 @@ extern NSString *MCategoryInUseException;
 
 // Archiving - XML
 - (void)generateXML:(NSString *)name;
+- (void)_appendXMLForCategoriesToString:(NSMutableString *)resultString level:(int)level;
 - (void)_appendXMLForEquationsToString:(NSMutableString *)resultString level:(int)level;
 - (void)_appendXMLForTransitionsToString:(NSMutableString *)resultString level:(int)level;
 - (void)_appendXMLForProtoSpecialsToString:(NSMutableString *)resultString level:(int)level;

@@ -645,7 +645,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [resultString appendString:@"<?xml version='1.0' encoding='utf-8'?>\n"];
     [resultString appendFormat:@"<!-- %@ -->\n", name];
     [resultString appendString:@"<root version='1'>\n"];
-    [categories appendXMLToString:resultString level:1 useReferences:NO];
+    [self _appendXMLForCategoriesToString:resultString level:1];
 
     [parameters appendXMLToString:resultString elementName:@"parameters" level:1];
     [metaParameters appendXMLToString:resultString elementName:@"meta-parameters" level:1];
@@ -663,6 +663,28 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [[resultString dataUsingEncoding:NSUTF8StringEncoding] writeToFile:@"/tmp/out.xml" atomically:YES];
 
     [resultString release];
+}
+
+- (void)_appendXMLForCategoriesToString:(NSMutableString *)resultString level:(int)level;
+{
+    int count, index;
+
+    count = [categories count];
+    if (count == 0)
+        return;
+
+    [resultString indentToLevel:level];
+    [resultString appendString:@"<categories>\n"];
+
+    for (index = 0; index < count; index++) {
+        MMCategory *aCategory;
+
+        aCategory = [categories objectAtIndex:index];
+        [aCategory appendXMLToString:resultString level:level+1];
+    }
+
+    [resultString indentToLevel:level];
+    [resultString appendString:@"</categories>\n"];
 }
 
 - (void)_appendXMLForEquationsToString:(NSMutableString *)resultString level:(int)level;

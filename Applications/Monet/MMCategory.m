@@ -125,23 +125,21 @@
                      NSStringFromClass([self class]), self, symbol, comment, isNative];
 }
 
-- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level useReferences:(BOOL)shouldUseReferences;
+- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 {
     [resultString indentToLevel:level];
     [resultString appendFormat:@"<category name=\"%@\"", GSXMLAttributeString(symbol, NO)];
-    if (shouldUseReferences == YES) {
+
+    if (comment == nil) {
         [resultString appendString:@"/>\n"];
     } else {
-        if (comment == nil) {
-            [resultString appendString:@"/>\n"];
-        } else {
-            [resultString appendString:@">\n"];
-            [resultString indentToLevel:level + 1];
-            [resultString appendFormat:@"<comment>%@</comment>\n", GSXMLCharacterData(comment)];
+        [resultString appendString:@">\n"];
 
-            [resultString indentToLevel:level];
-            [resultString appendString:@"</category>\n"];
-        }
+        [resultString indentToLevel:level + 1];
+        [resultString appendFormat:@"<comment>%@</comment>\n", GSXMLCharacterData(comment)];
+
+        [resultString indentToLevel:level];
+        [resultString appendString:@"</category>\n"];
     }
 }
 

@@ -70,26 +70,4 @@
                      NSStringFromClass([self class]), self, [super description]];
 }
 
-- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level useReferences:(BOOL)shouldUseReferences;
-{
-    int count, index;
-
-    count = [self count];
-    if (count == 0)
-        return;
-
-    [resultString indentToLevel:level];
-    [resultString appendString:@"<categories>\n"];
-
-    for (index = 0; index < count; index++) {
-        MMCategory *aCategory;
-
-        aCategory = [self objectAtIndex:index];
-        [aCategory appendXMLToString:resultString level:level+1 useReferences:shouldUseReferences];
-    }
-
-    [resultString indentToLevel:level];
-    [resultString appendString:@"</categories>\n"];
-}
-
 @end
