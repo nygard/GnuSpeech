@@ -156,10 +156,11 @@ Notes:
 + try switching to Subversion
 
 2004-05-18:
-- Replace DefaultPrototypes with an XML version of it.
++ Replace DefaultPrototypes with an XML version of it.
 - note some limitations of current system:
   - assumes names of equations and transitions are unique across groups, but doesn't enforce it.  Failure upon load.
   - note parenthesis use in equations
+  - note removal of 0.5 factor from software TRM, and what I think it's there for.
 
 2004-05-20:
 - In the prototype manager, it'll try parsing equations even if an equation isn't selected in the outline view.

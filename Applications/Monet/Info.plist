@@ -27,7 +27,7 @@
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>CFBundleGetInfoString</key>
-	<string>Monet version 0.9.1 (v2)</string>
+	<string>Monet 0.9.1 (v2)</string>
 	<key>NSHumanReadableCopyright</key>
 	<string></string>
 </dict>
