@@ -952,4 +952,126 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [boolParser release];
 }
 
+- (void)writeDataToFile:(FILE *)fp;
+{
+    //[categories printDataTo:fp];
+    [self _writeCategoriesToFile:fp];
+    [self _writeParametersToFile:fp];
+    [self _writeSymbolsToFile:fp];
+    [self _writePosturesToFile:fp];
+}
+
+- (void)_writeCategoriesToFile:(FILE *)fp;
+{
+    int i;
+
+    fprintf(fp, "Categories\n");
+    for (i = 0; i < [categories count]; i++) {
+        fprintf(fp, "%s\n", [[[categories objectAtIndex:i] symbol] UTF8String]);
+        if ([[categories objectAtIndex:i] comment])
+            fprintf(fp, "%s\n", [[[categories objectAtIndex:i] comment] UTF8String]);
+        fprintf(fp, "\n");
+    }
+    fprintf(fp, "\n");
+}
+
+- (void)_writeParametersToFile:(FILE *)fp;
+{
+    int i;
+
+    fprintf(fp, "Parameters\n");
+    for (i = 0; i < [parameters count]; i++) {
+        fprintf(fp, "%s\n", [[[parameters objectAtIndex:i] symbol] UTF8String]);
+        fprintf(fp, "Min: %f  Max: %f  Default: %f\n",
+                [[parameters objectAtIndex:i] minimumValue], [[parameters objectAtIndex:i] maximumValue], [[parameters objectAtIndex:i] defaultValue]);
+        if ([[parameters objectAtIndex:i] comment])
+            fprintf(fp,"%s\n", [[[parameters objectAtIndex:i] comment] UTF8String]);
+        fprintf(fp, "\n");
+    }
+    fprintf(fp, "\n");
+}
+
+- (void)_writeSymbolsToFile:(FILE *)fp;
+{
+    int i;
+
+    fprintf(fp, "Symbols\n");
+    for (i = 0; i < [symbols count]; i++) {
+        fprintf(fp, "%s\n", [[[symbols objectAtIndex:i] symbol] UTF8String]);
+        fprintf(fp, "Min: %f  Max: %f  Default: %f\n",
+                [[symbols objectAtIndex:i] minimumValue], [[symbols objectAtIndex:i] maximumValue], [[symbols objectAtIndex:i] defaultValue]);
+        if ([[symbols objectAtIndex:i] comment])
+            fprintf(fp,"%s\n", [[[symbols objectAtIndex:i] comment] UTF8String]);
+        fprintf(fp, "\n");
+    }
+    fprintf(fp, "\n");
+}
+
+- (void)_writePosturesToFile:(FILE *)fp;
+{
+    int i, j;
+
+    fprintf(fp, "Phones\n");
+    for (i = 0; i < [postures count]; i++) {
+        MMPosture *aPhone;
+        CategoryList *aCategoryList;
+        TargetList *aParameterList, *aSymbolList;
+
+        aPhone = [postures objectAtIndex:i];
+        fprintf(fp, "%s\n", [[aPhone symbol] UTF8String]);
+        aCategoryList = [aPhone categoryList];
+        for (j = 0; j < [aCategoryList count]; j++) {
+            MMCategory *aCategory;
+
+            aCategory = [aCategoryList objectAtIndex:j];
+            if ([aCategory isNative])
+                fprintf(fp, "*%s ", [[aCategory symbol] UTF8String]);
+            else
+                fprintf(fp, "%s ", [[aCategory symbol] UTF8String]);
+        }
+        fprintf(fp, "\n\n");
+
+        aParameterList = [aPhone parameterList];
+        for (j = 0; j < [aParameterList count] / 2; j++) {
+            MMParameter *mainParameter;
+            MMTarget *aParameter;
+
+            aParameter = [aParameterList objectAtIndex:j];
+            mainParameter = [parameters objectAtIndex:j];
+            if ([aParameter isDefault])
+                fprintf(fp, "\t%s: *%f\t\t", [[mainParameter symbol] UTF8String], [aParameter value]);
+            else
+                fprintf(fp, "\t%s: %f\t\t", [[mainParameter symbol] UTF8String], [aParameter value]);
+
+            aParameter = [aParameterList objectAtIndex:j+8];
+            mainParameter = [parameters objectAtIndex:j+8];
+            if ([aParameter isDefault])
+                fprintf(fp, "%s: *%f\n", [[mainParameter symbol] UTF8String], [aParameter value]);
+            else
+                fprintf(fp, "%s: %f\n", [[mainParameter symbol] UTF8String], [aParameter value]);
+        }
+        fprintf(fp, "\n\n");
+
+        aSymbolList = [aPhone symbolList];
+        for (j = 0; j < [aSymbolList count]; j++) {
+            MMSymbol *mainSymbol;
+            MMTarget *aSymbol;
+
+            aSymbol = [aSymbolList objectAtIndex:j];
+            mainSymbol = [symbols objectAtIndex:j];
+            if ([aSymbol isDefault])
+                fprintf(fp, "%s: *%f ", [[mainSymbol symbol] UTF8String], [aSymbol value]);
+            else
+                fprintf(fp, "%s: %f ", [[mainSymbol symbol] UTF8String], [aSymbol value]);
+        }
+        fprintf(fp, "\n\n");
+
+        if ([aPhone comment])
+            fprintf(fp,"%s\n", [[aPhone comment] UTF8String]);
+
+        fprintf(fp, "\n");
+    }
+    fprintf(fp, "\n");
+}
+
 @end

@@ -1,5 +1,5 @@
 //
-// $Id: MModel.h,v 1.10 2004/03/20 19:46:18 nygard Exp $
+// $Id: MModel.h,v 1.11 2004/03/20 19:59:41 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -98,5 +98,11 @@ extern NSString *MCategoryInUseException;
 - (void)readCategoriesFromDegasFile:(FILE *)fp;
 - (void)readPosturesFromDegasFile:(FILE *)fp;
 - (void)readRulesFromDegasFile:(FILE *)fp;
+
+- (void)writeDataToFile:(FILE *)fp;
+- (void)_writeCategoriesToFile:(FILE *)fp;
+- (void)_writeParametersToFile:(FILE *)fp;
+- (void)_writeSymbolsToFile:(FILE *)fp;
+- (void)_writePosturesToFile:(FILE *)fp;
 
 @end

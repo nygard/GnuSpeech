@@ -82,21 +82,6 @@
     [aSymbol setSymbol:name];
 }
 
-- (void)printDataTo:(FILE *)fp;
-{
-    int i;
-    fprintf(fp, "Symbols\n");
-    for (i = 0; i < [self count]; i++) {
-        fprintf(fp, "%s\n", [[[self objectAtIndex:i] symbol] UTF8String]);
-        fprintf(fp, "Min: %f  Max: %f  Default: %f\n",
-                [[self objectAtIndex:i] minimumValue], [[self objectAtIndex:i] maximumValue], [[self objectAtIndex:i] defaultValue]);
-        if ([[self objectAtIndex:i] comment])
-            fprintf(fp,"%s\n", [[[self objectAtIndex:i] comment] UTF8String]);
-        fprintf(fp, "\n");
-    }
-    fprintf(fp, "\n");
-}
-
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 {
     int count, index;

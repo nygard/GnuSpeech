@@ -231,22 +231,27 @@
 
 - (void)printData:(id)sender;
 {
+    FILE *fp;
+#if 0
     const char *temp;
     NSSavePanel *myPanel;
-    FILE *fp;
 
     myPanel = [NSSavePanel savePanel];
     if ([myPanel runModal]) {
         temp = [[myPanel filename] UTF8String];
-        fp = fopen(temp,"w");
+        fp = fopen(temp, "w");
         if (fp) {
-            [[model categories] printDataTo:fp];
-            [[model parameters] printDataTo:fp];
-            [[model symbols] printDataTo:fp];
-            [[model postures] printDataTo:fp];
+            [model writeDataToFile:fp];
             fclose(fp);
         }
     }
+#else
+    fp = fopen("/tmp/data.txt", "w");
+    if (fp) {
+        [model writeDataToFile:fp];
+        fclose(fp);
+    }
+#endif
 }
 
 - (void)archiveToDisk:(id)sender;

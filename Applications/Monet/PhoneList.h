@@ -28,8 +28,6 @@
 
 - (MMPosture *)findPhone:(NSString *)phone;
 
-- (void)printDataTo:(FILE *)fp;
-
 /* List maintenance Methods */
 - (void)parameterDefaultChange:(MMParameter *)parameter to:(double)value;
 - (void)symbolDefaultChange:(MMParameter *)parameter to:(double)value;

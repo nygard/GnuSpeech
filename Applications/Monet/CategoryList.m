@@ -83,20 +83,6 @@
     [temp setSymbol:name];
 }
 
-- (void)printDataTo:(FILE *)fp;
-{
-    int i;
-
-    fprintf(fp, "Categories\n");
-    for (i = 0; i < [self count]; i++) {
-        fprintf(fp, "%s\n", [[[self objectAtIndex:i] symbol] UTF8String]);
-        if ([[self objectAtIndex:i] comment])
-            fprintf(fp, "%s\n", [[[self objectAtIndex:i] comment] UTF8String]);
-        fprintf(fp, "\n");
-    }
-    fprintf(fp, "\n");
-}
-
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"<%@>[%p]: super: %@",

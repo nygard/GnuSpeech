@@ -26,8 +26,6 @@
 - (id)findByName:(NSString *)name;
 - (void)changeSymbolOf:(id)temp to:(NSString *)name;
 
-- (void)printDataTo:(FILE *)fp;
-
 - (NSString *)description;
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level useReferences:(BOOL)shouldUseReferences;

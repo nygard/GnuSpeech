@@ -24,8 +24,6 @@
 - (id)findByName:(NSString *)name;
 - (void)changeSymbolOf:(id)aSymbol to:(NSString *)name;
 
-- (void)printDataTo:(FILE *)fp;
-
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 
 @end
