@@ -1,4 +1,4 @@
-#import <Foundation/NSObject.h>
+#import "MMObject.h"
 
 @class FormulaExpression, NamedList;
 
@@ -11,7 +11,7 @@
 =============================================================================
 */
 
-@interface MMEquation : NSObject
+@interface MMEquation : MMObject
 {
     NamedList *nonretained_group;
 

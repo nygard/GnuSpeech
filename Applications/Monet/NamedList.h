@@ -9,7 +9,7 @@
 =============================================================================
 */
 
-@class NamedList;
+@class MModel, NamedList;
 
 @protocol MSetGroupProtocol
 - (void)setGroup:(NamedList *)newGroup;
@@ -17,12 +17,19 @@
 
 @interface NamedList : MonetList
 {
+    MModel *nonretained_model;
+
     NSString *name;
     NSString *comment;
 }
 
 - (id)initWithCapacity:(unsigned)numSlots;
 - (void)dealloc;
+
+- (MModel *)model;
+- (void)setModel:(MModel *)newModel;
+
+- (NSUndoManager *)undoManager;
 
 - (NSString *)name;
 - (void)setName:(NSString *)newName;

@@ -553,16 +553,19 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 - (void)addEquationGroup:(NamedList *)newGroup;
 {
     [equations addObject:newGroup];
+    [newGroup setModel:self];
 }
 
 - (void)addTransitionGroup:(NamedList *)newGroup;
 {
     [transitions addObject:newGroup];
+    [newGroup setModel:self];
 }
 
 - (void)addSpecialTransitionGroup:(NamedList *)newGroup;
 {
     [specialTransitions addObject:newGroup];
+    [newGroup setModel:self];
 }
 
 // TODO (2004-03-06): Find equation named "named" in list named "list"

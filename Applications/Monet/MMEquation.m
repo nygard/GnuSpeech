@@ -7,6 +7,7 @@
 #import "FormulaExpression.h"
 #import "FormulaParser.h"
 #import "GSXMLFunctions.h"
+#import "MModel.h"
 #import "MXMLParser.h"
 #import "MXMLPCDataDelegate.h"
 #import "NamedList.h"
@@ -106,7 +107,6 @@
 
 - (void)setFormulaString:(NSString *)formulaString;
 {
-#if 0
     FormulaParser *formulaParser;
     FormulaExpression *result;
     NSString *errorString;
@@ -119,10 +119,11 @@
 
     errorString = [formulaParser errorMessage];
     if ([errorString length] > 0)
-        NSLog(@"Warning: error parsing formula: %@", formulaString);
+        NSLog(@"Warning: (%@) error parsing formula: '%@', at %@:'%@', error string: %@", name, formulaString, NSStringFromRange([formulaParser errorRange]), [formulaString substringFromIndex:[formulaParser errorRange].location], errorString);
+
+    // TODO (2004-04-22): A few formulas are failing to parse.  Try just rewriting the formula parser.
 
     [formulaParser release];
-#endif
 }
 
 - (double)evaluate:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag;
@@ -185,8 +186,9 @@
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 {
     [resultString indentToLevel:level];
-    [resultString appendFormat:@"<equation name=\"%@\" formula=\"%@\"",
-                  GSXMLAttributeString(name, NO), GSXMLAttributeString([expression expressionString], NO)];
+    [resultString appendFormat:@"<equation name=\"%@\"", GSXMLAttributeString(name, NO)];
+    if (expression != nil)
+        [resultString appendFormat:@" formula=\"%@\"", GSXMLAttributeString([expression expressionString], NO)];
 
     if (comment == nil) {
         [resultString appendString:@"/>\n"];
@@ -212,8 +214,6 @@
         return nil;
 
     [self setName:[attributes objectForKey:@"name"]];
-
-    NSLog(@"formula: %@", [attributes objectForKey:@"formula"]);
 
     return self;
 }

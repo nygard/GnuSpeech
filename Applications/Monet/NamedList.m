@@ -37,6 +37,32 @@
     [super dealloc];
 }
 
+- (MModel *)model;
+{
+    return nonretained_model;
+}
+
+- (void)setModel:(MModel *)newModel;
+{
+    unsigned int count, index;
+
+    nonretained_model = newModel;
+
+    count = [ilist count];
+    for (index = 0; index < count; index++) {
+        id currentObject;
+
+        currentObject = [ilist objectAtIndex:index];
+        if ([currentObject respondsToSelector:@selector(setModel:)])
+            [currentObject setModel:newModel];
+    }
+}
+
+- (NSUndoManager *)undoManager;
+{
+    return nil;
+}
+
 - (NSString *)name;
 {
     return name;
@@ -139,6 +165,8 @@
 
     if ([anObject respondsToSelector:@selector(setGroup:)] == YES)
         [anObject setGroup:self];
+    if ([anObject respondsToSelector:@selector(setModel:)] == YES)
+        [anObject setModel:[self model]];
 }
 
 - (void)insertObject:(id)anObject atIndex:(unsigned)index;
@@ -177,12 +205,15 @@
         [newDelegate release];
     } else if ([elementName isEqualToString:@"equation"]) {
         MMEquation *newDelegate;
+        NSString *str;
 
         newDelegate = [[MMEquation alloc] initWithXMLAttributes:attributeDict];
         [self addObject:newDelegate];
 
         // Set the formula after adding it to the group, so that it has access to the model for the symbols
-        [newDelegate setFormulaString:[attributeDict objectForKey:@"formula"]];
+        str = [attributeDict objectForKey:@"formula"];
+        if (str != nil && [str length] > 0)
+            [newDelegate setFormulaString:str];
         [(MXMLParser *)parser pushDelegate:newDelegate];
         [newDelegate release];
     } else if ([elementName isEqualToString:@"transition"]) {

@@ -213,7 +213,7 @@
 {
     FormulaTerminal *aTerminal = nil;
 
-    NSLog(@"Symbol = |%@|", symbolString);
+    //NSLog(@"Symbol = |%@|", symbolString);
 
     aTerminal = [[[FormulaTerminal alloc] init] autorelease];
 
@@ -241,7 +241,7 @@
         MMSymbol *aSymbol;
 
         whichPhone = [symbolString characterAtIndex:[symbolString length] - 1] - '1';
-        NSLog(@"Phone = %d", whichPhone);
+        //NSLog(@"Phone = %d", whichPhone);
         if ( (whichPhone < 0) || (whichPhone > 3)) {
             [self appendErrorFormat:@"Error, incorrect phone index %d", whichPhone];
             return nil;
@@ -268,8 +268,6 @@
     id expression1 = nil, expression2 = nil, returnExp = nil;
     FormulaTerminal *aTerminal;
 
-    //NSLog(@"ADD");
-
     expression1 = [[[FormulaExpression alloc] init] autorelease];
     [expression1 setPrecedence:1];
     [expression1 setOperation:TK_F_ADD];
@@ -288,7 +286,7 @@
 
     switch ([self nextToken]) {
       case TK_F_END:
-          [self appendErrorFormat:@"Error, unexpected END at index %d", [scanner scanLocation]];
+          [self appendErrorFormat:@"Error, unexpected END at index(1) %d", [scanner scanLocation]];
           return nil;
 
       case TK_F_ADD:
@@ -329,8 +327,6 @@
     id expression1 = nil, expression2 = nil, returnExp = nil;
     FormulaTerminal *aTerminal;
 
-    //NSLog(@"SUB");
-
     expression1 = [[[FormulaExpression alloc] init] autorelease];;
     [expression1 setPrecedence:1];
     [expression1 setOperation:TK_F_SUB];
@@ -349,7 +345,7 @@
 
     switch ([self nextToken]) {
       case TK_F_END:
-          [self appendErrorFormat:@"Error, unexpected END at index %d", [scanner scanLocation]];
+          [self appendErrorFormat:@"Error, unexpected END at index(2) %d", [scanner scanLocation]];
           return nil;
 
       case TK_F_ADD:
@@ -390,8 +386,6 @@
     id expression1 = nil, expression2 = nil, returnExp = nil;
     FormulaTerminal *aTerminal;
 
-    //NSLog(@"MULT");
-
     expression1 = [[[FormulaExpression alloc] init] autorelease];
     [expression1 setPrecedence:2];
     [expression1 setOperation:TK_F_MULT];
@@ -410,7 +404,7 @@
 
     switch ([self nextToken]) {
       case TK_F_END:
-          [self appendErrorFormat:@"Error, unexpected END at index %d", [scanner scanLocation]];
+          [self appendErrorFormat:@"Error, unexpected END at index(3) %d", [scanner scanLocation]];
           return nil;
 
       case TK_F_ADD:
@@ -451,8 +445,6 @@
     id expression1 = nil, expression2 = nil, returnExp = nil;
     FormulaTerminal *aTerminal;
 
-    //NSLog(@"DIV");
-
     expression1 = [[[FormulaExpression alloc] init] autorelease];
     [expression1 setPrecedence:2];
     [expression1 setOperation:TK_F_DIV];
@@ -471,7 +463,7 @@
 
     switch ([self nextToken]) {
       case TK_F_END:
-          [self appendErrorFormat:@"Error, unexpected END at index %d", [scanner scanLocation]];
+          [self appendErrorFormat:@"Error, unexpected END at index(4) %d", [scanner scanLocation]];
           return nil;
 
       case TK_F_ADD:
@@ -516,7 +508,7 @@
 
     switch ([self nextToken]) {
       case TK_F_END:
-          [self appendErrorFormat:@"Error, unexpected end at index %d", [scanner scanLocation]];
+          [self appendErrorFormat:@"Error, unexpected end at index(5) %d", [scanner scanLocation]];
           return nil;
 
       case TK_F_RPAREN:
@@ -550,7 +542,7 @@
     while ( (token = [self nextToken]) != TK_F_RPAREN) {
         switch (token) {
           case TK_F_END:
-              [self appendErrorFormat:@"Error, unexpected end at index %d", [scanner scanLocation]];
+              [self appendErrorFormat:@"Error, unexpected end at index(6) %d", [scanner scanLocation]];
               return nil;
 
           case TK_F_RPAREN:
