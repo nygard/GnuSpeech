@@ -9,8 +9,6 @@
 #include "output.h"
 #include "structs.h"
 
-//#define SHARK
-
 /*  BOOLEAN CONSTANTS  */
 #define FALSE                     0
 #define TRUE                      1
@@ -150,14 +148,6 @@ int main(int argc, char *argv[])
         exit(-1);
     }
 
-#ifdef SHARK
-    {
-        char buf[100];
-        printf("Waiting to start...\n");
-        gets(buf);
-    }
-#endif
-
     /*  PARSE THE INPUT FILE FOR INPUT INFORMATION  */
     inputData = parseInputFile(inputFile);
     if (inputData == NULL) {
@@ -201,14 +191,6 @@ int main(int argc, char *argv[])
         printf("\nWrote scaled samples to file:  %s\n", outputFile);
 
     TRMTubeModelFree(tube);
-
-#ifdef SHARK
-    {
-        char buf[100];
-        printf("Done, waiting...\n");
-        gets(buf);
-    }
-#endif
 
     return 0;
 }

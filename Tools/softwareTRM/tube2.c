@@ -248,9 +248,6 @@ Initial import.
 #define TRUE                      1
 
 
-//#define SHARK
-
-
 /*  DATA TYPES  **************************************************************/
 
 /*  VARIABLES FOR INPUT TABLES  */
@@ -524,14 +521,6 @@ int main(int argc, char *argv[])
         exit(-1);
     }
 
-#ifdef SHARK
-    {
-        char buf[100];
-        printf("Waiting to start...\n");
-        gets(buf);
-    }
-#endif
-
     /*  PARSE THE INPUT FILE FOR INPUT INFORMATION  */
     if (parseInputFile(inputFile) == ERROR) {
         fprintf(stderr, "Aborting...\n");
@@ -574,14 +563,6 @@ int main(int argc, char *argv[])
     /*  PRINT OUT FINISHED MESSAGE  */
     if (verbose)
         printf("\nWrote scaled samples to file:  %s\n", outputFile);
-
-#ifdef SHARK
-    {
-        char buf[100];
-        printf("Done, waiting...\n");
-        gets(buf);
-    }
-#endif
 
     return 0;
 }
