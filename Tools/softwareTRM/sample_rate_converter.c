@@ -19,14 +19,6 @@
 static void initializeFilter(TRMSampleRateConverter *sampleRateConverter);
 static void resampleBuffer(TRMRingBuffer *aRingBuffer, void *context);
 
-/******************************************************************************
-*
-*       function:       initializeConversion
-*
-*       purpose:        Initializes all the sample rate conversion functions.
-*
-******************************************************************************/
-
 TRMSampleRateConverter *TRMSampleRateConverterCreate(double sampleRate, double outputRate)
 {
     TRMSampleRateConverter *newSampleRateConverter;
@@ -96,22 +88,14 @@ void TRMSampleRateConverterFree(TRMSampleRateConverter *converter)
     free(converter);
 }
 
-/******************************************************************************
-*
-*       function:       initializeFilter
-*
-*       purpose:        Initializes filter impulse response and impulse delta
-*                       values.
-*
-******************************************************************************/
+// Initializes filter impulse response and impulse delta values.
 
 static void initializeFilter(TRMSampleRateConverter *sampleRateConverter)
 {
     double x, IBeta;
     int i;
 
-
-    /*  INITIALIZE THE FILTER IMPULSE RESPONSE  */
+    // Initialize the filter impulse response
     // This is probably a sinc() function.
     sampleRateConverter->h[0] = LP_CUTOFF;
     x = M_PI / (double)L_RANGE;
@@ -120,7 +104,7 @@ static void initializeFilter(TRMSampleRateConverter *sampleRateConverter)
         sampleRateConverter->h[i] = sin(y * LP_CUTOFF) / y;
     }
 
-    /*  APPLY A KAISER WINDOW TO THE IMPULSE RESPONSE  */
+    // Apply a Kaiser window to the impulse response
     // See <http://en.wikipedia.org/wiki/Kaiser_window>
     // ALPHA = 1.8
     // BETA = M_PI * ALPHA
@@ -133,13 +117,11 @@ static void initializeFilter(TRMSampleRateConverter *sampleRateConverter)
         sampleRateConverter->h[i] *= Izero(BETA * sqrt(1.0 - (temp * temp))) * IBeta;
     }
 
-    /*  INITIALIZE THE FILTER IMPULSE RESPONSE DELTA VALUES  */
+    // Initialize the filter impulse response delta values
     for (i = 0; i < FILTER_LIMIT; i++)
         sampleRateConverter->deltaH[i] = sampleRateConverter->h[i+1] - sampleRateConverter->h[i];
     sampleRateConverter->deltaH[FILTER_LIMIT] = 0.0 - sampleRateConverter->h[FILTER_LIMIT];
 }
-
-
 
 // Converts available portion of the input signal to the new sampling
 // rate, and outputs the samples to the sound struct.
@@ -149,18 +131,18 @@ static void resampleBuffer(TRMRingBuffer *aRingBuffer, void *context)
     TRMSampleRateConverter *aConverter = (TRMSampleRateConverter *)context;
     int endPtr;
 
-    /*  CALCULATE END POINTER  */
+    // Calculate end pointer
     endPtr = aRingBuffer->fillPtr - aRingBuffer->padSize;
 
-    /*  ADJUST THE END POINTER, IF LESS THAN ZERO  */
+    // Adjust the end pointer, if less than zero
     if (endPtr < 0)
         endPtr += BUFFER_SIZE;
 
-    /*  ADJUST THE ENDPOINT, IF LESS THEN THE EMPTY POINTER  */
+    // Adjust the endpoint, if less then the empty pointer
     if (endPtr < aRingBuffer->emptyPtr)
         endPtr += BUFFER_SIZE;
 
-    /*  UPSAMPLE LOOP (SLIGHTLY MORE EFFICIENT THAN DOWNSAMPLING)  */
+    // Upsample loop (slightly more efficient than downsampling)
     if (aConverter->sampleRateRatio >= 1.0) {
         //printf("Upsampling...\n");
         while (aRingBuffer->emptyPtr < endPtr) {
@@ -168,13 +150,13 @@ static void resampleBuffer(TRMRingBuffer *aRingBuffer, void *context)
             unsigned int filterIndex;
             double output, interpolation, absoluteSampleValue;
 
-            /*  RESET ACCUMULATOR TO ZERO  */
+            // Reset accumulator to zero
             output = 0.0;
 
-            /*  CALCULATE INTERPOLATION VALUE (STATIC WHEN UPSAMPLING)  */
+            // Calculate interpolation value (static when upsampling)
             interpolation = (double)mValue(aConverter->timeRegister) / (double)M_RANGE;
 
-            /*  COMPUTE THE LEFT SIDE OF THE FILTER CONVOLUTION  */
+            // Compute the left side of the filter convolution
             index = aRingBuffer->emptyPtr;
             for (filterIndex = lValue(aConverter->timeRegister);
                  filterIndex < FILTER_LENGTH;
@@ -182,11 +164,11 @@ static void resampleBuffer(TRMRingBuffer *aRingBuffer, void *context)
                 output += aRingBuffer->buffer[index] * (aConverter->h[filterIndex] + aConverter->deltaH[filterIndex] * interpolation);
             }
 
-            /*  ADJUST VALUES FOR RIGHT SIDE CALCULATION  */
+            // Adjust values for right side calculation
             aConverter->timeRegister = ~aConverter->timeRegister;
             interpolation = (double)mValue(aConverter->timeRegister) / (double)M_RANGE;
 
-            /*  COMPUTE THE RIGHT SIDE OF THE FILTER CONVOLUTION  */
+            // Compute the right side of the filter convolution
             index = aRingBuffer->emptyPtr;
             RBIncrementIndex(&index);
             for (filterIndex = lValue(aConverter->timeRegister);
@@ -195,24 +177,24 @@ static void resampleBuffer(TRMRingBuffer *aRingBuffer, void *context)
                 output += aRingBuffer->buffer[index] * (aConverter->h[filterIndex] + aConverter->deltaH[filterIndex] * interpolation);
             }
 
-            /*  RECORD MAXIMUM SAMPLE VALUE  */
+            // Record maximum sample value
             absoluteSampleValue = fabs(output);
             if (absoluteSampleValue > aConverter->maximumSampleValue)
                 aConverter->maximumSampleValue = absoluteSampleValue;
 
-            /*  INCREMENT SAMPLE NUMBER  */
+            // Increment sample number
             aConverter->numberSamples++;
 
-            /*  OUTPUT THE SAMPLE TO THE TEMPORARY FILE  */
+            // Output the sample to the temporary file
             fwrite((char *)&output, sizeof(output), 1, aConverter->tempFilePtr);
 
-            /*  CHANGE TIME REGISTER BACK TO ORIGINAL FORM  */
+            // Change time register back to original form
             aConverter->timeRegister = ~aConverter->timeRegister;
 
-            /*  INCREMENT THE TIME REGISTER  */
+            // Increment the time register
             aConverter->timeRegister += aConverter->timeRegisterIncrement;
 
-            /*  INCREMENT THE EMPTY POINTER, ADJUSTING IT AND END POINTER  */
+            // Increment the empty pointer, adjusting it and end pointer
             aRingBuffer->emptyPtr += nValue(aConverter->timeRegister);
 
             if (aRingBuffer->emptyPtr >= BUFFER_SIZE) {
@@ -220,24 +202,24 @@ static void resampleBuffer(TRMRingBuffer *aRingBuffer, void *context)
                 endPtr -= BUFFER_SIZE;
             }
 
-            /*  CLEAR N PART OF TIME REGISTER  */
+            // Clear N part of time register
             aConverter->timeRegister &= (~N_MASK);
         }
     } else {
         //printf("Downsampling...\n");
-        /*  DOWNSAMPLING CONVERSION LOOP  */
+        // Downsampling conversion loop
         while (aRingBuffer->emptyPtr < endPtr) {
             int index;
             unsigned int phaseIndex, impulseIndex;
             double absoluteSampleValue, output, impulse;
 
-            /*  RESET ACCUMULATOR TO ZERO  */
+            // Reset accumulator to zero
             output = 0.0;
 
-            /*  COMPUTE P PRIME  */
+            // Compute P prime
             phaseIndex = (unsigned int)rint( ((double)fractionValue(aConverter->timeRegister)) * aConverter->sampleRateRatio);
 
-            /*  COMPUTE THE LEFT SIDE OF THE FILTER CONVOLUTION  */
+            // Compute the left side of the filter convolution
             index = aRingBuffer->emptyPtr;
             while ((impulseIndex = (phaseIndex >> M_BITS)) < FILTER_LENGTH) {
                 impulse = aConverter->h[impulseIndex] + (aConverter->deltaH[impulseIndex] *
@@ -247,10 +229,10 @@ static void resampleBuffer(TRMRingBuffer *aRingBuffer, void *context)
                 phaseIndex += aConverter->phaseIncrement;
             }
 
-            /*  COMPUTE P PRIME, ADJUSTED FOR RIGHT SIDE  */
+            // Compute P prime, adjusted for right side
             phaseIndex = (unsigned int)rint( ((double)fractionValue(~aConverter->timeRegister)) * aConverter->sampleRateRatio);
 
-            /*  COMPUTE THE RIGHT SIDE OF THE FILTER CONVOLUTION  */
+            // Compute the right side of the filter convolution
             index = aRingBuffer->emptyPtr;
             RBIncrementIndex(&index);
             while ((impulseIndex = (phaseIndex>>M_BITS)) < FILTER_LENGTH) {
@@ -261,28 +243,28 @@ static void resampleBuffer(TRMRingBuffer *aRingBuffer, void *context)
                 phaseIndex += aConverter->phaseIncrement;
             }
 
-            /*  RECORD MAXIMUM SAMPLE VALUE  */
+            // Record maximum sample value
             absoluteSampleValue = fabs(output);
             if (absoluteSampleValue > aConverter->maximumSampleValue)
                 aConverter->maximumSampleValue = absoluteSampleValue;
 
-            /*  INCREMENT SAMPLE NUMBER  */
+            // Increment sample number
             aConverter->numberSamples++;
 
-            /*  OUTPUT THE SAMPLE TO THE TEMPORARY FILE  */
+            // Output the sample to the temporary file
             fwrite((char *)&output, sizeof(output), 1, aConverter->tempFilePtr);
 
-            /*  INCREMENT THE TIME REGISTER  */
+            // Increment the time register
             aConverter->timeRegister += aConverter->timeRegisterIncrement;
 
-            /*  INCREMENT THE EMPTY POINTER, ADJUSTING IT AND END POINTER  */
+            // Increment the empty pointer, adjusting it and end pointer
             aRingBuffer->emptyPtr += nValue(aConverter->timeRegister);
             if (aRingBuffer->emptyPtr >= BUFFER_SIZE) {
                 aRingBuffer->emptyPtr -= BUFFER_SIZE;
                 endPtr -= BUFFER_SIZE;
             }
 
-            /*  CLEAR N PART OF TIME REGISTER  */
+            // Clear N part of time register
             aConverter->timeRegister &= (~N_MASK);
         }
     }
