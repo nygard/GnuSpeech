@@ -1,6 +1,6 @@
 #import "MonetList.h"
 
-@class Event, MMPosture;
+@class Event, MMPosture, MMRule, PhoneList;
 
 /*===========================================================================
 

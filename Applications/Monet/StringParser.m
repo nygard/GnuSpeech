@@ -324,13 +324,12 @@ int parse_string(EventList *eventList, NSString *str);
 #endif
 
     fclose(fp);
-    [eventList setShouldStoreParameters:NO];
-    [eventList setShouldUseSoftwareSynthesis:YES];
 
     [eventList setUp];
     [eventList setPitchMean:[pitchMean doubleValue]];
     [eventList setGlobalTempo:[tempoField doubleValue]];
     [eventList setShouldStoreParameters:[parametersStore state]];
+    [eventList setShouldUseSoftwareSynthesis:YES];
 
     [eventList setShouldUseMacroIntonation:[[intonationMatrix cellAtRow:0 column:0] state]];
     [eventList setShouldUseMicroIntonation:[[intonationMatrix cellAtRow:1 column:0] state]];
@@ -339,12 +338,18 @@ int parse_string(EventList *eventList, NSString *str);
 
     [eventList setRadiusMultiply:[radiusMultiplyField doubleValue]];
 
+    // TODO (2004-03-25): Should we set up the intonation parameters, like the hardware synthesis did?
+
     NSLog(@"eventList before: %@", eventList);
     parse_string(eventList, [stringTextField stringValue]);
     NSLog(@"eventList after: %@", eventList);
 
     [eventList generateEventList];
+
+    // TODO (2004-03-25): What about checking for smooth intonation, like the hardware synthesis did?
     [[intonationView documentView] applyIntonation];
+
+    [eventList printDataStructures];
 
     [eventList generateOutput];
 

@@ -6,16 +6,17 @@
 #import "CategoryList.h"
 #import "Event.h"
 #import "IntonationView.h"
-#import "MMParameter.h"
-#import "ParameterList.h"
-#import "MMPosture.h"
-#import "MMPoint.h"
 #import "MMEquation.h"
-#import "MMTransition.h"
+#import "MMParameter.h"
+#import "MMPoint.h"
+#import "MMPosture.h"
 #import "MMRule.h"
-#import "RuleList.h"
+#import "MMTransition.h"
 #import "MMSlopeRatio.h"
 #import "MMTarget.h"
+#import "PhoneList.h"
+#import "ParameterList.h"
+#import "RuleList.h"
 #import "TargetList.h"
 
 #ifdef PORTING
@@ -764,7 +765,8 @@ static void page_consumed(void)
 
 - (void)generateEventList;
 {
-    MonetList *tempPhoneList, *tempCategoryList;
+    MonetList *tempCategoryList;
+    PhoneList *tempPhoneList;
     double tempoList[4];
     double footTempo, tempTempo;
     int index = 0;
@@ -784,7 +786,7 @@ static void page_consumed(void)
         //NSLog(@"Min: %f Max: %f", min[i], max[i]);
     }
 
-    tempPhoneList = [[MonetList alloc] initWithCapacity:4];
+    tempPhoneList = [[PhoneList alloc] initWithCapacity:4];
     tempCategoryList = [[MonetList alloc] initWithCapacity:4];
     bzero(tempoList, sizeof(double) * 4);
 
