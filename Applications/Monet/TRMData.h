@@ -1,37 +1,10 @@
-/*  REVISION INFORMATION  *****************************************************
-
-_Author: fedor $
-_Date: 2002/12/15 05:05:10 $
-_Revision: 1.2 $
-_Source: /cvsroot/gnuspeech/gnuspeech/trillium/ObjectiveC/Monet/TRMData.h,v $
-_State: Exp $
-
-
-_Log: TRMData.h,v $
-Revision 1.2  2002/12/15 05:05:10  fedor
-Port to Openstep and GNUstep
-
-Revision 1.1  2002/03/21 16:49:47  rao
-Initial import.
-
- * Revision 1.1.1.1  1994/07/14  19:02:40  len
- * Initial archive of TRMData.[hm]
- *
-
-******************************************************************************/
-
-
-/*  HEADER FILES  ************************************************************/
 #import <Foundation/NSObject.h>
-
 
 /*  GLOBAL DEFINES  **********************************************************/
 #define PHARYNX_SECTIONS     3
 #define VELUM_SECTIONS       1
 #define ORAL_SECTIONS        5
 #define NASAL_SECTIONS       5
-
-
 
 @interface TRMData : NSObject
 {
@@ -104,9 +77,9 @@ Initial import.
 
 - (id)init;
 
+// Archiving
 - (BOOL)readFromCoder:(NSCoder *)aDecoder;
-- (BOOL)writeToFile:(NSString *)path;
-
+- (void)encodeWithCoder:(NSCoder *)aCoder;
 
 - (float)glotPitch;
 - (void)setGlotPitch:(float)value;

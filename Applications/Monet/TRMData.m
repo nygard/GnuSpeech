@@ -1,27 +1,3 @@
-/*  REVISION INFORMATION  *****************************************************
-
-_Author: fedor $
-_Date: 2002/12/15 05:05:10 $
-_Revision: 1.2 $
-_Source: /cvsroot/gnuspeech/gnuspeech/trillium/ObjectiveC/Monet/TRMData.m,v $
-_State: Exp $
-
-
-_Log: TRMData.m,v $
-Revision 1.2  2002/12/15 05:05:10  fedor
-Port to Openstep and GNUstep
-
-Revision 1.1  2002/03/21 16:49:47  rao
-Initial import.
-
-# Revision 1.1.1.1  1994/07/14  19:02:40  len
-# Initial archive of TRMData.[hm]
-#
-
-******************************************************************************/
-
-
-/*  HEADER FILES  ************************************************************/
 #import "TRMData.h"
 
 #import <Foundation/Foundation.h>
@@ -104,14 +80,10 @@ Initial import.
 #define SPECTROGRAPH_GRID_DEF 0
 #define SPECTRUM_GRID_DEF     1
 
-
-
-
 @implementation TRMData
 
 - (id)init;
 {
-    /*  DO SUPERCLASS INITIALIZATION  */
     if ([super init] == nil)
         return nil;
 
@@ -193,6 +165,10 @@ Initial import.
     return self;
 }
 
+//
+// Archiving
+//
+
 - (BOOL)readFromCoder:(NSCoder *)aDecoder;
 {
     int fileVersion;
@@ -244,76 +220,49 @@ Initial import.
     return YES;
 }
 
-- (BOOL)writeToFile:(NSString *)path;
+- (void)encodeWithCoder:(NSCoder *)aCoder;
 {
-    NSMutableData *mdata;
-    NSArchiver *typedStream;
     int fileVersion;
 
-    /*  OPEN STREAM FOR WRITING  */
-    mdata = [NSMutableData dataWithCapacity:16];
-    typedStream = [[NSArchiver alloc] initForWritingWithMutableData:mdata];
+    /*  WRITE VERSION NUMBER TO STREAM  */
+    fileVersion = CURRENT_FILE_VERSION;
+    [aCoder encodeValuesOfObjCTypes:"i", &fileVersion];
 
-    /*  WARN USER IF INVALID FILE FOR WRITING  */
-    if (typedStream == nil) {
-	NSRunAlertPanel(@"", @"Unable to open file for writing.", @"", nil, nil);
-	return NO;
-    }
+    /*  WRITE PARAMETERS TO STREAM  */
+    /*  GLOTTAL SOURCE PARAMETERS  */
+    [aCoder encodeValuesOfObjCTypes:"iiiiiififff", &waveform, &showAmplitude,
+            &harmonicsScale, &unit, &pitch, &cents, &breathiness,
+            &glotVol, &tp, &tnMin, &tnMax];
 
-    NS_DURING {
-        /*  WRITE VERSION NUMBER TO STREAM  */
-        fileVersion = CURRENT_FILE_VERSION;
-        [typedStream encodeValuesOfObjCTypes:"i", &fileVersion];
+    /*  NOISE SOURCE PARAMETERS  */
+    [aCoder encodeValuesOfObjCTypes:"ifiiiiii", &fricVol, &fricPos,
+            &aspVol, &fricCF, &NoiseSourceResponseScale,
+            &fricBW, &modulation, &mixOffset];
 
-        /*  WRITE PARAMETERS TO STREAM  */
-        /*  GLOTTAL SOURCE PARAMETERS  */
-        [typedStream encodeValuesOfObjCTypes:"iiiiiififff", &waveform, &showAmplitude,
-                     &harmonicsScale, &unit, &pitch, &cents, &breathiness,
-                     &glotVol, &tp, &tnMin, &tnMax];
+    /*  THROAT PARAMETERS  */
+    [aCoder encodeValuesOfObjCTypes:"iii", &throatVol, &throatCutoff,
+            &throatResponseScale];
 
-        /*  NOISE SOURCE PARAMETERS  */
-        [typedStream encodeValuesOfObjCTypes:"ifiiiiii", &fricVol, &fricPos,
-                     &aspVol, &fricCF, &NoiseSourceResponseScale,
-                     &fricBW, &modulation, &mixOffset];
+    /*  RESONANT SYSTEM PARAMETERS  */
+    [aCoder encodeArrayOfObjCType:"d" count:PHARYNX_SECTIONS at:pharynxDiameter];
+    [aCoder encodeArrayOfObjCType:"d" count:VELUM_SECTIONS at:velumDiameter];
+    [aCoder encodeArrayOfObjCType:"d" count:ORAL_SECTIONS at:oralDiameter];
+    [aCoder encodeArrayOfObjCType:"d" count:NASAL_SECTIONS at:nasalDiameter];
+    [aCoder encodeValuesOfObjCTypes:"ddddiiddddi", &lossFactor, &apScale,
+            &mouthCoef, &noseCoef, &mouthResponseScale,
+            &noseResponseScale, &temperature, &length, &sampleRate,
+            &actualLength, &controlPeriod];
 
-        /*  THROAT PARAMETERS  */
-        [typedStream encodeValuesOfObjCTypes:"iii", &throatVol, &throatCutoff,
-                     &throatResponseScale];
+    /*  CONTROLLER PARAMETERS  */
+    [aCoder encodeValuesOfObjCTypes:"idii", &volume, &balance,
+            &channels, &controlRate];
 
-        /*  RESONANT SYSTEM PARAMETERS  */
-        [typedStream encodeArrayOfObjCType:"d" count:PHARYNX_SECTIONS at:pharynxDiameter];
-        [typedStream encodeArrayOfObjCType:"d" count:VELUM_SECTIONS at:velumDiameter];
-        [typedStream encodeArrayOfObjCType:"d" count:ORAL_SECTIONS at:oralDiameter];
-        [typedStream encodeArrayOfObjCType:"d" count:NASAL_SECTIONS at:nasalDiameter];
-        [typedStream encodeValuesOfObjCTypes:"ddddiiddddi", &lossFactor, &apScale,
-                     &mouthCoef, &noseCoef, &mouthResponseScale,
-                     &noseResponseScale, &temperature, &length, &sampleRate,
-                     &actualLength, &controlPeriod];
-
-        /*  CONTROLLER PARAMETERS  */
-        [typedStream encodeValuesOfObjCTypes:"idii", &volume, &balance,
-                     &channels, &controlRate];
-
-        /*  ANALYSIS PARAMETERS  */
-        [typedStream encodeValuesOfObjCTypes:"ciiffiiffiicc", &normalizeInput, &binSize,
-                     &windowType, &alpha, &beta, &grayLevel, &magnitudeScale,
-                     &linearUpperThreshold, &linearLowerThreshold,
-                     &logUpperThreshold, &logLowerThreshold,
-                     &spectrographGrid, &spectrumGrid];
-
-        /*  CLOSE THE TYPED STREAM  */
-        [mdata writeToFile:path atomically:NO];
-    } NS_HANDLER {
-        /*  WARN USER IF EXCEPTION RAISED WHILE WRITING  */
-        NSRunAlertPanel(@"", @"Error while writing file.", @"", nil, nil);
-        [typedStream release];
-        return NO;
-    } NS_ENDHANDLER;
-
-    [typedStream release];
-
-    /*  INDICATE SUCCESSFUL SAVE  */
-    return YES;
+    /*  ANALYSIS PARAMETERS  */
+    [aCoder encodeValuesOfObjCTypes:"ciiffiiffiicc", &normalizeInput, &binSize,
+            &windowType, &alpha, &beta, &grayLevel, &magnitudeScale,
+            &linearUpperThreshold, &linearLowerThreshold,
+            &logUpperThreshold, &logLowerThreshold,
+            &spectrographGrid, &spectrumGrid];
 }
 
 
