@@ -76,5 +76,9 @@ int main(int argc, char *argv[])
     printf("vSasum(v): %f\n", vSasum(8, v));
     printf("vSasum(w): %f\n", vSasum(8, w));
 
+    printf("using pow():   %f\n", 220.0 * pow(2.0, (3.5 + 3.0) / 12.0));
+    printf("using exp2():  %f\n", 220.0 * exp2((3.5 + 3.0) / 12.0));
+    printf("using ldexp(): %f\n", ldexp(220.0, (3.5 + 3.0) / 12.0));
+
     return 0;
 }
