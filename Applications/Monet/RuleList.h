@@ -1,6 +1,6 @@
 #import "MonetList.h"
 
-@class BooleanExpression, MMCategory, MMEquation, MMTransition, MMRule;
+@class MMRule;
 
 /*===========================================================================
 
