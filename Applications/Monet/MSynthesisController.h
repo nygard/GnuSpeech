@@ -79,7 +79,6 @@
 - (IBAction)showIntonationWindow:(id)sender;
 - (IBAction)showIntonationParameterWindow:(id)sender;
 
-- (IBAction)parseStringButton:(id)sender;
 - (IBAction)synthesizeWithSoftware:(id)sender;
 - (IBAction)synthesizeToFile:(id)sender;
 - (void)synthesizeToSoundFile:(BOOL)shouldSaveToSoundFile;
