@@ -4,3 +4,6 @@
   - it's totally wrong, adding the parser.  Sheesh!
 - what does it mean to be "native"?
 - correct spelling, change "editting" to "editing"
+
+- make superclass for FormulaExpression, FormulaTerminal.  Check how this affects archiving.
+- make superclass for BooleanExpression, BooleanTerminal.  Check how this affects archiving.

@@ -45,6 +45,7 @@
 - (int)whichPhone;
 - (void)setWhichPhone:(int)newValue;
 
+// Methods common to "FormulaNode" -- for both FormulaExpression, FormulaTerminal
 - (int)precedence;
 - (void)setPrecedence:(int)newPrec;
 
@@ -56,8 +57,10 @@
 
 - (int)maxExpressionLevels;
 - (int)maxPhone;
+
 - (void)expressionString:(NSMutableString *)resultString;
 
+// Archiving
 //- (id)initWithCoder:(NSCoder *)aDecoder;
 //- (void)encodeWithCoder:(NSCoder *)aCoder;
 

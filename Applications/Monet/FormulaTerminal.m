@@ -64,6 +64,10 @@
     whichPhone = newValue;
 }
 
+//
+// Methods common to "FormulaNode" -- for both FormulaExpression, FormulaTerminal
+//
+
 - (int)precedence;
 {
     return precedence;
@@ -188,6 +192,10 @@
           break;
     }
 }
+
+//
+// Archiving
+//
 
 #ifdef PORTING
 - (id)initWithCoder:(NSCoder *)aDecoder;

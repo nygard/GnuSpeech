@@ -1,7 +1,5 @@
 #import <Foundation/NSObject.h>
 
-#import "FormulaSymbols.h"
-
 /*===========================================================================
 
 	Author: Craig-Richard Taube-Schock
@@ -28,20 +26,22 @@
 - (int)operation;
 - (void)setOperation:(int)newOp;
 
+- (void)addSubExpression:newExpression;
+
+- (id)operandOne;
+- (void)setOperandOne:(id)operand;
+
+- (id)operandTwo;
+- (void)setOperandTwo:(id)operand;
+
+- (NSString *)opString;
+
+// Methods common to "FormulaNode" -- for both FormulaExpression, FormulaTerminal
 - (int)precedence;
 - (void)setPrecedence:(int)newPrec;
 
 - (double)evaluate:(double *)ruleSymbols phones:phones;
 - (double)evaluate:(double *)ruleSymbols tempos:(double *)tempos phones:phones;
-
-- (void)addSubExpression:newExpression;
-
-- operandOne;
-- (void)setOperandOne:operand;
-
-- operandTwo;
-- (void)setOperandTwo:operand;
-
 
 - (void)optimize;
 - (void)optimizeSubExpressions;
@@ -50,8 +50,8 @@
 - (int)maxPhone;
 
 - (void)expressionString:(NSMutableString *)resultString;
-- (NSString *)opString;
 
+// Archiving
 //- (id)initWithCoder:(NSCoder *)aDecoder;
 //- (void)encodeWithCoder:(NSCoder *)aCoder;
 

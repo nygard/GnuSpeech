@@ -1,6 +1,7 @@
 #import "FormulaExpression.h"
 
 #import <Foundation/Foundation.h>
+#import "FormulaSymbols.h"
 
 @implementation FormulaExpression
 
@@ -31,6 +32,68 @@
 {
     operation = newOp;
 }
+
+- (void)addSubExpression:newExpression;
+{
+    [expressions addObject:newExpression];
+}
+
+- (id)operandOne;
+{
+    if ([expressions count] > 0)
+        return [expressions objectAtIndex:0];
+
+    return nil;
+}
+
+- (void)setOperandOne:(id)operand;
+{
+    if ([expressions count] == 0)
+        [expressions addObject:operand];
+    else
+        [expressions replaceObjectAtIndex:0 withObject:operand];
+}
+
+- (id)operandTwo;
+{
+    if ([expressions count] > 1)
+        return [expressions objectAtIndex:1];
+
+    return nil;
+}
+
+- (void)setOperandTwo:(id)operand;
+{
+    switch ([expressions count]) {
+      case 0:
+          NSLog(@"Drat, there should be an operandOne in %s", _cmd);
+          break;
+      case 1:
+          [expressions addObject:operand];
+          break;
+      default:
+          [expressions replaceObjectAtIndex:1 withObject:operand];
+          break;
+    }
+}
+
+- (NSString *)opString;
+{
+    switch (operation) {
+      default:
+      case TK_F_END: return @"";
+      case TK_F_ADD: return @" + ";
+      case TK_F_SUB: return @" - ";
+      case TK_F_MULT: return @" * ";
+      case TK_F_DIV: return @" / ";
+    }
+
+    return @"";
+}
+
+//
+// Methods common to "FormulaNode" -- for both FormulaExpression, FormulaTerminal
+//
 
 - (int)precedence;
 {
@@ -77,50 +140,6 @@
     }
 
     return 0.0;
-}
-
-- (void)addSubExpression:newExpression;
-{
-    [expressions addObject:newExpression];
-}
-
-- operandOne;
-{
-    if ([expressions count] > 0)
-        return [expressions objectAtIndex:0];
-
-    return nil;
-}
-
-- (void)setOperandOne:operand;
-{
-    if ([expressions count] == 0)
-        [expressions addObject:operand];
-    else
-        [expressions replaceObjectAtIndex:0 withObject:operand];
-}
-
-- operandTwo;
-{
-    if ([expressions count] > 1)
-        return [expressions objectAtIndex:1];
-
-    return nil;
-}
-
-- (void)setOperandTwo:operand;
-{
-    switch ([expressions count]) {
-      case 0:
-          NSLog(@"Drat, there should be an operandOne in %s", _cmd);
-          break;
-      case 1:
-          [expressions addObject:operand];
-          break;
-      default:
-          [expressions replaceObjectAtIndex:1 withObject:operand];
-          break;
-    }
 }
 
 - (void)optimize;
@@ -175,10 +194,8 @@
 - (void)expressionString:(NSMutableString *)resultString;
 {
     int count, index;
-    char buffer[1024];
     NSString *opString;
 
-    bzero(buffer, 1024);
     opString = [self opString];
 
     if (precedence == 3)
@@ -197,19 +214,9 @@
         [resultString appendString:@")"];
 }
 
-- (NSString *)opString;
-{
-    switch (operation) {
-      default:
-      case TK_F_END: return @"";
-      case TK_F_ADD: return @" + ";
-      case TK_F_SUB: return @" - ";
-      case TK_F_MULT: return @" * ";
-      case TK_F_DIV: return @" / ";
-    }
-
-    return @"";
-}
+//
+// Archiving
+//
 
 #ifdef PORTING
 - (id)initWithCoder:(NSCoder *)aDecoder;
