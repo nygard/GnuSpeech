@@ -100,59 +100,6 @@
 // Methods common to "FormulaNode" -- for both FormulaExpression, FormulaTerminal
 //
 
-- (double)evaluate:(double *)ruleSymbols phones:(PhoneList *)phones;
-{
-    double tempos[4] = {1.0, 1.0, 1.0, 1.0};
-
-    return [self evaluate:ruleSymbols phones:phones tempos:tempos];
-}
-
-- (double)evaluate:(double *)ruleSymbols phones:(PhoneList *)phones tempos:(double *)tempos;
-{
-    switch (operation) {
-      case TK_F_ADD:
-          return ([[self operandOne] evaluate:ruleSymbols phones:phones tempos:tempos] +
-                  [[self operandTwo] evaluate:ruleSymbols phones:phones tempos:tempos]);
-          break;
-
-      case TK_F_SUB:
-          return ([[self operandOne] evaluate:ruleSymbols phones:phones tempos:tempos] -
-                  [[self operandTwo] evaluate:ruleSymbols phones:phones tempos:tempos]);
-          break;
-
-      case TK_F_MULT:
-          return ([[self operandOne] evaluate:ruleSymbols phones:phones tempos:tempos] *
-                  [[self operandTwo] evaluate:ruleSymbols phones:phones tempos:tempos]);
-          break;
-
-      case TK_F_DIV:
-          return ([[self operandOne] evaluate:ruleSymbols phones:phones tempos:tempos] /
-                  [[self operandTwo] evaluate:ruleSymbols phones:phones tempos:tempos]);
-          break;
-
-      default:
-          return 1.0;
-    }
-
-    return 0.0;
-}
-
-- (int)maxPhone;
-{
-    int count, index;
-    int max = 0;
-    int temp;
-
-    count = [expressions count];
-    for (index = 0; index < count; index++) {
-        temp = [[expressions objectAtIndex:index] maxPhone];
-        if (temp > max)
-            max = temp;
-    }
-
-    return max + 1;
-}
-
 - (void)expressionString:(NSMutableString *)resultString;
 {
     int count, index;
@@ -203,17 +150,6 @@
     //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
 
     return self;
-}
-
-- (NSString *)description;
-{
-#if 0
-    return [NSString stringWithFormat:@"<%@>[%p]: operation: %d, precedence: %d, expressions: %@, cacheTag: %d, cacheValue: %g, expressionString: %@",
-                     NSStringFromClass([self class]), self, operation, precedence, expressions, cacheTag, cacheValue, [self expressionString]];
-#else
-    return [NSString stringWithFormat:@"<%@>[%p]: operation: %d, precedence: %d, cacheTag: %d, cacheValue: %g, expressionString: %@",
-                     NSStringFromClass([self class]), self, operation, precedence, cacheTag, cacheValue, [self expressionString]];
-#endif
 }
 
 @end

@@ -11,11 +11,9 @@
 
 @interface MMFormulaNode : NSObject
 {
-    int precedence;
 }
 
 - (int)precedence;
-- (void)setPrecedence:(int)newPrecedence;
 
 - (double)evaluate:(double *)ruleSymbols phones:(PhoneList *)phones;
 - (double)evaluate:(double *)ruleSymbols phones:(PhoneList *)phones tempos:(double *)tempos;

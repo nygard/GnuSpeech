@@ -1,4 +1,4 @@
-#import "MMOldFormulaNode.h"
+#import "MMFormulaNode.h"
 
 @class PhoneList;
 
@@ -11,10 +11,11 @@
 =============================================================================
 */
 
-@interface FormulaExpression : MMOldFormulaNode
+@interface MMFormulaExpression : MMFormulaNode
 {
     int operation;
-    NSMutableArray *expressions;
+    MMFormulaNode *left;
+    MMFormulaNode *right;
 }
 
 - (id)init;
@@ -22,8 +23,6 @@
 
 - (int)operation;
 - (void)setOperation:(int)newOp;
-
-- (void)addSubExpression:newExpression;
 
 - (id)operandOne;
 - (void)setOperandOne:(id)operand;
@@ -34,9 +33,13 @@
 - (NSString *)opString;
 
 // Methods common to "MMFormulaNode" -- for both FormulaExpression, FormulaTerminal
-- (void)expressionString:(NSMutableString *)resultString;
+- (int)precedence;
 
-// Archiving
-- (id)initWithCoder:(NSCoder *)aDecoder;
+- (double)evaluate:(double *)ruleSymbols phones:(PhoneList *)phones;
+- (double)evaluate:(double *)ruleSymbols phones:(PhoneList *)phones tempos:(double *)tempos;
+
+- (int)maxPhone;
+
+- (void)expressionString:(NSMutableString *)resultString;
 
 @end

@@ -1,4 +1,4 @@
-#import "MMOldFormulaNode.h"
+#import "MMFormulaNode.h"
 
 @class PhoneList, MMSymbol;
 
@@ -22,7 +22,7 @@
 #define TEMPO3		(-10)
 
 
-@interface FormulaTerminal : MMOldFormulaNode
+@interface MMFormulaTerminal : MMFormulaNode
 {
     MMSymbol *symbol;
     double value;
@@ -42,9 +42,13 @@
 - (void)setWhichPhone:(int)newValue;
 
 // Methods common to "FormulaNode" -- for both FormulaExpression, FormulaTerminal
-- (void)expressionString:(NSMutableString *)resultString;
+- (int)precedence;
 
-// Archiving
-- (id)initWithCoder:(NSCoder *)aDecoder;
+- (double)evaluate:(double *)ruleSymbols phones:(PhoneList *)phones;
+- (double)evaluate:(double *)ruleSymbols phones:(PhoneList *)phones tempos:(double *)tempos;
+
+- (int)maxPhone;
+
+- (void)expressionString:(NSMutableString *)resultString;
 
 @end

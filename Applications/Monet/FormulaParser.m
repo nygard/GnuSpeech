@@ -2,9 +2,9 @@
 
 #import <Foundation/Foundation.h>
 #import "NSScanner-Extensions.h"
-#import "FormulaExpression.h"
 #import "FormulaSymbols.h"
-#import "FormulaTerminal.h"
+#import "MMFormulaExpression.h"
+#import "MMFormulaTerminal.h"
 #import "MMSymbol.h"
 #import "SymbolList.h"
 
@@ -121,7 +121,7 @@
 - (MMFormulaNode *)parseExpression;
 {
     MMFormulaNode *result, *right;
-    FormulaExpression *expr;
+    MMFormulaExpression *expr;
 
     result = [self parseTerm];
 
@@ -130,9 +130,9 @@
             [self match:TK_F_ADD];
             right = [self parseTerm];
 
-            expr = [[[FormulaExpression alloc] init] autorelease];
+            expr = [[[MMFormulaExpression alloc] init] autorelease];
             [expr setOperation:TK_F_ADD];
-            [expr setPrecedence:1];
+            //[expr setPrecedence:1];
             [expr setOperandOne:result];
             [expr setOperandTwo:right];
             result = expr;
@@ -140,9 +140,9 @@
             [self match:TK_F_SUB];
             right = [self parseTerm];
 
-            expr = [[[FormulaExpression alloc] init] autorelease];
+            expr = [[[MMFormulaExpression alloc] init] autorelease];
             [expr setOperation:TK_F_SUB];
-            [expr setPrecedence:1];
+            //[expr setPrecedence:1];
             [expr setOperandOne:result];
             [expr setOperandTwo:right];
             result = expr;
@@ -156,7 +156,7 @@
 - (MMFormulaNode *)parseTerm;
 {
     MMFormulaNode *result, *right;
-    FormulaExpression *expr;
+    MMFormulaExpression *expr;
 
     result = [self parseFactor];
 
@@ -165,9 +165,9 @@
             [self match:TK_F_MULT];
             right = [self parseFactor];
 
-            expr = [[[FormulaExpression alloc] init] autorelease];
+            expr = [[[MMFormulaExpression alloc] init] autorelease];
             [expr setOperation:TK_F_MULT];
-            [expr setPrecedence:2];
+            //[expr setPrecedence:2];
             [expr setOperandOne:result];
             [expr setOperandTwo:right];
             result = expr;
@@ -175,9 +175,9 @@
             [self match:TK_F_DIV];
             right = [self parseFactor];
 
-            expr = [[[FormulaExpression alloc] init] autorelease];
+            expr = [[[MMFormulaExpression alloc] init] autorelease];
             [expr setOperation:TK_F_DIV];
-            [expr setPrecedence:2];
+            //[expr setPrecedence:2];
             [expr setOperandOne:result];
             [expr setOperandTwo:right];
             result = expr;
@@ -205,9 +205,9 @@
     return result;
 }
 
-- (FormulaTerminal *)parseNumber;
+- (MMFormulaTerminal *)parseNumber;
 {
-    FormulaTerminal *result = nil;
+    MMFormulaTerminal *result = nil;
 
     // TODO (2004-05-17): Handle unary +, - here.  Hmm, maybe in parseFactor instead, so it can do -(1), or -ident
     if (lookahead == TK_F_ADD) {
@@ -219,7 +219,7 @@
         [result setValue:-[result value]];
     } else {
         if (lookahead == TK_F_CONST) {
-            result = [[[FormulaTerminal alloc] init] autorelease];
+            result = [[[MMFormulaTerminal alloc] init] autorelease];
             [result setValue:[symbolString doubleValue]];
         }
         [self match:TK_F_CONST];
@@ -230,10 +230,10 @@
 
 - (MMFormulaNode *)parseSymbol;
 {
-    FormulaTerminal *result = nil;
+    MMFormulaTerminal *result = nil;
 
     if (lookahead == TK_F_SYMBOL) {
-        result = [[[FormulaTerminal alloc] init] autorelease];
+        result = [[[MMFormulaTerminal alloc] init] autorelease];
 
         if ([symbolString isEqualToString:@"rd"]) {
             [result setWhichPhone:RULEDURATION];

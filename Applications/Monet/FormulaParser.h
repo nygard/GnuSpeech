@@ -1,6 +1,6 @@
 #import "GSParser.h"
 
-@class FormulaTerminal, MMFormulaNode, SymbolList;
+@class MMFormulaTerminal, MMFormulaNode, SymbolList;
 
 /*===========================================================================
 
@@ -32,7 +32,7 @@
 - (MMFormulaNode *)parseTerm;
 - (MMFormulaNode *)parseFactor;
 
-- (FormulaTerminal *)parseNumber;
+- (MMFormulaTerminal *)parseNumber;
 - (MMFormulaNode *)parseSymbol;
 
 

@@ -9,12 +9,8 @@
 
 - (int)precedence;
 {
-    return precedence;
-}
-
-- (void)setPrecedence:(int)newPrecedence;
-{
-    precedence = newPrecedence;
+    // Implement in subclasses
+    return 0;
 }
 
 - (double)evaluate:(double *)ruleSymbols phones:(PhoneList *)phones;
