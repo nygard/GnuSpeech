@@ -53,8 +53,8 @@
 
 - (void)parserDidStartDocument:(NSXMLParser *)parser;
 {
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
+    //NSLog(@" > %s", _cmd);
+    //NSLog(@"<  %s", _cmd);
 }
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser;
@@ -128,6 +128,7 @@
 - (void)parser:(NSXMLParser *)parser validationErrorOccurred:(NSError *)validationError;
 {
     NSLog(@" > %s", _cmd);
+    NSLog(@"validationError: %@", validationError);
     NSLog(@"<  %s", _cmd);
 }
 

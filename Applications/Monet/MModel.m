@@ -1602,7 +1602,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 {
-    NSLog(@"closing element: '%@'", elementName);
+    //NSLog(@"closing element: '%@'", elementName);
 }
 
 @end
