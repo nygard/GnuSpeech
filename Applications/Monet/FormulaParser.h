@@ -37,7 +37,6 @@
 - (MMFormulaTerminal *)parseNumber;
 - (MMFormulaNode *)parseSymbol;
 
-
 - (id)beginParseString;
 
 @end

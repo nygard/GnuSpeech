@@ -8,8 +8,6 @@
 #import "MMSymbol.h"
 #import "SymbolList.h"
 
-//static int operatorPrec[8] = {1, 1, 2, 2, 3, 0, 4, 4};
-
 @implementation FormulaParser
 
 + (MMFormulaNode *)parsedExpressionFromString:(NSString *)aString symbolList:(SymbolList *)aSymbolList;
@@ -147,7 +145,6 @@
 
             expr = [[[MMFormulaExpression alloc] init] autorelease];
             [expr setOperation:TK_F_ADD];
-            //[expr setPrecedence:1];
             [expr setOperandOne:result];
             [expr setOperandTwo:right];
             result = expr;
@@ -157,7 +154,6 @@
 
             expr = [[[MMFormulaExpression alloc] init] autorelease];
             [expr setOperation:TK_F_SUB];
-            //[expr setPrecedence:1];
             [expr setOperandOne:result];
             [expr setOperandTwo:right];
             result = expr;
@@ -182,7 +178,6 @@
 
             expr = [[[MMFormulaExpression alloc] init] autorelease];
             [expr setOperation:TK_F_MULT];
-            //[expr setPrecedence:2];
             [expr setOperandOne:result];
             [expr setOperandTwo:right];
             result = expr;
@@ -192,7 +187,6 @@
 
             expr = [[[MMFormulaExpression alloc] init] autorelease];
             [expr setOperation:TK_F_DIV];
-            //[expr setPrecedence:2];
             [expr setOperandOne:result];
             [expr setOperandTwo:right];
             result = expr;
