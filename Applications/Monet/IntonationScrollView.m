@@ -46,8 +46,8 @@
     NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
 
     [[self documentView] setNewController:controller];
-    [[self documentView] setUtterance:utterance];
-    [[self documentView] setSmoothing:smoothing];
+    //[[self documentView] setUtterance:utterance];
+    //[[self documentView] setSmoothing:smoothing];
 
     NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }

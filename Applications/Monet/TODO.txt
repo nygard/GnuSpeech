@@ -146,3 +146,4 @@ Notes:
 
 2004-03-30:
 - Change EventLists's intonParms from "double *" into struct or class
+- intonation had range of -20 to 10, event index 32

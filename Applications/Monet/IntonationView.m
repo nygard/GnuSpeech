@@ -43,7 +43,6 @@
 
     eventList = nil;
 
-    intonationPoints = [[NSMutableArray alloc] init];
     selectedPoints = [[NSMutableArray alloc] init];
 
     [self setNeedsDisplay:YES];
@@ -56,10 +55,7 @@
     [timesFont release];
     [timesFontSmall release];
     [eventList release];
-    [intonationPoints release];
     [selectedPoints release];
-    [utterance release];
-    [smoothing release];
 
     [super dealloc];
 }
@@ -99,45 +95,16 @@
     controller = [newController retain];
 }
 
-- (void)setUtterance:(NSTextField *)newUtterance;
+- (BOOL)shouldDrawSmoothPoints;
 {
-    if (newUtterance == utterance)
-        return;
-
-    [utterance release];
-    utterance = [newUtterance retain];
+    return shouldDrawSmoothPoints;
 }
 
-- (void)setSmoothing:(NSButton *)smoothingSwitch;
+- (void)setShouldDrawSmoothPoints:(BOOL)newFlag;
 {
-    if (smoothingSwitch == smoothing)
-        return;
+    shouldDrawSmoothPoints = newFlag;
 
-    [smoothing release];
-    smoothing = [smoothingSwitch retain];
-}
-
-- (void)addIntonationPoint:(IntonationPoint *)iPoint;
-{
-    double time;
-    int i;
-
-//    NSLog(@"Point  Semitone: %f  timeOffset:%f slope:%f phoneIndex:%d", [iPoint semitone], [iPoint offsetTime],
-//           [iPoint slope], [iPoint ruleIndex]);
-
-    if ([iPoint ruleIndex] > [eventList numberOfRules])
-        return;
-
-    [intonationPoints removeObject:iPoint];
-    time = [iPoint absoluteTime];
-    for (i = 0; i < [intonationPoints count]; i++) {
-        if (time < [[intonationPoints objectAtIndex:i] absoluteTime]) {
-            [intonationPoints insertObject:iPoint atIndex:i];
-            return;
-        }
-    }
-
-    [intonationPoints addObject:iPoint];
+    [self setNeedsDisplay:YES];
 }
 
 - (void)drawRect:(NSRect)rect;
@@ -146,6 +113,7 @@
     Event *lastEvent;
     float timeValue;
 
+    NSLog(@"%s", _cmd);
     // TODO (2004-03-15): Changing the view frame in drawRect: can cause problems.  Should do before drawRect:
     clipRect = [[self superview] frame];
     lastEvent = [eventList lastObject];
@@ -160,7 +128,7 @@
     [self drawRules];
     [self drawIntonationPoints];
 
-    if ((!mouseBeingDragged) && ([smoothing state]))
+    if (shouldDrawSmoothPoints == YES && mouseBeingDragged == NO)
         [self drawSmoothPoints];
 
     [[self enclosingScrollView] reflectScrolledClipView:(NSClipView *)[self superview]];
@@ -306,6 +274,7 @@
     NSPoint currentPoint;
     NSRect bounds;
     NSPoint graphOrigin;
+    NSArray *intonationPoints = [eventList intonationPoints];
 
     bounds = [self bounds];
     graphOrigin = [self graphOrigin];
@@ -349,6 +318,7 @@
     int i, j;
     id point1, point2;
     NSBezierPath *bezierPath;
+    NSArray *intonationPoints = [eventList intonationPoints];
 
     if ([intonationPoints count] < 2)
         return;
@@ -469,7 +439,7 @@
           for (i = 0; i < pointCount; i++) {
               tempPoint = [selectedPoints objectAtIndex:i];
               [tempPoint setRuleIndex:[tempPoint ruleIndex] - 1];
-              [self addIntonationPoint:tempPoint];
+              [eventList addIntonationPoint:tempPoint];
           }
           break;
 
@@ -485,7 +455,7 @@
           for (i = 0; i < pointCount; i++) {
               tempPoint = [selectedPoints objectAtIndex:i];
               [tempPoint setRuleIndex:[tempPoint ruleIndex] + 1];
-              [self addIntonationPoint:tempPoint];
+              [eventList addIntonationPoint:tempPoint];
           }
           break;
 
@@ -715,92 +685,10 @@
 #endif
 }
 
-- (void)applyIntonation;
+- (void)deselectAllPoints;
 {
-    int i;
-    IntonationPoint *anIntonationPoint;
-
-    NSLog(@" > %s", _cmd);
-
-    [eventList setFullTimeScale];
-    [eventList insertEvent:32 atTime:0.0 withValue:-20.0];
-    NSLog(@"Applying intonation");
-
-    for (i = 0; i < [intonationPoints count]; i++) {
-        anIntonationPoint = [intonationPoints objectAtIndex:i];
-        NSLog(@"Added Event at Time: %f withValue: %f", [anIntonationPoint absoluteTime], [anIntonationPoint semitone]);
-        [eventList insertEvent:32 atTime:[anIntonationPoint absoluteTime] withValue:[anIntonationPoint semitone]];
-        [eventList insertEvent:33 atTime:[anIntonationPoint absoluteTime] withValue:0.0];
-        [eventList insertEvent:34 atTime:[anIntonationPoint absoluteTime] withValue:0.0];
-        [eventList insertEvent:35 atTime:[anIntonationPoint absoluteTime] withValue:0.0];
-    }
-
-    [eventList finalEvent:32 withValue:-20.0];
-
-    NSLog(@"<  %s", _cmd);
-}
-
-- (void)applySmoothIntonation;
-{
-    int j;
-    IntonationPoint *point1, *point2;
-    IntonationPoint *tempPoint;
-    double a, b, c, d;
-    double x1, y1, m1, x12, x13;
-    double x2, y2, m2, x22, x23;
-    double denominator;
-    double yTemp;
-
-    [eventList setFullTimeScale];
-    tempPoint = [[IntonationPoint alloc] initWithEventList:eventList];
-    if ([intonationPoints count] > 0)
-        [tempPoint setSemitone:[[intonationPoints objectAtIndex:0] semitone]];
-    [tempPoint setSlope:0.0];
-    [tempPoint setRuleIndex:0];
-    [tempPoint setOffsetTime:0];
-
-    [intonationPoints insertObject:tempPoint atIndex:0];
-
-    //[eventList insertEvent:32 atTime: 0.0 withValue: -20.0];
-    for (j = 0; j < [intonationPoints count] - 1; j++) {
-        point1 = [intonationPoints objectAtIndex:j];
-        point2 = [intonationPoints objectAtIndex:j + 1];
-
-        x1 = [point1 absoluteTime] / 4.0;
-        y1 = [point1 semitone] + 20.0;
-        m1 = [point1 slope];
-
-        x2 = [point2 absoluteTime] / 4.0;
-        y2 = [point2 semitone] + 20.0;
-        m2 = [point2 slope];
-
-        x12 = x1*x1;
-        x13 = x12*x1;
-
-        x22 = x2*x2;
-        x23 = x22*x2;
-
-        denominator = (x2 - x1);
-        denominator = denominator * denominator * denominator;
-
-        d = ( -(y2*x13) + 3*y2*x12*x2 + m2*x13*x2 + m1*x12*x22 - m2*x12*x22 - 3*x1*y1*x22 - m1*x1*x23 + y1*x23) / denominator;
-        c = ( -(m2*x13) - 6*y2*x1*x2 - 2*m1*x12*x2 - m2*x12*x2 + 6*x1*y1*x2 + m1*x1*x22 + 2*m2*x1*x22 + m1*x23) / denominator;
-        b = ( 3*y2*x1 + m1*x12 + 2*m2*x12 - 3*x1*y1 + 3*x2*y2 + m1*x1*x2 - m2*x1*x2 - 3*y1*x2 - 2*m1*x22 - m2*x22) / denominator;
-        a = ( -2*y2 - m1*x1 - m2*x1 + 2*y1 + m1*x2 + m2*x2) / denominator;
-
-        [eventList insertEvent:32 atTime:[point1 absoluteTime] withValue:[point1 semitone]];
-
-        yTemp = (3.0*a*x12) + (2.0*b*x1) + c;
-        [eventList insertEvent:33 atTime:[point1 absoluteTime] withValue:yTemp];
-
-        yTemp = (6.0*a*x1) + (2.0*b);
-        [eventList insertEvent:34 atTime:[point1 absoluteTime] withValue:yTemp];
-
-        yTemp = (6.0*a);
-        [eventList insertEvent:35 atTime:[point1 absoluteTime] withValue:yTemp];
-    }
-
-    [intonationPoints removeObjectAtIndex:0];
+    [selectedPoints removeAllObjects];
+    [self setNeedsDisplay:YES];
 }
 
 - (void)deletePoints;
@@ -811,7 +699,7 @@
     if ([selectedPoints count]) {
         for (i = 0; i < [selectedPoints count]; i++) {
             tempPoint = [selectedPoints objectAtIndex:i];
-            [intonationPoints removeObject:tempPoint];
+            [eventList removeIntonationPoint:tempPoint];
             [tempPoint release];
         }
 
@@ -819,27 +707,6 @@
     } else {
         NSBeep();
     }
-}
-
-- (void)clearIntonationPoints;
-{
-    [selectedPoints removeAllObjects];
-    [intonationPoints removeAllObjects];
-
-    [self setNeedsDisplay:YES];
-}
-
-- (void)addPoint:(double)semitone offsetTime:(double)offsetTime slope:(double)slope ruleIndex:(int)ruleIndex eventList:anEventList;
-{
-    IntonationPoint *iPoint;
-
-    iPoint = [[IntonationPoint alloc] initWithEventList:anEventList];
-    [iPoint setRuleIndex:ruleIndex];
-    [iPoint setOffsetTime:offsetTime];
-    [iPoint setSemitone:semitone];
-    [iPoint setSlope:slope];
-    [self addIntonationPoint:iPoint];
-    [iPoint release];
 }
 
 //

@@ -5,9 +5,7 @@
 #import "Event.h"
 #import "EventList.h"
 #import "MonetList.h"
-#import "NiftyMatrix.h"
-#import "NiftyMatrixCat.h"
-#import "NiftyMatrixCell.h"
+#import "MMDisplayParameter.h"
 #import "MMParameter.h"
 #import "ParameterList.h"
 #import "MMPosture.h"
@@ -50,6 +48,8 @@
     //[ruleCell setBezeled:YES];
     [ruleCell setEnabled:YES];
 
+    displayParameters = nil;
+
     [[NSNotificationCenter defaultCenter] addObserver:self
                                           selector:@selector(frameDidChange:)
                                           name:NSViewFrameDidChangeNotification
@@ -68,112 +68,34 @@
     [timesFont release];
     [timesFontSmall release];
     [eventList release];
-    [niftyMatrix release];
     [ruleCell release];
+    [displayParameters release];
 
     [super dealloc];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 {
-    NSRect scrollRect, matrixRect;
-    NSSize interCellSpacing = NSZeroSize;
-    NSSize cellSize;
-
     NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
 
     trackTag = [self addTrackingRect:[self bounds] owner:self userData:NULL assumeInside:NO];
 
-    /* set the niftyMatrixScrollView's attributes */
-    [niftyMatrixScrollView setBorderType:NSBezelBorder];
-    [niftyMatrixScrollView setHasVerticalScroller:YES];
-    [niftyMatrixScrollView setHasHorizontalScroller:NO];
-
-    /* get the niftyMatrixScrollView's dimensions */
-    scrollRect = [niftyMatrixScrollView frame];
-    //NSLog(@"scrollRect: %@", NSStringFromRect(scrollRect));
-
-    /* determine the matrix bounds */
-    matrixRect.origin = NSZeroPoint;
-    matrixRect.size = [NSScrollView contentSizeForFrameSize:scrollRect.size hasHorizontalScroller:NO hasVerticalScroller:NO borderType:NSBezelBorder];
-
-    /* prepare a matrix to go inside our niftyMatrixScrollView */
-    niftyMatrix = [[NiftyMatrix allocWithZone:[self zone]] initWithFrame:matrixRect mode:NSRadioModeMatrix cellClass:[NiftyMatrixCell class] numberOfRows:0 numberOfColumns:1];
-
-    /* we don't want any space between the matrix's cells  */
-    [niftyMatrix setIntercellSpacing:interCellSpacing];
-
-    /* resize the matrix's cells and size the matrix to contain them */
-    cellSize = [niftyMatrix cellSize];
-    cellSize.width = NSWidth(matrixRect) + 0.1;
-    [niftyMatrix setCellSize:cellSize];
-    [niftyMatrix sizeToCells];
-    [niftyMatrix setAutosizesCells:YES];
-
-    /*
-     * when the user clicks in the matrix and then drags the mouse out of niftyMatrixScrollView's contentView,
-     * we want the matrix to scroll
-     */
-
-    [niftyMatrix setAutoscroll:YES];
-
-    /* stick the matrix in our niftyMatrixScrollView */
-    [niftyMatrixScrollView setDocumentView:niftyMatrix];
-
-    /* set things up so that the matrix will resize properly */
-    [[niftyMatrix superview] setAutoresizesSubviews:YES];
-    [niftyMatrix setAutoresizingMask:NSViewWidthSizable];
-
-    /* set the matrix's single-click actions */
-    [niftyMatrix setTarget:self];
-    [niftyMatrix setAction:@selector(itemsChanged:)];
-
-    /* Generalize this LATER */
-    [niftyMatrix insertCellWithStringValue:@"glotPitch" withTag:0];
-    [niftyMatrix insertCellWithStringValue:@"glotVol" withTag:1];
-    [niftyMatrix insertCellWithStringValue:@"aspVol" withTag:2];
-    [niftyMatrix insertCellWithStringValue:@"fricVol" withTag:3];
-    [niftyMatrix insertCellWithStringValue:@"fricPos" withTag:4];
-    [niftyMatrix insertCellWithStringValue:@"fricCF" withTag:5];
-    [niftyMatrix insertCellWithStringValue:@"fricBW" withTag:6];
-    [niftyMatrix insertCellWithStringValue:@"r1" withTag:7];
-    [niftyMatrix insertCellWithStringValue:@"r2" withTag:8];
-    [niftyMatrix insertCellWithStringValue:@"r3" withTag:9];
-    [niftyMatrix insertCellWithStringValue:@"r4" withTag:10];
-    [niftyMatrix insertCellWithStringValue:@"r5" withTag:11];
-    [niftyMatrix insertCellWithStringValue:@"r6" withTag:12];
-    [niftyMatrix insertCellWithStringValue:@"r7" withTag:13];
-    [niftyMatrix insertCellWithStringValue:@"r8" withTag:14];
-    [niftyMatrix insertCellWithStringValue:@"velum" withTag:15];
-
-    [niftyMatrix insertCellWithStringValue:@"glotPitch (special)" withTag:16];
-    [niftyMatrix insertCellWithStringValue:@"glotVol (special)" withTag:17];
-    [niftyMatrix insertCellWithStringValue:@"aspVol (special)" withTag:18];
-    [niftyMatrix insertCellWithStringValue:@"fricVol (special)" withTag:19];
-    [niftyMatrix insertCellWithStringValue:@"fricPos (special)" withTag:20];
-    [niftyMatrix insertCellWithStringValue:@"fricCF (special)" withTag:21];
-    [niftyMatrix insertCellWithStringValue:@"fricBW (special)" withTag:22];
-    [niftyMatrix insertCellWithStringValue:@"r1 (special)" withTag:23];
-    [niftyMatrix insertCellWithStringValue:@"r2 (special)n" withTag:24];
-    [niftyMatrix insertCellWithStringValue:@"r3 (special)" withTag:25];
-    [niftyMatrix insertCellWithStringValue:@"r4 (special)" withTag:26];
-    [niftyMatrix insertCellWithStringValue:@"r5 (special)" withTag:27];
-    [niftyMatrix insertCellWithStringValue:@"r6 (special)" withTag:28];
-    [niftyMatrix insertCellWithStringValue:@"r7 (special)" withTag:29];
-    [niftyMatrix insertCellWithStringValue:@"r8 (special)" withTag:30];
-    [niftyMatrix insertCellWithStringValue:@"velum (special)" withTag:31];
-
-    [niftyMatrix insertCellWithStringValue:@"Intonation" withTag:32];
-
-    /* Display */
-    [niftyMatrix grayAllCells];
-    [niftyMatrix setNeedsDisplay:YES];
-
     NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }
 
-- (IBAction)itemsChanged:(id)sender;
+- (NSArray *)displayParameters;
 {
+    return displayParameters;
+}
+
+- (void)setDisplayParameters:(NSArray *)newDisplayParameters;
+{
+    if (newDisplayParameters == displayParameters)
+        return;
+
+    [displayParameters release];
+    displayParameters = [newDisplayParameters retain];
+
     [self setNeedsDisplay:YES];
 }
 
@@ -210,29 +132,28 @@
 
 - (void)drawGrid;
 {
-    NSArray *cellList;
-    MonetList *displayList;
+    NSMutableArray *displayList;
     int i, j, k, parameterIndex, phoneIndex;
-    NiftyMatrixCell *aCell;
     float currentX, currentY;
     float currentMin, currentMax;
-    ParameterList *parameterList = NXGetNamedObject(@"mainParameterList", NSApp);
     Event *currentEvent;
     MMPosture *currentPhone = nil;
     NSBezierPath *bezierPath;
     NSRect bounds;
+    unsigned count, index;
 
     bounds = NSIntegralRect([self bounds]);
 
     phoneIndex = 0;
-    displayList = [[MonetList alloc] initWithCapacity:10];
+    displayList = [[NSMutableArray alloc] init];
 
-    cellList = [niftyMatrix cells];
-    for (i = 0; i < [cellList count]; i++) {
-        aCell = [cellList objectAtIndex:i];
-        if ([aCell toggleValue]) {
-            [displayList addObject:aCell];
-        }
+    count = [displayParameters count];
+    for (index = 0; index < count; index++) {
+        MMDisplayParameter *currentDisplayParameter;
+
+        currentDisplayParameter = [displayParameters objectAtIndex:index];
+        if ([currentDisplayParameter shouldDisplay] == YES)
+            [displayList addObject:currentDisplayParameter];
     }
 
     /* Figure out how many tracks are actually displayed */
@@ -262,40 +183,21 @@
     [[NSColor blackColor] set];
     [timesFont set];
     for (i = 0; i < j; i++) {
-        int parameterIndex;
-        BOOL isSpecial = NO;
-        MMParameter *aParameter;
-        NSString *str;
+        MMDisplayParameter *displayParameter;
 
-        parameterIndex = [[displayList objectAtIndex:i] orderTag];
-        if (parameterIndex > 15) {
-            parameterIndex -= 16;
-            isSpecial = YES;
-        }
-
-        aParameter = [parameterList objectAtIndex:parameterIndex];
-        if (isSpecial == YES)
-            str = [NSString stringWithFormat:@"%@\n(special)", [aParameter symbol]];
-        else
-            str = [aParameter symbol];
-        [str drawAtPoint:NSMakePoint(15.0, bounds.size.height - ((float)(i + 1) * TRACKHEIGHT) + 15.0) withAttributes:nil];
+        displayParameter = [displayList objectAtIndex:i];
+        [[displayParameter label] drawAtPoint:NSMakePoint(15.0, bounds.size.height - ((float)(i + 1) * TRACKHEIGHT) + 15.0) withAttributes:nil];
     }
 
     // Draw min/max parameter values
     [timesFontSmall set];
     for (i = 0; i < j; i++) {
-        int parameterIndex;
-        BOOL isSpecial = NO;
+        MMDisplayParameter *displayParameter;
         MMParameter *aParameter;
         NSString *str;
 
-        parameterIndex = [[displayList objectAtIndex:i] orderTag];
-        if (parameterIndex > 15) {
-            parameterIndex -= 16;
-            isSpecial = YES;
-        }
-
-        aParameter = [parameterList objectAtIndex:parameterIndex];
+        displayParameter = [displayList objectAtIndex:i];
+        aParameter = [displayParameter parameter];
 
         str = [NSString stringWithFormat:@"%d", (int)[aParameter minimumValue]];
         [str drawAtPoint:NSMakePoint(55.0, bounds.size.height - (50.0 + (float)(i + 1) * TRACKHEIGHT) + BORDERHEIGHT) withAttributes:nil];
@@ -338,17 +240,12 @@
     [bezierPath setLineWidth:2];
     [[NSColor blackColor] set];
     for (i = 0; i < [displayList count] && i < 4; i++) {
-        parameterIndex = [[displayList objectAtIndex:i] orderTag];
-        if (parameterIndex == 32) { // Intonation
-            currentMin = -20;
-            currentMax = 10;
-        } else if (parameterIndex > 15) {
-            currentMin = (float)[[parameterList objectAtIndex:parameterIndex-16] minimumValue];
-            currentMax = (float)[[parameterList objectAtIndex:parameterIndex-16] maximumValue];
-        } else {
-            currentMin = (float)[[parameterList objectAtIndex:parameterIndex] minimumValue];
-            currentMax = (float)[[parameterList objectAtIndex:parameterIndex] maximumValue];
-        }
+        MMDisplayParameter *displayParameter;
+
+        displayParameter = [displayList objectAtIndex:i];
+        parameterIndex = [displayParameter tag];
+        currentMin = (float)[[displayParameter parameter] minimumValue];
+        currentMax = (float)[[displayParameter parameter] maximumValue];
 
         k = 0;
         for (j = 0; j < [eventList count]; j++) {

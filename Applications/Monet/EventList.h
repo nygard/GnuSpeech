@@ -1,6 +1,6 @@
 #import "MonetList.h"
 
-@class Event, MMPosture, MMRule, PhoneList;
+@class Event, IntonationPoint, MMPosture, MMRule, PhoneList;
 
 /*===========================================================================
 
@@ -102,9 +102,13 @@ struct _rule {
     int cache;
     double min[16];
     double max[16];
+
+    // Moved from IntonationView
+    NSMutableArray *intonationPoints;
 }
 
 - (id)initWithCapacity:(unsigned int)numSlots;
+- (void)dealloc;
 
 - (void)setUp;
 
@@ -189,5 +193,15 @@ struct _rule {
 
 - (NSString *)description;
 - (void)printDataStructures;
+
+- (NSArray *)intonationPoints;
+- (void)removeIntonationPoint:(IntonationPoint *)aPoint;
+// Moved from IntonationView
+- (void)clearIntonationPoints;
+- (void)addIntonationPoint:(IntonationPoint *)iPoint;
+- (void)addPoint:(double)semitone offsetTime:(double)offsetTime slope:(double)slope ruleIndex:(int)ruleIndex;
+
+- (void)applyIntonation_fromIntonationView;
+- (void)applySmoothIntonation;
 
 @end

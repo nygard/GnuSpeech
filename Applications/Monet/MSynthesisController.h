@@ -1,5 +1,5 @@
 //
-// $Id: MSynthesisController.h,v 1.3 2004/03/31 05:32:43 nygard Exp $
+// $Id: MSynthesisController.h,v 1.4 2004/03/31 20:37:43 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -66,6 +66,7 @@
 - (IBAction)parseStringButton:(id)sender;
 - (IBAction)synthesizeWithSoftware:(id)sender;
 - (IBAction)synthesizeToFile:(id)sender;
+- (IBAction)generateContour:(id)sender;
 
 - (void)parsePhoneString:(NSString *)str;
 

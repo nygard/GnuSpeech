@@ -5,7 +5,7 @@
 #import "AppController.h"
 #import "CategoryList.h"
 #import "Event.h"
-#import "IntonationView.h"
+#import "IntonationPoint.h"
 #import "MMEquation.h"
 #import "MMParameter.h"
 #import "MMPoint.h"
@@ -27,12 +27,21 @@
         return nil;
 
     cache = 10000000;
+    intonationPoints = [[NSMutableArray alloc] init];
+
     [self setUp];
 
     setDriftGenerator(1.0, 500.0, 1000.0);
     radiusMultiply = 1.0;
 
     return self;
+}
+
+- (void)dealloc;
+{
+    [intonationPoints release];
+
+    [super dealloc];
 }
 
 - (void)setUp;
@@ -813,7 +822,6 @@
 
 - (void)applyIntonation;
 {
-    IntonationView *tempView = [NXGetNamedObject(@"intonationView", NSApp) documentView];
     CategoryList *mainCategoryList = NXGetNamedObject(@"mainCategoryList", NSApp);
     id vocoidCategory;
     int firstFoot, endFoot;
@@ -828,8 +836,8 @@
 
     vocoidCategory = [mainCategoryList findSymbol:@"vocoid"];
 
-    [tempView clearIntonationPoints];
-//    [tempView addPoint:-20.0 offsetTime:0.0 slope:0.0 ruleIndex:0 eventList:self];
+    [self clearIntonationPoints];
+//    [self addPoint:-20.0 offsetTime:0.0 slope:0.0 ruleIndex:0];
 
     for (i = 0; i < currentToneGroup; i++) {
         firstFoot = toneGroups[i].startFoot;
@@ -864,8 +872,8 @@
                 randomSemitone = ((double)random() / (double)0x7fffffff) * (double)intonationParameters.pretonicLift - intonationParameters.pretonicLift / 2.0;
                 randomSlope = ((double)random() / (double)0x7fffffff) * 0.015 + 0.02;
 
-                [tempView addPoint:((phones[phoneIndex].onset-startTime) * pretonicDelta) + intonationParameters.notionalPitch + randomSemitone
-                          offsetTime:offsetTime slope:randomSlope ruleIndex:ruleIndex eventList:self];
+                [self addPoint:((phones[phoneIndex].onset-startTime) * pretonicDelta) + intonationParameters.notionalPitch + randomSemitone
+                      offsetTime:offsetTime slope:randomSlope ruleIndex:ruleIndex];
 
 //                NSLog(@"Calculated Delta = %f  time = %f", ((phones[phoneIndex].onset-startTime)*pretonicDelta),
 //                       (phones[phoneIndex].onset-startTime));
@@ -879,8 +887,8 @@
 
                 randomSlope = ((double)random() / (double)0x7fffffff) * 0.03 + 0.02;
 
-                [tempView addPoint:intonationParameters.pretonicRange + intonationParameters.notionalPitch
-                          offsetTime:offsetTime slope:randomSlope ruleIndex:ruleIndex eventList:self];
+                [self addPoint:intonationParameters.pretonicRange + intonationParameters.notionalPitch
+                      offsetTime:offsetTime slope:randomSlope ruleIndex:ruleIndex];
 
                 phoneIndex = feet[j].end;
                 for (k = ruleIndex; k < currentRule; k++) {
@@ -890,8 +898,8 @@
                     }
                 }
 
-                [tempView addPoint:intonationParameters.pretonicRange + intonationParameters.notionalPitch +intonationParameters.tonicRange
-                          offsetTime:0.0 slope:0.0 ruleIndex:ruleIndex eventList:self];
+                [self addPoint:intonationParameters.pretonicRange + intonationParameters.notionalPitch + intonationParameters.tonicRange
+                      offsetTime:0.0 slope:0.0 ruleIndex:ruleIndex];
 
             }
 
@@ -935,6 +943,149 @@
         NSLog(@"Number: %d  start: %d  end: %d  duration %f", rules[i].number, rules[i].firstPhone,
                rules[i].lastPhone, rules[i].duration);
     }
+}
+
+- (NSArray *)intonationPoints;
+{
+    return intonationPoints;
+}
+
+- (void)removeIntonationPoint:(IntonationPoint *)aPoint;
+{
+    [intonationPoints removeObject:aPoint];
+}
+
+//
+// Moved from IntonationView
+//
+
+- (void)clearIntonationPoints;
+{
+    [intonationPoints removeAllObjects];
+}
+
+- (void)addIntonationPoint:(IntonationPoint *)iPoint;
+{
+    double time;
+    int i;
+
+//    NSLog(@"Point  Semitone: %f  timeOffset:%f slope:%f phoneIndex:%d", [iPoint semitone], [iPoint offsetTime],
+//           [iPoint slope], [iPoint ruleIndex]);
+
+    if ([iPoint ruleIndex] > [self numberOfRules])
+        return;
+
+    [intonationPoints removeObject:iPoint];
+    time = [iPoint absoluteTime];
+    for (i = 0; i < [intonationPoints count]; i++) {
+        if (time < [[intonationPoints objectAtIndex:i] absoluteTime]) {
+            [intonationPoints insertObject:iPoint atIndex:i];
+            return;
+        }
+    }
+
+    [intonationPoints addObject:iPoint];
+}
+
+- (void)addPoint:(double)semitone offsetTime:(double)offsetTime slope:(double)slope ruleIndex:(int)ruleIndex;
+{
+    IntonationPoint *newIntonationPoint;
+
+    newIntonationPoint = [[IntonationPoint alloc] initWithEventList:self];
+    [newIntonationPoint setRuleIndex:ruleIndex];
+    [newIntonationPoint setOffsetTime:offsetTime];
+    [newIntonationPoint setSemitone:semitone];
+    [newIntonationPoint setSlope:slope];
+    [self addIntonationPoint:newIntonationPoint];
+    [newIntonationPoint release];
+}
+
+- (void)applyIntonation_fromIntonationView;
+{
+    int i;
+    IntonationPoint *anIntonationPoint;
+
+    NSLog(@" > %s", _cmd);
+
+    [self setFullTimeScale];
+    [self insertEvent:32 atTime:0.0 withValue:-20.0];
+    NSLog(@"Applying intonation");
+
+    for (i = 0; i < [intonationPoints count]; i++) {
+        anIntonationPoint = [intonationPoints objectAtIndex:i];
+        NSLog(@"Added Event at Time: %f withValue: %f", [anIntonationPoint absoluteTime], [anIntonationPoint semitone]);
+        [self insertEvent:32 atTime:[anIntonationPoint absoluteTime] withValue:[anIntonationPoint semitone]];
+        [self insertEvent:33 atTime:[anIntonationPoint absoluteTime] withValue:0.0];
+        [self insertEvent:34 atTime:[anIntonationPoint absoluteTime] withValue:0.0];
+        [self insertEvent:35 atTime:[anIntonationPoint absoluteTime] withValue:0.0];
+    }
+
+    [self finalEvent:32 withValue:-20.0];
+
+    NSLog(@"<  %s", _cmd);
+}
+
+- (void)applySmoothIntonation;
+{
+    int j;
+    IntonationPoint *point1, *point2;
+    IntonationPoint *tempPoint;
+    double a, b, c, d;
+    double x1, y1, m1, x12, x13;
+    double x2, y2, m2, x22, x23;
+    double denominator;
+    double yTemp;
+
+    [self setFullTimeScale];
+    tempPoint = [[IntonationPoint alloc] initWithEventList:self];
+    if ([intonationPoints count] > 0)
+        [tempPoint setSemitone:[[intonationPoints objectAtIndex:0] semitone]];
+    [tempPoint setSlope:0.0];
+    [tempPoint setRuleIndex:0];
+    [tempPoint setOffsetTime:0];
+
+    [intonationPoints insertObject:tempPoint atIndex:0];
+
+    //[self insertEvent:32 atTime: 0.0 withValue: -20.0];
+    for (j = 0; j < [intonationPoints count] - 1; j++) {
+        point1 = [intonationPoints objectAtIndex:j];
+        point2 = [intonationPoints objectAtIndex:j + 1];
+
+        x1 = [point1 absoluteTime] / 4.0;
+        y1 = [point1 semitone] + 20.0;
+        m1 = [point1 slope];
+
+        x2 = [point2 absoluteTime] / 4.0;
+        y2 = [point2 semitone] + 20.0;
+        m2 = [point2 slope];
+
+        x12 = x1*x1;
+        x13 = x12*x1;
+
+        x22 = x2*x2;
+        x23 = x22*x2;
+
+        denominator = (x2 - x1);
+        denominator = denominator * denominator * denominator;
+
+        d = ( -(y2*x13) + 3*y2*x12*x2 + m2*x13*x2 + m1*x12*x22 - m2*x12*x22 - 3*x1*y1*x22 - m1*x1*x23 + y1*x23) / denominator;
+        c = ( -(m2*x13) - 6*y2*x1*x2 - 2*m1*x12*x2 - m2*x12*x2 + 6*x1*y1*x2 + m1*x1*x22 + 2*m2*x1*x22 + m1*x23) / denominator;
+        b = ( 3*y2*x1 + m1*x12 + 2*m2*x12 - 3*x1*y1 + 3*x2*y2 + m1*x1*x2 - m2*x1*x2 - 3*y1*x2 - 2*m1*x22 - m2*x22) / denominator;
+        a = ( -2*y2 - m1*x1 - m2*x1 + 2*y1 + m1*x2 + m2*x2) / denominator;
+
+        [self insertEvent:32 atTime:[point1 absoluteTime] withValue:[point1 semitone]];
+
+        yTemp = (3.0*a*x12) + (2.0*b*x1) + c;
+        [self insertEvent:33 atTime:[point1 absoluteTime] withValue:yTemp];
+
+        yTemp = (6.0*a*x1) + (2.0*b);
+        [self insertEvent:34 atTime:[point1 absoluteTime] withValue:yTemp];
+
+        yTemp = (6.0*a);
+        [self insertEvent:35 atTime:[point1 absoluteTime] withValue:yTemp];
+    }
+
+    [intonationPoints removeObjectAtIndex:0];
 }
 
 @end

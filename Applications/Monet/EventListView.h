@@ -4,7 +4,6 @@
 @class NSTextFieldCell;
 @class EventList;
 @class AppController;
-@class NiftyMatrix;
 
 /*===========================================================================
 
@@ -24,9 +23,6 @@
 
     EventList *eventList;
 
-    IBOutlet NSScrollView *niftyMatrixScrollView;
-    IBOutlet NiftyMatrix *niftyMatrix;
-
     IBOutlet NSTextField *mouseTimeField;
     IBOutlet NSTextField *mouseValueField;
 
@@ -36,6 +32,8 @@
     NSTrackingRectTag trackTag;
 
     NSTextFieldCell *ruleCell;
+
+    NSArray *displayParameters;
 }
 
 - (id)initWithFrame:(NSRect)frameRect;
@@ -43,7 +41,8 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 
-- (IBAction)itemsChanged:(id)sender;
+- (NSArray *)displayParameters;
+- (void)setDisplayParameters:(NSArray *)newDisplayParameters;
 
 - (BOOL)acceptsFirstResponder;
 

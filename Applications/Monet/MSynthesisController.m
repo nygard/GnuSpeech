@@ -81,6 +81,8 @@
 
     [checkboxCell release];
 
+    [[intonationView documentView] setEventList:eventList];
+
     [self updateViews];
 }
 
@@ -115,7 +117,7 @@
         [displayParameter release];
     }
 
-    // TODO (2004-03-30): This used to have Intonation.  How did that work?
+    // TODO (2004-03-30): This used to have Intonation (tag=32).  How did that work?
 
     [parameterTableView reloadData];
 }
@@ -126,7 +128,19 @@
 
 - (void)_updateDisplayedParameters;
 {
-    NSLog(@"%s", _cmd);
+    NSMutableArray *array;
+    unsigned int count, index;
+    MMDisplayParameter *displayParameter;
+
+    array = [[NSMutableArray alloc] init];
+    count = [displayParameters count];
+    for (index = 0; index < count; index++) {
+        displayParameter = [displayParameters objectAtIndex:index];
+        if ([displayParameter shouldDisplay] == YES)
+            [array addObject:displayParameter];
+    }
+    [eventListView setDisplayParameters:array];
+    [array release];
 }
 
 - (void)_takeIntonationParametersFromUI;
@@ -183,9 +197,9 @@
     [eventList generateEventList];
 
     if ([smoothIntonationSwitch state])
-        [[intonationView documentView] applySmoothIntonation];
+        [eventList applySmoothIntonation];
     else
-        [[intonationView documentView] applyIntonation];
+        [eventList applyIntonation_fromIntonationView];
 
     [eventList setShouldUseSmoothIntonation:[smoothIntonationSwitch state]];
 
@@ -214,11 +228,8 @@
         [eventList synthesizeToFile:nil];
 
     [eventList generateOutput];
-
     [eventListView setEventList:eventList];
-
-    [[intonationView documentView] setEventList:eventList];
-
+    [[intonationView documentView] setNeedsDisplay:YES];
     [stringTextField selectText:self];
 
     NSLog(@"<  %s", _cmd);
@@ -245,6 +256,7 @@
     [eventList setShouldUseMicroIntonation:[[intonationMatrix cellAtRow:1 column:0] state]];
     [eventList setShouldUseDrift:[[intonationMatrix cellAtRow:2 column:0] state]];
     setDriftGenerator([driftDeviationField floatValue], 500, [driftCutoffField floatValue]);
+    //setDriftGenerator(0.5, 250, 0.5);
 
     [eventList setRadiusMultiply:[radiusMultiplyField doubleValue]];
 
@@ -261,14 +273,14 @@
 #if 1
     NSLog(@"[smoothIntonationSwitch state]: %d", [smoothIntonationSwitch state]);
     if ([smoothIntonationSwitch state])
-        [[intonationView documentView] applySmoothIntonation];
+        [eventList applySmoothIntonation];
     else
-        [[intonationView documentView] applyIntonation];
+        [eventList applyIntonation_fromIntonationView];
 
     [eventList setShouldUseSmoothIntonation:[smoothIntonationSwitch state]];
 #else
     // TODO (2004-03-25): What about checking for smooth intonation, like the hardware synthesis did?
-    [[intonationView documentView] applyIntonation];
+    [eventList applyIntonation_fromIntonationView];
 #endif
 
     [eventList printDataStructures];
@@ -277,8 +289,7 @@
     [eventListView setEventList:eventList];
     [eventListView display]; // TODO (2004-03-17): It's not updating otherwise
 
-    [[intonationView documentView] setEventList:eventList];
-
+    [[intonationView documentView] setNeedsDisplay:YES];
     [stringTextField selectText:self];
 
 #if 0
@@ -294,6 +305,20 @@
 - (IBAction)synthesizeToFile:(id)sender;
 {
     NSLog(@" > %s", _cmd);
+    NSLog(@"<  %s", _cmd);
+}
+
+- (IBAction)generateContour:(id)sender;
+{
+    NSLog(@" > %s", _cmd);
+
+    [self _takeIntonationParametersFromUI];
+    [[intonationView documentView] setShouldDrawSmoothPoints:[smoothIntonationSwitch state]];
+    [eventList setIntonationParameters:intonationParameters];
+
+    [eventList applyIntonation];
+    [intonationView display];
+
     NSLog(@"<  %s", _cmd);
 }
 

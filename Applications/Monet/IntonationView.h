@@ -25,11 +25,9 @@
     float timeScale;
     int mouseBeingDragged;
 
-    NSMutableArray *intonationPoints;
     NSMutableArray *selectedPoints;
 
-    NSTextField *utterance;
-    NSButton *smoothing;
+    BOOL shouldDrawSmoothPoints;
 }
 
 - (id)initWithFrame:(NSRect)frameRect;
@@ -42,10 +40,8 @@
 - (AppController *)controller;
 - (void)setNewController:(AppController *)newController;
 
-- (void)setUtterance:(NSTextField *)newUtterance;
-- (void)setSmoothing:(NSButton *)smoothingSwitch;
-
-- (void)addIntonationPoint:(IntonationPoint *)iPoint;
+- (BOOL)shouldDrawSmoothPoints;
+- (void)setShouldDrawSmoothPoints:(BOOL)newFlag;
 
 - (void)drawRect:(NSRect)rect;
 
@@ -63,12 +59,8 @@
 
 - (void)updateScale:(float)column;
 
-- (void)applyIntonation;
-- (void)applySmoothIntonation;
+- (void)deselectAllPoints;
 - (void)deletePoints;
-
-- (void)clearIntonationPoints;
-- (void)addPoint:(double)semitone offsetTime:(double)offsetTime slope:(double)slope ruleIndex:(int)ruleIndex eventList:anEventList;
 
 // View geometry
 - (int)sectionHeight;
