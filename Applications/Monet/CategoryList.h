@@ -26,7 +26,6 @@
 - (id)findByName:(NSString *)name;
 - (void)changeSymbolOf:(id)temp to:(NSString *)name;
 
-- (void)readDegasFileFormat:(FILE *)fp;
 - (void)printDataTo:(FILE *)fp;
 
 - (NSString *)description;

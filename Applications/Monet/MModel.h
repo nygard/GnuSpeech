@@ -1,5 +1,5 @@
 //
-// $Id: MModel.h,v 1.9 2004/03/19 20:57:44 nygard Exp $
+// $Id: MModel.h,v 1.10 2004/03/20 19:46:18 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -8,7 +8,7 @@
 #import <Foundation/NSObject.h>
 
 @class CategoryList, MonetList, ParameterList, PhoneList, RuleList, SymbolList;
-@class MMCategory, MMEquation, MMParameter, MMSymbol, MMTransition;
+@class MMCategory, MMEquation, MMParameter, MMPosture, MMSymbol, MMTransition;
 
 extern NSString *MCategoryInUseException;
 
@@ -48,6 +48,7 @@ extern NSString *MCategoryInUseException;
 - (void)_uniqueNameForCategory:(MMCategory *)newCategory;
 - (BOOL)isCategoryUsed:(MMCategory *)aCategory;
 - (void)removeCategory:(MMCategory *)aCategory;
+- (MMCategory *)categoryWithName:(NSString *)aName;
 
 // Parameters
 - (void)addParameter:(MMParameter *)newParameter;
@@ -62,6 +63,12 @@ extern NSString *MCategoryInUseException;
 - (void)addSymbol:(MMSymbol *)newSymbol;
 - (void)_uniqueNameForSymbol:(MMSymbol *)newSymbol;
 - (void)removeSymbol:(MMSymbol *)aSymbol;
+
+// Postures
+- (void)addPosture:(MMPosture *)newPosture;
+- (void)_uniqueNameForPosture:(MMPosture *)newPosture;
+- (void)sortPostures;
+- (MMPosture *)postureWithName:(NSString *)aName;
 
 - (MMEquation *)findEquationList:(NSString *)aListName named:(NSString *)anEquationName;
 - (void)findList:(int *)listIndex andIndex:(int *)equationIndex ofEquation:(MMEquation *)anEquation;
@@ -84,5 +91,12 @@ extern NSString *MCategoryInUseException;
 - (void)_appendXMLForMMEquationsToString:(NSMutableString *)resultString level:(int)level;
 - (void)_appendXMLForMMTransitionsToString:(NSMutableString *)resultString level:(int)level;
 - (void)_appendXMLForProtoSpecialsToString:(NSMutableString *)resultString level:(int)level;
+
+// Archiving - Degas support
+- (void)readDegasFileFormat:(FILE *)fp;
+- (void)readParametersFromDegasFile:(FILE *)fp;
+- (void)readCategoriesFromDegasFile:(FILE *)fp;
+- (void)readPosturesFromDegasFile:(FILE *)fp;
+- (void)readRulesFromDegasFile:(FILE *)fp;
 
 @end

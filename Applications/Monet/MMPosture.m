@@ -20,6 +20,8 @@
 
 @implementation MMPosture
 
+// TODO (2004-03-19): Reject unused init method
+#if 0
 - (id)init;
 {
     if ([super init] == nil)
@@ -79,6 +81,63 @@
 
     return self;
 }
+#endif
+
+- (id)initWithModel:(MModel *)aModel;
+{
+    if ([super init] == nil)
+        return nil;
+
+    phoneSymbol = nil;
+    comment = nil;
+
+    categoryList = [[CategoryList alloc] init];
+    parameterList = [[TargetList alloc] init];
+    metaParameterList = [[TargetList alloc] init];
+    symbolList = [[TargetList alloc] init];
+
+    nativeCategory = [[MMCategory alloc] init];
+    [nativeCategory setIsNative:YES];
+    [categoryList addObject:nativeCategory];
+
+    [self setModel:aModel];
+    [self _addDefaultValues];
+
+    return self;
+}
+
+- (void)_addDefaultValues;
+{
+    int count, index;
+    MMTarget *newTarget;
+    ParameterList *mainParameters;
+    SymbolList *mainSymbols;
+
+    [self addCategory:[[self model] categoryWithName:@"phone"]];
+
+    mainParameters = [[self model] parameters];
+    count = [mainParameters count];
+    for (index = 0; index < count; index++) {
+        newTarget = [[MMTarget alloc] initWithValue:[[mainParameters objectAtIndex:index] defaultValue] isDefault:YES];
+        [parameterList addObject:newTarget];
+        [newTarget release];
+    }
+
+    mainParameters = [[self model] metaParameters];
+    for (index = 0; index < count; index++) {
+        newTarget = [[MMTarget alloc] initWithValue:[[mainParameters objectAtIndex:index] defaultValue] isDefault:YES];
+        [metaParameterList addObject:newTarget];
+        [newTarget release];
+    }
+
+    mainSymbols = [[self model] symbols];
+    count = [mainSymbols count];
+    for (index = 0; index < count; index++) {
+        newTarget = [[MMTarget alloc] initWithValue:[[mainSymbols objectAtIndex:index] defaultValue] isDefault:YES];
+        [symbolList addObject:newTarget];
+        [newTarget release];
+    }
+}
 
 - (void)dealloc;
 {
@@ -89,6 +148,7 @@
     [parameterList release];
     [metaParameterList release];
     [symbolList release];
+    [nativeCategory release];
 
     [super dealloc];
 }
@@ -98,26 +158,18 @@
     return phoneSymbol;
 }
 
+// TODO (2004-03-19): Enforce unique names.
 - (void)setSymbol:(NSString *)newSymbol;
 {
-    int count, index;
-
     if (newSymbol == phoneSymbol)
         return;
 
     [phoneSymbol release];
     phoneSymbol = [newSymbol retain];
 
-    count = [categoryList count];
-    for (index = 0; index < count; index++) {
-        MMCategory *aCategory;
+    [[self model] sortPostures];
 
-        aCategory = [categoryList objectAtIndex:index];
-        if ([aCategory isNative]) {
-            [aCategory setSymbol:newSymbol];
-            return;
-        }
-    }
+    [nativeCategory setSymbol:newSymbol];
 }
 
 - (NSString *)comment;
@@ -146,6 +198,9 @@
 
 - (void)addCategory:(MMCategory *)aCategory;
 {
+    if (aCategory == nil)
+        return;
+
     if ([categoryList containsObject:aCategory] == NO)
         [categoryList addObject:aCategory];
 }
@@ -173,6 +228,11 @@
 - (TargetList *)symbolList;
 {
     return symbolList;
+}
+
+- (NSComparisonResult)compareByAscendingName:(MMPosture *)otherPosture;
+{
+    return [phoneSymbol compare:[otherPosture symbol]];
 }
 
 //
@@ -364,7 +424,8 @@
 
     mainMetaParameterList = [[self model] metaParameters];
     count = [mainMetaParameterList count];
-    assert(count == [metaParameterList count]);
+    NSLog(@"%s, (%@) main meta count: %d, count: %d", _cmd, [self symbol], count, [metaParameterList count]);
+    //assert(count == [metaParameterList count]);
 
     if (count == 0)
         return;

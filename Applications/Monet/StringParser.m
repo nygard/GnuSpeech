@@ -370,7 +370,6 @@ int parse_string(EventList *eventList, NSString *str);
 int parse_string(EventList *eventList, NSString *str)
 {
     MMPosture *aPhone;
-    int dummy;
     //int chunk = 0;
     int lastFoot = 0, markedFoot = 0;
     double footTempo = 1.0;
@@ -386,7 +385,7 @@ int parse_string(EventList *eventList, NSString *str)
     mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
     NSLog(@"mainPhoneList: %p", mainPhoneList);
 
-    aPhone = [mainPhoneList binarySearchPhone:@"^" index:&dummy];
+    aPhone = [mainPhoneList findPhone:@"^"];
     [eventList newPhoneWithObject:aPhone];
 
     scanner = [[[NSScanner alloc] initWithString:str] autorelease];
@@ -448,9 +447,9 @@ int parse_string(EventList *eventList, NSString *str)
                 NSLog(@"New Chunk -- not sure that this is working.");
 #ifdef PORTING
                 if (chunk) {
-                    //aPhone = [mainPhoneList binarySearchPhone:"#" index:&dummy];
+                    //aPhone = [mainPhoneList findPhone:"#"];
                     //[eventList newPhoneWithObject:aPhone];
-                    //aPhone = [mainPhoneList binarySearchPhone:"^" index:&dummy];
+                    //aPhone = [mainPhoneList findPhone:"^"];
                     //[eventList newPhoneWithObject:aPhone];
                     index--;
                     return index;
@@ -493,7 +492,7 @@ int parse_string(EventList *eventList, NSString *str)
                 NSLog(@"Scanned this: '%@'", buffer);
                 if (markedFoot)
                     buffer = [buffer stringByAppendingString:@"'"];
-                aPhone = [mainPhoneList binarySearchPhone:buffer index:&dummy];
+                aPhone = [mainPhoneList findPhone:buffer];
                 NSLog(@"aPhone: %p, eventList: %p", aPhone, eventList);
                 if (aPhone) {
                     [eventList newPhoneWithObject:aPhone];

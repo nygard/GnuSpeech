@@ -98,9 +98,6 @@
 - (id)initWithCoder:(NSCoder *)aDecoder;
 - (void)encodeWithCoder:(NSCoder *)aCoder;
 
-// Archiving - Degas support
-- (void)readDegasFileFormat:(FILE *)fp;
-
 // Window delegate methods
 - (void)windowDidBecomeMain:(NSNotification *)notification;
 - (BOOL)windowShouldClose:(id)sender;

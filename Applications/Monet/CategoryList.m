@@ -83,30 +83,6 @@
     [temp setSymbol:name];
 }
 
-#define SYMBOL_LENGTH_MAX 12
-- (void)readDegasFileFormat:(FILE *)fp;
-{
-    int i, count;
-
-    MMCategory *currentNode;
-    char tempString[SYMBOL_LENGTH_MAX+1];
-    NSString *str;
-
-    /* Load in the count */
-    fread(&count, sizeof(int), 1, fp);
-
-    for (i = 0; i < count; i++) {
-        fread(tempString, SYMBOL_LENGTH_MAX+1, 1, fp);
-
-        str = [NSString stringWithASCIICString:tempString];
-        currentNode = [[MMCategory alloc] initWithSymbol:str];
-        [self addObject:currentNode];
-    }
-
-    if (![self findSymbol:@"phone"])
-        [self addCategory:@"phone"];
-}
-
 - (void)printDataTo:(FILE *)fp;
 {
     int i;

@@ -24,6 +24,8 @@
 
     model = [aModel retain];
 
+    [self setWindowFrameAutosaveName:@"Data Entry"];
+
     return self;
 }
 
@@ -211,11 +213,12 @@
 
     newCategory = [[MMCategory alloc] initWithSymbol:nil];
     [[self model] addCategory:newCategory];
-    [newCategory release];
 
     [self updateViews];
 
     index = [[[self model] categories] indexOfObject:newCategory];
+    [newCategory release];
+
     [categoryTableView scrollRowToVisible:index];
 
     // The row needs to be selected before we start editing it.

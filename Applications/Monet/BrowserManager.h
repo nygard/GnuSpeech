@@ -38,10 +38,6 @@
 
 - (void)dealloc;
 
-//- (BOOL)acceptsFirstResponder;
-//- (BOOL)becomeFirstResponder;
-//- (BOOL)resignFirstResponder;
-
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 - (void)setCurrentList:(id)sender;
 - (void)updateBrowser;

@@ -26,226 +26,16 @@
 - (MMPosture *)findPhone:(NSString *)phone;
 {
     int count, index;
-    MMPosture *aPhone;
+    MMPosture *aPosture;
 
     count = [self count];
     for (index = 0; index < count; index++) {
-        aPhone = [self objectAtIndex:index];
-        if ([[aPhone symbol] isEqual:phone] == YES)
-            return aPhone;
+        aPosture = [self objectAtIndex:index];
+        if ([[aPosture symbol] isEqual:phone])
+            return aPosture;
     }
 
     return nil;
-}
-
-- (void)addPhone:(NSString *)phone;
-{
-    MMPosture *aPhone;
-    int index;
-    SymbolList *symbols;
-    ParameterList *mainParameterList, *mainMetaParameterList;
-
-    //printf("Phone List adding phone \n");
-    if ([self binarySearchPhone:phone index:&index])
-        return;
-
-    // TODO (2004-03-01): Try having GSApp methods for these instead.
-    symbols = NXGetNamedObject(@"mainSymbolList", NSApp);
-    mainParameterList = NXGetNamedObject(@"mainParameterList", NSApp);
-    mainMetaParameterList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
-
-    aPhone = [[MMPosture alloc] initWithSymbol:phone parameters:mainParameterList metaParameters:mainMetaParameterList symbols:symbols];
-    [[aPhone categoryList] addNativeCategory:phone];
-
-    [self insertObject:aPhone atIndex:index];
-    [aPhone release];
-}
-
-// TODO (2004-03-01): Rename above "addPhoneWithName:", and this to "addPhone"
-- (void)addPhoneObject:(MMPosture *)phone;
-{
-    int index;
-
-    if ([self binarySearchPhone:[phone symbol] index:&index])
-        return;
-
-    [self insertObject:phone atIndex:index];
-}
-
-// TODO (2004-03-01): Rename index to indexPtr
-
-- (MMPosture *)binarySearchPhone:(NSString *)searchPhone index:(int *)index;
-{
-    int low, high, mid;
-    NSComparisonResult test;
-
-    assert(index != NULL);
-
-    low = 0;
-    high = [self count] - 1;
-    *index = 0;
-    if ([self count] == 0)	   /* Empty List */
-        return nil;
-
-
-#warning: TODO (2004-03-01): Check to see if strcmp() returns the same type of values (positive, negative) as NSComparisonResult.
-    test = [searchPhone compare:[(MMPosture *)[self objectAtIndex:low] symbol]];
-
-    if (test == 0)		  /* First word in List */
-        return [self objectAtIndex:low];
-    else
-	if (test < 0)		     /* Belongs at the head of the list */
-            return nil;
-
-    *index = 1;
-
-    if ([self count] == 1)	   /* Only 1 item to test */
-        return nil;
-
-    *index = [self count];
-
-    test = [searchPhone compare:[(MMPosture *)[self objectAtIndex:high] symbol]];
-    if (test == 0)		  /* Last word in List */
-    {
-        *index = high;
-        return [self objectAtIndex:high];
-    }
-    else
-	if (test > 0)		     /* Belongs at the end of the list */
-            return nil;
-
-    while (1)
-    {
-        if ( (low + 1) == high)
-        {
-            *index = high;
-            break;
-        }
-
-        mid = (low + high) / 2;
-
-        test = [searchPhone compare:[(MMPosture *)[self objectAtIndex:mid] symbol]];
-        if (test == 0)
-        {
-            *index = mid;
-            return [self objectAtIndex:mid];
-        }
-        else
-            if (test > 0)
-                low = mid;
-            else
-                high = mid;
-    }
-
-    return nil;
-}
-
-- (void)addNewValue:(NSString *)newValue;
-{
-    [self addPhone:newValue];
-}
-
-- (id)findByName:(NSString *)name;
-{
-    int dummy;
-
-    if (name == NULL)
-        return nil;
-
-    return [self binarySearchPhone:name index:&dummy];
-}
-
-- (void)changeSymbolOf:(id)aPhone to:(NSString *)name;
-{
-    [aPhone retain];
-    [self removeObject:aPhone];
-    [aPhone setSymbol:name];
-    [self addPhoneObject:aPhone];
-    [aPhone release];
-}
-
-#define SYMBOL_LENGTH_MAX       12
-- (void)readDegasFileFormat:(FILE *)fp;
-{
-    int i, j, symbolIndex;
-    int phoneCount, targetCount, categoryCount;
-
-    int tempDuration, tempType, tempFixed;
-    float tempProp;
-
-    int tempDefault;
-    float tempValue;
-
-    MMPosture *tempPhone;
-    MMCategory *tempCategory;
-    CategoryList *categories;
-    SymbolList *symbols;
-    ParameterList *mainParameterList, *mainMetaParameterList;
-    MMTarget *tempTarget;
-    char tempSymbol[SYMBOL_LENGTH_MAX + 1];
-    NSString *str;
-
-    categories = NXGetNamedObject(@"mainCategoryList", NSApp);
-    symbols = NXGetNamedObject(@"mainSymbolList", NSApp);
-    mainParameterList = NXGetNamedObject(@"mainParameterList", NSApp);
-    mainMetaParameterList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
-
-    symbolIndex = [symbols findSymbolIndex:@"duration"];
-
-    if (symbolIndex == -1) {
-        [symbols addNewValue:@"duration"];
-        symbolIndex = [symbols findSymbolIndex:@"duration"];
-        [self addSymbol];
-    }
-
-    /* READ # OF PHONES AND TARGETS FROM FILE  */
-    fread(&phoneCount, sizeof(int), 1, fp);
-    fread(&targetCount, sizeof(int), 1, fp);
-
-    /* READ PHONE DESCRIPTION FROM FILE  */
-    for (i = 0; i < phoneCount; i++) {
-        fread(tempSymbol, SYMBOL_LENGTH_MAX + 1, 1, fp);
-        str = [NSString stringWithASCIICString:tempSymbol];
-
-        tempPhone = [[MMPosture alloc] initWithSymbol:str parameters:mainParameterList metaParameters:mainMetaParameterList symbols:symbols];
-        [self addPhoneObject:tempPhone];
-
-        /* READ SYMBOL AND DURATIONS FROM FILE  */
-        fread(&tempDuration, sizeof(int), 1, fp);
-        fread(&tempType, sizeof(int), 1, fp);
-        fread(&tempFixed, sizeof(int), 1, fp);
-        fread(&tempProp, sizeof(int), 1, fp);
-
-        tempTarget = [[tempPhone symbolList] objectAtIndex:symbolIndex];
-        [tempTarget setValue:(double) tempDuration isDefault:NO];
-
-        /* READ TARGETS IN FROM FILE  */
-        for (j = 0; j < targetCount; j++) {
-            tempTarget = [[tempPhone parameterList] objectAtIndex:j];
-
-            /* READ IN DATA FROM FILE  */
-            fread(&tempDefault, sizeof(int), 1, fp);
-            fread(&tempValue, sizeof(float), 1, fp);
-
-            [tempTarget setValue:tempValue];
-            [tempTarget setIsDefault:tempDefault];
-        }
-
-        /* READ IN CATEGORIES FROM FILE  */
-        fread(&categoryCount, sizeof(int), 1, fp);
-        for (j = 0; j < categoryCount; j++) {
-            /* READ IN DATA FROM FILE  */
-            fread(tempSymbol, SYMBOL_LENGTH_MAX + 1, 1, fp);
-            str = [NSString stringWithASCIICString:tempSymbol];
-
-            tempCategory = [categories findSymbol:str];
-            if (!tempCategory) {
-                [[tempPhone categoryList] addNativeCategory:str];
-            } else
-                [[tempPhone categoryList] addObject:tempCategory];
-
-        }
-    }
 }
 
 - (void)printDataTo:(FILE *)fp;
@@ -436,6 +226,7 @@
 
 - (IBAction)importTRMData:(id)sender;
 {
+#ifdef PORTING
     SymbolList *mainSymbolList;
     ParameterList *mainParameterList, *mainMetaParameterList;
     NSArray *types;
@@ -469,7 +260,8 @@
         filename = [[[NSOpenPanel openPanel] directory] stringByAppendingPathComponent:aFilename];
         str = [aFilename stringByDeletingPathExtension];
 
-        aPhone = [[[MMPosture alloc] initWithSymbol:str parameters:mainParameterList metaParameters:mainMetaParameterList symbols:mainSymbolList] autorelease];
+        aPhone = [[[MMPosture alloc] initWithModel:nil] autorelease];
+        [aPhone setSymbol:str];
         aPhone = [self makePhoneUniqueName:aPhone];
         [self addPhoneObject:aPhone];
         [[aPhone categoryList] addNativeCategory:str];
@@ -534,37 +326,7 @@
     }
 
     [myData release];
-}
-
-// TODO (2004-03-01): Make return value void, since it just returns it's parameter.
-- (MMPosture *)makePhoneUniqueName:(MMPosture *)aPhone;
-{
-    int dummy;
-    char add1, add2;
-    NSString *str;
-
-    if ([self binarySearchPhone:[aPhone symbol] index:&dummy]) {
-        for (add1 = 'A'; add1 < 'Z'; add1++) {
-            // Okay, this isn't terribly efficient, but it's easy:
-            str = [NSString stringWithFormat:@"%@%c", [aPhone symbol], add1];
-            if ([self binarySearchPhone:str index:&dummy] == nil) {
-                [aPhone setSymbol:str];
-                return aPhone;
-            }
-        }
-
-        for (add1 = 'A'; add1 < 'Z'; add1++) {
-            for (add2 = 'A'; add2 < 'Z'; add2++) {
-                str = [NSString stringWithFormat:@"%@%c%c", [aPhone symbol], add1, add2];
-                if ([self binarySearchPhone:str index:&dummy] == nil) {
-                    [aPhone setSymbol:str];
-                    return aPhone;
-                }
-            }
-        }
-    }
-
-    return aPhone;
+#endif
 }
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;

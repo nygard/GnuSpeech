@@ -50,38 +50,7 @@
     return -1;
 }
 
-- (void)addParameter:(NSString *)newSymbol min:(float)minValue max:(float)maxValue def:(float)defaultValue;
-{
-    MMParameter *newParameter;
-
-    newParameter = [[MMParameter alloc] initWithSymbol:newSymbol];
-    [newParameter setMinimumValue:minValue];
-    [newParameter setMaximumValue:maxValue];
-    [newParameter setDefaultValue:defaultValue];
-    [self addObject:newParameter];
-    [newParameter release];
-}
-
-- (double)defaultValueFromIndex:(int)index;
-{
-    return [[self objectAtIndex:index] defaultValue];
-}
-
-- (double)minValueFromIndex:(int)index;
-{
-    return [[self objectAtIndex:index] minimumValue];
-}
-
-- (double)maxValueFromIndex:(int)index;
-{
-    return [[self objectAtIndex:index] maximumValue];
-}
-
 /* BrowserManager List delegate Methods */
-- (void)addNewValue:(NSString *)newValue;
-{
-    [self addParameter:newValue min:DEFAULT_MIN max:DEFAULT_MAX def:DEFAULT_MIN];
-}
 
 - (id)findByName:(NSString *)name;
 {
@@ -91,39 +60,6 @@
 - (void)changeSymbolOf:(id)temp to:(NSString *)name;
 {
     [temp setSymbol:name];
-}
-
-#define SYMBOL_LENGTH_MAX 12
-- (void)readDegasFileFormat:(FILE *)fp;
-{
-    int i, sampleSize, number_of_phones, number_of_parameters;
-    float tempMin, tempMax, tempDef;
-    char tempSymbol[SYMBOL_LENGTH_MAX + 1];
-    NSString *str;
-
-    /* READ SAMPLE SIZE FROM FILE  */
-    fread((char *)&sampleSize, sizeof(sampleSize), 1, fp);
-
-    /* READ PHONE SYMBOLS FROM FILE  */
-    fread((char *)&number_of_phones, sizeof(number_of_phones), 1, fp);
-    for (i = 0; i < number_of_phones; i++) {
-        fread(tempSymbol, SYMBOL_LENGTH_MAX + 1, 1, fp);
-    }
-
-    /* READ PARAMETERS FROM FILE  */
-    fread((char *)&number_of_parameters, sizeof(number_of_parameters), 1, fp);
-
-    for (i = 0; i < number_of_parameters; i++) {
-        bzero(tempSymbol, SYMBOL_LENGTH_MAX + 1);
-        fread(tempSymbol, SYMBOL_LENGTH_MAX +1, 1, fp);
-        str = [NSString stringWithASCIICString:tempSymbol];
-
-        fread(&tempMin, sizeof(float), 1, fp);
-        fread(&tempMax, sizeof(float), 1, fp);
-        fread(&tempDef, sizeof(float), 1, fp);
-
-        [self addParameter:str min:tempMin max:tempMax def:tempDef];
-    }
 }
 
 - (void)printDataTo:(FILE *)fp;

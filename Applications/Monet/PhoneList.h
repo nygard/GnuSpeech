@@ -27,16 +27,7 @@
 }
 
 - (MMPosture *)findPhone:(NSString *)phone;
-- (void)addPhone:(NSString *)phone;
-- (void)addPhoneObject:(MMPosture *)phone;
-- (MMPosture *)binarySearchPhone:(NSString *)searchPhone index:(int *)index;
 
-/* BrowserManager List delegate Methods */
-- (void)addNewValue:(NSString *)newValue;
-- (id)findByName:(NSString *)name;
-- (void)changeSymbolOf:(id)aPhone to:(NSString *)name;
-
-- (void)readDegasFileFormat:(FILE *)fp;
 - (void)printDataTo:(FILE *)fp;
 
 /* List maintenance Methods */
@@ -53,7 +44,6 @@
 - (void)removeSymbol:(int)index;
 
 - (IBAction)importTRMData:(id)sender;
-- (MMPosture *)makePhoneUniqueName:(MMPosture *)aPhone;
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 

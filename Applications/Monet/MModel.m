@@ -8,6 +8,7 @@
 #import "NSString-Extensions.h"
 
 #import "AppController.h"
+#import "BooleanParser.h"
 #import "CategoryList.h"
 #import "MMCategory.h"
 #import "MonetList.h"
@@ -16,10 +17,13 @@
 #import "PhoneList.h"
 #import "MMEquation.h"
 #import "MMParameter.h"
+#import "MMPosture.h"
 #import "MMSymbol.h"
+#import "MMTarget.h"
 #import "MMTransition.h"
 #import "RuleList.h"
 #import "SymbolList.h"
+#import "TargetList.h"
 
 #import "MUnarchiver.h"
 
@@ -167,6 +171,22 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [categories removeObject:aCategory];
 }
 
+// TODO (2004-03-19): We could store these in a dictionary for quick lookup by name.
+- (MMCategory *)categoryWithName:(NSString *)aName;
+{
+    int count, index;
+    MMCategory *aCategory;
+
+    count = [categories count];
+    for (index = 0; index < count; index++) {
+        aCategory = [categories objectAtIndex:index];
+        if ([[aCategory symbol] isEqual:aName])
+            return aCategory;
+    }
+
+    return nil;
+}
+
 //
 // Parameters
 //
@@ -308,6 +328,91 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         [postures removeSymbol:index]; // TODO (2004-03-19): Rename, to at "AtIndex"
         [symbols removeObject:aSymbol];
     }
+}
+
+//
+// Postures
+//
+
+- (void)addPosture:(MMPosture *)newPosture;
+{
+    if ([newPosture symbol] == nil)
+        [newPosture setSymbol:@"untitled"];
+
+    [self _uniqueNameForPosture:newPosture];
+
+    [postures addObject:newPosture];
+    [self sortPostures];
+}
+
+- (void)_uniqueNameForPosture:(MMPosture *)newPosture;
+{
+    NSMutableSet *names;
+    int count, index;
+    NSString *name, *basename;
+    BOOL isUnique;
+
+    names = [[NSMutableSet alloc] init];
+    count = [postures count];
+    for (index = 0; index < count; index++) {
+        name = [[postures objectAtIndex:index] symbol];
+        if (name != nil)
+            [names addObject:name];
+    }
+
+    index = 1;
+    name = basename = [newPosture symbol];
+    isUnique = [names containsObject:name];
+
+    if (isUnique == NO) {
+        char ch1, ch2;
+
+        for (ch1 = 'A'; ch1 <= 'Z'; ch1++) {
+            name = [NSString stringWithFormat:@"%@%c", basename, ch1];
+            if ([names containsObject:name] == NO) {
+                isUnique = YES;
+                break;
+            }
+        }
+
+        for (ch1 = 'A'; isUnique == NO && ch1 <= 'Z'; ch1++) {
+            for (ch2 = 'A'; ch2 <= 'Z'; ch2++) {
+                name = [NSString stringWithFormat:@"%@%c%c", basename, ch1, ch2];
+                if ([names containsObject:name] == NO) {
+                    isUnique = YES;
+                    break;
+                }
+            }
+        }
+    }
+
+    while ([names containsObject:name] == YES) {
+        name = [NSString stringWithFormat:@"%@%d", basename, index++];
+    }
+
+    [newPosture setSymbol:name];
+
+    [names release];
+}
+
+- (void)sortPostures;
+{
+    [postures sortUsingSelector:@selector(compareByAscendingName:)];
+}
+
+- (MMPosture *)postureWithName:(NSString *)aName;
+{
+    int count, index;
+    MMPosture *aPosture;
+
+    count = [postures count];
+    for (index = 0; index < count; index++) {
+        aPosture = [postures objectAtIndex:index];
+        if ([[aPosture symbol] isEqual:aName])
+            return aPosture;
+    }
+
+    return nil;
 }
 
 // TODO (2004-03-06): Find equation named "named" in list named "list"
@@ -602,6 +707,249 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
     [resultString indentToLevel:level];
     [resultString appendString:@"</special-transitions>\n"];
+}
+
+//
+// Archiving - Degas support
+//
+
+- (void)readDegasFileFormat:(FILE *)fp;
+{
+    [self readParametersFromDegasFile:fp];
+    [self generateXML:@"after reading Degas parameters"];
+    [self readCategoriesFromDegasFile:fp];
+    [self generateXML:@"after reading Degas categories"];
+    [self readPosturesFromDegasFile:fp];
+    [self generateXML:@"after reading Degas postures"];
+    [self readRulesFromDegasFile:fp];
+    [self generateXML:@"after reading Degas rules"];
+}
+
+#define SYMBOL_LENGTH_MAX 12
+- (void)readParametersFromDegasFile:(FILE *)fp;
+{
+    int i, sampleSize, number_of_phones, number_of_parameters;
+    float minValue, maxValue, defaultValue;
+    char tempSymbol[SYMBOL_LENGTH_MAX + 1];
+    NSString *str;
+
+    /* READ SAMPLE SIZE FROM FILE  */
+    fread((char *)&sampleSize, sizeof(sampleSize), 1, fp);
+
+    /* READ PHONE SYMBOLS FROM FILE  */
+    fread((char *)&number_of_phones, sizeof(number_of_phones), 1, fp);
+    for (i = 0; i < number_of_phones; i++) {
+        fread(tempSymbol, SYMBOL_LENGTH_MAX + 1, 1, fp);
+    }
+
+    /* READ PARAMETERS FROM FILE  */
+    fread((char *)&number_of_parameters, sizeof(number_of_parameters), 1, fp);
+
+    for (i = 0; i < number_of_parameters; i++) {
+        MMParameter *newParameter;
+
+        bzero(tempSymbol, SYMBOL_LENGTH_MAX + 1);
+        fread(tempSymbol, SYMBOL_LENGTH_MAX + 1, 1, fp);
+        str = [NSString stringWithASCIICString:tempSymbol];
+
+        fread(&minValue, sizeof(float), 1, fp);
+        fread(&maxValue, sizeof(float), 1, fp);
+        fread(&defaultValue, sizeof(float), 1, fp);
+
+        newParameter = [[MMParameter alloc] initWithSymbol:str];
+        [newParameter setMinimumValue:minValue];
+        [newParameter setMaximumValue:maxValue];
+        [newParameter setDefaultValue:defaultValue];
+        [self addParameter:newParameter];
+        [newParameter release];
+    }
+}
+
+- (void)readCategoriesFromDegasFile:(FILE *)fp;
+{
+    int i, count;
+
+    MMCategory *newCategory;
+    char symbolString[SYMBOL_LENGTH_MAX+1];
+    NSString *str;
+
+    /* Load in the count */
+    fread(&count, sizeof(int), 1, fp);
+
+    for (i = 0; i < count; i++) {
+        fread(symbolString, SYMBOL_LENGTH_MAX+1, 1, fp);
+
+        str = [NSString stringWithASCIICString:symbolString];
+        newCategory = [[MMCategory alloc] initWithSymbol:str];
+        [self addCategory:newCategory];
+        [newCategory release];
+    }
+
+    // TODO (2004-03-19): Make sure it's in the "phone" category
+}
+
+- (void)readPosturesFromDegasFile:(FILE *)fp;
+{
+    int i, j, symbolIndex;
+    int phoneCount, targetCount, categoryCount;
+
+    int tempDuration, tempType, tempFixed;
+    float tempProp;
+
+    int tempDefault;
+    float tempValue;
+
+    MMPosture *newPhone;
+    MMCategory *tempCategory;
+    MMTarget *tempTarget;
+    char tempSymbol[SYMBOL_LENGTH_MAX + 1];
+    NSString *str;
+
+    symbolIndex = [symbols findSymbolIndex:@"duration"];
+
+    if (symbolIndex == -1) {
+        [symbols addNewValue:@"duration"];
+        symbolIndex = [symbols findSymbolIndex:@"duration"];
+        [postures addSymbol];
+    }
+
+    /* READ # OF PHONES AND TARGETS FROM FILE  */
+    fread(&phoneCount, sizeof(int), 1, fp);
+    fread(&targetCount, sizeof(int), 1, fp);
+
+    /* READ PHONE DESCRIPTION FROM FILE  */
+    for (i = 0; i < phoneCount; i++) {
+        fread(tempSymbol, SYMBOL_LENGTH_MAX + 1, 1, fp);
+        str = [NSString stringWithASCIICString:tempSymbol];
+
+        newPhone = [[MMPosture alloc] initWithModel:self];
+        [newPhone setSymbol:str];
+        [self addPosture:newPhone];
+
+        /* READ SYMBOL AND DURATIONS FROM FILE  */
+        fread(&tempDuration, sizeof(int), 1, fp);
+        fread(&tempType, sizeof(int), 1, fp);
+        fread(&tempFixed, sizeof(int), 1, fp);
+        fread(&tempProp, sizeof(int), 1, fp);
+
+        tempTarget = [[newPhone symbolList] objectAtIndex:symbolIndex];
+        [tempTarget setValue:(double)tempDuration isDefault:NO];
+
+        /* READ TARGETS IN FROM FILE  */
+        for (j = 0; j < targetCount; j++) {
+            tempTarget = [[newPhone parameterList] objectAtIndex:j];
+
+            /* READ IN DATA FROM FILE  */
+            fread(&tempDefault, sizeof(int), 1, fp);
+            fread(&tempValue, sizeof(float), 1, fp);
+
+            [tempTarget setValue:tempValue];
+            [tempTarget setIsDefault:tempDefault];
+        }
+
+        /* READ IN CATEGORIES FROM FILE  */
+        fread(&categoryCount, sizeof(int), 1, fp);
+        for (j = 0; j < categoryCount; j++) {
+            /* READ IN DATA FROM FILE  */
+            fread(tempSymbol, SYMBOL_LENGTH_MAX + 1, 1, fp);
+            str = [NSString stringWithASCIICString:tempSymbol];
+
+            tempCategory = [categories findSymbol:str];
+            if (!tempCategory) {
+                [[newPhone categoryList] addNativeCategory:str];
+            } else
+                [[newPhone categoryList] addObject:tempCategory];
+        }
+
+        [newPhone release];
+    }
+}
+
+- (void)readRulesFromDegasFile:(FILE *)fp;
+{
+    int numRules;
+    int i, j, k, l;
+    int j1, k1, l1;
+    int dummy;
+    int tempLength;
+    char buffer[1024];
+    char buffer1[1024];
+    BooleanParser *boolParser;
+    id temp, temp1;
+    NSString *bufferStr, *buffer1Str;
+
+    boolParser = [[BooleanParser alloc] init];
+    [boolParser setCategoryList:categories];
+    [boolParser setPhoneList:postures];
+
+    /* READ FROM FILE  */
+    NXRead(fp, &numRules, sizeof(int));
+    for (i = 0; i < numRules; i++) {
+        /* READ SPECIFIER CATEGORY #1 FROM FILE  */
+        NXRead(fp, &tempLength, sizeof(int));
+        bzero(buffer, 1024);
+        NXRead(fp, buffer, tempLength + 1);
+        bufferStr = [NSString stringWithASCIICString:buffer];
+        //NSLog(@"i: %d", i);
+        //NSLog(@"bufferStr: %@", bufferStr);
+        temp = [boolParser parseString:bufferStr];
+
+        /* READ SPECIFIER CATEGORY #2 FROM FILE  */
+        NXRead(fp, &tempLength, sizeof(int));
+        bzero(buffer1, 1024);
+        NXRead(fp, buffer1, tempLength + 1);
+        buffer1Str = [NSString stringWithASCIICString:buffer1];
+        //NSLog(@"buffer1Str: %@", buffer1Str);
+        temp1 = [boolParser parseString:buffer1Str];
+
+        if (temp == nil || temp1 == nil)
+            NSLog(@"Error parsing rule: %@ >> %@", bufferStr, buffer1Str);
+        else
+            [rules addRuleExp1:temp exp2:temp1 exp3:nil exp4:nil];
+
+        /* READ TRANSITION INTERVALS FROM FILE  */
+        NXRead(fp, &k1, sizeof(int));
+        for (j = 0; j < k1; j++) {
+            NXRead(fp, &dummy, sizeof(short int));
+            NXRead(fp, &dummy, sizeof(short int));
+            NXRead(fp, &dummy, sizeof(int));
+            NXRead(fp, &dummy, sizeof(float));
+            NXRead(fp, &dummy, sizeof(float));
+        }
+
+        /* READ TRANSITION INTERVAL MODE FROM FILE  */
+        NXRead(fp, &dummy, sizeof(short int));
+
+        /* READ SPLIT MODE FROM FILE  */
+        NXRead(fp, &dummy, sizeof(short int));
+
+        /* READ SPECIAL EVENTS FROM FILE  */
+        NXRead(fp, &j1, sizeof(int));
+
+        for (j = 0; j < j1; j++) {
+            /* READ SPECIAL EVENT SYMBOL FROM FILE  */
+            NXRead(fp, buffer, SYMBOL_LENGTH_MAX + 1);
+
+            /* READ SPECIAL EVENT INTERVALS FROM FILE  */
+            for (k = 0; k < k1; k++) {
+
+                /* READ SUB-INTERVALS FROM FILE  */
+                NXRead(fp, &l1, sizeof(int));
+                for (l = 0; l < l1; l++) {
+                    /* READ SUB-INTERVAL PARAMETERS FROM FILE  */
+                    NXRead(fp, &dummy, sizeof(short int));
+                    NXRead(fp, &dummy, sizeof(int));
+                    NXRead(fp, &dummy, sizeof(float));
+                }
+            }
+        }
+
+        /* READ DURATION RULE INFORMATION FROM FILE  */
+        NXRead(fp, &dummy, sizeof(int));
+        NXRead(fp, &dummy, sizeof(int));
+    }
+
+    [boolParser release];
 }
 
 @end

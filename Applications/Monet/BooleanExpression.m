@@ -35,7 +35,8 @@
 
 - (void)addSubExpression:(BooleanExpression *)newExpression;
 {
-    [expressions addObject:newExpression];
+    if (newExpression != nil)
+        [expressions addObject:newExpression];
 }
 
 - (BooleanExpression *)operandOne;

@@ -458,7 +458,7 @@
 
 - (IBAction)parseRule:(id)sender;
 {
-    int i, j, dummy, phones = 0;
+    int i, j, phones = 0;
     MonetList *tempList, *phoneList;
     PhoneList *mainPhoneList;
     MMPosture *tempPhone;
@@ -475,7 +475,7 @@
         return;
     }
 
-    tempPhone = [mainPhoneList binarySearchPhone:[[phone1 cellAtIndex:0] stringValue] index:&dummy];
+    tempPhone = [mainPhoneList findPhone:[[phone1 cellAtIndex:0] stringValue]];
     if (tempPhone == nil) {
         [ruleOutput setStringValue:[NSString stringWithFormat:@"Unknown phone: \"%@\"", [[phone1 cellAtIndex:0] stringValue]]];
         return;
@@ -484,7 +484,7 @@
     [phoneList addObject:tempPhone];
     phones++;
 
-    tempPhone = [mainPhoneList binarySearchPhone:[[phone2 cellAtIndex:0] stringValue] index:&dummy];
+    tempPhone = [mainPhoneList findPhone:[[phone2 cellAtIndex:0] stringValue]];
     if (tempPhone == nil) {
         [ruleOutput setStringValue:[NSString stringWithFormat:@"Unknown phone: \"%@\"", [[phone2 cellAtIndex:0] stringValue]]];
         return;
@@ -494,7 +494,7 @@
     phones++;
 
     if ([[[phone3 cellAtIndex:0] stringValue] length]) {
-        tempPhone = [mainPhoneList binarySearchPhone:[[phone3 cellAtIndex:0] stringValue] index:&dummy];
+        tempPhone = [mainPhoneList findPhone:[[phone3 cellAtIndex:0] stringValue]];
         if (tempPhone == nil) {
             [ruleOutput setStringValue:[NSString stringWithFormat:@"Unknown phone: \"%@\"", [[phone3 cellAtIndex:0] stringValue]]];
             return;
@@ -506,7 +506,7 @@
     }
 
     if ([[[phone4 cellAtIndex:0] stringValue] length]) {
-        tempPhone = [mainPhoneList binarySearchPhone:[[phone4 cellAtIndex:0] stringValue] index:&dummy];
+        tempPhone = [mainPhoneList findPhone:[[phone4 cellAtIndex:0] stringValue]];
         if (tempPhone == nil) {
             [ruleOutput setStringValue:[NSString stringWithFormat:@"Unknown phone: \"%@\"", [[phone4 cellAtIndex:0] stringValue]]];
             return;
@@ -682,14 +682,6 @@ static NSString *ruleString = @"Rule";
 #endif
 }
 
-//
-// Archiving - Degas support
-//
-
-- (void)readDegasFileFormat:(FILE *)fp;
-{
-    [[model rules] readDegasFileFormat:fp];
-}
 
 //
 // Window delegate methods

@@ -28,6 +28,8 @@
 
     model = [aModel retain];
 
+    [self setWindowFrameAutosaveName:@"Postures"];
+
     return self;
 }
 
@@ -158,7 +160,25 @@
 
 - (IBAction)addPosture:(id)sender;
 {
+    MMPosture *newPosture;
+    unsigned int index;
+
     NSLog(@" > %s", _cmd);
+
+    newPosture = [[MMPosture alloc] initWithModel:[self model]];
+    [[self model] addPosture:newPosture];
+
+    [self updateViews];
+
+    index = [[[self model] postures] indexOfObject:newPosture];
+    [newPosture release];
+
+    [postureTableView scrollRowToVisible:index];
+
+    // The row needs to be selected before we start editing it.
+    [postureTableView selectRow:index byExtendingSelection:NO];
+    [postureTableView editColumn:[postureTableView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
+
     NSLog(@"<  %s", _cmd);
 }
 
@@ -325,7 +345,13 @@
 
     identifier = [tableColumn identifier];
 
-    if (tableView == categoryTableView) {
+    if (tableView == postureTableView) {
+        MMPosture *posture = [[[self model] postures] objectAtIndex:row];
+
+        if ([@"name" isEqual:identifier] == YES) {
+            [posture setSymbol:object];
+        }
+    } else if (tableView == categoryTableView) {
         MMCategory *category = [[[self model] categories] objectAtIndex:row];
 
         if ([@"isMember" isEqual:identifier] == YES) {

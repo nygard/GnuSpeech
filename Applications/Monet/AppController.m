@@ -213,10 +213,7 @@
             fread(&magic, sizeof(int), 1, fp);
             if (magic == 0x2e646567) {
                 NSLog(@"Loading DEGAS File");
-                [[model parameters] readDegasFileFormat:fp];
-                [[model categories] readDegasFileFormat:fp];
-                [[model postures] readDegasFileFormat:fp];
-                [ruleManager readDegasFileFormat:fp];
+                [model readDegasFileFormat:fp];
                 [dataBrowser updateBrowser];
             } else {
                 NSLog(@"Not a DEGAS file");

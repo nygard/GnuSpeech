@@ -25,25 +25,6 @@
     [super dealloc];
 }
 
-#if 0
-- (BOOL)acceptsFirstResponder;
-{
-    return YES;
-}
-
-- (BOOL)becomeFirstResponder;
-{
-    NSLog(@"Now First Responder");
-    return YES;
-}
-
-- (BOOL)resignFirstResponder;
-{
-    NSLog(@"Resigning first responder");
-    return YES;
-}
-#endif
-
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 {
     NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
@@ -189,65 +170,31 @@
 
 - (void)add:(id)sender;
 {
-    if (![list[currentList] findByName:[nameField stringValue]]) {
-        [list[currentList] addNewValue:[nameField stringValue]];
-        [browser loadColumnZero];
-    } else
-        NSBeep();
-
-    [nameField selectTextAtIndex:0];
 }
 
 - (void)rename:(id)sender;
 {
-    id temp, cell;
-
-    if ([list[currentList] findByName:[nameField stringValue]]) {
-        NSBeep();
-        return;
-    }
-
-    cell = [browser selectedCell];
-    if (cell) {
-        temp = [list[currentList] findByName:[[browser selectedCell] stringValue]];
-        [list[currentList] changeSymbolOf:temp to:[nameField stringValue]];
-    }
-    [browser loadColumnZero];
-    [nameField selectTextAtIndex:0];
 }
 
 - (void)remove:(id)sender;
 {
-    id temp, cell;
-    int index;
-
-    cell = [browser selectedCell];
-    if (cell) {
-        temp = [list[currentList] findByName:[[browser selectedCell] stringValue]];
-        if (temp) {
-            index = [list[currentList] indexOfObject:temp];
-            [list[currentList] removeObject:temp];
-        }
-
-        [browser loadColumnZero];
-    }
-
-    [nameField selectTextAtIndex:0];
 }
 
 - (void)cut:(id)sender;
 {
-    NSLog(@"Cut");
 }
 
+#if 0
 static NSString *phoneString = @"Phone";
 static NSString *categoryString = @"Category";
 static NSString *parameterString = @"Parameter";
 static NSString *metaParameterString = @"MetaParameter";
 static NSString *symbolString = @"Symbol";
+#endif
 
 - (void)copy:(id)sender;
 {
+#if 0
     NSPasteboard *myPasteboard;
     NSArchiver *typed = nil;
     NSMutableData *mdata;
@@ -286,10 +233,12 @@ static NSString *symbolString = @"Symbol";
     [myPasteboard setData:mdata forType:dataType];
 
     [typed release];
+#endif
 }
 
 - (void)paste:(id)sender;
 {
+#if 0
     NSPasteboard *myPasteboard;
     NSArchiver *typed = nil;
     NSData *mdata;
@@ -357,6 +306,7 @@ static NSString *symbolString = @"Symbol";
           break;
     }
 #warning TODO (2004-03-02): Check earliest sources.  It looks like most of the pasting is not implemeneted, and this leaks.
+#endif
 }
 
 - (void)windowDidBecomeMain:(NSNotification *)notification;

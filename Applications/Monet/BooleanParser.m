@@ -53,7 +53,6 @@
 {
     NSString *baseName;
     MMPosture *tempPhone;
-    int dummy;
 
     if ([symbol hasSuffix:@"*"]) {
         baseName = [symbol substringToIndex:[symbol length] - 1];
@@ -61,7 +60,8 @@
         baseName = symbol;
     }
 
-    tempPhone = [phoneList binarySearchPhone:baseName index:&dummy];
+    tempPhone = [phoneList findPhone:baseName];
+    //NSLog(@"%s, baseName: %@, tempPhone: %p", _cmd, baseName, tempPhone);
 
     if (tempPhone) {
         //NSLog(@"%@: native category\n", symbol);
@@ -118,7 +118,7 @@
 #endif
     if ([self categorySymbol:symbolString] == nil) {
         /* do nothing? */;
-        printf("Category Not Found!\n");
+        NSLog(@"Category Not Found! (%@)", symbolString);
     }
 
     return TK_B_CATEGORY;
@@ -187,7 +187,6 @@
           default:
           case TK_B_END:
               [self appendErrorFormat:@"Error, unexpected End."];
-              [currentExpression release];
               return nil;
 
           case TK_B_OR:
@@ -204,21 +203,17 @@
 
           case TK_B_NOT:
               [self appendErrorFormat:@"Error, unexpected NOT operation."];
-              [currentExpression release];
               return nil;
 
           case TK_B_LPAREN:
               [self appendErrorFormat:@"Error, unexpected '('."];
-              [currentExpression release];
               return nil;
 
           case TK_B_RPAREN:
               [self appendErrorFormat:@"Error, unexpected ')'."];
-              [currentExpression release];
               return nil;
 
           case TK_B_CATEGORY:
-              [currentExpression release];
               [self appendErrorFormat:@"Error, unexpected category %@.", symbolString];
               return nil;
         }

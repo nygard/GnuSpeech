@@ -49,16 +49,25 @@
     NSString *phoneSymbol;
     NSString *comment;
 
+    // TODO (2004-03-19): Rename categories, parameters, metaParameters, and symbols
     CategoryList *categoryList; // Of MMCategorys
     TargetList *parameterList; // Of Targets
     TargetList *metaParameterList; // Of Targets
     TargetList *symbolList; // Of Targets
+
+    MMCategory *nativeCategory;
 }
 
 /* init and free methods */
+#if 0
 - (id)init;
 - (id)initWithSymbol:(NSString *)newSymbol;
 - (id)initWithSymbol:(NSString *)newSymbol parameters:(ParameterList *)parms metaParameters:(ParameterList *)metaparms symbols:(SymbolList *)symbols;
+#endif
+
+- (id)initWithModel:(MModel *)aModel;
+- (void)_addDefaultValues;
+
 - (void)dealloc;
 
 /* Comment and Symbol methods */
@@ -79,6 +88,8 @@
 - (TargetList *)parameterList;
 - (TargetList *)metaParameterList;
 - (TargetList *)symbolList;
+
+- (NSComparisonResult)compareByAscendingName:(MMPosture *)otherPosture;
 
 // Archiving
 - (id)initWithCoder:(NSCoder *)aDecoder;

@@ -129,7 +129,7 @@
     char *c_string;
     CategoryList *categoryList;
     PhoneList *phoneList;
-    MMCategory *aMMCategory;
+    MMCategory *aCategory;
     NSString *str;
     MModel *model;
 
@@ -152,12 +152,12 @@
     //NSLog(@"c_string: %s", c_string);
     str = [NSString stringWithASCIICString:c_string];
 
-    aMMCategory = [categoryList findSymbol:str];
-    if (aMMCategory == nil) {
-        aMMCategory = [[[phoneList findPhone:str] categoryList] findSymbol:str];
-        category = [aMMCategory retain];
+    aCategory = [categoryList findSymbol:str];
+    if (aCategory == nil) {
+        aCategory = [[[phoneList findPhone:str] categoryList] findSymbol:str];
+        category = [aCategory retain];
     } else {
-        category = [aMMCategory retain];
+        category = [aCategory retain];
     }
 
     free(c_string);
