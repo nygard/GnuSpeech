@@ -45,13 +45,13 @@ void dataFill(TRMRingBuffer *ringBuffer, double data)
 {
     ringBuffer->buffer[ringBuffer->fillPtr] = data;
 
-    /*  INCREMENT THE FILL POINTER, MODULO THE BUFFER SIZE  */
+    // Increment the fill pointer, modulo the buffer size
     RBIncrement(ringBuffer);
 
-    /*  INCREMENT THE COUNTER, AND EMPTY THE BUFFER IF FULL  */
+    // Increment the counter, and empty the buffer if full
     if (++(ringBuffer->fillCounter) >= ringBuffer->fillSize) {
 	dataEmpty(ringBuffer);
-	/* RESET THE FILL COUNTER  */
+	// Reset the fill counter
 	ringBuffer->fillCounter = 0;
     }
 }
@@ -83,11 +83,11 @@ void flushBuffer(TRMRingBuffer *ringBuffer)
 {
     int index;
 
-    /*  PAD END OF RING BUFFER WITH ZEROS  */
+    // Pad end of ring buffer with zeros
     for (index = 0; index < (ringBuffer->padSize * 2); index++)
 	dataFill(ringBuffer, 0.0);
 
-    /*  FLUSH UP TO FILL POINTER - PADSIZE  */
+    // Flush up to fill pointer - padsize
     dataEmpty(ringBuffer);
 }
 
