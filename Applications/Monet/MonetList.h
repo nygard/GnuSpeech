@@ -4,8 +4,6 @@
  * Date: Dec, 2002
  */
 
-#import <Foundation/NSString.h>
-
 #ifndef NeXT
 #define DEFINE_MONET_LIST
 #endif
@@ -13,29 +11,37 @@
 #ifdef DEFINE_MONET_LIST
 #import <Foundation/NSArray.h>
 
+@class NSString;
+
 @interface MonetList : NSObject <NSCoding>
 {
-	NSMutableArray *ilist;
+    NSMutableArray *ilist;
 }
 
-- (id) initWithCapacity: (unsigned)numItems;
-- (unsigned) count;
-- (unsigned) indexOfObject: (id)anObject;
-- (id) lastObject;
-- (id) objectAtIndex: (unsigned)index;
+- (id)init;
+- (id)initWithCapacity:(unsigned)numItems;
+- (void)dealloc;
 
-- (void) makeObjectsPerform: (SEL)aSelector;
+- (unsigned)count;
+- (unsigned)indexOfObject:(id)anObject;
+- (id)lastObject;
+- (id)objectAtIndex:(unsigned)index;
+
+- (void)makeObjectsPerform:(SEL)aSelector;
 
 
-- (void) addObject: (id)anObject;
-- (void) insertObject: (id)anObject atIndex: (unsigned)index;
-- (void) removeObjectAtIndex: (unsigned)index;
-- (void) removeObject: (id)anObject;
-- (void) replaceObjectAtIndex: (unsigned)index
-                   withObject: (id)anObject;
+- (void)addObject:(id)anObject;
+- (void)insertObject:(id)anObject atIndex:(unsigned)index;
+- (void)removeObjectAtIndex:(unsigned)index;
+- (void)removeObject:(id)anObject;
+- (void)replaceObjectAtIndex:(unsigned)index
+                  withObject:(id)anObject;
 
-- (void) removeAllObjects;
-- (void) removeLastObject;
+- (void)removeAllObjects;
+- (void)removeLastObject;
+
+- (void)encodeWithCoder:(NSCoder *)aCoder;
+- (id)initWithCoder:(NSCoder *)aDecoder;
 
 @end
 

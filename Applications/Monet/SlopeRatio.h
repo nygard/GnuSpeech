@@ -1,6 +1,6 @@
+#import <Foundation/NSObject.h>
 
-#import "MonetList.h"
-#import "Slope.h"
+@class MonetList;
 
 /*===========================================================================
 
@@ -11,7 +11,7 @@
 =============================================================================
 */
 
-@interface SlopeRatio:NSObject
+@interface SlopeRatio : NSObject
 {
 	MonetList	*points;
 	MonetList	*slopes;
@@ -29,7 +29,7 @@
 - (double) endTime;
 
 
-- calculatePoints: (double *) ruleSymbols tempos: (double *) tempos phones: phones andCacheWith: (int) newCacheTag 
+- calculatePoints: (double *) ruleSymbols tempos: (double *) tempos phones: phones andCacheWith: (int) newCacheTag
         toDisplay: displayList ;
 
 - (double) calculatePoints: (double *) ruleSymbols tempos: (double *) tempos phones: phones andCacheWith: (int) newCacheTag

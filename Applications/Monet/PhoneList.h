@@ -1,7 +1,7 @@
-
 #import "MonetList.h"
-#import "Phone.h"
-#import <stdio.h>
+
+@class Phone;
+//#import <stdio.h>
 
 /*===========================================================================
 
@@ -15,14 +15,14 @@
 	Purpose: To provide special functionality specific to maintaining
 		and accessing a list of phones.
 
-	Import Files: 
+	Import Files:
 		"Phone.h":  The objects within this list will all be instances
 			of the "Phone" class.
 
 
 */
 
-@interface PhoneList:MonetList
+@interface PhoneList : MonetList
 {
 }
 

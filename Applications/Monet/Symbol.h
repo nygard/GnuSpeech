@@ -1,4 +1,3 @@
-
 #import <Foundation/NSObject.h>
 
 /*===========================================================================
@@ -10,36 +9,35 @@
 =============================================================================
 */
 
-@interface Symbol:NSObject
+@interface Symbol : NSObject
 {
-	char *symbol;
-	char *comment;
-	double minimum;
-	double maximum;
-	double defaultValue;
+    NSString *symbol;
+    NSString *comment;
+    double minimum;
+    double maximum;
+    double defaultValue;
 }
 
-- init;
-- initWithSymbol:(const char *) newSymbol;
-
-- (void)setSymbol:(const char *)newSymbol;
-- (const char *)symbol;
-
-- (void)setComment:(const char *)newComment;
-- (const char *) comment;
-
-- (void)setMinimumValue:(double)newMinimum;
-- (double) minimumValue;
-
-- (void)setMaximumValue:(double)newMaximum;
-- (double) maximumValue;
-
-- (void)setDefaultValue:(double)newDefault;
-- (double) defaultValue;
-
+- (id)init;
+- (id)initWithSymbol:(NSString *)newSymbol;
 - (void)dealloc;
 
-- (id)initWithCoder:(NSCoder *)aDecoder;
-- (void)encodeWithCoder:(NSCoder *)aCoder;
+- (NSString *)symbol;
+- (void)setSymbol:(NSString *)newSymbol;
+
+- (NSString *)comment;
+- (void)setComment:(NSString *)newComment;
+
+- (double)minimumValue;
+- (void)setMinimumValue:(double)newMinimum;
+
+- (double)maximumValue;
+- (void)setMaximumValue:(double)newMaximum;
+
+- (double)defaultValue;
+- (void)setDefaultValue:(double)newDefault;
+
+//- (id)initWithCoder:(NSCoder *)aDecoder;
+//- (void)encodeWithCoder:(NSCoder *)aCoder;
 
 @end

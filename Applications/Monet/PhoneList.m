@@ -1,5 +1,5 @@
-
 #import "PhoneList.h"
+
 #import "ParameterList.h"
 #import "SymbolList.h"
 #import "TRMData.h"
@@ -47,7 +47,7 @@ id symbols, parms, metaParms;
 	tempPhone = [[Phone alloc] initWithSymbol:phone parmeters:parms metaParameters: metaParms symbols:symbols];
 	[[tempPhone categoryList] addNativeCategory:phone];
 
-	[self insertObject: tempPhone atIndex:index]; 
+	[self insertObject: tempPhone atIndex:index];
 }
 
 - (void)addPhoneObject:(Phone *)phone
@@ -57,7 +57,7 @@ int index;
 	if ([self binarySearchPhone:[phone symbol] index:&index])
 		return;
 
-	[self insertObject: phone atIndex:index]; 
+	[self insertObject: phone atIndex:index];
 }
 
 - binarySearchPhone:(const char *) searchPhone index:(int *) index
@@ -124,7 +124,7 @@ int test;
 
 - (void)addNewValue:(const char *)newValue
 {
-	[self addPhone:newValue]; 
+	[self addPhone:newValue];
 }
 
 - findByName:(const char *)name
@@ -139,7 +139,7 @@ int dummy;
 
 	[self removeObject: temp];
 	[temp setSymbol:name];
-	[self addPhoneObject:temp]; 
+	[self addPhoneObject:temp];
 }
 
 #define SYMBOL_LENGTH_MAX       12
@@ -228,7 +228,7 @@ char tempSymbol[SYMBOL_LENGTH_MAX + 1];
 				[[tempPhone categoryList] addObject:tempCategory];
 
 		}
-	} 
+	}
 }
 
 - (void)printDataTo:(FILE *)fp
@@ -285,7 +285,7 @@ id symbols, parms, metaParms;
 
 		fprintf(fp, "\n");
 	}
-	fprintf(fp, "\n"); 
+	fprintf(fp, "\n");
 }
 
 - (void)parameterDefaultChange:parameter to:(double)value
@@ -316,7 +316,7 @@ id parms, metaParms;
 				if ( [temp isDefault])
 					[temp setValue:value];
 			}
-	} 
+	}
 }
 
 - (void)symbolDefaultChange:parameter to:(double)value
@@ -335,7 +335,7 @@ id symbols;
 			if ( [temp isDefault])
 				[temp setValue:value];
 		}
-	} 
+	}
 }
 
 - (void)addParameter
@@ -349,7 +349,7 @@ id temp;
 		temp = [[self objectAtIndex: i] parameterList];
 		[temp addDefaultTargetWithValue:value];
 
-	} 
+	}
 }
 
 - (void)removeParameter:(int)index
@@ -362,7 +362,7 @@ id temp;
 		temp = [[self objectAtIndex: i] parameterList];
 		[temp removeObjectAtIndex:index];
 
-	} 
+	}
 }
 
 - (void)addMetaParameter
@@ -377,7 +377,7 @@ id temp;
 		temp = [[self objectAtIndex: i] metaParameterList];
 		[temp addDefaultTargetWithValue:value];
 
-	} 
+	}
 }
 
 - (void)removeMetaParameter:(int)index
@@ -390,7 +390,7 @@ id temp;
 		temp = [[self objectAtIndex: i] metaParameterList];
 		[temp removeObjectAtIndex:index];
 
-	} 
+	}
 }
 
 - (void)addSymbol
@@ -403,7 +403,7 @@ id temp;
 		temp = [[self objectAtIndex: i] symbolList];
 		[temp addDefaultTargetWithValue:(double)0.0];
 
-	} 
+	}
 }
 
 - (void)removeSymbol:(int)index
@@ -416,7 +416,7 @@ id temp;
 		temp = [[self objectAtIndex: i] symbolList];
 		[temp removeObjectAtIndex:index];
 
-	} 
+	}
 }
 
 - (void)importTRMData:sender
@@ -427,7 +427,7 @@ NSArray *types;
 NSArray *fnames;
 char buffer[256], *tempBuffer;
 char path[256];
-Phone *tempPhone; 
+Phone *tempPhone;
 TargetList *tempTargets;
 ParameterList   *mainParameterList = NXGetNamedObject("mainParameterList", NSApp);
 double tempValue;
@@ -450,7 +450,7 @@ int i, count;
 		strcpy(buffer, [[fnames objectAtIndex: i] cString]);
 		tempBuffer = index(buffer, '.');
 		*tempBuffer = '\000';
-		tempPhone = [[Phone alloc] initWithSymbol:buffer parmeters:parms 
+		tempPhone = [[Phone alloc] initWithSymbol:buffer parmeters:parms
 				metaParameters: metaParms symbols:symbols];
 		tempPhone = [self makePhoneUniqueName:tempPhone];
 		[self addPhoneObject:tempPhone];
@@ -465,36 +465,36 @@ int i, count;
 
 		tempTargets = [tempPhone parameterList];
 
-		/*  Get the values of the needed parameters  */	
+		/*  Get the values of the needed parameters  */
 		tempValue = [myData glotPitch];
 		[[tempTargets objectAtIndex:0] setValue: tempValue
 			 isDefault: ([[mainParameterList objectAtIndex:0] defaultValue] == tempValue)];
 		tempValue = [myData glotVol];
-		[[tempTargets objectAtIndex:1] setValue: tempValue 
+		[[tempTargets objectAtIndex:1] setValue: tempValue
 			isDefault: ([[mainParameterList objectAtIndex:1] defaultValue] == tempValue)];
 		tempValue = [myData aspVol];
 		[[tempTargets objectAtIndex:2] setValue: tempValue
 			isDefault: ([[mainParameterList objectAtIndex:2] defaultValue] == tempValue)];
 		tempValue = [myData fricVol];
-		[[tempTargets objectAtIndex:3] setValue: tempValue 
+		[[tempTargets objectAtIndex:3] setValue: tempValue
 			isDefault: ([[mainParameterList objectAtIndex:3] defaultValue] == tempValue)];
 		tempValue = [myData fricPos];
-		[[tempTargets objectAtIndex:4] setValue: tempValue 
+		[[tempTargets objectAtIndex:4] setValue: tempValue
 			isDefault: ([[mainParameterList objectAtIndex:4] defaultValue] == tempValue)];
 		tempValue = [myData fricCF];
-		[[tempTargets objectAtIndex:5] setValue: tempValue 
+		[[tempTargets objectAtIndex:5] setValue: tempValue
 			isDefault: ([[mainParameterList objectAtIndex:5] defaultValue] == tempValue)];
 		tempValue = [myData fricBW];
-		[[tempTargets objectAtIndex:6] setValue: tempValue 
+		[[tempTargets objectAtIndex:6] setValue: tempValue
 			isDefault: ([[mainParameterList objectAtIndex:6] defaultValue] == tempValue)];
 		tempValue = [myData r1];
-		[[tempTargets objectAtIndex:7] setValue: tempValue 
+		[[tempTargets objectAtIndex:7] setValue: tempValue
 			isDefault: ([[mainParameterList objectAtIndex:7] defaultValue] == tempValue)];
 		tempValue = [myData r2];
-		[[tempTargets objectAtIndex:8] setValue: tempValue 
+		[[tempTargets objectAtIndex:8] setValue: tempValue
 			isDefault: ([[mainParameterList objectAtIndex:8] defaultValue] == tempValue)];
 		tempValue = [myData r3];
-		[[tempTargets objectAtIndex:9] setValue: tempValue 
+		[[tempTargets objectAtIndex:9] setValue: tempValue
 			isDefault: ([[mainParameterList objectAtIndex:9] defaultValue] == tempValue)];
 		tempValue = [myData r4];
 		[[tempTargets objectAtIndex:10] setValue: tempValue
@@ -503,21 +503,21 @@ int i, count;
 		[[tempTargets objectAtIndex:11] setValue: tempValue
 			isDefault: ([[mainParameterList objectAtIndex:11] defaultValue] == tempValue)];
 		tempValue = [myData r6];
-		[[tempTargets objectAtIndex:12] setValue: tempValue 
+		[[tempTargets objectAtIndex:12] setValue: tempValue
 			isDefault: ([[mainParameterList objectAtIndex:12] defaultValue] == tempValue)];
 		tempValue = [myData r7];
-		[[tempTargets objectAtIndex:13] setValue: tempValue 
+		[[tempTargets objectAtIndex:13] setValue: tempValue
 			isDefault: ([[mainParameterList objectAtIndex:13] defaultValue] == tempValue)];
 		tempValue = [myData r8];
-		[[tempTargets objectAtIndex:14] setValue: tempValue 
+		[[tempTargets objectAtIndex:14] setValue: tempValue
 			isDefault: ([[mainParameterList objectAtIndex:14] defaultValue] == tempValue)];
 		tempValue = [myData velum];
-		[[tempTargets objectAtIndex:15] setValue: tempValue 
+		[[tempTargets objectAtIndex:15] setValue: tempValue
 			isDefault: ([[mainParameterList objectAtIndex:15] defaultValue] == tempValue)];
 
 	}
 	/*  Free the TRMData object  */
-	[myData release]; 
+	[myData release];
 }
 
 - makePhoneUniqueName:aPhone

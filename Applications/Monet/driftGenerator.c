@@ -15,7 +15,7 @@ static float a0 = 0.0, b1 = 0.0, previousSample = 0.0;
 *	function:	setDriftGenerator
 *
 *	purpose:	Sets the parameters of the drift generator.
-*			
+*
 *       arguments:      deviation - the amount of drift in semitones above
 *                            and below the median.  A value around 1 or
 *                            so should give good results.
@@ -62,9 +62,9 @@ void setDriftGenerator(float deviation, float sampleRate, float lowpassCutoff)
 *	function:	drift
 *
 *	purpose:	Returns one sample of the drift signal.
-*			
+*
 *       arguments:      none
-*                       
+*
 *	internal
 *	functions:	none
 *

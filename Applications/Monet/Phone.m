@@ -1,89 +1,93 @@
-
 #import "Phone.h"
+
+#import <Foundation/Foundation.h>
+
+#ifdef PORTING
 #import "ParameterList.h"
 #import "MyController.h"
 #import <stdio.h>
 #import <string.h>
 #import <stdlib.h>
 #import <AppKit/NSApplication.h>
-#import <Foundation/NSCoder.h>
+#endif
 
 @implementation Phone
 
-- init
+- (id)init;
 {
-	categoryList = [[CategoryList alloc] initWithCapacity:15];
-	parameterList = [[TargetList alloc] initWithCapacity:15];
-	metaParameterList = [[TargetList alloc] initWithCapacity:15];
-	symbolList = [[TargetList alloc] initWithCapacity:15];
+    if ([super init] == nil)
+        return nil;
 
-	phoneSymbol = NULL;
-	comment = NULL;
+    categoryList = [[CategoryList alloc] initWithCapacity:15];
+    parameterList = [[TargetList alloc] initWithCapacity:15];
+    metaParameterList = [[TargetList alloc] initWithCapacity:15];
+    symbolList = [[TargetList alloc] initWithCapacity:15];
 
-	return self;
+    phoneSymbol = nil;
+    comment = nil;
+
+    return self;
 }
 
-- initWithSymbol:(const char *) newSymbol
+- (id)initWithSymbol:(NSString *)newSymbol;
 {
-	[self init];
-	[self setSymbol:newSymbol];
-	return self;
+    if ([self init] == nil)
+        return nil;
+
+    [self setSymbol:newSymbol];
+
+    return self;
 }
 
-- initWithSymbol:(const char *) newSymbol parmeters:parms metaParameters: metaparms symbols:symbols
+- (id)initWithSymbol:(NSString *)newSymbol parmeters:(ParameterList *)parms metaParameters:(ParameterList *)metaparms symbols:(SymbolList *)symbols;
 {
-int i;
-id temp;
+    int count, index;
+    Target *newTarget;
 
-	categoryList = [[CategoryList alloc] initWithCapacity:15];
+    if ([self init] == nil)
+        return nil;
 
-	parameterList = [[TargetList alloc] initWithCapacity:[parms count]];
-	for (i = 0; i<[parms count]; i++)
-	{
-		temp = [[Target alloc] initWithValue: [[parms objectAtIndex:i] defaultValue] isDefault: YES];
-		[parameterList addObject:temp];
-	}
+    count = [parms count];
+    for (index = 0; index < count; index++) {
+        newTarget = [[Target alloc] initWithValue:[[parms objectAtIndex:index] defaultValue] isDefault:YES];
+        [parameterList addObject:newTarget];
+        [newTarget release];
+    }
 
-	metaParameterList = [[TargetList alloc] initWithCapacity:[metaparms count]];
-	for (i = 0; i<[metaparms count]; i++)
-	{
-		temp = [[Target alloc] initWithValue: [[metaparms objectAtIndex:i] defaultValue] isDefault: YES];
-		[metaParameterList addObject:temp];
-	}
+    count = [metaparms count];
+    for (index = 0; index < count; index++) {
+        newTarget = [[Target alloc] initWithValue:[[metaparms objectAtIndex:index] defaultValue] isDefault:YES];
+        [metaParameterList addObject:newTarget];
+        [newTarget release];
+    }
 
-	symbolList = [[TargetList alloc] initWithCapacity:[symbols count]];
-	for (i = 0; i<[symbols count]; i++)
-	{
-		temp = [[Target alloc] initWithValue: [[symbols objectAtIndex: i] defaultValue] isDefault: YES];
-		[symbolList addObject:temp];
-	}
+    count = [symbols count];
+    for (index = 0; index < count; index++) {
+        newTarget = [[Target alloc] initWithValue:[[symbols objectAtIndex:index] defaultValue] isDefault:YES];
+        [symbolList addObject:newTarget];
+        [newTarget release];
+    }
 
-	comment = NULL;
-	phoneSymbol = NULL;
-	[self setSymbol:newSymbol];
+    [self setSymbol:newSymbol];
 
-	return self;
+    return self;
 }
 
-- (void)dealloc
+- (void)dealloc;
 {
-	if (phoneSymbol) 
-		free(phoneSymbol);
+    [phoneSymbol release];
+    [comment release];
 
-	if (comment) 
-		free(comment);
+    [categoryList release];
 
-	[categoryList freeNativeCategories];
-	[categoryList release];
+    [parameterList release];
+    [metaParameterList release];
+    [symbolList release];
 
-	[parameterList release];
-	[metaParameterList release];
-	[symbolList release];
-
-	[super dealloc];
+    [super dealloc];
 }
 
-- (void)setSymbol:(const char *)newSymbol
+- (void)setSymbol:(const char *)newSymbol;
 {
 int len;
 int i;
@@ -104,15 +108,15 @@ CategoryNode *tempCategory;
 			[tempCategory setSymbol:newSymbol];
 			return;
 		}
-	} 
+	}
 }
 
-- (const char *)symbol
+- (const char *)symbol;
 {
 	return (phoneSymbol);
 }
 
-- (void)setComment:(const char *)newComment
+- (void)setComment:(const char *)newComment;
 {
 int len;
 
@@ -121,40 +125,39 @@ int len;
 
 	len = strlen(newComment);
 	comment = (char *) malloc(len+1);
-	strcpy(comment, newComment); 
+	strcpy(comment, newComment);
 }
 
-- (const char *) comment
+- (const char *)comment;
 {
 	return comment;
 }
 
 - (void)addToCategoryList:(CategoryNode *)aCategory
 {
-	 
 }
 
-- categoryList
+- categoryList;
 {
 	return (categoryList);
 }
 
-- parameterList
+- parameterList;
 {
 	return (parameterList);
 }
 
-- metaParameterList
+- metaParameterList;
 {
 	return metaParameterList;
 }
 
-- symbolList
+- symbolList;
 {
 	return symbolList;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+- (id)initWithCoder:(NSCoder *)aDecoder;
 {
 int i, j;
 CategoryList *temp;
@@ -203,7 +206,7 @@ char *string;
         return self;
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder
+- (void)encodeWithCoder:(NSCoder *)aCoder;
 {
 int i;
 const char *temp;
@@ -229,7 +232,7 @@ const char *temp;
 }
 
 #ifdef NeXT
-- read:(NXTypedStream *)stream
+- read:(NXTypedStream *)stream;
 {
 int i, j;
 CategoryList *temp;

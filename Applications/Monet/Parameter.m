@@ -1,124 +1,122 @@
-
 #import "Parameter.h"
-#import <Foundation/NSCoder.h>
-#import <stdio.h>
-#import <string.h>
-#import <stdlib.h>
+
+#import <Foundation/Foundation.h>
+//#import <stdio.h>
+//#import <string.h>
+//#import <stdlib.h>
 
 @implementation Parameter
 
-- init
+- (id)init;
 {
-	parameterSymbol = NULL;
-	comment = NULL;
+    if ([super init] == nil)
+        return nil;
 
-	minimum = 0.0;
-	maximum = 0.0;
-	defaultValue = 0.0;
-	
-	return self;
+    parameterSymbol = nil;
+    comment = nil;
+
+    minimum = 0.0;
+    maximum = 0.0;
+    defaultValue = 0.0;
+
+    return self;
 }
 
-- initWithSymbol:(const char *) newSymbol
+- (id)initWithSymbol:(NSString *)newSymbol;
 {
-	[self init];
-	[self setSymbol:newSymbol];
-	return self;
+    if ([self init] == nil)
+        return nil;
+
+    [self setSymbol:newSymbol];
+
+    return self;
 }
 
-- (void)dealloc
+- (void)dealloc;
 {
-	if (parameterSymbol) 
-		free(parameterSymbol);
+    [parameterSymbol release];
+    [comment release];
 
-	if (comment)
-		free(comment);
-
-	[super dealloc];
+    [super dealloc];
 }
 
-- (void)setSymbol:(const char *)newSymbol
+- (NSString *)symbol;
 {
-int len;
-
-	if (parameterSymbol)
-		free(parameterSymbol);
-
-	len = strlen(newSymbol);
-	parameterSymbol = (char *) malloc(len+1);
-	strcpy(parameterSymbol, newSymbol); 
+    return parameterSymbol;
 }
 
-- (const char *)symbol
+- (void)setSymbol:(NSString *)newSymbol;
 {
-	return (parameterSymbol);
+    if (newSymbol == parameterSymbol)
+        return;
+
+    [parameterSymbol release];
+    parameterSymbol = [newSymbol retain];
 }
 
-- (void)setComment:(const char *)newComment
+- (NSString *)comment;
 {
-int len;
-
-	if (comment)
-		free(comment);
-
-	len = strlen(newComment);
-	comment = (char *) malloc(len+1);
-	strcpy(comment, newComment); 
+    return comment;
 }
 
-- (const char *) comment
+- (void)setComment:(NSString *)newComment;
 {
-	return comment;
+    if (newComment == comment)
+        return;
+
+    [comment release];
+    comment = [newComment retain];
 }
 
-- (void)setMinimumValue:(double)newMinimum
+- (double)minimumValue;
 {
-	minimum = newMinimum; 
+    return minimum;
 }
 
-- (double) minimumValue
+- (void)setMinimumValue:(double)newMinimum;
 {
-	return minimum;
+    minimum = newMinimum;
 }
 
-- (void)setMaximumValue:(double)newMaximum
+- (double)maximumValue;
 {
-	maximum = newMaximum; 
+    return maximum;
 }
 
-- (double) maximumValue
+- (void)setMaximumValue:(double)newMaximum;
 {
-	return maximum;
+    maximum = newMaximum;
 }
 
-- (void)setDefaultValue:(double)newDefault
+- (double)defaultValue;
 {
-	defaultValue = newDefault; 
+    return defaultValue;
 }
 
-- (double) defaultValue
+- (void)setDefaultValue:(double)newDefault;
 {
-	return defaultValue;
+    defaultValue = newDefault;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+#ifdef PORTING
+- (id)initWithCoder:(NSCoder *)aDecoder;
 {
-	[aDecoder decodeValuesOfObjCTypes:"**ddd", &parameterSymbol, &comment, &minimum, &maximum, &defaultValue];
-	return self;
+    [aDecoder decodeValuesOfObjCTypes:"**ddd", &parameterSymbol, &comment, &minimum, &maximum, &defaultValue];
+    return self;
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder
+- (void)encodeWithCoder:(NSCoder *)aCoder;
 {
-	[aCoder encodeValuesOfObjCTypes:"**ddd", &parameterSymbol, &comment, &minimum, &maximum, &defaultValue];
-}
-
-#ifdef NeXT
-- read:(NXTypedStream *)stream
-{
-        NXReadTypes(stream, "**ddd", &parameterSymbol, &comment, &minimum, &maximum, &defaultValue);
-        return self;
+    [aCoder encodeValuesOfObjCTypes:"**ddd", &parameterSymbol, &comment, &minimum, &maximum, &defaultValue];
 }
 #endif
 
+#ifdef NeXT
+- read:(NXTypedStream *)stream;
+{
+    NXReadTypes(stream, "**ddd", &parameterSymbol, &comment, &minimum, &maximum, &defaultValue);
+    return self;
+}
+#endif
 
 @end

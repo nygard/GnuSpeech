@@ -1,7 +1,6 @@
-
 #import "MonetList.h"
-#import "CategoryNode.h"
-#import <stdio.h>
+
+@class CategoryNode;
 
 /*===========================================================================
 
@@ -11,22 +10,24 @@
 
 =============================================================================
 */
+
 @interface CategoryList : MonetList
 {
 }
 
-- findSymbol:(const char *)searchSymbol;
-- addCategory:(const char *)newCategory;
-- (void)addNativeCategory:(const char *)newCategory;
-- (void)freeNativeCategories;
-- (void)readDegasFileFormat:(FILE *)fp;
-- (void)printDataTo:(FILE *)fp;
+- (CategoryNode *)findSymbol:(NSString *)searchSymbol;
+- (CategoryNode *)addCategory:(NSString *)newCategoryName; // TODO (2004-03-01): Make this return void
+- (void)addNativeCategory:(NSString *)newCategoryName;
+//- (void)freeNativeCategories;
 
 
-/* BrowserManager List delegate Methods */
-- (void)addNewValue:(const char *)newValue;
-- findByName:(const char *)name;
-- (void)changeSymbolOf:temp to:(const char *)name;
+// BrowserManager List delegate Methods
+- (void)addNewValue:(NSString *)newValue;
+- (CategoryNode *)findByName:(NSString *)name;
+- (void)changeSymbolOf:(CategoryNode *)temp to:(NSString *)name;
+
+//- (void)readDegasFileFormat:(FILE *)fp;
+//- (void)printDataTo:(FILE *)fp;
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 - (void)encodeWithCoder:(NSCoder *)aCoder;

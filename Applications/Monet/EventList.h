@@ -55,7 +55,7 @@ struct _rule {
 };
 
 
-@interface EventList:MonetList
+@interface EventList : MonetList
 {
 	int	zeroRef;
 	int	zeroIndex;
@@ -93,55 +93,59 @@ struct _rule {
 	double min[16], max[16];
 }
 
+- (id)init;
+- (id)initWithCapacity:(unsigned int)numSlots;
+- (void)dealloc;
+
 - (void)setUp;
 
 - (void)setZeroRef:(int)newValue;
--(int) zeroRef;
-
-- (void)setRadiusMultiply:(double)newValue;
-- (double) radiusMultiply;
+- (int)zeroRef;
 
 - (void)setDuration:(int)newValue;
--(int) duration;
+- (int)duration;
 
-- (void)setFullTimeScale;
+- (void)setRadiusMultiply:(double)newValue;
+- (double)radiusMultiply;
+
+- (void)setFullTimeScale;;
 
 - (void)setTimeQuantization:(int)newValue;
--(int) timeQuantization;
+- (int)timeQuantization;
 
 - (void)setParameterStore:(int)newValue;
--(int) parameterStore;
+- (int)parameterStore;
 
 - (void)setSoftwareSynthesis:(int)newValue;
-- (int) softwareSynthesis;
+- (int)softwareSynthesis;
 
 - (void)setPitchMean:(double)newMean;
--(double) pitchMean;
+- (double)pitchMean;
 
 - (void)setGlobalTempo:(double)newTempo;
--(double) globalTempo;
+- (double)globalTempo;
 - (void)setMultiplier:(double)newValue;
--(double) multiplier;
+- (double)multiplier;
 
 - (void)setMacroIntonation:(int)newValue;
--(int) macroIntonation;
+- (int)macroIntonation;
 
 - (void)setMicroIntonation:(int)newValue;
--(int) microIntonation;
+- (int)microIntonation;
 
 - (void)setDrift:(int)newValue;
--(int) drift;
+- (int)drift;
 
 - (void)setSmoothIntonation:(int)newValue;
--(int) smoothIntonation;
+- (int)smoothIntonation;
 
 - (void)setIntonParms:(float *)newValue;
--(float *) intonParms;
+- (float *)intonParms;
 
 - getPhoneAtIndex:(int)phoneIndex;
-- (struct _rule *) getRuleAtIndex: (int) ruleIndex;
-- (double) getBeatAtIndex:(int) ruleIndex;
-- (int) numberOfRules;
+- (struct _rule *)getRuleAtIndex:(int)ruleIndex;
+- (double)getBeatAtIndex:(int)ruleIndex;
+- (int)numberOfRules;
 
 /* Data structure maintenance stuff */
 - (void)newToneGroup;
@@ -153,23 +157,23 @@ struct _rule {
 - (void)setCurrentFootTempo:(double)tempo;
 
 - (void)newPhone;
-- (void)newPhoneWithObject:anObject;
-- (void)replaceCurrentPhoneWith:anObject;
+- (void)newPhoneWithObject:(id)anObject;
+- (void)replaceCurrentPhoneWith:(id)anObject;
 - (void)setCurrentPhoneTempo:(double)tempo;
 - (void)setCurrentPhoneRuleTempo:(float)tempo;
 - (void)setCurrentPhoneSyllable;
 
-- (void)printDataStructures;
 
-- insertEvent:(int) number atTime: (double) time withValue: (double) value;
-- finalEvent:(int) number withValue: (double) value;
+- insertEvent:(int)number atTime:(double)time withValue:(double)value;
+- finalEvent:(int)number withValue:(double)value;
 - lastEvent;
 
-- (void)generateEventList;
 - (void)generateOutput;
-- (void)synthesizeToFile:(const char *)filename;
+- (void)printDataStructures;
+- (void)generateEventList;
 
-- applyRule: rule withPhones: phoneList andTempos: (double *) tempos phoneIndex: (int) phoneIndex ;
+- applyRule:rule withPhones:phoneList andTempos:(double *)tempos phoneIndex:(int)phoneIndex;
+- (void)synthesizeToFile:(const char *)filename;
 
 - (void)applyIntonation;
 

@@ -1,6 +1,6 @@
-
 #import "CategoryList.h"
-#import "MyController.h"
+
+#import "CategoryNode.h"
 
 /*===========================================================================
 
@@ -12,113 +12,122 @@
 
 @implementation CategoryList
 
-- findSymbol:(const char *)searchSymbol
+- (CategoryNode *)findSymbol:(NSString *)searchSymbol;
 {
-int i;
-const char *temp;
+    int count, index;
+    CategoryNode *aCategory;
 
-//	printf("CategoryList searching for: %s\n", searchSymbol);
-	for (i = 0; i<[self count]; i++)
-	{
-		temp = [[self objectAtIndex: i] symbol];
-		if (strcmp(temp, searchSymbol)==0)
-		{
-//			printf("Found: %s\n", searchSymbol);
-			return [self objectAtIndex: i];
-		}
-	}
-//	printf("Could not find: %s\n", searchSymbol);
-	return nil;
+    //NSLog(@"CategoryList searching for: %@\n", searchSymbol);
+
+    count = [self count];
+    for (index = 0; index < count; index++) {
+        aCategory = [self objectAtIndex:index];
+        if ([[aCategory symbol] isEqual:searchSymbol] == YES) {
+            //NSLog(@"Found: %@\n", searchSymbol);
+            return aCategory;
+        }
+    }
+
+    //NSLog(@"Could not find: %@\n", searchSymbol);
+    return nil;
 }
 
-- addCategory:(const char *)newCategory
+- (CategoryNode *)addCategory:(NSString *)newCategoryName;
 {
-CategoryNode *tempCategory;
+    CategoryNode *newCategory;
 
-	tempCategory = [[CategoryNode alloc] initWithSymbol: newCategory];
-	[self addObject: tempCategory];
+    newCategory = [[CategoryNode alloc] initWithSymbol:newCategoryName];
+    [self addObject:newCategory];
+    [newCategory release];
 
-	return tempCategory;
+    return newCategory;
 }
 
-- (void)addNativeCategory:(const char *)newCategory
+- (void)addNativeCategory:(NSString *)newCategoryName;
 {
-CategoryNode *tempCategory;
+    CategoryNode *newCategory;
 
-	tempCategory = [[CategoryNode alloc] initWithSymbol: newCategory];
-	[tempCategory setNative:1];
-	[self addObject: tempCategory]; 
+    newCategory = [[CategoryNode alloc] initWithSymbol:newCategoryName];
+    [newCategory setIsNative:YES];
+    [self addObject:newCategory];
+    [newCategory release];
 }
 
-- (void)freeNativeCategories
+#ifdef PORTING
+- (void)freeNativeCategories;
 {
+    [self makeObjectsPerform:@selector(freeIfNative)];
+}
+#endif
 
-	[self makeObjectsPerform: (SEL)(@selector(freeIfNative))]; 
+//
+// BrowserManager List delegate Methods
+//
+
+- (void)addNewValue:(NSString *)newValue;
+{
+    [self addCategory:newValue];
 }
 
-/* BrowserManager List delegate Methods */
-- (void)addNewValue:(const char *)newValue
+- (CategoryNode *)findByName:(NSString *)name;
 {
-	[self addCategory:newValue]; 
+    return [self findSymbol:name];
 }
 
-- findByName:(const char *)name
+- (void)changeSymbolOf:(CategoryNode *)temp to:(NSString *)name;
 {
-	return [self findSymbol:name];
-}
-
-- (void)changeSymbolOf:temp to:(const char *)name
-{
-	[temp setSymbol:name]; 
+    [temp setSymbol:name];
 }
 
 #define SYMBOL_LENGTH_MAX 12
-- (void)readDegasFileFormat:(FILE *)fp
+#ifdef PORTING
+- (void)readDegasFileFormat:(FILE *)fp;
 {
-int i, count;
+    int i, count;
 
-CategoryNode *currentNode;
-char tempString[SYMBOL_LENGTH_MAX+1];
+    CategoryNode *currentNode;
+    char tempString[SYMBOL_LENGTH_MAX+1];
 
-	/* Load in the count */
-	fread(&count,sizeof(int),1,fp);
+    /* Load in the count */
+    fread(&count, sizeof(int), 1, fp);
 
-	for (i = 0; i < count; i++)
-	{
-		fread(tempString,SYMBOL_LENGTH_MAX+1,1,fp);
+    for (i = 0; i < count; i++)
+    {
+        fread(tempString, SYMBOL_LENGTH_MAX+1, 1, fp);
 
-		currentNode = [[CategoryNode alloc] initWithSymbol: tempString];
-		[self addObject:currentNode];
-	}
+        currentNode = [[CategoryNode alloc] initWithSymbol:tempString];
+        [self addObject:currentNode];
+    }
 
-	if (![self findSymbol:"phone"])
-		[self addCategory:"phone"]; 
+    if (![self findSymbol:"phone"])
+        [self addCategory:"phone"];
 }
 
-- (void)printDataTo:(FILE *)fp
+- (void)printDataTo:(FILE *)fp;
 {
-int i;
+    int i;
 
-	fprintf(fp, "Categories\n");
-	for (i = 0; i<[self count]; i++)
-	{
-		fprintf(fp, "%s\n", [[self objectAtIndex: i] symbol]);
-		if ([[self objectAtIndex: i] comment])
-			fprintf(fp,"%s\n", [[self objectAtIndex: i] comment]);
-		fprintf(fp, "\n");
-	}
-	fprintf(fp, "\n"); 
+    fprintf(fp, "Categories\n");
+    for (i = 0; i < [self count]; i++)
+    {
+        fprintf(fp, "%s\n", [[self objectAtIndex:i] symbol]);
+        if ([[self objectAtIndex:i] comment])
+            fprintf(fp, "%s\n", [[self objectAtIndex:i] comment]);
+        fprintf(fp, "\n");
+    }
+    fprintf(fp, "\n");
+}
+#endif
+
+- (id)initWithCoder:(NSCoder *)aDecoder;
+{
+    [super initWithCoder:aDecoder];
+    return self;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+- (void)encodeWithCoder:(NSCoder *)aCoder;
 {
-	[super initWithCoder:aDecoder];
-	return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)aCoder
-{
-	[super encodeWithCoder:aCoder];
+    [super encodeWithCoder:aCoder];
 }
 
 @end

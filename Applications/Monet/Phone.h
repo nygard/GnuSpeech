@@ -1,7 +1,6 @@
+#import <Foundation/NSObject.h>
 
-#import <Foundation/NSArray.h>
-#import "TargetList.h"
-#import "CategoryList.h"
+@class CategoryNode, CategoryList, ParameterList, TargetList, SymbolList;
 
 /*===========================================================================
 
@@ -16,7 +15,7 @@
 		"posture".
 
 	Instance Variables:
-		phoneSymbol: (char *) String which holds the symbol 
+		phoneSymbol: (char *) String which holds the symbol
 			representing this phone.
 		comment: (char *) string which holds any user comment made
 			regarding this phone.
@@ -35,32 +34,31 @@
 
 	NOTES:
 
-	categoryList:  Of the objects in this list, only those which are 
+	categoryList:  Of the objects in this list, only those which are
 		"native" belong to the phone object.  When freeing, free
-		only native objects using the "freeNativeCategories" method 
-		in the CategoryList Object.  
+		only native objects using the "freeNativeCategories" method
+		in the CategoryList Object.
 
-	See "data_relationships" document for information about the 
+	See "data_relationships" document for information about the
 		parameterList, metaParameterList and symbolList variables.
 
 ===========================================================================*/
 
-@interface Phone:NSObject
+@interface Phone : NSObject
 {
-	char 	*phoneSymbol;
-	char	*comment;
+    NSString *phoneSymbol;
+    NSString *comment;
 
-	CategoryList	*categoryList;
-	TargetList	*parameterList;
-	TargetList	*metaParameterList;
-	TargetList	*symbolList;
-
+    CategoryList *categoryList;
+    TargetList *parameterList;
+    TargetList *metaParameterList;
+    TargetList *symbolList;
 }
 
 /* init and free methods */
-- init;
-- initWithSymbol:(const char *) newSymbol;
-- initWithSymbol:(const char *) newSymbol parmeters:parms metaParameters: metaparms symbols:symbols;
+- (id)init;
+- (id)initWithSymbol:(NSString *)newSymbol;
+- (id)initWithSymbol:(NSString *)newSymbol parmeters:(ParameterList *)parms metaParameters:(ParameterList *)metaparms symbols:(SymbolList *)symbols;
 - (void)dealloc;
 
 /* Comment and Symbol methods */

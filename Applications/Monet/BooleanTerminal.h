@@ -1,6 +1,6 @@
-
 #import <Foundation/NSObject.h>
-#import "CategoryList.h"
+
+@class CategoryList;
 
 /*===========================================================================
 
@@ -15,7 +15,7 @@
 
 	Instance Variables:
 		category:  A pointer to a category object which is Terminal
-			represents.  NOTE: this object is acctually part of 
+			represents.  NOTE: this object is acctually part of
 			the mainCategoryList.  DO NOT FREE this object.  It
 			is the responsibility of the main category List.
 
@@ -34,36 +34,38 @@
 
 */
 
-@interface BooleanTerminal:NSObject
+@interface BooleanTerminal : NSObject
 {
-	id	category;
-	int	matchAll;
+    id category;
+    BOOL shouldMatchAll;
 }
 
-- init;
+- (id)init;
+- (void)dealloc;
 
 /* Access to instance variables */
-- (void)setCategory:newCategory;
+// TODO (2004-03-01): What class is category?
 - category;
+- (void)setCategory:newCategory;
 
-- (void)setMatchAll:(int)value;
-- (int) matchAll;
+- (int)shouldMatchAll;
+- (void)setShouldMatchAll:(BOOL)newFlag;
 
 /* Evaluate yourself */
-- (int) evaluate: (CategoryList *) categories;
+- (int)evaluate:(CategoryList *)categories;
 
 /* Optimization methods.  Not yet implemented */
 - (void)optimize;
 - (void)optimizeSubExpressions;
 
 /* General purpose routines */
-- (int) maxExpressionLevels;
-- expressionString:(char *)string;
+- (int)maxExpressionLevels;
+- (void)expressionString:(NSMutableString *)resultString;
 
-- (BOOL) isCategoryUsed: aCategory;
+- (BOOL)isCategoryUsed:aCategory;
 
 /* Archiving methods */
-- (id)initWithCoder:(NSCoder *)aDecoder;
-- (void)encodeWithCoder:(NSCoder *)aCoder;
+//- (id)initWithCoder:(NSCoder *)aDecoder;
+//- (void)encodeWithCoder:(NSCoder *)aCoder;
 
 @end

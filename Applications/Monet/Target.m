@@ -1,67 +1,75 @@
-
 #import "Target.h"
-#import <Foundation/NSCoder.h>
+
+#import <Foundation/Foundation.h>
 #ifdef NeXT
 #import <objc/typedstream.h>
 #endif
-#import <stdio.h>
-#import <string.h>
-#import <stdlib.h>
+//#import <stdio.h>
+//#import <string.h>
+//#import <stdlib.h>
 
 @implementation Target
 
-- init
+- (id)init;
 {
-	is_default = 1;
-	value = 0.0;
-	return self;
+    if ([super init] == nil)
+        return nil;
+
+    isDefault = YES;
+    value = 0.0;
+
+    return self;
 }
 
-- initWithValue:(double) newValue isDefault:(int) isDefault
+- (id)initWithValue:(double)newValue isDefault:(BOOL)shouldBeDefault;
 {
-	[self setValue:newValue];
-	[self setDefault:isDefault];
-	return self;
+    if ([self init] == nil)
+        return nil;
+
+    [self setValue:newValue];
+    [self setIsDefault:shouldBeDefault];
+
+    return self;
 }
 
-- (void)setValue:(double)newValue
+- (double)value;
 {
-	value = newValue; 
+    return value;
 }
 
-- (double) value
+- (void)setValue:(double)newValue;
 {
-	return(value);
+    value = newValue;
 }
 
-- (void)setDefault:(int)isDefault
+- (BOOL)isDefault;
 {
-	is_default = isDefault; 
+    return isDefault;
 }
 
-- (int)isDefault
+- (void)setIsDefault:(BOOL)newFlag;
 {
-	return (is_default);
+    isDefault = newFlag;
 }
 
-- setValue:(double) newValue isDefault:(int) isDefault
+- (void)setValue:(double)newValue isDefault:(BOOL)shouldBeDefault;
 {
-	[self setValue:newValue];
-	[self setDefault:isDefault];
-	return self;
+    [self setValue:newValue];
+    [self setIsDefault:shouldBeDefault];
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+#ifdef PORTING
+- (id)initWithCoder:(NSCoder *)aDecoder;
 {
-	[aDecoder decodeValuesOfObjCTypes:"id", &is_default, &value];
-	return self;
+    [aDecoder decodeValuesOfObjCTypes:"id", &is_default, &value];
+    return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
-	[aCoder encodeValuesOfObjCTypes:"id", &is_default, &value];
+    [aCoder encodeValuesOfObjCTypes:"id", &is_default, &value];
 }
-
+#endif
 #ifdef NeXT
 - read:(NXTypedStream *)stream
 {

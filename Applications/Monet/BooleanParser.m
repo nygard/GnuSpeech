@@ -1,577 +1,614 @@
-
 #import "BooleanParser.h"
+
+#import <Foundation/Foundation.h>
+#import "NSScanner-Extensions.h"
+#import "BooleanExpression.h"
+#import "BooleanSymbols.h"
+#import "BooleanTerminal.h"
+#import "CategoryNode.h"
+#import "CategoryList.h"
+#import "Phone.h"
+#import "PhoneList.h"
+
+#ifdef PORTING
 #import <ctype.h>
 #import <stdlib.h>
 #import <string.h>
 #import <stdio.h>
-#import <AppKit/NSTextField.h>
+#endif
 
 @implementation BooleanParser
 
-- init
+- (id)init;
 {
-	errorTextField = nil;
-	return self;
+    if ([super init] == nil)
+        return nil;
+
+    symbolString = nil;
+    categoryList = nil;
+    phoneList = nil;
+    errorMessages = [[NSMutableString alloc] init];
+
+    return self;
 }
 
-- (void)setCategoryList: (CategoryList *)aList
+- (void)dealloc;
 {
-	categoryList = aList; 
+    [symbolString release];
+    [categoryList release];
+    [phoneList release];
+    [errorMessages release];
+
+    [super dealloc];
 }
 
-- (CategoryList *)categoryList
+- (NSString *)symbolString;
 {
-	return categoryList;
+    return symbolString;
 }
 
-- (void)setPhoneList: (PhoneList *)aList
+- (void)setSymbolString:(NSString *)newString;
 {
-	phoneList = aList; 
+    if (newString == symbolString)
+        return;
+
+    [symbolString release];
+    symbolString = [newString retain];
 }
 
-- (PhoneList *)phoneList
+- (CategoryList *)categoryList;
 {
-	return phoneList;
+    return categoryList;
 }
 
-- (void)setErrorOutput:aTextObject
+- (void)setCategoryList:(CategoryList *)aList;
 {
-	errorTextField = aTextObject; 
+    if (aList == categoryList)
+        return;
+
+    [categoryList release];
+    categoryList = [aList retain];
 }
 
-- (id)categorySymbol:(const char *)symbol
+- (PhoneList *)phoneList;
 {
-char temp[256], *temp1;
-Phone *tempPhone;
-int dummy;
-
-	bzero(temp, 256);
-	if (index(symbol, '*'))
-	{
-		strcpy(temp, symbol);
-		temp1 = index(temp, '*');
-		*temp1 = '\000';
-	}
-	else
-		strcpy(temp, symbol);
-
-	tempPhone = [phoneList binarySearchPhone:temp index:&dummy];
-
-	if (tempPhone)
-	{
-//		printf("%s: native category\n", symbol);
-		return [[tempPhone categoryList] findSymbol:temp];
-	}
-//		printf("%s: NON native category\n", symbol);
-	return [categoryList findSymbol:symbol];
+    return phoneList;
 }
 
-- (int) nextToken
+- (void)setPhoneList: (PhoneList *)aList;
 {
-int i, j;
+    if (aList == phoneList)
+        return;
 
-	consumed = 0;
-	i = stringIndex;
-	j = 0;
-	bzero(symbolString, 256);
-
-	while( (parseString[i] == ' ') || (parseString[i] =='\t')) i++;
-
-	lastStringIndex = i;
-
-	if (parseString[i] == '(')
-	{
-		symbolString[0] = '(';
-		stringIndex = i+1;
-		return LPAREN;
-	}
-	else
-	if (parseString[i] == ')')
-	{
-		symbolString[0] = ')';
-		stringIndex = i+1;
-		return RPAREN;
-	}
-	else
-	while( ( isalpha(parseString[i])) || (parseString[i] =='*') || (parseString[i] == '\''))
-	{
-		symbolString[j++] = parseString[i++];
-		if (parseString[i-1] == '*') break;
-	}
-
-	stringIndex = i;
-
-	if (!strcmp(symbolString, "and"))
-		return AND;
-	else
-	if (!strcmp(symbolString, "or"))
-		return OR;
-	else
-	if (!strcmp(symbolString, "not"))
-		return NOT;
-	else
-	if (!strcmp(symbolString, "xor"))
-		return XOR;
-
-	if (strlen(symbolString)==0)
-		return END;
-	else
-	{
-		if (![self categorySymbol:symbolString]);
-//			printf("Category Not Found!\n");
-		return CATEGORY;
-	}
+    [phoneList release];
+    phoneList = [aList retain];
 }
 
-- (void)consumeToken
+- (void)outputError:(NSString *)errorText;
 {
-	consumed = 1; 
+    // TODO (2004-03-01): Not strictly identical to the previous implementation.  They just replaced the text of the text.
+    [errorMessages appendString:errorText];
+    [errorMessages appendString:@"\n"];
 }
 
-- parseString:(const char *)string
+- (void)outputError:(NSString *)errorText with:(NSString *)symbol;
 {
-BooleanExpression *temp;
-
-	lastStringIndex = stringIndex = 0;
-	parseString = string;
-
-	temp = [self beginParseString];
-	return temp;
+    // TODO (2004-03-01): Not strictly identical to the previous implementation.  They just replaced the text of the text.
+    [errorMessages appendFormat:errorText, symbol];
+    [errorMessages appendString:@"\n"];
 }
 
-- beginParseString
+- (CategoryNode *)categorySymbol:(NSString *)symbol;
 {
-BooleanTerminal *tempTerminal = nil;
-CategoryNode *tempCategory;
-id tempExpression = nil;
-int tempToken;
+#ifdef PORTING
+    char temp[256], *temp1;
+    Phone *tempPhone;
+    int dummy;
 
-	tempToken = [self nextToken];
-	switch(tempToken)
-	{
-		default:
-		case END: [self outputError:"Error, unexpected End."];
-			  return nil;
+    bzero(temp, 256);
+    if (index(symbol, '*'))
+    {
+        strcpy(temp, symbol);
+        temp1 = index(temp, '*');
+        *temp1 = '\000';
+    }
+    else
+        strcpy(temp, symbol);
 
-		case OR:
-		case AND:
-		case XOR: [self outputError: "Error, unexpected %s operation." with: symbolString];
-			  return nil;
+    tempPhone = [phoneList binarySearchPhone:temp index:&dummy];
 
-		case NOT: tempExpression = [self notOperation];
-			  break;
-
-		case LPAREN: 
-			tempExpression = [self leftParen]; 
-			break;
-
-		case RPAREN: 
-			[self outputError:"Error, unexpected ')'."];
-			break;
-
-		case CATEGORY:
-			tempCategory = [self categorySymbol:symbolString];
-			if (tempCategory == nil)
-			{
-				[self outputError: "Error, unknown category %s." with: symbolString];
-				return nil;
-			}
-			else
-			{
-				tempTerminal = [[BooleanTerminal alloc] init];
-				[tempTerminal setCategory:tempCategory];
-				if (index(symbolString,'*'))
-					[tempTerminal setMatchAll:1];
-				tempExpression = tempTerminal;
-			}
-			break;
-
-	}
-	if (tempExpression == nil) return nil;
-
-	tempExpression = [self continueParse:tempExpression];
-
-	return tempExpression;
+    if (tempPhone)
+    {
+//        printf("%s: native category\n", symbol);
+        return [[tempPhone categoryList] findSymbol:temp];
+    }
+//    printf("%s: NON native category\n", symbol);
+    return [categoryList findSymbol:symbol];
+#endif
+    return nil;
 }
 
-- continueParse:currentExpression
+- (int)nextToken;
 {
+    NSString *scannedString;
 
-int tempToken;
+    consumed = NO;
 
-	while( (tempToken = [self nextToken])!=END)
-	{
-		switch(tempToken)
-		{
-			default:
-			case END:[self outputError:"Error, unexpected End."];
-				 [currentExpression release];
-				 return nil;
+    [scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:NULL];
 
-			case OR: currentExpression = [self orOperation:currentExpression];
-				 break;
+    if ([scanner scanString:@"(" intoString:NULL] == YES) {
+        [self setSymbolString:@"("];
+        return TK_LPAREN;
+    }
 
-			case AND:currentExpression = [self andOperation:currentExpression];
-				 break;
+    if ([scanner scanString:@")" intoString:NULL] == YES) {
+        [self setSymbolString:@")"];
+        return TK_RPAREN;
+    }
 
-			case XOR:currentExpression = [self xorOperation:currentExpression];
-				 break;
+    scannedString = nil;
+    [scanner scanCharactersFromSet:[NSScanner gsIdentifierCharacterSet] intoString:&scannedString];
+    if ([scanner scanString:@"*" intoString:NULL] == YES) {
+        if (scannedString == nil)
+            scannedString = @"*";
+        else
+            scannedString = [scannedString stringByAppendingString:@"*"];
+    }
 
-			case NOT:[self outputError:"Error, unexpected NOT operation."];
-				[currentExpression release];
-				return nil;
+    [self setSymbolString:scannedString];
 
-			case LPAREN: [self outputError:"Error, unexpected '('."];
-				[currentExpression release];
-				return nil;
+    if ([symbolString isEqual:@"and"])
+        return TK_AND;
+    if ([symbolString isEqual:@"or"])
+        return TK_OR;
+    if ([symbolString isEqual:@"not"])
+        return TK_NOT;
+    if ([symbolString isEqual:@"xor"])
+        return TK_XOR;
 
-			case RPAREN: [self outputError:"Error, unexpected ')'."];
-				[currentExpression release];
-				return nil;
+    if (symbolString == nil || [symbolString length] == 0)
+        return TK_END;
+#if 0
+    // TODO (2004-03-01): This is a probably programming error, with the ';' at the end of the if statement it doesn't do anything.
+    if (![self categorySymbol:symbolString]);
+//     printf("Category Not Found!\n");
+    return TK_CATEGORY;
+#endif
+    if ([self categorySymbol:symbolString] == nil) {
+        /* do nothing? */;
+        printf("Category Not Found!\n");
+    }
 
-			case CATEGORY:
-				[currentExpression release];
-				[self outputError: "Error, unexpected category %s." with: symbolString];
-				return nil;
-		}
-		if (currentExpression == nil) return nil;
-	}
-	return currentExpression;
+    return TK_CATEGORY;
 }
 
-- notOperation
+- (void)consumeToken;
 {
-BooleanExpression *temp = nil, *temp1;
-BooleanTerminal *tempTerminal;
-CategoryNode *tempCategory;
-
-	temp = [[BooleanExpression alloc] init];
-	[temp setOperation:NOT_OP];
-
-	switch([self nextToken])
-	{
-		case AND:
-		case XOR:
-		case OR:
-		case NOT:
-			[temp release];
-			[self outputError: "Error, unexpected %s operation." with: symbolString];
-			return nil;
-
-		case CATEGORY:
-			tempCategory = [self categorySymbol:symbolString];
-			if (tempCategory == nil)
-			{
-				[self outputError: "Error, unknown category %s." with: symbolString];
-				[temp release];
-				return nil;
-			}
-			else
-			{
-				tempTerminal = [[BooleanTerminal alloc] init];
-				[tempTerminal setCategory:tempCategory];
-				if (index(symbolString,'*'))
-					[tempTerminal setMatchAll:1];
-				[temp addSubExpression:tempTerminal];
-			}
-			break;
-
-		case LPAREN:
-			temp1 = [self leftParen];
-			if (temp1!=nil)
-				[temp addSubExpression:temp1];
-
-	}
-
-
-	return temp;
+    consumed = YES;
 }
 
-- andOperation:operand
+- (id)parseString:(NSString *)aString;
 {
-BooleanExpression *temp = nil;
-BooleanTerminal *tempTerminal;
-CategoryNode *tempCategory;
+    BooleanExpression *result;
 
-	temp = [[BooleanExpression alloc] init];
-	[temp addSubExpression:operand];
-	[temp setOperation:AND_OP];
+    if (scanner != nil)
+        [scanner release];
 
-	switch([self nextToken])
-	{
-		case END: [self outputError:"Error, unexpected End."];
-			  [temp release];
-			  return nil;
+    nonretained_parseString = aString;
+    scanner = [[NSScanner alloc] initWithString:aString];
+    [scanner setCharactersToBeSkipped:nil];
 
-		case AND:
-		case OR:
-		case XOR:
-			[temp release];
-			[self outputError: "Error, unexpected %s operation." with: symbolString];
-			return nil;
+    result = [self beginParseString];
+    nonretained_parseString = nil;
+    [scanner release];
+    scanner = nil;
 
-		case RPAREN: 
-			[temp release];
-			[self outputError:"Error, unexpected ')'."];
-			return nil;
-
-		case NOT:
-			[self notOperation];
-			[temp addSubExpression:self];
-			break;
-
-		case LPAREN:
-			[self leftParen];
-			[temp addSubExpression:self];
-			break;
-
-		case CATEGORY:
-			tempCategory = [self categorySymbol:symbolString];
-			if (tempCategory == nil)
-			{
-				[self outputError: "Error, unknown category %s." with: symbolString];
-				[temp release];
-				return nil;
-			}
-			else
-			{
-				tempTerminal = [[BooleanTerminal alloc] init];
-				[tempTerminal setCategory:tempCategory];
-				if (index(symbolString,'*'))
-					[tempTerminal setMatchAll:1];
-				[temp addSubExpression:tempTerminal];
-			}
-			break;
-	}
-
-	return temp;
+    return result;
 }
 
-- orOperation:operand
+- (id)beginParseString;
 {
-BooleanExpression *temp = nil;
-BooleanTerminal *tempTerminal;
-CategoryNode *tempCategory;
+    CategoryNode *aCategory;
+    id resultExpression = nil;
 
-	temp = [[BooleanExpression alloc] init];
-	[temp addSubExpression:operand];
-	[temp setOperation:OR_OP];
+    switch ([self nextToken]) {
+      default:
+      case TK_END:
+          [self outputError:@"Error, unexpected End."];
+          return nil;
 
-	switch([self nextToken])
-	{
-		case END: [self outputError:"Error, unexpected End."];
-			[temp release];
-			  return nil;
+      case TK_OR:
+      case TK_AND:
+      case TK_XOR:
+          [self outputError:@"Error, unexpected %@ operation." with:symbolString];
+          return nil;
 
-		case AND:
-		case OR:
-		case XOR:
-			[self outputError: "Error, unexpected %s operation." with: symbolString];
-			[temp release];
-			return nil;
+      case TK_NOT:
+          resultExpression = [self notOperation];
+          break;
 
-		case RPAREN: 
-			[self outputError:"Error, unexpected ')'."];
-			[temp release];
-			return nil;
+      case TK_LPAREN:
+          resultExpression = [self leftParen];
+          break;
 
-		case NOT:
-			[self notOperation];
-			[temp addSubExpression:self];
-			break;
+      case TK_RPAREN:
+          [self outputError:@"Error, unexpected ')'."];
+          break;
 
-		case LPAREN:
-			[self leftParen];
-			[temp addSubExpression:self];
-			break;
+      case TK_CATEGORY:
+          aCategory = [self categorySymbol:symbolString];
+          if (aCategory == nil) {
+              [self outputError:@"Error, unknown category %@." with:symbolString];
+              return nil;
+          } else {
+              BooleanTerminal *aTerminal = nil;
 
-		case CATEGORY:
-			tempCategory = [self categorySymbol:symbolString];
-			if (tempCategory == nil)
-			{
-				[self outputError: "Error, unknown category %s." with: symbolString];
-				[temp release];
-				return nil;
-			}
-			else
-			{
-				tempTerminal = [[BooleanTerminal alloc] init];
-				[tempTerminal setCategory:tempCategory];
-				if (index(symbolString,'*'))
-					[tempTerminal setMatchAll:1];
-				[temp addSubExpression:tempTerminal];
-			}
-			break;
-	}
+              aTerminal = [[[BooleanTerminal alloc] init] autorelease];
+              [aTerminal setCategory:aCategory];
+              if ([symbolString hasSuffix:@"*"])
+                  [aTerminal setShouldMatchAll:YES];
+              resultExpression = aTerminal;
+          }
+          break;
 
-	return temp;
+    }
+    if (resultExpression == nil)
+        return nil;
 
+    resultExpression = [self continueParse:resultExpression];
+
+    return resultExpression;
 }
 
-- xorOperation:operand
+- (id)continueParse:(id)currentExpression;
 {
-BooleanExpression *temp = nil;
-BooleanTerminal *tempTerminal;
-CategoryNode *tempCategory;
+    int token;
 
+    while ( (token = [self nextToken]) != TK_END) {
+        switch (token) {
+          default:
+          case TK_END:
+              [self outputError:@"Error, unexpected End."];
+              [currentExpression release];
+              return nil;
 
-	temp = [[BooleanExpression alloc] init];
-	[temp addSubExpression:operand];
-	[temp setOperation:XOR_OP];
+          case TK_OR:
+              currentExpression = [self orOperation:currentExpression];
+              break;
 
-	switch([self nextToken])
-	{
-		case END: [self outputError:"Error, unexpected End."];
-			[temp release];
-			  return nil;
+          case TK_AND:
+              currentExpression = [self andOperation:currentExpression];
+              break;
 
-		case AND:
-		case OR:
-		case XOR:
-			[self outputError: "Error, unexpected %s operation." with: symbolString];
-			[temp release];
-			return nil;
+          case TK_XOR:
+              currentExpression = [self xorOperation:currentExpression];
+              break;
 
-		case RPAREN: 
-			[self outputError:"Error, unexpected ')'."];
-			[temp release];
-			return nil;
+          case TK_NOT:
+              [self outputError:@"Error, unexpected NOT operation."];
+              [currentExpression release];
+              return nil;
 
-		case NOT:
-			[self notOperation];
-			[temp addSubExpression:self];
-			break;
+          case TK_LPAREN:
+              [self outputError:@"Error, unexpected '('."];
+              [currentExpression release];
+              return nil;
 
-		case LPAREN:
-			[self leftParen];
-			[temp addSubExpression:self];
-			break;
+          case TK_RPAREN:
+              [self outputError:@"Error, unexpected ')'."];
+              [currentExpression release];
+              return nil;
 
-		case CATEGORY:
-			tempCategory = [self categorySymbol:symbolString];
-			if (tempCategory == nil)
-			{
-				[self outputError: "Error, unknown category %s." with: symbolString];
-				[temp release];
-				return nil;
-			}
-			else
-			{
-				tempTerminal = [[BooleanTerminal alloc] init];
-				[tempTerminal setCategory:tempCategory];
-				if (index(symbolString,'*'))
-					[tempTerminal setMatchAll:1];
-				[temp addSubExpression:tempTerminal];
-			}
-			break;
-	}
+          case TK_CATEGORY:
+              [currentExpression release];
+              [self outputError:@"Error, unexpected category %@." with:symbolString];
+              return nil;
+        }
 
-	return temp;
+        if (currentExpression == nil)
+            return nil;
+    }
 
+    return currentExpression;
+}
+
+- (id)notOperation;
+{
+    BooleanExpression *resultExpression = nil, *subExpression;
+    CategoryNode *aCategory;
+
+    resultExpression = [[[BooleanExpression alloc] init] autorelease];
+    [resultExpression setOperation:NOT_OP];
+
+    switch ([self nextToken]) {
+      case TK_AND:
+      case TK_XOR:
+      case TK_OR:
+      case TK_NOT:
+          [self outputError:@"Error, unexpected %@ operation." with:symbolString];
+          return nil;
+
+      case TK_CATEGORY:
+          aCategory = [self categorySymbol:symbolString];
+          if (aCategory == nil) {
+              [self outputError:@"Error, unknown category %@." with:symbolString];
+              return nil;
+          } else {
+              BooleanTerminal *aTerminal;
+
+              aTerminal = [[BooleanTerminal alloc] init];
+              [aTerminal setCategory:aCategory];
+              if ([symbolString hasSuffix:@"*"])
+                  [aTerminal setShouldMatchAll:YES];
+              [resultExpression addSubExpression:(BooleanExpression *)aTerminal];
+              [aTerminal release];
+          }
+          break;
+
+      case TK_LPAREN:
+          subExpression = [self leftParen];
+          if (subExpression != nil)
+              [resultExpression addSubExpression:subExpression];
+    }
+
+    return resultExpression;
+}
+
+- (id)andOperation:(id)operand;
+{
+    BooleanExpression *resultExpression = nil, *subExpression;
+    CategoryNode *aCategory;
+
+    resultExpression = [[[BooleanExpression alloc] init] autorelease];
+    [resultExpression addSubExpression:operand];
+    [resultExpression setOperation:AND_OP];
+
+    switch ([self nextToken])
+    {
+      case TK_END:
+          [self outputError:@"Error, unexpected End."];
+          return nil;
+
+      case TK_AND:
+      case TK_OR:
+      case TK_XOR:
+          [self outputError:@"Error, unexpected %@ operation." with:symbolString];
+          return nil;
+
+      case TK_RPAREN:
+          [self outputError:@"Error, unexpected ')'."];
+          return nil;
+
+      case TK_NOT:
+          subExpression = [self notOperation];
+          if (subExpression != nil)
+              [resultExpression addSubExpression:subExpression];
+          break;
+
+      case TK_LPAREN:
+          subExpression = [self leftParen];
+          if (subExpression != nil)
+              [resultExpression addSubExpression:subExpression];
+          break;
+
+      case TK_CATEGORY:
+          aCategory = [self categorySymbol:symbolString];
+          if (aCategory == nil) {
+              [self outputError:@"Error, unknown category %@." with:symbolString];
+              return nil;
+          } else {
+              BooleanTerminal *aTerminal;
+
+              aTerminal = [[BooleanTerminal alloc] init];
+              [aTerminal setCategory:aCategory];
+              if ([symbolString hasSuffix:@"*"])
+                  [aTerminal setShouldMatchAll:YES];
+              [resultExpression addSubExpression:(BooleanExpression *)aTerminal];
+              [aTerminal release];
+          }
+          break;
+    }
+
+    return resultExpression;
+}
+
+- (id)orOperation:(id)operand;
+{
+    BooleanExpression *resultExpression = nil, *subExpression;
+    CategoryNode *aCategory;
+
+    resultExpression = [[[BooleanExpression alloc] init] autorelease];
+    [resultExpression addSubExpression:operand];
+    [resultExpression setOperation:OR_OP];
+
+    switch ([self nextToken]) {
+      case TK_END:
+          [self outputError:@"Error, unexpected End."];
+          return nil;
+
+      case TK_AND:
+      case TK_OR:
+      case TK_XOR:
+          [self outputError:@"Error, unexpected %@ operation." with:symbolString];
+          return nil;
+
+      case TK_RPAREN:
+          [self outputError:@"Error, unexpected ')'."];
+          return nil;
+
+      case TK_NOT:
+          subExpression = [self notOperation];
+          if (subExpression != nil)
+              [resultExpression addSubExpression:subExpression];
+          break;
+
+      case TK_LPAREN:
+          subExpression = [self leftParen];
+          if (subExpression != nil)
+              [resultExpression addSubExpression:subExpression];
+          break;
+
+      case TK_CATEGORY:
+          aCategory = [self categorySymbol:symbolString];
+          if (aCategory == nil) {
+              [self outputError:@"Error, unknown category %@." with:symbolString];
+              return nil;
+          } else {
+              BooleanTerminal *aTerminal;
+
+              aTerminal = [[BooleanTerminal alloc] init];
+              [aTerminal setCategory:aCategory];
+              if ([symbolString hasSuffix:@"*"])
+                  [aTerminal setShouldMatchAll:YES];
+              [resultExpression addSubExpression:(BooleanExpression *)aTerminal];
+              [aTerminal release];
+          }
+          break;
+    }
+
+    return resultExpression;
+}
+
+- (id)xorOperation:(id)operand;
+{
+    BooleanExpression *resultExpression = nil, *subExpression;
+    CategoryNode *aCategory;
+
+    resultExpression = [[[BooleanExpression alloc] init] autorelease];
+    [resultExpression addSubExpression:operand];
+    [resultExpression setOperation:XOR_OP];
+
+    switch ([self nextToken])
+    {
+      case TK_END:
+          [self outputError:@"Error, unexpected End."];
+          return nil;
+
+      case TK_AND:
+      case TK_OR:
+      case TK_XOR:
+          [self outputError:@"Error, unexpected %@ operation." with:symbolString];
+          return nil;
+
+      case TK_RPAREN:
+          [self outputError:@"Error, unexpected ')'."];
+          return nil;
+
+      case TK_NOT:
+          subExpression = [self notOperation];
+          if (subExpression != nil)
+              [resultExpression addSubExpression:subExpression];
+          break;
+
+      case TK_LPAREN:
+          subExpression = [self leftParen];
+          if (subExpression != nil)
+              [resultExpression addSubExpression:subExpression];
+          break;
+
+      case TK_CATEGORY:
+          aCategory = [self categorySymbol:symbolString];
+          if (aCategory == nil) {
+              [self outputError:@"Error, unknown category %@." with:symbolString];
+              return nil;
+          } else {
+              BooleanTerminal *aTerminal;
+
+              aTerminal = [[BooleanTerminal alloc] init];
+              [aTerminal setCategory:aCategory];
+              if ([symbolString hasSuffix:@"*"])
+                  [aTerminal setShouldMatchAll:YES];
+              [resultExpression addSubExpression:(BooleanExpression *)aTerminal];
+              [aTerminal release];
+          }
+          break;
+    }
+
+    return resultExpression;
 }
 
 
-- leftParen
+- (id)leftParen;
 {
-id temp = nil;
-BooleanTerminal *tempTerminal;
-CategoryNode *tempCategory;
-int tempToken;
+    id resultExpression = nil;
+    CategoryNode *aCategory;
+    int token;
 
-	switch([self nextToken])
-	{
-		case END: [self outputError:"Error, unexpected End."];
-			return nil;
+    switch ([self nextToken]) {
+      case TK_END:
+          [self outputError:@"Error, unexpected End."];
+          return nil;
 
-		case RPAREN: return temp;
+      case TK_RPAREN:
+          return nil;
 
-		case LPAREN: 
-			temp = [self leftParen]; 
-			break;
+      case TK_LPAREN:
+          resultExpression = [self leftParen];
+          break;
 
-		case AND:
-		case OR:
-		case XOR:
-			[self outputError: "Error, unexpected %s operation." with: symbolString];
-			return nil;
+      case TK_AND:
+      case TK_OR:
+      case TK_XOR:
+          [self outputError:@"Error, unexpected %@ operation." with:symbolString];
+          return nil;
 
-		case NOT: temp = [self notOperation];
-			break;
+      case TK_NOT:
+          resultExpression = [self notOperation];
+          break;
 
-		case CATEGORY:
-			tempCategory = [self categorySymbol:symbolString];
-			if (tempCategory == nil)
-			{
-				[self outputError: "Error, unknown category %s." with: symbolString];
-				return nil;
-			}
-			else
-			{
-				tempTerminal = [[BooleanTerminal alloc] init];
-				[tempTerminal setCategory:tempCategory];
-				if (index(symbolString,'*'))
-					[tempTerminal setMatchAll:1];
-				temp = tempTerminal;
-			}
-			break;
-	}
+      case TK_CATEGORY:
+          aCategory = [self categorySymbol:symbolString];
+          if (aCategory == nil) {
+              [self outputError:@"Error, unknown category %@." with:symbolString];
+              return nil;
+          } else {
+              BooleanTerminal *aTerminal;
 
-	while( (tempToken=[self nextToken]) != RPAREN)
-	{
-		switch(tempToken)
-		{
-			case END: [self outputError:"Error, unexpected End."];
-				[temp release];
-				return nil;
+              aTerminal = [[[BooleanTerminal alloc] init] autorelease];
+              [aTerminal setCategory:aCategory];
+              if ([symbolString hasSuffix:@"*"])
+                  [aTerminal setShouldMatchAll:YES];
+              resultExpression = aTerminal;
+          }
+          break;
+    }
 
-			case RPAREN: return temp;
+    while ( (token = [self nextToken]) != TK_RPAREN) {
+        switch (token) {
+          case TK_END:
+              [self outputError:@"Error, unexpected End."];
+              return nil;
 
-			case LPAREN: 
-				[temp release];
-				[self outputError:"Error, unexpected '('."];
-				return nil;
+          case TK_RPAREN:
+              return nil; // Won't happen
 
-			case AND: temp = [self andOperation:temp];
-				break;
+          case TK_LPAREN:
+              [self outputError:@"Error, unexpected '('."];
+              return nil;
 
-			case OR: temp = [self orOperation:temp];
-				break;
+          case TK_AND:
+              resultExpression = [self andOperation:resultExpression];
+              break;
 
-			case XOR: temp = [self xorOperation:temp];
-				break;
+          case TK_OR:
+              resultExpression = [self orOperation:resultExpression];
+              break;
 
-			case NOT:[self outputError:"Error, unexpected NOT operation."];
-				[temp release];
-				return nil;
+          case TK_XOR:
+              resultExpression = [self xorOperation:resultExpression];
+              break;
 
-			case CATEGORY:
-				[temp release];
-				[self outputError: "Error, unexpected category %s." with: symbolString];
-				return nil;
+          case TK_NOT:
+              [self outputError:@"Error, unexpected NOT operation."];
+              return nil;
 
-		}
-	}
+          case TK_CATEGORY:
+              [self outputError:@"Error, unexpected category %@." with:symbolString];
+              return nil;
+        }
+    }
 
-
-	return temp;
+    return resultExpression;
 }
-
-- (void)outputError:(const char *)errorText
-{
-char outputString[1024];
-
-	sprintf(outputString, "%s", errorText);
-	[errorTextField setStringValue:[NSString stringWithCString:outputString]]; 
-}
-
-- (void)outputError: (const char *) errorText with:(const char *) string
-{
-char tempString[1024];
-
-	sprintf(tempString, errorText, string);
-//	sprintf(outputString, "%s", tempString);
-	[errorTextField setStringValue:[NSString stringWithCString:tempString]];
-}
-
 
 @end

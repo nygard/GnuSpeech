@@ -1,10 +1,12 @@
-
 #import <Foundation/NSObject.h>
-#import "CategoryList.h"
-#import "PhoneList.h"
+
+@class NSScanner;
+@class BooleanExpression, CategoryNode, CategoryList, PhoneList;
+#ifdef PORTING
 #import "BooleanExpression.h"
 #import "BooleanTerminal.h"
 #import "BooleanSymbols.h"
+#endif
 
 /*===========================================================================
 
@@ -24,7 +26,7 @@
 		stringIndex: (int) current index into the string being
 			parsed.
 		lastStringIndex: (int) index of the first character of the
-			current token being parsed.  Generally used to 
+			current token being parsed.  Generally used to
 			indicate which token caused an error to occur.
 		parseString: (const char *) The string being parsed.  NOTE
 			that it is const and should not be modified.
@@ -33,15 +35,15 @@
 		categoryList: In MONET, terminals for the boolean expression
 			system are instances of the CategoryNode class.
 			The majority of those instances are stored in a
-			named object which is of the "CategoryList" class. 
+			named object which is of the "CategoryList" class.
 			When a category symbol is to be resolved, this list
 			is consulted.
-		phoneList:  Not all CategoryNodes are stored in the 
-			mainCategoryList.  Some are categories native to a 
+		phoneList:  Not all CategoryNodes are stored in the
+			mainCategoryList.  Some are categories native to a
 			specific phone.  If a category cannot be found in the
 			main category list, the main phone list is consulted.
 
-		errorTextField:  Points to an instance of the "TextField" 
+		errorTextField:  Points to an instance of the "TextField"
 			class.  Parse errors are sent to this object.
 
 	Import Files:
@@ -52,48 +54,59 @@
 	"BooleanSymbols.h" for some TOKEN defines.
 */
 
-@interface BooleanParser:NSObject
+@interface BooleanParser : NSObject
 {
-	int consumed;
-	int stringIndex, lastStringIndex;
-	const char *parseString;
-	char symbolString[256];
+    BOOL consumed;
+    //int stringIndex;
+    //int lastStringIndex;
+    NSString *nonretained_parseString;
+    NSScanner *scanner;
+    //char symbolString[256];
+    NSString *symbolString;
 
-	CategoryList *categoryList;
-	PhoneList *phoneList;
+    CategoryList *categoryList;
+    PhoneList *phoneList;
 
-	id	errorTextField;
+    NSMutableString *errorMessages;
+    //id errorTextField; // TODO (2004-03-01): Change this to an NSMutableString, and query it in the interface controller.
 }
 
-- init;
+- (id)init;
+- (void)dealloc;
 
 /* Access to instance variables */
-- (void)setCategoryList: (CategoryList *)aList;
+- (NSString *)symbolString;
+- (void)setSymbolString:(NSString *)newString;
+
 - (CategoryList *)categoryList;
-- (void)setPhoneList: (PhoneList *)aList;
+- (void)setCategoryList:(CategoryList *)aList;
+
 - (PhoneList *)phoneList;
-- (void)setErrorOutput:aTextObject;
+- (void)setPhoneList: (PhoneList *)aList;
+
+//- (void)setErrorOutput:aTextObject;
 
 /* Error reporting methods */
-- (void)outputError:(const char *)errorText;
-- (void)outputError:(const char *) errorText with: (const char *) symbol;
+- (void)outputError:(NSString *)errorText;
+- (void)outputError:(NSString *)errorText with:(NSString *)symbol;
 
 /* General purpose internal methods */
-- (id)categorySymbol:(const char *)symbol;
-- (int) nextToken;
+- (CategoryNode *)categorySymbol:(NSString *)symbol;
+- (int)nextToken;
 - (void)consumeToken;
 
 /* General Parse Methods */
-- parseString:(const char *)string;
-- beginParseString;
-- continueParse:currentExpression;
+// BooleanExpression or maybe BooleanTerminal
+- (id)parseString:(NSString *)aString;
+- (id)beginParseString;
+- (id)continueParse:(id)currentExpression;
 
 /* Internal recursive descent methods */
-- notOperation;
-- andOperation:operand;
-- orOperation:operand;
-- xorOperation:operand;
+- (id)notOperation;
+- (id)andOperation:(id)operand;
+- (id)orOperation:(id)operand;
+- (id)xorOperation:(id)operand;
 
-- leftParen;
+- (id)leftParen;
 
 @end

@@ -1,99 +1,103 @@
-
-#import <Foundation/NSCoder.h>
 #import "CategoryNode.h"
-#import <stdio.h>
-#import <string.h>
-#import <stdlib.h>
+
+#import <Foundation/Foundation.h>
+//#import <stdio.h>
+//#import <string.h>
+//#import <stdlib.h>
 
 @implementation CategoryNode
 
-- init
+- (id)init;
 {
-	symbol = NULL;
-	comment = NULL;
-	native = 0;
-	return self;
+    if ([super init] == nil)
+        return nil;
+
+    symbol = nil;
+    comment = nil;
+    isNative = NO;
+
+    return self;
 }
 
-- initWithSymbol:(const char *) newSymbol
+- (id)initWithSymbol:(NSString *)newSymbol;
 {
-	[self setSymbol:newSymbol];
-	return self;
+    if ([self init] == nil)
+        return nil;
+
+    [self setSymbol:newSymbol];
+
+    return self;
 }
 
-- (void)setSymbol:(const char *)newSymbol
+- (void)dealloc;
 {
-int len;
-	if (symbol)
-		free(symbol);
+    [symbol release];
+    [comment release];
 
-	len = strlen(newSymbol);
-	symbol = (char *) malloc(len+1);
-	strcpy(symbol, newSymbol); 
+    [super dealloc];
 }
 
-- (const char *)symbol
+#ifdef PORTING
+- (void)freeIfNative;
 {
-	return( (const char *) symbol);
+    if (isNative)
+        [self release];
+}
+#endif
+
+- (NSString *)symbol;
+{
+    return symbol;
 }
 
-- (void)setComment:(const char *)newComment
+- (void)setSymbol:(NSString *)newSymbol;
 {
-int len;
+    if (newSymbol == symbol)
+        return;
 
-	if (comment)
-		free(comment);
-
-	len = strlen(newComment);
-	comment = (char *) malloc(len+1);
-	strcpy(comment, newComment); 
+    [symbol release];
+    symbol = [newSymbol retain];
 }
 
-- (const char *) comment
+- (NSString *)comment;
 {
-	return comment;
+    return comment;
 }
 
-- (void)dealloc
+- (void)setComment:(NSString *)newComment;
 {
-	if (symbol) 
-		free(symbol);
+    if (newComment == comment)
+        return;
 
-	if (comment) 
-		free(comment);
-
-	[super dealloc];
+    [comment release];
+    comment = [newComment retain];
 }
 
-- (void)freeIfNative
+- (BOOL)isNative;
 {
-	if (native)
-		[self release];
+    return isNative;
 }
 
-- (void)setNative:(int)isNative
+- (void)setIsNative:(BOOL)newFlag;
 {
-	native = isNative; 
+    isNative = newFlag;
 }
 
-- (int) native
+#ifdef PORTING
+- (id)initWithCoder:(NSCoder *)aDecoder;
 {
-	return native;
+    [aDecoder decodeValuesOfObjCTypes:"**i", &symbol, &comment, &native];
+    return self;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+- (void)encodeWithCoder:(NSCoder *)aCoder;
 {
-	[aDecoder decodeValuesOfObjCTypes:"**i", &symbol, &comment, &native];
-	return self;
+    [aCoder encodeValuesOfObjCTypes:"**i", &symbol, &comment, &native];
 }
-
-- (void)encodeWithCoder:(NSCoder *)aCoder
-{
-	[aCoder encodeValuesOfObjCTypes:"**i", &symbol, &comment, &native];
-}
+#endif
 
 #ifdef NeXT
-- read:(NXTypedStream *)stream
+- read:(NXTypedStream *)stream;
 {
         NXReadTypes(stream, "**i", &symbol, &comment, &native);
         return self;

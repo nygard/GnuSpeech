@@ -1,9 +1,6 @@
-
 #import "NamedList.h"
-#import <Foundation/NSCoder.h>
-#import <Foundation/NSString.h>
-#import <stdio.h>
-#import <stdlib.h>
+
+#import <Foundation/Foundation.h>
 
 /*===========================================================================
 
@@ -12,84 +9,79 @@
 
 @implementation NamedList
 
-- initWithCapacity: (unsigned) numSlots
+- (id)initWithCapacity:(unsigned)numSlots;
 {
-	[super initWithCapacity:numSlots];
-	comment = NULL;
-	name = NULL;
+    if ([super initWithCapacity:numSlots] == nil)
+        return nil;
 
-	return self;
+    comment = nil;
+    name = nil;
+
+    return self;
 }
 
-- init
+- (void)dealloc;
 {
-	[super init];
-	comment = NULL;
-	name = NULL;
+    [comment release];
+    [name release];
 
-	return self;
-
+    [super dealloc];
 }
 
-- setName:(NSString *)newName
+- (NSString *)name;
 {
-int len;
-	if (name)
-		free(name);
-
-	len = [newName length];
-	name = (char *) malloc(len+1);
-	strcpy(name, [newName cString]);
-
-	return self;
+    return name;
 }
 
-- (NSString *)name
+- (void)setName:(NSString *)newName;
 {
-	return [NSString stringWithCString:( (const char *) name)];
+    if (newName == name)
+        return;
+
+    [name release];
+    name = [newName retain];
 }
 
-- (void)setComment:(const char *)newComment
+- (NSString *)comment;
 {
-int len;
-
-	if (comment)
-		free(comment);
-
-	len = strlen(newComment);
-	comment = (char *) malloc(len+1);
-	strcpy(comment, newComment); 
+    return comment;
 }
 
-- (const char *) comment
+- (void)setComment:(NSString *)newComment;
 {
-	return comment;
+    if (newComment == comment)
+        return;
+
+    [comment release];
+    comment = [newComment retain];
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+#if PORTING
+- (id)initWithCoder:(NSCoder *)aDecoder;
 {
-	[super initWithCoder:aDecoder];
+    [super initWithCoder:aDecoder];
 
-	[aDecoder decodeValuesOfObjCTypes:"**", &name, &comment];
+    [aDecoder decodeValuesOfObjCTypes:"**", &name, &comment];
 
-	return self;
+    return self;
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder
+- (void)encodeWithCoder:(NSCoder *)aCoder;
 {
-	[super encodeWithCoder:aCoder];
+    [super encodeWithCoder:aCoder];
 
-	[aCoder encodeValuesOfObjCTypes:"**", &name, &comment];
+    [aCoder encodeValuesOfObjCTypes:"**", &name, &comment];
 }
+#endif
 
 #ifdef NeXT
-- read:(NXTypedStream *)stream
+- read:(NXTypedStream *)stream;
 {
-        [super read:stream];
+    [super read:stream];
 
-        NXReadTypes(stream, "**", &name, &comment);
+    NXReadTypes(stream, "**", &name, &comment);
 
-        return self;
+    return self;
 }
 #endif
 

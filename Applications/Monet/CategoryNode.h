@@ -1,30 +1,31 @@
-
 #import <Foundation/NSObject.h>
+
 #ifdef NeXT
 #import <objc/typedstream.h>
 #endif
 
-@interface CategoryNode:NSObject
+@interface CategoryNode : NSObject
 {
-	char *symbol;
-	char *comment;
-	int native;
+    NSString *symbol;
+    NSString *comment;
+    BOOL isNative;
 }
 
-- init;
-- initWithSymbol:(const char *) newSymbol;
-
-- (void)setSymbol:(const char *)newSymbol;
-- (const char *)symbol;
-- (void)setComment:(const char *)newComment;
-- (const char *) comment;
-
-- (void)setNative:(int)isNative;
-- (int) native;
-
+- (id)init;
+- (id)initWithSymbol:(NSString *)newSymbol;
 - (void)dealloc;
-- (void)freeIfNative;
+//- (void)freeIfNative;
 
-- (id)initWithCoder:(NSCoder *)aDecoder;
-- (void)encodeWithCoder:(NSCoder *)aCoder;
+- (NSString *)symbol;
+- (void)setSymbol:(NSString *)newSymbol;
+
+- (NSString *)comment;
+- (void)setComment:(NSString *)newComment;
+
+- (BOOL)isNative;
+- (void)setIsNative:(BOOL)newFlag;
+
+//- (id)initWithCoder:(NSCoder *)aDecoder;
+//- (void)encodeWithCoder:(NSCoder *)aCoder;
+
 @end

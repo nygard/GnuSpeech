@@ -1,5 +1,6 @@
+#import <Foundation/NSObject.h>
 
-#import "MonetList.h"
+@class MonetList;
 
 /*===========================================================================
 
@@ -14,10 +15,10 @@
 #define TRIPHONE 3
 #define TETRAPHONE 4
 
-@interface ProtoTemplate:NSObject
+@interface ProtoTemplate : NSObject
 {
-	char 	*name;
-	char 	*comment;
+	char	*name;
+	char	*comment;
 	int	type;
 	MonetList	*points;
 }

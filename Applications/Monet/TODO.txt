@@ -1,0 +1,4 @@
+- change -makeObjectsPerform: to -makeObjectsPerformSelector:
+- wondering about programming error in BooleanParser
+- odd cases in BooleanParser, addSubExpression:self
+  - it's totally wrong, adding the parser.  Sheesh!

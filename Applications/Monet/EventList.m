@@ -1,19 +1,28 @@
-
 #import "EventList.h"
+
 #import <stdio.h>
 #import <stdlib.h>
 #import <string.h>
-#import "RuleManager.h"
+#import <Foundation/Foundation.h>
+
 #import "Parameter.h"
+#import "ParameterList.h"
+#import "Phone.h"
 #import "ProtoTemplate.h"
+#import "Rule.h"
+#import "RuleList.h"
+#import "RuleManager.h"
+#import "SlopeRatio.h"
+
+#ifdef PORTING
 #import "ProtoEquation.h"
 #import "Point.h"
 #import "PhoneList.h"
-#import "SlopeRatio.h"
 #ifdef HAVE_DSP
 #import "tube_module/synthesizer_module.h"
 #endif
 #import "IntonationView.h"
+#endif
 #import "driftGenerator.h"
 
 /*===========================================================================
@@ -28,7 +37,7 @@ static int	currentInputBuffer, currentOutputBuffer, currentConsumed;
 static int	bufferFree[PAGES];
 static int	currentIndex;
 
-void update_synth_ptr(void)
+static void update_synth_ptr(void)
 {
 
 //	printf("BufferFree[%d] = %d\n", currentOutputBuffer, bufferFree[currentOutputBuffer]);
@@ -43,7 +52,7 @@ void update_synth_ptr(void)
 	}
 }
 
-void page_consumed(void)
+static void page_consumed(void)
 {
 //	printf("\t\t\t\t\t\tConsumed Page %d\n", currentConsumed);
 	bufferFree[currentConsumed] = 1;
@@ -58,7 +67,7 @@ void page_consumed(void)
 #define RUNNING 1
 
 
-- init
+- (id)init;
 {
 	[super init];
 	outputBuffer = NSAllocateMemoryPages(NSPageSize()*PAGES);
@@ -76,7 +85,7 @@ void page_consumed(void)
 	return self;
 }
 
-- initWithCapacity:(unsigned int)numSlots
+- (id)initWithCapacity:(unsigned int)numSlots;
 {
 	[super initWithCapacity: numSlots];
 	outputBuffer = NSAllocateMemoryPages(NSPageSize()*PAGES);
@@ -95,14 +104,14 @@ void page_consumed(void)
 	return self;
 }
 
-- (void)dealloc
+- (void)dealloc;
 {
   NSDeallocateMemoryPages(outputBuffer, NSPageSize()*PAGES);
   [super dealloc];
 }
 
 
-- (void)setUp
+- (void)setUp;
 {
 int i;
 	[self removeAllObjects];
@@ -138,16 +147,16 @@ int i;
 	currentRule = 0;
 
 	phoneTempo[0] = 1.0;
-	feet[0].tempo = 1.0; 
+	feet[0].tempo = 1.0;
 }
 
-- (void)setZeroRef:(int)newValue
+- (void)setZeroRef:(int)newValue;
 {
 int i;
 	zeroRef = newValue;
 	zeroIndex = 0;
 
-	if ([self count] == 0) 
+	if ([self count] == 0)
 		return;
 
 	for (i = [self count]-1; i>=0 ;i--)
@@ -158,152 +167,152 @@ int i;
 			zeroIndex = i;
 			return;
 		}
-	} 
+	}
 }
 
-- (int) zeroRef
+- (int)zeroRef;
 {
 	return zeroRef;
 }
 
-- (void)setDuration:(int)newValue
+- (void)setDuration:(int)newValue;
 {
-	duration = newValue; 
+	duration = newValue;
 }
 
-- (int) duration
+- (int)duration;
 {
 	return duration;
 }
 
-- (void)setRadiusMultiply:(double)newValue
+- (void)setRadiusMultiply:(double)newValue;
 {
-	radiusMultiply = newValue; 
+	radiusMultiply = newValue;
 }
 
-- (double) radiusMultiply
+- (double)radiusMultiply;
 {
 	return radiusMultiply;
 }
 
-- (void)setFullTimeScale
+- (void)setFullTimeScale;
 {
 	zeroRef = 0;
 	zeroIndex = 0;
-	duration = [[self lastObject] time] + 100; 
+	duration = [[self lastObject] time] + 100;
 }
 
-- (void)setTimeQuantization:(int)newValue
+- (void)setTimeQuantization:(int)newValue;
 {
-	timeQuantization = newValue; 
+	timeQuantization = newValue;
 }
 
-- (int) timeQuantization
+- (int)timeQuantization;
 {
 	return timeQuantization;
 }
 
-- (void)setParameterStore:(int)newValue
+- (void)setParameterStore:(int)newValue;
 {
-	parameterStore = newValue; 
+	parameterStore = newValue;
 }
 
-- (int) parameterStore
+- (int)parameterStore;
 {
 	return parameterStore;
 }
 
-- (void)setSoftwareSynthesis:(int)newValue
+- (void)setSoftwareSynthesis:(int)newValue;
 {
-	softwareSynthesis = newValue; 
+	softwareSynthesis = newValue;
 }
 
-- (int) softwareSynthesis
+- (int)softwareSynthesis;
 {
 	return softwareSynthesis;
 }
 
-- (void)setPitchMean:(double)newMean
+- (void)setPitchMean:(double)newMean;
 {
-	pitchMean = newMean; 
+	pitchMean = newMean;
 }
 
--(double) pitchMean
+- (double)pitchMean;
 {
 	return pitchMean;
 }
 
-- (void)setGlobalTempo:(double)newTempo
+- (void)setGlobalTempo:(double)newTempo;
 {
-	globalTempo = newTempo; 
+	globalTempo = newTempo;
 }
 
--(double) globalTempo;
+- (double)globalTempo;
 {
 	return globalTempo;
 }
 
-- (void)setMultiplier:(double)newValue
+- (void)setMultiplier:(double)newValue;
 {
-	multiplier = newValue; 
+	multiplier = newValue;
 }
 
--(double) multiplier
+- (double)multiplier;
 {
 	return multiplier;
 }
 
 - (void)setMacroIntonation:(int)newValue
 {
-	macroFlag = newValue; 
+	macroFlag = newValue;
 }
 
--(int) macroIntonation
+- (int)macroIntonation;
 {
 	return macroFlag;
 }
 
-- (void)setMicroIntonation:(int)newValue
+- (void)setMicroIntonation:(int)newValue;
 {
-	microFlag = newValue; 
+	microFlag = newValue;
 }
 
--(int) microIntonation
+- (int)microIntonation;
 {
 	return microFlag;
 }
 
-- (void)setDrift:(int)newValue
+- (void)setDrift:(int)newValue;
 {
-	driftFlag = newValue; 
+	driftFlag = newValue;
 }
 
--(int) drift
+- (int)drift;
 {
 	return driftFlag;
 }
 
-- (void)setSmoothIntonation:(int)newValue
+- (void)setSmoothIntonation:(int)newValue;
 {
-	smoothIntonation = newValue; 
+	smoothIntonation = newValue;
 }
 
--(int) smoothIntonation
+- (int)smoothIntonation;
 {
 	return smoothIntonation;
 }
 
-- (void)setIntonParms:(float *)newValue
+- (void)setIntonParms:(float *)newValue;
 {
-	intonParms = newValue; 
+	intonParms = newValue;
 }
 
--(float*) intonParms
+- (float*)intonParms;
 {
 	return intonParms;
 }
 
-- getPhoneAtIndex:(int)phoneIndex
+- getPhoneAtIndex:(int)phoneIndex;
 {
 	if (phoneIndex > currentPhone)
 		return nil;
@@ -311,7 +320,7 @@ int i;
 		return phones[phoneIndex].phone;
 }
 
-- (struct _rule *) getRuleAtIndex: (int) ruleIndex
+- (struct _rule *)getRuleAtIndex:(int)ruleIndex;
 {
 	if (ruleIndex > currentRule)
 		return NULL;
@@ -319,7 +328,7 @@ int i;
 		return &rules[ruleIndex];
 }
 
-- (double) getBeatAtIndex:(int) ruleIndex
+- (double)getBeatAtIndex:(int)ruleIndex;
 {
 	if (ruleIndex > currentRule)
 		return 0.0;
@@ -327,14 +336,14 @@ int i;
 		return rules[ruleIndex].beat;
 }
 
-- (int) numberOfRules
+- (int)numberOfRules;
 {
 	return currentRule;
 }
 
 /* Tone groups */
 
-- (void)newToneGroup
+- (void)newToneGroup;
 {
 	if (currentFoot == 0)
 		return;
@@ -343,17 +352,17 @@ int i;
 	[self newFoot];
 
 	toneGroups[currentToneGroup].startFoot = currentFoot;
-	toneGroups[currentToneGroup].endFoot = (-1); 
+	toneGroups[currentToneGroup].endFoot = (-1);
 }
 
-- (void)setCurrentToneGroupType:(int)type
+- (void)setCurrentToneGroupType:(int)type;
 {
-	toneGroups[currentToneGroup].type = type; 
+	toneGroups[currentToneGroup].type = type;
 }
 
 /* Feet */
 
-- (void)newFoot
+- (void)newFoot;
 {
 	if (currentPhone == 0)
 		return;
@@ -363,71 +372,71 @@ int i;
 
 	feet[currentFoot].start = currentPhone;
 	feet[currentFoot].end = (-1);
-	feet[currentFoot].tempo = 1.0; 
+	feet[currentFoot].tempo = 1.0;
 }
 
-- (void)setCurrentFootMarked
+- (void)setCurrentFootMarked;
 {
-	feet[currentFoot].marked = 1; 
+	feet[currentFoot].marked = 1;
 }
 
-- (void)setCurrentFootLast
+- (void)setCurrentFootLast;
 {
-	feet[currentFoot].last = 1; 
+	feet[currentFoot].last = 1;
 }
 
-- (void)setCurrentFootTempo:(double)tempo
+- (void)setCurrentFootTempo:(double)tempo;
 {
-	feet[currentFoot].tempo = tempo; 
+	feet[currentFoot].tempo = tempo;
 }
 
-- (void)newPhone
+- (void)newPhone;
 {
 	if (phones[currentPhone].phone)
 		currentPhone++;
-	phoneTempo[currentPhone] = 1.0; 
+	phoneTempo[currentPhone] = 1.0;
 }
 
-- (void)newPhoneWithObject:anObject
+- (void)newPhoneWithObject:(id)anObject;
 {
 	if (phones[currentPhone].phone)
 		currentPhone++;
 	phoneTempo[currentPhone] = 1.0;
 	phones[currentPhone].ruleTempo = 1.0;
-	phones[currentPhone].phone = anObject; 
+	phones[currentPhone].phone = anObject;
 }
 
-- (void)replaceCurrentPhoneWith:anObject
+- (void)replaceCurrentPhoneWith:(id)anObject;
 {
 	if (phones[currentPhone].phone)
 		phones[currentPhone].phone = anObject;
 	else
 		phones[currentPhone-1].phone = anObject;
-	printf("Replacing %s with %s\n", [phones[currentPhone].phone symbol], [anObject symbol]); 
+	printf("Replacing %s with %s\n", [phones[currentPhone].phone symbol], [anObject symbol]);
 }
 
-- (void)setCurrentPhoneTempo:(double)tempo
+- (void)setCurrentPhoneTempo:(double)tempo;
 {
-	phoneTempo[currentPhone] = tempo; 
+	phoneTempo[currentPhone] = tempo;
 }
 
-- (void)setCurrentPhoneRuleTempo:(float)tempo
+- (void)setCurrentPhoneRuleTempo:(float)tempo;
 {
-	phones[currentPhone].ruleTempo = tempo; 
+	phones[currentPhone].ruleTempo = tempo;
 }
 
-- (void)setCurrentPhoneSyllable
+- (void)setCurrentPhoneSyllable;
 {
-	phones[currentPhone].syllable = 1; 
+	phones[currentPhone].syllable = 1;
 }
 
-- insertEvent:(int) number atTime: (double) time withValue: (double) value
+- insertEvent:(int)number atTime:(double)time withValue:(double)value;
 {
 Event *tempEvent = nil;
 int i, tempTime;
 
 	time = time*multiplier;
-	if (time < 0.0) 
+	if (time < 0.0)
 		return nil;
 	if (time > (double) (duration+timeQuantization))
 		return nil;
@@ -503,10 +512,10 @@ int i, tempTime;
 //	return nil;
 }
 
-- finalEvent:(int) number withValue: (double) value
+- finalEvent:(int)number withValue:(double)value;
 {
   Event *tempEvent;
-  
+
   tempEvent = [self lastObject];
   [tempEvent setValue: value ofIndex: number];
   [tempEvent setFlag:1];
@@ -514,12 +523,12 @@ int i, tempTime;
   return self;
 }
 
-- lastEvent
+- lastEvent;
 {
 	return [self lastObject];
 }
 
-- (void)generateOutput
+- (void)generateOutput;
 {
 #ifdef HAVE_DSP
 int i, j, k;
@@ -616,11 +625,11 @@ DSPFix24 *silenceTable;
 				table[0]+=pitchMean;
 
 				if (fp)
-				fprintf(fp, 
-				  "%.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f\n", 
-				  table[0], table[1], table[2], table[3], 
-				  table[4], table[5], table[6], table[7], 
-				  table[8], table[9], table[10], table[11], 
+				fprintf(fp,
+				  "%.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f\n",
+				  table[0], table[1], table[2], table[3],
+				  table[4], table[5], table[6], table[7],
+				  table[8], table[9], table[10], table[11],
 				  table[12], table[13], table[14], table[15]);
 
 				convert_parameter_table(table, outputBuffer + (currentInputBuffer*NSPageSize()) + currentIndex);
@@ -656,7 +665,7 @@ DSPFix24 *silenceTable;
 						if ([[self objectAtIndex:i-1] getValueAtIndex:j] !=NaN)
 						{
 							k = i;
-							while(( temp = [[self objectAtIndex: k] getValueAtIndex:j]) == NaN) 
+							while(( temp = [[self objectAtIndex: k] getValueAtIndex:j]) == NaN)
 							{
 								if (k>=[self count]-1)
 								{
@@ -668,7 +677,7 @@ DSPFix24 *silenceTable;
 
 							if (temp!=NaN)
 							{
-								currentDeltas[j] = (temp - currentValues[j]) / 
+								currentDeltas[j] = (temp - currentValues[j]) /
 									(double) ([[self objectAtIndex: k] time] - currentTime) * 4.0;
 							}
 						}
@@ -727,11 +736,11 @@ DSPFix24 *silenceTable;
 			bcopy(silenceTable, outputBuffer + (currentInputBuffer*NSPageSize()) + currentIndex, 128);
 			currentIndex+=128;
 			if (fp)
-				fprintf(fp, 
-				  "Time: %d; %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f\n", 
-				  currentTime, currentValues[0], currentValues[1], currentValues[2], currentValues[3], 
-				  currentValues[4], currentValues[5], currentValues[6], currentValues[7], 
-				  currentValues[8], currentValues[9], currentValues[10], currentValues[11], 
+				fprintf(fp,
+				  "Time: %d; %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f\n",
+				  currentTime, currentValues[0], currentValues[1], currentValues[2], currentValues[3],
+				  currentValues[4], currentValues[5], currentValues[6], currentValues[7],
+				  currentValues[8], currentValues[9], currentValues[10], currentValues[11],
 				  currentValues[12], currentValues[13], currentValues[14], currentValues[15]);
 			currentTime+=4;
 		}
@@ -757,17 +766,19 @@ DSPFix24 *silenceTable;
 
 
 	if (fp)
-		fclose(fp); 
+		fclose(fp);
+#else
+#warning No DSP for -generateOutput
 #endif
 }
 
-- (void)printDataStructures
+- (void)printDataStructures;
 {
 int i;
 	printf("Tone Groups %d\n", currentToneGroup);
 	for (i = 0; i<currentToneGroup;i++)
 	{
-		printf("%d  start: %d  end: %d  type: %d\n", i, toneGroups[i].startFoot, toneGroups[i].endFoot, 
+		printf("%d  start: %d  end: %d  type: %d\n", i, toneGroups[i].startFoot, toneGroups[i].endFoot,
 			toneGroups[i].type);
 	}
 
@@ -788,12 +799,12 @@ int i;
 	printf("\nRules %d\n", currentRule);
 	for (i = 0; i<currentRule;i++)
 	{
-		printf("Number: %d  start: %d  end: %d  duration %f\n", rules[i].number, rules[i].firstPhone, 
+		printf("Number: %d  start: %d  end: %d  duration %f\n", rules[i].number, rules[i].firstPhone,
 			rules[i].lastPhone, rules[i].duration);
-	} 
+	}
 }
 
-- (void)generateEventList
+- (void)generateEventList;
 {
 MonetList *tempPhoneList, *tempCategoryList;
 double tempoList[4];
@@ -873,10 +884,10 @@ Parameter *tempParameter = nil;
 //	if (currentPhone)
 //		[self applyIntonation];
 
-	[[self lastObject] setFlag:1]; 
+	[[self lastObject] setFlag:1];
 }
 
-- applyRule: rule withPhones: phoneList andTempos: (double *) tempos phoneIndex: (int) phoneIndex;
+- applyRule:rule withPhones:phoneList andTempos:(double *)tempos phoneIndex:(int)phoneIndex;
 {
 int i, j, type, cont;
 int currentType;
@@ -909,7 +920,7 @@ Event *tempEvent;
 		case 3: phones[phoneIndex+1].onset = (double) zeroRef + ruleSymbols[1];
 			tempEvent = [self insertEvent:(-1) atTime: ruleSymbols[2] withValue: 0.0 ];
 			[tempEvent setFlag:1];
-		case 2: 
+		case 2:
 			phones[phoneIndex].onset = (double) zeroRef + ruleSymbols[1];
 			tempEvent = [self insertEvent:(-1) atTime: 0.0 withValue: 0.0 ];
 			[tempEvent setFlag:1];
@@ -920,13 +931,13 @@ Event *tempEvent;
 
 
 	/* Loop through the parameters */
-	for(i = 0; i< [tempTargets count]; i++)
+	for(i = 0; i < [tempTargets count]; i++)
 	{
 		/* Get actual parameter target values */
-		targets[0] = [[[[phoneList objectAtIndex: 0] parameterList] objectAtIndex: i] value];
-		targets[1] = [[[[phoneList objectAtIndex: 1] parameterList] objectAtIndex: i] value];
-		targets[2] = [[[[phoneList objectAtIndex: 2] parameterList] objectAtIndex: i] value];
-		targets[3] = [[[[phoneList objectAtIndex: 3] parameterList] objectAtIndex: i] value];
+		targets[0] = [[[[phoneList objectAtIndex:0] parameterList] objectAtIndex:i] value];
+		targets[1] = [[[[phoneList objectAtIndex:1] parameterList] objectAtIndex:i] value];
+		targets[2] = [[[[phoneList objectAtIndex:2] parameterList] objectAtIndex:i] value];
+		targets[3] = [[[[phoneList objectAtIndex:3] parameterList] objectAtIndex:i] value];
 
 //	      printf("Targets %f %f %f %f\n", targets[0], targets[1], targets[2], targets[3]);
 
@@ -934,15 +945,15 @@ Event *tempEvent;
 		cont = 1;
 		switch(type)
 		{
-			case DIPHONE: 
-				if (targets[0] == targets[1]) 
+			case DIPHONE:
+				if (targets[0] == targets[1])
 					cont = 0;
 				break;
-			case TRIPHONE: 
+			case TRIPHONE:
 				if ((targets[0] == targets[1]) && (targets[0] == targets[2]))
 					cont = 0;
 				break;
-			case TETRAPHONE: 
+			case TETRAPHONE:
 				if ((targets[0] == targets[1]) && (targets[0] == targets[2]) && (targets[0] == targets[3]))
 					cont = 0;
 				break;
@@ -988,7 +999,7 @@ Event *tempEvent;
 //					tempEvent = [self insertEvent:i atTime: tempTime withValue: value];
 				}
 				maxValue = [currentPoint calculatePoints: ruleSymbols tempos: tempos phones: phoneList
-					andCacheWith: cache baseline: targets[currentType-2] delta: currentDelta 
+					andCacheWith: cache baseline: targets[currentType-2] delta: currentDelta
 					min: min[i] max: max[i] toEventList: self atIndex: (int) i];
 			}
 		}
@@ -1035,14 +1046,16 @@ Event *tempEvent;
 	return self;
 }
 
-- (void)synthesizeToFile:(const char *)filename
+- (void)synthesizeToFile:(const char *)filename;
 {
 #ifdef HAVE_DSP
-	set_synthesizer_output(filename, getuid(), getgid(), 1); 
+	set_synthesizer_output(filename, getuid(), getgid(), 1);
+#else
+#warning No DSP for -synthesizeToFile:
 #endif
 }
 
-- (void)applyIntonation
+- (void)applyIntonation;
 {
 id tempView = [NXGetNamedObject("intonationView", NSApp) documentView];
 id mainCategoryList = NXGetNamedObject("mainCategoryList", NSApp);
@@ -1107,12 +1120,12 @@ double randomSemitone, randomSlope;
 					}
 				}
 
-				randomSemitone = ((double) random()/ (double) 0x7fffffff) * (double) intonParms[2] - 
-					intonParms[2]/2.0; 
+				randomSemitone = ((double) random()/ (double) 0x7fffffff) * (double) intonParms[2] -
+					intonParms[2]/2.0;
 				randomSlope = ((double) random()/ (double) 0x7fffffff)*0.015 + 0.02;
 
 				[tempView addPoint: ((phones[phoneIndex].onset-startTime)*pretonicDelta) + intonParms[0] +
-					randomSemitone 
+					randomSemitone
 					offsetTime:offsetTime slope: randomSlope ruleIndex: ruleIndex eventList: self];
 
 //			printf("Calculated Delta = %f  time = %f\n", ((phones[phoneIndex].onset-startTime)*pretonicDelta),
@@ -1132,7 +1145,7 @@ double randomSemitone, randomSlope;
 
 				randomSlope = ((double) random()/ (double) 0x7fffffff)*0.03 + 0.02;
 
-				[tempView addPoint: intonParms[1] + intonParms[0] 
+				[tempView addPoint: intonParms[1] + intonParms[0]
 					offsetTime:offsetTime slope: randomSlope ruleIndex: ruleIndex eventList: self];
 
 				phoneIndex = feet[j].end;
@@ -1151,7 +1164,7 @@ double randomSemitone, randomSlope;
 			}
 			offsetTime = -40.0;
 		}
-	} 
+	}
 }
 
 
@@ -1160,8 +1173,8 @@ double randomSemitone, randomSlope;
 
 
 
-/*			printf("%.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f\n", 
-				currentValues[0], currentValues[1], currentValues[7], currentValues[8], 
-				currentValues[9], currentValues[10], currentValues[11], currentValues[12], 
-				currentValues[13], currentValues[14], currentValues[15], currentValues[2], 
+/*			printf("%.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f\n",
+				currentValues[0], currentValues[1], currentValues[7], currentValues[8],
+				currentValues[9], currentValues[10], currentValues[11], currentValues[12],
+				currentValues[13], currentValues[14], currentValues[15], currentValues[2],
 				currentValues[3], currentValues[4], currentValues[5], currentValues[6]);*/

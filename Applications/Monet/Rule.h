@@ -1,7 +1,6 @@
+#import <Foundation/NSObject.h>
 
-#import <Foundation/NSArray.h>
-#import "BooleanParser.h"
-#import "CategoryList.h"
+@class BooleanExpression, MonetList;
 
 /*===========================================================================
 
@@ -12,7 +11,7 @@
 =============================================================================
 */
 
-@interface Rule:NSObject
+@interface Rule : NSObject
 {
 	MonetList *parameterProfiles;
 	MonetList *metaParameterProfiles;

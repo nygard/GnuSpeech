@@ -1,213 +1,208 @@
-
 #import "BooleanExpression.h"
-#import <Foundation/NSCoder.h>
-#import <string.h>
-#import <stdlib.h>
+
+#import <Foundation/Foundation.h>
 
 @implementation BooleanExpression
 
-- init
+- (id)init;
 {
-	numExpressions = 0;
-	operation = NO_OP;
+    if ([super init] == nil)
+        return nil;
 
-	/* Set up 4 sub expressions as the default.  Realloc later to increase */
-	maxExpressions = 4;
-	expressions = (id *) malloc (sizeof (id *) *4);
+    operation = NO_OP;
+    expressions = [[NSMutableArray alloc] initWithCapacity:4];
 
-	/* Set all Sub-Expressions to nil */
-	bzero(expressions, sizeof (id *) *4);
-
-	return self;
+    return self;
 }
 
-- (void)dealloc
+- (void)dealloc;
 {
-int i;
+    [expressions release];
 
-	for (i = 0; i<numExpressions; i++)
-		[expressions[i] release];
-	free(expressions);
-	[super dealloc];
+    [super dealloc];
+}
+
+- (int)evaluate:(CategoryList *)categories;
+{
+    switch (operation) {
+      case NOT_OP:
+          return ![[self operandOne] evaluate:categories];
+          break;
+
+      case AND_OP:
+          if (![[self operandOne] evaluate:categories]) return 0;
+          return [[self operandTwo] evaluate:categories];
+          break;
+
+      case OR_OP:
+          if ([[self operandOne] evaluate:categories]) return 1;
+          return [[self operandTwo] evaluate:categories];
+          break;
+
+      case XOR_OP:
+          return ([[self operandOne] evaluate:categories] ^ [[self operandTwo] evaluate:categories]);
+          break;
+
+      default: return 1;
+    }
+
+    return 0;
+}
+
+- (int)operation;
+{
+    return operation;
+}
+
+- (void)setOperation:(int)newOperation;
+{
+    operation = newOperation;
 }
 
 
-
-- (int) evaluate: (CategoryList *) categories
+- (void)addSubExpression:(BooleanExpression *)newExpression;
 {
-	switch(operation)
-	{
-		case NOT_OP: 
-			return (![expressions[0] evaluate:categories]);
-			break;
+    [expressions addObject:newExpression];
+}
 
-		case AND_OP: 
-			if (![expressions[0] evaluate:categories]) return (0);
-			return [expressions[1] evaluate:categories];
-			break;
+- (BooleanExpression *)operandOne;
+{
+    if  ([expressions count] > 0)
+        return [expressions objectAtIndex:0];
 
-		case OR_OP: 
-			if ([expressions[0] evaluate:categories]) return (1);
-			return [expressions[1] evaluate:categories];
-			break;
+    return nil;
+}
 
-		case XOR_OP: 
-			return ([expressions[0] evaluate:categories] ^ [expressions[1] evaluate:categories]);
-			break;
+- (BooleanExpression *)operandTwo;
+{
+    if  ([expressions count] > 1)
+        return [expressions objectAtIndex:1];
 
-		default: return 1;
+    return nil;
+}
+
+- (void)optimize;
+{
+}
+
+- (void)optimizeSubExpressions;
+{
+    int count, index;
+
+    count = [expressions count];
+    for (index = 0; index < count; index++)
+        [[expressions objectAtIndex:index] optimizeSubExpressions];
+
+    [self optimize];
+}
+
+- (int)maxExpressionLevels;
+{
+    int count, index;
+    int max = 0;
+    int temp;
+
+    count = [expressions count];
+    for (index = 0; index < count; index++) {
+        temp = [[expressions objectAtIndex:index] maxExpressionLevels];
+        if (temp > max)
+            max = temp;
+    }
+
+    return max + 1;
+}
+
+
+- (void)expressionString:(NSMutableString *)resultString;
+{
+    NSString *opString;
+
+    opString = [self opString];
+
+    [resultString appendString:@"("];
+
+    if (operation == NOT_OP) {
+        [resultString appendString:@"not "];
+        if ([expressions count] > 0)
+            [[expressions objectAtIndex:0] expressionString:resultString];
+    } else {
+        int count, index;
+
+        count = [expressions count];
+        for (index = 0; index < count; index++) {
+            if (index != 0)
+                [resultString appendString:opString];
+            [[expressions objectAtIndex:index] expressionString:resultString];
 	}
-	return 0;
+    }
+
+    [resultString appendString:@")"];
 }
 
-
-
-- (void)setOperation:(int)newOp
+- (NSString *)opString;
 {
-	operation = newOp; 
+    switch (operation) {
+      default:
+      case NO_OP: return @"";
+      case NOT_OP: return @" not ";
+      case OR_OP: return @" or ";
+      case AND_OP: return @" and ";
+      case XOR_OP: return @" xor ";
+    }
+
+    return @"";
 }
 
-
-- (int) operation
+- (BOOL)isCategoryUsed:aCategory;
 {
-	return operation;
+    int count, index;
+
+    count = [expressions count];
+    for (index = 0; index < count; index++) {
+        if ([[expressions objectAtIndex:index] isCategoryUsed:aCategory])
+            return YES;
+    }
+
+    return NO;
 }
 
-
-- (void)addSubExpression:newExpression
+#ifdef PORINT
+- (id)initWithCoder:(NSCoder *)aDecoder;
 {
-	expressions[numExpressions] = newExpression;
-	numExpressions++; 
+    int i;
+
+    [aDecoder decodeValuesOfObjCTypes:"iii", &operation, &numExpressions, &maxExpressions];
+    expressions = (id *) malloc (sizeof (id *) *maxExpressions);
+
+    for (i = 0; i < numExpressions; i++)
+        expressions[i] = [[aDecoder decodeObject] retain];
+
+    return self;
 }
 
-- operandOne
+- (void)encodeWithCoder:(NSCoder *)aCoder;
 {
-	return expressions[0];
+    int i;
+
+    [aCoder encodeValuesOfObjCTypes:"iii", &operation, &numExpressions, &maxExpressions];
+    for (i = 0; i < numExpressions; i++)
+        [aCoder encodeObject:expressions[i]];
 }
-
-- (void)optimize
-{
-	 
-}
-
-
-- (void)optimizeSubExpressions
-{
-int i;
-	for (i = 0 ; i<numExpressions; i++)
-		[expressions[i] optimizeSubExpressions];
-
-	[self optimize]; 
-}
-
-
-- (int) maxExpressionLevels
-{
-int i, max = 0;
-int temp;
-
-	for (i = 0 ; i<numExpressions; i++)
-	{
-		temp = [ expressions[i] maxExpressionLevels];
-		if (temp>max)
-			max = temp;
-	}
-	return max+1;
-}
-
-
-- expressionString:(char *)string
-{
-char buffer[1024];
-char *opString;
-int i;
-
-	bzero(buffer, 1024);
-	opString = [self opString];
-
-//	printf("( ");
-	strcat(string,"(");
-	if (operation == NOT_OP)
-	{
-		strcat(string, "not ");
-//		printf("not ");
-		[expressions[0] expressionString:string];
-
-	}
-	else
-	for (i = 0 ; i<numExpressions; i++)
-	{
-		if (i!=0)
-			strcat(string, opString);
-//			printf(" %s ", opString);
-		[expressions[i] expressionString:string];
-
-	}
-	strcat(string,")"); 
-	return self;
-}
-
-- (char *) opString 
-{
-	switch(operation)
-	{
-		default:
-		case NO_OP: return ("");
-		case NOT_OP: return (" not ");
-		case OR_OP: return (" or ");
-		case AND_OP: return (" and ");
-		case XOR_OP: return (" xor ");
-
-	}
-}
-
-- (BOOL) isCategoryUsed: aCategory
-{
-int i;
-	for (i = 0; i<numExpressions; i++)
-	{
-		if ([ expressions[i] isCategoryUsed:aCategory])
-			return YES;
-	}
-	return NO;
-}
-
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-int i;
-
-	[aDecoder decodeValuesOfObjCTypes:"iii", &operation, &numExpressions, &maxExpressions];
-	expressions = (id *) malloc (sizeof (id *) *maxExpressions);
-
-
-	for (i = 0; i<numExpressions; i++)
-		expressions[i] = [[aDecoder decodeObject] retain];
-
-	return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)aCoder
-{
-int i;
-
-	[aCoder encodeValuesOfObjCTypes:"iii", &operation, &numExpressions, &maxExpressions];
-	for (i = 0; i<numExpressions; i++)
-		[aCoder encodeObject:expressions[i]];
-}
+#endif
 
 #ifdef NeXT
-- read:(NXTypedStream *)stream
+- read:(NXTypedStream *)stream;
 {
-int i;
+    int i;
 
-        NXReadTypes(stream, "iii", &operation, &numExpressions, &maxExpressions);
-        expressions = (id *) malloc (sizeof (id *) *maxExpressions);
+    NXReadTypes(stream, "iii", &operation, &numExpressions, &maxExpressions);
+    expressions = (id *) malloc (sizeof (id *) *maxExpressions);
 
 
-        for (i = 0; i<numExpressions; i++)
-                expressions[i] = NXReadObject(stream);
+    for (i = 0; i<numExpressions; i++)
+        expressions[i] = NXReadObject(stream);
 
-        return self;
+    return self;
 }
 #endif
 

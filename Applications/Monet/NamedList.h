@@ -1,4 +1,3 @@
-
 #import "MonetList.h"
 
 /*===========================================================================
@@ -10,19 +9,22 @@
 =============================================================================
 */
 
-@interface NamedList:MonetList
+@interface NamedList : MonetList
 {
-	char *name;
-	char *comment;
+    NSString *name;
+    NSString *comment;
 }
 
-- (void)setComment:(const char *)newComment;
-- (const char *) comment;
+- (id)initWithCapacity:(unsigned)numSlots;
+- (void)dealloc;
 
-- setName:(NSString *)newName;
 - (NSString *)name;
+- (void)setName:(NSString *)newName;
 
-- (id)initWithCoder:(NSCoder *)aDecoder;
-- (void)encodeWithCoder:(NSCoder *)aCoder;
+- (NSString *)comment;
+- (void)setComment:(NSString *)newComment;
+
+//- (id)initWithCoder:(NSCoder *)aDecoder;
+//- (void)encodeWithCoder:(NSCoder *)aCoder;
 
 @end

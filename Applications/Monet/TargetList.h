@@ -1,6 +1,5 @@
 
 #import "MonetList.h"
-#import "Target.h"
 
 /*===========================================================================
 
@@ -11,10 +10,10 @@
 =============================================================================
 */
 
-@interface TargetList:MonetList
+@interface TargetList : MonetList
 {
 }
-- (void)addDefaultTargetWithValue:(double)newValue;
 
+- (void)addDefaultTargetWithValue:(double)newValue;
 
 @end

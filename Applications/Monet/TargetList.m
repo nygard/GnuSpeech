@@ -1,5 +1,7 @@
-
 #import "TargetList.h"
+
+#import <Foundation/Foundation.h>
+#import "Target.h"
 
 /*===========================================================================
 
@@ -11,13 +13,13 @@
 
 @implementation TargetList
 
-- (void)addDefaultTargetWithValue:(double)newValue
+- (void)addDefaultTargetWithValue:(double)newValue;
 {
-Target *tempTarget;
+    Target *newTarget;
 
-	tempTarget = [[Target alloc] initWithValue: newValue isDefault:YES];
-	[self addObject:tempTarget]; 
+    newTarget = [[Target alloc] initWithValue:newValue isDefault:YES];
+    [self addObject:newTarget];
+    [newTarget release];
 }
-
 
 @end

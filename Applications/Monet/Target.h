@@ -1,4 +1,3 @@
-
 #import <Foundation/NSObject.h>
 
 /*===========================================================================
@@ -10,21 +9,24 @@
 =============================================================================
 */
 
-@interface Target:NSObject
+@interface Target : NSObject
 {
-	int is_default;
-	double value;
+    BOOL isDefault;
+    double value;
 }
 
-- init;
-- initWithValue:(double) newValue isDefault:(int) isDefault;
-- (void)setValue:(double)newValue;
-- (double) value;
-- (void)setDefault:(int)isDefault;
-- (int)isDefault;
-- setValue:(double) newValue isDefault:(int) isDefault;
+- (id)init;
+- (id)initWithValue:(double)newValue isDefault:(BOOL)shouldBeDefault;
 
-- (id)initWithCoder:(NSCoder *)aDecoder;
-- (void)encodeWithCoder:(NSCoder *)aCoder;
+- (double) value;
+- (void)setValue:(double)newValue;
+
+- (BOOL)isDefault;
+- (void)setIsDefault:(BOOL)newFlag;
+
+- (void)setValue:(double)newValue isDefault:(BOOL)shouldBeDefault;
+
+//- (id)initWithCoder:(NSCoder *)aDecoder;
+//- (void)encodeWithCoder:(NSCoder *)aCoder;
 
 @end

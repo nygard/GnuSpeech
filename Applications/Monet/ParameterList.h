@@ -1,7 +1,6 @@
-
 #import "MonetList.h"
-#import "Parameter.h"
-#import <stdio.h>
+
+@class Parameter;
 
 /*===========================================================================
 
@@ -12,24 +11,24 @@
 =============================================================================
 */
 
-@interface ParameterList:MonetList
+@interface ParameterList : MonetList
 {
 }
 
-- (Parameter *) findParameter: (const char *) symbol;
-- (int) findParameterIndex: (const char *) symbol;
-- addParameter: (const char *) newSymbol min:(float) minValue max:(float) maxValue def:(float) defaultValue;
-- (double) defaultValueFromIndex:(int) index;
-- (double) minValueFromIndex:(int) index;
-- (double) maxValueFromIndex:(int) index;
-- (void)readDegasFileFormat:(FILE *)fp;
-- (void)printDataTo:(FILE *)fp;
+- (Parameter *)findParameter:(NSString *)symbol;
+- (int)findParameterIndex:(NSString *)symbol;
+- (void)addParameter:(NSString *)newSymbol min:(float)minValue max:(float)maxValue def:(float)defaultValue;
+- (double)defaultValueFromIndex:(int)index;
+- (double)minValueFromIndex:(int)index;
+- (double)maxValueFromIndex:(int)index;
 
 
 /* BrowserManager List delegate Methods */
-- (void)addNewValue:(const char *)newValue;
-- findByName:(const char *)name;
-- (void)changeSymbolOf:temp to:(const char *)name;
+- (void)addNewValue:(NSString *)newValue;
+- (Parameter *)findByName:(NSString *)name;
+- (void)changeSymbolOf:(Parameter *)temp to:(NSString *)name;
 
+//- (void)readDegasFileFormat:(FILE *)fp;
+//- (void)printDataTo:(FILE *)fp;
 
 @end

@@ -1,6 +1,7 @@
-
 #import "SymbolList.h"
 
+#import <Foundation/Foundation.h>
+#import "Symbol.h"
 
 /*===========================================================================
 
@@ -12,87 +13,86 @@
 
 @implementation SymbolList
 
-- findSymbol:(const char *)searchSymbol
+- (Symbol *)findSymbol:(NSString *)searchSymbol;
 {
-int i;
-const char *temp;
+    int count, index;
+    Symbol *aSymbol;
 
+    count = [self count];
+    for (index = 0; index < count; index++) {
+        aSymbol = [self objectAtIndex:index];
+        if ([[aSymbol symbol] isEqual:searchSymbol] == YES)
+            return aSymbol;
+    }
 
-	for (i = 0; i<[self count]; i++)
-	{
-		temp = [[self objectAtIndex: i] symbol];
-		if (strcmp(temp, searchSymbol)==0)
-		{
-			return [self objectAtIndex: i];
-		}
-	}
-	return nil;
+    return nil;
 }
 
--(int) findSymbolIndex:(const char *) searchSymbol
+- (int)findSymbolIndex:(NSString *)searchSymbol;
 {
-int i;
-const char *temp;
+    int count, index;
+    Symbol *aSymbol;
 
+    count = [self count];
+    for (index = 0; index < count; index++) {
+        aSymbol = [self objectAtIndex:index];
+        if ([[aSymbol symbol] isEqual:searchSymbol] == YES)
+            return index;
+    }
 
-	for (i = 0; i<[self count]; i++)
-	{
-		temp = [[self objectAtIndex: i] symbol];
-		if (strcmp(temp, searchSymbol)==0)
-		{
-			return i;
-		}
-	}
-	return (-1);
+    return -1;
 }
 
 #define DEFAULT_VALUE 100.0
 #define DEFAULT_MIN     0.0
 #define DEFAULT_MAX     500.0
 
-- addSymbol:(const char *) symbol withValue:(double) newValue
+- (void)addSymbol:(NSString *)symbol withValue:(double)newValue;
 {
-Symbol *temp;
+    Symbol *newSymbol;
 
-	temp = [[Symbol alloc] initWithSymbol: symbol];
-	[temp setMinimumValue:DEFAULT_MIN];
-	[temp setMaximumValue:DEFAULT_MAX];
-	[temp setDefaultValue:DEFAULT_VALUE];
+    newSymbol = [[Symbol alloc] initWithSymbol:symbol];
+    [newSymbol setMinimumValue:DEFAULT_MIN];
+    [newSymbol setMaximumValue:DEFAULT_MAX];
+    [newSymbol setDefaultValue:DEFAULT_VALUE];
 
-	[self addObject:temp];
-	return temp;
+    [self addObject:newSymbol];
+
+    [newSymbol release];
 }
 
 /* BrowserManager List delegate Methods */
-- (void)addNewValue:(const char *)newValue
+- (void)addNewValue:(NSString *)newValue;
 {
-	[self addSymbol: newValue withValue: DEFAULT_VALUE]; 
+    [self addSymbol:newValue withValue:DEFAULT_VALUE];
 }
 
-- findByName:(const char *)name
+- (Symbol *)findByName:(NSString *)name;
 {
-	return [self findSymbol:name];
+    return [self findSymbol:name];
 }
 
-- (void)changeSymbolOf:temp to:(const char *)name
+- (void)changeSymbolOf:(Symbol *)aSymbol to:(NSString *)name;
 {
-	[temp setSymbol:name]; 
+    [aSymbol setSymbol:name];
 }
 
-- (void)printDataTo:(FILE *)fp
+#ifdef PORTING
+- (void)printDataTo:(FILE *)fp;
 {
-int i;
-	fprintf(fp, "Symbols\n");
-	for (i = 0; i<[self count]; i++)
-	{
-		fprintf(fp, "%s\n", [[self objectAtIndex: i] symbol]);
-		fprintf(fp, "Min: %f  Max: %f  Default: %f\n", 
-			[[self objectAtIndex: i] minimumValue], [[self objectAtIndex: i] maximumValue], [[self objectAtIndex: i] defaultValue]);
-		if ([[self objectAtIndex: i] comment])
-			fprintf(fp,"%s\n", [[self objectAtIndex: i] comment]);
-		fprintf(fp, "\n");
-	}
-	fprintf(fp, "\n"); 
+    int i;
+    fprintf(fp, "Symbols\n");
+    for (i = 0; i<[self count]; i++)
+    {
+        fprintf(fp, "%s\n", [[self objectAtIndex: i] symbol]);
+        fprintf(fp, "Min: %f  Max: %f  Default: %f\n",
+                [[self objectAtIndex: i] minimumValue], [[self objectAtIndex: i] maximumValue], [[self objectAtIndex: i] defaultValue]);
+        if ([[self objectAtIndex: i] comment])
+            fprintf(fp,"%s\n", [[self objectAtIndex: i] comment]);
+        fprintf(fp, "\n");
+    }
+    fprintf(fp, "\n");
 }
+#endif
 
 @end

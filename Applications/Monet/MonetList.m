@@ -6,109 +6,111 @@
 
 #define DEFINE_MONET_LIST
 #import "MonetList.h"
-#import <Foundation/NSCoder.h>
-#import <Foundation/NSString.h>
+#import <Foundation/Foundation.h>
 #include <stdio.h>
 
-@implementation MonetList 
+@implementation MonetList
 
-- init
+- (id)init;
 {
-  return [self initWithCapacity: 2];
+    return [self initWithCapacity:2];
 }
 
-- (id) initWithCapacity: (unsigned)numItems
+- (id)initWithCapacity:(unsigned)numItems;
 {
-  ilist = [[NSMutableArray arrayWithCapacity: numItems] retain];
-  return self;
+    if ([super init] == nil)
+        return nil;
+
+    ilist = [[NSMutableArray alloc] initWithCapacity:numItems];
+
+    return self;
 }
 
-
-- (void) deallic
+- (void)dealloc;
 {
-  [ilist release];
-  [super dealloc];
+    [ilist release];
+    [super dealloc];
 }
 
-- (unsigned) count
+- (unsigned)count;
 {
-  return [ilist count];
+    return [ilist count];
 }
 
-- (unsigned) indexOfObject: (id)anObject
+- (unsigned)indexOfObject:(id)anObject;
 {
-  return [ilist indexOfObject: anObject];
+    return [ilist indexOfObject:anObject];
 }
 
-- (id) lastObject
+- (id)lastObject;
 {
-  return [ilist lastObject];
+    return [ilist lastObject];
 }
 
-- (id) objectAtIndex: (unsigned)index
+- (id)objectAtIndex:(unsigned)index;
 {
-  return [ilist objectAtIndex: index];
+    return [ilist objectAtIndex:index];
 }
 
-- (void) makeObjectsPerform: (SEL)aSelector
+- (void)makeObjectsPerform:(SEL)aSelector;
 {
-  [ilist makeObjectsPerform: aSelector];
-}
-
-
-- (void) addObject: (id)anObject
-{
-  [ilist addObject: anObject];
-}
-
-- (void) insertObject: (id)anObject atIndex: (unsigned)index
-{
-  [ilist insertObject: anObject atIndex: index];
-}
-
-- (void) removeObjectAtIndex: (unsigned)index
-{
-  [ilist removeObjectAtIndex: index];
-}
-
-- (void) removeObject: (id)anObject
-{
-  [ilist removeObject: anObject];
-}
-
-- (void) replaceObjectAtIndex: (unsigned)index
-                   withObject: (id)anObject
-{
-  [ilist replaceObjectAtIndex: index withObject: anObject];
+    [ilist makeObjectsPerformSelector:aSelector];
 }
 
 
-- (void) removeAllObjects
+- (void)addObject:(id)anObject;
 {
-  [ilist removeAllObjects];
+    [ilist addObject:anObject];
 }
 
-- (void) removeLastObject
+- (void)insertObject:(id)anObject atIndex:(unsigned)index;
 {
-  [ilist removeLastObject];
+    [ilist insertObject:anObject atIndex:index];
 }
 
-- (void) encodeWithCoder: (NSCoder*)aCoder
+- (void)removeObjectAtIndex:(unsigned)index;
 {
-  [aCoder encodeObject: ilist];
+    [ilist removeObjectAtIndex:index];
 }
 
-- (id) initWithCoder: (NSCoder*)aDecoder
+- (void)removeObject:(id)anObject;
 {
-  ilist = [[aDecoder decodeObject] retain];
-  return self;
+    [ilist removeObject:anObject];
+}
+
+- (void)replaceObjectAtIndex:(unsigned)index
+                  withObject:(id)anObject;
+{
+    [ilist replaceObjectAtIndex:index withObject:anObject];
+}
+
+
+- (void)removeAllObjects;
+{
+    [ilist removeAllObjects];
+}
+
+- (void)removeLastObject;
+{
+    [ilist removeLastObject];
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder;
+{
+    [aCoder encodeObject:ilist];
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder;
+{
+    ilist = [[aDecoder decodeObject] retain];
+    return self;
 }
 
 #ifdef NeXT
 - read:(NXTypedStream *)stream
 {
-        printf("Reading typedstream in MonetList\n");
-        return self;
+    printf("Reading typedstream in MonetList\n");
+    return self;
 }
 #endif
 
@@ -119,80 +121,79 @@
 
 - (id) initWithCapacity: (unsigned)numItems
 {
-  return [self initCount: numItems];
+    return [self initCount: numItems];
 }
 
 - (void) deallic
 {
-  /* Don't cause any trouble... */
-  [super dealloc];
+    /* Don't cause any trouble... */
+    [super dealloc];
 }
 
 - (unsigned) indexOfObject: (id)anObject
 {
-  return [self indexOf: anObject];
+    return [self indexOf: anObject];
 }
 
 - (id) objectAtIndex: (unsigned)index
 {
-  return [self objectAt: index];
+    return [self objectAt: index];
 }
 
 - (void) insertObject: (id)anObject atIndex: (unsigned)index
 {
-  [self insertObject: anObject at: index];
+    [self insertObject: anObject at: index];
 }
 
 - (void) removeObjectAtIndex: (unsigned)index
 {
-  [self removeObjectAt: index];
+    [self removeObjectAt: index];
 }
 
 - (void) replaceObjectAtIndex: (unsigned)index
                    withObject: (id)anObject
 {
-  [self replaceObjectAt: index with: anObject];
+    [self replaceObjectAt: index with: anObject];
 }
 
 
 - (void) removeAllObjects
 {
-  [self empty];
+    [self empty];
 }
 
 - removeLastObject
 {
-  [self removeObjectAt: [self count] - 1];
-  return self;
+    [self removeObjectAt: [self count] - 1];
+    return self;
 }
 
 - (id) replacementObjectForCoder: (NSCoder*)anEncoder
 {
-  /* We're being told to encode ourselves, substitute instead the MonetList
-     class */
-  int i, count;
-  MonetList *mlist;
-  count = [self count];
-  mlist = [[MonetList alloc] initWithCapacity: count];
-  for (i = 0; i < count; i++)
-    [mlist addObject: [self objectAt: i]];
-  return mlist;
+    /* We're being told to encode ourselves, substitute instead the MonetList
+       class */
+    int i, count;
+    MonetList *mlist;
+    count = [self count];
+    mlist = [[MonetList alloc] initWithCapacity: count];
+    for (i = 0; i < count; i++)
+        [mlist addObject: [self objectAt: i]];
+    return mlist;
 }
 
 - (void) encodeWithCoder: (NSCoder*)aCoder
 {
-  /* We're encoding a subclass, but now the superclass should be MonetList */
-  NSArray *alist;
-  alist = [NSArray arrayWithObjects: dataPtr count: [self count]];
-  [aCoder encodeObject: alist];
+    /* We're encoding a subclass, but now the superclass should be MonetList */
+    NSArray *alist;
+    alist = [NSArray arrayWithObjects: dataPtr count: [self count]];
+    [aCoder encodeObject: alist];
 }
 
 - (id) initWithCoder: (NSCoder*)aDecoder
 {
-  NSLog(@"In List:initWithCoder - shouldn't be here");
-  return self;
+    NSLog(@"In List:initWithCoder - shouldn't be here");
+    return self;
 }
 
 @end
 #endif /* NeXT */
-

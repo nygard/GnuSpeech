@@ -1,7 +1,4 @@
-
 #import <Foundation/NSObject.h>
-#import "TargetList.h"
-#import "CategoryList.h"
 
 /*===========================================================================
 
@@ -12,35 +9,35 @@
 =============================================================================
 */
 
-@interface Parameter:NSObject
+@interface Parameter : NSObject
 {
-	char 	*parameterSymbol;
-	char	*comment;
-	double	minimum;
-	double	maximum;
-	double	defaultValue;
-
+    NSString *parameterSymbol;
+    NSString *comment;
+    double minimum;
+    double maximum;
+    double defaultValue;
 }
 
-- init;
-- initWithSymbol:(const char *) newSymbol;
+- (id)init;
+- (id)initWithSymbol:(NSString *)newSymbol;
 - (void)dealloc;
 
-- (void)setSymbol:(const char *)newSymbol;
-- (const char *)symbol;
-- (void)setComment:(const char *)newComment;
-- (const char *) comment;
+- (NSString *)symbol;
+- (void)setSymbol:(NSString *)newSymbol;
 
+- (NSString *)comment;
+- (void)setComment:(NSString *)newComment;
+
+- (double)minimumValue;
 - (void)setMinimumValue:(double)newMinimum;
-- (double) minimumValue;
 
+- (double)maximumValue;
 - (void)setMaximumValue:(double)newMaximum;
-- (double) maximumValue;
 
+- (double)defaultValue;
 - (void)setDefaultValue:(double)newDefault;
-- (double) defaultValue;
 
-- (id)initWithCoder:(NSCoder *)aDecoder;
-- (void)encodeWithCoder:(NSCoder *)aCoder;
+//- (id)initWithCoder:(NSCoder *)aDecoder;
+//- (void)encodeWithCoder:(NSCoder *)aCoder;
 
 @end

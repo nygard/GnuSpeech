@@ -1,7 +1,6 @@
-
 #import "MonetList.h"
-#import "Symbol.h"
-#import <stdio.h>
+
+@class Symbol;
 
 /*===========================================================================
 
@@ -12,18 +11,19 @@
 =============================================================================
 */
 
-@interface SymbolList:MonetList
+@interface SymbolList : MonetList
 {
 }
 
-- findSymbol:(const char *)searchSymbol;
-- (int) findSymbolIndex:(const char *) searchSymbol;
-- addSymbol:(const char *) symbol withValue:(double) newValue;
-- (void)printDataTo:(FILE *)fp;
+- (Symbol *)findSymbol:(NSString *)searchSymbol;
+- (int)findSymbolIndex:(NSString *)searchSymbol;
+- (void)addSymbol:(NSString *)symbol withValue:(double)newValue;
 
 /* BrowserManager List delegate Methods */
-- (void)addNewValue:(const char *)newValue;
-- findByName:(const char *)name;
-- (void)changeSymbolOf:temp to:(const char *)name;
+- (void)addNewValue:(NSString *)newValue;
+- (Symbol *)findByName:(NSString *)name;
+- (void)changeSymbolOf:(Symbol *)aSymbol to:(NSString *)name;
+
+//- (void)printDataTo:(FILE *)fp;
 
 @end
