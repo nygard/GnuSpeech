@@ -53,150 +53,131 @@ int parseInputFile(const char *inputFile)
     /*  OPEN THE INPUT FILE  */
     if ((fp = fopen(inputFile, "r")) == NULL) {
 	fprintf(stderr, "Can't open input file \"%s\".\n", inputFile);
-	return (ERROR);
+	return ERROR;
     }
 
 
     /*  GET THE OUTPUT FILE FORMAT  */
     if (fgets(line, 128, fp) == NULL) {
 	fprintf(stderr, "Can't read output file format.\n");
-	return(ERROR);
-    }
-    else
+	return ERROR;
+    } else
 	outputFileFormat = strtol(line, NULL, 10);
 
     /*  GET THE OUTPUT SAMPLE RATE  */
     if (fgets(line, 128, fp) == NULL) {
 	fprintf(stderr, "Can't read output sample rate.\n");
-	return(ERROR);
-    }
-    else
+	return ERROR;
+    } else
 	outputRate = strtod(line, NULL);
 
     /*  GET THE INPUT CONTROL RATE  */
     if (fgets(line, 128, fp) == NULL) {
 	fprintf(stderr, "Can't read input control rate.\n");
-	return(ERROR);
-    }
-    else
+	return ERROR;
+    } else
 	controlRate = strtod(line, NULL);
 
 
     /*  GET THE MASTER VOLUME  */
     if (fgets(line, 128, fp) == NULL) {
 	fprintf(stderr, "Can't read master volume.\n");
-	return(ERROR);
-    }
-    else
+	return ERROR;
+    } else
 	volume = strtod(line, NULL);
 
     /*  GET THE NUMBER OF SOUND OUTPUT CHANNELS  */
     if (fgets(line, 128, fp) == NULL) {
 	fprintf(stderr, "Can't read number of sound output channels.\n");
-	return(ERROR);
-    }
-    else
+	return ERROR;
+    } else
 	channels = strtol(line, NULL, 10);
 
     /*  GET THE STEREO BALANCE  */
     if (fgets(line, 128, fp) == NULL) {
 	fprintf(stderr, "Can't read stereo balance.\n");
-	return(ERROR);
-    }
-    else
+	return ERROR;
+    } else
 	balance = strtod(line, NULL);
 
 
     /*  GET THE GLOTTAL SOURCE WAVEFORM TYPE  */
     if (fgets(line, 128, fp) == NULL) {
 	fprintf(stderr, "Can't read glottal source waveform type.\n");
-	return(ERROR);
-    }
-    else
+	return ERROR;
+    } else
 	waveform = strtol(line, NULL, 10);
 
     /*  GET THE GLOTTAL PULSE RISE TIME (tp)  */
     if (fgets(line, 128, fp) == NULL) {
 	fprintf(stderr, "Can't read glottal pulse rise time (tp).\n");
-	return(ERROR);
-    }
-    else
+	return ERROR;
+    } else
 	tp = strtod(line, NULL);
 
     /*  GET THE GLOTTAL PULSE FALL TIME MINIMUM (tnMin)  */
     if (fgets(line, 128, fp) == NULL) {
-	fprintf(stderr,
-		"Can't read glottal pulse fall time minimum (tnMin).\n");
-	return(ERROR);
-    }
-    else
+	fprintf(stderr, "Can't read glottal pulse fall time minimum (tnMin).\n");
+	return ERROR;
+    } else
 	tnMin = strtod(line, NULL);
 
     /*  GET THE GLOTTAL PULSE FALL TIME MAXIMUM (tnMax)  */
     if (fgets(line, 128, fp) == NULL) {
-	fprintf(stderr,
-		"Can't read glottal pulse fall time maximum (tnMax).\n");
-	return(ERROR);
-    }
-    else
+	fprintf(stderr, "Can't read glottal pulse fall time maximum (tnMax).\n");
+	return ERROR;
+    } else
 	tnMax = strtod(line, NULL);
 
     /*  GET THE GLOTTAL SOURCE BREATHINESS  */
     if (fgets(line, 128, fp) == NULL) {
 	fprintf(stderr, "Can't read glottal source breathiness.\n");
-	return(ERROR);
-    }
-    else
+	return ERROR;
+    } else
 	breathiness = strtod(line, NULL);
 
 
     /*  GET THE NOMINAL TUBE LENGTH  */
     if (fgets(line, 128, fp) == NULL) {
 	fprintf(stderr, "Can't read nominal tube length.\n");
-	return(ERROR);
-    }
-    else
+	return ERROR;
+    } else
 	length = strtod(line, NULL);
 
     /*  GET THE TUBE TEMPERATURE  */
     if (fgets(line, 128, fp) == NULL) {
 	fprintf(stderr, "Can't read tube temperature.\n");
-	return(ERROR);
-    }
-    else
+	return ERROR;
+    } else
 	temperature = strtod(line, NULL);
 
     /*  GET THE JUNCTION LOSS FACTOR  */
     if (fgets(line, 128, fp) == NULL) {
 	fprintf(stderr, "Can't read junction loss factor.\n");
-	return(ERROR);
-    }
-    else
+	return ERROR;
+    } else
 	lossFactor = strtod(line, NULL);
 
 
     /*  GET THE APERTURE SCALING RADIUS  */
     if (fgets(line, 128, fp) == NULL) {
 	fprintf(stderr, "Can't read aperture scaling radius.\n");
-	return(ERROR);
-    }
-    else
+	return ERROR;
+    } else
 	apScale = strtod(line, NULL);
 
     /*  GET THE MOUTH APERTURE COEFFICIENT  */
     if (fgets(line, 128, fp) == NULL) {
 	fprintf(stderr, "Can't read mouth aperture coefficient\n");
-	return(ERROR);
-    }
-    else
+	return ERROR;
+    } else
 	mouthCoef = strtod(line, NULL);
 
     /*  GET THE NOSE APERTURE COEFFICIENT  */
     if (fgets(line, 128, fp) == NULL) {
 	fprintf(stderr, "Can't read nose aperture coefficient\n");
-	return(ERROR);
-    }
-    else
+	return ERROR;
+    } else
 	noseCoef = strtod(line, NULL);
 
 
@@ -204,9 +185,8 @@ int parseInputFile(const char *inputFile)
     for (i = 1; i < TOTAL_NASAL_SECTIONS; i++) {
 	if (fgets(line, 128, fp) == NULL) {
 	    fprintf(stderr, "Can't read nose radius %-d.\n", i);
-	    return(ERROR);
-	}
-	else
+	    return ERROR;
+	} else
 	    noseRadius[i] = strtod(line, NULL);
     }
 
@@ -214,34 +194,30 @@ int parseInputFile(const char *inputFile)
     /*  GET THE THROAT LOWPASS FREQUENCY CUTOFF  */
     if (fgets(line, 128, fp) == NULL) {
 	fprintf(stderr, "Can't read throat lowpass filter cutoff.\n");
-	return(ERROR);
-    }
-    else
+	return ERROR;
+    } else
 	throatCutoff = strtod(line, NULL);
 
     /*  GET THE THROAT VOLUME  */
     if (fgets(line, 128, fp) == NULL) {
 	fprintf(stderr, "Can't read throat volume.\n");
-	return(ERROR);
-    }
-    else
+	return ERROR;
+    } else
 	throatVol = strtod(line, NULL);
 
 
     /*  GET THE PULSE MODULATION OF NOISE FLAG  */
     if (fgets(line, 128, fp) == NULL) {
 	fprintf(stderr, "Can't read pulse modulation of noise flag.\n");
-	return(ERROR);
-    }
-    else
+	return ERROR;
+    } else
 	modulation = strtol(line, NULL, 10);
 
     /*  GET THE NOISE CROSSMIX OFFSET  */
     if (fgets(line, 128, fp) == NULL) {
 	fprintf(stderr, "Can't read noise crossmix offset.\n");
-	return(ERROR);
-    }
-    else
+	return ERROR;
+    } else
 	mixOffset = strtod(line, NULL);
 
 
@@ -281,7 +257,7 @@ int parseInputFile(const char *inputFile)
     fclose(fp);
 
     /*  RETURN SUCCESS  */
-    return (SUCCESS);
+    return SUCCESS;
 }
 
 /******************************************************************************
@@ -313,11 +289,11 @@ void printInfo(void)
     /*  ECHO INPUT PARAMETERS  */
     printf("outputFileFormat:\t");
     if (outputFileFormat == AU_FILE_FORMAT)
-      printf("AU\n");
+        printf("AU\n");
     else if (outputFileFormat == AIFF_FILE_FORMAT)
-      printf("AIFF\n");
+        printf("AIFF\n");
     else if (outputFileFormat == WAVE_FILE_FORMAT)
-      printf("WAVE\n");
+        printf("WAVE\n");
 
     printf("outputRate:\t\t%.1f Hz\n", outputRate);
     printf("controlRate:\t\t%.2f Hz\n\n", controlRate);
@@ -371,7 +347,7 @@ void printInfo(void)
 #endif
 
     /*  ECHO TABLE VALUES  */
-    printf("\n%-d control rate input tables:\n\n", numberInputTables-1);
+    printf("\n%-d control rate input tables:\n\n", numberInputTables - 1);
 
     /*  HEADER  */
     printf("glPitch");
@@ -389,6 +365,7 @@ void printInfo(void)
     ptr = inputHead;
     for (i = 0; i < numberInputTables-1; i++) {
 	int j;
+
 	printf("%.2f", glotPitchAt(ptr));
 	printf("\t%.2f", glotVolAt(ptr));
 	printf("\t%.2f", aspVolAt(ptr));
