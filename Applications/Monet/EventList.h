@@ -62,7 +62,7 @@ struct _rule {
     int firstPhone;
     int lastPhone;
     double duration;
-    double beat;
+    double beat; // absolute time of beat, in milliseconds
 };
 
 
@@ -70,7 +70,7 @@ struct _rule {
 {
     int zeroRef;
     int zeroIndex;
-    int duration;
+    int duration; // Move... somewhere.
     int timeQuantization; // in msecs.  By default it generates parameters every 4 msec
 
     BOOL shouldStoreParameters; // YES -> -generateOutput writes to /tmp/Monet.parameters
@@ -82,7 +82,7 @@ struct _rule {
     double radiusMultiply;
     double pitchMean;
     double globalTempo;
-    double multiplier;
+    double multiplier; // Move... somewhere.
     struct _intonationParameters intonationParameters;
 
     /* NOTE phones and phoneTempo are separate for Optimization reasons */

@@ -148,6 +148,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
 
 - (void)setDuration:(int)newValue;
 {
+    NSLog(@"duration: %d", duration);
     duration = newValue;
 }
 
@@ -733,7 +734,8 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
             matchedRule = [aModel findRuleMatchingCategories:tempCategoryList ruleIndex:&ruleIndex];
             rules[currentRule].number = ruleIndex + 1;
 
-            //NSLog(@"Applying rule %d", ruleIndex + 1);
+            NSLog(@"----------------------------------------------------------------------");
+            NSLog(@"Applying rule %d", ruleIndex + 1);
             [self applyRule:matchedRule withPhones:tempPhoneList andTempos:&phoneTempo[index] phoneIndex:index+1 model:aModel];
 
             index += [matchedRule numberExpressions] - 1;
@@ -774,15 +776,19 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
 
     bzero(&ruleSymbols, sizeof(MMFRuleSymbols));
     [rule evaluateExpressionSymbols:&ruleSymbols tempos:tempos phones:phoneList withCache:cache];
+    NSLog(@"Rule symbols, duration: %.2f, beat: %.2f, mark1: %.2f, mark2: %.2f, mark3: %.2f",
+          ruleSymbols.ruleDuration, ruleSymbols.beat, ruleSymbols.mark1, ruleSymbols.mark2, ruleSymbols.mark3);
 
     // TODO (2004-08-14): Is this supposed to change the multiplier?  I suppose so, since setMultiplier: is never used.
+    NSLog(@"multiplier before: %f", multiplier);
     multiplier = 1.0 / (double)(phones[phoneIndex-1].ruleTempo);
+    NSLog(@"multiplier after: %f", multiplier);
 
     type = [rule numberExpressions];
     [self setDuration:(int)(ruleSymbols.ruleDuration * multiplier)];
 
     rules[currentRule].firstPhone = phoneIndex - 1;
-    rules[currentRule].lastPhone = phoneIndex - 2 + type;
+    rules[currentRule].lastPhone = phoneIndex + (type - 2);
     rules[currentRule].beat = (ruleSymbols.beat * multiplier) + (double)zeroRef;
     rules[currentRule++].duration = ruleSymbols.ruleDuration * multiplier;
 
@@ -1053,10 +1059,10 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
 
                 for (postureIndex = feet[footIndex].start; postureIndex <= feet[footIndex].end; postureIndex++) {
                     if (rules[ruleIndex].firstPhone == postureIndex) {
-                        NSLog(@"    Posture %2d  tempo: %.3f, syllable: %d, onset: %7.2f, ruleTempo: %.3f, %@ # Rule %2d, duration: %7.2f",
+                        NSLog(@"    Posture %2d  tempo: %.3f, syllable: %d, onset: %7.2f, ruleTempo: %.3f, %@ # Rule %2d, duration: %7.2f, beat: %7.2f",
                               postureIndex, phoneTempo[postureIndex], phones[postureIndex].syllable, phones[postureIndex].onset,
                               phones[postureIndex].ruleTempo, [[phones[postureIndex].phone name] leftJustifiedStringPaddedToLength:18],
-                              rules[ruleIndex].number, rules[ruleIndex].duration);
+                              rules[ruleIndex].number, rules[ruleIndex].duration, rules[ruleIndex].beat);
                         ruleIndex++;
                     } else {
                         NSLog(@"    Posture %2d  tempo: %.3f, syllable: %d, onset: %7.2f, ruleTempo: %.3f, %@",
