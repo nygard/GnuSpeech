@@ -1,6 +1,6 @@
 #import <Foundation/NSObject.h>
 
-@class Event, MMIntonationPoint, MModel, MMPosture, MMRule, PhoneList;
+@class Event, MMIntonationPoint, MModel, MMPosture, MMPostureRewriter, MMRule, PhoneList;
 
 /*===========================================================================
 
@@ -71,6 +71,10 @@ extern NSString *EventListDidRemoveIntonationPoint;
 
 @interface EventList : NSObject
 {
+    MModel *model;
+
+    MMPostureRewriter *postureRewriter;
+
     int zeroRef;
     int zeroIndex; // Event index derived from zeroRef.
 
@@ -114,6 +118,9 @@ extern NSString *EventListDidRemoveIntonationPoint;
 
 - (id)init;
 - (void)dealloc;
+
+- (MModel *)model;
+- (void)setModel:(MModel *)newModel;
 
 - (id)delegate;
 - (void)setDelegate:(id)newDelegate;
@@ -220,5 +227,11 @@ extern NSString *EventListDidRemoveIntonationPoint;
 - (void)removeEmptyEvents;
 
 - (void)intonationPointDidChange:(MMIntonationPoint *)anIntonationPoint;
+
+// Other
+- (void)parsePhoneString:(NSString *)str withModel:(MModel *)aModel;
+
+// Archiving - XML
+- (BOOL)writeXMLToFile:(NSString *)aFilename comment:(NSString *)aComment;
 
 @end

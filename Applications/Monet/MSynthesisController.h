@@ -6,7 +6,7 @@
 
 #import "EventList.h" // for struct _intonationParameters
 
-@class MMIntonationPoint, MModel, MMPostureRewriter;
+@class MMIntonationPoint, MModel;
 @class EventListView, IntonationView;
 @class TRMSynthesizer;
 
@@ -50,7 +50,6 @@
     MModel *model;
     NSMutableArray *displayParameters;
     EventList *eventList;
-    MMPostureRewriter *postureRewriter;
 
     TRMSynthesizer *synthesizer;
 
@@ -92,7 +91,6 @@
 - (IBAction)generateGraphImages:(id)sender;
 
 - (IBAction)addPhoneString:(id)sender;
-- (void)parsePhoneString:(NSString *)str;
 
 // Intonation Point details
 - (MMIntonationPoint *)selectedIntonationPoint;

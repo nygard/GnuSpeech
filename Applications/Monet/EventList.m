@@ -1,6 +1,9 @@
 #import "EventList.h"
 
 #import <Foundation/Foundation.h>
+#import "NSArray-Extensions.h"
+#import "NSCharacterSet-Extensions.h"
+#import "NSScanner-Extensions.h"
 #import "NSString-Extensions.h"
 #import "driftGenerator.h"
 #import "CategoryList.h"
@@ -12,6 +15,7 @@
 #import "MMParameter.h"
 #import "MMPoint.h"
 #import "MMPosture.h"
+#import "MMPostureRewriter.h"
 #import "MMRule.h"
 #import "MMSlopeRatio.h"
 #import "MMTarget.h"
@@ -44,6 +48,9 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
     if ([super init] == nil)
         return nil;
 
+    model = nil;
+    postureRewriter = [[MMPostureRewriter alloc] initWithModel:nil];
+
     events = [[NSMutableArray alloc] init];
     intonationPoints = [[NSMutableArray alloc] init];
 
@@ -57,11 +64,33 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
 
 - (void)dealloc;
 {
+    [model release];
+    [postureRewriter release];
+
     [events release];
     [intonationPoints release];
     [delegate release];
 
     [super dealloc];
+}
+
+- (MModel *)model;
+{
+    return model;
+}
+
+- (void)setModel:(MModel *)newModel;
+{
+    if (newModel == model)
+        return;
+
+    // TODO (2004-08-19): Maybe it's better just to allocate a new one?  Or create it just before synthesis?
+    [self setUp]; // So that we don't have stuff left over from the previous model, which can cause a crash.
+
+    [model release];
+    model = [newModel retain];
+
+    [postureRewriter setModel:model];
 }
 
 - (id)delegate;
@@ -1269,6 +1298,180 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
 - (void)intonationPointDidChange:(MMIntonationPoint *)anIntonationPoint;
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidChangeIntonationPoint object:self userInfo:nil];
+}
+
+//
+// Other
+//
+
+// EventList API used:
+//  - setCurrentToneGroupType:
+//  - newFoot
+//  - setCurrentFooLast
+//  - setCurrentFootMarked
+//  - newToneGroup
+//  - setCurrentFootTempo:
+//  - setCurrentPhoneSyllable
+//  - newPhoneWithObject:
+//  - setCurrentPhoneTempo:
+//  - setCurrentPhoneRuleTempo:
+- (void)parsePhoneString:(NSString *)str withModel:(MModel *)aModel;
+{
+    MMPosture *aPhone;
+    int lastFoot = 0, markedFoot = 0;
+    double footTempo = 1.0;
+    double ruleTempo = 1.0;
+    double aPhoneTempo = 1.0;
+    double aDouble;
+    NSScanner *scanner;
+    NSCharacterSet *whitespaceCharacterSet = [NSCharacterSet phoneStringWhitespaceCharacterSet];
+    NSCharacterSet *defaultCharacterSet = [NSCharacterSet phoneStringIdentifierCharacterSet];
+    NSString *buffer;
+    BOOL wordMarker = NO;
+
+    scanner = [[[NSScanner alloc] initWithString:str] autorelease];
+    [scanner setCharactersToBeSkipped:nil];
+
+    while ([scanner isAtEnd] == NO) {
+        [scanner scanCharactersFromSet:whitespaceCharacterSet intoString:NULL];
+        if ([scanner isAtEnd] == YES)
+            break;
+
+        if ([scanner scanString:@"/" intoString:NULL] == YES) {
+            // Handle "/" escape sequences
+            if ([scanner scanString:@"0" intoString:NULL] == YES) {
+                // Tone group 0. Statement
+                //NSLog(@"Tone group 0. Statement");
+                [self setCurrentToneGroupType:STATEMENT];
+            } else if ([scanner scanString:@"1" intoString:NULL] == YES) {
+                // Tone group 1. Exclamation
+                //NSLog(@"Tone group 1. Exclamation");
+                [self setCurrentToneGroupType:EXCLAMATION];
+            } else if ([scanner scanString:@"2" intoString:NULL] == YES) {
+                // Tone group 2. Question
+                //NSLog(@"Tone group 2. Question");
+                [self setCurrentToneGroupType:QUESTION];
+            } else if ([scanner scanString:@"3" intoString:NULL] == YES) {
+                // Tone group 3. Continuation
+                //NSLog(@"Tone group 3. Continuation");
+                [self setCurrentToneGroupType:CONTINUATION];
+            } else if ([scanner scanString:@"4" intoString:NULL] == YES) {
+                // Tone group 4. Semi-colon
+                //NSLog(@"Tone group 4. Semi-colon");
+                [self setCurrentToneGroupType:SEMICOLON];
+            } else if ([scanner scanString:@" " intoString:NULL] == YES || [scanner scanString:@"_" intoString:NULL] == YES) {
+                // New foot
+                //NSLog(@"New foot");
+                [self newFoot];
+                if (lastFoot)
+                    [self setCurrentFootLast];
+                footTempo = 1.0;
+                lastFoot = 0;
+                markedFoot = 0;
+            } else if ([scanner scanString:@"*" intoString:NULL] == YES) {
+                // New Marked foot
+                //NSLog(@"New Marked foot");
+                [self newFoot];
+                [self setCurrentFootMarked];
+                if (lastFoot)
+                    [self setCurrentFootLast];
+
+                footTempo = 1.0;
+                lastFoot = 0;
+                markedFoot = 1;
+            } else if ([scanner scanString:@"/" intoString:NULL] == YES) {
+                // New Tone Group
+                //NSLog(@"New Tone Group");
+                [self newToneGroup];
+            } else if ([scanner scanString:@"c" intoString:NULL] == YES) {
+                // New Chunk
+                //NSLog(@"New Chunk -- not sure that this is working.");
+            } else if ([scanner scanString:@"w" intoString:NULL] == YES) {
+                // Word Marker
+                wordMarker = YES;
+            } else if ([scanner scanString:@"l" intoString:NULL] == YES) {
+                // Last Foot in tone group marker
+                //NSLog(@"Last Foot in tone group");
+                lastFoot = 1;
+            } else if ([scanner scanString:@"f" intoString:NULL] == YES) {
+                // Foot tempo indicator
+                //NSLog(@"Foot tempo indicator - 'f'");
+                [scanner scanCharactersFromSet:whitespaceCharacterSet intoString:NULL];
+                if ([scanner scanDouble:&aDouble] == YES) {
+                    //NSLog(@"current foot tempo: %g", aDouble);
+                    [self setCurrentFootTempo:aDouble];
+                }
+            } else if ([scanner scanString:@"r" intoString:NULL] == YES) {
+                // Foot tempo indicator
+                //NSLog(@"Foot tempo indicator - 'r'");
+                [scanner scanCharactersFromSet:whitespaceCharacterSet intoString:NULL];
+                if ([scanner scanDouble:&aDouble] == YES) {
+                    //NSLog(@"ruleTemp = %g", aDouble);
+                    ruleTempo = aDouble;
+                }
+            } else {
+                // Skip character
+                [scanner scanCharacter:NULL];
+            }
+        } else if ([scanner scanString:@"." intoString:NULL] == YES) {
+            // Syllable Marker
+            //NSLog(@"Syllable Marker");
+            [self setCurrentPhoneSyllable];
+        } else if ([scanner scanDouble:&aDouble] == YES) {
+            // TODO (2004-03-05): The original scanned digits and '.', and then used atof.
+            //NSLog(@"aPhoneTempo = %g", aDouble);
+            aPhoneTempo = aDouble;
+        } else {
+            if ([scanner scanCharactersFromSet:defaultCharacterSet intoString:&buffer] == YES) {
+                //NSLog(@"Scanned this: '%@'", buffer);
+                if (markedFoot)
+                    buffer = [buffer stringByAppendingString:@"'"];
+                aPhone = [aModel postureWithName:buffer];
+                //NSLog(@"aPhone: %p (%@), eventList: %p", aPhone, [aPhone name], self); // Each has the same event list
+                if (aPhone) {
+                    [postureRewriter rewriteEventList:self withNextPosture:aPhone wordMarker:wordMarker];
+
+                    [self newPhoneWithObject:aPhone];
+                    [self setCurrentPhoneTempo:aPhoneTempo];
+                    [self setCurrentPhoneRuleTempo:(float)ruleTempo];
+                }
+                aPhoneTempo = 1.0;
+                ruleTempo = 1.0;
+                wordMarker = NO;
+            } else {
+                break;
+            }
+        }
+    }
+
+    [self endCurrentToneGroup];
+}
+
+//
+// Archiving - XML
+//
+
+- (BOOL)writeXMLToFile:(NSString *)aFilename comment:(NSString *)aComment;
+{
+    NSMutableString *resultString;
+    BOOL result;
+
+    resultString = [[NSMutableString alloc] init];
+    [resultString appendString:@"<?xml version='1.0' encoding='utf-8'?>\n"];
+    //[resultString appendString:@"<!DOCTYPE root PUBLIC \"\" \"monet-v1.dtd\">\n"];
+    if (aComment != nil)
+        [resultString appendFormat:@"<!-- %@ -->\n", aComment];
+    [resultString appendString:@"<root version='1'>\n"];
+
+    [intonationPoints appendXMLToString:resultString elementName:@"intonation-points" level:1];
+
+    [resultString appendString:@"</root>\n"];
+
+    result = [[resultString dataUsingEncoding:NSUTF8StringEncoding] writeToFile:aFilename atomically:YES];
+
+    [resultString release];
+
+    return result;
 }
 
 @end

@@ -6,9 +6,7 @@
 #include <sys/time.h>
 #import <AppKit/AppKit.h>
 #import "GSXMLFunctions.h"
-#import "NSCharacterSet-Extensions.h"
 #import "NSNumberFormatter-Extensions.h"
-#import "NSScanner-Extensions.h"
 #import "NSString-Extensions.h"
 
 #import "Event.h" // For MAX_EVENTS
@@ -20,7 +18,6 @@
 #import "MMIntonationPoint.h"
 #import "MModel.h"
 #import "MMParameter.h"
-#import "MMPostureRewriter.h"
 #import "MMSynthesisParameters.h"
 #include "driftGenerator.h"
 
@@ -64,7 +61,6 @@
     [self _updateDisplayParameters];
 
     eventList = [[EventList alloc] init];
-    postureRewriter = [[MMPostureRewriter alloc] initWithModel:model];
 
     [self setWindowFrameAutosaveName:@"Synthesis"];
 
@@ -78,7 +74,6 @@
     [model release];
     [displayParameters release];
     [eventList release];
-    [postureRewriter release];
     [synthesizer release];
 
     [super dealloc];
@@ -97,9 +92,7 @@
     [model release];
     model = [newModel retain];
 
-    [postureRewriter setModel:model];
-
-    [eventList setUp]; // So that we don't have stuff left over from the previous model, which can cause a crash.
+    [eventList setModel:model];
 
     [self _updateDisplayParameters];
     [self _updateEventColumns];
@@ -361,7 +354,7 @@
     [self _takeIntonationParametersFromUI];
     [eventList setIntonationParameters:intonationParameters];
 
-    [self parsePhoneString:[stringTextField stringValue]];
+    [eventList parsePhoneString:[stringTextField stringValue] withModel:[self model]];
 
     [eventList generateEventListWithModel:model];
 
@@ -446,7 +439,7 @@
     [eventList setIntonationParameters:intonationParameters];
 
     // This adds events to the EventList
-    [self parsePhoneString:[stringTextField stringValue]];
+    [eventList parsePhoneString:[stringTextField stringValue] withModel:[self model]];
 
     [eventList generateEventListWithModel:model];
 
@@ -626,150 +619,6 @@
     [stringTextField removeItemWithObjectValue:str];
     [stringTextField insertItemWithObjectValue:str atIndex:0];
     [[NSUserDefaults standardUserDefaults] setObject:[stringTextField objectValues] forKey:MDK_DefaultUtterances];
-}
-
-// TODO (2004-08-01): This should be moved into the model, perhaps what is currently called EventList.
-// EventList API used:
-//  - setCurrentToneGroupType:
-//  - newFoot
-//  - setCurrentFooLast
-//  - setCurrentFootMarked
-//  - newToneGroup
-//  - setCurrentFootTempo:
-//  - setCurrentPhoneSyllable
-//  - newPhoneWithObject:
-//  - setCurrentPhoneTempo:
-//  - setCurrentPhoneRuleTempo:
-- (void)parsePhoneString:(NSString *)str;
-{
-    MMPosture *aPhone;
-    int lastFoot = 0, markedFoot = 0;
-    double footTempo = 1.0;
-    double ruleTempo = 1.0;
-    double phoneTempo = 1.0;
-    double aDouble;
-    NSScanner *scanner;
-    NSCharacterSet *whitespaceCharacterSet = [NSCharacterSet phoneStringWhitespaceCharacterSet];
-    NSCharacterSet *defaultCharacterSet = [NSCharacterSet phoneStringIdentifierCharacterSet];
-    NSString *buffer;
-    BOOL wordMarker = NO;
-
-    scanner = [[[NSScanner alloc] initWithString:str] autorelease];
-    [scanner setCharactersToBeSkipped:nil];
-
-    while ([scanner isAtEnd] == NO) {
-        [scanner scanCharactersFromSet:whitespaceCharacterSet intoString:NULL];
-        if ([scanner isAtEnd] == YES)
-            break;
-
-        if ([scanner scanString:@"/" intoString:NULL] == YES) {
-            // Handle "/" escape sequences
-            if ([scanner scanString:@"0" intoString:NULL] == YES) {
-                // Tone group 0. Statement
-                //NSLog(@"Tone group 0. Statement");
-                [eventList setCurrentToneGroupType:STATEMENT];
-            } else if ([scanner scanString:@"1" intoString:NULL] == YES) {
-                // Tone group 1. Exclamation
-                //NSLog(@"Tone group 1. Exclamation");
-                [eventList setCurrentToneGroupType:EXCLAMATION];
-            } else if ([scanner scanString:@"2" intoString:NULL] == YES) {
-                // Tone group 2. Question
-                //NSLog(@"Tone group 2. Question");
-                [eventList setCurrentToneGroupType:QUESTION];
-            } else if ([scanner scanString:@"3" intoString:NULL] == YES) {
-                // Tone group 3. Continuation
-                //NSLog(@"Tone group 3. Continuation");
-                [eventList setCurrentToneGroupType:CONTINUATION];
-            } else if ([scanner scanString:@"4" intoString:NULL] == YES) {
-                // Tone group 4. Semi-colon
-                //NSLog(@"Tone group 4. Semi-colon");
-                [eventList setCurrentToneGroupType:SEMICOLON];
-            } else if ([scanner scanString:@" " intoString:NULL] == YES || [scanner scanString:@"_" intoString:NULL] == YES) {
-                // New foot
-                //NSLog(@"New foot");
-                [eventList newFoot];
-                if (lastFoot)
-                    [eventList setCurrentFootLast];
-                footTempo = 1.0;
-                lastFoot = 0;
-                markedFoot = 0;
-            } else if ([scanner scanString:@"*" intoString:NULL] == YES) {
-                // New Marked foot
-                //NSLog(@"New Marked foot");
-                [eventList newFoot];
-                [eventList setCurrentFootMarked];
-                if (lastFoot)
-                    [eventList setCurrentFootLast];
-
-                footTempo = 1.0;
-                lastFoot = 0;
-                markedFoot = 1;
-            } else if ([scanner scanString:@"/" intoString:NULL] == YES) {
-                // New Tone Group
-                //NSLog(@"New Tone Group");
-                [eventList newToneGroup];
-            } else if ([scanner scanString:@"c" intoString:NULL] == YES) {
-                // New Chunk
-                //NSLog(@"New Chunk -- not sure that this is working.");
-            } else if ([scanner scanString:@"w" intoString:NULL] == YES) {
-                // Word Marker
-                wordMarker = YES;
-            } else if ([scanner scanString:@"l" intoString:NULL] == YES) {
-                // Last Foot in tone group marker
-                //NSLog(@"Last Foot in tone group");
-                lastFoot = 1;
-            } else if ([scanner scanString:@"f" intoString:NULL] == YES) {
-                // Foot tempo indicator
-                //NSLog(@"Foot tempo indicator - 'f'");
-                [scanner scanCharactersFromSet:whitespaceCharacterSet intoString:NULL];
-                if ([scanner scanDouble:&aDouble] == YES) {
-                    //NSLog(@"current foot tempo: %g", aDouble);
-                    [eventList setCurrentFootTempo:aDouble];
-                }
-            } else if ([scanner scanString:@"r" intoString:NULL] == YES) {
-                // Foot tempo indicator
-                //NSLog(@"Foot tempo indicator - 'r'");
-                [scanner scanCharactersFromSet:whitespaceCharacterSet intoString:NULL];
-                if ([scanner scanDouble:&aDouble] == YES) {
-                    //NSLog(@"ruleTemp = %g", aDouble);
-                    ruleTempo = aDouble;
-                }
-            } else {
-                // Skip character
-                [scanner scanCharacter:NULL];
-            }
-        } else if ([scanner scanString:@"." intoString:NULL] == YES) {
-            // Syllable Marker
-            //NSLog(@"Syllable Marker");
-            [eventList setCurrentPhoneSyllable];
-        } else if ([scanner scanDouble:&aDouble] == YES) {
-            // TODO (2004-03-05): The original scanned digits and '.', and then used atof.
-            //NSLog(@"phoneTempo = %g", aDouble);
-            phoneTempo = aDouble;
-        } else {
-            if ([scanner scanCharactersFromSet:defaultCharacterSet intoString:&buffer] == YES) {
-                //NSLog(@"Scanned this: '%@'", buffer);
-                if (markedFoot)
-                    buffer = [buffer stringByAppendingString:@"'"];
-                aPhone = [[self model] postureWithName:buffer];
-                //NSLog(@"aPhone: %p (%@), eventList: %p", aPhone, [aPhone name], eventList); // Each has the same event list
-                if (aPhone) {
-                    [postureRewriter rewriteEventList:eventList withNextPosture:aPhone wordMarker:wordMarker];
-
-                    [eventList newPhoneWithObject:aPhone];
-                    [eventList setCurrentPhoneTempo:phoneTempo];
-                    [eventList setCurrentPhoneRuleTempo:(float)ruleTempo];
-                }
-                phoneTempo = 1.0;
-                ruleTempo = 1.0;
-                wordMarker = NO;
-            } else {
-                break;
-            }
-        }
-    }
-
-    [eventList endCurrentToneGroup];
 }
 
 //
