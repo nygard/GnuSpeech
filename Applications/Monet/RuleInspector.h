@@ -2,6 +2,7 @@
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 @class Rule;
+@class Inspector;
 
 /*===========================================================================
 
@@ -25,9 +26,9 @@ History:
 
 @interface RuleInspector : NSObject
 {
-    id mainInspector;
-    id popUpListView;
-    id popUpList;
+    IBOutlet Inspector *mainInspector;
+    IBOutlet NSBox *popUpListView;
+    IBOutlet NSPopUpButton *popUpList;
 
     int currentBrowser;
     id browserView;
@@ -49,21 +50,20 @@ History:
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 - (id)init;
-- (void)inspectRule:rule;
+- (void)inspectRule:(Rule *)rule;
 - (void)setUpWindow:(NSPopUpButton *)sender;
 - (void)beginEditting;
 
-- (void)browserHit:(id)sender;
-- (void)browserDoubleHit:(id)sender;
-- (void)selectionBrowserHit:(id)sender;
-- (void)selectionBrowserDoubleHit:(id)sender;
+- (IBAction)browserHit:(id)sender;
+- (IBAction)browserDoubleHit:(id)sender;
+- (IBAction)selectionBrowserHit:(id)sender;
+- (IBAction)selectionBrowserDoubleHit:(id)sender;
 
 - (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
 
-- (void)moveRule:(id)sender;
-
-- (void)setComment:(id)sender;
-- (void)revertComment:(id)sender;
+- (IBAction)setComment:(id)sender;
+- (IBAction)revertComment:(id)sender;
+- (IBAction)moveRule:(id)sender;
 
 @end

@@ -2,6 +2,7 @@
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 @class IntonationPoint;
+@class Inspector;
 
 /*===========================================================================
 
@@ -24,9 +25,9 @@ History:
 
 @interface IntonationPointInspector : NSObject
 {
-    id mainInspector;
-    id popUpListView;
-    id popUpList;
+    IBOutlet Inspector *mainInspector;
+    IBOutlet NSBox *popUpListView;
+    IBOutlet NSPopUpButton *popUpList;
 
     id mainBox;
 
@@ -44,20 +45,20 @@ History:
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 
-- (void)inspectIntonationPoint:point;
+- (void)inspectIntonationPoint:(IntonationPoint *)point;
 - (void)setUpWindow:(NSPopUpButton *)sender;
 - (void)beginEditting;
 
-- (void)browserHit:(id)sender;
-- (void)browserDoubleHit:(id)sender;
+- (IBAction)browserHit:(id)sender;
+- (IBAction)browserDoubleHit:(id)sender;
 
 - (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
 
-- (void)setSemitone:(id)sender; // TODO (2004-03-02): Renamed to "changeSemitone:", so it doens't conflict with setSemitone:(double)newValue;
-- (void)setHertz:(id)sender;
-- (void)setSlope:(id)sender;
-- (void)setBeatOffset:(id)sender;
+- (IBAction)setSemitone:(id)sender; // TODO (2004-03-02): Renamed to "changeSemitone:", so it doens't conflict with setSemitone:(double)newValue;
+- (IBAction)setHertz:(id)sender;
+- (IBAction)setSlope:(id)sender;
+- (IBAction)setBeatOffset:(id)sender;
 
 - (void)updateInspector;
 

@@ -40,7 +40,7 @@
     return self;
 }
 
-- (void)inspectRule:rule;
+- (void)inspectRule:(Rule *)rule;
 {
     currentRule = rule;
     [mainInspector setPopUpListView:popUpListView];
@@ -129,7 +129,7 @@
 }
 
 
-- (void)browserHit:(id)sender;
+- (IBAction)browserHit:(id)sender;
 {
     PrototypeManager *tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
     id tempCell;
@@ -178,7 +178,7 @@
     }
 }
 
-- (void)browserDoubleHit:(id)sender;
+- (IBAction)browserDoubleHit:(id)sender;
 {
     TransitionView *transitionBuilder = NXGetNamedObject(@"transitionBuilder", NSApp);
     TransitionView *specialTransitionBuilder = NXGetNamedObject(@"specialTransitionBuilder", NSApp);
@@ -208,7 +208,7 @@
     }
 }
 
-- (void)selectionBrowserHit:(id)sender;
+- (IBAction)selectionBrowserHit:(id)sender;
 {
     int listIndex, index, parameterIndex, i;
     PrototypeManager *tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
@@ -248,7 +248,7 @@
     }
 }
 
-- (void)selectionBrowserDoubleHit:(id)sender;
+- (IBAction)selectionBrowserDoubleHit:(id)sender;
 {
 }
 
@@ -422,17 +422,17 @@
     }
 }
 
-- (void)setComment:(id)sender;
+- (IBAction)setComment:(id)sender;
 {
     [currentRule setComment:[commentText string]];
 }
 
-- (void)revertComment:(id)sender;
+- (IBAction)revertComment:(id)sender;
 {
     [commentText setString:[currentRule comment]];
 }
 
-- (void)moveRule:(id)sender;
+- (IBAction)moveRule:(id)sender;
 {
     RuleManager *ruleManager;
     RuleList *ruleList;

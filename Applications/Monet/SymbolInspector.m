@@ -8,7 +8,7 @@
 
 @implementation SymbolInspector
 
-- (void)inspectSymbol:symbol;
+- (void)inspectSymbol:(Symbol *)symbol;
 {
     currentSymbol = symbol;
     [mainInspector setPopUpListView:symbolPopUpListView];
@@ -57,17 +57,17 @@
     }
 }
 
-- (void)setComment:(id)sender;
+- (IBAction)setComment:(id)sender;
 {
     [currentSymbol setComment:[commentText string]];
 }
 
-- (void)revertComment:(id)sender;
+- (IBAction)revertComment:(id)sender;
 {
     [commentText setString:[currentSymbol comment]];
 }
 
-- (void)setValue:(id)sender;
+- (IBAction)setValue:(id)sender;
 {
     if ([currentSymbol defaultValue] != [[valueFields cellAtIndex:2] doubleValue]) {
         [currentSymbol setDefaultValue:[[valueFields cellAtIndex:2] doubleValue]];
@@ -78,7 +78,7 @@
     [currentSymbol setMaximumValue:[[valueFields cellAtIndex:1] doubleValue]];
 }
 
-- (void)revertValue:(id)sender;
+- (IBAction)revertValue:(id)sender;
 {
     [[valueFields cellAtIndex:0] setDoubleValue:[currentSymbol minimumValue]];
     [[valueFields cellAtIndex:1] setDoubleValue:[currentSymbol maximumValue]];

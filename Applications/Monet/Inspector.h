@@ -1,6 +1,7 @@
 #import <Foundation/NSObject.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
+@class CategoryNode, GSMPoint, IntonationPoint, Parameter, Phone, ProtoEquation, ProtoTemplate, Rule, Symbol;
 @class CategoryInspector, IntonationPointInspector, ParameterInspector, PhoneInspector, PointInspector, ProtoEquationInspector, RuleInspector, SymbolInspector;
 
 /*===========================================================================
@@ -25,8 +26,8 @@ History:
 @interface Inspector : NSObject
 {
     IBOutlet NSPanel *panel;
-    id generalView;   /* General Box on Inspector Panel for Coordinates */
-    id popUpListView;   /* View for PopUpList */
+    IBOutlet NSBox *generalView;   /* General Box on Inspector Panel for Coordinates */
+    IBOutlet NSBox *popUpListView;   /* View for PopUpList */
     IBOutlet NSBox *noInspectorView;  /* "No Inspector" Sign */
     IBOutlet NSBox *noPopUpListView;  /* "No Inspector" Sign */
     IBOutlet NSWindow *mainInspectorWindow;  /* Pointer to window */
@@ -50,23 +51,22 @@ History:
 - (NSWindow *)window;
 
 - (void)cleanInspectorWindow;
-- (void)setGeneralView:aView;
-- (void)setPopUpListView:aView;
+- (void)setGeneralView:(NSBox *)aView;
+- (void)setPopUpListView:(NSBox *)aView;
 
-- (void)inspectPhone:phone;
-- (void)inspectCategory:category;
-- (void)inspectSymbol:symbol;
-- (void)inspectParameter:parameter;
-- (void)inspectMetaParameter:metaParameter;
+- (void)inspectPhone:(Phone *)phone;
+- (void)inspectCategory:(CategoryNode *)category;
+- (void)inspectSymbol:(Symbol *)symbol;
+- (void)inspectParameter:(Parameter *)parameter;
+- (void)inspectMetaParameter:(Parameter *)metaParameter;
 
 - (void)beginEdittingCurrentInspector;
 
-- (void)inspectProtoEquation:equation;
-- (void)inspectProtoTransition:transition;
-- (void)inspectRule:rule;
+- (void)inspectProtoEquation:(ProtoEquation *)equation;
+- (void)inspectProtoTransition:(ProtoTemplate *)transition;
+- (void)inspectRule:(Rule *)rule;
 
-- (void)inspectPoint:point;
-- (void)inspectIntonationPoint:point;
-
+- (void)inspectPoint:(GSMPoint *)point;
+- (void)inspectIntonationPoint:(IntonationPoint *)point;
 
 @end

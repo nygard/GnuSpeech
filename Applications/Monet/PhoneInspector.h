@@ -2,6 +2,7 @@
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 @class Phone;
+@class Inspector;
 
 /*===========================================================================
 
@@ -25,9 +26,9 @@ History:
 
 @interface PhoneInspector:NSObject
 {
-    id mainInspector;
-    id phonePopUpListView;
-    id phonePopUpList;
+    IBOutlet Inspector *mainInspector;
+    IBOutlet NSBox *phonePopUpListView;
+    IBOutlet NSPopUpButton *phonePopUpList;
 
     id niftyMatrixScrollView;
     id niftyMatrix;
@@ -58,19 +59,19 @@ History:
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 - (id)init;
-- (void)itemsChanged:(id)sender;
-- (void)inspectPhone:phone;
+- (IBAction)itemsChanged:(id)sender;
+- (void)inspectPhone:(Phone *)phone;
 - (void)setUpWindow:(NSPopUpButton *)sender;
 - (void)beginEditting;
 
-- (void)browserHit:(id)sender;
-- (void)browserDoubleHit:(id)sender;
+- (IBAction)browserHit:(id)sender;
+- (IBAction)browserDoubleHit:(id)sender;
 - (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
 
-- (void)setComment:(id)sender;
-- (void)revertComment:(id)sender;
+- (IBAction)setComment:(id)sender;
+- (IBAction)revertComment:(id)sender;
 
-- (void)setValueNextText:(id)sender;
+- (IBAction)setValueNextText:(id)sender;
 
 @end

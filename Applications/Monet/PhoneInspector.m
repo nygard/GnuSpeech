@@ -88,7 +88,7 @@
     return self;
 }
 
-- (void)itemsChanged:(id)sender;
+- (IBAction)itemsChanged:(id)sender;
 {
     CategoryList *tempList;
     CategoryNode *tempNode;
@@ -115,7 +115,7 @@
     }
 }
 
-- (void)inspectPhone:phone;
+- (void)inspectPhone:(Phone *)phone;
 {
     currentPhone = phone;
     [mainInspector setPopUpListView:phonePopUpListView];
@@ -213,7 +213,7 @@
     }
 }
 
-- (void)browserHit:(id)sender;
+- (IBAction)browserHit:(id)sender;
 {
     id tempParameter;
     id tempList;
@@ -253,7 +253,7 @@
     }
 }
 
-- (void)browserDoubleHit:(id)sender;
+- (IBAction)browserDoubleHit:(id)sender;
 {
     id tempParameter;
     double tempDefault;
@@ -327,17 +327,17 @@
     [cell setLeaf:YES];
 }
 
-- (void)setComment:(id)sender;
+- (IBAction)setComment:(id)sender;
 {
     [currentPhone setComment:[commentText string]];
 }
 
-- (void)revertComment:(id)sender;
+- (IBAction)revertComment:(id)sender;
 {
     [commentText setString:[currentPhone comment]];
 }
 
-- (void)setValueNextText:(id)sender;
+- (IBAction)setValueNextText:(id)sender;
 {
     int row;
     id temp, tempList;

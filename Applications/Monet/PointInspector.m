@@ -19,7 +19,7 @@
     [expressionBrowser setDoubleAction:@selector(browserDoubleHit:)];
 }
 
-- (void)inspectPoint:point;
+- (void)inspectPoint:(GSMPoint *)point;
 {
     /* Hack for Single Point Inspections */
     if ([point isKindOfClass:[GSMPoint class]]) {
@@ -112,7 +112,7 @@
     }
 }
 
-- (void)browserHit:(id)sender;
+- (IBAction)browserHit:(id)sender;
 {
     int listIndex, index;
     PrototypeManager *tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
@@ -133,7 +133,7 @@
     }
 }
 
-- (void)browserDoubleHit:(id)sender;
+- (IBAction)browserDoubleHit:(id)sender;
 {
 }
 
@@ -174,7 +174,7 @@
     }
 }
 
-- (void)setValue:(id)sender;
+- (IBAction)setValue:(id)sender;
 {
     TransitionView *temp = NXGetNamedObject(@"transitionBuilder", NSApp);
 
@@ -183,7 +183,7 @@
     [NXGetNamedObject(@"specialTransitionBuilder", NSApp) display];
 }
 
-- (void)setType1:(id)sender;
+- (IBAction)setType1:(id)sender;
 {
     TransitionView *temp = NXGetNamedObject(@"transitionBuilder", NSApp);
 
@@ -194,7 +194,7 @@
     [NXGetNamedObject(@"specialTransitionBuilder", NSApp) display];
 }
 
-- (void)setType2:(id)sender;
+- (IBAction)setType2:(id)sender;
 {
     TransitionView *temp = NXGetNamedObject(@"transitionBuilder", NSApp);
 
@@ -205,7 +205,7 @@
     [NXGetNamedObject(@"specialTransitionBuilder", NSApp) display];
 }
 
-- (void)setType3:(id)sender;
+- (IBAction)setType3:(id)sender;
 {
     TransitionView *temp = NXGetNamedObject(@"transitionBuilder", NSApp);
 
@@ -216,7 +216,7 @@
     [NXGetNamedObject(@"specialTransitionBuilder", NSApp) display];
 }
 
-- (void)setPhantom:(id)sender;
+- (IBAction)setPhantom:(id)sender;
 {
     [currentPoint setPhantom:[sender state]];
 }

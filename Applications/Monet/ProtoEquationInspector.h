@@ -2,6 +2,7 @@
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 @class MonetList, ProtoEquation;
+@class Inspector;
 
 /*===========================================================================
 
@@ -25,9 +26,9 @@ History:
 
 @interface ProtoEquationInspector : NSObject
 {
-    id mainInspector;
-    id popUpListView;
-    id popUpList;
+    IBOutlet Inspector *mainInspector;
+    IBOutlet NSBox *popUpListView;
+    IBOutlet NSPopUpButton *popUpList;
 
     id commentView;
     id commentText;
@@ -54,21 +55,21 @@ History:
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 - (id)init;
 - (void)dealloc;
-- (void)inspectProtoEquation:equation;
+- (void)inspectProtoEquation:(ProtoEquation *)equation;
 
 - (void)setUpWindow:(NSPopUpButton *)sender;
 - (void)beginEditting;
 
-- (void)setComment:(id)sender;
-- (void)revertComment:(id)sender;
+- (IBAction)setComment:(id)sender;
+- (IBAction)revertComment:(id)sender;
 
-- (void)setEquation:(id)sender;
-- (void)revertEquation:(id)sender;
+- (IBAction)setEquation:(id)sender;
+- (IBAction)revertEquation:(id)sender;
 
 - (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
-- (void)browserHit:(id)sender;
-- (void)browserDoubleHit:(id)sender;
+- (IBAction)browserHit:(id)sender;
+- (IBAction)browserDoubleHit:(id)sender;
 
 
 @end

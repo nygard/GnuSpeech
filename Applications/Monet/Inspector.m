@@ -47,7 +47,7 @@
     [mainInspectorWindow flushWindow];
 }
 
-- (void)setGeneralView:aView;
+- (void)setGeneralView:(NSBox *)aView;
 {
     if (generalView != aView) {
         [generalView removeFromSuperview];
@@ -58,7 +58,7 @@
     }
 }
 
-- (void)setPopUpListView:aView;
+- (void)setPopUpListView:(NSBox *)aView;
 {
     if (popUpListView != aView) {
         [popUpListView removeFromSuperview];
@@ -69,7 +69,7 @@
     }
 }
 
-- (void)inspectPhone:phone;
+- (void)inspectPhone:(Phone *)phone;
 {
     [panel setTitle:@"Phone Inspector"];
     currentInspectorObject = phone;
@@ -77,7 +77,7 @@
     [phoneInspector inspectPhone:phone];
 }
 
-- (void)inspectCategory:category;
+- (void)inspectCategory:(CategoryNode *)category;
 {
     [panel setTitle:@"Category Inspector"];
     currentInspectorObject = category;
@@ -85,7 +85,7 @@
     [categoryInspector inspectCategory:category];
 }
 
-- (void)inspectSymbol:symbol;
+- (void)inspectSymbol:(Symbol *)symbol;
 {
     [panel setTitle:@"Symbol Inspector"];
     currentInspectorObject = symbol;
@@ -93,7 +93,7 @@
     [symbolInspector inspectSymbol:symbol];
 }
 
-- (void)inspectParameter:parameter;
+- (void)inspectParameter:(Parameter *)parameter;
 {
     [panel setTitle:@"Parameter Inspector"];
     currentInspectorObject = parameter;
@@ -101,7 +101,7 @@
     [parameterInspector inspectParameter:parameter];
 }
 
-- (void)inspectMetaParameter:metaParameter;
+- (void)inspectMetaParameter:(Parameter *)metaParameter;
 {
     [panel setTitle:@"MetaParameter Inspector"];
     currentInspectorObject = metaParameter;
@@ -115,7 +115,7 @@
     [currentInspector beginEditting];
 }
 
-- (void)inspectProtoEquation:equation;
+- (void)inspectProtoEquation:(ProtoEquation *)equation;
 {
     [panel setTitle:@"Prototype Equation Inspector"];
     currentInspectorObject = equation;
@@ -123,7 +123,7 @@
     [protoEquationInspector inspectProtoEquation:equation];
 }
 
-- (void)inspectProtoTransition:transition;
+- (void)inspectProtoTransition:(ProtoTemplate *)transition;
 {
     [panel setTitle:@"Prototype Transition Inspector"];
     currentInspectorObject = transition;
@@ -131,7 +131,7 @@
     [protoTransitionInspector inspectProtoTemplate:transition];
 }
 
-- (void)inspectRule:rule;
+- (void)inspectRule:(Rule *)rule;
 {
     [panel setTitle:@"Rule Inspector"];
     currentInspectorObject = rule;
@@ -139,7 +139,7 @@
     [ruleInspector inspectRule:rule];
 }
 
-- (void)inspectPoint:point;
+- (void)inspectPoint:(GSMPoint *)point;
 {
     [panel setTitle:@"Point Inspector"];
     currentInspectorObject = point;
@@ -147,7 +147,7 @@
     [pointInspector inspectPoint:point];
 }
 
-- (void)inspectIntonationPoint:point;
+- (void)inspectIntonationPoint:(IntonationPoint *)point;
 {
     [intonationPointInspector inspectIntonationPoint:point];
 }

@@ -38,7 +38,7 @@
     [super dealloc];
 }
 
-- (void)inspectProtoEquation:equation;
+- (void)inspectProtoEquation:(ProtoEquation *)equation;
 {
     protoEquation = equation;
     [mainInspector setPopUpListView:popUpListView];
@@ -125,17 +125,17 @@
     }
 }
 
-- (void)setComment:(id)sender;
+- (IBAction)setComment:(id)sender;
 {
     [protoEquation setComment:[commentText string]];
 }
 
-- (void)revertComment:(id)sender;
+- (IBAction)revertComment:(id)sender;
 {
     [commentText setString:[protoEquation comment]];
 }
 
-- (void)setEquation:(id)sender;
+- (IBAction)setEquation:(id)sender;
 {
     id temp;
 
@@ -149,7 +149,7 @@
     }
 }
 
-- (void)revertEquation:(id)sender;
+- (IBAction)revertEquation:(id)sender;
 {
     [equationText setString:[[protoEquation expression] expressionString]];
 }
@@ -195,11 +195,11 @@
     }
 }
 
-- (void)browserHit:(id)sender;
+- (IBAction)browserHit:(id)sender;
 {
 }
 
-- (void)browserDoubleHit:(id)sender;
+- (IBAction)browserDoubleHit:(id)sender;
 {
 }
 

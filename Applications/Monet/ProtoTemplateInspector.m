@@ -30,7 +30,7 @@
     [super dealloc];
 }
 
-- (void)inspectProtoTemplate:template;
+- (void)inspectProtoTemplate:(ProtoTemplate *)template;
 {
     protoTemplate = template;
     [mainInspector setPopUpListView:popUpListView];
@@ -93,31 +93,31 @@
     }
 }
 
-- (void)setComment:(id)sender;
+- (IBAction)setComment:(id)sender;
 {
     [protoTemplate setComment:[commentText string]];
 }
 
-- (void)revertComment:(id)sender;
+- (IBAction)revertComment:(id)sender;
 {
     [commentText setString:[protoTemplate comment]];
 }
 
-- (void)setDiphone:(id)sender;
+- (IBAction)setDiphone:(id)sender;
 {
     [protoTemplate setType:DIPHONE];
     [NXGetNamedObject(@"transitionBuilder", NSApp) display];
     [NXGetNamedObject(@"specialTransitionBuilder", NSApp) display];
 }
 
-- (void)setTriphone:(id)sender;
+- (IBAction)setTriphone:(id)sender;
 {
     [protoTemplate setType:TRIPHONE];
     [NXGetNamedObject(@"transitionBuilder", NSApp) display];
     [NXGetNamedObject(@"specialTransitionBuilder", NSApp) display];
 }
 
-- (void)setTetraphone:(id)sender;
+- (IBAction)setTetraphone:(id)sender;
 {
     [protoTemplate setType:TETRAPHONE];
     [NXGetNamedObject(@"transitionBuilder", NSApp) display];
@@ -151,11 +151,11 @@
     }
 }
 
-- (void)browserHit:(id)sender;
+- (IBAction)browserHit:(id)sender;
 {
 }
 
-- (void)browserDoubleHit:(id)sender;
+- (IBAction)browserDoubleHit:(id)sender;
 {
 }
 

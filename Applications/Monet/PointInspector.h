@@ -2,6 +2,7 @@
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 @class GSMPoint;
+@class Inspector;
 
 /*===========================================================================
 
@@ -25,9 +26,9 @@ History:
 
 @interface PointInspector:NSObject
 {
-    id mainInspector;
-    id popUpListView;
-    id popUpList;
+    IBOutlet Inspector *mainInspector;
+    IBOutlet NSBox *popUpListView;
+    IBOutlet NSPopUpButton *popUpList;
 
     id multipleListView;
 
@@ -51,17 +52,17 @@ History:
 - (void)setUpWindow:(NSPopUpButton *)sender;
 - (void)beginEditting;
 
-- (void)browserHit:(id)sender;
-- (void)browserDoubleHit:(id)sender;
+- (IBAction)browserHit:(id)sender;
+- (IBAction)browserDoubleHit:(id)sender;
 
 - (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
 
-- (void)setValue:(id)sender;
-- (void)setType1:(id)sender;
-- (void)setType2:(id)sender;
-- (void)setType3:(id)sender;
+- (IBAction)setValue:(id)sender;
+- (IBAction)setType1:(id)sender;
+- (IBAction)setType2:(id)sender;
+- (IBAction)setType3:(id)sender;
 
-- (void)setPhantom:(id)sender;
+- (IBAction)setPhantom:(id)sender;
 
 @end

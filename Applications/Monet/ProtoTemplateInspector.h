@@ -2,6 +2,7 @@
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 @class MonetList, ProtoTemplate;
+@class Inspector;
 
 /*===========================================================================
 
@@ -25,9 +26,9 @@ History:
 
 @interface ProtoTemplateInspector : NSObject
 {
-    id mainInspector;
-    id popUpListView;
-    id popUpList;
+    IBOutlet Inspector *mainInspector;
+    IBOutlet NSBox *popUpListView;
+    IBOutlet NSPopUpButton *popUpList;
 
     id genInfoView;
     id typeMatrix;
@@ -50,21 +51,21 @@ History:
 - (id)init;
 - (void)dealloc;
 
-- (void)inspectProtoTemplate:template;
+- (void)inspectProtoTemplate:(ProtoTemplate *)template;
 
 - (void)setUpWindow:(NSPopUpButton *)sender;
 - (void)beginEditting;
 
-- (void)setComment:(id)sender;
-- (void)revertComment:(id)sender;
+- (IBAction)setComment:(id)sender;
+- (IBAction)revertComment:(id)sender;
 
-- (void)setDiphone:(id)sender;
-- (void)setTriphone:(id)sender;
-- (void)setTetraphone:(id)sender;
+- (IBAction)setDiphone:(id)sender;
+- (IBAction)setTriphone:(id)sender;
+- (IBAction)setTetraphone:(id)sender;
 
 - (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
-- (void)browserHit:(id)sender;
-- (void)browserDoubleHit:(id)sender;
+- (IBAction)browserHit:(id)sender;
+- (IBAction)browserDoubleHit:(id)sender;
 
 @end

@@ -8,7 +8,7 @@
 
 @implementation ParameterInspector
 
-- (void)inspectParameter:parameter;
+- (void)inspectParameter:(Parameter *)parameter;
 {
     currentParameter = parameter;
     [mainInspector setPopUpListView:parameterPopUpListView];
@@ -59,17 +59,17 @@
     }
 }
 
-- (void)setComment:(id)sender;
+- (IBAction)setComment:(id)sender;
 {
     [currentParameter setComment:[commentText string]];
 }
 
-- (void)revertComment:(id)sender;
+- (IBAction)revertComment:(id)sender;
 {
     [commentText setString:[currentParameter comment]];
 }
 
-- (void)setValue:(id)sender;
+- (IBAction)setValue:(id)sender;
 {
     if ([currentParameter defaultValue] != [[valueFields cellAtIndex:2] doubleValue]) {
         [currentParameter setDefaultValue:[[valueFields cellAtIndex:2] doubleValue]];
@@ -80,7 +80,7 @@
     [currentParameter setMaximumValue:[[valueFields cellAtIndex:1] doubleValue]];
 }
 
-- (void)revertValue:(id)sender;
+- (IBAction)revertValue:(id)sender;
 {
     [[valueFields cellAtIndex:0] setDoubleValue:[currentParameter minimumValue]];
     [[valueFields cellAtIndex:1] setDoubleValue:[currentParameter maximumValue]];

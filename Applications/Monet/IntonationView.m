@@ -4,6 +4,7 @@
 #import "AppController.h"
 #import "Event.h"
 #import "EventList.h"
+#import "Inspector.h"
 #import "IntonationPoint.h"
 #import "IntonationPointInspector.h"
 #import "MonetList.h"

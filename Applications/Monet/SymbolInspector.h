@@ -2,6 +2,7 @@
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 @class Symbol;
+@class Inspector;
 
 /*===========================================================================
 
@@ -25,9 +26,9 @@ History:
 
 @interface SymbolInspector:NSObject
 {
-    id mainInspector;
-    id symbolPopUpListView;
-    id symbolPopUpList;
+    IBOutlet Inspector *mainInspector;
+    IBOutlet NSBox *symbolPopUpListView;
+    IBOutlet NSPopUpButton *symbolPopUpList;
 
     id commentView;
     id commentText;
@@ -39,18 +40,17 @@ History:
     id setValueButton;
     id revertValueButton;
 
-
     Symbol *currentSymbol;
 }
 
-- (void)inspectSymbol:symbol;
+- (void)inspectSymbol:(Symbol *)symbol;
 - (void)setUpWindow:(NSPopUpButton *)sender;
 - (void)beginEditting;
 
-- (void)setComment:(id)sender;
-- (void)revertComment:(id)sender;
+- (IBAction)setComment:(id)sender;
+- (IBAction)revertComment:(id)sender;
 
-- (void)setValue:(id)sender;
-- (void)revertValue:(id)sender;
+- (IBAction)setValue:(id)sender;
+- (IBAction)revertValue:(id)sender;
 
 @end

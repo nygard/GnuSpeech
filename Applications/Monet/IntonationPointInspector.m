@@ -17,7 +17,7 @@
 {
 }
 
-- (void)inspectIntonationPoint:point;
+- (void)inspectIntonationPoint:(IntonationPoint *)point;
 {
     currentPoint = point;
     [mainInspector setPopUpListView:popUpListView];
@@ -56,7 +56,7 @@
     }
 }
 
-- (void)browserHit:(id)sender;
+- (IBAction)browserHit:(id)sender;
 {
     IntonationView *tempView = NXGetNamedObject(@"intonationView", NSApp);
     int index;
@@ -68,7 +68,7 @@
     [self updateInspector];
 }
 
-- (void)browserDoubleHit:(id)sender;
+- (IBAction)browserDoubleHit:(id)sender;
 {
 }
 
@@ -100,7 +100,7 @@
     [str release];
 }
 
-- (void)setSemitone:(id)sender;
+- (IBAction)setSemitone:(id)sender;
 {
     IntonationView *tempView = NXGetNamedObject(@"intonationView", NSApp);
 
@@ -109,7 +109,7 @@
     [self updateInspector];
 }
 
-- (void)setHertz:(id)sender;
+- (IBAction)setHertz:(id)sender;
 {
     IntonationView *tempView = NXGetNamedObject(@"intonationView", NSApp);
     double temp;
@@ -120,7 +120,7 @@
     [self updateInspector];
 }
 
-- (void)setSlope:(id)sender;
+- (IBAction)setSlope:(id)sender;
 {
     IntonationView *tempView = NXGetNamedObject(@"intonationView", NSApp);
 
@@ -129,7 +129,7 @@
     [self updateInspector];
 }
 
-- (void)setBeatOffset:(id)sender;
+- (IBAction)setBeatOffset:(id)sender;
 {
     IntonationView *tempView = NXGetNamedObject(@"intonationView", NSApp);
 

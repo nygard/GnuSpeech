@@ -2,6 +2,7 @@
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 @class Parameter;
+@class Inspector;
 
 /*===========================================================================
 
@@ -25,9 +26,9 @@ History:
 
 @interface ParameterInspector : NSObject
 {
-    id mainInspector;
-    id parameterPopUpListView;
-    id parameterPopUpList;
+    IBOutlet Inspector *mainInspector;
+    IBOutlet NSBox *parameterPopUpListView;
+    IBOutlet NSPopUpButton *parameterPopUpList;
 
     id commentView;
     id commentText;
@@ -42,14 +43,14 @@ History:
     Parameter *currentParameter;
 }
 
-- (void)inspectParameter:parameter;
+- (void)inspectParameter:(Parameter *)parameter;
 - (void)setUpWindow:(NSPopUpButton *)sender;
 - (void)beginEditting;
 
-- (void)setComment:(id)sender;
-- (void)revertComment:(id)sender;
+- (IBAction)setComment:(id)sender;
+- (IBAction)revertComment:(id)sender;
 
-- (void)setValue:(id)sender;
-- (void)revertValue:(id)sender;
+- (IBAction)setValue:(id)sender;
+- (IBAction)revertValue:(id)sender;
 
 @end
