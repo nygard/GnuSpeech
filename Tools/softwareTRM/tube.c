@@ -56,6 +56,7 @@
 #include "main.h"
 #include "tube.h"
 #include "input.h"
+#include "fir.h"
 
 
 
@@ -124,11 +125,6 @@
 #define TABLE_LENGTH              512
 #define TABLE_MODULUS             (TABLE_LENGTH-1)
 
-/*  OVERSAMPLING FIR FILTER CHARACTERISTICS  */
-#define FIR_BETA                  .2
-#define FIR_GAMMA                 .1
-#define FIR_CUTOFF                .00000001
-
 /*  PITCH VARIABLES  */
 #define PITCH_BASE                220.0
 #define PITCH_OFFSET              3           /*  MIDDLE C = 0  */
@@ -142,19 +138,9 @@
 // this is a temporary fix only, to try to match dsp synthesizer
 #define VT_SCALE                  0.125     /*  2^(-3)  */
 
-/*  CONSTANTS FOR THE FIR FILTER  */
-#define LIMIT                     200
-#define BETA_OUT_OF_RANGE         1
-#define GAMMA_OUT_OF_RANGE        2
-#define GAMMA_TOO_SMALL           3
-
 /*  CONSTANTS FOR NOISE GENERATOR  */
 #define FACTOR                    377.0
 #define INITIAL_SEED              0.7892347
-
-/*  MATH CONSTANTS  */
-#define PI                        3.14159265358979
-#define TWO_PI                    (2.0 * PI)
 
 /*  BI-DIRECTIONAL TRANSMISSION LINE POINTERS  */
 #define TOP                       0
@@ -299,10 +285,6 @@ struct {
     double velumDelta;
 } current;
 
-/*  VARIABLES FOR FIR LOWPASS FILTER  */
-double *FIRData, *FIRCoef;
-int FIRPtr, numberTaps;
-
 /*  VARIABLES FOR SAMPLE RATE CONVERSION  */
 double sampleRateRatio;
 double h[FILTER_LENGTH], deltaH[FILTER_LENGTH], buffer[BUFFER_SIZE];
@@ -317,7 +299,6 @@ unsigned int timeRegister = 0;
 void initializeWavetable(void);
 double speedOfSound(double temperature);
 void updateWavetable(double amplitude);
-void initializeFIR(double beta, double gamma, double cutoff);
 double noise(void);
 double noiseFilter(double input);
 void initializeMouthCoefficients(double coeff);
@@ -341,13 +322,8 @@ double throat(double input);
 double bandpassFilter(double input);
 double amplitude(double decibelLevel);
 double frequency(double pitch);
-int maximallyFlat(double beta, double gamma, int *np, double *coefficient);
-void trim(double cutoff, int *numberCoefficients, double *coefficient);
 void rationalApproximation(double number, int *order, int *numerator,
 			   int *denominator);
-double FIRFilter(double input, int needOutput);
-int increment(int pointer, int modulus);
-int decrement(int pointer, int modulus);
 void initializeConversion(void);
 void initializeFilter(void);
 double Izero(double x);
@@ -558,67 +534,6 @@ void updateWavetable(double amplitude)
     /*  FILL IN WITH CLOSED PORTION OF GLOTTAL PULSE  */
     for (i = newDiv2; i < tableDiv2; i++)
 	wavetable[i] = 0.0;
-}
-
-
-
-/******************************************************************************
-*
-*	function:	initializeFIR
-*
-*	purpose:	Allocates memory and initializes the coefficients
-*                       for the FIR filter used in the oversampling oscillator.
-*
-*       arguments:      beta, gamma, cutoff
-*
-*	internal
-*	functions:	maximallyFlat, trim
-*
-*	library
-*	functions:	calloc
-*
-******************************************************************************/
-
-void initializeFIR(double beta, double gamma, double cutoff)
-{
-    int i, pointer, increment, numberCoefficients;
-    double coefficient[LIMIT+1];
-
-
-    /*  DETERMINE IDEAL LOW PASS FILTER COEFFICIENTS  */
-    maximallyFlat(beta, gamma, &numberCoefficients, coefficient);
-
-    /*  TRIM LOW-VALUE COEFFICIENTS  */
-    trim(cutoff, &numberCoefficients, coefficient);
-
-    /*  DETERMINE THE NUMBER OF TAPS IN THE FILTER  */
-    numberTaps = (numberCoefficients * 2) - 1;
-
-    /*  ALLOCATE MEMORY FOR DATA AND COEFFICIENTS  */
-    FIRData = (double *)calloc(numberTaps, sizeof(double));
-    FIRCoef = (double *)calloc(numberTaps, sizeof(double));
-
-    /*  INITIALIZE THE COEFFICIENTS  */
-    increment = (-1);
-    pointer = numberCoefficients;
-    for (i = 0; i < numberTaps; i++) {
-	FIRCoef[i] = coefficient[pointer];
-	pointer += increment;
-	if (pointer <= 0) {
-	    pointer = 2;
-	    increment = 1;
-	}
-    }
-
-    /*  SET POINTER TO FIRST ELEMENT  */
-    FIRPtr = 0;
-
-#if DEBUG
-    /*  PRINT OUT  */
-    printf("\n");
-    for (i = 0; i < numberTaps; i++)
-	printf("FIRCoef[%-d] = %11.8f\n", i, FIRCoef[i]);
-#endif
 }
 
 
@@ -1627,307 +1542,6 @@ double amplitude(double decibelLevel)
 double frequency(double pitch)
 {
     return PITCH_BASE * pow(2.0, (((double)(pitch + PITCH_OFFSET)) / 12.0));
-}
-
-
-
-/******************************************************************************
-*
-*	function:	maximallyFlat
-*
-*	purpose:	Calculates coefficients for a linear phase lowpass FIR
-*                       filter, with beta being the center frequency of the
-*                       transition band (as a fraction of the sampling
-*                       frequency), and gamme the width of the transition
-*                       band.
-*
-*       arguments:      beta, gamma, np, coefficient
-*
-*	internal
-*	functions:	rationalApproximation
-*
-*	library
-*	functions:	cos, pow
-*
-******************************************************************************/
-
-int maximallyFlat(double beta, double gamma, int *np, double *coefficient)
-{
-    double a[LIMIT+1], c[LIMIT+1], betaMinimum, ac;
-    int nt, numerator, n, ll, i;
-
-
-    /*  INITIALIZE NUMBER OF POINTS  */
-    (*np) = 0;
-
-    /*  CUT-OFF FREQUENCY MUST BE BETWEEN 0 HZ AND NYQUIST  */
-    if ((beta <= 0.0) || (beta >= 0.5))
-	return BETA_OUT_OF_RANGE;
-
-    /*  TRANSITION BAND MUST FIT WITH THE STOP BAND  */
-    betaMinimum = ((2.0 * beta) < (1.0 - 2.0 * beta)) ? (2.0 * beta) :
-	(1.0 - 2.0 * beta);
-    if ((gamma <= 0.0) || (gamma >= betaMinimum))
-	return GAMMA_OUT_OF_RANGE;
-
-    /*  MAKE SURE TRANSITION BAND NOT TOO SMALL  */
-    nt = (int)(1.0 / (4.0 * gamma * gamma));
-    if (nt > 160)
-	return GAMMA_TOO_SMALL;
-
-    /*  CALCULATE THE RATIONAL APPROXIMATION TO THE CUT-OFF POINT  */
-    ac = (1.0 + cos(TWO_PI * beta)) / 2.0;
-    rationalApproximation(ac, &nt, &numerator, np);
-
-    /*  CALCULATE FILTER ORDER  */
-    n = (2 * (*np)) - 1;
-    if (numerator == 0)
-	numerator = 1;
-
-
-    /*  COMPUTE MAGNITUDE AT NP POINTS  */
-    c[1] = a[1] = 1.0;
-    ll = nt - numerator;
-
-    for (i = 2; i <= (*np); i++) {
-	int j;
-	double x, sum = 1.0, y;
-	c[i] = cos(TWO_PI * ((double)(i-1)/(double)n));
-	x = (1.0 - c[i]) / 2.0;
-	y = x;
-
-	if (numerator == nt)
-	    continue;
-
-	for (j = 1; j <= ll; j++) {
-	    double z = y;
-	    if (numerator != 1) {
-		int jj;
-		for (jj = 1; jj <= (numerator - 1); jj++)
-		    z *= 1.0 + ((double)j / (double)jj);
-	    }
-	    y *= x;
-	    sum += z;
-	}
-	a[i] = sum * pow((1.0 - x), numerator);
-    }
-
-
-    /*  CALCULATE WEIGHTING COEFFICIENTS BY AN N-POINT IDFT  */
-    for (i = 1; i <= (*np); i++) {
-	int j;
-	coefficient[i] = a[1] / 2.0;
-	for (j = 2; j <= (*np); j++) {
-	    int m = ((i - 1) * (j - 1)) % n;
-	    if (m > nt)
-		m = n - m;
-	    coefficient[i] += c[m+1] * a[j];
-	}
-	coefficient[i] *= 2.0 / (double)n;
-    }
-
-    return(0);
-}
-
-
-
-/******************************************************************************
-*
-*	function:	trim
-*
-*	purpose:	Trims the higher order coefficients of the FIR filter
-*                       which fall below the cutoff value.
-*
-*       arguments:      cutoff, numberCoefficients, coefficient
-*
-*	internal
-*	functions:	none
-*
-*	library
-*	functions:	fabs
-*
-******************************************************************************/
-
-void trim(double cutoff, int *numberCoefficients, double *coefficient)
-{
-    int i;
-
-    for (i = (*numberCoefficients); i > 0; i--) {
-	if (fabs(coefficient[i]) >= fabs(cutoff)) {
-	    (*numberCoefficients) = i;
-	    return;
-	}
-    }
-}
-
-
-
-/******************************************************************************
-*
-*	function:	rationalApproximation
-*
-*	purpose:	Calculates the best rational approximation to 'number',
-*                       given the maximum 'order'.
-*
-*       arguments:      number, order, numerator, denominator
-*
-*	internal
-*	functions:	none
-*
-*	library
-*	functions:	fabs
-*
-******************************************************************************/
-
-void rationalApproximation(double number, int *order,
-			   int *numerator, int *denominator)
-{
-    double fractionalPart, minimumError = 1.0;
-    int i, orderMaximum, modulus = 0;
-
-
-    /*  RETURN IMMEDIATELY IF THE ORDER IS LESS THAN ONE  */
-    if (*order <= 0) {
-	*numerator = 0;
-	*denominator = 0;
-	*order = -1;
-	return;
-    }
-
-    /*  FIND THE ABSOLUTE VALUE OF THE FRACTIONAL PART OF THE NUMBER  */
-    fractionalPart = fabs(number - (int)number);
-
-    /*  DETERMINE THE MAXIMUM VALUE OF THE DENOMINATOR  */
-    orderMaximum = 2 * (*order);
-    orderMaximum = (orderMaximum > LIMIT) ? LIMIT : orderMaximum;
-
-    /*  FIND THE BEST DENOMINATOR VALUE  */
-    for (i = (*order); i <= orderMaximum; i++) {
-	double ps = i * fractionalPart;
-	int ip = (int)(ps + 0.5);
-	double error = fabs( (ps - (double)ip)/(double)i );
-	if (error < minimumError) {
-	    minimumError = error;
-	    modulus = ip;
-	    *denominator = i;
-	}
-    }
-
-    /*  DETERMINE THE NUMERATOR VALUE, MAKING IT NEGATIVE IF NECESSARY  */
-    *numerator = (int)fabs(number) * (*denominator) + modulus;
-    if (number < 0)
-	*numerator *= (-1);
-
-    /*  SET THE ORDER  */
-    *order = *denominator - 1;
-
-    /*  RESET THE NUMERATOR AND DENOMINATOR IF THEY ARE EQUAL  */
-    if (*numerator == *denominator) {
-	*denominator = orderMaximum;
-	*order = *numerator = *denominator - 1;
-    }
-}
-
-
-
-/******************************************************************************
-*
-*	function:	FIRFilter
-*
-*	purpose:	Is the linear phase, lowpass FIR filter.
-*
-*       arguments:      input, needOutput
-*
-*	internal
-*	functions:	increment, decrement
-*
-*	library
-*	functions:	none
-*
-******************************************************************************/
-
-double FIRFilter(double input, int needOutput)
-{
-    if (needOutput) {
-	int i;
-	double output = 0.0;
-
-	/*  PUT INPUT SAMPLE INTO DATA BUFFER  */
-	FIRData[FIRPtr] = input;
-
-	/*  SUM THE OUTPUT FROM ALL FILTER TAPS  */
-	for (i = 0; i < numberTaps; i++) {
-	    output += FIRData[FIRPtr] * FIRCoef[i];
-	    FIRPtr = increment(FIRPtr, numberTaps);
-	}
-
-	/*  DECREMENT THE DATA POINTER READY FOR NEXT CALL  */
-	FIRPtr = decrement(FIRPtr, numberTaps);
-
-	/*  RETURN THE OUTPUT VALUE  */
-	return output;
-    } else {
-	/*  PUT INPUT SAMPLE INTO DATA BUFFER  */
-	FIRData[FIRPtr] = input;
-
-	/*  ADJUST THE DATA POINTER, READY FOR NEXT CALL  */
-	FIRPtr = decrement(FIRPtr, numberTaps);
-
-	return 0.0;
-    }
-}
-
-
-
-/******************************************************************************
-*
-*	function:	increment
-*
-*	purpose:	Increments the pointer to the circular FIR filter
-*                       buffer, keeping it in the range 0 -> modulus-1.
-*
-*       arguments:      pointer, modulus
-*
-*	internal
-*	functions:	none
-*
-*	library
-*	functions:	none
-*
-******************************************************************************/
-
-int increment(int pointer, int modulus)
-{
-    if (++pointer >= modulus)
-	return 0;
-
-    return pointer;
-}
-
-
-/******************************************************************************
-*
-*	function:	decrement
-*
-*	purpose:	Decrements the pointer to the circular FIR filter
-*                       buffer, keeping it in the range 0 -> modulus-1.
-*
-*       arguments:      pointer, modulus
-*
-*	internal
-*	functions:	none
-*
-*	library
-*	functions:	none
-*
-******************************************************************************/
-
-int decrement(int pointer, int modulus)
-{
-    if (--pointer < 0)
-	return modulus - 1;
-
-    return pointer;
 }
 
 

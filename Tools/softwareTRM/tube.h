@@ -32,6 +32,10 @@
 #define PULSE                     0
 #define SINE                      1
 
+/*  MATH CONSTANTS  */
+#define PI                        3.14159265358979
+#define TWO_PI                    (2.0 * PI)
+
 extern double maximumSampleValue;
 
 extern float outputRate;
