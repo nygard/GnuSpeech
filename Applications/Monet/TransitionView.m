@@ -297,7 +297,7 @@ static NSImage *_selectionBox = nil;
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:1];
 
-#define LABEL_MARGIN 3
+#define LABEL_MARGIN 5
 
     for (i = 1; i < 14; i++) {
         NSString *label;
@@ -684,6 +684,7 @@ static NSImage *_selectionBox = nil;
             //NSLog(@"Slope  %f -> %f", start, end);
             rect.origin.x = (float)start;
             rect.size.width = (float)(end - start);
+            //NSLog(@"drawing button, rect: %@, bounds: %@", NSStringFromRect(rect), NSStringFromRect(bounds));
             NSDrawButton(rect, bounds);
 
             slopes = [currentPoint slopes];

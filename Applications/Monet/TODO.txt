@@ -69,3 +69,12 @@ TODO:
 - bezier paths may need to be on 1/2 pixel coordinates, depending on the line width.
 - when using NSRectFill you need to use integral coordinates.
 - I see that the time formulas should produce monotonically increasing values for times.  Fricatives/Dud12 is an example that doesn't do this.
+
+2004-03-12:
+- BUG: slope ratio button for diZeroTwelveOne doesn't go all the way to the left.
+       - nor does Diphtong,
+- graph for fTransition is a little odd.  Phantom points?
+  - seems likely.  Stopped/Default is similar, but looks fine.
+- Carre/bLipClosure give a nice example.
+- Fricatives/sOrzFricCharParams is an example of overlapping slope numbers
+
