@@ -39,11 +39,6 @@
     if ([super init] == nil)
         return nil;
 
-#ifdef HAVE_DSP
-    initialize_synthesizer_module();
-#endif
-    //initStringParser();
-
     namedObjects = [[NSMutableDictionary alloc] init];
 
     model = [[MModel alloc] init];
@@ -61,6 +56,9 @@
     [newPrototypeManager release];
     [transitionEditor release];
     [specialTransitionEditor release];
+    [ruleTester release];
+    [ruleManager release];
+    [synthesisParameterEditor release];
 
     [super dealloc];
 }
@@ -93,7 +91,7 @@
     //[transitionEditor setModel:model];
     //[specialTransitionEditor setModel:model];
     //[ruleTester setModel:model];
-    //[newRuleManager setModel:model];
+    //[ruleManager setModel:model];
     [stringParser setModel:model];
 
     //NSLog(@"getting it by name: %@", NXGetNamedObject(@"mainSymbolList", NSApp));
@@ -142,7 +140,7 @@
     stream = [[MUnarchiver alloc] initForReadingWithData:[NSData dataWithContentsOfFile:path]];
     //NSLog(@"stream: %x", stream);
     if (stream) {
-        NSLog(@"systemVersion: %u", [stream systemVersion]);
+        //NSLog(@"systemVersion: %u", [stream systemVersion]);
 
         NS_DURING {
             [model readPrototypes:stream];
@@ -159,11 +157,10 @@
 
     //[model generateXML:@"DefaultPrototypes"];
 
-    [eventListView applicationDidFinishLaunching:aNotification]; // not connected yet
-    [intonationView applicationDidFinishLaunching:aNotification]; // not connected yet
+    [eventListView applicationDidFinishLaunching:aNotification];
+    [intonationView applicationDidFinishLaunching:aNotification];
 
     [synthesisWindow setFrameAutosaveName:@"SynthesisWindow"];
-    [synthParmWindow setFrameAutosaveName:@"SynthParameterWindow"];
 
     NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }
@@ -371,7 +368,7 @@
             [transitionEditor setModel:model];
             [specialTransitionEditor setModel:model];
             [ruleTester setModel:model];
-            [newRuleManager setModel:model];
+            [ruleManager setModel:model];
             [stringParser setModel:model];
 
             [stream release];
@@ -551,17 +548,17 @@
 
 - (MRuleManager *)ruleManager;
 {
-    if (newRuleManager == nil)
-        newRuleManager = [[MRuleManager alloc] initWithModel:model];
+    if (ruleManager == nil)
+        ruleManager = [[MRuleManager alloc] initWithModel:model];
 
-    return newRuleManager;
+    return ruleManager;
 }
 
 - (IBAction)showRuleManager:(id)sender;
 {
     [self ruleManager]; // Make sure it's been created
-    [newRuleManager setModel:model];
-    [newRuleManager showWindow:self];
+    [ruleManager setModel:model];
+    [ruleManager showWindow:self];
 }
 
 - (MSynthesisParameterEditor *)synthesisParameterEditor;

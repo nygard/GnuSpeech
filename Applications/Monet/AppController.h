@@ -1,5 +1,5 @@
 //
-// $Id: AppController.h,v 1.38 2004/03/29 23:09:40 nygard Exp $
+// $Id: AppController.h,v 1.39 2004/03/30 21:16:40 nygard Exp $
 //
 
 /*===========================================================================
@@ -46,7 +46,6 @@ History:
 
     /* Window pointers */
     IBOutlet NSWindow *synthesisWindow;
-    IBOutlet NSWindow *synthParmWindow;
 
     MDataEntryController *dataEntryController;
     MPostureEditor *postureEditor;
@@ -54,7 +53,7 @@ History:
     MTransitionEditor *transitionEditor;
     MSpecialTransitionEditor *specialTransitionEditor;
     MRuleTester *ruleTester;
-    MRuleManager *newRuleManager;
+    MRuleManager *ruleManager;
     MSynthesisParameterEditor *synthesisParameterEditor;
 }
 

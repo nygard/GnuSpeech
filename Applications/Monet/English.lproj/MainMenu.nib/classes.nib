@@ -30,7 +30,6 @@
                 intonationView = IntonationScrollView; 
                 prototypeManager = PrototypeManager; 
                 stringParser = StringParser; 
-                synthParmWindow = NSWindow; 
                 synthesisWindow = NSWindow; 
             }; 
             SUPERCLASS = NSObject; 
