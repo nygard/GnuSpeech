@@ -384,7 +384,7 @@
     if ([defaults boolForKey:MDK_ShouldUseSmoothIntonation])
         [eventList applySmoothIntonation];
     else
-        [eventList applyIntonation_fromIntonationView];
+        [eventList applyFlatIntonation];
 
     [eventList setShouldUseSmoothIntonation:[defaults boolForKey:MDK_ShouldUseSmoothIntonation]];
 

@@ -229,7 +229,7 @@ extern NSString *EventListDidRemoveIntonationPoint;
 - (void)addIntonationPoint:(MMIntonationPoint *)iPoint;
 - (void)addIntonationPoint:(double)semitone offsetTime:(double)offsetTime slope:(double)slope ruleIndex:(int)ruleIndex;
 
-- (void)applyIntonation_fromIntonationView;
+- (void)applyFlatIntonation;
 - (void)applySmoothIntonation;
 
 - (void)clearIntonationEvents;
