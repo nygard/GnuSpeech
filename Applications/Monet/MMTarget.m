@@ -63,6 +63,7 @@
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
     unsigned archivedVersion;
+    int defaultInt;
 
     if ([super initWithCoder:aDecoder] == nil)
         return nil;
@@ -71,7 +72,8 @@
     archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
     //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
 
-    [aDecoder decodeValuesOfObjCTypes:"id", &isDefault, &value];
+    [aDecoder decodeValuesOfObjCTypes:"id", &defaultInt, &value];
+    isDefault = defaultInt;
 
     //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
     return self;

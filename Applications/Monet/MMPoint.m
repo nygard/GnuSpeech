@@ -160,6 +160,7 @@
     int i, j;
     MMEquation *anExpression;
     MModel *model;
+    int phantom;
 
     if ([super initWithCoder:aDecoder] == nil)
         return nil;
@@ -171,7 +172,9 @@
 
 #if 1
     // TODO (2004-03-17): Check to make sure that isPhantom is being properly decoded.
-    [aDecoder decodeValuesOfObjCTypes:"ddii", &value, &freeTime, &type, &isPhantom];
+    [aDecoder decodeValuesOfObjCTypes:"ddii", &value, &freeTime, &type, &phantom];
+    isPhantom = phantom; // Can't decode an int into a BOOL
+    //NSLog(@"isPhantom: %d", isPhantom);
 #else
     // Hack to check "Play2.monet".
     {
