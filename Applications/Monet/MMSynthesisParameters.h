@@ -1,5 +1,5 @@
 //
-// $Id: MMSynthesisParameters.h,v 1.1 2004/03/29 23:09:40 nygard Exp $
+// $Id: MMSynthesisParameters.h,v 1.2 2004/03/29 23:24:08 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -69,7 +69,9 @@ typedef enum {
 + (MMChannels)channelsFromString:(NSString *)aString;
 
 - (id)init;
+
 - (void)restoreDefaultValues;
+- (void)saveAsDefaults;
 
 - (double)masterVolume;
 - (void)setMasterVolume:(double)value;

@@ -200,6 +200,44 @@ static NSString *MonetDefKeys[] = {
     outputChannels = [MMSynthesisParameters channelsFromString:[defaults stringForKey:MDK_OUTPUT_CHANNELS]];
 }
 
+- (void)saveAsDefaults;
+{
+    NSUserDefaults *defaults;
+
+    defaults = [NSUserDefaults standardUserDefaults];
+
+    [defaults setDouble:masterVolume forKey:MDK_MASTER_VOLUME];
+    [defaults setDouble:vocalTractLength forKey:MDK_VOCAL_TRACT_LENGTH];
+    [defaults setDouble:temperature forKey:MDK_TEMPERATURE];
+    [defaults setDouble:balance forKey:MDK_BALANCE];
+    [defaults setDouble:breathiness forKey:MDK_BREATHINESS];
+    [defaults setDouble:lossFactor forKey:MDK_LOSS_FACTOR];
+    [defaults setDouble:pitch forKey:MDK_PITCH];
+
+    [defaults setDouble:throatCutoff forKey:MDK_THROAT_CUTTOFF];
+    [defaults setDouble:throatVolume forKey:MDK_THROAT_VOLUME];
+    [defaults setDouble:apertureScaling forKey:MDK_APERTURE_SCALING];
+    [defaults setDouble:mouthCoef forKey:MDK_MOUTH_COEF];
+    [defaults setDouble:noseCoef forKey:MDK_NOSE_COEF];
+    [defaults setDouble:mixOffset forKey:MDK_MIX_OFFSET];
+
+    [defaults setDouble:n1 forKey:MDK_N1];
+    [defaults setDouble:n2 forKey:MDK_N2];
+    [defaults setDouble:n3 forKey:MDK_N3];
+    [defaults setDouble:n4 forKey:MDK_N4];
+    [defaults setDouble:n5 forKey:MDK_N5];
+
+    [defaults setDouble:tp forKey:MDK_TP];
+    [defaults setDouble:tnMin forKey:MDK_TN_MIN];
+    [defaults setDouble:tnMax forKey:MDK_TN_MAX];
+
+    NSLog(@"%s, glottalPulseShape: %d, str: %@", _cmd, glottalPulseShape, [MMSynthesisParameters stringForGlottalPulseShape:glottalPulseShape]);
+    [defaults setObject:[MMSynthesisParameters stringForGlottalPulseShape:glottalPulseShape] forKey:MDK_GP_SHAPE];
+    [defaults setBool:shouldUseNoiseModulation forKey:MDK_NOISE_MODULATION];
+    [defaults setObject:[MMSynthesisParameters stringForSamplingRate:samplingRate] forKey:MDK_SAMPLING_RATE];
+    [defaults setObject:[MMSynthesisParameters stringForChannels:outputChannels] forKey:MDK_OUTPUT_CHANNELS];
+}
+
 - (double)masterVolume;
 {
     return masterVolume;

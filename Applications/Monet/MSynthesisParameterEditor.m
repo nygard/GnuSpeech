@@ -165,8 +165,7 @@
 
 - (IBAction)saveAsDefaults:(id)sender;
 {
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
+    [synthesisParameters saveAsDefaults];
 }
 
 - (IBAction)updateMasterVolume:(id)sender;
@@ -381,22 +380,22 @@
 
 - (IBAction)updateGlottalPulseShape:(id)sender;
 {
-    [synthesisParameters setGlottalPulseShape:[sender tag]];
+    [synthesisParameters setGlottalPulseShape:[[sender selectedCell] tag]];
 }
 
 - (IBAction)updateNoiseModulation:(id)sender;
 {
-    [synthesisParameters setShouldUseNoiseModulation:[sender tag]];
+    [synthesisParameters setShouldUseNoiseModulation:[[sender selectedCell] tag]];
 }
 
 - (IBAction)updateSamplingRate:(id)sender;
 {
-    [synthesisParameters setSamplingRate:[sender tag]];
+    [synthesisParameters setSamplingRate:[[sender selectedCell] tag]];
 }
 
 - (IBAction)updateOutputChannels:(id)sender;
 {
-    [synthesisParameters setOutputChannels:[sender tag]];
+    [synthesisParameters setOutputChannels:[[sender selectedCell] tag]];
 }
 
 @end
