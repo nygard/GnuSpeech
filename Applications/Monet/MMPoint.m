@@ -241,7 +241,6 @@
     if ([self init] == nil)
         return nil;
 
-    // TODO (2004-05-14): Use diphone/triphone/tetraphone instead of 2/3/4
     str = [attributes objectForKey:@"type"];
     if (str != nil)
         [self setType:MMPhoneTypeFromString(str)];

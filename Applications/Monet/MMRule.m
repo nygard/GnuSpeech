@@ -14,6 +14,9 @@
 
 #import "MModel.h"
 #import "MUnarchiver.h"
+#import "MXMLParser.h"
+#import "MXMLArrayDelegate.h"
+#import "MXMLPCDataDelegate.h"
 
 @implementation MMRule
 
@@ -663,6 +666,46 @@
 
     if (oldExpressionCount != [self numberExpressions])
         [self setDefaultsTo:[self numberExpressions]];
+}
+
+- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
+{
+    if ([self init] == nil)
+        return nil;
+
+    return self;
+}
+
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
+{
+    if ([elementName isEqualToString:@"comment"]) {
+        MXMLPCDataDelegate *newDelegate;
+
+        newDelegate = [[MXMLPCDataDelegate alloc] initWithElementName:elementName delegate:self setSelector:@selector(setComment:)];
+        [(MXMLParser *)parser pushDelegate:newDelegate];
+        [newDelegate release];
+#if 0
+    } else if ([elementName isEqualToString:@"boolean-expressions"]) {
+        MXMLArrayDelegate *newDelegate;
+
+        // TODO (2004-05-14): It will need to implement initWithXMLAttributes:context:, and use the boolean parser.  Hmm, need a BooleanNode baseclass?
+        newDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"boolean-expression" class:[BooleanExpression class] delegate:self addObjectSelector:@selector(addPoint:)];
+        [(MXMLParser *)parser pushDelegate:newDelegate];
+        [newDelegate release];
+    } else if ([elementName isEqualToString:@"parameter-profiles"]) {
+    } else if ([elementName isEqualToString:@"meta-parameter-profiles"]) {
+    } else if ([elementName isEqualToString:@"special-profiles"]) {
+    } else if ([elementName isEqualToString:@"expression-symbols"]) {
+#endif
+    } else {
+        NSLog(@"%@, Unknown element: '%@', skipping", [self shortDescription], elementName);
+        [(MXMLParser *)parser skipTree];
+    }
+}
+
+- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
+{
+    [(MXMLParser *)parser popDelegate];
 }
 
 @end

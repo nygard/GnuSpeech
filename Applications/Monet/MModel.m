@@ -1534,9 +1534,12 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"transition-group" class:[NamedList class] delegate:self addObjectSelector:@selector(addSpecialTransitionGroup:)];
         [(MXMLParser *)parser pushDelegate:arrayDelegate];
         [arrayDelegate release];
-#if 0
     } else if ([elementName isEqualToString:@"rules"]) {
-#endif
+        MXMLArrayDelegate *arrayDelegate;
+
+        arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"rule" class:[MMRule class] delegate:self addObjectSelector:@selector(addRule:)];
+        [(MXMLParser *)parser pushDelegate:arrayDelegate];
+        [arrayDelegate release];
     } else {
         NSLog(@"starting unknown element: '%@'", elementName);
         [(MXMLParser *)parser skipTree];
