@@ -4,12 +4,16 @@
 #import "MRuleManager.h"
 
 #import <AppKit/AppKit.h>
+#import "NSOutlineView-Extensions.h"
+
 #import "BooleanExpression.h"
 #import "MCommentCell.h"
+#import "MMEquation.h"
 #import "MModel.h"
 #import "MMParameter.h"
 #import "MMPosture.h"
 #import "MMRule.h"
+#import "MMTransition.h"
 #import "NamedList.h"
 #import "ParameterList.h"
 #import "PhoneList.h"
@@ -44,6 +48,8 @@
 {
     [model release];
     [matchLists release];
+    [regularControlFont release];
+    [boldControlFont release];
 
     [super dealloc];
 }
@@ -82,6 +88,9 @@
 - (void)windowDidLoad;
 {
     MCommentCell *commentImageCell;
+
+    regularControlFont = [[NSFont controlContentFontOfSize:12] retain];
+    boldControlFont = [[[NSFontManager sharedFontManager] convertFont:regularControlFont toHaveTrait:NSBoldFontMask] retain];
 
     commentImageCell = [[MCommentCell alloc] initImageCell:nil];
     [commentImageCell setImageAlignment:NSImageAlignCenter];
@@ -146,6 +155,11 @@
 
     [self evaluateMatchLists];
 
+    [self _updateSelectedSymbolDetails];
+    [self _updateSelectedParameterDetails];
+    [specialParameterTableView setNeedsDisplay:YES]; // To update bold rows
+    [self _updateSelectedSpecialParameterDetails];
+    [self _updateSelectedMetaParameterDetails];
     [self _updateRuleComment];
 
     //[[sender window] makeFirstResponder:delegateResponder];
@@ -164,6 +178,55 @@
         str = @"";
 
     [ruleCommentTextView setString:str];
+}
+
+- (void)_updateSelectedSymbolDetails;
+{
+    int selectedRow;
+
+    selectedRow = [symbolTableView selectedRow];
+}
+
+- (void)_updateSelectedParameterDetails;
+{
+    int selectedRow;
+    MMTransition *aTransition;
+
+    selectedRow = [parameterTableView selectedRow];
+    aTransition = [[[self selectedRule] parameterList] objectAtIndex:selectedRow];
+    if ([aTransition group] != nil) {
+        [parameterTransitionOutlineView scrollRowForItemToVisible:[aTransition group]];
+        [parameterTransitionOutlineView expandItem:[aTransition group]];
+    }
+    [parameterTransitionOutlineView selectItem:aTransition];
+}
+
+- (void)_updateSelectedSpecialParameterDetails;
+{
+    int selectedRow;
+    MMTransition *aTransition;
+
+    selectedRow = [specialParameterTableView selectedRow];
+    aTransition = [[self selectedRule] getSpecialProfile:selectedRow];
+    if ([aTransition group] != nil) {
+        [specialParameterTransitionOutlineView scrollRowForItemToVisible:[aTransition group]];
+        [specialParameterTransitionOutlineView expandItem:[aTransition group]];
+    }
+    [specialParameterTransitionOutlineView selectItem:aTransition];
+}
+
+- (void)_updateSelectedMetaParameterDetails;
+{
+    int selectedRow;
+    MMTransition *aTransition;
+
+    selectedRow = [metaParameterTableView selectedRow];
+    aTransition = [[[self selectedRule] metaParameterList] objectAtIndex:selectedRow];
+    if ([aTransition group] != nil) {
+        [metaParameterTransitionOutlineView scrollRowForItemToVisible:[aTransition group]];
+        [metaParameterTransitionOutlineView expandItem:[aTransition group]];
+    }
+    [metaParameterTransitionOutlineView selectItem:aTransition];
 }
 
 - (void)setExpression:(BooleanExpression *)anExpression atIndex:(int)index;
@@ -312,6 +375,24 @@
 
     if (tableView == ruleTableView) {
         [self _updateSelectedRuleDetails];
+    } else if (tableView == symbolTableView) {
+        [self _updateSelectedSymbolDetails];
+    } else if (tableView == parameterTableView) {
+        [self _updateSelectedParameterDetails];
+    } else if (tableView == specialParameterTableView) {
+        [self _updateSelectedSpecialParameterDetails];
+    } else if (tableView == metaParameterTableView) {
+        [self _updateSelectedMetaParameterDetails];
+    }
+}
+
+- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(int)row;
+{
+    if (tableView == specialParameterTableView) {
+        if ([[self selectedRule] getSpecialProfile:row] != nil)
+            [cell setFont:boldControlFont];
+        else
+            [cell setFont:regularControlFont];
     }
 }
 
@@ -440,6 +521,78 @@
     }
 
     return nil;
+}
+
+//
+// NSOutlineView delegate
+//
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item;
+{
+    if (outlineView == symbolEquationOutlineView) {
+        return [symbolTableView selectedRow] != -1 && (item == nil || [item isKindOfClass:[MMEquation class]]);
+    } else if (outlineView == parameterTransitionOutlineView) {
+        return [parameterTableView selectedRow] != -1 && [item isKindOfClass:[MMTransition class]];
+    } else if (outlineView == specialParameterTransitionOutlineView) {
+        return [specialParameterTableView selectedRow] != -1 && (item == nil || [item isKindOfClass:[MMTransition class]]);
+    } else if (outlineView == metaParameterTransitionOutlineView) {
+        return [metaParameterTableView selectedRow] != -1 && (item == nil || [item isKindOfClass:[MMTransition class]]);
+    }
+
+    return YES;
+}
+
+// Disallow collapsing the group with the selection, otherwise we lose the selection
+- (BOOL)outlineView:(NSOutlineView *)outlineView shouldCollapseItem:(id)item;
+{
+    if (outlineView == symbolEquationOutlineView) {
+        MMEquation *selectedEquation;
+
+        selectedEquation = [outlineView selectedItemOfClass:[MMEquation class]];
+        return item != [selectedEquation group];
+    } else if (outlineView == parameterTransitionOutlineView || outlineView == specialParameterTransitionOutlineView
+               || outlineView == metaParameterTransitionOutlineView) {
+        MMTransition *selectedTransition;
+
+        selectedTransition = [outlineView selectedItemOfClass:[MMTransition class]];
+        return item != [selectedTransition group];
+    }
+
+    return YES;
+}
+
+- (void)outlineViewSelectionDidChange:(NSNotification *)aNotification;
+{
+    NSOutlineView *outlineView;
+
+    outlineView = [aNotification object];
+
+    if (outlineView == symbolEquationOutlineView) {
+        MMEquation *selectedEquation;
+
+        selectedEquation = [outlineView selectedItemOfClass:[MMEquation class]];
+    } else if (outlineView == parameterTransitionOutlineView) {
+        MMTransition *selectedTransition;
+
+        selectedTransition = [outlineView selectedItemOfClass:[MMTransition class]];
+        if (selectedTransition != nil) {
+            [[[self selectedRule] parameterList] replaceObjectAtIndex:[parameterTableView selectedRow] withObject:selectedTransition];
+        }
+
+    } else if (outlineView == specialParameterTransitionOutlineView) {
+        MMTransition *selectedTransition;
+
+        selectedTransition = [outlineView selectedItemOfClass:[MMTransition class]];
+        [[self selectedRule] setSpecialProfile:[specialParameterTableView selectedRow] to:selectedTransition];
+        [specialParameterTableView setNeedsDisplay:YES]; // To update bolded rows
+    } else if (outlineView == metaParameterTransitionOutlineView) {
+        MMTransition *selectedTransition;
+
+        selectedTransition = [outlineView selectedItemOfClass:[MMTransition class]];
+        if (selectedTransition != nil) {
+            [[[self selectedRule] metaParameterList] replaceObjectAtIndex:[metaParameterTableView selectedRow] withObject:selectedTransition];
+        }
+    }
 }
 
 @end

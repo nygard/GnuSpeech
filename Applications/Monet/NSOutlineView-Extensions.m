@@ -27,6 +27,30 @@
     return nil;
 }
 
+- (void)selectItem:(id)anItem;
+{
+    if (anItem == nil)
+        [self deselectAll:nil];
+    else {
+        int row;
+
+        row = [self rowForItem:anItem];
+        [self selectRow:row byExtendingSelection:NO];
+        [self scrollRowToVisible:row];
+    }
+}
+
+- (void)scrollRowForItemToVisible:(id)anItem;
+{
+    int row;
+
+    if (anItem == nil)
+        return;
+
+    row = [self rowForItem:anItem];
+    [self scrollRowToVisible:row];
+}
+
 - (void)resizeOutlineColumnToFit;
 {
     NSArray *columns;

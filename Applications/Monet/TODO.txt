@@ -138,3 +138,5 @@ Notes:
 - In the rule manager we could have a column to show the running total combinations that can reach each rule
   - this would take the total possible combinations, minus all of the ones matched above it.
   - I think this would be difficult to do.
+- In MMRule, key the transitions and special transitions by name, so we can easily change the order.  (Of course,
+  that makes changing the name a bit more work.)

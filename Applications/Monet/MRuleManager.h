@@ -1,5 +1,5 @@
 //
-// $Id: MRuleManager.h,v 1.3 2004/03/24 18:38:59 nygard Exp $
+// $Id: MRuleManager.h,v 1.4 2004/03/24 19:43:35 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -41,6 +41,9 @@
 
     MonetList *matchLists; // Of PhoneLists?
     BooleanExpression *expressions[4];
+
+    NSFont *regularControlFont;
+    NSFont *boldControlFont;
 }
 
 - (id)initWithModel:(MModel *)aModel;
@@ -55,7 +58,12 @@
 - (void)windowDidLoad;
 - (void)updateViews;
 - (void)expandOutlines;
+- (void)_updateSelectedRuleDetails;
 - (void)_updateRuleComment;
+- (void)_updateSelectedSymbolDetails;
+- (void)_updateSelectedParameterDetails;
+- (void)_updateSelectedSpecialParameterDetails;
+- (void)_updateSelectedMetaParameterDetails;
 
 - (void)setExpression:(BooleanExpression *)anExpression atIndex:(int)index;
 - (void)evaluateMatchLists;
@@ -67,6 +75,7 @@
 
 // NSTableView delegate
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification;
+- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(int)row;
 
 // Browser delegate methods
 - (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;
@@ -77,5 +86,9 @@
 - (id)outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item;
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item;
 - (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item;
+
+// NSOutlineView delegate
+- (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item;
+- (BOOL)outlineView:(NSOutlineView *)outlineView shouldCollapseItem:(id)item;
 
 @end
