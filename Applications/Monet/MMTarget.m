@@ -100,7 +100,7 @@
                   self, value, GSXMLBoolAttributeString(isDefault)];
 }
 
-- (id)initWithXMLAttributes:(NSDictionary *)attributes;
+- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 {
     NSString *str;
 

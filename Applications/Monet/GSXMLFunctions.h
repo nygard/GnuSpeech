@@ -18,6 +18,7 @@ NSString *GSXMLEscapeGeneralEntities(NSString *aString, int entityMask);
 NSString *GSXMLAttributeString(NSString *aString, BOOL isSingleQuoted);
 NSString *GSXMLCharacterData(NSString *aString);
 NSString *GSXMLBoolAttributeString(BOOL aFlag);
+BOOL GSXMLBoolFromString(NSString *str);
 
 
 NSString *MMStringFromPhoneType(MMPhoneType type);

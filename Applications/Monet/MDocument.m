@@ -72,6 +72,7 @@
         [self setModel:newModel];
         [newModel release];
 
+        [(MXMLParser *)parser setContext:model];
         [(MXMLParser *)parser pushDelegate:model];
     }
 }

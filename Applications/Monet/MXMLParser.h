@@ -8,17 +8,21 @@
 #import <Foundation/NSXMLParser.h>
 
 @protocol MXMLParserGenericInit
-- (id)initWithXMLAttributes:(NSDictionary *)attributes;
+- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 @end
 
 @interface MXMLParser : NSXMLParser
 {
     NSMutableArray *delegateStack;
+    id context;
 }
 
 - (id)initWithContentsOfURL:(NSURL *)url;
 - (id)initWithData:(NSData *)data;
 - (void)dealloc;
+
+- (id)context;
+- (void)setContext:(id)newContext;
 
 - (void)pushDelegate:(id)newDelegate;
 - (void)popDelegate;

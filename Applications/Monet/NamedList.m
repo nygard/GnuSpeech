@@ -185,7 +185,7 @@
         [anObject setGroup:self];
 }
 
-- (id)initWithXMLAttributes:(NSDictionary *)attributes;
+- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 {
     if ([self init] == nil)
         return nil;
@@ -207,7 +207,7 @@
         MMEquation *newDelegate;
         NSString *str;
 
-        newDelegate = [[MMEquation alloc] initWithXMLAttributes:attributeDict];
+        newDelegate = [[MMEquation alloc] initWithXMLAttributes:attributeDict context:[(MXMLParser *)parser context]];
         [self addObject:newDelegate];
 
         // Set the formula after adding it to the group, so that it has access to the model for the symbols
@@ -219,7 +219,7 @@
     } else if ([elementName isEqualToString:@"transition"]) {
         MMTransition *newDelegate;
 
-        newDelegate = [[MMTransition alloc] initWithXMLAttributes:attributeDict];
+        newDelegate = [[MMTransition alloc] initWithXMLAttributes:attributeDict context:[(MXMLParser *)parser context]];
         [self addObject:newDelegate];
         [(MXMLParser *)parser pushDelegate:newDelegate];
         [newDelegate release];

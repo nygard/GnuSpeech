@@ -84,6 +84,8 @@ extern NSString *MCategoryInUseException;
 - (void)addTransitionGroup:(NamedList *)newGroup;
 - (void)addSpecialTransitionGroup:(NamedList *)newGroup;
 
+- (MMEquation *)findEquationWithName:(NSString *)anEquationName;
+
 - (MMEquation *)findEquationList:(NSString *)aListName named:(NSString *)anEquationName;
 - (void)findList:(int *)listIndex andIndex:(int *)equationIndex ofEquation:(MMEquation *)anEquation;
 - (MMEquation *)findEquation:(int)listIndex andIndex:(int)equationIndex;
@@ -134,6 +136,7 @@ extern NSString *MCategoryInUseException;
 // Other
 - (MMSynthesisParameters *)synthesisParameters;
 
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 
 @end

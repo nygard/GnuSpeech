@@ -568,6 +568,30 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [newGroup setModel:self];
 }
 
+// This will require that all the equation names be unique.  Otherwise we'll need to store the group in the XML file as well.
+- (MMEquation *)findEquationWithName:(NSString *)anEquationName;
+{
+    unsigned int groupCount, groupIndex;
+    unsigned int count, index;
+
+    groupCount = [equations count];
+    for (groupIndex = 0; groupIndex < groupCount; groupIndex++) {
+        NamedList *currentGroup;
+
+        currentGroup = [equations objectAtIndex:groupIndex];
+        count = [currentGroup count];
+        for (index = 0; index < count; index++) {
+            MMEquation *anEquation;
+
+            anEquation = [currentGroup objectAtIndex:index];
+            if ([anEquationName isEqualToString:[anEquation name]])
+                return anEquation;
+        }
+    }
+
+    return nil;
+}
+
 // TODO (2004-03-06): Find equation named "named" in list named "list"
 // Change to findEquationNamed:(NSString *)anEquationName inList:(NSString *)aListName;
 // TODO (2004-03-06): Merge these three sets of methods, since they're practically identical.

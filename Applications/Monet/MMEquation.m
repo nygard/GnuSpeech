@@ -208,7 +208,7 @@
     return [NSString stringWithFormat:@"%@:%@", [[self group] name], name];
 }
 
-- (id)initWithXMLAttributes:(NSDictionary *)attributes;
+- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 {
     if ([self init] == nil)
         return nil;

@@ -31,8 +31,23 @@
 - (void)dealloc;
 {
     [delegateStack release];
+    [context release];
 
     [super dealloc];
+}
+
+- (id)context;
+{
+    return context;
+}
+
+- (void)setContext:(id)newContext;
+{
+    if (newContext == context)
+        return;
+
+    [context release];
+    context = [newContext retain];
 }
 
 - (void)pushDelegate:(id)newDelegate;

@@ -164,7 +164,7 @@
     }
 }
 
-- (id)initWithXMLAttributes:(NSDictionary *)attributes;
+- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 {
     id value;
 

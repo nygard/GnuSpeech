@@ -14,6 +14,7 @@
 #import "MUnarchiver.h"
 
 #import "MXMLParser.h"
+#import "MXMLArrayDelegate.h"
 #import "MXMLPCDataDelegate.h"
 
 @implementation MMTransition
@@ -116,7 +117,13 @@
     points = [newList retain];
 }
 
-//pointTime = [aPoint getTime];
+// Can be either an MMPoint or an MMSlopeRatio
+- (void)addPoint:(id)newPoint;
+{
+    [points addObject:newPoint];
+}
+
+// pointTime = [aPoint getTime];
 - (BOOL)isTimeInSlopeRatio:(double)aTime;
 {
     unsigned pointCount, pointIndex;
@@ -383,7 +390,7 @@
     return [NSString stringWithFormat:@"%@:%@", [[self group] name], name];
 }
 
-- (id)initWithXMLAttributes:(NSDictionary *)attributes;
+- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 {
     if ([self init] == nil)
         return nil;
@@ -401,9 +408,12 @@
         newDelegate = [[MXMLPCDataDelegate alloc] initWithElementName:elementName delegate:self setSelector:@selector(setComment:)];
         [(MXMLParser *)parser pushDelegate:newDelegate];
         [newDelegate release];
-#if 0
     } else if ([elementName isEqualToString:@"point-or-slopes"]) {
-#endif
+        MXMLArrayDelegate *newDelegate;
+
+        newDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"point" class:[MMPoint class] delegate:self addObjectSelector:@selector(addPoint:)];
+        [(MXMLParser *)parser pushDelegate:newDelegate];
+        [newDelegate release];
     } else {
         NSLog(@"%@, Unknown element: '%@', skipping", [self shortDescription], elementName);
         [(MXMLParser *)parser skipTree];

@@ -600,7 +600,7 @@
     [resultString appendString:@"</symbol-targets>\n"];
 }
 
-- (id)initWithXMLAttributes:(NSDictionary *)attributes;
+- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 {
     if ([self initWithModel:nil] == nil)
         return nil;

@@ -68,6 +68,10 @@ NSString *GSXMLBoolAttributeString(BOOL aFlag)
     return @"no";
 }
 
+BOOL GSXMLBoolFromString(NSString *str)
+{
+    return [str isEqualToString:@"yes"];
+}
 
 // TODO (2004-04-22): Maybe these should be in another file.
 NSString *MMStringFromPhoneType(MMPhoneType type)

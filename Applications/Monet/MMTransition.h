@@ -19,7 +19,7 @@
     NSString *name;
     NSString *comment;
     MMPhoneType type;
-    MonetList *points; // Of MMSlopeRatios (or maybe something else - MMPoints?)
+    MonetList *points; // Of MMSlopeRatios and/or MMPoints
 }
 
 - (id)init;
@@ -38,6 +38,7 @@
 
 - (MonetList *)points;
 - (void)setPoints:(MonetList *)newList;
+- (void)addPoint:(id)newPoint;
 
 - (BOOL)isTimeInSlopeRatio:(double)aTime;
 - (void)insertPoint:(MMPoint *)aPoint;
@@ -56,7 +57,7 @@
 
 - (NSString *)transitionPath;
 
-- (id)initWithXMLAttributes:(NSDictionary *)attributes;
+- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 

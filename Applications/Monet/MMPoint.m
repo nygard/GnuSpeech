@@ -12,6 +12,7 @@
 
 #import "MModel.h"
 #import "MUnarchiver.h"
+#import "MXMLParser.h"
 
 @implementation MMPoint
 
@@ -231,6 +232,52 @@
         [resultString appendFormat:@" is-phantom=\"%@\"", GSXMLBoolAttributeString(isPhantom)];
 
     [resultString appendString:@"/>\n"];
+}
+
+- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
+{
+    NSString *str;
+
+    if ([self init] == nil)
+        return nil;
+
+    // TODO (2004-05-14): Use diphone/triphone/tetraphone instead of 2/3/4
+    str = [attributes objectForKey:@"type"];
+    if (str != nil)
+        [self setType:[str intValue]];
+
+    str = [attributes objectForKey:@"value"];
+    if (str != nil)
+        [self setValue:[str doubleValue]];
+
+    str = [attributes objectForKey:@"free-time"];
+    if (str != nil)
+        [self setFreeTime:[str doubleValue]];
+
+    str = [attributes objectForKey:@"time-expression"];
+    if (str != nil) {
+        MMEquation *anEquation;
+
+        anEquation = [context findEquationWithName:str];
+        [self setExpression:anEquation];
+    }
+
+    str = [attributes objectForKey:@"is-phantom"];
+    if (str != nil)
+        [self setIsPhantom:GSXMLBoolFromString(str)];
+
+    return self;
+}
+
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
+{
+    NSLog(@"%@, Unknown element: '%@', skipping", [self shortDescription], elementName);
+    [(MXMLParser *)parser skipTree];
+}
+
+- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
+{
+    [(MXMLParser *)parser popDelegate];
 }
 
 @end

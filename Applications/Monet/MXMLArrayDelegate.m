@@ -34,7 +34,7 @@
     if ([anElementName isEqualToString:childElementName]) {
         id newObject;
 
-        newObject = [[objectClass alloc] initWithXMLAttributes:attributeDict];
+        newObject = [[objectClass alloc] initWithXMLAttributes:attributeDict context:[(MXMLParser *)parser context]];
         //NSLog(@"newObject: %@", newObject);
         if ([delegate respondsToSelector:addObjectSelector]) {
             [delegate performSelector:addObjectSelector withObject:newObject];

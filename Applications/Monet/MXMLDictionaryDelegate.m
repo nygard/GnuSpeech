@@ -39,7 +39,7 @@
         id newObject;
         NSString *key;
 
-        newObject = [[objectClass alloc] initWithXMLAttributes:attributeDict];
+        newObject = [[objectClass alloc] initWithXMLAttributes:attributeDict context:[(MXMLParser *)parser context]];
         key = [attributeDict objectForKey:keyAttributeName];
         //NSLog(@"newObject: %@, key: %@", newObject, key);
         if (key == nil) {
