@@ -176,7 +176,7 @@ struct {
 } current;
 
 TRMSampleRateConverter sampleRateConverter;
-TRMRingBuffer *ringBuffer;
+TRMRingBuffer *ringBuffer = NULL;
 TRMWavetable *wavetable = NULL;
 
 /*  GLOBAL FUNCTIONS (LOCAL TO THIS FILE)  ***********************************/
@@ -184,9 +184,11 @@ TRMWavetable *wavetable = NULL;
 void initializeMouthCoefficients(double coeff);
 double reflectionFilter(double input);
 double radiationFilter(double input);
+
 void initializeNasalFilterCoefficients(double coeff);
 double nasalReflectionFilter(double input);
 double nasalRadiationFilter(double input);
+
 void setControlRateParameters(INPUT *previousInput, INPUT *currentInput);
 void sampleRateInterpolation(void);
 void initializeNasalCavity(struct _TRMInputParameters *inputParameters);
@@ -197,6 +199,7 @@ void calculateBandpassCoefficients(void);
 double vocalTract(double input, double frication);
 double throat(double input);
 double bandpassFilter(double input);
+
 void initializeConversion(struct _TRMInputParameters *inputParameters);
 void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context);
 void initializeFilter(void);
@@ -227,8 +230,7 @@ int initializeSynthesizer(TRMInputParameters *inputParameters)
 {
     double nyquist;
 
-    /*  CALCULATE THE SAMPLE RATE, BASED ON NOMINAL
-        TUBE LENGTH AND SPEED OF SOUND  */
+    /*  CALCULATE THE SAMPLE RATE, BASED ON NOMINAL TUBE LENGTH AND SPEED OF SOUND  */
     if (inputParameters->length > 0.0) {
         double c = speedOfSound(inputParameters->temperature);
         controlPeriod = rint((c * TOTAL_SECTIONS * 100.0) / (inputParameters->length * inputParameters->controlRate));
