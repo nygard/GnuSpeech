@@ -1,4 +1,35 @@
 {
-    IBClasses = ({CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }); 
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                addCategory = id; 
+                addMetaParameter = id; 
+                addParameter = id; 
+                addSymbol = id; 
+                removeCategory = id; 
+                removeMetaParameter = id; 
+                removeParameter = id; 
+                removeSymbol = id; 
+            }; 
+            CLASS = MDataEntryController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                categoryCommentTextView = NSTextView; 
+                categoryTableView = NSTableView; 
+                categoryTotalTextField = NSTextField; 
+                metaParameterCommentTextView = NSTextView; 
+                metaParameterTableView = NSTableView; 
+                metaParameterTotalTextField = NSTextField; 
+                parameterCommentTextView = NSTextView; 
+                parameterTableView = NSTableView; 
+                parameterTotalTextField = NSTextField; 
+                symbolCommentTextView = NSTextView; 
+                symbolTableView = NSTableView; 
+                symbolTotalTextField = NSTextField; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
     IBVersion = 1; 
 }

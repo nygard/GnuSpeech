@@ -24,6 +24,8 @@
 #import "MModel.h"
 #import "MUnarchiver.h"
 
+#import "MDataEntryController.h"
+
 @implementation AppController
 
 - (id)init;
@@ -473,6 +475,20 @@
         [NSUnarchiver decodeClassName:names[index] asClassName:[NSString stringWithFormat:@"%@_NOT_CONVERTED", names[index]]];
         index++;
     }
+}
+
+- (IBAction)showNewDataEntryWindow:(id)sender;
+{
+    NSLog(@" > %s", _cmd);
+
+    if (dataEntryController == nil) {
+        dataEntryController = [[MDataEntryController alloc] initWithModel:model];
+    }
+
+    [dataEntryController setModel:model];
+    [dataEntryController showWindow:self];
+
+    NSLog(@"<  %s", _cmd);
 }
 
 @end

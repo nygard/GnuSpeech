@@ -482,6 +482,62 @@
 			settings = {
 			};
 		};
+		01848D13060A902E005E9B67 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = "NSNumberFormatter-Extensions.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01848D14060A902E005E9B67 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = "NSNumberFormatter-Extensions.m";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01848D15060A902E005E9B67 = {
+			fileRef = 01848D13060A902E005E9B67;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01848D16060A902E005E9B67 = {
+			fileRef = 01848D14060A902E005E9B67;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01848D26060A9208005E9B67 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = MDataEntryController.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01848D27060A9208005E9B67 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = MDataEntryController.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01848D28060A9208005E9B67 = {
+			fileRef = 01848D26060A9208005E9B67;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01848D29060A9208005E9B67 = {
+			fileRef = 01848D27060A9208005E9B67;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		018F79D806064E4600150223 = {
 			isa = PBXFileReference;
 			lastKnownFileType = image.tiff;
@@ -975,6 +1031,8 @@
 		};
 		0195D95305F40DDF006D8386 = {
 			children = (
+				01848D13060A902E005E9B67,
+				01848D14060A902E005E9B67,
 				01B201AF05F909C900C1F65D,
 				01B201B005F909C900C1F65D,
 				0195D94C05F40DDB006D8386,
@@ -1030,22 +1088,6 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
-		};
-		0195D9F005F43D4C006D8386 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = MyController.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0195D9F105F43D4C006D8386 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = MyController.m;
-			refType = 4;
-			sourceTree = "<group>";
 		};
 		0195DA1205F43F97006D8386 = {
 			fileEncoding = 30;
@@ -1105,6 +1147,8 @@
 		};
 		0195DB0405F46DB6006D8386 = {
 			children = (
+				01848D26060A9208005E9B67,
+				01848D27060A9208005E9B67,
 				01B2FFF205F6DF1B00C1F65D,
 				01B2FFF305F6DF1B00C1F65D,
 				0195DAFF05F46DB2006D8386,
@@ -1113,8 +1157,6 @@
 				0195DB1205F46DE6006D8386,
 				0195DB1B05F46E4E006D8386,
 				0195DB1C05F46E4E006D8386,
-				0195D9F005F43D4C006D8386,
-				0195D9F105F43D4C006D8386,
 				01B2005905F6E9F800C1F65D,
 				01B2005A05F6E9F800C1F65D,
 				0195DA1205F43F97006D8386,
@@ -2690,6 +2732,8 @@
 				01848C9D060A811E005E9B67,
 				01848CC7060A84F3005E9B67,
 				01848CF9060A871A005E9B67,
+				01848D15060A902E005E9B67,
+				01848D28060A9208005E9B67,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2802,6 +2846,8 @@
 				01848C9E060A811E005E9B67,
 				01848CC8060A84F3005E9B67,
 				01848CFA060A871A005E9B67,
+				01848D16060A902E005E9B67,
+				01848D29060A9208005E9B67,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

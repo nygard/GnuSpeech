@@ -11,6 +11,7 @@
                 printData = id; 
                 readFromDisk = id; 
                 savePrototypes = id; 
+                showNewDataEntryWindow = id; 
             }; 
             CLASS = AppController; 
             LANGUAGE = ObjC; 

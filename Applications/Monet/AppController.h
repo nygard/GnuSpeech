@@ -1,5 +1,5 @@
 //
-// $Id: AppController.h,v 1.17 2004/03/18 23:43:54 nygard Exp $
+// $Id: AppController.h,v 1.18 2004/03/19 03:28:18 nygard Exp $
 //
 
 /*===========================================================================
@@ -28,6 +28,7 @@ History:
 @class CategoryList, ParameterList, PhoneList, StringParser, SymbolList;
 @class BrowserManager, DefaultMgr, EventListView, Inspector, IntonationScrollView, PrototypeManager, RuleManager, SpecialView, TransitionView;
 @class MModel;
+@class MDataEntryController;
 
 @interface AppController : NSObject
 {
@@ -58,6 +59,8 @@ History:
     IBOutlet NSWindow *synthesisWindow;
     IBOutlet NSWindow *specialWindow;
     IBOutlet NSWindow *synthParmWindow;
+
+    MDataEntryController *dataEntryController;
 }
 
 - (id)init;
@@ -96,6 +99,8 @@ History:
 - (void)removeObjectForKey:(id)key;
 
 - (void)_disableUnconvertedClassLoading;
+
+- (IBAction)showNewDataEntryWindow:(id)sender;
 
 @end
 
