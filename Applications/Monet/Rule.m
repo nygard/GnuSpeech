@@ -8,8 +8,10 @@
 #import "BooleanExpression.h"
 #import "GSXMLFunctions.h"
 #import "MonetList.h"
+#import "Parameter.h"
 #import "ParameterList.h"
 #import "ProtoEquation.h"
+#import "ProtoTemplate.h"
 #import "PrototypeManager.h"
 
 @implementation Rule
@@ -493,20 +495,158 @@
     [resultString indentToLevel:level + 1];
     [resultString appendFormat:@"<boolean-expression>%@</boolean-expression>\n", [self ruleString]];
 
-    [parameterProfiles appendXMLForObjectPointersToString:resultString elementName:@"parameter-profiles" level:level + 1];
-    [metaParameterProfiles appendXMLForObjectPointersToString:resultString elementName:@"meta-parameter-profiles" level:level + 1];
-    [expressionSymbols appendXMLForObjectPointersToString:resultString elementName:@"expression-symbols" level:level + 1];
-
-    [resultString indentToLevel:level + 1];
-    [resultString appendString:@"<special-profiles>etc.</special-profiles>\n"];
-
     if (comment != nil) {
         [resultString indentToLevel:level + 1];
         [resultString appendFormat:@"<comment>%@</comment>\n", GSXMLCharacterData(comment)];
     }
 
+    [self _appendXMLForParameterProfilesToString:resultString level:level + 1];
+    [self _appendXMLForMetaParameterProfilesToString:resultString level:level + 1];
+    [self _appendXMLForSpecialProfilesToString:resultString level:level + 1];
+    [self _appendXMLForExpressionSymbolsToString:resultString level:level + 1];
+
     [resultString indentToLevel:level];
     [resultString appendFormat:@"</rule>\n"];
+}
+
+- (void)_appendXMLForParameterProfilesToString:(NSMutableString *)resultString level:(int)level;
+{
+    ParameterList *mainParameterList;
+    int count, index;
+
+    mainParameterList = NXGetNamedObject(@"mainParameterList", NSApp);
+    assert([mainParameterList count] == [parameterProfiles count]);
+
+    if ([parameterProfiles count] == 0)
+        return;
+
+    [resultString indentToLevel:level];
+    [resultString appendString:@"<parameter-profiles>\n"];
+
+    count = [mainParameterList count];
+    for (index = 0; index < count; index++) {
+        Parameter *aParameter;
+        ProtoTemplate *aTransition;
+
+        aParameter = [mainParameterList objectAtIndex:index];
+        aTransition = [parameterProfiles objectAtIndex:index];
+
+        [resultString indentToLevel:level + 1];
+        [resultString appendFormat:@"<parameter name=\"%@\" transition=\"%@\"/>\n",
+                      GSXMLAttributeString([aParameter symbol], NO), GSXMLAttributeString([aTransition name], NO)];
+    }
+
+    [resultString indentToLevel:level];
+    [resultString appendString:@"</parameter-profiles>\n"];
+}
+
+- (void)_appendXMLForMetaParameterProfilesToString:(NSMutableString *)resultString level:(int)level;
+{
+    ParameterList *mainMetaParameterList;
+    int count, index;
+
+    mainMetaParameterList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
+    assert([mainMetaParameterList count] == [metaParameterProfiles count]);
+
+    if ([metaParameterProfiles count] == 0)
+        return;
+
+    [resultString indentToLevel:level];
+    [resultString appendString:@"<meta-parameter-profiles>\n"];
+
+    count = [mainMetaParameterList count];
+    for (index = 0; index < count; index++) {
+        Parameter *aParameter;
+        ProtoTemplate *aTransition;
+
+        aParameter = [mainMetaParameterList objectAtIndex:index];
+        aTransition = [metaParameterProfiles objectAtIndex:index];
+
+        [resultString indentToLevel:level + 1];
+        [resultString appendFormat:@"<parameter name=\"%@\" transition=\"%@\"/>\n",
+                      GSXMLAttributeString([aParameter symbol], NO), GSXMLAttributeString([aTransition name], NO)];
+    }
+
+    [resultString indentToLevel:level];
+    [resultString appendString:@"</meta-parameter-profiles>\n"];
+}
+
+- (void)_appendXMLForSpecialProfilesToString:(NSMutableString *)resultString level:(int)level;
+{
+    ParameterList *mainParameterList;
+    int count, index;
+    BOOL hasSpecialProfiles = NO;
+
+    mainParameterList = NXGetNamedObject(@"mainParameterList", NSApp);
+
+    count = [mainParameterList count];
+    for (index = 0; index < count && index < 16; index++) {
+        if (specialProfiles[index] != nil) {
+            hasSpecialProfiles = YES;
+            break;
+        }
+    }
+
+    if (hasSpecialProfiles == NO)
+        return;
+
+    [resultString indentToLevel:level];
+    [resultString appendString:@"<special-profiles>\n"];
+
+    for (index = 0; index < count && index < 16; index++) {
+        Parameter *aParameter;
+        ProtoTemplate *aTransition;
+
+        aParameter = [mainParameterList objectAtIndex:index];
+        aTransition = specialProfiles[index];
+
+        if (aTransition != nil) {
+            [resultString indentToLevel:level + 1];
+            [resultString appendFormat:@"<parameter name=\"%@\" transition=\"%@\"/>\n",
+                          GSXMLAttributeString([aParameter symbol], NO), GSXMLAttributeString([aTransition name], NO)];
+        }
+    }
+
+    [resultString indentToLevel:level];
+    [resultString appendString:@"</special-profiles>\n"];
+}
+
+- (void)_appendXMLForExpressionSymbolsToString:(NSMutableString *)resultString level:(int)level;
+{
+    int count, index;
+
+    if ([expressionSymbols count] == 0)
+        return;
+
+    [resultString indentToLevel:level];
+    [resultString appendString:@"<expression-symbols>\n"];
+
+    count = [expressionSymbols count];
+    for (index = 0; index < count; index++) {
+        ProtoEquation *anEquation;
+
+        anEquation = [expressionSymbols objectAtIndex:index];
+
+        [resultString indentToLevel:level + 1];
+        [resultString appendFormat:@"<symbol name=\"%@\" equation=\"%@\"/>\n",
+                      GSXMLAttributeString([self expressionSymbolNameAtIndex:index], NO), GSXMLAttributeString([anEquation name], NO)];
+    }
+
+    [resultString indentToLevel:level];
+    [resultString appendString:@"</expression-symbols>\n"];
+}
+
+- (NSString *)expressionSymbolNameAtIndex:(int)index;
+{
+    switch (index) {
+      case 0: return @"Rule Duration";
+      case 1: return @"Beat";
+      case 2: return @"Mark 1";
+      case 3: return @"Mark 2";
+      case 4: return @"Mark 3";
+    }
+
+    return nil;
 }
 
 @end

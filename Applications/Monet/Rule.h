@@ -17,7 +17,7 @@
     MonetList *metaParameterProfiles; // Of ProtoTemplates?
     MonetList *expressionSymbols; // Of ProtoEquations
 
-    id specialProfiles[16];
+    ProtoTemplate *specialProfiles[16];
 
     BooleanExpression *expressions[4];
     NSString *comment;
@@ -63,5 +63,11 @@
 - (NSString *)description;
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForParameterProfilesToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForMetaParameterProfilesToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForSpecialProfilesToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForExpressionSymbolsToString:(NSMutableString *)resultString level:(int)level;
+
+- (NSString *)expressionSymbolNameAtIndex:(int)index;
 
 @end

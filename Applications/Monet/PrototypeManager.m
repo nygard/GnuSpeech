@@ -572,6 +572,7 @@
                 ProtoEquation *anEquation;
 
                 anEquation = [currentList objectAtIndex:j];
+                NSLog(@"**************************************** %s, class = %@", _cmd, NSStringFromClass([anEquation class]));
                 if ([aSpecialName isEqualToString:[anEquation name]])
                     return anEquation;
             }
