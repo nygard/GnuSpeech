@@ -2,7 +2,7 @@
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 @class NSFont;
-@class MonetList;
+@class MonetList, ProtoEquation;
 @class AppController, DelegateResponder;
 
 /*===========================================================================
@@ -28,12 +28,12 @@
     IBOutlet NSBox *outputBox;
     IBOutlet NSTextField *selectedOutput; // TODO (2004-03-03): Not sure about this.
 
-    MonetList *protoEquations;
-    MonetList *protoTemplates;
-    MonetList *protoSpecial;
+    MonetList *protoEquations; // Of NamedLists of ProtoEquations
+    MonetList *protoTemplates; // Of NamedLists of ProtoEquations
+    MonetList *protoSpecial; // Of NamedLists of ProtoEquations
 
-    NSFont *courier;
-    NSFont *courierBold;
+    NSFont *courierFont;
+    NSFont *courierBoldFont;
 
     DelegateResponder *delegateResponder;
 }
@@ -49,36 +49,36 @@
 - (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
 
-- (void)addCategory:(id)sender;
-- (void)add:(id)sender;
-- (void)rename:(id)sender;
-- (void)remove:(id)sender;
+- (IBAction)addCategory:(id)sender;
+- (IBAction)add:(id)sender;
+- (IBAction)rename:(id)sender;
+- (IBAction)remove:(id)sender;
 
-- (void)setEquations:(id)sender;
-- (void)setTransitions:(id)sender;
-- (void)setSpecial:(id)sender;
+- (IBAction)setEquations:(id)sender;
+- (IBAction)setTransitions:(id)sender;
+- (IBAction)setSpecial:(id)sender;
 
 - (MonetList *)equationList;
 - (MonetList *)transitionList;
 - (MonetList *)specialList;
 
-- findEquationList:(NSString *)list named:(NSString *)name;
-- (void)findList:(int *)listIndex andIndex:(int *)index ofEquation:equation;
-- findEquation:(int)listIndex andIndex:(int)index;
+- (ProtoEquation *)findEquationList:(NSString *)aListName named:(NSString *)anEquationName;
+- (void)findList:(int *)listIndex andIndex:(int *)equationIndex ofEquation:(ProtoEquation *)anEquation;
+- (ProtoEquation *)findEquation:(int)listIndex andIndex:(int)equationIndex;
 
-- findTransitionList:(NSString *)list named:(NSString *)name;
-- (void)findList:(int *)listIndex andIndex:(int *)index ofTransition:transition;
-- findTransition:(int)listIndex andIndex:(int)index;
+- (ProtoEquation *)findTransitionList:(NSString *)aListName named:(NSString *)aTransitionName;
+- (void)findList:(int *)listIndex andIndex:(int *)transitionIndex ofTransition:(ProtoEquation *)aTransition;
+- (ProtoEquation *)findTransition:(int)listIndex andIndex:(int)transitionIndex;
 
-- findSpecialList:(NSString *)list named:(NSString *)name;
-- (void)findList:(int *)listIndex andIndex:(int *)index ofSpecial:transition;
-- findSpecial:(int)listIndex andIndex:(int)index;
+- (ProtoEquation *)findSpecialList:(NSString *)aListName named:(NSString *)aSpecialName;
+- (void)findList:(int *)listIndex andIndex:(int *)specialIndex ofSpecial:(ProtoEquation *)aTransition;
+- (ProtoEquation *)findSpecial:(int)listIndex andIndex:(int)specialIndex;
 
-- (BOOL)isEquationUsed:anEquation;
+- (BOOL)isEquationUsed:(ProtoEquation *)anEquation;
 
-- (void)cut:(id)sender;
-- (void)copy:(id)sender;
-- (void)paste:(id)sender;
+- (IBAction)cut:(id)sender;
+- (IBAction)copy:(id)sender;
+- (IBAction)paste:(id)sender;
 
 - (void)readPrototypesFrom:(NSArchiver *)stream;
 - (void)writePrototypesTo:(NSArchiver *)stream;

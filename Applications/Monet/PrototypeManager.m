@@ -41,8 +41,8 @@
     [protoEquations release];
     [protoTemplates release];
     [protoSpecial release];
-    [courier release];
-    [courierBold release];
+    [courierFont release];
+    [courierBoldFont release];
     [delegateResponder setDelegate:nil];
     [delegateResponder release];
 
@@ -58,15 +58,15 @@
     [protoBrowser setDoubleAction:@selector(browserDoubleHit:)];
 
     // TODO (2004-03-03): Check these fonts.
-    courier = [[NSFont fontWithName:@"Courier" size:12] retain];
-    courierBold = [[NSFont fontWithName:@"Courier-Bold" size:12] retain];
-    NSLog(@"courier: %@", courier);
-    NSLog(@"courierBold: %@", courierBold);
+    courierFont = [[NSFont fontWithName:@"Courier" size:12] retain];
+    courierBoldFont = [[NSFont fontWithName:@"Courier-Bold" size:12] retain];
+    NSLog(@"courierFont: %@", courierFont);
+    NSLog(@"courierBoldFont: %@", courierBoldFont);
 
     NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }
 
-- (void)browserHit:(id)sender;
+- (IBAction)browserHit:(id)sender;
 {
     id temp, tempList, tempEntry;
     int column = [protoBrowser selectedColumn];
@@ -83,13 +83,13 @@
     if (column == 0) {
         switch ([[browserSelector selectedCell] tag]) {
           case 0:
-              [inputTextField setStringValue: [(ProtoEquation *)[protoEquations objectAtIndex:row] name]];
+              [inputTextField setStringValue:[(NamedList *)[protoEquations objectAtIndex:row] name]];
               break;
           case 1:
-              [inputTextField setStringValue:[(ProtoEquation *)[protoTemplates objectAtIndex:row] name]];
+              [inputTextField setStringValue:[(NamedList *)[protoTemplates objectAtIndex:row] name]];
               break;
           case 2:
-              [inputTextField setStringValue:[(ProtoEquation *)[protoSpecial objectAtIndex:row] name]];
+              [inputTextField setStringValue:[(NamedList *)[protoSpecial objectAtIndex:row] name]];
               break;
         }
         [inputTextField selectText:sender];
@@ -148,7 +148,7 @@
     [[sender window] makeFirstResponder:delegateResponder];
 }
 
-- (void)browserDoubleHit:(id)sender;
+- (IBAction)browserDoubleHit:(id)sender;
 {
     id temp, tempList;
     int column = [protoBrowser selectedColumn];
@@ -224,7 +224,7 @@
         /* Equations */
       case 0:
           if (column == 0) {
-              [cell setStringValue:[(ProtoEquation *)[protoEquations objectAtIndex:row] name]];
+              [cell setStringValue:[(NamedList *)[protoEquations objectAtIndex:row] name]];
               [cell setLeaf:NO];
               [cell setLoaded:YES];
           } else {
@@ -237,9 +237,9 @@
                   used = [self isEquationUsed:[tempList objectAtIndex:row]];
 
               if (used)
-                  [cell setFont:courierBold];
+                  [cell setFont:courierBoldFont];
               else
-                  [cell setFont:courier];
+                  [cell setFont:courierFont];
           }
           break;
 
@@ -257,9 +257,9 @@
               used = [ruleManager isTransitionUsed:[tempList objectAtIndex:row]];
 
               if (used)
-                  [cell setFont:courierBold];
+                  [cell setFont:courierBoldFont];
               else
-                  [cell setFont:courier];
+                  [cell setFont:courierFont];
           }
           break;
           /* Special Profiles */
@@ -276,9 +276,9 @@
               used = [ruleManager isTransitionUsed:[tempList objectAtIndex:row]];
 
               if (used)
-                  [cell setFont:courierBold];
+                  [cell setFont:courierBoldFont];
               else
-                  [cell setFont:courier];
+                  [cell setFont:courierFont];
           }
           break;
       default:
@@ -287,33 +287,36 @@
     }
 }
 
-- (void)addCategory:(id)sender;
+- (IBAction)addCategory:(id)sender;
 {
-    NamedList *tempList;
+    NamedList *newList;
 
     switch ([[browserSelector selectedCell] tag]) {
       case 0: /* Test for Already Existing Name */
-          tempList = [[NamedList alloc] initWithCapacity:10];
-          [tempList setName:[inputTextField stringValue]];
-          [protoEquations addObject:tempList];
+          newList = [[NamedList alloc] initWithCapacity:10];
+          [newList setName:[inputTextField stringValue]];
+          [protoEquations addObject:newList];
+          [newList release];
           [protoBrowser loadColumnZero];
           break;
       case 1: /* Test for Already Existing Name */
-          tempList = [[NamedList alloc] initWithCapacity:10];
-          [tempList setName:[inputTextField stringValue]];
-          [protoTemplates addObject:tempList];
+          newList = [[NamedList alloc] initWithCapacity:10];
+          [newList setName:[inputTextField stringValue]];
+          [protoTemplates addObject:newList];
+          [newList release];
           [protoBrowser loadColumnZero];
           break;
       case 2: /* Test for Already Existing Name */
-          tempList = [[NamedList alloc] initWithCapacity:10];
-          [tempList setName:[inputTextField stringValue]];
-          [protoSpecial addObject:tempList];
+          newList = [[NamedList alloc] initWithCapacity:10];
+          [newList setName:[inputTextField stringValue]];
+          [protoSpecial addObject:newList];
+          [newList release];
           [protoBrowser loadColumnZero];
           break;
     }
 }
 
-- (void)add:(id)sender;
+- (IBAction)add:(id)sender;
 {
     NamedList *tempList;
     ProtoEquation *tempEquation;
@@ -340,7 +343,7 @@
     }
 }
 
-- (void)rename:(id)sender;
+- (IBAction)rename:(id)sender;
 {
     NamedList *temp = nil;
     id tempList;
@@ -385,11 +388,11 @@
     [protoBrowser reloadColumn:column];
 }
 
-- (void)remove:(id)sender;
+- (IBAction)remove:(id)sender;
 {
 }
 
-- (void)setEquations:(id)sender;
+- (IBAction)setEquations:(id)sender;
 {
     id temp = [controller inspector];
 
@@ -401,7 +404,7 @@
     [temp cleanInspectorWindow];
 }
 
-- (void)setTransitions:(id)sender;
+- (IBAction)setTransitions:(id)sender;
 {
     id temp = [controller inspector];
 
@@ -413,7 +416,7 @@
     [temp cleanInspectorWindow];
 }
 
-- (void)setSpecial:(id)sender;
+- (IBAction)setSpecial:(id)sender;
 {
     id temp = [controller inspector];
 
@@ -440,17 +443,24 @@
     return protoSpecial;
 }
 
-- findEquationList:(NSString *)list named:(NSString *)name;
+// TODO (2004-03-06): Find equation named "named" in list named "list"
+// Change to findEquationNamed:(NSString *)anEquationName inList:(NSString *)aListName;
+// TODO (2004-03-06): Merge these three sets of methods, since they're practically identical.
+- (ProtoEquation *)findEquationList:(NSString *)aListName named:(NSString *)anEquationName;
 {
-    id tempList;
     int i, j;
 
     for (i = 0 ; i < [protoEquations count]; i++) {
-        if ([list isEqualToString:[(ProtoEquation *)[protoEquations objectAtIndex:i] name]]) {
-            tempList = [protoEquations objectAtIndex:i];
-            for (j = 0; j < [tempList count]; j++) {
-                if ([name isEqualToString:[(ProtoEquation *)[tempList objectAtIndex:j] name]])
-                    return [tempList objectAtIndex:j];
+        NamedList *currentList;
+
+        currentList = [protoEquations objectAtIndex:i];
+        if ([aListName isEqualToString:[currentList name]]) {
+            for (j = 0; j < [currentList count]; j++) {
+                ProtoEquation *anEquation;
+
+                anEquation = [currentList objectAtIndex:j];
+                if ([anEquationName isEqualToString:[anEquation name]])
+                    return anEquation;
             }
         }
     }
@@ -458,23 +468,24 @@
     return nil;
 }
 
-- (void)findList:(int *)listIndex andIndex:(int *)index ofEquation:equation;
+- (void)findList:(int *)listIndex andIndex:(int *)equationIndex ofEquation:(ProtoEquation *)anEquation;
 {
     int i, temp;
 
     for (i = 0 ; i < [protoEquations count]; i++) {
-        temp = [[protoEquations objectAtIndex:i] indexOfObject:equation];
+        temp = [[protoEquations objectAtIndex:i] indexOfObject:anEquation];
         if (temp != NSNotFound) {
             *listIndex = i;
-            *index = temp;
+            *equationIndex = temp;
             return;
         }
     }
 
     *listIndex = -1;
+    // TODO (2004-03-06): This might be where/how the large list indexes were archived.
 }
 
-- findEquation:(int)listIndex andIndex:(int)index;
+- (ProtoEquation *)findEquation:(int)listIndex andIndex:(int)equationIndex;
 {
     //NSLog(@"-> %s, listIndex: %d, index: %d", _cmd, listIndex, index);
     if (listIndex < 0 || listIndex > [protoEquations count]) {
@@ -482,20 +493,24 @@
         return nil;
     }
 
-    return [[protoEquations objectAtIndex:listIndex] objectAtIndex:index];
+    return [[protoEquations objectAtIndex:listIndex] objectAtIndex:equationIndex];
 }
 
-- findTransitionList:(NSString *)list named:(NSString *)name;
+- (ProtoEquation *)findTransitionList:(NSString *)aListName named:(NSString *)aTransitionName;
 {
-    id tempList;
     int i, j;
 
     for (i = 0 ; i < [protoTemplates count]; i++) {
-        if ([list isEqualToString:[(ProtoEquation *)[protoTemplates objectAtIndex:i] name]]) {
-            tempList = [protoTemplates objectAtIndex:i];
-            for (j = 0; j < [tempList count]; j++) {
-                if ([name isEqualToString:[(ProtoEquation *)[tempList objectAtIndex:j] name]])
-                    return [tempList objectAtIndex:j];
+        NamedList *currentList;
+
+        currentList = [protoTemplates objectAtIndex:i];
+        if ([aListName isEqualToString:[currentList name]]) {
+            for (j = 0; j < [currentList count]; j++) {
+                ProtoEquation *anEquation;
+
+                anEquation = [currentList objectAtIndex:j];
+                if ([aTransitionName isEqualToString:[anEquation name]])
+                    return anEquation;
             }
         }
     }
@@ -503,15 +518,15 @@
     return nil;
 }
 
-- (void)findList:(int *)listIndex andIndex:(int *)index ofTransition:transition;
+- (void)findList:(int *)listIndex andIndex:(int *)transitionIndex ofTransition:(ProtoEquation *)aTransition;
 {
     int i, temp;
 
     for (i = 0 ; i < [protoTemplates count]; i++) {
-        temp = [[protoTemplates objectAtIndex:i] indexOfObject:transition];
+        temp = [[protoTemplates objectAtIndex:i] indexOfObject:aTransition];
         if (temp != NSNotFound) {
             *listIndex = i;
-            *index = temp;
+            *transitionIndex = temp;
             return;
         }
     }
@@ -519,24 +534,28 @@
     *listIndex = -1;
 }
 
-- findTransition:(int)listIndex andIndex:(int)index;
+- (ProtoEquation *)findTransition:(int)listIndex andIndex:(int)transitionIndex;
 {
     //NSLog(@"Name: %@ (%d)\n", [[protoTemplates objectAtIndex: listIndex] name], listIndex);
     //NSLog(@"\tCount: %d  index: %d  count: %d\n", [protoTemplates count], index, [[protoTemplates objectAtIndex: listIndex] count]);
-    return [[protoTemplates objectAtIndex:listIndex] objectAtIndex:index];
+    return [[protoTemplates objectAtIndex:listIndex] objectAtIndex:transitionIndex];
 }
 
-- findSpecialList:(NSString *)list named:(NSString *)name;
+- (ProtoEquation *)findSpecialList:(NSString *)aListName named:(NSString *)aSpecialName;
 {
-    id tempList;
     int i, j;
 
     for (i = 0 ; i < [protoSpecial count]; i++) {
-        if ([list isEqualToString:[(ProtoEquation *)[protoSpecial objectAtIndex:i] name]]) {
-            tempList = [protoSpecial objectAtIndex:i];
-            for (j = 0; j < [tempList count]; j++) {
-                if ([name isEqualToString:[(ProtoEquation *)[tempList objectAtIndex:j] name]])
-                    return [tempList objectAtIndex:j];
+        NamedList *currentList;
+
+        currentList = [protoSpecial objectAtIndex:i];
+        if ([aListName isEqualToString:[currentList name]]) {
+            for (j = 0; j < [currentList count]; j++) {
+                ProtoEquation *anEquation;
+
+                anEquation = [currentList objectAtIndex:j];
+                if ([aSpecialName isEqualToString:[anEquation name]])
+                    return anEquation;
             }
         }
     }
@@ -544,15 +563,15 @@
     return nil;
 }
 
-- (void)findList:(int *)listIndex andIndex:(int *)index ofSpecial:transition;
+- (void)findList:(int *)listIndex andIndex:(int *)specialIndex ofSpecial:(ProtoEquation *)aTransition;
 {
     int i, temp;
 
     for (i = 0 ; i < [protoSpecial count]; i++) {
-        temp = [[protoSpecial objectAtIndex:i] indexOfObject:transition];
+        temp = [[protoSpecial objectAtIndex:i] indexOfObject:aTransition];
         if (temp != NSNotFound) {
             *listIndex = i;
-            *index = temp;
+            *specialIndex = temp;
             return;
         }
     }
@@ -560,28 +579,28 @@
     *listIndex = -1;
 }
 
-- findSpecial:(int)listIndex andIndex:(int)index;
+- (ProtoEquation *)findSpecial:(int)listIndex andIndex:(int)specialIndex;
 {
-    return [[protoSpecial objectAtIndex:listIndex] objectAtIndex:index];
+    return [[protoSpecial objectAtIndex:listIndex] objectAtIndex:specialIndex];
 }
 
-- (BOOL)isEquationUsed:anEquation;
+- (BOOL)isEquationUsed:(ProtoEquation *)anEquation;
 {
     int i, j;
-    id tempList;
+    NamedList *currentList;
 
     for (i = 0; i < [protoTemplates count]; i++) {
-        tempList = [protoTemplates objectAtIndex:i];
-        for (j = 0; j < [tempList count]; j++) {
-            if ([[tempList objectAtIndex:j] isEquationUsed:anEquation])
+        currentList = [protoTemplates objectAtIndex:i];
+        for (j = 0; j < [currentList count]; j++) {
+            if ([[currentList objectAtIndex:j] isEquationUsed:anEquation])
                 return YES;
         }
     }
 
     for (i = 0; i < [protoSpecial count]; i++) {
-        tempList = [protoSpecial objectAtIndex:i];
-        for (j = 0; j < [tempList count]; j++) {
-            if ([[tempList objectAtIndex:j] isEquationUsed:anEquation])
+        currentList = [protoSpecial objectAtIndex:i];
+        for (j = 0; j < [currentList count]; j++) {
+            if ([[currentList objectAtIndex:j] isEquationUsed:anEquation])
                 return YES;
         }
     }
@@ -589,7 +608,7 @@
     return NO;
 }
 
-- (void)cut:(id)sender;
+- (IBAction)cut:(id)sender;
 {
     NSLog(@"PrototypeManager: cut");
 }
@@ -598,7 +617,7 @@ static NSString *equString = @"ProtoEquation";
 static NSString *tranString = @"ProtoTransition";
 static NSString *specialString = @"ProtoSpecial";
 
-- (void)copy:(id)sender;
+- (IBAction)copy:(id)sender;
 {
     NSPasteboard *myPasteboard;
     NSMutableData *mdata;
@@ -659,7 +678,7 @@ static NSString *specialString = @"ProtoSpecial";
     [typed release];
 }
 
-- (void)paste:(id)sender;
+- (IBAction)paste:(id)sender;
 {
     NSPasteboard *myPasteboard;
     NSData *mdata;

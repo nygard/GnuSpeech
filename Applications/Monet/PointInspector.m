@@ -3,6 +3,7 @@
 #import <AppKit/AppKit.h>
 #import "AppController.h"
 #import "Inspector.h"
+#import "FormulaExpression.h"
 #import "MonetList.h"
 #import "Point.h"
 #import "ProtoEquation.h"
@@ -116,7 +117,7 @@
 {
     int listIndex, index;
     PrototypeManager *prototypeManager = NXGetNamedObject(@"prototypeManager", NSApp);
-    id temp;
+    ProtoEquation *temp;
 
     if ([sender selectedColumn] == 1) {
         listIndex = [[sender matrixInColumn:0] selectedRow];
