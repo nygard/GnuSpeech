@@ -19,6 +19,7 @@
 }
 
 + (MMFormulaNode *)parsedExpressionFromString:(NSString *)aString symbolList:(SymbolList *)aSymbolList;
++ (NSString *)nameForToken:(int)aToken;
 
 - (void)dealloc;
 

@@ -25,6 +25,23 @@
     return result;
 }
 
++ (NSString *)nameForToken:(int)aToken;
+{
+    switch (aToken) {
+      case TK_F_ADD: return @"'+'";
+      case TK_F_SUB: return @"'-'";
+      case TK_F_MULT: return @"'*'";
+      case TK_F_DIV: return @"'/'";
+      case TK_F_LPAREN: return @"'('";
+      case TK_F_RPAREN: return @"')'";
+      case TK_F_SYMBOL: return @"<symbol>";
+      case TK_F_CONST: return @"<constant>";
+      case TK_F_END: return @"<eof>";
+    }
+
+    return [NSString stringWithFormat:@"<unknown token %d>", aToken];
+}
+
 - (void)dealloc;
 {
     [symbolList release];
@@ -124,8 +141,8 @@
 - (void)match:(int)token;
 {
     if (lookahead != token) {
-        [self appendErrorFormat:@"Expected token %d, got %d", token, lookahead];
-        [NSException raise:GSParserSyntaxErrorException format:@"Expected token %d, got %d", token, lookahead];
+        [self appendErrorFormat:@"Expected token %@, got %@", [[self class] nameForToken:token], [[self class] nameForToken:lookahead]];
+        [NSException raise:GSParserSyntaxErrorException format:@"Expected token %@, got %@", [[self class] nameForToken:token], [[self class] nameForToken:lookahead]];
     }
 
     lookahead = [self nextToken];
