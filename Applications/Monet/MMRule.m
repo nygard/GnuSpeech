@@ -158,6 +158,7 @@
     }
 }
 
+// Warning (building for 10.2 deployment) (2004-04-02): tempEntry might be used uninitialized in this function
 - (void)addDefaultParameter;
 {
     id tempEntry;
@@ -177,6 +178,7 @@
     [parameterProfiles addObject:tempEntry];
 }
 
+// Warning (building for 10.2 deployment) (2004-04-02): tempEntry might be used uninitialized in this function
 - (void)addDefaultMetaParameter;
 {
     id tempEntry;

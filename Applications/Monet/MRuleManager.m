@@ -782,6 +782,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 //
 
 // Sender should be the form for postures 1-4
+// Warning (building for 10.2 deployment) (2004-04-02): aBrowser might be used uninitialized in this function
 - (IBAction)setExpression:(id)sender;
 {
     PhoneList *matchedPhoneList;

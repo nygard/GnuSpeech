@@ -626,7 +626,8 @@
     ParameterList *mainParameterList = [aModel parameters];
     MMParameter *tempParameter = nil;
 
-    NSLog(@"mainParameterList: %@", mainParameterList);
+    assert(aModel != nil);
+    //NSLog(@"mainParameterList: %@", mainParameterList);
     for (i = 0; i < 16; i++) {
         tempParameter = [mainParameterList objectAtIndex:i];
 
@@ -839,6 +840,7 @@
     NSLog(@"Warning: No DSP for -synthesizeToFile:");
 }
 
+// Warning (building for 10.2 deployment) (2004-04-02): ruleIndex might be used uninitialized in this function
 - (void)applyIntonation;
 {
     int firstFoot, endFoot;
@@ -984,11 +986,16 @@
     double time;
     int i;
 
+    NSLog(@" > %s", _cmd);
+
 //    NSLog(@"Point  Semitone: %f  timeOffset:%f slope:%f phoneIndex:%d", [iPoint semitone], [iPoint offsetTime],
 //           [iPoint slope], [iPoint ruleIndex]);
 
-    if ([iPoint ruleIndex] > [self numberOfRules])
+    if ([iPoint ruleIndex] > [self numberOfRules]) {
+        NSLog(@"%d > %d", [iPoint ruleIndex], [self numberOfRules]);
+        NSLog(@"<  %s", _cmd);
         return;
+    }
 
     [intonationPoints removeObject:iPoint];
     time = [iPoint absoluteTime];
@@ -1000,11 +1007,16 @@
     }
 
     [intonationPoints addObject:iPoint];
+
+    NSLog(@"<  %s", _cmd);
 }
 
 - (void)addPoint:(double)semitone offsetTime:(double)offsetTime slope:(double)slope ruleIndex:(int)ruleIndex;
 {
     IntonationPoint *newIntonationPoint;
+
+    NSLog(@" > %s", _cmd);
+    NSLog(@"semitone: %g, offsetTime: %g, slope: %g, ruleIndex: %d", semitone, offsetTime, slope, ruleIndex);
 
     newIntonationPoint = [[IntonationPoint alloc] initWithEventList:self];
     [newIntonationPoint setRuleIndex:ruleIndex];
@@ -1013,6 +1025,8 @@
     [newIntonationPoint setSlope:slope];
     [self addIntonationPoint:newIntonationPoint];
     [newIntonationPoint release];
+
+    NSLog(@"<  %s", _cmd);
 }
 
 - (void)applyIntonation_fromIntonationView;
@@ -1051,6 +1065,8 @@
     double denominator;
     double yTemp;
 
+    NSLog(@" > %s", _cmd);
+
     [self setFullTimeScale];
     tempPoint = [[IntonationPoint alloc] initWithEventList:self];
     if ([intonationPoints count] > 0)
@@ -1060,6 +1076,8 @@
     [tempPoint setOffsetTime:0];
 
     [intonationPoints insertObject:tempPoint atIndex:0];
+
+    NSLog(@"[intonationPoints count]: %d", [intonationPoints count]);
 
     //[self insertEvent:32 atTime: 0.0 withValue: -20.0];
     for (j = 0; j < [intonationPoints count] - 1; j++) {
@@ -1091,16 +1109,21 @@
         [self insertEvent:32 atTime:[point1 absoluteTime] withValue:[point1 semitone]];
 
         yTemp = (3.0*a*x12) + (2.0*b*x1) + c;
+        NSLog(@"j: %d, event 33: %g", j, yTemp);
         [self insertEvent:33 atTime:[point1 absoluteTime] withValue:yTemp];
 
         yTemp = (6.0*a*x1) + (2.0*b);
+        NSLog(@"j: %d, event 34: %g", j, yTemp);
         [self insertEvent:34 atTime:[point1 absoluteTime] withValue:yTemp];
 
         yTemp = (6.0*a);
+        NSLog(@"j: %d, event 35: %g", j, yTemp);
         [self insertEvent:35 atTime:[point1 absoluteTime] withValue:yTemp];
     }
 
     [intonationPoints removeObjectAtIndex:0];
+
+    NSLog(@"<  %s", _cmd);
 }
 
 @end
