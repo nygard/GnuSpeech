@@ -7,6 +7,7 @@
 #import "Event.h"
 #import "IntonationPoint.h"
 #import "MMEquation.h"
+#import "MModel.h"
 #import "MMParameter.h"
 #import "MMPoint.h"
 #import "MMPosture.h"
@@ -612,7 +613,7 @@
         fclose(fp);
 }
 
-- (void)generateEventList;
+- (void)generateEventListWithModel:(MModel *)aModel;
 {
     MonetList *tempCategoryList;
     PhoneList *tempPhoneList;
@@ -621,9 +622,9 @@
     int index = 0;
     int i, j, rus;
     int ruleIndex;
-    RuleList *ruleList = NXGetNamedObject(@"rules", NSApp);
+    RuleList *ruleList = [aModel rules];
     MMRule *tempRule;
-    ParameterList *mainParameterList = (ParameterList *) NXGetNamedObject(@"mainParameterList", NSApp);
+    ParameterList *mainParameterList = [aModel parameters];
     MMParameter *tempParameter = nil;
 
     NSLog(@"mainParameterList: %@", mainParameterList);

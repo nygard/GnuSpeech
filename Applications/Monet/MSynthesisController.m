@@ -237,7 +237,7 @@
 
     [self parsePhoneString:[stringTextField stringValue]];
 
-    [eventList generateEventList];
+    [eventList generateEventListWithModel:model];
 
     if ([smoothIntonationSwitch state])
         [eventList applySmoothIntonation];
@@ -312,7 +312,7 @@
 
     [self parsePhoneString:[stringTextField stringValue]];
 
-    [eventList generateEventList];
+    [eventList generateEventListWithModel:model];
 #if 1
     NSLog(@"[smoothIntonationSwitch state]: %d", [smoothIntonationSwitch state]);
     if ([smoothIntonationSwitch state])

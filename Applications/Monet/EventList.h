@@ -1,6 +1,6 @@
 #import "MonetList.h"
 
-@class Event, IntonationPoint, MMPosture, MMRule, PhoneList;
+@class Event, IntonationPoint, MModel, MMPosture, MMRule, PhoneList;
 
 /*===========================================================================
 
@@ -185,7 +185,7 @@ struct _rule {
 - (void)finalEvent:(int)number withValue:(double)value;
 
 - (void)generateOutput;
-- (void)generateEventList;
+- (void)generateEventListWithModel:(MModel *)aModel;
 
 - (void)applyRule:(MMRule *)rule withPhones:(PhoneList *)phoneList andTempos:(double *)tempos phoneIndex:(int)phoneIndex;
 - (void)synthesizeToFile:(NSString *)filename;
