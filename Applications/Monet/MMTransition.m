@@ -352,12 +352,6 @@
     return self;
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder;
-{
-    [aCoder encodeValuesOfObjCTypes:"**i", &name, &comment, &type];
-    [aCoder encodeObject:points];
-}
-
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"<%@>[%p]: name: %@, comment: %@, type: %d, points: %@",

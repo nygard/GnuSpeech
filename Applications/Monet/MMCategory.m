@@ -112,13 +112,6 @@
     return self;
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder;
-{
-#ifdef PORTING
-    [aCoder encodeValuesOfObjCTypes:"**i", &symbol, &comment, &isNative];
-#endif
-}
-
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"<%@>[%p]: symbol: %@, comment: %@, isNative: %d",

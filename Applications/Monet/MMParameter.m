@@ -137,13 +137,6 @@
     return self;
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder;
-{
-#ifdef PORTING
-    [aCoder encodeValuesOfObjCTypes:"**ddd", &parameterSymbol, &comment, &minimum, &maximum, &defaultValue];
-#endif
-}
-
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"<%@>[%p]: parameterSymbol: %@, comment: %@, minimum: %g, maximum: %g, defaultValue: %g",

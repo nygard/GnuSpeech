@@ -79,7 +79,6 @@
 
 // Archiving
 - (BOOL)readFromCoder:(NSCoder *)aDecoder;
-- (void)encodeWithCoder:(NSCoder *)aCoder;
 
 - (float)glotPitch;
 - (void)setGlotPitch:(float)value;

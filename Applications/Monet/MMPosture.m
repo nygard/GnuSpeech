@@ -329,33 +329,6 @@
     return self;
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder;
-{
-#ifdef PORTING
-    int i;
-    const char *temp;
-
-//	printf("\tSaving %s\n", phoneSymbol);
-    [aCoder encodeValuesOfObjCTypes:"**", &phoneSymbol, &comment];
-
-//	printf("\tSaving parameter, meta, and symbolList\n", phoneSymbol);
-    [aCoder encodeObject:parameterList];
-    [aCoder encodeObject:metaParameterList];
-    [aCoder encodeObject:symbolList];
-
-//	printf("\tSaving categoryList\n", phoneSymbol);
-    /* Here's the tricky one! */
-    i = [categoryList count];
-
-    [aCoder encodeValueOfObjCType:"i" at:&i];
-    for(i = 0; i<[categoryList count]; i++)
-    {
-        temp = [[categoryList objectAtIndex:i] symbol];
-        [aCoder encodeValueOfObjCType:"*" at:&temp];
-    }
-#endif
-}
-
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"<%@>[%p]: phoneSymbol: %@, comment: %@, categoryList: %@, parameterList: %@, metaParameterList: %@, symbolList: %@",

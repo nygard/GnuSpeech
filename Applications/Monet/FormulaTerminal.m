@@ -280,26 +280,6 @@
     return self;
 }
 
-#ifdef PORTING
-- (void)encodeWithCoder:(NSCoder *)aCoder;
-{
-    const char *temp;
-
-    [aCoder encodeValuesOfObjCTypes:"dii", &value, &whichPhone, &precedence];
-
-    if (symbol)
-    {
-        temp = [symbol symbol];
-        [aCoder encodeValueOfObjCType:"*" at:&temp];
-    }
-    else
-    {
-        temp = "No Symbol";
-        [aCoder encodeValueOfObjCType:"*" at:&temp];
-    }
-}
-#endif
-
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"<%@>[%p]: symbol: %@, value: %g, whichPhone: %d, precedence: %d, cacheTag: %d, cacheValue: %g, expressionString: %@",

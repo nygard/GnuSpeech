@@ -211,19 +211,6 @@
     return self;
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder;
-{
-#ifdef PORTING
-    int i, j;
-    //PrototypeManager *prototypeManager = NXGetNamedObject(@"prototypeManager", NSApp);
-
-    [aCoder encodeValuesOfObjCTypes:"ddii", &value, &freeTime, &type, &isPhantom];
-
-    [prototypeManager findList:&i andIndex:&j ofEquation:expression];
-    [aCoder encodeValuesOfObjCTypes:"ii", &i, &j];
-#endif
-}
-
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"<%@>[%p]: value: %g, freeTime: %g, expression: %@, type: %d, isPhantom: %d",

@@ -257,17 +257,6 @@
     return self;
 }
 
-#ifdef PORTING
-- (void)encodeWithCoder:(NSCoder *)aCoder;
-{
-int i;
-
-	[aCoder encodeValuesOfObjCTypes:"iiii", &operation, &numExpressions, &maxExpressions, &precedence];
-	for (i = 0; i<numExpressions; i++)
-		[aCoder encodeObject:expressions[i]];
-}
-#endif
-
 - (NSString *)description;
 {
 #if 0

@@ -428,53 +428,6 @@
     return self;
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder;
-{
-#ifdef PORTING
-    int index, j, k, dummy;
-    int parms, metaParms, symbols;
-    //PrototypeManager *prototypeManager = NXGetNamedObject(@"prototypeManager", NSApp);
-
-    j = [self numberExpressions];
-    [aCoder encodeValuesOfObjCTypes:"i*", &j, &comment];
-
-    for (index = 0; index < j; index++) {
-        [aCoder encodeObject:expressions[index]];
-    }
-
-    symbols = [expressionSymbols count];
-    parms = [parameterProfiles count];
-    metaParms = [metaParameterProfiles count];
-    [aCoder encodeValuesOfObjCTypes:"iii", &symbols, &parms, &metaParms];
-
-    for (index = 0; index < symbols; index++) {
-        [prototypeManager findList:&j andIndex:&k ofEquation:[expressionSymbols objectAtIndex:index]];
-        [aCoder encodeValuesOfObjCTypes:"ii", &j, &k];
-    }
-
-    for (index = 0; index < parms; index++) {
-        [prototypeManager findList:&j andIndex:&k ofTransition:[parameterProfiles objectAtIndex:index]];
-        [aCoder encodeValuesOfObjCTypes:"ii", &j, &k];
-    }
-
-    for (index = 0; index < metaParms; index++) {
-        [prototypeManager findList:&j andIndex:&k ofTransition:[metaParameterProfiles objectAtIndex:index]];
-        [aCoder encodeValuesOfObjCTypes:"ii", &j, &k];
-    }
-
-    dummy = -1;
-
-    for (index = 0; index < 16; index++) {
-        if (specialProfiles[index] != nil) {
-            [prototypeManager findList:&j andIndex:&k ofSpecial:specialProfiles[index]];
-            [aCoder encodeValuesOfObjCTypes:"ii", &j, &k];
-        } else {
-            [aCoder encodeValuesOfObjCTypes:"ii", &dummy, &dummy];
-        }
-    }
-#endif
-}
-
 - (NSString *)ruleString;
 {
     NSMutableString *ruleString;

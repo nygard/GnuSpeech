@@ -215,17 +215,6 @@
     return self;
 }
 
-#ifdef PORTING
-- (void)encodeWithCoder:(NSCoder *)aCoder;
-{
-    int i;
-
-    [aCoder encodeValuesOfObjCTypes:"iii", &operation, &numExpressions, &maxExpressions];
-    for (i = 0; i < numExpressions; i++)
-        [aCoder encodeObject:expressions[i]];
-}
-#endif
-
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"<%@>[%p]: operation: %d, expressions: %@, expressionString: %@",

@@ -220,53 +220,6 @@
     return YES;
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder;
-{
-    int fileVersion;
-
-    /*  WRITE VERSION NUMBER TO STREAM  */
-    fileVersion = CURRENT_FILE_VERSION;
-    [aCoder encodeValuesOfObjCTypes:"i", &fileVersion];
-
-    /*  WRITE PARAMETERS TO STREAM  */
-    /*  GLOTTAL SOURCE PARAMETERS  */
-    [aCoder encodeValuesOfObjCTypes:"iiiiiififff", &waveform, &showAmplitude,
-            &harmonicsScale, &unit, &pitch, &cents, &breathiness,
-            &glotVol, &tp, &tnMin, &tnMax];
-
-    /*  NOISE SOURCE PARAMETERS  */
-    [aCoder encodeValuesOfObjCTypes:"ifiiiiii", &fricVol, &fricPos,
-            &aspVol, &fricCF, &NoiseSourceResponseScale,
-            &fricBW, &modulation, &mixOffset];
-
-    /*  THROAT PARAMETERS  */
-    [aCoder encodeValuesOfObjCTypes:"iii", &throatVol, &throatCutoff,
-            &throatResponseScale];
-
-    /*  RESONANT SYSTEM PARAMETERS  */
-    [aCoder encodeArrayOfObjCType:"d" count:PHARYNX_SECTIONS at:pharynxDiameter];
-    [aCoder encodeArrayOfObjCType:"d" count:VELUM_SECTIONS at:velumDiameter];
-    [aCoder encodeArrayOfObjCType:"d" count:ORAL_SECTIONS at:oralDiameter];
-    [aCoder encodeArrayOfObjCType:"d" count:NASAL_SECTIONS at:nasalDiameter];
-    [aCoder encodeValuesOfObjCTypes:"ddddiiddddi", &lossFactor, &apScale,
-            &mouthCoef, &noseCoef, &mouthResponseScale,
-            &noseResponseScale, &temperature, &length, &sampleRate,
-            &actualLength, &controlPeriod];
-
-    /*  CONTROLLER PARAMETERS  */
-    [aCoder encodeValuesOfObjCTypes:"idii", &volume, &balance,
-            &channels, &controlRate];
-
-    /*  ANALYSIS PARAMETERS  */
-    [aCoder encodeValuesOfObjCTypes:"ciiffiiffiicc", &normalizeInput, &binSize,
-            &windowType, &alpha, &beta, &grayLevel, &magnitudeScale,
-            &linearUpperThreshold, &linearLowerThreshold,
-            &logUpperThreshold, &logLowerThreshold,
-            &spectrographGrid, &spectrumGrid];
-}
-
-
-
 - (float)glotPitch
 {
     return (float)pitch + (float)cents / 100.0;

@@ -43,7 +43,6 @@
 - (double)beatTime;
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
-- (void)encodeWithCoder:(NSCoder *)aCoder;
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 

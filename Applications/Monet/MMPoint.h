@@ -50,7 +50,6 @@
               toEventList:(EventList *)eventList atIndex:(int)index;
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
-- (void)encodeWithCoder:(NSCoder *)aCoder;
 
 - (NSString *)description;
 

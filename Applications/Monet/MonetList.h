@@ -14,7 +14,7 @@
 // - deocodes old List objects with -initWithCoder:
 // - generates XML
 
-@interface MonetList : NSObject <NSCoding>
+@interface MonetList : NSObject
 {
     NSMutableArray *ilist;
 }
@@ -45,7 +45,6 @@
 - (void)removeLastObject;
 - (BOOL)containsObject:(id)anObject;
 
-- (void)encodeWithCoder:(NSCoder *)aCoder;
 - (id)initWithCoder:(NSCoder *)aDecoder;
 
 - (NSString *)description;

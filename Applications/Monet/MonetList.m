@@ -136,11 +136,6 @@
     return [ilist containsObject:anObject];
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder;
-{
-    [aCoder encodeObject:ilist];
-}
-
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
     unsigned archivedVersion;

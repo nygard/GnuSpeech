@@ -170,18 +170,6 @@
     return self;
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder
-{
-#ifdef PORTING
-    const char *temp;
-
-    [aCoder encodeValueOfObjCType:"i" at:&shouldMatchAll];
-
-    temp = [category symbol];
-    [aCoder encodeValueOfObjCType:"*" at:&temp];
-#endif
-}
-
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"<%@>[%p]: category: %@, shouldMatchAll: %d",

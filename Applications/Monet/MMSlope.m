@@ -71,13 +71,6 @@
     return self;
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder;
-{
-#ifdef PORTING
-    [aCoder encodeValueOfObjCType:"d" at:&slope];
-#endif
-}
-
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"<%@>[%p]: slope: %g, displayTime: %g",

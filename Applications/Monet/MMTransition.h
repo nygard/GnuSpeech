@@ -52,7 +52,6 @@
 - (void)findEquation:(MMEquation *)anEquation andPutIn:(MonetList *)aList;
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
-- (void)encodeWithCoder:(NSCoder *)aCoder;
 
 - (NSString *)description;
 

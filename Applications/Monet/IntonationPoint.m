@@ -118,11 +118,6 @@
     return self;
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder;
-{
-    [aCoder encodeValuesOfObjCTypes:"dddi", &semitone, &offsetTime, &slope, &ruleIndex];
-}
-
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 {
     [resultString indentToLevel:level];

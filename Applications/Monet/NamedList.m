@@ -95,14 +95,6 @@
     return self;
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder;
-{
-    [super encodeWithCoder:aCoder];
-
-    [aCoder encodeObject:name];
-    [aCoder encodeObject:comment];
-}
-
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"<%@>[%p]: name: %@, comment: %@",

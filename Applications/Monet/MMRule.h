@@ -57,7 +57,6 @@
 - (BOOL)isTransitionUsed:(MMTransition *)aTransition;
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
-- (void)encodeWithCoder:(NSCoder *)aCoder;
 
 - (NSString *)ruleString;
 
