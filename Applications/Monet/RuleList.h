@@ -1,7 +1,5 @@
 #import "MonetList.h"
 
-@class MMRule;
-
 /*===========================================================================
 
 	Author: Craig-Richard Taube-Schock
