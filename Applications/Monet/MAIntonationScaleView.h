@@ -7,6 +7,12 @@
 {
     NSTextFieldCell *labelTextFieldCell;
 
+    NSTextStorage *textStorage;
+    NSLayoutManager *layoutManager;
+    NSTextContainer *textContainer;
+    NSFont *labelFont;
+    NSFont *axisLabelFont;
+
     int sectionCount;
     int sectionHeight;
     int zeroSection;
