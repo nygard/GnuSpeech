@@ -31,19 +31,19 @@ History:
     IBOutlet NSPopUpButton *popUpList;
 
     int currentBrowser;
-    id browserView;
-    id mainBrowser;
-    id selectionBrowser;
+    IBOutlet NSBox *browserView;
+    IBOutlet NSBrowser *mainBrowser;
+    IBOutlet NSBrowser *selectionBrowser;
 
-    id genInfoBox;
-    id consumeText;
-    id locationTextField;
-    id moveToField;
+    IBOutlet NSBox *genInfoBox;
+    IBOutlet NSTextField *consumeText;
+    IBOutlet NSTextField *locationTextField;
+    IBOutlet NSTextField *moveToField;
 
-    id commentText;
-    id commentView;
-    id setCommentButton;
-    id revertCommentButton;
+    IBOutlet NSTextView *commentText;
+    IBOutlet NSBox *commentView;
+    IBOutlet NSButtonCell *setCommentButton;
+    IBOutlet NSButtonCell *revertCommentButton;
 
     Rule *currentRule;
 }

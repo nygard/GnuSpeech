@@ -60,7 +60,7 @@
                 categoryInspector = CategoryInspector; 
                 currentInspector = id; 
                 currentInspectorObject = id; 
-                generalView = id; 
+                generalView = NSBox; 
                 intonationPointInspector = IntonationPointInspector; 
                 mainInspectorWindow = NSWindow; 
                 metaParameterInspector = ParameterInspector; 
@@ -70,11 +70,92 @@
                 parameterInspector = ParameterInspector; 
                 phoneInspector = PhoneInspector; 
                 pointInspector = PointInspector; 
-                popUpListView = id; 
+                popUpListView = NSBox; 
                 protoEquationInspector = ProtoEquationInspector; 
                 protoTransitionInspector = id; 
                 ruleInspector = RuleInspector; 
                 symbolInspector = SymbolInspector; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {
+                revertComment = id; 
+                revertValue = id; 
+                setComment = id; 
+                setUpWindow = id; 
+                setValue = id; 
+            }; 
+            CLASS = ParameterInspector; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                commentText = NSTextView; 
+                commentView = NSBox; 
+                mainInspector = Inspector; 
+                parameterPopUpList = NSPopUpButton; 
+                parameterPopUpListView = NSBox; 
+                revertCommentButton = NSButtonCell; 
+                revertValueButton = NSButtonCell; 
+                setCommentButton = NSButtonCell; 
+                setValueButton = NSButtonCell; 
+                valueBox = NSBox; 
+                valueFields = NSForm; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {
+                browserDoubleHit = id; 
+                browserHit = id; 
+                moveRule = id; 
+                revertComment = id; 
+                selectionBrowserDoubleHit = id; 
+                selectionBrowserHit = id; 
+                setComment = id; 
+                setUpWindow = id; 
+            }; 
+            CLASS = RuleInspector; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                browserView = NSBox; 
+                commentText = NSTextView; 
+                commentView = NSBox; 
+                consumeText = NSTextField; 
+                genInfoBox = NSBox; 
+                locationTextField = NSTextField; 
+                mainBrowser = NSBrowser; 
+                mainInspector = Inspector; 
+                moveToField = NSTextField; 
+                popUpList = NSPopUpButton; 
+                popUpListView = NSBox; 
+                revertCommentButton = NSButtonCell; 
+                selectionBrowser = NSBrowser; 
+                setCommentButton = NSButtonCell; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {
+                revertComment = id; 
+                revertValue = id; 
+                setComment = id; 
+                setUpWindow = id; 
+                setValue = id; 
+            }; 
+            CLASS = SymbolInspector; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                commentText = NSTextView; 
+                commentView = NSBox; 
+                mainInspector = Inspector; 
+                revertButton = NSButtonCell; 
+                revertValueButton = NSButtonCell; 
+                setButton = NSButtonCell; 
+                setValueButton = NSButtonCell; 
+                symbolPopUpList = NSPopUpButton; 
+                symbolPopUpListView = NSBox; 
+                valueBox = NSBox; 
+                valueFields = NSForm; 
             }; 
             SUPERCLASS = NSObject; 
         }

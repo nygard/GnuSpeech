@@ -30,15 +30,15 @@ History:
     IBOutlet NSBox *parameterPopUpListView;
     IBOutlet NSPopUpButton *parameterPopUpList;
 
-    id commentView;
-    id commentText;
-    id setCommentButton;
-    id revertCommentButton;
+    IBOutlet NSBox *commentView;
+    IBOutlet NSTextView *commentText;
+    IBOutlet NSButtonCell *setCommentButton;
+    IBOutlet NSButtonCell *revertCommentButton;
 
-    id valueBox;
-    id valueFields;
-    id setValueButton;
-    id revertValueButton;
+    IBOutlet NSBox *valueBox;
+    IBOutlet NSForm *valueFields;
+    IBOutlet NSButtonCell *setValueButton;
+    IBOutlet NSButtonCell *revertValueButton;
 
     Parameter *currentParameter;
 }

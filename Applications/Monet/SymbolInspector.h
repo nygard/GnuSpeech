@@ -30,15 +30,15 @@ History:
     IBOutlet NSBox *symbolPopUpListView;
     IBOutlet NSPopUpButton *symbolPopUpList;
 
-    id commentView;
-    id commentText;
-    id setButton;
-    id revertButton;
+    IBOutlet NSBox *commentView;
+    IBOutlet NSTextView *commentText;
+    IBOutlet NSButtonCell *setButton;
+    IBOutlet NSButtonCell *revertButton;
 
-    id valueBox;
-    id valueFields;
-    id setValueButton;
-    id revertValueButton;
+    IBOutlet NSBox *valueBox;
+    IBOutlet NSForm *valueFields;
+    IBOutlet NSButtonCell *setValueButton;
+    IBOutlet NSButtonCell *revertValueButton;
 
     Symbol *currentSymbol;
 }
