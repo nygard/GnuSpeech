@@ -69,6 +69,10 @@ static NSImage *_selectionBox = nil;
 
     shouldDrawSelection = NO;
 
+    editingSlope = nil;
+    textFieldCell = [[NSTextFieldCell alloc] initTextCell:@""];
+    nonretained_fieldEditor = nil;
+
     [self setNeedsDisplay:YES];
 
     return self;
@@ -81,6 +85,7 @@ static NSImage *_selectionBox = nil;
     [displayPoints release];
     [displaySlopes release];
     [selectedPoints release];
+    [textFieldCell release];
 
     [super dealloc];
 }
@@ -161,6 +166,16 @@ static NSImage *_selectionBox = nil;
 
         [[NSColor purpleColor] set];
         [NSBezierPath strokeRect:selectionRect];
+    }
+
+    if (nonretained_fieldEditor != nil) {
+        NSRect editingRect;
+
+        editingRect = [nonretained_fieldEditor frame];
+        editingRect = NSInsetRect(editingRect, -1, -1);
+        //[[NSColor redColor] set];
+        //NSRectFill(editingRect);
+        NSFrameRect(editingRect);
     }
 
     NSLog(@"<  %s", _cmd);
@@ -245,6 +260,8 @@ static NSImage *_selectionBox = nil;
     return graphOrigin.y - BOTTOM_MARGIN + 10;
 }
 
+#define SLOPE_MARKER_HEIGHT 18
+
 - (NSRect)slopeMarkerRect;
 {
     NSRect bounds, rect;
@@ -256,7 +273,7 @@ static NSImage *_selectionBox = nil;
     rect.origin.x = graphOrigin.x;
     rect.origin.y = [self slopeMarkerYPosition];
     rect.size.width = bounds.size.width - 2 * LEFT_MARGIN;
-    rect.size.height = 18; // Roughly
+    rect.size.height = SLOPE_MARKER_HEIGHT; // Roughly
 
     return rect;
 }
@@ -664,7 +681,7 @@ static NSImage *_selectionBox = nil;
 {
     int i, j;
     double start, end;
-    NSRect rect = NSMakeRect(0, 0, 2 * LEFT_MARGIN, 20.0);
+    NSRect rect = NSMakeRect(0, 0, 2 * LEFT_MARGIN, SLOPE_MARKER_HEIGHT);
     SlopeRatio *currentPoint;
     MonetList *slopes, *points;
     float timeScale = [self timeScale];
@@ -679,8 +696,8 @@ static NSImage *_selectionBox = nil;
         currentPoint = [[currentTemplate points] objectAtIndex:i];
         if ([currentPoint isKindOfClass:[SlopeRatio class]]) {
             //NSLog(@"%d: Drawing slope ratio...", i);
-            start = graphOrigin.x + ([currentPoint startTime] * (double)timeScale);
-            end = graphOrigin.x + ([currentPoint endTime] * (double)timeScale);
+            start = graphOrigin.x + [currentPoint startTime] * timeScale;
+            end = graphOrigin.x + [currentPoint endTime] * timeScale;
             //NSLog(@"Slope  %f -> %f", start, end);
             rect.origin.x = (float)start;
             rect.size.width = (float)(end - start);
@@ -691,16 +708,21 @@ static NSImage *_selectionBox = nil;
             points = [currentPoint points];
             for (j = 0; j < [slopes count]; j++) {
                 NSString *str;
-                NSPoint aPoint;
+                //NSPoint aPoint;
+                NSRect textFieldFrame;
 
                 str = [NSString stringWithFormat:@"%.1f", [[slopes objectAtIndex:j] slope]];
                 //NSLog(@"Buffer = %@", str);
 
                 [[NSColor blackColor] set];
-                [[NSColor blueColor] set];
-                aPoint.x = ([[(GSMPoint *)[points objectAtIndex:j] expression] cacheValue]) * timeScale + LEFT_MARGIN + 5.0;
-                aPoint.y = rect.origin.y + 2;
-                [str drawAtPoint:aPoint withAttributes:nil];
+                textFieldFrame.origin.x = ([[(GSMPoint *)[points objectAtIndex:j] expression] cacheValue]) * timeScale + LEFT_MARGIN + 5.0;
+                textFieldFrame.origin.y = rect.origin.y + 2;
+                textFieldFrame.size.width = 60;
+                textFieldFrame.size.height = SLOPE_MARKER_HEIGHT - 2;
+                //[str drawAtPoint:aPoint withAttributes:nil];
+                [textFieldCell setStringValue:str];
+                [textFieldCell setFont:timesFont];
+                [textFieldCell drawWithFrame:textFieldFrame inView:self];
             }
         }
     }
@@ -729,8 +751,11 @@ static NSImage *_selectionBox = nil;
     [self setNeedsDisplay:YES];
 
     if ([mouseEvent clickCount] == 1) {
-        if (hitSlope != nil) {
+        if (hitSlope == nil)
+            [[self window] endEditingFor:nil];
+        else {
             // TODO: get slope input
+            [self editSlope:hitSlope startTime:startTime endTime:endTime];
             NSLog(@"Get slope input");
             return;
         }
@@ -748,18 +773,18 @@ static NSImage *_selectionBox = nil;
 {
     NSPoint hitPoint;
 
-    NSLog(@" > %s", _cmd);
+    //NSLog(@" > %s", _cmd);
 
     if (shouldDrawSelection == YES) {
         hitPoint = [self convertPoint:[mouseEvent locationInWindow] fromView:nil];
-        NSLog(@"hitPoint: %@", NSStringFromPoint(hitPoint));
+        //NSLog(@"hitPoint: %@", NSStringFromPoint(hitPoint));
         selectionPoint2 = hitPoint;
         [self setNeedsDisplay:YES];
 
         [self selectGraphPointsBetweenPoint:selectionPoint1 andPoint:selectionPoint2];
     }
 
-    NSLog(@"<  %s", _cmd);
+    //NSLog(@"<  %s", _cmd);
 }
 
 - (void)mouseUp:(NSEvent *)mouseEvent;
@@ -767,6 +792,95 @@ static NSImage *_selectionBox = nil;
     NSLog(@" > %s", _cmd);
     [self setShouldDrawSelection:NO];
     NSLog(@"<  %s", _cmd);
+}
+
+- (void)editSlope:(Slope *)aSlope startTime:(float)startTime endTime:(float)endTime;
+{
+    NSWindow *window;
+
+    NSLog(@" > %s", _cmd);
+
+    if (aSlope == nil)
+        return;
+
+    window = [self window];
+
+    if ([window makeFirstResponder:window] == YES) {
+        float timeScale;
+        NSRect rect;
+
+        [self _setEditingSlope:aSlope];
+        timeScale = [self timeScale];
+
+        rect.origin.x = LEFT_MARGIN + startTime * timeScale;
+        rect.origin.y = [self slopeMarkerYPosition];
+        rect.size.width = (endTime - startTime) * timeScale;
+        rect.size.height = SLOPE_MARKER_HEIGHT;
+        rect = NSIntegralRect(rect);
+        nonretained_fieldEditor = [window fieldEditor:YES forObject:self];
+        NSLog(@"nonretained_fieldEditor: %p", nonretained_fieldEditor);
+
+        [nonretained_fieldEditor setString:[NSString stringWithFormat:@"%0.1f", [aSlope slope]]];
+        [nonretained_fieldEditor setRichText:NO];
+        [nonretained_fieldEditor setUsesFontPanel:NO];
+        [nonretained_fieldEditor setFont:timesFont];
+        [nonretained_fieldEditor setHorizontallyResizable:NO];
+        [nonretained_fieldEditor setVerticallyResizable:NO];
+        [nonretained_fieldEditor setAutoresizingMask:NSViewWidthSizable];
+
+        [nonretained_fieldEditor setFrame:rect];
+        [nonretained_fieldEditor setMinSize:rect.size];
+        [nonretained_fieldEditor setMaxSize:rect.size];
+        [[(NSTextView *)nonretained_fieldEditor textContainer] setLineFragmentPadding:3];
+
+        [nonretained_fieldEditor setFieldEditor:YES];
+
+        [self setNeedsDisplay:YES];
+        [nonretained_fieldEditor setNeedsDisplay:YES];
+        [nonretained_fieldEditor setDelegate:self];
+
+        [self addSubview:nonretained_fieldEditor positioned:NSWindowAbove relativeTo:nil];
+
+        [window makeFirstResponder:nonretained_fieldEditor];
+        [nonretained_fieldEditor selectAll:nil];
+    } else {
+        [window endEditingFor:nil];
+    }
+
+    NSLog(@"<  %s", _cmd);
+}
+
+- (void)textDidEndEditing:(NSNotification *)notification;
+{
+    NSString *str;
+
+    NSLog(@" > %s", _cmd);
+
+    NSLog(@"notification: %@", notification);
+
+    str = [nonretained_fieldEditor string];
+    NSLog(@"str: %@", str);
+
+    [editingSlope setSlope:[str floatValue]];
+    [editingSlope release];
+    editingSlope = nil;
+
+    [nonretained_fieldEditor removeFromSuperview];
+    nonretained_fieldEditor = nil;
+
+
+    [self setNeedsDisplay:YES];
+
+    NSLog(@"<  %s", _cmd);
+}
+
+- (void)_setEditingSlope:(Slope *)newSlope;
+{
+    if (newSlope == editingSlope)
+        return;
+
+    [editingSlope release];
+    editingSlope = [newSlope retain];
 }
 
 - (void)selectGraphPointsBetweenPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
@@ -988,6 +1102,7 @@ static NSImage *_selectionBox = nil;
         [self display];
     }
 
+    // TODO: Try using option-click to add a point.
     /* Double Click mouse events */
     if ([theEvent clickCount] == 2) {
         tempPoint = [[GSMPoint alloc] init];
@@ -1013,6 +1128,8 @@ static NSImage *_selectionBox = nil;
 
 #define RETURNKEY 42
 
+#if 0
+// This is pretty fucking whacked!
 - getSlopeInput:aSlopeRatio:(float)startTime:(float)endTime;
 {
     int next = 0;
@@ -1109,6 +1226,7 @@ static NSImage *_selectionBox = nil;
 
     return self;
 }
+#endif
 
 - (Slope *)getSlopeMarkerAtPoint:(NSPoint)aPoint startTime:(float *)startTime endTime:(float *)endTime;
 {

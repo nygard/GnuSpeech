@@ -33,6 +33,10 @@
     BOOL shouldDrawSelection;
     NSPoint selectionPoint1;
     NSPoint selectionPoint2;
+
+    Slope *editingSlope;
+    NSTextFieldCell *textFieldCell;
+    NSText *nonretained_fieldEditor;
 }
 
 + (void)initialize;
@@ -73,9 +77,14 @@
 - (void)mouseDown:(NSEvent *)mouseEvent;
 - (void)mouseUp:(NSEvent *)mouseEvent;
 
+- (void)editSlope:(Slope *)aSlope startTime:(float)startTime endTime:(float)endTime;
+- (void)textDidEndEditing:(NSNotification *)notification;
+
+- (void)_setEditingSlope:(Slope *)newSlope;
+
 - (void)selectGraphPointsBetweenPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
 
-- getSlopeInput:aSlopeRatio:(float)startTime:(float)endTime;
+//- getSlopeInput:aSlopeRatio:(float)startTime:(float)endTime;
 - (Slope *)getSlopeMarkerAtPoint:(NSPoint)aPoint startTime:(float *)startTime endTime:(float *)endTime;
 
 //- (BOOL)performKeyEquivalent:(NSEvent *)theEvent;
