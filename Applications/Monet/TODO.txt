@@ -204,7 +204,7 @@ x -[NSSString initWithBytes:length:encoding:] not in 10.2.8 SDK, so should be wi
 - With Save Graph Images, store at a location that's easier to get to for novice users than /tmp
 
 2004-08-13:
-- Clear out General:Null special transitions from rules.  For example, see Rule #27.
++ Clear out General:Null special transitions from rules.  For example, see Rule #27. (2004-08-15)
 
 2004-08-15:
 + I've been getting these warnings recently when running the app, before loading diphones.mxml:
@@ -216,5 +216,5 @@ des: [~ 12 ]> /Local/Public/nygard/Products/Monet.app/Contents/MacOS/Monet
 
   + This looks like it's in the PostureEditor somewhere.
 
-- search for decodeValueOfObjCType: and make sure they use @encode()
++ search for decodeValueOfObjCType: and make sure they use @encode() (2004-08-15)
 - add checkboxes to rules to enable/disable them?  Would help you to see the effects of a rule without deleting it.

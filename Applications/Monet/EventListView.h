@@ -26,7 +26,7 @@
 
     int startingIndex;
     float timeScale;
-    int mouseBeingDragged;
+    BOOL mouseBeingDragged;
     NSTrackingRectTag trackTag;
 
     NSTextFieldCell *ruleCell;

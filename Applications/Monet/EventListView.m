@@ -31,7 +31,7 @@
 
     startingIndex = 0;
     timeScale = 2.0;
-    mouseBeingDragged = 0;
+    mouseBeingDragged = NO;
 
     eventList = nil;
     trackTag = 0;
@@ -250,7 +250,7 @@
             }
         }
 
-        if (!mouseBeingDragged) {
+        if (mouseBeingDragged == NO) {
             // TODO (2004-03-17): It still goes one pixel below where it should.
             [bezierPath moveToPoint:NSMakePoint(currentX + 0.5, bounds.size.height - (50.0 + 1 + (float)j * TRACKHEIGHT))];
             [bezierPath lineToPoint:NSMakePoint(currentX + 0.5, bounds.size.height - 50.0 - 1)];
@@ -341,11 +341,11 @@
 
     /* Double Click mouse events */
     if ([theEvent clickCount] == 2) {
-        mouseBeingDragged = 1;
+        mouseBeingDragged = YES;
         [self lockFocus];
         [self updateScale:(float)column];
         [self unlockFocus];
-        mouseBeingDragged = 0;
+        mouseBeingDragged = NO;
         [self setNeedsDisplay:YES];
     }
 }
@@ -383,12 +383,15 @@
 
     [[self window] setAcceptsMouseMovedEvents:YES];
     while (1) {
-        newEvent = [NSApp nextEventMatchingMask:NSAnyEventMask
+        newEvent = [NSApp nextEventMatchingMask:NSLeftMouseDraggedMask|NSLeftMouseUpMask
                           untilDate:[NSDate distantFuture]
                           inMode:NSEventTrackingRunLoopMode
                           dequeue:YES];
-        mouseDownLocation = [newEvent locationInWindow];
-        mouseDownLocation = [self convertPoint:mouseDownLocation fromView:nil];
+
+        if ([newEvent type] == NSLeftMouseUp)
+            break;
+
+        mouseDownLocation = [self convertPoint:[newEvent locationInWindow] fromView:nil];
         delta = column - mouseDownLocation.x;
         timeScale = originalScale + delta / 20.0;
 
@@ -400,10 +403,8 @@
 
         [self clearView];
         [self drawGrid];
+        [self drawRules];
         [[self window] flushWindow];
-
-        if ([newEvent type] == NSLeftMouseUp)
-            break;
     }
 
     [[self window] setAcceptsMouseMovedEvents:NO];
