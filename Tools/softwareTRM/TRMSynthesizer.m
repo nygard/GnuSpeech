@@ -161,24 +161,28 @@ OSStatus playIOProc(AudioDeviceID inDevice,
     NSLog(@"sampleRateConverter.numberSamples: %d", sampleRateConverter.numberSamples);
 
     // TODO (2004-05-07): Would need to reset maximumSampleValue at the beginning of each synthesis
-    scale = (RANGE_MAX / sampleRateConverter.maximumSampleValue) * amplitude(inputData->inputParameters.volume);
+    //scale = (RANGE_MAX / sampleRateConverter.maximumSampleValue) * amplitude(inputData->inputParameters.volume);
+    NSLog(@"amplitude(inputData->inputParameters.volume): %g", amplitude(inputData->inputParameters.volume));
+    NSLog(@"sampleRateConverter.maximumSampleValue: %g", sampleRateConverter.maximumSampleValue);
+    scale = amplitude(inputData->inputParameters.volume) / sampleRateConverter.maximumSampleValue;
+    NSLog(@"scale: %g", scale);
 
     /*  Rewind the temporary file to beginning  */
     rewind(sampleRateConverter.tempFilePtr);
 
     for (index = 0; index < sampleRateConverter.numberSamples; index++) {
         double sample;
-        short value;
+        float value;
 
         fread(&sample, sizeof(sample), 1, sampleRateConverter.tempFilePtr);
 
         value = sample * scale;
-        //NSLog(@"value: %hd", value);
+        //NSLog(@"value: %f", value);
         [soundData appendBytes:&value length:sizeof(value)];
     }
 
     NSLog(@"soundData: %p, length: %d", soundData, [soundData length]);
-    bufferLength = [soundData length] / sizeof(short);
+    bufferLength = [soundData length] / sizeof(float);
 }
 
 - (void)startPlaying;
@@ -280,14 +284,16 @@ OSStatus playIOProc(AudioDeviceID inDevice,
 - (BOOL)fillBuffer:(float *)buffer count:(int)count;
 {
     int index;
-    const short *ptr = [soundData bytes];
+    const float *ptr = [soundData bytes];
 
     NSLog(@"ptr: %p", ptr);
 
     NSLog(@"%s, bufferIndex: %d, bufferLength: %d", _cmd, bufferIndex, bufferLength);
     for (index = 0; index < count && bufferIndex < bufferLength; index++) {
-        buffer[2 * index] = ptr[bufferIndex] / (float)RANGE_MAX;
-        buffer[2 * index + 1] = ptr[bufferIndex] / (float)RANGE_MAX;
+        //buffer[2 * index] = ptr[bufferIndex] / (float)RANGE_MAX;
+        //buffer[2 * index + 1] = ptr[bufferIndex] / (float)RANGE_MAX;
+        buffer[2 * index] = ptr[bufferIndex];
+        buffer[2 * index + 1] = ptr[bufferIndex];
         //NSLog(@"value: %hd %f", ptr[bufferIndex], buffer[2 * index]);
         bufferIndex++;
     }
