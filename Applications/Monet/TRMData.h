@@ -22,7 +22,7 @@ Initial import.
 
 
 /*  HEADER FILES  ************************************************************/
-#import <AppKit/AppKit.h>
+#import <Foundation/NSObject.h>
 
 
 /*  GLOBAL DEFINES  **********************************************************/
@@ -33,7 +33,7 @@ Initial import.
 
 
 
-@interface TRMData:NSObject
+@interface TRMData : NSObject
 {
     /*  GLOTTAL SOURCE PARAMETERS  */
     int waveform;
@@ -47,7 +47,7 @@ Initial import.
     float tp;
     float tnMin;
     float tnMax;
-    
+
     /*  NOISE SOURCE PARAMETERS  */
     int fricVol;
     float fricPos;
@@ -102,10 +102,10 @@ Initial import.
     BOOL spectrumGrid;
 }
 
-- init;
-- initWithContentsOfFile:(NSString *)path;
+- (id)init;
+- (id)initWithContentsOfFile:(NSString *)path;
 
-- (BOOL)readFromFile:(const char *)path;
+- (BOOL)readFromFile:(NSString *)path;
 - (BOOL)writeToFile:(NSString *)path;
 
 

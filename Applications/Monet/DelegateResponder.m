@@ -1,54 +1,58 @@
-
 #import "DelegateResponder.h"
+
+#import <AppKit/AppKit.h>
 
 @implementation DelegateResponder
 
-- init
+- (id)init;
 {
-	[super init];
-	delegate = nil;
-	return self;
+    if ([super init] == nil)
+        return nil;
+
+    nonretained_delegate = nil;
+
+    return self;
 }
 
-- (BOOL) acceptsFirstResponder
+- (BOOL)acceptsFirstResponder;
 {
-	printf("DelegateResponder: Now first responder\n");
-	return YES;
+    NSLog(@"DelegateResponder: Now first responder");
+    return YES;
 }
 
-- (BOOL)becomeFirstResponder
+- (BOOL)becomeFirstResponder;
 {
-	return YES;
+    return YES;
 }
 
-- (BOOL)resignFirstResponder
+- (BOOL)resignFirstResponder;
 {
-	return YES;
+    return YES;
 }
 
-- (void)setDelegate:(id)aDelegate
+- (id)delegate;
 {
-	delegate = aDelegate;
+    return nonretained_delegate;
 }
 
-- delegate
+- (void)setDelegate:(id)aDelegate;
 {
-	return delegate;
+    nonretained_delegate = aDelegate;
 }
 
-- (void)cut:(id)sender
+- (void)cut:(id)sender;
 {
-	[delegate cut:sender];
+    [nonretained_delegate cut:sender];
 }
 
-- (void)copy:(id)sender
+- (void)copy:(id)sender;
 {
-	[delegate copy:sender];
+    [nonretained_delegate copy:sender];
 }
 
-- (void)paste:(id)sender
+- (void)paste:(id)sender;
 {
-	[delegate paste:sender];
+    [nonretained_delegate paste:sender];
 }
 
 

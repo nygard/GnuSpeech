@@ -1,6 +1,7 @@
 #import <Foundation/NSObject.h>
 
 @class NSScanner;
+@class NSTextField; // Yuck!
 @class BooleanExpression, CategoryNode, CategoryList, PhoneList;
 #ifdef PORTING
 #import "BooleanExpression.h"
@@ -67,8 +68,7 @@
     CategoryList *categoryList;
     PhoneList *phoneList;
 
-    NSMutableString *errorMessages;
-    //id errorTextField; // TODO (2004-03-01): Change this to an NSMutableString, and query it in the interface controller.
+    NSTextField *nonretained_errorTextField; // TODO (2004-03-01): Change this to an NSMutableString, and query it in the interface controller.
 }
 
 - (id)init;
@@ -84,7 +84,7 @@
 - (PhoneList *)phoneList;
 - (void)setPhoneList: (PhoneList *)aList;
 
-//- (void)setErrorOutput:aTextObject;
+- (void)setErrorOutput:(NSTextField *)aTextField;
 
 /* Error reporting methods */
 - (void)outputError:(NSString *)errorText;

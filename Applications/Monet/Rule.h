@@ -13,47 +13,47 @@
 
 @interface Rule : NSObject
 {
-	MonetList *parameterProfiles;
-	MonetList *metaParameterProfiles;
-	MonetList *expressionSymbols;
+    MonetList *parameterProfiles;
+    MonetList *metaParameterProfiles;
+    MonetList *expressionSymbols;
 
-	id specialProfiles[16];
+    id specialProfiles[16];
 
-	BooleanExpression *expressions[4];
-	char *comment;
-
+    BooleanExpression *expressions[4];
+    NSString *comment;
 }
 
-- init;
+- (id)init;
+- (void)dealloc;
+
 - (void)setDefaultsTo:(int)numPhones;
 - (void)addDefaultParameter;
 - (void)addDefaultMetaParameter;
 - (void)removeParameter:(int)index;
 - (void)removeMetaParameter:(int)index;
-- (void)dealloc;
 
-- setExpression:(BooleanExpression *) expression number:(int)index;
-- getExpressionNumber:(int)index;
-- (int) numberExpressions;
-- (int) matchRule: (MonetList *) categories;
+- (void)setExpression:(BooleanExpression *)expression number:(int)index;
+- (int)numberExpressions;
+- (BooleanExpression *)getExpressionNumber:(int)index;
+
+- (NSString *)comment;
+- (void)setComment:(NSString *)newComment;
+
+- (int)matchRule:(MonetList *)categories;
 
 - getExpressionSymbol:(int)index;
-- evaluateExpressionSymbols:(double *) buffer tempos: (double *) tempos phones: phones withCache: (int) cache;
+- (void)evaluateExpressionSymbols:(double *)buffer tempos:(double *)tempos phones:phones withCache:(int)cache;
 
-- (void)setComment:(const char *)newComment;
-- (const char *) comment;
-
-- parameterList;
-- metaParameterList;
-- symbols;
+- (MonetList *)parameterList;
+- (MonetList *)metaParameterList;
+- (MonetList *)symbols;
 
 - getSpecialProfile:(int)index;
-- setSpecialProfile:(int) index to:special;
+- (void)setSpecialProfile:(int)index to:special;
 
-- (BOOL) isCategoryUsed: aCategory;
-- (BOOL) isEquationUsed: anEquation;
-- (BOOL) isTransitionUsed: aTransition;
-
+- (BOOL)isCategoryUsed:aCategory;
+- (BOOL)isEquationUsed:anEquation;
+- (BOOL)isTransitionUsed:aTransition;
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 - (void)encodeWithCoder:(NSCoder *)aCoder;

@@ -1,4 +1,7 @@
 #import "Rule.h"
+
+#import <Foundation/Foundation.h>
+#ifdef PORTING
 #import "MyController.h"
 #import <stdio.h>
 #import <string.h>
@@ -6,502 +9,492 @@
 #import <AppKit/NSApplication.h>
 #import "PrototypeManager.h"
 #import "ProtoEquation.h"
+#endif
 
 @implementation Rule
 
-
-- init
+- (id)init;
 {
-id tempList;
+    ParameterList *tempList;
 
-	/* Alloc lists to point to prototype transition specifiers */
-	tempList = NXGetNamedObject(@"mainParameterList", NSApp);
-	parameterProfiles = [[MonetList alloc] initWithCapacity:[tempList count]];
+    if ([super init] == nil)
+        return nil;
 
-	tempList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
-	metaParameterProfiles = [[MonetList alloc] initWithCapacity:[tempList count]];
+    /* Alloc lists to point to prototype transition specifiers */
+    tempList = NXGetNamedObject(@"mainParameterList", NSApp);
+    parameterProfiles = [[MonetList alloc] initWithCapacity:[tempList count]];
 
-	/* Set up list for Expression symbols */
-	expressionSymbols = [[MonetList alloc] initWithCapacity: 5];
+    tempList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
+    metaParameterProfiles = [[MonetList alloc] initWithCapacity:[tempList count]];
 
-	/* Zero out expressions and special Profiles */
-	bzero(expressions, sizeof(BooleanExpression *) * 4);
-	bzero(specialProfiles, sizeof(id) * 16);
+    /* Set up list for Expression symbols */
+    expressionSymbols = [[MonetList alloc] initWithCapacity: 5];
 
-	return self;
+    /* Zero out expressions and special Profiles */
+    bzero(expressions, sizeof(BooleanExpression *) * 4);
+    bzero(specialProfiles, sizeof(id) * 16);
+
+    return self;
 }
 
-- (void)setDefaultsTo:(int)numPhones
+- (void)dealloc;
 {
-id tempList, tempProto, tempEntry = nil, tempOnset = nil, tempDuration = nil;
-int i;
+    int index;
 
-	/* Empty out the lists */
-	[parameterProfiles removeAllObjects];
-	[metaParameterProfiles removeAllObjects];
-	[expressionSymbols removeAllObjects];
+    [parameterProfiles release];
+    [metaParameterProfiles release];
+    [expressionSymbols release];
 
-	if ((numPhones<2) || (numPhones > 4))
-		return;
+    for (index = 0 ; index < 4; index++)
+        [expressions[index] release];
 
-	tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
-	switch(numPhones)
-	{
-		case 2: tempEntry = [tempProto findTransitionList: "Defaults" named: "Diphone"];
-			break;
-		case 3: tempEntry = [tempProto findTransitionList: "Defaults" named: "Triphone"];
-			break;
-		case 4: tempEntry = [tempProto findTransitionList: "Defaults" named: "Tetraphone"];
-			break;
-	}
+    [comment release];
 
-	if (tempEntry == nil)
-	{
-		printf("CANNOT find temp entry\n");
-	}
-
-	tempList = NXGetNamedObject(@"mainParameterList", NSApp);
-	for(i = 0;i<[tempList count]; i++)
-	{
-		[parameterProfiles addObject:tempEntry];
-	}
-
-	/* Alloc lists to point to prototype transition specifiers */
-	tempList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
-	for(i = 0;i<[tempList count]; i++)
-	{
-		[metaParameterProfiles addObject:tempEntry];
-	}
-
-	switch(numPhones)
-	{
-		case 2: tempDuration = [tempProto findEquationList: "DefaultDurations" named: "DiphoneDefault"];
-			[expressionSymbols addObject: tempDuration];
-
-			tempOnset = [tempProto findEquationList: "SymbolDefaults" named: "Beat"];
-			[expressionSymbols addObject: tempOnset];
-
-			[expressionSymbols addObject: tempDuration]; /* Make the duration the mark1 value */
-
-			break;
-		case 3: tempDuration = [tempProto findEquationList: "DefaultDurations" named: "TriphoneDefault"];
-			[expressionSymbols addObject: tempDuration];
-
-			tempOnset = [tempProto findEquationList: "SymbolDefaults" named: "Beat"];
-			[expressionSymbols addObject: tempOnset];
-
-			tempEntry = [tempProto findEquationList: "SymbolDefaults" named: "Mark1"];
-			[expressionSymbols addObject: tempEntry];
-			[expressionSymbols addObject: tempDuration];	/* make the duration the mark2 value */
-
-			break;
-		case 4: tempDuration = [tempProto findEquationList: "DefaultDurations" named: "TetraphoneDefault"];
-			[expressionSymbols addObject: tempDuration];
-
-			tempOnset = [tempProto findEquationList: "SymbolDefaults" named: "Beat"];
-			[expressionSymbols addObject: tempOnset];
-
-			tempEntry = [tempProto findEquationList: "SymbolDefaults" named: "Mark1"];
-			[expressionSymbols addObject: tempEntry];
-
-			tempEntry = [tempProto findEquationList: "SymbolDefaults" named: "Mark2"];
-			[expressionSymbols addObject: tempEntry];
-			[expressionSymbols addObject: tempDuration];	/* make the duration the mark3 value */
-
-			break;
-	}
+    [super dealloc];
 }
 
-- (void)addDefaultParameter
+- (void)setDefaultsTo:(int)numPhones;
 {
-id tempProto, tempEntry;
+    id tempEntry = nil, tempOnset = nil, tempDuration = nil;
+    PrototypeManager *tempProto;
+    ParameterList *tempList;
+    int i;
 
+    /* Empty out the lists */
+    [parameterProfiles removeAllObjects];
+    [metaParameterProfiles removeAllObjects];
+    [expressionSymbols removeAllObjects];
 
-	tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
-	switch([self numberExpressions])
-	{
-		case 2: tempEntry = [tempProto findTransitionList: "Defaults" named: "Diphone"];
-			break;
-		case 3: tempEntry = [tempProto findTransitionList: "Defaults" named: "Triphone"];
-			break;
-		case 4: tempEntry = [tempProto findTransitionList: "Defaults" named: "Tetraphone"];
-			break;
-	}
+    if ((numPhones < 2) || (numPhones > 4))
+        return;
 
-	[parameterProfiles addObject:tempEntry];
+    tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
+    switch (numPhones) {
+      case 2:
+          tempEntry = [tempProto findTransitionList:@"Defaults" named:@"Diphone"];
+          break;
+      case 3:
+          tempEntry = [tempProto findTransitionList:@"Defaults" named:@"Triphone"];
+          break;
+      case 4:
+          tempEntry = [tempProto findTransitionList:@"Defaults" named:@"Tetraphone"];
+          break;
+    }
+
+    if (tempEntry == nil) {
+        NSLog(@"CANNOT find temp entry");
+    }
+
+    tempList = NXGetNamedObject(@"mainParameterList", NSApp);
+    for (i = 0; i < [tempList count]; i++) {
+        [parameterProfiles addObject:tempEntry];
+    }
+
+    /* Alloc lists to point to prototype transition specifiers */
+    tempList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
+    for (i = 0; i < [tempList count]; i++) {
+        [metaParameterProfiles addObject:tempEntry];
+    }
+
+    switch (numPhones) {
+      case 2:
+          tempDuration = [tempProto findEquationList:@"DefaultDurations" named:@"DiphoneDefault"];
+          [expressionSymbols addObject:tempDuration];
+
+          tempOnset = [tempProto findEquationList:@"SymbolDefaults" named:@"Beat"];
+          [expressionSymbols addObject:tempOnset];
+
+          [expressionSymbols addObject:tempDuration]; /* Make the duration the mark1 value */
+
+          break;
+      case 3:
+          tempDuration = [tempProto findEquationList:@"DefaultDurations" named:@"TriphoneDefault"];
+          [expressionSymbols addObject:tempDuration];
+
+          tempOnset = [tempProto findEquationList:@"SymbolDefaults" named:@"Beat"];
+          [expressionSymbols addObject:tempOnset];
+
+          tempEntry = [tempProto findEquationList:@"SymbolDefaults" named:@"Mark1"];
+          [expressionSymbols addObject:tempEntry];
+          [expressionSymbols addObject:tempDuration];	/* make the duration the mark2 value */
+
+          break;
+      case 4:
+          tempDuration = [tempProto findEquationList:@"DefaultDurations" named:@"TetraphoneDefault"];
+          [expressionSymbols addObject:tempDuration];
+
+          tempOnset = [tempProto findEquationList:@"SymbolDefaults" named:@"Beat"];
+          [expressionSymbols addObject:tempOnset];
+
+          tempEntry = [tempProto findEquationList:@"SymbolDefaults" named:@"Mark1"];
+          [expressionSymbols addObject:tempEntry];
+
+          tempEntry = [tempProto findEquationList:@"SymbolDefaults" named:@"Mark2"];
+          [expressionSymbols addObject:tempEntry];
+          [expressionSymbols addObject:tempDuration];	/* make the duration the mark3 value */
+
+          break;
+    }
 }
 
-- (void)addDefaultMetaParameter
+- (void)addDefaultParameter;
 {
-id tempProto, tempEntry;
+    id tempEntry;
+    PrototypeManager *tempProto;
 
+    tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
+    switch ([self numberExpressions]) {
+      case 2:
+          tempEntry = [tempProto findTransitionList:@"Defaults" named:@"Diphone"];
+          break;
+      case 3:
+          tempEntry = [tempProto findTransitionList:@"Defaults" named:@"Triphone"];
+          break;
+      case 4:
+          tempEntry = [tempProto findTransitionList:@"Defaults" named:@"Tetraphone"];
+          break;
+    }
 
-	tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
-	switch([self numberExpressions])
-	{
-		case 2: tempEntry = [tempProto findTransitionList: "Defaults" named: "Diphone"];
-			break;
-		case 3: tempEntry = [tempProto findTransitionList: "Defaults" named: "Triphone"];
-			break;
-		case 4: tempEntry = [tempProto findTransitionList: "Defaults" named: "Tetraphone"];
-			break;
-	}
-
-	[metaParameterProfiles addObject:tempEntry];
+    [parameterProfiles addObject:tempEntry];
 }
 
-- (void)removeParameter:(int)index
+- (void)addDefaultMetaParameter;
 {
-	printf("Removing Object atIndex: %d\n", index);
-	[parameterProfiles removeObjectAtIndex: index];
+    id tempEntry;
+    PrototypeManager *tempProto;
+
+    tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
+    switch ([self numberExpressions]) {
+      case 2:
+          tempEntry = [tempProto findTransitionList:@"Defaults" named:@"Diphone"];
+          break;
+      case 3:
+          tempEntry = [tempProto findTransitionList:@"Defaults" named:@"Triphone"];
+          break;
+      case 4:
+          tempEntry = [tempProto findTransitionList:@"Defaults" named:@"Tetraphone"];
+          break;
+    }
+
+    [metaParameterProfiles addObject:tempEntry];
 }
 
-- (void)removeMetaParameter:(int)index
+- (void)removeParameter:(int)index;
 {
-	[metaParameterProfiles removeObjectAtIndex: index];
+    NSLog(@"Removing Object atIndex: %d", index);
+    [parameterProfiles removeObjectAtIndex:index];
 }
 
-- (void)dealloc
+- (void)removeMetaParameter:(int)index;
 {
-int i;
-	for(i = 0 ; i<4; i++)
-		if (expressions[i])
-			[expressions[i] release];
-
-	[super dealloc];
+    [metaParameterProfiles removeObjectAtIndex:index];
 }
 
-- setExpression: (BooleanExpression *) expression number:(int) index
+- (void)setExpression:(BooleanExpression *)expression number:(int)index;
 {
-	if ((index>3) || (index<0))
-		return self;
+    if ((index > 3) || (index < 0))
+        return;
 
-	if (expressions[index])
-		[expressions[index] release];
+    if (expressions[index])
+        [expressions[index] release];
 
-	expressions[index] = expression;
-
-	return self;
+    expressions[index] = expression;
 }
 
-- (void)setComment:(const char *)newComment
+- (int)numberExpressions;
 {
-int len;
+    int index;
 
-	if (comment)
-		free(comment);
+    for (index = 0; index < 4; index++)
+        if (expressions[index] == nil)
+            return index;
 
-	len = strlen(newComment);
-	comment = (char *) malloc(len+1);
-	strcpy(comment, newComment);
+    return index;
 }
 
-- (const char *) comment
+- (BooleanExpression *)getExpressionNumber:(int)index;
 {
-	return comment;
+    if ((index > 3) || (index < 0))
+        return nil;
+
+    return expressions[index];
 }
 
-- getExpressionNumber:(int)index
+- (NSString *)comment;
 {
-	if ((index>3) || (index<0))
-		return nil;
-	return (expressions[index]);
+    return comment;
 }
 
-- (int) numberExpressions
+- (void)setComment:(NSString *)newComment;
 {
-int i;
+    if (newComment == comment)
+        return;
 
-	for (i = 0; i<4; i++)
-		if (expressions[i] == nil)
-			return (i);
-	return i;
+    [comment release];
+    comment = [newComment retain];
 }
 
--(int)matchRule: (MonetList *) categories
+- (int)matchRule:(MonetList *)categories;
 {
-int i;
+    int index;
 
-	for (i = 0; i < [self numberExpressions]; i++)
-	{
-		if (![expressions[i] evaluate:[categories objectAtIndex:i]])
-			return 0;
-	}
+    for (index = 0; index < [self numberExpressions]; index++) {
+        if (![expressions[index] evaluate:[categories objectAtIndex:index]])
+            return 0;
+    }
 
-	return 1;
+    return 1;
 }
 
-- getExpressionSymbol:(int)index
+- getExpressionSymbol:(int)index;
 {
-	return [expressionSymbols objectAtIndex:index];
+    return [expressionSymbols objectAtIndex:index];
 }
 
-- evaluateExpressionSymbols:(double *) buffer tempos: (double *) tempos phones: phones withCache: (int) cache;
+- (void)evaluateExpressionSymbols:(double *)buffer tempos:(double *)tempos phones:phones withCache:(int)cache;
 {
-
-	buffer[0] = [(ProtoEquation *) [expressionSymbols objectAtIndex:0] evaluate: buffer tempos: tempos
-		 phones: phones andCacheWith: cache];
-	buffer[2] = [(ProtoEquation *) [expressionSymbols objectAtIndex:2] evaluate: buffer tempos: tempos
-		phones: phones andCacheWith: cache];
-	buffer[3] = [(ProtoEquation *) [expressionSymbols objectAtIndex:3] evaluate: buffer tempos: tempos
-		phones: phones andCacheWith: cache];
-	buffer[4] = [(ProtoEquation *) [expressionSymbols objectAtIndex:4] evaluate: buffer tempos: tempos
-		phones: phones andCacheWith: cache];
-	buffer[1] = [(ProtoEquation *) [expressionSymbols objectAtIndex:1] evaluate: buffer tempos: tempos
-		phones: phones andCacheWith: cache];
-
-	return self;
+    // TODO (2004-03-02): Is it okay to do these in order?
+    buffer[0] = [(ProtoEquation *)[expressionSymbols objectAtIndex:0] evaluate:buffer tempos:tempos phones:phones andCacheWith:cache];
+    buffer[2] = [(ProtoEquation *)[expressionSymbols objectAtIndex:2] evaluate:buffer tempos:tempos phones:phones andCacheWith:cache];
+    buffer[3] = [(ProtoEquation *)[expressionSymbols objectAtIndex:3] evaluate:buffer tempos:tempos phones:phones andCacheWith:cache];
+    buffer[4] = [(ProtoEquation *)[expressionSymbols objectAtIndex:4] evaluate:buffer tempos:tempos phones:phones andCacheWith:cache];
+    buffer[1] = [(ProtoEquation *)[expressionSymbols objectAtIndex:1] evaluate:buffer tempos:tempos phones:phones andCacheWith:cache];
 }
 
-- parameterList
+- (MonetList *)parameterList;
 {
-	return parameterProfiles;
+    return parameterProfiles;
 }
 
-- metaParameterList
+- (MonetList *)metaParameterList;
 {
-	return metaParameterProfiles;
+    return metaParameterProfiles;
 }
 
-- symbols
+- (MonetList *)symbols;
 {
-	return expressionSymbols;
+    return expressionSymbols;
 }
 
-- getSpecialProfile:(int)index
+- getSpecialProfile:(int)index;
 {
-	if ((index>15) || (index<0))
-		return nil;
-	else
-		return specialProfiles[index];
+    if ((index > 15) || (index < 0))
+        return nil;
+
+    return specialProfiles[index];
 }
 
-- setSpecialProfile:(int) index to:special
+- (void)setSpecialProfile:(int)index to:special;
 {
-	if ((index>15) || (index<0))
-		return self;
+    if ((index > 15) || (index < 0))
+        return;
 
-	specialProfiles[index] = special;
-
-	return self;
+    specialProfiles[index] = special;
 }
 
-- (BOOL) isCategoryUsed: aCategory
+- (BOOL)isCategoryUsed:aCategory;
 {
-int i;
+    int count, index;
 
-	for (i = 0; i<[self numberExpressions]; i++)
-	{
-		if ([expressions[i] isCategoryUsed:aCategory])
-			return YES;
-	}
-	return NO;
+    count = [self numberExpressions];
+    for (index = 0; index < count; index++) {
+        if ([expressions[index] isCategoryUsed:aCategory])
+            return YES;
+    }
+
+    return NO;
 }
 
-- (BOOL) isEquationUsed: anEquation
+- (BOOL)isEquationUsed:anEquation;
 {
-	if ([expressionSymbols indexOfObject: anEquation] !=NSNotFound)
-		return YES;
-	return NO;
+    if ([expressionSymbols indexOfObject:anEquation] != NSNotFound)
+        return YES;
+
+    return NO;
 }
 
-- (BOOL) isTransitionUsed: aTransition
+- (BOOL)isTransitionUsed:aTransition;
 {
-int i;
+    int index;
 
-	if ([parameterProfiles indexOfObject: aTransition] !=NSNotFound)
-		return YES;
-	if ([metaParameterProfiles indexOfObject: aTransition] !=NSNotFound)
-		return YES;
+    if ([parameterProfiles indexOfObject:aTransition] != NSNotFound)
+        return YES;
+    if ([metaParameterProfiles indexOfObject:aTransition] != NSNotFound)
+        return YES;
 
-	for(i = 0; i<16; i++)
-	{
-		if (specialProfiles[i] == aTransition)
-			return YES;
-	}
+    for (index = 0; index < 16; index++) {
+        if (specialProfiles[index] == aTransition)
+            return YES;
+    }
 
-	return NO;
+    return NO;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+- (id)initWithCoder:(NSCoder *)aDecoder;
 {
-int i, j, k;
-int parms, metaParms, symbols;
-id tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
-id tempParameter, tempList;
+    int index, j, k;
+    int parms, metaParms, symbols;
+    PrototypeManager *tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
+    ParamterList *tempList;
+    id tempParameter;
 
-	tempList = NXGetNamedObject(@"mainParameterList", NSApp);
-	parameterProfiles = [[MonetList alloc] initWithCapacity:[tempList count]];
+    tempList = NXGetNamedObject(@"mainParameterList", NSApp);
+    parameterProfiles = [[MonetList alloc] initWithCapacity:[tempList count]];
 
-	tempList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
-	metaParameterProfiles = [[MonetList alloc] initWithCapacity:[tempList count]];
+    tempList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
+    metaParameterProfiles = [[MonetList alloc] initWithCapacity:[tempList count]];
 
-	expressionSymbols = [[MonetList alloc] initWithCapacity: 5];
+    expressionSymbols = [[MonetList alloc] initWithCapacity:5];
 
-	[aDecoder decodeValuesOfObjCTypes:"i*", &i, &comment];
-	bzero(expressions, sizeof(BooleanExpression *) * 4);
-	for (j = 0; j<i; j++)
-	{
-		expressions[j] = [[aDecoder decodeObject] retain];
-	}
+    [aDecoder decodeValuesOfObjCTypes:"i*", &j, &comment];
+    bzero(expressions, sizeof(BooleanExpression *) * 4);
+    for (index = 0; index < j; index++) {
+        expressions[index] = [[aDecoder decodeObject] retain];
+    }
 
-	[expressionSymbols removeAllObjects];
-	[parameterProfiles removeAllObjects];
-	[metaParameterProfiles removeAllObjects];
-	bzero(specialProfiles, sizeof(id) * 16);
+    [expressionSymbols removeAllObjects];
+    [parameterProfiles removeAllObjects];
+    [metaParameterProfiles removeAllObjects];
+    bzero(specialProfiles, sizeof(id) * 16);
 
-	[aDecoder decodeValuesOfObjCTypes:"iii", &symbols, &parms, &metaParms];
+    [aDecoder decodeValuesOfObjCTypes:"iii", &symbols, &parms, &metaParms];
 
-	for (i = 0; i<symbols; i++)
-	{
-		[aDecoder decodeValuesOfObjCTypes:"ii", &j, &k];
-		tempParameter = [tempProto findEquation: j andIndex: k];
-		[expressionSymbols addObject: tempParameter];
-	}
+    for (index = 0; index < symbols; index++) {
+        [aDecoder decodeValuesOfObjCTypes:"ii", &j, &k];
+        tempParameter = [tempProto findEquation:j andIndex:k];
+        [expressionSymbols addObject:tempParameter];
+    }
 
-	for (i = 0; i<parms; i++)
-	{
-		[aDecoder decodeValuesOfObjCTypes:"ii", &j, &k];
-		tempParameter = [tempProto findTransition: j andIndex: k];
-		[parameterProfiles addObject: tempParameter];
-	}
+    for (index = 0; index < parms; index++) {
+        [aDecoder decodeValuesOfObjCTypes:"ii", &j, &k];
+        tempParameter = [tempProto findTransition:j andIndex:k];
+        [parameterProfiles addObject:tempParameter];
+    }
 
-	for (i = 0; i<metaParms; i++)
-	{
-		[aDecoder decodeValuesOfObjCTypes:"ii", &j, &k];
-		[metaParameterProfiles addObject: [tempProto findTransition: j andIndex: k]];
-	}
+    for (index = 0; index < metaParms; index++) {
+        [aDecoder decodeValuesOfObjCTypes:"ii", &j, &k];
+        [metaParameterProfiles addObject:[tempProto findTransition:j andIndex:k]];
+    }
 
-	for(i = 0; i< 16; i++)
-	{
-		[aDecoder decodeValuesOfObjCTypes:"ii", &j, &k];
-		if (i==(-1))
-		{
-			specialProfiles[i] = nil;
-		}
-		else
-		{
-			specialProfiles[i] = [tempProto findSpecial: j andIndex: k];
-		}
-	}
-	return self;
+    for (index = 0; index <  16; index++) {
+        [aDecoder decodeValuesOfObjCTypes:"ii", &j, &k];
+        if (index == -1) {
+            specialProfiles[index] = nil;
+        } else {
+            specialProfiles[index] = [tempProto findSpecial:j andIndex:k];
+        }
+    }
+
+    return self;
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder
+- (void)encodeWithCoder:(NSCoder *)aCoder;
 {
-int i, j, k, dummy;
-int parms, metaParms, symbols;
-id tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
+    int index, j, k, dummy;
+    int parms, metaParms, symbols;
+    PrototypeManager *tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
 
-	i = [self numberExpressions];
-	[aCoder encodeValuesOfObjCTypes:"i*", &i, &comment];
+    j = [self numberExpressions];
+    [aCoder encodeValuesOfObjCTypes:"i*", &j, &comment];
 
-	for(j = 0; j<i; j++)
-	{
-		[aCoder encodeObject:expressions[j]];
-	}
+    for (index = 0; index < j; index++) {
+        [aCoder encodeObject:expressions[index]];
+    }
 
-	symbols = [expressionSymbols count];
-	parms = [parameterProfiles count];
-	metaParms = [metaParameterProfiles count];
-	[aCoder encodeValuesOfObjCTypes:"iii", &symbols, &parms, &metaParms];
+    symbols = [expressionSymbols count];
+    parms = [parameterProfiles count];
+    metaParms = [metaParameterProfiles count];
+    [aCoder encodeValuesOfObjCTypes:"iii", &symbols, &parms, &metaParms];
 
-	for (i = 0; i<symbols; i++)
-	{
-		[tempProto findList: &j andIndex: &k ofEquation: [expressionSymbols objectAtIndex: i]];
-		[aCoder encodeValuesOfObjCTypes:"ii", &j, &k];
-	}
+    for (index = 0; index < symbols; index++) {
+        [tempProto findList:&j andIndex:&k ofEquation:[expressionSymbols objectAtIndex:index]];
+        [aCoder encodeValuesOfObjCTypes:"ii", &j, &k];
+    }
 
-	for (i = 0; i<parms; i++)
-	{
-		[tempProto findList: &j andIndex: &k ofTransition: [parameterProfiles objectAtIndex: i]];
-		[aCoder encodeValuesOfObjCTypes:"ii", &j, &k];
-	}
+    for (index = 0; index < parms; index++) {
+        [tempProto findList:&j andIndex:&k ofTransition:[parameterProfiles objectAtIndex:index]];
+        [aCoder encodeValuesOfObjCTypes:"ii", &j, &k];
+    }
 
-	for (i = 0; i<metaParms; i++)
-	{
-		[tempProto findList: &j andIndex: &k ofTransition: [metaParameterProfiles objectAtIndex: i]];
-		[aCoder encodeValuesOfObjCTypes:"ii", &j, &k];
-	}
+    for (index = 0; index < metaParms; index++) {
+        [tempProto findList:&j andIndex:&k ofTransition:[metaParameterProfiles objectAtIndex:index]];
+        [aCoder encodeValuesOfObjCTypes:"ii", &j, &k];
+    }
 
-	dummy = (-1);
+    dummy = -1;
 
-	for(i = 0; i< 16; i++)
-	{
-		if (specialProfiles[i]!=nil)
-		{
-			[tempProto findList:&j andIndex: &k ofSpecial: specialProfiles[i]];
-			[aCoder encodeValuesOfObjCTypes:"ii", &j, &k];
-		}
-		else
-		{
-			[aCoder encodeValuesOfObjCTypes:"ii", &dummy, &dummy];
-		}
-	}
+    for (index = 0; index < 16; index++) {
+        if (specialProfiles[index] != nil) {
+            [tempProto findList:&j andIndex:&k ofSpecial:specialProfiles[index]];
+            [aCoder encodeValuesOfObjCTypes:"ii", &j, &k];
+        } else {
+            [aCoder encodeValuesOfObjCTypes:"ii", &dummy, &dummy];
+        }
+    }
 }
 
 #ifdef NeXT
-- read:(NXTypedStream *)stream
+- read:(NXTypedStream *)stream;
 {
-int i, j, k;
-int parms, metaParms, symbols;
-id tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
-id tempParameter, tempList;
+    int i, j, k;
+    int parms, metaParms, symbols;
+    id tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
+    id tempParameter, tempList;
 
-        tempList = NXGetNamedObject(@"mainParameterList", NSApp);
-        parameterProfiles = [[MonetList alloc] initWithCapacity:[tempList count]];
+    tempList = NXGetNamedObject(@"mainParameterList", NSApp);
+    parameterProfiles = [[MonetList alloc] initWithCapacity:[tempList count]];
 
-        tempList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
-        metaParameterProfiles = [[MonetList alloc] initWithCapacity:[tempList count]];
+    tempList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
+    metaParameterProfiles = [[MonetList alloc] initWithCapacity:[tempList count]];
 
-        expressionSymbols = [[MonetList alloc] initWithCapacity: 5];
+    expressionSymbols = [[MonetList alloc] initWithCapacity: 5];
 
-        NXReadTypes(stream,"i*", &i, &comment);
-        bzero(expressions, sizeof(BooleanExpression *) * 4);
-        for (j = 0; j<i; j++)
+    NXReadTypes(stream,"i*", &i, &comment);
+    bzero(expressions, sizeof(BooleanExpression *) * 4);
+    for (j = 0; j<i; j++)
+    {
+        expressions[j] = NXReadObject(stream);
+    }
+    [expressionSymbols removeAllObjects];
+    [parameterProfiles removeAllObjects];
+    [metaParameterProfiles removeAllObjects];
+    bzero(specialProfiles, sizeof(id) * 16);
+
+    NXReadTypes(stream, "iii", &symbols, &parms, &metaParms);
+
+    for (i = 0; i<symbols; i++)
+    {
+        NXReadTypes(stream, "ii", &j, &k);
+        tempParameter = [tempProto findEquation: j andIndex: k];
+        [expressionSymbols addObject: tempParameter];
+    }
+
+    for (i = 0; i<parms; i++)
+    {
+        NXReadTypes(stream, "ii", &j, &k);
+        tempParameter = [tempProto findTransition: j andIndex: k];
+        [parameterProfiles addObject: tempParameter];
+    }
+
+    for (i = 0; i<metaParms; i++)
+    {
+        NXReadTypes(stream, "ii", &j, &k);
+        [metaParameterProfiles addObject: [tempProto findTransition: j andIndex: k]];
+    }
+
+    for(i = 0; i< 16; i++)
+    {
+        NXReadTypes(stream, "ii", &j, &k);
+        if (i==(-1))
         {
-                expressions[j] = NXReadObject(stream);
+            specialProfiles[i] = nil;
         }
-        [expressionSymbols removeAllObjects];
-        [parameterProfiles removeAllObjects];
-        [metaParameterProfiles removeAllObjects];
-        bzero(specialProfiles, sizeof(id) * 16);
-
-        NXReadTypes(stream, "iii", &symbols, &parms, &metaParms);
-
-        for (i = 0; i<symbols; i++)
+        else
         {
-                NXReadTypes(stream, "ii", &j, &k);
-                tempParameter = [tempProto findEquation: j andIndex: k];
-                [expressionSymbols addObject: tempParameter];
+            specialProfiles[i] = [tempProto findSpecial: j andIndex: k];
         }
-
-        for (i = 0; i<parms; i++)
-        {
-                NXReadTypes(stream, "ii", &j, &k);
-                tempParameter = [tempProto findTransition: j andIndex: k];
-                [parameterProfiles addObject: tempParameter];
-        }
-
-        for (i = 0; i<metaParms; i++)
-        {
-                NXReadTypes(stream, "ii", &j, &k);
-                [metaParameterProfiles addObject: [tempProto findTransition: j andIndex: k]];
-        }
-
-        for(i = 0; i< 16; i++)
-        {
-                NXReadTypes(stream, "ii", &j, &k);
-                if (i==(-1))
-                {
-                        specialProfiles[i] = nil;
-                }
-                else
-                {
-                        specialProfiles[i] = [tempProto findSpecial: j andIndex: k];
-                }
-        }
-        return self;
+    }
+    return self;
 }
 #endif
 

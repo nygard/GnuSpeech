@@ -1,4 +1,3 @@
-
 #import <AppKit/NSResponder.h>
 
 /*===========================================================================
@@ -10,18 +9,18 @@
 =============================================================================
 */
 
-@interface DelegateResponder:NSResponder
+@interface DelegateResponder : NSResponder
 {
-	id	delegate;
+    id nonretained_delegate;
 }
 
-- init;
-- (BOOL) acceptsFirstResponder;
+- (id)init;
+- (BOOL)acceptsFirstResponder;
 - (BOOL)becomeFirstResponder;
 - (BOOL)resignFirstResponder;
 
+- (id)delegate;
 - (void)setDelegate:(id)aDelegate;
-- delegate;
 
 - (void)cut:(id)sender;
 - (void)copy:(id)sender;

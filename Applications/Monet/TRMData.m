@@ -23,6 +23,8 @@ Initial import.
 
 /*  HEADER FILES  ************************************************************/
 #import "TRMData.h"
+
+#import <Foundation/Foundation.h>
 #import <math.h>
 
 
@@ -107,10 +109,11 @@ Initial import.
 
 @implementation TRMData
 
-- init
+- (id)init;
 {
     /*  DO SUPERCLASS INITIALIZATION  */
-    self = [super init];
+    if ([super init] == nil)
+        return nil;
 
     /*  INITIALIZE INSTANCE VARIABLES TO REASONABLE DEFAULTS  */
     /*  GLOTTAL SOURCE PARAMETERS  */
@@ -190,160 +193,152 @@ Initial import.
     return self;
 }
 
-
-
-- initWithContentsOfFile:(NSString *)path
+- (id)initWithContentsOfFile:(NSString *)path;
 {
-    /*  DO NORMAL INITIALIZATION  */
-    [self init];
+    if ([self init] == nil)
+        return nil;
 
-    /*  READ DATA FROM FILE  */
-    return ([self readFromFile:[path cString]]) ? self : nil;
+    if ([self readFromFile:path] == NO) {
+        [self release];
+        return nil;
+    }
+
+    return self;
 }
 
-
-
-- (BOOL)readFromFile:(const char *)path
+- (BOOL)readFromFile:(NSString *)path;
 {
     int fileVersion;
 
     /*  OPEN STREAM FOR READING  */
-    NSArchiver *typedStream = [[NSUnarchiver alloc] initForReadingWithData:[NSData dataWithContentsOfFile: [NSString stringWithCString: path]]];
-    
+    NSArchiver *typedStream = [[NSUnarchiver alloc] initForReadingWithData:[NSData dataWithContentsOfFile:path]];
+
     /*  WARN USER IF INVALID FILE FOR READING  */
-    if (typedStream == NULL) {
+    if (typedStream == nil) {
 	NSRunAlertPanel(@"", @"Unable to open file for reading.", @"", nil, nil);
 	return NO;
     }
-    
-NS_DURING
 
-    /*  READ FILE VERSION FROM STREAM  */
-    [typedStream decodeValuesOfObjCTypes:"i", &fileVersion];
+    NS_DURING {
+        /*  READ FILE VERSION FROM STREAM  */
+        [typedStream decodeValuesOfObjCTypes:"i", &fileVersion];
 
-    /*  READ PARAMETERS FROM STREAM  */
-    /*  GLOTTAL SOURCE PARAMETERS  */
-    [typedStream decodeValuesOfObjCTypes:"iiiiiififff", &waveform, &showAmplitude,
-		&harmonicsScale, &unit, &pitch, &cents, &breathiness,
-		&glotVol, &tp, &tnMin, &tnMax];
+        /*  READ PARAMETERS FROM STREAM  */
+        /*  GLOTTAL SOURCE PARAMETERS  */
+        [typedStream decodeValuesOfObjCTypes:"iiiiiififff", &waveform, &showAmplitude,
+                     &harmonicsScale, &unit, &pitch, &cents, &breathiness,
+                     &glotVol, &tp, &tnMin, &tnMax];
 
-    /*  NOISE SOURCE PARAMETERS  */
-    [typedStream decodeValuesOfObjCTypes:"ifiiiiii", &fricVol, &fricPos,
-		&aspVol, &fricCF, &NoiseSourceResponseScale,
-		&fricBW, &modulation, &mixOffset];
+        /*  NOISE SOURCE PARAMETERS  */
+        [typedStream decodeValuesOfObjCTypes:"ifiiiiii", &fricVol, &fricPos,
+                     &aspVol, &fricCF, &NoiseSourceResponseScale,
+                     &fricBW, &modulation, &mixOffset];
 
-    /*  THROAT PARAMETERS  */
-    [typedStream decodeValuesOfObjCTypes:"iii", &throatVol, &throatCutoff,
-		 &throatResponseScale];
+        /*  THROAT PARAMETERS  */
+        [typedStream decodeValuesOfObjCTypes:"iii", &throatVol, &throatCutoff,
+                     &throatResponseScale];
 
-    /*  RESONANT SYSTEM PARAMETERS  */
-    [typedStream decodeArrayOfObjCType:"d" count:PHARYNX_SECTIONS at:pharynxDiameter];
-    [typedStream decodeArrayOfObjCType:"d" count:VELUM_SECTIONS at:velumDiameter];
-    [typedStream decodeArrayOfObjCType:"d" count:ORAL_SECTIONS at:oralDiameter];
-    [typedStream decodeArrayOfObjCType:"d" count:NASAL_SECTIONS at:nasalDiameter];
-    [typedStream decodeValuesOfObjCTypes:"ddddiiddddi", &lossFactor, &apScale,
-		&mouthCoef, &noseCoef, &mouthResponseScale,
-		&noseResponseScale, &temperature, &length, &sampleRate,
-		&actualLength, &controlPeriod];
+        /*  RESONANT SYSTEM PARAMETERS  */
+        [typedStream decodeArrayOfObjCType:"d" count:PHARYNX_SECTIONS at:pharynxDiameter];
+        [typedStream decodeArrayOfObjCType:"d" count:VELUM_SECTIONS at:velumDiameter];
+        [typedStream decodeArrayOfObjCType:"d" count:ORAL_SECTIONS at:oralDiameter];
+        [typedStream decodeArrayOfObjCType:"d" count:NASAL_SECTIONS at:nasalDiameter];
+        [typedStream decodeValuesOfObjCTypes:"ddddiiddddi", &lossFactor, &apScale,
+                     &mouthCoef, &noseCoef, &mouthResponseScale,
+                     &noseResponseScale, &temperature, &length, &sampleRate,
+                     &actualLength, &controlPeriod];
 
-    /*  CONTROLLER PARAMETERS  */
-    [typedStream decodeValuesOfObjCTypes:"idii", &volume, &balance,
-		&channels, &controlRate];
+        /*  CONTROLLER PARAMETERS  */
+        [typedStream decodeValuesOfObjCTypes:"idii", &volume, &balance,
+                     &channels, &controlRate];
 
-    /*  ANALYSIS PARAMETERS  */
-    [typedStream decodeValuesOfObjCTypes:"ciiffiiffiicc", &normalizeInput, &binSize,
-		&windowType, &alpha, &beta, &grayLevel, &magnitudeScale,
-		&linearUpperThreshold, &linearLowerThreshold,
-		&logUpperThreshold, &logLowerThreshold,
-		&spectrographGrid, &spectrumGrid];
+        /*  ANALYSIS PARAMETERS  */
+        [typedStream decodeValuesOfObjCTypes:"ciiffiiffiicc", &normalizeInput, &binSize,
+                     &windowType, &alpha, &beta, &grayLevel, &magnitudeScale,
+                     &linearUpperThreshold, &linearLowerThreshold,
+                     &logUpperThreshold, &logLowerThreshold,
+                     &spectrographGrid, &spectrumGrid];
+    } NS_HANDLER {
+        /*  WARN USER IF EXCEPTION RAISED WHILE READING  */
+        NSRunAlertPanel(@"", @"Error while reading file.", @"", nil, nil);
 
-    
-    /*  CLOSE THE TYPED STREAM  */
+        [typedStream release];
+        // TODO (2004-03-02): Shouldn't this be NSReturnValue?  Or is it okay in 10.3?
+        return NO;
+    } NS_ENDHANDLER;
+
     [typedStream release];
 
-NS_HANDLER    
-
-    /*  WARN USER IF EXCEPTION RAISED WHILE READING  */
-    NSRunAlertPanel(@"", @"Error while reading file.", @"", nil, nil);
-
-    return NO;
-
-NS_ENDHANDLER 
-  return YES;
+    return YES;
 }
 
-
-
-- (BOOL)writeToFile:(NSString *)path
+- (BOOL)writeToFile:(NSString *)path;
 {
     NSMutableData *mdata;
     NSArchiver *typedStream;
     int fileVersion;
 
     /*  OPEN STREAM FOR WRITING  */
-    mdata = [NSMutableData dataWithCapacity: 16];
-    typedStream = [[NSArchiver alloc] initForWritingWithMutableData: mdata];
-    
+    mdata = [NSMutableData dataWithCapacity:16];
+    typedStream = [[NSArchiver alloc] initForWritingWithMutableData:mdata];
+
     /*  WARN USER IF INVALID FILE FOR WRITING  */
-    if (typedStream == NULL) {
+    if (typedStream == nil) {
 	NSRunAlertPanel(@"", @"Unable to open file for writing.", @"", nil, nil);
 	return NO;
     }
-    
-NS_DURING
 
-    /*  WRITE VERSION NUMBER TO STREAM  */
-    fileVersion = CURRENT_FILE_VERSION;
-    [typedStream encodeValuesOfObjCTypes:"i", &fileVersion];
+    NS_DURING {
+        /*  WRITE VERSION NUMBER TO STREAM  */
+        fileVersion = CURRENT_FILE_VERSION;
+        [typedStream encodeValuesOfObjCTypes:"i", &fileVersion];
 
-    /*  WRITE PARAMETERS TO STREAM  */
-    /*  GLOTTAL SOURCE PARAMETERS  */
-    [typedStream encodeValuesOfObjCTypes:"iiiiiififff", &waveform, &showAmplitude,
-		 &harmonicsScale, &unit, &pitch, &cents, &breathiness,
-		 &glotVol, &tp, &tnMin, &tnMax];
+        /*  WRITE PARAMETERS TO STREAM  */
+        /*  GLOTTAL SOURCE PARAMETERS  */
+        [typedStream encodeValuesOfObjCTypes:"iiiiiififff", &waveform, &showAmplitude,
+                     &harmonicsScale, &unit, &pitch, &cents, &breathiness,
+                     &glotVol, &tp, &tnMin, &tnMax];
 
-    /*  NOISE SOURCE PARAMETERS  */
-    [typedStream encodeValuesOfObjCTypes:"ifiiiiii", &fricVol, &fricPos,
-		 &aspVol, &fricCF, &NoiseSourceResponseScale,
-		 &fricBW, &modulation, &mixOffset];
+        /*  NOISE SOURCE PARAMETERS  */
+        [typedStream encodeValuesOfObjCTypes:"ifiiiiii", &fricVol, &fricPos,
+                     &aspVol, &fricCF, &NoiseSourceResponseScale,
+                     &fricBW, &modulation, &mixOffset];
 
-    /*  THROAT PARAMETERS  */
-    [typedStream encodeValuesOfObjCTypes:"iii", &throatVol, &throatCutoff,
-		 &throatResponseScale];
+        /*  THROAT PARAMETERS  */
+        [typedStream encodeValuesOfObjCTypes:"iii", &throatVol, &throatCutoff,
+                     &throatResponseScale];
 
-    /*  RESONANT SYSTEM PARAMETERS  */
-    [typedStream encodeArrayOfObjCType:"d" count:PHARYNX_SECTIONS at:pharynxDiameter];
-    [typedStream encodeArrayOfObjCType:"d" count:VELUM_SECTIONS at:velumDiameter];
-    [typedStream encodeArrayOfObjCType:"d" count:ORAL_SECTIONS at:oralDiameter];
-    [typedStream encodeArrayOfObjCType:"d" count:NASAL_SECTIONS at:nasalDiameter];
-    [typedStream encodeValuesOfObjCTypes:"ddddiiddddi", &lossFactor, &apScale,
-		 &mouthCoef, &noseCoef, &mouthResponseScale,
-		 &noseResponseScale, &temperature, &length, &sampleRate,
-		 &actualLength, &controlPeriod];
+        /*  RESONANT SYSTEM PARAMETERS  */
+        [typedStream encodeArrayOfObjCType:"d" count:PHARYNX_SECTIONS at:pharynxDiameter];
+        [typedStream encodeArrayOfObjCType:"d" count:VELUM_SECTIONS at:velumDiameter];
+        [typedStream encodeArrayOfObjCType:"d" count:ORAL_SECTIONS at:oralDiameter];
+        [typedStream encodeArrayOfObjCType:"d" count:NASAL_SECTIONS at:nasalDiameter];
+        [typedStream encodeValuesOfObjCTypes:"ddddiiddddi", &lossFactor, &apScale,
+                     &mouthCoef, &noseCoef, &mouthResponseScale,
+                     &noseResponseScale, &temperature, &length, &sampleRate,
+                     &actualLength, &controlPeriod];
 
-    /*  CONTROLLER PARAMETERS  */
-    [typedStream encodeValuesOfObjCTypes:"idii", &volume, &balance,
-		 &channels, &controlRate];
+        /*  CONTROLLER PARAMETERS  */
+        [typedStream encodeValuesOfObjCTypes:"idii", &volume, &balance,
+                     &channels, &controlRate];
 
-    /*  ANALYSIS PARAMETERS  */
-    [typedStream encodeValuesOfObjCTypes:"ciiffiiffiicc", &normalizeInput, &binSize,
-		 &windowType, &alpha, &beta, &grayLevel, &magnitudeScale,
-		 &linearUpperThreshold, &linearLowerThreshold,
-		 &logUpperThreshold, &logLowerThreshold,
-		 &spectrographGrid, &spectrumGrid];
+        /*  ANALYSIS PARAMETERS  */
+        [typedStream encodeValuesOfObjCTypes:"ciiffiiffiicc", &normalizeInput, &binSize,
+                     &windowType, &alpha, &beta, &grayLevel, &magnitudeScale,
+                     &linearUpperThreshold, &linearLowerThreshold,
+                     &logUpperThreshold, &logLowerThreshold,
+                     &spectrographGrid, &spectrumGrid];
 
-    
-    /*  CLOSE THE TYPED STREAM  */
-    [mdata writeToFile: path atomically: NO];
+        /*  CLOSE THE TYPED STREAM  */
+        [mdata writeToFile:path atomically:NO];
+    } NS_HANDLER {
+        /*  WARN USER IF EXCEPTION RAISED WHILE WRITING  */
+        NSRunAlertPanel(@"", @"Error while writing file.", @"", nil, nil);
+        [typedStream release];
+        return NO;
+    } NS_ENDHANDLER;
+
     [typedStream release];
-
-NS_HANDLER    
-
-    /*  WARN USER IF EXCEPTION RAISED WHILE WRITING  */
-    NSRunAlertPanel(@"", @"Error while writing file.", @"", nil, nil);
-    return NO;
-
-NS_ENDHANDLER
 
     /*  INDICATE SUCCESSFUL SAVE  */
     return YES;
@@ -353,7 +348,7 @@ NS_ENDHANDLER
 
 - (float)glotPitch
 {
-    return ((float)pitch + (float)cents/100.0);
+    return (float)pitch + (float)cents / 100.0;
 }
 
 - (void)setGlotPitch:(float)value
@@ -370,475 +365,475 @@ NS_ENDHANDLER
     if (cents < CENTS_MIN) {
 	pitch -= 1;
 	cents += 100;
-    } 
+    }
 }
 
 
 
-- (float)glotVol
+- (float)glotVol;
 {
-    return ((float)glotVol);
+    return (float)glotVol;
 }
 
-- (void)setGlotVol:(float)value
+- (void)setGlotVol:(float)value;
 {
-    glotVol = (int)rint(value); 
+    glotVol = (int)rint(value);
 }
 
 
 
-- (float)aspVol
+- (float)aspVol;
 {
-    return ((float)aspVol);
+    return (float)aspVol;
 }
 
-- (void)setAspVol:(float)value
+- (void)setAspVol:(float)value;
 {
-    aspVol = (int)rint(value); 
+    aspVol = (int)rint(value);
 }
 
 
 
-- (float)fricVol
+- (float)fricVol;
 {
-    return ((float)fricVol);
+    return (float)fricVol;
 }
 
-- (void)setFricVol:(float)value
+- (void)setFricVol:(float)value;
 {
-    fricVol = (int)rint(value); 
+    fricVol = (int)rint(value);
 }
 
 
 
-- (float)fricPos
+- (float)fricPos;
 {
     return fricPos;
 }
 
-- (void)setFricPos:(float)value
+- (void)setFricPos:(float)value;
 {
-    fricPos = value; 
+    fricPos = value;
 }
 
 
 
-- (float)fricCF
+- (float)fricCF;
 {
-    return ((float)fricCF);
+    return (float)fricCF;
 }
 
-- (void)setFricCF:(float)value
+- (void)setFricCF:(float)value;
 {
-    fricCF = (int)rint(value); 
-}
-
-
-
-- (float)fricBW
-{
-    return ((float)fricBW);
-}
-
-- (void)setFricBW:(float)value
-{
-    fricBW = (int)rint(value); 
+    fricCF = (int)rint(value);
 }
 
 
 
-- (float)r1
+- (float)fricBW;
+{
+    return (float)fricBW;
+}
+
+- (void)setFricBW:(float)value;
+{
+    fricBW = (int)rint(value);
+}
+
+
+
+- (float)r1;
 {
     return (pharynxDiameter[0] / 2.0);
 }
 
-- (void)setR1:(float)value
+- (void)setR1:(float)value;
 {
-    pharynxDiameter[0] = value * 2.0; 
+    pharynxDiameter[0] = value * 2.0;
 }
 
 
 
-- (float)r2
+- (float)r2;
 {
     return (pharynxDiameter[1] / 2.0);
 }
 
-- (void)setR2:(float)value
+- (void)setR2:(float)value;
 {
-    pharynxDiameter[1] = value * 2.0; 
+    pharynxDiameter[1] = value * 2.0;
 }
 
 
 
-- (float)r3
+- (float)r3;
 {
     return (pharynxDiameter[2] / 2.0);
 }
 
-- (void)setR3:(float)value
+- (void)setR3:(float)value;
 {
-    pharynxDiameter[2] = value * 2.0; 
+    pharynxDiameter[2] = value * 2.0;
 }
 
 
 
-- (float)r4
+- (float)r4;
 {
     return (oralDiameter[0] / 2.0);
 }
 
-- (void)setR4:(float)value
+- (void)setR4:(float)value;
 {
-    oralDiameter[0] = value * 2.0; 
+    oralDiameter[0] = value * 2.0;
 }
 
 
 
-- (float)r5
+- (float)r5;
 {
     return (oralDiameter[1] / 2.0);
 }
 
-- (void)setR5:(float)value
+- (void)setR5:(float)value;
 {
-    oralDiameter[1] = value * 2.0; 
+    oralDiameter[1] = value * 2.0;
 }
 
 
 
-- (float)r6
+- (float)r6;
 {
     return (oralDiameter[2] / 2.0);
 }
 
-- (void)setR6:(float)value
+- (void)setR6:(float)value;
 {
-    oralDiameter[2] = value * 2.0; 
+    oralDiameter[2] = value * 2.0;
 }
 
 
 
-- (float)r7
+- (float)r7;
 {
     return (oralDiameter[3] / 2.0);
 }
 
-- (void)setR7:(float)value
+- (void)setR7:(float)value;
 {
-    oralDiameter[3] = value * 2.0; 
+    oralDiameter[3] = value * 2.0;
 }
 
 
 
-- (float)r8
+- (float)r8;
 {
     return (oralDiameter[4] / 2.0);
 }
 
-- (void)setR8:(float)value
+- (void)setR8:(float)value;
 {
-    oralDiameter[4] = value * 2.0; 
+    oralDiameter[4] = value * 2.0;
 }
 
 
 
-- (float)velum
+- (float)velum;
 {
     return (velumDiameter[0] / 2.0);
 }
 
-- (void)setVelum:(float)value
+- (void)setVelum:(float)value;
 {
-    velumDiameter[0] = value * 2.0; 
+    velumDiameter[0] = value * 2.0;
 }
 
 
 
-- (int)controlRate
+- (int)controlRate;
 {
     return controlRate;
 }
 
-- (void)setControlRate:(int)value
+- (void)setControlRate:(int)value;
 {
-    controlRate = value; 
+    controlRate = value;
 }
 
 
 
-- (float)volume
+- (float)volume;
 {
-    return ((float)volume);
+    return (float)volume;
 }
 
-- (void)setVolume:(float)value
+- (void)setVolume:(float)value;
 {
-    volume = (int)rint(value); 
+    volume = (int)rint(value);
 }
 
 
 
-- (int)channels
+- (int)channels;
 {
     return channels;
 }
 
-- (void)setChannels:(int)value
+- (void)setChannels:(int)value;
 {
-    channels = value; 
+    channels = value;
 }
 
 
 
-- (float)balance
+- (float)balance;
 {
     return balance;
 }
 
-- (void)setBalance:(float)value
+- (void)setBalance:(float)value;
 {
-    balance = value; 
+    balance = value;
 }
 
 
 
-- (int)waveform
+- (int)waveform;
 {
     return waveform;
 }
 
-- (void)setWaveform:(int)value
+- (void)setWaveform:(int)value;
 {
-    waveform = value; 
+    waveform = value;
 }
 
 
 
-- (float)tp
+- (float)tp;
 {
     return tp;
 }
 
-- (void)setTp:(float)value
+- (void)setTp:(float)value;
 {
-    tp = value; 
+    tp = value;
 }
 
 
 
-- (float)tnMin
+- (float)tnMin;
 {
     return tnMin;
 }
 
-- (void)setTnMin:(float)value
+- (void)setTnMin:(float)value;
 {
-    tnMin = value; 
+    tnMin = value;
 }
 
 
 
-- (float)tnMax
+- (float)tnMax;
 {
     return tnMax;
 }
 
-- (void)setTnMax:(float)value
+- (void)setTnMax:(float)value;
 {
-    tnMax = value; 
+    tnMax = value;
 }
 
 
 
-- (float)breathiness
+- (float)breathiness;
 {
     return breathiness;
 }
 
-- (void)setBreathiness:(float)value
+- (void)setBreathiness:(float)value;
 {
-    breathiness = value; 
+    breathiness = value;
 }
 
 
 
-- (float)length
+- (float)length;
 {
     return length;
 }
 
-- (void)setLength:(float)value
+- (void)setLength:(float)value;
 {
-    length = value; 
+    length = value;
 }
 
 
 
-- (float)temperature
+- (float)temperature;
 {
     return temperature;
 }
 
-- (void)setTemperature:(float)value
+- (void)setTemperature:(float)value;
 {
-    temperature = value; 
+    temperature = value;
 }
 
 
 
-- (float)lossFactor
+- (float)lossFactor;
 {
     return (lossFactor * 100.0);
 }
 
-- (void)setLossFactor:(float)value
+- (void)setLossFactor:(float)value;
 {
-    lossFactor = value / 100.0; 
+    lossFactor = value / 100.0;
 }
 
 
 
-- (float)apScale
+- (float)apScale;
 {
     return (apScale / 2.0);
 }
 
-- (void)setApScale:(float)value
+- (void)setApScale:(float)value;
 {
-    apScale = value * 2.0; 
+    apScale = value * 2.0;
 }
 
 
 
-- (float)mouthCoef
+- (float)mouthCoef;
 {
     return mouthCoef;
 }
 
-- (void)setMouthCoef:(float)value
+- (void)setMouthCoef:(float)value;
 {
-    mouthCoef = value; 
+    mouthCoef = value;
 }
 
 
 
-- (float)noseCoef
+- (float)noseCoef;
 {
     return noseCoef;
 }
 
-- (void)setNoseCoef:(float)value
+- (void)setNoseCoef:(float)value;
 {
-    noseCoef = value; 
+    noseCoef = value;
 }
 
 
 
-- (float)n1
+- (float)n1;
 {
     return (nasalDiameter[0] / 2.0);
 }
 
-- (void)setN1:(float)value
+- (void)setN1:(float)value;
 {
-    nasalDiameter[0] = value * 2.0; 
+    nasalDiameter[0] = value * 2.0;
 }
 
 
 
-- (float)n2
+- (float)n2;
 {
     return (nasalDiameter[1] / 2.0);
 }
 
-- (void)setN2:(float)value
+- (void)setN2:(float)value;
 {
-    nasalDiameter[1] = value * 2.0; 
+    nasalDiameter[1] = value * 2.0;
 }
 
 
 
-- (float)n3
+- (float)n3;
 {
     return (nasalDiameter[2] / 2.0);
 }
 
-- (void)setN3:(float)value
+- (void)setN3:(float)value;
 {
-    nasalDiameter[2] = value * 2.0; 
+    nasalDiameter[2] = value * 2.0;
 }
 
 
 
-- (float)n4
+- (float)n4;
 {
     return (nasalDiameter[3] / 2.0);
 }
 
-- (void)setN4:(float)value
+- (void)setN4:(float)value;
 {
-    nasalDiameter[3] = value * 2.0; 
+    nasalDiameter[3] = value * 2.0;
 }
 
 
 
-- (float)n5
+- (float)n5;
 {
     return (nasalDiameter[4] / 2.0);
 }
 
-- (void)setN5:(float)value
+- (void)setN5:(float)value;
 {
-    nasalDiameter[4] = value * 2.0; 
+    nasalDiameter[4] = value * 2.0;
 }
 
 
 
-- (float)throatCutoff
+- (float)throatCutoff;
 {
     return ((float)throatCutoff);
 }
 
-- (void)setThroatCutoff:(float)value
+- (void)setThroatCutoff:(float)value;
 {
-    throatCutoff = (int)rint(value); 
+    throatCutoff = (int)rint(value);
 }
 
 
 
-- (float)throatVol
+- (float)throatVol;
 {
     return ((float)throatVol);
 }
 
-- (void)setThroatVol:(float)value
+- (void)setThroatVol:(float)value;
 {
-    throatVol = (int)rint(value); 
+    throatVol = (int)rint(value);
 }
 
 
 
-- (int)modulation
+- (int)modulation;
 {
     return modulation;
 }
 
-- (void)setModulation:(int)value
+- (void)setModulation:(int)value;
 {
-    modulation = value; 
+    modulation = value;
 }
 
 
 
-- (float)mixOffset
+- (float)mixOffset;
 {
     return ((float)mixOffset);
 }
 
-- (void)setMixOffset:(float)value
+- (void)setMixOffset:(float)value;
 {
-    mixOffset = (int)rint(value); 
+    mixOffset = (int)rint(value);
 }
 
 @end

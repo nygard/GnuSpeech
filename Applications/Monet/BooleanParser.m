@@ -1,6 +1,7 @@
 #import "BooleanParser.h"
 
 #import <Foundation/Foundation.h>
+#import <AppKit/AppKit.h>
 #import "NSScanner-Extensions.h"
 #import "BooleanExpression.h"
 #import "BooleanSymbols.h"
@@ -9,13 +10,6 @@
 #import "CategoryList.h"
 #import "Phone.h"
 #import "PhoneList.h"
-
-#ifdef PORTING
-#import <ctype.h>
-#import <stdlib.h>
-#import <string.h>
-#import <stdio.h>
-#endif
 
 @implementation BooleanParser
 
@@ -27,7 +21,6 @@
     symbolString = nil;
     categoryList = nil;
     phoneList = nil;
-    errorMessages = [[NSMutableString alloc] init];
 
     return self;
 }
@@ -37,7 +30,6 @@
     [symbolString release];
     [categoryList release];
     [phoneList release];
-    [errorMessages release];
 
     [super dealloc];
 }
@@ -84,18 +76,20 @@
     phoneList = [aList retain];
 }
 
+- (void)setErrorOutput:(NSTextField *)aTextField;
+{
+    nonretained_errorTextField = aTextField;
+}
+
 - (void)outputError:(NSString *)errorText;
 {
-    // TODO (2004-03-01): Not strictly identical to the previous implementation.  They just replaced the text of the text.
-    [errorMessages appendString:errorText];
-    [errorMessages appendString:@"\n"];
+    [nonretained_errorTextField setStringValue:[NSString stringWithFormat:@"%@\n", errorText]];
 }
 
 - (void)outputError:(NSString *)errorText with:(NSString *)symbol;
 {
-    // TODO (2004-03-01): Not strictly identical to the previous implementation.  They just replaced the text of the text.
-    [errorMessages appendFormat:errorText, symbol];
-    [errorMessages appendString:@"\n"];
+    [nonretained_errorTextField setStringValue:[NSString stringWithFormat:errorText, symbol]];
+    // TODO (2004-03-02): Used to append a newline.
 }
 
 - (CategoryNode *)categorySymbol:(NSString *)symbol;

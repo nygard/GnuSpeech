@@ -1,5 +1,6 @@
-
 #import <Foundation/NSObject.h>
+
+@class EventList;
 
 /*===========================================================================
 
@@ -10,35 +11,36 @@
 =============================================================================
 */
 
-@interface IntonationPoint:NSObject
+@interface IntonationPoint : NSObject
 {
-	double	semitone;	/* Value of the in semitones */
-	double	offsetTime;	/* Points are timed wrt a beat + this offset */
-	double	slope;		/* Slope of point */
-	int	ruleIndex;	/* Index of phone which is the focus of this point */
-	id	eventList;	/* Current EventList */
+    double semitone; /* Value of the in semitones */
+    double offsetTime; /* Points are timed wrt a beat + this offset */
+    double slope;  /* Slope of point */
+    int ruleIndex; /* Index of phone which is the focus of this point */
+    EventList *eventList; /* Current EventList */
 }
 
-- init;
-- initWithEventList: aList;
+- (id)init;
+- (id)initWithEventList:(EventList *)aList;
+- (void)dealloc;
 
-- (void)setEventList:aList;
-- eventList;
+- (EventList *)eventList;
+- (void)setEventList:(EventList *)aList;
 
+- (double)semitone;
 - (void)setSemitone:(double)newValue;
-- (double) semitone;
 
+- (double)offsetTime;
 - (void)setOffsetTime:(double)newValue;
-- (double) offsetTime;
 
+- (double)slope;
 - (void)setSlope:(double)newValue;
-- (double) slope;
 
+- (int)ruleIndex;
 - (void)setRuleIndex:(int)newIndex;
-- (int) ruleIndex;
 
-- (double) absoluteTime;
-- (double) beatTime;
+- (double)absoluteTime;
+- (double)beatTime;
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 - (void)encodeWithCoder:(NSCoder *)aCoder;

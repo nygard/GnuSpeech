@@ -9,12 +9,7 @@
 #import "SymbolList.h"
 #import "Target.h"
 #import "TargetList.h"
-
-#ifdef PORTING
-#import "SymbolList.h"
 #import "TRMData.h"
-#import <strings.h>
-#endif
 
 /*===========================================================================
 
@@ -426,103 +421,105 @@
 
 - (IBAction)importTRMData:(id)sender;
 {
-#ifdef PORTING
-    id symbols, parms, metaParms;
-    id myData = [[TRMData alloc] init];
+    SymbolList *symbols;
+    ParameterList *parms, *metaParms;
     NSArray *types;
+    TRMData *myData;
     NSArray *fnames;
-    char buffer[256], *tempBuffer;
-    char path[256];
-    Phone *tempPhone;
     TargetList *tempTargets;
-    ParameterList   *mainParameterList = NXGetNamedObject(@"mainParameterList", NSApp);
-    double tempValue;
-    int i, count;
+    ParameterList *mainParameterList = NXGetNamedObject(@"mainParameterList", NSApp);
+    double aValue;
+    int count, index;
 
     symbols = NXGetNamedObject(@"mainSymbolList", NSApp);
     parms = NXGetNamedObject(@"mainParameterList", NSApp);
     metaParms = NXGetNamedObject(@"mainMetaParameterList", NSApp);
 
+    types = [NSArray arrayWithObject:@"dunno"]; // TODO (2004-03-02): I dunno what the extension should be.
+
     [[NSOpenPanel openPanel] setAllowsMultipleSelection:YES];
-    if ([[NSOpenPanel openPanel] runModalForTypes:types])
-        fnames = [[NSOpenPanel openPanel] filenames];
-    else
+    if ([[NSOpenPanel openPanel] runModalForTypes:types] == NSCancelButton)
         return;
 
+    fnames = [[NSOpenPanel openPanel] filenames];
+
+    myData = [[TRMData alloc] init];
+
     count = [fnames count];
-    for (i = 0; i < count; i++) {
-        sprintf(path, "%s/%s", [[[NSOpenPanel openPanel] directory] cString], [[fnames objectAtIndex: i] cString]);
-        strcpy(buffer, [[fnames objectAtIndex: i] cString]);
-        tempBuffer = index(buffer, '.');
-        *tempBuffer = '\000';
-        tempPhone = [[Phone alloc] initWithSymbol:buffer parmeters:parms
-                                   metaParameters: metaParms symbols:symbols];
-        tempPhone = [self makePhoneUniqueName:tempPhone];
-        [self addPhoneObject:tempPhone];
-        [[tempPhone categoryList] addNativeCategory:buffer];
+    for (index = 0; index < count; index++) {
+        NSString *aFilename, *filename;
+        NSString *str;
+        Phone *aPhone;
+
+        aFilename = [fnames objectAtIndex:index];
+        filename = [[[NSOpenPanel openPanel] directory] stringByAppendingPathComponent:aFilename];
+        str = [aFilename stringByDeletingPathExtension];
+
+        aPhone = [[[Phone alloc] initWithSymbol:str parmeters:parms metaParameters:metaParms symbols:symbols] autorelease];
+        aPhone = [self makePhoneUniqueName:aPhone];
+        [self addPhoneObject:aPhone];
+        [[aPhone categoryList] addNativeCategory:str];
 
         /*  Read the file data and store it in the object  */
-        if ([myData readFromFile:path] == NO) {
+        if ([myData readFromFile:filename] == NO) {
             NSBeep();
-            return;
+            break;
         }
 
-        tempTargets = [tempPhone parameterList];
+        tempTargets = [aPhone parameterList];
 
         /*  Get the values of the needed parameters  */
-        tempValue = [myData glotPitch];
-        [[tempTargets objectAtIndex:0] setValue:tempValue
-                                       isDefault:([[mainParameterList objectAtIndex:0] defaultValue] == tempValue)];
-        tempValue = [myData glotVol];
-        [[tempTargets objectAtIndex:1] setValue:tempValue
-                                       isDefault:([[mainParameterList objectAtIndex:1] defaultValue] == tempValue)];
-        tempValue = [myData aspVol];
-        [[tempTargets objectAtIndex:2] setValue:tempValue
-                                       isDefault:([[mainParameterList objectAtIndex:2] defaultValue] == tempValue)];
-        tempValue = [myData fricVol];
-        [[tempTargets objectAtIndex:3] setValue:tempValue
-                                       isDefault:([[mainParameterList objectAtIndex:3] defaultValue] == tempValue)];
-        tempValue = [myData fricPos];
-        [[tempTargets objectAtIndex:4] setValue:tempValue
-                                       isDefault:([[mainParameterList objectAtIndex:4] defaultValue] == tempValue)];
-        tempValue = [myData fricCF];
-        [[tempTargets objectAtIndex:5] setValue:tempValue
-                                       isDefault:([[mainParameterList objectAtIndex:5] defaultValue] == tempValue)];
-        tempValue = [myData fricBW];
-        [[tempTargets objectAtIndex:6] setValue:tempValue
-                                       isDefault:([[mainParameterList objectAtIndex:6] defaultValue] == tempValue)];
-        tempValue = [myData r1];
-        [[tempTargets objectAtIndex:7] setValue:tempValue
-                                       isDefault:([[mainParameterList objectAtIndex:7] defaultValue] == tempValue)];
-        tempValue = [myData r2];
-        [[tempTargets objectAtIndex:8] setValue:tempValue
-                                       isDefault:([[mainParameterList objectAtIndex:8] defaultValue] == tempValue)];
-        tempValue = [myData r3];
-        [[tempTargets objectAtIndex:9] setValue:tempValue
-                                       isDefault:([[mainParameterList objectAtIndex:9] defaultValue] == tempValue)];
-        tempValue = [myData r4];
-        [[tempTargets objectAtIndex:10] setValue:tempValue
-                                        isDefault:([[mainParameterList objectAtIndex:10] defaultValue] == tempValue)];
-        tempValue = [myData r5];
-        [[tempTargets objectAtIndex:11] setValue:tempValue
-                                        isDefault:([[mainParameterList objectAtIndex:11] defaultValue] == tempValue)];
-        tempValue = [myData r6];
-        [[tempTargets objectAtIndex:12] setValue:tempValue
-                                        isDefault:([[mainParameterList objectAtIndex:12] defaultValue] == tempValue)];
-        tempValue = [myData r7];
-        [[tempTargets objectAtIndex:13] setValue:tempValue
-                                        isDefault:([[mainParameterList objectAtIndex:13] defaultValue] == tempValue)];
-        tempValue = [myData r8];
-        [[tempTargets objectAtIndex:14] setValue:tempValue
-                                        isDefault:([[mainParameterList objectAtIndex:14] defaultValue] == tempValue)];
-        tempValue = [myData velum];
-        [[tempTargets objectAtIndex:15] setValue:tempValue
-                                        isDefault:([[mainParameterList objectAtIndex:15] defaultValue] == tempValue)];
-
+        aValue = [myData glotPitch];
+        [[tempTargets objectAtIndex:0] setValue:aValue
+                                       isDefault:([[mainParameterList objectAtIndex:0] defaultValue] == aValue)];
+        aValue = [myData glotVol];
+        [[tempTargets objectAtIndex:1] setValue:aValue
+                                       isDefault:([[mainParameterList objectAtIndex:1] defaultValue] == aValue)];
+        aValue = [myData aspVol];
+        [[tempTargets objectAtIndex:2] setValue:aValue
+                                       isDefault:([[mainParameterList objectAtIndex:2] defaultValue] == aValue)];
+        aValue = [myData fricVol];
+        [[tempTargets objectAtIndex:3] setValue:aValue
+                                       isDefault:([[mainParameterList objectAtIndex:3] defaultValue] == aValue)];
+        aValue = [myData fricPos];
+        [[tempTargets objectAtIndex:4] setValue:aValue
+                                       isDefault:([[mainParameterList objectAtIndex:4] defaultValue] == aValue)];
+        aValue = [myData fricCF];
+        [[tempTargets objectAtIndex:5] setValue:aValue
+                                       isDefault:([[mainParameterList objectAtIndex:5] defaultValue] == aValue)];
+        aValue = [myData fricBW];
+        [[tempTargets objectAtIndex:6] setValue:aValue
+                                       isDefault:([[mainParameterList objectAtIndex:6] defaultValue] == aValue)];
+        aValue = [myData r1];
+        [[tempTargets objectAtIndex:7] setValue:aValue
+                                       isDefault:([[mainParameterList objectAtIndex:7] defaultValue] == aValue)];
+        aValue = [myData r2];
+        [[tempTargets objectAtIndex:8] setValue:aValue
+                                       isDefault:([[mainParameterList objectAtIndex:8] defaultValue] == aValue)];
+        aValue = [myData r3];
+        [[tempTargets objectAtIndex:9] setValue:aValue
+                                       isDefault:([[mainParameterList objectAtIndex:9] defaultValue] == aValue)];
+        aValue = [myData r4];
+        [[tempTargets objectAtIndex:10] setValue:aValue
+                                        isDefault:([[mainParameterList objectAtIndex:10] defaultValue] == aValue)];
+        aValue = [myData r5];
+        [[tempTargets objectAtIndex:11] setValue:aValue
+                                        isDefault:([[mainParameterList objectAtIndex:11] defaultValue] == aValue)];
+        aValue = [myData r6];
+        [[tempTargets objectAtIndex:12] setValue:aValue
+                                        isDefault:([[mainParameterList objectAtIndex:12] defaultValue] == aValue)];
+        aValue = [myData r7];
+        [[tempTargets objectAtIndex:13] setValue:aValue
+                                        isDefault:([[mainParameterList objectAtIndex:13] defaultValue] == aValue)];
+        aValue = [myData r8];
+        [[tempTargets objectAtIndex:14] setValue:aValue
+                                        isDefault:([[mainParameterList objectAtIndex:14] defaultValue] == aValue)];
+        aValue = [myData velum];
+        [[tempTargets objectAtIndex:15] setValue:aValue
+                                        isDefault:([[mainParameterList objectAtIndex:15] defaultValue] == aValue)];
     }
-    /*  Free the TRMData object  */
+
     [myData release];
-#endif
 }
 
 // TODO (2004-03-01): Make return value void, since it just returns it's parameter.

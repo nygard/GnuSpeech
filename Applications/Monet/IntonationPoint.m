@@ -1,116 +1,129 @@
-
 #import "IntonationPoint.h"
+
+#import <Foundation/Foundation.h>
 #import "EventList.h"
-#import "Phone.h"
 #import "MyController.h"
-#import <AppKit/NSApplication.h>
-#import <Foundation/NSCoder.h>
 
 @implementation IntonationPoint
 
-- init
+- (id)init;
 {
+    if ([super init] == nil)
+        return nil;
 
-	semitone = 0.0;
-	offsetTime = 0.0;
-	slope = 0.0;
-	ruleIndex = 0;
-	eventList = nil;
-	return self;
+    semitone = 0.0;
+    offsetTime = 0.0;
+    slope = 0.0;
+    ruleIndex = 0;
+    eventList = nil;
 
+    return self;
 }
 
-- initWithEventList: aList
+- (id)initWithEventList:(EventList *)aList;
 {
-	[self init];
-	eventList = aList;
-	return self;
+    if ([self init] == nil)
+        return nil;
+
+    eventList = [aList retain];
+
+    return self;
 }
 
-- (void)setEventList:aList
+- (void)dealloc;
 {
-	eventList = aList; 
+    [eventList release];
+
+    [super dealloc];
 }
 
-- eventList
+- (EventList *)eventList;
 {
-	return eventList;
+    return eventList;
 }
 
-- (void)setSemitone:(double)newValue
+- (void)setEventList:(EventList *)aList;
 {
-	semitone = newValue; 
+    if (aList == eventList)
+        return;
+
+    [eventList release];
+    eventList = [aList retain];
 }
 
-- (double) semitone
+- (double)semitone;
 {
-	return semitone;
+    return semitone;
+}
+
+- (void)setSemitone:(double)newValue;
+{
+    semitone = newValue;
+}
+
+- (double)offsetTime;
+{
+    return offsetTime;
 }
 
 - (void)setOffsetTime:(double)newValue;
 {
-	offsetTime = newValue;
+    offsetTime = newValue;
 }
 
-- (double) offsetTime
+- (double)slope;
 {
-	return offsetTime;
+    return slope;
 }
 
 - (void)setSlope:(double)newValue;
 {
-	slope = newValue;
+    slope = newValue;
 }
 
-- (double) slope
+- (int)ruleIndex;
 {
-	return slope;
+    return ruleIndex;
 }
 
 - (void)setRuleIndex:(int)newIndex;
 {
-	ruleIndex = newIndex;
+    ruleIndex = newIndex;
 }
 
-- (int) ruleIndex
+- (double)absoluteTime;
 {
-	return ruleIndex;
+    double time;
+
+    time = [eventList getBeatAtIndex:ruleIndex];
+    return time+offsetTime;
 }
 
-- (double) absoluteTime
+- (double)beatTime;
 {
-double time;
-
-	time = [eventList getBeatAtIndex: ruleIndex];
-	return time+offsetTime;
+    return [eventList getBeatAtIndex: ruleIndex];
 }
 
-- (double) beatTime
+- (id)initWithCoder:(NSCoder *)aDecoder;
 {
+    [aDecoder decodeValuesOfObjCTypes:"dddi", &semitone, &offsetTime, &slope, &ruleIndex];
+    eventList = NXGetNamedObject(@"mainEventList", NSApp);
 
-	return [eventList getBeatAtIndex: ruleIndex];
+    return self;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+- (void)encodeWithCoder:(NSCoder *)aCoder;
 {
-	[aDecoder decodeValuesOfObjCTypes:"dddi", &semitone, &offsetTime, &slope, &ruleIndex];
-	eventList = NXGetNamedObject(@"mainEventList", NSApp);
-	
-	return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)aCoder
-{
-	[aCoder encodeValuesOfObjCTypes:"dddi", &semitone, &offsetTime, &slope, &ruleIndex];
+    [aCoder encodeValuesOfObjCTypes:"dddi", &semitone, &offsetTime, &slope, &ruleIndex];
 }
 
 #ifdef NeXT
-- read:(NXTypedStream *)stream
+- read:(NXTypedStream *)stream;
 {
-        NXReadTypes(stream, "dddi", &semitone, &offsetTime, &slope, &ruleIndex);
-        eventList = NXGetNamedObject(@"mainEventList", NSApp);
+    NXReadTypes(stream, "dddi", &semitone, &offsetTime, &slope, &ruleIndex);
+    eventList = NXGetNamedObject(@"mainEventList", NSApp);
 
-        return self;
+    return self;
 }
 #endif
 @end

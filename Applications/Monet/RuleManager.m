@@ -2,429 +2,378 @@
 
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
+#import "BooleanExpression.h"
 #import "BooleanParser.h"
+#import "DelegateResponder.h"
 #import "MonetList.h"
 #import "MyController.h"
+#import "Phone.h"
+#import "PhoneList.h"
+#import "ProtoEquation.h"
+#import "Rule.h"
+#import "RuleList.h"
 
 #ifdef PORTING
-#import "PhoneList.h"
 #import "SymbolList.h"
 #import "ParameterList.h"
-#import "ProtoEquation.h"
-#import "DelegateResponder.h"
 #endif
 
 
 @implementation RuleManager
 
-- init
+- (id)init;
 {
-int i;
+    int i;
 
-	cacheValue = 1;
+    if ([super init] == nil)
+        return nil;
 
-	matchLists = [[MonetList alloc] initWithCapacity: 4];
-	for (i = 0; i<4; i++)
-	{
-		[matchLists addObject: [[PhoneList alloc] init]];
-	}
+    cacheValue = 1;
 
-	ruleList = [[RuleList alloc] initWithCapacity: 20];
+    matchLists = [[MonetList alloc] initWithCapacity:4];
+    for (i = 0; i < 4; i++) {
+        PhoneList *aPhoneList;
 
-	boolParser = [[BooleanParser alloc] init];
+        aPhoneList = [[PhoneList alloc] init];
+        [matchLists addObject:aPhoneList];
+        [aPhoneList release];
+    }
 
-	/* Set up responder for cut/copy/paste operations */
-	delegateResponder = [[DelegateResponder alloc] init];
-	[delegateResponder setDelegate:self];
+    ruleList = [[RuleList alloc] initWithCapacity: 20];
 
+    boolParser = [[BooleanParser alloc] init];
 
-	return self;
+    /* Set up responder for cut/copy/paste operations */
+    delegateResponder = [[DelegateResponder alloc] init];
+    [delegateResponder setDelegate:self];
+
+    return self;
 }
 
-- (void)applicationDidFinishLaunching:(NSNotification *)notification
+- (void)dealloc;
+{
+    [matchLists release];
+    [ruleList release];
+    [boolParser release];
+    [delegateResponder setDelegate:nil];
+    [delegateResponder release];
+
+    [super dealloc];
+}
+
+- (void)applicationDidFinishLaunching:(NSNotification *)notification;
 {
     id temp, temp1;
 
-	[ruleMatrix setTarget:self];
-	[ruleMatrix setAction:(SEL)(@selector(browserHit:))];
-	[ruleMatrix setDoubleAction:(SEL)(@selector(browserDoubleHit:))];
+    [ruleMatrix setTarget:self];
+    [ruleMatrix setAction:@selector(browserHit:)];
+    [ruleMatrix setDoubleAction:@selector(browserDoubleHit:)];
 
-	[boolParser setCategoryList:NXGetNamedObject(@"mainCategoryList", NSApp)];
-	[boolParser setPhoneList:NXGetNamedObject(@"mainPhoneList", NSApp)];
+    [boolParser setCategoryList:NXGetNamedObject(@"mainCategoryList", NSApp)];
+    [boolParser setPhoneList:NXGetNamedObject(@"mainPhoneList", NSApp)];
 
-	temp = [boolParser parseString:"phone"];
-	temp1 = [boolParser parseString:"phone"];
-	[ruleList seedListWith: temp : temp1];
+    temp = [boolParser parseString:@"phone"];
+    temp1 = [boolParser parseString:@"phone"];
+    [ruleList seedListWith:temp:temp1];
 }
 
-- (void)browserHit:sender
+- (void)browserHit:sender;
 {
-id temp;
-int index;
-Rule *tempRule;
-char string[256];
+    id temp;
+    int index;
+    Rule *aRule;
+    NSString *str;
 
+    index = [[sender matrixInColumn:0] selectedRow];
+    aRule = [ruleList objectAtIndex:index];
 
-	index = [[sender matrixInColumn:0] selectedRow];
-	tempRule = [ruleList objectAtIndex: index];
+    temp = [controller inspector];
+    [temp inspectRule:[ruleList objectAtIndex:index]];
 
-	temp = [controller inspector];
-	[temp inspectRule:[ruleList objectAtIndex:index]];
+    str = [[aRule getExpressionNumber:0] expressionString];
+    [[expressionFields cellAtIndex:0] setStringValue:str];
 
-	bzero(string, 256);
-	[[tempRule getExpressionNumber:0] expressionString:string];
-	[[expressionFields cellAtIndex:0] setStringValue:[NSString stringWithCString:string]];
+    str = [[aRule getExpressionNumber:1] expressionString];
+    [[expressionFields cellAtIndex:1] setStringValue:str];
 
-	bzero(string, 256);
-	[[tempRule getExpressionNumber:1] expressionString:string];
-	[[expressionFields cellAtIndex:1] setStringValue:[NSString stringWithCString:string]];
+    str = [[aRule getExpressionNumber:2] expressionString];
+    [[expressionFields cellAtIndex:2] setStringValue:str];
 
-	bzero(string, 256);
-	[[tempRule getExpressionNumber:2] expressionString:string];
-	[[expressionFields cellAtIndex:2] setStringValue:[NSString stringWithCString:string]];
+    str = [[aRule getExpressionNumber:3] expressionString];
+    [[expressionFields cellAtIndex:3] setStringValue:str];
 
-	bzero(string, 256);
-	[[tempRule getExpressionNumber:3] expressionString:string];
-	[[expressionFields cellAtIndex:3] setStringValue:[NSString stringWithCString:string]];
+    [self evaluateMatchLists];
 
-	[self evaluateMatchLists];
-
-	[[sender window] makeFirstResponder:delegateResponder];
+    [[sender window] makeFirstResponder:delegateResponder];
 }
 
-- (void)browserDoubleHit:sender
+- (void)browserDoubleHit:sender;
 {
-
-}
-
-- expressionString:(char *) string forRule:(int) index
-{
-Rule *tempRule;
-char tempString[256];
-
-	tempRule = [ruleList objectAtIndex: index];
-
-	sprintf(string, "%d. ", index+1);
-
-	bzero(tempString, 256);
-	[[tempRule getExpressionNumber:0] expressionString:tempString];
-	strcat(string,tempString);
-
-	bzero(tempString, 256);
-	[[tempRule getExpressionNumber:1] expressionString:tempString];
-	strcat(string, " >> ");
-	strcat(string,tempString);
-
-	bzero(tempString, 256);
-	[[tempRule getExpressionNumber:2] expressionString:tempString];
-	if (strlen(tempString))
-	{
-		strcat(string, " >> ");
-		strcat(string,tempString);
-	}
-
-	bzero(tempString, 256);
-	[[tempRule getExpressionNumber:3] expressionString:tempString];
-	if (strlen(tempString))
-	{
-		strcat(string, " >> ");
-		strcat(string,tempString);
-	}
-
-
-	return self;
 }
 
 - (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;
 {
-	if (sender == matchBrowser1)
-	{
-		return [[matchLists objectAtIndex:0]count];
-	}
-	else
-	if (sender == matchBrowser2)
-	{
-		return [[matchLists objectAtIndex:1]count];
-	}
-	else
-	if (sender == matchBrowser3)
-	{
-		return [[matchLists objectAtIndex:2]count];
-	}
-	else
-	if (sender == matchBrowser4)
-	{
-		return [[matchLists objectAtIndex:3]count];
-	}
-	else
-	if (sender == ruleMatrix)
-		return [ruleList count];
+    if (sender == matchBrowser1)
+        return [[matchLists objectAtIndex:0] count];
 
-	return 0;
+    if (sender == matchBrowser2)
+        return [[matchLists objectAtIndex:1] count];
+
+    if (sender == matchBrowser3)
+        return [[matchLists objectAtIndex:2] count];
+
+    if (sender == matchBrowser4)
+        return [[matchLists objectAtIndex:3] count];
+
+    if (sender == ruleMatrix)
+        return [ruleList count];
+
+    return 0;
 }
 
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
 {
-Phone *tempPhone;
-Rule *tempRule;
-char string[2048], tempString[256];
+    Phone *aPhone;
+    Rule *aRule;
 
-	if (sender == matchBrowser1)
-	{
-		tempPhone = [[matchLists objectAtIndex:0 ] objectAtIndex: row];
-		[cell setStringValue:[NSString stringWithCString:[tempPhone symbol]]];
-	}
-	else
-	if (sender == matchBrowser2)
-	{
-		tempPhone = [[matchLists objectAtIndex:1 ] objectAtIndex: row];
-		[cell setStringValue:[NSString stringWithCString:[tempPhone symbol]]];
-	}
-	else
-	if (sender == matchBrowser3)
-	{
-		tempPhone = [[matchLists objectAtIndex:2 ] objectAtIndex: row];
-		[cell setStringValue:[NSString stringWithCString:[tempPhone symbol]]];
-	}
-	else
-	if (sender == matchBrowser4)
-	{
-		tempPhone = [[matchLists objectAtIndex:3 ] objectAtIndex: row];
-		[cell setStringValue:[NSString stringWithCString:[tempPhone symbol]]];
-	}
-	else
-	if (sender == ruleMatrix)
-	{
-		tempRule = [ruleList objectAtIndex: row];
-		bzero(string, 2048);
-		bzero(tempString, 256);
+    if (sender == matchBrowser1) {
+        aPhone = [[matchLists objectAtIndex:0] objectAtIndex:row];
+        [cell setStringValue:[aPhone symbol]];
+    } else if (sender == matchBrowser2) {
+        aPhone = [[matchLists objectAtIndex:1] objectAtIndex:row];
+        [cell setStringValue:[aPhone symbol]];
+    } else if (sender == matchBrowser3) {
+        aPhone = [[matchLists objectAtIndex:2] objectAtIndex:row];
+        [cell setStringValue:[aPhone symbol]];
+    } else if (sender == matchBrowser4) {
+        aPhone = [[matchLists objectAtIndex:3] objectAtIndex:row];
+        [cell setStringValue:[aPhone symbol]];
+    } else if (sender == ruleMatrix) {
+        NSMutableString *str, *str2;
 
-		sprintf(string, "%d. ", row+1);
+        aRule = [ruleList objectAtIndex:row];
+        str = [[NSMutableString alloc] init];
 
-		[[tempRule getExpressionNumber:0] expressionString:tempString];
-		strcat(string, tempString);
+        [str appendFormat:@"%d. ", row + 1];
 
-		bzero(tempString, 256);
-		[[tempRule getExpressionNumber:1] expressionString:tempString];
-		strcat(string, " >> ");
-		strcat(string, tempString);
+        [[aRule getExpressionNumber:0] expressionString:str];
+        [str appendString:@" >> "];
+        [[aRule getExpressionNumber:1] expressionString:str];
 
-		bzero(tempString, 256);
-		[[tempRule getExpressionNumber:2] expressionString:tempString];
-		if (strlen(tempString))
-		{
-			strcat(string, " >> ");
-			strcat(string, tempString);
-		}
+        str2 = [[aRule getExpressionNumber:2] expressionString];
+        if (str2 != nil) {
+            [str appendString:@" >> "];
+            [str appendString:str2];
+        }
 
-		bzero(tempString, 256);
-		[[tempRule getExpressionNumber:3] expressionString:tempString];
-		if (strlen(tempString))
-		{
-			strcat(string, " >> ");
-			strcat(string, tempString);
-		}
+        str2 = [[aRule getExpressionNumber:3] expressionString];
+        if (str2 != nil) {
+            [str appendString:@" >> "];
+            [str appendString:str2];
+        }
 
-		[cell setStringValue:[NSString stringWithCString:string]];
+        [cell setStringValue:str];
+    }
 
-	}
-	[cell setLeaf:YES];
+    [cell setLeaf:YES];
 }
 
-- (void)setExpression1:sender
+- (NSString *)expressionStringForRule:(int)index;
 {
-id tempList;
-PhoneList *mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
-BooleanExpression *tempExpression;
-char string[256];
-int i;
+    NSMutableString *resultString;
+    Rule *tempRule;
+    NSString *str;
 
-	if ([[[sender cellAtIndex:0] stringValue] isEqualToString:@""])
-	{
-		[self realignExpressions];
-		[sender selectTextAtIndex:0];
-		return;
-	}
+    resultString = [NSMutableString string];
+    tempRule = [ruleList objectAtIndex:index];
 
-	[boolParser setCategoryList:NXGetNamedObject(@"mainCategoryList", NSApp)];
-	[boolParser setPhoneList:mainPhoneList];
-	[boolParser setErrorOutput:errorTextField];
+    [resultString appendFormat:@"%d. ", index + 1];
 
-	tempExpression = [boolParser parseString:[[[sender cellAtIndex:0] stringValue] cString]];
-	if (!tempExpression)
-	{
-		[sender selectTextAtIndex:0];
-		NSBeep();
-		return;
-	}
+    [[tempRule getExpressionNumber:0] expressionString:resultString];
+    [resultString appendString:@" >> "];
+    [[tempRule getExpressionNumber:1] expressionString:resultString];
 
-	[sender selectTextAtIndex:1];
+    str = [[tempRule getExpressionNumber:2] expressionString];
+    if (str != nil) {
+        [resultString appendString:@" >> "];
+        [resultString appendString:str];
+    }
 
+    str = [[tempRule getExpressionNumber:3] expressionString];
+    if (str != nil) {
+        [resultString appendString:@" >> "];
+        [resultString appendString:str];
+    }
 
-	tempList = [matchLists objectAtIndex:0];
-	[tempList removeAllObjects];
-
-	for (i = 0; i< [mainPhoneList count]; i++)
-	{
-		if ([tempExpression evaluate: [[mainPhoneList objectAtIndex: i] categoryList]])
-		{
-			[tempList addObject: [mainPhoneList objectAtIndex: i]];
-		}
-	}
-
-	[tempExpression release];
-
-	sprintf(string,"Total Matches: %d", [tempList count]);
-	[matchBrowser1 setTitle:[NSString stringWithCString:string] ofColumn:0];
-	[matchBrowser1 loadColumnZero];
-	[self updateCombinations];
+    return resultString;
 }
 
-- (void)setExpression2:sender
+- (void)setExpression1:sender;
 {
-id tempList;
-PhoneList *mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
-BooleanExpression *tempExpression;
-char string[256];
-int i;
+    id tempList;
+    PhoneList *mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
+    BooleanExpression *tempExpression;
+    int i;
 
-	if ([[[sender cellAtIndex:1] stringValue] isEqualToString:@""])
-	{
-		[self realignExpressions];
-		[sender selectTextAtIndex:0];
-		return;
-	}
+    if ([[[sender cellAtIndex:0] stringValue] isEqualToString:@""]) {
+        [self realignExpressions];
+        [sender selectTextAtIndex:0];
+        return;
+    }
 
-	[boolParser setCategoryList:NXGetNamedObject(@"mainCategoryList", NSApp)];
-	[boolParser setPhoneList:mainPhoneList];
-	[boolParser setErrorOutput:errorTextField];
+    [boolParser setCategoryList:NXGetNamedObject(@"mainCategoryList", NSApp)];
+    [boolParser setPhoneList:mainPhoneList];
+    [boolParser setErrorOutput:errorTextField];
 
-	tempExpression = [boolParser parseString:[[[sender cellAtIndex:1] stringValue] cString]];
-	if (!tempExpression)
-	{
-		[sender selectTextAtIndex:1];
-		NSBeep();
-		return;
-	}
+    tempExpression = [boolParser parseString:[[sender cellAtIndex:0] stringValue]];
+    if (tempExpression == nil) {
+        [sender selectTextAtIndex:0];
+        NSBeep();
+        return;
+    }
 
-	[sender selectTextAtIndex:2];
+    [sender selectTextAtIndex:1];
 
+    tempList = [matchLists objectAtIndex:0];
+    [tempList removeAllObjects];
 
-	tempList = [matchLists objectAtIndex:1];
-	[tempList removeAllObjects];
+    for (i = 0; i < [mainPhoneList count]; i++) {
+        if ([tempExpression evaluate:[[mainPhoneList objectAtIndex:i] categoryList]]) {
+            [tempList addObject:[mainPhoneList objectAtIndex:i]];
+        }
+    }
 
-	for (i = 0; i< [mainPhoneList count]; i++)
-	{
-		if ([tempExpression evaluate: [[mainPhoneList objectAtIndex: i] categoryList]])
-		{
-			[tempList addObject: [mainPhoneList objectAtIndex: i]];
-		}
-	}
+    [tempExpression release];
 
-	[tempExpression release];
-
-	sprintf(string,"Total Matches: %d", [tempList count]);
-	[matchBrowser2 setTitle:[NSString stringWithCString:string] ofColumn:0];
-	[matchBrowser2 loadColumnZero];
-	[self updateCombinations];
+    [matchBrowser1 setTitle:[NSString stringWithFormat:@"Total Matches: %d", [tempList count]] ofColumn:0];
+    [matchBrowser1 loadColumnZero];
+    [self updateCombinations];
 }
 
-- (void)setExpression3:sender
+- (void)setExpression2:sender;
 {
-id tempList;
-PhoneList *mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
-BooleanExpression *tempExpression;
-char string[256];
-int i;
+    id tempList;
+    PhoneList *mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
+    BooleanExpression *tempExpression;
+    int i;
 
-	if ([[[sender cellAtIndex:2] stringValue] isEqualToString:@""])
-	{
-		[self realignExpressions];
-		[sender selectTextAtIndex:0];
-		return;
-	}
+    if ([[[sender cellAtIndex:1] stringValue] isEqualToString:@""]) {
+        [self realignExpressions];
+        [sender selectTextAtIndex:0];
+        return;
+    }
 
-	[boolParser setCategoryList:NXGetNamedObject(@"mainCategoryList", NSApp)];
-	[boolParser setPhoneList:mainPhoneList];
-	[boolParser setErrorOutput:errorTextField];
+    [boolParser setCategoryList:NXGetNamedObject(@"mainCategoryList", NSApp)];
+    [boolParser setPhoneList:mainPhoneList];
+    [boolParser setErrorOutput:errorTextField];
 
-	tempExpression = [boolParser parseString:[[[sender cellAtIndex:2] stringValue] cString]];
-	if (!tempExpression)
-	{
-		[sender selectTextAtIndex:2];
-		NSBeep();
-		return;
-	}
+    tempExpression = [boolParser parseString:[[sender cellAtIndex:1] stringValue]];
+    if (tempExpression == nil) {
+        [sender selectTextAtIndex:1];
+        NSBeep();
+        return;
+    }
 
-	[sender selectTextAtIndex:3];
+    [sender selectTextAtIndex:2];
 
+    tempList = [matchLists objectAtIndex:1];
+    [tempList removeAllObjects];
 
-	tempList = [matchLists objectAtIndex:2];
-	[tempList removeAllObjects];
+    for (i = 0; i < [mainPhoneList count]; i++) {
+        if ([tempExpression evaluate:[[mainPhoneList objectAtIndex:i] categoryList]]) {
+            [tempList addObject:[mainPhoneList objectAtIndex:i]];
+        }
+    }
 
-	for (i = 0; i< [mainPhoneList count]; i++)
-	{
-		if ([tempExpression evaluate: [[mainPhoneList objectAtIndex: i] categoryList]])
-		{
-			[tempList addObject: [mainPhoneList objectAtIndex: i]];
-		}
-	}
+    [tempExpression release];
 
-	[tempExpression release];
-
-	sprintf(string,"Total Matches: %d", [tempList count]);
-	[matchBrowser3 setTitle:[NSString stringWithCString:string] ofColumn:0];
-	[matchBrowser3 loadColumnZero];
-	[self updateCombinations];
+    [matchBrowser2 setTitle:[NSString stringWithFormat:@"Total Matches: %d", [tempList count]] ofColumn:0];
+    [matchBrowser2 loadColumnZero];
+    [self updateCombinations];
 }
 
-- (void)setExpression4:sender
+- (void)setExpression3:sender;
 {
-id tempList;
-PhoneList *mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
-BooleanExpression *tempExpression;
-char string[256];
-int i;
+    id tempList;
+    PhoneList *mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
+    BooleanExpression *tempExpression;
+    int i;
 
-	if ([[[sender cellAtIndex:3] stringValue] isEqualToString:@""])
-	{
-		[self realignExpressions];
-		[sender selectTextAtIndex:0];
-		return;
-	}
+    if ([[[sender cellAtIndex:2] stringValue] isEqualToString:@""]) {
+        [self realignExpressions];
+        [sender selectTextAtIndex:0];
+        return;
+    }
 
-	[boolParser setCategoryList:NXGetNamedObject(@"mainCategoryList", NSApp)];
-	[boolParser setPhoneList:mainPhoneList];
-	[boolParser setErrorOutput:errorTextField];
+    [boolParser setCategoryList:NXGetNamedObject(@"mainCategoryList", NSApp)];
+    [boolParser setPhoneList:mainPhoneList];
+    [boolParser setErrorOutput:errorTextField];
 
-	tempExpression = [boolParser parseString:[[[sender cellAtIndex:3] stringValue] cString]];
-	if (!tempExpression)
-	{
-		[sender selectTextAtIndex:3];
-		NSBeep();
-		return;
-	}
+    tempExpression = [boolParser parseString:[[sender cellAtIndex:2] stringValue]];
+    if (tempExpression == nil) {
+        [sender selectTextAtIndex:2];
+        NSBeep();
+        return;
+    }
 
-	[sender selectTextAtIndex:0];
+    [sender selectTextAtIndex:3];
 
+    tempList = [matchLists objectAtIndex:2];
+    [tempList removeAllObjects];
 
-	tempList = [matchLists objectAtIndex:3];
-	[tempList removeAllObjects];
+    for (i = 0; i < [mainPhoneList count]; i++) {
+        if ([tempExpression evaluate:[[mainPhoneList objectAtIndex:i] categoryList]]) {
+            [tempList addObject:[mainPhoneList objectAtIndex:i]];
+        }
+    }
 
-	for (i = 0; i< [mainPhoneList count]; i++)
-	{
-		if ([tempExpression evaluate: [[mainPhoneList objectAtIndex: i] categoryList]])
-		{
-			[tempList addObject: [mainPhoneList objectAtIndex: i]];
-		}
-	}
+    [tempExpression release];
 
-	[tempExpression release];
+    [matchBrowser3 setTitle:[NSString stringWithFormat:@"Total Matches: %d", [tempList count]] ofColumn:0];
+    [matchBrowser3 loadColumnZero];
+    [self updateCombinations];
+}
 
-	sprintf(string,"Total Matches: %d", [tempList count]);
-	[matchBrowser4 setTitle:[NSString stringWithCString:string] ofColumn:0];
-	[matchBrowser4 loadColumnZero];
-	[self updateCombinations];
+- (void)setExpression4:sender;
+{
+    id tempList;
+    PhoneList *mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
+    BooleanExpression *tempExpression;
+    int i;
+
+    if ([[[sender cellAtIndex:3] stringValue] isEqualToString:@""]) {
+        [self realignExpressions];
+        [sender selectTextAtIndex:0];
+        return;
+    }
+
+    [boolParser setCategoryList:NXGetNamedObject(@"mainCategoryList", NSApp)];
+    [boolParser setPhoneList:mainPhoneList];
+    [boolParser setErrorOutput:errorTextField];
+
+    tempExpression = [boolParser parseString:[[sender cellAtIndex:3] stringValue]];
+    if (tempExpression == nil) {
+        [sender selectTextAtIndex:3];
+        NSBeep();
+        return;
+    }
+
+    [sender selectTextAtIndex:0];
+
+    tempList = [matchLists objectAtIndex:3];
+    [tempList removeAllObjects];
+
+    for (i = 0; i < [mainPhoneList count]; i++) {
+        if ([tempExpression evaluate:[[mainPhoneList objectAtIndex:i] categoryList]]) {
+            [tempList addObject:[mainPhoneList objectAtIndex:i]];
+        }
+    }
+
+    [tempExpression release];
+
+    [matchBrowser4 setTitle:[NSString stringWithFormat:@"Total Matches: %d", [tempList count]] ofColumn:0];
+    [matchBrowser4 loadColumnZero];
+    [self updateCombinations];
 }
 
 /*===========================================================================
@@ -434,476 +383,461 @@ int i;
 		if one happens to have been removed.
 
 ===========================================================================*/
-- (void)realignExpressions
+- (void)realignExpressions;
 {
+    if ([[[expressionFields cellAtIndex:0] stringValue] isEqualToString:@""]) {
+        [[expressionFields cellAtIndex:0] setStringValue:[[expressionFields cellAtIndex:1] stringValue]];
+        [[expressionFields cellAtIndex:1] setStringValue:@""];
+    }
 
-	if ([[[expressionFields cellAtIndex:0] stringValue] isEqualToString:@""])
-	{
-		[[expressionFields cellAtIndex:0] setStringValue:[[expressionFields cellAtIndex:1] stringValue]];
-		[[expressionFields cellAtIndex:1] setStringValue:@""];
-	}
+    if ([[[expressionFields cellAtIndex:1] stringValue] isEqualToString:@""]) {
+        [[expressionFields cellAtIndex:1] setStringValue:[[expressionFields cellAtIndex:2] stringValue]];
+        [[expressionFields cellAtIndex:2] setStringValue:@""];
+    }
 
-	if ([[[expressionFields cellAtIndex:1] stringValue] isEqualToString:@""])
-	{
-		[[expressionFields cellAtIndex:1] setStringValue:[[expressionFields cellAtIndex:2] stringValue]];
-		[[expressionFields cellAtIndex:2] setStringValue:@""];
-	}
-	if ([[[expressionFields cellAtIndex:2] stringValue] isEqualToString:@""])
-	{
-		[[expressionFields cellAtIndex:2] setStringValue:[[expressionFields cellAtIndex:3] stringValue]];
-		[[expressionFields cellAtIndex:3] setStringValue:@""];
-	}
+    if ([[[expressionFields cellAtIndex:2] stringValue] isEqualToString:@""]) {
+        [[expressionFields cellAtIndex:2] setStringValue:[[expressionFields cellAtIndex:3] stringValue]];
+        [[expressionFields cellAtIndex:3] setStringValue:@""];
+    }
 
-	if ([[[expressionFields cellAtIndex:3] stringValue] isEqualToString:@""])
-	{
-		[expressions removeObjectAtIndex:3];
-	}
+    if ([[[expressionFields cellAtIndex:3] stringValue] isEqualToString:@""]) {
+        [expressions removeObjectAtIndex:3];
+    }
 
-	[self evaluateMatchLists];
+    [self evaluateMatchLists];
 }
 
-- (void)evaluateMatchLists
+- (void)evaluateMatchLists;
 {
-int i, j;
-id tempList;
-PhoneList *mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
-char string[256];
+    int i, j;
+    id tempList;
+    PhoneList *mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
+    NSString *str;
 
-	for (j = 0; j<4; j++)
-	{
-		tempList = [matchLists objectAtIndex:j];
-		[tempList removeAllObjects];
+    for (j = 0; j < 4; j++) {
+        tempList = [matchLists objectAtIndex:j];
+        [tempList removeAllObjects];
 
-		for (i = 0; i< [mainPhoneList count]; i++)
-		{
-			if ([[expressions objectAtIndex: j] evaluate: [[mainPhoneList objectAtIndex: i] categoryList]])
-			{
-				[tempList addObject: [mainPhoneList objectAtIndex: i]];
-			}
-		}
-	}
+        for (i = 0; i < [mainPhoneList count]; i++) {
+            if ([[expressions objectAtIndex:j] evaluate:[[mainPhoneList objectAtIndex:i] categoryList]]) {
+                [tempList addObject:[mainPhoneList objectAtIndex:i]];
+            }
+        }
+    }
 
-	sprintf(string,"Total Matches: %d", [[matchLists objectAtIndex:0] count]);
-	[matchBrowser1 setTitle:[NSString stringWithCString:string] ofColumn:0];
-	[matchBrowser1 loadColumnZero];
+    str = [NSString stringWithFormat:@"Total Matches: %d", [[matchLists objectAtIndex:0] count]];
+    [matchBrowser1 setTitle:str ofColumn:0];
+    [matchBrowser1 loadColumnZero];
 
-	sprintf(string,"Total Matches: %d", [[matchLists objectAtIndex:1] count]);
-	[matchBrowser2 setTitle:[NSString stringWithCString:string] ofColumn:0];
-	[matchBrowser2 loadColumnZero];
+    str = [NSString stringWithFormat:@"Total Matches: %d", [[matchLists objectAtIndex:1] count]];
+    [matchBrowser2 setTitle:str ofColumn:0];
+    [matchBrowser2 loadColumnZero];
 
-	sprintf(string,"Total Matches: %d", [[matchLists objectAtIndex:2] count]);
-	[matchBrowser3 setTitle:[NSString stringWithCString:string] ofColumn:0];
-	[matchBrowser3 loadColumnZero];
+    str = [NSString stringWithFormat:@"Total Matches: %d", [[matchLists objectAtIndex:2] count]];
+    [matchBrowser3 setTitle:str ofColumn:0];
+    [matchBrowser3 loadColumnZero];
 
-	sprintf(string,"Total Matches: %d", [[matchLists objectAtIndex:3] count]);
-	[matchBrowser4 setTitle:[NSString stringWithCString:string] ofColumn:0];
-	[matchBrowser4 loadColumnZero];
+    str = [NSString stringWithFormat:@"Total Matches: %d", [[matchLists objectAtIndex:3] count]];
+    [matchBrowser4 setTitle:str ofColumn:0];
+    [matchBrowser4 loadColumnZero];
 
-	[self updateCombinations];
+    [self updateCombinations];
 }
 
-- (void)updateCombinations
+- (void)updateCombinations;
 {
-int temp = 0, temp1 = 0;
-int i;
+    int temp = 0, temp1 = 0;
+    int i;
 
-	temp = [[matchLists objectAtIndex:0] count];
+    temp = [[matchLists objectAtIndex:0] count];
 
-	for (i = 1; i<4; i++)
-		if ((temp1 = [[matchLists objectAtIndex:i] count]))
-			temp*=temp1;
+    for (i = 1; i < 4; i++)
+        if ((temp1 = [[matchLists objectAtIndex:i] count]))
+            temp *= temp1;
 
-	[possibleCombinations setIntValue:temp];
+    [possibleCombinations setIntValue:temp];
 }
 
-- (void)updateRuleDisplay
+- (void)updateRuleDisplay;
 {
-	[ruleMatrix loadColumnZero];
+    [ruleMatrix loadColumnZero];
 }
 
-- (void)add:sender
+- (void)add:sender;
 {
-char string[1024];
-PhoneList *mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
-BooleanExpression *exp1=nil, *exp2=nil, *exp3=nil, *exp4=nil;
+    PhoneList *mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
+    BooleanExpression *exp1, *exp2, *exp3, *exp4;
 
-	[boolParser setCategoryList:NXGetNamedObject(@"mainCategoryList", NSApp)];
-	[boolParser setPhoneList:mainPhoneList];
-	[boolParser setErrorOutput:errorTextField];
+    exp1 = exp2 = exp3 = exp4 = nil;
 
-	if ([[[expressionFields cellAtIndex:0] stringValue] length])
-		exp1 = [boolParser parseString:[[[expressionFields cellAtIndex:0] stringValue] cString]];
-	if ([[[expressionFields cellAtIndex:1] stringValue] length])
-		exp2 = [boolParser parseString:[[[expressionFields cellAtIndex:1] stringValue] cString]];
-	if ([[[expressionFields cellAtIndex:2] stringValue] length])
-		exp3 = [boolParser parseString:[[[expressionFields cellAtIndex:2] stringValue] cString]];
-	if ([[[expressionFields cellAtIndex:3] stringValue] length])
-		exp4 = [boolParser parseString:[[[expressionFields cellAtIndex:3] stringValue] cString]];
+    [boolParser setCategoryList:NXGetNamedObject(@"mainCategoryList", NSApp)];
+    [boolParser setPhoneList:mainPhoneList];
+    [boolParser setErrorOutput:errorTextField];
 
-	[ruleList addRuleExp1: exp1 exp2: exp2 exp3: exp3 exp4: exp4];
+    if ([[[expressionFields cellAtIndex:0] stringValue] length])
+        exp1 = [boolParser parseString:[[expressionFields cellAtIndex:0] stringValue]];
+    if ([[[expressionFields cellAtIndex:1] stringValue] length])
+        exp2 = [boolParser parseString:[[expressionFields cellAtIndex:1] stringValue]];
+    if ([[[expressionFields cellAtIndex:2] stringValue] length])
+        exp3 = [boolParser parseString:[[expressionFields cellAtIndex:2] stringValue]];
+    if ([[[expressionFields cellAtIndex:3] stringValue] length])
+        exp4 = [boolParser parseString:[[expressionFields cellAtIndex:3] stringValue]];
 
-	sprintf(string,"Total Rules: %d", [ruleList count]);
-	[ruleMatrix setTitle:[NSString stringWithCString:string] ofColumn:0];
-	[ruleMatrix loadColumnZero];
+    [ruleList addRuleExp1:exp1 exp2:exp2 exp3:exp3 exp4:exp4];
+
+    [ruleMatrix setTitle:[NSString stringWithFormat:@"Total Rules: %d", [ruleList count]] ofColumn:0];
+    [ruleMatrix loadColumnZero];
 }
 
-- (void)rename:sender
+- (void)rename:sender;
 {
-PhoneList *mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
-BooleanExpression *exp1=nil, *exp2=nil, *exp3=nil, *exp4=nil;
-int index = [[ruleMatrix matrixInColumn:0] selectedRow];
+    PhoneList *mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
+    BooleanExpression *exp1, *exp2, *exp3, *exp4;
+    int index = [[ruleMatrix matrixInColumn:0] selectedRow];
 
-	[boolParser setCategoryList:NXGetNamedObject(@"mainCategoryList", NSApp)];
-	[boolParser setPhoneList:mainPhoneList];
-	[boolParser setErrorOutput:errorTextField];
+    exp1 = exp2 = exp3 = exp4 = nil;
 
-	if ([[[expressionFields cellAtIndex:0] stringValue] length])
-		exp1 = [boolParser parseString:[[[expressionFields cellAtIndex:0] stringValue] cString]];
-	if ([[[expressionFields cellAtIndex:1] stringValue] length])
-		exp2 = [boolParser parseString:[[[expressionFields cellAtIndex:1] stringValue] cString]];
-	if ([[[expressionFields cellAtIndex:2] stringValue] length])
-		exp3 = [boolParser parseString:[[[expressionFields cellAtIndex:2] stringValue] cString]];
-	if ([[[expressionFields cellAtIndex:3] stringValue] length])
-		exp4 = [boolParser parseString:[[[expressionFields cellAtIndex:3] stringValue] cString]];
+    [boolParser setCategoryList:NXGetNamedObject(@"mainCategoryList", NSApp)];
+    [boolParser setPhoneList:mainPhoneList];
+    [boolParser setErrorOutput:errorTextField];
 
-	[ruleList changeRuleAt: index exp1: exp1 exp2: exp2 exp3: exp3 exp4: exp4];
+    if ([[[expressionFields cellAtIndex:0] stringValue] length])
+        exp1 = [boolParser parseString:[[expressionFields cellAtIndex:0] stringValue]];
+    if ([[[expressionFields cellAtIndex:1] stringValue] length])
+        exp2 = [boolParser parseString:[[expressionFields cellAtIndex:1] stringValue]];
+    if ([[[expressionFields cellAtIndex:2] stringValue] length])
+        exp3 = [boolParser parseString:[[expressionFields cellAtIndex:2] stringValue]];
+    if ([[[expressionFields cellAtIndex:3] stringValue] length])
+        exp4 = [boolParser parseString:[[expressionFields cellAtIndex:3] stringValue]];
 
-	[ruleMatrix loadColumnZero];
+    [ruleList changeRuleAt:index exp1:exp1 exp2:exp2 exp3:exp3 exp4:exp4];
+
+    [ruleMatrix loadColumnZero];
 }
 
-- (void)remove:sender
+- (void)remove:sender;
 {
-int index = [[ruleMatrix matrixInColumn:0] selectedRow];
+    int index = [[ruleMatrix matrixInColumn:0] selectedRow];
 
-	[ruleList removeObjectAtIndex: index];
-	[ruleMatrix loadColumnZero];
+    [ruleList removeObjectAtIndex:index];
+    [ruleMatrix loadColumnZero];
 }
 
-- (void)parseRule:sender
+- (void)parseRule:sender;
 {
-int i, j, dummy, phones = 0;
-MonetList *tempList, *phoneList;
-PhoneList *mainPhoneList;
-Phone *tempPhone;
-Rule *tempRule;
-char string[1024];
-double ruleSymbols[5] = {0.0, 0.0, 0.0, 0.0, 0.0};
+    int i, j, dummy, phones = 0;
+    MonetList *tempList, *phoneList;
+    PhoneList *mainPhoneList;
+    Phone *tempPhone;
+    Rule *tempRule;
+    //char string[1024];
+    double ruleSymbols[5] = {0.0, 0.0, 0.0, 0.0, 0.0};
 
-	tempList = [[MonetList alloc] initWithCapacity:4];
-	phoneList = [[MonetList alloc] initWithCapacity:4];
-	mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
+    tempList = [[MonetList alloc] initWithCapacity:4];
+    phoneList = [[MonetList alloc] initWithCapacity:4];
+    mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
 
-	if ( ([[[phone1 cellAtIndex:0] stringValue] isEqualToString:@""]) || ([[[phone2 cellAtIndex:0] stringValue] isEqualToString:@""]) )
-	{
-		[ruleOutput setStringValue:@"You need at least to phones to parse."];
-		return;
-	}
+    if ( ([[[phone1 cellAtIndex:0] stringValue] isEqualToString:@""]) || ([[[phone2 cellAtIndex:0] stringValue] isEqualToString:@""]) ) {
+        [ruleOutput setStringValue:@"You need at least to phones to parse."];
+        return;
+    }
 
-	tempPhone = [mainPhoneList binarySearchPhone:[[[phone1 cellAtIndex:0] stringValue] cString] index:&dummy];
-	if (!tempPhone)
-	{
-		sprintf(string, "Unknown phone: \"%s\"", [[[phone1 cellAtIndex:0] stringValue] cString]);
-		[ruleOutput setStringValue:[NSString stringWithCString:string]];
-		return;
-	}
-	[tempList addObject: [tempPhone categoryList]];
-	[phoneList addObject: tempPhone];
-	phones++;
+    tempPhone = [mainPhoneList binarySearchPhone:[[phone1 cellAtIndex:0] stringValue] index:&dummy];
+    if (tempPhone == nil) {
+        [ruleOutput setStringValue:[NSString stringWithFormat:@"Unknown phone: \"%@\"", [[phone1 cellAtIndex:0] stringValue]]];
+        return;
+    }
+    [tempList addObject:[tempPhone categoryList]];
+    [phoneList addObject:tempPhone];
+    phones++;
 
-	tempPhone = [mainPhoneList binarySearchPhone:[[[phone2 cellAtIndex:0] stringValue] cString] index:&dummy];
-	if (!tempPhone)
-	{
-		sprintf(string, "Unknown phone: \"%s\"", [[[phone2 cellAtIndex:0] stringValue] cString]);
-		[ruleOutput setStringValue:[NSString stringWithCString:string]];
-		return;
-	}
-	[tempList addObject: [tempPhone categoryList]];
-	[phoneList addObject: tempPhone];
-	phones++;
+    tempPhone = [mainPhoneList binarySearchPhone:[[phone2 cellAtIndex:0] stringValue] index:&dummy];
+    if (tempPhone == nil) {
+        [ruleOutput setStringValue:[NSString stringWithFormat:@"Unknown phone: \"%@\"", [[phone2 cellAtIndex:0] stringValue]]];
+        return;
+    }
+    [tempList addObject:[tempPhone categoryList]];
+    [phoneList addObject:tempPhone];
+    phones++;
 
-	if ([[[phone3 cellAtIndex:0] stringValue] length])
-	{
-		tempPhone = [mainPhoneList binarySearchPhone:[[[phone3 cellAtIndex:0] stringValue] cString] index:&dummy];
-		if (!tempPhone)
-		{
-			sprintf(string, "Unknown phone: \"%s\"", [[[phone3 cellAtIndex:0] stringValue] cString]);
-			[ruleOutput setStringValue:[NSString stringWithCString:string]];
-			return;
-		}
-		[tempPhone categoryList];
-		[tempList addObject:tempPhone];
-		[phoneList addObject: tempPhone];
+    if ([[[phone3 cellAtIndex:0] stringValue] length]) {
+        tempPhone = [mainPhoneList binarySearchPhone:[[phone3 cellAtIndex:0] stringValue] index:&dummy];
+        if (tempPhone == nil) {
+            [ruleOutput setStringValue:[NSString stringWithFormat:@"Unknown phone: \"%@\"", [[phone3 cellAtIndex:0] stringValue]]];
+            return;
+        }
+        [tempPhone categoryList];
+        [tempList addObject:tempPhone];
+        [phoneList addObject:tempPhone];
 
-		phones++;
-	}
+        phones++;
+    }
 
-	if ([[[phone4 cellAtIndex:0] stringValue] length])
-	{
-		tempPhone = [mainPhoneList binarySearchPhone:[[[phone4 cellAtIndex:0] stringValue] cString] index:&dummy];
-		if (!tempPhone)
-		{
-			sprintf(string, "Unknown phone: \"%s\"", [[[phone4 cellAtIndex:0] stringValue] cString]);
-			[ruleOutput setStringValue:[NSString stringWithCString:string]];
-			return;
-		}
-		[tempPhone categoryList];
-		[tempList addObject:tempPhone];
-		[phoneList addObject: tempPhone];
+    if ([[[phone4 cellAtIndex:0] stringValue] length]) {
+        tempPhone = [mainPhoneList binarySearchPhone:[[phone4 cellAtIndex:0] stringValue] index:&dummy];
+        if (tempPhone == nil) {
+            [ruleOutput setStringValue:[NSString stringWithFormat:@"Unknown phone: \"%@\"", [[phone4 cellAtIndex:0] stringValue]]];
+            return;
+        }
+        [tempPhone categoryList];
+        [tempList addObject:tempPhone];
+        [phoneList addObject:tempPhone];
 
-		phones++;
-	}
+        phones++;
+    }
 
-//	printf("TempList count = %d\n", [tempList count]);
+    //NSLog(@"TempList count = %d", [tempList count]);
 
-	for(i = 0; i< [ruleList count]; i++)
-	{
-		tempRule = [ruleList objectAtIndex:i];
-		if ([tempRule numberExpressions]<=[tempList count])
-			if ([[ruleList objectAtIndex:i] matchRule: tempList])
-			{
-				bzero(string, 1024);
-				[self expressionString: string forRule:i];
-				[ruleOutput setStringValue:[NSString stringWithCString:string]];
-				[consumedTokens setIntValue:[tempRule numberExpressions]];
-				ruleSymbols[0] = [[tempRule getExpressionSymbol:0]
-                                                evaluate: ruleSymbols phones: phoneList andCacheWith: cacheValue++];
-				ruleSymbols[2] = [[tempRule getExpressionSymbol:2]
-                                                evaluate: ruleSymbols phones: phoneList andCacheWith: cacheValue++];
-				ruleSymbols[3] = [[tempRule getExpressionSymbol:3]
-                                                evaluate: ruleSymbols phones: phoneList andCacheWith: cacheValue++];
-				ruleSymbols[4] = [[tempRule getExpressionSymbol:4]
-                                                evaluate: ruleSymbols phones: phoneList andCacheWith: cacheValue++];
-				ruleSymbols[1] = [[tempRule getExpressionSymbol:1]
-                                                evaluate: ruleSymbols phones: phoneList andCacheWith: cacheValue++];
-				for(j = 0; j<5; j++)
-				{
-					[[durationOutput cellAtIndex:j] setDoubleValue:ruleSymbols[j]];
-				}
-				[tempList release];
-				return;
-			}
-	}
-	NSBeep();
-	[ruleOutput setStringValue:@"Cannot find rule"];
-	[consumedTokens setIntValue:0];
-	[tempList release];
+    for (i = 0; i < [ruleList count]; i++) {
+        tempRule = [ruleList objectAtIndex:i];
+        if ([tempRule numberExpressions] <= [tempList count])
+            if ([[ruleList objectAtIndex:i] matchRule:tempList]) {
+                NSString *str;
+
+                str = [self expressionStringForRule:i];
+                [ruleOutput setStringValue:str];
+                [consumedTokens setIntValue:[tempRule numberExpressions]];
+                // TODO (2004-03-02): Is being out of order significant?
+                ruleSymbols[0] = [[tempRule getExpressionSymbol:0] evaluate:ruleSymbols phones:phoneList andCacheWith:cacheValue++];
+                ruleSymbols[2] = [[tempRule getExpressionSymbol:2] evaluate:ruleSymbols phones:phoneList andCacheWith:cacheValue++];
+                ruleSymbols[3] = [[tempRule getExpressionSymbol:3] evaluate:ruleSymbols phones:phoneList andCacheWith:cacheValue++];
+                ruleSymbols[4] = [[tempRule getExpressionSymbol:4] evaluate:ruleSymbols phones:phoneList andCacheWith:cacheValue++];
+                ruleSymbols[1] = [[tempRule getExpressionSymbol:1] evaluate:ruleSymbols phones:phoneList andCacheWith:cacheValue++];
+                for (j = 0; j < 5; j++) {
+                    [[durationOutput cellAtIndex:j] setDoubleValue:ruleSymbols[j]];
+                }
+                [tempList release];
+                return;
+            }
+    }
+
+    NSBeep();
+    [ruleOutput setStringValue:@"Cannot find rule"];
+    [consumedTokens setIntValue:0];
+    [tempList release];
 }
 
-- ruleList
+- (RuleList *)ruleList;
 {
-	return ruleList;
+    return ruleList;
 }
 
 
-- (void)addParameter
+- (void)addParameter;
 {
-	[ruleList makeObjectsPerform: (SEL)(@selector(addDefaultParameter))];
+    [ruleList makeObjectsPerform:@selector(addDefaultParameter)];
 }
 
-- (void)addMetaParameter
+- (void)addMetaParameter;
 {
-	[ruleList makeObjectsPerform: (SEL)(@selector(addDefaultMetaParameter))];
+    [ruleList makeObjectsPerform:@selector(addDefaultMetaParameter)];
 }
 
-- (void)removeParameter:(int)index
+- (void)removeParameter:(int)index;
 {
-int i;
-	for (i = 0; i< [ruleList count]; i++)
-		[[ruleList objectAtIndex:i] removeParameter:index];
+    int i;
+
+    for (i = 0; i < [ruleList count]; i++)
+        [[ruleList objectAtIndex:i] removeParameter:index];
 }
 
-- (void)removeMetaParameter:(int)index
+- (void)removeMetaParameter:(int)index;
 {
-int i;
-	for (i = 0; i< [ruleList count]; i++)
-		[[ruleList objectAtIndex:i] removeMetaParameter:index];
+    int i;
+
+    for (i = 0; i < [ruleList count]; i++)
+        [[ruleList objectAtIndex:i] removeMetaParameter:index];
 }
 
-- (BOOL) isCategoryUsed: aCategory
+- (BOOL)isCategoryUsed:aCategory;
 {
-	return [ruleList isCategoryUsed:aCategory];
+    return [ruleList isCategoryUsed:aCategory];
 }
 
-- (BOOL) isEquationUsed: anEquation
+- (BOOL)isEquationUsed:anEquation;
 {
-	return [ruleList isEquationUsed:anEquation];
+    return [ruleList isEquationUsed:anEquation];
 }
-- (BOOL) isTransitionUsed: aTransition
+- (BOOL)isTransitionUsed:aTransition;
 {
-	return [ruleList isTransitionUsed: aTransition];
-}
-
-- findEquation: anEquation andPutIn: aList
-{
-	return [ruleList findEquation:anEquation andPutIn:  aList];
+    return [ruleList isTransitionUsed: aTransition];
 }
 
-- findTemplate: aTemplate andPutIn: aList
+- findEquation:anEquation andPutIn:aList;
 {
-	return [ruleList findTemplate:aTemplate andPutIn:  aList];
+    return [ruleList findEquation:anEquation andPutIn:aList];
 }
 
-- (void)cut:(id)sender
+- findTemplate:aTemplate andPutIn:aList;
 {
-	printf("RuleManager: cut\n");
+    return [ruleList findTemplate:aTemplate andPutIn:aList];
 }
 
-NSString *ruleString = @"Rule";
-
-- (void)copy:(id)sender
+- (void)cut:(id)sender;
 {
-NSPasteboard *myPasteboard;
-NSMutableData *mdata;
-NSArchiver *typed = NULL;
-NSString *dataType;
-int retValue, column = [ruleMatrix selectedColumn];
-id tempEntry;
-
-	myPasteboard = [NSPasteboard pasteboardWithName:@"MonetPasteboard"];
-
-	printf("RuleManager: copy  |%s|\n", [[myPasteboard name] cString]);
-
-	mdata = [NSMutableData dataWithCapacity: 16];
-	typed = [[NSArchiver alloc] initForWritingWithMutableData: mdata];
-
-	if (column != 0)
-	{
-		NSBeep();
-		printf("Nothing selected\n");
-		return;
-	}
-
-	tempEntry = [ruleList objectAtIndex:[[ruleMatrix matrixInColumn: 0] selectedRow]];
-	[tempEntry encodeWithCoder:typed];
-
-	dataType = ruleString;
-	retValue = [myPasteboard declareTypes:[NSArray arrayWithObject:dataType] owner:nil];
-
-	[myPasteboard setData: mdata forType:ruleString];
-
-	[typed release];
+    NSLog(@"RuleManager: cut");
 }
 
-- (void)paste:(id)sender
+static NSString *ruleString = @"Rule";
+
+- (void)copy:(id)sender;
 {
-NSPasteboard *myPasteboard;
-NSData *mdata;
-NSArchiver *typed = NULL;
-NSArray *dataTypes;
-int row = [[ruleMatrix matrixInColumn: 0] selectedRow];
-id temp;
+    NSPasteboard *myPasteboard;
+    NSMutableData *mdata;
+    NSArchiver *typed = NULL;
+    NSString *dataType;
+    int retValue, column = [ruleMatrix selectedColumn];
+    id tempEntry;
 
-	myPasteboard = [NSPasteboard pasteboardWithName:@"MonetPasteboard"];
-	printf("RuleManager: paste  changeCount = %d  |%s|\n", [myPasteboard changeCount], [[myPasteboard name] cString]);
+    myPasteboard = [NSPasteboard pasteboardWithName:@"MonetPasteboard"];
 
-	dataTypes = [myPasteboard types];
-	if ([[dataTypes objectAtIndex: 0] isEqual: ruleString])
-	{
-		NSBeep();
-		return;
-	}
+    NSLog(@"RuleManager: copy  |%@|\n", [myPasteboard name]);
 
-	mdata = [myPasteboard dataForType: ruleString];
-	typed = [[NSUnarchiver alloc] initForReadingWithData: mdata];
-	temp = [[Rule alloc] init];
-	[temp initWithCoder:typed];
-	[typed release];
+    if (column != 0) {
+        NSBeep();
+        NSLog(@"Nothing selected");
+        return;
+    }
 
-	if (row == (-1))
-		[ruleList insertObject: temp atIndex: [ruleList count]-1];
-	else
-		[ruleList insertObject: temp atIndex: row+1];
+    mdata = [NSMutableData dataWithCapacity:16];
+    typed = [[NSArchiver alloc] initForWritingWithMutableData:mdata];
 
-	[ruleMatrix loadColumnZero];
+    tempEntry = [ruleList objectAtIndex:[[ruleMatrix matrixInColumn:0] selectedRow]];
+    [tempEntry encodeWithCoder:typed];
+
+    dataType = ruleString;
+    retValue = [myPasteboard declareTypes:[NSArray arrayWithObject:dataType] owner:nil];
+
+    [myPasteboard setData:mdata forType:ruleString];
+
+    [typed release];
 }
 
-- (void)readDegasFileFormat:(FILE *)fp
+- (void)paste:(id)sender;
 {
-	[ruleList readDegasFileFormat:(FILE *) fp];
+    NSPasteboard *myPasteboard;
+    NSData *mdata;
+    NSArchiver *typed = NULL;
+    NSArray *dataTypes;
+    int row = [[ruleMatrix matrixInColumn: 0] selectedRow];
+    id temp;
+
+    myPasteboard = [NSPasteboard pasteboardWithName:@"MonetPasteboard"];
+    NSLog(@"RuleManager: paste  changeCount = %d  |%@|\n", [myPasteboard changeCount], [myPasteboard name]);
+
+    dataTypes = [myPasteboard types];
+    if ([[dataTypes objectAtIndex:0] isEqual:ruleString]) {
+        NSBeep();
+        return;
+    }
+
+    mdata = [myPasteboard dataForType:ruleString];
+    typed = [[NSUnarchiver alloc] initForReadingWithData:mdata];
+
+    temp = [[Rule alloc] init];
+    [temp initWithCoder:typed];
+    [typed release];
+
+    if (row == -1)
+        [ruleList insertObject:temp atIndex:[ruleList count]-1];
+    else
+        [ruleList insertObject:temp atIndex:row+1];
+
+    [temp release];
+
+    [ruleMatrix loadColumnZero];
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+- (void)readDegasFileFormat:(FILE *)fp;
 {
-int i;
-
-	matchLists = [[MonetList alloc] initWithCapacity: 4];
-	for (i = 0; i<4; i++)
-	{
-		[matchLists addObject: [[PhoneList alloc] init]];
-	}
-
-	boolParser = [[BooleanParser alloc] init];
-
-	ruleList = [[aDecoder decodeObject] retain];
-
-	[self applicationDidFinishLaunching: nil];
-
-	return self;
+    [ruleList readDegasFileFormat:(FILE *) fp];
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder
+- (id)initWithCoder:(NSCoder *)aDecoder;
 {
-	[aCoder encodeObject:ruleList];
+    int i;
+
+    matchLists = [[MonetList alloc] initWithCapacity:4];
+    for (i = 0; i < 4; i++) {
+        PhoneList *aPhoneList;
+
+        aPhoneList = [[PhoneList alloc] init];
+        [matchLists addObject:aPhoneList];
+        [aPhoneList release];
+    }
+
+    boolParser = [[BooleanParser alloc] init];
+    ruleList = [[aDecoder decodeObject] retain];
+
+    [self applicationDidFinishLaunching:nil];
+
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder;
+{
+    [aCoder encodeObject:ruleList];
 }
 
 
-- (void)readRulesFrom:(NSArchiver *)stream
+- (void)readRulesFrom:(NSArchiver *)stream;
 {
-	[ruleList release];
+    [ruleList release];
 
-	cacheValue = 1;
+    cacheValue = 1;
 
-	ruleList = [[stream decodeObject] retain];
+    ruleList = [[stream decodeObject] retain];
 }
 
 #ifdef NeXT
-- _readRulesFrom:(NXTypedStream *)stream
+- _readRulesFrom:(NXTypedStream *)stream;
 {
-        [ruleList release];
+    [ruleList release];
 
-        cacheValue = 1;
+    cacheValue = 1;
 
-        ruleList = NXReadObject(stream);
+    ruleList = NXReadObject(stream);
 
-        return self;
+    return self;
 }
 #endif
 
-- (void)writeRulesTo:(NSArchiver *)stream
+- (void)writeRulesTo:(NSArchiver *)stream;
 {
-
-	[stream encodeObject:ruleList];
+    [stream encodeObject:ruleList];
 }
 
-- (void)windowDidBecomeMain:(NSNotification *)notification
+- (void)windowDidBecomeMain:(NSNotification *)notification;
 {
     id temp;
-int index = 0;
+    int index = 0;
 
-	temp = [controller inspector];
-	index = [[ruleMatrix matrixInColumn:0] selectedRow];
-	if (temp)
-	{
-		if ( index == (-1))
-			[temp cleanInspectorWindow];
-		else
-			[temp inspectRule:[ruleList objectAtIndex:index]];
-	}
+    temp = [controller inspector];
+    index = [[ruleMatrix matrixInColumn:0] selectedRow];
+    if (temp) {
+        if (index == -1)
+            [temp cleanInspectorWindow];
+        else
+            [temp inspectRule:[ruleList objectAtIndex:index]];
+    }
 }
 
-- (BOOL)windowShouldClose:(id)sender
-{
-id temp;
-	temp = [controller inspector];
-	[temp cleanInspectorWindow];
-	return YES;
-}
-
-- (void)windowDidResignMain:(NSNotification *)notification
+- (BOOL)windowShouldClose:(id)sender;
 {
     id temp;
-	temp = [controller inspector];
-	[temp cleanInspectorWindow];
+
+    temp = [controller inspector];
+    [temp cleanInspectorWindow];
+
+    return YES;
+}
+
+- (void)windowDidResignMain:(NSNotification *)notification;
+{
+    id temp;
+
+    temp = [controller inspector];
+    [temp cleanInspectorWindow];
 }
 
 @end

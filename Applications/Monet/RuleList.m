@@ -73,6 +73,7 @@
 
 
 #define SYMBOL_LENGTH_MAX 12
+#ifdef PORTING
 - (void)readDegasFileFormat:(FILE *)fp;
 {
     int numRules;
@@ -151,6 +152,7 @@
 
     [boolParser release];
 }
+#endif
 
 - (BOOL)isCategoryUsed:aCategory;
 {

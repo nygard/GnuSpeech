@@ -1,4 +1,5 @@
 #import <Foundation/NSObject.h>
+#import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 #ifdef PORTING
 #import <Foundation/NSArray.h>
@@ -10,7 +11,8 @@
 #import "BooleanParser.h"
 #endif
 
-@class BooleanParser, MonetList, RuleList;
+@class NSBrowser, NSForm, NSMatrix, NSScrollView, NSTextField, NSTextView;
+@class BooleanParser, DelegateResponder, MonetList, MyController, RuleList;
 
 /*===========================================================================
 
@@ -25,19 +27,19 @@
 {
     int cacheValue;
 
-    id controller;
+    MyController *controller;
 
-    id ruleMatrix;
-    id ruleScrollView;
+    IBOutlet NSBrowser *ruleMatrix;
+    IBOutlet NSScrollView *ruleScrollView;
 
-    id matchBrowser1;
-    id matchBrowser2;
-    id matchBrowser3;
-    id matchBrowser4;
+    IBOutlet NSBrowser *matchBrowser1;
+    IBOutlet NSBrowser *matchBrowser2;
+    IBOutlet NSBrowser *matchBrowser3;
+    IBOutlet NSBrowser *matchBrowser4;
 
-    id expressionFields;
-    id errorTextField;
-    id possibleCombinations;
+    IBOutlet NSForm *expressionFields;
+    IBOutlet NSTextField *errorTextField;
+    IBOutlet NSTextField *possibleCombinations;
 
     BooleanParser *boolParser;
 
@@ -46,18 +48,19 @@
 
     RuleList *ruleList;
 
-    id phone1;
-    id phone2;
-    id phone3;
-    id phone4;
-    id ruleOutput;
-    id consumedTokens;
-    id durationOutput;
+    IBOutlet NSForm *phone1;
+    IBOutlet NSForm *phone2;
+    IBOutlet NSForm *phone3;
+    IBOutlet NSForm *phone4;
+    IBOutlet NSTextField *ruleOutput;
+    IBOutlet NSTextField *consumedTokens;
+    IBOutlet NSForm *durationOutput;
 
-    id delegateResponder;
+    DelegateResponder *delegateResponder;
 }
 
-- init;
+- (id)init;
+- (void)dealloc;
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 
 - (void)browserHit:sender;
@@ -65,7 +68,7 @@
 - (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
 
-- expressionString:(char *) string forRule:(int) index;
+- (NSString *)expressionStringForRule:(int)index;
 
 - (void)setExpression1:sender;
 - (void)setExpression2:sender;
@@ -83,7 +86,7 @@
 
 - (void)parseRule:sender;
 
-- ruleList;
+- (RuleList *)ruleList;
 
 - (void)addParameter;
 - (void)addMetaParameter;
@@ -92,28 +95,28 @@
 
 /* Finding Stuff */
 
-- (BOOL) isCategoryUsed: aCategory;
-- (BOOL) isEquationUsed: anEquation;
-- (BOOL) isTransitionUsed: aTransition;
+- (BOOL)isCategoryUsed:aCategory;
+- (BOOL)isEquationUsed:anEquation;
+- (BOOL)isTransitionUsed:aTransition;
 
-- findEquation: anEquation andPutIn: aList;
-- findTemplate: aTemplate andPutIn: aList;
+- findEquation:anEquation andPutIn:aList;
+- findTemplate:aTemplate andPutIn:aList;
 
 - (void)cut:(id)sender;
 - (void)copy:(id)sender;
 - (void)paste:(id)sender;
-
-/* Window Delegate Methods */
-- (void)windowDidBecomeMain:(NSNotification *)notification;
-- (BOOL)windowShouldClose:(id)sender;
-- (void)windowDidResignMain:(NSNotification *)notification;
 
 - (void)readDegasFileFormat:(FILE *)fp;
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 - (void)encodeWithCoder:(NSCoder *)aCoder;
 
-- (void)writeRulesTo:(NSArchiver *)stream;
 - (void)readRulesFrom:(NSArchiver *)stream;
+- (void)writeRulesTo:(NSArchiver *)stream;
+
+/* Window Delegate Methods */
+- (void)windowDidBecomeMain:(NSNotification *)notification;
+- (BOOL)windowShouldClose:(id)sender;
+- (void)windowDidResignMain:(NSNotification *)notification;
 
 @end
