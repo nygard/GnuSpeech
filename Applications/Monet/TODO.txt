@@ -173,4 +173,5 @@ Notes:
 + showing the special transition editor, loading a new file, and then trying to select points logs lots of stuff
   + should clear transition when loading new file.
 + can't change comments for special transitions
-- selecting points in the special transition view doesn't seem to change selected equation
++ selecting points in the special transition view doesn't seem to change selected equation
++ changing marks in special transition editor doesn't work.
