@@ -62,7 +62,10 @@
 - (void)drawEquations;
 - (void)drawPhones;
 - (void)drawTransition;
-- (void)drawTriangleAtPoint:(NSPoint)aPoint;
+- (void)drawCircleMarkerAtPoint:(NSPoint)aPoint;
+- (void)drawTriangleMarkerAtPoint:(NSPoint)aPoint;
+- (void)drawSquareMarkerAtPoint:(NSPoint)aPoint;
+- (void)highlightMarkerAtPoint:(NSPoint)aPoint;
 - (void)drawSlopes;
 
 - (void)mouseDown:(NSEvent *)mouseEvent;

@@ -348,7 +348,6 @@ static NSImage *_selectionBox = nil;
 
 - (void)drawPhones;
 {
-    NSRect rect = NSMakeRect(0, 0, 8, 8);
     NSPoint myPoint;
     float timeScale;
     float currentTimePoint;
@@ -358,7 +357,7 @@ static NSImage *_selectionBox = nil;
     NSPoint graphOrigin;
     float graphTopYPos;
 
-    bounds = [self bounds];
+    bounds = NSIntegralRect([self bounds]);
     graphOrigin = [self graphOrigin];
 
     if (currentTemplate)
@@ -374,29 +373,31 @@ static NSImage *_selectionBox = nil;
 
     timeScale = [self timeScale];
     graphTopYPos = bounds.size.height - BOTTOM_MARGIN - 1;
-    myPoint.y = bounds.size.height - BOTTOM_MARGIN + 3;
+    myPoint.y = bounds.size.height - BOTTOM_MARGIN + 6;
 
     switch (type) {
       case TETRAPHONE:
           currentTimePoint = (timeScale * [[displayParameters cellAtIndex:4] floatValue]);
           [bezierPath moveToPoint:NSMakePoint(graphOrigin.x + currentTimePoint, graphOrigin.y + 1)];
           [bezierPath lineToPoint:NSMakePoint(graphOrigin.x + currentTimePoint, graphTopYPos)];
-          myPoint.x = currentTimePoint + LEFT_MARGIN - 3;
-          [_squareMarker compositeToPoint:myPoint fromRect:rect operation:NSCompositeSourceOver];
+          myPoint.x = currentTimePoint + LEFT_MARGIN;
+          [self drawSquareMarkerAtPoint:myPoint];
+          // And draw the other two:
 
       case TRIPHONE:
           currentTimePoint = (timeScale * [[displayParameters cellAtIndex:3] floatValue]);
           [bezierPath moveToPoint:NSMakePoint(graphOrigin.x + currentTimePoint, graphOrigin.y + 1)];
           [bezierPath lineToPoint:NSMakePoint(graphOrigin.x + currentTimePoint, graphTopYPos)];
-          myPoint.x = currentTimePoint + LEFT_MARGIN - 3;
-          [_triangleMarker compositeToPoint:myPoint fromRect:rect operation:NSCompositeSourceOver];
+          myPoint.x = currentTimePoint + LEFT_MARGIN;
+          [self drawTriangleMarkerAtPoint:myPoint];
+          // And draw the other one:
 
       case DIPHONE:
           currentTimePoint = (timeScale * [[displayParameters cellAtIndex:2] floatValue]);
           [bezierPath moveToPoint:NSMakePoint(graphOrigin.x + currentTimePoint, graphOrigin.y + 1)];
           [bezierPath lineToPoint:NSMakePoint(graphOrigin.x + currentTimePoint, graphTopYPos)];
-          myPoint.x = currentTimePoint + LEFT_MARGIN - 3;
-          [_dotMarker compositeToPoint:myPoint fromRect:rect operation:NSCompositeSourceOver];
+          myPoint.x = currentTimePoint + LEFT_MARGIN;
+          [self drawCircleMarkerAtPoint:myPoint];
     }
 
     [bezierPath stroke];
@@ -410,7 +411,6 @@ static NSImage *_selectionBox = nil;
     GSMPoint *currentPoint;
     double symbols[5];
     double tempos[4] = {1.0, 1.0, 1.0, 1.0};
-    NSRect rect = {{0.0, 0.0}, {10.0, 10.0}};
     NSPoint myPoint;
     float timeScale, y;
     int yScale;
@@ -470,19 +470,15 @@ static NSImage *_selectionBox = nil;
             eventTime = [currentPoint freeTime];
         else
             eventTime = [[currentPoint expression] cacheValue];
-        myPoint.x = (graphOrigin.x - 3) + timeScale * eventTime;
-        myPoint.y = (graphOrigin.y - 3) + (yScale * 2) + (y * (float)yScale / 10.0);
-        [bezierPath lineToPoint:NSMakePoint(myPoint.x + 3, myPoint.y + 3)];
+        myPoint.x = graphOrigin.x + timeScale * eventTime;
+        myPoint.y = graphOrigin.y + (yScale * 2) + (y * (float)yScale / 10.0);
+        [bezierPath lineToPoint:myPoint];
         switch ([currentPoint type]) {
           case TETRAPHONE:
               [tetraphonePoints addObject:[NSValue valueWithPoint:myPoint]];
               break;
           case TRIPHONE:
-              myPoint.x += 3;
-              myPoint.y += 3;
               [triphonePoints addObject:[NSValue valueWithPoint:myPoint]];
-              myPoint.x -= 3;
-              myPoint.y -= 3;
               break;
           case DIPHONE:
               [diphonePoints addObject:[NSValue valueWithPoint:myPoint]];
@@ -491,12 +487,12 @@ static NSImage *_selectionBox = nil;
 
         if (index != [displayPoints count] - 1) {
             if ([currentPoint type] == [(GSMPoint *)[displayPoints objectAtIndex:index+1] type])
-                [bezierPath moveToPoint:NSMakePoint(myPoint.x + 3, myPoint.y + 3)];
+                [bezierPath moveToPoint:myPoint];
             else
-                [bezierPath moveToPoint:NSMakePoint(myPoint.x + 3, graphOrigin.y + (2 * yScale))];
+                [bezierPath moveToPoint:NSMakePoint(myPoint.x, graphOrigin.y + (2 * yScale))];
         }
         else
-            [bezierPath moveToPoint:NSMakePoint(myPoint.x + 3, myPoint.y + 3)];
+            [bezierPath moveToPoint:NSMakePoint(myPoint.x, myPoint.y)];
     }
 
     [bezierPath lineToPoint:NSMakePoint([self bounds].size.width - LEFT_MARGIN, [self bounds].size.height - BOTTOM_MARGIN - (2 * yScale))];
@@ -509,7 +505,7 @@ static NSImage *_selectionBox = nil;
         NSPoint aPoint;
 
         aPoint = [[diphonePoints objectAtIndex:index] pointValue];
-        [_dotMarker compositeToPoint:aPoint fromRect:rect operation:NSCompositeSourceOver];
+        [self drawCircleMarkerAtPoint:aPoint];
     }
 
     count = [triphonePoints count];
@@ -517,8 +513,7 @@ static NSImage *_selectionBox = nil;
         NSPoint aPoint;
 
         aPoint = [[triphonePoints objectAtIndex:index] pointValue];
-        //[_triangleMarker compositeToPoint:aPoint fromRect:rect operation:NSCompositeSourceOver];
-        [self drawTriangleAtPoint:aPoint];
+        [self drawTriangleMarkerAtPoint:aPoint];
     }
 
     count = [tetraphonePoints count];
@@ -526,7 +521,7 @@ static NSImage *_selectionBox = nil;
         NSPoint aPoint;
 
         aPoint = [[tetraphonePoints objectAtIndex:index] pointValue];
-        [_squareMarker compositeToPoint:aPoint fromRect:rect operation:NSCompositeSourceOver];
+        [self drawSquareMarkerAtPoint:aPoint];
     }
 
     [diphonePoints release];
@@ -551,17 +546,31 @@ static NSImage *_selectionBox = nil;
                 eventTime = [tempPoint freeTime];
             else
                 eventTime = [[tempPoint expression] cacheValue];
-            myPoint.x = (graphOrigin.x - 5) + timeScale * eventTime;
-            myPoint.y = (graphOrigin.y - 5) + (yScale * 2) + (y * (float)yScale / 10.0);
+            myPoint.x = graphOrigin.x + timeScale * eventTime;
+            myPoint.y = graphOrigin.y + (yScale * 2) + (y * (float)yScale / 10.0);
 
             //NSLog(@"Selection; x: %f y:%f", myPoint.x, myPoint.y);
 
-            [_selectionBox compositeToPoint:myPoint fromRect:rect operation:NSCompositeSourceOver];
+            [self highlightMarkerAtPoint:myPoint];
         }
     }
 }
 
-- (void)drawTriangleAtPoint:(NSPoint)aPoint;
+- (void)drawCircleMarkerAtPoint:(NSPoint)aPoint;
+{
+    int radius = 3;
+    NSBezierPath *bezierPath;
+
+    //NSLog(@"->%s, point: %@", _cmd, NSStringFromPoint(aPoint));
+    bezierPath = [[NSBezierPath alloc] init];
+    [bezierPath appendBezierPathWithArcWithCenter:aPoint radius:radius startAngle:0 endAngle:360];
+    [bezierPath closePath];
+    [bezierPath fill];
+    //[bezierPath stroke];
+    [bezierPath release];
+}
+
+- (void)drawTriangleMarkerAtPoint:(NSPoint)aPoint;
 {
     int radius = 5;
     NSBezierPath *bezierPath;
@@ -582,6 +591,30 @@ static NSImage *_selectionBox = nil;
     [bezierPath fill];
     //[bezierPath stroke];
     [bezierPath release];
+}
+
+- (void)drawSquareMarkerAtPoint:(NSPoint)aPoint;
+{
+    NSRect rect;
+
+    // TODO (2004-03-12): I find it a little distressing that a 5x6 rectangle produces a square...
+    // That only affects NSRectFill, not NSFrameRect.
+    rect = NSIntegralRect(NSMakeRect(aPoint.x - 2, aPoint.y - 3, 1, 1));
+    rect.size = NSMakeSize(6, 6);
+    //NSLog(@"%s, rect: %@", _cmd, NSStringFromRect(rect));
+    [NSBezierPath fillRect:rect];
+    //[NSBezierPath strokeRect:rect];
+    //NSRectFill(rect);
+    //NSFrameRect(rect);
+}
+
+- (void)highlightMarkerAtPoint:(NSPoint)aPoint;
+{
+    NSRect rect;
+
+    rect = NSIntegralRect(NSMakeRect(aPoint.x - 4, aPoint.y - 5, 9, 10));
+    //NSLog(@"%s, rect: %@", _cmd, NSStringFromRect(rect));
+    NSFrameRect(rect);
 }
 
 - (void)drawSlopes;
