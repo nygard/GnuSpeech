@@ -35,8 +35,6 @@
 - (id)initWithFrame:(NSRect)frameRect;
 - (void)dealloc;
 
-- (void)applicationDidFinishLaunching:(NSNotification *)notification;
-
 - (BOOL)acceptsFirstResponder;
 
 - (void)setEventList:(EventList *)newEventList;
@@ -61,8 +59,6 @@
 // Event handling
 - (void)mouseEntered:(NSEvent *)theEvent;
 - (void)keyDown:(NSEvent *)theEvent;
-- (void)mouseExited:(NSEvent *)theEvent;
-- (void)mouseMoved:(NSEvent *)theEvent;
 - (void)mouseDown:(NSEvent *)theEvent;
 
 - (void)updateScale:(float)column;

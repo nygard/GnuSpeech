@@ -7,6 +7,7 @@
 #import "AppController.h"
 #import "Event.h"
 #import "EventList.h"
+#import "GSXMLFunctions.h"
 #import "Inspector.h"
 #import "IntonationPoint.h"
 #import "IntonationPointInspector.h"
@@ -63,13 +64,6 @@
     [smoothing release];
 
     [super dealloc];
-}
-
-- (void)applicationDidFinishLaunching:(NSNotification *)notification;
-{
-    NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
-    NSLog(@"timesFont: %@", timesFont);
-    NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }
 
 - (BOOL)acceptsFirstResponder;
@@ -176,7 +170,6 @@
 
 - (void)drawBackground;
 {
-    // Make an outlined white box for display
     [[NSColor whiteColor] set];
     NSRectFill([self bounds]);
 }
@@ -445,7 +438,7 @@
         }
 
     }
-    [[self window] setAcceptsMouseMovedEvents: NO];
+    [[self window] setAcceptsMouseMovedEvents:NO];
 #endif
 }
 
@@ -455,15 +448,19 @@
     IntonationPoint *tempPoint;
     //NSLog(@"KeyDown %d", theEvent->data.key.keyCode);
 
+    NSLog(@" > %s", _cmd);
+
     numRules = [eventList numberOfRules];
     pointCount = [selectedPoints count];
 
     switch ([theEvent keyCode]) {
       case NSDeleteFunctionKey:
+          NSLog(@"delete");
           [self deletePoints];
           break;
 
       case NSLeftArrowFunctionKey:
+          NSLog(@"left arrow");
           for (i = 0; i < pointCount; i++) {
               if ([[selectedPoints objectAtIndex:i] ruleIndex] - 1 < 0) {
                   NSBeep();
@@ -479,6 +476,7 @@
           break;
 
       case NSRightArrowFunctionKey:
+          NSLog(@"right arrow");
           for (i = 0; i < pointCount; i++) {
               if ([[selectedPoints objectAtIndex:i] ruleIndex] + 1 >= numRules) {
                   NSBeep();
@@ -494,6 +492,7 @@
           break;
 
       case NSUpArrowFunctionKey:
+          NSLog(@"up arrow");
           for (i = 0; i < pointCount; i++) {
               if ([[selectedPoints objectAtIndex:i] semitone] +1.0 > 10.0) {
                   NSBeep();
@@ -508,6 +507,7 @@
           break;
 
       case NSDownArrowFunctionKey:
+          NSLog(@"down arrow");
           for (i = 0; i < pointCount; i++) {
               if ([[selectedPoints objectAtIndex:i] semitone] - 1.0 < -20.0) {
                   NSBeep();
@@ -523,14 +523,8 @@
     }
 
     [self setNeedsDisplay:YES];
-}
 
-- (void)mouseExited:(NSEvent *)theEvent;
-{
-}
-
-- (void)mouseMoved:(NSEvent *)theEvent;
-{
+    NSLog(@"<  %s", _cmd);
 }
 
 // Single click selects an intonation point
@@ -731,6 +725,7 @@
     [eventList setFullTimeScale];
     [eventList insertEvent:32 atTime:0.0 withValue:-20.0];
     NSLog(@"Applying intonation");
+
     for (i = 0; i < [intonationPoints count]; i++) {
         temp = [intonationPoints objectAtIndex:i];
         NSLog(@"Added Event at Time: %f withValue: %f", [temp absoluteTime], [temp semitone]);
@@ -764,9 +759,9 @@
     [intonationPoints insertObject:tempPoint atIndex:0];
 
     //[eventList insertEvent:32 atTime: 0.0 withValue: -20.0];
-    for (j = 0; j < [intonationPoints count]-1; j++) {
+    for (j = 0; j < [intonationPoints count] - 1; j++) {
         point1 = [intonationPoints objectAtIndex:j];
-        point2 = [intonationPoints objectAtIndex:j+1];
+        point2 = [intonationPoints objectAtIndex:j + 1];
 
         x1 = [point1 absoluteTime] / 4.0;
         y1 = [point1 semitone] + 20.0;
@@ -792,10 +787,10 @@
 
         [eventList insertEvent:32 atTime:[point1 absoluteTime] withValue:[point1 semitone]];
 
-        yTemp = ((3.0*a*x12) + (2.0*b*x1) + c);
+        yTemp = (3.0*a*x12) + (2.0*b*x1) + c;
         [eventList insertEvent:33 atTime:[point1 absoluteTime] withValue:yTemp];
 
-        yTemp = ((6.0*a*x1) + (2.0*b));
+        yTemp = (6.0*a*x1) + (2.0*b);
         [eventList insertEvent:34 atTime:[point1 absoluteTime] withValue:yTemp];
 
         yTemp = (6.0*a);
@@ -938,85 +933,6 @@
     [iPoint release];
 }
 
-- (void)drawCircleMarkerAtPoint:(NSPoint)aPoint;
-{
-    int radius = 3;
-    NSBezierPath *bezierPath;
-
-    //NSLog(@"->%s, point: %@", _cmd, NSStringFromPoint(aPoint));
-    aPoint.x = rint(aPoint.x);
-    aPoint.y = rint(aPoint.y) + 0.5; // TODO (2004-03-15): This looks better for the circle in this view.  Check how it looks when selected.
-    //NSLog(@"-->%s, point: %@", _cmd, NSStringFromPoint(aPoint));
-
-    bezierPath = [[NSBezierPath alloc] init];
-    [bezierPath appendBezierPathWithArcWithCenter:aPoint radius:radius startAngle:0 endAngle:360];
-    [bezierPath closePath];
-    [bezierPath fill];
-    //[bezierPath stroke];
-    [bezierPath release];
-}
-
-- (void)drawTriangleMarkerAtPoint:(NSPoint)aPoint;
-{
-    int radius = 5;
-    NSBezierPath *bezierPath;
-    float angle;
-
-    //NSLog(@"->%s, point: %@", _cmd, NSStringFromPoint(aPoint));
-    aPoint.x = rint(aPoint.x);
-    aPoint.y = rint(aPoint.y);
-    //NSLog(@"-->%s, point: %@", _cmd, NSStringFromPoint(aPoint));
-
-    bezierPath = [[NSBezierPath alloc] init];
-    //[bezierPath moveToPoint:NSMakePoint(aPoint.x, aPoint.y + radius)];
-    angle = 90.0 * (2 * M_PI) / 360.0;
-    //NSLog(@"angle: %f, cos(angle): %f, sin(angle): %f", angle, cos(angle), sin(angle));
-    [bezierPath moveToPoint:NSMakePoint(aPoint.x + cos(angle) * radius, aPoint.y + sin(angle) * radius)];
-    angle = 210.0 * (2 * M_PI) / 360.0;
-    //NSLog(@"angle: %f, cos(angle): %f, sin(angle): %f", angle, cos(angle), sin(angle));
-    [bezierPath lineToPoint:NSMakePoint(aPoint.x + cos(angle) * radius, aPoint.y + sin(angle) * radius)];
-    angle = 330.0 * (2 * M_PI) / 360.0;
-    //NSLog(@"angle: %f, cos(angle): %f, sin(angle): %f", angle, cos(angle), sin(angle));
-    [bezierPath lineToPoint:NSMakePoint(aPoint.x + cos(angle) * radius, aPoint.y + sin(angle) * radius)];
-    [bezierPath closePath];
-    [bezierPath fill];
-    //[bezierPath stroke];
-    [bezierPath release];
-}
-
-- (void)drawSquareMarkerAtPoint:(NSPoint)aPoint;
-{
-    NSRect rect;
-
-    //NSLog(@"->%s, point: %@", _cmd, NSStringFromPoint(aPoint));
-    aPoint.x = rint(aPoint.x);
-    aPoint.y = rint(aPoint.y);
-    //NSLog(@"-->%s, point: %@", _cmd, NSStringFromPoint(aPoint));
-
-    rect = NSIntegralRect(NSMakeRect(aPoint.x - 3, aPoint.y - 3, 1, 1));
-    rect.size = NSMakeSize(6, 6);
-    //NSLog(@"%s, rect: %@", _cmd, NSStringFromRect(rect));
-    [NSBezierPath fillRect:rect];
-    //[NSBezierPath strokeRect:rect];
-    //NSRectFill(rect);
-    //NSFrameRect(rect);
-}
-
-- (void)highlightMarkerAtPoint:(NSPoint)aPoint;
-{
-    NSRect rect;
-
-    NSLog(@"->%s, point: %@", _cmd, NSStringFromPoint(aPoint));
-    aPoint.x = rint(aPoint.x);
-    aPoint.y = rint(aPoint.y);
-    NSLog(@"-->%s, point: %@", _cmd, NSStringFromPoint(aPoint));
-
-
-    rect = NSIntegralRect(NSMakeRect(aPoint.x - 5, aPoint.y - 5, 10, 10));
-    //NSLog(@"%s, rect: %@", _cmd, NSStringFromRect(rect));
-    NSFrameRect(rect);
-}
-
 //
 // View geometry
 //
@@ -1052,13 +968,14 @@
     return resultString;
 }
 
+// TODO (2004-03-25): This should go somewhere else.
 - (void)appendXMLForContourToString:(NSMutableString *)resultString level:(int)level;
 {
     [resultString indentToLevel:level];
     [resultString appendString:@"<contour>\n"];
 
     [resultString indentToLevel:level + 1];
-    [resultString appendFormat:@"<utterance>%@</utterance>\n", [utterance stringValue]];
+    [resultString appendFormat:@"<utterance>%@</utterance>\n", GSXMLCharacterData([utterance stringValue])];
 
     [intonationPoints appendXMLToString:resultString elementName:@"intonation-points" level:level + 1];
 
