@@ -127,6 +127,7 @@
     [aDecoder decodeValueOfObjCType:"*" at:&c_string];
     //NSLog(@"c_string: %s", c_string);
     str = [NSString stringWithASCIICString:c_string];
+    free(c_string);
 
     aCategory = [model categoryWithName:str];
     if (aCategory == nil) {
@@ -134,8 +135,6 @@
     } else {
         category = [aCategory retain];
     }
-
-    free(c_string);
 
     //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
     return self;

@@ -268,6 +268,8 @@
     //NSLog(@"c_name: %s, c_comment: %s, type: %d", c_name, c_comment, type);
     [self setName:[NSString stringWithASCIICString:c_name]];
     [self setComment:[NSString stringWithASCIICString:c_comment]];
+    free(c_name);
+    free(c_comment);
 
     archivedPoints = [aDecoder decodeObject];
     //NSLog(@"archivedPoints: %@", archivedPoints);

@@ -109,6 +109,8 @@
 
     name = [[NSString stringWithASCIICString:c_name] retain];
     comment = [[NSString stringWithASCIICString:c_comment] retain];
+    free(c_name);
+    free(c_comment);
 
     //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
     return self;

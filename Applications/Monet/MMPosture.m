@@ -354,6 +354,8 @@
 
     name = [[NSString stringWithASCIICString:c_name] retain];
     comment = [[NSString stringWithASCIICString:c_comment] retain];
+    free(c_name);
+    free(c_comment);
 
     {
         TargetList *archivedParameters;
@@ -395,6 +397,7 @@
         [aDecoder decodeValueOfObjCType:"*" at:&c_str];
         //NSLog(@"%d: c_str: %s", index, c_str);
         str = [NSString stringWithASCIICString:c_str];
+        free(c_str);
 
         temp1 = [model categoryWithName:str];
         if (temp1) {

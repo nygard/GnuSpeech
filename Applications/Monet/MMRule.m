@@ -558,6 +558,7 @@
 
     [aDecoder decodeValuesOfObjCTypes:"i*", &j, &c_comment];
     comment = [[NSString stringWithASCIICString:c_comment] retain];
+    free(c_comment);
 
     bzero(expressions, sizeof(MMBooleanNode *) * 4);
     bzero(specialProfiles, sizeof(id) * 16);

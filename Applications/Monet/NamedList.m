@@ -107,6 +107,8 @@
     [aDecoder decodeValuesOfObjCTypes:"**", &c_name, &c_comment];
     [self setName:[NSString stringWithASCIICString:c_name]];
     [self setComment:[NSString stringWithASCIICString:c_comment]];
+    free(c_name);
+    free(c_comment);
 
     count = [self count];
     for (index = 0; index < count; index++) {

@@ -140,12 +140,11 @@
 
         [aDecoder decodeValueOfObjCType:"*" at:&c_symbolName];
         symbolName = [NSString stringWithASCIICString:c_symbolName];
+        free(c_symbolName);
         //NSLog(@"FormulaTerminal symbolName: %@", symbolName);
 
         if ([symbolName isEqual:@"No Symbol"] == NO)
             [self setSymbol:[model symbolWithName:symbolName]];
-
-        free(c_symbolName);
     } else {
         NSLog(@"<%@>: Unknown version %u", NSStringFromClass([self class]), archivedVersion);
         //NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);

@@ -174,6 +174,9 @@
 
     name = [[NSString stringWithASCIICString:c_name] retain];
     comment = [[NSString stringWithASCIICString:c_comment] retain];
+    free(c_name);
+    free(c_comment);
+
     archivedFormula = [aDecoder decodeObject];
     if (archivedFormula != nil) {
         NSString *formulaString;

@@ -204,7 +204,7 @@ x -[NSSString initWithBytes:length:encoding:] not in 10.2.8 SDK, so should be wi
 2004-08-13:
 - Clear out General:Null special transitions from rules.  For example, see Rule #27.
 
-2004-08-16:
+2004-08-15:
 + I've been getting these warnings recently when running the app, before loading diphones.mxml:
 des: [~ 12 ]> /Local/Public/nygard/Products/Monet.app/Contents/MacOS/Monet
 2004-08-15 00:24:29.039 Monet[10261] Exception raised during posting of notification.  Ignored.  exception: *** -[NSCFArray objectAtIndex:]: index (-1) beyond bounds (0)
@@ -213,3 +213,5 @@ des: [~ 12 ]> /Local/Public/nygard/Products/Monet.app/Contents/MacOS/Monet
 *** malloc[10261]: Deallocation of a pointer not malloced: 0xbfffdd90; This could be a double free(), or free() called with the middle of an allocated block; Try setting environment variable MallocHelp to see tools to help debug
 
   + This looks like it's in the PostureEditor somewhere.
+
+- search for decodeValueOfObjCType: and make sure they use @encode()
