@@ -1144,6 +1144,8 @@ TRMTubeModel *TRMTubeModelCreate(TRMInputParameters *inputParameters)
         return NULL;
     }
 
+    memset(newTubeModel, 0, sizeof(TRMTubeModel));
+
     /*  CALCULATE THE SAMPLE RATE, BASED ON NOMINAL TUBE LENGTH AND SPEED OF SOUND  */
     if (inputParameters->length > 0.0) {
         double c = speedOfSound(inputParameters->temperature);
