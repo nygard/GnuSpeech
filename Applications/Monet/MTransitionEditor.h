@@ -10,6 +10,7 @@
 @interface MTransitionEditor : MWindowController
 {
     IBOutlet NSTextField *transitionNameTextField;
+    IBOutlet NSPopUpButton *transitionTypePopUpButton;
     IBOutlet TransitionView *transitionView;
     IBOutlet NSForm *controlParametersForm;
 
@@ -63,5 +64,6 @@
 - (IBAction)setType:(id)sender;
 - (IBAction)setPointValue:(id)sender;
 - (IBAction)setPhantom:(id)sender;
+- (IBAction)setTransitionType:(id)sender;
 
 @end

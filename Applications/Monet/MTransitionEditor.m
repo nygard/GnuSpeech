@@ -6,6 +6,7 @@
 #import <AppKit/AppKit.h>
 #import "NSNumberFormatter-Extensions.h"
 #import "NSOutlineView-Extensions.h"
+#import "NSPopUpButton-Extensions.h"
 
 #import "MMEquation.h"
 #import "MMFormulaNode.h"
@@ -81,6 +82,8 @@
     if (name == nil)
         name = @"--";
     [transitionNameTextField setStringValue:name];
+
+    [transitionTypePopUpButton selectItemWithTag:[transition type]];
 
     [[controlParametersForm cellAtIndex:0] setDoubleValue:[transitionView ruleDuration]];
     [[controlParametersForm cellAtIndex:1] setDoubleValue:[transitionView beatLocation]];
@@ -321,6 +324,13 @@
 {
     [[transitionView selectedPoint] setIsPhantom:[isPhantomSwitch state]];
     [transitionView setNeedsDisplay:YES];
+}
+
+- (IBAction)setTransitionType:(id)sender;
+{
+    [transition setType:[[transitionTypePopUpButton selectedItem] tag]];
+    [transitionView updateTransitionType];
+    [self updateViews]; // To get change in control parameters
 }
 
 @end

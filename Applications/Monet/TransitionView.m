@@ -121,6 +121,37 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     [self setNeedsDisplay:YES];
 }
 
+- (void)updateTransitionType;
+{
+    switch ([transition type]) {
+      case MMPhoneTypeDiphone:
+          [self setRuleDuration:100];
+          [self setBeatLocation:33];
+          [self setMark1:100];
+          [self setMark2:0];
+          [self setMark3:0];
+          break;
+
+      case MMPhoneTypeTriphone:
+          [self setRuleDuration:200];
+          [self setBeatLocation:33];
+          [self setMark1:100];
+          [self setMark2:200];
+          [self setMark3:0];
+          break;
+
+      case MMPhoneTypeTetraphone:
+          [self setRuleDuration:300];
+          [self setBeatLocation:33];
+          [self setMark1:100];
+          [self setMark2:200];
+          [self setMark3:300];
+          break;
+    }
+
+    [self setNeedsDisplay:YES];
+}
+
 - (double)ruleDuration;
 {
     return _parameters.ruleDuration;
@@ -1169,37 +1200,8 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         transition = [newTransition retain];
     }
 
-    switch ([transition type]) {
-      case MMPhoneTypeDiphone:
-          [self setRuleDuration:100];
-          [self setBeatLocation:33];
-          [self setMark1:100];
-          [self setMark2:0];
-          [self setMark3:0];
-          break;
-      case MMPhoneTypeTriphone:
-          [self setRuleDuration:200];
-          [self setBeatLocation:33];
-          [self setMark1:100];
-          [self setMark2:200];
-          [self setMark3:0];
-          break;
-      case MMPhoneTypeTetraphone:
-          [self setRuleDuration:300];
-          [self setBeatLocation:33];
-          [self setMark1:100];
-          [self setMark2:200];
-          [self setMark3:300];
-          break;
-    }
-
+    [self updateTransitionType];
     [self setNeedsDisplay:YES];
 }
-#if 1
-- (void)showWindow:(int)otherWindow;
-{
-    [[self window] orderWindow:NSWindowBelow relativeTo:otherWindow];
-}
-#endif
 
 @end

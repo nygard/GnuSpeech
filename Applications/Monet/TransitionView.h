@@ -64,6 +64,7 @@ extern NSString *TransitionViewSelectionDidChangeNotification;
 - (void)setModel:(MModel *)newModel;
 
 - (void)_updateFromModel;
+- (void)updateTransitionType;
 
 - (double)ruleDuration;
 - (void)setRuleDuration:(double)newValue;
@@ -142,6 +143,6 @@ extern NSString *TransitionViewSelectionDidChangeNotification;
 // Publicly used API
 - (MMTransition *)transition;
 - (void)setTransition:(MMTransition *)newTransition;
-- (void)showWindow:(int)otherWindow;
+
 
 @end

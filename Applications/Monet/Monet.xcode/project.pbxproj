@@ -870,6 +870,36 @@
 			settings = {
 			};
 		};
+		014EB4E906D045F5000F5574 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = "NSPopUpButton-Extensions.h";
+			path = "Extensions/NSPopUpButton-Extensions.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		014EB4EA06D045F5000F5574 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = "NSPopUpButton-Extensions.m";
+			path = "Extensions/NSPopUpButton-Extensions.m";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		014EB4EB06D045F5000F5574 = {
+			fileRef = 014EB4E906D045F5000F5574;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		014EB4EC06D045F5000F5574 = {
+			fileRef = 014EB4EA06D045F5000F5574;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		015A674206791CB400EE5AE9 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -1520,6 +1550,8 @@
 				019D975C0646E449009C37B4,
 				019D97630646E449009C37B4,
 				019D97640646E449009C37B4,
+				014EB4E906D045F5000F5574,
+				014EB4EA06D045F5000F5574,
 			);
 			isa = PBXGroup;
 			name = Extensions;
@@ -3873,6 +3905,7 @@
 				0165FBB506C1859B00C6D2C9,
 				0111585F06C83600000BA7D0,
 				01C74CD006CC83A200303F58,
+				014EB4EB06D045F5000F5574,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4012,6 +4045,7 @@
 				0165FA4406BF1F1900C6D2C9,
 				0111586006C83600000BA7D0,
 				01C74CD106CC83A200303F58,
+				014EB4EC06D045F5000F5574,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

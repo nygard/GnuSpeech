@@ -7,7 +7,7 @@
             SUPERCLASS = MTransitionEditor; 
         }, 
         {
-            ACTIONS = {setPhantom = id; setPointValue = id; setType = id; }; 
+            ACTIONS = {setPhantom = id; setPointValue = id; setTransitionType = id; setType = id; }; 
             CLASS = MTransitionEditor; 
             LANGUAGE = ObjC; 
             OUTLETS = {
@@ -16,6 +16,7 @@
                 equationTextView = NSTextView; 
                 isPhantomSwitch = NSButton; 
                 transitionNameTextField = NSTextField; 
+                transitionTypePopUpButton = NSPopUpButton; 
                 transitionView = TransitionView; 
                 type1Button = NSButton; 
                 type2Button = NSButton; 
