@@ -43,21 +43,6 @@
 
 /*===========================================================================
 
-	Method: drawSelf::
-	Purpose: Automatically called.  This function clears the view for
-		subsequent drawing.
-
-===========================================================================*/
-- (void)drawRect:(NSRect)rect;
-{
-    [[NSColor whiteColor] set];
-    NSRectFill([self bounds]);
-
-    [super drawRect:rect];
-}
-
-/*===========================================================================
-
 	Method: tile
 	Purpose: Hack to avoid a bug(?) or feature(?).
 

@@ -25,7 +25,6 @@ History:
 
 - (id)initWithFrame:(NSRect)frameRect;
 
-- (void)drawRect:(NSRect)rect;
 - (void)tile;
 - (IBAction)print:(id)sender;
 
