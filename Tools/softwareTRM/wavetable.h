@@ -9,6 +9,8 @@
 typedef struct _TRMWavetable {
     TRMFIRFilter *FIRFilter;
     double *wavetable;
+    double *squares; // squares of integers: 0^2, 1^2, 2^2, ...  Same size as wavetable.
+    double *ones;    // array of 1.0, same size as wavetable.
 
     int tableDiv1;
     int tableDiv2;

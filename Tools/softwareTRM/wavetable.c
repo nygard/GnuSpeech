@@ -41,8 +41,33 @@ TRMWavetable *TRMWavetableCreate(int waveform, double tp, double tnMin, double t
     newWavetable->wavetable = (double *)calloc(TABLE_LENGTH, sizeof(double));
     if (newWavetable->wavetable == NULL) {
         fprintf(stderr, "Failed to allocate space for wavetable in TRMWavetableCreate.\n");
+        TRMFIRFilterFree(newWavetable->FIRFilter);
         free(newWavetable);
         return NULL;
+    }
+
+    newWavetable->squares = (double *)calloc(TABLE_LENGTH, sizeof(double));
+    if (newWavetable->squares == NULL) {
+        fprintf(stderr, "Failed to allocate space for squares in TRMWavetableCreate.\n");
+        TRMFIRFilterFree(newWavetable->FIRFilter);
+        free(newWavetable->wavetable);
+        free(newWavetable);
+        return NULL;
+    }
+
+    newWavetable->ones = (double *)calloc(TABLE_LENGTH, sizeof(double));
+    if (newWavetable->ones == NULL) {
+        fprintf(stderr, "Failed to allocate space for squares in TRMWavetableCreate.\n");
+        TRMFIRFilterFree(newWavetable->FIRFilter);
+        free(newWavetable->wavetable);
+        free(newWavetable->squares);
+        free(newWavetable);
+        return NULL;
+    }
+
+    for (i = 0; i < TABLE_LENGTH; i++) {
+        newWavetable->squares[i] = (double)(i * i);
+        newWavetable->ones[i] = 1.0;
     }
 
     //  Calculate wave table parameters
@@ -97,6 +122,16 @@ void TRMWavetableFree(TRMWavetable *wavetable)
         wavetable->wavetable = NULL;
     }
 
+    if (wavetable->squares != NULL) {
+        free(wavetable->squares);
+        wavetable->squares = NULL;
+    }
+
+    if (wavetable->ones != NULL) {
+        free(wavetable->ones);
+        wavetable->ones = NULL;
+    }
+
     free(wavetable);
 }
 
@@ -109,27 +144,23 @@ void TRMWavetableUpdate(TRMWavetable *wavetable, double amplitude)
     //  Calculate new closure point, based on amplitude
     double newDiv2 = wavetable->tableDiv2 - rint(amplitude * wavetable->tnDelta);
     double newTnLength = newDiv2 - wavetable->tableDiv1;
-    double j;
 
     //  Recalculate the falling portion of the glottal pulse
 #ifdef USE_VECLIB
     {
-        double aj[TABLE_LENGTH], ajj[TABLE_LENGTH], one[TABLE_LENGTH];
+        double aj[TABLE_LENGTH];
         double scale = 1.0 / (newTnLength * newTnLength);
         int len;
 
         len = newTnLength;
-        for (i = 0, j = 0.0; i < len; i++, j += 1.0) {
-            aj[i] = j;
-            one[i] = 1.0;
-        }
 
-        vsqD(aj, 1, ajj, 1, len);
-        vsmulD(ajj, 1, &scale, aj, 1, len);
-        vsubD(aj, 1, one, 1, &(wavetable->wavetable[wavetable->tableDiv1]), 1, len); // The docs seem to be wrong about which one gets subtracted...
+        vsmulD(wavetable->squares, 1, &scale, aj, 1, len);
+        vsubD(aj, 1, wavetable->ones, 1, &(wavetable->wavetable[wavetable->tableDiv1]), 1, len); // The docs seem to be wrong about which one gets subtracted...
     }
 #else
     {
+        double j;
+
         for (i = wavetable->tableDiv1, j = 0.0; i < newDiv2; i++, j++) {
             double x = j / newTnLength;
             wavetable->wavetable[i] = 1.0 - (x * x);
