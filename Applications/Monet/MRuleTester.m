@@ -93,6 +93,7 @@
     MMPosture *aPosture;
     MMRule *aRule;
     MMFRuleSymbols ruleSymbols = {0.0, 0.0, 0.0, 0.0, 0.0};
+    double tempos[4] = {1.0, 1.0, 1.0, 1.0};
     NSString *posture1Name, *posture2Name, *posture3Name, *posture4Name;
 
     testCategoryLists = [[[MonetList alloc] initWithCapacity:4] autorelease];
@@ -158,11 +159,7 @@
 
         // TODO (2004-03-02): Is being out of order significant?
         // TODO (2004-03-23): I think that the last value may not always be accurate, i.e. for diphones, triphones
-        ruleSymbols.ruleDuration = [[aRule getExpressionSymbol:0] evaluate:&ruleSymbols phones:testPostures andCacheWith:[[self model] nextCacheTag]];
-        ruleSymbols.mark1 = [[aRule getExpressionSymbol:2] evaluate:&ruleSymbols phones:testPostures andCacheWith:[[self model] nextCacheTag]];
-        ruleSymbols.mark2 = [[aRule getExpressionSymbol:3] evaluate:&ruleSymbols phones:testPostures andCacheWith:[[self model] nextCacheTag]];
-        ruleSymbols.mark3 = [[aRule getExpressionSymbol:4] evaluate:&ruleSymbols phones:testPostures andCacheWith:[[self model] nextCacheTag]];
-        ruleSymbols.beat = [[aRule getExpressionSymbol:1] evaluate:&ruleSymbols phones:testPostures andCacheWith:[[self model] nextCacheTag]];
+        [aRule evaluateExpressionSymbols:&ruleSymbols tempos:tempos phones:testPostures withCache:[[self model] nextCacheTag]];
 
         [[durationOutputForm cellAtIndex:0] setDoubleValue:ruleSymbols.ruleDuration];
         [[durationOutputForm cellAtIndex:1] setDoubleValue:ruleSymbols.beat];
