@@ -51,9 +51,8 @@ extern NSString *IntonationViewSelectionDidChangeNotification;
 
 - (void)drawRect:(NSRect)rect;
 
-- (void)drawBackground;
 - (void)drawGrid;
-- (void)drawPhoneLabels;
+- (void)drawPostureLabels;
 - (void)drawRules;
 - (void)drawIntonationPoints;
 - (void)drawSmoothPoints;
@@ -77,5 +76,8 @@ extern NSString *IntonationViewSelectionDidChangeNotification;
 - (NSPoint)graphOrigin;
 
 - (void)updateEvents;
+
+
+- (float)scaleWidth:(float)width;
 
 @end

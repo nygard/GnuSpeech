@@ -17,6 +17,10 @@
 
 #define SECTION_COUNT 15
 
+#define RULE_Y_OFFSET 40
+#define RULE_HEIGHT 30
+#define POSTURE_Y_OFFSET 62
+
 NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelectionDidChangeNotification";
 
 @implementation IntonationView
@@ -110,9 +114,11 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
         clipRect.size.width = timeValue;
     [self setFrame:clipRect];
 
-    [self drawBackground];
+    [[NSColor whiteColor] set];
+    NSRectFill(rect);
+
     [self drawGrid];
-    [self drawPhoneLabels];
+    [self drawPostureLabels];
     [self drawRules];
     [self drawIntonationPoints];
 
@@ -120,12 +126,6 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
         [self drawSmoothPoints];
 
     [[self enclosingScrollView] reflectScrolledClipView:(NSClipView *)[self superview]];
-}
-
-- (void)drawBackground;
-{
-    [[NSColor whiteColor] set];
-    NSRectFill([self bounds]);
 }
 
 - (void)drawGrid;
@@ -168,17 +168,18 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
     [bezierPath release];
 }
 
-// Put phone label on the top
-- (void)drawPhoneLabels;
+// Put posture label on the top
+// TODO (2004-08-16): Need right margin so that the last posture is visible.
+- (void)drawPostureLabels;
 {
     int count, index;
     MMPosture *currentPosture;
     NSRect bounds;
     float currentX;
-    int phoneIndex = 0;
+    int postureIndex = 0;
     NSArray *events;
 
-    bounds = [self bounds];
+    bounds = NSIntegralRect([self bounds]);
 
     [[NSColor blackColor] set];
     [timesFont set];
@@ -187,21 +188,17 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
     count = [events count];
     for (index = 0; index < count; index++) {
         currentX = ((float)[[events objectAtIndex:index] time] / timeScale);
-        if (currentX > bounds.size.width - 20.0)
-            break;
-        if (currentX < 5.0)
-            currentX = 5.0;
 
         if ([[events objectAtIndex:index] flag]) {
-            currentPosture = [eventList getPhoneAtIndex:phoneIndex++];
+            currentPosture = [eventList getPhoneAtIndex:postureIndex++];
             if (currentPosture != nil) {
-                NSLog(@"[currentPosture name]: %@", [currentPosture name]);
+                //NSLog(@"[currentPosture name]: %@", [currentPosture name]);
 #if 0
                 [[NSColor blueColor] set];
-                NSRectFill(NSMakeRect(currentX - 5.0, bounds.size.height - 62, 10, 20));
+                NSRectFill(NSMakeRect(currentX, bounds.size.height - POSTURE_Y_OFFSET, 10, 20));
 #endif
                 [[NSColor blackColor] set];
-                [[currentPosture name] drawAtPoint:NSMakePoint(currentX - 5.0, bounds.size.height - 62.0) withAttributes:nil];
+                [[currentPosture name] drawAtPoint:NSMakePoint(currentX, bounds.size.height - POSTURE_Y_OFFSET) withAttributes:nil];
                 //[postureTextFieldCell setStringValue:[currentPosture name]];
             }
         }
@@ -212,14 +209,14 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
 - (void)drawRules;
 {
     NSBezierPath *bezierPath;
-    float currentX;
+    float currentX, extraWidth;
     int count, index;
     NSRect bounds;
     NSPoint graphOrigin;
     int sectionHeight;
     struct _rule *rule;
 
-    bounds = [self bounds];
+    bounds = NSIntegralRect([self bounds]);
     graphOrigin = [self graphOrigin];
     sectionHeight = [self sectionHeight];
 
@@ -227,7 +224,8 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
 
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:1];
-    currentX = 0;
+    currentX = 0.0;
+    extraWidth = 0.0;
 
     count = [eventList numberOfRules];
     for (index = 0; index < count; index++) {
@@ -236,11 +234,13 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
         NSRect drawFrame;
 
         rule = [eventList getRuleAtIndex:index];
+
         drawFrame.origin.x = currentX;
-        drawFrame.origin.y = bounds.size.height - 40.0;
-        drawFrame.size.height = 30.0;
-        drawFrame.size.width = (float)rule->duration / timeScale;
-        NSDrawWhiteBezel(drawFrame, drawFrame);
+        drawFrame.origin.y = bounds.size.height - RULE_Y_OFFSET;
+        drawFrame.size.height = RULE_HEIGHT;
+        drawFrame.size.width = [self scaleWidth:rule->duration] + extraWidth;
+        NSFrameRect(drawFrame);
+
         [[NSColor blackColor] set];
 
         str = [NSString stringWithFormat:@"%d", rule->number];
@@ -256,7 +256,8 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
         aPoint.y = graphOrigin.y;
         [bezierPath lineToPoint:aPoint];
 
-        currentX += (float)rule->duration / timeScale;
+        extraWidth = 1.0;
+        currentX += drawFrame.size.width - extraWidth;
     }
 
     [[NSColor darkGrayColor] set];
@@ -631,7 +632,7 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
                 ruleIndex = i;
             } else {
                 rule = [eventList getRuleAtIndex:ruleIndex];
-                //NSLog(@"Selecting Rule: %d phone index %d", ruleIndex, rule->lastPhone);
+                //NSLog(@"Selecting Rule: %d posture index %d", ruleIndex, rule->lastPhone);
 
                 // TODO (2004-08-09): Should just use -[EventList addIntonationPoint:offsetTime:slope:ruleIndex:]
                 iPoint = [[IntonationPoint alloc] initWithEventList:eventList];
@@ -770,6 +771,11 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
     [self deselectAllPoints];
     // TODO (2004-08-09): And select the first point again?
     [self setNeedsDisplay:YES];
+}
+
+- (float)scaleWidth:(float)width;
+{
+    return floor(width / timeScale);
 }
 
 @end

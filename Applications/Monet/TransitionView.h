@@ -154,5 +154,4 @@ extern NSString *TransitionViewSelectionDidChangeNotification;
 - (MMTransition *)transition;
 - (void)setTransition:(MMTransition *)newTransition;
 
-
 @end
