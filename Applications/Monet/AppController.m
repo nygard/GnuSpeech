@@ -237,7 +237,7 @@
 
     myPanel = [NSSavePanel savePanel];
     if ([myPanel runModal]) {
-        temp = [[myPanel filename] cString];
+        temp = [[myPanel filename] UTF8String];
         fp = fopen(temp,"w");
         if (fp) {
             [mainCategoryList printDataTo:fp];

@@ -33,20 +33,20 @@
 
 #define PAGES 16
 
+#if 1
 static char *outputBuffer;
 static int currentInputBuffer, currentOutputBuffer, currentConsumed;
 static int bufferFree[PAGES];
 static int currentIndex;
-
+#endif
+#ifdef HAVE_DSP
 static void update_synth_ptr(void)
 {
     //printf("BufferFree[%d] = %d\n", currentOutputBuffer, bufferFree[currentOutputBuffer]);
     if (!bufferFree[currentOutputBuffer])
     {
         //printf("\t\t\tSending out page %d\n", currentOutputBuffer);
-#ifdef HAVE_DSP
         synth_read_ptr = outputBuffer+(currentOutputBuffer*NSPageSize());
-#endif
         bufferFree[currentOutputBuffer] = 2;
         currentOutputBuffer = (currentOutputBuffer+1)%PAGES;
     }
@@ -58,7 +58,7 @@ static void page_consumed(void)
     bufferFree[currentConsumed] = 1;
     currentConsumed = (currentConsumed+1)%PAGES;
 }
-
+#endif
 
 
 @implementation EventList
@@ -507,9 +507,8 @@ static void page_consumed(void)
 
 - (void)generateOutput;
 {
-#ifdef HAVE_DSP
     int i, j, k;
-    int synthStatus = IDLE;
+    //int synthStatus = IDLE;
     int currentTime, nextTime;
     int watermark = 0;
     double currentValues[36];
@@ -517,14 +516,17 @@ static void page_consumed(void)
     double temp;
     float table[16];
     FILE *fp;
+#ifdef HAVE_DSP
     float silencePage[16] = {0.0, 0.0, 0.0, 0.0, 5.5, 2500.0, 500.0, 0.8, 0.89, 0.99, 0.81, 0.76, 1.05, 1.23, 0.01, 0.0};
     DSPFix24 *silenceTable;
+#endif
 
     if ([self count] == 0)
         return;
     if (parameterStore) {
         fp = fopen("/tmp/Monet.parameters", "w");
     } else if (softwareSynthesis) {
+        NSLog(@"%s, software synthesis enabled.", _cmd);
         fp = fopen("/tmp/Monet.parameters", "a+");
     } else
         fp = NULL;
@@ -578,7 +580,9 @@ static void page_consumed(void)
     while (i < [self count]) {
         /* If buffer space is available, perform calculations */
         if (bufferFree[currentInputBuffer] == 1) {
+#ifdef HAVE_DSP
             bzero(outputBuffer + (currentInputBuffer*NSPageSize()), 8192);
+#endif
             while (currentIndex < 8192) {
                 for (j = 0; j < 16; j++) {
                     table[j] = (float)currentValues[j] + (float)currentValues[j+16];
@@ -598,9 +602,9 @@ static void page_consumed(void)
                             table[4], table[5], table[6], table[7],
                             table[8], table[9], table[10], table[11],
                             table[12], table[13], table[14], table[15]);
-
+#ifdef HAVE_DSP
                 convert_parameter_table(table, outputBuffer + (currentInputBuffer*NSPageSize()) + currentIndex);
-
+#endif
                 currentIndex += 128;
 
                 for (j = 0 ; j < 32; j++) {
@@ -664,23 +668,25 @@ static void page_consumed(void)
                 //NSLog(@" new page = %d", currentInputBuffer);
             }
         }
+#ifdef HAVE_DSP
         if ((synthStatus == IDLE) && (watermark > 14))
             if(start_synthesizer() == ST_NO_ERROR)
                 synthStatus = RUNNING;
-
         if (synthStatus == RUNNING)
             await_request_new_page(ST_NO, ST_NO, update_synth_ptr, page_consumed);
+#endif
     }
-
+#ifdef HAVE_DSP
     if (synthStatus == IDLE)
         if (start_synthesizer() == ST_NO_ERROR)
             synthStatus = RUNNING;
-
+#endif
     if (currentIndex < 8192) {
         if (softwareSynthesis) {
             fclose(fp);
             fp = NULL;
         }
+#ifdef HAVE_DSP
         if (fp)
             fprintf(fp, "Start of Padding\n");
         silenceTable = new_dsp_pad_table(silencePage);
@@ -702,25 +708,22 @@ static void page_consumed(void)
         bufferFree[currentInputBuffer] = 0;
         free(silenceTable);
         //NSLog(@"Finished Silencing page %d", currentInputBuffer);
+#endif
     } else {
         bufferFree[currentInputBuffer] = 0;
     }
 
-
+#ifdef HAVE_DSP
     while (bufferFree[currentOutputBuffer] != 1) {
         if (bufferFree[(currentOutputBuffer+1)%PAGES])
             await_request_new_page(ST_YES, ST_YES, update_synth_ptr, page_consumed);
         else
             await_request_new_page(ST_NO, ST_NO, update_synth_ptr, page_consumed);
     }
-
+#endif
 
     if (fp)
         fclose(fp);
-#else
-#warning No DSP for -generateOutput
-    NSLog(@"%s, no DSP...", _cmd);
-#endif
 }
 
 - (void)printDataStructures;
