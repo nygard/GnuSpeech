@@ -44,7 +44,7 @@
   - and adding points to slopes doesn't quite work properly right now -- another slope doesn't get added?
 
 2004-11-14:
-- SpecialView, PointInspector, RuleInspector, IntonationView, IntonationScrollView, IntonationPointInspector
+- +SpecialView, +PointInspector, RuleInspector, IntonationView, IntonationScrollView, IntonationPointInspector
 
 TODO:
 - if a value is at the default, and then you change the default, do you want all of the instances to change as well?  I think so.
@@ -83,3 +83,10 @@ TODO:
 - Carre/bLipClosure give a nice example.
 - Fricatives/sOrzFricCharParams is an example of overlapping slope numbers
 
+2004-03-15:
+- Would it be useful to list the timing symbols in order for the TransitionView?
+- inspecting zero points should show "No Inspector", not "Multiple Points Selected"
+- when dragging to select points and no points are selected, the point inspector shows "No Inspector" and "Multiple Points Selected"
+- you shouldn't be able to (try to) set the value for a point that is part of a slope ratio.
+- Use MM prefix for model objects (MMPoint, MMEquation, MMTransition, MMParameter, MMPosture, ...)
+  - try M prefix for remaining object (MMonetModel, MTransitionView, MInspector, ...)

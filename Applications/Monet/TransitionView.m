@@ -153,7 +153,7 @@ static NSImage *_selectionBox = nil;
 
 - (void)drawRect:(NSRect)rect;
 {
-    NSLog(@" > %s", _cmd);
+    NSLog(@" > %s, cache: %d", _cmd, cache);
 
     [self clearView];
     [self drawGrid];
@@ -419,7 +419,7 @@ static NSImage *_selectionBox = nil;
     for (index = 0; index < count; index++) {
         currentPoint = [displayPoints objectAtIndex:index];
         y = [currentPoint value];
-        NSLog(@"%d: y = %f", index, y);
+        NSLog(@"%d: [%p] y = %f", index, currentPoint, y);
         if ([currentPoint expression] == nil)
             eventTime = [currentPoint freeTime];
         else
@@ -618,6 +618,7 @@ static NSImage *_selectionBox = nil;
 
     [self setShouldDrawSelection:NO];
     [selectedPoints removeAllObjects];
+    [[controller inspector] inspectPoint:nil];
     [self setNeedsDisplay:YES];
 
     if ([mouseEvent clickCount] == 1) {
@@ -1031,6 +1032,7 @@ static NSImage *_selectionBox = nil;
         }
     }
 
+    [[controller inspector] inspectPoints:selectedPoints];
     [self setNeedsDisplay:YES];
 }
 
@@ -1057,6 +1059,7 @@ static NSImage *_selectionBox = nil;
 
     [[controller inspector] cleanInspectorWindow];
     [selectedPoints removeAllObjects];
+    [[controller inspector] inspectPoint:nil];
 
     [self setNeedsDisplay:YES];
 }
@@ -1116,6 +1119,7 @@ static NSImage *_selectionBox = nil;
 
     [[self window] endEditingFor:nil];
     [selectedPoints removeAllObjects];
+    [[controller inspector] inspectPoint:nil];
 
     [currentTemplate release];
     currentTemplate = [newTransition retain];

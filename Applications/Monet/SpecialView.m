@@ -787,6 +787,7 @@ static NSImage *_selectionBox = nil;
         }
     }
 
+    [[controller inspector] inspectPoint:selectedPoint];
     [self setNeedsDisplay:YES];
 }
 

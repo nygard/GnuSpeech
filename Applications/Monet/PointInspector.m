@@ -204,11 +204,11 @@
 
 - (IBAction)setValue:(id)sender;
 {
-    TransitionView *temp = NXGetNamedObject(@"transitionBuilder", NSApp);
-
+    NSLog(@"%s, currentPoint: %p, sender: %p, doubleValue: %g", _cmd, currentPoint, sender, [sender doubleValue]);
     [currentPoint setValue:[sender doubleValue]];
-    [temp display];
-    [NXGetNamedObject(@"specialTransitionBuilder", NSApp) display];
+
+    [NXGetNamedObject(@"transitionBuilder", NSApp) setNeedsDisplay:YES];
+    [NXGetNamedObject(@"specialTransitionBuilder", NSApp) setNeedsDisplay:YES];
 }
 
 - (IBAction)setType1:(id)sender;

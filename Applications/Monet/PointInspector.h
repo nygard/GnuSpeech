@@ -30,18 +30,18 @@ History:
     IBOutlet NSBox *popUpListView;
     IBOutlet NSPopUpButton *popUpList;
 
-    id multipleListView;
+    IBOutlet NSBox *multipleListView;
 
-    id valueBox;
-    id valueField;
-    id phantomSwitch;
+    IBOutlet NSBox *valueBox;
+    IBOutlet NSTextField *valueField;
+    IBOutlet NSButton *phantomSwitch;
 
-    id type1Button;
-    id type2Button;
-    id type3Button;
+    IBOutlet NSButton *type1Button;
+    IBOutlet NSButton *type2Button;
+    IBOutlet NSButton *type3Button;
 
-    id expressionBrowser;
-    id currentTimingField;
+    IBOutlet NSBrowser *expressionBrowser;
+    IBOutlet NSTextField *currentTimingField;
 
     GSMPoint *currentPoint;
 }

@@ -142,6 +142,35 @@
             ACTIONS = {
                 browserDoubleHit = id; 
                 browserHit = id; 
+                setPhantom = id; 
+                setType1 = id; 
+                setType2 = id; 
+                setType3 = id; 
+                setUpWindow = id; 
+                setValue = id; 
+            }; 
+            CLASS = PointInspector; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                currentTimingField = NSTextField; 
+                expressionBrowser = NSBrowser; 
+                mainInspector = Inspector; 
+                multipleListView = NSBox; 
+                phantomSwitch = NSButton; 
+                popUpList = NSPopUpButton; 
+                popUpListView = NSBox; 
+                type1Button = NSButton; 
+                type2Button = NSButton; 
+                type3Button = NSButton; 
+                valueBox = NSBox; 
+                valueField = NSTextField; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {
+                browserDoubleHit = id; 
+                browserHit = id; 
                 revertComment = id; 
                 revertEquation = id; 
                 setComment = id; 
