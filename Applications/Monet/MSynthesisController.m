@@ -117,8 +117,11 @@
     NSButtonCell *checkboxCell, *checkboxCell2;
     NSUserDefaults *defaults;
 
+    defaults = [NSUserDefaults standardUserDefaults];
+
     [intonationParameterWindow setFrameAutosaveName:@"Intonation Parameters"];
     [intonationWindow setFrameAutosaveName:@"Intonation"];
+    [[intonationView documentView] setShouldDrawSmoothPoints:[[NSUserDefaults standardUserDefaults] boolForKey:MDK_ShouldUseSmoothIntonation]];
 
     checkboxCell = [[NSButtonCell alloc] initTextCell:@""];
     [checkboxCell setControlSize:NSSmallControlSize];
@@ -149,7 +152,6 @@
     [self updateViews];
 
     // Set up default values for intonation checkboxes
-    defaults = [NSUserDefaults standardUserDefaults];
     [smoothIntonationSwitch setState:[defaults boolForKey:MDK_ShouldUseSmoothIntonation]];
     [[intonationMatrix cellAtRow:0 column:0] setState:[defaults boolForKey:MDK_ShouldUseMacroIntonation]];
     [[intonationMatrix cellAtRow:1 column:0] setState:[defaults boolForKey:MDK_ShouldUseMicroIntonation]];
