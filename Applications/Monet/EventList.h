@@ -204,7 +204,7 @@ struct _rule {
 // Moved from IntonationView
 - (void)clearIntonationPoints;
 - (void)addIntonationPoint:(IntonationPoint *)iPoint;
-- (void)addPoint:(double)semitone offsetTime:(double)offsetTime slope:(double)slope ruleIndex:(int)ruleIndex;
+- (void)addIntonationPoint:(double)semitone offsetTime:(double)offsetTime slope:(double)slope ruleIndex:(int)ruleIndex;
 
 - (void)applyIntonation_fromIntonationView;
 - (void)applySmoothIntonation;

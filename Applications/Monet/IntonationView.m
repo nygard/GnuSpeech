@@ -633,7 +633,7 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
                 rule = [eventList getRuleAtIndex:ruleIndex];
                 //NSLog(@"Selecting Rule: %d phone index %d", ruleIndex, rule->lastPhone);
 
-                // TODO (2004-08-09): Should just use -[EventList addPoint:offsetTime:slope:ruleIndex:]
+                // TODO (2004-08-09): Should just use -[EventList addIntonationPoint:offsetTime:slope:ruleIndex:]
                 iPoint = [[IntonationPoint alloc] initWithEventList:eventList];
                 [iPoint setRuleIndex:ruleIndex];
                 [iPoint setOffsetTime:(double)temp - rule->beat];

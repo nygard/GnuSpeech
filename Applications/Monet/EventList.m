@@ -924,7 +924,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
     duration = [[events lastObject] time] + 100;
 
     [self clearIntonationPoints];
-//    [self addPoint:-20.0 offsetTime:0.0 slope:0.0 ruleIndex:0];
+//    [self addIntonationPoint:-20.0 offsetTime:0.0 slope:0.0 ruleIndex:0];
 
     for (i = 0; i < currentToneGroup; i++) {
         firstFoot = toneGroups[i].startFoot;
@@ -962,7 +962,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
                 // Slopes from 0.02 to 0.035
                 randomSlope = ((double)random() / (double)0x7fffffff) * 0.015 + 0.02;
 
-                [self addPoint:((phones[phoneIndex].onset-startTime) * pretonicDelta) + intonationParameters.notionalPitch + randomSemitone
+                [self addIntonationPoint:((phones[phoneIndex].onset-startTime) * pretonicDelta) + intonationParameters.notionalPitch + randomSemitone
                       offsetTime:offsetTime slope:randomSlope ruleIndex:ruleIndex];
 
 //                NSLog(@"Calculated Delta = %f  time = %f", ((phones[phoneIndex].onset-startTime)*pretonicDelta),
@@ -978,7 +978,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
                 // Slopes from 0.02 to 0.05
                 randomSlope = ((double)random() / (double)0x7fffffff) * 0.03 + 0.02;
 
-                [self addPoint:intonationParameters.pretonicRange + intonationParameters.notionalPitch
+                [self addIntonationPoint:intonationParameters.pretonicRange + intonationParameters.notionalPitch
                       offsetTime:offsetTime slope:randomSlope ruleIndex:ruleIndex];
 
                 phoneIndex = feet[j].end;
@@ -989,7 +989,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
                     }
                 }
 
-                [self addPoint:intonationParameters.pretonicRange + intonationParameters.notionalPitch + intonationParameters.tonicRange
+                [self addIntonationPoint:intonationParameters.pretonicRange + intonationParameters.notionalPitch + intonationParameters.tonicRange
                       offsetTime:0.0 slope:0.0 ruleIndex:ruleIndex];
             }
 
@@ -1089,8 +1089,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
     NSLog(@"<  %s", _cmd);
 }
 
-// TODO (2004-08-16): Renamed to addIntonationPoint:
-- (void)addPoint:(double)semitone offsetTime:(double)offsetTime slope:(double)slope ruleIndex:(int)ruleIndex;
+- (void)addIntonationPoint:(double)semitone offsetTime:(double)offsetTime slope:(double)slope ruleIndex:(int)ruleIndex;
 {
     IntonationPoint *newIntonationPoint;
 
