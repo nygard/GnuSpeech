@@ -15,6 +15,7 @@
 #import "MPostureCategoryController.h"
 #import "MPostureEditor.h"
 #import "MPrototypeManager.h"
+#import "MReleaseNotesController.h"
 #import "MRuleManager.h"
 #import "MRuleTester.h"
 #import "MSpecialTransitionEditor.h"
@@ -50,6 +51,7 @@
     [ruleManager release];
     [synthesisParameterEditor release];
     [synthesisController release];
+    [releaseNotesController release];
 
     [super dealloc];
 }
@@ -109,6 +111,7 @@
     [[self ruleManager] showWindowIfVisibleOnLaunch];
     [[self synthesisParameterEditor] showWindowIfVisibleOnLaunch];
     [[self synthesisController] showWindowIfVisibleOnLaunch];
+    [[self releaseNotesController] showWindowIfVisibleOnLaunch];
 
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shouldActivateOnLaunch"])
         [NSApp activateIgnoringOtherApps:YES];
@@ -131,6 +134,7 @@
     [[self synthesisController] saveWindowIsVisibleOnLaunch];
     //[[self intonationController] saveWindowIsVisibleOnLaunch];
     //[[self intonationParameterEditor] saveWindowIsVisibleOnLaunch];
+    [[self releaseNotesController] saveWindowIsVisibleOnLaunch];
 }
 
 - (void)displayInfoPanel:(id)sender;
@@ -637,6 +641,20 @@
 
     [specialTransitionEditor setTransition:aTransition];
     [specialTransitionEditor showWindow:self];
+}
+
+- (MReleaseNotesController *)releaseNotesController;
+{
+    if (releaseNotesController == nil)
+        releaseNotesController = [[MReleaseNotesController alloc] init];
+
+    return releaseNotesController;
+}
+
+- (IBAction)showReleaseNotes:(id)sender;
+{
+    [self releaseNotesController]; // Make sure it's been created
+    [releaseNotesController showWindow:self];
 }
 
 @end

@@ -2,7 +2,6 @@
     IBClasses = (
         {
             ACTIONS = {
-                archiveToDisk = id; 
                 displayInfoPanel = id; 
                 generateXML = id; 
                 importTRMData = id; 
@@ -19,6 +18,7 @@
                 showPostureCategoryWindow = id; 
                 showPostureEditor = id; 
                 showPrototypeManager = id; 
+                showReleaseNotes = id; 
                 showRuleManager = id; 
                 showRuleTester = id; 
                 showSpecialTransitionEditor = id; 

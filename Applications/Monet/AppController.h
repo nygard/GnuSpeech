@@ -21,7 +21,7 @@ History:
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 @class MModel, MMTransition;
-@class MDataEntryController, MPostureCategoryController, MPostureEditor, MPrototypeManager, MRuleManager, MRuleTester;
+@class MDataEntryController, MPostureCategoryController, MPostureEditor, MPrototypeManager, MReleaseNotesController, MRuleManager, MRuleTester;
 @class MSpecialTransitionEditor, MSynthesisController, MSynthesisParameterEditor, MTransitionEditor;
 
 @interface AppController : NSObject
@@ -41,6 +41,7 @@ History:
     MRuleManager *ruleManager;
     MSynthesisParameterEditor *synthesisParameterEditor;
     MSynthesisController *synthesisController;
+    MReleaseNotesController *releaseNotesController;
 }
 
 - (id)init;
@@ -110,5 +111,8 @@ History:
 
 - (void)editTransition:(MMTransition *)aTransition;
 - (void)editSpecialTransition:(MMTransition *)aTransition;
+
+- (MReleaseNotesController *)releaseNotesController;
+- (IBAction)showReleaseNotes:(id)sender;
 
 @end
