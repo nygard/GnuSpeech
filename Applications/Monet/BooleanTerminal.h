@@ -1,4 +1,4 @@
-#import <Foundation/NSObject.h>
+#import "MMBooleanNode.h"
 
 @class CategoryList, MMCategory;
 
@@ -34,7 +34,7 @@
 
 */
 
-@interface BooleanTerminal : NSObject
+@interface BooleanTerminal : MMBooleanNode
 {
     MMCategory *category;
     BOOL shouldMatchAll;

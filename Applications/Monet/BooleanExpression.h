@@ -1,4 +1,4 @@
-#import <Foundation/NSObject.h>
+#import "MMBooleanNode.h"
 
 @class CategoryList, MMCategory;
 
@@ -51,7 +51,7 @@
 #define AND_OP	3
 #define XOR_OP	4
 
-@interface BooleanExpression : NSObject
+@interface BooleanExpression : MMBooleanNode
 {
     int operation;
 
