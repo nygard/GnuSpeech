@@ -26,6 +26,7 @@
 #import "MDataEntryController.h"
 #import "MPostureEditor.h"
 #import "MPrototypeManager.h"
+#import "MSpecialTransitionEditor.h"
 #import "MTransitionEditor.h"
 
 @implementation AppController
@@ -55,6 +56,8 @@
     [dataEntryController release];
     [postureEditor release];
     [newPrototypeManager release];
+    [transitionEditor release];
+    [specialTransitionEditor release];
 
     [super dealloc];
 }
@@ -499,6 +502,26 @@
     NSLog(@"<  %s", _cmd);
 }
 
+- (MSpecialTransitionEditor *)specialTransitionEditor;
+{
+    if (specialTransitionEditor == nil) {
+        specialTransitionEditor = [[MSpecialTransitionEditor alloc] initWithModel:model];
+    }
+
+    return specialTransitionEditor;
+}
+
+- (IBAction)showSpecialTransitionEditor:(id)sender;
+{
+    NSLog(@" > %s", _cmd);
+
+    [self specialTransitionEditor]; // Make sure it's been created
+    [specialTransitionEditor setModel:model];
+    [specialTransitionEditor showWindow:self];
+
+    NSLog(@"<  %s", _cmd);
+}
+
 - (IBAction)generateXML:(id)sender;
 {
     [model generateXML:@""];
@@ -514,8 +537,10 @@
 
 - (void)editSpecialTransition:(MMTransition *)aTransition;
 {
-    //[specialTransitionBuilder setTransition:aTransition];
-    //[[specialTransitionBuilder window] makeKeyAndOrderFront:nil];
+    [self specialTransitionEditor]; // Make sure it's been created
+
+    [specialTransitionEditor setTransition:aTransition];
+    [specialTransitionEditor showWindow:self];
 }
 
 @end

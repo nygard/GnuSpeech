@@ -1,0 +1,37 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = MSpecialTransitionEditor; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = MTransitionEditor; 
+        }, 
+        {
+            CLASS = MTransitionEditor; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                controlParametersForm = NSForm; 
+                transitionNameTextField = NSTextField; 
+                transitionView = TransitionView; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = SpecialView; LANGUAGE = ObjC; SUPERCLASS = TransitionView; }, 
+        {
+            ACTIONS = {
+                delete = id; 
+                groupInSlopeRatio = id; 
+                takeBeatLocationFrom = id; 
+                takeMark1From = id; 
+                takeMark2From = id; 
+                takeMark3From = id; 
+                takeRuleDurationFrom = id; 
+            }; 
+            CLASS = TransitionView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {controller = AppController; }; 
+            SUPERCLASS = NSView; 
+        }
+    ); 
+    IBVersion = 1; 
+}

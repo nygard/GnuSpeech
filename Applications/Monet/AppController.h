@@ -1,5 +1,5 @@
 //
-// $Id: AppController.h,v 1.28 2004/03/22 19:09:52 nygard Exp $
+// $Id: AppController.h,v 1.29 2004/03/22 23:42:13 nygard Exp $
 //
 
 /*===========================================================================
@@ -28,7 +28,7 @@ History:
 @class CategoryList, ParameterList, PhoneList, StringParser, SymbolList;
 @class DefaultMgr, EventListView, Inspector, IntonationScrollView, PrototypeManager, RuleManager, SpecialView, TransitionView;
 @class MModel, MMTransition;
-@class MDataEntryController, MPostureEditor, MPrototypeManager, MTransitionEditor;
+@class MDataEntryController, MPostureEditor, MPrototypeManager, MSpecialTransitionEditor, MTransitionEditor;
 
 @interface AppController : NSObject
 {
@@ -62,6 +62,7 @@ History:
     MPostureEditor *postureEditor;
     MPrototypeManager *newPrototypeManager;
     MTransitionEditor *transitionEditor;
+    MSpecialTransitionEditor *specialTransitionEditor;
 }
 
 - (id)init;
@@ -93,7 +94,12 @@ History:
 - (IBAction)showNewDataEntryWindow:(id)sender;
 - (IBAction)showPostureEditor:(id)sender;
 - (IBAction)showPrototypeManager:(id)sender;
+
+- (MTransitionEditor *)transitionEditor;
 - (IBAction)showTransitionEditor:(id)sender;
+
+- (MSpecialTransitionEditor *)specialTransitionEditor;
+- (IBAction)showSpecialTransitionEditor:(id)sender;
 
 - (IBAction)generateXML:(id)sender;
 
