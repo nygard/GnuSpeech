@@ -15,10 +15,8 @@
 #import "PhoneList.h"
 #import "PrototypeManager.h"
 #import "RuleManager.h"
-#import "SpecialView.h"
 #import "StringParser.h"
 #import "SymbolList.h"
-#import "TransitionView.h"
 
 #import "MModel.h"
 #import "MUnarchiver.h"
@@ -80,8 +78,6 @@
 
     NXNameObject(@"ruleManager", ruleManager, NSApp);
     NXNameObject(@"prototypeManager", prototypeManager, NSApp);
-    NXNameObject(@"transitionBuilder", transitionBuilder, NSApp);
-    NXNameObject(@"specialTransitionBuilder", specialTransitionBuilder, NSApp);
     NXNameObject(@"intonationView", intonationView, NSApp);
     NXNameObject(@"stringParser", stringParser, NSApp);
 
@@ -153,19 +149,15 @@
     //[model generateXML:@"DefaultPrototypes"];
 
     [ruleManager applicationDidFinishLaunching:aNotification];
-    //[transitionBuilder applicationDidFinishLaunching:aNotification]; // not connected yet
-    //[specialTransitionBuilder applicationDidFinishLaunching:aNotification]; // not connected yet
     [eventListView applicationDidFinishLaunching:aNotification]; // not connected yet
     [intonationView applicationDidFinishLaunching:aNotification]; // not connected yet
 
     [stringParser applicationDidFinishLaunching:aNotification];
 
-    [transitionWindow setFrameAutosaveName:@"TransitionWindow"];
     [ruleManagerWindow setFrameAutosaveName:@"RuleManagerWindow"];
     [ruleParserWindow setFrameAutosaveName:@"RuleParserWindow"];
     [prototypeWindow setFrameAutosaveName:@"PrototypeManagerWindow"];
     [synthesisWindow setFrameAutosaveName:@"SynthesisWindow"];
-    [specialWindow setFrameAutosaveName:@"SpecialTransitionWindow"];
     [synthParmWindow setFrameAutosaveName:@"SynthParameterWindow"];
 
     NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
@@ -335,9 +327,6 @@
                 [newPrototypeManager setModel:model];
                 [transitionEditor setModel:model];
                 [specialTransitionEditor setModel:model];
-
-                //[transitionBuilder applicationDidFinishLaunching:nil];
-                //[specialTransitionBuilder applicationDidFinishLaunching:nil];
 
                 [stream release];
 #ifdef PORTING

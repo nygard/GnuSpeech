@@ -31,13 +31,9 @@
                 ruleManager = RuleManager; 
                 ruleManagerWindow = NSWindow; 
                 ruleParserWindow = NSWindow; 
-                specialTransitionBuilder = SpecialView; 
-                specialWindow = NSWindow; 
                 stringParser = StringParser; 
                 synthParmWindow = NSWindow; 
                 synthesisWindow = NSWindow; 
-                transitionBuilder = TransitionView; 
-                transitionWindow = NSWindow; 
             }; 
             SUPERCLASS = NSObject; 
         }, 
