@@ -95,8 +95,6 @@
     double ruleSymbols[5] = {0.0, 0.0, 0.0, 0.0, 0.0};
     NSString *posture1Name, *posture2Name, *posture3Name, *posture4Name;
 
-    NSLog(@" > %s", _cmd);
-
     testCategoryLists = [[[MonetList alloc] initWithCapacity:4] autorelease];
     testPostures = [[[MonetList alloc] initWithCapacity:4] autorelease];
     mainPhoneList = [model postures];
@@ -180,15 +178,11 @@
     [self clearOutput];
     [ruleOutputTextField setStringValue:@"Cannot find rule"];
     [consumedTokensTextField setIntValue:0];
-
-    NSLog(@"<  %s", _cmd);
 }
 
 - (IBAction)shiftPosturesLeft:(id)sender;
 {
     NSString *p2, *p3, *p4;
-
-    NSLog(@" > %s", _cmd);
 
     p2 = [[posture2Form cellAtIndex:0] stringValue];
     p3 = [[posture3Form cellAtIndex:0] stringValue];
@@ -198,8 +192,6 @@
     [[posture2Form cellAtIndex:0] setStringValue:p3];
     [[posture3Form cellAtIndex:0] setStringValue:p4];
     [[posture4Form cellAtIndex:0] setStringValue:@""];
-
-    NSLog(@"<  %s", _cmd);
 }
 
 @end
