@@ -1461,8 +1461,6 @@
 				01F6E26C060EA6470073E196,
 				01B2FFF205F6DF1B00C1F65D,
 				01B2FFF305F6DF1B00C1F65D,
-				0195DB1105F46DE6006D8386,
-				0195DB1205F46DE6006D8386,
 				0195DB1B05F46E4E006D8386,
 				0195DB1C05F46E4E006D8386,
 				01B2005905F6E9F800C1F65D,
@@ -1472,22 +1470,6 @@
 			);
 			isa = PBXGroup;
 			name = Controllers;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0195DB1105F46DE6006D8386 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = DefaultMgr.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0195DB1205F46DE6006D8386 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = DefaultMgr.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
