@@ -775,7 +775,7 @@ static void page_consumed(void)
     int index = 0;
     int i, j, rus;
     int ruleIndex;
-    RuleList *ruleList = [(RuleManager *)NXGetNamedObject(@"ruleManager", NSApp) ruleList];
+    RuleList *ruleList = NXGetNamedObject(@"rules", NSApp);
     MMRule *tempRule;
     ParameterList *mainParameterList = (ParameterList *) NXGetNamedObject(@"mainParameterList", NSApp);
     MMParameter *tempParameter = nil;
