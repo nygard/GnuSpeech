@@ -200,7 +200,6 @@
     float currentMin, currentMax;
     ParameterList *parameterList = NXGetNamedObject(@"mainParameterList", NSApp);
     Event *currentEvent;
-    char string[256];
     Phone *currentPhone = nil;
     struct _rule *rule;
 
@@ -240,30 +239,26 @@
     for (i = 0; i < j; i++) {
         NSRectFill(NSMakeRect(80.0, [self frame].size.height-(50.0+(float)(i+1)*TRACKHEIGHT), [self frame].size.width - 100.0, BORDERHEIGHT));
     }
-    PSstroke();
 
     [[NSColor blackColor] set];
     [timesFont set];
     for (i = 0; i < j; i++) {
         id anObject;
 
-        PSmoveto(15.0, [self frame].size.height-((float)(i+1)*TRACKHEIGHT)+15.0);
         anObject = [parameterList objectAtIndex:[[displayList objectAtIndex:i] orderTag]];
-        sprintf(string,"%s", [[anObject symbol] cString]);
-        PSshow(string);
+        [[anObject symbol] drawAtPoint:NSMakePoint(15.0, [self frame].size.height-((float)(i+1)*TRACKHEIGHT)+15.0) withAttributes:nil];
     }
-    PSstroke();
 
     [timesFontSmall set];
     for (i = 0; i < j; i++) {
-        PSmoveto(55.0, [self frame].size.height-(50.0+(float)(i+1)*TRACKHEIGHT) + BORDERHEIGHT);
-        sprintf(string,"%d", (int)[[parameterList objectAtIndex:[[displayList objectAtIndex:i] orderTag]] minimumValue]);
-        PSshow(string);
-        PSmoveto(55.0, [self frame].size.height-(50.0+(float)(i)*TRACKHEIGHT+3.0));
-        sprintf(string,"%d", (int)[[parameterList objectAtIndex:[[displayList objectAtIndex:i] orderTag]] maximumValue]);
-        PSshow(string);
+        NSString *str;
+
+        str = [NSString stringWithFormat:@"%d", (int)[[parameterList objectAtIndex:[[displayList objectAtIndex:i] orderTag]] minimumValue]];
+        [str drawAtPoint:NSMakePoint(55.0, [self frame].size.height-(50.0+(float)(i+1)*TRACKHEIGHT) + BORDERHEIGHT) withAttributes:nil];
+
+        str = [NSString stringWithFormat:@"%d", (int)[[parameterList objectAtIndex:[[displayList objectAtIndex:i] orderTag]] maximumValue]];
+        [str drawAtPoint:NSMakePoint(55.0, [self frame].size.height-(50.0+(float)(i)*TRACKHEIGHT+3.0)) withAttributes:nil];
     }
-    PSstroke();
 
     [timesFont set];
     PSsetlinewidth(1.0);
@@ -275,10 +270,9 @@
 
         if ([[eventList objectAtIndex:i] flag]) {
             [[NSColor blackColor] set];
-            PSmoveto(currentX-5.0, [self frame].size.height-42.0);
             currentPhone = [eventList getPhoneAtIndex:phoneIndex++];
             if (currentPhone)
-                PSshow([currentPhone symbol]);
+                [[currentPhone symbol] drawAtPoint:NSMakePoint(currentX-5.0, [self frame].size.height-42.0) withAttributes:nil];
             PSmoveto(currentX, [self frame].size.height-(50.0+(float)(j)*TRACKHEIGHT));
             PSlineto(currentX, [self frame].size.height-50.0);
         } else {
@@ -334,17 +328,17 @@
     [timesFontSmall set];
     currentX = 0;
     for (i = 0; i < [eventList numberOfRules]; i++) {
+        NSString *str;
+
         rule = [eventList getRuleAtIndex:i];
         drawFrame.origin.x = 80.0+currentX;
         drawFrame.origin.y = [self frame].size.height-25.0;
         drawFrame.size.height = 15.0;
         drawFrame.size.width = (float)rule->duration/timeScale;
         NSDrawWhiteBezel(drawFrame , drawFrame);
-        PSmoveto(80.0+currentX+(float)rule->duration/(3*timeScale), [self frame].size.height-21.0); ;
-        sprintf(string, "%d", rule->number);
         [[NSColor blackColor] set];
-        PSshow(string);
-        PSstroke();
+        str = [NSString stringWithFormat:@"%d", rule->number];
+        [str drawAtPoint:NSMakePoint(80.0+currentX+(float)rule->duration/(3*timeScale), [self frame].size.height-21.0) withAttributes:nil];
         currentX += (float)rule->duration/timeScale;
     }
 

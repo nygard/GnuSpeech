@@ -438,7 +438,6 @@
     float drawHeight;
     float increment[7] = {0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10.0};
     Event  *lastEvent;
-    char string[256];
     Phone *currentPhone = nil;
     struct _rule *rule;
 
@@ -473,10 +472,9 @@
 
         if ([[eventList objectAtIndex:i] flag]) {
             [[NSColor blackColor] set];
-            PSmoveto(currentX-5.0, [self frame].size.height-62.0);
             currentPhone = [eventList getPhoneAtIndex:phoneIndex++];
             if (currentPhone)
-                PSshow([currentPhone symbol]);
+                [[currentPhone symbol] drawAtPoint:NSMakePoint(currentX-5.0, [self frame].size.height-62.0) withAttributes:nil];
         }
         if (!mouseBeingDragged)
             PSstroke();
@@ -487,6 +485,7 @@
     [timesFontSmall set];
     currentX = 0;
     for (i = 0; i < [eventList numberOfRules]; i++) {
+        NSString *str;
         rule = [eventList getRuleAtIndex:i];
         drawFrame.origin.x = currentX;
         drawFrame.origin.y = [self frame].size.height-40.0;
@@ -494,14 +493,12 @@
         drawFrame.size.width = (float)rule->duration / timeScale;
         NSDrawWhiteBezel(drawFrame , drawFrame);
         [[NSColor blackColor] set];
-        PSmoveto(currentX+(float)rule->duration/(3*timeScale), [self frame].size.height-21.0);
-        sprintf(string, "%d", rule->number);
-        PSshow(string);
 
-        PSmoveto(currentX+(float)rule->duration/(3*timeScale), [self frame].size.height-35.0);
-        sprintf(string, "%.2f", rule->duration);
-        PSshow(string);
-        PSstroke();
+        str = [NSString stringWithFormat:@"%d", rule->number];
+        [str drawAtPoint:NSMakePoint(currentX+(float)rule->duration/(3*timeScale), [self frame].size.height-21.0) withAttributes:nil];
+
+        str = [NSString stringWithFormat:@"%.2f", rule->duration];
+        [str drawAtPoint:NSMakePoint(currentX+(float)rule->duration/(3*timeScale), [self frame].size.height-35.0) withAttributes:nil];
 
         [[NSColor darkGrayColor] set];
         PSmoveto((float)rule->beat/timeScale, [self frame].size.height-62.0);

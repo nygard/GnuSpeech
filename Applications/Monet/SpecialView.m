@@ -123,16 +123,15 @@
     [[NSColor blackColor] set];
     PSsetlinewidth(1.0);
 
-    for (i = 1; i < 14; i++)
-    {
+    for (i = 1; i < 14; i++) {
+        NSString *label;
+
         PSmoveto(50.0, (float)i*temp + 50.0);
         PSlineto([self frame].size.width - 50.0,  (float)i*temp + 50.0);
 
-        sprintf(tempLabel, "%4d%%", (i-7)*20);
-        PSmoveto(16.0, (float)i*temp + 45.0);
-        PSshow(tempLabel);
-        PSmoveto([self frame].size.width - 47.0, (float)i*temp + 45.0);
-        PSshow(tempLabel);
+        label = [NSString stringWithFormat:@"%4d%%", (i-7) * 20];
+        [label drawAtPoint:NSMakePoint(16, (float)i*temp + 45.0) withAttributes:nil];
+        [label drawAtPoint:NSMakePoint([self frame].size.width - 47.0, (float)i*temp + 45.0) withAttributes:nil];
     }
 
     PSstroke();

@@ -110,7 +110,6 @@
 - (void)drawGrid;
 {
     int i;
-    char tempLabel[25];
     float temp = ([self frame].size.height - 100.0)/14.0;
 
     [[NSColor lightGrayColor] set];
@@ -134,14 +133,14 @@
     PSsetlinewidth(1.0);
 
     for (i = 1; i < 14; i++) {
+        NSString *label;
+
         PSmoveto(50.0, (float)i*temp + 50.0);
         PSlineto([self frame].size.width - 50.0,  (float)i*temp + 50.0);
 
-        sprintf(tempLabel, "%4d%%", (i-2)*10);
-        PSmoveto(16.0, (float)i*temp + 45.0);
-        PSshow(tempLabel);
-        PSmoveto([self frame].size.width - 47.0, (float)i*temp + 45.0);
-        PSshow(tempLabel);
+        label = [NSString stringWithFormat:@"%4d%%", (i-2)*10];
+        [label drawAtPoint:NSMakePoint(16.0, (float)i*temp + 45.0) withAttributes:nil];
+        [label drawAtPoint:NSMakePoint([self frame].size.width - 47.0, (float)i*temp + 45.0) withAttributes:nil];
     }
     PSstroke();
 }
@@ -337,7 +336,6 @@
     SlopeRatio *currentPoint;
     MonetList *slopes, *points;
     float timeScale = ([self frame].size.width - 100.0) / [[displayParameters cellAtIndex:0] floatValue];
-    char buffer[24];
 
     for (i = 0; i < [[currentTemplate points] count]; i++) {
         currentPoint = [[currentTemplate points] objectAtIndex:i];
@@ -352,12 +350,13 @@
             slopes = [currentPoint slopes];
             points = [currentPoint points];
             for (j = 0; j < [slopes count]; j++) {
-                bzero(buffer,24);
-                sprintf(buffer, "%.1f", [[slopes objectAtIndex:j] slope]);
-                printf("Buffer = %s\n", buffer);
+                NSString *str;
+
+                str = [NSString stringWithFormat:@"%.1f", [[slopes objectAtIndex:j] slope]];
+                NSLog(@"Buffer = %@", str);
+
                 [[NSColor blackColor] set];
-                PSmoveto(([[[points objectAtIndex:j] expression] cacheValue])*timeScale + 55.0, 16);
-                PSshow(buffer);
+                [str drawAtPoint:NSMakePoint(([[[points objectAtIndex:j] expression] cacheValue])*timeScale + 55.0, 16) withAttributes:nil];
                 PSstroke();
             }
         }
