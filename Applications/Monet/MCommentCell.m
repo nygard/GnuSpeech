@@ -19,6 +19,7 @@ static NSImage *_commentIcon = nil;
     _commentIcon = [[NSImage alloc] initWithContentsOfFile:path];
 }
 
+// TODO (2004-08-24): Double clicking on the icon in the rule manager copies the cell, which calls -setObjectValue: with a non-NSNumber value, raising a "selector not recognized" exception.
 - (void)setObjectValue:(id)newObjectValue;
 {
     if ([newObjectValue boolValue] == YES)
