@@ -113,7 +113,7 @@
 {
     //[self clearView];
     [self drawGrid];
-    [[self enclosingScrollView] reflectScrolledClipView:[self superview]];
+    [[self enclosingScrollView] reflectScrolledClipView:(NSClipView *)[self superview]];
 }
 
 - (void)clearView;
