@@ -3422,6 +3422,7 @@
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = Monet;
 				SECTORDER_FLAGS = "";
+				UNSTRIPPED_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
 				WRAPPER_EXTENSION = app;
