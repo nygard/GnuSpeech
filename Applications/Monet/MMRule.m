@@ -472,6 +472,8 @@
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level number:(int)aNumber;
 {
+    unsigned int index;
+
     [resultString indentToLevel:level];
     if (aNumber == -1)
         [resultString appendFormat:@"<rule>\n"];
@@ -479,7 +481,20 @@
         [resultString appendFormat:@"<rule number=\"%d\">\n", aNumber];
 
     [resultString indentToLevel:level + 1];
-    [resultString appendFormat:@"<boolean-expression>%@</boolean-expression>\n", [self ruleString]];
+    [resultString appendString:@"<boolean-expressions>\n"];
+
+    for (index = 0; index < 4; index++) {
+        NSString *str;
+
+        str = [expressions[index] expressionString];
+        if (str != nil) {
+            [resultString indentToLevel:level + 2];
+            [resultString appendFormat:@"<boolean-expression>%@</boolean-expression>\n", str];
+        }
+    }
+
+    [resultString indentToLevel:level + 1];
+    [resultString appendString:@"</boolean-expressions>\n"];
 
     if (comment != nil) {
         [resultString indentToLevel:level + 1];

@@ -93,9 +93,10 @@
 
 <!-- Rules -->
 
-<!ELEMENT rule (boolean-expression, comment?, parameter-profiles, special-profiles?, expression-symbols)>
+<!ELEMENT rule (boolean-expressions, comment?, parameter-profiles, special-profiles?, expression-symbols)>
 <!ATTLIST rule number CDATA #IMPLIED> <!-- Temporary -->
 
+<!ELEMENT boolean-expressions (boolean-expression*)>
 <!ELEMENT boolean-expression (#PCDATA)>
 
 <!ELEMENT parameter-profiles (parameter-transition*)>
