@@ -733,10 +733,12 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     parameters = [[aDecoder decodeObject] retain];
     //NSLog(@"parameters: %@", parameters);
     //NSLog(@"parameters: %d", [parameters count]);
+    [parameters makeObjectsPerformSelector:@selector(setModel:) withObject:self];
 
     metaParameters = [[aDecoder decodeObject] retain];
     //NSLog(@"metaParameters: %@", metaParameters);
     //NSLog(@"metaParameters: %d", [metaParameters count]);
+    [metaParameters makeObjectsPerformSelector:@selector(setModel:) withObject:self];
 
     postures = [[aDecoder decodeObject] retain];
     //NSLog(@"postures: %@", postures);
@@ -1288,14 +1290,14 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     parameterIndex = [parameters indexOfObject:aParameter];
     if (parameterIndex != NSNotFound) {
         for (index = 0; index < count; index++) {
-            [[[[postures objectAtIndex:index] parameterList] objectAtIndex:parameterIndex] changeDefaultValueFrom:oldDefaultValue to:newDefaultValue];
+            [[[[postures objectAtIndex:index] parameterTargets] objectAtIndex:parameterIndex] changeDefaultValueFrom:oldDefaultValue to:newDefaultValue];
         }
     }
 
     parameterIndex = [metaParameters indexOfObject:aParameter];
     if (parameterIndex != NSNotFound) {
         for (index = 0; index < count; index++) {
-            [[[[postures objectAtIndex:index] metaParameterList] objectAtIndex:parameterIndex] changeDefaultValueFrom:oldDefaultValue to:newDefaultValue];
+            [[[[postures objectAtIndex:index] metaParameterTargets] objectAtIndex:parameterIndex] changeDefaultValueFrom:oldDefaultValue to:newDefaultValue];
         }
     }
 }

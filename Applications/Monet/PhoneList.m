@@ -188,7 +188,7 @@
             break;
         }
 
-        tempTargets = [aPhone parameterList];
+        tempTargets = [aPhone parameterTargets];
 
         /*  Get the values of the needed parameters  */
         aValue = [myData glotPitch];

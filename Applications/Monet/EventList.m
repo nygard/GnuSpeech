@@ -891,10 +891,10 @@ static void page_consumed(void)
     /* Loop through the parameters */
     for (i = 0; i < [tempTargets count]; i++) {
         /* Get actual parameter target values */
-        targets[0] = [(MMTarget *)[[[phoneList objectAtIndex:0] parameterList] objectAtIndex:i] value];
-        targets[1] = [(MMTarget *)[[[phoneList objectAtIndex:1] parameterList] objectAtIndex:i] value];
-        targets[2] = [(MMTarget *)[[[phoneList objectAtIndex:2] parameterList] objectAtIndex:i] value];
-        targets[3] = [(MMTarget *)[[[phoneList objectAtIndex:3] parameterList] objectAtIndex:i] value];
+        targets[0] = [(MMTarget *)[[[phoneList objectAtIndex:0] parameterTargets] objectAtIndex:i] value];
+        targets[1] = [(MMTarget *)[[[phoneList objectAtIndex:1] parameterTargets] objectAtIndex:i] value];
+        targets[2] = [(MMTarget *)[[[phoneList objectAtIndex:2] parameterTargets] objectAtIndex:i] value];
+        targets[3] = [(MMTarget *)[[[phoneList objectAtIndex:3] parameterTargets] objectAtIndex:i] value];
 
         //NSLog(@"Targets %f %f %f %f", targets[0], targets[1], targets[2], targets[3]);
 
