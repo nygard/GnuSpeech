@@ -1,5 +1,5 @@
 //
-// $Id: AppController.h,v 1.44 2004/04/02 03:37:16 nygard Exp $
+// $Id: AppController.h,v 1.45 2004/04/02 03:40:01 nygard Exp $
 //
 
 /*===========================================================================
@@ -37,7 +37,7 @@ History:
 
     MDataEntryController *dataEntryController;
     MPostureEditor *postureEditor;
-    MPrototypeManager *newPrototypeManager;
+    MPrototypeManager *prototypeManager;
     MTransitionEditor *transitionEditor;
     MSpecialTransitionEditor *specialTransitionEditor;
     MRuleTester *ruleTester;

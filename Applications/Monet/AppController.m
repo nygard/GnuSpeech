@@ -46,7 +46,7 @@
 
     [dataEntryController release];
     [postureEditor release];
-    [newPrototypeManager release];
+    [prototypeManager release];
     [transitionEditor release];
     [specialTransitionEditor release];
     [ruleTester release];
@@ -295,7 +295,7 @@
 
             [dataEntryController setModel:model];
             [postureEditor setModel:model];
-            [newPrototypeManager setModel:model];
+            [prototypeManager setModel:model];
             [transitionEditor setModel:model];
             [specialTransitionEditor setModel:model];
             [ruleTester setModel:model];
@@ -402,12 +402,12 @@
 
 - (IBAction)showPrototypeManager:(id)sender;
 {
-    if (newPrototypeManager == nil) {
-        newPrototypeManager = [[MPrototypeManager alloc] initWithModel:model];
+    if (prototypeManager == nil) {
+        prototypeManager = [[MPrototypeManager alloc] initWithModel:model];
     }
 
-    [newPrototypeManager setModel:model];
-    [newPrototypeManager showWindow:self];
+    [prototypeManager setModel:model];
+    [prototypeManager showWindow:self];
 }
 
 - (MTransitionEditor *)transitionEditor;
