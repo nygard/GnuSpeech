@@ -532,6 +532,10 @@
 {
 }
 
+// Single click selects an intonation point
+// Control clicking and then dragging adjusts the scale
+// Rubberband selection of multiple points
+// Double-clicking adds intonation point?
 - (void)mouseDown:(NSEvent *)theEvent;
 {
 #ifdef PORTING
