@@ -418,8 +418,8 @@ void initializeNasalFilterCoefficients(double coeff);
 double nasalReflectionFilter(double input);
 double nasalRadiationFilter(double input);
 void addInput(double glotPitch, double glotVol, double aspVol, double fricVol,
-	      double fricPos, double fricCF, double fricBW, double *radius,
-	      double velum);
+              double fricPos, double fricCF, double fricBW, double *radius,
+              double velum);
 INPUT *newInputTable(void);
 double glotPitchAt(INPUT *ptr);
 double glotVolAt(INPUT *ptr);
@@ -448,21 +448,21 @@ double throat(double input);
 double bandpassFilter(double input);
 void writeOutputToFile(char *fileName);
 void writeAuFileHeader(int channels, long int numberSamples,
-		       float outputRate, FILE *outputFile);
+                       float outputRate, FILE *outputFile);
 void writeAiffFileHeader(int channels, long int numberSamples,
-			 float outputRate, FILE *outputFile);
+                         float outputRate, FILE *outputFile);
 void writeWaveFileHeader(int channels, long int numberSamples,
-			 float outputRate, FILE *outputFile);
+                         float outputRate, FILE *outputFile);
 void writeSamplesMonoMsb(FILE *tempFile, long int numberSamples,
-			 double scale, FILE *outputFile);
+                         double scale, FILE *outputFile);
 void writeSamplesMonoLsb(FILE *tempFile, long int numberSamples,
-			 double scale, FILE *outputFile);
+                         double scale, FILE *outputFile);
 void writeSamplesStereoMsb(FILE *tempFile, long int numberSamples,
-			   double leftScale, double rightScale,
-			   FILE *outputFile);
+                           double leftScale, double rightScale,
+                           FILE *outputFile);
 void writeSamplesStereoLsb(FILE *tempFile, long int numberSamples,
-			   double leftScale, double rightScale,
-			   FILE *outputFile);
+                           double leftScale, double rightScale,
+                           FILE *outputFile);
 size_t fwriteIntMsb(int data, FILE *stream);
 size_t fwriteIntLsb(int data, FILE *stream);
 size_t fwriteShortMsb(int data, FILE *stream);
@@ -473,7 +473,7 @@ double frequency(double pitch);
 int maximallyFlat(double beta, double gamma, int *np, double *coefficient);
 void trim(double cutoff, int *numberCoefficients, double *coefficient);
 void rationalApproximation(double number, int *order, int *numerator,
-			   int *denominator);
+                           int *denominator);
 double FIRFilter(double input, int needOutput);
 int increment(int pointer, int modulus);
 int decrement(int pointer, int modulus);
@@ -492,18 +492,18 @@ void srDecrement(int *pointer, int modulus);
 
 /******************************************************************************
 *
-*	function:	main
+*       function:       main
 *
-*	purpose:	Controls overall execution.
+*       purpose:        Controls overall execution.
 *
 *       arguments:      inputFile, outputFile
 *
-*	internal
-*	functions:	parseInputFile, initializeSynthesizer, printInfo,
+*       internal
+*       functions:      parseInputFile, initializeSynthesizer, printInfo,
 *                       synthesize, flushBuffer, writeOutputToFile
 *
-*	library
-*	functions:	strcpy, fprintf, exit, printf, fflush
+*       library
+*       functions:      strcpy, fprintf, exit, printf, fflush
 *
 ******************************************************************************/
 
@@ -511,17 +511,17 @@ int main(int argc, char *argv[])
 {
     /*  PARSE THE COMMAND LINE  */
     if (argc == 3) {
-	strcpy(inputFile,argv[1]);
-	strcpy(outputFile,argv[2]);
+        strcpy(inputFile,argv[1]);
+        strcpy(outputFile,argv[2]);
     }
     else if ((argc == 4) && (!strcmp("-v", argv[1]))) {
-	verbose = TRUE;
-	strcpy(inputFile,argv[2]);
-	strcpy(outputFile,argv[3]);
+        verbose = TRUE;
+        strcpy(inputFile,argv[2]);
+        strcpy(outputFile,argv[3]);
     }
     else {
-	fprintf(stderr, "Usage:  %s [-v] inputFile outputFile\n", argv[0]);
-	exit(-1);
+        fprintf(stderr, "Usage:  %s [-v] inputFile outputFile\n", argv[0]);
+        exit(-1);
     }
 
 #ifdef SHARK
@@ -534,30 +534,30 @@ int main(int argc, char *argv[])
 
     /*  PARSE THE INPUT FILE FOR INPUT INFORMATION  */
     if (parseInputFile(inputFile) == ERROR) {
-	fprintf(stderr, "Aborting...\n");
-	exit(-1);
+        fprintf(stderr, "Aborting...\n");
+        exit(-1);
     }
 
     /*  INITIALIZE THE SYNTHESIZER  */
     if (initializeSynthesizer() == ERROR) {
-	fprintf(stderr, "Aborting...\n");
-	exit(-1);
+        fprintf(stderr, "Aborting...\n");
+        exit(-1);
     }
 
     /*  PRINT OUT PARAMETER INFORMATION  */
     if (verbose)
-	printInfo();
+        printInfo();
 
     /*  PRINT OUT CALCULATING MESSAGE  */
     if (verbose) {
-	printf("\nCalculating floating point samples...");
-	fflush(stdout);
+        printf("\nCalculating floating point samples...");
+        fflush(stdout);
     }
 
     /*  SYNTHESIZE THE SPEECH  */
     if (verbose) {
-	printf("\nStarting synthesis\n");
-	fflush(stdout);
+        printf("\nStarting synthesis\n");
+        fflush(stdout);
     }
     synthesize();
 
@@ -566,14 +566,14 @@ int main(int argc, char *argv[])
 
     /*  PRINT OUT DONE MESSAGE  */
     if (verbose)
-	printf("done.\n");
+        printf("done.\n");
 
     /*  OUTPUT SAMPLES TO OUTPUT FILE  */
     writeOutputToFile(outputFile);
 
     /*  PRINT OUT FINISHED MESSAGE  */
     if (verbose)
-	printf("\nWrote scaled samples to file:  %s\n", outputFile);
+        printf("\nWrote scaled samples to file:  %s\n", outputFile);
 
 #ifdef SHARK
     {
@@ -590,19 +590,19 @@ int main(int argc, char *argv[])
 
 /******************************************************************************
 *
-*	function:	printInfo
+*       function:       printInfo
 *
-*	purpose:	Prints pertinent variables to standard output.
+*       purpose:        Prints pertinent variables to standard output.
 *
 *       arguments:      none
 *
-*	internal
-*	functions:	glotPitchAt, glotVolAt, aspVolAt, fricVolAt,
+*       internal
+*       functions:      glotPitchAt, glotVolAt, aspVolAt, fricVolAt,
 *                       fricPosAt, fricCFAt, fricBWAt, radiusAtRegion,
 *                       velumAt
 *
-*	library
-*	functions:	printf
+*       library
+*       functions:      printf
 *
 ******************************************************************************/
 
@@ -632,9 +632,9 @@ void printInfo(void)
 
     printf("waveform:\t\t");
     if (waveform == PULSE)
-	printf("pulse\n");
+        printf("pulse\n");
     else if (waveform == SINE)
-	printf("sine\n");
+        printf("sine\n");
     printf("tp:\t\t\t%.2f%%\n", tp);
     printf("tnMin:\t\t\t%.2f%%\n", tnMin);
     printf("tnMax:\t\t\t%.2f%%\n", tnMax);
@@ -649,29 +649,29 @@ void printInfo(void)
     printf("noseCoef:\t\t%.1f Hz\n\n", noseCoef);
 
     for (i = 1; i < TOTAL_NASAL_SECTIONS; i++)
-	printf("n%-d:\t\t\t%.2f cm\n", i, noseRadius[i]);
+        printf("n%-d:\t\t\t%.2f cm\n", i, noseRadius[i]);
 
     printf("\nthroatCutoff:\t\t%.1f Hz\n", throatCutoff);
     printf("throatVol:\t\t%.2f dB\n\n", throatVol);
 
     printf("modulation:\t\t");
     if (modulation)
-	printf("on\n");
+        printf("on\n");
     else
-	printf("off\n");
+        printf("off\n");
     printf("mixOffset:\t\t%.2f dB\n\n", mixOffset);
 
     /*  PRINT OUT DERIVED VALUES  */
     printf("\nactual tube length:\t%.4f cm\n", actualTubeLength);
     printf("internal sample rate:\t%-d Hz\n", sampleRate);
     printf("control period:\t\t%-d samples (%.4f seconds)\n\n",
-	   controlPeriod, (float)controlPeriod/(float)sampleRate);
+           controlPeriod, (float)controlPeriod/(float)sampleRate);
 
 #if DEBUG
     /*  PRINT OUT WAVE TABLE VALUES  */
     printf("\n");
     for (i = 0; i < TABLE_LENGTH; i++)
-	printf("table[%-d] = %.4f\n", i, wavetable[i]);
+        printf("table[%-d] = %.4f\n", i, wavetable[i]);
 #endif
 
     /*  ECHO TABLE VALUES  */
@@ -686,23 +686,23 @@ void printInfo(void)
     printf("\tfricCF");
     printf("\tfricBW");
     for (i = 1; i <= TOTAL_REGIONS; i++)
-	printf("\tr%-d", i);
+        printf("\tr%-d", i);
     printf("\tvelum\n");
 
     /*  ACTUAL VALUES  */
     ptr = inputHead;
     for (i = 0; i < numberInputTables-1; i++) {
-	int j;
-	printf("%.2f", glotPitchAt(ptr));
-	printf("\t%.2f", glotVolAt(ptr));
-	printf("\t%.2f", aspVolAt(ptr));
-	printf("\t%.2f", fricVolAt(ptr));
-	printf("\t%.2f", fricPosAt(ptr));
-	printf("\t%.2f", fricCFAt(ptr));
-	printf("\t%.2f", fricBWAt(ptr));
-	for (j = 0; j < TOTAL_REGIONS; j++)
-	    printf("\t%.2f", radiusAtRegion(ptr, j));
-	printf("\t%.2f\n", velumAt(ptr));
+        int j;
+        printf("%.2f", glotPitchAt(ptr));
+        printf("\t%.2f", glotVolAt(ptr));
+        printf("\t%.2f", aspVolAt(ptr));
+        printf("\t%.2f", fricVolAt(ptr));
+        printf("\t%.2f", fricPosAt(ptr));
+        printf("\t%.2f", fricCFAt(ptr));
+        printf("\t%.2f", fricBWAt(ptr));
+        for (j = 0; j < TOTAL_REGIONS; j++)
+            printf("\t%.2f", radiusAtRegion(ptr, j));
+        printf("\t%.2f\n", velumAt(ptr));
         ptr = ptr->next;
     }
     printf("\n");
@@ -712,19 +712,19 @@ void printInfo(void)
 
 /******************************************************************************
 *
-*	function:	parseInputFile
+*       function:       parseInputFile
 *
-*	purpose:	Parses the input file and assigns values to global
+*       purpose:        Parses the input file and assigns values to global
 *                       variables.
 *
 *       arguments:      inputFile
 *
-*	internal
-*	functions:	addInput, glotPitchAt, glotVolAt, aspVolAt, fricVolAt,
+*       internal
+*       functions:      addInput, glotPitchAt, glotVolAt, aspVolAt, fricVolAt,
 *                       fricPosAt, fricCFAt, fricBWAt, radiiAt, velumAt
 *
-*	library
-*	functions:	fopen, fprintf, fgets, strtol, strod, fclose
+*       library
+*       functions:      fopen, fprintf, fgets, strtol, strod, fclose
 *
 ******************************************************************************/
 
@@ -737,229 +737,229 @@ int parseInputFile(const char *inputFile)
 
     /*  OPEN THE INPUT FILE  */
     if ((fp = fopen(inputFile, "r")) == NULL) {
-	fprintf(stderr, "Can't open input file \"%s\".\n", inputFile);
-	return (ERROR);
+        fprintf(stderr, "Can't open input file \"%s\".\n", inputFile);
+        return (ERROR);
     }
 
 
     /*  GET THE OUTPUT FILE FORMAT  */
     if (fgets(line, 128, fp) == NULL) {
-	fprintf(stderr, "Can't read output file format.\n");
-	return(ERROR);
+        fprintf(stderr, "Can't read output file format.\n");
+        return(ERROR);
     }
     else
-	outputFileFormat = strtol(line, NULL, 10);
+        outputFileFormat = strtol(line, NULL, 10);
 
     /*  GET THE OUTPUT SAMPLE RATE  */
     if (fgets(line, 128, fp) == NULL) {
-	fprintf(stderr, "Can't read output sample rate.\n");
-	return(ERROR);
+        fprintf(stderr, "Can't read output sample rate.\n");
+        return(ERROR);
     }
     else
-	outputRate = strtod(line, NULL);
+        outputRate = strtod(line, NULL);
 
     /*  GET THE INPUT CONTROL RATE  */
     if (fgets(line, 128, fp) == NULL) {
-	fprintf(stderr, "Can't read input control rate.\n");
-	return(ERROR);
+        fprintf(stderr, "Can't read input control rate.\n");
+        return(ERROR);
     }
     else
-	controlRate = strtod(line, NULL);
+        controlRate = strtod(line, NULL);
 
 
     /*  GET THE MASTER VOLUME  */
     if (fgets(line, 128, fp) == NULL) {
-	fprintf(stderr, "Can't read master volume.\n");
-	return(ERROR);
+        fprintf(stderr, "Can't read master volume.\n");
+        return(ERROR);
     }
     else
-	volume = strtod(line, NULL);
+        volume = strtod(line, NULL);
 
     /*  GET THE NUMBER OF SOUND OUTPUT CHANNELS  */
     if (fgets(line, 128, fp) == NULL) {
-	fprintf(stderr, "Can't read number of sound output channels.\n");
-	return(ERROR);
+        fprintf(stderr, "Can't read number of sound output channels.\n");
+        return(ERROR);
     }
     else
-	channels = strtol(line, NULL, 10);
+        channels = strtol(line, NULL, 10);
 
     /*  GET THE STEREO BALANCE  */
     if (fgets(line, 128, fp) == NULL) {
-	fprintf(stderr, "Can't read stereo balance.\n");
-	return(ERROR);
+        fprintf(stderr, "Can't read stereo balance.\n");
+        return(ERROR);
     }
     else
-	balance = strtod(line, NULL);
+        balance = strtod(line, NULL);
 
 
     /*  GET THE GLOTTAL SOURCE WAVEFORM TYPE  */
     if (fgets(line, 128, fp) == NULL) {
-	fprintf(stderr, "Can't read glottal source waveform type.\n");
-	return(ERROR);
+        fprintf(stderr, "Can't read glottal source waveform type.\n");
+        return(ERROR);
     }
     else
-	waveform = strtol(line, NULL, 10);
+        waveform = strtol(line, NULL, 10);
 
     /*  GET THE GLOTTAL PULSE RISE TIME (tp)  */
     if (fgets(line, 128, fp) == NULL) {
-	fprintf(stderr, "Can't read glottal pulse rise time (tp).\n");
-	return(ERROR);
+        fprintf(stderr, "Can't read glottal pulse rise time (tp).\n");
+        return(ERROR);
     }
     else
-	tp = strtod(line, NULL);
+        tp = strtod(line, NULL);
 
     /*  GET THE GLOTTAL PULSE FALL TIME MINIMUM (tnMin)  */
     if (fgets(line, 128, fp) == NULL) {
-	fprintf(stderr,
-		"Can't read glottal pulse fall time minimum (tnMin).\n");
-	return(ERROR);
+        fprintf(stderr,
+                "Can't read glottal pulse fall time minimum (tnMin).\n");
+        return(ERROR);
     }
     else
-	tnMin = strtod(line, NULL);
+        tnMin = strtod(line, NULL);
 
     /*  GET THE GLOTTAL PULSE FALL TIME MAXIMUM (tnMax)  */
     if (fgets(line, 128, fp) == NULL) {
-	fprintf(stderr,
-		"Can't read glottal pulse fall time maximum (tnMax).\n");
-	return(ERROR);
+        fprintf(stderr,
+                "Can't read glottal pulse fall time maximum (tnMax).\n");
+        return(ERROR);
     }
     else
-	tnMax = strtod(line, NULL);
+        tnMax = strtod(line, NULL);
 
     /*  GET THE GLOTTAL SOURCE BREATHINESS  */
     if (fgets(line, 128, fp) == NULL) {
-	fprintf(stderr, "Can't read glottal source breathiness.\n");
-	return(ERROR);
+        fprintf(stderr, "Can't read glottal source breathiness.\n");
+        return(ERROR);
     }
     else
-	breathiness = strtod(line, NULL);
+        breathiness = strtod(line, NULL);
 
 
     /*  GET THE NOMINAL TUBE LENGTH  */
     if (fgets(line, 128, fp) == NULL) {
-	fprintf(stderr, "Can't read nominal tube length.\n");
-	return(ERROR);
+        fprintf(stderr, "Can't read nominal tube length.\n");
+        return(ERROR);
     }
     else
-	length = strtod(line, NULL);
+        length = strtod(line, NULL);
 
     /*  GET THE TUBE TEMPERATURE  */
     if (fgets(line, 128, fp) == NULL) {
-	fprintf(stderr, "Can't read tube temperature.\n");
-	return(ERROR);
+        fprintf(stderr, "Can't read tube temperature.\n");
+        return(ERROR);
     }
     else
-	temperature = strtod(line, NULL);
+        temperature = strtod(line, NULL);
 
     /*  GET THE JUNCTION LOSS FACTOR  */
     if (fgets(line, 128, fp) == NULL) {
-	fprintf(stderr, "Can't read junction loss factor.\n");
-	return(ERROR);
+        fprintf(stderr, "Can't read junction loss factor.\n");
+        return(ERROR);
     }
     else
-	lossFactor = strtod(line, NULL);
+        lossFactor = strtod(line, NULL);
 
 
     /*  GET THE APERTURE SCALING RADIUS  */
     if (fgets(line, 128, fp) == NULL) {
-	fprintf(stderr, "Can't read aperture scaling radius.\n");
-	return(ERROR);
+        fprintf(stderr, "Can't read aperture scaling radius.\n");
+        return(ERROR);
     }
     else
-	apScale = strtod(line, NULL);
+        apScale = strtod(line, NULL);
 
     /*  GET THE MOUTH APERTURE COEFFICIENT  */
     if (fgets(line, 128, fp) == NULL) {
-	fprintf(stderr, "Can't read mouth aperture coefficient\n");
-	return(ERROR);
+        fprintf(stderr, "Can't read mouth aperture coefficient\n");
+        return(ERROR);
     }
     else
-	mouthCoef = strtod(line, NULL);
+        mouthCoef = strtod(line, NULL);
 
     /*  GET THE NOSE APERTURE COEFFICIENT  */
     if (fgets(line, 128, fp) == NULL) {
-	fprintf(stderr, "Can't read nose aperture coefficient\n");
-	return(ERROR);
+        fprintf(stderr, "Can't read nose aperture coefficient\n");
+        return(ERROR);
     }
     else
-	noseCoef = strtod(line, NULL);
+        noseCoef = strtod(line, NULL);
 
 
     /*  GET THE NOSE RADII  */
     for (i = 1; i < TOTAL_NASAL_SECTIONS; i++) {
-	if (fgets(line, 128, fp) == NULL) {
-	    fprintf(stderr, "Can't read nose radius %-d.\n", i);
-	    return(ERROR);
-	}
-	else
-	    noseRadius[i] = strtod(line, NULL);
+        if (fgets(line, 128, fp) == NULL) {
+            fprintf(stderr, "Can't read nose radius %-d.\n", i);
+            return(ERROR);
+        }
+        else
+            noseRadius[i] = strtod(line, NULL);
     }
 
 
     /*  GET THE THROAT LOWPASS FREQUENCY CUTOFF  */
     if (fgets(line, 128, fp) == NULL) {
-	fprintf(stderr, "Can't read throat lowpass filter cutoff.\n");
-	return(ERROR);
+        fprintf(stderr, "Can't read throat lowpass filter cutoff.\n");
+        return(ERROR);
     }
     else
-	throatCutoff = strtod(line, NULL);
+        throatCutoff = strtod(line, NULL);
 
     /*  GET THE THROAT VOLUME  */
     if (fgets(line, 128, fp) == NULL) {
-	fprintf(stderr, "Can't read throat volume.\n");
-	return(ERROR);
+        fprintf(stderr, "Can't read throat volume.\n");
+        return(ERROR);
     }
     else
-	throatVol = strtod(line, NULL);
+        throatVol = strtod(line, NULL);
 
 
     /*  GET THE PULSE MODULATION OF NOISE FLAG  */
     if (fgets(line, 128, fp) == NULL) {
-	fprintf(stderr, "Can't read pulse modulation of noise flag.\n");
-	return(ERROR);
+        fprintf(stderr, "Can't read pulse modulation of noise flag.\n");
+        return(ERROR);
     }
     else
-	modulation = strtol(line, NULL, 10);
+        modulation = strtol(line, NULL, 10);
 
     /*  GET THE NOISE CROSSMIX OFFSET  */
     if (fgets(line, 128, fp) == NULL) {
-	fprintf(stderr, "Can't read noise crossmix offset.\n");
-	return(ERROR);
+        fprintf(stderr, "Can't read noise crossmix offset.\n");
+        return(ERROR);
     }
     else
-	mixOffset = strtod(line, NULL);
+        mixOffset = strtod(line, NULL);
 
 
     /*  GET THE INPUT TABLE VALUES  */
     while (fgets(line, 128, fp)) {
-	double glotPitch, glotVol, radius[TOTAL_REGIONS], velum, aspVol;
-	double fricVol, fricPos, fricCF, fricBW;
-	char *ptr = line;
+        double glotPitch, glotVol, radius[TOTAL_REGIONS], velum, aspVol;
+        double fricVol, fricPos, fricCF, fricBW;
+        char *ptr = line;
 
-	/*  GET EACH PARAMETER  */
-	glotPitch = strtod(ptr, &ptr);
-	glotVol = strtod(ptr, &ptr);
-	aspVol = strtod(ptr, &ptr);
-	fricVol = strtod(ptr, &ptr);
-	fricPos = strtod(ptr, &ptr);
-	fricCF = strtod(ptr, &ptr);
-	fricBW = strtod(ptr, &ptr);
-	for (i = 0; i < TOTAL_REGIONS; i++)
-	    radius[i] = strtod(ptr, &ptr);
-	velum = strtod(ptr, &ptr);
+        /*  GET EACH PARAMETER  */
+        glotPitch = strtod(ptr, &ptr);
+        glotVol = strtod(ptr, &ptr);
+        aspVol = strtod(ptr, &ptr);
+        fricVol = strtod(ptr, &ptr);
+        fricPos = strtod(ptr, &ptr);
+        fricCF = strtod(ptr, &ptr);
+        fricBW = strtod(ptr, &ptr);
+        for (i = 0; i < TOTAL_REGIONS; i++)
+            radius[i] = strtod(ptr, &ptr);
+        velum = strtod(ptr, &ptr);
 
-	/*  ADD THE PARAMETERS TO THE INPUT LIST  */
-	addInput(glotPitch, glotVol, aspVol, fricVol, fricPos, fricCF,
-		 fricBW, radius, velum);
+        /*  ADD THE PARAMETERS TO THE INPUT LIST  */
+        addInput(glotPitch, glotVol, aspVol, fricVol, fricPos, fricCF,
+                 fricBW, radius, velum);
     }
 
     /*  DOUBLE UP THE LAST INPUT TABLE, TO HELP INTERPOLATION CALCULATIONS  */
     if (numberInputTables > 0) {
-	addInput(glotPitchAt(inputTail), glotVolAt(inputTail),
-		 aspVolAt(inputTail), fricVolAt(inputTail),
-		 fricPosAt(inputTail), fricCFAt(inputTail),
-		 fricBWAt(inputTail), radiiAt(inputTail),
-		 velumAt(inputTail));
+        addInput(glotPitchAt(inputTail), glotVolAt(inputTail),
+                 aspVolAt(inputTail), fricVolAt(inputTail),
+                 fricPosAt(inputTail), fricCFAt(inputTail),
+                 fricBWAt(inputTail), radiiAt(inputTail),
+                 velumAt(inputTail));
     }
 
     /*  CLOSE THE INPUT FILE  */
@@ -973,18 +973,18 @@ int parseInputFile(const char *inputFile)
 
 /******************************************************************************
 *
-*	function:	speedOfSound
+*       function:       speedOfSound
 *
-*	purpose:	Returns the speed of sound according to the value of
+*       purpose:        Returns the speed of sound according to the value of
 *                       the temperature (in Celsius degrees).
 *
 *       arguments:      temperature
 *
-*	internal
-*	functions:	none
+*       internal
+*       functions:      none
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
@@ -997,21 +997,21 @@ double speedOfSound(double temperature)
 
 /******************************************************************************
 *
-*	function:	initializeSynthesizer
+*       function:       initializeSynthesizer
 *
-*	purpose:	Initializes all variables so that the synthesis can
+*       purpose:        Initializes all variables so that the synthesis can
 *                       be run.
 *
 *       arguments:      none
 *
-*	internal
-*	functions:	speedOfSound, amplitude, initializeWavetable,
+*       internal
+*       functions:      speedOfSound, amplitude, initializeWavetable,
 *                       initializeFIR, initializeNasalFilterCoefficients,
 *                       initializeNasalCavity, initializeThroat,
 *                       initializeConversion
 *
-*	library
-*	functions:	rint, fprintf, tmpfile, rewind
+*       library
+*       functions:      rint, fprintf, tmpfile, rewind
 *
 ******************************************************************************/
 
@@ -1020,18 +1020,18 @@ int initializeSynthesizer(void)
     double nyquist;
 
     /*  CALCULATE THE SAMPLE RATE, BASED ON NOMINAL
-	TUBE LENGTH AND SPEED OF SOUND  */
+        TUBE LENGTH AND SPEED OF SOUND  */
     if (length > 0.0) {
-	double c = speedOfSound(temperature);
-	controlPeriod =
-	    rint((c * TOTAL_SECTIONS * 100.0) /(length * controlRate));
-	sampleRate = controlRate * controlPeriod;
-	actualTubeLength = (c * TOTAL_SECTIONS * 100.0) / sampleRate;
-	nyquist = (double)sampleRate / 2.0;
+        double c = speedOfSound(temperature);
+        controlPeriod =
+            rint((c * TOTAL_SECTIONS * 100.0) /(length * controlRate));
+        sampleRate = controlRate * controlPeriod;
+        actualTubeLength = (c * TOTAL_SECTIONS * 100.0) / sampleRate;
+        nyquist = (double)sampleRate / 2.0;
     }
     else {
-	fprintf(stderr, "Illegal tube length.\n");
-	return (ERROR);
+        fprintf(stderr, "Illegal tube length.\n");
+        return (ERROR);
     }
 
     /*  CALCULATE THE BREATHINESS FACTOR  */
@@ -1076,18 +1076,18 @@ int initializeSynthesizer(void)
 
 /******************************************************************************
 *
-*	function:	initializeWavetable
+*       function:       initializeWavetable
 *
-*	purpose:	Calculates the initial glottal pulse and stores it
+*       purpose:        Calculates the initial glottal pulse and stores it
 *                       in the wavetable, for use in the oscillator.
 *
 *       arguments:      none
 *
-*	internal
-*	functions:	none
+*       internal
+*       functions:      none
 *
-*	library
-*	functions:	calloc, rint
+*       library
+*       functions:      calloc, rint
 *
 ******************************************************************************/
 
@@ -1109,29 +1109,29 @@ void initializeWavetable(void)
 
     /*  INITIALIZE THE WAVETABLE WITH EITHER A GLOTTAL PULSE OR SINE TONE  */
     if (waveform == PULSE) {
-	/*  CALCULATE RISE PORTION OF WAVE TABLE  */
-	for (i = 0; i < tableDiv1; i++) {
-	    double x = (double)i / (double)tableDiv1;
-	    double x2 = x * x;
-	    double x3 = x2 * x;
-	    wavetable[i] = (3.0 * x2) - (2.0 * x3);
-	}
+        /*  CALCULATE RISE PORTION OF WAVE TABLE  */
+        for (i = 0; i < tableDiv1; i++) {
+            double x = (double)i / (double)tableDiv1;
+            double x2 = x * x;
+            double x3 = x2 * x;
+            wavetable[i] = (3.0 * x2) - (2.0 * x3);
+        }
 
-	/*  CALCULATE FALL PORTION OF WAVE TABLE  */
-	for (i = tableDiv1, j = 0; i < tableDiv2; i++, j++) {
-	    double x = (double)j / tnLength;
-	    wavetable[i] = 1.0 - (x * x);
-	}
+        /*  CALCULATE FALL PORTION OF WAVE TABLE  */
+        for (i = tableDiv1, j = 0; i < tableDiv2; i++, j++) {
+            double x = (double)j / tnLength;
+            wavetable[i] = 1.0 - (x * x);
+        }
 
-	/*  SET CLOSED PORTION OF WAVE TABLE  */
-	for (i = tableDiv2; i < TABLE_LENGTH; i++)
-	    wavetable[i] = 0.0;
+        /*  SET CLOSED PORTION OF WAVE TABLE  */
+        for (i = tableDiv2; i < TABLE_LENGTH; i++)
+            wavetable[i] = 0.0;
     }
     else {
-	/*  SINE WAVE  */
-	for (i = 0; i < TABLE_LENGTH; i++) {
-	    wavetable[i] = sin( ((double)i/(double)TABLE_LENGTH) * 2.0 * PI );
-	}
+        /*  SINE WAVE  */
+        for (i = 0; i < TABLE_LENGTH; i++) {
+            wavetable[i] = sin( ((double)i/(double)TABLE_LENGTH) * 2.0 * PI );
+        }
     }
 }
 
@@ -1139,18 +1139,18 @@ void initializeWavetable(void)
 
 /******************************************************************************
 *
-*	function:	updateWavetable
+*       function:       updateWavetable
 *
-*	purpose:	Rewrites the changeable part of the glottal pulse
+*       purpose:        Rewrites the changeable part of the glottal pulse
 *                       according to the amplitude.
 *
 *       arguments:      amplitude
 *
-*	internal
-*	functions:	none
+*       internal
+*       functions:      none
 *
-*	library
-*	functions:	rint
+*       library
+*       functions:      rint
 *
 ******************************************************************************/
 
@@ -1245,25 +1245,25 @@ void updateWavetable(double amplitude)
 
     /*  FILL IN WITH CLOSED PORTION OF GLOTTAL PULSE  */
     for (i = newDiv2_int; i < tableDiv2; i++)
-	wavetable[i] = 0.0;
+        wavetable[i] = 0.0;
 }
 
 
 
 /******************************************************************************
 *
-*	function:	initializeFIR
+*       function:       initializeFIR
 *
-*	purpose:	Allocates memory and initializes the coefficients
+*       purpose:        Allocates memory and initializes the coefficients
 *                       for the FIR filter used in the oversampling oscillator.
 *
 *       arguments:      beta, gamma, cutoff
 *
-*	internal
-*	functions:	maximallyFlat, trim
+*       internal
+*       functions:      maximallyFlat, trim
 *
-*	library
-*	functions:	calloc
+*       library
+*       functions:      calloc
 *
 ******************************************************************************/
 
@@ -1290,12 +1290,12 @@ void initializeFIR(double beta, double gamma, double cutoff)
     increment = (-1);
     pointer = numberCoefficients;
     for (i = 0; i < numberTaps; i++) {
-	FIRCoef[i] = coefficient[pointer];
-	pointer += increment;
-	if (pointer <= 0) {
-	    pointer = 2;
-	    increment = 1;
-	}
+        FIRCoef[i] = coefficient[pointer];
+        pointer += increment;
+        if (pointer <= 0) {
+            pointer = 2;
+            increment = 1;
+        }
     }
 
     /*  SET POINTER TO FIRST ELEMENT  */
@@ -1305,7 +1305,7 @@ void initializeFIR(double beta, double gamma, double cutoff)
     /*  PRINT OUT  */
     printf("\n");
     for (i = 0; i < numberTaps; i++)
-	printf("FIRCoef[%-d] = %11.8f\n", i, FIRCoef[i]);
+        printf("FIRCoef[%-d] = %11.8f\n", i, FIRCoef[i]);
 #endif
 }
 
@@ -1313,17 +1313,17 @@ void initializeFIR(double beta, double gamma, double cutoff)
 
 /******************************************************************************
 *
-*	function:	noise
+*       function:       noise
 *
-*	purpose:	Returns one value of a random sequence.
+*       purpose:        Returns one value of a random sequence.
 *
 *       arguments:      none
 *
-*	internal
-*	functions:	none
+*       internal
+*       functions:      none
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
@@ -1340,17 +1340,17 @@ double noise(void)
 
 /******************************************************************************
 *
-*	function:	noiseFilter
+*       function:       noiseFilter
 *
-*	purpose:	One-zero lowpass filter.
+*       purpose:        One-zero lowpass filter.
 *
 *       arguments:      input
 *
-*	internal
-*	functions:	none
+*       internal
+*       functions:      none
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
@@ -1367,19 +1367,19 @@ double noiseFilter(double input)
 
 /******************************************************************************
 *
-*	function:	initializeMouthCoefficients
+*       function:       initializeMouthCoefficients
 *
-*	purpose:	Calculates the reflection/radiation filter coefficients
+*       purpose:        Calculates the reflection/radiation filter coefficients
 *                       for the mouth, according to the mouth aperture
 *                       coefficient.
 *
 *       arguments:      coeff - mouth aperture coefficient
 *
-*	internal
-*	functions:	none
+*       internal
+*       functions:      none
 *
-*	library
-*	functions:	fabs
+*       library
+*       functions:      fabs
 *
 ******************************************************************************/
 
@@ -1396,18 +1396,18 @@ void initializeMouthCoefficients(double coeff)
 
 /******************************************************************************
 *
-*	function:	reflectionFilter
+*       function:       reflectionFilter
 *
-*	purpose:	Is a variable, one-pole lowpass filter, whose cutoff
+*       purpose:        Is a variable, one-pole lowpass filter, whose cutoff
 *                       is determined by the mouth aperture coefficient.
 *
 *       arguments:      input
 *
-*	internal
-*	functions:	none
+*       internal
+*       functions:      none
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
@@ -1424,19 +1424,19 @@ double reflectionFilter(double input)
 
 /******************************************************************************
 *
-*	function:	radiationFilter
+*       function:       radiationFilter
 *
-*	purpose:	Is a variable, one-zero, one-pole, highpass filter,
+*       purpose:        Is a variable, one-zero, one-pole, highpass filter,
 *                       whose cutoff point is determined by the mouth aperture
 *                       coefficient.
 *
 *       arguments:      input
 *
-*	internal
-*	functions:	none
+*       internal
+*       functions:      none
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
@@ -1454,19 +1454,19 @@ double radiationFilter(double input)
 
 /******************************************************************************
 *
-*	function:	initializeNasalFilterCoefficients
+*       function:       initializeNasalFilterCoefficients
 *
-*	purpose:	Calculates the fixed coefficients for the nasal
+*       purpose:        Calculates the fixed coefficients for the nasal
 *                       reflection/radiation filter pair, according to the
 *                       nose aperture coefficient.
 *
 *       arguments:      coeff - nose aperture coefficient
 *
-*	internal
-*	functions:	none
+*       internal
+*       functions:      none
 *
-*	library
-*	functions:	fabs
+*       library
+*       functions:      fabs
 *
 ******************************************************************************/
 
@@ -1483,18 +1483,18 @@ void initializeNasalFilterCoefficients(double coeff)
 
 /******************************************************************************
 *
-*	function:	nasalReflectionFilter
+*       function:       nasalReflectionFilter
 *
-*	purpose:	Is a one-pole lowpass filter, used for terminating
+*       purpose:        Is a one-pole lowpass filter, used for terminating
 *                       the end of the nasal cavity.
 *
 *       arguments:      input
 *
-*	internal
-*	functions:	none
+*       internal
+*       functions:      none
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
@@ -1511,18 +1511,18 @@ double nasalReflectionFilter(double input)
 
 /******************************************************************************
 *
-*	function:	nasalRadiationFilter
+*       function:       nasalRadiationFilter
 *
-*	purpose:	Is a one-zero, one-pole highpass filter, used for the
+*       purpose:        Is a one-zero, one-pole highpass filter, used for the
 *                       radiation characteristic from the nasal cavity.
 *
 *       arguments:      input
 *
-*	internal
-*	functions:	none
+*       internal
+*       functions:      none
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
@@ -1531,7 +1531,7 @@ double nasalRadiationFilter(double input)
     static double nasalRadiationX = 0.0, nasalRadiationY = 0.0;
 
     double output = (na20 * input) + (na21 * nasalRadiationX) -
-	(nb21 * nasalRadiationY);
+        (nb21 * nasalRadiationY);
     nasalRadiationX = input;
     nasalRadiationY = output;
     return (output);
@@ -1541,38 +1541,38 @@ double nasalRadiationFilter(double input)
 
 /******************************************************************************
 *
-*	function:	addInput
+*       function:       addInput
 *
-*	purpose:	Adds table control data to the end of a linked list.
+*       purpose:        Adds table control data to the end of a linked list.
 *
 *       arguments:      glotPitch, glotVol, radius, velum, aspVol,
 *                       fricVol, fricPos,
 *                       fricCF, fricBW
 *
-*	internal
-*	functions:	newInputTable
+*       internal
+*       functions:      newInputTable
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
 void addInput(double glotPitch, double glotVol, double aspVol, double fricVol,
-	      double fricPos, double fricCF, double fricBW, double *radius,
-	      double velum)
+              double fricPos, double fricCF, double fricBW, double *radius,
+              double velum)
 {
     int i;
     INPUT *tempPtr;
 
 
     if (inputHead == NULL) {
-	inputTail = inputHead = newInputTable();
-	inputTail->previous = NULL;
+        inputTail = inputHead = newInputTable();
+        inputTail->previous = NULL;
     }
     else {
-	tempPtr = inputTail;
-	inputTail = tempPtr->next = newInputTable();
-	inputTail->previous = tempPtr;
+        tempPtr = inputTail;
+        inputTail = tempPtr->next = newInputTable();
+        inputTail->previous = tempPtr;
     }
 
     /*  SET NULL POINTER TO NEXT, SINCE END OF LIST  */
@@ -1593,7 +1593,7 @@ void addInput(double glotPitch, double glotVol, double aspVol, double fricVol,
 
     /*  ADD TUBE REGION RADII  */
     for (i = 0; i < TOTAL_REGIONS; i++)
-	inputTail->radius[i] = radius[i];
+        inputTail->radius[i] = radius[i];
 
     /*  ADD VELUM RADIUS  */
     inputTail->velum = velum;
@@ -1606,17 +1606,17 @@ void addInput(double glotPitch, double glotVol, double aspVol, double fricVol,
 
 /******************************************************************************
 *
-*	function:	newInputTable
+*       function:       newInputTable
 *
-*	purpose:	Allocates memory for a new input table.
+*       purpose:        Allocates memory for a new input table.
 *
 *       arguments:      none
 *
-*	internal
-*	functions:	none
+*       internal
+*       functions:      none
 *
-*	library
-*	functions:	malloc
+*       library
+*       functions:      malloc
 *
 ******************************************************************************/
 
@@ -1629,284 +1629,284 @@ INPUT *newInputTable(void)
 
 /******************************************************************************
 *
-*	function:	glotPitchAt
+*       function:       glotPitchAt
 *
-*	purpose:	Returns the pitch stored in the table at 'position'.
+*       purpose:        Returns the pitch stored in the table at 'position'.
 *
 *       arguments:      position
 *
-*	internal
-*	functions:	none
+*       internal
+*       functions:      none
 *
-*	library
-*	functions:	inputAt
+*       library
+*       functions:      inputAt
 *
 ******************************************************************************/
 
 double glotPitchAt(INPUT *ptr)
 {
     if (ptr)
-	return (ptr->glotPitch);
+        return (ptr->glotPitch);
     else
-	return (0.0);
+        return (0.0);
 }
 
 
 
 /******************************************************************************
 *
-*	function:	glotVolAt
+*       function:       glotVolAt
 *
-*	purpose:	Returns the glotVol stored in the table at 'position'.
+*       purpose:        Returns the glotVol stored in the table at 'position'.
 *
 *       arguments:      position
 *
-*	internal
-*	functions:	none
+*       internal
+*       functions:      none
 *
-*	library
-*	functions:	inputAt
+*       library
+*       functions:      inputAt
 *
 ******************************************************************************/
 
 double glotVolAt(INPUT *ptr)
 {
     if (ptr)
-	return (ptr->glotVol);
+        return (ptr->glotVol);
     else
-	return (0.0);
+        return (0.0);
 }
 
 
 
 /******************************************************************************
 *
-*	function:	radiiAt
+*       function:       radiiAt
 *
-*	purpose:	Returns the variable tube radii stored in the table at
+*       purpose:        Returns the variable tube radii stored in the table at
 *                       'position'.
 *
 *       arguments:      position
 *
-*	internal
-*	functions:	none
+*       internal
+*       functions:      none
 *
-*	library
-*	functions:	inputAt
+*       library
+*       functions:      inputAt
 *
 ******************************************************************************/
 
 double *radiiAt(INPUT *ptr)
 {
     if (ptr)
-	return (ptr->radius);
+        return (ptr->radius);
     else
-	return (NULL);
+        return (NULL);
 }
 
 
 
 /******************************************************************************
 *
-*	function:	radiusAtRegion
+*       function:       radiusAtRegion
 *
-*	purpose:	Returns the radius for 'region', from the table at
+*       purpose:        Returns the radius for 'region', from the table at
 *                       'position'.
 *
 *       arguments:      position, region
 *
-*	internal
-*	functions:	inputAt
+*       internal
+*       functions:      inputAt
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
 double radiusAtRegion(INPUT *ptr, int region)
 {
     if (ptr)
-	return (ptr->radius[region]);
+        return (ptr->radius[region]);
     else
-	return (0.0);
+        return (0.0);
 }
 
 
 
 /******************************************************************************
 *
-*	function:	velumAt
+*       function:       velumAt
 *
-*	purpose:	Returns the velum radius from the table at 'position'.
+*       purpose:        Returns the velum radius from the table at 'position'.
 *
 *       arguments:      position
 *
-*	internal
-*	functions:	inputAt
+*       internal
+*       functions:      inputAt
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
 double velumAt(INPUT *ptr)
 {
     if (ptr)
-	return (ptr->velum);
+        return (ptr->velum);
     else
-	return (0.0);
+        return (0.0);
 }
 
 
 
 /******************************************************************************
 *
-*	function:	aspVolAt
+*       function:       aspVolAt
 *
-*	purpose:	Returns the aspiration factor from the table at
+*       purpose:        Returns the aspiration factor from the table at
 *                       'position'.
 *
 *       arguments:      position
 *
-*	internal
-*	functions:	inputAt
+*       internal
+*       functions:      inputAt
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
 double aspVolAt(INPUT *ptr)
 {
     if (ptr)
-	return (ptr->aspVol);
+        return (ptr->aspVol);
     else
-	return (0.0);
+        return (0.0);
 }
 
 
 
 /******************************************************************************
 *
-*	function:	fricVolAt
+*       function:       fricVolAt
 *
-*	purpose:	Returns the frication volume from the table at
+*       purpose:        Returns the frication volume from the table at
 *                       'position'.
 *
 *       arguments:      position
 *
-*	internal
-*	functions:	inputAt
+*       internal
+*       functions:      inputAt
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
 double fricVolAt(INPUT *ptr)
 {
     if (ptr)
-	return (ptr->fricVol);
+        return (ptr->fricVol);
     else
-	return (0.0);
+        return (0.0);
 }
 
 
 
 /******************************************************************************
 *
-*	function:	fricPosAt
+*       function:       fricPosAt
 *
-*	purpose:	Returns the frication position from the table at
+*       purpose:        Returns the frication position from the table at
 *                       'position'.
 *
 *       arguments:      position
 *
-*	internal
-*	functions:	inputAt
+*       internal
+*       functions:      inputAt
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
 double fricPosAt(INPUT *ptr)
 {
     if (ptr)
-	return (ptr->fricPos);
+        return (ptr->fricPos);
     else
-	return (0.0);
+        return (0.0);
 }
 
 
 
 /******************************************************************************
 *
-*	function:	fricCFAt
+*       function:       fricCFAt
 *
-*	purpose:	Returns the frication center frequency from the table
+*       purpose:        Returns the frication center frequency from the table
 *                       at 'position'.
 *
 *       arguments:      position
 *
-*	internal
-*	functions:	inputAt
+*       internal
+*       functions:      inputAt
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
 double fricCFAt(INPUT *ptr)
 {
     if (ptr)
-	return (ptr->fricCF);
+        return (ptr->fricCF);
     else
-	return (0.0);
+        return (0.0);
 }
 
 
 
 /******************************************************************************
 *
-*	function:	fricBWAt
+*       function:       fricBWAt
 *
-*	purpose:	Returns the frication bandwidth from the table
+*       purpose:        Returns the frication bandwidth from the table
 *                       at 'position'.
 *
 *       arguments:      position
 *
-*	internal
-*	functions:	inputAt
+*       internal
+*       functions:      inputAt
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
 double fricBWAt(INPUT *ptr)
 {
     if (ptr)
-	return (ptr->fricBW);
+        return (ptr->fricBW);
     else
-	return (0.0);
+        return (0.0);
 }
 
 
 #if 0
 /******************************************************************************
 *
-*	function:	inputAt
+*       function:       inputAt
 *
-*	purpose:	Returns a pointer to the table specified by 'position'.
+*       purpose:        Returns a pointer to the table specified by 'position'.
 *
 *       arguments:      position
 *
-*	internal
-*	functions:	none
+*       internal
+*       functions:      none
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
@@ -1916,11 +1916,11 @@ INPUT *inputAt(int position)
     INPUT *tempPtr = inputHead;
 
     if ((position < 0) || (position >= numberInputTables))
-	return (NULL);
+        return (NULL);
 
     /*  LOOP THROUGH TO PROPER POSITION IN LIST  */
     for (i = 0; i < position; i++)
-	tempPtr = tempPtr->next;
+        tempPtr = tempPtr->next;
 
     return (tempPtr);
 }
@@ -1929,20 +1929,20 @@ INPUT *inputAt(int position)
 
 /******************************************************************************
 *
-*	function:	synthesize
+*       function:       synthesize
 *
-*	purpose:	Performs the actual synthesis of sound samples.
+*       purpose:        Performs the actual synthesis of sound samples.
 *
 *       arguments:      none
 *
-*	internal
-*	functions:	setControlRateParameters, frequency, amplitude,
+*       internal
+*       functions:      setControlRateParameters, frequency, amplitude,
 *                       calculateTubeCoefficients, noise, noiseFilter,
 *                       updateWavetable, oscillator, vocalTract, throat,
 *                       dataFill, sampleRateInterpolation
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
@@ -1962,77 +1962,77 @@ void synthesize(void)
 
     for (i = 1; i < numberInputTables; i++) {
 
-	/*  SET CONTROL RATE PARAMETERS FROM INPUT TABLES  */
-	setControlRateParameters(previousInput, currentInput);
+        /*  SET CONTROL RATE PARAMETERS FROM INPUT TABLES  */
+        setControlRateParameters(previousInput, currentInput);
 
 
-	/*  SAMPLE RATE LOOP  */
-	for (j = 0; j < controlPeriod; j++) {
+        /*  SAMPLE RATE LOOP  */
+        for (j = 0; j < controlPeriod; j++) {
 
-	    /*  CONVERT PARAMETERS HERE  */
-	    f0 = frequency(current.glotPitch);
-	    ax = amplitude(current.glotVol);
-	    ah1 = amplitude(current.aspVol);
-	    calculateTubeCoefficients();
-	    setFricationTaps();
-	    calculateBandpassCoefficients();
+            /*  CONVERT PARAMETERS HERE  */
+            f0 = frequency(current.glotPitch);
+            ax = amplitude(current.glotVol);
+            ah1 = amplitude(current.aspVol);
+            calculateTubeCoefficients();
+            setFricationTaps();
+            calculateBandpassCoefficients();
 
 
-	    /*  DO SYNTHESIS HERE  */
-	    /*  CREATE LOW-PASS FILTERED NOISE  */
-	    lp_noise = noiseFilter(noise());
+            /*  DO SYNTHESIS HERE  */
+            /*  CREATE LOW-PASS FILTERED NOISE  */
+            lp_noise = noiseFilter(noise());
 
-	    /*  UPDATE THE SHAPE OF THE GLOTTAL PULSE, IF NECESSARY  */
-	    if (waveform == PULSE)
-		updateWavetable(ax);
+            /*  UPDATE THE SHAPE OF THE GLOTTAL PULSE, IF NECESSARY  */
+            if (waveform == PULSE)
+                updateWavetable(ax);
 
-	    /*  CREATE GLOTTAL PULSE (OR SINE TONE)  */
-	    pulse = oscillator(f0);
+            /*  CREATE GLOTTAL PULSE (OR SINE TONE)  */
+            pulse = oscillator(f0);
 
-	    /*  CREATE PULSED NOISE  */
-	    pulsed_noise = lp_noise * pulse;
+            /*  CREATE PULSED NOISE  */
+            pulsed_noise = lp_noise * pulse;
 
-	    /*  CREATE NOISY GLOTTAL PULSE  */
-	    pulse = ax * ((pulse * (1.0 - breathinessFactor)) +
-			  (pulsed_noise * breathinessFactor));
+            /*  CREATE NOISY GLOTTAL PULSE  */
+            pulse = ax * ((pulse * (1.0 - breathinessFactor)) +
+                          (pulsed_noise * breathinessFactor));
 
-	    /*  CROSS-MIX PURE NOISE WITH PULSED NOISE  */
-	    if (modulation) {
-		crossmix = ax * crossmixFactor;
-		crossmix = (crossmix < 1.0) ? crossmix : 1.0;
-		signal = (pulsed_noise * crossmix) +
-		    (lp_noise * (1.0 - crossmix));
+            /*  CROSS-MIX PURE NOISE WITH PULSED NOISE  */
+            if (modulation) {
+                crossmix = ax * crossmixFactor;
+                crossmix = (crossmix < 1.0) ? crossmix : 1.0;
+                signal = (pulsed_noise * crossmix) +
+                    (lp_noise * (1.0 - crossmix));
                 if (verbose) {
                     printf("\nSignal = %e", signal);
                     fflush(stdout);
                 }
 
 
-	    }
-	    else
-		signal = lp_noise;
+            }
+            else
+                signal = lp_noise;
 
-	    /*  PUT SIGNAL THROUGH VOCAL TRACT  */
-	    signal = vocalTract(((pulse + (ah1 * signal)) * VT_SCALE),
-				bandpassFilter(signal));
+            /*  PUT SIGNAL THROUGH VOCAL TRACT  */
+            signal = vocalTract(((pulse + (ah1 * signal)) * VT_SCALE),
+                                bandpassFilter(signal));
 
 
-	    /*  PUT PULSE THROUGH THROAT  */
-	    signal += throat(pulse * VT_SCALE);
+            /*  PUT PULSE THROUGH THROAT  */
+            signal += throat(pulse * VT_SCALE);
             if (verbose)
                 printf("\nDone throat\n");
 
-	    /*  OUTPUT SAMPLE HERE  */
-	    dataFill(signal);
+            /*  OUTPUT SAMPLE HERE  */
+            dataFill(signal);
             if (verbose)
                 printf("\nDone datafil\n");
 
-	    /*  DO SAMPLE RATE INTERPOLATION OF CONTROL PARAMETERS  */
-	    sampleRateInterpolation();
+            /*  DO SAMPLE RATE INTERPOLATION OF CONTROL PARAMETERS  */
+            sampleRateInterpolation();
             if (verbose)
                 printf("\nDone sample rate interp\n");
 
-	}
+        }
 
         previousInput = currentInput;
         currentInput = currentInput->next;
@@ -2043,19 +2043,19 @@ void synthesize(void)
 
 /******************************************************************************
 *
-*	function:	setControlRateParameters
+*       function:       setControlRateParameters
 *
-*	purpose:	Calculates the current table values, and their
+*       purpose:        Calculates the current table values, and their
 *                       associated sample-to-sample delta values.
 *
 *       arguments:      pos
 *
-*	internal
-*	functions:	glotPitchAt, glotVolAt, aspVolAt, fricVolAt, fricPosAt,
+*       internal
+*       functions:      glotPitchAt, glotVolAt, aspVolAt, fricVolAt, fricPosAt,
 *                       fricCFAt, fricBWAt, radiusAtRegion, velumAt,
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
@@ -2066,12 +2066,12 @@ void setControlRateParameters(INPUT *previousInput, INPUT *currentInput)
     /*  GLOTTAL PITCH  */
     current.glotPitch = glotPitchAt(previousInput);
     current.glotPitchDelta =
-	(glotPitchAt(currentInput) - current.glotPitch) / (double)controlPeriod;
+        (glotPitchAt(currentInput) - current.glotPitch) / (double)controlPeriod;
 
     /*  GLOTTAL VOLUME  */
     current.glotVol = glotVolAt(previousInput);
     current.glotVolDelta =
-	(glotVolAt(currentInput) - current.glotVol) / (double)controlPeriod;
+        (glotVolAt(currentInput) - current.glotVol) / (double)controlPeriod;
 
     /*  ASPIRATION VOLUME  */
     current.aspVol = aspVolAt(previousInput);
@@ -2079,7 +2079,7 @@ void setControlRateParameters(INPUT *previousInput, INPUT *currentInput)
     current.aspVolDelta = 0.0;
 #else
     current.aspVolDelta =
-	(aspVolAt(currentInput) - current.aspVol) / (double)controlPeriod;
+        (aspVolAt(currentInput) - current.aspVol) / (double)controlPeriod;
 #endif
 
     /*  FRICATION VOLUME  */
@@ -2088,7 +2088,7 @@ void setControlRateParameters(INPUT *previousInput, INPUT *currentInput)
     current.fricVolDelta = 0.0;
 #else
     current.fricVolDelta =
-	(fricVolAt(currentInput) - current.fricVol) / (double)controlPeriod;
+        (fricVolAt(currentInput) - current.fricVol) / (double)controlPeriod;
 #endif
 
     /*  FRICATION POSITION  */
@@ -2097,7 +2097,7 @@ void setControlRateParameters(INPUT *previousInput, INPUT *currentInput)
     current.fricPosDelta = 0.0;
 #else
     current.fricPosDelta =
-	(fricPosAt(currentInput) - current.fricPos) / (double)controlPeriod;
+        (fricPosAt(currentInput) - current.fricPos) / (double)controlPeriod;
 #endif
 
     /*  FRICATION CENTER FREQUENCY  */
@@ -2106,7 +2106,7 @@ void setControlRateParameters(INPUT *previousInput, INPUT *currentInput)
     current.fricCFDelta = 0.0;
 #else
     current.fricCFDelta =
-	(fricCFAt(currentInput) - current.fricCF) / (double)controlPeriod;
+        (fricCFAt(currentInput) - current.fricCF) / (double)controlPeriod;
 #endif
 
     /*  FRICATION BANDWIDTH  */
@@ -2115,38 +2115,38 @@ void setControlRateParameters(INPUT *previousInput, INPUT *currentInput)
     current.fricBWDelta = 0.0;
 #else
     current.fricBWDelta =
-	(fricBWAt(currentInput) - current.fricBW) / (double)controlPeriod;
+        (fricBWAt(currentInput) - current.fricBW) / (double)controlPeriod;
 #endif
 
     /*  TUBE REGION RADII  */
     for (i = 0; i < TOTAL_REGIONS; i++) {
-	current.radius[i] = radiusAtRegion(previousInput, i);
-	current.radiusDelta[i] =
-	    (radiusAtRegion(currentInput,i) - current.radius[i]) /
-		(double)controlPeriod;
+        current.radius[i] = radiusAtRegion(previousInput, i);
+        current.radiusDelta[i] =
+            (radiusAtRegion(currentInput,i) - current.radius[i]) /
+                (double)controlPeriod;
     }
 
     /*  VELUM RADIUS  */
     current.velum = velumAt(previousInput);
     current.velumDelta =
-	(velumAt(currentInput) - current.velum) / (double)controlPeriod;
+        (velumAt(currentInput) - current.velum) / (double)controlPeriod;
 }
 
 
 
 /******************************************************************************
 *
-*	function:	sampleRateInterpolation
+*       function:       sampleRateInterpolation
 *
-*	purpose:	Interpolates table values at the sample rate.
+*       purpose:        Interpolates table values at the sample rate.
 *
 *       arguments:      none
 *
-*	internal
-*	functions:	none
+*       internal
+*       functions:      none
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
@@ -2162,7 +2162,7 @@ void sampleRateInterpolation(void)
     current.fricCF += current.fricCFDelta;
     current.fricBW += current.fricBWDelta;
     for (i = 0; i < TOTAL_REGIONS; i++)
-	current.radius[i] += current.radiusDelta[i];
+        current.radius[i] += current.radiusDelta[i];
     current.velum += current.velumDelta;
 }
 
@@ -2170,18 +2170,18 @@ void sampleRateInterpolation(void)
 
 /******************************************************************************
 *
-*	function:	initializeNasalCavity
+*       function:       initializeNasalCavity
 *
-*	purpose:	Calculates the scattering coefficients for the fixed
+*       purpose:        Calculates the scattering coefficients for the fixed
 *                       sections of the nasal cavity.
 *
 *       arguments:      none
 *
-*	internal
-*	functions:	none
+*       internal
+*       functions:      none
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
@@ -2193,9 +2193,9 @@ void initializeNasalCavity(void)
 
     /*  CALCULATE COEFFICIENTS FOR INTERNAL FIXED SECTIONS OF NASAL CAVITY  */
     for (i = N2, j = NC2; i < N6; i++, j++) {
-	radA2 = noseRadius[i] * noseRadius[i];
-	radB2 = noseRadius[i+1] * noseRadius[i+1];
-	nasal_coeff[j] = (radA2 - radB2) / (radA2 + radB2);
+        radA2 = noseRadius[i] * noseRadius[i];
+        radB2 = noseRadius[i+1] * noseRadius[i+1];
+        nasal_coeff[j] = (radA2 - radB2) / (radA2 + radB2);
     }
 
     /*  CALCULATE THE FIXED COEFFICIENT FOR THE NOSE APERTURE  */
@@ -2208,19 +2208,19 @@ void initializeNasalCavity(void)
 
 /******************************************************************************
 *
-*	function:	initializeThroat
+*       function:       initializeThroat
 *
-*	purpose:	Initializes the throat lowpass filter coefficients
+*       purpose:        Initializes the throat lowpass filter coefficients
 *                       according to the throatCutoff value, and also the
 *                       throatGain, according to the throatVol value.
 *
 *       arguments:      none
 *
-*	internal
-*	functions:	none
+*       internal
+*       functions:      none
 *
-*	library
-*	functions:	fabs
+*       library
+*       functions:      fabs
 *
 ******************************************************************************/
 
@@ -2236,20 +2236,20 @@ void initializeThroat(void)
 
 /******************************************************************************
 *
-*	function:	calculateTubeCoefficients
+*       function:       calculateTubeCoefficients
 *
-*	purpose:	Calculates the scattering coefficients for the vocal
+*       purpose:        Calculates the scattering coefficients for the vocal
 *                       tract according to the current radii.  Also calculates
 *                       the coefficients for the reflection/radiation filter
 *                       pair for the mouth and nose.
 *
 *       arguments:      none
 *
-*	internal
-*	functions:	none
+*       internal
+*       functions:      none
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
@@ -2261,9 +2261,9 @@ void calculateTubeCoefficients(void)
 
     /*  CALCULATE COEFFICIENTS FOR THE OROPHARYNX  */
     for (i = 0; i < (TOTAL_REGIONS-1); i++) {
-	radA2 = current.radius[i] * current.radius[i];
-	radB2 = current.radius[i+1] * current.radius[i+1];
-	oropharynx_coeff[i] = (radA2 - radB2) / (radA2 + radB2);
+        radA2 = current.radius[i] * current.radius[i];
+        radB2 = current.radius[i+1] * current.radius[i+1];
+        oropharynx_coeff[i] = (radA2 - radB2) / (radA2 + radB2);
     }
 
     /*  CALCULATE THE COEFFICIENT FOR THE MOUTH APERTURE  */
@@ -2290,18 +2290,18 @@ void calculateTubeCoefficients(void)
 
 /******************************************************************************
 *
-*	function:	setFricationTaps
+*       function:       setFricationTaps
 *
-*	purpose:	Sets the frication taps according to the current
+*       purpose:        Sets the frication taps according to the current
 *                       position and amplitude of frication.
 *
 *       arguments:      none
 *
-*	internal
-*	functions:	none
+*       internal
+*       functions:      none
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
@@ -2319,20 +2319,20 @@ void setFricationTaps(void)
 
     /*  SET THE FRICATION TAPS  */
     for (i = FC1; i < TOTAL_FRIC_COEFFICIENTS; i++) {
-	if (i == integerPart) {
-	    fricationTap[i] = remainder * fricationAmplitude;
-	    if ((i+1) < TOTAL_FRIC_COEFFICIENTS)
-		fricationTap[++i] = complement * fricationAmplitude;
-	}
-	else
-	    fricationTap[i] = 0.0;
+        if (i == integerPart) {
+            fricationTap[i] = remainder * fricationAmplitude;
+            if ((i+1) < TOTAL_FRIC_COEFFICIENTS)
+                fricationTap[++i] = complement * fricationAmplitude;
+        }
+        else
+            fricationTap[i] = 0.0;
     }
 
 #if DEBUG
     /*  PRINT OUT  */
     printf("fricationTaps:  ");
     for (i = FC1; i < TOTAL_FRIC_COEFFICIENTS; i++)
-	printf("%.6f  ", fricationTap[i]);
+        printf("%.6f  ", fricationTap[i]);
     printf("\n");
 #endif
 }
@@ -2341,19 +2341,19 @@ void setFricationTaps(void)
 
 /******************************************************************************
 *
-*	function:	calculateBandpassCoefficients
+*       function:       calculateBandpassCoefficients
 *
-*	purpose:	Sets the frication bandpass filter coefficients
+*       purpose:        Sets the frication bandpass filter coefficients
 *                       according to the current center frequency and
 *                       bandwidth.
 *
 *       arguments:      none
 *
-*	internal
-*	functions:	none
+*       internal
+*       functions:      none
 *
-*	library
-*	functions:	tan, cos
+*       library
+*       functions:      tan, cos
 *
 ******************************************************************************/
 
@@ -2374,25 +2374,25 @@ void calculateBandpassCoefficients(void)
 
 /******************************************************************************
 *
-*	function:	mod0
+*       function:       mod0
 *
-*	purpose:	Returns the modulus of 'value', keeping it in the
+*       purpose:        Returns the modulus of 'value', keeping it in the
 *                       range 0 -> TABLE_MODULUS.
 *
 *       arguments:      value
 *
-*	internal
-*	functions:	none
+*       internal
+*       functions:      none
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
 double mod0(double value)
 {
     if (value > TABLE_MODULUS)
-	value -= TABLE_LENGTH;
+        value -= TABLE_LENGTH;
 
     return (value);
 }
@@ -2401,18 +2401,18 @@ double mod0(double value)
 
 /******************************************************************************
 *
-*	function:	incrementTablePosition
+*       function:       incrementTablePosition
 *
-*	purpose:	Increments the position in the wavetable according to
+*       purpose:        Increments the position in the wavetable according to
 *                       the desired frequency.
 *
 *       arguments:      frequency
 *
-*	internal
-*	functions:	mod0
+*       internal
+*       functions:      mod0
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
@@ -2425,18 +2425,18 @@ void incrementTablePosition(double frequency)
 
 /******************************************************************************
 *
-*	function:	oscillator
+*       function:       oscillator
 *
-*	purpose:	Is a 2X oversampling interpolating wavetable
+*       purpose:        Is a 2X oversampling interpolating wavetable
 *                       oscillator.
 *
 *       arguments:      frequency
 *
-*	internal
-*	functions:	incrementTablePosition, mod0, FIRFilter
+*       internal
+*       functions:      incrementTablePosition, mod0, FIRFilter
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
@@ -2448,21 +2448,21 @@ double oscillator(double frequency)  /*  2X OVERSAMPLING OSCILLATOR  */
 
 
     for (i = 0; i < 2; i++) {
-	/*  FIRST INCREMENT THE TABLE POSITION, DEPENDING ON FREQUENCY  */
-	incrementTablePosition(frequency/2.0);
+        /*  FIRST INCREMENT THE TABLE POSITION, DEPENDING ON FREQUENCY  */
+        incrementTablePosition(frequency/2.0);
 
-	/*  FIND SURROUNDING INTEGER TABLE POSITIONS  */
-	lowerPosition = (int)currentPosition;
-	upperPosition = mod0(lowerPosition + 1);
+        /*  FIND SURROUNDING INTEGER TABLE POSITIONS  */
+        lowerPosition = (int)currentPosition;
+        upperPosition = mod0(lowerPosition + 1);
 
-	/*  CALCULATE INTERPOLATED TABLE VALUE  */
-	interpolatedValue = (wavetable[lowerPosition] +
-			     ((currentPosition - lowerPosition) *
-			      (wavetable[upperPosition] -
-			       wavetable[lowerPosition])));
+        /*  CALCULATE INTERPOLATED TABLE VALUE  */
+        interpolatedValue = (wavetable[lowerPosition] +
+                             ((currentPosition - lowerPosition) *
+                              (wavetable[upperPosition] -
+                               wavetable[lowerPosition])));
 
-	/*  PUT VALUE THROUGH FIR FILTER  */
-	output = FIRFilter(interpolatedValue, i);
+        /*  PUT VALUE THROUGH FIR FILTER  */
+        output = FIRFilter(interpolatedValue, i);
     }
 
     /*  SINCE WE DECIMATE, TAKE ONLY THE SECOND OUTPUT VALUE  */
@@ -2483,8 +2483,8 @@ double oscillator(double frequency)  /*  PLAIN OSCILLATOR  */
 
     /*  RETURN INTERPOLATED TABLE VALUE  */
     return (wavetable[lowerPosition] +
-	    ((currentPosition - lowerPosition) *
-	     (wavetable[upperPosition] - wavetable[lowerPosition])));
+            ((currentPosition - lowerPosition) *
+             (wavetable[upperPosition] - wavetable[lowerPosition])));
 }
 #endif
 
@@ -2492,20 +2492,20 @@ double oscillator(double frequency)  /*  PLAIN OSCILLATOR  */
 
 /******************************************************************************
 *
-*	function:	vocalTract
+*       function:       vocalTract
 *
-*	purpose:	Updates the pressure wave throughout the vocal tract,
+*       purpose:        Updates the pressure wave throughout the vocal tract,
 *                       and returns the summed output of the oral and nasal
 *                       cavities.  Also injects frication appropriately.
 *
 *       arguments:      input, frication
 *
-*	internal
-*	functions:	reflectionFilter, radiationFilter,
+*       internal
+*       functions:      reflectionFilter, radiationFilter,
 *                       nasalReflectionFilter, nasalRadiationFilter
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
@@ -2517,104 +2517,104 @@ double vocalTract(double input, double frication)
 
     /*  INCREMENT CURRENT AND PREVIOUS POINTERS  */
     if (++current_ptr > 1)
-	current_ptr = 0;
+        current_ptr = 0;
     if (++prev_ptr > 1)
-	prev_ptr = 0;
+        prev_ptr = 0;
 
     /*  UPDATE OROPHARYNX  */
     /*  INPUT TO TOP OF TUBE  */
 
     oropharynx[S1][TOP][current_ptr] =
-	(oropharynx[S1][BOTTOM][prev_ptr] * dampingFactor) + input;
+        (oropharynx[S1][BOTTOM][prev_ptr] * dampingFactor) + input;
 
     /*  CALCULATE THE SCATTERING JUNCTIONS FOR S1-S2  */
 
     delta = oropharynx_coeff[C1] *
-	(oropharynx[S1][TOP][prev_ptr] - oropharynx[S2][BOTTOM][prev_ptr]);
+        (oropharynx[S1][TOP][prev_ptr] - oropharynx[S2][BOTTOM][prev_ptr]);
     oropharynx[S2][TOP][current_ptr] =
-	(oropharynx[S1][TOP][prev_ptr] + delta) * dampingFactor;
+        (oropharynx[S1][TOP][prev_ptr] + delta) * dampingFactor;
     oropharynx[S1][BOTTOM][current_ptr] =
-	(oropharynx[S2][BOTTOM][prev_ptr] + delta) * dampingFactor;
+        (oropharynx[S2][BOTTOM][prev_ptr] + delta) * dampingFactor;
 
     /*  CALCULATE THE SCATTERING JUNCTIONS FOR S2-S3 AND S3-S4  */
     if (verbose)
         printf("\nCalc scattering\n");
     for (i = S2, j = C2, k = FC1; i < S4; i++, j++, k++) {
-	delta = oropharynx_coeff[j] *
-	    (oropharynx[i][TOP][prev_ptr] - oropharynx[i+1][BOTTOM][prev_ptr]);
-	oropharynx[i+1][TOP][current_ptr] =
-	    ((oropharynx[i][TOP][prev_ptr] + delta) * dampingFactor) +
-		(fricationTap[k] * frication);
-	oropharynx[i][BOTTOM][current_ptr] =
-	    (oropharynx[i+1][BOTTOM][prev_ptr] + delta) * dampingFactor;
+        delta = oropharynx_coeff[j] *
+            (oropharynx[i][TOP][prev_ptr] - oropharynx[i+1][BOTTOM][prev_ptr]);
+        oropharynx[i+1][TOP][current_ptr] =
+            ((oropharynx[i][TOP][prev_ptr] + delta) * dampingFactor) +
+                (fricationTap[k] * frication);
+        oropharynx[i][BOTTOM][current_ptr] =
+            (oropharynx[i+1][BOTTOM][prev_ptr] + delta) * dampingFactor;
     }
 
     /*  UPDATE 3-WAY JUNCTION BETWEEN THE MIDDLE OF R4 AND NASAL CAVITY  */
     junctionPressure = (alpha[LEFT] * oropharynx[S4][TOP][prev_ptr])+
-	(alpha[RIGHT] * oropharynx[S5][BOTTOM][prev_ptr]) +
-	(alpha[UPPER] * nasal[VELUM][BOTTOM][prev_ptr]);
+        (alpha[RIGHT] * oropharynx[S5][BOTTOM][prev_ptr]) +
+        (alpha[UPPER] * nasal[VELUM][BOTTOM][prev_ptr]);
     oropharynx[S4][BOTTOM][current_ptr] =
-	(junctionPressure - oropharynx[S4][TOP][prev_ptr]) * dampingFactor;
+        (junctionPressure - oropharynx[S4][TOP][prev_ptr]) * dampingFactor;
     oropharynx[S5][TOP][current_ptr] =
-	((junctionPressure - oropharynx[S5][BOTTOM][prev_ptr]) * dampingFactor)
-	    + (fricationTap[FC3] * frication);
+        ((junctionPressure - oropharynx[S5][BOTTOM][prev_ptr]) * dampingFactor)
+            + (fricationTap[FC3] * frication);
     nasal[VELUM][TOP][current_ptr] =
-	(junctionPressure - nasal[VELUM][BOTTOM][prev_ptr]) * dampingFactor;
+        (junctionPressure - nasal[VELUM][BOTTOM][prev_ptr]) * dampingFactor;
 
     /*  CALCULATE JUNCTION BETWEEN R4 AND R5 (S5-S6)  */
     delta = oropharynx_coeff[C4] *
-	(oropharynx[S5][TOP][prev_ptr] - oropharynx[S6][BOTTOM][prev_ptr]);
+        (oropharynx[S5][TOP][prev_ptr] - oropharynx[S6][BOTTOM][prev_ptr]);
     oropharynx[S6][TOP][current_ptr] =
-	((oropharynx[S5][TOP][prev_ptr] + delta) * dampingFactor) +
-	    (fricationTap[FC4] * frication);
+        ((oropharynx[S5][TOP][prev_ptr] + delta) * dampingFactor) +
+            (fricationTap[FC4] * frication);
     oropharynx[S5][BOTTOM][current_ptr] =
-	(oropharynx[S6][BOTTOM][prev_ptr] + delta) * dampingFactor;
+        (oropharynx[S6][BOTTOM][prev_ptr] + delta) * dampingFactor;
 
     /*  CALCULATE JUNCTION INSIDE R5 (S6-S7) (PURE DELAY WITH DAMPING)  */
     oropharynx[S7][TOP][current_ptr] =
-	(oropharynx[S6][TOP][prev_ptr] * dampingFactor) +
-	    (fricationTap[FC5] * frication);
+        (oropharynx[S6][TOP][prev_ptr] * dampingFactor) +
+            (fricationTap[FC5] * frication);
     oropharynx[S6][BOTTOM][current_ptr] =
-	oropharynx[S7][BOTTOM][prev_ptr] * dampingFactor;
+        oropharynx[S7][BOTTOM][prev_ptr] * dampingFactor;
 
     /*  CALCULATE LAST 3 INTERNAL JUNCTIONS (S7-S8, S8-S9, S9-S10)  */
     for (i = S7, j = C5, k = FC6; i < S10; i++, j++, k++) {
-	delta = oropharynx_coeff[j] *
-	    (oropharynx[i][TOP][prev_ptr] - oropharynx[i+1][BOTTOM][prev_ptr]);
-	oropharynx[i+1][TOP][current_ptr] =
-	    ((oropharynx[i][TOP][prev_ptr] + delta) * dampingFactor) +
-		(fricationTap[k] * frication);
-	oropharynx[i][BOTTOM][current_ptr] =
-	    (oropharynx[i+1][BOTTOM][prev_ptr] + delta) * dampingFactor;
+        delta = oropharynx_coeff[j] *
+            (oropharynx[i][TOP][prev_ptr] - oropharynx[i+1][BOTTOM][prev_ptr]);
+        oropharynx[i+1][TOP][current_ptr] =
+            ((oropharynx[i][TOP][prev_ptr] + delta) * dampingFactor) +
+                (fricationTap[k] * frication);
+        oropharynx[i][BOTTOM][current_ptr] =
+            (oropharynx[i+1][BOTTOM][prev_ptr] + delta) * dampingFactor;
     }
 
     /*  REFLECTED SIGNAL AT MOUTH GOES THROUGH A LOWPASS FILTER  */
     oropharynx[S10][BOTTOM][current_ptr] =  dampingFactor *
-	reflectionFilter(oropharynx_coeff[C8] *
-			 oropharynx[S10][TOP][prev_ptr]);
+        reflectionFilter(oropharynx_coeff[C8] *
+                         oropharynx[S10][TOP][prev_ptr]);
 
     /*  OUTPUT FROM MOUTH GOES THROUGH A HIGHPASS FILTER  */
     output = radiationFilter((1.0 + oropharynx_coeff[C8]) *
-			     oropharynx[S10][TOP][prev_ptr]);
+                             oropharynx[S10][TOP][prev_ptr]);
 
 
     /*  UPDATE NASAL CAVITY  */
     for (i = VELUM, j = NC1; i < N6; i++, j++) {
-	delta = nasal_coeff[j] *
-	    (nasal[i][TOP][prev_ptr] - nasal[i+1][BOTTOM][prev_ptr]);
-	nasal[i+1][TOP][current_ptr] =
-	    (nasal[i][TOP][prev_ptr] + delta) * dampingFactor;
-	nasal[i][BOTTOM][current_ptr] =
-	    (nasal[i+1][BOTTOM][prev_ptr] + delta) * dampingFactor;
+        delta = nasal_coeff[j] *
+            (nasal[i][TOP][prev_ptr] - nasal[i+1][BOTTOM][prev_ptr]);
+        nasal[i+1][TOP][current_ptr] =
+            (nasal[i][TOP][prev_ptr] + delta) * dampingFactor;
+        nasal[i][BOTTOM][current_ptr] =
+            (nasal[i+1][BOTTOM][prev_ptr] + delta) * dampingFactor;
     }
 
     /*  REFLECTED SIGNAL AT NOSE GOES THROUGH A LOWPASS FILTER  */
     nasal[N6][BOTTOM][current_ptr] = dampingFactor *
-	nasalReflectionFilter(nasal_coeff[NC6] * nasal[N6][TOP][prev_ptr]);
+        nasalReflectionFilter(nasal_coeff[NC6] * nasal[N6][TOP][prev_ptr]);
 
     /*  OUTPUT FROM NOSE GOES THROUGH A HIGHPASS FILTER  */
     output += nasalRadiationFilter((1.0 + nasal_coeff[NC6]) *
-				   nasal[N6][TOP][prev_ptr]);
+                                   nasal[N6][TOP][prev_ptr]);
 
     /*  RETURN SUMMED OUTPUT FROM MOUTH AND NOSE  */
     return(output);
@@ -2624,20 +2624,20 @@ double vocalTract(double input, double frication)
 
 /******************************************************************************
 *
-*	function:	throat
+*       function:       throat
 *
-*	purpose:	Simulates the radiation of sound through the walls
+*       purpose:        Simulates the radiation of sound through the walls
 *                       of the throat.  Note that this form of the filter
 *                       uses addition instead of subtraction for the
 *                       second term, since tb1 has reversed sign.
 *
 *       arguments:      input
 *
-*	internal
-*	functions:	none
+*       internal
+*       functions:      none
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
@@ -2654,18 +2654,18 @@ double throat(double input)
 
 /******************************************************************************
 *
-*	function:	bandpassFilter
+*       function:       bandpassFilter
 *
-*	purpose:	Frication bandpass filter, with variable center
+*       purpose:        Frication bandpass filter, with variable center
 *                       frequency and bandwidth.
 *
 *       arguments:      input
 *
-*	internal
-*	functions:	none
+*       internal
+*       functions:      none
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
@@ -2676,7 +2676,7 @@ double bandpassFilter(double input)
 
 
     output = 2.0 *
-	((bpAlpha * (input - xn2)) + (bpGamma * yn1) - (bpBeta * yn2));
+        ((bpAlpha * (input - xn2)) + (bpGamma * yn1) - (bpBeta * yn2));
 
     xn2 = xn1;
     xn1 = input;
@@ -2690,23 +2690,23 @@ double bandpassFilter(double input)
 
 /******************************************************************************
 *
-*	function:	writeOutputToFile
+*       function:       writeOutputToFile
 *
-*	purpose:	Scales the samples stored in the temporary file, and
+*       purpose:        Scales the samples stored in the temporary file, and
 *                       writes them to the output file, with the appropriate
 *                       header.  Also does master volume scaling, and stereo
 *                       balance scaling, if 2 channels of output.
 *
 *       arguments:      fileName
 *
-*	internal
-*	functions:	writeAuFileHeader, writeSamplesMonoMsb,
+*       internal
+*       functions:      writeAuFileHeader, writeSamplesMonoMsb,
 *                       writeSamplesStereoMsb, writeAiffHeader,
 *                       writeWaveHeader, writeSamplesMonoLsb,
 *                       writeSamplesStereoLsb
 *
-*	library
-*	functions:	fopen, printf, fclose
+*       library
+*       functions:      fopen, printf, fclose
 *
 ******************************************************************************/
 
@@ -2718,26 +2718,26 @@ void writeOutputToFile(char *fileName)
 
     /*  Calculate scaling constant  */
     scale =
-	OUTPUT_SCALE * (RANGE_MAX / maximumSampleValue) * amplitude(volume);
+        OUTPUT_SCALE * (RANGE_MAX / maximumSampleValue) * amplitude(volume);
 
     /*  Print out info  */
     if (verbose) {
-	printf("\nnumber of samples:\t%-ld\n", numberSamples);
-	printf("maximum sample value:\t%.4f\n", maximumSampleValue);
-	printf("scale:\t\t\t%.4f\n", scale);
+        printf("\nnumber of samples:\t%-ld\n", numberSamples);
+        printf("maximum sample value:\t%.4f\n", maximumSampleValue);
+        printf("scale:\t\t\t%.4f\n", scale);
     }
 
     /*  If stereo, calculate left and right scaling constants  */
     if (channels == 2) {
-	/*  Calculate left and right channel amplitudes  */
-	leftScale = -((balance / 2.0) - 0.5) * scale * 2.0;
-	rightScale = ((balance / 2.0) + 0.5) * scale * 2.0;
+        /*  Calculate left and right channel amplitudes  */
+        leftScale = -((balance / 2.0) - 0.5) * scale * 2.0;
+        rightScale = ((balance / 2.0) + 0.5) * scale * 2.0;
 
-	/*  Print out info  */
-	if (verbose) {
-	    printf("left scale:\t\t%.4f\n", leftScale);
-	    printf("right scale:\t\t%.4f\n", rightScale);
-	}
+        /*  Print out info  */
+        if (verbose) {
+            printf("left scale:\t\t%.4f\n", leftScale);
+            printf("right scale:\t\t%.4f\n", rightScale);
+        }
     }
 
     /*  Open the output file  */
@@ -2747,26 +2747,26 @@ void writeOutputToFile(char *fileName)
     if (outputFileFormat == AU_FILE_FORMAT) {
       writeAuFileHeader(channels, numberSamples, outputRate, fd);
       if (channels == 1)
-	writeSamplesMonoMsb(tempFilePtr, numberSamples, scale, fd);
+        writeSamplesMonoMsb(tempFilePtr, numberSamples, scale, fd);
       else
-	writeSamplesStereoMsb(tempFilePtr, numberSamples, leftScale,
-			      rightScale, fd);
+        writeSamplesStereoMsb(tempFilePtr, numberSamples, leftScale,
+                              rightScale, fd);
     }
     else if (outputFileFormat == AIFF_FILE_FORMAT) {
       writeAiffFileHeader(channels, numberSamples, outputRate, fd);
       if (channels == 1)
-	writeSamplesMonoMsb(tempFilePtr, numberSamples, scale, fd);
+        writeSamplesMonoMsb(tempFilePtr, numberSamples, scale, fd);
       else
-	writeSamplesStereoMsb(tempFilePtr, numberSamples, leftScale,
-			      rightScale, fd);
+        writeSamplesStereoMsb(tempFilePtr, numberSamples, leftScale,
+                              rightScale, fd);
     }
     else if (outputFileFormat == WAVE_FILE_FORMAT) {
       writeWaveFileHeader(channels, numberSamples, outputRate, fd);
       if (channels == 1)
-	writeSamplesMonoLsb(tempFilePtr, numberSamples, scale, fd);
+        writeSamplesMonoLsb(tempFilePtr, numberSamples, scale, fd);
       else
-	writeSamplesStereoLsb(tempFilePtr, numberSamples, leftScale,
-			      rightScale, fd);
+        writeSamplesStereoLsb(tempFilePtr, numberSamples, leftScale,
+                              rightScale, fd);
     }
 
     /*  Close the output file  */
@@ -2790,7 +2790,7 @@ void writeOutputToFile(char *fileName)
 ******************************************************************************/
 
 void writeAuFileHeader(int channels, long int numberSamples,
-		       float outputRate, FILE *outputFile)
+                       float outputRate, FILE *outputFile)
 {
   /*  AU magic string: ".snd"  */
   fputs(".snd", outputFile);
@@ -2831,7 +2831,7 @@ void writeAuFileHeader(int channels, long int numberSamples,
 ******************************************************************************/
 
 void writeAiffFileHeader(int channels, long int numberSamples,
-			 float outputRate, FILE *outputFile)
+                         float outputRate, FILE *outputFile)
 {
   unsigned char sampleFramesPerSecond[10];
   int soundDataSize = channels * numberSamples * sizeof(short);
@@ -2897,7 +2897,7 @@ void writeAiffFileHeader(int channels, long int numberSamples,
 ******************************************************************************/
 
 void writeWaveFileHeader(int channels, long int numberSamples,
-			 float outputRate, FILE *outputFile)
+                         float outputRate, FILE *outputFile)
 {
   int soundDataSize = channels * numberSamples * sizeof(short);
   int dataChunkSize = soundDataSize;
@@ -2965,7 +2965,7 @@ void writeWaveFileHeader(int channels, long int numberSamples,
 ******************************************************************************/
 
 void writeSamplesMonoMsb(FILE *tempFile, long int numberSamples,
-			 double scale, FILE *outputFile)
+                         double scale, FILE *outputFile)
 {
   long int i;
 
@@ -3001,7 +3001,7 @@ void writeSamplesMonoMsb(FILE *tempFile, long int numberSamples,
 ******************************************************************************/
 
 void writeSamplesMonoLsb(FILE *tempFile, long int numberSamples,
-			 double scale, FILE *outputFile)
+                         double scale, FILE *outputFile)
 {
   long int i;
 
@@ -3037,8 +3037,8 @@ void writeSamplesMonoLsb(FILE *tempFile, long int numberSamples,
 ******************************************************************************/
 
 void writeSamplesStereoMsb(FILE *tempFile, long int numberSamples,
-			   double leftScale, double rightScale,
-			   FILE *outputFile)
+                           double leftScale, double rightScale,
+                           FILE *outputFile)
 {
   long int i;
 
@@ -3075,8 +3075,8 @@ void writeSamplesStereoMsb(FILE *tempFile, long int numberSamples,
 ******************************************************************************/
 
 void writeSamplesStereoLsb(FILE *tempFile, long int numberSamples,
-			   double leftScale, double rightScale,
-			   FILE *outputFile)
+                           double leftScale, double rightScale,
+                           FILE *outputFile)
 {
   long int i;
 
@@ -3322,9 +3322,9 @@ double frequency(double pitch)
 
 /******************************************************************************
 *
-*	function:	maximallyFlat
+*       function:       maximallyFlat
 *
-*	purpose:	Calculates coefficients for a linear phase lowpass FIR
+*       purpose:        Calculates coefficients for a linear phase lowpass FIR
 *                       filter, with beta being the center frequency of the
 *                       transition band (as a fraction of the sampling
 *                       frequency), and gamme the width of the transition
@@ -3332,11 +3332,11 @@ double frequency(double pitch)
 *
 *       arguments:      beta, gamma, np, coefficient
 *
-*	internal
-*	functions:	rationalApproximation
+*       internal
+*       functions:      rationalApproximation
 *
-*	library
-*	functions:	cos, pow
+*       library
+*       functions:      cos, pow
 *
 ******************************************************************************/
 
@@ -3351,18 +3351,18 @@ int maximallyFlat(double beta, double gamma, int *np, double *coefficient)
 
     /*  CUT-OFF FREQUENCY MUST BE BETWEEN 0 HZ AND NYQUIST  */
     if ((beta <= 0.0) || (beta >= 0.5))
-	return(BETA_OUT_OF_RANGE);
+        return(BETA_OUT_OF_RANGE);
 
     /*  TRANSITION BAND MUST FIT WITH THE STOP BAND  */
     betaMinimum = ((2.0 * beta) < (1.0 - 2.0 * beta)) ? (2.0 * beta) :
-	(1.0 - 2.0 * beta);
+        (1.0 - 2.0 * beta);
     if ((gamma <= 0.0) || (gamma >= betaMinimum))
-	return(GAMMA_OUT_OF_RANGE);
+        return(GAMMA_OUT_OF_RANGE);
 
     /*  MAKE SURE TRANSITION BAND NOT TOO SMALL  */
     nt = (int)(1.0 / (4.0 * gamma * gamma));
     if (nt > 160)
-	return(GAMMA_TOO_SMALL);
+        return(GAMMA_TOO_SMALL);
 
     /*  CALCULATE THE RATIONAL APPROXIMATION TO THE CUT-OFF POINT  */
     ac = (1.0 + cos(TWO_PI * beta)) / 2.0;
@@ -3371,7 +3371,7 @@ int maximallyFlat(double beta, double gamma, int *np, double *coefficient)
     /*  CALCULATE FILTER ORDER  */
     n = (2 * (*np)) - 1;
     if (numerator == 0)
-	numerator = 1;
+        numerator = 1;
 
 
     /*  COMPUTE MAGNITUDE AT NP POINTS  */
@@ -3379,40 +3379,40 @@ int maximallyFlat(double beta, double gamma, int *np, double *coefficient)
     ll = nt - numerator;
 
     for (i = 2; i <= (*np); i++) {
-	int j;
-	double x, sum = 1.0, y;
-	c[i] = cos(TWO_PI * ((double)(i-1)/(double)n));
-	x = (1.0 - c[i]) / 2.0;
-	y = x;
+        int j;
+        double x, sum = 1.0, y;
+        c[i] = cos(TWO_PI * ((double)(i-1)/(double)n));
+        x = (1.0 - c[i]) / 2.0;
+        y = x;
 
-	if (numerator == nt)
-	    continue;
+        if (numerator == nt)
+            continue;
 
-	for (j = 1; j <= ll; j++) {
-	    double z = y;
-	    if (numerator != 1) {
-		int jj;
-		for (jj = 1; jj <= (numerator - 1); jj++)
-		    z *= 1.0 + ((double)j / (double)jj);
-	    }
-	    y *= x;
-	    sum += z;
-	}
-	a[i] = sum * pow((1.0 - x), numerator);
+        for (j = 1; j <= ll; j++) {
+            double z = y;
+            if (numerator != 1) {
+                int jj;
+                for (jj = 1; jj <= (numerator - 1); jj++)
+                    z *= 1.0 + ((double)j / (double)jj);
+            }
+            y *= x;
+            sum += z;
+        }
+        a[i] = sum * pow((1.0 - x), numerator);
     }
 
 
     /*  CALCULATE WEIGHTING COEFFICIENTS BY AN N-POINT IDFT  */
     for (i = 1; i <= (*np); i++) {
-	int j;
-	coefficient[i] = a[1] / 2.0;
-	for (j = 2; j <= (*np); j++) {
-	    int m = ((i - 1) * (j - 1)) % n;
-	    if (m > nt)
-		m = n - m;
-	    coefficient[i] += c[m+1] * a[j];
-	}
-	coefficient[i] *= 2.0/(double)n;
+        int j;
+        coefficient[i] = a[1] / 2.0;
+        for (j = 2; j <= (*np); j++) {
+            int m = ((i - 1) * (j - 1)) % n;
+            if (m > nt)
+                m = n - m;
+            coefficient[i] += c[m+1] * a[j];
+        }
+        coefficient[i] *= 2.0/(double)n;
     }
 
     return(0);
@@ -3422,18 +3422,18 @@ int maximallyFlat(double beta, double gamma, int *np, double *coefficient)
 
 /******************************************************************************
 *
-*	function:	trim
+*       function:       trim
 *
-*	purpose:	Trims the higher order coefficients of the FIR filter
+*       purpose:        Trims the higher order coefficients of the FIR filter
 *                       which fall below the cutoff value.
 *
 *       arguments:      cutoff, numberCoefficients, coefficient
 *
-*	internal
-*	functions:	none
+*       internal
+*       functions:      none
 *
-*	library
-*	functions:	fabs
+*       library
+*       functions:      fabs
 *
 ******************************************************************************/
 
@@ -3442,10 +3442,10 @@ void trim(double cutoff, int *numberCoefficients, double *coefficient)
     int i;
 
     for (i = (*numberCoefficients); i > 0; i--) {
-	if (fabs(coefficient[i]) >= fabs(cutoff)) {
-	    (*numberCoefficients) = i;
-	    return;
-	}
+        if (fabs(coefficient[i]) >= fabs(cutoff)) {
+            (*numberCoefficients) = i;
+            return;
+        }
     }
 }
 
@@ -3453,23 +3453,23 @@ void trim(double cutoff, int *numberCoefficients, double *coefficient)
 
 /******************************************************************************
 *
-*	function:	rationalApproximation
+*       function:       rationalApproximation
 *
-*	purpose:	Calculates the best rational approximation to 'number',
+*       purpose:        Calculates the best rational approximation to 'number',
 *                       given the maximum 'order'.
 *
 *       arguments:      number, order, numerator, denominator
 *
-*	internal
-*	functions:	none
+*       internal
+*       functions:      none
 *
-*	library
-*	functions:	fabs
+*       library
+*       functions:      fabs
 *
 ******************************************************************************/
 
 void rationalApproximation(double number, int *order,
-			   int *numerator, int *denominator)
+                           int *numerator, int *denominator)
 {
     double fractionalPart, minimumError = 1.0;
     int i, orderMaximum, modulus = 0;
@@ -3477,10 +3477,10 @@ void rationalApproximation(double number, int *order,
 
     /*  RETURN IMMEDIATELY IF THE ORDER IS LESS THAN ONE  */
     if (*order <= 0) {
-	*numerator = 0;
-	*denominator = 0;
-	*order = -1;
-	return;
+        *numerator = 0;
+        *denominator = 0;
+        *order = -1;
+        return;
     }
 
     /*  FIND THE ABSOLUTE VALUE OF THE FRACTIONAL PART OF THE NUMBER  */
@@ -3492,28 +3492,28 @@ void rationalApproximation(double number, int *order,
 
     /*  FIND THE BEST DENOMINATOR VALUE  */
     for (i = (*order); i <= orderMaximum; i++) {
-	double ps = i * fractionalPart;
-	int ip = (int)(ps + 0.5);
-	double error = fabs( (ps - (double)ip)/(double)i );
-	if (error < minimumError) {
-	    minimumError = error;
-	    modulus = ip;
-	    *denominator = i;
-	}
+        double ps = i * fractionalPart;
+        int ip = (int)(ps + 0.5);
+        double error = fabs( (ps - (double)ip)/(double)i );
+        if (error < minimumError) {
+            minimumError = error;
+            modulus = ip;
+            *denominator = i;
+        }
     }
 
     /*  DETERMINE THE NUMERATOR VALUE, MAKING IT NEGATIVE IF NECESSARY  */
     *numerator = (int)fabs(number) * (*denominator) + modulus;
     if (number < 0)
-	*numerator *= (-1);
+        *numerator *= (-1);
 
     /*  SET THE ORDER  */
     *order = *denominator - 1;
 
     /*  RESET THE NUMERATOR AND DENOMINATOR IF THEY ARE EQUAL  */
     if (*numerator == *denominator) {
-	*denominator = orderMaximum;
-	*order = *numerator = *denominator - 1;
+        *denominator = orderMaximum;
+        *order = *numerator = *denominator - 1;
     }
 }
 
@@ -3521,49 +3521,49 @@ void rationalApproximation(double number, int *order,
 
 /******************************************************************************
 *
-*	function:	FIRFilter
+*       function:       FIRFilter
 *
-*	purpose:	Is the linear phase, lowpass FIR filter.
+*       purpose:        Is the linear phase, lowpass FIR filter.
 *
 *       arguments:      input, needOutput
 *
-*	internal
-*	functions:	increment, decrement
+*       internal
+*       functions:      increment, decrement
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
 double FIRFilter(double input, int needOutput)
 {
     if (needOutput) {
-	int i;
-	double output = 0.0;
+        int i;
+        double output = 0.0;
 
-	/*  PUT INPUT SAMPLE INTO DATA BUFFER  */
-	FIRData[FIRPtr] = input;
+        /*  PUT INPUT SAMPLE INTO DATA BUFFER  */
+        FIRData[FIRPtr] = input;
 
-	/*  SUM THE OUTPUT FROM ALL FILTER TAPS  */
-	for (i = 0; i < numberTaps; i++) {
-	    output += FIRData[FIRPtr] * FIRCoef[i];
-	    FIRPtr = increment(FIRPtr, numberTaps);
-	}
+        /*  SUM THE OUTPUT FROM ALL FILTER TAPS  */
+        for (i = 0; i < numberTaps; i++) {
+            output += FIRData[FIRPtr] * FIRCoef[i];
+            FIRPtr = increment(FIRPtr, numberTaps);
+        }
 
-	/*  DECREMENT THE DATA POINTER READY FOR NEXT CALL  */
-	FIRPtr = decrement(FIRPtr, numberTaps);
+        /*  DECREMENT THE DATA POINTER READY FOR NEXT CALL  */
+        FIRPtr = decrement(FIRPtr, numberTaps);
 
-	/*  RETURN THE OUTPUT VALUE  */
-	return(output);
+        /*  RETURN THE OUTPUT VALUE  */
+        return(output);
     }
     else {
-	/*  PUT INPUT SAMPLE INTO DATA BUFFER  */
-	FIRData[FIRPtr] = input;
+        /*  PUT INPUT SAMPLE INTO DATA BUFFER  */
+        FIRData[FIRPtr] = input;
 
-	/*  ADJUST THE DATA POINTER, READY FOR NEXT CALL  */
-	FIRPtr = decrement(FIRPtr, numberTaps);
+        /*  ADJUST THE DATA POINTER, READY FOR NEXT CALL  */
+        FIRPtr = decrement(FIRPtr, numberTaps);
 
-	return(0.0);
+        return(0.0);
     }
 }
 
@@ -3571,70 +3571,70 @@ double FIRFilter(double input, int needOutput)
 
 /******************************************************************************
 *
-*	function:	increment
+*       function:       increment
 *
-*	purpose:	Increments the pointer to the circular FIR filter
+*       purpose:        Increments the pointer to the circular FIR filter
 *                       buffer, keeping it in the range 0 -> modulus-1.
 *
 *       arguments:      pointer, modulus
 *
-*	internal
-*	functions:	none
+*       internal
+*       functions:      none
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
 int increment(int pointer, int modulus)
 {
     if (++pointer >= modulus)
-	return(0);
+        return(0);
     else
-	return(pointer);
+        return(pointer);
 }
 
 
 /******************************************************************************
 *
-*	function:	decrement
+*       function:       decrement
 *
-*	purpose:	Decrements the pointer to the circular FIR filter
+*       purpose:        Decrements the pointer to the circular FIR filter
 *                       buffer, keeping it in the range 0 -> modulus-1.
 *
 *       arguments:      pointer, modulus
 *
-*	internal
-*	functions:	none
+*       internal
+*       functions:      none
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
 int decrement(int pointer, int modulus)
 {
     if (--pointer < 0)
-	return(modulus-1);
+        return(modulus-1);
     else
-	return(pointer);
+        return(pointer);
 }
 
 
 
 /******************************************************************************
 *
-*	function:	initializeConversion
+*       function:       initializeConversion
 *
-*	purpose:	Initializes all the sample rate conversion functions.
+*       purpose:        Initializes all the sample rate conversion functions.
 *
 *       arguments:      none
 *
-*	internal
-*	functions:	initializeFilter, initializeBuffer
+*       internal
+*       functions:      initializeFilter, initializeBuffer
 *
-*	library
-*	functions:	rint, pow
+*       library
+*       functions:      rint, pow
 *
 ******************************************************************************/
 
@@ -3651,24 +3651,24 @@ void initializeConversion(void)
 
     /*  CALCULATE TIME REGISTER INCREMENT  */
     timeRegisterIncrement =
-	(int)rint( pow(2.0, FRACTION_BITS) / sampleRateRatio );
+        (int)rint( pow(2.0, FRACTION_BITS) / sampleRateRatio );
 
     /*  CALCULATE ROUNDED SAMPLE RATE RATIO  */
     roundedSampleRateRatio =
-	pow(2.0, FRACTION_BITS) / (double)timeRegisterIncrement;
+        pow(2.0, FRACTION_BITS) / (double)timeRegisterIncrement;
 
     /*  CALCULATE PHASE OR FILTER INCREMENT  */
     if (sampleRateRatio >= 1.0) {
-	filterIncrement = L_RANGE;
+        filterIncrement = L_RANGE;
     }
     else {
-	phaseIncrement =
-	     (unsigned int)rint(sampleRateRatio * (double)FRACTION_RANGE);
+        phaseIncrement =
+             (unsigned int)rint(sampleRateRatio * (double)FRACTION_RANGE);
     }
 
     /*  CALCULATE PAD SIZE  */
     padSize = (sampleRateRatio >= 1.0) ? ZERO_CROSSINGS :
-	(int)((float)ZERO_CROSSINGS / roundedSampleRateRatio) + 1;
+        (int)((float)ZERO_CROSSINGS / roundedSampleRateRatio) + 1;
 
     /*  INITIALIZE THE RING BUFFER  */
     initializeBuffer();
@@ -3678,18 +3678,18 @@ void initializeConversion(void)
 
 /******************************************************************************
 *
-*	function:	initializeFilter
+*       function:       initializeFilter
 *
-*	purpose:	Initializes filter impulse response and impulse delta
+*       purpose:        Initializes filter impulse response and impulse delta
 *                       values.
 *
 *       arguments:      none
 *
-*	internal
-*	functions:	none
+*       internal
+*       functions:      none
 *
-*	library
-*	functions:	sin, cos
+*       library
+*       functions:      sin, cos
 *
 ******************************************************************************/
 
@@ -3703,20 +3703,20 @@ void initializeFilter(void)
     h[0] = LP_CUTOFF;
     x = PI / (double)L_RANGE;
     for (i = 1; i < FILTER_LENGTH; i++) {
-	double y = (double)i * x;
-	h[i] = sin(y * LP_CUTOFF) / y;
+        double y = (double)i * x;
+        h[i] = sin(y * LP_CUTOFF) / y;
     }
 
     /*  APPLY A KAISER WINDOW TO THE IMPULSE RESPONSE  */
     IBeta = 1.0 / Izero(BETA);
     for (i = 0; i < FILTER_LENGTH; i++) {
-	double temp = (double)i / FILTER_LENGTH;
-	h[i] *= Izero(BETA * sqrt(1.0 - (temp * temp))) * IBeta;
+        double temp = (double)i / FILTER_LENGTH;
+        h[i] *= Izero(BETA * sqrt(1.0 - (temp * temp))) * IBeta;
     }
 
     /*  INITIALIZE THE FILTER IMPULSE RESPONSE DELTA VALUES  */
     for (i = 0; i < FILTER_LIMIT; i++)
-	deltaH[i] = h[i+1] - h[i];
+        deltaH[i] = h[i+1] - h[i];
     deltaH[FILTER_LIMIT] = 0.0 - h[FILTER_LIMIT];
 }
 
@@ -3724,18 +3724,18 @@ void initializeFilter(void)
 
 /******************************************************************************
 *
-*	function:	Izero
+*       function:       Izero
 *
-*	purpose:	Returns the value for the modified Bessel function of
+*       purpose:        Returns the value for the modified Bessel function of
 *                       the first kind, order 0, as a double.
 *
 *       arguments:      x - input argument
 *
-*	internal
-*	functions:	none
+*       internal
+*       functions:      none
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
@@ -3749,11 +3749,11 @@ double Izero(double x)
     halfx = x / 2.0;
 
     do {
-	temp = halfx / (double)n;
-	n += 1;
-	temp *= temp;
-	u *= temp;
-	sum += u;
+        temp = halfx / (double)n;
+        n += 1;
+        temp *= temp;
+        u *= temp;
+        sum += u;
     } while (u >= (IzeroEPSILON * sum));
 
     return(sum);
@@ -3763,18 +3763,18 @@ double Izero(double x)
 
 /******************************************************************************
 *
-*	function:	initializeBuffer
+*       function:       initializeBuffer
 *
-*	purpose:	Initializes the ring buffer used for sample rate
+*       purpose:        Initializes the ring buffer used for sample rate
 *                       conversion.
 *
 *       arguments:      none
 *
-*	internal
-*	functions:	none
+*       internal
+*       functions:      none
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
@@ -3785,7 +3785,7 @@ void initializeBuffer(void)
 
     /*  FILL THE RING BUFFER WITH ALL ZEROS  */
     for (i = 0; i < BUFFER_SIZE; i++)
-	buffer[i] = 0.0;
+        buffer[i] = 0.0;
 
     /*  INITIALIZE FILL POINTER  */
     fillPtr = padSize;
@@ -3798,19 +3798,19 @@ void initializeBuffer(void)
 
 /******************************************************************************
 *
-*	function:	dataFill
+*       function:       dataFill
 *
-*	purpose:	Fills the ring buffer with a single sample, increments
+*       purpose:        Fills the ring buffer with a single sample, increments
 *                       the counters and pointers, and empties the buffer when
 *                       full.
 *
 *       arguments:      data
 *
-*	internal
-*	functions:	srIncrement, dataEmpty
+*       internal
+*       functions:      srIncrement, dataEmpty
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
@@ -3827,9 +3827,9 @@ void dataFill(double data)
 
     /*  INCREMENT THE COUNTER, AND EMPTY THE BUFFER IF FULL  */
     if (++fillCounter >= fillSize) {
-	dataEmpty();
-	/* RESET THE FILL COUNTER  */
-	fillCounter = 0;
+        dataEmpty();
+        /* RESET THE FILL COUNTER  */
+        fillCounter = 0;
     }
 }
 
@@ -3837,19 +3837,19 @@ void dataFill(double data)
 
 /******************************************************************************
 *
-*	function:	dataEmpty
+*       function:       dataEmpty
 *
-*	purpose:	Converts available portion of the input signal to the
+*       purpose:        Converts available portion of the input signal to the
 *                       new sampling rate, and outputs the samples to the
 *                       sound struct.
 *
 *       arguments:      none
 *
-*	internal
-*	functions:	srDecrement, srIncrement
+*       internal
+*       functions:      srDecrement, srIncrement
 *
-*	library
-*	functions:	rint, fabs, fwrite
+*       library
+*       functions:      rint, fabs, fwrite
 *
 ******************************************************************************/
 
@@ -3863,142 +3863,142 @@ void dataEmpty(void)
 
     /*  ADJUST THE END POINTER, IF LESS THAN ZERO  */
     if (endPtr < 0)
-	endPtr += BUFFER_SIZE;
+        endPtr += BUFFER_SIZE;
 
     /*  ADJUST THE ENDPOINT, IF LESS THEN THE EMPTY POINTER  */
     if (endPtr < emptyPtr)
-	endPtr += BUFFER_SIZE;
+        endPtr += BUFFER_SIZE;
 
     /*  UPSAMPLE LOOP (SLIGHTLY MORE EFFICIENT THAN DOWNSAMPLING)  */
     if (sampleRateRatio >= 1.0) {
-	while (emptyPtr < endPtr) {
-	    int index;
-	    unsigned int filterIndex;
-	    double output, interpolation, absoluteSampleValue;
+        while (emptyPtr < endPtr) {
+            int index;
+            unsigned int filterIndex;
+            double output, interpolation, absoluteSampleValue;
 
-	    /*  RESET ACCUMULATOR TO ZERO  */
-	    output = 0.0;
+            /*  RESET ACCUMULATOR TO ZERO  */
+            output = 0.0;
 
-	    /*  CALCULATE INTERPOLATION VALUE (STATIC WHEN UPSAMPLING)  */
-	    interpolation = (double)mValue(timeRegister) / M_RANGE;
+            /*  CALCULATE INTERPOLATION VALUE (STATIC WHEN UPSAMPLING)  */
+            interpolation = (double)mValue(timeRegister) / M_RANGE;
 
-	    /*  COMPUTE THE LEFT SIDE OF THE FILTER CONVOLUTION  */
-	    index = emptyPtr;
-	    for (filterIndex = lValue(timeRegister);
-		 filterIndex < FILTER_LENGTH;
-		 srDecrement(&index,BUFFER_SIZE),
-		 filterIndex += filterIncrement) {
-		output += (buffer[index] *
-		    (h[filterIndex] + (deltaH[filterIndex] * interpolation)));
-	    }
+            /*  COMPUTE THE LEFT SIDE OF THE FILTER CONVOLUTION  */
+            index = emptyPtr;
+            for (filterIndex = lValue(timeRegister);
+                 filterIndex < FILTER_LENGTH;
+                 srDecrement(&index,BUFFER_SIZE),
+                 filterIndex += filterIncrement) {
+                output += (buffer[index] *
+                    (h[filterIndex] + (deltaH[filterIndex] * interpolation)));
+            }
 
-	    /*  ADJUST VALUES FOR RIGHT SIDE CALCULATION  */
-	    timeRegister = ~timeRegister;
-	    interpolation = (double)mValue(timeRegister) / M_RANGE;
+            /*  ADJUST VALUES FOR RIGHT SIDE CALCULATION  */
+            timeRegister = ~timeRegister;
+            interpolation = (double)mValue(timeRegister) / M_RANGE;
 
-	    /*  COMPUTE THE RIGHT SIDE OF THE FILTER CONVOLUTION  */
-	    index = emptyPtr;
-	    srIncrement(&index,BUFFER_SIZE);
-	    for (filterIndex = lValue(timeRegister);
-		 filterIndex < FILTER_LENGTH;
-		 srIncrement(&index,BUFFER_SIZE),
-		 filterIndex += filterIncrement) {
-		output += (buffer[index] *
-		    (h[filterIndex] + (deltaH[filterIndex] * interpolation)));
-	    }
+            /*  COMPUTE THE RIGHT SIDE OF THE FILTER CONVOLUTION  */
+            index = emptyPtr;
+            srIncrement(&index,BUFFER_SIZE);
+            for (filterIndex = lValue(timeRegister);
+                 filterIndex < FILTER_LENGTH;
+                 srIncrement(&index,BUFFER_SIZE),
+                 filterIndex += filterIncrement) {
+                output += (buffer[index] *
+                    (h[filterIndex] + (deltaH[filterIndex] * interpolation)));
+            }
 
-	    /*  RECORD MAXIMUM SAMPLE VALUE  */
-	    absoluteSampleValue = fabs(output);
-	    if (absoluteSampleValue > maximumSampleValue)
-		maximumSampleValue = absoluteSampleValue;
+            /*  RECORD MAXIMUM SAMPLE VALUE  */
+            absoluteSampleValue = fabs(output);
+            if (absoluteSampleValue > maximumSampleValue)
+                maximumSampleValue = absoluteSampleValue;
 
-	    /*  INCREMENT SAMPLE NUMBER  */
-	    numberSamples++;
+            /*  INCREMENT SAMPLE NUMBER  */
+            numberSamples++;
 
-	    /*  OUTPUT THE SAMPLE TO THE TEMPORARY FILE  */
-	    fwrite((char *)&output, sizeof(output), 1, tempFilePtr);
+            /*  OUTPUT THE SAMPLE TO THE TEMPORARY FILE  */
+            fwrite((char *)&output, sizeof(output), 1, tempFilePtr);
 
-	    /*  CHANGE TIME REGISTER BACK TO ORIGINAL FORM  */
-	    timeRegister = ~timeRegister;
+            /*  CHANGE TIME REGISTER BACK TO ORIGINAL FORM  */
+            timeRegister = ~timeRegister;
 
-	    /*  INCREMENT THE TIME REGISTER  */
-	    timeRegister += timeRegisterIncrement;
+            /*  INCREMENT THE TIME REGISTER  */
+            timeRegister += timeRegisterIncrement;
 
-	    /*  INCREMENT THE EMPTY POINTER, ADJUSTING IT AND END POINTER  */
-	    emptyPtr += nValue(timeRegister);
+            /*  INCREMENT THE EMPTY POINTER, ADJUSTING IT AND END POINTER  */
+            emptyPtr += nValue(timeRegister);
 
-	    if (emptyPtr >= BUFFER_SIZE) {
-		emptyPtr -= BUFFER_SIZE;
-		endPtr -= BUFFER_SIZE;
-	    }
+            if (emptyPtr >= BUFFER_SIZE) {
+                emptyPtr -= BUFFER_SIZE;
+                endPtr -= BUFFER_SIZE;
+            }
 
-	    /*  CLEAR N PART OF TIME REGISTER  */
-	    timeRegister &= (~N_MASK);
-	}
+            /*  CLEAR N PART OF TIME REGISTER  */
+            timeRegister &= (~N_MASK);
+        }
     }
     /*  DOWNSAMPLING CONVERSION LOOP  */
     else {
-	while (emptyPtr < endPtr) {
-	    int index;
-	    unsigned int phaseIndex, impulseIndex;
-	    double absoluteSampleValue, output, impulse;
+        while (emptyPtr < endPtr) {
+            int index;
+            unsigned int phaseIndex, impulseIndex;
+            double absoluteSampleValue, output, impulse;
 
-	    /*  RESET ACCUMULATOR TO ZERO  */
-	    output = 0.0;
+            /*  RESET ACCUMULATOR TO ZERO  */
+            output = 0.0;
 
-	    /*  COMPUTE P PRIME  */
-	    phaseIndex = (unsigned int)rint(
-		   ((double)fractionValue(timeRegister)) * sampleRateRatio);
+            /*  COMPUTE P PRIME  */
+            phaseIndex = (unsigned int)rint(
+                   ((double)fractionValue(timeRegister)) * sampleRateRatio);
 
-	    /*  COMPUTE THE LEFT SIDE OF THE FILTER CONVOLUTION  */
-	    index = emptyPtr;
-	    while ((impulseIndex = (phaseIndex>>M_BITS)) < FILTER_LENGTH) {
-		impulse = h[impulseIndex] + (deltaH[impulseIndex] *
-		    (((double)mValue(phaseIndex)) / M_RANGE));
-		output += (buffer[index] * impulse);
-		srDecrement(&index,BUFFER_SIZE);
-		phaseIndex += phaseIncrement;
-	    }
+            /*  COMPUTE THE LEFT SIDE OF THE FILTER CONVOLUTION  */
+            index = emptyPtr;
+            while ((impulseIndex = (phaseIndex>>M_BITS)) < FILTER_LENGTH) {
+                impulse = h[impulseIndex] + (deltaH[impulseIndex] *
+                    (((double)mValue(phaseIndex)) / M_RANGE));
+                output += (buffer[index] * impulse);
+                srDecrement(&index,BUFFER_SIZE);
+                phaseIndex += phaseIncrement;
+            }
 
-	    /*  COMPUTE P PRIME, ADJUSTED FOR RIGHT SIDE  */
-	    phaseIndex = (unsigned int)rint(
-		((double)fractionValue(~timeRegister)) * sampleRateRatio);
+            /*  COMPUTE P PRIME, ADJUSTED FOR RIGHT SIDE  */
+            phaseIndex = (unsigned int)rint(
+                ((double)fractionValue(~timeRegister)) * sampleRateRatio);
 
-	    /*  COMPUTE THE RIGHT SIDE OF THE FILTER CONVOLUTION  */
-	    index = emptyPtr;
-	    srIncrement(&index,BUFFER_SIZE);
-	    while ((impulseIndex = (phaseIndex>>M_BITS)) < FILTER_LENGTH) {
-		impulse = h[impulseIndex] + (deltaH[impulseIndex] *
-		    (((double)mValue(phaseIndex)) / M_RANGE));
-		output += (buffer[index] * impulse);
-		srIncrement(&index,BUFFER_SIZE);
-		phaseIndex += phaseIncrement;
-	    }
+            /*  COMPUTE THE RIGHT SIDE OF THE FILTER CONVOLUTION  */
+            index = emptyPtr;
+            srIncrement(&index,BUFFER_SIZE);
+            while ((impulseIndex = (phaseIndex>>M_BITS)) < FILTER_LENGTH) {
+                impulse = h[impulseIndex] + (deltaH[impulseIndex] *
+                    (((double)mValue(phaseIndex)) / M_RANGE));
+                output += (buffer[index] * impulse);
+                srIncrement(&index,BUFFER_SIZE);
+                phaseIndex += phaseIncrement;
+            }
 
-	    /*  RECORD MAXIMUM SAMPLE VALUE  */
-	    absoluteSampleValue = fabs(output);
-	    if (absoluteSampleValue > maximumSampleValue)
-		maximumSampleValue = absoluteSampleValue;
+            /*  RECORD MAXIMUM SAMPLE VALUE  */
+            absoluteSampleValue = fabs(output);
+            if (absoluteSampleValue > maximumSampleValue)
+                maximumSampleValue = absoluteSampleValue;
 
-	    /*  INCREMENT SAMPLE NUMBER  */
-	    numberSamples++;
+            /*  INCREMENT SAMPLE NUMBER  */
+            numberSamples++;
 
-	    /*  OUTPUT THE SAMPLE TO THE TEMPORARY FILE  */
-	    fwrite((char *)&output, sizeof(output), 1, tempFilePtr);
+            /*  OUTPUT THE SAMPLE TO THE TEMPORARY FILE  */
+            fwrite((char *)&output, sizeof(output), 1, tempFilePtr);
 
-	    /*  INCREMENT THE TIME REGISTER  */
-	    timeRegister += timeRegisterIncrement;
+            /*  INCREMENT THE TIME REGISTER  */
+            timeRegister += timeRegisterIncrement;
 
-	    /*  INCREMENT THE EMPTY POINTER, ADJUSTING IT AND END POINTER  */
-	    emptyPtr += nValue(timeRegister);
-	    if (emptyPtr >= BUFFER_SIZE) {
-		emptyPtr -= BUFFER_SIZE;
-		endPtr -= BUFFER_SIZE;
-	    }
+            /*  INCREMENT THE EMPTY POINTER, ADJUSTING IT AND END POINTER  */
+            emptyPtr += nValue(timeRegister);
+            if (emptyPtr >= BUFFER_SIZE) {
+                emptyPtr -= BUFFER_SIZE;
+                endPtr -= BUFFER_SIZE;
+            }
 
-	    /*  CLEAR N PART OF TIME REGISTER  */
-	    timeRegister &= (~N_MASK);
-	}
+            /*  CLEAR N PART OF TIME REGISTER  */
+            timeRegister &= (~N_MASK);
+        }
     }
 }
 
@@ -4006,18 +4006,18 @@ void dataEmpty(void)
 
 /******************************************************************************
 *
-*	function:	flushBuffer
+*       function:       flushBuffer
 *
-*	purpose:	Pads the buffer with zero samples, and flushes it by
+*       purpose:        Pads the buffer with zero samples, and flushes it by
 *                       converting the remaining samples.
 *
 *       arguments:      none
 *
-*	internal
-*	functions:	dataFill, dataEmpty
+*       internal
+*       functions:      dataFill, dataEmpty
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
@@ -4028,7 +4028,7 @@ void flushBuffer(void)
 
     /*  PAD END OF RING BUFFER WITH ZEROS  */
     for (i = 0; i < (padSize * 2); i++)
-	dataFill(0.0);
+        dataFill(0.0);
 
     /*  FLUSH UP TO FILL POINTER - PADSIZE  */
     dataEmpty();
@@ -4038,48 +4038,48 @@ void flushBuffer(void)
 
 /******************************************************************************
 *
-*	function:	srIncrement
+*       function:       srIncrement
 *
-*	purpose:	Increments the pointer, keeping it within the range
+*       purpose:        Increments the pointer, keeping it within the range
 *                       0 to (modulus-1).
 *
 *       arguments:      pointer, modulus
 *
-*	internal
-*	functions:	none
+*       internal
+*       functions:      none
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
 void srIncrement(int *pointer, int modulus)
 {
     if ( ++(*pointer) >= modulus)
-	(*pointer) -= modulus;
+        (*pointer) -= modulus;
 }
 
 
 
 /******************************************************************************
 *
-*	function:	srDecrement
+*       function:       srDecrement
 *
-*	purpose:	Decrements the pointer, keeping it within the range
+*       purpose:        Decrements the pointer, keeping it within the range
 *                       0 to (modulus-1).
 *
 *       arguments:      pointer, modulus
 *
-*	internal
-*	functions:	none
+*       internal
+*       functions:      none
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
 void srDecrement(int *pointer, int modulus)
 {
     if ( --(*pointer) < 0)
-	(*pointer) += modulus;
+        (*pointer) += modulus;
 }

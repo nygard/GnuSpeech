@@ -16,18 +16,18 @@
 
 /******************************************************************************
 *
-*	function:	speedOfSound
+*       function:       speedOfSound
 *
-*	purpose:	Returns the speed of sound according to the value of
+*       purpose:        Returns the speed of sound according to the value of
 *                       the temperature (in Celsius degrees).
 *
 *       arguments:      temperature
 *
-*	internal
-*	functions:	none
+*       internal
+*       functions:      none
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
@@ -88,9 +88,9 @@ double frequency(double pitch)
 
 /******************************************************************************
 *
-*	function:	Izero
+*       function:       Izero
 *
-*	purpose:	Returns the value for the modified Bessel function of
+*       purpose:        Returns the value for the modified Bessel function of
 *                       the first kind, order 0, as a double.
 *
 *                       That is, it computes the sum of (A^k)/((k!)^2), where A = (1/4)x^2, k = 0, 1, 2, ...
@@ -127,17 +127,17 @@ double Izero(double x)
 
 /******************************************************************************
 *
-*	function:	noise
+*       function:       noise
 *
-*	purpose:	Returns one value of a random sequence.
+*       purpose:        Returns one value of a random sequence.
 *
 *       arguments:      none
 *
-*	internal
-*	functions:	none
+*       internal
+*       functions:      none
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 
@@ -154,17 +154,17 @@ double noise(void)
 
 /******************************************************************************
 *
-*	function:	noiseFilter
+*       function:       noiseFilter
 *
-*	purpose:	One-zero lowpass filter.
+*       purpose:        One-zero lowpass filter.
 *
 *       arguments:      input
 *
-*	internal
-*	functions:	none
+*       internal
+*       functions:      none
 *
-*	library
-*	functions:	none
+*       library
+*       functions:      none
 *
 ******************************************************************************/
 

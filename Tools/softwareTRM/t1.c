@@ -6,9 +6,9 @@
 #define IzeroEPSILON              1E-21
 
 //
-// function:	Izero
+// function:    Izero
 //
-//	purpose:	Returns the value for the modified Bessel function of
+//      purpose:        Returns the value for the modified Bessel function of
 //                      the first kind, order 0, as a double.
 //
 //      reference:      <http://en.wikipedia.org/wiki/Bessel_function>
@@ -24,11 +24,11 @@ double Izero(double x)
     halfx = x / 2.0;
 
     do {
-	temp = halfx / n;
-	n += 1.0;
-	temp *= temp;
-	u *= temp;
-	sum += u;
+        temp = halfx / n;
+        n += 1.0;
+        temp *= temp;
+        u *= temp;
+        sum += u;
     } while (u >= (IzeroEPSILON * sum));
 
     return sum;

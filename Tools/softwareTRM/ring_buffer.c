@@ -50,9 +50,9 @@ void dataFill(TRMRingBuffer *ringBuffer, double data)
 
     // Increment the counter, and empty the buffer if full
     if (++(ringBuffer->fillCounter) >= ringBuffer->fillSize) {
-	dataEmpty(ringBuffer);
-	// Reset the fill counter
-	ringBuffer->fillCounter = 0;
+        dataEmpty(ringBuffer);
+        // Reset the fill counter
+        ringBuffer->fillCounter = 0;
     }
 }
 
@@ -69,13 +69,13 @@ void dataEmpty(TRMRingBuffer *ringBuffer)
 void RBIncrement(TRMRingBuffer *ringBuffer)
 {
     if (++(ringBuffer->fillPtr) >= BUFFER_SIZE)
-	ringBuffer->fillPtr -= BUFFER_SIZE;
+        ringBuffer->fillPtr -= BUFFER_SIZE;
 }
 
 void RBDecrement(TRMRingBuffer *ringBuffer)
 {
     if (--(ringBuffer->fillPtr) < 0)
-	ringBuffer->fillPtr += BUFFER_SIZE;
+        ringBuffer->fillPtr += BUFFER_SIZE;
 }
 
 // Pads the buffer with zero samples, and flushes it by converting the remaining samples.
@@ -85,7 +85,7 @@ void flushBuffer(TRMRingBuffer *ringBuffer)
 
     // Pad end of ring buffer with zeros
     for (index = 0; index < (ringBuffer->padSize * 2); index++)
-	dataFill(ringBuffer, 0.0);
+        dataFill(ringBuffer, 0.0);
 
     // Flush up to fill pointer - padsize
     dataEmpty(ringBuffer);
@@ -94,11 +94,11 @@ void flushBuffer(TRMRingBuffer *ringBuffer)
 void RBIncrementIndex(int *index)
 {
     if (++(*index) >= BUFFER_SIZE)
-	(*index) -= BUFFER_SIZE;
+        (*index) -= BUFFER_SIZE;
 }
 
 void RBDecrementIndex(int *index)
 {
     if (--(*index) < 0)
-	(*index) += BUFFER_SIZE;
+        (*index) += BUFFER_SIZE;
 }
