@@ -107,17 +107,6 @@
     return [eventList getBeatAtIndex:ruleIndex];
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder;
-{
-    if ([super initWithCoder:aDecoder] == nil)
-        return nil;
-
-    [aDecoder decodeValuesOfObjCTypes:"dddi", &semitone, &offsetTime, &slope, &ruleIndex];
-    eventList = NXGetNamedObject(@"mainEventList", NSApp);
-
-    return self;
-}
-
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 {
     [resultString indentToLevel:level];

@@ -42,8 +42,6 @@
 - (double)absoluteTime;
 - (double)beatTime;
 
-- (id)initWithCoder:(NSCoder *)aDecoder;
-
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 
 @end
