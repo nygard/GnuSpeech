@@ -210,7 +210,11 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     [symbolTableView reloadData]; // To get changes to values
 
     selectedRow = [symbolTableView selectedRow];
-    anEquation = [[[self selectedRule] symbols] objectAtIndex:selectedRow];
+    if (selectedRow == -1)
+        anEquation = nil;
+    else
+        anEquation = [[[self selectedRule] symbols] objectAtIndex:selectedRow];
+
     if (anEquation == nil) {
         [symbolEquationOutlineView selectRow:0 byExtendingSelection:NO];
         [symbolEquationOutlineView scrollRowToVisible:0];

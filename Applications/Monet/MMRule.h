@@ -17,7 +17,7 @@
 {
     MonetList *parameterProfiles; // Of MMTransitions
     MonetList *metaParameterProfiles; // Of MMTransitions?
-    MonetList *expressionSymbols; // Of MMEquations
+    NSMutableArray *expressionSymbols; // Of MMEquations
 
     MMTransition *specialProfiles[16]; // TODO (2004-05-16): We should be able to use an NSMutableDictionary here.
 
@@ -63,7 +63,7 @@
 
 - (MonetList *)parameterList;
 - (MonetList *)metaParameterList;
-- (MonetList *)symbols;
+- (NSMutableArray *)symbols;
 
 - (MMTransition *)getSpecialProfile:(int)index;
 - (void)setSpecialProfile:(int)index to:(MMTransition *)special;
