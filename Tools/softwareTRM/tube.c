@@ -419,19 +419,19 @@ void addInput(double glotPitch, double glotVol, double aspVol, double fricVol,
 	      double fricPos, double fricCF, double fricBW, double *radius,
 	      double velum);
 INPUT *newInputTable(void);
-double glotPitchAt(int position);
-double glotVolAt(int position);
-double *radiiAt(int position);
-double radiusAtRegion(int position, int region);
-double velumAt(int position);
-double aspVolAt(int position);
-double fricVolAt(int position);
-double fricPosAt(int position);
-double fricCFAt(int position);
-double fricBWAt(int position);
-INPUT *inputAt(int position);
+double glotPitchAt(INPUT *ptr);
+double glotVolAt(INPUT *ptr);
+double *radiiAt(INPUT *ptr);
+double radiusAtRegion(INPUT *ptr, int region);
+double velumAt(INPUT *ptr);
+double aspVolAt(INPUT *ptr);
+double fricVolAt(INPUT *ptr);
+double fricPosAt(INPUT *ptr);
+double fricCFAt(INPUT *ptr);
+double fricBWAt(INPUT *ptr);
+//INPUT *inputAt(int position);
 void synthesize(void);
-void setControlRateParameters(int pos);
+void setControlRateParameters(INPUT *previousInput, INPUT *currentInput);
 void sampleRateInterpolation(void);
 void initializeNasalCavity(void);
 void initializeThroat(void);
@@ -565,6 +565,14 @@ int main (int argc, char *argv[])
     if (verbose)
 	printf("\nWrote scaled samples to file:  %s\n", outputFile);
 
+#if 0
+    {
+        char buf[100];
+        printf("Done, waiting...\n");
+        gets(buf);
+    }
+#endif
+
     return 0;
 }
 
@@ -591,6 +599,7 @@ int main (int argc, char *argv[])
 void printInfo(void)
 {
     int i;
+    INPUT *ptr;
 
     /*  PRINT INPUT FILE NAME  */
     printf("input file:\t\t%s\n\n", inputFile);
@@ -671,18 +680,20 @@ void printInfo(void)
     printf("\tvelum\n");
 
     /*  ACTUAL VALUES  */
+    ptr = inputHead;
     for (i = 0; i < numberInputTables-1; i++) {
 	int j;
-	printf("%.2f", glotPitchAt(i));
-	printf("\t%.2f", glotVolAt(i));
-	printf("\t%.2f", aspVolAt(i));
-	printf("\t%.2f", fricVolAt(i));
-	printf("\t%.2f", fricPosAt(i));
-	printf("\t%.2f", fricCFAt(i));
-	printf("\t%.2f", fricBWAt(i));
+	printf("%.2f", glotPitchAt(ptr));
+	printf("\t%.2f", glotVolAt(ptr));
+	printf("\t%.2f", aspVolAt(ptr));
+	printf("\t%.2f", fricVolAt(ptr));
+	printf("\t%.2f", fricPosAt(ptr));
+	printf("\t%.2f", fricCFAt(ptr));
+	printf("\t%.2f", fricBWAt(ptr));
 	for (j = 0; j < TOTAL_REGIONS; j++)
-	    printf("\t%.2f", radiusAtRegion(i, j));
-	printf("\t%.2f\n", velumAt(i));
+	    printf("\t%.2f", radiusAtRegion(ptr, j));
+	printf("\t%.2f\n", velumAt(ptr));
+        ptr = ptr->next;
     }
     printf("\n");
 }
@@ -934,12 +945,11 @@ int parseInputFile(const char *inputFile)
 
     /*  DOUBLE UP THE LAST INPUT TABLE, TO HELP INTERPOLATION CALCULATIONS  */
     if (numberInputTables > 0) {
-      int lastTable = numberInputTables - 1;
-	addInput(glotPitchAt(lastTable), glotVolAt(lastTable),
-		 aspVolAt(lastTable), fricVolAt(lastTable),
-		 fricPosAt(lastTable), fricCFAt(lastTable),
-		 fricBWAt(lastTable), radiiAt(lastTable),
-		 velumAt(lastTable));
+	addInput(glotPitchAt(inputTail), glotVolAt(inputTail),
+		 aspVolAt(inputTail), fricVolAt(inputTail),
+		 fricPosAt(inputTail), fricCFAt(inputTail),
+		 fricBWAt(inputTail), radiiAt(inputTail),
+		 velumAt(inputTail));
     }
 
     /*  CLOSE THE INPUT FILE  */
@@ -1549,11 +1559,9 @@ INPUT *newInputTable(void)
 *
 ******************************************************************************/
 
-double glotPitchAt(int position)
+double glotPitchAt(INPUT *ptr)
 {
-    INPUT *ptr;
-
-    if ((ptr = inputAt(position)))
+    if (ptr)
 	return (ptr->glotPitch);
     else
 	return (0.0);
@@ -1577,11 +1585,9 @@ double glotPitchAt(int position)
 *
 ******************************************************************************/
 
-double glotVolAt(int position)
+double glotVolAt(INPUT *ptr)
 {
-    INPUT *ptr;
-
-    if ((ptr = inputAt(position)))
+    if (ptr)
 	return (ptr->glotVol);
     else
 	return (0.0);
@@ -1606,11 +1612,9 @@ double glotVolAt(int position)
 *
 ******************************************************************************/
 
-double *radiiAt(int position)
+double *radiiAt(INPUT *ptr)
 {
-    INPUT *ptr;
-
-    if ((ptr = inputAt(position)))
+    if (ptr)
 	return (ptr->radius);
     else
 	return (NULL);
@@ -1635,11 +1639,9 @@ double *radiiAt(int position)
 *
 ******************************************************************************/
 
-double radiusAtRegion(int position, int region)
+double radiusAtRegion(INPUT *ptr, int region)
 {
-    INPUT *ptr;
-
-    if ((ptr = inputAt(position)))
+    if (ptr)
 	return (ptr->radius[region]);
     else
 	return (0.0);
@@ -1663,11 +1665,9 @@ double radiusAtRegion(int position, int region)
 *
 ******************************************************************************/
 
-double velumAt(int position)
+double velumAt(INPUT *ptr)
 {
-    INPUT *ptr;
-
-    if ((ptr = inputAt(position)))
+    if (ptr)
 	return (ptr->velum);
     else
 	return (0.0);
@@ -1692,11 +1692,9 @@ double velumAt(int position)
 *
 ******************************************************************************/
 
-double aspVolAt(int position)
+double aspVolAt(INPUT *ptr)
 {
-    INPUT *ptr;
-
-    if ((ptr = inputAt(position)))
+    if (ptr)
 	return (ptr->aspVol);
     else
 	return (0.0);
@@ -1721,11 +1719,9 @@ double aspVolAt(int position)
 *
 ******************************************************************************/
 
-double fricVolAt(int position)
+double fricVolAt(INPUT *ptr)
 {
-    INPUT *ptr;
-
-    if ((ptr = inputAt(position)))
+    if (ptr)
 	return (ptr->fricVol);
     else
 	return (0.0);
@@ -1750,11 +1746,9 @@ double fricVolAt(int position)
 *
 ******************************************************************************/
 
-double fricPosAt(int position)
+double fricPosAt(INPUT *ptr)
 {
-    INPUT *ptr;
-
-    if ((ptr = inputAt(position)))
+    if (ptr)
 	return (ptr->fricPos);
     else
 	return (0.0);
@@ -1779,11 +1773,9 @@ double fricPosAt(int position)
 *
 ******************************************************************************/
 
-double fricCFAt(int position)
+double fricCFAt(INPUT *ptr)
 {
-    INPUT *ptr;
-
-    if ((ptr = inputAt(position)))
+    if (ptr)
 	return (ptr->fricCF);
     else
 	return (0.0);
@@ -1808,18 +1800,16 @@ double fricCFAt(int position)
 *
 ******************************************************************************/
 
-double fricBWAt(int position)
+double fricBWAt(INPUT *ptr)
 {
-    INPUT *ptr;
-
-    if ((ptr = inputAt(position)))
+    if (ptr)
 	return (ptr->fricBW);
     else
 	return (0.0);
 }
 
 
-
+#if 0
 /******************************************************************************
 *
 *	function:	inputAt
@@ -1850,7 +1840,7 @@ INPUT *inputAt(int position)
 
     return (tempPtr);
 }
-
+#endif
 
 
 /******************************************************************************
@@ -1877,15 +1867,19 @@ void synthesize(void)
 
     int i, j;
     double f0, ax, ah1, pulse, lp_noise, pulsed_noise, signal, crossmix;
+    INPUT *previousInput, *currentInput;
 
 
 
     /*  CONTROL RATE LOOP  */
 
+    previousInput = inputHead;
+    currentInput = inputHead->next;
+
     for (i = 1; i < numberInputTables; i++) {
 
 	/*  SET CONTROL RATE PARAMETERS FROM INPUT TABLES  */
-	setControlRateParameters(i);
+	setControlRateParameters(previousInput, currentInput);
 
 
 	/*  SAMPLE RATE LOOP  */
@@ -1955,6 +1949,9 @@ void synthesize(void)
                 printf("\nDone sample rate interp\n");
 
 	}
+
+        previousInput = currentInput;
+        currentInput = currentInput->next;
     }
 }
 
@@ -1978,77 +1975,77 @@ void synthesize(void)
 *
 ******************************************************************************/
 
-void setControlRateParameters(int pos)
+void setControlRateParameters(INPUT *previousInput, INPUT *currentInput)
 {
     int i;
 
     /*  GLOTTAL PITCH  */
-    current.glotPitch = glotPitchAt(pos - 1);
+    current.glotPitch = glotPitchAt(previousInput);
     current.glotPitchDelta =
-	(glotPitchAt(pos) - current.glotPitch) / (double)controlPeriod;
+	(glotPitchAt(currentInput) - current.glotPitch) / (double)controlPeriod;
 
     /*  GLOTTAL VOLUME  */
-    current.glotVol = glotVolAt(pos - 1);
+    current.glotVol = glotVolAt(previousInput);
     current.glotVolDelta =
-	(glotVolAt(pos) - current.glotVol) / (double)controlPeriod;
+	(glotVolAt(currentInput) - current.glotVol) / (double)controlPeriod;
 
     /*  ASPIRATION VOLUME  */
-    current.aspVol = aspVolAt(pos - 1);
+    current.aspVol = aspVolAt(previousInput);
 #if MATCH_DSP
     current.aspVolDelta = 0.0;
 #else
     current.aspVolDelta =
-	(aspVolAt(pos) - current.aspVol) / (double)controlPeriod;
+	(aspVolAt(currentInput) - current.aspVol) / (double)controlPeriod;
 #endif
 
     /*  FRICATION VOLUME  */
-    current.fricVol = fricVolAt(pos - 1);
+    current.fricVol = fricVolAt(previousInput);
 #if MATCH_DSP
     current.fricVolDelta = 0.0;
 #else
     current.fricVolDelta =
-	(fricVolAt(pos) - current.fricVol) / (double)controlPeriod;
+	(fricVolAt(currentInput) - current.fricVol) / (double)controlPeriod;
 #endif
 
     /*  FRICATION POSITION  */
-    current.fricPos = fricPosAt(pos - 1);
+    current.fricPos = fricPosAt(previousInput);
 #if MATCH_DSP
     current.fricPosDelta = 0.0;
 #else
     current.fricPosDelta =
-	(fricPosAt(pos) - current.fricPos) / (double)controlPeriod;
+	(fricPosAt(currentInput) - current.fricPos) / (double)controlPeriod;
 #endif
 
     /*  FRICATION CENTER FREQUENCY  */
-    current.fricCF = fricCFAt(pos - 1);
+    current.fricCF = fricCFAt(previousInput);
 #if MATCH_DSP
     current.fricCFDelta = 0.0;
 #else
     current.fricCFDelta =
-	(fricCFAt(pos) - current.fricCF) / (double)controlPeriod;
+	(fricCFAt(currentInput) - current.fricCF) / (double)controlPeriod;
 #endif
 
     /*  FRICATION BANDWIDTH  */
-    current.fricBW = fricBWAt(pos - 1);
+    current.fricBW = fricBWAt(previousInput);
 #if MATCH_DSP
     current.fricBWDelta = 0.0;
 #else
     current.fricBWDelta =
-	(fricBWAt(pos) - current.fricBW) / (double)controlPeriod;
+	(fricBWAt(currentInput) - current.fricBW) / (double)controlPeriod;
 #endif
 
     /*  TUBE REGION RADII  */
     for (i = 0; i < TOTAL_REGIONS; i++) {
-	current.radius[i] = radiusAtRegion((pos - 1), i);
+	current.radius[i] = radiusAtRegion(previousInput, i);
 	current.radiusDelta[i] =
-	    (radiusAtRegion(pos,i) - current.radius[i]) /
+	    (radiusAtRegion(currentInput,i) - current.radius[i]) /
 		(double)controlPeriod;
     }
 
     /*  VELUM RADIUS  */
-    current.velum = velumAt(pos - 1);
+    current.velum = velumAt(previousInput);
     current.velumDelta =
-	(velumAt(pos) - current.velum) / (double)controlPeriod;
+	(velumAt(currentInput) - current.velum) / (double)controlPeriod;
 }
 
 
