@@ -47,7 +47,7 @@ Initial import.
 /******************************************************************************
 *
 *     Program:       tube
-*     
+*
 *     Description:   Software (non-real-time) implementation of the Tube
 *                    Resonance Model for speech production.
 *
@@ -459,9 +459,9 @@ void srDecrement(int *pointer, int modulus);
 *	function:	main
 *
 *	purpose:	Controls overall execution.
-*			
+*
 *       arguments:      inputFile, outputFile
-*                       
+*
 *	internal
 *	functions:	parseInputFile, initializeSynthesizer, printInfo,
 *                       synthesize, writeOutputToFile
@@ -532,9 +532,9 @@ void main (int argc, char *argv[])
 *	function:	printInfo
 *
 *	purpose:	Prints pertinent variables to standard output.
-*			
+*
 *       arguments:      none
-*                       
+*
 *	internal
 *	functions:	glotPitchAt, glotVolAt, aspVolAt, fricVolAt,
 *                       fricPosAt, fricCFAt, fricBWAt, radiusAtRegion,
@@ -570,7 +570,7 @@ void printInfo(void)
     printf("tnMax:\t\t\t%.2f%%\n", tnMax);
     printf("breathiness:\t\t%.2f%%\n\n", breathiness);
 
-    printf("nominal tube length:\t%.2f cm\n", length);    
+    printf("nominal tube length:\t%.2f cm\n", length);
     printf("temperature:\t\t%.2f degrees C\n", temperature);
     printf("lossFactor:\t\t%.2f%%\n\n", lossFactor);
 
@@ -644,9 +644,9 @@ void printInfo(void)
 *
 *	purpose:	Parses the input file and assigns values to global
 *                       variables.
-*			
+*
 *       arguments:      inputFile
-*                       
+*
 *	internal
 *	functions:	addInput, glotPitchAt, glotVolAt, aspVolAt, fricVolAt,
 *                       fricPosAt, fricCFAt, fricBWAt, radiiAt, velumAt
@@ -727,7 +727,7 @@ int parseInputFile(const char *inputFile)
     }
     else
 	tp = strtod(line, NULL);
-  
+
     /*  GET THE GLOTTAL PULSE FALL TIME MINIMUM (tnMin)  */
     if (fgets(line, 128, fp) == NULL) {
 	fprintf(stderr,
@@ -736,7 +736,7 @@ int parseInputFile(const char *inputFile)
     }
     else
 	tnMin = strtod(line, NULL);
-  
+
     /*  GET THE GLOTTAL PULSE FALL TIME MAXIMUM (tnMax)  */
     if (fgets(line, 128, fp) == NULL) {
 	fprintf(stderr,
@@ -753,7 +753,7 @@ int parseInputFile(const char *inputFile)
     }
     else
 	breathiness = strtod(line, NULL);
-  
+
 
     /*  GET THE NOMINAL TUBE LENGTH  */
     if (fgets(line, 128, fp) == NULL) {
@@ -898,9 +898,9 @@ int parseInputFile(const char *inputFile)
 *
 *	purpose:	Returns the speed of sound according to the value of
 *                       the temperature (in Celsius degrees).
-*			
+*
 *       arguments:      temperature
-*                       
+*
 *	internal
 *	functions:	none
 *
@@ -922,9 +922,9 @@ double speedOfSound(double temperature)
 *
 *	purpose:	Initializes all variables so that the synthesis can
 *                       be run.
-*			
+*
 *       arguments:      none
-*                       
+*
 *	internal
 *	functions:	speedOfSound, amplitude, initializeWavetable,
 *                       initializeFIR, initializeNasalFilterCoefficients,
@@ -976,7 +976,7 @@ int initializeSynthesizer(void)
     /*  INITIALIZE REFLECTION AND RADIATION FILTER COEFFICIENTS FOR NOSE  */
     initializeNasalFilterCoefficients((nyquist - noseCoef) / nyquist);
 
-    /*  INITIALIZE NASAL CAVITY FIXED SCATTERING COEFFICIENTS  */ 
+    /*  INITIALIZE NASAL CAVITY FIXED SCATTERING COEFFICIENTS  */
     initializeNasalCavity();
 
     /*  INITIALIZE THE THROAT LOWPASS FILTER  */
@@ -1001,9 +1001,9 @@ int initializeSynthesizer(void)
 *
 *	purpose:	Calculates the initial glottal pulse and stores it
 *                       in the wavetable, for use in the oscillator.
-*			
+*
 *       arguments:      none
-*                       
+*
 *	internal
 *	functions:	none
 *
@@ -1053,7 +1053,7 @@ void initializeWavetable(void)
 	for (i = 0; i < TABLE_LENGTH; i++) {
 	    wavetable[i] = sin( ((double)i/(double)TABLE_LENGTH) * 2.0 * PI );
 	}
-    }	
+    }
 }
 
 
@@ -1064,9 +1064,9 @@ void initializeWavetable(void)
 *
 *	purpose:	Rewrites the changeable part of the glottal pulse
 *                       according to the amplitude.
-*			
+*
 *       arguments:      amplitude
-*                       
+*
 *	internal
 *	functions:	none
 *
@@ -1103,9 +1103,9 @@ void updateWavetable(double amplitude)
 *
 *	purpose:	Allocates memory and initializes the coefficients
 *                       for the FIR filter used in the oversampling oscillator.
-*			
+*
 *       arguments:      beta, gamma, cutoff
-*                       
+*
 *	internal
 *	functions:	maximallyFlat, trim
 *
@@ -1118,7 +1118,7 @@ void initializeFIR(double beta, double gamma, double cutoff)
 {
     int i, pointer, increment, numberCoefficients;
     double coefficient[LIMIT+1];
-  
+
 
     /*  DETERMINE IDEAL LOW PASS FILTER COEFFICIENTS  */
     maximallyFlat(beta, gamma, &numberCoefficients, coefficient);
@@ -1163,9 +1163,9 @@ void initializeFIR(double beta, double gamma, double cutoff)
 *	function:	noise
 *
 *	purpose:	Returns one value of a random sequence.
-*			
+*
 *       arguments:      none
-*                       
+*
 *	internal
 *	functions:	none
 *
@@ -1190,9 +1190,9 @@ double noise(void)
 *	function:	noiseFilter
 *
 *	purpose:	One-zero lowpass filter.
-*			
+*
 *       arguments:      input
-*                       
+*
 *	internal
 *	functions:	none
 *
@@ -1219,9 +1219,9 @@ double noiseFilter(double input)
 *	purpose:	Calculates the reflection/radiation filter coefficients
 *                       for the mouth, according to the mouth aperture
 *                       coefficient.
-*			
+*
 *       arguments:      coeff - mouth aperture coefficient
-*                       
+*
 *	internal
 *	functions:	none
 *
@@ -1247,9 +1247,9 @@ void initializeMouthCoefficients(double coeff)
 *
 *	purpose:	Is a variable, one-pole lowpass filter, whose cutoff
 *                       is determined by the mouth aperture coefficient.
-*			
+*
 *       arguments:      input
-*                       
+*
 *	internal
 *	functions:	none
 *
@@ -1276,9 +1276,9 @@ double reflectionFilter(double input)
 *	purpose:	Is a variable, one-zero, one-pole, highpass filter,
 *                       whose cutoff point is determined by the mouth aperture
 *                       coefficient.
-*			
+*
 *       arguments:      input
-*                       
+*
 *	internal
 *	functions:	none
 *
@@ -1306,9 +1306,9 @@ double radiationFilter(double input)
 *	purpose:	Calculates the fixed coefficients for the nasal
 *                       reflection/radiation filter pair, according to the
 *                       nose aperture coefficient.
-*			
+*
 *       arguments:      coeff - nose aperture coefficient
-*                       
+*
 *	internal
 *	functions:	none
 *
@@ -1334,9 +1334,9 @@ void initializeNasalFilterCoefficients(double coeff)
 *
 *	purpose:	Is a one-pole lowpass filter, used for terminating
 *                       the end of the nasal cavity.
-*			
+*
 *       arguments:      input
-*                       
+*
 *	internal
 *	functions:	none
 *
@@ -1362,9 +1362,9 @@ double nasalReflectionFilter(double input)
 *
 *	purpose:	Is a one-zero, one-pole highpass filter, used for the
 *                       radiation characteristic from the nasal cavity.
-*			
+*
 *       arguments:      input
-*                       
+*
 *	internal
 *	functions:	none
 *
@@ -1391,11 +1391,11 @@ double nasalRadiationFilter(double input)
 *	function:	addInput
 *
 *	purpose:	Adds table control data to the end of a linked list.
-*			
+*
 *       arguments:      glotPitch, glotVol, radius, velum, aspVol,
 *                       fricVol, fricPos,
 *                       fricCF, fricBW
-*                       
+*
 *	internal
 *	functions:	newInputTable
 *
@@ -1456,9 +1456,9 @@ void addInput(double glotPitch, double glotVol, double aspVol, double fricVol,
 *	function:	newInputTable
 *
 *	purpose:	Allocates memory for a new input table.
-*			
+*
 *       arguments:      none
-*                       
+*
 *	internal
 *	functions:	none
 *
@@ -1479,9 +1479,9 @@ INPUT *newInputTable(void)
 *	function:	glotPitchAt
 *
 *	purpose:	Returns the pitch stored in the table at 'position'.
-*                       
+*
 *       arguments:      position
-*                       
+*
 *	internal
 *	functions:	none
 *
@@ -1507,9 +1507,9 @@ double glotPitchAt(int position)
 *	function:	glotVolAt
 *
 *	purpose:	Returns the glotVol stored in the table at 'position'.
-*			
+*
 *       arguments:      position
-*                       
+*
 *	internal
 *	functions:	none
 *
@@ -1536,9 +1536,9 @@ double glotVolAt(int position)
 *
 *	purpose:	Returns the variable tube radii stored in the table at
 *                       'position'.
-*			
+*
 *       arguments:      position
-*                       
+*
 *	internal
 *	functions:	none
 *
@@ -1565,9 +1565,9 @@ double *radiiAt(int position)
 *
 *	purpose:	Returns the radius for 'region', from the table at
 *                       'position'.
-*			
+*
 *       arguments:      position, region
-*                       
+*
 *	internal
 *	functions:	inputAt
 *
@@ -1593,9 +1593,9 @@ double radiusAtRegion(int position, int region)
 *	function:	velumAt
 *
 *	purpose:	Returns the velum radius from the table at 'position'.
-*                       
+*
 *       arguments:      position
-*                       
+*
 *	internal
 *	functions:	inputAt
 *
@@ -1622,9 +1622,9 @@ double velumAt(int position)
 *
 *	purpose:	Returns the aspiration factor from the table at
 *                       'position'.
-*                       
+*
 *       arguments:      position
-*                       
+*
 *	internal
 *	functions:	inputAt
 *
@@ -1651,9 +1651,9 @@ double aspVolAt(int position)
 *
 *	purpose:	Returns the frication volume from the table at
 *                       'position'.
-*                       
+*
 *       arguments:      position
-*                       
+*
 *	internal
 *	functions:	inputAt
 *
@@ -1680,9 +1680,9 @@ double fricVolAt(int position)
 *
 *	purpose:	Returns the frication position from the table at
 *                       'position'.
-*                       
+*
 *       arguments:      position
-*                       
+*
 *	internal
 *	functions:	inputAt
 *
@@ -1709,9 +1709,9 @@ double fricPosAt(int position)
 *
 *	purpose:	Returns the frication center frequency from the table
 *                       at 'position'.
-*                       
+*
 *       arguments:      position
-*                       
+*
 *	internal
 *	functions:	inputAt
 *
@@ -1738,9 +1738,9 @@ double fricCFAt(int position)
 *
 *	purpose:	Returns the frication bandwidth from the table
 *                       at 'position'.
-*                       
+*
 *       arguments:      position
-*                       
+*
 *	internal
 *	functions:	inputAt
 *
@@ -1766,9 +1766,9 @@ double fricBWAt(int position)
 *	function:	inputAt
 *
 *	purpose:	Returns a pointer to the table specified by 'position'.
-*			
+*
 *       arguments:      position
-*                       
+*
 *	internal
 *	functions:	none
 *
@@ -1788,7 +1788,7 @@ INPUT *inputAt(int position)
     /*  LOOP THROUGH TO PROPER POSITION IN LIST  */
     for (i = 0; i < position; i++)
 	tempPtr = tempPtr->next;
-  
+
     return (tempPtr);
 }
 
@@ -1799,9 +1799,9 @@ INPUT *inputAt(int position)
 *	function:	synthesize
 *
 *	purpose:	Performs the actual synthesis of sound samples.
-*			
+*
 *       arguments:      none
-*                       
+*
 *	internal
 *	functions:	setControlRateParameters, frequency, amplitude,
 *                       calculateTubeCoefficients, noise, noiseFilter,
@@ -1886,9 +1886,9 @@ void synthesize(void)
 *
 *	purpose:	Calculates the current table values, and their
 *                       associated sample-to-sample delta values.
-*			
+*
 *       arguments:      pos
-*                       
+*
 *	internal
 *	functions:	glotPitchAt, glotVolAt, aspVolAt, fricVolAt, fricPosAt,
 *                       fricCFAt, fricBWAt, radiusAtRegion, velumAt,
@@ -1978,9 +1978,9 @@ void setControlRateParameters(int pos)
 *	function:	sampleRateInterpolation
 *
 *	purpose:	Interpolates table values at the sample rate.
-*			
+*
 *       arguments:      none
-*                       
+*
 *	internal
 *	functions:	none
 *
@@ -2013,9 +2013,9 @@ void sampleRateInterpolation(void)
 *
 *	purpose:	Calculates the scattering coefficients for the fixed
 *                       sections of the nasal cavity.
-*			
+*
 *       arguments:      none
-*                       
+*
 *	internal
 *	functions:	none
 *
@@ -2052,9 +2052,9 @@ void initializeNasalCavity(void)
 *	purpose:	Initializes the throat lowpass filter coefficients
 *                       according to the throatCutoff value, and also the
 *                       throatGain, according to the throatVol value.
-*			
+*
 *       arguments:      none
-*                       
+*
 *	internal
 *	functions:	none
 *
@@ -2081,9 +2081,9 @@ void initializeThroat(void)
 *                       tract according to the current radii.  Also calculates
 *                       the coefficients for the reflection/radiation filter
 *                       pair for the mouth and nose.
-*			
+*
 *       arguments:      none
-*                       
+*
 *	internal
 *	functions:	none
 *
@@ -2103,7 +2103,7 @@ void calculateTubeCoefficients(void)
 	radA2 = current.radius[i] * current.radius[i];
 	radB2 = current.radius[i+1] * current.radius[i+1];
 	oropharynx_coeff[i] = (radA2 - radB2) / (radA2 + radB2);
-    }	
+    }
 
     /*  CALCULATE THE COEFFICIENT FOR THE MOUTH APERTURE  */
     radA2 = current.radius[R8] * current.radius[R8];
@@ -2133,9 +2133,9 @@ void calculateTubeCoefficients(void)
 *
 *	purpose:	Sets the frication taps according to the current
 *                       position and amplitude of frication.
-*			
+*
 *       arguments:      none
-*                       
+*
 *	internal
 *	functions:	none
 *
@@ -2185,9 +2185,9 @@ void setFricationTaps(void)
 *	purpose:	Sets the frication bandpass filter coefficients
 *                       according to the current center frequency and
 *                       bandwidth.
-*			
+*
 *       arguments:      none
-*                       
+*
 *	internal
 *	functions:	none
 *
@@ -2217,9 +2217,9 @@ void calculateBandpassCoefficients(void)
 *
 *	purpose:	Returns the modulus of 'value', keeping it in the
 *                       range 0 -> TABLE_MODULUS.
-*			
+*
 *       arguments:      value
-*                       
+*
 *	internal
 *	functions:	none
 *
@@ -2244,9 +2244,9 @@ double mod0(double value)
 *
 *	purpose:	Increments the position in the wavetable according to
 *                       the desired frequency.
-*			
+*
 *       arguments:      frequency
-*                       
+*
 *	internal
 *	functions:	mod0
 *
@@ -2268,9 +2268,9 @@ void incrementTablePosition(double frequency)
 *
 *	purpose:	Is a 2X oversampling interpolating wavetable
 *                       oscillator.
-*			
+*
 *       arguments:      frequency
-*                       
+*
 *	internal
 *	functions:	incrementTablePosition, mod0, FIRFilter
 *
@@ -2289,11 +2289,11 @@ double oscillator(double frequency)  /*  2X OVERSAMPLING OSCILLATOR  */
     for (i = 0; i < 2; i++) {
 	/*  FIRST INCREMENT THE TABLE POSITION, DEPENDING ON FREQUENCY  */
 	incrementTablePosition(frequency/2.0);
-    
+
 	/*  FIND SURROUNDING INTEGER TABLE POSITIONS  */
 	lowerPosition = (int)currentPosition;
 	upperPosition = mod0(lowerPosition + 1);
-    
+
 	/*  CALCULATE INTERPOLATED TABLE VALUE  */
 	interpolatedValue = (wavetable[lowerPosition] +
 			     ((currentPosition - lowerPosition) *
@@ -2336,9 +2336,9 @@ double oscillator(double frequency)  /*  PLAIN OSCILLATOR  */
 *	purpose:	Updates the pressure wave throughout the vocal tract,
 *                       and returns the summed output of the oral and nasal
 *                       cavities.  Also injects frication appropriately.
-*			
+*
 *       arguments:      input, frication
-*                       
+*
 *	internal
 *	functions:	reflectionFilter, radiationFilter,
 *                       nasalReflectionFilter, nasalRadiationFilter
@@ -2465,9 +2465,9 @@ double vocalTract(double input, double frication)
 *                       of the throat.  Note that this form of the filter
 *                       uses addition instead of subtraction for the
 *                       second term, since tb1 has reversed sign.
-*			
+*
 *       arguments:      input
-*                       
+*
 *	internal
 *	functions:	none
 *
@@ -2493,9 +2493,9 @@ double throat(double input)
 *
 *	purpose:	Frication bandpass filter, with variable center
 *                       frequency and bandwidth.
-*			
+*
 *       arguments:      input
-*                       
+*
 *	internal
 *	functions:	none
 *
@@ -2531,9 +2531,9 @@ double bandpassFilter(double input)
 *                       writes them to the output file, with the appropriate
 *                       header.  Also does master volume scaling, and stereo
 *                       balance scaling, if 2 channels of output.
-*			
+*
 *       arguments:      fileName
-*                       
+*
 *	internal
 *	functions:	flushbuffer, amplitude
 *
@@ -2552,7 +2552,7 @@ void writeOutputToFile(char *fileName)
 
 
     /*  BE SURE TO FLUSH SRC BUFFER  */
-    flushBuffer();  
+    flushBuffer();
 
     /*  REWIND THE TEMPORARY FILE TO BEGINNING  */
     rewind(tempFilePtr);
@@ -2575,7 +2575,7 @@ void writeOutputToFile(char *fileName)
 
 
     /*  CALCULATE SCALING CONSTANT  */
-    scale = 
+    scale =
 	OUTPUT_SCALE * (RANGE_MAX / maximumSampleValue) * amplitude(volume);
 
     /*  PRINT OUT INFO  */
@@ -2602,7 +2602,7 @@ void writeOutputToFile(char *fileName)
 	double leftScale = -((balance / 2.0) - 0.5) * scale * 2.0;
 	double rightScale = ((balance / 2.0) + 0.5) * scale * 2.0;
 
-	/*  PRINT OUT INFO  */	
+	/*  PRINT OUT INFO  */
 	if (verbose) {
 	    printf("left scale:\t\t%.4f\n", leftScale);
 	    printf("right scale:\t\t%.4f\n", rightScale);
@@ -2612,7 +2612,7 @@ void writeOutputToFile(char *fileName)
 	for (i = 0, j = 0; i < numberSamples; i++) {
 	    double sample;
 	    short data;
-	    
+
 	    fread(&sample, sizeof(sample), 1, tempFilePtr);
 	    data = NXSwapHostShortToBig((short)rint(sample * leftScale));
 	    fwrite(&data, sizeof(data), 1, fd);
@@ -2691,9 +2691,9 @@ double frequency(double pitch)
 *                       transition band (as a fraction of the sampling
 *                       frequency), and gamme the width of the transition
 *                       band.
-*			
+*
 *       arguments:      beta, gamma, np, coefficient
-*                       
+*
 *	internal
 *	functions:	rationalApproximation
 *
@@ -2788,9 +2788,9 @@ int maximallyFlat(double beta, double gamma, int *np, double *coefficient)
 *
 *	purpose:	Trims the higher order coefficients of the FIR filter
 *                       which fall below the cutoff value.
-*			
+*
 *       arguments:      cutoff, numberCoefficients, coefficient
-*                       
+*
 *	internal
 *	functions:	none
 *
@@ -2819,9 +2819,9 @@ void trim(double cutoff, int *numberCoefficients, double *coefficient)
 *
 *	purpose:	Calculates the best rational approximation to 'number',
 *                       given the maximum 'order'.
-*			
+*
 *       arguments:      number, order, numerator, denominator
-*                       
+*
 *	internal
 *	functions:	none
 *
@@ -2886,9 +2886,9 @@ void rationalApproximation(double number, int *order,
 *	function:	FIRFilter
 *
 *	purpose:	Is the linear phase, lowpass FIR filter.
-*			
+*
 *       arguments:      input, needOutput
-*                       
+*
 *	internal
 *	functions:	increment, decrement
 *
@@ -2905,16 +2905,16 @@ double FIRFilter(double input, int needOutput)
 
 	/*  PUT INPUT SAMPLE INTO DATA BUFFER  */
 	FIRData[FIRPtr] = input;
-    
+
 	/*  SUM THE OUTPUT FROM ALL FILTER TAPS  */
 	for (i = 0; i < numberTaps; i++) {
 	    output += FIRData[FIRPtr] * FIRCoef[i];
 	    FIRPtr = increment(FIRPtr, numberTaps);
 	}
-    
+
 	/*  DECREMENT THE DATA POINTER READY FOR NEXT CALL  */
 	FIRPtr = decrement(FIRPtr, numberTaps);
-    
+
 	/*  RETURN THE OUTPUT VALUE  */
 	return(output);
     }
@@ -2924,7 +2924,7 @@ double FIRFilter(double input, int needOutput)
 
 	/*  ADJUST THE DATA POINTER, READY FOR NEXT CALL  */
 	FIRPtr = decrement(FIRPtr, numberTaps);
-    
+
 	return(0.0);
     }
 }
@@ -2937,9 +2937,9 @@ double FIRFilter(double input, int needOutput)
 *
 *	purpose:	Increments the pointer to the circular FIR filter
 *                       buffer, keeping it in the range 0 -> modulus-1.
-*			
+*
 *       arguments:      pointer, modulus
-*                       
+*
 *	internal
 *	functions:	none
 *
@@ -2963,9 +2963,9 @@ int increment(int pointer, int modulus)
 *
 *	purpose:	Decrements the pointer to the circular FIR filter
 *                       buffer, keeping it in the range 0 -> modulus-1.
-*			
+*
 *       arguments:      pointer, modulus
-*                       
+*
 *	internal
 *	functions:	none
 *
@@ -2989,9 +2989,9 @@ int decrement(int pointer, int modulus)
 *	function:	initializeConversion
 *
 *	purpose:	Initializes all the sample rate conversion functions.
-*			
+*
 *       arguments:      none
-*                       
+*
 *	internal
 *	functions:	initializeFilter, initializeBuffer
 *
@@ -3024,10 +3024,10 @@ void initializeConversion(void)
 	filterIncrement = L_RANGE;
     }
     else {
-	phaseIncrement = 
+	phaseIncrement =
 	     (unsigned int)rint(sampleRateRatio * (double)FRACTION_RANGE);
     }
-    
+
     /*  CALCULATE PAD SIZE  */
     padSize = (sampleRateRatio >= 1.0) ? ZERO_CROSSINGS :
 	(int)((float)ZERO_CROSSINGS / roundedSampleRateRatio) + 1;
@@ -3044,9 +3044,9 @@ void initializeConversion(void)
 *
 *	purpose:	Initializes filter impulse response and impulse delta
 *                       values.
-*			
+*
 *       arguments:      none
-*                       
+*
 *	internal
 *	functions:	none
 *
@@ -3090,9 +3090,9 @@ void initializeFilter(void)
 *
 *	purpose:	Returns the value for the modified Bessel function of
 *                       the first kind, order 0, as a double.
-*			
+*
 *       arguments:      x - input argument
-*                       
+*
 *	internal
 *	functions:	none
 *
@@ -3129,9 +3129,9 @@ double Izero(double x)
 *
 *	purpose:	Initializes the ring buffer used for sample rate
 *                       conversion.
-*			
+*
 *       arguments:      none
-*                       
+*
 *	internal
 *	functions:	none
 *
@@ -3165,9 +3165,9 @@ void initializeBuffer(void)
 *	purpose:	Fills the ring buffer with a single sample, increments
 *                       the counters and pointers, and empties the buffer when
 *                       full.
-*			
+*
 *       arguments:      data
-*                       
+*
 *	internal
 *	functions:	srIncrement, dataEmpty
 *
@@ -3204,9 +3204,9 @@ void dataFill(double data)
 *	purpose:	Converts available portion of the input signal to the
 *                       new sampling rate, and outputs the samples to the
 *                       sound struct.
-*			
+*
 *       arguments:      none
-*                       
+*
 *	internal
 *	functions:	srDecrement, srIncrement
 *
@@ -3273,10 +3273,10 @@ void dataEmpty(void)
 	    absoluteSampleValue = fabs(output);
 	    if (absoluteSampleValue > maximumSampleValue)
 		maximumSampleValue = absoluteSampleValue;
-    
+
 	    /*  INCREMENT SAMPLE NUMBER  */
 	    numberSamples++;
-    
+
 	    /*  OUTPUT THE SAMPLE TO THE TEMPORARY FILE  */
 	    fwrite((char *)&output, sizeof(output), 1, tempFilePtr);
 
@@ -3304,7 +3304,7 @@ void dataEmpty(void)
 	    int index;
 	    unsigned int phaseIndex, impulseIndex;
 	    double absoluteSampleValue, output, impulse;
-	    
+
 	    /*  RESET ACCUMULATOR TO ZERO  */
 	    output = 0.0;
 
@@ -3341,10 +3341,10 @@ void dataEmpty(void)
 	    absoluteSampleValue = fabs(output);
 	    if (absoluteSampleValue > maximumSampleValue)
 		maximumSampleValue = absoluteSampleValue;
-    
+
 	    /*  INCREMENT SAMPLE NUMBER  */
 	    numberSamples++;
-    
+
 	    /*  OUTPUT THE SAMPLE TO THE TEMPORARY FILE  */
 	    fwrite((char *)&output, sizeof(output), 1, tempFilePtr);
 
@@ -3372,9 +3372,9 @@ void dataEmpty(void)
 *
 *	purpose:	Pads the buffer with zero samples, and flushes it by
 *                       converting the remaining samples.
-*			
+*
 *       arguments:      none
-*                       
+*
 *	internal
 *	functions:	dataFill, dataEmpty
 *
@@ -3404,9 +3404,9 @@ void flushBuffer(void)
 *
 *	purpose:	Increments the pointer, keeping it within the range
 *                       0 to (modulus-1).
-*			
+*
 *       arguments:      pointer, modulus
-*                       
+*
 *	internal
 *	functions:	none
 *
@@ -3429,9 +3429,9 @@ void srIncrement(int *pointer, int modulus)
 *
 *	purpose:	Decrements the pointer, keeping it within the range
 *                       0 to (modulus-1).
-*                       
+*
 *       arguments:      pointer, modulus
-*                       
+*
 *	internal
 *	functions:	none
 *
