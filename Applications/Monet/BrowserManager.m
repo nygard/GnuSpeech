@@ -12,7 +12,7 @@
 #import "Phone.h"
 #import "PhoneList.h"
 #import "RuleManager.h"
-#import "Symbol.h"
+#import "MMSymbol.h"
 #import "SymbolList.h"
 
 @implementation BrowserManager
@@ -442,7 +442,7 @@ static NSString *symbolString = @"Symbol";
               return;
           }
 
-          tempEntry = [[Symbol alloc] init];
+          tempEntry = [[MMSymbol alloc] init];
           break;
     }
 #warning TODO (2004-03-02): Check earliest sources.  It looks like most of the pasting is not implemeneted, and this leaks.

@@ -93,6 +93,7 @@
     [NSUnarchiver decodeClassName:@"CategoryNode" asClassName:@"MMCategory"];
     [NSUnarchiver decodeClassName:@"Parameter" asClassName:@"MMParameter"];
     [NSUnarchiver decodeClassName:@"Point" asClassName:@"MMPoint"];
+    [NSUnarchiver decodeClassName:@"Symbol" asClassName:@"MMSymbol"];
 
     [self _disableUnconvertedClassLoading];
 

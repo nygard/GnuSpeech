@@ -1,7 +1,7 @@
 #import <Foundation/NSObject.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-@class Symbol;
+@class MMSymbol;
 @class Inspector;
 
 /*===========================================================================
@@ -40,15 +40,15 @@ History:
     IBOutlet NSButtonCell *setValueButton;
     IBOutlet NSButtonCell *revertValueButton;
 
-    Symbol *currentSymbol;
+    MMSymbol *currentSymbol;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 
 - (void)dealloc;
 
-- (void)setCurrentSymbol:(Symbol *)aSymbol;
-- (void)inspectSymbol:(Symbol *)aSymbol;
+- (void)setCurrentSymbol:(MMSymbol *)aSymbol;
+- (void)inspectSymbol:(MMSymbol *)aSymbol;
 - (void)setUpWindow:(NSPopUpButton *)sender;
 - (void)beginEditting;
 

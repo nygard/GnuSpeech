@@ -1,4 +1,4 @@
-#import "Symbol.h"
+#import "MMSymbol.h"
 
 #import <Foundation/Foundation.h>
 #import "NSObject-Extensions.h"
@@ -7,7 +7,7 @@
 #import "AppController.h"
 #import "GSXMLFunctions.h"
 
-@implementation Symbol
+@implementation MMSymbol
 
 - (id)init;
 {

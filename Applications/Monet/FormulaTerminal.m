@@ -7,7 +7,7 @@
 #import "AppController.h"
 #import "Phone.h"
 #import "PhoneList.h"
-#import "Symbol.h"
+#import "MMSymbol.h"
 #import "SymbolList.h"
 #import "Target.h"
 #import "TargetList.h"
@@ -44,12 +44,12 @@
     [super dealloc];
 }
 
-- (Symbol *)symbol;
+- (MMSymbol *)symbol;
 {
     return symbol;
 }
 
-- (void)setSymbol:(Symbol *)newSymbol;
+- (void)setSymbol:(MMSymbol *)newSymbol;
 {
     if (newSymbol == symbol)
         return;

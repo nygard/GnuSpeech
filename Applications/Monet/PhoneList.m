@@ -10,7 +10,7 @@
 #import "MMParameter.h"
 #import "ParameterList.h"
 #import "Phone.h"
-#import "Symbol.h"
+#import "MMSymbol.h"
 #import "SymbolList.h"
 #import "Target.h"
 #import "TargetList.h"
@@ -301,7 +301,7 @@
 
         aSymbolList = [aPhone symbolList];
         for (j = 0; j < [aSymbolList count]; j++) {
-            Symbol *mainSymbol;
+            MMSymbol *mainSymbol;
             Target *aSymbol;
 
             aSymbol = [aSymbolList objectAtIndex:j];

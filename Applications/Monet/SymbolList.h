@@ -1,6 +1,6 @@
 #import "MonetList.h"
 
-@class Symbol;
+@class MMSymbol;
 
 /*===========================================================================
 
@@ -15,7 +15,7 @@
 {
 }
 
-- (Symbol *)findSymbol:(NSString *)searchSymbol;
+- (MMSymbol *)findSymbol:(NSString *)searchSymbol;
 - (int)findSymbolIndex:(NSString *)searchSymbol;
 - (void)addSymbol:(NSString *)symbol withValue:(double)newValue;
 

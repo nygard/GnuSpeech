@@ -9,7 +9,7 @@
 =============================================================================
 */
 
-@interface Symbol : NSObject
+@interface MMSymbol : NSObject
 {
     NSString *symbol;
     NSString *comment;

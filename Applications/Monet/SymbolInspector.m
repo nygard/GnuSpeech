@@ -4,7 +4,7 @@
 #import "AppController.h"
 #import "Inspector.h"
 #import "PhoneList.h"
-#import "Symbol.h"
+#import "MMSymbol.h"
 
 @implementation SymbolInspector
 
@@ -26,7 +26,7 @@
     [super dealloc];
 }
 
-- (void)setCurrentSymbol:(Symbol *)aSymbol;
+- (void)setCurrentSymbol:(MMSymbol *)aSymbol;
 {
     if (aSymbol == currentSymbol)
         return;
@@ -35,7 +35,7 @@
     currentSymbol = [aSymbol retain];
 }
 
-- (void)inspectSymbol:(Symbol *)aSymbol;
+- (void)inspectSymbol:(MMSymbol *)aSymbol;
 {
     [self setCurrentSymbol:aSymbol];
     [mainInspector setPopUpListView:symbolPopUpListView];

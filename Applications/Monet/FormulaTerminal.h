@@ -1,6 +1,6 @@
 #import <Foundation/NSObject.h>
 
-@class PhoneList, Symbol;
+@class PhoneList, MMSymbol;
 
 /*===========================================================================
 
@@ -24,7 +24,7 @@
 
 @interface FormulaTerminal : NSObject
 {
-    Symbol *symbol;
+    MMSymbol *symbol;
     double value;
     int whichPhone; // TODO (2004-03-10): Rename this
     int precedence;
@@ -36,8 +36,8 @@
 - (id)init;
 - (void)dealloc;
 
-- (Symbol *)symbol;
-- (void)setSymbol:(Symbol *)newSymbol;
+- (MMSymbol *)symbol;
+- (void)setSymbol:(MMSymbol *)newSymbol;
 
 - (double)value;
 - (void)setValue:(double)newValue;

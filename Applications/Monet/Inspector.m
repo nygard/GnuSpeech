@@ -103,7 +103,7 @@
     [categoryInspector inspectCategory:category];
 }
 
-- (void)inspectSymbol:(Symbol *)symbol;
+- (void)inspectSymbol:(MMSymbol *)symbol;
 {
     [panel setTitle:@"Symbol Inspector"];
     currentInspectorObject = symbol;

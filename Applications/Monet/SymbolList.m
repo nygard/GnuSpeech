@@ -4,7 +4,7 @@
 #import "NSString-Extensions.h"
 
 #import "GSXMLFunctions.h"
-#import "Symbol.h"
+#import "MMSymbol.h"
 
 /*===========================================================================
 
@@ -16,13 +16,13 @@
 
 @implementation SymbolList
 
-- (Symbol *)findSymbol:(NSString *)searchSymbol;
+- (MMSymbol *)findSymbol:(NSString *)searchSymbol;
 {
     int count, index;
 
     count = [self count];
     for (index = 0; index < count; index++) {
-        Symbol *aSymbol;
+        MMSymbol *aSymbol;
 
         aSymbol = [self objectAtIndex:index];
         if ([[aSymbol symbol] isEqual:searchSymbol] == YES)
@@ -38,7 +38,7 @@
 
     count = [self count];
     for (index = 0; index < count; index++) {
-        Symbol *aSymbol;
+        MMSymbol *aSymbol;
 
         aSymbol = [self objectAtIndex:index];
         if ([[aSymbol symbol] isEqual:searchSymbol] == YES)
@@ -54,9 +54,9 @@
 
 - (void)addSymbol:(NSString *)symbol withValue:(double)newValue;
 {
-    Symbol *newSymbol;
+    MMSymbol *newSymbol;
 
-    newSymbol = [[Symbol alloc] initWithSymbol:symbol];
+    newSymbol = [[MMSymbol alloc] initWithSymbol:symbol];
     [newSymbol setMinimumValue:DEFAULT_MIN];
     [newSymbol setMaximumValue:DEFAULT_MAX];
     [newSymbol setDefaultValue:DEFAULT_VALUE];
@@ -109,7 +109,7 @@
     [resultString appendString:@"<symbols>\n"];
 
     for (index = 0; index < count; index++) {
-        Symbol *aSymbol;
+        MMSymbol *aSymbol;
 
         aSymbol = [self objectAtIndex:index];
         [aSymbol appendXMLToString:resultString level:level+1];

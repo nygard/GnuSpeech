@@ -5,7 +5,7 @@
 #import "FormulaExpression.h"
 #import "FormulaSymbols.h"
 #import "FormulaTerminal.h"
-#import "Symbol.h"
+#import "MMSymbol.h"
 #import "SymbolList.h"
 
 //static int operatorPrec[8] = {1, 1, 2, 2, 3, 0, 4, 4};
@@ -237,7 +237,7 @@
     } else {
         int whichPhone;
         NSString *baseSymbolName;
-        Symbol *aSymbol;
+        MMSymbol *aSymbol;
 
         whichPhone = [symbolString characterAtIndex:[symbolString length] - 1] - '1';
         NSLog(@"Phone = %d", whichPhone);

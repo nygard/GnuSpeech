@@ -12,7 +12,7 @@
 #import "ParameterList.h"
 #import "Target.h"
 #import "TargetList.h"
-#import "Symbol.h"
+#import "MMSymbol.h"
 #import "SymbolList.h"
 
 #import "MModel.h"
@@ -374,7 +374,7 @@
 {
     SymbolList *mainSymbolList;
     int count, index;
-    Symbol *aSymbol;
+    MMSymbol *aSymbol;
     Target *aTarget;
 
     mainSymbolList = NXGetNamedObject(@"mainSymbolList", NSApp);
