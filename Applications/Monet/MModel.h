@@ -1,5 +1,5 @@
 //
-// $Id: MModel.h,v 1.29 2004/04/22 03:06:15 nygard Exp $
+// $Id: MModel.h,v 1.30 2004/04/22 17:48:09 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -11,6 +11,18 @@
 @class MMCategory, MMEquation, MMParameter, MMPosture, MMRule, MMSymbol, MMSynthesisParameters, MMTransition;
 
 extern NSString *MCategoryInUseException;
+
+typedef enum {
+    MMXMLLoadStateNone = 0,
+    MMXMLLoadStateCategories = 1,
+    MMXMLLoadStateParameters = 2,
+    MMXMLLoadStateSymbols = 3,
+    MMXMLLoadStatePostures = 4,
+    MMXMLLoadStateEquations = 5,
+    MMXMLLoadStateTransitions = 6,
+    MMXMLLoadStateSpecialTransitions = 7,
+    MMXMLLoadStateRules = 8,
+} MMXMLLoadState;
 
 @interface MModel : NSObject
 {
@@ -29,6 +41,9 @@ extern NSString *MCategoryInUseException;
 
     // This doesn't really belong here, but I'll put it here for now.
     MMSynthesisParameters *synthesisParameters;
+
+    // Just used internally
+    MMXMLLoadState loadState;
 }
 
 - (id)init;
@@ -129,5 +144,7 @@ extern NSString *MCategoryInUseException;
 
 // Other
 - (MMSynthesisParameters *)synthesisParameters;
+
+- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 
 @end

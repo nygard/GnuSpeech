@@ -4,20 +4,43 @@
 #import "MDocument.h"
 
 #import <Foundation/Foundation.h>
+#import "MModel.h"
+#import "MXMLParser.h"
 
 @implementation MDocument
+
+- (void)dealloc;
+{
+    [model release];
+
+    [super dealloc];
+}
+
+- (MModel *)model;
+{
+    return model;
+}
+
+- (void)setModel:(MModel *)newModel;
+{
+    if (newModel == model)
+        return;
+
+    [model release];
+    model = [newModel retain];
+}
 
 - (void)loadFromXMLFile:(NSString *)filename;
 {
     NSURL *fileURL;
-    NSXMLParser *parser;
+    MXMLParser *parser;
     BOOL result;
 
     NSLog(@" > %s", _cmd);
 
     fileURL = [NSURL fileURLWithPath:filename];
-    parser = [[NSXMLParser alloc] initWithContentsOfURL:fileURL];
-    [parser setDelegate:self];
+    parser = [[MXMLParser alloc] initWithContentsOfURL:fileURL];
+    [parser pushDelegate:self];
     [parser setShouldResolveExternalEntities:YES];
     result = [parser parse];
     NSLog(@"result: %d", result);
@@ -38,64 +61,24 @@
     NSLog(@"<  %s", _cmd);
 }
 
-- (void)parser:(NSXMLParser *)parser foundNotationDeclarationWithName:(NSString *)name publicID:(NSString *)publicID systemID:(NSString *)systemID;
-{
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
-}
-
-- (void)parser:(NSXMLParser *)parser foundUnparsedEntityDeclarationWithName:(NSString *)name publicID:(NSString *)publicID systemID:(NSString *)systemID notationName:(NSString *)notationName;
-{
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
-}
-
-- (void)parser:(NSXMLParser *)parser foundAttributeDeclarationWithName:(NSString *)attributeName forElement:(NSString *)elementName type:(NSString *)type defaultValue:(NSString *)defaultValue;
-{
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
-}
-
-- (void)parser:(NSXMLParser *)parser foundElementDeclarationWithName:(NSString *)elementName model:(NSString *)model;
-{
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
-}
-
-- (void)parser:(NSXMLParser *)parser foundInternalEntityDeclarationWithName:(NSString *)name value:(NSString *)value;
-{
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
-}
-
-- (void)parser:(NSXMLParser *)parser foundExternalEntityDeclarationWithName:(NSString *)name publicID:(NSString *)publicID systemID:(NSString *)systemID;
-{
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
-}
-
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
 {
-    //NSLog(@" > %s", _cmd);
-    //NSLog(@"<  %s", _cmd);
+    if ([elementName isEqualToString:@"root"]) {
+        MModel *newModel;
+
+        newModel = [[MModel alloc] init];
+        [self setModel:newModel];
+        [newModel release];
+
+        [(MXMLParser *)parser pushDelegate:model];
+    }
 }
 
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 {
+    NSLog(@"</%@>", elementName);
     //NSLog(@" > %s", _cmd);
     //NSLog(@"<  %s", _cmd);
-}
-
-- (void)parser:(NSXMLParser *)parser didStartMappingPrefix:(NSString *)prefix toURI:(NSString *)namespaceURI;
-{
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
-}
-
-- (void)parser:(NSXMLParser *)parser didEndMappingPrefix:(NSString *)prefix;
-{
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
 }
 
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string;
@@ -113,13 +96,6 @@
 - (void)parser:(NSXMLParser *)parser foundProcessingInstructionWithTarget:(NSString *)target data:(NSString *)data;
 {
     NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
-}
-
-- (void)parser:(NSXMLParser *)parser foundComment:(NSString *)comment;
-{
-    NSLog(@" > %s", _cmd);
-    NSLog(@"comment: '%@'", comment);
     NSLog(@"<  %s", _cmd);
 }
 
