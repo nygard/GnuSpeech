@@ -30,6 +30,15 @@
 #define TG_CONTINUATION       @"/3"
 #define TG_HALF_PERIOD        @"/4"
 
+#define TTS_STATE_UNDEFINED       (-1)
+#define TTS_STATE_BEGIN           0
+#define TTS_STATE_WORD            1
+#define TTS_STATE_MEDIAL_PUNC     2
+#define TTS_STATE_FINAL_PUNC      3
+#define TTS_STATE_END             4
+#define TTS_STATE_SILENCE         5
+#define TTS_STATE_TAGGING         6
+
 TTSInputMode TTSInputModeFromString(NSString *str)
 {
     if ([str isEqualToString:@"r"] || [str isEqualToString:@"R"]) {
@@ -91,7 +100,8 @@ static NSDictionary *_specialAcronyms = nil;
     //[self markModes:aString];
 
     resultString = [NSMutableString string];
-    [self expandWord:aString tonic:NO resultString:resultString];
+    [self finalConversion:aString resultString:resultString];
+    //[self expandWord:aString tonic:NO resultString:resultString];
 
     NSLog(@"resultString: %@", resultString);
 
@@ -166,6 +176,168 @@ static NSDictionary *_specialAcronyms = nil;
 {
     NSLog(@" > %s", _cmd);
     NSLog(@"<  %s", _cmd);
+}
+
+- (void)finalConversion:(NSString *)aString resultString:(NSMutableString *)resultString;
+{
+    NSArray *words;
+    int previousState, currentState, nextState;
+    unsigned int count, index;
+    BOOL priorTonic = NO;
+    unsigned int toneGroupMarkerLocation = NSNotFound;
+    unsigned int lastWordEndLocation = NSNotFound;
+
+    NSLog(@" > %s", _cmd);
+
+    previousState = TTS_STATE_BEGIN;
+
+    words = [aString componentsSeparatedByString:@" "];
+    NSLog(@"words: %@", [words description]);
+
+    count = [words count];
+    if (count == 0) {
+        currentState = TTS_STATE_END;
+        NSLog(@"%s, No words.", _cmd);
+    } else {
+        NSString *currentWord, *nextWord;
+
+        for (index = 0; index < count; index++) {
+            currentWord = [words objectAtIndex:index];
+            if (index + 1 < count)
+                nextWord = [words objectAtIndex:index + 1];
+            else
+                nextWord = nil;
+
+            currentState = [self stateForWord:currentWord];
+            nextState = [self stateForWord:nextWord];
+
+            NSLog(@"previousState: %d, currentState: %d (%@), nextState: %d (%@)", previousState, currentState, currentWord, nextState, nextWord);
+
+            switch (currentState) {
+              case TTS_STATE_WORD:
+                  // Switch fall through desired:
+                  switch (previousState) {
+                    case TTS_STATE_BEGIN:
+                        [resultString appendString:TTS_CHUNK_BOUNDARY];
+                        [resultString appendString:@" "];
+                    case TTS_STATE_FINAL_PUNC:
+                        [resultString appendString:TTS_TONE_GROUP_BOUNDARY];
+                        [resultString appendString:@" "];
+                        priorTonic = NO;
+                    case TTS_STATE_MEDIAL_PUNC:
+                        toneGroupMarkerLocation = [resultString length];
+                        [resultString appendString:TG_UNDEFINED];
+                        [resultString appendString:@" "];
+                    case TTS_STATE_SILENCE:
+                        [resultString appendString:TTS_UTTERANCE_BOUNDARY];
+                        [resultString appendString:@" "];
+                  }
+
+                  if (1) { // Normal Mode
+                      [resultString appendString:TTS_WORD_BEGIN];
+                      [resultString appendString:@" "];
+
+                      switch (nextState) {
+                        case TTS_STATE_MEDIAL_PUNC:
+                        case TTS_STATE_FINAL_PUNC:
+                        case TTS_STATE_END:
+                            [resultString appendString:TTS_LAST_WORD];
+                            [resultString appendString:@" "];
+                            // Write word to result with tonic if no prior tonicization
+                            [self expandWord:currentWord tonic:!priorTonic resultString:resultString];
+                            break;
+                        default:
+                            // Write word to result without tonic
+                            [self expandWord:currentWord tonic:NO resultString:resultString];
+                      }
+                  } else {
+                  }
+
+                  lastWordEndLocation = [resultString length];
+                  break;
+
+              case TTS_STATE_MEDIAL_PUNC:
+
+                  // Switch fall through desired:
+                  switch (previousState) {
+                    case TTS_STATE_WORD:
+                        if ([self shiftSilence] == YES) {
+                        } else if (nextState != TTS_STATE_END && [nextWord startsWithLetter] == YES) {
+                            [resultString appendString:TTS_UTTERANCE_BOUNDARY];
+                            [resultString appendString:@" "];
+                            if ([currentWord isEqualToString:@","] == YES) {
+                                [resultString appendString:TTS_MEDIAL_PAUSE];
+                            } else {
+                                [resultString appendString:TTS_LONG_MEDIAL_PAUSE];
+                            }
+                            [resultString appendString:@" "];
+                        } else if (nextState == TTS_STATE_END) {
+                            [resultString appendString:TTS_UTTERANCE_BOUNDARY];
+                            [resultString appendString:@" "];
+                        }
+
+                    case TTS_STATE_SILENCE:
+                        [resultString appendString:TTS_TONE_GROUP_BOUNDARY];
+                        [resultString appendString:@" "];
+                        priorTonic = NO;
+                        if (toneGroupMarkerLocation != NSNotFound)
+                            [resultString replaceCharactersInRange:NSMakeRange(toneGroupMarkerLocation, 2)
+                                          withString:[self toneGroupStringForPunctuation:currentWord]];
+                          else
+                              NSLog(@"Warning: Couldn't set tone group");
+                        toneGroupMarkerLocation = NSNotFound;
+                  }
+                  break;
+
+              case TTS_STATE_FINAL_PUNC:
+                  if (previousState == TTS_STATE_WORD) {
+                      if ([self shiftSilence] == YES) {
+                      } else {
+                          [resultString appendFormat:@"%@ %@ %@ ", TTS_UTTERANCE_BOUNDARY, TTS_TONE_GROUP_BOUNDARY, TTS_CHUNK_BOUNDARY];
+                          priorTonic = NO;
+                          if (toneGroupMarkerLocation != NSNotFound)
+                              [resultString replaceCharactersInRange:NSMakeRange(toneGroupMarkerLocation, 2)
+                                            withString:[self toneGroupStringForPunctuation:currentWord]];
+                          else
+                              NSLog(@"Warning: Couldn't set tone group");
+                          toneGroupMarkerLocation = NSNotFound;
+                      }
+                  } else if (previousState == TTS_STATE_SILENCE) {
+                  }
+                  break;
+
+              case TTS_STATE_SILENCE:
+                  break;
+
+              case TTS_STATE_TAGGING:
+                  break;
+
+              case TTS_STATE_END:
+                  break;
+            }
+
+            previousState = currentState;
+        }
+    }
+
+    NSLog(@"<  %s", _cmd);
+}
+
+- (int)stateForWord:(NSString *)word;
+{
+    if (word == nil)
+        return TTS_STATE_END;
+
+    if ([word startsWithLetter] == YES)
+        return TTS_STATE_WORD;
+
+    if ([word isEqualToString:@"."] || [word isEqualToString:@"!"] || [word isEqualToString:@"?"]) {
+        return TTS_STATE_FINAL_PUNC;
+    } else if ([word isEqualToString:@";"] || [word isEqualToString:@":"] || [word isEqualToString:@","]) {
+        return TTS_STATE_MEDIAL_PUNC;
+    }
+
+    return TTS_STATE_UNDEFINED;
 }
 
 - (void)expandWord:(NSString *)word tonic:(BOOL)isTonic resultString:(NSMutableString *)resultString;
@@ -386,6 +558,31 @@ static NSDictionary *_specialAcronyms = nil;
     }
 
     return resultString;
+}
+
+- (BOOL)shiftSilence;
+{
+    // TODO (2004-04-30): Convert original function
+    return NO;
+}
+
+- (NSString *)toneGroupStringForPunctuation:(NSString *)str;
+{
+    if ([str isEqualToString:@"."]) {
+        return TG_STATEMENT;
+    } else if ([str isEqualToString:@"!"]) {
+        return TG_EXCLAMATION;
+    } else if ([str isEqualToString:@"?"]) {
+        return TG_QUESTION;
+    } else if ([str isEqualToString:@","]) {
+        return TG_CONTINUATION;
+    } else if ([str isEqualToString:@";"]) {
+        return TG_HALF_PERIOD;
+    } else if ([str isEqualToString:@":"]) {
+        return TG_CONTINUATION;
+    }
+
+    return TG_UNDEFINED;
 }
 
 @end
