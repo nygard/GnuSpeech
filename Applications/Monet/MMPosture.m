@@ -17,6 +17,11 @@
 #import "MModel.h"
 #import "MUnarchiver.h"
 
+#import "MXMLParser.h"
+#import "MXMLIgnoreTreeDelegate.h"
+#import "MXMLPCDataDelegate.h"
+#import "MXMLReferenceArrayDelegate.h"
+
 @implementation MMPosture
 
 // TODO (2004-03-19): Reject unused init method
@@ -225,6 +230,15 @@
     }
 
     return NO;
+}
+
+- (void)addCategoryWithName:(NSString *)aCategoryName;
+{
+    MMCategory *category;
+
+    category = [[self model] categoryWithName:aCategoryName];
+    NSLog(@"%s, model: %p, category: %@", _cmd, [self model], category);
+    [self addCategory:category];
 }
 
 - (TargetList *)parameterTargets;
@@ -506,6 +520,52 @@
 
     [resultString indentToLevel:level];
     [resultString appendString:@"</symbol-targets>\n"];
+}
+
+- (id)initWithXMLAttributes:(NSDictionary *)attributes;
+{
+    if ([self initWithModel:nil] == nil)
+        return nil;
+
+    [self setSymbol:[attributes objectForKey:@"symbol"]];
+
+    return self;
+}
+
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
+{
+    if ([elementName isEqualToString:@"comment"]) {
+        MXMLPCDataDelegate *newDelegate;
+
+        newDelegate = [[MXMLPCDataDelegate alloc] initWithElementName:elementName delegate:self setSelector:@selector(setComment:)];
+        [(MXMLParser *)parser pushDelegate:newDelegate];
+        [newDelegate release];
+    } else if ([elementName isEqualToString:@"posture-categories"]) {
+        MXMLReferenceArrayDelegate *newDelegate;
+
+        newDelegate = [[MXMLReferenceArrayDelegate alloc] initWithChildElementName:@"category-ref" referenceAttribute:@"name" delegate:self addObjectSelector:@selector(addCategoryWithName:)];
+        [(MXMLParser *)parser pushDelegate:newDelegate];
+        [newDelegate release];
+#if 0
+    } else if ([elementName isEqualToString:@"parameter-targets"]) {
+    } else if ([elementName isEqualToString:@"symbol-targets"]) {
+#endif
+    } else {
+        MXMLIgnoreTreeDelegate *newDelegate;
+
+        NSLog(@"%@, Unknown element: '%@', skipping", [self shortDescription], elementName);
+        newDelegate = [[MXMLIgnoreTreeDelegate alloc] init];
+        [(MXMLParser *)parser pushDelegate:newDelegate];
+        [newDelegate release];
+    }
+}
+
+- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
+{
+    if ([elementName isEqualToString:@"posture"])
+        [(MXMLParser *)parser popDelegate];
+    else
+        [NSException raise:@"Unknown close tag" format:@"Unknown closing tag (%@) in %@", elementName, NSStringFromClass([self class])];
 }
 
 @end

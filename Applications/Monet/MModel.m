@@ -472,6 +472,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     if ([newPosture symbol] == nil)
         [newPosture setSymbol:@"untitled"];
 
+    [newPosture setModel:self];
     [self _uniqueNameForPosture:newPosture];
 
     [postures addObject:newPosture];
@@ -1467,8 +1468,13 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"symbol" class:[MMSymbol class] delegate:self addObjectSelector:@selector(addSymbol:)];
         [(MXMLParser *)parser pushDelegate:arrayDelegate];
         [arrayDelegate release];
-#if 0
     } else if ([elementName isEqualToString:@"postures"]) {
+        MXMLArrayDelegate *arrayDelegate;
+
+        arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"posture" class:[MMPosture class] delegate:self addObjectSelector:@selector(addPosture:)];
+        [(MXMLParser *)parser pushDelegate:arrayDelegate];
+        [arrayDelegate release];
+#if 0
     } else if ([elementName isEqualToString:@"equations"]) {
     } else if ([elementName isEqualToString:@"transitions"]) {
     } else if ([elementName isEqualToString:@"special-transitions"]) {
