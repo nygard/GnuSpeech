@@ -32,6 +32,8 @@ TRMWavetable *TRMWavetableCreate(int waveform, double tp, double tnMin, double t
         return NULL;
     }
 
+    newWavetable->FIRFilter = TRMFIRFilterCreate(FIR_BETA, FIR_GAMMA, FIR_CUTOFF);
+
     //  Allocate memory for wavetable
     newWavetable->wavetable = (double *)calloc(TABLE_LENGTH, sizeof(double));
     if (newWavetable->wavetable == NULL) {
@@ -81,6 +83,11 @@ void TRMWavetableFree(TRMWavetable *wavetable)
 {
     if (wavetable == NULL)
         return;
+
+    if (FIRFilter != NULL) {
+        TRMFIRFilterFree(wavetable->FIRFilter);
+        wavetable->FIRFilter = NULL;
+    }
 
     if (wavetable->wavetable != NULL) {
         free(wavetable->wavetable);
@@ -143,7 +150,7 @@ double TRMWavetableOscillator(TRMWavetable *wavetable, double frequency)  //  2X
                               (wavetable->wavetable[upperPosition] - wavetable->wavetable[lowerPosition])));
 
         //  Put value through FIR filter
-        output = FIRFilter(interpolatedValue, i);
+        output = FIRFilter(wavetable->FIRFilter, interpolatedValue, i);
     }
 
     //  Since we decimate, take only the second output value

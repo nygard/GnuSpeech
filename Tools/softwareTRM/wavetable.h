@@ -1,10 +1,13 @@
 #ifndef __WAVETABLE_H
 #define __WAVETABLE_H
 
+#include "fir.h"
+
 //  Compile with oversampling or plain oscillator
 #define OVERSAMPLING_OSCILLATOR   1
 
 typedef struct _TRMWavetable {
+    TRMFIRFilter *FIRFilter;
     double *wavetable;
 
     int tableDiv1;

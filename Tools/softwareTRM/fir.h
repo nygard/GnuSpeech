@@ -6,7 +6,16 @@
 #define FIR_GAMMA                 .1
 #define FIR_CUTOFF                .00000001
 
-void initializeFIR(double beta, double gamma, double cutoff);
-double FIRFilter(double input, int needOutput);
+/*  VARIABLES FOR FIR LOWPASS FILTER  */
+typedef struct {
+    double *FIRData, *FIRCoef;
+    int FIRPtr, numberTaps;
+} TRMFIRFilter;
+
+TRMFIRFilter *TRMFIRFilterCreate(double beta, double gamma, double cutoff);
+void TRMFIRFilterFree(TRMFIRFilter *filter);
+
+double FIRFilter(TRMFIRFilter *filter, double input, int needOutput);
+
 
 #endif

@@ -1170,10 +1170,6 @@ TRMTubeModel *TRMTubeModelCreate(TRMInputParameters *inputParameters)
     /*  INITIALIZE THE WAVE TABLE  */
     newTubeModel->wavetable = TRMWavetableCreate(inputParameters->waveform, inputParameters->tp, inputParameters->tnMin, inputParameters->tnMax, newTubeModel->sampleRate);
 
-    // TODO (2004-05-07): Turn the FIR filter into an object
-    /*  INITIALIZE THE FIR FILTER  */
-    initializeFIR(FIR_BETA, FIR_GAMMA, FIR_CUTOFF);
-
     /*  INITIALIZE REFLECTION AND RADIATION FILTER COEFFICIENTS FOR MOUTH  */
     initializeMouthCoefficients(newTubeModel, (nyquist - inputParameters->mouthCoef) / nyquist);
 

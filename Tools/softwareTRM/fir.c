@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <math.h>
+#include "fir.h"
 #include "tube.h" // for TWO_PI
 
 /*  CONSTANTS FOR THE FIR FILTER  */
@@ -8,41 +9,27 @@
 #define GAMMA_OUT_OF_RANGE        2
 #define GAMMA_TOO_SMALL           3
 
-/*  VARIABLES FOR FIR LOWPASS FILTER  */
-double *FIRData, *FIRCoef;
-int FIRPtr, numberTaps;
 
+static int maximallyFlat(double beta, double gamma, int *np, double *coefficient);
+static void trim(double cutoff, int *numberCoefficients, double *coefficient);
+static int increment(int pointer, int modulus);
+static int decrement(int pointer, int modulus);
+static void rationalApproximation(double number, int *order, int *numerator, int *denominator);
 
-int maximallyFlat(double beta, double gamma, int *np, double *coefficient);
-void trim(double cutoff, int *numberCoefficients, double *coefficient);
-int increment(int pointer, int modulus);
-int decrement(int pointer, int modulus);
-void rationalApproximation(double number, int *order, int *numerator, int *denominator);
+// Allocates memory and initializes the coefficients for the FIR filter used in the oversampling oscillator.
 
-/******************************************************************************
-*
-*	function:	initializeFIR
-*
-*	purpose:	Allocates memory and initializes the coefficients
-*                       for the FIR filter used in the oversampling oscillator.
-*
-*       arguments:      beta, gamma, cutoff
-*
-*	internal
-*	functions:	maximallyFlat, trim
-*
-*	library
-*	functions:	calloc
-*
-******************************************************************************/
-
-void initializeFIR(double beta, double gamma, double cutoff)
+TRMFIRFilter *TRMFIRFilterCreate(double beta, double gamma, double cutoff)
 {
+    TRMFIRFilter *newFilter;
+
     int i, pointer, increment, numberCoefficients;
     double coefficient[LIMIT+1];
 
-
-    printf("initializeFIR(%g, %g, %g)\n", beta, gamma, cutoff);
+    newFilter = (TRMFIRFilter *)malloc(sizeof(TRMFIRFilter));
+    if (newFilter == NULL) {
+        fprintf(stderr, "Couldn't malloc() FIRFilter.\n");
+        return NULL;
+    }
 
     /*  DETERMINE IDEAL LOW PASS FILTER COEFFICIENTS  */
     maximallyFlat(beta, gamma, &numberCoefficients, coefficient);
@@ -51,22 +38,29 @@ void initializeFIR(double beta, double gamma, double cutoff)
     trim(cutoff, &numberCoefficients, coefficient);
 
     /*  DETERMINE THE NUMBER OF TAPS IN THE FILTER  */
-    numberTaps = (numberCoefficients * 2) - 1;
+    newFilter->numberTaps = (numberCoefficients * 2) - 1;
 
     /*  ALLOCATE MEMORY FOR DATA AND COEFFICIENTS  */
-    FIRData = (double *)calloc(numberTaps, sizeof(double));
-    if (FIRData == NULL)
-        fprintf(stderr, "calloc() of FIRData failed.");
+    newFilter->FIRData = (double *)calloc(newFilter->numberTaps, sizeof(double));
+    if (newFilter->FIRData == NULL) {
+        fprintf(stderr, "calloc() of FIRData failed.\n");
+        free(newFilter);
+        return NULL;
+    }
 
-    FIRCoef = (double *)calloc(numberTaps, sizeof(double));
-    if (FIRCoef == NULL)
-        fprintf(stderr, "calloc() of FIRCoef failed.");
+    newFilter->FIRCoef = (double *)calloc(newFilter->numberTaps, sizeof(double));
+    if (newFilter->FIRCoef == NULL) {
+        fprintf(stderr, "calloc() of FIRCoef failed.\n");
+        free(newFilter->FIRData);
+        free(newFilter);
+        return NULL;
+    }
 
     /*  INITIALIZE THE COEFFICIENTS  */
     increment = -1;
     pointer = numberCoefficients;
-    for (i = 0; i < numberTaps; i++) {
-	FIRCoef[i] = coefficient[pointer];
+    for (i = 0; i < newFilter->numberTaps; i++) {
+	newFilter->FIRCoef[i] = coefficient[pointer];
 	pointer += increment;
 	if (pointer <= 0) {
 	    pointer = 2;
@@ -75,16 +69,35 @@ void initializeFIR(double beta, double gamma, double cutoff)
     }
 
     /*  SET POINTER TO FIRST ELEMENT  */
-    FIRPtr = 0;
+    newFilter->FIRPtr = 0;
 
 #if DEBUG
     /*  PRINT OUT  */
     printf("\n");
-    for (i = 0; i < numberTaps; i++)
-	printf("FIRCoef[%-d] = %11.8f\n", i, FIRCoef[i]);
+    for (i = 0; i < newFilter->numberTaps; i++)
+	printf("FIRCoef[%-d] = %11.8f\n", i, newFilter->FIRCoef[i]);
 #endif
+
+    return newFilter;
 }
 
+void TRMFIRFilterFree(TRMFIRFilter *filter)
+{
+    if (filter == NULL)
+        return;
+
+    if (filter->FIRData != NULL) {
+        free(filter->FIRData);
+        filter->FIRData = NULL;
+    }
+
+    if (filter->FIRCoef != NULL) {
+        free(filter->FIRCoef);
+        filter->FIRCoef = NULL;
+    }
+
+    free(filter);
+}
 
 
 /******************************************************************************
@@ -234,33 +247,33 @@ void trim(double cutoff, int *numberCoefficients, double *coefficient)
 *
 ******************************************************************************/
 
-double FIRFilter(double input, int needOutput)
+double FIRFilter(TRMFIRFilter *filter, double input, int needOutput)
 {
     if (needOutput) {
 	int i;
 	double output = 0.0;
 
 	/*  PUT INPUT SAMPLE INTO DATA BUFFER  */
-	FIRData[FIRPtr] = input;
+	filter->FIRData[filter->FIRPtr] = input;
 
 	/*  SUM THE OUTPUT FROM ALL FILTER TAPS  */
-	for (i = 0; i < numberTaps; i++) {
-	    output += FIRData[FIRPtr] * FIRCoef[i];
-	    FIRPtr = increment(FIRPtr, numberTaps);
+	for (i = 0; i < filter->numberTaps; i++) {
+	    output += filter->FIRData[filter->FIRPtr] * filter->FIRCoef[i];
+	    filter->FIRPtr = increment(filter->FIRPtr, filter->numberTaps);
 	}
 
 	/*  DECREMENT THE DATA POINTER READY FOR NEXT CALL  */
-	FIRPtr = decrement(FIRPtr, numberTaps);
+	filter->FIRPtr = decrement(filter->FIRPtr, filter->numberTaps);
 
 	/*  RETURN THE OUTPUT VALUE  */
         //printf("FIRFilter(%g, %d) = %g\n", input, needOutput, output);
 	return output;
     } else {
 	/*  PUT INPUT SAMPLE INTO DATA BUFFER  */
-	FIRData[FIRPtr] = input;
+	filter->FIRData[filter->FIRPtr] = input;
 
 	/*  ADJUST THE DATA POINTER, READY FOR NEXT CALL  */
-	FIRPtr = decrement(FIRPtr, numberTaps);
+	filter->FIRPtr = decrement(filter->FIRPtr, filter->numberTaps);
 
         //printf("FIRFilter(%g, %d) = %g\n", input, needOutput, 0.0);
 	return 0.0;
