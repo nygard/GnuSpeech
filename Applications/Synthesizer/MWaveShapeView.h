@@ -5,6 +5,8 @@
 
 #include "wavetable.h"
 
+// TODO (2004-08-30): Change this to MGlottalPulseView, and then create an MWaveShapeView for the waveform.
+
 @interface MWaveShapeView : MGraphView
 {
     double riseTime;

@@ -7,6 +7,9 @@
 {
     float sideMargin;
     float topMargin;
+
+    double minYValue;
+    double maxYValue;
 }
 
 - (id)initWithFrame:(NSRect)frameRect;
@@ -17,8 +20,16 @@
 - (float)topMargin;
 - (void)setTopMargin:(float)newTopMargin;
 
+- (double)minYValue;
+- (void)setMinYValue:(double)newMinYValue;
+
+- (double)maxYValue;
+- (void)setMaxYValue:(double)newMaxYValue;
+
 - (NSRect)activeRect;
 
 - (void)drawRect:(NSRect)rect;
+
+- (void)drawValues:(double *)values count:(unsigned int)count;
 
 @end

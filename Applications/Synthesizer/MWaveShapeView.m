@@ -134,41 +134,12 @@
     [path release];
 
     // Draw minimum fall time wave shape
-    path = [[NSBezierPath alloc] init];
-
-    values = minimumWavetable->wavetable;
-    count = TRMWavetableLength(minimumWavetable);
-    point.x = activeRect.origin.x;
-    point.y = activeRect.origin.y + values[0] * activeRect.size.height;
-    [path moveToPoint:point];
-    for (index = 1; index < count; index++) {
-        point.x = activeRect.origin.x + index * activeRect.size.width / count;
-        point.y = activeRect.origin.y + values[index] * activeRect.size.height;
-        [path lineToPoint:point];
-    }
-
-    [[NSColor blackColor] set];
-    [path stroke];
-    [path release];
+    [[NSColor blueColor] set];
+    [self drawValues:minimumWavetable->wavetable count:TRMWavetableLength(minimumWavetable)];
 
     // Draw maximum fall time wave shape
-    path = [[NSBezierPath alloc] init];
-
-    values = maximumWavetable->wavetable;
-    count = TRMWavetableLength(maximumWavetable);
-    point.x = activeRect.origin.x;
-    point.y = activeRect.origin.y + values[0] * activeRect.size.height;
-    [path moveToPoint:point];
-    for (index = 1; index < count; index++) {
-        point.x = activeRect.origin.x + index * activeRect.size.width / count;
-        point.y = activeRect.origin.y + values[index] * activeRect.size.height;
-        [path lineToPoint:point];
-    }
-
     [[NSColor blackColor] set];
-    [[NSColor blueColor] set];
-    [path stroke];
-    [path release];
+    [self drawValues:maximumWavetable->wavetable count:TRMWavetableLength(maximumWavetable)];
 }
 
 @end
