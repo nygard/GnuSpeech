@@ -14,8 +14,9 @@
                 posture4Form = NSForm; 
                 ruleOutputTextField = NSTextField; 
             }; 
-            SUPERCLASS = NSWindowController; 
-        }
+            SUPERCLASS = MWindowController; 
+        }, 
+        {CLASS = MWindowController; LANGUAGE = ObjC; SUPERCLASS = NSWindowController; }
     ); 
     IBVersion = 1; 
 }

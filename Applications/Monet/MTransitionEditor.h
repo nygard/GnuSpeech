@@ -5,13 +5,13 @@
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
 //  Copyright (C) 2004 __OWNER__.  All rights reserved.
 
-#import <AppKit/NSWindowController.h>
+#import "MWindowController.h"
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 @class MModel, MMPoint, MMTransition;
 @class TransitionView;
 
-@interface MTransitionEditor : NSWindowController
+@interface MTransitionEditor : MWindowController
 {
     IBOutlet NSTextField *transitionNameTextField;
     IBOutlet TransitionView *transitionView;

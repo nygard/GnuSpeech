@@ -22,8 +22,9 @@
                 type3Button = NSButton; 
                 valueTextField = NSTextField; 
             }; 
-            SUPERCLASS = NSWindowController; 
+            SUPERCLASS = MWindowController; 
         }, 
+        {CLASS = MWindowController; LANGUAGE = ObjC; SUPERCLASS = NSWindowController; }, 
         {CLASS = SpecialView; LANGUAGE = ObjC; SUPERCLASS = TransitionView; }, 
         {
             ACTIONS = {

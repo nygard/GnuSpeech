@@ -17,7 +17,7 @@
     [[NSUserDefaults standardUserDefaults] setBool:newFlag forKey:[NSString stringWithFormat:@"VisibleOnLaunch %@", [self windowFrameAutosaveName]]];
 }
 
-- (void)saveWidnowIsVisibleOnLaunch;
+- (void)saveWindowIsVisibleOnLaunch;
 {
     // Don't load the window if it hasn't already been loaded.
     if ([self isWindowLoaded] == YES && [[self window] isVisible] == YES)

@@ -81,8 +81,9 @@
                 tpSlider = NSSlider; 
                 waveform = NSMatrix; 
             }; 
-            SUPERCLASS = NSWindowController; 
-        }
+            SUPERCLASS = MWindowController; 
+        }, 
+        {CLASS = MWindowController; LANGUAGE = ObjC; SUPERCLASS = NSWindowController; }
     ); 
     IBVersion = 1; 
 }

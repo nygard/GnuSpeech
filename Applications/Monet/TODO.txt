@@ -177,3 +177,6 @@ Notes:
 + selecting points in the special transition view doesn't seem to change selected equation
 + changing marks in special transition editor doesn't work.
 - when rule numbers don't fit in the width they take up multiple lines.
+
+2004-05-26:
+- remove Id RCS keyword from header files.

@@ -10,6 +10,7 @@
                 addSpecialTransitionGroup = id; 
                 addTransition = id; 
                 addTransitionGroup = id; 
+                doubleHit = id; 
                 editSpecialTransition = id; 
                 editTransition = id; 
                 removeEquation = id; 
@@ -42,8 +43,9 @@
                 transitionOutlineView = NSOutlineView; 
                 transitionTypeMatrix = NSMatrix; 
             }; 
-            SUPERCLASS = NSWindowController; 
+            SUPERCLASS = MWindowController; 
         }, 
+        {CLASS = MWindowController; LANGUAGE = ObjC; SUPERCLASS = NSWindowController; }, 
         {CLASS = SpecialView; LANGUAGE = ObjC; SUPERCLASS = TransitionView; }, 
         {
             ACTIONS = {

@@ -32,8 +32,9 @@
                 symbolTableView = NSTableView; 
                 symbolTotalTextField = NSTextField; 
             }; 
-            SUPERCLASS = NSWindowController; 
-        }
+            SUPERCLASS = MWindowController; 
+        }, 
+        {CLASS = MWindowController; LANGUAGE = ObjC; SUPERCLASS = NSWindowController; }
     ); 
     IBVersion = 1; 
 }

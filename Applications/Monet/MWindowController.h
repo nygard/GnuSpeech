@@ -1,9 +1,5 @@
-//
-// $Id$
-//
-
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
-//  Copyright (C) 2004 __OWNER__.  All rights reserved.
+//  Copyright (C) 2004 Steve Nygard.  All rights reserved.
 
 #import <AppKit/NSWindowController.h>
 
@@ -14,7 +10,7 @@
 - (BOOL)isVisibleOnLaunch;
 - (void)setIsVisibleOnLaunch:(BOOL)newFlag;
 
-- (void)saveWidnowIsVisibleOnLaunch;
+- (void)saveWindowIsVisibleOnLaunch;
 - (void)showWindowIfVisibleOnLaunch;
 
 @end

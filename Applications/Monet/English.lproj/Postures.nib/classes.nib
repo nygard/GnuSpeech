@@ -24,8 +24,9 @@
                 useDefaultParameterButton = NSButton; 
                 useDefaultSymbolButton = NSButton; 
             }; 
-            SUPERCLASS = NSWindowController; 
-        }
+            SUPERCLASS = MWindowController; 
+        }, 
+        {CLASS = MWindowController; LANGUAGE = ObjC; SUPERCLASS = NSWindowController; }
     ); 
     IBVersion = 1; 
 }

@@ -5,12 +5,12 @@
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
 //  Copyright (C) 2004 __OWNER__.  All rights reserved.
 
-#import <AppKit/NSWindowController.h>
+#import "MWindowController.h"
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 @class MModel;
 
-@interface MRuleTester : NSWindowController
+@interface MRuleTester : MWindowController
 {
     IBOutlet NSForm *posture1Form;
     IBOutlet NSForm *posture2Form;

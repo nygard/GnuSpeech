@@ -98,6 +98,14 @@
     [self _loadMonetXMLFile:path];
     [self setFilename:nil];
 
+    [[self dataEntryController] showWindowIfVisibleOnLaunch];
+    [[self postureEditor] showWindowIfVisibleOnLaunch];
+    [[self prototypeManager] showWindowIfVisibleOnLaunch];
+    [[self transitionEditor] showWindowIfVisibleOnLaunch];
+    [[self specialTransitionEditor] showWindowIfVisibleOnLaunch];
+    [[self ruleTester] showWindowIfVisibleOnLaunch];
+    [[self ruleManager] showWindowIfVisibleOnLaunch];
+    [[self synthesisParameterEditor] showWindowIfVisibleOnLaunch];
     [[self synthesisController] showWindowIfVisibleOnLaunch];
 
     //NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
@@ -106,7 +114,17 @@
 - (void)applicationWillTerminate:(NSNotification *)notification;
 {
     // I think this will be more reliable that using -windowWillClose:, since the windows do close when the app terminates...
-    [[self synthesisController] saveWidnowIsVisibleOnLaunch];
+    [[self dataEntryController] saveWindowIsVisibleOnLaunch];
+    [[self postureEditor] saveWindowIsVisibleOnLaunch];
+    [[self prototypeManager] saveWindowIsVisibleOnLaunch];
+    [[self transitionEditor] saveWindowIsVisibleOnLaunch];
+    [[self specialTransitionEditor] saveWindowIsVisibleOnLaunch];
+    [[self ruleTester] saveWindowIsVisibleOnLaunch];
+    [[self ruleManager] saveWindowIsVisibleOnLaunch];
+    [[self synthesisParameterEditor] saveWindowIsVisibleOnLaunch];
+    [[self synthesisController] saveWindowIsVisibleOnLaunch];
+    //[[self intonationController] saveWindowIsVisibleOnLaunch];
+    //[[self intonationParameterEditor] saveWindowIsVisibleOnLaunch];
 }
 
 - (void)displayInfoPanel:(id)sender;
@@ -456,32 +474,51 @@
     }
 }
 
-- (IBAction)showNewDataEntryWindow:(id)sender;
+- (MDataEntryController *)dataEntryController;
 {
     if (dataEntryController == nil) {
         dataEntryController = [[MDataEntryController alloc] initWithModel:model];
     }
 
+    return dataEntryController;
+}
+
+// TODO (2004-05-26): Rename method, without the "New"
+- (IBAction)showNewDataEntryWindow:(id)sender;
+{
+    [self dataEntryController]; // Make sure it's been created
     [dataEntryController setModel:model];
     [dataEntryController showWindow:self];
 }
 
-- (IBAction)showPostureEditor:(id)sender;
+- (MPostureEditor *)postureEditor;
 {
     if (postureEditor == nil) {
         postureEditor = [[MPostureEditor alloc] initWithModel:model];
     }
 
+    return postureEditor;
+}
+
+- (IBAction)showPostureEditor:(id)sender;
+{
+    [self postureEditor]; // Make sure it's been created
     [postureEditor setModel:model];
     [postureEditor showWindow:self];
 }
 
-- (IBAction)showPrototypeManager:(id)sender;
+- (MPrototypeManager *)prototypeManager;
 {
     if (prototypeManager == nil) {
         prototypeManager = [[MPrototypeManager alloc] initWithModel:model];
     }
 
+    return prototypeManager;
+}
+
+- (IBAction)showPrototypeManager:(id)sender;
+{
+    [self prototypeManager]; // Make sure it's been created
     [prototypeManager setModel:model];
     [prototypeManager showWindow:self];
 }

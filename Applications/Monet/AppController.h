@@ -78,8 +78,13 @@ History:
 
 - (void)_disableUnconvertedClassLoading;
 
+- (MDataEntryController *)dataEntryController;
 - (IBAction)showNewDataEntryWindow:(id)sender;
+
+- (MPostureEditor *)postureEditor;
 - (IBAction)showPostureEditor:(id)sender;
+
+- (MPrototypeManager *)prototypeManager;
 - (IBAction)showPrototypeManager:(id)sender;
 
 - (MTransitionEditor *)transitionEditor;
@@ -99,6 +104,7 @@ History:
 
 - (MSynthesisController *)synthesisController;
 - (IBAction)showSynthesisController:(id)sender;
+
 - (IBAction)showIntonationWindow:(id)sender;
 - (IBAction)showIntonationParameterWindow:(id)sender;
 
