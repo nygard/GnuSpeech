@@ -1,6 +1,6 @@
 #import "MonetList.h"
 
-@class Event;
+@class Event, Phone;
 
 /*===========================================================================
 
@@ -24,34 +24,34 @@
 #define SEMICOLON	4
 
 struct _phone {
-	id	phone;
-	int	syllable;
-	double	onset;
-	float	ruleTempo;
+    Phone *phone;
+    int syllable;
+    double onset;
+    float ruleTempo;
 };
 
 struct _foot {
-	double	onset1;
-	double	onset2;
-	double	tempo;
-	int	start;
-	int	end;
-	int	marked;
-	int	last;
+    double onset1;
+    double onset2;
+    double tempo;
+    int start;
+    int end;
+    int marked;
+    int last;
 };
 
 struct _toneGroup {
-	int	startFoot;
-	int	endFoot;
-	int	type;
+    int startFoot;
+    int endFoot;
+    int type;
 };
 
 struct _rule {
-	int	number;
-	int	firstPhone;
-	int	lastPhone;
-	double	duration;
-	double	beat;
+    int number;
+    int firstPhone;
+    int lastPhone;
+    double duration;
+    double beat;
 };
 
 
@@ -90,7 +90,8 @@ struct _rule {
     int currentRule;
 
     int cache;
-    double min[16], max[16];
+    double min[16];
+    double max[16];
 }
 
 - (id)initWithCapacity:(unsigned int)numSlots;
@@ -123,6 +124,7 @@ struct _rule {
 
 - (double)globalTempo;
 - (void)setGlobalTempo:(double)newTempo;
+
 - (double)multiplier;
 - (void)setMultiplier:(double)newValue;
 
