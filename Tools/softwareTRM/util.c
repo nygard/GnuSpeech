@@ -10,7 +10,7 @@
 
 /*  PITCH VARIABLES  */
 #define PITCH_BASE                220.0
-#define PITCH_OFFSET              3           /*  MIDDLE C = 0  */
+#define PITCH_OFFSET              3.0           /*  MIDDLE C = 0  */
 #define LOG_FACTOR                3.32193
 
 
@@ -86,7 +86,8 @@ double amplitude(double decibelLevel)
 
 double frequency(double pitch)
 {
-    return PITCH_BASE * pow(2.0, (((double)(pitch + PITCH_OFFSET)) / 12.0));
+    return PITCH_BASE * exp2((pitch + PITCH_OFFSET) / 12.0); // This is slightly faster than pow(2.0, )
+    //return PITCH_BASE * pow(2.0, (pitch + PITCH_OFFSET) / 12.0);
 }
 
 
