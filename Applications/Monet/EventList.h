@@ -70,6 +70,7 @@ struct _rule {
 {
     int zeroRef;
     int zeroIndex; // Event index derived from zeroRef.
+
     int duration; // Move... somewhere else.
     int timeQuantization; // in msecs.  By default it generates parameters every 4 msec
 

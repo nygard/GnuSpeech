@@ -381,7 +381,7 @@
 
     assert(categories == nil);
 
-    [aDecoder decodeValueOfObjCType:"i" at:&count];
+    [aDecoder decodeValueOfObjCType:@encode(int) at:&count];
     //NSLog(@"TOTAL Categories for %@ = %d", name, count);
 
     categories = [[CategoryList alloc] initWithCapacity:count];
@@ -394,7 +394,7 @@
     for (index = 0; index < count; index++) {
         NSString *str;
 
-        [aDecoder decodeValueOfObjCType:"*" at:&c_str];
+        [aDecoder decodeValueOfObjCType:@encode(char *) at:&c_str];
         //NSLog(@"%d: c_str: %s", index, c_str);
         str = [NSString stringWithASCIICString:c_str];
         free(c_str);

@@ -215,3 +215,4 @@ des: [~ 12 ]> /Local/Public/nygard/Products/Monet.app/Contents/MacOS/Monet
   + This looks like it's in the PostureEditor somewhere.
 
 - search for decodeValueOfObjCType: and make sure they use @encode()
+- add checkboxes to rules to enable/disable them?  Would help you to see the effects of a rule without deleting it.

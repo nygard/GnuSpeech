@@ -117,14 +117,11 @@
     archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
     //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
 
-    [aDecoder decodeValueOfObjCType:"i" at:&match]; // Can't decode an int into a BOOL
+    [aDecoder decodeValueOfObjCType:@encode(int) at:&match]; // Can't decode an int into a BOOL
     //NSLog(@"match: %d", match);
     shouldMatchAll = match;
 
-    //[aDecoder decodeValueOfObjCType:"i" at:&shouldMatchAll];
-    //NSLog(@"shouldMatchAll: %d", shouldMatchAll);
-
-    [aDecoder decodeValueOfObjCType:"*" at:&c_string];
+    [aDecoder decodeValueOfObjCType:@encode(char *) at:&c_string];
     //NSLog(@"c_string: %s", c_string);
     str = [NSString stringWithASCIICString:c_string];
     free(c_string);

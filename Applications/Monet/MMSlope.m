@@ -64,7 +64,7 @@
     archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
     //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
 
-    [aDecoder decodeValueOfObjCType:"d" at:&slope];
+    [aDecoder decodeValueOfObjCType:@encode(double) at:&slope];
     //NSLog(@"slope: %g", slope);
     displayTime = 0;
 

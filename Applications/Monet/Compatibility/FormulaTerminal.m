@@ -138,7 +138,7 @@
         [aDecoder decodeValuesOfObjCTypes:"dii", &value, &whichPhone, &precedence];
         //NSLog(@"value: %g, whichPhone: %d, precedence: %d", value, whichPhone, precedence);
 
-        [aDecoder decodeValueOfObjCType:"*" at:&c_symbolName];
+        [aDecoder decodeValueOfObjCType:@encode(char *) at:&c_symbolName];
         symbolName = [NSString stringWithASCIICString:c_symbolName];
         free(c_symbolName);
         //NSLog(@"FormulaTerminal symbolName: %@", symbolName);
