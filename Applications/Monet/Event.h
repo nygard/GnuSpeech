@@ -20,9 +20,9 @@
 }
 
 - (id)init;
+- (id)initWithTime:(int)aTime;
 
 - (int)time;
-- (void)setTime:(int)newTime;
 
 - (BOOL)flag;
 - (void)setFlag:(BOOL)newFlag;

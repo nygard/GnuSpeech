@@ -6,12 +6,19 @@
 
 - (id)init;
 {
+    // TODO (2004-08-15): Reject unused method
+    NSLog(@"-[%@ %s] should not be called", NSStringFromClass([self class]), _cmd);
+    return nil;
+}
+
+- (id)initWithTime:(int)aTime;
+{
     int index;
 
     if ([super init] == nil)
         return nil;
 
-    time = 0;
+    time = aTime;
     flag = NO;
 
     for (index = 0; index < MAX_EVENTS; index++)
@@ -23,11 +30,6 @@
 - (int)time;
 {
     return time;
-}
-
-- (void)setTime:(int)newTime;
-{
-    time = newTime;
 }
 
 - (BOOL)flag;

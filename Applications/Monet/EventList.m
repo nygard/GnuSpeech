@@ -434,8 +434,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
 
     // If there are no events yet, we can just add it.
     if ([events count] == 0) {
-        newEvent = [[[Event alloc] init] autorelease];
-        [newEvent setTime:tempTime];
+        newEvent = [[[Event alloc] initWithTime:tempTime] autorelease];
         if (number >= 0) {
             if ((number >= 7) && (number <= 8))
                 [newEvent setValue:value*radiusMultiply ofIndex:number];
@@ -463,8 +462,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
 
         // Otherwise we'll need to create an Event at that time and insert it in the proper place.
         if ([[events objectAtIndex:i] time] < tempTime) {
-            newEvent = [[[Event alloc] init] autorelease];
-            [newEvent setTime:tempTime];
+            newEvent = [[[Event alloc] initWithTime:tempTime] autorelease];
             if (number >= 0) {
                 if ((number >= 7) && (number <= 8))
                     [newEvent setValue:value*radiusMultiply ofIndex:number];
@@ -478,8 +476,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
     }
 
     // In this case the event should come at the end of the list.
-    newEvent = [[[Event alloc] init] autorelease];
-    [newEvent setTime:tempTime];
+    newEvent = [[[Event alloc] initWithTime:tempTime] autorelease];
     if (number >= 0) {
         if ((number >= 7) && (number <= 8))
             [newEvent setValue:value*radiusMultiply ofIndex:number];
