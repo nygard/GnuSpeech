@@ -15,7 +15,6 @@
     return nil;
 }
 
-// TODO (2004-03-21): Move into category of NSOutlineView
 - (id)selectedItemOfClass:(Class)aClass;
 {
     id selectedItem;
