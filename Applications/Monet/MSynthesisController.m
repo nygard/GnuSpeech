@@ -207,7 +207,7 @@
     NSArray *tableColumns;
     int count, index;
     NSNumberFormatter *defaultNumberFormatter;
-    //NSString *others[4] = { @"32", @"33", @"34", @"35"};
+    NSString *others[4] = { @"Semitone", @"Slope", @"2nd Derivative?", @"3rd Derivative?"};
 
     tableColumns = [eventTableView tableColumns];
     for (index = [tableColumns count] - 1; index >= 0; index--) { // Note that this fails if we make count an "unsigned int".
@@ -241,12 +241,12 @@
     }
 
     // And finally add columns for the intonation values:
-    for (index = 32; index < MAX_EVENTS; index++) {
+    for (index = 0; index < 4; index++) {
         NSTableColumn *tableColumn;
 
-        tableColumn = [[NSTableColumn alloc] initWithIdentifier:[NSNumber numberWithInt:index]];
+        tableColumn = [[NSTableColumn alloc] initWithIdentifier:[NSNumber numberWithInt:32 + index]];
         [tableColumn setEditable:NO];
-        [[tableColumn headerCell] setTitle:[NSString stringWithFormat:@"%d", index]];
+        [[tableColumn headerCell] setTitle:others[index]];
         [[tableColumn dataCell] setFormatter:defaultNumberFormatter];
         [[tableColumn dataCell] setAlignment:NSRightTextAlignment];
         [[tableColumn dataCell] setDrawsBackground:NO];
