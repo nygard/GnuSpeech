@@ -390,6 +390,13 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [names release];
 }
 
+- (void)removePosture:(MMPosture *)aPosture;
+{
+    [postures removeObject:aPosture];
+
+    // TODO (2004-03-20): Make sure it isn't used by any rules?
+}
+
 - (void)sortPostures;
 {
     [postures sortUsingSelector:@selector(compareByAscendingName:)];

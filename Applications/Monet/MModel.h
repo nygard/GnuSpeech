@@ -1,5 +1,5 @@
 //
-// $Id: MModel.h,v 1.11 2004/03/20 19:59:41 nygard Exp $
+// $Id: MModel.h,v 1.12 2004/03/20 20:17:37 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -67,6 +67,7 @@ extern NSString *MCategoryInUseException;
 // Postures
 - (void)addPosture:(MMPosture *)newPosture;
 - (void)_uniqueNameForPosture:(MMPosture *)newPosture;
+- (void)removePosture:(MMPosture *)aPosture;
 - (void)sortPostures;
 - (MMPosture *)postureWithName:(NSString *)aName;
 

@@ -163,8 +163,6 @@
     MMPosture *newPosture;
     unsigned int index;
 
-    NSLog(@" > %s", _cmd);
-
     newPosture = [[MMPosture alloc] initWithModel:[self model]];
     [[self model] addPosture:newPosture];
 
@@ -178,14 +176,17 @@
     // The row needs to be selected before we start editing it.
     [postureTableView selectRow:index byExtendingSelection:NO];
     [postureTableView editColumn:[postureTableView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
-
-    NSLog(@"<  %s", _cmd);
 }
 
 - (IBAction)removePosture:(id)sender;
 {
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
+    MMPosture *selectedPosture;
+
+    selectedPosture = [self selectedPosture];
+    if (selectedPosture != nil)
+        [[self model] removePosture:selectedPosture];
+
+    [self updateViews];
 }
 
 - (IBAction)useDefaultValueForParameter:(id)sender;
