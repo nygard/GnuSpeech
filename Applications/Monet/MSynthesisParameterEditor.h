@@ -1,5 +1,5 @@
 //
-// $Id: MSynthesisParameterEditor.h,v 1.1 2004/03/29 23:09:40 nygard Exp $
+// $Id: MSynthesisParameterEditor.h,v 1.2 2004/03/30 02:32:38 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -7,7 +7,7 @@
 
 #import <AppKit/NSWindowController.h>
 
-@class MModel, MMSynthesisParameters;
+@class MModel;
 
 @interface MSynthesisParameterEditor : NSWindowController
 {
@@ -69,7 +69,6 @@
     IBOutlet NSMatrix *samplingRate;
 
     MModel *model;
-    MMSynthesisParameters *synthesisParameters;
 }
 
 - (id)initWithModel:(MModel *)aModel;

@@ -17,7 +17,6 @@
         return nil;
 
     model = [aModel retain];
-    synthesisParameters = [[MMSynthesisParameters alloc] init];
 
     [self setWindowFrameAutosaveName:@"Synthesis Parameters"];
 
@@ -27,7 +26,6 @@
 - (void)dealloc;
 {
     [model release];
-    [synthesisParameters release];
 
     [super dealloc];
 }
@@ -86,6 +84,10 @@
 
 - (void)updateViews;
 {
+    MMSynthesisParameters *synthesisParameters;
+
+    synthesisParameters = [[self model] synthesisParameters];
+
     [masterVolume setDoubleValue:[synthesisParameters masterVolume]];
     [length setDoubleValue:[synthesisParameters vocalTractLength]];
     [temperature setDoubleValue:[synthesisParameters temperature]];
@@ -159,13 +161,13 @@
 
 - (IBAction)revertToDefaults:(id)sender;
 {
-    [synthesisParameters restoreDefaultValues];
+    [[[self model] synthesisParameters] restoreDefaultValues];
     [self updateViews];
 }
 
 - (IBAction)saveAsDefaults:(id)sender;
 {
-    [synthesisParameters saveAsDefaults];
+    [[[self model] synthesisParameters] saveAsDefaults];
 }
 
 - (IBAction)updateMasterVolume:(id)sender;
@@ -173,7 +175,7 @@
     double value;
 
     value = [sender doubleValue];
-    [synthesisParameters setMasterVolume:value];
+    [[[self model] synthesisParameters] setMasterVolume:value];
     [masterVolume setDoubleValue:value];
     [masterVolumeSlider setDoubleValue:value];
 }
@@ -183,7 +185,7 @@
     double value;
 
     value = [sender doubleValue];
-    [synthesisParameters setVocalTractLength:value];
+    [[[self model] synthesisParameters] setVocalTractLength:value];
     [length setDoubleValue:value];
     [lengthSlider setDoubleValue:value];
 }
@@ -193,7 +195,7 @@
     double value;
 
     value = [sender doubleValue];
-    [synthesisParameters setTemperature:value];
+    [[[self model] synthesisParameters] setTemperature:value];
     [temperature setDoubleValue:value];
     [temperatureSlider setDoubleValue:value];
 }
@@ -203,7 +205,7 @@
     double value;
 
     value = [sender doubleValue];
-    [synthesisParameters setBalance:value];
+    [[[self model] synthesisParameters] setBalance:value];
     [balance setDoubleValue:value];
     [balanceSlider setDoubleValue:value];
 }
@@ -213,7 +215,7 @@
     double value;
 
     value = [sender doubleValue];
-    [synthesisParameters setBreathiness:value];
+    [[[self model] synthesisParameters] setBreathiness:value];
     [breathiness setDoubleValue:value];
     [breathinessSlider setDoubleValue:value];
 }
@@ -223,7 +225,7 @@
     double value;
 
     value = [sender doubleValue];
-    [synthesisParameters setLossFactor:value];
+    [[[self model] synthesisParameters] setLossFactor:value];
     [lossFactor setDoubleValue:value];
     [lossFactorSlider setDoubleValue:value];
 }
@@ -233,7 +235,7 @@
     double value;
 
     value = [sender doubleValue];
-    [synthesisParameters setPitch:value];
+    [[[self model] synthesisParameters] setPitch:value];
     [pitchMean setDoubleValue:value];
     [pitchMeanSlider setDoubleValue:value];
 }
@@ -243,7 +245,7 @@
     double value;
 
     value = [sender doubleValue];
-    [synthesisParameters setThroatCutoff:value];
+    [[[self model] synthesisParameters] setThroatCutoff:value];
     [throatCutoff setDoubleValue:value];
     [throatCutoffSlider setDoubleValue:value];
 }
@@ -253,7 +255,7 @@
     double value;
 
     value = [sender doubleValue];
-    [synthesisParameters setThroatVolume:value];
+    [[[self model] synthesisParameters] setThroatVolume:value];
     [throatVolume setDoubleValue:value];
     [throatVolumeSlider setDoubleValue:value];
 }
@@ -263,7 +265,7 @@
     double value;
 
     value = [sender doubleValue];
-    [synthesisParameters setApertureScaling:value];
+    [[[self model] synthesisParameters] setApertureScaling:value];
     [apScale setDoubleValue:value];
     [apScaleSlider setDoubleValue:value];
 }
@@ -273,7 +275,7 @@
     double value;
 
     value = [sender doubleValue];
-    [synthesisParameters setMouthCoef:value];
+    [[[self model] synthesisParameters] setMouthCoef:value];
     [mouthCoef setDoubleValue:value];
     [mouthCoefSlider setDoubleValue:value];
 }
@@ -283,7 +285,7 @@
     double value;
 
     value = [sender doubleValue];
-    [synthesisParameters setNoseCoef:value];
+    [[[self model] synthesisParameters] setNoseCoef:value];
     [noseCoef setDoubleValue:value];
     [noseCoefSlider setDoubleValue:value];
 }
@@ -293,7 +295,7 @@
     double value;
 
     value = [sender doubleValue];
-    [synthesisParameters setMixOffset:value];
+    [[[self model] synthesisParameters] setMixOffset:value];
     [mixOffset setDoubleValue:value];
     [mixOffsetSlider setDoubleValue:value];
 }
@@ -303,7 +305,7 @@
     double value;
 
     value = [sender doubleValue];
-    [synthesisParameters setN1:value];
+    [[[self model] synthesisParameters] setN1:value];
     [n1 setDoubleValue:value];
     [n1Slider setDoubleValue:value];
 }
@@ -313,7 +315,7 @@
     double value;
 
     value = [sender doubleValue];
-    [synthesisParameters setN2:value];
+    [[[self model] synthesisParameters] setN2:value];
     [n2 setDoubleValue:value];
     [n2Slider setDoubleValue:value];
 }
@@ -323,7 +325,7 @@
     double value;
 
     value = [sender doubleValue];
-    [synthesisParameters setN3:value];
+    [[[self model] synthesisParameters] setN3:value];
     [n3 setDoubleValue:value];
     [n3Slider setDoubleValue:value];
 }
@@ -333,7 +335,7 @@
     double value;
 
     value = [sender doubleValue];
-    [synthesisParameters setN4:value];
+    [[[self model] synthesisParameters] setN4:value];
     [n4 setDoubleValue:value];
     [n4Slider setDoubleValue:value];
 }
@@ -343,7 +345,7 @@
     double value;
 
     value = [sender doubleValue];
-    [synthesisParameters setN5:value];
+    [[[self model] synthesisParameters] setN5:value];
     [n5 setDoubleValue:value];
     [n5Slider setDoubleValue:value];
 }
@@ -353,7 +355,7 @@
     double value;
 
     value = [sender doubleValue];
-    [synthesisParameters setTp:value];
+    [[[self model] synthesisParameters] setTp:value];
     [tp setDoubleValue:value];
     [tpSlider setDoubleValue:value];
 }
@@ -363,7 +365,7 @@
     double value;
 
     value = [sender doubleValue];
-    [synthesisParameters setTnMin:value];
+    [[[self model] synthesisParameters] setTnMin:value];
     [tnMin setDoubleValue:value];
     [tnMinSlider setDoubleValue:value];
 }
@@ -373,29 +375,29 @@
     double value;
 
     value = [sender doubleValue];
-    [synthesisParameters setTnMax:value];
+    [[[self model] synthesisParameters] setTnMax:value];
     [tnMax setDoubleValue:value];
     [tnMaxSlider setDoubleValue:value];
 }
 
 - (IBAction)updateGlottalPulseShape:(id)sender;
 {
-    [synthesisParameters setGlottalPulseShape:[[sender selectedCell] tag]];
+    [[[self model] synthesisParameters] setGlottalPulseShape:[[sender selectedCell] tag]];
 }
 
 - (IBAction)updateNoiseModulation:(id)sender;
 {
-    [synthesisParameters setShouldUseNoiseModulation:[[sender selectedCell] tag]];
+    [[[self model] synthesisParameters] setShouldUseNoiseModulation:[[sender selectedCell] tag]];
 }
 
 - (IBAction)updateSamplingRate:(id)sender;
 {
-    [synthesisParameters setSamplingRate:[[sender selectedCell] tag]];
+    [[[self model] synthesisParameters] setSamplingRate:[[sender selectedCell] tag]];
 }
 
 - (IBAction)updateOutputChannels:(id)sender;
 {
-    [synthesisParameters setOutputChannels:[[sender selectedCell] tag]];
+    [[[self model] synthesisParameters] setOutputChannels:[[sender selectedCell] tag]];
 }
 
 @end
