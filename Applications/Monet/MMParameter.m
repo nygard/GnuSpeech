@@ -6,6 +6,9 @@
 
 #import "GSXMLFunctions.h"
 
+#define DEFAULT_MIN 100.0
+#define DEFAULT_MAX 1000.0
+
 @implementation MMParameter
 
 - (id)init;
@@ -16,9 +19,9 @@
     parameterSymbol = nil;
     comment = nil;
 
-    minimum = 0.0;
-    maximum = 0.0;
-    defaultValue = 0.0;
+    minimum = DEFAULT_MIN;
+    maximum = DEFAULT_MAX;
+    defaultValue = DEFAULT_MIN;
 
     return self;
 }

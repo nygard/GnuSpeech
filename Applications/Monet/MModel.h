@@ -1,5 +1,5 @@
 //
-// $Id: MModel.h,v 1.7 2004/03/19 18:46:53 nygard Exp $
+// $Id: MModel.h,v 1.8 2004/03/19 19:51:07 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -8,7 +8,7 @@
 #import <Foundation/NSObject.h>
 
 @class CategoryList, MonetList, ParameterList, PhoneList, RuleList, SymbolList;
-@class MMCategory, MMEquation, MMTransition;
+@class MMCategory, MMEquation, MMParameter, MMSymbol, MMTransition;
 
 extern NSString *MCategoryInUseException;
 
@@ -45,10 +45,20 @@ extern NSString *MCategoryInUseException;
 
 // Categories
 - (void)addCategory:(MMCategory *)newCategory;
-- (void)uniqueNameForCategory:(MMCategory *)newCategory;
+- (void)_uniqueNameForCategory:(MMCategory *)newCategory;
 - (BOOL)isCategoryUsed:(MMCategory *)aCategory;
 - (void)removeCategory:(MMCategory *)aCategory;
 
+// Parameters
+- (void)addParameter:(MMParameter *)newParameter;
+- (void)_uniqueNameForParameter:(MMParameter *)newParameter inList:(ParameterList *)aParameterList;
+
+// Meta Parameters
+- (void)addMetaParameter:(MMParameter *)newParameter;
+
+// Symbols
+- (void)addSymbol:(MMSymbol *)newSymbol;
+- (void)_uniqueNameForSymbol:(MMSymbol *)newSymbol;
 
 - (MMEquation *)findEquationList:(NSString *)aListName named:(NSString *)anEquationName;
 - (void)findList:(int *)listIndex andIndex:(int *)equationIndex ofEquation:(MMEquation *)anEquation;

@@ -7,6 +7,10 @@
 #import "AppController.h"
 #import "GSXMLFunctions.h"
 
+#define DEFAULT_VALUE 100.0
+#define DEFAULT_MIN 0.0
+#define DEFAULT_MAX 500.0
+
 @implementation MMSymbol
 
 - (id)init;
@@ -17,9 +21,9 @@
     symbol = nil;
     comment = nil;
 
-    minimum = 0.0;
-    maximum = 0.0;
-    defaultValue = 0.0;
+    minimum = DEFAULT_MIN;
+    maximum = DEFAULT_MAX;
+    defaultValue = DEFAULT_VALUE;
 
     return self;
 }

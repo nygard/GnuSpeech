@@ -395,10 +395,6 @@
 #endif
 }
 
-- (void)addCategory;
-{
-}
-
 - (void)addParameter;
 {
     [[model postures] addParameter];

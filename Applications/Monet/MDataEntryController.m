@@ -237,7 +237,24 @@
 
 - (IBAction)addParameter:(id)sender;
 {
+    MMParameter *newParameter;
+    unsigned int index;
+
     NSLog(@" > %s", _cmd);
+
+    newParameter = [[MMParameter alloc] initWithSymbol:nil];
+    [[self model] addParameter:newParameter];
+    [newParameter release];
+
+    [self updateViews];
+
+    index = [[[self model] parameters] indexOfObject:newParameter];
+    [parameterTableView scrollRowToVisible:index];
+
+    // The row needs to be selected before we start editing it.
+    [parameterTableView selectRow:index byExtendingSelection:NO];
+    [parameterTableView editColumn:[parameterTableView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
+
     NSLog(@"<  %s", _cmd);
 }
 
@@ -249,7 +266,24 @@
 
 - (IBAction)addMetaParameter:(id)sender;
 {
+    MMParameter *newParameter;
+    unsigned int index;
+
     NSLog(@" > %s", _cmd);
+
+    newParameter = [[MMParameter alloc] initWithSymbol:nil];
+    [[self model] addMetaParameter:newParameter];
+    [newParameter release];
+
+    [self updateViews];
+
+    index = [[[self model] metaParameters] indexOfObject:newParameter];
+    [metaParameterTableView scrollRowToVisible:index];
+
+    // The row needs to be selected before we start editing it.
+    [metaParameterTableView selectRow:index byExtendingSelection:NO];
+    [metaParameterTableView editColumn:[metaParameterTableView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
+
     NSLog(@"<  %s", _cmd);
 }
 
@@ -261,7 +295,24 @@
 
 - (IBAction)addSymbol:(id)sender;
 {
+    MMSymbol *newSymbol;
+    unsigned int index;
+
     NSLog(@" > %s", _cmd);
+
+    newSymbol = [[MMSymbol alloc] initWithSymbol:nil];
+    [[self model] addSymbol:newSymbol];
+    [newSymbol release];
+
+    [self updateViews];
+
+    index = [[[self model] symbols] indexOfObject:newSymbol];
+    [symbolTableView scrollRowToVisible:index];
+
+    // The row needs to be selected before we start editing it.
+    [symbolTableView selectRow:index byExtendingSelection:NO];
+    [symbolTableView editColumn:[symbolTableView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
+
     NSLog(@"<  %s", _cmd);
 }
 
@@ -345,6 +396,57 @@
     }
 
     return nil;
+}
+
+- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(int)row;
+{
+    id identifier;
+
+    identifier = [tableColumn identifier];
+
+    if (tableView == categoryTableView) {
+        MMCategory *category = [[[self model] categories] objectAtIndex:row];
+
+        if ([@"name" isEqual:identifier] == YES) {
+            // TODO (2004-03-19): Ensure unique name
+            [category setSymbol:object];
+        }
+    } else if (tableView == parameterTableView || tableView == metaParameterTableView) {
+        MMParameter *parameter;
+
+        if (tableView == parameterTableView)
+            parameter = [[[self model] parameters] objectAtIndex:row];
+        else
+            parameter = [[[self model] metaParameters] objectAtIndex:row];
+
+        if ([@"name" isEqual:identifier] == YES) {
+            // TODO (2004-03-19): Ensure unique name
+            [parameter setSymbol:object];
+        } else if ([@"minimum" isEqual:identifier] == YES) {
+            // TODO (2004-03-19): Make sure current values are still in range
+            [parameter setMinimumValue:[object doubleValue]];
+        } else if ([@"maximum" isEqual:identifier] == YES) {
+            [parameter setMaximumValue:[object doubleValue]];
+        } else if ([@"default" isEqual:identifier] == YES) {
+            // TODO (2004-03-19): Propagate changes to default
+            [parameter setDefaultValue:[object doubleValue]];
+        }
+    } else if (tableView == symbolTableView) {
+        MMSymbol *symbol = [[[self model] symbols] objectAtIndex:row];
+
+        if ([@"name" isEqual:identifier] == YES) {
+            // TODO (2004-03-19): Ensure unique name
+            [symbol setSymbol:object];
+        } else if ([@"minimum" isEqual:identifier] == YES) {
+            // TODO (2004-03-19): Make sure current values are still in range
+            [symbol setMinimumValue:[object doubleValue]];
+        } else if ([@"maximum" isEqual:identifier] == YES) {
+            [symbol setMaximumValue:[object doubleValue]];
+        } else if ([@"default" isEqual:identifier] == YES) {
+            // TODO (2004-03-19): Propagate changes to default
+            [symbol setDefaultValue:[object doubleValue]];
+        }
+    }
 }
 
 //

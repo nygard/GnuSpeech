@@ -15,6 +15,8 @@
 #import "ParameterList.h"
 #import "PhoneList.h"
 #import "MMEquation.h"
+#import "MMParameter.h"
+#import "MMSymbol.h"
 #import "MMTransition.h"
 #import "RuleList.h"
 #import "SymbolList.h"
@@ -118,36 +120,36 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     if ([newCategory symbol] == nil)
         [newCategory setSymbol:@"untitled"];
 
-    [self uniqueNameForCategory:newCategory];
+    [self _uniqueNameForCategory:newCategory];
 
     [categories addObject:newCategory];
     //[categories sortUsingSelector:@selector(compareByAscendingName:)];
     // TODO (2004-03-18): And post notification of new category.
 }
 
-- (void)uniqueNameForCategory:(MMCategory *)newCategory;
+- (void)_uniqueNameForCategory:(MMCategory *)newCategory;
 {
-    NSMutableSet *categoryNames;
+    NSMutableSet *names;
     int count, index;
     NSString *name, *basename;
 
-    categoryNames = [[NSMutableSet alloc] init];
+    names = [[NSMutableSet alloc] init];
     count = [categories count];
     for (index = 0; index < count; index++) {
         name = [[categories objectAtIndex:index] symbol];
         if (name != nil)
-            [categoryNames addObject:name];
+            [names addObject:name];
     }
 
     name = basename = [newCategory symbol];
     index = 1;
-    while ([categoryNames containsObject:name] == YES) {
+    while ([names containsObject:name] == YES) {
         name = [NSString stringWithFormat:@"%@%d", basename, index++];
     }
 
     [newCategory setSymbol:name];
 
-    [categoryNames release];
+    [names release];
 }
 
 // TODO (2004-03-19): Is it used by rules, anyway.  Postures can also use categories.
@@ -163,6 +165,104 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     }
 
     [categories removeObject:aCategory];
+}
+
+//
+// Parameters
+//
+
+- (void)addParameter:(MMParameter *)newParameter;
+{
+    if ([newParameter symbol] == nil)
+        [newParameter setSymbol:@"untitled"];
+
+    [self _uniqueNameForParameter:newParameter inList:parameters];
+
+    [parameters addObject:newParameter];
+    [postures addParameter];
+    [rules makeObjectsPerformSelector:@selector(addDefaultParameter)];
+}
+
+// TODO (2004-03-19): When MMParameter and MMSymbol are the same class, this can be shared
+- (void)_uniqueNameForParameter:(MMParameter *)newParameter inList:(ParameterList *)aParameterList;
+{
+    NSMutableSet *names;
+    int count, index;
+    NSString *name, *basename;
+
+    names = [[NSMutableSet alloc] init];
+    count = [aParameterList count];
+    for (index = 0; index < count; index++) {
+        name = [[aParameterList objectAtIndex:index] symbol];
+        if (name != nil)
+            [names addObject:name];
+    }
+
+    name = basename = [newParameter symbol];
+    index = 1;
+    while ([names containsObject:name] == YES) {
+        name = [NSString stringWithFormat:@"%@%d", basename, index++];
+    }
+
+    [newParameter setSymbol:name];
+
+    [names release];
+}
+
+//
+// Meta Parameters
+//
+
+- (void)addMetaParameter:(MMParameter *)newParameter;
+{
+    if ([newParameter symbol] == nil)
+        [newParameter setSymbol:@"untitled"];
+
+    [self _uniqueNameForParameter:newParameter inList:metaParameters];
+
+    [metaParameters addObject:newParameter];
+    [postures addMetaParameter];
+    [rules makeObjectsPerformSelector:@selector(addDefaultMetaParameter)];
+}
+
+//
+// Symbols
+//
+
+- (void)addSymbol:(MMSymbol *)newSymbol;
+{
+    if ([newSymbol symbol] == nil)
+        [newSymbol setSymbol:@"untitled"];
+
+    [self _uniqueNameForSymbol:newSymbol];
+
+    [symbols addObject:newSymbol];
+    [postures addSymbol];
+}
+
+- (void)_uniqueNameForSymbol:(MMSymbol *)newSymbol;
+{
+    NSMutableSet *names;
+    int count, index;
+    NSString *name, *basename;
+
+    names = [[NSMutableSet alloc] init];
+    count = [symbols count];
+    for (index = 0; index < count; index++) {
+        name = [[symbols objectAtIndex:index] symbol];
+        if (name != nil)
+            [names addObject:name];
+    }
+
+    name = basename = [newSymbol symbol];
+    index = 1;
+    while ([names containsObject:name] == YES) {
+        name = [NSString stringWithFormat:@"%@%d", basename, index++];
+    }
+
+    [newSymbol setSymbol:name];
+
+    [names release];
 }
 
 // TODO (2004-03-06): Find equation named "named" in list named "list"
