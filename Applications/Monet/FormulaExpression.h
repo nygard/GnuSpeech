@@ -1,4 +1,4 @@
-#import <Foundation/NSObject.h>
+#import "MMFormulaNode.h"
 
 @class PhoneList;
 
@@ -11,10 +11,9 @@
 =============================================================================
 */
 
-@interface FormulaExpression : NSObject
+@interface FormulaExpression : MMFormulaNode
 {
     int operation;
-    int precedence;
     NSMutableArray *expressions;
 
     /* Cached evaluation */
@@ -38,16 +37,12 @@
 
 - (NSString *)opString;
 
-// Methods common to "FormulaNode" -- for both FormulaExpression, FormulaTerminal
-- (int)precedence;
-- (void)setPrecedence:(int)newPrec;
-
+// Methods common to "MMFormulaNode" -- for both FormulaExpression, FormulaTerminal
 - (double)evaluate:(double *)ruleSymbols phones:(PhoneList *)phones;
 - (double)evaluate:(double *)ruleSymbols phones:(PhoneList *)phones tempos:(double *)tempos;
 
 - (int)maxPhone;
 
-- (NSString *)expressionString;
 - (void)expressionString:(NSMutableString *)resultString;
 
 // Archiving

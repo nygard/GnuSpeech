@@ -24,7 +24,8 @@
     symbol = nil;
     value = 0.0;
     whichPhone = -1;
-    precedence = 4;
+
+    [self setPrecedence:4];
 
     return self;
 }
@@ -73,16 +74,6 @@
 //
 // Methods common to "FormulaNode" -- for both FormulaExpression, FormulaTerminal
 //
-
-- (int)precedence;
-{
-    return precedence;
-}
-
-- (void)setPrecedence:(int)newPrec;
-{
-    precedence = newPrec;
-}
 
 - (double)evaluate:(double *)ruleSymbols phones:(PhoneList *)phones;
 {
@@ -136,16 +127,6 @@
 - (int)maxPhone;
 {
     return whichPhone;
-}
-
-- (NSString *)expressionString;
-{
-    NSMutableString *resultString;
-
-    resultString = [NSMutableString string];
-    [self expressionString:resultString];
-
-    return resultString;
 }
 
 - (void)expressionString:(NSMutableString *)resultString;

@@ -1,4 +1,4 @@
-#import <Foundation/NSObject.h>
+#import "MMFormulaNode.h"
 
 @class PhoneList, MMSymbol;
 
@@ -22,12 +22,11 @@
 #define TEMPO3		(-10)
 
 
-@interface FormulaTerminal : NSObject
+@interface FormulaTerminal : MMFormulaNode
 {
     MMSymbol *symbol;
     double value;
     int whichPhone; // TODO (2004-03-10): Rename this
-    int precedence;
 
     int cacheTag;
     double cacheValue;
@@ -46,15 +45,11 @@
 - (void)setWhichPhone:(int)newValue;
 
 // Methods common to "FormulaNode" -- for both FormulaExpression, FormulaTerminal
-- (int)precedence;
-- (void)setPrecedence:(int)newPrec;
-
 - (double)evaluate:(double *)ruleSymbols phones:(PhoneList *)phones;
 - (double)evaluate:(double *)ruleSymbols phones:(PhoneList *)phones tempos:(double *)tempos;
 
 - (int)maxPhone;
 
-- (NSString *)expressionString;
 - (void)expressionString:(NSMutableString *)resultString;
 
 // Archiving

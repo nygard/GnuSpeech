@@ -100,16 +100,6 @@
 // Methods common to "FormulaNode" -- for both FormulaExpression, FormulaTerminal
 //
 
-- (int)precedence;
-{
-    return precedence;
-}
-
-- (void)setPrecedence:(int)newPrec;
-{
-    precedence = newPrec;
-}
-
 - (double)evaluate:(double *)ruleSymbols phones:(PhoneList *)phones;
 {
     double tempos[4] = {1.0, 1.0, 1.0, 1.0};
@@ -161,16 +151,6 @@
     }
 
     return max + 1;
-}
-
-- (NSString *)expressionString;
-{
-    NSMutableString *resultString;
-
-    resultString = [NSMutableString string];
-    [self expressionString:resultString];
-
-    return resultString;
 }
 
 - (void)expressionString:(NSMutableString *)resultString;
