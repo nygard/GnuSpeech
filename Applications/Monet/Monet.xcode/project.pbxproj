@@ -1144,6 +1144,12 @@
 			settings = {
 			};
 		};
+		016FAD4406601B9C003ED09E = {
+			fileRef = 8D1107310486CEB800E47090;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		01710CFB060FAE1B0059DE9A = {
 			children = (
 				01710CFC060FAE1B0059DE9A,
@@ -3398,6 +3404,7 @@
 			buildRules = (
 			);
 			buildSettings = {
+				CURRENT_PROJECT_VERSION = 2;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -3412,9 +3419,10 @@
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "-lxml2";
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = Monet;
 				SECTORDER_FLAGS = "";
+				VERSIONING_SYSTEM = "apple-generic";
 				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
 				WRAPPER_EXTENSION = app;
 			};
@@ -3533,7 +3541,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072A0486CEB800E47090,
-				8D11072B0486CEB800E47090,
 				01B2015605F82F9B00C1F65D,
 				01B2016905F8305A00C1F65D,
 				018F79DB06064E4600150223,
@@ -3550,18 +3557,13 @@
 				01104D2C0618D24F00B529E8,
 				01104DBD061A2A2F00B529E8,
 				016FACDD065D8D16003ED09E,
+				016FAD4406601B9C003ED09E,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		8D11072A0486CEB800E47090 = {
 			fileRef = 29B97318FDCFA39411CA2CEA;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		8D11072B0486CEB800E47090 = {
-			fileRef = 089C165CFE840E0CC02AAC07;
 			isa = PBXBuildFile;
 			settings = {
 			};

@@ -12,15 +12,23 @@
 	<string>org.gnu.GnuSpeech.Monet</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>Monet</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleShortVersionString</key>
+	<string>0.9.1</string>
 	<key>CFBundleVersion</key>
-	<string>0.1</string>
+	<string>2</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>CFBundleGetInfoString</key>
+	<string>Monet version 0.9.1 (v2)</string>
+	<key>NSHumanReadableCopyright</key>
+	<string></string>
 </dict>
 </plist>
