@@ -1,5 +1,5 @@
 //
-// $Id: MRuleManager.h,v 1.1 2004/03/24 03:32:24 nygard Exp $
+// $Id: MRuleManager.h,v 1.2 2004/03/24 04:34:05 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -41,8 +41,19 @@
 
 - (void)updateViews;
 
+- (void)setExpression:(BooleanExpression *)anExpression atIndex:(int)index;
+- (void)evaluateMatchLists;
+- (void)updateCombinations;
+
 // NSTableView data source
 - (int)numberOfRowsInTableView:(NSTableView *)tableView;
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row;
+
+// NSTableView delegate
+- (void)tableViewSelectionDidChange:(NSNotification *)aNotification;
+
+// Browser delegate methods
+- (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;
+- (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
 
 @end
