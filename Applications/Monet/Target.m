@@ -2,10 +2,6 @@
 
 #import <Foundation/Foundation.h>
 
-#ifdef NeXT
-#import <objc/typedstream.h>
-#endif
-
 @implementation Target
 
 - (id)init;

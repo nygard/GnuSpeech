@@ -1,9 +1,5 @@
 #import <Foundation/NSObject.h>
 
-#ifdef NeXT
-#import <objc/typedstream.h>
-#endif
-
 @interface CategoryNode : NSObject
 {
     NSString *symbol;

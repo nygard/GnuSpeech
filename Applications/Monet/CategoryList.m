@@ -91,8 +91,7 @@
     /* Load in the count */
     fread(&count, sizeof(int), 1, fp);
 
-    for (i = 0; i < count; i++)
-    {
+    for (i = 0; i < count; i++) {
         fread(tempString, SYMBOL_LENGTH_MAX+1, 1, fp);
 
         currentNode = [[CategoryNode alloc] initWithSymbol:tempString];
@@ -108,8 +107,7 @@
     int i;
 
     fprintf(fp, "Categories\n");
-    for (i = 0; i < [self count]; i++)
-    {
+    for (i = 0; i < [self count]; i++) {
         fprintf(fp, "%s\n", [[self objectAtIndex:i] symbol]);
         if ([[self objectAtIndex:i] comment])
             fprintf(fp, "%s\n", [[self objectAtIndex:i] comment]);

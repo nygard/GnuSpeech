@@ -1,9 +1,6 @@
 #import "CategoryNode.h"
 
 #import <Foundation/Foundation.h>
-//#import <stdio.h>
-//#import <string.h>
-//#import <stdlib.h>
 
 @implementation CategoryNode
 
