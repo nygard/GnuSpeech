@@ -1,6 +1,8 @@
 #ifndef __STRUCTS_H
 #define __STRUCTS_H
 
+#include <stdio.h> // For FILE
+
 /*  OROPHARYNX REGIONS  */
 #define R1                        0      /*  S1  */
 #define R2                        1      /*  S2  */
@@ -21,6 +23,34 @@
 #define N5                        4
 #define N6                        5
 #define TOTAL_NASAL_SECTIONS      6
+
+
+/*  SAMPLE RATE CONVERSION CONSTANTS  */
+#define ZERO_CROSSINGS            13                 /*  SRC CUTOFF FRQ      */
+#define LP_CUTOFF                 (11.0/13.0)        /*  (0.846 OF NYQUIST)  */
+
+#define N_BITS                    16
+#define L_BITS                    8
+#define L_RANGE                   256                  /*  must be 2^L_BITS  */
+#define M_BITS                    8
+#define M_RANGE                   256                  /*  must be 2^M_BITS  */
+#define FRACTION_BITS             (L_BITS + M_BITS)
+#define FRACTION_RANGE            65536         /*  must be 2^FRACTION_BITS  */
+#define FILTER_LENGTH             (ZERO_CROSSINGS * L_RANGE)
+#define FILTER_LIMIT              (FILTER_LENGTH - 1)
+
+#define N_MASK                    0xFFFF0000
+#define L_MASK                    0x0000FF00
+#define M_MASK                    0x000000FF
+#define FRACTION_MASK             0x0000FFFF
+
+#define nValue(x)                 (((x) & N_MASK) >> FRACTION_BITS)
+#define lValue(x)                 (((x) & L_MASK) >> M_BITS)
+#define mValue(x)                 ((x) & M_MASK)
+#define fractionValue(x)          ((x) & FRACTION_MASK)
+
+#define OUTPUT_SRATE_LOW          22050.0
+#define OUTPUT_SRATE_HIGH         44100.0
 
 typedef struct _TRMParameters {
     double glotPitch;
@@ -80,5 +110,18 @@ typedef struct _TRMData {
     INPUT *inputHead;
     INPUT *inputTail;
 } TRMData;
+
+/*  VARIABLES FOR SAMPLE RATE CONVERSION  */
+typedef struct _TRMSampleRateConverter {
+    double sampleRateRatio;
+    double h[FILTER_LENGTH], deltaH[FILTER_LENGTH];
+    unsigned int timeRegisterIncrement, filterIncrement, phaseIncrement;
+    unsigned int timeRegister;
+
+    // Temporary sample storage values
+    double maximumSampleValue;
+    long int numberSamples;
+    FILE *tempFilePtr;
+} TRMSampleRateConverter;
 
 #endif

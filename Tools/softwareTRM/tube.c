@@ -137,34 +137,6 @@
 #define BOTTOM                    1
 
 
-/*  SAMPLE RATE CONVERSION CONSTANTS  */
-#define ZERO_CROSSINGS            13                 /*  SRC CUTOFF FRQ      */
-#define LP_CUTOFF                 (11.0/13.0)        /*  (0.846 OF NYQUIST)  */
-
-#define N_BITS                    16
-#define L_BITS                    8
-#define L_RANGE                   256                  /*  must be 2^L_BITS  */
-#define M_BITS                    8
-#define M_RANGE                   256                  /*  must be 2^M_BITS  */
-#define FRACTION_BITS             (L_BITS + M_BITS)
-#define FRACTION_RANGE            65536         /*  must be 2^FRACTION_BITS  */
-#define FILTER_LENGTH             (ZERO_CROSSINGS * L_RANGE)
-#define FILTER_LIMIT              (FILTER_LENGTH - 1)
-
-#define N_MASK                    0xFFFF0000
-#define L_MASK                    0x0000FF00
-#define M_MASK                    0x000000FF
-#define FRACTION_MASK             0x0000FFFF
-
-#define nValue(x)                 (((x) & N_MASK) >> FRACTION_BITS)
-#define lValue(x)                 (((x) & L_MASK) >> M_BITS)
-#define mValue(x)                 ((x) & M_MASK)
-#define fractionValue(x)          ((x) & FRACTION_MASK)
-
-#define OUTPUT_SRATE_LOW          22050.0
-#define OUTPUT_SRATE_HIGH         44100.0
-
-
 
 /*  DERIVED VALUES  */
 int    controlPeriod;
@@ -197,11 +169,6 @@ double tb1, ta0, throatGain;
 /*  FRICATION BANDPASS FILTER MEMORY  */
 double bpAlpha, bpBeta, bpGamma;
 
-/*  TEMPORARY SAMPLE STORAGE VALUES  */
-double maximumSampleValue = 0.0;
-long int numberSamples = 0;
-FILE *tempFilePtr;
-
 /*  MEMORY FOR TUBE AND TUBE COEFFICIENTS  */
 double oropharynx[TOTAL_SECTIONS][2][2];
 double oropharynx_coeff[TOTAL_COEFFICIENTS];
@@ -222,14 +189,7 @@ struct {
     struct _TRMParameters delta;
 } current;
 
-/*  VARIABLES FOR SAMPLE RATE CONVERSION  */
-struct {
-    double sampleRateRatio;
-    double h[FILTER_LENGTH], deltaH[FILTER_LENGTH];
-    unsigned int timeRegisterIncrement, filterIncrement, phaseIncrement;
-    unsigned int timeRegister;
-} sampleRateConverter;
-
+TRMSampleRateConverter sampleRateConverter;
 
 //
 // Ring Buffer
@@ -342,10 +302,6 @@ int initializeSynthesizer(struct _TRMData *data)
 
     /*  INITIALIZE THE SAMPLE RATE CONVERSION ROUTINES  */
     initializeConversion(&(data->inputParameters));
-
-    /*  INITIALIZE THE TEMPORARY OUTPUT FILE  */
-    tempFilePtr = tmpfile();
-    rewind(tempFilePtr);
 
     /*  RETURN SUCCESS  */
     return SUCCESS;
@@ -1370,7 +1326,8 @@ void initializeConversion(struct _TRMInputParameters *inputParameters)
     double roundedSampleRateRatio;
 
     sampleRateConverter.timeRegister = 0;
-
+    sampleRateConverter.maximumSampleValue = 0.0;
+    sampleRateConverter.numberSamples = 0;
 
     /*  INITIALIZE FILTER IMPULSE RESPONSE  */
     initializeFilter();
@@ -1397,6 +1354,10 @@ void initializeConversion(struct _TRMInputParameters *inputParameters)
 
     /*  INITIALIZE THE RING BUFFER  */
     initializeBuffer();
+
+    /*  INITIALIZE THE TEMPORARY OUTPUT FILE  */
+    sampleRateConverter.tempFilePtr = tmpfile();
+    rewind(sampleRateConverter.tempFilePtr);
 }
 
 
@@ -1548,7 +1509,7 @@ void dataEmpty(void)
 
     printf(" > dataEmpty()\n");
     printf("buffer size: %d\n", BUFFER_SIZE);
-    printf("numberSamples before: %ld\n", numberSamples);
+    printf("numberSamples before: %ld\n", sampleRateConverter.numberSamples);
     printf("fillPtr: %d, padSize: %d\n", fillPtr, padSize);
 
     /*  CALCULATE END POINTER  */
@@ -1602,14 +1563,14 @@ void dataEmpty(void)
 
             /*  RECORD MAXIMUM SAMPLE VALUE  */
             absoluteSampleValue = fabs(output);
-            if (absoluteSampleValue > maximumSampleValue)
-                maximumSampleValue = absoluteSampleValue;
+            if (absoluteSampleValue > sampleRateConverter.maximumSampleValue)
+                sampleRateConverter.maximumSampleValue = absoluteSampleValue;
 
             /*  INCREMENT SAMPLE NUMBER  */
-            numberSamples++;
+            sampleRateConverter.numberSamples++;
 
             /*  OUTPUT THE SAMPLE TO THE TEMPORARY FILE  */
-            fwrite((char *)&output, sizeof(output), 1, tempFilePtr);
+            fwrite((char *)&output, sizeof(output), 1, sampleRateConverter.tempFilePtr);
 
             /*  CHANGE TIME REGISTER BACK TO ORIGINAL FORM  */
             sampleRateConverter.timeRegister = ~sampleRateConverter.timeRegister;
@@ -1668,14 +1629,14 @@ void dataEmpty(void)
 
             /*  RECORD MAXIMUM SAMPLE VALUE  */
             absoluteSampleValue = fabs(output);
-            if (absoluteSampleValue > maximumSampleValue)
-                maximumSampleValue = absoluteSampleValue;
+            if (absoluteSampleValue > sampleRateConverter.maximumSampleValue)
+                sampleRateConverter.maximumSampleValue = absoluteSampleValue;
 
             /*  INCREMENT SAMPLE NUMBER  */
-            numberSamples++;
+            sampleRateConverter.numberSamples++;
 
             /*  OUTPUT THE SAMPLE TO THE TEMPORARY FILE  */
-            fwrite((char *)&output, sizeof(output), 1, tempFilePtr);
+            fwrite((char *)&output, sizeof(output), 1, sampleRateConverter.tempFilePtr);
 
             /*  INCREMENT THE TIME REGISTER  */
             sampleRateConverter.timeRegister += sampleRateConverter.timeRegisterIncrement;
@@ -1691,7 +1652,7 @@ void dataEmpty(void)
             sampleRateConverter.timeRegister &= (~N_MASK);
         }
     }
-    printf("numberSamples after: %ld\n", numberSamples);
+    printf("numberSamples after: %ld\n", sampleRateConverter.numberSamples);
     printf("<  dataEmpty()\n");
 }
 
