@@ -63,8 +63,8 @@
 - (MMEquation *)getExpressionSymbol:(int)index;
 - (void)evaluateExpressionSymbols:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos phones:(NSArray *)phones withCache:(int)cache;
 
-- (MonetList *)parameterList;
-- (MonetList *)metaParameterList;
+- (MonetList *)parameterTransitions;
+- (MonetList *)metaParameterTransitions;
 - (NSMutableArray *)symbols;
 
 - (MMTransition *)getSpecialProfile:(int)index;

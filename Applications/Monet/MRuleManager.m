@@ -235,7 +235,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     [parameterTableView reloadData]; // To get updated values
 
     selectedRow = [parameterTableView selectedRow];
-    aTransition = [[[self selectedRule] parameterList] objectAtIndex:selectedRow];
+    aTransition = [[[self selectedRule] parameterTransitions] objectAtIndex:selectedRow];
     if ([aTransition group] != nil) {
         [parameterTransitionOutlineView scrollRowForItemToVisible:[aTransition group]];
         [parameterTransitionOutlineView expandItem:[aTransition group]];
@@ -267,7 +267,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     [metaParameterTableView reloadData]; // To get updated values
 
     selectedRow = [metaParameterTableView selectedRow];
-    aTransition = [[[self selectedRule] metaParameterList] objectAtIndex:selectedRow];
+    aTransition = [[[self selectedRule] metaParameterTransitions] objectAtIndex:selectedRow];
     if ([aTransition group] != nil) {
         [metaParameterTransitionOutlineView scrollRowForItemToVisible:[aTransition group]];
         [metaParameterTransitionOutlineView expandItem:[aTransition group]];
@@ -438,7 +438,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
             return [parameter name];
         } else if ([@"transition" isEqual:identifier] == YES) {
             if (tableView == parameterTableView)
-                return [[[[self selectedRule] parameterList] objectAtIndex:row] transitionPath];
+                return [[[[self selectedRule] parameterTransitions] objectAtIndex:row] transitionPath];
             else if (tableView == specialParameterTableView)
                 return [[[self selectedRule] getSpecialProfile:row] transitionPath];
         }
@@ -449,7 +449,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
         if ([@"name" isEqual:identifier] == YES) {
             return [parameter name];
         } else if ([@"transition" isEqual:identifier] == YES) {
-            return [[[[self selectedRule] metaParameterList] objectAtIndex:row] transitionPath];
+            return [[[[self selectedRule] metaParameterTransitions] objectAtIndex:row] transitionPath];
         }
     }
 
@@ -764,7 +764,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
         selectedTransition = [outlineView selectedItemOfClass:[MMTransition class]];
         if (selectedTransition != nil) {
-            [[[self selectedRule] parameterList] replaceObjectAtIndex:[parameterTableView selectedRow] withObject:selectedTransition];
+            [[[self selectedRule] parameterTransitions] replaceObjectAtIndex:[parameterTableView selectedRow] withObject:selectedTransition];
         }
     } else if (outlineView == specialParameterTransitionOutlineView) {
         MMTransition *selectedTransition;
@@ -777,7 +777,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
         selectedTransition = [outlineView selectedItemOfClass:[MMTransition class]];
         if (selectedTransition != nil) {
-            [[[self selectedRule] metaParameterList] replaceObjectAtIndex:[metaParameterTableView selectedRow] withObject:selectedTransition];
+            [[[self selectedRule] metaParameterTransitions] replaceObjectAtIndex:[metaParameterTableView selectedRow] withObject:selectedTransition];
         }
     }
 }

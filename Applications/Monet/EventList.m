@@ -792,7 +792,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
           break;
     }
 
-    tempTargets = [rule parameterList];
+    tempTargets = [rule parameterTransitions];
 
     /* Loop through the parameters */
     for (i = 0; i < [tempTargets count]; i++) {

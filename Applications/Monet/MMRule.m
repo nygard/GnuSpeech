@@ -464,12 +464,12 @@
         ruleSymbols->beat = 0.0;
 }
 
-- (MonetList *)parameterList;
+- (MonetList *)parameterTransitions;
 {
     return parameterTransitions;
 }
 
-- (MonetList *)metaParameterList;
+- (MonetList *)metaParameterTransitions;
 {
     return metaParameterTransitions;
 }
