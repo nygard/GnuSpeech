@@ -88,7 +88,6 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
 - (void)setScaleView:(MAIntonationScaleView *)newScaleView;
 {
-    NSLog(@"%s, scaleView: %p, newScaleView: %p", _cmd, scaleView, newScaleView);
     if (newScaleView == scaleView)
         return;
 
@@ -1043,13 +1042,10 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
 - (void)setFrame:(NSRect)newFrame;
 {
-    NSLog(@" > %s", _cmd);
     [super setFrame:newFrame];
 
-    NSLog(@"scaleView: %p", scaleView);
     [scaleView setSectionHeight:[self sectionHeight]];
     [scaleView setYOrigin:[self graphOrigin].y];
-    NSLog(@"<  %s", _cmd);
 }
 
 @end

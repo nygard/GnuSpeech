@@ -55,16 +55,12 @@
 {
     NSRect frameRect, scaleFrame;
 
-    NSLog(@" > %s", _cmd);
-
     frameRect = [self frame];
     scaleFrame = NSMakeRect(0, 0, SCALE_WIDTH, frameRect.size.height);
     scaleView = [[MAIntonationScaleView alloc] initWithFrame:scaleFrame];
     [self addSubview:scaleView];
 
     [[self documentView] setScaleView:scaleView];
-
-    NSLog(@"<  %s", _cmd);
 }
 
 /*===========================================================================
