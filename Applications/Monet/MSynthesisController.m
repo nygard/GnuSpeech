@@ -608,6 +608,8 @@
     [printView setHasHorizontalScroller:NO];
 
     [[printView documentView] setEventList:eventList];
+    [[printView documentView] setShouldDrawSelection:NO];
+    [[printView documentView] setShouldDrawSmoothPoints:[[intonationView documentView] shouldDrawSmoothPoints]];
 
     printOperation = [NSPrintOperation printOperationWithView:printView printInfo:intonationPrintInfo];
     [printOperation setShowPanels:YES];
