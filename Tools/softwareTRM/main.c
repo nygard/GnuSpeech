@@ -9,42 +9,24 @@
 #include "output.h"
 #include "structs.h"
 
-/*  BOOLEAN CONSTANTS  */
+// Boolean constants
 #define FALSE                     0
 #define TRUE                      1
 
-/*  COMMAND LINE ARGUMENT VARIABLES  */
+// Command line argument variables
 int verbose = FALSE;
 
-void printInfo(struct _TRMData *data, char *inputFile);
+void printInfo(struct _TRMData *data, char *inputFile, TRMTubeModel *tube);
 
-/******************************************************************************
-*
-*       function:       printInfo
-*
-*       purpose:        Prints pertinent variables to standard output.
-*
-*       arguments:      none
-*
-*       internal
-*       functions:      glotPitchAt, glotVolAt, aspVolAt, fricVolAt,
-*                       fricPosAt, fricCFAt, fricBWAt, radiusAtRegion,
-*                       velumAt
-*
-*       library
-*       functions:      printf
-*
-******************************************************************************/
-
-void printInfo(struct _TRMData *data, char *inputFile)
+void printInfo(struct _TRMData *data, char *inputFile, TRMTubeModel *tube)
+// Prints pertinent variables to standard output.
 {
-#if 0
     int i;
 
-    /*  PRINT INPUT FILE NAME  */
+    printf("----------------------------------------------------------------------\n");
     printf("input file:\t\t%s\n\n", inputFile);
 
-    /*  ECHO INPUT PARAMETERS  */
+    // Print input parameters
     printf("outputFileFormat:\t");
     if (data->inputParameters.outputFileFormat == AU_FILE_FORMAT)
         printf("AU\n");
@@ -94,11 +76,10 @@ void printInfo(struct _TRMData *data, char *inputFile)
         printf("off\n");
     printf("mixOffset:\t\t%.2f dB\n\n", data->inputParameters.mixOffset);
 
-    /*  PRINT OUT DERIVED VALUES  */
-    printf("\nactual tube length:\t%.4f cm\n", actualTubeLength);
-    printf("internal sample rate:\t%-d Hz\n", sampleRate);
-    printf("control period:\t\t%-d samples (%.4f seconds)\n\n",
-           controlPeriod, (float)controlPeriod/(float)sampleRate);
+    // Print out derived values
+    printf("\nactual tube length:\t%.4f cm\n", tube->actualTubeLength);
+    printf("internal sample rate:\t%-d Hz\n", tube->sampleRate);
+    printf("control period:\t\t%-d samples (%.4f seconds)\n\n", tube->controlPeriod, (float)tube->controlPeriod/(float)tube->sampleRate);
 
 #if DEBUG
     /*  PRINT OUT WAVE TABLE VALUES  */
@@ -107,26 +88,9 @@ void printInfo(struct _TRMData *data, char *inputFile)
         printf("table[%-d] = %.4f\n", i, wavetable[i]);
 #endif
 
-    printControlRateInputTable(data);
-#endif
+    //printControlRateInputTable(data);
+    printf("----------------------------------------------------------------------\n");
 }
-
-/******************************************************************************
-*
-*       function:       main
-*
-*       purpose:        Controls overall execution.
-*
-*       arguments:      inputFile, outputFile
-*
-*       internal
-*       functions:      parseInputFile, initializeSynthesizer, printInfo,
-*                       synthesize, writeOutputToFile
-*
-*       library
-*       functions:      strcpy, fprintf, exit, printf, fflush
-*
-******************************************************************************/
 
 int main(int argc, char *argv[])
 {
@@ -135,7 +99,7 @@ int main(int argc, char *argv[])
     TRMData *inputData;
     TRMTubeModel *tube;
 
-    /*  PARSE THE COMMAND LINE  */
+    // Parse the command line
     if (argc == 3) {
         strcpy(inputFile, argv[1]);
         strcpy(outputFile, argv[2]);
@@ -148,45 +112,37 @@ int main(int argc, char *argv[])
         exit(-1);
     }
 
-    /*  PARSE THE INPUT FILE FOR INPUT INFORMATION  */
+    // Parse the input file for input parameters
     inputData = parseInputFile(inputFile);
     if (inputData == NULL) {
         fprintf(stderr, "Aborting...\n");
         exit(-1);
     }
 
-    /*  INITIALIZE THE SYNTHESIZER  */
+    // Initialize the synthesizer
     tube = TRMTubeModelCreate(&(inputData->inputParameters));
     if (tube == NULL) {
         fprintf(stderr, "Aborting...\n");
         exit(-1);
     }
 
-    /*  PRINT OUT PARAMETER INFORMATION  */
+    // Print out parameter information
     if (verbose)
-        printInfo(inputData, inputFile);
+        printInfo(inputData, inputFile, tube);
 
-    /*  PRINT OUT CALCULATING MESSAGE  */
     if (verbose) {
-        printf("\nCalculating floating point samples...");
+        printf("\nStarting synthesis, calculating floating point samples...");
         fflush(stdout);
     }
 
-    /*  SYNTHESIZE THE SPEECH  */
-    if (verbose) {
-        printf("\nStarting synthesis\n");
-        fflush(stdout);
-    }
+    // Synthesize the speech
     synthesize(tube, inputData);
 
-    /*  PRINT OUT DONE MESSAGE  */
     if (verbose)
         printf("done.\n");
 
-    /*  OUTPUT SAMPLES TO OUTPUT FILE  */
     writeOutputToFile(tube->sampleRateConverter, inputData, outputFile);
 
-    /*  PRINT OUT FINISHED MESSAGE  */
     if (verbose)
         printf("\nWrote scaled samples to file:  %s\n", outputFile);
 
