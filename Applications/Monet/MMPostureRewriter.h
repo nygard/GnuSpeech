@@ -9,8 +9,9 @@
 {
     MModel *model;
 
-    NSString *category[15]; // Just the names.  Use -[MMPosture isMemberOfCategoryNamed:]
+    NSString *categoryNames[15];
     MMPosture *returnPostures[7];
+
     int currentState;
     MMPosture *lastPosture;
 }
@@ -18,6 +19,7 @@
 - (id)initWithModel:(MModel *)aModel;
 - (void)dealloc;
 
+- (void)_setupCategoryNames;
 - (void)_setup;
 
 - (MModel *)model;
@@ -26,6 +28,7 @@
 - (MMPosture *)lastPosture;
 - (void)setLastPosture:(MMPosture *)newPosture;
 
+- (void)resetState;
 - (void)rewriteEventList:(EventList *)eventList withNextPosture:(MMPosture *)nextPosture wordMarker:(BOOL)followsWordMarker;
 
 @end

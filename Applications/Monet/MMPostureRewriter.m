@@ -19,6 +19,7 @@
     currentState = 0;
     lastPosture = nil;
 
+    [self _setupCategoryNames];
     [self _setup];
 
     return self;
@@ -31,7 +32,7 @@
     [model release];
 
     for (index = 0; index < 15; index++)
-        [category[index] release];
+        [categoryNames[index] release];
 
     for (index = 0; index < 7; index++)
         [returnPostures[index] release];
@@ -41,39 +42,37 @@
     [super dealloc];
 }
 
+- (void)_setupCategoryNames;
+{
+    categoryNames[0] = [@"stopped" retain];
+    categoryNames[1] = [@"affricate" retain];
+    categoryNames[2] = [@"hlike" retain];
+    categoryNames[3] = [@"vocoid" retain];
+    categoryNames[14] = [@"whistlehack" retain];
+
+    categoryNames[4] = [@"h" retain];
+    categoryNames[5] = [@"h'" retain];
+
+    categoryNames[6] = [@"hv" retain];
+    categoryNames[7] = [@"hv'" retain];
+
+    categoryNames[8] = [@"ll" retain];
+    categoryNames[9] = [@"ll'" retain];
+
+    categoryNames[10] = [@"s" retain];
+    categoryNames[11] = [@"s'" retain];
+
+    categoryNames[12] = [@"z" retain];
+    categoryNames[13] = [@"z'" retain];
+}
+
 - (void)_setup;
 {
     unsigned int index;
 
-    for (index = 0; index < 15; index++)
-        [category[index] release];
-
     for (index = 0; index < 7; index++)
         [returnPostures[index] release];
 
-    // TODO (2004-05-30): Rename these to "categoryNames"
-    category[0] = [@"stopped" retain];
-    category[1] = [@"affricate" retain];
-    category[2] = [@"hlike" retain];
-    category[3] = [@"vocoid" retain];
-    category[14] = [@"whistlehack" retain];
-
-    category[4] = [@"h" retain];
-    category[5] = [@"h'" retain];
-
-    category[6] = [@"hv" retain];
-    category[7] = [@"hv'" retain];
-
-    category[8] = [@"ll" retain];
-    category[9] = [@"ll'" retain];
-
-    category[10] = [@"s" retain];
-    category[11] = [@"s'" retain];
-
-    category[12] = [@"z" retain];
-    category[13] = [@"z'" retain];
-
-    // TODO (2004-05-30): Rename this to "returnPosture" or "insertPosture"
     returnPostures[0] = [[model postureWithName:@"qc"] retain];
     returnPostures[1] = [[model postureWithName:@"qt"] retain];
     returnPostures[2] = [[model postureWithName:@"qp"] retain];
@@ -82,7 +81,7 @@
     returnPostures[5] = [[model postureWithName:@"qs"] retain];
     returnPostures[6] = [[model postureWithName:@"qz"] retain];
 
-    [self setLastPosture:nil];
+    [self resetState];
 }
 
 - (MModel *)model;
@@ -113,6 +112,12 @@
 
     [lastPosture release];
     lastPosture = [newPosture retain];
+}
+
+- (void)resetState;
+{
+    currentState = 0;
+    [self setLastPosture:nil];
 }
 
 - (void)rewriteEventList:(EventList *)eventList withNextPosture:(MMPosture *)nextPosture wordMarker:(BOOL)followsWordMarker;
@@ -150,9 +155,9 @@
 
     //NSLog(@"currentState: %d", currentState);
     for (index = 0; index < 15; index++) {
-        //NSLog(@"Checking posture %@ for category %@", [nextPosture symbol], category[index]);
-        if ([nextPosture isMemberOfCategoryNamed:category[index]] == YES) {
-            //NSLog(@"Found %@ %@ state %d -> %d", [nextPosture symbol], category[index], currentState, stateTable[currentState][index]);
+        //NSLog(@"Checking posture %@ for category %@", [nextPosture symbol], categoryNames[index]);
+        if ([nextPosture isMemberOfCategoryNamed:categoryNames[index]] == YES) {
+            //NSLog(@"Found %@ %@ state %d -> %d", [nextPosture symbol], categoryNames[index], currentState, stateTable[currentState][index]);
             currentState = stateTable[currentState][index];
             didMakeTransition = YES;
             break;

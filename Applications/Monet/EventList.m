@@ -1329,6 +1329,8 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
     NSString *buffer;
     BOOL wordMarker = NO;
 
+    [postureRewriter resetState];
+
     scanner = [[[NSScanner alloc] initWithString:str] autorelease];
     [scanner setCharactersToBeSkipped:nil];
 
