@@ -123,7 +123,7 @@ void printInfo(char *inputFile)
 
     /*  ACTUAL VALUES  */
     ptr = inputHead;
-    for (i = 0; i < numberInputTables-1; i++) {
+    for (i = 0; i < numberInputTables - 1; i++) {
 	int j;
 
 	printf("%.2f", glotPitchAt(ptr));

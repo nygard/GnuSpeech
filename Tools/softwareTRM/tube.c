@@ -685,8 +685,7 @@ double nasalRadiationFilter(double input)
 
 void synthesize(INPUT *inputHead)
 {
-
-    int i, j;
+    int j;
     double f0, ax, ah1, pulse, lp_noise, pulsed_noise, signal, crossmix;
     INPUT *previousInput, *currentInput;
 
@@ -697,8 +696,7 @@ void synthesize(INPUT *inputHead)
     previousInput = inputHead;
     currentInput = inputHead->next;
 
-    for (i = 1; i < numberInputTables; i++) {
-
+    while (currentInput != NULL) {
 	/*  SET CONTROL RATE PARAMETERS FROM INPUT TABLES  */
 	setControlRateParameters(previousInput, currentInput);
 

@@ -6,7 +6,7 @@
 
 /*  VARIABLES FOR INPUT TABLE STORAGE  */
 INPUT *inputHead = NULL;
-INPUT *inputTail = NULL;
+static INPUT *inputTail = NULL;
 int numberInputTables = 0;
 
 
