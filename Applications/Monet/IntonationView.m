@@ -14,6 +14,7 @@
 #define TOP_MARGIN 65
 #define BOTTOM_MARGIN 5
 #define LEFT_MARGIN 1
+#define RIGHT_MARGIN 20.0
 
 #define SECTION_COUNT 15
 
@@ -103,15 +104,16 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
 {
     NSRect clipRect;
     Event *lastEvent;
-    float timeValue;
+    float width;
 
     NSLog(@"%s", _cmd);
     // TODO (2004-03-15): Changing the view frame in drawRect: can cause problems.  Should do before drawRect:
     clipRect = [[self superview] frame];
     lastEvent = [[eventList events] lastObject];
-    timeValue = [lastEvent time] / timeScale;
-    if (clipRect.size.width < timeValue)
-        clipRect.size.width = timeValue;
+
+    width = [self scaleWidth:[lastEvent time]] + RIGHT_MARGIN;
+    if (clipRect.size.width < width)
+        clipRect.size.width = width;
     [self setFrame:clipRect];
 
     [[NSColor whiteColor] set];
