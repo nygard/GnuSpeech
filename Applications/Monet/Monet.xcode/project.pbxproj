@@ -1709,54 +1709,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		0195DB2E05F46E4E006D8386 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = NiftyMatrix.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0195DB2F05F46E4E006D8386 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = NiftyMatrix.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0195DB3005F46E4E006D8386 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = NiftyMatrixCat.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0195DB3105F46E4E006D8386 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = NiftyMatrixCat.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0195DB3205F46E4E006D8386 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = NiftyMatrixCell.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0195DB3305F46E4E006D8386 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = NiftyMatrixCell.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
 		0195DB3C05F46E4E006D8386 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -1840,7 +1792,6 @@
 				01848D5B060AA9BB005E9B67,
 				01710D4706100F160059DE9A,
 				01710D4806100F160059DE9A,
-				0195DCAE05F5463B006D8386,
 				0195DB1D05F46E4E006D8386,
 				0195DB1E05F46E4E006D8386,
 				0195DB2A05F46E4E006D8386,
@@ -1933,20 +1884,6 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
-		};
-		0195DCAE05F5463B006D8386 = {
-			children = (
-				0195DB2E05F46E4E006D8386,
-				0195DB2F05F46E4E006D8386,
-				0195DB3005F46E4E006D8386,
-				0195DB3105F46E4E006D8386,
-				0195DB3205F46E4E006D8386,
-				0195DB3305F46E4E006D8386,
-			);
-			isa = PBXGroup;
-			name = "Nifty Matrix";
-			refType = 4;
-			sourceTree = "<group>";
 		};
 		0195DCB205F54B87006D8386 = {
 			fileRef = 0195DB3C05F46E4E006D8386;
@@ -2489,42 +2426,6 @@
 			settings = {
 			};
 		};
-		01D1487705FD150F00F1AF4B = {
-			fileRef = 0195DB2E05F46E4E006D8386;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		01D1487D05FD151000F1AF4B = {
-			fileRef = 0195DB2F05F46E4E006D8386;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		01D1488305FD151100F1AF4B = {
-			fileRef = 0195DB3205F46E4E006D8386;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		01D1488505FD151100F1AF4B = {
-			fileRef = 0195DB3305F46E4E006D8386;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		01D148AA05FD1C2300F1AF4B = {
-			fileRef = 0195DB3005F46E4E006D8386;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		01D148B005FD1C2400F1AF4B = {
-			fileRef = 0195DB3105F46E4E006D8386;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		01F6E26B060EA6470073E196 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -2957,9 +2858,6 @@
 				01B2009205F6ED2900C1F65D,
 				01B201B105F909C900C1F65D,
 				01BE469E05F960A900172BDB,
-				01D1487705FD150F00F1AF4B,
-				01D1488305FD151100F1AF4B,
-				01D148AA05FD1C2300F1AF4B,
 				01848B93060A505A005E9B67,
 				01848BCE060A6208005E9B67,
 				01848BEB060A6F54005E9B67,
@@ -3079,9 +2977,6 @@
 				01B2009305F6ED2900C1F65D,
 				01B201B205F909CA00C1F65D,
 				01BE469F05F960A900172BDB,
-				01D1487D05FD151000F1AF4B,
-				01D1488505FD151100F1AF4B,
-				01D148B005FD1C2400F1AF4B,
 				01848B94060A505A005E9B67,
 				01848BCF060A6208005E9B67,
 				01848BEC060A6F54005E9B67,
