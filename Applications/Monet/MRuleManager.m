@@ -19,6 +19,8 @@
 #import "PhoneList.h"
 #import "RuleList.h"
 
+static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardType";
+
 @implementation MRuleManager
 
 - (id)initWithModel:(MModel *)aModel;
@@ -104,6 +106,8 @@
 
     [ruleCommentTextView setFieldEditor:YES];
 
+    [ruleTableView registerForDraggedTypes:[NSArray arrayWithObjects:MRMLocalRuleDragPasteboardType, nil]];
+
     [self updateViews];
     [self expandOutlines];
 
@@ -158,8 +162,6 @@
     BooleanExpression *anExpression;
     int index;
 
-    NSLog(@" > %s", _cmd);
-
     aRule = [self selectedRule];
 
     //inspector = [controller inspector];
@@ -183,10 +185,6 @@
     [self _updateSelectedSpecialParameterDetails];
     [self _updateSelectedMetaParameterDetails];
     [self _updateRuleComment];
-
-    //[[sender window] makeFirstResponder:delegateResponder];
-
-    NSLog(@"<  %s", _cmd);
 }
 
 - (void)_updateRuleComment;
@@ -430,6 +428,79 @@
         else
             [cell setFont:regularControlFont];
     }
+}
+
+//
+// NSTableView dragging
+//
+
+- (BOOL)tableView:(NSTableView *)tableView writeRows:(NSArray *)rows toPasteboard:(NSPasteboard *)pboard;
+{
+    if (tableView == ruleTableView) {
+        NSLog(@"%s, rows: %@", _cmd, [rows description]);
+        [pboard declareTypes:[NSArray arrayWithObjects:MRMLocalRuleDragPasteboardType, nil] owner:nil];
+        [pboard setPropertyList:rows forType:MRMLocalRuleDragPasteboardType];
+        return YES;
+    }
+
+    return NO;
+}
+
+- (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(int)row proposedDropOperation:(NSTableViewDropOperation)op;
+{
+    if  (tableView == ruleTableView) {
+        NSPasteboard *pasteboard;
+        NSString *availableType;
+
+        pasteboard = [info draggingPasteboard];
+        availableType = [pasteboard availableTypeFromArray:[NSArray arrayWithObjects:MRMLocalRuleDragPasteboardType, nil]];
+        //NSLog(@"availableType: %@", availableType);
+
+        if (op == NSTableViewDropOn)
+            [tableView setDropRow:row dropOperation:NSTableViewDropAbove];
+
+        return NSDragOperationMove;
+    }
+
+    return NSDragOperationNone;
+}
+
+- (BOOL)tableView:(NSTableView *)tableView acceptDrop:(id <NSDraggingInfo>)info row:(int)row dropOperation:(NSTableViewDropOperation)op;
+{
+    if  (tableView == ruleTableView) {
+        NSPasteboard *pasteboard;
+        NSString *availableType;
+        NSArray *sourceRows;
+        int sourceRowIndex;
+        MMRule *aRule;
+
+        pasteboard = [info draggingPasteboard];
+        availableType = [pasteboard availableTypeFromArray:[NSArray arrayWithObjects:MRMLocalRuleDragPasteboardType, nil]];
+        //NSLog(@"availableType: %@", availableType);
+
+        if (availableType == nil)
+            return NO;
+
+        sourceRows = [pasteboard propertyListForType:availableType];
+        sourceRowIndex = [[sourceRows objectAtIndex:0] intValue];
+
+        // Adjust destination since we'll be removing the source from the list
+        if (sourceRowIndex < row)
+            row--;
+
+        //NSLog(@"row: %d, op: %d, sourceRowIndex: %d", row, op, sourceRowIndex);
+        aRule = [[[[self model] rules] objectAtIndex:sourceRowIndex] retain];
+        [[[self model] rules] removeObject:aRule];
+        [[[self model] rules] insertObject:aRule atIndex:row];
+        [aRule release];
+
+        [ruleTableView reloadData];
+        [ruleTableView selectRow:row byExtendingSelection:NO];
+
+        return YES;
+    }
+
+    return NO;
 }
 
 //

@@ -1,5 +1,5 @@
 //
-// $Id: MRuleManager.h,v 1.5 2004/03/24 20:53:05 nygard Exp $
+// $Id: MRuleManager.h,v 1.6 2004/03/24 21:33:06 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -76,6 +76,11 @@
 // NSTableView delegate
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification;
 - (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(int)row;
+
+// NSTableView dragging
+- (BOOL)tableView:(NSTableView *)tableView writeRows:(NSArray *)rows toPasteboard:(NSPasteboard *)pboard;
+- (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(int)row proposedDropOperation:(NSTableViewDropOperation)op;
+- (BOOL)tableView:(NSTableView *)tableView acceptDrop:(id <NSDraggingInfo>)info row:(int)row dropOperation:(NSTableViewDropOperation)op;
 
 // Browser delegate methods
 - (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;
