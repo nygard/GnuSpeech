@@ -196,7 +196,15 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 // TODO (2004-03-19): Is it used by rules, anyway.  Postures can also use categories.
 - (BOOL)isCategoryUsed:(MMCategory *)aCategory;
 {
-    return [rules isCategoryUsed:aCategory];
+    int count, index;
+
+    count = [rules count];
+    for (index = 0; index < count; index++) {
+        if ([[rules objectAtIndex:index] isCategoryUsed:aCategory])
+            return YES;
+    }
+
+    return NO;
 }
 
 - (void)removeCategory:(MMCategory *)aCategory;

@@ -15,13 +15,7 @@
 {
 }
 
-- (void)changeRuleAt:(int)index exp1:(BooleanExpression *)exp1 exp2:(BooleanExpression *)exp2 exp3:(BooleanExpression *)exp3 exp4:(BooleanExpression *)exp4;
-
 - (MMRule *)findRule:(MonetList *)categories index:(int *)index;
-
-- (BOOL)isCategoryUsed:(MMCategory *)aCategory;
-- (BOOL)isEquationUsed:(MMEquation *)anEquation;
-- (BOOL)isTransitionUsed:(MMTransition *)aTransition;
 
 - (void)findEquation:(MMEquation *)anEquation andPutIn:(MonetList *)aList;
 - (void)findTemplate:(MMTransition *)aTemplate andPutIn:(MonetList *)aList;
