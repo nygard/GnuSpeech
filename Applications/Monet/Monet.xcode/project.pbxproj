@@ -191,284 +191,29 @@
 		};
 		0127DACD064C785800B841E4 = {
 			children = (
-				0127DAD0064C78C500B841E4,
-				0127DAD1064C78C500B841E4,
-				0127DAD2064C78C500B841E4,
-				0127DAD3064C78C500B841E4,
-				0127DAD4064C78C500B841E4,
-				0127DAD5064C78C500B841E4,
-				0127DAD6064C78C500B841E4,
-				0127DAD7064C78C500B841E4,
-				0127DAD8064C78C500B841E4,
-				0127DAD9064C78C500B841E4,
-				0127DADA064C78C500B841E4,
-				0127DAF8064D9A8E00B841E4,
-				0127DAF9064D9A8E00B841E4,
-				0127DAE8064C79C600B841E4,
-				0127DAE9064C79C600B841E4,
-				0143DCBC0651923A00DB5F6D,
-				0143DCBD0651923A00DB5F6D,
+				01491E4D06A4836000879FE1,
+				01491E4E06A4836000879FE1,
+				01491E4F06A4836000879FE1,
+				01491E5006A4836000879FE1,
+				01491E5106A4836000879FE1,
+				01491E5206A4836000879FE1,
+				01491E5306A4836000879FE1,
+				01491E5406A4836000879FE1,
+				01491E5506A4836000879FE1,
+				01491E5606A4836000879FE1,
+				01491E5706A4836000879FE1,
+				01491E5806A4836000879FE1,
+				01491E5906A4836000879FE1,
+				01491E5A06A4836000879FE1,
+				01491E5B06A4836000879FE1,
+				01491E5C06A4836000879FE1,
+				01491E5D06A4836000879FE1,
 			);
 			isa = PBXGroup;
 			name = "Software TRM";
 			path = "";
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		0127DAD0064C78C500B841E4 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.c;
-			name = fir.c;
-			path = /Volumes/Data/Users/nygard/SourceSVN/gnuspeech/trunk/Tools/softwareTRM/fir.c;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
-		0127DAD1064C78C500B841E4 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = fir.h;
-			path = /Volumes/Data/Users/nygard/SourceSVN/gnuspeech/trunk/Tools/softwareTRM/fir.h;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
-		0127DAD2064C78C500B841E4 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.c;
-			name = input.c;
-			path = /Volumes/Data/Users/nygard/SourceSVN/gnuspeech/trunk/Tools/softwareTRM/input.c;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
-		0127DAD3064C78C500B841E4 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = input.h;
-			path = /Volumes/Data/Users/nygard/SourceSVN/gnuspeech/trunk/Tools/softwareTRM/input.h;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
-		0127DAD4064C78C500B841E4 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.c;
-			name = ring_buffer.c;
-			path = /Volumes/Data/Users/nygard/SourceSVN/gnuspeech/trunk/Tools/softwareTRM/ring_buffer.c;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
-		0127DAD5064C78C500B841E4 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = ring_buffer.h;
-			path = /Volumes/Data/Users/nygard/SourceSVN/gnuspeech/trunk/Tools/softwareTRM/ring_buffer.h;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
-		0127DAD6064C78C500B841E4 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = structs.h;
-			path = /Volumes/Data/Users/nygard/SourceSVN/gnuspeech/trunk/Tools/softwareTRM/structs.h;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
-		0127DAD7064C78C500B841E4 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.c;
-			name = tube.c;
-			path = /Volumes/Data/Users/nygard/SourceSVN/gnuspeech/trunk/Tools/softwareTRM/tube.c;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
-		0127DAD8064C78C500B841E4 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = tube.h;
-			path = /Volumes/Data/Users/nygard/SourceSVN/gnuspeech/trunk/Tools/softwareTRM/tube.h;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
-		0127DAD9064C78C500B841E4 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.c;
-			name = util.c;
-			path = /Volumes/Data/Users/nygard/SourceSVN/gnuspeech/trunk/Tools/softwareTRM/util.c;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
-		0127DADA064C78C500B841E4 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = util.h;
-			path = /Volumes/Data/Users/nygard/SourceSVN/gnuspeech/trunk/Tools/softwareTRM/util.h;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
-		0127DADB064C78C500B841E4 = {
-			fileRef = 0127DAD0064C78C500B841E4;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0127DADC064C78C500B841E4 = {
-			fileRef = 0127DAD1064C78C500B841E4;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0127DADD064C78C500B841E4 = {
-			fileRef = 0127DAD2064C78C500B841E4;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0127DADE064C78C500B841E4 = {
-			fileRef = 0127DAD3064C78C500B841E4;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0127DADF064C78C500B841E4 = {
-			fileRef = 0127DAD4064C78C500B841E4;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0127DAE0064C78C500B841E4 = {
-			fileRef = 0127DAD5064C78C500B841E4;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0127DAE1064C78C500B841E4 = {
-			fileRef = 0127DAD6064C78C500B841E4;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0127DAE2064C78C500B841E4 = {
-			fileRef = 0127DAD7064C78C500B841E4;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0127DAE3064C78C500B841E4 = {
-			fileRef = 0127DAD8064C78C500B841E4;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0127DAE4064C78C500B841E4 = {
-			fileRef = 0127DAD9064C78C500B841E4;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0127DAE5064C78C500B841E4 = {
-			fileRef = 0127DADA064C78C500B841E4;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0127DAE8064C79C600B841E4 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = TRMSynthesizer.h;
-			path = /Volumes/Data/Users/nygard/SourceSVN/gnuspeech/trunk/Tools/softwareTRM/TRMSynthesizer.h;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
-		0127DAE9064C79C600B841E4 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			name = TRMSynthesizer.m;
-			path = /Volumes/Data/Users/nygard/SourceSVN/gnuspeech/trunk/Tools/softwareTRM/TRMSynthesizer.m;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
-		0127DAEA064C79C600B841E4 = {
-			fileRef = 0127DAE8064C79C600B841E4;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0127DAEB064C79C600B841E4 = {
-			fileRef = 0127DAE9064C79C600B841E4;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0127DAF8064D9A8E00B841E4 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.c;
-			name = wavetable.c;
-			path = /Volumes/Data/Users/nygard/SourceSVN/gnuspeech/trunk/Tools/softwareTRM/wavetable.c;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
-		0127DAF9064D9A8E00B841E4 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = wavetable.h;
-			path = /Volumes/Data/Users/nygard/SourceSVN/gnuspeech/trunk/Tools/softwareTRM/wavetable.h;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
-		0127DAFA064D9A8E00B841E4 = {
-			fileRef = 0127DAF8064D9A8E00B841E4;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0127DAFB064D9A8E00B841E4 = {
-			fileRef = 0127DAF9064D9A8E00B841E4;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0143DCBC0651923A00DB5F6D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.c;
-			name = output.c;
-			path = /Volumes/Data/Users/nygard/SourceSVN/gnuspeech/trunk/Tools/softwareTRM/output.c;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
-		0143DCBD0651923A00DB5F6D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = output.h;
-			path = /Volumes/Data/Users/nygard/SourceSVN/gnuspeech/trunk/Tools/softwareTRM/output.h;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
-		0143DCBE0651923A00DB5F6D = {
-			fileRef = 0143DCBC0651923A00DB5F6D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0143DCBF0651923A00DB5F6D = {
-			fileRef = 0143DCBD0651923A00DB5F6D;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		0143DCCA065193D800DB5F6D = {
 			isa = PBXFileReference;
@@ -805,6 +550,261 @@
 			name = Compatibility;
 			refType = 4;
 			sourceTree = "<group>";
+		};
+		01491E4D06A4836000879FE1 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
+			name = fir.c;
+			path = ../../Tools/softwareTRM/fir.c;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		01491E4E06A4836000879FE1 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = fir.h;
+			path = ../../Tools/softwareTRM/fir.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		01491E4F06A4836000879FE1 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
+			name = input.c;
+			path = ../../Tools/softwareTRM/input.c;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		01491E5006A4836000879FE1 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = input.h;
+			path = ../../Tools/softwareTRM/input.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		01491E5106A4836000879FE1 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
+			name = output.c;
+			path = ../../Tools/softwareTRM/output.c;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		01491E5206A4836000879FE1 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = output.h;
+			path = ../../Tools/softwareTRM/output.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		01491E5306A4836000879FE1 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
+			name = ring_buffer.c;
+			path = ../../Tools/softwareTRM/ring_buffer.c;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		01491E5406A4836000879FE1 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = ring_buffer.h;
+			path = ../../Tools/softwareTRM/ring_buffer.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		01491E5506A4836000879FE1 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = structs.h;
+			path = ../../Tools/softwareTRM/structs.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		01491E5606A4836000879FE1 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = TRMSynthesizer.h;
+			path = ../../Tools/softwareTRM/TRMSynthesizer.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		01491E5706A4836000879FE1 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = TRMSynthesizer.m;
+			path = ../../Tools/softwareTRM/TRMSynthesizer.m;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		01491E5806A4836000879FE1 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
+			name = tube.c;
+			path = ../../Tools/softwareTRM/tube.c;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		01491E5906A4836000879FE1 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = tube.h;
+			path = ../../Tools/softwareTRM/tube.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		01491E5A06A4836000879FE1 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
+			name = util.c;
+			path = ../../Tools/softwareTRM/util.c;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		01491E5B06A4836000879FE1 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = util.h;
+			path = ../../Tools/softwareTRM/util.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		01491E5C06A4836000879FE1 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
+			name = wavetable.c;
+			path = ../../Tools/softwareTRM/wavetable.c;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		01491E5D06A4836000879FE1 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = wavetable.h;
+			path = ../../Tools/softwareTRM/wavetable.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		01491E5E06A4836000879FE1 = {
+			fileRef = 01491E4D06A4836000879FE1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01491E5F06A4836000879FE1 = {
+			fileRef = 01491E4E06A4836000879FE1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01491E6006A4836000879FE1 = {
+			fileRef = 01491E4F06A4836000879FE1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01491E6106A4836000879FE1 = {
+			fileRef = 01491E5006A4836000879FE1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01491E6206A4836000879FE1 = {
+			fileRef = 01491E5106A4836000879FE1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01491E6306A4836000879FE1 = {
+			fileRef = 01491E5206A4836000879FE1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01491E6406A4836000879FE1 = {
+			fileRef = 01491E5306A4836000879FE1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01491E6506A4836000879FE1 = {
+			fileRef = 01491E5406A4836000879FE1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01491E6606A4836000879FE1 = {
+			fileRef = 01491E5506A4836000879FE1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01491E6706A4836000879FE1 = {
+			fileRef = 01491E5606A4836000879FE1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01491E6806A4836000879FE1 = {
+			fileRef = 01491E5706A4836000879FE1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01491E6906A4836000879FE1 = {
+			fileRef = 01491E5806A4836000879FE1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01491E6A06A4836000879FE1 = {
+			fileRef = 01491E5906A4836000879FE1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01491E6B06A4836000879FE1 = {
+			fileRef = 01491E5A06A4836000879FE1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01491E6C06A4836000879FE1 = {
+			fileRef = 01491E5B06A4836000879FE1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01491E6D06A4836000879FE1 = {
+			fileRef = 01491E5C06A4836000879FE1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01491E6E06A4836000879FE1 = {
+			fileRef = 01491E5D06A4836000879FE1;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		015A674206791CB400EE5AE9 = {
 			fileEncoding = 30;
@@ -1241,7 +1241,7 @@
 		016FACDC065D8D16003ED09E = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			lastKnownFileType = text.plist.xml;
+			lastKnownFileType = text.xml;
 			path = Default.mxml;
 			refType = 4;
 			sourceTree = "<group>";
@@ -3302,8 +3302,7 @@
 			sourceTree = "<group>";
 		};
 		1058C7A1FEA54F0111CA2CBB = {
-			fallbackIsa = PBXFileReference;
-			isa = PBXFrameworkReference;
+			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
 			name = Cocoa.framework;
 			path = /System/Library/Frameworks/Cocoa.framework;
@@ -3457,8 +3456,7 @@
 			sourceTree = "<group>";
 		};
 		29B97324FDCFA39411CA2CEA = {
-			fallbackIsa = PBXFileReference;
-			isa = PBXFrameworkReference;
+			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
 			name = AppKit.framework;
 			path = /System/Library/Frameworks/AppKit.framework;
@@ -3466,8 +3464,7 @@
 			sourceTree = "<absolute>";
 		};
 		29B97325FDCFA39411CA2CEA = {
-			fallbackIsa = PBXFileReference;
-			isa = PBXFrameworkReference;
+			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
 			name = Foundation.framework;
 			path = /System/Library/Frameworks/Foundation.framework;
@@ -3503,8 +3500,6 @@
 //4A3
 //4A4
 		4A9504CCFFE6A4B311CA0CBA = {
-			buildRules = (
-			);
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
@@ -3519,8 +3514,6 @@
 			name = Development;
 		};
 		4A9504CDFFE6A4B311CA0CBA = {
-			buildRules = (
-			);
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -3652,15 +3645,6 @@
 				019D97750646E449009C37B4,
 				019D97770646E449009C37B4,
 				019D97790646E449009C37B4,
-				0127DADC064C78C500B841E4,
-				0127DADE064C78C500B841E4,
-				0127DAE0064C78C500B841E4,
-				0127DAE1064C78C500B841E4,
-				0127DAE3064C78C500B841E4,
-				0127DAE5064C78C500B841E4,
-				0127DAEA064C79C600B841E4,
-				0127DAFB064D9A8E00B841E4,
-				0143DCBF0651923A00DB5F6D,
 				0143DCF506570D0700DB5F6D,
 				0143DCFD06572A3D00DB5F6D,
 				0143DCFF06572A3D00DB5F6D,
@@ -3678,6 +3662,15 @@
 				0193B80B066AF6AA00D58A08,
 				015A674406791CB400EE5AE9,
 				015A674D0679930C00EE5AE9,
+				01491E5F06A4836000879FE1,
+				01491E6106A4836000879FE1,
+				01491E6306A4836000879FE1,
+				01491E6506A4836000879FE1,
+				01491E6606A4836000879FE1,
+				01491E6706A4836000879FE1,
+				01491E6A06A4836000879FE1,
+				01491E6C06A4836000879FE1,
+				01491E6E06A4836000879FE1,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3789,14 +3782,6 @@
 				019D97760646E449009C37B4,
 				019D97780646E449009C37B4,
 				019D977A0646E449009C37B4,
-				0127DADB064C78C500B841E4,
-				0127DADD064C78C500B841E4,
-				0127DADF064C78C500B841E4,
-				0127DAE2064C78C500B841E4,
-				0127DAE4064C78C500B841E4,
-				0127DAEB064C79C600B841E4,
-				0127DAFA064D9A8E00B841E4,
-				0143DCBE0651923A00DB5F6D,
 				0143DCF606570D0700DB5F6D,
 				0143DCFE06572A3D00DB5F6D,
 				0143DD0006572A3D00DB5F6D,
@@ -3812,6 +3797,14 @@
 				0193B80C066AF6AA00D58A08,
 				015A674506791CB400EE5AE9,
 				015A674E0679930C00EE5AE9,
+				01491E5E06A4836000879FE1,
+				01491E6006A4836000879FE1,
+				01491E6206A4836000879FE1,
+				01491E6406A4836000879FE1,
+				01491E6806A4836000879FE1,
+				01491E6906A4836000879FE1,
+				01491E6B06A4836000879FE1,
+				01491E6D06A4836000879FE1,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
