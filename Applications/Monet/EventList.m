@@ -551,7 +551,7 @@
         if (shouldUseDrift)
             table[0] += drift();
         if (shouldUseMacroIntonation) {
-            NSLog(@"sumi, table[0]: %f, currentValues[32]: %f", table[0], currentValues[32]);
+            //NSLog(@"sumi, table[0]: %f, currentValues[32]: %f", table[0], currentValues[32]);
             table[0] += currentValues[32];
         }
 
@@ -625,72 +625,79 @@
 {
     MonetList *tempCategoryList;
     PhoneList *tempPhoneList;
-    double tempoList[4];
     double footTempo, tempTempo;
-    int index = 0;
+    int index;
     int i, j, rus;
-    int ruleIndex;
     RuleList *ruleList = [aModel rules];
-    MMRule *tempRule;
     ParameterList *mainParameterList = [aModel parameters];
     MMParameter *tempParameter = nil;
 
+    NSLog(@" > %s", _cmd);
+
+    [self printDataStructures:@"Start of generateEventListWithModel:"];
     assert(aModel != nil);
+
+    // Record min/max values for each of the parameters
     //NSLog(@"mainParameterList: %@", mainParameterList);
     for (i = 0; i < 16; i++) {
         tempParameter = [mainParameterList objectAtIndex:i];
 
-        min[i] = (double) [tempParameter minimumValue];
-        max[i] = (double) [tempParameter maximumValue];
-        //NSLog(@"Min: %f Max: %f", min[i], max[i]);
+        min[i] = [tempParameter minimumValue];
+        max[i] = [tempParameter maximumValue];
+        //NSLog(@"Min: %9.3f Max: %9.3f", min[i], max[i]);
     }
 
-    tempPhoneList = [[PhoneList alloc] initWithCapacity:4];
-    tempCategoryList = [[MonetList alloc] initWithCapacity:4];
-    bzero(tempoList, sizeof(double) * 4);
+    tempPhoneList = [[PhoneList alloc] init];
+    tempCategoryList = [[MonetList alloc] init];
 
+    // Adjust the tempos of each of the feet.  They start out at 1.0.
     NSLog(@"currentFoot: %d", currentFoot);
     for (i = 0; i < currentFoot; i++) {
         rus = feet[i].end - feet[i].start + 1;
+
         /* Apply rhythm model */
         if (feet[i].marked) {
             tempTempo = 117.7 - (19.36 * (double) rus);
-            feet[i].tempo -= tempTempo/180.0;
+            feet[i].tempo -= tempTempo / 180.0;
             //NSLog(@"Rus = %d tempTempo = %f", rus, tempTempo);
             footTempo = globalTempo * feet[i].tempo;
         } else {
             tempTempo = 18.5 - (2.08 * (double) rus);
-            feet[i].tempo -= tempTempo/140.0;
+            feet[i].tempo -= tempTempo / 140.0;
             //NSLog(@"Rus = %d tempTempo = %f", rus, tempTempo);
             footTempo = globalTempo * feet[i].tempo;
         }
+
+        // Adjust the posture tempos for postures in this foot, limiting it to a minimum of 0.2 and maximum of 2.0.
         //NSLog(@"Foot Tempo = %f", footTempo);
         for (j = feet[i].start; j < feet[i].end + 1; j++) {
             phoneTempo[j] *= footTempo;
             if (phoneTempo[j] < 0.2)
                 phoneTempo[j] = 0.2;
-            else
-                if (phoneTempo[j] > 2.0)
-                    phoneTempo[j] = 2.0;
+            else if (phoneTempo[j] > 2.0)
+                phoneTempo[j] = 2.0;
 
             //NSLog(@"PhoneTempo[%d] = %f, teed[%d].tempo = %f", j, phoneTempo[j], i, feet[i].tempo);
         }
     }
 
-    while (index < currentPhone - 1) {
+    // Apply rules
+    for (index = 0; index < currentPhone - 1; ) {
+        int ruleIndex;
+        MMRule *tempRule;
+
         [tempPhoneList removeAllObjects];
         [tempCategoryList removeAllObjects];
-        i = index;
 
         for (j = 0; j < 4; j++) {
-            [tempPhoneList addObject:phones[j+i].phone];
-            [tempCategoryList addObject:[phones[j+i].phone categoryList]];
+            [tempPhoneList addObject:phones[j+index].phone];
+            [tempCategoryList addObject:[phones[j+index].phone categoryList]];
         }
 
         tempRule = [ruleList findRule:tempCategoryList index:&ruleIndex];
         rules[currentRule].number = ruleIndex + 1;
 
-        [self applyRule:tempRule withPhones:tempPhoneList andTempos:&phoneTempo[i] phoneIndex:i+1];
+        [self applyRule:tempRule withPhones:tempPhoneList andTempos:&phoneTempo[index] phoneIndex:index+1];
 
         index += [tempRule numberExpressions] - 1;
     }
@@ -700,6 +707,8 @@
 
     [[self lastObject] setFlag:YES];
     NSLog(@"%s, EventList count: %d", _cmd, [self count]);
+
+    NSLog(@"<  %s", _cmd);
 }
 
 - (void)applyRule:(MMRule *)rule withPhones:(PhoneList *)phoneList andTempos:(double *)tempos phoneIndex:(int)phoneIndex;
@@ -940,36 +949,36 @@
                      NSStringFromClass([self class]), self, currentPhone, currentFoot, currentToneGroup, currentRule, [super description]];
 }
 
-- (void)printDataStructures;
+- (void)printDataStructures:(NSString *)comment;
 {
     int i;
 
     NSLog(@"----------------------------------------------------------------------");
-    NSLog(@" > %s", _cmd);
+    NSLog(@" > %s (%@)", _cmd, comment);
 
     NSLog(@"Tone Groups %d", currentToneGroup);
     for (i = 0; i < currentToneGroup; i++) {
-        NSLog(@"%d  start: %d  end: %d  type: %d", i, toneGroups[i].startFoot, toneGroups[i].endFoot, toneGroups[i].type);
+        NSLog(@"%d  start: %d, end: %d, type: %d", i, toneGroups[i].startFoot, toneGroups[i].endFoot, toneGroups[i].type);
     }
 
     NSLog(@"\n");
     NSLog(@"Feet %d", currentFoot);
     for (i = 0; i < currentFoot; i++) {
-        NSLog(@"%d  tempo: %f start: %2d  end: %2d  marked: %d last: %d onset1: %f onset2: %f", i, feet[i].tempo,
+        NSLog(@"%d  tempo: %.3f, start: %2d, end: %2d, marked: %d, last: %d, onset1: %.3f, onset2: %.3f", i, feet[i].tempo,
                feet[i].start, feet[i].end, feet[i].marked, feet[i].last, feet[i].onset1, feet[i].onset2);
     }
 
     NSLog(@"\n");
     NSLog(@"Phones %d", currentPhone);
     for (i = 0; i < currentPhone; i++) {
-        NSLog(@"%3d  tempo: %f syllable: %d onset: %7.2f ruleTempo: %f %@",
+        NSLog(@"%3d  tempo: %.3f, syllable: %d, onset: %7.2f, ruleTempo: %.3f, %@",
                i, phoneTempo[i], phones[i].syllable, phones[i].onset, phones[i].ruleTempo, [phones[i].phone symbol]);
     }
 
     NSLog(@"\n");
     NSLog(@"Rules %d", currentRule);
     for (i = 0; i < currentRule; i++) {
-        NSLog(@"Number: %2d  start: %2d  end: %2d  duration %7.2f", rules[i].number, rules[i].firstPhone,
+        NSLog(@"Number: %2d  start: %2d, end: %2d, duration %7.2f", rules[i].number, rules[i].firstPhone,
                rules[i].lastPhone, rules[i].duration);
     }
 

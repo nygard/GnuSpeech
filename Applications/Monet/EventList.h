@@ -42,8 +42,8 @@ struct _foot {
     double onset1;
     double onset2;
     double tempo;
-    int start;
-    int end;
+    int start; // index into postures
+    int end;   // index into postures
     int marked;
     int last;
 };
@@ -98,8 +98,8 @@ struct _rule {
     int currentRule;
 
     int cache;
-    double min[16];
-    double max[16];
+    double min[16]; // Min of each parameter value
+    double max[16]; // Max of each parameter value
 
     NSMutableArray *intonationPoints;
 
@@ -190,10 +190,11 @@ struct _rule {
 - (void)applyIntonation;
 
 - (NSString *)description;
-- (void)printDataStructures;
+- (void)printDataStructures:(NSString *)comment;
 
 - (NSArray *)intonationPoints;
 - (void)removeIntonationPoint:(IntonationPoint *)aPoint;
+
 // Moved from IntonationView
 - (void)clearIntonationPoints;
 - (void)addIntonationPoint:(IntonationPoint *)iPoint;

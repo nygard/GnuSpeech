@@ -281,7 +281,7 @@
     NSLog(@"%ld", (tp2.tv_sec*1000000 + tp2.tv_usec) - (tp1.tv_sec*1000000 + tp1.tv_usec));
 
     NSLog(@"\n***\n");
-    //[eventList printDataStructures];
+    //[eventList printDataStructures:@""];
 #if 0
     for (i = 0; i < [eventList count]; i++) {
         printf("Time: %d  | ", [[eventList objectAt:i] time]);
@@ -371,7 +371,7 @@
     [eventList applyIntonation_fromIntonationView];
 #endif
 
-    [eventList printDataStructures];
+    [eventList printDataStructures:@"Before synthesis"];
     {
         [synthesizer setupSynthesisParameters:[[self model] synthesisParameters]];
         [synthesizer removeAllParameters];
@@ -515,6 +515,18 @@
     NSLog(@"<  %s", _cmd);
 }
 
+// TODO (2004-08-01): This should be moved into the model, perhaps what is currently called EventList.
+// EventList API used:
+//  - setCurrentToneGroupType:
+//  - newFoot
+//  - setCurrentFooLast
+//  - setCurrentFootMarked
+//  - newToneGroup
+//  - setCurrentFootTempo:
+//  - setCurrentPhoneSyllable
+//  - newPhoneWithObject:
+//  - setCurrentPhoneTempo:
+//  - setCurrentPhoneRuleTempo:
 - (void)parsePhoneString:(NSString *)str;
 {
     MMPosture *aPhone;
@@ -636,9 +648,8 @@
                 if (markedFoot)
                     buffer = [buffer stringByAppendingString:@"'"];
                 aPhone = [mainPhoneList findPhone:buffer];
-                NSLog(@"aPhone: %p, eventList: %p", aPhone, eventList);
+                //NSLog(@"aPhone: %p, eventList: %p", aPhone, eventList); // Each has the same event list
                 if (aPhone) {
-                    NSLog(@"postureRewriter: %p", postureRewriter);
                     [postureRewriter rewriteEventList:eventList withNextPosture:aPhone wordMarker:wordMarker];
 
                     [eventList newPhoneWithObject:aPhone];
