@@ -1,7 +1,6 @@
 #import "SymbolList.h"
 
 #import <Foundation/Foundation.h>
-#import "MMSymbol.h"
 
 /*===========================================================================
 
@@ -12,21 +11,5 @@
 ===========================================================================*/
 
 @implementation SymbolList
-
-- (MMSymbol *)findSymbol:(NSString *)searchSymbol;
-{
-    int count, index;
-
-    count = [self count];
-    for (index = 0; index < count; index++) {
-        MMSymbol *aSymbol;
-
-        aSymbol = [self objectAtIndex:index];
-        if ([[aSymbol symbol] isEqual:searchSymbol] == YES)
-            return aSymbol;
-    }
-
-    return nil;
-}
 
 @end

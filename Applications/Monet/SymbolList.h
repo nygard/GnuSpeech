@@ -1,7 +1,5 @@
 #import "MonetList.h"
 
-@class MMSymbol;
-
 /*===========================================================================
 
 	Author: Craig-Richard Taube-Schock
@@ -14,7 +12,5 @@
 @interface SymbolList : MonetList
 {
 }
-
-- (MMSymbol *)findSymbol:(NSString *)searchSymbol;
 
 @end
