@@ -24,12 +24,14 @@
 {
     NSPoint mouseDownLocation, mouseUpLocation, mouseLocation;
     int row, column, newRow;
-    NSRect visibleRect, cellCacheBounds, cellFrame;
-    id matrixCacheContentView, cellCacheContentView;
+    NSRect visibleRect, cellFrame;
+    id matrixCacheContentView;
     float dy;
     NSEvent *event, *peek;
     BOOL scrolled = NO;
     NSPoint loc;
+
+    NSImage *cellCache;
 
     /*
      * if the current window is not the key window, and the user simply clicked on the matrix inorder to activate the window.
@@ -82,11 +84,11 @@
     [matrixCacheContentView unlockFocus];
 
     /* image the cell into its cache */
-    cellCacheContentView = [niftyCellCache contentView];
-    [cellCacheContentView lockFocus];
-    cellCacheBounds = [cellCacheContentView bounds];
-    [activeCell drawWithFrame:cellCacheBounds inView:cellCacheContentView];
-    [cellCacheContentView unlockFocus];
+    cellCache = [[NSImage alloc] initWithSize:cellFrame.size];
+    NSLog(@"cellCache size: %@", NSStringFromSize(cellFrame.size));
+    [cellCacheImage lockFocus];
+    [activeCell drawWithFrame:cellFrame.size inView:self]; // TODO (2004-03-08): Is it okay to use self for the view?
+    [cellCacheImage unlockFocus];
 
     /* save the mouse's location relative to the cell's origin */
     dy = mouseDownLocation.y - cellFrame.origin.y;
