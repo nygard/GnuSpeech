@@ -1,5 +1,5 @@
 //
-// $Id: NSString-Extensions.h,v 1.2 2004/04/30 03:27:44 nygard Exp $
+// $Id: NSString-Extensions.h,v 1.3 2004/04/30 04:07:34 nygard Exp $
 //
 
 //  This file is part of class-dump, a utility for examining the
@@ -21,6 +21,8 @@
 
 - (BOOL)startsWithLetter;
 - (BOOL)isAllUpperCase;
+- (BOOL)containsPrimaryStress;
+- (NSString *)convertedStress;
 
 @end
 

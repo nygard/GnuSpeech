@@ -10,6 +10,26 @@
 #import "GSPronunciationDictionary.h"
 #import "TTSNumberPronunciations.h"
 
+#define TTS_CHUNK_BOUNDARY        @"/c"
+#define TTS_TONE_GROUP_BOUNDARY   @"//"
+#define TTS_FOOT_BEGIN            @"/_"
+#define TTS_TONIC_BEGIN           @"/*"
+#define TTS_SECONDARY_STRESS      @"/\""
+#define TTS_LAST_WORD             @"/l"
+#define TTS_TAG_BEGIN             @"/t"
+#define TTS_WORD_BEGIN            @"/w"
+#define TTS_UTTERANCE_BOUNDARY    @"#"
+#define TTS_MEDIAL_PAUSE          @"^"
+#define TTS_LONG_MEDIAL_PAUSE     @"^ ^ ^"
+#define TTS_SILENCE_PHONE         @"^"
+
+#define TG_UNDEFINED          @"/x"
+#define TG_STATEMENT          @"/0"
+#define TG_EXCLAMATION        @"/1"
+#define TG_QUESTION           @"/2"
+#define TG_CONTINUATION       @"/3"
+#define TG_HALF_PERIOD        @"/4"
+
 TTSInputMode TTSInputModeFromString(NSString *str)
 {
     if ([str isEqualToString:@"r"] || [str isEqualToString:@"R"]) {
@@ -63,12 +83,17 @@ static NSDictionary *_specialAcronyms = nil;
 
 - (void)parseString:(NSString *)aString;
 {
+    NSMutableString *resultString;
+
     NSLog(@" > %s", _cmd);
 
     NSLog(@"aString: %@", aString);
     //[self markModes:aString];
 
-    [self expandWord:aString tonic:NO];
+    resultString = [NSMutableString string];
+    [self expandWord:aString tonic:NO resultString:resultString];
+
+    NSLog(@"resultString: %@", resultString);
 
     NSLog(@"<  %s", _cmd);
 }
@@ -141,10 +166,11 @@ static NSDictionary *_specialAcronyms = nil;
     NSLog(@"<  %s", _cmd);
 }
 
-- (void)expandWord:(NSString *)word tonic:(BOOL)isTonic;
+- (void)expandWord:(NSString *)word tonic:(BOOL)isTonic resultString:(NSMutableString *)resultString;
 {
     BOOL possessive;
     NSString *pronunciation = nil;
+    unsigned int last_foot_begin;
 
     // Strip of possessive if word ends with 's
     possessive = [word hasSuffix:@"'s"];
@@ -164,9 +190,30 @@ static NSDictionary *_specialAcronyms = nil;
             pronunciation = [self degenerateString:word];
         // dictionary = TTS_LETTER_TO_SOUND;
     } else {
+        pronunciation = [mainDictionary pronunciationForWord:[word lowercaseString]];
+        // TODO (2004-04-29): And that should set the dictionary
     }
 
     NSLog(@"pronunciation: %@", pronunciation);
+
+    last_foot_begin = NSNotFound;
+    if (/*isTonic && */[pronunciation containsPrimaryStress] == NO) {
+        NSString *convertedStress;
+
+        convertedStress = [pronunciation convertedStress];
+        if (convertedStress != nil) {
+            // For example, "saltwater"
+            NSLog(@"Converted stress... from %@ to %@", pronunciation, convertedStress);
+            pronunciation = convertedStress;
+        } else {
+            // For example, "times"
+            NSLog(@"This other case...");
+            last_foot_begin = [resultString length];
+            [resultString appendString:TTS_FOOT_BEGIN];
+        }
+    }
+
+    // And some more stuff....
 }
 
 // Returns a string which contains a character-by-character pronunciation for the string pointed at by the argument word.

@@ -77,6 +77,31 @@
     return range.location == NSNotFound;
 }
 
+- (BOOL)containsPrimaryStress;
+{
+    NSRange range;
+
+    range = [self rangeOfString:@"'"];
+
+    return range.location != NSNotFound;
+}
+
+// Returns the pronunciation with the first " converted to a ', or nil otherwise.
+- (NSString *)convertedStress;
+{
+    NSRange range;
+    NSMutableString *str;
+
+    range = [self rangeOfString:@"\""];
+    if (range.location == NSNotFound)
+        return nil;
+
+    str = [NSMutableString stringWithString:self];
+    [str replaceCharactersInRange:range withString:@"'"];
+
+    return [NSString stringWithString:str];
+}
+
 @end
 
 @implementation NSMutableString (Extensions)

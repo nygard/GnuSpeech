@@ -4,6 +4,7 @@
 #import "ApplicationDelegate.h"
 
 #import <Foundation/Foundation.h>
+#import "GSPronunciationDictionary.h"
 #import "TTSParser.h"
 
 @implementation ApplicationDelegate
@@ -11,6 +12,7 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification;
 {
     NSLog(@" > %s", _cmd);
+    [GSPronunciationDictionary mainDictionary]; // Force it to load right away.
     NSLog(@"<  %s", _cmd);
 }
 
