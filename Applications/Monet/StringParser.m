@@ -88,8 +88,6 @@
 {
     struct timeval tp1, tp2;
     struct timezone tzp;
-    int i;
-    float intonationParameters[5];
 
     NSLog(@" > %s", _cmd);
 
@@ -111,9 +109,8 @@
     [eventList setRadiusMultiply:[radiusMultiplyField doubleValue]];
 
     //[eventList setIntonation:[intonationFlag state]];
-    for (i = 0; i < 5; i++)
-        intonationParameters[i] = [[intonParmsField cellAtIndex:i] floatValue];
-    [eventList setIntonParms:intonationParameters];
+    [self _takeIntonationParametersFromUI];
+    [eventList setIntonationParameters:intonationParameters];
 
     [self parsePhoneString:[stringTextField stringValue]];
 
@@ -163,8 +160,6 @@
 
 - (void)synthesizeWithSoftware:(id)sender;
 {
-    unsigned int index;
-    float intonationParameters[5];
     //char commandLine[256];
 
     NSLog(@" > %s", _cmd);
@@ -190,9 +185,8 @@
     // TODO (2004-03-25): Should we set up the intonation parameters, like the hardware synthesis did?
 #if 1
     //[eventList setIntonation:[intonationFlag state]];
-    for (index = 0; index < 5; index++)
-        intonationParameters[index] = [[intonParmsField cellAtIndex:index] floatValue];
-    [eventList setIntonParms:intonationParameters];
+    [self _takeIntonationParametersFromUI];
+    [eventList setIntonationParameters:intonationParameters];
 #endif
 
     [self parsePhoneString:[stringTextField stringValue]];
@@ -241,15 +235,19 @@
     [stringTextField selectText:self];
 }
 
+- (void)_takeIntonationParametersFromUI;
+{
+    intonationParameters.notionalPitch = [[intonParmsField cellAtIndex:0] floatValue];
+    intonationParameters.pretonicRange = [[intonParmsField cellAtIndex:1] floatValue];
+    intonationParameters.pretonicLift = [[intonParmsField cellAtIndex:2] floatValue];
+    intonationParameters.tonicRange = [[intonParmsField cellAtIndex:3] floatValue];
+    intonationParameters.tonicMovement = [[intonParmsField cellAtIndex:4] floatValue];
+}
+
 - (void)automaticIntonation:(id)sender;
 {
-    float intonationParameters[5];
-    int i;
-
-    for (i = 0; i < 5; i++)
-        intonationParameters[i] = [[intonParmsField cellAtIndex:i] floatValue];
-
-    [eventList setIntonParms:intonationParameters];
+    [self _takeIntonationParametersFromUI];
+    [eventList setIntonationParameters:intonationParameters];
 
     [eventList applyIntonation];
     [intonationView display];

@@ -3,6 +3,8 @@
 @class EventList, MModel, MonetList, PhoneList;
 @class EventListView, IntonationScrollView, IntonationView;
 
+#import "EventList.h" // for struct _intonationParameters
+
 /*===========================================================================
 
 	Author: Craig-Richard Taube-Schock
@@ -35,6 +37,7 @@
     IBOutlet NSTextField *radiusMultiplyField;
 
     MModel *model;
+    struct _intonationParameters intonationParameters;
 }
 
 + (NSCharacterSet *)gsStringParserWhitespaceCharacterSet;
@@ -50,6 +53,7 @@
 - (void)synthesizeWithSoftware:(id)sender;
 
 - (void)setUpDataStructures;
+- (void)_takeIntonationParametersFromUI;
 
 - (void)automaticIntonation:(id)sender;
 

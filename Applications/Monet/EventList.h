@@ -23,6 +23,14 @@
 #define CONTINUATION	3
 #define SEMICOLON	4
 
+struct _intonationParameters {
+    float notionalPitch;
+    float pretonicRange;
+    float pretonicLift;
+    float tonicRange;
+    float tonicMovement; // TODO (2004-03-30): Apparently not used.
+};
+
 struct _phone {
     MMPosture *phone;
     int syllable;
@@ -73,7 +81,8 @@ struct _rule {
     double pitchMean;
     double globalTempo;
     double multiplier;
-    float *intonParms;
+    //float *intonParms;
+    struct _intonationParameters intonationParameters;
 
     /* NOTE phones and phoneTempo are separate for Optimization reasons */
     struct _phone phones[MAXPHONES];
@@ -140,8 +149,10 @@ struct _rule {
 - (BOOL)shouldUseSmoothIntonation;
 - (void)setShouldUseSmoothIntonation:(BOOL)newValue;
 
-- (float *)intonParms;
-- (void)setIntonParms:(float *)newValue;
+//- (float *)intonParms;
+//- (void)setIntonParms:(float *)newValue;
+- (struct _intonationParameters)intonationParameters;
+- (void)setIntonationParameters:(struct _intonationParameters)newIntonationParameters;
 
 - (MMPosture *)getPhoneAtIndex:(int)phoneIndex;
 - (struct _rule *)getRuleAtIndex:(int)ruleIndex;

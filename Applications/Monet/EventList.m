@@ -50,7 +50,13 @@
     shouldUseMacroIntonation = NO;
     shouldUseMicroIntonation = NO;
     shouldUseDrift = NO;
-    intonParms = NULL;
+
+    intonationParameters.notionalPitch = 0;
+    intonationParameters.pretonicRange = 0;
+    intonationParameters.pretonicLift = -2;
+    intonationParameters.tonicRange = -8;
+    intonationParameters.tonicMovement = -6;
+
     shouldUseSmoothIntonation = NO;
 
     bzero(phones, MAXPHONES * sizeof(struct _phone));
@@ -221,14 +227,14 @@
     shouldUseSmoothIntonation = newValue;
 }
 
-- (float *)intonParms;
+- (struct _intonationParameters)intonationParameters;
 {
-    return intonParms;
+    return intonationParameters;
 }
 
-- (void)setIntonParms:(float *)newValue;
+- (void)setIntonationParameters:(struct _intonationParameters)newIntonationParameters;
 {
-    intonParms = newValue;
+    intonationParameters = newIntonationParameters;
 }
 
 - (MMPosture *)getPhoneAtIndex:(int)phoneIndex;
@@ -813,7 +819,6 @@
     int firstFoot, endFoot;
     int ruleIndex, phoneIndex;
     int i, j, k;
-    float tempIntonParms[5] = {0.0, 0.0, -2.0, -8.0, -6.0};
     double startTime, endTime, pretonicDelta, offsetTime = 0.0;
     double randomSemitone, randomSlope;
 
@@ -824,14 +829,7 @@
     vocoidCategory = [mainCategoryList findSymbol:@"vocoid"];
 
     [tempView clearIntonationPoints];
-//    [tempView addPoint: -20.0 offsetTime:0.0 slope: 0.0 ruleIndex: 0 eventList: self];
-
-    if (!intonParms)
-        intonParms = tempIntonParms;
-
-//    NSLog(@"intonation parameters");
-//    for (i = 0; i< 5; i++)
-//        NSLog(@"%d: %f", i, intonParms[i]);
+//    [tempView addPoint:-20.0 offsetTime:0.0 slope:0.0 ruleIndex:0 eventList:self];
 
     for (i = 0; i < currentToneGroup; i++) {
         firstFoot = toneGroups[i].startFoot;
@@ -840,7 +838,7 @@
         startTime  = phones[feet[firstFoot].start].onset;
         endTime  = phones[feet[endFoot].end].onset;
 
-        pretonicDelta = (intonParms[1]) / (endTime - startTime);
+        pretonicDelta = (intonationParameters.pretonicRange) / (endTime - startTime);
         NSLog(@"Pretonic Delta = %f time = %f", pretonicDelta, (endTime - startTime));
 
         /* Set up intonation boundary variables */
@@ -863,10 +861,10 @@
                     }
                 }
 
-                randomSemitone = ((double)random() / (double)0x7fffffff) * (double)intonParms[2] - intonParms[2] / 2.0;
+                randomSemitone = ((double)random() / (double)0x7fffffff) * (double)intonationParameters.pretonicLift - intonationParameters.pretonicLift / 2.0;
                 randomSlope = ((double)random() / (double)0x7fffffff) * 0.015 + 0.02;
 
-                [tempView addPoint:((phones[phoneIndex].onset-startTime) * pretonicDelta) + intonParms[0] + randomSemitone
+                [tempView addPoint:((phones[phoneIndex].onset-startTime) * pretonicDelta) + intonationParameters.notionalPitch + randomSemitone
                           offsetTime:offsetTime slope:randomSlope ruleIndex:ruleIndex eventList:self];
 
 //                NSLog(@"Calculated Delta = %f  time = %f", ((phones[phoneIndex].onset-startTime)*pretonicDelta),
@@ -881,7 +879,7 @@
 
                 randomSlope = ((double)random() / (double)0x7fffffff) * 0.03 + 0.02;
 
-                [tempView addPoint:intonParms[1] + intonParms[0]
+                [tempView addPoint:intonationParameters.pretonicRange + intonationParameters.notionalPitch
                           offsetTime:offsetTime slope:randomSlope ruleIndex:ruleIndex eventList:self];
 
                 phoneIndex = feet[j].end;
@@ -892,7 +890,7 @@
                     }
                 }
 
-                [tempView addPoint:intonParms[1] + intonParms[0] +intonParms[3]
+                [tempView addPoint:intonationParameters.pretonicRange + intonationParameters.notionalPitch +intonationParameters.tonicRange
                           offsetTime:0.0 slope:0.0 ruleIndex:ruleIndex eventList:self];
 
             }
