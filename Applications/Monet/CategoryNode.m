@@ -94,17 +94,17 @@
     if ([super initWithCoder:aDecoder] == nil)
         return nil;
 
-    NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
+    //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
     archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
-    NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
+    //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
 
     [aDecoder decodeValuesOfObjCTypes:"**i", &c_symbol, &c_comment, &isNative];
-    NSLog(@"c_symbol: %s, c_comment: %s, isNative: %d", c_symbol, c_comment, isNative);
+    //NSLog(@"c_symbol: %s, c_comment: %s, isNative: %d", c_symbol, c_comment, isNative);
 
     symbol = [[NSString stringWithASCIICString:c_symbol] retain];
     comment = [[NSString stringWithASCIICString:c_comment] retain];
 
-    NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
+    //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
     return self;
 }
 

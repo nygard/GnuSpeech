@@ -109,18 +109,17 @@
     if ([super initWithCoder:aDecoder] == nil)
         return nil;
 
-    NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
+    //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
     archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
-    NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
+    //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
 
     [aDecoder decodeValuesOfObjCTypes:"**ddd", &c_parameterSymbol, &c_comment, &minimum, &maximum, &defaultValue];
-    NSLog(@"c_parameterSymbol: %s, c_comment: %s, minimum: %g, maximum: %g, defaultValue: %g",
-          c_parameterSymbol, c_comment, minimum, maximum, defaultValue);
+    //NSLog(@"c_parameterSymbol: %s, c_comment: %s, minimum: %g, maximum: %g, defaultValue: %g", c_parameterSymbol, c_comment, minimum, maximum, defaultValue);
 
     parameterSymbol = [[NSString stringWithASCIICString:c_parameterSymbol] retain];
     comment = [[NSString stringWithASCIICString:c_comment] retain];
 
-    NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
+    //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
     return self;
 }
 

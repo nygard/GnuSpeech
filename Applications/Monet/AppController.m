@@ -321,9 +321,13 @@
 
                 mainSymbolList = [[stream decodeObject] retain];
                 NSLog(@"mainSymbolList: %@", mainSymbolList);
-#ifdef PORTING
+
                 mainParameterList = [[stream decodeObject] retain];
+                NSLog(@"mainParameterList: %@", mainParameterList);
+
                 mainMetaParameterList = [[stream decodeObject] retain];
+                NSLog(@"mainMetaParameterList: %@", mainMetaParameterList);
+#ifdef PORTING
                 mainPhoneList = [[stream decodeObject] retain];
 
                 NXNameObject(@"mainSymbolList", mainSymbolList, NSApp);
