@@ -60,6 +60,23 @@
     return [[[NSString alloc] initWithBytes:bytes length:strlen(bytes) encoding:NSASCIIStringEncoding] autorelease];
 }
 
+- (BOOL)startsWithLetter;
+{
+    if ([self length] == 0)
+        return NO;
+
+    return [[NSCharacterSet letterCharacterSet] characterIsMember:[self characterAtIndex:0]];
+}
+
+- (BOOL)isAllUpperCase;
+{
+    NSRange range;
+
+    range = [self rangeOfCharacterFromSet:[[NSCharacterSet uppercaseLetterCharacterSet] invertedSet]];
+
+    return range.location == NSNotFound;
+}
+
 @end
 
 @implementation NSMutableString (Extensions)

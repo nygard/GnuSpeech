@@ -7,6 +7,9 @@
 #import "NSScanner-Extensions.h"
 #import "NSString-Extensions.h"
 
+#import "GSPronunciationDictionary.h"
+#import "TTSNumberPronunciations.h"
+
 TTSInputMode TTSInputModeFromString(NSString *str)
 {
     if ([str isEqualToString:@"r"] || [str isEqualToString:@"R"]) {
@@ -24,7 +27,20 @@ TTSInputMode TTSInputModeFromString(NSString *str)
     return TTSInputModeUnknown;
 }
 
+static NSDictionary *_specialAcronyms = nil;
+
 @implementation TTSParser
+
++ (void)initialize;
+{
+    NSString *path;
+
+    path = [[NSBundle bundleForClass:[self class]] pathForResource:@"SpecialAcronyms" ofType:@"plist"];
+    NSLog(@"path: %@", path);
+
+    _specialAcronyms = [[NSDictionary alloc] initWithContentsOfFile:path];
+    NSLog(@"_specialAcronyms: %@", [_specialAcronyms description]);
+}
 
 - (id)init;
 {
@@ -33,7 +49,16 @@ TTSInputMode TTSInputModeFromString(NSString *str)
 
     escapeCharacter = '%';
 
+    mainDictionary = [[GSPronunciationDictionary mainDictionary] retain];
+
     return self;
+}
+
+- (void)dealloc;
+{
+    [mainDictionary release];
+
+    [super dealloc];
 }
 
 - (void)parseString:(NSString *)aString;
@@ -42,6 +67,8 @@ TTSInputMode TTSInputModeFromString(NSString *str)
 
     NSLog(@"aString: %@", aString);
     //[self markModes:aString];
+
+    [self expandWord:aString tonic:NO];
 
     NSLog(@"<  %s", _cmd);
 }
@@ -117,28 +144,142 @@ TTSInputMode TTSInputModeFromString(NSString *str)
 - (void)expandWord:(NSString *)word tonic:(BOOL)isTonic;
 {
     BOOL possessive;
-    NSString *pronunciation;
+    NSString *pronunciation = nil;
 
     // Strip of possessive if word ends with 's
     possessive = [word hasSuffix:@"'s"];
     if (possessive == YES)
         word = [word substringToIndex:[word length] - 2];
 
-    if ([word length] == 1 && [[NSCharacterSet letterCharacterSet] characterIsMember:[word characterAtIndex:0]] == YES) {
+    if ([word length] == 1 && [word startsWithLetter] == YES) {
         if ([word isEqualToString:@"a"] == YES) {
             pronunciation = @"uh";
         } else {
             pronunciation = [self degenerateString:word];
         }
+        // dictionary = TTS_LETTER_TO_SOUND;
+    } else if ([word isAllUpperCase] == YES) {
+        pronunciation = [_specialAcronyms objectForKey:word];
+        if (pronunciation == nil)
+            pronunciation = [self degenerateString:word];
+        // dictionary = TTS_LETTER_TO_SOUND;
+    } else {
     }
 
+    NSLog(@"pronunciation: %@", pronunciation);
 }
+
+// Returns a string which contains a character-by-character pronunciation for the string pointed at by the argument word.
 
 - (NSString *)degenerateString:(NSString *)word;
 {
     NSMutableString *resultString;
+    unsigned int length, index;
+    unichar ch;
 
     resultString = [NSMutableString string];
+    length = [word length];
+    for (index = 0; index < length; index++) {
+        ch = [word characterAtIndex:index];
+        switch (ch) {
+          case ' ': [resultString appendString:PR_BLANK];                break;
+          case '!': [resultString appendString:PR_EXCLAMATION_POINT];    break;
+          case '"': [resultString appendString:PR_DOUBLE_QUOTE];         break;
+          case '#': [resultString appendString:PR_NUMBER_SIGN];          break;
+          case '$': [resultString appendString:PR_DOLLAR_SIGN];          break;
+          case '%': [resultString appendString:PR_PERCENT_SIGN];         break;
+          case '&': [resultString appendString:PR_AMPERSAND];            break;
+          case '\'':[resultString appendString:PR_SINGLE_QUOTE];         break;
+          case '(': [resultString appendString:PR_OPEN_PARENTHESIS];     break;
+          case ')': [resultString appendString:PR_CLOSE_PARENTHESIS];    break;
+          case '*': [resultString appendString:PR_ASTERISK];             break;
+          case '+': [resultString appendString:PR_PLUS_SIGN];            break;
+          case ',': [resultString appendString:PR_COMMA];                break;
+          case '-': [resultString appendString:PR_HYPHEN];               break;
+          case '.': [resultString appendString:PR_PERIOD];               break;
+          case '/': [resultString appendString:PR_SLASH];                break;
+          case '0': [resultString appendString:PR_ZERO];                 break;
+          case '1': [resultString appendString:PR_ONE];                  break;
+          case '2': [resultString appendString:PR_TWO];                  break;
+          case '3': [resultString appendString:PR_THREE];                break;
+          case '4': [resultString appendString:PR_FOUR];                 break;
+          case '5': [resultString appendString:PR_FIVE];                 break;
+          case '6': [resultString appendString:PR_SIX];                  break;
+          case '7': [resultString appendString:PR_SEVEN];                break;
+          case '8': [resultString appendString:PR_EIGHT];                break;
+          case '9': [resultString appendString:PR_NINE];                 break;
+          case ':': [resultString appendString:PR_COLON];                break;
+          case ';': [resultString appendString:PR_SEMICOLON];            break;
+          case '<': [resultString appendString:PR_OPEN_ANGLE_BRACKET];   break;
+          case '=': [resultString appendString:PR_EQUAL_SIGN];           break;
+          case '>': [resultString appendString:PR_CLOSE_ANGLE_BRACKET];  break;
+          case '?': [resultString appendString:PR_QUESTION_MARK];        break;
+          case '@': [resultString appendString:PR_AT_SIGN];              break;
+          case 'A':
+          case 'a': [resultString appendString:PR_A];                    break;
+          case 'B':
+          case 'b': [resultString appendString:PR_B];                    break;
+          case 'C':
+          case 'c': [resultString appendString:PR_C];                    break;
+          case 'D':
+          case 'd': [resultString appendString:PR_D];                    break;
+          case 'E':
+          case 'e': [resultString appendString:PR_E];                    break;
+          case 'F':
+          case 'f': [resultString appendString:PR_F];                    break;
+          case 'G':
+          case 'g': [resultString appendString:PR_G];                    break;
+          case 'H':
+          case 'h': [resultString appendString:PR_H];                    break;
+          case 'I':
+          case 'i': [resultString appendString:PR_I];                    break;
+          case 'J':
+          case 'j': [resultString appendString:PR_J];                    break;
+          case 'K':
+          case 'k': [resultString appendString:PR_K];                    break;
+          case 'L':
+          case 'l': [resultString appendString:PR_L];                    break;
+          case 'M':
+          case 'm': [resultString appendString:PR_M];                    break;
+          case 'N':
+          case 'n': [resultString appendString:PR_N];                    break;
+          case 'O':
+          case 'o': [resultString appendString:PR_O];                    break;
+          case 'P':
+          case 'p': [resultString appendString:PR_P];                    break;
+          case 'Q':
+          case 'q': [resultString appendString:PR_Q];                    break;
+          case 'R':
+          case 'r': [resultString appendString:PR_R];                    break;
+          case 'S':
+          case 's': [resultString appendString:PR_S];                    break;
+          case 'T':
+          case 't': [resultString appendString:PR_T];                    break;
+          case 'U':
+          case 'u': [resultString appendString:PR_U];                    break;
+          case 'V':
+          case 'v': [resultString appendString:PR_V];                    break;
+          case 'W':
+          case 'w': [resultString appendString:PR_W];                    break;
+          case 'X':
+          case 'x': [resultString appendString:PR_X];                    break;
+          case 'Y':
+          case 'y': [resultString appendString:PR_Y];                    break;
+          case 'Z':
+          case 'z': [resultString appendString:PR_Z];                    break;
+          case '[': [resultString appendString:PR_OPEN_SQUARE_BRACKET];  break;
+          case '\\':[resultString appendString:PR_BACKSLASH];            break;
+          case ']': [resultString appendString:PR_CLOSE_SQUARE_BRACKET]; break;
+          case '^': [resultString appendString:PR_CARET];                break;
+          case '_': [resultString appendString:PR_UNDERSCORE];           break;
+          case '`': [resultString appendString:PR_GRAVE_ACCENT];         break;
+          case '{': [resultString appendString:PR_OPEN_BRACE];           break;
+          case '|': [resultString appendString:PR_VERTICAL_BAR];         break;
+          case '}': [resultString appendString:PR_CLOSE_BRACE];          break;
+          case '~': [resultString appendString:PR_TILDE];                break;
+          default:  [resultString appendString:PR_UNKNOWN];              break;
+        }
+    }
 
     return resultString;
 }

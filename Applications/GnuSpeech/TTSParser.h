@@ -1,5 +1,5 @@
 //
-// $Id: TTSParser.h,v 1.3 2004/04/30 01:53:24 nygard Exp $
+// $Id: TTSParser.h,v 1.4 2004/04/30 03:27:45 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -18,12 +18,18 @@ typedef enum {
     TTSInputModeSilence = 6,
 } TTSInputMode;
 
+@class GSPronunciationDictionary;
+
 @interface TTSParser : NSObject
 {
     unichar escapeCharacter;
+    GSPronunciationDictionary *mainDictionary;
 }
 
++ (void)initialize;
+
 - (id)init;
+- (void)dealloc;
 
 - (void)parseString:(NSString *)aString;
 - (void)markModes:(NSString *)aString;
