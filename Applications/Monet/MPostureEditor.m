@@ -154,6 +154,8 @@
     int selectedRow;
 
     selectedRow = [postureTableView selectedRow];
+    if (selectedRow == -1)
+        return nil;
 
     return [[[self model] postures] objectAtIndex:selectedRow];
 }
