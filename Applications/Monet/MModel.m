@@ -646,6 +646,20 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 }
 
 //
+// Rules
+//
+
+- (void)addRule:(MMRule *)newRule;
+{
+    [newRule setModel:self];
+    [newRule setDefaultsTo:[newRule numberExpressions]];
+    if ([rules count] > 0)
+        [rules insertObject:newRule atIndex:[rules count] - 1];
+    else
+        [rules addObject:newRule];
+}
+
+//
 // Archiving
 //
 
@@ -1018,8 +1032,17 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
         if (temp == nil || temp1 == nil)
             NSLog(@"Error parsing rule: %@ >> %@", bufferStr, buffer1Str);
-        else
-            [rules addRuleExp1:temp exp2:temp1 exp3:nil exp4:nil];
+        else {
+            MMRule *newRule;
+
+            newRule = [[MMRule alloc] init];
+            [newRule setExpression:temp number:0];
+            [newRule setExpression:temp1 number:1];
+            [newRule setExpression:nil number:2];
+            [newRule setExpression:nil number:3];
+            [self addRule:newRule];
+            [newRule release];
+        }
 
         /* READ TRANSITION INTERVALS FROM FILE  */
         NXRead(fp, &k1, sizeof(int));

@@ -1,5 +1,5 @@
 //
-// $Id: MModel.h,v 1.18 2004/03/24 20:54:14 nygard Exp $
+// $Id: MModel.h,v 1.19 2004/03/25 00:01:56 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -8,7 +8,7 @@
 #import <Foundation/NSObject.h>
 
 @class CategoryList, MonetList, ParameterList, PhoneList, RuleList, SymbolList;
-@class MMCategory, MMEquation, MMParameter, MMPosture, MMSymbol, MMTransition;
+@class MMCategory, MMEquation, MMParameter, MMPosture, MMRule, MMSymbol, MMTransition;
 
 extern NSString *MCategoryInUseException;
 
@@ -86,6 +86,9 @@ extern NSString *MCategoryInUseException;
 
 - (NSArray *)usageOfEquation:(MMEquation *)anEquation;
 - (NSArray *)usageOfTransition:(MMTransition *)aTransition;
+
+// Rules
+- (void)addRule:(MMRule *)newRule;
 
 // Archiving
 - (id)initWithCoder:(NSCoder *)aDecoder;

@@ -89,7 +89,6 @@
     if ([errorMessage length] == 0) {
         errorRange.location = startOfTokenLocation;
         errorRange.length = [scanner scanLocation] - errorRange.location;
-        NSLog(@"%s, errorLocation: %@", _cmd, NSStringFromRange(errorRange));
     }
 
     va_start(args, format);

@@ -16,7 +16,6 @@
 }
 
 - (void)seedListWith:(BooleanExpression *)expression1:(BooleanExpression *)expression2;
-- (void)addRuleExp1:(BooleanExpression *)exp1 exp2:(BooleanExpression *)exp2 exp3:(BooleanExpression *)exp3 exp4:(BooleanExpression *)exp4;
 - (void)changeRuleAt:(int)index exp1:(BooleanExpression *)exp1 exp2:(BooleanExpression *)exp2 exp3:(BooleanExpression *)exp3 exp4:(BooleanExpression *)exp4;
 
 - (MMRule *)findRule:(MonetList *)categories index:(int *)index;

@@ -280,19 +280,11 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     expressions[index] = [anExpression retain];
 }
 
-/*===========================================================================
-
-	Method: realignExpressions
-	Purpose: The purpose of this method is to align the sub-expressions
-		if one happens to have been removed.
-
-===========================================================================*/
+// Align the sub-expressions if one happens to have been removed.
 - (void)realignExpressions;
 {
     int index;
     NSCell *thisCell, *nextCell;
-
-    NSLog(@" > %s", _cmd);
 
     for (index = 0; index < 3; index++) {
 
@@ -313,8 +305,6 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     }
 
     [self evaluateMatchLists];
-
-    NSLog(@"<  %s", _cmd);
 }
 
 - (void)evaluateMatchLists;
@@ -492,7 +482,6 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 - (BOOL)tableView:(NSTableView *)tableView writeRows:(NSArray *)rows toPasteboard:(NSPasteboard *)pboard;
 {
     if (tableView == ruleTableView) {
-        NSLog(@"%s, rows: %@", _cmd, [rows description]);
         [pboard declareTypes:[NSArray arrayWithObjects:MRMLocalRuleDragPasteboardType, nil] owner:nil];
         [pboard setPropertyList:rows forType:MRMLocalRuleDragPasteboardType];
         return YES;
@@ -819,7 +808,6 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     if ([expressionString isEqualToString:@""]) {
         //NSLog(@"Realigning...");
         [self realignExpressions];
-        NSLog(@"<  %s", _cmd);
         return;
     }
 
@@ -867,8 +855,38 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
 - (IBAction)addRule:(id)sender;
 {
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
+    BooleanExpression *exps[4];
+    int index;
+    MMRule *newRule;
+
+    for (index = 0; index < 4; index++) {
+        NSString *str;
+
+        str = [[expressionForm cellAtIndex:index] stringValue];
+        if ([str length] == 0)
+            exps[index] = nil;
+        else {
+            exps[index] = [boolParser parseString:str];
+            if (exps[index] == nil) {
+                [errorTextField setStringValue:[boolParser errorMessage]];
+                return;
+            }
+        }
+    }
+
+    [errorTextField setStringValue:[boolParser errorMessage]];
+
+    newRule = [[MMRule alloc] init];
+    [newRule setExpression:exps[0] number:0];
+    [newRule setExpression:exps[1] number:1];
+    [newRule setExpression:exps[2] number:2];
+    [newRule setExpression:exps[3] number:3];
+    [[self model] addRule:newRule];
+    [newRule release];
+
+    [ruleTableView reloadData];
+    [ruleTableView selectRow:[[model rules] count] - 2 byExtendingSelection:NO];
+    [ruleTableView scrollRowToVisible:[[model rules] count] - 2];
 }
 
 - (IBAction)updateRule:(id)sender;

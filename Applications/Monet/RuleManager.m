@@ -409,7 +409,7 @@
     // TODO (2004-03-03): Might like flag to indicate we shouldn't clear the error message when we start parsing, so we get all the errors.
     [errorTextField setStringValue:[boolParser errorMessage]];
 
-    [[model rules] addRuleExp1:exps[0] exp2:exps[1] exp3:exps[2] exp4:exps[3]];
+    //[[model rules] addRuleExp1:exps[0] exp2:exps[1] exp3:exps[2] exp4:exps[3]];
 
     [ruleMatrix setTitle:[NSString stringWithFormat:@"Total Rules: %d", [[model rules] count]] ofColumn:0];
     [ruleMatrix loadColumnZero];

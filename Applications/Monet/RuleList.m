@@ -26,23 +26,6 @@
     [aRule release];
 }
 
-- (void)addRuleExp1:(BooleanExpression *)exp1 exp2:(BooleanExpression *)exp2 exp3:(BooleanExpression *)exp3 exp4:(BooleanExpression *)exp4;
-{
-    MMRule *aRule;
-
-    aRule = [[MMRule alloc] init];
-    [aRule setExpression:exp1 number:0];
-    [aRule setExpression:exp2 number:1];
-    [aRule setExpression:exp3 number:2];
-    [aRule setExpression:exp4 number:3];
-    [aRule setDefaultsTo:[aRule numberExpressions]];
-    if ([self count] > 0)
-        [self insertObject:aRule atIndex:[self count] - 1];
-    else
-        [self addObject:aRule];
-    [aRule release];
-}
-
 - (void)changeRuleAt:(int)index exp1:(BooleanExpression *)exp1 exp2:(BooleanExpression *)exp2 exp3:(BooleanExpression *)exp3 exp4:(BooleanExpression *)exp4;
 {
     MMRule *aRule;
