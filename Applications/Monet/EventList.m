@@ -881,10 +881,10 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
                 currentPoint = [points objectAtIndex:pointIndex];
 
                 /* calculate time of event */
-                if ([currentPoint expression] == nil)
+                if ([currentPoint timeEquation] == nil)
                     tempTime = [currentPoint freeTime];
                 else
-                    tempTime = [[currentPoint expression] evaluate:&ruleSymbols tempos:tempos postures:somePostures andCacheWith:cache];
+                    tempTime = [[currentPoint timeEquation] evaluate:&ruleSymbols tempos:tempos postures:somePostures andCacheWith:cache];
 
                 /* Calculate value of event */
                 //value = (([currentPoint value]/100.0) * (max[parameterIndex] - min[parameterIndex])) + min[parameterIndex];

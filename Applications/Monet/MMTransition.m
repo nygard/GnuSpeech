@@ -206,10 +206,10 @@
         if ([temp isKindOfClass:[MMSlopeRatio class]]) {
             temp = [temp points];
             for (j = 0; j < [temp count]; j++)
-                if (anEquation == [[temp objectAtIndex:j] expression])
+                if (anEquation == [[temp objectAtIndex:j] timeEquation])
                     return YES;
         } else
-            if (anEquation == [[points objectAtIndex:i] expression])
+            if (anEquation == [[points objectAtIndex:i] timeEquation])
                 return YES;
     }
 
@@ -230,12 +230,12 @@
 
             slopePoints = [pointOrSlopeRatio points];
             for (j = 0; j < [slopePoints count]; j++)
-                if (anEquation == [[slopePoints objectAtIndex:j] expression]) {
+                if (anEquation == [[slopePoints objectAtIndex:j] timeEquation]) {
                     [aList addObject:self];
                     return;
                 }
         } else {
-            if (anEquation == [[points objectAtIndex:index] expression]) {
+            if (anEquation == [[points objectAtIndex:index] timeEquation]) {
                 [aList addObject:self];
                 return;
             }
@@ -286,28 +286,28 @@
         aPoint = [[MMPoint alloc] init];
         [aPoint setValue:0.0];
         [aPoint setType:MMPhoneTypeDiphone];
-        [aPoint setExpression:[model findEquationList:@"Test" named:@"Zero"]];
+        [aPoint setTimeEquation:[model findEquationList:@"Test" named:@"Zero"]];
         [defaultPoints addObject:aPoint];
         [aPoint release];
 
         aPoint = [[MMPoint alloc] init];
         [aPoint setValue:12.5];
         [aPoint setType:MMPhoneTypeDiphone];
-        [aPoint setExpression:[model findEquationList:@"Test" named:@"diphoneOneThree"]];
+        [aPoint setTimeEquation:[model findEquationList:@"Test" named:@"diphoneOneThree"]];
         [defaultPoints addObject:aPoint];
         [aPoint release];
 
         aPoint = [[MMPoint alloc] init];
         [aPoint setValue:87.5];
         [aPoint setType:MMPhoneTypeDiphone];
-        [aPoint setExpression:[model findEquationList:@"Test" named:@"diphoneTwoThree"]];
+        [aPoint setTimeEquation:[model findEquationList:@"Test" named:@"diphoneTwoThree"]];
         [defaultPoints addObject:aPoint];
         [aPoint release];
 
         aPoint = [[MMPoint alloc] init];
         [aPoint setValue:100.0];
         [aPoint setType:MMPhoneTypeDiphone];
-        [aPoint setExpression:[model findEquationList:@"Defaults" named:@"Mark1"]];
+        [aPoint setTimeEquation:[model findEquationList:@"Defaults" named:@"Mark1"]];
         [defaultPoints addObject:aPoint];
         [aPoint release];
 
@@ -315,21 +315,21 @@
             aPoint = [[MMPoint alloc] init];
             [aPoint setValue:12.5];
             [aPoint setType:MMPhoneTypeDiphone];
-            [aPoint setExpression:[model findEquationList:@"Test" named:@"triphoneOneThree"]];
+            [aPoint setTimeEquation:[model findEquationList:@"Test" named:@"triphoneOneThree"]];
             [defaultPoints addObject:aPoint];
             [aPoint release];
 
             aPoint = [[MMPoint alloc] init];
             [aPoint setValue:87.5];
             [aPoint setType:MMPhoneTypeTriphone];
-            [aPoint setExpression:[model findEquationList:@"Test" named:@"triphoneTwoThree"]];
+            [aPoint setTimeEquation:[model findEquationList:@"Test" named:@"triphoneTwoThree"]];
             [defaultPoints addObject:aPoint];
             [aPoint release];
 
             aPoint = [[MMPoint alloc] init];
             [aPoint setValue:100.0];
             [aPoint setType:MMPhoneTypeTriphone];
-            [aPoint setExpression:[model findEquationList:@"Defaults" named:@"Mark2"]];
+            [aPoint setTimeEquation:[model findEquationList:@"Defaults" named:@"Mark2"]];
             [defaultPoints addObject:aPoint];
             [aPoint release];
 
@@ -337,21 +337,21 @@
                 aPoint = [[MMPoint alloc] init];
                 [aPoint setValue:12.5];
                 [aPoint setType:MMPhoneTypeTetraphone];
-                [aPoint setExpression:[model findEquationList:@"Test" named:@"tetraphoneOneThree"]];
+                [aPoint setTimeEquation:[model findEquationList:@"Test" named:@"tetraphoneOneThree"]];
                 [defaultPoints addObject:aPoint];
                 [aPoint release];
 
                 aPoint = [[MMPoint alloc] init];
                 [aPoint setValue:87.5];
                 [aPoint setType:MMPhoneTypeTetraphone];
-                [aPoint setExpression:[model findEquationList:@"Test" named:@"tetraphoneTwoThree"]];
+                [aPoint setTimeEquation:[model findEquationList:@"Test" named:@"tetraphoneTwoThree"]];
                 [defaultPoints addObject:aPoint];
                 [aPoint release];
 
                 aPoint = [[MMPoint alloc] init];
                 [aPoint setValue:100.0];
                 [aPoint setType:MMPhoneTypeTetraphone];
-                [aPoint setExpression:[model findEquationList:@"Durations" named:@"TetraphoneDefault"]];
+                [aPoint setTimeEquation:[model findEquationList:@"Durations" named:@"TetraphoneDefault"]];
                 [defaultPoints addObject:aPoint];
                 [aPoint release];
             }

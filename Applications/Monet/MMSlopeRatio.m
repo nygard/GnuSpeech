@@ -106,12 +106,12 @@
 
 - (double)startTime;
 {
-    return [[(MMPoint *)[points objectAtIndex:0] expression] cacheValue];
+    return [[(MMPoint *)[points objectAtIndex:0] timeEquation] cacheValue];
 }
 
 - (double)endTime;
 {
-    return [[(MMPoint *)[points lastObject] expression] cacheValue];
+    return [[(MMPoint *)[points lastObject] timeEquation] cacheValue];
 }
 
 - (void)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(int)newCacheTag
@@ -127,9 +127,9 @@
     //NSLog(@"%s, count: %d", _cmd, [points count]);
     for (i = 0; i < [points count]; i++) {
         currentPoint = [points objectAtIndex:i];
-        dummy = [[currentPoint expression] evaluate:ruleSymbols
-                                           tempos:tempos postures:postures
-                                           andCacheWith:newCacheTag];
+        dummy = [[currentPoint timeEquation] evaluate:ruleSymbols
+                                             tempos:tempos postures:postures
+                                             andCacheWith:newCacheTag];
         //NSLog(@"\t%d: expr %@ = %g", i, [[[currentPoint expression] expression] expressionString], dummy);
         //NSLog(@"point value: %g, expression value: %g", [currentPoint value], [[currentPoint expression] cacheValue]);
 
@@ -178,14 +178,14 @@
     double returnValue = 0.0;
     int i, numSlopes;
     double temp = 0.0, temp1 = 0.0, intervalTime = 0.0, sum = 0.0, factor = 0.0;
-    double dummy, baseTime = 0.0, endTime = 0.0, totalTime = 0.0, delta = 0.0;
+    double baseTime = 0.0, endTime = 0.0, totalTime = 0.0, delta = 0.0;
     double startValue;
     MMPoint *currentPoint;
 
     /* Calculate the times for all points */
     for (i = 0; i < [points count]; i++) {
         currentPoint = [points objectAtIndex:i];
-        dummy = [[currentPoint expression] evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:newCacheTag];
+        [[currentPoint timeEquation] evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:newCacheTag];
     }
 
     baseTime = [[points objectAtIndex:0] getTime];

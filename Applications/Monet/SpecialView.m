@@ -144,10 +144,10 @@
         currentPoint = [currentPoints objectAtIndex:index];
         //NSLog(@"%2d: object class: %@", index, NSStringFromClass([currentPoint class]));
         //NSLog(@"%2d (a): value: %g, freeTime: %g, type: %d, isPhantom: %d", index, [currentPoint value], [currentPoint freeTime], [currentPoint type], [currentPoint isPhantom]);
-        if ([currentPoint expression] == nil)
-            time = (float)[currentPoint freeTime];
+        if ([currentPoint timeEquation] == nil)
+            time = [currentPoint freeTime];
         else
-            time = (float)[[currentPoint expression] evaluate:&_parameters postures:samplePostures andCacheWith:cache];
+            time = [[currentPoint timeEquation] evaluate:&_parameters postures:samplePostures andCacheWith:cache];
         //NSLog(@"%2d (b): value: %g, freeTime: %g, type: %d, isPhantom: %d", index, [currentPoint value], [currentPoint freeTime], [currentPoint type], [currentPoint isPhantom]);
 
         if (index == 0)
@@ -155,10 +155,10 @@
         else {
             j = [displayPoints count] - 1;
             while (j > 0) {
-                if ([(MMPoint *)[displayPoints objectAtIndex:j] expression] == nil)
+                if ([(MMPoint *)[displayPoints objectAtIndex:j] timeEquation] == nil)
                     eventTime = (float)[[displayPoints objectAtIndex:j] freeTime];
                 else
-                    eventTime = (float)[[(MMPoint *)[displayPoints objectAtIndex:j] expression] cacheValue];
+                    eventTime = (float)[[(MMPoint *)[displayPoints objectAtIndex:j] timeEquation] cacheValue];
 
                 if (time > eventTime)
                     break;
@@ -183,10 +183,10 @@
         currentPoint = [displayPoints objectAtIndex:index];
         y = [currentPoint value];
         //NSLog(@"%d: y = %f", index, y);
-        if ([currentPoint expression] == nil)
+        if ([currentPoint timeEquation] == nil)
             eventTime = [currentPoint freeTime];
         else
-            eventTime = [[currentPoint expression] evaluate:&_parameters postures:samplePostures andCacheWith:cache];
+            eventTime = [[currentPoint timeEquation] evaluate:&_parameters postures:samplePostures andCacheWith:cache];
         myPoint.x = graphOrigin.x + timeScale * eventTime;
         myPoint.y = graphOrigin.y + (yScale * ZERO_INDEX) + (y * (float)yScale / SECTION_AMOUNT);
         [bezierPath lineToPoint:myPoint];
@@ -270,10 +270,10 @@
 
             currentPoint = [selectedPoints objectAtIndex:index];
             y = (float)[currentPoint value];
-            if ([currentPoint expression] == nil)
+            if ([currentPoint timeEquation] == nil)
                 eventTime = [currentPoint freeTime];
             else
-                eventTime = [[currentPoint expression] evaluate:&_parameters postures:samplePostures andCacheWith:cache];
+                eventTime = [[currentPoint timeEquation] evaluate:&_parameters postures:samplePostures andCacheWith:cache];
 
             myPoint.x = graphOrigin.x + timeScale * eventTime;
             myPoint.y = graphOrigin.y + (yScale * ZERO_INDEX) + (y * (float)yScale / SECTION_AMOUNT);
@@ -404,11 +404,11 @@
         NSPoint currentPoint;
 
         currentDisplayPoint = [displayPoints objectAtIndex:index];
-        currentExpression = [currentDisplayPoint expression];
+        currentExpression = [currentDisplayPoint timeEquation];
         if (currentExpression == nil)
             currentPoint.x = [currentDisplayPoint freeTime];
         else
-            currentPoint.x = [[currentDisplayPoint expression] evaluate:&_parameters postures:samplePostures andCacheWith:cache];
+            currentPoint.x = [[currentDisplayPoint timeEquation] evaluate:&_parameters postures:samplePostures andCacheWith:cache];
 
         currentPoint.x *= timeScale;
         currentPoint.y = (yScale * ZERO_INDEX) + ([currentDisplayPoint value] * yScale / SECTION_AMOUNT);

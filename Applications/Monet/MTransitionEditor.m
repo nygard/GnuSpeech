@@ -207,7 +207,7 @@
         MMEquation *selectedEquation;
 
         selectedEquation = [equationOutlineView selectedItemOfClass:[MMEquation class]];
-        [[transitionView selectedPoint] setExpression:selectedEquation];
+        [[transitionView selectedPoint] setTimeEquation:selectedEquation];
         [self _updateSelectedPointDetails];
         [transitionView setNeedsDisplay:YES];
     }
@@ -244,7 +244,7 @@
     if (selectedPoint != nil) {
         MMEquation *equation;
 
-        equation = [selectedPoint expression];
+        equation = [selectedPoint timeEquation];
         if (equation == nil) {
             [equationOutlineView deselectAll:nil];
 

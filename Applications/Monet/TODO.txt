@@ -13,7 +13,8 @@
 
 XML file format changes:
 - MMRule - change "expression-symbols" to "symbol-equations"
-- MMPosture - renamed "symbol" to "name"
+- MMPosture - rename "symbol" to "name"
+- MMPoint - rename "time-expression" to "time-equation"
 
 Done
 + change -makeObjectsPerform: to -makeObjectsPerformSelector:

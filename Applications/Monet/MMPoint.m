@@ -22,7 +22,7 @@
 
     value = 0.0;
     freeTime = 0.0;
-    expression = nil;
+    timeEquation = nil;
     isPhantom = NO;
     type = MMPhoneTypeDiphone;
 
@@ -31,7 +31,7 @@
 
 - (void)dealloc;
 {
-    [expression release];
+    [timeEquation release];
 
     [super dealloc];
 }
@@ -58,18 +58,18 @@
     return value;
 }
 
-- (MMEquation *)expression;
+- (MMEquation *)timeEquation;
 {
-    return expression;
+    return timeEquation;
 }
 
-- (void)setExpression:(MMEquation *)newExpression;
+- (void)setTimeEquation:(MMEquation *)newTimeEquation;
 {
-    if (newExpression == expression)
+    if (newTimeEquation == timeEquation)
         return;
 
-    [expression release];
-    expression = [newExpression retain];
+    [timeEquation release];
+    timeEquation = [newTimeEquation retain];
 }
 
 - (double)freeTime;
@@ -84,8 +84,8 @@
 
 - (double)getTime;
 {
-    if (expression)
-        return [expression cacheValue]; // TODO (2004-03-11): I think this is a little odd.
+    if (timeEquation != nil)
+        return [timeEquation cacheValue]; // TODO (2004-03-11): I think this is a little odd.
 
     return freeTime;
 }
@@ -112,12 +112,8 @@
 
 - (void)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(int)newCacheTag toDisplay:(NSMutableArray *)displayList;
 {
-    if (expression != nil) {
-        float value;
-
-        value = [expression evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:newCacheTag];
-        //NSLog(@"expression %@ = %g", [[expression expression] expressionString], value);
-    }
+    if (timeEquation != nil)
+        [timeEquation evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:newCacheTag];
 
     [displayList addObject:self];
 }
@@ -130,8 +126,8 @@
 {
     double time, returnValue;
 
-    if (expression != nil)
-        time = [expression evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:(int)newCacheTag];
+    if (timeEquation != nil)
+        time = [timeEquation evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:(int)newCacheTag];
     else
         time = freeTime;
 
@@ -204,7 +200,7 @@
     if (i != -1) {
         anExpression = [model findEquation:i andIndex:j];
         //NSLog(@"anExpression: %@", anExpression);
-        [self setExpression:anExpression];
+        [self setTimeEquation:anExpression];
     }
 
     //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
@@ -213,18 +209,18 @@
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@>[%p]: value: %g, freeTime: %g, expression: %@, type: %d, isPhantom: %d",
-                     NSStringFromClass([self class]), self, value, freeTime, expression, type, isPhantom];
+    return [NSString stringWithFormat:@"<%@>[%p]: value: %g, freeTime: %g, timeEquation: %@, type: %d, isPhantom: %d",
+                     NSStringFromClass([self class]), self, value, freeTime, timeEquation, type, isPhantom];
 }
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 {
     [resultString indentToLevel:level];
     [resultString appendFormat:@"<point type=\"%@\" value=\"%g\"", MMStringFromPhoneType(type), value];
-    if (expression == nil) {
+    if (timeEquation == nil) {
         [resultString appendFormat:@" free-time=\"%g\"", freeTime];
     } else {
-        [resultString appendFormat:@" time-expression=\"%@\"", GSXMLAttributeString([expression name], NO)];
+        [resultString appendFormat:@" time-expression=\"%@\"", GSXMLAttributeString([timeEquation name], NO)];
     }
 
     if (isPhantom == YES)
@@ -257,7 +253,7 @@
         MMEquation *anEquation;
 
         anEquation = [context findEquationWithName:str];
-        [self setExpression:anEquation];
+        [self setTimeEquation:anEquation];
     }
 
     str = [attributes objectForKey:@"is-phantom"];

@@ -538,10 +538,11 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         currentPoint = [displayPoints objectAtIndex:index];
         y = [currentPoint value];
         //NSLog(@"%d: [%p] y = %f", index, currentPoint, y);
-        if ([currentPoint expression] == nil)
+        // TODO (2004-08-15): Move this into MMPoint
+        if ([currentPoint timeEquation] == nil)
             eventTime = [currentPoint freeTime];
         else
-            eventTime = [[currentPoint expression] cacheValue];
+            eventTime = [[currentPoint timeEquation] cacheValue];
         myPoint.x = graphOrigin.x + timeScale * eventTime;
         myPoint.y = graphOrigin.y + (yScale * ZERO_INDEX) + (y * (float)yScale / SECTION_AMOUNT);
         [bezierPath lineToPoint:myPoint];
@@ -631,10 +632,10 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 
             currentPoint = [selectedPoints objectAtIndex:index];
             y = (float)[currentPoint value];
-            if ([currentPoint expression] == nil)
+            if ([currentPoint timeEquation] == nil)
                 eventTime = [currentPoint freeTime];
             else
-                eventTime = [[currentPoint expression] cacheValue];
+                eventTime = [[currentPoint timeEquation] cacheValue];
             myPoint.x = graphOrigin.x + timeScale * eventTime;
             myPoint.y = graphOrigin.y + (yScale * ZERO_INDEX) + (y * (float)yScale / SECTION_AMOUNT);
 
@@ -889,7 +890,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
                 //NSLog(@"Buffer = %@", str);
 
                 [[NSColor blackColor] set];
-                textFieldFrame.origin.x = ([[(MMPoint *)[points objectAtIndex:j] expression] cacheValue]) * timeScale + LEFT_MARGIN + 5.0;
+                textFieldFrame.origin.x = ([[(MMPoint *)[points objectAtIndex:j] timeEquation] cacheValue]) * timeScale + LEFT_MARGIN + 5.0;
                 textFieldFrame.origin.y = rect.origin.y + 2;
                 textFieldFrame.size.width = 60;
                 textFieldFrame.size.height = SLOPE_MARKER_HEIGHT - 2;
@@ -1081,11 +1082,11 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         NSPoint currentPoint;
 
         currentDisplayPoint = [displayPoints objectAtIndex:index];
-        currentExpression = [currentDisplayPoint expression];
+        currentExpression = [currentDisplayPoint timeEquation];
         if (currentExpression == nil)
             currentPoint.x = [currentDisplayPoint freeTime];
         else
-            currentPoint.x = [[currentDisplayPoint expression] evaluate:&_parameters postures:samplePostures andCacheWith:cache];
+            currentPoint.x = [[currentDisplayPoint timeEquation] evaluate:&_parameters postures:samplePostures andCacheWith:cache];
 
         currentPoint.x *= timeScale;
         currentPoint.y = (yScale * ZERO_INDEX) + ([currentDisplayPoint value] * yScale / SECTION_AMOUNT);

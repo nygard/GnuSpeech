@@ -18,7 +18,7 @@
 {
     double value;  /* Value of the point */
     double freeTime; /* Free Floating time */
-    MMEquation *expression; /* Time of the point */
+    MMEquation *timeEquation; /* Time of the point */
     MMPhoneType type;  /* Which phone it is targeting */
     BOOL isPhantom; /* Phantom point for place marking purposes only */
 }
@@ -32,8 +32,8 @@
 - (double)multiplyValueByFactor:(double)factor;
 - (double)addValue:(double)newValue;
 
-- (MMEquation *)expression;
-- (void)setExpression:(MMEquation *)newExpression;
+- (MMEquation *)timeEquation;
+- (void)setTimeEquation:(MMEquation *)newTimeEquation;
 
 - (double)freeTime;
 - (void)setFreeTime:(double)newTime;
