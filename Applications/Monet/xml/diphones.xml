@@ -21,11 +21,11 @@
     <category name="whistlehack">
       <comment>Added so we can easily do the rewrite rule:
 
-s* >> [f* | v* | th* | dh*] 
+s* >> [f* | v* | th* | dh*]
 
 				transforms to:
 
-s* >> qt* >> [f* | v* | th* | dh*] 
+s* >> qt* >> [f* | v* | th* | dh*]
 
 Now works as:
 
@@ -7374,7 +7374,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
     </rule>
     <rule number="26">
       <boolean-expression>((((vocoid or glide) or nasal) or fricative) or silence) >> (v* or f*) >> (((vocoid or glide) or nasal) or silence)</boolean-expression>
-      <comment>Note: This rule was split off from other fricatives because we get tongue radii co-articulation.  We did not split voiced and voicless because Len agreed we couldn't hear the difference.  Should maybe recombine other  voiced & unvoiced fricatives under one rule again.</comment>
+      <comment>Note: This rule was split off from other fricatives because we get tongue radii co-articulation.  We did not split voiced and voicless because Len agreed we couldn't hear the difference.  Should maybe recombine other  voiced &amp; unvoiced fricatives under one rule again.</comment>
       <parameter-profiles>
         <parameter name="microInt" transition="voicedStopClosure"/>
         <parameter name="glotVol" transition="sOrzClosure"/>
