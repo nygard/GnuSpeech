@@ -179,7 +179,7 @@ Notes:
 - when rule numbers don't fit in the width they take up multiple lines.
 
 2004-05-26:
-- remove Id RCS keyword from header files.
++ remove Id RCS keyword from header files.
 - In the intonation view, I think the (green) vertical lines should match up with the posture names.  Check original.
 
 2004-07-21:
@@ -190,3 +190,4 @@ Notes:
 
 2004-08-02:
 - In MMBooleanParser.m, a ch* will use the ch native category, not the ch' native category, but they probably want it to match both..
++ The Rule Tester lies about the number of tokens consumes (it should be one less than reported).
