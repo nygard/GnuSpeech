@@ -218,4 +218,28 @@
 {
 }
 
+//
+// NSTableView delegate
+//
+
+- (BOOL)control:(NSControl *)aControl shouldProcessCharacters:(NSString *)characters;
+{
+    PhoneList *postures;
+    unsigned int count, index;
+    MMPosture *posture;
+
+    postures = [[self model] postures];
+    count = [postures count];
+    for (index = 0; index < count; index++) {
+        posture = [postures objectAtIndex:index];
+        if ([[posture symbol] hasPrefix:characters] == YES) {
+            [postureCategoryTableView selectRow:index byExtendingSelection:NO];
+            [postureCategoryTableView scrollRowToVisible:index];
+            return NO;
+        }
+    }
+
+    return YES;
+}
+
 @end

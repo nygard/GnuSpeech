@@ -31,4 +31,7 @@
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row;
 - (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(int)row;
 
+// NSTableView delegate
+- (BOOL)control:(NSControl *)aControl shouldProcessCharacters:(NSString *)characters;
+
 @end
