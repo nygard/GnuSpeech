@@ -234,15 +234,10 @@
 - (void)setUpDataStructures;
 {
     [eventList setUp];
-
     [self parsePhoneString:[stringTextField stringValue]];
-
     [eventList generateEventList];
-
     [eventListView setEventList:eventList];
-
     [[intonationView documentView] setEventList:eventList];
-
     [stringTextField selectText:self];
 }
 
