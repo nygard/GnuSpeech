@@ -106,6 +106,11 @@
     [self setNeedsDisplay:YES];
 }
 
+- (BOOL)isOpaque;
+{
+    return YES;
+}
+
 - (void)drawRect:(NSRect)rects;
 {
     [self clearView];
@@ -143,8 +148,7 @@
         MMDisplayParameter *currentDisplayParameter;
 
         currentDisplayParameter = [displayParameters objectAtIndex:index];
-        if ([currentDisplayParameter shouldDisplay] == YES)
-            [displayList addObject:currentDisplayParameter];
+        [displayList addObject:currentDisplayParameter];
     }
 
     /* Figure out how many tracks are actually displayed */

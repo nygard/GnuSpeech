@@ -48,6 +48,7 @@
 
 - (void)setEventList:(EventList *)newEventList;
 
+- (BOOL)isOpaque;
 - (void)drawRect:(NSRect)rects;
 
 - (void)clearView;
