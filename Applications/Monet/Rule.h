@@ -1,6 +1,6 @@
 #import <Foundation/NSObject.h>
 
-@class BooleanExpression, MMCategory, MonetList, PhoneList, MMEquation, ProtoTemplate;
+@class BooleanExpression, MMCategory, MonetList, PhoneList, MMEquation, MMTransition;
 
 /*===========================================================================
 
@@ -13,11 +13,11 @@
 
 @interface Rule : NSObject
 {
-    MonetList *parameterProfiles; // Of ProtoTemplates
-    MonetList *metaParameterProfiles; // Of ProtoTemplates?
+    MonetList *parameterProfiles; // Of MMTransitions
+    MonetList *metaParameterProfiles; // Of MMTransitions?
     MonetList *expressionSymbols; // Of MMEquations
 
-    ProtoTemplate *specialProfiles[16];
+    MMTransition *specialProfiles[16];
 
     BooleanExpression *expressions[4];
     NSString *comment;
@@ -48,12 +48,12 @@
 - (MonetList *)metaParameterList;
 - (MonetList *)symbols;
 
-- (ProtoTemplate *)getSpecialProfile:(int)index;
-- (void)setSpecialProfile:(int)index to:(ProtoTemplate *)special;
+- (MMTransition *)getSpecialProfile:(int)index;
+- (void)setSpecialProfile:(int)index to:(MMTransition *)special;
 
 - (BOOL)isCategoryUsed:(MMCategory *)aCategory;
 - (BOOL)isEquationUsed:(MMEquation *)anEquation;
-- (BOOL)isTransitionUsed:(ProtoTemplate *)aTransition;
+- (BOOL)isTransitionUsed:(MMTransition *)aTransition;
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 - (void)encodeWithCoder:(NSCoder *)aCoder;

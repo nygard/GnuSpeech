@@ -183,7 +183,7 @@
     return NO;
 }
 
-- (BOOL)isTransitionUsed:(ProtoTemplate *)aTransition;
+- (BOOL)isTransitionUsed:(MMTransition *)aTransition;
 {
     int count, index;
 
@@ -211,7 +211,7 @@
     }
 }
 
-- (void)findTemplate:(ProtoTemplate *)aTemplate andPutIn:(MonetList *)aList;
+- (void)findTemplate:(MMTransition *)aTemplate andPutIn:(MonetList *)aList;
 {
     int count, index;
     Rule *aRule;

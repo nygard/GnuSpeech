@@ -5,7 +5,7 @@
 #import "Inspector.h"
 #import "RuleManager.h"
 #import "MonetList.h"
-#import "ProtoTemplate.h"
+#import "MMTransition.h"
 #import "Rule.h"
 
 @implementation ProtoTemplateInspector
@@ -37,23 +37,23 @@
     [popUpListView release];
 
     [templateList release];
-    [currentProtoTemplate release];
+    [currentMMTransition release];
 
     [super dealloc];
 }
 
-- (void)setCurrentProtoTemplate:(ProtoTemplate *)aTemplate;
+- (void)setCurrentMMTransition:(MMTransition *)aTemplate;
 {
-    if (aTemplate == currentProtoTemplate)
+    if (aTemplate == currentMMTransition)
         return;
 
-    [currentProtoTemplate release];
-    currentProtoTemplate = [aTemplate retain];
+    [currentMMTransition release];
+    currentMMTransition = [aTemplate retain];
 }
 
-- (void)inspectProtoTemplate:(ProtoTemplate *)aTemplate;
+- (void)inspectMMTransition:(MMTransition *)aTemplate;
 {
-    [self setCurrentProtoTemplate:aTemplate];
+    [self setCurrentMMTransition:aTemplate];
     [mainInspector setPopUpListView:popUpListView];
     [self setUpWindow:popUpList];
 }
@@ -74,14 +74,14 @@
         [revertCommentButton setTarget:self];
         [revertCommentButton setAction:@selector(revertComment:)];
 
-        if ([currentProtoTemplate comment] != nil)
-            [commentText setString:[currentProtoTemplate comment]];
+        if ([currentMMTransition comment] != nil)
+            [commentText setString:[currentMMTransition comment]];
         else
             [commentText setString:@""];
     } else if ([str hasPrefix:@"G"]) {
         [mainInspector setGeneralView:genInfoView];
 
-        switch ([currentProtoTemplate type]) {
+        switch ([currentMMTransition type]) {
           case DIPHONE:
               [typeMatrix selectCellAtRow:0 column:0];
               break;
@@ -100,7 +100,7 @@
         [usageBrowser setDoubleAction:@selector(browserDoubleHit:)];
         [mainInspector setGeneralView:usageBox];
         [templateList removeAllObjects];
-        [tempRuleManager findTemplate:currentProtoTemplate andPutIn:templateList];
+        [tempRuleManager findTemplate:currentMMTransition andPutIn:templateList];
 
         [usageBrowser loadColumnZero];
     }
@@ -122,35 +122,35 @@
     NSString *newComment;
 
     newComment = [[commentText string] copy]; // Need to copy, becuase it's mutable and owned by the NSTextView
-    [currentProtoTemplate setComment:newComment];
+    [currentMMTransition setComment:newComment];
     [newComment release];
 }
 
 - (IBAction)revertComment:(id)sender;
 {
-    if ([currentProtoTemplate comment] != nil)
-        [commentText setString:[currentProtoTemplate comment]];
+    if ([currentMMTransition comment] != nil)
+        [commentText setString:[currentMMTransition comment]];
     else
         [commentText setString:@""];
 }
 
 - (IBAction)setDiphone:(id)sender;
 {
-    [currentProtoTemplate setType:DIPHONE];
+    [currentMMTransition setType:DIPHONE];
     [NXGetNamedObject(@"transitionBuilder", NSApp) display];
     [NXGetNamedObject(@"specialTransitionBuilder", NSApp) display];
 }
 
 - (IBAction)setTriphone:(id)sender;
 {
-    [currentProtoTemplate setType:TRIPHONE];
+    [currentMMTransition setType:TRIPHONE];
     [NXGetNamedObject(@"transitionBuilder", NSApp) display];
     [NXGetNamedObject(@"specialTransitionBuilder", NSApp) display];
 }
 
 - (IBAction)setTetraphone:(id)sender;
 {
-    [currentProtoTemplate setType:TETRAPHONE];
+    [currentMMTransition setType:TETRAPHONE];
     [NXGetNamedObject(@"transitionBuilder", NSApp) display];
     [NXGetNamedObject(@"specialTransitionBuilder", NSApp) display];
 }

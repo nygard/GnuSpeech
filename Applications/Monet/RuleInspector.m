@@ -10,7 +10,7 @@
 #import "MMParameter.h"
 #import "ParameterList.h"
 #import "MMEquation.h"
-#import "ProtoTemplate.h"
+#import "MMTransition.h"
 #import "PrototypeManager.h"
 #import "SpecialView.h"
 #import "TransitionView.h"
@@ -401,11 +401,11 @@
           case 1:
               list = [prototypeManager equationList];
               if (column == 0) {
-                  [cell setStringValue:[(ProtoTemplate *)[list objectAtIndex:row] name]];
+                  [cell setStringValue:[(MMTransition *)[list objectAtIndex:row] name]];
                   [cell setLeaf:NO];
               } else {
                   tempCell = [[list objectAtIndex:index] objectAtIndex:row];
-                  [cell setStringValue:[(ProtoTemplate *)tempCell name]];
+                  [cell setStringValue:[(MMTransition *)tempCell name]];
 
 //                  if ([[tempCell expression] maxPhone] >= [currentRule numberExpressions])
 //                      [cell setEnabled:NO];
@@ -418,14 +418,14 @@
           case 2:
               list = [prototypeManager transitionList];
               if (column == 0) {
-                  [cell setStringValue:[(ProtoTemplate *)[list objectAtIndex:row] name]];
+                  [cell setStringValue:[(MMTransition *)[list objectAtIndex:row] name]];
                   [cell setLeaf:NO];
               } else {
                   tempCell = [[list objectAtIndex:index] objectAtIndex:row];
 
-                  [cell setStringValue:[(ProtoTemplate *)tempCell name]];
+                  [cell setStringValue:[(MMTransition *)tempCell name]];
                   [cell setLeaf:YES];
-                  if ([currentRule numberExpressions] != [(ProtoTemplate *)tempCell type])
+                  if ([currentRule numberExpressions] != [(MMTransition *)tempCell type])
                       [cell setEnabled:NO];
                   else
                       [cell setEnabled:YES];
@@ -434,14 +434,14 @@
           case 3:
               list = [prototypeManager transitionList];
               if (column == 0) {
-                  [cell setStringValue:[(ProtoTemplate *)[list objectAtIndex:row] name]];
+                  [cell setStringValue:[(MMTransition *)[list objectAtIndex:row] name]];
                   [cell setLeaf:NO];
               } else {
                   tempCell = [[list objectAtIndex:index] objectAtIndex:row];
 
-                  [cell setStringValue:[(ProtoTemplate *)tempCell name]];
+                  [cell setStringValue:[(MMTransition *)tempCell name]];
                   [cell setLeaf:YES];
-                  if ([currentRule numberExpressions] != [(ProtoTemplate *)tempCell type])
+                  if ([currentRule numberExpressions] != [(MMTransition *)tempCell type])
                       [cell setEnabled:NO];
                   else
                       [cell setEnabled:YES];
@@ -451,12 +451,12 @@
           case 4:
               list = [prototypeManager specialList];
               if (column == 0) {
-                  [cell setStringValue:[(ProtoTemplate *)[list objectAtIndex:row] name]];
+                  [cell setStringValue:[(MMTransition *)[list objectAtIndex:row] name]];
                   [cell setLeaf:NO];
               } else {
                   tempCell = [[list objectAtIndex:index] objectAtIndex:row];
 
-                  [cell setStringValue:[(ProtoTemplate *)tempCell name]];
+                  [cell setStringValue:[(MMTransition *)tempCell name]];
                   [cell setLeaf:YES];
               }
               break;

@@ -11,7 +11,7 @@
 #import "Phone.h"
 #import "MMPoint.h"
 #import "MMEquation.h"
-#import "ProtoTemplate.h"
+#import "MMTransition.h"
 #import "Rule.h"
 #import "RuleList.h"
 #import "RuleManager.h"
@@ -858,7 +858,7 @@ static void page_consumed(void)
     int currentType;
     double currentDelta, value, maxValue;
     double ruleSymbols[5], tempTime, targets[4];
-    ProtoTemplate *protoTemplate;
+    MMTransition *protoTemplate;
     MMPoint *currentPoint;
     MonetList *tempTargets, *points;
     Event *tempEvent;
@@ -927,7 +927,7 @@ static void page_consumed(void)
             currentDelta = targets[1] - targets[0];
 
             /* Get transition profile list */
-            protoTemplate = (ProtoTemplate *)[tempTargets objectAtIndex:i];
+            protoTemplate = (MMTransition *)[tempTargets objectAtIndex:i];
             points = [protoTemplate points];
 
             maxValue = 0.0;

@@ -13,7 +13,7 @@
 #import "PointInspector.h"
 #import "MMEquation.h"
 #import "PrototypeManager.h"
-#import "ProtoTemplate.h"
+#import "MMTransition.h"
 #import "Slope.h"
 #import "SlopeRatio.h"
 #import "SymbolList.h"
@@ -1112,7 +1112,7 @@ static NSImage *_selectionBox = nil;
 // Publicly used API
 //
 
-- (void)setTransition:(ProtoTemplate *)newTransition;
+- (void)setTransition:(MMTransition *)newTransition;
 {
     if (newTransition == currentTemplate)
         return;

@@ -9,7 +9,7 @@
 #import "MMPoint.h"
 #import "MMEquation.h"
 #import "PrototypeManager.h"
-#import "ProtoTemplate.h"
+#import "MMTransition.h"
 #import "TransitionView.h"
 
 @implementation PointInspector

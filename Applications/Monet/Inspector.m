@@ -141,12 +141,12 @@
     [protoEquationInspector inspectMMEquation:equation];
 }
 
-- (void)inspectProtoTransition:(ProtoTemplate *)transition;
+- (void)inspectProtoTransition:(MMTransition *)transition;
 {
     [panel setTitle:@"Prototype Transition Inspector"];
     currentInspectorObject = transition;
     currentInspector = protoTransitionInspector;
-    [protoTransitionInspector inspectProtoTemplate:transition];
+    [protoTransitionInspector inspectMMTransition:transition];
 }
 
 - (void)inspectRule:(Rule *)rule;

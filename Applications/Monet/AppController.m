@@ -94,6 +94,7 @@
     [NSUnarchiver decodeClassName:@"Parameter" asClassName:@"MMParameter"];
     [NSUnarchiver decodeClassName:@"Point" asClassName:@"MMPoint"];
     [NSUnarchiver decodeClassName:@"ProtoEquation" asClassName:@"MMEquation"];
+    [NSUnarchiver decodeClassName:@"ProtoTemplate" asClassName:@"MMTransition"];
     [NSUnarchiver decodeClassName:@"Symbol" asClassName:@"MMSymbol"];
     [NSUnarchiver decodeClassName:@"Target" asClassName:@"MMTarget"];
 

@@ -15,7 +15,7 @@
 #import "ParameterList.h"
 #import "PhoneList.h"
 #import "MMEquation.h"
-#import "ProtoTemplate.h"
+#import "MMTransition.h"
 #import "RuleList.h"
 #import "SymbolList.h"
 
@@ -205,7 +205,7 @@
     return [[transitions objectAtIndex:listIndex] objectAtIndex:transitionIndex];
 }
 
-- (ProtoTemplate *)findSpecialList:(NSString *)aListName named:(NSString *)aSpecialName;
+- (MMTransition *)findSpecialList:(NSString *)aListName named:(NSString *)aSpecialName;
 {
     int i, j;
 
@@ -215,7 +215,7 @@
         currentList = [specialTransitions objectAtIndex:i];
         if ([aListName isEqualToString:[currentList name]]) {
             for (j = 0; j < [currentList count]; j++) {
-                ProtoTemplate *aTransition;
+                MMTransition *aTransition;
 
                 aTransition = [currentList objectAtIndex:j];
                 if ([aSpecialName isEqualToString:[aTransition name]])
@@ -227,7 +227,7 @@
     return nil;
 }
 
-- (void)findList:(int *)listIndex andIndex:(int *)specialIndex ofSpecial:(ProtoTemplate *)aTransition;
+- (void)findList:(int *)listIndex andIndex:(int *)specialIndex ofSpecial:(MMTransition *)aTransition;
 {
     int i, temp;
 
@@ -243,7 +243,7 @@
     *listIndex = -1;
 }
 
-- (ProtoTemplate *)findSpecial:(int)listIndex andIndex:(int)specialIndex;
+- (MMTransition *)findSpecial:(int)listIndex andIndex:(int)specialIndex;
 {
     return [[specialTransitions objectAtIndex:listIndex] objectAtIndex:specialIndex];
 }
@@ -334,7 +334,7 @@
     [phones appendXMLToString:resultString level:1];
 
     [self _appendXMLForMMEquationsToString:resultString level:1];
-    [self _appendXMLForProtoTemplatesToString:resultString level:1];
+    [self _appendXMLForMMTransitionsToString:resultString level:1];
     [self _appendXMLForProtoSpecialsToString:resultString level:1];
     [rules appendXMLToString:resultString elementName:@"rules" level:1 numberItems:YES];
 
@@ -363,7 +363,7 @@
     [resultString appendString:@"</equations>\n"];
 }
 
-- (void)_appendXMLForProtoTemplatesToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForMMTransitionsToString:(NSMutableString *)resultString level:(int)level;
 {
     NamedList *namedList;
     int count, index;

@@ -1,7 +1,7 @@
 #import <AppKit/NSView.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-@class MonetList, ProtoTemplate;
+@class MonetList, MMTransition;
 @class AppController, Slope;
 
 /*===========================================================================
@@ -21,7 +21,7 @@
 
     NSFont *timesFont;
 
-    ProtoTemplate *currentTemplate;
+    MMTransition *currentTemplate;
 
     MonetList *dummyPhoneList;
     MonetList *displayPoints;
@@ -95,7 +95,7 @@
 - (IBAction)updateControlParameter:(id)sender;
 
 // Publicly used API
-- (void)setTransition:(ProtoTemplate *)newTransition;
+- (void)setTransition:(MMTransition *)newTransition;
 - (void)showWindow:(int)otherWindow;
 
 @end

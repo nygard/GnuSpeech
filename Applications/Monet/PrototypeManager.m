@@ -12,7 +12,7 @@
 #import "MonetList.h"
 #import "NamedList.h"
 #import "MMEquation.h"
-#import "ProtoTemplate.h"
+#import "MMTransition.h"
 #import "RuleManager.h"
 #import "TransitionView.h"
 
@@ -82,7 +82,7 @@
 {
     NamedList *aList;
     MMEquation *aMMEquation;
-    ProtoTemplate *aProtoTemplate;
+    MMTransition *aMMTransition;
     Inspector *inspector;
     int column = [protoBrowser selectedColumn];
     int row = [[protoBrowser matrixInColumn:column] selectedRow];
@@ -128,10 +128,10 @@
           break;
       case 1:
           aList = [[model transitions] objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
-          aProtoTemplate = [aList objectAtIndex:[[sender matrixInColumn:1] selectedRow]];
-          [removeButton setEnabled:![ruleManager isTransitionUsed:aProtoTemplate]];
-          [inspector inspectProtoTransition:aProtoTemplate];
-          switch ([aProtoTemplate type]) {
+          aMMTransition = [aList objectAtIndex:[[sender matrixInColumn:1] selectedRow]];
+          [removeButton setEnabled:![ruleManager isTransitionUsed:aMMTransition]];
+          [inspector inspectProtoTransition:aMMTransition];
+          switch ([aMMTransition type]) {
             case DIPHONE:
                 [selectedOutput setStringValue:@"Diphone"];
                 break;
@@ -145,10 +145,10 @@
           break;
       case 2:
           aList = [[model specialTransitions] objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
-          aProtoTemplate = [aList objectAtIndex:[[sender matrixInColumn:1] selectedRow]];
-          [removeButton setEnabled:![ruleManager isTransitionUsed:aProtoTemplate]];
-          [inspector inspectProtoTransition:aProtoTemplate];
-          switch ([aProtoTemplate type]) {
+          aMMTransition = [aList objectAtIndex:[[sender matrixInColumn:1] selectedRow]];
+          [removeButton setEnabled:![ruleManager isTransitionUsed:aMMTransition]];
+          [inspector inspectProtoTransition:aMMTransition];
+          switch ([aMMTransition type]) {
             case DIPHONE:
                 [selectedOutput setStringValue:@"Diphone"];
                 break;
@@ -341,7 +341,7 @@
 {
     NamedList *aList;
     MMEquation *newEquation;
-    ProtoTemplate *newTemplate;
+    MMTransition *newTemplate;
 
     switch ([[browserSelector selectedCell] tag]) {
       case 0: /* Test for Already Existing Name */
@@ -353,14 +353,14 @@
           break;
       case 1: /* Test for Already Existing Name */
           aList = [[model transitions] objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
-          newTemplate = [[ProtoTemplate alloc] initWithName:[inputTextField stringValue]];
+          newTemplate = [[MMTransition alloc] initWithName:[inputTextField stringValue]];
           [aList addObject:newTemplate];
           [newTemplate release];
           [protoBrowser reloadColumn:1];
           break;
       case 2: /* Test for Already Existing Name */
           aList = [[model specialTransitions] objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
-          newTemplate = [[ProtoTemplate alloc] initWithName:[inputTextField stringValue]];
+          newTemplate = [[MMTransition alloc] initWithName:[inputTextField stringValue]];
           [aList addObject:newTemplate];
           [newTemplate release];
           [protoBrowser reloadColumn:1];
@@ -409,7 +409,7 @@
           }
     }
 
-    [(NamedList *)temp setName:[inputTextField stringValue]]; // Might also be a MMEquation or ProtoTemplate
+    [(NamedList *)temp setName:[inputTextField stringValue]]; // Might also be a MMEquation or MMTransition
     [protoBrowser reloadColumn:column];
 }
 
@@ -499,17 +499,17 @@
     return [[self model] findTransition:listIndex andIndex:transitionIndex];
 }
 
-- (ProtoTemplate *)findSpecialList:(NSString *)aListName named:(NSString *)aSpecialName;
+- (MMTransition *)findSpecialList:(NSString *)aListName named:(NSString *)aSpecialName;
 {
     return [[self model] findSpecialList:aListName named:aSpecialName];
 }
 
-- (void)findList:(int *)listIndex andIndex:(int *)specialIndex ofSpecial:(ProtoTemplate *)aTransition;
+- (void)findList:(int *)listIndex andIndex:(int *)specialIndex ofSpecial:(MMTransition *)aTransition;
 {
     [[self model] findList:listIndex andIndex:specialIndex ofSpecial:aTransition];
 }
 
-- (ProtoTemplate *)findSpecial:(int)listIndex andIndex:(int)specialIndex;
+- (MMTransition *)findSpecial:(int)listIndex andIndex:(int)specialIndex;
 {
     return [[self model] findSpecial:listIndex andIndex:specialIndex];
 }
@@ -557,7 +557,7 @@ static NSString *specialString = @"ProtoSpecial";
     int retValue;
     NamedList *aList;
     MMEquation *aMMEquation;
-    ProtoTemplate *aProtoTemplate;
+    MMTransition *aMMTransition;
 
     myPasteboard = [NSPasteboard pasteboardWithName:@"MonetPasteboard"];
 
@@ -587,8 +587,8 @@ static NSString *specialString = @"ProtoSpecial";
              /* Transitions */
          case 1:
              aList = [[model transitions] objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
-             aProtoTemplate = [aList objectAtIndex:[[protoBrowser matrixInColumn:1] selectedRow]];
-             [aProtoTemplate encodeWithCoder:typed];
+             aMMTransition = [aList objectAtIndex:[[protoBrowser matrixInColumn:1] selectedRow]];
+             [aMMTransition encodeWithCoder:typed];
              dataType = tranString;
              retValue = [myPasteboard declareTypes:[NSArray arrayWithObject:dataType] owner:nil];
              [myPasteboard setData:mdata forType:tranString];
@@ -598,8 +598,8 @@ static NSString *specialString = @"ProtoSpecial";
              /* Special Transitions */
          case 2:
              aList = [[model specialTransitions] objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
-             aProtoTemplate = [aList objectAtIndex:[[protoBrowser matrixInColumn:1] selectedRow]];
-             [aProtoTemplate encodeWithCoder:typed];
+             aMMTransition = [aList objectAtIndex:[[protoBrowser matrixInColumn:1] selectedRow]];
+             [aMMTransition encodeWithCoder:typed];
              dataType = specialString;
              retValue = [myPasteboard declareTypes:[NSArray arrayWithObject:dataType] owner:nil];
              [myPasteboard setData:mdata forType:specialString];
@@ -618,7 +618,7 @@ static NSString *specialString = @"ProtoSpecial";
     NSArray *dataTypes;
     NamedList *aList;
     MMEquation *aMMEquation;
-    ProtoTemplate *aProtoTemplate;
+    MMTransition *aMMTransition;
     int column = [protoBrowser selectedColumn];
 
     myPasteboard = [NSPasteboard pasteboardWithName:@"MonetPasteboard"];
@@ -649,31 +649,31 @@ static NSString *specialString = @"ProtoSpecial";
     } else if ([[dataTypes objectAtIndex: 0] isEqual: tranString]) {
         mdata = [myPasteboard dataForType:tranString];
         typed = [[NSUnarchiver alloc] initForReadingWithData:mdata];
-        aProtoTemplate = [[ProtoTemplate alloc] init];
-        [aProtoTemplate initWithCoder:typed];
+        aMMTransition = [[MMTransition alloc] init];
+        [aMMTransition initWithCoder:typed];
         [typed release];
 
         aList = [[model transitions] objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
         if (column == 1)
-            [aList insertObject:aProtoTemplate atIndex:[[protoBrowser matrixInColumn:1] selectedRow]+1];
+            [aList insertObject:aMMTransition atIndex:[[protoBrowser matrixInColumn:1] selectedRow]+1];
         else
-            [aList addObject:aProtoTemplate];
-        [aProtoTemplate release];
+            [aList addObject:aMMTransition];
+        [aMMTransition release];
 
         [protoBrowser reloadColumn:1];
     } else if ([[dataTypes objectAtIndex:0] isEqual:specialString]) {
         mdata = [myPasteboard dataForType:specialString];
         typed = [[NSUnarchiver alloc] initForReadingWithData:mdata];
-        aProtoTemplate = [[ProtoTemplate alloc] init];
-        [aProtoTemplate initWithCoder:typed];
+        aMMTransition = [[MMTransition alloc] init];
+        [aMMTransition initWithCoder:typed];
         [typed release];
 
         aList = [[model specialTransitions] objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
         if (column == 1)
-            [aList insertObject:aProtoTemplate atIndex:[[protoBrowser matrixInColumn:1] selectedRow]+1];
+            [aList insertObject:aMMTransition atIndex:[[protoBrowser matrixInColumn:1] selectedRow]+1];
         else
-            [aList addObject:aProtoTemplate];
-        [aProtoTemplate release];
+            [aList addObject:aMMTransition];
+        [aMMTransition release];
 
         [protoBrowser reloadColumn:1];
     } else {
@@ -686,7 +686,7 @@ static NSString *specialString = @"ProtoSpecial";
     Inspector *inspector = [controller inspector];
     NamedList *aList;
     MMEquation *aMMEquation;
-    ProtoTemplate *aProtoTemplate;
+    MMTransition *aMMTransition;
     int column = [protoBrowser selectedColumn];
     int selectedColumn0Row, selectedColumn1Row;
 
@@ -706,13 +706,13 @@ static NSString *specialString = @"ProtoSpecial";
           break;
       case 1:
           aList = [[model transitions] objectAtIndex:selectedColumn0Row];
-          aProtoTemplate = [aList objectAtIndex:selectedColumn1Row];
-          [inspector inspectProtoTransition:aProtoTemplate];
+          aMMTransition = [aList objectAtIndex:selectedColumn1Row];
+          [inspector inspectProtoTransition:aMMTransition];
           break;
       case 2:
           aList = [[model specialTransitions] objectAtIndex:selectedColumn0Row];
-          aProtoTemplate = [aList objectAtIndex:selectedColumn1Row];
-          [inspector inspectProtoTransition:aProtoTemplate];
+          aMMTransition = [aList objectAtIndex:selectedColumn1Row];
+          [inspector inspectProtoTransition:aMMTransition];
           break;
       default:
           [inspector cleanInspectorWindow];

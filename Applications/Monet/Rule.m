@@ -11,7 +11,7 @@
 #import "MMParameter.h"
 #import "ParameterList.h"
 #import "MMEquation.h"
-#import "ProtoTemplate.h"
+#import "MMTransition.h"
 #import "PrototypeManager.h"
 
 #import "MModel.h"
@@ -282,7 +282,7 @@
     return expressionSymbols;
 }
 
-- (ProtoTemplate *)getSpecialProfile:(int)index;
+- (MMTransition *)getSpecialProfile:(int)index;
 {
     if ((index > 15) || (index < 0))
         return nil;
@@ -290,7 +290,7 @@
     return specialProfiles[index];
 }
 
-- (void)setSpecialProfile:(int)index to:(ProtoTemplate *)special;
+- (void)setSpecialProfile:(int)index to:(MMTransition *)special;
 {
     if ((index > 15) || (index < 0))
         return;
@@ -319,7 +319,7 @@
     return NO;
 }
 
-- (BOOL)isTransitionUsed:(ProtoTemplate *)aTransition;
+- (BOOL)isTransitionUsed:(MMTransition *)aTransition;
 {
     int index;
 
@@ -540,7 +540,7 @@
     count = [mainParameterList count];
     for (index = 0; index < count; index++) {
         MMParameter *aParameter;
-        ProtoTemplate *aTransition;
+        MMTransition *aTransition;
 
         aParameter = [mainParameterList objectAtIndex:index];
         aTransition = [parameterProfiles objectAtIndex:index];
@@ -571,7 +571,7 @@
     count = [mainMetaParameterList count];
     for (index = 0; index < count; index++) {
         MMParameter *aParameter;
-        ProtoTemplate *aTransition;
+        MMTransition *aTransition;
 
         aParameter = [mainMetaParameterList objectAtIndex:index];
         aTransition = [metaParameterProfiles objectAtIndex:index];
@@ -609,7 +609,7 @@
 
     for (index = 0; index < count && index < 16; index++) {
         MMParameter *aParameter;
-        ProtoTemplate *aTransition;
+        MMTransition *aTransition;
 
         aParameter = [mainParameterList objectAtIndex:index];
         aTransition = specialProfiles[index];

@@ -1,5 +1,5 @@
 //
-// $Id: MModel.h,v 1.3 2004/03/19 00:38:42 nygard Exp $
+// $Id: MModel.h,v 1.4 2004/03/19 00:44:01 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -7,7 +7,7 @@
 
 #import <Foundation/NSObject.h>
 
-@class CategoryList, MonetList, ParameterList, PhoneList, MMEquation, ProtoTemplate, RuleList, SymbolList;
+@class CategoryList, MonetList, ParameterList, PhoneList, MMEquation, MMTransition, RuleList, SymbolList;
 
 @interface MModel : NSObject
 {
@@ -18,8 +18,8 @@
     PhoneList *phones; // Keep this list sorted by name
 
     MonetList *equations; // Of NamedLists of MMEquations
-    MonetList *transitions; // Of NamedLists of ProtoTemplates
-    MonetList *specialTransitions; // Of NamedLists of ProtoTemplates
+    MonetList *transitions; // Of NamedLists of MMTransitions
+    MonetList *specialTransitions; // Of NamedLists of MMTransitions
 
     RuleList *rules;
 }
@@ -47,9 +47,9 @@
 - (void)findList:(int *)listIndex andIndex:(int *)transitionIndex ofTransition:(MMEquation *)aTransition;
 - (MMEquation *)findTransition:(int)listIndex andIndex:(int)transitionIndex;
 
-- (ProtoTemplate *)findSpecialList:(NSString *)aListName named:(NSString *)aSpecialName;
-- (void)findList:(int *)listIndex andIndex:(int *)specialIndex ofSpecial:(ProtoTemplate *)aTransition;
-- (ProtoTemplate *)findSpecial:(int)listIndex andIndex:(int)specialIndex;
+- (MMTransition *)findSpecialList:(NSString *)aListName named:(NSString *)aSpecialName;
+- (void)findList:(int *)listIndex andIndex:(int *)specialIndex ofSpecial:(MMTransition *)aTransition;
+- (MMTransition *)findSpecial:(int)listIndex andIndex:(int)specialIndex;
 
 // Archiving
 - (id)initWithCoder:(NSCoder *)aDecoder;
@@ -58,7 +58,7 @@
 // Archiving - XML
 - (void)generateXML:(NSString *)name;
 - (void)_appendXMLForMMEquationsToString:(NSMutableString *)resultString level:(int)level;
-- (void)_appendXMLForProtoTemplatesToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForMMTransitionsToString:(NSMutableString *)resultString level:(int)level;
 - (void)_appendXMLForProtoSpecialsToString:(NSMutableString *)resultString level:(int)level;
 
 @end

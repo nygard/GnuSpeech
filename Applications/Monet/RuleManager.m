@@ -590,7 +590,7 @@
     return [[model rules] isEquationUsed:anEquation];
 }
 
-- (BOOL)isTransitionUsed:(ProtoTemplate *)aTransition;
+- (BOOL)isTransitionUsed:(MMTransition *)aTransition;
 {
     return [[model rules] isTransitionUsed: aTransition];
 }
@@ -600,7 +600,7 @@
     [[model rules] findEquation:anEquation andPutIn:aList];
 }
 
-- (void)findTemplate:(ProtoTemplate *)aTemplate andPutIn:(MonetList *)aList;
+- (void)findTemplate:(MMTransition *)aTemplate andPutIn:(MonetList *)aList;
 {
     [[model rules] findTemplate:aTemplate andPutIn:aList];
 }

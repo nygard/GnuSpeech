@@ -1,4 +1,4 @@
-#import "ProtoTemplate.h"
+#import "MMTransition.h"
 
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
@@ -14,7 +14,7 @@
 #import "MModel.h"
 #import "MUnarchiver.h"
 
-@implementation ProtoTemplate
+@implementation MMTransition
 
 - (id)init;
 {

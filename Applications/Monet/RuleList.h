@@ -1,6 +1,6 @@
 #import "MonetList.h"
 
-@class BooleanExpression, MMCategory, MMEquation, ProtoTemplate, Rule;
+@class BooleanExpression, MMCategory, MMEquation, MMTransition, Rule;
 
 /*===========================================================================
 
@@ -24,9 +24,9 @@
 
 - (BOOL)isCategoryUsed:(MMCategory *)aCategory;
 - (BOOL)isEquationUsed:(MMEquation *)anEquation;
-- (BOOL)isTransitionUsed:(ProtoTemplate *)aTransition;
+- (BOOL)isTransitionUsed:(MMTransition *)aTransition;
 
 - (void)findEquation:(MMEquation *)anEquation andPutIn:(MonetList *)aList;
-- (void)findTemplate:(ProtoTemplate *)aTemplate andPutIn:(MonetList *)aList;
+- (void)findTemplate:(MMTransition *)aTemplate andPutIn:(MonetList *)aList;
 
 @end

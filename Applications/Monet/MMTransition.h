@@ -15,7 +15,7 @@
 #define TRIPHONE 3
 #define TETRAPHONE 4
 
-@interface ProtoTemplate : NSObject
+@interface MMTransition : NSObject
 {
     NSString *name;
     NSString *comment;

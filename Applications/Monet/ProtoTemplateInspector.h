@@ -1,7 +1,7 @@
 #import <Foundation/NSObject.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-@class FormulaParser, MonetList, ProtoTemplate;
+@class FormulaParser, MonetList, MMTransition;
 @class Inspector;
 
 /*===========================================================================
@@ -42,7 +42,7 @@ History:
     IBOutlet NSBrowser *usageBrowser;
     IBOutlet NSTextField *usageField;
 
-    ProtoTemplate *currentProtoTemplate;
+    MMTransition *currentMMTransition;
 
     MonetList *templateList;
 }
@@ -52,8 +52,8 @@ History:
 - (id)init;
 - (void)dealloc;
 
-- (void)setCurrentProtoTemplate:(ProtoTemplate *)aTemplate;
-- (void)inspectProtoTemplate:(ProtoTemplate *)aTemplate;
+- (void)setCurrentMMTransition:(MMTransition *)aTemplate;
+- (void)inspectMMTransition:(MMTransition *)aTemplate;
 
 - (void)setUpWindow:(NSPopUpButton *)sender;
 - (void)beginEditting;

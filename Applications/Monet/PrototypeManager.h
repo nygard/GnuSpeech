@@ -2,7 +2,7 @@
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 @class NSFont;
-@class MonetList, MMEquation, ProtoTemplate;
+@class MonetList, MMEquation, MMTransition;
 @class AppController, DelegateResponder;
 @class MModel;
 
@@ -72,9 +72,9 @@
 - (void)findList:(int *)listIndex andIndex:(int *)transitionIndex ofTransition:(MMEquation *)aTransition;
 - (MMEquation *)findTransition:(int)listIndex andIndex:(int)transitionIndex;
 
-- (ProtoTemplate *)findSpecialList:(NSString *)aListName named:(NSString *)aSpecialName;
-- (void)findList:(int *)listIndex andIndex:(int *)specialIndex ofSpecial:(ProtoTemplate *)aTransition;
-- (ProtoTemplate *)findSpecial:(int)listIndex andIndex:(int)specialIndex;
+- (MMTransition *)findSpecialList:(NSString *)aListName named:(NSString *)aSpecialName;
+- (void)findList:(int *)listIndex andIndex:(int *)specialIndex ofSpecial:(MMTransition *)aTransition;
+- (MMTransition *)findSpecial:(int)listIndex andIndex:(int)specialIndex;
 
 - (BOOL)isEquationUsed:(MMEquation *)anEquation;
 
