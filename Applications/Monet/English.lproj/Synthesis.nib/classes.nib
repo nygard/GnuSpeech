@@ -39,7 +39,13 @@
             SUPERCLASS = NSView; 
         }, 
         {
-            ACTIONS = {showIntonationParameterWindow = id; showIntonationWindow = id; }; 
+            ACTIONS = {
+                parseStringButton = id; 
+                showIntonationParameterWindow = id; 
+                showIntonationWindow = id; 
+                synthesizeToFile = id; 
+                synthesizeWithSoftware = id; 
+            }; 
             CLASS = MSynthesisController; 
             LANGUAGE = ObjC; 
             OUTLETS = {

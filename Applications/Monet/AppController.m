@@ -371,6 +371,8 @@
             [ruleTester setModel:model];
             [ruleManager setModel:model];
             [stringParser setModel:model];
+            [synthesisParameterEditor setModel:model];
+            [synthesisController setModel:model];
 
             [stream release];
 #ifdef PORTING

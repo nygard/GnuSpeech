@@ -143,3 +143,6 @@ Notes:
 - There seems to be Posture Symbols and Rule Symbols
 - working through PhoneList, removing methods
 - move GSXML functions into NSString category
+
+2004-03-30:
+- Change EventLists's intonParms from "double *" into struct or class

@@ -355,7 +355,7 @@
 
 - (Event *)insertEvent:(int)number atTime:(double)time withValue:(double)value;
 {
-    Event *tempEvent = nil;
+    Event *newEvent = nil;
     int i, tempTime;
 
     time = time * multiplier;
@@ -371,17 +371,17 @@
 
 
     if ([self count] == 0) {
-        tempEvent = [[[Event alloc] init] autorelease];
-        [tempEvent setTime:tempTime];
+        newEvent = [[[Event alloc] init] autorelease];
+        [newEvent setTime:tempTime];
         if (number >= 0) {
             if ((number >= 7) && (number <= 8))
-                [tempEvent setValue:value*radiusMultiply ofIndex:number];
+                [newEvent setValue:value*radiusMultiply ofIndex:number];
             else
-                [tempEvent setValue:value ofIndex:number];
+                [newEvent setValue:value ofIndex:number];
         }
 
-        [self addObject:tempEvent];
-        return tempEvent;
+        [self addObject:newEvent];
+        return newEvent;
     }
 
     for (i = [self count] - 1; i >= zeroIndex; i--) {
@@ -397,34 +397,33 @@
         }
 
         if ([[self objectAtIndex: i] time]< tempTime) {
-            tempEvent = [[Event alloc] init];
-            [tempEvent setTime:tempTime];
+            newEvent = [[[Event alloc] init] autorelease];
+            [newEvent setTime:tempTime];
             if (number >= 0) {
                 if ((number >= 7) && (number <= 8))
-                    [tempEvent setValue:value*radiusMultiply ofIndex:number];
+                    [newEvent setValue:value*radiusMultiply ofIndex:number];
                 else
-                    [tempEvent setValue:value ofIndex:number];
+                    [newEvent setValue:value ofIndex:number];
             }
 
-            [self insertObject:tempEvent atIndex:i+1];
-            return tempEvent;
+            [self insertObject:newEvent atIndex:i+1];
+            return newEvent;
         }
     }
 
 
-    tempEvent = [[[Event alloc] init] autorelease];
-    [tempEvent setTime:tempTime];
+    newEvent = [[[Event alloc] init] autorelease];
+    [newEvent setTime:tempTime];
     if (number >= 0) {
         if ((number >= 7) && (number <= 8))
-            [tempEvent setValue:value*radiusMultiply ofIndex:number];
+            [newEvent setValue:value*radiusMultiply ofIndex:number];
         else
-            [tempEvent setValue:value ofIndex:number];
+            [newEvent setValue:value ofIndex:number];
     }
 
-    [self insertObject:tempEvent atIndex:i+1];
+    [self insertObject:newEvent atIndex:i+1];
 
-    return tempEvent;
-//    return nil;
+    return newEvent;
 }
 
 - (void)finalEvent:(int)number withValue:(double)value;

@@ -1,5 +1,5 @@
 //
-// $Id: MSynthesisController.h,v 1.1 2004/03/30 22:49:05 nygard Exp $
+// $Id: MSynthesisController.h,v 1.2 2004/03/31 01:43:21 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -20,7 +20,7 @@
     IBOutlet NSTextField *filenameField;
     IBOutlet NSButton *parametersStore;
 
-    // intonation parameter window
+    // Intonation parameter window
     IBOutlet NSWindow *intonationParameterWindow;
 
     IBOutlet NSTextField *tempoField;
@@ -37,6 +37,7 @@
     IBOutlet IntonationView *intonationView;
 
     MModel *model;
+    NSMutableArray *displayParameters;
 }
 
 - (id)initWithModel:(MModel *)aModel;
@@ -49,9 +50,20 @@
 
 - (void)windowDidLoad;
 
+- (void)_updateDisplayParameters;
 - (void)updateViews;
+- (void)_updateDisplayedParameters;
 
 - (IBAction)showIntonationWindow:(id)sender;
 - (IBAction)showIntonationParameterWindow:(id)sender;
+
+- (IBAction)parseStringButton:(id)sender;
+- (IBAction)synthesizeWithSoftware:(id)sender;
+- (IBAction)synthesizeToFile:(id)sender;
+
+// NSTableView data source
+- (int)numberOfRowsInTableView:(NSTableView *)tableView;
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row;
+- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(int)row;
 
 @end

@@ -137,6 +137,34 @@
 			settings = {
 			};
 		};
+		01104DCA061A53BA00B529E8 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = MMDisplayParameter.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01104DCB061A53BA00B529E8 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = MMDisplayParameter.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01104DCC061A53BA00B529E8 = {
+			fileRef = 01104DCA061A53BA00B529E8;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01104DCD061A53BA00B529E8 = {
+			fileRef = 01104DCB061A53BA00B529E8;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		01710CFB060FAE1B0059DE9A = {
 			children = (
 				01710CFC060FAE1B0059DE9A,
@@ -1211,6 +1239,8 @@
 				01848CF8060A871A005E9B67,
 				01848BE9060A6F54005E9B67,
 				01848BEA060A6F54005E9B67,
+				01104DCA061A53BA00B529E8,
+				01104DCB061A53BA00B529E8,
 				01848C5B060A7654005E9B67,
 				01848C5C060A7654005E9B67,
 				01848C09060A70F9005E9B67,
@@ -2960,6 +2990,7 @@
 				01104CDD0618C79A00B529E8,
 				01104D100618D1D300B529E8,
 				01104DB2061A294000B529E8,
+				01104DCC061A53BA00B529E8,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3081,6 +3112,7 @@
 				01104CDE0618C79A00B529E8,
 				01104D110618D1D300B529E8,
 				01104DB3061A294000B529E8,
+				01104DCD061A53BA00B529E8,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
