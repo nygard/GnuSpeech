@@ -60,7 +60,7 @@
     [[NSColor whiteColor] set];
     NSRectFill(rect);
 
-    [[NSColor blackColor] set];
+    [[NSColor lightGrayColor] set];
     NSFrameRect(bounds);
 
     activeRect = [self activeRect];
