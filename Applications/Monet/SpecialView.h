@@ -2,7 +2,7 @@
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 @class MMPoint, MonetList, MMTransition;
-@class AppController, Slope;
+@class AppController, MMSlope;
 
 /*===========================================================================
 

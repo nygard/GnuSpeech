@@ -9,7 +9,7 @@
 =============================================================================
 */
 
-@interface Slope : NSObject
+@interface MMSlope : NSObject
 {
     double slope;
     double displayTime;

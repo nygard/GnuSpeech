@@ -9,7 +9,7 @@
 #import "MonetList.h"
 #import "MMPoint.h"
 #import "MMEquation.h"
-#import "Slope.h"
+#import "MMSlope.h"
 
 /*===========================================================================
 
@@ -82,9 +82,9 @@
 
     if ([slopes count] < ([points count] - 1)) {
         while ([slopes count] < ([points count] - 1)) {
-            Slope *aSlope;
+            MMSlope *aSlope;
 
-            aSlope = [[Slope alloc] init];
+            aSlope = [[MMSlope alloc] init];
             [aSlope setSlope:1.0];
             [slopes addObject:aSlope];
             [aSlope release];
@@ -238,7 +238,7 @@
     count = [slopes count];
     //NSLog(@"DisplaySlopesInList: Count = %d", count);
     for (index = 0; index < [slopes count]; index++) {
-        Slope *currentSlope;
+        MMSlope *currentSlope;
 
         tempTime = ([[points objectAtIndex:index] getTime] + [[points objectAtIndex:index+1] getTime]) / 2.0;
         currentSlope = [slopes objectAtIndex:index];

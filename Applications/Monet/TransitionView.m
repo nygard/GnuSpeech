@@ -14,7 +14,7 @@
 #import "MMEquation.h"
 #import "PrototypeManager.h"
 #import "MMTransition.h"
-#import "Slope.h"
+#import "MMSlope.h"
 #import "SlopeRatio.h"
 #import "SymbolList.h"
 #import "MMTarget.h"
@@ -606,7 +606,7 @@ static NSImage *_selectionBox = nil;
 - (void)mouseDown:(NSEvent *)mouseEvent;
 {
     NSPoint hitPoint;
-    Slope *hitSlope;
+    MMSlope *hitSlope;
     float startTime, endTime;
 
     NSLog(@" > %s", _cmd);
@@ -830,7 +830,7 @@ static NSImage *_selectionBox = nil;
     }
 }
 
-- (void)_setEditingSlope:(Slope *)newSlope;
+- (void)_setEditingSlope:(MMSlope *)newSlope;
 {
     if (newSlope == editingSlope)
         return;
@@ -839,7 +839,7 @@ static NSImage *_selectionBox = nil;
     editingSlope = [newSlope retain];
 }
 
-- (void)editSlope:(Slope *)aSlope startTime:(float)startTime endTime:(float)endTime;
+- (void)editSlope:(MMSlope *)aSlope startTime:(float)startTime endTime:(float)endTime;
 {
     NSWindow *window;
 
@@ -895,7 +895,7 @@ static NSImage *_selectionBox = nil;
     NSLog(@"<  %s", _cmd);
 }
 
-- (Slope *)getSlopeMarkerAtPoint:(NSPoint)aPoint startTime:(float *)startTime endTime:(float *)endTime;
+- (MMSlope *)getSlopeMarkerAtPoint:(NSPoint)aPoint startTime:(float *)startTime endTime:(float *)endTime;
 {
     MonetList *pointList;
     SlopeRatio *currentSlopeRatio;

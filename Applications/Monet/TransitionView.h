@@ -2,7 +2,7 @@
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 @class MonetList, MMTransition;
-@class AppController, Slope;
+@class AppController, MMSlope;
 
 /*===========================================================================
 
@@ -33,7 +33,7 @@
     NSPoint selectionPoint1;
     NSPoint selectionPoint2;
 
-    Slope *editingSlope;
+    MMSlope *editingSlope;
     NSTextFieldCell *textFieldCell;
     NSText *nonretained_fieldEditor;
 }
@@ -79,9 +79,9 @@
 
 // Slopes
 - (void)drawSlopes;
-- (void)_setEditingSlope:(Slope *)newSlope;
-- (void)editSlope:(Slope *)aSlope startTime:(float)startTime endTime:(float)endTime;
-- (Slope *)getSlopeMarkerAtPoint:(NSPoint)aPoint startTime:(float *)startTime endTime:(float *)endTime;
+- (void)_setEditingSlope:(MMSlope *)newSlope;
+- (void)editSlope:(MMSlope *)aSlope startTime:(float)startTime endTime:(float)endTime;
+- (MMSlope *)getSlopeMarkerAtPoint:(NSPoint)aPoint startTime:(float *)startTime endTime:(float *)endTime;
 
 // NSTextView delegate method, used for editing slopes
 - (void)textDidEndEditing:(NSNotification *)notification;

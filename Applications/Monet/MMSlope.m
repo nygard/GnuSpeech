@@ -1,4 +1,4 @@
-#import "Slope.h"
+#import "MMSlope.h"
 
 #import <Foundation/Foundation.h>
 #import "NSObject-Extensions.h"
@@ -15,7 +15,7 @@
 =============================================================================
 */
 
-@implementation Slope
+@implementation MMSlope
 
 - (id)init;
 {

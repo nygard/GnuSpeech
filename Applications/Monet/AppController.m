@@ -95,6 +95,7 @@
     [NSUnarchiver decodeClassName:@"Point" asClassName:@"MMPoint"];
     [NSUnarchiver decodeClassName:@"ProtoEquation" asClassName:@"MMEquation"];
     [NSUnarchiver decodeClassName:@"ProtoTemplate" asClassName:@"MMTransition"];
+    [NSUnarchiver decodeClassName:@"Slope" asClassName:@"MMSlope"];
     [NSUnarchiver decodeClassName:@"Symbol" asClassName:@"MMSymbol"];
     [NSUnarchiver decodeClassName:@"Target" asClassName:@"MMTarget"];
 
@@ -458,7 +459,7 @@
 
 // Converted classes:
 // MMCategory, FormulaExpression, FormulaTerminal, MonetList, NamedList, Parameter, Phone, Point, MMEquation, ProtoTemplte, Rule, Symbol, Target
-// BooleanExpression, BooleanTerminal, Slope, SlopeRatio
+// BooleanExpression, BooleanTerminal, MMSlope, SlopeRatio
 
 - (void)_disableUnconvertedClassLoading;
 {
