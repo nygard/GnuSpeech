@@ -757,7 +757,6 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
     MMTransition *protoTemplate;
     MMPoint *currentPoint;
     MonetList *tempTargets, *points;
-    Event *tempEvent;
     int cache = [aModel nextCacheTag];
 
     bzero(&ruleSymbols, sizeof(MMFRuleSymbols));
@@ -778,20 +777,18 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
     rules[currentRule].beat = (ruleSymbols.beat * multiplier) + (double)zeroRef;
     rules[currentRule++].duration = ruleSymbols.ruleDuration * multiplier;
 
+    // This creates events (if necessary) at the posture times, and sets the "flag" on them to indicate this is for a posture.
     switch (type) {
         /* Note: Case 4 should execute all of the below, case 3 the last two */
       case 4:
           phones[phoneIndex+3].onset = (double)zeroRef + ruleSymbols.beat;
-          tempEvent = [self insertEvent:-1 atTime:ruleSymbols.mark2 withValue:0.0];
-          [tempEvent setFlag:YES];
+          [[self insertEvent:-1 atTime:ruleSymbols.mark2 withValue:0.0] setFlag:YES];
       case 3:
           phones[phoneIndex+2].onset = (double)zeroRef + ruleSymbols.beat;
-          tempEvent = [self insertEvent:-1 atTime:ruleSymbols.mark1 withValue:0.0];
-          [tempEvent setFlag:YES];
+          [[self insertEvent:-1 atTime:ruleSymbols.mark1 withValue:0.0] setFlag:YES];
       case 2:
           phones[phoneIndex+1].onset = (double)zeroRef + ruleSymbols.beat;
-          tempEvent = [self insertEvent:-1 atTime:0.0 withValue:0.0];
-          [tempEvent setFlag:YES];
+          [[self insertEvent:-1 atTime:0.0 withValue:0.0] setFlag:YES];
           break;
     }
 
@@ -863,8 +860,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
                                          min:min[i] max:max[i] toEventList:self atIndex:(int)i];
             }
         } else {
-            tempEvent = [self insertEvent:i atTime:0.0 withValue:targets[0]];
-            //[tempEvent setFlag:YES];
+            [self insertEvent:i atTime:0.0 withValue:targets[0]];
         }
     }
 
@@ -895,8 +891,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
     }
 
     [self setZeroRef:(int)(ruleSymbols.ruleDuration * multiplier) + zeroRef];
-    tempEvent = [self insertEvent:(-1) atTime:0.0 withValue:0.0];
-    [tempEvent setFlag:YES];
+    [[self insertEvent:-1 atTime:0.0 withValue:0.0] setFlag:YES];
 }
 
 - (void)synthesizeToFile:(NSString *)filename;
