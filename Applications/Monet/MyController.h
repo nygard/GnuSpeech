@@ -1,12 +1,8 @@
 #import <Foundation/NSObject.h>
 
-#ifdef PORTING
-#import "Inspector.h"
-#import "BrowserManager.h"
-#endif
-
 @class NSMutableDictionary;
-@class CategoryList, ParameterList, PhoneList, SymbolList;
+@class CategoryList, ParameterList, PhoneList, StringParser, SymbolList;
+@class BrowserManager, EventListView, Inspector, IntonationView, PrototypeManager, RuleManager, TransitionView;
 
 /*===========================================================================
 
@@ -29,8 +25,8 @@ History:
 
 @interface MyController : NSObject
 {
-    id inspectorController;
-    id infoPanel;
+    Inspector *inspectorController;
+    NSPanel *infoPanel;
 
     PhoneList *mainPhoneList;
     CategoryList *mainCategoryList;
@@ -38,26 +34,26 @@ History:
     ParameterList *mainParameterList;
     ParameterList *mainMetaParameterList;
 
-    id dataBrowser;
-    id ruleManager;
-    id prototypeManager;
-    id transitionBuilder;
-    id specialTransitionBuilder;
-    id stringParser;
-    id eventListView;
-    id intonationView;
+    BrowserManager *dataBrowser;
+    RuleManager *ruleManager;
+    PrototypeManager *prototypeManager;
+    TransitionView *transitionBuilder;
+    TransitionView *specialTransitionBuilder;
+    StringParser *stringParser;
+    EventListView *eventListView;
+    IntonationView *intonationView;
 
     id defaultManager;
 
     /* Window pointers */
-    id transitionWindow;
-    id ruleManagerWindow;
-    id phonesWindow;
-    id ruleParserWindow;
-    id prototypeWindow;
-    id synthesisWindow;
-    id specialWindow;
-    id synthParmWindow;
+    NSWindow *transitionWindow;
+    NSWindow *ruleManagerWindow;
+    NSWindow *phonesWindow;
+    NSWindow *ruleParserWindow;
+    NSWindow *prototypeWindow;
+    NSWindow *synthesisWindow;
+    NSWindow *specialWindow;
+    NSWindow *synthParmWindow;
 
     NSMutableDictionary *namedDict;
 }

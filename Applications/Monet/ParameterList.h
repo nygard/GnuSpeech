@@ -25,10 +25,10 @@
 
 /* BrowserManager List delegate Methods */
 - (void)addNewValue:(NSString *)newValue;
-- (Parameter *)findByName:(NSString *)name;
-- (void)changeSymbolOf:(Parameter *)temp to:(NSString *)name;
+- (id)findByName:(NSString *)name;
+- (void)changeSymbolOf:(id)temp to:(NSString *)name;
 
-//- (void)readDegasFileFormat:(FILE *)fp;
-//- (void)printDataTo:(FILE *)fp;
+- (void)readDegasFileFormat:(FILE *)fp;
+- (void)printDataTo:(FILE *)fp;
 
 @end

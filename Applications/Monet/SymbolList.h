@@ -21,9 +21,9 @@
 
 /* BrowserManager List delegate Methods */
 - (void)addNewValue:(NSString *)newValue;
-- (Symbol *)findByName:(NSString *)name;
-- (void)changeSymbolOf:(Symbol *)aSymbol to:(NSString *)name;
+- (id)findByName:(NSString *)name;
+- (void)changeSymbolOf:(id)aSymbol to:(NSString *)name;
 
-//- (void)printDataTo:(FILE *)fp;
+- (void)printDataTo:(FILE *)fp;
 
 @end

@@ -1,9 +1,11 @@
+#import <Foundation/NSObject.h>
 
-#import <AppKit/AppKit.h>
+#ifdef PORTING
 #import "PhoneList.h"
 #import "CategoryList.h"
 #import "SymbolList.h"
 #import "ParameterList.h"
+#endif
 
 /*===========================================================================
 
@@ -37,11 +39,11 @@ History:
 	id	currentInspectorObject;		/* Object with is currently the focus of the inspector */
 	id	currentInspector;
 
-	id 	phoneInspector;
-	id 	categoryInspector;
-	id 	parameterInspector;
-	id 	metaParameterInspector;
-	id 	symbolInspector;
+	id	phoneInspector;
+	id	categoryInspector;
+	id	parameterInspector;
+	id	metaParameterInspector;
+	id	symbolInspector;
 	id	protoEquationInspector;
 	id	protoTransitionInspector;
 	id	ruleInspector;

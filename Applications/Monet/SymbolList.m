@@ -67,19 +67,20 @@
     [self addSymbol:newValue withValue:DEFAULT_VALUE];
 }
 
-- (Symbol *)findByName:(NSString *)name;
+- (id)findByName:(NSString *)name;
 {
     return [self findSymbol:name];
 }
 
-- (void)changeSymbolOf:(Symbol *)aSymbol to:(NSString *)name;
+- (void)changeSymbolOf:(id)aSymbol to:(NSString *)name;
 {
     [aSymbol setSymbol:name];
 }
 
-#ifdef PORTING
 - (void)printDataTo:(FILE *)fp;
 {
+#warning Not yet ported
+#ifdef PORTING
     int i;
     fprintf(fp, "Symbols\n");
     for (i = 0; i<[self count]; i++)
@@ -92,7 +93,7 @@
         fprintf(fp, "\n");
     }
     fprintf(fp, "\n");
-}
 #endif
+}
 
 @end

@@ -80,20 +80,21 @@
     [self addParameter:newValue min:DEFAULT_MIN max:DEFAULT_MAX def:DEFAULT_MIN];
 }
 
-- (Parameter *)findByName:(NSString *)name;
+- (id)findByName:(NSString *)name;
 {
     return [self findParameter:name];
 }
 
-- (void)changeSymbolOf:(Parameter *)temp to:(NSString *)name;
+- (void)changeSymbolOf:(id)temp to:(NSString *)name;
 {
     [temp setSymbol:name];
 }
 
 #define SYMBOL_LENGTH_MAX 12
-#ifdef PORTING
 - (void)readDegasFileFormat:(FILE *)fp;
 {
+#warning Not yet ported
+#ifdef PORTING
     int i, sampleSize, number_of_phones, number_of_parameters;
     float tempMin, tempMax, tempDef;
     char tempSymbol[SYMBOL_LENGTH_MAX + 1];
@@ -124,10 +125,13 @@
         [self addParameter:tempSymbol min:tempMin max:tempMax def:tempDef];
 
     }
+#endif
 }
 
 - (void)printDataTo:(FILE *)fp;
 {
+#warning Not yet ported
+#ifdef PORTING
     int i;
 
     fprintf(fp, "Parameters\n");
@@ -141,7 +145,7 @@
         fprintf(fp, "\n");
     }
     fprintf(fp, "\n");
-}
 #endif
+}
 
 @end

@@ -1,463 +1,470 @@
-
 #import "BrowserManager.h"
-#import "PhoneList.h"
+
+#import <Foundation/Foundation.h>
+#import <AppKit/AppKit.h>
 #import "CategoryList.h"
-#import "SymbolList.h"
-#import "ParameterList.h"
-#import <AppKit/NSApplication.h>
-#import "MyController.h"
+#import "CategoryNode.h"
 #import "Inspector.h"
+#import "MonetList.h"
+#import "MyController.h"
+#import "Parameter.h"
+#import "ParameterList.h"
+#import "Phone.h"
+#import "PhoneList.h"
 #import "RuleManager.h"
+#import "Symbol.h"
+#import "SymbolList.h"
 
 @implementation BrowserManager
 
-- (BOOL) acceptsFirstResponder
+- (BOOL)acceptsFirstResponder;
 {
-	return YES;
+    return YES;
 }
 
-- (BOOL)becomeFirstResponder
+- (BOOL)becomeFirstResponder;
 {
-	printf("Now First Responder\n");
-	return YES;
+    NSLog(@"Now First Responder");
+    return YES;
 }
 
-- (BOOL)resignFirstResponder
+- (BOOL)resignFirstResponder;
 {
-	printf("Resigning first responder\n");
-	return YES;
+    NSLog(@"Resigning first responder");
+    return YES;
 }
 
-- (void)applicationDidFinishLaunching:(NSNotification *)notification
+- (void)applicationDidFinishLaunching:(NSNotification *)notification;
 {
-
     [browser setTarget:self];
-	[browser setAction:(SEL)(@selector(browserHit:))];
-	[browser setDoubleAction:(SEL)(@selector(browserDoubleHit:))];
+    [browser setAction:@selector(browserHit:)];
+    [browser setDoubleAction:@selector(browserDoubleHit:)];
 
-	[[browser window] makeFirstResponder:self];
+    [[browser window] makeFirstResponder:self];
 
-	list[0] = NXGetNamedObject(@"mainPhoneList", NSApp);
-	list[1] = NXGetNamedObject(@"mainCategoryList", NSApp);
-	list[2] = NXGetNamedObject(@"mainParameterList", NSApp);
-	list[3] = NXGetNamedObject(@"mainMetaParameterList", NSApp);
-	list[4] = NXGetNamedObject(@"mainSymbolList", NSApp);
+    list[0] = NXGetNamedObject(@"mainPhoneList", NSApp);
+    list[1] = NXGetNamedObject(@"mainCategoryList", NSApp);
+    list[2] = NXGetNamedObject(@"mainParameterList", NSApp);
+    list[3] = NXGetNamedObject(@"mainMetaParameterList", NSApp);
+    list[4] = NXGetNamedObject(@"mainSymbolList", NSApp);
 
-	currentList = 0;
+    currentList = 0;
 
-	courier = [NSFont fontWithName:@"Courier" size:12];
-	courierBold = [NSFont fontWithName:@"Courier-Bold" size:12];
+    courier = [NSFont fontWithName:@"Courier" size:12];
+    courierBold = [NSFont fontWithName:@"Courier-Bold" size:12]; // TODO (2004-03-02): Should use NSFontManager instead.
 }
 
-- (void)setCurrentList:sender
+- (void)setCurrentList:sender;
 {
-const char *temp;
-char titleString[128];
-id inspector;
+    NSString *title;
+    id inspector;
 
-	temp = [[[sender selectedCell] title] cString];
-	switch(temp[0])
-	{
-		case 'P':
-			switch(temp[1])
-			{
-				case 'h': currentList = 0;
-					break;
-				default: currentList = 2;
-					break;
-			}
-			break;
-		case 'C': currentList = 1;
-			break;
-		case 'M': currentList = 3;
-			break;
-		case 'F': currentList = 4;
-			break;
-	}
-	sprintf(titleString,"Total: %d", [list[currentList] count]);
-	[browser setTitle:[NSString stringWithCString:titleString] ofColumn:0];
-	[browser loadColumnZero];
+    title = [[sender selectedCell] title];
+    if ([title hasPrefix:@"C"]) {
+        currentList = 1;
+    } else if ([title hasPrefix:@"F"]) {
+        currentList = 4;
+    } else if ([title hasPrefix:@"M"]) {
+        currentList = 3;
+    } else if ([title hasPrefix:@"Ph"]) {
+        currentList = 0;
+    } else if ([title hasPrefix:@"P"]) {
+        currentList = 2;
+    }
 
-	inspector = [controller inspector];
-	if (inspector)
-		[inspector cleanInspectorWindow]; 
+    [browser setTitle:[NSString stringWithFormat:@"Total: %d", [list[currentList] count]] ofColumn:0];
+    [browser loadColumnZero];
+
+    inspector = [controller inspector];
+    if (inspector)
+        [inspector cleanInspectorWindow];
 }
 
-- (void)updateBrowser
+- (void)updateBrowser;
 {
-char titleString[128];
-
-	sprintf(titleString,"Total: %d", [list[currentList] count]);
-	[browser setTitle:[NSString stringWithCString:titleString] ofColumn:0];
-	[browser loadColumnZero]; 
+    [browser setTitle:[NSString stringWithFormat:@"Total: %d", [list[currentList] count]] ofColumn:0];
+    [browser loadColumnZero];
 }
 
-- (void)updateLists
+- (void)updateLists;
 {
-	list[0] = NXGetNamedObject(@"mainPhoneList", NSApp);
-	list[1] = NXGetNamedObject(@"mainCategoryList", NSApp);
-	list[2] = NXGetNamedObject(@"mainParameterList", NSApp);
-	list[3] = NXGetNamedObject(@"mainMetaParameterList", NSApp);
-	list[4] = NXGetNamedObject(@"mainSymbolList", NSApp); 
+    list[0] = NXGetNamedObject(@"mainPhoneList", NSApp);
+    list[1] = NXGetNamedObject(@"mainCategoryList", NSApp);
+    list[2] = NXGetNamedObject(@"mainParameterList", NSApp);
+    list[3] = NXGetNamedObject(@"mainMetaParameterList", NSApp);
+    list[4] = NXGetNamedObject(@"mainSymbolList", NSApp);
 }
+
+- (void)addObjectToCurrentList:tempEntry;
+{
+    int row = [[browser matrixInColumn:0] selectedRow];
+    id temp;
+
+    if (row == -1) {
+        switch (currentList) {
+          case 0:
+              break;
+          case 1:
+              break;
+          case 2:
+              break;
+          case 3:
+              break;
+          case 4:
+              break;
+        }
+    } else {
+        temp = [list[currentList] objectAtIndex:row];
+        [tempEntry setSymbol:[temp symbol]];
+        [list[currentList] replaceObjectAtIndex:row withObject:tempEntry];
+    }
+}
+
 - (void)browserHit:sender;
 {
-id temp;
-int index;
+    id temp;
+    int index;
 
-	[[browser window] makeFirstResponder:self];
-	temp = [controller inspector];
-	index = [[sender matrixInColumn:0] selectedRow];
-	if (temp)
-	{
-		if (index == (-1))
-		{
-			[temp cleanInspectorWindow];
-			return;
-		}
-		switch(currentList)
-		{
-			case 0: [temp inspectPhone:[list[currentList] objectAtIndex:index]];
-				break;
-			case 1: [temp inspectCategory:[list[currentList] objectAtIndex:index]];
-				break;
-			case 2: [temp inspectParameter:[list[currentList] objectAtIndex:index]];
-				break;
-			case 3: [temp inspectMetaParameter:[list[currentList] objectAtIndex:index]];
-				break;
-			case 4: [temp inspectSymbol:[list[currentList] objectAtIndex:index]];
-				break;
-		}
-	}
+    [[browser window] makeFirstResponder:self];
+    temp = [controller inspector];
+    index = [[sender matrixInColumn:0] selectedRow];
+    if (temp) {
+        if (index == -1) {
+            [temp cleanInspectorWindow];
+            return;
+        }
+
+        switch (currentList) {
+          case 0:
+              [temp inspectPhone:[list[currentList] objectAtIndex:index]];
+              break;
+          case 1:
+              [temp inspectCategory:[list[currentList] objectAtIndex:index]];
+              break;
+          case 2:
+              [temp inspectParameter:[list[currentList] objectAtIndex:index]];
+              break;
+          case 3:
+              [temp inspectMetaParameter:[list[currentList] objectAtIndex:index]];
+              break;
+          case 4:
+              [temp inspectSymbol:[list[currentList] objectAtIndex:index]];
+              break;
+        }
+    }
 }
 
 - (void)browserDoubleHit:sender;
 {
-id temp;
-int index;
+    id temp;
+    int index;
 
-	temp = [controller inspector];
-	index = [[sender matrixInColumn:0] selectedRow];
+    temp = [controller inspector];
+    index = [[sender matrixInColumn:0] selectedRow];
 
-	if (!temp)
-	{
-		[controller displayInspectorWindow:self];
-		temp = [controller inspector];
-		switch(currentList)
-		{
-			case 0: [temp inspectPhone:[list[currentList] objectAtIndex:index]];
-				break;
-			case 1: [temp inspectCategory:[list[currentList] objectAtIndex:index]];
-				break;
-			case 2: [temp inspectParameter:[list[currentList] objectAtIndex:index]];
-				break;
-			case 3: [temp inspectMetaParameter:[list[currentList] objectAtIndex:index]];
-				break;
-			case 4: [temp inspectSymbol:[list[currentList] objectAtIndex:index]];
-				break;
-		}
-		[temp beginEdittingCurrentInspector];
-	}
-	else
-	{
-		[temp beginEdittingCurrentInspector];
-	}
+    if (!temp) {
+        [controller displayInspectorWindow:self];
+        temp = [controller inspector];
+        switch (currentList) {
+          case 0:
+              [temp inspectPhone:[list[currentList] objectAtIndex:index]];
+              break;
+          case 1:
+              [temp inspectCategory:[list[currentList] objectAtIndex:index]];
+              break;
+          case 2:
+              [temp inspectParameter:[list[currentList] objectAtIndex:index]];
+              break;
+          case 3:
+              [temp inspectMetaParameter:[list[currentList] objectAtIndex:index]];
+              break;
+          case 4:
+              [temp inspectSymbol:[list[currentList] objectAtIndex:index]];
+              break;
+        }
+    }
+
+    [temp beginEdittingCurrentInspector];
 }
-
-
 
 - (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;
 {
-	return([list[currentList] count]);
+    return [list[currentList] count];
 }
 
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
 {
-id ruleManager = NXGetNamedObject(@"ruleManager", NSApp);
-char buffer[256];
+    id ruleManager = NXGetNamedObject(@"ruleManager", NSApp);
 
-	bzero(buffer, 256);
-	/* Get CategoryNode Object From Category List (indexed by row) */
-	sprintf(buffer,"%s", [[list[currentList] objectAtIndex:row] symbol]);
-	[cell setStringValue:[NSString stringWithCString:buffer]];
-	[cell setLeaf:YES];
-	switch(currentList)
-	{
-		case 0:
-			break;
-		case 1: if ([ruleManager isCategoryUsed:[list[currentList] objectAtIndex:row]])
-				[cell setFont:courierBold];
-			else
-				[cell setFont:courier];
-			break;
-		case 2:
-			break;
-		case 3:
-			break;
-		case 4:
-			break;
-		default:
-			break;
-	}
+    /* Get CategoryNode Object From Category List (indexed by row) */
+    [cell setStringValue:[[list[currentList] objectAtIndex:row] symbol]];
+    [cell setLeaf:YES];
 
+    switch (currentList) {
+      case 0:
+          break;
+      case 1:
+          if ([ruleManager isCategoryUsed:[list[currentList] objectAtIndex:row]])
+              [cell setFont:courierBold];
+          else
+              [cell setFont:courier];
+          break;
+      case 2:
+          break;
+      case 3:
+          break;
+      case 4:
+          break;
+      default:
+          break;
+    }
 }
 
-- (void)add:sender
+- (void)add:sender;
 {
-	if (![list[currentList] findByName:[[nameField stringValue] cString]])
-	{
-		[list[currentList] addNewValue:[[nameField stringValue] cString]];
-		[browser loadColumnZero];
-		switch(currentList)
-		{
-			case 2: [controller addParameter];
-				break;
-			case 3: [controller addMetaParameter];
-				break;
-			case 4: [controller addSymbol];
-				break;
+    if (![list[currentList] findByName:[nameField stringValue]])
+    {
+        [list[currentList] addNewValue:[nameField stringValue]];
+        [browser loadColumnZero];
 
-			default:
-				break;
-		}
-	}
-	else
-		NSBeep();
+        switch (currentList) {
+          case 2:
+              [controller addParameter];
+              break;
+          case 3:
+              [controller addMetaParameter];
+              break;
+          case 4:
+              [controller addSymbol];
+              break;
 
+          default:
+              break;
+        }
+    } else
+        NSBeep();
 
-	[nameField selectTextAtIndex:0]; 
+    [nameField selectTextAtIndex:0];
 }
 
-- (void)rename:sender
+- (void)rename:sender;
 {
-id temp, cell;
+    id temp, cell;
 
-	if ([list[currentList] findByName:[[nameField stringValue] cString]])
-	{
-		NSBeep();
-		return;
-	}
-	cell = [browser selectedCell];
-	if (cell)
-	{
-		temp = [list[currentList] findByName:[[[browser selectedCell] stringValue] cString]];
-		[list[currentList] changeSymbolOf:temp to:(const char *) [[nameField stringValue] cString]];
-	}
-	[browser loadColumnZero];
-	[nameField selectTextAtIndex:0]; 
+    if ([list[currentList] findByName:[nameField stringValue]]) {
+        NSBeep();
+        return;
+    }
+
+    cell = [browser selectedCell];
+    if (cell) {
+        temp = [list[currentList] findByName:[[browser selectedCell] stringValue]];
+        [list[currentList] changeSymbolOf:temp to:[nameField stringValue]];
+    }
+    [browser loadColumnZero];
+    [nameField selectTextAtIndex:0];
 }
 
-- (void)remove:sender
+- (void)remove:sender;
 {
-id temp, cell;
-int index;
+    id temp, cell;
+    int index;
 
-	cell = [browser selectedCell];
-	if (cell)
-	{
-		temp = [list[currentList] findByName:[[[browser selectedCell] stringValue] cString]];
-		if (temp)
-		{
-			index = [list[currentList] indexOfObject:temp];
-			switch(currentList)
-			{
-				case 2: [(MyController *) controller removeParameter:index];
-					//[list[0] removeParameter:index];
-					break;
-				case 3: [(MyController *) controller removeMetaParameter:index];
-					//[list[0] removeMetaParameter:index];
-					break;
-				case 4: [(PhoneList *) list[0] removeSymbol:index];
-					break;
-				default:
-					break;
-			}
-			[list[currentList] removeObject:temp];
-		}
-		[browser loadColumnZero];
-	}
-	[nameField selectTextAtIndex:0]; 
+    cell = [browser selectedCell];
+    if (cell) {
+        temp = [list[currentList] findByName:[[browser selectedCell] stringValue]];
+        if (temp) {
+            index = [list[currentList] indexOfObject:temp];
+            switch (currentList) {
+              case 2:
+                  [(MyController *)controller removeParameter:index];
+                  //[list[0] removeParameter:index];
+                  break;
+              case 3:
+                  [(MyController *)controller removeMetaParameter:index];
+                  //[list[0] removeMetaParameter:index];
+                  break;
+              case 4:
+                  [(PhoneList *)(list[0]) removeSymbol:index];
+                  break;
+              default:
+                  break;
+            }
+
+            [list[currentList] removeObject:temp];
+        }
+
+        [browser loadColumnZero];
+    }
+
+    [nameField selectTextAtIndex:0];
 }
 
-- (void)cut:(id)sender
+- (void)cut:(id)sender;
 {
-	printf("Cut\n");
+    NSLog(@"Cut");
 }
 
-NSString *phoneString = @"Phone";
-NSString *categoryString = @"Category";
-NSString *parameterString = @"Parameter";
-NSString *metaParameterString = @"MetaParameter";
-NSString *symbolString = @"Symbol";
+static NSString *phoneString = @"Phone";
+static NSString *categoryString = @"Category";
+static NSString *parameterString = @"Parameter";
+static NSString *metaParameterString = @"MetaParameter";
+static NSString *symbolString = @"Symbol";
 
-- (void)copy:(id)sender
+- (void)copy:(id)sender;
 {
-NSPasteboard *myPasteboard;
-NSArchiver *typed = NULL;
-NSMutableData *mdata;
-NSString *dataType;
-int row = [[browser matrixInColumn:0] selectedRow];
-int retValue;
-id tempEntry;
+    NSPasteboard *myPasteboard;
+    NSArchiver *typed = nil;
+    NSMutableData *mdata;
+    NSString *dataType;
+    int row = [[browser matrixInColumn:0] selectedRow];
+    int retValue;
+    id tempEntry;
 
-	myPasteboard = [NSPasteboard pasteboardWithName:@"MonetPasteboard"];
+    myPasteboard = [NSPasteboard pasteboardWithName:@"MonetPasteboard"];
 
-	mdata = [NSMutableData dataWithCapacity: 16];
-	typed = [[NSArchiver alloc] initForWritingWithMutableData: mdata];
+    mdata = [NSMutableData dataWithCapacity:16];
+    typed = [[NSArchiver alloc] initForWritingWithMutableData:mdata];
 
-	tempEntry = [list[currentList] objectAtIndex:row]; 
-	[tempEntry encodeWithCoder:typed];
+    tempEntry = [list[currentList] objectAtIndex:row];
+    [tempEntry encodeWithCoder:typed];
 
-	switch(currentList)
-	{
-		case 0: dataType = phoneString;
-			break;
-		case 1: dataType = categoryString;
-			break;
-		case 2: dataType = parameterString;
-			break;
-		case 3: dataType = metaParameterString;
-			break;
-		case 4: dataType = symbolString;
-			break;
-	}
+    switch (currentList) {
+      case 0:
+          dataType = phoneString;
+          break;
+      case 1:
+          dataType = categoryString;
+          break;
+      case 2:
+          dataType = parameterString;
+          break;
+      case 3:
+          dataType = metaParameterString;
+          break;
+      case 4:
+          dataType = symbolString;
+          break;
+    }
 
-	retValue = [myPasteboard 
-		declareTypes:[NSArray arrayWithObject:dataType] owner:nil];
-	[myPasteboard setData:mdata forType:dataType];
+    retValue = [myPasteboard declareTypes:[NSArray arrayWithObject:dataType] owner:nil];
+    [myPasteboard setData:mdata forType:dataType];
 
-	[typed release];
+    [typed release];
 }
 
-- (void)paste:(id)sender
+- (void)paste:(id)sender;
 {
-NSPasteboard *myPasteboard;
-NSArchiver *typed = NULL;
-NSData *mdata;
-NSArray *dataTypes;
-NSString *dataType;
-id tempEntry;
+    NSPasteboard *myPasteboard;
+    NSArchiver *typed = nil;
+    NSData *mdata;
+    NSArray *dataTypes;
+    NSString *dataType;
+    id tempEntry;
 
-	myPasteboard = [NSPasteboard pasteboardWithName:@"MonetPasteboard"];
-	dataTypes = [myPasteboard types];
-	dataType = [dataTypes objectAtIndex: 0];
-	switch(currentList)
-	{
-		case 0: if (![dataType isEqual:phoneString])
-			{
-				NSBeep();
-				return;
-			}
-			tempEntry = [[Phone alloc] init];
-			mdata = [myPasteboard dataForType: phoneString];
-	                typed = [[NSUnarchiver alloc] initForReadingWithData: mdata];
-			[tempEntry initWithCoder:typed];
-			[typed release];
-			tempEntry = [list[0] makePhoneUniqueName:tempEntry];
-			[list[0] addPhoneObject:tempEntry];
-			[browser loadColumnZero];
-			[browser setPath:[NSString stringWithCString:[tempEntry symbol]]];
-			break;
-		case 1: if (![dataType isEqual:categoryString])
-			{
-				NSBeep();
-				return;
-			}
-			tempEntry = [[CategoryNode alloc] init];
-			break;
-		case 2: if (![dataType isEqual:parameterString])
-			{
-				NSBeep();
-				return;
-			}
-			tempEntry = [[Parameter alloc] init];
-			break;
-		case 3: if (![dataType isEqual:metaParameterString])
-			{
-				NSBeep();
-				return;
-			}
-			tempEntry = [[Parameter alloc] init];
-			break;
-		case 4: if (![dataType isEqual:symbolString])
-			{
-				NSBeep();
-				return;
-			}
-			tempEntry = [[Symbol alloc] init];
-			break;
-	}
+    myPasteboard = [NSPasteboard pasteboardWithName:@"MonetPasteboard"];
+    dataTypes = [myPasteboard types];
+    dataType = [dataTypes objectAtIndex:0];
+    switch (currentList) {
+      case 0:
+          if (![dataType isEqual:phoneString]) {
+              NSBeep();
+              return;
+          }
+
+          tempEntry = [[Phone alloc] init];
+          mdata = [myPasteboard dataForType:phoneString];
+          typed = [[NSUnarchiver alloc] initForReadingWithData:mdata];
+          [tempEntry initWithCoder:typed];
+          [typed release];
+          [tempEntry release];
+
+          tempEntry = [list[0] makePhoneUniqueName:tempEntry];
+          [list[0] addPhoneObject:tempEntry];
+          [browser loadColumnZero];
+          [browser setPath:[tempEntry symbol]];
+          break;
+
+      case 1:
+          if (![dataType isEqual:categoryString]) {
+              NSBeep();
+              return;
+          }
+
+          tempEntry = [[CategoryNode alloc] init];
+          break;
+
+      case 2:
+          if (![dataType isEqual:parameterString]) {
+              NSBeep();
+              return;
+          }
+
+          tempEntry = [[Parameter alloc] init];
+          break;
+
+      case 3:
+          if (![dataType isEqual:metaParameterString]) {
+              NSBeep();
+              return;
+          }
+
+          tempEntry = [[Parameter alloc] init];
+          break;
+
+      case 4:
+          if (![dataType isEqual:symbolString]) {
+              NSBeep();
+              return;
+          }
+
+          tempEntry = [[Symbol alloc] init];
+          break;
+    }
+#warning TODO (2004-03-02): Check earliest sources.  It looks like most of the pasting is not implemeneted, and this leaks.
 }
 
-- (void)addObjectToCurrentList:tempEntry
-{
-int row = [[browser matrixInColumn:0] selectedRow];
-id temp;
-
-	if (row==(-1))
-	{
-		switch(currentList)
-		{
-			case 0: 
-				break;
-			case 1: 
-				break;
-			case 2: 
-				break;
-			case 3: 
-				break;
-			case 4: 
-				break;
-		}
-	}
-	else
-	{
-		temp = [list[currentList] objectAtIndex: row];
-		[tempEntry setSymbol: [temp symbol]];
-		[list[currentList] replaceObjectAtIndex: row withObject:tempEntry];
-	} 
-}
-
-- (void)windowDidBecomeMain:(NSNotification *)notification
+- (void)windowDidBecomeMain:(NSNotification *)notification;
 {
     id temp;
-int index = 0;
-	temp = [controller inspector];
-	index = [[browser matrixInColumn:0] selectedRow];
-	if (temp)
-	{
-		if ( index == (-1))
-			[temp cleanInspectorWindow];
-		else
-			switch(currentList)
-			{
-				case 0: [temp inspectPhone:[list[currentList] objectAtIndex:index]];
-					break;
-				case 1: [temp inspectCategory:[list[currentList] objectAtIndex:index]];
-					break;
-				case 2: [temp inspectParameter:[list[currentList] objectAtIndex:index]];
-					break;
-				case 3: [temp inspectMetaParameter:[list[currentList] objectAtIndex:index]];
-					break;
-				case 4: [temp inspectSymbol:[list[currentList] objectAtIndex:index]];
-					break;
-			}
-	}
+    int index = 0;
+
+    temp = [controller inspector];
+    index = [[browser matrixInColumn:0] selectedRow];
+    if (temp) {
+        if (index == -1)
+            [temp cleanInspectorWindow];
+        else
+            switch (currentList) {
+              case 0:
+                  [temp inspectPhone:[list[currentList] objectAtIndex:index]];
+                  break;
+              case 1:
+                  [temp inspectCategory:[list[currentList] objectAtIndex:index]];
+                  break;
+              case 2:
+                  [temp inspectParameter:[list[currentList] objectAtIndex:index]];
+                  break;
+              case 3:
+                  [temp inspectMetaParameter:[list[currentList] objectAtIndex:index]];
+                  break;
+              case 4:
+                  [temp inspectSymbol:[list[currentList] objectAtIndex:index]];
+                  break;
+            }
+    }
 }
 
-- (BOOL)windowShouldClose:(id)sender
+- (BOOL)windowShouldClose:(id)sender;
 {
-id temp;
-	temp = [controller inspector];
-	[temp cleanInspectorWindow];
-	return YES;
+    [[controller inspector] cleanInspectorWindow];
+
+    return YES;
 }
 
-- (void)windowDidResignMain:(NSNotification *)notification
+- (void)windowDidResignMain:(NSNotification *)notification;
 {
-    id temp;
-	temp = [controller inspector];
-	[temp cleanInspectorWindow];
+    [[controller inspector] cleanInspectorWindow];
 }
 
 

@@ -33,11 +33,11 @@
 
 /* BrowserManager List delegate Methods */
 - (void)addNewValue:(NSString *)newValue;
-- (Phone *)findByName:(NSString *)name;
-- (void)changeSymbolOf:(Phone *)aPhone to:(NSString *)name;
+- (id)findByName:(NSString *)name;
+- (void)changeSymbolOf:(id)aPhone to:(NSString *)name;
 
-//- (void)readDegasFileFormat:(FILE *)fp;
-//- (void)printDataTo:(FILE *)fp;
+- (void)readDegasFileFormat:(FILE *)fp;
+- (void)printDataTo:(FILE *)fp;
 
 /* List maintenance Methods */
 - (void)parameterDefaultChange:(Parameter *)parameter to:(double)value;

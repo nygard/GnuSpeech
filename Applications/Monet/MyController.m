@@ -2,16 +2,14 @@
 
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
+#import "BrowserManager.h"
 #import "CategoryNode.h"
 #import "CategoryList.h"
 #import "ParameterList.h"
 #import "PhoneList.h"
-#import "SymbolList.h"
-
-#ifdef PORTING
 #import "PrototypeManager.h"
 #import "RuleManager.h"
-#endif
+#import "SymbolList.h"
 
 @implementation MyController
 

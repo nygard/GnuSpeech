@@ -69,20 +69,21 @@
     [self addCategory:newValue];
 }
 
-- (CategoryNode *)findByName:(NSString *)name;
+- (id)findByName:(NSString *)name;
 {
     return [self findSymbol:name];
 }
 
-- (void)changeSymbolOf:(CategoryNode *)temp to:(NSString *)name;
+- (void)changeSymbolOf:(id)temp to:(NSString *)name;
 {
     [temp setSymbol:name];
 }
 
 #define SYMBOL_LENGTH_MAX 12
-#ifdef PORTING
 - (void)readDegasFileFormat:(FILE *)fp;
 {
+#warning Not yet ported
+#ifdef PORTING
     int i, count;
 
     CategoryNode *currentNode;
@@ -100,10 +101,13 @@
 
     if (![self findSymbol:"phone"])
         [self addCategory:"phone"];
+#endif
 }
 
 - (void)printDataTo:(FILE *)fp;
 {
+#warning Not yet ported
+#ifdef PORTING
     int i;
 
     fprintf(fp, "Categories\n");
@@ -114,8 +118,8 @@
         fprintf(fp, "\n");
     }
     fprintf(fp, "\n");
-}
 #endif
+}
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {

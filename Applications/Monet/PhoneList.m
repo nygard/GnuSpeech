@@ -140,7 +140,7 @@
     [self addPhone:newValue];
 }
 
-- (Phone *)findByName:(NSString *)name;
+- (id)findByName:(NSString *)name;
 {
     int dummy;
 
@@ -150,7 +150,7 @@
     return [self binarySearchPhone:name index:&dummy];
 }
 
-- (void)changeSymbolOf:(Phone *)aPhone to:(NSString *)name;
+- (void)changeSymbolOf:(id)aPhone to:(NSString *)name;
 {
     [aPhone retain];
     [self removeObject:aPhone];
@@ -160,9 +160,10 @@
 }
 
 #define SYMBOL_LENGTH_MAX       12
-#ifdef PORTING
 - (void)readDegasFileFormat:(FILE *)fp;
 {
+#warning Not yet ported
+#ifdef PORTING
     int i, j, symbolIndex;
     int phoneCount, targetCount, categoryCount;
 
@@ -247,10 +248,13 @@
 
         }
     }
+#endif
 }
 
 - (void)printDataTo:(FILE *)fp;
 {
+#warning Not yet ported
+#ifdef PORTING
     int i, j;
     id temp;
     id symbols, parms, metaParms;
@@ -304,8 +308,9 @@
         fprintf(fp, "\n");
     }
     fprintf(fp, "\n");
-}
 #endif
+}
+
 - (void)parameterDefaultChange:(Parameter *)parameter to:(double)value;
 {
     int i, index;
