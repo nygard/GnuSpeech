@@ -57,6 +57,7 @@
 #include "tube.h"
 #include "input.h"
 #include "fir.h"
+#include "util.h"
 
 
 
@@ -130,17 +131,10 @@
 #define PITCH_OFFSET              3           /*  MIDDLE C = 0  */
 #define LOG_FACTOR                3.32193
 
-/*  RANGE OF ALL VOLUME CONTROLS  */
-#define VOL_MAX                   60
-
 /*  SCALING CONSTANT FOR INPUT TO VOCAL TRACT & THROAT (MATCHES DSP)  */
 //#define VT_SCALE                  0.03125     /*  2^(-5)  */
 // this is a temporary fix only, to try to match dsp synthesizer
 #define VT_SCALE                  0.125     /*  2^(-3)  */
-
-/*  CONSTANTS FOR NOISE GENERATOR  */
-#define FACTOR                    377.0
-#define INITIAL_SEED              0.7892347
 
 /*  BI-DIRECTIONAL TRANSMISSION LINE POINTERS  */
 #define TOP                       0
@@ -170,9 +164,6 @@
 #define lValue(x)                 (((x) & L_MASK) >> M_BITS)
 #define mValue(x)                 ((x) & M_MASK)
 #define fractionValue(x)          ((x) & FRACTION_MASK)
-
-#define BETA                      5.658        /*  kaiser window parameters  */
-#define IzeroEPSILON              1E-21
 
 #define OUTPUT_SRATE_LOW          22050.0
 #define OUTPUT_SRATE_HIGH         44100.0
@@ -297,10 +288,7 @@ unsigned int timeRegister = 0;
 /*  GLOBAL FUNCTIONS (LOCAL TO THIS FILE)  ***********************************/
 
 void initializeWavetable(void);
-double speedOfSound(double temperature);
 void updateWavetable(double amplitude);
-double noise(void);
-double noiseFilter(double input);
 void initializeMouthCoefficients(double coeff);
 double reflectionFilter(double input);
 double radiationFilter(double input);
@@ -320,13 +308,8 @@ double oscillator(double frequency);
 double vocalTract(double input, double frication);
 double throat(double input);
 double bandpassFilter(double input);
-double amplitude(double decibelLevel);
-double frequency(double pitch);
-void rationalApproximation(double number, int *order, int *numerator,
-			   int *denominator);
 void initializeConversion(void);
 void initializeFilter(void);
-double Izero(double x);
 void initializeBuffer(void);
 void dataFill(double data);
 void dataEmpty(void);
@@ -334,30 +317,6 @@ void srIncrement(int *pointer, int modulus);
 void srDecrement(int *pointer, int modulus);
 
 
-
-
-
-/******************************************************************************
-*
-*	function:	speedOfSound
-*
-*	purpose:	Returns the speed of sound according to the value of
-*                       the temperature (in Celsius degrees).
-*
-*       arguments:      temperature
-*
-*	internal
-*	functions:	none
-*
-*	library
-*	functions:	none
-*
-******************************************************************************/
-
-double speedOfSound(double temperature)
-{
-    return (331.4 + (0.6 * temperature));
-}
 
 
 
@@ -534,60 +493,6 @@ void updateWavetable(double amplitude)
     /*  FILL IN WITH CLOSED PORTION OF GLOTTAL PULSE  */
     for (i = newDiv2; i < tableDiv2; i++)
 	wavetable[i] = 0.0;
-}
-
-
-
-/******************************************************************************
-*
-*	function:	noise
-*
-*	purpose:	Returns one value of a random sequence.
-*
-*       arguments:      none
-*
-*	internal
-*	functions:	none
-*
-*	library
-*	functions:	none
-*
-******************************************************************************/
-
-double noise(void)
-{
-    static double seed = INITIAL_SEED;
-
-    double product = seed * FACTOR;
-    seed = product - (int)product;
-    return (seed - 0.5);
-}
-
-
-
-/******************************************************************************
-*
-*	function:	noiseFilter
-*
-*	purpose:	One-zero lowpass filter.
-*
-*       arguments:      input
-*
-*	internal
-*	functions:	none
-*
-*	library
-*	functions:	none
-*
-******************************************************************************/
-
-double noiseFilter(double input)
-{
-    static double noiseX = 0.0;
-
-    double output = input + noiseX;
-    noiseX = input;
-    return output;
 }
 
 
@@ -1490,40 +1395,6 @@ double bandpassFilter(double input)
 
 
 
-
-/******************************************************************************
-*
-*       function:       amplitude
-*
-*       purpose:        Converts dB value to amplitude value.
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      pow
-*
-******************************************************************************/
-
-double amplitude(double decibelLevel)
-{
-    /*  CONVERT 0-60 RANGE TO -60-0 RANGE  */
-    decibelLevel -= VOL_MAX;
-
-    /*  IF -60 OR LESS, RETURN AMPLITUDE OF 0  */
-    if (decibelLevel <= (-VOL_MAX))
-        return 0.0;
-
-    /*  IF 0 OR GREATER, RETURN AMPLITUDE OF 1  */
-    if (decibelLevel >= 0.0)
-        return 1.0;
-
-    /*  ELSE RETURN INVERSE LOG VALUE  */
-    return pow(10.0, (decibelLevel / 20.0));
-}
-
-
-
 /******************************************************************************
 *
 *       function:       frequency
@@ -1638,45 +1509,6 @@ void initializeFilter(void)
     for (i = 0; i < FILTER_LIMIT; i++)
 	deltaH[i] = h[i+1] - h[i];
     deltaH[FILTER_LIMIT] = 0.0 - h[FILTER_LIMIT];
-}
-
-
-
-/******************************************************************************
-*
-*	function:	Izero
-*
-*	purpose:	Returns the value for the modified Bessel function of
-*                       the first kind, order 0, as a double.
-*
-*       arguments:      x - input argument
-*
-*	internal
-*	functions:	none
-*
-*	library
-*	functions:	none
-*
-******************************************************************************/
-
-double Izero(double x)
-{
-    double sum, u, halfx, temp;
-    int n;
-
-
-    sum = u = n = 1;
-    halfx = x / 2.0;
-
-    do {
-	temp = halfx / (double)n;
-	n += 1;
-	temp *= temp;
-	u *= temp;
-	sum += u;
-    } while (u >= (IzeroEPSILON * sum));
-
-    return sum;
 }
 
 
