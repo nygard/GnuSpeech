@@ -10,6 +10,7 @@
 #import "MModel.h"
 #import "MonetList.h"
 #import "NamedList.h"
+#import "MMTransition.h"
 
 @implementation MPrototypeManager
 
@@ -93,11 +94,10 @@
 
 - (void)updateViews;
 {
-#if 0
-    [equationOutlineView reloadItem:nil reloadChildren:YES];
-    [transitionOutlineView reloadItem:nil reloadChildren:YES];
-    [specialTransitionOutlineView reloadItem:nil reloadChildren:YES];
-#endif
+    [equationOutlineView reloadData];
+    [transitionOutlineView reloadData];
+    [specialTransitionOutlineView reloadData];
+
     [self _updateEquationDetails];
     [self _updateTransitionDetails];
     [self _updateSpecialTransitionDetails];
@@ -175,7 +175,7 @@
 
         if ([selectedTransitionOrGroup isKindOfClass:[MMTransition class]] == YES) {
             [transitionTypeMatrix setEnabled:YES];
-            [transitionTypeMatrix selectCellWithTag:[selectedTransitionOrGroup type]];
+            [transitionTypeMatrix selectCellWithTag:[(MMTransition *)selectedTransitionOrGroup type]];
         } else {
             [transitionTypeMatrix setEnabled:NO];
             [transitionTypeMatrix selectCellWithTag:2];
@@ -206,7 +206,7 @@
 
         if ([selectedSpecialTransitionOrGroup isKindOfClass:[MMTransition class]] == YES) {
             [specialTransitionTypeMatrix setEnabled:YES];
-            [specialTransitionTypeMatrix selectCellWithTag:[selectedSpecialTransitionOrGroup type]];
+            [specialTransitionTypeMatrix selectCellWithTag:[(MMTransition *)selectedSpecialTransitionOrGroup type]];
         } else {
             [specialTransitionTypeMatrix setEnabled:NO];
             [specialTransitionTypeMatrix selectCellWithTag:2];
@@ -431,6 +431,29 @@
 - (void)outlineView:(NSOutlineView *)outlineView willDisplayOutlineCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item;
 {
     //[outlineView expandItem:item];
+}
+
+- (void)outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item;
+{
+    id identifier;
+
+    identifier = [tableColumn identifier];
+
+    if (outlineView == equationOutlineView) {
+        if ([@"isUsed" isEqual:identifier] == YES) {
+            if ([item isKindOfClass:[MMEquation class]] == YES)
+                [cell setTransparent:NO];
+            else
+                [cell setTransparent:YES];
+        }
+    } else if (outlineView == transitionOutlineView || outlineView == specialTransitionOutlineView) {
+        if ([@"isUsed" isEqual:identifier] == YES) {
+            if ([item isKindOfClass:[MMTransition class]] == YES)
+                [cell setTransparent:NO];
+            else
+                [cell setTransparent:YES];
+        }
+    }
 }
 
 //

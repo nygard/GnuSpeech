@@ -1,5 +1,5 @@
 //
-// $Id: MPrototypeManager.h,v 1.1 2004/03/21 05:02:00 nygard Exp $
+// $Id: MPrototypeManager.h,v 1.2 2004/03/21 18:22:19 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -78,6 +78,7 @@
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item;
 - (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item;
 - (void)outlineView:(NSOutlineView *)outlineView willDisplayOutlineCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item;
+- (void)outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item;
 
 // NSOutlineView delegate
 - (void)outlineViewSelectionDidChange:(NSNotification *)aNotification;
