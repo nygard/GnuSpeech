@@ -116,7 +116,8 @@ typedef struct _TRMData {
 /*  VARIABLES FOR SAMPLE RATE CONVERSION  */
 typedef struct _TRMSampleRateConverter {
     double sampleRateRatio;
-    double h[FILTER_LENGTH], deltaH[FILTER_LENGTH];
+    double h[FILTER_LENGTH];
+    double deltaH[FILTER_LENGTH];
     unsigned int timeRegisterIncrement, filterIncrement, phaseIncrement;
     unsigned int timeRegister;
 
