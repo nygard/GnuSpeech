@@ -118,7 +118,7 @@ void printInfo(char *inputFile)
 *
 *	internal
 *	functions:	parseInputFile, initializeSynthesizer, printInfo,
-*                       synthesize, flushBuffer, writeOutputToFile
+*                       synthesize, writeOutputToFile
 *
 *	library
 *	functions:	strcpy, fprintf, exit, printf, fflush
@@ -179,9 +179,6 @@ int main(int argc, char *argv[])
 	fflush(stdout);
     }
     synthesize(inputHead);
-
-    /*  BE SURE TO FLUSH SRC BUFFER  */
-    flushBuffer();
 
     /*  PRINT OUT DONE MESSAGE  */
     if (verbose)

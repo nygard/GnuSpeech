@@ -769,6 +769,9 @@ void synthesize(INPUT *inputHead)
         previousInput = currentInput;
         currentInput = currentInput->next;
     }
+
+    /*  BE SURE TO FLUSH SRC BUFFER  */
+    flushBuffer();
 }
 
 
