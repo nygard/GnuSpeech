@@ -1,6 +1,6 @@
 #import "MMObject.h"
 
-@class CategoryList, MMCategory, MMTarget, ParameterList, TargetList, SymbolList;
+@class CategoryList, MMCategory, MMSymbol, MMTarget, ParameterList, TargetList, SymbolList;
 
 /*===========================================================================
 
@@ -98,6 +98,8 @@
 
 - (void)addSymbolTarget:(MMTarget *)newTarget;
 - (void)removeSymbolTargetAtIndex:(unsigned int)index;
+
+- (MMTarget *)targetForSymbol:(MMSymbol *)aSymbol;
 
 - (NSComparisonResult)compareByAscendingName:(MMPosture *)otherPosture;
 

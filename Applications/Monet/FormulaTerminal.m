@@ -4,7 +4,6 @@
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
 
-#import "AppController.h"
 #import "MMPosture.h"
 #import "PhoneList.h"
 #import "MMSymbol.h"
@@ -16,13 +15,6 @@
 #import "MUnarchiver.h"
 
 @implementation FormulaTerminal
-
-+ (void)initialize;
-{
-    NSLog(@" > %s", _cmd);
-    [self setVersion:1];
-    NSLog(@"<  %s", _cmd);
-}
 
 - (id)init;
 {
@@ -101,9 +93,7 @@
 
 - (double)evaluate:(double *)ruleSymbols phones:(PhoneList *)phones tempos:(double *)tempos;
 {
-    SymbolList *mainSymbolList;
-    MMTarget *tempTarget;
-    int index;
+    MMTarget *symbolTarget;
 
     /* Duration of the rule itself */
     switch (whichPhone) {
@@ -117,6 +107,7 @@
           return ruleSymbols[3];
       case MARK3:
           return ruleSymbols[4];
+
       case TEMPO0:
           return tempos[0];
       case TEMPO1:
@@ -134,32 +125,12 @@
     if (symbol == nil)
         return value;
 
-    /* Resolve the symbol*/
-    /* Get main symbolList to determine index of "symbol" */
-    mainSymbolList = NXGetNamedObject(@"mainSymbolList", NSApp);
-    index = [mainSymbolList indexOfObject:symbol];
-    //NSLog(@"%s, whichPhone: %d, symbol: %@, index: %d", _cmd, whichPhone, symbol, index);
-#if 0
-    {
-        MMPosture *aPhone;
-
-        aPhone = [phones objectAtIndex:whichPhone];
-        NSLog(@"aPhone: %@", aPhone);
-        NSLog(@"symbolList: %p, count: %d", [aPhone symbolList], [[aPhone symbolList] count]);
-        NSLog(@"symbolList: %@", [aPhone symbolList]);
-    }
-#endif
-    /* Use index to index the phone's symbol list */
-    tempTarget = [[[phones objectAtIndex:whichPhone] symbolList] objectAtIndex:index];
-    //NSLog(@"main symbol list count: %d, phone symbol list count: %d", [mainSymbolList count], [[[phones objectAtIndex:whichPhone] symbolList] count]);
-
-    //NSLog(@"Evaluate: %@ Index: %d  Value : %f", [[phones objectAtIndex:whichPhone] symbol], index, [tempTarget value]);
-
-    if (tempTarget == nil)
+    symbolTarget = [[phones objectAtIndex:whichPhone] targetForSymbol:symbol];
+    if (symbolTarget == nil)
         return 0.0;
 
     /* Return the value */
-    return [tempTarget value];
+    return [symbolTarget value];
 }
 
 - (void)optimize;

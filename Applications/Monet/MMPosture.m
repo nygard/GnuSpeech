@@ -272,6 +272,18 @@
     [symbolList removeObjectAtIndex:index];
 }
 
+- (MMTarget *)targetForSymbol:(MMSymbol *)aSymbol;
+{
+    int symbolIndex;
+
+    assert([self model] != nil);
+    symbolIndex = [[[self model] symbols] indexOfObject:aSymbol];
+    if (symbolIndex == NSNotFound)
+        NSLog(@"Warning: Couldn't find symbol %@ in posture %@", [aSymbol symbol], phoneSymbol);
+
+    return [symbolList objectAtIndex:symbolIndex];
+}
+
 - (NSComparisonResult)compareByAscendingName:(MMPosture *)otherPosture;
 {
     return [phoneSymbol compare:[otherPosture symbol]];
