@@ -22,18 +22,19 @@ int    channels;                    /*  # of sound output channels (1, 2)  */
 double balance;                     /*  stereo balance (-1 to +1)  */
 
 
-void writeAuFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile);
-void writeAiffFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile);
-void writeWaveFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile);
-void writeSamplesMonoMsb(FILE *tempFile, long int numberSamples, double scale, FILE *outputFile);
-void writeSamplesMonoLsb(FILE *tempFile, long int numberSamples, double scale, FILE *outputFile);
-void writeSamplesStereoMsb(FILE *tempFile, long int numberSamples, double leftScale, double rightScale, FILE *outputFile);
-void writeSamplesStereoLsb(FILE *tempFile, long int numberSamples, double leftScale, double rightScale, FILE *outputFile);
-size_t fwriteIntMsb(int data, FILE *stream);
-size_t fwriteIntLsb(int data, FILE *stream);
-size_t fwriteShortMsb(int data, FILE *stream);
-size_t fwriteShortLsb(int data, FILE *stream);
-void convertIntToFloat80(unsigned int value, unsigned char buffer[10]);
+// TODO (2004-05-03): Do we need to declare the function static here, at the implementation, or in both places?
+static void writeAuFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile);
+static void writeAiffFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile);
+static void writeWaveFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile);
+static void writeSamplesMonoMsb(FILE *tempFile, long int numberSamples, double scale, FILE *outputFile);
+static void writeSamplesMonoLsb(FILE *tempFile, long int numberSamples, double scale, FILE *outputFile);
+static void writeSamplesStereoMsb(FILE *tempFile, long int numberSamples, double leftScale, double rightScale, FILE *outputFile);
+static void writeSamplesStereoLsb(FILE *tempFile, long int numberSamples, double leftScale, double rightScale, FILE *outputFile);
+static size_t fwriteIntMsb(int data, FILE *stream);
+static size_t fwriteIntLsb(int data, FILE *stream);
+static size_t fwriteShortMsb(int data, FILE *stream);
+static size_t fwriteShortLsb(int data, FILE *stream);
+static void convertIntToFloat80(unsigned int value, unsigned char buffer[10]);
 
 
 
