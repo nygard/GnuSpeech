@@ -318,8 +318,10 @@
                 mainCategoryList = [[stream decodeObject] retain];
                 NSLog(@"mainCategoryList: %@", mainCategoryList);
                 NXNameObject(@"mainCategoryList", mainCategoryList, NSApp);
-#ifdef PORTING
+
                 mainSymbolList = [[stream decodeObject] retain];
+                NSLog(@"mainSymbolList: %@", mainSymbolList);
+#ifdef PORTING
                 mainParameterList = [[stream decodeObject] retain];
                 mainMetaParameterList = [[stream decodeObject] retain];
                 mainPhoneList = [[stream decodeObject] retain];
