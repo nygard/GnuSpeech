@@ -16,10 +16,6 @@
 {
     EventList *eventList;
 
-    /* Min and Max for each parameter */
-    double min[16];
-    double max[16];
-
     IBOutlet NSTextField *stringTextField;
     IBOutlet EventListView *eventListView;
     IBOutlet NSScrollView *intonationView;
