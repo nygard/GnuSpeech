@@ -712,9 +712,10 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
         [tempCategoryList removeAllObjects];
 
         for (j = 0; j < 4; j++) {
-            if (phones[j+index].phone != nil)
+            if (phones[j+index].phone != nil) {
                 [tempPhoneList addObject:phones[j+index].phone];
-            [tempCategoryList addObject:[phones[j+index].phone categoryList]];
+                [tempCategoryList addObject:[phones[j+index].phone categoryList]];
+            }
         }
 
         matchedRule = [aModel findRuleMatchingCategories:tempCategoryList ruleIndex:&ruleIndex];
