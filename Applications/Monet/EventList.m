@@ -173,16 +173,6 @@
     shouldStoreParameters = newFlag;
 }
 
-- (BOOL)shouldUseSoftwareSynthesis;
-{
-    return shouldUseSoftwareSynthesis;
-}
-
-- (void)setShouldUseSoftwareSynthesis:(BOOL)newFlag;
-{
-    shouldUseSoftwareSynthesis = newFlag;
-}
-
 - (double)pitchMean;
 {
     return pitchMean;
@@ -501,10 +491,7 @@
     if ([self count] == 0)
         return;
 
-    if (shouldStoreParameters == NO) {
-        fp = fopen("/tmp/Monet.parameters", "w");
-    } else if (shouldUseSoftwareSynthesis) {
-        NSLog(@"%s, software synthesis enabled.", _cmd);
+    if (shouldStoreParameters == YES) {
         fp = fopen("/tmp/Monet.parameters", "a+");
     } else
         fp = NULL;

@@ -34,7 +34,6 @@
                 showIntonationWindow = id; 
                 synthesizeToFile = id; 
                 synthesizeWithSoftware = id; 
-                synthesizeWithSoftware2 = id; 
             }; 
             CLASS = MSynthesisController; 
             LANGUAGE = ObjC; 
@@ -45,6 +44,7 @@
                 driftCutoffField = NSTextField; 
                 driftDeviationField = NSTextField; 
                 eventListView = EventListView; 
+                fileTypePopUpButton = NSPopUpButton; 
                 filenameField = NSTextField; 
                 hertzTextField = NSTextField; 
                 intonParmsField = NSForm; 

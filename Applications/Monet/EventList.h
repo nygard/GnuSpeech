@@ -71,7 +71,6 @@ struct _rule {
     int timeQuantization;
 
     BOOL shouldStoreParameters;
-    BOOL shouldUseSoftwareSynthesis;
     BOOL shouldUseMacroIntonation;
     BOOL shouldUseMicroIntonation;
     BOOL shouldUseDrift;
@@ -133,9 +132,6 @@ struct _rule {
 
 - (BOOL)shouldStoreParameters;
 - (void)setShouldStoreParameters:(BOOL)newFlag;
-
-- (BOOL)shouldUseSoftwareSynthesis;
-- (void)setShouldUseSoftwareSynthesis:(BOOL)newFlag;
 
 - (double)pitchMean;
 - (void)setPitchMean:(double)newMean;

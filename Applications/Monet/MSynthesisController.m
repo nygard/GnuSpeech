@@ -216,8 +216,10 @@
     [intonationParameterWindow makeKeyAndOrderFront:self];
 }
 
+// This isn't used right now, but it did things slightly differently w.r.t. intonation, for example.
 - (IBAction)parseStringButton:(id)sender;
 {
+#if 0
     struct timeval tp1, tp2;
     struct timezone tzp;
 
@@ -285,84 +287,29 @@
     [stringTextField selectText:self];
 
     NSLog(@"<  %s", _cmd);
+#endif
 }
 
 - (IBAction)synthesizeWithSoftware:(id)sender;
 {
-    //char commandLine[256];
-
     NSLog(@" > %s", _cmd);
-    //NSLog(@"eventList: %@", eventList);
-    //[[NSApp delegate] generateXML:@"before software synthesis"];
-
-    [[[self model] synthesisParameters] writeToFile:@"/tmp/Monet.parameters" includeComments:YES];
-
-    [eventList setUp];
-    [eventList setShouldUseSoftwareSynthesis:YES];
-
-    [eventList setPitchMean:[[[self model] synthesisParameters] pitch]];
-    [eventList setGlobalTempo:[tempoField doubleValue]];
-    [eventList setShouldStoreParameters:[parametersStore state]];
-
-    [eventList setShouldUseMacroIntonation:[[intonationMatrix cellAtRow:0 column:0] state]];
-    [eventList setShouldUseMicroIntonation:[[intonationMatrix cellAtRow:1 column:0] state]];
-    [eventList setShouldUseDrift:[[intonationMatrix cellAtRow:2 column:0] state]];
-    setDriftGenerator([driftDeviationField floatValue], 500, [driftCutoffField floatValue]);
-    //setDriftGenerator(0.5, 250, 0.5);
-
-    [eventList setRadiusMultiply:[radiusMultiplyField doubleValue]];
-
-    // TODO (2004-03-25): Should we set up the intonation parameters, like the hardware synthesis did?
-#if 1
-    //[eventList setIntonation:[intonationFlag state]];
-    [self _takeIntonationParametersFromUI];
-    [eventList setIntonationParameters:intonationParameters];
-#endif
-
-    [self parsePhoneString:[stringTextField stringValue]];
-
-    [eventList generateEventListWithModel:model];
-#if 1
-    NSLog(@"[smoothIntonationSwitch state]: %d", [smoothIntonationSwitch state]);
-    [eventList applyIntonation];
-    if ([smoothIntonationSwitch state])
-        [eventList applySmoothIntonation];
-
-    [eventList setShouldUseSmoothIntonation:[smoothIntonationSwitch state]];
-#else
-    // TODO (2004-03-25): What about checking for smooth intonation, like the hardware synthesis did?
-    [eventList applyIntonation_fromIntonationView];
-#endif
-
-    //[eventList printDataStructures];
-    [eventList generateOutput];
-
-    [eventListView setEventList:eventList];
-    [eventListView display]; // TODO (2004-03-17): It's not updating otherwise
-
-    [[intonationView documentView] setNeedsDisplay:YES];
-    [stringTextField selectText:self];
-
-#if 0
-    sprintf(commandLine,"/bin/tube /tmp/Monet.parameters %s\n", [[filenameField stringValue] cString]);
-    system(commandLine);
-    sprintf(commandLine,"sndplay %s\n", [[filenameField stringValue] cString]);
-    system(commandLine);
-#endif
-
+    [self synthesizeToSoundFile:NO];
     NSLog(@"<  %s", _cmd);
 }
 
-- (IBAction)synthesizeWithSoftware2:(id)sender;
+- (IBAction)synthesizeToFile:(id)sender;
 {
-    //char commandLine[256];
-
     NSLog(@" > %s", _cmd);
+    [self synthesizeToSoundFile:YES];
+    NSLog(@"<  %s", _cmd);
+}
 
-    [[[self model] synthesisParameters] writeToFile:@"/tmp/Monet.parameters" includeComments:YES];
+- (void)synthesizeToSoundFile:(BOOL)shouldSaveToSoundFile;
+{
+    if ([parametersStore state] == YES)
+        [[[self model] synthesisParameters] writeToFile:@"/tmp/Monet.parameters" includeComments:YES];
 
     [eventList setUp];
-    [eventList setShouldUseSoftwareSynthesis:YES];
 
     [eventList setPitchMean:[[[self model] synthesisParameters] pitch]];
     [eventList setGlobalTempo:[tempoField doubleValue]];
@@ -405,7 +352,10 @@
         [eventList setDelegate:synthesizer];
         [eventList generateOutput];
         [eventList setDelegate:nil];
-        [synthesizer synthesize];
+        if (shouldSaveToSoundFile == YES)
+            [synthesizer synthesizeToSoundFile:[filenameField stringValue] type:[[fileTypePopUpButton selectedItem] tag]];
+        else
+            [synthesizer synthesize];
     }
 
     [eventListView setEventList:eventList];
@@ -413,21 +363,6 @@
 
     [[intonationView documentView] setNeedsDisplay:YES];
     [stringTextField selectText:self];
-
-#if 0
-    sprintf(commandLine,"/bin/tube /tmp/Monet.parameters %s\n", [[filenameField stringValue] cString]);
-    system(commandLine);
-    sprintf(commandLine,"sndplay %s\n", [[filenameField stringValue] cString]);
-    system(commandLine);
-#endif
-
-    NSLog(@"<  %s", _cmd);
-}
-
-- (IBAction)synthesizeToFile:(id)sender;
-{
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
 }
 
 - (IBAction)generateContour:(id)sender;
@@ -533,6 +468,8 @@
 
     [[html dataUsingEncoding:NSUTF8StringEncoding] writeToFile:[basePath stringByAppendingPathComponent:@"index.html"] atomically:YES];
 
+#if 0
+    // TODO (2004-05-13): We should use TRMSynthesizer now to generate the sound file.  For now we'll just copy /tmp/out.au, which we always generate.
     {
         NSString *command;
 
@@ -540,10 +477,14 @@
         if (system([command UTF8String]) != 0)
             NSLog(@"command failed: %@", command);
     }
+#endif
+    [fileManager copyPath:@"/tmp/out.au" toPath:[basePath stringByAppendingPathComponent:@"output.au"] handler:nil];
 
     [jpegProperties release];
 
     [self _updateDisplayedParameters];
+
+    system([[NSString stringWithFormat:@"open %@", [basePath stringByAppendingPathComponent:@"index.html"]] UTF8String]);
 
     NSLog(@"<  %s", _cmd);
 }

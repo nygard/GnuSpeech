@@ -21,6 +21,7 @@
     IBOutlet NSTableView *parameterTableView;
     IBOutlet EventListView *eventListView;
     IBOutlet NSTextField *filenameField;
+    IBOutlet NSPopUpButton *fileTypePopUpButton;
     IBOutlet NSButton *parametersStore;
 
     // Intonation parameter window
@@ -78,8 +79,9 @@
 
 - (IBAction)parseStringButton:(id)sender;
 - (IBAction)synthesizeWithSoftware:(id)sender;
-- (IBAction)synthesizeWithSoftware2:(id)sender;
 - (IBAction)synthesizeToFile:(id)sender;
+- (void)synthesizeToSoundFile:(BOOL)shouldSaveToSoundFile;
+
 - (IBAction)generateContour:(id)sender;
 
 - (IBAction)generateGraphImages:(id)sender;
