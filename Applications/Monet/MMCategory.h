@@ -1,4 +1,5 @@
 #import <Foundation/NSObject.h>
+#import <Foundation/NSXMLParser.h>
 
 @interface MMCategory : NSObject
 {

@@ -2,6 +2,7 @@
 //  Copyright (C) 2004 __OWNER__.  All rights reserved.
 
 #import "MMObject.h"
+#import <Foundation/NSXMLParser.h>
 
 @interface MMNamedObject : MMObject
 {

@@ -1,6 +1,6 @@
 {
     "Object    1" = {elements = ("Object    2"); isa = NSMutableArray; }; 
-    "Object    2" = {className = MyController; isa = IMCustomObject; realObject = "Object    3"; }; 
+    "Object    2" = {className = AppController; isa = IMCustomObject; realObject = "Object    3"; }; 
     "Object    3" = {
         delegate = nil; 
         isa = NSApplication; 

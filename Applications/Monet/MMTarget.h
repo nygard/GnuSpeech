@@ -9,6 +9,8 @@
 =============================================================================
 */
 
+@class NSXMLParser;
+
 @interface MMTarget : NSObject
 {
     BOOL isDefault;

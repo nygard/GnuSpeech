@@ -1,5 +1,7 @@
 #import <AppKit/NSView.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
+#import <AppKit/NSTextField.h>
+#import <Foundation/NSNotification.h>
 
 @class NSTextFieldCell;
 @class EventList;

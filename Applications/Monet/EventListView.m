@@ -10,6 +10,8 @@
 #import "MMParameter.h"
 #import "MMPosture.h"
 
+#import <math.h>
+
 @implementation EventListView
 
 /*===========================================================================

@@ -4,7 +4,7 @@
 #import "MMFRuleSymbols.h"
 
 @class MonetList, MModel, MMPoint, MMSlope, MMTransition;
-@class TransitionView;
+@class TransitionView, NSTextFieldCell;
 
 /*===========================================================================
 

@@ -2,8 +2,11 @@
 //  Copyright (C) 2004 __OWNER__.  All rights reserved.
 
 #import "MReleaseNotesController.h"
+#import <Foundation/NSBundle.h>
 
+#ifndef GNUSTEP
 #import <WebKit/WebKit.h>
+#endif
 
 @implementation MReleaseNotesController
 
@@ -22,7 +25,9 @@
     NSString *path;
 
     path = [[NSBundle mainBundle] pathForResource:@"ReleaseNotes" ofType:@"html"];
+#ifndef GNUSTEP
     [[webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:path]]];
+#endif
 }
 
 @end

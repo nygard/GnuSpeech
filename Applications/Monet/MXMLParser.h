@@ -3,6 +3,8 @@
 
 #import <Foundation/NSXMLParser.h>
 
+@class NSMutableArray, NSData;
+
 @protocol MXMLParserGenericInit
 + (id)objectWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;

@@ -9,6 +9,8 @@
 =============================================================================
 */
 
+@class NSXMLParser;
+
 @interface MMSlope : NSObject
 {
     double slope;

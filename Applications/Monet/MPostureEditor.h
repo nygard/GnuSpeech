@@ -2,9 +2,10 @@
 //  Copyright (C) 2004 __OWNER__.  All rights reserved.
 
 #import "MWindowController.h"
-#import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
+#import <AppKit/AppKit.h>
 
 @class MMCategory, MModel, MMParameter, MMPosture, MMSymbol;
+@class NSButton, NSButtonCell, NSFont, NSControl;
 
 @interface MPostureEditor : MWindowController
 {

@@ -1,9 +1,11 @@
 #import <Foundation/NSObject.h>
 
 #import "MMFRuleSymbols.h"
+#import "EventList.h"
 
 @class MonetList;
-@class MMPoint, MMSlope;
+@class MMPoint, MMSlope, NSMutableArray;
+@class NSXMLParser;
 
 /*===========================================================================
 
@@ -40,7 +42,7 @@
 
 - (double)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(int)newCacheTag
                  baseline:(double)baseline delta:(double)parameterDelta min:(double)min max:(double)max
-              toEventList:eventList atIndex:(int)index;
+              toEventList:(EventList *)eventList atIndex:(int)index;
 
 - (double)totalSlopeUnits;
 - (void)displaySlopesInList:(NSMutableArray *)displaySlopes;

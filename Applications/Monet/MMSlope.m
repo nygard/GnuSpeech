@@ -96,7 +96,7 @@
         [self setSlope:[str doubleValue]];
 
     str = [attributes objectForKey:@"display-time"];
-    if (str = nil)
+    if (str == nil)
         [self setDisplayTime:[str doubleValue]];
 
     return self;

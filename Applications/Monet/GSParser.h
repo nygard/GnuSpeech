@@ -1,4 +1,6 @@
 #import <Foundation/NSObject.h>
+#import <Foundation/NSScanner.h>
+#import <Foundation/NSRange.h>
 
 /*===========================================================================
 

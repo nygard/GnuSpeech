@@ -5,6 +5,7 @@
 
 @class CategoryList, MonetList, NamedList, PhoneList;
 @class MMCategory, MMEquation, MMParameter, MMPosture, MMRule, MMSymbol, MMSynthesisParameters, MMTransition;
+@class NSMutableArray, NSXMLParser;
 
 extern NSString *MCategoryInUseException;
 

@@ -1,5 +1,5 @@
+#import <Foundation/Foundation.h>
 #import "MMObject.h"
-
 #import "MMFRuleSymbols.h"
 
 @class MMFormulaNode, NamedList;

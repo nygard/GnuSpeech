@@ -1,5 +1,5 @@
-#import <AppKit/NSView.h>
-#import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
+#import <Foundation/Foundation.h>
+#import <AppKit/AppKit.h> 
 
 @class EventList, MMIntonationPoint;
 @class MAIntonationScaleView;

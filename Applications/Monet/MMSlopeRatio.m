@@ -14,6 +14,8 @@
 #import "MXMLParser.h"
 #import "MXMLArrayDelegate.h"
 
+#import "EventList.h"
+
 /*===========================================================================
 
 	Author: Craig-Richard Taube-Schock
@@ -169,7 +171,7 @@
 
 - (double)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(int)newCacheTag
                  baseline:(double)baseline delta:(double)parameterDelta min:(double)min max:(double)max
-              toEventList:eventList atIndex:(int)index;
+              toEventList:(EventList *)eventList atIndex:(int)index;
 {
     double returnValue = 0.0;
     int i, numSlopes;

@@ -4,6 +4,7 @@
 #import "MDocument.h"
 
 #import <Foundation/Foundation.h>
+#import <AppKit/NSAlert.h>
 #import "MModel.h"
 #import "MXMLParser.h"
 

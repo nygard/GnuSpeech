@@ -25,6 +25,9 @@
 #import "MXMLPCDataDelegate.h"
 #import "PhoneList.h"
 
+#import <AppKit/NSAlert.h>
+#import <AppKit/NSPanel.h>
+
 #import "TRMSynthesizer.h" // For addParameters:
 
 NSString *NSStringFromToneGroupType(int toneGroupType)
@@ -1356,25 +1359,27 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
 - (void)addIntonationPoint:(MMIntonationPoint *)newIntonationPoint;
 {
-    NSDictionary *userInfo;
+    NSDictionary *userInfo = nil;
 
     [intonationPoints addObject:newIntonationPoint];
     [newIntonationPoint setEventList:self];
     flags.intonationPointsNeedSorting = YES;
-
+#ifndef GNUSTEP
     userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:NSKeyValueChangeInsertion], NSKeyValueChangeKindKey, nil];
+#endif
     [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidChangeIntonationPoints object:self userInfo:userInfo];
     [userInfo release];
 }
 
 - (void)removeIntonationPoint:(MMIntonationPoint *)anIntonationPoint;
 {
-    NSDictionary *userInfo;
+    NSDictionary *userInfo = nil;
 
     [anIntonationPoint setEventList:nil];
     [intonationPoints removeObject:anIntonationPoint];
-
+#ifndef GNUSTEP
     userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:NSKeyValueChangeRemoval], NSKeyValueChangeKindKey, nil];
+#endif
     [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidChangeIntonationPoints object:self userInfo:userInfo];
     [userInfo release];
 }
@@ -1383,7 +1388,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 {
     unsigned int count, index;
     MMIntonationPoint *anIntonationPoint;
-    NSDictionary *userInfo;
+    NSDictionary *userInfo = nil;
 
     count = [someIntonationPoints count];
     for (index = 0; index < count; index++) {
@@ -1391,20 +1396,22 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
         [anIntonationPoint setEventList:nil];
         [intonationPoints removeObject:anIntonationPoint];
     }
-
+#ifndef GNUSTEP
     userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:NSKeyValueChangeRemoval], NSKeyValueChangeKindKey, nil];
+#endif
     [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidChangeIntonationPoints object:self userInfo:userInfo];
     [userInfo release];
 }
 
 - (void)removeAllIntonationPoints;
 {
-    NSDictionary *userInfo;
+    NSDictionary *userInfo = nil;
 
     [intonationPoints makeObjectsPerformSelector:@selector(setEventList:) withObject:nil];
     [intonationPoints removeAllObjects];
-
+#ifndef GNUSTEP
     userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:NSKeyValueChangeRemoval], NSKeyValueChangeKindKey, nil];
+#endif
     [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidChangeIntonationPoints object:self userInfo:nil];
     [userInfo release];
 }
@@ -1558,9 +1565,11 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
 - (void)intonationPointDidChange:(MMIntonationPoint *)anIntonationPoint;
 {
-    NSDictionary *userInfo;
+    NSDictionary *userInfo = nil;
 
+#ifndef GNUSTEP
     userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:NSKeyValueChangeSetting], NSKeyValueChangeKindKey, nil];
+#endif
     [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidChangeIntonationPoints object:self userInfo:userInfo];
     [userInfo release];
 }

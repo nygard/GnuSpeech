@@ -3,6 +3,8 @@
 
 #import "MWindowController.h"
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
+#import <AppKit/NSForm.h>
+#import <AppKit/NSTextField.h>
 
 @class MModel;
 

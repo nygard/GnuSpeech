@@ -3,6 +3,8 @@
 
 #import <Foundation/NSObject.h>
 
+@class NSXMLParser;
+
 @interface MXMLStringArrayDelegate : NSObject
 {
     NSString *childElementName;

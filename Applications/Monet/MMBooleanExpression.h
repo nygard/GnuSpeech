@@ -1,4 +1,5 @@
 #import "MMBooleanNode.h"
+#import <Foundation/NSArray.h>
 
 @class CategoryList, MMCategory;
 

@@ -2,6 +2,8 @@
 //  Copyright (C) 2004 __OWNER__.  All rights reserved.
 
 #import <Foundation/NSObject.h>
+#import <Foundation/NSXMLParser.h>
+#import <AppKit/NSAlert.h>
 
 @class MModel;
 

@@ -248,7 +248,9 @@
             [[tableColumn headerCell] setTitle:[[displayParameter parameter] name]];
             [[tableColumn dataCell] setFormatter:defaultNumberFormatter];
             [[tableColumn dataCell] setAlignment:NSRightTextAlignment];
-            [[tableColumn dataCell] setDrawsBackground:NO];
+#ifndef GNUSTEP
+        [[tableColumn dataCell] setDrawsBackground:NO];
+#endif
             [tableColumn setWidth:60.0];
             [eventTableView addTableColumn:tableColumn];
             [tableColumn release];
@@ -264,7 +266,9 @@
         [[tableColumn headerCell] setTitle:others[index]];
         [[tableColumn dataCell] setFormatter:defaultNumberFormatter];
         [[tableColumn dataCell] setAlignment:NSRightTextAlignment];
+#ifndef GNUSTEP
         [[tableColumn dataCell] setDrawsBackground:NO];
+#endif
         [tableColumn setWidth:60.0];
         [eventTableView addTableColumn:tableColumn];
         [tableColumn release];
@@ -536,7 +540,7 @@
 {
     unsigned int count, index, offset;
     int number = 1;
-    NSDictionary *jpegProperties;
+    NSDictionary *jpegProperties = nil;
     NSMutableString *html;
     NSFileManager *fileManager = [NSFileManager defaultManager];
 
@@ -563,10 +567,10 @@
 
     [fileManager createDirectoryAtPath:basePath attributes:nil];
     [fileManager copyPath:@"/tmp/Monet.parameters" toPath:[basePath stringByAppendingPathComponent:@"Monet.parameters"] handler:nil];
-
+#ifndef GNUSTEP
     jpegProperties = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:0.95], NSImageCompressionFactor,
                                            nil];
-
+#endif
     count = [displayParameters count];
     for (index = 0; index < count; index += 4) {
         NSMutableArray *parms;

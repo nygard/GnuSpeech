@@ -1,3 +1,4 @@
+#import <Foundation/NSArray.h>
 #import "MMOldFormulaNode.h"
 
 /*===========================================================================

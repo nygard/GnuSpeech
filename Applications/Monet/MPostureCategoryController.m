@@ -8,6 +8,9 @@
 #import "MMCategory.h"
 #import "MMPosture.h"
 
+#import <Foundation/Foundation.h>
+#import <AppKit/AppKit.h>
+
 @implementation MPostureCategoryController
 
 - (id)initWithModel:(MModel *)aModel;

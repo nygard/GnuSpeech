@@ -3,6 +3,8 @@
 
 #import <Foundation/NSObject.h>
 
+@class NSMutableDictionary, NSXMLParser;
+
 @interface MXMLIgnoreTreeDelegate : NSObject
 {
     int depth;

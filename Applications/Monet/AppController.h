@@ -23,6 +23,7 @@ History:
 @class MModel, MMTransition;
 @class MDataEntryController, MPostureCategoryController, MPostureEditor, MPrototypeManager, MReleaseNotesController, MRuleManager, MRuleTester;
 @class MSpecialTransitionEditor, MSynthesisController, MSynthesisParameterEditor, MTransitionEditor;
+@class NSPanel, NSNotification;
 
 @interface AppController : NSObject
 {

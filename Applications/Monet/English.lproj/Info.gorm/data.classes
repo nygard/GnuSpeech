@@ -1,0 +1,62 @@
+{
+    "## Comment" = "Do NOT change this file, Gorm maintains it";
+    AppController = {
+	Actions = (
+	    "displayInfoPanel:",
+	    "openFile:",
+	    "importTRMData:",
+	    "printData:",
+	    "saveDocument:",
+	    "saveDocumentAs:",
+	    "revertDocumentToSaved:",
+	    "savePrototypes:",
+	    "loadPrototypes:",
+	    "showDataEntryWindow:",
+	    "showPostureCategoryWindow:",
+	    "showPostureEditor:",
+	    "showPrototypeManager:",
+	    "showTransitionEditor:",
+	    "showSpecialTransitionEditor:",
+	    "showRuleTester:",
+	    "showRuleManager:",
+	    "showSynthesisParameterEditor:",
+	    "showSynthesisController:",
+	    "showIntonationWindow:",
+	    "showIntonationParameterWindow:",
+	    "generateXML:",
+	    "showReleaseNotes:"
+	);
+	Outlets = (
+	    infoPanel
+	);
+	Super = NSObject;
+    };
+    FirstResponder = {
+	Actions = (
+	    "displayInfoPanel:",
+	    "generateXML:",
+	    "importTRMData:",
+	    "loadPrototypes:",
+	    "openFile:",
+	    "printData:",
+	    "revertDocumentToSaved:",
+	    "saveDocument:",
+	    "saveDocumentAs:",
+	    "savePrototypes:",
+	    "showDataEntryWindow:",
+	    "showIntonationParameterWindow:",
+	    "showIntonationWindow:",
+	    "showPostureCategoryWindow:",
+	    "showPostureEditor:",
+	    "showPrototypeManager:",
+	    "showReleaseNotes:",
+	    "showRuleManager:",
+	    "showRuleTester:",
+	    "showSpecialTransitionEditor:",
+	    "showSynthesisController:",
+	    "showSynthesisParameterEditor:",
+	    "showTransitionEditor:"
+	);
+	Super = NSObject;
+    };
+}

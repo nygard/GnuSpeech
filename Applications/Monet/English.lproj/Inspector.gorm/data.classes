@@ -1,0 +1,112 @@
+{
+    "## Comment" = "Do NOT change this file, Gorm maintains it";
+    AppController = {
+	Actions = (
+	);
+	Outlets = (
+	    inspectorController
+	);
+	Super = NSObject;
+    };
+    FirstResponder = {
+	Actions = (
+	    "moveRule:",
+	    "setBeatOffset:",
+	    "setDiphone:",
+	    "setHertz:",
+	    "setPhantom:",
+	    "setSemitone:",
+	    "setSlope:",
+	    "setTetraphone:",
+	    "setTriphone:",
+	    "setType1:",
+	    "setType2:",
+	    "setType3:",
+	    "setUpWindow:",
+	    "setValue:",
+	    "setValueNextText:"
+	);
+	Super = NSObject;
+    };
+    Inspector = {
+	Actions = (
+	);
+	Outlets = (
+	    categoryInspector,
+	    intonationPointInspector,
+	    mainInspectorWindow,
+	    metaParameterInspector,
+	    noInspectorView,
+	    noPopUpListView,
+	    panel,
+	    parameterInspector,
+	    phoneInspector,
+	    pointInspector,
+	    popUpListView,
+	    protoEquationInspector,
+	    protoTransitionInspector,
+	    ruleInspector,
+	    symbolInspector
+	);
+	Super = NSObject;
+    };
+    IntonationPointInspector = {
+    };
+    ParameterInspector = {
+    };
+    PhoneInspector = {
+    };
+    PointInspector = {
+    };
+    ProtoEquationInspector = {
+	Actions = (
+	    "setUpWindow:"
+	);
+	Outlets = (
+	    commentText,
+	    commentView,
+	    currentEquationField,
+	    equationBox,
+	    equationText,
+	    mainInspector,
+	    messagesText,
+	    popUpList,
+	    popUpListView,
+	    revertCommentButton,
+	    revertEquationButton,
+	    setCommentButton,
+	    setEquationButton,
+	    usageBox,
+	    usageBrowser,
+	    usageField
+	);
+	Super = Inspector;
+    };
+    ProtoTemplateInspector = {
+    };
+    RuleInspector = {
+	Actions = (
+	    "moveRule:",
+	    "setUpWindow:"
+	);
+	Outlets = (
+	    browserView,
+	    commentText,
+	    commentView,
+	    consumeText,
+	    genInfoBox,
+	    locationTextField,
+	    mainBrowser,
+	    mainInspector,
+	    moveToField,
+	    popUpList,
+	    popUpListView,
+	    revertCommentButton,
+	    selectionBrowser,
+	    setCommentButton
+	);
+	Super = Inspector;
+    };
+    SymbolInspector = {
+    };
+}

@@ -2,8 +2,11 @@
 //  Copyright (C) 2004 Steve Nygard.  All rights reserved.
 
 #import "NSBezierPath-Extensions.h"
-
 #import <AppKit/AppKit.h>
+
+#ifdef GNUSTEP
+#define M_PI 3.1415927
+#endif
 
 @implementation NSBezierPath (Extensions)
 

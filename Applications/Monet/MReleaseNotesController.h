@@ -7,7 +7,9 @@
 
 @interface MReleaseNotesController : MWindowController
 {
+#ifndef GNUSTEP
     IBOutlet WebView *webView;
+#endif
 }
 
 - (id)init;

@@ -3,7 +3,7 @@
 #import <AppKit/AppKit.h>
 #import "NSBezierPath-Extensions.h"
 #import "NSColor-STExtensions.h"
-#import "NSNumberFormatter-extensions.h"
+#import "NSNumberFormatter-Extensions.h"
 #import "NSString-Extensions.h"
 
 #import "Event.h"
@@ -13,6 +13,8 @@
 #import "MMIntonationPoint.h"
 #import "MMPosture.h"
 #import "MonetList.h"
+
+#import <math.h>
 
 #define TOP_MARGIN 65
 #define BOTTOM_MARGIN 50

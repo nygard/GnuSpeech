@@ -4,6 +4,11 @@
 #import "AppController.h"
 
 #import <Foundation/Foundation.h>
+#import <AppKit/NSApplication.h>
+#import <AppKit/NSNibLoading.h>
+#import <AppKit/NSPanel.h>
+#import <AppKit/NSOpenPanel.h>
+#import <AppKit/NSSavePanel.h>
 
 #import "MModel.h"
 #import "MUnarchiver.h"
@@ -95,7 +100,9 @@
     [NSUnarchiver decodeClassName:@"Symbol" asClassName:@"MMSymbol"];
     [NSUnarchiver decodeClassName:@"Target" asClassName:@"MMTarget"];
 
+#ifndef GNUSTEP
     [self _disableUnconvertedClassLoading];
+#endif
 
     path = [[NSBundle mainBundle] pathForResource:@"Default" ofType:@"mxml"];
     //NSLog(@"path: %@", path);

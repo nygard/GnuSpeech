@@ -173,7 +173,7 @@
 
     count = [categories count];
     for (index = 0; index < count; index++) {
-        if ([[[categories objectAtIndex:index] name] isEqualToString:aCategoryName] == YES)
+        if ([[(MMNamedObject *)[categories objectAtIndex:index] name] isEqualToString:aCategoryName] == YES)
             return YES;
     }
 

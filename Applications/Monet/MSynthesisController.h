@@ -9,6 +9,9 @@
 @class MMIntonationPoint, MModel;
 @class EventListView, MAIntonationScrollView;
 @class TRMSynthesizer;
+@class NSComboBox, NSPopUpButton, NSMatrix, NSPrintInfo, NSOpenPanel, NSSavePanel;
+@class NSTableView, NSButton, NSTextField, NSView, NSForm, NSUndoManager;
+@class NSTableColumn, NSNotification, NSControl;
 
 @interface MSynthesisController : MWindowController
 {

@@ -3,8 +3,12 @@
 
 #import "MWindowController.h"
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
+#import <Foundation/NSUndoManager.h>
+#import <Foundation/NSNotification.h>
 
 @class MMCategory, MModel, MMParameter, MMSymbol;
+@class NSTableView, NSTableColumn, NSTextField, NSTextView;
+@class NSButtonCell;
 
 @interface MDataEntryController : MWindowController
 {

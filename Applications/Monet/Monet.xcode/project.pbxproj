@@ -1721,7 +1721,7 @@
 		016FACDC065D8D16003ED09E = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			lastKnownFileType = text.xml;
+			lastKnownFileType = text.plist.xml;
 			path = Default.mxml;
 			refType = 4;
 			sourceTree = "<group>";
