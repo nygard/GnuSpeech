@@ -16,7 +16,7 @@
     if (_mainDictionary == nil) {
         //NSString *path;
 
-        _mainDictionary = [[GSDBMPronunciationDictionary alloc] initWithFilename:@"/tmp/test2"];
+        _mainDictionary = [[GSDBMPronunciationDictionary alloc] initWithFilename:@"/tmp/test1"];
         //path = [[NSBundle bundleForClass:self] pathForResource:@"2.0eMainDictionary" ofType:@"dict"];
         //[_mainDictionary loadFromFile:path];
         //[_mainDictionary loadDictionary];
@@ -94,7 +94,7 @@
 {
     NSDictionary *attributes;
 
-    attributes = [[NSFileManager defaultManager] fileAttributesAtPath:filename traverseLink:YES];
+    attributes = [[NSFileManager defaultManager] fileAttributesAtPath:[filename stringByAppendingString:@".db"] traverseLink:YES];
     return [attributes fileModificationDate];
 }
 

@@ -8,8 +8,6 @@
 #import "NSString-Extensions.h"
 
 #import "GSPronunciationDictionary.h"
-#import "GSDBMPronunciationDictionary.h"
-#import "GSSimplePronunciationDictionary.h"
 #import "TTSNumberPronunciations.h"
 
 #define TTS_CHUNK_BOUNDARY        @"/c"
@@ -75,16 +73,15 @@ static NSDictionary *_specialAcronyms = nil;
     NSLog(@"_specialAcronyms: %@", [_specialAcronyms description]);
 }
 
-- (id)init;
+- (id)initWithPronunciationDictionary:(GSPronunciationDictionary *)aDictionary;
 {
     if ([super init] == nil)
         return nil;
 
-    escapeCharacter = '%';
+    mainDictionary = [aDictionary retain];
+    //[mainDictionary loadDictionary];
 
-    //mainDictionary = [[GSSimplePronunciationDictionary mainDictionary] retain];
-    mainDictionary = [[GSDBMPronunciationDictionary alloc] initWithFilename:@"/tmp/test1"];
-    [mainDictionary loadDictionary];
+    escapeCharacter = '%';
 
     return self;
 }

@@ -18,13 +18,13 @@ typedef enum {
 
 @interface TTSParser : NSObject
 {
-    unichar escapeCharacter;
     GSPronunciationDictionary *mainDictionary;
+    unichar escapeCharacter;
 }
 
 + (void)initialize;
 
-- (id)init;
+- (id)initWithPronunciationDictionary:(GSPronunciationDictionary *)aDictionary;
 - (void)dealloc;
 
 - (NSString *)parseString:(NSString *)aString;

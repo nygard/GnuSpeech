@@ -3,6 +3,8 @@
 
 #import <Foundation/NSObject.h>
 
+@class GSPronunciationDictionary;
+
 @interface ApplicationDelegate : NSObject
 {
     IBOutlet NSTextView *inputTextView;
@@ -13,10 +15,13 @@
     IBOutlet NSTextField *wordTextField;
     IBOutlet NSTextField *pronunciationTextField;
 
-    Class dictionaryClass;
+    GSPronunciationDictionary *dictionary;
 }
 
++ (void)initialize;
+
 - (id)init;
+- (void)dealloc;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification;
 

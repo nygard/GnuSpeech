@@ -6,29 +6,29 @@
 	<string>English</string>
 	<key>CFBundleExecutable</key>
 	<string>GnuSpeech</string>
+	<key>CFBundleGetInfoString</key>
+	<string>GnuSpeech 0.1 (v1)</string>
 	<key>CFBundleIconFile</key>
 	<string></string>
 	<key>CFBundleIdentifier</key>
-	<string>com.apple.myCocoaApp</string>
+	<string>org.gnu.GnuSpeech</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>GnuSpeech</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>0.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>NSHumanReadableCopyright</key>
+	<string></string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
-	<key>CFBundleName</key>
-	<string>GnuSpeech</string>
-	<key>CFBundleShortVersionString</key>
-	<string>0.1</string>
-	<key>CFBundleGetInfoString</key>
-	<string>GnuSpeech 0.1 (v1)</string>
-	<key>NSHumanReadableCopyright</key>
-	<string></string>
 </dict>
 </plist>

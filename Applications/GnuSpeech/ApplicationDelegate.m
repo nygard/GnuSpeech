@@ -11,31 +11,77 @@
 
 @implementation ApplicationDelegate
 
++ (void)initialize;
+{
+    NSDictionary *dict;
+
+    dict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES], @"ShouldUseDBMFile",
+                         nil];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:dict];
+}
+
 - (id)init;
 {
     if ([super init] == nil)
         return nil;
 
-    dictionaryClass = [GSDBMPronunciationDictionary class];
+    dictionary = nil;
 
     return self;
 }
 
+- (void)dealloc;
+{
+    [dictionary release];
+
+    [super dealloc];
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification;
 {
-    GSPronunciationDictionary *dict;
-
     NSLog(@" > %s", _cmd);
-    dict = [dictionaryClass mainDictionary]; // Force it to load right away (for the simple version only).
-    if ([dict version] != nil)
-        [dictionaryVersionTextField setStringValue:[dict version]];
 
-    //[GSDBMPronunciationDictionary createDatabase:@"/tmp/test1" fromSimpleDictionary:[GSSimplePronunciationDictionary mainDictionary]];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"ShouldUseDBMFile"]) {
+        NSLog(@"Using DBM dictionary.");
+        [self _createDBMFileIfNecessary];
+        dictionary = [[GSDBMPronunciationDictionary mainDictionary] retain];
+    } else {
+        NSLog(@"Using simple dictionary.");
+        dictionary = [[GSSimplePronunciationDictionary mainDictionary] retain];
+        [dictionary loadDictionaryIfNecessary];
+    }
+
+    if ([dictionary version] != nil)
+        [dictionaryVersionTextField setStringValue:[dictionary version]];
+
     NSLog(@"<  %s", _cmd);
 }
 
 - (void)_createDBMFileIfNecessary;
 {
+    GSSimplePronunciationDictionary *simpleDictionary;
+    GSDBMPronunciationDictionary *dbmDictionary;
+    NSDateFormatter *dateFormatter;
+
+    NSLog(@" > %s", _cmd);
+
+    simpleDictionary = [GSSimplePronunciationDictionary mainDictionary];
+    dbmDictionary = [GSDBMPronunciationDictionary mainDictionary];
+
+    dateFormatter = [[NSDateFormatter alloc] initWithDateFormat:@"%Y-%m-%d %H:%M:%S" allowNaturalLanguage:NO];
+
+    NSLog(@"simpleDictionary modificationDate: %@", [dateFormatter stringForObjectValue:[simpleDictionary modificationDate]]);
+    NSLog(@"dbmDictionary modificationDate: %@", [dateFormatter stringForObjectValue:[dbmDictionary modificationDate]]);
+
+    [dateFormatter release];
+
+    if ([dbmDictionary modificationDate] == nil || [[dbmDictionary modificationDate] compare:[simpleDictionary modificationDate]] == NSOrderedAscending) {
+        [GSDBMPronunciationDictionary createDatabase:@"/tmp/test1" fromSimpleDictionary:simpleDictionary];
+    }
+
+    // TODO (2004-08-21): And unfortunately it leaves the simple dictionary around in memory, but... it's good enough for now.
+
+    NSLog(@"<  %s", _cmd);
 }
 
 - (IBAction)parseText:(id)sender;
@@ -48,7 +94,7 @@
     inputString = [[inputTextView string] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSLog(@"inputString: %@", inputString);
 
-    parser = [[TTSParser alloc] init];
+    parser = [[TTSParser alloc] initWithPronunciationDictionary:dictionary];
     resultString = [parser parseString:inputString];
     [parser release];
 
@@ -64,15 +110,15 @@
 - (IBAction)loadMainDictionary:(id)sender;
 {
     NSString *path;
-    GSPronunciationDictionary *dictionary;
+    GSPronunciationDictionary *aDictionary;
 
     NSLog(@" > %s", _cmd);
 
     path = [[NSBundle bundleForClass:[self class]] pathForResource:@"2.0eMainDictionary" ofType:@"dict"];
-    dictionary = [[GSSimplePronunciationDictionary alloc] initWithFilename:path];
-    [dictionary loadDictionary];
-    NSLog(@"loaded %@", dictionary);
-    [dictionary release];
+    aDictionary = [[GSSimplePronunciationDictionary alloc] initWithFilename:path];
+    [aDictionary loadDictionary];
+    NSLog(@"loaded %@", aDictionary);
+    [aDictionary release];
 
     NSLog(@"<  %s", _cmd);
 }
