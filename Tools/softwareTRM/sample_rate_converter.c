@@ -52,7 +52,8 @@ TRMSampleRateConverter *TRMSampleRateConverterCreate(int inputSampleRate, int ou
            (newSampleRateConverter->sampleRateRatio > 1.0) ? "Upsampling" : "downsampling");
 
     // Calculate time register increment
-    newSampleRateConverter->timeRegisterIncrement = (int)rint(pow(2.0, FRACTION_BITS) / newSampleRateConverter->sampleRateRatio);
+    newSampleRateConverter->timeRegisterIncrement = rint((1 << FRACTION_BITS) / newSampleRateConverter->sampleRateRatio);
+    printf("timeRegisterIncrement: %x\n", newSampleRateConverter->timeRegisterIncrement);
 
     // Calculate rounded sample rate ratio
     roundedSampleRateRatio = pow(2.0, FRACTION_BITS) / (double)newSampleRateConverter->timeRegisterIncrement;
@@ -60,11 +61,13 @@ TRMSampleRateConverter *TRMSampleRateConverterCreate(int inputSampleRate, int ou
     // Calculate phase or filter increment
     if (newSampleRateConverter->sampleRateRatio >= 1.0) {
         newSampleRateConverter->filterIncrement = L_RANGE;
-        newSampleRateConverter->phaseIncrement = 0.0;
+        newSampleRateConverter->phaseIncrement = 0;
     } else {
-        newSampleRateConverter->filterIncrement = 0.0;
+        newSampleRateConverter->filterIncrement = 0;
         newSampleRateConverter->phaseIncrement = (unsigned int)rint(newSampleRateConverter->sampleRateRatio * (double)FRACTION_RANGE);
     }
+
+    printf("filterIncrement: %x, phaseIncrement: %x\n", newSampleRateConverter->filterIncrement, newSampleRateConverter->phaseIncrement);
 
     // Calculate pad size
     padSize = (newSampleRateConverter->sampleRateRatio >= 1.0) ? ZERO_CROSSINGS :
@@ -139,6 +142,7 @@ static void resampleBuffer(TRMRingBuffer *aRingBuffer, void *context)
 {
     TRMSampleRateConverter *aConverter = (TRMSampleRateConverter *)context;
     int endPtr;
+    //unsigned int trBefore = aConverter->timeRegister;
 
     // Calculate end pointer
     endPtr = aRingBuffer->fillPtr - aRingBuffer->padSize;
@@ -152,39 +156,56 @@ static void resampleBuffer(TRMRingBuffer *aRingBuffer, void *context)
         endPtr += BUFFER_SIZE;
 
     // Upsample loop (slightly more efficient than downsampling)
+    // Presumably because the interpolation remains fixed.
     if (aConverter->sampleRateRatio >= 1.0) {
         //printf("Upsampling...\n");
         while (aRingBuffer->emptyPtr < endPtr) {
             int index;
             unsigned int filterIndex;
             double output, interpolation, absoluteSampleValue;
+            //int count;
 
             // Reset accumulator to zero
             output = 0.0;
 
+            //printf("time register: %d, %d, %d\n", nValue(aConverter->timeRegister), lValue(aConverter->timeRegister), mValue(aConverter->timeRegister));
+
             // Calculate interpolation value (static when upsampling)
             interpolation = (double)mValue(aConverter->timeRegister) / (double)M_RANGE;
+            //printf("left side interpolation: %f\n", interpolation);
+
+            // The left and right side each do 13 loops through.
 
             // Compute the left side of the filter convolution
             index = aRingBuffer->emptyPtr;
+            //printf(" left side of convolution, from %4d to %4d\n", lValue(aConverter->timeRegister), FILTER_LENGTH);
+            //count = 0;
             for (filterIndex = lValue(aConverter->timeRegister);
                  filterIndex < FILTER_LENGTH;
                  RBDecrementIndex(&index), filterIndex += aConverter->filterIncrement) {
                 output += aRingBuffer->buffer[index] * (aConverter->h[filterIndex] + aConverter->deltaH[filterIndex] * interpolation);
+                //count++;
             }
+            //printf("left side count: %d\n", count);
 
             // Adjust values for right side calculation
             aConverter->timeRegister = ~aConverter->timeRegister;
             interpolation = (double)mValue(aConverter->timeRegister) / (double)M_RANGE;
+            //printf("time register: %d, %d, %d\n", nValue(aConverter->timeRegister), lValue(aConverter->timeRegister), mValue(aConverter->timeRegister));
+            //printf("** right side interpolation: %f\n", interpolation);
 
             // Compute the right side of the filter convolution
             index = aRingBuffer->emptyPtr;
             RBIncrementIndex(&index);
+            //printf("right side of convolution, from %4d to %4d\n", lValue(aConverter->timeRegister), FILTER_LENGTH);
+            //count = 0;
             for (filterIndex = lValue(aConverter->timeRegister);
                  filterIndex < FILTER_LENGTH;
                  RBIncrementIndex(&index), filterIndex += aConverter->filterIncrement) {
                 output += aRingBuffer->buffer[index] * (aConverter->h[filterIndex] + aConverter->deltaH[filterIndex] * interpolation);
+                //count++;
             }
+            //printf("right side count: %d\n", count);
 
             // Record maximum sample value
             absoluteSampleValue = fabs(output);
@@ -204,6 +225,7 @@ static void resampleBuffer(TRMRingBuffer *aRingBuffer, void *context)
             aConverter->timeRegister += aConverter->timeRegisterIncrement;
 
             // Increment the empty pointer, adjusting it and end pointer
+            //printf("Adjusting empty pointer by: %d\n", nValue(aConverter->timeRegister));
             aRingBuffer->emptyPtr += nValue(aConverter->timeRegister);
 
             if (aRingBuffer->emptyPtr >= BUFFER_SIZE) {
@@ -211,8 +233,9 @@ static void resampleBuffer(TRMRingBuffer *aRingBuffer, void *context)
                 endPtr -= BUFFER_SIZE;
             }
 
+            //printf("--> end time register: %d, %d, %d\n", nValue(aConverter->timeRegister), lValue(aConverter->timeRegister), mValue(aConverter->timeRegister));
             // Clear N part of time register
-            aConverter->timeRegister &= (~N_MASK);
+            aConverter->timeRegister &= ~N_MASK;
         }
     } else {
         //printf("Downsampling...\n");
@@ -221,6 +244,7 @@ static void resampleBuffer(TRMRingBuffer *aRingBuffer, void *context)
             int index;
             unsigned int phaseIndex, impulseIndex;
             double absoluteSampleValue, output, impulse;
+            double interpolation;
 
             // Reset accumulator to zero
             output = 0.0;
@@ -231,23 +255,23 @@ static void resampleBuffer(TRMRingBuffer *aRingBuffer, void *context)
             // Compute the left side of the filter convolution
             index = aRingBuffer->emptyPtr;
             while ((impulseIndex = (phaseIndex >> M_BITS)) < FILTER_LENGTH) {
-                impulse = aConverter->h[impulseIndex] + (aConverter->deltaH[impulseIndex] *
-                                                                 (((double)mValue(phaseIndex)) / (double)M_RANGE));
-                output += (aRingBuffer->buffer[index] * impulse);
+                interpolation = (double)mValue(phaseIndex) / (double)M_RANGE;
+                impulse = aConverter->h[impulseIndex] + aConverter->deltaH[impulseIndex] * interpolation;
+                output += aRingBuffer->buffer[index] * impulse;
                 RBDecrementIndex(&index);
                 phaseIndex += aConverter->phaseIncrement;
             }
 
             // Compute P prime, adjusted for right side
-            phaseIndex = (unsigned int)rint( ((double)fractionValue(~aConverter->timeRegister)) * aConverter->sampleRateRatio);
+            phaseIndex = (unsigned int)rint(((double)fractionValue(~aConverter->timeRegister)) * aConverter->sampleRateRatio);
 
             // Compute the right side of the filter convolution
             index = aRingBuffer->emptyPtr;
             RBIncrementIndex(&index);
             while ((impulseIndex = (phaseIndex>>M_BITS)) < FILTER_LENGTH) {
-                impulse = aConverter->h[impulseIndex] + (aConverter->deltaH[impulseIndex] *
-                                                                 (((double)mValue(phaseIndex)) / (double)M_RANGE));
-                output += (aRingBuffer->buffer[index] * impulse);
+                interpolation = (double)mValue(phaseIndex) / (double)M_RANGE;
+                impulse = aConverter->h[impulseIndex] + aConverter->deltaH[impulseIndex] * interpolation;
+                output += aRingBuffer->buffer[index] * impulse;
                 RBIncrementIndex(&index);
                 phaseIndex += aConverter->phaseIncrement;
             }
@@ -277,4 +301,11 @@ static void resampleBuffer(TRMRingBuffer *aRingBuffer, void *context)
             aConverter->timeRegister &= (~N_MASK);
         }
     }
+
+    //printf("time register before: %8x, time register after: %8x\n", trBefore, aConverter->timeRegister);
+#if 0
+    printf("time register before: %4x, %2x, %2x\ttime register after: %4x, %2x, %2x\n",
+           nValue(trBefore), lValue(trBefore), mValue(trBefore),
+           nValue(aConverter->timeRegister), lValue(aConverter->timeRegister), mValue(aConverter->timeRegister));
+#endif
 }
