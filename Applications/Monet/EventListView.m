@@ -174,6 +174,7 @@
     [niftyMatrix insertCellWithStringValue:@"r7 (special)" withTag:29];
     [niftyMatrix insertCellWithStringValue:@"r8 (special)" withTag:30];
     [niftyMatrix insertCellWithStringValue:@"velum (special)" withTag:31];
+
     [niftyMatrix insertCellWithStringValue:@"Intonation" withTag:32];
 
     /* Display */
@@ -272,20 +273,45 @@
     [[NSColor blackColor] set];
     [timesFont set];
     for (i = 0; i < j; i++) {
+        int parameterIndex;
+        BOOL isSpecial = NO;
         MMParameter *aParameter;
+        NSString *str;
 
-        aParameter = [parameterList objectAtIndex:[[displayList objectAtIndex:i] orderTag]];
-        [[aParameter symbol] drawAtPoint:NSMakePoint(15.0, bounds.size.height - ((float)(i + 1) * TRACKHEIGHT) + 15.0) withAttributes:nil];
+        parameterIndex = [[displayList objectAtIndex:i] orderTag];
+        if (parameterIndex > 15) {
+            parameterIndex -= 16;
+            isSpecial = YES;
+        }
+
+        aParameter = [parameterList objectAtIndex:parameterIndex];
+        NSLog(@"%d, orderTag: %d, aParameter: %p", i, [[displayList objectAtIndex:i] orderTag], aParameter);
+        if (isSpecial == YES)
+            str = [NSString stringWithFormat:@"%@\n(special)", [aParameter symbol]];
+        else
+            str = [aParameter symbol];
+        [str drawAtPoint:NSMakePoint(15.0, bounds.size.height - ((float)(i + 1) * TRACKHEIGHT) + 15.0) withAttributes:nil];
     }
 
     [timesFontSmall set];
     for (i = 0; i < j; i++) {
+        int parameterIndex;
+        BOOL isSpecial = NO;
+        MMParameter *aParameter;
         NSString *str;
 
-        str = [NSString stringWithFormat:@"%d", (int)[[parameterList objectAtIndex:[[displayList objectAtIndex:i] orderTag]] minimumValue]];
+        parameterIndex = [[displayList objectAtIndex:i] orderTag];
+        if (parameterIndex > 15) {
+            parameterIndex -= 16;
+            isSpecial = YES;
+        }
+
+        aParameter = [parameterList objectAtIndex:parameterIndex];
+
+        str = [NSString stringWithFormat:@"%d", (int)[aParameter minimumValue]];
         [str drawAtPoint:NSMakePoint(55.0, bounds.size.height - (50.0 + (float)(i + 1) * TRACKHEIGHT) + BORDERHEIGHT) withAttributes:nil];
 
-        str = [NSString stringWithFormat:@"%d", (int)[[parameterList objectAtIndex:[[displayList objectAtIndex:i] orderTag]] maximumValue]];
+        str = [NSString stringWithFormat:@"%d", (int)[aParameter maximumValue]];
         [str drawAtPoint:NSMakePoint(55.0, bounds.size.height - (50.0 + (float)(i) * TRACKHEIGHT + 3.0)) withAttributes:nil];
     }
 
