@@ -132,12 +132,12 @@
 
     if ([scanner scanString:@"(" intoString:NULL] == YES) {
         [self setSymbolString:@"("];
-        return TK_LPAREN;
+        return TK_B_LPAREN;
     }
 
     if ([scanner scanString:@")" intoString:NULL] == YES) {
         [self setSymbolString:@")"];
-        return TK_RPAREN;
+        return TK_B_RPAREN;
     }
 
     scannedString = nil;
@@ -152,28 +152,28 @@
     [self setSymbolString:scannedString];
 
     if ([symbolString isEqual:@"and"])
-        return TK_AND;
+        return TK_B_AND;
     if ([symbolString isEqual:@"or"])
-        return TK_OR;
+        return TK_B_OR;
     if ([symbolString isEqual:@"not"])
-        return TK_NOT;
+        return TK_B_NOT;
     if ([symbolString isEqual:@"xor"])
-        return TK_XOR;
+        return TK_B_XOR;
 
     if (symbolString == nil || [symbolString length] == 0)
-        return TK_END;
+        return TK_B_END;
 #if 0
     // TODO (2004-03-01): This is a probably programming error, with the ';' at the end of the if statement it doesn't do anything.
     if (![self categorySymbol:symbolString]);
 //     printf("Category Not Found!\n");
-    return TK_CATEGORY;
+    return TK_B_CATEGORY;
 #endif
     if ([self categorySymbol:symbolString] == nil) {
         /* do nothing? */;
         printf("Category Not Found!\n");
     }
 
-    return TK_CATEGORY;
+    return TK_B_CATEGORY;
 }
 
 - (void)consumeToken;
@@ -208,29 +208,29 @@
 
     switch ([self nextToken]) {
       default:
-      case TK_END:
+      case TK_B_END:
           [self outputError:@"Error, unexpected End."];
           return nil;
 
-      case TK_OR:
-      case TK_AND:
-      case TK_XOR:
+      case TK_B_OR:
+      case TK_B_AND:
+      case TK_B_XOR:
           [self outputError:@"Error, unexpected %@ operation." with:symbolString];
           return nil;
 
-      case TK_NOT:
+      case TK_B_NOT:
           resultExpression = [self notOperation];
           break;
 
-      case TK_LPAREN:
+      case TK_B_LPAREN:
           resultExpression = [self leftParen];
           break;
 
-      case TK_RPAREN:
+      case TK_B_RPAREN:
           [self outputError:@"Error, unexpected ')'."];
           break;
 
-      case TK_CATEGORY:
+      case TK_B_CATEGORY:
           aCategory = [self categorySymbol:symbolString];
           if (aCategory == nil) {
               [self outputError:@"Error, unknown category %@." with:symbolString];
@@ -259,42 +259,42 @@
 {
     int token;
 
-    while ( (token = [self nextToken]) != TK_END) {
+    while ( (token = [self nextToken]) != TK_B_END) {
         switch (token) {
           default:
-          case TK_END:
+          case TK_B_END:
               [self outputError:@"Error, unexpected End."];
               [currentExpression release];
               return nil;
 
-          case TK_OR:
+          case TK_B_OR:
               currentExpression = [self orOperation:currentExpression];
               break;
 
-          case TK_AND:
+          case TK_B_AND:
               currentExpression = [self andOperation:currentExpression];
               break;
 
-          case TK_XOR:
+          case TK_B_XOR:
               currentExpression = [self xorOperation:currentExpression];
               break;
 
-          case TK_NOT:
+          case TK_B_NOT:
               [self outputError:@"Error, unexpected NOT operation."];
               [currentExpression release];
               return nil;
 
-          case TK_LPAREN:
+          case TK_B_LPAREN:
               [self outputError:@"Error, unexpected '('."];
               [currentExpression release];
               return nil;
 
-          case TK_RPAREN:
+          case TK_B_RPAREN:
               [self outputError:@"Error, unexpected ')'."];
               [currentExpression release];
               return nil;
 
-          case TK_CATEGORY:
+          case TK_B_CATEGORY:
               [currentExpression release];
               [self outputError:@"Error, unexpected category %@." with:symbolString];
               return nil;
@@ -316,14 +316,14 @@
     [resultExpression setOperation:NOT_OP];
 
     switch ([self nextToken]) {
-      case TK_AND:
-      case TK_XOR:
-      case TK_OR:
-      case TK_NOT:
+      case TK_B_AND:
+      case TK_B_XOR:
+      case TK_B_OR:
+      case TK_B_NOT:
           [self outputError:@"Error, unexpected %@ operation." with:symbolString];
           return nil;
 
-      case TK_CATEGORY:
+      case TK_B_CATEGORY:
           aCategory = [self categorySymbol:symbolString];
           if (aCategory == nil) {
               [self outputError:@"Error, unknown category %@." with:symbolString];
@@ -340,7 +340,7 @@
           }
           break;
 
-      case TK_LPAREN:
+      case TK_B_LPAREN:
           subExpression = [self leftParen];
           if (subExpression != nil)
               [resultExpression addSubExpression:subExpression];
@@ -360,33 +360,33 @@
 
     switch ([self nextToken])
     {
-      case TK_END:
+      case TK_B_END:
           [self outputError:@"Error, unexpected End."];
           return nil;
 
-      case TK_AND:
-      case TK_OR:
-      case TK_XOR:
+      case TK_B_AND:
+      case TK_B_OR:
+      case TK_B_XOR:
           [self outputError:@"Error, unexpected %@ operation." with:symbolString];
           return nil;
 
-      case TK_RPAREN:
+      case TK_B_RPAREN:
           [self outputError:@"Error, unexpected ')'."];
           return nil;
 
-      case TK_NOT:
+      case TK_B_NOT:
           subExpression = [self notOperation];
           if (subExpression != nil)
               [resultExpression addSubExpression:subExpression];
           break;
 
-      case TK_LPAREN:
+      case TK_B_LPAREN:
           subExpression = [self leftParen];
           if (subExpression != nil)
               [resultExpression addSubExpression:subExpression];
           break;
 
-      case TK_CATEGORY:
+      case TK_B_CATEGORY:
           aCategory = [self categorySymbol:symbolString];
           if (aCategory == nil) {
               [self outputError:@"Error, unknown category %@." with:symbolString];
@@ -417,33 +417,33 @@
     [resultExpression setOperation:OR_OP];
 
     switch ([self nextToken]) {
-      case TK_END:
+      case TK_B_END:
           [self outputError:@"Error, unexpected End."];
           return nil;
 
-      case TK_AND:
-      case TK_OR:
-      case TK_XOR:
+      case TK_B_AND:
+      case TK_B_OR:
+      case TK_B_XOR:
           [self outputError:@"Error, unexpected %@ operation." with:symbolString];
           return nil;
 
-      case TK_RPAREN:
+      case TK_B_RPAREN:
           [self outputError:@"Error, unexpected ')'."];
           return nil;
 
-      case TK_NOT:
+      case TK_B_NOT:
           subExpression = [self notOperation];
           if (subExpression != nil)
               [resultExpression addSubExpression:subExpression];
           break;
 
-      case TK_LPAREN:
+      case TK_B_LPAREN:
           subExpression = [self leftParen];
           if (subExpression != nil)
               [resultExpression addSubExpression:subExpression];
           break;
 
-      case TK_CATEGORY:
+      case TK_B_CATEGORY:
           aCategory = [self categorySymbol:symbolString];
           if (aCategory == nil) {
               [self outputError:@"Error, unknown category %@." with:symbolString];
@@ -475,33 +475,33 @@
 
     switch ([self nextToken])
     {
-      case TK_END:
+      case TK_B_END:
           [self outputError:@"Error, unexpected End."];
           return nil;
 
-      case TK_AND:
-      case TK_OR:
-      case TK_XOR:
+      case TK_B_AND:
+      case TK_B_OR:
+      case TK_B_XOR:
           [self outputError:@"Error, unexpected %@ operation." with:symbolString];
           return nil;
 
-      case TK_RPAREN:
+      case TK_B_RPAREN:
           [self outputError:@"Error, unexpected ')'."];
           return nil;
 
-      case TK_NOT:
+      case TK_B_NOT:
           subExpression = [self notOperation];
           if (subExpression != nil)
               [resultExpression addSubExpression:subExpression];
           break;
 
-      case TK_LPAREN:
+      case TK_B_LPAREN:
           subExpression = [self leftParen];
           if (subExpression != nil)
               [resultExpression addSubExpression:subExpression];
           break;
 
-      case TK_CATEGORY:
+      case TK_B_CATEGORY:
           aCategory = [self categorySymbol:symbolString];
           if (aCategory == nil) {
               [self outputError:@"Error, unknown category %@." with:symbolString];
@@ -530,28 +530,28 @@
     int token;
 
     switch ([self nextToken]) {
-      case TK_END:
+      case TK_B_END:
           [self outputError:@"Error, unexpected End."];
           return nil;
 
-      case TK_RPAREN:
+      case TK_B_RPAREN:
           return nil;
 
-      case TK_LPAREN:
+      case TK_B_LPAREN:
           resultExpression = [self leftParen];
           break;
 
-      case TK_AND:
-      case TK_OR:
-      case TK_XOR:
+      case TK_B_AND:
+      case TK_B_OR:
+      case TK_B_XOR:
           [self outputError:@"Error, unexpected %@ operation." with:symbolString];
           return nil;
 
-      case TK_NOT:
+      case TK_B_NOT:
           resultExpression = [self notOperation];
           break;
 
-      case TK_CATEGORY:
+      case TK_B_CATEGORY:
           aCategory = [self categorySymbol:symbolString];
           if (aCategory == nil) {
               [self outputError:@"Error, unknown category %@." with:symbolString];
@@ -568,36 +568,36 @@
           break;
     }
 
-    while ( (token = [self nextToken]) != TK_RPAREN) {
+    while ( (token = [self nextToken]) != TK_B_RPAREN) {
         switch (token) {
-          case TK_END:
+          case TK_B_END:
               [self outputError:@"Error, unexpected End."];
               return nil;
 
-          case TK_RPAREN:
+          case TK_B_RPAREN:
               return nil; // Won't happen
 
-          case TK_LPAREN:
+          case TK_B_LPAREN:
               [self outputError:@"Error, unexpected '('."];
               return nil;
 
-          case TK_AND:
+          case TK_B_AND:
               resultExpression = [self andOperation:resultExpression];
               break;
 
-          case TK_OR:
+          case TK_B_OR:
               resultExpression = [self orOperation:resultExpression];
               break;
 
-          case TK_XOR:
+          case TK_B_XOR:
               resultExpression = [self xorOperation:resultExpression];
               break;
 
-          case TK_NOT:
+          case TK_B_NOT:
               [self outputError:@"Error, unexpected NOT operation."];
               return nil;
 
-          case TK_CATEGORY:
+          case TK_B_CATEGORY:
               [self outputError:@"Error, unexpected category %@." with:symbolString];
               return nil;
         }
