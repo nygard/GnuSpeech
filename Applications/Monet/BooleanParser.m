@@ -62,32 +62,25 @@
 
 - (CategoryNode *)categorySymbol:(NSString *)symbol;
 {
-#ifdef PORTING
-    char temp[256], *temp1;
+    NSString *baseName;
     Phone *tempPhone;
     int dummy;
 
-    bzero(temp, 256);
-    if (index(symbol, '*'))
-    {
-        strcpy(temp, symbol);
-        temp1 = index(temp, '*');
-        *temp1 = '\000';
+    if ([symbol hasSuffix:@"*"]) {
+        baseName = [symbol substringToIndex:[symbol length] - 1];
+    } else {
+        baseName = symbol;
     }
-    else
-        strcpy(temp, symbol);
 
-    tempPhone = [phoneList binarySearchPhone:temp index:&dummy];
+    tempPhone = [phoneList binarySearchPhone:baseName index:&dummy];
 
-    if (tempPhone)
-    {
-//        printf("%s: native category\n", symbol);
-        return [[tempPhone categoryList] findSymbol:temp];
+    if (tempPhone) {
+        //NSLog(@"%@: native category\n", symbol);
+        return [[tempPhone categoryList] findSymbol:baseName];
     }
-//    printf("%s: NON native category\n", symbol);
+
+    //NSLog(@"%@: NON native category\n", symbol);
     return [categoryList findSymbol:symbol];
-#endif
-    return nil;
 }
 
 - (int)nextToken;
