@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>Monet Release Notes</title>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="/styles/CodeTheCode.css"/>
+  </head>
+  <body>
+
+  <h1>Monet 0.9.1 (v5) Release Notes</h1>
+  <!-- <h2>Released August 2, 2004</h2> -->
+  <hr/>
+
+  <h2>Current Known Issues</h2>
+  <ul>
+    <li>There are still a couple of bugs with synthesis.  Sometimes when you try to synthesize an utterance you will hear the system beep but no sound.  In this case you will need to restart Monet.
+      <ul>
+        <li>I think this can happen when you have more than one sentence in the utterance.</li>
+      </ul>
+    </li>
+    <li>Parenthesis that are not strictly necessary in the formulas get removed when you parse them.  This may be undesirable if you've added parenthesis for readability.</li>
+  </ul>
+
+  <h2>General Improvements</h2>
+  <ul>
+    <li>Added Release Notes.</li>
+    <li>Fixed a bug where if you had Macro intonation checked but not Smooth, you wouldn't get any sound.</li>
+    <li>In tables where you can search for rows by typing a character, you can now search by more than the first character.  Keystrokes within 0.2 seconds will be combined for the search.</li>
+    <li>Allow searching through the display parameters in the Synthesis window by keystroke, and make the spacebar toggle the checkbox.</li>
+    <li>Allow searching through the rules by rule number by keystroke in the Rule Manager window.</li>
+    <li>The values for the intonation switches (macro, micro, drift and smooth) are now stored in the application defaults so you don't need to set them every time you start Monet.</li>
+    <li>I have also been changing some parts of the underlying model, which doesn't have any visible effect but may introduce some bugs.</li>
+    <li>Fixed bug with adding default meta parameters to a posture.  It was using the parameter count instead of the meta parameter count.</li>
+    <li>Fixed the number of consumed tokens (postures) reported in the Rule Tester.  The last posture matched for a rule isn't consumed, since it is used for the start of the next rule.  Also fixed in the Rule Manager window, in the Rules table.</li>
+    <li>Store the utterances from the "Phone String" combobox in the Synthesis window in defaults, so you always have the ten most recent utterances available.</li>
+    <li>Values for mark2 and mark3 may not apply to some rules, and these now appear as zero in the Rule Tester window.</li>
+    <li>Added a table to show the values for the intermediate events/parameters used to generate the final parameters.
+      <ul>
+        <li>For now, this is accessible through the "Show Events..." button on the Synthesis window.</li>
+        <li>This shows the time of the event (in milliseconds), the flag (checked rows correspond to a posture, and this flag is used for positioning the posture names in the graphs in the Synthesis and Intonation windows.</li>
+        <li>Columns are added for each parameter.  There are two rows, with the special paramter values shown on the second row.  The final four columns (labelled 32, 33, 34, and 35) are used for intonation, and nothing should appear in the second row for these.</li>
+        <li>I'm not sure whether using two rows makes it easier to view the data.  Alternatives are just to have extra columns for the special values.  We could either group all of the regular parameters together, and then all of the special parameters, or we could show the regular and special values for each parameter beside each other.  i.e. r1, r2, r3, r4, r1 (special), r2 (special), r3 (special), r4 (special) vs. r1, r1 (special), r2, r2 (special), r3, r3 (special), r4, r4 (special).</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h1>Monet 0.9.1 (v4) Release Notes</h1>
+  <!-- <h2>Released July 28, 2004</h2> -->
+  <!-- tag: snapshot-2004-07-28 -->
+  <hr/>
+
+  <h2>General Improvements</h2>
+  <ul>
+    <li>In the Rule Manager, put the symbol and parameter tables/outlines in a vertically split view so that you can resize their widths.</li>
+    <li>In the Rule Manager, show the equation and transition values in a column beside the names in the detail table views.  This make sit easier to compare the differences between two rules.</li>
+    <li>Added command key shortcuts for most of the tool windows (1 - 9, 0).</li>
+  </ul>
+
+  <h1>Monet 0.9.1 (v3) Release Notes</h1>
+  <!-- <h2>Released July 13, 2004</h2> -->
+  <hr/>
+
+  <h2>General Improvements</h2>
+  <ul>
+    <li>Fixed some connections in the Special Transition Editor, so that you can change all of the values.</li>
+    <li>Added a Posture Category window, so that you can see all of the categories each posture belongs to.  The categories are shown in columns, and the rows are for postures.</li>
+    <li>You can select postures by keystroke in the Posture Category window, and the Posture Editor when the postures table is selected.</li>
+    <li>Integrated the original code for applying rewrite rules to the phone string.</li>
+    <li>Most of the windows store their size and location, and open automatically when starting Monet if they were open when it last quit.  The exceptions are the Intonation and Intonation Parameter windows.</li>
+  </ul>
+
+  <h1>Monet 0.9.1 (2004-05-22) Release Notes</h1>
+  <hr/>
+
+  <p>This was the first build made available to Len Manzara, Craig Schock, and David Hill.  It could read the original .monet files, and read/write a new XML file format.  It could also play the sound directly from the app, although not in real time&mdash;it generates the entire sound, and then plays it.  This also included an application called GnuSpeech (for lack of a better name), which you can use to look up pronunciations and generate phone strings.  It is a limited port of some of the original code, so it doesn't include the number parser or the letter to sound parts.  It is very sensitive to the input -- words must be separated from each other and from punctuation by exactly one space, and there must not be a trailing newline.  Words that are not found in the dictionary use appear as a "bzzzzt" sound.  Only the first pronunciation listed in the dictionary for a word is used.</p>
+
+  <hr/>
+  <p>Last modified: 2004-08-09</p>
+
+  </body>
+</html>
