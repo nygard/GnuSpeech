@@ -155,7 +155,8 @@
         aPhone = [[matchLists objectAtIndex:3] objectAtIndex:row];
         [cell setStringValue:[aPhone symbol]];
     } else if (sender == ruleMatrix) {
-        NSMutableString *str, *str2;
+        NSMutableString *str;
+        NSString *str2;
 
         aRule = [ruleList objectAtIndex:row];
         str = [[NSMutableString alloc] init];
