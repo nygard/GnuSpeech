@@ -92,10 +92,6 @@
         NSArray *parts;
 
         line = [lines objectAtIndex:index];
-        if ([line hasPrefix:@" "] == YES) {
-            continue;
-        }
-
         parts = [line componentsSeparatedByString:@" "];
         if ([parts count] >= 2) {
             NSString *key, *value, *partOfSpeech, *wordType;
