@@ -40,14 +40,6 @@
 
     MModel *model;
 
-    IBOutlet NSForm *phone1;
-    IBOutlet NSForm *phone2;
-    IBOutlet NSForm *phone3;
-    IBOutlet NSForm *phone4;
-    IBOutlet NSTextField *ruleOutput;
-    IBOutlet NSTextField *consumedTokens;
-    IBOutlet NSForm *durationOutput;
-
     DelegateResponder *delegateResponder;
 }
 
@@ -79,8 +71,6 @@
 - (IBAction)rename:(id)sender;
 - (IBAction)remove:(id)sender;
 
-- (IBAction)parseRule:(id)sender;
-
 - (RuleList *)ruleList;
 
 /* Finding Stuff */
@@ -102,8 +92,5 @@
 - (void)windowDidBecomeMain:(NSNotification *)notification;
 - (BOOL)windowShouldClose:(id)sender;
 - (void)windowDidResignMain:(NSNotification *)notification;
-
-// Other
-- (IBAction)shiftPhonesLeft:(id)sender;
 
 @end

@@ -2,16 +2,16 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
-            ACTIONS = {parseRule = id; shiftPhonesLeft = id; }; 
+            ACTIONS = {parseRule = id; shiftPosturesLeft = id; }; 
             CLASS = MRuleTester; 
             LANGUAGE = ObjC; 
             OUTLETS = {
                 consumedTokensTextField = NSTextField; 
                 durationOutputForm = NSForm; 
-                phone1Form = NSForm; 
-                phone2Form = NSForm; 
-                phone3Form = NSForm; 
-                phone4Form = NSForm; 
+                posture1Form = NSForm; 
+                posture2Form = NSForm; 
+                posture3Form = NSForm; 
+                posture4Form = NSForm; 
                 ruleOutputTextField = NSTextField; 
             }; 
             SUPERCLASS = NSWindowController; 

@@ -154,7 +154,6 @@
     [stringParser applicationDidFinishLaunching:aNotification];
 
     [ruleManagerWindow setFrameAutosaveName:@"RuleManagerWindow"];
-    [ruleParserWindow setFrameAutosaveName:@"RuleParserWindow"];
     [synthesisWindow setFrameAutosaveName:@"SynthesisWindow"];
     [synthParmWindow setFrameAutosaveName:@"SynthParameterWindow"];
 

@@ -62,6 +62,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [self addCategory:newCategory];
     [newCategory release];
 
+    cacheTag = 1;
+
     return self;
 }
 
@@ -1275,6 +1277,11 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         fprintf(fp, "\n");
     }
     fprintf(fp, "\n");
+}
+
+- (int)nextCacheTag;
+{
+    return ++cacheTag;
 }
 
 @end

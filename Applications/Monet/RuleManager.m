@@ -456,98 +456,6 @@
     [self browserHit:ruleMatrix];
 }
 
-- (IBAction)parseRule:(id)sender;
-{
-    int i, j, phones = 0;
-    MonetList *tempList, *phoneList;
-    PhoneList *mainPhoneList;
-    MMPosture *tempPhone;
-    MMRule *aRule;
-    double ruleSymbols[5] = {0.0, 0.0, 0.0, 0.0, 0.0};
-
-    tempList = [[MonetList alloc] initWithCapacity:4];
-    phoneList = [[MonetList alloc] initWithCapacity:4];
-    mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
-
-    if ( ([[[phone1 cellAtIndex:0] stringValue] isEqualToString:@""]) || ([[[phone2 cellAtIndex:0] stringValue] isEqualToString:@""]) ) {
-        [ruleOutput setStringValue:@"You need at least two phones to parse."];
-        // TODO (2004-03-10): Clear out other text fields
-        return;
-    }
-
-    tempPhone = [mainPhoneList findPhone:[[phone1 cellAtIndex:0] stringValue]];
-    if (tempPhone == nil) {
-        [ruleOutput setStringValue:[NSString stringWithFormat:@"Unknown phone: \"%@\"", [[phone1 cellAtIndex:0] stringValue]]];
-        return;
-    }
-    [tempList addObject:[tempPhone categoryList]];
-    [phoneList addObject:tempPhone];
-    phones++;
-
-    tempPhone = [mainPhoneList findPhone:[[phone2 cellAtIndex:0] stringValue]];
-    if (tempPhone == nil) {
-        [ruleOutput setStringValue:[NSString stringWithFormat:@"Unknown phone: \"%@\"", [[phone2 cellAtIndex:0] stringValue]]];
-        return;
-    }
-    [tempList addObject:[tempPhone categoryList]];
-    [phoneList addObject:tempPhone];
-    phones++;
-
-    if ([[[phone3 cellAtIndex:0] stringValue] length]) {
-        tempPhone = [mainPhoneList findPhone:[[phone3 cellAtIndex:0] stringValue]];
-        if (tempPhone == nil) {
-            [ruleOutput setStringValue:[NSString stringWithFormat:@"Unknown phone: \"%@\"", [[phone3 cellAtIndex:0] stringValue]]];
-            return;
-        }
-        [tempList addObject:[tempPhone categoryList]];
-        [phoneList addObject:tempPhone];
-
-        phones++;
-    }
-
-    if ([[[phone4 cellAtIndex:0] stringValue] length]) {
-        tempPhone = [mainPhoneList findPhone:[[phone4 cellAtIndex:0] stringValue]];
-        if (tempPhone == nil) {
-            [ruleOutput setStringValue:[NSString stringWithFormat:@"Unknown phone: \"%@\"", [[phone4 cellAtIndex:0] stringValue]]];
-            return;
-        }
-        [tempList addObject:[tempPhone categoryList]];
-        [phoneList addObject:tempPhone];
-
-        phones++;
-    }
-
-    //NSLog(@"TempList count = %d", [tempList count]);
-
-    for (i = 0; i < [[model rules] count]; i++) {
-        aRule = [[model rules] objectAtIndex:i];
-        if ([aRule numberExpressions] <= [tempList count])
-            if ([aRule matchRule:tempList]) {
-                NSString *str;
-
-                str = [NSString stringWithFormat:@"%d. %@", i + 1, [aRule ruleString]];
-                [ruleOutput setStringValue:str];
-                [consumedTokens setIntValue:[aRule numberExpressions]];
-                // TODO (2004-03-02): Is being out of order significant?
-                ruleSymbols[0] = [[aRule getExpressionSymbol:0] evaluate:ruleSymbols phones:phoneList andCacheWith:cacheValue++];
-                ruleSymbols[2] = [[aRule getExpressionSymbol:2] evaluate:ruleSymbols phones:phoneList andCacheWith:cacheValue++];
-                ruleSymbols[3] = [[aRule getExpressionSymbol:3] evaluate:ruleSymbols phones:phoneList andCacheWith:cacheValue++];
-                ruleSymbols[4] = [[aRule getExpressionSymbol:4] evaluate:ruleSymbols phones:phoneList andCacheWith:cacheValue++];
-                ruleSymbols[1] = [[aRule getExpressionSymbol:1] evaluate:ruleSymbols phones:phoneList andCacheWith:cacheValue++];
-                for (j = 0; j < 5; j++) {
-                    [[durationOutput cellAtIndex:j] setDoubleValue:ruleSymbols[j]];
-                }
-                [tempList release];
-                return;
-            }
-    }
-
-    NSBeep();
-    [ruleOutput setStringValue:@"Cannot find rule"];
-    [consumedTokens setIntValue:0];
-    [tempList release];
-}
-
 - (RuleList *)ruleList;
 {
     return [model rules];
@@ -713,20 +621,6 @@ static NSString *ruleString = @"Rule";
 - (void)windowDidResignMain:(NSNotification *)notification;
 {
     [[controller inspector] cleanInspectorWindow];
-}
-
-- (IBAction)shiftPhonesLeft:(id)sender;
-{
-    NSString *p2, *p3, *p4;
-
-    p2 = [[phone2 cellAtIndex:0] stringValue];
-    p3 = [[phone3 cellAtIndex:0] stringValue];
-    p4 = [[phone4 cellAtIndex:0] stringValue];
-
-    [[phone1 cellAtIndex:0] setStringValue:p2];
-    [[phone2 cellAtIndex:0] setStringValue:p3];
-    [[phone3 cellAtIndex:0] setStringValue:p4];
-    [[phone4 cellAtIndex:0] setStringValue:@""];
 }
 
 @end

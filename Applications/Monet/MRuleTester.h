@@ -1,5 +1,5 @@
 //
-// $Id: MRuleTester.h,v 1.1 2004/03/23 21:28:44 nygard Exp $
+// $Id: MRuleTester.h,v 1.2 2004/03/23 22:53:02 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -12,10 +12,10 @@
 
 @interface MRuleTester : NSWindowController
 {
-    IBOutlet NSForm *phone1Form;
-    IBOutlet NSForm *phone2Form;
-    IBOutlet NSForm *phone3Form;
-    IBOutlet NSForm *phone4Form;
+    IBOutlet NSForm *posture1Form;
+    IBOutlet NSForm *posture2Form;
+    IBOutlet NSForm *posture3Form;
+    IBOutlet NSForm *posture4Form;
 
     IBOutlet NSTextField *ruleOutputTextField;
     IBOutlet NSTextField *consumedTokensTextField;
@@ -33,11 +33,10 @@
 - (NSUndoManager *)undoManager;
 
 - (void)windowDidLoad;
-
-- (void)updateViews;
+- (void)clearOutput;
 
 // Actions
 - (IBAction)parseRule:(id)sender;
-- (IBAction)shiftPhonesLeft:(id)sender;
+- (IBAction)shiftPosturesLeft:(id)sender;
 
 @end

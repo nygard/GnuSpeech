@@ -1,5 +1,5 @@
 //
-// $Id: MModel.h,v 1.16 2004/03/23 07:32:13 nygard Exp $
+// $Id: MModel.h,v 1.17 2004/03/23 22:53:02 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -25,6 +25,7 @@ extern NSString *MCategoryInUseException;
     MonetList *specialTransitions; // Of NamedLists of MMTransitions
 
     RuleList *rules;
+    int cacheTag;
 }
 
 - (id)init;
@@ -115,5 +116,7 @@ extern NSString *MCategoryInUseException;
 - (void)_writeParametersToFile:(FILE *)fp;
 - (void)_writeSymbolsToFile:(FILE *)fp;
 - (void)_writePosturesToFile:(FILE *)fp;
+
+- (int)nextCacheTag;
 
 @end
