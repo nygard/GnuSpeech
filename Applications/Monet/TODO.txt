@@ -1,7 +1,4 @@
 - Parameter and Symbol look pretty close to identical!
-- do we need to free the strings that we get from:
-    [aDecoder decodeValueOfObjCType:"*" at:&c_string];
-  - be sure to free strings unarchived from typed streams.
 
 - eliminate MonetList, replace with NSMutableArray.  Or maybe not, since it has an array, but is not an array.
 - probable programming error in original Rule.m:
@@ -52,6 +49,9 @@ x we could add a column to the rule list to show the total combinations matched.
 x I can't load "Play2.monet".  It looks like there's a point encoded as "di" instead of "ddii".
 + make superclass for FormulaExpression, FormulaTerminal.  Check how this affects archiving.
 + make superclass for BooleanExpression, BooleanTerminal.  Check how this affects archiving.
++ do we need to free the strings that we get from: (2004-08-15)
+    [aDecoder decodeValueOfObjCType:"*" at:&c_string];
+  + be sure to free strings unarchived from typed streams.
 
 2004-11-14:
 - +SpecialView, +PointInspector, +RuleInspector, *IntonationView, +IntonationScrollView, *IntonationPointInspector, EventListView
