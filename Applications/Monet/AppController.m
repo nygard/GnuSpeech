@@ -326,6 +326,7 @@
                 [transitionEditor setModel:model];
                 [specialTransitionEditor setModel:model];
                 [ruleTester setModel:model];
+                [newRuleManager setModel:model];
 
                 [stream release];
 #ifdef PORTING

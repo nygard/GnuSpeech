@@ -106,6 +106,21 @@
 
 - (void)updateViews;
 {
+    [ruleTableView reloadData];
+
+    [symbolTableView reloadData];
+    [symbolEquationOutlineView reloadData];
+
+    [parameterTableView reloadData];
+    [parameterTransitionOutlineView reloadData];
+
+    [specialParameterTableView reloadData];
+    [specialParameterTransitionOutlineView reloadData];
+
+    [metaParameterTableView reloadData];
+    [metaParameterTransitionOutlineView reloadData];
+
+    // And what about the outline views?
 }
 
 - (void)expandOutlines;
