@@ -322,7 +322,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
             aPhone = [mainPhoneList objectAtIndex:index];
             //NSLog(@"index: %d, phone categoryList count: %d", index, [[aPhone categoryList] count]);
-            if ([expressions[expressionIndex] evaluate:[aPhone categoryList]]) {
+            if ([expressions[expressionIndex] evaluateWithCategories:[aPhone categoryList]]) {
                 [aMatchedPhoneList addObject:aPhone];
             }
         }
@@ -824,7 +824,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
         MMPosture *currentPhone;
 
         currentPhone = [mainPhoneList objectAtIndex:i];
-        if ([parsedExpression evaluate:[currentPhone categoryList]]) {
+        if ([parsedExpression evaluateWithCategories:[currentPhone categoryList]]) {
             [matchedPhoneList addObject:currentPhone];
         }
     }

@@ -261,7 +261,7 @@
     int index;
 
     for (index = 0; index < [self numberExpressions]; index++) {
-        if (![expressions[index] evaluate:[categories objectAtIndex:index]])
+        if (![expressions[index] evaluateWithCategories:[categories objectAtIndex:index]])
             return 0;
     }
 

@@ -60,7 +60,7 @@
 // Methods common to "BooleanNode" -- for both BooleanExpress, BooleanTerminal
 //
 
-- (int)evaluate:(CategoryList *)categories;
+- (int)evaluateWithCategories:(CategoryList *)categories;
 {
     if ([categories indexOfObject:category] == NSNotFound) {
         if (shouldMatchAll) {

@@ -53,7 +53,7 @@
 // Methods common to "BooleanNode" -- for both BooleanExpress, BooleanTerminal
 
 /* Evaluate yourself */
-- (int)evaluate:(CategoryList *)categories;
+- (int)evaluateWithCategories:(CategoryList *)categories;
 
 /* Optimization methods.  Not yet implemented */
 - (void)optimize;

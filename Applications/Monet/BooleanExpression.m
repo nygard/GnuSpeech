@@ -73,27 +73,27 @@
 // Methods common to "BooleanNode" -- for both BooleanExpress, BooleanTerminal
 //
 
-- (int)evaluate:(CategoryList *)categories;
+- (int)evaluateWithCategories:(CategoryList *)categories;
 {
     switch (operation) {
       case NOT_OP:
-          return ![[self operandOne] evaluate:categories];
+          return ![[self operandOne] evaluateWithCategories:categories];
           break;
 
       case AND_OP:
-          if (![[self operandOne] evaluate:categories])
+          if (![[self operandOne] evaluateWithCategories:categories])
               return 0;
-          return [[self operandTwo] evaluate:categories];
+          return [[self operandTwo] evaluateWithCategories:categories];
           break;
 
       case OR_OP:
-          if ([[self operandOne] evaluate:categories])
+          if ([[self operandOne] evaluateWithCategories:categories])
               return 1;
-          return [[self operandTwo] evaluate:categories];
+          return [[self operandTwo] evaluateWithCategories:categories];
           break;
 
       case XOR_OP:
-          return ([[self operandOne] evaluate:categories] ^ [[self operandTwo] evaluate:categories]);
+          return ([[self operandOne] evaluateWithCategories:categories] ^ [[self operandTwo] evaluateWithCategories:categories]);
           break;
 
       default: return 1;
