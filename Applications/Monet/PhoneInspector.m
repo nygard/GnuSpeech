@@ -39,10 +39,12 @@
     scrollRect = [niftyMatrixScrollView frame];
 
     /* determine the matrix bounds */
+    matrixRect.origin = NSZeroPoint;
     matrixRect.size = [NSScrollView contentSizeForFrameSize:(scrollRect.size) hasHorizontalScroller:NO hasVerticalScroller:NO borderType:NSBezelBorder];
+    NSLog(@"matrixRect: %@", NSStringFromRect(matrixRect));
 
     /* prepare a matrix to go inside our niftyMatrixScrollView */
-    niftyMatrix = [[NiftyMatrix allocWithZone:[self zone]] initWithFrame:matrixRect mode:NSRadioModeMatrix cellClass:[NiftyMatrixCell class] numberOfRows:0 numberOfColumns:1];
+    niftyMatrix = [[NiftyMatrix alloc] initWithFrame:matrixRect mode:NSRadioModeMatrix cellClass:[NiftyMatrixCell class] numberOfRows:0 numberOfColumns:1];
 
     /* we don't want any space between the matrix's cells  */
     [niftyMatrix setIntercellSpacing:interCellSpacing];

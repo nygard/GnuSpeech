@@ -1,6 +1,6 @@
 /*
- *    Filename:	NiftyMatrixCell.h 
- *    Created :	Wed Jan  8 23:36:30 1992 
+ *    Filename:	NiftyMatrixCell.h
+ *    Created :	Wed Jan  8 23:36:30 1992
  *    Author  :	Vince DeMarco
  *		<vince@whatnxt.cuc.ab.ca>
  *
@@ -34,28 +34,30 @@
 
 #import <AppKit/NSBrowserCell.h>
 
-@interface NiftyMatrixCell:NSBrowserCell
+@interface NiftyMatrixCell : NSBrowserCell
 {
     struct _controlFlags {
-	unsigned int        toggleValue:1; /* Indicates weather the Cell is Active or not Active */
-        unsigned int        locked:1;      /* Indicates weather the Cell can change from Active
-					    * to non Active or visa versa
-					    */
-        unsigned int        _unused:14;
+        unsigned int toggleValue:1; // Indicates weather the Cell is Active or not Active
+        unsigned int locked:1;      // Indicates weather the Cell can change from Active to non Active or visa versa
+        unsigned int _unused:14;
     } controlFlags;
 
-	int	orderTag;
+    int orderTag;
 }
 
-- initTextCell:(NSString *)string;
+- (id)initTextCell:(NSString *)aString;
+
+- (BOOL)toggleValue;
+- (void)setToggleValue:(BOOL)value;
 - (void)toggle;
-- (int)toggleValue;
-- (void)setToggleValue:(int)value;
+
+- (BOOL)locked;
 - (void)lock;
-- (int) locked;
 - (void)unlock;
-- setUpFieldEditorAttributes:textObj;
-- (void)setOrderTag:(int)newTag;
-- (int) orderTag;
+
+- (NSText *)setUpFieldEditorAttributes:(NSText *)textObj;
+
+- (int)orderTag;
+- (void)setOrderTag:(int)newOrderTag;
 
 @end

@@ -25,12 +25,10 @@
 
 - (void)removeCellWithStringValue:(NSString *)stringValue;
 - (void)removeAllCells;
-- (void)removeUnlockedCells;
 - (void)insertCellWithStringValue:(NSString *)stringValue;
 - (void)insertCellWithStringValue:(NSString *)stringValue withTag:(int)tag;
-- (void)toggleCellWithStringValue:(NSString *)stringValue;
 - (void)grayAllCells;
 - (void)ungrayAllCells;
-- (void)unlockAllCells;
-- findCellNamed:(NSString *)stringValue;
+- (NSCell *)findCellNamed:(NSString *)stringValue;
+
 @end

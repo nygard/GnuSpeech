@@ -125,7 +125,7 @@
                 mainInspector = Inspector; 
                 maxText = NSTextField; 
                 minText = NSTextField; 
-                niftyMatrix = id; 
+                niftyMatrix = NSNitfyMatrix; 
                 niftyMatrixBox = NSBox; 
                 niftyMatrixScrollView = NSScrollView; 
                 phonePopUpList = NSPopUpButton; 

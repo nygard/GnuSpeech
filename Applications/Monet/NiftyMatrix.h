@@ -37,16 +37,22 @@
 /* There are two global variables in the Class nifty_matrixCache and nifty_cellCache
  * The are used for the offscreen buffers
  */
-@interface NiftyMatrix:NSMatrix
+
+@interface NiftyMatrix : NSMatrix
 {
-    id  activeCell;
+    NSWindow *niftyMatrixCache;
+    NSWindow *niftyCellCache;
+    id activeCell;
 }
 
-/* instance methods */
 - (void)dealloc;
+
 - (void)mouseDown:(NSEvent *)theEvent;
 - (void)drawRect:(NSRect)rects;
+
+- (void)createCacheWindowsIfNecessary;
 - (void)setupCacheWindows;
-- sizeCacheWindow:cacheWindow to:(NSSize)windowSize;
+
+- (void)sizeCacheWindow:(NSWindow *)aCacheWindow to:(NSSize)windowSize;
 
 @end

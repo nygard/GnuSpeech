@@ -2,7 +2,7 @@
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 @class MonetList, Phone;
-@class Inspector;
+@class Inspector, NiftyMatrix;
 
 /*===========================================================================
 
@@ -31,7 +31,7 @@ History:
     IBOutlet NSPopUpButton *phonePopUpList;
 
     IBOutlet NSScrollView *niftyMatrixScrollView;
-    id niftyMatrix;
+    IBOutlet NiftyMatrix *niftyMatrix;
     IBOutlet NSBox *niftyMatrixBox;
 
     IBOutlet NSBox *browserBox;

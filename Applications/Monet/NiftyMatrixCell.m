@@ -1,6 +1,6 @@
 /*
- *    Filename:	NiftyMatrixCell.m 
- *    Created :	Wed Jan  8 23:36:39 1992 
+ *    Filename:	NiftyMatrixCell.m
+ *    Created :	Wed Jan  8 23:36:39 1992
  *    Author  :	Vince DeMarco
  *		<vince@whatnxt.cuc.ab.ca>
  *
@@ -36,84 +36,82 @@
 
 #import "NiftyMatrixCell.h"
 
-#import <AppKit/NSText.h>
+#import <AppKit/AppKit.h>
 
 @implementation NiftyMatrixCell
 
 /* instance methods */
 
-- initTextCell:(NSString *)string
+- (id)initTextCell:(NSString *)aString;
 {
-	[super initTextCell:string];
-	controlFlags.toggleValue = 1;
-	controlFlags.locked = 0;
-	[self setAlignment: NSLeftTextAlignment];	/* Have the text be displayed Left Aligned */
-	orderTag = 0;
-	return self;
+    if ([super initTextCell:aString] == nil)
+        return nil;
+
+    controlFlags.toggleValue = YES;
+    controlFlags.locked = NO;
+    [self setAlignment:NSLeftTextAlignment]; // Have the text be displayed Left Aligned
+    orderTag = 0;
+
+    return self;
 }
 
-- (void)toggle
+- (BOOL)toggleValue;
 {
-	if (!controlFlags.locked)
-	{
-		controlFlags.toggleValue = controlFlags.toggleValue ? 0 : 1;
-	} 
+    return controlFlags.toggleValue;
 }
 
-- (int)toggleValue
+- (void)setToggleValue:(BOOL)value;
 {
-	return controlFlags.toggleValue;
+    if (controlFlags.locked == NO) {
+        controlFlags.toggleValue = value;
+    }
 }
 
-- (void)setToggleValue:(int)value
+- (void)toggle;
 {
-	if (!controlFlags.locked && ((value == 1) || (value == 0)))
-	{
-		controlFlags.toggleValue = value;
-	} 
+    if (controlFlags.locked == NO) {
+        controlFlags.toggleValue = controlFlags.toggleValue ? 0 : 1;
+    }
 }
 
-- (void)lock
+- (BOOL)locked;
 {
-	controlFlags.locked = 1; 
+    return controlFlags.locked;
 }
 
-- (int) locked
+- (void)lock;
 {
-	return( (int) controlFlags.locked);
-
+    controlFlags.locked = YES;
 }
 
-- (void)unlock
+- (void)unlock;
 {
-	controlFlags.locked = 0; 
+    controlFlags.locked = NO;
 }
 
 /* The - drawInside:(const NXRect *)cellFrame inView:controlView method has been
- * Removed it was grossly inefficent. Considering that a Text object will be 
+ * Removed it was grossly inefficent. Considering that a Text object will be
  * Present i might as well take advantage of it
  */
-- setUpFieldEditorAttributes:textObj
+- (NSText *)setUpFieldEditorAttributes:(NSText *)textObj;
 {
-	if (controlFlags.toggleValue)
-	{
-		[textObj setTextColor:[NSColor blackColor]];
-	}
-	else
-	{
-		[textObj setTextColor:[NSColor darkGrayColor]];
-	}
-	return self;
+    if (controlFlags.toggleValue) {
+        [textObj setTextColor:[NSColor blackColor]];
+    } else {
+        [textObj setTextColor:[NSColor darkGrayColor]];
+    }
+
+    return textObj;
 }
 
-- (void)setOrderTag:(int)newTag
+- (int)orderTag;
 {
-	orderTag = newTag; 
-}
-- (int) orderTag
-{
-	return orderTag;
+    return orderTag;
 }
 
+- (void)setOrderTag:(int)newOrderTag;
+{
+    orderTag = newOrderTag;
+}
 
 @end

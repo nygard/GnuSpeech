@@ -1,7 +1,9 @@
 #import <AppKit/NSView.h>
+#import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 @class EventList;
 @class AppController;
+@class NiftyMatrix;
 
 /*===========================================================================
 
@@ -29,8 +31,8 @@
     NSImage *triangleMarker;
     NSImage *selectionBox;
 
-    id niftyMatrixScrollView;
-    id niftyMatrix;
+    IBOutlet NSScrollView *niftyMatrixScrollView;
+    IBOutlet NiftyMatrix *niftyMatrix;
 
     id mouseTimeField;
     id mouseValueField;
