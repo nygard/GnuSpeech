@@ -37,9 +37,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
     return nil;
 }
 
-NSString *EventListDidAddIntonationPoints = @"EventListDidAddIntonationPoints";
 NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoints";
-NSString *EventListDidRemoveIntonationPoints = @"EventListDidRemoveIntonationPoints";
 
 @implementation EventList
 
@@ -1332,25 +1330,39 @@ NSString *EventListDidRemoveIntonationPoints = @"EventListDidRemoveIntonationPoi
 
 - (void)addIntonationPoint:(MMIntonationPoint *)newIntonationPoint;
 {
+    NSDictionary *userInfo;
+
     [intonationPoints addObject:newIntonationPoint];
     [newIntonationPoint setEventList:self];
     flags.intonationPointsNeedSorting = YES;
-    [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidAddIntonationPoints object:self userInfo:nil];
+
+    userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:NSKeyValueChangeInsertion], NSKeyValueChangeKindKey, nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidChangeIntonationPoints object:self userInfo:userInfo];
+    [userInfo release];
 }
 
 - (void)removeIntonationPoint:(MMIntonationPoint *)anIntonationPoint;
 {
+    NSDictionary *userInfo;
+
     [anIntonationPoint setEventList:nil];
     [intonationPoints removeObject:anIntonationPoint];
-    [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidRemoveIntonationPoints object:self userInfo:nil];
+
+    userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:NSKeyValueChangeRemoval], NSKeyValueChangeKindKey, nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidChangeIntonationPoints object:self userInfo:userInfo];
+    [userInfo release];
 }
 
 - (void)removeAllIntonationPoints;
 {
+    NSDictionary *userInfo;
+
     [intonationPoints makeObjectsPerformSelector:@selector(setEventList:) withObject:nil];
     [intonationPoints removeAllObjects];
-    // TODO (2004-08-20): Change the to "DidRemove".
+
+    userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:NSKeyValueChangeRemoval], NSKeyValueChangeKindKey, nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidChangeIntonationPoints object:self userInfo:nil];
+    [userInfo release];
 }
 
 //
@@ -1502,7 +1514,11 @@ NSString *EventListDidRemoveIntonationPoints = @"EventListDidRemoveIntonationPoi
 
 - (void)intonationPointDidChange:(MMIntonationPoint *)anIntonationPoint;
 {
-    [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidChangeIntonationPoints object:self userInfo:nil];
+    NSDictionary *userInfo;
+
+    userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:NSKeyValueChangeSetting], NSKeyValueChangeKindKey, nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidChangeIntonationPoints object:self userInfo:userInfo];
+    [userInfo release];
 }
 
 //
