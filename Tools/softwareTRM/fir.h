@@ -3,7 +3,8 @@
 
 /*  VARIABLES FOR FIR LOWPASS FILTER  */
 typedef struct {
-    double *coefficients; // There are tapCount coefficients
+    double *coefficients; // There are tapCount * 2 coefficients, values are repeated once
+    double *middlePtr;
     int tapCount;
 
     double *data; // And tapCount data elements

@@ -3,6 +3,8 @@
 #include <math.h>
 #include "fir.h"
 
+#import <vecLib/vecLib.h>
+
 /*  CONSTANTS FOR THE FIR FILTER  */
 #define LIMIT                     200
 #define BETA_OUT_OF_RANGE         1
@@ -51,7 +53,7 @@ TRMFIRFilter *TRMFIRFilterCreate(double beta, double gamma, double cutoff)
     newFilter->tapCount = (coefficientCount * 2) - 1;
     //printf("newFilter->tapCount: %d\n", newFilter->tapCount);
 
-    newFilter->coefficients = (double *)calloc(newFilter->tapCount, sizeof(double));
+    newFilter->coefficients = (double *)calloc(newFilter->tapCount * 2, sizeof(double));
     if (newFilter->coefficients == NULL) {
         fprintf(stderr, "calloc() of coefficients failed.\n");
         free(newFilter);
@@ -79,6 +81,11 @@ TRMFIRFilter *TRMFIRFilterCreate(double beta, double gamma, double cutoff)
             increment = 1;
         }
     }
+
+    // Make a copy of the coefficients
+    newFilter->middlePtr = newFilter->coefficients + newFilter->tapCount;
+    for (i = 0; i < newFilter->tapCount; i++)
+        newFilter->middlePtr[i] = newFilter->coefficients[i];
 
     newFilter->dataIndex = 0;
 
@@ -120,6 +127,7 @@ void TRMFIRFilterFree(TRMFIRFilter *filter)
 double FIRFilter(TRMFIRFilter *filter, double input, int needOutput)
 {
     double output = 0.0;
+    double *start;
 
     // Put input sample into data buffer
     filter->data[filter->dataIndex] = input;
@@ -128,13 +136,22 @@ double FIRFilter(TRMFIRFilter *filter, double input, int needOutput)
 
     if (needOutput) {
         int i;
+#if 0
+        double out[LIMIT];
 
+        // This is actually a bit slower than the regular loop.  Not enough coefficients, and not necessarily aligned properly.
+        start = filter->middlePtr - filter->dataIndex;
+        vmulD(start, 1, filter->data, 1, out, 1, filter->tapCount);
+        for (i = 0; i < filter->tapCount; i++)
+            output += out[i];
+#endif
+#if 1
         // Sum the output from all filter taps
+        start = filter->middlePtr - filter->dataIndex;
         for (i = 0; i < filter->tapCount; i++) {
-            //printf("output += data[%d] * coefficients[%d]\n", filter->dataIndex, i);
-            output += filter->data[filter->dataIndex] * filter->coefficients[i];
-            filter->dataIndex = (filter->dataIndex + 1) % filter->tapCount;
+            output += filter->data[i] * start[i];
         }
+#endif
     }
 
     // Adjust the data pointer, ready for next call
