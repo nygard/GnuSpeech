@@ -1182,15 +1182,16 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
         [self insertEvent:32 atTimeOffset:[point1 absoluteTime] withValue:[point1 semitone]];
 
         yTemp = (3.0*a*x12) + (2.0*b*x1) + c;
-        NSLog(@"j: %d, event 33: %g", j, yTemp);
+        NSLog(@"time: %.2f", [point1 absoluteTime]);
+        NSLog(@"j: %d, inserting event 33: %7.3f", j, yTemp);
         [self insertEvent:33 atTimeOffset:[point1 absoluteTime] withValue:yTemp];
 
         yTemp = (6.0*a*x1) + (2.0*b);
-        NSLog(@"j: %d, event 34: %g", j, yTemp);
+        NSLog(@"j: %d, inserting event 34: %7.3f", j, yTemp);
         [self insertEvent:34 atTimeOffset:[point1 absoluteTime] withValue:yTemp];
 
         yTemp = (6.0*a);
-        NSLog(@"j: %d, event 35: %g", j, yTemp);
+        NSLog(@"j: %d, inserting event 35: %7.3f", j, yTemp);
         [self insertEvent:35 atTimeOffset:[point1 absoluteTime] withValue:yTemp];
     }
 
