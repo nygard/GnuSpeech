@@ -45,13 +45,12 @@
         id newObject;
 
         objectClass = [classesByChildElementName objectForKey:anElementName];
-        newObject = [[objectClass alloc] initWithXMLAttributes:attributeDict context:[(MXMLParser *)parser context]];
+        newObject = [objectClass objectWithXMLAttributes:attributeDict context:[(MXMLParser *)parser context]];
         //NSLog(@"newObject: %@", newObject);
         if ([delegate respondsToSelector:addObjectSelector]) {
             [delegate performSelector:addObjectSelector withObject:newObject];
         }
         [(MXMLParser *)parser pushDelegate:newObject];
-        [newObject release];
     } else {
         NSLog(@"Warning: %@: skipping element: %@", NSStringFromClass([self class]), anElementName);
         [(MXMLParser *)parser skipTree];

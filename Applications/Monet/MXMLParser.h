@@ -8,6 +8,7 @@
 #import <Foundation/NSXMLParser.h>
 
 @protocol MXMLParserGenericInit
++ (id)objectWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 @end
 

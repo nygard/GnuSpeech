@@ -39,7 +39,7 @@
         id newObject;
         NSString *key;
 
-        newObject = [[objectClass alloc] initWithXMLAttributes:attributeDict context:[(MXMLParser *)parser context]];
+        newObject = [objectClass objectWithXMLAttributes:attributeDict context:[(MXMLParser *)parser context]];
         key = [attributeDict objectForKey:keyAttributeName];
         //NSLog(@"newObject: %@, key: %@", newObject, key);
         if (key == nil) {
@@ -51,7 +51,6 @@
             [objects setObject:newObject forKey:key];
         }
         [(MXMLParser *)parser pushDelegate:newObject];
-        [newObject release];
     } else {
         NSLog(@"Warning: %@: skipping element: %@", NSStringFromClass([self class]), anElementName);
         [(MXMLParser *)parser skipTree];

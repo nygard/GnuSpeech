@@ -202,7 +202,7 @@
         MMEquation *newDelegate;
         NSString *str;
 
-        newDelegate = [[MMEquation alloc] initWithXMLAttributes:attributeDict context:[(MXMLParser *)parser context]];
+        newDelegate = [MMEquation objectWithXMLAttributes:attributeDict context:[(MXMLParser *)parser context]];
         [self addObject:newDelegate];
 
         // Set the formula after adding it to the group, so that it has access to the model for the symbols
@@ -210,14 +210,12 @@
         if (str != nil && [str length] > 0)
             [newDelegate setFormulaString:str];
         [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
     } else if ([elementName isEqualToString:@"transition"]) {
         MMTransition *newDelegate;
 
-        newDelegate = [[MMTransition alloc] initWithXMLAttributes:attributeDict context:[(MXMLParser *)parser context]];
+        newDelegate = [MMTransition objectWithXMLAttributes:attributeDict context:[(MXMLParser *)parser context]];
         [self addObject:newDelegate];
         [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
     } else {
         NSLog(@"%@, Unknown element: '%@', skipping", [self shortDescription], elementName);
         [(MXMLParser *)parser skipTree];
