@@ -15,6 +15,9 @@
 /*  MAXIMUM SAMPLE VALUE  */
 #define RANGE_MAX                 32767.0
 
+// This is the max for the 'oooiiii' sample sound.  It appears to be a bit less for speech.
+#define MAX_SAMPLE 0.0034
+
 /*  SIZE IN BITS PER OUTPUT SAMPLE  */
 #define BITS_PER_SAMPLE           16
 

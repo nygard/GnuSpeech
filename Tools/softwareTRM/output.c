@@ -25,23 +25,23 @@ static void convertIntToFloat80(unsigned int value, unsigned char buffer[10]);
 
 /******************************************************************************
 *
-*	function:	writeOutputToFile
+*       function:       writeOutputToFile
 *
-*	purpose:	Scales the samples stored in the temporary file, and
+*       purpose:        Scales the samples stored in the temporary file, and
 *                       writes them to the output file, with the appropriate
 *                       header.  Also does master volume scaling, and stereo
 *                       balance scaling, if 2 channels of output.
 *
 *       arguments:      fileName
 *
-*	internal
-*	functions:	writeAuFileHeader, writeSamplesMonoMsb,
+*       internal
+*       functions:      writeAuFileHeader, writeSamplesMonoMsb,
 *                       writeSamplesStereoMsb, writeAiffHeader,
 *                       writeWaveHeader, writeSamplesMonoLsb,
 *                       writeSamplesStereoLsb
 *
-*	library
-*	functions:	fopen, printf, fclose
+*       library
+*       functions:      fopen, printf, fclose
 *
 ******************************************************************************/
 
@@ -52,27 +52,29 @@ void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMData *dat
 
 
     /*  Calculate scaling constant  */
-    //printf("maximumSampleValue: %g\n", sampleRateConverter->maximumSampleValue);
-    scale = OUTPUT_SCALE * (RANGE_MAX / sampleRateConverter->maximumSampleValue) * amplitude(data->inputParameters.volume);
+    scale = OUTPUT_SCALE * (RANGE_MAX / MAX_SAMPLE) * amplitude(data->inputParameters.volume);
 
     /*  Print out info  */
     /*if (verbose)*/ {
-	printf("\nnumber of samples:\t%-ld\n", sampleRateConverter->numberSamples);
-	printf("maximum sample value:\t%.4f\n", sampleRateConverter->maximumSampleValue);
-	printf("scale:\t\t\t%.4f\n", scale);
+        printf("\n");
+        printf("number of samples:    %-ld\n", sampleRateConverter->numberSamples);
+        printf("maximum sample value: %g\n", sampleRateConverter->maximumSampleValue);
+        printf("volume:               %f\n", data->inputParameters.volume);
+        printf("volume amplitude:     %f\n", amplitude(data->inputParameters.volume));
+        printf("scale:                %.4f\n", scale);
     }
 
     /*  If stereo, calculate left and right scaling constants  */
     if (data->inputParameters.channels == 2) {
-	/*  Calculate left and right channel amplitudes  */
-	leftScale = -((data->inputParameters.balance / 2.0) - 0.5) * scale * 2.0;
-	rightScale = ((data->inputParameters.balance / 2.0) + 0.5) * scale * 2.0;
+        /*  Calculate left and right channel amplitudes  */
+        leftScale = -((data->inputParameters.balance / 2.0) - 0.5) * scale * 2.0;
+        rightScale = ((data->inputParameters.balance / 2.0) + 0.5) * scale * 2.0;
 
-	/*  Print out info  */
-	if (verbose) {
-	    printf("left scale:\t\t%.4f\n", leftScale);
-	    printf("right scale:\t\t%.4f\n", rightScale);
-	}
+        /*  Print out info  */
+        if (verbose) {
+            printf("left scale:\t\t%.4f\n", leftScale);
+            printf("right scale:\t\t%.4f\n", rightScale);
+        }
     }
 
     /*  Rewind the temporary file to beginning  */
