@@ -334,6 +334,7 @@
                 [postureEditor setModel:model];
                 [newPrototypeManager setModel:model];
                 [transitionEditor setModel:model];
+                [specialTransitionEditor setModel:model];
 
                 //[transitionBuilder applicationDidFinishLaunching:nil];
                 //[specialTransitionBuilder applicationDidFinishLaunching:nil];
@@ -406,27 +407,21 @@
 
 - (void)setObject:(id)object forKey:(id)key;
 {
-    //NSLog(@" > %s", _cmd);
-    //NSLog(@"key: %@, object: (%p)%@", key, object, object);
     if (object == nil) {
         NSLog(@"Error: object for key %@ is nil!", key);
         return;
     }
     [namedObjects setObject:object forKey:key];
-    //NSLog(@"<  %s", _cmd);
 }
 
 - (id)objectForKey:(id)key;
 {
-    //NSLog(@"-> %s, key: %@, r: %@(%p)", _cmd, key, [namedObjects objectForKey:key], [namedObjects objectForKey:key]);
     return [namedObjects objectForKey:key];
 }
 
 - (void)removeObjectForKey:(id)key;
 {
-    //NSLog(@" > %s", _cmd);
     [namedObjects removeObjectForKey:key];
-    //NSLog(@"<  %s", _cmd);
 }
 
 // Converted classes:
@@ -456,30 +451,22 @@
 
 - (IBAction)showPostureEditor:(id)sender;
 {
-    NSLog(@" > %s", _cmd);
-
     if (postureEditor == nil) {
         postureEditor = [[MPostureEditor alloc] initWithModel:model];
     }
 
     [postureEditor setModel:model];
     [postureEditor showWindow:self];
-
-    NSLog(@"<  %s", _cmd);
 }
 
 - (IBAction)showPrototypeManager:(id)sender;
 {
-    NSLog(@" > %s", _cmd);
-
     if (newPrototypeManager == nil) {
         newPrototypeManager = [[MPrototypeManager alloc] initWithModel:model];
     }
 
     [newPrototypeManager setModel:model];
     [newPrototypeManager showWindow:self];
-
-    NSLog(@"<  %s", _cmd);
 }
 
 - (MTransitionEditor *)transitionEditor;
@@ -493,13 +480,9 @@
 
 - (IBAction)showTransitionEditor:(id)sender;
 {
-    NSLog(@" > %s", _cmd);
-
     [self transitionEditor]; // Make sure it's been created
     [transitionEditor setModel:model];
     [transitionEditor showWindow:self];
-
-    NSLog(@"<  %s", _cmd);
 }
 
 - (MSpecialTransitionEditor *)specialTransitionEditor;
@@ -513,13 +496,9 @@
 
 - (IBAction)showSpecialTransitionEditor:(id)sender;
 {
-    NSLog(@" > %s", _cmd);
-
     [self specialTransitionEditor]; // Make sure it's been created
     [specialTransitionEditor setModel:model];
     [specialTransitionEditor showWindow:self];
-
-    NSLog(@"<  %s", _cmd);
 }
 
 - (IBAction)generateXML:(id)sender;

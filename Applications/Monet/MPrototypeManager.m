@@ -469,7 +469,7 @@
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldExpandItem:(id)item;
 {
-    NSLog(@"-> %s", _cmd);
+    //NSLog(@"-> %s", _cmd);
     return YES;
 }
 
