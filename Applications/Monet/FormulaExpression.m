@@ -234,15 +234,13 @@
     int index;
     int numExpressions, maxExpressions;
 
-    if ([self init] == nil)
-        return nil;
-
     //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
     archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
     //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
 
     [aDecoder decodeValuesOfObjCTypes:"iiii", &operation, &numExpressions, &maxExpressions, &precedence];
     //NSLog(@"operation: %d, numExpressions: %d, maxExpressions: %d, precedence: %d", operation, numExpressions, maxExpressions, precedence);
+    expressions = [[NSMutableArray alloc] init];
     for (index = 0; index < numExpressions; index++)
         [self addSubExpression:[aDecoder decodeObject]];
 

@@ -221,8 +221,7 @@
     unsigned archivedVersion;
     SymbolList *mainSymbolList;
 
-    if ([self init] == nil)
-        return nil;
+    symbol = nil;
 
     //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
     archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];

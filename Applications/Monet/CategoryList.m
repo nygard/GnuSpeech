@@ -121,15 +121,4 @@
 #endif
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder;
-{
-    [super initWithCoder:aDecoder];
-    return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)aCoder;
-{
-    [super encodeWithCoder:aCoder];
-}
-
 @end

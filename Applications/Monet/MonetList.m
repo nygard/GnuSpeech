@@ -28,6 +28,7 @@
 - (void)dealloc;
 {
     [ilist release];
+
     [super dealloc];
 }
 
@@ -105,8 +106,7 @@
     int count;
 
     // TODO (2004-03-05): On second thought I don't think these should call init -- also doing so in subclasses may cause problems, multiple-initialization
-    if ([self init] == nil)
-        return nil;
+    ilist = [[NSMutableArray alloc] init];
 
     //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
     archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];

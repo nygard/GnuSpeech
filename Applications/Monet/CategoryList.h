@@ -29,7 +29,4 @@
 - (void)readDegasFileFormat:(FILE *)fp;
 - (void)printDataTo:(FILE *)fp;
 
-- (id)initWithCoder:(NSCoder *)aDecoder;
-- (void)encodeWithCoder:(NSCoder *)aCoder;
-
 @end

@@ -114,8 +114,8 @@
     char *c_name, *c_comment;
     FormulaExpression *anExpression;
 
-    if ([self init] == nil)
-        return nil;
+    cacheTag = 0;
+    cacheValue = 0.0;
 
     //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
     archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
@@ -123,11 +123,10 @@
 
     [aDecoder decodeValuesOfObjCTypes:"**", &c_name, &c_comment];
     //NSLog(@"c_name: %s, c_comment: %s", c_name, c_comment);
-    [self setName:[NSString stringWithASCIICString:c_name]];
-    [self setComment:[NSString stringWithASCIICString:c_comment]];
 
-    anExpression = [aDecoder decodeObject];
-    [self setExpression:anExpression];
+    name = [[NSString stringWithASCIICString:c_name] retain];
+    comment = [[NSString stringWithASCIICString:c_comment] retain];
+    expression = [[aDecoder decodeObject] retain];
 
     //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
     return self;
