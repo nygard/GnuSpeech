@@ -1,8 +1,8 @@
 #import <AppKit/NSView.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-@class MonetList, MMTransition;
-@class AppController, MMSlope;
+@class MonetList, MModel, MMSlope, MMTransition;
+@class AppController;
 
 /*===========================================================================
 
@@ -17,13 +17,12 @@
 {
     IBOutlet AppController *controller;
     IBOutlet NSForm *displayParameters;
-    IBOutlet NSTextField *transitionNameTextField;
 
     NSFont *timesFont;
 
     MMTransition *currentTemplate;
 
-    MonetList *dummyPhoneList;
+    MonetList *samplePhoneList;
     MonetList *displayPoints;
     MonetList *displaySlopes;
     MonetList *selectedPoints;
@@ -36,6 +35,8 @@
     MMSlope *editingSlope;
     NSTextFieldCell *textFieldCell;
     NSText *nonretained_fieldEditor;
+
+    MModel *model;
 }
 
 + (void)initialize;
@@ -43,7 +44,10 @@
 - (id)initWithFrame:(NSRect)frameRect;
 - (void)dealloc;
 
-- (void)applicationDidFinishLaunching:(NSNotification *)notification;
+- (MModel *)model;
+- (void)setModel:(MModel *)newModel;
+
+- (void)_updateFromModel;
 
 - (BOOL)shouldDrawSelection;
 - (void)setShouldDrawSelection:(BOOL)newFlag;

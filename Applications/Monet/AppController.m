@@ -26,6 +26,7 @@
 #import "MDataEntryController.h"
 #import "MPostureEditor.h"
 #import "MPrototypeManager.h"
+#import "MTransitionEditor.h"
 
 @implementation AppController
 
@@ -149,8 +150,8 @@
     //[model generateXML:@"DefaultPrototypes"];
 
     [ruleManager applicationDidFinishLaunching:aNotification];
-    [transitionBuilder applicationDidFinishLaunching:aNotification]; // not connected yet
-    [specialTransitionBuilder applicationDidFinishLaunching:aNotification]; // not connected yet
+    //[transitionBuilder applicationDidFinishLaunching:aNotification]; // not connected yet
+    //[specialTransitionBuilder applicationDidFinishLaunching:aNotification]; // not connected yet
     [eventListView applicationDidFinishLaunching:aNotification]; // not connected yet
     [intonationView applicationDidFinishLaunching:aNotification]; // not connected yet
 
@@ -329,9 +330,10 @@
                 [dataEntryController setModel:model];
                 [postureEditor setModel:model];
                 [newPrototypeManager setModel:model];
+                [transitionEditor setModel:model];
 
-                [transitionBuilder applicationDidFinishLaunching:nil];
-                [specialTransitionBuilder applicationDidFinishLaunching:nil];
+                //[transitionBuilder applicationDidFinishLaunching:nil];
+                //[specialTransitionBuilder applicationDidFinishLaunching:nil];
 
                 [stream release];
 #ifdef PORTING
@@ -477,6 +479,25 @@
     NSLog(@"<  %s", _cmd);
 }
 
+- (MTransitionEditor *)transitionEditor;
+{
+    if (transitionEditor == nil) {
+        transitionEditor = [[MTransitionEditor alloc] initWithModel:model];
+    }
+
+    return transitionEditor;
+}
+
+- (IBAction)showTransitionEditor:(id)sender;
+{
+    NSLog(@" > %s", _cmd);
+
+    [self transitionEditor]; // Make sure it's been created
+    [transitionEditor setModel:model];
+    [transitionEditor showWindow:self];
+
+    NSLog(@"<  %s", _cmd);
+}
 
 - (IBAction)generateXML:(id)sender;
 {
@@ -485,14 +506,16 @@
 
 - (void)editTransition:(MMTransition *)aTransition;
 {
-    [transitionBuilder setTransition:aTransition];
-    [transitionWindow makeKeyAndOrderFront:nil];
+    [self transitionEditor]; // Make sure it's been created
+
+    [transitionEditor setTransition:aTransition];
+    [transitionEditor showWindow:self];
 }
 
 - (void)editSpecialTransition:(MMTransition *)aTransition;
 {
-    [specialTransitionBuilder setTransition:aTransition];
-    [[specialTransitionBuilder window] makeKeyAndOrderFront:nil];
+    //[specialTransitionBuilder setTransition:aTransition];
+    //[[specialTransitionBuilder window] makeKeyAndOrderFront:nil];
 }
 
 @end

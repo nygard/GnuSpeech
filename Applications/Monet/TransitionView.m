@@ -6,19 +6,21 @@
 #import "AppController.h"
 #import "FormulaExpression.h"
 #import "Inspector.h"
-#import "MonetList.h"
-#import "NamedList.h"
+#import "MMEquation.h"
 #import "MMPosture.h"
 #import "MMPoint.h"
-#import "PointInspector.h"
-#import "MMEquation.h"
-#import "PrototypeManager.h"
 #import "MMTransition.h"
 #import "MMSlope.h"
 #import "MMSlopeRatio.h"
-#import "SymbolList.h"
 #import "MMTarget.h"
+#import "MonetList.h"
+#import "NamedList.h"
+#import "PointInspector.h"
+#import "PrototypeManager.h"
+#import "SymbolList.h"
 #import "TargetList.h"
+
+#import "MModel.h"
 
 #define LABEL_MARGIN 5
 #define LEFT_MARGIN 50
@@ -73,10 +75,10 @@ static NSImage *_selectionBox = nil;
     timesFont = [[NSFont fontWithName:@"Times-Roman" size:12] retain];
     currentTemplate = nil;
 
-    dummyPhoneList = [[MonetList alloc] initWithCapacity:4];
-    displayPoints = [[MonetList alloc] initWithCapacity:12];
-    displaySlopes = [[MonetList alloc] initWithCapacity:12];
-    selectedPoints = [[MonetList alloc] initWithCapacity:4];
+    samplePhoneList = [[MonetList alloc] init];
+    displayPoints = [[MonetList alloc] init];
+    displaySlopes = [[MonetList alloc] init];
+    selectedPoints = [[MonetList alloc] init];
 
     shouldDrawSelection = NO;
 
@@ -92,7 +94,7 @@ static NSImage *_selectionBox = nil;
 - (void)dealloc;
 {
     [timesFont release];
-    [dummyPhoneList release];
+    [samplePhoneList release];
     [displayPoints release];
     [displaySlopes release];
     [selectedPoints release];
@@ -101,37 +103,52 @@ static NSImage *_selectionBox = nil;
     [super dealloc];
 }
 
-// Note (2004-03-11): This currently can be called multiple times, once after each file we load.
-- (void)applicationDidFinishLaunching:(NSNotification *)notification;
+- (MModel *)model;
 {
-    SymbolList *symbols;
-    ParameterList *mainParameterList, *mainMetaParameterList;
-    MMPosture *aPhone;
+    return model;
+}
 
-    NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
+- (void)setModel:(MModel *)newModel;
+{
+    if (newModel == model)
+        return;
 
-    [dummyPhoneList removeAllObjects];
+    [model release];
+    model = [newModel retain];
+
+    [self _updateFromModel];
+}
+
+// TODO (2004-03-21): I don't think this will catch changes to the "Formula Symbols"...
+- (void)_updateFromModel;
+{
+    MMPosture *aPosture;
+
+    NSLog(@" > %s", _cmd);
+
+    [samplePhoneList removeAllObjects];
     [displayPoints removeAllObjects];
     [displaySlopes removeAllObjects];
     [selectedPoints removeAllObjects];
 
-    symbols = NXGetNamedObject(@"mainSymbolList", NSApp);
-    mainParameterList = NXGetNamedObject(@"mainParameterList", NSApp);
-    mainMetaParameterList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
+    aPosture = [[MMPosture alloc] initWithModel:model]; // TODO (2004-03-21): This needs a non-nil model
+    [aPosture setSymbol:@"dummy"];
+    [(MMTarget *)[[aPosture symbolList] objectAtIndex:0] setValue:100.0]; // Rule Duration (should be "duration"?)
+    [(MMTarget *)[[aPosture symbolList] objectAtIndex:1] setValue:33.3333]; // Beat Location? (should be "transition"?)
+    [(MMTarget *)[[aPosture symbolList] objectAtIndex:2] setValue:33.3333]; // Mark 1 (should be "qssa"?)
+    [(MMTarget *)[[aPosture symbolList] objectAtIndex:3] setValue:33.3333]; // Mark 2 (should be "qssb"?)
 
-    aPhone = [[MMPosture alloc] initWithModel:nil]; // TODO (2004-03-21): This needs a non-nil model
-    [aPhone setSymbol:@"dummy"];
-    [(MMTarget *)[[aPhone symbolList] objectAtIndex:0] setValue:100.0]; // Rule Duration
-    [(MMTarget *)[[aPhone symbolList] objectAtIndex:1] setValue:33.3333]; // Beat Location
-    [(MMTarget *)[[aPhone symbolList] objectAtIndex:2] setValue:33.3333]; // Mark 1
-    [(MMTarget *)[[aPhone symbolList] objectAtIndex:3] setValue:33.3333]; // Mark 2
-    [dummyPhoneList addObject:aPhone];
-    [dummyPhoneList addObject:aPhone];
-    [dummyPhoneList addObject:aPhone];
-    [dummyPhoneList addObject:aPhone];
-    [aPhone release];
+    // We need four postures to show a tetraphone
+    [samplePhoneList addObject:aPosture];
+    [samplePhoneList addObject:aPosture];
+    [samplePhoneList addObject:aPosture];
+    [samplePhoneList addObject:aPosture];
 
-    NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
+    [aPosture release];
+
+    [self setNeedsDisplay:YES];
+
+    NSLog(@"<  %s", _cmd);
 }
 
 - (BOOL)shouldDrawSelection;
@@ -286,7 +303,7 @@ static NSImage *_selectionBox = nil;
         for (j = 0; j < [namedList count]; j++) {
             equation = [namedList objectAtIndex:j];
             if ([[equation expression] maxPhone] <= type) {
-                time = [equation evaluate:symbols phones:dummyPhoneList andCacheWith:cache];
+                time = [equation evaluate:symbols phones:samplePhoneList andCacheWith:cache];
                 //NSLog(@"\t%@", [equation name]);
                 //NSLog(@"\t\ttime = %f", time);
                 //NSLog(@"equation name: %@, formula: %@, time: %f", [equation name], [[equation expression] expressionString], time);
@@ -399,7 +416,7 @@ static NSImage *_selectionBox = nil;
         currentPoint = [currentPoints objectAtIndex:index];
         //NSLog(@"%2d: object class: %@", index, NSStringFromClass([currentPoint class]));
         //NSLog(@"%2d (a): value: %g, freeTime: %g, type: %d, isPhantom: %d", index, [currentPoint value], [currentPoint freeTime], [currentPoint type], [currentPoint isPhantom]);
-        [currentPoint calculatePoints:symbols tempos:tempos phones:dummyPhoneList andCacheWith:cache toDisplay:displayPoints];
+        [currentPoint calculatePoints:symbols tempos:tempos phones:samplePhoneList andCacheWith:cache toDisplay:displayPoints];
         //NSLog(@"%2d (b): value: %g, freeTime: %g, type: %d, isPhantom: %d", index, [currentPoint value], [currentPoint freeTime], [currentPoint type], [currentPoint isPhantom]);
 
         if ([currentPoint isKindOfClass:[MMSlopeRatio class]])
@@ -1022,7 +1039,7 @@ static NSImage *_selectionBox = nil;
         if (currentExpression == nil)
             currentPoint.x = [currentDisplayPoint freeTime];
         else
-            currentPoint.x = [[currentDisplayPoint expression] evaluate:symbols phones:dummyPhoneList andCacheWith:cache];
+            currentPoint.x = [[currentDisplayPoint expression] evaluate:symbols phones:samplePhoneList andCacheWith:cache];
 
         currentPoint.x *= timeScale;
         currentPoint.y = (yScale * ZERO_INDEX) + ([currentDisplayPoint value] * yScale / SECTION_AMOUNT);
@@ -1115,8 +1132,14 @@ static NSImage *_selectionBox = nil;
 
 - (void)setTransition:(MMTransition *)newTransition;
 {
-    if (newTransition == currentTemplate)
+    NSLog(@" > %s", _cmd);
+
+    NSLog(@"currentTemplate: %p, newTransition: %p", currentTemplate, newTransition);
+
+    if (newTransition == currentTemplate) {
+        NSLog(@"<  %s", _cmd);
         return;
+    }
 
     [[self window] endEditingFor:nil];
     [selectedPoints removeAllObjects];
@@ -1124,8 +1147,6 @@ static NSImage *_selectionBox = nil;
 
     [currentTemplate release];
     currentTemplate = [newTransition retain];
-
-    [transitionNameTextField setStringValue:[currentTemplate name]];
 
     switch ([currentTemplate type]) {
       case DIPHONE:
@@ -1152,6 +1173,8 @@ static NSImage *_selectionBox = nil;
     }
 
     [self setNeedsDisplay:YES];
+
+    NSLog(@"<  %s", _cmd);
 }
 
 - (void)showWindow:(int)otherWindow;

@@ -1,0 +1,27 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = MTransitionEditor; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                controlParametersForm = NSForm; 
+                transitionNameTextField = NSTextField; 
+                transitionView = TransitionView; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {delete = id; groupInSlopeRatio = id; updateControlParameter = id; }; 
+            CLASS = TransitionView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                controller = AppController; 
+                displayParameters = NSForm; 
+                transitionNameTextField = NSTextField; 
+            }; 
+            SUPERCLASS = NSView; 
+        }
+    ); 
+    IBVersion = 1; 
+}

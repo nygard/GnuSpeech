@@ -110,4 +110,5 @@ TODO:
 2004-03-18:
 - need to be sure to set model when we add postures.
 
-2003-03-20:
+2003-03-21:
+- maybe try "MA" as the prefix for "Monet App"
