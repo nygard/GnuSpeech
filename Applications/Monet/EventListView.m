@@ -59,6 +59,8 @@
     NSSize interCellSpacing = NSZeroSize;
     NSSize cellSize;
 
+    NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
+
     //trackRect.origin.x = 80.0;
     //trackRect.origin.y = 50.0;
     //trackRect.size.width = frame.size.width - 102.0;
@@ -148,6 +150,8 @@
     /* Display */
     [niftyMatrix grayAllCells];
     [niftyMatrix display];
+
+    NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }
 
 - (void)itemsChanged:sender;

@@ -1,6 +1,7 @@
 #import <Foundation/NSObject.h>
 
 @class EventList, MonetList;
+@class EventListView, IntonationView;
 
 /*===========================================================================
 
@@ -13,9 +14,9 @@
 
 @interface StringParser : NSObject
 {
-    int stringIndex;
+    //int stringIndex;
     int cache;
-    const char *parseString;
+    //NSString *parseString;
     EventList *eventList;
     MonetList *categoryList;
     MonetList *phoneList;
@@ -26,57 +27,57 @@
     double min[16];
     double max[16];
 
-    id stringTextField;
-    id eventListView;
-    id intonationView;
+    IBOutlet NSTextField *stringTextField;
+    IBOutlet EventListView *eventListView;
+    IBOutlet NSScrollView *intonationView;
 
     /* Synthesizer Control Panel Outlets */
 
     /* General*/
-    id masterVolume;
-    id length;
-    id temperature;
-    id balance;
-    id breathiness;
-    id lossFactor;
-    id pitchMean;
+    IBOutlet NSTextField *masterVolume;
+    IBOutlet NSTextField *length;
+    IBOutlet NSTextField *temperature;
+    IBOutlet NSTextField *balance;
+    IBOutlet NSTextField *breathiness;
+    IBOutlet NSTextField *lossFactor;
+    IBOutlet NSTextField *pitchMean;
 
     /* Nasal Cavity */
-    id n1;
-    id n2;
-    id n3;
-    id n4;
-    id n5;
+    IBOutlet NSTextField *n1;
+    IBOutlet NSTextField *n2;
+    IBOutlet NSTextField *n3;
+    IBOutlet NSTextField *n4;
+    IBOutlet NSTextField *n5;
 
-    id tp;
-    id tnMin;
-    id tnMax;
-    id waveform;
+    IBOutlet NSTextField *tp;
+    IBOutlet NSTextField *tnMin;
+    IBOutlet NSTextField *tnMax;
+    IBOutlet NSMatrix *waveform;
 
-    id throatCutoff;
-    id throatVolume;
-    id apScale;
-    id mouthCoef;
-    id noseCoef;
-    id mixOffset;
-    id modulation;
+    IBOutlet NSTextField *throatCutoff;
+    IBOutlet NSTextField *throatVolume;
+    IBOutlet NSTextField *apScale;
+    IBOutlet NSTextField *mouthCoef;
+    IBOutlet NSTextField *noseCoef;
+    IBOutlet NSTextField *mixOffset;
+    IBOutlet NSMatrix *modulation;
 
-    id tempoField;
+    IBOutlet NSTextField *tempoField;
 
-    id fileFlag;
-    id filenameField;
-    id parametersStore;
-    id intonationMatrix;
-    id intonParmsField;
-    id driftDeviationField;
-    id driftCutoffField;
+    IBOutlet NSTextField *fileFlag;
+    IBOutlet NSTextField *filenameField;
+    IBOutlet NSButton *parametersStore;
+    IBOutlet NSMatrix *intonationMatrix;
+    IBOutlet NSForm *intonParmsField;
+    IBOutlet NSTextField *driftDeviationField;
+    IBOutlet NSTextField *driftCutoffField;
 
-    id smoothIntonationSwitch;
+    IBOutlet NSButton *smoothIntonationSwitch;
 
-    id stereoMono;
-    id samplingRate;
+    IBOutlet NSMatrix *stereoMono;
+    IBOutlet NSMatrix *samplingRate;
 
-    id radiusMultiplyField;
+    IBOutlet NSTextField *radiusMultiplyField;
 }
 
 - (id)init;

@@ -2,8 +2,10 @@
 
 #include <sys/time.h>
 #import <Foundation/Foundation.h>
+#import <AppKit/AppKit.h>
 #import "DefaultMgr.h"
 #import "EventList.h"
+#import "EventListView.h"
 #import "IntonationView.h"
 #import "MyController.h"
 #include "driftGenerator.h"
@@ -89,7 +91,7 @@
     [defaultManager setn2:[n2 doubleValue]];
     [defaultManager setn3:[n3 doubleValue]];
     [defaultManager setn4:[n4 doubleValue]];
-    [defaultManager setn5:[n5  doubleValue]];
+    [defaultManager setn5:[n5 doubleValue]];
     [defaultManager setTp:[tp doubleValue]];
     [defaultManager setTnMin:[tnMin doubleValue]];
     [defaultManager setTnMax:[tnMax doubleValue]];

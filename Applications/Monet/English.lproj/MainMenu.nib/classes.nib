@@ -5,6 +5,8 @@
             LANGUAGE = ObjC; 
             OUTLETS = {
                 dataBrowser = BrowserManager; 
+                defaultManager = DefaultMgr; 
+                eventListView = EventListView; 
                 intonationView = IntonationView; 
                 phonesWindow = NSWindow; 
                 prototypeManager = PrototypeManager; 
@@ -47,6 +49,7 @@
             }; 
             SUPERCLASS = NSResponder; 
         }, 
+        {CLASS = DefaultMgr; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
             ACTIONS = {

@@ -49,6 +49,8 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 {
+    NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
+    NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }
 
 - (BOOL)acceptsFirstResponder;

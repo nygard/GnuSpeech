@@ -1,5 +1,5 @@
 //
-// $Id: AppController.h,v 1.6 2004/03/05 04:00:57 nygard Exp $
+// $Id: AppController.h,v 1.7 2004/03/05 04:21:13 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -31,10 +31,10 @@
     IBOutlet TransitionView *transitionBuilder;
     IBOutlet TransitionView *specialTransitionBuilder;
     IBOutlet StringParser *stringParser;
-    //IBOutlet EventListView *eventListView;
+    IBOutlet EventListView *eventListView;
     IBOutlet IntonationView *intonationView; // TODO (2004-03-03): This might be an NSScrollView.
 
-    //DefaultMgr *defaultManager;
+    IBOutlet DefaultMgr *defaultManager;
 
     /* Window pointers */
     IBOutlet NSWindow *transitionWindow;

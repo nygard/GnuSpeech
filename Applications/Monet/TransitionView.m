@@ -39,10 +39,12 @@
     selectionBox = [[NSImage imageNamed:@"selectionBox.tiff"] retain];
 
     timesFont = [[NSFont fontWithName:@"Times-Roman" size:12] retain];
-
     currentTemplate = nil;
-
     selectedPoints = [[MonetList alloc] initWithCapacity:4];
+
+    dummyPhoneList = [[MonetList alloc] initWithCapacity:4];
+    displayPoints = [[MonetList alloc] initWithCapacity:12];
+    displaySlopes = [[MonetList alloc] initWithCapacity:12];
 
     [self setNeedsDisplay:YES];
 
@@ -57,6 +59,9 @@
     [selectionBox release];
     [timesFont release];
     [selectedPoints release];
+    [dummyPhoneList release];
+    [displayPoints release];
+    [displaySlopes release];
 
     [super dealloc];
 }
@@ -67,9 +72,7 @@
     ParameterList *parms, *metaParms;
     Phone *dummy;
 
-    dummyPhoneList = [[MonetList alloc] initWithCapacity:4];
-    displayPoints = [[MonetList alloc] initWithCapacity:12];
-    displaySlopes = [[MonetList alloc] initWithCapacity:12];
+    NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
 
     symbols = NXGetNamedObject(@"mainSymbolList", NSApp);
     parms = NXGetNamedObject(@"mainParameterList", NSApp);
@@ -85,6 +88,8 @@
     [dummyPhoneList addObject:dummy];
     [dummyPhoneList addObject:dummy];
     [dummy release];
+
+    NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }
 
 - (BOOL)acceptsFirstResponder;

@@ -7,6 +7,7 @@
 #import "BrowserManager.h"
 #import "CategoryNode.h"
 #import "CategoryList.h"
+#import "EventListView.h"
 #import "IntonationView.h"
 #import "MyController.h"
 #import "NamedList.h"
@@ -69,6 +70,8 @@
     NXNameObject(@"intonationView", intonationView, NSApp);
     NXNameObject(@"stringParser", stringParser, NSApp);
 
+    NXNameObject(@"defaultManager", defaultManager, NSApp);
+
     NSLog(@"getting it by name: %@", NXGetNamedObject(@"mainSymbolList", NSApp));
 
     [dataBrowser applicationDidFinishLaunching:aNotification];
@@ -123,7 +126,7 @@
     [ruleManager applicationDidFinishLaunching:aNotification];
     [transitionBuilder applicationDidFinishLaunching:aNotification]; // not connected yet
     [specialTransitionBuilder applicationDidFinishLaunching:aNotification]; // not connected yet
-    //[eventListView applicationDidFinishLaunching:aNotification]; // not connected yet
+    [eventListView applicationDidFinishLaunching:aNotification]; // not connected yet
     [intonationView applicationDidFinishLaunching:aNotification]; // not connected yet
 
     [stringParser applicationDidFinishLaunching:aNotification]; // not connected yet
