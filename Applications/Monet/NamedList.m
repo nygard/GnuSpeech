@@ -90,8 +90,8 @@
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@>[%p]: name: %@, comment: %@, super: %@",
-                     NSStringFromClass([self class]), self, name, comment, [super description]];
+    return [NSString stringWithFormat:@"<%@>[%p]: name: %@, comment: %@",
+                     NSStringFromClass([self class]), self, name, comment];
 }
 
 - (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(int)level;
