@@ -11,6 +11,9 @@
 #import "MMEquation.h"
 #import "MMSlope.h"
 
+#import "MXMLParser.h"
+#import "MXMLArrayDelegate.h"
+
 /*===========================================================================
 
 	Author: Craig-Richard Taube-Schock
@@ -57,6 +60,11 @@
     [self updateSlopes];
 }
 
+- (void)addPoint:(MMPoint *)newPoint;
+{
+    [points addObject:newPoint];
+}
+
 - (MonetList *)slopes;
 {
     return slopes;
@@ -69,6 +77,11 @@
 
     [slopes release];
     slopes = [newList retain];
+}
+
+- (void)addSlope:(MMSlope *)newSlope;
+{
+    [slopes addObject:newSlope];
 }
 
 - (void)updateSlopes;
@@ -286,6 +299,41 @@
 
     [resultString indentToLevel:level];
     [resultString appendString:@"</slope-ratio>\n"];
+}
+
+// TODO (2004-05-14): Maybe with a common superclass we wouldn't need to implement this method here.
+- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
+{
+    if ([self init] == nil)
+        return nil;
+
+    return self;
+}
+
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
+{
+    if ([elementName isEqualToString:@"points"]) {
+        MXMLArrayDelegate *arrayDelegate;
+
+        arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"point" class:[MMPoint class] delegate:self addObjectSelector:@selector(addPoint:)];
+        [(MXMLParser *)parser pushDelegate:arrayDelegate];
+        [arrayDelegate release];
+    } else if ([elementName isEqualToString:@"slopes"]) {
+        MXMLArrayDelegate *arrayDelegate;
+
+        arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"slope" class:[MMSlope class] delegate:self addObjectSelector:@selector(addSlope:)];
+        [(MXMLParser *)parser pushDelegate:arrayDelegate];
+        [arrayDelegate release];
+    } else {
+        NSLog(@"%@, Unknown element: '%@', skipping", [self shortDescription], elementName);
+        [(MXMLParser *)parser skipTree];
+    }
+}
+
+- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
+{
+    // TODO (2004-05-14): Should check to make sure we have an appropriate number of points and slopes.
+    [(MXMLParser *)parser popDelegate];
 }
 
 @end

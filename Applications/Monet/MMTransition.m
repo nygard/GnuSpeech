@@ -392,10 +392,16 @@
 
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 {
+    NSString *str;
+
     if ([self init] == nil)
         return nil;
 
     [self setName:[attributes objectForKey:@"name"]];
+
+    str = [attributes objectForKey:@"type"];
+    if (str != nil)
+        [self setType:MMPhoneTypeFromString(str)];
 
     return self;
 }
@@ -410,10 +416,15 @@
         [newDelegate release];
     } else if ([elementName isEqualToString:@"point-or-slopes"]) {
         MXMLArrayDelegate *newDelegate;
+        NSDictionary *elementClassMapping;
 
-        newDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"point" class:[MMPoint class] delegate:self addObjectSelector:@selector(addPoint:)];
+        elementClassMapping = [[NSDictionary alloc] initWithObjectsAndKeys:[MMPoint class], @"point",
+                                                    [MMSlopeRatio class], @"slope-ratio",
+                                                    nil];
+        newDelegate = [[MXMLArrayDelegate alloc] initWithChildElementToClassMapping:elementClassMapping delegate:self addObjectSelector:@selector(addPoint:)];
         [(MXMLParser *)parser pushDelegate:newDelegate];
         [newDelegate release];
+        [elementClassMapping release];
     } else {
         NSLog(@"%@, Unknown element: '%@', skipping", [self shortDescription], elementName);
         [(MXMLParser *)parser skipTree];

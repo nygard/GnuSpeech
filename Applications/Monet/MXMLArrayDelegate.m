@@ -13,10 +13,10 @@
     NSDictionary *mapping;
 
     mapping = [NSDictionary dictionaryWithObject:aClass forKey:anElementName];
-    return [self initWithElementToClassMapping:mapping delegate:aDelegate addObjectSelector:aSelector];
+    return [self initWithChildElementToClassMapping:mapping delegate:aDelegate addObjectSelector:aSelector];
 }
 
-- (id)initWithElementToClassMapping:(NSDictionary *)aMapping delegate:(id)aDelegate addObjectSelector:(SEL)aSelector;
+- (id)initWithChildElementToClassMapping:(NSDictionary *)aMapping delegate:(id)aDelegate addObjectSelector:(SEL)aSelector;
 {
     if ([super init] == nil)
         return nil;

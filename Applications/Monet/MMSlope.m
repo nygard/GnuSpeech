@@ -5,6 +5,7 @@
 #import "NSString-Extensions.h"
 
 #import "GSXMLFunctions.h"
+#import "MXMLParser.h"
 
 /*===========================================================================
 
@@ -81,6 +82,35 @@
 {
     [resultString indentToLevel:level];
     [resultString appendFormat:@"<slope slope=\"%g\" display-time=\"%g\"/>\n", slope, displayTime];
+}
+
+- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
+{
+    NSString *str;
+
+    if ([self init] == nil)
+        return nil;
+
+    str = [attributes objectForKey:@"slope"];
+    if (str != nil)
+        [self setSlope:[str doubleValue]];
+
+    str = [attributes objectForKey:@"display-time"];
+    if (str = nil)
+        [self setDisplayTime:[str doubleValue]];
+
+    return self;
+}
+
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
+{
+    NSLog(@"%@, Unknown element: '%@', skipping", [self shortDescription], elementName);
+    [(MXMLParser *)parser skipTree];
+}
+
+- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
+{
+    [(MXMLParser *)parser popDelegate];
 }
 
 @end

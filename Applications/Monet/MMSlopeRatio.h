@@ -1,6 +1,7 @@
 #import <Foundation/NSObject.h>
 
 @class MonetList;
+@class MMPoint, MMSlope;
 
 /*===========================================================================
 
@@ -22,9 +23,11 @@
 
 - (MonetList *)points;
 - (void)setPoints:(MonetList *)newList;
+- (void)addPoint:(MMPoint *)newPoint;
 
 - (MonetList *)slopes;
 - (void)setSlopes:(MonetList *)newList;
+- (void)addSlope:(MMSlope *)newSlope;
 - (void)updateSlopes;
 
 - (double)startTime;
@@ -46,5 +49,9 @@
 - (NSString *)description;
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+
+- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
+- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 
 @end
