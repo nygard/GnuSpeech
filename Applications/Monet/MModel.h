@@ -16,9 +16,9 @@ extern NSString *MCategoryInUseException;
     NSMutableArray *symbols;
     NSMutableArray *postures; // Keep this list sorted by name
 
-    MonetList *equations; // Of NamedLists of MMEquations
-    MonetList *transitions; // Of NamedLists of MMTransitions
-    MonetList *specialTransitions; // Of NamedLists of MMTransitions
+    NSMutableArray *equations; // Of NamedLists of MMEquations
+    NSMutableArray *transitions; // Of NamedLists of MMTransitions
+    NSMutableArray *specialTransitions; // Of NamedLists of MMTransitions
 
     NSMutableArray *rules;
     int cacheTag;
@@ -38,9 +38,9 @@ extern NSString *MCategoryInUseException;
 - (NSMutableArray *)symbols;
 - (NSMutableArray *)postures;
 
-- (MonetList *)equations;
-- (MonetList *)transitions;
-- (MonetList *)specialTransitions;
+- (NSMutableArray *)equations;
+- (NSMutableArray *)transitions;
+- (NSMutableArray *)specialTransitions;
 
 - (NSMutableArray *)rules;
 

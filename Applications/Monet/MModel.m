@@ -48,9 +48,9 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     symbols = [[NSMutableArray alloc] init];
     postures = [[NSMutableArray alloc] init];
 
-    equations = [[MonetList alloc] init];
-    transitions = [[MonetList alloc] init];
-    specialTransitions = [[MonetList alloc] init];
+    equations = [[NSMutableArray alloc] init];
+    transitions = [[NSMutableArray alloc] init];
+    specialTransitions = [[NSMutableArray alloc] init];
 
     rules = [[NSMutableArray alloc] init];
 #if 0
@@ -144,17 +144,17 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     return postures;
 }
 
-- (MonetList *)equations;
+- (NSMutableArray *)equations;
 {
     return equations;
 }
 
-- (MonetList *)transitions;
+- (NSMutableArray *)transitions;
 {
     return transitions;
 }
 
-- (MonetList *)specialTransitions;
+- (NSMutableArray *)specialTransitions;
 {
     return specialTransitions;
 }
@@ -926,10 +926,11 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         archivedSymbols = [aDecoder decodeObject];
         symbols = [[NSMutableArray alloc] init];
         [symbols addObjectsFromArray:[archivedSymbols allObjects]];
+
+        //NSLog(@"symbols: %@", symbols);
+        //NSLog(@"symbols: %d", [symbols count]);
+        [symbols makeObjectsPerformSelector:@selector(setModel:) withObject:self];
     }
-    //NSLog(@"symbols: %@", symbols);
-    //NSLog(@"symbols: %d", [symbols count]);
-    [symbols makeObjectsPerformSelector:@selector(setModel:) withObject:self];
 
     {
         ParameterList *archivedParameters;
@@ -937,10 +938,11 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         archivedParameters = [aDecoder decodeObject];
         parameters = [[NSMutableArray alloc] init];
         [parameters addObjectsFromArray:[archivedParameters allObjects]];
+
+        //NSLog(@"parameters: %@", parameters);
+        //NSLog(@"parameters: %d", [parameters count]);
+        [parameters makeObjectsPerformSelector:@selector(setModel:) withObject:self];
     }
-    //NSLog(@"parameters: %@", parameters);
-    //NSLog(@"parameters: %d", [parameters count]);
-    [parameters makeObjectsPerformSelector:@selector(setModel:) withObject:self];
 
     {
         ParameterList *archivedMetaParameters;
@@ -948,10 +950,11 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         archivedMetaParameters = [aDecoder decodeObject];
         metaParameters = [[NSMutableArray alloc] init];
         [metaParameters addObjectsFromArray:[archivedMetaParameters allObjects]];
+
+        //NSLog(@"metaParameters: %@", metaParameters);
+        //NSLog(@"metaParameters: %d", [metaParameters count]);
+        [metaParameters makeObjectsPerformSelector:@selector(setModel:) withObject:self];
     }
-    //NSLog(@"metaParameters: %@", metaParameters);
-    //NSLog(@"metaParameters: %d", [metaParameters count]);
-    [metaParameters makeObjectsPerformSelector:@selector(setModel:) withObject:self];
 
     {
         PhoneList *archivedPostures;
@@ -959,19 +962,38 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         archivedPostures = [aDecoder decodeObject];
         postures = [[NSMutableArray alloc] init];
         [postures addObjectsFromArray:[archivedPostures allObjects]];
+
+        //NSLog(@"postures: %@", postures);
+        //NSLog(@"postures: %d", [postures count]);
+        [postures makeObjectsPerformSelector:@selector(setModel:) withObject:self];
     }
-    //NSLog(@"postures: %@", postures);
-    //NSLog(@"postures: %d", [postures count]);
-    [postures makeObjectsPerformSelector:@selector(setModel:) withObject:self];
 
-    equations = [[aDecoder decodeObject] retain];
-    //NSLog(@"equations: %d", [equations count]);
+    {
+        MonetList *archivedEquations;
 
-    transitions = [[aDecoder decodeObject] retain];
-    //NSLog(@"transitions: %d", [transitions count]);
+        archivedEquations = [aDecoder decodeObject];
+        equations = [[NSMutableArray alloc] init];
+        [equations addObjectsFromArray:[archivedEquations allObjects]];
+        //NSLog(@"equations: %d", [equations count]);
+    }
 
-    specialTransitions = [[aDecoder decodeObject] retain];
-    //NSLog(@"specialTransitions: %d", [specialTransitions count]);
+    {
+        MonetList *archivedTransitions;
+
+        archivedTransitions = [aDecoder decodeObject];
+        transitions = [[NSMutableArray alloc] init];
+        [transitions addObjectsFromArray:[archivedTransitions allObjects]];
+        //NSLog(@"transitions: %d", [transitions count]);
+    }
+
+    {
+        MonetList *archivedSpecialTransitions;
+
+        archivedSpecialTransitions = [aDecoder decodeObject];
+        specialTransitions = [[NSMutableArray alloc] init];
+        [specialTransitions addObjectsFromArray:[archivedSpecialTransitions allObjects]];
+        //NSLog(@"specialTransitions: %d", [specialTransitions count]);
+    }
 
     {
         MonetList *archivedRules;

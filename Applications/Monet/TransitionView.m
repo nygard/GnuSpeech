@@ -381,7 +381,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 {
     int i, j;
     double time;
-    MonetList *equationList = [model equations];
+    NSArray *equationList = [model equations];
     NamedList *namedList;
     MMEquation *equation;
     float timeScale = [self timeScale];

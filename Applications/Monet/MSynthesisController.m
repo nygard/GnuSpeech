@@ -99,6 +99,8 @@
 
     [postureRewriter setModel:model];
 
+    [eventList setUp]; // So that we don't have stuff left over from the previous model, which can cause a crash.
+
     [self _updateDisplayParameters];
     [self _updateEventColumns];
     [self updateViews];
