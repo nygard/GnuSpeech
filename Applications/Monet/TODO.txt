@@ -44,7 +44,7 @@
   - and adding points to slopes doesn't quite work properly right now -- another slope doesn't get added?
 
 2004-11-14:
-- +SpecialView, +PointInspector, +RuleInspector, *IntonationView, +IntonationScrollView, IntonationPointInspector, EventListView
+- +SpecialView, +PointInspector, +RuleInspector, *IntonationView, +IntonationScrollView, *IntonationPointInspector, EventListView
 
 TODO:
 - if a value is at the default, and then you change the default, do you want all of the instances to change as well?  I think so.

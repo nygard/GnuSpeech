@@ -80,6 +80,33 @@
         }, 
         {
             ACTIONS = {
+                browserDoubleHit = id; 
+                browserHit = id; 
+                setBeatOffset = id; 
+                setHertz = id; 
+                setSemitone = id; 
+                setSlope = id; 
+                setUpWindow = id; 
+            }; 
+            CLASS = IntonationPointInspector; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                absTimeField = NSTextField; 
+                beatField = NSTextField; 
+                beatOffsetField = NSTextField; 
+                hertzField = NSTextField; 
+                mainBox = NSBox; 
+                mainInspector = Inspector; 
+                popUpList = NSPopUpButton; 
+                popUpListView = NSBox; 
+                ruleBrowser = NSBrowser; 
+                semitoneField = NSTextField; 
+                slopeField = NSTextField; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {
                 revertComment = id; 
                 revertValue = id; 
                 setComment = id; 

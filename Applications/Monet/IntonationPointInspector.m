@@ -86,7 +86,7 @@
     index = [[ruleBrowser matrixInColumn:0] selectedRow];
     [currentIntonationPoint setRuleIndex:index];
     [[tempView documentView] addIntonationPoint:currentIntonationPoint];
-    [tempView display];
+    [tempView setNeedsDisplay:YES];
     [self updateInspector];
 }
 
@@ -127,7 +127,7 @@
     IntonationView *tempView = NXGetNamedObject(@"intonationView", NSApp);
 
     [currentIntonationPoint setSemitone:[sender doubleValue]];
-    [tempView display];
+    [tempView setNeedsDisplay:YES];
     [self updateInspector];
 }
 
@@ -136,9 +136,9 @@
     IntonationView *tempView = NXGetNamedObject(@"intonationView", NSApp);
     double temp;
 
-    temp = 12.0 * (log10([sender doubleValue]/MIDDLEC)/log10(2.0));
+    temp = 12.0 * (log10([sender doubleValue] / MIDDLEC) / log10(2.0));
     [currentIntonationPoint setSemitone:temp];
-    [tempView display];
+    [tempView setNeedsDisplay:YES];
     [self updateInspector];
 }
 
@@ -147,7 +147,7 @@
     IntonationView *tempView = NXGetNamedObject(@"intonationView", NSApp);
 
     [currentIntonationPoint setSlope:[sender doubleValue]];
-    [tempView display];
+    [tempView setNeedsDisplay:YES];
     [self updateInspector];
 }
 
@@ -157,7 +157,7 @@
 
     [currentIntonationPoint setOffsetTime:[sender doubleValue]];
     [[tempView documentView] addIntonationPoint:currentIntonationPoint];
-    [tempView display];
+    [tempView setNeedsDisplay:YES];
     [self updateInspector];
 }
 
@@ -165,7 +165,7 @@
 {
     double temp;
 
-    temp = pow(2, [currentIntonationPoint semitone]/12.0)*MIDDLEC;
+    temp = pow(2, [currentIntonationPoint semitone] / 12.0) * MIDDLEC;
     [semitoneField setDoubleValue:[currentIntonationPoint semitone]];
     [hertzField setDoubleValue:temp];
     [slopeField setDoubleValue:[currentIntonationPoint slope]];

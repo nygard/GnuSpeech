@@ -29,16 +29,16 @@ History:
     IBOutlet NSBox *popUpListView;
     IBOutlet NSPopUpButton *popUpList;
 
-    id mainBox;
+    IBOutlet NSBox *mainBox;
 
-    id semitoneField;
-    id hertzField;
-    id slopeField;
+    IBOutlet NSTextField *semitoneField;
+    IBOutlet NSTextField *hertzField;
+    IBOutlet NSTextField *slopeField;
 
-    id ruleBrowser;
-    id beatField;
-    id beatOffsetField;
-    id absTimeField;
+    IBOutlet NSBrowser *ruleBrowser;
+    IBOutlet NSTextField *beatField;
+    IBOutlet NSTextField *beatOffsetField;
+    IBOutlet NSTextField *absTimeField;
 
     IntonationPoint *currentIntonationPoint;
 }
