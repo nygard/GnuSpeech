@@ -40,7 +40,5 @@ double fricVolAt(INPUT *ptr);
 double fricPosAt(INPUT *ptr);
 double fricCFAt(INPUT *ptr);
 double fricBWAt(INPUT *ptr);
-//INPUT *inputAt(int position);
-
 
 #endif

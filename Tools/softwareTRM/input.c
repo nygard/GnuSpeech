@@ -36,8 +36,7 @@ void addInput(double glotPitch, double glotVol, double aspVol, double fricVol,
     if (inputHead == NULL) {
 	inputTail = inputHead = newInputTable();
 	inputTail->previous = NULL;
-    }
-    else {
+    } else {
 	tempPtr = inputTail;
 	inputTail = tempPtr->next = newInputTable();
 	inputTail->previous = tempPtr;
@@ -93,302 +92,92 @@ INPUT *newInputTable(void)
     return ((INPUT *)malloc(sizeof(INPUT)));
 }
 
-
-/******************************************************************************
-*
-*	function:	glotPitchAt
-*
-*	purpose:	Returns the pitch stored in the table at 'position'.
-*
-*       arguments:      position
-*
-*	internal
-*	functions:	none
-*
-*	library
-*	functions:	inputAt
-*
-******************************************************************************/
-
+// Returns the pitch stored in the table 'ptr'.
 double glotPitchAt(INPUT *ptr)
 {
     if (ptr)
-	return (ptr->glotPitch);
-    else
-	return (0.0);
+	return ptr->glotPitch;
+
+    return 0.0;
 }
 
-
-
-/******************************************************************************
-*
-*	function:	glotVolAt
-*
-*	purpose:	Returns the glotVol stored in the table at 'position'.
-*
-*       arguments:      position
-*
-*	internal
-*	functions:	none
-*
-*	library
-*	functions:	inputAt
-*
-******************************************************************************/
-
+// Returns the glotVol stored in the table 'ptr'.
 double glotVolAt(INPUT *ptr)
 {
     if (ptr)
-	return (ptr->glotVol);
-    else
-	return (0.0);
+	return ptr->glotVol;
+
+    return 0.0;
 }
 
-
-
-/******************************************************************************
-*
-*	function:	radiiAt
-*
-*	purpose:	Returns the variable tube radii stored in the table at
-*                       'position'.
-*
-*       arguments:      position
-*
-*	internal
-*	functions:	none
-*
-*	library
-*	functions:	inputAt
-*
-******************************************************************************/
-
+// Returns the variable tube radii stored in the table 'ptr'.
 double *radiiAt(INPUT *ptr)
 {
     if (ptr)
-	return (ptr->radius);
-    else
-	return (NULL);
+	return ptr->radius;
+
+    return NULL;
 }
 
-
-
-/******************************************************************************
-*
-*	function:	radiusAtRegion
-*
-*	purpose:	Returns the radius for 'region', from the table at
-*                       'position'.
-*
-*       arguments:      position, region
-*
-*	internal
-*	functions:	inputAt
-*
-*	library
-*	functions:	none
-*
-******************************************************************************/
-
+// Returns the radius for 'region', from the table 'ptr'.
 double radiusAtRegion(INPUT *ptr, int region)
 {
     if (ptr)
-	return (ptr->radius[region]);
-    else
-	return (0.0);
+	return ptr->radius[region];
+
+    return 0.0;
 }
 
-
-
-/******************************************************************************
-*
-*	function:	velumAt
-*
-*	purpose:	Returns the velum radius from the table at 'position'.
-*
-*       arguments:      position
-*
-*	internal
-*	functions:	inputAt
-*
-*	library
-*	functions:	none
-*
-******************************************************************************/
-
+// Returns the velum radius from the table 'ptr'.
 double velumAt(INPUT *ptr)
 {
     if (ptr)
-	return (ptr->velum);
-    else
-	return (0.0);
+	return ptr->velum;
+
+    return 0.0;
 }
 
-
-
-/******************************************************************************
-*
-*	function:	aspVolAt
-*
-*	purpose:	Returns the aspiration factor from the table at
-*                       'position'.
-*
-*       arguments:      position
-*
-*	internal
-*	functions:	inputAt
-*
-*	library
-*	functions:	none
-*
-******************************************************************************/
-
+// Returns the aspiration factor from the table 'ptr'.
 double aspVolAt(INPUT *ptr)
 {
     if (ptr)
-	return (ptr->aspVol);
-    else
-	return (0.0);
+	return ptr->aspVol;
+
+    return 0.0;
 }
 
-
-
-/******************************************************************************
-*
-*	function:	fricVolAt
-*
-*	purpose:	Returns the frication volume from the table at
-*                       'position'.
-*
-*       arguments:      position
-*
-*	internal
-*	functions:	inputAt
-*
-*	library
-*	functions:	none
-*
-******************************************************************************/
-
+// Returns the frication volume from the table 'ptr'.
 double fricVolAt(INPUT *ptr)
 {
     if (ptr)
-	return (ptr->fricVol);
-    else
-	return (0.0);
+	return ptr->fricVol;
+
+    return 0.0;
 }
 
-
-
-/******************************************************************************
-*
-*	function:	fricPosAt
-*
-*	purpose:	Returns the frication position from the table at
-*                       'position'.
-*
-*       arguments:      position
-*
-*	internal
-*	functions:	inputAt
-*
-*	library
-*	functions:	none
-*
-******************************************************************************/
-
+// Returns the frication position from the table 'ptr'.
 double fricPosAt(INPUT *ptr)
 {
     if (ptr)
-	return (ptr->fricPos);
-    else
-	return (0.0);
+	return ptr->fricPos;
+
+    return 0.0;
 }
 
-
-
-/******************************************************************************
-*
-*	function:	fricCFAt
-*
-*	purpose:	Returns the frication center frequency from the table
-*                       at 'position'.
-*
-*       arguments:      position
-*
-*	internal
-*	functions:	inputAt
-*
-*	library
-*	functions:	none
-*
-******************************************************************************/
-
+// Returns the frication center frequency from the table 'ptr'.
 double fricCFAt(INPUT *ptr)
 {
     if (ptr)
-	return (ptr->fricCF);
-    else
-	return (0.0);
+	return ptr->fricCF;
+
+    return 0.0;
 }
 
-
-
-/******************************************************************************
-*
-*	function:	fricBWAt
-*
-*	purpose:	Returns the frication bandwidth from the table
-*                       at 'position'.
-*
-*       arguments:      position
-*
-*	internal
-*	functions:	inputAt
-*
-*	library
-*	functions:	none
-*
-******************************************************************************/
-
+// Returns the frication bandwidth from the table 'ptr'.
 double fricBWAt(INPUT *ptr)
 {
     if (ptr)
-	return (ptr->fricBW);
-    else
-	return (0.0);
+	return ptr->fricBW;
+
+    return 0.0;
 }
-
-
-#if 0
-/******************************************************************************
-*
-*	function:	inputAt
-*
-*	purpose:	Returns a pointer to the table specified by 'position'.
-*
-*       arguments:      position
-*
-*	internal
-*	functions:	none
-*
-*	library
-*	functions:	none
-*
-******************************************************************************/
-
-INPUT *inputAt(int position)
-{
-    int i;
-    INPUT *tempPtr = inputHead;
-
-    if ((position < 0) || (position >= numberInputTables))
-	return (NULL);
-
-    /*  LOOP THROUGH TO PROPER POSITION IN LIST  */
-    for (i = 0; i < position; i++)
-	tempPtr = tempPtr->next;
-
-    return (tempPtr);
-}
-#endif
