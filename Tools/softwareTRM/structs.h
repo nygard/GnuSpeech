@@ -101,16 +101,16 @@ typedef struct _TRMData {
 #define TOTAL_COEFFICIENTS        TOTAL_REGIONS
 
 /*  OROPHARYNX SECTIONS  */
-#define S1                        0      /*  R1  */
-#define S2                        1      /*  R2  */
-#define S3                        2      /*  R3  */
-#define S4                        3      /*  R4  */
-#define S5                        4      /*  R4  */
-#define S6                        5      /*  R5  */
-#define S7                        6      /*  R5  */
-#define S8                        7      /*  R6  */
-#define S9                        8      /*  R7  */
-#define S10                       9      /*  R8  */
+#define TRM_S1                        0      /*  R1  */
+#define TRM_S2                        1      /*  R2  */
+#define TRM_S3                        2      /*  R3  */
+#define TRM_S4                        3      /*  R4  */
+#define TRM_S5                        4      /*  R4  */
+#define TRM_S6                        5      /*  R5  */
+#define TRM_S7                        6      /*  R5  */
+#define TRM_S8                        7      /*  R6  */
+#define TRM_S9                        8      /*  R7  */
+#define TRM_S10                       9      /*  R8  */
 #define TOTAL_SECTIONS            10
 
 /*  NASAL TRACT COEFFICIENTS  */

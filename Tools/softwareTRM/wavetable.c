@@ -7,7 +7,7 @@
 #define USE_VECLIB
 
 #ifdef USE_VECLIB
-#include <vecLib/vecLib.h>
+#include <Accelerate/Accelerate.h>
 #endif
 
 // Compile with oversampling or plain oscillator

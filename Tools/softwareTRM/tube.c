@@ -596,18 +596,18 @@ double vocalTract(TRMTubeModel *tubeModel, double input, double frication)
     /*  UPDATE OROPHARYNX  */
     /*  INPUT TO TOP OF TUBE  */
 
-    tubeModel->oropharynx[S1][TOP][current_ptr] = (tubeModel->oropharynx[S1][BOTTOM][prev_ptr] * dampingFactor) + input;
+    tubeModel->oropharynx[TRM_S1][TOP][current_ptr] = (tubeModel->oropharynx[TRM_S1][BOTTOM][prev_ptr] * dampingFactor) + input;
 
     /*  CALCULATE THE SCATTERING JUNCTIONS FOR S1-S2  */
 
-    delta = tubeModel->oropharynx_coeff[C1] * (tubeModel->oropharynx[S1][TOP][prev_ptr] - tubeModel->oropharynx[S2][BOTTOM][prev_ptr]);
-    tubeModel->oropharynx[S2][TOP][current_ptr] = (tubeModel->oropharynx[S1][TOP][prev_ptr] + delta) * dampingFactor;
-    tubeModel->oropharynx[S1][BOTTOM][current_ptr] = (tubeModel->oropharynx[S2][BOTTOM][prev_ptr] + delta) * dampingFactor;
+    delta = tubeModel->oropharynx_coeff[C1] * (tubeModel->oropharynx[TRM_S1][TOP][prev_ptr] - tubeModel->oropharynx[TRM_S2][BOTTOM][prev_ptr]);
+    tubeModel->oropharynx[TRM_S2][TOP][current_ptr] = (tubeModel->oropharynx[TRM_S1][TOP][prev_ptr] + delta) * dampingFactor;
+    tubeModel->oropharynx[TRM_S1][BOTTOM][current_ptr] = (tubeModel->oropharynx[TRM_S2][BOTTOM][prev_ptr] + delta) * dampingFactor;
 
     /*  CALCULATE THE SCATTERING JUNCTIONS FOR S2-S3 AND S3-S4  */
     if (verbose > 1)
         printf("\nCalc scattering\n");
-    for (i = S2, j = C2, k = FC1; i < S4; i++, j++, k++) {
+    for (i = TRM_S2, j = C2, k = FC1; i < TRM_S4; i++, j++, k++) {
         delta = tubeModel->oropharynx_coeff[j] * (tubeModel->oropharynx[i][TOP][prev_ptr] - tubeModel->oropharynx[i+1][BOTTOM][prev_ptr]);
         tubeModel->oropharynx[i+1][TOP][current_ptr] =
             ((tubeModel->oropharynx[i][TOP][prev_ptr] + delta) * dampingFactor) +
@@ -616,30 +616,30 @@ double vocalTract(TRMTubeModel *tubeModel, double input, double frication)
     }
 
     /*  UPDATE 3-WAY JUNCTION BETWEEN THE MIDDLE OF R4 AND NASAL CAVITY  */
-    junctionPressure = (tubeModel->alpha[LEFT] * tubeModel->oropharynx[S4][TOP][prev_ptr])+
-        (tubeModel->alpha[RIGHT] * tubeModel->oropharynx[S5][BOTTOM][prev_ptr]) +
+    junctionPressure = (tubeModel->alpha[LEFT] * tubeModel->oropharynx[TRM_S4][TOP][prev_ptr])+
+        (tubeModel->alpha[RIGHT] * tubeModel->oropharynx[TRM_S5][BOTTOM][prev_ptr]) +
         (tubeModel->alpha[UPPER] * tubeModel->nasal[TRM_VELUM][BOTTOM][prev_ptr]);
-    tubeModel->oropharynx[S4][BOTTOM][current_ptr] = (junctionPressure - tubeModel->oropharynx[S4][TOP][prev_ptr]) * dampingFactor;
-    tubeModel->oropharynx[S5][TOP][current_ptr] =
-        ((junctionPressure - tubeModel->oropharynx[S5][BOTTOM][prev_ptr]) * dampingFactor)
+    tubeModel->oropharynx[TRM_S4][BOTTOM][current_ptr] = (junctionPressure - tubeModel->oropharynx[TRM_S4][TOP][prev_ptr]) * dampingFactor;
+    tubeModel->oropharynx[TRM_S5][TOP][current_ptr] =
+        ((junctionPressure - tubeModel->oropharynx[TRM_S5][BOTTOM][prev_ptr]) * dampingFactor)
             + (tubeModel->fricationTap[FC3] * frication);
     tubeModel->nasal[TRM_VELUM][TOP][current_ptr] = (junctionPressure - tubeModel->nasal[TRM_VELUM][BOTTOM][prev_ptr]) * dampingFactor;
 
     /*  CALCULATE JUNCTION BETWEEN R4 AND R5 (S5-S6)  */
-    delta = tubeModel->oropharynx_coeff[C4] * (tubeModel->oropharynx[S5][TOP][prev_ptr] - tubeModel->oropharynx[S6][BOTTOM][prev_ptr]);
-    tubeModel->oropharynx[S6][TOP][current_ptr] =
-        ((tubeModel->oropharynx[S5][TOP][prev_ptr] + delta) * dampingFactor) +
+    delta = tubeModel->oropharynx_coeff[C4] * (tubeModel->oropharynx[TRM_S5][TOP][prev_ptr] - tubeModel->oropharynx[TRM_S6][BOTTOM][prev_ptr]);
+    tubeModel->oropharynx[TRM_S6][TOP][current_ptr] =
+        ((tubeModel->oropharynx[TRM_S5][TOP][prev_ptr] + delta) * dampingFactor) +
             (tubeModel->fricationTap[FC4] * frication);
-    tubeModel->oropharynx[S5][BOTTOM][current_ptr] = (tubeModel->oropharynx[S6][BOTTOM][prev_ptr] + delta) * dampingFactor;
+    tubeModel->oropharynx[TRM_S5][BOTTOM][current_ptr] = (tubeModel->oropharynx[TRM_S6][BOTTOM][prev_ptr] + delta) * dampingFactor;
 
     /*  CALCULATE JUNCTION INSIDE R5 (S6-S7) (PURE DELAY WITH DAMPING)  */
-    tubeModel->oropharynx[S7][TOP][current_ptr] =
-        (tubeModel->oropharynx[S6][TOP][prev_ptr] * dampingFactor) +
+    tubeModel->oropharynx[TRM_S7][TOP][current_ptr] =
+        (tubeModel->oropharynx[TRM_S6][TOP][prev_ptr] * dampingFactor) +
             (tubeModel->fricationTap[FC5] * frication);
-    tubeModel->oropharynx[S6][BOTTOM][current_ptr] = tubeModel->oropharynx[S7][BOTTOM][prev_ptr] * dampingFactor;
+    tubeModel->oropharynx[TRM_S6][BOTTOM][current_ptr] = tubeModel->oropharynx[TRM_S7][BOTTOM][prev_ptr] * dampingFactor;
 
     /*  CALCULATE LAST 3 INTERNAL JUNCTIONS (S7-S8, S8-S9, S9-S10)  */
-    for (i = S7, j = C5, k = FC6; i < S10; i++, j++, k++) {
+    for (i = TRM_S7, j = C5, k = FC6; i < TRM_S10; i++, j++, k++) {
         delta = tubeModel->oropharynx_coeff[j] * (tubeModel->oropharynx[i][TOP][prev_ptr] - tubeModel->oropharynx[i+1][BOTTOM][prev_ptr]);
         tubeModel->oropharynx[i+1][TOP][current_ptr] =
             ((tubeModel->oropharynx[i][TOP][prev_ptr] + delta) * dampingFactor) +
@@ -648,11 +648,11 @@ double vocalTract(TRMTubeModel *tubeModel, double input, double frication)
     }
 
     /*  REFLECTED SIGNAL AT MOUTH GOES THROUGH A LOWPASS FILTER  */
-    tubeModel->oropharynx[S10][BOTTOM][current_ptr] =  dampingFactor *
-        reflectionFilter(tubeModel, tubeModel->oropharynx_coeff[C8] * tubeModel->oropharynx[S10][TOP][prev_ptr]);
+    tubeModel->oropharynx[TRM_S10][BOTTOM][current_ptr] =  dampingFactor *
+        reflectionFilter(tubeModel, tubeModel->oropharynx_coeff[C8] * tubeModel->oropharynx[TRM_S10][TOP][prev_ptr]);
 
     /*  OUTPUT FROM MOUTH GOES THROUGH A HIGHPASS FILTER  */
-    output = radiationFilter(tubeModel, (1.0 + tubeModel->oropharynx_coeff[C8]) * tubeModel->oropharynx[S10][TOP][prev_ptr]);
+    output = radiationFilter(tubeModel, (1.0 + tubeModel->oropharynx_coeff[C8]) * tubeModel->oropharynx[TRM_S10][TOP][prev_ptr]);
 
 
     /*  UPDATE NASAL CAVITY  */
