@@ -1,5 +1,5 @@
 //
-// $Id: AppController.h,v 1.14 2004/03/15 20:18:33 nygard Exp $
+// $Id: AppController.h,v 1.15 2004/03/15 23:54:48 nygard Exp $
 //
 
 /*===========================================================================
@@ -26,7 +26,7 @@ History:
 
 @class NSMutableDictionary;
 @class CategoryList, ParameterList, PhoneList, StringParser, SymbolList;
-@class BrowserManager, DefaultMgr, EventListView, Inspector, IntonationView, PrototypeManager, RuleManager, SpecialView, TransitionView;
+@class BrowserManager, DefaultMgr, EventListView, Inspector, IntonationScrollView, PrototypeManager, RuleManager, SpecialView, TransitionView;
 
 @interface AppController : NSObject
 {
@@ -49,7 +49,7 @@ History:
     IBOutlet SpecialView *specialTransitionBuilder;
     IBOutlet StringParser *stringParser;
     IBOutlet EventListView *eventListView;
-    IBOutlet IntonationView *intonationView; // TODO (2004-03-03): This might be an NSScrollView.
+    IBOutlet IntonationScrollView *intonationView;
 
     IBOutlet DefaultMgr *defaultManager;
 

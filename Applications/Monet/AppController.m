@@ -10,7 +10,7 @@
 #import "EventListView.h"
 #import "GSXMLFunctions.h"
 #import "Inspector.h"
-#import "IntonationView.h"
+#import "IntonationScrollView.h"
 #import "NamedList.h"
 #import "ParameterList.h"
 #import "PhoneList.h"

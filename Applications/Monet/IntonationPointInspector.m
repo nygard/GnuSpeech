@@ -6,6 +6,7 @@
 #import "EventList.h"
 #import "Inspector.h"
 #import "IntonationPoint.h"
+#import "IntonationScrollView.h"
 #import "IntonationView.h"
 #import "Phone.h"
 
@@ -79,7 +80,7 @@
 
 - (IBAction)browserHit:(id)sender;
 {
-    IntonationView *tempView = NXGetNamedObject(@"intonationView", NSApp);
+    IntonationScrollView *tempView = NXGetNamedObject(@"intonationView", NSApp);
     int index;
 
     index = [[ruleBrowser matrixInColumn:0] selectedRow];
@@ -152,7 +153,7 @@
 
 - (IBAction)setBeatOffset:(id)sender;
 {
-    IntonationView *tempView = NXGetNamedObject(@"intonationView", NSApp);
+    IntonationScrollView *tempView = NXGetNamedObject(@"intonationView", NSApp);
 
     [currentIntonationPoint setOffsetTime:[sender doubleValue]];
     [[tempView documentView] addIntonationPoint:currentIntonationPoint];

@@ -1,6 +1,8 @@
 #import <AppKit/NSView.h>
+#import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 @class EventList, MonetList;
+@class AppController;
 
 /*===========================================================================
 
@@ -13,20 +15,17 @@
 
 @interface IntonationView : NSView
 {
-    id controller;
-
-    /* Frame For Display */
-    NSRect totalFrame;
+    IBOutlet AppController *controller;
 
     NSFont *timesFont;
     NSFont *timesFontSmall;
 
     EventList *eventList;
 
-    NSImage *dotMarker;
-    NSImage *squareMarker;
-    NSImage *triangleMarker;
-    NSImage *selectionBox;
+    //NSImage *dotMarker;
+    //NSImage *squareMarker;
+    //NSImage *triangleMarker;
+    //NSImage *selectionBox;
 
     float timeScale;
 
@@ -63,8 +62,6 @@
 - (void)mouseMoved:(NSEvent *)theEvent;
 - (void)mouseDown:(NSEvent *)theEvent;
 
-- (BOOL)performKeyEquivalent:(NSEvent *)theEvent;
-
 - (void)updateScale:(float)column;
 - (void)drawGrid;
 
@@ -79,5 +76,11 @@
 - (void)smoothPoints;
 - (void)clearIntonationPoints;
 - (void)addPoint:(double)semitone offsetTime:(double)offsetTime slope:(double)slope ruleIndex:(int)ruleIndex eventList:anEventList;
+
+// Ugh, these should be in shared superclass, or somewhere else.
+- (void)drawCircleMarkerAtPoint:(NSPoint)aPoint;
+- (void)drawTriangleMarkerAtPoint:(NSPoint)aPoint;
+- (void)drawSquareMarkerAtPoint:(NSPoint)aPoint;
+- (void)highlightMarkerAtPoint:(NSPoint)aPoint;
 
 @end

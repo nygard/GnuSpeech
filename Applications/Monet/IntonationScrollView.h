@@ -1,4 +1,5 @@
 #import <AppKit/NSScrollView.h>
+#import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 /*===========================================================================
 
@@ -17,24 +18,27 @@ History:
 
 ===========================================================================*/
 
+@class AppController;
+
 @interface IntonationScrollView : NSScrollView
 {
-    id controller;
-    id scaleView;
-    id utterance;
-    id smoothing;
+    IBOutlet AppController *controller;
+    IBOutlet NSView *scaleView; // TODO (2004-03-15): Find specific subclass that is used.
+    IBOutlet NSTextField *utterance;
+    IBOutlet NSButton *smoothing;
 }
 
 - (id)initWithFrame:(NSRect)frameRect;
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
+
 - (void)drawRect:(NSRect)rect;
 - (void)tile;
-- (void)print:(id)sender;
+- (IBAction)print:(id)sender;
 
-- scaleView;
+- (NSView *)scaleView;
 
-- (void)saveIntonationContour:sender;
-- (void)loadContour:sender;
-- (void)loadContourAndUtterance:sender;
+- (IBAction)saveIntonationContour:(id)sender;
+- (IBAction)loadContour:(id)sender;
+- (IBAction)loadContourAndUtterance:(id)sender;
 
 @end

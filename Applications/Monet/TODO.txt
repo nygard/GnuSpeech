@@ -44,7 +44,7 @@
   - and adding points to slopes doesn't quite work properly right now -- another slope doesn't get added?
 
 2004-11-14:
-- +SpecialView, +PointInspector, +RuleInspector, IntonationView, IntonationScrollView, IntonationPointInspector
+- +SpecialView, +PointInspector, +RuleInspector, IntonationView, IntonationScrollView, IntonationPointInspector, EventListView
 
 TODO:
 - if a value is at the default, and then you change the default, do you want all of the instances to change as well?  I think so.
@@ -90,3 +90,4 @@ TODO:
 - you shouldn't be able to (try to) set the value for a point that is part of a slope ratio.
 - Use MM prefix for model objects (MMPoint, MMEquation, MMTransition, MMParameter, MMPosture, ...)
   - try M prefix for remaining object (MMonetModel, MTransitionView, MInspector, ...)
+- Just noticed that "Drift Parmeters" is misspelled in the original Intonation Window.

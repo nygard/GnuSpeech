@@ -5,17 +5,15 @@
 
 @implementation IntonationScrollView
 
-/*===========================================================================
+#define SCALE_WIDTH 50
 
-	Method: initFrame:
-	Purpose: To initialize the View and subViews
-
-===========================================================================*/
-
+// TODO (2004-03-15): This doesn't get called when loaded from a nib.
 - (id)initWithFrame:(NSRect)frameRect;
 {
-    NSRect scaleRect, clipRect;
+    //NSRect scaleRect, clipRect;
     IntonationView *aView;
+
+    NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
 
     if ([super initWithFrame:frameRect] == nil)
         return nil;
@@ -25,29 +23,35 @@
     [self setHasHorizontalScroller:YES];
 
     /* alloc and init a scale view instance.  Add to subView List */
-    scaleRect = NSZeroRect;
+    //scaleRect = NSZeroRect;
     //scaleView = [[FFTScaleView alloc] initFrame:&scaleRect];
     //[self addSubview:scaleView];
 
     /* alloc and init a intonation view instance.  Make Doc View */
-    clipRect = NSZeroRect;
+    //clipRect = NSZeroRect;
     aView = [[IntonationView alloc] initWithFrame:frameRect];
     [self setDocumentView:aView];
     [aView release];
     [[self documentView] setNewController:controller];
 
     [self setBackgroundColor:[NSColor whiteColor]];
-    //[self tile];	/* hack? */
+
+    NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 
     return self;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 {
-    NSLog(@"AddDidInit");
+    NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
+
+    [[self documentView] applicationDidFinishLaunching:notification];
+
     [[self documentView] setNewController:controller];
     [[self documentView] setUtterance:utterance];
     [[self documentView] setSmoothing:smoothing];
+
+    NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }
 
 
@@ -74,13 +78,13 @@
 ===========================================================================*/
 - (void)tile;
 {
-    NSRect scaleRect, clipRect;
+    NSRect scaleFrame, contentFrame;
 
     [super tile];
 
-    clipRect = [[self contentView] frame];
-    NSDivideRect(clipRect , &scaleRect , &clipRect , 50.0, NSMinXEdge);
-    [[self contentView] setFrame:clipRect];
+    contentFrame = [[self contentView] frame];
+    NSDivideRect(contentFrame, &scaleFrame, &contentFrame, SCALE_WIDTH, NSMinXEdge);
+    [[self contentView] setFrame:contentFrame];
 }
 
 /*===========================================================================
@@ -103,30 +107,22 @@
     [self setHasHorizontalScroller:YES];
 }
 
-/*===========================================================================
-
-	Method: scaleView
-	Purpose: return the id of the ScaleView
-	Returns:
-		(id) scaleView instance variable.
-
-===========================================================================*/
-- scaleView;
+- (NSView *)scaleView;
 {
     return scaleView;
 }
 
-- (void)saveIntonationContour:sender;
+- (IBAction)saveIntonationContour:(id)sender;
 {
     [[self documentView] saveIntonationContour:sender];
 }
 
-- (void)loadContour:sender;
+- (IBAction)loadContour:(id)sender;
 {
     [[self documentView] loadContour:sender];
 }
 
-- (void)loadContourAndUtterance:sender;
+- (IBAction)loadContourAndUtterance:(id)sender;
 {
     [[self documentView] loadContourAndUtterance:sender];
 }

@@ -20,7 +20,7 @@
                 eventListView = EventListView; 
                 infoPanel = NSPanel; 
                 inspectorController = Inspector; 
-                intonationView = IntonationView; 
+                intonationView = IntonationScrollView; 
                 phonesWindow = NSWindow; 
                 prototypeManager = PrototypeManager; 
                 prototypeWindow = NSWindow; 
@@ -64,6 +64,30 @@
         }, 
         {CLASS = DefaultMgr; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                loadContour = id; 
+                loadContourAndUtterance = id; 
+                print = id; 
+                saveIntonationContour = id; 
+            }; 
+            CLASS = IntonationScrollView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                controller = AppController; 
+                scaleView = NSView; 
+                smoothing = NSButton; 
+                utterance = NSTextField; 
+            }; 
+            SUPERCLASS = NSScrollView; 
+        }, 
+        {
+            ACTIONS = {loadContour = id; loadContourAndUtterance = id; saveIntonationContour = id; }; 
+            CLASS = IntonationView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {controller = AppController; smoothing = id; utterance = id; }; 
+            SUPERCLASS = NSView; 
+        }, 
         {
             ACTIONS = {
                 add = id; 
