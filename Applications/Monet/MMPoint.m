@@ -112,13 +112,12 @@
 
 - (void)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(int)newCacheTag toDisplay:(NSMutableArray *)displayList;
 {
-    float dummy;
+    if (expression != nil) {
+        float value;
 
-    if (expression) {
-        dummy = [expression evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:newCacheTag];
-        //NSLog(@"expression %@ = %g", [[expression expression] expressionString], dummy);
+        value = [expression evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:newCacheTag];
+        //NSLog(@"expression %@ = %g", [[expression expression] expressionString], value);
     }
-    //NSLog(@"Dummy %f", dummy);
 
     [displayList addObject:self];
 }
@@ -131,7 +130,7 @@
 {
     double time, returnValue;
 
-    if (expression)
+    if (expression != nil)
         time = [expression evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:(int)newCacheTag];
     else
         time = freeTime;

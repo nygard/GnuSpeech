@@ -833,12 +833,11 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
             currentDelta = targets[1] - targets[0];
 
             transition = [parameterTransitions objectAtIndex:transitionIndex];
-            points = [transition points];
-
             maxValue = 0.0;
+            points = [transition points];
+            pointCount = [points count];
 
             /* Apply lists to parameter */
-            pointCount = [points count];
             for (pointIndex = 0; pointIndex < pointCount; pointIndex++) {
                 currentPoint = [points objectAtIndex:pointIndex];
 
@@ -864,13 +863,15 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
                                          min:min[transitionIndex] max:max[transitionIndex] toEventList:self atIndex:transitionIndex];
             }
         } else {
+            // TODO (2004-08-15): This doesn't look right -- the time shouldn't be 0.
             [self insertEvent:transitionIndex atTime:0.0 withValue:targets[0]];
         }
     }
 
     /* Special Event Profiles */
     for (parameterIndex = 0; parameterIndex < 16; parameterIndex++) {
-        if ((transition = [rule getSpecialProfile:parameterIndex])) {
+        transition = [rule getSpecialProfile:parameterIndex];
+        if (transition != nil) {
             unsigned int pointIndex, pointCount;
 
             points = [transition points];
