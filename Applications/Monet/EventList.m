@@ -624,7 +624,7 @@
     MonetList *tempCategoryList;
     NSMutableArray *tempPhoneList;
     double footTempo, tempTempo;
-    int index;
+    int count, index;
     int i, j, rus;
     NSMutableArray *mainParameterList = [aModel parameters];
     MMParameter *tempParameter = nil;
@@ -636,7 +636,8 @@
 
     // Record min/max values for each of the parameters
     //NSLog(@"mainParameterList: %@", mainParameterList);
-    for (i = 0; i < 16; i++) {
+    count = [mainParameterList count];
+    for (i = 0; i < count && i < 16; i++) {
         tempParameter = [mainParameterList objectAtIndex:i];
 
         min[i] = [tempParameter minimumValue];
