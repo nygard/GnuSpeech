@@ -395,37 +395,6 @@
 #endif
 }
 
-#if 1
-- (void)addParameter;
-{
-    [[model postures] addParameter];
-    [(RuleManager *)ruleManager addParameter];
-}
-
-- (void)addMetaParameter;
-{
-    [[model postures] addMetaParameter];
-    [(RuleManager *)ruleManager addMetaParameter];
-}
-
-- (void)addSymbol;
-{
-    [[model postures] addSymbol];
-}
-#endif
-
-- (void)removeParameter:(int)index;
-{
-    [[model postures] removeParameter:index];
-    [(RuleManager *)ruleManager removeParameter:index];
-}
-
-- (void)removeMetaParameter:(int)index;
-{
-    [[model postures] removeMetaParameter:index];
-    [(RuleManager *)ruleManager removeMetaParameter:index];
-}
-
 - (void)setObject:(id)object forKey:(id)key;
 {
     //NSLog(@" > %s", _cmd);

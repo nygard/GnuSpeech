@@ -178,12 +178,12 @@
     [metaParameterProfiles addObject:tempEntry];
 }
 
-- (void)removeParameter:(int)index;
+- (void)removeParameterAtIndex:(int)index;
 {
     [parameterProfiles removeObjectAtIndex:index];
 }
 
-- (void)removeMetaParameter:(int)index;
+- (void)removeMetaParameterAtIndex:(int)index;
 {
     [metaParameterProfiles removeObjectAtIndex:index];
 }

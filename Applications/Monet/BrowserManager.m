@@ -55,10 +55,10 @@
     [[browser window] makeFirstResponder:self];
 
     list[0] = NXGetNamedObject(@"mainPhoneList", NSApp);
-    list[1] = NXGetNamedObject(@"mainCategoryList", NSApp);
-    list[2] = NXGetNamedObject(@"mainParameterList", NSApp);
-    list[3] = NXGetNamedObject(@"mainMetaParameterList", NSApp);
-    list[4] = NXGetNamedObject(@"mainSymbolList", NSApp);
+    list[1] = nil;
+    list[2] = nil;
+    list[3] = nil;
+    list[4] = nil;
 
     currentList = 0;
 
@@ -115,18 +115,6 @@
     id temp;
 
     if (row == -1) {
-        switch (currentList) {
-          case 0:
-              break;
-          case 1:
-              break;
-          case 2:
-              break;
-          case 3:
-              break;
-          case 4:
-              break;
-        }
     } else {
         temp = [list[currentList] objectAtIndex:row];
         [tempEntry setSymbol:[temp symbol]];
@@ -156,18 +144,6 @@
           case 0:
               [inspector inspectPhone:[list[currentList] objectAtIndex:index]];
               break;
-          case 1:
-              [inspector inspectCategory:[list[currentList] objectAtIndex:index]];
-              break;
-          case 2:
-              [inspector inspectParameter:[list[currentList] objectAtIndex:index]];
-              break;
-          case 3:
-              [inspector inspectMetaParameter:[list[currentList] objectAtIndex:index]];
-              break;
-          case 4:
-              [inspector inspectSymbol:[list[currentList] objectAtIndex:index]];
-              break;
         }
     }
 
@@ -189,18 +165,6 @@
           case 0:
               [inspector inspectPhone:[list[currentList] objectAtIndex:index]];
               break;
-          case 1:
-              [inspector inspectCategory:[list[currentList] objectAtIndex:index]];
-              break;
-          case 2:
-              [inspector inspectParameter:[list[currentList] objectAtIndex:index]];
-              break;
-          case 3:
-              [inspector inspectMetaParameter:[list[currentList] objectAtIndex:index]];
-              break;
-          case 4:
-              [inspector inspectSymbol:[list[currentList] objectAtIndex:index]];
-              break;
         }
     }
 
@@ -209,36 +173,14 @@
 
 - (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;
 {
-    NSLog(@"%s, count: %d", _cmd, [list[currentList] count]);
     return [list[currentList] count];
 }
 
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
 {
-    RuleManager *ruleManager = NXGetNamedObject(@"ruleManager", NSApp);
-
     /* Get MMCategory Object From Category List (indexed by row) */
     [cell setStringValue:[[list[currentList] objectAtIndex:row] symbol]];
     [cell setLeaf:YES];
-
-    switch (currentList) {
-      case 0:
-          break;
-      case 1:
-          if ([ruleManager isCategoryUsed:[list[currentList] objectAtIndex:row]])
-              [cell setFont:courierBoldFont];
-          else
-              [cell setFont:courierFont];
-          break;
-      case 2:
-          break;
-      case 3:
-          break;
-      case 4:
-          break;
-      default:
-          break;
-    }
 }
 
 //
@@ -250,21 +192,6 @@
     if (![list[currentList] findByName:[nameField stringValue]]) {
         [list[currentList] addNewValue:[nameField stringValue]];
         [browser loadColumnZero];
-
-        switch (currentList) {
-          case 2:
-              [controller addParameter];
-              break;
-          case 3:
-              [controller addMetaParameter];
-              break;
-          case 4:
-              [controller addSymbol];
-              break;
-
-          default:
-              break;
-        }
     } else
         NSBeep();
 
@@ -299,22 +226,6 @@
         temp = [list[currentList] findByName:[[browser selectedCell] stringValue]];
         if (temp) {
             index = [list[currentList] indexOfObject:temp];
-            switch (currentList) {
-              case 2:
-                  [(AppController *)controller removeParameter:index];
-                  //[list[0] removeParameter:index];
-                  break;
-              case 3:
-                  [(AppController *)controller removeMetaParameter:index];
-                  //[list[0] removeMetaParameter:index];
-                  break;
-              case 4:
-                  [(PhoneList *)(list[0]) removeSymbol:index];
-                  break;
-              default:
-                  break;
-            }
-
             [list[currentList] removeObject:temp];
         }
 
@@ -462,18 +373,6 @@ static NSString *symbolString = @"Symbol";
             switch (currentList) {
               case 0:
                   [temp inspectPhone:[list[currentList] objectAtIndex:index]];
-                  break;
-              case 1:
-                  [temp inspectCategory:[list[currentList] objectAtIndex:index]];
-                  break;
-              case 2:
-                  [temp inspectParameter:[list[currentList] objectAtIndex:index]];
-                  break;
-              case 3:
-                  [temp inspectMetaParameter:[list[currentList] objectAtIndex:index]];
-                  break;
-              case 4:
-                  [temp inspectSymbol:[list[currentList] objectAtIndex:index]];
                   break;
             }
     }

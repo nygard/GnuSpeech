@@ -83,16 +83,7 @@
 
 - (RuleList *)ruleList;
 
-#if 1
-- (void)addParameter;
-- (void)addMetaParameter;
-- (void)removeParameter:(int)index;
-- (void)removeMetaParameter:(int)index;
-
 /* Finding Stuff */
-
-- (BOOL)isCategoryUsed:(MMCategory *)aCategory;
-#endif
 - (BOOL)isEquationUsed:(MMEquation *)anEquation;
 - (BOOL)isTransitionUsed:(MMTransition *)aTransition;
 

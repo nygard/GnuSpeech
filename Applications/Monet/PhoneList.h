@@ -44,10 +44,10 @@
 - (void)symbolDefaultChange:(MMParameter *)parameter to:(double)value;
 
 - (void)addParameter;
-- (void)removeParameter:(int)index;
+- (void)removeParameterAtIndex:(int)index;
 
 - (void)addMetaParameter;
-- (void)removeMetaParameter:(int)index;
+- (void)removeMetaParameterAtIndex:(int)index;
 
 - (void)addSymbol;
 - (void)removeSymbol:(int)index;

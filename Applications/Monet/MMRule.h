@@ -29,8 +29,8 @@
 - (void)setDefaultsTo:(int)numPhones;
 - (void)addDefaultParameter;
 - (void)addDefaultMetaParameter;
-- (void)removeParameter:(int)index;
-- (void)removeMetaParameter:(int)index;
+- (void)removeParameterAtIndex:(int)index;
+- (void)removeMetaParameterAtIndex:(int)index;
 
 - (void)setExpression:(BooleanExpression *)newExpression number:(int)index;
 - (int)numberExpressions;

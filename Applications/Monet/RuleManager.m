@@ -553,40 +553,6 @@
     return [model rules];
 }
 
-
-#if 1
-- (void)addParameter;
-{
-    [[model rules] makeObjectsPerformSelector:@selector(addDefaultParameter)];
-}
-
-- (void)addMetaParameter;
-{
-    [[model rules] makeObjectsPerformSelector:@selector(addDefaultMetaParameter)];
-}
-
-- (void)removeParameter:(int)index;
-{
-    int i;
-
-    for (i = 0; i < [[model rules] count]; i++)
-        [[[model rules] objectAtIndex:i] removeParameter:index];
-}
-
-- (void)removeMetaParameter:(int)index;
-{
-    int i;
-
-    for (i = 0; i < [[model rules] count]; i++)
-        [[[model rules] objectAtIndex:i] removeMetaParameter:index];
-}
-
-- (BOOL)isCategoryUsed:(MMCategory *)aCategory;
-{
-    return [[model rules] isCategoryUsed:aCategory];
-}
-#endif
-
 - (BOOL)isEquationUsed:(MMEquation *)anEquation;
 {
     return [[model rules] isEquationUsed:anEquation];

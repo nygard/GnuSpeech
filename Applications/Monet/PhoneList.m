@@ -377,7 +377,7 @@
     }
 }
 
-- (void)removeParameter:(int)index;
+- (void)removeParameterAtIndex:(int)index;
 {
     int i;
     id temp;
@@ -401,7 +401,7 @@
     }
 }
 
-- (void)removeMetaParameter:(int)index;
+- (void)removeMetaParameterAtIndex:(int)index;
 {
     int i;
     id temp;

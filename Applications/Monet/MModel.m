@@ -217,10 +217,10 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     if (parameterIndex != NSNotFound) {
         int count, index;
 
-        [postures removeParameter:parameterIndex]; // TODO (2004-03-19): Rename, to at "AtIndex"
+        [postures removeParameterAtIndex:parameterIndex];
         count = [rules count];
         for (index = 0; index < count; index++)
-            [[rules objectAtIndex:index] removeParameter:parameterIndex];
+            [[rules objectAtIndex:index] removeParameterAtIndex:parameterIndex];
 
         [parameters removeObject:aParameter];
     }
@@ -250,10 +250,10 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     if (parameterIndex != NSNotFound) {
         int count, index;
 
-        [postures removeMetaParameter:parameterIndex]; // TODO (2004-03-19): Rename, to at "AtIndex"
+        [postures removeMetaParameterAtIndex:parameterIndex];
         count = [rules count];
         for (index = 0; index < count; index++)
-            [[rules objectAtIndex:index] removeMetaParameter:parameterIndex];
+            [[rules objectAtIndex:index] removeMetaParameterAtIndex:parameterIndex];
 
         [metaParameters removeObject:aParameter];
     }
