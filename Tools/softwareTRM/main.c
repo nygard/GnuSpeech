@@ -17,10 +17,8 @@
 
 /*  COMMAND LINE ARGUMENT VARIABLES  */
 int verbose = FALSE;
-char inputFile[MAXPATHLEN + 1];
-char outputFile[MAXPATHLEN + 1];
 
-void printInfo(void);
+void printInfo(char *inputFile);
 
 /******************************************************************************
 *
@@ -40,7 +38,7 @@ void printInfo(void);
 *
 ******************************************************************************/
 
-void printInfo(void)
+void printInfo(char *inputFile)
 {
     int i;
     INPUT *ptr;
@@ -162,6 +160,9 @@ void printInfo(void)
 
 int main(int argc, char *argv[])
 {
+    char inputFile[MAXPATHLEN + 1];
+    char outputFile[MAXPATHLEN + 1];
+
     /*  PARSE THE COMMAND LINE  */
     if (argc == 3) {
 	strcpy(inputFile, argv[1]);
@@ -197,7 +198,7 @@ int main(int argc, char *argv[])
 
     /*  PRINT OUT PARAMETER INFORMATION  */
     if (verbose)
-	printInfo();
+	printInfo(inputFile);
 
     /*  PRINT OUT CALCULATING MESSAGE  */
     if (verbose) {
