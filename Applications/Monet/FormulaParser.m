@@ -277,7 +277,7 @@
         [expression1 setOperandOne:operand];
         returnExp = expression1;
     } else {
-        /* Currend Sub Expression has lower Precedence.  Restructure Tree */
+        /* Current Sub Expression has lower Precedence.  Restructure Tree */
         expression2 = [operand operandTwo];
         [expression1 setOperandOne:expression2];
         [operand setOperandTwo:expression1];
