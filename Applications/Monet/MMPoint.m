@@ -203,9 +203,11 @@
 
     [aDecoder decodeValuesOfObjCTypes:"ii", &i, &j];
     //NSLog(@"i: %d, j: %d", i, j);
-    anExpression = [model findEquation:i andIndex:j];
-    //NSLog(@"anExpression: %@", anExpression);
-    [self setExpression:anExpression];
+    if (i != -1) {
+        anExpression = [model findEquation:i andIndex:j];
+        //NSLog(@"anExpression: %@", anExpression);
+        [self setExpression:anExpression];
+    }
 
     //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
     return self;
