@@ -83,5 +83,5 @@ float drift(void)
     temp = (seed * pitchDeviation) - pitchOffset;
 
     /*  LOWPASS FILTER THE RANDOM SIGNAL (OUTPUT IS SAVED FOR NEXT TIME)  */
-    return (previousSample = (a0 * temp) + (b1 * previousSample));
+    return previousSample = (a0 * temp) + (b1 * previousSample);
 }
