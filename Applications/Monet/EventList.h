@@ -61,7 +61,7 @@ struct _rule {
     int zeroIndex;
     int duration;
     int timeQuantization;
-    int parameterStore;
+    BOOL parameterStore;
     int softwareSynthesis;
     int macroFlag;
     int microFlag;
@@ -113,8 +113,8 @@ struct _rule {
 - (int)timeQuantization;
 - (void)setTimeQuantization:(int)newValue;
 
-- (int)parameterStore;
-- (void)setParameterStore:(int)newValue;
+- (BOOL)parameterStore;
+- (void)setParameterStore:(BOOL)newFlag;
 
 - (int)softwareSynthesis;
 - (void)setSoftwareSynthesis:(int)newValue;

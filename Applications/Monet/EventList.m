@@ -198,14 +198,14 @@ static void page_consumed(void)
     timeQuantization = newValue;
 }
 
-- (int)parameterStore;
+- (BOOL)parameterStore;
 {
     return parameterStore;
 }
 
-- (void)setParameterStore:(int)newValue;
+- (void)setParameterStore:(BOOL)newFlag;
 {
-    parameterStore = newValue;
+    parameterStore = newFlag;
 }
 
 - (int)softwareSynthesis;
@@ -526,7 +526,7 @@ static void page_consumed(void)
 
     if ([self count] == 0)
         return;
-    if (parameterStore) {
+    if (parameterStore == NO) {
         fp = fopen("/tmp/Monet.parameters", "w");
     } else if (softwareSynthesis) {
         NSLog(@"%s, software synthesis enabled.", _cmd);

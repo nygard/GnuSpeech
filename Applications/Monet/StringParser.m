@@ -324,7 +324,7 @@ int parse_string(EventList *eventList, NSString *str);
 #endif
 
     fclose(fp);
-    [eventList setParameterStore:0];
+    [eventList setParameterStore:NO];
     [eventList setSoftwareSynthesis:1];
 
     [eventList setUp];
