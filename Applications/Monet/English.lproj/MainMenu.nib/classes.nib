@@ -83,10 +83,10 @@
                 browserSelector = NSControl; 
                 controller = AppController; 
                 inputTextField = NSTextField; 
-                newButton = NSButton; 
+                newButton = NSButtonCell; 
                 outputBox = NSBox; 
                 protoBrowser = NSBrowser; 
-                removeButton = NSButton; 
+                removeButton = NSButtonCell; 
                 selectedOutput = NSTextField; 
             }; 
             SUPERCLASS = NSObject; 

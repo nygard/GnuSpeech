@@ -80,6 +80,7 @@
     int column = [protoBrowser selectedColumn];
     int row = [[protoBrowser matrixInColumn:column] selectedRow];
     RuleManager *ruleManager = NXGetNamedObject(@"ruleManager", NSApp);
+    NSString *str;
 
     inspector = [controller inspector];
 
@@ -100,8 +101,9 @@
               [inputTextField setStringValue:[(NamedList *)[protoSpecial objectAtIndex:row] name]];
               break;
         }
-        [inputTextField selectText:sender];
-        [[sender window] makeFirstResponder:delegateResponder];
+        [selectedOutput setStringValue:@""];
+        //[inputTextField selectText:sender];
+        //[[sender window] makeFirstResponder:delegateResponder];
         [inspector cleanInspectorWindow];
         return;
     }
@@ -110,7 +112,10 @@
       case 0:
           aList = [protoEquations objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
           aProtoEquation = [aList objectAtIndex:[[sender matrixInColumn:1] selectedRow]];
-          [selectedOutput setStringValue:[[aProtoEquation expression] expressionString]];
+          str = [[aProtoEquation expression] expressionString];
+          if (str == nil)
+              str = @"";
+          [selectedOutput setStringValue:str];
           [removeButton setEnabled:!([ruleManager isEquationUsed:aProtoEquation] || [self isEquationUsed:aProtoEquation] )] ;
           [inspector inspectProtoEquation:aProtoEquation];
           break;
@@ -153,7 +158,7 @@
           break;
     }
 
-    [[sender window] makeFirstResponder:delegateResponder];
+    //[[sender window] makeFirstResponder:delegateResponder];
 }
 
 - (IBAction)browserDoubleHit:(id)sender;
