@@ -114,7 +114,12 @@
             }
 
             //NSLog(@"word: %@, partOfSpeech: %@, pronunciation: %@, wordType: %@", key, partOfSpeech, value, wordType);
-            [pronunciations setObject:value forKey:key];
+            // Keep the first pronunciation, since that's supposed to be the most common.
+            if ([pronunciations objectForKey:key] == nil) {
+                [pronunciations setObject:value forKey:key];
+            } else {
+                //NSLog(@"Warning: Already have a value for %@", key);
+            }
         }
     }
 
