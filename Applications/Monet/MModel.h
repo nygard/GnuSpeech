@@ -115,7 +115,6 @@ extern NSString *MCategoryInUseException;
 - (void)_addRulesFromArray:(NSArray *)newRules;
 
 // Archiving
-- (id)initWithCoder:(NSCoder *)aDecoder;
 - (void)readPrototypes:(NSCoder *)aDecoder;
 - (BOOL)importPostureNamed:(NSString *)postureName fromTRMData:(NSCoder *)aDecoder;
 

@@ -48,8 +48,6 @@
 - (double)evaluate:(MMFRuleSymbols *)ruleSymbols postures:(NSArray *)postures andCacheWith:(int)newCacheTag;
 - (double)cacheValue;
 
-- (id)initWithCoder:(NSCoder *)aDecoder;
-
 - (NSString *)description;
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;

@@ -47,8 +47,6 @@
 - (void)removeLastObject;
 - (BOOL)containsObject:(id)anObject;
 
-- (id)initWithCoder:(NSCoder *)aDecoder;
-
 - (NSString *)description;
 
 - (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(int)level;

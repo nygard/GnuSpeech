@@ -38,8 +38,6 @@
 - (void)setComment:(NSString *)newComment;
 - (BOOL)hasComment;
 
-- (id)initWithCoder:(NSCoder *)aDecoder;
-
 - (NSString *)description;
 
 - (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(int)level;

@@ -1143,6 +1143,38 @@
 				0165F99E06BEF71D00C6D2C9,
 				0165FA0F06BF121400C6D2C9,
 				0165FA1006BF121400C6D2C9,
+				01FCDDFE06EBFBE900B30D3D,
+				01FCDDFF06EBFBE900B30D3D,
+				01FCDE0006EBFBE900B30D3D,
+				01FCDE0106EBFBE900B30D3D,
+				01FCDE0206EBFBE900B30D3D,
+				01FCDE0306EBFBE900B30D3D,
+				01FCDE0406EBFBE900B30D3D,
+				01FCDE0506EBFBE900B30D3D,
+				01FCDE0606EBFBE900B30D3D,
+				01FCDE0706EBFBE900B30D3D,
+				01FCDE0806EBFBE900B30D3D,
+				01FCDE0906EBFBE900B30D3D,
+				01FCDE0A06EBFBE900B30D3D,
+				01FCDE0B06EBFBE900B30D3D,
+				01FCDE0C06EBFBE900B30D3D,
+				01FCDE0D06EBFBE900B30D3D,
+				01FCDE0E06EBFBE900B30D3D,
+				01FCDE0F06EBFBE900B30D3D,
+				01FCDE1006EBFBE900B30D3D,
+				01FCDE1106EBFBE900B30D3D,
+				01FCDE1206EBFBE900B30D3D,
+				01FCDE1306EBFBE900B30D3D,
+				01FCDE1406EBFBE900B30D3D,
+				01FCDE1506EBFBE900B30D3D,
+				01FCDE1606EBFBE900B30D3D,
+				01FCDE1706EBFBE900B30D3D,
+				01FCDE1806EBFBE900B30D3D,
+				01FCDE1906EBFBE900B30D3D,
+				01FCDE1A06EBFBE900B30D3D,
+				01FCDE1B06EBFBE900B30D3D,
+				01FCDE1C06EBFBE900B30D3D,
+				01FCDE1D06EBFBE900B30D3D,
 			);
 			isa = PBXGroup;
 			name = "Old Saved File Compatibility";
@@ -3392,6 +3424,486 @@
 			settings = {
 			};
 		};
+		01FCDDFE06EBFBE900B30D3D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = "MMBooleanExpression-Compatibility.h";
+			path = "Compatibility/MMBooleanExpression-Compatibility.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDDFF06EBFBE900B30D3D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = "MMBooleanExpression-Compatibility.m";
+			path = "Compatibility/MMBooleanExpression-Compatibility.m";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDE0006EBFBE900B30D3D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = "MMBooleanTerminal-Compatibility.h";
+			path = "Compatibility/MMBooleanTerminal-Compatibility.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDE0106EBFBE900B30D3D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = "MMBooleanTerminal-Compatibility.m";
+			path = "Compatibility/MMBooleanTerminal-Compatibility.m";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDE0206EBFBE900B30D3D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = "MMCategory-Compatibility.h";
+			path = "Compatibility/MMCategory-Compatibility.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDE0306EBFBE900B30D3D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = "MMCategory-Compatibility.m";
+			path = "Compatibility/MMCategory-Compatibility.m";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDE0406EBFBE900B30D3D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = "MMEquation-Compatibility.h";
+			path = "Compatibility/MMEquation-Compatibility.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDE0506EBFBE900B30D3D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = "MMEquation-Compatibility.m";
+			path = "Compatibility/MMEquation-Compatibility.m";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDE0606EBFBE900B30D3D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = "MModel-Compatibility.h";
+			path = "Compatibility/MModel-Compatibility.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDE0706EBFBE900B30D3D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = "MModel-Compatibility.m";
+			path = "Compatibility/MModel-Compatibility.m";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDE0806EBFBE900B30D3D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = "MMParameter-Compatibility.h";
+			path = "Compatibility/MMParameter-Compatibility.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDE0906EBFBE900B30D3D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = "MMParameter-Compatibility.m";
+			path = "Compatibility/MMParameter-Compatibility.m";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDE0A06EBFBE900B30D3D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = "MMPoint-Compatibility.h";
+			path = "Compatibility/MMPoint-Compatibility.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDE0B06EBFBE900B30D3D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = "MMPoint-Compatibility.m";
+			path = "Compatibility/MMPoint-Compatibility.m";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDE0C06EBFBE900B30D3D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = "MMPosture-Compatibility.h";
+			path = "Compatibility/MMPosture-Compatibility.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDE0D06EBFBE900B30D3D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = "MMPosture-Compatibility.m";
+			path = "Compatibility/MMPosture-Compatibility.m";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDE0E06EBFBE900B30D3D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = "MMRule-Compatibility.h";
+			path = "Compatibility/MMRule-Compatibility.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDE0F06EBFBE900B30D3D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = "MMRule-Compatibility.m";
+			path = "Compatibility/MMRule-Compatibility.m";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDE1006EBFBE900B30D3D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = "MMSlope-Compatibility.h";
+			path = "Compatibility/MMSlope-Compatibility.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDE1106EBFBE900B30D3D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = "MMSlope-Compatibility.m";
+			path = "Compatibility/MMSlope-Compatibility.m";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDE1206EBFBE900B30D3D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = "MMSlopeRatio-Compatibility.h";
+			path = "Compatibility/MMSlopeRatio-Compatibility.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDE1306EBFBE900B30D3D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = "MMSlopeRatio-Compatibility.m";
+			path = "Compatibility/MMSlopeRatio-Compatibility.m";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDE1406EBFBE900B30D3D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = "MMSymbol-Compatibility.h";
+			path = "Compatibility/MMSymbol-Compatibility.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDE1506EBFBE900B30D3D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = "MMSymbol-Compatibility.m";
+			path = "Compatibility/MMSymbol-Compatibility.m";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDE1606EBFBE900B30D3D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = "MMTarget-Compatibility.h";
+			path = "Compatibility/MMTarget-Compatibility.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDE1706EBFBE900B30D3D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = "MMTarget-Compatibility.m";
+			path = "Compatibility/MMTarget-Compatibility.m";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDE1806EBFBE900B30D3D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = "MMTransition-Compatibility.h";
+			path = "Compatibility/MMTransition-Compatibility.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDE1906EBFBE900B30D3D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = "MMTransition-Compatibility.m";
+			path = "Compatibility/MMTransition-Compatibility.m";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDE1A06EBFBE900B30D3D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = "MonetList-Compatibility.h";
+			path = "Compatibility/MonetList-Compatibility.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDE1B06EBFBE900B30D3D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = "MonetList-Compatibility.m";
+			path = "Compatibility/MonetList-Compatibility.m";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDE1C06EBFBE900B30D3D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = "NamedList-Compatibility.h";
+			path = "Compatibility/NamedList-Compatibility.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDE1D06EBFBE900B30D3D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = "NamedList-Compatibility.m";
+			path = "Compatibility/NamedList-Compatibility.m";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDE1E06EBFBE900B30D3D = {
+			fileRef = 01FCDDFE06EBFBE900B30D3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01FCDE1F06EBFBE900B30D3D = {
+			fileRef = 01FCDDFF06EBFBE900B30D3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01FCDE2006EBFBE900B30D3D = {
+			fileRef = 01FCDE0006EBFBE900B30D3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01FCDE2106EBFBE900B30D3D = {
+			fileRef = 01FCDE0106EBFBE900B30D3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01FCDE2206EBFBE900B30D3D = {
+			fileRef = 01FCDE0206EBFBE900B30D3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01FCDE2306EBFBE900B30D3D = {
+			fileRef = 01FCDE0306EBFBE900B30D3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01FCDE2406EBFBE900B30D3D = {
+			fileRef = 01FCDE0406EBFBE900B30D3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01FCDE2506EBFBE900B30D3D = {
+			fileRef = 01FCDE0506EBFBE900B30D3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01FCDE2606EBFBE900B30D3D = {
+			fileRef = 01FCDE0606EBFBE900B30D3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01FCDE2706EBFBE900B30D3D = {
+			fileRef = 01FCDE0706EBFBE900B30D3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01FCDE2806EBFBE900B30D3D = {
+			fileRef = 01FCDE0806EBFBE900B30D3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01FCDE2906EBFBE900B30D3D = {
+			fileRef = 01FCDE0906EBFBE900B30D3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01FCDE2A06EBFBE900B30D3D = {
+			fileRef = 01FCDE0A06EBFBE900B30D3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01FCDE2B06EBFBE900B30D3D = {
+			fileRef = 01FCDE0B06EBFBE900B30D3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01FCDE2C06EBFBE900B30D3D = {
+			fileRef = 01FCDE0C06EBFBE900B30D3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01FCDE2D06EBFBE900B30D3D = {
+			fileRef = 01FCDE0D06EBFBE900B30D3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01FCDE2E06EBFBE900B30D3D = {
+			fileRef = 01FCDE0E06EBFBE900B30D3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01FCDE2F06EBFBE900B30D3D = {
+			fileRef = 01FCDE0F06EBFBE900B30D3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01FCDE3006EBFBE900B30D3D = {
+			fileRef = 01FCDE1006EBFBE900B30D3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01FCDE3106EBFBE900B30D3D = {
+			fileRef = 01FCDE1106EBFBE900B30D3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01FCDE3206EBFBE900B30D3D = {
+			fileRef = 01FCDE1206EBFBE900B30D3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01FCDE3306EBFBE900B30D3D = {
+			fileRef = 01FCDE1306EBFBE900B30D3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01FCDE3406EBFBE900B30D3D = {
+			fileRef = 01FCDE1406EBFBE900B30D3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01FCDE3506EBFBE900B30D3D = {
+			fileRef = 01FCDE1506EBFBE900B30D3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01FCDE3606EBFBE900B30D3D = {
+			fileRef = 01FCDE1606EBFBE900B30D3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01FCDE3706EBFBE900B30D3D = {
+			fileRef = 01FCDE1706EBFBE900B30D3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01FCDE3806EBFBE900B30D3D = {
+			fileRef = 01FCDE1806EBFBE900B30D3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01FCDE3906EBFBE900B30D3D = {
+			fileRef = 01FCDE1906EBFBE900B30D3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01FCDE3A06EBFBE900B30D3D = {
+			fileRef = 01FCDE1A06EBFBE900B30D3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01FCDE3B06EBFBE900B30D3D = {
+			fileRef = 01FCDE1B06EBFBE900B30D3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01FCDE3C06EBFBE900B30D3D = {
+			fileRef = 01FCDE1C06EBFBE900B30D3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01FCDE3D06EBFBE900B30D3D = {
+			fileRef = 01FCDE1D06EBFBE900B30D3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 //010
 //011
 //012
@@ -3832,6 +4344,22 @@
 				01F2C09706D7FB1500E2A458,
 				0169C70806E13F80009FBDCF,
 				01FCDD5906E96C1F00B30D3D,
+				01FCDE1E06EBFBE900B30D3D,
+				01FCDE2006EBFBE900B30D3D,
+				01FCDE2206EBFBE900B30D3D,
+				01FCDE2406EBFBE900B30D3D,
+				01FCDE2606EBFBE900B30D3D,
+				01FCDE2806EBFBE900B30D3D,
+				01FCDE2A06EBFBE900B30D3D,
+				01FCDE2C06EBFBE900B30D3D,
+				01FCDE2E06EBFBE900B30D3D,
+				01FCDE3006EBFBE900B30D3D,
+				01FCDE3206EBFBE900B30D3D,
+				01FCDE3406EBFBE900B30D3D,
+				01FCDE3606EBFBE900B30D3D,
+				01FCDE3806EBFBE900B30D3D,
+				01FCDE3A06EBFBE900B30D3D,
+				01FCDE3C06EBFBE900B30D3D,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3968,6 +4496,22 @@
 				01F2C09806D7FB1500E2A458,
 				0169C70706E13F80009FBDCF,
 				01FCDD5A06E96C1F00B30D3D,
+				01FCDE1F06EBFBE900B30D3D,
+				01FCDE2106EBFBE900B30D3D,
+				01FCDE2306EBFBE900B30D3D,
+				01FCDE2506EBFBE900B30D3D,
+				01FCDE2706EBFBE900B30D3D,
+				01FCDE2906EBFBE900B30D3D,
+				01FCDE2B06EBFBE900B30D3D,
+				01FCDE2D06EBFBE900B30D3D,
+				01FCDE2F06EBFBE900B30D3D,
+				01FCDE3106EBFBE900B30D3D,
+				01FCDE3306EBFBE900B30D3D,
+				01FCDE3506EBFBE900B30D3D,
+				01FCDE3706EBFBE900B30D3D,
+				01FCDE3906EBFBE900B30D3D,
+				01FCDE3B06EBFBE900B30D3D,
+				01FCDE3D06EBFBE900B30D3D,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

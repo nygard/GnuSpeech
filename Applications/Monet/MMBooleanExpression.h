@@ -80,9 +80,6 @@
 
 - (BOOL)isCategoryUsed:(MMCategory *)aCategory;
 
-// Archiving
-- (id)initWithCoder:(NSCoder *)aDecoder;
-
 - (NSString *)description;
 
 @end

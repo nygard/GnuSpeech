@@ -27,9 +27,6 @@
 - (double)defaultValue;
 - (void)setDefaultValue:(double)newDefault;
 
-// Archiving
-- (id)initWithCoder:(NSCoder *)aDecoder;
-
 - (NSString *)description;
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
