@@ -394,7 +394,7 @@
         return;
 
     [resultString indentToLevel:level];
-    [resultString appendString:@"<categories>\n"];
+    [resultString appendString:@"<posture-categories>\n"];
 
     for (index = 0; index < count; index++) {
         MMCategory *aCategory;
@@ -402,11 +402,11 @@
         aCategory = [categoryList objectAtIndex:index];
 
         [resultString indentToLevel:level + 1];
-        [resultString appendFormat:@"<category name=\"%@\"/>\n", [aCategory symbol]];
+        [resultString appendFormat:@"<category-ref name=\"%@\"/>\n", [aCategory symbol]];
     }
 
     [resultString indentToLevel:level];
-    [resultString appendString:@"</categories>\n"];
+    [resultString appendString:@"</posture-categories>\n"];
 }
 
 - (void)_appendXMLForParametersToString:(NSMutableString *)resultString level:(int)level;

@@ -37,10 +37,14 @@
 
 <!-- Postures -->
 
-<!ELEMENT posture (comment?, categories?, parameter-targets, symbol-targets)>
+<!ELEMENT posture (comment?, posture-categories?, parameter-targets, symbol-targets)>
 <!ATTLIST posture symbol CDATA #REQUIRED>
 
-<!-- comment and categories already defined.  Here we don't really want the categories to allow a comment, though. -->
+<!-- comment already defined -->
+<!ELEMENT posture-categories (category-ref*)>
+<!ELEMENT category-ref EMPTY>
+<!ATTLIST category-ref name CDATA #REQUIRED>
+
 <!ELEMENT parameter-targets (target*)>
 <!ELEMENT symbol-targets (target*)>
 
