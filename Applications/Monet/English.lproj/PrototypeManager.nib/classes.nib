@@ -40,18 +40,20 @@
             }; 
             SUPERCLASS = NSWindowController; 
         }, 
+        {CLASS = SpecialView; LANGUAGE = ObjC; SUPERCLASS = TransitionView; }, 
         {
-            ACTIONS = {delete = id; }; 
-            CLASS = SpecialView; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {controller = AppController; }; 
-            SUPERCLASS = NSView; 
-        }, 
-        {
-            ACTIONS = {delete = id; groupInSlopeRatio = id; updateControlParameter = id; }; 
+            ACTIONS = {
+                delete = id; 
+                groupInSlopeRatio = id; 
+                takeBeatLocationFrom = id; 
+                takeMark1From = id; 
+                takeMark2From = id; 
+                takeMark3From = id; 
+                takeRuleDurationFrom = id; 
+            }; 
             CLASS = TransitionView; 
             LANGUAGE = ObjC; 
-            OUTLETS = {controller = AppController; displayParameters = NSForm; }; 
+            OUTLETS = {controller = AppController; }; 
             SUPERCLASS = NSView; 
         }
     ); 

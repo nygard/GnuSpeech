@@ -13,6 +13,7 @@
 =============================================================================
 */
 
+// TODO (2004-03-22): Make this an NSControl subclass.
 @interface TransitionView : NSView
 {
     IBOutlet AppController *controller;
@@ -28,7 +29,7 @@
     MonetList *selectedPoints;
     int cache;
 
-    BOOL shouldDrawSelection;
+    //BOOL shouldDrawSelection;
     NSPoint selectionPoint1;
     NSPoint selectionPoint2;
 
@@ -37,6 +38,11 @@
     NSText *nonretained_fieldEditor;
 
     MModel *model;
+
+    struct {
+        unsigned int shouldDrawSelection:1;
+        unsigned int shouldDrawSlopes:1;
+    } flags;
 }
 
 + (void)initialize;
@@ -73,6 +79,9 @@
 - (BOOL)shouldDrawSelection;
 - (void)setShouldDrawSelection:(BOOL)newFlag;
 
+- (BOOL)shouldDrawSlopes;
+- (void)setShouldDrawSlopes:(BOOL)newFlag;
+
 // Drawing
 - (void)drawRect:(NSRect)rect;
 
@@ -81,6 +90,7 @@
 - (void)drawEquations;
 - (void)drawPhones;
 - (void)drawTransition;
+- (void)highlightSelectedPoints;
 
 - (void)drawCircleMarkerAtPoint:(NSPoint)aPoint;
 - (void)drawTriangleMarkerAtPoint:(NSPoint)aPoint;

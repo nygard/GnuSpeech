@@ -18,6 +18,30 @@
 			settings = {
 			};
 		};
+		01710CFB060FAE1B0059DE9A = {
+			children = (
+				01710CFC060FAE1B0059DE9A,
+			);
+			isa = PBXVariantGroup;
+			name = SpecialTransitionEditor.nib;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01710CFC060FAE1B0059DE9A = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = English.lproj/SpecialTransitionEditor.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01710CFD060FAE1B0059DE9A = {
+			fileRef = 01710CFB060FAE1B0059DE9A;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		0175901B05FA74A1004632CC = {
 			children = (
 				0175901C05FA74A1004632CC,
@@ -2568,6 +2592,7 @@
 				01848B86060A4ACA005E9B67,
 				01C248DD060D35BB00521DB1,
 				01F6E273060EA6770073E196,
+				01710CFB060FAE1B0059DE9A,
 			);
 			isa = PBXGroup;
 			name = Resources;
@@ -2829,6 +2854,7 @@
 				01848D4E060AA8B0005E9B67,
 				01C248DF060D35BB00521DB1,
 				01F6E275060EA6770073E196,
+				01710CFD060FAE1B0059DE9A,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

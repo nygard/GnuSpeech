@@ -1,4 +1,4 @@
-#import <AppKit/NSView.h>
+#import "TransitionView.h"
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 @class MModel, MMPoint, MonetList, MMTransition;
@@ -13,76 +13,28 @@
 =============================================================================
 */
 
-@interface SpecialView : NSView
+@interface SpecialView : TransitionView
 {
-    IBOutlet AppController *controller;
-    double _parameters[5];
-
-    NSFont *timesFont;
-
-    MMTransition *currentTemplate;
-
-    MonetList *samplePhoneList;
-    MonetList *displayPoints;
-    int cache;
-
-    MMPoint *selectedPoint;
-
-    BOOL shouldDrawSelection;
-    NSPoint selectionPoint1;
-    NSPoint selectionPoint2;
-
-    MModel *model;
+    //MMPoint *selectedPoint;
 }
-
-+ (void)initialize;
 
 - (id)initWithFrame:(NSRect)frameRect;
 - (void)dealloc;
 
-- (MModel *)model;
-- (void)setModel:(MModel *)newModel;
-
-- (void)_updateFromModel;
-
-- (BOOL)shouldDrawSelection;
-- (void)setShouldDrawSelection:(BOOL)newFlag;
-
 // Drawing
-- (void)drawRect:(NSRect)rect;
-
-- (void)clearView;
 - (void)drawGrid;
-- (void)drawEquations;
-- (void)drawPhones;
 - (void)drawTransition;
-
-- (void)drawCircleMarkerAtPoint:(NSPoint)aPoint;
-- (void)drawTriangleMarkerAtPoint:(NSPoint)aPoint;
-- (void)drawSquareMarkerAtPoint:(NSPoint)aPoint;
-- (void)highlightMarkerAtPoint:(NSPoint)aPoint;
+- (void)highlightSelectedPoints;
 
 // Event handling
-- (BOOL)acceptsFirstResponder;
-- (BOOL)acceptsFirstMouse:(NSEvent *)theEvent;
-- (void)mouseDown:(NSEvent *)mouseEvent;
-- (void)mouseDragged:(NSEvent *)mouseEvent;
-- (void)mouseUp:(NSEvent *)mouseEvent;
+//- (void)mouseDown:(NSEvent *)mouseEvent;
 
 // View geometry
 - (int)sectionHeight;
 - (NSPoint)graphOrigin;
 - (float)timeScale;
-- (NSRect)rectFormedByPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
 
 // Selection
 - (void)selectGraphPointsBetweenPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
-
-// Actions
-- (IBAction)delete:(id)sender;
-
-// Publicly used API
-- (void)setTransition:(MMTransition *)newTransition;
-- (void)showWindow:(int)otherWindow;
 
 @end

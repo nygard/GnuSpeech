@@ -80,7 +80,8 @@ static NSImage *_selectionBox = nil;
     displaySlopes = [[MonetList alloc] init];
     selectedPoints = [[MonetList alloc] init];
 
-    shouldDrawSelection = NO;
+    flags.shouldDrawSelection = NO;
+    flags.shouldDrawSlopes = YES;
 
     editingSlope = nil;
     textFieldCell = [[NSTextFieldCell alloc] initTextCell:@""];
@@ -233,15 +234,30 @@ static NSImage *_selectionBox = nil;
 
 - (BOOL)shouldDrawSelection;
 {
-    return shouldDrawSelection;
+    return flags.shouldDrawSelection;
 }
 
 - (void)setShouldDrawSelection:(BOOL)newFlag;
 {
-    if (newFlag == shouldDrawSelection)
+    if (newFlag == flags.shouldDrawSelection)
         return;
 
-    shouldDrawSelection = newFlag;
+    flags.shouldDrawSelection = newFlag;
+    [self setNeedsDisplay:YES];
+}
+
+- (BOOL)shouldDrawSlopes;
+{
+    return flags.shouldDrawSlopes;
+}
+
+- (void)setShouldDrawSlopes:(BOOL)newFlag;
+{
+    if (newFlag == flags.shouldDrawSlopes)
+
+        return;
+
+    flags.shouldDrawSlopes = newFlag;
     [self setNeedsDisplay:YES];
 }
 
@@ -258,9 +274,11 @@ static NSImage *_selectionBox = nil;
     [self drawEquations];
     [self drawPhones];
     [self drawTransition];
-    [self drawSlopes];
+    [self highlightSelectedPoints];
+    if (flags.shouldDrawSlopes == YES)
+        [self drawSlopes];
 
-    if (shouldDrawSelection == YES) {
+    if (flags.shouldDrawSelection == YES) {
         NSRect selectionRect;
 
         selectionRect = [self rectFormedByPoint:selectionPoint1 andPoint:selectionPoint2];
@@ -461,7 +479,6 @@ static NSImage *_selectionBox = nil;
     float timeScale, y;
     int yScale;
     float eventTime;
-    MMPoint *tempPoint;
     NSBezierPath *bezierPath;
     NSPoint graphOrigin;
     NSMutableArray *diphonePoints, *triphonePoints, *tetraphonePoints;
@@ -579,16 +596,33 @@ static NSImage *_selectionBox = nil;
 //        slopeRect.size.width = 30.0;
 //        NXDrawButton(&slopeRect, &bounds);
 //    }
+}
 
+- (void)highlightSelectedPoints;
+{
     if ([selectedPoints count]) {
+        unsigned int index;
+        float timeScale, y;
+        int yScale;
+        NSPoint graphOrigin;
+
         //NSLog(@"Drawing %d selected points", [selectedPoints count]);
+
+        graphOrigin = [self graphOrigin];
+        timeScale = [self timeScale];
+        yScale = [self sectionHeight];
+
         for (index = 0; index < [selectedPoints count]; index++) {
-            tempPoint = [selectedPoints objectAtIndex:index];
-            y = (float)[tempPoint value];
-            if ([tempPoint expression] == nil)
-                eventTime = [tempPoint freeTime];
+            MMPoint *currentPoint;
+            float eventTime;
+            NSPoint myPoint;
+
+            currentPoint = [selectedPoints objectAtIndex:index];
+            y = (float)[currentPoint value];
+            if ([currentPoint expression] == nil)
+                eventTime = [currentPoint freeTime];
             else
-                eventTime = [[tempPoint expression] cacheValue];
+                eventTime = [[currentPoint expression] cacheValue];
             myPoint.x = graphOrigin.x + timeScale * eventTime;
             myPoint.y = graphOrigin.y + (yScale * ZERO_INDEX) + (y * (float)yScale / SECTION_AMOUNT);
 
@@ -711,7 +745,7 @@ static NSImage *_selectionBox = nil;
     [self setNeedsDisplay:YES];
 
     if ([mouseEvent clickCount] == 1) {
-        if (hitSlope == nil)
+        if (hitSlope == nil || flags.shouldDrawSlopes == NO)
             [[self window] endEditingFor:nil];
         else {
             [self editSlope:hitSlope startTime:startTime endTime:endTime];
@@ -760,7 +794,7 @@ static NSImage *_selectionBox = nil;
 
     //NSLog(@" > %s", _cmd);
 
-    if (shouldDrawSelection == YES) {
+    if (flags.shouldDrawSelection == YES) {
         hitPoint = [self convertPoint:[mouseEvent locationInWindow] fromView:nil];
         //NSLog(@"hitPoint: %@", NSStringFromPoint(hitPoint));
         selectionPoint2 = hitPoint;

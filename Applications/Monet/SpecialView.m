@@ -39,242 +39,25 @@
 
 @implementation SpecialView
 
-static NSImage *_dotMarker = nil;
-static NSImage *_squareMarker = nil;
-static NSImage *_triangleMarker = nil;
-static NSImage *_selectionBox = nil;
-
-+ (void)initialize;
-{
-    NSBundle *mainBundle;
-    NSString *path;
-
-    mainBundle = [NSBundle mainBundle];
-    path = [mainBundle pathForResource:@"dotMarker" ofType:@"tiff"];
-    NSLog(@"path: %@", path);
-    _dotMarker = [[NSImage alloc] initWithContentsOfFile:path];
-
-    path = [mainBundle pathForResource:@"squareMarker" ofType:@"tiff"];
-    NSLog(@"path: %@", path);
-    _squareMarker = [[NSImage alloc] initWithContentsOfFile:path];
-
-    path = [mainBundle pathForResource:@"triangleMarker" ofType:@"tiff"];
-    NSLog(@"path: %@", path);
-    _triangleMarker = [[NSImage alloc] initWithContentsOfFile:path];
-
-    path = [mainBundle pathForResource:@"selectionBox" ofType:@"tiff"];
-    NSLog(@"path: %@", path);
-    _selectionBox = [[NSImage alloc] initWithContentsOfFile:path];
-}
-
 // The size was originally 700 x 380
 - (id)initWithFrame:(NSRect)frameRect;
 {
     if ([super initWithFrame:frameRect] == nil)
         return nil;
 
-    cache = 100000;
-    [self allocateGState];
-
-    timesFont = [[NSFont fontWithName:@"Times-Roman" size:12] retain];
-    currentTemplate = nil;
-
-    samplePhoneList = [[MonetList alloc] initWithCapacity:4];
-    displayPoints = [[MonetList alloc] initWithCapacity:12];
-    selectedPoint = nil;
-
-    shouldDrawSelection = NO;
-
-    [self setNeedsDisplay:YES];
+    [self setShouldDrawSlopes:NO];
 
     return self;
 }
 
 - (void)dealloc;
 {
-    [timesFont release];
-    [samplePhoneList release];
-    [displayPoints release];
-    [selectedPoint release];
-
     [super dealloc];
-}
-
-- (MModel *)model;
-{
-    return model;
-}
-
-- (void)setModel:(MModel *)newModel;
-{
-    if (newModel == model)
-        return;
-
-    [model release];
-    model = [newModel retain];
-
-    [self _updateFromModel];
-}
-
-// TODO (2004-03-21): I don't think this will catch changes to the "Formula Symbols"...
-- (void)_updateFromModel;
-{
-    MMPosture *aPosture;
-
-    NSLog(@" > %s", _cmd);
-
-    [samplePhoneList removeAllObjects];
-    [displayPoints removeAllObjects];
-    [selectedPoint release];
-    selectedPoint = nil;
-
-    aPosture = [[MMPosture alloc] initWithModel:model];
-    [aPosture setSymbol:@"dummy"];
-    [(MMTarget *)[[aPosture symbolList] objectAtIndex:0] setValue:100.0]; // Rule Duration (should be "duration"?)
-    [(MMTarget *)[[aPosture symbolList] objectAtIndex:1] setValue:33.3333]; // Beat Location? (should be "transition"?)
-    [(MMTarget *)[[aPosture symbolList] objectAtIndex:2] setValue:33.3333]; // Mark 1 (should be "qssa"?)
-    [(MMTarget *)[[aPosture symbolList] objectAtIndex:3] setValue:33.3333]; // Mark 2 (should be "qssb"?)
-
-    // We need four postures to show a tetraphone
-    [samplePhoneList addObject:aPosture];
-    [samplePhoneList addObject:aPosture];
-    [samplePhoneList addObject:aPosture];
-    [samplePhoneList addObject:aPosture];
-
-    [aPosture release];
-
-    [self setNeedsDisplay:YES];
-
-    NSLog(@"<  %s", _cmd);
-}
-
-- (double)ruleDuration;
-{
-    return _parameters[0];
-}
-
-- (void)setRuleDuration:(double)newValue;
-{
-    _parameters[0] = newValue;
-    [self setNeedsDisplay:YES];
-}
-
-- (double)beatLocation;
-{
-    return _parameters[1];
-}
-
-- (void)setBeatLocation:(double)newValue;
-{
-    _parameters[1] = newValue;
-    [self setNeedsDisplay:YES];
-}
-
-- (double)mark1;
-{
-    return _parameters[2];
-}
-
-- (void)setMark1:(double)newValue;
-{
-    _parameters[2] = newValue;
-    [self setNeedsDisplay:YES];
-}
-
-- (double)mark2;
-{
-    return _parameters[3];
-}
-
-- (void)setMark2:(double)newValue;
-{
-    _parameters[3] = newValue;
-    [self setNeedsDisplay:YES];
-}
-
-- (double)mark3;
-{
-    return _parameters[4];
-}
-
-- (void)setMark3:(double)newValue;
-{
-    _parameters[4] = newValue;
-    [self setNeedsDisplay:YES];
-}
-
-- (IBAction)takeRuleDurationFrom:(id)sender;
-{
-    [self setRuleDuration:[sender doubleValue]];
-}
-
-- (IBAction)takeBeatLocationFrom:(id)sender;
-{
-    [self setBeatLocation:[sender doubleValue]];
-}
-
-- (IBAction)takeMark1From:(id)sender;
-{
-    [self setMark1:[sender doubleValue]];
-}
-
-- (IBAction)takeMark2From:(id)sender;
-{
-    [self setMark2:[sender doubleValue]];
-}
-
-- (IBAction)takeMark3From:(id)sender;
-{
-    [self setMark3:[sender doubleValue]];
-}
-
-- (BOOL)shouldDrawSelection;
-{
-    return shouldDrawSelection;
-}
-
-- (void)setShouldDrawSelection:(BOOL)newFlag;
-{
-    if (newFlag == shouldDrawSelection)
-        return;
-
-    shouldDrawSelection = newFlag;
-    [self setNeedsDisplay:YES];
 }
 
 //
 // Drawing
 //
-
-- (void)drawRect:(NSRect)rect;
-{
-    NSLog(@" > %s", _cmd);
-
-    [self clearView];
-    [self drawGrid];
-    [self drawEquations];
-    [self drawPhones];
-    [self drawTransition];
-
-    if (shouldDrawSelection == YES) {
-        NSRect selectionRect;
-
-        selectionRect = [self rectFormedByPoint:selectionPoint1 andPoint:selectionPoint2];
-        selectionRect.origin.x += 0.5;
-        selectionRect.origin.y += 0.5;
-
-        [[NSColor purpleColor] set];
-        [NSBezierPath strokeRect:selectionRect];
-    }
-
-    NSLog(@"<  %s", _cmd);
-}
-
-- (void)clearView;
-{
-    [[NSColor whiteColor] set];
-    NSRectFill([self bounds]);
-}
 
 - (void)drawGrid;
 {
@@ -324,109 +107,6 @@ static NSImage *_selectionBox = nil;
         [label drawAtPoint:NSMakePoint(LEFT_MARGIN - LABEL_MARGIN - labelSize.width, currentYPos) withAttributes:nil];
         // The current max label width is 35, so we'll just shift the label over a little
         [label drawAtPoint:NSMakePoint(bounds.size.width - 10 - labelSize.width, currentYPos) withAttributes:nil];
-    }
-
-    [bezierPath stroke];
-    [bezierPath release];
-}
-
-// These are the proto equations
-- (void)drawEquations;
-{
-    int i, j;
-    double time;
-    MonetList *equationList = [NXGetNamedObject(@"prototypeManager", NSApp) equationList];
-    NamedList *namedList;
-    MMEquation *equation;
-    float timeScale = [self timeScale];
-    int type;
-    NSBezierPath *bezierPath;
-    NSPoint graphOrigin;
-
-    graphOrigin = [self graphOrigin];
-
-    cache++;
-
-    if (currentTemplate)
-        type = [currentTemplate type];
-    else
-        type = DIPHONE;
-
-    [[NSColor darkGrayColor] set];
-    bezierPath = [[NSBezierPath alloc] init];
-    for (i = 0; i < [equationList count]; i++) {
-        namedList = [equationList objectAtIndex:i];
-        //NSLog(@"named list: %@, count: %d", [namedList name], [namedList count]);
-        for (j = 0; j < [namedList count]; j++) {
-            equation = [namedList objectAtIndex:j];
-            if ([[equation expression] maxPhone] <= type) {
-                time = [equation evaluate:_parameters phones:samplePhoneList andCacheWith:cache];
-                //NSLog(@"\t%@", [equation name]);
-                //NSLog(@"\t\ttime = %f", time);
-                //NSLog(@"equation name: %@, formula: %@, time: %f", [equation name], [[equation expression] expressionString], time);
-                // TODO (2004-03-11): Need to check with users to see if floor()'ing the x is okay.
-                [bezierPath moveToPoint:NSMakePoint(graphOrigin.x + 0.5 + floor(timeScale * (float)time), graphOrigin.y - 1)];
-                [bezierPath lineToPoint:NSMakePoint(graphOrigin.x + 0.5 + floor(timeScale * (float)time), graphOrigin.y - 10)];
-            }
-        }
-    }
-
-    [bezierPath stroke];
-    [bezierPath release];
-}
-
-- (void)drawPhones;
-{
-    NSPoint myPoint;
-    float timeScale;
-    float currentTimePoint;
-    int type;
-    NSBezierPath *bezierPath;
-    NSRect bounds;
-    NSPoint graphOrigin;
-    float graphTopYPos;
-
-    bounds = NSIntegralRect([self bounds]);
-    graphOrigin = [self graphOrigin];
-
-    if (currentTemplate)
-        type = [currentTemplate type];
-    else
-        type = DIPHONE;
-
-    [[NSColor blackColor] set];
-    //[[NSColor redColor] set];
-
-    bezierPath = [[NSBezierPath alloc] init];
-    [bezierPath setLineWidth:2];
-
-    timeScale = [self timeScale];
-    graphTopYPos = bounds.size.height - BOTTOM_MARGIN - 1;
-    myPoint.y = bounds.size.height - BOTTOM_MARGIN + 6;
-
-    switch (type) {
-      case TETRAPHONE:
-          currentTimePoint = (timeScale * [self mark3]);
-          [bezierPath moveToPoint:NSMakePoint(graphOrigin.x + currentTimePoint, graphOrigin.y + 1)];
-          [bezierPath lineToPoint:NSMakePoint(graphOrigin.x + currentTimePoint, graphTopYPos)];
-          myPoint.x = currentTimePoint + LEFT_MARGIN;
-          [self drawSquareMarkerAtPoint:myPoint];
-          // And draw the other two:
-
-      case TRIPHONE:
-          currentTimePoint = (timeScale * [self mark2]);
-          [bezierPath moveToPoint:NSMakePoint(graphOrigin.x + currentTimePoint, graphOrigin.y + 1)];
-          [bezierPath lineToPoint:NSMakePoint(graphOrigin.x + currentTimePoint, graphTopYPos)];
-          myPoint.x = currentTimePoint + LEFT_MARGIN;
-          [self drawTriangleMarkerAtPoint:myPoint];
-          // And draw the other one:
-
-      case DIPHONE:
-          currentTimePoint = (timeScale * [self mark1]);
-          [bezierPath moveToPoint:NSMakePoint(graphOrigin.x + currentTimePoint, graphOrigin.y + 1)];
-          [bezierPath lineToPoint:NSMakePoint(graphOrigin.x + currentTimePoint, graphTopYPos)];
-          myPoint.x = currentTimePoint + LEFT_MARGIN;
-          [self drawCircleMarkerAtPoint:myPoint];
     }
 
     [bezierPath stroke];
@@ -569,119 +249,50 @@ static NSImage *_selectionBox = nil;
     [diphonePoints release];
     [triphonePoints release];
     [tetraphonePoints release];
+}
 
-    if (selectedPoint) {
-        float y;
-        NSPoint myPoint;
+- (void)highlightSelectedPoints;
+{
+    if ([selectedPoints count]) {
+        unsigned int index;
+        float timeScale, y;
+        int yScale;
+        NSPoint graphOrigin;
 
-        y = (float)[(MMPoint *)selectedPoint value];
-        if ([selectedPoint expression] == nil)
-            eventTime = [selectedPoint freeTime];
-        else
-            eventTime = [[selectedPoint expression] evaluate:_parameters phones:samplePhoneList andCacheWith:cache];
+        //NSLog(@"Drawing %d selected points", [selectedPoints count]);
 
-        myPoint.x = graphOrigin.x + timeScale * eventTime;
-        myPoint.y = graphOrigin.y + (yScale * ZERO_INDEX) + (y * (float)yScale / SECTION_AMOUNT);
+        graphOrigin = [self graphOrigin];
+        timeScale = [self timeScale];
+        yScale = [self sectionHeight];
 
-        //NSLog(@"Selection; x: %f y:%f", myPoint.x, myPoint.y);
+        for (index = 0; index < [selectedPoints count]; index++) {
+            MMPoint *currentPoint;
+            float eventTime;
+            NSPoint myPoint;
 
-        [self highlightMarkerAtPoint:myPoint];
+            currentPoint = [selectedPoints objectAtIndex:index];
+            y = (float)[currentPoint value];
+            if ([currentPoint expression] == nil)
+                eventTime = [currentPoint freeTime];
+            else
+                eventTime = [[currentPoint expression] evaluate:_parameters phones:samplePhoneList andCacheWith:cache];
+
+            myPoint.x = graphOrigin.x + timeScale * eventTime;
+            myPoint.y = graphOrigin.y + (yScale * ZERO_INDEX) + (y * (float)yScale / SECTION_AMOUNT);
+
+            //NSLog(@"Selection; x: %f y:%f", myPoint.x, myPoint.y);
+
+            [self highlightMarkerAtPoint:myPoint];
+        }
     }
-}
-
-- (void)drawCircleMarkerAtPoint:(NSPoint)aPoint;
-{
-    int radius = 3;
-    NSBezierPath *bezierPath;
-
-    //NSLog(@"->%s, point: %@", _cmd, NSStringFromPoint(aPoint));
-    aPoint.x = rint(aPoint.x);
-    aPoint.y = rint(aPoint.y);
-    //NSLog(@"-->%s, point: %@", _cmd, NSStringFromPoint(aPoint));
-
-    bezierPath = [[NSBezierPath alloc] init];
-    [bezierPath appendBezierPathWithArcWithCenter:aPoint radius:radius startAngle:0 endAngle:360];
-    [bezierPath closePath];
-    [bezierPath fill];
-    //[bezierPath stroke];
-    [bezierPath release];
-}
-
-- (void)drawTriangleMarkerAtPoint:(NSPoint)aPoint;
-{
-    int radius = 5;
-    NSBezierPath *bezierPath;
-    float angle;
-
-    //NSLog(@"->%s, point: %@", _cmd, NSStringFromPoint(aPoint));
-    aPoint.x = rint(aPoint.x);
-    aPoint.y = rint(aPoint.y);
-    //NSLog(@"-->%s, point: %@", _cmd, NSStringFromPoint(aPoint));
-
-    bezierPath = [[NSBezierPath alloc] init];
-    //[bezierPath moveToPoint:NSMakePoint(aPoint.x, aPoint.y + radius)];
-    angle = 90.0 * (2 * M_PI) / 360.0;
-    //NSLog(@"angle: %f, cos(angle): %f, sin(angle): %f", angle, cos(angle), sin(angle));
-    [bezierPath moveToPoint:NSMakePoint(aPoint.x + cos(angle) * radius, aPoint.y + sin(angle) * radius)];
-    angle = 210.0 * (2 * M_PI) / 360.0;
-    //NSLog(@"angle: %f, cos(angle): %f, sin(angle): %f", angle, cos(angle), sin(angle));
-    [bezierPath lineToPoint:NSMakePoint(aPoint.x + cos(angle) * radius, aPoint.y + sin(angle) * radius)];
-    angle = 330.0 * (2 * M_PI) / 360.0;
-    //NSLog(@"angle: %f, cos(angle): %f, sin(angle): %f", angle, cos(angle), sin(angle));
-    [bezierPath lineToPoint:NSMakePoint(aPoint.x + cos(angle) * radius, aPoint.y + sin(angle) * radius)];
-    [bezierPath closePath];
-    [bezierPath fill];
-    //[bezierPath stroke];
-    [bezierPath release];
-}
-
-- (void)drawSquareMarkerAtPoint:(NSPoint)aPoint;
-{
-    NSRect rect;
-
-    //NSLog(@"->%s, point: %@", _cmd, NSStringFromPoint(aPoint));
-    aPoint.x = rint(aPoint.x);
-    aPoint.y = rint(aPoint.y);
-    //NSLog(@"-->%s, point: %@", _cmd, NSStringFromPoint(aPoint));
-
-    rect = NSIntegralRect(NSMakeRect(aPoint.x - 3, aPoint.y - 3, 1, 1));
-    rect.size = NSMakeSize(6, 6);
-    //NSLog(@"%s, rect: %@", _cmd, NSStringFromRect(rect));
-    [NSBezierPath fillRect:rect];
-    //[NSBezierPath strokeRect:rect];
-    //NSRectFill(rect);
-    //NSFrameRect(rect);
-}
-
-- (void)highlightMarkerAtPoint:(NSPoint)aPoint;
-{
-    NSRect rect;
-
-    //NSLog(@"->%s, point: %@", _cmd, NSStringFromPoint(aPoint));
-    aPoint.x = rint(aPoint.x);
-    aPoint.y = rint(aPoint.y);
-    //NSLog(@"-->%s, point: %@", _cmd, NSStringFromPoint(aPoint));
-
-
-    rect = NSIntegralRect(NSMakeRect(aPoint.x - 5, aPoint.y - 5, 10, 10));
-    //NSLog(@"%s, rect: %@", _cmd, NSStringFromRect(rect));
-    NSFrameRect(rect);
 }
 
 //
 // Event handling
 //
 
-- (BOOL)acceptsFirstResponder;
-{
-    return YES;
-}
-
-- (BOOL)acceptsFirstMouse:(NSEvent *)theEvent;
-{
-    return YES;
-}
-
+// TODO (2004-03-22): Need methods to convert between view coordinates and (time, value) pairs.
+#ifdef PORTING
 - (void)mouseDown:(NSEvent *)mouseEvent;
 {
     NSPoint hitPoint;
@@ -732,31 +343,7 @@ static NSImage *_selectionBox = nil;
 
     NSLog(@"<  %s", _cmd);
 }
-
-- (void)mouseDragged:(NSEvent *)mouseEvent;
-{
-    NSPoint hitPoint;
-
-    //NSLog(@" > %s", _cmd);
-
-    if (shouldDrawSelection == YES) {
-        hitPoint = [self convertPoint:[mouseEvent locationInWindow] fromView:nil];
-        //NSLog(@"hitPoint: %@", NSStringFromPoint(hitPoint));
-        selectionPoint2 = hitPoint;
-        [self setNeedsDisplay:YES];
-
-        [self selectGraphPointsBetweenPoint:selectionPoint1 andPoint:selectionPoint2];
-    }
-
-    //NSLog(@"<  %s", _cmd);
-}
-
-- (void)mouseUp:(NSEvent *)mouseEvent;
-{
-    NSLog(@" > %s", _cmd);
-    [self setShouldDrawSelection:NO];
-    NSLog(@"<  %s", _cmd);
-}
+#endif
 
 //
 // View geometry
@@ -789,35 +376,6 @@ static NSImage *_selectionBox = nil;
     return ([self bounds].size.width - 2 * LEFT_MARGIN) / [self ruleDuration];
 }
 
-- (NSRect)rectFormedByPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
-{
-    float minx, miny, maxx, maxy;
-    NSRect rect;
-
-    if (point1.x < point2.x) {
-        minx = point1.x;
-        maxx = point2.x;
-    } else {
-        minx = point2.x;
-        maxx = point1.x;
-    }
-
-    if (point1.y < point2.y) {
-        miny = point1.y;
-        maxy = point2.y;
-    } else {
-        miny = point2.y;
-        maxy = point1.y;
-    }
-
-    rect.origin.x = minx;
-    rect.origin.y = miny;
-    rect.size.width = maxx - minx;
-    rect.size.height = maxy - miny;
-
-    return rect;
-}
-
 //
 // Selection
 //
@@ -830,8 +388,7 @@ static NSImage *_selectionBox = nil;
     float timeScale;
     int yScale;
 
-    [selectedPoint release];
-    selectedPoint = nil;
+    [selectedPoints removeAllObjects];
 
     cache++;
     graphOrigin = [self graphOrigin];
@@ -863,85 +420,13 @@ static NSImage *_selectionBox = nil;
 
         //NSLog(@"%2d: currentPoint: %@", index, NSStringFromPoint(currentPoint));
         if (NSPointInRect(currentPoint, selectionRect) == YES) {
-            [selectedPoint release];
-            selectedPoint = [currentDisplayPoint retain];
+            [selectedPoints addObject:currentDisplayPoint];
         }
     }
 
-    [[controller inspector] inspectPoint:selectedPoint];
+    [[controller inspector] inspectPoints:selectedPoints];
     [self setNeedsDisplay:YES];
 }
 
-//
-// Actions
-//
-
-- (IBAction)delete:(id)sender;
-{
-    if ((currentTemplate == nil) || (selectedPoint == nil)) {
-        NSBeep();
-        return;
-    }
-
-    if ([[currentTemplate points] indexOfObject:selectedPoint] == 0) {
-        NSBeep();
-        return;
-    }
-
-    [[currentTemplate points] removeObject:selectedPoint];
-    [selectedPoint release];
-    selectedPoint = nil;
-    [[controller inspector] cleanInspectorWindow];
-
-    [self setNeedsDisplay:YES];
-}
-
-//
-// Publicly used API
-//
-
-- (void)setTransition:(MMTransition *)newTransition;
-{
-    if (newTransition == currentTemplate)
-        return;
-
-    [[self window] endEditingFor:nil];
-    [selectedPoint release];
-    selectedPoint = nil;
-
-    [currentTemplate release];
-    currentTemplate = [newTransition retain];
-
-    switch ([currentTemplate type]) {
-      case DIPHONE:
-          [self setRuleDuration:100];
-          [self setBeatLocation:33];
-          [self setMark1:100];
-          [self setMark2:0];
-          [self setMark3:0];
-          break;
-      case TRIPHONE:
-          [self setRuleDuration:200];
-          [self setBeatLocation:33];
-          [self setMark1:100];
-          [self setMark2:200];
-          [self setMark3:0];
-          break;
-      case TETRAPHONE:
-          [self setRuleDuration:300];
-          [self setBeatLocation:33];
-          [self setMark1:100];
-          [self setMark2:200];
-          [self setMark3:300];
-          break;
-    }
-
-    [self setNeedsDisplay:YES];
-}
-
-- (void)showWindow:(int)otherWindow;
-{
-    [[self window] orderWindow:NSWindowBelow relativeTo:otherWindow];
-}
 
 @end

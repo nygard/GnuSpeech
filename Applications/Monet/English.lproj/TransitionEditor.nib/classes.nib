@@ -20,7 +20,6 @@
                 takeMark2From = id; 
                 takeMark3From = id; 
                 takeRuleDurationFrom = id; 
-                updateControlParameter = id; 
             }; 
             CLASS = TransitionView; 
             LANGUAGE = ObjC; 
