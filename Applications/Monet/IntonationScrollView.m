@@ -8,23 +8,14 @@
 
 #define SCALE_WIDTH 50
 
-// TODO (2004-03-15): This doesn't get called when loaded from a nib.
 - (id)initWithFrame:(NSRect)frameRect;
 {
     NSRect contentFrame;
     MAIntonationView *intonationView;
 
-    NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
-
-    NSLog(@"ISV %s, frame: %@", _cmd, NSStringFromRect(frameRect));
     if ([super initWithFrame:frameRect] == nil)
         return nil;
 
-    //[self setBorderType:NSLineBorder];
-    //[self setHasHorizontalScroller:YES];
-    //[self setBackgroundColor:[NSColor whiteColor]];
-
-    // TODO (2004-03-31): See if we can remove this code:
     contentFrame.origin = NSZeroPoint;
     contentFrame.size = [self contentSize];
     intonationView = [[MAIntonationView alloc] initWithFrame:contentFrame];
@@ -32,8 +23,6 @@
     [intonationView release];
 
     [self addScaleView];
-
-    NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 
     return self;
 }
@@ -45,6 +34,7 @@
     [super dealloc];
 }
 
+// -initWithFrame: isn't used when loaded from a nib.
 - (void)awakeFromNib;
 {
     [self addScaleView];
@@ -56,11 +46,8 @@
     NSRect frameRect, scaleFrame;
     NSRect documentVisibleRect;
 
-    NSLog(@" > %s", _cmd);
-
     contentSize = [self contentSize];
     frameRect = [self frame];
-    NSLog(@"contentSize: %@, frameRect: %@", NSStringFromSize(contentSize), NSStringFromRect(frameRect));
 
     scaleFrame = NSMakeRect(0, 0, SCALE_WIDTH, contentSize.height);
     scaleView = [[MAIntonationScaleView alloc] initWithFrame:scaleFrame];
@@ -74,8 +61,6 @@
 
     [[self documentView] setFrame:documentVisibleRect];
     [[self documentView] setNeedsDisplay:YES];
-
-    NSLog(@"<  %s", _cmd);
 }
 
 - (void)tile;
@@ -104,7 +89,7 @@
 
     scaleViewSize = [scaleView frame].size;
     printableSize = [[self documentView] frame].size;
-    NSLog(@"%s, scaleViewSize: %@, printableSize: %@", _cmd, NSStringFromSize(scaleViewSize), NSStringFromSize(printableSize));
+    printableSize.width += scaleViewSize.width;
 
     return printableSize;
 }
