@@ -67,18 +67,11 @@
 - (void)applySmoothIntonation;
 - (void)deletePoints;
 
-//- (IBAction)saveIntonationContour:(id)sender;
-//- (IBAction)loadContour:(id)sender;
-//- (IBAction)loadContourAndUtterance:(id)sender;
-
 - (void)clearIntonationPoints;
 - (void)addPoint:(double)semitone offsetTime:(double)offsetTime slope:(double)slope ruleIndex:(int)ruleIndex eventList:anEventList;
 
 // View geometry
 - (int)sectionHeight;
 - (NSPoint)graphOrigin;
-
-//- (NSString *)contourString;
-//- (void)appendXMLForContourToString:(NSMutableString *)resultString level:(int)level;
 
 @end
