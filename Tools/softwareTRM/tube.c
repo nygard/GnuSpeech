@@ -251,7 +251,7 @@ double nasalReflectionFilter(TRMTubeModel *tubeModel, double input)
 
 double nasalRadiationFilter(TRMTubeModel *tubeModel, double input)
 {
-    static double nasalRadiationX = 0.0, nasalRadiationY = 0.0;
+    static double nasalRadiationX = 0.0, nasalRadiationY = 0.0; // This has got to go!
 
     double output = (tubeModel->na20 * input) + (tubeModel->na21 * nasalRadiationX) - (tubeModel->nb21 * nasalRadiationY);
     nasalRadiationX = input;
@@ -336,8 +336,6 @@ void synthesize(TRMTubeModel *tubeModel, TRMData *data)
                     printf("\nSignal = %e", signal);
                     fflush(stdout);
                 }
-
-
             } else
                 signal = lp_noise;
 
