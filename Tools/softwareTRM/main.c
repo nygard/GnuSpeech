@@ -1,20 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/param.h>
+#include <libgen.h> // for basename
 #include <math.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "tube.h"
 #include "input.h"
 #include "output.h"
 #include "structs.h"
 
-// Boolean constants
-#define FALSE                     0
-#define TRUE                      1
-
 // Command line argument variables
-int verbose = FALSE;
+int verbose = 0;
 
 void printInfo(struct _TRMData *data, char *inputFile, TRMTubeModel *tube);
 
@@ -92,28 +90,41 @@ void printInfo(struct _TRMData *data, char *inputFile, TRMTubeModel *tube)
     printf("----------------------------------------------------------------------\n");
 }
 
+void usage(char *name)
+{
+    fprintf(stderr, "Usage:  %s [-v] inputFile outputFile\n", basename(name));
+    exit(-1);
+}
+
 int main(int argc, char *argv[])
 {
-    char inputFile[MAXPATHLEN + 1];
-    char outputFile[MAXPATHLEN + 1];
+    char *inputFilename, *outputFilename;
     TRMData *inputData;
     TRMTubeModel *tube;
+    int ch;
 
     // Parse the command line
-    if (argc == 3) {
-        strcpy(inputFile, argv[1]);
-        strcpy(outputFile, argv[2]);
-    } else if ((argc == 4) && (!strcmp("-v", argv[1]))) {
-        verbose = TRUE;
-        strcpy(inputFile, argv[2]);
-        strcpy(outputFile, argv[3]);
-    } else {
-        fprintf(stderr, "Usage:  %s [-v] inputFile outputFile\n", argv[0]);
-        exit(-1);
+    while ( (ch = getopt(argc, argv, "v")) != -1) {
+        switch (ch) {
+          case 'v':
+              verbose++;
+              break;
+
+          default:
+              usage(argv[0]);
+        }
     }
 
+    argc -= optind;
+    if (argc != 2)
+        usage(argv[0]);
+
+    argv += optind;
+    inputFilename = argv[0];
+    outputFilename = argv[1];
+
     // Parse the input file for input parameters
-    inputData = parseInputFile(inputFile);
+    inputData = parseInputFile(inputFilename);
     if (inputData == NULL) {
         fprintf(stderr, "Aborting...\n");
         exit(-1);
@@ -128,7 +139,7 @@ int main(int argc, char *argv[])
 
     // Print out parameter information
     if (verbose)
-        printInfo(inputData, inputFile, tube);
+        printInfo(inputData, inputFilename, tube);
 
     if (verbose) {
         printf("\nStarting synthesis, calculating floating point samples...");
@@ -141,10 +152,10 @@ int main(int argc, char *argv[])
     if (verbose)
         printf("done.\n");
 
-    writeOutputToFile(tube->sampleRateConverter, inputData, outputFile);
+    writeOutputToFile(tube->sampleRateConverter, inputData, outputFilename);
 
     if (verbose)
-        printf("\nWrote scaled samples to file:  %s\n", outputFile);
+        printf("\nWrote scaled samples to file:  %s\n", outputFilename);
 
     TRMTubeModelFree(tube);
 

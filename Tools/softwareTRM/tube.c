@@ -273,7 +273,7 @@ void synthesize(TRMTubeModel *tubeModel, TRMData *data)
                 crossmix = ax * tubeModel->crossmixFactor;
                 crossmix = (crossmix < 1.0) ? crossmix : 1.0;
                 signal = (pulsed_noise * crossmix) + (lp_noise * (1.0 - crossmix));
-                if (verbose) {
+                if (verbose > 1) {
                     printf("\nSignal = %e", signal);
                     fflush(stdout);
                 }
@@ -286,17 +286,17 @@ void synthesize(TRMTubeModel *tubeModel, TRMData *data)
 
             /*  PUT PULSE THROUGH THROAT  */
             signal += throat(tubeModel, pulse * VT_SCALE);
-            if (verbose)
+            if (verbose > 1)
                 printf("\nDone throat\n");
 
             /*  OUTPUT SAMPLE HERE  */
             dataFill(tubeModel->sampleRateConverter->ringBuffer, signal);
-            if (verbose)
+            if (verbose > 1)
                 printf("\nDone datafil\n");
 
             /*  DO SAMPLE RATE INTERPOLATION OF CONTROL PARAMETERS  */
             sampleRateInterpolation(tubeModel);
-            if (verbose)
+            if (verbose > 1)
                 printf("\nDone sample rate interp\n");
 
         }
@@ -598,7 +598,7 @@ double vocalTract(TRMTubeModel *tubeModel, double input, double frication)
     tubeModel->oropharynx[S1][BOTTOM][current_ptr] = (tubeModel->oropharynx[S2][BOTTOM][prev_ptr] + delta) * dampingFactor;
 
     /*  CALCULATE THE SCATTERING JUNCTIONS FOR S2-S3 AND S3-S4  */
-    if (verbose)
+    if (verbose > 1)
         printf("\nCalc scattering\n");
     for (i = S2, j = C2, k = FC1; i < S4; i++, j++, k++) {
         delta = tubeModel->oropharynx_coeff[j] * (tubeModel->oropharynx[i][TOP][prev_ptr] - tubeModel->oropharynx[i+1][BOTTOM][prev_ptr]);
