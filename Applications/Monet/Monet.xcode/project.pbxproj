@@ -1111,34 +1111,6 @@
 			settings = {
 			};
 		};
-		01848D13060A902E005E9B67 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = "NSNumberFormatter-Extensions.h";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		01848D14060A902E005E9B67 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = "NSNumberFormatter-Extensions.m";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		01848D15060A902E005E9B67 = {
-			fileRef = 01848D13060A902E005E9B67;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		01848D16060A902E005E9B67 = {
-			fileRef = 01848D14060A902E005E9B67;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		01848D26060A9208005E9B67 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -1690,52 +1662,24 @@
 			settings = {
 			};
 		};
-		0195D94C05F40DDB006D8386 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = "NSScanner-Extensions.h";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0195D94D05F40DDB006D8386 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = "NSScanner-Extensions.m";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0195D94E05F40DDB006D8386 = {
-			fileRef = 0195D94C05F40DDB006D8386;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0195D94F05F40DDB006D8386 = {
-			fileRef = 0195D94D05F40DDB006D8386;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		0195D95305F40DDF006D8386 = {
 			children = (
-				01AA217E0613CA380079CC4C,
-				01AA217F0613CA380079CC4C,
-				01AA215A061363180079CC4C,
-				01AA215B061363180079CC4C,
-				01848D13060A902E005E9B67,
-				01848D14060A902E005E9B67,
-				01B201AF05F909C900C1F65D,
-				01B201B005F909C900C1F65D,
-				01C24914060E33D100521DB1,
-				01C24915060E33D100521DB1,
-				0195D94C05F40DDB006D8386,
-				0195D94D05F40DDB006D8386,
-				0195D95F05F40E25006D8386,
-				0195D96005F40E25006D8386,
-				0195DC6D05F53953006D8386,
-				0195DC6E05F53953006D8386,
+				019D975B0646E449009C37B4,
+				019D975C0646E449009C37B4,
+				019D975D0646E449009C37B4,
+				019D975E0646E449009C37B4,
+				019D975F0646E449009C37B4,
+				019D97600646E449009C37B4,
+				019D97610646E449009C37B4,
+				019D97620646E449009C37B4,
+				019D97630646E449009C37B4,
+				019D97640646E449009C37B4,
+				019D97650646E449009C37B4,
+				019D97660646E449009C37B4,
+				019D97670646E449009C37B4,
+				019D97680646E449009C37B4,
+				019D97690646E449009C37B4,
+				019D976A0646E449009C37B4,
 				01848BCC060A6208005E9B67,
 				01848BCD060A6208005E9B67,
 			);
@@ -1743,34 +1687,6 @@
 			name = Extensions;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		0195D95F05F40E25006D8386 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = "NSString-Extensions.h";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0195D96005F40E25006D8386 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = "NSString-Extensions.m";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0195D96105F40E25006D8386 = {
-			fileRef = 0195D95F05F40E25006D8386;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0195D96205F40E25006D8386 = {
-			fileRef = 0195D96005F40E25006D8386;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		0195D9A805F42843006D8386 = {
 			fileRef = 0195D7D705F3BC4C006D8386;
@@ -2035,34 +1951,6 @@
 			settings = {
 			};
 		};
-		0195DC6D05F53953006D8386 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = "NSUserDefaults-Extensions.h";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0195DC6E05F53953006D8386 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = "NSUserDefaults-Extensions.m";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0195DC6F05F53953006D8386 = {
-			fileRef = 0195DC6D05F53953006D8386;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0195DC7005F53953006D8386 = {
-			fileRef = 0195DC6E05F53953006D8386;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		0195DC8705F53E5E006D8386 = {
 			fileRef = 0195DB2C05F46E4E006D8386;
 			isa = PBXBuildFile;
@@ -2123,58 +2011,242 @@
 			settings = {
 			};
 		};
-		01AA215A061363180079CC4C = {
+		019D975B0646E449009C37B4 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = "NSCharacterSet-Extensions.h";
+			name = "NSBezierPath-Extensions.h";
+			path = "Extensions/NSBezierPath-Extensions.h";
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		01AA215B061363180079CC4C = {
+		019D975C0646E449009C37B4 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = "NSCharacterSet-Extensions.m";
+			name = "NSBezierPath-Extensions.m";
+			path = "Extensions/NSBezierPath-Extensions.m";
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		01AA215C061363180079CC4C = {
-			fileRef = 01AA215A061363180079CC4C;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		01AA215D061363180079CC4C = {
-			fileRef = 01AA215B061363180079CC4C;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		01AA217E0613CA380079CC4C = {
+		019D975D0646E449009C37B4 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = "NSBezierPath-Extensions.h";
+			name = "NSCharacterSet-Extensions.h";
+			path = "Extensions/NSCharacterSet-Extensions.h";
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		01AA217F0613CA380079CC4C = {
+		019D975E0646E449009C37B4 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = "NSBezierPath-Extensions.m";
+			name = "NSCharacterSet-Extensions.m";
+			path = "Extensions/NSCharacterSet-Extensions.m";
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		01AA21800613CA380079CC4C = {
-			fileRef = 01AA217E0613CA380079CC4C;
+		019D975F0646E449009C37B4 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = "NSNumberFormatter-Extensions.h";
+			path = "Extensions/NSNumberFormatter-Extensions.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		019D97600646E449009C37B4 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = "NSNumberFormatter-Extensions.m";
+			path = "Extensions/NSNumberFormatter-Extensions.m";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		019D97610646E449009C37B4 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = "NSObject-Extensions.h";
+			path = "Extensions/NSObject-Extensions.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		019D97620646E449009C37B4 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = "NSObject-Extensions.m";
+			path = "Extensions/NSObject-Extensions.m";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		019D97630646E449009C37B4 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = "NSOutlineView-Extensions.h";
+			path = "Extensions/NSOutlineView-Extensions.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		019D97640646E449009C37B4 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = "NSOutlineView-Extensions.m";
+			path = "Extensions/NSOutlineView-Extensions.m";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		019D97650646E449009C37B4 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = "NSScanner-Extensions.h";
+			path = "Extensions/NSScanner-Extensions.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		019D97660646E449009C37B4 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = "NSScanner-Extensions.m";
+			path = "Extensions/NSScanner-Extensions.m";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		019D97670646E449009C37B4 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = "NSString-Extensions.h";
+			path = "Extensions/NSString-Extensions.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		019D97680646E449009C37B4 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = "NSString-Extensions.m";
+			path = "Extensions/NSString-Extensions.m";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		019D97690646E449009C37B4 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = "NSUserDefaults-Extensions.h";
+			path = "Extensions/NSUserDefaults-Extensions.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		019D976A0646E449009C37B4 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = "NSUserDefaults-Extensions.m";
+			path = "Extensions/NSUserDefaults-Extensions.m";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		019D976B0646E449009C37B4 = {
+			fileRef = 019D975B0646E449009C37B4;
 			isa = PBXBuildFile;
 			settings = {
 			};
 		};
-		01AA21810613CA380079CC4C = {
-			fileRef = 01AA217F0613CA380079CC4C;
+		019D976C0646E449009C37B4 = {
+			fileRef = 019D975C0646E449009C37B4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		019D976D0646E449009C37B4 = {
+			fileRef = 019D975D0646E449009C37B4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		019D976E0646E449009C37B4 = {
+			fileRef = 019D975E0646E449009C37B4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		019D976F0646E449009C37B4 = {
+			fileRef = 019D975F0646E449009C37B4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		019D97700646E449009C37B4 = {
+			fileRef = 019D97600646E449009C37B4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		019D97710646E449009C37B4 = {
+			fileRef = 019D97610646E449009C37B4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		019D97720646E449009C37B4 = {
+			fileRef = 019D97620646E449009C37B4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		019D97730646E449009C37B4 = {
+			fileRef = 019D97630646E449009C37B4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		019D97740646E449009C37B4 = {
+			fileRef = 019D97640646E449009C37B4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		019D97750646E449009C37B4 = {
+			fileRef = 019D97650646E449009C37B4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		019D97760646E449009C37B4 = {
+			fileRef = 019D97660646E449009C37B4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		019D97770646E449009C37B4 = {
+			fileRef = 019D97670646E449009C37B4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		019D97780646E449009C37B4 = {
+			fileRef = 019D97680646E449009C37B4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		019D97790646E449009C37B4 = {
+			fileRef = 019D97690646E449009C37B4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		019D977A0646E449009C37B4 = {
+			fileRef = 019D976A0646E449009C37B4;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -2270,34 +2342,6 @@
 		};
 		01B2016905F8305A00C1F65D = {
 			fileRef = 01B2016805F8305A00C1F65D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		01B201AF05F909C900C1F65D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = "NSObject-Extensions.h";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		01B201B005F909C900C1F65D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = "NSObject-Extensions.m";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		01B201B105F909C900C1F65D = {
-			fileRef = 01B201AF05F909C900C1F65D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		01B201B205F909CA00C1F65D = {
-			fileRef = 01B201B005F909C900C1F65D;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -2520,34 +2564,6 @@
 		};
 		01C248EC060D3EC500521DB1 = {
 			fileRef = 01C248EA060D3EC500521DB1;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		01C24914060E33D100521DB1 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = "NSOutlineView-Extensions.h";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		01C24915060E33D100521DB1 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = "NSOutlineView-Extensions.m";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		01C24916060E33D100521DB1 = {
-			fileRef = 01C24914060E33D100521DB1;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		01C24917060E33D100521DB1 = {
-			fileRef = 01C24915060E33D100521DB1;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -2954,14 +2970,11 @@
 				0195D91A05F3DB20006D8386,
 				0195D92105F3DB43006D8386,
 				0195D93805F3DF4D006D8386,
-				0195D94E05F40DDB006D8386,
-				0195D96105F40E25006D8386,
 				0195D9A805F42843006D8386,
 				0195DA3105F44029006D8386,
 				0195DA4305F44526006D8386,
 				0195DBB705F4F391006D8386,
 				0195DBC305F4F81B006D8386,
-				0195DC6F05F53953006D8386,
 				0195DC8705F53E5E006D8386,
 				0195DCB205F54B87006D8386,
 				0195DCDC05F5563C006D8386,
@@ -2975,7 +2988,6 @@
 				01B2FFF405F6DF1B00C1F65D,
 				01B2008905F6EB4D00C1F65D,
 				01B2009205F6ED2900C1F65D,
-				01B201B105F909C900C1F65D,
 				01BE469E05F960A900172BDB,
 				01848B93060A505A005E9B67,
 				01848BCE060A6208005E9B67,
@@ -2991,19 +3003,15 @@
 				01848C9D060A811E005E9B67,
 				01848CC7060A84F3005E9B67,
 				01848CF9060A871A005E9B67,
-				01848D15060A902E005E9B67,
 				01848D28060A9208005E9B67,
 				01848D5C060AA9BB005E9B67,
 				01848D89060BA278005E9B67,
 				01C248EB060D3EC500521DB1,
-				01C24916060E33D100521DB1,
 				01F6E26D060EA6470073E196,
 				01710D0A060FAF570059DE9A,
 				01710D4906100F160059DE9A,
 				01710DB20610E26F0059DE9A,
 				01710DDD06111EC70059DE9A,
-				01AA215C061363180079CC4C,
-				01AA21800613CA380079CC4C,
 				01104CDD0618C79A00B529E8,
 				01104D100618D1D300B529E8,
 				01104DB2061A294000B529E8,
@@ -3019,6 +3027,14 @@
 				015E7C43063862FC00688D4D,
 				015E7C560638713C00688D4D,
 				01646CAE0646DFC100C7504D,
+				019D976B0646E449009C37B4,
+				019D976D0646E449009C37B4,
+				019D976F0646E449009C37B4,
+				019D97710646E449009C37B4,
+				019D97730646E449009C37B4,
+				019D97750646E449009C37B4,
+				019D97770646E449009C37B4,
+				019D97790646E449009C37B4,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3079,14 +3095,11 @@
 				0195D90A05F3D54D006D8386,
 				0195D92205F3DB43006D8386,
 				0195D93905F3DF4D006D8386,
-				0195D94F05F40DDB006D8386,
-				0195D96205F40E25006D8386,
 				0195D9AD05F42844006D8386,
 				0195DA3605F4402A006D8386,
 				0195DA4805F44527006D8386,
 				0195DBBC05F4F392006D8386,
 				0195DBC905F4F81C006D8386,
-				0195DC7005F53953006D8386,
 				0195DC8D05F53E5F006D8386,
 				0195DCB805F54B88006D8386,
 				0195DCE205F5563C006D8386,
@@ -3098,7 +3111,6 @@
 				01B2FFE505F69FC700C1F65D,
 				01B2FFF505F6DF1B00C1F65D,
 				01B2009305F6ED2900C1F65D,
-				01B201B205F909CA00C1F65D,
 				01BE469F05F960A900172BDB,
 				01848B94060A505A005E9B67,
 				01848BCF060A6208005E9B67,
@@ -3114,19 +3126,15 @@
 				01848C9E060A811E005E9B67,
 				01848CC8060A84F3005E9B67,
 				01848CFA060A871A005E9B67,
-				01848D16060A902E005E9B67,
 				01848D29060A9208005E9B67,
 				01848D5D060AA9BB005E9B67,
 				01848D8A060BA278005E9B67,
 				01C248EC060D3EC500521DB1,
-				01C24917060E33D100521DB1,
 				01F6E26E060EA6470073E196,
 				01710D0B060FAF570059DE9A,
 				01710D4A06100F160059DE9A,
 				01710DB30610E26F0059DE9A,
 				01710DDE06111EC70059DE9A,
-				01AA215D061363180079CC4C,
-				01AA21810613CA380079CC4C,
 				01104CDE0618C79A00B529E8,
 				01104D110618D1D300B529E8,
 				01104DB3061A294000B529E8,
@@ -3142,6 +3150,14 @@
 				015E7C44063862FC00688D4D,
 				015E7C570638713C00688D4D,
 				01646CAF0646DFC100C7504D,
+				019D976C0646E449009C37B4,
+				019D976E0646E449009C37B4,
+				019D97700646E449009C37B4,
+				019D97720646E449009C37B4,
+				019D97740646E449009C37B4,
+				019D97760646E449009C37B4,
+				019D97780646E449009C37B4,
+				019D977A0646E449009C37B4,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
