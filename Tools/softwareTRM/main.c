@@ -160,7 +160,7 @@ int main(int argc, char *argv[])
     }
 
     /*  INITIALIZE THE SYNTHESIZER  */
-    if (initializeSynthesizer(inputData) == ERROR) {
+    if (initializeSynthesizer(&(inputData->inputParameters)) == ERROR) {
 	fprintf(stderr, "Aborting...\n");
 	exit(-1);
     }

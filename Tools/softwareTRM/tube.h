@@ -24,7 +24,7 @@ extern double actualTubeLength;
 extern TRMSampleRateConverter sampleRateConverter;
 
 
-int initializeSynthesizer(struct _TRMData *data);
+int initializeSynthesizer(TRMInputParameters *inputParameters);
 void synthesize(TRMData *data);
 
 #endif

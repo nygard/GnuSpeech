@@ -242,16 +242,16 @@ void initializeFilter(void);
 *
 ******************************************************************************/
 
-int initializeSynthesizer(struct _TRMData *data)
+int initializeSynthesizer(TRMInputParameters *inputParameters)
 {
     double nyquist;
 
     /*  CALCULATE THE SAMPLE RATE, BASED ON NOMINAL
         TUBE LENGTH AND SPEED OF SOUND  */
-    if (data->inputParameters.length > 0.0) {
-        double c = speedOfSound(data->inputParameters.temperature);
-        controlPeriod = rint((c * TOTAL_SECTIONS * 100.0) / (data->inputParameters.length * data->inputParameters.controlRate));
-        sampleRate = data->inputParameters.controlRate * controlPeriod;
+    if (inputParameters->length > 0.0) {
+        double c = speedOfSound(inputParameters->temperature);
+        controlPeriod = rint((c * TOTAL_SECTIONS * 100.0) / (inputParameters->length * inputParameters->controlRate));
+        sampleRate = inputParameters->controlRate * controlPeriod;
         actualTubeLength = (c * TOTAL_SECTIONS * 100.0) / sampleRate;
         nyquist = (double)sampleRate / 2.0;
     } else {
@@ -260,34 +260,34 @@ int initializeSynthesizer(struct _TRMData *data)
     }
 
     /*  CALCULATE THE BREATHINESS FACTOR  */
-    breathinessFactor = data->inputParameters.breathiness / 100.0;
+    breathinessFactor = inputParameters->breathiness / 100.0;
 
     /*  CALCULATE CROSSMIX FACTOR  */
-    crossmixFactor = 1.0 / amplitude(data->inputParameters.mixOffset);
+    crossmixFactor = 1.0 / amplitude(inputParameters->mixOffset);
 
     /*  CALCULATE THE DAMPING FACTOR  */
-    dampingFactor = (1.0 - (data->inputParameters.lossFactor / 100.0));
+    dampingFactor = (1.0 - (inputParameters->lossFactor / 100.0));
 
     /*  INITIALIZE THE WAVE TABLE  */
-    initializeWavetable(&(data->inputParameters));
+    initializeWavetable(inputParameters);
 
     /*  INITIALIZE THE FIR FILTER  */
     initializeFIR(FIR_BETA, FIR_GAMMA, FIR_CUTOFF);
 
     /*  INITIALIZE REFLECTION AND RADIATION FILTER COEFFICIENTS FOR MOUTH  */
-    initializeMouthCoefficients((nyquist - data->inputParameters.mouthCoef) / nyquist);
+    initializeMouthCoefficients((nyquist - inputParameters->mouthCoef) / nyquist);
 
     /*  INITIALIZE REFLECTION AND RADIATION FILTER COEFFICIENTS FOR NOSE  */
-    initializeNasalFilterCoefficients((nyquist - data->inputParameters.noseCoef) / nyquist);
+    initializeNasalFilterCoefficients((nyquist - inputParameters->noseCoef) / nyquist);
 
     /*  INITIALIZE NASAL CAVITY FIXED SCATTERING COEFFICIENTS  */
-    initializeNasalCavity(&(data->inputParameters));
+    initializeNasalCavity(inputParameters);
 
     /*  INITIALIZE THE THROAT LOWPASS FILTER  */
-    initializeThroat(&(data->inputParameters));
+    initializeThroat(inputParameters);
 
     /*  INITIALIZE THE SAMPLE RATE CONVERSION ROUTINES  */
-    initializeConversion(&(data->inputParameters));
+    initializeConversion(inputParameters);
 
     /*  RETURN SUCCESS  */
     return SUCCESS;

@@ -85,6 +85,9 @@ void writeOutputToFile(struct _TRMData *data, char *fileName)
 	}
     }
 
+    /*  Rewind the temporary file to beginning  */
+    rewind(sampleRateConverter.tempFilePtr);
+
     /*  Open the output file  */
     fd = fopen(fileName, "wb");
 
@@ -297,16 +300,13 @@ void writeWaveFileHeader(int channels, long int numberSamples, float outputRate,
 *       functions:      fwriteShortMsb
 *
 *       library
-*       functions:      rewind, fread
+*       functions:      fread
 *
 ******************************************************************************/
 
 void writeSamplesMonoMsb(FILE *tempFile, long int numberSamples, double scale, FILE *outputFile)
 {
     long int i;
-
-    /*  Rewind the temporary file to beginning  */
-    rewind(tempFile);
 
     /*  Write the samples to file, scaling each sample  */
     for (i = 0; i < numberSamples; i++) {
@@ -332,16 +332,13 @@ void writeSamplesMonoMsb(FILE *tempFile, long int numberSamples, double scale, F
 *       functions:      fwriteShortLsb
 *
 *       library
-*       functions:      rewind, fread
+*       functions:      fread
 *
 ******************************************************************************/
 
 void writeSamplesMonoLsb(FILE *tempFile, long int numberSamples, double scale, FILE *outputFile)
 {
     long int i;
-
-    /*  Rewind the temporary file to beginning  */
-    rewind(tempFile);
 
     /*  Write the samples to file, scaling each sample  */
     for (i = 0; i < numberSamples; i++) {
@@ -367,16 +364,13 @@ void writeSamplesMonoLsb(FILE *tempFile, long int numberSamples, double scale, F
 *       functions:      fwriteShortMsb
 *
 *       library
-*       functions:      rewind, fread
+*       functions:      fread
 *
 ******************************************************************************/
 
 void writeSamplesStereoMsb(FILE *tempFile, long int numberSamples, double leftScale, double rightScale, FILE *outputFile)
 {
     long int i;
-
-    /*  Rewind the temporary file to beginning  */
-    rewind(tempFile);
 
     /*  Write the samples to file, scaling each sample  */
     for (i = 0; i < numberSamples; i++) {
@@ -403,16 +397,13 @@ void writeSamplesStereoMsb(FILE *tempFile, long int numberSamples, double leftSc
 *       functions:      fwriteShortLsb
 *
 *       library
-*       functions:      rewind, fread
+*       functions:      fread
 *
 ******************************************************************************/
 
 void writeSamplesStereoLsb(FILE *tempFile, long int numberSamples, double leftScale, double rightScale, FILE *outputFile)
 {
     long int i;
-
-    /*  Rewind the temporary file to beginning  */
-    rewind(tempFile);
 
     /*  Write the samples to file, scaling each sample  */
     for (i = 0; i < numberSamples; i++) {
