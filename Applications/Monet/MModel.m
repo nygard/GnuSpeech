@@ -60,11 +60,13 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         MMSymbol *newSymbol;
         MMCategory *newCategory;
 
-        newSymbol = [[MMSymbol alloc] initWithName:@"duration"];
+        newSymbol = [[MMSymbol alloc] init];
+        [newSymbol setName:@"duration"];
         [self addSymbol:newSymbol];
         [newSymbol release];
 
-        newCategory = [[MMCategory alloc] initWithName:@"phone"];
+        newCategory = [[MMCategory alloc] init];
+        [newCategory setName:@"phone"];
         [newCategory setComment:@"This is the static phone category.  It cannot be changed or removed."];
         [self addCategory:newCategory];
         [newCategory release];
@@ -1180,7 +1182,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         fread(&maxValue, sizeof(float), 1, fp);
         fread(&defaultValue, sizeof(float), 1, fp);
 
-        newParameter = [[MMParameter alloc] initWithName:str];
+        newParameter = [[MMParameter alloc] init];
+        [newParameter setName:str];
         [newParameter setMinimumValue:minValue];
         [newParameter setMaximumValue:maxValue];
         [newParameter setDefaultValue:defaultValue];
@@ -1204,7 +1207,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         fread(symbolString, SYMBOL_LENGTH_MAX+1, 1, fp);
 
         str = [NSString stringWithASCIICString:symbolString];
-        newCategory = [[MMCategory alloc] initWithName:str];
+        newCategory = [[MMCategory alloc] init];
+        [newCategory setName:str];
         [self addCategory:newCategory];
         [newCategory release];
     }
@@ -1234,7 +1238,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     if (durationSymbol == nil) {
         MMSymbol *newSymbol;
 
-        newSymbol = [[MMSymbol alloc] initWithName:@"duration"];
+        newSymbol = [[MMSymbol alloc] init];
+        [newSymbol setName:@"duration"];
         [self addSymbol:newSymbol];
         symbolIndex = [symbols indexOfObject:newSymbol];
         [newSymbol release];

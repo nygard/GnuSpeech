@@ -1,4 +1,4 @@
-#import "MMObject.h"
+#import "MMNamedObject.h"
 
 /*===========================================================================
 
@@ -9,25 +9,14 @@
 =============================================================================
 */
 
-@interface MMParameter : MMObject
+@interface MMParameter : MMNamedObject
 {
-    NSString *name;
-    NSString *comment;
     double minimum;
     double maximum;
     double defaultValue;
 }
 
 - (id)init;
-- (id)initWithName:(NSString *)aName;
-- (void)dealloc;
-
-- (NSString *)name;
-- (void)setName:(NSString *)newName;
-
-- (NSString *)comment;
-- (void)setComment:(NSString *)newComment;
-- (BOOL)hasComment;
 
 - (double)minimumValue;
 - (void)setMinimumValue:(double)newMinimum;
@@ -46,7 +35,6 @@
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 
 @end

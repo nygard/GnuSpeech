@@ -20,65 +20,11 @@
     if ([super init] == nil)
         return nil;
 
-    name = nil;
-    comment = nil;
-
     minimum = DEFAULT_MIN;
     maximum = DEFAULT_MAX;
     defaultValue = DEFAULT_MIN;
 
     return self;
-}
-
-- (id)initWithName:(NSString *)aName;
-{
-    if ([self init] == nil)
-        return nil;
-
-    [self setName:aName];
-
-    return self;
-}
-
-- (void)dealloc;
-{
-    [name release];
-    [comment release];
-
-    [super dealloc];
-}
-
-- (NSString *)name;
-{
-    return name;
-}
-
-- (void)setName:(NSString *)newName;
-{
-    if (newName == name)
-        return;
-
-    [name release];
-    name = [newName retain];
-}
-
-- (NSString *)comment;
-{
-    return comment;
-}
-
-- (void)setComment:(NSString *)newComment;
-{
-    if (newComment == comment)
-        return;
-
-    [comment release];
-    comment = [newComment retain];
-}
-
-- (BOOL)hasComment;
-{
-    return comment != nil && [comment length] > 0;
 }
 
 - (double)minimumValue;
@@ -153,7 +99,7 @@
     [resultString appendFormat:@"<parameter name=\"%@\" minimum=\"%g\" maximum=\"%g\" default=\"%g\"",
                   GSXMLAttributeString(name, NO), minimum, maximum, defaultValue];
 
-    if (comment == nil) {
+    if ([self hasComment] == NO) {
         [resultString appendString:@"/>\n"];
     } else {
         [resultString appendString:@">\n"];
@@ -169,10 +115,8 @@
 {
     id value;
 
-    if ([self init] == nil)
+    if ([super initWithXMLAttributes:attributes context:context] == nil)
         return nil;
-
-    [self setName:[attributes objectForKey:@"name"]];
 
     value = [attributes objectForKey:@"minimum"];
     if (value != nil)
@@ -187,20 +131,6 @@
         [self setDefaultValue:[value doubleValue]];
 
     return self;
-}
-
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-{
-    if ([elementName isEqualToString:@"comment"]) {
-        MXMLPCDataDelegate *newDelegate;
-
-        newDelegate = [[MXMLPCDataDelegate alloc] initWithElementName:elementName delegate:self setSelector:@selector(setComment:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
-    } else {
-        NSLog(@"%@, Unknown element: '%@', skipping", [self shortDescription], elementName);
-        [(MXMLParser *)parser skipTree];
-    }
 }
 
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;

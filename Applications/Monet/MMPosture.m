@@ -391,7 +391,8 @@
 
     categories = [[CategoryList alloc] initWithCapacity:count];
 
-    nativeCategory = [[MMCategory alloc] initWithName:[self name]];
+    nativeCategory = [[MMCategory alloc] init];
+    [nativeCategory setName:[self name]];
     [nativeCategory setIsNative:YES];
     [categories addObject:nativeCategory];
 
