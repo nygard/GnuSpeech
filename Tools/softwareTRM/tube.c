@@ -1403,19 +1403,19 @@ void initializeFilter(void)
 
 void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context)
 {
-    TRMSampleRateConverter *aConverter = (TRMSampleRateConverter *)context;
+    //TRMSampleRateConverter *aConverter = (TRMSampleRateConverter *)context;
     int endPtr;
 
-    printf(" > resampleBuffer()\n");
-    printf("buffer size: %d\n", BUFFER_SIZE);
-    printf("&sampleRateConverter: %p, aConverter: %p\n", &sampleRateConverter, aConverter);
-    printf("numberSamples before: %ld\n", sampleRateConverter.numberSamples);
-    printf("fillPtr: %d, padSize: %d\n", aRingBuffer->fillPtr, aRingBuffer->padSize);
+    //printf(" > resampleBuffer()\n");
+    //printf("buffer size: %d\n", BUFFER_SIZE);
+    //printf("&sampleRateConverter: %p, aConverter: %p\n", &sampleRateConverter, aConverter);
+    //printf("numberSamples before: %ld\n", sampleRateConverter.numberSamples);
+    //printf("fillPtr: %d, padSize: %d\n", aRingBuffer->fillPtr, aRingBuffer->padSize);
 
     /*  CALCULATE END POINTER  */
     endPtr = aRingBuffer->fillPtr - aRingBuffer->padSize;
-    printf("endPtr: %d\n", endPtr);
-    printf("emptyPtr: %d\n", aRingBuffer->emptyPtr);
+    //printf("endPtr: %d\n", endPtr);
+    //printf("emptyPtr: %d\n", aRingBuffer->emptyPtr);
 
     /*  ADJUST THE END POINTER, IF LESS THAN ZERO  */
     if (endPtr < 0)
@@ -1426,9 +1426,9 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context)
         endPtr += BUFFER_SIZE;
 
     /*  UPSAMPLE LOOP (SLIGHTLY MORE EFFICIENT THAN DOWNSAMPLING)  */
-    printf("sampleRateConverter.sampleRateRatio: %g\n", sampleRateConverter.sampleRateRatio);
+    //printf("sampleRateConverter.sampleRateRatio: %g\n", sampleRateConverter.sampleRateRatio);
     if (sampleRateConverter.sampleRateRatio >= 1.0) {
-        printf("Upsampling...\n");
+        //printf("Upsampling...\n");
         while (aRingBuffer->emptyPtr < endPtr) {
             int index;
             unsigned int filterIndex;
@@ -1490,7 +1490,7 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context)
             sampleRateConverter.timeRegister &= (~N_MASK);
         }
     } else {
-        printf("Downsampling...\n");
+        //printf("Downsampling...\n");
         /*  DOWNSAMPLING CONVERSION LOOP  */
         while (aRingBuffer->emptyPtr < endPtr) {
             int index;
@@ -1552,6 +1552,6 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context)
             sampleRateConverter.timeRegister &= (~N_MASK);
         }
     }
-    printf("numberSamples after: %ld\n", sampleRateConverter.numberSamples);
-    printf("<  resampleBuffer()\n");
+    //printf("numberSamples after: %ld\n", sampleRateConverter.numberSamples);
+    //printf("<  resampleBuffer()\n");
 }
