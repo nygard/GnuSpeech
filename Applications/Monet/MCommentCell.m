@@ -16,7 +16,6 @@ static NSImage *_commentIcon = nil;
 
     mainBundle = [NSBundle mainBundle];
     path = [mainBundle pathForResource:@"CommentIcon" ofType:@"tiff"];
-    NSLog(@"path: %@", path);
     _commentIcon = [[NSImage alloc] initWithContentsOfFile:path];
 }
 
@@ -30,7 +29,6 @@ static NSImage *_commentIcon = nil;
 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView;
 {
-    NSLog(@"self objectValue: %@", [self objectValue]);
     [super drawWithFrame:cellFrame inView:controlView];
 }
 

@@ -1,5 +1,5 @@
 //
-// $Id: MDataEntryController.h,v 1.1 2004/03/19 03:28:18 nygard Exp $
+// $Id: MDataEntryController.h,v 1.2 2004/03/19 04:35:59 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -60,6 +60,10 @@
 - (int)numberOfRowsInTableView:(NSTableView *)tableView;
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row;
 
+// NSTableView delegate
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification;
+
+// NSTextView delegate
+- (void)textDidEndEditing:(NSNotification *)aNotification;
 
 @end

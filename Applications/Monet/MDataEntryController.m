@@ -94,6 +94,12 @@
     [[[symbolTableView tableColumnWithIdentifier:@"maximum"] dataCell] setFormatter:defaultNumberFormatter];
     [[[symbolTableView tableColumnWithIdentifier:@"default"] dataCell] setFormatter:defaultNumberFormatter];
 #endif
+
+    [categoryCommentTextView setFieldEditor:YES];
+    [parameterCommentTextView setFieldEditor:YES];
+    [metaParameterCommentTextView setFieldEditor:YES];
+    [symbolCommentTextView setFieldEditor:YES];
+
     [self updateViews];
 }
 
@@ -235,16 +241,18 @@
         }
     }
 
-    return @"Test";
+    return nil;
 }
+
+//
+// NSTableView delegate
+//
 
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification;
 {
     NSTableView *tableView;
     int selectedRowCount, selectedRow;
     NSString *comment;
-
-    NSLog(@" > %s", _cmd);
 
     tableView = [aNotification object];
     selectedRowCount = [tableView numberOfSelectedRows];
@@ -307,8 +315,54 @@
             [symbolCommentTextView setString:@""];
         }
     }
+}
 
-    NSLog(@"<  %s", _cmd);
+//
+// NSTextView delegate
+//
+
+- (void)textDidEndEditing:(NSNotification *)aNotification;
+{
+    NSTextView *textView;
+    int selectedRow;
+    NSString *newComment;
+
+    textView = [aNotification object];
+    // NSTextMovement is a key in the user info
+    //NSLog(@"[aNotification userInfo]: %@", [aNotification userInfo]);
+
+    newComment = [[textView string] copy];
+    //NSLog(@"(1) newComment: %@", newComment);
+    if ([newComment length] == 0) {
+        [newComment release];
+        newComment = nil;
+    }
+    //NSLog(@"(2) newComment: %@", newComment);
+
+    if (textView == categoryCommentTextView) {
+        selectedRow = [categoryTableView selectedRow];
+        //NSLog(@"selectedRow: %d", selectedRow);
+        [[[[self model] categories] objectAtIndex:selectedRow] setComment:newComment];
+        // TODO (2004-03-18): Bleck.  Need notification from model that things have changed.
+        [categoryTableView reloadData];
+    } else if (textView == parameterCommentTextView) {
+        selectedRow = [parameterTableView selectedRow];
+        //NSLog(@"selectedRow: %d", selectedRow);
+        [[[[self model] parameters] objectAtIndex:selectedRow] setComment:newComment];
+        [parameterTableView reloadData];
+    } else if (textView == metaParameterCommentTextView) {
+        selectedRow = [metaParameterTableView selectedRow];
+        //NSLog(@"selectedRow: %d", selectedRow);
+        [[[[self model] metaParameters] objectAtIndex:selectedRow] setComment:newComment];
+        [metaParameterTableView reloadData];
+    } else if (textView == symbolCommentTextView) {
+        selectedRow = [symbolTableView selectedRow];
+        //NSLog(@"selectedRow: %d", selectedRow);
+        [[[[self model] symbols] objectAtIndex:selectedRow] setComment:newComment];
+        [symbolTableView reloadData];
+    }
+
+    [newComment release];
 }
 
 @end
