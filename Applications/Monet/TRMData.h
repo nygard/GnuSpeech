@@ -104,7 +104,7 @@ Initial import.
 
 - (id)init;
 
-- (BOOL)readFromFile:(NSString *)path;
+- (BOOL)readFromCoder:(NSCoder *)aDecoder;
 - (BOOL)writeToFile:(NSString *)path;
 
 

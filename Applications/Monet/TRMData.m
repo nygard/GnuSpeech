@@ -193,68 +193,53 @@ Initial import.
     return self;
 }
 
-- (BOOL)readFromFile:(NSString *)path;
+- (BOOL)readFromCoder:(NSCoder *)aDecoder;
 {
     int fileVersion;
 
-    /*  OPEN STREAM FOR READING  */
-    NSArchiver *typedStream = [[NSUnarchiver alloc] initForReadingWithData:[NSData dataWithContentsOfFile:path]];
-
-    /*  WARN USER IF INVALID FILE FOR READING  */
-    if (typedStream == nil) {
-	NSRunAlertPanel(@"", @"Unable to open file for reading.", @"", nil, nil);
-	return NO;
-    }
-
     NS_DURING {
         /*  READ FILE VERSION FROM STREAM  */
-        [typedStream decodeValuesOfObjCTypes:"i", &fileVersion];
+        [aDecoder decodeValuesOfObjCTypes:"i", &fileVersion];
 
         /*  READ PARAMETERS FROM STREAM  */
         /*  GLOTTAL SOURCE PARAMETERS  */
-        [typedStream decodeValuesOfObjCTypes:"iiiiiififff", &waveform, &showAmplitude,
-                     &harmonicsScale, &unit, &pitch, &cents, &breathiness,
-                     &glotVol, &tp, &tnMin, &tnMax];
+        [aDecoder decodeValuesOfObjCTypes:"iiiiiififff", &waveform, &showAmplitude,
+                  &harmonicsScale, &unit, &pitch, &cents, &breathiness,
+                  &glotVol, &tp, &tnMin, &tnMax];
 
         /*  NOISE SOURCE PARAMETERS  */
-        [typedStream decodeValuesOfObjCTypes:"ifiiiiii", &fricVol, &fricPos,
-                     &aspVol, &fricCF, &NoiseSourceResponseScale,
-                     &fricBW, &modulation, &mixOffset];
+        [aDecoder decodeValuesOfObjCTypes:"ifiiiiii", &fricVol, &fricPos,
+                  &aspVol, &fricCF, &NoiseSourceResponseScale,
+                  &fricBW, &modulation, &mixOffset];
 
         /*  THROAT PARAMETERS  */
-        [typedStream decodeValuesOfObjCTypes:"iii", &throatVol, &throatCutoff,
-                     &throatResponseScale];
+        [aDecoder decodeValuesOfObjCTypes:"iii", &throatVol, &throatCutoff,
+                  &throatResponseScale];
 
         /*  RESONANT SYSTEM PARAMETERS  */
-        [typedStream decodeArrayOfObjCType:"d" count:PHARYNX_SECTIONS at:pharynxDiameter];
-        [typedStream decodeArrayOfObjCType:"d" count:VELUM_SECTIONS at:velumDiameter];
-        [typedStream decodeArrayOfObjCType:"d" count:ORAL_SECTIONS at:oralDiameter];
-        [typedStream decodeArrayOfObjCType:"d" count:NASAL_SECTIONS at:nasalDiameter];
-        [typedStream decodeValuesOfObjCTypes:"ddddiiddddi", &lossFactor, &apScale,
-                     &mouthCoef, &noseCoef, &mouthResponseScale,
-                     &noseResponseScale, &temperature, &length, &sampleRate,
-                     &actualLength, &controlPeriod];
+        [aDecoder decodeArrayOfObjCType:"d" count:PHARYNX_SECTIONS at:pharynxDiameter];
+        [aDecoder decodeArrayOfObjCType:"d" count:VELUM_SECTIONS at:velumDiameter];
+        [aDecoder decodeArrayOfObjCType:"d" count:ORAL_SECTIONS at:oralDiameter];
+        [aDecoder decodeArrayOfObjCType:"d" count:NASAL_SECTIONS at:nasalDiameter];
+        [aDecoder decodeValuesOfObjCTypes:"ddddiiddddi", &lossFactor, &apScale,
+                  &mouthCoef, &noseCoef, &mouthResponseScale,
+                  &noseResponseScale, &temperature, &length, &sampleRate,
+                  &actualLength, &controlPeriod];
 
         /*  CONTROLLER PARAMETERS  */
-        [typedStream decodeValuesOfObjCTypes:"idii", &volume, &balance,
-                     &channels, &controlRate];
+        [aDecoder decodeValuesOfObjCTypes:"idii", &volume, &balance,
+                  &channels, &controlRate];
 
         /*  ANALYSIS PARAMETERS  */
-        [typedStream decodeValuesOfObjCTypes:"ciiffiiffiicc", &normalizeInput, &binSize,
-                     &windowType, &alpha, &beta, &grayLevel, &magnitudeScale,
-                     &linearUpperThreshold, &linearLowerThreshold,
-                     &logUpperThreshold, &logLowerThreshold,
-                     &spectrographGrid, &spectrumGrid];
+        [aDecoder decodeValuesOfObjCTypes:"ciiffiiffiicc", &normalizeInput, &binSize,
+                  &windowType, &alpha, &beta, &grayLevel, &magnitudeScale,
+                  &linearUpperThreshold, &linearLowerThreshold,
+                  &logUpperThreshold, &logLowerThreshold,
+                  &spectrographGrid, &spectrumGrid];
     } NS_HANDLER {
-        /*  WARN USER IF EXCEPTION RAISED WHILE READING  */
-        NSRunAlertPanel(@"", @"Error while reading file.", @"", nil, nil);
-
-        [typedStream release];
-        // TODO (2004-03-02): Shouldn't this be NSReturnValue?  Or is it okay in 10.3?
+        NSLog(@"Caught exception while reading TRM data: %@", localException);
         return NO;
     } NS_ENDHANDLER;
-
-    [typedStream release];
 
     return YES;
 }

@@ -244,17 +244,23 @@
     for (index = 0; index < count; index++) {
         NSString *filename;
         NSString *str;
+        NSData *data;
+        NSUnarchiver *unarchiver;
         MMPosture *newPhone;
         TargetList *parameterTargets;
 
         filename = [fnames objectAtIndex:index];
         str = [[filename lastPathComponent] stringByDeletingPathExtension];
 
-        /*  Read the file data and store it in the object  */
-        if ([trmData readFromFile:filename] == NO) {
+        data = [NSData dataWithContentsOfFile:filename];
+        unarchiver = [[NSUnarchiver alloc] initForReadingWithData:data];
+        if ([trmData readFromCoder:unarchiver] == NO) {
+            [unarchiver release];
             NSBeep();
             break;
         }
+
+        [unarchiver release];
 
         newPhone = [[MMPosture alloc] initWithModel:model];
         [newPhone setSymbol:str];
