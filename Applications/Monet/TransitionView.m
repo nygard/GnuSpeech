@@ -101,10 +101,10 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 
     aPosture = [[MMPosture alloc] initWithModel:model];
     [aPosture setSymbol:@"dummy"];
-    [(MMTarget *)[[aPosture symbolList] objectAtIndex:0] setValue:100.0]; // Rule Duration (should be "duration"?)
-    [(MMTarget *)[[aPosture symbolList] objectAtIndex:1] setValue:33.3333]; // Beat Location? (should be "transition"?)
-    [(MMTarget *)[[aPosture symbolList] objectAtIndex:2] setValue:33.3333]; // Mark 1 (should be "qssa"?)
-    [(MMTarget *)[[aPosture symbolList] objectAtIndex:3] setValue:33.3333]; // Mark 2 (should be "qssb"?)
+    [(MMTarget *)[[aPosture symbolList] objectAtIndex:0] setValue:100.0]; // duration
+    [(MMTarget *)[[aPosture symbolList] objectAtIndex:1] setValue:33.3333]; // transition
+    [(MMTarget *)[[aPosture symbolList] objectAtIndex:2] setValue:33.3333]; // qssa
+    [(MMTarget *)[[aPosture symbolList] objectAtIndex:3] setValue:33.3333]; // qssb
 
     // We need four postures to show a tetraphone
     [samplePhoneList addObject:aPosture];
