@@ -7,7 +7,6 @@
 #import "MMPosture.h"
 #import "PhoneList.h"
 #import "MMSymbol.h"
-#import "SymbolList.h"
 #import "MMTarget.h"
 #import "TargetList.h"
 

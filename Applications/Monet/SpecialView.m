@@ -10,7 +10,6 @@
 #import "MMPoint.h"
 #import "MMEquation.h"
 #import "MMTransition.h"
-#import "SymbolList.h"
 #import "MMTarget.h"
 #import "TargetList.h"
 

@@ -13,7 +13,6 @@
 #import "MMEquation.h"
 #import "MMSymbol.h"
 #import "MMTransition.h"
-#import "SymbolList.h"
 
 #import "MModel.h"
 #import "MUnarchiver.h"
