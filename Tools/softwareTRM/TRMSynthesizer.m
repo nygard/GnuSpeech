@@ -4,6 +4,9 @@
 #import "TRMSynthesizer.h"
 
 #import <Foundation/Foundation.h>
+#import <CoreAudio/CoreAudio.h>
+#import <AudioUnit/AudioUnit.h>
+#import <AudioToolbox/AudioToolbox.h>
 #import "MMSynthesisParameters.h"
 #include "input.h"
 #include "output.h"
@@ -14,39 +17,20 @@ typedef struct {
     char a, b, c, d;
 } MyFourCharCode;
 
+@interface NSString (MyExtensions)
++ (NSString *)stringWithFourCharCode:(unsigned int)code;
+@end
+
+@implementation NSString (MyExtensions)
++ (NSString *)stringWithFourCharCode:(unsigned int)code;
+{
+    MyFourCharCode *charcode = (MyFourCharCode *)(&code);
+
+    return [NSString stringWithFormat:@"%c%c%c%c", charcode->a, charcode->b, charcode->c, charcode->d];
+}
+@end
 
 int verbose = 0;
-
-OSStatus playIOProc(AudioDeviceID inDevice,
-                    const AudioTimeStamp *inNow,
-                    const AudioBufferList *inInputData,
-                    const AudioTimeStamp *inInputTime,
-                    AudioBufferList *outOutputData,
-                    const AudioTimeStamp *inOutputTime,
-                    void *inClientData)
-{
-    TRMSynthesizer *synthesizer;
-    int size, sampleCount;
-    float *ptr;
-    BOOL shouldStop;
-
-    synthesizer = (TRMSynthesizer *)inClientData;
-    size = outOutputData->mBuffers[0].mDataByteSize;
-    sampleCount = (size / sizeof(float)) / 2;
-
-    //NSLog(@"size: %d, sampleCount: %d", size, sampleCount);
-    //NSLog(@"outOutputData->mNumberBuffers: %d", outOutputData->mNumberBuffers);
-
-    memset(outOutputData->mBuffers[0].mData, 0, size);
-    ptr = outOutputData->mBuffers[0].mData;
-    shouldStop = [synthesizer fillBuffer:ptr count:sampleCount];
-
-    if (shouldStop)
-        [synthesizer stopPlaying];
-
-    return kAudioHardwareNoError;
-    //return kAudioHardwareNoError;
-}
 
 @implementation TRMSynthesizer
 
@@ -67,10 +51,6 @@ OSStatus playIOProc(AudioDeviceID inDevice,
 
     soundData = [[NSMutableData alloc] init];
 
-    _deviceReady = NO;
-    _device = kAudioDeviceUnknown;
-    _isPlaying = NO;
-
     [self setupSoundDevice];
 
     return self;
@@ -83,13 +63,6 @@ OSStatus playIOProc(AudioDeviceID inDevice,
 
     [super dealloc];
 }
-
-#if 0
-- (TRMInputParameters *)inputParameters;
-{
-    return &(inputData->inputParameters);
-}
-#endif
 
 - (void)setupSynthesisParameters:(MMSynthesisParameters *)synthesisParameters;
 {
@@ -211,159 +184,170 @@ OSStatus playIOProc(AudioDeviceID inDevice,
 
 - (void)startPlaying;
 {
-    OSStatus err = kAudioHardwareNoError;
-
-    NSLog(@" > %s", _cmd);
-
-    if (_isPlaying)
-        return;
-
-    err = AudioDeviceAddIOProc(_device, playIOProc, (void *)self);
-    if (err != kAudioHardwareNoError) {
-        NSLog(@"%s, Error adding IO proc", _cmd);
-        return;
-    }
-
-    err = AudioDeviceStart(_device, playIOProc);
-    if (err != kAudioHardwareNoError) {
-        NSLog(@"%s, Error starting audio device", _cmd);
-        return;
-    }
-
-    _isPlaying = YES;
-
-    NSLog(@"<  %s", _cmd);
 }
 
 - (void)stopPlaying;
 {
-    if (_isPlaying) {
-        OSStatus err = kAudioHardwareNoError;
-
-        err = AudioDeviceStop(_device, playIOProc);
-        if (err != kAudioHardwareNoError) {
-            NSLog(@"%s, Error stopping audio device", _cmd);
-            return;
-        }
-
-        err = AudioDeviceRemoveIOProc(_device, playIOProc);
-        if (err != kAudioHardwareNoError) {
-            NSLog(@"%s, Error removing IO proc", _cmd);
-            return;
-        }
-
-        _isPlaying = NO;
-    }
-}
-- (void)trySomething;
-{
-#if 0
-    OSStatus result;
-    UInt32 count;
-
-    result = AudioHardwareGetPropertyInfo();
-#endif
 }
 
 // See <http://developer.apple.com/documentation/MusicAudio/Reference/CoreAudio/core_audio_types/chapter_6_section_4.html>
 
 - (void)setupSoundDevice;
 {
-    OSStatus err;
-    UInt32 count, bufferSize;
-    AudioDeviceID device = kAudioDeviceUnknown;
-    AudioStreamBasicDescription format;
-
-    MyFourCharCode *charcode;
-    CFStringRef name;
-
-    [self trySomething];
-
-    _deviceReady = NO;
-    count = sizeof(AudioDeviceID);
-    err = AudioHardwareGetProperty(kAudioHardwarePropertyDefaultOutputDevice, &count, (void *)&device);
-    if (err != kAudioHardwareNoError) {
-        NSLog(@"Failed to get default output device");
-        return;
-    }
-
-    count = sizeof(UInt32);
-    err = AudioDeviceGetProperty(device, 0, false, kAudioDevicePropertyBufferSize, &count, &bufferSize);
-    if (err != kAudioHardwareNoError) {
-        NSLog(@"Couldn't get default buffer size.");
-        return;
-    }
-
-    count = sizeof(CFStringRef);
-    err = AudioDeviceGetProperty(device, 0, false, kAudioDevicePropertyDeviceNameCFString, &count, &name);
-    if (err != kAudioHardwareNoError) {
-        NSLog(@"Couldn't get device name.");
-    } else {
-        NSLog(@"device name: %@", name);
-        CFRelease(name);
-    }
-    count = sizeof(AudioStreamBasicDescription);
-    err = AudioDeviceGetProperty(device, 0, false, kAudioDevicePropertyStreamFormat, &count, &format);
-    if (err != kAudioHardwareNoError) {
-        NSLog(@"Couldn't get data format of default device");
-        return;
-    }
+    OSStatus result;
+    AudioUnit defaultOutputUnit;
+    UInt32 count;
+    double sampleRate;
+    float volume;
 
 #if 0
-    count = sizeof(AudioStreamBasicDescription);
-    err = AudioDeviceGetProperty(device, 0, false, kAudioDevicePropertyStreamFormat, &count, &format);
-    if (err != kAudioHardwareNoError) {
-        NSLog(@"Couldn't get data format of default device");
-        return;
+    result = OpenDefaultAudioOutput(&defaultOutputUnit);
+    if (result != kAudioHardwareNoError) {
+        NSLog(@"OpenDefaultAudioOutput() failed: %@", [NSString stringWithFourCharCode:result]);
+    } else {
+        NSLog(@"Got default audio output.");
+    }
+#else
+    {
+        Component comp;
+        ComponentDescription desc;
+
+        desc.componentType = kAudioUnitType_Output;
+        desc.componentSubType = kAudioUnitSubType_DefaultOutput;
+        desc.componentManufacturer = kAudioUnitManufacturer_Apple;
+        desc.componentFlags = 0;
+        desc.componentFlagsMask = 0;
+
+        comp = FindNextComponent(NULL, &desc);
+        if (comp == NULL) {
+            NSLog(@"Couldn't find component.");
+            return;
+        }
+
+        OpenAComponent(comp, &defaultOutputUnit);
     }
 #endif
 
-    charcode = (MyFourCharCode *)(&(format.mFormatID));
-
-    NSLog(@"bufferSize: %d", bufferSize);
-    NSLog(@"format:");
-    NSLog(@"sample rate: %f", format.mSampleRate);
-    NSLog(@"format id: %08x (%c%c%c%c)", format.mFormatID, charcode->a, charcode->b, charcode->c, charcode->d);
-    NSLog(@"format flags: %x", format.mFormatFlags);
-    NSLog(@"bytes per packet: %d", format.mBytesPerPacket);
-    NSLog(@"frames per packet: %d", format.mFramesPerPacket);
-    NSLog(@"bytes per frame: %d", format.mBytesPerFrame);
-    NSLog(@"channels per frame: %d", format.mChannelsPerFrame);
-    NSLog(@"bits per channel: %d", format.mBitsPerChannel);
-
-    // we want linear pcm
-    if (format.mFormatID != kAudioFormatLinearPCM) {
-        NSLog(@"Not linear PCM.");
-        return;
+    result = AudioUnitInitialize(defaultOutputUnit);
+    if (result != kAudioHardwareNoError) {
+        NSLog(@"AudioUnitInitialize() failed: %@", [NSString stringWithFourCharCode:result]);
+    } else {
+        NSLog(@"initialized.");
     }
 
-    if (!(format.mFormatFlags & kAudioFormatFlagIsFloat)) {
-        NSLog(@"Not float format.");
-        return;
-    }
-#if 0
     {
-        AudioTimeStamp inWhen;
+        Boolean isWritable;
 
-        format.mSampleRate = 22050.0;
-        //err = AudioHardwareSetProperty(kAudioDevicePropertyStreamFormat, sizeof(AudioStreamBasicDescription), &format);
-        err = AudioDeviceSetProperty(device, &inWhen, 0, false, kAudioDevicePropertyStreamFormat, sizeof(AudioStreamBasicDescription), &format);
-        if (err != kAudioHardwareNoError) {
-            NSLog(@"Couldn't set the data format...");
-            charcode = (MyFourCharCode *)&err;
-            NSLog(@"error: %08x (%c%c%c%c)", err, charcode->a, charcode->b, charcode->c, charcode->d);
-            // This gives a kAudioDeviceUnsupportedFormatError
+        result = AudioUnitGetPropertyInfo(defaultOutputUnit, kAudioUnitProperty_SampleRate, kAudioUnitScope_Output, 0, &count, &isWritable);
+        if (result != kAudioHardwareNoError) {
+            NSLog(@"AudioUnitGetPropertyInfo() failed.");
         } else {
-            NSLog(@"It worked!");
+            NSLog(@"sample rate size: %d, isWritable: %d", count, isWritable);
         }
     }
+
+    //
+
+    sampleRate = 45;
+
+    count = sizeof(sampleRate);
+    result = AudioUnitGetProperty(defaultOutputUnit, kAudioUnitProperty_SampleRate, kAudioUnitScope_Global, 0, &sampleRate, &count);
+    if (result != kAudioHardwareNoError) {
+        NSLog(@"AudioUnitGetProperty() failed: %@", [NSString stringWithFourCharCode:result]);
+    } else {
+        NSLog(@"Got property.");
+    }
+
+    NSLog(@"sampleRate: %g", sampleRate);
+
+    sampleRate = 22050.0;
+
+    result = AudioUnitSetProperty(defaultOutputUnit, kAudioUnitProperty_SampleRate, kAudioUnitScope_Output, 0, &sampleRate, sizeof(sampleRate));
+    if (result != kAudioHardwareNoError) {
+        NSLog(@"AudioUnitSetProperty() failed: %@", [NSString stringWithFourCharCode:result]);
+        NSLog(@"result: %d", result);
+    } else {
+        NSLog(@"Set property, sampleRate = 22050");
+    }
+
+    //
+    NSLog(@"**********************************************************************");
+
+    {
+        AudioUnitParameterInfo parameterInfo;
+
+        count = sizeof(parameterInfo);
+        result = AudioUnitGetProperty(defaultOutputUnit, kAudioUnitProperty_ParameterInfo, kAudioUnitScope_Global, kHALOutputParam_Volume,
+                                      &parameterInfo, &count);
+        if (result != kAudioHardwareNoError) {
+            NSLog(@"AudioUnitGetProperty(volume) failed: %d %x %@", result, result, [NSString stringWithFourCharCode:result]);
+        } else {
+            NSLog(@"Got parameter info - volume.");
+            if (parameterInfo.flags & kAudioUnitParameterFlag_HasCFNameString) {
+                NSLog(@"kAudioUnitParameterFlag_HasCFNameString: %@", parameterInfo.cfNameString);
+            }
+            NSLog(@"unit: %d", parameterInfo.unit);
+            NSLog(@"minValue: %f", parameterInfo.minValue);
+            NSLog(@"maxValue: %f", parameterInfo.maxValue);
+            NSLog(@"defaultValue: %f", parameterInfo.defaultValue);
+            NSLog(@"flags: %x", parameterInfo.flags);
+        }
+    }
+    NSLog(@"**********************************************************************");
+
+    volume = 2;
+
+    count = sizeof(volume);
+    result = AudioUnitGetProperty(defaultOutputUnit, kHALOutputParam_Volume, kAudioUnitScope_Global, 0, &volume, &count);
+    if (result != kAudioHardwareNoError) {
+        NSLog(@"AudioUnitGetProperty(volume) failed: %@", [NSString stringWithFourCharCode:result]);
+    } else {
+        NSLog(@"Got property.");
+    }
+
+    NSLog(@"volume: %f", volume);
+
+#if 0
+    result = AudioUnitSetProperty(defaultOutputUnit, kHALOutputParam_Volume, kAudioUnitScope_Output, 0, &volume, sizeof(volume));
+    if (result != kAudioHardwareNoError) {
+        NSLog(@"AudioUnitSetProperty(volume) failed: %@", [NSString stringWithFourCharCode:result]);
+        NSLog(@"result: %d", result);
+        // Result is generally kAudioUnitErr_PropertyNotWritable :(
+    } else {
+        NSLog(@"Set property, sampleRate = 22050");
+    }
 #endif
 
-    _device = device;
-    _bufferSize = bufferSize;
-    _format = format;
+    {
+        AudioStreamBasicDescription format;
 
-    _deviceReady = YES;
+        count = sizeof(format);
+        result = AudioUnitGetProperty(defaultOutputUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 0, &format, &count);
+        if (result != kAudioHardwareNoError) {
+            NSLog(@"AudioUnitGetProperty() failed.");
+            return;
+        }
+
+        NSLog(@"sample rate: %f", format.mSampleRate);
+        NSLog(@"format id: %08x (%@)", format.mFormatID, [NSString stringWithFourCharCode:format.mFormatID]);
+        NSLog(@"format flags: %x", format.mFormatFlags);
+        NSLog(@"bytes per packet: %d", format.mBytesPerPacket);
+        NSLog(@"frames per packet: %d", format.mFramesPerPacket);
+        NSLog(@"bytes per frame: %d", format.mBytesPerFrame);
+        NSLog(@"channels per frame: %d", format.mChannelsPerFrame);
+        NSLog(@"bits per channel: %d", format.mBitsPerChannel);
+
+        // It looks like you need to use an AudioConverter to change the sampling rate.
+#if 0
+        format.mSampleRate = 22050.0;
+
+        result = AudioUnitSetProperty(defaultOutputUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 0, &format, sizeof(format));
+        if (result != kAudioHardwareNoError) {
+            NSLog(@"AudioUnitSetProperty(format.mSampleRate) failed: %@", [NSString stringWithFourCharCode:result]);
+            return;
+        }
+#endif
+    }
 }
 
 - (BOOL)fillBuffer:(float *)buffer count:(int)count;

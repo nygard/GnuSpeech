@@ -6,7 +6,7 @@
 //  Copyright (C) 2004 __OWNER__.  All rights reserved.
 
 #import <Foundation/NSObject.h>
-#import <CoreAudio/AudioHardware.h>
+//#import <CoreAudio/AudioHardware.h>
 #import "structs.h"
 
 @class MMSynthesisParameters;
@@ -18,13 +18,6 @@ extern int verbose;
     TRMData *inputData;
     NSMutableData *soundData;
 
-    UInt32 _bufferSize;
-    AudioDeviceID _device;
-    AudioStreamBasicDescription _format;
-
-    BOOL _deviceReady;
-    BOOL _isPlaying;
-
     int bufferLength;
     int bufferIndex;
 }
@@ -32,7 +25,6 @@ extern int verbose;
 - (id)init;
 - (void)dealloc;
 
-//- (TRMInputParameters *)inputParameters;
 - (void)setupSynthesisParameters:(MMSynthesisParameters *)synthesisParameters;
 - (void)addParameters:(float *)values;
 - (void)removeAllParameters;
