@@ -1,6 +1,7 @@
 #import "BooleanExpression.h"
 
 #import <Foundation/Foundation.h>
+#import "NSObject-Extensions.h"
 
 @implementation BooleanExpression
 
@@ -179,23 +180,39 @@
 }
 
 //
-// Archiving methods
+// Archiving
 //
 
-#ifdef PORINT
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
+    unsigned archivedVersion;
+    int numExpressions, maxExpressions;
     int i;
 
+    if ([super initWithCoder:aDecoder] == nil)
+        return nil;
+
+    //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
+    archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
+    //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
+
     [aDecoder decodeValuesOfObjCTypes:"iii", &operation, &numExpressions, &maxExpressions];
-    expressions = (id *) malloc (sizeof (id *) *maxExpressions);
+    //NSLog(@"operation: %d, numExpressions: %d, maxExpressions: %d", operation, numExpressions, maxExpressions);
+    expressions = [[NSMutableArray alloc] init];
 
-    for (i = 0; i < numExpressions; i++)
-        expressions[i] = [[aDecoder decodeObject] retain];
+    for (i = 0; i < numExpressions; i++) {
+        BooleanExpression *anExpression;
 
+        anExpression = [aDecoder decodeObject];
+        if (anExpression != nil)
+            [self addSubExpression:anExpression];
+    }
+
+    //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
     return self;
 }
 
+#ifdef PORTING
 - (void)encodeWithCoder:(NSCoder *)aCoder;
 {
     int i;
@@ -205,5 +222,11 @@
         [aCoder encodeObject:expressions[i]];
 }
 #endif
+
+- (NSString *)description;
+{
+    return [NSString stringWithFormat:@"<%@>[%p]: operation: %d, expressions: %@, expressionString: %@",
+                     NSStringFromClass([self class]), self, operation, expressions, [self expressionString]];
+}
 
 @end

@@ -18,6 +18,7 @@
                 NXReadTypes(stream, "ii", &j, &k);
                 if (i==(-1))
     - I think it should be checking "j" for -1 value.
+- it looks like I'm getting different results when I load MonetBlank.monet twice in a row...
 
 
 

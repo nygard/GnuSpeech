@@ -89,7 +89,9 @@
 - (BOOL)isCategoryUsed:aCategory;
 
 // Archiving
-//- (id)initWithCoder:(NSCoder *)aDecoder;
+- (id)initWithCoder:(NSCoder *)aDecoder;
 //- (void)encodeWithCoder:(NSCoder *)aCoder;
+
+- (NSString *)description;
 
 @end

@@ -475,11 +475,11 @@
 
 // Converted classes:
 // CategoryNode, FormulaExpression, FormulaTerminal, MonetList, NamedList, Parameter, Phone, Point, ProtoEquation, ProtoTemplte, Rule, Symbol, Target
-// BooleanTerminal
+// BooleanExpression, BooleanTerminal, Slope, SlopeRatio
 
 - (void)_disableUnconvertedClassLoading;
 {
-    NSString *names[] = { @"BooleanExpression", @"IntonationPoint", @"RuleManager", @"Slope", @"SlopeRatio", nil };
+    NSString *names[] = { @"IntonationPoint", @"RuleManager", nil };
     int index = 0;
 
     while (names[index] != nil) {

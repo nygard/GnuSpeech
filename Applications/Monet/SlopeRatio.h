@@ -41,7 +41,10 @@
 - (double)totalSlopeUnits;
 - (void)displaySlopesInList:(MonetList *)displaySlopes;
 
+// Archiving
 - (id)initWithCoder:(NSCoder *)aDecoder;
 - (void)encodeWithCoder:(NSCoder *)aCoder;
+
+- (NSString *)description;
 
 @end

@@ -1,6 +1,8 @@
 #import "Point.h"
 
 #import <Foundation/Foundation.h>
+#import "NSObject-Extensions.h"
+
 #import "AppController.h"
 #import "EventList.h"
 #import "ProtoEquation.h"
@@ -154,7 +156,7 @@
     PrototypeManager *prototypeManager = NXGetNamedObject(@"prototypeManager", NSApp);
     ProtoEquation *anExpression;
 
-    if ([self init] == nil)
+    if ([super initWithCoder:aDecoder] == nil)
         return nil;
 
     //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
@@ -171,7 +173,6 @@
     [self setExpression:anExpression];
 
     //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
-
     return self;
 }
 

@@ -1,6 +1,8 @@
 #import "SlopeRatio.h"
 
 #import <Foundation/Foundation.h>
+#import "NSObject-Extensions.h"
+
 #import "MonetList.h"
 #import "Point.h"
 #import "ProtoEquation.h"
@@ -239,18 +241,40 @@
     }
 }
 
+//
+// Archiving
+//
+
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
+    unsigned archivedVersion;
+
+    if ([super initWithCoder:aDecoder] == nil)
+        return nil;
+
+    //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
+    archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
+    //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
+
     points = [[aDecoder decodeObject] retain];
     slopes = [[aDecoder decodeObject] retain];
 
+    //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder;
 {
+#ifdef PORTING
     [aCoder encodeObject:points];
     [aCoder encodeObject:slopes];
+#endif
+}
+
+- (NSString *)description;
+{
+    return [NSString stringWithFormat:@"<%@>[%p]: points: %@, slopes: %@",
+                     NSStringFromClass([self class]), self, points, slopes];
 }
 
 @end

@@ -1,6 +1,7 @@
 #import "Slope.h"
 
 #import <Foundation/Foundation.h>
+#import "NSObject-Extensions.h"
 
 /*===========================================================================
 
@@ -19,6 +20,7 @@
         return nil;
 
     slope = 0.0;
+    displayTime = 0;
 
     return self;
 }
@@ -43,15 +45,40 @@
     displayTime = newTime;
 }
 
+//
+// Archiving
+//
+
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
+    unsigned archivedVersion;
+
+    if ([super initWithCoder:aDecoder] == nil)
+        return nil;
+
+    //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
+    archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
+    //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
+
     [aDecoder decodeValueOfObjCType:"d" at:&slope];
+    //NSLog(@"slope: %g", slope);
+    displayTime = 0;
+
+    //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder;
 {
+#ifdef PORTING
     [aCoder encodeValueOfObjCType:"d" at:&slope];
+#endif
+}
+
+- (NSString *)description;
+{
+    return [NSString stringWithFormat:@"<%@>[%p]: slope: %g, displayTime: %g",
+                     NSStringFromClass([self class]), self, slope, displayTime];
 }
 
 @end
