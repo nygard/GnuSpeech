@@ -50,17 +50,4 @@
     return -1;
 }
 
-/* BrowserManager List delegate Methods */
-
-- (id)findByName:(NSString *)name;
-{
-    return [self findParameter:name];
-}
-
-- (void)changeSymbolOf:(id)temp to:(NSString *)name;
-{
-    [temp setSymbol:name];
-}
-
-
 @end

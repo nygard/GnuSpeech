@@ -33,6 +33,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (id)init;
 {
+    MMSymbol *newSymbol;
+
     if ([super init] == nil)
         return nil;
 
@@ -49,7 +51,10 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     rules = [[RuleList alloc] init];
 
     // And set up some default values:
-    [symbols addNewValue:@"duration"];
+    newSymbol = [[MMSymbol alloc] initWithSymbol:@"duration"];
+    [self addSymbol:newSymbol];
+    [newSymbol release];
+
     [[categories addCategory:@"phone"] setComment:@"This is the static phone category.  It cannot be changed or removed."];
 
     return self;
@@ -810,7 +815,12 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     symbolIndex = [symbols findSymbolIndex:@"duration"];
 
     if (symbolIndex == -1) {
-        [symbols addNewValue:@"duration"];
+        MMSymbol *newSymbol;
+
+        newSymbol = [[MMSymbol alloc] initWithSymbol:@"duration"];
+        [self addSymbol:newSymbol];
+        [newSymbol release];
+
         symbolIndex = [symbols findSymbolIndex:@"duration"];
         [postures addSymbol];
     }

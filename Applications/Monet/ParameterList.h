@@ -18,8 +18,4 @@
 - (MMParameter *)findParameter:(NSString *)symbol;
 - (int)findParameterIndex:(NSString *)symbol;
 
-/* BrowserManager List delegate Methods */
-- (id)findByName:(NSString *)name;
-- (void)changeSymbolOf:(id)temp to:(NSString *)name;
-
 @end

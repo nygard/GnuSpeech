@@ -64,25 +64,6 @@
 }
 #endif
 
-//
-// BrowserManager List delegate Methods
-//
-
-- (void)addNewValue:(NSString *)newValue;
-{
-    [self addCategory:newValue];
-}
-
-- (id)findByName:(NSString *)name;
-{
-    return [self findSymbol:name];
-}
-
-- (void)changeSymbolOf:(id)temp to:(NSString *)name;
-{
-    [temp setSymbol:name];
-}
-
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"<%@>[%p]: super: %@",

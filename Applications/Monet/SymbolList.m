@@ -66,22 +66,6 @@
     [newSymbol release];
 }
 
-/* BrowserManager List delegate Methods */
-- (void)addNewValue:(NSString *)newValue;
-{
-    [self addSymbol:newValue withValue:DEFAULT_VALUE];
-}
-
-- (id)findByName:(NSString *)name;
-{
-    return [self findSymbol:name];
-}
-
-- (void)changeSymbolOf:(id)aSymbol to:(NSString *)name;
-{
-    [aSymbol setSymbol:name];
-}
-
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 {
     int count, index;

@@ -20,12 +20,6 @@
 - (void)addNativeCategory:(NSString *)newCategoryName;
 //- (void)freeNativeCategories;
 
-
-// BrowserManager List delegate Methods
-- (void)addNewValue:(NSString *)newValue;
-- (id)findByName:(NSString *)name;
-- (void)changeSymbolOf:(id)temp to:(NSString *)name;
-
 - (NSString *)description;
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level useReferences:(BOOL)shouldUseReferences;

@@ -19,11 +19,6 @@
 - (int)findSymbolIndex:(NSString *)searchSymbol;
 - (void)addSymbol:(NSString *)symbol withValue:(double)newValue;
 
-/* BrowserManager List delegate Methods */
-- (void)addNewValue:(NSString *)newValue;
-- (id)findByName:(NSString *)name;
-- (void)changeSymbolOf:(id)aSymbol to:(NSString *)name;
-
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 
 @end
