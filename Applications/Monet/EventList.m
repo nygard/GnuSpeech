@@ -550,8 +550,10 @@
             table[0] = 0.0;
         if (shouldUseDrift)
             table[0] += drift();
-        if (shouldUseMacroIntonation)
+        if (shouldUseMacroIntonation) {
+            NSLog(@"sumi, table[0]: %f, currentValues[32]: %f", table[0], currentValues[32]);
             table[0] += currentValues[32];
+        }
 
         table[0] += pitchMean;
 
@@ -942,6 +944,9 @@
 {
     int i;
 
+    NSLog(@"----------------------------------------------------------------------");
+    NSLog(@" > %s", _cmd);
+
     NSLog(@"Tone Groups %d", currentToneGroup);
     for (i = 0; i < currentToneGroup; i++) {
         NSLog(@"%d  start: %d  end: %d  type: %d", i, toneGroups[i].startFoot, toneGroups[i].endFoot, toneGroups[i].type);
@@ -950,23 +955,25 @@
     NSLog(@"\n");
     NSLog(@"Feet %d", currentFoot);
     for (i = 0; i < currentFoot; i++) {
-        NSLog(@"%d  tempo: %f start: %d  end: %d  marked: %d last: %d onset1: %f onset2: %f", i, feet[i].tempo,
+        NSLog(@"%d  tempo: %f start: %2d  end: %2d  marked: %d last: %d onset1: %f onset2: %f", i, feet[i].tempo,
                feet[i].start, feet[i].end, feet[i].marked, feet[i].last, feet[i].onset1, feet[i].onset2);
     }
 
     NSLog(@"\n");
     NSLog(@"Phones %d", currentPhone);
     for (i = 0; i < currentPhone; i++) {
-        NSLog(@"%d  \"%@\" tempo: %f syllable: %d onset: %f ruleTempo: %f",
-               i, [phones[i].phone symbol], phoneTempo[i], phones[i].syllable, phones[i].onset, phones[i].ruleTempo);
+        NSLog(@"%3d  tempo: %f syllable: %d onset: %7.2f ruleTempo: %f %@",
+               i, phoneTempo[i], phones[i].syllable, phones[i].onset, phones[i].ruleTempo, [phones[i].phone symbol]);
     }
 
     NSLog(@"\n");
     NSLog(@"Rules %d", currentRule);
     for (i = 0; i < currentRule; i++) {
-        NSLog(@"Number: %d  start: %d  end: %d  duration %f", rules[i].number, rules[i].firstPhone,
+        NSLog(@"Number: %2d  start: %2d  end: %2d  duration %7.2f", rules[i].number, rules[i].firstPhone,
                rules[i].lastPhone, rules[i].duration);
     }
+
+    NSLog(@"<  %s", _cmd);
 }
 
 - (NSArray *)intonationPoints;
@@ -1045,7 +1052,7 @@
 
     [self setFullTimeScale];
     [self insertEvent:32 atTime:0.0 withValue:-20.0];
-    NSLog(@"Applying intonation");
+    NSLog(@"Applying intonation, %d points", [intonationPoints count]);
 
     for (i = 0; i < [intonationPoints count]; i++) {
         anIntonationPoint = [intonationPoints objectAtIndex:i];
