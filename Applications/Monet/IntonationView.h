@@ -30,11 +30,16 @@ extern NSString *IntonationViewSelectionDidChangeNotification;
     EventList *eventList;
 
     float timeScale;
-    int mouseBeingDragged;
 
     NSMutableArray *selectedPoints;
+    NSPoint selectionPoint1;
+    NSPoint selectionPoint2;
 
-    BOOL shouldDrawSmoothPoints;
+    struct {
+        unsigned int shouldDrawSelection:1;
+        unsigned int shouldDrawSmoothPoints:1;
+        unsigned int mouseBeingDragged:1;
+    } flags;
 
     id nonretained_delegate;
 }
@@ -45,6 +50,9 @@ extern NSString *IntonationViewSelectionDidChangeNotification;
 - (BOOL)acceptsFirstResponder;
 
 - (void)setEventList:(EventList *)newEventList;
+
+- (BOOL)shouldDrawSelection;
+- (void)setShouldDrawSelection:(BOOL)newFlag;
 
 - (BOOL)shouldDrawSmoothPoints;
 - (void)setShouldDrawSmoothPoints:(BOOL)newFlag;
@@ -64,6 +72,9 @@ extern NSString *IntonationViewSelectionDidChangeNotification;
 - (void)mouseEntered:(NSEvent *)theEvent;
 - (void)keyDown:(NSEvent *)theEvent;
 - (void)mouseDown:(NSEvent *)theEvent;
+- (void)mouseDragged:(NSEvent *)mouseEvent;
+- (void)mouseUp:(NSEvent *)mouseEvent;
+- (void)selectGraphPointsBetweenPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
 
 - (void)updateScale:(float)column;
 
@@ -83,5 +94,6 @@ extern NSString *IntonationViewSelectionDidChangeNotification;
 
 - (float)scaleXPosition:(float)xPosition;
 - (float)scaleWidth:(float)width;
+- (NSRect)rectFormedByPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
 
 @end

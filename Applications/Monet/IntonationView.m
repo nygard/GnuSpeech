@@ -17,11 +17,13 @@
 #define LEFT_MARGIN 1
 #define RIGHT_MARGIN 20.0
 
-#define SECTION_COUNT 15
+#define SECTION_COUNT 30
 
 #define RULE_Y_OFFSET 40
 #define RULE_HEIGHT 30
 #define POSTURE_Y_OFFSET 62
+
+#define ZERO_SECTION 20
 
 NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelectionDidChangeNotification";
 
@@ -56,7 +58,7 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
     [postureTextFieldCell setFont:timesFont];
 
     timeScale = 2.0;
-    mouseBeingDragged = 0;
+    flags.mouseBeingDragged = NO;
 
     eventList = nil;
 
@@ -97,17 +99,31 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
     [self setNeedsDisplay:YES];
 }
 
+- (BOOL)shouldDrawSelection;
+{
+    return flags.shouldDrawSelection;
+}
+
+- (void)setShouldDrawSelection:(BOOL)newFlag;
+{
+    if (newFlag == flags.shouldDrawSelection)
+        return;
+
+    flags.shouldDrawSelection = newFlag;
+    [self setNeedsDisplay:YES];
+}
+
 - (BOOL)shouldDrawSmoothPoints;
 {
-    return shouldDrawSmoothPoints;
+    return flags.shouldDrawSmoothPoints;
 }
 
 - (void)setShouldDrawSmoothPoints:(BOOL)newFlag;
 {
-    if (newFlag == shouldDrawSmoothPoints)
+    if (newFlag == flags.shouldDrawSmoothPoints)
         return;
 
-    shouldDrawSmoothPoints = newFlag;
+    flags.shouldDrawSmoothPoints = newFlag;
     [self setNeedsDisplay:YES];
 }
 
@@ -145,8 +161,19 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
     [self drawRules];
     [self drawIntonationPoints];
 
-    if (shouldDrawSmoothPoints == YES && mouseBeingDragged == NO)
+    if (flags.shouldDrawSmoothPoints == YES && flags.mouseBeingDragged == NO)
         [self drawSmoothPoints];
+
+    if (flags.shouldDrawSelection == YES) {
+        NSRect selectionRect;
+
+        selectionRect = [self rectFormedByPoint:selectionPoint1 andPoint:selectionPoint2];
+        selectionRect.origin.x += 0.5;
+        selectionRect.origin.y += 0.5;
+
+        [[NSColor purpleColor] set];
+        [NSBezierPath strokeRect:selectionRect];
+    }
 
     [[self enclosingScrollView] reflectScrolledClipView:(NSClipView *)[self superview]];
 }
@@ -163,30 +190,48 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
     graphOrigin = [self graphOrigin];
     sectionHeight = [self sectionHeight];
 
-    [[NSColor blackColor] set];
-
+    // Draw border around graph
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:2];
     [bezierPath appendBezierPathWithRect:NSMakeRect(graphOrigin.x, graphOrigin.y, bounds.size.width - 2, SECTION_COUNT * sectionHeight)];
+
+    [[NSColor blackColor] set];
     [bezierPath stroke];
     [bezierPath release];
 
-    /* Draw in best fit grid markers */
-
-    [[NSColor lightGrayColor] set];
-
+    // Draw semitone grid markers
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:1];
     for (index = 0; index < SECTION_COUNT; index++) {
         NSPoint aPoint;
 
         aPoint.x = 2;
-        aPoint.y = graphOrigin.y + 0.5 + index * sectionHeight;
+        aPoint.y = rint(graphOrigin.y + index * sectionHeight) + 0.5;
         [bezierPath moveToPoint:aPoint];
 
         aPoint.x = bounds.size.width - 2;
         [bezierPath lineToPoint:aPoint];
     }
+
+    [[NSColor lightGrayColor] set];
+    [bezierPath stroke];
+    [bezierPath release];
+
+    // Draw the zero semitone line in black.
+    bezierPath = [[NSBezierPath alloc] init];
+    [bezierPath setLineWidth:1];
+    {
+        NSPoint aPoint;
+
+        aPoint.x = 2;
+        aPoint.y = rint(graphOrigin.y + ZERO_SECTION * sectionHeight) + 0.5;
+        [bezierPath moveToPoint:aPoint];
+
+        aPoint.x = bounds.size.width - 2;
+        [bezierPath lineToPoint:aPoint];
+    }
+
+    [[NSColor blackColor] set];
     [bezierPath stroke];
     [bezierPath release];
 }
@@ -295,6 +340,7 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
     NSRect bounds;
     NSPoint graphOrigin;
     NSArray *intonationPoints = [eventList intonationPoints];
+    IntonationPoint *currentIntonationPoint;
 
     bounds = [self bounds];
     graphOrigin = [self graphOrigin];
@@ -308,10 +354,9 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
 
     count = [intonationPoints count];
     for (index = 0; index < count; index++) {
-        currentPoint.x = (float)[[intonationPoints objectAtIndex:index] absoluteTime] / timeScale;
-        currentPoint.y = (float)(([[intonationPoints objectAtIndex:index] semitone] + 20.0) * (bounds.size.height - TOP_MARGIN - BOTTOM_MARGIN)) / 30.0 + 5.0;
-
-        currentPoint.y = rint(currentPoint.y) + 0.5;
+        currentIntonationPoint = [intonationPoints objectAtIndex:index];
+        currentPoint.x = [self scaleXPosition:[currentIntonationPoint absoluteTime]];
+        currentPoint.y = rint(graphOrigin.y + ([currentIntonationPoint semitone] + ZERO_SECTION) * [self sectionHeight]) + 0.5;
         [bezierPath lineToPoint:currentPoint];
 
         [NSBezierPath drawCircleMarkerAtPoint:currentPoint];
@@ -321,8 +366,9 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
 
     count = [selectedPoints count];
     for (index = 0; index < count; index++) {
-        currentPoint.x = (float)[[selectedPoints objectAtIndex:index] absoluteTime] / timeScale;
-        currentPoint.y = (float)(([[selectedPoints objectAtIndex:index] semitone] + 20.0) * (bounds.size.height - TOP_MARGIN - BOTTOM_MARGIN)) / 30.0 + 5.0;
+        currentIntonationPoint = [selectedPoints objectAtIndex:index];
+        currentPoint.x = [self scaleXPosition:[currentIntonationPoint absoluteTime]];
+        currentPoint.y = rint(graphOrigin.y + ([currentIntonationPoint semitone] + ZERO_SECTION) * [self sectionHeight]) + 0.5;
         [NSBezierPath highlightMarkerAtPoint:currentPoint];
     }
 }
@@ -334,25 +380,29 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
     double x1, y1, m1, x12, x13;
     double x2, y2, m2, x22, x23;
     double denominator;
-    double x, y, xx,yy;
+    double x, y;
     int i, j;
     id point1, point2;
     NSBezierPath *bezierPath;
     NSArray *intonationPoints = [eventList intonationPoints];
+    NSPoint graphOrigin;
+    NSPoint aPoint;
 
     if ([intonationPoints count] < 2)
         return;
+
+    graphOrigin = [self graphOrigin];
 
     for (j = 0; j < [intonationPoints count] - 1; j++) {
         point1 = [intonationPoints objectAtIndex:j];
         point2 = [intonationPoints objectAtIndex:j + 1];
 
         x1 = [point1 absoluteTime];
-        y1 = [point1 semitone] + 20.0;
+        y1 = [point1 semitone] + ZERO_SECTION;
         m1 = [point1 slope];
 
         x2 = [point2 absoluteTime];
-        y2 = [point2 semitone] + 20.0;
+        y2 = [point2 semitone] + ZERO_SECTION;
         m2 = [point2 slope];
 
         x12 = x1*x1;
@@ -369,26 +419,26 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
         b = ( 3*y2*x1 + m1*x12 + 2*m2*x12 - 3*x1*y1 + 3*x2*y2 + m1*x1*x2 - m2*x1*x2 - 3*y1*x2 - 2*m1*x22 - m2*x22) / denominator;
         a = ( -2*y2 - m1*x1 - m2*x1 + 2*y1 + m1*x2 + m2*x2) / denominator;
 
-        NSLog(@"\n===\n x1 = %f y1 = %f m1 = %f", x1, y1, m1);
-        NSLog(@"x2 = %f y2 = %f m2 = %f", x2, y2, m2);
-        NSLog(@"a = %f b = %f c = %f d = %f", a, b, c, d);
+        //NSLog(@"\n===\n x1 = %f y1 = %f m1 = %f", x1, y1, m1);
+        //NSLog(@"x2 = %f y2 = %f m2 = %f", x2, y2, m2);
+        //NSLog(@"a = %f b = %f c = %f d = %f", a, b, c, d);
 
-        xx = (float)x1 / timeScale;
-        yy = ((float)y1 * ([self frame].size.height - 70.0)) / 30.0 + 5.0;
-
-        [[NSColor blackColor] set];
+        // The curve looks better (darker) without adding the extra 0.5 to the y positions.
+        aPoint.x = [self scaleXPosition:x1];
+        aPoint.y = rint(graphOrigin.y + y1 * [self sectionHeight]);
 
         bezierPath = [[NSBezierPath alloc] init];
-        [bezierPath moveToPoint:NSMakePoint(xx,yy)];
-        for (i = (int) x1; i <= (int)x2; i++) {
-            x = (double) i;
+        [bezierPath moveToPoint:aPoint];
+        for (i = (int)x1; i <= (int)x2; i++) {
+            x = (double)i;
             y = x*x*x*a + x*x*b + x*c + d;
 
-            xx = (float)i/timeScale;
-            yy = (float) ((float)y * ([self frame].size.height - 70.0)) / 30.0 + 5.0;
-            //NSLog(@"x = %f y = %f  yy = %f", (float)i, y, yy);
-            [bezierPath lineToPoint:NSMakePoint(xx,yy)];
+            aPoint.x = [self scaleXPosition:i];
+            aPoint.y = rint(graphOrigin.y + y * [self sectionHeight]);
+            [bezierPath lineToPoint:aPoint];
         }
+
+        [[NSColor blackColor] set];
         [bezierPath stroke];
         [bezierPath release];
     }
@@ -515,13 +565,144 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
     NSLog(@"<  %s", _cmd);
 }
 
+- (void)mouseDown:(NSEvent *)mouseEvent;
+{
+    NSPoint hitPoint;
+#if 0
+    if ([self isEnabled] == NO) {
+        [super mouseDown:mouseEvent];
+        return;
+    }
+#endif
+    // Force this to be first responder, since nothing else seems to work!
+    [[self window] makeFirstResponder:self];
+
+    hitPoint = [self convertPoint:[mouseEvent locationInWindow] fromView:nil];
+    NSLog(@"hitPoint: %@", NSStringFromPoint(hitPoint));
+
+    [self setShouldDrawSelection:NO];
+    [selectedPoints removeAllObjects];
+    [self _selectionDidChange];
+    [self setNeedsDisplay:YES];
+
+    if ([mouseEvent clickCount] == 1) {
+        //NSLog(@"[mouseEvent modifierFlags]: %x", [mouseEvent modifierFlags]);
+#if 0
+        if ([mouseEvent modifierFlags] & NSAlternateKeyMask) {
+            MMPoint *newPoint;
+            NSPoint graphOrigin = [self graphOrigin];
+            int yScale = [self sectionHeight];
+            float newValue;
+
+            NSLog(@"Alt-clicked!");
+            newPoint = [[MMPoint alloc] init];
+            [newPoint setFreeTime:(hitPoint.x - graphOrigin.x) / [self timeScale]];
+            //NSLog(@"hitPoint: %@, graphOrigin: %@, yScale: %d", NSStringFromPoint(hitPoint), NSStringFromPoint(graphOrigin), yScale);
+            newValue = (hitPoint.y - graphOrigin.y - (zeroIndex * yScale)) * sectionAmount / yScale;
+
+            //NSLog(@"NewPoint Time: %f  value: %f", [tempPoint freeTime], [tempPoint value]);
+            [newPoint setValue:newValue];
+            if ([[self delegate] respondsToSelector:@selector(transitionView:shouldAddPoint:)] == NO
+                || [[self delegate] transitionView:self shouldAddPoint:newPoint] == YES) {
+                [transition insertPoint:newPoint];
+                [selectedPoints removeAllObjects];
+                [selectedPoints addObject:newPoint];
+            }
+
+            [newPoint release];
+
+            [self _selectionDidChange];
+            [self setNeedsDisplay:YES];
+            return;
+        }
+#endif
+    }
+
+
+    selectionPoint1 = hitPoint;
+    selectionPoint2 = hitPoint; // TODO (2004-03-11): Should only do this one they start dragging
+    [self setShouldDrawSelection:YES];
+}
+
+- (void)mouseDragged:(NSEvent *)mouseEvent;
+{
+    NSPoint hitPoint;
+
+    //NSLog(@" > %s", _cmd);
+
+//    if ([self isEnabled] == NO)
+//        return;
+
+    if (flags.shouldDrawSelection == YES) {
+        hitPoint = [self convertPoint:[mouseEvent locationInWindow] fromView:nil];
+        //NSLog(@"hitPoint: %@", NSStringFromPoint(hitPoint));
+        selectionPoint2 = hitPoint;
+        [self setNeedsDisplay:YES];
+
+        [self selectGraphPointsBetweenPoint:selectionPoint1 andPoint:selectionPoint2];
+    }
+
+    //NSLog(@"<  %s", _cmd);
+}
+
+- (void)mouseUp:(NSEvent *)mouseEvent;
+{
+    [self setShouldDrawSelection:NO];
+}
+
+- (void)selectGraphPointsBetweenPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
+{
+    NSPoint graphOrigin;
+    NSRect selectionRect;
+    int count, index;
+    //float timeScale;
+    int yScale;
+    NSArray *intonationPoints;
+    NSRect bounds;
+
+    bounds = NSIntegralRect([self bounds]);
+
+    [selectedPoints removeAllObjects];
+
+    //NSLog(@"%s, cacheTag: %d", _cmd, cacheTag);
+    graphOrigin = [self graphOrigin];
+    //timeScale = [self timeScale];
+    yScale = [self sectionHeight];
+
+    selectionRect = [self rectFormedByPoint:point1 andPoint:point2];
+    selectionRect.origin.x -= graphOrigin.x;
+    selectionRect.origin.y -= graphOrigin.y;
+
+    //NSLog(@"%s, selectionRect: %@", _cmd, NSStringFromRect(selectionRect));
+
+    intonationPoints = [eventList intonationPoints];
+    count = [intonationPoints count];
+    //NSLog(@"%d display points", count);
+    for (index = 0; index < count; index++) {
+        IntonationPoint *currentIntonationPoint;
+        NSPoint currentPoint;
+
+        currentIntonationPoint = [intonationPoints objectAtIndex:index];
+        currentPoint.x = [self scaleXPosition:[currentIntonationPoint absoluteTime]];
+        currentPoint.y = rint(([currentIntonationPoint semitone] + ZERO_SECTION) * [self sectionHeight]) + 0.5;
+
+        //NSLog(@"%2d: currentPoint: %@", index, NSStringFromPoint(currentPoint));
+        if (NSPointInRect(currentPoint, selectionRect) == YES) {
+            [selectedPoints addObject:currentIntonationPoint];
+        }
+    }
+
+    [self _selectionDidChange];
+    [self setNeedsDisplay:YES];
+}
+
+#ifdef PORTING
 // Single click selects an intonation point
 // Control clicking and then dragging adjusts the scale
 // Rubberband selection of multiple points
 // Double-clicking adds intonation point?
 - (void)mouseDown:(NSEvent *)theEvent;
 {
-#ifdef PORTING
     float row, column;
     float row1, column1;
     float row2, column2;
@@ -559,11 +740,11 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
         }
 
         if (([theEvent modifierFlags] && NSControlKeyMask) || ([theEvent modifierFlags] && NSControlKeyMask)) {
-            mouseBeingDragged = 1;
+            flags.mouseBeingDragged = YES;
             [self lockFocus];
             [self updateScale:(float)column];
             [self unlockFocus];
-            mouseBeingDragged = 0;
+            flags.mouseBeingDragged = NO;
             [self setNeedsDisplay:YES];
         } else {
             NSPoint loc;
@@ -668,8 +849,8 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
             }
         }
     }
-#endif
 }
+#endif
 
 - (void)updateScale:(float)column;
 {
@@ -801,6 +982,35 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
 - (float)scaleWidth:(float)width;
 {
     return floor(width / timeScale);
+}
+
+- (NSRect)rectFormedByPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
+{
+    float minx, miny, maxx, maxy;
+    NSRect rect;
+
+    if (point1.x < point2.x) {
+        minx = point1.x;
+        maxx = point2.x;
+    } else {
+        minx = point2.x;
+        maxx = point1.x;
+    }
+
+    if (point1.y < point2.y) {
+        miny = point1.y;
+        maxy = point2.y;
+    } else {
+        miny = point2.y;
+        maxy = point1.y;
+    }
+
+    rect.origin.x = minx;
+    rect.origin.y = miny;
+    rect.size.width = maxx - minx;
+    rect.size.height = maxy - miny;
+
+    return rect;
 }
 
 @end
