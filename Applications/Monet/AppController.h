@@ -1,5 +1,5 @@
 //
-// $Id: AppController.h,v 1.4 2004/03/05 03:23:48 nygard Exp $
+// $Id: AppController.h,v 1.5 2004/03/05 03:38:14 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -25,7 +25,7 @@
     ParameterList *mainParameterList;
     ParameterList *mainMetaParameterList;
 
-    //IBOutlet BrowserManager *dataBrowser;
+    IBOutlet BrowserManager *dataBrowser;
     IBOutlet RuleManager *ruleManager;
     IBOutlet PrototypeManager *prototypeManager;
     IBOutlet TransitionView *transitionBuilder;

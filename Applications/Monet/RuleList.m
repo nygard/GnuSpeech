@@ -17,6 +17,7 @@
     Rule *aRule;
 
     aRule = [[Rule alloc] init];
+    NSLog(@"aRule: %@", aRule);
     [aRule setExpression:expression1 number:0];
     [aRule setExpression:expression2 number:1];
     [aRule setDefaultsTo:[aRule numberExpressions]];

@@ -58,8 +58,8 @@
     [protoBrowser setDoubleAction:@selector(browserDoubleHit:)];
 
     // TODO (2004-03-03): Check these fonts.
-    courier = [NSFont fontWithName:@"Courier" size:12];
-    courierBold = [NSFont fontWithName:@"Courier-Bold" size:12];
+    courier = [[NSFont fontWithName:@"Courier" size:12] retain];
+    courierBold = [[NSFont fontWithName:@"Courier-Bold" size:12] retain];
     NSLog(@"courier: %@", courier);
     NSLog(@"courierBold: %@", courierBold);
 

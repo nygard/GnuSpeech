@@ -17,6 +17,14 @@
 
 @implementation BrowserManager
 
+- (void)dealloc;
+{
+    [courier release];
+    [courierBold release];
+
+    [super dealloc];
+}
+
 - (BOOL)acceptsFirstResponder;
 {
     return YES;
@@ -36,6 +44,8 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 {
+    NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
+
     [browser setTarget:self];
     [browser setAction:@selector(browserHit:)];
     [browser setDoubleAction:@selector(browserDoubleHit:)];
@@ -50,11 +60,13 @@
 
     currentList = 0;
 
-    courier = [NSFont fontWithName:@"Courier" size:12];
-    courierBold = [NSFont fontWithName:@"Courier-Bold" size:12]; // TODO (2004-03-02): Should use NSFontManager instead.
+    courier = [[NSFont fontWithName:@"Courier" size:12] retain];
+    courierBold = [[NSFont fontWithName:@"Courier-Bold" size:12] retain]; // TODO (2004-03-02): Should use NSFontManager instead.
+
+    NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }
 
-- (void)setCurrentList:sender;
+- (void)setCurrentList:(id)sender;
 {
     NSString *title;
     id inspector;
@@ -120,7 +132,7 @@
     }
 }
 
-- (void)browserHit:sender;
+- (void)browserHit:(id)sender;
 {
     id temp;
     int index;
@@ -154,7 +166,7 @@
     }
 }
 
-- (void)browserDoubleHit:sender;
+- (void)browserDoubleHit:(id)sender;
 {
     id temp;
     int index;
@@ -220,7 +232,7 @@
     }
 }
 
-- (void)add:sender;
+- (void)add:(id)sender;
 {
     if (![list[currentList] findByName:[nameField stringValue]]) {
         [list[currentList] addNewValue:[nameField stringValue]];
@@ -246,7 +258,7 @@
     [nameField selectTextAtIndex:0];
 }
 
-- (void)rename:sender;
+- (void)rename:(id)sender;
 {
     id temp, cell;
 
@@ -264,7 +276,7 @@
     [nameField selectTextAtIndex:0];
 }
 
-- (void)remove:sender;
+- (void)remove:(id)sender;
 {
     id temp, cell;
     int index;

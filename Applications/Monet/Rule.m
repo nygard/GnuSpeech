@@ -1,38 +1,39 @@
 #import "Rule.h"
 
 #import <Foundation/Foundation.h>
-#ifdef PORTING
+#import "BooleanExpression.h"
+#import "MonetList.h"
 #import "MyController.h"
-#import <stdio.h>
-#import <string.h>
-#import <stdlib.h>
-#import <AppKit/NSApplication.h>
-#import "PrototypeManager.h"
+#import "ParameterList.h"
 #import "ProtoEquation.h"
-#endif
+#import "PrototypeManager.h"
 
 @implementation Rule
 
 - (id)init;
 {
-    ParameterList *tempList;
+    //ParameterList *mainParameterList, *mainMetaParameterList;
 
     if ([super init] == nil)
         return nil;
 
     /* Alloc lists to point to prototype transition specifiers */
-    tempList = NXGetNamedObject(@"mainParameterList", NSApp);
-    parameterProfiles = [[MonetList alloc] initWithCapacity:[tempList count]];
+    //mainParameterList = NXGetNamedObject(@"mainParameterList", NSApp);
+    //parameterProfiles = [[MonetList alloc] initWithCapacity:[mainParameterList count]];
+    parameterProfiles = [[MonetList alloc] init];
 
-    tempList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
-    metaParameterProfiles = [[MonetList alloc] initWithCapacity:[tempList count]];
+    //mainMetaParameterList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
+    //metaParameterProfiles = [[MonetList alloc] initWithCapacity:[mainMetaParameterList count]];
+    metaParameterProfiles = [[MonetList alloc] init];
 
     /* Set up list for Expression symbols */
-    expressionSymbols = [[MonetList alloc] initWithCapacity: 5];
+    expressionSymbols = [[MonetList alloc] initWithCapacity:5];
 
     /* Zero out expressions and special Profiles */
     bzero(expressions, sizeof(BooleanExpression *) * 4);
     bzero(specialProfiles, sizeof(id) * 16);
+
+    comment = nil;
 
     return self;
 }
@@ -335,7 +336,7 @@
     int index, j, k;
     int parms, metaParms, symbols;
     PrototypeManager *tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
-    ParamterList *tempList;
+    ParameterList *tempList;
     id tempParameter;
 
     tempList = NXGetNamedObject(@"mainParameterList", NSApp);

@@ -4,6 +4,7 @@
 #import "AppController.h"
 
 #import <Foundation/Foundation.h>
+#import "BrowserManager.h"
 #import "CategoryNode.h"
 #import "CategoryList.h"
 #import "IntonationView.h"
@@ -70,9 +71,9 @@
 
     NSLog(@"getting it by name: %@", NXGetNamedObject(@"mainSymbolList", NSApp));
 
-    //[dataBrowser applicationDidFinishLaunching:notification];
+    [dataBrowser applicationDidFinishLaunching:aNotification];
     //if (inspectorController)
-    //    [inspectorController applicationDidFinishLaunching:notification];
+    //    [inspectorController applicationDidFinishLaunching:aNotification];
 
     [prototypeManager applicationDidFinishLaunching:aNotification];
 
