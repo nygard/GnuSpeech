@@ -656,6 +656,20 @@
 			settings = {
 			};
 		};
+		0143DD0306572B3B00DB5F6D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = MMBooleanSymbols.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0143DD0406572B3B00DB5F6D = {
+			fileRef = 0143DD0306572B3B00DB5F6D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		015E7BDD06375CE400688D4D = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -1949,7 +1963,7 @@
 				0143DCFA06572A3D00DB5F6D,
 				0143DCFB06572A3D00DB5F6D,
 				0143DCFC06572A3D00DB5F6D,
-				0195D91905F3DB20006D8386,
+				0143DD0306572B3B00DB5F6D,
 				0195D93605F3DF4D006D8386,
 				0195D93705F3DF4D006D8386,
 			);
@@ -1958,20 +1972,6 @@
 			path = "";
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		0195D91905F3DB20006D8386 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = BooleanSymbols.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0195D91A05F3DB20006D8386 = {
-			fileRef = 0195D91905F3DB20006D8386;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		0195D93605F3DF4D006D8386 = {
 			fileEncoding = 30;
@@ -3308,7 +3308,6 @@
 				0195D89205F3CADB006D8386,
 				0195D8B705F3D240006D8386,
 				0195D8C505F3D3C5006D8386,
-				0195D91A05F3DB20006D8386,
 				0195D93805F3DF4D006D8386,
 				0195D9A805F42843006D8386,
 				0195DA3105F44029006D8386,
@@ -3387,6 +3386,7 @@
 				0143DCF506570D0700DB5F6D,
 				0143DCFD06572A3D00DB5F6D,
 				0143DCFF06572A3D00DB5F6D,
+				0143DD0406572B3B00DB5F6D,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

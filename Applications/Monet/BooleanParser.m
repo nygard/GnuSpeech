@@ -3,12 +3,12 @@
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
 #import "NSScanner-Extensions.h"
-#import "BooleanSymbols.h"
-#import "MMBooleanNode.h"
+#import "CategoryList.h"
 #import "MMBooleanExpression.h"
+#import "MMBooleanNode.h"
+#import "MMBooleanSymbols.h"
 #import "MMBooleanTerminal.h"
 #import "MMCategory.h"
-#import "CategoryList.h"
 #import "MMPosture.h"
 #import "PhoneList.h"
 
