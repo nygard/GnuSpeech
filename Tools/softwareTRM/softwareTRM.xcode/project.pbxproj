@@ -215,6 +215,7 @@
 				COPY_PHASE_STRIP = YES;
 				DSTROOT = /tmp/install;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
 				INSTALL_PATH = /GnuSpeech;
 				ZERO_LINK = NO;
 			};
