@@ -2,9 +2,11 @@
 //  Copyright (C) 2004 __OWNER__.  All rights reserved.
 
 #import "GSDBMPronunciationDictionary.h"
-
 #import "NSFileManager-Extensions.h"
 #import "GSSimplePronunciationDictionary.h"
+#import <Foundation/NSArray.h>
+#import <Foundation/NSDictionary.h>
+#import <Foundation/NSException.h>
 
 @implementation GSDBMPronunciationDictionary
 

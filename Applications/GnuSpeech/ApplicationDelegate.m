@@ -4,6 +4,10 @@
 #import "ApplicationDelegate.h"
 
 #import <Foundation/Foundation.h>
+#import <AppKit/NSTextField.h>
+#import <AppKit/NSTextView.h>
+#import <AppKit/NSButton.h>
+
 #import "GSPronunciationDictionary.h"
 #import "GSDBMPronunciationDictionary.h"
 #import "GSSimplePronunciationDictionary.h"
@@ -57,7 +61,7 @@
     NSLog(@"<  %s", _cmd);
 }
 
-- (void)_createDBMFileIfNecessary;
+- (void)_createDBMFileIfNecessary
 {
     GSSimplePronunciationDictionary *simpleDictionary;
     GSDBMPronunciationDictionary *dbmDictionary;

@@ -2,8 +2,13 @@
 //  Copyright (C) 2004 __OWNER__.  All rights reserved.
 
 #import <Foundation/NSObject.h>
+#import <AppKit/NSNibDeclarations.h>
 
+@class NSNotification;
 @class GSPronunciationDictionary;
+@class NSTextView;
+@class NSButton;
+@class NSTextField;
 
 @interface ApplicationDelegate : NSObject
 {

@@ -6,7 +6,12 @@
 //  Copyright (c) 2004 __MyCompanyName__. All rights reserved.
 //
 
+#ifdef GNUSTEP
+#import <Foundation/Foundation.h>
+#import <AppKit/AppKit.h>
+#else
 #import <Cocoa/Cocoa.h>
+#endif
 
 int main(int argc, const char *argv[])
 {

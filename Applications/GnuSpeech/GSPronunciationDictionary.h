@@ -3,6 +3,8 @@
 
 #import <Foundation/NSObject.h>
 
+@class NSMutableArray, NSMutableDictionary;
+
 @interface GSPronunciationDictionary : NSObject
 {
     NSString *filename;
