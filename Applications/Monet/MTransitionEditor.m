@@ -50,6 +50,7 @@
     model = [newModel retain];
 
     [transitionView setModel:model];
+    [self setTransition:nil];
 
     [self updateViews];
 }

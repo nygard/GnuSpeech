@@ -170,3 +170,5 @@ Notes:
   - that's a problem with the timing being fixed.  Setting it to a value between the two makes it work as expected.
 - can't delete points from a slope ratio
 - Equations/Diphones and Tetraphones don't have an equation
++ showing the special transition editor, loading a new file, and then trying to select points logs lots of stuff
+  + should clear transition when loading new file.
