@@ -299,10 +299,8 @@
 {
     NSPoint hitPoint;
 
-    NSLog(@" > %s", _cmd);
-
     hitPoint = [self convertPoint:[mouseEvent locationInWindow] fromView:nil];
-    NSLog(@"hitPoint: %@", NSStringFromPoint(hitPoint));
+    //NSLog(@"hitPoint: %@", NSStringFromPoint(hitPoint));
 
     [self setShouldDrawSelection:NO];
     [selectedPoint release];
@@ -342,8 +340,6 @@
     selectionPoint1 = hitPoint;
     selectionPoint2 = hitPoint; // TODO (2004-03-11): Should only do this one they start dragging
     [self setShouldDrawSelection:YES];
-
-    NSLog(@"<  %s", _cmd);
 }
 #endif
 
@@ -402,10 +398,10 @@
     selectionRect.origin.x -= graphOrigin.x;
     selectionRect.origin.y -= graphOrigin.y;
 
-    NSLog(@"%s, selectionRect: %@", _cmd, NSStringFromRect(selectionRect));
+    //NSLog(@"%s, selectionRect: %@", _cmd, NSStringFromRect(selectionRect));
 
     count = [displayPoints count];
-    NSLog(@"%d display points", count);
+    //NSLog(@"%d display points", count);
     for (index = 0; index < count; index++) {
         MMPoint *currentDisplayPoint;
         MMEquation *currentExpression;

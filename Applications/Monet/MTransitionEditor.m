@@ -69,8 +69,6 @@
     [transitionView setModel:model];
     [transitionView setTransition:transition];
 
-    NSLog(@"[transitionView refusesFirstResponder]: %d", [transitionView refusesFirstResponder]);
-
     [self updateViews];
 }
 
@@ -111,24 +109,15 @@
 
 - (void)setTransition:(MMTransition *)newTransition;
 {
-    NSLog(@" > %s", _cmd);
-
-    NSLog(@"transition: %p, newTransition: %p", transition, newTransition);
-
-    if (newTransition == transition) {
-        NSLog(@"<  %s", _cmd);
+    if (newTransition == transition)
         return;
-    }
 
     [transition release];
     transition = [newTransition retain];
 
-    NSLog(@"transitionView: %p", transitionView);
     [transitionView setTransition:transition];
 
     [self updateViews];
-
-    NSLog(@"<  %s", _cmd);
 }
 
 //
@@ -226,14 +215,9 @@
 
 - (void)transitionViewSelectionDidChange:(NSNotification *)aNotification;
 {
-    NSLog(@" > %s", _cmd);
-    NSLog(@"[aNotification object]: %@", [aNotification object]);
-
     if ([aNotification object] == transitionView) {
         [self _updateSelectedPointDetails];
     }
-
-    NSLog(@"<  %s", _cmd);
 }
 
 - (BOOL)transitionView:(TransitionView *)aTransitionView shouldAddPoint:(MMPoint *)aPoint;
@@ -253,7 +237,6 @@
     MMPoint *selectedPoint;
 
     selectedPoint = [transitionView selectedPoint];
-    NSLog(@"selectedPoint: %p", selectedPoint);
     if (selectedPoint != nil) {
         MMEquation *equation;
 

@@ -94,8 +94,6 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 {
     MMPosture *aPosture;
 
-    NSLog(@" > %s", _cmd);
-
     [samplePhoneList removeAllObjects];
     [displayPoints removeAllObjects];
     [displaySlopes removeAllObjects];
@@ -117,8 +115,6 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     [aPosture release];
 
     [self setNeedsDisplay:YES];
-
-    NSLog(@"<  %s", _cmd);
 }
 
 - (double)ruleDuration;
@@ -634,8 +630,6 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     MMSlope *hitSlope;
     float startTime, endTime;
 
-    NSLog(@" > %s", _cmd);
-
     if ([self isEnabled] == NO) {
         [super mouseDown:mouseEvent];
         return;
@@ -696,8 +690,6 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     selectionPoint1 = hitPoint;
     selectionPoint2 = hitPoint; // TODO (2004-03-11): Should only do this one they start dragging
     [self setShouldDrawSelection:YES];
-
-    NSLog(@"<  %s", _cmd);
 }
 
 - (void)mouseDragged:(NSEvent *)mouseEvent;
@@ -888,8 +880,6 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 {
     NSWindow *window;
 
-    NSLog(@" > %s", _cmd);
-
     if (aSlope == nil)
         return;
 
@@ -908,7 +898,6 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         rect.size.height = SLOPE_MARKER_HEIGHT;
         rect = NSIntegralRect(rect);
         nonretained_fieldEditor = [window fieldEditor:YES forObject:self];
-        NSLog(@"nonretained_fieldEditor: %p", nonretained_fieldEditor);
 
         [nonretained_fieldEditor setString:[NSString stringWithFormat:@"%0.1f", [aSlope slope]]];
         [nonretained_fieldEditor setRichText:NO];
@@ -936,8 +925,6 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     } else {
         [window endEditingFor:nil];
     }
-
-    NSLog(@"<  %s", _cmd);
 }
 
 - (MMSlope *)getSlopeMarkerAtPoint:(NSPoint)aPoint startTime:(float *)startTime endTime:(float *)endTime;
@@ -1006,12 +993,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 {
     NSString *str;
 
-    NSLog(@" > %s", _cmd);
-
-    NSLog(@"notification: %@", notification);
-
     str = [nonretained_fieldEditor string];
-    NSLog(@"str: %@", str);
 
     [editingSlope setSlope:[str floatValue]];
     [editingSlope release];
@@ -1021,8 +1003,6 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     nonretained_fieldEditor = nil;
 
     [self setNeedsDisplay:YES];
-
-    NSLog(@"<  %s", _cmd);
 }
 
 //
@@ -1057,10 +1037,10 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     selectionRect.origin.x -= graphOrigin.x;
     selectionRect.origin.y -= graphOrigin.y;
 
-    NSLog(@"%s, selectionRect: %@", _cmd, NSStringFromRect(selectionRect));
+    //NSLog(@"%s, selectionRect: %@", _cmd, NSStringFromRect(selectionRect));
 
     count = [displayPoints count];
-    NSLog(@"%d display points", count);
+    //NSLog(@"%d display points", count);
     for (index = 0; index < count; index++) {
         MMPoint *currentDisplayPoint;
         MMEquation *currentExpression;
