@@ -5,6 +5,7 @@
 #import "NSString-Extensions.h"
 
 #import "GSXMLFunctions.h"
+#import "MModel.h"
 
 #define DEFAULT_MIN 100.0
 #define DEFAULT_MAX 1000.0
@@ -104,6 +105,9 @@
 
 - (void)setDefaultValue:(double)newDefault;
 {
+    if (newDefault != defaultValue)
+        [[self model] parameter:self willChangeDefaultValue:newDefault];
+
     defaultValue = newDefault;
 }
 

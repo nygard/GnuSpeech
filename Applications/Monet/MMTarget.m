@@ -56,6 +56,14 @@
     [self setIsDefault:shouldBeDefault];
 }
 
+- (void)changeDefaultValueFrom:(double)oldDefault to:(double)newDefault;
+{
+    if (value == oldDefault) {
+        value = newDefault;
+        isDefault = YES;
+    }
+}
+
 //
 // Archiving
 //

@@ -214,12 +214,12 @@
     return [categoryList containsObject:aCategory];
 }
 
-- (TargetList *)parameterList;
+- (TargetList *)parameterTargets;
 {
     return parameterList;
 }
 
-- (TargetList *)metaParameterList;
+- (TargetList *)metaParameterTargets;
 {
     return metaParameterList;
 }

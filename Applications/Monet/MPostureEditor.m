@@ -203,7 +203,7 @@
     selectedParameter = [[[self model] parameters] objectAtIndex:selectedRow];
     assert(selectedParameter != nil);
 
-    selectedTarget = [[[self selectedPosture] parameterList] objectAtIndex:selectedRow];
+    selectedTarget = [[[self selectedPosture] parameterTargets] objectAtIndex:selectedRow];
     assert(selectedTarget != nil);
 
     [selectedTarget setValue:[selectedParameter defaultValue]];
@@ -220,7 +220,7 @@
     selectedParameter = [[[self model] metaParameters] objectAtIndex:selectedRow];
     assert(selectedParameter != nil);
 
-    selectedTarget = [[[self selectedPosture] metaParameterList] objectAtIndex:selectedRow];
+    selectedTarget = [[[self selectedPosture] metaParameterTargets] objectAtIndex:selectedRow];
     assert(selectedTarget != nil);
 
     [selectedTarget setValue:[selectedParameter defaultValue]];
@@ -305,9 +305,9 @@
             MMTarget *aTarget;
 
             if (tableView == parameterTableView)
-                aTarget = [[[self selectedPosture] parameterList] objectAtIndex:row];
+                aTarget = [[[self selectedPosture] parameterTargets] objectAtIndex:row];
             else
-                aTarget = [[[self selectedPosture] metaParameterList] objectAtIndex:row];
+                aTarget = [[[self selectedPosture] metaParameterTargets] objectAtIndex:row];
             if (aTarget == nil)
                 return nil;
 
@@ -370,9 +370,9 @@
             MMTarget *aTarget;
 
             if (tableView == parameterTableView)
-                aTarget = [[[self selectedPosture] parameterList] objectAtIndex:row];
+                aTarget = [[[self selectedPosture] parameterTargets] objectAtIndex:row];
             else
-                aTarget = [[[self selectedPosture] metaParameterList] objectAtIndex:row];
+                aTarget = [[[self selectedPosture] metaParameterTargets] objectAtIndex:row];
 
             [aTarget setValue:[object doubleValue]];
         }
@@ -416,10 +416,10 @@
 
         if (tableView == parameterTableView) {
             aParameter = [[[self model] parameters] objectAtIndex:row];
-            aTarget = [[[self selectedPosture] parameterList] objectAtIndex:row];
+            aTarget = [[[self selectedPosture] parameterTargets] objectAtIndex:row];
         } else {
             aParameter = [[[self model] metaParameters] objectAtIndex:row];
-            aTarget = [[[self selectedPosture] metaParameterList] objectAtIndex:row];
+            aTarget = [[[self selectedPosture] metaParameterTargets] objectAtIndex:row];
         }
 
         if ([aTarget value] == [aParameter defaultValue])

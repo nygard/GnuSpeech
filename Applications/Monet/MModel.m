@@ -1014,7 +1014,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
         /* READ TARGETS IN FROM FILE  */
         for (j = 0; j < targetCount; j++) {
-            tempTarget = [[newPhone parameterList] objectAtIndex:j];
+            tempTarget = [[newPhone parameterTargets] objectAtIndex:j];
 
             /* READ IN DATA FROM FILE  */
             fread(&tempDefault, sizeof(int), 1, fp);
@@ -1228,7 +1228,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         }
         fprintf(fp, "\n\n");
 
-        aParameterList = [aPhone parameterList];
+        aParameterList = [aPhone parameterTargets];
         for (j = 0; j < [aParameterList count] / 2; j++) {
             MMParameter *mainParameter;
             MMTarget *aParameter;
@@ -1274,6 +1274,30 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 - (int)nextCacheTag;
 {
     return ++cacheTag;
+}
+
+- (void)parameter:(MMParameter *)aParameter willChangeDefaultValue:(double)newDefaultValue;
+{
+    double oldDefaultValue;
+    unsigned int count, index;
+    unsigned int parameterIndex;
+
+    oldDefaultValue = [aParameter defaultValue];
+    count = [postures count];
+
+    parameterIndex = [parameters indexOfObject:aParameter];
+    if (parameterIndex != NSNotFound) {
+        for (index = 0; index < count; index++) {
+            [[[[postures objectAtIndex:index] parameterList] objectAtIndex:parameterIndex] changeDefaultValueFrom:oldDefaultValue to:newDefaultValue];
+        }
+    }
+
+    parameterIndex = [metaParameters indexOfObject:aParameter];
+    if (parameterIndex != NSNotFound) {
+        for (index = 0; index < count; index++) {
+            [[[[postures objectAtIndex:index] metaParameterList] objectAtIndex:parameterIndex] changeDefaultValueFrom:oldDefaultValue to:newDefaultValue];
+        }
+    }
 }
 
 @end

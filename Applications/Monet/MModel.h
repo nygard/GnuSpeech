@@ -1,5 +1,5 @@
 //
-// $Id: MModel.h,v 1.21 2004/03/25 04:28:52 nygard Exp $
+// $Id: MModel.h,v 1.22 2004/03/25 04:49:54 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -118,5 +118,6 @@ extern NSString *MCategoryInUseException;
 - (void)_writePosturesToFile:(FILE *)fp;
 
 - (int)nextCacheTag;
+- (void)parameter:(MMParameter *)aParameter willChangeDefaultValue:(double)newDefaultValue;
 
 @end

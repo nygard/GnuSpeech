@@ -37,32 +37,6 @@
     return nil;
 }
 
-- (void)parameterDefaultChange:(MMParameter *)parameter to:(double)value;
-{
-    int i, index;
-    id temp;
-    ParameterList *mainParameterList, *mainMetaParameterList;
-
-    mainParameterList = NXGetNamedObject(@"mainParameterList", NSApp);
-    index = [mainParameterList indexOfObject:parameter];
-    if (index != NSNotFound) {
-        for (i = 0; i < [self count]; i++) {
-            temp = [[[self objectAtIndex:i] parameterList] objectAtIndex:index];
-            if ([temp isDefault])
-                [temp setValue:value];
-        }
-    } else {
-        mainMetaParameterList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
-        index = [mainMetaParameterList indexOfObject:parameter];
-        if (index != NSNotFound)
-            for(i = 0; i < [self count]; i++) {
-                temp = [[[self objectAtIndex:i] metaParameterList] objectAtIndex:index];
-                if ([temp isDefault])
-                    [temp setValue:value];
-            }
-    }
-}
-
 - (void)symbolDefaultChange:(MMParameter *)parameter to:(double)value;
 {
     int i, index;
@@ -92,7 +66,7 @@
     for (index = 0; index < count; index++) {
         MMTarget *newTarget;
 
-        aTargetList = [[self objectAtIndex:index] parameterList];
+        aTargetList = [[self objectAtIndex:index] parameterTargets];
         newTarget = [[MMTarget alloc] initWithValue:value isDefault:YES];
         [aTargetList addObject:newTarget];
         [newTarget release];
@@ -105,7 +79,7 @@
     id temp;
 
     for (i = 0; i < [self count]; i++) {
-        temp = [[self objectAtIndex:i] parameterList];
+        temp = [[self objectAtIndex:i] parameterTargets];
         [temp removeObjectAtIndex:index];
     }
 }
@@ -121,7 +95,7 @@
     for (index = 0; index < count; index++) {
         MMTarget *newTarget;
 
-        aTargetList = [[self objectAtIndex:index] metaParameterList];
+        aTargetList = [[self objectAtIndex:index] metaParameterTargets];
         newTarget = [[MMTarget alloc] initWithValue:value isDefault:YES];
         [aTargetList addObject:newTarget];
         [newTarget release];
@@ -134,7 +108,7 @@
     id temp;
 
     for (i = 0; i < [self count]; i++) {
-        temp = [[self objectAtIndex:i] metaParameterList];
+        temp = [[self objectAtIndex:i] metaParameterTargets];
         [temp removeObjectAtIndex:index];
     }
 }

@@ -85,8 +85,8 @@
 - (BOOL)isMemberOfCategory:(MMCategory *)aCategory;
 
 /* Access to target lists */
-- (TargetList *)parameterList;
-- (TargetList *)metaParameterList;
+- (TargetList *)parameterTargets;
+- (TargetList *)metaParameterTargets;
 - (TargetList *)symbolList;
 
 - (NSComparisonResult)compareByAscendingName:(MMPosture *)otherPosture;

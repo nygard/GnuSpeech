@@ -25,6 +25,7 @@
 - (void)setIsDefault:(BOOL)newFlag;
 
 - (void)setValue:(double)newValue isDefault:(BOOL)shouldBeDefault;
+- (void)changeDefaultValueFrom:(double)oldDefault to:(double)newDefault;
 
 // Archiving
 - (id)initWithCoder:(NSCoder *)aDecoder;

@@ -29,7 +29,6 @@
 - (MMPosture *)findPhone:(NSString *)phone;
 
 /* List maintenance Methods */
-- (void)parameterDefaultChange:(MMParameter *)parameter to:(double)value;
 - (void)symbolDefaultChange:(MMParameter *)parameter to:(double)value;
 
 - (void)addParameter;
