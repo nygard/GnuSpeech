@@ -23,7 +23,7 @@
 
     name = nil;
     comment = nil;
-    expression = nil;
+    formula = nil;
 
     cacheTag = 0;
     cacheValue = 0.0;
@@ -45,7 +45,7 @@
 {
     [name release];
     [comment release];
-    [expression release];
+    [formula release];
 
     [super dealloc];
 }
@@ -93,18 +93,18 @@
     return comment != nil && [comment length] > 0;
 }
 
-- (MMFormulaNode *)expression;
+- (MMFormulaNode *)formula;
 {
-    return expression;
+    return formula;
 }
 
-- (void)setExpression:(MMFormulaNode *)newExpression;
+- (void)setFormula:(MMFormulaNode *)newFormula;
 {
-    if (newExpression == expression)
+    if (newFormula == formula)
         return;
 
-    [expression release];
-    expression = [newExpression retain];
+    [formula release];
+    formula = [newFormula retain];
 }
 
 - (void)setFormulaString:(NSString *)formulaString;
@@ -116,7 +116,7 @@
     formulaParser = [[MMFormulaParser alloc] initWithModel:[self model]];
 
     result = [formulaParser parseString:formulaString];
-    [self setExpression:result];
+    [self setFormula:result];
 
     errorString = [formulaParser errorMessage];
     if ([errorString length] > 0)
@@ -131,7 +131,7 @@
 {
     if (newCacheTag != cacheTag) {
         cacheTag = newCacheTag;
-        cacheValue = [expression evaluate:ruleSymbols phones:phones tempos:tempos];
+        cacheValue = [formula evaluate:ruleSymbols phones:phones tempos:tempos];
     }
 
     return cacheValue;
@@ -141,7 +141,7 @@
 {
     if (newCacheTag != cacheTag) {
         cacheTag = newCacheTag;
-        cacheValue = [expression evaluate:ruleSymbols phones:phones];
+        cacheValue = [formula evaluate:ruleSymbols phones:phones];
     }
 
     return cacheValue;
@@ -156,8 +156,7 @@
 {
     unsigned archivedVersion;
     char *c_name, *c_comment;
-    MMOldFormulaNode *archivedExpression;
-    NSString *expressionString;
+    MMOldFormulaNode *archivedFormula;
     MModel *model;
 
     if ([super initWithCoder:aDecoder] == nil)
@@ -177,10 +176,12 @@
 
     name = [[NSString stringWithASCIICString:c_name] retain];
     comment = [[NSString stringWithASCIICString:c_comment] retain];
-    archivedExpression = [aDecoder decodeObject];
-    if (archivedExpression != nil) {
-        expressionString = [archivedExpression expressionString];
-        expression = [[MMFormulaParser parsedExpressionFromString:expressionString model:model] retain];
+    archivedFormula = [aDecoder decodeObject];
+    if (archivedFormula != nil) {
+        NSString *formulaString;
+
+        formulaString = [archivedFormula expressionString];
+        formula = [[MMFormulaParser parsedExpressionFromString:formulaString model:model] retain];
     }
 
     //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
@@ -189,16 +190,16 @@
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@>[%p]: name: %@, comment: %@, expression: %@, cacheTag: %d, cacheValue: %g",
-                     NSStringFromClass([self class]), self, name, comment, expression, cacheTag, cacheValue];
+    return [NSString stringWithFormat:@"<%@>[%p]: name: %@, comment: %@, formula: %@, cacheTag: %d, cacheValue: %g",
+                     NSStringFromClass([self class]), self, name, comment, formula, cacheTag, cacheValue];
 }
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 {
     [resultString indentToLevel:level];
     [resultString appendFormat:@"<equation name=\"%@\"", GSXMLAttributeString(name, NO)];
-    if (expression != nil)
-        [resultString appendFormat:@" formula=\"%@\"", GSXMLAttributeString([expression expressionString], NO)];
+    if (formula != nil)
+        [resultString appendFormat:@" formula=\"%@\"", GSXMLAttributeString([formula expressionString], NO)];
 
     if (comment == nil) {
         [resultString appendString:@"/>\n"];

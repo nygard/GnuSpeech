@@ -370,7 +370,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         //NSLog(@"named list: %@, count: %d", [namedList name], [namedList count]);
         for (j = 0; j < [namedList count]; j++) {
             equation = [namedList objectAtIndex:j];
-            if ([[equation expression] maxPhone] <= type) {
+            if ([[equation formula] maxPhone] <= type) {
                 time = [equation evaluate:_parameters phones:samplePostures andCacheWith:cache];
                 //NSLog(@"\t%@", [equation name]);
                 //NSLog(@"\t\ttime = %f", time);

@@ -260,7 +260,7 @@
             [equationOutlineView scrollRowToVisible:groupRow];
             [equationOutlineView scrollRowToVisible:row];
 
-            str = [[equation expression] expressionString];
+            str = [[equation formula] expressionString];
             if (str == nil)
                 str = @"";
             [equationTextView setString:str];

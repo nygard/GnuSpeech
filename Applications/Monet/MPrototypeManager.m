@@ -184,7 +184,7 @@
             NSString *expressionString;
 
             [equationTextView setEditable:YES];
-            expressionString = [[selectedEquationOrGroup expression] expressionString];
+            expressionString = [[selectedEquationOrGroup formula] expressionString];
             if (expressionString == nil)
                 expressionString = @"";
             [equationTextView setString:expressionString];
@@ -391,7 +391,7 @@
         [equationTextView setSelectedRange:[formulaParser errorRange]];
         [[self window] makeFirstResponder:equationTextView];
     } else {
-        [[self selectedEquation] setExpression:result];
+        [[self selectedEquation] setFormula:result];
     }
 }
 

@@ -17,7 +17,7 @@
 
     NSString *name;
     NSString *comment;
-    MMFormulaNode *expression;
+    MMFormulaNode *formula;
 
     int cacheTag;
     double cacheValue;
@@ -37,8 +37,8 @@
 - (void)setComment:(NSString *)newComment;
 - (BOOL)hasComment;
 
-- (MMFormulaNode *)expression;
-- (void)setExpression:(MMFormulaNode *)newExpression;
+- (MMFormulaNode *)formula;
+- (void)setFormula:(MMFormulaNode *)newFormula;
 
 - (void)setFormulaString:(NSString *)formulaString;
 
