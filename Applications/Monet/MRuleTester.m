@@ -88,14 +88,15 @@
 {
     int ruleIndex;
     int j;
-    MonetList *testCategoryLists, *testPostures;
+    MonetList *testCategoryLists;
+    NSMutableArray *testPostures;
     MMPosture *aPosture;
     MMRule *aRule;
     double ruleSymbols[5] = {0.0, 0.0, 0.0, 0.0, 0.0};
     NSString *posture1Name, *posture2Name, *posture3Name, *posture4Name;
 
     testCategoryLists = [[[MonetList alloc] initWithCapacity:4] autorelease];
-    testPostures = [[[MonetList alloc] initWithCapacity:4] autorelease];
+    testPostures = [NSMutableArray array];
 
     posture1Name = [[posture1Form cellAtIndex:0] stringValue];
     posture2Name = [[posture2Form cellAtIndex:0] stringValue];

@@ -137,7 +137,7 @@
     return cacheValue;
 }
 
-- (double)evaluate:(double *)ruleSymbols phones:phones andCacheWith:(int)newCacheTag;
+- (double)evaluate:(double *)ruleSymbols phones:(NSArray *)phones andCacheWith:(int)newCacheTag;
 {
     if (newCacheTag != cacheTag) {
         cacheTag = newCacheTag;

@@ -41,7 +41,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     timesFont = [[NSFont fontWithName:@"Times-Roman" size:12] retain];
     currentTemplate = nil;
 
-    samplePhoneList = [[MonetList alloc] init];
+    samplePhoneList = [[NSMutableArray alloc] init];
     displayPoints = [[NSMutableArray alloc] init];
     displaySlopes = [[NSMutableArray alloc] init];
     selectedPoints = [[NSMutableArray alloc] init];

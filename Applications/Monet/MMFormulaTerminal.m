@@ -5,7 +5,6 @@
 #import "NSString-Extensions.h"
 
 #import "MMPosture.h"
-#import "PhoneList.h"
 #import "MMSymbol.h"
 #import "MMTarget.h"
 
@@ -76,14 +75,14 @@
     return 3;
 }
 
-- (double)evaluate:(double *)ruleSymbols phones:(PhoneList *)phones;
+- (double)evaluate:(double *)ruleSymbols phones:(NSArray *)phones;
 {
     double tempos[4] = {1.0, 1.0, 1.0, 1.0};
 
     return [self evaluate:ruleSymbols phones:phones tempos:tempos];
 }
 
-- (double)evaluate:(double *)ruleSymbols phones:(PhoneList *)phones tempos:(double *)tempos;
+- (double)evaluate:(double *)ruleSymbols phones:(NSArray *)phones tempos:(double *)tempos;
 {
     MMTarget *symbolTarget;
 

@@ -3,16 +3,14 @@
 
 #import <Foundation/NSObject.h>
 
-@class PhoneList;
-
 @interface MMFormulaNode : NSObject
 {
 }
 
 - (int)precedence;
 
-- (double)evaluate:(double *)ruleSymbols phones:(PhoneList *)phones;
-- (double)evaluate:(double *)ruleSymbols phones:(PhoneList *)phones tempos:(double *)tempos;
+- (double)evaluate:(double *)ruleSymbols phones:(NSArray *)phones;
+- (double)evaluate:(double *)ruleSymbols phones:(NSArray *)phones tempos:(double *)tempos;
 
 - (int)maxPhone;
 

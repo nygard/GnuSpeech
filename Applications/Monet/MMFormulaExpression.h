@@ -1,7 +1,5 @@
 #import "MMFormulaNode.h"
 
-@class PhoneList;
-
 /*===========================================================================
 
 	Author: Craig-Richard Taube-Schock
@@ -35,8 +33,8 @@
 // Methods overridden from MMFormulaNode
 - (int)precedence;
 
-- (double)evaluate:(double *)ruleSymbols phones:(PhoneList *)phones;
-- (double)evaluate:(double *)ruleSymbols phones:(PhoneList *)phones tempos:(double *)tempos;
+- (double)evaluate:(double *)ruleSymbols phones:(NSArray *)phones;
+- (double)evaluate:(double *)ruleSymbols phones:(NSArray *)phones tempos:(double *)tempos;
 
 - (int)maxPhone;
 

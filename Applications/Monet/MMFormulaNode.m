@@ -13,13 +13,13 @@
     return 0;
 }
 
-- (double)evaluate:(double *)ruleSymbols phones:(PhoneList *)phones;
+- (double)evaluate:(double *)ruleSymbols phones:(NSArray *)phones;
 {
     // Implement in subclasses
     return 0;
 }
 
-- (double)evaluate:(double *)ruleSymbols phones:(PhoneList *)phones tempos:(double *)tempos;
+- (double)evaluate:(double *)ruleSymbols phones:(NSArray *)phones tempos:(double *)tempos;
 {
     // Implement in subclasses
     return 0;

@@ -43,7 +43,7 @@
 - (void)setFormulaString:(NSString *)formulaString;
 
 - (double)evaluate:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag;
-- (double)evaluate:(double *)ruleSymbols phones:phones andCacheWith:(int)newCacheTag;
+- (double)evaluate:(double *)ruleSymbols phones:(NSArray *)phones andCacheWith:(int)newCacheTag;
 - (double)cacheValue;
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
