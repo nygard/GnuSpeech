@@ -330,42 +330,27 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
 // It would be easier if we just didn't allow the trailing // that produces an empty tone group.
 - (void)endCurrentToneGroup;
 {
-    NSLog(@" > %s", _cmd);
-    NSLog(@"toneGroupCount: %d", toneGroupCount);
     if (toneGroupCount > 0) {
-        NSLog(@"current tone group, feet %d -- %d", toneGroups[toneGroupCount-1].startFoot, toneGroups[toneGroupCount-1].endFoot);
-        NSLog(@"footCount: %d", footCount);
-        if (footCount > 0) {
-            NSLog(@"current foot, postures %d -- %d", feet[footCount-1].start, feet[footCount-1].end);
-        }
-        NSLog(@"postureCount: %d", postureCount);
-
         if (footCount == 0) {
             toneGroupCount--; // No feet in this tone group, so remove it.
         } else if (feet[footCount-1].start >= postureCount) {
             footCount--; // No posture in the foot, so remove it.
             toneGroupCount--; // And remove the toen group too
         } else {
-            NSLog(@"Ending current tone group with foot %d", footCount - 1);
             toneGroups[toneGroupCount - 1].endFoot = footCount - 1; // TODO (2004-08-18): What if footCount == 0
             [self endCurrentFoot];
         }
     }
-    NSLog(@"<  %s", _cmd);
 }
 
 - (void)newToneGroup;
 {
-    NSLog(@" > %s, toneGroupCount: %d", _cmd, toneGroupCount);
-
     [self endCurrentToneGroup];
     [self newFoot];
 
     toneGroups[toneGroupCount].startFoot = footCount - 1;
     toneGroups[toneGroupCount].endFoot = -1;
     toneGroupCount++;
-
-    NSLog(@"<  %s", _cmd);
 }
 
 - (void)setCurrentToneGroupType:(int)type;
@@ -384,27 +369,17 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
 
 - (void)endCurrentFoot;
 {
-    NSLog(@" > %s", _cmd);
-
-    if (footCount > 0) {
-        NSLog(@"Ending current foot at posture %d", postureCount - 1);
+    if (footCount > 0)
         feet[footCount - 1].end = postureCount - 1;
-    }
-
-    NSLog(@"<  %s", _cmd);
 }
 
 - (void)newFoot;
 {
-    NSLog(@" > %s, footCount: %d", _cmd, footCount);
-
     [self endCurrentFoot];
     feet[footCount].start = postureCount; // TODO (2004-08-18): And you better add that posture!
     feet[footCount].end = -1;
     feet[footCount].tempo = 1.0;
     footCount++;
-
-    NSLog(@"<  %s", _cmd);
 }
 
 - (void)setCurrentFootMarked;
@@ -439,13 +414,10 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
 
 - (void)newPhoneWithObject:(MMPosture *)anObject;
 {
-    NSLog(@" > %s", _cmd);
-    NSLog(@"%s, posture: %@, postureCount: %d", _cmd, [anObject name], postureCount);
     phoneTempo[postureCount] = 1.0;
     phones[postureCount].ruleTempo = 1.0;
     phones[postureCount].phone = anObject;
     postureCount++;
-    NSLog(@"<  %s", _cmd);
 }
 
 - (void)replaceCurrentPhoneWith:(MMPosture *)anObject;
