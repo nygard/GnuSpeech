@@ -63,17 +63,8 @@ TODO:
 
 
 
-- make superclass for FormulaExpression, FormulaTerminal.  Check how this affects archiving.
-- make superclass for BooleanExpression, BooleanTerminal.  Check how this affects archiving.
-
-
-- would like from a working synthesizer/next machine:
-  - sample sound files of generated speech
-  / provide package contents as a standard tar file so we can look at the contents
-  - sample files for the software synthesizer to have it generate speech
-  - descriptions of what each of the ".monet" files is for/demonstrates.
-  - does "Play2.monet" load for them?
-
++ make superclass for FormulaExpression, FormulaTerminal.  Check how this affects archiving.
++ make superclass for BooleanExpression, BooleanTerminal.  Check how this affects archiving.
 
 
 - merge Parameter, Symbol classes
