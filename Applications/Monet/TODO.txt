@@ -187,6 +187,9 @@ Notes:
 
 2004-07-31:
 - Combine stressed and unstressed postures into single shared data structure.
+  - Create a tool to load the old typed streams and then generate a v1 xml file.
+  - Then remove the old typedstream stuff.
+  - Create ObjC XML data structure.  Modify this to move between versions.  Then you can run the tool to convert to v1 xml, and then load that in future versions of Monet.
 
 2004-08-02:
 - In MMBooleanParser.m, a ch* will use the ch native category, not the ch' native category, but they probably want it to match both..
@@ -197,4 +200,7 @@ Notes:
 
 2004-08-04:
 + I've noticed that the postures aren't properly placed in the Synthesis window, for rules that consume >1 posture.  Problem with move to structure in EventList.
+
+2004-08-09;
+- With Save Graph Images, store at a location that's easier to get to for novice users than /tmp
 

@@ -631,6 +631,7 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
                 rule = [eventList getRuleAtIndex:ruleIndex];
                 //NSLog(@"Selecting Rule: %d phone index %d", ruleIndex, rule->lastPhone);
 
+                // TODO (2004-08-09): Should just use -[EventList addPoint:offsetTime:slope:ruleIndex:]
                 iPoint = [[IntonationPoint alloc] initWithEventList:eventList];
                 [iPoint setRuleIndex:ruleIndex];
                 [iPoint setOffsetTime:(double)temp - rule->beat];
@@ -760,6 +761,13 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
     graphOrigin.y = [self bounds].size.height - TOP_MARGIN - SECTION_COUNT * [self sectionHeight];
 
     return graphOrigin;
+}
+
+- (void)updateEvents;
+{
+    [self deselectAllPoints];
+    // TODO (2004-08-09): And select the first point again?
+    [self setNeedsDiplay:YES];
 }
 
 @end

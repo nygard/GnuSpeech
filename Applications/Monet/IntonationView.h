@@ -76,4 +76,6 @@ extern NSString *IntonationViewSelectionDidChangeNotification;
 - (int)sectionHeight;
 - (NSPoint)graphOrigin;
 
+- (void)updateEvents;
+
 @end

@@ -69,6 +69,7 @@
     zeroIndex = 0;
     duration = 0;
     timeQuantization = 4;
+
     globalTempo = 1.0;
     multiplier = 1.0;
     shouldUseMacroIntonation = NO;
@@ -83,17 +84,18 @@
 
     shouldUseSmoothIntonation = NO;
 
+    currentPhone = 0;
     bzero(phones, MAXPHONES * sizeof(struct _phone));
+    // TODO (2004-08-09): What about phoneTempo[]?
+
+    currentFoot = 0;
     bzero(feet, MAXFEET * sizeof(struct _foot));
+
+    currentToneGroup = 0;
     bzero(toneGroups, MAXTONEGROUPS * sizeof(struct _toneGroup));
 
-    bzero(rules, MAXRULES * sizeof(struct _rule));
-
-    currentPhone = 0;
-    currentFoot = 0;
-    currentToneGroup = 0;
-
     currentRule = 0;
+    bzero(rules, MAXRULES * sizeof(struct _rule));
 
     phoneTempo[0] = 1.0;
     feet[0].tempo = 1.0;

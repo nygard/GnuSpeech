@@ -394,7 +394,7 @@
 
     [eventList generateOutput];
     [eventListView setEventList:eventList];
-    [[intonationView documentView] setNeedsDisplay:YES];
+    [[intonationView documentView] updateEvents];
     [stringTextField selectText:self];
 
     NSLog(@"<  %s", _cmd);
@@ -445,6 +445,7 @@
     [eventList setIntonationParameters:intonationParameters];
 #endif
 
+    // This adds events to the EventList
     [self parsePhoneString:[stringTextField stringValue]];
 
     [eventList generateEventListWithModel:model];
@@ -467,7 +468,6 @@
         [synthesizer setupSynthesisParameters:[[self model] synthesisParameters]];
         [synthesizer removeAllParameters];
         [eventList setDelegate:synthesizer];
-        NSLog(@"eventList: %@", eventList);
         [eventList generateOutput];
         [eventList setDelegate:nil];
         if (shouldSaveToSoundFile == YES)
@@ -479,7 +479,7 @@
     [eventListView setEventList:eventList];
     [eventListView display]; // TODO (2004-03-17): It's not updating otherwise
 
-    [[intonationView documentView] setNeedsDisplay:YES];
+    [[intonationView documentView] updateEvents];
     [stringTextField selectText:self];
 }
 
@@ -493,6 +493,7 @@
 
     [eventList applyIntonation];
     [intonationRuleTableView reloadData];
+    [eventTableView reloadData];
     if ([[eventList intonationPoints] count] > 0)
         [[intonationView documentView] selectIntonationPoint:[[eventList intonationPoints] objectAtIndex:0]];
     [intonationView display];

@@ -45,7 +45,7 @@ struct _foot {
     int start; // index into postures
     int end;   // index into postures
     int marked;
-    int last;
+    int last; // Is this the last foot of (the tone group?)
 };
 
 struct _toneGroup {
@@ -54,6 +54,7 @@ struct _toneGroup {
     int type;
 };
 
+// This is used by EventListView, IntonationView
 struct _rule {
     int number;
     int firstPhone;
@@ -68,9 +69,9 @@ struct _rule {
     int zeroRef;
     int zeroIndex;
     int duration;
-    int timeQuantization;
+    int timeQuantization; // in msecs.  By default it generates parameters every 4 msec
 
-    BOOL shouldStoreParameters;
+    BOOL shouldStoreParameters; // YES -> -generateOutput writes to /tmp/Monet.parameters
     BOOL shouldUseMacroIntonation;
     BOOL shouldUseMicroIntonation;
     BOOL shouldUseDrift;
@@ -83,19 +84,18 @@ struct _rule {
     struct _intonationParameters intonationParameters;
 
     /* NOTE phones and phoneTempo are separate for Optimization reasons */
+    int currentPhone;
     struct _phone phones[MAXPHONES];
     double phoneTempo[MAXPHONES];
 
+    int currentFoot;
     struct _foot feet[MAXFEET];
+
+    int currentToneGroup;
     struct _toneGroup toneGroups[MAXTONEGROUPS];
 
-    struct _rule rules[MAXRULES];
-
-    int currentPhone;
-    int currentFoot;
-    int currentToneGroup;
-
     int currentRule;
+    struct _rule rules[MAXRULES];
 
     int cache;
     double min[16]; // Min of each parameter value
