@@ -244,3 +244,14 @@ des: [~ 12 ]> /Local/Public/nygard/Products/Monet.app/Contents/MacOS/Monet
 
 2004-08-22:
 - show values out of min-max range in red.  i.e. qssa, qssb for qz are 2, minimum is 10
+
+2004-08-26:
+- Try using NAN, FP_NAN, nan(), or nanf() instead of our own NaN.  Try using isnan() or fpclassify().
+- replace pow(2.0, x) with exp2(x)
+- use ldexp(x,n) for x * 2^n efficiently.  Can't, because it uses integer exponents.
+- modf() should be useful.
+- fma() - floating multiply and add, as a single operation.  Slow to call.
+- cbrt - cube root
+- hypot() !!!
+
+- using -O3 instead of -Os on software trm improves speed by about 6% right now.

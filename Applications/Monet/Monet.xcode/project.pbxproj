@@ -299,6 +299,8 @@
 				01491E5B06A4836000879FE1,
 				01491E5C06A4836000879FE1,
 				01491E5D06A4836000879FE1,
+				0169C70506E13F80009FBDCF,
+				0169C70606E13F80009FBDCF,
 			);
 			isa = PBXGroup;
 			name = "Software TRM";
@@ -1608,6 +1610,36 @@
 		};
 		0165FBB506C1859B00C6D2C9 = {
 			fileRef = 0165FBB406C1859B00C6D2C9;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0169C70506E13F80009FBDCF = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
+			name = sample_rate_converter.c;
+			path = ../../Tools/softwareTRM/sample_rate_converter.c;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		0169C70606E13F80009FBDCF = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = sample_rate_converter.h;
+			path = ../../Tools/softwareTRM/sample_rate_converter.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		0169C70706E13F80009FBDCF = {
+			fileRef = 0169C70506E13F80009FBDCF;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0169C70806E13F80009FBDCF = {
+			fileRef = 0169C70606E13F80009FBDCF;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -4014,6 +4046,7 @@
 				0147B64706D6F4A400E0A5C1,
 				01D001BA06D7ED59009C6C3C,
 				01F2C09706D7FB1500E2A458,
+				0169C70806E13F80009FBDCF,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4156,6 +4189,7 @@
 				0147B64806D6F4A400E0A5C1,
 				01D001BB06D7ED59009C6C3C,
 				01F2C09806D7FB1500E2A458,
+				0169C70706E13F80009FBDCF,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
