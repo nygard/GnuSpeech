@@ -9,8 +9,8 @@ typedef struct _TRMRingBuffer {
     int emptyPtr;
     int fillCounter;
 
-    void *callbackObject;
-    void (*callbackFunction)(void *, TRMRingBuffer *);
+    void *context;
+    void (*callbackFunction)(TRMRingBuffer *, void *);
 } TRMRingBuffer;
 
 TRMRingBuffer *createRingBuffer(int aPadSize)
@@ -34,7 +34,7 @@ TRMRingBuffer *createRingBuffer(int aPadSize)
     emptyPtr = 0;
     fillCounter = 0;
 
-    callbackObject = NULL;
+    context = NULL;
     callbackFunction = NULL;
 
     return newRingBuffer;
@@ -60,10 +60,10 @@ void dataFill(TRMRingBuffer *ringBuffer, double data)
 
 void dataEmpty(TRMRingBuffer *ringBuffer)
 {
-    if (callbackObject == NULL || callbackFunction == NULL) {
+    if (callbackFunction == NULL) {
         // Just empty the buffer.
     } else {
-        (*callbackFunction)(callbackObject, ringBuffer);
+        (*callbackFunction)(ringBuffer, context);
     }
 }
 
