@@ -539,6 +539,8 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     [bezierPath stroke];
     [bezierPath release];
 
+    [[NSColor blueColor] set];
+
     count = [selectedPoints count];
     for (index = 0; index < count; index++) {
         currentIntonationPoint = [selectedPoints objectAtIndex:index];
