@@ -992,7 +992,7 @@ static void page_consumed(void)
 #ifdef HAVE_DSP
     set_synthesizer_output(filename, getuid(), getgid(), 1);
 #else
-#warning No DSP for -synthesizeToFile:
+    NSLog(@"Warning: No DSP for -synthesizeToFile:");
 #endif
 }
 
