@@ -18,11 +18,8 @@ History:
 
 ===========================================================================*/
 
-@class AppController;
-
 @interface IntonationScrollView : NSScrollView
 {
-    IBOutlet AppController *controller;
     IBOutlet NSView *scaleView; // TODO (2004-03-15): Find specific subclass that is used.
 }
 

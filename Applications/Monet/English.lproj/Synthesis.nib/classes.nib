@@ -18,7 +18,7 @@
             ACTIONS = {print = id; }; 
             CLASS = IntonationScrollView; 
             LANGUAGE = ObjC; 
-            OUTLETS = {controller = AppController; scaleView = NSView; }; 
+            OUTLETS = {scaleView = NSView; }; 
             SUPERCLASS = NSScrollView; 
         }, 
         {
