@@ -111,6 +111,7 @@ extern NSString *MAIntonationViewSelectionDidChangeNotification;
 - (NSRect)rectFormedByPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
 
 - (void)intonationPointDidChange:(NSNotification *)aNotification;
+- (void)removeOldSelectedPoints;
 
 - (void)setFrame:(NSRect)newFrame;
 

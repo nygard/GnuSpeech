@@ -1190,6 +1190,21 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
 - (void)intonationPointDidChange:(NSNotification *)aNotification;
 {
+    [self removeOldSelectedPoints];
+    [self setNeedsDisplay:YES];
+}
+
+- (void)removeOldSelectedPoints;
+{
+    int count, index;
+
+    // This is another case where count cannot be unsigned.
+    count = [selectedPoints count];
+    for (index = count - 1; index >= 0; index--) {
+        if ([[selectedPoints objectAtIndex:index] eventList] == nil)
+            [selectedPoints removeObjectAtIndex:index];
+    }
+
     [self setNeedsDisplay:YES];
 }
 
