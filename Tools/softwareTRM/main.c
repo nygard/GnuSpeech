@@ -147,7 +147,7 @@ int main(int argc, char *argv[])
     }
 
     // Synthesize the speech
-    synthesize(tube, inputData);
+    TRMTubeModelSynthesize(tube, inputData);
 
     if (verbose)
         printf("done.\n");

@@ -219,7 +219,7 @@ double nasalRadiationFilter(TRMTubeModel *tubeModel, double input)
 *
 ******************************************************************************/
 
-void synthesize(TRMTubeModel *tubeModel, TRMData *data)
+void TRMTubeModelSynthesize(TRMTubeModel *tubeModel, TRMData *data)
 {
     int j;
     double f0, ax, ah1, pulse, lp_noise, pulsed_noise, signal, crossmix;
@@ -247,6 +247,7 @@ void synthesize(TRMTubeModel *tubeModel, TRMData *data)
             f0 = frequency(tubeModel->current.parameters.glotPitch);
             ax = amplitude(tubeModel->current.parameters.glotVol);
             ah1 = amplitude(tubeModel->current.parameters.aspVol);
+
             calculateTubeCoefficients(tubeModel, &(data->inputParameters));
             setFricationTaps(tubeModel);
             calculateBandpassCoefficients(tubeModel, tubeModel->sampleRate);

@@ -11,6 +11,6 @@
 TRMTubeModel *TRMTubeModelCreate(TRMInputParameters *inputParameters);
 void TRMTubeModelFree(TRMTubeModel *model);
 
-void synthesize(TRMTubeModel *tubeModel, TRMData *data);
+void TRMTubeModelSynthesize(TRMTubeModel *tubeModel, TRMData *data);
 
 #endif
