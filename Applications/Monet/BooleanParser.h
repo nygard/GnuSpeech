@@ -1,7 +1,5 @@
 #import "GSParser.h"
 
-@class NSScanner;
-@class NSTextField; // Yuck!
 @class BooleanExpression, CategoryNode, CategoryList, PhoneList;
 
 /*===========================================================================

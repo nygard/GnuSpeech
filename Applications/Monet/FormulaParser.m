@@ -109,14 +109,12 @@ static int operatorPrec[8] = {1, 1, 2, 2, 3, 0, 4, 4};
 
 - (id)beginParseString;
 {
+    // FormulaTerminal, 
     id tempExpression = nil;
-    FormulaTerminal *tempTerminal;
-    int temp;
 
-    temp = [self nextToken];
-    switch (temp) {
+    switch ([self nextToken]) {
       case TK_F_SUB:
-          //NSLog(@"Sub");
+          NSLog(@"Sub");
           break;
 
       case TK_F_ADD:
@@ -140,18 +138,14 @@ static int operatorPrec[8] = {1, 1, 2, 2, 3, 0, 4, 4};
           return nil;
 
       case TK_F_SYMBOL:
-          tempTerminal = [self parseSymbol];
-          if (tempTerminal) {
-              tempExpression = tempTerminal;
-          } else {
+          tempExpression = [self parseSymbol];
+          if (tempExpression == nil)
               return nil;
-          }
           break;
 
       case TK_F_CONST:
-          tempTerminal = [[[FormulaTerminal alloc] init] autorelease];
-          [tempTerminal setValue:[symbolString doubleValue]];
-          tempExpression = tempTerminal;
+          tempExpression = [[[FormulaTerminal alloc] init] autorelease];
+          [tempExpression setValue:[symbolString doubleValue]];
           break;
 
       case TK_F_ERROR:
@@ -168,10 +162,10 @@ static int operatorPrec[8] = {1, 1, 2, 2, 3, 0, 4, 4};
 
 - (id)continueParse:currentExpression;
 {
-    int tempToken;
+    int token;
 
-    while ( (tempToken = [self nextToken]) != TK_F_END) {
-        switch (tempToken) {
+    while ( (token = [self nextToken]) != TK_F_END) {
+        switch (token) {
           default:
           case TK_F_END:
               [self appendErrorFormat:@"Unexpected End."];
@@ -216,34 +210,34 @@ static int operatorPrec[8] = {1, 1, 2, 2, 3, 0, 4, 4};
 
 - (id)parseSymbol;
 {
-    FormulaTerminal *tempTerminal = nil;
-    Symbol *tempSymbol;
+    FormulaTerminal *aTerminal = nil;
 
     NSLog(@"Symbol = |%@|", symbolString);
 
-    tempTerminal = [[[FormulaTerminal alloc] init] autorelease];
+    aTerminal = [[[FormulaTerminal alloc] init] autorelease];
 
     if ([symbolString isEqualToString:@"rd"]) {
-        [tempTerminal setWhichPhone:RULEDURATION];
+        [aTerminal setWhichPhone:RULEDURATION];
     } else if ([symbolString isEqualToString:@"beat"]) {
-        [tempTerminal setWhichPhone:BEAT];
+        [aTerminal setWhichPhone:BEAT];
     } else if ([symbolString isEqualToString:@"mark1"]) {
-        [tempTerminal setWhichPhone:MARK1];
+        [aTerminal setWhichPhone:MARK1];
     } else if ([symbolString isEqualToString:@"mark2"]) {
-        [tempTerminal setWhichPhone:MARK2];
+        [aTerminal setWhichPhone:MARK2];
     } else if ([symbolString isEqualToString:@"mark3"]) {
-        [tempTerminal setWhichPhone:MARK3];
+        [aTerminal setWhichPhone:MARK3];
     } else if ([symbolString isEqualToString:@"tempo1"]) {
-        [tempTerminal setWhichPhone:TEMPO0];
+        [aTerminal setWhichPhone:TEMPO0];
     } else if ([symbolString isEqualToString:@"tempo2"]) {
-        [tempTerminal setWhichPhone:TEMPO1];
+        [aTerminal setWhichPhone:TEMPO1];
     } else if ([symbolString isEqualToString:@"tempo3"]) {
-        [tempTerminal setWhichPhone:TEMPO2];
+        [aTerminal setWhichPhone:TEMPO2];
     } else if ([symbolString isEqualToString:@"tempo4"]) {
-        [tempTerminal setWhichPhone:TEMPO3];
+        [aTerminal setWhichPhone:TEMPO3];
     } else {
         int whichPhone;
         NSString *baseSymbolName;
+        Symbol *aSymbol;
 
         whichPhone = [symbolString characterAtIndex:[symbolString length] - 1] - '1';
         NSLog(@"Phone = %d", whichPhone);
@@ -254,10 +248,10 @@ static int operatorPrec[8] = {1, 1, 2, 2, 3, 0, 4, 4};
 
         baseSymbolName = [symbolString substringToIndex:[symbolString length] - 1];
 
-        tempSymbol = [symbolList findSymbol:baseSymbolName];
-        if (tempSymbol) {
-            [tempTerminal setSymbol:tempSymbol];
-            [tempTerminal setWhichPhone:whichPhone];
+        aSymbol = [symbolList findSymbol:baseSymbolName];
+        if (aSymbol) {
+            [aTerminal setSymbol:aSymbol];
+            [aTerminal setWhichPhone:whichPhone];
         } else {
             [self appendErrorFormat:@"Unknown symbol %@.", symbolString];
             //NSLog(@"\t Error, Undefined Symbol %@", tempSymbolString);
@@ -265,29 +259,29 @@ static int operatorPrec[8] = {1, 1, 2, 2, 3, 0, 4, 4};
         }
     }
 
-    return tempTerminal;
+    return aTerminal;
 }
 
 - (id)addOperation:operand;
 {
-    id temp = nil, temp1 = nil, returnExp = nil;
-    FormulaTerminal *tempTerminal;
+    id expression1 = nil, expression2 = nil, returnExp = nil;
+    FormulaTerminal *aTerminal;
 
     //NSLog(@"ADD");
 
-    temp = [[FormulaExpression alloc] init];
-    [temp setPrecedence:1];
-    [temp setOperation:TK_F_ADD];
+    expression1 = [[[FormulaExpression alloc] init] autorelease];
+    [expression1 setPrecedence:1];
+    [expression1 setOperation:TK_F_ADD];
 
     if ([operand precedence] >= 1) {
         /* Current Sub Expression has higher precedence */
-        [temp setOperandOne:operand];
-        returnExp = temp;
+        [expression1 setOperandOne:operand];
+        returnExp = expression1;
     } else {
         /* Currend Sub Expression has lower Precedence.  Restructure Tree */
-        temp1 = [operand operandTwo];
-        [temp setOperandOne:temp1];
-        [operand setOperandTwo:temp];
+        expression2 = [operand operandTwo];
+        [expression1 setOperandOne:expression2];
+        [operand setOperandTwo:expression1];
         returnExp = operand;
     }
 
@@ -308,22 +302,21 @@ static int operatorPrec[8] = {1, 1, 2, 2, 3, 0, 4, 4};
           return nil;
 
       case TK_F_LPAREN:
-          [temp setOperandTwo:[self leftParen]];
+          [expression1 setOperandTwo:[self leftParen]];
           break;
 
       case TK_F_SYMBOL:
-          tempTerminal = [self parseSymbol];
-          if (tempTerminal) {
-              [temp setOperandTwo:tempTerminal];
-          } else {
+          aTerminal = [self parseSymbol];
+          if (aTerminal == nil)
               return nil;
-          }
+          [expression1 setOperandTwo:aTerminal];
           break;
 
       case TK_F_CONST:
-          tempTerminal = [[FormulaTerminal alloc] init];
-          [tempTerminal setValue:[symbolString doubleValue]];
-          [temp setOperandTwo:tempTerminal];
+          aTerminal = [[FormulaTerminal alloc] init];
+          [aTerminal setValue:[symbolString doubleValue]];
+          [expression1 setOperandTwo:aTerminal];
+          [aTerminal release];
           break;
     }
 
@@ -332,24 +325,24 @@ static int operatorPrec[8] = {1, 1, 2, 2, 3, 0, 4, 4};
 
 - (id)subOperation:operand;
 {
-    id temp = nil, temp1 = nil, returnExp = nil;
-    FormulaTerminal *tempTerminal;
+    id expression1 = nil, expression2 = nil, returnExp = nil;
+    FormulaTerminal *aTerminal;
 
     //NSLog(@"SUB");
 
-    temp = [[FormulaExpression alloc] init];
-    [temp setPrecedence:1];
-    [temp setOperation:TK_F_SUB];
+    expression1 = [[[FormulaExpression alloc] init] autorelease];;
+    [expression1 setPrecedence:1];
+    [expression1 setOperation:TK_F_SUB];
 
     if ([operand precedence] >= 1) {
         /* Current Sub Expression has higher precedence */
-        [temp setOperandOne:operand];
-        returnExp = temp;
+        [expression1 setOperandOne:operand];
+        returnExp = expression1;
     } else {
         /* Currend Sub Expression has lower Precedence.  Restructure Tree */
-        temp1 = [operand operandTwo];
-        [temp setOperandOne:temp1];
-        [operand setOperandTwo:temp];
+        expression2 = [operand operandTwo];
+        [expression1 setOperandOne:expression2];
+        [operand setOperandTwo:expression1];
         returnExp = operand;
     }
 
@@ -370,22 +363,21 @@ static int operatorPrec[8] = {1, 1, 2, 2, 3, 0, 4, 4};
           return nil;
 
       case TK_F_LPAREN:
-          [temp setOperandTwo:[self leftParen]];
+          [expression1 setOperandTwo:[self leftParen]];
           break;
 
       case TK_F_SYMBOL:
-          tempTerminal = [self parseSymbol];
-          if (tempTerminal) {
-              [temp setOperandTwo:tempTerminal];
-          } else {
+          aTerminal = [self parseSymbol];
+          if (aTerminal == nil)
               return nil;
-          }
+          [expression1 setOperandTwo:aTerminal];
           break;
 
       case TK_F_CONST:
-          tempTerminal = [[FormulaTerminal alloc] init];
-          [tempTerminal setValue:[symbolString doubleValue]];
-          [temp setOperandTwo:tempTerminal];
+          aTerminal = [[FormulaTerminal alloc] init];
+          [aTerminal setValue:[symbolString doubleValue]];
+          [expression1 setOperandTwo:aTerminal];
+          [aTerminal release];
           break;
     }
 
@@ -394,24 +386,24 @@ static int operatorPrec[8] = {1, 1, 2, 2, 3, 0, 4, 4};
 
 - (id)multOperation:operand;
 {
-    id temp = nil, temp1 = nil, returnExp = nil;
-    FormulaTerminal *tempTerminal;
+    id expression1 = nil, expression2 = nil, returnExp = nil;
+    FormulaTerminal *aTerminal;
 
     //NSLog(@"MULT");
 
-    temp = [[FormulaExpression alloc] init];
-    [temp setPrecedence:2];
-    [temp setOperation:TK_F_MULT];
+    expression1 = [[[FormulaExpression alloc] init] autorelease];
+    [expression1 setPrecedence:2];
+    [expression1 setOperation:TK_F_MULT];
 
     if ([operand precedence] >= 2) {
         /* Current Sub Expression has higher precedence */
-        [temp setOperandOne:operand];
-        returnExp = temp;
+        [expression1 setOperandOne:operand];
+        returnExp = expression1;
     } else {
         /* Currend Sub Expression has lower Precedence.  Restructure Tree */
-        temp1 = [operand operandTwo];
-        [temp setOperandOne:temp1];
-        [operand setOperandTwo:temp];
+        expression2 = [operand operandTwo];
+        [expression1 setOperandOne:expression2];
+        [operand setOperandTwo:expression1];
         returnExp = operand;
     }
 
@@ -432,22 +424,21 @@ static int operatorPrec[8] = {1, 1, 2, 2, 3, 0, 4, 4};
           return nil;
 
       case TK_F_LPAREN:
-          [temp setOperandTwo:[self leftParen]];
+          [expression1 setOperandTwo:[self leftParen]];
           break;
 
       case TK_F_SYMBOL:
-          tempTerminal = [self parseSymbol];
-          if (tempTerminal) {
-              [temp setOperandTwo:tempTerminal];
-          } else {
+          aTerminal = [self parseSymbol];
+          if (aTerminal == nil)
               return nil;
-          }
+          [expression1 setOperandTwo:aTerminal];
           break;
 
       case TK_F_CONST:
-          tempTerminal = [[FormulaTerminal alloc] init];
-          [tempTerminal setValue:[symbolString doubleValue]];
-          [temp setOperandTwo:tempTerminal];
+          aTerminal = [[FormulaTerminal alloc] init];
+          [aTerminal setValue:[symbolString doubleValue]];
+          [expression1 setOperandTwo:aTerminal];
+          [aTerminal release];
           break;
     }
 
@@ -456,24 +447,24 @@ static int operatorPrec[8] = {1, 1, 2, 2, 3, 0, 4, 4};
 
 - (id)divOperation:operand;
 {
-    id temp = nil, temp1 = nil, returnExp = nil;
-    FormulaTerminal *tempTerminal;
+    id expression1 = nil, expression2 = nil, returnExp = nil;
+    FormulaTerminal *aTerminal;
 
     //NSLog(@"DIV");
 
-    temp = [[FormulaExpression alloc] init];
-    [temp setPrecedence:2];
-    [temp setOperation:TK_F_DIV];
+    expression1 = [[[FormulaExpression alloc] init] autorelease];
+    [expression1 setPrecedence:2];
+    [expression1 setOperation:TK_F_DIV];
 
     if ([operand precedence] >= 2) {
         /* Current Sub Expression has higher precedence */
-        [temp setOperandOne:operand];
-        returnExp = temp;
+        [expression1 setOperandOne:operand];
+        returnExp = expression1;
     } else {
         /* Currend Sub Expression has lower Precedence.  Restructure Tree */
-        temp1 = [operand operandTwo];
-        [temp setOperandOne:temp1];
-        [operand setOperandTwo:temp];
+        expression2 = [operand operandTwo];
+        [expression1 setOperandOne:expression2];
+        [operand setOperandTwo:expression1];
         returnExp = operand;
     }
 
@@ -495,22 +486,21 @@ static int operatorPrec[8] = {1, 1, 2, 2, 3, 0, 4, 4};
 
       case TK_F_LPAREN:
           [self leftParen];
-          [temp setOperandTwo:[self leftParen]];
+          [expression1 setOperandTwo:[self leftParen]];
           break;
 
       case TK_F_SYMBOL:
-          tempTerminal = [self parseSymbol];
-          if (tempTerminal) {
-              [temp setOperandTwo:tempTerminal];
-          } else {
+          aTerminal = [self parseSymbol];
+          if (aTerminal == nil)
               return nil;
-          }
+          [expression1 setOperandTwo:aTerminal];
           break;
 
       case TK_F_CONST:
-          tempTerminal = [[FormulaTerminal alloc] init];
-          [tempTerminal setValue:[symbolString doubleValue]];
-          [temp setOperandTwo:tempTerminal];
+          aTerminal = [[FormulaTerminal alloc] init];
+          [aTerminal setValue:[symbolString doubleValue]];
+          [expression1 setOperandTwo:aTerminal];
+          [aTerminal release];
           break;
     }
 
@@ -519,9 +509,9 @@ static int operatorPrec[8] = {1, 1, 2, 2, 3, 0, 4, 4};
 
 - (id)leftParen;
 {
-    id temp = nil;
-    FormulaTerminal *tempTerminal, *tempTerm;
-    int tempToken;
+    id expression1 = nil;
+    FormulaTerminal *aTerminal, *tempTerm;
+    int token;
 
     switch ([self nextToken]) {
       case TK_F_END:
@@ -529,10 +519,10 @@ static int operatorPrec[8] = {1, 1, 2, 2, 3, 0, 4, 4};
           return nil;
 
       case TK_F_RPAREN:
-          return temp;
+          return expression1;
 
       case TK_F_LPAREN:
-          temp = [self leftParen];
+          expression1 = [self leftParen];
           break;
 
       case TK_F_ADD:
@@ -544,71 +534,68 @@ static int operatorPrec[8] = {1, 1, 2, 2, 3, 0, 4, 4};
 
       case TK_F_SYMBOL:
           tempTerm = [self parseSymbol];
-          if (tempTerm) {
-              temp = tempTerm;
-          } else {
+          if (tempTerm == nil)
               return nil;
-          }
+          expression1 = tempTerm;
           break;
 
       case TK_F_CONST:
-          temp = [[FormulaTerminal alloc] init];
-          [temp setValue:[symbolString doubleValue]];
-          //NSLog(@"%@ = %f", symbolString, [temp value]);
+          expression1 = [[[FormulaTerminal alloc] init] autorelease];
+          [expression1 setValue:[symbolString doubleValue]];
+          //NSLog(@"%@ = %f", symbolString, [expression1 value]);
           break;
     }
 
-    while ( (tempToken = [self nextToken]) != TK_F_RPAREN) {
-        switch (tempToken) {
+    while ( (token = [self nextToken]) != TK_F_RPAREN) {
+        switch (token) {
           case TK_F_END:
               NSLog(@"\tError, unexpected end at index %d", [scanner scanLocation]);
               return nil;
 
           case TK_F_RPAREN:
-              return temp;
+              return expression1;
 
           case TK_F_LPAREN:
               NSLog(@"\tError, unexpected '(' at index %d", [scanner scanLocation]);
               return nil;
 
           case TK_F_ADD:
-              temp = [self addOperation:temp];
+              expression1 = [self addOperation:expression1];
               break;
 
           case TK_F_SUB:
-              temp = [self subOperation:temp];
+              expression1 = [self subOperation:expression1];
               break;
 
           case TK_F_MULT:
-              temp = [self multOperation:temp];
+              expression1 = [self multOperation:expression1];
               break;
 
           case TK_F_DIV:
-              temp = [self divOperation:temp];
+              expression1 = [self divOperation:expression1];
               break;
 
           case TK_F_SYMBOL:
-              tempTerminal = [self parseSymbol];
-              if (tempTerminal) {
-                  [temp setOperandTwo:tempTerminal];
-              } else {
+              aTerminal = [self parseSymbol];
+              if (aTerminal == nil)
                   return nil;
-              }
+              [expression1 setOperandTwo:aTerminal];
               break;
 
           case TK_F_CONST:
               //NSLog(@"Here!!");
-              tempTerminal = [[FormulaTerminal alloc] init];
-              [tempTerminal setValue:[symbolString doubleValue]];
-              [temp setOperandTwo:tempTerminal];
+              aTerminal = [[FormulaTerminal alloc] init];
+              [aTerminal setValue:[symbolString doubleValue]];
+              [expression1 setOperandTwo:aTerminal];
+              [aTerminal release];
               break;
         }
     }
 
     /* Set Paren precedence */
-    [temp setPrecedence:3];
+    [expression1 setPrecedence:3];
 
-    return temp;
+    return expression1;
 }
 
 @end
