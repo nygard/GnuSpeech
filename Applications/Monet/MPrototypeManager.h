@@ -19,14 +19,12 @@
     IBOutlet NSOutlineView *transitionOutlineView;
     IBOutlet NSButtonCell *addTransitionButtonCell;
     IBOutlet NSButtonCell *removeTransitionButtonCell;
-    IBOutlet NSMatrix *transitionTypeMatrix;
     IBOutlet TransitionView *miniTransitionView;
     IBOutlet NSTextView *transitionCommentTextView;
 
     IBOutlet NSOutlineView *specialTransitionOutlineView;
     IBOutlet NSButtonCell *addSpecialTransitionButtonCell;
     IBOutlet NSButtonCell *removeSpecialTransitionButtonCell;
-    IBOutlet NSMatrix *specialTransitionTypeMatrix;
     IBOutlet SpecialView *miniSpecialTransitionView;
     IBOutlet NSTextView *specialTransitionCommentTextView;
 
@@ -70,7 +68,6 @@
 - (IBAction)addTransitionGroup:(id)sender;
 - (IBAction)addTransition:(id)sender;
 - (IBAction)removeTransition:(id)sender;
-- (IBAction)setTransitionType:(id)sender;
 - (IBAction)editTransition:(id)sender;
 
 
@@ -78,7 +75,6 @@
 - (IBAction)addSpecialTransitionGroup:(id)sender;
 - (IBAction)addSpecialTransition:(id)sender;
 - (IBAction)removeSpecialTransition:(id)sender;
-- (IBAction)setSpecialTransitionType:(id)sender;
 - (IBAction)editSpecialTransition:(id)sender;
 
 // NSOutlineView data source

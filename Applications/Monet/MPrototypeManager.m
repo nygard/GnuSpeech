@@ -217,9 +217,6 @@
             [transitionCommentTextView setString:@""];
             [addTransitionButtonCell setEnabled:NO];
             [removeTransitionButtonCell setEnabled:NO];
-
-            [transitionTypeMatrix setEnabled:NO];
-            [transitionTypeMatrix selectCellWithTag:2];
         } else {
             [transitionCommentTextView setEditable:YES];
             comment = [selectedTransitionOrGroup comment];
@@ -230,23 +227,12 @@
             [removeTransitionButtonCell setEnabled:YES];
         }
 
-        if ([selectedTransitionOrGroup isKindOfClass:[MMTransition class]] == YES) {
-            [transitionTypeMatrix setEnabled:YES];
-            [transitionTypeMatrix selectCellWithTag:[(MMTransition *)selectedTransitionOrGroup type]];
-        } else {
-            [transitionTypeMatrix setEnabled:NO];
-            [transitionTypeMatrix selectCellWithTag:2];
-        }
-
         [miniTransitionView setTransition:[self selectedTransition]];
     } else {
         [transitionCommentTextView setEditable:NO];
         [transitionCommentTextView setString:@""];
         [addTransitionButtonCell setEnabled:NO];
         [removeTransitionButtonCell setEnabled:NO];
-
-        [transitionTypeMatrix setEnabled:NO];
-        [transitionTypeMatrix selectCellWithTag:2];
 
         [miniTransitionView setTransition:nil];
     }
@@ -264,9 +250,6 @@
             [specialTransitionCommentTextView setString:@""];
             [addSpecialTransitionButtonCell setEnabled:NO];
             [removeSpecialTransitionButtonCell setEnabled:NO];
-
-            [specialTransitionTypeMatrix setEnabled:NO];
-            [specialTransitionTypeMatrix selectCellWithTag:2];
         } else {
             [specialTransitionCommentTextView setEditable:YES];
             comment = [selectedSpecialTransitionOrGroup comment];
@@ -277,23 +260,12 @@
             [removeSpecialTransitionButtonCell setEnabled:YES];
         }
 
-        if ([selectedSpecialTransitionOrGroup isKindOfClass:[MMTransition class]] == YES) {
-            [specialTransitionTypeMatrix setEnabled:YES];
-            [specialTransitionTypeMatrix selectCellWithTag:[(MMTransition *)selectedSpecialTransitionOrGroup type]];
-        } else {
-            [specialTransitionTypeMatrix setEnabled:NO];
-            [specialTransitionTypeMatrix selectCellWithTag:2];
-        }
-
         [miniSpecialTransitionView setTransition:[self selectedSpecialTransition]];
     } else {
         [specialTransitionCommentTextView setEditable:NO];
         [specialTransitionCommentTextView setString:@""];
         [addSpecialTransitionButtonCell setEnabled:NO];
         [removeSpecialTransitionButtonCell setEnabled:NO];
-
-        [specialTransitionTypeMatrix setEnabled:NO];
-        [specialTransitionTypeMatrix selectCellWithTag:2];
 
         [miniSpecialTransitionView setTransition:nil];
     }
@@ -462,12 +434,6 @@
     NSLog(@"<  %s", _cmd);
 }
 
-- (IBAction)setTransitionType:(id)sender;
-{
-    [[self selectedTransition] setType:[[transitionTypeMatrix selectedCell] tag]];
-    [self  _updateTransitionDetails];
-}
-
 - (IBAction)editTransition:(id)sender;
 {
     [[NSApp delegate] editTransition:[self selectedTransition]];
@@ -533,12 +499,6 @@
 {
     NSLog(@" > %s", _cmd);
     NSLog(@"<  %s", _cmd);
-}
-
-- (IBAction)setSpecialTransitionType:(id)sender;
-{
-    [[self selectedSpecialTransition] setType:[[specialTransitionTypeMatrix selectedCell] tag]];
-    [self _updateSpecialTransitionDetails];
 }
 
 - (IBAction)editSpecialTransition:(id)sender;

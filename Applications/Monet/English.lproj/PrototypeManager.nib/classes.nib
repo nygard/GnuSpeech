@@ -18,8 +18,6 @@
                 removeTransition = id; 
                 revertEquation = id; 
                 setEquation = id; 
-                setSpecialTransitionType = id; 
-                setTransitionType = id; 
             }; 
             CLASS = MPrototypeManager; 
             LANGUAGE = ObjC; 
@@ -38,10 +36,8 @@
                 removeTransitionButtonCell = NSButtonCell; 
                 specialTransitionCommentTextView = NSTextView; 
                 specialTransitionOutlineView = NSOutlineView; 
-                specialTransitionTypeMatrix = NSMatrix; 
                 transitionCommentTextView = NSTextView; 
                 transitionOutlineView = NSOutlineView; 
-                transitionTypeMatrix = NSMatrix; 
             }; 
             SUPERCLASS = MWindowController; 
         }, 
