@@ -45,7 +45,7 @@ static void convertIntToFloat80(unsigned int value, unsigned char buffer[10]);
 *
 ******************************************************************************/
 
-void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMData *data, char *fileName)
+void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMData *data, const char *fileName)
 {
     FILE *fd;
     double scale, leftScale = 0.0, rightScale = 0.0;

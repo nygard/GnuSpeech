@@ -33,6 +33,7 @@ extern int verbose;
 - (void)removeAllParameters;
 
 - (void)synthesize;
+- (void)synthesizeToSoundFile:(NSString *)filename type:(int)type;
 - (void)convertSamplesIntoData:(TRMSampleRateConverter *)sampleRateConverter;
 - (void)startPlaying;
 - (void)stopPlaying;

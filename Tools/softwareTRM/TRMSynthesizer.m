@@ -104,8 +104,6 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
 
 - (void)setupSynthesisParameters:(MMSynthesisParameters *)synthesisParameters;
 {
-    NSLog(@" > %s", _cmd);
-
     inputData->inputParameters.outputFileFormat = 0;
     inputData->inputParameters.outputRate = [MMSynthesisParameters samplingRate:[synthesisParameters samplingRate]];
     inputData->inputParameters.controlRate = 250;
@@ -200,15 +198,11 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
         sprintf(buf, "%f", [synthesisParameters mixOffset]);
         inputData->inputParameters.mixOffset = strtod(buf, NULL);
     }
-
-    NSLog(@"<  %s", _cmd);
 }
 
 - (void)removeAllParameters;
 {
     INPUT *ptr, *next;
-
-    NSLog(@" > %s", _cmd);
 
     ptr = inputData->inputHead;
     while (ptr != NULL) {
@@ -219,8 +213,6 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
 
     inputData->inputHead = NULL;
     inputData->inputTail = NULL;
-
-    NSLog(@"<   %s", _cmd);
 }
 
 - (void)addParameters:(float *)values;
@@ -267,6 +259,23 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
     TRMTubeModelFree(tube);
 
     [self startPlaying];
+}
+
+- (void)synthesizeToSoundFile:(NSString *)filename type:(int)type;
+{
+    TRMTubeModel *tube;
+
+    inputData->inputParameters.outputFileFormat = type;
+
+    tube = TRMTubeModelCreate(&(inputData->inputParameters));
+    if (tube == NULL) {
+        NSLog(@"Warning: Failed to create tube model.");
+        return;
+    }
+
+    synthesize(tube, inputData);
+    writeOutputToFile(&(tube->sampleRateConverter), inputData, [filename UTF8String]);
+    TRMTubeModelFree(tube);
 }
 
 - (void)convertSamplesIntoData:(TRMSampleRateConverter *)sampleRateConverter;
