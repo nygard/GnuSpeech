@@ -496,7 +496,6 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
     unichar ch;
 
     unsigned int ruleCount;
-    MMIntonationPoint *tempPoint;
 
     NSLog(@" > %s", _cmd);
 
@@ -527,11 +526,8 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
                   }
               }
 
-              for (pointIndex = 0; pointIndex < pointCount; pointIndex++) {
-                  tempPoint = [selectedPoints objectAtIndex:pointIndex];
-                  [tempPoint setRuleIndex:[tempPoint ruleIndex] - 1];
-                  [eventList addIntonationPoint:tempPoint];
-              }
+              for (pointIndex = 0; pointIndex < pointCount; pointIndex++)
+                  [[selectedPoints objectAtIndex:pointIndex] decrementRuleIndex];
               break;
 
           case NSRightArrowFunctionKey:
@@ -543,11 +539,8 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
                   }
               }
 
-              for (pointIndex = 0; pointIndex < pointCount; pointIndex++) {
-                  tempPoint = [selectedPoints objectAtIndex:pointIndex];
-                  [tempPoint setRuleIndex:[tempPoint ruleIndex] + 1];
-                  [eventList addIntonationPoint:tempPoint];
-              }
+              for (pointIndex = 0; pointIndex < pointCount; pointIndex++)
+                  [[selectedPoints objectAtIndex:pointIndex] incrementRuleIndex];
               break;
 
           case NSUpArrowFunctionKey:

@@ -57,7 +57,7 @@
         return;
 
     offsetTime = newOffsetTime;
-    [nonretained_eventList intonationPointDidChange:self];
+    [nonretained_eventList intonationPointTimeDidChange:self];
 }
 
 - (double)slope;
@@ -85,7 +85,7 @@
         return;
 
     ruleIndex = newRuleIndex;
-    [nonretained_eventList intonationPointDidChange:self];
+    [nonretained_eventList intonationPointTimeDidChange:self];
 }
 
 - (double)absoluteTime;
@@ -134,6 +134,31 @@
 - (void)decrementSemitone;
 {
     [self setSemitone:semitone - 1.0];
+}
+
+- (void)incrementRuleIndex;
+{
+    [self setRuleIndex:ruleIndex + 1];
+}
+
+- (void)decrementRuleIndex;
+{
+    [self setRuleIndex:ruleIndex - 1];
+}
+
+- (NSComparisonResult)compareByAscendingAbsoluteTime:(MMIntonationPoint *)otherIntonationPoint;
+{
+    double thisTime, otherTime;
+
+    thisTime = [self absoluteTime];
+    otherTime = [otherIntonationPoint absoluteTime];
+
+    if (thisTime < otherTime)
+        return NSOrderedAscending;
+    else if (thisTime > otherTime)
+        return NSOrderedDescending;
+
+    return NSOrderedSame;
 }
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;

@@ -54,6 +54,7 @@ NSString *EventListDidRemoveIntonationPoints = @"EventListDidRemoveIntonationPoi
 
     events = [[NSMutableArray alloc] init];
     intonationPoints = [[NSMutableArray alloc] init];
+    flags.intonationPointsNeedSorting = NO;
 
     [self setUp];
 
@@ -1321,6 +1322,11 @@ NSString *EventListDidRemoveIntonationPoints = @"EventListDidRemoveIntonationPoi
 
 - (NSArray *)intonationPoints;
 {
+    if (flags.intonationPointsNeedSorting) {
+        [intonationPoints sortUsingSelector:@selector(compareByAscendingAbsoluteTime:)];
+        flags.intonationPointsNeedSorting = NO;
+    }
+
     return intonationPoints;
 }
 
@@ -1335,29 +1341,10 @@ NSString *EventListDidRemoveIntonationPoints = @"EventListDidRemoveIntonationPoi
     [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidChangeIntonationPoints object:self userInfo:nil];
 }
 
-- (void)addIntonationPoint:(MMIntonationPoint *)iPoint;
+- (void)addIntonationPoint:(MMIntonationPoint *)newIntonationPoint;
 {
-    double time;
-    int i;
-
-//    NSLog(@"Point  Semitone: %f  timeOffset:%f slope:%f phoneIndex:%d", [iPoint semitone], [iPoint offsetTime],
-//           [iPoint slope], [iPoint ruleIndex]);
-
-    if ([iPoint ruleIndex] > [self ruleCount]) {
-        NSLog(@"%d > %d", [iPoint ruleIndex], [self ruleCount]);
-        return;
-    }
-
-    [intonationPoints removeObject:iPoint];
-    time = [iPoint absoluteTime];
-    for (i = 0; i < [intonationPoints count]; i++) {
-        if (time < [[intonationPoints objectAtIndex:i] absoluteTime]) {
-            [intonationPoints insertObject:iPoint atIndex:i];
-            return;
-        }
-    }
-
-    [intonationPoints addObject:iPoint];
+    [intonationPoints addObject:newIntonationPoint];
+    flags.intonationPointsNeedSorting = YES;
 }
 
 //
@@ -1376,17 +1363,19 @@ NSString *EventListDidRemoveIntonationPoints = @"EventListDidRemoveIntonationPoi
 // Values with a semitone of -20 are added at the start and end (but their slopes, etc., aren't reset to 0.).
 - (void)_applyFlatIntonation;
 {
-    int i;
+    unsigned int count, index;
     MMIntonationPoint *anIntonationPoint;
 
     NSLog(@" > %s", _cmd);
 
     [self setFullTimeScale];
     [self insertEvent:32 atTimeOffset:0.0 withValue:-20.0];
-    NSLog(@"Applying intonation, %d points", [intonationPoints count]);
 
-    for (i = 0; i < [intonationPoints count]; i++) {
-        anIntonationPoint = [intonationPoints objectAtIndex:i];
+    count = [[self intonationPoints] count]; // This makes sure they get sorted
+    NSLog(@"Applying intonation, %d points", count);
+
+    for (index = 0; index < count; index++) {
+        anIntonationPoint = [intonationPoints objectAtIndex:index];
         NSLog(@"Added Event at Time: %f withValue: %f", [anIntonationPoint absoluteTime], [anIntonationPoint semitone]);
         [self insertEvent:32 atTimeOffset:[anIntonationPoint absoluteTime] withValue:[anIntonationPoint semitone]];
         [self insertEvent:33 atTimeOffset:[anIntonationPoint absoluteTime] withValue:0.0];
@@ -1401,9 +1390,9 @@ NSString *EventListDidRemoveIntonationPoints = @"EventListDidRemoveIntonationPoi
 
 - (void)_applySmoothIntonation;
 {
-    int j;
+    unsigned int count, index;
     MMIntonationPoint *point1, *point2;
-    MMIntonationPoint *tempPoint;
+    MMIntonationPoint *firstIntonationPoint;
     double a, b, c, d;
     double x1, y1, m1, x12, x13;
     double x2, y2, m2, x22, x23;
@@ -1413,21 +1402,24 @@ NSString *EventListDidRemoveIntonationPoints = @"EventListDidRemoveIntonationPoi
     //NSLog(@" > %s", _cmd);
 
     [self setFullTimeScale];
-    tempPoint = [[MMIntonationPoint alloc] initWithEventList:self];
-    if ([intonationPoints count] > 0)
-        [tempPoint setSemitone:[[intonationPoints objectAtIndex:0] semitone]];
-    [tempPoint setSlope:0.0];
-    [tempPoint setRuleIndex:0];
-    [tempPoint setOffsetTime:0];
 
-    [intonationPoints insertObject:tempPoint atIndex:0];
+    if ([intonationPoints count] == 0)
+        return;
 
-    //NSLog(@"[intonationPoints count]: %d", [intonationPoints count]);
+    firstIntonationPoint = [[MMIntonationPoint alloc] initWithEventList:self];
+    [firstIntonationPoint setSemitone:[[[self intonationPoints] objectAtIndex:0] semitone]]; // Make sure it's sorted
+    [firstIntonationPoint setSlope:0.0];
+    [firstIntonationPoint setRuleIndex:0];
+    [firstIntonationPoint setOffsetTime:0];
+
+    [self addIntonationPoint:firstIntonationPoint];
+
+    count = [[self intonationPoints] count]; // Again, make sure it gets sorted since we just added a point.
 
     //[self insertEvent:32 atTimeOffset:0.0 withValue:-20.0];
-    for (j = 0; j < [intonationPoints count] - 1; j++) {
-        point1 = [intonationPoints objectAtIndex:j];
-        point2 = [intonationPoints objectAtIndex:j + 1];
+    for (index = 0; index < count - 1; index++) {
+        point1 = [intonationPoints objectAtIndex:index];
+        point2 = [intonationPoints objectAtIndex:index + 1];
 
         x1 = [point1 absoluteTime] / 4.0;
         y1 = [point1 semitone] + 20.0;
@@ -1453,21 +1445,22 @@ NSString *EventListDidRemoveIntonationPoints = @"EventListDidRemoveIntonationPoi
 
         [self insertEvent:32 atTimeOffset:[point1 absoluteTime] withValue:[point1 semitone]];
 
-        yTemp = (3.0*a*x12) + (2.0*b*x1) + c;
+        yTemp = (3.0 * a * x12) + (2.0 * b * x1) + c;
         //NSLog(@"time: %.2f", [point1 absoluteTime]);
-        //NSLog(@"j: %d, inserting event 33: %7.3f", j, yTemp);
+        //NSLog(@"index: %d, inserting event 33: %7.3f", index, yTemp);
         [self insertEvent:33 atTimeOffset:[point1 absoluteTime] withValue:yTemp];
 
-        yTemp = (6.0*a*x1) + (2.0*b);
-        //NSLog(@"j: %d, inserting event 34: %7.3f", j, yTemp);
+        yTemp = (6.0 * a * x1) + (2.0 * b);
+        //NSLog(@"index: %d, inserting event 34: %7.3f", index, yTemp);
         [self insertEvent:34 atTimeOffset:[point1 absoluteTime] withValue:yTemp];
 
-        yTemp = (6.0*a);
-        //NSLog(@"j: %d, inserting event 35: %7.3f", j, yTemp);
+        yTemp = 6.0 * a;
+        //NSLog(@"index: %d, inserting event 35: %7.3f", index, yTemp);
         [self insertEvent:35 atTimeOffset:[point1 absoluteTime] withValue:yTemp];
     }
 
-    [intonationPoints removeObjectAtIndex:0];
+    [self removeIntonationPoint:firstIntonationPoint];
+    [firstIntonationPoint release];
 
     //NSLog(@"<  %s", _cmd);
 }
@@ -1494,6 +1487,12 @@ NSString *EventListDidRemoveIntonationPoints = @"EventListDidRemoveIntonationPoi
 - (void)removeEmptyEvents;
 {
     // TODO (2004-08-17): not yet implemented.
+}
+
+- (void)intonationPointTimeDidChange:(MMIntonationPoint *)anIntonationPoint;
+{
+    flags.intonationPointsNeedSorting = YES;
+    [self intonationPointDidChange:anIntonationPoint];
 }
 
 - (void)intonationPointDidChange:(MMIntonationPoint *)anIntonationPoint;
@@ -1524,7 +1523,7 @@ NSString *EventListDidRemoveIntonationPoints = @"EventListDidRemoveIntonationPoi
     [resultString indentToLevel:1];
     [resultString appendFormat:@"<utterance>%@</utterance>\n", GSXMLCharacterData(phoneString)];
 
-    [intonationPoints appendXMLToString:resultString elementName:@"intonation-points" level:1];
+    [[self intonationPoints] appendXMLToString:resultString elementName:@"intonation-points" level:1]; // Make sure they are sorted.
 
     [resultString appendString:@"</intonation-contour>\n"];
 

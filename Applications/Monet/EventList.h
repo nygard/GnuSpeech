@@ -89,6 +89,7 @@ extern NSString *EventListDidRemoveIntonationPoints;
         unsigned int shouldUseMicroIntonation:1;
         unsigned int shouldUseDrift:1;
         unsigned int shouldUseSmoothIntonation:1;
+        unsigned int intonationPointsNeedSorting:1;
     } flags;
 
     double radiusMultiply; // Affects hard coded parameters, in this case r1 and r2.
@@ -115,7 +116,7 @@ extern NSString *EventListDidRemoveIntonationPoints;
     double max[16]; // Max of each parameter value
 
     NSMutableArray *events;
-    NSMutableArray *intonationPoints; // Should be sorted by absolute time
+    NSMutableArray *intonationPoints; // Sorted by absolute time
 
     id delegate;
 }
@@ -225,7 +226,7 @@ extern NSString *EventListDidRemoveIntonationPoints;
 - (NSArray *)intonationPoints;
 - (void)removeIntonationPoint:(MMIntonationPoint *)aPoint;
 - (void)clearIntonationPoints;
-- (void)addIntonationPoint:(MMIntonationPoint *)iPoint;
+- (void)addIntonationPoint:(MMIntonationPoint *)newIntonationPoint;
 
 // Intonation
 - (void)applyIntonation;
@@ -236,6 +237,7 @@ extern NSString *EventListDidRemoveIntonationPoints;
 - (void)clearEventNumber:(int)number;
 - (void)removeEmptyEvents;
 
+- (void)intonationPointTimeDidChange:(MMIntonationPoint *)anIntonationPoint;
 - (void)intonationPointDidChange:(MMIntonationPoint *)anIntonationPoint;
 
 // Archiving - XML

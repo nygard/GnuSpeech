@@ -49,6 +49,11 @@
 - (void)incrementSemitone;
 - (void)decrementSemitone;
 
+- (void)incrementRuleIndex;
+- (void)decrementRuleIndex;
+
+- (NSComparisonResult)compareByAscendingAbsoluteTime:(MMIntonationPoint *)otherIntonationPoint;
+
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 
 @end
