@@ -749,7 +749,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
 - (void)applyRule:(MMRule *)rule withPostures:(NSArray *)somePostures andTempos:(double *)tempos phoneIndex:(int)phoneIndex model:(MModel *)aModel;
 {
     int transitionIndex, parameterIndex;
-    int j, type;
+    int type;
     BOOL shouldCalculate;
     int currentType;
     double currentDelta, value, maxValue;
@@ -827,18 +827,20 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
         }
 
         if (shouldCalculate) {
+            unsigned int pointIndex, pointCount;
+
             currentType = MMPhoneTypeDiphone;
             currentDelta = targets[1] - targets[0];
 
-            /* Get transition profile list */
-            transition = (MMTransition *)[parameterTransitions objectAtIndex:transitionIndex];
+            transition = [parameterTransitions objectAtIndex:transitionIndex];
             points = [transition points];
 
             maxValue = 0.0;
 
             /* Apply lists to parameter */
-            for (j = 0; j < [points count]; j++) {
-                currentPoint = [points objectAtIndex:j];
+            pointCount = [points count];
+            for (pointIndex = 0; pointIndex < pointCount; pointIndex++) {
+                currentPoint = [points objectAtIndex:pointIndex];
 
                 if ([currentPoint isKindOfClass:[MMSlopeRatio class]]) {
                     if ([(MMPoint *)[[(MMSlopeRatio *)currentPoint points] objectAtIndex:0] type] != currentType) {
@@ -869,11 +871,13 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
     /* Special Event Profiles */
     for (parameterIndex = 0; parameterIndex < 16; parameterIndex++) {
         if ((transition = [rule getSpecialProfile:parameterIndex])) {
-            /* Get transition profile list */
-            points = [transition points];
+            unsigned int pointIndex, pointCount;
 
-            for (j = 0; j < [points count]; j++) {
-                currentPoint = [points objectAtIndex:j];
+            points = [transition points];
+            pointCount = [points count];
+
+            for (pointIndex = 0; pointIndex < pointCount; pointIndex++) {
+                currentPoint = [points objectAtIndex:pointIndex];
 
                 /* calculate time of event */
                 if ([currentPoint expression] == nil)
@@ -994,64 +998,30 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
 
 - (void)printDataStructures:(NSString *)comment;
 {
+    int toneGroupIndex, footIndex, postureIndex;
+    int ruleIndex = 0;
+
     NSLog(@"----------------------------------------------------------------------");
     NSLog(@" > %s (%@)", _cmd, comment);
-#if 0
-    {
-        int i;
 
-        NSLog(@"Tone Groups %d", currentToneGroup);
-        for (i = 0; i < currentToneGroup; i++) {
-            NSLog(@"%d  start: %d, end: %d, type: %d", i, toneGroups[i].startFoot, toneGroups[i].endFoot, toneGroups[i].type);
-        }
+    for (toneGroupIndex = 0; toneGroupIndex < currentToneGroup; toneGroupIndex++) {
+        NSLog(@"Tone Group %d, type: %@", toneGroupIndex, NSStringFromToneGroupType(toneGroups[toneGroupIndex].type));
 
-        NSLog(@"\n");
-        NSLog(@"Feet %d", currentFoot);
-        for (i = 0; i < currentFoot; i++) {
-            NSLog(@"%d  tempo: %.3f, start: %2d, end: %2d, marked: %d, last: %d, onset1: %.3f, onset2: %.3f", i, feet[i].tempo,
-                  feet[i].start, feet[i].end, feet[i].marked, feet[i].last, feet[i].onset1, feet[i].onset2);
-        }
+        for (footIndex = toneGroups[toneGroupIndex].startFoot; footIndex <= toneGroups[toneGroupIndex].endFoot; footIndex++) {
+            NSLog(@"  Foot %d  tempo: %.3f, marked: %d, last: %d, onset1: %.3f, onset2: %.3f", footIndex, feet[footIndex].tempo,
+                  feet[footIndex].marked, feet[footIndex].last, feet[footIndex].onset1, feet[footIndex].onset2);
 
-        NSLog(@"\n");
-        NSLog(@"Phones %d", currentPhone);
-        for (i = 0; i < currentPhone; i++) {
-            NSLog(@"%3d  tempo: %.3f, syllable: %d, onset: %7.2f, ruleTempo: %.3f, %@",
-                  i, phoneTempo[i], phones[i].syllable, phones[i].onset, phones[i].ruleTempo, [phones[i].phone symbol]);
-        }
-
-        NSLog(@"\n");
-        NSLog(@"Rules %d", currentRule);
-        for (i = 0; i < currentRule; i++) {
-            NSLog(@"Number: %2d  start: %2d, end: %2d, duration %7.2f", rules[i].number, rules[i].firstPhone,
-                  rules[i].lastPhone, rules[i].duration);
-        }
-
-        NSLog(@"\n\n");
-    }
-#endif
-    {
-        int toneGroupIndex, footIndex, postureIndex;
-        int ruleIndex = 0;
-
-        for (toneGroupIndex = 0; toneGroupIndex < currentToneGroup; toneGroupIndex++) {
-            NSLog(@"Tone Group %d, type: %@", toneGroupIndex, NSStringFromToneGroupType(toneGroups[toneGroupIndex].type));
-
-            for (footIndex = toneGroups[toneGroupIndex].startFoot; footIndex <= toneGroups[toneGroupIndex].endFoot; footIndex++) {
-                NSLog(@"  Foot %d  tempo: %.3f, marked: %d, last: %d, onset1: %.3f, onset2: %.3f", footIndex, feet[footIndex].tempo,
-                      feet[footIndex].marked, feet[footIndex].last, feet[footIndex].onset1, feet[footIndex].onset2);
-
-                for (postureIndex = feet[footIndex].start; postureIndex <= feet[footIndex].end; postureIndex++) {
-                    if (rules[ruleIndex].firstPhone == postureIndex) {
-                        NSLog(@"    Posture %2d  tempo: %.3f, syllable: %d, onset: %7.2f, ruleTempo: %.3f, %@ # Rule %2d, duration: %7.2f, beat: %7.2f",
-                              postureIndex, phoneTempo[postureIndex], phones[postureIndex].syllable, phones[postureIndex].onset,
-                              phones[postureIndex].ruleTempo, [[phones[postureIndex].phone name] leftJustifiedStringPaddedToLength:18],
-                              rules[ruleIndex].number, rules[ruleIndex].duration, rules[ruleIndex].beat);
-                        ruleIndex++;
-                    } else {
-                        NSLog(@"    Posture %2d  tempo: %.3f, syllable: %d, onset: %7.2f, ruleTempo: %.3f, %@",
-                              postureIndex, phoneTempo[postureIndex], phones[postureIndex].syllable, phones[postureIndex].onset,
-                              phones[postureIndex].ruleTempo, [phones[postureIndex].phone name]);
-                    }
+            for (postureIndex = feet[footIndex].start; postureIndex <= feet[footIndex].end; postureIndex++) {
+                if (rules[ruleIndex].firstPhone == postureIndex) {
+                    NSLog(@"    Posture %2d  tempo: %.3f, syllable: %d, onset: %7.2f, ruleTempo: %.3f, %@ # Rule %2d, duration: %7.2f, beat: %7.2f",
+                          postureIndex, phoneTempo[postureIndex], phones[postureIndex].syllable, phones[postureIndex].onset,
+                          phones[postureIndex].ruleTempo, [[phones[postureIndex].phone name] leftJustifiedStringPaddedToLength:18],
+                          rules[ruleIndex].number, rules[ruleIndex].duration, rules[ruleIndex].beat);
+                    ruleIndex++;
+                } else {
+                    NSLog(@"    Posture %2d  tempo: %.3f, syllable: %d, onset: %7.2f, ruleTempo: %.3f, %@",
+                          postureIndex, phoneTempo[postureIndex], phones[postureIndex].syllable, phones[postureIndex].onset,
+                          phones[postureIndex].ruleTempo, [phones[postureIndex].phone name]);
                 }
             }
         }
