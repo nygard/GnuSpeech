@@ -94,12 +94,6 @@ double bandpassFilter(TRMTubeModel *tubeModel, double input);
 *
 *       arguments:      coeff - mouth aperture coefficient
 *
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      fabs
-*
 ******************************************************************************/
 
 void initializeMouthCoefficients(TRMTubeModel *tubeModel, double coeff)
@@ -119,14 +113,6 @@ void initializeMouthCoefficients(TRMTubeModel *tubeModel, double coeff)
 *
 *       purpose:        Is a variable, one-pole lowpass filter, whose cutoff
 *                       is determined by the mouth aperture coefficient.
-*
-*       arguments:      input
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      none
 *
 ******************************************************************************/
 
@@ -148,14 +134,6 @@ double reflectionFilter(TRMTubeModel *tubeModel, double input)
 *       purpose:        Is a variable, one-zero, one-pole, highpass filter,
 *                       whose cutoff point is determined by the mouth aperture
 *                       coefficient.
-*
-*       arguments:      input
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      none
 *
 ******************************************************************************/
 
@@ -181,12 +159,6 @@ double radiationFilter(TRMTubeModel *tubeModel, double input)
 *
 *       arguments:      coeff - nose aperture coefficient
 *
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      fabs
-*
 ******************************************************************************/
 
 void initializeNasalFilterCoefficients(TRMTubeModel *tubeModel, double coeff)
@@ -206,14 +178,6 @@ void initializeNasalFilterCoefficients(TRMTubeModel *tubeModel, double coeff)
 *
 *       purpose:        Is a one-pole lowpass filter, used for terminating
 *                       the end of the nasal cavity.
-*
-*       arguments:      input
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      none
 *
 ******************************************************************************/
 
@@ -235,14 +199,6 @@ double nasalReflectionFilter(TRMTubeModel *tubeModel, double input)
 *       purpose:        Is a one-zero, one-pole highpass filter, used for the
 *                       radiation characteristic from the nasal cavity.
 *
-*       arguments:      input
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      none
-*
 ******************************************************************************/
 
 double nasalRadiationFilter(TRMTubeModel *tubeModel, double input)
@@ -260,17 +216,6 @@ double nasalRadiationFilter(TRMTubeModel *tubeModel, double input)
 *       function:       synthesize
 *
 *       purpose:        Performs the actual synthesis of sound samples.
-*
-*       arguments:      none
-*
-*       internal
-*       functions:      setControlRateParameters, frequency, amplitude,
-*                       calculateTubeCoefficients, noise, noiseFilter,
-*                       updateWavetable, oscillator, vocalTract, throat,
-*                       dataFill, sampleRateInterpolation
-*
-*       library
-*       functions:      none
 *
 ******************************************************************************/
 
@@ -372,15 +317,6 @@ void synthesize(TRMTubeModel *tubeModel, TRMData *data)
 *       purpose:        Calculates the current table values, and their
 *                       associated sample-to-sample delta values.
 *
-*       arguments:      pos
-*
-*       internal
-*       functions:      glotPitchAt, glotVolAt, aspVolAt, fricVolAt, fricPosAt,
-*                       fricCFAt, fricBWAt, radiusAtRegion, velumAt,
-*
-*       library
-*       functions:      none
-*
 ******************************************************************************/
 
 void setControlRateParameters(TRMTubeModel *tubeModel, INPUT *previousInput, INPUT *currentInput)
@@ -434,14 +370,6 @@ void setControlRateParameters(TRMTubeModel *tubeModel, INPUT *previousInput, INP
 *
 *       purpose:        Interpolates table values at the sample rate.
 *
-*       arguments:      none
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      none
-*
 ******************************************************************************/
 
 void sampleRateInterpolation(TRMTubeModel *tubeModel)
@@ -468,14 +396,6 @@ void sampleRateInterpolation(TRMTubeModel *tubeModel)
 *
 *       purpose:        Calculates the scattering coefficients for the fixed
 *                       sections of the nasal cavity.
-*
-*       arguments:      none
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      none
 *
 ******************************************************************************/
 
@@ -508,14 +428,6 @@ void initializeNasalCavity(TRMTubeModel *tubeModel, struct _TRMInputParameters *
 *                       according to the throatCutoff value, and also the
 *                       throatGain, according to the throatVol value.
 *
-*       arguments:      none
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      fabs
-*
 ******************************************************************************/
 
 void initializeThroat(TRMTubeModel *tubeModel, struct _TRMInputParameters *inputParameters)
@@ -536,14 +448,6 @@ void initializeThroat(TRMTubeModel *tubeModel, struct _TRMInputParameters *input
 *                       tract according to the current radii.  Also calculates
 *                       the coefficients for the reflection/radiation filter
 *                       pair for the mouth and nose.
-*
-*       arguments:      none
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      none
 *
 ******************************************************************************/
 
@@ -589,14 +493,6 @@ void calculateTubeCoefficients(TRMTubeModel *tubeModel, struct _TRMInputParamete
 *       purpose:        Sets the frication taps according to the current
 *                       position and amplitude of frication.
 *
-*       arguments:      none
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      none
-*
 ******************************************************************************/
 
 void setFricationTaps(TRMTubeModel *tubeModel)
@@ -640,14 +536,6 @@ void setFricationTaps(TRMTubeModel *tubeModel)
 *                       according to the current center frequency and
 *                       bandwidth.
 *
-*       arguments:      none
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      tan, cos
-*
 ******************************************************************************/
 
 // TODO (2004-05-13): I imagine passing this a bandpass filter object (which won't have the sample rate) and the sample rate in the future.
@@ -675,13 +563,6 @@ void calculateBandpassCoefficients(TRMTubeModel *tubeModel, int sampleRate)
 *                       cavities.  Also injects frication appropriately.
 *
 *       arguments:      input, frication
-*
-*       internal
-*       functions:      reflectionFilter, radiationFilter,
-*                       nasalReflectionFilter, nasalRadiationFilter
-*
-*       library
-*       functions:      none
 *
 ******************************************************************************/
 
@@ -795,14 +676,6 @@ double vocalTract(TRMTubeModel *tubeModel, double input, double frication)
 *                       uses addition instead of subtraction for the
 *                       second term, since tb1 has reversed sign.
 *
-*       arguments:      input
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      none
-*
 ******************************************************************************/
 
 double throat(TRMTubeModel *tubeModel, double input)
@@ -822,14 +695,6 @@ double throat(TRMTubeModel *tubeModel, double input)
 *
 *       purpose:        Frication bandpass filter, with variable center
 *                       frequency and bandwidth.
-*
-*       arguments:      input
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      none
 *
 ******************************************************************************/
 
