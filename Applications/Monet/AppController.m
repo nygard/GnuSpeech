@@ -327,14 +327,15 @@
 
                 mainMetaParameterList = [[stream decodeObject] retain];
                 NSLog(@"mainMetaParameterList: %@", mainMetaParameterList);
-#ifdef PORTING
+
                 mainPhoneList = [[stream decodeObject] retain];
+                NSLog(@"mainPhoneList: %@", mainPhoneList);
 
                 NXNameObject(@"mainSymbolList", mainSymbolList, NSApp);
                 NXNameObject(@"mainParameterList", mainParameterList, NSApp);
                 NXNameObject(@"mainMetaParameterList", mainMetaParameterList, NSApp);
                 NXNameObject(@"mainPhoneList", mainPhoneList, NSApp);
-
+#ifdef PORTING
                 [prototypeManager readPrototypesFrom:stream];
                 [ruleManager readRulesFrom:stream];
 

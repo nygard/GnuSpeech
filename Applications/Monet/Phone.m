@@ -160,63 +160,65 @@
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
     unsigned archivedVersion;
-    int i, j;
+    int count, index;
     CategoryList *mainCategoryList;
     CategoryNode *temp1;
-    char *string;
+    char *c_phoneSymbol, *c_comment, *c_str;
 
     if ([super initWithCoder:aDecoder] == nil)
         return nil;
 
-    NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
+    //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
     archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
-    NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
-#ifdef PORTING
+    //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
+
     mainCategoryList = NXGetNamedObject(@"mainCategoryList", NSApp);
 
-    [aDecoder decodeValuesOfObjCTypes:"**", &phoneSymbol, &comment];
+    [aDecoder decodeValuesOfObjCTypes:"**", &c_phoneSymbol, &c_comment];
+    //NSLog(@"c_phoneSymbol: %s, c_comment: %s", c_phoneSymbol, c_comment);
+
+    phoneSymbol = [[NSString stringWithASCIICString:c_phoneSymbol] retain];
+    comment = [[NSString stringWithASCIICString:c_comment] retain];
 
     parameterList = [[aDecoder decodeObject] retain];
     metaParameterList = [[aDecoder decodeObject] retain];
     symbolList = [[aDecoder decodeObject] retain];
 
-    if (categoryList)
-        [categoryList release];
+    assert(categoryList == nil);
 
-    [aDecoder decodeValueOfObjCType:"i" at:&i];
-//	printf("TOTAL Categories for %s = %d\n", phoneSymbol, i);
+    [aDecoder decodeValueOfObjCType:"i" at:&count];
+    NSLog(@"TOTAL Categories for %@ = %d", phoneSymbol, count);
 
-    categoryList = [[CategoryList alloc] initWithCapacity:i];
+    categoryList = [[CategoryList alloc] initWithCapacity:count];
 
-    for (j = 0; j<i; j++)
-    {
-        [aDecoder decodeValueOfObjCType:"*" at:&string];
-        if ((temp1 = [mainCategoryList findSymbol:string]) )
-        {
-//			printf("Read category: %s\n", string);
+    for (index = 0; index < count; index++) {
+        NSString *str;
+
+        [aDecoder decodeValueOfObjCType:"*" at:&c_str];
+        //NSLog(@"%d: c_str: %s", index, c_str);
+        str = [NSString stringWithASCIICString:c_str];
+
+        temp1 = [mainCategoryList findSymbol:str];
+        if (temp1) {
+            //NSLog(@"Read category: %@", str);
             [categoryList addObject:temp1];
-        }
-        else
-        {
-//			printf("Read NATIVE category: %s\n", string);
-            if (strcmp(phoneSymbol, string)!=0)
-            {
-                printf("NATIVE Category Wrong... correcting: %s -> %s", string, phoneSymbol);
+        } else {
+            //NSLog(@"Read NATIVE category: %@", str);
+            if ([phoneSymbol isEqual:str] == NO) {
+                NSLog(@"NATIVE Category Wrong... correcting: %@ -> %@", str, phoneSymbol);
                 [categoryList addNativeCategory:phoneSymbol];
-            }
-            else
-                [categoryList addNativeCategory:string];
+            } else
+                [categoryList addNativeCategory:str];
         }
-        free(string);
     }
-#endif
-    NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
+
+    //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
     return self;
 }
 
-#ifdef PORTING
 - (void)encodeWithCoder:(NSCoder *)aCoder;
 {
+#ifdef PORTING
     int i;
     const char *temp;
 
@@ -238,7 +240,13 @@
         temp = [[categoryList objectAtIndex:i] symbol];
         [aCoder encodeValueOfObjCType:"*" at:&temp];
     }
-}
 #endif
+}
+
+- (NSString *)description;
+{
+    return [NSString stringWithFormat:@"<%@>[%p]: phoneSymbol: %@, comment: %@, categoryList: %@, parameterList: %@, metaParameterList: %@, symbolList: %@",
+                     NSStringFromClass([self class]), self, phoneSymbol, comment, categoryList, parameterList, metaParameterList, symbolList];
+}
 
 @end

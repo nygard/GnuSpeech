@@ -79,6 +79,6 @@
 
 // Archiving
 - (id)initWithCoder:(NSCoder *)aDecoder;
-//- (void)encodeWithCoder:(NSCoder *)aCoder;
+- (void)encodeWithCoder:(NSCoder *)aCoder;
 
 @end

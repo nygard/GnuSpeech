@@ -26,7 +26,10 @@
 
 - (void)setValue:(double)newValue isDefault:(BOOL)shouldBeDefault;
 
+// Archiving
 - (id)initWithCoder:(NSCoder *)aDecoder;
 - (void)encodeWithCoder:(NSCoder *)aCoder;
+
+- (NSString *)description;
 
 @end
