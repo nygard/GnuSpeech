@@ -21,4 +21,7 @@
 
 void writeOutputToFile(struct _TRMData *data, char *fileName);
 
+void writeAuFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile);
+size_t fwriteShortMsb(int data, FILE *stream);
+
 #endif

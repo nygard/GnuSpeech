@@ -280,6 +280,10 @@ void addInput(TRMData *data, double glotPitch, double glotVol, double aspVol, do
     int i;
     INPUT *tempPtr;
 
+    printf("addInput(%p, %8.4g %8.4g %8.4g %8.4g %8.4g %8.4g %8.4g [%8.4g %8.4g %8.4g %8.4g %8.4g %8.4g %8.4g %8.4g] %8.4g)\n", data,
+           glotPitch, glotVol, aspVol, fricVol, fricPos, fricCF, fricBW,
+           radius[0], radius[1], radius[2], radius[3], radius[4], radius[5], radius[6], radius[7],
+           velum);
 
     if (data->inputHead == NULL) {
         data->inputTail = data->inputHead = newInputTable();

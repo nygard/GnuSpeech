@@ -180,6 +180,7 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
     initializeSynthesizer(&(inputData->inputParameters));
 
     synthesize(inputData);
+    writeOutputToFile(inputData, "/tmp/out0.au");
 
     [self convertSamplesIntoData];
     [self startPlaying];
@@ -191,35 +192,45 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
 {
     double scale;
     long int index;
+    FILE *fd;
 
     [soundData setLength:0];
     bufferIndex = 0;
 
-    NSLog(@"sampleRateConverter.numberSamples: %d", sampleRateConverter.numberSamples);
+    //NSLog(@"sampleRateConverter.numberSamples: %d", sampleRateConverter.numberSamples);
 
     // TODO (2004-05-07): Would need to reset maximumSampleValue at the beginning of each synthesis
     //scale = (RANGE_MAX / sampleRateConverter.maximumSampleValue) * amplitude(inputData->inputParameters.volume);
-    NSLog(@"amplitude(inputData->inputParameters.volume): %g", amplitude(inputData->inputParameters.volume));
-    NSLog(@"sampleRateConverter.maximumSampleValue: %.4f", sampleRateConverter.maximumSampleValue);
+    //NSLog(@"amplitude(inputData->inputParameters.volume): %g", amplitude(inputData->inputParameters.volume));
+    //NSLog(@"sampleRateConverter.maximumSampleValue: %.4f", sampleRateConverter.maximumSampleValue);
     if (sampleRateConverter.maximumSampleValue == 0)
         NSBeep();
     scale = (RANGE_MAX / sampleRateConverter.maximumSampleValue) * amplitude(inputData->inputParameters.volume) ;
-    NSLog(@"scale: %.4f", scale);
+    //NSLog(@"scale: %.4f", scale);
+    NSLog(@"number of samples:\t%-ld\n", sampleRateConverter.numberSamples);
+    NSLog(@"maximum sample value:\t%.4f\n", sampleRateConverter.maximumSampleValue);
+    NSLog(@"scale:\t\t\t%.4f\n", scale);
 
     /*  Rewind the temporary file to beginning  */
     rewind(sampleRateConverter.tempFilePtr);
 
+    fd = fopen("/tmp/out.au", "wb");
+
+    writeAuFileHeader(1, sampleRateConverter.numberSamples, inputData->inputParameters.outputRate, fd);
     for (index = 0; index < sampleRateConverter.numberSamples; index++) {
         double sample;
         short value;
 
         fread(&sample, sizeof(sample), 1, sampleRateConverter.tempFilePtr);
 
-        value = rint(sample * scale);
+        value = (short)rint(sample * scale);
         //printf("%8ld: %g -> %hd\n", index, sample, (short)rint(sample * scale));
         //NSLog(@"value: %hd", value);
         [soundData appendBytes:&value length:sizeof(value)];
+        fwriteShortMsb(value, fd);
     }
+
+    fclose(fd);
 
     NSLog(@"soundData: %p, length: %d", soundData, [soundData length]);
     bufferLength = [soundData length] / sizeof(short);
@@ -278,6 +289,7 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
 
         // It looks like you need to use an AudioConverter to change the sampling rate.
         format.mFormatID = kAudioFormatLinearPCM;
+        //format.mSampleRate = 22050.0;  // We *can* change the sample rate of the input stream.
         format.mFormatFlags = kAudioFormatFlagIsBigEndian | kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked;
         format.mBytesPerPacket = 2;
         format.mFramesPerPacket = 1;
@@ -321,7 +333,7 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
 
     // It looks like the buffer size is 4096
     //NSLog(@"ptr: %p", ptr);
-    NSLog(@"%s, bufferIndex: %d, bufferLength: %d", _cmd, bufferIndex, bufferLength);
+    //NSLog(@"%s, bufferIndex: %d, bufferLength: %d", _cmd, bufferIndex, bufferLength);
     for (index = 0; index < count && bufferIndex < bufferLength; index++) {
         buffer[index] = ptr[bufferIndex];
         bufferIndex++;
