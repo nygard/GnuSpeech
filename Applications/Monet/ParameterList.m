@@ -35,19 +35,4 @@
     return nil;
 }
 
-- (int)findParameterIndex:(NSString *)symbol;
-{
-    int count, index;
-    MMParameter *aParameter;
-
-    count = [self count];
-    for (index = 0; index < count; index++) {
-        aParameter = [self objectAtIndex:index];
-        if ([[aParameter symbol] isEqual:symbol] == YES)
-            return index;
-    }
-
-    return -1;
-}
-
 @end

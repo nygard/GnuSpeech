@@ -16,6 +16,5 @@
 }
 
 - (MMParameter *)findParameter:(NSString *)symbol;
-- (int)findParameterIndex:(NSString *)symbol;
 
 @end
