@@ -7,6 +7,7 @@
 #import "AppController.h"
 #import "CategoryNode.h"
 #import "CategoryList.h"
+#import "GSXMLFunctions.h"
 #import "Parameter.h"
 #import "ParameterList.h"
 #import "Target.h"
@@ -247,6 +248,31 @@
 {
     return [NSString stringWithFormat:@"<%@>[%p]: phoneSymbol: %@, comment: %@, categoryList: %@, parameterList: %@, metaParameterList: %@, symbolList: %@",
                      NSStringFromClass([self class]), self, phoneSymbol, comment, categoryList, parameterList, metaParameterList, symbolList];
+}
+
+- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+{
+    [resultString indentToLevel:level];
+    [resultString appendFormat:@"<phone ptr=\"%p\" symbol=\"%@\"", self, GSXMLAttributeString(phoneSymbol, NO)];
+
+    if (comment == nil && [categoryList count] == 0 && [parameterList count] == 0 && [metaParameterList count] == 0 && [symbolList count] == 0) {
+        [resultString appendString:@"/>\n"];
+    } else {
+        [resultString appendString:@">\n"];
+
+        if (comment != nil) {
+            [resultString indentToLevel:level + 1];
+            [resultString appendFormat:@"<comment>%@</comment>\n", GSXMLCharacterData(comment)];
+        }
+
+        [categoryList appendXMLToString:resultString level:level + 1];
+        [parameterList appendXMLToString:resultString elementName:@"parameters" level:level + 1];
+        [metaParameterList appendXMLToString:resultString elementName:@"meta-parameters" level:level + 1];
+        [symbolList appendXMLToString:resultString elementName:@"symbols" level:level + 1];
+
+        [resultString indentToLevel:level];
+        [resultString appendString:@"</phone>\n"];
+    }
 }
 
 @end

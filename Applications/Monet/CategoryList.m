@@ -1,6 +1,10 @@
 #import "CategoryList.h"
 
+#import <Foundation/Foundation.h>
+#import "NSString-Extensions.h"
+
 #import "CategoryNode.h"
+#import "GSXMLFunctions.h"
 
 /*===========================================================================
 
@@ -125,6 +129,28 @@
 {
     return [NSString stringWithFormat:@"<%@>[%p]: super: %@",
                      NSStringFromClass([self class]), self, [super description]];
+}
+
+- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+{
+    int count, index;
+
+    count = [self count];
+    if (count == 0)
+        return;
+
+    [resultString indentToLevel:level];
+    [resultString appendString:@"<categories>\n"];
+
+    for (index = 0; index < count; index++) {
+        CategoryNode *aCategory;
+
+        aCategory = [self objectAtIndex:index];
+        [aCategory appendXMLToString:resultString level:level+1];
+    }
+
+    [resultString indentToLevel:level];
+    [resultString appendString:@"</categories>\n"];
 }
 
 @end

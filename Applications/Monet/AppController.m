@@ -8,6 +8,7 @@
 #import "CategoryNode.h"
 #import "CategoryList.h"
 #import "EventListView.h"
+#import "GSXMLFunctions.h"
 #import "Inspector.h"
 #import "IntonationView.h"
 #import "NamedList.h"
@@ -61,7 +62,7 @@
 
     NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
 
-    NSLog(@"[NSApp delegate]: %@", [NSApp delegate]);
+    //NSLog(@"[NSApp delegate]: %@", [NSApp delegate]);
 
     // Name them here to make sure all the outlets have been connected
     NXNameObject(@"mainPhoneList", mainPhoneList, NSApp);
@@ -79,7 +80,7 @@
 
     NXNameObject(@"defaultManager", defaultManager, NSApp);
 
-    NSLog(@"getting it by name: %@", NXGetNamedObject(@"mainSymbolList", NSApp));
+    //NSLog(@"getting it by name: %@", NXGetNamedObject(@"mainSymbolList", NSApp));
 
     [dataBrowser applicationDidFinishLaunching:aNotification];
     //if (inspectorController)
@@ -131,6 +132,8 @@
 
         [stream release];
     }
+
+    [self generateXML:@"DefaultPrototypes"];
 
     [ruleManager applicationDidFinishLaunching:aNotification];
     [transitionBuilder applicationDidFinishLaunching:aNotification]; // not connected yet
@@ -294,14 +297,14 @@
 
     if ([openPanel runModalForTypes:types] == NSOKButton) {
         fnames = [openPanel filenames];
-        NSLog(@"fnames: %@", [fnames description]);
+        //NSLog(@"fnames: %@", [fnames description]);
         count = [fnames count];
-        NSLog(@"count: %d", count);
+        //NSLog(@"count: %d", count);
         for (i = 0; i < count; i++) {
             filename = [fnames objectAtIndex:i];
-            NSLog(@"filename: %@", filename);
+            //NSLog(@"filename: %@", filename);
             stream = [[NSUnarchiver alloc] initForReadingWithData:[NSData dataWithContentsOfFile:filename]];
-            NSLog(@"stream: %p", stream);
+            //NSLog(@"stream: %p", stream);
 
             if (stream) {
                 NXUnnameObject(@"mainCategoryList", NSApp);
@@ -318,20 +321,20 @@
 
                 /* Category list must be named immediately */
                 mainCategoryList = [[stream decodeObject] retain];
-                NSLog(@"mainCategoryList: %@", mainCategoryList);
+                //NSLog(@"mainCategoryList: %@", mainCategoryList);
                 NXNameObject(@"mainCategoryList", mainCategoryList, NSApp);
 
                 mainSymbolList = [[stream decodeObject] retain];
-                NSLog(@"mainSymbolList: %@", mainSymbolList);
+                //NSLog(@"mainSymbolList: %@", mainSymbolList);
 
                 mainParameterList = [[stream decodeObject] retain];
-                NSLog(@"mainParameterList: %@", mainParameterList);
+                //NSLog(@"mainParameterList: %@", mainParameterList);
 
                 mainMetaParameterList = [[stream decodeObject] retain];
-                NSLog(@"mainMetaParameterList: %@", mainMetaParameterList);
+                //NSLog(@"mainMetaParameterList: %@", mainMetaParameterList);
 
                 mainPhoneList = [[stream decodeObject] retain];
-                NSLog(@"mainPhoneList: %@", mainPhoneList);
+                //NSLog(@"mainPhoneList: %@", mainPhoneList);
 
                 NXNameObject(@"mainSymbolList", mainSymbolList, NSApp);
                 NXNameObject(@"mainParameterList", mainParameterList, NSApp);
@@ -350,6 +353,8 @@
                 [stream release];
                 initStringParser();
 #endif
+
+                [self generateXML:filename];
             } else {
                 NSLog(@"Not a MONET file");
             }
@@ -486,6 +491,26 @@
         [NSUnarchiver decodeClassName:names[index] asClassName:[NSString stringWithFormat:@"%@_NOT_CONVERTED", names[index]]];
         index++;
     }
+}
+
+- (void)generateXML:(NSString *)name;
+{
+    NSMutableString *resultString;
+
+    resultString = [[NSMutableString alloc] init];
+    [resultString appendString:@"<?xml version='1.0' encoding='utf-8'?>\n"];
+    [resultString appendFormat:@"<!-- %@ -->\n", name];
+    [resultString appendString:@"<root version='1'>\n"];
+    [mainPhoneList appendXMLToString:resultString level:1];
+    [mainCategoryList appendXMLToString:resultString level:1];
+    [mainSymbolList appendXMLToString:resultString level:1];
+    [mainParameterList appendXMLToString:resultString elementName:@"parameters" level:1];
+    [mainMetaParameterList appendXMLToString:resultString elementName:@"meta-parameters" level:1];
+    [resultString appendString:@"</root>\n"];
+
+    NSLog(@"xml: \n%@", resultString);
+
+    [resultString release];
 }
 
 @end

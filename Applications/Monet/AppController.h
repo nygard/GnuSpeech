@@ -1,5 +1,5 @@
 //
-// $Id: AppController.h,v 1.10 2004/03/05 20:57:22 nygard Exp $
+// $Id: AppController.h,v 1.11 2004/03/06 03:13:26 nygard Exp $
 //
 
 /*===========================================================================
@@ -100,6 +100,8 @@ History:
 - (void)removeObjectForKey:(id)key;
 
 - (void)_disableUnconvertedClassLoading;
+
+- (void)generateXML:(NSString *)name;
 
 @end
 

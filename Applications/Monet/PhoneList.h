@@ -55,4 +55,6 @@
 - (IBAction)importTRMData:(id)sender;
 - (Phone *)makePhoneUniqueName:(Phone *)aPhone;
 
+- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+
 @end

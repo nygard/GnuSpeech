@@ -26,4 +26,6 @@
 
 - (void)printDataTo:(FILE *)fp;
 
+- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+
 @end

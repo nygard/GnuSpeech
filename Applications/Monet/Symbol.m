@@ -5,6 +5,7 @@
 #import "NSString-Extensions.h"
 
 #import "AppController.h"
+#import "GSXMLFunctions.h"
 
 @implementation Symbol
 
@@ -135,6 +136,24 @@
 {
     return [NSString stringWithFormat:@"<%@>[%p]: symbol: %@, comment: %@, minimum: %g, maximum: %g, defaultValue: %g",
                      NSStringFromClass([self class]), self, symbol, comment, minimum, maximum, defaultValue];
+}
+
+- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+{
+    [resultString indentToLevel:level];
+    [resultString appendFormat:@"<symbol ptr=\"%p\" name=\"%@\" minimum=\"%g\" maximum=\"%g\" default=\"%g\"",
+                  self, GSXMLAttributeString(symbol, NO), minimum, maximum, defaultValue];
+
+    if (comment == nil) {
+        [resultString appendString:@"/>\n"];
+    } else {
+        [resultString appendString:@">\n"];
+        [resultString indentToLevel:level + 1];
+        [resultString appendFormat:@"<comment>%@</comment>\n", GSXMLCharacterData(comment)];
+
+        [resultString indentToLevel:level];
+        [resultString appendString:@"</symbol>\n"];
+    }
 }
 
 @end

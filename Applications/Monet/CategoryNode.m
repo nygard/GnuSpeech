@@ -4,6 +4,8 @@
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
 
+#import "GSXMLFunctions.h"
+
 @implementation CategoryNode
 
 - (id)init;
@@ -119,6 +121,24 @@
 {
     return [NSString stringWithFormat:@"<%@>[%p]: symbol: %@, comment: %@, isNative: %d",
                      NSStringFromClass([self class]), self, symbol, comment, isNative];
+}
+
+- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+{
+    [resultString indentToLevel:level];
+    [resultString appendFormat:@"<category ptr=\"%p\" symbol=\"%@\" is-native=\"%@\"",
+                  self, GSXMLAttributeString(symbol, NO), GSXMLBoolAttributeString(isNative)];
+
+    if (comment == nil) {
+        [resultString appendString:@"/>\n"];
+    } else {
+        [resultString appendString:@">\n"];
+        [resultString indentToLevel:level + 1];
+        [resultString appendFormat:@"<comment>%@</comment>\n", GSXMLCharacterData(comment)];
+
+        [resultString indentToLevel:level];
+        [resultString appendString:@"</category>\n"];
+    }
 }
 
 @end

@@ -31,4 +31,6 @@
 - (void)readDegasFileFormat:(FILE *)fp;
 - (void)printDataTo:(FILE *)fp;
 
+- (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(int)level;
+
 @end

@@ -306,7 +306,9 @@ int parse_string(id eventList, NSString *str);
 
     [eventList setRadiusMultiply:[radiusMultiplyField doubleValue]];
 
+    NSLog(@"eventList before: %@", eventList);
     parse_string(eventList, [stringTextField stringValue]);
+    NSLog(@"eventList after: %@", eventList);
 
     [eventList generateEventList];
     [[intonationView documentView] applyIntonation];
@@ -362,7 +364,7 @@ int parse_string(id eventList, NSString *str);
 
 int parse_string(id eventList, NSString *str)
 {
-    Phone *tempPhone;
+    Phone *aPhone;
     int dummy;
     //int chunk = 0;
     int lastFoot = 0, markedFoot = 0;
@@ -377,9 +379,10 @@ int parse_string(id eventList, NSString *str)
     NSString *buffer;
 
     mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
+    NSLog(@"mainPhoneList: %@", mainPhoneList);
 
-    tempPhone = [mainPhoneList binarySearchPhone:@"^" index:&dummy];
-    [eventList newPhoneWithObject:tempPhone];
+    aPhone = [mainPhoneList binarySearchPhone:@"^" index:&dummy];
+    [eventList newPhoneWithObject:aPhone];
 
     scanner = [[[NSScanner alloc] initWithString:str] autorelease];
     [scanner setCharactersToBeSkipped:nil];
@@ -440,10 +443,10 @@ int parse_string(id eventList, NSString *str)
                 NSLog(@"New Chunk -- not sure that this is working.");
 #ifdef PORTING
                 if (chunk) {
-                    //tempPhone = [mainPhoneList binarySearchPhone:"#" index:&dummy];
-                    //[eventList newPhoneWithObject:tempPhone];
-                    //tempPhone = [mainPhoneList binarySearchPhone:"^" index:&dummy];
-                    //[eventList newPhoneWithObject:tempPhone];
+                    //aPhone = [mainPhoneList binarySearchPhone:"#" index:&dummy];
+                    //[eventList newPhoneWithObject:aPhone];
+                    //aPhone = [mainPhoneList binarySearchPhone:"^" index:&dummy];
+                    //[eventList newPhoneWithObject:aPhone];
                     index--;
                     return index;
                 } else {
@@ -485,9 +488,10 @@ int parse_string(id eventList, NSString *str)
                 NSLog(@"Scanned this: '%@'", buffer);
                 if (markedFoot)
                     buffer = [buffer stringByAppendingString:@"'"];
-                tempPhone = [mainPhoneList binarySearchPhone:buffer index:&dummy];
-                if (tempPhone) {
-                    [eventList newPhoneWithObject:tempPhone];
+                aPhone = [mainPhoneList binarySearchPhone:buffer index:&dummy];
+                NSLog(@"aPhone: %@", aPhone);
+                if (aPhone) {
+                    [eventList newPhoneWithObject:aPhone];
                     [eventList setCurrentPhoneTempo:phoneTempo];
                     [eventList setCurrentPhoneRuleTempo:(float)ruleTempo];
                 }

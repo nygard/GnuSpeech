@@ -61,3 +61,12 @@
 }
 
 @end
+
+@implementation NSMutableString (Extensions)
+
+- (void)indentToLevel:(int)level;
+{
+    [self appendString:[NSString spacesIndentedToLevel:level spacesPerLevel:2]];
+}
+
+@end

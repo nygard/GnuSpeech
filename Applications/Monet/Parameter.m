@@ -4,6 +4,8 @@
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
 
+#import "GSXMLFunctions.h"
+
 @implementation Parameter
 
 - (id)init;
@@ -134,6 +136,25 @@
 {
     return [NSString stringWithFormat:@"<%@>[%p]: parameterSymbol: %@, comment: %@, minimum: %g, maximum: %g, defaultValue: %g",
                      NSStringFromClass([self class]), self, parameterSymbol, comment, minimum, maximum, defaultValue];
+}
+
+
+- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+{
+    [resultString indentToLevel:level];
+    [resultString appendFormat:@"<parameter ptr=\"%p\" name=\"%@\" minimum=\"%g\" maximum=\"%g\" default=\"%g\"",
+                  self, GSXMLAttributeString(parameterSymbol, NO), minimum, maximum, defaultValue];
+
+    if (comment == nil) {
+        [resultString appendString:@"/>\n"];
+    } else {
+        [resultString appendString:@">\n"];
+        [resultString indentToLevel:level + 1];
+        [resultString appendFormat:@"<comment>%@</comment>\n", GSXMLCharacterData(comment)];
+
+        [resultString indentToLevel:level];
+        [resultString appendString:@"</parameter>\n"];
+    }
 }
 
 @end

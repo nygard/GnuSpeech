@@ -1,8 +1,11 @@
 #import "PhoneList.h"
 
 #import <Foundation/Foundation.h>
+#import "NSString-Extensions.h"
+
 #import "AppController.h" // To get NXGetNamedObject()
 #import "CategoryList.h"
+#import "GSXMLFunctions.h"
 #import "Parameter.h"
 #import "ParameterList.h"
 #import "Phone.h"
@@ -556,6 +559,28 @@
     }
 
     return aPhone;
+}
+
+- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+{
+    int count, index;
+
+    count = [self count];
+    if (count == 0)
+        return;
+
+    [resultString indentToLevel:level];
+    [resultString appendString:@"<phones>\n"];
+
+    for (index = 0; index < count; index++) {
+        Phone *aPhone;
+
+        aPhone = [self objectAtIndex:index];
+        [aPhone appendXMLToString:resultString level:level+1];
+    }
+
+    [resultString indentToLevel:level];
+    [resultString appendString:@"</phones>\n"];
 }
 
 @end

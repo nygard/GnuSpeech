@@ -1,7 +1,10 @@
 #import "ParameterList.h"
 
 #import <Foundation/Foundation.h>
+#import "NSString-Extensions.h"
+
 #import <string.h>
+#import "GSXMLFunctions.h"
 #import "Parameter.h"
 
 #define DEFAULT_MIN	100.0
@@ -146,6 +149,28 @@
     }
     fprintf(fp, "\n");
 #endif
+}
+
+- (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(int)level;
+{
+    int count, index;
+
+    count = [self count];
+    if (count == 0)
+        return;
+
+    [resultString indentToLevel:level];
+    [resultString appendFormat:@"<%@>\n", elementName];
+
+    for (index = 0; index < count; index++) {
+        Parameter *aParameter;
+
+        aParameter = [self objectAtIndex:index];
+        [aParameter appendXMLToString:resultString level:level+1];
+    }
+
+    [resultString indentToLevel:level];
+    [resultString appendFormat:@"</%@>\n", elementName];
 }
 
 @end

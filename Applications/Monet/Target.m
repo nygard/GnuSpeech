@@ -2,6 +2,9 @@
 
 #import <Foundation/Foundation.h>
 #import "NSObject-Extensions.h"
+#import "NSString-Extensions.h"
+
+#import "GSXMLFunctions.h"
 
 @implementation Target
 
@@ -84,6 +87,13 @@
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"<%@>[%p]: isDefault: %d, value: %g", NSStringFromClass([self class]), self, isDefault, value];
+}
+
+- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+{
+    [resultString indentToLevel:level];
+    [resultString appendFormat:@"<target ptr=\"%p\" value=\"%g\" is-default=\"%@\"/>\n",
+                  self, value, GSXMLBoolAttributeString(isDefault)];
 }
 
 @end

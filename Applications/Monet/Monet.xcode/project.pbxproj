@@ -2007,6 +2007,34 @@
 			settings = {
 			};
 		};
+		01BE469C05F960A900172BDB = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GSXMLFunctions.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01BE469D05F960A900172BDB = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GSXMLFunctions.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01BE469E05F960A900172BDB = {
+			fileRef = 01BE469C05F960A900172BDB;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01BE469F05F960A900172BDB = {
+			fileRef = 01BE469D05F960A900172BDB;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 //010
 //011
 //012
@@ -2148,6 +2176,8 @@
 		};
 		29B97315FDCFA39411CA2CEA = {
 			children = (
+				01BE469C05F960A900172BDB,
+				01BE469D05F960A900172BDB,
 				32CA4F630368D1EE00C91783,
 				01B2008805F6EB4D00C1F65D,
 				29B97316FDCFA39411CA2CEA,
@@ -2396,6 +2426,7 @@
 				01B200A005F6F13C00C1F65D,
 				01B2013405F82D0600C1F65D,
 				01B201B105F909C900C1F65D,
+				01BE469E05F960A900172BDB,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2494,6 +2525,7 @@
 				01B200A105F6F13C00C1F65D,
 				01B2013505F82D0600C1F65D,
 				01B201B205F909CA00C1F65D,
+				01BE469F05F960A900172BDB,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
