@@ -1,16 +1,16 @@
 #include <math.h>
 #include "util.h"
 
-/*  RANGE OF ALL VOLUME CONTROLS  */
+// Range of all volume controls
 #define VOL_MAX                   60
 
-/*  CONSTANTS FOR NOISE GENERATOR  */
+// Constants for noise generator
 #define FACTOR                    377.0
 #define INITIAL_SEED              0.7892347
 
-/*  PITCH VARIABLES  */
+// Pitch variables
 #define PITCH_BASE                220.0
-#define PITCH_OFFSET              3.0           /*  MIDDLE C = 0  */
+#define PITCH_OFFSET              3.0           //  Middle C = 0
 #define LOG_FACTOR                3.32193
 
 
@@ -40,30 +40,24 @@ double speedOfSound(double temperature)
 *
 *       function:       amplitude
 *
-*       purpose:        Converts dB value to amplitude value.
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      pow
+*       purpose:        Converts dB value to amplitude value.  (Range of 0.0 - 1.0)
 *
 ******************************************************************************/
 
 double amplitude(double decibelLevel)
 {
-    /*  CONVERT 0-60 RANGE TO -60-0 RANGE  */
+    // Convert 0-60 range to -60-0 range
     decibelLevel -= VOL_MAX;
 
-    /*  IF -60 OR LESS, RETURN AMPLITUDE OF 0  */
-    if (decibelLevel <= (-VOL_MAX))
+    // If -60 or less, return amplitude of 0
+    if (decibelLevel <= -VOL_MAX)
         return 0.0;
 
-    /*  IF 0 OR GREATER, RETURN AMPLITUDE OF 1  */
+    // If 0 or greater, return amplitude of 1
     if (decibelLevel >= 0.0)
         return 1.0;
 
-    /*  ELSE RETURN INVERSE LOG VALUE  */
+    // Return inverse log value
     return pow(10.0, (decibelLevel / 20.0));
 }
 
