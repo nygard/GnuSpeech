@@ -1,10 +1,16 @@
 {
     IBClasses = (
         {
-            ACTIONS = {loadMainDictionary = id; parseText = id; }; 
+            ACTIONS = {loadMainDictionary = id; lookupPronunication = id; parseText = id; }; 
             CLASS = ApplicationDelegate; 
             LANGUAGE = ObjC; 
-            OUTLETS = {inputTextView = NSTextView; outputTextView = NSTextView; }; 
+            OUTLETS = {
+                dictionaryVersionTextField = NSTextField; 
+                inputTextView = NSTextView; 
+                outputTextView = NSTextView; 
+                pronunciationTextField = NSTextField; 
+                wordTextField = NSTextField; 
+            }; 
             SUPERCLASS = NSObject; 
         }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }

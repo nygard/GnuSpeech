@@ -11,6 +11,10 @@
 {
     IBOutlet NSTextView *inputTextView;
     IBOutlet NSTextView *outputTextView;
+
+    IBOutlet NSTextField *dictionaryVersionTextField;
+    IBOutlet NSTextField *wordTextField;
+    IBOutlet NSTextField *pronunciationTextField;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification;
@@ -18,5 +22,7 @@
 - (IBAction)parseText:(id)sender;
 
 - (IBAction)loadMainDictionary:(id)sender;
+
+- (IBAction)lookupPronunication:(id)sender;
 
 @end

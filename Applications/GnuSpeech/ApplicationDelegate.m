@@ -11,8 +11,11 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification;
 {
+    GSPronunciationDictionary *dict;
+
     NSLog(@" > %s", _cmd);
-    [GSPronunciationDictionary mainDictionary]; // Force it to load right away.
+    dict = [GSPronunciationDictionary mainDictionary]; // Force it to load right away.
+    [dictionaryVersionTextField setStringValue:[dict version]];
     NSLog(@"<  %s", _cmd);
 }
 
@@ -49,6 +52,21 @@
     [dictionary release];
 
     NSLog(@"<  %s", _cmd);
+}
+
+- (IBAction)lookupPronunication:(id)sender;
+{
+    NSString *word, *pronunciation;
+
+    word = [[wordTextField stringValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    pronunciation = [[GSPronunciationDictionary mainDictionary] pronunciationForWord:word];
+    //NSLog(@"word: %@, pronunciation: %@", word, pronunciation);
+    if (pronunciation == nil) {
+        //NSBeep();
+        pronunciation = @"Pronunciation not found";
+    }
+
+    [pronunciationTextField setStringValue:pronunciation];
 }
 
 @end
