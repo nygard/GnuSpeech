@@ -1,5 +1,5 @@
 //
-// $Id: MSynthesisController.h,v 1.5 2004/03/31 21:26:35 nygard Exp $
+// $Id: MSynthesisController.h,v 1.6 2004/03/31 21:54:40 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -11,7 +11,7 @@
 #import "EventList.h" // for struct _intonationParameters
 
 @class MModel;
-@class EventListView, IntonationView;
+@class EventListView, IntonationPoint, IntonationView;
 
 @interface MSynthesisController : NSWindowController
 {
@@ -37,6 +37,15 @@
     // Intonation window
     IBOutlet NSWindow *intonationWindow;
     IBOutlet NSScrollView *intonationView;
+
+    IBOutlet NSTextField *semitoneTextField;
+    IBOutlet NSTextField *hertzTextField;
+    IBOutlet NSTextField *slopeTextField;
+
+    IBOutlet NSBrowser *ruleBrowser;
+    IBOutlet NSTextField *beatTextField;
+    IBOutlet NSTextField *beatOffsetTextField;
+    IBOutlet NSTextField *absTimeTextField;
 
     struct _intonationParameters intonationParameters;
 
@@ -71,6 +80,12 @@
 
 - (void)parsePhoneString:(NSString *)str;
 
+// Intonation Point details
+- (IntonationPoint *)selectedIntonationPoint;
+- (IBAction)setSemitone:(id)sender;
+- (IBAction)setHertz:(id)sender;
+- (IBAction)setSlope:(id)sender;
+- (IBAction)setBeatOffset:(id)sender;
 
 // NSTableView data source
 - (int)numberOfRowsInTableView:(NSTableView *)tableView;

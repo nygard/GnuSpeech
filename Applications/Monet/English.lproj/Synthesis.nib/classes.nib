@@ -32,6 +32,10 @@
             ACTIONS = {
                 generateContour = id; 
                 parseStringButton = id; 
+                setBeatOffset = id; 
+                setHertz = id; 
+                setSemitone = id; 
+                setSlope = id; 
                 showIntonationParameterWindow = id; 
                 showIntonationWindow = id; 
                 synthesizeToFile = id; 
@@ -40,10 +44,14 @@
             CLASS = MSynthesisController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                absTimeTextField = NSTextField; 
+                beatOffsetTextField = NSTextField; 
+                beatTextField = NSTextField; 
                 driftCutoffField = NSTextField; 
                 driftDeviationField = NSTextField; 
                 eventListView = EventListView; 
                 filenameField = NSTextField; 
+                hertzTextField = NSTextField; 
                 intonParmsField = NSForm; 
                 intonationMatrix = NSMatrix; 
                 intonationParameterWindow = NSWindow; 
@@ -52,6 +60,9 @@
                 parameterTableView = NSTableView; 
                 parametersStore = NSButton; 
                 radiusMultiplyField = NSTextField; 
+                ruleBrowser = NSBrowser; 
+                semitoneTextField = NSTextField; 
+                slopeTextField = NSTextField; 
                 smoothIntonationSwitch = NSButton; 
                 stringTextField = NSTextField; 
                 tempoField = NSTextField; 

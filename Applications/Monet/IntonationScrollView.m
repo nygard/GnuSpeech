@@ -29,6 +29,7 @@
 
     /* alloc and init a intonation view instance.  Make Doc View */
     //clipRect = NSZeroRect;
+    // TODO (2004-03-31): See if we can remove this code:
     aView = [[IntonationView alloc] initWithFrame:frameRect];
     [self setDocumentView:aView];
     [aView release];

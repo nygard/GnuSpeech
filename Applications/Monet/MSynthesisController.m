@@ -10,6 +10,7 @@
 
 #import "EventList.h"
 #import "EventListView.h"
+#import "IntonationPoint.h"
 #import "IntonationView.h"
 #import "MMDisplayParameter.h"
 #import "MModel.h"
@@ -473,6 +474,40 @@
     }
 
     NSLog(@"<  %s", _cmd);
+}
+
+//
+// Intonation Point details
+//
+
+- (IntonationPoint *)selectedIntonationPoint;
+{
+    return [[intonationView documentView] selectedIntonationPoint];
+}
+
+- (IBAction)setSemitone:(id)sender;
+{
+    [[self selectedIntonationPoint] setSemitone:[semitoneTextField doubleValue]];
+    [[intonationView documentView] setNeedsDisplay:YES];
+}
+
+- (IBAction)setHertz:(id)sender;
+{
+    [[self selectedIntonationPoint] setSemitoneInHertz:[hertzTextField doubleValue]];
+    [[intonationView documentView] setNeedsDisplay:YES];
+}
+
+- (IBAction)setSlope:(id)sender;
+{
+    [[self selectedIntonationPoint] setSlope:[slopeTextField doubleValue]];
+    [[intonationView documentView] setNeedsDisplay:YES];
+}
+
+- (IBAction)setBeatOffset:(id)sender;
+{
+    [[self selectedIntonationPoint] setOffsetTime:[beatOffsetTextField doubleValue]];
+    [eventList addIntonationPoint:[self selectedIntonationPoint]]; // TODO (2004-03-31): Not sure about this.
+    [[intonationView documentView] setNeedsDisplay:YES];
 }
 
 //
