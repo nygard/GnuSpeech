@@ -8,43 +8,51 @@
 
 @implementation MXMLArrayDelegate
 
-- (id)initWithChildElementName:(NSString *)anElementName class:(Class)aClass;
+- (id)initWithChildElementName:(NSString *)anElementName class:(Class)aClass delegate:(id)aDelegate addObjectSelector:(SEL)aSelector;
 {
     if ([super init] == nil)
         return nil;
 
-    childElementName = [anElementName retain];
-    objects = [[NSMutableArray alloc] init];
+    elementName = [anElementName retain];
     objectClass = aClass;
+    delegate = [aDelegate retain];
+    addObjectSelector = aSelector;
 
     return self;
 }
 
 - (void)dealloc;
 {
-    [childElementName release];
-    [objects release];
+    [elementName release];
+    [delegate release];
 
     [super dealloc];
 }
 
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)anElementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
 {
-    if ([elementName isEqualToString:childElementName]) {
+    if ([anElementName isEqualToString:elementName]) {
         id newObject;
 
         newObject = [[objectClass alloc] initWithXMLAttributes:attributeDict];
-        [objects addObject:newObject];
+        NSLog(@"newObject: %@", newObject);
+        if ([delegate respondsToSelector:addObjectSelector]) {
+            [delegate performSelector:addObjectSelector withObject:newObject];
+        }
         [(MXMLParser *)parser pushDelegate:newObject];
         [newObject release];
     } else {
-        NSLog(@"skipping element: %@", elementName);
+        NSLog(@"MXMLArrayDelegate: skipping element: %@", elementName);
         [(MXMLParser *)parser skipTree];
     }
 }
 
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
+- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)anElementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 {
+    if ([anElementName isEqualToString:elementName]) {
+    } else {
+        NSLog(@"MXMLArrayDelegate, unexpected closing tag: %@", elementName);
+    }
 }
 
 @end

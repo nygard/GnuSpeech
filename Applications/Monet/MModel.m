@@ -30,6 +30,7 @@
 
 #import "MUnarchiver.h"
 #import "MXMLParser.h"
+#import "MXMLArrayDelegate.h"
 
 NSString *MCategoryInUseException = @"MCategoryInUseException";
 
@@ -72,7 +73,6 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     cacheTag = 1;
 
     synthesisParameters = [[MMSynthesisParameters alloc] init];
-    loadState = MMXMLLoadStateNone;
 
     return self;
 }
@@ -1443,88 +1443,29 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
 {
-    if (loadState == MMXMLLoadStateNone) {
-        if ([elementName isEqualToString:@"categories"]) {
-            loadState = MMXMLLoadStateCategories;
-        } else if ([elementName isEqualToString:@"parameters"]) {
-            loadState = MMXMLLoadStateParameters;
-        } else if ([elementName isEqualToString:@"symbols"]) {
-            loadState = MMXMLLoadStateSymbols;
-        } else if ([elementName isEqualToString:@"postures"]) {
-            loadState = MMXMLLoadStatePostures;
-        } else if ([elementName isEqualToString:@"equations"]) {
-            loadState = MMXMLLoadStateEquations;
-        } else if ([elementName isEqualToString:@"transitions"]) {
-            loadState = MMXMLLoadStateTransitions;
-        } else if ([elementName isEqualToString:@"special-transitions"]) {
-            loadState = MMXMLLoadStateSpecialTransitions;
-        } else if ([elementName isEqualToString:@"rules"]) {
-            loadState = MMXMLLoadStateRules;
-        } else {
-            NSLog(@"unknown element '%@' in state: %d", elementName, loadState);
-        }
-    } else if (loadState == MMXMLLoadStateCategories && [elementName isEqualToString:@"category"]) {
-        MMCategory *newCategory;
+    if ([elementName isEqualToString:@"categories"]) {
+        MXMLArrayDelegate *arrayDelegate;
 
-        NSLog(@"start category, name: '%@'", [attributeDict objectForKey:@"name"]);
-        newCategory = [[MMCategory alloc] init];
-        [newCategory setSymbol:[attributeDict objectForKey:@"name"]];
-        [self addCategory:newCategory];
-        [(MXMLParser *)parser pushDelegate:newCategory];
-        [newCategory release];
-    } else if (loadState == MMXMLLoadStateParameters && [elementName isEqualToString:@"parameter"]) {
-        [(MXMLParser *)parser skipTree];
-    } else if (loadState == MMXMLLoadStateSymbols && [elementName isEqualToString:@"symbol"]) {
-        [(MXMLParser *)parser skipTree];
-    } else if (loadState == MMXMLLoadStatePostures && [elementName isEqualToString:@"posture"]) {
-        [(MXMLParser *)parser skipTree];
-    } else if (loadState == MMXMLLoadStateEquations && [elementName isEqualToString:@"equation-group"]) {
-        [(MXMLParser *)parser skipTree];
-    } else if (loadState == MMXMLLoadStateTransitions && [elementName isEqualToString:@"transition-group"]) {
-        [(MXMLParser *)parser skipTree];
-    } else if (loadState == MMXMLLoadStateSpecialTransitions && [elementName isEqualToString:@"transition-group"]) {
-        [(MXMLParser *)parser skipTree];
-    } else if (loadState == MMXMLLoadStateRules && [elementName isEqualToString:@"rules"]) {
-        [(MXMLParser *)parser skipTree];
+        arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"category" class:[MMCategory class] delegate:self addObjectSelector:@selector(addCategory:)];
+        [(MXMLParser *)parser pushDelegate:arrayDelegate];
+        [arrayDelegate release];
+#if 0
+    } else if ([elementName isEqualToString:@"parameters"]) {
+    } else if ([elementName isEqualToString:@"symbols"]) {
+    } else if ([elementName isEqualToString:@"postures"]) {
+    } else if ([elementName isEqualToString:@"equations"]) {
+    } else if ([elementName isEqualToString:@"transitions"]) {
+    } else if ([elementName isEqualToString:@"special-transitions"]) {
+    } else if ([elementName isEqualToString:@"rules"]) {
+#endif
     } else {
-        NSLog(@"starting unknown element '%@' in state: %d, skipping...", elementName, loadState);
-        [(MXMLParser *)parser skipTree];
+        NSLog(@"starting unknown element: '%@'", elementName);
     }
 }
 
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 {
-    if (loadState == MMXMLLoadStateNone) {
-        if ([elementName isEqualToString:@"root"]) {
-            loadState = MMXMLLoadStateNone;
-            [(MXMLParser *)parser popDelegate];
-        }
-    } else if ([elementName isEqualToString:@"categories"]) {
-        loadState = MMXMLLoadStateNone;
-    } else if ([elementName isEqualToString:@"parameters"]) {
-        loadState = MMXMLLoadStateNone;
-    } else if ([elementName isEqualToString:@"symbols"]) {
-        loadState = MMXMLLoadStateNone;
-    } else if ([elementName isEqualToString:@"postures"]) {
-        loadState = MMXMLLoadStateNone;
-    } else if ([elementName isEqualToString:@"equations"]) {
-        loadState = MMXMLLoadStateNone;
-    } else if ([elementName isEqualToString:@"transitions"]) {
-        loadState = MMXMLLoadStateNone;
-    } else if ([elementName isEqualToString:@"special-transitions"]) {
-        loadState = MMXMLLoadStateNone;
-    } else if ([elementName isEqualToString:@"rules"]) {
-        loadState = MMXMLLoadStateNone;
-    } else if ([elementName isEqualToString:@"category"]) {
-    } else if ([elementName isEqualToString:@"parameter"]) {
-    } else if ([elementName isEqualToString:@"symbol"]) {
-    } else if ([elementName isEqualToString:@"posture"]) {
-    } else if ([elementName isEqualToString:@"equation-group"]) {
-    } else if ([elementName isEqualToString:@"transition-group"]) {
-    } else if ([elementName isEqualToString:@"rule"]) {
-    } else {
-        NSLog(@"closing unknown element '%@' in state: %d", elementName, loadState);
-    }
+    NSLog(@"closing element: '%@'", elementName);
 }
 
 @end

@@ -261,6 +261,26 @@
 #endif
 }
 
+
+- (void)setModel:(MModel *)newModel;
+{
+    if (newModel == model)
+        return;
+
+    [model release];
+    model = [newModel retain];
+
+    [dataEntryController setModel:model];
+    [postureEditor setModel:model];
+    [prototypeManager setModel:model];
+    [transitionEditor setModel:model];
+    [specialTransitionEditor setModel:model];
+    [ruleTester setModel:model];
+    [ruleManager setModel:model];
+    [synthesisParameterEditor setModel:model];
+    [synthesisController setModel:model];
+}
+
 - (void)_loadMonetFile:(NSString *)filename;
 {
     NSArchiver *stream;
@@ -268,21 +288,13 @@
     stream = [[MUnarchiver alloc] initForReadingWithData:[NSData dataWithContentsOfFile:filename]];
 
     if (stream) {
-        [model release];
-        model = [[MModel alloc] initWithCoder:stream];
+        MModel *newModel;
 
-        [dataEntryController setModel:model];
-        [postureEditor setModel:model];
-        [prototypeManager setModel:model];
-        [transitionEditor setModel:model];
-        [specialTransitionEditor setModel:model];
-        [ruleTester setModel:model];
-        [ruleManager setModel:model];
-        [synthesisParameterEditor setModel:model];
-        [synthesisController setModel:model];
+        newModel = [[MModel alloc] initWithCoder:stream];
+        [self setModel:newModel];
+        [newModel release];
 
         [stream release];
-
         [model generateXML:filename];
     } else {
         NSLog(@"Not a MONET file");
@@ -313,17 +325,16 @@
 - (void)_loadMonetXMLFile:(NSString *)filename;
 {
     MDocument *document;
+    BOOL result;
 
     NSLog(@" > %s", _cmd);
 
     document = [[MDocument alloc] init];
-    [document loadFromXMLFile:filename];
+    result = [document loadFromXMLFile:filename];
+    if (result == YES)
+        [self setModel:[document model]];
+
     [document release];
-#if 0
-    [model release];
-    model = [[MModel alloc] init]; // TODO (2004-04-21): Want to remove default values.
-    [model loadFromXMLFile:filename];
-#endif
 
     NSLog(@"<  %s", _cmd);
 }

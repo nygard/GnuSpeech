@@ -30,7 +30,7 @@
     model = [newModel retain];
 }
 
-- (void)loadFromXMLFile:(NSString *)filename;
+- (BOOL)loadFromXMLFile:(NSString *)filename;
 {
     NSURL *fileURL;
     MXMLParser *parser;
@@ -47,6 +47,8 @@
     [parser release];
 
     NSLog(@"<  %s", _cmd);
+
+    return result;
 }
 
 - (void)parserDidStartDocument:(NSXMLParser *)parser;

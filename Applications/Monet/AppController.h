@@ -1,5 +1,5 @@
 //
-// $Id: AppController.h,v 1.49 2004/04/22 01:02:21 nygard Exp $
+// $Id: AppController.h,v 1.50 2004/04/22 19:00:18 nygard Exp $
 //
 
 /*===========================================================================
@@ -58,6 +58,7 @@ History:
 
 - (IBAction)archiveToDisk:(id)sender;
 
+- (void)setModel:(MModel *)newModel;
 - (void)_loadMonetFile:(NSString *)filename;
 - (void)_loadDegasFile:(NSString *)filename;
 - (void)_loadMonetXMLFile:(NSString *)filename;

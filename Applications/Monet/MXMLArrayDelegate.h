@@ -1,5 +1,5 @@
 //
-// $Id: MXMLArrayDelegate.h,v 1.1 2004/04/22 17:48:10 nygard Exp $
+// $Id: MXMLArrayDelegate.h,v 1.2 2004/04/22 19:00:18 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -9,15 +9,16 @@
 
 @interface MXMLArrayDelegate : NSObject
 {
-    NSString *childElementName;
-    NSMutableArray *objects;
+    NSString *elementName;
     Class objectClass;
+    id delegate;
+    SEL addObjectSelector;
 }
 
-- (id)initWithChildElementName:(NSString *)childElementName class:(Class)aClass;
+- (id)initWithChildElementName:(NSString *)anElementName class:(Class)aClass delegate:(id)aDelegate addObjectSelector:(SEL)aSelector;
 - (void)dealloc;
 
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)anElementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
+- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)anElementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 
 @end

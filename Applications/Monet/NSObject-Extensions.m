@@ -14,4 +14,9 @@
     return self;
 }
 
+- (NSString *)shortDescription;
+{
+    return [NSString stringWithFormat:@"<%@>[%p]", NSStringFromClass([self class]), self];
+}
+
 @end
