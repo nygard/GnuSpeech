@@ -39,7 +39,6 @@
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)anElementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
 {
-
     if ([classesByChildElementName objectForKey:anElementName] != nil) {
         Class objectClass;
         id newObject;

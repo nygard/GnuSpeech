@@ -36,6 +36,9 @@
 - (int)numberExpressions;
 - (MMBooleanNode *)getExpressionNumber:(int)index;
 
+- (void)addBooleanExpression:(MMBooleanNode *)newExpression;
+- (void)addBooleanExpressionString:(NSString *)aString;
+
 - (NSString *)comment;
 - (void)setComment:(NSString *)newComment;
 - (BOOL)hasComment;

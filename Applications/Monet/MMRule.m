@@ -7,6 +7,7 @@
 #import "GSXMLFunctions.h"
 #import "MonetList.h"
 #import "MMBooleanNode.h"
+#import "MMBooleanParser.h"
 #import "MMParameter.h"
 #import "ParameterList.h"
 #import "MMEquation.h"
@@ -17,6 +18,7 @@
 #import "MXMLParser.h"
 #import "MXMLArrayDelegate.h"
 #import "MXMLPCDataDelegate.h"
+#import "MXMLStringArrayDelegate.h"
 
 @implementation MMRule
 
@@ -241,6 +243,39 @@
         return nil;
 
     return expressions[index];
+}
+
+- (void)addBooleanExpression:(MMBooleanNode *)newExpression;
+{
+    int index;
+
+    for (index = 0; index < 4; index++) {
+        if (expressions[index] == nil) {
+            expressions[index] = [newExpression retain];
+            return;
+        }
+    }
+
+    NSLog(@"Warning: No room for another boolean expression in MMRule.");
+}
+
+- (void)addBooleanExpressionString:(NSString *)aString;
+{
+    MMBooleanParser *parser;
+    MMBooleanNode *result;
+
+    parser = [[MMBooleanParser alloc] init];
+    [parser setCategoryList:[[self model] categories]];
+    [parser setPhoneList:[[self model] postures]];
+
+    result = [parser parseString:aString];
+    if (result == nil) {
+        NSLog(@"Error parsing boolean expression: %@", [parser errorMessage]);
+    } else {
+        [self addBooleanExpression:result];
+    }
+
+    [parser release];
 }
 
 - (NSString *)comment;
@@ -684,14 +719,15 @@
         newDelegate = [[MXMLPCDataDelegate alloc] initWithElementName:elementName delegate:self setSelector:@selector(setComment:)];
         [(MXMLParser *)parser pushDelegate:newDelegate];
         [newDelegate release];
-#if 0
     } else if ([elementName isEqualToString:@"boolean-expressions"]) {
         MXMLArrayDelegate *newDelegate;
 
         // TODO (2004-05-14): It will need to implement initWithXMLAttributes:context:, and use the boolean parser.  Hmm, need a BooleanNode baseclass?
-        newDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"boolean-expression" class:[MMBooleanNode class] delegate:self addObjectSelector:@selector(addPoint:)];
+        newDelegate = [[MXMLStringArrayDelegate alloc] initWithChildElementName:@"boolean-expression" delegate:self addObjectSelector:@selector(addBooleanExpressionString:)];
+        //newDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"boolean-expression" class:[NSString class] delegate:self addObjectSelector:@selector(addPoint:)];
         [(MXMLParser *)parser pushDelegate:newDelegate];
         [newDelegate release];
+#if 0
     } else if ([elementName isEqualToString:@"parameter-profiles"]) {
     } else if ([elementName isEqualToString:@"meta-parameter-profiles"]) {
     } else if ([elementName isEqualToString:@"special-profiles"]) {
