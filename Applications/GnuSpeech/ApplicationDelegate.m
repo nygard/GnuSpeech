@@ -76,7 +76,7 @@
     [dateFormatter release];
 
     if ([dbmDictionary modificationDate] == nil || [[dbmDictionary modificationDate] compare:[simpleDictionary modificationDate]] == NSOrderedAscending) {
-        [GSDBMPronunciationDictionary createDatabase:@"/tmp/test1" fromSimpleDictionary:simpleDictionary];
+        [GSDBMPronunciationDictionary createDatabase:[GSDBMPronunciationDictionary mainFilename] fromSimpleDictionary:simpleDictionary];
     }
 
     // TODO (2004-08-21): And unfortunately it leaves the simple dictionary around in memory, but... it's good enough for now.

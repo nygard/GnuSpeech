@@ -3,9 +3,15 @@
 
 #import "GSDBMPronunciationDictionary.h"
 
+#import "NSFileManager-Extensions.h"
 #import "GSSimplePronunciationDictionary.h"
 
 @implementation GSDBMPronunciationDictionary
+
++ (NSString *)mainFilename;
+{
+    return [@"~/Library/Application Support/GnuSpeech/pronunciations" stringByExpandingTildeInPath];
+}
 
 + (id)mainDictionary;
 {
@@ -16,7 +22,7 @@
     if (_mainDictionary == nil) {
         //NSString *path;
 
-        _mainDictionary = [[GSDBMPronunciationDictionary alloc] initWithFilename:@"/tmp/test1"];
+        _mainDictionary = [[GSDBMPronunciationDictionary alloc] initWithFilename:[self mainFilename]];
         //path = [[NSBundle bundleForClass:self] pathForResource:@"2.0eMainDictionary" ofType:@"dict"];
         //[_mainDictionary loadFromFile:path];
         //[_mainDictionary loadDictionary];
@@ -39,6 +45,8 @@
 
     pronunciations = [simpleDictionary pronunciations];
     allKeys = [pronunciations allKeys];
+
+    [[NSFileManager defaultManager] createDirectoryAtPath:[aFilename stringByDeletingLastPathComponent] attributes:nil createIntermediateDirectories:YES];
 
     newDB = dbm_open([aFilename UTF8String], O_RDWR | O_CREAT, 0660);
     if (newDB == NULL) {

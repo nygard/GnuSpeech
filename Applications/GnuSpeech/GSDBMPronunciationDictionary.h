@@ -12,6 +12,7 @@
     DBM *db;
 }
 
++ (NSString *)mainFilename;
 + (BOOL)createDatabase:(NSString *)aFilename fromSimpleDictionary:(GSSimplePronunciationDictionary *)simpleDictionary;
 
 - (id)initWithFilename:(NSString *)aFilename;
