@@ -16,6 +16,7 @@
 #import "ProtoTemplate.h"
 #import "Slope.h"
 #import "SlopeRatio.h"
+#import "SymbolList.h"
 #import "Target.h"
 #import "TargetList.h"
 
@@ -84,6 +85,7 @@ static NSImage *_selectionBox = nil;
     [super dealloc];
 }
 
+// Note (2004-03-11): This currently can be called multiple times, once after each file we load.
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 {
     SymbolList *symbols;
@@ -91,6 +93,11 @@ static NSImage *_selectionBox = nil;
     Phone *aPhone;
 
     NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
+
+    [dummyPhoneList removeAllObjects];
+    [displayPoints removeAllObjects];
+    [displaySlopes removeAllObjects];
+    [selectedPoints removeAllObjects];
 
     symbols = NXGetNamedObject(@"mainSymbolList", NSApp);
     mainParameterList = NXGetNamedObject(@"mainParameterList", NSApp);
@@ -399,6 +406,7 @@ static NSImage *_selectionBox = nil;
 - (void)drawTransition;
 {
     int count, index;
+    MonetList *currentPoints;
     GSMPoint *currentPoint;
     double symbols[5];
     double tempos[4] = {1.0, 1.0, 1.0, 1.0};
@@ -428,10 +436,14 @@ static NSImage *_selectionBox = nil;
 
     cache++;
 
-    count = [[currentTemplate points] count];
+    currentPoints = [currentTemplate points];
+    count = [currentPoints count];
     for (index = 0; index < count; index++) {
-        currentPoint = [[currentTemplate points] objectAtIndex:index];
+        currentPoint = [currentPoints objectAtIndex:index];
+        //NSLog(@"%2d: object class: %@", index, NSStringFromClass([currentPoint class]));
+        //NSLog(@"%2d (a): value: %g, freeTime: %g, type: %d, phantom: %d", index, [currentPoint value], [currentPoint freeTime], [currentPoint type], [currentPoint phantom]);
         [currentPoint calculatePoints:symbols tempos:tempos phones:dummyPhoneList andCacheWith:cache toDisplay:displayPoints];
+        //NSLog(@"%2d (b): value: %g, freeTime: %g, type: %d, phantom: %d", index, [currentPoint value], [currentPoint freeTime], [currentPoint type], [currentPoint phantom]);
 
         if ([currentPoint isKindOfClass:[SlopeRatio class]])
             [(SlopeRatio *)currentPoint displaySlopesInList:displaySlopes];
@@ -447,16 +459,17 @@ static NSImage *_selectionBox = nil;
 
     // TODO (2004-03-02): With the bezier path change, we may want to do the compositing after we draw the path.
     count = [displayPoints count];
-    NSLog(@"%d display points", count);
+    //NSLog(@"%d display points", count);
     for (index = 0; index < count; index++) {
         currentPoint = [displayPoints objectAtIndex:index];
-        y = (float)[currentPoint value];
+        y = [currentPoint value];
+        NSLog(@"%d: y = %f", index, y);
         if ([currentPoint expression] == nil)
             eventTime = [currentPoint freeTime];
         else
             eventTime = [[currentPoint expression] cacheValue];
         myPoint.x = (graphOrigin.x - 3) + timeScale * eventTime;
-        myPoint.y = (graphOrigin.y - 3) + (yScale * 2) + (y * yScale / 10.0);
+        myPoint.y = (graphOrigin.y - 3) + (yScale * 2) + (y * (float)yScale / 10.0);
         [bezierPath lineToPoint:NSMakePoint(myPoint.x + 3, myPoint.y + 3)];
         switch ([currentPoint type]) {
           case TETRAPHONE:
@@ -474,13 +487,13 @@ static NSImage *_selectionBox = nil;
             if ([currentPoint type] == [(GSMPoint *)[displayPoints objectAtIndex:index+1] type])
                 [bezierPath moveToPoint:NSMakePoint(myPoint.x + 3, myPoint.y + 3)];
             else
-                [bezierPath moveToPoint:NSMakePoint(myPoint.x + 3, graphOrigin.y + (yScale * 2))];
+                [bezierPath moveToPoint:NSMakePoint(myPoint.x + 3, graphOrigin.y + (2 * yScale))];
         }
         else
             [bezierPath moveToPoint:NSMakePoint(myPoint.x + 3, myPoint.y + 3)];
     }
 
-    [bezierPath lineToPoint:NSMakePoint([self bounds].size.width - 50.0, [self bounds].size.height - BOTTOM_MARGIN - (2 * yScale))];
+    [bezierPath lineToPoint:NSMakePoint([self bounds].size.width - LEFT_MARGIN, [self bounds].size.height - BOTTOM_MARGIN - (2 * yScale))];
     [[NSColor greenColor] set];
     [bezierPath stroke];
     [bezierPath release];
@@ -532,7 +545,7 @@ static NSImage *_selectionBox = nil;
             else
                 eventTime = [[tempPoint expression] cacheValue];
             myPoint.x = (graphOrigin.x - 5) + timeScale * eventTime;
-            myPoint.y = (graphOrigin.y - 5) + (yScale * 2) + (y * yScale / 10.0);
+            myPoint.y = (graphOrigin.y - 5) + (yScale * 2) + (y * (float)yScale / 10.0);
 
             //NSLog(@"Selection; x: %f y:%f", myPoint.x, myPoint.y);
 
@@ -675,7 +688,7 @@ static NSImage *_selectionBox = nil;
         currentPoint.x *= timeScale;
         currentPoint.y = (yScale * 2) + ([currentDisplayPoint value] * yScale / 10.0);
 
-        NSLog(@"%2d: currentPoint: %@", index, NSStringFromPoint(currentPoint));
+        //NSLog(@"%2d: currentPoint: %@", index, NSStringFromPoint(currentPoint));
         if (NSPointInRect(currentPoint, selectionRect) == YES) {
             [selectedPoints addObject:currentDisplayPoint];
         }
@@ -1021,7 +1034,7 @@ static NSImage *_selectionBox = nil;
 }
 #endif
 
-- (void)delete:(id)sender;
+- (IBAction)delete:(id)sender;
 {
     int i;
     GSMPoint *tempPoint;
@@ -1045,7 +1058,7 @@ static NSImage *_selectionBox = nil;
 }
 
 
-- (void)groupInSlopeRatio:sender;
+- (IBAction)groupInSlopeRatio:(id)sender;
 {
     int i, index;
     int type;
@@ -1083,6 +1096,11 @@ static NSImage *_selectionBox = nil;
     [self display];
 }
 
+- (IBAction)updateControlParameter:(id)sender;
+{
+    [self setNeedsDisplay:YES];
+}
+
 //
 // Publicly used API
 //
@@ -1096,6 +1114,8 @@ static NSImage *_selectionBox = nil;
 
     [currentTemplate release];
     currentTemplate = [newTransition retain];
+
+    [transitionNameTextField setStringValue:[currentTemplate name]];
 
     switch ([currentTemplate type]) {
       case DIPHONE:

@@ -30,9 +30,8 @@
 - (double)startTime;
 - (double)endTime;
 
-
-- calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag
-        toDisplay:displayList ;
+- (void)calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag
+              toDisplay:(MonetList *)displayList;
 
 - (double)calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag
                  baseline:(double)baseline delta:(double)parameterDelta min:(double)min max:(double)max

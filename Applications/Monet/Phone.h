@@ -49,10 +49,10 @@
     NSString *phoneSymbol;
     NSString *comment;
 
-    CategoryList *categoryList;
-    TargetList *parameterList;
-    TargetList *metaParameterList;
-    TargetList *symbolList;
+    CategoryList *categoryList; // Of CategoryNodes
+    TargetList *parameterList; // Of Targets
+    TargetList *metaParameterList; // Of Targets
+    TargetList *symbolList; // Of Targets
 }
 
 /* init and free methods */

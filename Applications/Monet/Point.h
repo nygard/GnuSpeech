@@ -1,6 +1,6 @@
 #import <Foundation/NSObject.h>
 
-@class EventList, ProtoEquation;
+@class EventList, MonetList, ProtoEquation;
 
 /*===========================================================================
 
@@ -43,7 +43,7 @@
 - (int)phantom;
 - (void)setPhantom:(int)phantomFlag;
 
-- calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag toDisplay:displayList;
+- (void)calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag toDisplay:(MonetList *)displayList;
 
 - (double)calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag
                  baseline:(double)baseline delta:(double)delta min:(double)min max:(double)max

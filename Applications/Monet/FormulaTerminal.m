@@ -143,10 +143,12 @@
         aPhone = [phones objectAtIndex:whichPhone];
         NSLog(@"aPhone: %@", aPhone);
         NSLog(@"symbolList: %p, count: %d", [aPhone symbolList], [[aPhone symbolList] count]);
+        NSLog(@"symbolList: %@", [aPhone symbolList]);
     }
 #endif
     /* Use index to index the phone's symbol list */
     tempTarget = [[[phones objectAtIndex:whichPhone] symbolList] objectAtIndex:index];
+    //NSLog(@"main symbol list count: %d, phone symbol list count: %d", [mainSymbolList count], [[[phones objectAtIndex:whichPhone] symbolList] count]);
 
     //NSLog(@"Evaluate: %@ Index: %d  Value : %f", [[phones objectAtIndex:whichPhone] symbol], index, [tempTarget value]);
 

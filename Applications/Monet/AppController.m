@@ -339,11 +339,12 @@
 
                 [dataBrowser updateLists];
                 [dataBrowser updateBrowser];
-#ifdef PORTING
+
                 [transitionBuilder applicationDidFinishLaunching:nil];
                 [specialTransitionBuilder applicationDidFinishLaunching:nil];
 
                 [stream release];
+#ifdef PORTING
                 initStringParser();
 #endif
 

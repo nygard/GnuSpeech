@@ -6,6 +6,7 @@
 
 #import "AppController.h"
 #import "EventList.h"
+#import "FormulaExpression.h"
 #import "GSXMLFunctions.h"
 #import "ProtoEquation.h"
 #import "PrototypeManager.h"
@@ -83,7 +84,7 @@
 - (double)getTime;
 {
     if (expression)
-        return [expression cacheValue];
+        return [expression cacheValue]; // TODO (2004-03-11): I think this is a little odd.
 
     return freeTime;
 }
@@ -108,18 +109,17 @@
     phantom = phantomFlag;
 }
 
-- calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag toDisplay:displayList;
+- (void)calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag toDisplay:(MonetList *)displayList;
 {
     float dummy;
 
     if (expression) {
-        dummy = [expression evaluate:ruleSymbols tempos:tempos phones:phones andCacheWith:(int)newCacheTag];
+        dummy = [expression evaluate:ruleSymbols tempos:tempos phones:phones andCacheWith:newCacheTag];
+        //NSLog(@"expression %@ = %g", [[expression expression] expressionString], dummy);
     }
-    NSLog(@"Dummy %f", dummy);
+    //NSLog(@"Dummy %f", dummy);
 
     [displayList addObject:self];
-
-    return self;
 }
 
 

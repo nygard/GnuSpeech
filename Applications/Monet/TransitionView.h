@@ -17,6 +17,7 @@
 {
     IBOutlet AppController *controller;
     IBOutlet NSForm *displayParameters;
+    IBOutlet NSTextField *transitionNameTextField;
 
     NSRect totalFrame; // Frame for display
     NSFont *timesFont;
@@ -73,8 +74,9 @@
 
 //- (BOOL)performKeyEquivalent:(NSEvent *)theEvent;
 
-- (void)delete:(id)sender;
-- (void)groupInSlopeRatio:sender;
+- (IBAction)delete:(id)sender;
+- (IBAction)groupInSlopeRatio:(id)sender;
+- (IBAction)updateControlParameter:(id)sender;
 
 // Publicly used API
 - (void)setTransition:(ProtoTemplate *)newTransition;

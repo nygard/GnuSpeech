@@ -66,3 +66,4 @@ TODO:
 
 - bezier paths may need to be on 1/2 pixel coordinates, depending on the line width.
 - when using NSRectFill you need to use integral coordinates.
+- I see that the time formulas should produce monotonically increasing values for times.  Fricatives/Dud12 is an example that doesn't do this.

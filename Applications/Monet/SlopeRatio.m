@@ -4,6 +4,7 @@
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
 
+#import "FormulaExpression.h"
 #import "GSXMLFunctions.h"
 #import "MonetList.h"
 #import "Point.h"
@@ -101,8 +102,8 @@
     return [[(GSMPoint *)[points lastObject] expression] cacheValue];
 }
 
-- calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag
-        toDisplay:displayList ;
+- (void)calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag
+              toDisplay:(MonetList *)displayList;
 {
     int i, numSlopes;
     double temp = 0.0, temp1 = 0.0, intervalTime = 0.0, sum = 0.0, factor = 0.0;
@@ -111,11 +112,14 @@
     GSMPoint *currentPoint;
 
     /* Calculate the times for all points */
+    //NSLog(@"%s, count: %d", _cmd, [points count]);
     for (i = 0; i < [points count]; i++) {
         currentPoint = [points objectAtIndex:i];
         dummy = [[currentPoint expression] evaluate:ruleSymbols
                                            tempos:tempos phones:phones
                                            andCacheWith:newCacheTag];
+        //NSLog(@"\t%d: expr %@ = %g", i, [[[currentPoint expression] expression] expressionString], dummy);
+        //NSLog(@"point value: %g, expression value: %g", [currentPoint value], [[currentPoint expression] cacheValue]);
 
         [displayList addObject:currentPoint];
     }
@@ -153,8 +157,6 @@
         temp1 = [[points objectAtIndex:i] multiplyValueByFactor:factor];
         temp = [[points objectAtIndex:i] addValue:temp];
     }
-
-    return self;
 }
 
 - (double)calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag
@@ -171,8 +173,7 @@
     /* Calculate the times for all points */
     for (i = 0; i < [points count]; i++) {
         currentPoint = [points objectAtIndex:i];
-        dummy = [[currentPoint expression] evaluate:ruleSymbols tempos:tempos phones:phones
-                                           andCacheWith:newCacheTag];
+        dummy = [[currentPoint expression] evaluate:ruleSymbols tempos:tempos phones:phones andCacheWith:newCacheTag];
     }
 
     baseTime = [[points objectAtIndex:0] getTime];
@@ -231,15 +232,19 @@
 
 - (void)displaySlopesInList:(MonetList *)displaySlopes;
 {
-    int i;
+    int count, index;
     double tempTime;
 
-    //NSLog(@"DisplaySlopesInList: Count = %d", [slopes count]);
-    for (i = 0; i < [slopes count]; i++) {
-        tempTime = ([[points objectAtIndex:i] getTime] + [[points objectAtIndex:i+1] getTime]) / 2.0;
-        [[slopes objectAtIndex:i] setDisplayTime:tempTime];
+    count = [slopes count];
+    //NSLog(@"DisplaySlopesInList: Count = %d", count);
+    for (index = 0; index < [slopes count]; index++) {
+        Slope *currentSlope;
+
+        tempTime = ([[points objectAtIndex:index] getTime] + [[points objectAtIndex:index+1] getTime]) / 2.0;
+        currentSlope = [slopes objectAtIndex:index];
+        [currentSlope setDisplayTime:tempTime];
         //NSLog(@"TempTime = %f", tempTime);
-        [displaySlopes addObject:[slopes objectAtIndex:i]];
+        [displaySlopes addObject:currentSlope];
     }
 }
 

@@ -181,10 +181,14 @@
             SUPERCLASS = NSObject; 
         }, 
         {
-            ACTIONS = {delete = id; groupInSlopeRatio = id; }; 
+            ACTIONS = {delete = id; groupInSlopeRatio = id; updateControlParameter = id; }; 
             CLASS = TransitionView; 
             LANGUAGE = ObjC; 
-            OUTLETS = {controller = AppController; displayParameters = NSForm; }; 
+            OUTLETS = {
+                controller = AppController; 
+                displayParameters = NSForm; 
+                transitionNameTextField = NSTextField; 
+            }; 
             SUPERCLASS = NSView; 
         }
     ); 
