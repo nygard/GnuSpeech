@@ -21,6 +21,8 @@
 
 #import "MUnarchiver.h"
 
+NSString *MCategoryInUseException = @"MCategoryInUseException";
+
 @implementation MModel
 
 - (id)init;
@@ -148,9 +150,19 @@
     [categoryNames release];
 }
 
+// TODO (2004-03-19): Is it used by rules, anyway.  Postures can also use categories.
 - (BOOL)isCategoryUsed:(MMCategory *)aCategory;
 {
     return [rules isCategoryUsed:aCategory];
+}
+
+- (void)removeCategory:(MMCategory *)aCategory;
+{
+    if ([self isCategoryUsed:aCategory] == YES) {
+        [NSException raise:MCategoryInUseException format:@"Cannot remove category that is in use."];
+    }
+
+    [categories removeObject:aCategory];
 }
 
 // TODO (2004-03-06): Find equation named "named" in list named "list"

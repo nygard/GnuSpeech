@@ -1,5 +1,5 @@
 //
-// $Id: MDataEntryController.h,v 1.2 2004/03/19 04:35:59 nygard Exp $
+// $Id: MDataEntryController.h,v 1.3 2004/03/19 18:46:53 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -8,7 +8,7 @@
 #import <AppKit/NSWindowController.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-@class MModel;
+@class MMCategory, MModel, MMParameter, MMSymbol;
 
 @interface MDataEntryController : NSWindowController
 {
@@ -42,6 +42,10 @@
 - (void)windowDidLoad;
 
 - (void)updateViews;
+- (void)_updateCategoryComment;
+- (void)_updateParameterComment;
+- (void)_updateMetaParameterComment;
+- (void)_updateSymbolComment;
 
 // Actions
 - (IBAction)addCategory:(id)sender;
@@ -65,5 +69,10 @@
 
 // NSTextView delegate
 - (void)textDidEndEditing:(NSNotification *)aNotification;
+
+- (MMCategory *)selectedCategory;
+- (MMParameter *)selectedParameter;
+- (MMParameter *)selectedMetaParameter;
+- (MMSymbol *)selectedSymbol;
 
 @end

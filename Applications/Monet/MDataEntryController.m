@@ -114,6 +114,91 @@
     [parameterTableView reloadData];
     [metaParameterTableView reloadData];
     [symbolTableView reloadData];
+
+    [self _updateCategoryComment];
+    [self _updateParameterComment];
+    [self _updateMetaParameterComment];
+    [self _updateSymbolComment];
+}
+
+- (void)_updateCategoryComment;
+{
+    if ([categoryTableView numberOfSelectedRows] == 1) {
+        int selectedRow;
+        MMCategory *selectedCategory;
+        NSString *comment;
+
+        selectedRow = [categoryTableView selectedRow];
+        selectedCategory = [[[self model] categories] objectAtIndex:selectedRow];
+        [categoryCommentTextView setEditable:YES];
+        comment = [selectedCategory comment];
+        if (comment == nil)
+            comment = @"";
+        [categoryCommentTextView setString:comment];
+    } else {
+        [categoryCommentTextView setEditable:NO];
+        [categoryCommentTextView setString:@""];
+    }
+}
+
+- (void)_updateParameterComment;
+{
+    if ([parameterTableView numberOfSelectedRows] == 1) {
+        int selectedRow;
+        MMParameter *selectedParameter;
+        NSString *comment;
+
+        selectedRow = [parameterTableView selectedRow];
+        selectedParameter = [[[self model] parameters] objectAtIndex:selectedRow];
+        [parameterCommentTextView setEditable:YES];
+        comment = [selectedParameter comment];
+        if (comment == nil)
+            comment = @"";
+        [parameterCommentTextView setString:comment];
+    } else {
+        [parameterCommentTextView setEditable:NO];
+        [parameterCommentTextView setString:@""];
+    }
+}
+
+- (void)_updateMetaParameterComment;
+{
+    if ([metaParameterTableView numberOfSelectedRows] == 1) {
+        int selectedRow;
+        MMParameter *selectedMetaParameter;
+        NSString *comment;
+
+        selectedRow = [metaParameterTableView selectedRow];
+        selectedMetaParameter = [[[self model] metaParameters] objectAtIndex:selectedRow];
+        [metaParameterCommentTextView setEditable:YES];
+        comment = [selectedMetaParameter comment];
+        if (comment == nil)
+            comment = @"";
+        [metaParameterCommentTextView setString:comment];
+    } else {
+        [metaParameterCommentTextView setEditable:NO];
+        [metaParameterCommentTextView setString:@""];
+    }
+}
+
+- (void)_updateSymbolComment;
+{
+    if ([symbolTableView numberOfSelectedRows] == 1) {
+        int selectedRow;
+        MMSymbol *selectedSymbol;
+        NSString *comment;
+
+        selectedRow = [symbolTableView selectedRow];
+        selectedSymbol = [[[self model] symbols] objectAtIndex:selectedRow];
+        [symbolCommentTextView setEditable:YES];
+        comment = [selectedSymbol comment];
+        if (comment == nil)
+            comment = @"";
+        [symbolCommentTextView setString:comment];
+    } else {
+        [symbolCommentTextView setEditable:NO];
+        [symbolCommentTextView setString:@""];
+    }
 }
 
 //
@@ -141,8 +226,13 @@
 
 - (IBAction)removeCategory:(id)sender;
 {
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
+    MMCategory *selectedCategory;
+
+    selectedCategory = [self selectedCategory];
+    if (selectedCategory != nil)
+        [[self model] removeCategory:selectedCategory];
+
+    [self updateViews];
 }
 
 - (IBAction)addParameter:(id)sender;
@@ -264,69 +354,17 @@
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification;
 {
     NSTableView *tableView;
-    int selectedRowCount, selectedRow;
-    NSString *comment;
 
     tableView = [aNotification object];
-    selectedRowCount = [tableView numberOfSelectedRows];
-    selectedRow = [tableView selectedRow];
 
     if (tableView == categoryTableView) {
-        if (selectedRowCount == 1) {
-            MMCategory *selectedCategory;
-
-            selectedCategory = [[[self model] categories] objectAtIndex:selectedRow];
-            [categoryCommentTextView setEditable:YES];
-            comment = [selectedCategory comment];
-            if (comment == nil)
-                comment = @"";
-            [categoryCommentTextView setString:comment];
-        } else {
-            [categoryCommentTextView setEditable:NO];
-            [categoryCommentTextView setString:@""];
-        }
+        [self _updateCategoryComment];
     } else if (tableView == parameterTableView) {
-        if (selectedRowCount == 1) {
-            MMParameter *selectedParameter;
-
-            selectedParameter = [[[self model] parameters] objectAtIndex:selectedRow];
-            [parameterCommentTextView setEditable:YES];
-            comment = [selectedParameter comment];
-            if (comment == nil)
-                comment = @"";
-            [parameterCommentTextView setString:comment];
-        } else {
-            [parameterCommentTextView setEditable:NO];
-            [parameterCommentTextView setString:@""];
-        }
+        [self _updateParameterComment];
     } else if (tableView == metaParameterTableView) {
-        if (selectedRowCount == 1) {
-            MMParameter *selectedMetaParameter;
-
-            selectedMetaParameter = [[[self model] metaParameters] objectAtIndex:selectedRow];
-            [metaParameterCommentTextView setEditable:YES];
-            comment = [selectedMetaParameter comment];
-            if (comment == nil)
-                comment = @"";
-            [metaParameterCommentTextView setString:comment];
-        } else {
-            [metaParameterCommentTextView setEditable:NO];
-            [metaParameterCommentTextView setString:@""];
-        }
+        [self _updateMetaParameterComment];
     } else if (tableView == symbolTableView) {
-        if (selectedRowCount == 1) {
-            MMSymbol *selectedSymbol;
-
-            selectedSymbol = [[[self model] symbols] objectAtIndex:selectedRow];
-            [symbolCommentTextView setEditable:YES];
-            comment = [selectedSymbol comment];
-            if (comment == nil)
-                comment = @"";
-            [symbolCommentTextView setString:comment];
-        } else {
-            [symbolCommentTextView setEditable:NO];
-            [symbolCommentTextView setString:@""];
-        }
+        [self _updateSymbolComment];
     }
 }
 
@@ -337,7 +375,6 @@
 - (void)textDidEndEditing:(NSNotification *)aNotification;
 {
     NSTextView *textView;
-    int selectedRow;
     NSString *newComment;
 
     textView = [aNotification object];
@@ -353,29 +390,57 @@
     //NSLog(@"(2) newComment: %@", newComment);
 
     if (textView == categoryCommentTextView) {
-        selectedRow = [categoryTableView selectedRow];
-        //NSLog(@"selectedRow: %d", selectedRow);
-        [[[[self model] categories] objectAtIndex:selectedRow] setComment:newComment];
+        [[self selectedCategory] setComment:newComment];
         // TODO (2004-03-18): Bleck.  Need notification from model that things have changed.
         [categoryTableView reloadData];
     } else if (textView == parameterCommentTextView) {
-        selectedRow = [parameterTableView selectedRow];
-        //NSLog(@"selectedRow: %d", selectedRow);
-        [[[[self model] parameters] objectAtIndex:selectedRow] setComment:newComment];
+        [[self selectedParameter] setComment:newComment];
         [parameterTableView reloadData];
     } else if (textView == metaParameterCommentTextView) {
-        selectedRow = [metaParameterTableView selectedRow];
-        //NSLog(@"selectedRow: %d", selectedRow);
-        [[[[self model] metaParameters] objectAtIndex:selectedRow] setComment:newComment];
+        [[self selectedMetaParameter] setComment:newComment];
         [metaParameterTableView reloadData];
     } else if (textView == symbolCommentTextView) {
-        selectedRow = [symbolTableView selectedRow];
-        //NSLog(@"selectedRow: %d", selectedRow);
-        [[[[self model] symbols] objectAtIndex:selectedRow] setComment:newComment];
+        [[self selectedSymbol] setComment:newComment];
         [symbolTableView reloadData];
     }
 
     [newComment release];
+}
+
+- (MMCategory *)selectedCategory;
+{
+    int selectedRow;
+
+    selectedRow = [categoryTableView selectedRow];
+
+    return [[[self model] categories] objectAtIndex:selectedRow];
+}
+
+- (MMParameter *)selectedParameter;
+{
+    int selectedRow;
+
+    selectedRow = [parameterTableView selectedRow];
+
+    return [[[self model] parameters] objectAtIndex:selectedRow];
+}
+
+- (MMParameter *)selectedMetaParameter;
+{
+    int selectedRow;
+
+    selectedRow = [metaParameterTableView selectedRow];
+
+    return [[[self model] metaParameters] objectAtIndex:selectedRow];
+}
+
+- (MMSymbol *)selectedSymbol;
+{
+    int selectedRow;
+
+    selectedRow = [symbolTableView selectedRow];
+
+    return [[[self model] symbols] objectAtIndex:selectedRow];
 }
 
 @end

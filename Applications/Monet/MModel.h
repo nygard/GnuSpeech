@@ -1,5 +1,5 @@
 //
-// $Id: MModel.h,v 1.6 2004/03/19 05:00:10 nygard Exp $
+// $Id: MModel.h,v 1.7 2004/03/19 18:46:53 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -9,6 +9,8 @@
 
 @class CategoryList, MonetList, ParameterList, PhoneList, RuleList, SymbolList;
 @class MMCategory, MMEquation, MMTransition;
+
+extern NSString *MCategoryInUseException;
 
 @interface MModel : NSObject
 {
@@ -45,6 +47,7 @@
 - (void)addCategory:(MMCategory *)newCategory;
 - (void)uniqueNameForCategory:(MMCategory *)newCategory;
 - (BOOL)isCategoryUsed:(MMCategory *)aCategory;
+- (void)removeCategory:(MMCategory *)aCategory;
 
 
 - (MMEquation *)findEquationList:(NSString *)aListName named:(NSString *)anEquationName;
