@@ -6,7 +6,6 @@
 
 #import "AppController.h"
 #import "FormulaExpression.h"
-#import "Inspector.h"
 #import "MonetList.h"
 #import "NamedList.h"
 #import "MMPosture.h"

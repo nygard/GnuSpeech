@@ -6,7 +6,6 @@
 
 #import "AppController.h"
 #import "FormulaExpression.h"
-#import "Inspector.h"
 #import "MMEquation.h"
 #import "MMPosture.h"
 #import "MMPoint.h"
@@ -1119,7 +1118,6 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         }
     }
 
-    [[controller inspector] cleanInspectorWindow];
     [selectedPoints removeAllObjects];
     [self _selectionDidChange];
 

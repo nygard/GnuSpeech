@@ -1,5 +1,5 @@
 //
-// $Id: AppController.h,v 1.40 2004/03/30 22:49:05 nygard Exp $
+// $Id: AppController.h,v 1.41 2004/03/31 22:48:56 nygard Exp $
 //
 
 /*===========================================================================
@@ -26,14 +26,13 @@ History:
 
 @class NSMutableDictionary;
 @class CategoryList, ParameterList, PhoneList, StringParser, SymbolList;
-@class EventListView, Inspector, IntonationScrollView, PrototypeManager;
+@class EventListView, IntonationScrollView, PrototypeManager;
 @class MModel, MMTransition;
 @class MDataEntryController, MPostureEditor, MPrototypeManager, MRuleManager, MRuleTester, MSpecialTransitionEditor;
 @class MSynthesisController, MSynthesisParameterEditor, MTransitionEditor;
 
 @interface AppController : NSObject
 {
-    IBOutlet Inspector *inspectorController;
     IBOutlet NSPanel *infoPanel;
 
     NSMutableDictionary *namedObjects;
@@ -65,8 +64,6 @@ History:
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification;
 
 - (void)displayInfoPanel:(id)sender;
-- (void)displayInspectorWindow:(id)sender;
-- (Inspector *)inspector;
 
 - (IBAction)openFile:(id)sender;
 - (IBAction)importTRMData:(id)sender;

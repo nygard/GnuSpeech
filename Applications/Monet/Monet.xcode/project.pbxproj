@@ -349,30 +349,6 @@
 			settings = {
 			};
 		};
-		0175901B05FA74A1004632CC = {
-			children = (
-				0175901C05FA74A1004632CC,
-			);
-			isa = PBXVariantGroup;
-			name = Inspector.nib;
-			path = "";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0175901C05FA74A1004632CC = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.nib;
-			name = English;
-			path = English.lproj/Inspector.nib;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0175901D05FA74A1004632CC = {
-			fileRef = 0175901B05FA74A1004632CC;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		01848B7E060A4717005E9B67 = {
 			children = (
 				01848B7F060A4717005E9B67,
@@ -1629,22 +1605,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		0195DB2405F46E4E006D8386 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = Inspector.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0195DB2505F46E4E006D8386 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = Inspector.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
 		0195DB2605F46E4E006D8386 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -1658,22 +1618,6 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
 			path = IntonationPoint.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0195DB2805F46E4E006D8386 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = IntonationPointInspector.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0195DB2905F46E4E006D8386 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = IntonationPointInspector.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1770,19 +1714,6 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
 			path = TRMData.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0195DB8F05F46EC2006D8386 = {
-			children = (
-				0195DB2405F46E4E006D8386,
-				0195DB2505F46E4E006D8386,
-				0195DB2805F46E4E006D8386,
-				0195DB2905F46E4E006D8386,
-			);
-			isa = PBXGroup;
-			name = Inspectors;
-			path = "";
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1929,30 +1860,6 @@
 		};
 		0195DD0D05F55EBA006D8386 = {
 			fileRef = 0195DB1E05F46E4E006D8386;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0195DD8805F5731A006D8386 = {
-			fileRef = 0195DB2405F46E4E006D8386;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0195DD8E05F5731B006D8386 = {
-			fileRef = 0195DB2505F46E4E006D8386;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0195DDCD05F578D3006D8386 = {
-			fileRef = 0195DB2805F46E4E006D8386;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0195DDD305F578D4006D8386 = {
-			fileRef = 0195DB2905F46E4E006D8386;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -2494,7 +2401,6 @@
 				01B2FFAB05F68A2000C1F65D,
 				0195D8DC05F3D3EE006D8386,
 				0195D8E005F3D3F9006D8386,
-				0195DB8F05F46EC2006D8386,
 				0195DB9A05F46EE1006D8386,
 				0195DB0405F46DB6006D8386,
 			);
@@ -2648,7 +2554,6 @@
 				8D1107310486CEB800E47090,
 				089C165CFE840E0CC02AAC07,
 				29B97318FDCFA39411CA2CEA,
-				0175901B05FA74A1004632CC,
 				01848B7E060A4717005E9B67,
 				01848B86060A4ACA005E9B67,
 				01C248DD060D35BB00521DB1,
@@ -2844,8 +2749,6 @@
 				0195DCDC05F5563C006D8386,
 				0195DCFB05F55AA8006D8386,
 				0195DD0705F55EBA006D8386,
-				0195DD8805F5731A006D8386,
-				0195DDCD05F578D3006D8386,
 				01B2FF2405F5B63000C1F65D,
 				01B2FF2705F5C2F500C1F65D,
 				01B2FF4505F6640C00C1F65D,
@@ -2907,7 +2810,6 @@
 				01B2003E05F6E11300C1F65D,
 				01B2015605F82F9B00C1F65D,
 				01B2016905F8305A00C1F65D,
-				0175901D05FA74A1004632CC,
 				018F79DB06064E4600150223,
 				018F79DC06064E4600150223,
 				018F79DD06064E4600150223,
@@ -2965,8 +2867,6 @@
 				0195DCE205F5563C006D8386,
 				0195DD0105F55AA9006D8386,
 				0195DD0D05F55EBA006D8386,
-				0195DD8E05F5731B006D8386,
-				0195DDD305F578D4006D8386,
 				01B2FF2D05F5C2F500C1F65D,
 				01B2FF4B05F6640C00C1F65D,
 				01B2FF6105F66CF600C1F65D,

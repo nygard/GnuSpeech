@@ -8,7 +8,6 @@
 #import "CategoryList.h"
 #import "EventListView.h"
 #import "GSXMLFunctions.h"
-#import "Inspector.h"
 #import "IntonationScrollView.h"
 #import "NamedList.h"
 #import "ParameterList.h"
@@ -97,9 +96,6 @@
 
     //NSLog(@"getting it by name: %@", NXGetNamedObject(@"mainSymbolList", NSApp));
 
-    if (inspectorController)
-        [inspectorController applicationDidFinishLaunching:aNotification];
-
     //NSLog(@"decode List as %@", [NSUnarchiver classNameDecodedForArchiveClassName:@"List"]);
     //NSLog(@"decode Object as %@", [NSUnarchiver classNameDecodedForArchiveClassName:@"Object"]);
 
@@ -172,22 +168,6 @@
 
     [infoPanel makeKeyAndOrderFront:self];
 }
-
-- (void)displayInspectorWindow:(id)sender;
-{
-    if (inspectorController == nil) {
-        [NSBundle loadNibNamed:@"Inspector.nib" owner:self];
-        [inspectorController applicationDidFinishLaunching:sender];
-    }
-
-    [[inspectorController window] makeKeyAndOrderFront:self];
-}
-
-- (Inspector *)inspector;
-{
-    return inspectorController;
-}
-
 
 // Open a .degas file.
 - (IBAction)openFile:(id)sender;

@@ -20,6 +20,8 @@
 #import "PhoneList.h"
 #include "driftGenerator.h"
 
+// TODO (2004-03-31): The original code changed the rule index of the currently selected intonation point when the browser was hit, and then added that point to the intonation view again...
+
 @implementation MSynthesisController
 
 - (id)initWithModel:(MModel *)aModel;
