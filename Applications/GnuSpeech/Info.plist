@@ -17,10 +17,18 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>0.1</string>
+	<string>1</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>CFBundleName</key>
+	<string>GnuSpeech</string>
+	<key>CFBundleShortVersionString</key>
+	<string>0.1</string>
+	<key>CFBundleGetInfoString</key>
+	<string>GnuSpeech 0.1 (v1)</string>
+	<key>NSHumanReadableCopyright</key>
+	<string></string>
 </dict>
 </plist>
