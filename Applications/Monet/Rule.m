@@ -249,12 +249,12 @@
     return 1;
 }
 
-- getExpressionSymbol:(int)index;
+- (ProtoEquation *)getExpressionSymbol:(int)index;
 {
     return [expressionSymbols objectAtIndex:index];
 }
 
-- (void)evaluateExpressionSymbols:(double *)buffer tempos:(double *)tempos phones:phones withCache:(int)cache;
+- (void)evaluateExpressionSymbols:(double *)buffer tempos:(double *)tempos phones:(PhoneList *)phones withCache:(int)cache;
 {
     // TODO (2004-03-02): Is it okay to do these in order?
     buffer[0] = [(ProtoEquation *)[expressionSymbols objectAtIndex:0] evaluate:buffer tempos:tempos phones:phones andCacheWith:cache];
@@ -279,7 +279,7 @@
     return expressionSymbols;
 }
 
-- getSpecialProfile:(int)index;
+- (ProtoTemplate *)getSpecialProfile:(int)index;
 {
     if ((index > 15) || (index < 0))
         return nil;
@@ -287,7 +287,7 @@
     return specialProfiles[index];
 }
 
-- (void)setSpecialProfile:(int)index to:special;
+- (void)setSpecialProfile:(int)index to:(ProtoTemplate *)special;
 {
     if ((index > 15) || (index < 0))
         return;

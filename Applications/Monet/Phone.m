@@ -266,17 +266,38 @@
             [resultString appendFormat:@"<comment>%@</comment>\n", GSXMLCharacterData(comment)];
         }
 
-        [categoryList appendXMLToString:resultString level:level + 1 useReferences:YES];
-
+        [self _appendXMLForCategoriesToString:resultString level:level + 1];
         [self _appendXMLForParametersToString:resultString level:level + 1];
         [self _appendXMLForMetaParametersToString:resultString level:level + 1];
         [self _appendXMLForSymbolsToString:resultString level:level + 1];
-        //[metaParameterList appendXMLToString:resultString elementName:@"meta-parameters" level:level + 1];
-        //[symbolList appendXMLToString:resultString elementName:@"symbols" level:level + 1];
 
         [resultString indentToLevel:level];
         [resultString appendString:@"</phone>\n"];
     }
+}
+
+- (void)_appendXMLForCategoriesToString:(NSMutableString *)resultString level:(int)level;
+{
+    int count, index;
+
+    count = [categoryList count];
+    if (count == 0)
+        return;
+
+    [resultString indentToLevel:level];
+    [resultString appendString:@"<categories>\n"];
+
+    for (index = 0; index < count; index++) {
+        CategoryNode *aCategory;
+
+        aCategory = [categoryList objectAtIndex:index];
+
+        [resultString indentToLevel:level + 1];
+        [resultString appendFormat:@"<category name=\"%@\"/>\n", [aCategory symbol]];
+    }
+
+    [resultString indentToLevel:level];
+    [resultString appendString:@"</categories>\n"];
 }
 
 - (void)_appendXMLForParametersToString:(NSMutableString *)resultString level:(int)level;

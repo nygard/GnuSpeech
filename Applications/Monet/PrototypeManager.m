@@ -559,7 +559,7 @@
     return [[protoTemplates objectAtIndex:listIndex] objectAtIndex:transitionIndex];
 }
 
-- (ProtoEquation *)findSpecialList:(NSString *)aListName named:(NSString *)aSpecialName;
+- (ProtoTemplate *)findSpecialList:(NSString *)aListName named:(NSString *)aSpecialName;
 {
     int i, j;
 
@@ -569,12 +569,11 @@
         currentList = [protoSpecial objectAtIndex:i];
         if ([aListName isEqualToString:[currentList name]]) {
             for (j = 0; j < [currentList count]; j++) {
-                ProtoEquation *anEquation;
+                ProtoTemplate *aTransition;
 
-                anEquation = [currentList objectAtIndex:j];
-                NSLog(@"**************************************** %s, class = %@", _cmd, NSStringFromClass([anEquation class]));
-                if ([aSpecialName isEqualToString:[anEquation name]])
-                    return anEquation;
+                aTransition = [currentList objectAtIndex:j];
+                if ([aSpecialName isEqualToString:[aTransition name]])
+                    return aTransition;
             }
         }
     }
@@ -582,7 +581,7 @@
     return nil;
 }
 
-- (void)findList:(int *)listIndex andIndex:(int *)specialIndex ofSpecial:(ProtoEquation *)aTransition;
+- (void)findList:(int *)listIndex andIndex:(int *)specialIndex ofSpecial:(ProtoTemplate *)aTransition;
 {
     int i, temp;
 
@@ -598,7 +597,7 @@
     *listIndex = -1;
 }
 
-- (ProtoEquation *)findSpecial:(int)listIndex andIndex:(int)specialIndex;
+- (ProtoTemplate *)findSpecial:(int)listIndex andIndex:(int)specialIndex;
 {
     return [[protoSpecial objectAtIndex:listIndex] objectAtIndex:specialIndex];
 }

@@ -10,7 +10,6 @@
 - (id)init;
 - (id)initWithSymbol:(NSString *)newSymbol;
 - (void)dealloc;
-//- (void)freeIfNative;
 
 - (NSString *)symbol;
 - (void)setSymbol:(NSString *)newSymbol;

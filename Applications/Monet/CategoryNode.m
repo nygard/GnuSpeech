@@ -38,14 +38,6 @@
     [super dealloc];
 }
 
-#ifdef PORTING
-- (void)freeIfNative;
-{
-    if (isNative)
-        [self release];
-}
-#endif
-
 - (NSString *)symbol;
 {
     return symbol;
@@ -127,11 +119,9 @@
 {
     [resultString indentToLevel:level];
     [resultString appendFormat:@"<category name=\"%@\"", GSXMLAttributeString(symbol, NO)];
-    if (shouldUseReferences == YES /*&& isNative == NO*/) {
+    if (shouldUseReferences == YES) {
         [resultString appendString:@"/>\n"];
     } else {
-        //[resultString appendFormat:@" is-native=\"%@\"", GSXMLBoolAttributeString(isNative)];
-
         if (comment == nil) {
             [resultString appendString:@"/>\n"];
         } else {
