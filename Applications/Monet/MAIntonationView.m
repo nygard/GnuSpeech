@@ -2,6 +2,7 @@
 
 #import <AppKit/AppKit.h>
 #import "NSBezierPath-Extensions.h"
+#import "NSColor-STExtensions.h"
 #import "NSNumberFormatter-extensions.h"
 #import "NSString-Extensions.h"
 
@@ -229,10 +230,11 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     [[NSColor whiteColor] set];
     NSRectFill(rect);
 
+    [self drawRuleBackground];
     [self drawHorizontalScale];
     [self drawGrid];
-    [self drawPostureLabels];
     [self drawRules];
+    [self drawPostureLabels];
     [self drawIntonationPoints];
 
     if (flags.shouldDrawSmoothPoints == YES && flags.mouseBeingDragged == NO)
@@ -424,6 +426,8 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     graphOrigin = [self graphOrigin];
     sectionHeight = [self sectionHeight];
 
+    [[NSColor blackColor] set];
+
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:1];
     currentX = 0.0;
@@ -461,9 +465,41 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
         currentX += ruleFrame.size.width - extraWidth;
     }
 
-    [[NSColor blackColor] set];
     [bezierPath stroke];
     [bezierPath release];
+}
+
+- (void)drawRuleBackground;
+{
+    float extraWidth;
+    int count, index;
+    NSRect ruleFrame;
+    NSPoint graphOrigin;
+    int sectionHeight;
+    struct _rule *rule;
+
+    graphOrigin = [self graphOrigin];
+    sectionHeight = [self sectionHeight];
+
+    ruleFrame.origin.y = graphOrigin.y;
+    ruleFrame.size.height = SECTION_COUNT * sectionHeight;
+
+    ruleFrame.origin.x = 0.0;
+    extraWidth = 0.0;
+
+    count = [eventList ruleCount];
+    for (index = 0; index < count; index++) {
+        rule = [eventList getRuleAtIndex:index];
+
+        ruleFrame.size.width = [self scaleWidth:rule->duration] + extraWidth;
+        if ((index % 2) == 1) {
+            [[NSColor lighterGrayColor] set];
+            NSRectFill(ruleFrame);
+        }
+
+        extraWidth = 1.0;
+        ruleFrame.origin.x += ruleFrame.size.width - extraWidth;
+    }
 }
 
 - (void)drawIntonationPoints;

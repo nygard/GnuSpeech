@@ -1684,6 +1684,8 @@
 			children = (
 				019D975B0646E449009C37B4,
 				019D975C0646E449009C37B4,
+				01F2C09506D7FB1500E2A458,
+				01F2C09606D7FB1500E2A458,
 				019D97630646E449009C37B4,
 				019D97640646E449009C37B4,
 				014EB4E906D045F5000F5574,
@@ -3470,6 +3472,36 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
+		01F2C09506D7FB1500E2A458 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = "NSColor-STExtensions.h";
+			path = "Extensions/NSColor-STExtensions.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01F2C09606D7FB1500E2A458 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = "NSColor-STExtensions.m";
+			path = "Extensions/NSColor-STExtensions.m";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01F2C09706D7FB1500E2A458 = {
+			fileRef = 01F2C09506D7FB1500E2A458;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01F2C09806D7FB1500E2A458 = {
+			fileRef = 01F2C09606D7FB1500E2A458;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		01F6E26B060EA6470073E196 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -3964,6 +3996,7 @@
 				0147B5FF06D6EA6F00E0A5C1,
 				0147B64706D6F4A400E0A5C1,
 				01D001BA06D7ED59009C6C3C,
+				01F2C09706D7FB1500E2A458,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4105,6 +4138,7 @@
 				0147B60006D6EA6F00E0A5C1,
 				0147B64806D6F4A400E0A5C1,
 				01D001BB06D7ED59009C6C3C,
+				01F2C09806D7FB1500E2A458,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

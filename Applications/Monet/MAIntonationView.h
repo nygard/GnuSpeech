@@ -78,6 +78,7 @@ extern NSString *MAIntonationViewSelectionDidChangeNotification;
 - (void)drawHorizontalScale;
 - (void)drawPostureLabels;
 - (void)drawRules;
+- (void)drawRuleBackground;
 - (void)drawIntonationPoints;
 - (void)drawSmoothPoints;
 
