@@ -604,12 +604,6 @@ static void page_consumed(void)
 
                 table[0] += pitchMean;
 
-#if 0
-#warning 2004-03-07: Hack in place to fix r1, r2 output.
-                // Temporary fix
-                table[7] = table[8] = 0.8;
-#endif
-
                 if (fp)
                     fprintf(fp, "%.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f\n",
                             table[0], table[1], table[2], table[3],
