@@ -754,7 +754,7 @@
                 if (markedFoot)
                     buffer = [buffer stringByAppendingString:@"'"];
                 aPhone = [[self model] postureWithName:buffer];
-                //NSLog(@"aPhone: %p, eventList: %p", aPhone, eventList); // Each has the same event list
+                //NSLog(@"aPhone: %p (%@), eventList: %p", aPhone, [aPhone name], eventList); // Each has the same event list
                 if (aPhone) {
                     [postureRewriter rewriteEventList:eventList withNextPosture:aPhone wordMarker:wordMarker];
 
