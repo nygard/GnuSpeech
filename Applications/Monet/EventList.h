@@ -23,6 +23,8 @@
 #define CONTINUATION	3
 #define SEMICOLON	4
 
+NSString *NSStringFromToneGroupType(int toneGroupType);
+
 struct _intonationParameters {
     float notionalPitch;
     float pretonicRange;

@@ -36,6 +36,24 @@
     return str;
 }
 
++ (NSString *)spacesOfLength:(int)targetLength;
+{
+    NSString *spaces = @"                                        ";
+    NSMutableString *str;
+    int spacesLength;
+
+    spacesLength = [spaces length];
+    str = [NSMutableString string];
+    while (targetLength > spacesLength) {
+        [str appendString:spaces];
+        targetLength -= spacesLength;
+    }
+
+    [str appendString:[spaces substringToIndex:targetLength]];
+
+    return str;
+}
+
 + (NSString *)stringWithUnichar:(unichar)character;
 {
     return [NSString stringWithCharacters:&character length:1];
@@ -69,6 +87,29 @@
         return nil;
 
     return [[[NSString alloc] initWithBytes:bytes length:strlen(bytes) encoding:NSASCIIStringEncoding] autorelease];
+}
+
+// TODO (2004-08-12): A class method would let us pad nil as well...
+- (NSString *)leftJustifiedStringPaddedToLength:(int)paddedLength;
+{
+    int spaces;
+
+    spaces = paddedLength - [self length];
+    if (spaces <= 0)
+        return self;
+
+    return [self stringByAppendingString:[NSString spacesOfLength:spaces]];
+}
+
+- (NSString *)rightJustifiedStringPaddedToLength:(int)paddedLength;
+{
+    int spaces;
+
+    spaces = paddedLength - [self length];
+    if (spaces <= 0)
+        return self;
+
+    return [[NSString spacesOfLength:spaces] stringByAppendingString:self];
 }
 
 @end

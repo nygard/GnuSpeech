@@ -1,6 +1,7 @@
 #import "EventList.h"
 
 #import <Foundation/Foundation.h>
+#import "NSString-Extensions.h"
 #import "driftGenerator.h"
 #import "CategoryList.h"
 #import "Event.h"
@@ -18,6 +19,19 @@
 #import "PhoneList.h"
 
 #import "TRMSynthesizer.h" // For addParameters:
+
+NSString *NSStringFromToneGroupType(int toneGroupType)
+{
+    switch (toneGroupType) {
+      case STATEMENT: return @"Statement";
+      case EXCLAIMATION: return @"Exclaimation";
+      case QUESTION: return @"Question";
+      case CONTINUATION: return @"Continuation";
+      case SEMICOLON: return @"Semicolon";
+    }
+
+    return nil;
+}
 
 @implementation EventList
 
@@ -966,35 +980,67 @@
 
 - (void)printDataStructures:(NSString *)comment;
 {
-    int i;
-
     NSLog(@"----------------------------------------------------------------------");
     NSLog(@" > %s (%@)", _cmd, comment);
+#if 0
+    {
+        int i;
 
-    NSLog(@"Tone Groups %d", currentToneGroup);
-    for (i = 0; i < currentToneGroup; i++) {
-        NSLog(@"%d  start: %d, end: %d, type: %d", i, toneGroups[i].startFoot, toneGroups[i].endFoot, toneGroups[i].type);
+        NSLog(@"Tone Groups %d", currentToneGroup);
+        for (i = 0; i < currentToneGroup; i++) {
+            NSLog(@"%d  start: %d, end: %d, type: %d", i, toneGroups[i].startFoot, toneGroups[i].endFoot, toneGroups[i].type);
+        }
+
+        NSLog(@"\n");
+        NSLog(@"Feet %d", currentFoot);
+        for (i = 0; i < currentFoot; i++) {
+            NSLog(@"%d  tempo: %.3f, start: %2d, end: %2d, marked: %d, last: %d, onset1: %.3f, onset2: %.3f", i, feet[i].tempo,
+                  feet[i].start, feet[i].end, feet[i].marked, feet[i].last, feet[i].onset1, feet[i].onset2);
+        }
+
+        NSLog(@"\n");
+        NSLog(@"Phones %d", currentPhone);
+        for (i = 0; i < currentPhone; i++) {
+            NSLog(@"%3d  tempo: %.3f, syllable: %d, onset: %7.2f, ruleTempo: %.3f, %@",
+                  i, phoneTempo[i], phones[i].syllable, phones[i].onset, phones[i].ruleTempo, [phones[i].phone symbol]);
+        }
+
+        NSLog(@"\n");
+        NSLog(@"Rules %d", currentRule);
+        for (i = 0; i < currentRule; i++) {
+            NSLog(@"Number: %2d  start: %2d, end: %2d, duration %7.2f", rules[i].number, rules[i].firstPhone,
+                  rules[i].lastPhone, rules[i].duration);
+        }
+
+        NSLog(@"\n\n");
     }
+#endif
+    {
+        int toneGroupIndex, footIndex, postureIndex;
+        int ruleIndex = 0;
 
-    NSLog(@"\n");
-    NSLog(@"Feet %d", currentFoot);
-    for (i = 0; i < currentFoot; i++) {
-        NSLog(@"%d  tempo: %.3f, start: %2d, end: %2d, marked: %d, last: %d, onset1: %.3f, onset2: %.3f", i, feet[i].tempo,
-               feet[i].start, feet[i].end, feet[i].marked, feet[i].last, feet[i].onset1, feet[i].onset2);
-    }
+        for (toneGroupIndex = 0; toneGroupIndex < currentToneGroup; toneGroupIndex++) {
+            NSLog(@"Tone Group %d, type: %@", toneGroupIndex, NSStringFromToneGroupType(toneGroups[toneGroupIndex].type));
 
-    NSLog(@"\n");
-    NSLog(@"Phones %d", currentPhone);
-    for (i = 0; i < currentPhone; i++) {
-        NSLog(@"%3d  tempo: %.3f, syllable: %d, onset: %7.2f, ruleTempo: %.3f, %@",
-               i, phoneTempo[i], phones[i].syllable, phones[i].onset, phones[i].ruleTempo, [phones[i].phone symbol]);
-    }
+            for (footIndex = toneGroups[toneGroupIndex].startFoot; footIndex <= toneGroups[toneGroupIndex].endFoot; footIndex++) {
+                NSLog(@"  Foot %d  tempo: %.3f, start: %2d, end: %2d, marked: %d, last: %d, onset1: %.3f, onset2: %.3f", footIndex, feet[footIndex].tempo,
+                      feet[footIndex].start, feet[footIndex].end, feet[footIndex].marked, feet[footIndex].last, feet[footIndex].onset1, feet[footIndex].onset2);
 
-    NSLog(@"\n");
-    NSLog(@"Rules %d", currentRule);
-    for (i = 0; i < currentRule; i++) {
-        NSLog(@"Number: %2d  start: %2d, end: %2d, duration %7.2f", rules[i].number, rules[i].firstPhone,
-               rules[i].lastPhone, rules[i].duration);
+                for (postureIndex = feet[footIndex].start; postureIndex <= feet[footIndex].end; postureIndex++) {
+                    if (rules[ruleIndex].firstPhone == postureIndex) {
+                        NSLog(@"    Posture %2d  tempo: %.3f, syllable: %d, onset: %7.2f, ruleTempo: %.3f, %@ # Rule %2d  duration %7.2f, start: %2d, end: %2d",
+                              postureIndex, phoneTempo[postureIndex], phones[postureIndex].syllable, phones[postureIndex].onset,
+                              phones[postureIndex].ruleTempo, [[phones[postureIndex].phone symbol] leftJustifiedStringPaddedToLength:18],
+                              rules[ruleIndex].number, rules[ruleIndex].duration, rules[ruleIndex].firstPhone, rules[ruleIndex].lastPhone);
+                        ruleIndex++;
+                    } else {
+                        NSLog(@"    Posture %2d  tempo: %.3f, syllable: %d, onset: %7.2f, ruleTempo: %.3f, %@",
+                              postureIndex, phoneTempo[postureIndex], phones[postureIndex].syllable, phones[postureIndex].onset,
+                              phones[postureIndex].ruleTempo, [phones[postureIndex].phone symbol]);
+                    }
+                }
+            }
+        }
     }
 
     NSLog(@"<  %s", _cmd);

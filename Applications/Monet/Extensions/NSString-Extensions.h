@@ -9,12 +9,16 @@
 + (NSString *)stringWithFileSystemRepresentation:(const char *)str;
 + (NSString *)spacesIndentedToLevel:(int)level;
 + (NSString *)spacesIndentedToLevel:(int)level spacesPerLevel:(int)spacesPerLevel;
++ (NSString *)spacesOfLength:(int)targetLength;
 + (NSString *)stringWithUnichar:(unichar)character;
 
 - (BOOL)isFirstLetterUppercase;
 - (BOOL)hasPrefix:(NSString *)aString ignoreCase:(BOOL)shouldIgnoreCase;
 
 + (NSString *)stringWithASCIICString:(const char *)bytes;
+
+- (NSString *)leftJustifiedStringPaddedToLength:(int)paddedLength;
+- (NSString *)rightJustifiedStringPaddedToLength:(int)paddedLength;
 
 @end
 
