@@ -127,33 +127,17 @@ extern NSString *EventListDidRemoveIntonationPoint;
 - (id)delegate;
 - (void)setDelegate:(id)newDelegate;
 
-- (void)setUp;
-
 - (int)zeroRef;
 - (void)setZeroRef:(int)newValue;
 
 - (int)duration;
 - (void)setDuration:(int)newValue;
 
-- (double)radiusMultiply;
-- (void)setRadiusMultiply:(double)newValue;
-
-- (void)setFullTimeScale;
-
 - (int)timeQuantization;
 - (void)setTimeQuantization:(int)newValue;
 
 - (BOOL)shouldStoreParameters;
 - (void)setShouldStoreParameters:(BOOL)newFlag;
-
-- (double)pitchMean;
-- (void)setPitchMean:(double)newMean;
-
-- (double)globalTempo;
-- (void)setGlobalTempo:(double)newTempo;
-
-- (double)multiplier;
-- (void)setMultiplier:(double)newValue;
 
 - (BOOL)shouldUseMacroIntonation;
 - (void)setShouldUseMacroIntonation:(BOOL)newFlag;
@@ -167,10 +151,25 @@ extern NSString *EventListDidRemoveIntonationPoint;
 - (BOOL)shouldUseSmoothIntonation;
 - (void)setShouldUseSmoothIntonation:(BOOL)newValue;
 
+- (double)radiusMultiply;
+- (void)setRadiusMultiply:(double)newValue;
+
+- (double)pitchMean;
+- (void)setPitchMean:(double)newMean;
+
+- (double)globalTempo;
+- (void)setGlobalTempo:(double)newTempo;
+
+- (double)multiplier;
+- (void)setMultiplier:(double)newValue;
+
 - (struct _intonationParameters)intonationParameters;
 - (void)setIntonationParameters:(struct _intonationParameters)newIntonationParameters;
 
-- (MMPosture *)getPhoneAtIndex:(int)phoneIndex;
+
+//
+- (void)setUp;
+- (void)setFullTimeScale;
 
 // Rules
 - (struct _rule *)getRuleAtIndex:(int)ruleIndex;
@@ -191,44 +190,41 @@ extern NSString *EventListDidRemoveIntonationPoint;
 - (void)setCurrentFootTempo:(double)tempo;
 
 // Postures
+- (MMPosture *)getPhoneAtIndex:(int)phoneIndex;
 - (void)newPhoneWithObject:(MMPosture *)anObject;
 - (void)replaceCurrentPhoneWith:(MMPosture *)anObject;
 - (void)setCurrentPhoneTempo:(double)tempo;
 - (void)setCurrentPhoneRuleTempo:(float)tempo;
 - (void)setCurrentPhoneSyllable;
-
+- (int)ruleIndexForPostureAtIndex:(int)postureIndex;
 
 // Events
 - (NSArray *)events;
-
 - (Event *)eventAtTimeOffset:(double)time;
 - (Event *)insertEvent:(int)number atTimeOffset:(double)time withValue:(double)value;
 - (void)finalEvent:(int)number withValue:(double)value;
 
 // Other
-- (void)generateOutput;
+- (void)parsePhoneString:(NSString *)str;
 - (void)applyRhythm;
 - (void)applyRules;
-- (void)applyRule:(MMRule *)rule withPostures:(NSArray *)somePostures andTempos:(double *)tempos phoneIndex:(int)phoneIndex;
-
-- (void)synthesizeToFile:(NSString *)filename;
-
 - (void)generateIntonationPoints;
+- (void)generateOutput;
 
-- (int)ruleIndexForPostureAtIndex:(int)postureIndex;
+- (void)_applyRule:(MMRule *)rule withPostures:(NSArray *)somePostures andTempos:(double *)tempos phoneIndex:(int)phoneIndex;
 
 // Debugging
 - (NSString *)description;
 - (void)printDataStructures:(NSString *)comment;
 
+// Intonation points
 - (NSArray *)intonationPoints;
 - (void)removeIntonationPoint:(MMIntonationPoint *)aPoint;
-
-// Moved from IntonationView
 - (void)clearIntonationPoints;
 - (void)addIntonationPoint:(MMIntonationPoint *)iPoint;
 - (void)addIntonationPoint:(double)semitone offsetTime:(double)offsetTime slope:(double)slope ruleIndex:(int)ruleIndex;
 
+// Intonation
 - (void)applyIntonation;
 - (void)_applyFlatIntonation;
 - (void)_applySmoothIntonation;
@@ -238,9 +234,6 @@ extern NSString *EventListDidRemoveIntonationPoint;
 - (void)removeEmptyEvents;
 
 - (void)intonationPointDidChange:(MMIntonationPoint *)anIntonationPoint;
-
-// Other
-- (void)parsePhoneString:(NSString *)str;
 
 // Archiving - XML
 - (BOOL)writeXMLToFile:(NSString *)aFilename comment:(NSString *)aComment;
