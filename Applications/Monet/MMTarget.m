@@ -96,8 +96,10 @@
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 {
     [resultString indentToLevel:level];
-    [resultString appendFormat:@"<target ptr=\"%p\" value=\"%g\" is-default=\"%@\"/>\n",
-                  self, value, GSXMLBoolAttributeString(isDefault)];
+    [resultString appendFormat:@"<target ptr=\"%p\" value=\"%g\"/>", self, value];
+    if (isDefault)
+        [resultString appendString:@"<!-- default -->"];
+    [resultString appendString:@"\n"];
 }
 
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;

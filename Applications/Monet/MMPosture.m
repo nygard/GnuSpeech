@@ -486,10 +486,10 @@
         aTarget = [parameterTargets objectAtIndex:index];
 
         [resultString indentToLevel:level + 1];
-        [resultString appendFormat:@"<target name=\"%@\" value=\"%g\"", [aParameter name], [aTarget value]];
+        [resultString appendFormat:@"<target name=\"%@\" value=\"%g\"/>", [aParameter name], [aTarget value]];
         if ([aTarget value] == [aParameter defaultValue])
-            [resultString appendString:@" is-default=\"yes\""];
-        [resultString appendString:@"/>\n"];
+            [resultString appendString:@"<!-- default -->"];
+        [resultString appendString:@"\n"];
     }
 
     [resultString indentToLevel:level];
@@ -520,10 +520,10 @@
         aTarget = [metaParameterTargets objectAtIndex:index];
 
         [resultString indentToLevel:level + 1];
-        [resultString appendFormat:@"<target name=\"%@\" value=\"%g\"", [aParameter name], [aTarget value]];
+        [resultString appendFormat:@"<target name=\"%@\" value=\"%g\"/>", [aParameter name], [aTarget value]];
         if ([aTarget value] == [aParameter defaultValue])
-            [resultString appendString:@" is-default=\"yes\""];
-        [resultString appendString:@"/>\n"];
+            [resultString appendString:@"<!-- default -->"];
+        [resultString appendString:@"\n"];
     }
 
     [resultString indentToLevel:level];
@@ -552,12 +552,10 @@
         aTarget = [symbolTargets objectAtIndex:index];
 
         [resultString indentToLevel:level + 1];
-        [resultString appendFormat:@"<target name=\"%@\" value=\"%g\"", [aSymbol name], [aTarget value]];
-        // "is-default" is redundant, but handy for browsing the XML file
-        // TODO (2004-08-12): Change is-default into comment.
+        [resultString appendFormat:@"<target name=\"%@\" value=\"%g\"/>", [aSymbol name], [aTarget value]];
         if ([aTarget value] == [aSymbol defaultValue])
-            [resultString appendString:@" is-default=\"yes\""];
-        [resultString appendString:@"/>\n"];
+            [resultString appendString:@"<!-- default -->"];
+        [resultString appendString:@"\n"];
     }
 
     [resultString indentToLevel:level];
