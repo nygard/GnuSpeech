@@ -1,6 +1,7 @@
 #import "SpecialView.h"
 
 #import <AppKit/AppKit.h>
+#import "NSBezierPath-Extensions.h"
 #include <math.h>
 
 #import "AppController.h"
@@ -225,7 +226,7 @@
         NSPoint aPoint;
 
         aPoint = [[diphonePoints objectAtIndex:index] pointValue];
-        [self drawCircleMarkerAtPoint:aPoint];
+        [NSBezierPath drawCircleMarkerAtPoint:aPoint];
     }
 
     count = [triphonePoints count];
@@ -233,7 +234,7 @@
         NSPoint aPoint;
 
         aPoint = [[triphonePoints objectAtIndex:index] pointValue];
-        [self drawTriangleMarkerAtPoint:aPoint];
+        [NSBezierPath drawTriangleMarkerAtPoint:aPoint];
     }
 
     count = [tetraphonePoints count];
@@ -241,7 +242,7 @@
         NSPoint aPoint;
 
         aPoint = [[tetraphonePoints objectAtIndex:index] pointValue];
-        [self drawSquareMarkerAtPoint:aPoint];
+        [NSBezierPath drawSquareMarkerAtPoint:aPoint];
     }
 
     [diphonePoints release];
@@ -280,7 +281,7 @@
 
             //NSLog(@"Selection; x: %f y:%f", myPoint.x, myPoint.y);
 
-            [self highlightMarkerAtPoint:myPoint];
+            [NSBezierPath highlightMarkerAtPoint:myPoint];
         }
     }
 }

@@ -78,12 +78,6 @@
 - (void)clearIntonationPoints;
 - (void)addPoint:(double)semitone offsetTime:(double)offsetTime slope:(double)slope ruleIndex:(int)ruleIndex eventList:anEventList;
 
-// Ugh, these should be in shared superclass, or somewhere else.
-- (void)drawCircleMarkerAtPoint:(NSPoint)aPoint;
-- (void)drawTriangleMarkerAtPoint:(NSPoint)aPoint;
-- (void)drawSquareMarkerAtPoint:(NSPoint)aPoint;
-- (void)highlightMarkerAtPoint:(NSPoint)aPoint;
-
 // View geometry
 - (int)sectionHeight;
 - (NSPoint)graphOrigin;

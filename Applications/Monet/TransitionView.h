@@ -109,11 +109,6 @@ extern NSString *TransitionViewSelectionDidChangeNotification;
 - (void)drawTransition;
 - (void)highlightSelectedPoints;
 
-- (void)drawCircleMarkerAtPoint:(NSPoint)aPoint;
-- (void)drawTriangleMarkerAtPoint:(NSPoint)aPoint;
-- (void)drawSquareMarkerAtPoint:(NSPoint)aPoint;
-- (void)highlightMarkerAtPoint:(NSPoint)aPoint;
-
 // Event handling
 - (BOOL)acceptsFirstResponder;
 - (BOOL)acceptsFirstMouse:(NSEvent *)theEvent;

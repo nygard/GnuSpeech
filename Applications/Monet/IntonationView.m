@@ -1,6 +1,7 @@
 #import "IntonationView.h"
 
 #import <AppKit/AppKit.h>
+#import "NSBezierPath-Extensions.h"
 #import "NSString-Extensions.h"
 
 #import "AppController.h"
@@ -333,7 +334,7 @@
         currentPoint.y = rint(currentPoint.y) + 0.5;
         [bezierPath lineToPoint:currentPoint];
 
-        [self drawCircleMarkerAtPoint:currentPoint];
+        [NSBezierPath drawCircleMarkerAtPoint:currentPoint];
     }
     [bezierPath stroke];
     [bezierPath release];
@@ -342,7 +343,7 @@
     for (index = 0; index < count; index++) {
         currentPoint.x = (float)[[selectedPoints objectAtIndex:index] absoluteTime] / timeScale;
         currentPoint.y = (float)(([[selectedPoints objectAtIndex:index] semitone] + 20.0) * (bounds.size.height - TOP_MARGIN - BOTTOM_MARGIN)) / 30.0 + 5.0;
-        [self highlightMarkerAtPoint:currentPoint];
+        [NSBezierPath highlightMarkerAtPoint:currentPoint];
     }
 }
 
