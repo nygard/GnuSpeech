@@ -30,8 +30,6 @@
 #define MDK_ShouldUseDrift @"ShouldUseDrift"
 #define MDK_DefaultUtterances @"DefaultUtterances"
 
-// TODO (2004-03-31): The original code changed the rule index of the currently selected intonation point when the browser was hit, and then added that point to the intonation view again...
-
 @implementation MSynthesisController
 
 + (void)initialize;
