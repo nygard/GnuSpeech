@@ -20,6 +20,12 @@
 #import "Target.h"
 #import "TargetList.h"
 
+#define LABEL_MARGIN 5
+#define LEFT_MARGIN 50
+#define BOTTOM_MARGIN 50
+#define SECTION_COUNT 14
+#define SLOPE_MARKER_HEIGHT 18
+
 @implementation TransitionView
 
 static NSImage *_dotMarker = nil;
@@ -122,16 +128,6 @@ static NSImage *_selectionBox = nil;
     NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }
 
-- (BOOL)acceptsFirstResponder;
-{
-    return YES;
-}
-
-- (BOOL)acceptsFirstMouse:(NSEvent *)theEvent;
-{
-    return YES;
-}
-
 - (BOOL)shouldDrawSelection;
 {
     return shouldDrawSelection;
@@ -145,6 +141,10 @@ static NSImage *_selectionBox = nil;
     shouldDrawSelection = newFlag;
     [self setNeedsDisplay:YES];
 }
+
+//
+// Drawing
+//
 
 - (void)drawRect:(NSRect)rect;
 {
@@ -187,97 +187,6 @@ static NSImage *_selectionBox = nil;
     NSRectFill([self bounds]);
 }
 
-//
-// View geometry
-//
-
-#define LEFT_MARGIN 50
-#define BOTTOM_MARGIN 50
-#define SECTION_COUNT 14
-
-- (int)sectionHeight;
-{
-    NSRect bounds;
-    int sectionHeight;
-
-    bounds = [self bounds];
-    sectionHeight = (bounds.size.height - 2 * BOTTOM_MARGIN) / SECTION_COUNT;
-
-    return sectionHeight;
-}
-
-- (NSPoint)graphOrigin;
-{
-    NSPoint graphOrigin;
-
-    graphOrigin.x = LEFT_MARGIN;
-    graphOrigin.y = [self bounds].size.height - BOTTOM_MARGIN - 14 * [self sectionHeight];
-
-    return graphOrigin;
-}
-
-- (float)timeScale;
-{
-    // TODO (2004-03-11): Remove outlets to form, turn these values into ivars.
-    return ([self bounds].size.width - 2 * LEFT_MARGIN) / [[displayParameters cellAtIndex:0] floatValue];
-}
-
-- (NSRect)rectFormedByPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
-{
-    float minx, miny, maxx, maxy;
-    NSRect rect;
-
-    if (point1.x < point2.x) {
-        minx = point1.x;
-        maxx = point2.x;
-    } else {
-        minx = point2.x;
-        maxx = point1.x;
-    }
-
-    if (point1.y < point2.y) {
-        miny = point1.y;
-        maxy = point2.y;
-    } else {
-        miny = point2.y;
-        maxy = point1.y;
-    }
-
-    rect.origin.x = minx;
-    rect.origin.y = miny;
-    rect.size.width = maxx - minx;
-    rect.size.height = maxy - miny;
-
-    return rect;
-}
-
-- (float)slopeMarkerYPosition;
-{
-    NSPoint graphOrigin;
-
-    graphOrigin = [self graphOrigin];
-
-    return graphOrigin.y - BOTTOM_MARGIN + 10;
-}
-
-#define SLOPE_MARKER_HEIGHT 18
-
-- (NSRect)slopeMarkerRect;
-{
-    NSRect bounds, rect;
-    NSPoint graphOrigin;
-
-    bounds = NSIntegralRect([self bounds]);
-    graphOrigin = [self graphOrigin];
-
-    rect.origin.x = graphOrigin.x;
-    rect.origin.y = [self slopeMarkerYPosition];
-    rect.size.width = bounds.size.width - 2 * LEFT_MARGIN;
-    rect.size.height = SLOPE_MARKER_HEIGHT; // Roughly
-
-    return rect;
-}
-
 - (void)drawGrid;
 {
     int i;
@@ -313,8 +222,6 @@ static NSImage *_selectionBox = nil;
 
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:1];
-
-#define LABEL_MARGIN 5
 
     for (i = 1; i < 14; i++) {
         NSString *label;
@@ -677,60 +584,19 @@ static NSImage *_selectionBox = nil;
     NSFrameRect(rect);
 }
 
-- (void)drawSlopes;
+//
+// Event handling
+//
+
+- (BOOL)acceptsFirstResponder;
 {
-    int i, j;
-    double start, end;
-    NSRect rect = NSMakeRect(0, 0, 2 * LEFT_MARGIN, SLOPE_MARKER_HEIGHT);
-    SlopeRatio *currentPoint;
-    MonetList *slopes, *points;
-    float timeScale = [self timeScale];
-    NSPoint graphOrigin;
-    NSRect bounds;
-
-    bounds = [self bounds];
-    graphOrigin = [self graphOrigin];
-    rect.origin.y = [self slopeMarkerYPosition];
-
-    for (i = 0; i < [[currentTemplate points] count]; i++) {
-        currentPoint = [[currentTemplate points] objectAtIndex:i];
-        if ([currentPoint isKindOfClass:[SlopeRatio class]]) {
-            //NSLog(@"%d: Drawing slope ratio...", i);
-            start = graphOrigin.x + [currentPoint startTime] * timeScale;
-            end = graphOrigin.x + [currentPoint endTime] * timeScale;
-            //NSLog(@"Slope  %f -> %f", start, end);
-            rect.origin.x = (float)start;
-            rect.size.width = (float)(end - start);
-            //NSLog(@"drawing button, rect: %@, bounds: %@", NSStringFromRect(rect), NSStringFromRect(bounds));
-            NSDrawButton(rect, bounds);
-
-            slopes = [currentPoint slopes];
-            points = [currentPoint points];
-            for (j = 0; j < [slopes count]; j++) {
-                NSString *str;
-                //NSPoint aPoint;
-                NSRect textFieldFrame;
-
-                str = [NSString stringWithFormat:@"%.1f", [[slopes objectAtIndex:j] slope]];
-                //NSLog(@"Buffer = %@", str);
-
-                [[NSColor blackColor] set];
-                textFieldFrame.origin.x = ([[(GSMPoint *)[points objectAtIndex:j] expression] cacheValue]) * timeScale + LEFT_MARGIN + 5.0;
-                textFieldFrame.origin.y = rect.origin.y + 2;
-                textFieldFrame.size.width = 60;
-                textFieldFrame.size.height = SLOPE_MARKER_HEIGHT - 2;
-                //[str drawAtPoint:aPoint withAttributes:nil];
-                [textFieldCell setStringValue:str];
-                [textFieldCell setFont:timesFont];
-                [textFieldCell drawWithFrame:textFieldFrame inView:self];
-            }
-        }
-    }
+    return YES;
 }
 
-#define MOVE_MASK NSLeftMouseUpMask|NSLeftMouseDraggedMask
-
-// TODO (2004-03-10): Replace with mouseDragged: and mouseUp: methods
+- (BOOL)acceptsFirstMouse:(NSEvent *)theEvent;
+{
+    return YES;
+}
 
 - (void)mouseDown:(NSEvent *)mouseEvent;
 {
@@ -818,6 +684,155 @@ static NSImage *_selectionBox = nil;
     NSLog(@"<  %s", _cmd);
 }
 
+//
+// View geometry
+//
+
+- (int)sectionHeight;
+{
+    NSRect bounds;
+    int sectionHeight;
+
+    bounds = [self bounds];
+    sectionHeight = (bounds.size.height - 2 * BOTTOM_MARGIN) / SECTION_COUNT;
+
+    return sectionHeight;
+}
+
+- (NSPoint)graphOrigin;
+{
+    NSPoint graphOrigin;
+
+    graphOrigin.x = LEFT_MARGIN;
+    graphOrigin.y = [self bounds].size.height - BOTTOM_MARGIN - 14 * [self sectionHeight];
+
+    return graphOrigin;
+}
+
+- (float)timeScale;
+{
+    // TODO (2004-03-11): Remove outlets to form, turn these values into ivars.
+    return ([self bounds].size.width - 2 * LEFT_MARGIN) / [[displayParameters cellAtIndex:0] floatValue];
+}
+
+- (NSRect)rectFormedByPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
+{
+    float minx, miny, maxx, maxy;
+    NSRect rect;
+
+    if (point1.x < point2.x) {
+        minx = point1.x;
+        maxx = point2.x;
+    } else {
+        minx = point2.x;
+        maxx = point1.x;
+    }
+
+    if (point1.y < point2.y) {
+        miny = point1.y;
+        maxy = point2.y;
+    } else {
+        miny = point2.y;
+        maxy = point1.y;
+    }
+
+    rect.origin.x = minx;
+    rect.origin.y = miny;
+    rect.size.width = maxx - minx;
+    rect.size.height = maxy - miny;
+
+    return rect;
+}
+
+- (float)slopeMarkerYPosition;
+{
+    NSPoint graphOrigin;
+
+    graphOrigin = [self graphOrigin];
+
+    return graphOrigin.y - BOTTOM_MARGIN + 10;
+}
+
+- (NSRect)slopeMarkerRect;
+{
+    NSRect bounds, rect;
+    NSPoint graphOrigin;
+
+    bounds = NSIntegralRect([self bounds]);
+    graphOrigin = [self graphOrigin];
+
+    rect.origin.x = graphOrigin.x;
+    rect.origin.y = [self slopeMarkerYPosition];
+    rect.size.width = bounds.size.width - 2 * LEFT_MARGIN;
+    rect.size.height = SLOPE_MARKER_HEIGHT; // Roughly
+
+    return rect;
+}
+
+//
+// Slopes
+//
+
+- (void)drawSlopes;
+{
+    int i, j;
+    double start, end;
+    NSRect rect = NSMakeRect(0, 0, 2 * LEFT_MARGIN, SLOPE_MARKER_HEIGHT);
+    SlopeRatio *currentPoint;
+    MonetList *slopes, *points;
+    float timeScale = [self timeScale];
+    NSPoint graphOrigin;
+    NSRect bounds;
+
+    bounds = [self bounds];
+    graphOrigin = [self graphOrigin];
+    rect.origin.y = [self slopeMarkerYPosition];
+
+    for (i = 0; i < [[currentTemplate points] count]; i++) {
+        currentPoint = [[currentTemplate points] objectAtIndex:i];
+        if ([currentPoint isKindOfClass:[SlopeRatio class]]) {
+            //NSLog(@"%d: Drawing slope ratio...", i);
+            start = graphOrigin.x + [currentPoint startTime] * timeScale;
+            end = graphOrigin.x + [currentPoint endTime] * timeScale;
+            //NSLog(@"Slope  %f -> %f", start, end);
+            rect.origin.x = (float)start;
+            rect.size.width = (float)(end - start);
+            //NSLog(@"drawing button, rect: %@, bounds: %@", NSStringFromRect(rect), NSStringFromRect(bounds));
+            NSDrawButton(rect, bounds);
+
+            slopes = [currentPoint slopes];
+            points = [currentPoint points];
+            for (j = 0; j < [slopes count]; j++) {
+                NSString *str;
+                //NSPoint aPoint;
+                NSRect textFieldFrame;
+
+                str = [NSString stringWithFormat:@"%.1f", [[slopes objectAtIndex:j] slope]];
+                //NSLog(@"Buffer = %@", str);
+
+                [[NSColor blackColor] set];
+                textFieldFrame.origin.x = ([[(GSMPoint *)[points objectAtIndex:j] expression] cacheValue]) * timeScale + LEFT_MARGIN + 5.0;
+                textFieldFrame.origin.y = rect.origin.y + 2;
+                textFieldFrame.size.width = 60;
+                textFieldFrame.size.height = SLOPE_MARKER_HEIGHT - 2;
+                //[str drawAtPoint:aPoint withAttributes:nil];
+                [textFieldCell setStringValue:str];
+                [textFieldCell setFont:timesFont];
+                [textFieldCell drawWithFrame:textFieldFrame inView:self];
+            }
+        }
+    }
+}
+
+- (void)_setEditingSlope:(Slope *)newSlope;
+{
+    if (newSlope == editingSlope)
+        return;
+
+    [editingSlope release];
+    editingSlope = [newSlope retain];
+}
+
 - (void)editSlope:(Slope *)aSlope startTime:(float)startTime endTime:(float)endTime;
 {
     NSWindow *window;
@@ -872,90 +887,6 @@ static NSImage *_selectionBox = nil;
     }
 
     NSLog(@"<  %s", _cmd);
-}
-
-- (void)textDidEndEditing:(NSNotification *)notification;
-{
-    NSString *str;
-
-    NSLog(@" > %s", _cmd);
-
-    NSLog(@"notification: %@", notification);
-
-    str = [nonretained_fieldEditor string];
-    NSLog(@"str: %@", str);
-
-    [editingSlope setSlope:[str floatValue]];
-    [editingSlope release];
-    editingSlope = nil;
-
-    [nonretained_fieldEditor removeFromSuperview];
-    nonretained_fieldEditor = nil;
-
-
-    [self setNeedsDisplay:YES];
-
-    NSLog(@"<  %s", _cmd);
-}
-
-- (void)_setEditingSlope:(Slope *)newSlope;
-{
-    if (newSlope == editingSlope)
-        return;
-
-    [editingSlope release];
-    editingSlope = [newSlope retain];
-}
-
-- (void)selectGraphPointsBetweenPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
-{
-    NSPoint graphOrigin;
-    NSRect selectionRect;
-    int count, index;
-    double symbols[5];
-    float timeScale;
-    int yScale;
-
-    [selectedPoints removeAllObjects];
-
-    for (index = 0; index < 5; index++)
-        symbols[index] = [[displayParameters cellAtIndex:index] doubleValue];
-
-    cache++;
-    graphOrigin = [self graphOrigin];
-    timeScale = [self timeScale];
-    yScale = [self sectionHeight];
-
-    selectionRect = [self rectFormedByPoint:point1 andPoint:point2];
-    selectionRect.origin.x -= graphOrigin.x;
-    selectionRect.origin.y -= graphOrigin.y;
-
-    NSLog(@"%s, selectionRect: %@", _cmd, NSStringFromRect(selectionRect));
-
-    count = [displayPoints count];
-    NSLog(@"%d display points", count);
-    for (index = 0; index < count; index++) {
-        GSMPoint *currentDisplayPoint;
-        ProtoEquation *currentExpression;
-        NSPoint currentPoint;
-
-        currentDisplayPoint = [displayPoints objectAtIndex:index];
-        currentExpression = [currentDisplayPoint expression];
-        if (currentExpression == nil)
-            currentPoint.x = [currentDisplayPoint freeTime];
-        else
-            currentPoint.x = [[currentDisplayPoint expression] evaluate:symbols phones:dummyPhoneList andCacheWith:cache];
-
-        currentPoint.x *= timeScale;
-        currentPoint.y = (yScale * 2) + ([currentDisplayPoint value] * yScale / 10.0);
-
-        //NSLog(@"%2d: currentPoint: %@", index, NSStringFromPoint(currentPoint));
-        if (NSPointInRect(currentPoint, selectionRect) == YES) {
-            [selectedPoints addObject:currentDisplayPoint];
-        }
-    }
-
-    [self setNeedsDisplay:YES];
 }
 
 - (Slope *)getSlopeMarkerAtPoint:(NSPoint)aPoint startTime:(float *)startTime endTime:(float *)endTime;
@@ -1016,13 +947,91 @@ static NSImage *_selectionBox = nil;
     return nil;
 }
 
-#ifdef PORTING
-- (BOOL)performKeyEquivalent:(NSEvent *)theEvent;
+//
+// NSTextView delegate method, used for editing slopes
+//
+
+- (void)textDidEndEditing:(NSNotification *)notification;
 {
-    NSLog(@"%d", [theEvent keyCode]);
-    return YES;
+    NSString *str;
+
+    NSLog(@" > %s", _cmd);
+
+    NSLog(@"notification: %@", notification);
+
+    str = [nonretained_fieldEditor string];
+    NSLog(@"str: %@", str);
+
+    [editingSlope setSlope:[str floatValue]];
+    [editingSlope release];
+    editingSlope = nil;
+
+    [nonretained_fieldEditor removeFromSuperview];
+    nonretained_fieldEditor = nil;
+
+    [self setNeedsDisplay:YES];
+
+    NSLog(@"<  %s", _cmd);
 }
-#endif
+
+//
+// Selection
+//
+
+- (void)selectGraphPointsBetweenPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
+{
+    NSPoint graphOrigin;
+    NSRect selectionRect;
+    int count, index;
+    double symbols[5];
+    float timeScale;
+    int yScale;
+
+    [selectedPoints removeAllObjects];
+
+    for (index = 0; index < 5; index++)
+        symbols[index] = [[displayParameters cellAtIndex:index] doubleValue];
+
+    cache++;
+    graphOrigin = [self graphOrigin];
+    timeScale = [self timeScale];
+    yScale = [self sectionHeight];
+
+    selectionRect = [self rectFormedByPoint:point1 andPoint:point2];
+    selectionRect.origin.x -= graphOrigin.x;
+    selectionRect.origin.y -= graphOrigin.y;
+
+    NSLog(@"%s, selectionRect: %@", _cmd, NSStringFromRect(selectionRect));
+
+    count = [displayPoints count];
+    NSLog(@"%d display points", count);
+    for (index = 0; index < count; index++) {
+        GSMPoint *currentDisplayPoint;
+        ProtoEquation *currentExpression;
+        NSPoint currentPoint;
+
+        currentDisplayPoint = [displayPoints objectAtIndex:index];
+        currentExpression = [currentDisplayPoint expression];
+        if (currentExpression == nil)
+            currentPoint.x = [currentDisplayPoint freeTime];
+        else
+            currentPoint.x = [[currentDisplayPoint expression] evaluate:symbols phones:dummyPhoneList andCacheWith:cache];
+
+        currentPoint.x *= timeScale;
+        currentPoint.y = (yScale * 2) + ([currentDisplayPoint value] * yScale / 10.0);
+
+        //NSLog(@"%2d: currentPoint: %@", index, NSStringFromPoint(currentPoint));
+        if (NSPointInRect(currentPoint, selectionRect) == YES) {
+            [selectedPoints addObject:currentDisplayPoint];
+        }
+    }
+
+    [self setNeedsDisplay:YES];
+}
+
+//
+// Actions
+//
 
 - (IBAction)delete:(id)sender;
 {

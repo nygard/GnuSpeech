@@ -46,15 +46,28 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 
-- (BOOL)acceptsFirstResponder;
-- (BOOL)acceptsFirstMouse:(NSEvent *)theEvent;
-
 - (BOOL)shouldDrawSelection;
 - (void)setShouldDrawSelection:(BOOL)newFlag;
 
+// Drawing
 - (void)drawRect:(NSRect)rect;
 
 - (void)clearView;
+- (void)drawGrid;
+- (void)drawEquations;
+- (void)drawPhones;
+- (void)drawTransition;
+
+- (void)drawCircleMarkerAtPoint:(NSPoint)aPoint;
+- (void)drawTriangleMarkerAtPoint:(NSPoint)aPoint;
+- (void)drawSquareMarkerAtPoint:(NSPoint)aPoint;
+- (void)highlightMarkerAtPoint:(NSPoint)aPoint;
+
+// Event handling
+- (BOOL)acceptsFirstResponder;
+- (BOOL)acceptsFirstMouse:(NSEvent *)theEvent;
+- (void)mouseDown:(NSEvent *)mouseEvent;
+- (void)mouseUp:(NSEvent *)mouseEvent;
 
 // View geometry
 - (int)sectionHeight;
@@ -64,31 +77,19 @@
 - (float)slopeMarkerYPosition;
 - (NSRect)slopeMarkerRect;
 
-- (void)drawGrid;
-- (void)drawEquations;
-- (void)drawPhones;
-- (void)drawTransition;
-- (void)drawCircleMarkerAtPoint:(NSPoint)aPoint;
-- (void)drawTriangleMarkerAtPoint:(NSPoint)aPoint;
-- (void)drawSquareMarkerAtPoint:(NSPoint)aPoint;
-- (void)highlightMarkerAtPoint:(NSPoint)aPoint;
+// Slopes
 - (void)drawSlopes;
-
-- (void)mouseDown:(NSEvent *)mouseEvent;
-- (void)mouseUp:(NSEvent *)mouseEvent;
-
-- (void)editSlope:(Slope *)aSlope startTime:(float)startTime endTime:(float)endTime;
-- (void)textDidEndEditing:(NSNotification *)notification;
-
 - (void)_setEditingSlope:(Slope *)newSlope;
-
-- (void)selectGraphPointsBetweenPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
-
-//- getSlopeInput:aSlopeRatio:(float)startTime:(float)endTime;
+- (void)editSlope:(Slope *)aSlope startTime:(float)startTime endTime:(float)endTime;
 - (Slope *)getSlopeMarkerAtPoint:(NSPoint)aPoint startTime:(float *)startTime endTime:(float *)endTime;
 
-//- (BOOL)performKeyEquivalent:(NSEvent *)theEvent;
+// NSTextView delegate method, used for editing slopes
+- (void)textDidEndEditing:(NSNotification *)notification;
 
+// Selection
+- (void)selectGraphPointsBetweenPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
+
+// Actions
 - (IBAction)delete:(id)sender;
 - (IBAction)groupInSlopeRatio:(id)sender;
 - (IBAction)updateControlParameter:(id)sender;
