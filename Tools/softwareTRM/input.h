@@ -23,6 +23,8 @@ extern INPUT *inputHead;
 extern INPUT *inputTail;
 extern int numberInputTables;
 
+int parseInputFile(const char *inputFile);
+
 void addInput(double glotPitch, double glotVol, double aspVol, double fricVol,
 	      double fricPos, double fricCF, double fricBW, double *radius,
 	      double velum);
