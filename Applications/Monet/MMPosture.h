@@ -71,7 +71,8 @@
 
 /* Access to category List instance variable */
 - (CategoryList *)categoryList;
-- (void)addToCategoryList:(MMCategory *)aCategory;
+- (void)addCategory:(MMCategory *)aCategory;
+- (void)removeCategory:(MMCategory *)aCategory;
 - (BOOL)isMemberOfCategory:(MMCategory *)aCategory;
 
 /* Access to target lists */

@@ -324,6 +324,7 @@
                 [prototypeManager setModel:model];
                 [ruleManager setModel:model];
                 [dataEntryController setModel:model];
+                [postureEditor setModel:model];
 
                 [dataBrowser updateLists];
                 [dataBrowser updateBrowser];

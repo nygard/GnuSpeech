@@ -144,8 +144,15 @@
     return categoryList;
 }
 
-- (void)addToCategoryList:(MMCategory *)aCategory;
+- (void)addCategory:(MMCategory *)aCategory;
 {
+    if ([categoryList containsObject:aCategory] == NO)
+        [categoryList addObject:aCategory];
+}
+
+- (void)removeCategory:(MMCategory *)aCategory;
+{
+    [categoryList removeObject:aCategory];
 }
 
 - (BOOL)isMemberOfCategory:(MMCategory *)aCategory;

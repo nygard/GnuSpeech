@@ -81,7 +81,6 @@
     [[symbolTableView tableColumnWithIdentifier:@"hasComment"] setDataCell:commentImageCell];
     [commentImageCell release];
 
-#if 0
     [[[parameterTableView tableColumnWithIdentifier:@"minimum"] dataCell] setFormatter:defaultNumberFormatter];
     [[[parameterTableView tableColumnWithIdentifier:@"maximum"] dataCell] setFormatter:defaultNumberFormatter];
     [[[parameterTableView tableColumnWithIdentifier:@"default"] dataCell] setFormatter:defaultNumberFormatter];
@@ -93,7 +92,6 @@
     [[[symbolTableView tableColumnWithIdentifier:@"minimum"] dataCell] setFormatter:defaultNumberFormatter];
     [[[symbolTableView tableColumnWithIdentifier:@"maximum"] dataCell] setFormatter:defaultNumberFormatter];
     [[[symbolTableView tableColumnWithIdentifier:@"default"] dataCell] setFormatter:defaultNumberFormatter];
-#endif
 
     [categoryCommentTextView setFieldEditor:YES];
     [parameterCommentTextView setFieldEditor:YES];

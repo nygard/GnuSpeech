@@ -13,7 +13,7 @@
 
     if (instance == nil) {
         instance = [[NSNumberFormatter alloc] init];
-        [instance setFormat:@"#,##0.0000"];
+        [instance setFormat:@"#,##0.###"];
     }
 
     return instance;
