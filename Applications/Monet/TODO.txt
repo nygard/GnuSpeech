@@ -10,7 +10,6 @@
                 NXReadTypes(stream, "ii", &j, &k);
                 if (i==(-1))
     - I think it should be checking "j" for -1 value.
-- I can't load "Play2.monet".  It looks like there's a point encoded as "di" instead of "ddii".
 - Hmm.  Duration form in Rule Parser window, text shifts when selecting it (tabbing into the field.)
 - check that we aren't returning floats/doubles from calls to methods that might return nil;
 - we could filter the rules, showing which ones match a given symbol input.
@@ -50,6 +49,9 @@ Done
 x it looks like I'm getting different results when I load MonetBlank.monet twice in a row...
 + stars in rules after phones seems to match, i.e., ch and ch' for "ch*"
 x we could add a column to the rule list to show the total combinations matched.
+x I can't load "Play2.monet".  It looks like there's a point encoded as "di" instead of "ddii".
++ make superclass for FormulaExpression, FormulaTerminal.  Check how this affects archiving.
++ make superclass for BooleanExpression, BooleanTerminal.  Check how this affects archiving.
 
 2004-11-14:
 - +SpecialView, +PointInspector, +RuleInspector, *IntonationView, +IntonationScrollView, *IntonationPointInspector, EventListView
@@ -60,12 +62,6 @@ x we could add a column to the rule list to show the total combinations matched.
 TODO:
 - if a value is at the default, and then you change the default, do you want all of the instances to change as well?  I think so.
 - phones have a "native" category, which is their name.  This is probably so that the boolean parser can just looks up categories, not categories and phones.
-
-
-
-+ make superclass for FormulaExpression, FormulaTerminal.  Check how this affects archiving.
-+ make superclass for BooleanExpression, BooleanTerminal.  Check how this affects archiving.
-
 
 - merge Parameter, Symbol classes
 - remove "native" category
@@ -90,7 +86,7 @@ Notes:
 
 2004-03-15:
 - Would it be useful to list the timing symbols in order for the TransitionView?
-- inspecting zero points should show "No Inspector", not "Multiple Points Selected"
+x inspecting zero points should show "No Inspector", not "Multiple Points Selected"
 - when dragging to select points and no points are selected, the point inspector shows "No Inspector" and "Multiple Points Selected"
 - you shouldn't be able to (try to) set the value for a point that is part of a slope ratio.
   + try M prefix for remaining object (MMonetModel, MTransitionView, MInspector, ...)
@@ -121,7 +117,7 @@ Notes:
 - show list of points in transition editor, for easier selection when things go bad (points off screen, multiple points as same place)
 
 2004-03-23:
-- -[NSSString initWithBytes:length:encoding:] not in 10.2.8 SDK, so should be within #if in 10.3 header file.
+x -[NSSString initWithBytes:length:encoding:] not in 10.2.8 SDK, so should be within #if in 10.3 header file.
 - text of NSForm shifts slightly when selected.  This doesn't happen with NSTextFields.
   - for vertical form.  Single horizontal form doesn't seem to have that problem.
 
@@ -132,7 +128,7 @@ Notes:
 - In MMRule, key the transitions and special transitions by name, so we can easily change the order.  (Of course,
   that makes changing the name a bit more work.)
 - There seems to be Posture Symbols and Rule Symbols
-- working through PhoneList, removing methods
++ working through PhoneList, removing methods
 - move GSXML functions into NSString category
 
 2004-03-30:
@@ -143,10 +139,10 @@ Notes:
 - The Diphone/Triphone/Tetraphone radio buttons should be in the Transition Editor, not on the Prototype Manager window.
 
 2004-04-01:
-- Replace parameter array with structure for FormulaExpression's -evaluate: method.
++ Replace parameter array with structure for FormulaExpression's -evaluate: method.
 
 2004-04-02:
-- Changing selection in Special Transition Editor doesn't update details.
++ Changing selection in Special Transition Editor doesn't update details.
 
 2004-04-22:
 - Add a verification phase after loading the XML file to make sure all of the postures have the correct references to parameters, meta-paramters, and symbols.
@@ -158,8 +154,8 @@ Notes:
 2004-05-18:
 + Replace DefaultPrototypes with an XML version of it.
 - note some limitations of current system:
-  - assumes names of equations and transitions are unique across groups, but doesn't enforce it.  Failure upon load.
-  - note parenthesis use in equations
+  + assumes names of equations and transitions are unique across groups, but doesn't enforce it.  Failure upon load.
+  + note parenthesis use in equations
   - note removal of 0.5 factor from software TRM, and what I think it's there for.
 
 2004-05-20:
@@ -197,10 +193,10 @@ Notes:
 
 2004-08-03:
 - We could combine the regular and special parameter graphs, perhaps using a different color.  Might be nice to also show the combined value in a third color.
+  - Some special transitions have small values, which wouldn't be easy to see.  The same problem currencyly exists, and we could use some scaling for that.
 
 2004-08-04:
 + I've noticed that the postures aren't properly placed in the Synthesis window, for rules that consume >1 posture.  Problem with move to structure in EventList.
 
 2004-08-09;
 - With Save Graph Images, store at a location that's easier to get to for novice users than /tmp
-
