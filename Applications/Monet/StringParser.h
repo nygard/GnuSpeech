@@ -92,4 +92,6 @@
 
 - (void)automaticIntonation:(id)sender;
 
+- (void)parsePhoneString:(NSString *)str;
+
 @end

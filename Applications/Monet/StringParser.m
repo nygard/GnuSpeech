@@ -18,8 +18,6 @@
 #import "tube_module/synthesizer_module.h"
 #endif
 
-int parse_string(EventList *eventList, NSString *str);
-
 @implementation StringParser
 
 + (NSCharacterSet *)gsStringParserWhitespaceCharacterSet;
@@ -217,7 +215,7 @@ int parse_string(EventList *eventList, NSString *str);
         intonationParameters[i] = [[intonParmsField cellAtIndex:i] floatValue];
     [eventList setIntonParms:intonationParameters];
 
-    parse_string(eventList, [stringTextField stringValue]);
+    [self parsePhoneString:[stringTextField stringValue]];
 
     [eventList generateEventList];
     if ([smoothIntonationSwitch state])
@@ -336,7 +334,7 @@ int parse_string(EventList *eventList, NSString *str);
     // TODO (2004-03-25): Should we set up the intonation parameters, like the hardware synthesis did?
 
     NSLog(@"eventList before: %@", eventList);
-    parse_string(eventList, [stringTextField stringValue]);
+    [self parsePhoneString:[stringTextField stringValue]];
     NSLog(@"eventList after: %@", eventList);
 
     [eventList generateEventList];
@@ -345,7 +343,6 @@ int parse_string(EventList *eventList, NSString *str);
     [[intonationView documentView] applyIntonation];
 
     [eventList printDataStructures];
-
     [eventList generateOutput];
 
     [eventListView setEventList:eventList];
@@ -369,7 +366,7 @@ int parse_string(EventList *eventList, NSString *str);
 {
     [eventList setUp];
 
-    parse_string(eventList, [stringTextField stringValue]);
+    [self parsePhoneString:[stringTextField stringValue]];
 
     [eventList generateEventList];
 
@@ -396,9 +393,7 @@ int parse_string(EventList *eventList, NSString *str);
     NSLog(@"contour:\n%@", [[intonationView documentView] contourString]);
 }
 
-@end
-
-int parse_string(EventList *eventList, NSString *str)
+- (void)parsePhoneString:(NSString *)str;
 {
     MMPosture *aPhone;
     //int chunk = 0;
@@ -412,6 +407,8 @@ int parse_string(EventList *eventList, NSString *str)
     NSCharacterSet *whitespaceCharacterSet = [StringParser gsStringParserWhitespaceCharacterSet];
     NSCharacterSet *defaultCharacterSet = [StringParser gsStringParserDefaultCharacterSet]; // I know, it's not a great name.
     NSString *buffer;
+
+    NSLog(@" > %s", _cmd);
 
     mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
     NSLog(@"mainPhoneList: %p", mainPhoneList);
@@ -541,6 +538,7 @@ int parse_string(EventList *eventList, NSString *str)
         }
     }
 
-    NSLog(@"Done parse_string().");
-    return [scanner scanLocation];
+    NSLog(@"<  %s", _cmd);
 }
+
+@end
