@@ -60,7 +60,7 @@
     currentMMEquation = [anEquation retain];
 }
 
-- (void)inspectMMEquation:(MMEquation *)anEquation;
+- (void)inspectEquation:(MMEquation *)anEquation;
 {
     [self setCurrentMMEquation:anEquation];
     [mainInspector setPopUpListView:popUpListView];

@@ -1,15 +1,11 @@
 #import "Inspector.h"
 
 #import <AppKit/AppKit.h>
-#import "CategoryInspector.h"
 #import "IntonationPointInspector.h"
-#import "ParameterInspector.h"
-#import "PhoneInspector.h"
 #import "PointInspector.h"
 #import "ProtoEquationInspector.h"
 #import "ProtoTemplateInspector.h"
 #import "RuleInspector.h"
-#import "SymbolInspector.h"
 
 @implementation Inspector
 
@@ -22,11 +18,6 @@
     [noInspectorView retain];
     [noPopUpListView retain];
 
-    [phoneInspector applicationDidFinishLaunching:notification];
-    [categoryInspector applicationDidFinishLaunching:notification];
-    [parameterInspector applicationDidFinishLaunching:notification];
-    [metaParameterInspector applicationDidFinishLaunching:notification];
-    [symbolInspector applicationDidFinishLaunching:notification];
     [protoEquationInspector applicationDidFinishLaunching:notification];
     [protoTransitionInspector applicationDidFinishLaunching:notification];
     [ruleInspector applicationDidFinishLaunching:notification];
@@ -87,58 +78,18 @@
     }
 }
 
-- (void)inspectPhone:(MMPosture *)phone;
-{
-    [panel setTitle:@"Phone Inspector"];
-    currentInspectorObject = phone;
-    currentInspector = phoneInspector;
-    [phoneInspector inspectPhone:phone];
-}
-
-- (void)inspectCategory:(MMCategory *)category;
-{
-    [panel setTitle:@"Category Inspector"];
-    currentInspectorObject = category;
-    currentInspector = categoryInspector;
-    [categoryInspector inspectCategory:category];
-}
-
-- (void)inspectSymbol:(MMSymbol *)symbol;
-{
-    [panel setTitle:@"Symbol Inspector"];
-    currentInspectorObject = symbol;
-    currentInspector = symbolInspector;
-    [symbolInspector inspectSymbol:symbol];
-}
-
-- (void)inspectParameter:(MMParameter *)parameter;
-{
-    [panel setTitle:@"Parameter Inspector"];
-    currentInspectorObject = parameter;
-    currentInspector = parameterInspector;
-    [parameterInspector inspectParameter:parameter];
-}
-
-- (void)inspectMetaParameter:(MMParameter *)metaParameter;
-{
-    [panel setTitle:@"MetaParameter Inspector"];
-    currentInspectorObject = metaParameter;
-    currentInspector = parameterInspector;
-    [parameterInspector inspectParameter:metaParameter];
-}
-
 - (void)beginEdittingCurrentInspector;
 {
     [mainInspectorWindow makeKeyAndOrderFront:self];
     [currentInspector beginEditting];
 }
 
-- (void)inspectMMEquation:(MMEquation *)equation;
+- (void)inspectEquation:(MMEquation *)equation;
 {
     [panel setTitle:@"Prototype Equation Inspector"];
     currentInspectorObject = equation;
     currentInspector = protoEquationInspector;
-    [protoEquationInspector inspectMMEquation:equation];
+    [protoEquationInspector inspectEquation:equation];
 }
 
 - (void)inspectProtoTransition:(MMTransition *)transition;

@@ -2,7 +2,7 @@
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 @class MMCategory, IntonationPoint, MMPoint, MonetList, MMParameter, MMPosture, MMEquation, MMTransition, MMRule, MMSymbol;
-@class CategoryInspector, IntonationPointInspector, ParameterInspector, PhoneInspector, PointInspector, ProtoEquationInspector, ProtoTemplateInspector, RuleInspector, SymbolInspector;
+@class IntonationPointInspector, PointInspector, ProtoEquationInspector, ProtoTemplateInspector, RuleInspector;
 
 /*===========================================================================
 
@@ -35,11 +35,6 @@ History:
     id currentInspectorObject;  /* Object with is currently the focus of the inspector */
     id currentInspector;
 
-    IBOutlet PhoneInspector *phoneInspector;
-    IBOutlet CategoryInspector *categoryInspector;
-    IBOutlet ParameterInspector *parameterInspector;
-    IBOutlet ParameterInspector *metaParameterInspector;
-    IBOutlet SymbolInspector *symbolInspector;
     IBOutlet ProtoEquationInspector *protoEquationInspector;
     IBOutlet ProtoTemplateInspector *protoTransitionInspector;
     IBOutlet RuleInspector *ruleInspector;
@@ -56,15 +51,9 @@ History:
 - (void)setGeneralView:(NSBox *)aView;
 - (void)setPopUpListView:(NSBox *)aView;
 
-- (void)inspectPhone:(MMPosture *)phone;
-- (void)inspectCategory:(MMCategory *)category;
-- (void)inspectSymbol:(MMSymbol *)symbol;
-- (void)inspectParameter:(MMParameter *)parameter;
-- (void)inspectMetaParameter:(MMParameter *)metaParameter;
-
 - (void)beginEdittingCurrentInspector;
 
-- (void)inspectMMEquation:(MMEquation *)equation;
+- (void)inspectEquation:(MMEquation *)equation;
 - (void)inspectProtoTransition:(MMTransition *)transition;
 - (void)inspectRule:(MMRule *)rule;
 

@@ -81,7 +81,7 @@
 - (IBAction)browserHit:(id)sender;
 {
     NamedList *aList;
-    MMEquation *aMMEquation;
+    MMEquation *anEquation;
     MMTransition *aMMTransition;
     Inspector *inspector;
     int column = [protoBrowser selectedColumn];
@@ -118,13 +118,13 @@
     switch ([[browserSelector selectedCell] tag]) {
       case 0:
           aList = [[model equations] objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
-          aMMEquation = [aList objectAtIndex:[[sender matrixInColumn:1] selectedRow]];
-          str = [[aMMEquation expression] expressionString];
+          anEquation = [aList objectAtIndex:[[sender matrixInColumn:1] selectedRow]];
+          str = [[anEquation expression] expressionString];
           if (str == nil)
               str = @"";
           [selectedOutput setStringValue:str];
-          [removeButton setEnabled:!([ruleManager isEquationUsed:aMMEquation] || [self isEquationUsed:aMMEquation] )] ;
-          [inspector inspectMMEquation:aMMEquation];
+          [removeButton setEnabled:!([ruleManager isEquationUsed:anEquation] || [self isEquationUsed:anEquation] )] ;
+          [inspector inspectEquation:anEquation];
           break;
       case 1:
           aList = [[model transitions] objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
@@ -556,7 +556,7 @@ static NSString *specialString = @"ProtoSpecial";
     int column = [protoBrowser selectedColumn];
     int retValue;
     NamedList *aList;
-    MMEquation *aMMEquation;
+    MMEquation *anEquation;
     MMTransition *aMMTransition;
 
     myPasteboard = [NSPasteboard pasteboardWithName:@"MonetPasteboard"];
@@ -576,8 +576,8 @@ static NSString *specialString = @"ProtoSpecial";
            /* Equations */
          case 0:
              aList = [[model equations] objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
-             aMMEquation = [aList objectAtIndex:[[protoBrowser matrixInColumn:1] selectedRow]];
-             [aMMEquation encodeWithCoder:typed];
+             anEquation = [aList objectAtIndex:[[protoBrowser matrixInColumn:1] selectedRow]];
+             [anEquation encodeWithCoder:typed];
              dataType = equString;
              retValue = [myPasteboard declareTypes:[NSArray arrayWithObject:dataType] owner:nil];
              [myPasteboard setData:mdata forType:equString];
@@ -617,7 +617,7 @@ static NSString *specialString = @"ProtoSpecial";
     NSArchiver *typed = nil;
     NSArray *dataTypes;
     NamedList *aList;
-    MMEquation *aMMEquation;
+    MMEquation *anEquation;
     MMTransition *aMMTransition;
     int column = [protoBrowser selectedColumn];
 
@@ -634,16 +634,16 @@ static NSString *specialString = @"ProtoSpecial";
     if ([[dataTypes objectAtIndex:0] isEqual:equString]) {
         mdata = [myPasteboard dataForType:equString];
         typed = [[NSUnarchiver alloc] initForReadingWithData:mdata];
-        aMMEquation = [[MMEquation alloc] init];
-        [aMMEquation initWithCoder:typed];
+        anEquation = [[MMEquation alloc] init];
+        [anEquation initWithCoder:typed];
         [typed release];
 
         aList = [[model equations] objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
         if (column == 1)
-            [aList insertObject:aMMEquation atIndex:[[protoBrowser matrixInColumn:1] selectedRow]+1];
+            [aList insertObject:anEquation atIndex:[[protoBrowser matrixInColumn:1] selectedRow]+1];
         else
-            [aList addObject:aMMEquation];
-        [aMMEquation release];
+            [aList addObject:anEquation];
+        [anEquation release];
 
         [protoBrowser reloadColumn:1];
     } else if ([[dataTypes objectAtIndex: 0] isEqual: tranString]) {
@@ -685,7 +685,7 @@ static NSString *specialString = @"ProtoSpecial";
 {
     Inspector *inspector = [controller inspector];
     NamedList *aList;
-    MMEquation *aMMEquation;
+    MMEquation *anEquation;
     MMTransition *aMMTransition;
     int column = [protoBrowser selectedColumn];
     int selectedColumn0Row, selectedColumn1Row;
@@ -701,8 +701,8 @@ static NSString *specialString = @"ProtoSpecial";
     switch ([[browserSelector selectedCell] tag]) {
       case 0:
           aList = [[model equations] objectAtIndex:selectedColumn0Row];
-          aMMEquation = [aList objectAtIndex:selectedColumn1Row];
-          [inspector inspectMMEquation:aMMEquation];
+          anEquation = [aList objectAtIndex:selectedColumn1Row];
+          [inspector inspectEquation:anEquation];
           break;
       case 1:
           aList = [[model transitions] objectAtIndex:selectedColumn0Row];

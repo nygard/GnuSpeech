@@ -86,7 +86,7 @@
 #endif
     } else if ([str hasPrefix:@"G"]) {
         NSString *path;
-        MMEquation *aMMEquation;
+        MMEquation *anEquation;
 
         [mainInspector setGeneralView:valueBox];
         [expressionBrowser loadColumnZero];
@@ -112,13 +112,13 @@
 
         [phantomSwitch setState:[currentPoint isPhantom]];
 
-        aMMEquation = [currentPoint expression];
-        if (aMMEquation) {
-            [currentTimingField setStringValue:[[aMMEquation expression] expressionString]];
+        anEquation = [currentPoint expression];
+        if (anEquation) {
+            [currentTimingField setStringValue:[[anEquation expression] expressionString]];
         } else {
             [currentTimingField setStringValue:[NSString stringWithFormat:@"Fixed: %.3f ms", [currentPoint freeTime]]];
         }
-        [prototypeManager findList:&index1 andIndex:&index2 ofEquation:aMMEquation];
+        [prototypeManager findList:&index1 andIndex:&index2 ofEquation:anEquation];
 
         path = [NSString stringWithFormat:@"/%@/%@",
                          [(NamedList *)[[prototypeManager equationList] objectAtIndex:index1] name],
