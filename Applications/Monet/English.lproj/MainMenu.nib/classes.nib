@@ -15,6 +15,7 @@
                 showNewDataEntryWindow = id; 
                 showPostureEditor = id; 
                 showPrototypeManager = id; 
+                showRuleManager = id; 
                 showRuleTester = id; 
                 showSpecialTransitionEditor = id; 
                 showTransitionEditor = id; 

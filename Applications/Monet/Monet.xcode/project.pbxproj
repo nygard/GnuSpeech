@@ -150,6 +150,58 @@
 			settings = {
 			};
 		};
+		01710DDB06111EC70059DE9A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = MRuleManager.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01710DDC06111EC70059DE9A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = MRuleManager.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01710DDD06111EC70059DE9A = {
+			fileRef = 01710DDB06111EC70059DE9A;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01710DDE06111EC70059DE9A = {
+			fileRef = 01710DDC06111EC70059DE9A;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01710DE706111F220059DE9A = {
+			children = (
+				01710DE806111F220059DE9A,
+			);
+			isa = PBXVariantGroup;
+			name = RuleManager.nib;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01710DE806111F220059DE9A = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = English.lproj/RuleManager.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01710DE906111F220059DE9A = {
+			fileRef = 01710DE706111F220059DE9A;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		0175901B05FA74A1004632CC = {
 			children = (
 				0175901C05FA74A1004632CC,
@@ -1342,6 +1394,8 @@
 				01848D88060BA278005E9B67,
 				01C248E9060D3EC500521DB1,
 				01C248EA060D3EC500521DB1,
+				01710DDB06111EC70059DE9A,
+				01710DDC06111EC70059DE9A,
 				01710DB00610E26F0059DE9A,
 				01710DB10610E26F0059DE9A,
 				01710D08060FAF570059DE9A,
@@ -2618,6 +2672,7 @@
 				01F6E273060EA6770073E196,
 				01710CFB060FAE1B0059DE9A,
 				01710DA20610E0D70059DE9A,
+				01710DE706111F220059DE9A,
 			);
 			isa = PBXGroup;
 			name = Resources;
@@ -2848,6 +2903,7 @@
 				01710D0A060FAF570059DE9A,
 				01710D4906100F160059DE9A,
 				01710DB20610E26F0059DE9A,
+				01710DDD06111EC70059DE9A,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2881,6 +2937,7 @@
 				01F6E275060EA6770073E196,
 				01710CFD060FAE1B0059DE9A,
 				01710DA40610E0D70059DE9A,
+				01710DE906111F220059DE9A,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2967,6 +3024,7 @@
 				01710D0B060FAF570059DE9A,
 				01710D4A06100F160059DE9A,
 				01710DB30610E26F0059DE9A,
+				01710DDE06111EC70059DE9A,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

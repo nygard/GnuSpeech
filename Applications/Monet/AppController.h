@@ -1,5 +1,5 @@
 //
-// $Id: AppController.h,v 1.33 2004/03/23 22:53:01 nygard Exp $
+// $Id: AppController.h,v 1.34 2004/03/24 03:32:23 nygard Exp $
 //
 
 /*===========================================================================
@@ -28,7 +28,7 @@ History:
 @class CategoryList, ParameterList, PhoneList, StringParser, SymbolList;
 @class DefaultMgr, EventListView, Inspector, IntonationScrollView, PrototypeManager, RuleManager;
 @class MModel, MMTransition;
-@class MDataEntryController, MPostureEditor, MPrototypeManager, MRuleTester, MSpecialTransitionEditor, MTransitionEditor;
+@class MDataEntryController, MPostureEditor, MPrototypeManager, MRuleManager, MRuleTester, MSpecialTransitionEditor, MTransitionEditor;
 
 @interface AppController : NSObject
 {
@@ -58,6 +58,7 @@ History:
     MTransitionEditor *transitionEditor;
     MSpecialTransitionEditor *specialTransitionEditor;
     MRuleTester *ruleTester;
+    MRuleManager *newRuleManager;
 }
 
 - (id)init;
@@ -98,6 +99,9 @@ History:
 
 - (MRuleTester *)ruleTester;
 - (IBAction)showRuleTester:(id)sender;
+
+- (MRuleManager *)ruleManager;
+- (IBAction)showRuleManager:(id)sender;
 
 - (IBAction)generateXML:(id)sender;
 

@@ -22,7 +22,6 @@
     IBOutlet AppController *controller;
 
     IBOutlet NSBrowser *ruleMatrix;
-    IBOutlet NSScrollView *ruleScrollView; // not used
 
     IBOutlet NSBrowser *matchBrowser1;
     IBOutlet NSBrowser *matchBrowser2;

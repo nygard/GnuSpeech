@@ -24,6 +24,7 @@
 #import "MDataEntryController.h"
 #import "MPostureEditor.h"
 #import "MPrototypeManager.h"
+#import "MRuleManager.h"
 #import "MRuleTester.h"
 #import "MSpecialTransitionEditor.h"
 #import "MTransitionEditor.h"
@@ -501,6 +502,21 @@
     [self ruleTester]; // Make sure it's been created
     [ruleTester setModel:model];
     [ruleTester showWindow:self];
+}
+
+- (MRuleManager *)ruleManager;
+{
+    if (newRuleManager == nil)
+        newRuleManager = [[MRuleManager alloc] initWithModel:model];
+
+    return newRuleManager;
+}
+
+- (IBAction)showRuleManager:(id)sender;
+{
+    [self ruleManager]; // Make sure it's been created
+    [newRuleManager setModel:model];
+    [newRuleManager showWindow:self];
 }
 
 - (IBAction)generateXML:(id)sender;
