@@ -79,7 +79,7 @@ void initializeNasalCavity(TRMTubeModel *tubeModel, struct _TRMInputParameters *
 void initializeThroat(TRMTubeModel *tubeModel, struct _TRMInputParameters *inputParameters);
 void calculateTubeCoefficients(TRMTubeModel *tubeModel, struct _TRMInputParameters *inputParameters);
 void setFricationTaps(TRMTubeModel *tubeModel);
-void calculateBandpassCoefficients(TRMTubeModel *tubeModel, int sampleRate);
+void calculateBandpassCoefficients(TRMTubeModel *tubeModel, double fricCF, double fricBW, int sampleRate);
 double vocalTract(TRMTubeModel *tubeModel, double input, double frication);
 double throat(TRMTubeModel *tubeModel, double input);
 double bandpassFilter(TRMTubeModel *tubeModel, double input);
@@ -250,7 +250,7 @@ void TRMTubeModelSynthesize(TRMTubeModel *tubeModel, TRMData *data)
 
             calculateTubeCoefficients(tubeModel, &(data->inputParameters));
             setFricationTaps(tubeModel);
-            calculateBandpassCoefficients(tubeModel, tubeModel->sampleRate);
+            calculateBandpassCoefficients(tubeModel, tubeModel->current.parameters.fricCF, tubeModel->current.parameters.fricBW, tubeModel->sampleRate);
 
 
             /*  DO SYNTHESIS HERE  */
@@ -540,13 +540,12 @@ void setFricationTaps(TRMTubeModel *tubeModel)
 ******************************************************************************/
 
 // TODO (2004-05-13): I imagine passing this a bandpass filter object (which won't have the sample rate) and the sample rate in the future.
-void calculateBandpassCoefficients(TRMTubeModel *tubeModel, int sampleRate)
+void calculateBandpassCoefficients(TRMTubeModel *tubeModel, double fricCF, double fricBW, int sampleRate)
 {
     double tanValue, cosValue;
 
-
-    tanValue = tan((M_PI * tubeModel->current.parameters.fricBW) / sampleRate);
-    cosValue = cos((2.0 * M_PI * tubeModel->current.parameters.fricCF) / sampleRate);
+    tanValue = tan((M_PI * fricBW) / sampleRate);
+    cosValue = cos((2.0 * M_PI * fricCF) / sampleRate);
 
     tubeModel->bpBeta = (1.0 - tanValue) / (2.0 * (1.0 + tanValue));
     tubeModel->bpGamma = (0.5 + tubeModel->bpBeta) * cosValue;
