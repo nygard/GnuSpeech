@@ -60,6 +60,11 @@
     comment = [newComment retain];
 }
 
+- (BOOL)hasComment;
+{
+    return comment != nil && [comment length] > 0;
+}
+
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
     unsigned archivedVersion;

@@ -71,6 +71,11 @@
     comment = [newComment retain];
 }
 
+- (BOOL)hasComment;
+{
+    return comment != nil && [comment length] > 0;
+}
+
 - (FormulaExpression *)expression;
 {
     return expression;

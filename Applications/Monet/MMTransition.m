@@ -85,6 +85,11 @@
     comment = [newComment retain];
 }
 
+- (BOOL)hasComment;
+{
+    return comment != nil && [comment length] > 0;
+}
+
 - (MonetList *)points;
 {
     return points;

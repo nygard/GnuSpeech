@@ -30,6 +30,7 @@
 
 - (NSString *)comment;
 - (void)setComment:(NSString *)newComment;
+- (BOOL)hasComment;
 
 - (FormulaExpression *)expression;
 - (void)setExpression:(FormulaExpression *)newExpression;

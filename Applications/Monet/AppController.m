@@ -25,6 +25,7 @@
 
 #import "MDataEntryController.h"
 #import "MPostureEditor.h"
+#import "MPrototypeManager.h"
 
 @implementation AppController
 
@@ -49,6 +50,10 @@
 {
     [namedObjects release];
     [model release];
+
+    [dataEntryController release];
+    [postureEditor release];
+    [newPrototypeManager release];
 
     [super dealloc];
 }
@@ -323,6 +328,7 @@
                 [ruleManager setModel:model];
                 [dataEntryController setModel:model];
                 [postureEditor setModel:model];
+                [newPrototypeManager setModel:model];
 
                 [transitionBuilder applicationDidFinishLaunching:nil];
                 [specialTransitionBuilder applicationDidFinishLaunching:nil];
@@ -456,6 +462,21 @@
 
     NSLog(@"<  %s", _cmd);
 }
+
+- (IBAction)showPrototypeManager:(id)sender;
+{
+    NSLog(@" > %s", _cmd);
+
+    if (newPrototypeManager == nil) {
+        newPrototypeManager = [[MPrototypeManager alloc] initWithModel:model];
+    }
+
+    [newPrototypeManager setModel:model];
+    [newPrototypeManager showWindow:self];
+
+    NSLog(@"<  %s", _cmd);
+}
+
 
 - (IBAction)generateXML:(id)sender;
 {

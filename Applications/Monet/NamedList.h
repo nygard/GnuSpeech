@@ -23,6 +23,7 @@
 
 - (NSString *)comment;
 - (void)setComment:(NSString *)newComment;
+- (BOOL)hasComment;
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 - (void)encodeWithCoder:(NSCoder *)aCoder;

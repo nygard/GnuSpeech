@@ -32,6 +32,7 @@
 
 - (NSString *)comment;
 - (void)setComment:(NSString *)newComment;
+- (BOOL)hasComment;
 
 - (MonetList *)points;
 - (void)setPoints:(MonetList *)newList;

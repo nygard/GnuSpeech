@@ -1,0 +1,46 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                addEquation = id; 
+                addEquationGroup = id; 
+                addSpecialTransition = id; 
+                addSpecialTransitionGroup = id; 
+                addTransition = id; 
+                addTransitionGroup = id; 
+                editSpecialTransition = id; 
+                editTransition = id; 
+                parseEquation = id; 
+                removeEquation = id; 
+                removeSpecialTransition = id; 
+                removeTransition = id; 
+                revertEquation = id; 
+                setEquation = id; 
+                setSpecialTransitionType = id; 
+                setTransitionType = id; 
+            }; 
+            CLASS = MPrototypeManager; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                equationCommentTextView = NSTextView; 
+                equationOutlineView = NSOutlineView; 
+                equationParserMessagesTextView = NSTextView; 
+                equationTextView = NSTextView; 
+                miniSpecialTransitionView = NSView; 
+                miniTransitionView = NSView; 
+                removeEquationButtonCell = NSButtonCell; 
+                removeSpecialTransitionButtonCell = NSButtonCell; 
+                removeTransitionButtonCell = NSButtonCell; 
+                specialTransitionCommentTextView = NSTextView; 
+                specialTransitionOutlineView = NSOutlineView; 
+                specialTransitionTypeMatrix = NSMatrix; 
+                transitionCommentTextView = NSTextView; 
+                transitionOutlineView = NSOutlineView; 
+                transitionTypeMatrix = NSMatrix; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}
