@@ -18,7 +18,6 @@
 #import "MModel.h"
 #import "MMPostureRewriter.h"
 #import "MMSynthesisParameters.h"
-#import "ParameterList.h"
 #import "PhoneList.h"
 #include "driftGenerator.h"
 
