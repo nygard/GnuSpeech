@@ -117,6 +117,20 @@
 			settings = {
 			};
 		};
+		015E7D0F0641E95200688D4D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = TTSNumberPronunciations.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		015E7D100641E95200688D4D = {
+			fileRef = 015E7D0F0641E95200688D4D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 //010
 //011
 //012
@@ -129,6 +143,7 @@
 //084
 		080E96DDFE201D6D7F000001 = {
 			children = (
+				015E7D0F0641E95200688D4D,
 				015E7D03064091C500688D4D,
 				015E7D04064091C500688D4D,
 				015E7D090640920200688D4D,
@@ -446,6 +461,7 @@
 				015E7CF606408A3000688D4D,
 				015E7D05064091C500688D4D,
 				015E7D0B0640920200688D4D,
+				015E7D100641E95200688D4D,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
