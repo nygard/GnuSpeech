@@ -2,7 +2,6 @@
 
 #import <AppKit/AppKit.h>
 #import "IntonationPointInspector.h"
-#import "RuleInspector.h"
 
 @implementation Inspector
 
@@ -15,7 +14,6 @@
     [noInspectorView retain];
     [noPopUpListView retain];
 
-    [ruleInspector applicationDidFinishLaunching:notification];
     [intonationPointInspector applicationDidFinishLaunching:notification];
 
     NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
@@ -76,14 +74,6 @@
 {
     [mainInspectorWindow makeKeyAndOrderFront:self];
     [currentInspector beginEditing];
-}
-
-- (void)inspectRule:(MMRule *)rule;
-{
-    [panel setTitle:@"Rule Inspector"];
-    currentInspectorObject = rule;
-    currentInspector = ruleInspector;
-    [ruleInspector inspectRule:rule];
 }
 
 - (void)inspectIntonationPoint:(IntonationPoint *)point;

@@ -122,7 +122,7 @@
     aRule = [[model rules] objectAtIndex:selectedRow];
 
     inspector = [controller inspector];
-    [inspector inspectRule:[[model rules] objectAtIndex:selectedRow]];
+    //[inspector inspectRule:[[model rules] objectAtIndex:selectedRow]];
 
     for (index = 0; index < 4; index++) {
         anExpression = [aRule getExpressionNumber:index];
@@ -607,7 +607,7 @@ static NSString *ruleString = @"Rule";
         if (index == -1)
             [inspector cleanInspectorWindow];
         else
-            [inspector inspectRule:[[model rules] objectAtIndex:index]];
+            ;//[inspector inspectRule:[[model rules] objectAtIndex:index]];
     }
 }
 

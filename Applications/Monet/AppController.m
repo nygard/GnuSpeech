@@ -72,11 +72,12 @@
     //NSLog(@"[NSApp delegate]: %@", [NSApp delegate]);
 
     // Name them here to make sure all the outlets have been connected
-    NXNameObject(@"mainPhoneList", [model postures], NSApp);
     NXNameObject(@"mainCategoryList", [model categories], NSApp);
-    NXNameObject(@"mainSymbolList", [model symbols], NSApp);
     NXNameObject(@"mainParameterList", [model parameters], NSApp);
     NXNameObject(@"mainMetaParameterList", [model metaParameters], NSApp);
+    NXNameObject(@"mainSymbolList", [model symbols], NSApp);
+    NXNameObject(@"mainPhoneList", [model postures], NSApp);
+    NXNameObject(@"rules", [model rules], NSApp);
 
     NXNameObject(@"ruleManager", ruleManager, NSApp);
     NXNameObject(@"prototypeManager", prototypeManager, NSApp);
@@ -84,6 +85,7 @@
     NXNameObject(@"stringParser", stringParser, NSApp);
 
     NXNameObject(@"defaultManager", defaultManager, NSApp);
+
 
     //NSLog(@"getting it by name: %@", NXGetNamedObject(@"mainSymbolList", NSApp));
 
@@ -310,13 +312,21 @@
 
             if (stream) {
                 NXUnnameObject(@"mainCategoryList", NSApp);
-                NXUnnameObject(@"mainSymbolList", NSApp);
                 NXUnnameObject(@"mainParameterList", NSApp);
                 NXUnnameObject(@"mainMetaParameterList", NSApp);
+                NXUnnameObject(@"mainSymbolList", NSApp);
                 NXUnnameObject(@"mainPhoneList", NSApp);
+                NXUnnameObject(@"rules", NSApp);
 
                 [model release];
                 model = [[MModel alloc] initWithCoder:stream];
+
+                NXNameObject(@"mainCategoryList", [model categories], NSApp);
+                NXNameObject(@"mainParameterList", [model parameters], NSApp);
+                NXNameObject(@"mainMetaParameterList", [model metaParameters], NSApp);
+                NXNameObject(@"mainSymbolList", [model symbols], NSApp);
+                NXNameObject(@"mainPhoneList", [model postures], NSApp);
+                NXNameObject(@"rules", [model rules], NSApp);
 
                 [prototypeManager setModel:model];
                 [ruleManager setModel:model];

@@ -166,16 +166,12 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
 - (void)_updateSelectedRuleDetails;
 {
-    //Inspector *inspector;
     MMRule *aRule;
     NSString *str;
     BooleanExpression *anExpression;
     int index;
 
     aRule = [self selectedRule];
-
-    //inspector = [controller inspector];
-    //[inspector inspectRule:[[model rules] objectAtIndex:selectedRow]];
 
     for (index = 0; index < 4; index++) {
         anExpression = [aRule getExpressionNumber:index];
