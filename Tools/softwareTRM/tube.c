@@ -734,7 +734,6 @@ TRMTubeModel *TRMTubeModelCreate(TRMInputParameters *inputParameters)
 
         newTubeModel->controlPeriod = rint((c * TOTAL_SECTIONS * 100.0) / (inputParameters->length * inputParameters->controlRate));
         newTubeModel->sampleRate = inputParameters->controlRate * newTubeModel->controlPeriod;
-        printf("newTubeModel->sampleRate: %d\n", newTubeModel->sampleRate);
         newTubeModel->actualTubeLength = (c * TOTAL_SECTIONS * 100.0) / newTubeModel->sampleRate;
         nyquist = (double)newTubeModel->sampleRate / 2.0;
     } else {

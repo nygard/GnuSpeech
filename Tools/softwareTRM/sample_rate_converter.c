@@ -6,6 +6,12 @@
 #include "structs.h"
 #include "util.h"
 
+//
+// This implements the resampling algorithm described in <http://www-ccrma.stanford.edu/~jos/resample/resample.html>.
+// A PDF version is available at: <http://www-ccrma.stanford.edu/~jos/resample/resample.pdf>
+//
+
+
 #define N_MASK                    0xFFFF0000
 #define L_MASK                    0x0000FF00
 #define M_MASK                    0x000000FF
@@ -19,7 +25,7 @@
 static void initializeFilter(TRMSampleRateConverter *sampleRateConverter);
 static void resampleBuffer(TRMRingBuffer *aRingBuffer, void *context);
 
-TRMSampleRateConverter *TRMSampleRateConverterCreate(double sampleRate, double outputRate)
+TRMSampleRateConverter *TRMSampleRateConverterCreate(int inputSampleRate, int outputSampleRate)
 {
     TRMSampleRateConverter *newSampleRateConverter;
     double roundedSampleRateRatio;
@@ -39,8 +45,11 @@ TRMSampleRateConverter *TRMSampleRateConverterCreate(double sampleRate, double o
     initializeFilter(newSampleRateConverter);
 
     // Calculate sample rate ratio
-    newSampleRateConverter->sampleRateRatio = outputRate / sampleRate;
-    printf("sampleRateRatio: %g\n", newSampleRateConverter->sampleRateRatio);
+    newSampleRateConverter->sampleRateRatio = (double)outputSampleRate / (double)inputSampleRate;
+    printf("input sample rate:  %d\n", inputSampleRate);
+    printf("output sample rate: %d\n", outputSampleRate);
+    printf("sampleRateRatio: %g (%s)\n", newSampleRateConverter->sampleRateRatio,
+           (newSampleRateConverter->sampleRateRatio > 1.0) ? "Upsampling" : "downsampling");
 
     // Calculate time register increment
     newSampleRateConverter->timeRegisterIncrement = (int)rint(pow(2.0, FRACTION_BITS) / newSampleRateConverter->sampleRateRatio);
