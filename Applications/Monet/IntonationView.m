@@ -21,13 +21,6 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
 
 @implementation IntonationView
 
-/*===========================================================================
-
-	Method: initFrame
-	Purpose: To initialize the frame
-
-===========================================================================*/
-
 - (id)initWithFrame:(NSRect)frameRect;
 {
     if ([super initWithFrame:frameRect] == nil)

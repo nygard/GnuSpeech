@@ -42,7 +42,7 @@ NSString *GSParserSyntaxErrorException = @"GSParserSyntaxErrorException";
 
 - (id)parseString:(NSString *)aString;
 {
-    id result;
+    id result = nil;
 
     if (scanner != nil)
         [scanner release];
