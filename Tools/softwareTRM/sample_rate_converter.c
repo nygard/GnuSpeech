@@ -77,9 +77,8 @@ TRMSampleRateConverter *TRMSampleRateConverterCreate(int inputSampleRate, int ou
     newSampleRateConverter->ringBuffer->context = newSampleRateConverter;
     newSampleRateConverter->ringBuffer->callbackFunction = resampleBuffer;
 
-    // Initialize the temporary output file
-    newSampleRateConverter->tempFilePtr = tmpfile();
-    rewind(newSampleRateConverter->tempFilePtr);
+    newSampleRateConverter->context = NULL;
+    newSampleRateConverter->callbackFunction = NULL;
 
     return newSampleRateConverter;
 }
@@ -93,9 +92,6 @@ void TRMSampleRateConverterFree(TRMSampleRateConverter *converter)
         TRMRingBufferFree(converter->ringBuffer);
         converter->ringBuffer = NULL;
     }
-
-    fclose(converter->tempFilePtr);
-    converter->tempFilePtr = NULL;
 
     free(converter);
 }
@@ -215,7 +211,8 @@ static void resampleBuffer(TRMRingBuffer *aRingBuffer, void *context)
             aConverter->numberSamples++;
 
             // Output the sample to the temporary file
-            fwrite((char *)&output, sizeof(output), 1, aConverter->tempFilePtr);
+            if (aConverter->callbackFunction != NULL)
+                (*(aConverter->callbackFunction))(aConverter, aConverter->context, output); // TODO (2004-08-30): Hmm, this seems redundant.
 
             // Change time register back to original form
             aConverter->timeRegister = ~aConverter->timeRegister;
@@ -283,7 +280,8 @@ static void resampleBuffer(TRMRingBuffer *aRingBuffer, void *context)
             aConverter->numberSamples++;
 
             // Output the sample to the temporary file
-            fwrite((char *)&output, sizeof(output), 1, aConverter->tempFilePtr);
+            if (aConverter->callbackFunction != NULL)
+                (*(aConverter->callbackFunction))(aConverter, aConverter->context, output); // TODO (2004-08-30): Hmm, this seems redundant.
 
             // Increment the time register
             aConverter->timeRegister += aConverter->timeRegisterIncrement;

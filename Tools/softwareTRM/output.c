@@ -8,13 +8,11 @@
 #include "util.h"
 
 // TODO (2004-05-03): Do we need to declare the function static here, at the implementation, or in both places?
-static void writeAuFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile);
-static void writeAiffFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile);
-static void writeWaveFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile);
-static void writeSamplesMonoMsb(FILE *tempFile, long int numberSamples, double scale, FILE *outputFile);
-static void writeSamplesMonoLsb(FILE *tempFile, long int numberSamples, double scale, FILE *outputFile);
-static void writeSamplesStereoMsb(FILE *tempFile, long int numberSamples, double leftScale, double rightScale, FILE *outputFile);
-static void writeSamplesStereoLsb(FILE *tempFile, long int numberSamples, double leftScale, double rightScale, FILE *outputFile);
+//static void writeSamplesMonoMsb(FILE *tempFile, long int numberSamples, double scale, FILE *outputFile);
+//static void writeSamplesMonoLsb(FILE *tempFile, long int numberSamples, double scale, FILE *outputFile);
+//static void writeSamplesStereoMsb(FILE *tempFile, long int numberSamples, double leftScale, double rightScale, FILE *outputFile);
+//static void writeSamplesStereoLsb(FILE *tempFile, long int numberSamples, double leftScale, double rightScale, FILE *outputFile);
+
 static size_t fwriteIntMsb(int data, FILE *stream);
 static size_t fwriteIntLsb(int data, FILE *stream);
 static size_t fwriteShortMsb(int data, FILE *stream);
@@ -26,7 +24,7 @@ static void convertIntToFloat80(unsigned int value, unsigned char buffer[10]);
 // the output file, with the appropriate header.  Also does master
 // volume scaling, and stereo balance scaling, if 2 channels of
 // output.
-
+#if 0
 void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMData *data, const char *filename)
 {
     FILE *fd;
@@ -89,7 +87,7 @@ void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMData *dat
     /*  Close the output file  */
     fclose(fd);
 }
-
+#endif
 // Writes the header in AU format to the output file.
 void writeAuFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile)
 {
@@ -214,6 +212,7 @@ void writeWaveFileHeader(int channels, long int numberSamples, float outputRate,
     fwriteIntLsb(dataChunkSize, outputFile);
 }
 
+#if 0
 // Reads the double f.p. samples in the temporary file, scales them,
 // rounds them to a short (16-bit) integer, and writes them to the
 // output file in big-endian format.
@@ -280,6 +279,7 @@ void writeSamplesStereoLsb(FILE *tempFile, long int numberSamples, double leftSc
         fwriteShortLsb((short)rint(sample * rightScale), outputFile);
     }
 }
+#endif
 
 // Writes a 4-byte integer to the file stream, starting with the most
 // significant byte (i.e. writes the int in big-endian form).  This
@@ -375,4 +375,38 @@ void convertIntToFloat80(unsigned int value, unsigned char buffer[10])
     buffer[3] = (unsigned char)((value >> 16) & 0xFF);
     buffer[4] = (unsigned char)((value >> 8) & 0xFF);
     buffer[5] = (unsigned char)(value & 0xFF);
+}
+
+void writeSampleMonoMsb(TRMSampleRateConverter *aConverter, void *context, double value)
+{
+    OutputCallbackContext *outputContext = context;
+
+    fwriteShortMsb((short)rint(value * outputContext->scale), outputContext->fp);
+    outputContext->sampleCount++;
+}
+
+void writeSampleStereoMsb(TRMSampleRateConverter *aConverter, void *context, double value)
+{
+    OutputCallbackContext *outputContext = context;
+
+    fwriteShortMsb((short)rint(value * outputContext->leftScale), outputContext->fp);
+    fwriteShortMsb((short)rint(value * outputContext->rightScale), outputContext->fp);
+    outputContext->sampleCount++;
+}
+
+void writeSampleMonoLsb(TRMSampleRateConverter *aConverter, void *context, double value)
+{
+    OutputCallbackContext *outputContext = context;
+
+    fwriteShortLsb((short)rint(value * outputContext->scale), outputContext->fp);
+    outputContext->sampleCount++;
+}
+
+void writeSampleStereoLsb(TRMSampleRateConverter *aConverter, void *context, double value)
+{
+    OutputCallbackContext *outputContext = context;
+
+    fwriteShortLsb((short)rint(value * outputContext->leftScale), outputContext->fp);
+    fwriteShortLsb((short)rint(value * outputContext->rightScale), outputContext->fp);
+    outputContext->sampleCount++;
 }

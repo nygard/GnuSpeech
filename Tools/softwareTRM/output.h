@@ -21,6 +21,21 @@
 /*  SIZE IN BITS PER OUTPUT SAMPLE  */
 #define BITS_PER_SAMPLE           16
 
-void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMData *data, const char *filename);
+typedef struct _OutputCallbackContext {
+    double scale;
+    double leftScale;
+    double rightScale;
+    FILE *fp;
+    int sampleCount;
+} OutputCallbackContext;
+
+void writeAuFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile);
+void writeAiffFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile);
+void writeWaveFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile);
+
+void writeSampleMonoMsb(TRMSampleRateConverter *aConverter, void *context, double value);
+void writeSampleStereoMsb(TRMSampleRateConverter *aConverter, void *context, double value);
+void writeSampleMonoLsb(TRMSampleRateConverter *aConverter, void *context, double value);
+void writeSampleStereoLsb(TRMSampleRateConverter *aConverter, void *context, double value);
 
 #endif

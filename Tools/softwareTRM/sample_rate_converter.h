@@ -33,7 +33,9 @@ typedef struct _TRMSampleRateConverter {
     // Temporary sample storage values
     double maximumSampleValue;
     long int numberSamples;
-    FILE *tempFilePtr;
+
+    void *context;
+    void (*callbackFunction)(struct _TRMSampleRateConverter *, void *, double);
 } TRMSampleRateConverter;
 
 TRMSampleRateConverter *TRMSampleRateConverterCreate(int inputSampleRate, int outputSampleRate);
