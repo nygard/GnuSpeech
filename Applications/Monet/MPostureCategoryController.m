@@ -7,7 +7,6 @@
 #import "MModel.h"
 #import "MMCategory.h"
 #import "MMPosture.h"
-#import "PhoneList.h"
 
 @implementation MPostureCategoryController
 

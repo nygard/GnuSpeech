@@ -10,7 +10,6 @@
 #import "MMBooleanTerminal.h"
 #import "MMCategory.h"
 #import "MMPosture.h"
-#import "PhoneList.h"
 #import "MModel.h"
 
 @implementation MMBooleanParser

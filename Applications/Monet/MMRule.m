@@ -431,7 +431,7 @@
     return [expressionSymbols objectAtIndex:index];
 }
 
-- (void)evaluateExpressionSymbols:(double *)buffer tempos:(double *)tempos phones:(PhoneList *)phones withCache:(int)cache;
+- (void)evaluateExpressionSymbols:(double *)buffer tempos:(double *)tempos phones:(NSArray *)phones withCache:(int)cache;
 {
     // TODO (2004-03-02): Is it okay to do these in order? (2004-04-01): No.
     buffer[0] = [(MMEquation *)[expressionSymbols objectAtIndex:0] evaluate:buffer tempos:tempos phones:phones andCacheWith:cache];

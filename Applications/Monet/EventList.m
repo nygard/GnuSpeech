@@ -621,7 +621,7 @@
 - (void)generateEventListWithModel:(MModel *)aModel;
 {
     MonetList *tempCategoryList;
-    PhoneList *tempPhoneList;
+    NSMutableArray *tempPhoneList;
     double footTempo, tempTempo;
     int index;
     int i, j, rus;
@@ -643,7 +643,7 @@
         //NSLog(@"Min: %9.3f Max: %9.3f", min[i], max[i]);
     }
 
-    tempPhoneList = [[PhoneList alloc] init];
+    tempPhoneList = [[NSMutableArray alloc] init];
     tempCategoryList = [[MonetList alloc] init];
 
     // Adjust the tempos of each of the feet.  They start out at 1.0.
@@ -686,7 +686,8 @@
         [tempCategoryList removeAllObjects];
 
         for (j = 0; j < 4; j++) {
-            [tempPhoneList addObject:phones[j+index].phone];
+            if (phones[j+index].phone != nil)
+                [tempPhoneList addObject:phones[j+index].phone];
             [tempCategoryList addObject:[phones[j+index].phone categoryList]];
         }
 
@@ -707,7 +708,7 @@
     NSLog(@"<  %s", _cmd);
 }
 
-- (void)applyRule:(MMRule *)rule withPhones:(PhoneList *)phoneList andTempos:(double *)tempos phoneIndex:(int)phoneIndex;
+- (void)applyRule:(MMRule *)rule withPhones:(NSArray *)phoneList andTempos:(double *)tempos phoneIndex:(int)phoneIndex;
 {
     int i, j, type, cont;
     int currentType;
@@ -752,11 +753,14 @@
 
     /* Loop through the parameters */
     for (i = 0; i < [tempTargets count]; i++) {
+        unsigned int postureCount;
+        unsigned int targetIndex;
         /* Get actual parameter target values */
-        targets[0] = [(MMTarget *)[[[phoneList objectAtIndex:0] parameterTargets] objectAtIndex:i] value];
-        targets[1] = [(MMTarget *)[[[phoneList objectAtIndex:1] parameterTargets] objectAtIndex:i] value];
-        targets[2] = [(MMTarget *)[[[phoneList objectAtIndex:2] parameterTargets] objectAtIndex:i] value];
-        targets[3] = [(MMTarget *)[[[phoneList objectAtIndex:3] parameterTargets] objectAtIndex:i] value];
+        postureCount = [phoneList count];
+        for (targetIndex = 0; targetIndex < 4 && targetIndex < postureCount; targetIndex++)
+            targets[targetIndex] = [(MMTarget *)[[[phoneList objectAtIndex:targetIndex] parameterTargets] objectAtIndex:i] value];
+        for (; targetIndex < 4; targetIndex++)
+            targets[targetIndex] = 0.0;
 
         //NSLog(@"Targets %f %f %f %f", targets[0], targets[1], targets[2], targets[3]);
 

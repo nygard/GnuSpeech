@@ -57,7 +57,7 @@
 - (int)matchRule:(MonetList *)categories;
 
 - (MMEquation *)getExpressionSymbol:(int)index;
-- (void)evaluateExpressionSymbols:(double *)buffer tempos:(double *)tempos phones:(PhoneList *)phones withCache:(int)cache;
+- (void)evaluateExpressionSymbols:(double *)buffer tempos:(double *)tempos phones:(NSArray *)phones withCache:(int)cache;
 
 - (MonetList *)parameterList;
 - (MonetList *)metaParameterList;
