@@ -10,7 +10,7 @@
 #import "MonetList.h"
 #import "MMParameter.h"
 #import "ParameterList.h"
-#import "ProtoEquation.h"
+#import "MMEquation.h"
 #import "ProtoTemplate.h"
 #import "PrototypeManager.h"
 
@@ -252,7 +252,7 @@
     return 1;
 }
 
-- (ProtoEquation *)getExpressionSymbol:(int)index;
+- (MMEquation *)getExpressionSymbol:(int)index;
 {
     return [expressionSymbols objectAtIndex:index];
 }
@@ -260,11 +260,11 @@
 - (void)evaluateExpressionSymbols:(double *)buffer tempos:(double *)tempos phones:(PhoneList *)phones withCache:(int)cache;
 {
     // TODO (2004-03-02): Is it okay to do these in order?
-    buffer[0] = [(ProtoEquation *)[expressionSymbols objectAtIndex:0] evaluate:buffer tempos:tempos phones:phones andCacheWith:cache];
-    buffer[2] = [(ProtoEquation *)[expressionSymbols objectAtIndex:2] evaluate:buffer tempos:tempos phones:phones andCacheWith:cache];
-    buffer[3] = [(ProtoEquation *)[expressionSymbols objectAtIndex:3] evaluate:buffer tempos:tempos phones:phones andCacheWith:cache];
-    buffer[4] = [(ProtoEquation *)[expressionSymbols objectAtIndex:4] evaluate:buffer tempos:tempos phones:phones andCacheWith:cache];
-    buffer[1] = [(ProtoEquation *)[expressionSymbols objectAtIndex:1] evaluate:buffer tempos:tempos phones:phones andCacheWith:cache];
+    buffer[0] = [(MMEquation *)[expressionSymbols objectAtIndex:0] evaluate:buffer tempos:tempos phones:phones andCacheWith:cache];
+    buffer[2] = [(MMEquation *)[expressionSymbols objectAtIndex:2] evaluate:buffer tempos:tempos phones:phones andCacheWith:cache];
+    buffer[3] = [(MMEquation *)[expressionSymbols objectAtIndex:3] evaluate:buffer tempos:tempos phones:phones andCacheWith:cache];
+    buffer[4] = [(MMEquation *)[expressionSymbols objectAtIndex:4] evaluate:buffer tempos:tempos phones:phones andCacheWith:cache];
+    buffer[1] = [(MMEquation *)[expressionSymbols objectAtIndex:1] evaluate:buffer tempos:tempos phones:phones andCacheWith:cache];
 }
 
 - (MonetList *)parameterList;
@@ -311,7 +311,7 @@
     return NO;
 }
 
-- (BOOL)isEquationUsed:(ProtoEquation *)anEquation;
+- (BOOL)isEquationUsed:(MMEquation *)anEquation;
 {
     if ([expressionSymbols indexOfObject:anEquation] != NSNotFound)
         return YES;
@@ -637,7 +637,7 @@
 
     count = [expressionSymbols count];
     for (index = 0; index < count; index++) {
-        ProtoEquation *anEquation;
+        MMEquation *anEquation;
 
         anEquation = [expressionSymbols objectAtIndex:index];
 

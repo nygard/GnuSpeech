@@ -10,7 +10,7 @@
 #import "ParameterList.h"
 #import "Phone.h"
 #import "MMPoint.h"
-#import "ProtoEquation.h"
+#import "MMEquation.h"
 #import "ProtoTemplate.h"
 #import "Rule.h"
 #import "RuleList.h"

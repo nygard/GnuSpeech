@@ -1,4 +1,4 @@
-#import "ProtoEquation.h"
+#import "MMEquation.h"
 
 #import <Foundation/Foundation.h>
 #import "NSObject-Extensions.h"
@@ -7,7 +7,7 @@
 #import "FormulaExpression.h"
 #import "GSXMLFunctions.h"
 
-@implementation ProtoEquation
+@implementation MMEquation
 
 - (id)init;
 {

@@ -153,7 +153,7 @@
     type = newType;
 }
 
-- (BOOL)isEquationUsed:(ProtoEquation *)anEquation;
+- (BOOL)isEquationUsed:(MMEquation *)anEquation;
 {
     int i, j;
     id temp;

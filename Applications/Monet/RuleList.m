@@ -170,7 +170,7 @@
     return NO;
 }
 
-- (BOOL)isEquationUsed:(ProtoEquation *)anEquation;
+- (BOOL)isEquationUsed:(MMEquation *)anEquation;
 {
     int count, index;
 
@@ -196,7 +196,7 @@
     return NO;
 }
 
-- (void)findEquation:(ProtoEquation *)anEquation andPutIn:(MonetList *)aList;
+- (void)findEquation:(MMEquation *)anEquation andPutIn:(MonetList *)aList;
 {
     int count, index;
     Rule *aRule;

@@ -14,7 +14,7 @@
 #import "NamedList.h"
 #import "ParameterList.h"
 #import "PhoneList.h"
-#import "ProtoEquation.h"
+#import "MMEquation.h"
 #import "ProtoTemplate.h"
 #import "RuleList.h"
 #import "SymbolList.h"
@@ -110,7 +110,7 @@
 // TODO (2004-03-06): Find equation named "named" in list named "list"
 // Change to findEquationNamed:(NSString *)anEquationName inList:(NSString *)aListName;
 // TODO (2004-03-06): Merge these three sets of methods, since they're practically identical.
-- (ProtoEquation *)findEquationList:(NSString *)aListName named:(NSString *)anEquationName;
+- (MMEquation *)findEquationList:(NSString *)aListName named:(NSString *)anEquationName;
 {
     int i, j;
 
@@ -120,7 +120,7 @@
         currentList = [equations objectAtIndex:i];
         if ([aListName isEqualToString:[currentList name]]) {
             for (j = 0; j < [currentList count]; j++) {
-                ProtoEquation *anEquation;
+                MMEquation *anEquation;
 
                 anEquation = [currentList objectAtIndex:j];
                 if ([anEquationName isEqualToString:[anEquation name]])
@@ -132,7 +132,7 @@
     return nil;
 }
 
-- (void)findList:(int *)listIndex andIndex:(int *)equationIndex ofEquation:(ProtoEquation *)anEquation;
+- (void)findList:(int *)listIndex andIndex:(int *)equationIndex ofEquation:(MMEquation *)anEquation;
 {
     int i, temp;
 
@@ -149,7 +149,7 @@
     // TODO (2004-03-06): This might be where/how the large list indexes were archived.
 }
 
-- (ProtoEquation *)findEquation:(int)listIndex andIndex:(int)equationIndex;
+- (MMEquation *)findEquation:(int)listIndex andIndex:(int)equationIndex;
 {
     //NSLog(@"-> %s, listIndex: %d, index: %d", _cmd, listIndex, index);
     if (listIndex < 0 || listIndex > [equations count]) {
@@ -160,7 +160,7 @@
     return [[equations objectAtIndex:listIndex] objectAtIndex:equationIndex];
 }
 
-- (ProtoEquation *)findTransitionList:(NSString *)aListName named:(NSString *)aTransitionName;
+- (MMEquation *)findTransitionList:(NSString *)aListName named:(NSString *)aTransitionName;
 {
     int i, j;
 
@@ -170,7 +170,7 @@
         currentList = [transitions objectAtIndex:i];
         if ([aListName isEqualToString:[currentList name]]) {
             for (j = 0; j < [currentList count]; j++) {
-                ProtoEquation *anEquation;
+                MMEquation *anEquation;
 
                 anEquation = [currentList objectAtIndex:j];
                 if ([aTransitionName isEqualToString:[anEquation name]])
@@ -182,7 +182,7 @@
     return nil;
 }
 
-- (void)findList:(int *)listIndex andIndex:(int *)transitionIndex ofTransition:(ProtoEquation *)aTransition;
+- (void)findList:(int *)listIndex andIndex:(int *)transitionIndex ofTransition:(MMEquation *)aTransition;
 {
     int i, temp;
 
@@ -198,7 +198,7 @@
     *listIndex = -1;
 }
 
-- (ProtoEquation *)findTransition:(int)listIndex andIndex:(int)transitionIndex;
+- (MMEquation *)findTransition:(int)listIndex andIndex:(int)transitionIndex;
 {
     //NSLog(@"Name: %@ (%d)\n", [[transitions objectAtIndex: listIndex] name], listIndex);
     //NSLog(@"\tCount: %d  index: %d  count: %d\n", [transitions count], index, [[transitions objectAtIndex: listIndex] count]);
@@ -333,7 +333,7 @@
     [symbols appendXMLToString:resultString level:1];
     [phones appendXMLToString:resultString level:1];
 
-    [self _appendXMLForProtoEquationsToString:resultString level:1];
+    [self _appendXMLForMMEquationsToString:resultString level:1];
     [self _appendXMLForProtoTemplatesToString:resultString level:1];
     [self _appendXMLForProtoSpecialsToString:resultString level:1];
     [rules appendXMLToString:resultString elementName:@"rules" level:1 numberItems:YES];
@@ -346,7 +346,7 @@
     [resultString release];
 }
 
-- (void)_appendXMLForProtoEquationsToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForMMEquationsToString:(NSMutableString *)resultString level:(int)level;
 {
     NamedList *namedList;
     int count, index;

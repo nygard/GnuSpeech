@@ -1,6 +1,6 @@
 #import <Foundation/NSObject.h>
 
-@class MonetList, ProtoEquation;
+@class MonetList, MMEquation;
 
 /*===========================================================================
 
@@ -40,7 +40,7 @@
 - (int)type;
 - (void)setType:(int)type;
 
-- (BOOL)isEquationUsed:(ProtoEquation *)anEquation;
+- (BOOL)isEquationUsed:(MMEquation *)anEquation;
 - findEquation:anEquation andPutIn:(MonetList *)aList;
 
 - (id)initWithCoder:(NSCoder *)aDecoder;

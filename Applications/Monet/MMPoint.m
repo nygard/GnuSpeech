@@ -8,7 +8,7 @@
 #import "EventList.h"
 #import "FormulaExpression.h"
 #import "GSXMLFunctions.h"
-#import "ProtoEquation.h"
+#import "MMEquation.h"
 #import "PrototypeManager.h"
 #import "ProtoTemplate.h"
 
@@ -60,12 +60,12 @@
     return value;
 }
 
-- (ProtoEquation *)expression;
+- (MMEquation *)expression;
 {
     return expression;
 }
 
-- (void)setExpression:(ProtoEquation *)newExpression;
+- (void)setExpression:(MMEquation *)newExpression;
 {
     if (newExpression == expression)
         return;
@@ -158,7 +158,7 @@
 {
     unsigned archivedVersion;
     int i, j;
-    ProtoEquation *anExpression;
+    MMEquation *anExpression;
     MModel *model;
 
     if ([super initWithCoder:aDecoder] == nil)

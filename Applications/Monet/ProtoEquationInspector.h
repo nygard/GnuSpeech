@@ -1,7 +1,7 @@
 #import <Foundation/NSObject.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-@class FormulaParser, MonetList, ProtoEquation;
+@class FormulaParser, MonetList, MMEquation;
 @class Inspector;
 
 /*===========================================================================
@@ -46,7 +46,7 @@ History:
     IBOutlet NSBrowser *usageBrowser;
     IBOutlet NSTextField *usageField;
 
-    ProtoEquation *currentProtoEquation;
+    MMEquation *currentMMEquation;
     FormulaParser *formulaParser;
 
     MonetList *equationList;
@@ -56,8 +56,8 @@ History:
 - (id)init;
 - (void)dealloc;
 
-- (void)setCurrentProtoEquation:(ProtoEquation *)anEquation;
-- (void)inspectProtoEquation:(ProtoEquation *)anEquation;
+- (void)setCurrentMMEquation:(MMEquation *)anEquation;
+- (void)inspectMMEquation:(MMEquation *)anEquation;
 
 - (void)setUpWindow:(NSPopUpButton *)sender;
 - (void)beginEditting;

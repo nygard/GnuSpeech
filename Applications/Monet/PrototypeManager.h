@@ -2,7 +2,7 @@
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 @class NSFont;
-@class MonetList, ProtoEquation, ProtoTemplate;
+@class MonetList, MMEquation, ProtoTemplate;
 @class AppController, DelegateResponder;
 @class MModel;
 
@@ -64,19 +64,19 @@
 - (MonetList *)transitionList;
 - (MonetList *)specialList;
 
-- (ProtoEquation *)findEquationList:(NSString *)aListName named:(NSString *)anEquationName;
-- (void)findList:(int *)listIndex andIndex:(int *)equationIndex ofEquation:(ProtoEquation *)anEquation;
-- (ProtoEquation *)findEquation:(int)listIndex andIndex:(int)equationIndex;
+- (MMEquation *)findEquationList:(NSString *)aListName named:(NSString *)anEquationName;
+- (void)findList:(int *)listIndex andIndex:(int *)equationIndex ofEquation:(MMEquation *)anEquation;
+- (MMEquation *)findEquation:(int)listIndex andIndex:(int)equationIndex;
 
-- (ProtoEquation *)findTransitionList:(NSString *)aListName named:(NSString *)aTransitionName;
-- (void)findList:(int *)listIndex andIndex:(int *)transitionIndex ofTransition:(ProtoEquation *)aTransition;
-- (ProtoEquation *)findTransition:(int)listIndex andIndex:(int)transitionIndex;
+- (MMEquation *)findTransitionList:(NSString *)aListName named:(NSString *)aTransitionName;
+- (void)findList:(int *)listIndex andIndex:(int *)transitionIndex ofTransition:(MMEquation *)aTransition;
+- (MMEquation *)findTransition:(int)listIndex andIndex:(int)transitionIndex;
 
 - (ProtoTemplate *)findSpecialList:(NSString *)aListName named:(NSString *)aSpecialName;
 - (void)findList:(int *)listIndex andIndex:(int *)specialIndex ofSpecial:(ProtoTemplate *)aTransition;
 - (ProtoTemplate *)findSpecial:(int)listIndex andIndex:(int)specialIndex;
 
-- (BOOL)isEquationUsed:(ProtoEquation *)anEquation;
+- (BOOL)isEquationUsed:(MMEquation *)anEquation;
 
 - (IBAction)cut:(id)sender;
 - (IBAction)copy:(id)sender;

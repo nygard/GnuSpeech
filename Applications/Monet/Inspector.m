@@ -133,12 +133,12 @@
     [currentInspector beginEditting];
 }
 
-- (void)inspectProtoEquation:(ProtoEquation *)equation;
+- (void)inspectMMEquation:(MMEquation *)equation;
 {
     [panel setTitle:@"Prototype Equation Inspector"];
     currentInspectorObject = equation;
     currentInspector = protoEquationInspector;
-    [protoEquationInspector inspectProtoEquation:equation];
+    [protoEquationInspector inspectMMEquation:equation];
 }
 
 - (void)inspectProtoTransition:(ProtoTemplate *)transition;

@@ -11,7 +11,7 @@
 #import "Phone.h"
 #import "MMPoint.h"
 #import "PointInspector.h"
-#import "ProtoEquation.h"
+#import "MMEquation.h"
 #import "PrototypeManager.h"
 #import "ProtoTemplate.h"
 #import "SymbolList.h"
@@ -243,7 +243,7 @@ static NSImage *_selectionBox = nil;
     double symbols[5], time;
     MonetList *equationList = [NXGetNamedObject(@"prototypeManager", NSApp) equationList];
     NamedList *namedList;
-    ProtoEquation *equation;
+    MMEquation *equation;
     float timeScale = [self timeScale];
     int type;
     NSBezierPath *bezierPath;
@@ -767,7 +767,7 @@ static NSImage *_selectionBox = nil;
     NSLog(@"%d display points", count);
     for (index = 0; index < count; index++) {
         MMPoint *currentDisplayPoint;
-        ProtoEquation *currentExpression;
+        MMEquation *currentExpression;
         NSPoint currentPoint;
 
         currentDisplayPoint = [displayPoints objectAtIndex:index];

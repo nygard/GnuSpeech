@@ -1,6 +1,6 @@
 #import "MonetList.h"
 
-@class BooleanExpression, MMCategory, ProtoEquation, ProtoTemplate, Rule;
+@class BooleanExpression, MMCategory, MMEquation, ProtoTemplate, Rule;
 
 /*===========================================================================
 
@@ -23,10 +23,10 @@
 - (void)readDegasFileFormat:(FILE *)fp;
 
 - (BOOL)isCategoryUsed:(MMCategory *)aCategory;
-- (BOOL)isEquationUsed:(ProtoEquation *)anEquation;
+- (BOOL)isEquationUsed:(MMEquation *)anEquation;
 - (BOOL)isTransitionUsed:(ProtoTemplate *)aTransition;
 
-- (void)findEquation:(ProtoEquation *)anEquation andPutIn:(MonetList *)aList;
+- (void)findEquation:(MMEquation *)anEquation andPutIn:(MonetList *)aList;
 - (void)findTemplate:(ProtoTemplate *)aTemplate andPutIn:(MonetList *)aList;
 
 @end

@@ -9,7 +9,7 @@
 #import "RuleManager.h"
 #import "MMParameter.h"
 #import "ParameterList.h"
-#import "ProtoEquation.h"
+#import "MMEquation.h"
 #import "ProtoTemplate.h"
 #import "PrototypeManager.h"
 #import "SpecialView.h"
@@ -175,7 +175,7 @@
           [prototypeManager findList:&index1 andIndex:&index2 ofEquation:tempCell];
           str = [NSString stringWithFormat:@"/%@/%@",
                           [(NamedList *)[[prototypeManager equationList] objectAtIndex:index1] name],
-                          [(ProtoEquation *)[[[prototypeManager equationList] objectAtIndex:index1] objectAtIndex:index2] name]];
+                          [(MMEquation *)[[[prototypeManager equationList] objectAtIndex:index1] objectAtIndex:index2] name]];
           NSLog(@"Path = |%@|\n", str);
           [selectionBrowser setPath:str];
           break;
@@ -185,7 +185,7 @@
           [prototypeManager findList:&index1 andIndex:&index2 ofTransition:tempCell];
           str = [NSString stringWithFormat:@"/%@/%@",
                           [(NamedList *)[[prototypeManager transitionList] objectAtIndex:index1] name],
-                          [(ProtoEquation *)[[[prototypeManager transitionList] objectAtIndex:index1] objectAtIndex:index2] name]];
+                          [(MMEquation *)[[[prototypeManager transitionList] objectAtIndex:index1] objectAtIndex:index2] name]];
           NSLog(@"Path = |%@|\n", str);
           [selectionBrowser setPath:str];
           break;
@@ -195,7 +195,7 @@
           [prototypeManager findList:&index1 andIndex:&index2 ofTransition:tempCell];
           str = [NSString stringWithFormat:@"/%@/%@",
                           [(NamedList *)[[prototypeManager transitionList] objectAtIndex:index1] name],
-                          [(ProtoEquation *)[[[prototypeManager transitionList] objectAtIndex:index1] objectAtIndex:index2] name]];
+                          [(MMEquation *)[[[prototypeManager transitionList] objectAtIndex:index1] objectAtIndex:index2] name]];
           [selectionBrowser setPath:str];
           break;
 
@@ -204,7 +204,7 @@
           [prototypeManager findList:&index1 andIndex:&index2 ofSpecial:tempCell];
           str = [NSString stringWithFormat:@"/%@/%@",
                           [(NamedList *)[[prototypeManager specialList] objectAtIndex:index1] name],
-                          [(ProtoEquation *)[[[prototypeManager specialList] objectAtIndex:index1] objectAtIndex:index2] name]];
+                          [(MMEquation *)[[[prototypeManager specialList] objectAtIndex:index1] objectAtIndex:index2] name]];
           [selectionBrowser setPath:str];
           break;
     }

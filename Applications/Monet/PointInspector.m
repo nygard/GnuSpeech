@@ -7,7 +7,7 @@
 #import "MonetList.h"
 #import "NamedList.h"
 #import "MMPoint.h"
-#import "ProtoEquation.h"
+#import "MMEquation.h"
 #import "PrototypeManager.h"
 #import "ProtoTemplate.h"
 #import "TransitionView.h"
@@ -86,7 +86,7 @@
 #endif
     } else if ([str hasPrefix:@"G"]) {
         NSString *path;
-        ProtoEquation *aProtoEquation;
+        MMEquation *aMMEquation;
 
         [mainInspector setGeneralView:valueBox];
         [expressionBrowser loadColumnZero];
@@ -112,17 +112,17 @@
 
         [phantomSwitch setState:[currentPoint isPhantom]];
 
-        aProtoEquation = [currentPoint expression];
-        if (aProtoEquation) {
-            [currentTimingField setStringValue:[[aProtoEquation expression] expressionString]];
+        aMMEquation = [currentPoint expression];
+        if (aMMEquation) {
+            [currentTimingField setStringValue:[[aMMEquation expression] expressionString]];
         } else {
             [currentTimingField setStringValue:[NSString stringWithFormat:@"Fixed: %.3f ms", [currentPoint freeTime]]];
         }
-        [prototypeManager findList:&index1 andIndex:&index2 ofEquation:aProtoEquation];
+        [prototypeManager findList:&index1 andIndex:&index2 ofEquation:aMMEquation];
 
         path = [NSString stringWithFormat:@"/%@/%@",
                          [(NamedList *)[[prototypeManager equationList] objectAtIndex:index1] name],
-                         [(ProtoEquation *)[[[prototypeManager equationList] objectAtIndex:index1] objectAtIndex:index2] name]];
+                         [(MMEquation *)[[[prototypeManager equationList] objectAtIndex:index1] objectAtIndex:index2] name]];
         NSLog(@"Path = |%@|", path);
         [expressionBrowser setPath:path];
     }
@@ -144,7 +144,7 @@
 {
     int listIndex, index;
     PrototypeManager *prototypeManager = NXGetNamedObject(@"prototypeManager", NSApp);
-    ProtoEquation *temp;
+    MMEquation *temp;
 
     if ([sender selectedColumn] == 1) {
         listIndex = [[sender matrixInColumn:0] selectedRow];
@@ -188,11 +188,11 @@
 
     list = [prototypeManager equationList];
     if (column == 0) {
-        [cell setStringValue:[(ProtoEquation *)[list objectAtIndex:row] name]];
+        [cell setStringValue:[(MMEquation *)[list objectAtIndex:row] name]];
         [cell setLeaf:NO];
     } else {
         tempCell = [[list objectAtIndex:index] objectAtIndex:row];
-        [cell setStringValue:[(ProtoEquation *)tempCell name]];
+        [cell setStringValue:[(MMEquation *)tempCell name]];
 
 //        if ([[tempCell expression] maxPhone] >[currentPoint type])
 //            [cell setEnabled:NO];

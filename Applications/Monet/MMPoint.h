@@ -1,6 +1,6 @@
 #import <Foundation/NSObject.h>
 
-@class EventList, MonetList, ProtoEquation;
+@class EventList, MonetList, MMEquation;
 
 /*===========================================================================
 
@@ -15,7 +15,7 @@
 {
     double value;  /* Value of the point */
     double freeTime; /* Free Floating time */
-    ProtoEquation *expression; /* Time of the point */
+    MMEquation *expression; /* Time of the point */
     int type;  /* Which phone it is targeting */
     BOOL isPhantom; /* Phantom point for place marking purposes only */
 }
@@ -29,8 +29,8 @@
 - (double)multiplyValueByFactor:(double)factor;
 - (double)addValue:(double)newValue;
 
-- (ProtoEquation *)expression;
-- (void)setExpression:(ProtoEquation *)newExpression;
+- (MMEquation *)expression;
+- (void)setExpression:(MMEquation *)newExpression;
 
 - (double)freeTime;
 - (void)setFreeTime:(double)newTime;

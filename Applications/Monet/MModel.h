@@ -1,5 +1,5 @@
 //
-// $Id: MModel.h,v 1.2 2004/03/18 23:43:54 nygard Exp $
+// $Id: MModel.h,v 1.3 2004/03/19 00:38:42 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -7,7 +7,7 @@
 
 #import <Foundation/NSObject.h>
 
-@class CategoryList, MonetList, ParameterList, PhoneList, ProtoEquation, ProtoTemplate, RuleList, SymbolList;
+@class CategoryList, MonetList, ParameterList, PhoneList, MMEquation, ProtoTemplate, RuleList, SymbolList;
 
 @interface MModel : NSObject
 {
@@ -17,7 +17,7 @@
     SymbolList *symbols;
     PhoneList *phones; // Keep this list sorted by name
 
-    MonetList *equations; // Of NamedLists of ProtoEquations
+    MonetList *equations; // Of NamedLists of MMEquations
     MonetList *transitions; // Of NamedLists of ProtoTemplates
     MonetList *specialTransitions; // Of NamedLists of ProtoTemplates
 
@@ -39,13 +39,13 @@
 
 - (RuleList *)rules;
 
-- (ProtoEquation *)findEquationList:(NSString *)aListName named:(NSString *)anEquationName;
-- (void)findList:(int *)listIndex andIndex:(int *)equationIndex ofEquation:(ProtoEquation *)anEquation;
-- (ProtoEquation *)findEquation:(int)listIndex andIndex:(int)equationIndex;
+- (MMEquation *)findEquationList:(NSString *)aListName named:(NSString *)anEquationName;
+- (void)findList:(int *)listIndex andIndex:(int *)equationIndex ofEquation:(MMEquation *)anEquation;
+- (MMEquation *)findEquation:(int)listIndex andIndex:(int)equationIndex;
 
-- (ProtoEquation *)findTransitionList:(NSString *)aListName named:(NSString *)aTransitionName;
-- (void)findList:(int *)listIndex andIndex:(int *)transitionIndex ofTransition:(ProtoEquation *)aTransition;
-- (ProtoEquation *)findTransition:(int)listIndex andIndex:(int)transitionIndex;
+- (MMEquation *)findTransitionList:(NSString *)aListName named:(NSString *)aTransitionName;
+- (void)findList:(int *)listIndex andIndex:(int *)transitionIndex ofTransition:(MMEquation *)aTransition;
+- (MMEquation *)findTransition:(int)listIndex andIndex:(int)transitionIndex;
 
 - (ProtoTemplate *)findSpecialList:(NSString *)aListName named:(NSString *)aSpecialName;
 - (void)findList:(int *)listIndex andIndex:(int *)specialIndex ofSpecial:(ProtoTemplate *)aTransition;
@@ -57,7 +57,7 @@
 
 // Archiving - XML
 - (void)generateXML:(NSString *)name;
-- (void)_appendXMLForProtoEquationsToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForMMEquationsToString:(NSMutableString *)resultString level:(int)level;
 - (void)_appendXMLForProtoTemplatesToString:(NSMutableString *)resultString level:(int)level;
 - (void)_appendXMLForProtoSpecialsToString:(NSMutableString *)resultString level:(int)level;
 

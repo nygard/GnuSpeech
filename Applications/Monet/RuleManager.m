@@ -15,7 +15,7 @@
 #import "MonetList.h"
 #import "Phone.h"
 #import "PhoneList.h"
-#import "ProtoEquation.h"
+#import "MMEquation.h"
 #import "Rule.h"
 #import "RuleList.h"
 
@@ -585,7 +585,7 @@
     return [[model rules] isCategoryUsed:aCategory];
 }
 
-- (BOOL)isEquationUsed:(ProtoEquation *)anEquation;
+- (BOOL)isEquationUsed:(MMEquation *)anEquation;
 {
     return [[model rules] isEquationUsed:anEquation];
 }
@@ -595,7 +595,7 @@
     return [[model rules] isTransitionUsed: aTransition];
 }
 
-- (void)findEquation:(ProtoEquation *)anEquation andPutIn:(MonetList *)aList;
+- (void)findEquation:(MMEquation *)anEquation andPutIn:(MonetList *)aList;
 {
     [[model rules] findEquation:anEquation andPutIn:aList];
 }

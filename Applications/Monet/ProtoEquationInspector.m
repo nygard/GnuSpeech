@@ -7,7 +7,7 @@
 #import "Inspector.h"
 #import "MonetList.h"
 #import "NamedList.h"
-#import "ProtoEquation.h"
+#import "MMEquation.h"
 #import "PrototypeManager.h"
 #import "RuleList.h"
 #import "RuleManager.h"
@@ -46,23 +46,23 @@
 
     [formulaParser release];
     [equationList release];
-    [currentProtoEquation release];
+    [currentMMEquation release];
 
     [super dealloc];
 }
 
-- (void)setCurrentProtoEquation:(ProtoEquation *)anEquation;
+- (void)setCurrentMMEquation:(MMEquation *)anEquation;
 {
-    if (anEquation == currentProtoEquation)
+    if (anEquation == currentMMEquation)
         return;
 
-    [currentProtoEquation release];
-    currentProtoEquation = [anEquation retain];
+    [currentMMEquation release];
+    currentMMEquation = [anEquation retain];
 }
 
-- (void)inspectProtoEquation:(ProtoEquation *)anEquation;
+- (void)inspectMMEquation:(MMEquation *)anEquation;
 {
-    [self setCurrentProtoEquation:anEquation];
+    [self setCurrentMMEquation:anEquation];
     [mainInspector setPopUpListView:popUpListView];
     [self setUpWindow:popUpList];
 }
@@ -87,8 +87,8 @@
         [revertCommentButton setTarget:self];
         [revertCommentButton setAction:@selector(revertComment:)];
 
-        if ([currentProtoEquation comment] != nil)
-            [commentText setString:[currentProtoEquation comment]];
+        if ([currentMMEquation comment] != nil)
+            [commentText setString:[currentMMEquation comment]];
         else
             [commentText setString:@""];
     } else if ([str hasPrefix:@"E"]) {
@@ -102,12 +102,12 @@
         [revertEquationButton setTarget:self];
         [revertEquationButton setAction:@selector(revertEquation:)];
 
-        [equationText setString:[[currentProtoEquation expression] expressionString]];
+        [equationText setString:[[currentMMEquation expression] expressionString]];
 
-        [prototypeManager findList:&index1 andIndex:&index2 ofEquation:currentProtoEquation];
+        [prototypeManager findList:&index1 andIndex:&index2 ofEquation:currentMMEquation];
         equation = [NSString stringWithFormat:@"%@:%@",
                              [(NamedList *)[[prototypeManager equationList] objectAtIndex:index1] name],
-                             [(ProtoEquation *)[[[prototypeManager equationList] objectAtIndex:index1] objectAtIndex:index2] name]];
+                             [(MMEquation *)[[[prototypeManager equationList] objectAtIndex:index1] objectAtIndex:index2] name]];
 
         [currentEquationField setStringValue:equation];
     } else if ([str hasPrefix:@"U"]) {
@@ -118,19 +118,19 @@
         [mainInspector setGeneralView:usageBox];
         [usageBrowser setDelegate:self];
         [equationList removeAllObjects];
-        [tempRuleManager findEquation:currentProtoEquation andPutIn:equationList];
+        [tempRuleManager findEquation:currentMMEquation andPutIn:equationList];
 
         tempList1 = [prototypeManager transitionList];
         for (i = 0; i < [tempList1 count]; i++) {
             tempList2 = [tempList1 objectAtIndex:i];
             for (j = 0; j < [tempList2 count]; j++)
-                [[tempList2 objectAtIndex:j] findEquation:currentProtoEquation andPutIn:equationList];
+                [[tempList2 objectAtIndex:j] findEquation:currentMMEquation andPutIn:equationList];
         }
         tempList1 = [prototypeManager specialList];
         for (i = 0; i < [tempList1 count]; i++) {
             tempList2 = [tempList1 objectAtIndex:i];
             for (j = 0; j < [tempList2 count]; j++)
-                [[tempList2 objectAtIndex:j] findEquation:currentProtoEquation andPutIn:equationList];
+                [[tempList2 objectAtIndex:j] findEquation:currentMMEquation andPutIn:equationList];
         }
 
         [usageBrowser loadColumnZero];
@@ -155,14 +155,14 @@
 
     // TODO (2004-03-13): Maybe just copy it in the -setComment: method, hopefully in a common base class.
     newComment = [[commentText string] copy]; // Need to copy, becuase it's mutable and owned by the NSTextView
-    [currentProtoEquation setComment:newComment];
+    [currentMMEquation setComment:newComment];
     [newComment release];
 }
 
 - (IBAction)revertComment:(id)sender;
 {
-    if ([currentProtoEquation comment] != nil)
-        [commentText setString:[currentProtoEquation comment]];
+    if ([currentMMEquation comment] != nil)
+        [commentText setString:[currentMMEquation comment]];
     else
         [commentText setString:@""];
 }
@@ -195,13 +195,13 @@
 
         [equationText setSelectedRange:errorRange];
     } else {
-        [currentProtoEquation setExpression:result];
+        [currentMMEquation setExpression:result];
     }
 }
 
 - (IBAction)revertEquation:(id)sender;
 {
-    [equationText setString:[[currentProtoEquation expression] expressionString]];
+    [equationText setString:[[currentMMEquation expression] expressionString]];
     [messagesText setString:@""];
 }
 
@@ -233,14 +233,14 @@
         if (i >= 0) {
             str = [NSString stringWithFormat:@"T:%@:%@",
                             [(NamedList *)[[prototypeManager transitionList] objectAtIndex:i] name],
-                            [(ProtoEquation *)[[[prototypeManager transitionList] objectAtIndex:i] objectAtIndex:j] name]];
+                            [(MMEquation *)[[[prototypeManager transitionList] objectAtIndex:i] objectAtIndex:j] name]];
             [cell setStringValue:str];
         } else {
             [prototypeManager findList:&i andIndex:&j ofSpecial:[equationList objectAtIndex:row]];
             if (i >= 0) {
                 str = [NSString stringWithFormat:@"S:%@:%@",
                                 [(NamedList *)[[prototypeManager specialList] objectAtIndex:i] name],
-                                [(ProtoEquation *)[[[prototypeManager specialList] objectAtIndex:i] objectAtIndex:j] name]];
+                                [(MMEquation *)[[[prototypeManager specialList] objectAtIndex:i] objectAtIndex:j] name]];
                 [cell setStringValue:str];
             }
         }

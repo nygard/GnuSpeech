@@ -11,7 +11,7 @@
 =============================================================================
 */
 
-@interface ProtoEquation : NSObject
+@interface MMEquation : NSObject
 {
     NSString *name;
     NSString *comment;

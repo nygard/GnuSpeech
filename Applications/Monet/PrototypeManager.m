@@ -11,7 +11,7 @@
 #import "Inspector.h"
 #import "MonetList.h"
 #import "NamedList.h"
-#import "ProtoEquation.h"
+#import "MMEquation.h"
 #import "ProtoTemplate.h"
 #import "RuleManager.h"
 #import "TransitionView.h"
@@ -81,7 +81,7 @@
 - (IBAction)browserHit:(id)sender;
 {
     NamedList *aList;
-    ProtoEquation *aProtoEquation;
+    MMEquation *aMMEquation;
     ProtoTemplate *aProtoTemplate;
     Inspector *inspector;
     int column = [protoBrowser selectedColumn];
@@ -118,13 +118,13 @@
     switch ([[browserSelector selectedCell] tag]) {
       case 0:
           aList = [[model equations] objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
-          aProtoEquation = [aList objectAtIndex:[[sender matrixInColumn:1] selectedRow]];
-          str = [[aProtoEquation expression] expressionString];
+          aMMEquation = [aList objectAtIndex:[[sender matrixInColumn:1] selectedRow]];
+          str = [[aMMEquation expression] expressionString];
           if (str == nil)
               str = @"";
           [selectedOutput setStringValue:str];
-          [removeButton setEnabled:!([ruleManager isEquationUsed:aProtoEquation] || [self isEquationUsed:aProtoEquation] )] ;
-          [inspector inspectProtoEquation:aProtoEquation];
+          [removeButton setEnabled:!([ruleManager isEquationUsed:aMMEquation] || [self isEquationUsed:aMMEquation] )] ;
+          [inspector inspectMMEquation:aMMEquation];
           break;
       case 1:
           aList = [[model transitions] objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
@@ -250,7 +250,7 @@
               [cell setLoaded:YES];
           } else {
               aList = [[model equations] objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
-              [cell setStringValue:[(ProtoEquation *)[aList objectAtIndex:row] name]];
+              [cell setStringValue:[(MMEquation *)[aList objectAtIndex:row] name]];
               [cell setLeaf:YES];
               [cell setLoaded:YES];
               used = [ruleManager isEquationUsed:[aList objectAtIndex:row]];
@@ -272,7 +272,7 @@
               [cell setLoaded:YES];
           } else {
               aList = [[model transitions] objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
-              [cell setStringValue:[(ProtoEquation *)[aList objectAtIndex:row] name]];
+              [cell setStringValue:[(MMEquation *)[aList objectAtIndex:row] name]];
               [cell setLeaf:YES];
               [cell setLoaded:YES];
               used = [ruleManager isTransitionUsed:[aList objectAtIndex:row]];
@@ -291,7 +291,7 @@
               [cell setLoaded:YES];
           } else {
               aList = [[model specialTransitions] objectAtIndex: [[sender matrixInColumn:0] selectedRow]];
-              [cell setStringValue:[(ProtoEquation *)[aList objectAtIndex:row] name]];
+              [cell setStringValue:[(MMEquation *)[aList objectAtIndex:row] name]];
               [cell setLeaf:YES];
               [cell setLoaded:YES];
               used = [ruleManager isTransitionUsed:[aList objectAtIndex:row]];
@@ -340,13 +340,13 @@
 - (IBAction)add:(id)sender;
 {
     NamedList *aList;
-    ProtoEquation *newEquation;
+    MMEquation *newEquation;
     ProtoTemplate *newTemplate;
 
     switch ([[browserSelector selectedCell] tag]) {
       case 0: /* Test for Already Existing Name */
           aList = [[model equations] objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
-          newEquation = [[ProtoEquation alloc] initWithName:[inputTextField stringValue]];
+          newEquation = [[MMEquation alloc] initWithName:[inputTextField stringValue]];
           [aList addObject:newEquation];
           [newEquation release];
           [protoBrowser reloadColumn:1];
@@ -409,7 +409,7 @@
           }
     }
 
-    [(NamedList *)temp setName:[inputTextField stringValue]]; // Might also be a ProtoEquation or ProtoTemplate
+    [(NamedList *)temp setName:[inputTextField stringValue]]; // Might also be a MMEquation or ProtoTemplate
     [protoBrowser reloadColumn:column];
 }
 
@@ -469,32 +469,32 @@
 }
 
 // Keeping for compatibility, for now
-- (ProtoEquation *)findEquationList:(NSString *)aListName named:(NSString *)anEquationName;
+- (MMEquation *)findEquationList:(NSString *)aListName named:(NSString *)anEquationName;
 {
     return [[self model] findEquationList:aListName named:anEquationName];
 }
 
-- (void)findList:(int *)listIndex andIndex:(int *)equationIndex ofEquation:(ProtoEquation *)anEquation;
+- (void)findList:(int *)listIndex andIndex:(int *)equationIndex ofEquation:(MMEquation *)anEquation;
 {
     [[self model] findList:listIndex andIndex:equationIndex ofEquation:anEquation];
 }
 
-- (ProtoEquation *)findEquation:(int)listIndex andIndex:(int)equationIndex;
+- (MMEquation *)findEquation:(int)listIndex andIndex:(int)equationIndex;
 {
     return [[self model] findEquation:listIndex andIndex:equationIndex];
 }
 
-- (ProtoEquation *)findTransitionList:(NSString *)aListName named:(NSString *)aTransitionName;
+- (MMEquation *)findTransitionList:(NSString *)aListName named:(NSString *)aTransitionName;
 {
     return [[self model] findTransitionList:aListName named:aTransitionName];
 }
 
-- (void)findList:(int *)listIndex andIndex:(int *)transitionIndex ofTransition:(ProtoEquation *)aTransition;
+- (void)findList:(int *)listIndex andIndex:(int *)transitionIndex ofTransition:(MMEquation *)aTransition;
 {
     [[self model] findList:listIndex andIndex:transitionIndex ofTransition:aTransition];
 }
 
-- (ProtoEquation *)findTransition:(int)listIndex andIndex:(int)transitionIndex;
+- (MMEquation *)findTransition:(int)listIndex andIndex:(int)transitionIndex;
 {
     return [[self model] findTransition:listIndex andIndex:transitionIndex];
 }
@@ -514,7 +514,7 @@
     return [[self model] findSpecial:listIndex andIndex:specialIndex];
 }
 
-- (BOOL)isEquationUsed:(ProtoEquation *)anEquation;
+- (BOOL)isEquationUsed:(MMEquation *)anEquation;
 {
     int i, j;
     NamedList *currentList;
@@ -543,7 +543,7 @@
     NSLog(@"PrototypeManager: cut");
 }
 
-static NSString *equString = @"ProtoEquation";
+static NSString *equString = @"MMEquation";
 static NSString *tranString = @"ProtoTransition";
 static NSString *specialString = @"ProtoSpecial";
 
@@ -556,7 +556,7 @@ static NSString *specialString = @"ProtoSpecial";
     int column = [protoBrowser selectedColumn];
     int retValue;
     NamedList *aList;
-    ProtoEquation *aProtoEquation;
+    MMEquation *aMMEquation;
     ProtoTemplate *aProtoTemplate;
 
     myPasteboard = [NSPasteboard pasteboardWithName:@"MonetPasteboard"];
@@ -576,8 +576,8 @@ static NSString *specialString = @"ProtoSpecial";
            /* Equations */
          case 0:
              aList = [[model equations] objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
-             aProtoEquation = [aList objectAtIndex:[[protoBrowser matrixInColumn:1] selectedRow]];
-             [aProtoEquation encodeWithCoder:typed];
+             aMMEquation = [aList objectAtIndex:[[protoBrowser matrixInColumn:1] selectedRow]];
+             [aMMEquation encodeWithCoder:typed];
              dataType = equString;
              retValue = [myPasteboard declareTypes:[NSArray arrayWithObject:dataType] owner:nil];
              [myPasteboard setData:mdata forType:equString];
@@ -617,7 +617,7 @@ static NSString *specialString = @"ProtoSpecial";
     NSArchiver *typed = nil;
     NSArray *dataTypes;
     NamedList *aList;
-    ProtoEquation *aProtoEquation;
+    MMEquation *aMMEquation;
     ProtoTemplate *aProtoTemplate;
     int column = [protoBrowser selectedColumn];
 
@@ -634,16 +634,16 @@ static NSString *specialString = @"ProtoSpecial";
     if ([[dataTypes objectAtIndex:0] isEqual:equString]) {
         mdata = [myPasteboard dataForType:equString];
         typed = [[NSUnarchiver alloc] initForReadingWithData:mdata];
-        aProtoEquation = [[ProtoEquation alloc] init];
-        [aProtoEquation initWithCoder:typed];
+        aMMEquation = [[MMEquation alloc] init];
+        [aMMEquation initWithCoder:typed];
         [typed release];
 
         aList = [[model equations] objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
         if (column == 1)
-            [aList insertObject:aProtoEquation atIndex:[[protoBrowser matrixInColumn:1] selectedRow]+1];
+            [aList insertObject:aMMEquation atIndex:[[protoBrowser matrixInColumn:1] selectedRow]+1];
         else
-            [aList addObject:aProtoEquation];
-        [aProtoEquation release];
+            [aList addObject:aMMEquation];
+        [aMMEquation release];
 
         [protoBrowser reloadColumn:1];
     } else if ([[dataTypes objectAtIndex: 0] isEqual: tranString]) {
@@ -685,7 +685,7 @@ static NSString *specialString = @"ProtoSpecial";
 {
     Inspector *inspector = [controller inspector];
     NamedList *aList;
-    ProtoEquation *aProtoEquation;
+    MMEquation *aMMEquation;
     ProtoTemplate *aProtoTemplate;
     int column = [protoBrowser selectedColumn];
     int selectedColumn0Row, selectedColumn1Row;
@@ -701,8 +701,8 @@ static NSString *specialString = @"ProtoSpecial";
     switch ([[browserSelector selectedCell] tag]) {
       case 0:
           aList = [[model equations] objectAtIndex:selectedColumn0Row];
-          aProtoEquation = [aList objectAtIndex:selectedColumn1Row];
-          [inspector inspectProtoEquation:aProtoEquation];
+          aMMEquation = [aList objectAtIndex:selectedColumn1Row];
+          [inspector inspectMMEquation:aMMEquation];
           break;
       case 1:
           aList = [[model transitions] objectAtIndex:selectedColumn0Row];

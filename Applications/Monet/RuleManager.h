@@ -2,7 +2,7 @@
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 @class NSBrowser, NSForm, NSMatrix, NSScrollView, NSTextField, NSTextView;
-@class BooleanExpression, BooleanParser, MMCategory, MonetList, ProtoEquation, ProtoTemplate, RuleList;
+@class BooleanExpression, BooleanParser, MMCategory, MonetList, MMEquation, ProtoTemplate, RuleList;
 @class AppController, DelegateResponder;
 @class MModel;
 
@@ -91,10 +91,10 @@
 /* Finding Stuff */
 
 - (BOOL)isCategoryUsed:(MMCategory *)aCategory;
-- (BOOL)isEquationUsed:(ProtoEquation *)anEquation;
+- (BOOL)isEquationUsed:(MMEquation *)anEquation;
 - (BOOL)isTransitionUsed:(ProtoTemplate *)aTransition;
 
-- (void)findEquation:(ProtoEquation *)anEquation andPutIn:(MonetList *)aList;
+- (void)findEquation:(MMEquation *)anEquation andPutIn:(MonetList *)aList;
 - (void)findTemplate:(ProtoTemplate *)aTemplate andPutIn:(MonetList *)aList;
 
 - (IBAction)cut:(id)sender;

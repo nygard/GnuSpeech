@@ -8,7 +8,7 @@
 #import "GSXMLFunctions.h"
 #import "MonetList.h"
 #import "MMPoint.h"
-#import "ProtoEquation.h"
+#import "MMEquation.h"
 #import "Slope.h"
 
 /*===========================================================================
