@@ -54,7 +54,7 @@
     mainParameterList = NXGetNamedObject(@"mainParameterList", NSApp);
     mainMetaParameterList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
 
-    aPhone = [[Phone alloc] initWithSymbol:phone parmeters:mainParameterList metaParameters:mainMetaParameterList symbols:symbols];
+    aPhone = [[Phone alloc] initWithSymbol:phone parameters:mainParameterList metaParameters:mainMetaParameterList symbols:symbols];
     [[aPhone categoryList] addNativeCategory:phone];
 
     [self insertObject:aPhone atIndex:index];
@@ -207,7 +207,7 @@
         fread(tempSymbol, SYMBOL_LENGTH_MAX + 1, 1, fp);
         str = [NSString stringWithASCIICString:tempSymbol];
 
-        tempPhone = [[Phone alloc] initWithSymbol:str parmeters:mainParameterList metaParameters:mainMetaParameterList symbols:symbols];
+        tempPhone = [[Phone alloc] initWithSymbol:str parameters:mainParameterList metaParameters:mainMetaParameterList symbols:symbols];
         [self addPhoneObject:tempPhone];
 
         /* READ SYMBOL AND DURATIONS FROM FILE  */
@@ -469,7 +469,7 @@
         filename = [[[NSOpenPanel openPanel] directory] stringByAppendingPathComponent:aFilename];
         str = [aFilename stringByDeletingPathExtension];
 
-        aPhone = [[[Phone alloc] initWithSymbol:str parmeters:mainParameterList metaParameters:mainMetaParameterList symbols:mainSymbolList] autorelease];
+        aPhone = [[[Phone alloc] initWithSymbol:str parameters:mainParameterList metaParameters:mainMetaParameterList symbols:mainSymbolList] autorelease];
         aPhone = [self makePhoneUniqueName:aPhone];
         [self addPhoneObject:aPhone];
         [[aPhone categoryList] addNativeCategory:str];

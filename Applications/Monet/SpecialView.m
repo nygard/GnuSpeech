@@ -64,7 +64,7 @@
     mainParameterList = NXGetNamedObject(@"mainParameterList", NSApp);
     mainMetaParameterList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
 
-    dummy = [[Phone alloc] initWithSymbol:@"dummy" parmeters:mainParameterList metaParameters:mainMetaParameterList symbols:symbols];
+    dummy = [[Phone alloc] initWithSymbol:@"dummy" parameters:mainParameterList metaParameters:mainMetaParameterList symbols:symbols];
     [(Target *)[[dummy symbolList] objectAtIndex:0] setValue:100.0];
     [(Target *)[[dummy symbolList] objectAtIndex:1] setValue:33.3333];
     [(Target *)[[dummy symbolList] objectAtIndex:2] setValue:33.3333];

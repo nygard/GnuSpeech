@@ -58,7 +58,7 @@
 /* init and free methods */
 - (id)init;
 - (id)initWithSymbol:(NSString *)newSymbol;
-- (id)initWithSymbol:(NSString *)newSymbol parmeters:(ParameterList *)parms metaParameters:(ParameterList *)metaparms symbols:(SymbolList *)symbols;
+- (id)initWithSymbol:(NSString *)newSymbol parameters:(ParameterList *)parms metaParameters:(ParameterList *)metaparms symbols:(SymbolList *)symbols;
 - (void)dealloc;
 
 /* Comment and Symbol methods */

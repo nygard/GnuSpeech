@@ -101,7 +101,7 @@ static NSImage *_selectionBox = nil;
     mainParameterList = NXGetNamedObject(@"mainParameterList", NSApp);
     mainMetaParameterList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
 
-    aPhone = [[Phone alloc] initWithSymbol:@"dummy" parmeters:mainParameterList metaParameters:mainMetaParameterList symbols:symbols];
+    aPhone = [[Phone alloc] initWithSymbol:@"dummy" parameters:mainParameterList metaParameters:mainMetaParameterList symbols:symbols];
     [(Target *)[[aPhone symbolList] objectAtIndex:0] setValue:100.0]; // Rule Duration
     [(Target *)[[aPhone symbolList] objectAtIndex:1] setValue:33.3333]; // Beat Location
     [(Target *)[[aPhone symbolList] objectAtIndex:2] setValue:33.3333]; // Mark 1
@@ -420,38 +420,6 @@ static NSImage *_selectionBox = nil;
             }
         }
     }
-}
-
-- (void)setTransition:newTransition;
-{
-    [selectedPoints removeAllObjects];
-    currentTemplate = newTransition;
-
-    switch ([currentTemplate type]) {
-      case DIPHONE:
-          [[displayParameters cellAtIndex:0] setDoubleValue:100];
-          [[displayParameters cellAtIndex:1] setDoubleValue:33];
-          [[displayParameters cellAtIndex:2] setDoubleValue:100];
-          [[displayParameters cellAtIndex:3] setStringValue:@"--"];
-          [[displayParameters cellAtIndex:4] setStringValue:@"--"];
-          break;
-      case TRIPHONE:
-          [[displayParameters cellAtIndex:0] setDoubleValue:200];
-          [[displayParameters cellAtIndex:1] setDoubleValue:33];
-          [[displayParameters cellAtIndex:2] setDoubleValue:100];
-          [[displayParameters cellAtIndex:3] setDoubleValue:200];
-          [[displayParameters cellAtIndex:4] setStringValue:@"--"];
-          break;
-      case TETRAPHONE:
-          [[displayParameters cellAtIndex:0] setDoubleValue:300];
-          [[displayParameters cellAtIndex:1] setDoubleValue:33];
-          [[displayParameters cellAtIndex:2] setDoubleValue:100];
-          [[displayParameters cellAtIndex:3] setDoubleValue:200];
-          [[displayParameters cellAtIndex:4] setDoubleValue:300];
-          break;
-    }
-
-    [self display];
 }
 
 #define MOVE_MASK NSLeftMouseUpMask|NSLeftMouseDraggedMask
@@ -790,11 +758,6 @@ static NSImage *_selectionBox = nil;
 }
 #endif
 
-- (void)showWindow:(int)otherWindow;
-{
-    [[self window] orderWindow:NSWindowBelow relativeTo:otherWindow];
-}
-
 - (void)delete:(id)sender;
 {
     int i;
@@ -855,6 +818,47 @@ static NSImage *_selectionBox = nil;
     [tempSlopeRatio release];
 
     [self display];
+}
+
+//
+// Publicly used API
+//
+
+- (void)setTransition:newTransition;
+{
+    [selectedPoints removeAllObjects];
+    currentTemplate = newTransition;
+
+    switch ([currentTemplate type]) {
+      case DIPHONE:
+          [[displayParameters cellAtIndex:0] setDoubleValue:100];
+          [[displayParameters cellAtIndex:1] setDoubleValue:33];
+          [[displayParameters cellAtIndex:2] setDoubleValue:100];
+          [[displayParameters cellAtIndex:3] setStringValue:@"--"];
+          [[displayParameters cellAtIndex:4] setStringValue:@"--"];
+          break;
+      case TRIPHONE:
+          [[displayParameters cellAtIndex:0] setDoubleValue:200];
+          [[displayParameters cellAtIndex:1] setDoubleValue:33];
+          [[displayParameters cellAtIndex:2] setDoubleValue:100];
+          [[displayParameters cellAtIndex:3] setDoubleValue:200];
+          [[displayParameters cellAtIndex:4] setStringValue:@"--"];
+          break;
+      case TETRAPHONE:
+          [[displayParameters cellAtIndex:0] setDoubleValue:300];
+          [[displayParameters cellAtIndex:1] setDoubleValue:33];
+          [[displayParameters cellAtIndex:2] setDoubleValue:100];
+          [[displayParameters cellAtIndex:3] setDoubleValue:200];
+          [[displayParameters cellAtIndex:4] setDoubleValue:300];
+          break;
+    }
+
+    [self display];
+}
+
+- (void)showWindow:(int)otherWindow;
+{
+    [[self window] orderWindow:NSWindowBelow relativeTo:otherWindow];
 }
 
 @end
