@@ -169,7 +169,7 @@ int parse_string(EventList *eventList, NSString *str);
     int i;
     float intonationParameters[5];
     float sRate;
-    float silencePage[16] = {0.0, 0.0, 0.0, 0.0, 5.5, 2500.0, 500.0, 0.8, 0.89, 0.99, 0.81, 0.76, 1.05, 1.23, 0.01, 0.0};
+    //float silencePage[16] = {0.0, 0.0, 0.0, 0.0, 5.5, 2500.0, 500.0, 0.8, 0.89, 0.99, 0.81, 0.76, 1.05, 1.23, 0.01, 0.0};
 
     NSLog(@"%.2f %.2f %.2f %.2f %.2f \n%.2f %.2f %.2f %.2f %.2f\n%.2f %.2f %.2f %.2f %.2f\n%.2f %.2f %.2f %.2f %.2f",
            [masterVolume floatValue], [balance floatValue], [tp floatValue], [tnMin floatValue],
@@ -267,7 +267,7 @@ int parse_string(EventList *eventList, NSString *str);
 {
     FILE *fp;
     float sRate;
-    char commandLine[256];
+    //char commandLine[256];
 
     NSLog(@" > %s", _cmd);
     //NSLog(@"eventList: %@", eventList);

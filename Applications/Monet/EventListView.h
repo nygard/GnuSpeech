@@ -18,18 +18,10 @@
 {
     IBOutlet AppController *controller;
 
-    /* Frame For Display */
-    NSRect totalFrame;
-
     NSFont *timesFont;
     NSFont *timesFontSmall;
 
     EventList *eventList;
-
-    NSImage *dotMarker;
-    NSImage *squareMarker;
-    NSImage *triangleMarker;
-    NSImage *selectionBox;
 
     IBOutlet NSScrollView *niftyMatrixScrollView;
     IBOutlet NiftyMatrix *niftyMatrix;
@@ -44,13 +36,15 @@
 }
 
 - (id)initWithFrame:(NSRect)frameRect;
+- (void)dealloc;
+
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 
-- (void)itemsChanged:sender;
+- (IBAction)itemsChanged:(id)sender;
 
 - (BOOL)acceptsFirstResponder;
 
-- (void)setEventList:aList;
+- (void)setEventList:(EventList *)newEventList;
 
 - (void)drawRect:(NSRect)rects;
 

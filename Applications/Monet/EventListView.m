@@ -33,14 +33,8 @@
 
     [self allocateGState];
 
-    totalFrame = NSMakeRect(0.0, 0.0, 700.0, 380.0);
-    dotMarker = [NSImage imageNamed:@"dotMarker.tiff"];
-    squareMarker = [NSImage imageNamed:@"squareMarker.tiff"];
-    triangleMarker = [NSImage imageNamed:@"triangleMarker.tiff"];
-    selectionBox = [NSImage imageNamed:@"selectionBox.tiff"];
-
-    timesFont = [NSFont fontWithName:@"Times-Roman" size:12];
-    timesFontSmall = [NSFont fontWithName:@"Times-Roman" size:10];
+    timesFont = [[NSFont fontWithName:@"Times-Roman" size:12] retain];
+    timesFontSmall = [[NSFont fontWithName:@"Times-Roman" size:10] retain];
 
     startingIndex = 0;
     timeScale = 1.0;
@@ -51,6 +45,16 @@
     [self display];
 
     return self;
+}
+
+- (void)dealloc;
+{
+    [timesFont release];
+    [timesFontSmall release];
+    [eventList release];
+    [niftyMatrix release];
+
+    [super dealloc];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
@@ -75,9 +79,13 @@
 
     /* get the niftyMatrixScrollView's dimensions */
     scrollRect = [niftyMatrixScrollView frame];
+    NSLog(@"scrollRect: %@", NSStringFromRect(scrollRect));
 
     /* determine the matrix bounds */
+    matrixRect.origin = NSZeroPoint;
     matrixRect.size = [NSScrollView contentSizeForFrameSize:scrollRect.size hasHorizontalScroller:NO hasVerticalScroller:NO borderType:NSBezelBorder];
+
+    NSLog(@"matrixRect: %@", NSStringFromRect(matrixRect));
 
     /* prepare a matrix to go inside our niftyMatrixScrollView */
     niftyMatrix = [[NiftyMatrix allocWithZone:[self zone]] initWithFrame:matrixRect mode:NSRadioModeMatrix cellClass:[NiftyMatrixCell class] numberOfRows:0 numberOfColumns:1];
@@ -149,31 +157,37 @@
 
     /* Display */
     [niftyMatrix grayAllCells];
-    [niftyMatrix display];
+    [niftyMatrix setNeedsDisplay:YES];
 
     NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }
 
-- (void)itemsChanged:sender;
+- (IBAction)itemsChanged:(id)sender;
 {
-    [self display];
+    [self setNeedsDisplay:YES];
 }
 
 - (BOOL)acceptsFirstResponder;
 {
-    NSLog(@"%s", _cmd);
     return YES;
 }
 
-- (void)setEventList:aList;
+- (void)setEventList:(EventList *)newEventList;
 {
-    eventList = aList;
-    [self display];
+    if (newEventList == eventList)
+        return;
+
+    [eventList release];
+    eventList = [newEventList retain];
+
+    [self setNeedsDisplay:YES];
 }
 
 - (void)drawRect:(NSRect)rects;
 {
     NSRect trackRect;
+
+    NSLog(@" > %s", _cmd);
 
     trackRect = [self frame];
     [[self superview] convertRect:trackRect toView:nil];
@@ -182,12 +196,13 @@
 
     [self clearView];
     [self drawGrid];
+
+    NSLog(@"<  %s", _cmd);
 }
 
 - (void)clearView;
 {
-    // TODO (2004-03-02): This should probably be bounds, not frame.
-    NSDrawGrayBezel([self frame], [self frame]);
+    NSDrawGrayBezel([self bounds], [self bounds]);
 }
 
 #define TRACKHEIGHT	120.0
@@ -207,6 +222,9 @@
     Phone *currentPhone = nil;
     struct _rule *rule;
     NSBezierPath *bezierPath;
+    NSRect bounds;
+
+    bounds = [self bounds];
 
     phoneIndex = 0;
     displayList = [[MonetList alloc] initWithCapacity:10];
@@ -227,15 +245,15 @@
 
     /* Make an outlined white box for display */
     [[NSColor whiteColor] set];
-    NSRectFill(NSMakeRect(81.0, 51.0, [self frame].size.width - 102.0, [self frame].size.height-102.0));
+    NSRectFill(NSMakeRect(81.0, 51.0, bounds.size.width - 102.0, bounds.size.height - 102.0));
 
     [[NSColor blackColor] set];
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:2];
     [bezierPath moveToPoint:NSMakePoint(80.0, 50.0)];
-    [bezierPath lineToPoint:NSMakePoint(80.0, [self frame].size.height - 50.0)];
-    [bezierPath lineToPoint:NSMakePoint([self frame].size.width - 20.0, [self frame].size.height - 50.0)];
-    [bezierPath lineToPoint:NSMakePoint([self frame].size.width - 20.0, 50.0)];
+    [bezierPath lineToPoint:NSMakePoint(80.0, bounds.size.height - 50.0)];
+    [bezierPath lineToPoint:NSMakePoint(bounds.size.width - 20.0, bounds.size.height - 50.0)];
+    [bezierPath lineToPoint:NSMakePoint(bounds.size.width - 20.0, 50.0)];
     [bezierPath lineToPoint:NSMakePoint(80.0, 50.0)];
     [bezierPath stroke];
     [bezierPath release];
@@ -243,7 +261,7 @@
     /* Draw the space for each Track */
     [[NSColor darkGrayColor] set];
     for (i = 0; i < j; i++) {
-        NSRectFill(NSMakeRect(80.0, [self frame].size.height-(50.0+(float)(i+1)*TRACKHEIGHT), [self frame].size.width - 100.0, BORDERHEIGHT));
+        NSRectFill(NSMakeRect(80.0, bounds.size.height - (50.0 + (float)(i + 1) * TRACKHEIGHT), bounds.size.width - 100.0, BORDERHEIGHT));
     }
 
     [[NSColor blackColor] set];
@@ -252,7 +270,7 @@
         id anObject;
 
         anObject = [parameterList objectAtIndex:[[displayList objectAtIndex:i] orderTag]];
-        [[anObject symbol] drawAtPoint:NSMakePoint(15.0, [self frame].size.height-((float)(i+1)*TRACKHEIGHT)+15.0) withAttributes:nil];
+        [[anObject symbol] drawAtPoint:NSMakePoint(15.0, bounds.size.height - ((float)(i + 1) * TRACKHEIGHT) + 15.0) withAttributes:nil];
     }
 
     [timesFontSmall set];
@@ -260,39 +278,35 @@
         NSString *str;
 
         str = [NSString stringWithFormat:@"%d", (int)[[parameterList objectAtIndex:[[displayList objectAtIndex:i] orderTag]] minimumValue]];
-        [str drawAtPoint:NSMakePoint(55.0, [self frame].size.height-(50.0+(float)(i+1)*TRACKHEIGHT) + BORDERHEIGHT) withAttributes:nil];
+        [str drawAtPoint:NSMakePoint(55.0, bounds.size.height - (50.0 + (float)(i + 1) * TRACKHEIGHT) + BORDERHEIGHT) withAttributes:nil];
 
         str = [NSString stringWithFormat:@"%d", (int)[[parameterList objectAtIndex:[[displayList objectAtIndex:i] orderTag]] maximumValue]];
-        [str drawAtPoint:NSMakePoint(55.0, [self frame].size.height-(50.0+(float)(i)*TRACKHEIGHT+3.0)) withAttributes:nil];
+        [str drawAtPoint:NSMakePoint(55.0, bounds.size.height - (50.0 + (float)(i) * TRACKHEIGHT + 3.0)) withAttributes:nil];
     }
 
     [timesFont set];
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:1];
     for (i = 0; i < [eventList count]; i++) {
-        currentX = 80.0+((float)[[eventList objectAtIndex:i] time]/timeScale);
-        if (currentX > [self frame].size.width-20.0)
+        currentX = 80.0 + ((float)[[eventList objectAtIndex:i] time] / timeScale);
+        if (currentX > bounds.size.width - 20.0)
             break;
 
         if ([[eventList objectAtIndex:i] flag]) {
             currentPhone = [eventList getPhoneAtIndex:phoneIndex++];
             if (currentPhone) {
                 [[NSColor blackColor] set];
-                [[currentPhone symbol] drawAtPoint:NSMakePoint(currentX-5.0, [self frame].size.height-42.0) withAttributes:nil];
+                [[currentPhone symbol] drawAtPoint:NSMakePoint(currentX - 5.0, bounds.size.height - 42.0) withAttributes:nil];
             }
 
-            [bezierPath moveToPoint:NSMakePoint(currentX, [self frame].size.height-(50.0+(float)(j)*TRACKHEIGHT))];
-            [bezierPath lineToPoint:NSMakePoint(currentX, [self frame].size.height-50.0)];
+            [bezierPath moveToPoint:NSMakePoint(currentX, bounds.size.height - (50.0 + (float)(j) * TRACKHEIGHT))];
+            [bezierPath lineToPoint:NSMakePoint(currentX, bounds.size.height - 50.0)];
         } else {
             if (!mouseBeingDragged) {
-                [bezierPath moveToPoint:NSMakePoint(currentX, [self frame].size.height-(50.0+(float)(j)*TRACKHEIGHT))];
-                [bezierPath lineToPoint:NSMakePoint(currentX, [self frame].size.height-50.0)];
+                [bezierPath moveToPoint:NSMakePoint(currentX, bounds.size.height - (50.0 + (float)(j) * TRACKHEIGHT))];
+                [bezierPath lineToPoint:NSMakePoint(currentX, bounds.size.height - 50.0)];
             }
         }
-#if PORTING
-        if (!mouseBeingDragged)
-            PSstroke();
-#endif
     }
     [[NSColor lightGrayColor] set];
     [bezierPath stroke];
@@ -317,13 +331,13 @@
         k = 0;
         for (j = 0; j < [eventList count]; j++) {
             currentEvent = [eventList objectAtIndex:j];
-            currentX = 80.0+(float)([currentEvent time]/timeScale);
-            if (currentX > [self frame].size.width-20.0)
+            currentX = 80.0 + (float)([currentEvent time] / timeScale);
+            if (currentX > bounds.size.width - 20.0)
                 break;
             if ([currentEvent getValueAtIndex:parameterIndex] != NaN) {
-                currentY = ([self frame].size.height-(50.0+(float)(i+1)*TRACKHEIGHT)) + BORDERHEIGHT +
-                    ((float)([currentEvent getValueAtIndex:parameterIndex]-currentMin)/
-                     (currentMax - currentMin) *100.0);
+                currentY = (bounds.size.height - (50.0 + (float)(i + 1) * TRACKHEIGHT)) + BORDERHEIGHT +
+                    ((float)([currentEvent getValueAtIndex:parameterIndex] - currentMin) /
+                     (currentMax - currentMin) * 100.0);
                 //NSLog(@"cx:%f cy:%f min:%f max:%f", currentX, currentY, currentMin, currentMax);
                 if (k == 0) {
                     k = 1;
@@ -344,15 +358,16 @@
         NSString *str;
 
         rule = [eventList getRuleAtIndex:i];
-        drawFrame.origin.x = 80.0+currentX;
-        drawFrame.origin.y = [self frame].size.height-25.0;
+        drawFrame.origin.x = 80.0 + currentX;
+        drawFrame.origin.y = bounds.size.height - 25.0;
         drawFrame.size.height = 15.0;
-        drawFrame.size.width = (float)rule->duration/timeScale;
-        NSDrawWhiteBezel(drawFrame , drawFrame);
+        drawFrame.size.width = (float)rule->duration / timeScale;
+        NSDrawWhiteBezel(drawFrame, drawFrame);
+
         [[NSColor blackColor] set];
         str = [NSString stringWithFormat:@"%d", rule->number];
-        [str drawAtPoint:NSMakePoint(80.0+currentX+(float)rule->duration/(3*timeScale), [self frame].size.height-21.0) withAttributes:nil];
-        currentX += (float)rule->duration/timeScale;
+        [str drawAtPoint:NSMakePoint(80.0 + currentX + (float)rule->duration / (3 * timeScale), bounds.size.height - 21.0) withAttributes:nil];
+        currentX += (float)rule->duration / timeScale;
     }
 
 
@@ -439,15 +454,21 @@
                           dequeue:YES];
         mouseDownLocation = [newEvent locationInWindow];
         mouseDownLocation = [self convertPoint:mouseDownLocation fromView:nil];
-        delta = column-mouseDownLocation.x;
-        timeScale = originalScale + delta/20.0;
-        if (timeScale > 10.0) timeScale = 10.0;
-        if (timeScale < 0.1) timeScale = 0.1;
+        delta = column - mouseDownLocation.x;
+        timeScale = originalScale + delta / 20.0;
+
+        if (timeScale > 10.0)
+            timeScale = 10.0;
+
+        if (timeScale < 0.1)
+            timeScale = 0.1;
+
         [self clearView];
         [self drawGrid];
         [[self window] flushWindow];
 
-        if ([newEvent type] == NSLeftMouseUp) break;
+        if ([newEvent type] == NSLeftMouseUp)
+            break;
     }
 
     [[self window] setAcceptsMouseMovedEvents:NO];
