@@ -1112,14 +1112,11 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
     double time;
     int i;
 
-    NSLog(@" > %s", _cmd);
-
 //    NSLog(@"Point  Semitone: %f  timeOffset:%f slope:%f phoneIndex:%d", [iPoint semitone], [iPoint offsetTime],
 //           [iPoint slope], [iPoint ruleIndex]);
 
     if ([iPoint ruleIndex] > [self numberOfRules]) {
         NSLog(@"%d > %d", [iPoint ruleIndex], [self numberOfRules]);
-        NSLog(@"<  %s", _cmd);
         return;
     }
 
@@ -1133,16 +1130,11 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
     }
 
     [intonationPoints addObject:iPoint];
-
-    NSLog(@"<  %s", _cmd);
 }
 
 - (void)addIntonationPoint:(double)semitone offsetTime:(double)offsetTime slope:(double)slope ruleIndex:(int)ruleIndex;
 {
     IntonationPoint *newIntonationPoint;
-
-    NSLog(@" > %s", _cmd);
-    NSLog(@"semitone: %g, offsetTime: %g, slope: %g, ruleIndex: %d", semitone, offsetTime, slope, ruleIndex);
 
     newIntonationPoint = [[IntonationPoint alloc] initWithEventList:self];
     [newIntonationPoint setRuleIndex:ruleIndex];
@@ -1151,8 +1143,6 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
     [newIntonationPoint setSlope:slope];
     [self addIntonationPoint:newIntonationPoint];
     [newIntonationPoint release];
-
-    NSLog(@"<  %s", _cmd);
 }
 
 - (void)applyIntonation_fromIntonationView;
