@@ -19,6 +19,4 @@
 - (int)findSymbolIndex:(NSString *)searchSymbol;
 - (void)addSymbol:(NSString *)symbol withValue:(double)newValue;
 
-- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
-
 @end

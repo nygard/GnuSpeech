@@ -66,26 +66,4 @@
     [newSymbol release];
 }
 
-- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
-{
-    int count, index;
-
-    count = [self count];
-    if (count == 0)
-        return;
-
-    [resultString indentToLevel:level];
-    [resultString appendString:@"<symbols>\n"];
-
-    for (index = 0; index < count; index++) {
-        MMSymbol *aSymbol;
-
-        aSymbol = [self objectAtIndex:index];
-        [aSymbol appendXMLToString:resultString level:level+1];
-    }
-
-    [resultString indentToLevel:level];
-    [resultString appendString:@"</symbols>\n"];
-}
-
 @end
