@@ -279,7 +279,7 @@ int parse_string(EventList *eventList, NSString *str);
         sRate = 22050.0;
 
     fp = fopen("/tmp/Monet.parameters", "w");
-    fprintf(fp,"%f\n250\n%f\n%d\n%f\n%d\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%d\n%f\n",
+    fprintf(fp,"0\n%f\n250\n%f\n%d\n%f\n%d\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%d\n%f\n",
             sRate, [masterVolume floatValue],
             [stereoMono selectedColumn]+1, [balance floatValue],
             [waveform selectedColumn], [tp floatValue], [tnMin floatValue],
