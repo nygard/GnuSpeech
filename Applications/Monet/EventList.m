@@ -4,6 +4,7 @@
 #import "driftGenerator.h"
 #import "CategoryList.h"
 #import "Event.h"
+#import "IntonationView.h"
 #import "MyController.h"
 #import "Parameter.h"
 #import "ParameterList.h"
@@ -23,7 +24,6 @@
 #ifdef HAVE_DSP
 #import "tube_module/synthesizer_module.h"
 #endif
-#import "IntonationView.h"
 #endif
 
 /*===========================================================================

@@ -5,11 +5,16 @@
 #import "BrowserManager.h"
 #import "CategoryNode.h"
 #import "CategoryList.h"
+#import "EventListView.h"
+#import "Inspector.h"
+#import "IntonationView.h"
 #import "ParameterList.h"
 #import "PhoneList.h"
 #import "PrototypeManager.h"
 #import "RuleManager.h"
+#import "StringParser.h"
 #import "SymbolList.h"
+#import "TransitionView.h"
 
 @implementation MyController
 

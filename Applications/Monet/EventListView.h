@@ -1,9 +1,6 @@
-
 #import <AppKit/NSView.h>
-#import <AppKit/NSCursor.h>
-#import <AppKit/NSImage.h>
-#import <AppKit/NSFont.h>
-#import "EventList.h"
+
+@class EventList;
 
 /*===========================================================================
 
@@ -14,47 +11,45 @@
 =============================================================================
 */
 
-@interface EventListView:NSView
+@interface EventListView : NSView
 {
-	id	controller;
+    id controller;
 
-	/* Frame For Display */
-	NSRect totalFrame;
+    /* Frame For Display */
+    NSRect totalFrame;
 
-	NSFont	*timesFont, *timesFontSmall;
+    NSFont *timesFont;
+    NSFont *timesFontSmall;
 
-	EventList *eventList;
+    EventList *eventList;
 
-	NSImage	*dotMarker;
-	NSImage	*squareMarker;
-	NSImage	*triangleMarker;
-	NSImage	*selectionBox;
+    NSImage *dotMarker;
+    NSImage *squareMarker;
+    NSImage *triangleMarker;
+    NSImage *selectionBox;
 
-	id	niftyMatrixScrollView;
-	id	niftyMatrix;
+    id niftyMatrixScrollView;
+    id niftyMatrix;
 
-	id	mouseTimeField;
-	id	mouseValueField;
+    id mouseTimeField;
+    id mouseValueField;
 
-	int	startingIndex;
-
-	float	timeScale;
-
-	int	mouseBeingDragged;
-
-	int     trackTag;
+    int startingIndex;
+    float timeScale;
+    int mouseBeingDragged;
+    int trackTag;
 }
 
-- initWithFrame:(NSRect)frameRect;
+- (id)initWithFrame:(NSRect)frameRect;
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 
 - (void)itemsChanged:sender;
 
-- (BOOL) acceptsFirstResponder;
-
-- (void)drawRect:(NSRect)rects;
+- (BOOL)acceptsFirstResponder;
 
 - (void)setEventList:aList;
+
+- (void)drawRect:(NSRect)rects;
 
 - (void)clearView;
 - (void)drawGrid;
@@ -67,7 +62,5 @@
 - (BOOL)performKeyEquivalent:(NSEvent *)theEvent;
 
 - (void)updateScale:(float)column;
-
-
 
 @end

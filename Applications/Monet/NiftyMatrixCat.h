@@ -1,6 +1,6 @@
 /*
- *    Filename:	NiftyMatrixCat.h 
- *    Created :	Wed Jan  8 23:35:20 1992 
+ *    Filename:	NiftyMatrixCat.h
+ *    Created :	Wed Jan  8 23:35:20 1992
  *    Author  :	Vince DeMarco
  *		<vince@whatnxt.cuc.ab.ca>
  *
@@ -19,19 +19,18 @@
  *
  */
 
-
 #import "NiftyMatrix.h"
 
-@interface NiftyMatrix(NiftyMatrixCat)
+@interface NiftyMatrix (NiftyMatrixCat)
 
-- (void)removeCellWithStringValue:(const char *)stringValue;
+- (void)removeCellWithStringValue:(NSString *)stringValue;
 - (void)removeAllCells;
 - (void)removeUnlockedCells;
-- (void)insertCellWithStringValue:(const char *)stringValue;
-- (void)insertCellWithStringValue:(const char *)stringValue withTag:(int)tag;
-- (void)toggleCellWithStringValue:(const char *)stringValue;
+- (void)insertCellWithStringValue:(NSString *)stringValue;
+- (void)insertCellWithStringValue:(NSString *)stringValue withTag:(int)tag;
+- (void)toggleCellWithStringValue:(NSString *)stringValue;
 - (void)grayAllCells;
 - (void)ungrayAllCells;
 - (void)unlockAllCells;
-- findCellNamed:(const char *)stringValue;
+- findCellNamed:(NSString *)stringValue;
 @end

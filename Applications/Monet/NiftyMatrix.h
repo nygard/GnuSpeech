@@ -1,6 +1,6 @@
 /*
- *    Filename:	NiftyMatrix.h 
- *    Created :	Tue Jan 14 21:48:39 1992 
+ *    Filename:	NiftyMatrix.h
+ *    Created :	Tue Jan 14 21:48:39 1992
  *    Author  :	Vince DeMarco
  *		<vince@whatnxt.cuc.ab.ca>
  *

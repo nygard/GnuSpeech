@@ -528,7 +528,7 @@
 
     PSstroke();
 
-    [[NSColor blockColor] set];
+    [[NSColor blackColor] set];
     PSmoveto(0.0, 5.0);
     for (i = 0; i < [intonationPoints count]; i++) {
         currentX = (float) [[intonationPoints objectAtIndex:i] absoluteTime]/timeScale;
