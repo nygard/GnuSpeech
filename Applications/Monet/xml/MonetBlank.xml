@@ -1,0 +1,423 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!-- /Volumes/Data/Users/nygard/Source/net/gnuspeech/trillium/ObjectiveC/Monet/MonetBlank.monet -->
+<root version='1'>
+  <categories>
+    <category name="phone">
+      <comment>This is the static phone category.  It cannot be changed or removed</comment>
+    </category>
+    <category name="asp"/>
+    <category name="vocoid"/>
+    <category name="contoid"/>
+    <category name="stopped"/>
+    <category name="silence"/>
+    <category name="glide"/>
+  </categories>
+  <parameters>
+    <parameter name="glotPitch" minimum="-10" maximum="10" default="0"/>
+    <parameter name="glotVol" minimum="0" maximum="60" default="60"/>
+    <parameter name="aspVol" minimum="0" maximum="60" default="0"/>
+    <parameter name="fricVol" minimum="0" maximum="60" default="0"/>
+    <parameter name="fricPos" minimum="0" maximum="4" default="0"/>
+    <parameter name="fricCF" minimum="100" maximum="20000" default="5000"/>
+    <parameter name="fricBW" minimum="250" maximum="20000" default="500"/>
+    <parameter name="r1" minimum="0" maximum="3" default="1.5"/>
+    <parameter name="r2" minimum="0" maximum="3" default="1.5"/>
+    <parameter name="r3" minimum="0" maximum="3" default="1.5"/>
+    <parameter name="r4" minimum="0" maximum="3" default="1.5"/>
+    <parameter name="r5" minimum="0" maximum="3" default="1.5"/>
+    <parameter name="r6" minimum="0" maximum="3" default="1.5"/>
+    <parameter name="r7" minimum="0" maximum="3" default="1.5"/>
+    <parameter name="r8" minimum="0" maximum="3" default="1.5"/>
+    <parameter name="velum" minimum="0" maximum="1.5" default="0"/>
+  </parameters>
+  <symbols>
+    <symbol name="duration" minimum="0" maximum="500" default="100"/>
+    <symbol name="transition" minimum="2" maximum="400" default="100"/>
+    <symbol name="qssa" minimum="10" maximum="500" default="75"/>
+    <symbol name="qssb" minimum="10" maximum="500" default="75"/>
+  </symbols>
+  <postures>
+    <posture symbol="^">
+      <categories>
+        <category name="^"/>
+        <category name="phone"/>
+        <category name="silence"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="0"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="1.5" is-default="yes"/>
+        <parameter name="r2" value="1.5" is-default="yes"/>
+        <parameter name="r3" value="1.5" is-default="yes"/>
+        <parameter name="r4" value="1.5" is-default="yes"/>
+        <parameter name="r5" value="1.5" is-default="yes"/>
+        <parameter name="r6" value="1.5" is-default="yes"/>
+        <parameter name="r7" value="1.5" is-default="yes"/>
+        <parameter name="r8" value="1.5" is-default="yes"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="200"/>
+        <symbol name="transition" value="20"/>
+        <symbol name="qssa" value="25"/>
+        <symbol name="qssb" value="25"/>
+      </symbols>
+    </posture>
+  </postures>
+  <equations>
+    <group name="DefaultDurations">
+      <equation name="DiphoneDefault" formula="qssb1 + transition2 + qssa2"/>
+      <equation name="TriphoneDefault" formula="qssb1 + transition2 + qssa2 + qssb2 + transition3 + qssa3"/>
+      <equation name="TetraphoneDefault" formula="duration1 + duration2 + duration3"/>
+    </group>
+    <group name="SymbolDefaults">
+      <equation name="Beat" formula="(mark1 * 0.330000)"/>
+      <equation name="Mark1" formula="qssb1 + transition2 + qssa2"/>
+      <equation name="Mark2" formula="qssb1 + transition2 + qssa2 + qssb2 + transition3 + qssa3"/>
+      <equation name="Zero" formula="0.000000"/>
+      <equation name="diOneThird" formula="(mark1 * 0.333333)"/>
+      <equation name="diTwoThird" formula="(mark1 * 0.666667)"/>
+      <equation name="triOneThird" formula="(mark2 - mark1) * 0.333333 + mark1"/>
+      <equation name="triTwoThird" formula="(mark2 - mark1) * 0.666667 + mark1"/>
+      <equation name="tetraOneThird" formula="(rd - mark2) * 0.333333 + mark2"/>
+      <equation name="tetraTwoThird" formula="(rd - mark2) * 0.666667 + mark2"/>
+    </group>
+    <group name="DiphoneStandard">
+      <equation name="diOneTenth" formula="mark1 * 0.100000"/>
+      <equation name="diTwoTenth" formula="(mark1 * 0.200000)"/>
+      <equation name="diThreeTenth" formula="(mark1 * 0.300000)"/>
+      <equation name="diFourTenth" formula="(mark1 * 0.400000)"/>
+      <equation name="diFiveTenth" formula="(mark1 * 0.500000)"/>
+      <equation name="diSixTenth" formula="(mark1 * 0.600000)"/>
+      <equation name="diSevenTenth" formula="(mark1 * 0.700000)"/>
+      <equation name="diEightTenth" formula="(mark1 * 0.800000)"/>
+      <equation name="diNineTenth" formula="(mark1 * 0.900000)"/>
+    </group>
+    <group name="TriphoneStandard">
+      <equation name="triOneTenth" formula="(mark2 - mark1) * 0.100000 + mark1"/>
+      <equation name="triTwoTenth" formula="(((mark2 - mark1) * 0.200000) + mark1)"/>
+      <equation name="triThreeTenth" formula="(((mark2 - mark1) * 0.300000) + mark1)"/>
+      <equation name="triFourTenth" formula="(((mark2 - mark1) * 0.400000) + mark1)"/>
+      <equation name="triFiveTenth" formula="(((mark2 - mark1) * 0.500000) + mark1)"/>
+      <equation name="triSixTenth" formula="(((mark2 - mark1) * 0.600000) + mark1)"/>
+      <equation name="triSevenTenth" formula="(((mark2 - mark1) * 0.700000) + mark1)"/>
+      <equation name="triEightTenth" formula="(((mark2 - mark1) * 0.800000) + mark1)"/>
+      <equation name="triNineTenth" formula="(((mark2 - mark1) * 0.900000) + mark1)"/>
+    </group>
+    <group name="TetraphoneStandard">
+      <equation name="tetraOneTenth" formula="(((rd - mark2) * 0.100000) + mark2)"/>
+      <equation name="tetraTwoTenth" formula="(((rd - mark2) * 0.200000) + mark2)"/>
+      <equation name="tetraThreeTenth" formula="(((rd - mark2) * 0.300000) + mark2)"/>
+      <equation name="tetraFourTenth" formula="(((rd - mark2) * 0.400000) + mark2)"/>
+      <equation name="tetraFiveTenth" formula="(((rd - mark2) * 0.500000) + mark2)"/>
+      <equation name="tetraSixTenth" formula="(((rd - mark2) * 0.600000) + mark2)"/>
+      <equation name="tetraSevenTenth" formula="(((rd - mark2) * 0.700000) + mark2)"/>
+      <equation name="tetraEightTenth" formula="(((rd - mark2) * 0.800000) + mark2)"/>
+      <equation name="tetraNineTenth" formula="(((rd - mark2) * 0.900000) + mark2)"/>
+    </group>
+    <group name="Durations">
+      <equation name="Diphone" formula="(null)"/>
+      <equation name="Triphone" formula="(((((qssb1 + transition2) + qssa2) + qssb2) + transition3) + qssa3)"/>
+      <equation name="Tetraphone" formula="(null)"/>
+      <equation name="ToSilence" formula="qssb1 + 150.000000 + qssa1"/>
+      <equation name="RuleDuration" formula="rd"/>
+    </group>
+  </equations>
+  <transitions>
+    <group name="Defaults">
+      <transition name="Diphone" type="2">
+        <points>
+          <point type="2" value="0" time-expression="Zero"/>
+          <point type="2" value="12.5" time-expression="diOneThird"/>
+          <point type="2" value="87.5" time-expression="diTwoThird"/>
+        </points>
+      </transition>
+      <transition name="Triphone" type="3">
+        <points>
+          <point type="2" value="0" time-expression="Zero"/>
+          <point type="2" value="12.5" time-expression="diOneThird"/>
+          <point type="2" value="87.5" time-expression="diTwoThird"/>
+          <point type="2" value="100" time-expression="Mark1"/>
+          <point type="3" value="12.5" time-expression="triOneThird"/>
+          <point type="3" value="87.5" time-expression="triTwoThird"/>
+          <point type="3" value="100" time-expression="Mark2"/>
+        </points>
+      </transition>
+      <transition name="Tetraphone" type="4">
+        <points>
+          <point type="2" value="0" time-expression="Zero"/>
+          <point type="2" value="100" time-expression="Mark1"/>
+          <point type="3" value="100" time-expression="Mark2"/>
+          <point type="4" value="100" time-expression="TetraphoneDefault"/>
+        </points>
+      </transition>
+    </group>
+    <group name="Standard">
+      <transition name="diOneSixOne" type="2">
+        <points>
+          <point type="2" value="0" time-expression="Zero"/>
+          <point type="2" value="12.5" time-expression="diOneThird"/>
+          <point type="2" value="87.5" time-expression="diTwoThird"/>
+        </points>
+      </transition>
+      <transition name="diOneTwelveOne" type="2">
+        <points>
+          <point type="2" value="0" free-time="0"/>
+          <point type="2" value="7.14" time-expression="diOneThird"/>
+          <point type="2" value="92.86" time-expression="diTwoThird"/>
+        </points>
+      </transition>
+      <transition name="diZeroSixOne" type="2">
+        <points>
+          <point type="2" value="0" free-time="0"/>
+          <point type="2" value="0" time-expression="diOneThird"/>
+          <point type="2" value="85.71" time-expression="diTwoThird"/>
+        </points>
+      </transition>
+      <transition name="diZeroTwelveOne" type="2">
+        <points>
+          <point type="2" value="0" free-time="0"/>
+          <point type="2" value="0" time-expression="diOneThird"/>
+          <point type="2" value="92.31" time-expression="diTwoThird"/>
+        </points>
+      </transition>
+      <transition name="diDelay" type="2">
+        <points>
+          <point type="2" value="0" free-time="0"/>
+          <point type="2" value="0" time-expression="diNineTenth"/>
+        </points>
+      </transition>
+      <transition name="Diphthong" type="2">
+        <points>
+          <point type="2" value="0" free-time="0"/>
+        </points>
+      </transition>
+      <transition name="Aitch" type="3">
+        <points>
+          <point type="2" value="0" time-expression="Zero"/>
+          <point type="3" value="100" time-expression="diTwoThird"/>
+        </points>
+      </transition>
+      <transition name="triDelay" type="3">
+        <points>
+          <point type="2" value="0" time-expression="Zero"/>
+        </points>
+      </transition>
+      <transition name="fTransition" type="3">
+        <points>
+          <point type="2" value="0" free-time="0"/>
+          <point type="2" value="100" time-expression="diOneTenth"/>
+          <point type="3" value="0" time-expression="triNineTenth"/>
+        </points>
+      </transition>
+    </group>
+    <group name="Glides">
+      <transition name="StandardOnset" type="2">
+        <points>
+          <point type="2" value="0" free-time="0"/>
+          <point type="2" value="0" time-expression="diTwoThird"/>
+        </points>
+      </transition>
+    </group>
+  </transitions>
+  <special-transitions>
+    <group name="K">
+      <transition name="axBurst" type="2">
+        <points>
+          <point type="2" value="0" time-expression="Zero"/>
+          <point type="2" value="0" time-expression="diOneThird"/>
+          <point type="2" value="-99" time-expression="diTwoThird"/>
+          <point type="2" value="0" time-expression="DiphoneDefault"/>
+          <point type="2" value="0" time-expression="diEightTenth"/>
+        </points>
+      </transition>
+      <transition name="aspirationBurst" type="2">
+        <points>
+          <point type="2" value="0" time-expression="Zero"/>
+          <point type="2" value="0" time-expression="diThreeTenth"/>
+          <point type="2" value="15" time-expression="diOneThird"/>
+          <point type="2" value="47" time-expression="diFourTenth"/>
+          <point type="2" value="57" time-expression="diFiveTenth"/>
+          <point type="2" value="46" time-expression="diTwoThird"/>
+          <point type="2" value="0" time-expression="diEightTenth"/>
+          <point type="2" value="0" time-expression="DiphoneDefault"/>
+        </points>
+      </transition>
+      <transition name="fricationBurst" type="2">
+        <points>
+          <point type="2" value="0" time-expression="Zero"/>
+          <point type="2" value="0" time-expression="diOneTenth"/>
+          <point type="2" value="30" time-expression="diThreeTenth"/>
+          <point type="2" value="20" time-expression="diFiveTenth"/>
+          <point type="2" value="0" time-expression="diSixTenth"/>
+          <point type="2" value="0" time-expression="DiphoneDefault"/>
+        </points>
+      </transition>
+    </group>
+  </special-transitions>
+  <rules>
+    <rule>
+      <boolean-expression>phone >>  >> vocoid</boolean-expression>
+      <parameter-profiles>
+        <parameter name="glotPitch" transition="Triphone"/>
+        <parameter name="glotVol" transition="Triphone"/>
+        <parameter name="aspVol" transition="Triphone"/>
+        <parameter name="fricVol" transition="Triphone"/>
+        <parameter name="fricPos" transition="fTransition"/>
+        <parameter name="fricCF" transition="fTransition"/>
+        <parameter name="fricBW" transition="fTransition"/>
+        <parameter name="r1" transition="Triphone"/>
+        <parameter name="r2" transition="Triphone"/>
+        <parameter name="r3" transition="Triphone"/>
+        <parameter name="r4" transition="Triphone"/>
+        <parameter name="r5" transition="Triphone"/>
+        <parameter name="r6" transition="Triphone"/>
+        <parameter name="r7" transition="Triphone"/>
+        <parameter name="r8" transition="Triphone"/>
+        <parameter name="velum" transition="Triphone"/>
+      </parameter-profiles>
+      <expression-symbols>
+        <symbol name="Rule Duration" equation="TriphoneDefault"/>
+        <symbol name="Beat" equation="Beat"/>
+        <symbol name="Mark 1" equation="Mark1"/>
+        <symbol name="Mark 2" equation="TriphoneDefault"/>
+      </expression-symbols>
+    </rule>
+    <rule>
+      <boolean-expression>phone >>  >> vocoid</boolean-expression>
+      <parameter-profiles>
+        <parameter name="glotPitch" transition="Triphone"/>
+        <parameter name="glotVol" transition="Triphone"/>
+        <parameter name="aspVol" transition="Triphone"/>
+        <parameter name="fricVol" transition="Triphone"/>
+        <parameter name="fricPos" transition="Aitch"/>
+        <parameter name="fricCF" transition="Aitch"/>
+        <parameter name="fricBW" transition="Aitch"/>
+        <parameter name="r1" transition="Aitch"/>
+        <parameter name="r2" transition="Aitch"/>
+        <parameter name="r3" transition="Aitch"/>
+        <parameter name="r4" transition="Aitch"/>
+        <parameter name="r5" transition="Aitch"/>
+        <parameter name="r6" transition="Aitch"/>
+        <parameter name="r7" transition="Aitch"/>
+        <parameter name="r8" transition="Aitch"/>
+        <parameter name="velum" transition="Triphone"/>
+      </parameter-profiles>
+      <expression-symbols>
+        <symbol name="Rule Duration" equation="TriphoneDefault"/>
+        <symbol name="Beat" equation="Beat"/>
+        <symbol name="Mark 1" equation="Mark1"/>
+        <symbol name="Mark 2" equation="TriphoneDefault"/>
+      </expression-symbols>
+    </rule>
+    <rule>
+      <boolean-expression>vocoid >> vocoid</boolean-expression>
+      <parameter-profiles>
+        <parameter name="glotPitch" transition="Diphthong"/>
+        <parameter name="glotVol" transition="Diphthong"/>
+        <parameter name="aspVol" transition="Diphthong"/>
+        <parameter name="fricVol" transition="Diphthong"/>
+        <parameter name="fricPos" transition="Diphthong"/>
+        <parameter name="fricCF" transition="Diphthong"/>
+        <parameter name="fricBW" transition="Diphthong"/>
+        <parameter name="r1" transition="Diphthong"/>
+        <parameter name="r2" transition="Diphthong"/>
+        <parameter name="r3" transition="Diphthong"/>
+        <parameter name="r4" transition="Diphthong"/>
+        <parameter name="r5" transition="Diphthong"/>
+        <parameter name="r6" transition="Diphthong"/>
+        <parameter name="r7" transition="Diphthong"/>
+        <parameter name="r8" transition="Diphthong"/>
+        <parameter name="velum" transition="Diphthong"/>
+      </parameter-profiles>
+      <expression-symbols>
+        <symbol name="Rule Duration" equation="DiphoneDefault"/>
+        <symbol name="Beat" equation="Beat"/>
+        <symbol name="Mark 1" equation="DiphoneDefault"/>
+      </expression-symbols>
+    </rule>
+    <rule>
+      <boolean-expression>vocoid >> silence</boolean-expression>
+      <parameter-profiles>
+        <parameter name="glotPitch" transition="Diphone"/>
+        <parameter name="glotVol" transition="Diphone"/>
+        <parameter name="aspVol" transition="Diphone"/>
+        <parameter name="fricVol" transition="Diphone"/>
+        <parameter name="fricPos" transition="Diphone"/>
+        <parameter name="fricCF" transition="Diphone"/>
+        <parameter name="fricBW" transition="Diphone"/>
+        <parameter name="r1" transition="Diphone"/>
+        <parameter name="r2" transition="Diphone"/>
+        <parameter name="r3" transition="Diphone"/>
+        <parameter name="r4" transition="Diphone"/>
+        <parameter name="r5" transition="Diphone"/>
+        <parameter name="r6" transition="Diphone"/>
+        <parameter name="r7" transition="Diphone"/>
+        <parameter name="r8" transition="Diphone"/>
+        <parameter name="velum" transition="Diphone"/>
+      </parameter-profiles>
+      <expression-symbols>
+        <symbol name="Rule Duration" equation="ToSilence"/>
+        <symbol name="Beat" equation="Beat"/>
+        <symbol name="Mark 1" equation="ToSilence"/>
+      </expression-symbols>
+    </rule>
+    <rule>
+      <boolean-expression>silence >> phone</boolean-expression>
+      <parameter-profiles>
+        <parameter name="glotPitch" transition="diZeroTwelveOne"/>
+        <parameter name="glotVol" transition="diZeroTwelveOne"/>
+        <parameter name="aspVol" transition="diZeroTwelveOne"/>
+        <parameter name="fricVol" transition="diZeroTwelveOne"/>
+        <parameter name="fricPos" transition="diZeroTwelveOne"/>
+        <parameter name="fricCF" transition="diZeroTwelveOne"/>
+        <parameter name="fricBW" transition="diZeroTwelveOne"/>
+        <parameter name="r1" transition="diZeroTwelveOne"/>
+        <parameter name="r2" transition="diZeroTwelveOne"/>
+        <parameter name="r3" transition="diZeroTwelveOne"/>
+        <parameter name="r4" transition="diZeroTwelveOne"/>
+        <parameter name="r5" transition="diZeroTwelveOne"/>
+        <parameter name="r6" transition="diZeroTwelveOne"/>
+        <parameter name="r7" transition="diZeroTwelveOne"/>
+        <parameter name="r8" transition="diZeroTwelveOne"/>
+        <parameter name="velum" transition="diZeroTwelveOne"/>
+      </parameter-profiles>
+      <expression-symbols>
+        <symbol name="Rule Duration" equation="DiphoneDefault"/>
+        <symbol name="Beat" equation="Beat"/>
+        <symbol name="Mark 1" equation="DiphoneDefault"/>
+      </expression-symbols>
+    </rule>
+    <rule>
+      <boolean-expression>phone >> phone</boolean-expression>
+      <parameter-profiles>
+        <parameter name="glotPitch" transition="Diphone"/>
+        <parameter name="glotVol" transition="Diphone"/>
+        <parameter name="aspVol" transition="Diphone"/>
+        <parameter name="fricVol" transition="Diphone"/>
+        <parameter name="fricPos" transition="Diphone"/>
+        <parameter name="fricCF" transition="Diphone"/>
+        <parameter name="fricBW" transition="Diphone"/>
+        <parameter name="r1" transition="Diphone"/>
+        <parameter name="r2" transition="Diphone"/>
+        <parameter name="r3" transition="Diphone"/>
+        <parameter name="r4" transition="Diphone"/>
+        <parameter name="r5" transition="Diphone"/>
+        <parameter name="r6" transition="Diphone"/>
+        <parameter name="r7" transition="Diphone"/>
+        <parameter name="r8" transition="Diphone"/>
+        <parameter name="velum" transition="Diphone"/>
+      </parameter-profiles>
+      <expression-symbols>
+        <symbol name="Rule Duration" equation="DiphoneDefault"/>
+        <symbol name="Beat" equation="Beat"/>
+        <symbol name="Mark 1" equation="DiphoneDefault"/>
+      </expression-symbols>
+    </rule>
+  </rules>
+</root>

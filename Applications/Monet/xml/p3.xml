@@ -1,0 +1,1896 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!-- /Volumes/Data/Users/nygard/Source/net/gnuspeech/trillium/ObjectiveC/Monet/p3.monet -->
+<root version='1'>
+  <categories>
+    <category name="phone">
+      <comment>This is the static phone category.  It cannot be changed or removed</comment>
+    </category>
+    <category name="asp"/>
+    <category name="vocoid"/>
+    <category name="contoid"/>
+    <category name="stopped"/>
+    <category name="silence"/>
+    <category name="glide"/>
+  </categories>
+  <parameters>
+    <parameter name="glotPitch" minimum="-10" maximum="10" default="0"/>
+    <parameter name="glotVol" minimum="0" maximum="60" default="60"/>
+    <parameter name="aspVol" minimum="0" maximum="60" default="0"/>
+    <parameter name="fricVol" minimum="0" maximum="60" default="0"/>
+    <parameter name="fricPos" minimum="0" maximum="4" default="0"/>
+    <parameter name="fricCF" minimum="100" maximum="20000" default="5000"/>
+    <parameter name="fricBW" minimum="250" maximum="20000" default="500"/>
+    <parameter name="r1" minimum="0" maximum="3" default="1.5"/>
+    <parameter name="r2" minimum="0" maximum="3" default="1.5"/>
+    <parameter name="r3" minimum="0" maximum="3" default="1.5"/>
+    <parameter name="r4" minimum="0" maximum="3" default="1.5"/>
+    <parameter name="r5" minimum="0" maximum="3" default="1.5"/>
+    <parameter name="r6" minimum="0" maximum="3" default="1.5"/>
+    <parameter name="r7" minimum="0" maximum="3" default="1.5"/>
+    <parameter name="r8" minimum="0" maximum="3" default="1.5"/>
+    <parameter name="velum" minimum="0" maximum="1.5" default="0"/>
+  </parameters>
+  <symbols>
+    <symbol name="duration" minimum="0" maximum="500" default="100"/>
+    <symbol name="transition" minimum="2" maximum="400" default="100"/>
+    <symbol name="qssa" minimum="10" maximum="500" default="75"/>
+    <symbol name="qssb" minimum="10" maximum="500" default="75"/>
+  </symbols>
+  <postures>
+    <posture symbol="^">
+      <categories>
+        <category name="^"/>
+        <category name="phone"/>
+        <category name="silence"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="0"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="1.5" is-default="yes"/>
+        <parameter name="r2" value="1.5" is-default="yes"/>
+        <parameter name="r3" value="1.5" is-default="yes"/>
+        <parameter name="r4" value="1.5" is-default="yes"/>
+        <parameter name="r5" value="1.5" is-default="yes"/>
+        <parameter name="r6" value="1.5" is-default="yes"/>
+        <parameter name="r7" value="1.5" is-default="yes"/>
+        <parameter name="r8" value="1.5" is-default="yes"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="200"/>
+        <symbol name="transition" value="20"/>
+        <symbol name="qssa" value="25"/>
+        <symbol name="qssb" value="25"/>
+      </symbols>
+    </posture>
+    <posture symbol="a">
+      <categories>
+        <category name="a"/>
+        <category name="phone"/>
+        <category name="vocoid"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="60" is-default="yes"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="0.73"/>
+        <parameter name="r2" value="0.63"/>
+        <parameter name="r3" value="0.97"/>
+        <parameter name="r4" value="1.18"/>
+        <parameter name="r5" value="1.8"/>
+        <parameter name="r6" value="2.14"/>
+        <parameter name="r7" value="1.83"/>
+        <parameter name="r8" value="2.3"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="77"/>
+        <symbol name="transition" value="100" is-default="yes"/>
+        <symbol name="qssa" value="25.85"/>
+        <symbol name="qssb" value="25.85"/>
+      </symbols>
+    </posture>
+    <posture symbol="a'">
+      <categories>
+        <category name="a'"/>
+        <category name="phone"/>
+        <category name="vocoid"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="60" is-default="yes"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="0.73"/>
+        <parameter name="r2" value="0.63"/>
+        <parameter name="r3" value="0.97"/>
+        <parameter name="r4" value="1.18"/>
+        <parameter name="r5" value="1.8"/>
+        <parameter name="r6" value="2.14"/>
+        <parameter name="r7" value="1.83"/>
+        <parameter name="r8" value="2.3"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="132.4"/>
+        <symbol name="transition" value="100" is-default="yes"/>
+        <symbol name="qssa" value="53.55"/>
+        <symbol name="qssb" value="53.55"/>
+      </symbols>
+    </posture>
+    <posture symbol="aa">
+      <categories>
+        <category name="aa"/>
+        <category name="phone"/>
+        <category name="vocoid"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="60" is-default="yes"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="0.84"/>
+        <parameter name="r2" value="0.79"/>
+        <parameter name="r3" value="1.54"/>
+        <parameter name="r4" value="1.67"/>
+        <parameter name="r5" value="2.48"/>
+        <parameter name="r6" value="2.64"/>
+        <parameter name="r7" value="1.99"/>
+        <parameter name="r8" value="3"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="84.1"/>
+        <symbol name="transition" value="100" is-default="yes"/>
+        <symbol name="qssa" value="29.4"/>
+        <symbol name="qssb" value="29.4"/>
+      </symbols>
+    </posture>
+    <posture symbol="aa'">
+      <categories>
+        <category name="aa'"/>
+        <category name="phone"/>
+        <category name="vocoid"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="60" is-default="yes"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="0.84"/>
+        <parameter name="r2" value="0.79"/>
+        <parameter name="r3" value="1.54"/>
+        <parameter name="r4" value="1.67"/>
+        <parameter name="r5" value="2.48"/>
+        <parameter name="r6" value="2.64"/>
+        <parameter name="r7" value="1.99"/>
+        <parameter name="r8" value="3"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="122.1"/>
+        <symbol name="transition" value="100" is-default="yes"/>
+        <symbol name="qssa" value="48.4"/>
+        <symbol name="qssb" value="48.4"/>
+      </symbols>
+    </posture>
+    <posture symbol="ah">
+      <categories>
+        <category name="ah"/>
+        <category name="phone"/>
+        <category name="vocoid"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="60" is-default="yes"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="0.84"/>
+        <parameter name="r2" value="0.79"/>
+        <parameter name="r3" value="0.94"/>
+        <parameter name="r4" value="1.67"/>
+        <parameter name="r5" value="2.48"/>
+        <parameter name="r6" value="2.64"/>
+        <parameter name="r7" value="1.99"/>
+        <parameter name="r8" value="3"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="65.4"/>
+        <symbol name="transition" value="100" is-default="yes"/>
+        <symbol name="qssa" value="20.05"/>
+        <symbol name="qssb" value="20.05"/>
+      </symbols>
+    </posture>
+    <posture symbol="ah'">
+      <categories>
+        <category name="ah'"/>
+        <category name="phone"/>
+        <category name="vocoid"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="60" is-default="yes"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="0.84"/>
+        <parameter name="r2" value="0.79"/>
+        <parameter name="r3" value="0.94"/>
+        <parameter name="r4" value="1.67"/>
+        <parameter name="r5" value="2.48"/>
+        <parameter name="r6" value="2.64"/>
+        <parameter name="r7" value="1.99"/>
+        <parameter name="r8" value="3"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="118.5"/>
+        <symbol name="transition" value="100" is-default="yes"/>
+        <symbol name="qssa" value="46.6"/>
+        <symbol name="qssb" value="46.6"/>
+      </symbols>
+    </posture>
+    <posture symbol="ar">
+      <categories>
+        <category name="ar"/>
+        <category name="phone"/>
+        <category name="vocoid"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="60" is-default="yes"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="0.92"/>
+        <parameter name="r2" value="0.55"/>
+        <parameter name="r3" value="0.86"/>
+        <parameter name="r4" value="1.1"/>
+        <parameter name="r5" value="1.78"/>
+        <parameter name="r6" value="2.45"/>
+        <parameter name="r7" value="2.12"/>
+        <parameter name="r8" value="2.82"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="106.8"/>
+        <symbol name="transition" value="100" is-default="yes"/>
+        <symbol name="qssa" value="40.75"/>
+        <symbol name="qssb" value="40.75"/>
+      </symbols>
+    </posture>
+    <posture symbol="ar'">
+      <categories>
+        <category name="ar'"/>
+        <category name="phone"/>
+        <category name="vocoid"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="60" is-default="yes"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="0.92"/>
+        <parameter name="r2" value="0.55"/>
+        <parameter name="r3" value="0.86"/>
+        <parameter name="r4" value="1.1"/>
+        <parameter name="r5" value="1.78"/>
+        <parameter name="r6" value="2.45"/>
+        <parameter name="r7" value="2.12"/>
+        <parameter name="r8" value="2.82"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="181.7"/>
+        <symbol name="transition" value="100" is-default="yes"/>
+        <symbol name="qssa" value="78.2"/>
+        <symbol name="qssb" value="78.2"/>
+      </symbols>
+    </posture>
+    <posture symbol="aw">
+      <categories>
+        <category name="aw"/>
+        <category name="phone"/>
+        <category name="vocoid"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="60" is-default="yes"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="0.92"/>
+        <parameter name="r2" value="1.25"/>
+        <parameter name="r3" value="0.32"/>
+        <parameter name="r4" value="1.41"/>
+        <parameter name="r5" value="1.7"/>
+        <parameter name="r6" value="2.87"/>
+        <parameter name="r7" value="1.33"/>
+        <parameter name="r8" value="1.83"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="114.1"/>
+        <symbol name="transition" value="100" is-default="yes"/>
+        <symbol name="qssa" value="44.4"/>
+        <symbol name="qssb" value="44.4"/>
+      </symbols>
+    </posture>
+    <posture symbol="aw'">
+      <categories>
+        <category name="aw'"/>
+        <category name="phone"/>
+        <category name="vocoid"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="60" is-default="yes"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="0.92"/>
+        <parameter name="r2" value="1.25"/>
+        <parameter name="r3" value="0.32"/>
+        <parameter name="r4" value="1.41"/>
+        <parameter name="r5" value="1.7"/>
+        <parameter name="r6" value="2.87"/>
+        <parameter name="r7" value="1.33"/>
+        <parameter name="r8" value="1.83"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="194.1"/>
+        <symbol name="transition" value="100" is-default="yes"/>
+        <symbol name="qssa" value="84.4"/>
+        <symbol name="qssb" value="84.4"/>
+      </symbols>
+    </posture>
+    <posture symbol="e">
+      <categories>
+        <category name="e"/>
+        <category name="phone"/>
+        <category name="vocoid"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="60" is-default="yes"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="0.76"/>
+        <parameter name="r2" value="1.05"/>
+        <parameter name="r3" value="1.62"/>
+        <parameter name="r4" value="2.14"/>
+        <parameter name="r5" value="1.67"/>
+        <parameter name="r6" value="1.46"/>
+        <parameter name="r7" value="1.25"/>
+        <parameter name="r8" value="1.99"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="61"/>
+        <symbol name="transition" value="100" is-default="yes"/>
+        <symbol name="qssa" value="17.85"/>
+        <symbol name="qssb" value="17.85"/>
+      </symbols>
+    </posture>
+    <posture symbol="e'">
+      <categories>
+        <category name="e'"/>
+        <category name="phone"/>
+        <category name="vocoid"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="1"/>
+        <parameter name="glotVol" value="60" is-default="yes"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="0.76"/>
+        <parameter name="r2" value="1.05"/>
+        <parameter name="r3" value="1.62"/>
+        <parameter name="r4" value="2.14"/>
+        <parameter name="r5" value="1.67"/>
+        <parameter name="r6" value="1.46"/>
+        <parameter name="r7" value="1.25"/>
+        <parameter name="r8" value="1.99"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="77.7"/>
+        <symbol name="transition" value="100" is-default="yes"/>
+        <symbol name="qssa" value="26.2"/>
+        <symbol name="qssb" value="26.2"/>
+      </symbols>
+    </posture>
+    <posture symbol="ee">
+      <categories>
+        <category name="ee"/>
+        <category name="phone"/>
+        <category name="vocoid"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="60" is-default="yes"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="0.89"/>
+        <parameter name="r2" value="1.41"/>
+        <parameter name="r3" value="2.38"/>
+        <parameter name="r4" value="0.94"/>
+        <parameter name="r5" value="0.63"/>
+        <parameter name="r6" value="0.92"/>
+        <parameter name="r7" value="1.44"/>
+        <parameter name="r8" value="1.5" is-default="yes"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="82.4"/>
+        <symbol name="transition" value="100" is-default="yes"/>
+        <symbol name="qssa" value="28.55"/>
+        <symbol name="qssb" value="28.55"/>
+      </symbols>
+    </posture>
+    <posture symbol="ee'">
+      <categories>
+        <category name="ee'"/>
+        <category name="phone"/>
+        <category name="vocoid"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="-5"/>
+        <parameter name="glotVol" value="60" is-default="yes"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="0.89"/>
+        <parameter name="r2" value="1.41"/>
+        <parameter name="r3" value="2.38"/>
+        <parameter name="r4" value="2.48"/>
+        <parameter name="r5" value="0.94"/>
+        <parameter name="r6" value="0.63"/>
+        <parameter name="r7" value="0.92"/>
+        <parameter name="r8" value="1.44"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="141.8"/>
+        <symbol name="transition" value="100" is-default="yes"/>
+        <symbol name="qssa" value="58.25"/>
+        <symbol name="qssb" value="58.25"/>
+      </symbols>
+    </posture>
+    <posture symbol="er">
+      <categories>
+        <category name="er"/>
+        <category name="phone"/>
+        <category name="vocoid"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="60" is-default="yes"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="0.73"/>
+        <parameter name="r2" value="0.89"/>
+        <parameter name="r3" value="1.12"/>
+        <parameter name="r4" value="1.05"/>
+        <parameter name="r5" value="1.2"/>
+        <parameter name="r6" value="1.85"/>
+        <parameter name="r7" value="1.12"/>
+        <parameter name="r8" value="1.67"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="132.2"/>
+        <symbol name="transition" value="100" is-default="yes"/>
+        <symbol name="qssa" value="53.45"/>
+        <symbol name="qssb" value="53.45"/>
+      </symbols>
+    </posture>
+    <posture symbol="er'">
+      <categories>
+        <category name="er'"/>
+        <category name="phone"/>
+        <category name="vocoid"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="60" is-default="yes"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="0.73"/>
+        <parameter name="r2" value="0.89"/>
+        <parameter name="r3" value="1.12"/>
+        <parameter name="r4" value="1.05"/>
+        <parameter name="r5" value="1.2"/>
+        <parameter name="r6" value="1.85"/>
+        <parameter name="r7" value="1.12"/>
+        <parameter name="r8" value="1.67"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="167.7"/>
+        <symbol name="transition" value="100" is-default="yes"/>
+        <symbol name="qssa" value="71.2"/>
+        <symbol name="qssb" value="71.2"/>
+      </symbols>
+    </posture>
+    <posture symbol="f">
+      <categories>
+        <category name="f"/>
+        <category name="phone"/>
+        <category name="contoid"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="0"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="2"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="1600"/>
+        <parameter name="fricBW" value="1000"/>
+        <parameter name="r1" value="0.3"/>
+        <parameter name="r2" value="0.5"/>
+        <parameter name="r3" value="1.5" is-default="yes"/>
+        <parameter name="r4" value="1.5" is-default="yes"/>
+        <parameter name="r5" value="1.5" is-default="yes"/>
+        <parameter name="r6" value="1.5" is-default="yes"/>
+        <parameter name="r7" value="1.5" is-default="yes"/>
+        <parameter name="r8" value="1.5" is-default="yes"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="100" is-default="yes"/>
+        <symbol name="transition" value="100" is-default="yes"/>
+        <symbol name="qssa" value="75" is-default="yes"/>
+        <symbol name="qssb" value="75" is-default="yes"/>
+      </symbols>
+    </posture>
+    <posture symbol="f'">
+      <categories>
+        <category name="f'"/>
+        <category name="phone"/>
+        <category name="contoid"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="60" is-default="yes"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="1.5" is-default="yes"/>
+        <parameter name="r2" value="1.5" is-default="yes"/>
+        <parameter name="r3" value="1.5" is-default="yes"/>
+        <parameter name="r4" value="1.5" is-default="yes"/>
+        <parameter name="r5" value="1.5" is-default="yes"/>
+        <parameter name="r6" value="1.5" is-default="yes"/>
+        <parameter name="r7" value="1.5" is-default="yes"/>
+        <parameter name="r8" value="1.5" is-default="yes"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="100" is-default="yes"/>
+        <symbol name="transition" value="100" is-default="yes"/>
+        <symbol name="qssa" value="75" is-default="yes"/>
+        <symbol name="qssb" value="75" is-default="yes"/>
+      </symbols>
+    </posture>
+    <posture symbol="h">
+      <categories>
+        <category name="h"/>
+        <category name="phone"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="-4"/>
+        <parameter name="glotVol" value="0"/>
+        <parameter name="aspVol" value="25"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="1.5" is-default="yes"/>
+        <parameter name="r2" value="1.5" is-default="yes"/>
+        <parameter name="r3" value="1.5" is-default="yes"/>
+        <parameter name="r4" value="1.5" is-default="yes"/>
+        <parameter name="r5" value="1.5" is-default="yes"/>
+        <parameter name="r6" value="1.5" is-default="yes"/>
+        <parameter name="r7" value="1.5" is-default="yes"/>
+        <parameter name="r8" value="1.5" is-default="yes"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="100" is-default="yes"/>
+        <symbol name="transition" value="30"/>
+        <symbol name="qssa" value="24.85"/>
+        <symbol name="qssb" value="24.85"/>
+      </symbols>
+    </posture>
+    <posture symbol="h'">
+      <categories>
+        <category name="h'"/>
+        <category name="phone"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="-4"/>
+        <parameter name="glotVol" value="0"/>
+        <parameter name="aspVol" value="25"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="1.5" is-default="yes"/>
+        <parameter name="r2" value="1.5" is-default="yes"/>
+        <parameter name="r3" value="1.5" is-default="yes"/>
+        <parameter name="r4" value="1.5" is-default="yes"/>
+        <parameter name="r5" value="1.5" is-default="yes"/>
+        <parameter name="r6" value="1.5" is-default="yes"/>
+        <parameter name="r7" value="1.5" is-default="yes"/>
+        <parameter name="r8" value="1.5" is-default="yes"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="66.5"/>
+        <symbol name="transition" value="50"/>
+        <symbol name="qssa" value="33.25"/>
+        <symbol name="qssb" value="33.25"/>
+      </symbols>
+    </posture>
+    <posture symbol="i">
+      <categories>
+        <category name="i"/>
+        <category name="phone"/>
+        <category name="vocoid"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="60" is-default="yes"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="0.89"/>
+        <parameter name="r2" value="1.28"/>
+        <parameter name="r3" value="1.88"/>
+        <parameter name="r4" value="2.04"/>
+        <parameter name="r5" value="1.25"/>
+        <parameter name="r6" value="0.79"/>
+        <parameter name="r7" value="1.05"/>
+        <parameter name="r8" value="1.33"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="53.3"/>
+        <symbol name="transition" value="100" is-default="yes"/>
+        <symbol name="qssa" value="14"/>
+        <symbol name="qssb" value="14"/>
+      </symbols>
+    </posture>
+    <posture symbol="i'">
+      <categories>
+        <category name="i'"/>
+        <category name="phone"/>
+        <category name="vocoid"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="-3"/>
+        <parameter name="glotVol" value="60" is-default="yes"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="0.89"/>
+        <parameter name="r2" value="1.28"/>
+        <parameter name="r3" value="1.88"/>
+        <parameter name="r4" value="2.04"/>
+        <parameter name="r5" value="1.25"/>
+        <parameter name="r6" value="0.79"/>
+        <parameter name="r7" value="1.05"/>
+        <parameter name="r8" value="1.33"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="76.3"/>
+        <symbol name="transition" value="100" is-default="yes"/>
+        <symbol name="qssa" value="25.5"/>
+        <symbol name="qssb" value="25.5"/>
+      </symbols>
+    </posture>
+    <posture symbol="in">
+      <categories>
+        <category name="in"/>
+        <category name="phone"/>
+        <category name="vocoid"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="60" is-default="yes"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="0.73"/>
+        <parameter name="r2" value="0.63"/>
+        <parameter name="r3" value="0.97"/>
+        <parameter name="r4" value="1.18"/>
+        <parameter name="r5" value="1.8"/>
+        <parameter name="r6" value="2.14"/>
+        <parameter name="r7" value="1.83"/>
+        <parameter name="r8" value="2.3"/>
+        <parameter name="velum" value="1.5"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="100" is-default="yes"/>
+        <symbol name="transition" value="100" is-default="yes"/>
+        <symbol name="qssa" value="75" is-default="yes"/>
+        <symbol name="qssb" value="75" is-default="yes"/>
+      </symbols>
+    </posture>
+    <posture symbol="in'">
+      <categories>
+        <category name="in'"/>
+        <category name="vocoid"/>
+        <category name="phone"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="60" is-default="yes"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="0.73"/>
+        <parameter name="r2" value="0.63"/>
+        <parameter name="r3" value="0.97"/>
+        <parameter name="r4" value="1.18"/>
+        <parameter name="r5" value="1.8"/>
+        <parameter name="r6" value="2.14"/>
+        <parameter name="r7" value="1.83"/>
+        <parameter name="r8" value="2.3"/>
+        <parameter name="velum" value="1.5"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="100" is-default="yes"/>
+        <symbol name="transition" value="100" is-default="yes"/>
+        <symbol name="qssa" value="75" is-default="yes"/>
+        <symbol name="qssb" value="75" is-default="yes"/>
+      </symbols>
+    </posture>
+    <posture symbol="k">
+      <categories>
+        <category name="k"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="60" is-default="yes"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="1.5" is-default="yes"/>
+        <parameter name="r2" value="1.5" is-default="yes"/>
+        <parameter name="r3" value="1.5" is-default="yes"/>
+        <parameter name="r4" value="1.5" is-default="yes"/>
+        <parameter name="r5" value="1.5" is-default="yes"/>
+        <parameter name="r6" value="1.5" is-default="yes"/>
+        <parameter name="r7" value="1.5" is-default="yes"/>
+        <parameter name="r8" value="1.5" is-default="yes"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="100" is-default="yes"/>
+        <symbol name="transition" value="100" is-default="yes"/>
+        <symbol name="qssa" value="75" is-default="yes"/>
+        <symbol name="qssb" value="75" is-default="yes"/>
+      </symbols>
+    </posture>
+    <posture symbol="k'">
+      <categories>
+        <category name="k'"/>
+        <category name="phone"/>
+        <category name="contoid"/>
+        <category name="stopped"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="-2"/>
+        <parameter name="glotVol" value="0"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="3"/>
+        <parameter name="fricCF" value="1500"/>
+        <parameter name="fricBW" value="1000"/>
+        <parameter name="r1" value="0.86"/>
+        <parameter name="r2" value="0.84"/>
+        <parameter name="r3" value="0.65"/>
+        <parameter name="r4" value="0.36"/>
+        <parameter name="r5" value="0.52"/>
+        <parameter name="r6" value="0.8"/>
+        <parameter name="r7" value="1.05"/>
+        <parameter name="r8" value="0.97"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="100" is-default="yes"/>
+        <symbol name="transition" value="45"/>
+        <symbol name="qssa" value="52.2"/>
+        <symbol name="qssb" value="52.2"/>
+      </symbols>
+    </posture>
+    <posture symbol="l">
+      <categories>
+        <category name="l"/>
+        <category name="phone"/>
+        <category name="glide"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="50"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="0.84"/>
+        <parameter name="r2" value="0.89"/>
+        <parameter name="r3" value="1.2"/>
+        <parameter name="r4" value="0.89"/>
+        <parameter name="r5" value="1.18"/>
+        <parameter name="r6" value="0.39"/>
+        <parameter name="r7" value="0.39"/>
+        <parameter name="r8" value="0.92"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="100" is-default="yes"/>
+        <symbol name="transition" value="22.6"/>
+        <symbol name="qssa" value="36"/>
+        <symbol name="qssb" value="36"/>
+      </symbols>
+    </posture>
+    <posture symbol="l'">
+      <categories>
+        <category name="l'"/>
+        <category name="phone"/>
+        <category name="glide"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="50"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="0.84"/>
+        <parameter name="r2" value="0.89"/>
+        <parameter name="r3" value="1.2"/>
+        <parameter name="r4" value="0.89"/>
+        <parameter name="r5" value="1.18"/>
+        <parameter name="r6" value="0.39"/>
+        <parameter name="r7" value="0.39"/>
+        <parameter name="r8" value="0.92"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="100" is-default="yes"/>
+        <symbol name="transition" value="58"/>
+        <symbol name="qssa" value="42"/>
+        <symbol name="qssb" value="42"/>
+      </symbols>
+    </posture>
+    <posture symbol="ll">
+      <categories>
+        <category name="ll"/>
+        <category name="phone"/>
+        <category name="glide"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="60" is-default="yes"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="1.5" is-default="yes"/>
+        <parameter name="r2" value="1.5" is-default="yes"/>
+        <parameter name="r3" value="1.5" is-default="yes"/>
+        <parameter name="r4" value="1.5" is-default="yes"/>
+        <parameter name="r5" value="1.5" is-default="yes"/>
+        <parameter name="r6" value="1.5" is-default="yes"/>
+        <parameter name="r7" value="1.5" is-default="yes"/>
+        <parameter name="r8" value="1.5" is-default="yes"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="100" is-default="yes"/>
+        <symbol name="transition" value="100" is-default="yes"/>
+        <symbol name="qssa" value="75" is-default="yes"/>
+        <symbol name="qssb" value="75" is-default="yes"/>
+      </symbols>
+    </posture>
+    <posture symbol="ll'">
+      <categories>
+        <category name="ll'"/>
+        <category name="phone"/>
+        <category name="glide"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="60" is-default="yes"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="1.5" is-default="yes"/>
+        <parameter name="r2" value="1.5" is-default="yes"/>
+        <parameter name="r3" value="1.5" is-default="yes"/>
+        <parameter name="r4" value="1.5" is-default="yes"/>
+        <parameter name="r5" value="1.5" is-default="yes"/>
+        <parameter name="r6" value="1.5" is-default="yes"/>
+        <parameter name="r7" value="1.5" is-default="yes"/>
+        <parameter name="r8" value="1.5" is-default="yes"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="100" is-default="yes"/>
+        <symbol name="transition" value="58"/>
+        <symbol name="qssa" value="42"/>
+        <symbol name="qssb" value="42"/>
+      </symbols>
+    </posture>
+    <posture symbol="o">
+      <categories>
+        <category name="o"/>
+        <category name="phone"/>
+        <category name="vocoid"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="60" is-default="yes"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="0.92"/>
+        <parameter name="r2" value="0.89"/>
+        <parameter name="r3" value="0.52"/>
+        <parameter name="r4" value="1.67"/>
+        <parameter name="r5" value="2.09"/>
+        <parameter name="r6" value="2.95"/>
+        <parameter name="r7" value="1.8"/>
+        <parameter name="r8" value="2.25"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="70.5"/>
+        <symbol name="transition" value="100" is-default="yes"/>
+        <symbol name="qssa" value="22.6"/>
+        <symbol name="qssb" value="22.6"/>
+      </symbols>
+    </posture>
+    <posture symbol="o'">
+      <categories>
+        <category name="o'"/>
+        <category name="phone"/>
+        <category name="vocoid"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="-1"/>
+        <parameter name="glotVol" value="60" is-default="yes"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="0.92"/>
+        <parameter name="r2" value="0.89"/>
+        <parameter name="r3" value="0.52"/>
+        <parameter name="r4" value="1.67"/>
+        <parameter name="r5" value="2.09"/>
+        <parameter name="r6" value="2.95"/>
+        <parameter name="r7" value="1.8"/>
+        <parameter name="r8" value="2.25"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="103.9"/>
+        <symbol name="transition" value="100" is-default="yes"/>
+        <symbol name="qssa" value="39.3"/>
+        <symbol name="qssb" value="39.3"/>
+      </symbols>
+    </posture>
+    <posture symbol="r">
+      <categories>
+        <category name="r"/>
+        <category name="phone"/>
+        <category name="glide"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="60" is-default="yes"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="0.8"/>
+        <parameter name="r2" value="1.78"/>
+        <parameter name="r3" value="0.89"/>
+        <parameter name="r4" value="1.99"/>
+        <parameter name="r5" value="0.86"/>
+        <parameter name="r6" value="0.58"/>
+        <parameter name="r7" value="0.47"/>
+        <parameter name="r8" value="0.99"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="100" is-default="yes"/>
+        <symbol name="transition" value="75.7"/>
+        <symbol name="qssa" value="20.15"/>
+        <symbol name="qssb" value="20.15"/>
+      </symbols>
+    </posture>
+    <posture symbol="r'">
+      <categories>
+        <category name="r'"/>
+        <category name="phone"/>
+        <category name="glide"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="60" is-default="yes"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="0.8"/>
+        <parameter name="r2" value="1.78"/>
+        <parameter name="r3" value="0.89"/>
+        <parameter name="r4" value="1.99"/>
+        <parameter name="r5" value="0.86"/>
+        <parameter name="r6" value="0.58"/>
+        <parameter name="r7" value="0.47"/>
+        <parameter name="r8" value="0.99"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="100" is-default="yes"/>
+        <symbol name="transition" value="40"/>
+        <symbol name="qssa" value="35.35"/>
+        <symbol name="qssb" value="35.35"/>
+      </symbols>
+    </posture>
+    <posture symbol="t">
+      <categories>
+        <category name="t"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="60" is-default="yes"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="1.5" is-default="yes"/>
+        <parameter name="r2" value="1.5" is-default="yes"/>
+        <parameter name="r3" value="1.5" is-default="yes"/>
+        <parameter name="r4" value="1.5" is-default="yes"/>
+        <parameter name="r5" value="1.5" is-default="yes"/>
+        <parameter name="r6" value="1.5" is-default="yes"/>
+        <parameter name="r7" value="1.5" is-default="yes"/>
+        <parameter name="r8" value="1.5" is-default="yes"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="100" is-default="yes"/>
+        <symbol name="transition" value="100" is-default="yes"/>
+        <symbol name="qssa" value="75" is-default="yes"/>
+        <symbol name="qssb" value="75" is-default="yes"/>
+      </symbols>
+    </posture>
+    <posture symbol="t'">
+      <categories>
+        <category name="t'"/>
+        <category name="phone"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="0"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="1.5" is-default="yes"/>
+        <parameter name="r2" value="1.5" is-default="yes"/>
+        <parameter name="r3" value="1.5" is-default="yes"/>
+        <parameter name="r4" value="1.5" is-default="yes"/>
+        <parameter name="r5" value="1.5" is-default="yes"/>
+        <parameter name="r6" value="1.5" is-default="yes"/>
+        <parameter name="r7" value="1.5" is-default="yes"/>
+        <parameter name="r8" value="1.5" is-default="yes"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="100" is-default="yes"/>
+        <symbol name="transition" value="62"/>
+        <symbol name="qssa" value="40"/>
+        <symbol name="qssb" value="40"/>
+      </symbols>
+    </posture>
+    <posture symbol="u">
+      <categories>
+        <category name="u"/>
+        <category name="phone"/>
+        <category name="vocoid"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="40"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="1.23"/>
+        <parameter name="r2" value="1.62"/>
+        <parameter name="r3" value="0.86"/>
+        <parameter name="r4" value="1.67"/>
+        <parameter name="r5" value="2.19"/>
+        <parameter name="r6" value="2.9"/>
+        <parameter name="r7" value="1.75"/>
+        <parameter name="r8" value="1.12"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="51"/>
+        <symbol name="transition" value="100" is-default="yes"/>
+        <symbol name="qssa" value="12.85"/>
+        <symbol name="qssb" value="12.85"/>
+      </symbols>
+    </posture>
+    <posture symbol="u'">
+      <categories>
+        <category name="u'"/>
+        <category name="phone"/>
+        <category name="vocoid"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="40"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="1.23"/>
+        <parameter name="r2" value="1.62"/>
+        <parameter name="r3" value="0.86"/>
+        <parameter name="r4" value="1.67"/>
+        <parameter name="r5" value="2.19"/>
+        <parameter name="r6" value="2.9"/>
+        <parameter name="r7" value="1.75"/>
+        <parameter name="r8" value="1.12"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="108.9"/>
+        <symbol name="transition" value="100" is-default="yes"/>
+        <symbol name="qssa" value="41.8"/>
+        <symbol name="qssb" value="41.8"/>
+      </symbols>
+    </posture>
+    <posture symbol="uh">
+      <categories>
+        <category name="uh"/>
+        <category name="phone"/>
+        <category name="vocoid"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="60" is-default="yes"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="0.8"/>
+        <parameter name="r2" value="1.78"/>
+        <parameter name="r3" value="1.2"/>
+        <parameter name="r4" value="1.05"/>
+        <parameter name="r5" value="1.2"/>
+        <parameter name="r6" value="1.85"/>
+        <parameter name="r7" value="1.12"/>
+        <parameter name="r8" value="1.67"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="46.2"/>
+        <symbol name="transition" value="100" is-default="yes"/>
+        <symbol name="qssa" value="10.45"/>
+        <symbol name="qssb" value="10.45"/>
+      </symbols>
+    </posture>
+    <posture symbol="uh'">
+      <categories>
+        <category name="uh'"/>
+        <category name="phone"/>
+        <category name="vocoid"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="-2"/>
+        <parameter name="glotVol" value="60" is-default="yes"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="0.8"/>
+        <parameter name="r2" value="1.78"/>
+        <parameter name="r3" value="1.2"/>
+        <parameter name="r4" value="1.05"/>
+        <parameter name="r5" value="1.2"/>
+        <parameter name="r6" value="1.85"/>
+        <parameter name="r7" value="1.12"/>
+        <parameter name="r8" value="1.67"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="74.1"/>
+        <symbol name="transition" value="100" is-default="yes"/>
+        <symbol name="qssa" value="24.4"/>
+        <symbol name="qssb" value="24.4"/>
+      </symbols>
+    </posture>
+    <posture symbol="un">
+      <categories>
+        <category name="un"/>
+        <category name="phone"/>
+        <category name="vocoid"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="60" is-default="yes"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="0.3"/>
+        <parameter name="r2" value="0.89"/>
+        <parameter name="r3" value="1.2"/>
+        <parameter name="r4" value="1.05"/>
+        <parameter name="r5" value="1.2"/>
+        <parameter name="r6" value="1.85"/>
+        <parameter name="r7" value="1.12"/>
+        <parameter name="r8" value="1.67"/>
+        <parameter name="velum" value="1.5"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="100" is-default="yes"/>
+        <symbol name="transition" value="100" is-default="yes"/>
+        <symbol name="qssa" value="75" is-default="yes"/>
+        <symbol name="qssb" value="75" is-default="yes"/>
+      </symbols>
+    </posture>
+    <posture symbol="un'">
+      <categories>
+        <category name="un'"/>
+        <category name="phone"/>
+        <category name="vocoid"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="60" is-default="yes"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="0.3"/>
+        <parameter name="r2" value="0.89"/>
+        <parameter name="r3" value="1.2"/>
+        <parameter name="r4" value="1.05"/>
+        <parameter name="r5" value="1.2"/>
+        <parameter name="r6" value="1.85"/>
+        <parameter name="r7" value="1.12"/>
+        <parameter name="r8" value="1.67"/>
+        <parameter name="velum" value="1.5"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="100" is-default="yes"/>
+        <symbol name="transition" value="100" is-default="yes"/>
+        <symbol name="qssa" value="75" is-default="yes"/>
+        <symbol name="qssb" value="75" is-default="yes"/>
+      </symbols>
+    </posture>
+    <posture symbol="uu">
+      <categories>
+        <category name="uu"/>
+        <category name="phone"/>
+        <category name="vocoid"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="40"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="1.36"/>
+        <parameter name="r2" value="1.07"/>
+        <parameter name="r3" value="0.63"/>
+        <parameter name="r4" value="0.73"/>
+        <parameter name="r5" value="0.68"/>
+        <parameter name="r6" value="1.59"/>
+        <parameter name="r7" value="0.89"/>
+        <parameter name="r8" value="0.37"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="63.7"/>
+        <symbol name="transition" value="100" is-default="yes"/>
+        <symbol name="qssa" value="19.2"/>
+        <symbol name="qssb" value="19.2"/>
+      </symbols>
+    </posture>
+    <posture symbol="uu'">
+      <categories>
+        <category name="uu'"/>
+        <category name="phone"/>
+        <category name="vocoid"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="-2"/>
+        <parameter name="glotVol" value="40"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="1.36"/>
+        <parameter name="r2" value="1.07"/>
+        <parameter name="r3" value="0.63"/>
+        <parameter name="r4" value="0.73"/>
+        <parameter name="r5" value="0.68"/>
+        <parameter name="r6" value="1.59"/>
+        <parameter name="r7" value="0.89"/>
+        <parameter name="r8" value="0.37"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="125"/>
+        <symbol name="transition" value="100" is-default="yes"/>
+        <symbol name="qssa" value="49.85"/>
+        <symbol name="qssb" value="49.85"/>
+      </symbols>
+    </posture>
+    <posture symbol="w">
+      <categories>
+        <category name="w"/>
+        <category name="phone"/>
+        <category name="glide"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="60" is-default="yes"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="0.84"/>
+        <parameter name="r2" value="0.89"/>
+        <parameter name="r3" value="1.2"/>
+        <parameter name="r4" value="0.89"/>
+        <parameter name="r5" value="1.18"/>
+        <parameter name="r6" value="1.85"/>
+        <parameter name="r7" value="1.46"/>
+        <parameter name="r8" value="0.39"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="100" is-default="yes"/>
+        <symbol name="transition" value="33.7"/>
+        <symbol name="qssa" value="23.7"/>
+        <symbol name="qssb" value="23.7"/>
+      </symbols>
+    </posture>
+    <posture symbol="w'">
+      <categories>
+        <category name="w'"/>
+        <category name="phone"/>
+        <category name="glide"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="60" is-default="yes"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="1.5" is-default="yes"/>
+        <parameter name="r2" value="1.5" is-default="yes"/>
+        <parameter name="r3" value="1.5" is-default="yes"/>
+        <parameter name="r4" value="1.5" is-default="yes"/>
+        <parameter name="r5" value="1.5" is-default="yes"/>
+        <parameter name="r6" value="1.5" is-default="yes"/>
+        <parameter name="r7" value="1.5" is-default="yes"/>
+        <parameter name="r8" value="1.5" is-default="yes"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="100" is-default="yes"/>
+        <symbol name="transition" value="86.6"/>
+        <symbol name="qssa" value="34.3"/>
+        <symbol name="qssb" value="34.3"/>
+      </symbols>
+    </posture>
+    <posture symbol="y">
+      <categories>
+        <category name="y"/>
+        <category name="phone"/>
+        <category name="glide"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="60" is-default="yes"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="0.89"/>
+        <parameter name="r2" value="1.41"/>
+        <parameter name="r3" value="2.38"/>
+        <parameter name="r4" value="2.48"/>
+        <parameter name="r5" value="0.94"/>
+        <parameter name="r6" value="0.63"/>
+        <parameter name="r7" value="0.92"/>
+        <parameter name="r8" value="1.44"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="100" is-default="yes"/>
+        <symbol name="transition" value="37.7"/>
+        <symbol name="qssa" value="27.25"/>
+        <symbol name="qssb" value="27.25"/>
+      </symbols>
+    </posture>
+    <posture symbol="y'">
+      <categories>
+        <category name="y'"/>
+        <category name="phone"/>
+        <category name="glide"/>
+      </categories>
+      <parameters>
+        <parameter name="glotPitch" value="0" is-default="yes"/>
+        <parameter name="glotVol" value="60" is-default="yes"/>
+        <parameter name="aspVol" value="0" is-default="yes"/>
+        <parameter name="fricVol" value="0" is-default="yes"/>
+        <parameter name="fricPos" value="0" is-default="yes"/>
+        <parameter name="fricCF" value="5000" is-default="yes"/>
+        <parameter name="fricBW" value="500" is-default="yes"/>
+        <parameter name="r1" value="0.89"/>
+        <parameter name="r2" value="1.41"/>
+        <parameter name="r3" value="2.38"/>
+        <parameter name="r4" value="2.48"/>
+        <parameter name="r5" value="0.94"/>
+        <parameter name="r6" value="0.63"/>
+        <parameter name="r7" value="0.92"/>
+        <parameter name="r8" value="1.44"/>
+        <parameter name="velum" value="0" is-default="yes"/>
+      </parameters>
+      <symbols>
+        <symbol name="duration" value="100" is-default="yes"/>
+        <symbol name="transition" value="96.7"/>
+        <symbol name="qssa" value="42.2"/>
+        <symbol name="qssb" value="42.2"/>
+      </symbols>
+    </posture>
+  </postures>
+  <equations>
+    <group name="DefaultDurations">
+      <equation name="DiphoneDefault" formula="qssb1 + transition2 + qssa1"/>
+      <equation name="TriphoneDefault" formula="qssb1 + transition2 + qssa2 + qssb2 + transition3 + qssa3"/>
+      <equation name="TetraphoneDefault" formula="duration1 + duration2 + duration3"/>
+    </group>
+    <group name="SymbolDefaults">
+      <equation name="Beat" formula="(mark1 * 0.330000)"/>
+      <equation name="Mark1" formula="qssb1 + transition2 + qssa2"/>
+      <equation name="Mark2" formula="qssb1 + transition2 + qssa2 + qssb2 + transition3 + qssa3"/>
+      <equation name="Zero" formula="0.000000"/>
+      <equation name="diOneThird" formula="(mark1 * 0.333333)"/>
+      <equation name="diTwoThird" formula="(mark1 * 0.666667)"/>
+      <equation name="triOneThird" formula="(mark2 - mark1) * 0.333333 + mark1"/>
+      <equation name="triTwoThird" formula="(mark2 - mark1) * 0.666667 + mark1"/>
+      <equation name="tetraOneThird" formula="(rd - mark2) * 0.333333 + mark2"/>
+      <equation name="tetraTwoThird" formula="(rd - mark2) * 0.666667 + mark2"/>
+    </group>
+    <group name="DiphoneStandard">
+      <equation name="diOneTenth" formula="mark1 * 0.100000"/>
+      <equation name="diTwoTenth" formula="(mark1 * 0.200000)"/>
+      <equation name="diThreeTenth" formula="(mark1 * 0.300000)"/>
+      <equation name="diFourTenth" formula="(mark1 * 0.400000)"/>
+      <equation name="diFiveTenth" formula="(mark1 * 0.500000)"/>
+      <equation name="diSixTenth" formula="(mark1 * 0.600000)"/>
+      <equation name="diSevenTenth" formula="(mark1 * 0.700000)"/>
+      <equation name="diEightTenth" formula="(mark1 * 0.800000)"/>
+      <equation name="diNineTenth" formula="(mark1 * 0.900000)"/>
+    </group>
+    <group name="TriphoneStandard">
+      <equation name="triOneTenth" formula="(mark2 - mark1) * 0.100000 + mark1"/>
+      <equation name="triTwoTenth" formula="(((mark2 - mark1) * 0.200000) + mark1)"/>
+      <equation name="triThreeTenth" formula="(((mark2 - mark1) * 0.300000) + mark1)"/>
+      <equation name="triFourTenth" formula="(((mark2 - mark1) * 0.400000) + mark1)"/>
+      <equation name="triFiveTenth" formula="(((mark2 - mark1) * 0.500000) + mark1)"/>
+      <equation name="triSixTenth" formula="(((mark2 - mark1) * 0.600000) + mark1)"/>
+      <equation name="triSevenTenth" formula="(((mark2 - mark1) * 0.700000) + mark1)"/>
+      <equation name="triEightTenth" formula="(((mark2 - mark1) * 0.800000) + mark1)"/>
+      <equation name="triNineTenth" formula="(((mark2 - mark1) * 0.900000) + mark1)"/>
+    </group>
+    <group name="TetraphoneStandard">
+      <equation name="tetraOneTenth" formula="(((rd - mark2) * 0.100000) + mark2)"/>
+      <equation name="tetraTwoTenth" formula="(((rd - mark2) * 0.200000) + mark2)"/>
+      <equation name="tetraThreeTenth" formula="(((rd - mark2) * 0.300000) + mark2)"/>
+      <equation name="tetraFourTenth" formula="(((rd - mark2) * 0.400000) + mark2)"/>
+      <equation name="tetraFiveTenth" formula="(((rd - mark2) * 0.500000) + mark2)"/>
+      <equation name="tetraSixTenth" formula="(((rd - mark2) * 0.600000) + mark2)"/>
+      <equation name="tetraSevenTenth" formula="(((rd - mark2) * 0.700000) + mark2)"/>
+      <equation name="tetraEightTenth" formula="(((rd - mark2) * 0.800000) + mark2)"/>
+      <equation name="tetraNineTenth" formula="(((rd - mark2) * 0.900000) + mark2)"/>
+    </group>
+    <group name="Durations">
+      <equation name="Diphone" formula="(null)"/>
+      <equation name="Triphone" formula="(((((qssb1 + transition2) + qssa2) + qssb2) + transition3) + qssa3)"/>
+      <equation name="Tetraphone" formula="(null)"/>
+      <equation name="ToSilence" formula="qssb1 + 150.000000 + qssa1"/>
+    </group>
+  </equations>
+  <transitions>
+    <group name="Defaults">
+      <transition name="Diphone" type="2">
+        <points>
+          <point type="0" value="0" time-expression="Zero"/>
+          <point type="0" value="0" time-expression="diOneThird"/>
+          <point type="0" value="0" time-expression="diTwoThird"/>
+        </points>
+      </transition>
+      <transition name="Triphone" type="3">
+        <points>
+          <point type="0" value="0" time-expression="Zero"/>
+          <point type="0" value="0" time-expression="diOneThird"/>
+          <point type="0" value="0" time-expression="diTwoThird"/>
+          <point type="0" value="0" time-expression="Mark1"/>
+          <point type="0" value="0" time-expression="triOneThird"/>
+          <point type="0" value="0" time-expression="triTwoThird"/>
+          <point type="0" value="0" time-expression="Mark2"/>
+        </points>
+      </transition>
+      <transition name="Tetraphone" type="4">
+        <points>
+          <point type="0" value="0" time-expression="Zero"/>
+          <point type="0" value="0" time-expression="Mark1"/>
+          <point type="0" value="0" time-expression="Mark2"/>
+          <point type="0" value="0" time-expression="TetraphoneDefault"/>
+        </points>
+      </transition>
+    </group>
+    <group name="Standard">
+      <transition name="diOneSixOne" type="2">
+        <points>
+          <point type="0" value="0" time-expression="Zero"/>
+          <point type="0" value="0" time-expression="diOneThird"/>
+          <point type="0" value="0" time-expression="diTwoThird"/>
+        </points>
+      </transition>
+      <transition name="diOneTwelveOne" type="2">
+        <points>
+          <point type="0" value="0" free-time="0"/>
+          <point type="0" value="0" time-expression="diOneThird"/>
+          <point type="0" value="0" time-expression="diTwoThird"/>
+        </points>
+      </transition>
+      <transition name="diZeroSixOne" type="2">
+        <points>
+          <point type="0" value="0" free-time="0"/>
+          <point type="0" value="0" time-expression="diOneThird"/>
+          <point type="0" value="0" time-expression="diTwoThird"/>
+        </points>
+      </transition>
+      <transition name="diZeroTwelveOne" type="2">
+        <points>
+          <point type="0" value="0" free-time="0"/>
+          <point type="0" value="0" time-expression="diOneThird"/>
+          <point type="0" value="0" time-expression="diTwoThird"/>
+        </points>
+      </transition>
+      <transition name="diDelay" type="2">
+        <points>
+          <point type="0" value="0" free-time="0"/>
+          <point type="0" value="0" time-expression="diNineTenth"/>
+        </points>
+      </transition>
+      <transition name="Diphthong" type="2">
+        <points>
+          <point type="0" value="0" free-time="0"/>
+        </points>
+      </transition>
+      <transition name="Aitch" type="3">
+        <points>
+          <point type="0" value="0" time-expression="Zero"/>
+          <point type="0" value="0" time-expression="diTwoThird"/>
+        </points>
+      </transition>
+      <transition name="triDelay" type="3">
+        <points>
+          <point type="0" value="0" time-expression="Zero"/>
+        </points>
+      </transition>
+      <transition name="fTransition" type="3">
+        <points>
+          <point type="0" value="0" free-time="0"/>
+          <point type="0" value="0" time-expression="diOneTenth"/>
+          <point type="0" value="0" time-expression="triNineTenth"/>
+        </points>
+      </transition>
+    </group>
+  </transitions>
+  <special-transitions>
+    <group name="K">
+      <transition name="axBurst" type="2">
+        <points>
+          <point type="0" value="0" time-expression="Zero"/>
+          <point type="0" value="0" time-expression="diOneThird"/>
+          <point type="0" value="0" time-expression="diTwoThird"/>
+          <point type="0" value="0" time-expression="DiphoneDefault"/>
+          <point type="0" value="0" time-expression="diEightTenth"/>
+        </points>
+      </transition>
+      <transition name="aspirationBurst" type="2">
+        <points>
+          <point type="0" value="0" time-expression="Zero"/>
+          <point type="0" value="0" time-expression="diThreeTenth"/>
+          <point type="0" value="0" time-expression="diOneThird"/>
+          <point type="0" value="0" time-expression="diFourTenth"/>
+          <point type="0" value="0" time-expression="diFiveTenth"/>
+          <point type="0" value="0" time-expression="diTwoThird"/>
+          <point type="0" value="0" time-expression="diEightTenth"/>
+          <point type="0" value="0" time-expression="DiphoneDefault"/>
+        </points>
+      </transition>
+      <transition name="fricationBurst" type="2">
+        <points>
+          <point type="0" value="0" time-expression="Zero"/>
+          <point type="0" value="0" time-expression="diOneTenth"/>
+          <point type="0" value="0" time-expression="diThreeTenth"/>
+          <point type="0" value="0" time-expression="diFiveTenth"/>
+          <point type="0" value="0" time-expression="diSixTenth"/>
+          <point type="0" value="0" time-expression="DiphoneDefault"/>
+        </points>
+      </transition>
+    </group>
+  </special-transitions>
+  <rules>
+    <rule>
+      <boolean-expression>phone >> f >> vocoid</boolean-expression>
+      <parameter-profiles>
+        <parameter name="glotPitch" transition="Triphone"/>
+        <parameter name="glotVol" transition="Triphone"/>
+        <parameter name="aspVol" transition="Triphone"/>
+        <parameter name="fricVol" transition="Triphone"/>
+        <parameter name="fricPos" transition="fTransition"/>
+        <parameter name="fricCF" transition="fTransition"/>
+        <parameter name="fricBW" transition="fTransition"/>
+        <parameter name="r1" transition="Triphone"/>
+        <parameter name="r2" transition="Triphone"/>
+        <parameter name="r3" transition="Triphone"/>
+        <parameter name="r4" transition="Triphone"/>
+        <parameter name="r5" transition="Triphone"/>
+        <parameter name="r6" transition="Triphone"/>
+        <parameter name="r7" transition="Triphone"/>
+        <parameter name="r8" transition="Triphone"/>
+        <parameter name="velum" transition="Triphone"/>
+      </parameter-profiles>
+      <expression-symbols>
+        <symbol name="Rule Duration" equation="TriphoneDefault"/>
+        <symbol name="Beat" equation="Beat"/>
+        <symbol name="Mark 1" equation="Mark1"/>
+        <symbol name="Mark 2" equation="TriphoneDefault"/>
+      </expression-symbols>
+    </rule>
+    <rule>
+      <boolean-expression>phone >> h >> vocoid</boolean-expression>
+      <parameter-profiles>
+        <parameter name="glotPitch" transition="Triphone"/>
+        <parameter name="glotVol" transition="Triphone"/>
+        <parameter name="aspVol" transition="Triphone"/>
+        <parameter name="fricVol" transition="Triphone"/>
+        <parameter name="fricPos" transition="Aitch"/>
+        <parameter name="fricCF" transition="Aitch"/>
+        <parameter name="fricBW" transition="Aitch"/>
+        <parameter name="r1" transition="Aitch"/>
+        <parameter name="r2" transition="Aitch"/>
+        <parameter name="r3" transition="Aitch"/>
+        <parameter name="r4" transition="Aitch"/>
+        <parameter name="r5" transition="Aitch"/>
+        <parameter name="r6" transition="Aitch"/>
+        <parameter name="r7" transition="Aitch"/>
+        <parameter name="r8" transition="Aitch"/>
+        <parameter name="velum" transition="Triphone"/>
+      </parameter-profiles>
+      <expression-symbols>
+        <symbol name="Rule Duration" equation="TriphoneDefault"/>
+        <symbol name="Beat" equation="Beat"/>
+        <symbol name="Mark 1" equation="Mark1"/>
+        <symbol name="Mark 2" equation="TriphoneDefault"/>
+      </expression-symbols>
+    </rule>
+    <rule>
+      <boolean-expression>vocoid >> vocoid</boolean-expression>
+      <parameter-profiles>
+        <parameter name="glotPitch" transition="Diphthong"/>
+        <parameter name="glotVol" transition="Diphthong"/>
+        <parameter name="aspVol" transition="Diphthong"/>
+        <parameter name="fricVol" transition="Diphthong"/>
+        <parameter name="fricPos" transition="Diphthong"/>
+        <parameter name="fricCF" transition="Diphthong"/>
+        <parameter name="fricBW" transition="Diphthong"/>
+        <parameter name="r1" transition="Diphthong"/>
+        <parameter name="r2" transition="Diphthong"/>
+        <parameter name="r3" transition="Diphthong"/>
+        <parameter name="r4" transition="Diphthong"/>
+        <parameter name="r5" transition="Diphthong"/>
+        <parameter name="r6" transition="Diphthong"/>
+        <parameter name="r7" transition="Diphthong"/>
+        <parameter name="r8" transition="Diphthong"/>
+        <parameter name="velum" transition="Diphthong"/>
+      </parameter-profiles>
+      <expression-symbols>
+        <symbol name="Rule Duration" equation="DiphoneDefault"/>
+        <symbol name="Beat" equation="Beat"/>
+        <symbol name="Mark 1" equation="DiphoneDefault"/>
+      </expression-symbols>
+    </rule>
+    <rule>
+      <boolean-expression>vocoid >> silence</boolean-expression>
+      <parameter-profiles>
+        <parameter name="glotPitch" transition="Diphone"/>
+        <parameter name="glotVol" transition="Diphone"/>
+        <parameter name="aspVol" transition="Diphone"/>
+        <parameter name="fricVol" transition="Diphone"/>
+        <parameter name="fricPos" transition="Diphone"/>
+        <parameter name="fricCF" transition="Diphone"/>
+        <parameter name="fricBW" transition="Diphone"/>
+        <parameter name="r1" transition="Diphone"/>
+        <parameter name="r2" transition="Diphone"/>
+        <parameter name="r3" transition="Diphone"/>
+        <parameter name="r4" transition="Diphone"/>
+        <parameter name="r5" transition="Diphone"/>
+        <parameter name="r6" transition="Diphone"/>
+        <parameter name="r7" transition="Diphone"/>
+        <parameter name="r8" transition="Diphone"/>
+        <parameter name="velum" transition="Diphone"/>
+      </parameter-profiles>
+      <expression-symbols>
+        <symbol name="Rule Duration" equation="ToSilence"/>
+        <symbol name="Beat" equation="Beat"/>
+        <symbol name="Mark 1" equation="ToSilence"/>
+      </expression-symbols>
+    </rule>
+    <rule>
+      <boolean-expression>silence >> phone</boolean-expression>
+      <parameter-profiles>
+        <parameter name="glotPitch" transition="diZeroTwelveOne"/>
+        <parameter name="glotVol" transition="diZeroTwelveOne"/>
+        <parameter name="aspVol" transition="diZeroTwelveOne"/>
+        <parameter name="fricVol" transition="diZeroTwelveOne"/>
+        <parameter name="fricPos" transition="diZeroTwelveOne"/>
+        <parameter name="fricCF" transition="diZeroTwelveOne"/>
+        <parameter name="fricBW" transition="diZeroTwelveOne"/>
+        <parameter name="r1" transition="diZeroTwelveOne"/>
+        <parameter name="r2" transition="diZeroTwelveOne"/>
+        <parameter name="r3" transition="diZeroTwelveOne"/>
+        <parameter name="r4" transition="diZeroTwelveOne"/>
+        <parameter name="r5" transition="diZeroTwelveOne"/>
+        <parameter name="r6" transition="diZeroTwelveOne"/>
+        <parameter name="r7" transition="diZeroTwelveOne"/>
+        <parameter name="r8" transition="diZeroTwelveOne"/>
+        <parameter name="velum" transition="diZeroTwelveOne"/>
+      </parameter-profiles>
+      <expression-symbols>
+        <symbol name="Rule Duration" equation="DiphoneDefault"/>
+        <symbol name="Beat" equation="Beat"/>
+        <symbol name="Mark 1" equation="DiphoneDefault"/>
+      </expression-symbols>
+    </rule>
+    <rule>
+      <boolean-expression>phone >> phone</boolean-expression>
+      <parameter-profiles>
+        <parameter name="glotPitch" transition="Diphone"/>
+        <parameter name="glotVol" transition="Diphone"/>
+        <parameter name="aspVol" transition="Diphone"/>
+        <parameter name="fricVol" transition="Diphone"/>
+        <parameter name="fricPos" transition="Diphone"/>
+        <parameter name="fricCF" transition="Diphone"/>
+        <parameter name="fricBW" transition="Diphone"/>
+        <parameter name="r1" transition="Diphone"/>
+        <parameter name="r2" transition="Diphone"/>
+        <parameter name="r3" transition="Diphone"/>
+        <parameter name="r4" transition="Diphone"/>
+        <parameter name="r5" transition="Diphone"/>
+        <parameter name="r6" transition="Diphone"/>
+        <parameter name="r7" transition="Diphone"/>
+        <parameter name="r8" transition="Diphone"/>
+        <parameter name="velum" transition="Diphone"/>
+      </parameter-profiles>
+      <expression-symbols>
+        <symbol name="Rule Duration" equation="DiphoneDefault"/>
+        <symbol name="Beat" equation="Beat"/>
+        <symbol name="Mark 1" equation="DiphoneDefault"/>
+      </expression-symbols>
+    </rule>
+  </rules>
+</root>
