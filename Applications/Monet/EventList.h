@@ -99,7 +99,6 @@ struct _rule {
     int currentRule;
     struct _rule rules[MAXRULES];
 
-    int cache;
     double min[16]; // Min of each parameter value
     double max[16]; // Max of each parameter value
 
@@ -189,7 +188,7 @@ struct _rule {
 - (void)generateOutput;
 - (void)generateEventListWithModel:(MModel *)aModel;
 
-- (void)applyRule:(MMRule *)rule withPhones:(NSArray *)phoneList andTempos:(double *)tempos phoneIndex:(int)phoneIndex;
+- (void)applyRule:(MMRule *)rule withPhones:(NSArray *)phoneList andTempos:(double *)tempos phoneIndex:(int)phoneIndex model:(MModel *)aModel;
 - (void)synthesizeToFile:(NSString *)filename;
 
 - (void)applyIntonation;
