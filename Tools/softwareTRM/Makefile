@@ -38,7 +38,7 @@ ARCHS =
 
 
 t1: t1.c
-	cc $(CFLAGS) t1.c
+	cc $(CFLAGS) -faltivec t1.c -framework vecLib
 
 #all:: tube tube2
 
