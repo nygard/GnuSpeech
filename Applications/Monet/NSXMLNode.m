@@ -56,4 +56,18 @@
     return [_parent rootDocument];
 }
 
+- (NSString *)XMLString;
+{
+    NSMutableString *resultString;
+
+    resultString = [NSMutableString string];
+    [self _appendXMLToString:resultString level:0];
+
+    return resultString;
+}
+
+- (void)_appendXMLToString:(NSMutableString *)resultString level:(int)level;
+{
+}
+
 @end

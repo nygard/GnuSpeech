@@ -23,4 +23,6 @@
 
 - (void)addChild:(NSXMLNode *)child;
 
+- (void)_appendXMLToString:(NSMutableString *)resultString level:(int)level;
+
 @end

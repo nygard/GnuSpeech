@@ -18,7 +18,10 @@
 
 - (id)DTD;
 - (NSXMLElement *)rootElement;
+- (void)setRootElement:(NSXMLNode *)newRootElement;
 
 - (NSXMLDocument *)rootDocument;
+
+- (void)_appendXMLToString:(NSMutableString *)resultString level:(int)level;
 
 @end

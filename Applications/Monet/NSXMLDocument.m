@@ -3,6 +3,7 @@
 
 #import "NSXMLDocument.h"
 
+#import "NSString-Extensions.h"
 #import "STXMLTreeBuilder.h"
 
 @implementation NSXMLDocument
@@ -47,9 +48,27 @@
     return _rootElement;
 }
 
+- (void)setRootElement:(NSXMLNode *)newRootElement;
+{
+    if (newRootElement == _rootElement)
+        return;
+
+    [_rootElement release];
+    _rootElement = [newRootElement retain];
+}
+
 - (NSXMLDocument *)rootDocument;
 {
     return self;
+}
+
+- (void)_appendXMLToString:(NSMutableString *)resultString level:(int)level;
+{
+    [resultString indentToLevel:level];
+    [resultString appendString:@"<?xml version='1.0' encoding='utf-8'?>\n"];
+
+    NSLog(@"%s, rootElement: %p", _cmd, _rootElement);
+    [_rootElement _appendXMLToString:resultString level:0];
 }
 
 @end

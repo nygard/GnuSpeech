@@ -2,6 +2,7 @@
 //  Copyright (C) 2004 __OWNER__.  All rights reserved.
 
 #import "NSXMLElement.h"
+#import "NSString-Extensions.h"
 
 @implementation NSXMLElement
 
@@ -49,6 +50,21 @@
 - (void)addChild:(NSXMLNode *)child;
 {
     [_children addObject:child];
+}
+
+- (void)_appendXMLToString:(NSMutableString *)resultString level:(int)level;
+{
+    unsigned int count, index;
+
+    [resultString indentToLevel:level];
+    [resultString appendFormat:@"<%@>\n", _name];
+
+    count = [_children count];
+    for (index = 0; index < count; index++)
+        [[_children objectAtIndex:index] _appendXMLToString:resultString level:level + 1];
+
+    [resultString indentToLevel:level];
+    [resultString appendFormat:@"</%@>\n", _name];
 }
 
 @end

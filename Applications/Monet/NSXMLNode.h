@@ -49,4 +49,7 @@ enum {
 
 - (NSXMLDocument *)rootDocument;
 
+- (NSString *)XMLString;
+- (void)_appendXMLToString:(NSMutableString *)resultString level:(int)level;
+
 @end

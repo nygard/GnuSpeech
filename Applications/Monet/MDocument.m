@@ -50,6 +50,7 @@
     }
 
     NSLog(@"DTD: %@", [xmlDocument DTD]);
+    NSLog(@"xmlDocument:\n%@", [xmlDocument XMLString]);
     [self loadFromRootElement:[xmlDocument rootElement]];
 
     return YES;
