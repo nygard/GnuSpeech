@@ -35,6 +35,7 @@
   What?!
 - Hmm.  Duration form in Rule Parser window, text shifts when selecting it (tabbing into the field.)
 - stars in rules after phones seems to match, i.e., ch and ch' for "ch*"
+- check that we aren't returning floats/doubles from calls to methods that might return nil;
 
 TODO:
 - if a value is at the default, and then you change the default, do you want all of the instances to change as well?  I think so.

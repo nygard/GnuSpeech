@@ -6,6 +6,7 @@
 
 #import "AppController.h"
 #import "Phone.h"
+#import "PhoneList.h"
 #import "Symbol.h"
 #import "SymbolList.h"
 #import "Target.h"
@@ -88,14 +89,14 @@
     precedence = newPrec;
 }
 
-- (double)evaluate:(double *)ruleSymbols phones:phones;
+- (double)evaluate:(double *)ruleSymbols phones:(PhoneList *)phones;
 {
     double tempos[4] = {1.0, 1.0, 1.0, 1.0};
 
     return [self evaluate:ruleSymbols tempos:tempos phones:phones];
 }
 
-- (double)evaluate:(double *)ruleSymbols tempos:(double *)tempos phones:phones;
+- (double)evaluate:(double *)ruleSymbols tempos:(double *)tempos phones:(PhoneList *)phones;
 {
     SymbolList *mainSymbolList;
     Target *tempTarget;
@@ -134,11 +135,23 @@
     /* Get main symbolList to determine index of "symbol" */
     mainSymbolList = NXGetNamedObject(@"mainSymbolList", NSApp);
     index = [mainSymbolList indexOfObject:symbol];
+    //NSLog(@"%s, whichPhone: %d, symbol: %@, index: %d", _cmd, whichPhone, symbol, index);
+#if 0
+    {
+        Phone *aPhone;
 
+        aPhone = [phones objectAtIndex:whichPhone];
+        NSLog(@"aPhone: %@", aPhone);
+        NSLog(@"symbolList: %p, count: %d", [aPhone symbolList], [[aPhone symbolList] count]);
+    }
+#endif
     /* Use index to index the phone's symbol list */
     tempTarget = [[[phones objectAtIndex:whichPhone] symbolList] objectAtIndex:index];
 
     //NSLog(@"Evaluate: %@ Index: %d  Value : %f", [[phones objectAtIndex:whichPhone] symbol], index, [tempTarget value]);
+
+    if (tempTarget == nil)
+        return 0.0;
 
     /* Return the value */
     return [tempTarget value];

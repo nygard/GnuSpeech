@@ -25,28 +25,53 @@
 	Purpose: To initialize the frame
 
 ===========================================================================*/
+
+static NSImage *_dotMarker = nil;
+static NSImage *_squareMarker = nil;
+static NSImage *_triangleMarker = nil;
+static NSImage *_selectionBox = nil;
+
++ (void)initialize;
+{
+    NSBundle *mainBundle;
+    NSString *path;
+
+    mainBundle = [NSBundle mainBundle];
+    path = [mainBundle pathForResource:@"dotMarker" ofType:@"tiff"];
+    NSLog(@"path: %@", path);
+    _dotMarker = [[NSImage alloc] initWithContentsOfFile:path];
+
+    path = [mainBundle pathForResource:@"squareMarker" ofType:@"tiff"];
+    NSLog(@"path: %@", path);
+    _squareMarker = [[NSImage alloc] initWithContentsOfFile:path];
+
+    path = [mainBundle pathForResource:@"triangleMarker" ofType:@"tiff"];
+    NSLog(@"path: %@", path);
+    _triangleMarker = [[NSImage alloc] initWithContentsOfFile:path];
+
+    path = [mainBundle pathForResource:@"selectionBox" ofType:@"tiff"];
+    NSLog(@"path: %@", path);
+    _selectionBox = [[NSImage alloc] initWithContentsOfFile:path];
+}
+
 - (id)initWithFrame:(NSRect)frameRect;
 {
     if ([super initWithFrame:frameRect] == nil)
         return nil;
 
     cache = 100000;
-
     [self allocateGState];
-
     totalFrame = NSMakeRect(0.0, 0.0, 700.0, 380.0);
-    dotMarker = [[NSImage imageNamed:@"dotMarker.tiff"] retain];
-    squareMarker = [[NSImage imageNamed:@"squareMarker.tiff"] retain];
-    triangleMarker = [[NSImage imageNamed:@"triangleMarker.tiff"] retain];
-    selectionBox = [[NSImage imageNamed:@"selectionBox.tiff"] retain];
 
     timesFont = [[NSFont fontWithName:@"Times-Roman" size:12] retain];
     currentTemplate = nil;
-    selectedPoints = [[MonetList alloc] initWithCapacity:4];
 
     dummyPhoneList = [[MonetList alloc] initWithCapacity:4];
     displayPoints = [[MonetList alloc] initWithCapacity:12];
     displaySlopes = [[MonetList alloc] initWithCapacity:12];
+    selectedPoints = [[MonetList alloc] initWithCapacity:4];
+
+    boxRect = NSZeroRect;
 
     [self setNeedsDisplay:YES];
 
@@ -55,15 +80,11 @@
 
 - (void)dealloc;
 {
-    [dotMarker release];
-    [squareMarker release];
-    [triangleMarker release];
-    [selectionBox release];
     [timesFont release];
-    [selectedPoints release];
     [dummyPhoneList release];
     [displayPoints release];
     [displaySlopes release];
+    [selectedPoints release];
 
     [super dealloc];
 }
@@ -72,7 +93,7 @@
 {
     SymbolList *symbols;
     ParameterList *mainParameterList, *mainMetaParameterList;
-    Phone *dummy;
+    Phone *aPhone;
 
     NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
 
@@ -80,16 +101,16 @@
     mainParameterList = NXGetNamedObject(@"mainParameterList", NSApp);
     mainMetaParameterList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
 
-    dummy = [[Phone alloc] initWithSymbol:@"dummy" parmeters:mainParameterList metaParameters: mainMetaParameterList symbols:symbols];
-    [(Target *)[[dummy symbolList] objectAtIndex:0] setValue:100.0];
-    [(Target *)[[dummy symbolList] objectAtIndex:1] setValue:33.3333];
-    [(Target *)[[dummy symbolList] objectAtIndex:2] setValue:33.3333];
-    [(Target *)[[dummy symbolList] objectAtIndex:3] setValue:33.3333];
-    [dummyPhoneList addObject:dummy];
-    [dummyPhoneList addObject:dummy];
-    [dummyPhoneList addObject:dummy];
-    [dummyPhoneList addObject:dummy];
-    [dummy release];
+    aPhone = [[Phone alloc] initWithSymbol:@"dummy" parmeters:mainParameterList metaParameters:mainMetaParameterList symbols:symbols];
+    [(Target *)[[aPhone symbolList] objectAtIndex:0] setValue:100.0]; // Rule Duration
+    [(Target *)[[aPhone symbolList] objectAtIndex:1] setValue:33.3333]; // Beat Location
+    [(Target *)[[aPhone symbolList] objectAtIndex:2] setValue:33.3333]; // Mark 1
+    [(Target *)[[aPhone symbolList] objectAtIndex:3] setValue:33.3333]; // Mark 2
+    [dummyPhoneList addObject:aPhone];
+    [dummyPhoneList addObject:aPhone];
+    [dummyPhoneList addObject:aPhone];
+    [dummyPhoneList addObject:aPhone];
+    [aPhone release];
 
     NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }
@@ -112,22 +133,28 @@
     [self drawPhones];
     [self drawTransition];
     [self drawSlopes];
+
+    NSLog(@"%s, boxRect: %@", _cmd, NSStringFromRect(boxRect));
+    if (boxRect.size.width != 0 && boxRect.size.height != 0) {
+        [[NSColor purpleColor] set];
+        NSFrameRect(boxRect);
+    }
 }
 
 - (void)clearView;
 {
-    NSDrawWhiteBezel([self frame], [self frame]);
+    NSDrawWhiteBezel([self bounds], [self bounds]);
 }
 
 - (void)drawGrid;
 {
     int i;
-    float temp = ([self frame].size.height - 100.0)/14.0;
+    float temp = ([self bounds].size.height - 100.0) / 14.0;
     NSBezierPath *bezierPath;
 
     [[NSColor lightGrayColor] set];
-    NSRectFill(NSMakeRect(51.0, 51.0, [self frame].size.width - 102.0, (temp*2) - 2.0));
-    NSRectFill(NSMakeRect(51.0, [self frame].size.height - 50.0 - (temp*2), [self frame].size.width - 102.0, (temp*2) - 1.0));
+    NSRectFill(NSMakeRect(51.0, 51.0, [self bounds].size.width - 102.0, (temp*2) - 2.0));
+    NSRectFill(NSMakeRect(51.0, [self bounds].size.height - 50.0 - (temp*2), [self bounds].size.width - 102.0, (temp*2) - 1.0));
 
     /* Grayed out (unused) data spaces should be placed here */
 
@@ -135,9 +162,9 @@
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:2];
     [bezierPath moveToPoint:NSMakePoint(50.0, 50.0)];
-    [bezierPath lineToPoint:NSMakePoint(50.0, [self frame].size.height - 50.0)];
-    [bezierPath lineToPoint:NSMakePoint([self frame].size.width - 50.0, [self frame].size.height - 50.0)];
-    [bezierPath lineToPoint:NSMakePoint([self frame].size.width - 50.0, 50.0)];
+    [bezierPath lineToPoint:NSMakePoint(50.0, [self bounds].size.height - 50.0)];
+    [bezierPath lineToPoint:NSMakePoint([self bounds].size.width - 50.0, [self bounds].size.height - 50.0)];
+    [bezierPath lineToPoint:NSMakePoint([self bounds].size.width - 50.0, 50.0)];
     [bezierPath lineToPoint:NSMakePoint(50.0, 50.0)];
     [bezierPath stroke];
     [bezierPath release];
@@ -152,16 +179,17 @@
         NSString *label;
 
         [bezierPath moveToPoint:NSMakePoint(50.0, (float)i*temp + 50.0)];
-        [bezierPath lineToPoint:NSMakePoint([self frame].size.width - 50.0,  (float)i*temp + 50.0)];
+        [bezierPath lineToPoint:NSMakePoint([self bounds].size.width - 50.0,  (float)i*temp + 50.0)];
 
         label = [NSString stringWithFormat:@"%4d%%", (i-2)*10];
         [label drawAtPoint:NSMakePoint(16.0, (float)i*temp + 45.0) withAttributes:nil];
-        [label drawAtPoint:NSMakePoint([self frame].size.width - 47.0, (float)i*temp + 45.0) withAttributes:nil];
+        [label drawAtPoint:NSMakePoint([self bounds].size.width - 47.0, (float)i*temp + 45.0) withAttributes:nil];
     }
     [bezierPath stroke];
     [bezierPath release];
 }
 
+// These are the proto equations
 - (void)drawEquations;
 {
     int i, j;
@@ -169,7 +197,7 @@
     MonetList *equationList = [NXGetNamedObject(@"prototypeManager", NSApp) equationList];
     NamedList *namedList;
     ProtoEquation *equation;
-    float timeScale = ([self frame].size.width - 100.0) / [[displayParameters cellAtIndex:0] floatValue];
+    float timeScale = ([self bounds].size.width - 100.0) / [[displayParameters cellAtIndex:0] floatValue];
     int type;
     NSBezierPath *bezierPath;
 
@@ -180,20 +208,23 @@
     else
         type = DIPHONE;
 
-    for (i = 0; i < 5; i++)
+    for (i = 0; i < 5; i++) {
         symbols[i] = [[displayParameters cellAtIndex:i] doubleValue];
+        NSLog(@"%s, symbols[%d] = %g", _cmd, i, symbols[i]);
+    }
 
     [[NSColor darkGrayColor] set];
     bezierPath = [[NSBezierPath alloc] init];
     for (i = 0; i < [equationList count]; i++) {
         namedList = [equationList objectAtIndex:i];
-        //NSLog(@"%@", [namedList name]);
+        //NSLog(@"named list: %@, count: %d", [namedList name], [namedList count]);
         for (j = 0; j < [namedList count]; j++) {
             equation = [namedList objectAtIndex:j];
             if ([[equation expression] maxPhone] <= type) {
                 time = [equation evaluate:symbols phones:dummyPhoneList andCacheWith:cache];
                 //NSLog(@"\t%@", [equation name]);
                 //NSLog(@"\t\ttime = %f", time);
+                //NSLog(@"equation name: %@, formula: %@, time: %f", [equation name], [[equation expression] expressionString], time);
                 [bezierPath moveToPoint:NSMakePoint(50.0 + (timeScale*(float)time), 49.0)];
                 [bezierPath lineToPoint:NSMakePoint(50.0 + (timeScale*(float)time), 40.0)];
             }
@@ -206,7 +237,7 @@
 
 - (void)drawPhones;
 {
-    NSRect rect = {{0.0, 0.0}, {8.0, 8.0}};
+    NSRect rect = NSMakeRect(0, 0, 8, 8);
     NSPoint myPoint;
     float timeScale;
     float currentTimePoint;
@@ -219,33 +250,34 @@
         type = DIPHONE;
 
     [[NSColor blackColor] set];
+    [[NSColor redColor] set];
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:2];
 
-    timeScale = ([self frame].size.width - 100.0) / [[displayParameters cellAtIndex:0] floatValue];
-    myPoint.y = [self frame].size.height - 47.0;
+    timeScale = ([self bounds].size.width - 100.0) / [[displayParameters cellAtIndex:0] floatValue];
+    myPoint.y = [self bounds].size.height - 47.0;
 
     switch (type) {
       case TETRAPHONE:
           currentTimePoint = (timeScale * [[displayParameters cellAtIndex:4] floatValue]);
           [bezierPath moveToPoint:NSMakePoint(50.0 + currentTimePoint, 50.0)];
-          [bezierPath lineToPoint:NSMakePoint(50.0 + currentTimePoint, [self frame].size.height - 50.0)];
+          [bezierPath lineToPoint:NSMakePoint(50.0 + currentTimePoint, [self bounds].size.height - 50.0)];
           myPoint.x = currentTimePoint+47.0;
-          [squareMarker compositeToPoint:myPoint fromRect:rect operation:NSCompositeSourceOver];
+          [_squareMarker compositeToPoint:myPoint fromRect:rect operation:NSCompositeSourceOver];
 
       case TRIPHONE:
           currentTimePoint = (timeScale * [[displayParameters cellAtIndex:3] floatValue]);
           [bezierPath moveToPoint:NSMakePoint(50.0 + currentTimePoint, 50.0)];
-          [bezierPath lineToPoint:NSMakePoint(50.0 + currentTimePoint, [self frame].size.height - 50.0)];
+          [bezierPath lineToPoint:NSMakePoint(50.0 + currentTimePoint, [self bounds].size.height - 50.0)];
           myPoint.x = currentTimePoint+47.0;
-          [triangleMarker compositeToPoint:myPoint fromRect:rect operation:NSCompositeSourceOver];
+          [_triangleMarker compositeToPoint:myPoint fromRect:rect operation:NSCompositeSourceOver];
 
       case DIPHONE:
           currentTimePoint = (timeScale * [[displayParameters cellAtIndex:2] floatValue]);
           [bezierPath moveToPoint:NSMakePoint(50.0 + currentTimePoint, 50.0)];
-          [bezierPath lineToPoint:NSMakePoint(50.0 + currentTimePoint, [self frame].size.height - 50.0)];
+          [bezierPath lineToPoint:NSMakePoint(50.0 + currentTimePoint, [self bounds].size.height - 50.0)];
           myPoint.x = currentTimePoint+47.0;
-          [dotMarker compositeToPoint:myPoint fromRect:rect operation:NSCompositeSourceOver];
+          [_dotMarker compositeToPoint:myPoint fromRect:rect operation:NSCompositeSourceOver];
     }
 
     [bezierPath stroke];
@@ -274,8 +306,8 @@
     for (i = 0; i < 5; i++)
         symbols[i] = [[displayParameters cellAtIndex:i] doubleValue];
 
-    timeScale = ([self frame].size.width - 100.0) / [[displayParameters cellAtIndex:0] floatValue];
-    yScale = ([self frame].size.height - 100.0)/14.0;
+    timeScale = ([self bounds].size.width - 100.0) / [[displayParameters cellAtIndex:0] floatValue];
+    yScale = ([self bounds].size.height - 100.0)/14.0;
 
     cache++;
 
@@ -285,7 +317,6 @@
 
         if ([currentPoint isKindOfClass:[SlopeRatio class]])
             [(SlopeRatio *)currentPoint displaySlopesInList:displaySlopes];
-
     }
 
     bezierPath = [[NSBezierPath alloc] init];
@@ -305,13 +336,13 @@
         [bezierPath lineToPoint:NSMakePoint(myPoint.x+3.0, myPoint.y+3.0)];
         switch ([currentPoint type]) {
           case TETRAPHONE:
-              [squareMarker compositeToPoint:myPoint fromRect:rect operation:NSCompositeSourceOver];
+              [_squareMarker compositeToPoint:myPoint fromRect:rect operation:NSCompositeSourceOver];
               break;
           case TRIPHONE:
-              [triangleMarker compositeToPoint:myPoint fromRect:rect operation:NSCompositeSourceOver];
+              [_triangleMarker compositeToPoint:myPoint fromRect:rect operation:NSCompositeSourceOver];
               break;
           case DIPHONE:
-              [dotMarker compositeToPoint:myPoint fromRect:rect operation:NSCompositeSourceOver];
+              [_dotMarker compositeToPoint:myPoint fromRect:rect operation:NSCompositeSourceOver];
               break;
         }
 
@@ -324,7 +355,8 @@
         else
             [bezierPath moveToPoint:NSMakePoint(myPoint.x+3.0, myPoint.y+3.0)];
     }
-    [bezierPath lineToPoint:NSMakePoint([self frame].size.width-50.0, [self frame].size.height - 50.0 - (2.0*yScale))];
+    [bezierPath lineToPoint:NSMakePoint([self bounds].size.width-50.0, [self bounds].size.height - 50.0 - (2.0*yScale))];
+    [[NSColor greenColor] set];
     [bezierPath stroke];
     [bezierPath release];
 
@@ -350,7 +382,7 @@
 
             //NSLog(@"Selectoion; x: %f y:%f", myPoint.x, myPoint.y);
 
-            [selectionBox compositeToPoint:myPoint fromRect:rect operation:NSCompositeSourceOver];
+            [_selectionBox compositeToPoint:myPoint fromRect:rect operation:NSCompositeSourceOver];
         }
     }
 }
@@ -362,7 +394,7 @@
     NSRect rect = {{0.0, 10.0}, {100.0, 20.0}};
     SlopeRatio *currentPoint;
     MonetList *slopes, *points;
-    float timeScale = ([self frame].size.width - 100.0) / [[displayParameters cellAtIndex:0] floatValue];
+    float timeScale = ([self bounds].size.width - 100.0) / [[displayParameters cellAtIndex:0] floatValue];
 
     for (i = 0; i < [[currentTemplate points] count]; i++) {
         currentPoint = [[currentTemplate points] objectAtIndex:i];
@@ -383,6 +415,7 @@
                 NSLog(@"Buffer = %@", str);
 
                 [[NSColor blackColor] set];
+                [[NSColor blueColor] set];
                 [str drawAtPoint:NSMakePoint(([[(GSMPoint *)[points objectAtIndex:j] expression] cacheValue])*timeScale + 55.0, 16) withAttributes:nil];
             }
         }
@@ -423,14 +456,16 @@
 
 #define MOVE_MASK NSLeftMouseUpMask|NSLeftMouseDraggedMask
 
+// TODO (2004-03-10): Replace with mouseDragged: and mouseUp: methods
+
 - (void)mouseDown:(NSEvent *)theEvent;
 {
     int i;
     float row, row1, row2;
     float column, column1, column2;
     float distance, distance1;
-    float timeScale = ([self frame].size.width - 100.0) / [[displayParameters cellAtIndex:0] floatValue];
-    float yScale = ([self frame].size.height - 100.0)/14.0;
+    float timeScale = ([self bounds].size.width - 100.0) / [[displayParameters cellAtIndex:0] floatValue];
+    float yScale = ([self bounds].size.height - 100.0)/14.0;
     float tempValue, startTime, endTime;
     double symbols[5];
     NSPoint mouseDownLocation = [theEvent locationInWindow];
@@ -440,6 +475,8 @@
     Slope *tempSlope = nil;
     GSMPoint *tempPoint;
     NSPoint loc;
+
+    NSLog(@" > %s", _cmd);
 
     for (i = 0; i < 5; i++)
         symbols[i] = [[displayParameters cellAtIndex:i] doubleValue];
@@ -456,8 +493,10 @@
     if ([theEvent clickCount] == 1) {
         if (tempSlope) {
             [self getSlopeInput:tempSlope:startTime:endTime];
+            NSLog(@"<  %s (1)", _cmd);
             return;
         }
+
         [[self window] setAcceptsMouseMovedEvents:YES];
         [selectedPoints removeAllObjects];
         newEvent = [NSApp nextEventMatchingMask:NSAnyEventMask
@@ -465,6 +504,7 @@
                           inMode:NSEventTrackingRunLoopMode
                           dequeue:YES];
 
+        NSLog(@"event type: %d", [newEvent type]);
         if ([newEvent type] == NSLeftMouseUp) {
             cache++;
             distance = 100.0;
@@ -499,32 +539,46 @@
             [tempImage unlockFocus];
 
             /* Draw in current View */
+#ifdef PORTING
             [self lockFocus];
+#endif
             //PSsetinstance(TRUE);
             loc = [newEvent locationInWindow];
             while (1) {
+                // TODO (2004-03-10): Limit the events that we match
                 newEvent = [NSApp nextEventMatchingMask:NSAnyEventMask
                                   untilDate:[NSDate distantFuture]
                                   inMode:NSEventTrackingRunLoopMode
                                   dequeue:YES];
+                NSLog(@"event type: %d", [newEvent type]);
                 //PSnewinstance();
                 loc = [self convertPoint:loc fromView:nil];
                 if ([newEvent type] == NSLeftMouseUp)
                     break;
+                boxRect.origin.x = 50.0 + column;
+                boxRect.origin.y = 50.0 + row;
+                boxRect.size.width = loc.x - boxRect.origin.x;
+                boxRect.size.height = loc.y - boxRect.origin.y;
+                boxRect.size.width = 20;
+                boxRect.size.height = 10;
+                [self setNeedsDisplay:YES];
+                [self display];
+#if 0
                 [tempImage compositeToPoint:origin fromRect:[self bounds] operation:NSCompositeSourceOver];
                 [[NSColor darkGrayColor] set];
                 {
                     NSBezierPath *bezierPath;
 
                     bezierPath = [[NSBezierPath alloc] init];
-                    [bezierPath moveToPoint:NSMakePoint(column+50.0, row+50.0)];
-                    [bezierPath lineToPoint:NSMakePoint(column+50.0, loc.y)];
+                    [bezierPath moveToPoint:NSMakePoint(50.0+column, 50.0+row)];
+                    [bezierPath lineToPoint:NSMakePoint(50.0+column, loc.y)];
                     [bezierPath lineToPoint:NSMakePoint(loc.x, loc.y)];
-                    [bezierPath lineToPoint:NSMakePoint(loc.x, row+50.0)];
-                    [bezierPath lineToPoint:NSMakePoint(column+50.0, row+50.0)];
+                    [bezierPath lineToPoint:NSMakePoint(loc.x, 50.0+row)];
+                    [bezierPath lineToPoint:NSMakePoint(50.0+column, 50.0+row)];
                     [bezierPath stroke];
                     [bezierPath release];
                 }
+#endif
                 [[self window] flushWindow];
             }
             //PSsetinstance(FALSE);
@@ -558,7 +612,9 @@
                         [selectedPoints addObject:tempPoint];
             }
 
+#ifdef PORTING
             [self unlockFocus];
+#endif
             [tempImage release];
         }
 
@@ -570,7 +626,7 @@
     if ([theEvent clickCount] == 2) {
         tempPoint = [[GSMPoint alloc] init];
         [tempPoint setFreeTime:column/timeScale];
-        tempValue = (row - (2.0*yScale))/([self frame].size.height - 100.0 - (4*yScale)) * 100.0;
+        tempValue = (row - (2.0*yScale))/([self bounds].size.height - 100.0 - (4*yScale)) * 100.0;
 
         //NSLog(@"NewPoint Time: %f  value: %f", [tempPoint freeTime], [tempPoint value]);
         [tempPoint setValue:tempValue];
@@ -584,6 +640,8 @@
         [[controller inspector] inspectPoints:selectedPoints];
         [self display];
     }
+
+    NSLog(@"<  %s", _cmd);
 }
 
 #define RETURNKEY 42
@@ -591,7 +649,7 @@
 - getSlopeInput:aSlopeRatio:(float)startTime:(float)endTime;
 {
     int next = 0;
-    float timeScale = ([self frame].size.width - 100.0) / [[displayParameters cellAtIndex:0] floatValue];
+    float timeScale = ([self bounds].size.width - 100.0) / [[displayParameters cellAtIndex:0] floatValue];
     NSEvent *newEvent;
     NSRect displayRect;
     char buffer[8];
@@ -689,7 +747,7 @@
 {
     MonetList *pointList;
     SlopeRatio *currentPoint;
-    float timeScale = ([self frame].size.width - 100.0) / [[displayParameters cellAtIndex:0] floatValue];
+    float timeScale = ([self bounds].size.width - 100.0) / [[displayParameters cellAtIndex:0] floatValue];
     float tempTime;
     float time1, time2;
     int i, j;
@@ -724,11 +782,13 @@
     return nil;
 }
 
+#ifdef PORTING
 - (BOOL)performKeyEquivalent:(NSEvent *)theEvent;
 {
     NSLog(@"%d", [theEvent keyCode]);
     return YES;
 }
+#endif
 
 - (void)showWindow:(int)otherWindow;
 {

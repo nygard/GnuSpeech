@@ -179,6 +179,13 @@
                 waveform = NSMatrix; 
             }; 
             SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {delete = id; groupInSlopeRatio = id; }; 
+            CLASS = TransitionView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {controller = AppController; displayParameters = NSForm; }; 
+            SUPERCLASS = NSView; 
         }
     ); 
     IBVersion = 1; 

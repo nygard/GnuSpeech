@@ -106,14 +106,14 @@
     precedence = newPrec;
 }
 
-- (double)evaluate:(double *)ruleSymbols phones:phones;
+- (double)evaluate:(double *)ruleSymbols phones:(PhoneList *)phones;
 {
     double tempos[4] = {1.0, 1.0, 1.0, 1.0};
 
     return [self evaluate:ruleSymbols tempos:tempos phones:phones];
 }
 
-- (double)evaluate:(double *)ruleSymbols tempos:(double *)tempos phones:phones;
+- (double)evaluate:(double *)ruleSymbols tempos:(double *)tempos phones:(PhoneList *)phones;
 {
     switch (operation) {
       case TK_F_ADD:

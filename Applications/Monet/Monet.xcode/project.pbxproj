@@ -5,6 +5,19 @@
 	};
 	objectVersion = 39;
 	objects = {
+		01320E020600141A0065A25A = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
+			path = selectionBox.tiff;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01320E030600141A0065A25A = {
+			fileRef = 01320E020600141A0065A25A;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		0175901B05FA74A1004632CC = {
 			children = (
 				0175901C05FA74A1004632CC,
@@ -1793,6 +1806,7 @@
 				01B2014005F82F3800C1F65D,
 				01B2014105F82F3800C1F65D,
 				01B2014205F82F3800C1F65D,
+				01320E020600141A0065A25A,
 			);
 			isa = PBXGroup;
 			name = Images;
@@ -2513,6 +2527,7 @@
 				01B2015605F82F9B00C1F65D,
 				01B2016905F8305A00C1F65D,
 				0175901D05FA74A1004632CC,
+				01320E030600141A0065A25A,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,4 +1,5 @@
 #import <AppKit/NSView.h>
+#import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 @class MonetList, ProtoTemplate;
 @class AppController;
@@ -14,19 +15,11 @@
 
 @interface TransitionView : NSView
 {
-    AppController *controller;
-
-    /* Frame For Display */
-    NSRect totalFrame;
-
-    id displayParameters;
+    IBOutlet AppController *controller;
+    IBOutlet NSForm *displayParameters;
+    NSRect totalFrame; // Frame for display
 
     NSFont *timesFont;
-
-    NSImage *dotMarker;
-    NSImage *squareMarker;
-    NSImage *triangleMarker;
-    NSImage *selectionBox;
 
     ProtoTemplate *currentTemplate;
 
@@ -35,7 +28,11 @@
     MonetList *displaySlopes;
     MonetList *selectedPoints;
     int cache;
+
+    NSRect boxRect;
 }
+
++ (void)initialize;
 
 - (id)initWithFrame:(NSRect)frameRect;
 - (void)dealloc;
@@ -60,7 +57,7 @@
 - getSlopeInput:aSlopeRatio:(float)startTime:(float)endTime;
 - clickSlopeMarker:(float)row:(float)column:(float *)startTime:(float *)endTime;
 
-- (BOOL)performKeyEquivalent:(NSEvent *)theEvent;
+//- (BOOL)performKeyEquivalent:(NSEvent *)theEvent;
 - (void)showWindow:(int)otherWindow;
 
 - (void)delete:(id)sender;

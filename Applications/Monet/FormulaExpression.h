@@ -1,5 +1,7 @@
 #import <Foundation/NSObject.h>
 
+@class PhoneList;
+
 /*===========================================================================
 
 	Author: Craig-Richard Taube-Schock
@@ -40,8 +42,8 @@
 - (int)precedence;
 - (void)setPrecedence:(int)newPrec;
 
-- (double)evaluate:(double *)ruleSymbols phones:phones;
-- (double)evaluate:(double *)ruleSymbols tempos:(double *)tempos phones:phones;
+- (double)evaluate:(double *)ruleSymbols phones:(PhoneList *)phones;
+- (double)evaluate:(double *)ruleSymbols tempos:(double *)tempos phones:(PhoneList *)phones;
 
 - (void)optimize;
 - (void)optimizeSubExpressions;

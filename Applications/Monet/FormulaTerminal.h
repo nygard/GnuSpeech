@@ -1,6 +1,6 @@
 #import <Foundation/NSObject.h>
 
-@class Symbol;
+@class PhoneList, Symbol;
 
 /*===========================================================================
 
@@ -26,7 +26,7 @@
 {
     Symbol *symbol;
     double value;
-    int whichPhone;
+    int whichPhone; // TODO (2004-03-10): Rename this
     int precedence;
 
     int cacheTag;
@@ -49,8 +49,8 @@
 - (int)precedence;
 - (void)setPrecedence:(int)newPrec;
 
-- (double)evaluate:(double *)ruleSymbols phones:phones;
-- (double)evaluate:(double *)ruleSymbols tempos:(double *)tempos phones:phones;
+- (double)evaluate:(double *)ruleSymbols phones:(PhoneList *)phones;
+- (double)evaluate:(double *)ruleSymbols tempos:(double *)tempos phones:(PhoneList *)phones;
 
 - (void)optimize;
 - (void)optimizeSubExpressions;
