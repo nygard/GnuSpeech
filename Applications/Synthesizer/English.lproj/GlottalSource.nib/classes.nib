@@ -2,8 +2,15 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
+            ACTIONS = {changeMaximumFallTime = id; changeMinimumFallTime = id; changeRiseTime = id; }; 
             CLASS = MGlottalSourceController; 
             LANGUAGE = ObjC; 
+            OUTLETS = {
+                maximumFallTimeTextField = NSTextField; 
+                minimumFallTimeTextField = NSTextField; 
+                riseTimeTextField = NSTextField; 
+                waveShapeView = MWaveShapeView; 
+            }; 
             SUPERCLASS = MWindowController; 
         }, 
         {CLASS = MGraphView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 

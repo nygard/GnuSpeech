@@ -3,6 +3,8 @@
 
 #import "MGlottalSourceController.h"
 
+#import "MWaveShapeView.h"
+
 @implementation MGlottalSourceController
 
 - (id)init;
@@ -13,6 +15,28 @@
     [self setWindowFrameAutosaveName:@"GlottalSource"];
 
     return self;
+}
+
+- (void)windowDidLoad;
+{
+    [riseTimeTextField setDoubleValue:[waveShapeView riseTime]];
+    [minimumFallTimeTextField setDoubleValue:[waveShapeView minimumFallTime]];
+    [maximumFallTimeTextField setDoubleValue:[waveShapeView maximumFallTime]];
+}
+
+- (IBAction)changeRiseTime:(id)sender;
+{
+    [waveShapeView setRiseTime:[riseTimeTextField doubleValue]];
+}
+
+- (IBAction)changeMinimumFallTime:(id)sender;
+{
+    [waveShapeView setMinimumFallTime:[minimumFallTimeTextField doubleValue]];
+}
+
+- (IBAction)changeMaximumFallTime:(id)sender;
+{
+    [waveShapeView setMaximumFallTime:[maximumFallTimeTextField doubleValue]];
 }
 
 @end

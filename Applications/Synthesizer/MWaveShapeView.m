@@ -16,8 +16,8 @@
 
     // TODO (2004-08-30): This seems backwards to me -- with amplitude of 1.0 the fall time is minimum...  But perhaps this is correct, since less amplitude flattens out the pulse.
     minimumWavetable = TRMWavetableCreate(TRMWaveformTypePulse, riseTime, minimumFallTime, maximumFallTime, 11025.0);
-    TRMWavetableUpdate(minimumWavetable, 1.0);
     maximumWavetable = TRMWavetableCreate(TRMWaveformTypePulse, riseTime, minimumFallTime, maximumFallTime, 11025.0);
+    TRMWavetableUpdate(minimumWavetable, 1.0);
     TRMWavetableUpdate(maximumWavetable, 0.0);
 
     NSLog(@"minimumWavetable: %p, maximumWavetable: %p", minimumWavetable, maximumWavetable);
@@ -48,6 +48,9 @@
     TRMWavetableSetRiseTime(minimumWavetable, riseTime);
     TRMWavetableSetRiseTime(maximumWavetable, riseTime);
 
+    TRMWavetableUpdate(minimumWavetable, 1.0);
+    TRMWavetableUpdate(maximumWavetable, 0.0);
+
     [self setNeedsDisplay:YES];
 }
 
@@ -61,6 +64,10 @@
     minimumFallTime = newMinimumFallTime;
 
     TRMWavetableSetMinimumFallTime(minimumWavetable, minimumFallTime);
+    TRMWavetableSetMinimumFallTime(maximumWavetable, minimumFallTime);
+
+    TRMWavetableUpdate(minimumWavetable, 1.0);
+    TRMWavetableUpdate(maximumWavetable, 0.0);
 
     [self setNeedsDisplay:YES];
 }
@@ -74,7 +81,11 @@
 {
     maximumFallTime = newMaximumFallTime;
 
+    TRMWavetableSetMaximumFallTime(minimumWavetable, maximumFallTime);
     TRMWavetableSetMaximumFallTime(maximumWavetable, maximumFallTime);
+
+    TRMWavetableUpdate(minimumWavetable, 1.0);
+    TRMWavetableUpdate(maximumWavetable, 0.0);
 
     [self setNeedsDisplay:YES];
 }
@@ -155,7 +166,7 @@
     }
 
     [[NSColor blackColor] set];
-    //[[NSColor blueColor] set];
+    [[NSColor blueColor] set];
     [path stroke];
     [path release];
 }
