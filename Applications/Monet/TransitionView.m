@@ -745,7 +745,6 @@ static NSImage *_selectionBox = nil;
 
     hitSlope = [self getSlopeMarkerAtPoint:hitPoint startTime:&startTime endTime:&endTime];
 
-    // TODO: If it hit a slope input, do something else
     [self setShouldDrawSelection:NO];
     [selectedPoints removeAllObjects];
     [self setNeedsDisplay:YES];
@@ -754,9 +753,34 @@ static NSImage *_selectionBox = nil;
         if (hitSlope == nil)
             [[self window] endEditingFor:nil];
         else {
-            // TODO: get slope input
             [self editSlope:hitSlope startTime:startTime endTime:endTime];
-            NSLog(@"Get slope input");
+            return;
+        }
+
+        //NSLog(@"[mouseEvent modifierFlags]: %x", [mouseEvent modifierFlags]);
+        if ([mouseEvent modifierFlags] & NSAlternateKeyMask) {
+            GSMPoint *newPoint;
+            NSPoint graphOrigin = [self graphOrigin];
+            int yScale = [self sectionHeight];
+            float newValue;
+
+            //NSLog(@"Alt-clicked!");
+            newPoint = [[GSMPoint alloc] init];
+            [newPoint setFreeTime:(hitPoint.x - graphOrigin.x) / [self timeScale]];
+            //NSLog(@"hitPoint: %@, graphOrigin: %@, yScale: %d", NSStringFromPoint(hitPoint), NSStringFromPoint(graphOrigin), yScale);
+            newValue = (hitPoint.y - graphOrigin.y - (2.0 * yScale)) * 10.0 / (yScale);
+
+            //NSLog(@"NewPoint Time: %f  value: %f", [tempPoint freeTime], [tempPoint value]);
+            [newPoint setValue:newValue];
+            if ([currentTemplate insertPoint:newPoint]) {
+                [selectedPoints removeAllObjects];
+                [selectedPoints addObject:newPoint];
+            }
+
+            [newPoint release];
+
+            [[controller inspector] inspectPoints:selectedPoints];
+            [self setNeedsDisplay:YES];
             return;
         }
     }
@@ -933,300 +957,6 @@ static NSImage *_selectionBox = nil;
 
     [self setNeedsDisplay:YES];
 }
-
-#if PORTING
-- (void)mouseDown:(NSEvent *)theEvent;
-{
-    int i;
-    float row, row1, row2;
-    float column, column1, column2;
-    float distance, distance1;
-    float timeScale = ([self bounds].size.width - 100.0) / [[displayParameters cellAtIndex:0] floatValue];
-    float yScale = ([self bounds].size.height - 100.0)/14.0;
-    float tempValue, startTime, endTime;
-    double symbols[5];
-    NSPoint mouseDownLocation = [theEvent locationInWindow];
-    NSPoint origin = NSZeroPoint;
-    NSEvent *newEvent;
-    NSImage *tempImage;
-    Slope *tempSlope = nil;
-    GSMPoint *tempPoint;
-    NSPoint loc;
-
-    NSLog(@" > %s", _cmd);
-
-    for (i = 0; i < 5; i++)
-        symbols[i] = [[displayParameters cellAtIndex:i] doubleValue];
-
-    /* Get information about the original location of the mouse event */
-    mouseDownLocation = [self convertPoint:mouseDownLocation fromView:nil];
-
-    column = mouseDownLocation.x - 50.0;
-    row = mouseDownLocation.y - 50.0;
-
-    tempSlope = [self clickSlopeMarker:row:column:&startTime:&endTime];
-
-    /* Single click mouse events */
-    if ([theEvent clickCount] == 1) {
-        if (tempSlope) {
-            [self getSlopeInput:tempSlope:startTime:endTime];
-            NSLog(@"<  %s (1)", _cmd);
-            return;
-        }
-
-        [[self window] setAcceptsMouseMovedEvents:YES];
-        [selectedPoints removeAllObjects];
-        newEvent = [NSApp nextEventMatchingMask:NSAnyEventMask
-                          untilDate:[NSDate distantFuture]
-                          inMode:NSEventTrackingRunLoopMode
-                          dequeue:YES];
-
-        NSLog(@"event type: %d", [newEvent type]);
-        if ([newEvent type] == NSLeftMouseUp) {
-            cache++;
-            distance = 100.0;
-            for (i = 0; i < [displayPoints count]; i++) {
-                tempPoint = [displayPoints objectAtIndex:i];
-                if ([tempPoint expression] == nil)
-                    column1 = (float)[tempPoint freeTime];
-                else
-                    column1 = (float)[[tempPoint expression] evaluate:symbols phones:dummyPhoneList andCacheWith:cache];
-
-                column1 *= timeScale;
-                row1 = (float) ((yScale*2.0)+ ([tempPoint value] *yScale/10.0));
-                row1 -= row;
-                column1 -=column;
-                distance1 = (row1*row1)+(column1*column1);
-
-                if (distance1 < distance) {
-                    [selectedPoints removeAllObjects];
-                    [selectedPoints addObject:tempPoint];
-                }
-            }
-        } else {
-            /* Draw current state of the view for compositing. */
-            tempImage = [[NSImage alloc] initWithSize:[self bounds].size];
-            [tempImage lockFocus];
-            [self clearView];
-            [self drawGrid];
-            [self drawEquations];
-            [self drawPhones];
-            [self drawTransition];
-            [self drawSlopes];
-            [tempImage unlockFocus];
-
-            /* Draw in current View */
-#ifdef PORTING
-            [self lockFocus];
-#endif
-            //PSsetinstance(TRUE);
-            loc = [newEvent locationInWindow];
-            while (1) {
-                // TODO (2004-03-10): Limit the events that we match
-                newEvent = [NSApp nextEventMatchingMask:NSAnyEventMask
-                                  untilDate:[NSDate distantFuture]
-                                  inMode:NSEventTrackingRunLoopMode
-                                  dequeue:YES];
-                NSLog(@"event type: %d", [newEvent type]);
-                //PSnewinstance();
-                loc = [self convertPoint:loc fromView:nil];
-                if ([newEvent type] == NSLeftMouseUp)
-                    break;
-                boxRect.origin.x = 50.0 + column;
-                boxRect.origin.y = 50.0 + row;
-                boxRect.size.width = loc.x - boxRect.origin.x;
-                boxRect.size.height = loc.y - boxRect.origin.y;
-                boxRect.size.width = 20;
-                boxRect.size.height = 10;
-                [self setNeedsDisplay:YES];
-                [self display];
-#if 0
-                [tempImage compositeToPoint:origin fromRect:[self bounds] operation:NSCompositeSourceOver];
-                [[NSColor darkGrayColor] set];
-                {
-                    NSBezierPath *bezierPath;
-
-                    bezierPath = [[NSBezierPath alloc] init];
-                    [bezierPath moveToPoint:NSMakePoint(50.0+column, 50.0+row)];
-                    [bezierPath lineToPoint:NSMakePoint(50.0+column, loc.y)];
-                    [bezierPath lineToPoint:NSMakePoint(loc.x, loc.y)];
-                    [bezierPath lineToPoint:NSMakePoint(loc.x, 50.0+row)];
-                    [bezierPath lineToPoint:NSMakePoint(50.0+column, 50.0+row)];
-                    [bezierPath stroke];
-                    [bezierPath release];
-                }
-#endif
-                [[self window] flushWindow];
-            }
-            //PSsetinstance(FALSE);
-
-            // [self selectP
-
-            loc.y -= 50.0;
-            loc.x -= 50.0;
-            if (row < loc.y)
-                row1 = loc.y;
-            else {
-                row1 = row;
-                row = loc.y;
-            }
-
-            if (column < loc.x)
-                column1 = loc.x;
-            else {
-                column1 = column;
-                column = loc.x;
-            }
-            for (i = 0; i < [displayPoints count]; i++) {
-                tempPoint = [displayPoints objectAtIndex:i];
-                if ([tempPoint expression] == nil)
-                    column2 = (float) [tempPoint freeTime];
-                else
-                    column2 = (float) [[tempPoint expression] evaluate:symbols phones:dummyPhoneList andCacheWith:cache];
-                column2 *= timeScale;
-
-                row2 = (float) ((yScale*2.0)+ ([tempPoint value] *yScale/10.0));
-
-                if ((row2 < row1) && (row2 > row))
-                    if ((column2 < column1) && (column2 > column))
-                        [selectedPoints addObject:tempPoint];
-            }
-
-#ifdef PORTING
-            [self unlockFocus];
-#endif
-            [tempImage release];
-        }
-
-        [[controller inspector] inspectPoints:selectedPoints];
-        [self display];
-    }
-
-    // TODO: Try using option-click to add a point.
-    /* Double Click mouse events */
-    if ([theEvent clickCount] == 2) {
-        tempPoint = [[GSMPoint alloc] init];
-        [tempPoint setFreeTime:column/timeScale];
-        tempValue = (row - (2.0*yScale))/([self bounds].size.height - 100.0 - (4*yScale)) * 100.0;
-
-        //NSLog(@"NewPoint Time: %f  value: %f", [tempPoint freeTime], [tempPoint value]);
-        [tempPoint setValue:tempValue];
-        if ([currentTemplate insertPoint:tempPoint]) {
-            [selectedPoints removeAllObjects];
-            [selectedPoints addObject:tempPoint];
-        }
-
-        [tempPoint release];
-
-        [[controller inspector] inspectPoints:selectedPoints];
-        [self display];
-    }
-
-    NSLog(@"<  %s", _cmd);
-}
-#endif
-
-#define RETURNKEY 42
-
-#if 0
-// This is pretty fucking whacked!
-- getSlopeInput:aSlopeRatio:(float)startTime:(float)endTime;
-{
-    int next = 0;
-    float timeScale = ([self bounds].size.width - 100.0) / [[displayParameters cellAtIndex:0] floatValue];
-    NSEvent *newEvent;
-    NSRect displayRect;
-    char buffer[8];
-    int bufferIndex = 0;
-    float tempSlope;
-
-    bzero(buffer, 8);
-    [self lockFocus];
-
-    {
-        [timesFont set];
-        [[NSColor blackColor] set];
-        displayRect.origin.x = startTime*timeScale+51.0;
-        displayRect.origin.y = 11.0;
-        displayRect.size.width = (endTime-startTime)*timeScale;
-        displayRect.size.height = 18.0;
-        while (1) {
-            NSDrawWhiteBezel(displayRect, [self bounds]);
-            PSmoveto(displayRect.origin.x+3, displayRect.origin.y+4);
-            [[NSColor blackColor] set];
-            PSshow(buffer);
-            [[self window] flushWindow];
-            newEvent = [NSApp nextEventMatchingMask:NSAnyEventMask untilDate:[NSDate distantFuture] inMode:NSEventTrackingRunLoopMode dequeue:YES];
-
-            if ([newEvent type] == NSLeftMouseDown) {
-                if (bufferIndex > 0) {
-                    tempSlope = (float)atof(buffer);
-                    [aSlopeRatio setSlope:tempSlope];
-                }
-                break;
-            }
-
-            if ([newEvent type] == NSKeyDown) {
-                unichar ch;
-
-                ch = [[newEvent characters] characterAtIndex:0];
-
-                if (next == 0) {
-                    switch (ch)
-                    {
-                      case 46:
-                      case 48:
-                      case 49:
-                      case 50:
-                      case 51:
-                      case 52:
-                      case 53:
-                      case 54:
-                      case 55:
-                      case 56:
-                      case 57:
-                          if (bufferIndex >= 7)
-                              NSBeep();
-                          else
-                              buffer[bufferIndex++] = (char)ch;
-                          break;
-
-                      case 3:
-                      case 13:
-                          tempSlope = (float)atof(buffer);
-                          [aSlopeRatio setSlope:tempSlope];
-                          break;
-                      case 127:
-                          if (bufferIndex <= 0)
-                              NSBeep();
-                          else
-                              buffer[--bufferIndex] = '\000';
-                          break;
-
-                      default:
-                          NSBeep();
-                          break;
-                    }
-
-                    NSLog(@"CharCode = %d", ch);
-                }
-
-                next = 1;
-            }
-            if ([newEvent type] == NSKeyUp)
-                next = 0;
-            // TODO (2004-03-02): This is questionable, we're not sure it's a key event.
-            if (([[newEvent characters] characterAtIndex:0] == 3) || ([[newEvent characters] characterAtIndex:0] == 13))
-                break;
-        }
-        [self unlockFocus];
-
-        [self display];
-    }
-
-    return self;
-}
-#endif
 
 - (Slope *)getSlopeMarkerAtPoint:(NSPoint)aPoint startTime:(float *)startTime endTime:(float *)endTime;
 {
