@@ -381,7 +381,7 @@ static NSDictionary *_specialAcronyms = nil;
     unsigned int lastFootBegin;
     NSString *lastPhoneme = nil;
 
-    NSLog(@"%s, word: %@, isTonic: %d", _cmd, word, isTonic);
+    NSLog(@" > %s, word: %@, isTonic: %d", _cmd, word, isTonic);
 
     // Strip of possessive if word ends with 's
     isPossessive = [word hasSuffix:@"'s"];
@@ -433,6 +433,7 @@ static NSDictionary *_specialAcronyms = nil;
 
         while ([scanner isAtEnd] == NO) {
             if ([scanner scanString:@"'" intoString:NULL] == YES) {
+                lastFootBegin = [resultString length];
                 [resultString appendString:TTS_FOOT_BEGIN];
                 lastPhoneme = nil;
             } else if ([scanner scanString:@"\"" intoString:NULL] == YES) {
@@ -479,6 +480,8 @@ static NSDictionary *_specialAcronyms = nil;
     if (isTonic == YES && lastFootBegin != NSNotFound) {
         [resultString replaceCharactersInRange:NSMakeRange(lastFootBegin, 2) withString:TTS_TONIC_BEGIN];
     }
+
+    NSLog(@"<  %s, word: %@, isTonic: %d", _cmd, word, isTonic);
 }
 
 // Returns a string which contains a character-by-character pronunciation for the string pointed at by the argument word.
