@@ -69,6 +69,8 @@
 
     [self updateViews];
     [self expandOutlines];
+
+    [ruleTableView selectRow:0 byExtendingSelection:NO];
 }
 
 - (NSUndoManager *)undoManager;
@@ -89,7 +91,7 @@
 {
     MCommentCell *commentImageCell;
 
-    regularControlFont = [[NSFont controlContentFontOfSize:12] retain];
+    regularControlFont = [[NSFont controlContentFontOfSize:[NSFont systemFontSize]] retain];
     boldControlFont = [[[NSFontManager sharedFontManager] convertFont:regularControlFont toHaveTrait:NSBoldFontMask] retain];
 
     commentImageCell = [[MCommentCell alloc] initImageCell:nil];
@@ -102,6 +104,8 @@
 
     [self updateViews];
     [self expandOutlines];
+
+    [ruleTableView selectRow:0 byExtendingSelection:NO];
 }
 
 - (void)updateViews;

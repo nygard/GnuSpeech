@@ -58,6 +58,7 @@
     model = [newModel retain];
 
     [self updateViews];
+    [postureTableView selectRow:0 byExtendingSelection:NO];
 }
 
 - (NSUndoManager *)undoManager;
@@ -71,7 +72,7 @@
     NSButtonCell *checkboxCell;
     MCommentCell *commentImageCell;
 
-    regularControlFont = [[NSFont controlContentFontOfSize:12] retain];
+    regularControlFont = [[NSFont controlContentFontOfSize:[NSFont systemFontSize]] retain];
     boldControlFont = [[[NSFontManager sharedFontManager] convertFont:regularControlFont toHaveTrait:NSBoldFontMask] retain];
 
     defaultNumberFormatter = [NSNumberFormatter defaultNumberFormatter];
@@ -109,6 +110,7 @@
     [[[symbolTableView tableColumnWithIdentifier:@"default"] dataCell] setFormatter:defaultNumberFormatter];
 
     [self updateViews];
+    [postureTableView selectRow:0 byExtendingSelection:NO];
 }
 
 - (void)updateViews;

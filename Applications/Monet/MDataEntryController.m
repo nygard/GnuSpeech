@@ -52,6 +52,7 @@
     model = [newModel retain];
 
     [self updateViews];
+    [self _selectFirstRows];
 }
 
 - (NSUndoManager *)undoManager;
@@ -103,6 +104,7 @@
     [symbolCommentTextView setFieldEditor:YES];
 
     [self updateViews];
+    [self _selectFirstRows];
 }
 
 - (void)updateViews;
@@ -121,6 +123,14 @@
     [self _updateParameterComment];
     [self _updateMetaParameterComment];
     [self _updateSymbolComment];
+}
+
+- (void)_selectFirstRows;
+{
+    [categoryTableView selectRow:0 byExtendingSelection:NO];
+    [parameterTableView selectRow:0 byExtendingSelection:NO];
+    [metaParameterTableView selectRow:0 byExtendingSelection:NO];
+    [symbolTableView selectRow:0 byExtendingSelection:NO];
 }
 
 // TODO (2004-03-19): This should be _updateCategoryDetails now that it enables/disables the remove button

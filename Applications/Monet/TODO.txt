@@ -140,3 +140,4 @@ Notes:
   - I think this would be difficult to do.
 - In MMRule, key the transitions and special transitions by name, so we can easily change the order.  (Of course,
   that makes changing the name a bit more work.)
+- There seems to be Posture Symbols and Rule Symbols

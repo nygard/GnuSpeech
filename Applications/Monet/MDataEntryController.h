@@ -1,5 +1,5 @@
 //
-// $Id: MDataEntryController.h,v 1.5 2004/03/19 20:00:01 nygard Exp $
+// $Id: MDataEntryController.h,v 1.6 2004/03/24 20:25:58 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -46,6 +46,7 @@
 - (void)windowDidLoad;
 
 - (void)updateViews;
+- (void)_selectFirstRows;
 - (void)_updateCategoryComment;
 - (void)_updateParameterComment;
 - (void)_updateMetaParameterComment;
