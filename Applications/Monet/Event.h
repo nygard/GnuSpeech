@@ -1,4 +1,3 @@
-
 #import <Foundation/NSObject.h>
 
 /*===========================================================================
@@ -10,22 +9,25 @@
 =============================================================================
 */
 
-#define NaN 1.0/0.0
+#define NaN (1.0/0.0)
+#define MAX_EVENTS 36
 
-@interface Event:NSObject
+@interface Event : NSObject
 {
-	int time;
-	int flag;
-	double events[36];
-
+    int time;
+    BOOL flag;
+    double events[MAX_EVENTS];
 }
 
-- init;
+- (id)init;
+
+- (int)time;
 - (void)setTime:(int)newTime;
-- (int) time;
-- (void)setFlag:(int)newFlag;
-- (int) flag;
-- setValue: (double) newValue ofIndex: (int) index;
-- (double) getValueAtIndex:(int) index;
+
+- (BOOL)flag;
+- (void)setFlag:(BOOL)newFlag;
+
+- (double)getValueAtIndex:(int)index;
+- (void)setValue:(double)newValue ofIndex:(int)index;
 
 @end

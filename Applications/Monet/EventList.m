@@ -494,7 +494,7 @@ static void page_consumed(void)
 
     tempEvent = [self lastObject];
     [tempEvent setValue:value ofIndex:number];
-    [tempEvent setFlag:1];
+    [tempEvent setFlag:YES];
 }
 
 - (Event *)lastEvent;
@@ -822,7 +822,7 @@ static void page_consumed(void)
 //    if (currentPhone)
 //        [self applyIntonation];
 
-    [[self lastObject] setFlag:1];
+    [[self lastObject] setFlag:YES];
 }
 
 - (void)applyRule:rule withPhones:phoneList andTempos:(double *)tempos phoneIndex:(int)phoneIndex;
@@ -854,15 +854,15 @@ static void page_consumed(void)
       case 4:
           phones[phoneIndex+2].onset = (double)zeroRef + ruleSymbols[1];
           tempEvent = [self insertEvent:(-1) atTime:ruleSymbols[3] withValue:0.0];
-          [tempEvent setFlag:1];
+          [tempEvent setFlag:YES];
       case 3:
           phones[phoneIndex+1].onset = (double)zeroRef + ruleSymbols[1];
           tempEvent = [self insertEvent:(-1) atTime:ruleSymbols[2] withValue:0.0];
-          [tempEvent setFlag:1];
+          [tempEvent setFlag:YES];
       case 2:
           phones[phoneIndex].onset = (double)zeroRef + ruleSymbols[1];
           tempEvent = [self insertEvent:(-1) atTime:0.0 withValue:0.0];
-          [tempEvent setFlag:1];
+          [tempEvent setFlag:YES];
           break;
     }
 
@@ -932,7 +932,7 @@ static void page_consumed(void)
             }
         } else {
             tempEvent = [self insertEvent:i atTime:0.0 withValue:targets[0]];
-            //[tempEvent setFlag:1];
+            //[tempEvent setFlag:YES];
         }
     }
 
@@ -964,7 +964,7 @@ static void page_consumed(void)
 
     [self setZeroRef:(int)(ruleSymbols[0]*multiplier) +  zeroRef];
     tempEvent = [self insertEvent:(-1) atTime:0.0 withValue:0.0];
-    [tempEvent setFlag:1];
+    [tempEvent setFlag:YES];
 }
 
 - (void)synthesizeToFile:(NSString *)filename;
