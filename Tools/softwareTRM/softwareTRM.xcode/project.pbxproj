@@ -213,7 +213,9 @@
 		014CEA530018CE5811CA2923 = {
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
+				DSTROOT = /tmp/install;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				INSTALL_PATH = /GnuSpeech;
 				ZERO_LINK = NO;
 			};
 			isa = PBXBuildStyle;
