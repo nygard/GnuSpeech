@@ -1156,15 +1156,16 @@ void initializeWavetable(void)
 
 void updateWavetable(double amplitude)
 {
-    int i, j;
+    int i;
+    float j;
 
 
     /*  CALCULATE NEW CLOSURE POINT, BASED ON AMPLITUDE  */
-    double newDiv2 = tableDiv2 - rint(amplitude * tnDelta);
-    double newTnLength = newDiv2 - tableDiv1;
+    float newDiv2 = tableDiv2 - rint(amplitude * tnDelta);
+    float newTnLength = newDiv2 - tableDiv1;
     //double x;
-    double oneOver_newTnLength_squared;
-    double x1, x2, x3, x4;
+    float oneOver_newTnLength_squared;
+    float x1, x2, x3, x4;
     int newDiv2_int, limit;
     int remainder;
     //int j_2;
