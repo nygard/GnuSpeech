@@ -9,7 +9,7 @@
 #import "MonetList.h"
 #import "MMPoint.h"
 #import "PrototypeManager.h"
-#import "SlopeRatio.h"
+#import "MMSlopeRatio.h"
 
 #import "MModel.h"
 #import "MUnarchiver.h"
@@ -107,7 +107,7 @@
 
     for (i = 0; i < [points count]; i++) {
         temp = [points objectAtIndex:i];
-        if ([temp isKindOfClass:[SlopeRatio class]]) {
+        if ([temp isKindOfClass:[MMSlopeRatio class]]) {
             if (pointTime < [temp startTime]) {
                 [points insertObject:aPoint atIndex:i];
                 return self;
@@ -160,7 +160,7 @@
 
     for (i = 0; i < [points count]; i++) {
         temp = [points objectAtIndex: i];
-        if ([temp isKindOfClass:[SlopeRatio class]]) {
+        if ([temp isKindOfClass:[MMSlopeRatio class]]) {
             temp = [temp points];
             for (j = 0; j < [temp count]; j++)
                 if (anEquation == [[temp objectAtIndex:j] expression])
@@ -180,7 +180,7 @@
 
     for (i = 0; i < [points count]; i++) {
         temp = [points objectAtIndex:i];
-        if ([temp isKindOfClass:[SlopeRatio class]]) {
+        if ([temp isKindOfClass:[MMSlopeRatio class]]) {
             temp1 = [temp points];
             for (j = 0; j < [temp1 count]; j++)
                 if (anEquation == [[temp1 objectAtIndex:j] expression]) {

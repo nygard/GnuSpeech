@@ -1,4 +1,4 @@
-#import "SlopeRatio.h"
+#import "MMSlopeRatio.h"
 
 #import <Foundation/Foundation.h>
 #import "NSObject-Extensions.h"
@@ -20,7 +20,7 @@
 =============================================================================
 */
 
-@implementation SlopeRatio
+@implementation MMSlopeRatio
 
 - (id)init;
 {

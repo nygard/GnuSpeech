@@ -91,7 +91,7 @@
 
 // Actions
 - (IBAction)delete:(id)sender;
-- (IBAction)groupInSlopeRatio:(id)sender;
+- (IBAction)groupInMMSlopeRatio:(id)sender;
 - (IBAction)updateControlParameter:(id)sender;
 
 // Publicly used API

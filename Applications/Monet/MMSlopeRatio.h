@@ -11,7 +11,7 @@
 =============================================================================
 */
 
-@interface SlopeRatio : NSObject
+@interface MMSlopeRatio : NSObject
 {
     MonetList *points; // Of MMPoints
     MonetList *slopes; // Of MMSlopes

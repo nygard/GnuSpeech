@@ -15,7 +15,7 @@
 #import "Rule.h"
 #import "RuleList.h"
 #import "RuleManager.h"
-#import "SlopeRatio.h"
+#import "MMSlopeRatio.h"
 #import "MMTarget.h"
 #import "TargetList.h"
 
@@ -936,9 +936,9 @@ static void page_consumed(void)
             for (j = 0; j < [points count]; j++) {
                 currentPoint = [points objectAtIndex:j];
 
-                if ([currentPoint isKindOfClass:[SlopeRatio class]]) {
-                    if ([(MMPoint *)[[(SlopeRatio *)currentPoint points] objectAtIndex:0] type] != currentType) {
-                        currentType = [(MMPoint *)[[(SlopeRatio *)currentPoint points] objectAtIndex:0] type];
+                if ([currentPoint isKindOfClass:[MMSlopeRatio class]]) {
+                    if ([(MMPoint *)[[(MMSlopeRatio *)currentPoint points] objectAtIndex:0] type] != currentType) {
+                        currentType = [(MMPoint *)[[(MMSlopeRatio *)currentPoint points] objectAtIndex:0] type];
                         targets[currentType-2] = maxValue;
                         currentDelta = targets[currentType-1] - maxValue;
                     }

@@ -15,7 +15,7 @@
 #import "PrototypeManager.h"
 #import "MMTransition.h"
 #import "MMSlope.h"
-#import "SlopeRatio.h"
+#import "MMSlopeRatio.h"
 #import "SymbolList.h"
 #import "MMTarget.h"
 #import "TargetList.h"
@@ -401,8 +401,8 @@ static NSImage *_selectionBox = nil;
         [currentPoint calculatePoints:symbols tempos:tempos phones:dummyPhoneList andCacheWith:cache toDisplay:displayPoints];
         //NSLog(@"%2d (b): value: %g, freeTime: %g, type: %d, isPhantom: %d", index, [currentPoint value], [currentPoint freeTime], [currentPoint type], [currentPoint isPhantom]);
 
-        if ([currentPoint isKindOfClass:[SlopeRatio class]])
-            [(SlopeRatio *)currentPoint displaySlopesInList:displaySlopes];
+        if ([currentPoint isKindOfClass:[MMSlopeRatio class]])
+            [(MMSlopeRatio *)currentPoint displaySlopesInList:displaySlopes];
     }
 
     diphonePoints = [[NSMutableArray alloc] init];
@@ -784,7 +784,7 @@ static NSImage *_selectionBox = nil;
     int i, j;
     double start, end;
     NSRect rect = NSMakeRect(0, 0, 2 * LEFT_MARGIN, SLOPE_MARKER_HEIGHT);
-    SlopeRatio *currentPoint;
+    MMSlopeRatio *currentPoint;
     MonetList *slopes, *points;
     float timeScale = [self timeScale];
     NSPoint graphOrigin;
@@ -796,7 +796,7 @@ static NSImage *_selectionBox = nil;
 
     for (i = 0; i < [[currentTemplate points] count]; i++) {
         currentPoint = [[currentTemplate points] objectAtIndex:i];
-        if ([currentPoint isKindOfClass:[SlopeRatio class]]) {
+        if ([currentPoint isKindOfClass:[MMSlopeRatio class]]) {
             //NSLog(@"%d: Drawing slope ratio...", i);
             start = graphOrigin.x + [currentPoint startTime] * timeScale;
             end = graphOrigin.x + [currentPoint endTime] * timeScale;
@@ -898,7 +898,7 @@ static NSImage *_selectionBox = nil;
 - (MMSlope *)getSlopeMarkerAtPoint:(NSPoint)aPoint startTime:(float *)startTime endTime:(float *)endTime;
 {
     MonetList *pointList;
-    SlopeRatio *currentSlopeRatio;
+    MMSlopeRatio *currentMMSlopeRatio;
     float timeScale = [self timeScale];
     float tempTime;
     float time1, time2;
@@ -928,10 +928,10 @@ static NSImage *_selectionBox = nil;
 
     points = [currentTemplate points];
     for (i = 0; i < [points count]; i++) {
-        currentSlopeRatio = [points objectAtIndex:i];
-        if ([currentSlopeRatio isKindOfClass:[SlopeRatio class]]) {
-            if ((tempTime < [currentSlopeRatio endTime]) && (tempTime > [currentSlopeRatio startTime])) {
-                pointList = [currentSlopeRatio points];
+        currentMMSlopeRatio = [points objectAtIndex:i];
+        if ([currentMMSlopeRatio isKindOfClass:[MMSlopeRatio class]]) {
+            if ((tempTime < [currentMMSlopeRatio endTime]) && (tempTime > [currentMMSlopeRatio startTime])) {
+                pointList = [currentMMSlopeRatio points];
                 time1 = [[pointList objectAtIndex:0] getTime];
 
                 for (j = 1; j < [pointList count]; j++) {
@@ -940,7 +940,7 @@ static NSImage *_selectionBox = nil;
                         *startTime = time1;
                         *endTime = time2;
                         //NSLog(@"<  %s", _cmd);
-                        return [[currentSlopeRatio slopes] objectAtIndex:j-1];
+                        return [[currentMMSlopeRatio slopes] objectAtIndex:j-1];
                     }
 
                     time1 = time2;
@@ -1065,12 +1065,12 @@ static NSImage *_selectionBox = nil;
 }
 
 
-- (IBAction)groupInSlopeRatio:(id)sender;
+- (IBAction)groupInMMSlopeRatio:(id)sender;
 {
     int i, index;
     int type;
     MonetList *tempPoints, *newPoints;
-    SlopeRatio *tempSlopeRatio;
+    MMSlopeRatio *tempMMSlopeRatio;
 
     if ([selectedPoints count] < 3) {
         NSBeep();
@@ -1091,14 +1091,14 @@ static NSImage *_selectionBox = nil;
     for (i = 0; i < [selectedPoints count]; i++)
         [tempPoints removeObject:[selectedPoints objectAtIndex:i]];
 
-    tempSlopeRatio = [[SlopeRatio alloc] init];
-    newPoints = [tempSlopeRatio points];
+    tempMMSlopeRatio = [[MMSlopeRatio alloc] init];
+    newPoints = [tempMMSlopeRatio points];
     for (i = 0; i < [selectedPoints count]; i++)
         [newPoints addObject:[selectedPoints objectAtIndex:i]];
-    [tempSlopeRatio updateSlopes];
+    [tempMMSlopeRatio updateSlopes];
 
-    [tempPoints insertObject:tempSlopeRatio atIndex:index];
-    [tempSlopeRatio release];
+    [tempPoints insertObject:tempMMSlopeRatio atIndex:index];
+    [tempMMSlopeRatio release];
 
     [self setNeedsDisplay:YES];
 }
