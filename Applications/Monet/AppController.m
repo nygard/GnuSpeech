@@ -354,9 +354,6 @@
 {
     NSSavePanel *savePanel;
 
-    NSLog(@" > %s", _cmd);
-    NSLog(@"filename: %@", filename);
-
     savePanel = [NSSavePanel savePanel];
     [savePanel setRequiredFileType:@"mxml"];
     if ([savePanel runModalForDirectory:nil file:[filename lastPathComponent]] == NSFileHandlingPanelOKButton) {
@@ -364,7 +361,6 @@
         BOOL result;
 
         newFilename = [savePanel filename];
-        NSLog(@"new filename: %@", newFilename);
 
         result = [model writeXMLToFile:newFilename comment:nil];
 
@@ -375,20 +371,15 @@
             NSLog(@"Saved file: %@", newFilename);
         }
     }
-
-    NSLog(@"<  %s", _cmd);
 }
 
 // TODO (2004-05-20): We could only enable this when filename != nil, or just wait until we start using the document architecture.
 - (IBAction)revertDocumentToSaved:(id)sender;
 {
-    NSLog(@" > %s", _cmd);
-    NSLog(@"filename: %@", filename);
     if (filename == nil)
         NSBeep();
     else
         [self _loadFile:filename];
-    NSLog(@"<  %s", _cmd);
 }
 
 - (IBAction)savePrototypes:(id)sender;
