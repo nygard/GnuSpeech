@@ -41,7 +41,7 @@ popd
 svn export . $DSTROOT/$1/Source
 
 # Copy the data file to a convenient top-level location
-cp $DSTROOT/$1/Source/Appications/Monet/diphones.mxml $DSTROOT/$1
+cp $DSTROOT/$1/Source/Applications/Monet/diphones.mxml $DSTROOT/$1
 
 # And now create the disk image
 mkdir -p /tmp/packages
