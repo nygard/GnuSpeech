@@ -1,19 +1,14 @@
-+ change -makeObjectsPerform: to -makeObjectsPerformSelector:
-+ wondering about programming error in BooleanParser
-  + Caused by Openstep conversion scripts
-+ odd cases in BooleanParser, addSubExpression:self
-  + it's totally wrong, adding the parser.  Sheesh!
-  + again, caused by Openstep convertion scripts
-+ what does it mean to be "native"?
-+ correct spelling, change "editting" to "editing"
 - it looks like one Point in "DefaultPrototypes" is bad, with list index of -1, secondary index of 0x5037312 (84112146).
   - actually it looks like three points.
   - look at similar code in Rule.m that checks for -1 value.
-+ don't call init methods in -initWithCoder:
+- move the NSRunAlertPanel() call out of SlopeRatio!
+  - and adding points to slopes doesn't quite work properly right now -- another slope doesn't get added?
 - Parameter and Symbol look pretty close to identical!
-- eliminate MonetList, replace with NSMutableArray.  Or maybe not, since it has an array, but is not an array.
 - do we need to free the strings that we get from:
     [aDecoder decodeValueOfObjCType:"*" at:&c_string];
+  - be sure to free strings unarchived from typed streams.
+
+- eliminate MonetList, replace with NSMutableArray.  Or maybe not, since it has an array, but is not an array.
 - probable programming error in original Rule.m:
         for(i = 0; i< 16; i++)
         {
@@ -22,7 +17,23 @@
     - I think it should be checking "j" for -1 value.
 - it looks like I'm getting different results when I load MonetBlank.monet twice in a row...
 - I can't load "Play2.monet".  It looks like there's a point encoded as "di" instead of "ddii".
-- I think -[PointInspector browserHit:] was wrong with:
+- Hmm.  Duration form in Rule Parser window, text shifts when selecting it (tabbing into the field.)
+- stars in rules after phones seems to match, i.e., ch and ch' for "ch*"
+- check that we aren't returning floats/doubles from calls to methods that might return nil;
+- we could filter the rules, showing which ones match a given symbol input.
+- we could add a column to the rule list to show the total combinations matched.
+
+Done
++ change -makeObjectsPerform: to -makeObjectsPerformSelector:
++ wondering about programming error in BooleanParser
+  + Caused by Openstep conversion scripts
++ odd cases in BooleanParser, addSubExpression:self
+  + it's totally wrong, adding the parser.  Sheesh!
+  + again, caused by Openstep convertion scripts
++ what does it mean to be "native"?
++ correct spelling, change "editting" to "editing"
++ don't call init methods in -initWithCoder:
++ I think -[PointInspector browserHit:] was wrong with:
                 [tempProto findEquation:listIndex andIndex:    index];
                 temp = tempProto;
                 [currentPoint setExpression:temp];
@@ -30,20 +41,13 @@
   I think it should be this:
                 temp = [tempProto findEquation:listIndex andIndex:    index];
                 [currentPoint setExpression:temp];
-- there was some really bogus conversion in PhoneInspector.m, in browserHit:, where this:
++ there was some really bogus conversion in PhoneInspector.m, in browserHit:, where this:
 	case 1: tempList = [currentPhone parameterList];
   was converted to this:
       case 1: [currentPhone parameterList]; tempList = currentPhone;
   What?!
-- Hmm.  Duration form in Rule Parser window, text shifts when selecting it (tabbing into the field.)
-- stars in rules after phones seems to match, i.e., ch and ch' for "ch*"
-- check that we aren't returning floats/doubles from calls to methods that might return nil;
-- fixed spelling of "parmeters" in Phone init method
-- be sure to free strings unarchived from typed streams.
-- we could filter the rules, showing which ones match a given symbol input.
-- we could add a column to the rule list to show the total combinations matched.
-- move the NSRunAlertPanel() call out of SlopeRatio!
-  - and adding points to slopes doesn't quite work properly right now -- another slope doesn't get added?
++ fixed spelling of "parmeters" in Phone init method
++ rename Phone to Posture
 
 2004-11-14:
 - +SpecialView, +PointInspector, +RuleInspector, *IntonationView, +IntonationScrollView, *IntonationPointInspector, EventListView
@@ -70,9 +74,9 @@ TODO:
 - merge Parameter, Symbol classes
 - remove "native" category
   - update boolean parser to recognize postures at well
-- rename Phone to Posture
 
 
+Notes:
 - bezier paths may need to be on 1/2 pixel coordinates, depending on the line width.
 - when using NSRectFill you need to use integral coordinates.
 - I see that the time formulas should produce monotonically increasing values for times.  Fricatives/Dud12 is an example that doesn't do this.
@@ -90,23 +94,22 @@ TODO:
 - inspecting zero points should show "No Inspector", not "Multiple Points Selected"
 - when dragging to select points and no points are selected, the point inspector shows "No Inspector" and "Multiple Points Selected"
 - you shouldn't be able to (try to) set the value for a point that is part of a slope ratio.
-- Use MM prefix for model objects (MMPoint, MMEquation, MMTransition, MMParameter, MMPosture, ...)
-  - try M prefix for remaining object (MMonetModel, MTransitionView, MInspector, ...)
+  + try M prefix for remaining object (MMonetModel, MTransitionView, MInspector, ...)
 - Just noticed that "Drift Parmeters" is misspelled in the original Intonation Window.
 - Rename classes
-  - Phone -> MMPosture
+  + Phone -> MMPosture
   - NamedList -> MMGroup (where appropriate)
-  - CateogoryNode -> MMCategory
-  - Parameter -> MMParameter
+  + CateogoryNode -> MMCategory
+  + Parameter -> MMParameter
   - Symbol -> MMParameter
-  - Point(GSMPoint) -> MMPoint
-  - Rule -> MMRule
-  - ProtoEquation -> MMEquation
-  - ProtoTemplate -> MMTransition
+  + Point(GSMPoint) -> MMPoint
+  + Rule -> MMRule
+  + ProtoEquation -> MMEquation
+  + ProtoTemplate -> MMTransition
   - GSParser -> MParser
-  - Slope -> MMSlope
-  - SlopeRatio -> MMSlopeRatio
-  - Target -> MMTarget
+  + Slope -> MMSlope
+  + SlopeRatio -> MMSlopeRatio
+  + Target -> MMTarget
 
 
 2004-03-18:
