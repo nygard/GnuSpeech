@@ -81,11 +81,13 @@ extern NSString *EventListDidRemoveIntonationPoint;
     int duration; // Move... somewhere else.
     int timeQuantization; // in msecs.  By default it generates parameters every 4 msec
 
-    BOOL shouldStoreParameters; // YES -> -generateOutput writes to /tmp/Monet.parameters
-    BOOL shouldUseMacroIntonation;
-    BOOL shouldUseMicroIntonation;
-    BOOL shouldUseDrift;
-    BOOL shouldUseSmoothIntonation;
+    struct {
+        unsigned int shouldStoreParameters:1; // YES -> -generateOutput writes to /tmp/Monet.parameters
+        unsigned int shouldUseMacroIntonation:1;
+        unsigned int shouldUseMicroIntonation:1;
+        unsigned int shouldUseDrift:1;
+        unsigned int shouldUseSmoothIntonation:1;
+    } flags;
 
     double radiusMultiply; // Affects hard coded parameters, in this case r1 and r2.
     double pitchMean;

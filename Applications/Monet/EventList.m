@@ -120,9 +120,9 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
 
     globalTempo = 1.0;
     multiplier = 1.0;
-    shouldUseMacroIntonation = NO;
-    shouldUseMicroIntonation = NO;
-    shouldUseDrift = NO;
+    flags.shouldUseMacroIntonation = NO;
+    flags.shouldUseMicroIntonation = NO;
+    flags.shouldUseDrift = NO;
 
     intonationParameters.notionalPitch = 0;
     intonationParameters.pretonicRange = 0;
@@ -130,7 +130,7 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
     intonationParameters.tonicRange = -8;
     intonationParameters.tonicMovement = -6;
 
-    shouldUseSmoothIntonation = NO;
+    flags.shouldUseSmoothIntonation = NO;
 
     postureCount = 0;
     bzero(phones, MAXPHONES * sizeof(struct _phone));
@@ -215,12 +215,12 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
 
 - (BOOL)shouldStoreParameters;
 {
-    return shouldStoreParameters;
+    return flags.shouldStoreParameters;
 }
 
 - (void)setShouldStoreParameters:(BOOL)newFlag;
 {
-    shouldStoreParameters = newFlag;
+    flags.shouldStoreParameters = newFlag;
 }
 
 - (double)pitchMean;
@@ -255,42 +255,42 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
 
 - (BOOL)shouldUseMacroIntonation;
 {
-    return shouldUseMacroIntonation;
+    return flags.shouldUseMacroIntonation;
 }
 
 - (void)setShouldUseMacroIntonation:(BOOL)newFlag;
 {
-    shouldUseMacroIntonation = newFlag;
+    flags.shouldUseMacroIntonation = newFlag;
 }
 
 - (BOOL)shouldUseMicroIntonation;
 {
-    return shouldUseMicroIntonation;
+    return flags.shouldUseMicroIntonation;
 }
 
 - (void)setShouldUseMicroIntonation:(BOOL)newFlag;
 {
-    shouldUseMicroIntonation = newFlag;
+    flags.shouldUseMicroIntonation = newFlag;
 }
 
 - (BOOL)shouldUseDrift;
 {
-    return shouldUseDrift;
+    return flags.shouldUseDrift;
 }
 
 - (void)setShouldUseDrift:(BOOL)newFlag;
 {
-    shouldUseDrift = newFlag;
+    flags.shouldUseDrift = newFlag;
 }
 
 - (BOOL)shouldUseSmoothIntonation;
 {
-    return shouldUseSmoothIntonation;
+    return flags.shouldUseSmoothIntonation;
 }
 
 - (void)setShouldUseSmoothIntonation:(BOOL)newValue;
 {
-    shouldUseSmoothIntonation = newValue;
+    flags.shouldUseSmoothIntonation = newValue;
 }
 
 - (struct _intonationParameters)intonationParameters;
@@ -579,7 +579,7 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
     if ([events count] == 0)
         return;
 
-    if (shouldStoreParameters == YES) {
+    if (flags.shouldStoreParameters == YES) {
         fp = fopen("/tmp/Monet.parameters", "a+");
     } else
         fp = NULL;
@@ -597,7 +597,7 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
     for (i = 16; i < 36; i++)
         currentValues[i] = currentDeltas[i] = 0.0;
 
-    if (shouldUseSmoothIntonation) {
+    if (flags.shouldUseSmoothIntonation) {
         j = 0;
         while ( (temp = [[events objectAtIndex:j] getValueAtIndex:32]) == NaN) {
             j++;
@@ -634,11 +634,11 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
         for (j = 0; j < 16; j++) {
             table[j] = (float)currentValues[j] + (float)currentValues[j+16];
         }
-        if (!shouldUseMicroIntonation)
+        if (!flags.shouldUseMicroIntonation)
             table[0] = 0.0;
-        if (shouldUseDrift)
+        if (flags.shouldUseDrift)
             table[0] += drift();
-        if (shouldUseMacroIntonation) {
+        if (flags.shouldUseMacroIntonation) {
             //NSLog(@"sumi, table[0]: %f, currentValues[32]: %f", table[0], currentValues[32]);
             table[0] += currentValues[32];
         }
@@ -659,7 +659,7 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
             if (currentDeltas[j])
                 currentValues[j] += currentDeltas[j];
         }
-        if (shouldUseSmoothIntonation) {
+        if (flags.shouldUseSmoothIntonation) {
             currentDeltas[34] += currentDeltas[35];
             currentDeltas[33] += currentDeltas[34];
             currentValues[32] += currentDeltas[33];
@@ -692,7 +692,7 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
                     }
                 }
             }
-            if (shouldUseSmoothIntonation) {
+            if (flags.shouldUseSmoothIntonation) {
                 if ([[events objectAtIndex:i-1] getValueAtIndex:33] != NaN) {
                     currentDeltas[32] = 0.0;
                     currentDeltas[33] = [[events objectAtIndex:i-1] getValueAtIndex:33];
