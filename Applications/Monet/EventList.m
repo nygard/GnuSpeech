@@ -26,11 +26,6 @@
 #endif
 #endif
 
-/*===========================================================================
-
-
-===========================================================================*/
-
 #define PAGES 16
 
 #if 1
@@ -504,25 +499,18 @@ static void page_consumed(void)
 - (void)generateOutput;
 {
     int i, j, k;
-    //int synthStatus = IDLE;
     int currentTime, nextTime;
-#ifdef HAVE_DSP
-    int watermark = 0;
-#endif
     double currentValues[36];
     double currentDeltas[36];
     double temp;
     float table[16];
     FILE *fp;
-#ifdef HAVE_DSP
-    float silencePage[16] = {0.0, 0.0, 0.0, 0.0, 5.5, 2500.0, 500.0, 0.8, 0.89, 0.99, 0.81, 0.76, 1.05, 1.23, 0.01, 0.0};
-    DSPFix24 *silenceTable;
-#endif
 
     NSLog(@"%s, self: %@", _cmd, self);
 
     if ([self count] == 0)
         return;
+
     if (shouldStoreParameters == NO) {
         fp = fopen("/tmp/Monet.parameters", "w");
     } else if (shouldUseSoftwareSynthesis) {
@@ -578,155 +566,74 @@ static void page_consumed(void)
     currentTime = 0;
     nextTime = [[self objectAtIndex:1] time];
     while (i < [self count]) {
-        /* If buffer space is available, perform calculations */
-#ifdef HAVE_DSP
-            //if (bufferFree[currentInputBuffer] == 1) {
-            //bzero(outputBuffer + (currentInputBuffer*NSPageSize()), 8192);
-#endif
-        {
-#ifdef HAVE_DSP
-            //while (currentIndex < 8192) {
-#endif
-            while (1) { // Keeping this a while loop so I don't break breaks.
-                for (j = 0; j < 16; j++) {
-                    table[j] = (float)currentValues[j] + (float)currentValues[j+16];
-                }
-                if (!shouldUseMicroIntonation)
-                    table[0] = 0.0;
-                if (shouldUseDrift)
-                    table[0] += drift();
-                if (shouldUseMacroIntonation)
-                    table[0] += currentValues[32];
+        for (j = 0; j < 16; j++) {
+            table[j] = (float)currentValues[j] + (float)currentValues[j+16];
+        }
+        if (!shouldUseMicroIntonation)
+            table[0] = 0.0;
+        if (shouldUseDrift)
+            table[0] += drift();
+        if (shouldUseMacroIntonation)
+            table[0] += currentValues[32];
 
-                table[0] += pitchMean;
+        table[0] += pitchMean;
 
-                if (fp)
-                    fprintf(fp, "%.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f\n",
-                            table[0], table[1], table[2], table[3],
-                            table[4], table[5], table[6], table[7],
-                            table[8], table[9], table[10], table[11],
-                            table[12], table[13], table[14], table[15]);
-#ifdef HAVE_DSP
-                convert_parameter_table(table, outputBuffer + (currentInputBuffer*NSPageSize()) + currentIndex);
-                currentIndex += 128;
-#endif
+        if (fp)
+            fprintf(fp, "%.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f\n",
+                    table[0], table[1], table[2], table[3],
+                    table[4], table[5], table[6], table[7],
+                    table[8], table[9], table[10], table[11],
+                    table[12], table[13], table[14], table[15]);
 
-                for (j = 0 ; j < 32; j++) {
-                    if (currentDeltas[j])
-                        currentValues[j] += currentDeltas[j];
-                }
-                if (shouldUseSmoothIntonation) {
-                    currentDeltas[34] += currentDeltas[35];
-                    currentDeltas[33] += currentDeltas[34];
-                    currentValues[32] += currentDeltas[33];
-                } else {
-                    if (currentDeltas[32])
-                        currentValues[32] += currentDeltas[32];
-                }
-                currentTime += 4;
+        for (j = 0 ; j < 32; j++) {
+            if (currentDeltas[j])
+                currentValues[j] += currentDeltas[j];
+        }
+        if (shouldUseSmoothIntonation) {
+            currentDeltas[34] += currentDeltas[35];
+            currentDeltas[33] += currentDeltas[34];
+            currentValues[32] += currentDeltas[33];
+        } else {
+            if (currentDeltas[32])
+                currentValues[32] += currentDeltas[32];
+        }
+        currentTime += 4;
 
-                if (currentTime >= nextTime) {
-                    i++;
-                    if (i == [self count])
-                        break;
-
-                    nextTime = [[self objectAtIndex:i] time];
-                    for (j = 0; j < 33; j++) {
-                        if ([[self objectAtIndex:i-1] getValueAtIndex:j] != NaN) {
-                            k = i;
-                            while ((temp = [[self objectAtIndex:k] getValueAtIndex:j]) == NaN) {
-                                if (k >= [self count] - 1) {
-                                    currentDeltas[j] = 0.0;
-                                    break;
-                                }
-                                k++;
-                            }
-
-                            if (temp != NaN) {
-                                currentDeltas[j] = (temp - currentValues[j]) /
-                                    (double) ([[self objectAtIndex:k] time] - currentTime) * 4.0;
-                            }
-                        }
-                    }
-                    if (shouldUseSmoothIntonation) {
-                        if ([[self objectAtIndex:i-1] getValueAtIndex:33] != NaN) {
-                            currentDeltas[32] = 0.0;
-                            currentDeltas[33] = [[self objectAtIndex:i-1] getValueAtIndex:33];
-                            currentDeltas[34] = [[self objectAtIndex:i-1] getValueAtIndex:34];
-                            currentDeltas[35] = [[self objectAtIndex:i-1] getValueAtIndex:35];
-                        }
-                    }
-                }
-                if (i >= [self count])
-                    break;
-            }
-
-            if (i >= [self count])
+        if (currentTime >= nextTime) {
+            i++;
+            if (i == [self count])
                 break;
-#ifdef HAVE_DSP
-            if (currentIndex >= 8192) {
-                //NSLog(@"Calculated page %d.", currentInputBuffer);
-                bufferFree[currentInputBuffer] = 0;
-                currentIndex = 0;
-                currentInputBuffer = (currentInputBuffer+1) % PAGES;
-                watermark++;
-                //NSLog(@" new page = %d", currentInputBuffer);
-            }
-#endif
-        }
-#ifdef HAVE_DSP
-        if ((synthStatus == IDLE) && (watermark > 14))
-            if(start_synthesizer() == ST_NO_ERROR)
-                synthStatus = RUNNING;
-        if (synthStatus == RUNNING)
-            await_request_new_page(ST_NO, ST_NO, update_synth_ptr, page_consumed);
-#endif
-    }
-#ifdef HAVE_DSP
-    if (synthStatus == IDLE)
-        if (start_synthesizer() == ST_NO_ERROR)
-            synthStatus = RUNNING;
-#endif
-#ifdef HAVE_DSP
-    if (currentIndex < 8192) {
-        if (shouldUseSoftwareSynthesis) {
-            fclose(fp);
-            fp = NULL;
-        }
-        if (fp)
-            fprintf(fp, "Start of Padding\n");
-        silenceTable = new_dsp_pad_table(silencePage);
-        for(i = 0; i < 16; i++)
-            currentValues[i] = (double)DSPFix24ToFloat(silenceTable[i]);
-        while (currentIndex < 8192) {
-            bcopy(silenceTable, outputBuffer + (currentInputBuffer*NSPageSize()) + currentIndex, 128);
-            currentIndex += 128;
-            if (fp)
-                fprintf(fp, "Time: %d; %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f\n",
-                        currentTime, currentValues[0], currentValues[1], currentValues[2], currentValues[3],
-                        currentValues[4], currentValues[5], currentValues[6], currentValues[7],
-                        currentValues[8], currentValues[9], currentValues[10], currentValues[11],
-                        currentValues[12], currentValues[13], currentValues[14], currentValues[15]);
-            currentTime += 4;
-        }
-        if (fp)
-            fprintf(fp, "End of Padding\n");
-        bufferFree[currentInputBuffer] = 0;
-        free(silenceTable);
-        //NSLog(@"Finished Silencing page %d", currentInputBuffer);
-    } else {
-        bufferFree[currentInputBuffer] = 0;
-    }
-#endif
 
-#ifdef HAVE_DSP
-    while (bufferFree[currentOutputBuffer] != 1) {
-        if (bufferFree[(currentOutputBuffer+1)%PAGES])
-            await_request_new_page(ST_YES, ST_YES, update_synth_ptr, page_consumed);
-        else
-            await_request_new_page(ST_NO, ST_NO, update_synth_ptr, page_consumed);
+            nextTime = [[self objectAtIndex:i] time];
+            for (j = 0; j < 33; j++) {
+                if ([[self objectAtIndex:i-1] getValueAtIndex:j] != NaN) {
+                    k = i;
+                    while ((temp = [[self objectAtIndex:k] getValueAtIndex:j]) == NaN) {
+                        if (k >= [self count] - 1) {
+                            currentDeltas[j] = 0.0;
+                            break;
+                        }
+                        k++;
+                    }
+
+                    if (temp != NaN) {
+                        currentDeltas[j] = (temp - currentValues[j]) /
+                            (double) ([[self objectAtIndex:k] time] - currentTime) * 4.0;
+                    }
+                }
+            }
+            if (shouldUseSmoothIntonation) {
+                if ([[self objectAtIndex:i-1] getValueAtIndex:33] != NaN) {
+                    currentDeltas[32] = 0.0;
+                    currentDeltas[33] = [[self objectAtIndex:i-1] getValueAtIndex:33];
+                    currentDeltas[34] = [[self objectAtIndex:i-1] getValueAtIndex:34];
+                    currentDeltas[35] = [[self objectAtIndex:i-1] getValueAtIndex:35];
+                }
+            }
+        }
     }
-#endif
+
+    // TODO (2004-03-25): There used to be some silence padding here.
 
     if (fp)
         fclose(fp);
