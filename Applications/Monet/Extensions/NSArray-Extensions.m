@@ -11,6 +11,11 @@
 
 - (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(int)level;
 {
+    [self appendXMLToString:resultString elementName:elementName level:level numberCommentPrefix:nil];
+}
+
+- (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(int)level numberCommentPrefix:(NSString *)prefix;
+{
     int count, index;
 
     count = [self count];
@@ -20,8 +25,14 @@
     [resultString indentToLevel:level];
     [resultString appendFormat:@"<%@>\n", elementName];
 
-    for (index = 0; index < count; index++)
+    for (index = 0; index < count; index++) {
+        if (prefix != nil) {
+            [resultString indentToLevel:level+1];
+            [resultString appendFormat:@"<!-- %@: %d -->\n", prefix, index + 1];
+        }
+
         [[self objectAtIndex:index] appendXMLToString:resultString level:level+1];
+    }
 
     [resultString indentToLevel:level];
     [resultString appendFormat:@"</%@>\n", elementName];

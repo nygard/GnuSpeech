@@ -1039,7 +1039,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     if (aComment != nil)
         [resultString appendFormat:@"<!-- %@ -->\n", aComment];
     [resultString appendString:@"<root version='1'>\n"];
-    [self _appendXMLForCategoriesToString:resultString level:1];
+
+    [categories appendXMLToString:resultString elementName:@"categories" level:1];
 
     [parameters appendXMLToString:resultString elementName:@"parameters" level:1];
     [metaParameters appendXMLToString:resultString elementName:@"meta-parameters" level:1];
@@ -1049,7 +1050,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [self _appendXMLForEquationsToString:resultString level:1];
     [self _appendXMLForTransitionsToString:resultString level:1];
     [self _appendXMLForProtoSpecialsToString:resultString level:1];
-    [self _appendXMLForRulesToString:resultString level:1];
+    [rules appendXMLToString:resultString elementName:@"rules" level:1 numberCommentPrefix:@"Rule"];
 
     [resultString appendString:@"</root>\n"];
 
@@ -1060,28 +1061,6 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [resultString release];
 
     return result;
-}
-
-- (void)_appendXMLForCategoriesToString:(NSMutableString *)resultString level:(int)level;
-{
-    int count, index;
-
-    count = [categories count];
-    if (count == 0)
-        return;
-
-    [resultString indentToLevel:level];
-    [resultString appendString:@"<categories>\n"];
-
-    for (index = 0; index < count; index++) {
-        MMCategory *aCategory;
-
-        aCategory = [categories objectAtIndex:index];
-        [aCategory appendXMLToString:resultString level:level+1];
-    }
-
-    [resultString indentToLevel:level];
-    [resultString appendString:@"</categories>\n"];
 }
 
 - (void)_appendXMLForEquationsToString:(NSMutableString *)resultString level:(int)level;
@@ -1133,28 +1112,6 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
     [resultString indentToLevel:level];
     [resultString appendString:@"</special-transitions>\n"];
-}
-
-- (void)_appendXMLForRulesToString:(NSMutableString *)resultString level:(int)level;
-{
-    unsigned int count, index;
-
-    count = [rules count];
-    if (count == 0)
-        return;
-
-    [resultString indentToLevel:level];
-    [resultString appendString:@"<rules>\n"];
-
-    for (index = 0; index < count; index++) {
-        [resultString indentToLevel:level+1];
-        [resultString appendFormat:@"<!-- Rule: %d -->\n", index + 1];
-
-        [[rules objectAtIndex:index] appendXMLToString:resultString level:level+1];
-    }
-
-    [resultString indentToLevel:level];
-    [resultString appendString:@"</rules>\n"];
 }
 
 //

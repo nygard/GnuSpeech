@@ -111,11 +111,9 @@ extern NSString *MCategoryInUseException;
 
 // Archiving - XML
 - (BOOL)writeXMLToFile:(NSString *)aFilename comment:(NSString *)aComment;
-- (void)_appendXMLForCategoriesToString:(NSMutableString *)resultString level:(int)level;
 - (void)_appendXMLForEquationsToString:(NSMutableString *)resultString level:(int)level;
 - (void)_appendXMLForTransitionsToString:(NSMutableString *)resultString level:(int)level;
 - (void)_appendXMLForProtoSpecialsToString:(NSMutableString *)resultString level:(int)level;
-- (void)_appendXMLForRulesToString:(NSMutableString *)resultString level:(int)level;
 
 // Archiving - Degas support
 - (void)readDegasFileFormat:(FILE *)fp;
