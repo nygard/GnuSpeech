@@ -91,12 +91,12 @@
 
 - (double)startTime;
 {
-    return [[[points objectAtIndex:0] expression] cacheValue];
+    return [[(GSMPoint *)[points objectAtIndex:0] expression] cacheValue];
 }
 
 - (double)endTime;
 {
-    return [[[points lastObject] expression] cacheValue];
+    return [[(GSMPoint *)[points lastObject] expression] cacheValue];
 }
 
 - calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag
