@@ -455,33 +455,42 @@ void initializeThroat(TRMTubeModel *tubeModel, struct _TRMInputParameters *input
 void calculateTubeCoefficients(TRMTubeModel *tubeModel, struct _TRMInputParameters *inputParameters)
 {
     int i;
-    double radA2, radB2, r0_2, r1_2, r2_2, sum;
+    double radA, radB;
+    double radA2, radB2; // squared values
+    double r0_2, r1_2, r2_2, sum;
 
-
-    /*  CALCULATE COEFFICIENTS FOR THE OROPHARYNX  */
-    for (i = 0; i < (TOTAL_REGIONS-1); i++) {
-        radA2 = tubeModel->current.parameters.radius[i] * tubeModel->current.parameters.radius[i];
-        radB2 = tubeModel->current.parameters.radius[i+1] * tubeModel->current.parameters.radius[i+1];
+    // Calculate coefficients for the oropharynx
+    for (i = 0; i < TOTAL_REGIONS - 1; i++) {
+        radA = tubeModel->current.parameters.radius[i];
+        radB = tubeModel->current.parameters.radius[i+1];
+        radA2 = radA * radA;
+        radB2 = radB * radB;
         tubeModel->oropharynx_coeff[i] = (radA2 - radB2) / (radA2 + radB2);
     }
 
-    /*  CALCULATE THE COEFFICIENT FOR THE MOUTH APERTURE  */
-    radA2 = tubeModel->current.parameters.radius[TRM_R8] * tubeModel->current.parameters.radius[TRM_R8];
-    radB2 = inputParameters->apScale * inputParameters->apScale;
+    // Calculate the coefficient for the mouth aperture
+    radA = tubeModel->current.parameters.radius[TRM_R8];
+    radB = inputParameters->apScale;
+    radA2 = radA * radA;
+    radB2 = radB * radB;
     tubeModel->oropharynx_coeff[C8] = (radA2 - radB2) / (radA2 + radB2);
 
-    /*  CALCULATE ALPHA COEFFICIENTS FOR 3-WAY JUNCTION  */
-    /*  NOTE:  SINCE JUNCTION IS IN MIDDLE OF REGION 4, r0_2 = r1_2  */
-    r0_2 = r1_2 = tubeModel->current.parameters.radius[TRM_R4] * tubeModel->current.parameters.radius[TRM_R4];
-    r2_2 = tubeModel->current.parameters.velum * tubeModel->current.parameters.velum;
+    // Calculate alpha coefficients for 3-way junction
+    // NOTE:  Since junction is in middle of region 4, r0_2 = r1_2
+    radA = tubeModel->current.parameters.radius[TRM_R4];
+    radB = tubeModel->current.parameters.velum;
+    r0_2 = r1_2 = radA * radA;
+    r2_2 = radB * radB;
     sum = 2.0 / (r0_2 + r1_2 + r2_2);
     tubeModel->alpha[LEFT] = sum * r0_2;
     tubeModel->alpha[RIGHT] = sum * r1_2;
     tubeModel->alpha[UPPER] = sum * r2_2;
 
-    /*  AND 1ST NASAL PASSAGE COEFFICIENT  */
-    radA2 = tubeModel->current.parameters.velum * tubeModel->current.parameters.velum;
-    radB2 = inputParameters->noseRadius[TRM_N2] * inputParameters->noseRadius[TRM_N2];
+    // And 1st nasal passage coefficient
+    radA = tubeModel->current.parameters.velum;
+    radB = inputParameters->noseRadius[TRM_N2];
+    radA2 = radA * radA;
+    radB2 = radB * radB;
     tubeModel->nasal_coeff[NC1] = (radA2 - radB2) / (radA2 + radB2);
 }
 
