@@ -7,8 +7,6 @@ typedef enum {
 } GSMXMLAttributeQuoteStyle;
 #endif
 
-// < & > " '
-
 #define GSXMLEntityMaskNone 0x00
 #define GSXMLEntityMaskAmpersand 0x01
 #define GSXMLEntityMaskLessThan 0x02
