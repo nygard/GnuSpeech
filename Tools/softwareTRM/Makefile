@@ -47,7 +47,7 @@ tube: tube.c
 	cc $(ARCHS) $(CFLAGS) $(OPTIMIZATION_CFLAGS) tube.c -o tube
 
 tube2: tube2.c
-	cc $(ARCHS) $(CFLAGS) $(OPTIMIZATION_CFLAGS) tube2.c -o tube2
+	cc $(ARCHS) $(CFLAGS) -faltivec $(OPTIMIZATION_CFLAGS) tube2.c -o tube2
 
 clean:: tube tube2
 	/bin/rm -rf tube tube2

@@ -1154,21 +1154,33 @@ void initializeWavetable(void)
 *
 ******************************************************************************/
 
+void print_vecf(char *label, vector float vFloat)
+{
+    float *vf = (float *)(&vFloat);
+
+    printf("%s: %f %f %f %f\n", label, vf[0], vf[1], vf[2], vf[3]);
+}
+
 void updateWavetable(double amplitude)
 {
     int i;
     float j;
-
+    vector float j_vec = (vector float)(0, 1, 2, 3);
+    vector float four_vec = (vector float)(4);
 
     /*  CALCULATE NEW CLOSURE POINT, BASED ON AMPLITUDE  */
     float newDiv2 = tableDiv2 - rint(amplitude * tnDelta);
     float newTnLength = newDiv2 - tableDiv1;
     //double x;
     float oneOver_newTnLength_squared;
-    float x1, x2, x3, x4;
     int newDiv2_int, limit;
     int remainder;
-    //int j_2;
+
+    vector float oneOver_newTnLength_squared_vec;
+    vector float x_vec;
+    vector float vZero = (vector float)(0);
+    vector float vOne = (vector float)(1);
+    vector float vWavetable;
 
     /*  RECALCULATE THE FALLING PORTION OF THE GLOTTAL PULSE  */
     newDiv2_int = newDiv2;
@@ -1176,43 +1188,59 @@ void updateWavetable(double amplitude)
     i = tableDiv1;
     j = 0;
 
+    //printf("oneOver_newTnLength_squared: %f\n", oneOver_newTnLength_squared);
+    //oneOver_newTnLength_squared_vec = (vector float)(oneOver_newTnLength_squared, oneOver_newTnLength_squared, oneOver_newTnLength_squared, oneOver_newTnLength_squared);
+    {
+        float *vp = (float *)(&oneOver_newTnLength_squared_vec);
+        vp[0] = oneOver_newTnLength_squared;
+        vp[1] = oneOver_newTnLength_squared;
+        vp[2] = oneOver_newTnLength_squared;
+        vp[3] = oneOver_newTnLength_squared;
+    }
+    //oneOver_newTnLength_squared_vec = (vector float)(0.000037);
+    //oneOver_newTnLength_squared_vec = (vector float)(3);
+    //print_vecf("oneOver_newTnLength_squared_vec", oneOver_newTnLength_squared_vec);
+
     remainder = newDiv2_int % 4;
     limit = newDiv2_int - remainder;
     //printf("newDiv2_int: %d\n", newDiv2_int);
     //while (i < limit) {
     for (;i < limit;) {
-#if 1
-	x1 = j * j * oneOver_newTnLength_squared;
-	x2 = (j + 1) * (j + 1) * oneOver_newTnLength_squared;
-	x3 = (j + 2) * (j + 2) * oneOver_newTnLength_squared;
-	x4 = (j + 3) * (j + 3) * oneOver_newTnLength_squared;
-#else
-        j_2 = j * j;
-	x1 = j_2 * oneOver_newTnLength_squared;
-	x2 = (j_2 + 2 * j + 1) * oneOver_newTnLength_squared;
-	x3 = (j_2 + 4 * j + 4) * oneOver_newTnLength_squared;
-	x4 = (j_2 + 6 * j + 9) * oneOver_newTnLength_squared;
-#endif
+        //print_vecf("j_vec", j_vec);
+        //x_vec = vec_mul(j_vec, j_vec);
+        x_vec = vec_madd(j_vec, j_vec, vZero);
+        //print_vecf("x_vec (j^2)", x_vec);
+        x_vec = vec_madd(x_vec, oneOver_newTnLength_squared_vec, vZero);
+        //print_vecf("x_vec", x_vec);
+        vWavetable = vec_sub(vOne, x_vec);
+
         j += 4;
-	wavetable[i] = 1.0 - x1;
-        wavetable[i + 1] = 1.0 - x2;
-        wavetable[i + 2] = 1.0 - x3;
-        wavetable[i + 3] = 1.0 - x4;
+
+        {
+            float *vf = (float *)(&vWavetable);
+            wavetable[i] = vf[0];
+            wavetable[i + 1] = vf[1];
+            wavetable[i + 2] = vf[2];
+            wavetable[i + 3] = vf[3];
+        }
 
         i += 4;
+
+        j_vec = vec_add(j_vec, four_vec);
     }
 
     if (remainder > 1) {
-	x2 = (j + 1) * (j + 1) * oneOver_newTnLength_squared;
-        wavetable[i + 1] = 1.0 - x2;
-    }
-    if (remainder > 2) {
-	x3 = (j + 2) * (j + 2) * oneOver_newTnLength_squared;
-        wavetable[i + 2] = 1.0 - x3;
-    }
-    if (remainder > 3) {
-	x4 = (j + 3) * (j + 3) * oneOver_newTnLength_squared;
-        wavetable[i + 3] = 1.0 - x4;
+        float *vf = (float *)(&vWavetable);
+        x_vec = vec_madd(j_vec, j_vec, vZero);
+        x_vec = vec_madd(x_vec, oneOver_newTnLength_squared_vec, vZero);
+        vWavetable = vec_sub(vOne, x_vec);
+
+        if (remainder > 1)
+            wavetable[i] = vf[0];
+        if (remainder > 2)
+            wavetable[i + 1] = vf[1];
+        if (remainder > 3)
+            wavetable[i + 2] = vf[2];
     }
 
     /*  FILL IN WITH CLOSED PORTION OF GLOTTAL PULSE  */
