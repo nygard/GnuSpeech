@@ -45,6 +45,8 @@
     IBOutlet NSTextField *beatOffsetTextField;
     IBOutlet NSTextField *absTimeTextField;
 
+    NSPrintInfo *intonationPrintInfo;
+
     struct _intonationParameters intonationParameters;
 
     MModel *model;
@@ -98,6 +100,7 @@
 - (IBAction)setSlope:(id)sender;
 - (IBAction)setBeatOffset:(id)sender;
 
+- (IBAction)runPageLayout:(id)sneder;
 - (IBAction)printDocument:(id)sender;
 
 - (void)intonationPointDidChange:(NSNotification *)aNotification;
