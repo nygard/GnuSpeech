@@ -423,12 +423,6 @@
 {
 }
 
-- (BOOL)performKeyEquivalent:(NSEvent *)theEvent;
-{
-    NSLog(@"%d", [theEvent keyCode]);
-    return YES;
-}
-
 - (void)updateScale:(float)column;
 {
     NSPoint mouseDownLocation;

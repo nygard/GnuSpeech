@@ -63,6 +63,19 @@
             SUPERCLASS = NSResponder; 
         }, 
         {CLASS = DefaultMgr; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {itemsChanged = id; }; 
+            CLASS = EventListView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                controller = AppController; 
+                mouseTimeField = NSTextField; 
+                mouseValueField = NSTextField; 
+                niftyMatrix = NiftyMatrix; 
+                niftyMatrixScrollView = NSScrollView; 
+            }; 
+            SUPERCLASS = NSView; 
+        }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
             ACTIONS = {
@@ -181,11 +194,10 @@
                 driftCutoffField = NSTextField; 
                 driftDeviationField = NSTextField; 
                 eventListView = EventListView; 
-                fileFlag = NSTextField; 
                 filenameField = NSTextField; 
                 intonParmsField = NSForm; 
                 intonationMatrix = NSMatrix; 
-                intonationSystem = id; 
+                intonationSystem = IntonationScrollView; 
                 intonationView = NSScrollView; 
                 length = NSTextField; 
                 lossFactor = NSTextField; 

@@ -1,7 +1,7 @@
 #import <Foundation/NSObject.h>
 
 @class EventList, MonetList, PhoneList;
-@class EventListView, IntonationView;
+@class EventListView, IntonationScrollView, IntonationView;
 
 /*===========================================================================
 
@@ -21,7 +21,7 @@
     MonetList *categoryList;
     PhoneList *phoneList;
 
-    id intonationSystem;
+    IBOutlet IntonationScrollView *intonationSystem;
 
     /* Min and Max for each parameter */
     double min[16];
@@ -64,7 +64,6 @@
 
     IBOutlet NSTextField *tempoField;
 
-    IBOutlet NSTextField *fileFlag;
     IBOutlet NSTextField *filenameField;
     IBOutlet NSButton *parametersStore;
     IBOutlet NSMatrix *intonationMatrix;

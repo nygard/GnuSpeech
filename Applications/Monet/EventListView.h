@@ -16,7 +16,7 @@
 
 @interface EventListView : NSView
 {
-    AppController *controller;
+    IBOutlet AppController *controller;
 
     /* Frame For Display */
     NSRect totalFrame;
@@ -34,8 +34,8 @@
     IBOutlet NSScrollView *niftyMatrixScrollView;
     IBOutlet NiftyMatrix *niftyMatrix;
 
-    id mouseTimeField;
-    id mouseValueField;
+    IBOutlet NSTextField *mouseTimeField;
+    IBOutlet NSTextField *mouseValueField;
 
     int startingIndex;
     float timeScale;
@@ -61,8 +61,6 @@
 - (void)mouseEntered:(NSEvent *)theEvent;
 - (void)mouseExited:(NSEvent *)theEvent;
 - (void)mouseMoved:(NSEvent *)theEvent;
-
-- (BOOL)performKeyEquivalent:(NSEvent *)theEvent;
 
 - (void)updateScale:(float)column;
 
