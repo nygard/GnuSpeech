@@ -745,7 +745,7 @@
           [tempEvent setFlag:YES];
       case 3:
           phones[phoneIndex+1].onset = (double)zeroRef + ruleSymbols.beat;
-          tempEvent = [self insertEvent:-1 atTime:ruleSymbols.mark2 withValue:0.0];
+          tempEvent = [self insertEvent:-1 atTime:ruleSymbols.mark1 withValue:0.0];
           [tempEvent setFlag:YES];
       case 2:
           phones[phoneIndex].onset = (double)zeroRef + ruleSymbols.beat;

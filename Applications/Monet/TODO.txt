@@ -196,4 +196,5 @@ Notes:
 - We could combine the regular and special parameter graphs, perhaps using a different color.  Might be nice to also show the combined value in a third color.
 
 2004-08-04:
-- I've noticed that the postures aren't properly placed in the Synthesis window, for rules that consume >1 posture.
++ I've noticed that the postures aren't properly placed in the Synthesis window, for rules that consume >1 posture.  Problem with move to structure in EventList.
+
