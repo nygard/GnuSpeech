@@ -55,6 +55,7 @@
     if ([[self delegate] respondsToSelector:@selector(control:shouldProcessCharacters:)] == NO ||
         [[self delegate] control:self shouldProcessCharacters:combinedCharacters] == YES) {
         [super keyDown:keyEvent];
+        [combinedCharacters setString:@""];
     }
 
     //NSLog(@"<  %s", _cmd);
