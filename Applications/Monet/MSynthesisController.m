@@ -63,7 +63,7 @@
     eventList = [[EventList alloc] init];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                           selector:@selector(intonationPointDidChange:)
-                                          name:EventListDidChangeIntonationPoint
+                                          name:EventListDidChangeIntonationPoints
                                           object:eventList];
 
     [self setWindowFrameAutosaveName:@"Synthesis"];

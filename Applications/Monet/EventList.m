@@ -37,9 +37,9 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
     return nil;
 }
 
-NSString *EventListDidAddIntonationPoint = @"EventListDidAddIntonationPoint";
-NSString *EventListDidChangeIntonationPoint = @"EventListDidChangeIntonationPoint";
-NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoint";
+NSString *EventListDidAddIntonationPoints = @"EventListDidAddIntonationPoints";
+NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoints";
+NSString *EventListDidRemoveIntonationPoints = @"EventListDidRemoveIntonationPoints";
 
 @implementation EventList
 
@@ -1314,7 +1314,7 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
 - (void)clearIntonationPoints;
 {
     [intonationPoints removeAllObjects];
-    [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidChangeIntonationPoint object:self userInfo:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidChangeIntonationPoints object:self userInfo:nil];
 }
 
 - (void)addIntonationPoint:(MMIntonationPoint *)iPoint;
@@ -1493,7 +1493,7 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
 
 - (void)intonationPointDidChange:(MMIntonationPoint *)anIntonationPoint;
 {
-    [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidChangeIntonationPoint object:self userInfo:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidChangeIntonationPoints object:self userInfo:nil];
 }
 
 //

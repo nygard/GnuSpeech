@@ -94,7 +94,7 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
     if (newEventList == eventList)
         return;
 
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:EventListDidChangeIntonationPoint object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:EventListDidChangeIntonationPoints object:nil];
 
     [eventList release];
     eventList = [newEventList retain];
@@ -102,7 +102,7 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
     if (eventList != nil) {
         [[NSNotificationCenter defaultCenter] addObserver:self
                                               selector:@selector(intonationPointDidChange:)
-                                              name:EventListDidChangeIntonationPoint
+                                              name:EventListDidChangeIntonationPoints
                                               object:eventList];
     }
 
