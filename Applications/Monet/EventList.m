@@ -780,13 +780,13 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
     // This creates events (if necessary) at the posture times, and sets the "flag" on them to indicate this is for a posture.
     switch (type) {
         /* Note: Case 4 should execute all of the below, case 3 the last two */
-      case 4:
+      case MMPhoneTypeTetraphone:
           phones[phoneIndex+3].onset = (double)zeroRef + ruleSymbols.beat;
           [[self insertEvent:-1 atTime:ruleSymbols.mark2 withValue:0.0] setFlag:YES];
-      case 3:
+      case MMPhoneTypeTriphone:
           phones[phoneIndex+2].onset = (double)zeroRef + ruleSymbols.beat;
           [[self insertEvent:-1 atTime:ruleSymbols.mark1 withValue:0.0] setFlag:YES];
-      case 2:
+      case MMPhoneTypeDiphone:
           phones[phoneIndex+1].onset = (double)zeroRef + ruleSymbols.beat;
           [[self insertEvent:-1 atTime:0.0 withValue:0.0] setFlag:YES];
           break;
@@ -798,6 +798,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
     for (i = 0; i < [tempTargets count]; i++) {
         unsigned int postureCount;
         unsigned int targetIndex;
+
         /* Get actual parameter target values */
         postureCount = [phoneList count];
         for (targetIndex = 0; targetIndex < 4 && targetIndex < postureCount; targetIndex++)
