@@ -561,7 +561,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
         // The curve looks better (darker) without adding the extra 0.5 to the y positions.
         aPoint.x = [self scaleXPosition:x1];
-        aPoint.y = rint(graphOrigin.y + y1 * [self sectionHeight]);
+        aPoint.y = graphOrigin.y + y1 * [self sectionHeight];
 
         bezierPath = [[NSBezierPath alloc] init];
         [bezierPath moveToPoint:aPoint];
@@ -570,7 +570,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
             y = x*x*x*a + x*x*b + x*c + d;
 
             aPoint.x = [self scaleXPosition:i];
-            aPoint.y = rint(graphOrigin.y + y * [self sectionHeight]);
+            aPoint.y = graphOrigin.y + y * [self sectionHeight];
             [bezierPath lineToPoint:aPoint];
         }
 
