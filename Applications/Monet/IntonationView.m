@@ -753,7 +753,8 @@
 
     [eventList setFullTimeScale];
     tempPoint = [[IntonationPoint alloc] initWithEventList:eventList];
-    [tempPoint setSemitone:[[intonationPoints objectAtIndex:0] semitone]];
+    if ([intonationPoints count] > 0)
+        [tempPoint setSemitone:[[intonationPoints objectAtIndex:0] semitone]];
     [tempPoint setSlope:0.0];
     [tempPoint setRuleIndex:0];
     [tempPoint setOffsetTime:0];
