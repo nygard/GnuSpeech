@@ -1,0 +1,13 @@
+#!/bin/zsh
+
+time=(1 %U user %S sys %E real)
+
+foreach in (input_au-x10 input_au-x100)
+    echo "Input file: $in"
+    foreach exe (./tube.947 ./tube.1016 ./tube.1016-g5)
+        echo $exe
+        time $exe $in t1.au > /dev/null
+        time $exe $in t1.au > /dev/null
+        time $exe $in t1.au > /dev/null
+    end
+end

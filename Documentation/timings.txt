@@ -8,19 +8,25 @@ r181                               15.03        10.43      9.68
 r447                               11.17         8.37      7.80
 r447 (tube2)                        7.33         4.53      4.17
 r577                               13.88         9.34      8.66
+r947                                8.62         5.52      5.15
+r1016                               5.63         3.21      2.86
 
-r180 - Len's new tube that can generate au, aiff, or wav.
-r181 - Updated to remove linear search through parameters.
-r447 - Updated with some simple optimizations, optimization flags to compiler.
+
+r180  - Len's new tube that can generate au, aiff, or wav.
+r181  - Updated to remove linear search through parameters.
+r447  - Updated with some simple optimizations, optimization flags to compiler.
 r447 (tube2) - a minor experiment with using Altivec.
-r577 - current head, split into several files with no real attempt at optimization,
-       or using optimization flags for the compiler.
+r577  - split into several files with no real attempt at optimization,
+        or using optimization flags for the compiler.
+r947  - GnuSpeech 2004-08-24 package, some vecLib optimization.
+r1016 - current head, exp2, vecLib & dual window for FIR, -O3 instead of -Os,
+        eliminated temporary file.
 
 I used the Computer Hardware Understanding Development (CHUD) tools to disable the second CPU on my desktop to get the numbers for the single 1GHz PPC above.  There aren't enough input parameters to make much of a difference between r180 and r181.  I'm not sure exactly what version I gave David (that part wasn't tagged), but it should be about r447.
 
 The two 500MHz machines are roughly the same speed with r180.  What really struck me is that the times for the 1.6GHz G5 and the 1GHz G4 are about the same.  I think you can have the compiler optimize for G5 and/or generate G5 only code and that may help a bit.
 
-So the best one, tube2, is more than twice realtime on a 500MHz PPC, and four times realtime on the dual 1GHz PPC.  And even without optimization in can run faster than real time.
+So we're at around three times realtime on a 500MHz PPC, and almost six times realtime on the dual 1GHz PPC.
 
---
-Steve
+2004-08-30
+- The sample is for a 13 cm tube, close to the 10 cm minimum.
