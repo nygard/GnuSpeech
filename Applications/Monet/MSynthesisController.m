@@ -225,6 +225,7 @@
 
         if ([displayParameter isSpecial] == NO) {
             tableColumn = [[NSTableColumn alloc] initWithIdentifier:[NSNumber numberWithInt:[displayParameter tag]]];
+            [tableColumn setEditable:NO];
             [[tableColumn headerCell] setTitle:[[displayParameter parameter] symbol]];
             [[tableColumn dataCell] setFormatter:defaultNumberFormatter];
             [[tableColumn dataCell] setAlignment:NSRightTextAlignment];
@@ -240,6 +241,7 @@
         NSTableColumn *tableColumn;
 
         tableColumn = [[NSTableColumn alloc] initWithIdentifier:[NSNumber numberWithInt:index]];
+        [tableColumn setEditable:NO];
         [[tableColumn headerCell] setTitle:[NSString stringWithFormat:@"%d", index]];
         [[tableColumn dataCell] setFormatter:defaultNumberFormatter];
         [[tableColumn dataCell] setAlignment:NSRightTextAlignment];
