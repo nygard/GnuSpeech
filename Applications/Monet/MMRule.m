@@ -158,44 +158,45 @@
     }
 }
 
-// Warning (building for 10.2 deployment) (2004-04-02): tempEntry might be used uninitialized in this function
 - (void)addDefaultParameter;
 {
-    id tempEntry;
+    MMTransition *aTransition = nil;
 
     switch ([self numberExpressions]) {
       case 2:
-          tempEntry = [[self model] findTransitionList:@"Defaults" named:@"Diphone"];
+          aTransition = [[self model] findTransitionList:@"Defaults" named:@"Diphone"];
           break;
       case 3:
-          tempEntry = [[self model] findTransitionList:@"Defaults" named:@"Triphone"];
+          aTransition = [[self model] findTransitionList:@"Defaults" named:@"Triphone"];
           break;
       case 4:
-          tempEntry = [[self model] findTransitionList:@"Defaults" named:@"Tetraphone"];
+          aTransition = [[self model] findTransitionList:@"Defaults" named:@"Tetraphone"];
           break;
     }
 
-    [parameterProfiles addObject:tempEntry];
+    if (aTransition != nil)
+        [parameterProfiles addObject:aTransition];
 }
 
 // Warning (building for 10.2 deployment) (2004-04-02): tempEntry might be used uninitialized in this function
 - (void)addDefaultMetaParameter;
 {
-    id tempEntry;
+    MMTransition *aTransition = nil;
 
     switch ([self numberExpressions]) {
       case 2:
-          tempEntry = [[self model] findTransitionList:@"Defaults" named:@"Diphone"];
+          aTransition = [[self model] findTransitionList:@"Defaults" named:@"Diphone"];
           break;
       case 3:
-          tempEntry = [[self model] findTransitionList:@"Defaults" named:@"Triphone"];
+          aTransition = [[self model] findTransitionList:@"Defaults" named:@"Triphone"];
           break;
       case 4:
-          tempEntry = [[self model] findTransitionList:@"Defaults" named:@"Tetraphone"];
+          aTransition = [[self model] findTransitionList:@"Defaults" named:@"Tetraphone"];
           break;
     }
 
-    [metaParameterProfiles addObject:tempEntry];
+    if (aTransition != nil)
+        [metaParameterProfiles addObject:aTransition];
 }
 
 - (void)removeParameterAtIndex:(int)index;
@@ -517,7 +518,7 @@
         aTransition = [parameterProfiles objectAtIndex:index];
 
         [resultString indentToLevel:level + 1];
-        [resultString appendFormat:@"<parameter name=\"%@\" transition=\"%@\"/>\n",
+        [resultString appendFormat:@"<parameter-transition name=\"%@\" transition=\"%@\"/>\n",
                       GSXMLAttributeString([aParameter symbol], NO), GSXMLAttributeString([aTransition name], NO)];
     }
 
@@ -548,7 +549,7 @@
         aTransition = [metaParameterProfiles objectAtIndex:index];
 
         [resultString indentToLevel:level + 1];
-        [resultString appendFormat:@"<parameter name=\"%@\" transition=\"%@\"/>\n",
+        [resultString appendFormat:@"<parameter-transition name=\"%@\" transition=\"%@\"/>\n",
                       GSXMLAttributeString([aParameter symbol], NO), GSXMLAttributeString([aTransition name], NO)];
     }
 
@@ -587,7 +588,7 @@
 
         if (aTransition != nil) {
             [resultString indentToLevel:level + 1];
-            [resultString appendFormat:@"<parameter name=\"%@\" transition=\"%@\"/>\n",
+            [resultString appendFormat:@"<parameter-transition name=\"%@\" transition=\"%@\"/>\n",
                           GSXMLAttributeString([aParameter symbol], NO), GSXMLAttributeString([aTransition name], NO)];
         }
     }
@@ -613,7 +614,7 @@
         anEquation = [expressionSymbols objectAtIndex:index];
 
         [resultString indentToLevel:level + 1];
-        [resultString appendFormat:@"<symbol name=\"%@\" equation=\"%@\"/>\n",
+        [resultString appendFormat:@"<symbol-equation name=\"%@\" equation=\"%@\"/>\n",
                       GSXMLAttributeString([self expressionSymbolNameAtIndex:index], NO), GSXMLAttributeString([anEquation name], NO)];
     }
 

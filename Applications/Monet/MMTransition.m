@@ -369,7 +369,7 @@
         [resultString appendFormat:@"<comment>%@</comment>\n", GSXMLCharacterData(comment)];
     }
 
-    [points appendXMLToString:resultString elementName:@"points" level:level + 1];
+    [points appendXMLToString:resultString elementName:@"point-or-slopes" level:level + 1];
 
     [resultString indentToLevel:level];
     [resultString appendFormat:@"</transition>\n"];

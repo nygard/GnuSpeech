@@ -424,21 +424,21 @@
         return;
 
     [resultString indentToLevel:level];
-    [resultString appendFormat:@"<parameters>\n"];
+    [resultString appendFormat:@"<parameter-targets>\n"];
 
     for (index = 0; index < count; index++) {
         aParameter = [mainParameterList objectAtIndex:index];
         aTarget = [parameterList objectAtIndex:index];
 
         [resultString indentToLevel:level + 1];
-        [resultString appendFormat:@"<parameter name=\"%@\" value=\"%g\"", [aParameter symbol], [aTarget value]];
+        [resultString appendFormat:@"<target name=\"%@\" value=\"%g\"", [aParameter symbol], [aTarget value]];
         if ([aTarget value] == [aParameter defaultValue])
             [resultString appendString:@" is-default=\"yes\""];
         [resultString appendString:@"/>\n"];
     }
 
     [resultString indentToLevel:level];
-    [resultString appendString:@"</parameters>\n"];
+    [resultString appendString:@"</parameter-targets>\n"];
 }
 
 - (void)_appendXMLForMetaParametersToString:(NSMutableString *)resultString level:(int)level;
@@ -458,21 +458,21 @@
         return;
 
     [resultString indentToLevel:level];
-    [resultString appendFormat:@"<meta-parameters>\n"];
+    [resultString appendFormat:@"<meta-parameters-targets>\n"];
 
     for (index = 0; index < count; index++) {
         aParameter = [mainMetaParameterList objectAtIndex:index];
         aTarget = [metaParameterList objectAtIndex:index];
 
         [resultString indentToLevel:level + 1];
-        [resultString appendFormat:@"<parameter name=\"%@\" value=\"%g\"", [aParameter symbol], [aTarget value]];
+        [resultString appendFormat:@"<target name=\"%@\" value=\"%g\"", [aParameter symbol], [aTarget value]];
         if ([aTarget value] == [aParameter defaultValue])
             [resultString appendString:@" is-default=\"yes\""];
         [resultString appendString:@"/>\n"];
     }
 
     [resultString indentToLevel:level];
-    [resultString appendString:@"</meta-parameters>\n"];
+    [resultString appendString:@"</meta-parameter-targets>\n"];
 }
 
 - (void)_appendXMLForSymbolsToString:(NSMutableString *)resultString level:(int)level;
@@ -490,14 +490,14 @@
         return;
 
     [resultString indentToLevel:level];
-    [resultString appendFormat:@"<symbols>\n"];
+    [resultString appendFormat:@"<symbol-targets>\n"];
 
     for (index = 0; index < count; index++) {
         aSymbol = [mainSymbolList objectAtIndex:index];
         aTarget = [symbolList objectAtIndex:index];
 
         [resultString indentToLevel:level + 1];
-        [resultString appendFormat:@"<symbol name=\"%@\" value=\"%g\"", [aSymbol symbol], [aTarget value]];
+        [resultString appendFormat:@"<target name=\"%@\" value=\"%g\"", [aSymbol symbol], [aTarget value]];
         // "is-default" is redundant, but handy for browsing the XML file
         if ([aTarget value] == [aSymbol defaultValue])
             [resultString appendString:@" is-default=\"yes\""];
@@ -505,7 +505,7 @@
     }
 
     [resultString indentToLevel:level];
-    [resultString appendString:@"</symbols>\n"];
+    [resultString appendString:@"</symbol-targets>\n"];
 }
 
 @end

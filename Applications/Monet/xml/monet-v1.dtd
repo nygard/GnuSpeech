@@ -1,0 +1,108 @@
+<!ELEMENT root (categories, parameters, symbols, postures, equations, transitions, special-transitions, rules)>
+<!ATTLIST root version CDATA #REQUIRED>
+
+<!ELEMENT categories (category*)>
+<!ELEMENT parameters (parameter*)>
+<!ELEMENT symbols (symbol*)>
+<!ELEMENT postures (posture*)>
+<!-- Notice here that the equations groups should only have equations, and the transition groups should only have transitions -->
+<!ELEMENT equations (equation-group*)>
+<!ELEMENT transitions (transition-group*)>
+<!ELEMENT special-transitions (transition-group*)>
+<!ELEMENT rules (rule*)>
+
+<!-- Categories -->
+
+<!ELEMENT category (comment?)>
+<!ATTLIST category name CDATA #REQUIRED>
+
+<!ELEMENT comment (#PCDATA)>
+
+<!-- Parameters -->
+
+<!ELEMENT parameter EMPTY>
+<!ATTLIST parameter name CDATA #REQUIRED
+                    minimum CDATA #REQUIRED
+                    maximum CDATA #REQUIRED
+                    default CDATA #REQUIRED>
+
+
+<!-- Symbols -->
+
+<!ELEMENT symbol EMPTY>
+<!ATTLIST symbol name CDATA #REQUIRED
+                 minimum CDATA #REQUIRED
+                 maximum CDATA #REQUIRED
+                 default CDATA #REQUIRED>
+
+<!-- Postures -->
+
+<!ELEMENT posture (comment?, categories?, parameter-targets, symbol-targets)>
+<!ATTLIST posture symbol CDATA #REQUIRED>
+
+<!-- comment and categories already defined.  Here we don't really want the categories to allow a comment, though. -->
+<!ELEMENT parameter-targets (target*)>
+<!ELEMENT symbol-targets (target*)>
+
+<!ELEMENT target EMPTY>
+<!ATTLIST target name CDATA #REQUIRED
+                 value CDATA #REQUIRED
+                 is-default CDATA #IMPLIED>
+
+<!-- Equations -->
+
+<!ELEMENT equation-group (equation*)>
+<!ATTLIST equation-group name CDATA #REQUIRED>
+
+<!ELEMENT equation (comment?)>
+<!ATTLIST equation name CDATA #REQUIRED
+                   formula CDATA #REQUIRED>
+
+<!-- Transitions -->
+
+<!ELEMENT transition-group (transition*)>
+<!ATTLIST transition-group name CDATA #REQUIRED>
+
+<!-- again, a problem with duplicate points element -->
+<!ELEMENT transition (comment?, point-or-slopes)>
+<!ATTLIST transition name CDATA #REQUIRED
+                     type CDATA #REQUIRED>
+
+<!ELEMENT point-or-slopes ( (point | slope-ratio)* )>
+<!ELEMENT slope-ratio (points, slopes)>
+
+<!ELEMENT points (point*)>
+<!ELEMENT slopes (slope*)>
+
+<!ELEMENT point EMPTY>
+<!ATTLIST point type CDATA #REQUIRED
+                value CDATA #REQUIRED
+                free-time CDATA #IMPLIED
+                time-expression CDATA #IMPLIED
+                is-phantom CDATA #IMPLIED>
+
+<!ELEMENT slope EMPTY>
+<!ATTLIST slope slope CDATA #REQUIRED
+                display-time CDATA #REQUIRED>
+
+<!-- Special Transitions -->
+
+<!-- Rules -->
+
+<!ELEMENT rule (boolean-expression, comment?, parameter-profiles, special-profiles?, expression-symbols)>
+<!ATTLIST rule number CDATA #IMPLIED> <!-- Temporary -->
+
+<!ELEMENT boolean-expression (#PCDATA)>
+
+<!ELEMENT parameter-profiles (parameter-transition*)>
+<!ELEMENT special-profiles (parameter-transition*)>
+
+<!ELEMENT parameter-transition EMPTY>
+<!ATTLIST parameter-transition name CDATA #REQUIRED
+                               transition CDATA #REQUIRED>
+
+<!ELEMENT expression-symbols (symbol-equation*)>
+
+<!ELEMENT symbol-equation EMPTY>
+<!ATTLIST symbol-equation name CDATA #REQUIRED
+                          equation CDATA #REQUIRED>

@@ -600,7 +600,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     return [[equations objectAtIndex:listIndex] objectAtIndex:equationIndex];
 }
 
-- (MMEquation *)findTransitionList:(NSString *)aListName named:(NSString *)aTransitionName;
+- (MMTransition *)findTransitionList:(NSString *)aListName named:(NSString *)aTransitionName;
 {
     int i, j;
 
@@ -610,11 +610,11 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         currentList = [transitions objectAtIndex:i];
         if ([aListName isEqualToString:[currentList name]]) {
             for (j = 0; j < [currentList count]; j++) {
-                MMEquation *anEquation;
+                MMTransition *aTransition;
 
-                anEquation = [currentList objectAtIndex:j];
-                if ([aTransitionName isEqualToString:[anEquation name]])
-                    return anEquation;
+                aTransition = [currentList objectAtIndex:j];
+                if ([aTransitionName isEqualToString:[aTransition name]])
+                    return aTransition;
             }
         }
     }
@@ -624,7 +624,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     return nil;
 }
 
-- (void)findList:(int *)listIndex andIndex:(int *)transitionIndex ofTransition:(MMEquation *)aTransition;
+- (void)findList:(int *)listIndex andIndex:(int *)transitionIndex ofTransition:(MMTransition *)aTransition;
 {
     int i, temp;
 
@@ -640,7 +640,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     *listIndex = -1;
 }
 
-- (MMEquation *)findTransition:(int)listIndex andIndex:(int)transitionIndex;
+- (MMTransition *)findTransition:(int)listIndex andIndex:(int)transitionIndex;
 {
     //NSLog(@"Name: %@ (%d)\n", [[transitions objectAtIndex: listIndex] name], listIndex);
     //NSLog(@"\tCount: %d  index: %d  count: %d\n", [transitions count], index, [[transitions objectAtIndex: listIndex] count]);
@@ -897,6 +897,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
     resultString = [[NSMutableString alloc] init];
     [resultString appendString:@"<?xml version='1.0' encoding='utf-8'?>\n"];
+    [resultString appendString:@"<!DOCTYPE root PUBLIC \"\" \"monet-v1.dtd\">\n"];
     [resultString appendFormat:@"<!-- %@ -->\n", name];
     [resultString appendString:@"<root version='1'>\n"];
     [self _appendXMLForCategoriesToString:resultString level:1];
@@ -951,7 +952,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     count = [equations count];
     for (index = 0; index < count; index++) {
         namedList = [equations objectAtIndex:index];
-        [namedList appendXMLToString:resultString elementName:@"group" level:level + 1];
+        [namedList appendXMLToString:resultString elementName:@"equation-group" level:level + 1];
     }
 
     [resultString indentToLevel:level];
@@ -968,7 +969,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     count = [transitions count];
     for (index = 0; index < count; index++) {
         namedList = [transitions objectAtIndex:index];
-        [namedList appendXMLToString:resultString elementName:@"group" level:level + 1];
+        [namedList appendXMLToString:resultString elementName:@"transition-group" level:level + 1];
     }
 
     [resultString indentToLevel:level];
@@ -985,7 +986,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     count = [specialTransitions count];
     for (index = 0; index < count; index++) {
         namedList = [specialTransitions objectAtIndex:index];
-        [namedList appendXMLToString:resultString elementName:@"group" level:level + 1];
+        [namedList appendXMLToString:resultString elementName:@"transition-group" level:level + 1];
     }
 
     [resultString indentToLevel:level];
