@@ -1054,8 +1054,8 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
             NSLog(@"Tone Group %d, type: %@", toneGroupIndex, NSStringFromToneGroupType(toneGroups[toneGroupIndex].type));
 
             for (footIndex = toneGroups[toneGroupIndex].startFoot; footIndex <= toneGroups[toneGroupIndex].endFoot; footIndex++) {
-                NSLog(@"  Foot %d  tempo: %.3f, start: %2d, end: %2d, marked: %d, last: %d, onset1: %.3f, onset2: %.3f", footIndex, feet[footIndex].tempo,
-                      feet[footIndex].start, feet[footIndex].end, feet[footIndex].marked, feet[footIndex].last, feet[footIndex].onset1, feet[footIndex].onset2);
+                NSLog(@"  Foot %d  tempo: %.3f, marked: %d, last: %d, onset1: %.3f, onset2: %.3f", footIndex, feet[footIndex].tempo,
+                      feet[footIndex].marked, feet[footIndex].last, feet[footIndex].onset1, feet[footIndex].onset2);
 
                 for (postureIndex = feet[footIndex].start; postureIndex <= feet[footIndex].end; postureIndex++) {
                     if (rules[ruleIndex].firstPhone == postureIndex) {
