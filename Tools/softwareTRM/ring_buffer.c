@@ -27,6 +27,15 @@ TRMRingBuffer *TRMRingBufferCreate(int aPadSize)
     newRingBuffer->context = NULL;
     newRingBuffer->callbackFunction = NULL;
 
+    printf("Ring buffer:\n");
+    printf("\tpadSize:          %d\n", newRingBuffer->padSize);
+    printf("\tfillSize:         %d\n", newRingBuffer->fillSize);
+    printf("\tfillPtr:          %d\n", newRingBuffer->fillPtr);
+    printf("\temptyPtr:         %d\n", newRingBuffer->emptyPtr);
+    printf("\tfillCounter:      %d\n", newRingBuffer->fillCounter);
+    printf("\tcontext:          %p\n", newRingBuffer->context);
+    printf("\tcallbackFunction: %p\n", newRingBuffer->callbackFunction);
+
     return newRingBuffer;
 }
 
