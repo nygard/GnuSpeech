@@ -15,6 +15,6 @@
 {
 }
 
-- (MMRule *)findRule:(MonetList *)categories index:(int *)index;
+- (MMRule *)findRule:(MonetList *)categories index:(int *)indexPtr;
 
 @end
