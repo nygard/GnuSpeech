@@ -259,7 +259,7 @@
     NSLog(@"%ld", (tp2.tv_sec*1000000 + tp2.tv_usec) - (tp1.tv_sec*1000000 + tp1.tv_usec));
 
     NSLog(@"\n***\n");
-    [eventList printDataStructures];
+    //[eventList printDataStructures];
 #if 0
     for (i = 0; i < [eventList count]; i++) {
         printf("Time: %d  | ", [[eventList objectAt:i] time]);
@@ -334,7 +334,7 @@
     [eventList applyIntonation_fromIntonationView];
 #endif
 
-    [eventList printDataStructures];
+    //[eventList printDataStructures];
     [eventList generateOutput];
 
     [eventListView setEventList:eventList];
@@ -398,7 +398,7 @@
     [eventList applyIntonation_fromIntonationView];
 #endif
 
-    [eventList printDataStructures];
+    //[eventList printDataStructures];
     {
         [synthesizer setupSynthesisParameters:[[self model] synthesisParameters]];
         [synthesizer removeAllParameters];

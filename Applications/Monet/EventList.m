@@ -496,7 +496,7 @@
     float table[16];
     FILE *fp;
 
-    NSLog(@"%s, self: %@", _cmd, self);
+    //NSLog(@"%s, self: %@", _cmd, self);
 
     if ([self count] == 0)
         return;
