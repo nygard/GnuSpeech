@@ -37,18 +37,18 @@
     [popUpListView release];
 
     [templateList release];
-    [currentMMTransition release];
+    [currentTransition release];
 
     [super dealloc];
 }
 
 - (void)setCurrentMMTransition:(MMTransition *)aTemplate;
 {
-    if (aTemplate == currentMMTransition)
+    if (aTemplate == currentTransition)
         return;
 
-    [currentMMTransition release];
-    currentMMTransition = [aTemplate retain];
+    [currentTransition release];
+    currentTransition = [aTemplate retain];
 }
 
 - (void)inspectMMTransition:(MMTransition *)aTemplate;
@@ -74,14 +74,14 @@
         [revertCommentButton setTarget:self];
         [revertCommentButton setAction:@selector(revertComment:)];
 
-        if ([currentMMTransition comment] != nil)
-            [commentText setString:[currentMMTransition comment]];
+        if ([currentTransition comment] != nil)
+            [commentText setString:[currentTransition comment]];
         else
             [commentText setString:@""];
     } else if ([str hasPrefix:@"G"]) {
         [mainInspector setGeneralView:genInfoView];
 
-        switch ([currentMMTransition type]) {
+        switch ([currentTransition type]) {
           case DIPHONE:
               [typeMatrix selectCellAtRow:0 column:0];
               break;
@@ -100,7 +100,7 @@
         [usageBrowser setDoubleAction:@selector(browserDoubleHit:)];
         [mainInspector setGeneralView:usageBox];
         [templateList removeAllObjects];
-        [tempRuleManager findTemplate:currentMMTransition andPutIn:templateList];
+        [tempRuleManager findTemplate:currentTransition andPutIn:templateList];
 
         [usageBrowser loadColumnZero];
     }
@@ -122,35 +122,35 @@
     NSString *newComment;
 
     newComment = [[commentText string] copy]; // Need to copy, becuase it's mutable and owned by the NSTextView
-    [currentMMTransition setComment:newComment];
+    [currentTransition setComment:newComment];
     [newComment release];
 }
 
 - (IBAction)revertComment:(id)sender;
 {
-    if ([currentMMTransition comment] != nil)
-        [commentText setString:[currentMMTransition comment]];
+    if ([currentTransition comment] != nil)
+        [commentText setString:[currentTransition comment]];
     else
         [commentText setString:@""];
 }
 
 - (IBAction)setDiphone:(id)sender;
 {
-    [currentMMTransition setType:DIPHONE];
+    [currentTransition setType:DIPHONE];
     [NXGetNamedObject(@"transitionBuilder", NSApp) display];
     [NXGetNamedObject(@"specialTransitionBuilder", NSApp) display];
 }
 
 - (IBAction)setTriphone:(id)sender;
 {
-    [currentMMTransition setType:TRIPHONE];
+    [currentTransition setType:TRIPHONE];
     [NXGetNamedObject(@"transitionBuilder", NSApp) display];
     [NXGetNamedObject(@"specialTransitionBuilder", NSApp) display];
 }
 
 - (IBAction)setTetraphone:(id)sender;
 {
-    [currentMMTransition setType:TETRAPHONE];
+    [currentTransition setType:TETRAPHONE];
     [NXGetNamedObject(@"transitionBuilder", NSApp) display];
     [NXGetNamedObject(@"specialTransitionBuilder", NSApp) display];
 }

@@ -42,7 +42,7 @@ History:
     IBOutlet NSBrowser *usageBrowser;
     IBOutlet NSTextField *usageField;
 
-    MMTransition *currentMMTransition;
+    MMTransition *currentTransition;
 
     MonetList *templateList;
 }
