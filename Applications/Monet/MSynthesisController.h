@@ -1,5 +1,5 @@
 //
-// $Id: MSynthesisController.h,v 1.2 2004/03/31 01:43:21 nygard Exp $
+// $Id: MSynthesisController.h,v 1.3 2004/03/31 05:32:43 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -7,6 +7,8 @@
 
 #import <AppKit/NSWindowController.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
+
+#import "EventList.h" // for struct _intonationParameters
 
 @class MModel;
 @class EventListView, IntonationView;
@@ -34,10 +36,13 @@
 
     // Intonation window
     IBOutlet NSWindow *intonationWindow;
-    IBOutlet IntonationView *intonationView;
+    IBOutlet NSScrollView *intonationView;
+
+    struct _intonationParameters intonationParameters;
 
     MModel *model;
     NSMutableArray *displayParameters;
+    EventList *eventList;
 }
 
 - (id)initWithModel:(MModel *)aModel;
@@ -51,6 +56,7 @@
 - (void)windowDidLoad;
 
 - (void)_updateDisplayParameters;
+- (void)_takeIntonationParametersFromUI;
 - (void)updateViews;
 - (void)_updateDisplayedParameters;
 
@@ -60,6 +66,8 @@
 - (IBAction)parseStringButton:(id)sender;
 - (IBAction)synthesizeWithSoftware:(id)sender;
 - (IBAction)synthesizeToFile:(id)sender;
+
+- (void)parsePhoneString:(NSString *)str;
 
 // NSTableView data source
 - (int)numberOfRowsInTableView:(NSTableView *)tableView;

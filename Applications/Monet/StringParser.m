@@ -3,6 +3,7 @@
 #include <sys/time.h>
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
+#import "NSCharacterSet-Extensions.h"
 #import "NSScanner-Extensions.h"
 
 #import "AppController.h"
@@ -16,40 +17,6 @@
 #include "driftGenerator.h"
 
 @implementation StringParser
-
-+ (NSCharacterSet *)gsStringParserWhitespaceCharacterSet;
-{
-    static NSCharacterSet *characterSet = nil;
-
-    if (characterSet == nil) {
-        NSMutableCharacterSet *aSet;
-
-        aSet = [[NSCharacterSet whitespaceCharacterSet] mutableCopy];
-        [aSet addCharactersInString:@"_"];
-        characterSet = [aSet copy];
-
-        [aSet release];
-    }
-
-    return characterSet;
-}
-
-+ (NSCharacterSet *)gsStringParserDefaultCharacterSet;
-{
-    static NSCharacterSet *characterSet = nil;
-
-    if (characterSet == nil) {
-        NSMutableCharacterSet *aSet;
-
-        aSet = [[NSCharacterSet letterCharacterSet] mutableCopy];
-        [aSet addCharactersInString:@"^'#"];
-        characterSet = [aSet copy];
-
-        [aSet release];
-    }
-
-    return characterSet;
-}
 
 - (id)init;
 {
@@ -225,16 +192,6 @@
     NSLog(@"<  %s", _cmd);
 }
 
-- (void)setUpDataStructures;
-{
-    [eventList setUp];
-    [self parsePhoneString:[stringTextField stringValue]];
-    [eventList generateEventList];
-    [eventListView setEventList:eventList];
-    [[intonationView documentView] setEventList:eventList];
-    [stringTextField selectText:self];
-}
-
 - (void)_takeIntonationParametersFromUI;
 {
     intonationParameters.notionalPitch = [[intonParmsField cellAtIndex:0] floatValue];
@@ -266,8 +223,8 @@
     double aDouble;
     PhoneList *mainPhoneList;
     NSScanner *scanner;
-    NSCharacterSet *whitespaceCharacterSet = [StringParser gsStringParserWhitespaceCharacterSet];
-    NSCharacterSet *defaultCharacterSet = [StringParser gsStringParserDefaultCharacterSet]; // I know, it's not a great name.
+    NSCharacterSet *whitespaceCharacterSet = [NSCharacterSet phoneStringWhitespaceCharacterSet];
+    NSCharacterSet *defaultCharacterSet = [NSCharacterSet phoneStringIdentifierCharacterSet];
     NSString *buffer;
 
     NSLog(@" > %s", _cmd);

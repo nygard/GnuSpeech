@@ -40,9 +40,6 @@
     struct _intonationParameters intonationParameters;
 }
 
-+ (NSCharacterSet *)gsStringParserWhitespaceCharacterSet;
-+ (NSCharacterSet *)gsStringParserDefaultCharacterSet;
-
 - (id)init;
 - (void)dealloc;
 
@@ -52,7 +49,6 @@
 - (void)parseStringButton:(id)sender;
 - (void)synthesizeWithSoftware:(id)sender;
 
-- (void)setUpDataStructures;
 - (void)_takeIntonationParametersFromUI;
 
 - (void)automaticIntonation:(id)sender;

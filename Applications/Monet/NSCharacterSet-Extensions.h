@@ -1,5 +1,5 @@
 //
-// $Id: NSCharacterSet-Extensions.h,v 1.2 2004/03/25 19:19:15 nygard Exp $
+// $Id: NSCharacterSet-Extensions.h,v 1.3 2004/03/31 05:32:43 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -10,5 +10,7 @@
 @interface NSCharacterSet (Extensions)
 
 + (NSCharacterSet *)generalXMLEntityCharacterSet;
++ (NSCharacterSet *)phoneStringWhitespaceCharacterSet;
++ (NSCharacterSet *)phoneStringIdentifierCharacterSet;
 
 @end

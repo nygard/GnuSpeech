@@ -17,4 +17,38 @@
     return characterSet;
 }
 
++ (NSCharacterSet *)phoneStringWhitespaceCharacterSet;
+{
+    static NSCharacterSet *characterSet = nil;
+
+    if (characterSet == nil) {
+        NSMutableCharacterSet *aSet;
+
+        aSet = [[NSCharacterSet whitespaceCharacterSet] mutableCopy];
+        [aSet addCharactersInString:@"_"];
+        characterSet = [aSet copy];
+
+        [aSet release];
+    }
+
+    return characterSet;
+}
+
++ (NSCharacterSet *)phoneStringIdentifierCharacterSet;
+{
+    static NSCharacterSet *characterSet = nil;
+
+    if (characterSet == nil) {
+        NSMutableCharacterSet *aSet;
+
+        aSet = [[NSCharacterSet letterCharacterSet] mutableCopy];
+        [aSet addCharactersInString:@"^'#"];
+        characterSet = [aSet copy];
+
+        [aSet release];
+    }
+
+    return characterSet;
+}
+
 @end

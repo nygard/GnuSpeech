@@ -56,7 +56,7 @@
                 intonParmsField = NSForm; 
                 intonationMatrix = NSMatrix; 
                 intonationParameterWindow = NSWindow; 
-                intonationView = IntonationView; 
+                intonationView = NSScrollView; 
                 intonationWindow = NSWindow; 
                 parameterTableView = NSTableView; 
                 parametersStore = NSButton; 
