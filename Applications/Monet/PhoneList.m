@@ -6,7 +6,6 @@
 #import "AppController.h" // To get NXGetNamedObject()
 #import "MMCategory.h"
 #import "CategoryList.h"
-#import "GSXMLFunctions.h"
 #import "MMParameter.h"
 #import "ParameterList.h"
 #import "MMPosture.h"
@@ -254,28 +253,6 @@
 
     [myData release];
 #endif
-}
-
-- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
-{
-    int count, index;
-
-    count = [self count];
-    if (count == 0)
-        return;
-
-    [resultString indentToLevel:level];
-    [resultString appendString:@"<postures>\n"];
-
-    for (index = 0; index < count; index++) {
-        MMPosture *aPhone;
-
-        aPhone = [self objectAtIndex:index];
-        [aPhone appendXMLToString:resultString level:level+1];
-    }
-
-    [resultString indentToLevel:level];
-    [resultString appendString:@"</postures>\n"];
 }
 
 @end

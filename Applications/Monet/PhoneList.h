@@ -43,6 +43,4 @@
 
 - (IBAction)importTRMData:(id)sender;
 
-- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
-
 @end

@@ -4,7 +4,6 @@
 #import "NSString-Extensions.h"
 
 #import "MMCategory.h"
-#import "GSXMLFunctions.h"
 
 /*===========================================================================
 

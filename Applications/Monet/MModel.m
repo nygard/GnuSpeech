@@ -650,7 +650,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [parameters appendXMLToString:resultString elementName:@"parameters" level:1];
     [metaParameters appendXMLToString:resultString elementName:@"meta-parameters" level:1];
     [symbols appendXMLToString:resultString elementName:@"symbols" level:1];
-    [postures appendXMLToString:resultString level:1];
+    [postures appendXMLToString:resultString elementName:@"postures" level:1];
 
     [self _appendXMLForEquationsToString:resultString level:1];
     [self _appendXMLForTransitionsToString:resultString level:1];
