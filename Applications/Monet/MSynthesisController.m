@@ -535,7 +535,6 @@
     double ruleTempo = 1.0;
     double phoneTempo = 1.0;
     double aDouble;
-    PhoneList *mainPhoneList;
     NSScanner *scanner;
     NSCharacterSet *whitespaceCharacterSet = [NSCharacterSet phoneStringWhitespaceCharacterSet];
     NSCharacterSet *defaultCharacterSet = [NSCharacterSet phoneStringIdentifierCharacterSet];
@@ -543,12 +542,6 @@
     BOOL wordMarker = NO;
 
     //NSLog(@" > %s", _cmd);
-
-    mainPhoneList = [[self model] postures];
-    //NSLog(@"mainPhoneList: %p", mainPhoneList);
-
-    //aPhone = [mainPhoneList findPhone:@"^"];
-    //[eventList newPhoneWithObject:aPhone];
 
     scanner = [[[NSScanner alloc] initWithString:str] autorelease];
     [scanner setCharactersToBeSkipped:nil];
@@ -647,7 +640,7 @@
                 //NSLog(@"Scanned this: '%@'", buffer);
                 if (markedFoot)
                     buffer = [buffer stringByAppendingString:@"'"];
-                aPhone = [mainPhoneList findPhone:buffer];
+                aPhone = [[self model] postureWithName:buffer];
                 //NSLog(@"aPhone: %p, eventList: %p", aPhone, eventList); // Each has the same event list
                 if (aPhone) {
                     [postureRewriter rewriteEventList:eventList withNextPosture:aPhone wordMarker:wordMarker];
