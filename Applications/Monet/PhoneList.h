@@ -28,14 +28,8 @@
 
 - (MMPosture *)findPhone:(NSString *)phone;
 
-/* List maintenance Methods */
-- (void)symbolDefaultChange:(MMParameter *)parameter to:(double)value;
-
 - (void)removeParameterAtIndex:(int)index;
-
 - (void)removeMetaParameterAtIndex:(int)index;
-
-- (void)addSymbol;
 - (void)removeSymbol:(int)index;
 
 - (IBAction)importTRMData:(id)sender;

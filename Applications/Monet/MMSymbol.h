@@ -1,4 +1,4 @@
-#import <Foundation/NSObject.h>
+#import "MMObject.h"
 
 /*===========================================================================
 
@@ -9,7 +9,7 @@
 =============================================================================
 */
 
-@interface MMSymbol : NSObject
+@interface MMSymbol : MMObject
 {
     NSString *symbol;
     NSString *comment;

@@ -91,6 +91,7 @@
 
 - (void)addParameterTarget:(MMTarget *)newTarget;
 - (void)addMetaParameterTarget:(MMTarget *)newTarget;
+- (void)addSymbolTarget:(MMTarget *)newTarget;
 
 - (NSComparisonResult)compareByAscendingName:(MMPosture *)otherPosture;
 

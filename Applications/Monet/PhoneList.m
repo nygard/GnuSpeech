@@ -37,23 +37,6 @@
     return nil;
 }
 
-- (void)symbolDefaultChange:(MMParameter *)parameter to:(double)value;
-{
-    int i, index;
-    id temp;
-    SymbolList *mainSymbolList;
-
-    mainSymbolList = NXGetNamedObject(@"mainSymbolList", NSApp);
-    index = [mainSymbolList indexOfObject:parameter];
-    if (index != NSNotFound) {
-        for (i = 0; i < [self count]; i++) {
-            temp = [[[self objectAtIndex:i] symbolList] objectAtIndex:index];
-            if ([temp isDefault])
-                [temp setValue:value];
-        }
-    }
-}
-
 - (void)removeParameterAtIndex:(int)index;
 {
     int i;
@@ -73,23 +56,6 @@
     for (i = 0; i < [self count]; i++) {
         temp = [[self objectAtIndex:i] metaParameterTargets];
         [temp removeObjectAtIndex:index];
-    }
-}
-
-- (void)addSymbol;
-{
-    unsigned int count, index;
-    TargetList *aTargetList;
-
-    // TODO (2004-03-20): The original code didn't take the default value from the main symbol list.
-    count = [self count];
-    for (index = 0; index < count; index++) {
-        MMTarget *newTarget;
-
-        aTargetList = [[self objectAtIndex:index] symbolList];
-        newTarget = [[MMTarget alloc] initWithValue:0 isDefault:YES];
-        [aTargetList addObject:newTarget];
-        [newTarget release];
     }
 }
 

@@ -370,7 +370,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [self _uniqueNameForSymbol:newSymbol];
 
     [symbols addObject:newSymbol];
-    [postures addSymbol];
+    [newSymbol setModel:self];
+    [self _addDefaultPostureTargetsForSymbol:newSymbol];
 }
 
 - (void)_uniqueNameForSymbol:(MMSymbol *)newSymbol;
@@ -396,6 +397,22 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [newSymbol setSymbol:name];
 
     [names release];
+}
+
+- (void)_addDefaultPostureTargetsForSymbol:(MMSymbol *)newSymbol;
+{
+    unsigned int count, index;
+    double value;
+
+    value = [newSymbol defaultValue];
+    count = [postures count];
+    for (index = 0; index < count; index++) {
+        MMTarget *newTarget;
+
+        newTarget = [[MMTarget alloc] initWithValue:value isDefault:YES];
+        [[postures objectAtIndex:index] addSymbolTarget:newTarget];
+        [newTarget release];
+    }
 }
 
 - (void)removeSymbol:(MMSymbol *)aSymbol;
@@ -763,6 +780,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     symbols = [[aDecoder decodeObject] retain];
     //NSLog(@"symbols: %@", symbols);
     //NSLog(@"symbols: %d", [symbols count]);
+    [symbols makeObjectsPerformSelector:@selector(setModel:) withObject:self];
 
     parameters = [[aDecoder decodeObject] retain];
     //NSLog(@"parameters: %@", parameters);
@@ -1332,6 +1350,23 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     if (parameterIndex != NSNotFound) {
         for (index = 0; index < count; index++) {
             [[[[postures objectAtIndex:index] metaParameterTargets] objectAtIndex:parameterIndex] changeDefaultValueFrom:oldDefaultValue to:newDefaultValue];
+        }
+    }
+}
+
+- (void)symbol:(MMSymbol *)aSymbol willChangeDefaultValue:(double)newDefaultValue;
+{
+    double oldDefaultValue;
+    unsigned int count, index;
+    unsigned int symbolIndex;
+
+    oldDefaultValue = [aSymbol defaultValue];
+    count = [postures count];
+
+    symbolIndex = [symbols indexOfObject:aSymbol];
+    if (symbolIndex != NSNotFound) {
+        for (index = 0; index < count; index++) {
+            [[[[postures objectAtIndex:index] symbolList] objectAtIndex:symbolIndex] changeDefaultValueFrom:oldDefaultValue to:newDefaultValue];
         }
     }
 }

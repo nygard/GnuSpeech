@@ -239,6 +239,11 @@
     [metaParameterList addObject:newTarget];
 }
 
+- (void)addSymbolTarget:(MMTarget *)newTarget;
+{
+    [symbolList addObject:newTarget];
+}
+
 - (NSComparisonResult)compareByAscendingName:(MMPosture *)otherPosture;
 {
     return [phoneSymbol compare:[otherPosture symbol]];

@@ -1,5 +1,5 @@
 //
-// $Id: MModel.h,v 1.23 2004/03/25 05:11:27 nygard Exp $
+// $Id: MModel.h,v 1.24 2004/03/25 05:32:10 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -67,6 +67,7 @@ extern NSString *MCategoryInUseException;
 // Symbols
 - (void)addSymbol:(MMSymbol *)newSymbol;
 - (void)_uniqueNameForSymbol:(MMSymbol *)newSymbol;
+- (void)_addDefaultPostureTargetsForSymbol:(MMSymbol *)newSymbol;
 - (void)removeSymbol:(MMSymbol *)aSymbol;
 - (MMSymbol *)symbolWithName:(NSString *)aName;
 
@@ -121,5 +122,6 @@ extern NSString *MCategoryInUseException;
 
 - (int)nextCacheTag;
 - (void)parameter:(MMParameter *)aParameter willChangeDefaultValue:(double)newDefaultValue;
+- (void)symbol:(MMSymbol *)aSymbol willChangeDefaultValue:(double)newDefaultValue;
 
 @end
