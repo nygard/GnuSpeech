@@ -1,15 +1,15 @@
 Here are some timings that I did a while ago.  This is for a 17 second utterance (I think it's 10 repetitions of one of the test parameter files, so there isn't a large parameter list.)  David ran it on his 1.6GHz G5 and the Linux machine, although he may not have had optimizations turned on.  I ran the others on my machines.
 
-Subversion    1.6GHz G5   500MHz   500MHz PPC   1GHz PPC   Dual 1GHz PPC
-revision                  Linux    (7410)       (7455)     (7455)
+Subversion    1.6GHz G5   500MHz   500MHz PPC   1GHz PPC   Dual 1GHz PPC  Dual 2GHz PPC
+revision                  Linux    (7410)       (7455)     (7455)         (970)
 
 r180          10.5        18.01    15.68        10.43      9.73
 r181                               15.03        10.43      9.68
 r447                               11.17         8.37      7.80
 r447 (tube2)                        7.33         4.53      4.17
 r577                               13.88         9.34      8.66
-r947                                8.62         5.52      5.15
-r1016                               5.63         3.21      2.86
+r947                                8.62         5.52      5.15           1.94
+r1016                               5.63         3.21      2.86           1.09
 
 
 r180  - Len's new tube that can generate au, aiff, or wav.
