@@ -11,7 +11,6 @@
 #import "MMPosture.h"
 #import "MMRule.h"
 #import "PhoneList.h"
-#import "RuleList.h"
 
 @implementation MRuleTester
 
