@@ -3502,6 +3502,20 @@
 			settings = {
 			};
 		};
+		01F2C72F06DAED6100E2A458 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = vecLib.framework;
+			path = /System/Library/Frameworks/vecLib.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		01F2C73006DAED6100E2A458 = {
+			fileRef = 01F2C72F06DAED6100E2A458;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		01F6E26B060EA6470073E196 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -3614,6 +3628,7 @@
 				0143DCCA065193D800DB5F6D,
 				0143DCCB065193D800DB5F6D,
 				011158D706C83632000BA7D0,
+				01F2C72F06DAED6100E2A458,
 			);
 			isa = PBXGroup;
 			name = "Linked Frameworks";
@@ -4158,6 +4173,7 @@
 				0143DCCC065193D800DB5F6D,
 				0143DCCD065193D800DB5F6D,
 				011158D806C83632000BA7D0,
+				01F2C73006DAED6100E2A458,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
