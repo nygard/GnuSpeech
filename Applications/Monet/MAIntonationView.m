@@ -212,8 +212,6 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
         documentVisibleRect = [enclosingScrollView documentVisibleRect];
         bounds = [self bounds];
-        //NSLog(@"documentVisibleRect: %@", NSStringFromRect(documentVisibleRect));
-        //NSLog(@"bounds: %@", NSStringFromRect(bounds));
 
         bounds.size.width = [self minimumWidth];
         if (bounds.size.width < documentVisibleRect.size.width)
@@ -399,10 +397,6 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
             currentPosture = [eventList getPhoneAtIndex:postureIndex++];
             if (currentPosture != nil) {
                 //NSLog(@"[currentPosture name]: %@", [currentPosture name]);
-#if 0
-                [[NSColor blueColor] set];
-                NSRectFill(NSMakeRect(currentX, bounds.size.height - POSTURE_Y_OFFSET, 10, 20));
-#endif
                 [[NSColor blackColor] set];
                 [[currentPosture name] drawAtPoint:NSMakePoint(currentX, bounds.size.height - POSTURE_Y_OFFSET) withAttributes:nil];
                 //[postureTextFieldCell setStringValue:[currentPosture name]];
@@ -680,14 +674,8 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
         switch (ch) {
           case NSDeleteFunctionKey:
           case NSDeleteCharacter:
-          {
-              NSArray *points = [NSArray arrayWithArray:selectedPoints];
-
               //NSLog(@"delete");
-              // We need to be careful that intermediate notifications don't change the selectedPoints array here.
-              [self deselectAllPoints];
-              [eventList removeIntonationPointsFromArray:points];
-          }
+              [self delete:nil];
               break;
 
           case NSLeftArrowFunctionKey:
@@ -761,15 +749,13 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     [[self window] makeFirstResponder:self];
 
     hitPoint = [self convertPoint:[mouseEvent locationInWindow] fromView:nil];
-    NSLog(@"hitPoint: %@", NSStringFromPoint(hitPoint));
+    //NSLog(@"hitPoint: %@", NSStringFromPoint(hitPoint));
 
     [self setShouldDrawSelection:NO];
     [selectedPoints removeAllObjects];
     [self _selectionDidChange];
-    [self setNeedsDisplay:YES];
 
     if ([mouseEvent clickCount] == 1) {
-        //NSLog(@"[mouseEvent modifierFlags]: %x", [mouseEvent modifierFlags]);
         if ([mouseEvent modifierFlags] & NSAlternateKeyMask) {
             MMIntonationPoint *newIntonationPoint;
             NSPoint graphOrigin;
@@ -777,7 +763,6 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
             int ruleIndex;
             double offsetTime;
 
-            NSLog(@"Alt-clicked!");
             graphOrigin = [self graphOrigin];
             yScale = [self sectionHeight];
 
@@ -873,7 +858,29 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     }
 
     [self _selectionDidChange];
-    [self setNeedsDisplay:YES];
+}
+
+//
+// Actions
+//
+
+- (IBAction)selectAll:(id)sender;
+{
+    [selectedPoints removeAllObjects];
+    [selectedPoints addObjectsFromArray:[eventList intonationPoints]];
+    [self _selectionDidChange];
+}
+
+- (IBAction)delete:(id)sender;
+{
+    NSArray *points;
+
+    // We need to be careful that intermediate notifications don't change the selectedPoints array here.
+
+    points = [[NSArray alloc] initWithArray:selectedPoints];
+    [self deselectAllPoints];
+    [eventList removeIntonationPointsFromArray:points];
+    [points release];
 }
 
 #ifdef PORTING
@@ -913,7 +920,6 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
                 [selectedPoints removeAllObjects];
                 [selectedPoints addObject:tempPoint];
                 [self _selectionDidChange];
-                [self setNeedsDisplay:YES];
 
                 return;
             }
@@ -926,107 +932,6 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
             [self unlockFocus];
             flags.mouseBeingDragged = NO;
             [self setNeedsDisplay:YES];
-        } else {
-            NSPoint loc;
-
-            [self lockFocus];
-            //PSsetinstance(TRUE);
-            while (1) {
-                NSBezierPath *bezierPath;
-
-                newEvent = [NSApp nextEventMatchingMask:NSAnyEventMask
-                                  untilDate:[NSDate distantFuture]
-                                  inMode:NSEventTrackingRunLoopMode
-                                  dequeue:YES];
-                //PSnewinstance();
-                if ([newEvent type] == NSLeftMouseUp)
-                    break;
-
-                loc = [self convertPoint:[newEvent locationInWindow] fromView:nil];
-
-                [[NSColor darkGrayColor] set];
-                bezierPath = [[NSBezierPath alloc] init];
-                [bezierPath moveToPoint:NSMakePoint(column, row)];
-                [bezierPath lineToPoint:NSMakePoint(column, loc.y)];
-                [bezierPath lineToPoint:NSMakePoint(loc.x, loc.y)];
-                [bezierPath lineToPoint:NSMakePoint(loc.x, row)];
-                [bezierPath lineToPoint:NSMakePoint(column, row)];
-                [bezierPath stroke];
-                [bezierPath release];
-
-                [[self window] flushWindow];
-
-            }
-            //PSsetinstance(FALSE);
-            loc = [self convertPoint:[newEvent locationInWindow] fromView:nil];
-
-            if (row < [newEvent locationInWindow].y)
-                row1 = loc.y;
-            else {
-                row1 = row;
-                row = loc.y;
-            }
-
-            if (column < loc.x)
-                column1 = loc.x;
-            else {
-                column1 = column;
-                column = loc.x;
-            }
-
-            [selectedPoints removeAllObjects];
-            for (i = 0; i < [intonationPoints count]; i++) {
-                tempPoint = [intonationPoints objectAtIndex:i];
-                column2 = [tempPoint absoluteTime] / timeScale;
-
-                row2 = (([tempPoint semitone]+20.0) * ([self frame].size.height-70.0) / 30.0)+5.0;
-
-                if ((row2 < row1) && (row2 > row))
-                    if ((column2 < column1) && (column2 > column))
-                        [selectedPoints addObject:tempPoint];
-            }
-
-            [self unlockFocus];
-            [self _selectionDidChange];
-            [self setNeedsDisplay:YES];
-        }
-    }
-
-    /* Double Click mouse events */
-    if ([theEvent clickCount] == 2) {
-        if (![eventList ruleCount])
-            return;
-
-        temp = column * timeScale;
-        semitone = (double) (((row-5.0)/([self frame].size.height-70.0))*30.0)-20.0;
-
-        distance = 1000000.0;
-
-        tally = tally1 = 0.0;
-
-        for (i = 0; i < [eventList ruleCount]; i++) {
-            rule = [eventList getRuleAtIndex:i];
-            distance1 = (float) fabs(temp - rule->beat);
-            //NSLog(@"temp: %f  beat: %f  dist: %f  distance1: %f", temp, rule->beat, distance, distance1);
-            if (distance1 <= distance) {
-                distance = distance1;
-                ruleIndex = i;
-            } else {
-                rule = [eventList getRuleAtIndex:ruleIndex];
-                //NSLog(@"Selecting Rule: %d posture index %d", ruleIndex, rule->lastPhone);
-
-                // TODO (2004-08-09): Should just use -[EventList addIntonationPoint:offsetTime:slope:ruleIndex:]
-                iPoint = [[MMIntonationPoint alloc] init];
-                [iPoint setRuleIndex:ruleIndex];
-                [iPoint setOffsetTime:(double)temp - rule->beat];
-                [iPoint setSemitone:semitone];
-                [eventList addIntonationPoint:iPoint];
-                [iPoint release];
-
-                [self setNeedsDisplay:YES];
-                // TODO (2004-03-31): Select new point.
-                return;
-            }
         }
     }
 }
@@ -1069,8 +974,10 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
 - (void)deselectAllPoints;
 {
+    if ([selectedPoints count] == 0)
+        return;
+
     [selectedPoints removeAllObjects];
-    [self setNeedsDisplay:YES];
     [self _selectionDidChange];
 }
 
@@ -1087,7 +994,6 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     [selectedPoints removeAllObjects];
     if (anIntonationPoint != nil)
         [selectedPoints addObject:anIntonationPoint];
-    [self setNeedsDisplay:YES];
     [self _selectionDidChange];
 }
 
@@ -1100,6 +1006,8 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
     if ([[self delegate] respondsToSelector:@selector(intonationViewSelectionDidChange:)] == YES)
         [[self delegate] intonationViewSelectionDidChange:aNotification];
+
+    [self setNeedsDisplay:YES];
 }
 
 //
@@ -1129,8 +1037,6 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
 - (void)updateEvents;
 {
-    //[self deselectAllPoints];
-    // TODO (2004-08-09): And select the first point again?
     [self resizeWidth];
     [self setNeedsDisplay:YES];
 }

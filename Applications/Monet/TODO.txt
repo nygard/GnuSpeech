@@ -137,7 +137,7 @@ x -[NSSString initWithBytes:length:encoding:] not in 10.2.8 SDK, so should be wi
 
 2004-03-30:
 + Change EventLists's intonParms from "double *" into struct or class
-- intonation had range of -20 to 10, event index 32
++ intonation had range of -20 to 10, event index 32.  This is range of semitone.
 
 2004-03-31:
 + The Diphone/Triphone/Tetraphone radio buttons should be in the Transition Editor, not on the Prototype Manager window. (2004-08-15)
@@ -203,7 +203,7 @@ x -[NSSString initWithBytes:length:encoding:] not in 10.2.8 SDK, so should be wi
 + I've noticed that the postures aren't properly placed in the Synthesis window, for rules that consume >1 posture.  Problem with move to structure in EventList.
 
 2004-08-09;
-- With Save Graph Images, store at a location that's easier to get to for novice users than /tmp
++ With Save Graph Images, store at a location that's easier to get to for novice users than /tmp
 
 2004-08-13:
 + Clear out General:Null special transitions from rules.  For example, see Rule #27. (2004-08-15)
@@ -225,11 +225,11 @@ des: [~ 12 ]> /Local/Public/nygard/Products/Monet.app/Contents/MacOS/Monet
 - need better choice of default point type -- should be able to default to triphone after mark1.
 
 2004-08-16:
-- make sound filename accept "~"
-- show save sheet for synthesizing to sound file
++ make sound filename accept "~"
++ show save sheet for synthesizing to sound file
 
 2004-08-19:
-- trying storing dictionary in dbm file, for faster startup tts stuff
++ trying storing dictionary in dbm file, for faster startup tts stuff
 
 2004-08-21:
 - MAIntonationView should autoscroll when necessary when drawing the selection rect.
@@ -240,3 +240,4 @@ des: [~ 12 ]> /Local/Public/nygard/Products/Monet.app/Contents/MacOS/Monet
 + Use save panel/sheet when synthesizing to a file.
 - Try tweaking the page breaks when printing the intonation view.  Try to break on rule boundaries.
 + add, remove intonation poitns.
+- could implement cut/paste of intonation points.

@@ -90,6 +90,11 @@ extern NSString *MAIntonationViewSelectionDidChangeNotification;
 - (void)mouseUp:(NSEvent *)mouseEvent;
 - (void)selectGraphPointsBetweenPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
 
+// Actions
+- (IBAction)selectAll:(id)sender;
+- (IBAction)delete:(id)sender;
+
+
 - (void)updateScale:(float)column;
 
 - (void)deselectAllPoints;
