@@ -1228,12 +1228,7 @@ static NSImage *_selectionBox = nil;
 
 - (void)setTransition:(MMTransition *)newTransition;
 {
-    NSLog(@" > %s", _cmd);
-
-    NSLog(@"currentTemplate: %p, newTransition: %p", currentTemplate, newTransition);
-
     if (newTransition == currentTemplate) {
-        NSLog(@"<  %s", _cmd);
         return;
     }
 
@@ -1269,8 +1264,6 @@ static NSImage *_selectionBox = nil;
     }
 
     [self setNeedsDisplay:YES];
-
-    NSLog(@"<  %s", _cmd);
 }
 
 - (void)showWindow:(int)otherWindow;

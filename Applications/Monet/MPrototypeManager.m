@@ -261,8 +261,22 @@
 
 - (IBAction)addEquationGroup:(id)sender;
 {
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
+    NamedList *newGroup;
+    unsigned int index;
+
+    newGroup = [[NamedList alloc] init];
+    [newGroup setName:@"Untitled"];
+    [[[self model] equations] addObject:newGroup];
+
+    [self updateViews];
+
+    index = [equationOutlineView rowForItem:newGroup];
+    [equationOutlineView expandItem:newGroup];
+    [newGroup release];
+
+    // The row needs to be selected before we start editing it.
+    [equationOutlineView selectRow:index byExtendingSelection:NO];
+    [equationOutlineView editColumn:[equationOutlineView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
 }
 
 - (IBAction)addEquation:(id)sender;
@@ -308,8 +322,23 @@
 
 - (IBAction)addTransitionGroup:(id)sender;
 {
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
+    NamedList *newGroup;
+    unsigned int index;
+
+    NSLog(@"%s", _cmd);
+    newGroup = [[NamedList alloc] init];
+    [newGroup setName:@"Untitled"];
+    [[[self model] transitions] addObject:newGroup];
+
+    [self updateViews];
+
+    index = [transitionOutlineView rowForItem:newGroup];
+    [transitionOutlineView expandItem:newGroup];
+    [newGroup release];
+
+    // The row needs to be selected before we start editing it.
+    [transitionOutlineView selectRow:index byExtendingSelection:NO];
+    [transitionOutlineView editColumn:[transitionOutlineView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
 }
 
 - (IBAction)addTransition:(id)sender;
@@ -344,8 +373,23 @@
 
 - (IBAction)addSpecialTransitionGroup:(id)sender;
 {
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
+    NamedList *newGroup;
+    unsigned int index;
+
+    NSLog(@"%s", _cmd);
+    newGroup = [[NamedList alloc] init];
+    [newGroup setName:@"Untitled"];
+    [[[self model] specialTransitions] addObject:newGroup];
+
+    [self updateViews];
+
+    index = [specialTransitionOutlineView rowForItem:newGroup];
+    [specialTransitionOutlineView expandItem:newGroup];
+    [newGroup release];
+
+    // The row needs to be selected before we start editing it.
+    [specialTransitionOutlineView selectRow:index byExtendingSelection:NO];
+    [specialTransitionOutlineView editColumn:[specialTransitionOutlineView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
 }
 
 - (IBAction)addSpecialTransition:(id)sender;
@@ -527,8 +571,6 @@
 {
     NSOutlineView *outlineView;
 
-    NSLog(@" > %s", _cmd);
-
     outlineView = [aNotification object];
 
     if (outlineView == equationOutlineView) {
@@ -538,8 +580,6 @@
     } else if (outlineView == specialTransitionOutlineView) {
         [self _updateSpecialTransitionDetails];
     }
-
-    NSLog(@"<  %s", _cmd);
 }
 
 //
