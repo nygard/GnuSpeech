@@ -228,29 +228,24 @@
 
 - (IBAction)browserHit:(id)sender;
 {
-    id tempParameter;
-    id tempList;
+    TargetList *tempList;
     double value;
 
-    tempParameter = [currentMainList objectAtIndex:[[browser matrixInColumn:0] selectedRow]];
     switch (currentBrowser) {
       case 1:
-          [currentPhone parameterList];
-          tempList = currentPhone;
+          tempList = [currentPhone parameterList];
           value = [(Target *)[tempList objectAtIndex:[[browser matrixInColumn:0] selectedRow]] value];
           [[valueField cellAtIndex:0] setDoubleValue:value];
           [valueField selectTextAtIndex:0];
           break;
       case 2:
-          [currentPhone metaParameterList];
-          tempList = currentPhone;
+          tempList = [currentPhone metaParameterList];
           value = [(Target *)[tempList objectAtIndex:[[browser matrixInColumn:0] selectedRow]] value];
           [[valueField cellAtIndex:0] setDoubleValue:value];
           [valueField selectTextAtIndex:0];
           break;
       case 3:
-          [currentPhone symbolList];
-          tempList = currentPhone;
+          tempList = [currentPhone symbolList];
           value = [(Target *)[tempList objectAtIndex:[[browser matrixInColumn:0] selectedRow]] value];
           [[valueField cellAtIndex:0] setDoubleValue:value];
           [valueField selectTextAtIndex:0];
@@ -260,37 +255,41 @@
     }
 
     if ((currentBrowser == 1) || (currentBrowser == 2) || (currentBrowser == 3)) {
-        [minText setDoubleValue: (double)[tempParameter minimumValue]];
-        [maxText setDoubleValue: (double)[tempParameter maximumValue]];
-        [defText setDoubleValue:[tempParameter defaultValue]];
+        Parameter *aParameter;
+
+        aParameter = [currentMainList objectAtIndex:[[browser matrixInColumn:0] selectedRow]];
+        [minText setDoubleValue:[aParameter minimumValue]];
+        [maxText setDoubleValue:[aParameter maximumValue]];
+        [defText setDoubleValue:[aParameter defaultValue]];
     }
 }
 
 - (IBAction)browserDoubleHit:(id)sender;
 {
-    id tempParameter;
-    double tempDefault;
+    Target *aTarget;
+    Parameter *aParameter;
+    double defaultValue;
 
-    tempParameter = [currentMainList objectAtIndex:[[browser matrixInColumn:0] selectedRow]];
+    aParameter = [currentMainList objectAtIndex:[[browser matrixInColumn:0] selectedRow]];
     switch (currentBrowser) {
       case 1:
-          tempDefault = [tempParameter defaultValue];
-          tempParameter = [[currentPhone parameterList] objectAtIndex:[[browser matrixInColumn:0] selectedRow]];
-          [tempParameter setValue:tempDefault];
-          [tempParameter setIsDefault:YES];
+          defaultValue = [aParameter defaultValue];
+          aTarget = [[currentPhone parameterList] objectAtIndex:[[browser matrixInColumn:0] selectedRow]];
+          [aTarget setValue:defaultValue];
+          [aTarget setIsDefault:YES];
           [browser loadColumnZero];
           break;
       case 2:
-          tempDefault = [tempParameter defaultValue];
-          tempParameter = [[currentPhone metaParameterList] objectAtIndex:[[browser matrixInColumn:0] selectedRow]];
-          [tempParameter setValue:tempDefault];
-          [tempParameter setIsDefault:YES];
+          defaultValue = [aParameter defaultValue];
+          aTarget = [[currentPhone metaParameterList] objectAtIndex:[[browser matrixInColumn:0] selectedRow]];
+          [aTarget setValue:defaultValue];
+          [aTarget setIsDefault:YES];
           [browser loadColumnZero];
       case 3:
-          tempDefault = [tempParameter defaultValue];
-          tempParameter = [[currentPhone symbolList] objectAtIndex:[[browser matrixInColumn:0] selectedRow]];
-          [tempParameter setValue:tempDefault];
-          [tempParameter setIsDefault:YES];
+          defaultValue = [aParameter defaultValue];
+          aTarget = [[currentPhone symbolList] objectAtIndex:[[browser matrixInColumn:0] selectedRow]];
+          [aTarget setValue:defaultValue];
+          [aTarget setIsDefault:YES];
           [browser loadColumnZero];
       default:
           break;

@@ -28,6 +28,11 @@
   I think it should be this:
                 temp = [tempProto findEquation:listIndex andIndex:    index];
                 [currentPoint setExpression:temp];
+- there was some really bogus conversion in PhoneInspector.m, in browserHit:, where this:
+	case 1: tempList = [currentPhone parameterList];
+  was converted to this:
+      case 1: [currentPhone parameterList]; tempList = currentPhone;
+  What?!
 
 
 
