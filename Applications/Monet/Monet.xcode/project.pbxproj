@@ -42,6 +42,54 @@
 			settings = {
 			};
 		};
+		01848B7E060A4717005E9B67 = {
+			children = (
+				01848B7F060A4717005E9B67,
+			);
+			isa = PBXVariantGroup;
+			name = DataEntry.nib;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01848B7F060A4717005E9B67 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = English.lproj/DataEntry.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01848B80060A4717005E9B67 = {
+			fileRef = 01848B7E060A4717005E9B67;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01848B86060A4ACA005E9B67 = {
+			children = (
+				01848B87060A4ACA005E9B67,
+			);
+			isa = PBXVariantGroup;
+			name = Postures.nib;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01848B87060A4ACA005E9B67 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = English.lproj/Postures.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01848B88060A4ACA005E9B67 = {
+			fileRef = 01848B86060A4ACA005E9B67;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		018F79D806064E4600150223 = {
 			isa = PBXFileReference;
 			lastKnownFileType = image.tiff;
@@ -2322,6 +2370,8 @@
 				089C165CFE840E0CC02AAC07,
 				29B97318FDCFA39411CA2CEA,
 				0175901B05FA74A1004632CC,
+				01848B7E060A4717005E9B67,
+				01848B86060A4ACA005E9B67,
 			);
 			isa = PBXGroup;
 			name = Resources;
@@ -2573,6 +2623,8 @@
 				018F79DB06064E4600150223,
 				018F79DC06064E4600150223,
 				018F79DD06064E4600150223,
+				01848B80060A4717005E9B67,
+				01848B88060A4ACA005E9B67,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
