@@ -18,16 +18,11 @@
 
 // Drawing
 - (void)drawGrid;
-- (void)drawTransition;
+- (void)updateDisplayPoints;
 - (void)highlightSelectedPoints;
 
 // Event handling
 //- (void)mouseDown:(NSEvent *)mouseEvent;
-
-// View geometry
-- (int)sectionHeight;
-- (NSPoint)graphOrigin;
-- (float)timeScale;
 
 // Selection
 - (void)selectGraphPointsBetweenPoint:(NSPoint)point1 andPoint:(NSPoint)point2;

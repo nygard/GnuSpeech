@@ -41,6 +41,8 @@
         return nil;
 
     //[self setShouldDrawSlopes:NO];
+    [self setZeroIndex:7];
+    [self setSectionAmount:20];
 
     return self;
 }
@@ -68,7 +70,7 @@
     graphOrigin = [self graphOrigin];
 
     [[NSColor lightGrayColor] set];
-    rect = NSMakeRect(graphOrigin.x + 1.0, graphOrigin.y + 1.0, bounds.size.width - 2 * (LEFT_MARGIN + 1), ZERO_INDEX * sectionHeight);
+    rect = NSMakeRect(graphOrigin.x + 1.0, graphOrigin.y + 1.0, bounds.size.width - 2 * (LEFT_MARGIN + 1), zeroIndex * sectionHeight);
     NSRectFill(rect);
 
     /* Grayed out (unused) data spaces should be placed here */
@@ -96,7 +98,7 @@
         [bezierPath lineToPoint:NSMakePoint(bounds.size.width - LEFT_MARGIN + 0.5, currentYPos)];
 
         currentYPos = graphOrigin.y + i * sectionHeight - 5;
-        label = [NSString stringWithFormat:@"%4d%%", (i - ZERO_INDEX) * SECTION_AMOUNT];
+        label = [NSString stringWithFormat:@"%4d%%", (i - zeroIndex) * sectionAmount];
         labelSize = [label sizeWithAttributes:nil];
         //NSLog(@"label (%@) size: %@", label, NSStringFromSize(labelSize));
         [label drawAtPoint:NSMakePoint(LEFT_MARGIN - LABEL_MARGIN - labelSize.width, currentYPos) withAttributes:nil];
@@ -108,127 +110,10 @@
     [bezierPath release];
 }
 
-- (void)drawTransition;
+- (void)updateDisplayPoints;
 {
-    int count, index;
-    NSArray *currentPoints;
-    MMPoint *currentPoint;
-    double tempos[4] = {1.0, 1.0, 1.0, 1.0};
-    NSPoint myPoint;
-    float timeScale, y;
-    int yScale;
-    float eventTime;
-    NSBezierPath *bezierPath;
-    NSPoint graphOrigin;
-    NSMutableArray *diphonePoints, *triphonePoints, *tetraphonePoints;
-    int cacheTag;
-
-    if (transition == nil)
-        return;
-
-    [[NSColor blackColor] set];
-
-    graphOrigin = [self graphOrigin];
-
-    [displayPoints removeAllObjects];
-    //[displaySlopes removeAllObjects];
-
-    timeScale = [self timeScale];
-    yScale = [self sectionHeight];
-
-    cacheTag = [[self model] nextCacheTag];
-    //NSLog(@"%s, cacheTag: %d", _cmd, cacheTag);
-
-    currentPoints = [transition points];
-    count = [currentPoints count];
-    for (index = 0; index < count; index++) {
-        currentPoint = [currentPoints objectAtIndex:index];
-        //NSLog(@"%2d: object class: %@", index, NSStringFromClass([currentPoint class]));
-        //NSLog(@"%2d (a): value: %g, freeTime: %g, type: %d, isPhantom: %d", index, [currentPoint value], [currentPoint freeTime], [currentPoint type], [currentPoint isPhantom]);
-        [currentPoint calculatePoints:&_parameters tempos:tempos postures:samplePostures andCacheWith:cacheTag toDisplay:displayPoints];
-        //NSLog(@"%2d (b): value: %g, freeTime: %g, type: %d, isPhantom: %d", index, [currentPoint value], [currentPoint freeTime], [currentPoint type], [currentPoint isPhantom]);
-
-        if ([currentPoint isKindOfClass:[MMSlopeRatio class]])
-            [(MMSlopeRatio *)currentPoint displaySlopesInList:displaySlopes];
-    }
-
-    [displayPoints sortUsingSelector:@selector(compareByAscendingCachedTime:)]; // TODO (2004-08-15): This is one of a very few differences between TransitionView implementation now.
-
-    diphonePoints = [[NSMutableArray alloc] init];
-    triphonePoints = [[NSMutableArray alloc] init];
-    tetraphonePoints = [[NSMutableArray alloc] init];
-
-    bezierPath = [[NSBezierPath alloc] init];
-    [bezierPath setLineWidth:2];
-    [bezierPath moveToPoint:NSMakePoint(graphOrigin.x, graphOrigin.y + (yScale * ZERO_INDEX))];
-
-    // TODO (2004-03-02): With the bezier path change, we may want to do the compositing after we draw the path.
-    count = [displayPoints count];
-    //NSLog(@"%d display points", count);
-    for (index = 0; index < count; index++) {
-        currentPoint = [displayPoints objectAtIndex:index];
-        y = [currentPoint value];
-        //NSLog(@"%d: [%p] y = %f", index, currentPoint, y);
-        if ([currentPoint timeEquation] == nil)
-            eventTime = [currentPoint freeTime];
-        else
-            eventTime = [[currentPoint timeEquation] cacheValue];
-        myPoint.x = graphOrigin.x + timeScale * eventTime;
-        myPoint.y = graphOrigin.y + (yScale * ZERO_INDEX) + (y * (float)yScale / SECTION_AMOUNT);
-        [bezierPath lineToPoint:myPoint];
-        switch ([currentPoint type]) {
-          case MMPhoneTypeTetraphone:
-              [tetraphonePoints addObject:[NSValue valueWithPoint:myPoint]];
-              break;
-          case MMPhoneTypeTriphone:
-              [triphonePoints addObject:[NSValue valueWithPoint:myPoint]];
-              break;
-          case MMPhoneTypeDiphone:
-              [diphonePoints addObject:[NSValue valueWithPoint:myPoint]];
-              break;
-        }
-
-        if (index != [displayPoints count] - 1) {
-            if ([currentPoint type] == [(MMPoint *)[displayPoints objectAtIndex:index+1] type])
-                [bezierPath moveToPoint:myPoint];
-            else
-                [bezierPath moveToPoint:NSMakePoint(myPoint.x, graphOrigin.y + (ZERO_INDEX * yScale))];
-        } else
-            [bezierPath moveToPoint:myPoint];
-    }
-
-    [bezierPath lineToPoint:NSMakePoint([self bounds].size.width - LEFT_MARGIN, [self bounds].size.height - BOTTOM_MARGIN - (ZERO_INDEX * yScale))];
-    [bezierPath stroke];
-    [bezierPath release];
-
-    //[[NSColor redColor] set];
-    count = [diphonePoints count];
-    for (index = 0; index < count; index++) {
-        NSPoint aPoint;
-
-        aPoint = [[diphonePoints objectAtIndex:index] pointValue];
-        [NSBezierPath drawCircleMarkerAtPoint:aPoint];
-    }
-
-    count = [triphonePoints count];
-    for (index = 0; index < count; index++) {
-        NSPoint aPoint;
-
-        aPoint = [[triphonePoints objectAtIndex:index] pointValue];
-        [NSBezierPath drawTriangleMarkerAtPoint:aPoint];
-    }
-
-    count = [tetraphonePoints count];
-    for (index = 0; index < count; index++) {
-        NSPoint aPoint;
-
-        aPoint = [[tetraphonePoints objectAtIndex:index] pointValue];
-        [NSBezierPath drawSquareMarkerAtPoint:aPoint];
-    }
-
-    [diphonePoints release];
-    [triphonePoints release];
-    [tetraphonePoints release];
+    [super updateDisplayPoints];
+    [displayPoints sortUsingSelector:@selector(compareByAscendingCachedTime:)];
 }
 
 - (void)highlightSelectedPoints;
@@ -261,7 +146,7 @@
                 eventTime = [[currentPoint timeEquation] evaluate:&_parameters postures:samplePostures andCacheWith:cacheTag];
 
             myPoint.x = graphOrigin.x + timeScale * eventTime;
-            myPoint.y = graphOrigin.y + (yScale * ZERO_INDEX) + (y * (float)yScale / SECTION_AMOUNT);
+            myPoint.y = graphOrigin.y + (yScale * zeroIndex) + (y * (float)yScale / sectionAmount);
 
             //NSLog(@"Selection; x: %f y:%f", myPoint.x, myPoint.y);
 
@@ -300,7 +185,7 @@
             newPoint = [[MMPoint alloc] init];
             [newPoint setFreeTime:(hitPoint.x - graphOrigin.x) / [self timeScale]];
             //NSLog(@"hitPoint: %@, graphOrigin: %@, yScale: %d", NSStringFromPoint(hitPoint), NSStringFromPoint(graphOrigin), yScale);
-            newValue = (hitPoint.y - graphOrigin.y - (ZERO_INDEX * yScale)) * SECTION_AMOUNT / yScale;
+            newValue = (hitPoint.y - graphOrigin.y - (zeroIndex * yScale)) * sectionAmount / yScale;
 
             //NSLog(@"NewPoint Time: %f  value: %f", [tempPoint freeTime], [tempPoint value]);
             [newPoint setValue:newValue];
@@ -323,37 +208,6 @@
     [self setShouldDrawSelection:YES];
 }
 #endif
-
-//
-// View geometry
-//
-
-- (int)sectionHeight;
-{
-    NSRect bounds;
-    int sectionHeight;
-
-    bounds = [self bounds];
-    sectionHeight = (bounds.size.height - 2 * BOTTOM_MARGIN) / SECTION_COUNT;
-
-    return sectionHeight;
-}
-
-- (NSPoint)graphOrigin;
-{
-    NSPoint graphOrigin;
-
-    graphOrigin.x = LEFT_MARGIN;
-    graphOrigin.y = [self bounds].size.height - BOTTOM_MARGIN - 14 * [self sectionHeight];
-
-    return graphOrigin;
-}
-
-- (float)timeScale;
-{
-    // TODO (2004-03-11): Remove outlets to form, turn these values into ivars.
-    return ([self bounds].size.width - 2 * LEFT_MARGIN) / [self ruleDuration];
-}
 
 //
 // Selection
@@ -396,7 +250,7 @@
             currentPoint.x = [[currentDisplayPoint timeEquation] evaluate:&_parameters postures:samplePostures andCacheWith:cacheTag];
 
         currentPoint.x *= timeScale;
-        currentPoint.y = (yScale * ZERO_INDEX) + ([currentDisplayPoint value] * yScale / SECTION_AMOUNT);
+        currentPoint.y = (yScale * zeroIndex) + ([currentDisplayPoint value] * yScale / sectionAmount);
 
         //NSLog(@"%2d: currentPoint: %@", index, NSStringFromPoint(currentPoint));
         if (NSPointInRect(currentPoint, selectionRect) == YES) {

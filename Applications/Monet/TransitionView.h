@@ -47,6 +47,9 @@ extern NSString *TransitionViewSelectionDidChangeNotification;
     NSTextFieldCell *textFieldCell;
     NSText *nonretained_fieldEditor;
 
+    int zeroIndex;
+    int sectionAmount;
+
     MModel *model;
 
     struct {
@@ -59,6 +62,12 @@ extern NSString *TransitionViewSelectionDidChangeNotification;
 
 - (id)initWithFrame:(NSRect)frameRect;
 - (void)dealloc;
+
+- (int)zeroIndex;
+- (void)setZeroIndex:(int)newZeroIndex;
+
+- (int)sectionAmount;
+- (void)setSectionAmount:(int)newSectionAmount;
 
 - (MModel *)model;
 - (void)setModel:(MModel *)newModel;
@@ -104,6 +113,7 @@ extern NSString *TransitionViewSelectionDidChangeNotification;
 - (void)drawEquations;
 - (void)drawPhones;
 - (void)drawTransition;
+- (void)updateDisplayPoints;
 - (void)highlightSelectedPoints;
 
 // Event handling
