@@ -751,7 +751,7 @@ static void page_consumed(void)
     NSLog(@"\n");
     NSLog(@"Phones %d", currentPhone);
     for (i = 0; i < currentPhone; i++) {
-        NSLog(@"%d  \"%s\" tempo: %f syllable: %d onset: %f ruleTempo: %f",
+        NSLog(@"%d  \"%@\" tempo: %f syllable: %d onset: %f ruleTempo: %f",
                i, [phones[i].phone symbol], phoneTempo[i], phones[i].syllable, phones[i].onset, phones[i].ruleTempo);
     }
 
