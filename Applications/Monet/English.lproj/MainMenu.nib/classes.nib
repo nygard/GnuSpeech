@@ -27,7 +27,6 @@
                 inspectorController = Inspector; 
                 intonationView = IntonationScrollView; 
                 prototypeManager = PrototypeManager; 
-                prototypeWindow = NSWindow; 
                 ruleManager = RuleManager; 
                 ruleManagerWindow = NSWindow; 
                 ruleParserWindow = NSWindow; 
@@ -102,32 +101,9 @@
             SUPERCLASS = NSView; 
         }, 
         {
-            ACTIONS = {
-                add = id; 
-                addCategory = id; 
-                browserDoubleHit = id; 
-                browserHit = id; 
-                copy = id; 
-                cut = id; 
-                paste = id; 
-                remove = id; 
-                rename = id; 
-                setEquations = id; 
-                setSpecial = id; 
-                setTransitions = id; 
-            }; 
             CLASS = PrototypeManager; 
             LANGUAGE = ObjC; 
-            OUTLETS = {
-                browserSelector = NSControl; 
-                controller = AppController; 
-                inputTextField = NSTextField; 
-                newButton = NSButtonCell; 
-                outputBox = NSBox; 
-                protoBrowser = NSBrowser; 
-                removeButton = NSButtonCell; 
-                selectedOutput = NSTextField; 
-            }; 
+            OUTLETS = {controller = AppController; }; 
             SUPERCLASS = NSObject; 
         }, 
         {

@@ -17,6 +17,8 @@
 #import "SpecialView.h"
 #import "TransitionView.h"
 
+// TODO (2004-03-23): Implement copy/paste of equations, transitions, special transitions.  Original code didn't copy groups.
+
 @implementation MPrototypeManager
 
 - (id)initWithModel:(MModel *)aModel;

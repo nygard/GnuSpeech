@@ -382,7 +382,7 @@ static NSImage *_selectionBox = nil;
 {
     int i, j;
     double time;
-    MonetList *equationList = [NXGetNamedObject(@"prototypeManager", NSApp) equationList];
+    MonetList *equationList = [model equations];
     NamedList *namedList;
     MMEquation *equation;
     float timeScale = [self timeScale];

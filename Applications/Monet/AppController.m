@@ -156,7 +156,6 @@
 
     [ruleManagerWindow setFrameAutosaveName:@"RuleManagerWindow"];
     [ruleParserWindow setFrameAutosaveName:@"RuleParserWindow"];
-    [prototypeWindow setFrameAutosaveName:@"PrototypeManagerWindow"];
     [synthesisWindow setFrameAutosaveName:@"SynthesisWindow"];
     [synthParmWindow setFrameAutosaveName:@"SynthParameterWindow"];
 
