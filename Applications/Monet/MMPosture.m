@@ -43,7 +43,7 @@
     categories = [[CategoryList alloc] init];
     parameterTargets = [[NSMutableArray alloc] init];
     metaParameterTargets = [[NSMutableArray alloc] init];
-    symbolList = [[NSMutableArray alloc] init];
+    symbolTargets = [[NSMutableArray alloc] init];
 
     nativeCategory = [[MMCategory alloc] init];
     [nativeCategory setIsNative:YES];
@@ -84,7 +84,7 @@
     count = [mainSymbols count];
     for (index = 0; index < count; index++) {
         newTarget = [[MMTarget alloc] initWithValue:[[mainSymbols objectAtIndex:index] defaultValue] isDefault:YES];
-        [symbolList addObject:newTarget];
+        [symbolTargets addObject:newTarget];
         [newTarget release];
     }
 }
@@ -97,7 +97,7 @@
     [categories release];
     [parameterTargets release];
     [metaParameterTargets release];
-    [symbolList release];
+    [symbolTargets release];
     [nativeCategory release];
 
     [super dealloc];
@@ -205,9 +205,9 @@
     return metaParameterTargets;
 }
 
-- (NSMutableArray *)symbolList;
+- (NSMutableArray *)symbolTargets;
 {
-    return symbolList;
+    return symbolTargets;
 }
 
 - (void)addParameterTarget:(MMTarget *)newTarget;
@@ -284,12 +284,12 @@
 
 - (void)addSymbolTarget:(MMTarget *)newTarget;
 {
-    [symbolList addObject:newTarget];
+    [symbolTargets addObject:newTarget];
 }
 
 - (void)removeSymbolTargetAtIndex:(unsigned int)index;
 {
-    [symbolList removeObjectAtIndex:index];
+    [symbolTargets removeObjectAtIndex:index];
 }
 
 - (void)addSymbolTargetsFromDictionary:(NSDictionary *)aDictionary;
@@ -327,7 +327,7 @@
     if (symbolIndex == NSNotFound)
         NSLog(@"Warning: Couldn't find symbol %@ in posture %@", [aSymbol symbol], phoneSymbol);
 
-    return [symbolList objectAtIndex:symbolIndex];
+    return [symbolTargets objectAtIndex:symbolIndex];
 }
 
 - (NSComparisonResult)compareByAscendingName:(MMPosture *)otherPosture;
@@ -380,8 +380,8 @@
         TargetList *archivedSymbols;
 
         archivedSymbols = [aDecoder decodeObject];
-        symbolList = [[NSMutableArray alloc] init];
-        [symbolList addObjectsFromArray:[archivedSymbols allObjects]];
+        symbolTargets = [[NSMutableArray alloc] init];
+        [symbolTargets addObjectsFromArray:[archivedSymbols allObjects]];
     }
 
     assert(categories == nil);
@@ -417,8 +417,8 @@
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@>[%p]: phoneSymbol: %@, comment: %@, categories: %@, parameterTargets: %@, metaParameterTargets: %@, symbolList: %@",
-                     NSStringFromClass([self class]), self, phoneSymbol, comment, categories, parameterTargets, metaParameterTargets, symbolList];
+    return [NSString stringWithFormat:@"<%@>[%p]: phoneSymbol: %@, comment: %@, categories: %@, parameterTargets: %@, metaParameterTargets: %@, symbolTargets: %@",
+                     NSStringFromClass([self class]), self, phoneSymbol, comment, categories, parameterTargets, metaParameterTargets, symbolTargets];
 }
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
@@ -426,7 +426,7 @@
     [resultString indentToLevel:level];
     [resultString appendFormat:@"<posture symbol=\"%@\"", GSXMLAttributeString(phoneSymbol, NO)];
 
-    if (comment == nil && [categories count] == 0 && [parameterTargets count] == 0 && [metaParameterTargets count] == 0 && [symbolList count] == 0) {
+    if (comment == nil && [categories count] == 0 && [parameterTargets count] == 0 && [metaParameterTargets count] == 0 && [symbolTargets count] == 0) {
         [resultString appendString:@"/>\n"];
     } else {
         [resultString appendString:@">\n"];
@@ -545,7 +545,7 @@
 
     mainSymbolList = [[self model] symbols];
     count = [mainSymbolList count];
-    assert(count == [symbolList count]);
+    assert(count == [symbolTargets count]);
 
     if (count == 0)
         return;
@@ -555,11 +555,12 @@
 
     for (index = 0; index < count; index++) {
         aSymbol = [mainSymbolList objectAtIndex:index];
-        aTarget = [symbolList objectAtIndex:index];
+        aTarget = [symbolTargets objectAtIndex:index];
 
         [resultString indentToLevel:level + 1];
         [resultString appendFormat:@"<target name=\"%@\" value=\"%g\"", [aSymbol symbol], [aTarget value]];
         // "is-default" is redundant, but handy for browsing the XML file
+        // TODO (2004-08-12): Change is-default into comment.
         if ([aTarget value] == [aSymbol defaultValue])
             [resultString appendString:@" is-default=\"yes\""];
         [resultString appendString:@"/>\n"];

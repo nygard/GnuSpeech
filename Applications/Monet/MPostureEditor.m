@@ -233,7 +233,7 @@
     selectedSymbol = [[[self model] symbols] objectAtIndex:selectedRow];
     assert(selectedSymbol != nil);
 
-    selectedTarget = [[[self selectedPosture] symbolList] objectAtIndex:selectedRow];
+    selectedTarget = [[[self selectedPosture] symbolTargets] objectAtIndex:selectedRow];
     assert(selectedTarget != nil);
 
     [selectedTarget setValue:[selectedSymbol defaultValue]];
@@ -323,7 +323,7 @@
         } else if ([@"value" isEqual:identifier] == YES) {
             MMTarget *aTarget;
 
-            aTarget = [[[self selectedPosture] symbolList] objectAtIndex:row];
+            aTarget = [[[self selectedPosture] symbolTargets] objectAtIndex:row];
             if (aTarget == nil)
                 return nil;
 
@@ -376,7 +376,7 @@
         if ([@"value" isEqual:identifier] == YES) {
             MMTarget *aTarget;
 
-            aTarget = [[[self selectedPosture] symbolList] objectAtIndex:row];
+            aTarget = [[[self selectedPosture] symbolTargets] objectAtIndex:row];
             [aTarget setValue:[object doubleValue]];
         }
     }
@@ -427,7 +427,7 @@
         MMTarget *aTarget;
 
         aSymbol = [[[self model] symbols] objectAtIndex:row];
-        aTarget = [[[self selectedPosture] symbolList] objectAtIndex:row];
+        aTarget = [[[self selectedPosture] symbolTargets] objectAtIndex:row];
         if ([aTarget value] == [aSymbol defaultValue])
             [cell setFont:boldControlFont];
         else

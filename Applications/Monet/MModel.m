@@ -1260,7 +1260,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         fread(&tempFixed, sizeof(int), 1, fp);
         fread(&tempProp, sizeof(int), 1, fp);
 
-        tempTarget = [[newPhone symbolList] objectAtIndex:symbolIndex];
+        tempTarget = [[newPhone symbolTargets] objectAtIndex:symbolIndex];
         [tempTarget setValue:(double)tempDuration isDefault:NO];
 
         /* READ TARGETS IN FROM FILE  */
@@ -1498,7 +1498,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         }
         fprintf(fp, "\n\n");
 
-        aSymbolList = [aPhone symbolList];
+        aSymbolList = [aPhone symbolTargets];
         for (j = 0; j < [aSymbolList count]; j++) {
             MMSymbol *mainSymbol;
             MMTarget *aSymbol;
@@ -1561,7 +1561,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     symbolIndex = [symbols indexOfObject:aSymbol];
     if (symbolIndex != NSNotFound) {
         for (index = 0; index < count; index++) {
-            [[[[postures objectAtIndex:index] symbolList] objectAtIndex:symbolIndex] changeDefaultValueFrom:oldDefaultValue to:newDefaultValue];
+            [[[[postures objectAtIndex:index] symbolTargets] objectAtIndex:symbolIndex] changeDefaultValueFrom:oldDefaultValue to:newDefaultValue];
         }
     }
 }

@@ -103,11 +103,11 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 
     aPosture = [[MMPosture alloc] initWithModel:model];
     [aPosture setSymbol:@"dummy"];
-    if ([[aPosture symbolList] count] >= 4) {
-        [(MMTarget *)[[aPosture symbolList] objectAtIndex:0] setValue:100.0]; // duration
-        [(MMTarget *)[[aPosture symbolList] objectAtIndex:1] setValue:33.3333]; // transition
-        [(MMTarget *)[[aPosture symbolList] objectAtIndex:2] setValue:33.3333]; // qssa
-        [(MMTarget *)[[aPosture symbolList] objectAtIndex:3] setValue:33.3333]; // qssb
+    if ([[aPosture symbolTargets] count] >= 4) {
+        [(MMTarget *)[[aPosture symbolTargets] objectAtIndex:0] setValue:100.0]; // duration
+        [(MMTarget *)[[aPosture symbolTargets] objectAtIndex:1] setValue:33.3333]; // transition
+        [(MMTarget *)[[aPosture symbolTargets] objectAtIndex:2] setValue:33.3333]; // qssa
+        [(MMTarget *)[[aPosture symbolTargets] objectAtIndex:3] setValue:33.3333]; // qssb
     }
 
     // We need four postures to show a tetraphone
