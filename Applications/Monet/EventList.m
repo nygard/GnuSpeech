@@ -644,11 +644,8 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
 
 - (void)generateEventListWithModel:(MModel *)aModel;
 {
-    MonetList *tempCategoryList;
-    NSMutableArray *tempPhoneList;
-    double footTempo, tempTempo;
     int count, index;
-    int i, j, rus;
+    int i, j;
     NSMutableArray *mainParameterList = [aModel parameters];
     MMParameter *tempParameter = nil;
 
@@ -668,23 +665,27 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
         //NSLog(@"Min: %9.3f Max: %9.3f", min[i], max[i]);
     }
 
-    tempPhoneList = [[NSMutableArray alloc] init];
-    tempCategoryList = [[MonetList alloc] init];
-
     // Adjust the tempos of each of the feet.  They start out at 1.0.
     NSLog(@"currentFoot: %d", currentFoot);
     for (i = 0; i < currentFoot; i++) {
+        int rus;
+        double footTempo;
+
         rus = feet[i].end - feet[i].start + 1;
 
         /* Apply rhythm model */
         if (feet[i].marked) {
-            tempTempo = 117.7 - (19.36 * (double) rus);
-            feet[i].tempo -= tempTempo / 180.0;
-            //NSLog(@"Rus = %d tempTempo = %f", rus, tempTempo);
+            double tempo;
+
+            tempo = 117.7 - (19.36 * (double)rus);
+            feet[i].tempo -= tempo / 180.0;
+            //NSLog(@"Rus = %d tempTempo = %f", rus, tempo);
             footTempo = globalTempo * feet[i].tempo;
         } else {
-            tempTempo = 18.5 - (2.08 * (double) rus);
-            feet[i].tempo -= tempTempo / 140.0;
+            double tempo;
+
+            tempo = 18.5 - (2.08 * (double)rus);
+            feet[i].tempo -= tempo / 140.0;
             //NSLog(@"Rus = %d tempTempo = %f", rus, tempTempo);
             footTempo = globalTempo * feet[i].tempo;
         }
@@ -703,29 +704,41 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
     }
     [self printDataStructures:@"Changed tempos"];
 
-    // Apply rules
-    for (index = 0; index < currentPhone - 1; ) {
-        int ruleIndex;
-        MMRule *matchedRule;
+    {
+        MonetList *tempCategoryList;
+        NSMutableArray *tempPhoneList;
 
-        [tempPhoneList removeAllObjects];
-        [tempCategoryList removeAllObjects];
+        tempPhoneList = [[NSMutableArray alloc] init];
+        tempCategoryList = [[MonetList alloc] init];
 
-        for (j = 0; j < 4; j++) {
-            if (phones[j+index].phone != nil) {
-                [tempPhoneList addObject:phones[j+index].phone];
-                [tempCategoryList addObject:[phones[j+index].phone categoryList]];
+        // Apply rules
+        for (index = 0; index < currentPhone - 1; ) {
+            int ruleIndex;
+            MMRule *matchedRule;
+
+            [tempPhoneList removeAllObjects];
+            [tempCategoryList removeAllObjects];
+
+            for (j = 0; j < 4; j++) {
+                if (phones[j+index].phone != nil) {
+                    [tempPhoneList addObject:phones[j+index].phone];
+                    [tempCategoryList addObject:[phones[j+index].phone categoryList]];
+                }
             }
+
+            matchedRule = [aModel findRuleMatchingCategories:tempCategoryList ruleIndex:&ruleIndex];
+            rules[currentRule].number = ruleIndex + 1;
+
+            NSLog(@"Applying rule %d", ruleIndex + 1);
+            [self applyRule:matchedRule withPhones:tempPhoneList andTempos:&phoneTempo[index] phoneIndex:index+1];
+
+            index += [matchedRule numberExpressions] - 1;
         }
 
-        matchedRule = [aModel findRuleMatchingCategories:tempCategoryList ruleIndex:&ruleIndex];
-        rules[currentRule].number = ruleIndex + 1;
-
-        NSLog(@"Applying rule %d", ruleIndex + 1);
-        [self applyRule:matchedRule withPhones:tempPhoneList andTempos:&phoneTempo[index] phoneIndex:index+1];
-
-        index += [matchedRule numberExpressions] - 1;
+        [tempPhoneList release];
+        [tempCategoryList release];
     }
+
 
 //    if (currentPhone)
 //        [self applyIntonation];
