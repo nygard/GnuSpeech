@@ -323,7 +323,7 @@
     [self _updateSelectedPointDetails];
 }
 
-- (IBAction)setValue:(id)sender;
+- (IBAction)setPointValue:(id)sender;
 {
     [[transitionView selectedPoint] setValue:[valueTextField doubleValue]];
     [transitionView setNeedsDisplay:YES];

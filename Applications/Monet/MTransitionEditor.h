@@ -1,5 +1,5 @@
 //
-// $Id: MTransitionEditor.h,v 1.4 2004/03/24 00:41:18 nygard Exp $
+// $Id: MTransitionEditor.h,v 1.5 2004/03/25 20:28:24 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -65,7 +65,7 @@
 
 - (void)_updateSelectedPointDetails;
 - (IBAction)setType:(id)sender;
-- (IBAction)setValue:(id)sender;
+- (IBAction)setPointValue:(id)sender;
 - (IBAction)setPhantom:(id)sender;
 
 @end

@@ -28,6 +28,4 @@
 
 - (MMPosture *)findPhone:(NSString *)phone;
 
-- (IBAction)importTRMData:(id)sender;
-
 @end

@@ -1,5 +1,5 @@
 //
-// $Id: AppController.h,v 1.35 2004/03/25 01:08:59 nygard Exp $
+// $Id: AppController.h,v 1.36 2004/03/25 20:28:24 nygard Exp $
 //
 
 /*===========================================================================
@@ -68,16 +68,16 @@ History:
 - (void)displayInspectorWindow:(id)sender;
 - (Inspector *)inspector;
 
-- (void)openFile:(id)sender;
-- (void)importTRMData:(id)sender;
-- (void)printData:(id)sender;
+- (IBAction)openFile:(id)sender;
+- (IBAction)importTRMData:(id)sender;
+- (IBAction)printData:(id)sender;
 
 
-- (void)archiveToDisk:(id)sender;
-- (void)readFromDisk:(id)sender;
+- (IBAction)archiveToDisk:(id)sender;
+- (IBAction)readFromDisk:(id)sender;
 
-- (void)savePrototypes:(id)sender;
-- (void)loadPrototypes:(id)sender;
+- (IBAction)savePrototypes:(id)sender;
+- (IBAction)loadPrototypes:(id)sender;
 
 - (void)setObject:(id)object forKey:(id)key;
 - (id)objectForKey:(id)key;

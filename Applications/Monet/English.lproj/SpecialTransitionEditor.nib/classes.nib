@@ -7,7 +7,7 @@
             SUPERCLASS = MTransitionEditor; 
         }, 
         {
-            ACTIONS = {setPhantom = id; setType = id; setValue = id; }; 
+            ACTIONS = {setPhantom = id; setPointValue = id; setType = id; }; 
             CLASS = MTransitionEditor; 
             LANGUAGE = ObjC; 
             OUTLETS = {

@@ -16,11 +16,15 @@
 #import "PrototypeManager.h"
 #import "StringParser.h"
 #import "SymbolList.h"
+#import "TargetList.h"
+#import "TRMData.h"
 
 #import "MModel.h"
 #import "MUnarchiver.h"
 
 #import "MDataEntryController.h"
+#import "MMPosture.h"
+#import "MMTarget.h"
 #import "MPostureEditor.h"
 #import "MPrototypeManager.h"
 #import "MRuleManager.h"
@@ -186,7 +190,7 @@
 
 
 // Open a .degas file.
-- (void)openFile:(id)sender;
+- (IBAction)openFile:(id)sender;
 {
     int i, count;
     NSArray *types;
@@ -217,12 +221,111 @@
     }
 }
 
-- (void)importTRMData:(id)sender;
+- (IBAction)importTRMData:(id)sender;
 {
-    [[model postures] importTRMData:sender];
+    //SymbolList *mainSymbolList;
+    //ParameterList *mainParameterList, *mainMetaParameterList;
+    NSArray *types;
+    TRMData *myData;
+    NSArray *fnames;
+    double aValue;
+    int count, index;
+    NSOpenPanel *openPanel;
+
+    //mainSymbolList = NXGetNamedObject(@"mainSymbolList", NSApp);
+    //mainParameterList = NXGetNamedObject(@"mainParameterList", NSApp);
+    //mainMetaParameterList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
+
+    types = [NSArray arrayWithObject:@"trm"];
+
+    openPanel = [NSOpenPanel openPanel]; // Each call resets values, including filenames
+    [openPanel setAllowsMultipleSelection:YES];
+    if ([openPanel runModalForTypes:types] == NSCancelButton)
+        return;
+
+    fnames = [openPanel filenames];
+
+    myData = [[TRMData alloc] init];
+
+    count = [fnames count];
+    for (index = 0; index < count; index++) {
+        NSString *filename;
+        NSString *str;
+        MMPosture *newPhone;
+        TargetList *parameterTargets;
+
+        filename = [fnames objectAtIndex:index];
+        str = [[filename lastPathComponent] stringByDeletingPathExtension];
+        NSLog(@"str: %@", str);
+
+        newPhone = [[[MMPosture alloc] initWithModel:model] autorelease];
+        [newPhone setSymbol:str];
+        //newPhone = [self makePhoneUniqueName:newPhone];
+        [model addPosture:newPhone];
+
+        /*  Read the file data and store it in the object  */
+        if ([myData readFromFile:filename] == NO) {
+            NSBeep();
+            break;
+        }
+
+        parameterTargets = [newPhone parameterTargets];
+
+        // TODO (2004-03-25): These used to set the default flag as well, but I plan to remove that flag.
+        /*  Get the values of the needed parameters  */
+        aValue = [myData glotPitch];
+        [[parameterTargets objectAtIndex:0] setValue:aValue];
+
+        aValue = [myData glotVol];
+        [[parameterTargets objectAtIndex:1] setValue:aValue];
+
+        aValue = [myData aspVol];
+        [[parameterTargets objectAtIndex:2] setValue:aValue];
+
+        aValue = [myData fricVol];
+        [[parameterTargets objectAtIndex:3] setValue:aValue];
+
+        aValue = [myData fricPos];
+        [[parameterTargets objectAtIndex:4] setValue:aValue];
+
+        aValue = [myData fricCF];
+        [[parameterTargets objectAtIndex:5] setValue:aValue];
+
+        aValue = [myData fricBW];
+        [[parameterTargets objectAtIndex:6] setValue:aValue];
+
+        aValue = [myData r1];
+        [[parameterTargets objectAtIndex:7] setValue:aValue];
+
+        aValue = [myData r2];
+        [[parameterTargets objectAtIndex:8] setValue:aValue];
+
+        aValue = [myData r3];
+        [[parameterTargets objectAtIndex:9] setValue:aValue];
+
+        aValue = [myData r4];
+        [[parameterTargets objectAtIndex:10] setValue:aValue];
+
+        aValue = [myData r5];
+        [[parameterTargets objectAtIndex:11] setValue:aValue];
+
+        aValue = [myData r6];
+        [[parameterTargets objectAtIndex:12] setValue:aValue];
+
+        aValue = [myData r7];
+        [[parameterTargets objectAtIndex:13] setValue:aValue];
+
+        aValue = [myData r8];
+        [[parameterTargets objectAtIndex:14] setValue:aValue];
+
+        aValue = [myData velum];
+        [[parameterTargets objectAtIndex:15] setValue:aValue];
+    }
+
+    [myData release];
 }
 
-- (void)printData:(id)sender;
+- (IBAction)printData:(id)sender;
 {
     FILE *fp;
 #if 0
@@ -247,7 +350,7 @@
 #endif
 }
 
-- (void)archiveToDisk:(id)sender;
+- (IBAction)archiveToDisk:(id)sender;
 {
 #ifdef PORTING
     NSMutableData *mdata;
@@ -280,7 +383,7 @@
 }
 
 // Open a .monet file.
-- (void)readFromDisk:(id)sender;
+- (IBAction)readFromDisk:(id)sender;
 {
     int i, count;
     NSArray *types;
@@ -348,7 +451,7 @@
     NSLog(@"<  %s", _cmd);
 }
 
-- (void)savePrototypes:(id)sender;
+- (IBAction)savePrototypes:(id)sender;
 {
 #ifdef PORTING
     NSSavePanel *myPanel;
@@ -371,7 +474,7 @@
 #endif
 }
 
-- (void)loadPrototypes:(id)sender;
+- (IBAction)loadPrototypes:(id)sender;
 {
 #ifdef PORTING
     NSArray *fnames;
