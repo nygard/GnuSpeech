@@ -41,7 +41,7 @@ History:
     TransitionView *specialTransitionBuilder;
     StringParser *stringParser;
     EventListView *eventListView;
-    IntonationView *intonationView;
+    IntonationView *intonationView; // TODO (2004-03-03): This might be an NSScrollView.
 
     DefaultMgr *defaultManager;
 

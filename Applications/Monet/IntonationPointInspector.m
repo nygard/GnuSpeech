@@ -1,6 +1,7 @@
 #import "IntonationPointInspector.h"
 
 #import <AppKit/AppKit.h>
+#include <math.h>
 #import "EventList.h"
 #import "Inspector.h"
 #import "IntonationPoint.h"
@@ -57,7 +58,7 @@
 
 - (void)browserHit:(id)sender;
 {
-    id tempView = NXGetNamedObject(@"intonationView", NSApp);
+    IntonationView *tempView = NXGetNamedObject(@"intonationView", NSApp);
     int index;
 
     index = [[ruleBrowser matrixInColumn:0] selectedRow];
@@ -101,7 +102,7 @@
 
 - (void)setSemitone:(id)sender;
 {
-    id tempView = NXGetNamedObject(@"intonationView", NSApp);
+    IntonationView *tempView = NXGetNamedObject(@"intonationView", NSApp);
 
     [currentPoint setSemitone:[sender doubleValue]];
     [tempView display];
@@ -110,7 +111,7 @@
 
 - (void)setHertz:(id)sender;
 {
-    id tempView = NXGetNamedObject(@"intonationView", NSApp);
+    IntonationView *tempView = NXGetNamedObject(@"intonationView", NSApp);
     double temp;
 
     temp = 12.0 * (log10([sender doubleValue]/MIDDLEC)/log10(2.0));
@@ -121,7 +122,7 @@
 
 - (void)setSlope:(id)sender;
 {
-    id tempView = NXGetNamedObject(@"intonationView", NSApp);
+    IntonationView *tempView = NXGetNamedObject(@"intonationView", NSApp);
 
     [currentPoint setSlope:[sender doubleValue]];
     [tempView display];
@@ -130,7 +131,7 @@
 
 - (void)setBeatOffset:(id)sender;
 {
-    id tempView = NXGetNamedObject(@"intonationView", NSApp);
+    IntonationView *tempView = NXGetNamedObject(@"intonationView", NSApp);
 
     [currentPoint setOffsetTime:[sender doubleValue]];
     [[tempView documentView] addIntonationPoint:currentPoint];
@@ -142,7 +143,7 @@
 {
     double temp;
 
-    temp = pow(2,[currentPoint semitone]/12.0)*MIDDLEC;
+    temp = pow(2, [currentPoint semitone]/12.0)*MIDDLEC;
     [semitoneField setDoubleValue:[currentPoint semitone]];
     [hertzField setDoubleValue:temp];
     [slopeField setDoubleValue:[currentPoint slope]];

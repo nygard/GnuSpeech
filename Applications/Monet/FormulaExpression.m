@@ -1,4 +1,3 @@
-
 #import "FormulaExpression.h"
 
 #import <Foundation/Foundation.h>
@@ -250,22 +249,6 @@ int i;
 	[aCoder encodeValuesOfObjCTypes:"iiii", &operation, &numExpressions, &maxExpressions, &precedence];
 	for (i = 0; i<numExpressions; i++)
 		[aCoder encodeObject:expressions[i]];
-}
-#endif
-
-#ifdef NeXT
-- read:(NXTypedStream *)stream;
-{
-int i;
-
-        NXReadTypes(stream, "iiii", &operation, &numExpressions, &maxExpressions, &precedence);
-        expressions = (id *) malloc (sizeof (id *) *maxExpressions);
-
-
-        for (i = 0; i<numExpressions; i++)
-                expressions[i] = NXReadObject(stream);
-
-        return self;
 }
 #endif
 

@@ -782,7 +782,6 @@ static NSString *ruleString = @"Rule";
     [aCoder encodeObject:ruleList];
 }
 
-
 - (void)readRulesFrom:(NSArchiver *)stream;
 {
     [ruleList release];
@@ -791,19 +790,6 @@ static NSString *ruleString = @"Rule";
 
     ruleList = [[stream decodeObject] retain];
 }
-
-#ifdef NeXT
-- _readRulesFrom:(NXTypedStream *)stream;
-{
-    [ruleList release];
-
-    cacheValue = 1;
-
-    ruleList = NXReadObject(stream);
-
-    return self;
-}
-#endif
 
 - (void)writeRulesTo:(NSArchiver *)stream;
 {

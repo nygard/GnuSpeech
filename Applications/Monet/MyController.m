@@ -42,11 +42,7 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 {
-#ifdef NeXT
-    NXTypedStream *stream = nil;
-#else
     NSArchiver *stream = nil;
-#endif
 
     // TODO (2004-03-01): Move to -init
     mainPhoneList = [[PhoneList alloc] initWithCapacity:15];
@@ -78,19 +74,11 @@
 
     [prototypeManager applicationDidFinishLaunching:notification];
 
-#ifdef NeXT
-    stream = NXOpenTypedStreamForFile("DefaultPrototypes", NX_READONLY);
-    if (stream) {
-        [prototypeManager _readPrototypesFrom:stream];
-        NXCloseTypedStream(stream);
-    }
-#else
     stream = [[NSUnarchiver alloc] initForReadingWithData:[NSData dataWithContentsOfFile:@"DefaultPrototypes"]];
     if (stream) {
         [prototypeManager readPrototypesFrom:stream];
         [stream release];
     }
-#endif
 
     [ruleManager applicationDidFinishLaunching:notification];
     [transitionBuilder applicationDidFinishLaunching:notification];

@@ -11,10 +11,10 @@
 #import "ProtoTemplate.h"
 #import "PrototypeManager.h"
 #import "SpecialView.h"
+#import "TransitionView.h"
 
 #ifdef PORTING
 #import "FormulaExpression.h"
-#import "TransitionView.h"
 #endif
 
 @implementation RuleInspector
@@ -50,7 +50,7 @@
 - (void)setUpWindow:(id)sender;
 {
     NSString *str;
-    id ruleManager;
+    RuleManager *ruleManager;
     int tempIndex;
 
     str = [[sender selectedCell] title];
@@ -131,7 +131,7 @@
 
 - (void)browserHit:(id)sender;
 {
-    id tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
+    PrototypeManager *tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
     id tempCell;
     int index, index1, index2;
     NSString *str;
@@ -180,8 +180,8 @@
 
 - (void)browserDoubleHit:(id)sender;
 {
-    id transitionBuilder = NXGetNamedObject(@"transitionBuilder", NSApp);
-    id specialTransitionBuilder = NXGetNamedObject(@"specialTransitionBuilder", NSApp);
+    TransitionView *transitionBuilder = NXGetNamedObject(@"transitionBuilder", NSApp);
+    TransitionView *specialTransitionBuilder = NXGetNamedObject(@"specialTransitionBuilder", NSApp);
     id tempCell;
     int index;
 
@@ -211,7 +211,7 @@
 - (void)selectionBrowserHit:(id)sender;
 {
     int listIndex, index, parameterIndex, i;
-    id tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
+    PrototypeManager *tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
     id temp;
     NSArray *selectedList, *cellList;
 
@@ -301,7 +301,8 @@
 
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
 {
-    id temp, list, tempCell;
+    PrototypeManager *temp;
+    id list, tempCell;
     int index;
 
     if (sender == mainBrowser) {
@@ -433,7 +434,8 @@
 
 - (void)moveRule:(id)sender;
 {
-    id ruleManager, ruleList;
+    RuleManager *ruleManager;
+    RuleList *ruleList;
     int location = [moveToField intValue] - 1;
 
     ruleManager = NXGetNamedObject(@"ruleManager", NSApp);

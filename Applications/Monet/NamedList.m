@@ -74,15 +74,4 @@
 }
 #endif
 
-#ifdef NeXT
-- read:(NXTypedStream *)stream;
-{
-    [super read:stream];
-
-    NXReadTypes(stream, "**", &name, &comment);
-
-    return self;
-}
-#endif
-
 @end

@@ -68,7 +68,7 @@
 - (BOOL)isCategoryUsed:aCategory;
 
 // Archiving methods
-//- (id)initWithCoder:(NSCoder *)aDecoder;
-//- (void)encodeWithCoder:(NSCoder *)aCoder;
+- (id)initWithCoder:(NSCoder *)aDecoder;
+- (void)encodeWithCoder:(NSCoder *)aCoder;
 
 @end

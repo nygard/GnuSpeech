@@ -194,7 +194,7 @@
 
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
 {
-    id ruleManager = NXGetNamedObject(@"ruleManager", NSApp);
+    RuleManager *ruleManager = NXGetNamedObject(@"ruleManager", NSApp);
 
     /* Get CategoryNode Object From Category List (indexed by row) */
     [cell setStringValue:[[list[currentList] objectAtIndex:row] symbol]];

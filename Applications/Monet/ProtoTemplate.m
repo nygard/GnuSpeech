@@ -193,7 +193,7 @@
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
     GSMPoint *aPoint;
-    id tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
+    PrototypeManager *tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
 
     [aDecoder decodeValuesOfObjCTypes:"**i", &name, &comment, &type];
     points = [[aDecoder decodeObject] retain];

@@ -978,8 +978,8 @@ static void page_consumed(void)
 
 - (void)applyIntonation;
 {
-    id tempView = [NXGetNamedObject(@"intonationView", NSApp) documentView];
-    id mainCategoryList = NXGetNamedObject(@"mainCategoryList", NSApp);
+    IntonationView *tempView = [NXGetNamedObject(@"intonationView", NSApp) documentView];
+    CategoryList *mainCategoryList = NXGetNamedObject(@"mainCategoryList", NSApp);
     id vocoidCategory;
     int firstFoot, endFoot;
     int ruleIndex, phoneIndex;

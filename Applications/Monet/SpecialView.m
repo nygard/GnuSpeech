@@ -51,7 +51,8 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 {
     Phone *dummy;
-    id symbols, parms, metaParms;
+    SymbolList *symbols;
+    ParameterList *parms, *metaParms;
 
     dummyPhoneList = [[MonetList alloc] initWithCapacity:4];
     displayPoints = [[MonetList alloc] initWithCapacity:12];
@@ -144,7 +145,7 @@
 {
     int i, j;
     double symbols[5], time;
-    id equationList = [NXGetNamedObject(@"prototypeManager", NSApp) equationList];
+    MonetList *equationList = [NXGetNamedObject(@"prototypeManager", NSApp) equationList];
     id namedList, equation;
     float timeScale = ([self frame].size.width - 100.0) / [[displayParameters cellAtIndex:0] floatValue];
     int type;

@@ -47,9 +47,9 @@
 
 - (void)setUpWindow:(id)sender;
 {
-    id tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
-    id tempRuleManager = NXGetNamedObject(@"ruleManager", NSApp);
-    id tempProtoManager = NXGetNamedObject(@"prototypeManager", NSApp);
+    PrototypeManager *tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
+    RuleManager *tempRuleManager = NXGetNamedObject(@"ruleManager", NSApp);
+    PrototypeManager *tempProtoManager = NXGetNamedObject(@"prototypeManager", NSApp); // TODO (2004-03-03): We shouldn't need the dupe
     NSString *str;
     int index1, index2;
     int i, j;
@@ -162,8 +162,8 @@
 
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
 {
-    id tempRuleManager = NXGetNamedObject(@"ruleManager", NSApp);
-    id tempProtoManager = NXGetNamedObject(@"prototypeManager", NSApp);
+    RuleManager *tempRuleManager = NXGetNamedObject(@"ruleManager", NSApp);
+    PrototypeManager *tempProtoManager = NXGetNamedObject(@"prototypeManager", NSApp);
     id tempRuleList;
     NSString *str;
     int i, j;

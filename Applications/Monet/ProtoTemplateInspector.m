@@ -39,7 +39,7 @@
 
 - (void)setUpWindow:(id)sender;
 {
-    id tempRuleManager = NXGetNamedObject(@"ruleManager", NSApp);
+    RuleManager *tempRuleManager = NXGetNamedObject(@"ruleManager", NSApp);
     NSString *str;
 
     str = [[sender selectedCell] title];
@@ -136,7 +136,7 @@
 
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
 {
-    id tempRuleManager = NXGetNamedObject(@"ruleManager", NSApp);
+    RuleManager *tempRuleManager = NXGetNamedObject(@"ruleManager", NSApp);
     id tempRuleList;
 
     tempRuleList = [tempRuleManager ruleList];

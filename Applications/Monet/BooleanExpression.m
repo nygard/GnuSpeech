@@ -206,20 +206,4 @@
 }
 #endif
 
-#ifdef NeXT
-- read:(NXTypedStream *)stream;
-{
-    int i;
-
-    NXReadTypes(stream, "iii", &operation, &numExpressions, &maxExpressions);
-    expressions = (id *) malloc (sizeof (id *) *maxExpressions);
-
-
-    for (i = 0; i<numExpressions; i++)
-        expressions[i] = NXReadObject(stream);
-
-    return self;
-}
-#endif
-
 @end

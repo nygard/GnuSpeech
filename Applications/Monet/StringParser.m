@@ -34,7 +34,7 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 {
-    id defaultManager;
+    DefaultMgr *defaultManager;
 
     defaultManager = NXGetNamedObject(@"defaultManager", NSApp);
 
@@ -75,7 +75,7 @@
 
 - (void)saveDefaults:(id)sender;
 {
-    id defaultManager;
+    DefaultMgr *defaultManager;
 
     defaultManager = NXGetNamedObject(@"defaultManager", NSApp);
 

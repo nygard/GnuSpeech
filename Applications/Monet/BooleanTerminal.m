@@ -118,9 +118,9 @@
 // Archiving methods
 //
 
-#ifdef PORTING
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
+#ifdef PORTING
     char *string;
     CategoryList *temp;
     PhoneList *phoneList;
@@ -134,60 +134,27 @@
     [aDecoder decodeValueOfObjCType:"*" at:&string];
 
     temp1 = [temp findSymbol:string];
-    if (!temp1)
-    {
+    if (!temp1) {
         temp1 = [[[phoneList findPhone:string] categoryList] findSymbol:string];
         category = temp1;
-    }
-    else
-    {
+    } else {
         category = temp1;
     }
 
     free(string);
     return self;
+#endif
+    return nil;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
     const char *temp;
 
-    [aCoder encodeValueOfObjCType:"i" at:&matchAll];
+    [aCoder encodeValueOfObjCType:"i" at:&shouldMatchAll];
 
     temp = [category symbol];
     [aCoder encodeValueOfObjCType:"*" at:&temp];
 }
-#endif
-
-#ifdef NeXT
-- read:(NXTypedStream *)stream
-{
-    char *string;
-    CategoryList *temp;
-    PhoneList *phoneList;
-    CategoryNode *temp1;
-
-    temp = NXGetNamedObject(@"mainCategoryList", NSApp);
-    phoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
-
-    NXReadType(stream, "i", &matchAll);
-
-    NXReadType(stream, "*", &string);
-
-    temp1 = [temp findSymbol:string];
-    if (!temp1)
-    {
-        temp1 = [[[phoneList findPhone:string] categoryList] findSymbol:string];
-        category = temp1;
-    }
-    else
-    {
-        category = temp1;
-    }
-
-    free(string);
-    return self;
-}
-#endif
 
 @end

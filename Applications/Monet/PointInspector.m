@@ -8,6 +8,7 @@
 #import "ProtoEquation.h"
 #import "PrototypeManager.h"
 #import "ProtoTemplate.h"
+#import "TransitionView.h"
 
 @implementation PointInspector
 
@@ -38,7 +39,7 @@
 - (void)setUpWindow:(id)sender;
 {
     NSString *str;
-    id tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
+    PrototypeManager *tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
     id tempCell;
     int index1, index2;
 
@@ -114,7 +115,7 @@
 - (void)browserHit:(id)sender;
 {
     int listIndex, index;
-    id tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
+    PrototypeManager *tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
     id temp;
 
     if ([sender selectedColumn] == 1) {
@@ -149,7 +150,8 @@
 
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
 {
-    id temp, list, tempCell;
+    PrototypeManager *temp;
+    id list, tempCell;
     int index;
 
     temp = NXGetNamedObject(@"prototypeManager", NSApp);
@@ -174,7 +176,7 @@
 
 - (void)setValue:(id)sender;
 {
-    id temp = NXGetNamedObject(@"transitionBuilder", NSApp);
+    TransitionView *temp = NXGetNamedObject(@"transitionBuilder", NSApp);
 
     [currentPoint setValue:[sender doubleValue]];
     [temp display];
@@ -183,7 +185,7 @@
 
 - (void)setType1:(id)sender;
 {
-    id temp = NXGetNamedObject(@"transitionBuilder", NSApp);
+    TransitionView *temp = NXGetNamedObject(@"transitionBuilder", NSApp);
 
     [type2Button setState:0];
     [type3Button setState:0];
@@ -194,7 +196,7 @@
 
 - (void)setType2:(id)sender;
 {
-    id temp = NXGetNamedObject(@"transitionBuilder", NSApp);
+    TransitionView *temp = NXGetNamedObject(@"transitionBuilder", NSApp);
 
     [type1Button setState:0];
     [type3Button setState:0];
@@ -205,7 +207,7 @@
 
 - (void)setType3:(id)sender;
 {
-    id temp = NXGetNamedObject(@"transitionBuilder", NSApp);
+    TransitionView *temp = NXGetNamedObject(@"transitionBuilder", NSApp);
 
     [type1Button setState:0];
     [type2Button setState:0];
