@@ -1,7 +1,5 @@
 #import "MonetList.h"
 
-@class MMPosture;
-
 /*===========================================================================
 
 	Author: Craig-Richard Taube-Schock
@@ -24,7 +22,5 @@
 @interface PhoneList : MonetList
 {
 }
-
-- (MMPosture *)findPhone:(NSString *)phone;
 
 @end
