@@ -35,6 +35,10 @@
   What?!
 - Hmm.  Duration form in Rule Parser window, text shifts when selecting it (tabbing into the field.)
 
+TODO:
+- if a value is at the default, and then you change the default, do you want all of the instances to change as well?  I think so.
+- phones have a "native" category, which is their name.  This is probably so that the boolean parser can just looks up categories, not categories and phones.
+
 
 
 - make superclass for FormulaExpression, FormulaTerminal.  Check how this affects archiving.

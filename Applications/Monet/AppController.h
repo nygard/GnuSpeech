@@ -1,5 +1,5 @@
 //
-// $Id: AppController.h,v 1.12 2004/03/06 22:31:25 nygard Exp $
+// $Id: AppController.h,v 1.13 2004/03/10 07:04:55 nygard Exp $
 //
 
 /*===========================================================================
@@ -38,9 +38,9 @@ History:
     // These seem to be the components of a document:
     PhoneList *mainPhoneList;
     CategoryList *mainCategoryList;
-    SymbolList *mainSymbolList;
-    ParameterList *mainParameterList;
-    ParameterList *mainMetaParameterList;
+    SymbolList *mainSymbolList; // Of Symbols?
+    ParameterList *mainParameterList; // Of Parameters
+    ParameterList *mainMetaParameterList; // Of Parameter
 
     IBOutlet BrowserManager *dataBrowser;
     IBOutlet RuleManager *ruleManager;

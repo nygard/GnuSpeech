@@ -126,11 +126,11 @@
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level useReferences:(BOOL)shouldUseReferences;
 {
     [resultString indentToLevel:level];
-    [resultString appendFormat:@"<category symbol=\"%@\"", GSXMLAttributeString(symbol, NO)];
-    if (shouldUseReferences == YES && isNative == NO) {
+    [resultString appendFormat:@"<category name=\"%@\"", GSXMLAttributeString(symbol, NO)];
+    if (shouldUseReferences == YES /*&& isNative == NO*/) {
         [resultString appendString:@"/>\n"];
     } else {
-        [resultString appendFormat:@" is-native=\"%@\"", GSXMLBoolAttributeString(isNative)];
+        //[resultString appendFormat:@" is-native=\"%@\"", GSXMLBoolAttributeString(isNative)];
 
         if (comment == nil) {
             [resultString appendString:@"/>\n"];

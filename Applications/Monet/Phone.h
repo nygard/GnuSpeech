@@ -83,5 +83,7 @@
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 - (void)_appendXMLForParametersToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForMetaParametersToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForSymbolsToString:(NSMutableString *)resultString level:(int)level;
 
 @end

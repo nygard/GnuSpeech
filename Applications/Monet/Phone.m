@@ -12,6 +12,7 @@
 #import "ParameterList.h"
 #import "Target.h"
 #import "TargetList.h"
+#import "Symbol.h"
 #import "SymbolList.h"
 
 @implementation Phone
@@ -253,7 +254,7 @@
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 {
     [resultString indentToLevel:level];
-    [resultString appendFormat:@"<phone ptr=\"%p\" symbol=\"%@\"", self, GSXMLAttributeString(phoneSymbol, NO)];
+    [resultString appendFormat:@"<phone symbol=\"%@\"", GSXMLAttributeString(phoneSymbol, NO)];
 
     if (comment == nil && [categoryList count] == 0 && [parameterList count] == 0 && [metaParameterList count] == 0 && [symbolList count] == 0) {
         [resultString appendString:@"/>\n"];
@@ -268,11 +269,10 @@
         [categoryList appendXMLToString:resultString level:level + 1 useReferences:YES];
 
         [self _appendXMLForParametersToString:resultString level:level + 1];
-        //[parameterList appendXMLToString:resultString elementName:@"parameters" level:level + 1];
-        //NSLog(@"parameterList[0] class: %@", NSStringFromClass([[parameterList objectAtIndex:0] class]));
-
-        [metaParameterList appendXMLToString:resultString elementName:@"meta-parameters" level:level + 1];
-        [symbolList appendXMLToString:resultString elementName:@"symbols" level:level + 1];
+        [self _appendXMLForMetaParametersToString:resultString level:level + 1];
+        [self _appendXMLForSymbolsToString:resultString level:level + 1];
+        //[metaParameterList appendXMLToString:resultString elementName:@"meta-parameters" level:level + 1];
+        //[symbolList appendXMLToString:resultString elementName:@"symbols" level:level + 1];
 
         [resultString indentToLevel:level];
         [resultString appendString:@"</phone>\n"];
@@ -288,21 +288,92 @@
 
     mainParameterList = NXGetNamedObject(@"mainParameterList", NSApp);
     count = [mainParameterList count];
+    assert(count == [parameterList count]);
+
+    if (count == 0)
+        return;
 
     [resultString indentToLevel:level];
-    [resultString appendFormat:@"<parameters main-count=\"%d\" this-count=\"%d\">\n", count, [parameterList count]];
+    [resultString appendFormat:@"<parameters>\n"];
 
     for (index = 0; index < count; index++) {
         aParameter = [mainParameterList objectAtIndex:index];
         aTarget = [parameterList objectAtIndex:index];
 
         [resultString indentToLevel:level + 1];
-        [resultString appendFormat:@"<parameter name=\"%@\" value=\"%g\" is-default=\"%@\"/>\n",
-                      [aParameter symbol], [aTarget value], GSXMLBoolAttributeString([aTarget isDefault])];
+        [resultString appendFormat:@"<parameter name=\"%@\" value=\"%g\"", [aParameter symbol], [aTarget value]];
+        if ([aTarget value] == [aParameter defaultValue])
+            [resultString appendString:@" is-default=\"yes\""];
+        [resultString appendString:@"/>\n"];
     }
 
     [resultString indentToLevel:level];
     [resultString appendString:@"</parameters>\n"];
+}
+
+- (void)_appendXMLForMetaParametersToString:(NSMutableString *)resultString level:(int)level;
+{
+    ParameterList *mainMetaParameterList;
+    int count, index;
+    Parameter *aParameter;
+    Target *aTarget;
+
+    mainMetaParameterList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
+    count = [mainMetaParameterList count];
+    assert(count == [metaParameterList count]);
+
+    if (count == 0)
+        return;
+
+    [resultString indentToLevel:level];
+    [resultString appendFormat:@"<meta-parameters>\n"];
+
+    for (index = 0; index < count; index++) {
+        aParameter = [mainMetaParameterList objectAtIndex:index];
+        aTarget = [metaParameterList objectAtIndex:index];
+
+        [resultString indentToLevel:level + 1];
+        [resultString appendFormat:@"<parameter name=\"%@\" value=\"%g\"", [aParameter symbol], [aTarget value]];
+        if ([aTarget value] == [aParameter defaultValue])
+            [resultString appendString:@" is-default=\"yes\""];
+        [resultString appendString:@"/>\n"];
+    }
+
+    [resultString indentToLevel:level];
+    [resultString appendString:@"</meta-parameters>\n"];
+}
+
+- (void)_appendXMLForSymbolsToString:(NSMutableString *)resultString level:(int)level;
+{
+    SymbolList *mainSymbolList;
+    int count, index;
+    Symbol *aSymbol;
+    Target *aTarget;
+
+    mainSymbolList = NXGetNamedObject(@"mainSymbolList", NSApp);
+    count = [mainSymbolList count];
+    assert(count == [symbolList count]);
+
+    if (count == 0)
+        return;
+
+    [resultString indentToLevel:level];
+    [resultString appendFormat:@"<symbols>\n"];
+
+    for (index = 0; index < count; index++) {
+        aSymbol = [mainSymbolList objectAtIndex:index];
+        aTarget = [symbolList objectAtIndex:index];
+
+        [resultString indentToLevel:level + 1];
+        [resultString appendFormat:@"<symbol name=\"%@\" value=\"%g\"", [aSymbol symbol], [aTarget value]];
+        // "is-default" is redundant, but handy for browsing the XML file
+        if ([aTarget value] == [aSymbol defaultValue])
+            [resultString appendString:@" is-default=\"yes\""];
+        [resultString appendString:@"/>\n"];
+    }
+
+    [resultString indentToLevel:level];
+    [resultString appendString:@"</symbols>\n"];
 }
 
 @end
