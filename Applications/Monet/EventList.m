@@ -680,7 +680,7 @@
     // Apply rules
     for (index = 0; index < currentPhone - 1; ) {
         int ruleIndex;
-        MMRule *tempRule;
+        MMRule *matchedRule;
 
         [tempPhoneList removeAllObjects];
         [tempCategoryList removeAllObjects];
@@ -691,12 +691,12 @@
             [tempCategoryList addObject:[phones[j+index].phone categoryList]];
         }
 
-        tempRule = [aModel findRuleMatchingCategories:tempCategoryList ruleIndex:&ruleIndex];
+        matchedRule = [aModel findRuleMatchingCategories:tempCategoryList ruleIndex:&ruleIndex];
         rules[currentRule].number = ruleIndex + 1;
 
-        [self applyRule:tempRule withPhones:tempPhoneList andTempos:&phoneTempo[index] phoneIndex:index+1];
+        [self applyRule:matchedRule withPhones:tempPhoneList andTempos:&phoneTempo[index] phoneIndex:index+1];
 
-        index += [tempRule numberExpressions] - 1;
+        index += [matchedRule numberExpressions] - 1;
     }
 
 //    if (currentPhone)
