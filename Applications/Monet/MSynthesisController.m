@@ -16,6 +16,7 @@
 #import "IntonationView.h"
 #import "MMDisplayParameter.h"
 #import "MModel.h"
+#import "MMPostureRewriter.h"
 #import "MMSynthesisParameters.h"
 #import "ParameterList.h"
 #import "PhoneList.h"
@@ -37,6 +38,7 @@
     [self _updateDisplayParameters];
 
     eventList = [[EventList alloc] init];
+    postureRewriter = [[MMPostureRewriter alloc] initWithModel:model];
 
     [self setWindowFrameAutosaveName:@"Synthesis"];
 
@@ -50,6 +52,7 @@
     [model release];
     [displayParameters release];
     [eventList release];
+    [postureRewriter release];
     [synthesizer release];
 
     [super dealloc];
@@ -67,6 +70,8 @@
 
     [model release];
     model = [newModel retain];
+
+    [postureRewriter setModel:model];
 
     [self _updateDisplayParameters];
     [self updateViews];
@@ -492,7 +497,6 @@
 - (void)parsePhoneString:(NSString *)str;
 {
     MMPosture *aPhone;
-    //int chunk = 0;
     int lastFoot = 0, markedFoot = 0;
     double footTempo = 1.0;
     double ruleTempo = 1.0;
@@ -503,14 +507,15 @@
     NSCharacterSet *whitespaceCharacterSet = [NSCharacterSet phoneStringWhitespaceCharacterSet];
     NSCharacterSet *defaultCharacterSet = [NSCharacterSet phoneStringIdentifierCharacterSet];
     NSString *buffer;
+    BOOL wordMarker = NO;
 
     //NSLog(@" > %s", _cmd);
 
     mainPhoneList = [[self model] postures];
     //NSLog(@"mainPhoneList: %p", mainPhoneList);
 
-    aPhone = [mainPhoneList findPhone:@"^"];
-    [eventList newPhoneWithObject:aPhone];
+    //aPhone = [mainPhoneList findPhone:@"^"];
+    //[eventList newPhoneWithObject:aPhone];
 
     scanner = [[[NSScanner alloc] initWithString:str] autorelease];
     [scanner setCharactersToBeSkipped:nil];
@@ -521,29 +526,29 @@
             break;
 
         if ([scanner scanString:@"/" intoString:NULL] == YES) {
-            /* Handle "/" escape sequences */
+            // Handle "/" escape sequences
             if ([scanner scanString:@"0" intoString:NULL] == YES) {
-                /* Tone group 0. Statement */
+                // Tone group 0. Statement
                 //NSLog(@"Tone group 0. Statement");
                 [eventList setCurrentToneGroupType:STATEMENT];
             } else if ([scanner scanString:@"1" intoString:NULL] == YES) {
-                /* Tone group 1. Exclaimation */
+                // Tone group 1. Exclaimation
                 //NSLog(@"Tone group 1. Exclaimation");
                 [eventList setCurrentToneGroupType:EXCLAIMATION];
             } else if ([scanner scanString:@"2" intoString:NULL] == YES) {
-                /* Tone group 2. Question */
+                // Tone group 2. Question
                 //NSLog(@"Tone group 2. Question");
                 [eventList setCurrentToneGroupType:QUESTION];
             } else if ([scanner scanString:@"3" intoString:NULL] == YES) {
-                /* Tone group 3. Continuation */
+                // Tone group 3. Continuation
                 //NSLog(@"Tone group 3. Continuation");
                 [eventList setCurrentToneGroupType:CONTINUATION];
             } else if ([scanner scanString:@"4" intoString:NULL] == YES) {
-                /* Tone group 4. Semi-colon */
+                // Tone group 4. Semi-colon
                 //NSLog(@"Tone group 4. Semi-colon");
                 [eventList setCurrentToneGroupType:SEMICOLON];
             } else if ([scanner scanString:@" " intoString:NULL] == YES || [scanner scanString:@"_" intoString:NULL] == YES) {
-                /* New foot */
+                // New foot
                 //NSLog(@"New foot");
                 [eventList newFoot];
                 if (lastFoot)
@@ -552,7 +557,7 @@
                 lastFoot = 0;
                 markedFoot = 0;
             } else if ([scanner scanString:@"*" intoString:NULL] == YES) {
-                /* New Marked foot */
+                // New Marked foot
                 //NSLog(@"New Marked foot");
                 [eventList newFoot];
                 [eventList setCurrentFootMarked];
@@ -563,31 +568,21 @@
                 lastFoot = 0;
                 markedFoot = 1;
             } else if ([scanner scanString:@"/" intoString:NULL] == YES) {
-                /* New Tone Group */
+                // New Tone Group
                 //NSLog(@"New Tone Group");
                 [eventList newToneGroup];
             } else if ([scanner scanString:@"c" intoString:NULL] == YES) {
-                /* New Chunk */
+                // New Chunk
                 //NSLog(@"New Chunk -- not sure that this is working.");
-#ifdef PORTING
-                if (chunk) {
-                    //aPhone = [mainPhoneList findPhone:"#"];
-                    //[eventList newPhoneWithObject:aPhone];
-                    //aPhone = [mainPhoneList findPhone:"^"];
-                    //[eventList newPhoneWithObject:aPhone];
-                    index--;
-                    return index;
-                } else {
-                    chunk++;
-                    index++;
-                }
-#endif
+            } else if ([scanner scanString:@"w" intoString:NULL] == YES) {
+                // Word Marker
+                wordMarker = YES;
             } else if ([scanner scanString:@"l" intoString:NULL] == YES) {
-                /* Last Foot in tone group marker */
+                // Last Foot in tone group marker
                 //NSLog(@"Last Foot in tone group");
                 lastFoot = 1;
             } else if ([scanner scanString:@"f" intoString:NULL] == YES) {
-                /* Foot tempo indicator */
+                // Foot tempo indicator
                 //NSLog(@"Foot tempo indicator - 'f'");
                 [scanner scanCharactersFromSet:whitespaceCharacterSet intoString:NULL];
                 if ([scanner scanDouble:&aDouble] == YES) {
@@ -595,7 +590,7 @@
                     [eventList setCurrentFootTempo:aDouble];
                 }
             } else if ([scanner scanString:@"r" intoString:NULL] == YES) {
-                /* Foot tempo indicator */
+                // Foot tempo indicator
                 //NSLog(@"Foot tempo indicator - 'r'");
                 [scanner scanCharactersFromSet:whitespaceCharacterSet intoString:NULL];
                 if ([scanner scanDouble:&aDouble] == YES) {
@@ -607,7 +602,7 @@
                 [scanner scanCharacter:NULL];
             }
         } else if ([scanner scanString:@"." intoString:NULL] == YES) {
-            /* Syllable Marker */
+            // Syllable Marker
             //NSLog(@"Syllable Marker");
             [eventList setCurrentPhoneSyllable];
         } else if ([scanner scanDouble:&aDouble] == YES) {
@@ -620,14 +615,18 @@
                 if (markedFoot)
                     buffer = [buffer stringByAppendingString:@"'"];
                 aPhone = [mainPhoneList findPhone:buffer];
-                //NSLog(@"aPhone: %p, eventList: %p", aPhone, eventList);
+                NSLog(@"aPhone: %p, eventList: %p", aPhone, eventList);
                 if (aPhone) {
+                    NSLog(@"postureRewriter: %p", postureRewriter);
+                    [postureRewriter rewriteEventList:eventList withNextPosture:aPhone wordMarker:wordMarker];
+
                     [eventList newPhoneWithObject:aPhone];
                     [eventList setCurrentPhoneTempo:phoneTempo];
                     [eventList setCurrentPhoneRuleTempo:(float)ruleTempo];
                 }
                 phoneTempo = 1.0;
                 ruleTempo = 1.0;
+                wordMarker = NO;
             } else {
                 break;
             }

@@ -180,3 +180,4 @@ Notes:
 
 2004-05-26:
 - remove Id RCS keyword from header files.
+- In the intonation view, I think the (green) vertical lines should match up with the posture names.  Check original.

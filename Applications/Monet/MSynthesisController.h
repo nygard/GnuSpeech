@@ -6,7 +6,7 @@
 
 #import "EventList.h" // for struct _intonationParameters
 
-@class MModel;
+@class MModel, MMPostureRewriter;
 @class EventListView, IntonationPoint, IntonationView;
 @class TRMSynthesizer;
 
@@ -50,6 +50,7 @@
     MModel *model;
     NSMutableArray *displayParameters;
     EventList *eventList;
+    MMPostureRewriter *postureRewriter;
 
     TRMSynthesizer *synthesizer;
 }
