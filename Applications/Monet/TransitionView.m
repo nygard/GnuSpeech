@@ -87,7 +87,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     [self _updateFromModel];
 }
 
-// TODO (2004-03-21): I don't think this will catch changes to the "Formula Symbols"...
+// TODO (2004-03-21): I don't think this will catch changes to the "Formula Symbols"... i.e. adding or removing them.
 - (void)_updateFromModel;
 {
     MMPosture *aPosture;
@@ -99,10 +99,12 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 
     aPosture = [[MMPosture alloc] initWithModel:model];
     [aPosture setSymbol:@"dummy"];
-    [(MMTarget *)[[aPosture symbolList] objectAtIndex:0] setValue:100.0]; // duration
-    [(MMTarget *)[[aPosture symbolList] objectAtIndex:1] setValue:33.3333]; // transition
-    [(MMTarget *)[[aPosture symbolList] objectAtIndex:2] setValue:33.3333]; // qssa
-    [(MMTarget *)[[aPosture symbolList] objectAtIndex:3] setValue:33.3333]; // qssb
+    if ([[aPosture symbolList] count] >= 4) {
+        [(MMTarget *)[[aPosture symbolList] objectAtIndex:0] setValue:100.0]; // duration
+        [(MMTarget *)[[aPosture symbolList] objectAtIndex:1] setValue:33.3333]; // transition
+        [(MMTarget *)[[aPosture symbolList] objectAtIndex:2] setValue:33.3333]; // qssa
+        [(MMTarget *)[[aPosture symbolList] objectAtIndex:3] setValue:33.3333]; // qssb
+    }
 
     // We need four postures to show a tetraphone
     [samplePhoneList addObject:aPosture];
