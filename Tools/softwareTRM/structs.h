@@ -152,15 +152,14 @@ typedef struct _TRMData {
 
 
 typedef struct {
-    //  DERIVED VALUES
+    // Derived values
     int    controlPeriod;
     int    sampleRate;
-    double actualTubeLength;            /*  actual length in cm  */
-
-    double dampingFactor;               /*  calculated damping factor  */
-    double crossmixFactor;              /*  calculated crossmix factor  */
+    double actualTubeLength;            // actual length in cm
 
     double breathinessFactor;
+    double crossmixFactor;              // calculated crossmix factor
+    double dampingFactor;               // calculated damping factor
 
     //  REFLECTION AND RADIATION FILTER MEMORY
     double a10, b11, a20, a21, b21;

@@ -728,7 +728,7 @@ TRMTubeModel *TRMTubeModelCreate(TRMInputParameters *inputParameters)
 
     memset(newTubeModel, 0, sizeof(TRMTubeModel));
 
-    /*  CALCULATE THE SAMPLE RATE, BASED ON NOMINAL TUBE LENGTH AND SPEED OF SOUND  */
+    // Calculate the sample rate, based on nominal tube length and speed of sound
     if (inputParameters->length > 0.0) {
         double c = speedOfSound(inputParameters->temperature);
 
@@ -742,16 +742,11 @@ TRMTubeModel *TRMTubeModelCreate(TRMInputParameters *inputParameters)
         return NULL;
     }
 
-    /*  CALCULATE THE BREATHINESS FACTOR  */
     newTubeModel->breathinessFactor = inputParameters->breathiness / 100.0;
-
-    /*  CALCULATE CROSSMIX FACTOR  */
     newTubeModel->crossmixFactor = 1.0 / amplitude(inputParameters->mixOffset);
-
-    /*  CALCULATE THE DAMPING FACTOR  */
     newTubeModel->dampingFactor = (1.0 - (inputParameters->lossFactor / 100.0));
 
-    /*  INITIALIZE THE WAVE TABLE  */
+    // Initialize the wave table
     newTubeModel->wavetable = TRMWavetableCreate(inputParameters->waveform, inputParameters->tp, inputParameters->tnMin, inputParameters->tnMax, newTubeModel->sampleRate);
 
     /*  INITIALIZE REFLECTION AND RADIATION FILTER COEFFICIENTS FOR MOUTH  */
