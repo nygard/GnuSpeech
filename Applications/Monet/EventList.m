@@ -748,7 +748,8 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
 // 2.
 - (void)applyRule:(MMRule *)rule withPostures:(NSArray *)somePostures andTempos:(double *)tempos phoneIndex:(int)phoneIndex model:(MModel *)aModel;
 {
-    int i, j, type;
+    int transitionIndex, parameterIndex;
+    int j, type;
     BOOL shouldCalculate;
     int currentType;
     double currentDelta, value, maxValue;
@@ -796,16 +797,15 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
     parameterTransitions = [rule parameterTransitions];
 
     /* Loop through the parameters */
-    for (i = 0; i < [parameterTransitions count]; i++) {
-        unsigned int postureCount;
-        unsigned int targetIndex;
+    for (transitionIndex = 0; transitionIndex < [parameterTransitions count]; transitionIndex++) {
+        unsigned int postureCount, postureIndex;
 
         /* Get actual parameter target values */
         postureCount = [somePostures count];
-        for (targetIndex = 0; targetIndex < 4 && targetIndex < postureCount; targetIndex++)
-            targets[targetIndex] = [(MMTarget *)[[[somePostures objectAtIndex:targetIndex] parameterTargets] objectAtIndex:i] value];
-        for (; targetIndex < 4; targetIndex++)
-            targets[targetIndex] = 0.0;
+        for (postureIndex = 0; postureIndex < 4 && postureIndex < postureCount; postureIndex++)
+            targets[postureIndex] = [(MMTarget *)[[[somePostures objectAtIndex:postureIndex] parameterTargets] objectAtIndex:transitionIndex] value];
+        for (; postureIndex < 4; postureIndex++)
+            targets[postureIndex] = 0.0;
 
         //NSLog(@"Targets %f %f %f %f", targets[0], targets[1], targets[2], targets[3]);
 
@@ -831,7 +831,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
             currentDelta = targets[1] - targets[0];
 
             /* Get transition profile list */
-            transition = (MMTransition *)[parameterTransitions objectAtIndex:i];
+            transition = (MMTransition *)[parameterTransitions objectAtIndex:transitionIndex];
             points = [transition points];
 
             maxValue = 0.0;
@@ -859,16 +859,16 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
                 // TODO (2004-03-01): I don't see how this works...
                 maxValue = [currentPoint calculatePoints:&ruleSymbols tempos:tempos phones:somePostures
                                          andCacheWith:cache baseline:targets[currentType-2] delta:currentDelta
-                                         min:min[i] max:max[i] toEventList:self atIndex:(int)i];
+                                         min:min[transitionIndex] max:max[transitionIndex] toEventList:self atIndex:transitionIndex];
             }
         } else {
-            [self insertEvent:i atTime:0.0 withValue:targets[0]];
+            [self insertEvent:transitionIndex atTime:0.0 withValue:targets[0]];
         }
     }
 
     /* Special Event Profiles */
-    for (i = 0; i < 16; i++) {
-        if ((transition = [rule getSpecialProfile:i])) {
+    for (parameterIndex = 0; parameterIndex < 16; parameterIndex++) {
+        if ((transition = [rule getSpecialProfile:parameterIndex])) {
             /* Get transition profile list */
             points = [transition points];
 
@@ -882,12 +882,12 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
                     tempTime = [[currentPoint expression] evaluate:&ruleSymbols tempos:tempos phones:somePostures andCacheWith:cache];
 
                 /* Calculate value of event */
-                //value = (([currentPoint value]/100.0) * (max[i] - min[i])) + min[i];
-                value = (([currentPoint value]/100.0) * (max[i] - min[i]));
+                //value = (([currentPoint value]/100.0) * (max[parameterIndex] - min[parameterIndex])) + min[parameterIndex];
+                value = (([currentPoint value] / 100.0) * (max[parameterIndex] - min[parameterIndex]));
                 maxValue = value;
 
                 /* insert event into event list */
-                [self insertEvent:i+16 atTime:tempTime withValue:value];
+                [self insertEvent:parameterIndex+16 atTime:tempTime withValue:value];
             }
         }
     }
