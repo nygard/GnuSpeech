@@ -1,5 +1,5 @@
 //
-// $Id: MRuleManager.h,v 1.2 2004/03/24 04:34:05 nygard Exp $
+// $Id: MRuleManager.h,v 1.3 2004/03/24 18:38:59 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -8,7 +8,7 @@
 #import <AppKit/NSWindowController.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-@class BooleanExpression, MModel, MonetList;
+@class BooleanExpression, MModel, MMRule, MonetList;
 
 @interface MRuleManager : NSWindowController
 {
@@ -23,6 +23,20 @@
     IBOutlet NSTextField *errorTextField;
     IBOutlet NSTextField *possibleCombinationsTextField;
 
+    IBOutlet NSTableView *symbolTableView;
+    IBOutlet NSOutlineView *symbolEquationOutlineView;
+
+    IBOutlet NSTableView *parameterTableView;
+    IBOutlet NSOutlineView *parameterTransitionOutlineView;
+
+    IBOutlet NSTableView *specialParameterTableView;
+    IBOutlet NSOutlineView *specialParameterTransitionOutlineView;
+
+    IBOutlet NSTableView *metaParameterTableView;
+    IBOutlet NSOutlineView *metaParameterTransitionOutlineView;
+
+    IBOutlet NSTextView *ruleCommentTextView;
+
     MModel *model;
 
     MonetList *matchLists; // Of PhoneLists?
@@ -36,10 +50,12 @@
 - (void)setModel:(MModel *)newModel;
 
 - (NSUndoManager *)undoManager;
+- (MMRule *)selectedRule;
 
 - (void)windowDidLoad;
-
 - (void)updateViews;
+- (void)expandOutlines;
+- (void)_updateRuleComment;
 
 - (void)setExpression:(BooleanExpression *)anExpression atIndex:(int)index;
 - (void)evaluateMatchLists;
@@ -55,5 +71,11 @@
 // Browser delegate methods
 - (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
+
+// NSOutlineView data source
+- (int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item;
+- (id)outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item;
+- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item;
+- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item;
 
 @end

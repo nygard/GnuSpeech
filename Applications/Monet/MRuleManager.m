@@ -5,9 +5,13 @@
 
 #import <AppKit/AppKit.h>
 #import "BooleanExpression.h"
+#import "MCommentCell.h"
 #import "MModel.h"
+#import "MMParameter.h"
 #import "MMPosture.h"
 #import "MMRule.h"
+#import "NamedList.h"
+#import "ParameterList.h"
 #import "PhoneList.h"
 #import "RuleList.h"
 
@@ -58,6 +62,7 @@
     model = [newModel retain];
 
     [self updateViews];
+    [self expandOutlines];
 }
 
 - (NSUndoManager *)undoManager;
@@ -65,22 +70,59 @@
     return nil;
 }
 
+- (MMRule *)selectedRule;
+{
+    int selectedRow;
+
+    selectedRow = [ruleTableView selectedRow];
+
+    return [[model rules] objectAtIndex:selectedRow];
+}
+
 - (void)windowDidLoad;
 {
+    MCommentCell *commentImageCell;
+
+    commentImageCell = [[MCommentCell alloc] initImageCell:nil];
+    [commentImageCell setImageAlignment:NSImageAlignCenter];
+    [[ruleTableView tableColumnWithIdentifier:@"hasComment"] setDataCell:commentImageCell];
+    [commentImageCell release];
+
     [errorTextField setStringValue:@""];
     [possibleCombinationsTextField setIntValue:0];
 
     [self updateViews];
+    [self expandOutlines];
 }
 
 - (void)updateViews;
 {
 }
 
+- (void)expandOutlines;
+{
+    unsigned int count, index;
+
+    count = [[model equations] count];
+    for (index = 0; index < count; index++)
+        [symbolEquationOutlineView expandItem:[[model equations] objectAtIndex:index]];
+
+    count = [[model transitions] count];
+    for (index = 0; index < count; index++)
+        [parameterTransitionOutlineView expandItem:[[model transitions] objectAtIndex:index]];
+
+    count = [[model specialTransitions] count];
+    for (index = 0; index < count; index++)
+        [specialParameterTransitionOutlineView expandItem:[[model specialTransitions] objectAtIndex:index]];
+
+    count = [[model transitions] count];
+    for (index = 0; index < count; index++)
+        [metaParameterTransitionOutlineView expandItem:[[model transitions] objectAtIndex:index]];
+}
+
 - (void)_updateSelectedRuleDetails;
 {
     //Inspector *inspector;
-    int selectedRow;
     MMRule *aRule;
     NSString *str;
     BooleanExpression *anExpression;
@@ -88,8 +130,7 @@
 
     NSLog(@" > %s", _cmd);
 
-    selectedRow = [ruleTableView selectedRow];
-    aRule = [[model rules] objectAtIndex:selectedRow];
+    aRule = [self selectedRule];
 
     //inspector = [controller inspector];
     //[inspector inspectRule:[[model rules] objectAtIndex:selectedRow]];
@@ -105,11 +146,25 @@
 
     [self evaluateMatchLists];
 
+    [self _updateRuleComment];
+
     //[[sender window] makeFirstResponder:delegateResponder];
 
     NSLog(@"<  %s", _cmd);
 }
 
+- (void)_updateRuleComment;
+{
+    MMRule *aRule;
+    NSString *str;
+
+    aRule = [self selectedRule];
+    str = [aRule comment];
+    if (str == nil)
+        str = @"";
+
+    [ruleCommentTextView setString:str];
+}
 
 - (void)setExpression:(BooleanExpression *)anExpression atIndex:(int)index;
 {
@@ -194,9 +249,14 @@
 
 - (int)numberOfRowsInTableView:(NSTableView *)tableView;
 {
-    if (tableView == ruleTableView) {
+    if (tableView == ruleTableView)
         return [[model rules] count];
-    }
+
+    if (tableView == parameterTableView || tableView == specialParameterTableView)
+        return [[[self model] parameters] count];
+
+    if (tableView == metaParameterTableView)
+        return [[[self model] metaParameters] count];
 
     return 0;
 }
@@ -208,14 +268,34 @@
     identifier = [tableColumn identifier];
 
     if (tableView == ruleTableView) {
-        if ([@"number" isEqual:identifier] == YES) {
+        MMRule *rule;
+
+        rule = [[model rules] objectAtIndex:row];
+        if ([@"hasComment" isEqual:identifier] == YES) {
+            return [NSNumber numberWithBool:[rule hasComment]];
+        } else if ([@"number" isEqual:identifier] == YES) {
             return [NSString stringWithFormat:@"%d.", row + 1];
         } else if ([@"rule" isEqual:identifier] == YES) {
-            return [[[model rules] objectAtIndex:row] ruleString];
+            return [rule ruleString];
         } else if ([@"numberOfTokensConsumed" isEqual:identifier] == YES) {
-            return [NSNumber numberWithInt:[[[model rules] objectAtIndex:row] numberExpressions]];
+            return [NSNumber numberWithInt:[rule numberExpressions]];
+        }
+    } else if (tableView == parameterTableView || tableView == specialParameterTableView) {
+        MMParameter *parameter;
+
+        parameter = [[[self model] parameters] objectAtIndex:row];
+        if ([@"name" isEqual:identifier] == YES) {
+            return [parameter symbol];
+        }
+    } else if (tableView == metaParameterTableView) {
+        MMParameter *parameter;
+
+        parameter = [[[self model] metaParameters] objectAtIndex:row];
+        if ([@"name" isEqual:identifier] == YES) {
+            return [parameter symbol];
         }
     }
+
 
     return nil;
 }
@@ -275,6 +355,91 @@
     }
 
     [cell setLeaf:YES];
+}
+
+//
+// NSOutlineView data source
+//
+
+- (int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item;
+{
+    if (outlineView == symbolEquationOutlineView) {
+        if (item == nil)
+            return [[[self model] equations] count];
+        else
+            return [item count];
+    } else if (outlineView == parameterTransitionOutlineView || outlineView == metaParameterTransitionOutlineView) {
+        if (item == nil)
+            return [[[self model] transitions] count];
+        else
+            return [item count];
+    } else if (outlineView == specialParameterTransitionOutlineView) {
+        if (item == nil)
+            return [[[self model] specialTransitions] count];
+        else
+            return [item count];
+    }
+
+    return 0;
+}
+
+- (id)outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item;
+{
+    if (outlineView == symbolEquationOutlineView) {
+        if (item == nil)
+            return [[[self model] equations] objectAtIndex:index];
+        else
+            return [item objectAtIndex:index];
+    } else if (outlineView == parameterTransitionOutlineView || outlineView == metaParameterTransitionOutlineView) {
+        if (item == nil)
+            return [[[self model] transitions] objectAtIndex:index];
+        else
+            return [item objectAtIndex:index];
+    } else if (outlineView == specialParameterTransitionOutlineView) {
+        if (item == nil)
+            return [[[self model] specialTransitions] objectAtIndex:index];
+        else
+            return [item objectAtIndex:index];
+    }
+
+    return nil;
+}
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item;
+{
+    if (outlineView == symbolEquationOutlineView) {
+        return [item isKindOfClass:[NamedList class]];
+    } else if (outlineView == parameterTransitionOutlineView || outlineView == metaParameterTransitionOutlineView) {
+        return [item isKindOfClass:[NamedList class]];
+    } else if (outlineView == specialParameterTransitionOutlineView) {
+        return [item isKindOfClass:[NamedList class]];
+    }
+
+    return NO;
+}
+
+- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item;
+{
+    id identifier;
+
+    identifier = [tableColumn identifier];
+    //NSLog(@"identifier: %@, item: %p, item class: %@", identifier, item, NSStringFromClass([item class]));
+
+    if (outlineView == symbolEquationOutlineView) {
+        if ([@"name" isEqual:identifier] == YES) {
+            return [item name];
+        }
+    } else if (outlineView == parameterTransitionOutlineView || outlineView == metaParameterTransitionOutlineView) {
+        if ([@"name" isEqual:identifier] == YES) {
+            return [item name];
+        }
+    } else if (outlineView == specialParameterTransitionOutlineView) {
+        if ([@"name" isEqual:identifier] == YES) {
+            return [item name];
+        }
+    }
+
+    return nil;
 }
 
 @end

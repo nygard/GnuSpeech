@@ -232,6 +232,11 @@
     comment = [newComment retain];
 }
 
+- (BOOL)hasComment;
+{
+    return comment != nil && [comment length] > 0;
+}
+
 - (int)matchRule:(MonetList *)categories;
 {
     int index;

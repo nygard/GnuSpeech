@@ -133,3 +133,8 @@ Notes:
 - -[NSSString initWithBytes:length:encoding:] not in 10.2.8 SDK, so should be within #if in 10.3 header file.
 - text of NSForm shifts slightly when selected.  This doesn't happen with NSTextFields.
   - for vertical form.  Single horizontal form doesn't seem to have that problem.
+
+2004-03-24:
+- In the rule manager we could have a column to show the running total combinations that can reach each rule
+  - this would take the total possible combinations, minus all of the ones matched above it.
+  - I think this would be difficult to do.

@@ -38,6 +38,7 @@
 
 - (NSString *)comment;
 - (void)setComment:(NSString *)newComment;
+- (BOOL)hasComment;
 
 - (int)matchRule:(MonetList *)categories;
 
