@@ -8,6 +8,7 @@
 #import "NSString-Extensions.h"
 
 #import "GSPronunciationDictionary.h"
+#import "GSSimplePronunciationDictionary.h"
 #import "TTSNumberPronunciations.h"
 
 #define TTS_CHUNK_BOUNDARY        @"/c"
@@ -80,7 +81,7 @@ static NSDictionary *_specialAcronyms = nil;
 
     escapeCharacter = '%';
 
-    mainDictionary = [[GSPronunciationDictionary mainDictionary] retain];
+    mainDictionary = [[GSSimplePronunciationDictionary mainDictionary] retain];
 
     return self;
 }

@@ -5,6 +5,7 @@
 
 #import <Foundation/Foundation.h>
 #import "GSPronunciationDictionary.h"
+#import "GSSimplePronunciationDictionary.h"
 #import "TTSParser.h"
 
 @implementation ApplicationDelegate
@@ -14,7 +15,7 @@
     GSPronunciationDictionary *dict;
 
     NSLog(@" > %s", _cmd);
-    dict = [GSPronunciationDictionary mainDictionary]; // Force it to load right away.
+    dict = [GSSimplePronunciationDictionary mainDictionary]; // Force it to load right away.
     [dictionaryVersionTextField setStringValue:[dict version]];
     NSLog(@"<  %s", _cmd);
 }
@@ -49,9 +50,9 @@
 
     NSLog(@" > %s", _cmd);
 
-    dictionary = [[GSPronunciationDictionary alloc] init];
+    dictionary = [[GSSimplePronunciationDictionary alloc] init];
     path = [[NSBundle bundleForClass:[self class]] pathForResource:@"2.0eMainDictionary" ofType:@"dict"];
-    [dictionary readFile:path];
+    [dictionary loadFromFile:path];
     NSLog(@"loaded %@", dictionary);
     [dictionary release];
 
@@ -63,7 +64,7 @@
     NSString *word, *pronunciation;
 
     word = [[wordTextField stringValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    pronunciation = [[GSPronunciationDictionary mainDictionary] pronunciationForWord:word];
+    pronunciation = [[GSSimplePronunciationDictionary mainDictionary] pronunciationForWord:word];
     //NSLog(@"word: %@, pronunciation: %@", word, pronunciation);
     if (pronunciation == nil) {
         //NSBeep();
