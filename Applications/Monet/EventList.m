@@ -760,7 +760,8 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
 // 2.
 - (void)applyRule:(MMRule *)rule withPhones:(NSArray *)phoneList andTempos:(double *)tempos phoneIndex:(int)phoneIndex model:(MModel *)aModel;
 {
-    int i, j, type, cont;
+    int i, j, type;
+    BOOL shouldCalculate;
     int currentType;
     double currentDelta, value, maxValue;
     double tempTime, targets[4];
@@ -774,6 +775,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
     bzero(&ruleSymbols, sizeof(MMFRuleSymbols));
     [rule evaluateExpressionSymbols:&ruleSymbols tempos:tempos phones:phoneList withCache:cache];
 
+    // TODO (2004-08-14): Is this supposed to change the multiplier?  I suppose so, since setMultiplier: is never used.
     multiplier = 1.0 / (double)(phones[phoneIndex-1].ruleTempo);
 
     type = [rule numberExpressions];
@@ -816,24 +818,24 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
 
         //NSLog(@"Targets %f %f %f %f", targets[0], targets[1], targets[2], targets[3]);
 
-        /* Optimization, Don't calculate if no changes occur */
-        cont = 1;
+        // Optimization: Don't calculate if no changes occur.
+        shouldCalculate = YES;
         switch (type) {
           case MMPhoneTypeDiphone:
               if (targets[0] == targets[1])
-                  cont = 0;
+                  shouldCalculate = NO;
               break;
           case MMPhoneTypeTriphone:
               if ((targets[0] == targets[1]) && (targets[0] == targets[2]))
-                  cont = 0;
+                  shouldCalculate = NO;
               break;
           case MMPhoneTypeTetraphone:
               if ((targets[0] == targets[1]) && (targets[0] == targets[2]) && (targets[0] == targets[3]))
-                  cont = 0;
+                  shouldCalculate = NO;
               break;
         }
 
-        if (cont) {
+        if (shouldCalculate) {
             currentType = MMPhoneTypeDiphone;
             currentDelta = targets[1] - targets[0];
 
@@ -900,7 +902,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
         }
     }
 
-    [self setZeroRef:(int)(ruleSymbols.ruleDuration * multiplier) +  zeroRef];
+    [self setZeroRef:(int)(ruleSymbols.ruleDuration * multiplier) + zeroRef];
     tempEvent = [self insertEvent:(-1) atTime:0.0 withValue:0.0];
     [tempEvent setFlag:YES];
 }
