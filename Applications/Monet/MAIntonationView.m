@@ -14,7 +14,7 @@
 #import "MonetList.h"
 
 #define TOP_MARGIN 65
-#define BOTTOM_MARGIN 5
+#define BOTTOM_MARGIN 50
 #define LEFT_MARGIN 1
 #define RIGHT_MARGIN 20.0
 
@@ -33,6 +33,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 - (id)initWithFrame:(NSRect)frameRect;
 {
     NSNumberFormatter *durationFormatter;
+    NSFont *font;
 
     if ([super initWithFrame:frameRect] == nil)
         return nil;
@@ -51,6 +52,15 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     [ruleDurationTextFieldCell setFormatter:durationFormatter];
 
     [durationFormatter release];
+
+    font = [[NSFontManager sharedFontManager] fontWithFamily:@"Times" traits:0 weight:0 size:10.0];
+    labelTextFieldCell = [[NSTextFieldCell alloc] initTextCell:@""];
+    [labelTextFieldCell setFont:font];
+
+    font = [[NSFontManager sharedFontManager] fontWithFamily:@"Times" traits:0 weight:0 size:14.0];
+    horizontalAxisLabelTextFieldCell = [[NSTextFieldCell alloc] initTextCell:@""];
+    [horizontalAxisLabelTextFieldCell setFont:font];
+    [horizontalAxisLabelTextFieldCell setStringValue:@"Time (ms)"];
 
     timesFont = [[NSFont fontWithName:@"Times-Roman" size:12] retain];
     timesFontSmall = [[NSFont fontWithName:@"Times-Roman" size:10] retain];
@@ -76,6 +86,8 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     [postureTextFieldCell release];
     [ruleIndexTextFieldCell release];
     [ruleDurationTextFieldCell release];
+    [labelTextFieldCell release];
+    [horizontalAxisLabelTextFieldCell release];
 
     [scaleView release];
     [timesFont release];
@@ -217,6 +229,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     [[NSColor whiteColor] set];
     NSRectFill(rect);
 
+    [self drawHorizontalScale];
     [self drawGrid];
     [self drawPostureLabels];
     [self drawRules];
@@ -296,6 +309,67 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     [[NSColor blackColor] set];
     [bezierPath stroke];
     [bezierPath release];
+}
+
+- (void)drawHorizontalScale;
+{
+    NSPoint graphOrigin;
+    NSRect bounds, rect;
+    NSBezierPath *bezierPath;
+    NSPoint point;
+    float time;
+    NSRect cellFrame;
+
+    bounds = NSIntegralRect([self bounds]);
+    rect = bounds;
+
+    graphOrigin = [self graphOrigin];
+    rect.origin = graphOrigin;
+    rect.origin.y -= BOTTOM_MARGIN;
+    rect.size.height = BOTTOM_MARGIN;
+
+    cellFrame.origin.x = 0.0;
+    cellFrame.origin.y = graphOrigin.y - 10.0 - 12.0;
+    cellFrame.size.width = 100.0;
+    cellFrame.size.height = 12.0;
+
+    point.x = 0.0;
+    time = 0.0;
+
+    bezierPath = [[NSBezierPath alloc] init];
+
+    while (point.x < NSMaxX(bounds)) {
+        point.x = [self scaleXPosition:time] + 0.5;
+        point.y = graphOrigin.y;
+        [bezierPath moveToPoint:point];
+
+        if (((int)time % 100) == 0) {
+            point.y -= 10;
+
+            [labelTextFieldCell setIntValue:time];
+            cellFrame.size = [labelTextFieldCell cellSize];
+            cellFrame.origin.x = point.x - (cellFrame.size.width / 2.0);
+            if (cellFrame.origin.x < 0.0)
+                cellFrame.origin.x = 0.0;
+            if (NSMaxX(cellFrame) > NSMaxX(bounds))
+                cellFrame.origin.x = NSMaxX(bounds) - cellFrame.size.width;
+            [labelTextFieldCell drawWithFrame:cellFrame inView:self];
+
+        } else
+            point.y -= 5;
+        [bezierPath lineToPoint:point];
+
+        time += 10.0;
+    }
+
+    [[NSColor blackColor] set];
+    [bezierPath stroke];
+    [bezierPath release];
+
+    cellFrame.size = [horizontalAxisLabelTextFieldCell cellSize];
+    cellFrame.origin.y = graphOrigin.y - 10.0 - 12.0 - 20.0;
+    cellFrame.origin.x = (bounds.size.width - cellFrame.size.width) / 2.0;
+    [horizontalAxisLabelTextFieldCell drawWithFrame:cellFrame inView:self];
 }
 
 // Put posture label on the top

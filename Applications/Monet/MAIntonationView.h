@@ -25,6 +25,9 @@ extern NSString *MAIntonationViewSelectionDidChangeNotification;
     NSTextFieldCell *ruleIndexTextFieldCell;
     NSTextFieldCell *ruleDurationTextFieldCell;
 
+    NSTextFieldCell *labelTextFieldCell;
+    NSTextFieldCell *horizontalAxisLabelTextFieldCell;
+
     MAIntonationScaleView *scaleView;
 
     NSFont *timesFont;
@@ -72,6 +75,7 @@ extern NSString *MAIntonationViewSelectionDidChangeNotification;
 - (void)drawRect:(NSRect)rect;
 
 - (void)drawGrid;
+- (void)drawHorizontalScale;
 - (void)drawPostureLabels;
 - (void)drawRules;
 - (void)drawIntonationPoints;
