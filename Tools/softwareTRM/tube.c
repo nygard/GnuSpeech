@@ -294,6 +294,11 @@ void synthesize(TRMTubeModel *tubeModel, TRMData *data)
 
     /*  CONTROL RATE LOOP  */
 
+    if (data->inputHead == NULL) {
+        // No data
+        return;
+    }
+
     previousInput = data->inputHead;
     currentInput = data->inputHead->next;
 
