@@ -5,6 +5,7 @@
 #import "NSString-Extensions.h"
 
 #import "FormulaExpression.h"
+#import "GSXMLFunctions.h"
 
 @implementation ProtoEquation
 
@@ -147,6 +148,25 @@
 {
     return [NSString stringWithFormat:@"<%@>[%p]: name: %@, comment: %@, expression: %@, cacheTag: %d, cacheValue: %g",
                      NSStringFromClass([self class]), self, name, comment, expression, cacheTag, cacheValue];
+}
+
+- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+{
+    [resultString indentToLevel:level];
+    [resultString appendFormat:@"<proto-equation ptr=\"%p\" name=\"%@\" formula=\"%@\"",
+                  self, GSXMLAttributeString(name, NO), GSXMLAttributeString([expression expressionString], NO)];
+
+    if (comment == nil) {
+        [resultString appendString:@"/>\n"];
+    } else {
+        [resultString appendString:@">\n"];
+
+        [resultString indentToLevel:level + 1];
+        [resultString appendFormat:@"<comment>%@</comment>\n", GSXMLCharacterData(comment)];
+
+        [resultString indentToLevel:level];
+        [resultString appendFormat:@"</proto-equation>\n"];
+    }
 }
 
 @end

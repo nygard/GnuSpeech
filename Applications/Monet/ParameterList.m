@@ -142,26 +142,4 @@
     fprintf(fp, "\n");
 }
 
-- (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(int)level;
-{
-    int count, index;
-
-    count = [self count];
-    if (count == 0)
-        return;
-
-    [resultString indentToLevel:level];
-    [resultString appendFormat:@"<%@>\n", elementName];
-
-    for (index = 0; index < count; index++) {
-        Parameter *aParameter;
-
-        aParameter = [self objectAtIndex:index];
-        [aParameter appendXMLToString:resultString level:level+1];
-    }
-
-    [resultString indentToLevel:level];
-    [resultString appendFormat:@"</%@>\n", elementName];
-}
-
 @end

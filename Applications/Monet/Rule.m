@@ -452,8 +452,10 @@
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@>[%p]: parameterProfiles: %@, metaParameterProfiles: %@, expressionSymbols: %@, comment: %@",
-                     NSStringFromClass([self class]), self, parameterProfiles, metaParameterProfiles, expressionSymbols, comment];
+    return [NSString stringWithFormat:@"<%@>[%p]: parameterProfiles: %@, metaParameterProfiles: %@, expressionSymbols(%d): %@, comment: %@, e1: %@, e2: %@, e3: %@, e4: %@",
+                     NSStringFromClass([self class]), self, parameterProfiles, metaParameterProfiles, [expressionSymbols count], expressionSymbols,
+                     comment, [expressions[0] expressionString], [expressions[1] expressionString], [expressions[2] expressionString],
+                     [expressions[3] expressionString]];
 }
 
 @end

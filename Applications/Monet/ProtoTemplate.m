@@ -5,6 +5,7 @@
 #import "NSString-Extensions.h"
 
 #import "AppController.h"
+#import "GSXMLFunctions.h"
 #import "MonetList.h"
 #import "Point.h"
 #import "PrototypeManager.h"
@@ -316,6 +317,23 @@
 {
     return [NSString stringWithFormat:@"<%@>[%p]: name: %@, comment: %@, type: %d, points: %@",
                      NSStringFromClass([self class]), self, name, comment, type, points];
+}
+
+- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+{
+    [resultString indentToLevel:level];
+    [resultString appendFormat:@"<proto-template name=\"%@\" type=\"%d\">\n",
+                  GSXMLAttributeString(name, NO), type];
+
+    if (comment != nil) {
+        [resultString indentToLevel:level + 1];
+        [resultString appendFormat:@"<comment>%@</comment>\n", GSXMLCharacterData(comment)];
+    }
+
+    [points appendXMLToString:resultString elementName:@"points" level:level + 1];
+
+    [resultString indentToLevel:level];
+    [resultString appendFormat:@"</proto-template>\n"];
 }
 
 @end

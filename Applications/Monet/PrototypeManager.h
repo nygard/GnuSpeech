@@ -92,4 +92,9 @@
 - (void)_setProtoTemplates:(MonetList *)newProtoTemplates;
 - (void)_setProtoSpecial:(MonetList *)newProtoSpecial;
 
+- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForProtoEquationsToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForProtoTemplatesToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForProtoSpecialsToString:(NSMutableString *)resultString level:(int)level;
+
 @end

@@ -25,26 +25,4 @@
     [newTarget release];
 }
 
-- (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(int)level;
-{
-    int count, index;
-
-    count = [self count];
-    if (count == 0)
-        return;
-
-    [resultString indentToLevel:level];
-    [resultString appendFormat:@"<%@>\n", elementName];
-
-    for (index = 0; index < count; index++) {
-        Target *aTarget;
-
-        aTarget = [self objectAtIndex:index];
-        [aTarget appendXMLToString:resultString level:level+1];
-    }
-
-    [resultString indentToLevel:level];
-    [resultString appendFormat:@"</%@>\n", elementName];
-}
-
 @end

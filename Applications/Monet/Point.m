@@ -2,9 +2,11 @@
 
 #import <Foundation/Foundation.h>
 #import "NSObject-Extensions.h"
+#import "NSString-Extensions.h"
 
 #import "AppController.h"
 #import "EventList.h"
+#import "GSXMLFunctions.h"
 #import "ProtoEquation.h"
 #import "PrototypeManager.h"
 #import "ProtoTemplate.h"
@@ -218,6 +220,18 @@
 {
     return [NSString stringWithFormat:@"<%@>[%p]: value: %g, freeTime: %g, expression: %@, type: %d, phantom: %d",
                      NSStringFromClass([self class]), self, value, freeTime, expression, type, phantom];
+}
+
+- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+{
+    [resultString indentToLevel:level];
+    [resultString appendFormat:@"<point value=\"%g\" free-time=\"%g\" type=\"%d\" phantom=\"%d\">\n", value, freeTime, type, phantom];
+
+    [resultString indentToLevel:level + 1];
+    [resultString appendFormat:@"<expression ptr=\"%p\">etc.</expression>\n", expression];
+
+    [resultString indentToLevel:level];
+    [resultString appendFormat:@"</point>\n"];
 }
 
 @end

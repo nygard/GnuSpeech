@@ -40,4 +40,6 @@
 
 - (NSString *)description;
 
+- (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(int)level;
+
 @end

@@ -142,8 +142,8 @@
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 {
     [resultString indentToLevel:level];
-    [resultString appendFormat:@"<parameter ptr=\"%p\" name=\"%@\" minimum=\"%g\" maximum=\"%g\" default=\"%g\"",
-                  self, GSXMLAttributeString(parameterSymbol, NO), minimum, maximum, defaultValue];
+    [resultString appendFormat:@"<parameter name=\"%@\" minimum=\"%g\" maximum=\"%g\" default=\"%g\"",
+                  GSXMLAttributeString(parameterSymbol, NO), minimum, maximum, defaultValue];
 
     if (comment == nil) {
         [resultString appendString:@"/>\n"];

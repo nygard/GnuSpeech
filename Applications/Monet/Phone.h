@@ -82,5 +82,6 @@
 - (void)encodeWithCoder:(NSCoder *)aCoder;
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForParametersToString:(NSMutableString *)resultString level:(int)level;
 
 @end

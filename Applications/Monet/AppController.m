@@ -347,7 +347,7 @@
                 initStringParser();
 #endif
 
-                //[self generateXML:filename];
+                [self generateXML:filename];
             } else {
                 NSLog(@"Not a MONET file");
             }
@@ -496,13 +496,17 @@
     [resultString appendString:@"<root version='1'>\n"];
     [mainCategoryList appendXMLToString:resultString level:1 useReferences:NO];
 
-    [mainPhoneList appendXMLToString:resultString level:1];
-    [mainSymbolList appendXMLToString:resultString level:1];
     [mainParameterList appendXMLToString:resultString elementName:@"parameters" level:1];
     [mainMetaParameterList appendXMLToString:resultString elementName:@"meta-parameters" level:1];
+    [mainSymbolList appendXMLToString:resultString level:1];
+    [mainPhoneList appendXMLToString:resultString level:1];
+
+    [prototypeManager appendXMLToString:resultString level:1];
+
     [resultString appendString:@"</root>\n"];
 
-    NSLog(@"xml: \n%@", resultString);
+    //NSLog(@"xml: \n%@", resultString);
+    [[resultString dataUsingEncoding:NSUTF8StringEncoding] writeToFile:@"/tmp/out.xml" atomically:YES];
 
     [resultString release];
 }

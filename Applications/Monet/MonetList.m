@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "NSObject-Extensions.h"
+#import "NSString-Extensions.h"
+
+#import "Target.h" // Hack, just to get -appendXMLToString:level:
 
 @implementation MonetList
 
@@ -155,6 +158,28 @@
 - (NSString *)description;
 {
     return [ilist description];
+}
+
+- (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(int)level;
+{
+    int count, index;
+
+    count = [self count];
+    if (count == 0)
+        return;
+
+    [resultString indentToLevel:level];
+    [resultString appendFormat:@"<%@>\n", elementName];
+
+    for (index = 0; index < count; index++) {
+        id anObject;
+
+        anObject = [self objectAtIndex:index];
+        [anObject appendXMLToString:resultString level:level+1];
+    }
+
+    [resultString indentToLevel:level];
+    [resultString appendFormat:@"</%@>\n", elementName];
 }
 
 @end

@@ -15,7 +15,7 @@
 {
     MonetList *parameterProfiles;
     MonetList *metaParameterProfiles;
-    MonetList *expressionSymbols;
+    MonetList *expressionSymbols; // Of ProtoEquations
 
     id specialProfiles[16];
 

@@ -2,9 +2,12 @@
 
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
+#import "NSString-Extensions.h"
+
 #import "AppController.h"
 #import "DelegateResponder.h"
 #import "FormulaExpression.h"
+#import "GSXMLFunctions.h"
 #import "Inspector.h"
 #import "MonetList.h"
 #import "NamedList.h"
@@ -770,9 +773,17 @@ static NSString *specialString = @"ProtoSpecial";
     [self _setProtoSpecial:nil];
 
     aList = [stream decodeObject];
+    //NSLog(@"protoEquations: %@", aList);
+    if ([aList count] > 0) {
+        NSLog(@"First proto equation: %@", [aList objectAtIndex:0]);
+    }
     [self _setProtoEquations:aList];
 
     aList = [stream decodeObject];
+    //NSLog(@"protoTemplates: %@", aList);
+    if ([aList count] > 0) {
+        NSLog(@"First proto template: %@", [aList objectAtIndex:0]);
+    }
     [self _setProtoTemplates:aList];
 
     aList = [stream decodeObject];
@@ -862,6 +873,75 @@ static NSString *specialString = @"ProtoSpecial";
 
     [protoSpecial release];
     protoSpecial = [newProtoSpecial retain];
+}
+
+- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+{
+    [self _appendXMLForProtoEquationsToString:resultString level:level];
+    //[self _appendXMLForProtoTemplatesToString:resultString level:level];
+    //[self _appendXMLForProtoSpecialsToString:resultString level:level];
+}
+
+- (void)_appendXMLForProtoEquationsToString:(NSMutableString *)resultString level:(int)level;
+{
+    NamedList *namedList;
+    int count, index;
+
+    [resultString indentToLevel:level];
+    [resultString appendString:@"<proto-equations>\n"];
+    count = [protoEquations count];
+    for (index = 0; index < count; index++) {
+        namedList = [protoEquations objectAtIndex:index];
+        [namedList appendXMLToString:resultString elementName:@"group" level:level + 1];
+#if 0
+        [resultString indentToLevel:level+1];
+        [resultString appendFormat:@"<list name=\"%@\" count=\"%d\">\n", GSXMLAttributeString([namedList name], NO), [namedList count]];
+        if ([namedList count] > 0) {
+            anObject = [namedList objectAtIndex:0];
+            [resultString indentToLevel:level+2];
+            [resultString appendFormat:@"<proto-equation class=%@>\n", NSStringFromClass([anObject class])];
+        }
+        [resultString indentToLevel:level+1];
+        [resultString appendString:@"</list>\n"];
+#endif
+    }
+
+    [resultString indentToLevel:level];
+    [resultString appendString:@"</proto-equations>\n"];
+}
+
+- (void)_appendXMLForProtoTemplatesToString:(NSMutableString *)resultString level:(int)level;
+{
+    NamedList *namedList;
+    int count, index;
+
+    [resultString indentToLevel:level];
+    [resultString appendString:@"<proto-templates>\n"];
+    count = [protoTemplates count];
+    for (index = 0; index < count; index++) {
+        namedList = [protoTemplates objectAtIndex:index];
+        [namedList appendXMLToString:resultString elementName:@"group" level:level + 1];
+    }
+
+    [resultString indentToLevel:level];
+    [resultString appendString:@"</proto-templates>\n"];
+}
+
+- (void)_appendXMLForProtoSpecialsToString:(NSMutableString *)resultString level:(int)level;
+{
+    NamedList *namedList;
+    int count, index;
+
+    [resultString indentToLevel:level];
+    [resultString appendString:@"<proto-specials>\n"];
+    count = [protoSpecial count];
+    for (index = 0; index < count; index++) {
+        namedList = [protoSpecial objectAtIndex:index];
+        [namedList appendXMLToString:resultString elementName:@"group" level:level + 1];
+    }
+
+    [resultString indentToLevel:level];
+    [resultString appendString:@"</proto-specials>\n"];
 }
 
 @end

@@ -266,13 +266,43 @@
         }
 
         [categoryList appendXMLToString:resultString level:level + 1 useReferences:YES];
-        [parameterList appendXMLToString:resultString elementName:@"parameters" level:level + 1];
+
+        [self _appendXMLForParametersToString:resultString level:level + 1];
+        //[parameterList appendXMLToString:resultString elementName:@"parameters" level:level + 1];
+        //NSLog(@"parameterList[0] class: %@", NSStringFromClass([[parameterList objectAtIndex:0] class]));
+
         [metaParameterList appendXMLToString:resultString elementName:@"meta-parameters" level:level + 1];
         [symbolList appendXMLToString:resultString elementName:@"symbols" level:level + 1];
 
         [resultString indentToLevel:level];
         [resultString appendString:@"</phone>\n"];
     }
+}
+
+- (void)_appendXMLForParametersToString:(NSMutableString *)resultString level:(int)level;
+{
+    ParameterList *mainParameterList;
+    int count, index;
+    Parameter *aParameter;
+    Target *aTarget;
+
+    mainParameterList = NXGetNamedObject(@"mainParameterList", NSApp);
+    count = [mainParameterList count];
+
+    [resultString indentToLevel:level];
+    [resultString appendFormat:@"<parameters main-count=\"%d\" this-count=\"%d\">\n", count, [parameterList count]];
+
+    for (index = 0; index < count; index++) {
+        aParameter = [mainParameterList objectAtIndex:index];
+        aTarget = [parameterList objectAtIndex:index];
+
+        [resultString indentToLevel:level + 1];
+        [resultString appendFormat:@"<parameter name=\"%@\" value=\"%g\" is-default=\"%@\"/>\n",
+                      [aParameter symbol], [aTarget value], GSXMLBoolAttributeString([aTarget isDefault])];
+    }
+
+    [resultString indentToLevel:level];
+    [resultString appendString:@"</parameters>\n"];
 }
 
 @end

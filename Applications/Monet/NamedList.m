@@ -2,6 +2,9 @@
 
 #import <Foundation/Foundation.h>
 #import "NSString-Extensions.h"
+#import "Target.h" // Just to get -appendXMLToString:level:, this is just a quick hack
+
+#import "GSXMLFunctions.h"
 
 /*===========================================================================
 
@@ -89,6 +92,33 @@
 {
     return [NSString stringWithFormat:@"<%@>[%p]: name: %@, comment: %@, super: %@",
                      NSStringFromClass([self class]), self, name, comment, [super description]];
+}
+
+- (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(int)level;
+{
+    int count, index;
+
+    count = [self count];
+    if (count == 0)
+        return;
+
+    [resultString indentToLevel:level];
+    [resultString appendFormat:@"<%@ name=\"%@\"", elementName, GSXMLAttributeString(name, NO)];
+
+    if (comment != nil)
+        [resultString appendFormat:@" comment=\"%@\"", GSXMLAttributeString(comment, NO)];
+
+    [resultString appendString:@">\n"];
+
+    for (index = 0; index < count; index++) {
+        id anObject;
+
+        anObject = [self objectAtIndex:index];
+        [anObject appendXMLToString:resultString level:level+1];
+    }
+
+    [resultString indentToLevel:level];
+    [resultString appendFormat:@"</%@>\n", elementName];
 }
 
 @end
