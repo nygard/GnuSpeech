@@ -151,7 +151,7 @@
     shouldMatchAll = match;
 
     //[aDecoder decodeValueOfObjCType:"i" at:&shouldMatchAll];
-    NSLog(@"shouldMatchAll: %d", shouldMatchAll);
+    //NSLog(@"shouldMatchAll: %d", shouldMatchAll);
 
     [aDecoder decodeValueOfObjCType:"*" at:&c_string];
     //NSLog(@"c_string: %s", c_string);
