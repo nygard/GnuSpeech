@@ -1,16 +1,5 @@
 /*  REVISION INFORMATION  *****************************************************
-
-_Author: rao $
-_Date: 2002/03/21 16:49:54 $
-_Revision: 1.1 $
-_Source: /cvsroot/gnuspeech/gnuspeech/trillium/src/softwareTRM/tube.c,v $
-_State: Exp $
-
-
-_Log: tube.c,v $
-Revision 1.1  2002/03/21 16:49:54  rao
-Initial import.
-
+ *
  * Revision 1.8  1995/04/17  19:51:21  len
  * Temporary fix to frication balance.
  *
