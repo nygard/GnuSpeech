@@ -1,14 +1,7 @@
 #import "ParameterList.h"
 
 #import <Foundation/Foundation.h>
-#import "NSString-Extensions.h"
-
-#import <string.h>
-#import "GSXMLFunctions.h"
 #import "MMParameter.h"
-
-#define DEFAULT_MIN	100.0
-#define DEFAULT_MAX	1000.0
 
 /*===========================================================================
 

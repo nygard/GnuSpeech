@@ -1,10 +1,6 @@
 #import "TargetList.h"
 
 #import <Foundation/Foundation.h>
-#import "NSString-Extensions.h"
-
-#import "GSXMLFunctions.h"
-#import "MMTarget.h"
 
 /*===========================================================================
 

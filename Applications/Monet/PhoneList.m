@@ -1,7 +1,6 @@
 #import "PhoneList.h"
 
 #import <Foundation/Foundation.h>
-
 #import "MMPosture.h"
 
 @implementation PhoneList
