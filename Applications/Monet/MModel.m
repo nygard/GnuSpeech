@@ -618,72 +618,6 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     return array;
 }
 
-#if 0
-- (NSArray *)rulesUsingEquation:(MMEquation *)anEquation;
-{
-    NSMutableArray *array;
-    int count, index;
-    MMRule *aRule;
-
-    array = [NSMutableArray array];
-    count = [rules count];
-    for (index = 0; index < count; index++) {
-        aRule = [rules objectAtIndex:index];
-        if ([aRule isEquationUsed:anEquation]) {
-            [array addObject:aRule];
-        }
-    }
-
-    return array;
-}
-
-- (NSArray *)transitionsUsingEquation:(MMEquation *)anEquation;
-{
-    NSMutableArray *array;
-    int count, index;
-    MMTransition *aTransition;
-
-    array = [NSMutableArray array];
-    count = [transitions count];
-    for (index = 0; index < count; index++) {
-        aTransition = [transitions objectAtIndex:index];
-        if ([aTransition isEquationUsed:anEquation]) {
-            [array addObject:aTransition];
-        }
-    }
-
-    return array;
-}
-
-- (NSArray *)specialTransitionsUsingEquation:(MMEquation *)anEquation;
-{
-    NSMutableArray *array;
-    int count, index;
-    MMTransition *aTransition;
-
-    array = [NSMutableArray array];
-    count = [specialTransitions count];
-    for (index = 0; index < count; index++) {
-        aTransition = [specialTransitions objectAtIndex:index];
-        if ([aTransition isEquationUsed:anEquation]) {
-            [array addObject:aTransition];
-        }
-    }
-
-    return array;
-}
-
-- (NSAray *)objectUsingEquation:(MMEquation *)anEquation;
-{
-    NSMutableArray *array;
-    MMTransition *aTransition;
-
-    array = [NSMutableArray array];
-    [array addObjectsFromArray:[self rulesUsingEquation:anEquation]];
-    [array addObjectsFromArray:[self transitionsUsingEquation:anEquation]];
-    [array addObjectsFromArray:[self specialTransitionsUsingEquation:anEquation]];
-}
-#endif
 
 - (NSArray *)usageOfTransition:(MMTransition *)aTransition;
 {
@@ -691,37 +625,18 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     unsigned int count, index;
     MMRule *aRule;
 
-    NSLog(@" > %s", _cmd);
-    NSLog(@"aTransition: %p, name: %@", aTransition, [aTransition name]);
-
     array = [NSMutableArray array];
 
     count = [rules count];
-    NSLog(@"count: %u", count);
     for (index = 0; index < count; index++) {
         aRule = [rules objectAtIndex:index];
         if ([aRule isTransitionUsed:aTransition]) {
             [array addObject:[NSString stringWithFormat:@"Rule: %d", index + 1]];
-            NSLog(@"Added rule reference: %@", [array lastObject]);
         }
     }
 
-    NSLog(@"<  %s", _cmd);
-
     return array;
 }
-
-#if 0
-- (NSArray *)usageOfSpecialTransition:(MMTransition *)aTransition;
-{
-    NSMutableArray *array;
-
-    array = [NSMutableArray array];
-    // TODO (2004-03-23): Impelment
-
-    return array;
-}
-#endif
 
 //
 // Archiving
