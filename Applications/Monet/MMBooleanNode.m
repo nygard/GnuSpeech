@@ -13,7 +13,9 @@
     return NO;
 }
 
+//
 // General purpose routines
+//
 
 - (NSString *)expressionString;
 {
@@ -27,11 +29,17 @@
 
 - (void)expressionString:(NSMutableString *)resultString;
 {
+    // Implement in subclasses
 }
 
 - (BOOL)isCategoryUsed:(MMCategory *)aCategory;
 {
     return NO;
+}
+
+- (NSString *)description;
+{
+    return [NSString stringWithFormat:@"<%@>[%p]", NSStringFromClass([self class]), self];
 }
 
 @end

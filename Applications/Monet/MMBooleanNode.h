@@ -13,7 +13,6 @@
 {
 }
 
-// Evaluate yourself
 - (BOOL)evaluateWithCategories:(CategoryList *)categories;
 
 // General purpose routines
@@ -21,5 +20,7 @@
 - (void)expressionString:(NSMutableString *)resultString;
 
 - (BOOL)isCategoryUsed:(MMCategory *)aCategory;
+
+- (NSString *)description;
 
 @end
