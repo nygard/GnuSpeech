@@ -103,14 +103,14 @@
     char tempLabel[25];
     float temp = ([self frame].size.height - 100.0)/14.0;
 
-    PSsetgray(NSLightGray);
+    [[NSColor lightGrayColor] set];
     PSrectfill(51.0, 51.0, [self frame].size.width - 102.0, (temp*2) - 2.0);
     PSrectfill(51.0, [self frame].size.height - 50.0 - (temp*2), [self frame].size.width - 102.0, (temp*2) - 1.0);
     PSstroke();
 
     /* Grayed out (unused) data spaces should be placed here */
 
-    PSsetgray(NSBlack);
+    [[NSColor blackColor] set];
     PSsetlinewidth(2.0);
     PSmoveto(50.0, 50.0);
     PSlineto(50.0, [self frame].size.height - 50.0);
@@ -120,7 +120,7 @@
     PSstroke();
 
     [timesFont set];
-    PSsetgray(NSBlack);
+    [[NSColor blackColor] set];
     PSsetlinewidth(1.0);
 
     for (i = 1; i < 14; i++)
@@ -157,7 +157,7 @@
     for (i = 0; i < 5; i++)
         symbols[i] = [[displayParameters cellAtIndex:i] doubleValue];
 
-    PSsetgray(NSDarkGray);
+    [[NSColor darkGrayColor] set];
     for (i = 0; i < [equationList count]; i++)
     {
         namedList = [equationList objectAtIndex:i];
@@ -190,7 +190,7 @@
         type = DIPHONE;
 
     PSsetlinewidth(2.0);
-    PSsetgray(NSBlack);
+    [[NSColor blackColor] set];
 
     timeScale = ([self frame].size.width - 100.0) / [[displayParameters cellAtIndex:0] floatValue];
     myPoint.y = [self frame].size.height-47.0;

@@ -1,10 +1,6 @@
-
 #import <AppKit/NSView.h>
-#import <AppKit/NSCursor.h>
-#import <AppKit/NSImage.h>
-#import <AppKit/NSFont.h>
-#import <Foundation/NSArray.h>
-#import "ProtoTemplate.h"
+
+@class MonetList, ProtoTemplate;
 
 /*===========================================================================
 
@@ -15,39 +11,40 @@
 =============================================================================
 */
 
-@interface TransitionView:NSView
+@interface TransitionView : NSView
 {
-	id	controller;
+    id controller;
 
-	/* Frame For Display */
-	NSRect totalFrame;
+    /* Frame For Display */
+    NSRect totalFrame;
 
-	id	displayParameters;
+    id displayParameters;
 
-	NSFont	*timesFont;
+    NSFont *timesFont;
 
-	NSImage	*dotMarker;
-	NSImage	*squareMarker;
-	NSImage	*triangleMarker;
-	NSImage	*selectionBox;
+    NSImage *dotMarker;
+    NSImage *squareMarker;
+    NSImage *triangleMarker;
+    NSImage *selectionBox;
 
-	ProtoTemplate *currentTemplate;
+    ProtoTemplate *currentTemplate;
 
-	MonetList	*dummyPhoneList;
-	MonetList	*displayPoints;
-	MonetList	*displaySlopes;
-	MonetList	*selectedPoints;
-	int	cache;
-
+    MonetList *dummyPhoneList;
+    MonetList *displayPoints;
+    MonetList *displaySlopes;
+    MonetList *selectedPoints;
+    int cache;
 }
 
-- initWithFrame:(NSRect)frameRect;
+- (id)initWithFrame:(NSRect)frameRect;
+- (void)dealloc;
+
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 
-- (BOOL) acceptsFirstResponder;
+- (BOOL)acceptsFirstResponder;
 - (BOOL)acceptsFirstMouse:(NSEvent *)theEvent;
 
-- (void)drawRect:(NSRect)rects;
+- (void)drawRect:(NSRect)rect;
 
 - (void)clearView;
 - (void)drawGrid;
@@ -59,14 +56,13 @@
 - (void)setTransition:newTransition;
 
 - (void)mouseDown:(NSEvent *)theEvent;
-- getSlopeInput: aSlopeRatio : (float) startTime : (float) endTime;
-- clickSlopeMarker: (float) row : (float) column : (float *) startTime : (float *) endTime;
+- getSlopeInput:aSlopeRatio:(float)startTime:(float)endTime;
+- clickSlopeMarker:(float)row:(float)column:(float *)startTime:(float *)endTime;
 
 - (BOOL)performKeyEquivalent:(NSEvent *)theEvent;
 - (void)showWindow:(int)otherWindow;
 
 - (void)delete:(id)sender;
-- (void)sortPoints;
 - (void)groupInSlopeRatio:sender;
 
 @end

@@ -10,26 +10,6 @@
 #import "Phone.h"
 #import "StringParser.h"
 
-#ifdef PORTING
-#import <AppKit/NSApplication.h>
-#import <AppKit/NSSlider.h>
-#import <AppKit/NSEvent.h>
-#import <string.h>
-#import <AppKit/NSGraphics.h>
-#ifdef NeXT
-#import <AppKit/psops.h>
-#else
-#import <AppKit/PSOperators.h>
-#endif
-#import <math.h>
-#import <AppKit/NSCursor.h>
-#import <AppKit/NSForm.h>
-#import <AppKit/NSScrollView.h>
-
-#import "ParameterList.h"
-#import "PhoneList.h"
-#endif
-
 @implementation IntonationView
 
 /*===========================================================================
@@ -470,11 +450,11 @@
     [self setFrame:drawFrame];
 
     /* Make an outlined white box for display */
-    PSsetgray(NSWhite);
+    [[NSColor whiteColor] set];
     PSrectfill(0.0, 0.0, [self frame].size.width, [self frame].size.height);
     PSstroke();
 
-    PSsetgray(NSBlack);
+    [[NSColor blackColor] set];
     PSsetlinewidth(2.0);
     PSmoveto(0.0, 5.0);
     PSlineto(0.0, [self frame].size.height-65.0);
@@ -492,7 +472,7 @@
             break;
 
         if ([[eventList objectAtIndex:i] flag]) {
-            PSsetgray(NSBlack);
+            [[NSColor blackColor] set];
             PSmoveto(currentX-5.0, [self frame].size.height-62.0);
             currentPhone = [eventList getPhoneAtIndex:phoneIndex++];
             if (currentPhone)
@@ -513,7 +493,7 @@
         drawFrame.size.height = 30.0;
         drawFrame.size.width = (float)rule->duration / timeScale;
         NSDrawWhiteBezel(drawFrame , drawFrame);
-        PSsetgray(NSBlack);
+        [[NSColor blackColor] set];
         PSmoveto(currentX+(float)rule->duration/(3*timeScale), [self frame].size.height-21.0);
         sprintf(string, "%d", rule->number);
         PSshow(string);
@@ -523,7 +503,7 @@
         PSshow(string);
         PSstroke();
 
-        PSsetgray(NSDarkGray);
+        [[NSColor darkGrayColor] set];
         PSmoveto((float)rule->beat/timeScale, [self frame].size.height-62.0);
         PSlineto((float)rule->beat/timeScale, 5.0);
         PSstroke();
@@ -540,7 +520,7 @@
             break;
     }
 
-    PSsetgray(NSLightGray);
+    [[NSColor lightGrayColor] set];
     for (i = 0; i< (int)(30.0/increment[j]); i++) {
         PSmoveto(0.0, ((float)i*increment[j]*([self frame].size.height-70.0))/30.0 + 5.0);
         PSlineto([self frame].size.width-2.0, ((float)i*increment[j]*([self frame].size.height-70.0))/30.0 + 5.0);
@@ -548,7 +528,7 @@
 
     PSstroke();
 
-    PSsetgray(NSBlack);
+    [[NSColor blockColor] set];
     PSmoveto(0.0, 5.0);
     for (i = 0; i < [intonationPoints count]; i++) {
         currentX = (float) [[intonationPoints objectAtIndex:i] absoluteTime]/timeScale;
@@ -822,7 +802,7 @@
         NSLog(@"x2 = %f y2 = %f m2 = %f", x2, y2, m2);
         NSLog(@"a = %f b = %f c = %f d = %f", a, b, c, d);
 
-        PSsetgray(NSBlack);
+        [[NSColor blackColor] set];
         xx = (float)x1 / timeScale;
         yy = ((float)y1 * ([self frame].size.height-70.0))/30.0 +5.0;
         PSmoveto(xx,yy);
