@@ -1461,8 +1461,13 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"parameter" class:[MMParameter class] delegate:self addObjectSelector:@selector(addMetaParameter:)];
         [(MXMLParser *)parser pushDelegate:arrayDelegate];
         [arrayDelegate release];
-#if 0
     } else if ([elementName isEqualToString:@"symbols"]) {
+        MXMLArrayDelegate *arrayDelegate;
+
+        arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"symbol" class:[MMSymbol class] delegate:self addObjectSelector:@selector(addSymbol:)];
+        [(MXMLParser *)parser pushDelegate:arrayDelegate];
+        [arrayDelegate release];
+#if 0
     } else if ([elementName isEqualToString:@"postures"]) {
     } else if ([elementName isEqualToString:@"equations"]) {
     } else if ([elementName isEqualToString:@"transitions"]) {
