@@ -193,19 +193,16 @@ static NSImage *_selectionBox = nil;
     int sectionHeight;
     NSBezierPath *bezierPath;
     NSRect bounds, rect;
-    float temp;
 
     bounds = NSIntegralRect([self bounds]);
     sectionHeight = (bounds.size.height - 2 * BOTTOM_MARGIN) / 14;
-    temp = (bounds.size.height - 2 * BOTTOM_MARGIN) / 14.0;
-    NSLog(@"sectionHeight: %d, temp: %f, 14 * (temp - sectionHeight): %f", sectionHeight, temp, 14.0 * (temp - sectionHeight));
 
     [[NSColor lightGrayColor] set];
-    rect = NSMakeRect(LEFT_MARGIN + 1.0, BOTTOM_MARGIN + 1.0, bounds.size.width - 2 * (LEFT_MARGIN + 1), sectionHeight * 2 - 2.0);
+    rect = NSMakeRect(LEFT_MARGIN + 1.0, BOTTOM_MARGIN + 1.0, bounds.size.width - 2 * (LEFT_MARGIN + 1), 2 * sectionHeight);
     NSRectFill(rect);
 
-    rect = NSMakeRect(LEFT_MARGIN + 1.0, bounds.size.height - BOTTOM_MARGIN - (sectionHeight * 2),
-                      bounds.size.width - 2 * (LEFT_MARGIN + 1), (sectionHeight * 2) - 1.0);
+    rect = NSMakeRect(LEFT_MARGIN + 1.0, BOTTOM_MARGIN + 1.0 + 12 * sectionHeight,
+                      bounds.size.width - 2 * (LEFT_MARGIN + 1), 2 * sectionHeight);
     NSRectFill(rect);
 
     /* Grayed out (unused) data spaces should be placed here */
@@ -213,7 +210,7 @@ static NSImage *_selectionBox = nil;
     [[NSColor blackColor] set];
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:2];
-    [bezierPath appendBezierPathWithRect:NSMakeRect(LEFT_MARGIN, BOTTOM_MARGIN, bounds.size.width - 2 * LEFT_MARGIN, bounds.size.height - 2 * BOTTOM_MARGIN)];
+    [bezierPath appendBezierPathWithRect:NSMakeRect(LEFT_MARGIN, BOTTOM_MARGIN, bounds.size.width - 2 * LEFT_MARGIN, 14 * sectionHeight)];
     [bezierPath stroke];
     [bezierPath release];
 
