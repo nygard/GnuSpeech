@@ -1733,6 +1733,84 @@
 			settings = {
 			};
 		};
+		01B2014005F82F3800C1F65D = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
+			path = dotMarker.tiff;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01B2014105F82F3800C1F65D = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
+			path = squareMarker.tiff;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01B2014205F82F3800C1F65D = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
+			path = triangleMarker.tiff;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01B2014305F82F3800C1F65D = {
+			fileRef = 01B2014005F82F3800C1F65D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01B2014405F82F3800C1F65D = {
+			fileRef = 01B2014105F82F3800C1F65D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01B2014505F82F3800C1F65D = {
+			fileRef = 01B2014205F82F3800C1F65D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01B2014A05F82F3D00C1F65D = {
+			children = (
+				01B2016805F8305A00C1F65D,
+				01B2015505F82F9B00C1F65D,
+				01B2014005F82F3800C1F65D,
+				01B2014105F82F3800C1F65D,
+				01B2014205F82F3800C1F65D,
+			);
+			isa = PBXGroup;
+			name = Images;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01B2015505F82F9B00C1F65D = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.jpeg;
+			path = monet.jpg;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01B2015605F82F9B00C1F65D = {
+			fileRef = 01B2015505F82F9B00C1F65D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01B2016805F8305A00C1F65D = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.icns;
+			path = Monet.icns;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01B2016905F8305A00C1F65D = {
+			fileRef = 01B2016805F8305A00C1F65D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		01B2FEDB05F5B39100C1F65D = {
 			fileRef = 0195DB3A05F46E4E006D8386;
 			isa = PBXBuildFile;
@@ -2074,6 +2152,7 @@
 		};
 		29B97317FDCFA39411CA2CEA = {
 			children = (
+				01B2014A05F82F3D00C1F65D,
 				01B2003D05F6E11300C1F65D,
 				8D1107310486CEB800E47090,
 				089C165CFE840E0CC02AAC07,
@@ -2315,6 +2394,11 @@
 				8D11072A0486CEB800E47090,
 				8D11072B0486CEB800E47090,
 				01B2003E05F6E11300C1F65D,
+				01B2014305F82F3800C1F65D,
+				01B2014405F82F3800C1F65D,
+				01B2014505F82F3800C1F65D,
+				01B2015605F82F9B00C1F65D,
+				01B2016905F8305A00C1F65D,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

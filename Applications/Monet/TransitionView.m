@@ -30,16 +30,15 @@
 
     cache = 100000;
 
-    self = [super initWithFrame:frameRect];
     [self allocateGState];
 
     totalFrame = NSMakeRect(0.0, 0.0, 700.0, 380.0);
-    dotMarker = [NSImage imageNamed:@"dotMarker.tiff"];
-    squareMarker = [NSImage imageNamed:@"squareMarker.tiff"];
-    triangleMarker = [NSImage imageNamed:@"triangleMarker.tiff"];
-    selectionBox = [NSImage imageNamed:@"selectionBox.tiff"];
+    dotMarker = [[NSImage imageNamed:@"dotMarker.tiff"] retain];
+    squareMarker = [[NSImage imageNamed:@"squareMarker.tiff"] retain];
+    triangleMarker = [[NSImage imageNamed:@"triangleMarker.tiff"] retain];
+    selectionBox = [[NSImage imageNamed:@"selectionBox.tiff"] retain];
 
-    timesFont = [NSFont fontWithName:@"Times-Roman" size:12];
+    timesFont = [[NSFont fontWithName:@"Times-Roman" size:12] retain];
 
     currentTemplate = nil;
 
@@ -52,6 +51,11 @@
 
 - (void)dealloc;
 {
+    [dotMarker release];
+    [squareMarker release];
+    [triangleMarker release];
+    [selectionBox release];
+    [timesFont release];
     [selectedPoints release];
 
     [super dealloc];

@@ -4,14 +4,48 @@
             CLASS = AppController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                dataBrowser = BrowserManager; 
                 intonationView = IntonationView; 
+                phonesWindow = NSWindow; 
                 prototypeManager = PrototypeManager; 
+                prototypeWindow = NSWindow; 
                 ruleManager = RuleManager; 
+                ruleManagerWindow = NSWindow; 
+                ruleParserWindow = NSWindow; 
                 specialTransitionBuilder = TransitionView; 
+                specialWindow = NSWindow; 
                 stringParser = StringParser; 
+                synthParmWindow = NSWindow; 
+                synthesisWindow = NSWindow; 
                 transitionBuilder = TransitionView; 
+                transitionWindow = NSWindow; 
             }; 
             SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {
+                add = id; 
+                browserDoubleHit = id; 
+                browserHit = id; 
+                copy = id; 
+                cut = id; 
+                paste = id; 
+                remove = id; 
+                rename = id; 
+                setCurrentList = id; 
+            }; 
+            CLASS = BrowserManager; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                addButton = NSButton; 
+                browser = NSBrowser; 
+                controller = MyController; 
+                nameField = NSForm; 
+                popUpList = NSPopUpButton; 
+                removeButton = NSButton; 
+                renameButton = NSButton; 
+            }; 
+            SUPERCLASS = NSResponder; 
         }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {

@@ -1,6 +1,7 @@
 #import <AppKit/NSView.h>
 
 @class MonetList, ProtoTemplate;
+@class MyController;
 
 /*===========================================================================
 
@@ -13,7 +14,7 @@
 
 @interface TransitionView : NSView
 {
-    id controller;
+    MyController *controller;
 
     /* Frame For Display */
     NSRect totalFrame;

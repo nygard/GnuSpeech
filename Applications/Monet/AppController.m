@@ -121,21 +121,21 @@
     }
 
     [ruleManager applicationDidFinishLaunching:aNotification];
-    [transitionBuilder applicationDidFinishLaunching:aNotification];
-    [specialTransitionBuilder applicationDidFinishLaunching:aNotification];
-    //[eventListView applicationDidFinishLaunching:aNotification];
-    [intonationView applicationDidFinishLaunching:aNotification];
+    [transitionBuilder applicationDidFinishLaunching:aNotification]; // not connected yet
+    [specialTransitionBuilder applicationDidFinishLaunching:aNotification]; // not connected yet
+    //[eventListView applicationDidFinishLaunching:aNotification]; // not connected yet
+    [intonationView applicationDidFinishLaunching:aNotification]; // not connected yet
 
-    [stringParser applicationDidFinishLaunching:aNotification];
+    [stringParser applicationDidFinishLaunching:aNotification]; // not connected yet
 
-    //[transitionWindow setFrameAutosaveName:@"TransitionWindow"];
-    //[ruleManagerWindow setFrameAutosaveName:@"RuleManagerWindow"];
-    //[phonesWindow setFrameAutosaveName:@"DataEntryWindow"];
-    //[ruleParserWindow setFrameAutosaveName:@"RuleParserWindow"];
-    //[prototypeWindow setFrameAutosaveName:@"PrototypeManagerWindow"];
-    //[synthesisWindow setFrameAutosaveName:@"SynthesisWindow"];
-    //[specialWindow setFrameAutosaveName:@"SpecialTransitionWindow"];
-    //[synthParmWindow setFrameAutosaveName:@"SynthParameterWindow"];
+    [transitionWindow setFrameAutosaveName:@"TransitionWindow"];
+    [ruleManagerWindow setFrameAutosaveName:@"RuleManagerWindow"];
+    [phonesWindow setFrameAutosaveName:@"DataEntryWindow"];
+    [ruleParserWindow setFrameAutosaveName:@"RuleParserWindow"];
+    [prototypeWindow setFrameAutosaveName:@"PrototypeManagerWindow"];
+    [synthesisWindow setFrameAutosaveName:@"SynthesisWindow"];
+    [specialWindow setFrameAutosaveName:@"SpecialTransitionWindow"];
+    [synthParmWindow setFrameAutosaveName:@"SynthParameterWindow"];
 
     NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }

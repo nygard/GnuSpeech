@@ -1,5 +1,5 @@
 //
-// $Id: AppController.h,v 1.5 2004/03/05 03:38:14 nygard Exp $
+// $Id: AppController.h,v 1.6 2004/03/05 04:00:57 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -37,14 +37,14 @@
     //DefaultMgr *defaultManager;
 
     /* Window pointers */
-    //IBOutlet NSWindow *transitionWindow;
-    //IBOutlet NSWindow *ruleManagerWindow;
-    //IBOutlet NSWindow *phonesWindow;
-    //IBOutlet NSWindow *ruleParserWindow;
-    //IBOutlet NSWindow *prototypeWindow;
-    //IBOutlet NSWindow *synthesisWindow;
-    //IBOutlet NSWindow *specialWindow;
-    //IBOutlet NSWindow *synthParmWindow;
+    IBOutlet NSWindow *transitionWindow;
+    IBOutlet NSWindow *ruleManagerWindow;
+    IBOutlet NSWindow *phonesWindow;
+    IBOutlet NSWindow *ruleParserWindow;
+    IBOutlet NSWindow *prototypeWindow;
+    IBOutlet NSWindow *synthesisWindow;
+    IBOutlet NSWindow *specialWindow;
+    IBOutlet NSWindow *synthParmWindow;
 }
 
 - (id)init;
