@@ -1,3 +1,18 @@
+<!--
+   Monet XML file format version 1.0 DTD (This is still under development.)
+
+   This is a part of GnuSpeech.
+
+   Namespace = http://
+
+   This DTD module is identifier by the PUBLIC and SYSTEM identifiers:
+   (These haven't been chosen yet.  It could be something like the following.)
+
+   PUBLIC "-//GNU-test//DTD Monet XML 1.0//EN"
+   SYSTEM "http://www.fsf.org/some/path/to/DTDs/monet-v1.dtd"
+
+-->
+
 <!ELEMENT root (categories?, parameters?, meta-parameters?, symbols?, postures?, equations, transitions, special-transitions, rules?)>
 <!ATTLIST root version CDATA #REQUIRED>
 
