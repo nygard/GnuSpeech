@@ -547,7 +547,7 @@
 				0195DB2305F46E4E006D8386,
 			);
 			isa = PBXGroup;
-			name = Compatibility;
+			name = "Mathematical Expressions";
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1138,33 +1138,46 @@
 			settings = {
 			};
 		};
-		0165F8CB06BECEB400C6D2C9 = {
+		0165F91006BEDA7D00C6D2C9 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = RuleList.h;
+			name = RuleList.h;
+			path = Compatibility/RuleList.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		0165F8CC06BECEB400C6D2C9 = {
+		0165F91106BEDA7D00C6D2C9 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = RuleList.m;
+			name = RuleList.m;
+			path = Compatibility/RuleList.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		0165F8CD06BECEB400C6D2C9 = {
-			fileRef = 0165F8CB06BECEB400C6D2C9;
+		0165F91206BEDA7D00C6D2C9 = {
+			fileRef = 0165F91006BEDA7D00C6D2C9;
 			isa = PBXBuildFile;
 			settings = {
 			};
 		};
-		0165F8CE06BECEB400C6D2C9 = {
-			fileRef = 0165F8CC06BECEB400C6D2C9;
+		0165F91306BEDA7D00C6D2C9 = {
+			fileRef = 0165F91106BEDA7D00C6D2C9;
 			isa = PBXBuildFile;
 			settings = {
 			};
+		};
+		0165F91406BEDA8400C6D2C9 = {
+			children = (
+				0165F91006BEDA7D00C6D2C9,
+				0165F91106BEDA7D00C6D2C9,
+			);
+			isa = PBXGroup;
+			name = "Old Saved File Compatibility";
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
 		};
 		016FACCE065D6FCF003ED09E = {
 			fileEncoding = 30;
@@ -2288,8 +2301,6 @@
 				01646CAD0646DFC100C7504D,
 				0195D7D705F3BC4C006D8386,
 				0195D7D805F3BC4C006D8386,
-				0165F8CB06BECEB400C6D2C9,
-				0165F8CC06BECEB400C6D2C9,
 				0195D8B505F3D240006D8386,
 				0195D8B605F3D240006D8386,
 				0195D89005F3CADB006D8386,
@@ -3253,6 +3264,7 @@
 			children = (
 				016FACD7065D768C003ED09E,
 				016FACD6065D7683003ED09E,
+				0165F91406BEDA8400C6D2C9,
 				01B2FFAB05F68A2000C1F65D,
 				0195D8DC05F3D3EE006D8386,
 				0195D8E005F3D3F9006D8386,
@@ -3670,7 +3682,7 @@
 				01491E6A06A4836000879FE1,
 				01491E6C06A4836000879FE1,
 				01491E6E06A4836000879FE1,
-				0165F8CD06BECEB400C6D2C9,
+				0165F91206BEDA7D00C6D2C9,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3804,7 +3816,7 @@
 				01491E6906A4836000879FE1,
 				01491E6B06A4836000879FE1,
 				01491E6D06A4836000879FE1,
-				0165F8CE06BECEB400C6D2C9,
+				0165F91306BEDA7D00C6D2C9,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
