@@ -115,7 +115,7 @@
   <special-transitions>
   </special-transitions>
   <rules>
-    <!-- 1 -->
+    <!-- Rule: 1 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>phone</boolean-expression>

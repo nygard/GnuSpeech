@@ -635,7 +635,7 @@
 
     if (aNumber != -1) {
         [resultString indentToLevel:level];
-        [resultString appendFormat:@"<!-- %d -->\n", aNumber];
+        [resultString appendFormat:@"<!-- Rule: %d -->\n", aNumber];
     }
 
     [resultString indentToLevel:level];

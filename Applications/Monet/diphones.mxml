@@ -6548,7 +6548,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
     </transition-group>
   </special-transitions>
   <rules>
-    <!-- 1 -->
+    <!-- Rule: 1 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>silence</boolean-expression>
@@ -6585,7 +6585,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark2" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 2 -->
+    <!-- Rule: 2 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>(vocoid or glide)</boolean-expression>
@@ -6622,7 +6622,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark2" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 3 -->
+    <!-- Rule: 3 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>(vocoid or glide)</boolean-expression>
@@ -6659,7 +6659,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark2" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 4 -->
+    <!-- Rule: 4 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>(((((vocoid or glide) or stopped) or fricative) or nasal) or silence)</boolean-expression>
@@ -6696,7 +6696,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark2" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 5 -->
+    <!-- Rule: 5 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>silence</boolean-expression>
@@ -6732,7 +6732,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark2" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 6 -->
+    <!-- Rule: 6 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>((((vocoid or glide) or stopped) or fricative) or nasal)</boolean-expression>
@@ -6769,7 +6769,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark2" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 7 -->
+    <!-- Rule: 7 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>silence</boolean-expression>
@@ -6806,7 +6806,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark2" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 8 -->
+    <!-- Rule: 8 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>((((vocoid or glide) or nasal) or stopped) or fricative)</boolean-expression>
@@ -6843,7 +6843,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark2" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 9 -->
+    <!-- Rule: 9 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>((((vocoid or glide) or nasal) or stopped) or fricative)</boolean-expression>
@@ -6880,7 +6880,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark2" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 10 -->
+    <!-- Rule: 10 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence)</boolean-expression>
@@ -6916,7 +6916,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark2" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 11 -->
+    <!-- Rule: 11 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence)</boolean-expression>
@@ -6955,7 +6955,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark2" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 12 -->
+    <!-- Rule: 12 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence)</boolean-expression>
@@ -6991,7 +6991,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark2" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 13 -->
+    <!-- Rule: 13 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence)</boolean-expression>
@@ -7027,7 +7027,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark2" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 14 -->
+    <!-- Rule: 14 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence)</boolean-expression>
@@ -7063,7 +7063,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark2" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 15 -->
+    <!-- Rule: 15 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence)</boolean-expression>
@@ -7101,7 +7101,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark2" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 16 -->
+    <!-- Rule: 16 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence)</boolean-expression>
@@ -7139,7 +7139,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark2" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 17 -->
+    <!-- Rule: 17 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence)</boolean-expression>
@@ -7177,7 +7177,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark2" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 18 -->
+    <!-- Rule: 18 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence)</boolean-expression>
@@ -7217,7 +7217,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark2" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 19 -->
+    <!-- Rule: 19 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence)</boolean-expression>
@@ -7257,7 +7257,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark2" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 20 -->
+    <!-- Rule: 20 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence)</boolean-expression>
@@ -7297,7 +7297,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark2" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 21 -->
+    <!-- Rule: 21 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence)</boolean-expression>
@@ -7337,7 +7337,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark2" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 22 -->
+    <!-- Rule: 22 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence)</boolean-expression>
@@ -7377,7 +7377,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark2" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 23 -->
+    <!-- Rule: 23 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence)</boolean-expression>
@@ -7417,7 +7417,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark2" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 24 -->
+    <!-- Rule: 24 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>(((((vocoid or glide) or nasal) or stopped) or fricative) or silence)</boolean-expression>
@@ -7457,7 +7457,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark2" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 25 -->
+    <!-- Rule: 25 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>((((vocoid or glide) or nasal) or fricative) or silence)</boolean-expression>
@@ -7497,7 +7497,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark2" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 26 -->
+    <!-- Rule: 26 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>((((vocoid or glide) or nasal) or fricative) or silence)</boolean-expression>
@@ -7538,7 +7538,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark2" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 27 -->
+    <!-- Rule: 27 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>((((vocoid or glide) or nasal) or fricative) or silence)</boolean-expression>
@@ -7579,7 +7579,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark2" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 28 -->
+    <!-- Rule: 28 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>((((vocoid or glide) or nasal) or fricative) or silence)</boolean-expression>
@@ -7620,7 +7620,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark2" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 29 -->
+    <!-- Rule: 29 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>((((vocoid or glide) or nasal) or fricative) or silence)</boolean-expression>
@@ -7661,7 +7661,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark2" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 30 -->
+    <!-- Rule: 30 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>silence</boolean-expression>
@@ -7693,7 +7693,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark2" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 31 -->
+    <!-- Rule: 31 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>phone</boolean-expression>
@@ -7725,7 +7725,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark2" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 32 -->
+    <!-- Rule: 32 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>uh</boolean-expression>
@@ -7755,7 +7755,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark1" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 33 -->
+    <!-- Rule: 33 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>uh'</boolean-expression>
@@ -7785,7 +7785,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark1" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 34 -->
+    <!-- Rule: 34 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>e</boolean-expression>
@@ -7815,7 +7815,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark1" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 35 -->
+    <!-- Rule: 35 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>e'</boolean-expression>
@@ -7845,7 +7845,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark1" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 36 -->
+    <!-- Rule: 36 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>o</boolean-expression>
@@ -7875,7 +7875,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark1" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 37 -->
+    <!-- Rule: 37 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>o'</boolean-expression>
@@ -7905,7 +7905,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark1" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 38 -->
+    <!-- Rule: 38 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>ah</boolean-expression>
@@ -7935,7 +7935,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark1" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 39 -->
+    <!-- Rule: 39 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>ah'</boolean-expression>
@@ -7965,7 +7965,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark1" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 40 -->
+    <!-- Rule: 40 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>ah</boolean-expression>
@@ -7995,7 +7995,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark1" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 41 -->
+    <!-- Rule: 41 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>ah'</boolean-expression>
@@ -8025,7 +8025,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark1" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 42 -->
+    <!-- Rule: 42 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>(vocoid or glide)</boolean-expression>
@@ -8055,7 +8055,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark1" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 43 -->
+    <!-- Rule: 43 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>silence</boolean-expression>
@@ -8085,7 +8085,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark1" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 44 -->
+    <!-- Rule: 44 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>phone</boolean-expression>
@@ -8115,7 +8115,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark1" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 45 -->
+    <!-- Rule: 45 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>nasal</boolean-expression>
@@ -8145,7 +8145,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark1" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 46 -->
+    <!-- Rule: 46 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>phone</boolean-expression>
@@ -8175,7 +8175,7 @@ A smoothly fitted null triphone is to be found as "StopGlide" under "Carre".</co
         <symbol-equation name="mark1" equation="RuleDuration"/>
       </expression-symbols>
     </rule>
-    <!-- 47 -->
+    <!-- Rule: 47 -->
     <rule>
       <boolean-expressions>
         <boolean-expression>phone</boolean-expression>
