@@ -1,5 +1,5 @@
 //
-// $Id: ApplicationDelegate.h,v 1.1 2004/04/29 01:02:53 nygard Exp $
+// $Id: ApplicationDelegate.h,v 1.2 2004/04/29 01:07:17 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -9,6 +9,8 @@
 
 @interface ApplicationDelegate : NSObject
 {
+    IBOutlet NSTextView *inputTextView;
+    IBOutlet NSTextView *outputTextView;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification;

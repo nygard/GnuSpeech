@@ -7,4 +7,13 @@
 
 @implementation TTSParser
 
+- (void)parseString:(NSString *)aString;
+{
+    NSLog(@" > %s", _cmd);
+
+    NSLog(@"aString: %@", aString);
+
+    NSLog(@"<  %s", _cmd);
+}
+
 @end

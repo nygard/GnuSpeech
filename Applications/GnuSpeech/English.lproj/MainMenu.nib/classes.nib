@@ -1,6 +1,12 @@
 {
     IBClasses = (
-        {CLASS = ApplicationDelegate; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {parseText = id; }; 
+            CLASS = ApplicationDelegate; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {inputTextView = NSTextView; outputTextView = NSTextView; }; 
+            SUPERCLASS = NSObject; 
+        }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
     ); 
     IBVersion = 1; 

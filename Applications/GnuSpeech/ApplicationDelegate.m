@@ -4,6 +4,7 @@
 #import "ApplicationDelegate.h"
 
 #import <Foundation/Foundation.h>
+#import "TTSParser.h"
 
 @implementation ApplicationDelegate
 
@@ -15,7 +16,18 @@
 
 - (IBAction)parseText:(id)sender;
 {
+    NSString *inputString;
+    TTSParser *parser;
+
     NSLog(@" > %s", _cmd);
+
+    inputString = [inputTextView string];
+    NSLog(@"inputString: %@", inputString);
+
+    parser = [[TTSParser alloc] init];
+    [parser parseString:inputString];
+    [parser release];
+
     NSLog(@"<  %s", _cmd);
 }
 

@@ -1,5 +1,5 @@
 //
-// $Id: TTSParser.h,v 1.1 2004/04/29 01:02:54 nygard Exp $
+// $Id: TTSParser.h,v 1.2 2004/04/29 01:07:17 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -10,5 +10,7 @@
 @interface TTSParser : NSObject
 {
 }
+
+- (void)parseString:(NSString *)aString;
 
 @end
