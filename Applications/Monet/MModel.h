@@ -1,5 +1,5 @@
 //
-// $Id: MModel.h,v 1.31 2004/04/22 19:00:18 nygard Exp $
+// $Id: MModel.h,v 1.32 2004/04/23 00:19:08 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -7,7 +7,7 @@
 
 #import <Foundation/NSObject.h>
 
-@class CategoryList, MonetList, ParameterList, PhoneList, RuleList, SymbolList;
+@class CategoryList, MonetList, NamedList, ParameterList, PhoneList, RuleList, SymbolList;
 @class MMCategory, MMEquation, MMParameter, MMPosture, MMRule, MMSymbol, MMSynthesisParameters, MMTransition;
 
 extern NSString *MCategoryInUseException;
@@ -79,6 +79,10 @@ extern NSString *MCategoryInUseException;
 - (void)removePosture:(MMPosture *)aPosture;
 - (void)sortPostures;
 - (MMPosture *)postureWithName:(NSString *)aName;
+
+- (void)addEquationGroup:(NamedList *)newGroup;
+- (void)addTransitionGroup:(NamedList *)newGroup;
+- (void)addSpecialTransitionGroup:(NamedList *)newGroup;
 
 - (MMEquation *)findEquationList:(NSString *)aListName named:(NSString *)anEquationName;
 - (void)findList:(int *)listIndex andIndex:(int *)equationIndex ofEquation:(MMEquation *)anEquation;

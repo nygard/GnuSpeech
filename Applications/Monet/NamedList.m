@@ -1,10 +1,15 @@
 #import "NamedList.h"
 
 #import <Foundation/Foundation.h>
+#import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
+#import "MMEquation.h"
 #import "MMTarget.h" // Just to get -appendXMLToString:level:, this is just a quick hack
+#import "MMTransition.h"
 
 #import "GSXMLFunctions.h"
+#import "MXMLParser.h"
+#import "MXMLPCDataDelegate.h"
 
 /*===========================================================================
 
@@ -152,5 +157,50 @@
         [anObject setGroup:self];
 }
 
+- (id)initWithXMLAttributes:(NSDictionary *)attributes;
+{
+    if ([self init] == nil)
+        return nil;
+
+    [self setName:[attributes objectForKey:@"name"]];
+
+    return self;
+}
+
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
+{
+    if ([elementName isEqualToString:@"comment"]) {
+        MXMLPCDataDelegate *newDelegate;
+
+        newDelegate = [[MXMLPCDataDelegate alloc] initWithElementName:elementName delegate:self setSelector:@selector(setComment:)];
+        [(MXMLParser *)parser pushDelegate:newDelegate];
+        [newDelegate release];
+    } else if ([elementName isEqualToString:@"equation"]) {
+        MMEquation *newDelegate;
+
+        newDelegate = [[MMEquation alloc] initWithXMLAttributes:attributeDict];
+        [self addObject:newDelegate];
+
+        // Set the formula after adding it to the group, so that it has access to the model for the symbols
+        [newDelegate setFormulaString:[attributeDict objectForKey:@"formula"]];
+        [(MXMLParser *)parser pushDelegate:newDelegate];
+        [newDelegate release];
+    } else if ([elementName isEqualToString:@"transition"]) {
+        MMTransition *newDelegate;
+
+        newDelegate = [[MMTransition alloc] initWithXMLAttributes:attributeDict];
+        [self addObject:newDelegate];
+        [(MXMLParser *)parser pushDelegate:newDelegate];
+        [newDelegate release];
+    } else {
+        NSLog(@"%@, Unknown element: '%@', skipping", [self shortDescription], elementName);
+        [(MXMLParser *)parser skipTree];
+    }
+}
+
+- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
+{
+    [(MXMLParser *)parser popDelegate];
+}
 
 @end

@@ -5,7 +5,10 @@
 #import "NSString-Extensions.h"
 
 #import "FormulaExpression.h"
+#import "FormulaParser.h"
 #import "GSXMLFunctions.h"
+#import "MXMLParser.h"
+#import "MXMLPCDataDelegate.h"
 #import "NamedList.h"
 
 @implementation MMEquation
@@ -101,6 +104,27 @@
     expression = [newExpression retain];
 }
 
+- (void)setFormulaString:(NSString *)formulaString;
+{
+#if 0
+    FormulaParser *formulaParser;
+    FormulaExpression *result;
+    NSString *errorString;
+
+    formulaParser = [[FormulaParser alloc] init];
+    [formulaParser setSymbolList:[[self model] symbols]];
+
+    result = [formulaParser parseString:formulaString];
+    [self setExpression:result];
+
+    errorString = [formulaParser errorMessage];
+    if ([errorString length] > 0)
+        NSLog(@"Warning: error parsing formula: %@", formulaString);
+
+    [formulaParser release];
+#endif
+}
+
 - (double)evaluate:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag;
 {
     if (newCacheTag != cacheTag) {
@@ -180,6 +204,37 @@
 - (NSString *)equationPath;
 {
     return [NSString stringWithFormat:@"%@:%@", [[self group] name], name];
+}
+
+- (id)initWithXMLAttributes:(NSDictionary *)attributes;
+{
+    if ([self init] == nil)
+        return nil;
+
+    [self setName:[attributes objectForKey:@"name"]];
+
+    NSLog(@"formula: %@", [attributes objectForKey:@"formula"]);
+
+    return self;
+}
+
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
+{
+    if ([elementName isEqualToString:@"comment"]) {
+        MXMLPCDataDelegate *newDelegate;
+
+        newDelegate = [[MXMLPCDataDelegate alloc] initWithElementName:elementName delegate:self setSelector:@selector(setComment:)];
+        [(MXMLParser *)parser pushDelegate:newDelegate];
+        [newDelegate release];
+    } else {
+        NSLog(@"%@, Unknown element: '%@', skipping", [self shortDescription], elementName);
+        [(MXMLParser *)parser skipTree];
+    }
+}
+
+- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
+{
+    [(MXMLParser *)parser popDelegate];
 }
 
 @end

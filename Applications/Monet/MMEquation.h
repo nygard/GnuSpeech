@@ -40,6 +40,8 @@
 - (FormulaExpression *)expression;
 - (void)setExpression:(FormulaExpression *)newExpression;
 
+- (void)setFormulaString:(NSString *)formulaString;
+
 - (double)evaluate:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag;
 - (double)evaluate:(double *)ruleSymbols phones:phones andCacheWith:(int)newCacheTag;
 - (double)cacheValue;
@@ -51,5 +53,9 @@
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 
 - (NSString *)equationPath;
+
+- (id)initWithXMLAttributes:(NSDictionary *)attributes;
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
+- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 
 @end

@@ -550,6 +550,21 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     return nil;
 }
 
+- (void)addEquationGroup:(NamedList *)newGroup;
+{
+    [equations addObject:newGroup];
+}
+
+- (void)addTransitionGroup:(NamedList *)newGroup;
+{
+    [transitions addObject:newGroup];
+}
+
+- (void)addSpecialTransitionGroup:(NamedList *)newGroup;
+{
+    [specialTransitions addObject:newGroup];
+}
+
 // TODO (2004-03-06): Find equation named "named" in list named "list"
 // Change to findEquationNamed:(NSString *)anEquationName inList:(NSString *)aListName;
 // TODO (2004-03-06): Merge these three sets of methods, since they're practically identical.
@@ -1474,10 +1489,25 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"posture" class:[MMPosture class] delegate:self addObjectSelector:@selector(addPosture:)];
         [(MXMLParser *)parser pushDelegate:arrayDelegate];
         [arrayDelegate release];
-#if 0
     } else if ([elementName isEqualToString:@"equations"]) {
+        MXMLArrayDelegate *arrayDelegate;
+
+        arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"equation-group" class:[NamedList class] delegate:self addObjectSelector:@selector(addEquationGroup:)];
+        [(MXMLParser *)parser pushDelegate:arrayDelegate];
+        [arrayDelegate release];
     } else if ([elementName isEqualToString:@"transitions"]) {
+        MXMLArrayDelegate *arrayDelegate;
+
+        arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"transition-group" class:[NamedList class] delegate:self addObjectSelector:@selector(addTransitionGroup:)];
+        [(MXMLParser *)parser pushDelegate:arrayDelegate];
+        [arrayDelegate release];
     } else if ([elementName isEqualToString:@"special-transitions"]) {
+        MXMLArrayDelegate *arrayDelegate;
+
+        arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"transition-group" class:[NamedList class] delegate:self addObjectSelector:@selector(addSpecialTransitionGroup:)];
+        [(MXMLParser *)parser pushDelegate:arrayDelegate];
+        [arrayDelegate release];
+#if 0
     } else if ([elementName isEqualToString:@"rules"]) {
 #endif
     } else {
