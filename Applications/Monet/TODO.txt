@@ -20,6 +20,15 @@
     - I think it should be checking "j" for -1 value.
 - it looks like I'm getting different results when I load MonetBlank.monet twice in a row...
 - I can't load "Play2.monet".  It looks like there's a point encoded as "di" instead of "ddii".
+- I think -[PointInspector browserHit:] was wrong with:
+                [tempProto findEquation:listIndex andIndex:    index];
+                temp = tempProto;
+                [currentPoint setExpression:temp];
+
+  I think it should be this:
+                temp = [tempProto findEquation:listIndex andIndex:    index];
+                [currentPoint setExpression:temp];
+
 
 
 

@@ -27,7 +27,7 @@
         [mainInspector setPopUpListView:popUpListView];
         [self setUpWindow:popUpList];
     } else if ([point count] == 1) {
-        currentPoint = [point objectAtIndex: 0];
+        currentPoint = [point objectAtIndex:0];
         [mainInspector setPopUpListView:popUpListView];
         [self setUpWindow:popUpList];
     } else {
@@ -115,14 +115,14 @@
 - (IBAction)browserHit:(id)sender;
 {
     int listIndex, index;
-    PrototypeManager *tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
+    PrototypeManager *prototypeManager = NXGetNamedObject(@"prototypeManager", NSApp);
     id temp;
 
     if ([sender selectedColumn] == 1) {
         listIndex = [[sender matrixInColumn:0] selectedRow];
         index = [[sender matrixInColumn:1] selectedRow];
-        [tempProto findEquation:listIndex andIndex:index];
-        temp = tempProto;
+        // TODO (2004-03-06): Fixing suspected bug in original code
+        temp = [prototypeManager findEquation:listIndex andIndex:index];
         [currentPoint setExpression:temp];
 
         [currentTimingField setStringValue:[[temp expression] expressionString]];
