@@ -184,27 +184,21 @@
 // Open a .degas file.
 - (void)openFile:(id)sender;
 {
-#ifdef PORTING
     int i, count;
     NSArray *types;
     NSArray *fnames;
-    NSString *directory;
-    char buf[1024+1];
     FILE *fp;
     unsigned int magic;
+    NSOpenPanel *openPanel;
 
     types = [NSArray arrayWithObject: @"degas"];
-    [[NSOpenPanel openPanel] setAllowsMultipleSelection:NO];
-    if ([[NSOpenPanel openPanel] runModalForTypes:types]) {
-        fnames = [[NSOpenPanel openPanel] filenames];
-        directory = [[NSOpenPanel openPanel] directory];
+    openPanel = [NSOpenPanel openPanel]; // Each call resets values, including filenames
+    [openPanel setAllowsMultipleSelection:NO];
+    if ([openPanel runModalForTypes:types]) {
+        fnames = [openPanel filenames];
         count = [fnames count];
         for (i = 0; i < count; i++) {
-            strcpy(buf, [directory cString]);
-            strcat(buf, "/");
-            strcat(buf, [[fnames objectAtIndex: i] cString]);
-
-            fp = fopen(buf, "r");
+            fp = fopen([[fnames objectAtIndex:i] UTF8String], "r");
 
             fread(&magic, sizeof(int), 1, fp);
             if (magic == 0x2e646567) {
@@ -221,7 +215,6 @@
             fclose(fp);
         }
     }
-#endif
 }
 
 - (void)importTRMData:(id)sender;
