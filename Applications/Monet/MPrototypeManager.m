@@ -345,8 +345,6 @@
     id selectedItem;
     NamedList *targetGroup;
 
-    NSLog(@" > %s", _cmd);
-
     selectedItem = [equationOutlineView selectedItem];
     if ([selectedItem isKindOfClass:[NamedList class]] == YES) {
         targetGroup = selectedItem;
@@ -354,8 +352,6 @@
         targetGroup = [selectedItem group];
     } else
         targetGroup = nil;
-
-    NSLog(@"selectedItem: %p, targetGroup: %p", selectedItem, targetGroup);
 
     if (targetGroup != nil) {
         MMEquation *newEquation;
@@ -373,8 +369,6 @@
         [equationOutlineView selectRow:index byExtendingSelection:NO];
         [equationOutlineView editColumn:[equationOutlineView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
     }
-
-    NSLog(@"<  %s", _cmd);
 }
 
 - (IBAction)removeEquation:(id)sender;
@@ -417,7 +411,6 @@
     NamedList *newGroup;
     unsigned int index;
 
-    NSLog(@"%s", _cmd);
     newGroup = [[NamedList alloc] init];
     [newGroup setName:@"Untitled"];
     [[[self model] transitions] addObject:newGroup];
@@ -437,8 +430,6 @@
 {
     id selectedItem;
     NamedList *targetGroup;
-
-    NSLog(@" > %s", _cmd);
 
     selectedItem = [transitionOutlineView selectedItem];
     if ([selectedItem isKindOfClass:[NamedList class]] == YES) {
@@ -464,8 +455,6 @@
         [transitionOutlineView selectRow:index byExtendingSelection:NO];
         [transitionOutlineView editColumn:[transitionOutlineView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
     }
-
-    NSLog(@"<  %s", _cmd);
 }
 
 - (IBAction)removeTransition:(id)sender;
@@ -476,17 +465,13 @@
 
 - (IBAction)setTransitionType:(id)sender;
 {
-    NSLog(@" > %s", _cmd);
     [[self selectedTransition] setType:[[transitionTypeMatrix selectedCell] tag]];
     [self  _updateTransitionDetails];
-    NSLog(@"<  %s", _cmd);
 }
 
 - (IBAction)editTransition:(id)sender;
 {
-    NSLog(@" > %s", _cmd);
     [[NSApp delegate] editTransition:[self selectedTransition]];
-    NSLog(@"<  %s", _cmd);
 }
 
 //
@@ -498,7 +483,6 @@
     NamedList *newGroup;
     unsigned int index;
 
-    NSLog(@"%s", _cmd);
     newGroup = [[NamedList alloc] init];
     [newGroup setName:@"Untitled"];
     [[[self model] specialTransitions] addObject:newGroup];
@@ -518,8 +502,6 @@
 {
     id selectedItem;
     NamedList *targetGroup;
-
-    NSLog(@" > %s", _cmd);
 
     selectedItem = [specialTransitionOutlineView selectedItem];
     if ([selectedItem isKindOfClass:[NamedList class]] == YES) {
@@ -545,8 +527,6 @@
         [specialTransitionOutlineView selectRow:index byExtendingSelection:NO];
         [specialTransitionOutlineView editColumn:[specialTransitionOutlineView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
     }
-
-    NSLog(@"<  %s", _cmd);
 }
 
 - (IBAction)removeSpecialTransition:(id)sender;
@@ -557,17 +537,13 @@
 
 - (IBAction)setSpecialTransitionType:(id)sender;
 {
-    NSLog(@" > %s", _cmd);
     [[self selectedSpecialTransition] setType:[[specialTransitionTypeMatrix selectedCell] tag]];
     [self _updateSpecialTransitionDetails];
-    NSLog(@"<  %s", _cmd);
 }
 
 - (IBAction)editSpecialTransition:(id)sender;
 {
-    NSLog(@" > %s", _cmd);
     [[NSApp delegate] editSpecialTransition:[self selectedSpecialTransition]];
-    NSLog(@"<  %s", _cmd);
 }
 
 //
@@ -785,6 +761,7 @@
 
     return YES;
 }
+
 //
 // NSTextView delegate
 //
@@ -792,8 +769,6 @@
 - (void)textDidEndEditing:(NSNotification *)aNotification;
 {
     NSTextView *textView;
-
-    NSLog(@" > %s", _cmd);
 
     textView = [aNotification object];
     // NSTextMovement is a key in the user info
@@ -837,8 +812,6 @@
 
         [newStringValue release];
     }
-
-    NSLog(@"<  %s", _cmd);
 }
 
 //
