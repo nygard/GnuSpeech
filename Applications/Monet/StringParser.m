@@ -15,10 +15,6 @@
 #import "PhoneList.h"
 #include "driftGenerator.h"
 
-#ifdef HAVE_DSP
-#import "tube_module/synthesizer_module.h"
-#endif
-
 @implementation StringParser
 
 + (NSCharacterSet *)gsStringParserWhitespaceCharacterSet;
@@ -72,15 +68,6 @@
     [model release];
 
     [super dealloc];
-}
-
-- (void)applicationDidFinishLaunching:(NSNotification *)notification;
-{
-    NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
-
-    phoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
-
-    NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }
 
 - (MModel *)model;
@@ -274,7 +261,7 @@
 
     NSLog(@" > %s", _cmd);
 
-    mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
+    mainPhoneList = [[self model] postures];
     NSLog(@"mainPhoneList: %p", mainPhoneList);
 
     aPhone = [mainPhoneList findPhone:@"^"];

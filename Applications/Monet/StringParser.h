@@ -14,10 +14,7 @@
 
 @interface StringParser : NSObject
 {
-    int cache;
-
     EventList *eventList;
-    PhoneList *phoneList;
 
     IBOutlet IntonationScrollView *intonationSystem;
 
@@ -49,7 +46,7 @@
 + (NSCharacterSet *)gsStringParserDefaultCharacterSet;
 
 - (id)init;
-- (void)applicationDidFinishLaunching:(NSNotification *)notification;
+- (void)dealloc;
 
 - (MModel *)model;
 - (void)setModel:(MModel *)newModel;
