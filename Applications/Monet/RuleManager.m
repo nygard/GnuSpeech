@@ -455,7 +455,8 @@
     mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
 
     if ( ([[[phone1 cellAtIndex:0] stringValue] isEqualToString:@""]) || ([[[phone2 cellAtIndex:0] stringValue] isEqualToString:@""]) ) {
-        [ruleOutput setStringValue:@"You need at least to phones to parse."];
+        [ruleOutput setStringValue:@"You need at least two phones to parse."];
+        // TODO (2004-03-10): Clear out other text fields
         return;
     }
 
