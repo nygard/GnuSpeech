@@ -123,15 +123,83 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
     inputData->inputParameters.apScale = [synthesisParameters apertureScaling];
     inputData->inputParameters.mouthCoef = [synthesisParameters mouthCoef];
     inputData->inputParameters.noseCoef = [synthesisParameters noseCoef];
-    inputData->inputParameters.noseRadius[0] = [synthesisParameters n1];
-    inputData->inputParameters.noseRadius[1] = [synthesisParameters n2];
-    inputData->inputParameters.noseRadius[2] = [synthesisParameters n3];
-    inputData->inputParameters.noseRadius[3] = [synthesisParameters n4];
-    inputData->inputParameters.noseRadius[4] = [synthesisParameters n5];
+    inputData->inputParameters.noseRadius[0] = 0; // Give it a predictable value.
+    inputData->inputParameters.noseRadius[1] = [synthesisParameters n1];
+    inputData->inputParameters.noseRadius[2] = [synthesisParameters n2];
+    inputData->inputParameters.noseRadius[3] = [synthesisParameters n3];
+    inputData->inputParameters.noseRadius[4] = [synthesisParameters n4];
+    inputData->inputParameters.noseRadius[5] = [synthesisParameters n5];
     inputData->inputParameters.throatCutoff = [synthesisParameters throatCutoff];
     inputData->inputParameters.throatVol = [synthesisParameters throatVolume];
     inputData->inputParameters.modulation = [synthesisParameters shouldUseNoiseModulation];
     inputData->inputParameters.mixOffset = [synthesisParameters mixOffset];
+
+    {
+        char buf[100];
+
+        sprintf(buf, "%f", [MMSynthesisParameters samplingRate:[synthesisParameters samplingRate]]);
+        inputData->inputParameters.outputRate = strtod(buf, NULL);
+
+        sprintf(buf, "%f", [synthesisParameters masterVolume]);
+        inputData->inputParameters.volume = strtod(buf, NULL);
+
+        sprintf(buf, "%f", [synthesisParameters balance]);
+        inputData->inputParameters.balance = strtod(buf, NULL);
+
+        sprintf(buf, "%f", [synthesisParameters tp]);
+        inputData->inputParameters.tp = strtod(buf, NULL);
+
+        sprintf(buf, "%f", [synthesisParameters tnMin]);
+        inputData->inputParameters.tnMin = strtod(buf, NULL);
+
+        sprintf(buf, "%f", [synthesisParameters tnMax]);
+        inputData->inputParameters.tnMax = strtod(buf, NULL);
+
+        sprintf(buf, "%f", [synthesisParameters breathiness]);
+        inputData->inputParameters.breathiness = strtod(buf, NULL);
+
+        sprintf(buf, "%f", [synthesisParameters vocalTractLength]);
+        inputData->inputParameters.length = strtod(buf, NULL);
+
+        sprintf(buf, "%f", [synthesisParameters temperature]);
+        inputData->inputParameters.temperature = strtod(buf, NULL);
+
+        sprintf(buf, "%f", [synthesisParameters lossFactor]);
+        inputData->inputParameters.lossFactor = strtod(buf, NULL);
+
+        sprintf(buf, "%f", [synthesisParameters apertureScaling]);
+        inputData->inputParameters.apScale = strtod(buf, NULL);
+
+        sprintf(buf, "%f", [synthesisParameters mouthCoef]);
+        inputData->inputParameters.mouthCoef = strtod(buf, NULL);
+
+        sprintf(buf, "%f", [synthesisParameters noseCoef]);
+        inputData->inputParameters.noseCoef = strtod(buf, NULL);
+
+        sprintf(buf, "%f", [synthesisParameters n1]);
+        inputData->inputParameters.noseRadius[0] = strtod(buf, NULL);
+
+        sprintf(buf, "%f", [synthesisParameters n2]);
+        inputData->inputParameters.noseRadius[1] = strtod(buf, NULL);
+
+        sprintf(buf, "%f", [synthesisParameters n3]);
+        inputData->inputParameters.noseRadius[2] = strtod(buf, NULL);
+
+        sprintf(buf, "%f", [synthesisParameters n4]);
+        inputData->inputParameters.noseRadius[3] = strtod(buf, NULL);
+
+        sprintf(buf, "%f", [synthesisParameters n5]);
+        inputData->inputParameters.noseRadius[4] = strtod(buf, NULL);
+
+        sprintf(buf, "%f", [synthesisParameters throatCutoff]);
+        inputData->inputParameters.throatCutoff = strtod(buf, NULL);
+
+        sprintf(buf, "%f", [synthesisParameters throatVolume]);
+        inputData->inputParameters.throatVol = strtod(buf, NULL);
+
+        sprintf(buf, "%f", [synthesisParameters mixOffset]);
+        inputData->inputParameters.mixOffset = strtod(buf, NULL);
+    }
 
     NSLog(@"<  %s", _cmd);
 }

@@ -42,6 +42,8 @@ void initializeFIR(double beta, double gamma, double cutoff)
     double coefficient[LIMIT+1];
 
 
+    printf("initializeFIR(%g, %g, %g)\n", beta, gamma, cutoff);
+
     /*  DETERMINE IDEAL LOW PASS FILTER COEFFICIENTS  */
     maximallyFlat(beta, gamma, &numberCoefficients, coefficient);
 
@@ -53,10 +55,15 @@ void initializeFIR(double beta, double gamma, double cutoff)
 
     /*  ALLOCATE MEMORY FOR DATA AND COEFFICIENTS  */
     FIRData = (double *)calloc(numberTaps, sizeof(double));
+    if (FIRData == NULL)
+        fprintf(stderr, "calloc() of FIRData failed.");
+
     FIRCoef = (double *)calloc(numberTaps, sizeof(double));
+    if (FIRCoef == NULL)
+        fprintf(stderr, "calloc() of FIRCoef failed.");
 
     /*  INITIALIZE THE COEFFICIENTS  */
-    increment = (-1);
+    increment = -1;
     pointer = numberCoefficients;
     for (i = 0; i < numberTaps; i++) {
 	FIRCoef[i] = coefficient[pointer];
@@ -175,7 +182,7 @@ int maximallyFlat(double beta, double gamma, int *np, double *coefficient)
 	coefficient[i] *= 2.0 / (double)n;
     }
 
-    return(0);
+    return 0;
 }
 
 
@@ -246,6 +253,7 @@ double FIRFilter(double input, int needOutput)
 	FIRPtr = decrement(FIRPtr, numberTaps);
 
 	/*  RETURN THE OUTPUT VALUE  */
+        //printf("FIRFilter(%g, %d) = %g\n", input, needOutput, output);
 	return output;
     } else {
 	/*  PUT INPUT SAMPLE INTO DATA BUFFER  */
@@ -254,6 +262,7 @@ double FIRFilter(double input, int needOutput)
 	/*  ADJUST THE DATA POINTER, READY FOR NEXT CALL  */
 	FIRPtr = decrement(FIRPtr, numberTaps);
 
+        //printf("FIRFilter(%g, %d) = %g\n", input, needOutput, 0.0);
 	return 0.0;
     }
 }
