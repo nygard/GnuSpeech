@@ -5,7 +5,7 @@
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
 //  Copyright (C) 2004 __OWNER__.  All rights reserved.
 
-#import <AppKit/NSWindowController.h>
+#import "MWindowController.h"
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 #import "EventList.h" // for struct _intonationParameters
@@ -14,7 +14,7 @@
 @class EventListView, IntonationPoint, IntonationView;
 @class TRMSynthesizer;
 
-@interface MSynthesisController : NSWindowController
+@interface MSynthesisController : MWindowController
 {
     // Synthesis window
     IBOutlet NSComboBox *stringTextField;

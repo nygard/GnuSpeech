@@ -52,6 +52,7 @@ History:
 - (void)setFilename:(NSString *)newFilename;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification;
+- (void)applicationWillTerminate:(NSNotification *)notification;
 
 - (void)displayInfoPanel:(id)sender;
 

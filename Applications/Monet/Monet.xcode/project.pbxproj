@@ -1002,6 +1002,34 @@
 			settings = {
 			};
 		};
+		016210FD066464D70009CABE = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = MWindowController.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		016210FE066464D70009CABE = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = MWindowController.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		016210FF066464D70009CABE = {
+			fileRef = 016210FD066464D70009CABE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01621100066464D70009CABE = {
+			fileRef = 016210FE066464D70009CABE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		01646CAC0646DFC100C7504D = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -2273,6 +2301,8 @@
 				01104D0F0618D1D300B529E8,
 				01F6E26B060EA6470073E196,
 				01F6E26C060EA6470073E196,
+				016210FD066464D70009CABE,
+				016210FE066464D70009CABE,
 				01B2FFF205F6DF1B00C1F65D,
 				01B2FFF305F6DF1B00C1F65D,
 			);
@@ -3529,6 +3559,7 @@
 				0143DD2B065B1C1800DB5F6D,
 				016FACD0065D6FCF003ED09E,
 				016FACD5065D7003003ED09E,
+				016210FF066464D70009CABE,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3658,6 +3689,7 @@
 				0143DD2A065B1C1800DB5F6D,
 				0143DD2C065B1C1800DB5F6D,
 				016FACD1065D6FCF003ED09E,
+				01621100066464D70009CABE,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

@@ -20,6 +20,7 @@
 #import "MSynthesisController.h"
 #import "MSynthesisParameterEditor.h"
 #import "MTransitionEditor.h"
+#import "MWindowController.h"
 
 @implementation AppController
 
@@ -97,9 +98,16 @@
     [self _loadMonetXMLFile:path];
     [self setFilename:nil];
 
+    [[self synthesisController] showWindowIfVisibleOnLaunch];
+
     //NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }
 
+- (void)applicationWillTerminate:(NSNotification *)notification;
+{
+    // I think this will be more reliable that using -windowWillClose:, since the windows do close when the app terminates...
+    [[self synthesisController] saveWidnowIsVisibleOnLaunch];
+}
 
 - (void)displayInfoPanel:(id)sender;
 {
