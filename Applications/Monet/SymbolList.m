@@ -48,22 +48,4 @@
     return -1;
 }
 
-#define DEFAULT_VALUE 100.0
-#define DEFAULT_MIN     0.0
-#define DEFAULT_MAX     500.0
-
-- (void)addSymbol:(NSString *)symbol withValue:(double)newValue;
-{
-    MMSymbol *newSymbol;
-
-    newSymbol = [[MMSymbol alloc] initWithSymbol:symbol];
-    [newSymbol setMinimumValue:DEFAULT_MIN];
-    [newSymbol setMaximumValue:DEFAULT_MAX];
-    [newSymbol setDefaultValue:DEFAULT_VALUE];
-
-    [self addObject:newSymbol];
-
-    [newSymbol release];
-}
-
 @end
