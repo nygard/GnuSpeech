@@ -273,6 +273,8 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
 {
     TRMTubeModel *tube;
 
+    filename = [filename stringByExpandingTildeInPath];
+
     inputData->inputParameters.outputFileFormat = type;
 
     tube = TRMTubeModelCreate(&(inputData->inputParameters));
