@@ -465,16 +465,19 @@ void printControlRateInputTable(struct _TRMData *data)
     /*  ACTUAL VALUES  */
     ptr = data->inputHead;
     while (ptr != NULL) {
-        printf("%.2f", glotPitchAt(ptr));
-        printf("\t%.2f", glotVolAt(ptr));
-        printf("\t%.2f", aspVolAt(ptr));
-        printf("\t%.2f", fricVolAt(ptr));
-        printf("\t%.2f", fricPosAt(ptr));
-        printf("\t%.2f", fricCFAt(ptr));
-        printf("\t%.2f", fricBWAt(ptr));
+        TRMParameters *parameters;
+
+        parameters = &(ptr->parameters);
+        printf("%.2f", parameters->glotPitch);
+        printf("\t%.2f", parameters->glotVol);
+        printf("\t%.2f", parameters->aspVol);
+        printf("\t%.2f", parameters->fricVol);
+        printf("\t%.2f", parameters->fricPos);
+        printf("\t%.2f", parameters->fricCF);
+        printf("\t%.2f", parameters->fricBW);
         for (index = 0; index < TOTAL_REGIONS; index++)
-            printf("\t%.2f", radiusAtRegion(ptr, index));
-        printf("\t%.2f\n", velumAt(ptr));
+            printf("\t%.2f", parameters->radius[index]);
+        printf("\t%.2f\n", parameters->velum);
         ptr = ptr->next;
     }
     printf("\n");
