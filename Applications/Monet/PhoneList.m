@@ -43,7 +43,7 @@
     Phone *aPhone;
     int index;
     SymbolList *symbols;
-    ParameterList *parms, *metaParms;
+    ParameterList *mainParameterList, *mainMetaParameterList;
 
     //printf("Phone List adding phone \n");
     if ([self binarySearchPhone:phone index:&index])
@@ -51,10 +51,10 @@
 
     // TODO (2004-03-01): Try having GSApp methods for these instead.
     symbols = NXGetNamedObject(@"mainSymbolList", NSApp);
-    parms = NXGetNamedObject(@"mainParameterList", NSApp);
-    metaParms = NXGetNamedObject(@"mainMetaParameterList", NSApp);
+    mainParameterList = NXGetNamedObject(@"mainParameterList", NSApp);
+    mainMetaParameterList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
 
-    aPhone = [[Phone alloc] initWithSymbol:phone parmeters:parms metaParameters:metaParms symbols:symbols];
+    aPhone = [[Phone alloc] initWithSymbol:phone parmeters:mainParameterList metaParameters:mainMetaParameterList symbols:symbols];
     [[aPhone categoryList] addNativeCategory:phone];
 
     [self insertObject:aPhone atIndex:index];
@@ -180,15 +180,15 @@
     CategoryNode *tempCategory;
     CategoryList *categories;
     SymbolList *symbols;
-    ParameterList *parms, *metaParms;
+    ParameterList *mainParameterList, *mainMetaParameterList;
     Target *tempTarget;
     char tempSymbol[SYMBOL_LENGTH_MAX + 1];
     NSString *str;
 
     categories = NXGetNamedObject(@"mainCategoryList", NSApp);
     symbols = NXGetNamedObject(@"mainSymbolList", NSApp);
-    parms = NXGetNamedObject(@"mainParameterList", NSApp);
-    metaParms = NXGetNamedObject(@"mainMetaParameterList", NSApp);
+    mainParameterList = NXGetNamedObject(@"mainParameterList", NSApp);
+    mainMetaParameterList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
 
     symbolIndex = [symbols findSymbolIndex:@"duration"];
 
@@ -207,7 +207,7 @@
         fread(tempSymbol, SYMBOL_LENGTH_MAX + 1, 1, fp);
         str = [NSString stringWithASCIICString:tempSymbol];
 
-        tempPhone = [[Phone alloc] initWithSymbol:str parmeters:parms metaParameters:metaParms symbols:symbols];
+        tempPhone = [[Phone alloc] initWithSymbol:str parmeters:mainParameterList metaParameters:mainMetaParameterList symbols:symbols];
         [self addPhoneObject:tempPhone];
 
         /* READ SYMBOL AND DURATIONS FROM FILE  */
@@ -325,10 +325,10 @@
 {
     int i, index;
     id temp;
-    ParameterList *parms, *mainMetaParameterList; // TODO (2004-03-01): Not sure of types here.
+    ParameterList *mainParameterList, *mainMetaParameterList;
 
-    parms = NXGetNamedObject(@"mainParameterList", NSApp);
-    index = [parms indexOfObject:parameter];
+    mainParameterList = NXGetNamedObject(@"mainParameterList", NSApp);
+    index = [mainParameterList indexOfObject:parameter];
     if (index != NSNotFound) {
         for (i = 0; i < [self count]; i++) {
             temp = [[[self objectAtIndex:i] parameterList] objectAtIndex:index];
@@ -437,17 +437,16 @@
 - (IBAction)importTRMData:(id)sender;
 {
     SymbolList *mainSymbolList;
-    ParameterList *parms, *mainMetaParameterList;
+    ParameterList *mainParameterList, *mainMetaParameterList;
     NSArray *types;
     TRMData *myData;
     NSArray *fnames;
     TargetList *tempTargets;
-    ParameterList *mainParameterList = NXGetNamedObject(@"mainParameterList", NSApp);
     double aValue;
     int count, index;
 
     mainSymbolList = NXGetNamedObject(@"mainSymbolList", NSApp);
-    parms = NXGetNamedObject(@"mainParameterList", NSApp);
+    mainParameterList = NXGetNamedObject(@"mainParameterList", NSApp);
     mainMetaParameterList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
 
     types = [NSArray arrayWithObject:@"dunno"]; // TODO (2004-03-02): I dunno what the extension should be.
@@ -470,7 +469,7 @@
         filename = [[[NSOpenPanel openPanel] directory] stringByAppendingPathComponent:aFilename];
         str = [aFilename stringByDeletingPathExtension];
 
-        aPhone = [[[Phone alloc] initWithSymbol:str parmeters:parms metaParameters:mainMetaParameterList symbols:mainSymbolList] autorelease];
+        aPhone = [[[Phone alloc] initWithSymbol:str parmeters:mainParameterList metaParameters:mainMetaParameterList symbols:mainSymbolList] autorelease];
         aPhone = [self makePhoneUniqueName:aPhone];
         [self addPhoneObject:aPhone];
         [[aPhone categoryList] addNativeCategory:str];

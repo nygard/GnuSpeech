@@ -132,7 +132,7 @@
 
     /* Resolve the symbol*/
     /* Get main symbolList to determine index of "symbol" */
-    mainSymbolList = (SymbolList *)NXGetNamedObject(@"mainSymbolList", NSApp);
+    mainSymbolList = NXGetNamedObject(@"mainSymbolList", NSApp);
     index = [mainSymbolList indexOfObject:symbol];
 
     /* Use index to index the phone's symbol list */

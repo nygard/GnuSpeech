@@ -71,16 +71,16 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 {
     SymbolList *symbols;
-    ParameterList *parms, *metaParms;
+    ParameterList *mainParameterList, *mainMetaParameterList;
     Phone *dummy;
 
     NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
 
     symbols = NXGetNamedObject(@"mainSymbolList", NSApp);
-    parms = NXGetNamedObject(@"mainParameterList", NSApp);
-    metaParms = NXGetNamedObject(@"mainMetaParameterList", NSApp);
+    mainParameterList = NXGetNamedObject(@"mainParameterList", NSApp);
+    mainMetaParameterList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
 
-    dummy = [[Phone alloc] initWithSymbol:@"dummy" parmeters:parms metaParameters: metaParms symbols:symbols];
+    dummy = [[Phone alloc] initWithSymbol:@"dummy" parmeters:mainParameterList metaParameters: mainMetaParameterList symbols:symbols];
     [(Target *)[[dummy symbolList] objectAtIndex:0] setValue:100.0];
     [(Target *)[[dummy symbolList] objectAtIndex:1] setValue:33.3333];
     [(Target *)[[dummy symbolList] objectAtIndex:2] setValue:33.3333];

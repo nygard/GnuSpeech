@@ -57,7 +57,7 @@
 {
     id tempEntry = nil, tempOnset = nil, tempDuration = nil;
     PrototypeManager *prototypeManager;
-    ParameterList *tempList;
+    ParameterList *aParameterList;
     int i;
 
     /* Empty out the lists */
@@ -85,14 +85,14 @@
         NSLog(@"CANNOT find temp entry");
     }
 
-    tempList = NXGetNamedObject(@"mainParameterList", NSApp);
-    for (i = 0; i < [tempList count]; i++) {
+    aParameterList = NXGetNamedObject(@"mainParameterList", NSApp);
+    for (i = 0; i < [aParameterList count]; i++) {
         [parameterProfiles addObject:tempEntry];
     }
 
     /* Alloc lists to point to prototype transition specifiers */
-    tempList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
-    for (i = 0; i < [tempList count]; i++) {
+    aParameterList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
+    for (i = 0; i < [aParameterList count]; i++) {
         [metaParameterProfiles addObject:tempEntry];
     }
 
