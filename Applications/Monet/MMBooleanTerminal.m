@@ -7,7 +7,6 @@
 #import "CategoryList.h"
 #import "MMCategory.h"
 #import "MMPosture.h"
-#import "PhoneList.h"
 
 #import "MModel.h"
 #import "MUnarchiver.h"
@@ -104,7 +103,6 @@
     unsigned archivedVersion;
     char *c_string;
     CategoryList *categoryList;
-    PhoneList *phoneList;
     MMCategory *aCategory;
     NSString *str;
     MModel *model;
@@ -120,7 +118,6 @@
     //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
 
     categoryList = [model categories];
-    phoneList = [model postures];
 
     [aDecoder decodeValueOfObjCType:"i" at:&match]; // Can't decode an int into a BOOL
     //NSLog(@"match: %d", match);
@@ -135,7 +132,7 @@
 
     aCategory = [categoryList findSymbol:str];
     if (aCategory == nil) {
-        aCategory = [[[phoneList findPhone:str] categoryList] findSymbol:str];
+        aCategory = [[[model postureWithName:str] categoryList] findSymbol:str];
         category = [aCategory retain];
     } else {
         category = [aCategory retain];
