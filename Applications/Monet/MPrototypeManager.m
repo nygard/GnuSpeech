@@ -14,6 +14,7 @@
 #import "MonetList.h"
 #import "NamedList.h"
 #import "MMTransition.h"
+#import "SpecialView.h"
 #import "TransitionView.h"
 
 @implementation MPrototypeManager
@@ -227,6 +228,8 @@
             [specialTransitionTypeMatrix setEnabled:NO];
             [specialTransitionTypeMatrix selectCellWithTag:2];
         }
+
+        [miniSpecialTransitionView setTransition:[self selectedSpecialTransition]];
     } else {
         [specialTransitionCommentTextView setEditable:NO];
         [specialTransitionCommentTextView setString:@""];

@@ -27,7 +27,7 @@
                 equationParserMessagesTextView = NSTextView; 
                 equationTextView = NSTextView; 
                 miniSpecialTransitionView = NSView; 
-                miniTransitionView = NSView; 
+                miniTransitionView = TransitionView; 
                 removeEquationButtonCell = NSButtonCell; 
                 removeSpecialTransitionButtonCell = NSButtonCell; 
                 removeTransitionButtonCell = NSButtonCell; 
@@ -39,6 +39,13 @@
                 transitionTypeMatrix = NSMatrix; 
             }; 
             SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {delete = id; }; 
+            CLASS = SpecialView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {controller = AppController; }; 
+            SUPERCLASS = NSView; 
         }, 
         {
             ACTIONS = {delete = id; groupInSlopeRatio = id; updateControlParameter = id; }; 

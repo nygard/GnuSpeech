@@ -131,7 +131,7 @@ static NSImage *_selectionBox = nil;
     [displaySlopes removeAllObjects];
     [selectedPoints removeAllObjects];
 
-    aPosture = [[MMPosture alloc] initWithModel:model]; // TODO (2004-03-21): This needs a non-nil model
+    aPosture = [[MMPosture alloc] initWithModel:model];
     [aPosture setSymbol:@"dummy"];
     [(MMTarget *)[[aPosture symbolList] objectAtIndex:0] setValue:100.0]; // Rule Duration (should be "duration"?)
     [(MMTarget *)[[aPosture symbolList] objectAtIndex:1] setValue:33.3333]; // Beat Location? (should be "transition"?)
@@ -204,6 +204,31 @@ static NSImage *_selectionBox = nil;
 {
     _parameters[4] = newValue;
     [self setNeedsDisplay:YES];
+}
+
+- (IBAction)takeRuleDurationFrom:(id)sender;
+{
+    [self setRuleDuration:[sender doubleValue]];
+}
+
+- (IBAction)takeBeatLocationFrom:(id)sender;
+{
+    [self setBeatLocation:[sender doubleValue]];
+}
+
+- (IBAction)takeMark1From:(id)sender;
+{
+    [self setMark1:[sender doubleValue]];
+}
+
+- (IBAction)takeMark2From:(id)sender;
+{
+    [self setMark2:[sender doubleValue]];
+}
+
+- (IBAction)takeMark3From:(id)sender;
+{
+    [self setMark3:[sender doubleValue]];
 }
 
 - (BOOL)shouldDrawSelection;
@@ -642,10 +667,10 @@ static NSImage *_selectionBox = nil;
 {
     NSRect rect;
 
-    NSLog(@"->%s, point: %@", _cmd, NSStringFromPoint(aPoint));
+    //NSLog(@"->%s, point: %@", _cmd, NSStringFromPoint(aPoint));
     aPoint.x = rint(aPoint.x);
     aPoint.y = rint(aPoint.y);
-    NSLog(@"-->%s, point: %@", _cmd, NSStringFromPoint(aPoint));
+    //NSLog(@"-->%s, point: %@", _cmd, NSStringFromPoint(aPoint));
 
 
     rect = NSIntegralRect(NSMakeRect(aPoint.x - 5, aPoint.y - 5, 10, 10));
@@ -1160,11 +1185,6 @@ static NSImage *_selectionBox = nil;
     [tempPoints insertObject:tempMMSlopeRatio atIndex:index];
     [tempMMSlopeRatio release];
 
-    [self setNeedsDisplay:YES];
-}
-
-- (IBAction)updateControlParameter:(id)sender;
-{
     [self setNeedsDisplay:YES];
 }
 

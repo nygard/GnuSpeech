@@ -68,6 +68,12 @@
     if (name == nil)
         name = @"--";
     [transitionNameTextField setStringValue:name];
+
+    [[controlParametersForm cellAtIndex:0] setDoubleValue:[transitionView ruleDuration]];
+    [[controlParametersForm cellAtIndex:1] setDoubleValue:[transitionView beatLocation]];
+    [[controlParametersForm cellAtIndex:2] setDoubleValue:[transitionView mark1]];
+    [[controlParametersForm cellAtIndex:3] setDoubleValue:[transitionView mark2]];
+    [[controlParametersForm cellAtIndex:4] setDoubleValue:[transitionView mark3]];
 }
 
 - (MMTransition *)transition;

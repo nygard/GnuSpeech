@@ -1,7 +1,7 @@
 #import <AppKit/NSView.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-@class MMPoint, MonetList, MMTransition;
+@class MModel, MMPoint, MonetList, MMTransition;
 @class AppController, MMSlope;
 
 /*===========================================================================
@@ -16,14 +16,13 @@
 @interface SpecialView : NSView
 {
     IBOutlet AppController *controller;
-    IBOutlet NSForm *displayParameters;
-    IBOutlet NSTextField *transitionNameTextField;
+    double _parameters[5];
 
     NSFont *timesFont;
 
     MMTransition *currentTemplate;
 
-    MonetList *dummyPhoneList;
+    MonetList *samplePhoneList;
     MonetList *displayPoints;
     int cache;
 
@@ -32,6 +31,8 @@
     BOOL shouldDrawSelection;
     NSPoint selectionPoint1;
     NSPoint selectionPoint2;
+
+    MModel *model;
 }
 
 + (void)initialize;
@@ -39,7 +40,10 @@
 - (id)initWithFrame:(NSRect)frameRect;
 - (void)dealloc;
 
-- (void)applicationDidFinishLaunching:(NSNotification *)notification;
+- (MModel *)model;
+- (void)setModel:(MModel *)newModel;
+
+- (void)_updateFromModel;
 
 - (BOOL)shouldDrawSelection;
 - (void)setShouldDrawSelection:(BOOL)newFlag;
@@ -76,7 +80,6 @@
 
 // Actions
 - (IBAction)delete:(id)sender;
-- (IBAction)updateControlParameter:(id)sender;
 
 // Publicly used API
 - (void)setTransition:(MMTransition *)newTransition;

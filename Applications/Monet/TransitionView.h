@@ -64,6 +64,12 @@
 - (double)mark3;
 - (void)setMark3:(double)newValue;
 
+- (IBAction)takeRuleDurationFrom:(id)sender;
+- (IBAction)takeBeatLocationFrom:(id)sender;
+- (IBAction)takeMark1From:(id)sender;
+- (IBAction)takeMark2From:(id)sender;
+- (IBAction)takeMark3From:(id)sender;
+
 - (BOOL)shouldDrawSelection;
 - (void)setShouldDrawSelection:(BOOL)newFlag;
 
@@ -111,7 +117,6 @@
 // Actions
 - (IBAction)delete:(id)sender;
 - (IBAction)groupInSlopeRatio:(id)sender;
-- (IBAction)updateControlParameter:(id)sender;
 
 // Publicly used API
 - (void)setTransition:(MMTransition *)newTransition;

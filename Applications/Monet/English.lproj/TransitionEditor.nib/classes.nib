@@ -12,14 +12,19 @@
             SUPERCLASS = NSWindowController; 
         }, 
         {
-            ACTIONS = {delete = id; groupInSlopeRatio = id; updateControlParameter = id; }; 
+            ACTIONS = {
+                delete = id; 
+                groupInSlopeRatio = id; 
+                takeBeatLocationFrom = id; 
+                takeMark1From = id; 
+                takeMark2From = id; 
+                takeMark3From = id; 
+                takeRuleDurationFrom = id; 
+                updateControlParameter = id; 
+            }; 
             CLASS = TransitionView; 
             LANGUAGE = ObjC; 
-            OUTLETS = {
-                controller = AppController; 
-                displayParameters = NSForm; 
-                transitionNameTextField = NSTextField; 
-            }; 
+            OUTLETS = {controller = AppController; }; 
             SUPERCLASS = NSView; 
         }
     ); 
