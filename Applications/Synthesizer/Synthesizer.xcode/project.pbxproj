@@ -33,6 +33,394 @@
 			settings = {
 			};
 		};
+		0169CAF106E2F57A009FBDCF = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = MWindowController.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0169CAF206E2F57A009FBDCF = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = MWindowController.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0169CAF306E2F57A009FBDCF = {
+			fileRef = 0169CAF106E2F57A009FBDCF;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0169CAF406E2F57A009FBDCF = {
+			fileRef = 0169CAF206E2F57A009FBDCF;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0169CAF806E2F606009FBDCF = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = MGlottalSourceController.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0169CAF906E2F606009FBDCF = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = MGlottalSourceController.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0169CAFA06E2F606009FBDCF = {
+			fileRef = 0169CAF806E2F606009FBDCF;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0169CAFB06E2F606009FBDCF = {
+			fileRef = 0169CAF906E2F606009FBDCF;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0169CB0606E2F6EC009FBDCF = {
+			children = (
+				0169CB0706E2F6EC009FBDCF,
+			);
+			isa = PBXVariantGroup;
+			name = GlottalSource.nib;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0169CB0706E2F6EC009FBDCF = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = English.lproj/GlottalSource.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0169CB0806E2F6EC009FBDCF = {
+			fileRef = 0169CB0606E2F6EC009FBDCF;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0169CB0C06E2F950009FBDCF = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = MGraphView.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0169CB0D06E2F950009FBDCF = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = MGraphView.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0169CB0E06E2F950009FBDCF = {
+			fileRef = 0169CB0C06E2F950009FBDCF;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0169CB0F06E2F950009FBDCF = {
+			fileRef = 0169CB0D06E2F950009FBDCF;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0169CB3E06E2FDBF009FBDCF = {
+			children = (
+				0169CB4306E2FE06009FBDCF,
+				0169CB4406E2FE06009FBDCF,
+				0169CB4506E2FE06009FBDCF,
+				0169CB4606E2FE06009FBDCF,
+				0169CB4706E2FE06009FBDCF,
+				0169CB4806E2FE06009FBDCF,
+				0169CB4906E2FE06009FBDCF,
+				0169CB4A06E2FE06009FBDCF,
+				0169CB4B06E2FE06009FBDCF,
+				0169CB4C06E2FE06009FBDCF,
+				0169CB4D06E2FE06009FBDCF,
+				0169CB4E06E2FE06009FBDCF,
+				0169CB4F06E2FE06009FBDCF,
+				0169CB5006E2FE06009FBDCF,
+				0169CB5106E2FE06009FBDCF,
+				0169CB5206E2FE06009FBDCF,
+				0169CB5306E2FE06009FBDCF,
+			);
+			isa = PBXGroup;
+			name = "Tube Resonance Model";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0169CB4306E2FE06009FBDCF = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
+			name = fir.c;
+			path = ../../Tools/softwareTRM/fir.c;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		0169CB4406E2FE06009FBDCF = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = fir.h;
+			path = ../../Tools/softwareTRM/fir.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		0169CB4506E2FE06009FBDCF = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
+			name = input.c;
+			path = ../../Tools/softwareTRM/input.c;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		0169CB4606E2FE06009FBDCF = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = input.h;
+			path = ../../Tools/softwareTRM/input.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		0169CB4706E2FE06009FBDCF = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
+			name = output.c;
+			path = ../../Tools/softwareTRM/output.c;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		0169CB4806E2FE06009FBDCF = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = output.h;
+			path = ../../Tools/softwareTRM/output.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		0169CB4906E2FE06009FBDCF = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
+			name = ring_buffer.c;
+			path = ../../Tools/softwareTRM/ring_buffer.c;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		0169CB4A06E2FE06009FBDCF = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = ring_buffer.h;
+			path = ../../Tools/softwareTRM/ring_buffer.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		0169CB4B06E2FE06009FBDCF = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
+			name = sample_rate_converter.c;
+			path = ../../Tools/softwareTRM/sample_rate_converter.c;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		0169CB4C06E2FE06009FBDCF = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = sample_rate_converter.h;
+			path = ../../Tools/softwareTRM/sample_rate_converter.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		0169CB4D06E2FE06009FBDCF = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = structs.h;
+			path = ../../Tools/softwareTRM/structs.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		0169CB4E06E2FE06009FBDCF = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
+			name = tube.c;
+			path = ../../Tools/softwareTRM/tube.c;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		0169CB4F06E2FE06009FBDCF = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = tube.h;
+			path = ../../Tools/softwareTRM/tube.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		0169CB5006E2FE06009FBDCF = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
+			name = util.c;
+			path = ../../Tools/softwareTRM/util.c;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		0169CB5106E2FE06009FBDCF = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = util.h;
+			path = ../../Tools/softwareTRM/util.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		0169CB5206E2FE06009FBDCF = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
+			name = wavetable.c;
+			path = ../../Tools/softwareTRM/wavetable.c;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		0169CB5306E2FE06009FBDCF = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = wavetable.h;
+			path = ../../Tools/softwareTRM/wavetable.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		0169CB5406E2FE06009FBDCF = {
+			fileRef = 0169CB4306E2FE06009FBDCF;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0169CB5506E2FE06009FBDCF = {
+			fileRef = 0169CB4406E2FE06009FBDCF;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0169CB5606E2FE06009FBDCF = {
+			fileRef = 0169CB4506E2FE06009FBDCF;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0169CB5706E2FE06009FBDCF = {
+			fileRef = 0169CB4606E2FE06009FBDCF;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0169CB5806E2FE06009FBDCF = {
+			fileRef = 0169CB4706E2FE06009FBDCF;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0169CB5906E2FE06009FBDCF = {
+			fileRef = 0169CB4806E2FE06009FBDCF;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0169CB5A06E2FE06009FBDCF = {
+			fileRef = 0169CB4906E2FE06009FBDCF;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0169CB5B06E2FE06009FBDCF = {
+			fileRef = 0169CB4A06E2FE06009FBDCF;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0169CB5C06E2FE06009FBDCF = {
+			fileRef = 0169CB4B06E2FE06009FBDCF;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0169CB5D06E2FE06009FBDCF = {
+			fileRef = 0169CB4C06E2FE06009FBDCF;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0169CB5E06E2FE06009FBDCF = {
+			fileRef = 0169CB4D06E2FE06009FBDCF;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0169CB5F06E2FE06009FBDCF = {
+			fileRef = 0169CB4E06E2FE06009FBDCF;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0169CB6006E2FE06009FBDCF = {
+			fileRef = 0169CB4F06E2FE06009FBDCF;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0169CB6106E2FE06009FBDCF = {
+			fileRef = 0169CB5006E2FE06009FBDCF;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0169CB6206E2FE06009FBDCF = {
+			fileRef = 0169CB5106E2FE06009FBDCF;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0169CB6306E2FE06009FBDCF = {
+			fileRef = 0169CB5206E2FE06009FBDCF;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0169CB6406E2FE06009FBDCF = {
+			fileRef = 0169CB5306E2FE06009FBDCF;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 //010
 //011
 //012
@@ -45,6 +433,12 @@
 //084
 		080E96DDFE201D6D7F000001 = {
 			children = (
+				0169CAF106E2F57A009FBDCF,
+				0169CAF206E2F57A009FBDCF,
+				0169CAF806E2F606009FBDCF,
+				0169CAF906E2F606009FBDCF,
+				0169CB0C06E2F950009FBDCF,
+				0169CB0D06E2F950009FBDCF,
 				0169CADC06E2F297009FBDCF,
 				0169CADD06E2F297009FBDCF,
 			);
@@ -154,6 +548,7 @@
 		};
 		29B97314FDCFA39411CA2CEA = {
 			children = (
+				0169CB3E06E2FDBF009FBDCF,
 				080E96DDFE201D6D7F000001,
 				29B97315FDCFA39411CA2CEA,
 				29B97317FDCFA39411CA2CEA,
@@ -190,6 +585,7 @@
 				8D1107310486CEB800E47090,
 				089C165CFE840E0CC02AAC07,
 				29B97318FDCFA39411CA2CEA,
+				0169CB0606E2F6EC009FBDCF,
 			);
 			isa = PBXGroup;
 			name = Resources;
@@ -333,6 +729,19 @@
 				8D11072A0486CEB800E47090,
 				8D11072B0486CEB800E47090,
 				0169CADE06E2F297009FBDCF,
+				0169CAF306E2F57A009FBDCF,
+				0169CAFA06E2F606009FBDCF,
+				0169CB0806E2F6EC009FBDCF,
+				0169CB0E06E2F950009FBDCF,
+				0169CB5506E2FE06009FBDCF,
+				0169CB5706E2FE06009FBDCF,
+				0169CB5906E2FE06009FBDCF,
+				0169CB5B06E2FE06009FBDCF,
+				0169CB5D06E2FE06009FBDCF,
+				0169CB5E06E2FE06009FBDCF,
+				0169CB6006E2FE06009FBDCF,
+				0169CB6206E2FE06009FBDCF,
+				0169CB6406E2FE06009FBDCF,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -354,6 +763,17 @@
 			files = (
 				8D11072D0486CEB800E47090,
 				0169CADF06E2F297009FBDCF,
+				0169CAF406E2F57A009FBDCF,
+				0169CAFB06E2F606009FBDCF,
+				0169CB0F06E2F950009FBDCF,
+				0169CB5406E2FE06009FBDCF,
+				0169CB5606E2FE06009FBDCF,
+				0169CB5806E2FE06009FBDCF,
+				0169CB5A06E2FE06009FBDCF,
+				0169CB5C06E2FE06009FBDCF,
+				0169CB5F06E2FE06009FBDCF,
+				0169CB6106E2FE06009FBDCF,
+				0169CB6306E2FE06009FBDCF,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,0 +1,13 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = MGlottalSourceController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = MWindowController; 
+        }, 
+        {CLASS = MGraphView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {CLASS = MWindowController; LANGUAGE = ObjC; SUPERCLASS = NSWindowController; }
+    ); 
+    IBVersion = 1; 
+}
