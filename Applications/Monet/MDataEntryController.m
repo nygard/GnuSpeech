@@ -12,7 +12,6 @@
 #import "MModel.h"
 #import "MMParameter.h"
 #import "MMSymbol.h"
-#import "ParameterList.h"
 
 // TODO (2004-03-20): Implement copy and pasting of categories, parameters, meta parameters, and symbols, although it looks like the original code did actually do the pasting part.
 

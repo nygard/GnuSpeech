@@ -3,7 +3,7 @@
 
 #import <Foundation/NSObject.h>
 
-@class CategoryList, MonetList, NamedList, ParameterList, PhoneList;
+@class CategoryList, MonetList, NamedList, PhoneList;
 @class MMCategory, MMEquation, MMParameter, MMPosture, MMRule, MMSymbol, MMSynthesisParameters, MMTransition;
 
 extern NSString *MCategoryInUseException;
@@ -11,8 +11,8 @@ extern NSString *MCategoryInUseException;
 @interface MModel : NSObject
 {
     CategoryList *categories; // Keep this list sorted by name
-    ParameterList *parameters;
-    ParameterList *metaParameters;
+    NSMutableArray *parameters;
+    NSMutableArray *metaParameters;
     NSMutableArray *symbols;
     PhoneList *postures; // Keep this list sorted by name
 
@@ -33,8 +33,8 @@ extern NSString *MCategoryInUseException;
 - (void)_addDefaultRule;
 
 - (CategoryList *)categories;
-- (ParameterList *)parameters;
-- (ParameterList *)metaParameters;
+- (NSMutableArray *)parameters;
+- (NSMutableArray *)metaParameters;
 - (NSMutableArray *)symbols;
 - (PhoneList *)postures;
 
@@ -53,7 +53,7 @@ extern NSString *MCategoryInUseException;
 
 // Parameters
 - (void)addParameter:(MMParameter *)newParameter;
-- (void)_uniqueNameForParameter:(MMParameter *)newParameter inList:(ParameterList *)aParameterList;
+- (void)_uniqueNameForParameter:(MMParameter *)newParameter inList:(NSMutableArray *)aParameterList;
 - (void)_addDefaultPostureTargetsForParameter:(MMParameter *)newParameter;
 - (void)removeParameter:(MMParameter *)aParameter;
 

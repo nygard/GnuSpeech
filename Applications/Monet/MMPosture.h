@@ -1,6 +1,6 @@
 #import "MMObject.h"
 
-@class CategoryList, MMCategory, MMSymbol, MMTarget, ParameterList;
+@class CategoryList, MMCategory, MMSymbol, MMTarget;
 
 /*===========================================================================
 

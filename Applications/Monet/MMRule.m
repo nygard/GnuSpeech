@@ -9,7 +9,6 @@
 #import "MMBooleanNode.h"
 #import "MMBooleanParser.h"
 #import "MMParameter.h"
-#import "ParameterList.h"
 #import "MMEquation.h"
 #import "MMSymbol.h"
 #import "MMTransition.h"
@@ -67,7 +66,7 @@
 {
     id tempEntry = nil;
     MMEquation *anEquation, *defaultOnset, *defaultDuration;
-    ParameterList *aParameterList;
+    NSArray *aParameterList;
     int i;
 
     /* Empty out the lists */
@@ -223,7 +222,7 @@
 
 - (void)addParameterProfilesFromReferenceDictionary:(NSDictionary *)dict;
 {
-    ParameterList *parameters;
+    NSArray *parameters;
     unsigned int count, index;
     MMParameter *parameter;
     NSString *name;
@@ -252,7 +251,7 @@
 
 - (void)addMetaParameterProfilesFromReferenceDictionary:(NSDictionary *)dict;
 {
-    ParameterList *parameters;
+    NSArray *parameters;
     unsigned int count, index;
     MMParameter *parameter;
     NSString *name;
@@ -276,7 +275,7 @@
 
 - (void)addSpecialProfilesFromReferenceDictionary:(NSDictionary *)dict;
 {
-    ParameterList *parameters;
+    NSArray *parameters;
     unsigned int count, index;
     MMParameter *parameter;
     NSString *transitionName;
@@ -660,7 +659,7 @@
 
 - (void)_appendXMLForParameterProfilesToString:(NSMutableString *)resultString level:(int)level;
 {
-    ParameterList *mainParameterList;
+    NSArray *mainParameterList;
     int count, index;
 
     mainParameterList = [[self model] parameters];
@@ -691,7 +690,7 @@
 
 - (void)_appendXMLForMetaParameterProfilesToString:(NSMutableString *)resultString level:(int)level;
 {
-    ParameterList *mainMetaParameterList;
+    NSArray *mainMetaParameterList;
     int count, index;
 
     mainMetaParameterList = [[self model] metaParameters];
@@ -722,7 +721,7 @@
 
 - (void)_appendXMLForSpecialProfilesToString:(NSMutableString *)resultString level:(int)level;
 {
-    ParameterList *mainParameterList;
+    NSArray *mainParameterList;
     int count, index;
     BOOL hasSpecialProfiles = NO;
 

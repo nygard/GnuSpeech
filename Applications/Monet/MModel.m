@@ -13,7 +13,6 @@
 #import "MMCategory.h"
 #import "MonetList.h"
 #import "NamedList.h"
-#import "ParameterList.h"
 #import "PhoneList.h"
 #import "MMBooleanParser.h"
 #import "MMEquation.h"
@@ -24,12 +23,15 @@
 #import "MMSynthesisParameters.h"
 #import "MMTarget.h"
 #import "MMTransition.h"
-#import "SymbolList.h"
 #import "TRMData.h"
 
 #import "MUnarchiver.h"
 #import "MXMLParser.h"
 #import "MXMLArrayDelegate.h"
+
+// For typedstream compatibility
+#import "ParameterList.h"
+#import "SymbolList.h"
 
 NSString *MCategoryInUseException = @"MCategoryInUseException";
 
@@ -41,8 +43,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         return nil;
 
     categories = [[CategoryList alloc] init];
-    parameters = [[ParameterList alloc] init];
-    metaParameters = [[ParameterList alloc] init];
+    parameters = [[NSMutableArray alloc] init];
+    metaParameters = [[NSMutableArray alloc] init];
     symbols = [[NSMutableArray alloc] init];
     postures = [[PhoneList alloc] init];
 
@@ -120,12 +122,12 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     return categories;
 }
 
-- (ParameterList *)parameters;
+- (NSMutableArray *)parameters;
 {
     return parameters;
 }
 
-- (ParameterList *)metaParameters;
+- (NSMutableArray *)metaParameters;
 {
     return metaParameters;
 }
@@ -258,7 +260,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 }
 
 // TODO (2004-03-19): When MMParameter and MMSymbol are the same class, this can be shared
-- (void)_uniqueNameForParameter:(MMParameter *)newParameter inList:(ParameterList *)aParameterList;
+- (void)_uniqueNameForParameter:(MMParameter *)newParameter inList:(NSMutableArray *)aParameterList;
 {
     NSMutableSet *names;
     int count, index;
@@ -927,12 +929,24 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     //NSLog(@"symbols: %d", [symbols count]);
     [symbols makeObjectsPerformSelector:@selector(setModel:) withObject:self];
 
-    parameters = [[aDecoder decodeObject] retain];
+    {
+        ParameterList *archivedParameters;
+
+        archivedParameters = [aDecoder decodeObject];
+        parameters = [[NSMutableArray alloc] init];
+        [parameters addObjectsFromArray:[archivedParameters allObjects]];
+    }
     //NSLog(@"parameters: %@", parameters);
     //NSLog(@"parameters: %d", [parameters count]);
     [parameters makeObjectsPerformSelector:@selector(setModel:) withObject:self];
 
-    metaParameters = [[aDecoder decodeObject] retain];
+    {
+        ParameterList *archivedMetaParameters;
+
+        archivedMetaParameters = [aDecoder decodeObject];
+        metaParameters = [[NSMutableArray alloc] init];
+        [metaParameters addObjectsFromArray:[archivedMetaParameters allObjects]];
+    }
     //NSLog(@"metaParameters: %@", metaParameters);
     //NSLog(@"metaParameters: %d", [metaParameters count]);
     [metaParameters makeObjectsPerformSelector:@selector(setModel:) withObject:self];

@@ -131,7 +131,7 @@
 
 - (void)_updateDisplayParameters;
 {
-    ParameterList *parameters;
+    NSArray *parameters;
     unsigned int count, index;
     int currentTag = 0;
     MMParameter *currentParameter;

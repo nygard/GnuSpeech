@@ -15,7 +15,6 @@
 #import "MMSlopeRatio.h"
 #import "MMTarget.h"
 #import "PhoneList.h"
-#import "ParameterList.h"
 
 #import "TRMSynthesizer.h" // For addParameters:
 
@@ -626,7 +625,7 @@
     double footTempo, tempTempo;
     int index;
     int i, j, rus;
-    ParameterList *mainParameterList = [aModel parameters];
+    NSMutableArray *mainParameterList = [aModel parameters];
     MMParameter *tempParameter = nil;
 
     NSLog(@" > %s", _cmd);

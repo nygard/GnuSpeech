@@ -8,7 +8,6 @@
 #import "CategoryList.h"
 #import "GSXMLFunctions.h"
 #import "MMParameter.h"
-#import "ParameterList.h"
 #import "MMTarget.h"
 #import "MMSymbol.h"
 
@@ -22,6 +21,7 @@
 #import "MXMLReferenceArrayDelegate.h"
 
 // For typedstream compatibility
+#import "ParameterList.h"
 #import "TargetList.h"
 
 @implementation MMPosture
@@ -60,7 +60,7 @@
 {
     int count, index;
     MMTarget *newTarget;
-    ParameterList *mainParameters;
+    NSArray *mainParameters;
     NSArray *mainSymbols;
 
     [self addCategory:[[self model] categoryWithName:@"phone"]];
@@ -74,6 +74,7 @@
     }
 
     mainParameters = [[self model] metaParameters];
+    count = [mainParameters count];
     for (index = 0; index < count; index++) {
         newTarget = [[MMTarget alloc] initWithValue:[[mainParameters objectAtIndex:index] defaultValue] isDefault:YES];
         [metaParameterList addObject:newTarget];
@@ -222,7 +223,7 @@
 
 - (void)addParameterTargetsFromDictionary:(NSDictionary *)aDictionary;
 {
-    ParameterList *parameters;
+    NSArray *parameters;
     unsigned int count, index;
 
     parameters = [[self model] parameters];
@@ -258,7 +259,7 @@
 
 - (void)addMetaParameterTargetsFromDictionary:(NSDictionary *)aDictionary;
 {
-    ParameterList *parameters;
+    NSArray *parameters;
     unsigned int count, index;
 
     parameters = [[self model] metaParameters];
@@ -472,7 +473,7 @@
 
 - (void)_appendXMLForParametersToString:(NSMutableString *)resultString level:(int)level;
 {
-    ParameterList *mainParameterList;
+    NSArray *mainParameterList;
     int count, index;
     MMParameter *aParameter;
     MMTarget *aTarget;
@@ -504,7 +505,7 @@
 
 - (void)_appendXMLForMetaParametersToString:(NSMutableString *)resultString level:(int)level;
 {
-    ParameterList *mainMetaParameterList;
+    NSArray *mainMetaParameterList;
     int count, index;
     MMParameter *aParameter;
     MMTarget *aTarget;
