@@ -255,12 +255,12 @@
 
     /* Make an outlined white box for display */
     [[NSColor whiteColor] set];
-    NSRectFill(NSMakeRect(81.0, 51.0, bounds.size.width - 102.0, bounds.size.height - 102.0));
+    NSRectFill(NSMakeRect(80.0, 50.0, bounds.size.width - 100.0, bounds.size.height - 100.0));
 
     [[NSColor blackColor] set];
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:2];
-    [bezierPath appendBezierPathWithRect:NSMakeRect(80, 50, bounds.size.width - 80 - 20, bounds.size.height - 50 - 50)];
+    [bezierPath appendBezierPathWithRect:NSMakeRect(79, 49, bounds.size.width - 80 - 20 + 2, bounds.size.height - 50 - 50 + 2)];
     [bezierPath stroke];
     [bezierPath release];
 
