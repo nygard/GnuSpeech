@@ -38,8 +38,6 @@
 {
     int index;
 
-    NSLog(@"[%p] -> %@ %s", self, NSStringFromClass([self class]), _cmd);
-
     [parameterProfiles release];
     [metaParameterProfiles release];
     [expressionSymbols release];

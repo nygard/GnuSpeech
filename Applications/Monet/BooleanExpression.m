@@ -17,7 +17,6 @@
 
 - (void)dealloc;
 {
-    NSLog(@"[%p] -> %@ %s", self, NSStringFromClass([self class]), _cmd);
     [expressions release];
 
     [super dealloc];

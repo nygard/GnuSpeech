@@ -35,7 +35,6 @@
 
 - (void)dealloc;
 {
-    NSLog(@"[%p] -> %@ %s", self, NSStringFromClass([self class]), _cmd);
     [name release];
     [comment release];
     [expression release];

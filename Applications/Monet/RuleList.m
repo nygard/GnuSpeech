@@ -12,12 +12,6 @@
 
 @implementation RuleList
 
-- (void)dealloc;
-{
-    NSLog(@"[%p] -> %@ %s", self, NSStringFromClass([self class]), _cmd);
-    [super dealloc];
-}
-
 - (void)seedListWith:(BooleanExpression *)expression1:(BooleanExpression *)expression2;
 {
     Rule *aRule;

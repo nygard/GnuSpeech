@@ -28,7 +28,7 @@
 
 - (void)dealloc;
 {
-    NSLog(@"[%p] -> %@ %s", self, NSStringFromClass([self class]), _cmd);
+    //NSLog(@"[%p] -> %@ %s", self, NSStringFromClass([self class]), _cmd);
     [ilist release];
 
     [super dealloc];
