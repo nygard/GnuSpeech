@@ -70,7 +70,12 @@
             }; 
             SUPERCLASS = NSView; 
         }, 
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {groupInSlopeRatio = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
         {
             ACTIONS = {
                 loadContour = id; 

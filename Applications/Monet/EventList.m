@@ -869,6 +869,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
     }
 
     /* Special Event Profiles */
+    // TODO (2004-08-15): Does this support slope ratios?
     for (parameterIndex = 0; parameterIndex < 16; parameterIndex++) {
         transition = [rule getSpecialProfile:parameterIndex];
         if (transition != nil) {
