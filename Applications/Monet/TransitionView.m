@@ -1256,10 +1256,11 @@ static NSImage *_selectionBox = nil;
 
 - (void)setTransition:(MMTransition *)newTransition;
 {
-
     [[self window] endEditingFor:nil];
     [selectedPoints removeAllObjects];
     [self _selectionDidChange];
+    [displayPoints removeAllObjects];
+    [displaySlopes removeAllObjects];
 
     // In case we've changed the type of the transition
     if (newTransition != currentTemplate) {
