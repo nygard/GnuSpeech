@@ -298,6 +298,7 @@
 
     rules = [[aDecoder decodeObject] retain];
     NSLog(@"rules: %d", [rules count]);
+    [rules makeObjectsPerformSelector:@selector(setModel:) withObject:self];
 
     return self;
 }

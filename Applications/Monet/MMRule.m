@@ -61,7 +61,6 @@
 - (void)setDefaultsTo:(int)numPhones;
 {
     id tempEntry = nil, tempOnset = nil, tempDuration = nil;
-    PrototypeManager *prototypeManager;
     ParameterList *aParameterList;
     int i;
 
@@ -73,16 +72,15 @@
     if ((numPhones < 2) || (numPhones > 4))
         return;
 
-    prototypeManager = NXGetNamedObject(@"prototypeManager", NSApp);
     switch (numPhones) {
       case 2:
-          tempEntry = [prototypeManager findTransitionList:@"Defaults" named:@"Diphone"];
+          tempEntry = [[self model] findTransitionList:@"Defaults" named:@"Diphone"];
           break;
       case 3:
-          tempEntry = [prototypeManager findTransitionList:@"Defaults" named:@"Triphone"];
+          tempEntry = [[self model] findTransitionList:@"Defaults" named:@"Triphone"];
           break;
       case 4:
-          tempEntry = [prototypeManager findTransitionList:@"Defaults" named:@"Tetraphone"];
+          tempEntry = [[self model] findTransitionList:@"Defaults" named:@"Tetraphone"];
           break;
     }
 
@@ -90,51 +88,51 @@
         NSLog(@"CANNOT find temp entry");
     }
 
-    aParameterList = NXGetNamedObject(@"mainParameterList", NSApp);
+    aParameterList = [[self model] parameters];
     for (i = 0; i < [aParameterList count]; i++) {
         [parameterProfiles addObject:tempEntry];
     }
 
     /* Alloc lists to point to prototype transition specifiers */
-    aParameterList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
+    aParameterList = [[self model] metaParameters];
     for (i = 0; i < [aParameterList count]; i++) {
         [metaParameterProfiles addObject:tempEntry];
     }
 
     switch (numPhones) {
       case 2:
-          tempDuration = [prototypeManager findEquationList:@"DefaultDurations" named:@"DiphoneDefault"];
+          tempDuration = [[self model] findEquationList:@"DefaultDurations" named:@"DiphoneDefault"];
           [expressionSymbols addObject:tempDuration];
 
-          tempOnset = [prototypeManager findEquationList:@"SymbolDefaults" named:@"Beat"];
+          tempOnset = [[self model] findEquationList:@"SymbolDefaults" named:@"Beat"];
           [expressionSymbols addObject:tempOnset];
 
           [expressionSymbols addObject:tempDuration]; /* Make the duration the mark1 value */
 
           break;
       case 3:
-          tempDuration = [prototypeManager findEquationList:@"DefaultDurations" named:@"TriphoneDefault"];
+          tempDuration = [[self model] findEquationList:@"DefaultDurations" named:@"TriphoneDefault"];
           [expressionSymbols addObject:tempDuration];
 
-          tempOnset = [prototypeManager findEquationList:@"SymbolDefaults" named:@"Beat"];
+          tempOnset = [[self model] findEquationList:@"SymbolDefaults" named:@"Beat"];
           [expressionSymbols addObject:tempOnset];
 
-          tempEntry = [prototypeManager findEquationList:@"SymbolDefaults" named:@"Mark1"];
+          tempEntry = [[self model] findEquationList:@"SymbolDefaults" named:@"Mark1"];
           [expressionSymbols addObject:tempEntry];
           [expressionSymbols addObject:tempDuration];	/* make the duration the mark2 value */
 
           break;
       case 4:
-          tempDuration = [prototypeManager findEquationList:@"DefaultDurations" named:@"TetraphoneDefault"];
+          tempDuration = [[self model] findEquationList:@"DefaultDurations" named:@"TetraphoneDefault"];
           [expressionSymbols addObject:tempDuration];
 
-          tempOnset = [prototypeManager findEquationList:@"SymbolDefaults" named:@"Beat"];
+          tempOnset = [[self model] findEquationList:@"SymbolDefaults" named:@"Beat"];
           [expressionSymbols addObject:tempOnset];
 
-          tempEntry = [prototypeManager findEquationList:@"SymbolDefaults" named:@"Mark1"];
+          tempEntry = [[self model] findEquationList:@"SymbolDefaults" named:@"Mark1"];
           [expressionSymbols addObject:tempEntry];
 
-          tempEntry = [prototypeManager findEquationList:@"SymbolDefaults" named:@"Mark2"];
+          tempEntry = [[self model] findEquationList:@"SymbolDefaults" named:@"Mark2"];
           [expressionSymbols addObject:tempEntry];
           [expressionSymbols addObject:tempDuration];	/* make the duration the mark3 value */
 
@@ -145,18 +143,16 @@
 - (void)addDefaultParameter;
 {
     id tempEntry;
-    PrototypeManager *prototypeManager;
 
-    prototypeManager = NXGetNamedObject(@"prototypeManager", NSApp);
     switch ([self numberExpressions]) {
       case 2:
-          tempEntry = [prototypeManager findTransitionList:@"Defaults" named:@"Diphone"];
+          tempEntry = [[self model] findTransitionList:@"Defaults" named:@"Diphone"];
           break;
       case 3:
-          tempEntry = [prototypeManager findTransitionList:@"Defaults" named:@"Triphone"];
+          tempEntry = [[self model] findTransitionList:@"Defaults" named:@"Triphone"];
           break;
       case 4:
-          tempEntry = [prototypeManager findTransitionList:@"Defaults" named:@"Tetraphone"];
+          tempEntry = [[self model] findTransitionList:@"Defaults" named:@"Tetraphone"];
           break;
     }
 
@@ -166,18 +162,16 @@
 - (void)addDefaultMetaParameter;
 {
     id tempEntry;
-    PrototypeManager *prototypeManager;
 
-    prototypeManager = NXGetNamedObject(@"prototypeManager", NSApp);
     switch ([self numberExpressions]) {
       case 2:
-          tempEntry = [prototypeManager findTransitionList:@"Defaults" named:@"Diphone"];
+          tempEntry = [[self model] findTransitionList:@"Defaults" named:@"Diphone"];
           break;
       case 3:
-          tempEntry = [prototypeManager findTransitionList:@"Defaults" named:@"Triphone"];
+          tempEntry = [[self model] findTransitionList:@"Defaults" named:@"Triphone"];
           break;
       case 4:
-          tempEntry = [prototypeManager findTransitionList:@"Defaults" named:@"Tetraphone"];
+          tempEntry = [[self model] findTransitionList:@"Defaults" named:@"Tetraphone"];
           break;
     }
 
@@ -417,7 +411,7 @@
 #ifdef PORTING
     int index, j, k, dummy;
     int parms, metaParms, symbols;
-    PrototypeManager *prototypeManager = NXGetNamedObject(@"prototypeManager", NSApp);
+    //PrototypeManager *prototypeManager = NXGetNamedObject(@"prototypeManager", NSApp);
 
     j = [self numberExpressions];
     [aCoder encodeValuesOfObjCTypes:"i*", &j, &comment];
@@ -528,7 +522,7 @@
     ParameterList *mainParameterList;
     int count, index;
 
-    mainParameterList = NXGetNamedObject(@"mainParameterList", NSApp);
+    mainParameterList = [[self model] parameters];
     assert([mainParameterList count] == [parameterProfiles count]);
 
     if ([parameterProfiles count] == 0)
@@ -559,7 +553,7 @@
     ParameterList *mainMetaParameterList;
     int count, index;
 
-    mainMetaParameterList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
+    mainMetaParameterList = [[self model] metaParameters];
     assert([mainMetaParameterList count] == [metaParameterProfiles count]);
 
     if ([metaParameterProfiles count] == 0)
@@ -591,7 +585,7 @@
     int count, index;
     BOOL hasSpecialProfiles = NO;
 
-    mainParameterList = NXGetNamedObject(@"mainParameterList", NSApp);
+    mainParameterList = [[self model] parameters];
 
     count = [mainParameterList count];
     for (index = 0; index < count && index < 16; index++) {

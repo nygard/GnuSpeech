@@ -1,4 +1,4 @@
-#import <Foundation/NSObject.h>
+#import "MMObject.h"
 
 @class BooleanExpression, MMCategory, MonetList, PhoneList, MMEquation, MMTransition;
 
@@ -11,7 +11,7 @@
 =============================================================================
 */
 
-@interface MMRule : NSObject
+@interface MMRule : MMObject
 {
     MonetList *parameterProfiles; // Of MMTransitions
     MonetList *metaParameterProfiles; // Of MMTransitions?
