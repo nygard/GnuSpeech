@@ -19,12 +19,6 @@
 #import "Rule.h"
 #import "RuleList.h"
 
-#ifdef PORTING
-#import "SymbolList.h"
-#import "ParameterList.h"
-#endif
-
-
 @implementation RuleManager
 
 - (id)init;
@@ -374,69 +368,77 @@
 
 - (void)updateRuleDisplay;
 {
+    [ruleMatrix setTitle:[NSString stringWithFormat:@"Total Rules: %d", [ruleList count]] ofColumn:0];
     [ruleMatrix loadColumnZero];
 }
 
 - (IBAction)add:(id)sender;
 {
     PhoneList *mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
-    BooleanExpression *exp1, *exp2, *exp3, *exp4;
-
-    exp1 = exp2 = exp3 = exp4 = nil;
+    BooleanExpression *exps[4];
+    int index;
 
     [boolParser setCategoryList:NXGetNamedObject(@"mainCategoryList", NSApp)];
     [boolParser setPhoneList:mainPhoneList];
 
-    if ([[[expressionFields cellAtIndex:0] stringValue] length])
-        exp1 = [boolParser parseString:[[expressionFields cellAtIndex:0] stringValue]];
-    if ([[[expressionFields cellAtIndex:1] stringValue] length])
-        exp2 = [boolParser parseString:[[expressionFields cellAtIndex:1] stringValue]];
-    if ([[[expressionFields cellAtIndex:2] stringValue] length])
-        exp3 = [boolParser parseString:[[expressionFields cellAtIndex:2] stringValue]];
-    if ([[[expressionFields cellAtIndex:3] stringValue] length])
-        exp4 = [boolParser parseString:[[expressionFields cellAtIndex:3] stringValue]];
+    for (index = 0; index < 4; index++) {
+        NSString *str;
+
+        str = [[expressionFields cellAtIndex:index] stringValue];
+        if ([str length] == 0)
+            exps[index] = nil;
+        else
+            exps[index] = [boolParser parseString:str];
+    }
 
     // TODO (2004-03-03): Might like flag to indicate we shouldn't clear the error message when we start parsing, so we get all the errors.
     [errorTextField setStringValue:[boolParser errorMessage]];
 
-    [ruleList addRuleExp1:exp1 exp2:exp2 exp3:exp3 exp4:exp4];
+    [ruleList addRuleExp1:exps[0] exp2:exps[1] exp3:exps[2] exp4:exps[3]];
 
     [ruleMatrix setTitle:[NSString stringWithFormat:@"Total Rules: %d", [ruleList count]] ofColumn:0];
     [ruleMatrix loadColumnZero];
+    [ruleMatrix selectRow:[ruleList count] - 2 inColumn:0];
 }
 
+// TODO (2004-03-10): Actually, it's just "change"
 - (IBAction)rename:(id)sender;
 {
     PhoneList *mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
-    BooleanExpression *exp1, *exp2, *exp3, *exp4;
-    int index = [[ruleMatrix matrixInColumn:0] selectedRow];
-
-    exp1 = exp2 = exp3 = exp4 = nil;
+    int selectedRow = [[ruleMatrix matrixInColumn:0] selectedRow];
+    BooleanExpression *exps[4];
+    int index;
 
     [boolParser setCategoryList:NXGetNamedObject(@"mainCategoryList", NSApp)];
     [boolParser setPhoneList:mainPhoneList];
 
-    if ([[[expressionFields cellAtIndex:0] stringValue] length])
-        exp1 = [boolParser parseString:[[expressionFields cellAtIndex:0] stringValue]];
-    if ([[[expressionFields cellAtIndex:1] stringValue] length])
-        exp2 = [boolParser parseString:[[expressionFields cellAtIndex:1] stringValue]];
-    if ([[[expressionFields cellAtIndex:2] stringValue] length])
-        exp3 = [boolParser parseString:[[expressionFields cellAtIndex:2] stringValue]];
-    if ([[[expressionFields cellAtIndex:3] stringValue] length])
-        exp4 = [boolParser parseString:[[expressionFields cellAtIndex:3] stringValue]];
+    for (index = 0; index < 4; index++) {
+        NSString *str;
+
+        str = [[expressionFields cellAtIndex:index] stringValue];
+        if ([str length] == 0)
+            exps[index] = nil;
+        else
+            exps[index] = [boolParser parseString:str];
+    }
 
     [errorTextField setStringValue:[boolParser errorMessage]];
-    [ruleList changeRuleAt:index exp1:exp1 exp2:exp2 exp3:exp3 exp4:exp4];
+    [ruleList changeRuleAt:selectedRow exp1:exps[0] exp2:exps[1] exp3:exps[2] exp4:exps[3]];
 
     [ruleMatrix loadColumnZero];
+    [ruleMatrix selectRow:selectedRow inColumn:0];
 }
 
 - (IBAction)remove:(id)sender;
 {
-    int index = [[ruleMatrix matrixInColumn:0] selectedRow];
+    int selectedRow = [[ruleMatrix matrixInColumn:0] selectedRow];
 
-    [ruleList removeObjectAtIndex:index];
+    [ruleList removeObjectAtIndex:selectedRow];
     [ruleMatrix loadColumnZero];
+    if (selectedRow >= [ruleList count])
+        selectedRow = [ruleList count] - 1;
+    [ruleMatrix selectRow:selectedRow inColumn:0];
+    [self browserHit:ruleMatrix];
 }
 
 - (IBAction)parseRule:(id)sender;

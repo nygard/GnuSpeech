@@ -77,12 +77,17 @@
 
 - (void)appendErrorFormat:(NSString *)format, ...;
 {
+    NSString *str;
     va_list args;
 
     va_start(args, format);
-    [errorMessage appendFormat:format, args];
-    [errorMessage appendString:@"\n"];
+    str = [[NSString alloc] initWithFormat:format arguments:args];
     va_end(args);
+
+    [errorMessage appendString:str];
+    [errorMessage appendString:@"\n"];
+
+    [str release];
 }
 
 @end
