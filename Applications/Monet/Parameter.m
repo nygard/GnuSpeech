@@ -1,6 +1,8 @@
 #import "Parameter.h"
 
 #import <Foundation/Foundation.h>
+#import "NSObject-Extensions.h"
+#import "NSString-Extensions.h"
 
 @implementation Parameter
 
@@ -95,15 +97,44 @@
     defaultValue = newDefault;
 }
 
+//
+// Archiving
+//
+
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
-    [aDecoder decodeValuesOfObjCTypes:"**ddd", &parameterSymbol, &comment, &minimum, &maximum, &defaultValue];
+    unsigned archivedVersion;
+    char *c_parameterSymbol, *c_comment;
+
+    if ([super initWithCoder:aDecoder] == nil)
+        return nil;
+
+    NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
+    archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
+    NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
+
+    [aDecoder decodeValuesOfObjCTypes:"**ddd", &c_parameterSymbol, &c_comment, &minimum, &maximum, &defaultValue];
+    NSLog(@"c_parameterSymbol: %s, c_comment: %s, minimum: %g, maximum: %g, defaultValue: %g",
+          c_parameterSymbol, c_comment, minimum, maximum, defaultValue);
+
+    parameterSymbol = [[NSString stringWithASCIICString:c_parameterSymbol] retain];
+    comment = [[NSString stringWithASCIICString:c_comment] retain];
+
+    NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder;
 {
+#ifdef PORTING
     [aCoder encodeValuesOfObjCTypes:"**ddd", &parameterSymbol, &comment, &minimum, &maximum, &defaultValue];
+#endif
+}
+
+- (NSString *)description;
+{
+    return [NSString stringWithFormat:@"<%@>[%p]: parameterSymbol: %@, comment: %@, minimum: %g, maximum: %g, defaultValue: %g",
+                     NSStringFromClass([self class]), self, parameterSymbol, comment, minimum, maximum, defaultValue];
 }
 
 @end

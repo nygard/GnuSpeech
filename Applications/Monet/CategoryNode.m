@@ -1,6 +1,8 @@
 #import "CategoryNode.h"
 
 #import <Foundation/Foundation.h>
+#import "NSObject-Extensions.h"
+#import "NSString-Extensions.h"
 
 @implementation CategoryNode
 
@@ -80,15 +82,43 @@
     isNative = newFlag;
 }
 
+//
+// Archiving
+//
+
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
-    [aDecoder decodeValuesOfObjCTypes:"**i", &symbol, &comment, &isNative];
+    unsigned archivedVersion;
+    char *c_symbol, *c_comment;
+
+    if ([super initWithCoder:aDecoder] == nil)
+        return nil;
+
+    NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
+    archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
+    NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
+
+    [aDecoder decodeValuesOfObjCTypes:"**i", &c_symbol, &c_comment, &isNative];
+    NSLog(@"c_symbol: %s, c_comment: %s, isNative: %d", c_symbol, c_comment, isNative);
+
+    symbol = [[NSString stringWithASCIICString:c_symbol] retain];
+    comment = [[NSString stringWithASCIICString:c_comment] retain];
+
+    NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder;
 {
+#ifdef PORTING
     [aCoder encodeValuesOfObjCTypes:"**i", &symbol, &comment, &isNative];
+#endif
+}
+
+- (NSString *)description;
+{
+    return [NSString stringWithFormat:@"<%@>[%p]: symbol: %@, comment: %@, isNative: %d",
+                     NSStringFromClass([self class]), self, symbol, comment, isNative];
 }
 
 @end

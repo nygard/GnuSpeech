@@ -1,6 +1,7 @@
 #import "FormulaTerminal.h"
 
 #import <Foundation/Foundation.h>
+#import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
 
 #import "AppController.h"
@@ -221,11 +222,14 @@
     unsigned archivedVersion;
     SymbolList *mainSymbolList;
 
-    symbol = nil;
+    if ([super initWithCoder:aDecoder] == nil)
+        return nil;
 
     //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
     archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
     //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
+
+    symbol = nil;
 
     mainSymbolList = NXGetNamedObject(@"mainSymbolList", NSApp);
     //NSLog(@"mainSymbolList: %@", mainSymbolList);

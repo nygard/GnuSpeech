@@ -1,6 +1,7 @@
 #import "ProtoEquation.h"
 
 #import <Foundation/Foundation.h>
+#import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
 
 #import "FormulaExpression.h"
@@ -112,7 +113,9 @@
 {
     unsigned archivedVersion;
     char *c_name, *c_comment;
-    FormulaExpression *anExpression;
+
+    if ([super initWithCoder:aDecoder] == nil)
+        return nil;
 
     cacheTag = 0;
     cacheValue = 0.0;

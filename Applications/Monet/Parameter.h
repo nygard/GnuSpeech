@@ -37,7 +37,10 @@
 - (double)defaultValue;
 - (void)setDefaultValue:(double)newDefault;
 
-//- (id)initWithCoder:(NSCoder *)aDecoder;
+// Archiving
+- (id)initWithCoder:(NSCoder *)aDecoder;
 //- (void)encodeWithCoder:(NSCoder *)aCoder;
+
+- (NSString *)description;
 
 @end

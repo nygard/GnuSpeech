@@ -1,6 +1,7 @@
 #import "FormulaExpression.h"
 
 #import <Foundation/Foundation.h>
+#import "NSObject-Extensions.h"
 #import "FormulaSymbols.h"
 
 @implementation FormulaExpression
@@ -233,6 +234,9 @@
     unsigned archivedVersion;
     int index;
     int numExpressions, maxExpressions;
+
+    if ([super initWithCoder:aDecoder] == nil)
+        return nil;
 
     //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
     archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];

@@ -77,8 +77,8 @@
 - (TargetList *)metaParameterList;
 - (TargetList *)symbolList;
 
-/* Archiving methods */
-//- (id)initWithCoder:(NSCoder *)aDecoder;
+// Archiving
+- (id)initWithCoder:(NSCoder *)aDecoder;
 //- (void)encodeWithCoder:(NSCoder *)aCoder;
 
 @end

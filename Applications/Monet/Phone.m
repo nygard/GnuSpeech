@@ -1,6 +1,9 @@
 #import "Phone.h"
 
 #import <Foundation/Foundation.h>
+#import "NSObject-Extensions.h"
+#import "NSString-Extensions.h"
+
 #import "AppController.h"
 #import "CategoryNode.h"
 #import "CategoryList.h"
@@ -150,15 +153,26 @@
     return symbolList;
 }
 
-#ifdef PORTING
+//
+// Archiving
+//
+
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
+    unsigned archivedVersion;
     int i, j;
-    CategoryList *temp;
+    CategoryList *mainCategoryList;
     CategoryNode *temp1;
     char *string;
 
-    temp = NXGetNamedObject(@"mainCategoryList", NSApp);
+    if ([super initWithCoder:aDecoder] == nil)
+        return nil;
+
+    NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
+    archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
+    NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
+#ifdef PORTING
+    mainCategoryList = NXGetNamedObject(@"mainCategoryList", NSApp);
 
     [aDecoder decodeValuesOfObjCTypes:"**", &phoneSymbol, &comment];
 
@@ -177,7 +191,7 @@
     for (j = 0; j<i; j++)
     {
         [aDecoder decodeValueOfObjCType:"*" at:&string];
-        if ((temp1 = [temp findSymbol:string]) )
+        if ((temp1 = [mainCategoryList findSymbol:string]) )
         {
 //			printf("Read category: %s\n", string);
             [categoryList addObject:temp1];
@@ -195,11 +209,12 @@
         }
         free(string);
     }
-
-
+#endif
+    NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
     return self;
 }
 
+#ifdef PORTING
 - (void)encodeWithCoder:(NSCoder *)aCoder;
 {
     int i;

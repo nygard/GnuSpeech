@@ -29,4 +29,6 @@
 - (void)readDegasFileFormat:(FILE *)fp;
 - (void)printDataTo:(FILE *)fp;
 
+- (NSString *)description;
+
 @end

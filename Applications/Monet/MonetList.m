@@ -7,6 +7,7 @@
 #import "MonetList.h"
 
 #import <Foundation/Foundation.h>
+#import "NSObject-Extensions.h"
 
 @implementation MonetList
 
@@ -104,6 +105,9 @@
 {
     unsigned archivedVersion;
     int count;
+
+    if ([super initWithCoder:aDecoder] == nil)
+        return nil;
 
     // TODO (2004-03-05): On second thought I don't think these should call init -- also doing so in subclasses may cause problems, multiple-initialization
     ilist = [[NSMutableArray alloc] init];

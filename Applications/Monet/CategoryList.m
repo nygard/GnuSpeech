@@ -121,4 +121,10 @@
 #endif
 }
 
+- (NSString *)description;
+{
+    return [NSString stringWithFormat:@"<%@>[%p]: super: %@",
+                     NSStringFromClass([self class]), self, [super description]];
+}
+
 @end

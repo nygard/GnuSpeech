@@ -316,6 +316,7 @@
 
                 /* Category list must be named immediately */
                 mainCategoryList = [[stream decodeObject] retain];
+                NSLog(@"mainCategoryList: %@", mainCategoryList);
                 NXNameObject(@"mainCategoryList", mainCategoryList, NSApp);
 #ifdef PORTING
                 mainSymbolList = [[stream decodeObject] retain];

@@ -21,7 +21,10 @@
 - (BOOL)isNative;
 - (void)setIsNative:(BOOL)newFlag;
 
+// Archiving
 - (id)initWithCoder:(NSCoder *)aDecoder;
 - (void)encodeWithCoder:(NSCoder *)aCoder;
+
+- (NSString *)description;
 
 @end
