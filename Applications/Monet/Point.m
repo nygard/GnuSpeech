@@ -166,6 +166,7 @@
     //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
 
 #if 1
+    // TODO (2004-03-17): Check to make sure that isPhantom is being properly decoded.
     [aDecoder decodeValuesOfObjCTypes:"ddii", &value, &freeTime, &type, &isPhantom];
 #else
     // Hack to check "Play2.monet".

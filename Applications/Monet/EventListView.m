@@ -289,12 +289,12 @@
         [str drawAtPoint:NSMakePoint(55.0, bounds.size.height - (50.0 + (float)(i) * TRACKHEIGHT + 3.0)) withAttributes:nil];
     }
 
-    // Draw phones/postures along top, and 
+    // Draw phones/postures along top, and
     [timesFont set];
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:1];
     for (i = 0; i < [eventList count]; i++) {
-        currentX = 80.0 + ((float)[[eventList objectAtIndex:i] time] / timeScale);
+        currentX = rint(80.0 + ((float)[[eventList objectAtIndex:i] time] / timeScale));
         if (currentX > bounds.size.width - 20.0)
             break;
 

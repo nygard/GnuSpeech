@@ -489,8 +489,16 @@
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 {
+    [self appendXMLToString:resultString level:level number:-1];
+}
+
+- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level number:(int)aNumber;
+{
     [resultString indentToLevel:level];
-    [resultString appendFormat:@"<rule>\n"];
+    if (aNumber == -1)
+        [resultString appendFormat:@"<rule>\n"];
+    else
+        [resultString appendFormat:@"<rule number=\"%d\">\n", aNumber];
 
     [resultString indentToLevel:level + 1];
     [resultString appendFormat:@"<boolean-expression>%@</boolean-expression>\n", [self ruleString]];

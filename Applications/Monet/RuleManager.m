@@ -510,7 +510,7 @@
             if ([aRule matchRule:tempList]) {
                 NSString *str;
 
-                str = [NSString stringWithFormat:@"%d. %@", i, [aRule ruleString]];
+                str = [NSString stringWithFormat:@"%d. %@", i + 1, [aRule ruleString]];
                 [ruleOutput setStringValue:str];
                 [consumedTokens setIntValue:[aRule numberExpressions]];
                 // TODO (2004-03-02): Is being out of order significant?
@@ -779,7 +779,7 @@ static NSString *ruleString = @"Rule";
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 {
-    [ruleList appendXMLToString:resultString elementName:@"rules" level:level];
+    [ruleList appendXMLToString:resultString elementName:@"rules" level:level numberItems:YES];
 }
 
 @end

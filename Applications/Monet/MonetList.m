@@ -168,6 +168,11 @@
 
 - (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(int)level;
 {
+    [self appendXMLToString:resultString elementName:elementName level:level numberItems:NO];
+}
+
+- (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(int)level numberItems:(BOOL)shouldNumberItems;
+{
     int count, index;
 
     count = [self count];
@@ -181,7 +186,10 @@
         id anObject;
 
         anObject = [self objectAtIndex:index];
-        [anObject appendXMLToString:resultString level:level+1];
+        if (shouldNumberItems == YES && [anObject respondsToSelector:@selector(appendXMLToString:level:number:)] == YES)
+            [anObject appendXMLToString:resultString level:level+1 number:index+1];
+        else
+            [anObject appendXMLToString:resultString level:level+1];
     }
 
     [resultString indentToLevel:level];
