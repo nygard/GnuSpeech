@@ -18,6 +18,8 @@
 #define FILTER_LENGTH             (ZERO_CROSSINGS * L_RANGE)
 #define FILTER_LIMIT              (FILTER_LENGTH - 1)
 
+// FILTER_LENGTH is 13 * 256 = 3328 with these settings.
+
 typedef struct _TRMSampleRateConverter {
     double sampleRateRatio;
     double h[FILTER_LENGTH];
