@@ -100,4 +100,10 @@
 // IntonationView delegate
 - (void)intonationViewSelectionDidChange:(NSNotification *)aNotification;
 
+// Intonation Parameters
+- (IBAction)updateSmoothIntonation:(id)sender;
+- (IBAction)updateMacroIntonation:(id)sender;
+- (IBAction)updateMicroIntonation:(id)sender;
+- (IBAction)updateDrift:(id)sender;
+
 @end

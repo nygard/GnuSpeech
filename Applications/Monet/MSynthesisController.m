@@ -24,6 +24,11 @@
 
 #import "TRMSynthesizer.h"
 
+#define MDK_ShouldUseSmoothIntonation @"ShouldUseSmoothIntonation"
+#define MDK_ShouldUseMacroIntonation @"ShouldUseMacroIntonation"
+#define MDK_ShouldUseMicroIntonation @"ShouldUseMicroIntonation"
+#define MDK_ShouldUseDrift @"ShouldUseDrift"
+
 // TODO (2004-03-31): The original code changed the rule index of the currently selected intonation point when the browser was hit, and then added that point to the intonation view again...
 
 @implementation MSynthesisController
@@ -86,6 +91,7 @@
 {
     NSNumberFormatter *defaultNumberFormatter;
     NSButtonCell *checkboxCell;
+    NSUserDefaults *defaults;
 
     [intonationParameterWindow setFrameAutosaveName:@"Intonation Parameters"];
     [intonationWindow setFrameAutosaveName:@"Intonation"];
@@ -114,6 +120,13 @@
     [self _updateSelectedPointDetails];
 
     [self updateViews];
+
+    // Set up default values for intonation checkboxes
+    defaults = [NSUserDefaults standardUserDefaults];
+    [smoothIntonationSwitch setState:[defaults boolForKey:MDK_ShouldUseSmoothIntonation]];
+    [[intonationMatrix cellAtRow:0 column:0] setState:[defaults boolForKey:MDK_ShouldUseMacroIntonation]];
+    [[intonationMatrix cellAtRow:1 column:0] setState:[defaults boolForKey:MDK_ShouldUseMicroIntonation]];
+    [[intonationMatrix cellAtRow:2 column:0] setState:[defaults boolForKey:MDK_ShouldUseDrift]];
 }
 
 - (void)_updateDisplayParameters;
@@ -227,9 +240,11 @@
 #if 0
     struct timeval tp1, tp2;
     struct timezone tzp;
+    NSUserDefaults *defaults;
 
     NSLog(@" > %s", _cmd);
 
+    defaults = [NSUserDefaults standardUserDefaults];
     //[self parseString:[stringTextField stringValue]];
 
     gettimeofday(&tp1, &tzp);
@@ -240,9 +255,9 @@
     [eventList setGlobalTempo:[tempoField doubleValue]];
     [eventList setShouldStoreParameters:[parametersStore state]];
 
-    [eventList setShouldUseMacroIntonation:[[intonationMatrix cellAtRow:0 column:0] state]];
-    [eventList setShouldUseMicroIntonation:[[intonationMatrix cellAtRow:1 column:0] state]];
-    [eventList setShouldUseDrift:[[intonationMatrix cellAtRow:2 column:0] state]];
+    [eventList setShouldUseMacroIntonation:[defaults boolForKey:MDK_ShouldUseMacroIntonation]];
+    [eventList setShouldUseMicroIntonation:[defaults boolForKey:MDK_ShouldUseMicroIntonation]];
+    [eventList setShouldUseDrift:[defaults boolForKey:MDK_ShouldUseDrift]];
     setDriftGenerator([driftDeviationField floatValue], 500, [driftCutoffField floatValue]);
 
     [eventList setRadiusMultiply:[radiusMultiplyField doubleValue]];
@@ -255,12 +270,12 @@
 
     [eventList generateEventListWithModel:model];
 
-    if ([smoothIntonationSwitch state])
+    if ([defaults boolForKey:MDK_ShouldUseSmoothIntonation])
         [eventList applySmoothIntonation];
     else
         [eventList applyIntonation_fromIntonationView];
 
-    [eventList setShouldUseSmoothIntonation:[smoothIntonationSwitch state]];
+    [eventList setShouldUseSmoothIntonation:[defaults boolForKey:MDK_ShouldUseSmoothIntonation]];
 
     gettimeofday(&tp2, &tzp);
     NSLog(@"%ld", (tp2.tv_sec*1000000 + tp2.tv_usec) - (tp1.tv_sec*1000000 + tp1.tv_usec));
@@ -311,6 +326,10 @@
 
 - (void)synthesizeToSoundFile:(BOOL)shouldSaveToSoundFile;
 {
+    NSUserDefaults *defaults;
+
+    defaults = [NSUserDefaults standardUserDefaults];
+
     if ([parametersStore state] == YES)
         [[[self model] synthesisParameters] writeToFile:@"/tmp/Monet.parameters" includeComments:YES];
 
@@ -320,9 +339,9 @@
     [eventList setGlobalTempo:[tempoField doubleValue]];
     [eventList setShouldStoreParameters:[parametersStore state]];
 
-    [eventList setShouldUseMacroIntonation:[[intonationMatrix cellAtRow:0 column:0] state]];
-    [eventList setShouldUseMicroIntonation:[[intonationMatrix cellAtRow:1 column:0] state]];
-    [eventList setShouldUseDrift:[[intonationMatrix cellAtRow:2 column:0] state]];
+    [eventList setShouldUseMacroIntonation:[defaults boolForKey:MDK_ShouldUseMacroIntonation]];
+    [eventList setShouldUseMicroIntonation:[defaults boolForKey:MDK_ShouldUseMicroIntonation]];
+    [eventList setShouldUseDrift:[defaults boolForKey:MDK_ShouldUseDrift]];
     setDriftGenerator([driftDeviationField floatValue], 500, [driftCutoffField floatValue]);
     //setDriftGenerator(0.5, 250, 0.5);
 
@@ -339,18 +358,20 @@
 
     [eventList generateEventListWithModel:model];
 #if 1
-    NSLog(@"[smoothIntonationSwitch state]: %d", [smoothIntonationSwitch state]);
+    NSLog(@"[defaults boolForKey:MDK_ShouldUseSmoothIntonation]: %d", [defaults boolForKey:MDK_ShouldUseSmoothIntonation]);
     [eventList applyIntonation];
-    if ([smoothIntonationSwitch state])
+    if ([defaults boolForKey:MDK_ShouldUseSmoothIntonation])
         [eventList applySmoothIntonation];
+    else
+        [eventList applyIntonation_fromIntonationView];
 
-    [eventList setShouldUseSmoothIntonation:[smoothIntonationSwitch state]];
+    [eventList setShouldUseSmoothIntonation:[defaults boolForKey:MDK_ShouldUseSmoothIntonation]];
 #else
     // TODO (2004-03-25): What about checking for smooth intonation, like the hardware synthesis did?
     [eventList applyIntonation_fromIntonationView];
 #endif
 
-    //[eventList printDataStructures];
+    [eventList printDataStructures];
     {
         [synthesizer setupSynthesisParameters:[[self model] synthesisParameters]];
         [synthesizer removeAllParameters];
@@ -375,7 +396,7 @@
     NSLog(@" > %s", _cmd);
 
     [self _takeIntonationParametersFromUI];
-    [[intonationView documentView] setShouldDrawSmoothPoints:[smoothIntonationSwitch state]];
+    [[intonationView documentView] setShouldDrawSmoothPoints:[[NSUserDefaults standardUserDefaults] boolForKey:MDK_ShouldUseSmoothIntonation]];
     [eventList setIntonationParameters:intonationParameters];
 
     [eventList applyIntonation];
@@ -735,6 +756,30 @@
     NSLog(@" > %s", _cmd);
     [self _updateSelectedPointDetails];
     NSLog(@"<  %s", _cmd);
+}
+
+//
+// Intonation Parameters
+//
+
+- (IBAction)updateSmoothIntonation:(id)sender;
+{
+    [[NSUserDefaults standardUserDefaults] setBool:[sender state] forKey:MDK_ShouldUseSmoothIntonation];
+}
+
+- (IBAction)updateMacroIntonation:(id)sender;
+{
+    [[NSUserDefaults standardUserDefaults] setBool:[[sender selectedCell] state] forKey:MDK_ShouldUseMacroIntonation];
+}
+
+- (IBAction)updateMicroIntonation:(id)sender;
+{
+    [[NSUserDefaults standardUserDefaults] setBool:[[sender selectedCell] state] forKey:MDK_ShouldUseMicroIntonation];
+}
+
+- (IBAction)updateDrift:(id)sender;
+{
+    [[NSUserDefaults standardUserDefaults] setBool:[[sender selectedCell] state] forKey:MDK_ShouldUseDrift];
 }
 
 @end
