@@ -602,7 +602,9 @@
 		4A9504CDFFE6A4B311CA0CBA = {
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
+				DSTROOT = /tmp/install;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				INSTALL_PATH = /GnuSpeech;
 			};
 			isa = PBXBuildStyle;
 			name = Deployment;
@@ -630,6 +632,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = GnuSpeech_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
+				INSTALL_MODE_FLAG = "og-w,a+rX";
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = GnuSpeech;
 				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
