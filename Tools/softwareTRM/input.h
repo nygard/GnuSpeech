@@ -12,7 +12,6 @@ typedef struct _INPUT {
 } INPUT;
 
 extern INPUT *inputHead;
-extern INPUT *inputTail;
 extern int numberInputTables;
 
 int parseInputFile(const char *inputFile);
