@@ -31,9 +31,6 @@
 #import "MXMLParser.h"
 #import "MXMLArrayDelegate.h"
 
-// For compatibility with old typedstream archives
-#import "RuleList.h"
-
 NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 @implementation MModel
@@ -951,7 +948,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     //NSLog(@"specialTransitions: %d", [specialTransitions count]);
 
     {
-        RuleList *archivedRules;
+        MonetList *archivedRules;
 
         archivedRules = [aDecoder decodeObject];
         rules = [[NSMutableArray alloc] init];
