@@ -7,6 +7,7 @@
 
 #import <Foundation/NSObject.h>
 //#import <CoreAudio/AudioHardware.h>
+#import <AudioUnit/AudioUnit.h>
 #import "structs.h"
 
 @class MMSynthesisParameters;
@@ -17,6 +18,8 @@ extern int verbose;
 {
     TRMData *inputData;
     NSMutableData *soundData;
+
+    AudioUnit outputUnit;
 
     int bufferLength;
     int bufferIndex;
