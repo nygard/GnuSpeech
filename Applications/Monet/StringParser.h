@@ -29,37 +29,6 @@
     IBOutlet EventListView *eventListView;
     IBOutlet NSScrollView *intonationView;
 
-    /* Synthesizer Control Panel Outlets */
-
-    /* General*/
-    IBOutlet NSTextField *masterVolume;
-    IBOutlet NSTextField *length;
-    IBOutlet NSTextField *temperature;
-    IBOutlet NSTextField *balance;
-    IBOutlet NSTextField *breathiness;
-    IBOutlet NSTextField *lossFactor;
-    IBOutlet NSTextField *pitchMean;
-
-    /* Nasal Cavity */
-    IBOutlet NSTextField *n1;
-    IBOutlet NSTextField *n2;
-    IBOutlet NSTextField *n3;
-    IBOutlet NSTextField *n4;
-    IBOutlet NSTextField *n5;
-
-    IBOutlet NSTextField *tp;
-    IBOutlet NSTextField *tnMin;
-    IBOutlet NSTextField *tnMax;
-    IBOutlet NSMatrix *waveform;
-
-    IBOutlet NSTextField *throatCutoff;
-    IBOutlet NSTextField *throatVolume;
-    IBOutlet NSTextField *apScale;
-    IBOutlet NSTextField *mouthCoef;
-    IBOutlet NSTextField *noseCoef;
-    IBOutlet NSTextField *mixOffset;
-    IBOutlet NSMatrix *modulation;
-
     IBOutlet NSTextField *tempoField;
 
     IBOutlet NSTextField *filenameField;
@@ -71,9 +40,6 @@
 
     IBOutlet NSButton *smoothIntonationSwitch;
 
-    IBOutlet NSMatrix *stereoMono;
-    IBOutlet NSMatrix *samplingRate;
-
     IBOutlet NSTextField *radiusMultiplyField;
 
     MMSynthesisParameters *synthesisParameters;
@@ -84,7 +50,6 @@
 
 - (id)init;
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
-- (void)saveDefaults:(id)sender;
 - (void)parseStringButton:(id)sender;
 - (void)synthesizeWithSoftware:(id)sender;
 

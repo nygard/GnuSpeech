@@ -148,15 +148,11 @@
             ACTIONS = {
                 automaticIntonation = id; 
                 parseStringButton = id; 
-                saveDefaults = id; 
                 synthesizeWithSoftware = id; 
             }; 
             CLASS = StringParser; 
             LANGUAGE = ObjC; 
             OUTLETS = {
-                apScale = NSTextField; 
-                balance = NSTextField; 
-                breathiness = NSTextField; 
                 driftCutoffField = NSTextField; 
                 driftDeviationField = NSTextField; 
                 eventListView = EventListView; 
@@ -165,33 +161,11 @@
                 intonationMatrix = NSMatrix; 
                 intonationSystem = IntonationScrollView; 
                 intonationView = NSScrollView; 
-                length = NSTextField; 
-                lossFactor = NSTextField; 
-                masterVolume = NSTextField; 
-                mixOffset = NSTextField; 
-                modulation = NSMatrix; 
-                mouthCoef = NSTextField; 
-                n1 = NSTextField; 
-                n2 = NSTextField; 
-                n3 = NSTextField; 
-                n4 = NSTextField; 
-                n5 = NSTextField; 
-                noseCoef = NSTextField; 
                 parametersStore = NSButton; 
-                pitchMean = NSTextField; 
                 radiusMultiplyField = NSTextField; 
-                samplingRate = NSMatrix; 
                 smoothIntonationSwitch = NSButton; 
-                stereoMono = NSMatrix; 
                 stringTextField = NSTextField; 
-                temperature = NSTextField; 
                 tempoField = NSTextField; 
-                throatCutoff = NSTextField; 
-                throatVolume = NSTextField; 
-                tnMax = NSTextField; 
-                tnMin = NSTextField; 
-                tp = NSTextField; 
-                waveform = NSMatrix; 
             }; 
             SUPERCLASS = NSObject; 
         }, 
