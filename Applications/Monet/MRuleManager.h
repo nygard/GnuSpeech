@@ -35,7 +35,7 @@
 
     MModel *model;
 
-    MonetList *matchLists; // Of PhoneLists?
+    NSMutableArray *matchLists; // Of PhoneLists?
     MMBooleanNode *expressions[4];
 
     NSFont *regularControlFont;

@@ -32,7 +32,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
     model = [aModel retain];
 
-    matchLists = [[MonetList alloc] init];
+    matchLists = [[NSMutableArray alloc] init];
     for (index = 0; index < 4; index++) {
         PhoneList *aPhoneList;
 
@@ -90,6 +90,8 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     int selectedRow;
 
     selectedRow = [ruleTableView selectedRow];
+    if (selectedRow == -1)
+        return nil;
 
     return [[model rules] objectAtIndex:selectedRow];
 }
