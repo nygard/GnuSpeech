@@ -3,6 +3,8 @@
 #include <sys/time.h>
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
+#import "NSScanner-Extensions.h"
+
 #import "AppController.h"
 #import "DefaultMgr.h"
 #import "EventList.h"
@@ -478,6 +480,9 @@ int parse_string(EventList *eventList, NSString *str)
                     NSLog(@"ruleTemp = %g", aDouble);
                     ruleTempo = aDouble;
                 }
+            } else {
+                // Skip character
+                [scanner scanCharacter:NULL];
             }
         } else if ([scanner scanString:@"." intoString:NULL] == YES) {
             /* Syllable Marker */
