@@ -21,10 +21,6 @@
 /*  SIZE IN BITS PER OUTPUT SAMPLE  */
 #define BITS_PER_SAMPLE           16
 
-
 void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMData *data, const char *fileName);
-
-void writeAuFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile);
-size_t fwriteShortMsb(int data, FILE *stream);
 
 #endif
