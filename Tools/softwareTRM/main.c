@@ -143,7 +143,7 @@ int main(int argc, char *argv[])
         printInfo(inputData, inputFilename, tube);
 
     // Calculate scaling, write header, and set up callback function
-    TRMWriteOutputToFile(tube, outputFilename, inputData);
+    TRMSynthesizeToFile(tube, inputData, outputFilename);
 
     if (verbose)
         printf("\nWrote scaled samples to file:  %s\n", outputFilename);

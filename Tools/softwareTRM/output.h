@@ -38,6 +38,6 @@ void writeSampleStereoMsb(TRMSampleRateConverter *aConverter, void *context, dou
 void writeSampleMonoLsb(TRMSampleRateConverter *aConverter, void *context, double value);
 void writeSampleStereoLsb(TRMSampleRateConverter *aConverter, void *context, double value);
 
-void TRMWriteOutputToFile(TRMTubeModel *tube, char *filename, TRMData *inputData);
+void TRMSynthesizeToFile(TRMTubeModel *tube, TRMData *inputData, char *filename);
 
 #endif

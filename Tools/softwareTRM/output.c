@@ -433,7 +433,7 @@ void TRMConfigureOutputContext(OutputCallbackContext *context, double volume, in
     context->fp = NULL;
 }
 
-void TRMWriteOutputToFile(TRMTubeModel *tube, char *filename, TRMData *inputData)
+void TRMSynthesizeToFile(TRMTubeModel *tube, TRMData *inputData, char *filename)
 {
     OutputCallbackContext context;
 
