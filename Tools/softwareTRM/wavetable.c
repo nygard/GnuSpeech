@@ -87,15 +87,16 @@ void TRMWavetableRelease(TRMWavetable *wavetable)
 // Rewrites the changeable part of the glottal pulse according to the amplitude.
 void TRMWavetableUpdate(TRMWavetable *wavetable, double amplitude)
 {
-    int i, j;
+    int i;
+    double j;
 
     //  Calculate new closure point, based on amplitude
     double newDiv2 = wavetable->tableDiv2 - rint(amplitude * wavetable->tnDelta);
     double newTnLength = newDiv2 - wavetable->tableDiv1;
 
     //  Recalculate the falling portion of the glottal pulse
-    for (i = wavetable->tableDiv1, j = 0; i < newDiv2; i++, j++) {
-        double x = (double)j / newTnLength;
+    for (i = wavetable->tableDiv1, j = 0.0; i < newDiv2; i++, j++) {
+        double x = j / newTnLength;
         wavetable->wavetable[i] = 1.0 - (x * x);
     }
 
