@@ -65,7 +65,7 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 {
-    id temp, temp1;
+    BooleanExpression *temp, *temp1;
 
     NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
 
@@ -83,9 +83,9 @@
     NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }
 
-- (void)browserHit:sender;
+- (IBAction)browserHit:(id)sender;
 {
-    id temp;
+    Inspector *inspector;
     int index;
     Rule *aRule;
     NSString *str;
@@ -93,8 +93,8 @@
     index = [[sender matrixInColumn:0] selectedRow];
     aRule = [ruleList objectAtIndex:index];
 
-    temp = [controller inspector];
-    [temp inspectRule:[ruleList objectAtIndex:index]];
+    inspector = [controller inspector];
+    [inspector inspectRule:[ruleList objectAtIndex:index]];
 
     str = [[aRule getExpressionNumber:0] expressionString];
     [[expressionFields cellAtIndex:0] setStringValue:str];
@@ -113,7 +113,7 @@
     [[sender window] makeFirstResponder:delegateResponder];
 }
 
-- (void)browserDoubleHit:sender;
+- (IBAction)browserDoubleHit:(id)sender;
 {
 }
 
@@ -194,6 +194,7 @@
     resultString = [NSMutableString string];
     tempRule = [ruleList objectAtIndex:index];
 
+    // TODO (2004-03-09): Make this a method on Rule.
     [resultString appendFormat:@"%d. ", index + 1];
 
     [[tempRule getExpressionNumber:0] expressionString:resultString];
@@ -215,7 +216,7 @@
     return resultString;
 }
 
-- (void)setExpression1:sender;
+- (IBAction)setExpression1:(id)sender;
 {
     id tempList;
     PhoneList *mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
@@ -257,7 +258,7 @@
     [self updateCombinations];
 }
 
-- (void)setExpression2:sender;
+- (IBAction)setExpression2:(id)sender;
 {
     id tempList;
     PhoneList *mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
@@ -299,7 +300,7 @@
     [self updateCombinations];
 }
 
-- (void)setExpression3:sender;
+- (IBAction)setExpression3:(id)sender;
 {
     id tempList;
     PhoneList *mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
@@ -341,7 +342,7 @@
     [self updateCombinations];
 }
 
-- (void)setExpression4:sender;
+- (IBAction)setExpression4:(id)sender;
 {
     id tempList;
     PhoneList *mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
@@ -470,7 +471,7 @@
     [ruleMatrix loadColumnZero];
 }
 
-- (void)add:sender;
+- (IBAction)add:(id)sender;
 {
     PhoneList *mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
     BooleanExpression *exp1, *exp2, *exp3, *exp4;
@@ -498,7 +499,7 @@
     [ruleMatrix loadColumnZero];
 }
 
-- (void)rename:sender;
+- (IBAction)rename:(id)sender;
 {
     PhoneList *mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
     BooleanExpression *exp1, *exp2, *exp3, *exp4;
@@ -524,7 +525,7 @@
     [ruleMatrix loadColumnZero];
 }
 
-- (void)remove:sender;
+- (IBAction)remove:(id)sender;
 {
     int index = [[ruleMatrix matrixInColumn:0] selectedRow];
 
@@ -532,14 +533,13 @@
     [ruleMatrix loadColumnZero];
 }
 
-- (void)parseRule:sender;
+- (IBAction)parseRule:(id)sender;
 {
     int i, j, dummy, phones = 0;
     MonetList *tempList, *phoneList;
     PhoneList *mainPhoneList;
     Phone *tempPhone;
     Rule *tempRule;
-    //char string[1024];
     double ruleSymbols[5] = {0.0, 0.0, 0.0, 0.0, 0.0};
 
     tempList = [[MonetList alloc] initWithCapacity:4];
@@ -658,38 +658,39 @@
         [[ruleList objectAtIndex:i] removeMetaParameter:index];
 }
 
-- (BOOL)isCategoryUsed:aCategory;
+- (BOOL)isCategoryUsed:(CategoryNode *)aCategory;
 {
     return [ruleList isCategoryUsed:aCategory];
 }
 
-- (BOOL)isEquationUsed:anEquation;
+- (BOOL)isEquationUsed:(ProtoEquation *)anEquation;
 {
     return [ruleList isEquationUsed:anEquation];
 }
-- (BOOL)isTransitionUsed:aTransition;
+
+- (BOOL)isTransitionUsed:(ProtoTemplate *)aTransition;
 {
     return [ruleList isTransitionUsed: aTransition];
 }
 
-- findEquation:anEquation andPutIn:(MonetList *)aList;
+- findEquation:(ProtoEquation *)anEquation andPutIn:(MonetList *)aList;
 {
     return [ruleList findEquation:anEquation andPutIn:aList];
 }
 
-- findTemplate:aTemplate andPutIn:aList;
+- findTemplate:(ProtoTemplate *)aTemplate andPutIn:aList;
 {
     return [ruleList findTemplate:aTemplate andPutIn:aList];
 }
 
-- (void)cut:(id)sender;
+- (IBAction)cut:(id)sender;
 {
     NSLog(@"RuleManager: cut");
 }
 
 static NSString *ruleString = @"Rule";
 
-- (void)copy:(id)sender;
+- (IBAction)copy:(id)sender;
 {
     NSPasteboard *myPasteboard;
     NSMutableData *mdata;
@@ -722,7 +723,7 @@ static NSString *ruleString = @"Rule";
     [typed release];
 }
 
-- (void)paste:(id)sender;
+- (IBAction)paste:(id)sender;
 {
     NSPasteboard *myPasteboard;
     NSData *mdata;
@@ -817,35 +818,44 @@ static NSString *ruleString = @"Rule";
 
 - (void)windowDidBecomeMain:(NSNotification *)notification;
 {
-    id temp;
-    int index = 0;
+    Inspector *inspector;
 
-    temp = [controller inspector];
-    index = [[ruleMatrix matrixInColumn:0] selectedRow];
-    if (temp) {
+    inspector = [controller inspector];
+    if (inspector) {
+        int index = 0;
+
+        index = [[ruleMatrix matrixInColumn:0] selectedRow];
         if (index == -1)
-            [temp cleanInspectorWindow];
+            [inspector cleanInspectorWindow];
         else
-            [temp inspectRule:[ruleList objectAtIndex:index]];
+            [inspector inspectRule:[ruleList objectAtIndex:index]];
     }
 }
 
 - (BOOL)windowShouldClose:(id)sender;
 {
-    id temp;
-
-    temp = [controller inspector];
-    [temp cleanInspectorWindow];
+    [[controller inspector] cleanInspectorWindow];
 
     return YES;
 }
 
 - (void)windowDidResignMain:(NSNotification *)notification;
 {
-    id temp;
+    [[controller inspector] cleanInspectorWindow];
+}
 
-    temp = [controller inspector];
-    [temp cleanInspectorWindow];
+- (IBAction)shiftPhonesLeft:(id)sender;
+{
+    NSString *p2, *p3, *p4;
+
+    p2 = [[phone2 cellAtIndex:0] stringValue];
+    p3 = [[phone3 cellAtIndex:0] stringValue];
+    p4 = [[phone4 cellAtIndex:0] stringValue];
+
+    [[phone1 cellAtIndex:0] setStringValue:p2];
+    [[phone2 cellAtIndex:0] setStringValue:p3];
+    [[phone3 cellAtIndex:0] setStringValue:p4];
+    [[phone4 cellAtIndex:0] setStringValue:@""];
 }
 
 @end

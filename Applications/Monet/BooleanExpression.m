@@ -80,12 +80,14 @@
           break;
 
       case AND_OP:
-          if (![[self operandOne] evaluate:categories]) return 0;
+          if (![[self operandOne] evaluate:categories])
+              return 0;
           return [[self operandTwo] evaluate:categories];
           break;
 
       case OR_OP:
-          if ([[self operandOne] evaluate:categories]) return 1;
+          if ([[self operandOne] evaluate:categories])
+              return 1;
           return [[self operandTwo] evaluate:categories];
           break;
 

@@ -33,7 +33,7 @@
   was converted to this:
       case 1: [currentPhone parameterList]; tempList = currentPhone;
   What?!
-
+- Hmm.  Duration form in Rule Parser window, text shifts when selecting it (tabbing into the field.)
 
 
 

@@ -2,7 +2,8 @@
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 @class NSBrowser, NSForm, NSMatrix, NSScrollView, NSTextField, NSTextView;
-@class AppController, BooleanParser, DelegateResponder, MonetList, RuleList;
+@class BooleanParser, CategoryNode, MonetList, ProtoEquation, ProtoTemplate, RuleList;
+@class AppController, DelegateResponder;
 
 /*===========================================================================
 
@@ -53,28 +54,28 @@
 - (void)dealloc;
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 
-- (void)browserHit:sender;
-- (void)browserDoubleHit:sender;
+- (IBAction)browserHit:(id)sender;
+- (IBAction)browserDoubleHit:(id)asender;
 - (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
 
 - (NSString *)expressionStringForRule:(int)index;
 
-- (void)setExpression1:sender;
-- (void)setExpression2:sender;
-- (void)setExpression3:sender;
-- (void)setExpression4:sender;
+- (IBAction)setExpression1:(id)sender;
+- (IBAction)setExpression2:(id)sender;
+- (IBAction)setExpression3:(id)sender;
+- (IBAction)setExpression4:(id)sender;
 
 - (void)realignExpressions;
 - (void)evaluateMatchLists;
 - (void)updateCombinations;
 - (void)updateRuleDisplay;
 
-- (void)add:sender;
-- (void)rename:sender;
-- (void)remove:sender;
+- (IBAction)add:(id)sender;
+- (IBAction)rename:(id)sender;
+- (IBAction)remove:(id)sender;
 
-- (void)parseRule:sender;
+- (IBAction)parseRule:(id)sender;
 
 - (RuleList *)ruleList;
 
@@ -85,16 +86,16 @@
 
 /* Finding Stuff */
 
-- (BOOL)isCategoryUsed:aCategory;
-- (BOOL)isEquationUsed:anEquation;
-- (BOOL)isTransitionUsed:aTransition;
+- (BOOL)isCategoryUsed:(CategoryNode *)aCategory;
+- (BOOL)isEquationUsed:(ProtoEquation *)anEquation;
+- (BOOL)isTransitionUsed:(ProtoTemplate *)aTransition;
 
-- findEquation:anEquation andPutIn:(MonetList *)aList;
-- findTemplate:aTemplate andPutIn:aList;
+- findEquation:(ProtoEquation *)anEquation andPutIn:(MonetList *)aList;
+- findTemplate:(ProtoTemplate *)aTemplate andPutIn:aList;
 
-- (void)cut:(id)sender;
-- (void)copy:(id)sender;
-- (void)paste:(id)sender;
+- (IBAction)cut:(id)sender;
+- (IBAction)copy:(id)sender;
+- (IBAction)paste:(id)sender;
 
 - (void)readDegasFileFormat:(FILE *)fp;
 
@@ -108,5 +109,7 @@
 - (void)windowDidBecomeMain:(NSNotification *)notification;
 - (BOOL)windowShouldClose:(id)sender;
 - (void)windowDidResignMain:(NSNotification *)notification;
+
+- (IBAction)shiftPhonesLeft:(id)sender;
 
 @end

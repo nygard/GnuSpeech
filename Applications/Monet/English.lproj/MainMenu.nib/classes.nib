@@ -106,6 +106,7 @@
                 setExpression2 = id; 
                 setExpression3 = id; 
                 setExpression4 = id; 
+                shiftPhonesLeft = id; 
             }; 
             CLASS = RuleManager; 
             LANGUAGE = ObjC; 
