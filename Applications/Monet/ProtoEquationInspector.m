@@ -140,10 +140,11 @@
     id temp;
 
     [formParser setSymbolList:NXGetNamedObject(@"mainSymbolList", NSApp)];
-    [formParser setErrorOutput:messagesText];
 
     temp = [formParser parseString:[equationText string]];
-    if (temp) {
+    if (temp == nil) {
+        [messagesText setString:[formParser errorMessage]];
+    } else {
         [protoEquation setExpression:temp];
     }
 }

@@ -224,9 +224,9 @@
 
     [boolParser setCategoryList:NXGetNamedObject(@"mainCategoryList", NSApp)];
     [boolParser setPhoneList:mainPhoneList];
-    [boolParser setErrorOutput:errorTextField];
 
     tempExpression = [boolParser parseString:[[sender cellAtIndex:0] stringValue]];
+    [errorTextField setStringValue:[boolParser errorMessage]];
     if (tempExpression == nil) {
         [sender selectTextAtIndex:0];
         NSBeep();
@@ -266,9 +266,9 @@
 
     [boolParser setCategoryList:NXGetNamedObject(@"mainCategoryList", NSApp)];
     [boolParser setPhoneList:mainPhoneList];
-    [boolParser setErrorOutput:errorTextField];
 
     tempExpression = [boolParser parseString:[[sender cellAtIndex:1] stringValue]];
+    [errorTextField setStringValue:[boolParser errorMessage]];
     if (tempExpression == nil) {
         [sender selectTextAtIndex:1];
         NSBeep();
@@ -308,9 +308,9 @@
 
     [boolParser setCategoryList:NXGetNamedObject(@"mainCategoryList", NSApp)];
     [boolParser setPhoneList:mainPhoneList];
-    [boolParser setErrorOutput:errorTextField];
 
     tempExpression = [boolParser parseString:[[sender cellAtIndex:2] stringValue]];
+    [errorTextField setStringValue:[boolParser errorMessage]];
     if (tempExpression == nil) {
         [sender selectTextAtIndex:2];
         NSBeep();
@@ -350,9 +350,9 @@
 
     [boolParser setCategoryList:NXGetNamedObject(@"mainCategoryList", NSApp)];
     [boolParser setPhoneList:mainPhoneList];
-    [boolParser setErrorOutput:errorTextField];
 
     tempExpression = [boolParser parseString:[[sender cellAtIndex:3] stringValue]];
+    [errorTextField setStringValue:[boolParser errorMessage]];
     if (tempExpression == nil) {
         [sender selectTextAtIndex:3];
         NSBeep();
@@ -473,7 +473,6 @@
 
     [boolParser setCategoryList:NXGetNamedObject(@"mainCategoryList", NSApp)];
     [boolParser setPhoneList:mainPhoneList];
-    [boolParser setErrorOutput:errorTextField];
 
     if ([[[expressionFields cellAtIndex:0] stringValue] length])
         exp1 = [boolParser parseString:[[expressionFields cellAtIndex:0] stringValue]];
@@ -483,6 +482,9 @@
         exp3 = [boolParser parseString:[[expressionFields cellAtIndex:2] stringValue]];
     if ([[[expressionFields cellAtIndex:3] stringValue] length])
         exp4 = [boolParser parseString:[[expressionFields cellAtIndex:3] stringValue]];
+
+    // TODO (2004-03-03): Might like flag to indicate we shouldn't clear the error message when we start parsing, so we get all the errors.
+    [errorTextField setStringValue:[boolParser errorMessage]];
 
     [ruleList addRuleExp1:exp1 exp2:exp2 exp3:exp3 exp4:exp4];
 
@@ -500,7 +502,6 @@
 
     [boolParser setCategoryList:NXGetNamedObject(@"mainCategoryList", NSApp)];
     [boolParser setPhoneList:mainPhoneList];
-    [boolParser setErrorOutput:errorTextField];
 
     if ([[[expressionFields cellAtIndex:0] stringValue] length])
         exp1 = [boolParser parseString:[[expressionFields cellAtIndex:0] stringValue]];
@@ -511,6 +512,7 @@
     if ([[[expressionFields cellAtIndex:3] stringValue] length])
         exp4 = [boolParser parseString:[[expressionFields cellAtIndex:3] stringValue]];
 
+    [errorTextField setStringValue:[boolParser errorMessage]];
     [ruleList changeRuleAt:index exp1:exp1 exp2:exp2 exp3:exp3 exp4:exp4];
 
     [ruleMatrix loadColumnZero];

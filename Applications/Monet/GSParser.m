@@ -10,7 +10,7 @@
     if ([super init] == nil)
         return nil;
 
-    errorMessages = [[NSMutableString alloc] init];
+    errorMessage = [[NSMutableString alloc] init];
 
     return self;
 }
@@ -19,7 +19,7 @@
 {
     [scanner release];
     [symbolString release];
-    [errorMessages release];
+    [errorMessage release];
 
     [super dealloc];
 }
@@ -45,8 +45,7 @@
     if (scanner != nil)
         [scanner release];
 
-    [errorMessages setString:@""];
-    [nonretained_errorTextField setStringValue:@""];
+    [errorMessage setString:@""];
 
     nonretained_parseString = aString;
     scanner = [[NSScanner alloc] initWithString:aString];
@@ -70,9 +69,10 @@
 // Error reporting
 //
 
-- (void)setErrorOutput:(NSTextField *)aTextField;
+- (NSString *)errorMessage;
 {
-    nonretained_errorTextField = aTextField;
+    // TODO (2004-03-03): Should we return a copy here, since it *is* mutable and used again?
+    return errorMessage;
 }
 
 - (void)appendErrorFormat:(NSString *)format, ...;
@@ -80,11 +80,9 @@
     va_list args;
 
     va_start(args, format);
-    [errorMessages appendFormat:format, args];
-    [errorMessages appendString:@"\n"];
+    [errorMessage appendFormat:format, args];
+    [errorMessage appendString:@"\n"];
     va_end(args);
-
-    //[nonretained_errorTextField setStringValue:str];
 }
 
 @end
