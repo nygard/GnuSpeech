@@ -269,6 +269,7 @@ int parse_string(id eventList, NSString *str);
     char commandLine[256];
 
     NSLog(@" > %s", _cmd);
+    NSLog(@"eventList: %@", eventList);
 
     if ([samplingRate selectedColumn])
         sRate = 44100.0;
@@ -498,5 +499,6 @@ int parse_string(id eventList, NSString *str)
         }
     }
 
+    NSLog(@"Done parse_string().");
     return [scanner scanLocation];
 }

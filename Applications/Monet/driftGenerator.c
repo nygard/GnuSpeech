@@ -51,8 +51,6 @@ void setDriftGenerator(float deviation, float sampleRate, float lowpassCutoff)
 
     /*  CLEAR THE PREVIOUS SAMPLE MEMORY  */
     previousSample = 0.0;
-
-    return;
 }
 
 
@@ -85,5 +83,5 @@ float drift(void)
     temp = (seed * pitchDeviation) - pitchOffset;
 
     /*  LOWPASS FILTER THE RANDOM SIGNAL (OUTPUT IS SAVED FOR NEXT TIME)  */
-    return(previousSample = (a0 * temp) + (b1 * previousSample));
+    return (previousSample = (a0 * temp) + (b1 * previousSample));
 }

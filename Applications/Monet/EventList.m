@@ -40,24 +40,23 @@ static int currentIndex;
 
 static void update_synth_ptr(void)
 {
-
-//	printf("BufferFree[%d] = %d\n", currentOutputBuffer, bufferFree[currentOutputBuffer]);
-	if (!bufferFree[currentOutputBuffer])
-	{
-//		printf("\t\t\tSending out page %d\n", currentOutputBuffer);
+    //printf("BufferFree[%d] = %d\n", currentOutputBuffer, bufferFree[currentOutputBuffer]);
+    if (!bufferFree[currentOutputBuffer])
+    {
+        //printf("\t\t\tSending out page %d\n", currentOutputBuffer);
 #ifdef HAVE_DSP
-		synth_read_ptr = outputBuffer+(currentOutputBuffer*NSPageSize());
+        synth_read_ptr = outputBuffer+(currentOutputBuffer*NSPageSize());
 #endif
-		bufferFree[currentOutputBuffer] = 2;
-		currentOutputBuffer = (currentOutputBuffer+1)%PAGES;
-	}
+        bufferFree[currentOutputBuffer] = 2;
+        currentOutputBuffer = (currentOutputBuffer+1)%PAGES;
+    }
 }
 
 static void page_consumed(void)
 {
-//	printf("\t\t\t\t\t\tConsumed Page %d\n", currentConsumed);
-	bufferFree[currentConsumed] = 1;
-	currentConsumed = (currentConsumed+1)%PAGES;
+    //printf("\t\t\t\t\t\tConsumed Page %d\n", currentConsumed);
+    bufferFree[currentConsumed] = 1;
+    currentConsumed = (currentConsumed+1)%PAGES;
 }
 
 
@@ -427,8 +426,8 @@ static void page_consumed(void)
 
     tempTime = zeroRef + (int) time;
     tempTime = (tempTime >> 2) << 2;
-//	if ((tempTime%timeQuantization) !=0)
-//		tempTime++;
+//    if ((tempTime % timeQuantization) != 0)
+//        tempTime++;
 
 
     if ([self count] == 0) {
@@ -485,7 +484,7 @@ static void page_consumed(void)
     [self insertObject:tempEvent atIndex:i+1];
 
     return tempEvent;
-//	return nil;
+//    return nil;
 }
 
 - (void)finalEvent:(int)number withValue:(double)value;
@@ -763,6 +762,7 @@ static void page_consumed(void)
     ParameterList *mainParameterList = (ParameterList *) NXGetNamedObject(@"mainParameterList", NSApp);
     Parameter *tempParameter = nil;
 
+    NSLog(@"mainParameterList: %@", mainParameterList);
     for (i = 0; i < 16; i++) {
         tempParameter = [mainParameterList objectAtIndex:i];
 
