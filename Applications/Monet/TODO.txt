@@ -1,9 +1,11 @@
-- change -makeObjectsPerform: to -makeObjectsPerformSelector:
-- wondering about programming error in BooleanParser
-- odd cases in BooleanParser, addSubExpression:self
-  - it's totally wrong, adding the parser.  Sheesh!
-- what does it mean to be "native"?
-- correct spelling, change "editting" to "editing"
++ change -makeObjectsPerform: to -makeObjectsPerformSelector:
++ wondering about programming error in BooleanParser
+  + Caused by Openstep conversion scripts
++ odd cases in BooleanParser, addSubExpression:self
+  + it's totally wrong, adding the parser.  Sheesh!
+  + again, caused by Openstep convertion scripts
++ what does it mean to be "native"?
++ correct spelling, change "editting" to "editing"
 - it looks like one Point in "DefaultPrototypes" is bad, with list index of -1, secondary index of 0x5037312 (84112146).
   - actually it looks like three points.
   - look at similar code in Rule.m that checks for -1 value.

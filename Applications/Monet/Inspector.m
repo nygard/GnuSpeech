@@ -72,10 +72,10 @@
     }
 }
 
-- (void)beginEdittingCurrentInspector;
+- (void)beginEditingCurrentInspector;
 {
     [mainInspectorWindow makeKeyAndOrderFront:self];
-    [currentInspector beginEditting];
+    [currentInspector beginEditing];
 }
 
 - (void)inspectRule:(MMRule *)rule;

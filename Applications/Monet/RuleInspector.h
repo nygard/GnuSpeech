@@ -55,7 +55,7 @@ History:
 - (void)setCurrentRule:(MMRule *)aRule;
 - (void)inspectRule:(MMRule *)aRule;
 - (void)setUpWindow:(NSPopUpButton *)sender;
-- (void)beginEditting;
+- (void)beginEditing;
 
 - (IBAction)browserHit:(id)sender;
 - (IBAction)browserDoubleHit:(id)sender;

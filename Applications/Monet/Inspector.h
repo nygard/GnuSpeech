@@ -48,7 +48,7 @@ History:
 - (void)setGeneralView:(NSBox *)aView;
 - (void)setPopUpListView:(NSBox *)aView;
 
-- (void)beginEdittingCurrentInspector;
+- (void)beginEditingCurrentInspector;
 
 - (void)inspectRule:(MMRule *)rule;
 

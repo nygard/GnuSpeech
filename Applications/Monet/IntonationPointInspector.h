@@ -50,7 +50,7 @@ History:
 - (void)setCurrentIntonationPoint:(IntonationPoint *)anIntonationPoint;
 - (void)inspectIntonationPoint:(IntonationPoint *)anIntonationPoint;
 - (void)setUpWindow:(NSPopUpButton *)sender;
-- (void)beginEditting;
+- (void)beginEditing;
 
 - (IBAction)browserHit:(id)sender;
 - (IBAction)browserDoubleHit:(id)sender;

@@ -146,7 +146,7 @@
     }
 }
 
-- (void)beginEditting;
+- (void)beginEditing;
 {
     NSString *str;
 
