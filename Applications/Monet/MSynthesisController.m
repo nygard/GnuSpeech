@@ -524,17 +524,7 @@
 
     [[html dataUsingEncoding:NSUTF8StringEncoding] writeToFile:[basePath stringByAppendingPathComponent:@"index.html"] atomically:YES];
 
-#if 0
-    // TODO (2004-05-13): We should use TRMSynthesizer now to generate the sound file.  For now we'll just copy /tmp/out.au, which we always generate.
-    {
-        NSString *command;
-
-        command = [NSString stringWithFormat:@"~nygard/Source/net/gnuspeech/trillium/src/softwareTRM/tube %@/Monet.parameters %@/output.au", basePath, basePath];
-        if (system([command UTF8String]) != 0)
-            NSLog(@"command failed: %@", command);
-    }
-#endif
-    [fileManager copyPath:@"/tmp/out.au" toPath:[basePath stringByAppendingPathComponent:@"output.au"] handler:nil];
+    [synthesizer synthesizeToSoundFile:[basePath stringByAppendingPathComponent:@"output.au"] type:0];
 
     [jpegProperties release];
 
