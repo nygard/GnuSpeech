@@ -159,7 +159,6 @@
                 filenameField = NSTextField; 
                 intonParmsField = NSForm; 
                 intonationMatrix = NSMatrix; 
-                intonationSystem = IntonationScrollView; 
                 intonationView = NSScrollView; 
                 parametersStore = NSButton; 
                 radiusMultiplyField = NSTextField; 

@@ -16,8 +16,6 @@
 {
     EventList *eventList;
 
-    IBOutlet IntonationScrollView *intonationSystem;
-
     /* Min and Max for each parameter */
     double min[16];
     double max[16];
