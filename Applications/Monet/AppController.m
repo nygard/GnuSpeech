@@ -85,9 +85,6 @@
     NXNameObject(@"intonationView", intonationView, NSApp);
     NXNameObject(@"stringParser", stringParser, NSApp);
 
-    NXNameObject(@"defaultManager", defaultManager, NSApp);
-
-
     //NSLog(@"getting it by name: %@", NXGetNamedObject(@"mainSymbolList", NSApp));
 
     if (inspectorController)

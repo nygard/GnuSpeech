@@ -64,23 +64,22 @@ int parse_string(EventList *eventList, NSString *str);
     eventList = [[EventList alloc] initWithCapacity:1000];
     NXNameObject(@"mainEventList", eventList, NSApp);
 
+    defaultManager = [[DefaultMgr alloc] init];
+
     return self;
 }
 
 - (void)dealloc;
 {
     [eventList release];
+    [defaultManager release];
 
     [super dealloc];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 {
-    DefaultMgr *defaultManager;
-
     NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
-
-    defaultManager = NXGetNamedObject(@"defaultManager", NSApp);
 
     [masterVolume setDoubleValue:[defaultManager masterVolume]];
     [length setDoubleValue:[defaultManager vocalTractLength]];
@@ -123,10 +122,6 @@ int parse_string(EventList *eventList, NSString *str);
 
 - (void)saveDefaults:(id)sender;
 {
-    DefaultMgr *defaultManager;
-
-    defaultManager = NXGetNamedObject(@"defaultManager", NSApp);
-
     [defaultManager setMasterVolume:[masterVolume doubleValue]];
     [defaultManager setVocalTractLength:[length doubleValue]];
     [defaultManager setTemperature:[temperature doubleValue]];

@@ -1,5 +1,5 @@
 //
-// $Id: AppController.h,v 1.36 2004/03/25 20:28:24 nygard Exp $
+// $Id: AppController.h,v 1.37 2004/03/26 04:50:57 nygard Exp $
 //
 
 /*===========================================================================
@@ -26,7 +26,7 @@ History:
 
 @class NSMutableDictionary;
 @class CategoryList, ParameterList, PhoneList, StringParser, SymbolList;
-@class DefaultMgr, EventListView, Inspector, IntonationScrollView, PrototypeManager;
+@class EventListView, Inspector, IntonationScrollView, PrototypeManager;
 @class MModel, MMTransition;
 @class MDataEntryController, MPostureEditor, MPrototypeManager, MRuleManager, MRuleTester, MSpecialTransitionEditor, MTransitionEditor;
 
@@ -43,8 +43,6 @@ History:
     IBOutlet StringParser *stringParser;
     IBOutlet EventListView *eventListView;
     IBOutlet IntonationScrollView *intonationView;
-
-    IBOutlet DefaultMgr *defaultManager;
 
     /* Window pointers */
     IBOutlet NSWindow *synthesisWindow;

@@ -23,7 +23,6 @@
             CLASS = AppController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
-                defaultManager = DefaultMgr; 
                 eventListView = EventListView; 
                 infoPanel = NSPanel; 
                 inspectorController = Inspector; 
