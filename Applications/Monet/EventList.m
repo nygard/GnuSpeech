@@ -417,6 +417,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
 }
 
 // Get the event a time "time", creating it if necessary and insserting into "events" array.
+// Time relative to zeroRef
 - (Event *)eventAtTime:(double)time;
 {
     Event *newEvent = nil;
@@ -459,6 +460,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
     return newEvent;
 }
 
+// Time relative to zeroRef
 - (Event *)insertEvent:(int)number atTime:(double)time withValue:(double)value;
 {
     Event *event;
@@ -890,7 +892,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
                 /* Calculate value of event */
                 //value = (([currentPoint value]/100.0) * (max[parameterIndex] - min[parameterIndex])) + min[parameterIndex];
                 value = (([currentPoint value] / 100.0) * (max[parameterIndex] - min[parameterIndex]));
-                maxValue = value;
+                //maxValue = value;
 
                 /* insert event into event list */
                 [self insertEvent:parameterIndex+16 atTime:tempTime withValue:value];
@@ -907,7 +909,9 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
     NSLog(@"Warning: No DSP for -synthesizeToFile:");
 }
 
-// Warning (building for 10.2 deployment) (2004-04-02): ruleIndex might be used uninitialized in this function
+// Warning (building for 10.2 deployment) (2004-04-02): ruleIndex might be used uninitialized in this function.
+// Use a 0.0 offset time for the first intonation point in each tone group, -40.0 for the rest.
+// TODO (2004-08-16): Rename this method to something like "generateIntonationPoints", because it *doesn't* apply intonation -- there are two other methods for that.
 - (void)applyIntonation;
 {
     int firstFoot, endFoot;
@@ -936,7 +940,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
         /* Set up intonation boundary variables */
         for (j = firstFoot; j <= endFoot; j++) {
             phoneIndex = feet[j].start;
-            while ([phones[phoneIndex].phone isMemberOfCategoryNamed:@"vocoid"] == NO) {
+            while ([phones[phoneIndex].phone isMemberOfCategoryNamed:@"vocoid"] == NO) { // TODO (2004-08-16): Hardcoded category
                 phoneIndex++;
                 NSLog(@"Checking phone %@ for vocoid", [phones[phoneIndex].phone name]);
                 if (phoneIndex > feet[j].end) {
@@ -946,6 +950,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
             }
 
             if (!feet[j].marked) {
+                // TODO (2004-08-16): Turn this loop into a method.
                 for (k = 0; k < currentRule; k++) {
                     if ((phoneIndex >= rules[k].firstPhone) && (phoneIndex <= rules[k].lastPhone)) {
                         ruleIndex = k;
@@ -953,7 +958,9 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
                     }
                 }
 
+                // randomSemitone is in range of +/- 1/2 of pretonicLift
                 randomSemitone = ((double)random() / (double)0x7fffffff) * (double)intonationParameters.pretonicLift - intonationParameters.pretonicLift / 2.0;
+                // Slopes from 0.02 to 0.035
                 randomSlope = ((double)random() / (double)0x7fffffff) * 0.015 + 0.02;
 
                 [self addPoint:((phones[phoneIndex].onset-startTime) * pretonicDelta) + intonationParameters.notionalPitch + randomSemitone
@@ -969,6 +976,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
                     }
                 }
 
+                // Slopes from 0.02 to 0.05
                 randomSlope = ((double)random() / (double)0x7fffffff) * 0.03 + 0.02;
 
                 [self addPoint:intonationParameters.pretonicRange + intonationParameters.notionalPitch
@@ -984,12 +992,13 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
 
                 [self addPoint:intonationParameters.pretonicRange + intonationParameters.notionalPitch + intonationParameters.tonicRange
                       offsetTime:0.0 slope:0.0 ruleIndex:ruleIndex];
-
             }
 
             offsetTime = -40.0;
         }
     }
+
+    //[self printDataStructures:@"After applyIntonation generateEventListWithModel:"];
 }
 
 - (NSString *)description;
@@ -1081,6 +1090,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
     NSLog(@"<  %s", _cmd);
 }
 
+// TODO (2004-08-16): Renamed to addIntonationPoint:
 - (void)addPoint:(double)semitone offsetTime:(double)offsetTime slope:(double)slope ruleIndex:(int)ruleIndex;
 {
     IntonationPoint *newIntonationPoint;

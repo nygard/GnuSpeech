@@ -15,12 +15,12 @@
 
 @interface IntonationPoint : NSObject
 {
-    double semitone; /* Value of the point in semitones */
-    double offsetTime; /* Points are timed wrt a beat + this offset */
-    double slope;  /* Slope of point */
+    double semitone; // Value of the point in semitones
+    double offsetTime; // Points are timed wrt a beat + this offset
+    double slope;  // Slope of point
 
-    int ruleIndex; /* Index of phone which is the focus of this point */
-    EventList *eventList; /* Current EventList */
+    int ruleIndex; // Index of the rule for the phone which is the focus of this point
+    EventList *eventList; // Current EventList
 }
 
 - (id)init;
