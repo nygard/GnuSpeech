@@ -3,11 +3,13 @@
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
 #import "NSObject-Extensions.h"
+#import "NSString-Extensions.h"
 
 #import "AppController.h"
 #import "BooleanExpression.h"
 #import "BooleanParser.h"
 #import "DelegateResponder.h"
+#import "GSXMLFunctions.h"
 #import "Inspector.h"
 #import "MonetList.h"
 #import "Phone.h"
@@ -856,6 +858,11 @@ static NSString *ruleString = @"Rule";
     [[phone2 cellAtIndex:0] setStringValue:p3];
     [[phone3 cellAtIndex:0] setStringValue:p4];
     [[phone4 cellAtIndex:0] setStringValue:@""];
+}
+
+- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+{
+    [ruleList appendXMLToString:resultString elementName:@"rules" level:level];
 }
 
 @end

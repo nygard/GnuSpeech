@@ -6,6 +6,7 @@
 
 #import "AppController.h"
 #import "BooleanExpression.h"
+#import "GSXMLFunctions.h"
 #import "MonetList.h"
 #import "ParameterList.h"
 #import "ProtoEquation.h"
@@ -450,12 +451,62 @@
 #endif
 }
 
+- (NSString *)ruleString;
+{
+    NSMutableString *ruleString;
+    NSString *str;
+
+    ruleString = [[[NSMutableString alloc] init] autorelease];
+
+    [expressions[0] expressionString:ruleString];
+    [ruleString appendString:@" >> "];
+    [expressions[1] expressionString:ruleString];
+
+    str = [expressions[2] expressionString];
+    if (str != nil) {
+        [ruleString appendString:@" >> "];
+        [ruleString appendString:str];
+    }
+
+    str = [expressions[3] expressionString];
+    if (str != nil) {
+        [ruleString appendString:@" >> "];
+        [ruleString appendString:str];
+    }
+
+    return ruleString;
+}
+
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"<%@>[%p]: parameterProfiles: %@, metaParameterProfiles: %@, expressionSymbols(%d): %@, comment: %@, e1: %@, e2: %@, e3: %@, e4: %@",
                      NSStringFromClass([self class]), self, parameterProfiles, metaParameterProfiles, [expressionSymbols count], expressionSymbols,
                      comment, [expressions[0] expressionString], [expressions[1] expressionString], [expressions[2] expressionString],
                      [expressions[3] expressionString]];
+}
+
+- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+{
+    [resultString indentToLevel:level];
+    [resultString appendFormat:@"<rule>\n"];
+
+    [parameterProfiles appendXMLForObjectPointersToString:resultString elementName:@"parameter-profiles" level:level + 1];
+    [metaParameterProfiles appendXMLForObjectPointersToString:resultString elementName:@"meta-parameter-profiles" level:level + 1];
+    [expressionSymbols appendXMLForObjectPointersToString:resultString elementName:@"expression-symbols" level:level + 1];
+
+    [resultString indentToLevel:level + 1];
+    [resultString appendString:@"<special-profiles>etc.</special-profiles>\n"];
+
+    [resultString indentToLevel:level + 1];
+    [resultString appendFormat:@"<boolean-expression>%@</boolean-expression>\n", [self ruleString]];
+
+    if (comment != nil) {
+        [resultString indentToLevel:level + 1];
+        [resultString appendFormat:@"<comment>%@</comment>\n", GSXMLCharacterData(comment)];
+    }
+
+    [resultString indentToLevel:level];
+    [resultString appendFormat:@"</rule>\n"];
 }
 
 @end

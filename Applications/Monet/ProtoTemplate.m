@@ -322,8 +322,8 @@
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 {
     [resultString indentToLevel:level];
-    [resultString appendFormat:@"<proto-template name=\"%@\" type=\"%d\">\n",
-                  GSXMLAttributeString(name, NO), type];
+    [resultString appendFormat:@"<proto-template ptr=\"%p\" name=\"%@\" type=\"%d\">\n",
+                  self, GSXMLAttributeString(name, NO), type];
 
     if (comment != nil) {
         [resultString indentToLevel:level + 1];

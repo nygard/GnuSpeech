@@ -182,4 +182,27 @@
     [resultString appendFormat:@"</%@>\n", elementName];
 }
 
+- (void)appendXMLForObjectPointersToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(int)level;
+{
+    int count, index;
+
+    count = [self count];
+    if (count == 0)
+        return;
+
+    [resultString indentToLevel:level];
+    [resultString appendFormat:@"<%@>\n", elementName];
+
+    for (index = 0; index < count; index++) {
+        id anObject;
+
+        anObject = [self objectAtIndex:index];
+        [resultString indentToLevel:level + 1];
+        [resultString appendFormat:@"<object ptr=\"%p\" class=\"%@\"/>\n", anObject, NSStringFromClass([anObject class])];
+    }
+
+    [resultString indentToLevel:level];
+    [resultString appendFormat:@"</%@>\n", elementName];
+}
+
 @end

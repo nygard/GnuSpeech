@@ -13,8 +13,8 @@
 
 @interface Rule : NSObject
 {
-    MonetList *parameterProfiles;
-    MonetList *metaParameterProfiles;
+    MonetList *parameterProfiles; // Of ProtoTemplates
+    MonetList *metaParameterProfiles; // Of ProtoTemplates?
     MonetList *expressionSymbols; // Of ProtoEquations
 
     id specialProfiles[16];
@@ -57,5 +57,11 @@
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 - (void)encodeWithCoder:(NSCoder *)aCoder;
+
+- (NSString *)ruleString;
+
+- (NSString *)description;
+
+- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 
 @end

@@ -502,6 +502,7 @@
     [mainPhoneList appendXMLToString:resultString level:1];
 
     [prototypeManager appendXMLToString:resultString level:1];
+    [ruleManager appendXMLToString:resultString level:1];
 
     [resultString appendString:@"</root>\n"];
 
