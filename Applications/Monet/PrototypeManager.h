@@ -4,6 +4,7 @@
 @class NSFont;
 @class MonetList, ProtoEquation, ProtoTemplate;
 @class AppController, DelegateResponder;
+@class MModel;
 
 /*===========================================================================
 
@@ -28,9 +29,7 @@
     IBOutlet NSBox *outputBox;
     IBOutlet NSTextField *selectedOutput; // TODO (2004-03-03): Not sure about this.
 
-    MonetList *protoEquations; // Of NamedLists of ProtoEquations
-    MonetList *protoTemplates; // Of NamedLists of ProtoTemplates
-    MonetList *protoSpecial; // Of NamedLists of ProtoTemplates
+    MModel *model;
 
     NSFont *courierFont;
     NSFont *courierBoldFont;
@@ -42,6 +41,9 @@
 - (void)dealloc;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
+
+- (MModel *)model;
+- (void)setModel:(MModel *)newModel;
 
 /* Browser Delegate Methods */
 - (void)browserHit:(id)sender;
@@ -80,21 +82,9 @@
 - (IBAction)copy:(id)sender;
 - (IBAction)paste:(id)sender;
 
-- (void)readPrototypesFrom:(NSArchiver *)stream;
-- (void)writePrototypesTo:(NSArchiver *)stream;
-
 /* Window Delegate Methods */
 - (void)windowDidBecomeMain:(NSNotification *)notification;
 - (BOOL)windowShouldClose:(id)sender;
 - (void)windowDidResignMain:(NSNotification *)notification;
-
-- (void)_setProtoEquations:(MonetList *)newProtoEquations;
-- (void)_setProtoTemplates:(MonetList *)newProtoTemplates;
-- (void)_setProtoSpecial:(MonetList *)newProtoSpecial;
-
-- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
-- (void)_appendXMLForProtoEquationsToString:(NSMutableString *)resultString level:(int)level;
-- (void)_appendXMLForProtoTemplatesToString:(NSMutableString *)resultString level:(int)level;
-- (void)_appendXMLForProtoSpecialsToString:(NSMutableString *)resultString level:(int)level;
 
 @end

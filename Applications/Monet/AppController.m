@@ -22,6 +22,7 @@
 #import "TransitionView.h"
 
 #import "MModel.h"
+#import "MUnarchiver.h"
 
 @implementation AppController
 
@@ -110,13 +111,13 @@
     }
 #endif
 
-    stream = [[NSUnarchiver alloc] initForReadingWithData:[NSData dataWithContentsOfFile:path]];
+    stream = [[MUnarchiver alloc] initForReadingWithData:[NSData dataWithContentsOfFile:path]];
     //NSLog(@"stream: %x", stream);
     if (stream) {
         NSLog(@"systemVersion: %u", [stream systemVersion]);
 
         NS_DURING {
-            [prototypeManager readPrototypesFrom:stream];
+            [model readPrototypes:stream];
         } NS_HANDLER {
             NSLog(@"localException: %@", localException);
             NSLog(@"name: %@", [localException name]);
@@ -128,7 +129,7 @@
         [stream release];
     }
 
-    //[self generateXML:@"DefaultPrototypes"];
+    //[model generateXML:@"DefaultPrototypes"];
 
     [ruleManager applicationDidFinishLaunching:aNotification];
     [transitionBuilder applicationDidFinishLaunching:aNotification]; // not connected yet
@@ -293,7 +294,7 @@
         for (i = 0; i < count; i++) {
             filename = [fnames objectAtIndex:i];
             //NSLog(@"filename: %@", filename);
-            stream = [[NSUnarchiver alloc] initForReadingWithData:[NSData dataWithContentsOfFile:filename]];
+            stream = [[MUnarchiver alloc] initForReadingWithData:[NSData dataWithContentsOfFile:filename]];
             //NSLog(@"stream: %p", stream);
 
             if (stream) {
@@ -306,8 +307,8 @@
                 [model release];
                 model = [[MModel alloc] initWithCoder:stream];
 
-                [prototypeManager readPrototypesFrom:stream];
-                [ruleManager readRulesFrom:stream];
+                [prototypeManager setModel:model];
+                [ruleManager setModel:model];
 
                 [dataBrowser updateLists];
                 [dataBrowser updateBrowser];
@@ -320,7 +321,7 @@
                 initStringParser();
 #endif
 
-                [self generateXML:filename];
+                [model generateXML:filename];
             } else {
                 NSLog(@"Not a MONET file");
             }
@@ -332,6 +333,7 @@
 
 - (void)savePrototypes:(id)sender;
 {
+#ifdef PORTING
     NSSavePanel *myPanel;
     NSArchiver *stream;
     NSMutableData *mdata;
@@ -349,10 +351,12 @@
             NSLog(@"Not a MONET file");
         }
     }
+#endif
 }
 
 - (void)loadPrototypes:(id)sender;
 {
+#ifdef PORTING
     NSArray *fnames;
     NSArray *types;
     NSString *directory;
@@ -375,6 +379,7 @@
             NSLog(@"Not a MONET file");
         }
     }
+#endif
 }
 
 - (void)addCategory;
@@ -457,32 +462,6 @@
         [NSUnarchiver decodeClassName:names[index] asClassName:[NSString stringWithFormat:@"%@_NOT_CONVERTED", names[index]]];
         index++;
     }
-}
-
-- (void)generateXML:(NSString *)name;
-{
-    NSMutableString *resultString;
-
-    resultString = [[NSMutableString alloc] init];
-    [resultString appendString:@"<?xml version='1.0' encoding='utf-8'?>\n"];
-    [resultString appendFormat:@"<!-- %@ -->\n", name];
-    [resultString appendString:@"<root version='1'>\n"];
-    [[model categories] appendXMLToString:resultString level:1 useReferences:NO];
-
-    [[model parameters] appendXMLToString:resultString elementName:@"parameters" level:1];
-    [[model metaParameters] appendXMLToString:resultString elementName:@"meta-parameters" level:1];
-    [[model symbols] appendXMLToString:resultString level:1];
-    [[model phones] appendXMLToString:resultString level:1];
-
-    [prototypeManager appendXMLToString:resultString level:1];
-    [ruleManager appendXMLToString:resultString level:1];
-
-    [resultString appendString:@"</root>\n"];
-
-    //NSLog(@"xml: \n%@", resultString);
-    [[resultString dataUsingEncoding:NSUTF8StringEncoding] writeToFile:@"/tmp/out.xml" atomically:YES];
-
-    [resultString release];
 }
 
 @end

@@ -16,6 +16,8 @@
 #import "RuleManager.h"
 #import "TransitionView.h"
 
+#import "MModel.h"
+
 @implementation PrototypeManager
 
 - (id)init;
@@ -23,14 +25,7 @@
     if ([super init] == nil)
         return nil;
 
-    /* Set up Prototype equations major list */
-    protoEquations = [[MonetList alloc] initWithCapacity:10];
-
-    /* Set up Protytype transitions major list */
-    protoTemplates = [[MonetList alloc] initWithCapacity:10];
-
-    /* Set up Prototype Special Transitions major list */
-    protoSpecial = [[MonetList alloc] initWithCapacity:10];
+    model = nil;
 
     /* Set up responder for cut/copy/paste operations */
     delegateResponder = [[DelegateResponder alloc] init];
@@ -41,9 +36,7 @@
 
 - (void)dealloc;
 {
-    [protoEquations release];
-    [protoTemplates release];
-    [protoSpecial release];
+    [model release];
 
     [courierFont release];
     [courierBoldFont release];
@@ -71,6 +64,20 @@
     NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }
 
+- (MModel *)model;
+{
+    return model;
+}
+
+- (void)setModel:(MModel *)newModel;
+{
+    if (newModel == model)
+        return;
+
+    [model release];
+    model = [newModel retain];
+}
+
 - (IBAction)browserHit:(id)sender;
 {
     NamedList *aList;
@@ -92,13 +99,13 @@
     if (column == 0) {
         switch ([[browserSelector selectedCell] tag]) {
           case 0:
-              [inputTextField setStringValue:[(NamedList *)[protoEquations objectAtIndex:row] name]];
+              [inputTextField setStringValue:[(NamedList *)[[model equations] objectAtIndex:row] name]];
               break;
           case 1:
-              [inputTextField setStringValue:[(NamedList *)[protoTemplates objectAtIndex:row] name]];
+              [inputTextField setStringValue:[(NamedList *)[[model transitions] objectAtIndex:row] name]];
               break;
           case 2:
-              [inputTextField setStringValue:[(NamedList *)[protoSpecial objectAtIndex:row] name]];
+              [inputTextField setStringValue:[(NamedList *)[[model specialTransitions] objectAtIndex:row] name]];
               break;
         }
         [selectedOutput setStringValue:@""];
@@ -110,7 +117,7 @@
 
     switch ([[browserSelector selectedCell] tag]) {
       case 0:
-          aList = [protoEquations objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
+          aList = [[model equations] objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
           aProtoEquation = [aList objectAtIndex:[[sender matrixInColumn:1] selectedRow]];
           str = [[aProtoEquation expression] expressionString];
           if (str == nil)
@@ -120,7 +127,7 @@
           [inspector inspectProtoEquation:aProtoEquation];
           break;
       case 1:
-          aList = [protoTemplates objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
+          aList = [[model transitions] objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
           aProtoTemplate = [aList objectAtIndex:[[sender matrixInColumn:1] selectedRow]];
           [removeButton setEnabled:![ruleManager isTransitionUsed:aProtoTemplate]];
           [inspector inspectProtoTransition:aProtoTemplate];
@@ -137,7 +144,7 @@
           }
           break;
       case 2:
-          aList = [protoSpecial objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
+          aList = [[model specialTransitions] objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
           aProtoTemplate = [aList objectAtIndex:[[sender matrixInColumn:1] selectedRow]];
           [removeButton setEnabled:![ruleManager isTransitionUsed:aProtoTemplate]];
           [inspector inspectProtoTransition:aProtoTemplate];
@@ -175,13 +182,13 @@
           break;
       case 1:
           transitionBuilder = NXGetNamedObject(@"transitionBuilder", NSApp);
-          aList = [protoTemplates objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
+          aList = [[model transitions] objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
           [transitionBuilder setTransition:[aList objectAtIndex:[[sender matrixInColumn:1] selectedRow]]];
           [transitionBuilder showWindow:[[protoBrowser window] windowNumber]];
           break;
       case 2:
           transitionBuilder = NXGetNamedObject(@"specialTransitionBuilder", NSApp);
-          aList = [protoSpecial objectAtIndex: [[sender matrixInColumn:0] selectedRow]];
+          aList = [[model specialTransitions] objectAtIndex: [[sender matrixInColumn:0] selectedRow]];
           [transitionBuilder setTransition:[aList objectAtIndex:[[sender matrixInColumn:1] selectedRow]]];
           [transitionBuilder showWindow:[[protoBrowser window] windowNumber]];
           break;
@@ -198,25 +205,25 @@
     switch ([[browserSelector selectedCell] tag]) {
       case 0:
           if (column == 0)
-              return [protoEquations count];
+              return [[model equations] count];
           else {
-              aList = [protoEquations objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
+              aList = [[model equations] objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
               return [aList count];
           }
           break;
       case 1:
           if (column == 0)
-              return [protoTemplates count];
+              return [[model transitions] count];
           else {
-              aList = [protoTemplates objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
+              aList = [[model transitions] objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
               return [aList count];
           }
           break;
       case 2:
           if (column == 0)
-              return [protoSpecial count];
+              return [[model specialTransitions] count];
           else {
-              aList = [protoSpecial objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
+              aList = [[model specialTransitions] objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
               return [aList count];
           }
           break;
@@ -238,11 +245,11 @@
         /* Equations */
       case 0:
           if (column == 0) {
-              [cell setStringValue:[(NamedList *)[protoEquations objectAtIndex:row] name]];
+              [cell setStringValue:[(NamedList *)[[model equations] objectAtIndex:row] name]];
               [cell setLeaf:NO];
               [cell setLoaded:YES];
           } else {
-              aList = [protoEquations objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
+              aList = [[model equations] objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
               [cell setStringValue:[(ProtoEquation *)[aList objectAtIndex:row] name]];
               [cell setLeaf:YES];
               [cell setLoaded:YES];
@@ -260,11 +267,11 @@
           /* Templates */
       case 1:
           if (column == 0) {
-              [cell setStringValue:[(NamedList *)[protoTemplates objectAtIndex:row] name]];
+              [cell setStringValue:[(NamedList *)[[model transitions] objectAtIndex:row] name]];
               [cell setLeaf:NO];
               [cell setLoaded:YES];
           } else {
-              aList = [protoTemplates objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
+              aList = [[model transitions] objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
               [cell setStringValue:[(ProtoEquation *)[aList objectAtIndex:row] name]];
               [cell setLeaf:YES];
               [cell setLoaded:YES];
@@ -279,11 +286,11 @@
           /* Special Profiles */
       case 2:
           if (column == 0) {
-              [cell setStringValue:[(NamedList *)[protoSpecial objectAtIndex:row] name]];
+              [cell setStringValue:[(NamedList *)[[model specialTransitions] objectAtIndex:row] name]];
               [cell setLeaf:NO];
               [cell setLoaded:YES];
           } else {
-              aList = [protoSpecial objectAtIndex: [[sender matrixInColumn:0] selectedRow]];
+              aList = [[model specialTransitions] objectAtIndex: [[sender matrixInColumn:0] selectedRow]];
               [cell setStringValue:[(ProtoEquation *)[aList objectAtIndex:row] name]];
               [cell setLeaf:YES];
               [cell setLoaded:YES];
@@ -309,21 +316,21 @@
       case 0: /* Test for Already Existing Name */
           newList = [[NamedList alloc] initWithCapacity:10];
           [newList setName:[inputTextField stringValue]];
-          [protoEquations addObject:newList];
+          [[model equations] addObject:newList];
           [newList release];
           [protoBrowser loadColumnZero];
           break;
       case 1: /* Test for Already Existing Name */
           newList = [[NamedList alloc] initWithCapacity:10];
           [newList setName:[inputTextField stringValue]];
-          [protoTemplates addObject:newList];
+          [[model transitions] addObject:newList];
           [newList release];
           [protoBrowser loadColumnZero];
           break;
       case 2: /* Test for Already Existing Name */
           newList = [[NamedList alloc] initWithCapacity:10];
           [newList setName:[inputTextField stringValue]];
-          [protoSpecial addObject:newList];
+          [[model specialTransitions] addObject:newList];
           [newList release];
           [protoBrowser loadColumnZero];
           break;
@@ -338,21 +345,21 @@
 
     switch ([[browserSelector selectedCell] tag]) {
       case 0: /* Test for Already Existing Name */
-          aList = [protoEquations objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
+          aList = [[model equations] objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
           newEquation = [[ProtoEquation alloc] initWithName:[inputTextField stringValue]];
           [aList addObject:newEquation];
           [newEquation release];
           [protoBrowser reloadColumn:1];
           break;
       case 1: /* Test for Already Existing Name */
-          aList = [protoTemplates objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
+          aList = [[model transitions] objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
           newTemplate = [[ProtoTemplate alloc] initWithName:[inputTextField stringValue]];
           [aList addObject:newTemplate];
           [newTemplate release];
           [protoBrowser reloadColumn:1];
           break;
       case 2: /* Test for Already Existing Name */
-          aList = [protoSpecial objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
+          aList = [[model specialTransitions] objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
           newTemplate = [[ProtoTemplate alloc] initWithName:[inputTextField stringValue]];
           [aList addObject:newTemplate];
           [newTemplate release];
@@ -372,20 +379,20 @@
     switch ([[browserSelector selectedCell] tag]) {
       case 0:
           if (column == 0) {
-              temp = [protoEquations objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
+              temp = [[model equations] objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
               NSLog(@"Rename : %s", [[temp name] cString]);
           } else {
-              aList = [protoEquations objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
+              aList = [[model equations] objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
               temp = [aList objectAtIndex:[[protoBrowser matrixInColumn:1] selectedRow]];
               NSLog(@"Rename: %s", [[temp name] cString]);
           }
           break;
       case 1:
           if (column == 0) {
-              temp = [protoTemplates objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
+              temp = [[model transitions] objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
               NSLog(@"Rename: %s", [[temp name] cString]);
           } else {
-              aList = [protoTemplates objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
+              aList = [[model transitions] objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
               temp = [aList objectAtIndex:[[protoBrowser matrixInColumn:1] selectedRow]];
               NSLog(@"Rename: %s", [[temp name] cString]);
           }
@@ -393,10 +400,10 @@
 
       case 2:
           if (column == 0) {
-              temp = [protoSpecial objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
+              temp = [[model specialTransitions] objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
               NSLog(@"Rename: %s", [[temp name] cString]);
           } else {
-              aList = [protoSpecial objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
+              aList = [[model specialTransitions] objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
               temp = [aList objectAtIndex:[[protoBrowser matrixInColumn:1] selectedRow]];
               NSLog(@"Rename: %s", [[temp name] cString]);
           }
@@ -448,158 +455,63 @@
 
 - (MonetList *)equationList;
 {
-    return protoEquations;
+    return [model equations];
 }
 
 - (MonetList *)transitionList;
 {
-    return protoTemplates;
+    return [model transitions];
 }
 
 - (MonetList *)specialList;
 {
-    return protoSpecial;
+    return [model specialTransitions];
 }
 
-// TODO (2004-03-06): Find equation named "named" in list named "list"
-// Change to findEquationNamed:(NSString *)anEquationName inList:(NSString *)aListName;
-// TODO (2004-03-06): Merge these three sets of methods, since they're practically identical.
+// Keeping for compatibility, for now
 - (ProtoEquation *)findEquationList:(NSString *)aListName named:(NSString *)anEquationName;
 {
-    int i, j;
-
-    for (i = 0 ; i < [protoEquations count]; i++) {
-        NamedList *currentList;
-
-        currentList = [protoEquations objectAtIndex:i];
-        if ([aListName isEqualToString:[currentList name]]) {
-            for (j = 0; j < [currentList count]; j++) {
-                ProtoEquation *anEquation;
-
-                anEquation = [currentList objectAtIndex:j];
-                if ([anEquationName isEqualToString:[anEquation name]])
-                    return anEquation;
-            }
-        }
-    }
-
-    return nil;
+    return [[self model] findEquationList:aListName named:anEquationName];
 }
 
 - (void)findList:(int *)listIndex andIndex:(int *)equationIndex ofEquation:(ProtoEquation *)anEquation;
 {
-    int i, temp;
-
-    for (i = 0 ; i < [protoEquations count]; i++) {
-        temp = [[protoEquations objectAtIndex:i] indexOfObject:anEquation];
-        if (temp != NSNotFound) {
-            *listIndex = i;
-            *equationIndex = temp;
-            return;
-        }
-    }
-
-    *listIndex = -1;
-    // TODO (2004-03-06): This might be where/how the large list indexes were archived.
+    [[self model] findList:listIndex andIndex:equationIndex ofEquation:anEquation];
 }
 
 - (ProtoEquation *)findEquation:(int)listIndex andIndex:(int)equationIndex;
 {
-    //NSLog(@"-> %s, listIndex: %d, index: %d", _cmd, listIndex, index);
-    if (listIndex < 0 || listIndex > [protoEquations count]) {
-        NSLog(@"-[%@ %s]: listIndex: %d out of range.  index: %d", NSStringFromClass([self class]), _cmd, listIndex, index);
-        return nil;
-    }
-
-    return [[protoEquations objectAtIndex:listIndex] objectAtIndex:equationIndex];
+    return [[self model] findEquation:listIndex andIndex:equationIndex];
 }
 
 - (ProtoEquation *)findTransitionList:(NSString *)aListName named:(NSString *)aTransitionName;
 {
-    int i, j;
-
-    for (i = 0 ; i < [protoTemplates count]; i++) {
-        NamedList *currentList;
-
-        currentList = [protoTemplates objectAtIndex:i];
-        if ([aListName isEqualToString:[currentList name]]) {
-            for (j = 0; j < [currentList count]; j++) {
-                ProtoEquation *anEquation;
-
-                anEquation = [currentList objectAtIndex:j];
-                if ([aTransitionName isEqualToString:[anEquation name]])
-                    return anEquation;
-            }
-        }
-    }
-
-    return nil;
+    return [[self model] findTransitionList:aListName named:aTransitionName];
 }
 
 - (void)findList:(int *)listIndex andIndex:(int *)transitionIndex ofTransition:(ProtoEquation *)aTransition;
 {
-    int i, temp;
-
-    for (i = 0 ; i < [protoTemplates count]; i++) {
-        temp = [[protoTemplates objectAtIndex:i] indexOfObject:aTransition];
-        if (temp != NSNotFound) {
-            *listIndex = i;
-            *transitionIndex = temp;
-            return;
-        }
-    }
-
-    *listIndex = -1;
+    [[self model] findList:listIndex andIndex:transitionIndex ofTransition:aTransition];
 }
 
 - (ProtoEquation *)findTransition:(int)listIndex andIndex:(int)transitionIndex;
 {
-    //NSLog(@"Name: %@ (%d)\n", [[protoTemplates objectAtIndex: listIndex] name], listIndex);
-    //NSLog(@"\tCount: %d  index: %d  count: %d\n", [protoTemplates count], index, [[protoTemplates objectAtIndex: listIndex] count]);
-    return [[protoTemplates objectAtIndex:listIndex] objectAtIndex:transitionIndex];
+    return [[self model] findTransition:listIndex andIndex:transitionIndex];
 }
 
 - (ProtoTemplate *)findSpecialList:(NSString *)aListName named:(NSString *)aSpecialName;
 {
-    int i, j;
-
-    for (i = 0 ; i < [protoSpecial count]; i++) {
-        NamedList *currentList;
-
-        currentList = [protoSpecial objectAtIndex:i];
-        if ([aListName isEqualToString:[currentList name]]) {
-            for (j = 0; j < [currentList count]; j++) {
-                ProtoTemplate *aTransition;
-
-                aTransition = [currentList objectAtIndex:j];
-                if ([aSpecialName isEqualToString:[aTransition name]])
-                    return aTransition;
-            }
-        }
-    }
-
-    return nil;
+    return [[self model] findSpecialList:aListName named:aSpecialName];
 }
 
 - (void)findList:(int *)listIndex andIndex:(int *)specialIndex ofSpecial:(ProtoTemplate *)aTransition;
 {
-    int i, temp;
-
-    for (i = 0 ; i < [protoSpecial count]; i++) {
-        temp = [[protoSpecial objectAtIndex:i] indexOfObject:aTransition];
-        if (temp != NSNotFound) {
-            *listIndex = i;
-            *specialIndex = temp;
-            return;
-        }
-    }
-
-    *listIndex = -1;
+    [[self model] findList:listIndex andIndex:specialIndex ofSpecial:aTransition];
 }
 
 - (ProtoTemplate *)findSpecial:(int)listIndex andIndex:(int)specialIndex;
 {
-    return [[protoSpecial objectAtIndex:listIndex] objectAtIndex:specialIndex];
+    return [[self model] findSpecial:listIndex andIndex:specialIndex];
 }
 
 - (BOOL)isEquationUsed:(ProtoEquation *)anEquation;
@@ -607,16 +519,16 @@
     int i, j;
     NamedList *currentList;
 
-    for (i = 0; i < [protoTemplates count]; i++) {
-        currentList = [protoTemplates objectAtIndex:i];
+    for (i = 0; i < [[model transitions] count]; i++) {
+        currentList = [[model transitions] objectAtIndex:i];
         for (j = 0; j < [currentList count]; j++) {
             if ([[currentList objectAtIndex:j] isEquationUsed:anEquation])
                 return YES;
         }
     }
 
-    for (i = 0; i < [protoSpecial count]; i++) {
-        currentList = [protoSpecial objectAtIndex:i];
+    for (i = 0; i < [[model specialTransitions] count]; i++) {
+        currentList = [[model specialTransitions] objectAtIndex:i];
         for (j = 0; j < [currentList count]; j++) {
             if ([[currentList objectAtIndex:j] isEquationUsed:anEquation])
                 return YES;
@@ -663,7 +575,7 @@ static NSString *specialString = @"ProtoSpecial";
        switch ([[browserSelector selectedCell] tag]) {
            /* Equations */
          case 0:
-             aList = [protoEquations objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
+             aList = [[model equations] objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
              aProtoEquation = [aList objectAtIndex:[[protoBrowser matrixInColumn:1] selectedRow]];
              [aProtoEquation encodeWithCoder:typed];
              dataType = equString;
@@ -674,7 +586,7 @@ static NSString *specialString = @"ProtoSpecial";
 
              /* Transitions */
          case 1:
-             aList = [protoTemplates objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
+             aList = [[model transitions] objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
              aProtoTemplate = [aList objectAtIndex:[[protoBrowser matrixInColumn:1] selectedRow]];
              [aProtoTemplate encodeWithCoder:typed];
              dataType = tranString;
@@ -685,7 +597,7 @@ static NSString *specialString = @"ProtoSpecial";
 
              /* Special Transitions */
          case 2:
-             aList = [protoSpecial objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
+             aList = [[model specialTransitions] objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
              aProtoTemplate = [aList objectAtIndex:[[protoBrowser matrixInColumn:1] selectedRow]];
              [aProtoTemplate encodeWithCoder:typed];
              dataType = specialString;
@@ -726,7 +638,7 @@ static NSString *specialString = @"ProtoSpecial";
         [aProtoEquation initWithCoder:typed];
         [typed release];
 
-        aList = [protoEquations objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
+        aList = [[model equations] objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
         if (column == 1)
             [aList insertObject:aProtoEquation atIndex:[[protoBrowser matrixInColumn:1] selectedRow]+1];
         else
@@ -741,7 +653,7 @@ static NSString *specialString = @"ProtoSpecial";
         [aProtoTemplate initWithCoder:typed];
         [typed release];
 
-        aList = [protoTemplates objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
+        aList = [[model transitions] objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
         if (column == 1)
             [aList insertObject:aProtoTemplate atIndex:[[protoBrowser matrixInColumn:1] selectedRow]+1];
         else
@@ -756,7 +668,7 @@ static NSString *specialString = @"ProtoSpecial";
         [aProtoTemplate initWithCoder:typed];
         [typed release];
 
-        aList = [protoSpecial objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
+        aList = [[model specialTransitions] objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
         if (column == 1)
             [aList insertObject:aProtoTemplate atIndex:[[protoBrowser matrixInColumn:1] selectedRow]+1];
         else
@@ -767,31 +679,6 @@ static NSString *specialString = @"ProtoSpecial";
     } else {
         NSBeep();
     }
-}
-
-- (void)readPrototypesFrom:(NSArchiver *)stream;
-{
-    MonetList *aList;
-
-    [self _setProtoEquations:nil];
-    [self _setProtoTemplates:nil];
-    [self _setProtoSpecial:nil];
-
-    aList = [stream decodeObject];
-    [self _setProtoEquations:aList];
-
-    aList = [stream decodeObject];
-    [self _setProtoTemplates:aList];
-
-    aList = [stream decodeObject];
-    [self _setProtoSpecial:aList];
-}
-
-- (void)writePrototypesTo:(NSArchiver *)stream;
-{
-    [stream encodeObject:protoEquations];
-    [stream encodeObject:protoTemplates];
-    [stream encodeObject:protoSpecial];
 }
 
 - (void)windowDidBecomeMain:(NSNotification *)notification;
@@ -813,17 +700,17 @@ static NSString *specialString = @"ProtoSpecial";
     selectedColumn1Row = [[protoBrowser matrixInColumn:1] selectedRow];
     switch ([[browserSelector selectedCell] tag]) {
       case 0:
-          aList = [protoEquations objectAtIndex:selectedColumn0Row];
+          aList = [[model equations] objectAtIndex:selectedColumn0Row];
           aProtoEquation = [aList objectAtIndex:selectedColumn1Row];
           [inspector inspectProtoEquation:aProtoEquation];
           break;
       case 1:
-          aList = [protoTemplates objectAtIndex:selectedColumn0Row];
+          aList = [[model transitions] objectAtIndex:selectedColumn0Row];
           aProtoTemplate = [aList objectAtIndex:selectedColumn1Row];
           [inspector inspectProtoTransition:aProtoTemplate];
           break;
       case 2:
-          aList = [protoSpecial objectAtIndex:selectedColumn0Row];
+          aList = [[model specialTransitions] objectAtIndex:selectedColumn0Row];
           aProtoTemplate = [aList objectAtIndex:selectedColumn1Row];
           [inspector inspectProtoTransition:aProtoTemplate];
           break;
@@ -843,91 +730,6 @@ static NSString *specialString = @"ProtoSpecial";
 - (void)windowDidResignMain:(NSNotification *)notification;
 {
     [[controller inspector] cleanInspectorWindow];
-}
-
-- (void)_setProtoEquations:(MonetList *)newProtoEquations;
-{
-    if (newProtoEquations == protoEquations)
-        return;
-
-    [protoEquations release];
-    protoEquations = [newProtoEquations retain];
-}
-
-- (void)_setProtoTemplates:(MonetList *)newProtoTemplates;
-{
-    if (newProtoTemplates == protoTemplates)
-        return;
-
-    [protoTemplates release];
-    protoTemplates = [newProtoTemplates retain];
-}
-
-- (void)_setProtoSpecial:(MonetList *)newProtoSpecial;
-{
-    if (newProtoSpecial == protoSpecial)
-        return;
-
-    [protoSpecial release];
-    protoSpecial = [newProtoSpecial retain];
-}
-
-- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
-{
-    [self _appendXMLForProtoEquationsToString:resultString level:level];
-    [self _appendXMLForProtoTemplatesToString:resultString level:level];
-    [self _appendXMLForProtoSpecialsToString:resultString level:level];
-}
-
-- (void)_appendXMLForProtoEquationsToString:(NSMutableString *)resultString level:(int)level;
-{
-    NamedList *namedList;
-    int count, index;
-
-    [resultString indentToLevel:level];
-    [resultString appendString:@"<equations>\n"];
-    count = [protoEquations count];
-    for (index = 0; index < count; index++) {
-        namedList = [protoEquations objectAtIndex:index];
-        [namedList appendXMLToString:resultString elementName:@"group" level:level + 1];
-    }
-
-    [resultString indentToLevel:level];
-    [resultString appendString:@"</equations>\n"];
-}
-
-- (void)_appendXMLForProtoTemplatesToString:(NSMutableString *)resultString level:(int)level;
-{
-    NamedList *namedList;
-    int count, index;
-
-    [resultString indentToLevel:level];
-    [resultString appendString:@"<transitions>\n"];
-    count = [protoTemplates count];
-    for (index = 0; index < count; index++) {
-        namedList = [protoTemplates objectAtIndex:index];
-        [namedList appendXMLToString:resultString elementName:@"group" level:level + 1];
-    }
-
-    [resultString indentToLevel:level];
-    [resultString appendString:@"</transitions>\n"];
-}
-
-- (void)_appendXMLForProtoSpecialsToString:(NSMutableString *)resultString level:(int)level;
-{
-    NamedList *namedList;
-    int count, index;
-
-    [resultString indentToLevel:level];
-    [resultString appendString:@"<special-transitions>\n"];
-    count = [protoSpecial count];
-    for (index = 0; index < count; index++) {
-        namedList = [protoSpecial objectAtIndex:index];
-        [namedList appendXMLToString:resultString elementName:@"group" level:level + 1];
-    }
-
-    [resultString indentToLevel:level];
-    [resultString appendString:@"</special-transitions>\n"];
 }
 
 @end

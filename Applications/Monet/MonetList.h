@@ -20,11 +20,13 @@
 - (unsigned)count;
 - (unsigned)indexOfObject:(id)anObject;
 - (id)lastObject;
+- (void)_warning;
 - (id)objectAtIndex:(unsigned)index;
 
 - (void)makeObjectsPerform:(SEL)aSelector;
 
 
+- (void)_addNilWarning;
 - (void)addObject:(id)anObject;
 - (void)insertObject:(id)anObject atIndex:(unsigned)index;
 - (void)removeObjectAtIndex:(unsigned)index;

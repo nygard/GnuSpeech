@@ -1,5 +1,5 @@
 //
-// $Id: MModel.h,v 1.1 2004/03/18 22:15:18 nygard Exp $
+// $Id: MModel.h,v 1.2 2004/03/18 23:43:54 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -7,7 +7,7 @@
 
 #import <Foundation/NSObject.h>
 
-@class CategoryList, MonetList, ParameterList, PhoneList, RuleList, SymbolList;
+@class CategoryList, MonetList, ParameterList, PhoneList, ProtoEquation, ProtoTemplate, RuleList, SymbolList;
 
 @interface MModel : NSObject
 {
@@ -39,6 +39,26 @@
 
 - (RuleList *)rules;
 
+- (ProtoEquation *)findEquationList:(NSString *)aListName named:(NSString *)anEquationName;
+- (void)findList:(int *)listIndex andIndex:(int *)equationIndex ofEquation:(ProtoEquation *)anEquation;
+- (ProtoEquation *)findEquation:(int)listIndex andIndex:(int)equationIndex;
+
+- (ProtoEquation *)findTransitionList:(NSString *)aListName named:(NSString *)aTransitionName;
+- (void)findList:(int *)listIndex andIndex:(int *)transitionIndex ofTransition:(ProtoEquation *)aTransition;
+- (ProtoEquation *)findTransition:(int)listIndex andIndex:(int)transitionIndex;
+
+- (ProtoTemplate *)findSpecialList:(NSString *)aListName named:(NSString *)aSpecialName;
+- (void)findList:(int *)listIndex andIndex:(int *)specialIndex ofSpecial:(ProtoTemplate *)aTransition;
+- (ProtoTemplate *)findSpecial:(int)listIndex andIndex:(int)specialIndex;
+
+// Archiving
 - (id)initWithCoder:(NSCoder *)aDecoder;
+- (void)readPrototypes:(NSCoder *)aDecoder;
+
+// Archiving - XML
+- (void)generateXML:(NSString *)name;
+- (void)_appendXMLForProtoEquationsToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForProtoTemplatesToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForProtoSpecialsToString:(NSMutableString *)resultString level:(int)level;
 
 @end

@@ -10,6 +10,9 @@
 #import "Phone.h"
 #import "PhoneList.h"
 
+#import "MModel.h"
+#import "MUnarchiver.h"
+
 @implementation BooleanTerminal
 
 - (id)init;
@@ -128,16 +131,19 @@
     PhoneList *phoneList;
     CategoryNode *aCategoryNode;
     NSString *str;
+    MModel *model;
 
     if ([super initWithCoder:aDecoder] == nil)
         return nil;
+
+    model = [(MUnarchiver *)aDecoder userInfo];
 
     //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
     archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
     //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
 
-    categoryList = NXGetNamedObject(@"mainCategoryList", NSApp);
-    phoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
+    categoryList = [model categories];
+    phoneList = [model phones];
 
     [aDecoder decodeValueOfObjCType:"i" at:&shouldMatchAll];
     //NSLog(@"shouldMatchAll: %d", shouldMatchAll);

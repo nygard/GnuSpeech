@@ -12,6 +12,9 @@
 #import "Target.h"
 #import "TargetList.h"
 
+#import "MModel.h"
+#import "MUnarchiver.h"
+
 @implementation FormulaTerminal
 
 + (void)initialize;
@@ -236,9 +239,12 @@
 {
     unsigned archivedVersion;
     SymbolList *mainSymbolList;
+    MModel *model;
 
     if ([super initWithCoder:aDecoder] == nil)
         return nil;
+
+    model = [(MUnarchiver *)aDecoder userInfo];
 
     //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
     archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
@@ -246,7 +252,7 @@
 
     symbol = nil;
 
-    mainSymbolList = NXGetNamedObject(@"mainSymbolList", NSApp);
+    mainSymbolList = [model symbols];
     //NSLog(@"mainSymbolList: %@", mainSymbolList);
 
     if (archivedVersion == 0) {

@@ -118,6 +118,34 @@
 			settings = {
 			};
 		};
+		01848BCC060A6208005E9B67 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = MUnarchiver.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01848BCD060A6208005E9B67 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = MUnarchiver.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01848BCE060A6208005E9B67 = {
+			fileRef = 01848BCC060A6208005E9B67;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01848BCF060A6208005E9B67 = {
+			fileRef = 01848BCD060A6208005E9B67;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		018F79D806064E4600150223 = {
 			isa = PBXFileReference;
 			lastKnownFileType = image.tiff;
@@ -729,6 +757,8 @@
 				0195D96005F40E25006D8386,
 				0195DC6D05F53953006D8386,
 				0195DC6E05F53953006D8386,
+				01848BCC060A6208005E9B67,
+				01848BCD060A6208005E9B67,
 			);
 			isa = PBXGroup;
 			name = Extensions;
@@ -2628,6 +2658,7 @@
 				01D1488305FD151100F1AF4B,
 				01D148AA05FD1C2300F1AF4B,
 				01848B93060A505A005E9B67,
+				01848BCE060A6208005E9B67,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2738,6 +2769,7 @@
 				01D1488505FD151100F1AF4B,
 				01D148B005FD1C2400F1AF4B,
 				01848B94060A505A005E9B67,
+				01848BCF060A6208005E9B67,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

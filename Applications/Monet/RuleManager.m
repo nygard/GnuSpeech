@@ -19,6 +19,8 @@
 #import "Rule.h"
 #import "RuleList.h"
 
+#import "MModel.h"
+
 @implementation RuleManager
 
 - (id)init;
@@ -39,7 +41,6 @@
         [aPhoneList release];
     }
 
-    ruleList = [[RuleList alloc] initWithCapacity:20];
     boolParser = [[BooleanParser alloc] init];
 
     /* Set up responder for cut/copy/paste operations */
@@ -52,7 +53,7 @@
 - (void)dealloc;
 {
     [matchLists release];
-    [ruleList release];
+    [model release];
     [boolParser release];
     [delegateResponder setDelegate:nil];
     [delegateResponder release];
@@ -80,11 +81,25 @@
     // TODO (2004-03-10): Move this into a document class
     temp = [boolParser parseString:@"phone"];
     temp1 = [boolParser parseString:@"phone"];
-    [ruleList seedListWith:temp:temp1];
+    [[model rules] seedListWith:temp:temp1];
 
     [errorTextField setStringValue:@""];
 
     NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
+}
+
+- (MModel *)model;
+{
+    return model;
+}
+
+- (void)setModel:(MModel *)newModel;
+{
+    if (newModel == model)
+        return;
+
+    [model release];
+    model = [newModel retain];
 }
 
 //
@@ -104,10 +119,10 @@
         NSLog(@"Warning: Unexpected sender in %s", _cmd);
 
     selectedRow = [[sender matrixInColumn:0] selectedRow];
-    aRule = [ruleList objectAtIndex:selectedRow];
+    aRule = [[model rules] objectAtIndex:selectedRow];
 
     inspector = [controller inspector];
-    [inspector inspectRule:[ruleList objectAtIndex:selectedRow]];
+    [inspector inspectRule:[[model rules] objectAtIndex:selectedRow]];
 
     for (index = 0; index < 4; index++) {
         anExpression = [aRule getExpressionNumber:index];
@@ -146,7 +161,7 @@
         return [[matchLists objectAtIndex:3] count];
 
     if (sender == ruleMatrix)
-        return [ruleList count];
+        return [[model rules] count];
 
     return 0;
 }
@@ -171,7 +186,7 @@
     } else if (sender == ruleMatrix) {
         NSString *str;
 
-        aRule = [ruleList objectAtIndex:row];
+        aRule = [[model rules] objectAtIndex:row];
         str = [NSString stringWithFormat:@"%d. %@", row + 1, [aRule ruleString]];
         [cell setStringValue:str];
     }
@@ -368,7 +383,7 @@
 
 - (void)updateRuleDisplay;
 {
-    [ruleMatrix setTitle:[NSString stringWithFormat:@"Total Rules: %d", [ruleList count]] ofColumn:0];
+    [ruleMatrix setTitle:[NSString stringWithFormat:@"Total Rules: %d", [[model rules] count]] ofColumn:0];
     [ruleMatrix loadColumnZero];
 }
 
@@ -394,11 +409,11 @@
     // TODO (2004-03-03): Might like flag to indicate we shouldn't clear the error message when we start parsing, so we get all the errors.
     [errorTextField setStringValue:[boolParser errorMessage]];
 
-    [ruleList addRuleExp1:exps[0] exp2:exps[1] exp3:exps[2] exp4:exps[3]];
+    [[model rules] addRuleExp1:exps[0] exp2:exps[1] exp3:exps[2] exp4:exps[3]];
 
-    [ruleMatrix setTitle:[NSString stringWithFormat:@"Total Rules: %d", [ruleList count]] ofColumn:0];
+    [ruleMatrix setTitle:[NSString stringWithFormat:@"Total Rules: %d", [[model rules] count]] ofColumn:0];
     [ruleMatrix loadColumnZero];
-    [ruleMatrix selectRow:[ruleList count] - 2 inColumn:0];
+    [ruleMatrix selectRow:[[model rules] count] - 2 inColumn:0];
 }
 
 // TODO (2004-03-10): Actually, it's just "change"
@@ -423,7 +438,7 @@
     }
 
     [errorTextField setStringValue:[boolParser errorMessage]];
-    [ruleList changeRuleAt:selectedRow exp1:exps[0] exp2:exps[1] exp3:exps[2] exp4:exps[3]];
+    [[model rules] changeRuleAt:selectedRow exp1:exps[0] exp2:exps[1] exp3:exps[2] exp4:exps[3]];
 
     [ruleMatrix loadColumnZero];
     [ruleMatrix selectRow:selectedRow inColumn:0];
@@ -433,10 +448,10 @@
 {
     int selectedRow = [[ruleMatrix matrixInColumn:0] selectedRow];
 
-    [ruleList removeObjectAtIndex:selectedRow];
+    [[model rules] removeObjectAtIndex:selectedRow];
     [ruleMatrix loadColumnZero];
-    if (selectedRow >= [ruleList count])
-        selectedRow = [ruleList count] - 1;
+    if (selectedRow >= [[model rules] count])
+        selectedRow = [[model rules] count] - 1;
     [ruleMatrix selectRow:selectedRow inColumn:0];
     [self browserHit:ruleMatrix];
 }
@@ -504,8 +519,8 @@
 
     //NSLog(@"TempList count = %d", [tempList count]);
 
-    for (i = 0; i < [ruleList count]; i++) {
-        aRule = [ruleList objectAtIndex:i];
+    for (i = 0; i < [[model rules] count]; i++) {
+        aRule = [[model rules] objectAtIndex:i];
         if ([aRule numberExpressions] <= [tempList count])
             if ([aRule matchRule:tempList]) {
                 NSString *str;
@@ -535,59 +550,59 @@
 
 - (RuleList *)ruleList;
 {
-    return ruleList;
+    return [model rules];
 }
 
 
 - (void)addParameter;
 {
-    [ruleList makeObjectsPerform:@selector(addDefaultParameter)];
+    [[model rules] makeObjectsPerform:@selector(addDefaultParameter)];
 }
 
 - (void)addMetaParameter;
 {
-    [ruleList makeObjectsPerform:@selector(addDefaultMetaParameter)];
+    [[model rules] makeObjectsPerform:@selector(addDefaultMetaParameter)];
 }
 
 - (void)removeParameter:(int)index;
 {
     int i;
 
-    for (i = 0; i < [ruleList count]; i++)
-        [[ruleList objectAtIndex:i] removeParameter:index];
+    for (i = 0; i < [[model rules] count]; i++)
+        [[[model rules] objectAtIndex:i] removeParameter:index];
 }
 
 - (void)removeMetaParameter:(int)index;
 {
     int i;
 
-    for (i = 0; i < [ruleList count]; i++)
-        [[ruleList objectAtIndex:i] removeMetaParameter:index];
+    for (i = 0; i < [[model rules] count]; i++)
+        [[[model rules] objectAtIndex:i] removeMetaParameter:index];
 }
 
 - (BOOL)isCategoryUsed:(CategoryNode *)aCategory;
 {
-    return [ruleList isCategoryUsed:aCategory];
+    return [[model rules] isCategoryUsed:aCategory];
 }
 
 - (BOOL)isEquationUsed:(ProtoEquation *)anEquation;
 {
-    return [ruleList isEquationUsed:anEquation];
+    return [[model rules] isEquationUsed:anEquation];
 }
 
 - (BOOL)isTransitionUsed:(ProtoTemplate *)aTransition;
 {
-    return [ruleList isTransitionUsed: aTransition];
+    return [[model rules] isTransitionUsed: aTransition];
 }
 
 - (void)findEquation:(ProtoEquation *)anEquation andPutIn:(MonetList *)aList;
 {
-    [ruleList findEquation:anEquation andPutIn:aList];
+    [[model rules] findEquation:anEquation andPutIn:aList];
 }
 
 - (void)findTemplate:(ProtoTemplate *)aTemplate andPutIn:(MonetList *)aList;
 {
-    [ruleList findTemplate:aTemplate andPutIn:aList];
+    [[model rules] findTemplate:aTemplate andPutIn:aList];
 }
 
 - (IBAction)cut:(id)sender;
@@ -619,7 +634,7 @@ static NSString *ruleString = @"Rule";
     mdata = [NSMutableData dataWithCapacity:16];
     typed = [[NSArchiver alloc] initForWritingWithMutableData:mdata];
 
-    tempEntry = [ruleList objectAtIndex:[[ruleMatrix matrixInColumn:0] selectedRow]];
+    tempEntry = [[model rules] objectAtIndex:[[ruleMatrix matrixInColumn:0] selectedRow]];
     [tempEntry encodeWithCoder:typed];
 
     dataType = ruleString;
@@ -656,9 +671,9 @@ static NSString *ruleString = @"Rule";
     [typed release];
 
     if (row == -1)
-        [ruleList insertObject:temp atIndex:[ruleList count]-1];
+        [[model rules] insertObject:temp atIndex:[[model rules] count]-1];
     else
-        [ruleList insertObject:temp atIndex:row+1];
+        [[model rules] insertObject:temp atIndex:row+1];
 
     [temp release];
 
@@ -686,7 +701,6 @@ static NSString *ruleString = @"Rule";
     }
 
     boolParser = [[BooleanParser alloc] init];
-    ruleList = [[aDecoder decodeObject] retain];
 
     [self applicationDidFinishLaunching:nil];
 
@@ -701,30 +715,12 @@ static NSString *ruleString = @"Rule";
 }
 
 //
-// Archiving - NS Compatibility
-//
-
-- (void)readRulesFrom:(NSArchiver *)stream;
-{
-    [ruleList release];
-    ruleList = nil;
-
-    cacheValue = 1;
-    ruleList = [[stream decodeObject] retain];
-}
-
-- (void)writeRulesTo:(NSArchiver *)stream;
-{
-    [stream encodeObject:ruleList];
-}
-
-//
 // Archiving - Degas support
 //
 
 - (void)readDegasFileFormat:(FILE *)fp;
 {
-    [ruleList readDegasFileFormat:fp];
+    [[model rules] readDegasFileFormat:fp];
 }
 
 //
@@ -743,7 +739,7 @@ static NSString *ruleString = @"Rule";
         if (index == -1)
             [inspector cleanInspectorWindow];
         else
-            [inspector inspectRule:[ruleList objectAtIndex:index]];
+            [inspector inspectRule:[[model rules] objectAtIndex:index]];
     }
 }
 
@@ -771,15 +767,6 @@ static NSString *ruleString = @"Rule";
     [[phone2 cellAtIndex:0] setStringValue:p3];
     [[phone3 cellAtIndex:0] setStringValue:p4];
     [[phone4 cellAtIndex:0] setStringValue:@""];
-}
-
-//
-// Archiving - XML
-//
-
-- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
-{
-    [ruleList appendXMLToString:resultString elementName:@"rules" level:level numberItems:YES];
 }
 
 @end

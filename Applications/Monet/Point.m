@@ -12,6 +12,9 @@
 #import "PrototypeManager.h"
 #import "ProtoTemplate.h"
 
+#import "MModel.h"
+#import "MUnarchiver.h"
+
 @implementation MMPoint
 
 - (id)init;
@@ -155,12 +158,13 @@
 {
     unsigned archivedVersion;
     int i, j;
-    PrototypeManager *prototypeManager = NXGetNamedObject(@"prototypeManager", NSApp);
     ProtoEquation *anExpression;
+    MModel *model;
 
     if ([super initWithCoder:aDecoder] == nil)
         return nil;
 
+    model = [(MUnarchiver *)aDecoder userInfo];
     //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
     archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
     //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
@@ -196,7 +200,7 @@
 
     [aDecoder decodeValuesOfObjCTypes:"ii", &i, &j];
     //NSLog(@"i: %d, j: %d", i, j);
-    anExpression = [prototypeManager findEquation:i andIndex:j];
+    anExpression = [model findEquation:i andIndex:j];
     //NSLog(@"anExpression: %@", anExpression);
     [self setExpression:anExpression];
 

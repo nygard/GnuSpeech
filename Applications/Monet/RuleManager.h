@@ -4,6 +4,7 @@
 @class NSBrowser, NSForm, NSMatrix, NSScrollView, NSTextField, NSTextView;
 @class BooleanExpression, BooleanParser, CategoryNode, MonetList, ProtoEquation, ProtoTemplate, RuleList;
 @class AppController, DelegateResponder;
+@class MModel;
 
 /*===========================================================================
 
@@ -37,7 +38,7 @@
     MonetList *matchLists; // Of PhoneLists?
     BooleanExpression *expressions[4];
 
-    RuleList *ruleList;
+    MModel *model;
 
     IBOutlet NSForm *phone1;
     IBOutlet NSForm *phone2;
@@ -53,6 +54,9 @@
 - (id)init;
 - (void)dealloc;
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
+
+- (MModel *)model;
+- (void)setModel:(MModel *)newModel;
 
 // Browser actions
 - (IBAction)browserHit:(id)sender;
@@ -101,10 +105,6 @@
 - (id)initWithCoder:(NSCoder *)aDecoder;
 - (void)encodeWithCoder:(NSCoder *)aCoder;
 
-// Archiving - NS Compatibility
-- (void)readRulesFrom:(NSArchiver *)stream;
-- (void)writeRulesTo:(NSArchiver *)stream;
-
 // Archiving - Degas support
 - (void)readDegasFileFormat:(FILE *)fp;
 
@@ -115,8 +115,5 @@
 
 // Other
 - (IBAction)shiftPhonesLeft:(id)sender;
-
-// Archiving - XML
-- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 
 @end

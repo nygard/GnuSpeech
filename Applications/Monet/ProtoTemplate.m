@@ -11,6 +11,9 @@
 #import "PrototypeManager.h"
 #import "SlopeRatio.h"
 
+#import "MModel.h"
+#import "MUnarchiver.h"
+
 @implementation ProtoTemplate
 
 - (id)init;
@@ -197,12 +200,14 @@
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
     unsigned archivedVersion;
-    PrototypeManager *prototypeManager = NXGetNamedObject(@"prototypeManager", NSApp);
     char *c_name, *c_comment;
     MonetList *archivedPoints;
+    MModel *model;
 
     if ([self init] == nil)
         return nil;
+
+    model = [(MUnarchiver *)aDecoder userInfo];
 
     //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
     archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
@@ -227,28 +232,28 @@
         aPoint = [[MMPoint alloc] init];
         [aPoint setValue:0.0];
         [aPoint setType:DIPHONE];
-        [aPoint setExpression:[prototypeManager findEquationList:@"Test" named:@"Zero"]];
+        [aPoint setExpression:[model findEquationList:@"Test" named:@"Zero"]];
         [defaultPoints addObject:aPoint];
         [aPoint release];
 
         aPoint = [[MMPoint alloc] init];
         [aPoint setValue:12.5];
         [aPoint setType:DIPHONE];
-        [aPoint setExpression:[prototypeManager findEquationList:@"Test" named:@"diphoneOneThree"]];
+        [aPoint setExpression:[model findEquationList:@"Test" named:@"diphoneOneThree"]];
         [defaultPoints addObject:aPoint];
         [aPoint release];
 
         aPoint = [[MMPoint alloc] init];
         [aPoint setValue:87.5];
         [aPoint setType:DIPHONE];
-        [aPoint setExpression:[prototypeManager findEquationList:@"Test" named:@"diphoneTwoThree"]];
+        [aPoint setExpression:[model findEquationList:@"Test" named:@"diphoneTwoThree"]];
         [defaultPoints addObject:aPoint];
         [aPoint release];
 
         aPoint = [[MMPoint alloc] init];
         [aPoint setValue:100.0];
         [aPoint setType:DIPHONE];
-        [aPoint setExpression:[prototypeManager findEquationList:@"Defaults" named:@"Mark1"]];
+        [aPoint setExpression:[model findEquationList:@"Defaults" named:@"Mark1"]];
         [defaultPoints addObject:aPoint];
         [aPoint release];
 
@@ -256,21 +261,21 @@
             aPoint = [[MMPoint alloc] init];
             [aPoint setValue:12.5];
             [aPoint setType:TRIPHONE];
-            [aPoint setExpression:[prototypeManager findEquationList:@"Test" named:@"triphoneOneThree"]];
+            [aPoint setExpression:[model findEquationList:@"Test" named:@"triphoneOneThree"]];
             [defaultPoints addObject:aPoint];
             [aPoint release];
 
             aPoint = [[MMPoint alloc] init];
             [aPoint setValue:87.5];
             [aPoint setType:TRIPHONE];
-            [aPoint setExpression:[prototypeManager findEquationList:@"Test" named:@"triphoneTwoThree"]];
+            [aPoint setExpression:[model findEquationList:@"Test" named:@"triphoneTwoThree"]];
             [defaultPoints addObject:aPoint];
             [aPoint release];
 
             aPoint = [[MMPoint alloc] init];
             [aPoint setValue:100.0];
             [aPoint setType:TRIPHONE];
-            [aPoint setExpression:[prototypeManager findEquationList:@"Defaults" named:@"Mark2"]];
+            [aPoint setExpression:[model findEquationList:@"Defaults" named:@"Mark2"]];
             [defaultPoints addObject:aPoint];
             [aPoint release];
 
@@ -278,21 +283,21 @@
                 aPoint = [[MMPoint alloc] init];
                 [aPoint setValue:12.5];
                 [aPoint setType:TETRAPHONE];
-                [aPoint setExpression:[prototypeManager findEquationList:@"Test" named:@"tetraphoneOneThree"]];
+                [aPoint setExpression:[model findEquationList:@"Test" named:@"tetraphoneOneThree"]];
                 [defaultPoints addObject:aPoint];
                 [aPoint release];
 
                 aPoint = [[MMPoint alloc] init];
                 [aPoint setValue:87.5];
                 [aPoint setType:TETRAPHONE];
-                [aPoint setExpression:[prototypeManager findEquationList:@"Test" named:@"tetraphoneTwoThree"]];
+                [aPoint setExpression:[model findEquationList:@"Test" named:@"tetraphoneTwoThree"]];
                 [defaultPoints addObject:aPoint];
                 [aPoint release];
 
                 aPoint = [[MMPoint alloc] init];
                 [aPoint setValue:100.0];
                 [aPoint setType:TETRAPHONE];
-                [aPoint setExpression:[prototypeManager findEquationList:@"Durations" named:@"TetraphoneDefault"]];
+                [aPoint setExpression:[model findEquationList:@"Durations" named:@"TetraphoneDefault"]];
                 [defaultPoints addObject:aPoint];
                 [aPoint release];
             }

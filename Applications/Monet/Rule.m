@@ -14,6 +14,9 @@
 #import "ProtoTemplate.h"
 #import "PrototypeManager.h"
 
+#import "MModel.h"
+#import "MUnarchiver.h"
+
 @implementation Rule
 
 - (id)init;
@@ -338,12 +341,15 @@
     unsigned archivedVersion;
     int index, j, k;
     int symbolCount, parameterCount, metaParmaterCount;
-    PrototypeManager *prototypeManager = NXGetNamedObject(@"prototypeManager", NSApp);
     id tempParameter;
     char *c_comment;
+    MModel *model;
 
     if ([super initWithCoder:aDecoder] == nil)
         return nil;
+
+    model = [(MUnarchiver *)aDecoder userInfo];
+    //NSLog(@"model: %p, class: %@", model, NSStringFromClass([model class]));
 
     //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
     archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
@@ -374,21 +380,21 @@
     for (index = 0; index < symbolCount; index++) {
         [aDecoder decodeValuesOfObjCTypes:"ii", &j, &k];
         //NSLog(@"j: %d, k: %d", j, k);
-        tempParameter = [prototypeManager findEquation:j andIndex:k];
+        tempParameter = [model findEquation:j andIndex:k];
         [expressionSymbols addObject:tempParameter];
     }
 
     for (index = 0; index < parameterCount; index++) {
         [aDecoder decodeValuesOfObjCTypes:"ii", &j, &k];
         //NSLog(@"j: %d, k: %d", j, k);
-        tempParameter = [prototypeManager findTransition:j andIndex:k];
+        tempParameter = [model findTransition:j andIndex:k];
         [parameterProfiles addObject:tempParameter];
     }
 
     for (index = 0; index < metaParmaterCount; index++) {
         [aDecoder decodeValuesOfObjCTypes:"ii", &j, &k];
         //NSLog(@"j: %d, k: %d", j, k);
-        [metaParameterProfiles addObject:[prototypeManager findTransition:j andIndex:k]];
+        [metaParameterProfiles addObject:[model findTransition:j andIndex:k]];
     }
 
     for (index = 0; index <  16; index++) {
@@ -398,7 +404,7 @@
         if (j == -1) {
             specialProfiles[index] = nil;
         } else {
-            specialProfiles[index] = [prototypeManager findSpecial:j andIndex:k];
+            specialProfiles[index] = [model findSpecial:j andIndex:k];
         }
     }
 
