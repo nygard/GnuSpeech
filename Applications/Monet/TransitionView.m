@@ -41,7 +41,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     timesFont = [[NSFont fontWithName:@"Times-Roman" size:12] retain];
     currentTemplate = nil;
 
-    samplePhoneList = [[NSMutableArray alloc] init];
+    samplePostures = [[NSMutableArray alloc] init];
     displayPoints = [[NSMutableArray alloc] init];
     displaySlopes = [[NSMutableArray alloc] init];
     selectedPoints = [[NSMutableArray alloc] init];
@@ -61,7 +61,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 - (void)dealloc;
 {
     [timesFont release];
-    [samplePhoneList release];
+    [samplePostures release];
     [displayPoints release];
     [displaySlopes release];
     [selectedPoints release];
@@ -91,7 +91,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 {
     MMPosture *aPosture;
 
-    [samplePhoneList removeAllObjects];
+    [samplePostures removeAllObjects];
     [displayPoints removeAllObjects];
     [displaySlopes removeAllObjects];
     [selectedPoints removeAllObjects];
@@ -106,10 +106,10 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     }
 
     // We need four postures to show a tetraphone
-    [samplePhoneList addObject:aPosture];
-    [samplePhoneList addObject:aPosture];
-    [samplePhoneList addObject:aPosture];
-    [samplePhoneList addObject:aPosture];
+    [samplePostures addObject:aPosture];
+    [samplePostures addObject:aPosture];
+    [samplePostures addObject:aPosture];
+    [samplePostures addObject:aPosture];
 
     [aPosture release];
 
@@ -371,7 +371,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         for (j = 0; j < [namedList count]; j++) {
             equation = [namedList objectAtIndex:j];
             if ([[equation expression] maxPhone] <= type) {
-                time = [equation evaluate:_parameters phones:samplePhoneList andCacheWith:cache];
+                time = [equation evaluate:_parameters phones:samplePostures andCacheWith:cache];
                 //NSLog(@"\t%@", [equation name]);
                 //NSLog(@"\t\ttime = %f", time);
                 //NSLog(@"equation name: %@, formula: %@, time: %f", [equation name], [[equation expression] expressionString], time);
@@ -480,7 +480,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         currentPoint = [currentPoints objectAtIndex:index];
         //NSLog(@"%2d: object class: %@", index, NSStringFromClass([currentPoint class]));
         //NSLog(@"%2d (a): value: %g, freeTime: %g, type: %d, isPhantom: %d", index, [currentPoint value], [currentPoint freeTime], [currentPoint type], [currentPoint isPhantom]);
-        [currentPoint calculatePoints:_parameters tempos:tempos phones:samplePhoneList andCacheWith:cache toDisplay:displayPoints];
+        [currentPoint calculatePoints:_parameters tempos:tempos phones:samplePostures andCacheWith:cache toDisplay:displayPoints];
         //NSLog(@"%2d (b): value: %g, freeTime: %g, type: %d, isPhantom: %d", index, [currentPoint value], [currentPoint freeTime], [currentPoint type], [currentPoint isPhantom]);
 
         if ([currentPoint isKindOfClass:[MMSlopeRatio class]])
@@ -1050,7 +1050,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         if (currentExpression == nil)
             currentPoint.x = [currentDisplayPoint freeTime];
         else
-            currentPoint.x = [[currentDisplayPoint expression] evaluate:_parameters phones:samplePhoneList andCacheWith:cache];
+            currentPoint.x = [[currentDisplayPoint expression] evaluate:_parameters phones:samplePostures andCacheWith:cache];
 
         currentPoint.x *= timeScale;
         currentPoint.y = (yScale * ZERO_INDEX) + ([currentDisplayPoint value] * yScale / SECTION_AMOUNT);

@@ -33,7 +33,7 @@ extern NSString *TransitionViewSelectionDidChangeNotification;
 
     MMTransition *currentTemplate;
 
-    NSMutableArray *samplePhoneList;
+    NSMutableArray *samplePostures;
     NSMutableArray *displayPoints;
     NSMutableArray *displaySlopes;
     NSMutableArray *selectedPoints;

@@ -35,7 +35,7 @@
 
     MModel *model;
 
-    NSMutableArray *matchLists; // Of PhoneLists?
+    NSMutableArray *matchLists; // Of arrays of postures/categories?
     MMBooleanNode *expressions[4];
 
     NSFont *regularControlFont;
