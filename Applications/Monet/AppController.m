@@ -24,6 +24,8 @@
 #import "MTransitionEditor.h"
 #import "MWindowController.h"
 
+#define MDK_MonetFileDirectory @"MonetFileDirectory"
+
 @implementation AppController
 
 - (id)init;
@@ -157,10 +159,13 @@
 
     types = [NSArray arrayWithObjects:@"monet", @"degas", @"mxml", nil];
     openPanel = [NSOpenPanel openPanel]; // Each call resets values, including filenames
+    [openPanel setDirectory:[[NSUserDefaults standardUserDefaults] objectForKey:MDK_MonetFileDirectory]];
     [openPanel setAllowsMultipleSelection:NO];
 
     if ([openPanel runModalForTypes:types] == NSCancelButton)
         return;
+
+    [[NSUserDefaults standardUserDefaults] setObject:[openPanel directory] forKey:MDK_MonetFileDirectory];
 
     fnames = [openPanel filenames];
     count = [fnames count];
@@ -359,10 +364,13 @@
     NSSavePanel *savePanel;
 
     savePanel = [NSSavePanel savePanel];
+    [savePanel setDirectory:[[NSUserDefaults standardUserDefaults] objectForKey:MDK_MonetFileDirectory]];
     [savePanel setRequiredFileType:@"mxml"];
     if ([savePanel runModalForDirectory:nil file:[filename lastPathComponent]] == NSFileHandlingPanelOKButton) {
         NSString *newFilename;
         BOOL result;
+
+        [[NSUserDefaults standardUserDefaults] setObject:[savePanel directory] forKey:MDK_MonetFileDirectory];
 
         newFilename = [savePanel filename];
 

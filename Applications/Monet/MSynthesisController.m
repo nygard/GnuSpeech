@@ -30,6 +30,9 @@
 #define MDK_ShouldUseDrift @"ShouldUseDrift"
 #define MDK_DefaultUtterances @"DefaultUtterances"
 
+#define MDK_GraphImagesDirectory @"GraphImagesDirectory"
+#define MDK_SoundOutputDirectory @"SoundOutputDirectory"
+
 @implementation MSynthesisController
 
 + (void)initialize;
@@ -48,6 +51,8 @@
 
     defaultValues = [[NSMutableDictionary alloc] init];
     [defaultValues setObject:defaultUtterances forKey:MDK_DefaultUtterances];
+    [defaultValues setObject:[@"~/Desktop" stringByExpandingTildeInPath] forKey:MDK_GraphImagesDirectory];
+    [defaultValues setObject:[@"~/Desktop" stringByExpandingTildeInPath] forKey:MDK_SoundOutputDirectory];
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaultValues];
     [defaultValues release];
 }
@@ -440,13 +445,31 @@
 
 - (IBAction)generateGraphImages:(id)sender;
 {
+    NSString *directory;
+    NSSavePanel *savePanel;
+
+    directory = [[NSUserDefaults standardUserDefaults] objectForKey:MDK_GraphImagesDirectory];
+
+    savePanel = [NSSavePanel savePanel];
+    [savePanel setRequiredFileType:nil];
+
+    [savePanel beginSheetForDirectory:directory file:@"Untitled" modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(savePanelDidEnd:returnCode:contextInfo:) contextInfo:[self window]];
+}
+
+- (void)savePanelDidEnd:(NSSavePanel *)savePanel returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+{
+    if (returnCode == NSOKButton) {
+        [[NSUserDefaults standardUserDefaults] setObject:[savePanel directory] forKey:MDK_GraphImagesDirectory];
+        [self saveGraphImagesToPath:[savePanel filename]];
+    }
+}
+
+- (void)saveGraphImagesToPath:(NSString *)basePath;
+{
     unsigned int count, index, offset;
-    int pid;
     int number = 1;
-    static int group = 1; // Mmm, mmm
     NSDictionary *jpegProperties;
     NSMutableString *html;
-    NSString *basePath;
     NSFileManager *fileManager = [NSFileManager defaultManager];
 
     NSLog(@" > %s", _cmd);
@@ -468,10 +491,8 @@
     [html appendFormat:@"    <p>Generated %@</p>\n", GSXMLCharacterData([[NSCalendarDate calendarDate] description])];
     [html appendString:@"    <p>\n"];
 
-    pid = [[NSProcessInfo processInfo] processIdentifier];
     number = 1;
 
-    basePath = [NSString stringWithFormat:@"/tmp/Monet-%d-%d", pid, group++];
     [fileManager createDirectoryAtPath:basePath attributes:nil];
     [fileManager copyPath:@"/tmp/Monet.parameters" toPath:[basePath stringByAppendingPathComponent:@"Monet.parameters"] handler:nil];
 

@@ -90,6 +90,8 @@
 - (IBAction)generateContour:(id)sender;
 
 - (IBAction)generateGraphImages:(id)sender;
+- (void)savePanelDidEnd:(NSSavePanel *)savePanel returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+- (void)saveGraphImagesToPath:(NSString *)basePath;
 
 - (IBAction)addPhoneString:(id)sender;
 
