@@ -24,12 +24,6 @@
 
 // General purpose routines
 
-// TODO (2004-05-15): I think we can remove this method, since it really isn't used.
-- (int)maxExpressionLevels;
-{
-    return 1;
-}
-
 - (NSString *)expressionString;
 {
     return nil;

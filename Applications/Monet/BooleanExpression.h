@@ -82,7 +82,6 @@
 - (void)optimizeSubExpressions;
 
 /* General purpose methods */
-- (int)maxExpressionLevels;
 - (NSString *)expressionString;
 - (void)expressionString:(NSMutableString *)resultString;
 

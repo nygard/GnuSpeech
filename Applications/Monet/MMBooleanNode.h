@@ -21,7 +21,6 @@
 - (void)optimizeSubExpressions;
 
 // General purpose routines
-- (int)maxExpressionLevels;
 - (NSString *)expressionString;
 - (void)expressionString:(NSMutableString *)resultString;
 

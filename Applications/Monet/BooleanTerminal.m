@@ -85,11 +85,6 @@
 {
 }
 
-- (int)maxExpressionLevels;
-{
-    return 1;
-}
-
 - (NSString *)expressionString;
 {
     NSMutableString *resultString;

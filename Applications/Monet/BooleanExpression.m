@@ -117,22 +117,6 @@
     [self optimize];
 }
 
-- (int)maxExpressionLevels;
-{
-    int count, index;
-    int max = 0;
-    int temp;
-
-    count = [expressions count];
-    for (index = 0; index < count; index++) {
-        temp = [[expressions objectAtIndex:index] maxExpressionLevels];
-        if (temp > max)
-            max = temp;
-    }
-
-    return max + 1;
-}
-
 - (NSString *)expressionString;
 {
     NSMutableString *resultString;
