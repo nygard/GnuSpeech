@@ -280,6 +280,8 @@
 				0127DAF9064D9A8E00B841E4,
 				0127DAE8064C79C600B841E4,
 				0127DAE9064C79C600B841E4,
+				0143DCBC0651923A00DB5F6D,
+				0143DCBD0651923A00DB5F6D,
 			);
 			isa = PBXGroup;
 			name = "Software TRM";
@@ -508,6 +510,64 @@
 		};
 		0127DAFB064D9A8E00B841E4 = {
 			fileRef = 0127DAF9064D9A8E00B841E4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0143DCBC0651923A00DB5F6D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
+			name = output.c;
+			path = /Volumes/Data/Users/nygard/SourceSVN/gnuspeech/trunk/Tools/softwareTRM/output.c;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		0143DCBD0651923A00DB5F6D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = output.h;
+			path = /Volumes/Data/Users/nygard/SourceSVN/gnuspeech/trunk/Tools/softwareTRM/output.h;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		0143DCBE0651923A00DB5F6D = {
+			fileRef = 0143DCBC0651923A00DB5F6D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0143DCBF0651923A00DB5F6D = {
+			fileRef = 0143DCBD0651923A00DB5F6D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0143DCCA065193D800DB5F6D = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = AudioToolbox.framework;
+			path = /System/Library/Frameworks/AudioToolbox.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		0143DCCB065193D800DB5F6D = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = AudioUnit.framework;
+			path = /System/Library/Frameworks/AudioUnit.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		0143DCCC065193D800DB5F6D = {
+			fileRef = 0143DCCA065193D800DB5F6D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0143DCCD065193D800DB5F6D = {
+			fileRef = 0143DCCB065193D800DB5F6D;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -3075,6 +3135,8 @@
 		};
 		29B97323FDCFA39411CA2CEA = {
 			children = (
+				0143DCCA065193D800DB5F6D,
+				0143DCCB065193D800DB5F6D,
 				1058C7A0FEA54F0111CA2CBB,
 				1058C7A2FEA54F0111CA2CBB,
 			);
@@ -3293,6 +3355,7 @@
 				0127DAE5064C78C500B841E4,
 				0127DAEA064C79C600B841E4,
 				0127DAFB064D9A8E00B841E4,
+				0143DCBF0651923A00DB5F6D,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3423,6 +3486,7 @@
 				0127DAE4064C78C500B841E4,
 				0127DAEB064C79C600B841E4,
 				0127DAFA064D9A8E00B841E4,
+				0143DCBE0651923A00DB5F6D,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3439,6 +3503,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072F0486CEB800E47090,
+				0143DCCC065193D800DB5F6D,
+				0143DCCD065193D800DB5F6D,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
