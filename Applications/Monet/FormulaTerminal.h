@@ -52,10 +52,6 @@
 - (double)evaluate:(double *)ruleSymbols phones:(PhoneList *)phones;
 - (double)evaluate:(double *)ruleSymbols phones:(PhoneList *)phones tempos:(double *)tempos;
 
-- (void)optimize;
-- (void)optimizeSubExpressions;
-
-- (int)maxExpressionLevels;
 - (int)maxPhone;
 
 - (NSString *)expressionString;

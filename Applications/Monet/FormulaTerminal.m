@@ -133,19 +133,6 @@
     return [symbolTarget value];
 }
 
-- (void)optimize;
-{
-}
-
-- (void)optimizeSubExpressions;
-{
-}
-
-- (int)maxExpressionLevels;
-{
-    return 1;
-}
-
 - (int)maxPhone;
 {
     return whichPhone;

@@ -147,39 +147,6 @@
     return 0.0;
 }
 
-- (void)optimize;
-{
-}
-
-
-- (void)optimizeSubExpressions;
-{
-    int count, index;
-
-    count = [expressions count];
-    for (index = 0; index < count; index++)
-        [[expressions objectAtIndex:index] optimizeSubExpressions];
-
-    [self optimize];
-}
-
-
-- (int)maxExpressionLevels;
-{
-    int count, index;
-    int max = 0;
-    int temp;
-
-    count = [expressions count];
-    for (index = 0; index < count; index++) {
-        temp = [[expressions objectAtIndex:index] maxExpressionLevels];
-        if (temp > max)
-            max = temp;
-    }
-
-    return max + 1;
-}
-
 - (int)maxPhone;
 {
     int count, index;
