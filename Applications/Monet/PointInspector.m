@@ -110,7 +110,7 @@
               break;
         }
 
-        [phantomSwitch setState:[currentPoint phantom]];
+        [phantomSwitch setState:[currentPoint isPhantom]];
 
         aProtoEquation = [currentPoint expression];
         if (aProtoEquation) {
@@ -246,7 +246,7 @@
 
 - (IBAction)setPhantom:(id)sender;
 {
-    [currentPoint setPhantom:[sender state]];
+    [currentPoint setIsPhantom:[sender state]];
 }
 
 @end

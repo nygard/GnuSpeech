@@ -367,7 +367,7 @@ static NSImage *_selectionBox = nil;
         type = DIPHONE;
 
     [[NSColor blackColor] set];
-    [[NSColor redColor] set];
+    //[[NSColor redColor] set];
 
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:2];
@@ -423,6 +423,8 @@ static NSImage *_selectionBox = nil;
     if (currentTemplate == nil)
         return;
 
+    [[NSColor blackColor] set];
+
     graphOrigin = [self graphOrigin];
 
     [displayPoints removeAllObjects];
@@ -441,9 +443,9 @@ static NSImage *_selectionBox = nil;
     for (index = 0; index < count; index++) {
         currentPoint = [currentPoints objectAtIndex:index];
         //NSLog(@"%2d: object class: %@", index, NSStringFromClass([currentPoint class]));
-        //NSLog(@"%2d (a): value: %g, freeTime: %g, type: %d, phantom: %d", index, [currentPoint value], [currentPoint freeTime], [currentPoint type], [currentPoint phantom]);
+        //NSLog(@"%2d (a): value: %g, freeTime: %g, type: %d, isPhantom: %d", index, [currentPoint value], [currentPoint freeTime], [currentPoint type], [currentPoint isPhantom]);
         [currentPoint calculatePoints:symbols tempos:tempos phones:dummyPhoneList andCacheWith:cache toDisplay:displayPoints];
-        //NSLog(@"%2d (b): value: %g, freeTime: %g, type: %d, phantom: %d", index, [currentPoint value], [currentPoint freeTime], [currentPoint type], [currentPoint phantom]);
+        //NSLog(@"%2d (b): value: %g, freeTime: %g, type: %d, isPhantom: %d", index, [currentPoint value], [currentPoint freeTime], [currentPoint type], [currentPoint isPhantom]);
 
         if ([currentPoint isKindOfClass:[SlopeRatio class]])
             [(SlopeRatio *)currentPoint displaySlopesInList:displaySlopes];
@@ -476,7 +478,11 @@ static NSImage *_selectionBox = nil;
               [tetraphonePoints addObject:[NSValue valueWithPoint:myPoint]];
               break;
           case TRIPHONE:
+              myPoint.x += 3;
+              myPoint.y += 3;
               [triphonePoints addObject:[NSValue valueWithPoint:myPoint]];
+              myPoint.x -= 3;
+              myPoint.y -= 3;
               break;
           case DIPHONE:
               [diphonePoints addObject:[NSValue valueWithPoint:myPoint]];
@@ -494,10 +500,10 @@ static NSImage *_selectionBox = nil;
     }
 
     [bezierPath lineToPoint:NSMakePoint([self bounds].size.width - LEFT_MARGIN, [self bounds].size.height - BOTTOM_MARGIN - (2 * yScale))];
-    [[NSColor greenColor] set];
     [bezierPath stroke];
     [bezierPath release];
 
+    //[[NSColor redColor] set];
     count = [diphonePoints count];
     for (index = 0; index < count; index++) {
         NSPoint aPoint;
@@ -511,7 +517,8 @@ static NSImage *_selectionBox = nil;
         NSPoint aPoint;
 
         aPoint = [[triphonePoints objectAtIndex:index] pointValue];
-        [_triangleMarker compositeToPoint:aPoint fromRect:rect operation:NSCompositeSourceOver];
+        //[_triangleMarker compositeToPoint:aPoint fromRect:rect operation:NSCompositeSourceOver];
+        [self drawTriangleAtPoint:aPoint];
     }
 
     count = [tetraphonePoints count];
@@ -552,6 +559,29 @@ static NSImage *_selectionBox = nil;
             [_selectionBox compositeToPoint:myPoint fromRect:rect operation:NSCompositeSourceOver];
         }
     }
+}
+
+- (void)drawTriangleAtPoint:(NSPoint)aPoint;
+{
+    int radius = 5;
+    NSBezierPath *bezierPath;
+    float angle;
+
+    bezierPath = [[NSBezierPath alloc] init];
+    //[bezierPath moveToPoint:NSMakePoint(aPoint.x, aPoint.y + radius)];
+    angle = 90.0 * (2 * M_PI) / 360.0;
+    //NSLog(@"angle: %f, cos(angle): %f, sin(angle): %f", angle, cos(angle), sin(angle));
+    [bezierPath moveToPoint:NSMakePoint(aPoint.x + cos(angle) * radius, aPoint.y + sin(angle) * radius)];
+    angle = 210.0 * (2 * M_PI) / 360.0;
+    //NSLog(@"angle: %f, cos(angle): %f, sin(angle): %f", angle, cos(angle), sin(angle));
+    [bezierPath lineToPoint:NSMakePoint(aPoint.x + cos(angle) * radius, aPoint.y + sin(angle) * radius)];
+    angle = 330.0 * (2 * M_PI) / 360.0;
+    //NSLog(@"angle: %f, cos(angle): %f, sin(angle): %f", angle, cos(angle), sin(angle));
+    [bezierPath lineToPoint:NSMakePoint(aPoint.x + cos(angle) * radius, aPoint.y + sin(angle) * radius)];
+    [bezierPath closePath];
+    [bezierPath fill];
+    //[bezierPath stroke];
+    [bezierPath release];
 }
 
 - (void)drawSlopes;

@@ -17,7 +17,7 @@
     double freeTime; /* Free Floating time */
     ProtoEquation *expression; /* Time of the point */
     int type;  /* Which phone it is targeting */
-    int phantom; /* Phantom point for place marking purposes only */
+    BOOL isPhantom; /* Phantom point for place marking purposes only */
 }
 
 - (id)init;
@@ -40,8 +40,8 @@
 - (int)type;
 - (void)setType:(int)newType;
 
-- (int)phantom;
-- (void)setPhantom:(int)phantomFlag;
+- (BOOL)isPhantom;
+- (void)setIsPhantom:(BOOL)newFlag;
 
 - (void)calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag toDisplay:(MonetList *)displayList;
 

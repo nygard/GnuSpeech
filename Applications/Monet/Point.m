@@ -22,7 +22,7 @@
     value = 0.0;
     freeTime = 0.0;
     expression = nil;
-    phantom = 0;
+    isPhantom = NO;
     type = DIPHONE;
 
     return self;
@@ -99,14 +99,14 @@
     type = newType;
 }
 
-- (int)phantom;
+- (BOOL)isPhantom;
 {
-    return phantom;
+    return isPhantom;
 }
 
-- (void)setPhantom:(int)phantomFlag;
+- (void)setIsPhantom:(BOOL)newFlag;
 {
-    phantom = phantomFlag;
+    isPhantom = newFlag;
 }
 
 - (void)calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag toDisplay:(MonetList *)displayList;
@@ -145,7 +145,7 @@
     else if (returnValue > max)
         returnValue = max;
 
-    if (!phantom)
+    if (!isPhantom)
         [eventList insertEvent:index atTime:time withValue:returnValue];
 
     return returnValue;
@@ -166,7 +166,7 @@
     //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
 
 #if 1
-    [aDecoder decodeValuesOfObjCTypes:"ddii", &value, &freeTime, &type, &phantom];
+    [aDecoder decodeValuesOfObjCTypes:"ddii", &value, &freeTime, &type, &isPhantom];
 #else
     // Hack to check "Play2.monet".
     {
@@ -183,7 +183,7 @@
                 [aDecoder decodeValuesOfObjCTypes:"di", &valueOne, &valueTwo];
                 NSLog(@"read: %g, %d", valueOne, valueTwo);
             } else {
-                [aDecoder decodeValuesOfObjCTypes:"ddii", &value, &freeTime, &type, &phantom];
+                [aDecoder decodeValuesOfObjCTypes:"ddii", &value, &freeTime, &type, &isPhantom];
             }
         } NS_HANDLER {
             NSLog(@"Caught exception: %@", localException);
@@ -191,7 +191,7 @@
         } NS_ENDHANDLER;
     }
 #endif
-    //NSLog(@"value: %g, freeTime: %g, type: %d, phantom: %d", value, freeTime, type, phantom);
+    //NSLog(@"value: %g, freeTime: %g, type: %d, isPhantom: %d", value, freeTime, type, isPhantom);
 
     [aDecoder decodeValuesOfObjCTypes:"ii", &i, &j];
     //NSLog(@"i: %d, j: %d", i, j);
@@ -209,7 +209,7 @@
     int i, j;
     PrototypeManager *prototypeManager = NXGetNamedObject(@"prototypeManager", NSApp);
 
-    [aCoder encodeValuesOfObjCTypes:"ddii", &value, &freeTime, &type, &phantom];
+    [aCoder encodeValuesOfObjCTypes:"ddii", &value, &freeTime, &type, &isPhantom];
 
     [prototypeManager findList:&i andIndex:&j ofEquation:expression];
     [aCoder encodeValuesOfObjCTypes:"ii", &i, &j];
@@ -218,15 +218,24 @@
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@>[%p]: value: %g, freeTime: %g, expression: %@, type: %d, phantom: %d",
-                     NSStringFromClass([self class]), self, value, freeTime, expression, type, phantom];
+    return [NSString stringWithFormat:@"<%@>[%p]: value: %g, freeTime: %g, expression: %@, type: %d, isPhantom: %d",
+                     NSStringFromClass([self class]), self, value, freeTime, expression, type, isPhantom];
 }
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 {
     [resultString indentToLevel:level];
-    [resultString appendFormat:@"<point value=\"%g\" free-time=\"%g\" type=\"%d\" phantom=\"%d\" expr-ptr=\"%p\" expression=\"%@\"/>\n",
-                  value, freeTime, type, phantom, expression, GSXMLAttributeString([expression name], NO)];
+    [resultString appendFormat:@"<point type=\"%d\" value=\"%g\"", type, value];
+    if (expression == nil) {
+        [resultString appendFormat:@" free-time=\"%g\"", freeTime];
+    } else {
+        [resultString appendFormat:@" time-expression=\"%@\"", GSXMLAttributeString([expression name], NO)];
+    }
+
+    if (isPhantom == YES)
+        [resultString appendFormat:@" is-phantom=\"%@\"", GSXMLBoolAttributeString(isPhantom)];
+
+    [resultString appendString:@"/>\n"];
 }
 
 @end
