@@ -726,7 +726,7 @@
     char *temp;
     NSArray *types, *fnames;
     NSString *filename;
-    NSArchiver *stream = NULL;
+    NSArchiver *stream = nil;
     id tempList, stringParser;
 
     [selectedPoints removeAllObjects];

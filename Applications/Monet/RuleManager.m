@@ -687,7 +687,7 @@ static NSString *ruleString = @"Rule";
 {
     NSPasteboard *myPasteboard;
     NSMutableData *mdata;
-    NSArchiver *typed = NULL;
+    NSArchiver *typed = nil;
     NSString *dataType;
     int retValue, column = [ruleMatrix selectedColumn];
     id tempEntry;
@@ -720,7 +720,7 @@ static NSString *ruleString = @"Rule";
 {
     NSPasteboard *myPasteboard;
     NSData *mdata;
-    NSArchiver *typed = NULL;
+    NSArchiver *typed = nil;
     NSArray *dataTypes;
     int row = [[ruleMatrix matrixInColumn: 0] selectedRow];
     id temp;

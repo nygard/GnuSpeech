@@ -1,7 +1,9 @@
 #import <Foundation/NSObject.h>
+#import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 @class NSFont;
 @class MonetList;
+@class DelegateResponder, MyController;
 
 /*===========================================================================
 
@@ -14,17 +16,17 @@
 
 @interface PrototypeManager : NSObject
 {
-    id controller;
+    IBOutlet MyController *controller;
 
-    id protoBrowser;
-    id browserSelector;
+    IBOutlet NSBrowser *protoBrowser;
+    IBOutlet NSControl *browserSelector; // TODO (2004-03-03): Not sure what type of control this is.
 
-    id newButton;
-    id removeButton;
-    id inputTextField;
+    IBOutlet NSButton *newButton;
+    IBOutlet NSButton *removeButton;
+    IBOutlet NSTextField *inputTextField;
 
-    id outputBox;
-    id selectedOutput;
+    IBOutlet NSBox *outputBox;
+    IBOutlet NSTextField *selectedOutput; // TODO (2004-03-03): Not sure about this.
 
     MonetList *protoEquations;
     MonetList *protoTemplates;
@@ -33,7 +35,7 @@
     NSFont *courier;
     NSFont *courierBold;
 
-    id delegateResponder;
+    DelegateResponder *delegateResponder;
 }
 
 - (id)init;

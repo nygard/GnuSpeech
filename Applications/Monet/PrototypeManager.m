@@ -12,10 +12,6 @@
 #import "RuleManager.h"
 #import "TransitionView.h"
 
-#ifdef PORTING
-#import "SpecialView.h"
-#endif
-
 @implementation PrototypeManager
 
 - (id)init;
@@ -44,6 +40,8 @@
     [protoEquations release];
     [protoTemplates release];
     [protoSpecial release];
+    [courier release];
+    [courierBold release];
     [delegateResponder setDelegate:nil];
     [delegateResponder release];
 
@@ -58,6 +56,7 @@
     [protoBrowser setAction:@selector(browserHit:)];
     [protoBrowser setDoubleAction:@selector(browserDoubleHit:)];
 
+    // TODO (2004-03-03): Check these fonts.
     courier = [NSFont fontWithName:@"Courier" size:12];
     courierBold = [NSFont fontWithName:@"Courier-Bold" size:12];
 
@@ -69,7 +68,7 @@
     id temp, tempList, tempEntry;
     int column = [protoBrowser selectedColumn];
     int row = [[protoBrowser matrixInColumn:column] selectedRow];
-    id ruleManager = NXGetNamedObject(@"ruleManager", NSApp);
+    RuleManager *ruleManager = NXGetNamedObject(@"ruleManager", NSApp);
 
     temp = [controller inspector];
 
@@ -214,7 +213,7 @@
 
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
 {
-    id ruleManager = NXGetNamedObject(@"ruleManager", NSApp);
+    RuleManager *ruleManager = NXGetNamedObject(@"ruleManager", NSApp);
     NamedList *tempList;
     BOOL used = NO;
 
@@ -655,7 +654,7 @@ static NSString *specialString = @"ProtoSpecial";
 {
     NSPasteboard *myPasteboard;
     NSData *mdata;
-    NSArchiver *typed = NULL;
+    NSArchiver *typed = nil;
     NSArray *dataTypes;
     id temp, tempList;
     int column = [protoBrowser selectedColumn];
@@ -727,27 +726,6 @@ static NSString *specialString = @"ProtoSpecial";
     protoTemplates = [[stream decodeObject] retain];
     protoSpecial = [[stream decodeObject] retain];
 }
-
-#ifdef NeXT
-- _readPrototypesFrom:(NXTypedStream *)stream;
-{
-    [protoEquations release];
-    [protoTemplates release];
-    [protoSpecial release];
-
-    NS_DURING {
-        protoEquations = NXReadObject(stream);
-        protoTemplates = NXReadObject(stream);
-        protoSpecial = NXReadObject(stream);
-    } NS_HANDLER {
-        NSLog(@"Got Exception reading NeXT style prototypes");
-    } NS_ENDHANDLER;
-//    [[[protoTemplates objectAt: 0] objectAt:1] setType:3];
-//    [[[protoTemplates objectAt: 0] objectAt:2] setType:4];
-
-    return self;
-}
-#endif
 
 - (void)writePrototypesTo:(NSArchiver *)stream;
 {
