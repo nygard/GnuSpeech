@@ -62,22 +62,23 @@
 - (void)dealloc;
 
 /* Comment and Symbol methods */
-- (void)setSymbol:(const char *)newSymbol;
-- (const char *)symbol;
-- (void)setComment:(const char *)newComment;
-- (const char *) comment;
+- (NSString *)symbol;
+- (void)setSymbol:(NSString *)newSymbol;
+
+- (NSString *)comment;
+- (void)setComment:(NSString *)newComment;
 
 /* Access to category List instance variable */
 - (void)addToCategoryList:(CategoryNode *)aCategory;
-- categoryList;
+- (CategoryList *)categoryList;
 
 /* Access to target lists */
-- parameterList;
-- metaParameterList;
-- symbolList;
+- (TargetList *)parameterList;
+- (TargetList *)metaParameterList;
+- (TargetList *)symbolList;
 
 /* Archiving methods */
-- (id)initWithCoder:(NSCoder *)aDecoder;
-- (void)encodeWithCoder:(NSCoder *)aCoder;
+//- (id)initWithCoder:(NSCoder *)aDecoder;
+//- (void)encodeWithCoder:(NSCoder *)aCoder;
 
 @end

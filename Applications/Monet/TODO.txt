@@ -2,3 +2,4 @@
 - wondering about programming error in BooleanParser
 - odd cases in BooleanParser, addSubExpression:self
   - it's totally wrong, adding the parser.  Sheesh!
+- what does it mean to be "native"?

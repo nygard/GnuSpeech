@@ -1,14 +1,16 @@
 #import "Phone.h"
 
 #import <Foundation/Foundation.h>
+#import "CategoryNode.h"
+#import "CategoryList.h"
+#import "Parameter.h"
+#import "ParameterList.h"
+#import "Target.h"
+#import "TargetList.h"
+#import "SymbolList.h"
 
 #ifdef PORTING
-#import "ParameterList.h"
 #import "MyController.h"
-#import <stdio.h>
-#import <string.h>
-#import <stdlib.h>
-#import <AppKit/NSApplication.h>
 #endif
 
 @implementation Phone
@@ -18,13 +20,13 @@
     if ([super init] == nil)
         return nil;
 
+    phoneSymbol = nil;
+    comment = nil;
+
     categoryList = [[CategoryList alloc] initWithCapacity:15];
     parameterList = [[TargetList alloc] initWithCapacity:15];
     metaParameterList = [[TargetList alloc] initWithCapacity:15];
     symbolList = [[TargetList alloc] initWithCapacity:15];
-
-    phoneSymbol = nil;
-    comment = nil;
 
     return self;
 }
@@ -47,6 +49,8 @@
     if ([self init] == nil)
         return nil;
 
+    [self setSymbol:newSymbol];
+
     count = [parms count];
     for (index = 0; index < count; index++) {
         newTarget = [[Target alloc] initWithValue:[[parms objectAtIndex:index] defaultValue] isDefault:YES];
@@ -68,8 +72,6 @@
         [newTarget release];
     }
 
-    [self setSymbol:newSymbol];
-
     return self;
 }
 
@@ -79,7 +81,6 @@
     [comment release];
 
     [categoryList release];
-
     [parameterList release];
     [metaParameterList release];
     [symbolList release];
@@ -87,198 +88,195 @@
     [super dealloc];
 }
 
-- (void)setSymbol:(const char *)newSymbol;
+- (NSString *)symbol;
 {
-int len;
-int i;
-CategoryNode *tempCategory;
-
-	if (phoneSymbol)
-		free(phoneSymbol);
-
-	len = strlen(newSymbol);
-	phoneSymbol = (char *) malloc(len+1);
-	strcpy(phoneSymbol, newSymbol);
-
-	for(i = 0; i<[categoryList count]; i++)
-	{
-		tempCategory = [categoryList objectAtIndex: i];
-		if ([tempCategory native])
-		{
-			[tempCategory setSymbol:newSymbol];
-			return;
-		}
-	}
+    return phoneSymbol;
 }
 
-- (const char *)symbol;
+- (void)setSymbol:(NSString *)newSymbol;
 {
-	return (phoneSymbol);
+    int count, index;
+
+    if (newSymbol == phoneSymbol)
+        return;
+
+    [phoneSymbol release];
+    phoneSymbol = [newSymbol retain];
+
+    count = [categoryList count];
+    for (index = 0; index < count; index++) {
+        CategoryNode *aCategory;
+
+        aCategory = [categoryList objectAtIndex:index];
+        if ([aCategory isNative]) {
+            [aCategory setSymbol:newSymbol];
+            return;
+        }
+    }
 }
 
-- (void)setComment:(const char *)newComment;
+- (NSString *)comment;
 {
-int len;
-
-	if (comment)
-		free(comment);
-
-	len = strlen(newComment);
-	comment = (char *) malloc(len+1);
-	strcpy(comment, newComment);
+    return comment;
 }
 
-- (const char *)comment;
+- (void)setComment:(NSString *)newComment;
 {
-	return comment;
+    if (newComment == comment)
+        return;
+
+    [comment release];
+    comment = [newComment retain];
 }
 
-- (void)addToCategoryList:(CategoryNode *)aCategory
+- (void)addToCategoryList:(CategoryNode *)aCategory;
 {
 }
 
-- categoryList;
+- (CategoryList *)categoryList;
 {
-	return (categoryList);
+    return categoryList;
 }
 
-- parameterList;
+- (TargetList *)parameterList;
 {
-	return (parameterList);
+    return parameterList;
 }
 
-- metaParameterList;
+- (TargetList *)metaParameterList;
 {
-	return metaParameterList;
+    return metaParameterList;
 }
 
-- symbolList;
+- (TargetList *)symbolList;
 {
-	return symbolList;
+    return symbolList;
 }
 
+#ifdef PORTING
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
-int i, j;
-CategoryList *temp;
-CategoryNode *temp1;
-char *string;
+    int i, j;
+    CategoryList *temp;
+    CategoryNode *temp1;
+    char *string;
 
-	temp = NXGetNamedObject("mainCategoryList", NSApp);
+    temp = NXGetNamedObject("mainCategoryList", NSApp);
 
-        [aDecoder decodeValuesOfObjCTypes:"**", &phoneSymbol, &comment];
+    [aDecoder decodeValuesOfObjCTypes:"**", &phoneSymbol, &comment];
 
-	parameterList = [[aDecoder decodeObject] retain];
-	metaParameterList = [[aDecoder decodeObject] retain];
-	symbolList = [[aDecoder decodeObject] retain];
+    parameterList = [[aDecoder decodeObject] retain];
+    metaParameterList = [[aDecoder decodeObject] retain];
+    symbolList = [[aDecoder decodeObject] retain];
 
-	if (categoryList)
-		[categoryList release];
+    if (categoryList)
+        [categoryList release];
 
-	[aDecoder decodeValueOfObjCType:"i" at:&i];
+    [aDecoder decodeValueOfObjCType:"i" at:&i];
 //	printf("TOTAL Categories for %s = %d\n", phoneSymbol, i);
 
-	categoryList = [[CategoryList alloc] initWithCapacity:i];
+    categoryList = [[CategoryList alloc] initWithCapacity:i];
 
-	for (j = 0; j<i; j++)
-	{
-		[aDecoder decodeValueOfObjCType:"*" at:&string];
-		if ((temp1 = [temp findSymbol:string]) )
-		{
+    for (j = 0; j<i; j++)
+    {
+        [aDecoder decodeValueOfObjCType:"*" at:&string];
+        if ((temp1 = [temp findSymbol:string]) )
+        {
 //			printf("Read category: %s\n", string);
-			[categoryList addObject:temp1];
-		}
-		else
-		{
+            [categoryList addObject:temp1];
+        }
+        else
+        {
 //			printf("Read NATIVE category: %s\n", string);
-			if (strcmp(phoneSymbol, string)!=0)
-			{
-				printf("NATIVE Category Wrong... correcting: %s -> %s", string, phoneSymbol);
-				[categoryList addNativeCategory:phoneSymbol];
-			}
-			else
-				[categoryList addNativeCategory:string];
-		}
-		free(string);
-	}
+            if (strcmp(phoneSymbol, string)!=0)
+            {
+                printf("NATIVE Category Wrong... correcting: %s -> %s", string, phoneSymbol);
+                [categoryList addNativeCategory:phoneSymbol];
+            }
+            else
+                [categoryList addNativeCategory:string];
+        }
+        free(string);
+    }
 
 
-        return self;
+    return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder;
 {
-int i;
-const char *temp;
+    int i;
+    const char *temp;
 
 //	printf("\tSaving %s\n", phoneSymbol);
-        [aCoder encodeValuesOfObjCTypes:"**", &phoneSymbol, &comment];
+    [aCoder encodeValuesOfObjCTypes:"**", &phoneSymbol, &comment];
 
 //	printf("\tSaving parameter, meta, and symbolList\n", phoneSymbol);
-	[aCoder encodeObject:parameterList];
-	[aCoder encodeObject:metaParameterList];
-	[aCoder encodeObject:symbolList];
+    [aCoder encodeObject:parameterList];
+    [aCoder encodeObject:metaParameterList];
+    [aCoder encodeObject:symbolList];
 
 //	printf("\tSaving categoryList\n", phoneSymbol);
-	/* Here's the tricky one! */
-	i = [categoryList count];
+    /* Here's the tricky one! */
+    i = [categoryList count];
 
-	[aCoder encodeValueOfObjCType:"i" at:&i];
-	for(i = 0; i<[categoryList count]; i++)
-	{
-		temp = [[categoryList objectAtIndex:i] symbol];
-		[aCoder encodeValueOfObjCType:"*" at:&temp];
-	}
+    [aCoder encodeValueOfObjCType:"i" at:&i];
+    for(i = 0; i<[categoryList count]; i++)
+    {
+        temp = [[categoryList objectAtIndex:i] symbol];
+        [aCoder encodeValueOfObjCType:"*" at:&temp];
+    }
 }
+#endif
 
 #ifdef NeXT
 - read:(NXTypedStream *)stream;
 {
-int i, j;
-CategoryList *temp;
-CategoryNode *temp1;
-char *string;
+    int i, j;
+    CategoryList *temp;
+    CategoryNode *temp1;
+    char *string;
 
-        temp = NXGetNamedObject("mainCategoryList", NSApp);
+    temp = NXGetNamedObject("mainCategoryList", NSApp);
 
-        NXReadTypes(stream, "**", &phoneSymbol, &comment);
+    NXReadTypes(stream, "**", &phoneSymbol, &comment);
 
-        parameterList = NXReadObject(stream);
-        metaParameterList = NXReadObject(stream);
-        symbolList = NXReadObject(stream);
+    parameterList = NXReadObject(stream);
+    metaParameterList = NXReadObject(stream);
+    symbolList = NXReadObject(stream);
 
-        if (categoryList)
-                [categoryList release];
+    if (categoryList)
+        [categoryList release];
 
-        NXReadType(stream,"i", &i);
+    NXReadType(stream,"i", &i);
 //      printf("TOTAL Categories for %s = %d\n", phoneSymbol, i);
 
-        categoryList = [[CategoryList alloc] initWithCapacity:i];
+    categoryList = [[CategoryList alloc] initWithCapacity:i];
 
-        for (j = 0; j<i; j++)
+    for (j = 0; j<i; j++)
+    {
+        NXReadType(stream, "*", &string);
+        if (temp1 = [temp findSymbol:string] )
         {
-                NXReadType(stream, "*", &string);
-                if (temp1 = [temp findSymbol:string] )
-                {
 //                      printf("Read category: %s\n", string);
-                        [categoryList addObject:temp1];
-                }
-                else
-                {
-//                      printf("Read NATIVE category: %s\n", string);
-                        if (strcmp(phoneSymbol, string)!=0)
-                        {
-                                printf("NATIVE Category Wrong... correcting: %s -> %s", string, phoneSymbol);
-                                [categoryList addNativeCategory:phoneSymbol];
-                        }
-                        else
-                                [categoryList addNativeCategory:string];
-                }
-                free(string);
+            [categoryList addObject:temp1];
         }
+        else
+        {
+//                      printf("Read NATIVE category: %s\n", string);
+            if (strcmp(phoneSymbol, string)!=0)
+            {
+                printf("NATIVE Category Wrong... correcting: %s -> %s", string, phoneSymbol);
+                [categoryList addNativeCategory:phoneSymbol];
+            }
+            else
+                [categoryList addNativeCategory:string];
+        }
+        free(string);
+    }
 
 
-        return self;
+    return self;
 }
 #endif
 

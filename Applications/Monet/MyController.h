@@ -1,11 +1,16 @@
+#import <Foundatin/NSObject.h>
 
-#import <AppKit/AppKit.h>
+#ifdef PORTING
 #import "Inspector.h"
 #import "BrowserManager.h"
 #import "PhoneList.h"
 #import "CategoryList.h"
 #import "SymbolList.h"
 #import "ParameterList.h"
+#endif
+
+@class NSMutableDictionary;
+@class CategoryList, ParameterList, PhoneList, SymbolList;
 
 /*===========================================================================
 
@@ -26,57 +31,58 @@ History:
 
 ===========================================================================*/
 
-@interface MyController:NSObject
+@interface MyController : NSObject
 {
-	id	inspectorController;
-	id	infoPanel;
+    id inspectorController;
+    id infoPanel;
 
-	PhoneList	*mainPhoneList;
-	CategoryList	*mainCategoryList;
-	SymbolList	*mainSymbolList;
-	ParameterList	*mainParameterList;
-	ParameterList	*mainMetaParameterList;
+    PhoneList *mainPhoneList;
+    CategoryList *mainCategoryList;
+    SymbolList *mainSymbolList;
+    ParameterList *mainParameterList;
+    ParameterList *mainMetaParameterList;
 
-	id	dataBrowser;
-	id	ruleManager;
-	id	prototypeManager;
-	id	transitionBuilder;
-	id	specialTransitionBuilder;
-	id	stringParser;
-	id	eventListView;
-	id	intonationView;
+    id dataBrowser;
+    id ruleManager;
+    id prototypeManager;
+    id transitionBuilder;
+    id specialTransitionBuilder;
+    id stringParser;
+    id eventListView;
+    id intonationView;
 
-	id	defaultManager;
+    id defaultManager;
 
-	/* Window pointers */
-	id	transitionWindow;
-	id	ruleManagerWindow;
-	id	phonesWindow;
-	id	ruleParserWindow;
-	id	prototypeWindow;
-	id	synthesisWindow;
-	id	specialWindow;
-	id	synthParmWindow;
+    /* Window pointers */
+    id transitionWindow;
+    id ruleManagerWindow;
+    id phonesWindow;
+    id ruleParserWindow;
+    id prototypeWindow;
+    id synthesisWindow;
+    id specialWindow;
+    id synthParmWindow;
 
-  NSMutableDictionary *namedDict;
-
+    NSMutableDictionary *namedDict;
 }
 
-- init;
+- (id)init;
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
-- (void)openFile:(id)sender;
-- (void)importTRMData:sender;
-- (void)printData:sender;
 
-- (void)displayInfoPanel:sender;
-- (void)displayInspectorWindow:sender;
+- (void)displayInfoPanel:(id)sender;
+- (void)displayInspectorWindow:(id)sender;
 - inspector;
 
-- (void)archiveToDisk:sender;
-- (void)readFromDisk:sender;
+- (void)openFile:(id)sender;
+- (void)importTRMData:(id)sender;
+- (void)printData:(id)sender;
 
-- (void)savePrototypes:sender;
-- (void)loadPrototypes:sender;
+
+- (void)archiveToDisk:(id)sender;
+- (void)readFromDisk:(id)sender;
+
+- (void)savePrototypes:(id)sender;
+- (void)loadPrototypes:(id)sender;
 
 /* List maintenance Methods */
 - (void)addCategory;
@@ -84,28 +90,26 @@ History:
 - (void)addMetaParameter;
 - (void)addSymbol;
 
-- (int)removeCategory: (int) index;
+- (int)removeCategory:(int)index;
 - (void)removeParameter:(int)index;
 - (void)removeMetaParameter:(int)index;
 - (void)removeSymbol:(int)index;
 
-- (void)setObject: object forKey: key;
-- objectForKey: key;
-- (void)removeObjectForKey: key;
+- (void)setObject:(id)object forKey:(id)key;
+- (id)objectForKey:(id)key;
+- (void)removeObjectForKey:(id)key;
 
 @end
 
 /* Replace some obsolete NeXT functions */
-#define NXNameObject(key, object, controller)				\
-  [[controller delegate] 						\
-    setObject: object forKey: [NSString stringWithCString: key]]
+#define NXNameObject(key, object, controller) \
+  [[controller delegate] setObject:object forKey:key]
 
-#define NXUnnameObject(key, controller)				\
-  [[controller delegate] 					\
-    removeObjectForKey: [NSString stringWithCString: key]]
+#define NXUnnameObject(key, controller) \
+  [[controller delegate] removeObjectForKey:key]
 
-#define NXGetNamedObject(key, controller)                               \
-  [[controller delegate] objectForKey: [NSString stringWithCString: key]]
+#define NXGetNamedObject(key, controller) \
+  [[controller delegate] objectForKey:key]
 
 /* NeXT Streams */
 #undef NXRead

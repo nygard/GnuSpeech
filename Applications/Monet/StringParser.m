@@ -1,4 +1,3 @@
-
 #import "StringParser.h"
 #import "DefaultMgr.h"
 #import <stdio.h>
@@ -24,7 +23,7 @@
 - init
 {
 	eventList = [[EventList alloc] initWithCapacity: 1000];
-	NXNameObject("mainEventList", eventList, NSApp);
+	NXNameObject(@"mainEventList", eventList, NSApp);
 
 	return self;
 }
@@ -126,7 +125,7 @@ id defaultManager;
 //	[modulation
 //	[waveform
 
-	[defaultManager updateDefaults]; 
+	[defaultManager updateDefaults];
 }
 
 - (void)parseStringButton:sender
@@ -138,7 +137,7 @@ float intonationParameters[5];
 float sRate;
 float silencePage[16] = {0.0, 0.0, 0.0, 0.0, 5.5, 2500.0, 500.0, 0.8, 0.89, 0.99, 0.81, 0.76, 1.05, 1.23, 0.01, 0.0};
 
-	printf("%.2f %.2f %.2f %.2f %.2f \n%.2f %.2f %.2f %.2f %.2f\n%.2f %.2f %.2f %.2f %.2f\n%.2f %.2f %.2f %.2f %.2f \n", 
+	printf("%.2f %.2f %.2f %.2f %.2f \n%.2f %.2f %.2f %.2f %.2f\n%.2f %.2f %.2f %.2f %.2f\n%.2f %.2f %.2f %.2f %.2f \n",
 		[masterVolume floatValue], [balance floatValue], [tp floatValue], [tnMin floatValue],
 		[tnMax floatValue], [breathiness floatValue],[length floatValue], [temperature floatValue],
 		[lossFactor floatValue], [apScale floatValue],	[mouthCoef floatValue], [noseCoef floatValue],
@@ -153,7 +152,7 @@ float silencePage[16] = {0.0, 0.0, 0.0, 0.0, 5.5, 2500.0, 500.0, 0.8, 0.89, 0.99
 
 #ifdef HAVE_DSP
 	set_utterance_rate_parameters(sRate, 250.0, [masterVolume floatValue],
-					[stereoMono selectedColumn]+1, [balance floatValue], 
+					[stereoMono selectedColumn]+1, [balance floatValue],
 					[waveform selectedColumn], [tp floatValue], [tnMin floatValue],
 					[tnMax floatValue], [breathiness floatValue],
 					[length floatValue], [temperature floatValue],
@@ -229,7 +228,7 @@ float silencePage[16] = {0.0, 0.0, 0.0, 0.0, 5.5, 2500.0, 500.0, 0.8, 0.89, 0.99
 
 	[[intonationView documentView] setEventList:eventList];
 
-	[stringTextField selectText:self]; 
+	[stringTextField selectText:self];
 }
 
 - (void)synthesizeWithSoftware:sender
@@ -243,9 +242,9 @@ char commandLine[256];
 	else
 		sRate = 22050.0;
 	fp = fopen("/tmp/Monet.parameters", "w");
-	fprintf(fp,"%f\n250\n%f\n%d\n%f\n%d\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%d\n%f\n", 
+	fprintf(fp,"%f\n250\n%f\n%d\n%f\n%d\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%d\n%f\n",
 		sRate, [masterVolume floatValue],
-		[stereoMono selectedColumn]+1, [balance floatValue], 
+		[stereoMono selectedColumn]+1, [balance floatValue],
 		[waveform selectedColumn], [tp floatValue], [tnMin floatValue],
 		[tnMax floatValue], [breathiness floatValue],
 		[length floatValue], [temperature floatValue],
@@ -254,7 +253,7 @@ char commandLine[256];
 		[n1 floatValue], [n2 floatValue], [n3 floatValue],
 		[n4 floatValue], [n5 floatValue],
 		[throatCutoff floatValue], [throatVolume floatValue],
-		[modulation selectedColumn], [mixOffset floatValue]);		
+		[modulation selectedColumn], [mixOffset floatValue]);
 
 	fclose(fp);
 	[eventList setParameterStore:0];
@@ -288,7 +287,7 @@ char commandLine[256];
 	sprintf(commandLine,"/bin/tube /tmp/Monet.parameters %s\n", [[filenameField stringValue] cString]);
 	system(commandLine);
 	sprintf(commandLine,"sndplay %s\n", [[filenameField stringValue] cString]);
-	system(commandLine); 
+	system(commandLine);
 }
 
 - (void)setUpDataStructures
@@ -303,7 +302,7 @@ char commandLine[256];
 
 	[[intonationView documentView] setEventList:eventList];
 
-	[stringTextField selectText:self]; 
+	[stringTextField selectText:self];
 }
 
 - (void)automaticIntonation:sender
@@ -317,7 +316,7 @@ int i;
 	[eventList setIntonParms:intonationParameters];
 
 	[eventList applyIntonation];
-	[intonationView display]; 
+	[intonationView display];
 }
 
 @end

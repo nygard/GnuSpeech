@@ -1,7 +1,7 @@
 #import "MonetList.h"
+#import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-@class Phone;
-//#import <stdio.h>
+@class Parameter, Phone;
 
 /*===========================================================================
 
@@ -26,33 +26,33 @@
 {
 }
 
-- (Phone *) findPhone: (const char *) phone;
-- binarySearchPhone:(const char *) searchPhone index:(int *) index;
-- (void)addPhone:(const char *)phone;
+- (Phone *)findPhone:(NSString *)phone;
+- (void)addPhone:(NSString *)phone;
 - (void)addPhoneObject:(Phone *)phone;
-
-- (void)readDegasFileFormat:(FILE *)fp;
-- (void)printDataTo:(FILE *)fp;
+- (Phone *)binarySearchPhone:(NSString *)searchPhone index:(int *)index;
 
 /* BrowserManager List delegate Methods */
-- (void)addNewValue:(const char *)newValue;
-- findByName:(const char *)name;
-- (void)changeSymbolOf:temp to:(const char *)name;
+- (void)addNewValue:(NSString *)newValue;
+- (Phone *)findByName:(NSString *)name;
+- (void)changeSymbolOf:(Phone *)aPhone to:(NSString *)name;
 
+//- (void)readDegasFileFormat:(FILE *)fp;
+//- (void)printDataTo:(FILE *)fp;
 
 /* List maintenance Methods */
-- (void)parameterDefaultChange:parameter to:(double)value;
-- (void)symbolDefaultChange:parameter to:(double)value;
+- (void)parameterDefaultChange:(Parameter *)parameter to:(double)value;
+- (void)symbolDefaultChange:(Parameter *)parameter to:(double)value;
 
 - (void)addParameter;
-- (void)addMetaParameter;
-- (void)addSymbol;
-
 - (void)removeParameter:(int)index;
+
+- (void)addMetaParameter;
 - (void)removeMetaParameter:(int)index;
+
+- (void)addSymbol;
 - (void)removeSymbol:(int)index;
 
-- (void)importTRMData:sender;
-- makePhoneUniqueName:aPhone;
+- (IBAction)importTRMData:(id)sender;
+- (Phone *)makePhoneUniqueName:(Phone *)aPhone;
 
 @end
