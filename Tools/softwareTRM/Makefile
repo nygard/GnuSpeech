@@ -32,7 +32,7 @@ PROGRAM = tube
 
 # compiler flags
 # use -g -DDEBUG if debugging desired, comment out strip
-CFLAGS = -Wall
+CFLAGS = -g -Wall -falign-loops=16 -fno-inline
 OPTIMIZATION_CFLAGS = -O4
 ARCHS =
 

@@ -248,6 +248,8 @@ Initial import.
 #define TRUE                      1
 
 
+//#define SHARK
+
 
 /*  DATA TYPES  **************************************************************/
 
@@ -505,7 +507,7 @@ void srDecrement(int *pointer, int modulus);
 *
 ******************************************************************************/
 
-int main (int argc, char *argv[])
+int main(int argc, char *argv[])
 {
     /*  PARSE THE COMMAND LINE  */
     if (argc == 3) {
@@ -521,6 +523,14 @@ int main (int argc, char *argv[])
 	fprintf(stderr, "Usage:  %s [-v] inputFile outputFile\n", argv[0]);
 	exit(-1);
     }
+
+#ifdef SHARK
+    {
+        char buf[100];
+        printf("Waiting to start...\n");
+        gets(buf);
+    }
+#endif
 
     /*  PARSE THE INPUT FILE FOR INPUT INFORMATION  */
     if (parseInputFile(inputFile) == ERROR) {
@@ -565,7 +575,7 @@ int main (int argc, char *argv[])
     if (verbose)
 	printf("\nWrote scaled samples to file:  %s\n", outputFile);
 
-#if 0
+#ifdef SHARK
     {
         char buf[100];
         printf("Done, waiting...\n");
