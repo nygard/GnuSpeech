@@ -21,11 +21,11 @@
     <category name="whistlehack">
       <comment>Added so we can easily do the rewrite rule:
 
-s* >> [f* | v* | th* | dh*] 
+s* >> [f* | v* | th* | dh*]
 
 				transforms to:
 
-s* >> qt* >> [f* | v* | th* | dh*] 
+s* >> qt* >> [f* | v* | th* | dh*]
 
 Now works as:
 
