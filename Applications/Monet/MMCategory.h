@@ -21,6 +21,8 @@
 - (BOOL)isNative;
 - (void)setIsNative:(BOOL)newFlag;
 
+- (NSComparisonResult)compareByAscendingName:(MMCategory *)otherCategory;
+
 // Archiving
 - (id)initWithCoder:(NSCoder *)aDecoder;
 - (void)encodeWithCoder:(NSCoder *)aCoder;

@@ -25,6 +25,7 @@
 
 - (void)makeObjectsPerformSelector:(SEL)aSelector;
 - (void)makeObjectsPerformSelector:(SEL)aSelector withObject:(id)argument;
+- (void)sortUsingSelector:(SEL)comparator;
 
 
 - (void)_addNilWarning;

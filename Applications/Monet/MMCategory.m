@@ -81,6 +81,11 @@
     isNative = newFlag;
 }
 
+- (NSComparisonResult)compareByAscendingName:(MMCategory *)otherCategory;
+{
+    return [symbol compare:[otherCategory symbol]];
+}
+
 //
 // Archiving
 //

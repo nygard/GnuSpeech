@@ -114,12 +114,12 @@
 - (void)addCategory:(MMCategory *)newCategory;
 {
     if ([newCategory symbol] == nil)
-        [newCategory setSymbol:@"Untitled"];
+        [newCategory setSymbol:@"untitled"];
 
     [self uniqueNameForCategory:newCategory];
 
     [categories addObject:newCategory];
-    // TODO (2004-03-18): And sort categories by name.
+    //[categories sortUsingSelector:@selector(compareByAscendingName:)];
     // TODO (2004-03-18): And post notification of new category.
 }
 
@@ -307,6 +307,8 @@
 
     /* Category list must be named immediately */
     categories = [[aDecoder decodeObject] retain];
+    //[categories sortUsingSelector:@selector(compareByAscendingName:)];
+
     //NSLog(@"categories: %@", categories);
     NSLog(@"categories: %d", [categories count]);
     NXNameObject(@"mainCategoryList", categories, NSApp);

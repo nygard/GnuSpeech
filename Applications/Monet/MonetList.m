@@ -82,6 +82,11 @@
     [ilist makeObjectsPerformSelector:aSelector withObject:argument];
 }
 
+- (void)sortUsingSelector:(SEL)comparator;
+{
+    [ilist sortUsingSelector:comparator];
+}
+
 - (void)_addNilWarning;
 {
     NSLog(@"Tried to add nil.");
