@@ -2,6 +2,7 @@
 #define __SAMPLE_RATE_CONVERTER_H
 
 #include <stdio.h>
+#include "ring_buffer.h"
 
 // Sample rate conversion constants
 #define ZERO_CROSSINGS            13                 // Source cutoff frq
@@ -17,23 +18,14 @@
 #define FILTER_LENGTH             (ZERO_CROSSINGS * L_RANGE)
 #define FILTER_LIMIT              (FILTER_LENGTH - 1)
 
-#define N_MASK                    0xFFFF0000
-#define L_MASK                    0x0000FF00
-#define M_MASK                    0x000000FF
-#define FRACTION_MASK             0x0000FFFF
-
-#define nValue(x)                 (((x) & N_MASK) >> FRACTION_BITS)
-#define lValue(x)                 (((x) & L_MASK) >> M_BITS)
-#define mValue(x)                 ((x) & M_MASK)
-#define fractionValue(x)          ((x) & FRACTION_MASK)
-
-
 typedef struct _TRMSampleRateConverter {
     double sampleRateRatio;
     double h[FILTER_LENGTH];
     double deltaH[FILTER_LENGTH];
     unsigned int timeRegisterIncrement, filterIncrement, phaseIncrement;
     unsigned int timeRegister;
+
+    TRMRingBuffer *ringBuffer; // input ring buffer
 
     // Temporary sample storage values
     double maximumSampleValue;

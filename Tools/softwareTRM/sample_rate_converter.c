@@ -5,6 +5,16 @@
 #include "structs.h"
 #include "util.h"
 
+#define N_MASK                    0xFFFF0000
+#define L_MASK                    0x0000FF00
+#define M_MASK                    0x000000FF
+#define FRACTION_MASK             0x0000FFFF
+
+#define nValue(x)                 (((x) & N_MASK) >> FRACTION_BITS)
+#define lValue(x)                 (((x) & L_MASK) >> M_BITS)
+#define mValue(x)                 ((x) & M_MASK)
+#define fractionValue(x)          ((x) & FRACTION_MASK)
+
 void initializeConversion(TRMTubeModel *tubeModel, struct _TRMInputParameters *inputParameters);
 void initializeFilter(TRMSampleRateConverter *sampleRateConverter);
 void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context);
@@ -15,15 +25,9 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context);
 *
 *       purpose:        Initializes all the sample rate conversion functions.
 *
-*       arguments:      none
-*
-*       internal
-*       functions:      initializeFilter, initializeBuffer
-*
-*       library
-*       functions:      rint, pow
-*
 ******************************************************************************/
+
+// tubeModel->sampleRate, tubeModel->ringBuffer (created), 
 
 void initializeConversion(TRMTubeModel *tubeModel, struct _TRMInputParameters *inputParameters)
 {
@@ -59,10 +63,10 @@ void initializeConversion(TRMTubeModel *tubeModel, struct _TRMInputParameters *i
     padSize = (tubeModel->sampleRateConverter.sampleRateRatio >= 1.0) ? ZERO_CROSSINGS :
         (int)((float)ZERO_CROSSINGS / roundedSampleRateRatio) + 1;
 
-    tubeModel->ringBuffer = TRMRingBufferCreate(padSize);
+    tubeModel->sampleRateConverter.ringBuffer = TRMRingBufferCreate(padSize);
 
-    tubeModel->ringBuffer->context = &(tubeModel->sampleRateConverter);
-    tubeModel->ringBuffer->callbackFunction = resampleBuffer;
+    tubeModel->sampleRateConverter.ringBuffer->context = &(tubeModel->sampleRateConverter);
+    tubeModel->sampleRateConverter.ringBuffer->callbackFunction = resampleBuffer;
 
     /*  INITIALIZE THE TEMPORARY OUTPUT FILE  */
     tubeModel->sampleRateConverter.tempFilePtr = tmpfile();
@@ -75,14 +79,6 @@ void initializeConversion(TRMTubeModel *tubeModel, struct _TRMInputParameters *i
 *
 *       purpose:        Initializes filter impulse response and impulse delta
 *                       values.
-*
-*       arguments:      none
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      sin, cos
 *
 ******************************************************************************/
 

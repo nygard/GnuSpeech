@@ -195,7 +195,6 @@ typedef struct {
     } current;
 
     TRMSampleRateConverter sampleRateConverter;
-    TRMRingBuffer *ringBuffer;
     TRMWavetable *wavetable;
 } TRMTubeModel;
 
