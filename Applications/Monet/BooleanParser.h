@@ -17,11 +17,6 @@
 	Instance Variables:
 		consumed: (int) currently not used.  May be used for look-
 			ahead parsing.
-		stringIndex: (int) current index into the string being
-			parsed.
-		lastStringIndex: (int) index of the first character of the
-			current token being parsed.  Generally used to
-			indicate which token caused an error to occur.
 		parseString: (const char *) The string being parsed.  NOTE
 			that it is const and should not be modified.
 		symbolString: (char[256]) Buffer for the current symbol.
@@ -37,9 +32,6 @@
 			specific phone.  If a category cannot be found in the
 			main category list, the main phone list is consulted.
 
-		errorTextField:  Points to an instance of the "TextField"
-			class.  Parse errors are sent to this object.
-
 	Import Files:
 
 	"BooleanExpression.h", "BooleanTerminal.h", "CategoryList.h", and
@@ -54,7 +46,6 @@
     PhoneList *phoneList;
 }
 
-- (id)init;
 - (void)dealloc;
 
 /* Access to instance variables */

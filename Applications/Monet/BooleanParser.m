@@ -13,17 +13,6 @@
 
 @implementation BooleanParser
 
-- (id)init;
-{
-    if ([super init] == nil)
-        return nil;
-
-    categoryList = nil;
-    phoneList = nil;
-
-    return self;
-}
-
 - (void)dealloc;
 {
     [categoryList release];
