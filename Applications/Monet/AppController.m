@@ -283,7 +283,7 @@
         [self setFilename:aFilename];
 
         [stream release];
-        [model writeXMLToFile:@"/tmp/out.xml" comment:aFilename];
+        //[model writeXMLToFile:@"/tmp/out.xml" comment:aFilename];
     } else {
         NSLog(@"Not a MONET file");
     }
