@@ -3,7 +3,7 @@
 
 #import <Foundation/NSObject.h>
 
-@class CategoryList, MonetList, NamedList, ParameterList, PhoneList, RuleList, SymbolList;
+@class CategoryList, MonetList, NamedList, ParameterList, PhoneList, SymbolList;
 @class MMCategory, MMEquation, MMParameter, MMPosture, MMRule, MMSymbol, MMSynthesisParameters, MMTransition;
 
 extern NSString *MCategoryInUseException;
@@ -20,7 +20,7 @@ extern NSString *MCategoryInUseException;
     MonetList *transitions; // Of NamedLists of MMTransitions
     MonetList *specialTransitions; // Of NamedLists of MMTransitions
 
-    RuleList *rules;
+    NSMutableArray *rules;
     int cacheTag;
 
     // This doesn't really belong here, but I'll put it here for now.
@@ -42,7 +42,7 @@ extern NSString *MCategoryInUseException;
 - (MonetList *)transitions;
 - (MonetList *)specialTransitions;
 
-- (RuleList *)rules;
+- (NSMutableArray *)rules;
 
 // Categories
 - (void)addCategory:(MMCategory *)newCategory;
@@ -115,6 +115,7 @@ extern NSString *MCategoryInUseException;
 - (void)_appendXMLForEquationsToString:(NSMutableString *)resultString level:(int)level;
 - (void)_appendXMLForTransitionsToString:(NSMutableString *)resultString level:(int)level;
 - (void)_appendXMLForProtoSpecialsToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForRulesToString:(NSMutableString *)resultString level:(int)level;
 
 // Archiving - Degas support
 - (void)readDegasFileFormat:(FILE *)fp;

@@ -41,6 +41,11 @@
     [super dealloc];
 }
 
+- (NSArray *)allObjects;
+{
+    return ilist;
+}
+
 - (unsigned)count;
 {
     return [ilist count];

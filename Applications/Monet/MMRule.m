@@ -626,17 +626,7 @@
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 {
-    [self appendXMLToString:resultString level:level number:-1];
-}
-
-- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level number:(int)aNumber;
-{
     unsigned int index;
-
-    if (aNumber != -1) {
-        [resultString indentToLevel:level];
-        [resultString appendFormat:@"<!-- Rule: %d -->\n", aNumber];
-    }
 
     [resultString indentToLevel:level];
     [resultString appendString:@"<rule>\n"];

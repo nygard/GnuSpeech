@@ -77,7 +77,6 @@
 - (NSString *)description;
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
-- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level number:(int)aNumber;
 - (void)_appendXMLForParameterProfilesToString:(NSMutableString *)resultString level:(int)level;
 - (void)_appendXMLForMetaParameterProfilesToString:(NSMutableString *)resultString level:(int)level;
 - (void)_appendXMLForSpecialProfilesToString:(NSMutableString *)resultString level:(int)level;

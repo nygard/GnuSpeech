@@ -23,6 +23,8 @@
 - (id)initWithCapacity:(unsigned)numItems;
 - (void)dealloc;
 
+- (NSArray *)allObjects;
+
 - (unsigned)count;
 - (unsigned)indexOfObject:(id)anObject;
 - (id)lastObject;

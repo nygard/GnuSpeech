@@ -23,7 +23,6 @@
 #import "MMSynthesisParameters.h"
 #import "MMTarget.h"
 #import "MMTransition.h"
-#import "RuleList.h"
 #import "SymbolList.h"
 #import "TargetList.h"
 #import "TRMData.h"
@@ -31,6 +30,9 @@
 #import "MUnarchiver.h"
 #import "MXMLParser.h"
 #import "MXMLArrayDelegate.h"
+
+// For compatibility with old typedstream archives
+#import "RuleList.h"
 
 NSString *MCategoryInUseException = @"MCategoryInUseException";
 
@@ -51,7 +53,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     transitions = [[MonetList alloc] init];
     specialTransitions = [[MonetList alloc] init];
 
-    rules = [[RuleList alloc] init];
+    rules = [[NSMutableArray alloc] init];
 #if 0
     // And set up some default values:
     // TODO (2004-05-15): Just load these from a default .monet file
@@ -158,7 +160,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     return specialTransitions;
 }
 
-- (RuleList *)rules;
+- (NSMutableArray *)rules;
 {
     return rules;
 }
@@ -948,7 +950,13 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     specialTransitions = [[aDecoder decodeObject] retain];
     //NSLog(@"specialTransitions: %d", [specialTransitions count]);
 
-    rules = [[aDecoder decodeObject] retain];
+    {
+        RuleList *archivedRules;
+
+        archivedRules = [aDecoder decodeObject];
+        rules = [[NSMutableArray alloc] init];
+        [rules addObjectsFromArray:[archivedRules allObjects]];
+    }
     //NSLog(@"rules: %d", [rules count]);
     [rules makeObjectsPerformSelector:@selector(setModel:) withObject:self];
 
@@ -1039,7 +1047,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [self _appendXMLForEquationsToString:resultString level:1];
     [self _appendXMLForTransitionsToString:resultString level:1];
     [self _appendXMLForProtoSpecialsToString:resultString level:1];
-    [rules appendXMLToString:resultString elementName:@"rules" level:1 numberItems:YES];
+    [self _appendXMLForRulesToString:resultString level:1];
 
     [resultString appendString:@"</root>\n"];
 
@@ -1123,6 +1131,28 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
     [resultString indentToLevel:level];
     [resultString appendString:@"</special-transitions>\n"];
+}
+
+- (void)_appendXMLForRulesToString:(NSMutableString *)resultString level:(int)level;
+{
+    unsigned int count, index;
+
+    count = [rules count];
+    if (count == 0)
+        return;
+
+    [resultString indentToLevel:level];
+    [resultString appendString:@"<rules>\n"];
+
+    for (index = 0; index < count; index++) {
+        [resultString indentToLevel:level+1];
+        [resultString appendFormat:@"<!-- Rule: %d -->\n", index + 1];
+
+        [[rules objectAtIndex:index] appendXMLToString:resultString level:level+1];
+    }
+
+    [resultString indentToLevel:level];
+    [resultString appendString:@"</rules>\n"];
 }
 
 //

@@ -18,7 +18,6 @@
 #import "NamedList.h"
 #import "ParameterList.h"
 #import "PhoneList.h"
-#import "RuleList.h"
 
 static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardType";
 
