@@ -54,12 +54,13 @@
 - (void)dealloc;
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 
+// Browser actions
 - (IBAction)browserHit:(id)sender;
-- (IBAction)browserDoubleHit:(id)asender;
+- (IBAction)browserDoubleHit:(id)sender;
+
+// Browser delegate methods
 - (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
-
-- (NSString *)expressionStringForRule:(int)index;
 
 - (IBAction)setExpression1:(id)sender;
 - (IBAction)setExpression2:(id)sender;
@@ -90,28 +91,33 @@
 - (BOOL)isEquationUsed:(ProtoEquation *)anEquation;
 - (BOOL)isTransitionUsed:(ProtoTemplate *)aTransition;
 
-- findEquation:(ProtoEquation *)anEquation andPutIn:(MonetList *)aList;
-- findTemplate:(ProtoTemplate *)aTemplate andPutIn:aList;
+- (void)findEquation:(ProtoEquation *)anEquation andPutIn:(MonetList *)aList;
+- (void)findTemplate:(ProtoTemplate *)aTemplate andPutIn:(MonetList *)aList;
 
 - (IBAction)cut:(id)sender;
 - (IBAction)copy:(id)sender;
 - (IBAction)paste:(id)sender;
 
-- (void)readDegasFileFormat:(FILE *)fp;
-
+// Archiving
 - (id)initWithCoder:(NSCoder *)aDecoder;
 - (void)encodeWithCoder:(NSCoder *)aCoder;
 
+// Archiving - NS Compatibility
 - (void)readRulesFrom:(NSArchiver *)stream;
 - (void)writeRulesTo:(NSArchiver *)stream;
 
-/* Window Delegate Methods */
+// Archiving - Degas support
+- (void)readDegasFileFormat:(FILE *)fp;
+
+// Window delegate methods
 - (void)windowDidBecomeMain:(NSNotification *)notification;
 - (BOOL)windowShouldClose:(id)sender;
 - (void)windowDidResignMain:(NSNotification *)notification;
 
+// Other
 - (IBAction)shiftPhonesLeft:(id)sender;
 
+// Archiving - XML
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 
 @end

@@ -1,6 +1,6 @@
 #import <Foundation/NSObject.h>
 
-@class BooleanExpression, MonetList;
+@class BooleanExpression, CategoryNode, MonetList, ProtoEquation, ProtoTemplate;
 
 /*===========================================================================
 
@@ -51,9 +51,9 @@
 - getSpecialProfile:(int)index;
 - (void)setSpecialProfile:(int)index to:special;
 
-- (BOOL)isCategoryUsed:aCategory;
-- (BOOL)isEquationUsed:anEquation;
-- (BOOL)isTransitionUsed:aTransition;
+- (BOOL)isCategoryUsed:(CategoryNode *)aCategory;
+- (BOOL)isEquationUsed:(ProtoEquation *)anEquation;
+- (BOOL)isTransitionUsed:(ProtoTemplate *)aTransition;
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 - (void)encodeWithCoder:(NSCoder *)aCoder;

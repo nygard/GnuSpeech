@@ -168,7 +168,7 @@
     [resultString appendString:@")"];
 }
 
-- (BOOL)isCategoryUsed:aCategory;
+- (BOOL)isCategoryUsed:(CategoryNode *)aCategory;
 {
     int count, index;
 

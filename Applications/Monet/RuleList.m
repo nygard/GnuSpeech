@@ -157,7 +157,7 @@
     [boolParser release];
 }
 
-- (BOOL)isCategoryUsed:aCategory;
+- (BOOL)isCategoryUsed:(CategoryNode *)aCategory;
 {
     int count, index;
 
@@ -170,7 +170,7 @@
     return NO;
 }
 
-- (BOOL)isEquationUsed:anEquation;
+- (BOOL)isEquationUsed:(ProtoEquation *)anEquation;
 {
     int count, index;
 
@@ -183,7 +183,7 @@
     return NO;
 }
 
-- (BOOL)isTransitionUsed:aTransition
+- (BOOL)isTransitionUsed:(ProtoTemplate *)aTransition;
 {
     int count, index;
 
@@ -196,33 +196,31 @@
     return NO;
 }
 
-- findEquation:anEquation andPutIn:(MonetList *)aList;
+- (void)findEquation:(ProtoEquation *)anEquation andPutIn:(MonetList *)aList;
 {
     int count, index;
-    id anObject;
+    Rule *aRule;
 
     count = [self count];
     for (index = 0; index < count; index++) {
-        anObject = [self objectAtIndex:index];
-        if ([anObject isEquationUsed:anEquation]) {
-            [aList addObject:anObject];
-            return anObject;
+        aRule = [self objectAtIndex:index];
+        if ([aRule isEquationUsed:anEquation]) {
+            [aList addObject:aRule];
+            break;
         }
     }
-
-    return nil;
 }
 
-- (void)findTemplate:aTemplate andPutIn:aList;
+- (void)findTemplate:(ProtoTemplate *)aTemplate andPutIn:(MonetList *)aList;
 {
     int count, index;
-    id anObject;
+    Rule *aRule;
 
     count = [self count];
     for (index = 0; index < count; index++) {
-        anObject = [self objectAtIndex:index];
-        if ([anObject isTransitionUsed:aTemplate])
-            [aList addObject:anObject];
+        aRule = [self objectAtIndex:index];
+        if ([aRule isTransitionUsed:aTemplate])
+            [aList addObject:aRule];
     }
 }
 

@@ -149,7 +149,7 @@
     type = newType;
 }
 
-- (BOOL)isEquationUsed:anEquation;
+- (BOOL)isEquationUsed:(ProtoEquation *)anEquation;
 {
     int i, j;
     id temp;

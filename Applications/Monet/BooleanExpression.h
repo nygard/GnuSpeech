@@ -1,6 +1,6 @@
 #import <Foundation/NSObject.h>
 
-@class CategoryList;
+@class CategoryList, CategoryNode;
 
 /*===========================================================================
 
@@ -86,7 +86,7 @@
 - (NSString *)expressionString;
 - (void)expressionString:(NSMutableString *)resultString;
 
-- (BOOL)isCategoryUsed:aCategory;
+- (BOOL)isCategoryUsed:(CategoryNode *)aCategory;
 
 // Archiving
 - (id)initWithCoder:(NSCoder *)aDecoder;

@@ -293,7 +293,7 @@
     specialProfiles[index] = special;
 }
 
-- (BOOL)isCategoryUsed:aCategory;
+- (BOOL)isCategoryUsed:(CategoryNode *)aCategory;
 {
     int count, index;
 
@@ -306,7 +306,7 @@
     return NO;
 }
 
-- (BOOL)isEquationUsed:anEquation;
+- (BOOL)isEquationUsed:(ProtoEquation *)anEquation;
 {
     if ([expressionSymbols indexOfObject:anEquation] != NSNotFound)
         return YES;
@@ -314,7 +314,7 @@
     return NO;
 }
 
-- (BOOL)isTransitionUsed:aTransition;
+- (BOOL)isTransitionUsed:(ProtoTemplate *)aTransition;
 {
     int index;
 
@@ -490,15 +490,15 @@
     [resultString indentToLevel:level];
     [resultString appendFormat:@"<rule>\n"];
 
+    [resultString indentToLevel:level + 1];
+    [resultString appendFormat:@"<boolean-expression>%@</boolean-expression>\n", [self ruleString]];
+
     [parameterProfiles appendXMLForObjectPointersToString:resultString elementName:@"parameter-profiles" level:level + 1];
     [metaParameterProfiles appendXMLForObjectPointersToString:resultString elementName:@"meta-parameter-profiles" level:level + 1];
     [expressionSymbols appendXMLForObjectPointersToString:resultString elementName:@"expression-symbols" level:level + 1];
 
     [resultString indentToLevel:level + 1];
     [resultString appendString:@"<special-profiles>etc.</special-profiles>\n"];
-
-    [resultString indentToLevel:level + 1];
-    [resultString appendFormat:@"<boolean-expression>%@</boolean-expression>\n", [self ruleString]];
 
     if (comment != nil) {
         [resultString indentToLevel:level + 1];

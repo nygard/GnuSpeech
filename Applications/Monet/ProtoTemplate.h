@@ -1,6 +1,6 @@
 #import <Foundation/NSObject.h>
 
-@class MonetList;
+@class MonetList, ProtoEquation;
 
 /*===========================================================================
 
@@ -20,7 +20,7 @@
     NSString *name;
     NSString *comment;
     int type;
-    MonetList *points; // Of SlopeRatios
+    MonetList *points; // Of SlopeRatios (or maybe something else - GSMPoints?)
 }
 
 - (id)init;
@@ -40,7 +40,7 @@
 - (int)type;
 - (void)setType:(int)type;
 
-- (BOOL)isEquationUsed:anEquation;
+- (BOOL)isEquationUsed:(ProtoEquation *)anEquation;
 - findEquation:anEquation andPutIn:(MonetList *)aList;
 
 - (id)initWithCoder:(NSCoder *)aDecoder;

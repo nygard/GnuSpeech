@@ -78,12 +78,17 @@
     [boolParser setCategoryList:NXGetNamedObject(@"mainCategoryList", NSApp)];
     [boolParser setPhoneList:NXGetNamedObject(@"mainPhoneList", NSApp)];
 
+    // TODO (2004-03-10): Move this into a document class
     temp = [boolParser parseString:@"phone"];
     temp1 = [boolParser parseString:@"phone"];
     [ruleList seedListWith:temp:temp1];
 
     NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }
+
+//
+// Browser actions
+//
 
 - (IBAction)browserHit:(id)sender;
 {
@@ -118,6 +123,10 @@
 - (IBAction)browserDoubleHit:(id)sender;
 {
 }
+
+//
+// Browser delegate methods
+//
 
 - (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;
 {
@@ -157,65 +166,14 @@
         aPhone = [[matchLists objectAtIndex:3] objectAtIndex:row];
         [cell setStringValue:[aPhone symbol]];
     } else if (sender == ruleMatrix) {
-        NSMutableString *str;
-        NSString *str2;
+        NSString *str;
 
         aRule = [ruleList objectAtIndex:row];
-        str = [[NSMutableString alloc] init];
-
-        [str appendFormat:@"%d. ", row + 1];
-
-        [[aRule getExpressionNumber:0] expressionString:str];
-        [str appendString:@" >> "];
-        [[aRule getExpressionNumber:1] expressionString:str];
-
-        str2 = [[aRule getExpressionNumber:2] expressionString];
-        if (str2 != nil) {
-            [str appendString:@" >> "];
-            [str appendString:str2];
-        }
-
-        str2 = [[aRule getExpressionNumber:3] expressionString];
-        if (str2 != nil) {
-            [str appendString:@" >> "];
-            [str appendString:str2];
-        }
-
+        str = [NSString stringWithFormat:@"%d. %@", row + 1, [aRule ruleString]];
         [cell setStringValue:str];
     }
 
     [cell setLeaf:YES];
-}
-
-- (NSString *)expressionStringForRule:(int)index;
-{
-    NSMutableString *resultString;
-    Rule *tempRule;
-    NSString *str;
-
-    resultString = [NSMutableString string];
-    tempRule = [ruleList objectAtIndex:index];
-
-    // TODO (2004-03-09): Make this a method on Rule.
-    [resultString appendFormat:@"%d. ", index + 1];
-
-    [[tempRule getExpressionNumber:0] expressionString:resultString];
-    [resultString appendString:@" >> "];
-    [[tempRule getExpressionNumber:1] expressionString:resultString];
-
-    str = [[tempRule getExpressionNumber:2] expressionString];
-    if (str != nil) {
-        [resultString appendString:@" >> "];
-        [resultString appendString:str];
-    }
-
-    str = [[tempRule getExpressionNumber:3] expressionString];
-    if (str != nil) {
-        [resultString appendString:@" >> "];
-        [resultString appendString:str];
-    }
-
-    return resultString;
 }
 
 - (IBAction)setExpression1:(id)sender;
@@ -541,7 +499,7 @@
     MonetList *tempList, *phoneList;
     PhoneList *mainPhoneList;
     Phone *tempPhone;
-    Rule *tempRule;
+    Rule *aRule;
     double ruleSymbols[5] = {0.0, 0.0, 0.0, 0.0, 0.0};
 
     tempList = [[MonetList alloc] initWithCapacity:4];
@@ -600,20 +558,20 @@
     //NSLog(@"TempList count = %d", [tempList count]);
 
     for (i = 0; i < [ruleList count]; i++) {
-        tempRule = [ruleList objectAtIndex:i];
-        if ([tempRule numberExpressions] <= [tempList count])
-            if ([[ruleList objectAtIndex:i] matchRule:tempList]) {
+        aRule = [ruleList objectAtIndex:i];
+        if ([aRule numberExpressions] <= [tempList count])
+            if ([aRule matchRule:tempList]) {
                 NSString *str;
 
-                str = [self expressionStringForRule:i];
+                str = [NSString stringWithFormat:@"%d. %@", i, [aRule ruleString]];
                 [ruleOutput setStringValue:str];
-                [consumedTokens setIntValue:[tempRule numberExpressions]];
+                [consumedTokens setIntValue:[aRule numberExpressions]];
                 // TODO (2004-03-02): Is being out of order significant?
-                ruleSymbols[0] = [[tempRule getExpressionSymbol:0] evaluate:ruleSymbols phones:phoneList andCacheWith:cacheValue++];
-                ruleSymbols[2] = [[tempRule getExpressionSymbol:2] evaluate:ruleSymbols phones:phoneList andCacheWith:cacheValue++];
-                ruleSymbols[3] = [[tempRule getExpressionSymbol:3] evaluate:ruleSymbols phones:phoneList andCacheWith:cacheValue++];
-                ruleSymbols[4] = [[tempRule getExpressionSymbol:4] evaluate:ruleSymbols phones:phoneList andCacheWith:cacheValue++];
-                ruleSymbols[1] = [[tempRule getExpressionSymbol:1] evaluate:ruleSymbols phones:phoneList andCacheWith:cacheValue++];
+                ruleSymbols[0] = [[aRule getExpressionSymbol:0] evaluate:ruleSymbols phones:phoneList andCacheWith:cacheValue++];
+                ruleSymbols[2] = [[aRule getExpressionSymbol:2] evaluate:ruleSymbols phones:phoneList andCacheWith:cacheValue++];
+                ruleSymbols[3] = [[aRule getExpressionSymbol:3] evaluate:ruleSymbols phones:phoneList andCacheWith:cacheValue++];
+                ruleSymbols[4] = [[aRule getExpressionSymbol:4] evaluate:ruleSymbols phones:phoneList andCacheWith:cacheValue++];
+                ruleSymbols[1] = [[aRule getExpressionSymbol:1] evaluate:ruleSymbols phones:phoneList andCacheWith:cacheValue++];
                 for (j = 0; j < 5; j++) {
                     [[durationOutput cellAtIndex:j] setDoubleValue:ruleSymbols[j]];
                 }
@@ -675,14 +633,14 @@
     return [ruleList isTransitionUsed: aTransition];
 }
 
-- findEquation:(ProtoEquation *)anEquation andPutIn:(MonetList *)aList;
+- (void)findEquation:(ProtoEquation *)anEquation andPutIn:(MonetList *)aList;
 {
-    return [ruleList findEquation:anEquation andPutIn:aList];
+    [ruleList findEquation:anEquation andPutIn:aList];
 }
 
-- findTemplate:(ProtoTemplate *)aTemplate andPutIn:aList;
+- (void)findTemplate:(ProtoTemplate *)aTemplate andPutIn:(MonetList *)aList;
 {
-    return [ruleList findTemplate:aTemplate andPutIn:aList];
+    [ruleList findTemplate:aTemplate andPutIn:aList];
 }
 
 - (IBAction)cut:(id)sender;
@@ -760,16 +718,13 @@ static NSString *ruleString = @"Rule";
     [ruleMatrix loadColumnZero];
 }
 
-- (void)readDegasFileFormat:(FILE *)fp;
-{
-    [ruleList readDegasFileFormat:(FILE *)fp];
-}
+//
+// Archiving
+//
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
     int i;
-
-    NSLog(@"********************************************************************** %s", _cmd);
 
     if ([super initWithCoder:aDecoder] == nil)
         return nil;
@@ -798,25 +753,36 @@ static NSString *ruleString = @"Rule";
 #endif
 }
 
+//
+// Archiving - NS Compatibility
+//
+
 - (void)readRulesFrom:(NSArchiver *)stream;
 {
-    NSLog(@" > %s", _cmd);
-
-    NSLog(@"ruleList: %@", ruleList);
     [ruleList release];
     ruleList = nil;
 
     cacheValue = 1;
-
     ruleList = [[stream decodeObject] retain];
-
-    NSLog(@"<  %s", _cmd);
 }
 
 - (void)writeRulesTo:(NSArchiver *)stream;
 {
     [stream encodeObject:ruleList];
 }
+
+//
+// Archiving - Degas support
+//
+
+- (void)readDegasFileFormat:(FILE *)fp;
+{
+    [ruleList readDegasFileFormat:fp];
+}
+
+//
+// Window delegate methods
+//
 
 - (void)windowDidBecomeMain:(NSNotification *)notification;
 {
@@ -859,6 +825,10 @@ static NSString *ruleString = @"Rule";
     [[phone3 cellAtIndex:0] setStringValue:p4];
     [[phone4 cellAtIndex:0] setStringValue:@""];
 }
+
+//
+// Archiving - XML
+//
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 {

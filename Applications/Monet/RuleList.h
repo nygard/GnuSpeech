@@ -1,6 +1,6 @@
 #import "MonetList.h"
 
-@class BooleanExpression, Rule;
+@class BooleanExpression, CategoryNode, ProtoEquation, ProtoTemplate, Rule;
 
 /*===========================================================================
 
@@ -22,11 +22,11 @@
 - (Rule *)findRule:(MonetList *)categories index:(int *)index;
 - (void)readDegasFileFormat:(FILE *)fp;
 
-- (BOOL)isCategoryUsed:aCategory;
-- (BOOL)isEquationUsed:anEquation;
-- (BOOL)isTransitionUsed:aTransition;
+- (BOOL)isCategoryUsed:(CategoryNode *)aCategory;
+- (BOOL)isEquationUsed:(ProtoEquation *)anEquation;
+- (BOOL)isTransitionUsed:(ProtoTemplate *)aTransition;
 
-- findEquation:anEquation andPutIn:(MonetList *)aList;
-- (void)findTemplate:aTemplate andPutIn:aList;
+- (void)findEquation:(ProtoEquation *)anEquation andPutIn:(MonetList *)aList;
+- (void)findTemplate:(ProtoTemplate *)aTemplate andPutIn:(MonetList *)aList;
 
 @end
