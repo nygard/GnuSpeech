@@ -21,6 +21,8 @@
 #import "SymbolList.h"
 #import "TransitionView.h"
 
+#import "MModel.h"
+
 @implementation AppController
 
 - (id)init;
@@ -35,15 +37,7 @@
 
     namedObjects = [[NSMutableDictionary alloc] init];
 
-    mainPhoneList = [[PhoneList alloc] initWithCapacity:15];
-    mainCategoryList = [[CategoryList alloc] initWithCapacity:15];
-    mainSymbolList = [[SymbolList alloc] initWithCapacity:15];
-    mainParameterList = [[ParameterList alloc] initWithCapacity:15];
-    mainMetaParameterList = [[ParameterList alloc] initWithCapacity:15];
-
-    [mainSymbolList addNewValue:@"duration"];
-
-    [[mainCategoryList addCategory:@"phone"] setComment:@"This is the static phone category.  It cannot be changed or removed"];
+    model = [[MModel alloc] init];
 
     return self;
 }
@@ -51,7 +45,7 @@
 - (void)dealloc;
 {
     [namedObjects release];
-    [mainSymbolList release];
+    [model release];
 
     [super dealloc];
 }
@@ -66,11 +60,11 @@
     //NSLog(@"[NSApp delegate]: %@", [NSApp delegate]);
 
     // Name them here to make sure all the outlets have been connected
-    NXNameObject(@"mainPhoneList", mainPhoneList, NSApp);
-    NXNameObject(@"mainCategoryList", mainCategoryList, NSApp);
-    NXNameObject(@"mainSymbolList", mainSymbolList, NSApp);
-    NXNameObject(@"mainParameterList", mainParameterList, NSApp);
-    NXNameObject(@"mainMetaParameterList", mainMetaParameterList, NSApp);
+    NXNameObject(@"mainPhoneList", [model phones], NSApp);
+    NXNameObject(@"mainCategoryList", [model categories], NSApp);
+    NXNameObject(@"mainSymbolList", [model symbols], NSApp);
+    NXNameObject(@"mainParameterList", [model parameters], NSApp);
+    NXNameObject(@"mainMetaParameterList", [model metaParameters], NSApp);
 
     NXNameObject(@"ruleManager", ruleManager, NSApp);
     NXNameObject(@"prototypeManager", prototypeManager, NSApp);
@@ -204,9 +198,9 @@
             fread(&magic, sizeof(int), 1, fp);
             if (magic == 0x2e646567) {
                 NSLog(@"Loading DEGAS File");
-                [mainParameterList readDegasFileFormat:fp];
-                [mainCategoryList readDegasFileFormat:fp];
-                [mainPhoneList readDegasFileFormat:fp];
+                [[model parameters] readDegasFileFormat:fp];
+                [[model categories] readDegasFileFormat:fp];
+                [[model phones] readDegasFileFormat:fp];
                 [ruleManager readDegasFileFormat:fp];
                 [dataBrowser updateBrowser];
             } else {
@@ -220,7 +214,7 @@
 
 - (void)importTRMData:(id)sender;
 {
-    [mainPhoneList importTRMData:sender];
+    [[model phones] importTRMData:sender];
 }
 
 - (void)printData:(id)sender;
@@ -234,10 +228,10 @@
         temp = [[myPanel filename] UTF8String];
         fp = fopen(temp,"w");
         if (fp) {
-            [mainCategoryList printDataTo:fp];
-            [mainParameterList printDataTo:fp];
-            [mainSymbolList printDataTo:fp];
-            [mainPhoneList printDataTo:fp];
+            [[model categories] printDataTo:fp];
+            [[model parameters] printDataTo:fp];
+            [[model symbols] printDataTo:fp];
+            [[model phones] printDataTo:fp];
             fclose(fp);
         }
     }
@@ -245,6 +239,7 @@
 
 - (void)archiveToDisk:(id)sender;
 {
+#ifdef PORTING
     NSMutableData *mdata;
     NSSavePanel *myPanel;
     NSArchiver *stream;
@@ -271,6 +266,7 @@
             NSLog(@"Not a MONET file");
         }
     }
+#endif
 }
 
 // Open a .monet file.
@@ -307,33 +303,8 @@
                 NXUnnameObject(@"mainMetaParameterList", NSApp);
                 NXUnnameObject(@"mainPhoneList", NSApp);
 
-                [mainPhoneList release];
-                [mainCategoryList release];
-                [mainSymbolList release];
-                [mainParameterList release];
-                [mainMetaParameterList release];
-
-                /* Category list must be named immediately */
-                mainCategoryList = [[stream decodeObject] retain];
-                //NSLog(@"mainCategoryList: %@", mainCategoryList);
-                NXNameObject(@"mainCategoryList", mainCategoryList, NSApp);
-
-                mainSymbolList = [[stream decodeObject] retain];
-                //NSLog(@"mainSymbolList: %@", mainSymbolList);
-
-                mainParameterList = [[stream decodeObject] retain];
-                //NSLog(@"mainParameterList: %@", mainParameterList);
-
-                mainMetaParameterList = [[stream decodeObject] retain];
-                //NSLog(@"mainMetaParameterList: %@", mainMetaParameterList);
-
-                mainPhoneList = [[stream decodeObject] retain];
-                //NSLog(@"mainPhoneList: %@", mainPhoneList);
-
-                NXNameObject(@"mainSymbolList", mainSymbolList, NSApp);
-                NXNameObject(@"mainParameterList", mainParameterList, NSApp);
-                NXNameObject(@"mainMetaParameterList", mainMetaParameterList, NSApp);
-                NXNameObject(@"mainPhoneList", mainPhoneList, NSApp);
+                [model release];
+                model = [[MModel alloc] initWithCoder:stream];
 
                 [prototypeManager readPrototypesFrom:stream];
                 [ruleManager readRulesFrom:stream];
@@ -412,19 +383,19 @@
 
 - (void)addParameter;
 {
-    [(PhoneList *)mainPhoneList addParameter];
+    [[model phones] addParameter];
     [(RuleManager *)ruleManager addParameter];
 }
 
 - (void)addMetaParameter;
 {
-    [(PhoneList *)mainPhoneList addMetaParameter];
+    [[model phones] addMetaParameter];
     [(RuleManager *)ruleManager addMetaParameter];
 }
 
 - (void)addSymbol;
 {
-    [(PhoneList *)mainPhoneList addSymbol];
+    [[model phones] addSymbol];
 }
 
 - (int)removeCategory:(int)index;
@@ -434,13 +405,13 @@
 
 - (void)removeParameter:(int)index;
 {
-    [(PhoneList *)mainPhoneList removeParameter:index];
+    [[model phones] removeParameter:index];
     [(RuleManager *)ruleManager removeParameter:index];
 }
 
 - (void)removeMetaParameter:(int)index;
 {
-    [(PhoneList *)mainPhoneList removeMetaParameter:index];
+    [[model phones] removeMetaParameter:index];
     [(RuleManager *)ruleManager removeMetaParameter:index];
 }
 
@@ -496,12 +467,12 @@
     [resultString appendString:@"<?xml version='1.0' encoding='utf-8'?>\n"];
     [resultString appendFormat:@"<!-- %@ -->\n", name];
     [resultString appendString:@"<root version='1'>\n"];
-    [mainCategoryList appendXMLToString:resultString level:1 useReferences:NO];
+    [[model categories] appendXMLToString:resultString level:1 useReferences:NO];
 
-    [mainParameterList appendXMLToString:resultString elementName:@"parameters" level:1];
-    [mainMetaParameterList appendXMLToString:resultString elementName:@"meta-parameters" level:1];
-    [mainSymbolList appendXMLToString:resultString level:1];
-    [mainPhoneList appendXMLToString:resultString level:1];
+    [[model parameters] appendXMLToString:resultString elementName:@"parameters" level:1];
+    [[model metaParameters] appendXMLToString:resultString elementName:@"meta-parameters" level:1];
+    [[model symbols] appendXMLToString:resultString level:1];
+    [[model phones] appendXMLToString:resultString level:1];
 
     [prototypeManager appendXMLToString:resultString level:1];
     [ruleManager appendXMLToString:resultString level:1];

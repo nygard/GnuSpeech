@@ -1,5 +1,5 @@
 //
-// $Id: AppController.h,v 1.15 2004/03/15 23:54:48 nygard Exp $
+// $Id: AppController.h,v 1.16 2004/03/18 22:15:18 nygard Exp $
 //
 
 /*===========================================================================
@@ -27,6 +27,7 @@ History:
 @class NSMutableDictionary;
 @class CategoryList, ParameterList, PhoneList, StringParser, SymbolList;
 @class BrowserManager, DefaultMgr, EventListView, Inspector, IntonationScrollView, PrototypeManager, RuleManager, SpecialView, TransitionView;
+@class MModel;
 
 @interface AppController : NSObject
 {
@@ -35,12 +36,7 @@ History:
 
     NSMutableDictionary *namedObjects;
 
-    // These seem to be the components of a document:
-    PhoneList *mainPhoneList;
-    CategoryList *mainCategoryList;
-    SymbolList *mainSymbolList; // Of Symbols?
-    ParameterList *mainParameterList; // Of Parameters
-    ParameterList *mainMetaParameterList; // Of Parameter
+    MModel *model;
 
     IBOutlet BrowserManager *dataBrowser;
     IBOutlet RuleManager *ruleManager;
