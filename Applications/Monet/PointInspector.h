@@ -1,7 +1,7 @@
 #import <Foundation/NSObject.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-@class GSMPoint, MonetList;
+@class MMPoint, MonetList;
 @class Inspector;
 
 /*===========================================================================
@@ -43,15 +43,15 @@ History:
     IBOutlet NSBrowser *expressionBrowser;
     IBOutlet NSTextField *currentTimingField;
 
-    GSMPoint *currentPoint;
+    MMPoint *currentPoint;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 
 - (void)dealloc;
 
-- (void)setCurrentPoint:(GSMPoint *)aPoint;
-- (void)inspectPoint:(GSMPoint *)aPoint;
+- (void)setCurrentPoint:(MMPoint *)aPoint;
+- (void)inspectPoint:(MMPoint *)aPoint;
 - (void)inspectPoints:(MonetList *)points;
 
 - (void)setUpWindow:(NSPopUpButton *)sender;

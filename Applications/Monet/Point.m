@@ -12,7 +12,7 @@
 #import "PrototypeManager.h"
 #import "ProtoTemplate.h"
 
-@implementation GSMPoint
+@implementation MMPoint
 
 - (id)init;
 {

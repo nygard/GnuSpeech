@@ -349,14 +349,14 @@ static NSImage *_selectionBox = nil;
     int count, index;
     int j;
     MonetList *currentPoints;
-    GSMPoint *currentPoint;
+    MMPoint *currentPoint;
     double symbols[5];
     //double tempos[4] = {1.0, 1.0, 1.0, 1.0};
     NSPoint myPoint;
     float timeScale, y;
     int yScale;
     float time, eventTime;
-    //GSMPoint *tempPoint;
+    //MMPoint *tempPoint;
     NSBezierPath *bezierPath;
     NSPoint graphOrigin;
     NSMutableArray *diphonePoints, *triphonePoints, *tetraphonePoints;
@@ -395,10 +395,10 @@ static NSImage *_selectionBox = nil;
         else {
             j = [displayPoints count] - 1;
             while (j > 0) {
-                if ([(GSMPoint *)[displayPoints objectAtIndex:j] expression] == nil)
+                if ([(MMPoint *)[displayPoints objectAtIndex:j] expression] == nil)
                     eventTime = (float)[[displayPoints objectAtIndex:j] freeTime];
                 else
-                    eventTime = (float)[[(GSMPoint *)[displayPoints objectAtIndex:j] expression] cacheValue];
+                    eventTime = (float)[[(MMPoint *)[displayPoints objectAtIndex:j] expression] cacheValue];
 
                 if (time > eventTime)
                     break;
@@ -443,7 +443,7 @@ static NSImage *_selectionBox = nil;
         }
 
         if (index != [displayPoints count] - 1) {
-            if ([currentPoint type] == [(GSMPoint *)[displayPoints objectAtIndex:index+1] type])
+            if ([currentPoint type] == [(MMPoint *)[displayPoints objectAtIndex:index+1] type])
                 [bezierPath moveToPoint:myPoint];
             else
                 [bezierPath moveToPoint:NSMakePoint(myPoint.x, graphOrigin.y + (ZERO_INDEX * yScale))];
@@ -489,7 +489,7 @@ static NSImage *_selectionBox = nil;
         float y;
         NSPoint myPoint;
 
-        y = (float)[(GSMPoint *)selectedPoint value];
+        y = (float)[(MMPoint *)selectedPoint value];
         if ([selectedPoint expression] == nil)
             eventTime = [selectedPoint freeTime];
         else
@@ -614,13 +614,13 @@ static NSImage *_selectionBox = nil;
     if ([mouseEvent clickCount] == 1) {
         //NSLog(@"[mouseEvent modifierFlags]: %x", [mouseEvent modifierFlags]);
         if ([mouseEvent modifierFlags] & NSAlternateKeyMask) {
-            GSMPoint *newPoint;
+            MMPoint *newPoint;
             NSPoint graphOrigin = [self graphOrigin];
             int yScale = [self sectionHeight];
             float newValue;
 
             //NSLog(@"Alt-clicked!");
-            newPoint = [[GSMPoint alloc] init];
+            newPoint = [[MMPoint alloc] init];
             [newPoint setFreeTime:(hitPoint.x - graphOrigin.x) / [self timeScale]];
             //NSLog(@"hitPoint: %@, graphOrigin: %@, yScale: %d", NSStringFromPoint(hitPoint), NSStringFromPoint(graphOrigin), yScale);
             newValue = (hitPoint.y - graphOrigin.y - (ZERO_INDEX * yScale)) * SECTION_AMOUNT / yScale;
@@ -766,7 +766,7 @@ static NSImage *_selectionBox = nil;
     count = [displayPoints count];
     NSLog(@"%d display points", count);
     for (index = 0; index < count; index++) {
-        GSMPoint *currentDisplayPoint;
+        MMPoint *currentDisplayPoint;
         ProtoEquation *currentExpression;
         NSPoint currentPoint;
 

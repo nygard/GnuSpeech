@@ -13,7 +13,7 @@
 
 @interface SlopeRatio : NSObject
 {
-    MonetList *points; // Of GSMPoints
+    MonetList *points; // Of MMPoints
     MonetList *slopes; // Of Slopes
 }
 

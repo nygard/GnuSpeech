@@ -36,7 +36,7 @@
     [super dealloc];
 }
 
-- (void)setCurrentPoint:(GSMPoint *)aPoint;
+- (void)setCurrentPoint:(MMPoint *)aPoint;
 {
     if (aPoint == currentPoint)
         return;
@@ -45,7 +45,7 @@
     currentPoint = [aPoint retain];
 }
 
-- (void)inspectPoint:(GSMPoint *)aPoint;
+- (void)inspectPoint:(MMPoint *)aPoint;
 {
     [self setCurrentPoint:aPoint];
     [mainInspector setPopUpListView:popUpListView];

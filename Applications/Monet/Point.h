@@ -11,7 +11,7 @@
 =============================================================================
 */
 
-@interface GSMPoint : NSObject
+@interface MMPoint : NSObject
 {
     double value;  /* Value of the point */
     double freeTime; /* Free Floating time */

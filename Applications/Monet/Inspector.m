@@ -157,7 +157,7 @@
     [ruleInspector inspectRule:rule];
 }
 
-- (void)inspectPoint:(GSMPoint *)point;
+- (void)inspectPoint:(MMPoint *)point;
 {
     [panel setTitle:@"Point Inspector"];
     currentInspectorObject = point;

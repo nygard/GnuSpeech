@@ -362,14 +362,14 @@ static NSImage *_selectionBox = nil;
 {
     int count, index;
     MonetList *currentPoints;
-    GSMPoint *currentPoint;
+    MMPoint *currentPoint;
     double symbols[5];
     double tempos[4] = {1.0, 1.0, 1.0, 1.0};
     NSPoint myPoint;
     float timeScale, y;
     int yScale;
     float eventTime;
-    GSMPoint *tempPoint;
+    MMPoint *tempPoint;
     NSBezierPath *bezierPath;
     NSPoint graphOrigin;
     NSMutableArray *diphonePoints, *triphonePoints, *tetraphonePoints;
@@ -440,7 +440,7 @@ static NSImage *_selectionBox = nil;
         }
 
         if (index != [displayPoints count] - 1) {
-            if ([currentPoint type] == [(GSMPoint *)[displayPoints objectAtIndex:index+1] type])
+            if ([currentPoint type] == [(MMPoint *)[displayPoints objectAtIndex:index+1] type])
                 [bezierPath moveToPoint:myPoint];
             else
                 [bezierPath moveToPoint:NSMakePoint(myPoint.x, graphOrigin.y + (ZERO_INDEX * yScale))];
@@ -631,13 +631,13 @@ static NSImage *_selectionBox = nil;
 
         //NSLog(@"[mouseEvent modifierFlags]: %x", [mouseEvent modifierFlags]);
         if ([mouseEvent modifierFlags] & NSAlternateKeyMask) {
-            GSMPoint *newPoint;
+            MMPoint *newPoint;
             NSPoint graphOrigin = [self graphOrigin];
             int yScale = [self sectionHeight];
             float newValue;
 
             //NSLog(@"Alt-clicked!");
-            newPoint = [[GSMPoint alloc] init];
+            newPoint = [[MMPoint alloc] init];
             [newPoint setFreeTime:(hitPoint.x - graphOrigin.x) / [self timeScale]];
             //NSLog(@"hitPoint: %@, graphOrigin: %@, yScale: %d", NSStringFromPoint(hitPoint), NSStringFromPoint(graphOrigin), yScale);
             newValue = (hitPoint.y - graphOrigin.y - (ZERO_INDEX * yScale)) * SECTION_AMOUNT / yScale;
@@ -817,7 +817,7 @@ static NSImage *_selectionBox = nil;
                 //NSLog(@"Buffer = %@", str);
 
                 [[NSColor blackColor] set];
-                textFieldFrame.origin.x = ([[(GSMPoint *)[points objectAtIndex:j] expression] cacheValue]) * timeScale + LEFT_MARGIN + 5.0;
+                textFieldFrame.origin.x = ([[(MMPoint *)[points objectAtIndex:j] expression] cacheValue]) * timeScale + LEFT_MARGIN + 5.0;
                 textFieldFrame.origin.y = rect.origin.y + 2;
                 textFieldFrame.size.width = 60;
                 textFieldFrame.size.height = SLOPE_MARKER_HEIGHT - 2;
@@ -1012,7 +1012,7 @@ static NSImage *_selectionBox = nil;
     count = [displayPoints count];
     NSLog(@"%d display points", count);
     for (index = 0; index < count; index++) {
-        GSMPoint *currentDisplayPoint;
+        MMPoint *currentDisplayPoint;
         ProtoEquation *currentExpression;
         NSPoint currentPoint;
 
@@ -1043,7 +1043,7 @@ static NSImage *_selectionBox = nil;
 - (IBAction)delete:(id)sender;
 {
     int i;
-    GSMPoint *tempPoint;
+    MMPoint *tempPoint;
 
     if ((currentTemplate == nil) || (![selectedPoints count])) {
         NSBeep();
@@ -1077,9 +1077,9 @@ static NSImage *_selectionBox = nil;
         return;
     }
 
-    type = [(GSMPoint *)[selectedPoints objectAtIndex:0] type];
+    type = [(MMPoint *)[selectedPoints objectAtIndex:0] type];
     for (i = 1; i < [selectedPoints count]; i++) {
-        if (type != [(GSMPoint *)[selectedPoints objectAtIndex:i] type]) {
+        if (type != [(MMPoint *)[selectedPoints objectAtIndex:i] type]) {
             NSBeep();
             return;
         }

@@ -15,7 +15,7 @@
 
 - (id)init;
 {
-    GSMPoint *aPoint;
+    MMPoint *aPoint;
 
     if ([super init] == nil)
         return nil;
@@ -25,7 +25,7 @@
     type = DIPHONE;
     points = [[MonetList alloc] initWithCapacity:2];
 
-    aPoint = [[GSMPoint alloc] init];
+    aPoint = [[MMPoint alloc] init];
     [aPoint setType:DIPHONE];
     [aPoint setFreeTime:0.0];
     [aPoint setValue:0.0];
@@ -220,32 +220,32 @@
 
     if (points == nil) {
         MonetList *defaultPoints;
-        GSMPoint *aPoint;
+        MMPoint *aPoint;
 
         defaultPoints = [[MonetList alloc] initWithCapacity:3];
 
-        aPoint = [[GSMPoint alloc] init];
+        aPoint = [[MMPoint alloc] init];
         [aPoint setValue:0.0];
         [aPoint setType:DIPHONE];
         [aPoint setExpression:[prototypeManager findEquationList:@"Test" named:@"Zero"]];
         [defaultPoints addObject:aPoint];
         [aPoint release];
 
-        aPoint = [[GSMPoint alloc] init];
+        aPoint = [[MMPoint alloc] init];
         [aPoint setValue:12.5];
         [aPoint setType:DIPHONE];
         [aPoint setExpression:[prototypeManager findEquationList:@"Test" named:@"diphoneOneThree"]];
         [defaultPoints addObject:aPoint];
         [aPoint release];
 
-        aPoint = [[GSMPoint alloc] init];
+        aPoint = [[MMPoint alloc] init];
         [aPoint setValue:87.5];
         [aPoint setType:DIPHONE];
         [aPoint setExpression:[prototypeManager findEquationList:@"Test" named:@"diphoneTwoThree"]];
         [defaultPoints addObject:aPoint];
         [aPoint release];
 
-        aPoint = [[GSMPoint alloc] init];
+        aPoint = [[MMPoint alloc] init];
         [aPoint setValue:100.0];
         [aPoint setType:DIPHONE];
         [aPoint setExpression:[prototypeManager findEquationList:@"Defaults" named:@"Mark1"]];
@@ -253,21 +253,21 @@
         [aPoint release];
 
         if (type != DIPHONE) {
-            aPoint = [[GSMPoint alloc] init];
+            aPoint = [[MMPoint alloc] init];
             [aPoint setValue:12.5];
             [aPoint setType:TRIPHONE];
             [aPoint setExpression:[prototypeManager findEquationList:@"Test" named:@"triphoneOneThree"]];
             [defaultPoints addObject:aPoint];
             [aPoint release];
 
-            aPoint = [[GSMPoint alloc] init];
+            aPoint = [[MMPoint alloc] init];
             [aPoint setValue:87.5];
             [aPoint setType:TRIPHONE];
             [aPoint setExpression:[prototypeManager findEquationList:@"Test" named:@"triphoneTwoThree"]];
             [defaultPoints addObject:aPoint];
             [aPoint release];
 
-            aPoint = [[GSMPoint alloc] init];
+            aPoint = [[MMPoint alloc] init];
             [aPoint setValue:100.0];
             [aPoint setType:TRIPHONE];
             [aPoint setExpression:[prototypeManager findEquationList:@"Defaults" named:@"Mark2"]];
@@ -275,21 +275,21 @@
             [aPoint release];
 
             if (type != TRIPHONE) {
-                aPoint = [[GSMPoint alloc] init];
+                aPoint = [[MMPoint alloc] init];
                 [aPoint setValue:12.5];
                 [aPoint setType:TETRAPHONE];
                 [aPoint setExpression:[prototypeManager findEquationList:@"Test" named:@"tetraphoneOneThree"]];
                 [defaultPoints addObject:aPoint];
                 [aPoint release];
 
-                aPoint = [[GSMPoint alloc] init];
+                aPoint = [[MMPoint alloc] init];
                 [aPoint setValue:87.5];
                 [aPoint setType:TETRAPHONE];
                 [aPoint setExpression:[prototypeManager findEquationList:@"Test" named:@"tetraphoneTwoThree"]];
                 [defaultPoints addObject:aPoint];
                 [aPoint release];
 
-                aPoint = [[GSMPoint alloc] init];
+                aPoint = [[MMPoint alloc] init];
                 [aPoint setValue:100.0];
                 [aPoint setType:TETRAPHONE];
                 [aPoint setExpression:[prototypeManager findEquationList:@"Durations" named:@"TetraphoneDefault"]];

@@ -94,12 +94,12 @@
 
 - (double)startTime;
 {
-    return [[(GSMPoint *)[points objectAtIndex:0] expression] cacheValue];
+    return [[(MMPoint *)[points objectAtIndex:0] expression] cacheValue];
 }
 
 - (double)endTime;
 {
-    return [[(GSMPoint *)[points lastObject] expression] cacheValue];
+    return [[(MMPoint *)[points lastObject] expression] cacheValue];
 }
 
 - (void)calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag
@@ -109,7 +109,7 @@
     double temp = 0.0, temp1 = 0.0, intervalTime = 0.0, sum = 0.0, factor = 0.0;
     double dummy, baseTime = 0.0, endTime = 0.0, totalTime = 0.0, delta = 0.0;
     double startValue;
-    GSMPoint *currentPoint;
+    MMPoint *currentPoint;
 
     /* Calculate the times for all points */
     //NSLog(@"%s, count: %d", _cmd, [points count]);
@@ -127,8 +127,8 @@
     baseTime = [[points objectAtIndex:0] getTime];
     endTime = [[points lastObject] getTime];
 
-    startValue = [(GSMPoint *)[points objectAtIndex:0] value];
-    delta = [(GSMPoint *)[points lastObject] value] - startValue;
+    startValue = [(MMPoint *)[points objectAtIndex:0] value];
+    delta = [(MMPoint *)[points lastObject] value] - startValue;
 
     temp = [self totalSlopeUnits];
     totalTime = endTime - baseTime;
@@ -168,7 +168,7 @@
     double temp = 0.0, temp1 = 0.0, intervalTime = 0.0, sum = 0.0, factor = 0.0;
     double dummy, baseTime = 0.0, endTime = 0.0, totalTime = 0.0, delta = 0.0;
     double startValue;
-    GSMPoint *currentPoint;
+    MMPoint *currentPoint;
 
     /* Calculate the times for all points */
     for (i = 0; i < [points count]; i++) {
@@ -179,8 +179,8 @@
     baseTime = [[points objectAtIndex:0] getTime];
     endTime = [[points lastObject] getTime];
 
-    startValue = [(GSMPoint *)[points objectAtIndex:0] value];
-    delta = [(GSMPoint *)[points lastObject] value] - startValue;
+    startValue = [(MMPoint *)[points objectAtIndex:0] value];
+    delta = [(MMPoint *)[points lastObject] value] - startValue;
 
     temp = [self totalSlopeUnits];
     totalTime = endTime - baseTime;

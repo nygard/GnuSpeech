@@ -94,7 +94,7 @@
 
     [NSUnarchiver decodeClassName:@"Object" asClassName:@"NSObject"];
     [NSUnarchiver decodeClassName:@"List" asClassName:@"MonetList"];
-    [NSUnarchiver decodeClassName:@"Point" asClassName:@"GSMPoint"];
+    [NSUnarchiver decodeClassName:@"Point" asClassName:@"MMPoint"];
 
     [self _disableUnconvertedClassLoading];
 

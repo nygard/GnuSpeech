@@ -859,7 +859,7 @@ static void page_consumed(void)
     double currentDelta, value, maxValue;
     double ruleSymbols[5], tempTime, targets[4];
     ProtoTemplate *protoTemplate;
-    GSMPoint *currentPoint;
+    MMPoint *currentPoint;
     MonetList *tempTargets, *points;
     Event *tempEvent;
 
@@ -937,16 +937,16 @@ static void page_consumed(void)
                 currentPoint = [points objectAtIndex:j];
 
                 if ([currentPoint isKindOfClass:[SlopeRatio class]]) {
-                    if ([(GSMPoint *)[[(SlopeRatio *)currentPoint points] objectAtIndex:0] type] != currentType) {
-                        currentType = [(GSMPoint *)[[(SlopeRatio *)currentPoint points] objectAtIndex:0] type];
+                    if ([(MMPoint *)[[(SlopeRatio *)currentPoint points] objectAtIndex:0] type] != currentType) {
+                        currentType = [(MMPoint *)[[(SlopeRatio *)currentPoint points] objectAtIndex:0] type];
                         targets[currentType-2] = maxValue;
-                        currentDelta = targets[currentType-1] - (maxValue);
+                        currentDelta = targets[currentType-1] - maxValue;
                     }
                 } else {
                     if ([currentPoint type] != currentType) {
                         currentType = [currentPoint type];
                         targets[currentType-2] = maxValue;
-                        currentDelta = targets[currentType-1] - (maxValue);
+                        currentDelta = targets[currentType-1] - maxValue;
                     }
 
                     /* insert event into event list */

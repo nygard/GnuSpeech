@@ -1,7 +1,7 @@
 #import <AppKit/NSView.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-@class GSMPoint, MonetList, ProtoTemplate;
+@class MMPoint, MonetList, ProtoTemplate;
 @class AppController, Slope;
 
 /*===========================================================================
@@ -27,7 +27,7 @@
     MonetList *displayPoints;
     int cache;
 
-    GSMPoint *selectedPoint;
+    MMPoint *selectedPoint;
 
     BOOL shouldDrawSelection;
     NSPoint selectionPoint1;
