@@ -193,19 +193,6 @@ Initial import.
     return self;
 }
 
-- (id)initWithContentsOfFile:(NSString *)path;
-{
-    if ([self init] == nil)
-        return nil;
-
-    if ([self readFromFile:path] == NO) {
-        [self release];
-        return nil;
-    }
-
-    return self;
-}
-
 - (BOOL)readFromFile:(NSString *)path;
 {
     int fileVersion;
@@ -444,7 +431,7 @@ Initial import.
 
 - (float)r1;
 {
-    return (pharynxDiameter[0] / 2.0);
+    return pharynxDiameter[0] / 2.0;
 }
 
 - (void)setR1:(float)value;
@@ -456,7 +443,7 @@ Initial import.
 
 - (float)r2;
 {
-    return (pharynxDiameter[1] / 2.0);
+    return pharynxDiameter[1] / 2.0;
 }
 
 - (void)setR2:(float)value;
@@ -468,7 +455,7 @@ Initial import.
 
 - (float)r3;
 {
-    return (pharynxDiameter[2] / 2.0);
+    return pharynxDiameter[2] / 2.0;
 }
 
 - (void)setR3:(float)value;
@@ -480,7 +467,7 @@ Initial import.
 
 - (float)r4;
 {
-    return (oralDiameter[0] / 2.0);
+    return oralDiameter[0] / 2.0;
 }
 
 - (void)setR4:(float)value;
@@ -492,7 +479,7 @@ Initial import.
 
 - (float)r5;
 {
-    return (oralDiameter[1] / 2.0);
+    return oralDiameter[1] / 2.0;
 }
 
 - (void)setR5:(float)value;
@@ -504,7 +491,7 @@ Initial import.
 
 - (float)r6;
 {
-    return (oralDiameter[2] / 2.0);
+    return oralDiameter[2] / 2.0;
 }
 
 - (void)setR6:(float)value;
@@ -516,7 +503,7 @@ Initial import.
 
 - (float)r7;
 {
-    return (oralDiameter[3] / 2.0);
+    return oralDiameter[3] / 2.0;
 }
 
 - (void)setR7:(float)value;
@@ -528,7 +515,7 @@ Initial import.
 
 - (float)r8;
 {
-    return (oralDiameter[4] / 2.0);
+    return oralDiameter[4] / 2.0;
 }
 
 - (void)setR8:(float)value;
@@ -540,7 +527,7 @@ Initial import.
 
 - (float)velum;
 {
-    return (velumDiameter[0] / 2.0);
+    return velumDiameter[0] / 2.0;
 }
 
 - (void)setVelum:(float)value;
@@ -684,7 +671,7 @@ Initial import.
 
 - (float)lossFactor;
 {
-    return (lossFactor * 100.0);
+    return lossFactor * 100.0;
 }
 
 - (void)setLossFactor:(float)value;
@@ -696,7 +683,7 @@ Initial import.
 
 - (float)apScale;
 {
-    return (apScale / 2.0);
+    return apScale / 2.0;
 }
 
 - (void)setApScale:(float)value;
@@ -732,7 +719,7 @@ Initial import.
 
 - (float)n1;
 {
-    return (nasalDiameter[0] / 2.0);
+    return nasalDiameter[0] / 2.0;
 }
 
 - (void)setN1:(float)value;
@@ -744,7 +731,7 @@ Initial import.
 
 - (float)n2;
 {
-    return (nasalDiameter[1] / 2.0);
+    return nasalDiameter[1] / 2.0;
 }
 
 - (void)setN2:(float)value;
@@ -756,7 +743,7 @@ Initial import.
 
 - (float)n3;
 {
-    return (nasalDiameter[2] / 2.0);
+    return nasalDiameter[2] / 2.0;
 }
 
 - (void)setN3:(float)value;
@@ -768,7 +755,7 @@ Initial import.
 
 - (float)n4;
 {
-    return (nasalDiameter[3] / 2.0);
+    return nasalDiameter[3] / 2.0;
 }
 
 - (void)setN4:(float)value;
@@ -780,7 +767,7 @@ Initial import.
 
 - (float)n5;
 {
-    return (nasalDiameter[4] / 2.0);
+    return nasalDiameter[4] / 2.0;
 }
 
 - (void)setN5:(float)value;
@@ -792,7 +779,7 @@ Initial import.
 
 - (float)throatCutoff;
 {
-    return ((float)throatCutoff);
+    return (float)throatCutoff;
 }
 
 - (void)setThroatCutoff:(float)value;
@@ -804,7 +791,7 @@ Initial import.
 
 - (float)throatVol;
 {
-    return ((float)throatVol);
+    return (float)throatVol;
 }
 
 - (void)setThroatVol:(float)value;
@@ -828,7 +815,7 @@ Initial import.
 
 - (float)mixOffset;
 {
-    return ((float)mixOffset);
+    return (float)mixOffset;
 }
 
 - (void)setMixOffset:(float)value;

@@ -103,7 +103,6 @@ Initial import.
 }
 
 - (id)init;
-- (id)initWithContentsOfFile:(NSString *)path;
 
 - (BOOL)readFromFile:(NSString *)path;
 - (BOOL)writeToFile:(NSString *)path;
