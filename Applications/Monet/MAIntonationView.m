@@ -67,7 +67,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
     [postureTextFieldCell setFont:timesFont];
 
-    timeScale = 1.0;
+    timeScale = 2.0;
     flags.mouseBeingDragged = NO;
 
     eventList = nil;
