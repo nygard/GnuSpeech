@@ -46,6 +46,9 @@
 - (double)semitoneInHertz;
 - (void)setSemitoneInHertz:(double)newHertzValue;
 
+- (void)incrementSemitone;
+- (void)decrementSemitone;
+
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 
 @end

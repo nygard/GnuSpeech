@@ -495,17 +495,20 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
     int index, length;
     unichar ch;
 
-    int i, numRules, pointCount;
+    unsigned int ruleCount;
     IntonationPoint *tempPoint;
 
     NSLog(@" > %s", _cmd);
 
-    numRules = [eventList numberOfRules];
-    pointCount = [selectedPoints count];
+    numCount = [eventList numberOfRules];
 
     characters = [keyEvent characters];
     length = [characters length];
     for (index = 0; index < length; index++) {
+        unsigned int pointCount, pointIndex;
+
+        pointCount = [selectedPoints count];
+
         ch = [characters characterAtIndex:index];
         NSLog(@"index: %d, character: %@", index, [characters substringWithRange:NSMakeRange(index, 1)]);
 
@@ -517,15 +520,15 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
 
           case NSLeftArrowFunctionKey:
               NSLog(@"left arrow");
-              for (i = 0; i < pointCount; i++) {
-                  if ([[selectedPoints objectAtIndex:i] ruleIndex] - 1 < 0) {
+              for (pointIndex = 0; pointIndex < pointCount; pointIndex++) {
+                  if ([[selectedPoints objectAtIndex:pointIndex] ruleIndex] - 1 < 0) {
                       NSBeep();
                       return;
                   }
               }
 
-              for (i = 0; i < pointCount; i++) {
-                  tempPoint = [selectedPoints objectAtIndex:i];
+              for (pointIndex = 0; pointIndex < pointCount; pointIndex++) {
+                  tempPoint = [selectedPoints objectAtIndex:pointIndex];
                   [tempPoint setRuleIndex:[tempPoint ruleIndex] - 1];
                   [eventList addIntonationPoint:tempPoint];
               }
@@ -533,15 +536,15 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
 
           case NSRightArrowFunctionKey:
               NSLog(@"right arrow");
-              for (i = 0; i < pointCount; i++) {
-                  if ([[selectedPoints objectAtIndex:i] ruleIndex] + 1 >= numRules) {
+              for (pointIndex = 0; pointIndex < pointCount; pointIndex++) {
+                  if ([[selectedPoints objectAtIndex:pointIndex] ruleIndex] + 1 >= numRules) {
                       NSBeep();
                       return;
                   }
               }
 
-              for (i = 0; i < pointCount; i++) {
-                  tempPoint = [selectedPoints objectAtIndex:i];
+              for (pointIndex = 0; pointIndex < pointCount; pointIndex++) {
+                  tempPoint = [selectedPoints objectAtIndex:pointIndex];
                   [tempPoint setRuleIndex:[tempPoint ruleIndex] + 1];
                   [eventList addIntonationPoint:tempPoint];
               }
@@ -549,32 +552,28 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
 
           case NSUpArrowFunctionKey:
               NSLog(@"up arrow");
-              for (i = 0; i < pointCount; i++) {
-                  if ([[selectedPoints objectAtIndex:i] semitone] + 1.0 > 10.0) {
+              for (pointIndex = 0; pointIndex < pointCount; pointIndex++) {
+                  if ([[selectedPoints objectAtIndex:pointIndex] semitone] + 1.0 > 10.0) {
                       NSBeep();
                       return;
                   }
               }
 
-              for (i = 0; i < pointCount; i++) {
-                  tempPoint = [selectedPoints objectAtIndex:i];
-                  [tempPoint setSemitone:[tempPoint semitone] + 1.0];
-              }
+              for (pointIndex = 0; pointIndex < pointCount; pointIndex++)
+                  [[selectedPoints objectAtIndex:pointIndex] incrementSemitone];
               break;
 
           case NSDownArrowFunctionKey:
               NSLog(@"down arrow");
-              for (i = 0; i < pointCount; i++) {
-                  if ([[selectedPoints objectAtIndex:i] semitone] - 1.0 < -20.0) {
+              for (pointIndex = 0; pointIndex < pointCount; pointIndex++) {
+                  if ([[selectedPoints objectAtIndex:pointIndex] semitone] - 1.0 < -20.0) {
                       NSBeep();
                       return;
                   }
               }
 
-              for (i = 0; i < pointCount; i++) {
-                  tempPoint = [selectedPoints objectAtIndex:i];
-                  [tempPoint setSemitone:[tempPoint semitone] - 1.0];
-              }
+              for (pointIndex = 0; pointIndex < pointCount; pointIndex++)
+                  [[selectedPoints objectAtIndex:pointIndex] decrementSemitone];
               break;
         }
     }

@@ -107,7 +107,7 @@ extern NSString *EventListDidRemoveIntonationPoint;
     double max[16]; // Max of each parameter value
 
     NSMutableArray *events;
-    NSMutableArray *intonationPoints;
+    NSMutableArray *intonationPoints; // Should be sorted by absolute time
 
     id delegate;
 }

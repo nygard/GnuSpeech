@@ -126,6 +126,16 @@
     [self setSemitone:newValue];
 }
 
+- (void)incrementSemitone;
+{
+    [self setSemitone:semitone + 1.0];
+}
+
+- (void)decrementSemitone;
+{
+    [self setSemitone:semitone - 1.0];
+}
+
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 {
     [resultString indentToLevel:level];
