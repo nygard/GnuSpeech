@@ -1,4 +1,4 @@
-#import "IntonationView.h"
+#import "MAIntonationView.h"
 
 #import <AppKit/AppKit.h>
 #import "NSBezierPath-Extensions.h"
@@ -25,9 +25,9 @@
 
 #define ZERO_SECTION 20
 
-NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelectionDidChangeNotification";
+NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSelectionDidChangeNotification";
 
-@implementation IntonationView
+@implementation MAIntonationView
 
 - (id)initWithFrame:(NSRect)frameRect;
 {
@@ -940,7 +940,7 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
 {
     NSNotification *aNotification;
 
-    aNotification = [NSNotification notificationWithName:IntonationViewSelectionDidChangeNotification object:self];
+    aNotification = [NSNotification notificationWithName:MAIntonationViewSelectionDidChangeNotification object:self];
     [[NSNotificationCenter defaultCenter] postNotification:aNotification];
 
     if ([[self delegate] respondsToSelector:@selector(intonationViewSelectionDidChange:)] == YES)

@@ -12,13 +12,13 @@
 =============================================================================
 */
 
-@protocol IntonationViewNotification
+@protocol MAIntonationViewNotification
 - (void)intonationViewSelectionDidChange:(NSNotification *)aNotification;
 @end
 
-extern NSString *IntonationViewSelectionDidChangeNotification;
+extern NSString *MAIntonationViewSelectionDidChangeNotification;
 
-@interface IntonationView : NSView
+@interface MAIntonationView : NSView
 {
     NSTextFieldCell *postureTextFieldCell;
     NSTextFieldCell *ruleIndexTextFieldCell;

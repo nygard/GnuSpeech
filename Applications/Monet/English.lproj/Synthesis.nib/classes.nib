@@ -16,7 +16,7 @@
         }, 
         {
             ACTIONS = {loadContour = id; loadContourAndUtterance = id; saveIntonationContour = id; }; 
-            CLASS = IntonationView; 
+            CLASS = MAIntonationView; 
             LANGUAGE = ObjC; 
             OUTLETS = {controller = AppController; smoothing = id; utterance = id; }; 
             SUPERCLASS = NSView; 

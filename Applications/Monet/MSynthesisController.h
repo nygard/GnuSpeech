@@ -7,7 +7,7 @@
 #import "EventList.h" // for struct _intonationParameters
 
 @class MMIntonationPoint, MModel;
-@class EventListView, IntonationView;
+@class EventListView;
 @class TRMSynthesizer;
 
 @interface MSynthesisController : MWindowController
@@ -111,7 +111,7 @@
 // MExtendedTableView delegate
 - (BOOL)control:(NSControl *)aControl shouldProcessCharacters:(NSString *)characters;
 
-// IntonationView delegate
+// MAIntonationView delegate
 - (void)intonationViewSelectionDidChange:(NSNotification *)aNotification;
 
 // Intonation Parameters

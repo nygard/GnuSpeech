@@ -12,7 +12,7 @@
 #import "Event.h" // For MAX_EVENTS
 #import "EventList.h"
 #import "EventListView.h"
-#import "IntonationView.h"
+#import "MAIntonationView.h"
 #import "MExtendedTableView.h"
 #import "MMDisplayParameter.h"
 #import "MMIntonationPoint.h"
@@ -710,7 +710,7 @@
 }
 
 //
-// IntonationView delegate
+// MAIntonationView delegate
 //
 
 - (void)intonationViewSelectionDidChange:(NSNotification *)aNotification;

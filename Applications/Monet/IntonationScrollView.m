@@ -1,7 +1,7 @@
 #import "IntonationScrollView.h"
 
 #import <AppKit/AppKit.h>
-#import "IntonationView.h"
+#import "MAIntonationView.h"
 
 @implementation IntonationScrollView
 
@@ -11,7 +11,7 @@
 - (id)initWithFrame:(NSRect)frameRect;
 {
     //NSRect scaleRect, clipRect;
-    IntonationView *aView;
+    MAIntonationView *aView;
 
     NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
 
@@ -30,7 +30,7 @@
     /* alloc and init a intonation view instance.  Make Doc View */
     //clipRect = NSZeroRect;
     // TODO (2004-03-31): See if we can remove this code:
-    aView = [[IntonationView alloc] initWithFrame:frameRect];
+    aView = [[MAIntonationView alloc] initWithFrame:frameRect];
     [self setDocumentView:aView];
     [aView release];
 
