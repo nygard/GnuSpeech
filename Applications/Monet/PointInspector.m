@@ -6,7 +6,7 @@
 #import "FormulaExpression.h"
 #import "MonetList.h"
 #import "NamedList.h"
-#import "Point.h"
+#import "MMPoint.h"
 #import "ProtoEquation.h"
 #import "PrototypeManager.h"
 #import "ProtoTemplate.h"

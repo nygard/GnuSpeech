@@ -7,7 +7,7 @@
 #import "FormulaExpression.h"
 #import "GSXMLFunctions.h"
 #import "MonetList.h"
-#import "Point.h"
+#import "MMPoint.h"
 #import "ProtoEquation.h"
 #import "Slope.h"
 

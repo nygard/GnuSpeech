@@ -9,7 +9,7 @@
 #import "MonetList.h"
 #import "NamedList.h"
 #import "Phone.h"
-#import "Point.h"
+#import "MMPoint.h"
 #import "PointInspector.h"
 #import "ProtoEquation.h"
 #import "PrototypeManager.h"

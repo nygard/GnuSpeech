@@ -7,7 +7,7 @@
 #import "AppController.h"
 #import "GSXMLFunctions.h"
 #import "MonetList.h"
-#import "Point.h"
+#import "MMPoint.h"
 #import "PrototypeManager.h"
 #import "SlopeRatio.h"
 

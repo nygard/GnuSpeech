@@ -1,4 +1,4 @@
-#import "Point.h"
+#import "MMPoint.h"
 
 #import <Foundation/Foundation.h>
 #import "NSObject-Extensions.h"
