@@ -32,19 +32,25 @@ PROGRAM = tube
 
 # compiler flags
 # use -g -DDEBUG if debugging desired, comment out strip
-CFLAGS = -g -Wall -falign-loops=16 -fno-inline
-OPTIMIZATION_CFLAGS = -O4
+CFLAGS = -g -Wall -falign-loops=16 -ffast-math
+OPTIMIZATION_CFLAGS = -O4 -mdynamic-no-pic
 ARCHS =
 
 
-all:: $(PROGRAM)
+all:: tube tube2
 
-$(PROGRAM): $(PROGRAM).c
-	cc $(PROGRAM).c -o $@ $(ARCHS) $(CFLAGS) $(OPTIMIZATION_CFLAGS)
+#$(PROGRAM): $(PROGRAM).c
+#	cc $(PROGRAM).c -o $@ $(ARCHS) $(CFLAGS) $(OPTIMIZATION_CFLAGS)
 #	strip $@
 
-clean::
-	/bin/rm -rf $(PROGRAM)
+tube: tube.c
+	cc $(ARCHS) $(CFLAGS) $(OPTIMIZATION_CFLAGS) tube.c -o tube
+
+tube2: tube2.c
+	cc $(ARCHS) $(CFLAGS) $(OPTIMIZATION_CFLAGS) tube2.c -o tube2
+
+clean:: tube tube2
+	/bin/rm -rf tube tube2
 
 optcomp:: tube-O0 tube-O1 tube-O2 tube-O3 tube-O4 tube-Os
 
