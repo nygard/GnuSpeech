@@ -40,19 +40,12 @@
 
 @interface NiftyMatrix : NSMatrix
 {
-    NSWindow *niftyMatrixCache;
-    NSWindow *niftyCellCache;
     id activeCell;
 }
-
-- (void)dealloc;
 
 - (void)mouseDown:(NSEvent *)theEvent;
 - (void)drawRect:(NSRect)rects;
 
-- (void)createCacheWindowsIfNecessary;
-- (void)setupCacheWindows;
-
-- (void)sizeCacheWindow:(NSWindow *)aCacheWindow to:(NSSize)windowSize;
+- (NSRect)cellFrameAtRow:(int)row column:(int)col;
 
 @end

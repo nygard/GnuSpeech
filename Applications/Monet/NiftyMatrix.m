@@ -11,21 +11,12 @@
 
 @implementation NiftyMatrix
 
-- (void)dealloc;
-{
-    [niftyMatrixCache release];
-    [niftyCellCache release];
-
-    [super dealloc];
-}
-
-
 - (void)mouseDown:(NSEvent *)mouseEvent;
 {
+#if 0
     NSPoint mouseDownLocation, mouseUpLocation, mouseLocation;
     int row, column, newRow;
     NSRect visibleRect, cellFrame;
-    id matrixCacheContentView;
     float dy;
     NSEvent *event, *peek;
     BOOL scrolled = NO;
@@ -53,9 +44,6 @@
         return;
     }
 
-    /* prepare the cell and matrix cache windows */
-    [self setupCacheWindows];
-
     /* we are now interested in mouse dragged events */
     [[self window] setAcceptsMouseMovedEvents:YES];
 
@@ -71,24 +59,12 @@
     [self drawRect:cellFrame];
     [self unlockFocus];
 
-#if 0
-    /* copy what is currently visible into the matrix cache */
-    matrixCacheContentView = [niftyMatrixCache contentView];
-    [matrixCacheContentView lockFocus];
-    visibleRect = [self visibleRect];
-    [self convertRect:visibleRect toView:nil];
-#warning this will not work...
-    PScomposite(NSMinX(visibleRect), NSMinY(visibleRect),
-                NSWidth(visibleRect), NSHeight(visibleRect),
-                [[self window] gState], 0.0, NSHeight(visibleRect), NSCompositeCopy);
-    [matrixCacheContentView unlockFocus];
-
-    /* image the cell into its cache */
+    // image the cell into its cache
     cellCache = [[NSImage alloc] initWithSize:cellFrame.size];
     NSLog(@"cellCache size: %@", NSStringFromSize(cellFrame.size));
-    [cellCacheImage lockFocus];
-    [activeCell drawWithFrame:cellFrame.size inView:self]; // TODO (2004-03-08): Is it okay to use self for the view?
-    [cellCacheImage unlockFocus];
+    [cellCache lockFocus];
+    [activeCell drawWithFrame:cellFrame inView:self]; // TODO (2004-03-08): Is it okay to use self for the view?
+    [cellCache unlockFocus];
 
     /* save the mouse's location relative to the cell's origin */
     dy = mouseDownLocation.y - cellFrame.origin.y;
@@ -101,15 +77,17 @@
     while ([event type] != NSLeftMouseUp) {
         /* erase the active cell using the image in the matrix cache */
         visibleRect = [self visibleRect];
+        [self drawRect:cellFrame];
+#if 0
         PScomposite(NSMinX(cellFrame), NSHeight(visibleRect) - NSMinY(cellFrame) + NSMinY(visibleRect) - NSHeight(cellFrame),
                     NSWidth(cellFrame), NSHeight(cellFrame),
                     [niftyMatrixCache gState],
                     NSMinX(cellFrame), NSMinY(cellFrame) + NSHeight(cellFrame),
                     NSCompositeCopy);
+#endif
 
         /* move the active cell */
-        mouseLocation = loc;
-        mouseLocation = [self convertPoint:mouseLocation fromView:nil];
+        mouseLocation = [self convertPoint:loc fromView:nil];
         cellFrame.origin.y = mouseLocation.y - dy;
 
         /* constrain the cell's location to our bounds */
@@ -130,17 +108,6 @@
             [self scrollRectToVisible:cellFrame];
             [[self window] enableFlushWindow];
 
-            /* copy the new image to the matrix cache */
-            [matrixCacheContentView lockFocus];
-            visibleRect = [self visibleRect];
-            [self convertRect:visibleRect fromView:[self superview]];
-            [self convertRect:visibleRect toView:nil];
-            PScomposite(NSMinX(visibleRect), NSMinY(visibleRect),
-                        NSWidth(visibleRect), NSHeight(visibleRect),
-                        [[self window] gState], 0.0, NSHeight(visibleRect),
-                        NSCompositeCopy);
-            [matrixCacheContentView unlockFocus];
-
             /*
              * note that we scrolled and start generating timer events for autoscrolling
              */
@@ -152,9 +119,7 @@
         }
 
         /* composite the active cell's image on top of ourself */
-        PScomposite(0.0, 0.0, NSWidth(cellFrame), NSHeight(cellFrame),
-                    [niftyCellCache gState], NSMinX(cellFrame),
-                    NSMinY(cellFrame) + NSHeight(cellFrame), NSCompositeCopy);
+        [cellCache compositeToPoint:cellFrame.origin /*+ height?*/ operation:NSCompositeSourceOver];
 
         /* now show what we have done */
         [[self window] flushWindow];
@@ -170,10 +135,10 @@
         /* save the current mouse location, just in case we need it again */
         mouseLocation = loc;
 
-        if (!(peek = [NSApp nextEventMatchingMask: MOVE_MASK
-                            untilDate: [NSData date]
-                            inMode: NSEventTrackingRunLoopMode
-                            dequeue: NO])) {
+        if (!(peek = [NSApp nextEventMatchingMask:MOVE_MASK
+                            untilDate:[NSDate date]
+                            inMode:NSEventTrackingRunLoopMode
+                            dequeue:NO])) {
             /*
              * no mouseMoved or mouseUp event immediately avaiable, so take mouseMoved, mouseUp, or timer
              */
@@ -194,8 +159,7 @@
     [self unlockFocus];
 
     /* find the cell under the mouse's location */
-    mouseUpLocation = loc;
-    mouseUpLocation = [self convertPoint:mouseUpLocation fromView:nil];
+    mouseUpLocation = [self convertPoint:loc fromView:nil];
     if (![self getRow:&newRow column:&column forPoint:mouseUpLocation]) {
         /* mouse is out of bounds, so find the cell the active cell covers */
         [self getRow:&newRow column:&column forPoint:(cellFrame.origin)];
@@ -268,7 +232,7 @@
     [self display];
 
     /* set the event mask to normal */
-    [[self window] setAcceptsMouseMovedEvents: NO];
+    [[self window] setAcceptsMouseMovedEvents:NO];
 #else
     [super mouseDown:mouseEvent];
 #endif
@@ -276,16 +240,15 @@
 
 - (void)drawRect:(NSRect)rect;
 {
-    int row, col;
-    NSRect cellBorder;
-    NSRectEdge sides[] = {NSMinXEdge, NSMinYEdge, NSMaxXEdge, NSMaxYEdge, NSMinXEdge, NSMinYEdge};
-    float grays[] = {NSDarkGray, NSDarkGray, NSWhite, NSWhite, NSBlack, NSBlack};
+    //int row, col;
+    //NSRectEdge sides[] = {NSMinXEdge, NSMinYEdge, NSMaxXEdge, NSMaxYEdge, NSMinXEdge, NSMinYEdge};
+    //float grays[] = {NSDarkGray, NSDarkGray, NSWhite, NSWhite, NSBlack, NSBlack};
 
-    NSLog(@"->%s", _cmd);
     // do the regular drawing
     [super drawRect:rect];
 
     // draw a "well" if the user's dragging a cell
+#if 0
     if (activeCell != nil) {
         [self getRow:&row column:&col ofCell:activeCell];
         cellBorder = [self cellFrameAtRow:row column:col];
@@ -296,39 +259,26 @@
             NSDrawGrayBezel(cellBorder, rect);
         }
     }
+#endif
+    if (activeCell != nil) {
+        NSRect cellFrame;
+        int row, col;
+
+        [self getRow:&row column:&col ofCell:activeCell];
+        cellFrame = [self cellFrameAtRow:row column:col];
+        [[NSColor blueColor] set];
+        NSRectFill(cellFrame);
+    }
 }
 
-- (void)createCacheWindowsIfNecessary;
+- (NSRect)cellFrameAtRow:(int)row column:(int)col;
 {
-    if (niftyMatrixCache == nil)
-        niftyMatrixCache = [[NSWindow alloc] initWithContentRect:NSMakeRect(0, 0, 30, 30)
-                                             styleMask:NSBorderlessWindowMask
-                                             backing:NSBackingStoreRetained
-                                             defer:NO];
+    NSRect cellFrame;
 
-    if (niftyCellCache == nil)
-        niftyCellCache = [[NSWindow alloc] initWithContentRect:NSMakeRect(0, 0, 30, 30)
-                                           styleMask:NSBorderlessWindowMask
-                                           backing:NSBackingStoreRetained
-                                           defer:NO];
-}
-
-- (void)setupCacheWindows;
-{
-    [self sizeCacheWindow:niftyMatrixCache to:[self visibleRect].size];
-    [self sizeCacheWindow:niftyCellCache to:[self cellSize]];
-}
-
-- (void)sizeCacheWindow:(NSWindow *)aCacheWindow to:(NSSize)windowSize;
-{
-    NSSize cacheSize;
-
-    [self createCacheWindowsIfNecessary];
-
-    /* make sure the cache window is the right size */
-    cacheSize = [aCacheWindow frame].size;
-    if (NSEqualSizes(cacheSize, windowSize) == NO)
-        [aCacheWindow setContentSize:windowSize];
+    //NSLog(@" > %s, row: %d, col: %d", _cmd, row, col);
+    cellFrame = [super cellFrameAtRow:row column:col];
+    //NSLog(@"<  %s, row: %d, col: %d", _cmd, row, col);
+    return cellFrame;
 }
 
 @end
