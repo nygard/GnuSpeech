@@ -124,6 +124,7 @@
 }
 
 
+// TODO (2004-08-12): Pass in parameter instead of min, max, and index.
 - (double)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag
                  baseline:(double)baseline delta:(double)delta min:(double)min max:(double)max
               toEventList:(EventList *)eventList atIndex:(int)index;
