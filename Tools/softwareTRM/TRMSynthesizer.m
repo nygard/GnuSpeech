@@ -164,7 +164,7 @@ OSStatus playIOProc(AudioDeviceID inDevice,
     //scale = (RANGE_MAX / sampleRateConverter.maximumSampleValue) * amplitude(inputData->inputParameters.volume);
     NSLog(@"amplitude(inputData->inputParameters.volume): %g", amplitude(inputData->inputParameters.volume));
     NSLog(@"sampleRateConverter.maximumSampleValue: %g", sampleRateConverter.maximumSampleValue);
-    scale = amplitude(inputData->inputParameters.volume) / sampleRateConverter.maximumSampleValue;
+    scale = 0.5 * amplitude(inputData->inputParameters.volume) / sampleRateConverter.maximumSampleValue;
     NSLog(@"scale: %g", scale);
 
     /*  Rewind the temporary file to beginning  */
