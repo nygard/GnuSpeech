@@ -88,4 +88,8 @@
 - (BOOL)windowShouldClose:(id)sender;
 - (void)windowDidResignMain:(NSNotification *)notification;
 
+- (void)_setProtoEquations:(MonetList *)newProtoEquations;
+- (void)_setProtoTemplates:(MonetList *)newProtoTemplates;
+- (void)_setProtoSpecial:(MonetList *)newProtoSpecial;
+
 @end

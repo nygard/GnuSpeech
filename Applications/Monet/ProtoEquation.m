@@ -1,6 +1,8 @@
 #import "ProtoEquation.h"
 
 #import <Foundation/Foundation.h>
+#import "NSString-Extensions.h"
+
 #import "FormulaExpression.h"
 
 @implementation ProtoEquation
@@ -13,6 +15,9 @@
     name = nil;
     comment = nil;
     expression = nil;
+
+    cacheTag = 0;
+    cacheValue = 0.0;
 
     return self;
 }
@@ -107,22 +112,23 @@
 {
     unsigned archivedVersion;
     char *c_name, *c_comment;
+    FormulaExpression *anExpression;
 
-    if ([super init] == nil)
+    if ([self init] == nil)
         return nil;
 
-    cacheTag = 0;
-    cacheValue = 0.0;
-
-    NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
+    //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
     archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
-    NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
+    //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
 
     [aDecoder decodeValuesOfObjCTypes:"**", &c_name, &c_comment];
-    NSLog(@"name: %s, comment: %s", c_name, c_comment);
-    expression = [[aDecoder decodeObject] retain];
+    [self setName:[NSString stringWithASCIICString:c_name]];
+    [self setComment:[NSString stringWithASCIICString:c_comment]];
 
-    NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
+    anExpression = [aDecoder decodeObject];
+    [self setExpression:anExpression];
+
+    //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
     return self;
 }
 
@@ -130,6 +136,12 @@
 {
     [aCoder encodeValuesOfObjCTypes:"**", &name, &comment];
     [aCoder encodeObject:expression];
+}
+
+- (NSString *)description;
+{
+    return [NSString stringWithFormat:@"<%@>[%p]: name: %@, comment: %@, expression: %@, cacheTag: %d, cacheValue: %g",
+                     NSStringFromClass([self class]), self, name, comment, expression, cacheTag, cacheValue];
 }
 
 @end

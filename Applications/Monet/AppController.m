@@ -4,8 +4,10 @@
 #import "AppController.h"
 
 #import <Foundation/Foundation.h>
+#import "MyController.h"
 #import "NamedList.h"
 #import "PrototypeManager.h"
+#import "SymbolList.h"
 
 @implementation AppController
 
@@ -14,13 +16,30 @@
     if ([super init] == nil)
         return nil;
 
+    namedObjects = [[NSMutableDictionary alloc] init];
+
+    mainSymbolList = [[SymbolList alloc] initWithCapacity:15];
+    [mainSymbolList addNewValue:@"duration"];
+
     return self;
+}
+
+- (void)dealloc;
+{
+    [namedObjects release];
+    [mainSymbolList release];
+
+    [super dealloc];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotificatin;
 {
     NSString *path;
     NSArchiver *stream;
+
+    NSLog(@"[NSApp delegate]: %@", [NSApp delegate]);
+    NXNameObject(@"mainSymbolList", mainSymbolList, NSApp);
+    NSLog(@"getting it by name: %@", NXGetNamedObject(@"mainSymbolList", NSApp));
 
     //NSLog(@" > %s", _cmd);
 
@@ -99,15 +118,23 @@
 
 - (void)setObject:(id)object forKey:(id)key;
 {
+    //NSLog(@" > %s", _cmd);
+    //NSLog(@"key: %@, object: (%p)%@", key, object, object);
+    [namedObjects setObject:object forKey:key];
+    //NSLog(@"<  %s", _cmd);
 }
 
 - (id)objectForKey:(id)key;
 {
-    return nil;
+    //NSLog(@"-> %s, key: %@, r: %@(%p)", _cmd, key, [namedObjects objectForKey:key], [namedObjects objectForKey:key]);
+    return [namedObjects objectForKey:key];
 }
 
 - (void)removeObjectForKey:(id)key;
 {
+    //NSLog(@" > %s", _cmd);
+    [namedObjects removeObjectForKey:key];
+    //NSLog(@"<  %s", _cmd);
 }
 
 @end

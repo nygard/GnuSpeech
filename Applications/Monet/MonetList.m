@@ -104,13 +104,16 @@
     unsigned archivedVersion;
     int count;
 
-    NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
+    if ([self init] == nil)
+        return nil;
+
+    //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
     archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
-    NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
+    //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
 
     count = 0;
     [aDecoder decodeValueOfObjCType:@encode(int) at:&count];
-    NSLog(@"count: %d", count);
+    //NSLog(@"count: %d", count);
 
     if (count > 0) {
         id *array;
@@ -119,15 +122,26 @@
         if (array == NULL) {
             NSLog(@"malloc()'ing %d id *'s failed.", count);
         } else {
+            int index;
+
             [aDecoder decodeArrayOfObjCType:@encode(id) count:count at:array];
-            NSLog(@"After decode array.");
+
+            for (index = 0; index < count; index++)
+                [self addObject:array[index]];
+
+            free(array);
         }
     }
 
 
     //ilist = [[aDecoder decodeObject] retain];
-    NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
+    //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
     return self;
+}
+
+- (NSString *)description;
+{
+    return [ilist description];
 }
 
 @end

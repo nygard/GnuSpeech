@@ -1,6 +1,7 @@
 #import "NamedList.h"
 
 #import <Foundation/Foundation.h>
+#import "NSString-Extensions.h"
 
 /*===========================================================================
 
@@ -60,14 +61,16 @@
 {
     char *c_name, *c_comment;
 
-    NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
+    //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
 
-    [super initWithCoder:aDecoder];
+    if ([super initWithCoder:aDecoder] == nil)
+        return nil;
 
     [aDecoder decodeValuesOfObjCTypes:"**", &c_name, &c_comment];
-    NSLog(@"name: %s, comment: %s", c_name, c_comment);
+    [self setName:[NSString stringWithASCIICString:c_name]];
+    [self setComment:[NSString stringWithASCIICString:c_comment]];
 
-    NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
+    //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
 
     return self;
 }
@@ -78,6 +81,12 @@
 
     [aCoder encodeObject:name];
     [aCoder encodeObject:comment];
+}
+
+- (NSString *)description;
+{
+    return [NSString stringWithFormat:@"<%@>[%p]: name: %@, comment: %@",
+                     NSStringFromClass([self class]), self, name, comment];
 }
 
 @end

@@ -52,4 +52,12 @@
     return [[NSCharacterSet uppercaseLetterCharacterSet] characterIsMember:[self characterAtIndex:letterRange.location]];
 }
 
++ (NSString *)stringWithASCIICString:(const char *)bytes;
+{
+    if (bytes == NULL)
+        return nil;
+
+    return [[[NSString alloc] initWithBytes:bytes length:strlen(bytes) encoding:NSASCIIStringEncoding] autorelease];
+}
+
 @end

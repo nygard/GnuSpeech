@@ -1,6 +1,8 @@
 #import "FormulaTerminal.h"
 
 #import <Foundation/Foundation.h>
+#import "NSString-Extensions.h"
+
 #import "MyController.h"
 #import "Phone.h"
 #import "Symbol.h"
@@ -217,35 +219,40 @@
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
     unsigned archivedVersion;
-    char *string;
-    SymbolList *temp;
+    SymbolList *mainSymbolList;
 
-    NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
+    if ([self init] == nil)
+        return nil;
+
+    //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
     archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
-    NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
+    //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
 
-    temp = NXGetNamedObject(@"mainSymbolList", NSApp);
+    mainSymbolList = NXGetNamedObject(@"mainSymbolList", NSApp);
+    //NSLog(@"mainSymbolList: %@", mainSymbolList);
 
-    switch (archivedVersion) {
-      case 0:
-          [aDecoder decodeValuesOfObjCTypes:"dii", &value, &whichPhone, &precedence];
-          NSLog(@"value: %g, whichPhone: %d, precedence: %d", value, whichPhone, precedence);
+    if (archivedVersion == 0) {
+        char *c_symbolName;
+        NSString *symbolName;
 
-          [aDecoder decodeValueOfObjCType:"*" at:&string];
-          if (!strcmp(string, "No Symbol"))
-              symbol = nil;
-          else
-              symbol = [temp findSymbol:string];
+        [aDecoder decodeValuesOfObjCTypes:"dii", &value, &whichPhone, &precedence];
+        //NSLog(@"value: %g, whichPhone: %d, precedence: %d", value, whichPhone, precedence);
 
-          free(string);
-          break;
-      default:
-          NSLog(@"Unknown version %u", archivedVersion);
-          NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
-          return nil;
+        [aDecoder decodeValueOfObjCType:"*" at:&c_symbolName];
+        symbolName = [NSString stringWithASCIICString:c_symbolName];
+        //NSLog(@"FormulaTerminal symbolName: %@", symbolName);
+
+        if ([symbolName isEqual:@"No Symbol"] == NO)
+            [self setSymbol:[mainSymbolList findSymbol:symbolName]];
+
+        free(c_symbolName);
+    } else {
+        NSLog(@"<%@>: Unknown version %u", NSStringFromClass([self class]), archivedVersion);
+        //NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
+        return nil;
     }
 
-    NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
+    //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
     return self;
 }
 
@@ -269,26 +276,10 @@
 }
 #endif
 
-#ifdef NeXT
-- read:(NXTypedStream *)stream;
+- (NSString *)description;
 {
-    char *string;
-    SymbolList *temp;
-
-
-    temp = NXGetNamedObject(@"mainSymbolList", NSApp);
-
-    NXReadTypes(stream, "dii", &value, &whichPhone, &precedence);
-
-    NXReadType(stream, "*", &string);
-    if (!strcmp(string, "No Symbol"))
-        symbol = nil;
-    else
-        symbol = [temp findSymbol:string];
-
-    free(string);
-    return self;
+    return [NSString stringWithFormat:@"<%@>[%p]: symbol: %@, value: %g, whichPhone: %d, precedence: %d, cacheTag: %d, cacheValue: %g",
+                     NSStringFromClass([self class]), self, symbol, value, whichPhone, precedence, cacheTag, cacheValue];
 }
-#endif
 
 @end

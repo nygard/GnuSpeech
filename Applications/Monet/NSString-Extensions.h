@@ -1,5 +1,5 @@
 //
-// $Id: NSString-Extensions.h,v 1.1 2004/03/02 02:08:51 nygard Exp $
+// $Id: NSString-Extensions.h,v 1.2 2004/03/04 22:01:43 nygard Exp $
 //
 
 //  This file is part of class-dump, a utility for examining the
@@ -16,5 +16,7 @@
 + (NSString *)stringWithUnichar:(unichar)character;
 
 - (BOOL)isFirstLetterUppercase;
+
++ (NSString *)stringWithASCIICString:(const char *)bytes;
 
 @end

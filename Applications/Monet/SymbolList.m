@@ -16,10 +16,11 @@
 - (Symbol *)findSymbol:(NSString *)searchSymbol;
 {
     int count, index;
-    Symbol *aSymbol;
 
     count = [self count];
     for (index = 0; index < count; index++) {
+        Symbol *aSymbol;
+
         aSymbol = [self objectAtIndex:index];
         if ([[aSymbol symbol] isEqual:searchSymbol] == YES)
             return aSymbol;
@@ -31,10 +32,11 @@
 - (int)findSymbolIndex:(NSString *)searchSymbol;
 {
     int count, index;
-    Symbol *aSymbol;
 
     count = [self count];
     for (index = 0; index < count; index++) {
+        Symbol *aSymbol;
+
         aSymbol = [self objectAtIndex:index];
         if ([[aSymbol symbol] isEqual:searchSymbol] == YES)
             return index;

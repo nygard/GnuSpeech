@@ -718,23 +718,28 @@ static NSString *specialString = @"ProtoSpecial";
 
 - (void)readPrototypesFrom:(NSArchiver *)stream;
 {
+    MonetList *aList;
     id anObject;
 
-    [protoEquations release];
-    [protoTemplates release];
-    [protoSpecial release];
+    //[protoTemplates release];
+    //[protoSpecial release];
 
-    anObject = [stream decodeObject];
-    NSLog(@"anObject: %@", anObject);
+    aList = [stream decodeObject];
+    NSLog(@"archived proto equations: %@", aList);
+    [self _setProtoEquations:aList];
+
     return;
+    aList = [stream decodeObject];
+    NSLog(@"archived proto templates: %@", aList);
 
-    anObject = [stream decodeNXObject];
-    NSLog(@"anObject: %@", anObject);
-    return;
+    [self _setProtoTemplates:aList];
 
-    protoEquations = [[stream decodeObject] retain];
-    protoTemplates = [[stream decodeObject] retain];
-    protoSpecial = [[stream decodeObject] retain];
+    aList = [stream decodeObject];
+    NSLog(@"archived proto special: %@", aList);
+    [self _setProtoSpecial:aList];
+
+    //protoTemplates = [[stream decodeObject] retain];
+    //protoSpecial = [[stream decodeObject] retain];
 }
 
 - (void)writePrototypesTo:(NSArchiver *)stream;
@@ -788,6 +793,33 @@ static NSString *specialString = @"ProtoSpecial";
 - (void)windowDidResignMain:(NSNotification *)notification;
 {
     [[controller inspector] cleanInspectorWindow];
+}
+
+- (void)_setProtoEquations:(MonetList *)newProtoEquations;
+{
+    if (newProtoEquations == protoEquations)
+        return;
+
+    [protoEquations release];
+    protoEquations = [newProtoEquations retain];
+}
+
+- (void)_setProtoTemplates:(MonetList *)newProtoTemplates;
+{
+    if (newProtoTemplates == protoTemplates)
+        return;
+
+    [protoTemplates release];
+    protoTemplates = [newProtoTemplates retain];
+}
+
+- (void)_setProtoSpecial:(MonetList *)newProtoSpecial;
+{
+    if (newProtoSpecial == protoSpecial)
+        return;
+
+    [protoSpecial release];
+    protoSpecial = [newProtoSpecial retain];
 }
 
 @end

@@ -234,16 +234,19 @@
     int index;
     int numExpressions, maxExpressions;
 
-    NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
+    if ([self init] == nil)
+        return nil;
+
+    //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
     archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
-    NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
+    //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
 
     [aDecoder decodeValuesOfObjCTypes:"iiii", &operation, &numExpressions, &maxExpressions, &precedence];
-    NSLog(@"operation: %d, numExpressions: %d, maxExpressions: %d, precedence: %d", operation, numExpressions, maxExpressions, precedence);
+    //NSLog(@"operation: %d, numExpressions: %d, maxExpressions: %d, precedence: %d", operation, numExpressions, maxExpressions, precedence);
     for (index = 0; index < numExpressions; index++)
         [self addSubExpression:[aDecoder decodeObject]];
 
-    NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
+    //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
 
     return self;
 }
@@ -258,5 +261,11 @@ int i;
 		[aCoder encodeObject:expressions[i]];
 }
 #endif
+
+- (NSString *)description;
+{
+    return [NSString stringWithFormat:@"<%@>[%p]: operation: %d, precedence: %d, expressions: %@, cacheTag: %d, cacheValue: %g",
+                     NSStringFromClass([self class]), self, operation, precedence, expressions, cacheTag, cacheValue];
+}
 
 @end
