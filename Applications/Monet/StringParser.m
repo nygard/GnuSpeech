@@ -98,6 +98,7 @@
     gettimeofday(&tp1, &tzp);
 
     [eventList setUp];
+
     [eventList setPitchMean:[[[self model] synthesisParameters] pitch]];
     [eventList setGlobalTempo:[tempoField doubleValue]];
     [eventList setShouldStoreParameters:[parametersStore state]];
@@ -117,6 +118,7 @@
     [self parsePhoneString:[stringTextField stringValue]];
 
     [eventList generateEventList];
+
     if ([smoothIntonationSwitch state])
         [[intonationView documentView] applySmoothIntonation];
     else
@@ -161,6 +163,8 @@
 
 - (void)synthesizeWithSoftware:(id)sender;
 {
+    unsigned int index;
+    float intonationParameters[5];
     //char commandLine[256];
 
     NSLog(@" > %s", _cmd);
@@ -170,10 +174,11 @@
     [[[self model] synthesisParameters] writeToFile:@"/tmp/Monet.parameters" includeComments:YES];
 
     [eventList setUp];
+    [eventList setShouldUseSoftwareSynthesis:YES];
+
     [eventList setPitchMean:[[[self model] synthesisParameters] pitch]];
     [eventList setGlobalTempo:[tempoField doubleValue]];
     [eventList setShouldStoreParameters:[parametersStore state]];
-    [eventList setShouldUseSoftwareSynthesis:YES];
 
     [eventList setShouldUseMacroIntonation:[[intonationMatrix cellAtRow:0 column:0] state]];
     [eventList setShouldUseMicroIntonation:[[intonationMatrix cellAtRow:1 column:0] state]];
@@ -183,15 +188,28 @@
     [eventList setRadiusMultiply:[radiusMultiplyField doubleValue]];
 
     // TODO (2004-03-25): Should we set up the intonation parameters, like the hardware synthesis did?
+#if 1
+    //[eventList setIntonation:[intonationFlag state]];
+    for (index = 0; index < 5; index++)
+        intonationParameters[index] = [[intonParmsField cellAtIndex:index] floatValue];
+    [eventList setIntonParms:intonationParameters];
+#endif
 
-    //NSLog(@"eventList before: %@", eventList);
     [self parsePhoneString:[stringTextField stringValue]];
-    //NSLog(@"eventList after: %@", eventList);
 
     [eventList generateEventList];
+#if 1
+    NSLog(@"[smoothIntonationSwitch state]: %d", [smoothIntonationSwitch state]);
+    if ([smoothIntonationSwitch state])
+        [[intonationView documentView] applySmoothIntonation];
+    else
+        [[intonationView documentView] applyIntonation];
 
+    [eventList setShouldUseSmoothIntonation:[smoothIntonationSwitch state]];
+#else
     // TODO (2004-03-25): What about checking for smooth intonation, like the hardware synthesis did?
     [[intonationView documentView] applyIntonation];
+#endif
 
     [eventList printDataStructures];
     [eventList generateOutput];

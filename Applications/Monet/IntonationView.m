@@ -355,9 +355,9 @@
     if ([intonationPoints count] < 2)
         return;
 
-    for (j = 0; j < [intonationPoints count]-1; j++) {
+    for (j = 0; j < [intonationPoints count] - 1; j++) {
         point1 = [intonationPoints objectAtIndex:j];
-        point2 = [intonationPoints objectAtIndex:j+1];
+        point2 = [intonationPoints objectAtIndex:j + 1];
 
         x1 = [point1 absoluteTime];
         y1 = [point1 semitone] + 20.0;
@@ -377,8 +377,8 @@
         denominator = denominator * denominator * denominator;
 
         d = ( -(y2*x13) + 3*y2*x12*x2 + m2*x13*x2 + m1*x12*x22 - m2*x12*x22 - 3*x1*y1*x22 - m1*x1*x23 + y1*x23) / denominator;
-        c = ( -(m2*x13) - 6*y2*x1*x2 - 2*m1*x12*x2 - m2*x12*x2 + 6*x1*y1*x2 + m1*x1*x22 + 2*m2*x1*x22 + m1*x23 ) / denominator;
-        b = ( 3*y2*x1 + m1*x12 + 2*m2*x12 - 3*x1*y1 + 3*x2*y2 + m1*x1*x2 - m2*x1*x2 - 3*y1*x2 - 2*m1*x22 - m2*x22 ) / denominator;
+        c = ( -(m2*x13) - 6*y2*x1*x2 - 2*m1*x12*x2 - m2*x12*x2 + 6*x1*y1*x2 + m1*x1*x22 + 2*m2*x1*x22 + m1*x23) / denominator;
+        b = ( 3*y2*x1 + m1*x12 + 2*m2*x12 - 3*x1*y1 + 3*x2*y2 + m1*x1*x2 - m2*x1*x2 - 3*y1*x2 - 2*m1*x22 - m2*x22) / denominator;
         a = ( -2*y2 - m1*x1 - m2*x1 + 2*y1 + m1*x2 + m2*x2) / denominator;
 
         NSLog(@"\n===\n x1 = %f y1 = %f m1 = %f", x1, y1, m1);
@@ -720,7 +720,7 @@
 - (void)applyIntonation;
 {
     int i;
-    id temp;
+    IntonationPoint *anIntonationPoint;
 
     NSLog(@" > %s", _cmd);
 
@@ -729,12 +729,12 @@
     NSLog(@"Applying intonation");
 
     for (i = 0; i < [intonationPoints count]; i++) {
-        temp = [intonationPoints objectAtIndex:i];
-        NSLog(@"Added Event at Time: %f withValue: %f", [temp absoluteTime], [temp semitone]);
-        [eventList insertEvent:32 atTime:[temp absoluteTime] withValue:[temp semitone]];
-        [eventList insertEvent:33 atTime:[temp absoluteTime] withValue:0.0];
-        [eventList insertEvent:34 atTime:[temp absoluteTime] withValue:0.0];
-        [eventList insertEvent:35 atTime:[temp absoluteTime] withValue:0.0];
+        anIntonationPoint = [intonationPoints objectAtIndex:i];
+        NSLog(@"Added Event at Time: %f withValue: %f", [anIntonationPoint absoluteTime], [anIntonationPoint semitone]);
+        [eventList insertEvent:32 atTime:[anIntonationPoint absoluteTime] withValue:[anIntonationPoint semitone]];
+        [eventList insertEvent:33 atTime:[anIntonationPoint absoluteTime] withValue:0.0];
+        [eventList insertEvent:34 atTime:[anIntonationPoint absoluteTime] withValue:0.0];
+        [eventList insertEvent:35 atTime:[anIntonationPoint absoluteTime] withValue:0.0];
     }
 
     [eventList finalEvent:32 withValue:-20.0];
@@ -787,7 +787,7 @@
         d = ( -(y2*x13) + 3*y2*x12*x2 + m2*x13*x2 + m1*x12*x22 - m2*x12*x22 - 3*x1*y1*x22 - m1*x1*x23 + y1*x23) / denominator;
         c = ( -(m2*x13) - 6*y2*x1*x2 - 2*m1*x12*x2 - m2*x12*x2 + 6*x1*y1*x2 + m1*x1*x22 + 2*m2*x1*x22 + m1*x23) / denominator;
         b = ( 3*y2*x1 + m1*x12 + 2*m2*x12 - 3*x1*y1 + 3*x2*y2 + m1*x1*x2 - m2*x1*x2 - 3*y1*x2 - 2*m1*x22 - m2*x22) / denominator;
-        a = ( -2*y2 - m1*x1 - m2*x1 + 2*y1 + m1*x2 + m2*x2)/ denominator;
+        a = ( -2*y2 - m1*x1 - m2*x1 + 2*y1 + m1*x2 + m2*x2) / denominator;
 
         [eventList insertEvent:32 atTime:[point1 absoluteTime] withValue:[point1 semitone]];
 

@@ -19,58 +19,12 @@
 #import "RuleList.h"
 #import "TargetList.h"
 
-#ifdef PORTING
-#import "PhoneList.h"
-#ifdef HAVE_DSP
-#import "tube_module/synthesizer_module.h"
-#endif
-#endif
-
-#define PAGES 16
-
-#if 1
-static char *outputBuffer;
-static int currentInputBuffer, currentOutputBuffer, currentConsumed;
-static int bufferFree[PAGES];
-static int currentIndex;
-#endif
-#ifdef HAVE_DSP
-static void update_synth_ptr(void)
-{
-    //printf("BufferFree[%d] = %d\n", currentOutputBuffer, bufferFree[currentOutputBuffer]);
-    if (!bufferFree[currentOutputBuffer])
-    {
-        //printf("\t\t\tSending out page %d\n", currentOutputBuffer);
-        synth_read_ptr = outputBuffer+(currentOutputBuffer*NSPageSize());
-        bufferFree[currentOutputBuffer] = 2;
-        currentOutputBuffer = (currentOutputBuffer+1)%PAGES;
-    }
-}
-
-static void page_consumed(void)
-{
-    //printf("\t\t\t\t\t\tConsumed Page %d\n", currentConsumed);
-    bufferFree[currentConsumed] = 1;
-    currentConsumed = (currentConsumed+1)%PAGES;
-}
-#endif
-
-
 @implementation EventList
-
-#define IDLE 0
-#define RUNNING 1
 
 - (id)initWithCapacity:(unsigned int)numSlots;
 {
     if ([super initWithCapacity:numSlots] == nil)
         return nil;
-
-    outputBuffer = NSAllocateMemoryPages(NSPageSize()*PAGES);
-    if (outputBuffer == 0) {
-        NSLog(@"UGH!  Cannot vm_allocate");
-        return self;
-    }
 
     cache = 10000000;
     [self setUp];
@@ -81,17 +35,8 @@ static void page_consumed(void)
     return self;
 }
 
-- (void)dealloc;
-{
-    NSDeallocateMemoryPages(outputBuffer, NSPageSize()*PAGES);
-    [super dealloc];
-}
-
-
 - (void)setUp;
 {
-    int index;
-
     NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
 
     [self removeAllObjects];
@@ -107,13 +52,6 @@ static void page_consumed(void)
     shouldUseDrift = NO;
     intonParms = NULL;
     shouldUseSmoothIntonation = NO;
-
-    /* set up buffer */
-    bzero(outputBuffer, NSPageSize()*PAGES);
-    currentInputBuffer = currentOutputBuffer = currentConsumed = 0;
-    currentIndex = 0;
-    for (index = 0; index < PAGES; index++)
-        bufferFree[index] = 1;
 
     bzero(phones, MAXPHONES * sizeof(struct _phone));
     bzero(feet, MAXFEET * sizeof(struct _foot));
@@ -322,7 +260,9 @@ static void page_consumed(void)
     return currentRule;
 }
 
-/* Tone groups */
+//
+// Tone groups
+//
 
 - (void)newToneGroup;
 {
@@ -639,37 +579,6 @@ static void page_consumed(void)
         fclose(fp);
 }
 
-- (void)printDataStructures;
-{
-    int i;
-
-    NSLog(@"Tone Groups %d", currentToneGroup);
-    for (i = 0; i < currentToneGroup; i++) {
-        NSLog(@"%d  start: %d  end: %d  type: %d", i, toneGroups[i].startFoot, toneGroups[i].endFoot, toneGroups[i].type);
-    }
-
-    NSLog(@"\n");
-    NSLog(@"Feet %d", currentFoot);
-    for (i = 0; i < currentFoot; i++) {
-        NSLog(@"%d  tempo: %f start: %d  end: %d  marked: %d last: %d onset1: %f onset2: %f", i, feet[i].tempo,
-               feet[i].start, feet[i].end, feet[i].marked, feet[i].last, feet[i].onset1, feet[i].onset2);
-    }
-
-    NSLog(@"\n");
-    NSLog(@"Phones %d", currentPhone);
-    for (i = 0; i < currentPhone; i++) {
-        NSLog(@"%d  \"%@\" tempo: %f syllable: %d onset: %f ruleTempo: %f",
-               i, [phones[i].phone symbol], phoneTempo[i], phones[i].syllable, phones[i].onset, phones[i].ruleTempo);
-    }
-
-    NSLog(@"\n");
-    NSLog(@"Rules %d", currentRule);
-    for (i = 0; i < currentRule; i++) {
-        NSLog(@"Number: %d  start: %d  end: %d  duration %f", rules[i].number, rules[i].firstPhone,
-               rules[i].lastPhone, rules[i].duration);
-    }
-}
-
 - (void)generateEventList;
 {
     MonetList *tempCategoryList;
@@ -894,11 +803,7 @@ static void page_consumed(void)
 
 - (void)synthesizeToFile:(NSString *)filename;
 {
-#ifdef HAVE_DSP
-    set_synthesizer_output(filename, getuid(), getgid(), 1);
-#else
     NSLog(@"Warning: No DSP for -synthesizeToFile:");
-#endif
 }
 
 - (void)applyIntonation;
@@ -1004,12 +909,35 @@ static void page_consumed(void)
                      NSStringFromClass([self class]), self, currentPhone, currentFoot, currentToneGroup, currentRule, [super description]];
 }
 
+- (void)printDataStructures;
+{
+    int i;
+
+    NSLog(@"Tone Groups %d", currentToneGroup);
+    for (i = 0; i < currentToneGroup; i++) {
+        NSLog(@"%d  start: %d  end: %d  type: %d", i, toneGroups[i].startFoot, toneGroups[i].endFoot, toneGroups[i].type);
+    }
+
+    NSLog(@"\n");
+    NSLog(@"Feet %d", currentFoot);
+    for (i = 0; i < currentFoot; i++) {
+        NSLog(@"%d  tempo: %f start: %d  end: %d  marked: %d last: %d onset1: %f onset2: %f", i, feet[i].tempo,
+               feet[i].start, feet[i].end, feet[i].marked, feet[i].last, feet[i].onset1, feet[i].onset2);
+    }
+
+    NSLog(@"\n");
+    NSLog(@"Phones %d", currentPhone);
+    for (i = 0; i < currentPhone; i++) {
+        NSLog(@"%d  \"%@\" tempo: %f syllable: %d onset: %f ruleTempo: %f",
+               i, [phones[i].phone symbol], phoneTempo[i], phones[i].syllable, phones[i].onset, phones[i].ruleTempo);
+    }
+
+    NSLog(@"\n");
+    NSLog(@"Rules %d", currentRule);
+    for (i = 0; i < currentRule; i++) {
+        NSLog(@"Number: %d  start: %d  end: %d  duration %f", rules[i].number, rules[i].firstPhone,
+               rules[i].lastPhone, rules[i].duration);
+    }
+}
+
 @end
-
-
-
-/*			printf("%.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f\n",
-				currentValues[0], currentValues[1], currentValues[7], currentValues[8],
-				currentValues[9], currentValues[10], currentValues[11], currentValues[12],
-				currentValues[13], currentValues[14], currentValues[15], currentValues[2],
-				currentValues[3], currentValues[4], currentValues[5], currentValues[6]);*/

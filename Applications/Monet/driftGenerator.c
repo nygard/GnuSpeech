@@ -42,7 +42,7 @@ void setDriftGenerator(float deviation, float sampleRate, float lowpassCutoff)
     /*  CHECK RANGE OF THE LOWPASS CUTOFF ARGUMENT  */
     if (lowpassCutoff < 0.0)
 	lowpassCutoff = 0.0;
-    else if (lowpassCutoff > (sampleRate/2.0))
+    else if (lowpassCutoff > (sampleRate / 2.0))
 	lowpassCutoff = sampleRate / 2.0;
 
     /*  SET THE FILTER COEFFICIENTS  */

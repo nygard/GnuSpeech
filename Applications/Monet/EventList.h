@@ -96,7 +96,6 @@ struct _rule {
 }
 
 - (id)initWithCapacity:(unsigned int)numSlots;
-- (void)dealloc;
 
 - (void)setUp;
 
@@ -149,7 +148,7 @@ struct _rule {
 - (double)getBeatAtIndex:(int)ruleIndex;
 - (int)numberOfRules;
 
-/* Data structure maintenance stuff */
+// Tone groups
 - (void)newToneGroup;
 - (void)setCurrentToneGroupType:(int)type;
 
@@ -170,7 +169,6 @@ struct _rule {
 - (void)finalEvent:(int)number withValue:(double)value;
 
 - (void)generateOutput;
-- (void)printDataStructures;
 - (void)generateEventList;
 
 - (void)applyRule:(MMRule *)rule withPhones:(PhoneList *)phoneList andTempos:(double *)tempos phoneIndex:(int)phoneIndex;
@@ -179,5 +177,6 @@ struct _rule {
 - (void)applyIntonation;
 
 - (NSString *)description;
+- (void)printDataStructures;
 
 @end
