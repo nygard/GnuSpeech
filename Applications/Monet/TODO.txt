@@ -221,3 +221,4 @@ des: [~ 12 ]> /Local/Public/nygard/Products/Monet.app/Contents/MacOS/Monet
 - add checkboxes to rules to enable/disable them?  Would help you to see the effects of a rule without deleting it.
 - alt-clicking to add point in special transition puts point in wrong location, too high.
 - you should be able to set the free time value for a point in the transition view.
+- need better choice of default point type -- should be able to default to triphone after mark1.

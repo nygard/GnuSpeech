@@ -274,4 +274,20 @@
     [(MXMLParser *)parser popDelegate];
 }
 
+- (NSComparisonResult)compareByAscendingCachedTime:(MMPoint *)otherPoint;
+{
+    double thisTime, otherTime;
+
+    NSParameterAssert(otherPoint != nil);
+    thisTime = [self cachedTime];
+    otherTime = [otherPoint cachedTime];
+
+    if (thisTime < otherTime)
+        return NSOrderedAscending;
+    else if (thisTime > otherTime)
+        return NSOrderedDescending;
+
+    return NSOrderedSame;
+}
+
 @end

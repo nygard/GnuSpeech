@@ -565,9 +565,8 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
                 [bezierPath moveToPoint:myPoint];
             else
                 [bezierPath moveToPoint:NSMakePoint(myPoint.x, graphOrigin.y + (ZERO_INDEX * yScale))];
-        }
-        else
-            [bezierPath moveToPoint:NSMakePoint(myPoint.x, myPoint.y)];
+        } else
+            [bezierPath moveToPoint:myPoint];
     }
 
     [bezierPath lineToPoint:NSMakePoint([self bounds].size.width - LEFT_MARGIN, [self bounds].size.height - BOTTOM_MARGIN - (ZERO_INDEX * yScale))];

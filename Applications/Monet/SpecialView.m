@@ -9,6 +9,7 @@
 #import "MMPosture.h"
 #import "MMPoint.h"
 #import "MMEquation.h"
+#import "MMSlopeRatio.h"
 #import "MMTransition.h"
 #import "MMTarget.h"
 
@@ -39,7 +40,7 @@
     if ([super initWithFrame:frameRect] == nil)
         return nil;
 
-    [self setShouldDrawSlopes:NO];
+    //[self setShouldDrawSlopes:NO];
 
     return self;
 }
@@ -110,19 +111,17 @@
 - (void)drawTransition;
 {
     int count, index;
-    int j;
     NSArray *currentPoints;
     MMPoint *currentPoint;
-    //double tempos[4] = {1.0, 1.0, 1.0, 1.0};
+    double tempos[4] = {1.0, 1.0, 1.0, 1.0};
     NSPoint myPoint;
     float timeScale, y;
     int yScale;
-    float time, eventTime;
-    //MMPoint *tempPoint;
+    float eventTime;
     NSBezierPath *bezierPath;
     NSPoint graphOrigin;
     NSMutableArray *diphonePoints, *triphonePoints, *tetraphonePoints;
-    int cache;
+    int cacheTag;
 
     if (transition == nil)
         return;
@@ -132,11 +131,13 @@
     graphOrigin = [self graphOrigin];
 
     [displayPoints removeAllObjects];
+    //[displaySlopes removeAllObjects];
 
     timeScale = [self timeScale];
     yScale = [self sectionHeight];
 
-    cache = [[self model] nextCacheTag];
+    cacheTag = [[self model] nextCacheTag];
+    //NSLog(@"%s, cacheTag: %d", _cmd, cacheTag);
 
     currentPoints = [transition points];
     count = [currentPoints count];
@@ -144,29 +145,14 @@
         currentPoint = [currentPoints objectAtIndex:index];
         //NSLog(@"%2d: object class: %@", index, NSStringFromClass([currentPoint class]));
         //NSLog(@"%2d (a): value: %g, freeTime: %g, type: %d, isPhantom: %d", index, [currentPoint value], [currentPoint freeTime], [currentPoint type], [currentPoint isPhantom]);
-        if ([currentPoint timeEquation] == nil)
-            time = [currentPoint freeTime];
-        else
-            time = [[currentPoint timeEquation] evaluate:&_parameters postures:samplePostures andCacheWith:cache];
+        [currentPoint calculatePoints:&_parameters tempos:tempos postures:samplePostures andCacheWith:cacheTag toDisplay:displayPoints];
         //NSLog(@"%2d (b): value: %g, freeTime: %g, type: %d, isPhantom: %d", index, [currentPoint value], [currentPoint freeTime], [currentPoint type], [currentPoint isPhantom]);
 
-        if (index == 0)
-            [displayPoints addObject:currentPoint];
-        else {
-            j = [displayPoints count] - 1;
-            while (j > 0) {
-                if ([(MMPoint *)[displayPoints objectAtIndex:j] timeEquation] == nil)
-                    eventTime = (float)[[displayPoints objectAtIndex:j] freeTime];
-                else
-                    eventTime = (float)[[(MMPoint *)[displayPoints objectAtIndex:j] timeEquation] cacheValue];
-
-                if (time > eventTime)
-                    break;
-                j--;
-            }
-            [displayPoints insertObject:currentPoint atIndex:j+1];
-        }
+        if ([currentPoint isKindOfClass:[MMSlopeRatio class]])
+            [(MMSlopeRatio *)currentPoint displaySlopesInList:displaySlopes];
     }
+
+    [displayPoints sortUsingSelector:@selector(compareByAscendingCachedTime:)]; // TODO (2004-08-15): This is one of a very few differences between TransitionView implementation now.
 
     diphonePoints = [[NSMutableArray alloc] init];
     triphonePoints = [[NSMutableArray alloc] init];
@@ -182,11 +168,11 @@
     for (index = 0; index < count; index++) {
         currentPoint = [displayPoints objectAtIndex:index];
         y = [currentPoint value];
-        //NSLog(@"%d: y = %f", index, y);
+        //NSLog(@"%d: [%p] y = %f", index, currentPoint, y);
         if ([currentPoint timeEquation] == nil)
             eventTime = [currentPoint freeTime];
         else
-            eventTime = [[currentPoint timeEquation] evaluate:&_parameters postures:samplePostures andCacheWith:cache];
+            eventTime = [[currentPoint timeEquation] cacheValue];
         myPoint.x = graphOrigin.x + timeScale * eventTime;
         myPoint.y = graphOrigin.y + (yScale * ZERO_INDEX) + (y * (float)yScale / SECTION_AMOUNT);
         [bezierPath lineToPoint:myPoint];
@@ -207,9 +193,8 @@
                 [bezierPath moveToPoint:myPoint];
             else
                 [bezierPath moveToPoint:NSMakePoint(myPoint.x, graphOrigin.y + (ZERO_INDEX * yScale))];
-        }
-        else
-            [bezierPath moveToPoint:NSMakePoint(myPoint.x, myPoint.y)];
+        } else
+            [bezierPath moveToPoint:myPoint];
     }
 
     [bezierPath lineToPoint:NSMakePoint([self bounds].size.width - LEFT_MARGIN, [self bounds].size.height - BOTTOM_MARGIN - (ZERO_INDEX * yScale))];
@@ -253,11 +238,11 @@
         float timeScale, y;
         int yScale;
         NSPoint graphOrigin;
-        int cache;
+        int cacheTag;
 
         //NSLog(@"Drawing %d selected points", [selectedPoints count]);
 
-        cache = [[self model] nextCacheTag]; // TODO (2004-04-01): This used to just use the current cache tag.
+        cacheTag = [[self model] nextCacheTag];
 
         graphOrigin = [self graphOrigin];
         timeScale = [self timeScale];
@@ -273,7 +258,7 @@
             if ([currentPoint timeEquation] == nil)
                 eventTime = [currentPoint freeTime];
             else
-                eventTime = [[currentPoint timeEquation] evaluate:&_parameters postures:samplePostures andCacheWith:cache];
+                eventTime = [[currentPoint timeEquation] evaluate:&_parameters postures:samplePostures andCacheWith:cacheTag];
 
             myPoint.x = graphOrigin.x + timeScale * eventTime;
             myPoint.y = graphOrigin.y + (yScale * ZERO_INDEX) + (y * (float)yScale / SECTION_AMOUNT);
@@ -381,11 +366,11 @@
     int count, index;
     float timeScale;
     int yScale;
-    int cache;
+    int cacheTag;
 
     [selectedPoints removeAllObjects];
 
-    cache = [[self model] nextCacheTag];
+    cacheTag = [[self model] nextCacheTag];
     graphOrigin = [self graphOrigin];
     timeScale = [self timeScale];
     yScale = [self sectionHeight];
@@ -408,7 +393,7 @@
         if (currentExpression == nil)
             currentPoint.x = [currentDisplayPoint freeTime];
         else
-            currentPoint.x = [[currentDisplayPoint timeEquation] evaluate:&_parameters postures:samplePostures andCacheWith:cache];
+            currentPoint.x = [[currentDisplayPoint timeEquation] evaluate:&_parameters postures:samplePostures andCacheWith:cacheTag];
 
         currentPoint.x *= timeScale;
         currentPoint.y = (yScale * ZERO_INDEX) + ([currentDisplayPoint value] * yScale / SECTION_AMOUNT);
