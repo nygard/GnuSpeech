@@ -29,7 +29,9 @@
     MonetList *selectedPoints;
     int cache;
 
-    NSRect boxRect;
+    BOOL shouldDrawSelection;
+    NSPoint selectionPoint1;
+    NSPoint selectionPoint2;
 }
 
 + (void)initialize;
@@ -42,6 +44,9 @@
 - (BOOL)acceptsFirstResponder;
 - (BOOL)acceptsFirstMouse:(NSEvent *)theEvent;
 
+- (BOOL)shouldDrawSelection;
+- (void)setShouldDrawSelection:(BOOL)newFlag;
+
 - (void)drawRect:(NSRect)rect;
 
 - (void)clearView;
@@ -51,7 +56,9 @@
 - (void)drawTransition;
 - (void)drawSlopes;
 
-- (void)mouseDown:(NSEvent *)theEvent;
+- (void)mouseDown:(NSEvent *)mouseEvent;
+- (void)mouseUp:(NSEvent *)mouseEvent;
+
 - getSlopeInput:aSlopeRatio:(float)startTime:(float)endTime;
 - clickSlopeMarker:(float)row:(float)column:(float *)startTime:(float *)endTime;
 

@@ -61,3 +61,7 @@ TODO:
 - remove "native" category
   - update boolean parser to recognize postures at well
 - rename Phone to Posture
+
+
+- bezier paths may need to be on 1/2 pixel coordinates, depending on the line width.
+- when using NSRectFill you need to use integral coordinates.

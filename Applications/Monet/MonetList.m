@@ -60,7 +60,7 @@
 - (id)objectAtIndex:(unsigned)index;
 {
     if (index >= [ilist count]) {
-        NSLog(@"Warning: index out of range in %s, returning nil for compatibility with List from NS3.3", _cmd);
+        //NSLog(@"Warning: index out of range in %s, returning nil for compatibility with List from NS3.3", _cmd);
         [self _warning];
         return nil;
     }

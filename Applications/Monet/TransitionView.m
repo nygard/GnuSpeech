@@ -1,6 +1,8 @@
 #import "TransitionView.h"
 
 #import <AppKit/AppKit.h>
+#include <math.h>
+
 #import "AppController.h"
 #import "FormulaExpression.h"
 #import "Inspector.h"
@@ -18,13 +20,6 @@
 #import "TargetList.h"
 
 @implementation TransitionView
-
-/*===========================================================================
-
-	Method: initFrame
-	Purpose: To initialize the frame
-
-===========================================================================*/
 
 static NSImage *_dotMarker = nil;
 static NSImage *_squareMarker = nil;
@@ -71,7 +66,7 @@ static NSImage *_selectionBox = nil;
     displaySlopes = [[MonetList alloc] initWithCapacity:12];
     selectedPoints = [[MonetList alloc] initWithCapacity:4];
 
-    boxRect = NSZeroRect;
+    shouldDrawSelection = NO;
 
     [self setNeedsDisplay:YES];
 
@@ -125,20 +120,63 @@ static NSImage *_selectionBox = nil;
     return YES;
 }
 
+- (BOOL)shouldDrawSelection;
+{
+    return shouldDrawSelection;
+}
+
+- (void)setShouldDrawSelection:(BOOL)newFlag;
+{
+    if (newFlag == shouldDrawSelection)
+        return;
+
+    shouldDrawSelection = newFlag;
+    [self setNeedsDisplay:YES];
+}
+
 - (void)drawRect:(NSRect)rect;
 {
+    NSLog(@" > %s", _cmd);
+
     [self clearView];
     [self drawGrid];
+#if 0
     [self drawEquations];
     [self drawPhones];
     [self drawTransition];
     [self drawSlopes];
+#endif
+    if (shouldDrawSelection == YES) {
+        NSRect selectionRect;
+        float minx, miny, maxx, maxy;
 
-    NSLog(@"%s, boxRect: %@", _cmd, NSStringFromRect(boxRect));
-    if (boxRect.size.width != 0 && boxRect.size.height != 0) {
+        if (selectionPoint1.x < selectionPoint2.x) {
+            minx = selectionPoint1.x;
+            maxx = selectionPoint2.x;
+        } else {
+            minx = selectionPoint2.x;
+            maxx = selectionPoint1.x;
+        }
+
+        if (selectionPoint1.y < selectionPoint2.y) {
+            miny = selectionPoint1.y;
+            maxy = selectionPoint2.y;
+        } else {
+            miny = selectionPoint2.y;
+            maxy = selectionPoint1.y;
+        }
+
+
+        selectionRect.origin.x = minx + 0.5;
+        selectionRect.origin.y = miny + 0.5;
+        selectionRect.size.width = maxx - minx;
+        selectionRect.size.height = maxy - miny;
+
         [[NSColor purpleColor] set];
-        NSFrameRect(boxRect);
+        [NSBezierPath strokeRect:selectionRect];
     }
+
+    NSLog(@"<  %s", _cmd);
 }
 
 - (void)clearView;
@@ -146,45 +184,58 @@ static NSImage *_selectionBox = nil;
     NSDrawWhiteBezel([self bounds], [self bounds]);
 }
 
+#define LEFT_MARGIN 50
+#define BOTTOM_MARGIN 50
+
 - (void)drawGrid;
 {
     int i;
-    float temp = ([self bounds].size.height - 100.0) / 14.0;
+    int sectionHeight;
     NSBezierPath *bezierPath;
+    NSRect bounds, rect;
+    float temp;
+
+    bounds = NSIntegralRect([self bounds]);
+    sectionHeight = (bounds.size.height - 2 * BOTTOM_MARGIN) / 14;
+    temp = (bounds.size.height - 2 * BOTTOM_MARGIN) / 14.0;
+    NSLog(@"sectionHeight: %d, temp: %f, 14 * (temp - sectionHeight): %f", sectionHeight, temp, 14.0 * (temp - sectionHeight));
 
     [[NSColor lightGrayColor] set];
-    NSRectFill(NSMakeRect(51.0, 51.0, [self bounds].size.width - 102.0, (temp*2) - 2.0));
-    NSRectFill(NSMakeRect(51.0, [self bounds].size.height - 50.0 - (temp*2), [self bounds].size.width - 102.0, (temp*2) - 1.0));
+    rect = NSMakeRect(LEFT_MARGIN + 1.0, BOTTOM_MARGIN + 1.0, bounds.size.width - 2 * (LEFT_MARGIN + 1), sectionHeight * 2 - 2.0);
+    NSRectFill(rect);
+
+    rect = NSMakeRect(LEFT_MARGIN + 1.0, bounds.size.height - BOTTOM_MARGIN - (sectionHeight * 2),
+                      bounds.size.width - 2 * (LEFT_MARGIN + 1), (sectionHeight * 2) - 1.0);
+    NSRectFill(rect);
 
     /* Grayed out (unused) data spaces should be placed here */
 
     [[NSColor blackColor] set];
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:2];
-    [bezierPath moveToPoint:NSMakePoint(50.0, 50.0)];
-    [bezierPath lineToPoint:NSMakePoint(50.0, [self bounds].size.height - 50.0)];
-    [bezierPath lineToPoint:NSMakePoint([self bounds].size.width - 50.0, [self bounds].size.height - 50.0)];
-    [bezierPath lineToPoint:NSMakePoint([self bounds].size.width - 50.0, 50.0)];
-    [bezierPath lineToPoint:NSMakePoint(50.0, 50.0)];
+    [bezierPath appendBezierPathWithRect:NSMakeRect(LEFT_MARGIN, BOTTOM_MARGIN, bounds.size.width - 2 * LEFT_MARGIN, bounds.size.height - 2 * BOTTOM_MARGIN)];
     [bezierPath stroke];
     [bezierPath release];
 
-    [timesFont set];
     [[NSColor blackColor] set];
+    [timesFont set];
 
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:1];
 
     for (i = 1; i < 14; i++) {
         NSString *label;
+        float currentYPos;
 
-        [bezierPath moveToPoint:NSMakePoint(50.0, (float)i*temp + 50.0)];
-        [bezierPath lineToPoint:NSMakePoint([self bounds].size.width - 50.0,  (float)i*temp + 50.0)];
+        currentYPos = i * sectionHeight + BOTTOM_MARGIN + 0.5;
+        [bezierPath moveToPoint:NSMakePoint(LEFT_MARGIN + 0.5, currentYPos)];
+        [bezierPath lineToPoint:NSMakePoint(bounds.size.width - LEFT_MARGIN + 0.5, currentYPos)];
 
-        label = [NSString stringWithFormat:@"%4d%%", (i-2)*10];
-        [label drawAtPoint:NSMakePoint(16.0, (float)i*temp + 45.0) withAttributes:nil];
-        [label drawAtPoint:NSMakePoint([self bounds].size.width - 47.0, (float)i*temp + 45.0) withAttributes:nil];
+        label = [NSString stringWithFormat:@"%4d%%", (i - 2) * 10];
+        [label drawAtPoint:NSMakePoint(16.0, i * sectionHeight + 45.0) withAttributes:nil];
+        [label drawAtPoint:NSMakePoint(bounds.size.width - 47.0, i * sectionHeight + 45.0) withAttributes:nil];
     }
+
     [bezierPath stroke];
     [bezierPath release];
 }
@@ -426,6 +477,46 @@ static NSImage *_selectionBox = nil;
 
 // TODO (2004-03-10): Replace with mouseDragged: and mouseUp: methods
 
+- (void)mouseDown:(NSEvent *)mouseEvent;
+{
+    NSPoint hitPoint;
+
+    NSLog(@" > %s", _cmd);
+
+    hitPoint = [self convertPoint:[mouseEvent locationInWindow] fromView:nil];
+    NSLog(@"hitPoint: %@", NSStringFromPoint(hitPoint));
+
+    selectionPoint1 = hitPoint;
+    //selectionPoint2 = NSZeroPoint;
+    //selectionPoint1 = NSMakePoint(100, 100);
+    selectionPoint2 = hitPoint;
+    [self setShouldDrawSelection:YES];
+
+    NSLog(@"<  %s", _cmd);
+}
+
+- (void)mouseDragged:(NSEvent *)mouseEvent;
+{
+    NSPoint hitPoint;
+
+    NSLog(@" > %s", _cmd);
+
+    hitPoint = [self convertPoint:[mouseEvent locationInWindow] fromView:nil];
+    NSLog(@"hitPoint: %@", NSStringFromPoint(hitPoint));
+    selectionPoint2 = hitPoint;
+    [self setNeedsDisplay:YES];
+
+    NSLog(@"<  %s", _cmd);
+}
+
+- (void)mouseUp:(NSEvent *)mouseEvent;
+{
+    NSLog(@" > %s", _cmd);
+    [self setShouldDrawSelection:NO];
+    NSLog(@"<  %s", _cmd);
+}
+
+#if PORTING
 - (void)mouseDown:(NSEvent *)theEvent;
 {
     int i;
@@ -611,6 +702,7 @@ static NSImage *_selectionBox = nil;
 
     NSLog(@"<  %s", _cmd);
 }
+#endif
 
 #define RETURNKEY 42
 
