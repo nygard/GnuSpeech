@@ -1,0 +1,66 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {itemsChanged = id; }; 
+            CLASS = EventListView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                controller = AppController; 
+                mouseTimeField = NSTextField; 
+                mouseValueField = NSTextField; 
+                niftyMatrix = NiftyMatrix; 
+                niftyMatrixScrollView = NSScrollView; 
+            }; 
+            SUPERCLASS = NSView; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                loadContour = id; 
+                loadContourAndUtterance = id; 
+                print = id; 
+                saveIntonationContour = id; 
+            }; 
+            CLASS = IntonationScrollView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                controller = AppController; 
+                scaleView = NSView; 
+                smoothing = NSButton; 
+                utterance = NSTextField; 
+            }; 
+            SUPERCLASS = NSScrollView; 
+        }, 
+        {
+            ACTIONS = {loadContour = id; loadContourAndUtterance = id; saveIntonationContour = id; }; 
+            CLASS = IntonationView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {controller = AppController; smoothing = id; utterance = id; }; 
+            SUPERCLASS = NSView; 
+        }, 
+        {
+            ACTIONS = {showIntonationParameterWindow = id; showIntonationWindow = id; }; 
+            CLASS = MSynthesisController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                driftCutoffField = NSTextField; 
+                driftDeviationField = NSTextField; 
+                eventListView = EventListView; 
+                filenameField = NSTextField; 
+                intonParmsField = NSForm; 
+                intonationMatrix = NSMatrix; 
+                intonationParameterWindow = NSWindow; 
+                intonationView = IntonationView; 
+                intonationWindow = NSWindow; 
+                parameterTableView = NSTableView; 
+                parametersStore = NSButton; 
+                radiusMultiplyField = NSTextField; 
+                smoothIntonationSwitch = NSButton; 
+                stringTextField = NSTextField; 
+                tempoField = NSTextField; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

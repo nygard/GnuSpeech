@@ -18,6 +18,7 @@
 
     IBOutlet NSTextField *stringTextField;
     IBOutlet EventListView *eventListView;
+
     IBOutlet NSScrollView *intonationView;
 
     IBOutlet NSTextField *tempoField;

@@ -29,6 +29,7 @@
 #import "MRuleManager.h"
 #import "MRuleTester.h"
 #import "MSpecialTransitionEditor.h"
+#import "MSynthesisController.h"
 #import "MSynthesisParameterEditor.h"
 #import "MTransitionEditor.h"
 
@@ -574,6 +575,35 @@
     [self synthesisParameterEditor]; // Make sure it's been created
     [synthesisParameterEditor setModel:model];
     [synthesisParameterEditor showWindow:self];
+}
+
+- (MSynthesisController *)synthesisController;
+{
+    if (synthesisController == nil)
+        synthesisController = [[MSynthesisController alloc] initWithModel:model];
+
+    return synthesisController;
+}
+
+- (IBAction)showSynthesisController:(id)sender;
+{
+    [self synthesisController]; // Make sure it's been created
+    [synthesisController setModel:model];
+    [synthesisController showWindow:self];
+}
+
+- (IBAction)showIntonationWindow:(id)sender;
+{
+    [self synthesisController]; // Make sure it's been created
+    [synthesisController setModel:model];
+    [synthesisController showIntonationWindow:self];
+}
+
+- (IBAction)showIntonationParameterWindow:(id)sender;
+{
+    [self synthesisController]; // Make sure it's been created
+    [synthesisController setModel:model];
+    [synthesisController showIntonationParameterWindow:self];
 }
 
 - (IBAction)generateXML:(id)sender;

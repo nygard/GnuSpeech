@@ -12,12 +12,15 @@
                 printData = id; 
                 readFromDisk = id; 
                 savePrototypes = id; 
+                showIntonationParameterWindow = id; 
+                showIntonationWindow = id; 
                 showNewDataEntryWindow = id; 
                 showPostureEditor = id; 
                 showPrototypeManager = id; 
                 showRuleManager = id; 
                 showRuleTester = id; 
                 showSpecialTransitionEditor = id; 
+                showSynthesisController = id; 
                 showSynthesisParameterEditor = id; 
                 showTransitionEditor = id; 
             }; 
