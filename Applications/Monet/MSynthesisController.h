@@ -17,7 +17,7 @@
 @interface MSynthesisController : NSWindowController
 {
     // Synthesis window
-    IBOutlet NSTextField *stringTextField;
+    IBOutlet NSComboBox *stringTextField;
     IBOutlet NSTableView *parameterTableView;
     IBOutlet EventListView *eventListView;
     IBOutlet NSTextField *filenameField;

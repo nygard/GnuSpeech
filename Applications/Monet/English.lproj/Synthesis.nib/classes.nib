@@ -59,7 +59,7 @@
                 semitoneTextField = NSTextField; 
                 slopeTextField = NSTextField; 
                 smoothIntonationSwitch = NSButton; 
-                stringTextField = NSTextField; 
+                stringTextField = NSComboBox; 
                 tempoField = NSTextField; 
             }; 
             SUPERCLASS = NSWindowController; 
