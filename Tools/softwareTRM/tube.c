@@ -76,7 +76,7 @@ double nasalRadiationFilter(TRMTubeModel *tubeModel, double input);
 void setControlRateParameters(TRMTubeModel *tubeModel, INPUT *previousInput, INPUT *currentInput);
 void sampleRateInterpolation(TRMTubeModel *tubeModel);
 void initializeNasalCavity(TRMTubeModel *tubeModel, struct _TRMInputParameters *inputParameters);
-void initializeThroat(TRMTubeModel *tubeModel, struct _TRMInputParameters *inputParameters);
+void initializeThroat(TRMTubeModel *tubeModel, double throatVol, double throatCutoff, int sampleRate);
 void calculateTubeCoefficients(TRMTubeModel *tubeModel, TRMParameters *parameters, double apScale, double n2);
 void setFricationTaps(TRMTubeModel *tubeModel);
 void calculateBandpassCoefficients(TRMTubeModel *tubeModel, double fricCF, double fricBW, int sampleRate);
@@ -431,12 +431,11 @@ void initializeNasalCavity(TRMTubeModel *tubeModel, struct _TRMInputParameters *
 *
 ******************************************************************************/
 
-void initializeThroat(TRMTubeModel *tubeModel, struct _TRMInputParameters *inputParameters)
+void initializeThroat(TRMTubeModel *tubeModel, double throatVol, double throatCutoff, int sampleRate)
 {
-    tubeModel->ta0 = (inputParameters->throatCutoff * 2.0) / tubeModel->sampleRate;
+    tubeModel->ta0 = (throatCutoff * 2.0) / sampleRate;
     tubeModel->tb1 = 1.0 - tubeModel->ta0;
-
-    tubeModel->throatGain = amplitude(inputParameters->throatVol);
+    tubeModel->throatGain = amplitude(throatVol);
 }
 
 
@@ -769,7 +768,7 @@ TRMTubeModel *TRMTubeModelCreate(TRMInputParameters *inputParameters)
     // TODO (2004-05-07): nasal?
 
     /*  INITIALIZE THE THROAT LOWPASS FILTER  */
-    initializeThroat(newTubeModel, inputParameters);
+    initializeThroat(newTubeModel, inputParameters->throatVol, inputParameters->throatCutoff, newTubeModel->sampleRate);
 
     /*  INITIALIZE THE SAMPLE RATE CONVERSION ROUTINES  */
     newTubeModel->sampleRateConverter = TRMSampleRateConverterCreate(newTubeModel->sampleRate, inputParameters->outputRate);
