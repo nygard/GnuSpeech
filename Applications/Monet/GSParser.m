@@ -88,7 +88,7 @@
     // TODO (2004-03-13): Probably need better control over this.  It should start at the beginning of the last token scanned.
     if ([errorMessage length] == 0) {
         errorLocation = [scanner scanLocation];
-        NSLog(@"%s, errorLocation: %u", _cmd, errorLocation);
+        //NSLog(@"%s, errorLocation: %u", _cmd, errorLocation);
     }
 
     va_start(args, format);
