@@ -55,6 +55,8 @@
     TRMSynthesizer *synthesizer;
 }
 
++ (void)initialize;
+
 - (id)initWithModel:(MModel *)aModel;
 - (void)dealloc;
 
@@ -83,6 +85,7 @@
 
 - (IBAction)generateGraphImages:(id)sender;
 
+- (IBAction)addPhoneString:(id)sender;
 - (void)parsePhoneString:(NSString *)str;
 
 // Intonation Point details

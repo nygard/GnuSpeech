@@ -29,10 +29,29 @@
 #define MDK_ShouldUseMacroIntonation @"ShouldUseMacroIntonation"
 #define MDK_ShouldUseMicroIntonation @"ShouldUseMicroIntonation"
 #define MDK_ShouldUseDrift @"ShouldUseDrift"
+#define MDK_DefaultUtterances @"DefaultUtterances"
 
 // TODO (2004-03-31): The original code changed the rule index of the currently selected intonation point when the browser was hit, and then added that point to the intonation view again...
 
 @implementation MSynthesisController
+
++ (void)initialize;
+{
+    NSMutableDictionary *defaultValues;
+    NSArray *defaultUtterances;
+
+    defaultUtterances = [NSArray arrayWithObjects:@"/c // /3 # /w i_z /w /_dh_aa_t /w /_ch_ee_z /w t_uu /w /l /*ee_t # ^ // /2 # /w aw_r /w i_z /w /_i_t /w t_uu /w /_p_u_t /w i_n /w uh /w /l /*m_ah_uu_s./\"t_r_aa_p # // /c ",
+                                 @"/c // /1 # /w /*n_y_uu /w /l /*s_p_ee_ch # // /c",
+                                 @"/c // /0 # /w /_ah_i /w /_w_u_d /w /_l_ah_i_k /w t_uu /w /_b_ah_i /w /_s_a_m /w /l /*ch_ee_z # // /c ",
+                                 @"/c // /2 # /w /_h_aa_v /w y_uu /w /_s_ee_n /w dh_uh /w /_s_i_ll_k_s /w /_w_i /w /_g_o_t /w f_r_a_m /w /l /*f_r_aa_n_s # // /c ",
+                                 @"/c // /3 # /w /_ah_i /w /_n_uh_uu /w y_uu /w b_i./_l_ee_v /w y_uu /w a_n.d_uh_r./_s_t_aa_n_d /w /_w_o_t /w y_uu /w /_th_i_ng_k /w /_ah_i /w /l /*s_e_d # ^ // /0 # /w b_a_t /w /_ah_i /w /_aa_m /w /_n_o_t /w /_sh_u_r /w y_uu /w /_r_ee.uh_l.ah_i_z /w /_dh_aa_t /w /_w_o_t /w y_uu /w /_h_uh_r_d /w i_z /w /_n_o_t /w /_w_o_t /w /_ah_i /w /l /*m_e_n_t # // /c ",
+                                 nil];
+
+    defaultValues = [[NSMutableDictionary alloc] init];
+    [defaultValues setObject:defaultUtterances forKey:MDK_DefaultUtterances];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:defaultValues];
+    [defaultValues release];
+}
 
 - (id)initWithModel:(MModel *)aModel;
 {
@@ -128,6 +147,10 @@
     [[intonationMatrix cellAtRow:0 column:0] setState:[defaults boolForKey:MDK_ShouldUseMacroIntonation]];
     [[intonationMatrix cellAtRow:1 column:0] setState:[defaults boolForKey:MDK_ShouldUseMicroIntonation]];
     [[intonationMatrix cellAtRow:2 column:0] setState:[defaults boolForKey:MDK_ShouldUseDrift]];
+
+    [stringTextField removeAllItems];
+    [stringTextField addItemsWithObjectValues:[[NSUserDefaults standardUserDefaults] objectForKey:MDK_DefaultUtterances]];
+    [stringTextField selectItemAtIndex:0];
 }
 
 - (void)_updateDisplayParameters;
@@ -361,7 +384,6 @@
 
     [eventList generateEventListWithModel:model];
 #if 1
-    NSLog(@"[defaults boolForKey:MDK_ShouldUseSmoothIntonation]: %d", [defaults boolForKey:MDK_ShouldUseSmoothIntonation]);
     [eventList applyIntonation];
     if ([defaults boolForKey:MDK_ShouldUseSmoothIntonation])
         [eventList applySmoothIntonation];
@@ -516,6 +538,16 @@
     system([[NSString stringWithFormat:@"open %@", [basePath stringByAppendingPathComponent:@"index.html"]] UTF8String]);
 
     NSLog(@"<  %s", _cmd);
+}
+
+- (IBAction)addPhoneString:(id)sender;
+{
+    NSString *str;
+
+    str = [stringTextField stringValue];
+    [stringTextField removeItemWithObjectValue:str];
+    [stringTextField insertItemWithObjectValue:str atIndex:0];
+    [[NSUserDefaults standardUserDefaults] setObject:[stringTextField objectValues] forKey:MDK_DefaultUtterances];
 }
 
 // TODO (2004-08-01): This should be moved into the model, perhaps what is currently called EventList.

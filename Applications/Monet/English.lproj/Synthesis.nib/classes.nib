@@ -24,6 +24,7 @@
         {CLASS = MExtendedTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
         {
             ACTIONS = {
+                addPhoneString = id; 
                 generateContour = id; 
                 generateGraphImages = id; 
                 parseStringButton = id; 
