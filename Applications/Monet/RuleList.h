@@ -17,7 +17,4 @@
 
 - (MMRule *)findRule:(MonetList *)categories index:(int *)index;
 
-- (void)findEquation:(MMEquation *)anEquation andPutIn:(MonetList *)aList;
-- (void)findTemplate:(MMTransition *)aTemplate andPutIn:(MonetList *)aList;
-
 @end
