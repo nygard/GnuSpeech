@@ -142,8 +142,8 @@ static NSImage *_selectionBox = nil;
     [self drawGrid];
     [self drawEquations];
     [self drawPhones];
-#if 0
     [self drawTransition];
+#if 0
     [self drawSlopes];
 #endif
     if (shouldDrawSelection == YES) {
@@ -214,6 +214,12 @@ static NSImage *_selectionBox = nil;
     return graphOrigin;
 }
 
+- (float)timeScale;
+{
+    // TODO (2004-03-11): Remove outlets to form, turn these values into ivars.
+    return ([self bounds].size.width - 2 * LEFT_MARGIN) / [[displayParameters cellAtIndex:0] floatValue];
+}
+
 - (void)drawGrid;
 {
     int i;
@@ -282,7 +288,7 @@ static NSImage *_selectionBox = nil;
     MonetList *equationList = [NXGetNamedObject(@"prototypeManager", NSApp) equationList];
     NamedList *namedList;
     ProtoEquation *equation;
-    float timeScale = ([self bounds].size.width - 100.0) / [[displayParameters cellAtIndex:0] floatValue];
+    float timeScale = [self timeScale];
     int type;
     NSBezierPath *bezierPath;
     NSPoint graphOrigin;
@@ -350,7 +356,7 @@ static NSImage *_selectionBox = nil;
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:2];
 
-    timeScale = (bounds.size.width - 2 * LEFT_MARGIN) / [[displayParameters cellAtIndex:0] floatValue];
+    timeScale = [self timeScale];
     graphTopYPos = bounds.size.height - BOTTOM_MARGIN - 1;
     myPoint.y = bounds.size.height - BOTTOM_MARGIN + 3;
 
@@ -383,79 +389,120 @@ static NSImage *_selectionBox = nil;
 
 - (void)drawTransition;
 {
-    int i;
+    int count, index;
     GSMPoint *currentPoint;
     double symbols[5];
     double tempos[4] = {1.0, 1.0, 1.0, 1.0};
     NSRect rect = {{0.0, 0.0}, {10.0, 10.0}};
     NSPoint myPoint;
-    float timeScale, yScale, y;
+    float timeScale, y;
+    int yScale;
     float eventTime;
     GSMPoint *tempPoint;
     NSBezierPath *bezierPath;
+    NSPoint graphOrigin;
+    NSMutableArray *diphonePoints, *triphonePoints, *tetraphonePoints;
 
     if (currentTemplate == nil)
         return;
 
+    graphOrigin = [self graphOrigin];
+
     [displayPoints removeAllObjects];
     [displaySlopes removeAllObjects];
 
-    for (i = 0; i < 5; i++)
-        symbols[i] = [[displayParameters cellAtIndex:i] doubleValue];
+    for (index = 0; index < 5; index++)
+        symbols[index] = [[displayParameters cellAtIndex:index] doubleValue];
 
-    timeScale = ([self bounds].size.width - 100.0) / [[displayParameters cellAtIndex:0] floatValue];
-    yScale = ([self bounds].size.height - 100.0)/14.0;
+    timeScale = [self timeScale];
+    yScale = [self sectionHeight];
 
     cache++;
 
-    for (i = 0; i < [[currentTemplate points] count]; i++) {
-        currentPoint = [[currentTemplate points] objectAtIndex:i];
+    count = [[currentTemplate points] count];
+    for (index = 0; index < count; index++) {
+        currentPoint = [[currentTemplate points] objectAtIndex:index];
         [currentPoint calculatePoints:symbols tempos:tempos phones:dummyPhoneList andCacheWith:cache toDisplay:displayPoints];
 
         if ([currentPoint isKindOfClass:[SlopeRatio class]])
             [(SlopeRatio *)currentPoint displaySlopesInList:displaySlopes];
     }
 
+    diphonePoints = [[NSMutableArray alloc] init];
+    triphonePoints = [[NSMutableArray alloc] init];
+    tetraphonePoints = [[NSMutableArray alloc] init];
+
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:2];
-    [bezierPath moveToPoint:NSMakePoint(50.0, 50.0 + (yScale*2.0))];
+    [bezierPath moveToPoint:NSMakePoint(graphOrigin.x, graphOrigin.y + (yScale * 2))];
 
-// TODO (2004-03-02): With the bezier path change, we may want to do the compositing after we draw the path.
-    for (i = 0; i < [displayPoints count]; i++) {
-        currentPoint = [displayPoints objectAtIndex:i];
+    // TODO (2004-03-02): With the bezier path change, we may want to do the compositing after we draw the path.
+    count = [displayPoints count];
+    NSLog(@"%d display points", count);
+    for (index = 0; index < count; index++) {
+        currentPoint = [displayPoints objectAtIndex:index];
         y = (float)[currentPoint value];
         if ([currentPoint expression] == nil)
             eventTime = [currentPoint freeTime];
         else
             eventTime = [[currentPoint expression] cacheValue];
-        myPoint.x = timeScale * eventTime + 47.0;
-        myPoint.y = (47.0 + (yScale*2.0))+ (y*yScale/10.0);
-        [bezierPath lineToPoint:NSMakePoint(myPoint.x+3.0, myPoint.y+3.0)];
+        myPoint.x = (graphOrigin.x - 3) + timeScale * eventTime;
+        myPoint.y = (graphOrigin.y - 3) + (yScale * 2) + (y * yScale / 10.0);
+        [bezierPath lineToPoint:NSMakePoint(myPoint.x + 3, myPoint.y + 3)];
         switch ([currentPoint type]) {
           case TETRAPHONE:
-              [_squareMarker compositeToPoint:myPoint fromRect:rect operation:NSCompositeSourceOver];
+              [tetraphonePoints addObject:[NSValue valueWithPoint:myPoint]];
               break;
           case TRIPHONE:
-              [_triangleMarker compositeToPoint:myPoint fromRect:rect operation:NSCompositeSourceOver];
+              [triphonePoints addObject:[NSValue valueWithPoint:myPoint]];
               break;
           case DIPHONE:
-              [_dotMarker compositeToPoint:myPoint fromRect:rect operation:NSCompositeSourceOver];
+              [diphonePoints addObject:[NSValue valueWithPoint:myPoint]];
               break;
         }
 
-        if (i != [displayPoints count] - 1) {
-            if ([currentPoint type] == [(GSMPoint *)[displayPoints objectAtIndex:i+1] type])
-                [bezierPath moveToPoint:NSMakePoint(myPoint.x+3.0, myPoint.y+3.0)];
+        if (index != [displayPoints count] - 1) {
+            if ([currentPoint type] == [(GSMPoint *)[displayPoints objectAtIndex:index+1] type])
+                [bezierPath moveToPoint:NSMakePoint(myPoint.x + 3, myPoint.y + 3)];
             else
-                [bezierPath moveToPoint:NSMakePoint(myPoint.x+3.0, 50.0+(yScale*2.0))];
+                [bezierPath moveToPoint:NSMakePoint(myPoint.x + 3, graphOrigin.y + (yScale * 2))];
         }
         else
-            [bezierPath moveToPoint:NSMakePoint(myPoint.x+3.0, myPoint.y+3.0)];
+            [bezierPath moveToPoint:NSMakePoint(myPoint.x + 3, myPoint.y + 3)];
     }
-    [bezierPath lineToPoint:NSMakePoint([self bounds].size.width-50.0, [self bounds].size.height - 50.0 - (2.0*yScale))];
+
+    [bezierPath lineToPoint:NSMakePoint([self bounds].size.width - 50.0, [self bounds].size.height - BOTTOM_MARGIN - (2 * yScale))];
     [[NSColor greenColor] set];
     [bezierPath stroke];
     [bezierPath release];
+
+    count = [diphonePoints count];
+    for (index = 0; index < count; index++) {
+        NSPoint aPoint;
+
+        aPoint = [[diphonePoints objectAtIndex:index] pointValue];
+        [_dotMarker compositeToPoint:aPoint fromRect:rect operation:NSCompositeSourceOver];
+    }
+
+    count = [triphonePoints count];
+    for (index = 0; index < count; index++) {
+        NSPoint aPoint;
+
+        aPoint = [[triphonePoints objectAtIndex:index] pointValue];
+        [_triangleMarker compositeToPoint:aPoint fromRect:rect operation:NSCompositeSourceOver];
+    }
+
+    count = [tetraphonePoints count];
+    for (index = 0; index < count; index++) {
+        NSPoint aPoint;
+
+        aPoint = [[tetraphonePoints objectAtIndex:index] pointValue];
+        [_squareMarker compositeToPoint:aPoint fromRect:rect operation:NSCompositeSourceOver];
+    }
+
+    [diphonePoints release];
+    [triphonePoints release];
+    [tetraphonePoints release];
 
 //    for (i = 0; i < [displaySlopes count]; i++) {
 //        currentSlope = [displaySlopes objectAtIndex:i];
@@ -467,15 +514,15 @@ static NSImage *_selectionBox = nil;
 //    }
 
     if ([selectedPoints count]) {
-        for(i = 0; i < [selectedPoints count]; i++) {
-            tempPoint = [selectedPoints objectAtIndex:i];
+        for (index = 0; index < [selectedPoints count]; index++) {
+            tempPoint = [selectedPoints objectAtIndex:index];
             y = (float)[tempPoint value];
             if ([tempPoint expression] == nil)
                 eventTime = [tempPoint freeTime];
             else
                 eventTime = [[tempPoint expression] cacheValue];
-            myPoint.x = timeScale * eventTime + 45.0;
-            myPoint.y = (45.0 + (yScale*2.0))+ (y*yScale/10.0);
+            myPoint.x = (graphOrigin.x - 5) + timeScale * eventTime;
+            myPoint.y = (graphOrigin.y - 5) + (yScale * 2) + (y * yScale / 10.0);
 
             //NSLog(@"Selectoion; x: %f y:%f", myPoint.x, myPoint.y);
 

@@ -54,6 +54,7 @@
 // View geometry
 - (int)sectionHeight;
 - (NSPoint)graphOrigin;
+- (float)timeScale;
 
 - (void)drawGrid;
 - (void)drawEquations;

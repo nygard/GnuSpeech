@@ -37,6 +37,7 @@
 - stars in rules after phones seems to match, i.e., ch and ch' for "ch*"
 - check that we aren't returning floats/doubles from calls to methods that might return nil;
 - fixed spelling of "parmeters" in Phone init method
+- be sure to free strings unarchived from typed streams.
 
 TODO:
 - if a value is at the default, and then you change the default, do you want all of the instances to change as well?  I think so.
