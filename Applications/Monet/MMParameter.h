@@ -19,7 +19,7 @@
 }
 
 - (id)init;
-- (id)initWithName:(NSString *)newName;
+- (id)initWithName:(NSString *)aName;
 - (void)dealloc;
 
 - (NSString *)name;

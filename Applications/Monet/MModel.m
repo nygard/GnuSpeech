@@ -60,7 +60,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         MMSymbol *newSymbol;
         MMCategory *newCategory;
 
-        newSymbol = [[MMSymbol alloc] initWithSymbol:@"duration"];
+        newSymbol = [[MMSymbol alloc] initWithName:@"duration"];
         [self addSymbol:newSymbol];
         [newSymbol release];
 
@@ -380,8 +380,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)addSymbol:(MMSymbol *)newSymbol;
 {
-    if ([newSymbol symbol] == nil)
-        [newSymbol setSymbol:@"untitled"];
+    if ([newSymbol name] == nil)
+        [newSymbol setName:@"untitled"];
 
     [self _uniqueNameForSymbol:newSymbol];
 
@@ -399,18 +399,18 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     names = [[NSMutableSet alloc] init];
     count = [symbols count];
     for (index = 0; index < count; index++) {
-        name = [[symbols objectAtIndex:index] symbol];
+        name = [[symbols objectAtIndex:index] name];
         if (name != nil)
             [names addObject:name];
     }
 
-    name = basename = [newSymbol symbol];
+    name = basename = [newSymbol name];
     index = 1;
     while ([names containsObject:name] == YES) {
         name = [NSString stringWithFormat:@"%@%d", basename, index++];
     }
 
-    [newSymbol setSymbol:name];
+    [newSymbol setName:name];
 
     [names release];
 }
@@ -456,7 +456,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         MMSymbol *aSymbol;
 
         aSymbol = [symbols objectAtIndex:index];
-        if ([[aSymbol symbol] isEqual:aName] == YES)
+        if ([[aSymbol name] isEqual:aName] == YES)
             return aSymbol;
     }
 
@@ -1234,7 +1234,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     if (durationSymbol == nil) {
         MMSymbol *newSymbol;
 
-        newSymbol = [[MMSymbol alloc] initWithSymbol:@"duration"];
+        newSymbol = [[MMSymbol alloc] initWithName:@"duration"];
         [self addSymbol:newSymbol];
         symbolIndex = [symbols indexOfObject:newSymbol];
         [newSymbol release];
@@ -1441,7 +1441,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         MMSymbol *aSymbol;
 
         aSymbol = [symbols objectAtIndex:index];
-        fprintf(fp, "%s\n", [[aSymbol symbol] UTF8String]);
+        fprintf(fp, "%s\n", [[aSymbol name] UTF8String]);
         fprintf(fp, "Min: %f  Max: %f  Default: %f\n",
                 [aSymbol minimumValue], [aSymbol maximumValue], [aSymbol defaultValue]);
         if ([aSymbol comment])
@@ -1506,9 +1506,9 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
             aSymbol = [aSymbolList objectAtIndex:j];
             mainSymbol = [symbols objectAtIndex:j];
             if ([aSymbol isDefault])
-                fprintf(fp, "%s: *%f ", [[mainSymbol symbol] UTF8String], [aSymbol value]);
+                fprintf(fp, "%s: *%f ", [[mainSymbol name] UTF8String], [aSymbol value]);
             else
-                fprintf(fp, "%s: %f ", [[mainSymbol symbol] UTF8String], [aSymbol value]);
+                fprintf(fp, "%s: %f ", [[mainSymbol name] UTF8String], [aSymbol value]);
         }
         fprintf(fp, "\n\n");
 

@@ -304,9 +304,9 @@
         MMTarget *currentTarget;
 
         currentSymbol = [symbols objectAtIndex:index];
-        currentTarget = [aDictionary objectForKey:[currentSymbol symbol]];
+        currentTarget = [aDictionary objectForKey:[currentSymbol name]];
         if (currentTarget == nil) {
-            NSLog(@"Warning: no target for symbol %@ in save file, adding default target.", [currentSymbol symbol]);
+            NSLog(@"Warning: no target for symbol %@ in save file, adding default target.", [currentSymbol name]);
             currentTarget = [[MMTarget alloc] initWithValue:[currentSymbol defaultValue] isDefault:YES];
             [self addSymbolTarget:currentTarget];
             [currentTarget release];
@@ -325,7 +325,7 @@
     assert([self model] != nil);
     symbolIndex = [[[self model] symbols] indexOfObject:aSymbol];
     if (symbolIndex == NSNotFound)
-        NSLog(@"Warning: Couldn't find symbol %@ in posture %@", [aSymbol symbol], phoneSymbol);
+        NSLog(@"Warning: Couldn't find symbol %@ in posture %@", [aSymbol name], phoneSymbol);
 
     return [symbolTargets objectAtIndex:symbolIndex];
 }
@@ -558,7 +558,7 @@
         aTarget = [symbolTargets objectAtIndex:index];
 
         [resultString indentToLevel:level + 1];
-        [resultString appendFormat:@"<target name=\"%@\" value=\"%g\"", [aSymbol symbol], [aTarget value]];
+        [resultString appendFormat:@"<target name=\"%@\" value=\"%g\"", [aSymbol name], [aTarget value]];
         // "is-default" is redundant, but handy for browsing the XML file
         // TODO (2004-08-12): Change is-default into comment.
         if ([aTarget value] == [aSymbol defaultValue])

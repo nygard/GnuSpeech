@@ -319,7 +319,7 @@
         MMSymbol *symbol = [[[self model] symbols] objectAtIndex:row];
 
         if ([@"name" isEqual:identifier] == YES) {
-            return [symbol symbol];
+            return [symbol name];
         } else if ([@"value" isEqual:identifier] == YES) {
             MMTarget *aTarget;
 

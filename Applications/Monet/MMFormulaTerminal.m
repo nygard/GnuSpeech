@@ -157,7 +157,7 @@
           if (symbol == nil) {
               [resultString appendFormat:@"%f", value];
           } else {
-              [resultString appendFormat:@"%@%d", [symbol symbol], whichPhone+1];
+              [resultString appendFormat:@"%@%d", [symbol name], whichPhone+1];
           }
           break;
     }

@@ -312,7 +312,7 @@
     MMSymbol *newSymbol;
     unsigned int index;
 
-    newSymbol = [[MMSymbol alloc] initWithSymbol:nil];
+    newSymbol = [[MMSymbol alloc] init];
     [[self model] addSymbol:newSymbol];
     [newSymbol release];
 
@@ -400,7 +400,7 @@
         if ([@"hasComment" isEqual:identifier] == YES) {
             return [NSNumber numberWithBool:[symbol hasComment]];
         } else if ([@"name" isEqual:identifier] == YES) {
-            return [symbol symbol];
+            return [symbol name];
         } else if ([@"minimum" isEqual:identifier] == YES) {
             return [NSNumber numberWithDouble:[symbol minimumValue]];
         } else if ([@"maximum" isEqual:identifier] == YES) {
@@ -451,7 +451,7 @@
 
         if ([@"name" isEqual:identifier] == YES) {
             // TODO (2004-03-19): Ensure unique name
-            [symbol setSymbol:object];
+            [symbol setName:object];
         } else if ([@"minimum" isEqual:identifier] == YES) {
             // TODO (2004-03-19): Make sure current values are still in range
             [symbol setMinimumValue:[object doubleValue]];

@@ -21,7 +21,7 @@
     if ([super init] == nil)
         return nil;
 
-    symbol = nil;
+    name = nil;
     comment = nil;
 
     minimum = DEFAULT_MIN;
@@ -31,36 +31,36 @@
     return self;
 }
 
-- (id)initWithSymbol:(NSString *)newSymbol;
+- (id)initWithName:(NSString *)aName;
 {
     if ([self init] == nil)
         return nil;
 
-    [self setSymbol:newSymbol];
+    [self setName:aName];
 
     return self;
 }
 
 - (void)dealloc;
 {
-    [symbol release];
+    [name release];
     [comment release];
 
     [super dealloc];
 }
 
-- (NSString *)symbol;
+- (NSString *)name;
 {
-    return symbol;
+    return name;
 }
 
-- (void)setSymbol:(NSString *)newSymbol;
+- (void)setName:(NSString *)newName;
 {
-    if (newSymbol == symbol)
+    if (newName == name)
         return;
 
-    [symbol release];
-    symbol = [newSymbol retain];
+    [name release];
+    name = [newName retain];
 }
 
 - (NSString *)comment;
@@ -122,7 +122,7 @@
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
     unsigned archivedVersion;
-    char *c_symbol, *c_comment;
+    char *c_name, *c_comment;
 
     if ([super initWithCoder:aDecoder] == nil)
         return nil;
@@ -131,9 +131,9 @@
     archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
     //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
 
-    [aDecoder decodeValuesOfObjCTypes:"**ddd", &c_symbol, &c_comment, &minimum, &maximum, &defaultValue];
+    [aDecoder decodeValuesOfObjCTypes:"**ddd", &c_name, &c_comment, &minimum, &maximum, &defaultValue];
 
-    symbol = [[NSString stringWithASCIICString:c_symbol] retain];
+    name = [[NSString stringWithASCIICString:c_name] retain];
     comment = [[NSString stringWithASCIICString:c_comment] retain];
 
     //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
@@ -142,15 +142,15 @@
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@>[%p]: symbol: %@, comment: %@, minimum: %g, maximum: %g, defaultValue: %g",
-                     NSStringFromClass([self class]), self, symbol, comment, minimum, maximum, defaultValue];
+    return [NSString stringWithFormat:@"<%@>[%p]: name: %@, comment: %@, minimum: %g, maximum: %g, defaultValue: %g",
+                     NSStringFromClass([self class]), self, name, comment, minimum, maximum, defaultValue];
 }
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 {
     [resultString indentToLevel:level];
     [resultString appendFormat:@"<symbol name=\"%@\" minimum=\"%g\" maximum=\"%g\" default=\"%g\"",
-                  GSXMLAttributeString(symbol, NO), minimum, maximum, defaultValue];
+                  GSXMLAttributeString(name, NO), minimum, maximum, defaultValue];
 
     if (comment == nil) {
         [resultString appendString:@"/>\n"];
@@ -171,7 +171,7 @@
     if ([self init] == nil)
         return nil;
 
-    [self setSymbol:[attributes objectForKey:@"name"]];
+    [self setName:[attributes objectForKey:@"name"]];
 
     value = [attributes objectForKey:@"minimum"];
     if (value != nil)
