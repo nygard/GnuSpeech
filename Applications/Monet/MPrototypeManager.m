@@ -886,7 +886,6 @@
     NSString *key;
     NSArray *usage;
 
-    NSLog(@"-> %s, aTransition: %p", _cmd, aTransition);
     key = [aTransition transitionPath];
     if (shouldRecache == YES)
         [cachedTransitionUsage removeObjectForKey:key];
