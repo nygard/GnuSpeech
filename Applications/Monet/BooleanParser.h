@@ -1,4 +1,4 @@
-#import <Foundation/NSObject.h>
+#import "GSParser.h"
 
 @class NSScanner;
 @class NSTextField; // Yuck!
@@ -50,46 +50,28 @@
 	"BooleanSymbols.h" for some TOKEN defines.
 */
 
-@interface BooleanParser : NSObject
+@interface BooleanParser : GSParser
 {
-    BOOL consumed;
-    NSString *nonretained_parseString;
-    NSScanner *scanner;
-    NSString *symbolString;
-
     CategoryList *categoryList;
     PhoneList *phoneList;
-
-    NSTextField *nonretained_errorTextField; // TODO (2004-03-01): Change this to an NSMutableString, and query it in the interface controller.
 }
 
 - (id)init;
 - (void)dealloc;
 
 /* Access to instance variables */
-- (NSString *)symbolString;
-- (void)setSymbolString:(NSString *)newString;
-
 - (CategoryList *)categoryList;
 - (void)setCategoryList:(CategoryList *)aList;
 
 - (PhoneList *)phoneList;
 - (void)setPhoneList: (PhoneList *)aList;
 
-- (void)setErrorOutput:(NSTextField *)aTextField;
-
-/* Error reporting methods */
-- (void)outputError:(NSString *)errorText;
-- (void)outputError:(NSString *)errorText with:(NSString *)symbol;
-
 /* General purpose internal methods */
 - (CategoryNode *)categorySymbol:(NSString *)symbol;
 - (int)nextToken;
-- (void)consumeToken;
 
 /* General Parse Methods */
 // BooleanExpression or maybe BooleanTerminal
-- (id)parseString:(NSString *)aString;
 - (id)beginParseString;
 - (id)continueParse:(id)currentExpression;
 

@@ -14,25 +14,9 @@ static int operatorPrec[8] = {1, 1, 2, 2, 3, 0, 4, 4};
 
 - (void)dealloc;
 {
-    [scanner release];
-    [symbolString release];
     [symbolList release];
 
     [super dealloc];
-}
-
-- (NSString *)symbolString;
-{
-    return symbolString;
-}
-
-- (void)setSymbolString:(NSString *)newString;
-{
-    if (newString == symbolString)
-        return;
-
-    [symbolString release];
-    symbolString = [newString retain];
 }
 
 - (SymbolList *)symbolList;
@@ -52,8 +36,6 @@ static int operatorPrec[8] = {1, 1, 2, 2, 3, 0, 4, 4};
 - (int)nextToken;
 {
     NSString *str;
-
-    consumed = NO;
 
     [scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:NULL];
 
@@ -125,34 +107,7 @@ static int operatorPrec[8] = {1, 1, 2, 2, 3, 0, 4, 4};
     return NO;
 }
 
-- (void)consumeToken;
-{
-    consumed = YES;
-}
-
-- parseString:(NSString *)aString;
-{
-    id result;
-
-    if (scanner != nil)
-        [scanner release];
-
-    [nonretained_errorTextField setStringValue:@""];
-    nonretained_parseString = aString;
-
-    scanner = [[NSScanner alloc] initWithString:aString];
-    [scanner setCharactersToBeSkipped:nil];
-
-    result = [self beginParseString];
-
-    nonretained_parseString = nil;
-    [scanner release];
-    scanner = nil;
-
-    return result;
-}
-
-- beginParseString;
+- (id)beginParseString;
 {
     id tempExpression = nil;
     FormulaTerminal *tempTerminal;
@@ -211,7 +166,7 @@ static int operatorPrec[8] = {1, 1, 2, 2, 3, 0, 4, 4};
     return tempExpression;
 }
 
-- continueParse:currentExpression;
+- (id)continueParse:currentExpression;
 {
     int tempToken;
 
@@ -259,7 +214,7 @@ static int operatorPrec[8] = {1, 1, 2, 2, 3, 0, 4, 4};
     return currentExpression;
 }
 
-- parseSymbol;
+- (id)parseSymbol;
 {
     FormulaTerminal *tempTerminal = nil;
     Symbol *tempSymbol;
@@ -313,7 +268,7 @@ static int operatorPrec[8] = {1, 1, 2, 2, 3, 0, 4, 4};
     return tempTerminal;
 }
 
-- addOperation:operand;
+- (id)addOperation:operand;
 {
     id temp = nil, temp1 = nil, returnExp = nil;
     FormulaTerminal *tempTerminal;
@@ -375,7 +330,7 @@ static int operatorPrec[8] = {1, 1, 2, 2, 3, 0, 4, 4};
     return returnExp;
 }
 
-- subOperation:operand;
+- (id)subOperation:operand;
 {
     id temp = nil, temp1 = nil, returnExp = nil;
     FormulaTerminal *tempTerminal;
@@ -437,7 +392,7 @@ static int operatorPrec[8] = {1, 1, 2, 2, 3, 0, 4, 4};
     return returnExp;
 }
 
-- multOperation:operand;
+- (id)multOperation:operand;
 {
     id temp = nil, temp1 = nil, returnExp = nil;
     FormulaTerminal *tempTerminal;
@@ -499,7 +454,7 @@ static int operatorPrec[8] = {1, 1, 2, 2, 3, 0, 4, 4};
     return returnExp;
 }
 
-- divOperation:operand;
+- (id)divOperation:operand;
 {
     id temp = nil, temp1 = nil, returnExp = nil;
     FormulaTerminal *tempTerminal;
@@ -562,7 +517,7 @@ static int operatorPrec[8] = {1, 1, 2, 2, 3, 0, 4, 4};
     return returnExp;
 }
 
-- leftParen;
+- (id)leftParen;
 {
     id temp = nil;
     FormulaTerminal *tempTerminal, *tempTerm;
@@ -654,40 +609,6 @@ static int operatorPrec[8] = {1, 1, 2, 2, 3, 0, 4, 4};
     [temp setPrecedence:3];
 
     return temp;
-}
-
-- (void)setErrorOutput:(NSTextField *)aTextField;
-{
-    nonretained_errorTextField = aTextField;
-}
-
-- (void)outputError:(NSString *)errorText;
-{
-    NSString *str;
-
-    str = [nonretained_errorTextField stringValue];
-    if (str == nil)
-        str = [NSString stringWithFormat:@"%@\n", errorText];
-    else
-        str = [str stringByAppendingFormat:@"\n%@", errorText];
-
-    [nonretained_errorTextField setStringValue:str];
-}
-
-- (void)outputError:(NSString *)errorText with:(NSString *)symbol;
-{
-    NSString *str;
-
-    str = [nonretained_errorTextField stringValue];
-    if (str == nil)
-        str = [NSString stringWithFormat:@"%@\n", errorText];
-    else {
-        str = [str stringByAppendingString:@"\n"];
-        str = [str stringByAppendingFormat:errorText, symbol];
-        str = [str stringByAppendingString:@"\n"];
-    }
-
-    [nonretained_errorTextField setStringValue:str];
 }
 
 @end

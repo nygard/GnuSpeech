@@ -18,7 +18,6 @@
     if ([super init] == nil)
         return nil;
 
-    symbolString = nil;
     categoryList = nil;
     phoneList = nil;
 
@@ -27,25 +26,10 @@
 
 - (void)dealloc;
 {
-    [symbolString release];
     [categoryList release];
     [phoneList release];
 
     [super dealloc];
-}
-
-- (NSString *)symbolString;
-{
-    return symbolString;
-}
-
-- (void)setSymbolString:(NSString *)newString;
-{
-    if (newString == symbolString)
-        return;
-
-    [symbolString release];
-    symbolString = [newString retain];
 }
 
 - (CategoryList *)categoryList;
@@ -74,22 +58,6 @@
 
     [phoneList release];
     phoneList = [aList retain];
-}
-
-- (void)setErrorOutput:(NSTextField *)aTextField;
-{
-    nonretained_errorTextField = aTextField;
-}
-
-- (void)outputError:(NSString *)errorText;
-{
-    [nonretained_errorTextField setStringValue:[NSString stringWithFormat:@"%@\n", errorText]];
-}
-
-- (void)outputError:(NSString *)errorText with:(NSString *)symbol;
-{
-    [nonretained_errorTextField setStringValue:[NSString stringWithFormat:errorText, symbol]];
-    // TODO (2004-03-02): Used to append a newline.
 }
 
 - (CategoryNode *)categorySymbol:(NSString *)symbol;
@@ -125,8 +93,6 @@
 - (int)nextToken;
 {
     NSString *scannedString;
-
-    consumed = NO;
 
     [scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:NULL];
 
@@ -174,31 +140,6 @@
     }
 
     return TK_B_CATEGORY;
-}
-
-- (void)consumeToken;
-{
-    consumed = YES;
-}
-
-- (id)parseString:(NSString *)aString;
-{
-    BooleanExpression *result;
-
-    if (scanner != nil)
-        [scanner release];
-
-    nonretained_parseString = aString;
-    scanner = [[NSScanner alloc] initWithString:aString];
-    [scanner setCharactersToBeSkipped:nil];
-
-    result = [self beginParseString];
-
-    nonretained_parseString = nil;
-    [scanner release];
-    scanner = nil;
-
-    return result;
 }
 
 - (id)beginParseString;
@@ -521,7 +462,6 @@
 
     return resultExpression;
 }
-
 
 - (id)leftParen;
 {

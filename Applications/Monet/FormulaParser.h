@@ -1,4 +1,4 @@
-#import <Foundation/NSObject.h>
+#import "GSParser.h"
 
 @class SymbolList;
 
@@ -11,22 +11,12 @@
 =============================================================================
 */
 
-@interface FormulaParser : NSObject
+@interface FormulaParser : GSParser
 {
-    BOOL consumed;
-    NSString *nonretained_parseString;
-    NSScanner *scanner;
-    NSString *symbolString;
-
     SymbolList *symbolList;
-
-    NSTextField *nonretained_errorTextField; // TODO (2004-03-01): Change this to an NSMutableString, and query it in the interface controller.
 }
 
 - (void)dealloc;
-
-- (NSString *)symbolString;
-- (void)setSymbolString:(NSString *)newString;
 
 - (SymbolList *)symbolList;
 - (void)setSymbolList:(SymbolList *)newSymbolList;
@@ -34,21 +24,16 @@
 - (int)nextToken;
 - (BOOL)scanNumber;
 
-- (void)consumeToken;
-- parseString:(NSString *)aString;
-- beginParseString;
-- continueParse:currentExpression;
-- parseSymbol;
+- (id)beginParseString;
 
-- addOperation:operand;
-- subOperation:operand;
-- multOperation:operand;
-- divOperation:operand;
+- (id)continueParse:currentExpression;
+- (id)parseSymbol;
 
-- leftParen;
+- (id)addOperation:operand;
+- (id)subOperation:operand;
+- (id)multOperation:operand;
+- (id)divOperation:operand;
 
-- (void)setErrorOutput:(NSTextField *)aTextField;
-- (void)outputError:(NSString *)errorText;
-- (void)outputError:(NSString *)errorText with:(NSString *)symbol;
+- (id)leftParen;
 
 @end
