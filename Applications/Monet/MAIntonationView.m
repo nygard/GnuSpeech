@@ -1143,7 +1143,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
 - (void)updateEvents;
 {
-    [self deselectAllPoints];
+    //[self deselectAllPoints];
     // TODO (2004-08-09): And select the first point again?
     [self resizeWidth];
     [self setNeedsDisplay:YES];

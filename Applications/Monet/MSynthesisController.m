@@ -422,7 +422,7 @@
     [eventListView setEventList:eventList];
     [eventListView display]; // TODO (2004-03-17): It's not updating otherwise
 
-    [[intonationView documentView] updateEvents];
+    [[intonationView documentView] updateEvents]; // Because it doesn't post notifications yet.  We need to resize the width.
 }
 
 - (IBAction)generateContour:(id)sender;
