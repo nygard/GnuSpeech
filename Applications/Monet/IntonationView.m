@@ -112,7 +112,6 @@
 
 - (void)setSmoothing:(NSButton *)smoothingSwitch;
 {
-    NSLog(@"%s, old: %p, new: %p", _cmd, smoothing, smoothingSwitch);
     if (smoothingSwitch == smoothing)
         return;
 
@@ -723,6 +722,8 @@
     int i;
     id temp;
 
+    NSLog(@" > %s", _cmd);
+
     [eventList setFullTimeScale];
     [eventList insertEvent:32 atTime:0.0 withValue:-20.0];
     NSLog(@"Applying intonation");
@@ -737,6 +738,8 @@
     }
 
     [eventList finalEvent:32 withValue:-20.0];
+
+    NSLog(@"<  %s", _cmd);
 }
 
 - (void)applyIntonationSmooth;
