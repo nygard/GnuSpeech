@@ -29,8 +29,8 @@
     IBOutlet NSTextField *selectedOutput; // TODO (2004-03-03): Not sure about this.
 
     MonetList *protoEquations; // Of NamedLists of ProtoEquations
-    MonetList *protoTemplates; // Of NamedLists of ProtoEquations
-    MonetList *protoSpecial; // Of NamedLists of ProtoEquations
+    MonetList *protoTemplates; // Of NamedLists of ProtoTemplates
+    MonetList *protoSpecial; // Of NamedLists of ProtoTemplates
 
     NSFont *courierFont;
     NSFont *courierBoldFont;

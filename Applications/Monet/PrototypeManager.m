@@ -41,8 +41,10 @@
     [protoEquations release];
     [protoTemplates release];
     [protoSpecial release];
+
     [courierFont release];
     [courierBoldFont release];
+
     [delegateResponder setDelegate:nil];
     [delegateResponder release];
 
@@ -68,12 +70,15 @@
 
 - (IBAction)browserHit:(id)sender;
 {
-    id temp, tempList, tempEntry;
+    NamedList *aList;
+    ProtoEquation *aProtoEquation;
+    ProtoTemplate *aProtoTemplate;
+    Inspector *inspector;
     int column = [protoBrowser selectedColumn];
     int row = [[protoBrowser matrixInColumn:column] selectedRow];
     RuleManager *ruleManager = NXGetNamedObject(@"ruleManager", NSApp);
 
-    temp = [controller inspector];
+    inspector = [controller inspector];
 
     if ([[sender matrixInColumn:0] selectedRow] != -1)
         [newButton setEnabled:YES];
@@ -94,24 +99,24 @@
         }
         [inputTextField selectText:sender];
         [[sender window] makeFirstResponder:delegateResponder];
-        [temp cleanInspectorWindow];
+        [inspector cleanInspectorWindow];
         return;
     }
 
     switch ([[browserSelector selectedCell] tag]) {
       case 0:
-          tempList = [protoEquations objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
-          tempEntry = [tempList objectAtIndex:[[sender matrixInColumn:1] selectedRow]];
-          [selectedOutput setStringValue:[[tempEntry expression] expressionString]];
-          [removeButton setEnabled:!([ruleManager isEquationUsed:tempEntry] || [self isEquationUsed:tempEntry] )] ;
-          [temp inspectProtoEquation:tempEntry];
+          aList = [protoEquations objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
+          aProtoEquation = [aList objectAtIndex:[[sender matrixInColumn:1] selectedRow]];
+          [selectedOutput setStringValue:[[aProtoEquation expression] expressionString]];
+          [removeButton setEnabled:!([ruleManager isEquationUsed:aProtoEquation] || [self isEquationUsed:aProtoEquation] )] ;
+          [inspector inspectProtoEquation:aProtoEquation];
           break;
       case 1:
-          tempList = [protoTemplates objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
-          tempEntry = [tempList objectAtIndex:[[sender matrixInColumn:1] selectedRow]];
-          [removeButton setEnabled:![ruleManager isTransitionUsed:tempEntry]];
-          [temp inspectProtoTransition:tempEntry];
-          switch ([(ProtoTemplate *)tempEntry type]) {
+          aList = [protoTemplates objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
+          aProtoTemplate = [aList objectAtIndex:[[sender matrixInColumn:1] selectedRow]];
+          [removeButton setEnabled:![ruleManager isTransitionUsed:aProtoTemplate]];
+          [inspector inspectProtoTransition:aProtoTemplate];
+          switch ([aProtoTemplate type]) {
             case DIPHONE:
                 [selectedOutput setStringValue:@"Diphone"];
                 break;
@@ -124,11 +129,11 @@
           }
           break;
       case 2:
-          tempList = [protoSpecial objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
-          tempEntry = [tempList objectAtIndex:[[sender matrixInColumn:1] selectedRow]];
-          [removeButton setEnabled:![ruleManager isTransitionUsed:tempEntry]];
-          [temp inspectProtoTransition:tempEntry];
-          switch ([(ProtoTemplate *)tempEntry type]) {
+          aList = [protoSpecial objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
+          aProtoTemplate = [aList objectAtIndex:[[sender matrixInColumn:1] selectedRow]];
+          [removeButton setEnabled:![ruleManager isTransitionUsed:aProtoTemplate]];
+          [inspector inspectProtoTransition:aProtoTemplate];
+          switch ([aProtoTemplate type]) {
             case DIPHONE:
                 [selectedOutput setStringValue:@"Diphone"];
                 break;
@@ -150,7 +155,8 @@
 
 - (IBAction)browserDoubleHit:(id)sender;
 {
-    id temp, tempList;
+    TransitionView *transitionBuilder;
+    NamedList *aList;
     int column = [protoBrowser selectedColumn];
 
     if (column == 0)
@@ -160,16 +166,16 @@
       case 0:
           break;
       case 1:
-          temp = NXGetNamedObject(@"transitionBuilder", NSApp);
-          tempList = [protoTemplates objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
-          [temp setTransition:[tempList objectAtIndex:[[sender matrixInColumn:1] selectedRow]]];
-          [(TransitionView *)temp showWindow:[[protoBrowser window] windowNumber]];
+          transitionBuilder = NXGetNamedObject(@"transitionBuilder", NSApp);
+          aList = [protoTemplates objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
+          [transitionBuilder setTransition:[aList objectAtIndex:[[sender matrixInColumn:1] selectedRow]]];
+          [transitionBuilder showWindow:[[protoBrowser window] windowNumber]];
           break;
       case 2:
-          temp = NXGetNamedObject(@"specialTransitionBuilder", NSApp);
-          tempList = [protoSpecial objectAtIndex: [[sender matrixInColumn:0] selectedRow]];
-          [temp setTransition:[tempList objectAtIndex:[[sender matrixInColumn:1] selectedRow]]];
-          [(TransitionView *)temp showWindow:[[protoBrowser window] windowNumber]];
+          transitionBuilder = NXGetNamedObject(@"specialTransitionBuilder", NSApp);
+          aList = [protoSpecial objectAtIndex: [[sender matrixInColumn:0] selectedRow]];
+          [transitionBuilder setTransition:[aList objectAtIndex:[[sender matrixInColumn:1] selectedRow]]];
+          [transitionBuilder showWindow:[[protoBrowser window] windowNumber]];
           break;
       default:
           NSLog(@"WHAT?");
@@ -179,31 +185,31 @@
 
 - (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;
 {
-    NamedList *tempList;
+    NamedList *aList;
 
     switch ([[browserSelector selectedCell] tag]) {
       case 0:
           if (column == 0)
               return [protoEquations count];
           else {
-              tempList = [protoEquations objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
-              return [tempList count];
+              aList = [protoEquations objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
+              return [aList count];
           }
           break;
       case 1:
           if (column == 0)
               return [protoTemplates count];
           else {
-              tempList = [protoTemplates objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
-              return [tempList count];
+              aList = [protoTemplates objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
+              return [aList count];
           }
           break;
       case 2:
           if (column == 0)
               return [protoSpecial count];
           else {
-              tempList = [protoSpecial objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
-              return [tempList count];
+              aList = [protoSpecial objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
+              return [aList count];
           }
           break;
       default:
@@ -217,7 +223,7 @@
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
 {
     RuleManager *ruleManager = NXGetNamedObject(@"ruleManager", NSApp);
-    NamedList *tempList;
+    NamedList *aList;
     BOOL used = NO;
 
     switch ([[browserSelector selectedCell] tag]) {
@@ -228,13 +234,13 @@
               [cell setLeaf:NO];
               [cell setLoaded:YES];
           } else {
-              tempList = [protoEquations objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
-              [cell setStringValue:[(ProtoEquation *)[tempList objectAtIndex:row] name]];
+              aList = [protoEquations objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
+              [cell setStringValue:[(ProtoEquation *)[aList objectAtIndex:row] name]];
               [cell setLeaf:YES];
               [cell setLoaded:YES];
-              used = [ruleManager isEquationUsed:[tempList objectAtIndex:row]];
+              used = [ruleManager isEquationUsed:[aList objectAtIndex:row]];
               if (!used)
-                  used = [self isEquationUsed:[tempList objectAtIndex:row]];
+                  used = [self isEquationUsed:[aList objectAtIndex:row]];
 
               if (used)
                   [cell setFont:courierBoldFont];
@@ -246,15 +252,15 @@
           /* Templates */
       case 1:
           if (column == 0) {
-              [cell setStringValue:[(ProtoEquation *)[protoTemplates objectAtIndex:row] name]];
+              [cell setStringValue:[(NamedList *)[protoTemplates objectAtIndex:row] name]];
               [cell setLeaf:NO];
               [cell setLoaded:YES];
           } else {
-              tempList = [protoTemplates objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
-              [cell setStringValue:[(ProtoEquation *)[tempList objectAtIndex:row] name]];
+              aList = [protoTemplates objectAtIndex:[[sender matrixInColumn:0] selectedRow]];
+              [cell setStringValue:[(ProtoEquation *)[aList objectAtIndex:row] name]];
               [cell setLeaf:YES];
               [cell setLoaded:YES];
-              used = [ruleManager isTransitionUsed:[tempList objectAtIndex:row]];
+              used = [ruleManager isTransitionUsed:[aList objectAtIndex:row]];
 
               if (used)
                   [cell setFont:courierBoldFont];
@@ -265,15 +271,15 @@
           /* Special Profiles */
       case 2:
           if (column == 0) {
-              [cell setStringValue:[(ProtoEquation *)[protoSpecial objectAtIndex:row] name]];
+              [cell setStringValue:[(NamedList *)[protoSpecial objectAtIndex:row] name]];
               [cell setLeaf:NO];
               [cell setLoaded:YES];
           } else {
-              tempList = [protoSpecial objectAtIndex: [[sender matrixInColumn:0] selectedRow]];
-              [cell setStringValue:[(ProtoEquation *)[tempList objectAtIndex:row] name]];
+              aList = [protoSpecial objectAtIndex: [[sender matrixInColumn:0] selectedRow]];
+              [cell setStringValue:[(ProtoEquation *)[aList objectAtIndex:row] name]];
               [cell setLeaf:YES];
               [cell setLoaded:YES];
-              used = [ruleManager isTransitionUsed:[tempList objectAtIndex:row]];
+              used = [ruleManager isTransitionUsed:[aList objectAtIndex:row]];
 
               if (used)
                   [cell setFont:courierBoldFont];
@@ -318,35 +324,40 @@
 
 - (IBAction)add:(id)sender;
 {
-    NamedList *tempList;
-    ProtoEquation *tempEquation;
+    NamedList *aList;
+    ProtoEquation *newEquation;
+    ProtoTemplate *newTemplate;
 
     switch ([[browserSelector selectedCell] tag]) {
       case 0: /* Test for Already Existing Name */
-          tempList = [protoEquations objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
-          tempEquation = [[ProtoEquation alloc] initWithName:[inputTextField stringValue]];
-          [tempList addObject:tempEquation];
+          aList = [protoEquations objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
+          newEquation = [[ProtoEquation alloc] initWithName:[inputTextField stringValue]];
+          [aList addObject:newEquation];
+          [newEquation release];
           [protoBrowser reloadColumn:1];
           break;
       case 1: /* Test for Already Existing Name */
-          tempList = [protoTemplates objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
-          tempEquation = [[ProtoTemplate alloc] initWithName:[inputTextField stringValue]];
-          [tempList addObject:tempEquation];
+          aList = [protoTemplates objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
+          newTemplate = [[ProtoTemplate alloc] initWithName:[inputTextField stringValue]];
+          [aList addObject:newTemplate];
+          [newTemplate release];
           [protoBrowser reloadColumn:1];
           break;
       case 2: /* Test for Already Existing Name */
-          tempList = [protoSpecial objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
-          tempEquation = [[ProtoTemplate alloc] initWithName:[inputTextField stringValue]];
-          [tempList addObject:tempEquation];
+          aList = [protoSpecial objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
+          newTemplate = [[ProtoTemplate alloc] initWithName:[inputTextField stringValue]];
+          [aList addObject:newTemplate];
+          [newTemplate release];
           [protoBrowser reloadColumn:1];
           break;
     }
 }
 
+// TODO (2004-03-06): It looks like this can rename lists or equations?
 - (IBAction)rename:(id)sender;
 {
-    NamedList *temp = nil;
-    id tempList;
+    id temp = nil;
+    NamedList *aList;
     int column = [protoBrowser selectedColumn];
 
     NSLog(@"Rename: Column = %d", column);
@@ -356,8 +367,8 @@
               temp = [protoEquations objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
               NSLog(@"Rename : %s", [[temp name] cString]);
           } else {
-              tempList = [protoEquations objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
-              temp = [tempList objectAtIndex:[[protoBrowser matrixInColumn:1] selectedRow]];
+              aList = [protoEquations objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
+              temp = [aList objectAtIndex:[[protoBrowser matrixInColumn:1] selectedRow]];
               NSLog(@"Rename: %s", [[temp name] cString]);
           }
           break;
@@ -366,8 +377,8 @@
               temp = [protoTemplates objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
               NSLog(@"Rename: %s", [[temp name] cString]);
           } else {
-              tempList = [protoTemplates objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
-              temp = [tempList objectAtIndex:[[protoBrowser matrixInColumn:1] selectedRow]];
+              aList = [protoTemplates objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
+              temp = [aList objectAtIndex:[[protoBrowser matrixInColumn:1] selectedRow]];
               NSLog(@"Rename: %s", [[temp name] cString]);
           }
           break;
@@ -377,14 +388,13 @@
               temp = [protoSpecial objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
               NSLog(@"Rename: %s", [[temp name] cString]);
           } else {
-              tempList = [protoSpecial objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
-              temp = [tempList objectAtIndex:[[protoBrowser matrixInColumn:1] selectedRow]];
+              aList = [protoSpecial objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
+              temp = [aList objectAtIndex:[[protoBrowser matrixInColumn:1] selectedRow]];
               NSLog(@"Rename: %s", [[temp name] cString]);
           }
     }
 
-
-    [temp setName:[inputTextField stringValue]];
+    [(NamedList *)temp setName:[inputTextField stringValue]]; // Might also be a ProtoEquation or ProtoTemplate
     [protoBrowser reloadColumn:column];
 }
 
@@ -394,38 +404,38 @@
 
 - (IBAction)setEquations:(id)sender;
 {
-    id temp = [controller inspector];
+    Inspector *inspector = [controller inspector];
 
     [newButton setTitle:@"New Equation"];
     [newButton setEnabled:NO];
     [outputBox setTitle:@"Selected Prototype Equation"];
     [outputBox display];
     [protoBrowser loadColumnZero];
-    [temp cleanInspectorWindow];
+    [inspector cleanInspectorWindow];
 }
 
 - (IBAction)setTransitions:(id)sender;
 {
-    id temp = [controller inspector];
+    Inspector *inspector = [controller inspector];
 
     [newButton setTitle:@"New Transition"];
     [newButton setEnabled:NO];
     [outputBox setTitle:@"Selected Prototype Transition Type"];
     [outputBox display];
     [protoBrowser loadColumnZero];
-    [temp cleanInspectorWindow];
+    [inspector cleanInspectorWindow];
 }
 
 - (IBAction)setSpecial:(id)sender;
 {
-    id temp = [controller inspector];
+    Inspector *inspector = [controller inspector];
 
     [newButton setTitle:@"New Special"];
     [newButton setEnabled:NO];
     [outputBox setTitle:@"Selected Prototype Transition Type"];
     [outputBox display];
     [protoBrowser loadColumnZero];
-    [temp cleanInspectorWindow];
+    [inspector cleanInspectorWindow];
 }
 
 - (MonetList *)equationList;
@@ -625,7 +635,9 @@ static NSString *specialString = @"ProtoSpecial";
     NSString *dataType;
     int column = [protoBrowser selectedColumn];
     int retValue;
-    id tempList, tempEntry;
+    NamedList *aList;
+    ProtoEquation *aProtoEquation;
+    ProtoTemplate *aProtoTemplate;
 
     myPasteboard = [NSPasteboard pasteboardWithName:@"MonetPasteboard"];
 
@@ -643,9 +655,9 @@ static NSString *specialString = @"ProtoSpecial";
        switch ([[browserSelector selectedCell] tag]) {
            /* Equations */
          case 0:
-             tempList = [protoEquations objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
-             tempEntry = [tempList objectAtIndex:[[protoBrowser matrixInColumn:1] selectedRow]];
-             [tempEntry encodeWithCoder:typed];
+             aList = [protoEquations objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
+             aProtoEquation = [aList objectAtIndex:[[protoBrowser matrixInColumn:1] selectedRow]];
+             [aProtoEquation encodeWithCoder:typed];
              dataType = equString;
              retValue = [myPasteboard declareTypes:[NSArray arrayWithObject:dataType] owner:nil];
              [myPasteboard setData:mdata forType:equString];
@@ -654,9 +666,9 @@ static NSString *specialString = @"ProtoSpecial";
 
              /* Transitions */
          case 1:
-             tempList = [protoTemplates objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
-             tempEntry = [tempList objectAtIndex:[[protoBrowser matrixInColumn:1] selectedRow]];
-             [tempEntry encodeWithCoder:typed];
+             aList = [protoTemplates objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
+             aProtoTemplate = [aList objectAtIndex:[[protoBrowser matrixInColumn:1] selectedRow]];
+             [aProtoTemplate encodeWithCoder:typed];
              dataType = tranString;
              retValue = [myPasteboard declareTypes:[NSArray arrayWithObject:dataType] owner:nil];
              [myPasteboard setData:mdata forType:tranString];
@@ -665,9 +677,9 @@ static NSString *specialString = @"ProtoSpecial";
 
              /* Special Transitions */
          case 2:
-             tempList = [protoSpecial objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
-             tempEntry = [tempList objectAtIndex:[[protoBrowser matrixInColumn:1] selectedRow]];
-             [tempEntry encodeWithCoder:typed];
+             aList = [protoSpecial objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
+             aProtoTemplate = [aList objectAtIndex:[[protoBrowser matrixInColumn:1] selectedRow]];
+             [aProtoTemplate encodeWithCoder:typed];
              dataType = specialString;
              retValue = [myPasteboard declareTypes:[NSArray arrayWithObject:dataType] owner:nil];
              [myPasteboard setData:mdata forType:specialString];
@@ -684,7 +696,9 @@ static NSString *specialString = @"ProtoSpecial";
     NSData *mdata;
     NSArchiver *typed = nil;
     NSArray *dataTypes;
-    id temp, tempList;
+    NamedList *aList;
+    ProtoEquation *aProtoEquation;
+    ProtoTemplate *aProtoTemplate;
     int column = [protoBrowser selectedColumn];
 
     myPasteboard = [NSPasteboard pasteboardWithName:@"MonetPasteboard"];
@@ -700,43 +714,46 @@ static NSString *specialString = @"ProtoSpecial";
     if ([[dataTypes objectAtIndex:0] isEqual:equString]) {
         mdata = [myPasteboard dataForType:equString];
         typed = [[NSUnarchiver alloc] initForReadingWithData:mdata];
-        temp = [[ProtoEquation alloc] init];
-        [temp initWithCoder:typed];
+        aProtoEquation = [[ProtoEquation alloc] init];
+        [aProtoEquation initWithCoder:typed];
         [typed release];
 
-        tempList = [protoEquations objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
+        aList = [protoEquations objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
         if (column == 1)
-            [tempList insertObject:temp atIndex:[[protoBrowser matrixInColumn:1] selectedRow]+1];
+            [aList insertObject:aProtoEquation atIndex:[[protoBrowser matrixInColumn:1] selectedRow]+1];
         else
-            [tempList addObject:temp];
+            [aList addObject:aProtoEquation];
+        [aProtoEquation release];
 
         [protoBrowser reloadColumn:1];
     } else if ([[dataTypes objectAtIndex: 0] isEqual: tranString]) {
         mdata = [myPasteboard dataForType:tranString];
         typed = [[NSUnarchiver alloc] initForReadingWithData:mdata];
-        temp = [[ProtoTemplate alloc] init];
-        [temp initWithCoder:typed];
+        aProtoTemplate = [[ProtoTemplate alloc] init];
+        [aProtoTemplate initWithCoder:typed];
         [typed release];
 
-        tempList = [protoTemplates objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
+        aList = [protoTemplates objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
         if (column == 1)
-            [tempList insertObject:temp atIndex:[[protoBrowser matrixInColumn:1] selectedRow]+1];
+            [aList insertObject:aProtoTemplate atIndex:[[protoBrowser matrixInColumn:1] selectedRow]+1];
         else
-            [tempList addObject:temp];
+            [aList addObject:aProtoTemplate];
+        [aProtoTemplate release];
 
         [protoBrowser reloadColumn:1];
     } else if ([[dataTypes objectAtIndex:0] isEqual:specialString]) {
         mdata = [myPasteboard dataForType:specialString];
         typed = [[NSUnarchiver alloc] initForReadingWithData:mdata];
-        temp = [[ProtoTemplate alloc] init];
-        [temp initWithCoder:typed];
+        aProtoTemplate = [[ProtoTemplate alloc] init];
+        [aProtoTemplate initWithCoder:typed];
         [typed release];
 
-        tempList = [protoSpecial objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
+        aList = [protoSpecial objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
         if (column == 1)
-            [tempList insertObject:temp atIndex:[[protoBrowser matrixInColumn:1] selectedRow]+1];
+            [aList insertObject:aProtoTemplate atIndex:[[protoBrowser matrixInColumn:1] selectedRow]+1];
         else
-            [tempList addObject:temp];
+            [aList addObject:aProtoTemplate];
+        [aProtoTemplate release];
 
         [protoBrowser reloadColumn:1];
     } else {
@@ -771,34 +788,39 @@ static NSString *specialString = @"ProtoSpecial";
 
 - (void)windowDidBecomeMain:(NSNotification *)notification;
 {
-    id temp = [controller inspector];
-    id tempList, tempEntry;
+    Inspector *inspector = [controller inspector];
+    NamedList *aList;
+    ProtoEquation *aProtoEquation;
+    ProtoTemplate *aProtoTemplate;
     int column = [protoBrowser selectedColumn];
+    int selectedColumn0Row, selectedColumn1Row;
 
     NSLog(@"Column = %d", column);
     if (column != 1) {
-        [temp cleanInspectorWindow];
+        [inspector cleanInspectorWindow];
         return;
     }
 
+    selectedColumn0Row = [[protoBrowser matrixInColumn:0] selectedRow];
+    selectedColumn1Row = [[protoBrowser matrixInColumn:1] selectedRow];
     switch ([[browserSelector selectedCell] tag]) {
       case 0:
-          tempList = [protoEquations objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
-          tempEntry = [tempList objectAtIndex:[[protoBrowser matrixInColumn:1] selectedRow]];
-          [temp inspectProtoEquation:tempEntry];
+          aList = [protoEquations objectAtIndex:selectedColumn0Row];
+          aProtoEquation = [aList objectAtIndex:selectedColumn1Row];
+          [inspector inspectProtoEquation:aProtoEquation];
           break;
       case 1:
-          tempList = [protoTemplates objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
-          tempEntry = [tempList objectAtIndex:[[protoBrowser matrixInColumn:1] selectedRow]];
-          [temp inspectProtoTransition:tempEntry];
+          aList = [protoTemplates objectAtIndex:selectedColumn0Row];
+          aProtoTemplate = [aList objectAtIndex:selectedColumn1Row];
+          [inspector inspectProtoTransition:aProtoTemplate];
           break;
       case 2:
-          tempList = [protoSpecial objectAtIndex:[[protoBrowser matrixInColumn:0] selectedRow]];
-          tempEntry = [tempList objectAtIndex:[[protoBrowser matrixInColumn:1] selectedRow]];
-          [temp inspectProtoTransition:tempEntry];
+          aList = [protoSpecial objectAtIndex:selectedColumn0Row];
+          aProtoTemplate = [aList objectAtIndex:selectedColumn1Row];
+          [inspector inspectProtoTransition:aProtoTemplate];
           break;
       default:
-          [temp cleanInspectorWindow];
+          [inspector cleanInspectorWindow];
           break;
     }
 }
