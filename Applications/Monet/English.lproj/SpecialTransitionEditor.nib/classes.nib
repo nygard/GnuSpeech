@@ -24,6 +24,7 @@
             }; 
             SUPERCLASS = NSWindowController; 
         }, 
+        {CLASS = SpecialView; LANGUAGE = ObjC; SUPERCLASS = TransitionView; }, 
         {
             ACTIONS = {
                 deleteBackward = id; 
