@@ -65,9 +65,6 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
 
 - (void)setEventList:(EventList *)newEventList;
 {
-    NSLog(@" > %s", _cmd);
-    NSLog(@"eventList: %p, newEventList: %p", eventList, newEventList);
-
     if (newEventList == eventList)
         return;
 
@@ -75,8 +72,6 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
     eventList = [newEventList retain];
 
     [self setNeedsDisplay:YES];
-
-    NSLog(@"<  %s", _cmd);
 }
 
 - (BOOL)shouldDrawSmoothPoints;
