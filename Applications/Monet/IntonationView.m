@@ -500,7 +500,7 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
 
     NSLog(@" > %s", _cmd);
 
-    numCount = [eventList numberOfRules];
+    ruleCount = [eventList numberOfRules];
 
     characters = [keyEvent characters];
     length = [characters length];
@@ -537,7 +537,7 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
           case NSRightArrowFunctionKey:
               NSLog(@"right arrow");
               for (pointIndex = 0; pointIndex < pointCount; pointIndex++) {
-                  if ([[selectedPoints objectAtIndex:pointIndex] ruleIndex] + 1 >= numRules) {
+                  if ([[selectedPoints objectAtIndex:pointIndex] ruleIndex] + 1 >= ruleCount) {
                       NSBeep();
                       return;
                   }
