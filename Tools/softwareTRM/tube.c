@@ -1375,7 +1375,7 @@ void initializeConversion(struct _TRMInputParameters *inputParameters)
     sampleRateRatio = (double)inputParameters->outputRate / (double)sampleRate;
 
     /*  CALCULATE TIME REGISTER INCREMENT  */
-    timeRegisterIncrement = (int)rint( pow(2.0, FRACTION_BITS) / sampleRateRatio );
+    timeRegisterIncrement = (int)rint(pow(2.0, FRACTION_BITS) / sampleRateRatio);
 
     /*  CALCULATE ROUNDED SAMPLE RATE RATIO  */
     roundedSampleRateRatio = pow(2.0, FRACTION_BITS) / (double)timeRegisterIncrement;
@@ -1475,6 +1475,8 @@ void initializeBuffer(void)
 
     /*  CALCULATE FILL SIZE  */
     fillSize = BUFFER_SIZE - (2 * padSize);
+
+    printf("initializeBuffer(), padSize: %d, fillPtr: %d, fillSize: %d\n", padSize, fillPtr, fillSize);
 }
 
 
@@ -1543,9 +1545,12 @@ void dataEmpty(void)
     printf(" > dataEmpty()\n");
     printf("buffer size: %d\n", BUFFER_SIZE);
     printf("numberSamples before: %ld\n", numberSamples);
+    printf("fillPtr: %d, padSize: %d\n", fillPtr, padSize);
 
     /*  CALCULATE END POINTER  */
     endPtr = fillPtr - padSize;
+    printf("endPtr: %d\n", endPtr);
+    printf("emptyPtr: %d\n", emptyPtr);
 
     /*  ADJUST THE END POINTER, IF LESS THAN ZERO  */
     if (endPtr < 0)
@@ -1574,9 +1579,8 @@ void dataEmpty(void)
             index = emptyPtr;
             for (filterIndex = lValue(timeRegister);
                  filterIndex < FILTER_LENGTH;
-                 srDecrement(&index, BUFFER_SIZE),
-                 filterIndex += filterIncrement) {
-                output += (buffer[index] * (h[filterIndex] + (deltaH[filterIndex] * interpolation)));
+                 srDecrement(&index, BUFFER_SIZE), filterIndex += filterIncrement) {
+                output += buffer[index] * (h[filterIndex] + deltaH[filterIndex] * interpolation);
             }
 
             /*  ADJUST VALUES FOR RIGHT SIDE CALCULATION  */
@@ -1588,10 +1592,8 @@ void dataEmpty(void)
             srIncrement(&index, BUFFER_SIZE);
             for (filterIndex = lValue(timeRegister);
                  filterIndex < FILTER_LENGTH;
-                 srIncrement(&index, BUFFER_SIZE),
-                 filterIndex += filterIncrement) {
-                output += (buffer[index] *
-                    (h[filterIndex] + (deltaH[filterIndex] * interpolation)));
+                 srIncrement(&index, BUFFER_SIZE), filterIndex += filterIncrement) {
+                output += buffer[index] * (h[filterIndex] + deltaH[filterIndex] * interpolation);
             }
 
             /*  RECORD MAXIMUM SAMPLE VALUE  */

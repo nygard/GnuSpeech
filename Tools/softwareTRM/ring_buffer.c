@@ -5,7 +5,7 @@ typedef struct _TRMRingBuffer {
     int fillPtr;
     int emptyPtr;
     int padSize;
-    int fillSize;
+    int fillSize; // Derived from BUFFER_SIZE and padSize.  Remains constant.
     int fillCounter;
 } TRMRingBuffer;
 
