@@ -126,6 +126,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
 - (void)setZeroRef:(int)newValue;
 {
     int index;
+
     zeroRef = newValue;
     zeroIndex = 0;
 
@@ -427,11 +428,11 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
         return nil;
 
     tempTime = zeroRef + (int) time;
-    tempTime = (tempTime >> 2) << 2;
+    tempTime = (tempTime >> 2) << 2; // TODO (2004-08-15): Hardcoded timeQuantization of 4
 //    if ((tempTime % timeQuantization) != 0)
 //        tempTime++;
 
-
+    // If there are no events yet, we can just add it.
     if ([events count] == 0) {
         newEvent = [[[Event alloc] init] autorelease];
         [newEvent setTime:tempTime];
@@ -446,7 +447,9 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
         return newEvent;
     }
 
+    // Otherwise we need to search through the events to find the correct place to insert it.
     for (i = [events count] - 1; i >= zeroIndex; i--) {
+        // If there is an Event at exactly this time, we can set the value in that event.
         if ([[events objectAtIndex:i] time] == tempTime) {
             if (number >= 0) {
                 if ((number >= 7) && (number <= 8))
@@ -458,7 +461,8 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
             return [events objectAtIndex:i];
         }
 
-        if ([[events objectAtIndex:i] time]< tempTime) {
+        // Otherwise we'll need to create an Event at that time and insert it in the proper place.
+        if ([[events objectAtIndex:i] time] < tempTime) {
             newEvent = [[[Event alloc] init] autorelease];
             [newEvent setTime:tempTime];
             if (number >= 0) {
@@ -473,7 +477,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
         }
     }
 
-
+    // In this case the event should come at the end of the list.
     newEvent = [[[Event alloc] init] autorelease];
     [newEvent setTime:tempTime];
     if (number >= 0) {

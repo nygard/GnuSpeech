@@ -69,8 +69,8 @@ struct _rule {
 @interface EventList : NSObject
 {
     int zeroRef;
-    int zeroIndex;
-    int duration; // Move... somewhere.
+    int zeroIndex; // Event index derived from zeroRef.
+    int duration; // Move... somewhere else.
     int timeQuantization; // in msecs.  By default it generates parameters every 4 msec
 
     BOOL shouldStoreParameters; // YES -> -generateOutput writes to /tmp/Monet.parameters
@@ -79,10 +79,10 @@ struct _rule {
     BOOL shouldUseDrift;
     BOOL shouldUseSmoothIntonation;
 
-    double radiusMultiply;
+    double radiusMultiply; // Affects hard coded parameters, in this case r1 and r2.
     double pitchMean;
     double globalTempo;
-    double multiplier; // Move... somewhere.
+    double multiplier; // Move... somewhere else.
     struct _intonationParameters intonationParameters;
 
     /* NOTE phones and phoneTempo are separate for Optimization reasons */
