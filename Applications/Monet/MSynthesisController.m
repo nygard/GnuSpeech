@@ -395,6 +395,7 @@
     [html appendString:@"    <p>Parameter graphs for phone string:</p>\n"];
     [html appendFormat:@"    <p>%@</p>\n", GSXMLCharacterData([stringTextField stringValue])];
     [html appendString:@"    <p>[<a href='Monet.parameters'>Monet.parameters</a>] [<a href='output.au'>output.au</a>]</p>\n"];
+    [html appendString:@"    <p><object type='audio/basic' data='output.au'></object></p>\n"];
     [html appendFormat:@"    <p>Generated %@</p>\n", GSXMLCharacterData([[NSCalendarDate calendarDate] description])];
 
     pid = [[NSProcessInfo processInfo] processIdentifier];

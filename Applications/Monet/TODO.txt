@@ -145,5 +145,8 @@ Notes:
 - move GSXML functions into NSString category
 
 2004-03-30:
-- Change EventLists's intonParms from "double *" into struct or class
++ Change EventLists's intonParms from "double *" into struct or class
 - intonation had range of -20 to 10, event index 32
+
+2004-03-31:
+- The Diphone/Triphone/Tetraphone radio buttons should be in the Transition Editor, not on the Prototype Manager window.
