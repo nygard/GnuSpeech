@@ -18,7 +18,6 @@
             CLASS = AppController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
-                dataBrowser = BrowserManager; 
                 defaultManager = DefaultMgr; 
                 eventListView = EventListView; 
                 infoPanel = NSPanel; 

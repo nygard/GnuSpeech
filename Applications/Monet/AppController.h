@@ -1,5 +1,5 @@
 //
-// $Id: AppController.h,v 1.23 2004/03/19 23:05:39 nygard Exp $
+// $Id: AppController.h,v 1.24 2004/03/20 20:34:02 nygard Exp $
 //
 
 /*===========================================================================
@@ -26,7 +26,7 @@ History:
 
 @class NSMutableDictionary;
 @class CategoryList, ParameterList, PhoneList, StringParser, SymbolList;
-@class BrowserManager, DefaultMgr, EventListView, Inspector, IntonationScrollView, PrototypeManager, RuleManager, SpecialView, TransitionView;
+@class DefaultMgr, EventListView, Inspector, IntonationScrollView, PrototypeManager, RuleManager, SpecialView, TransitionView;
 @class MModel;
 @class MDataEntryController, MPostureEditor;
 
@@ -39,7 +39,6 @@ History:
 
     MModel *model;
 
-    IBOutlet BrowserManager *dataBrowser;
     IBOutlet RuleManager *ruleManager;
     IBOutlet PrototypeManager *prototypeManager;
     IBOutlet TransitionView *transitionBuilder;

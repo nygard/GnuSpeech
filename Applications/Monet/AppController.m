@@ -4,7 +4,6 @@
 #import "AppController.h"
 
 #import <Foundation/Foundation.h>
-#import "BrowserManager.h"
 #import "MMCategory.h"
 #import "CategoryList.h"
 #import "EventListView.h"
@@ -81,7 +80,6 @@
 
     //NSLog(@"getting it by name: %@", NXGetNamedObject(@"mainSymbolList", NSApp));
 
-    [dataBrowser applicationDidFinishLaunching:aNotification];
     if (inspectorController)
         [inspectorController applicationDidFinishLaunching:aNotification];
 
@@ -214,7 +212,6 @@
             if (magic == 0x2e646567) {
                 NSLog(@"Loading DEGAS File");
                 [model readDegasFileFormat:fp];
-                [dataBrowser updateBrowser];
             } else {
                 NSLog(@"Not a DEGAS file");
             }
@@ -327,9 +324,6 @@
                 [ruleManager setModel:model];
                 [dataEntryController setModel:model];
                 [postureEditor setModel:model];
-
-                [dataBrowser updateLists];
-                [dataBrowser updateBrowser];
 
                 [transitionBuilder applicationDidFinishLaunching:nil];
                 [specialTransitionBuilder applicationDidFinishLaunching:nil];

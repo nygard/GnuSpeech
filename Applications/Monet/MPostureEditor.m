@@ -19,6 +19,8 @@
 #import "SymbolList.h"
 #import "TargetList.h"
 
+// TODO (2004-03-20): Implement copy and pasting of postures.
+
 @implementation MPostureEditor
 
 - (id)initWithModel:(MModel *)aModel;
