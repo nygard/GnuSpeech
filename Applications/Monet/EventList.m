@@ -725,6 +725,50 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
         fclose(fp);
 }
 
+// Adjust the tempos of each of the feet.  They start out at 1.0.
+- (void)applyRhythm;
+{
+    int i, j;
+
+    for (i = 0; i < footCount; i++) {
+        int rus;
+        double footTempo;
+
+        rus = feet[i].end - feet[i].start + 1;
+
+        /* Apply rhythm model */
+        if (feet[i].marked) {
+            double tempo;
+
+            tempo = 117.7 - (19.36 * (double)rus);
+            feet[i].tempo -= tempo / 180.0;
+            //NSLog(@"Rus = %d tempTempo = %f", rus, tempo);
+            footTempo = globalTempo * feet[i].tempo;
+        } else {
+            double tempo;
+
+            tempo = 18.5 - (2.08 * (double)rus);
+            feet[i].tempo -= tempo / 140.0;
+            //NSLog(@"Rus = %d tempTempo = %f", rus, tempTempo);
+            footTempo = globalTempo * feet[i].tempo;
+        }
+
+        // Adjust the posture tempos for postures in this foot, limiting it to a minimum of 0.2 and maximum of 2.0.
+        //NSLog(@"Foot Tempo = %f", footTempo);
+        for (j = feet[i].start; j < feet[i].end + 1; j++) {
+            phoneTempo[j] *= footTempo;
+            if (phoneTempo[j] < 0.2)
+                phoneTempo[j] = 0.2;
+            else if (phoneTempo[j] > 2.0)
+                phoneTempo[j] = 2.0;
+
+            //NSLog(@"PhoneTempo[%d] = %f, teed[%d].tempo = %f", j, phoneTempo[j], i, feet[i].tempo);
+        }
+    }
+
+    [self printDataStructures:@"Applied rhythm"];
+}
+
 - (void)generateEvents;
 {
     NSLog(@" > %s", _cmd);
@@ -747,49 +791,6 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
             max[index] = [aParameter maximumValue];
             //NSLog(@"Min: %9.3f Max: %9.3f", min[index], max[index]);
         }
-    }
-
-    // Adjust the tempos of each of the feet.  They start out at 1.0.
-    {
-        int i, j;
-
-        NSLog(@"footCount: %d", footCount);
-        for (i = 0; i < footCount; i++) {
-            int rus;
-            double footTempo;
-
-            rus = feet[i].end - feet[i].start + 1;
-
-            /* Apply rhythm model */
-            if (feet[i].marked) {
-                double tempo;
-
-                tempo = 117.7 - (19.36 * (double)rus);
-                feet[i].tempo -= tempo / 180.0;
-                //NSLog(@"Rus = %d tempTempo = %f", rus, tempo);
-                footTempo = globalTempo * feet[i].tempo;
-            } else {
-                double tempo;
-
-                tempo = 18.5 - (2.08 * (double)rus);
-                feet[i].tempo -= tempo / 140.0;
-                //NSLog(@"Rus = %d tempTempo = %f", rus, tempTempo);
-                footTempo = globalTempo * feet[i].tempo;
-            }
-
-            // Adjust the posture tempos for postures in this foot, limiting it to a minimum of 0.2 and maximum of 2.0.
-            //NSLog(@"Foot Tempo = %f", footTempo);
-            for (j = feet[i].start; j < feet[i].end + 1; j++) {
-                phoneTempo[j] *= footTempo;
-                if (phoneTempo[j] < 0.2)
-                    phoneTempo[j] = 0.2;
-                else if (phoneTempo[j] > 2.0)
-                    phoneTempo[j] = 2.0;
-
-                //NSLog(@"PhoneTempo[%d] = %f, teed[%d].tempo = %f", j, phoneTempo[j], i, feet[i].tempo);
-            }
-        }
-        [self printDataStructures:@"Changed tempos"];
     }
 
     {

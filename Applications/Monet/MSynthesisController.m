@@ -356,6 +356,7 @@
 
     [eventList parsePhoneString:[stringTextField stringValue]];
 
+    [eventList applyRhythm];
     [eventList generateEvents];
 
     if ([defaults boolForKey:MDK_ShouldUseSmoothIntonation])
@@ -439,7 +440,8 @@
     [eventList setIntonationParameters:intonationParameters];
 
     [eventList parsePhoneString:[stringTextField stringValue]]; // This creates the tone groups, feet.
-    [eventList generateEvents]; // This adds events to the EventList.
+    [eventList applyRhythm];
+    [eventList generateEvents]; // This applies the rules, adding events to the EventList.
     [eventList generateIntonationPoints];
     [self continueSynthesisToSoundFile:shouldSaveToSoundFile];
 }

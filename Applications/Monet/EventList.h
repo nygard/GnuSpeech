@@ -207,6 +207,7 @@ extern NSString *EventListDidRemoveIntonationPoint;
 
 // Other
 - (void)generateOutput;
+- (void)applyRhythm;
 - (void)generateEvents;
 
 - (void)applyRule:(MMRule *)rule withPostures:(NSArray *)somePostures andTempos:(double *)tempos phoneIndex:(int)phoneIndex;
