@@ -311,7 +311,6 @@
         [beatOffsetTextField setDoubleValue:[selectedIntonationPoint offsetTime]];
         [absTimeTextField setDoubleValue:[selectedIntonationPoint absoluteTime]];
 
-        NSLog(@"ruleIndex: %d", [selectedIntonationPoint ruleIndex]);
         [intonationRuleTableView scrollRowToVisible:[selectedIntonationPoint ruleIndex]];
         [intonationRuleTableView selectRow:[selectedIntonationPoint ruleIndex] byExtendingSelection:NO];
     }

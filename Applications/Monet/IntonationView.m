@@ -497,8 +497,6 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
 
     unsigned int ruleCount;
 
-    NSLog(@" > %s", _cmd);
-
     ruleCount = [eventList ruleCount];
 
     characters = [keyEvent characters];
@@ -509,16 +507,16 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
         pointCount = [selectedPoints count];
 
         ch = [characters characterAtIndex:index];
-        NSLog(@"index: %d, character: %@", index, [characters substringWithRange:NSMakeRange(index, 1)]);
+        //NSLog(@"index: %d, character: %@", index, [characters substringWithRange:NSMakeRange(index, 1)]);
 
         switch (ch) {
           case NSDeleteFunctionKey:
-              NSLog(@"delete");
+              //NSLog(@"delete");
               [self deletePoints];
               break;
 
           case NSLeftArrowFunctionKey:
-              NSLog(@"left arrow");
+              //NSLog(@"left arrow");
               for (pointIndex = 0; pointIndex < pointCount; pointIndex++) {
                   if ([[selectedPoints objectAtIndex:pointIndex] ruleIndex] - 1 < 0) {
                       NSBeep();
@@ -531,7 +529,7 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
               break;
 
           case NSRightArrowFunctionKey:
-              NSLog(@"right arrow");
+              //NSLog(@"right arrow");
               for (pointIndex = 0; pointIndex < pointCount; pointIndex++) {
                   if ([[selectedPoints objectAtIndex:pointIndex] ruleIndex] + 1 >= ruleCount) {
                       NSBeep();
@@ -544,7 +542,7 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
               break;
 
           case NSUpArrowFunctionKey:
-              NSLog(@"up arrow");
+              //NSLog(@"up arrow");
               for (pointIndex = 0; pointIndex < pointCount; pointIndex++) {
                   if ([[selectedPoints objectAtIndex:pointIndex] semitone] + 1.0 > 10.0) {
                       NSBeep();
@@ -557,7 +555,7 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
               break;
 
           case NSDownArrowFunctionKey:
-              NSLog(@"down arrow");
+              //NSLog(@"down arrow");
               for (pointIndex = 0; pointIndex < pointCount; pointIndex++) {
                   if ([[selectedPoints objectAtIndex:pointIndex] semitone] - 1.0 < -20.0) {
                       NSBeep();
@@ -570,10 +568,6 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
               break;
         }
     }
-
-    //[self setNeedsDisplay:YES];
-
-    NSLog(@"<  %s", _cmd);
 }
 
 - (void)mouseDown:(NSEvent *)mouseEvent;
