@@ -29,7 +29,7 @@ OSStatus playIOProc(AudioDeviceID inDevice,
     size = outOutputData->mBuffers[0].mDataByteSize;
     sampleCount = (size / sizeof(float)) / 2;
 
-    NSLog(@"size: %d, sampleCount: %d", size, sampleCount);
+    //NSLog(@"size: %d, sampleCount: %d", size, sampleCount);
 
     memset(outOutputData->mBuffers[0].mData, 0, size);
     ptr = outOutputData->mBuffers[0].mData;
@@ -301,9 +301,9 @@ OSStatus playIOProc(AudioDeviceID inDevice,
     int index;
     const float *ptr = [soundData bytes];
 
-    NSLog(@"ptr: %p", ptr);
-
-    NSLog(@"%s, bufferIndex: %d, bufferLength: %d", _cmd, bufferIndex, bufferLength);
+    // It looks like the buffer size is 4096
+    //NSLog(@"ptr: %p", ptr);
+    //NSLog(@"%s, bufferIndex: %d, bufferLength: %d", _cmd, bufferIndex, bufferLength);
     for (index = 0; index < count && bufferIndex < bufferLength; index++) {
         //buffer[2 * index] = ptr[bufferIndex] / (float)RANGE_MAX;
         //buffer[2 * index + 1] = ptr[bufferIndex] / (float)RANGE_MAX;
