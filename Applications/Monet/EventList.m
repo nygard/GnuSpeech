@@ -754,9 +754,10 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
     double currentDelta, value, maxValue;
     double tempTime, targets[4];
     MMFRuleSymbols ruleSymbols;
-    MMTransition *protoTemplate;
+    MMTransition *transition;
     MMPoint *currentPoint;
-    MonetList *tempTargets, *points;
+    NSArray *parameterTransitions;
+    MonetList *points;
     int cache = [aModel nextCacheTag];
 
     bzero(&ruleSymbols, sizeof(MMFRuleSymbols));
@@ -792,10 +793,10 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
           break;
     }
 
-    tempTargets = [rule parameterTransitions];
+    parameterTransitions = [rule parameterTransitions];
 
     /* Loop through the parameters */
-    for (i = 0; i < [tempTargets count]; i++) {
+    for (i = 0; i < [parameterTransitions count]; i++) {
         unsigned int postureCount;
         unsigned int targetIndex;
 
@@ -830,8 +831,8 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
             currentDelta = targets[1] - targets[0];
 
             /* Get transition profile list */
-            protoTemplate = (MMTransition *)[tempTargets objectAtIndex:i];
-            points = [protoTemplate points];
+            transition = (MMTransition *)[parameterTransitions objectAtIndex:i];
+            points = [transition points];
 
             maxValue = 0.0;
 
@@ -867,9 +868,9 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
 
     /* Special Event Profiles */
     for (i = 0; i < 16; i++) {
-        if ((protoTemplate = [rule getSpecialProfile:i])) {
+        if ((transition = [rule getSpecialProfile:i])) {
             /* Get transition profile list */
-            points = [protoTemplate points];
+            points = [transition points];
 
             for (j = 0; j < [points count]; j++) {
                 currentPoint = [points objectAtIndex:j];

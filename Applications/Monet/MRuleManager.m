@@ -230,17 +230,22 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 - (void)_updateSelectedParameterDetails;
 {
     int selectedRow;
-    MMTransition *aTransition;
+    NSArray *transitions;
 
     [parameterTableView reloadData]; // To get updated values
 
     selectedRow = [parameterTableView selectedRow];
-    aTransition = [[[self selectedRule] parameterTransitions] objectAtIndex:selectedRow];
-    if ([aTransition group] != nil) {
-        [parameterTransitionOutlineView scrollRowForItemToVisible:[aTransition group]];
-        [parameterTransitionOutlineView expandItem:[aTransition group]];
+    transitions = [[self selectedRule] parameterTransitions];
+    if (selectedRow < [transitions count]) {
+        MMTransition *aTransition;
+
+        aTransition = [transitions objectAtIndex:selectedRow];
+        if ([aTransition group] != nil) {
+            [parameterTransitionOutlineView scrollRowForItemToVisible:[aTransition group]];
+            [parameterTransitionOutlineView expandItem:[aTransition group]];
+        }
+        [parameterTransitionOutlineView selectItem:aTransition];
     }
-    [parameterTransitionOutlineView selectItem:aTransition];
 }
 
 - (void)_updateSelectedSpecialParameterDetails;
@@ -262,17 +267,22 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 - (void)_updateSelectedMetaParameterDetails;
 {
     int selectedRow;
-    MMTransition *aTransition;
+    NSArray *transitions;
 
     [metaParameterTableView reloadData]; // To get updated values
 
     selectedRow = [metaParameterTableView selectedRow];
-    aTransition = [[[self selectedRule] metaParameterTransitions] objectAtIndex:selectedRow];
-    if ([aTransition group] != nil) {
-        [metaParameterTransitionOutlineView scrollRowForItemToVisible:[aTransition group]];
-        [metaParameterTransitionOutlineView expandItem:[aTransition group]];
+    transitions = [[self selectedRule] metaParameterTransitions];
+    if (selectedRow < [transitions count]) {
+        MMTransition *aTransition;
+
+        aTransition = [transitions objectAtIndex:selectedRow];
+        if ([aTransition group] != nil) {
+            [metaParameterTransitionOutlineView scrollRowForItemToVisible:[aTransition group]];
+            [metaParameterTransitionOutlineView expandItem:[aTransition group]];
+        }
+        [metaParameterTransitionOutlineView selectItem:aTransition];
     }
-    [metaParameterTransitionOutlineView selectItem:aTransition];
 }
 
 - (void)setExpression:(MMBooleanNode *)anExpression atIndex:(int)index;

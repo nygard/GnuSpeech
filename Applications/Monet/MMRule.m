@@ -29,8 +29,8 @@
         return nil;
 
     /* Alloc lists to point to prototype transition specifiers */
-    parameterTransitions = [[MonetList alloc] init];
-    metaParameterTransitions = [[MonetList alloc] init];
+    parameterTransitions = [[NSMutableArray alloc] init];
+    metaParameterTransitions = [[NSMutableArray alloc] init];
 
     /* Set up list for Expression symbols */
     expressionSymbols = [[NSMutableArray alloc] init];
@@ -464,12 +464,12 @@
         ruleSymbols->beat = 0.0;
 }
 
-- (MonetList *)parameterTransitions;
+- (NSMutableArray *)parameterTransitions;
 {
     return parameterTransitions;
 }
 
-- (MonetList *)metaParameterTransitions;
+- (NSMutableArray *)metaParameterTransitions;
 {
     return metaParameterTransitions;
 }
@@ -552,8 +552,8 @@
     archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
     //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
 
-    parameterTransitions = [[MonetList alloc] init];
-    metaParameterTransitions = [[MonetList alloc] init];
+    parameterTransitions = [[NSMutableArray alloc] init];
+    metaParameterTransitions = [[NSMutableArray alloc] init];
     expressionSymbols = [[NSMutableArray alloc] init];
 
     [aDecoder decodeValuesOfObjCTypes:"i*", &j, &c_comment];
@@ -566,11 +566,6 @@
     for (index = 0; index < j; index++) {
         expressions[index] = [[aDecoder decodeObject] retain];
     }
-
-    // TODO (2004-03-05): These removeAllObjects: calls should be redundant.
-    [expressionSymbols removeAllObjects];
-    [parameterTransitions removeAllObjects];
-    [metaParameterTransitions removeAllObjects];
 
     [aDecoder decodeValuesOfObjCTypes:"iii", &symbolCount, &parameterCount, &metaParmaterCount];
     //NSLog(@"symbolCount: %d, parameterCount: %d, metaParmaterCount: %d", symbolCount, parameterCount, metaParmaterCount);

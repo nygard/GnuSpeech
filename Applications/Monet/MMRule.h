@@ -15,8 +15,8 @@
 
 @interface MMRule : MMObject
 {
-    MonetList *parameterTransitions; // Of MMTransitions
-    MonetList *metaParameterTransitions; // Of MMTransitions?
+    NSMutableArray *parameterTransitions; // Of MMTransitions
+    NSMutableArray *metaParameterTransitions; // Of MMTransitions?
     NSMutableArray *expressionSymbols; // Of MMEquations
 
     MMTransition *specialProfiles[16]; // TODO (2004-05-16): We should be able to use an NSMutableDictionary here.
@@ -63,8 +63,8 @@
 - (MMEquation *)getExpressionSymbol:(int)index;
 - (void)evaluateExpressionSymbols:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos phones:(NSArray *)phones withCache:(int)cache;
 
-- (MonetList *)parameterTransitions;
-- (MonetList *)metaParameterTransitions;
+- (NSMutableArray *)parameterTransitions;
+- (NSMutableArray *)metaParameterTransitions;
 - (NSMutableArray *)symbols;
 
 - (MMTransition *)getSpecialProfile:(int)index;
