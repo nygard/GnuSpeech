@@ -36,23 +36,36 @@ TRMWavetable *TRMWavetableCreate(int waveform, double tp, double tnMin, double t
         return NULL;
     }
 
-    newWavetable->waveform = waveform;
-    newWavetable->FIRFilter = TRMFIRFilterCreate(FIR_BETA, FIR_GAMMA, FIR_CUTOFF);
-
     //  Allocate memory for wavetable
     newWavetable->wavetable = (double *)calloc(TABLE_LENGTH, sizeof(double));
     if (newWavetable->wavetable == NULL) {
         fprintf(stderr, "Failed to allocate space for wavetable in TRMWavetableCreate.\n");
-        TRMFIRFilterFree(newWavetable->FIRFilter);
         free(newWavetable);
         return NULL;
     }
 
+    newWavetable->basicIncrement = (double)TABLE_LENGTH / sampleRate;
+    newWavetable->currentPosition = 0;
+
+    newWavetable->FIRFilter = TRMFIRFilterCreate(FIR_BETA, FIR_GAMMA, FIR_CUTOFF);
+    if (newWavetable->FIRFilter == NULL) {
+        fprintf(stderr, "Failed to allocate FIRFilter in TRMWavetableCreate.\n");
+        free(newWavetable->wavetable);
+        free(newWavetable);
+        return NULL;
+    }
+
+    newWavetable->waveform = waveform;
+
+    newWavetable->riseTime = tp;
+    newWavetable->minimumFallTime = tnMin;
+    newWavetable->maximumFallTime = tnMax;
+
     newWavetable->squares = (double *)calloc(TABLE_LENGTH, sizeof(double));
     if (newWavetable->squares == NULL) {
         fprintf(stderr, "Failed to allocate space for squares in TRMWavetableCreate.\n");
-        TRMFIRFilterFree(newWavetable->FIRFilter);
         free(newWavetable->wavetable);
+        TRMFIRFilterFree(newWavetable->FIRFilter);
         free(newWavetable);
         return NULL;
     }
@@ -60,8 +73,8 @@ TRMWavetable *TRMWavetableCreate(int waveform, double tp, double tnMin, double t
     newWavetable->ones = (double *)calloc(TABLE_LENGTH, sizeof(double));
     if (newWavetable->ones == NULL) {
         fprintf(stderr, "Failed to allocate space for squares in TRMWavetableCreate.\n");
-        TRMFIRFilterFree(newWavetable->FIRFilter);
         free(newWavetable->wavetable);
+        TRMFIRFilterFree(newWavetable->FIRFilter);
         free(newWavetable->squares);
         free(newWavetable);
         return NULL;
@@ -72,41 +85,7 @@ TRMWavetable *TRMWavetableCreate(int waveform, double tp, double tnMin, double t
         newWavetable->ones[i] = 1.0;
     }
 
-    //  Calculate wave table parameters
-    newWavetable->tableDiv1 = rint(TABLE_LENGTH * (tp / 100.0));
-    newWavetable->tableDiv2 = rint(TABLE_LENGTH * ((tp + tnMax) / 100.0));
-    newWavetable->tnLength = newWavetable->tableDiv2 - newWavetable->tableDiv1;
-    newWavetable->tnDelta = rint(TABLE_LENGTH * ((tnMax - tnMin) / 100.0));
-    newWavetable->basicIncrement = (double)TABLE_LENGTH / sampleRate;
-    newWavetable->currentPosition = 0;
-
-    //  Initialize the wavetable with either a glottal pulse or sine tone
-    if (waveform == TRMWaveformTypePulse) {
-        double j;
-
-        //  Calculate rise portion of wave table
-        for (i = 0; i < newWavetable->tableDiv1; i++) {
-            double x = (double)i / (double)newWavetable->tableDiv1;
-            double x2 = x * x;
-            double x3 = x2 * x;
-            newWavetable->wavetable[i] = (3.0 * x2) - (2.0 * x3);
-        }
-
-        //  Calculate falling portion of wave table
-        for (i = newWavetable->tableDiv1, j = 0; i < newWavetable->tableDiv2; i++, j++) {
-            double x = j / newWavetable->tnLength;
-            newWavetable->wavetable[i] = 1.0 - (x * x);
-        }
-
-        //  Set closed portion of wave table
-        for (i = newWavetable->tableDiv2; i < TABLE_LENGTH; i++)
-            newWavetable->wavetable[i] = 0.0;
-    } else {
-        //  Sine wave
-        for (i = 0; i < TABLE_LENGTH; i++) {
-            newWavetable->wavetable[i] = sin( ((double)i / (double)TABLE_LENGTH) * 2.0 * M_PI);
-        }
-    }
+    TRMWavetableCalculate(newWavetable);
 
     return newWavetable;
 }
@@ -139,6 +118,79 @@ void TRMWavetableFree(TRMWavetable *wavetable)
     free(wavetable);
 }
 
+unsigned int TRMWavetableLength(TRMWavetable *wavetable)
+{
+    return TABLE_LENGTH;
+}
+
+void TRMWavetableSetWaveform(TRMWavetable *wavetable, TRMWaveformType newWaveform)
+{
+    wavetable->waveform = newWaveform;
+    TRMWavetableCalculate(wavetable);
+}
+
+void TRMWavetableSetRiseTime(TRMWavetable *wavetable, double newRiseTime)
+{
+    wavetable->riseTime = newRiseTime;
+
+    if (wavetable->waveform == TRMWaveformTypePulse)
+        TRMWavetableCalculate(wavetable);
+}
+
+void TRMWavetableSetMinimumFallTime(TRMWavetable *wavetable, double newMinimumFallTime)
+{
+    wavetable->minimumFallTime = newMinimumFallTime;
+
+    if (wavetable->waveform == TRMWaveformTypePulse)
+        TRMWavetableCalculate(wavetable);
+}
+
+void TRMWavetableSetMaximumFallTime(TRMWavetable *wavetable, double newMaximumFallTime)
+{
+    wavetable->maximumFallTime = newMaximumFallTime;
+
+    if (wavetable->waveform == TRMWaveformTypePulse)
+        TRMWavetableCalculate(wavetable);
+}
+
+void TRMWavetableCalculate(TRMWavetable *wavetable)
+{
+    unsigned int i;
+
+    //  Calculate wave table parameters
+    wavetable->tableDiv1 = rint(TABLE_LENGTH * (wavetable->riseTime / 100.0));
+    wavetable->tableDivMax = rint(TABLE_LENGTH * ((wavetable->riseTime + wavetable->maximumFallTime) / 100.0));
+    wavetable->tnDelta = rint(TABLE_LENGTH * ((wavetable->maximumFallTime - wavetable->minimumFallTime) / 100.0));
+    wavetable->tnLength = wavetable->tableDivMax - wavetable->tableDiv1; // Therefore defaults to maximum amplitude
+
+    //  Initialize the wavetable with either a glottal pulse or sine tone
+    if (wavetable->waveform == TRMWaveformTypePulse) {
+        double j;
+
+        //  Calculate rise portion of wave table
+        for (i = 0; i < wavetable->tableDiv1; i++) {
+            double x = (double)i / (double)wavetable->tableDiv1;
+            double x2 = x * x;
+            double x3 = x2 * x;
+            wavetable->wavetable[i] = (3.0 * x2) - (2.0 * x3);
+        }
+
+        //  Calculate falling portion of wave table
+        for (i = wavetable->tableDiv1, j = 0; i < wavetable->tableDivMax; i++, j++) {
+            double x = j / wavetable->tnLength;
+            wavetable->wavetable[i] = 1.0 - (x * x);
+        }
+
+        //  Set closed portion of wave table
+        for (i = wavetable->tableDivMax; i < TABLE_LENGTH; i++)
+            wavetable->wavetable[i] = 0.0;
+    } else {
+        //  Sine wave
+        for (i = 0; i < TABLE_LENGTH; i++) {
+            wavetable->wavetable[i] = sin( ((double)i / (double)TABLE_LENGTH) * 2.0 * M_PI);
+        }
+    }
+}
 
 // Rewrites the changeable part of the glottal pulse according to the amplitude.
 void TRMWavetableUpdate(TRMWavetable *wavetable, double amplitude)
@@ -151,7 +203,7 @@ void TRMWavetableUpdate(TRMWavetable *wavetable, double amplitude)
 
     //printf("TRMWavetableUpdate(self=%p, amplitude=%f)\n", wavetable, amplitude);
     //  Calculate new closure point, based on amplitude
-    double newDiv2 = wavetable->tableDiv2 - rint(amplitude * wavetable->tnDelta);
+    double newDiv2 = wavetable->tableDivMax - rint(amplitude * wavetable->tnDelta);
     double newTnLength = newDiv2 - wavetable->tableDiv1;
 
     //  Recalculate the falling portion of the glottal pulse
@@ -181,12 +233,12 @@ void TRMWavetableUpdate(TRMWavetable *wavetable, double amplitude)
 
     //  Fill in with closed portion of glottal pulse
 #if 1
-    for (i = newDiv2; i < wavetable->tableDiv2; i++)
+    for (i = newDiv2; i < wavetable->tableDivMax; i++)
         wavetable->wavetable[i] = 0.0;
 #else
     i = newDiv2;
-    if (wavetable->tableDiv2 > i)
-        memset(&wavetable[i], 0, (wavetable->tableDiv2 - i) * sizeof(double)); // This seems to be crashy... possibly with 0 sizes?
+    if (wavetable->tableDivMax > i)
+        memset(&wavetable[i], 0, (wavetable->tableDivMax - i) * sizeof(double)); // This seems to be crashy... possibly with 0 sizes?
 #endif
 }
 

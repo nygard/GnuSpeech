@@ -19,9 +19,13 @@ typedef struct _TRMWavetable {
     TRMWaveformType waveform;
 
     // These are only used for the TRMWaveformTypePulse waveform:
+    double riseTime;
+    double minimumFallTime;
+    double maximumFallTime;
+
     int tableDiv1;
-    int tableDiv2;
-    double tnLength;
+    int tableDivMax;
+    double tnLength; // TODO (2004-08-30): Looks like we don't need to keep this around.
     double tnDelta;
     double *squares; // squares of integers: 0^2, 1^2, 2^2, ...  Same size as wavetable.
     double *ones;    // array of 1.0, same size as wavetable.
@@ -29,6 +33,14 @@ typedef struct _TRMWavetable {
 
 TRMWavetable *TRMWavetableCreate(int waveform, double tp, double tnMin, double tnMax, double sampleRate);
 void TRMWavetableFree(TRMWavetable *wavetable);
+
+unsigned int TRMWavetableLength(TRMWavetable *wavetable);
+void TRMWavetableSetWaveform(TRMWavetable *wavetable, TRMWaveformType newWaveform);
+void TRMWavetableSetRiseTime(TRMWavetable *wavetable, double newRiseTime);
+void TRMWavetableSetMinimumFallTime(TRMWavetable *wavetable, double newMinimumFallTime);
+void TRMWavetableSetMaximumFallTime(TRMWavetable *wavetable, double newMaximumFallTime);
+
+void TRMWavetableCalculate(TRMWavetable *wavetable);
 
 void TRMWavetableUpdate(TRMWavetable *wavetable, double amplitude);
 double TRMWavetableOscillator(TRMWavetable *wavetable, double frequency);
