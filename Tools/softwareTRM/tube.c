@@ -223,10 +223,12 @@ struct {
 } current;
 
 /*  VARIABLES FOR SAMPLE RATE CONVERSION  */
-double sampleRateRatio;
-double h[FILTER_LENGTH], deltaH[FILTER_LENGTH];
-unsigned int timeRegisterIncrement, filterIncrement, phaseIncrement;
-unsigned int timeRegister = 0;
+struct {
+    double sampleRateRatio;
+    double h[FILTER_LENGTH], deltaH[FILTER_LENGTH];
+    unsigned int timeRegisterIncrement, filterIncrement, phaseIncrement;
+    unsigned int timeRegister;
+} sampleRateConverter;
 
 
 //
@@ -1367,28 +1369,30 @@ void initializeConversion(struct _TRMInputParameters *inputParameters)
 {
     double roundedSampleRateRatio;
 
+    sampleRateConverter.timeRegister = 0;
+
 
     /*  INITIALIZE FILTER IMPULSE RESPONSE  */
     initializeFilter();
 
     /*  CALCULATE SAMPLE RATE RATIO  */
-    sampleRateRatio = (double)inputParameters->outputRate / (double)sampleRate;
+    sampleRateConverter.sampleRateRatio = (double)inputParameters->outputRate / (double)sampleRate;
 
     /*  CALCULATE TIME REGISTER INCREMENT  */
-    timeRegisterIncrement = (int)rint(pow(2.0, FRACTION_BITS) / sampleRateRatio);
+    sampleRateConverter.timeRegisterIncrement = (int)rint(pow(2.0, FRACTION_BITS) / sampleRateConverter.sampleRateRatio);
 
     /*  CALCULATE ROUNDED SAMPLE RATE RATIO  */
-    roundedSampleRateRatio = pow(2.0, FRACTION_BITS) / (double)timeRegisterIncrement;
+    roundedSampleRateRatio = pow(2.0, FRACTION_BITS) / (double)sampleRateConverter.timeRegisterIncrement;
 
     /*  CALCULATE PHASE OR FILTER INCREMENT  */
-    if (sampleRateRatio >= 1.0) {
-        filterIncrement = L_RANGE;
+    if (sampleRateConverter.sampleRateRatio >= 1.0) {
+        sampleRateConverter.filterIncrement = L_RANGE;
     } else {
-        phaseIncrement = (unsigned int)rint(sampleRateRatio * (double)FRACTION_RANGE);
+        sampleRateConverter.phaseIncrement = (unsigned int)rint(sampleRateConverter.sampleRateRatio * (double)FRACTION_RANGE);
     }
 
     /*  CALCULATE PAD SIZE  */
-    padSize = (sampleRateRatio >= 1.0) ? ZERO_CROSSINGS :
+    padSize = (sampleRateConverter.sampleRateRatio >= 1.0) ? ZERO_CROSSINGS :
         (int)((float)ZERO_CROSSINGS / roundedSampleRateRatio) + 1;
 
     /*  INITIALIZE THE RING BUFFER  */
@@ -1421,24 +1425,24 @@ void initializeFilter(void)
 
 
     /*  INITIALIZE THE FILTER IMPULSE RESPONSE  */
-    h[0] = LP_CUTOFF;
+    sampleRateConverter.h[0] = LP_CUTOFF;
     x = PI / (double)L_RANGE;
     for (i = 1; i < FILTER_LENGTH; i++) {
         double y = (double)i * x;
-        h[i] = sin(y * LP_CUTOFF) / y;
+        sampleRateConverter.h[i] = sin(y * LP_CUTOFF) / y;
     }
 
     /*  APPLY A KAISER WINDOW TO THE IMPULSE RESPONSE  */
     IBeta = 1.0 / Izero(BETA);
     for (i = 0; i < FILTER_LENGTH; i++) {
         double temp = (double)i / FILTER_LENGTH;
-        h[i] *= Izero(BETA * sqrt(1.0 - (temp * temp))) * IBeta;
+        sampleRateConverter.h[i] *= Izero(BETA * sqrt(1.0 - (temp * temp))) * IBeta;
     }
 
     /*  INITIALIZE THE FILTER IMPULSE RESPONSE DELTA VALUES  */
     for (i = 0; i < FILTER_LIMIT; i++)
-        deltaH[i] = h[i+1] - h[i];
-    deltaH[FILTER_LIMIT] = 0.0 - h[FILTER_LIMIT];
+        sampleRateConverter.deltaH[i] = sampleRateConverter.h[i+1] - sampleRateConverter.h[i];
+    sampleRateConverter.deltaH[FILTER_LIMIT] = 0.0 - sampleRateConverter.h[FILTER_LIMIT];
 }
 
 
@@ -1561,8 +1565,8 @@ void dataEmpty(void)
         endPtr += BUFFER_SIZE;
 
     /*  UPSAMPLE LOOP (SLIGHTLY MORE EFFICIENT THAN DOWNSAMPLING)  */
-    printf("sampleRateRatio: %g\n", sampleRateRatio);
-    if (sampleRateRatio >= 1.0) {
+    printf("sampleRateConverter.sampleRateRatio: %g\n", sampleRateConverter.sampleRateRatio);
+    if (sampleRateConverter.sampleRateRatio >= 1.0) {
         printf("Upsampling...\n");
         while (emptyPtr < endPtr) {
             int index;
@@ -1573,27 +1577,27 @@ void dataEmpty(void)
             output = 0.0;
 
             /*  CALCULATE INTERPOLATION VALUE (STATIC WHEN UPSAMPLING)  */
-            interpolation = (double)mValue(timeRegister) / (double)M_RANGE;
+            interpolation = (double)mValue(sampleRateConverter.timeRegister) / (double)M_RANGE;
 
             /*  COMPUTE THE LEFT SIDE OF THE FILTER CONVOLUTION  */
             index = emptyPtr;
-            for (filterIndex = lValue(timeRegister);
+            for (filterIndex = lValue(sampleRateConverter.timeRegister);
                  filterIndex < FILTER_LENGTH;
-                 srDecrement(&index, BUFFER_SIZE), filterIndex += filterIncrement) {
-                output += buffer[index] * (h[filterIndex] + deltaH[filterIndex] * interpolation);
+                 srDecrement(&index, BUFFER_SIZE), filterIndex += sampleRateConverter.filterIncrement) {
+                output += buffer[index] * (sampleRateConverter.h[filterIndex] + sampleRateConverter.deltaH[filterIndex] * interpolation);
             }
 
             /*  ADJUST VALUES FOR RIGHT SIDE CALCULATION  */
-            timeRegister = ~timeRegister;
-            interpolation = (double)mValue(timeRegister) / (double)M_RANGE;
+            sampleRateConverter.timeRegister = ~sampleRateConverter.timeRegister;
+            interpolation = (double)mValue(sampleRateConverter.timeRegister) / (double)M_RANGE;
 
             /*  COMPUTE THE RIGHT SIDE OF THE FILTER CONVOLUTION  */
             index = emptyPtr;
             srIncrement(&index, BUFFER_SIZE);
-            for (filterIndex = lValue(timeRegister);
+            for (filterIndex = lValue(sampleRateConverter.timeRegister);
                  filterIndex < FILTER_LENGTH;
-                 srIncrement(&index, BUFFER_SIZE), filterIndex += filterIncrement) {
-                output += buffer[index] * (h[filterIndex] + deltaH[filterIndex] * interpolation);
+                 srIncrement(&index, BUFFER_SIZE), filterIndex += sampleRateConverter.filterIncrement) {
+                output += buffer[index] * (sampleRateConverter.h[filterIndex] + sampleRateConverter.deltaH[filterIndex] * interpolation);
             }
 
             /*  RECORD MAXIMUM SAMPLE VALUE  */
@@ -1608,13 +1612,13 @@ void dataEmpty(void)
             fwrite((char *)&output, sizeof(output), 1, tempFilePtr);
 
             /*  CHANGE TIME REGISTER BACK TO ORIGINAL FORM  */
-            timeRegister = ~timeRegister;
+            sampleRateConverter.timeRegister = ~sampleRateConverter.timeRegister;
 
             /*  INCREMENT THE TIME REGISTER  */
-            timeRegister += timeRegisterIncrement;
+            sampleRateConverter.timeRegister += sampleRateConverter.timeRegisterIncrement;
 
             /*  INCREMENT THE EMPTY POINTER, ADJUSTING IT AND END POINTER  */
-            emptyPtr += nValue(timeRegister);
+            emptyPtr += nValue(sampleRateConverter.timeRegister);
 
             if (emptyPtr >= BUFFER_SIZE) {
                 emptyPtr -= BUFFER_SIZE;
@@ -1622,7 +1626,7 @@ void dataEmpty(void)
             }
 
             /*  CLEAR N PART OF TIME REGISTER  */
-            timeRegister &= (~N_MASK);
+            sampleRateConverter.timeRegister &= (~N_MASK);
         }
     } else {
         printf("Downsampling...\n");
@@ -1636,30 +1640,30 @@ void dataEmpty(void)
             output = 0.0;
 
             /*  COMPUTE P PRIME  */
-            phaseIndex = (unsigned int)rint( ((double)fractionValue(timeRegister)) * sampleRateRatio);
+            phaseIndex = (unsigned int)rint( ((double)fractionValue(sampleRateConverter.timeRegister)) * sampleRateConverter.sampleRateRatio);
 
             /*  COMPUTE THE LEFT SIDE OF THE FILTER CONVOLUTION  */
             index = emptyPtr;
             while ((impulseIndex = (phaseIndex>>M_BITS)) < FILTER_LENGTH) {
-                impulse = h[impulseIndex] + (deltaH[impulseIndex] *
-                    (((double)mValue(phaseIndex)) / (double)M_RANGE));
+                impulse = sampleRateConverter.h[impulseIndex] + (sampleRateConverter.deltaH[impulseIndex] *
+                                                                 (((double)mValue(phaseIndex)) / (double)M_RANGE));
                 output += (buffer[index] * impulse);
                 srDecrement(&index, BUFFER_SIZE);
-                phaseIndex += phaseIncrement;
+                phaseIndex += sampleRateConverter.phaseIncrement;
             }
 
             /*  COMPUTE P PRIME, ADJUSTED FOR RIGHT SIDE  */
-            phaseIndex = (unsigned int)rint( ((double)fractionValue(~timeRegister)) * sampleRateRatio);
+            phaseIndex = (unsigned int)rint( ((double)fractionValue(~sampleRateConverter.timeRegister)) * sampleRateConverter.sampleRateRatio);
 
             /*  COMPUTE THE RIGHT SIDE OF THE FILTER CONVOLUTION  */
             index = emptyPtr;
             srIncrement(&index, BUFFER_SIZE);
             while ((impulseIndex = (phaseIndex>>M_BITS)) < FILTER_LENGTH) {
-                impulse = h[impulseIndex] + (deltaH[impulseIndex] *
-                    (((double)mValue(phaseIndex)) / (double)M_RANGE));
+                impulse = sampleRateConverter.h[impulseIndex] + (sampleRateConverter.deltaH[impulseIndex] *
+                                                                 (((double)mValue(phaseIndex)) / (double)M_RANGE));
                 output += (buffer[index] * impulse);
                 srIncrement(&index, BUFFER_SIZE);
-                phaseIndex += phaseIncrement;
+                phaseIndex += sampleRateConverter.phaseIncrement;
             }
 
             /*  RECORD MAXIMUM SAMPLE VALUE  */
@@ -1674,17 +1678,17 @@ void dataEmpty(void)
             fwrite((char *)&output, sizeof(output), 1, tempFilePtr);
 
             /*  INCREMENT THE TIME REGISTER  */
-            timeRegister += timeRegisterIncrement;
+            sampleRateConverter.timeRegister += sampleRateConverter.timeRegisterIncrement;
 
             /*  INCREMENT THE EMPTY POINTER, ADJUSTING IT AND END POINTER  */
-            emptyPtr += nValue(timeRegister);
+            emptyPtr += nValue(sampleRateConverter.timeRegister);
             if (emptyPtr >= BUFFER_SIZE) {
                 emptyPtr -= BUFFER_SIZE;
                 endPtr -= BUFFER_SIZE;
             }
 
             /*  CLEAR N PART OF TIME REGISTER  */
-            timeRegister &= (~N_MASK);
+            sampleRateConverter.timeRegister &= (~N_MASK);
         }
     }
     printf("numberSamples after: %ld\n", numberSamples);
