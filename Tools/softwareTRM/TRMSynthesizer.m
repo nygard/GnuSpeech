@@ -297,9 +297,9 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
     synthesize(tube, inputData);
 
     if (shouldSaveToSoundFile) {
-        writeOutputToFile(&(tube->sampleRateConverter), inputData, [filename UTF8String]);
+        writeOutputToFile(tube->sampleRateConverter, inputData, [filename UTF8String]);
     } else {
-        [self convertSamplesIntoData:&(tube->sampleRateConverter)];
+        [self convertSamplesIntoData:tube->sampleRateConverter];
         [self startPlaying];
     }
 
