@@ -3,8 +3,11 @@
 
 /*  VARIABLES FOR FIR LOWPASS FILTER  */
 typedef struct {
-    double *FIRData, *FIRCoef;
-    int FIRPtr, numberTaps;
+    double *coefficients; // There are tapCount coefficients
+    int tapCount;
+
+    double *data; // And tapCount data elements
+    int dataIndex;
 } TRMFIRFilter;
 
 TRMFIRFilter *TRMFIRFilterCreate(double beta, double gamma, double cutoff);

@@ -22,7 +22,7 @@ TRMFIRFilter *TRMFIRFilterCreate(double beta, double gamma, double cutoff)
 {
     TRMFIRFilter *newFilter;
 
-    int i, pointer, increment, numberCoefficients;
+    int i, pointer, increment, coefficientCount;
     double coefficient[LIMIT+1];
 
     //printf("TRMFIRFilterCreate(beta=%g, gamma=%g, cutoff=%.10f\n", beta, gamma, cutoff);
@@ -33,45 +33,46 @@ TRMFIRFilter *TRMFIRFilterCreate(double beta, double gamma, double cutoff)
         return NULL;
     }
 
-    /*  DETERMINE IDEAL LOW PASS FILTER COEFFICIENTS  */
-    maximallyFlat(beta, gamma, &numberCoefficients, coefficient);
-    //printf("numberCoefficients: %d\n", numberCoefficients);
+    // Determine ideal low pass filter coefficients
+    maximallyFlat(beta, gamma, &coefficientCount, coefficient);
+
 #if 0
-    for (i = 0; i < numberCoefficients; i++)
+    printf("coefficientCount: %d\n", coefficientCount);
+    for (i = 0; i < coefficientCount; i++)
         printf("coef[%2d]: %17.10f\n", i, coefficient[i]);
 #endif
     //printf("----------------------------------------------------------------------\n");
 
-    /*  TRIM LOW-VALUE COEFFICIENTS  */
-    trim(cutoff, &numberCoefficients, coefficient);
-    //printf("trimmed numberCoefficients: %d\n", numberCoefficients);
+    // Trim low-value coefficients
+    trim(cutoff, &coefficientCount, coefficient);
+    //printf("trimmed coefficientCount: %d\n", coefficientCount);
 
-    /*  DETERMINE THE NUMBER OF TAPS IN THE FILTER  */
-    newFilter->numberTaps = (numberCoefficients * 2) - 1;
-    //printf("newFilter->numberTaps: %d\n", newFilter->numberTaps);
+    // Determine the number of taps in the filter
+    newFilter->tapCount = (coefficientCount * 2) - 1;
+    //printf("newFilter->tapCount: %d\n", newFilter->tapCount);
 
-    /*  ALLOCATE MEMORY FOR DATA AND COEFFICIENTS  */
-    newFilter->FIRData = (double *)calloc(newFilter->numberTaps, sizeof(double));
-    if (newFilter->FIRData == NULL) {
-        fprintf(stderr, "calloc() of FIRData failed.\n");
+    newFilter->coefficients = (double *)calloc(newFilter->tapCount, sizeof(double));
+    if (newFilter->coefficients == NULL) {
+        fprintf(stderr, "calloc() of coefficients failed.\n");
         free(newFilter);
         return NULL;
     }
 
-    newFilter->FIRCoef = (double *)calloc(newFilter->numberTaps, sizeof(double));
-    if (newFilter->FIRCoef == NULL) {
-        fprintf(stderr, "calloc() of FIRCoef failed.\n");
-        free(newFilter->FIRData);
+    // Allocate memory for data and coefficients
+    newFilter->data = (double *)calloc(newFilter->tapCount, sizeof(double));
+    if (newFilter->data == NULL) {
+        fprintf(stderr, "calloc() of data failed.\n");
+        free(newFilter->coefficients);
         free(newFilter);
         return NULL;
     }
 
-    /*  INITIALIZE THE COEFFICIENTS  */
+    // Initialize the coefficients
     increment = -1;
-    pointer = numberCoefficients;
-    for (i = 0; i < newFilter->numberTaps; i++) {
-        newFilter->FIRCoef[i] = coefficient[pointer];
-        //printf("FIRCoef[%2d] = coef[%2d] = %17.10f\n", i, pointer, coefficient[pointer]);
+    pointer = coefficientCount;
+    for (i = 0; i < newFilter->tapCount; i++) {
+        newFilter->coefficients[i] = coefficient[pointer];
+        //printf("newFilter->coefficients[%2d] = coefficients[%2d] = %17.10f\n", i, pointer, coefficient[pointer]);
         pointer += increment;
         if (pointer <= 0) {
             pointer = 2;
@@ -79,14 +80,12 @@ TRMFIRFilter *TRMFIRFilterCreate(double beta, double gamma, double cutoff)
         }
     }
 
-    /*  SET POINTER TO FIRST ELEMENT  */
-    newFilter->FIRPtr = 0;
+    newFilter->dataIndex = 0;
 
 #if DEBUG
-    /*  PRINT OUT  */
     printf("\n");
-    for (i = 0; i < newFilter->numberTaps; i++)
-        printf("FIRCoef[%-d] = %11.8f\n", i, newFilter->FIRCoef[i]);
+    for (i = 0; i < newFilter->tapCount; i++)
+        printf("coefficients[%-d] = %11.8f\n", i, newFilter->coefficients[i]);
 #endif
 
     return newFilter;
@@ -97,14 +96,14 @@ void TRMFIRFilterFree(TRMFIRFilter *filter)
     if (filter == NULL)
         return;
 
-    if (filter->FIRData != NULL) {
-        free(filter->FIRData);
-        filter->FIRData = NULL;
+    if (filter->coefficients != NULL) {
+        free(filter->coefficients);
+        filter->coefficients = NULL;
     }
 
-    if (filter->FIRCoef != NULL) {
-        free(filter->FIRCoef);
-        filter->FIRCoef = NULL;
+    if (filter->data != NULL) {
+        free(filter->data);
+        filter->data = NULL;
     }
 
     free(filter);
@@ -116,39 +115,31 @@ void TRMFIRFilterFree(TRMFIRFilter *filter)
 *
 *       purpose:        Is the linear phase, lowpass FIR filter.
 *
-*       arguments:      input, needOutput
-*
-*       internal
-*       functions:      increment, decrement
-*
-*       library
-*       functions:      none
-*
 ******************************************************************************/
 
 double FIRFilter(TRMFIRFilter *filter, double input, int needOutput)
 {
     double output = 0.0;
 
-    /*  PUT INPUT SAMPLE INTO DATA BUFFER  */
-    filter->FIRData[filter->FIRPtr] = input;
+    // Put input sample into data buffer
+    filter->data[filter->dataIndex] = input;
     //printf("----------------------------------------------------------------------\n");
-    //printf("Added value at index %d, value: %17.10f, needOutput: %d\n", filter->FIRPtr, input, needOutput);
+    //printf("Added value at index %d, value: %17.10f, needOutput: %d\n", filter->dataIndex, input, needOutput);
 
     if (needOutput) {
         int i;
 
-        /*  SUM THE OUTPUT FROM ALL FILTER TAPS  */
-        for (i = 0; i < filter->numberTaps; i++) {
-            //printf("output += FIRData[%d] * FIRCoef[%d]\n", filter->FIRPtr, i);
-            output += filter->FIRData[filter->FIRPtr] * filter->FIRCoef[i];
-            filter->FIRPtr = (filter->FIRPtr + 1) % filter->numberTaps;
+        // Sum the output from all filter taps
+        for (i = 0; i < filter->tapCount; i++) {
+            //printf("output += data[%d] * coefficients[%d]\n", filter->dataIndex, i);
+            output += filter->data[filter->dataIndex] * filter->coefficients[i];
+            filter->dataIndex = (filter->dataIndex + 1) % filter->tapCount;
         }
     }
 
-    /*  ADJUST THE DATA POINTER, READY FOR NEXT CALL  */
-    filter->FIRPtr = decrement(filter->FIRPtr, filter->numberTaps);
-    //printf("FIRPtr index is now %d\n", filter->FIRPtr);
+    // Adjust the data pointer, ready for next call
+    filter->dataIndex = decrement(filter->dataIndex, filter->tapCount);
+    //printf("dataIndex index is now %d\n", filter->dataIndex);
 
     //printf("FIRFilter(%g, %d) = %g\n", input, needOutput, 0.0);
     return output;
@@ -168,14 +159,6 @@ double FIRFilter(TRMFIRFilter *filter, double input, int needOutput)
 *                       frequency), and gamme the width of the transition
 *                       band.
 *
-*       arguments:      beta, gamma, np, coefficient
-*
-*       internal
-*       functions:      rationalApproximation
-*
-*       library
-*       functions:      cos, pow
-*
 ******************************************************************************/
 
 int maximallyFlat(double beta, double gamma, int *np, double *coefficient)
@@ -184,35 +167,35 @@ int maximallyFlat(double beta, double gamma, int *np, double *coefficient)
     int nt, numerator, n, ll, i;
 
 
-    /*  INITIALIZE NUMBER OF POINTS  */
+    // Initialize number of points
     (*np) = 0;
 
-    /*  CUT-OFF FREQUENCY MUST BE BETWEEN 0 HZ AND NYQUIST  */
+    // Cut-off frequency must be between 0 HZ and Nyquist
     if ((beta <= 0.0) || (beta >= 0.5))
         return BETA_OUT_OF_RANGE;
 
-    /*  TRANSITION BAND MUST FIT WITH THE STOP BAND  */
+    // Transition band must fit with the stop band
     betaMinimum = ((2.0 * beta) < (1.0 - 2.0 * beta)) ? (2.0 * beta) :
         (1.0 - 2.0 * beta);
     if ((gamma <= 0.0) || (gamma >= betaMinimum))
         return GAMMA_OUT_OF_RANGE;
 
-    /*  MAKE SURE TRANSITION BAND NOT TOO SMALL  */
+    // Make sure transition band not too small
     nt = (int)(1.0 / (4.0 * gamma * gamma));
     if (nt > 160)
         return GAMMA_TOO_SMALL;
 
-    /*  CALCULATE THE RATIONAL APPROXIMATION TO THE CUT-OFF POINT  */
+    // Calculate the rational approximation to the cut-off point
     ac = (1.0 + cos(2.0 * M_PI * beta)) / 2.0;
     rationalApproximation(ac, &nt, &numerator, np);
 
-    /*  CALCULATE FILTER ORDER  */
+    //  Calculate filter order
     n = (2 * (*np)) - 1;
     if (numerator == 0)
         numerator = 1;
 
 
-    /*  COMPUTE MAGNITUDE AT NP POINTS  */
+    // Compute magnitude at np points
     c[1] = a[1] = 1.0;
     ll = nt - numerator;
 
@@ -240,7 +223,7 @@ int maximallyFlat(double beta, double gamma, int *np, double *coefficient)
     }
 
 
-    /*  CALCULATE WEIGHTING COEFFICIENTS BY AN N-POINT IDFT  */
+    // Calculate weighting coefficients by an N-point IDFT
     for (i = 1; i <= (*np); i++) {
         int j;
         coefficient[i] = a[1] / 2.0;
@@ -265,23 +248,15 @@ int maximallyFlat(double beta, double gamma, int *np, double *coefficient)
 *       purpose:        Trims the higher order coefficients of the FIR filter
 *                       which fall below the cutoff value.
 *
-*       arguments:      cutoff, numberCoefficients, coefficient
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      fabs
-*
 ******************************************************************************/
 
-void trim(double cutoff, int *numberCoefficients, double *coefficient)
+void trim(double cutoff, int *coefficientCount, double *coefficient)
 {
     int i;
 
-    for (i = *numberCoefficients; i > 0; i--) {
+    for (i = *coefficientCount; i > 0; i--) {
         if (fabs(coefficient[i]) >= fabs(cutoff)) {
-            *numberCoefficients = i; // TODO (2004-08-26): Shouldn't this really be i+1, so that it includes this coefficient?
+            *coefficientCount = i; // TODO (2004-08-26): Shouldn't this really be i+1, so that it includes this coefficient?
             return;
         }
     }
