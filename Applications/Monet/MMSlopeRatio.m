@@ -242,7 +242,7 @@
     return temp;
 }
 
-- (void)displaySlopesInList:(MonetList *)displaySlopes;
+- (void)displaySlopesInList:(NSMutableArray *)displaySlopes;
 {
     int count, index;
     double tempTime;

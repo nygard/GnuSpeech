@@ -41,7 +41,7 @@
               toEventList:eventList atIndex:(int)index;
 
 - (double)totalSlopeUnits;
-- (void)displaySlopesInList:(MonetList *)displaySlopes;
+- (void)displaySlopesInList:(NSMutableArray *)displaySlopes;
 
 // Archiving
 - (id)initWithCoder:(NSCoder *)aDecoder;
