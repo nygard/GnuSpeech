@@ -1,5 +1,5 @@
 //
-// $Id: AppController.h,v 1.45 2004/04/02 03:40:01 nygard Exp $
+// $Id: AppController.h,v 1.46 2004/04/02 03:42:51 nygard Exp $
 //
 
 /*===========================================================================
@@ -24,7 +24,6 @@ History:
 #import <Foundation/NSObject.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-@class CategoryList, ParameterList, PhoneList, SymbolList;
 @class MModel, MMTransition;
 @class MDataEntryController, MPostureEditor, MPrototypeManager, MRuleManager, MRuleTester, MSpecialTransitionEditor;
 @class MSynthesisController, MSynthesisParameterEditor, MTransitionEditor;
