@@ -1138,7 +1138,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
     double denominator;
     double yTemp;
 
-    NSLog(@" > %s", _cmd);
+    //NSLog(@" > %s", _cmd);
 
     [self setFullTimeScale];
     tempPoint = [[IntonationPoint alloc] initWithEventList:self];
@@ -1150,7 +1150,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
 
     [intonationPoints insertObject:tempPoint atIndex:0];
 
-    NSLog(@"[intonationPoints count]: %d", [intonationPoints count]);
+    //NSLog(@"[intonationPoints count]: %d", [intonationPoints count]);
 
     //[self insertEvent:32 atTimeOffset:0.0 withValue:-20.0];
     for (j = 0; j < [intonationPoints count] - 1; j++) {
@@ -1182,22 +1182,22 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
         [self insertEvent:32 atTimeOffset:[point1 absoluteTime] withValue:[point1 semitone]];
 
         yTemp = (3.0*a*x12) + (2.0*b*x1) + c;
-        NSLog(@"time: %.2f", [point1 absoluteTime]);
-        NSLog(@"j: %d, inserting event 33: %7.3f", j, yTemp);
+        //NSLog(@"time: %.2f", [point1 absoluteTime]);
+        //NSLog(@"j: %d, inserting event 33: %7.3f", j, yTemp);
         [self insertEvent:33 atTimeOffset:[point1 absoluteTime] withValue:yTemp];
 
         yTemp = (6.0*a*x1) + (2.0*b);
-        NSLog(@"j: %d, inserting event 34: %7.3f", j, yTemp);
+        //NSLog(@"j: %d, inserting event 34: %7.3f", j, yTemp);
         [self insertEvent:34 atTimeOffset:[point1 absoluteTime] withValue:yTemp];
 
         yTemp = (6.0*a);
-        NSLog(@"j: %d, inserting event 35: %7.3f", j, yTemp);
+        //NSLog(@"j: %d, inserting event 35: %7.3f", j, yTemp);
         [self insertEvent:35 atTimeOffset:[point1 absoluteTime] withValue:yTemp];
     }
 
     [intonationPoints removeObjectAtIndex:0];
 
-    NSLog(@"<  %s", _cmd);
+    //NSLog(@"<  %s", _cmd);
 }
 
 @end
