@@ -61,12 +61,13 @@ struct _rule {
     int zeroIndex;
     int duration;
     int timeQuantization;
-    BOOL parameterStore;
-    BOOL softwareSynthesis;
-    int macroFlag;
-    int microFlag;
-    int driftFlag;
-    int smoothIntonation;
+
+    BOOL shouldStoreParameters;
+    BOOL shouldUseSoftwareSynthesis;
+    BOOL shouldUseMacroIntonation;
+    BOOL shouldUseMicroIntonation;
+    BOOL shouldUseDrift;
+    BOOL shouldUseSmoothIntonation;
 
     double radiusMultiply;
     double pitchMean;
@@ -113,11 +114,11 @@ struct _rule {
 - (int)timeQuantization;
 - (void)setTimeQuantization:(int)newValue;
 
-- (BOOL)parameterStore;
-- (void)setParameterStore:(BOOL)newFlag;
+- (BOOL)shouldStoreParameters;
+- (void)setShouldStoreParameters:(BOOL)newFlag;
 
-- (BOOL)softwareSynthesis;
-- (void)setSoftwareSynthesis:(BOOL)newFlag;
+- (BOOL)shouldUseSoftwareSynthesis;
+- (void)setShouldUseSoftwareSynthesis:(BOOL)newFlag;
 
 - (double)pitchMean;
 - (void)setPitchMean:(double)newMean;
@@ -128,17 +129,17 @@ struct _rule {
 - (double)multiplier;
 - (void)setMultiplier:(double)newValue;
 
-- (int)macroIntonation;
-- (void)setMacroIntonation:(int)newValue;
+- (BOOL)shouldUseMacroIntonation;
+- (void)setShouldUseMacroIntonation:(BOOL)newFlag;
 
-- (int)microIntonation;
-- (void)setMicroIntonation:(int)newValue;
+- (BOOL)shouldUseMicroIntonation;
+- (void)setShouldUseMicroIntonation:(BOOL)newFlag;
 
-- (int)drift;
-- (void)setDrift:(int)newValue;
+- (BOOL)shouldUseDrift;
+- (void)setShouldUseDrift:(BOOL)newFlag;
 
-- (int)smoothIntonation;
-- (void)setSmoothIntonation:(int)newValue;
+- (BOOL)shouldUseSmoothIntonation;
+- (void)setShouldUseSmoothIntonation:(BOOL)newValue;
 
 - (float *)intonParms;
 - (void)setIntonParms:(float *)newValue;

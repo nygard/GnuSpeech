@@ -106,11 +106,11 @@ static void page_consumed(void)
     timeQuantization = 4;
     globalTempo = 1.0;
     multiplier = 1.0;
-    macroFlag = 0;
-    microFlag = 0;
-    driftFlag = 0;
+    shouldUseMacroIntonation = NO;
+    shouldUseMicroIntonation = NO;
+    shouldUseDrift = NO;
     intonParms = NULL;
-    smoothIntonation = 0;
+    shouldUseSmoothIntonation = NO;
 
     /* set up buffer */
     bzero(outputBuffer, NSPageSize()*PAGES);
@@ -197,24 +197,24 @@ static void page_consumed(void)
     timeQuantization = newValue;
 }
 
-- (BOOL)parameterStore;
+- (BOOL)shouldStoreParameters;
 {
-    return parameterStore;
+    return shouldStoreParameters;
 }
 
-- (void)setParameterStore:(BOOL)newFlag;
+- (void)setShouldStoreParameters:(BOOL)newFlag;
 {
-    parameterStore = newFlag;
+    shouldStoreParameters = newFlag;
 }
 
-- (BOOL)softwareSynthesis;
+- (BOOL)shouldUseSoftwareSynthesis;
 {
-    return softwareSynthesis;
+    return shouldUseSoftwareSynthesis;
 }
 
-- (void)setSoftwareSynthesis:(BOOL)newFlag;
+- (void)setShouldUseSoftwareSynthesis:(BOOL)newFlag;
 {
-    softwareSynthesis = newFlag;
+    shouldUseSoftwareSynthesis = newFlag;
 }
 
 - (double)pitchMean;
@@ -247,47 +247,47 @@ static void page_consumed(void)
     multiplier = newValue;
 }
 
-- (int)macroIntonation;
+- (BOOL)shouldUseMacroIntonation;
 {
-    return macroFlag;
+    return shouldUseMacroIntonation;
 }
 
-- (void)setMacroIntonation:(int)newValue
+- (void)setShouldUseMacroIntonation:(BOOL)newFlag;
 {
-    macroFlag = newValue;
+    shouldUseMacroIntonation = newFlag;
 }
 
-- (int)microIntonation;
+- (BOOL)shouldUseMicroIntonation;
 {
-    return microFlag;
+    return shouldUseMicroIntonation;
 }
 
-- (void)setMicroIntonation:(int)newValue;
+- (void)setShouldUseMicroIntonation:(BOOL)newFlag;
 {
-    microFlag = newValue;
+    shouldUseMicroIntonation = newFlag;
 }
 
-- (int)drift;
+- (BOOL)shouldUseDrift;
 {
-    return driftFlag;
+    return shouldUseDrift;
 }
 
-- (void)setDrift:(int)newValue;
+- (void)setShouldUseDrift:(BOOL)newFlag;
 {
-    driftFlag = newValue;
+    shouldUseDrift = newFlag;
 }
 
-- (int)smoothIntonation;
+- (BOOL)shouldUseSmoothIntonation;
 {
-    return smoothIntonation;
+    return shouldUseSmoothIntonation;
 }
 
-- (void)setSmoothIntonation:(int)newValue;
+- (void)setShouldUseSmoothIntonation:(BOOL)newValue;
 {
-    smoothIntonation = newValue;
+    shouldUseSmoothIntonation = newValue;
 }
 
-- (float*)intonParms;
+- (float *)intonParms;
 {
     return intonParms;
 }
@@ -522,9 +522,9 @@ static void page_consumed(void)
 
     if ([self count] == 0)
         return;
-    if (parameterStore == NO) {
+    if (shouldStoreParameters == NO) {
         fp = fopen("/tmp/Monet.parameters", "w");
-    } else if (softwareSynthesis) {
+    } else if (shouldUseSoftwareSynthesis) {
         NSLog(@"%s, software synthesis enabled.", _cmd);
         fp = fopen("/tmp/Monet.parameters", "a+");
     } else
@@ -543,7 +543,7 @@ static void page_consumed(void)
     for (i = 16; i < 36; i++)
         currentValues[i] = currentDeltas[i] = 0.0;
 
-    if (smoothIntonation) {
+    if (shouldUseSmoothIntonation) {
         j = 0;
         while ( (temp = [[self objectAtIndex:j] getValueAtIndex:32]) == NaN) {
             j++;
@@ -590,11 +590,11 @@ static void page_consumed(void)
                 for (j = 0; j < 16; j++) {
                     table[j] = (float)currentValues[j] + (float)currentValues[j+16];
                 }
-                if (!microFlag)
+                if (!shouldUseMicroIntonation)
                     table[0] = 0.0;
-                if (driftFlag)
+                if (shouldUseDrift)
                     table[0] += drift();
-                if (macroFlag)
+                if (shouldUseMacroIntonation)
                     table[0] += currentValues[32];
 
                 table[0] += pitchMean;
@@ -614,7 +614,7 @@ static void page_consumed(void)
                     if (currentDeltas[j])
                         currentValues[j] += currentDeltas[j];
                 }
-                if (smoothIntonation) {
+                if (shouldUseSmoothIntonation) {
                     currentDeltas[34] += currentDeltas[35];
                     currentDeltas[33] += currentDeltas[34];
                     currentValues[32] += currentDeltas[33];
@@ -647,7 +647,7 @@ static void page_consumed(void)
                             }
                         }
                     }
-                    if (smoothIntonation) {
+                    if (shouldUseSmoothIntonation) {
                         if ([[self objectAtIndex:i-1] getValueAtIndex:33] != NaN) {
                             currentDeltas[32] = 0.0;
                             currentDeltas[33] = [[self objectAtIndex:i-1] getValueAtIndex:33];
@@ -688,7 +688,7 @@ static void page_consumed(void)
 #endif
 #ifdef HAVE_DSP
     if (currentIndex < 8192) {
-        if (softwareSynthesis) {
+        if (shouldUseSoftwareSynthesis) {
             fclose(fp);
             fp = NULL;
         }

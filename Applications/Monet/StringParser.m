@@ -208,11 +208,11 @@ int parse_string(EventList *eventList, NSString *str);
     [eventList setUp];
     [eventList setPitchMean:[pitchMean doubleValue]];
     [eventList setGlobalTempo:[tempoField doubleValue]];
-    [eventList setParameterStore:[parametersStore state]];
+    [eventList setShouldStoreParameters:[parametersStore state]];
 
-    [eventList setMacroIntonation:[[intonationMatrix cellAtRow:0 column:0] state]];
-    [eventList setMicroIntonation:[[intonationMatrix cellAtRow:1 column:0] state]];
-    [eventList setDrift:[[intonationMatrix cellAtRow:2 column:0] state]];
+    [eventList setShouldUseMacroIntonation:[[intonationMatrix cellAtRow:0 column:0] state]];
+    [eventList setShouldUseMicroIntonation:[[intonationMatrix cellAtRow:1 column:0] state]];
+    [eventList setShouldUseDrift:[[intonationMatrix cellAtRow:2 column:0] state]];
     setDriftGenerator([driftDeviationField floatValue], 500, [driftCutoffField floatValue]);
 
     [eventList setRadiusMultiply:[radiusMultiplyField doubleValue]];
@@ -230,7 +230,7 @@ int parse_string(EventList *eventList, NSString *str);
     else
         [[intonationView documentView] applyIntonation];
 
-    [eventList setSmoothIntonation:[smoothIntonationSwitch state]];
+    [eventList setShouldUseSmoothIntonation:[smoothIntonationSwitch state]];
 
     gettimeofday(&tp2, &tzp);
     NSLog(@"%ld", (tp2.tv_sec*1000000 + tp2.tv_usec) - (tp1.tv_sec*1000000 + tp1.tv_usec));
@@ -324,17 +324,17 @@ int parse_string(EventList *eventList, NSString *str);
 #endif
 
     fclose(fp);
-    [eventList setParameterStore:NO];
-    [eventList setSoftwareSynthesis:YES];
+    [eventList setShouldStoreParameters:NO];
+    [eventList setShouldUseSoftwareSynthesis:YES];
 
     [eventList setUp];
     [eventList setPitchMean:[pitchMean doubleValue]];
     [eventList setGlobalTempo:[tempoField doubleValue]];
-    [eventList setParameterStore:[parametersStore state]];
+    [eventList setShouldStoreParameters:[parametersStore state]];
 
-    [eventList setMacroIntonation:[[intonationMatrix cellAtRow:0 column:0] state]];
-    [eventList setMicroIntonation:[[intonationMatrix cellAtRow:1 column:0] state]];
-    [eventList setDrift:[[intonationMatrix cellAtRow:2 column:0] state]];
+    [eventList setShouldUseMacroIntonation:[[intonationMatrix cellAtRow:0 column:0] state]];
+    [eventList setShouldUseMicroIntonation:[[intonationMatrix cellAtRow:1 column:0] state]];
+    [eventList setShouldUseDrift:[[intonationMatrix cellAtRow:2 column:0] state]];
     setDriftGenerator([driftDeviationField floatValue], 500, [driftCutoffField floatValue]);
 
     [eventList setRadiusMultiply:[radiusMultiplyField doubleValue]];
