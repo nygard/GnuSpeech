@@ -76,12 +76,13 @@ Notes:
 - bezier paths may need to be on 1/2 pixel coordinates, depending on the line width.
 - when using NSRectFill you need to use integral coordinates.
 - I see that the time formulas should produce monotonically increasing values for times.  Fricatives/Dud12 is an example that doesn't do this.
+  - the values for the special transitions get sorted, and all of the values are sorted by EventList, but I'm not sure how that affects slope ratios.
 
 
 
 2004-03-12:
-- BUG: slope ratio button for diZeroTwelveOne doesn't go all the way to the left.
-       - nor does Diphtong,
+x BUG: slope ratio button for diZeroTwelveOne doesn't go all the way to the left.
+  x nor does Diphtong,
 - graph for fTransition is a little odd.  Phantom points?
   - seems likely.  Stopped/Default is similar, but looks fine.
 - Carre/bLipClosure give a nice example.
@@ -90,10 +91,10 @@ Notes:
 2004-03-15:
 - Would it be useful to list the timing symbols in order for the TransitionView?
 x inspecting zero points should show "No Inspector", not "Multiple Points Selected"
-- when dragging to select points and no points are selected, the point inspector shows "No Inspector" and "Multiple Points Selected"
+x when dragging to select points and no points are selected, the point inspector shows "No Inspector" and "Multiple Points Selected"
 - you shouldn't be able to (try to) set the value for a point that is part of a slope ratio.
   + try M prefix for remaining object (MMonetModel, MTransitionView, MInspector, ...)
-- Just noticed that "Drift Parmeters" is misspelled in the original Intonation Window.
++ Just noticed that "Drift Parmeters" is misspelled in the original Intonation Window.
 - Rename classes
   + Phone -> MMPosture
   - NamedList -> MMGroup (where appropriate)
@@ -139,7 +140,7 @@ x -[NSSString initWithBytes:length:encoding:] not in 10.2.8 SDK, so should be wi
 - intonation had range of -20 to 10, event index 32
 
 2004-03-31:
-- The Diphone/Triphone/Tetraphone radio buttons should be in the Transition Editor, not on the Prototype Manager window.
++ The Diphone/Triphone/Tetraphone radio buttons should be in the Transition Editor, not on the Prototype Manager window. (2004-08-15)
 
 2004-04-01:
 + Replace parameter array with structure for FormulaExpression's -evaluate: method.
@@ -219,6 +220,6 @@ des: [~ 12 ]> /Local/Public/nygard/Products/Monet.app/Contents/MacOS/Monet
 
 + search for decodeValueOfObjCType: and make sure they use @encode() (2004-08-15)
 - add checkboxes to rules to enable/disable them?  Would help you to see the effects of a rule without deleting it.
-- alt-clicking to add point in special transition puts point in wrong location, too high.
++ alt-clicking to add point in special transition puts point in wrong location, too high. (2004-08-15) Fixed? by sharing more of TransitionView.
 - you should be able to set the free time value for a point in the transition view.
 - need better choice of default point type -- should be able to default to triphone after mark1.
