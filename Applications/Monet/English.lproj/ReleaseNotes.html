@@ -9,14 +9,14 @@
   <body>
 
   <h1>Monet 0.9.1 (v5) Release Notes</h1>
-  <!-- <h2>Released August 2, 2004</h2> -->
+  <!-- <h2>Released August 24, 2004</h2> -->
   <hr/>
 
   <h2>Currently Known Issues</h2>
   <ul>
     <li>There are still a couple of bugs with synthesis.  Sometimes when you try to synthesize an utterance you will hear the system beep but no sound.  In this case you will need to restart Monet.
       <ul>
-        <li>I think this can happen when you have more than one sentence in the utterance.</li>
+        <li>I think this can happen when you have more than one sentence in the utterance.  (This may have been fixed by the bug that fixed short utterences.)</li>
       </ul>
     </li>
     <li>Parenthesis that are not strictly necessary in the formulas get removed when you parse them.  This may be undesirable if you've added parenthesis for readability.</li>
@@ -27,14 +27,11 @@
   <h2>General Improvements</h2>
   <ul>
     <li>Added Release Notes.</li>
-    <li>Fixed a bug where if you had Macro intonation checked but not Smooth, you wouldn't get any sound.</li>
     <li>In tables where you can search for rows by typing a character, you can now search by more than the first character.  Keystrokes within 0.2 seconds will be combined for the search.</li>
     <li>Allow searching through the display parameters in the Synthesis window by keystroke, and make the spacebar toggle the checkbox.</li>
     <li>Allow searching through the rules by rule number by keystroke in the Rule Manager window.</li>
     <li>The values for the intonation switches (macro, micro, drift and smooth) are now stored in the application defaults so you don't need to set them every time you start Monet.</li>
-    <li>I have also been changing some parts of the underlying model, which doesn't have any visible effect but may introduce some bugs.</li>
-    <li>Fixed bug with adding default meta parameters to a posture.  It was using the parameter count instead of the meta parameter count.</li>
-    <li>Fixed the number of consumed tokens (postures) reported in the Rule Tester.  The last posture matched for a rule isn't consumed, since it is used for the start of the next rule.  Also fixed in the Rule Manager window, in the Rules table.</li>
+    <li>There have been many internal changes that shouldn't be visible to the user, although they may have introduced new bugs.</li>
     <li>Store the utterances from the "Phone String" combobox in the Synthesis window in defaults, so you always have the ten most recent utterances available.</li>
     <li>Values for mark2 and mark3 may not apply to some rules, and these now appear as zero in the Rule Tester window.</li>
     <li>Added a table to show the values for the intermediate events/parameters used to generate the final parameters.
@@ -45,6 +42,66 @@
         <li>I'm not sure whether using two rows makes it easier to view the data.  Alternatives are just to have extra columns for the special values.  We could either group all of the regular parameters together, and then all of the special parameters, or we could show the regular and special values for each parameter beside each other.  i.e. r1, r2, r3, r4, r1 (special), r2 (special), r3 (special), r4 (special) vs. r1, r1 (special), r2, r2 (special), r3, r3 (special), r4, r4 (special).</li>
       </ul>
     </li>
+    <li>Minor changes to the XML file format.  The files are still forward and backward compatible.</li>
+    <li>Cleared a bunch of special transitions that were set to "General:Null", presumably because you couldn't unset them in the original version.</li>
+    <li>Draw the rules along the top of the parameter graphs when scaling.</li>
+    <li>Set the transition type in the transition editors instead of in the Prototype Manager window.</li>
+    <li>Transition Editor: Edit -> Group Points for Slope Ratio menu is now active.  But don't try to use slope ratios in Special transitions.</li>
+    <li>Show Events window: gave names to events 32-35: Semitone, Slope, 2nd Derivative? and 3rd Derivative?.</li>
+    <li>Synthesis window: Added two more default phone strings</li>
+    <li>Don't create /tmp/out.xml every time you load a .monet or .mxml file.</li>
+    <li>Don't create /tmp/out.au every time you synthesize an utterance.</li>
+    <li>With "Save Graph Images...", you are now presented with a save panel sheet to choose a directory to put the files.</li>
+    <li>With "Synthesize to sound file...", you are now presented with a save panel sheet to choose the filename and the file type.  The filename text field and file type popup button have been removed from the Synthesis window.</li>
+  </ul>
+
+  <h2>Intonation window</h2>
+
+  <p>A lot of work has been done on Intonation window, and it should be fully functional&mdash;you can load, save, edit and print intonation contours.</p>
+
+  <ul>
+    <li>You can print the intonation contours.  It defaults to using Landscape mode, but you can change this by changing the page setup.  These values are not saved for the next time you run Monet, though.</li>
+    <li>You can save intonation contours with the File -> Save Intonation Contour... menu item.</li>
+    <li>You can load intonation contours with the File -> Load Intonation Contour... menu item.  You need already have a Monet file loaded.</li>
+    <li>Editing:
+      <ul>
+        <li>You can use the up and down arrows to add or subtract one from the semitones of all of the selected points.</li>
+        <li>You can use the left and right arrows to change the rule index for the selected points.</li>
+        <li>You can use the Edit -> Select All menu item, or &#8984;A, to select all of the intonation points.</li>
+        <li>You can use the Edit -> Delete menu item, or Backspace, to delete all of the selected intonation points.</li>
+        <li>You can use Alt-click to add intonation points.</li>
+        <li>You can change the semitone, hertz, slope, and offset times of intonation points using the text fields at the bottom of the window.</li>
+        <li>The Synthesize button now synthesizes using the current intonation contour.  You need to have synthesized from the Synthesis window first, though.</li>
+      </ul>
+    </li>
+    <li>Display:
+      <ul>
+        <li>The rule indexes and rule durations are drawn better along the top.  The rule duration uses a small font to help it fit within the width available.</li>
+        <li>You can select points by dragging the selection rectangle around them.</li>
+        <li>Label the semitones on the left side.  Draw the line for the zero semitone in black instead of gray.  Show a label for this axis.</li>
+        <li>Draw a time scale along the bottom.  There are labels and big tick marks every 100 ms, and small ticks every 10 ms.</li>
+        <li>Made the smooth contour look better when drawn.</li>
+        <li>Draw the rule beats with a dotted line.</li>
+        <li>Most of the lines are drawn in black again.  Selection boxes are drawn in blue, which seems to make them stand out a bit more.</li>
+        <li>Draw an alternating white/light gray color in the background of the graph for the rule sections.</li>
+        <li>Set the minimum size of the window, so the graph doesn't get too small.</li>
+        <li>Added more space on the right so the name of the last posture doesn't get cut off.</li>
+        <li>The number fields are right aligned.</li>
+      </ul>
+     </li>
+  </ul>
+
+  <h2>Bug Fixes</h2>
+  <ul>
+    <li>Fixed a bug where if you had Macro intonation checked but not Smooth, you wouldn't get any sound.</li>
+    <li>Fixed bug with short utterances.  Phone strings with a single tone group and a single foot wouldn't generate sound.</li>
+    <li>Fixed bug with adding default meta parameters to a posture.  It was using the parameter count instead of the meta parameter count.</li>
+    <li>Fixed the number of consumed tokens (postures) reported in the Rule Tester.  The last posture matched for a rule isn't consumed, since it is used for the start of the next rule.  Also fixed in the Rule Manager window, in the Rules table.</li>
+    <li>Fixed some memory leaks when loading old .monet files.  Fixed a minor memory leak when loading .mxml files.</li>
+    <li>Fixed a bug when scaling graphs in the Synthesis window, where the scale would jump and then return to the proper value when you released the mouse button.</li>
+    <li>Fixed some crashers that happened when you reloaded the .mxml files.</li>
+    <li>Fixed bug with slope ratios, where points fixed in time (no time equation) didn't draw the slopes at the appropriate x position.</li>
+    <li>In the Posture Editor, fixed an exception that could be raised when no postures were selected.</li>
   </ul>
 
   <h1>Monet 0.9.1 (v4) Release Notes</h1>
