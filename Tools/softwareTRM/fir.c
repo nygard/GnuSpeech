@@ -3,8 +3,6 @@
 #include <math.h>
 #include "fir.h"
 
-#import <vecLib/vecLib.h>
-
 /*  CONSTANTS FOR THE FIR FILTER  */
 #define LIMIT                     200
 #define BETA_OUT_OF_RANGE         1

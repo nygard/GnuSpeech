@@ -3,7 +3,12 @@
 #include "fir.h"
 #include "tube.h"
 #include "wavetable.h"
+
+#define USE_VECLIB
+
+#ifdef USE_VECLIB
 #include <vecLib/vecLib.h>
+#endif
 
 // Compile with oversampling or plain oscillator
 #define OVERSAMPLING_OSCILLATOR   1
@@ -16,8 +21,6 @@
 //  Glottal source oscillator table variables
 #define TABLE_LENGTH              512
 #define TABLE_LENGTH_F            512.0
-
-#define USE_VECLIB
 
 static double mod0(double value);
 static void TRMWavetableIncrementPosition(TRMWavetable *wavetable, double frequency);
