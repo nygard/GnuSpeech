@@ -1,6 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!DOCTYPE root PUBLIC "" "monet-v1.dtd">
-<!--  -->
 <root version='1'>
   <categories>
     <category name="phone"/>
