@@ -248,7 +248,7 @@ void TRMTubeModelSynthesize(TRMTubeModel *tubeModel, TRMData *data)
             ax = amplitude(tubeModel->current.parameters.glotVol);
             ah1 = amplitude(tubeModel->current.parameters.aspVol);
 
-            calculateTubeCoefficients(tubeModel, &(data->inputParameters));
+            calculateTubeCoefficients(tubeModel, &data->inputParameters);
             setFricationTaps(tubeModel);
             calculateBandpassCoefficients(tubeModel, tubeModel->current.parameters.fricCF, tubeModel->current.parameters.fricBW, tubeModel->sampleRate);
 

@@ -131,7 +131,7 @@ int main(int argc, char *argv[])
     }
 
     // Initialize the synthesizer
-    tube = TRMTubeModelCreate(&(inputData->inputParameters));
+    tube = TRMTubeModelCreate(&inputData->inputParameters);
     if (tube == NULL) {
         fprintf(stderr, "Aborting...\n");
         exit(-1);

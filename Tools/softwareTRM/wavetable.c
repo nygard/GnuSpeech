@@ -165,7 +165,7 @@ void TRMWavetableUpdate(TRMWavetable *wavetable, double amplitude)
 
         //printf("wavetable update, scale: %g, squares: %p, aj: %p, len: %d\n", scale, wavetable->squares, aj, len);
         vsmulD(wavetable->squares, 1, &scale, aj, 1, len);
-        vsubD(aj, 1, wavetable->ones, 1, &(wavetable->wavetable[wavetable->tableDiv1]), 1, len); // The docs seem to be wrong about which one gets subtracted...
+        vsubD(aj, 1, wavetable->ones, 1, &wavetable->wavetable[wavetable->tableDiv1], 1, len); // The docs seem to be wrong about which one gets subtracted...
     }
 #else
     {
@@ -186,7 +186,7 @@ void TRMWavetableUpdate(TRMWavetable *wavetable, double amplitude)
 #else
     i = newDiv2;
     if (wavetable->tableDiv2 > i)
-        memset(&(wavetable[i]), 0, (wavetable->tableDiv2 - i) * sizeof(double)); // This seems to be crashy... possibly with 0 sizes?
+        memset(&wavetable[i], 0, (wavetable->tableDiv2 - i) * sizeof(double)); // This seems to be crashy... possibly with 0 sizes?
 #endif
 }
 

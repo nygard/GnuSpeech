@@ -468,7 +468,7 @@ void printControlRateInputTable(TRMData *data)
     while (ptr != NULL) {
         TRMParameters *parameters;
 
-        parameters = &(ptr->parameters);
+        parameters = &ptr->parameters;
         printf("%.2f", parameters->glotPitch);
         printf("\t%.2f", parameters->glotVol);
         printf("\t%.2f", parameters->aspVol);
