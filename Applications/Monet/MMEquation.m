@@ -122,8 +122,6 @@
     if ([errorString length] > 0)
         NSLog(@"Warning: (%@) error parsing formula: '%@', at %@:'%@', error string: %@", name, formulaString, NSStringFromRange([formulaParser errorRange]), [formulaString substringFromIndex:[formulaParser errorRange].location], errorString);
 
-    // TODO (2004-04-22): A few formulas are failing to parse.  Try just rewriting the formula parser.
-
     [formulaParser release];
 }
 
