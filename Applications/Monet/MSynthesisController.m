@@ -74,6 +74,7 @@
     intonationPrintInfo = [[NSPrintInfo alloc] init];
     [intonationPrintInfo setHorizontalPagination:NSAutoPagination];
     [intonationPrintInfo setVerticalPagination:NSFitPagination];
+    [intonationPrintInfo setOrientation:NSLandscapeOrientation];
 
     return self;
 }
