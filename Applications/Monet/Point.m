@@ -141,7 +141,7 @@ double time, returnValue;
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
 int i, j;
-id tempProto = NXGetNamedObject("prototypeManager", NSApp);
+id tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
 
 	[aDecoder decodeValuesOfObjCTypes:"ddii", &value, &freeTime, &type, &phantom];
 
@@ -154,7 +154,7 @@ id tempProto = NXGetNamedObject("prototypeManager", NSApp);
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
 int i, j;
-id tempProto = NXGetNamedObject("prototypeManager", NSApp);
+id tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
 
 	[aCoder encodeValuesOfObjCTypes:"ddii", &value, &freeTime, &type, &phantom];
 
@@ -166,7 +166,7 @@ id tempProto = NXGetNamedObject("prototypeManager", NSApp);
 - read:(NXTypedStream *)stream
 {
 int i, j;
-id tempProto = NXGetNamedObject("prototypeManager", NSApp);
+id tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
 
         NXReadTypes(stream, "ddii", &value, &freeTime, &type, &phantom);
 

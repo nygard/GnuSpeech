@@ -35,9 +35,9 @@
 
 - (void)setUpWindow:sender
 {
-id tempProto = NXGetNamedObject("prototypeManager", NSApp);
-id tempRuleManager = NXGetNamedObject("ruleManager", NSApp);
-id tempProtoManager = NXGetNamedObject("prototypeManager", NSApp);
+id tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
+id tempRuleManager = NXGetNamedObject(@"ruleManager", NSApp);
+id tempProtoManager = NXGetNamedObject(@"prototypeManager", NSApp);
 const char *temp;
 char string[1024];
 int index1, index2;
@@ -144,7 +144,7 @@ const char *tempString;
 
 	tempString = [equationText cString];
 
-	[formParser setSymbolList:NXGetNamedObject("mainSymbolList", NSApp)];
+	[formParser setSymbolList:NXGetNamedObject(@"mainSymbolList", NSApp)];
 	[formParser setErrorOutput:messagesText];
 
 	temp = [formParser parseString:tempString];
@@ -173,8 +173,8 @@ char buffer[128];
 
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column
 {
-id tempRuleManager = NXGetNamedObject("ruleManager", NSApp);
-id tempProtoManager = NXGetNamedObject("prototypeManager", NSApp);
+id tempRuleManager = NXGetNamedObject(@"ruleManager", NSApp);
+id tempProtoManager = NXGetNamedObject(@"prototypeManager", NSApp);
 id tempRuleList; 
 char buffer[128];
 int i, j;

@@ -101,8 +101,8 @@ id temp, temp1;
 
 
 	boolParser = [[BooleanParser alloc] init];
-	[boolParser setCategoryList:NXGetNamedObject("mainCategoryList", NSApp)];
-	[boolParser setPhoneList:NXGetNamedObject("mainPhoneList", NSApp)];
+	[boolParser setCategoryList:NXGetNamedObject(@"mainCategoryList", NSApp)];
+	[boolParser setPhoneList:NXGetNamedObject(@"mainPhoneList", NSApp)];
 
 	/* READ FROM FILE  */
 	NXRead(fp, &numRules, sizeof(int));

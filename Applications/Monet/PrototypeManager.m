@@ -46,7 +46,7 @@ id temp, tempList, tempEntry;
 int column = [protoBrowser selectedColumn];
 int row = [[protoBrowser matrixInColumn:column] selectedRow];
 char string[256];
-id ruleManager = NXGetNamedObject("ruleManager", NSApp);
+id ruleManager = NXGetNamedObject(@"ruleManager", NSApp);
 
 
 	temp = [controller inspector];
@@ -135,13 +135,13 @@ int column = [protoBrowser selectedColumn];
 		case 0: 
 			break;
 		case 1: 
-			temp = NXGetNamedObject("transitionBuilder", NSApp);
+			temp = NXGetNamedObject(@"transitionBuilder", NSApp);
 			tempList = [protoTemplates objectAtIndex: [[sender matrixInColumn:0] selectedRow]];
 			[temp setTransition:[tempList objectAtIndex:[[sender matrixInColumn:1] selectedRow]]];
 			[(TransitionView *)temp showWindow:[[protoBrowser window] windowNumber]];
 			break;
 		case 2: 
-			temp = NXGetNamedObject("specialTransitionBuilder", NSApp);
+			temp = NXGetNamedObject(@"specialTransitionBuilder", NSApp);
 			tempList = [protoSpecial objectAtIndex: [[sender matrixInColumn:0] selectedRow]];
 			[temp setTransition:[tempList objectAtIndex:[[sender matrixInColumn:1] selectedRow]]];
 			[(TransitionView *)temp showWindow:[[protoBrowser window] windowNumber]];
@@ -189,7 +189,7 @@ NamedList *tempList;
 
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column
 {
-id ruleManager = NXGetNamedObject("ruleManager", NSApp);
+id ruleManager = NXGetNamedObject(@"ruleManager", NSApp);
 NamedList *tempList;
 BOOL used = NO;
 

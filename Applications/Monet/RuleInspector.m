@@ -60,7 +60,7 @@ int tempIndex;
 			[popUpList setTitle:@"General Information"];
 			[mainInspector setGeneralView:genInfoBox];
 
-			ruleManager = NXGetNamedObject("ruleManager", NSApp);
+			ruleManager = NXGetNamedObject(@"ruleManager", NSApp);
 			tempIndex = [[ruleManager ruleList] indexOfObject:currentRule] + 1;
 			[locationTextField setIntValue:tempIndex];
 			[moveToField setIntValue:tempIndex];
@@ -145,7 +145,7 @@ const char *temp;
 
 - (void)browserHit:sender
 {
-id tempProto = NXGetNamedObject("prototypeManager", NSApp);
+id tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
 id tempCell;
 int index, index1, index2;
 char buffer[256];
@@ -189,8 +189,8 @@ char buffer[256];
 
 - (void)browserDoubleHit:sender
 {
-id transitionBuilder = NXGetNamedObject("transitionBuilder", NSApp);
-id specialTransitionBuilder = NXGetNamedObject("specialTransitionBuilder", NSApp);
+id transitionBuilder = NXGetNamedObject(@"transitionBuilder", NSApp);
+id specialTransitionBuilder = NXGetNamedObject(@"specialTransitionBuilder", NSApp);
 id tempCell;
 int index;
 
@@ -219,7 +219,7 @@ int index;
 - (void)selectionBrowserHit:sender
 {
 int listIndex, index, parameterIndex, i;
-id tempProto = NXGetNamedObject("prototypeManager", NSApp);
+id tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
 id temp;
 NSArray *selectedList, *cellList;
 
@@ -273,9 +273,9 @@ int index;
 				return 5;
 			case 2: /* parameters and their special profiles */
 			case 4:
-				return [NXGetNamedObject("mainParameterList", NSApp) count];
+				return [NXGetNamedObject(@"mainParameterList", NSApp) count];
 			case 3:
-				return [NXGetNamedObject("mainMetaParameterList", NSApp) count];
+				return [NXGetNamedObject(@"mainMetaParameterList", NSApp) count];
 				break;
 
 		}
@@ -285,29 +285,29 @@ int index;
 		switch(currentBrowser)
 		{
 			case 1: if (column == 0)
-					return [[NXGetNamedObject("prototypeManager", NSApp) equationList] count];
+					return [[NXGetNamedObject(@"prototypeManager", NSApp) equationList] count];
 				else
 				{
 					index = [[sender matrixInColumn:0] selectedRow];
-					return [[[NXGetNamedObject("prototypeManager",NSApp) equationList] objectAtIndex: index] count];
+					return [[[NXGetNamedObject(@"prototypeManager",NSApp) equationList] objectAtIndex: index] count];
 				}
 				break;
 			case 2:
 			case 3: if (column == 0)
-					return [[NXGetNamedObject("prototypeManager", NSApp) transitionList] count];
+					return [[NXGetNamedObject(@"prototypeManager", NSApp) transitionList] count];
 				else
 				{
 					index = [[sender matrixInColumn:0] selectedRow];
-					return [[[NXGetNamedObject("prototypeManager",NSApp) transitionList]
+					return [[[NXGetNamedObject(@"prototypeManager",NSApp) transitionList]
 							objectAtIndex: index] count];
 				}
 				break;
 			case 4: if (column == 0)
-					return [[NXGetNamedObject("prototypeManager", NSApp) specialList] count];
+					return [[NXGetNamedObject(@"prototypeManager", NSApp) specialList] count];
 				else
 				{
 					index = [[sender matrixInColumn:0] selectedRow];
-					return [[[NXGetNamedObject("prototypeManager",NSApp) specialList]
+					return [[[NXGetNamedObject(@"prototypeManager",NSApp) specialList]
 							objectAtIndex: index] count];
 				}
 		}
@@ -350,12 +350,12 @@ int index;
 				[cell setLoaded:YES];
 				break;
 			case 4:
-			case 2: temp = NXGetNamedObject("mainParameterList", NSApp);
+			case 2: temp = NXGetNamedObject(@"mainParameterList", NSApp);
 				[cell setStringValue:[NSString stringWithCString:[[temp objectAtIndex:row] symbol]]];
 				[cell setLeaf:YES];
 				[cell setLoaded:YES];
 				break;
-			case 3: temp = NXGetNamedObject("mainMetaParameterList", NSApp);
+			case 3: temp = NXGetNamedObject(@"mainMetaParameterList", NSApp);
 				[cell setStringValue:[NSString stringWithCString:[[temp objectAtIndex:row] symbol]]];
 				[cell setLeaf:YES];
 				[cell setLoaded:YES];
@@ -365,7 +365,7 @@ int index;
 	}
 	else
 	{
-		temp = NXGetNamedObject("prototypeManager", NSApp);
+		temp = NXGetNamedObject(@"prototypeManager", NSApp);
 		index = [[sender matrixInColumn:0] selectedRow];
 		[cell setLoaded:YES];
 
@@ -462,7 +462,7 @@ int index;
 id ruleManager, ruleList;
 int location = [moveToField intValue] - 1;
 
-	ruleManager = NXGetNamedObject("ruleManager", NSApp);
+	ruleManager = NXGetNamedObject(@"ruleManager", NSApp);
 
 	ruleList = [ruleManager ruleList];
 

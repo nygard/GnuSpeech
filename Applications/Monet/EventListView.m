@@ -203,7 +203,7 @@ int i, j, k, parameterIndex, phoneIndex;
 id tempCell;
 float currentX, currentY;
 float currentMin, currentMax;
-ParameterList *parameterList = NXGetNamedObject("mainParameterList", NSApp);
+ParameterList *parameterList = NXGetNamedObject(@"mainParameterList", NSApp);
 Event *currentEvent;
 char string[256];
 Phone *currentPhone = nil;

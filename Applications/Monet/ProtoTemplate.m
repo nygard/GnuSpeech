@@ -211,7 +211,7 @@ id temp, temp1;
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
 Point *tempPoint;
-id tempProto = NXGetNamedObject("prototypeManager", NSApp);
+id tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
 
 	[aDecoder decodeValuesOfObjCTypes:"**i", &name, &comment, &type];
 	points = [[aDecoder decodeObject] retain];
@@ -304,7 +304,7 @@ id tempProto = NXGetNamedObject("prototypeManager", NSApp);
 - read:(NXTypedStream *)stream
 {
 Point *tempPoint;
-id tempProto = NXGetNamedObject("prototypeManager", NSApp);
+id tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
 
         NXReadTypes(stream, "**i", &name, &comment, &type);
         points = NXReadObject(stream);

@@ -75,7 +75,7 @@ const char *temp;
 
 - (void)browserHit:sender
 {
-id tempView = NXGetNamedObject("intonationView", NSApp);
+id tempView = NXGetNamedObject(@"intonationView", NSApp);
 int index;
 
 	index = [[ruleBrowser matrixInColumn:0] selectedRow];
@@ -120,7 +120,7 @@ char buffer[64];
 
 - (void)setSemitone:sender
 {
-id tempView = NXGetNamedObject("intonationView", NSApp);
+id tempView = NXGetNamedObject(@"intonationView", NSApp);
 
 	[currentPoint setSemitone:[sender doubleValue]];
 	[tempView display];
@@ -129,7 +129,7 @@ id tempView = NXGetNamedObject("intonationView", NSApp);
 
 - (void)setHertz:sender;
 {
-id tempView = NXGetNamedObject("intonationView", NSApp);
+id tempView = NXGetNamedObject(@"intonationView", NSApp);
 double temp;
 
 	temp = 12.0 * (log10([sender doubleValue]/MIDDLEC)/log10(2.0));
@@ -140,7 +140,7 @@ double temp;
 
 - (void)setSlope:sender;
 {
-id tempView = NXGetNamedObject("intonationView", NSApp);
+id tempView = NXGetNamedObject(@"intonationView", NSApp);
 	[currentPoint setSlope:[sender doubleValue]];
 	[tempView display];
 	[self updateInspector];
@@ -148,7 +148,7 @@ id tempView = NXGetNamedObject("intonationView", NSApp);
 
 - (void)setBeatOffset:sender;
 {
-id tempView = NXGetNamedObject("intonationView", NSApp);
+id tempView = NXGetNamedObject(@"intonationView", NSApp);
 
 	[currentPoint setOffsetTime:[sender doubleValue]];
 	[[tempView documentView] addIntonationPoint:currentPoint];

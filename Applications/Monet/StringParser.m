@@ -32,7 +32,7 @@
 {
     id defaultManager;
 
-	defaultManager = NXGetNamedObject("defaultManager", NSApp);
+	defaultManager = NXGetNamedObject(@"defaultManager", NSApp);
 
 	[masterVolume setDoubleValue:[defaultManager masterVolume]];
 	[length setDoubleValue:[defaultManager vocalTractLength]];
@@ -81,7 +81,7 @@
 {
 id defaultManager;
 
-	defaultManager = NXGetNamedObject("defaultManager", NSApp);
+	defaultManager = NXGetNamedObject(@"defaultManager", NSApp);
 
 	[defaultManager setMasterVolume:[masterVolume doubleValue]];
 	[defaultManager setVocalTractLength:[length doubleValue]];

@@ -812,9 +812,9 @@ double footTempo, tempTempo;
 int index = 0;
 int i, j, rus;
 int ruleIndex;
-RuleList *ruleList = [(RuleManager *) NXGetNamedObject("ruleManager", NSApp) ruleList];
+RuleList *ruleList = [(RuleManager *) NXGetNamedObject(@"ruleManager", NSApp) ruleList];
 Rule *tempRule;
-ParameterList *mainParameterList = (ParameterList *) NXGetNamedObject("mainParameterList", NSApp);
+ParameterList *mainParameterList = (ParameterList *) NXGetNamedObject(@"mainParameterList", NSApp);
 Parameter *tempParameter = nil;
 
 	for(i = 0; i<16; i++)
@@ -1057,8 +1057,8 @@ Event *tempEvent;
 
 - (void)applyIntonation;
 {
-id tempView = [NXGetNamedObject("intonationView", NSApp) documentView];
-id mainCategoryList = NXGetNamedObject("mainCategoryList", NSApp);
+id tempView = [NXGetNamedObject(@"intonationView", NSApp) documentView];
+id mainCategoryList = NXGetNamedObject(@"mainCategoryList", NSApp);
 id vocoidCategory;
 int firstFoot, endFoot;
 int ruleIndex, phoneIndex;

@@ -37,11 +37,11 @@
 
 	[[browser window] makeFirstResponder:self];
 
-	list[0] = NXGetNamedObject("mainPhoneList", NSApp);
-	list[1] = NXGetNamedObject("mainCategoryList", NSApp);
-	list[2] = NXGetNamedObject("mainParameterList", NSApp);
-	list[3] = NXGetNamedObject("mainMetaParameterList", NSApp);
-	list[4] = NXGetNamedObject("mainSymbolList", NSApp);
+	list[0] = NXGetNamedObject(@"mainPhoneList", NSApp);
+	list[1] = NXGetNamedObject(@"mainCategoryList", NSApp);
+	list[2] = NXGetNamedObject(@"mainParameterList", NSApp);
+	list[3] = NXGetNamedObject(@"mainMetaParameterList", NSApp);
+	list[4] = NXGetNamedObject(@"mainSymbolList", NSApp);
 
 	currentList = 0;
 
@@ -94,11 +94,11 @@ char titleString[128];
 
 - (void)updateLists
 {
-	list[0] = NXGetNamedObject("mainPhoneList", NSApp);
-	list[1] = NXGetNamedObject("mainCategoryList", NSApp);
-	list[2] = NXGetNamedObject("mainParameterList", NSApp);
-	list[3] = NXGetNamedObject("mainMetaParameterList", NSApp);
-	list[4] = NXGetNamedObject("mainSymbolList", NSApp); 
+	list[0] = NXGetNamedObject(@"mainPhoneList", NSApp);
+	list[1] = NXGetNamedObject(@"mainCategoryList", NSApp);
+	list[2] = NXGetNamedObject(@"mainParameterList", NSApp);
+	list[3] = NXGetNamedObject(@"mainMetaParameterList", NSApp);
+	list[4] = NXGetNamedObject(@"mainSymbolList", NSApp); 
 }
 - (void)browserHit:sender;
 {
@@ -173,7 +173,7 @@ int index;
 
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
 {
-id ruleManager = NXGetNamedObject("ruleManager", NSApp);
+id ruleManager = NXGetNamedObject(@"ruleManager", NSApp);
 char buffer[256];
 
 	bzero(buffer, 256);

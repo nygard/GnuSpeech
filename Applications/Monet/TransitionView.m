@@ -67,9 +67,9 @@ Phone *dummy;
 	displayPoints = [[MonetList alloc] initWithCapacity:12];
 	displaySlopes = [[MonetList alloc] initWithCapacity:12];
 
-	symbols = NXGetNamedObject("mainSymbolList", NSApp);
-	parms = NXGetNamedObject("mainParameterList", NSApp);
-	metaParms = NXGetNamedObject("mainMetaParameterList", NSApp);
+	symbols = NXGetNamedObject(@"mainSymbolList", NSApp);
+	parms = NXGetNamedObject(@"mainParameterList", NSApp);
+	metaParms = NXGetNamedObject(@"mainMetaParameterList", NSApp);
 
 	dummy = [[Phone alloc] initWithSymbol:"dummy" parmeters:parms metaParameters: metaParms symbols:symbols];
 	[[[dummy symbolList] objectAtIndex: 0] setValue:100.0];
@@ -155,7 +155,7 @@ float temp = ([self frame].size.height - 100.0)/14.0;
 {
 int i, j;
 double symbols[5], time;
-id equationList = [NXGetNamedObject("prototypeManager", NSApp) equationList];
+id equationList = [NXGetNamedObject(@"prototypeManager", NSApp) equationList];
 id namedList, equation;
 float timeScale = ([self frame].size.width - 100.0) / [[displayParameters cellAtIndex:0] floatValue];
 int type;

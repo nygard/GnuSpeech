@@ -50,7 +50,7 @@
 - (void)setUpWindow:sender
 {
 const char *temp;
-id tempProto = NXGetNamedObject("prototypeManager", NSApp);
+id tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
 id tempCell;
 int index1, index2;
 char buffer[256];
@@ -141,7 +141,7 @@ const char *temp;
 - (void)browserHit:sender
 {
 int listIndex, index;
-id tempProto = NXGetNamedObject("prototypeManager", NSApp);
+id tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
 id temp;
 char buffer[256];
 
@@ -157,8 +157,8 @@ char buffer[256];
 		[[temp expression] expressionString:buffer];
 		[currentTimingField setStringValue:[NSString stringWithCString:buffer]];
 
-		[NXGetNamedObject("transitionBuilder", NSApp) display];
-		[NXGetNamedObject("specialTransitionBuilder", NSApp) display];
+		[NXGetNamedObject(@"transitionBuilder", NSApp) display];
+		[NXGetNamedObject(@"specialTransitionBuilder", NSApp) display];
 
 	} 
 }
@@ -173,11 +173,11 @@ char buffer[256];
 int index;
 
 	if (column == 0)
-		return [[NXGetNamedObject("prototypeManager", NSApp) equationList] count];
+		return [[NXGetNamedObject(@"prototypeManager", NSApp) equationList] count];
 	else
 	{
 		index = [[sender matrixInColumn:0] selectedRow];
-		return [[[NXGetNamedObject("prototypeManager", NSApp) equationList] objectAtIndex: index] count];
+		return [[[NXGetNamedObject(@"prototypeManager", NSApp) equationList] objectAtIndex: index] count];
 	}
 }
 
@@ -186,7 +186,7 @@ int index;
 id temp, list, tempCell;
 int index;
 
-	temp = NXGetNamedObject("prototypeManager", NSApp);
+	temp = NXGetNamedObject(@"prototypeManager", NSApp);
 	index = [[sender matrixInColumn:0] selectedRow];
 	[cell setLoaded:YES];
 
@@ -211,44 +211,44 @@ int index;
 
 - (void)setValue:sender
 {
-id temp = NXGetNamedObject("transitionBuilder", NSApp);
+id temp = NXGetNamedObject(@"transitionBuilder", NSApp);
 
 	[currentPoint setValue:[sender doubleValue]];
 	[temp display];
-	[NXGetNamedObject("specialTransitionBuilder", NSApp) display]; 
+	[NXGetNamedObject(@"specialTransitionBuilder", NSApp) display]; 
 }
 
 - (void)setType1:sender
 {
-id temp = NXGetNamedObject("transitionBuilder", NSApp);
+id temp = NXGetNamedObject(@"transitionBuilder", NSApp);
 
 	[type2Button setState:0];
 	[type3Button setState:0];
 	[currentPoint setType:DIPHONE];
 	[temp display];
-	[NXGetNamedObject("specialTransitionBuilder", NSApp) display]; 
+	[NXGetNamedObject(@"specialTransitionBuilder", NSApp) display]; 
 }
 
 - (void)setType2:sender
 {
-id temp = NXGetNamedObject("transitionBuilder", NSApp);
+id temp = NXGetNamedObject(@"transitionBuilder", NSApp);
 
 	[type1Button setState:0];
 	[type3Button setState:0];
 	[currentPoint setType:TRIPHONE];
 	[temp display];
-	[NXGetNamedObject("specialTransitionBuilder", NSApp) display]; 
+	[NXGetNamedObject(@"specialTransitionBuilder", NSApp) display]; 
 }
 
 - (void)setType3:sender
 {
-id temp = NXGetNamedObject("transitionBuilder", NSApp);
+id temp = NXGetNamedObject(@"transitionBuilder", NSApp);
 
 	[type1Button setState:0];
 	[type2Button setState:0];
 	[currentPoint setType:TETRAPHONE];
 	[temp display];
-	[NXGetNamedObject("specialTransitionBuilder", NSApp) display]; 
+	[NXGetNamedObject(@"specialTransitionBuilder", NSApp) display]; 
 }
 
 - (void)setPhantom:sender

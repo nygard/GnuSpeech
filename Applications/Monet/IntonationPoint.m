@@ -94,7 +94,7 @@ double time;
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
 	[aDecoder decodeValuesOfObjCTypes:"dddi", &semitone, &offsetTime, &slope, &ruleIndex];
-	eventList = NXGetNamedObject("mainEventList", NSApp);
+	eventList = NXGetNamedObject(@"mainEventList", NSApp);
 	
 	return self;
 }
@@ -108,7 +108,7 @@ double time;
 - read:(NXTypedStream *)stream
 {
         NXReadTypes(stream, "dddi", &semitone, &offsetTime, &slope, &ruleIndex);
-        eventList = NXGetNamedObject("mainEventList", NSApp);
+        eventList = NXGetNamedObject(@"mainEventList", NSApp);
 
         return self;
 }

@@ -42,8 +42,8 @@ int i;
 	[ruleMatrix setAction:(SEL)(@selector(browserHit:))];
 	[ruleMatrix setDoubleAction:(SEL)(@selector(browserDoubleHit:))];
 
-	[boolParser setCategoryList:NXGetNamedObject("mainCategoryList", NSApp)];
-	[boolParser setPhoneList:NXGetNamedObject("mainPhoneList", NSApp)];
+	[boolParser setCategoryList:NXGetNamedObject(@"mainCategoryList", NSApp)];
+	[boolParser setPhoneList:NXGetNamedObject(@"mainPhoneList", NSApp)];
 
 	temp = [boolParser parseString:"phone"];
 	temp1 = [boolParser parseString:"phone"];
@@ -227,7 +227,7 @@ char string[2048], tempString[256];
 - (void)setExpression1:sender
 {
 id tempList;
-PhoneList *mainPhoneList = NXGetNamedObject("mainPhoneList", NSApp);
+PhoneList *mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
 BooleanExpression *tempExpression;
 char string[256];
 int i;
@@ -239,7 +239,7 @@ int i;
 		return;
 	}
 
-	[boolParser setCategoryList:NXGetNamedObject("mainCategoryList", NSApp)];
+	[boolParser setCategoryList:NXGetNamedObject(@"mainCategoryList", NSApp)];
 	[boolParser setPhoneList:mainPhoneList];
 	[boolParser setErrorOutput:errorTextField];
 
@@ -276,7 +276,7 @@ int i;
 - (void)setExpression2:sender
 {
 id tempList;
-PhoneList *mainPhoneList = NXGetNamedObject("mainPhoneList", NSApp);
+PhoneList *mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
 BooleanExpression *tempExpression;
 char string[256];
 int i;
@@ -288,7 +288,7 @@ int i;
 		return;
 	}
 
-	[boolParser setCategoryList:NXGetNamedObject("mainCategoryList", NSApp)];
+	[boolParser setCategoryList:NXGetNamedObject(@"mainCategoryList", NSApp)];
 	[boolParser setPhoneList:mainPhoneList];
 	[boolParser setErrorOutput:errorTextField];
 
@@ -325,7 +325,7 @@ int i;
 - (void)setExpression3:sender
 {
 id tempList;
-PhoneList *mainPhoneList = NXGetNamedObject("mainPhoneList", NSApp);
+PhoneList *mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
 BooleanExpression *tempExpression;
 char string[256];
 int i;
@@ -337,7 +337,7 @@ int i;
 		return;
 	}
 
-	[boolParser setCategoryList:NXGetNamedObject("mainCategoryList", NSApp)];
+	[boolParser setCategoryList:NXGetNamedObject(@"mainCategoryList", NSApp)];
 	[boolParser setPhoneList:mainPhoneList];
 	[boolParser setErrorOutput:errorTextField];
 
@@ -374,7 +374,7 @@ int i;
 - (void)setExpression4:sender
 {
 id tempList;
-PhoneList *mainPhoneList = NXGetNamedObject("mainPhoneList", NSApp);
+PhoneList *mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
 BooleanExpression *tempExpression;
 char string[256];
 int i;
@@ -386,7 +386,7 @@ int i;
 		return;
 	}
 
-	[boolParser setCategoryList:NXGetNamedObject("mainCategoryList", NSApp)];
+	[boolParser setCategoryList:NXGetNamedObject(@"mainCategoryList", NSApp)];
 	[boolParser setPhoneList:mainPhoneList];
 	[boolParser setErrorOutput:errorTextField];
 
@@ -459,7 +459,7 @@ int i;
 {
 int i, j;
 id tempList;
-PhoneList *mainPhoneList = NXGetNamedObject("mainPhoneList", NSApp);
+PhoneList *mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
 char string[256];
 
 	for (j = 0; j<4; j++)
@@ -517,10 +517,10 @@ int i;
 - (void)add:sender
 {
 char string[1024];
-PhoneList *mainPhoneList = NXGetNamedObject("mainPhoneList", NSApp);
+PhoneList *mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
 BooleanExpression *exp1=nil, *exp2=nil, *exp3=nil, *exp4=nil;
 
-	[boolParser setCategoryList:NXGetNamedObject("mainCategoryList", NSApp)];
+	[boolParser setCategoryList:NXGetNamedObject(@"mainCategoryList", NSApp)];
 	[boolParser setPhoneList:mainPhoneList];
 	[boolParser setErrorOutput:errorTextField];
 
@@ -542,11 +542,11 @@ BooleanExpression *exp1=nil, *exp2=nil, *exp3=nil, *exp4=nil;
 
 - (void)rename:sender
 {
-PhoneList *mainPhoneList = NXGetNamedObject("mainPhoneList", NSApp);
+PhoneList *mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
 BooleanExpression *exp1=nil, *exp2=nil, *exp3=nil, *exp4=nil;
 int index = [[ruleMatrix matrixInColumn:0] selectedRow];
 
-	[boolParser setCategoryList:NXGetNamedObject("mainCategoryList", NSApp)];
+	[boolParser setCategoryList:NXGetNamedObject(@"mainCategoryList", NSApp)];
 	[boolParser setPhoneList:mainPhoneList];
 	[boolParser setErrorOutput:errorTextField];
 
@@ -584,7 +584,7 @@ double ruleSymbols[5] = {0.0, 0.0, 0.0, 0.0, 0.0};
 
 	tempList = [[MonetList alloc] initWithCapacity:4];
 	phoneList = [[MonetList alloc] initWithCapacity:4];
-	mainPhoneList = NXGetNamedObject("mainPhoneList", NSApp);
+	mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
 
 	if ( ([[[phone1 cellAtIndex:0] stringValue] isEqualToString:@""]) || ([[[phone2 cellAtIndex:0] stringValue] isEqualToString:@""]) )
 	{

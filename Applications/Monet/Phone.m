@@ -161,7 +161,7 @@
     CategoryNode *temp1;
     char *string;
 
-    temp = NXGetNamedObject("mainCategoryList", NSApp);
+    temp = NXGetNamedObject(@"mainCategoryList", NSApp);
 
     [aDecoder decodeValuesOfObjCTypes:"**", &phoneSymbol, &comment];
 
@@ -237,7 +237,7 @@
     CategoryNode *temp1;
     char *string;
 
-    temp = NXGetNamedObject("mainCategoryList", NSApp);
+    temp = NXGetNamedObject(@"mainCategoryList", NSApp);
 
     NXReadTypes(stream, "**", &phoneSymbol, &comment);
 

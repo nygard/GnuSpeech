@@ -50,9 +50,9 @@
         return;
 
     // TODO (2004-03-01): Try having GSApp methods for these instead.
-    symbols = NXGetNamedObject("mainSymbolList", NSApp);
-    parms = NXGetNamedObject("mainParameterList", NSApp);
-    metaParms = NXGetNamedObject("mainMetaParameterList", NSApp);
+    symbols = NXGetNamedObject(@"mainSymbolList", NSApp);
+    parms = NXGetNamedObject(@"mainParameterList", NSApp);
+    metaParms = NXGetNamedObject(@"mainMetaParameterList", NSApp);
 
     aPhone = [[Phone alloc] initWithSymbol:phone parmeters:parms metaParameters:metaParms symbols:symbols];
     [[aPhone categoryList] addNativeCategory:phone];
@@ -186,10 +186,10 @@
     char tempSymbol[SYMBOL_LENGTH_MAX + 1];
 
 
-    categories = NXGetNamedObject("mainCategoryList", NSApp);
-    symbols = NXGetNamedObject("mainSymbolList", NSApp);
-    parms = NXGetNamedObject("mainParameterList", NSApp);
-    metaParms = NXGetNamedObject("mainMetaParameterList", NSApp);
+    categories = NXGetNamedObject(@"mainCategoryList", NSApp);
+    symbols = NXGetNamedObject(@"mainSymbolList", NSApp);
+    parms = NXGetNamedObject(@"mainParameterList", NSApp);
+    metaParms = NXGetNamedObject(@"mainMetaParameterList", NSApp);
 
     symbolIndex = [symbols findSymbolIndex:"duration"];
 
@@ -260,9 +260,9 @@
     id temp;
     id symbols, parms, metaParms;
 
-    symbols = NXGetNamedObject("mainSymbolList", NSApp);
-    parms = NXGetNamedObject("mainParameterList", NSApp);
-    metaParms = NXGetNamedObject("mainMetaParameterList", NSApp);
+    symbols = NXGetNamedObject(@"mainSymbolList", NSApp);
+    parms = NXGetNamedObject(@"mainParameterList", NSApp);
+    metaParms = NXGetNamedObject(@"mainMetaParameterList", NSApp);
 
     fprintf(fp, "Phones\n");
     for (i = 0; i<[self count]; i++)
@@ -317,7 +317,7 @@
     id temp;
     ParameterList *parms, *metaParms; // TODO (2004-03-01): Not sure of types here.
 
-    parms = NXGetNamedObject("mainParameterList", NSApp);
+    parms = NXGetNamedObject(@"mainParameterList", NSApp);
     index = [parms indexOfObject:parameter];
     if (index != NSNotFound) {
         for (i = 0; i < [self count]; i++) {
@@ -326,7 +326,7 @@
                 [temp setValue:value];
         }
     } else {
-        metaParms = NXGetNamedObject("mainMetaParameterList", NSApp);
+        metaParms = NXGetNamedObject(@"mainMetaParameterList", NSApp);
         index = [metaParms indexOfObject:parameter];
         if (index != NSNotFound)
             for(i = 0; i < [self count]; i++) {
@@ -343,7 +343,7 @@
     id temp;
     SymbolList *symbols;
 
-    symbols = NXGetNamedObject("mainSymbolList", NSApp);
+    symbols = NXGetNamedObject(@"mainSymbolList", NSApp);
     index = [symbols indexOfObject:parameter];
     if (index != NSNotFound) {
         for (i = 0; i < [self count]; i++) {
@@ -360,7 +360,7 @@
     double value;
     id temp;
 
-    value = [[NXGetNamedObject("mainParameterList", NSApp) lastObject] defaultValue];
+    value = [[NXGetNamedObject(@"mainParameterList", NSApp) lastObject] defaultValue];
     for (i = 0; i < [self count]; i++) {
         temp = [[self objectAtIndex:i] parameterList];
         [temp addDefaultTargetWithValue:value];
@@ -384,7 +384,7 @@
     double value;
     id temp;
 
-    value = [[NXGetNamedObject("mainMetaParameterList", NSApp) lastObject] defaultValue];
+    value = [[NXGetNamedObject(@"mainMetaParameterList", NSApp) lastObject] defaultValue];
     for (i = 0; i < [self count]; i++) {
         temp = [[self objectAtIndex:i] metaParameterList];
         [temp addDefaultTargetWithValue:value];
@@ -435,13 +435,13 @@
     char path[256];
     Phone *tempPhone;
     TargetList *tempTargets;
-    ParameterList   *mainParameterList = NXGetNamedObject("mainParameterList", NSApp);
+    ParameterList   *mainParameterList = NXGetNamedObject(@"mainParameterList", NSApp);
     double tempValue;
     int i, count;
 
-    symbols = NXGetNamedObject("mainSymbolList", NSApp);
-    parms = NXGetNamedObject("mainParameterList", NSApp);
-    metaParms = NXGetNamedObject("mainMetaParameterList", NSApp);
+    symbols = NXGetNamedObject(@"mainSymbolList", NSApp);
+    parms = NXGetNamedObject(@"mainParameterList", NSApp);
+    metaParms = NXGetNamedObject(@"mainMetaParameterList", NSApp);
 
     [[NSOpenPanel openPanel] setAllowsMultipleSelection:YES];
     if ([[NSOpenPanel openPanel] runModalForTypes:types])

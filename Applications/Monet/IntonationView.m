@@ -787,7 +787,7 @@ id tempList, stringParser;
 			[stream decodeValueOfObjCType:"*" at:&temp];
 			[utterance setStringValue:[NSString stringWithCString:temp]];
 			free(temp);
-			stringParser = NXGetNamedObject("stringParser", NSApp);
+			stringParser = NXGetNamedObject(@"stringParser", NSApp);
 			[stringParser setUpDataStructures];
 
 			[intonationPoints removeAllObjects];

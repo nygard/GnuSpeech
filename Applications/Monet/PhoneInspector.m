@@ -93,7 +93,7 @@ id mainCategoryList;
 int i;
 
 	tempList = [currentPhone categoryList];
-	mainCategoryList = NXGetNamedObject("mainCategoryList", NSApp);
+	mainCategoryList = NXGetNamedObject(@"mainCategoryList", NSApp);
 	list = [niftyMatrix cells];
 	for(i = 0 ; i<[list count]; i++)
 	{
@@ -151,7 +151,7 @@ int i;
 			else
 			{
 				tempList = [currentPhone categoryList];
-				mainCategoryList = NXGetNamedObject("mainCategoryList", NSApp);
+				mainCategoryList = NXGetNamedObject(@"mainCategoryList", NSApp);
 				[niftyMatrix removeAllCells];
 
 				for (i = 0; i<[tempList count]; i++)
@@ -187,7 +187,7 @@ int i;
 			break;
 		case 'P':
 			currentBrowser = 1;
-			currentMainList = NXGetNamedObject("mainParameterList", NSApp);
+			currentMainList = NXGetNamedObject(@"mainParameterList", NSApp);
 			[browser setTitle:@"Parameter" ofColumn:0];
 			[mainInspector setGeneralView:browserBox];
 			[phonePopUpList setTitle:@"Parameter Targets"];
@@ -195,7 +195,7 @@ int i;
 			break;
 		case 'M':
 			currentBrowser = 2;
-			currentMainList = NXGetNamedObject("mainMetaParameterList", NSApp);
+			currentMainList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
 			[browser setTitle:@"Meta Parameter" ofColumn:0];
 			[mainInspector setGeneralView:browserBox];
 			[phonePopUpList setTitle:@"Meta Parameter Targets"];
@@ -203,7 +203,7 @@ int i;
 			break;
 		case 'S':
 			currentBrowser = 3;
-			currentMainList = NXGetNamedObject("mainSymbolList", NSApp);
+			currentMainList = NXGetNamedObject(@"mainSymbolList", NSApp);
 			[browser setTitle:@"Symbol" ofColumn:0];
 			[mainInspector setGeneralView:browserBox];
 			[phonePopUpList setTitle:@"Symbols"];

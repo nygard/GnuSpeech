@@ -109,7 +109,7 @@ int index;
 	{
 		/* Get main symbolList to determine index of "symbol" */
 		mainSymbolList = (SymbolList *) 		
-			NXGetNamedObject("mainSymbolList", NSApp);
+			NXGetNamedObject(@"mainSymbolList", NSApp);
 		index = [mainSymbolList indexOfObject:symbol];
 
 		/* Use index to index the phone's symbol list */
@@ -197,7 +197,7 @@ char temp[256];
 char *string;
 SymbolList *temp;
 
-	temp = NXGetNamedObject("mainSymbolList", NSApp);
+	temp = NXGetNamedObject(@"mainSymbolList", NSApp);
 
 	[aDecoder decodeValuesOfObjCTypes:"dii", &value, &whichPhone, &precedence];
 
@@ -236,7 +236,7 @@ char *string;
 SymbolList *temp;
 
 
-        temp = NXGetNamedObject("mainSymbolList", NSApp);
+        temp = NXGetNamedObject(@"mainSymbolList", NSApp);
 
         NXReadTypes(stream, "dii", &value, &whichPhone, &precedence);
 

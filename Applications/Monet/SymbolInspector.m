@@ -86,7 +86,7 @@ const char *temp;
 	if ([currentSymbol defaultValue] !=  [[valueFields cellAtIndex:2] doubleValue])
 	{
 		[currentSymbol setDefaultValue:[[valueFields cellAtIndex:2] doubleValue]];
-		[NXGetNamedObject("mainPhoneList", NSApp) symbolDefaultChange:currentSymbol to:[[valueFields cellAtIndex:2] doubleValue]];
+		[NXGetNamedObject(@"mainPhoneList", NSApp) symbolDefaultChange:currentSymbol to:[[valueFields cellAtIndex:2] doubleValue]];
 	}
 
 	[currentSymbol setMinimumValue:[[valueFields cellAtIndex:0] doubleValue]];

@@ -16,10 +16,10 @@
 id tempList;
 
 	/* Alloc lists to point to prototype transition specifiers */
-	tempList = NXGetNamedObject("mainParameterList", NSApp);
+	tempList = NXGetNamedObject(@"mainParameterList", NSApp);
 	parameterProfiles = [[MonetList alloc] initWithCapacity:[tempList count]];
 
-	tempList = NXGetNamedObject("mainMetaParameterList", NSApp);
+	tempList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
 	metaParameterProfiles = [[MonetList alloc] initWithCapacity:[tempList count]];
 
 	/* Set up list for Expression symbols */
@@ -45,7 +45,7 @@ int i;
 	if ((numPhones<2) || (numPhones > 4))
 		return;
 
-	tempProto = NXGetNamedObject("prototypeManager", NSApp);
+	tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
 	switch(numPhones)
 	{
 		case 2: tempEntry = [tempProto findTransitionList: "Defaults" named: "Diphone"];
@@ -61,14 +61,14 @@ int i;
 		printf("CANNOT find temp entry\n");
 	}
 
-	tempList = NXGetNamedObject("mainParameterList", NSApp);
+	tempList = NXGetNamedObject(@"mainParameterList", NSApp);
 	for(i = 0;i<[tempList count]; i++)
 	{
 		[parameterProfiles addObject:tempEntry];
 	}
 
 	/* Alloc lists to point to prototype transition specifiers */
-	tempList = NXGetNamedObject("mainMetaParameterList", NSApp);
+	tempList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
 	for(i = 0;i<[tempList count]; i++)
 	{
 		[metaParameterProfiles addObject:tempEntry];
@@ -118,7 +118,7 @@ int i;
 id tempProto, tempEntry;
 
 
-	tempProto = NXGetNamedObject("prototypeManager", NSApp);
+	tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
 	switch([self numberExpressions])
 	{
 		case 2: tempEntry = [tempProto findTransitionList: "Defaults" named: "Diphone"];
@@ -137,7 +137,7 @@ id tempProto, tempEntry;
 id tempProto, tempEntry;
 
 
-	tempProto = NXGetNamedObject("prototypeManager", NSApp);
+	tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
 	switch([self numberExpressions])
 	{
 		case 2: tempEntry = [tempProto findTransitionList: "Defaults" named: "Diphone"];
@@ -328,13 +328,13 @@ int i;
 {
 int i, j, k;
 int parms, metaParms, symbols;
-id tempProto = NXGetNamedObject("prototypeManager", NSApp);
+id tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
 id tempParameter, tempList;
 
-	tempList = NXGetNamedObject("mainParameterList", NSApp);
+	tempList = NXGetNamedObject(@"mainParameterList", NSApp);
 	parameterProfiles = [[MonetList alloc] initWithCapacity:[tempList count]];
 
-	tempList = NXGetNamedObject("mainMetaParameterList", NSApp);
+	tempList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
 	metaParameterProfiles = [[MonetList alloc] initWithCapacity:[tempList count]];
 
 	expressionSymbols = [[MonetList alloc] initWithCapacity: 5];
@@ -392,7 +392,7 @@ id tempParameter, tempList;
 {
 int i, j, k, dummy;
 int parms, metaParms, symbols;
-id tempProto = NXGetNamedObject("prototypeManager", NSApp);
+id tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
 
 	i = [self numberExpressions];
 	[aCoder encodeValuesOfObjCTypes:"i*", &i, &comment];
@@ -446,13 +446,13 @@ id tempProto = NXGetNamedObject("prototypeManager", NSApp);
 {
 int i, j, k;
 int parms, metaParms, symbols;
-id tempProto = NXGetNamedObject("prototypeManager", NSApp);
+id tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
 id tempParameter, tempList;
 
-        tempList = NXGetNamedObject("mainParameterList", NSApp);
+        tempList = NXGetNamedObject(@"mainParameterList", NSApp);
         parameterProfiles = [[MonetList alloc] initWithCapacity:[tempList count]];
 
-        tempList = NXGetNamedObject("mainMetaParameterList", NSApp);
+        tempList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
         metaParameterProfiles = [[MonetList alloc] initWithCapacity:[tempList count]];
 
         expressionSymbols = [[MonetList alloc] initWithCapacity: 5];

@@ -25,7 +25,7 @@
 
 - (void)setUpWindow:sender
 {
-id tempRuleManager = NXGetNamedObject("ruleManager", NSApp);
+id tempRuleManager = NXGetNamedObject(@"ruleManager", NSApp);
 const char *temp;
 
 	temp = [[[sender selectedCell] title] cString];
@@ -105,22 +105,22 @@ const char *temp;
 - (void)setDiphone:sender
 {
 	[protoTemplate setType:DIPHONE];
-	[NXGetNamedObject("transitionBuilder", NSApp) display];
-	[NXGetNamedObject("specialTransitionBuilder", NSApp) display]; 
+	[NXGetNamedObject(@"transitionBuilder", NSApp) display];
+	[NXGetNamedObject(@"specialTransitionBuilder", NSApp) display]; 
 }
 
 - (void)setTriphone:sender
 {
 	[protoTemplate setType:TRIPHONE];
-	[NXGetNamedObject("transitionBuilder", NSApp) display];
-	[NXGetNamedObject("specialTransitionBuilder", NSApp) display]; 
+	[NXGetNamedObject(@"transitionBuilder", NSApp) display];
+	[NXGetNamedObject(@"specialTransitionBuilder", NSApp) display]; 
 }
 
 - (void)setTetraphone:sender
 {
 	[protoTemplate setType:TETRAPHONE];
-	[NXGetNamedObject("transitionBuilder", NSApp) display];
-	[NXGetNamedObject("specialTransitionBuilder", NSApp) display]; 
+	[NXGetNamedObject(@"transitionBuilder", NSApp) display];
+	[NXGetNamedObject(@"specialTransitionBuilder", NSApp) display]; 
 }
 
 - (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column
@@ -133,7 +133,7 @@ char buffer[128];
 
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column
 {
-id tempRuleManager = NXGetNamedObject("ruleManager", NSApp);
+id tempRuleManager = NXGetNamedObject(@"ruleManager", NSApp);
 id tempRuleList; 
 char buffer[128];
 

@@ -108,8 +108,8 @@
     PhoneList *phoneList;
     CategoryNode *temp1;
 
-    temp = NXGetNamedObject("mainCategoryList", NSApp);
-    phoneList = NXGetNamedObject("mainPhoneList", NSApp);
+    temp = NXGetNamedObject(@"mainCategoryList", NSApp);
+    phoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
 
     [aDecoder decodeValueOfObjCType:"i" at:&matchAll];
 
@@ -149,8 +149,8 @@
     PhoneList *phoneList;
     CategoryNode *temp1;
 
-    temp = NXGetNamedObject("mainCategoryList", NSApp);
-    phoneList = NXGetNamedObject("mainPhoneList", NSApp);
+    temp = NXGetNamedObject(@"mainCategoryList", NSApp);
+    phoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
 
     NXReadType(stream, "i", &matchAll);
 

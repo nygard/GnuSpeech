@@ -91,7 +91,7 @@ const char *temp;
 	if ([currentParameter defaultValue] !=  [[valueFields cellAtIndex:2] doubleValue])
 	{
 		[currentParameter setDefaultValue:[[valueFields cellAtIndex:2] doubleValue]];
-		[NXGetNamedObject("mainPhoneList", NSApp) parameterDefaultChange:currentParameter to:[[valueFields cellAtIndex:2] doubleValue]];
+		[NXGetNamedObject(@"mainPhoneList", NSApp) parameterDefaultChange:currentParameter to:[[valueFields cellAtIndex:2] doubleValue]];
 	}
 
 	[currentParameter setMinimumValue:[[valueFields cellAtIndex:0] doubleValue]];
