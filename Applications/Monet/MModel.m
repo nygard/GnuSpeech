@@ -652,8 +652,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [symbols appendXMLToString:resultString level:1];
     [postures appendXMLToString:resultString level:1];
 
-    [self _appendXMLForMMEquationsToString:resultString level:1];
-    [self _appendXMLForMMTransitionsToString:resultString level:1];
+    [self _appendXMLForEquationsToString:resultString level:1];
+    [self _appendXMLForTransitionsToString:resultString level:1];
     [self _appendXMLForProtoSpecialsToString:resultString level:1];
     [rules appendXMLToString:resultString elementName:@"rules" level:1 numberItems:YES];
 
@@ -665,7 +665,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [resultString release];
 }
 
-- (void)_appendXMLForMMEquationsToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForEquationsToString:(NSMutableString *)resultString level:(int)level;
 {
     NamedList *namedList;
     int count, index;
@@ -682,7 +682,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [resultString appendString:@"</equations>\n"];
 }
 
-- (void)_appendXMLForMMTransitionsToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForTransitionsToString:(NSMutableString *)resultString level:(int)level;
 {
     NamedList *namedList;
     int count, index;
