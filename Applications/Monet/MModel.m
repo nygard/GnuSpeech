@@ -64,7 +64,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         [self addSymbol:newSymbol];
         [newSymbol release];
 
-        newCategory = [[MMCategory alloc] initWithSymbol:@"phone"];
+        newCategory = [[MMCategory alloc] initWithName:@"phone"];
         [newCategory setComment:@"This is the static phone category.  It cannot be changed or removed."];
         [self addCategory:newCategory];
         [newCategory release];
@@ -168,8 +168,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)addCategory:(MMCategory *)newCategory;
 {
-    if ([newCategory symbol] == nil)
-        [newCategory setSymbol:@"untitled"];
+    if ([newCategory name] == nil)
+        [newCategory setName:@"untitled"];
 
     [self _uniqueNameForCategory:newCategory];
 
@@ -187,18 +187,18 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     names = [[NSMutableSet alloc] init];
     count = [categories count];
     for (index = 0; index < count; index++) {
-        name = [[categories objectAtIndex:index] symbol];
+        name = [[categories objectAtIndex:index] name];
         if (name != nil)
             [names addObject:name];
     }
 
-    name = basename = [newCategory symbol];
+    name = basename = [newCategory name];
     index = 1;
     while ([names containsObject:name] == YES) {
         name = [NSString stringWithFormat:@"%@%d", basename, index++];
     }
 
-    [newCategory setSymbol:name];
+    [newCategory setName:name];
 
     [names release];
 }
@@ -235,7 +235,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     count = [categories count];
     for (index = 0; index < count; index++) {
         aCategory = [categories objectAtIndex:index];
-        if ([[aCategory symbol] isEqual:aName])
+        if ([[aCategory name] isEqual:aName])
             return aCategory;
     }
 
@@ -1204,7 +1204,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         fread(symbolString, SYMBOL_LENGTH_MAX+1, 1, fp);
 
         str = [NSString stringWithASCIICString:symbolString];
-        newCategory = [[MMCategory alloc] initWithSymbol:str];
+        newCategory = [[MMCategory alloc] initWithName:str];
         [self addCategory:newCategory];
         [newCategory release];
     }
@@ -1403,7 +1403,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         MMCategory *aCategory;
 
         aCategory = [categories objectAtIndex:index];
-        fprintf(fp, "%s\n", [[aCategory symbol] UTF8String]);
+        fprintf(fp, "%s\n", [[aCategory name] UTF8String]);
         if ([aCategory comment])
             fprintf(fp, "%s\n", [[aCategory comment] UTF8String]);
         fprintf(fp, "\n");
@@ -1471,9 +1471,9 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
             aCategory = [aCategoryList objectAtIndex:j];
             if ([aCategory isNative])
-                fprintf(fp, "*%s ", [[aCategory symbol] UTF8String]);
+                fprintf(fp, "*%s ", [[aCategory name] UTF8String]);
             else
-                fprintf(fp, "%s ", [[aCategory symbol] UTF8String]);
+                fprintf(fp, "%s ", [[aCategory name] UTF8String]);
         }
         fprintf(fp, "\n\n");
 

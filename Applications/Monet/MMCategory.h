@@ -2,17 +2,17 @@
 
 @interface MMCategory : NSObject
 {
-    NSString *symbol; // TODO (2004-03-18): Rename to "name".  Or create named/commented object.
+    NSString *name; // TODO (2004-03-18): Create named/commented object.
     NSString *comment;
     BOOL isNative;
 }
 
 - (id)init;
-- (id)initWithSymbol:(NSString *)newSymbol;
+- (id)initWithName:(NSString *)aName;
 - (void)dealloc;
 
-- (NSString *)symbol;
-- (void)setSymbol:(NSString *)newSymbol;
+- (NSString *)name;
+- (void)setName:(NSString *)newName;
 
 - (NSString *)comment;
 - (void)setComment:(NSString *)newComment;

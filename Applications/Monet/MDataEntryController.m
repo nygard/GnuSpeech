@@ -221,7 +221,7 @@
     MMCategory *newCategory;
     unsigned int index;
 
-    newCategory = [[MMCategory alloc] initWithSymbol:nil];
+    newCategory = [[MMCategory alloc] init];
     [[self model] addCategory:newCategory];
 
     [self updateViews];
@@ -372,7 +372,7 @@
         } else if ([@"isUsed" isEqual:identifier] == YES) {
             return [NSNumber numberWithBool:[[self model] isCategoryUsed:category]];
         } else if ([@"name" isEqual:identifier] == YES) {
-            return [category symbol];
+            return [category name];
         }
     } else if (tableView == parameterTableView || tableView == metaParameterTableView) {
         // TODO (2004-03-18): When MMSymbol == MMParameter, we can merge the last three cases.
@@ -424,7 +424,7 @@
 
         if ([@"name" isEqual:identifier] == YES) {
             // TODO (2004-03-19): Ensure unique name
-            [category setSymbol:object];
+            [category setName:object];
         }
     } else if (tableView == parameterTableView || tableView == metaParameterTableView) {
         MMParameter *parameter;

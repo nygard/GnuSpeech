@@ -119,7 +119,7 @@
 
     [[self model] sortPostures];
 
-    [nativeCategory setSymbol:newSymbol];
+    [nativeCategory setName:newSymbol];
 }
 
 - (NSString *)comment;
@@ -180,7 +180,7 @@
 
     count = [categories count];
     for (index = 0; index < count; index++) {
-        if ([[[categories objectAtIndex:index] symbol] isEqualToString:aCategoryName] == YES)
+        if ([[[categories objectAtIndex:index] name] isEqualToString:aCategoryName] == YES)
             return YES;
     }
 
@@ -391,7 +391,7 @@
 
     categories = [[CategoryList alloc] initWithCapacity:count];
 
-    nativeCategory = [[MMCategory alloc] initWithSymbol:[self symbol]];
+    nativeCategory = [[MMCategory alloc] initWithName:[self symbol]];
     [nativeCategory setIsNative:YES];
     [categories addObject:nativeCategory];
 
@@ -463,7 +463,7 @@
         aCategory = [categories objectAtIndex:index];
 
         [resultString indentToLevel:level + 1];
-        [resultString appendFormat:@"<category-ref name=\"%@\"/>\n", [aCategory symbol]];
+        [resultString appendFormat:@"<category-ref name=\"%@\"/>\n", [aCategory name]];
     }
 
     [resultString indentToLevel:level];

@@ -23,7 +23,7 @@
     count = [self count];
     for (index = 0; index < count; index++) {
         aCategory = [self objectAtIndex:index];
-        if ([[aCategory symbol] isEqual:searchSymbol] == YES) {
+        if ([[aCategory name] isEqual:searchSymbol] == YES) {
             //NSLog(@"Found: %@\n", searchSymbol);
             return aCategory;
         }

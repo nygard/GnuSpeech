@@ -159,7 +159,7 @@
         newTableColumn = [[NSTableColumn alloc] init];
         //[newTableColumn setIdentifier:[category symbol]];
         [newTableColumn setIdentifier:category];
-        [[newTableColumn headerCell] setTitle:[category symbol]];
+        [[newTableColumn headerCell] setTitle:[category name]];
 
         checkboxCell = [[NSButtonCell alloc] initTextCell:@""];
         [checkboxCell setControlSize:NSSmallControlSize];

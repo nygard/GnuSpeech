@@ -284,7 +284,7 @@
         if ([@"isMember" isEqual:identifier] == YES) {
             return [NSNumber numberWithBool:[[self selectedPosture] isMemberOfCategory:category]];
         } else if ([@"name" isEqual:identifier] == YES) {
-            return [category symbol];
+            return [category name];
         }
     } else if (tableView == parameterTableView || tableView == metaParameterTableView) {
         // TODO (2004-03-18): When MMSymbol == MMParameter, we can merge the last three cases.

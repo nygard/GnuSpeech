@@ -64,10 +64,10 @@
     // TODO (2004-08-02): This seems a little overkill, searching through the list once with -indexOfObject: and then again with findSymbol:.
     if ([categories indexOfObject:category] == NSNotFound) {
         if (shouldMatchAll) {
-            if ([categories findSymbol:[category symbol]] != nil)
+            if ([categories findSymbol:[category name]] != nil)
                 return YES;
 
-            if ([categories findSymbol:[NSString stringWithFormat:@"%@'", [category symbol]]] != nil)
+            if ([categories findSymbol:[NSString stringWithFormat:@"%@'", [category name]]] != nil)
                 return YES;
         }
 
@@ -82,7 +82,7 @@
     if (category == nil)
         return;
 
-    [resultString appendString:[category symbol]];
+    [resultString appendString:[category name]];
     if (shouldMatchAll)
         [resultString appendString:@"*"];
 }
