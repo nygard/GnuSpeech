@@ -52,24 +52,15 @@
     [self setIsDefault:shouldBeDefault];
 }
 
-#ifdef PORTING
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
-    [aDecoder decodeValuesOfObjCTypes:"id", &is_default, &value];
+    [aDecoder decodeValuesOfObjCTypes:"id", &isDefault, &value];
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
-    [aCoder encodeValuesOfObjCTypes:"id", &is_default, &value];
+    [aCoder encodeValuesOfObjCTypes:"id", &isDefault, &value];
 }
-#endif
-#ifdef NeXT
-- read:(NXTypedStream *)stream
-{
-        NXReadTypes(stream, "id", &is_default, &value);
-        return self;
-}
-#endif
 
 @end

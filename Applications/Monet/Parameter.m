@@ -1,9 +1,6 @@
 #import "Parameter.h"
 
 #import <Foundation/Foundation.h>
-//#import <stdio.h>
-//#import <string.h>
-//#import <stdlib.h>
 
 @implementation Parameter
 
@@ -98,7 +95,6 @@
     defaultValue = newDefault;
 }
 
-#ifdef PORTING
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
     [aDecoder decodeValuesOfObjCTypes:"**ddd", &parameterSymbol, &comment, &minimum, &maximum, &defaultValue];
@@ -109,14 +105,5 @@
 {
     [aCoder encodeValuesOfObjCTypes:"**ddd", &parameterSymbol, &comment, &minimum, &maximum, &defaultValue];
 }
-#endif
-
-#ifdef NeXT
-- read:(NXTypedStream *)stream;
-{
-    NXReadTypes(stream, "**ddd", &parameterSymbol, &comment, &minimum, &maximum, &defaultValue);
-    return self;
-}
-#endif
 
 @end

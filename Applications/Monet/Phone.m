@@ -3,15 +3,12 @@
 #import <Foundation/Foundation.h>
 #import "CategoryNode.h"
 #import "CategoryList.h"
+#import "MyController.h"
 #import "Parameter.h"
 #import "ParameterList.h"
 #import "Target.h"
 #import "TargetList.h"
 #import "SymbolList.h"
-
-#ifdef PORTING
-#import "MyController.h"
-#endif
 
 @implementation Phone
 
@@ -226,56 +223,6 @@
         temp = [[categoryList objectAtIndex:i] symbol];
         [aCoder encodeValueOfObjCType:"*" at:&temp];
     }
-}
-#endif
-
-#ifdef NeXT
-- read:(NXTypedStream *)stream;
-{
-    int i, j;
-    CategoryList *temp;
-    CategoryNode *temp1;
-    char *string;
-
-    temp = NXGetNamedObject(@"mainCategoryList", NSApp);
-
-    NXReadTypes(stream, "**", &phoneSymbol, &comment);
-
-    parameterList = NXReadObject(stream);
-    metaParameterList = NXReadObject(stream);
-    symbolList = NXReadObject(stream);
-
-    if (categoryList)
-        [categoryList release];
-
-    NXReadType(stream,"i", &i);
-//      printf("TOTAL Categories for %s = %d\n", phoneSymbol, i);
-
-    categoryList = [[CategoryList alloc] initWithCapacity:i];
-
-    for (j = 0; j<i; j++)
-    {
-        NXReadType(stream, "*", &string);
-        if (temp1 = [temp findSymbol:string] )
-        {
-//                      printf("Read category: %s\n", string);
-            [categoryList addObject:temp1];
-        }
-        else
-        {
-//                      printf("Read NATIVE category: %s\n", string);
-            if (strcmp(phoneSymbol, string)!=0)
-            {
-                printf("NATIVE Category Wrong... correcting: %s -> %s", string, phoneSymbol);
-                [categoryList addNativeCategory:phoneSymbol];
-            }
-            else
-                [categoryList addNativeCategory:string];
-        }
-        free(string);
-    }
-
-    return self;
 }
 #endif
 

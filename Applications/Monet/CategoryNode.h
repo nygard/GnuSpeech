@@ -21,7 +21,7 @@
 - (BOOL)isNative;
 - (void)setIsNative:(BOOL)newFlag;
 
-//- (id)initWithCoder:(NSCoder *)aDecoder;
-//- (void)encodeWithCoder:(NSCoder *)aCoder;
+- (id)initWithCoder:(NSCoder *)aDecoder;
+- (void)encodeWithCoder:(NSCoder *)aCoder;
 
 @end

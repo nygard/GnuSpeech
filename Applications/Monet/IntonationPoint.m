@@ -117,13 +117,4 @@
     [aCoder encodeValuesOfObjCTypes:"dddi", &semitone, &offsetTime, &slope, &ruleIndex];
 }
 
-#ifdef NeXT
-- read:(NXTypedStream *)stream;
-{
-    NXReadTypes(stream, "dddi", &semitone, &offsetTime, &slope, &ruleIndex);
-    eventList = NXGetNamedObject(@"mainEventList", NSApp);
-
-    return self;
-}
-#endif
 @end

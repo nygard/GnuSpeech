@@ -171,19 +171,4 @@
     [aCoder encodeValuesOfObjCTypes:"ii", &i, &j];
 }
 
-#ifdef NeXT
-- read:(NXTypedStream *)stream;
-{
-    int i, j;
-    id tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
-
-    NXReadTypes(stream, "ddii", &value, &freeTime, &type, &phantom);
-
-    NXReadTypes(stream, "ii", &i,&j);
-    expression = [tempProto findEquation: i andIndex: j];
-
-    return self;
-}
-#endif
-
 @end

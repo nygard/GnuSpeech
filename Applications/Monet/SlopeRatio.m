@@ -253,14 +253,4 @@
     [aCoder encodeObject:slopes];
 }
 
-#ifdef NeXT
-- read:(NXTypedStream *)stream;
-{
-    points = NXReadObject(stream);
-    slopes = NXReadObject(stream);
-
-    return self;
-}
-#endif
-
 @end

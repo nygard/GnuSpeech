@@ -80,25 +80,15 @@
     isNative = newFlag;
 }
 
-#ifdef PORTING
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
-    [aDecoder decodeValuesOfObjCTypes:"**i", &symbol, &comment, &native];
+    [aDecoder decodeValuesOfObjCTypes:"**i", &symbol, &comment, &isNative];
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder;
 {
-    [aCoder encodeValuesOfObjCTypes:"**i", &symbol, &comment, &native];
+    [aCoder encodeValuesOfObjCTypes:"**i", &symbol, &comment, &isNative];
 }
-#endif
-
-#ifdef NeXT
-- read:(NXTypedStream *)stream;
-{
-        NXReadTypes(stream, "**i", &symbol, &comment, &native);
-        return self;
-}
-#endif
 
 @end

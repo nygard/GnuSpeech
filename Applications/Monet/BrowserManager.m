@@ -222,8 +222,7 @@
 
 - (void)add:sender;
 {
-    if (![list[currentList] findByName:[nameField stringValue]])
-    {
+    if (![list[currentList] findByName:[nameField stringValue]]) {
         [list[currentList] addNewValue:[nameField stringValue]];
         [browser loadColumnZero];
 

@@ -8,13 +8,6 @@
 #import "PrototypeManager.h"
 #import "SlopeRatio.h"
 
-#ifdef PORTING
-#import "SlopeRatio.h"
-#import <stdio.h>
-#import <string.h>
-#import <stdlib.h>
-#endif
-
 @implementation ProtoTemplate
 
 - (id)init;
@@ -295,93 +288,5 @@
     [aCoder encodeValuesOfObjCTypes:"**i", &name, &comment, &type];
     [aCoder encodeObject:points];
 }
-
-#ifdef NeXT
-- read:(NXTypedStream *)stream;
-{
-    GSMPoint *tempPoint;
-    id tempProto = NXGetNamedObject(@"prototypeManager", NSApp);
-
-    NXReadTypes(stream, "**i", &name, &comment, &type);
-    points = NXReadObject(stream);
-
-//      printf("Points = %d\n", [points count]);
-
-    if (points == nil)
-    {
-        points = [[MonetList alloc] initWithCapacity:3];
-
-        tempPoint = [[GSMPoint alloc] init];
-        [tempPoint setValue: 0.0];
-        [tempPoint setType: DIPHONE];
-        [tempPoint setExpression: [tempProto findEquationList:"Test" named: "Zero"]];
-        [points addObject: tempPoint];
-
-        tempPoint = [[GSMPoint alloc] init];
-        [tempPoint setValue: 12.5];
-        [tempPoint setType: DIPHONE];
-        [tempPoint setExpression: [tempProto findEquationList: "Test" named: "diphoneOneThree"]];
-        [points addObject: tempPoint];
-
-        tempPoint = [[GSMPoint alloc] init];
-        [tempPoint setValue: 87.5];
-        [tempPoint setType: DIPHONE];
-        [tempPoint setExpression: [tempProto findEquationList: "Test" named: "diphoneTwoThree"]];
-        [points addObject: tempPoint];
-
-        tempPoint = [[GSMPoint alloc] init];
-        [tempPoint setValue: 100.0];
-        [tempPoint setType: DIPHONE];
-        [tempPoint setExpression: [tempProto findEquationList: "Defaults" named: "Mark1"]];
-        [points addObject: tempPoint];
-
-        if (type == DIPHONE)
-            return self;
-
-        tempPoint = [[GSMPoint alloc] init];
-        [tempPoint setValue: 12.5];
-        [tempPoint setType: TRIPHONE];
-        [tempPoint setExpression: [tempProto findEquationList: "Test" named: "triphoneOneThree"]];
-        [points addObject: tempPoint];
-
-        tempPoint = [[GSMPoint alloc] init];
-        [tempPoint setValue: 87.5];
-        [tempPoint setType: TRIPHONE];
-        [tempPoint setExpression: [tempProto findEquationList: "Test" named: "triphoneTwoThree"]];
-        [points addObject: tempPoint];
-
-        tempPoint = [[GSMPoint alloc] init];
-        [tempPoint setValue: 100.0];
-        [tempPoint setType: TRIPHONE];
-        [tempPoint setExpression: [tempProto findEquationList: "Defaults" named: "Mark2"]];
-        [points addObject: tempPoint];
-
-        if (type == TRIPHONE)
-            return self;
-
-        tempPoint = [[GSMPoint alloc] init];
-        [tempPoint setValue: 12.5];
-        [tempPoint setType: TETRAPHONE];
-        [tempPoint setExpression: [tempProto findEquationList: "Test" named: "tetraphoneOneThree"]];
-        [points addObject: tempPoint];
-
-        tempPoint = [[GSMPoint alloc] init];
-        [tempPoint setValue: 87.5];
-        [tempPoint setType: TETRAPHONE];
-        [tempPoint setExpression: [tempProto findEquationList: "Test" named: "tetraphoneTwoThree"]];
-        [points addObject: tempPoint];
-
-        tempPoint = [[GSMPoint alloc] init];
-        [tempPoint setValue: 100.0];
-        [tempPoint setType: TETRAPHONE];
-        [tempPoint setExpression: [tempProto findEquationList: "Durations" named: "TetraphoneDefault"]];
-        [points addObject: tempPoint];
-
-
-    }
-
-    return self;
-}
-#endif
 
 @end

@@ -2,9 +2,6 @@
 
 #import <Foundation/Foundation.h>
 #import "MyController.h"
-#import <stdio.h>
-#import <string.h>
-#import <stdlib.h>
 
 @implementation Symbol
 
@@ -99,7 +96,6 @@
     defaultValue = newDefault;
 }
 
-#ifdef PORTING
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
     [aDecoder decodeValuesOfObjCTypes:"**ddd", &symbol, &comment, &minimum, &maximum, &defaultValue];
@@ -110,15 +106,5 @@
 {
     [aCoder encodeValuesOfObjCTypes:"**ddd", &symbol, &comment, &minimum, &maximum, &defaultValue];
 }
-#endif
-
-#ifdef NeXT
-- read:(NXTypedStream *)stream
-{
-//    NXReadTypes(stream, "**", &symbol, &comment);
-    NXReadTypes(stream, "**ddd", &symbol, &comment, &minimum, &maximum, &defaultValue);
-    return self;
-}
-#endif
 
 @end

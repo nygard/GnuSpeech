@@ -120,18 +120,4 @@
     [aCoder encodeObject:expression];
 }
 
-#ifdef NeXT
-- read:(NXTypedStream *)stream;
-{
-
-    cacheTag = 0;
-    cacheValue = 0.0;
-
-    NXReadTypes(stream, "**", &name, &comment);
-    expression = NXReadObject(stream);
-
-    return self;
-}
-#endif
-
 @end
