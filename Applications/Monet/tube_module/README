@@ -1,0 +1,134 @@
+/*  REVISION INFORMATION  *****************************************************
+
+_Author: rao $
+_Date: 2002/03/21 16:49:47 $
+_Revision: 1.1 $
+_Source: /cvsroot/gnuspeech/gnuspeech/trillium/ObjectiveC/Monet/tube_module/README,v $
+_State: Exp $
+
+******************************************************************************/
+
+VERSION:		v1 - original archived version (September 6th, 1994)
+			v2 - 10 section TRM (September 19th, 1994)
+			v3 - version with linear interpolation (Oct. 2nd, 1994)
+			v4 - normalized aperture coefficients (Oct. 20th, 1994)
+			v5 - adjusted output volume & balance (Oct. 20th, 1994)
+			v6 - fixed bug when loading UR params (Nov. 1st, 1994)
+			v7 - added high/low output srate switch (Nov. 17, 1994)
+			v8 - added support MultiSound on Intel (Feb. 26, 1995)
+			v9 - added minor functionality (March 1st, 1995)
+			v10 - added pitch sweep to test_synth (March 3, 1995)
+			v11 - use libtool in Makefile (March 7, 1995)
+			v12 - optimized code, raised volume (March 26, 1995)
+			v13 - added median pitch volume scaling (April 3, 1995)
+			v14 - adjusted scaling for SSI output (April 18, 1995)
+			v15 - cleared output buffers on stop (April 19, 1995)
+			v16 - fix for pause bug (May 2, 1995)
+
+******************************************************************************/
+
+
+HISTORY:
+
+May 2, 1995:		Lengthened the time out for dropped messages from the
+			snddriver to 6 seconds, from 3 seconds.  Reset the
+			static variable "count" to 0 when switching between
+			polled and infinite-wait modes in the
+			await_write_done_message() function.  Hopefully, this
+			fixes the pause bug.
+
+April 19th, 1995:	When stopping the synthesizer using SSI output, the
+			output DMA buffers are now set to 0, to eliminate
+			repeated sound output.
+
+April 18th, 1995:	Adjusted the median pitch scaling for SSI output
+			by one bit (i.e. cut in half) to avoid overflow.
+
+April 3rd, 1995:	Added volume scaling so that high and low voices are
+			more or less even.  This scaling uses the new "median
+			pitch" parameter set when specifying utterance-rate
+			parameters.
+
+March 26th, 1995:	Raised output volume another 6 dB.  Added compiler
+			flag to optimize out recalculation of waveform at the
+			control rate whenever tnMin and tnMax are equal.
+			Optimized code by combining master volume scaling with
+			the left and right stereo scaling constants.  Tube
+			lengths down to 15.9 cm (the theoretical lower limit
+			with the present sample rate conversion algorithm)
+			are now possible on black hardware.  Cleaned up code
+			and macros.
+
+March 7th, 1995:	Now use libtool instead of ld and lipo, to create
+			the FAT synthesizer_module.a.
+
+March 3rd, 1995:	Changed the test_synth program so that a rising
+			pitch sweep is produced.
+
+March 1st, 1995:	Added means to call a user-supplied "page consumed"
+			function, added means to set the pad page to
+			a user-specified silence (i.e. the ^ or # phone),
+			and changed the controlRate variable to a float, to
+			allow fractional control rates.
+
+February 26th, 1995:	Added support for the MultiSound DSP card on Intel
+			hardware.  The module now compiles "FAT".
+
+November 17th, 1994:	Added a high/low output sample rate choice (settable
+			as an utterance-rate parameter).  This allows output
+			at either 22050 or 44100 Hz.  Tube lengths of under
+			approximately 15.5 cm can now be synthesized.  This
+			was not possible before since the sample rate
+			conversion algorithm can only upsample in the present
+			implementation.  The conversion algorithm should be
+			expanded to allow downsampling, and thus allow short
+			tube lengths to be synthesized at 22050 Hz.
+
+November 1st, 1994:	Fixed a bug which occurred when loading utterance-rate
+			parameters:  r3 was not getting initialized (r4 was
+			mistakenly getting initialized instead), with the 
+			result that the nasal parameters were being loaded
+			to the wrong (and indeterminate!) place.
+
+October 20th, 1994:	Adjusted the output volume upwards, and made 1 channel
+			output the same as stereo output with the balance
+			at 0.0.
+
+October 20th, 1994:	Changed nose and mouth aperture filter coefficients,
+			so now specified as Hz values (which scale
+			appropriately as the tube length changes), rather
+			than arbitrary coefficient values (which don't scale).
+
+October 2nd, 1994:	Optimized calculation of crossmix, by moving most 
+			calculations to the outer loop.  Also permanently
+			added linear interpolation to glottal volume.  Added
+			(optional) linear interpolation to all variable
+			scattering junctions.  Reversed r3 and r4 in update
+			routines, to optimize the interpolation.
+
+September 19th, 1994:	Resectioned the TRM to have 10 sections in 8 regions.
+			Also changed frication injection to be continuous from
+			sections 3 to 10.  Lengths down to 15.8 cm are
+			possible, with everything enabled.
+
+September 13th, 1994:	Fixed bug that caused the frication bandwidth control
+			not to work.  Since the dsp loader does not load the
+			betaTable into off-chip memory, it is created in low
+			memory, and transferred to off-chip memory in the
+			reset routine.
+
+September 6th, 1994:	Optimized DSP code so that tube lengths down to 12.4
+			cm are now possible.  Some C code was changed to help
+			the optimizations.  Changes were made to memory
+			management so that adding more sections to the tube
+			will be easy.
+
+May 20th, 1994:		Copied version 8 (tag v8) of the synthesizer_module
+			to use as a base of development for the new TRM
+			synthesizer module.  Version 8 is the latest version
+			of the synthesizer_module, and is used in the
+			production version of the 1.07 TextToSpeech Kits.
+			The revision information in all the source code
+			has been reinitialized, since a new code tree is
+			being started.
+

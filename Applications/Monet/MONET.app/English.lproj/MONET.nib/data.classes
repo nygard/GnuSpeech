@@ -1,0 +1,219 @@
+"BrowserManager" = {
+    ACTIONS = {
+        "add:" = id; 
+        "appDidInit:" = id; 
+        "browser:" = id; 
+        "browserDoubleHit:" = id; 
+        "browserHit:" = id; 
+        "copy:" = id; 
+        "cut:" = id; 
+        "paste:" = id; 
+        "remove:" = id; 
+        "rename:" = id; 
+        "setCurrentList:" = id; 
+    }; 
+    OUTLETS = {
+        addButton = id; 
+        browser = id; 
+        controller = id; 
+        nameField = id; 
+        popUpList = id; 
+        removeButton = id; 
+        renameButton = id; 
+    }; 
+    SUPERCLASS = NSResponder; 
+};
+"DefaultMgr" = {ACTIONS = {}; OUTLETS = {}; SUPERCLASS = Object; };
+"EventListView" = {
+    ACTIONS = {"appDidInit:" = id; "itemsChanged:" = id; }; 
+    OUTLETS = {
+        controller = id; 
+        mouseTimeField = id; 
+        mouseValueField = id; 
+        niftyMatrix = id; 
+        niftyMatrixScrollView = id; 
+    }; 
+    SUPERCLASS = NSView; 
+};
+"FirstResponder" = {ACTIONS = {}; OUTLETS = {}; SUPERCLASS = NSObject; };
+"IntonationScrollView" = {
+    ACTIONS = {
+        "appDidInit:" = id; 
+        "loadContour:" = id; 
+        "loadContourAndUtterance:" = id; 
+        "printPSCode:" = id; 
+        "saveIntonationContour:" = id; 
+    }; 
+    OUTLETS = {controller = id; scaleView = id; smoothing = id; utterance = id; }; 
+    SUPERCLASS = NSScrollView; 
+};
+"IntonationView" = {
+    ACTIONS = {
+        "appDidInit:" = id; 
+        "loadContour:" = id; 
+        "loadContourAndUtterance:" = id; 
+        "saveIntonationContour:" = id; 
+    }; 
+    OUTLETS = {controller = id; smoothing = id; utterance = id; }; 
+    SUPERCLASS = NSView; 
+};
+"MyController" = {
+    ACTIONS = {
+        "appDidInit:" = id; 
+        "archiveToDisk:" = id; 
+        "displayInfoPanel:" = id; 
+        "displayInspectorWindow:" = id; 
+        "importTRMData:" = id; 
+        "loadPrototypes:" = id; 
+        "openFile:" = id; 
+        "printData:" = id; 
+        "readFromDisk:" = id; 
+        "savePrototypes:" = id; 
+    }; 
+    OUTLETS = {
+        dataBrowser = id; 
+        defaultManager = id; 
+        eventListView = id; 
+        infoPanel = id; 
+        inspectorController = id; 
+        intonationView = id; 
+        phonesWindow = id; 
+        prototypeManager = id; 
+        prototypeWindow = id; 
+        ruleManager = id; 
+        ruleManagerWindow = id; 
+        ruleParserWindow = id; 
+        specialTransitionBuilder = id; 
+        specialWindow = id; 
+        stringParser = id; 
+        synthParmWindow = id; 
+        synthesisWindow = id; 
+        transitionBuilder = id; 
+        transitionWindow = id; 
+    }; 
+    SUPERCLASS = Object; 
+};
+"NiftyMatrix" = {ACTIONS = {}; OUTLETS = {activeCell = id; }; SUPERCLASS = NSMatrix; };
+"PrototypeManager" = {
+    ACTIONS = {
+        "add:" = id; 
+        "addCategory:" = id; 
+        "appDidInit:" = id; 
+        "browser:" = id; 
+        "browserDoubleHit:" = id; 
+        "browserHit:" = id; 
+        "remove:" = id; 
+        "rename:" = id; 
+        "setEquations:" = id; 
+        "setSpecial:" = id; 
+        "setTransitions:" = id; 
+    }; 
+    OUTLETS = {
+        browserSelector = id; 
+        controller = id; 
+        inputTextField = id; 
+        newButton = id; 
+        outputBox = id; 
+        protoBrowser = id; 
+        removeButton = id; 
+        selectedOutput = id; 
+    }; 
+    SUPERCLASS = Object; 
+};
+"RuleManager" = {
+    ACTIONS = {
+        "add:" = id; 
+        "appDidInit:" = id; 
+        "browser:" = id; 
+        "browserDoubleHit:" = id; 
+        "browserHit:" = id; 
+        "parseRule:" = id; 
+        "remove:" = id; 
+        "rename:" = id; 
+        "setExpression1:" = id; 
+        "setExpression2:" = id; 
+        "setExpression3:" = id; 
+        "setExpression4:" = id; 
+    }; 
+    OUTLETS = {
+        consumedTokens = id; 
+        controller = id; 
+        durationOutput = id; 
+        errorTextField = id; 
+        expressionFields = id; 
+        matchBrowser1 = id; 
+        matchBrowser2 = id; 
+        matchBrowser3 = id; 
+        matchBrowser4 = id; 
+        phone1 = id; 
+        phone2 = id; 
+        phone3 = id; 
+        phone4 = id; 
+        possibleCombinations = id; 
+        ruleMatrix = id; 
+        ruleOutput = id; 
+        ruleScrollView = id; 
+    }; 
+    SUPERCLASS = Object; 
+};
+"SpecialView" = {
+    ACTIONS = {"appDidInit:" = id; "delete:" = id; }; 
+    OUTLETS = {controller = id; displayParameters = id; selectedPoint = id; }; 
+    SUPERCLASS = NSView; 
+};
+"StringParser" = {
+    ACTIONS = {
+        "appDidInit:" = id; 
+        "automaticIntonation:" = id; 
+        "parseStringButton:" = id; 
+        "saveDefaults:" = id; 
+        "synthesizeWithSoftware:" = id; 
+    }; 
+    OUTLETS = {
+        apScale = id; 
+        balance = id; 
+        breathiness = id; 
+        driftCutoffField = id; 
+        driftDeviationField = id; 
+        eventListView = id; 
+        fileFlag = id; 
+        filenameField = id; 
+        intonParmsField = id; 
+        intonationMatrix = id; 
+        intonationSystem = id; 
+        intonationView = id; 
+        length = id; 
+        lossFactor = id; 
+        masterVolume = id; 
+        mixOffset = id; 
+        modulation = id; 
+        mouthCoef = id; 
+        n1 = id; 
+        n2 = id; 
+        n3 = id; 
+        n4 = id; 
+        n5 = id; 
+        noseCoef = id; 
+        parametersStore = id; 
+        pitchMean = id; 
+        radiusMultiplyField = id; 
+        samplingRate = id; 
+        smoothIntonationSwitch = id; 
+        stereoMono = id; 
+        stringTextField = id; 
+        temperature = id; 
+        tempoField = id; 
+        throatCutoff = id; 
+        throatVolume = id; 
+        tnMax = id; 
+        tnMin = id; 
+        tp = id; 
+        waveform = id; 
+    }; 
+    SUPERCLASS = Object; 
+};
+"TransitionView" = {
+    ACTIONS = {"appDidInit:" = id; "delete:" = id; "groupInSlopeRatio:" = id; }; 
+    OUTLETS = {controller = id; displayParameters = id; }; 
+    SUPERCLASS = NSView; 
+};

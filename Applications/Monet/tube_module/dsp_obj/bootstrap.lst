@@ -1,0 +1,283 @@
+Motorola DSP56000 Macro Cross Assembler  Version 3.02  95-05-05  13:39:03  loader.asm  Page 1
+
+
+
+13                       ;  REVISION INFORMATION ****************************************************************
+14                       ;
+15                       ;  _Author: rao $
+16                       ;  _Date: 2002/03/21 16:49:47 $
+17                       ;  _Revision: 1.1 $
+18                       ;  _Source: /cvsroot/gnuspeech/gnuspeech/trillium/ObjectiveC/Monet/tube_module/dsp_obj/bootstrap.lst,v $
+19                       ;  _State: Exp $
+20                       ;
+21                       ;
+22                       ;  _Log: bootstrap.lst,v $
+22                       ;  Revision 1.1  2002/03/21 16:49:47  rao
+22                       ;  Initial import.
+22                       ;
+26                       ;
+27                       ;
+28                       ;***************************************************************************************
+29                       ;
+30                       ;  Program:     loader.asm
+31                       ;
+32                       ;  Author:      Leonard Manzara
+33                       ;
+34                       ;  Date:        January 10th, 1995
+35                       ;
+36                       ;  Summary:     This is a code fragment that is used by bootstrap.asm
+37                       ;              to load user code.  Note that this loader code is loaded
+38                       ;              into high memory (in an out-of-the-way place) by bootstrap.asm,
+39                       ;              allowing user code to be loaded in low memory.
+40                       ;
+41                       ;              Copyright (C) by Trillium Sound Research Inc. 1995
+42                       ;              All Rights Reserved
+43                       ;
+44                       ;***************************************************************************************
+45     
+46     
+47     
+268    
+269    
+270                                      ;***************************************************************************************
+271                                      ;  HIGH P MEMORY ORIGIN
+272                                      ;***************************************************************************************
+273    
+274                                      LOADER_ORIGIN
+275       007F80                                   equ     $7F80
+276    
+277    
+278                                      ;***************************************************************************************
+279                                      ;  ROUTINE:     loader
+280                                      ;
+281                                      ;  Reads code and data segments from the host interface, and loads them into memory.
+282                                      ;  Each segment has a header, which indicates memory space type (1 = x, 2 = y, 3 = l,
+283                                      ;  and 4 = p), load address, and word count.  The loader reads this header, and then
+284                                      ;  puts the words into the appropriate memory space.  When the routine gets a 0 memory
+285                                      ;  space type, the loading is done, and the routine cleans up the chip, and then jumps
+286                                      ;  to vector 0, which executes the user's reset code.
+287                                      ;
+288                                      ;  Input:       none
+289                                      ;  Output:      none
+290                                      ;***************************************************************************************
+291    
+292       P:7F80                                   org     p:LOADER_ORIGIN
+293    
+294                                      ; clear on-chip memory
+295       P:7F80 200013  [2 -        2]            clr     a
+296       P:7F81 21D000  [2 -        4]            move              a,r0
+297       P:7F82 060082  [6 -       10]            do      #512,_clr
+                 007F86
+298       P:7F84 07608E  [6 -       16]            move              a,p:(r0)
+299       P:7F85 566000  [2 -       18]            move              a,x:(r0)
+300       P:7F86 5E5800  [2 -       20]            move                            a,y:(r0)+
+Motorola DSP56000 Macro Cross Assembler  Version 3.02  95-05-05  13:39:03  loader.asm  Page 2
+
+
+
+301                                      _clr
+302    
+303    
+304    
+305                                      next_segment
+306       P:7F87 0BF080  [6 -       26]            jsr     get_input                             ; get memory space type
+                 007FCD
+307       P:7F89 200003  [2 -       28]            tst     a                                     ; memory space type 0 means we are done
+308       P:7F8A 0AF0AA  [6 -       34]            jeq     load_done                             ; so skip to load_done address
+                 007FC4
+309       P:7F8C 21CF00  [2 -       36]            move              a,b                         ; store the memory space type in b
+310    
+311       P:7F8D 0BF080  [6 -       42]            jsr     get_input                             ; get load address
+                 007FCD
+312       P:7F8F 219000  [2 -       44]            move              a1,r0                       ; and put it into r0
+313    
+314       P:7F90 0BF080  [6 -       50]            jsr     get_input                             ; get word count
+                 007FCD
+315       P:7F92 218400  [2 -       52]            move              a1,x0                       ; and put it into x0
+316    
+317       P:7F93 2C0100  [2 -       54]            move              #1,a1
+318       P:7F94 2C020D  [2 -       56]            cmp     a,b       #2,a1
+319       P:7F95 0AF0AA  [6 -       62]            jeq     x_load                                ; 1 = load x memory
+                 007FA2
+320    
+321       P:7F97 2C030D  [2 -       64]            cmp     a,b       #3,a1
+322       P:7F98 0AF0AA  [6 -       70]            jeq     y_load                                ; 2 = load y memory
+                 007FA9
+323    
+324       P:7F9A 2C040D  [2 -       72]            cmp     a,b       #4,a1
+325       P:7F9B 0AF0AA  [6 -       78]            jeq     l_load                                ; 3 = load l memory
+                 007FB0
+326    
+327       P:7F9D 20000D  [2 -       80]            cmp     a,b
+328       P:7F9E 0AF0AA  [6 -       86]            jeq     p_load                                ; 4 = load p memory
+                 007FBD
+329    
+330       P:7FA0 0AF080  [6 -       92]            jmp     load_done                             ; anything else means we are done
+                 007FC4
+331    
+332    
+333    
+334       P:7FA2 06C400  [6 -       98]  x_load    do      x0,x_loop                             ; load x memory
+                 007FA6
+335       P:7FA4 0BF080  [6 -      104]            jsr     get_input                             ; host data to A1
+                 007FCD
+336       P:7FA6 545800  [2 -      106]            move              a1,x:(r0)+                  ; store word where it goes
+337                                      x_loop
+338       P:7FA7 0AF080  [6 -      112]            jmp     next_segment
+                 007F87
+339    
+340    
+341       P:7FA9 06C400  [6 -      118]  y_load    do      x0,y_loop                             ; load y memory
+                 007FAD
+342       P:7FAB 0BF080  [6 -      124]            jsr     get_input                             ; host data to A1
+                 007FCD
+343       P:7FAD 5C5800  [2 -      126]            move                            a1,y:(r0)+    ; store word where it goes
+344                                      y_loop
+345       P:7FAE 0AF080  [6 -      132]            jmp     next_segment
+                 007F87
+346    
+347    
+348       P:7FB0 208E00  [2 -      134]  l_load    move              x0,a                        ; the count given is for short (24 bit)
+349       P:7FB1 200022  [2 -      136]            asr     a                                     ; words, not long (48 bit) words, so we must
+350       P:7FB2 21C400  [2 -      138]            move              a,x0                        ; divide by 2, since we read in 2 short words
+351       P:7FB3 06C400  [6 -      144]            do      x0,l_loop                             ; (1 long word) at a time
+Motorola DSP56000 Macro Cross Assembler  Version 3.02  95-05-05  13:39:03  loader.asm  Page 3
+
+
+
+                 007FBA
+352       P:7FB5 0BF080  [6 -      150]            jsr     get_input                             ; host data to A1
+                 007FCD
+353       P:7FB7 546000  [2 -      152]            move              a1,x:(r0)                   ; store MS word where it goes
+354       P:7FB8 0BF080  [6 -      158]            jsr     get_input                             ; host data to A1
+                 007FCD
+355       P:7FBA 5C5800  [2 -      160]            move                            a1,y:(r0)+    ; store LS word where it goes
+356                                      l_loop
+357       P:7FBB 0AF080  [6 -      166]            jmp     next_segment
+                 007F87
+358    
+359    
+360       P:7FBD 06C400  [6 -      172]  p_load    do      x0,p_loop                             ; load p memory
+                 007FC1
+361       P:7FBF 0BF080  [6 -      178]            jsr     get_input                             ; host data to A1
+                 007FCD
+362       P:7FC1 07588C  [6 -      184]            move              a1,p:(r0)+                  ; store word where it goes
+363                                      p_loop
+364       P:7FC2 0AF080  [6 -      190]            jmp     next_segment
+                 007F87
+365    
+366    
+367    
+368                                      load_done                                               ; clean up the chip so it is ready
+369       P:7FC4 200013  [2 -      192]            clr     a                                     ; to run user code
+370       P:7FC5 20001B  [2 -      194]            clr     b
+371       P:7FC6 21C400  [2 -      196]            move              a,x0
+372       P:7FC7 21D000  [2 -      198]            move              a,r0
+373       P:7FC8 21D100  [2 -      200]            move              a,r1
+374       P:7FC9 04CEBB  [2 -      202]            movec             a,sp                        ; clear the stack pointer register
+375       P:7FCA 04CEBE  [2 -      204]            movec             a,la                        ; clear the loop address register
+376       P:7FCB 04CEBF  [2 -      206]            movec             a,lc                        ; clear the loop counter register
+377       P:7FCC 0C0000  [4 -      210]            jmp     $0000                                 ; jump to the reset vector (i.e. execute
+378                                                                                              ; user code)
+379    
+380    
+381                                      ;***************************************************************************************
+382                                      ;  SUBROUTINE:  get_input
+383                                      ;
+384                                      ;  Gets one word of data from the host interface, and puts it into register a.
+385                                      ;
+386                                      ;  Input:       none
+387                                      ;  Output:      a
+388                                      ;***************************************************************************************
+389    
+390                                      get_input
+391       P:7FCD 0AA980  [6 -      216]            jclr    #m_hrdf,x:m_hsr,*                     ; wait for HRDF in HSR (hi data ready)
+                 007FCD
+392       P:7FCF 56F000  [4 -      220]            move              x:m_hrx,a                   ; put next word from host interface into a
+                 00FFEB
+393       P:7FD1 00000C  [4 -      224]            rts
+394    
+395                                                IF      *>$7FFF
+397                                                ENDIF
+0    Errors
+0    Warnings
+
+
+
+
+
+
+
+
+
+
+Motorola DSP56000 Macro Cross Assembler  Version 3.02  95-05-05  13:39:03  loader.asm  Page 4
+
+
+
+                         Memory Utilization Report
+
+
+X Memory
+
+Start    End     Length    Type      Label             Section           Overlay Address
+0000     FFFF    65536     UNUSED
+
+
+Y Memory
+
+Start    End     Length    Type      Label             Section           Overlay Address
+0000     FFFF    65536     UNUSED
+
+
+L Memory
+
+Start    End     Length    Type      Label             Section           Overlay Address
+0000     FFFF    65536     UNUSED
+
+
+P Memory
+
+Start    End     Length    Type      Label             Section           Overlay Address
+0000     7F7F    32640     UNUSED
+7F80     7FD1       82     CODE  
+7FD2     FFFF    32814     UNUSED
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

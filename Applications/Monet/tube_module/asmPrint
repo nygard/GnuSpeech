@@ -1,0 +1,1 @@
+enscript -rBc -fCourier7 -L70 -pout.ps synthesizer.lst

@@ -1,0 +1,161 @@
+        page
+;------------------------------------------------------------------------------
+;
+;       File    :       MSNDHARD.EQU
+;
+;       Project :       MultiSound Board
+;
+;	Purpose	:	Define shared memory map & I/F Constants
+;
+;       Owner   :       Carson Zirkle
+;
+;------------------------------------------------------------------------------
+
+
+HostExOffset    equ     $24             ; offset of the host exceptions
+
+RamStart        equ     $04000          ; where ram begins in all cases
+xRamStart       equ     $04000          ; where ram begins in x:
+yRamStart       equ     $04000          ; where ram begins in y:
+pRamStart       equ     $04000          ; where ram begins in p:
+                                ; note - x:4000 = y:8000
+                                ;        x:8000 = y:4000
+                                ;        x:4000 = p:4000
+
+RamSize         equ     $008000         ; 32k x 24 what a life!
+RamMSize        equ     RamSize-1
+
+
+yrPerphStart    equ     $00ffc0         ; start of the external registers
+
+
+;--- write
+yrACALSel       equ     $00ffc0         ; y:$ffc0 - ACAL select
+bACALcopyDCAL   equ     $0              ; bit 0 selects input for acal on a to d
+                                        ; 0 = acal = gnd  - use inputs
+                                        ; 1 = acal = dcal - use ZEROx
+
+yrExtReg        equ     $00ffc0         ; y:$ffc0 - select external register
+bACAL           equ     $0              ; bit 0 is input for acal on a to d
+                                        ; 0 = inputs on a to d set to input
+                                        ; 1 = inputs on a to d grounded
+bDPLoad1        equ     $1              ; bit 1 selects the first DS1267s(line in)
+                                        ; when high volume data can be clocked in.
+                                        ; data is latch on falling edge.
+bDPLoad2        equ     $2              ; bit 2 selects the second DS1267s(aux in)
+                                        ; when high volume data can be clocked in.
+                                        ; data is latch on falling edge.
+bDPClk          equ     $3              ; bit 3 is the clk line for both
+                                        ; programable volume chips.
+                                        ; data is latch on the positive edge.
+
+bDPData         equ     $4              ; bit 4 is the data line for both
+                                        ; programable volume chips.
+                                        ; order of data is
+                                        ; bit 16 - stack sel. (not used)
+                                        ; bit 15 - left MSB
+                                        ; ....
+                                        ; bit 8  - left LSB
+                                        ; bit 7  - right MSB
+                                        ; ...
+                                        ; bit 0  - right LSB
+                                        ; notice- 17 bits in all
+
+bAmpsOn         equ     $7              ; bit 7 is control line for the power
+                                        ; to the op amps.
+                                        ; 0 = power off of amps.
+                                        ; 1 = power on amps
+
+vACALOn                 equ     (1<<bACAL)
+vACALOff                equ     0
+vSetACALAmpOff          equ     (1<<bACAL)
+vClearACALAmpOff        equ     0
+vDP1noClkAmpOff         equ     (1<<bDPLoad1)
+vDP1withClkAmpOff       equ     ((1<<bDPLoad1)|(1<<bDPClk))
+vDP1noClkACALAmpOff     equ     (vDP1noClkAmpOff|vSetACALAmpOff)
+vDP1withClkACALAmpOff   equ     (vDP1withClkAmpOff|vSetACALAmpOff)
+vDP2noClkAmpOff         equ     (1<<bDPLoad2)
+vDP2withClkAmpOff       equ     ((1<<bDPLoad2)|(1<<bDPClk))
+vDP2noClkACALAmpOff     equ     (vDP2noClkAmpOff|vSetACALAmpOff)
+vDP2withClkACALAmpOff   equ     (vDP2withClkAmpOff|vSetACALAmpOff)
+
+vAmpOn                  equ     (1<<bAmpsOn)
+vAmpOff                 equ     0
+vSetACALAmpOn           equ     ((1<<bACAL)|vAmpOn)
+vClearACALAmpOn         equ     (1<<bAmpsOn)
+vDP1noClkAmpOn          equ     ((1<<bDPLoad1)|(1<<bAmpsOn))
+vDP1withClkAmpOn        equ     ((1<<bDPLoad1)|(1<<bDPClk)|(1<<bAmpsOn))
+vDP1noClkACALAmpOn      equ     (vDP1noClkAmpOn|vSetACALAmpOn)
+vDP1withClkACALAmpOn    equ     (vDP1withClkAmpOn|vSetACALAmpOn)
+vDP2noClkAmpOn          equ     ((1<<bDPLoad2)|(1<<bAmpsOn))
+vDP2withClkAmpOn        equ     ((1<<bDPLoad2)|(1<<bDPClk)|(1<<bAmpsOn))
+vDP2noClkACALAmpOn      equ     (vDP2noClkAmpOn|vSetACALAmpOn)
+vDP2withClkACALAmpOn    equ     (vDP2withClkAmpOn|vSetACALAmpOn)
+
+
+yrRESETIO       equ     $00ffc1         ; y:$ffc1 - reset latch for ad/da
+bRESETO         equ     $0              ; bit 0 for d to a
+                                        ; 0 = recal then run
+                                        ; 1 = hold in reset
+bRESETI         equ     $1              ; bit 1 for a to d
+                                        ; 0 = recal then run
+                                        ; 1 = hold in reset
+vResetAD        equ     (1<<bRESETI)
+vResetDA        equ     (1<<bRESETO)
+vResetDAAD      equ     (vResetAD|vResetDA)
+vUnResetDAAD    equ     0
+
+yrFREQI         equ     $00ffc2         ; y:$ffc2 - frequency latch for a to d
+vFREQRootSel    equ     $0              ; 0 - select root frequency
+vFREQHalfSel    equ     $1              ; 1 - select half frequency
+vFREQQuartSel   equ     $2              ; 2 - select one quarter frequency
+vFREQOffSel     equ     $3              ; 3 - turn off the clocks
+vFREQ44k        equ     $0              ; 0 - select root frequency
+vFREQ22k        equ     $1              ; 1 - select half frequency
+vFREQ11k        equ     $2              ; 2 - select one quarter frequency
+
+yrFREQO         equ     $00ffc3         ; y:$ffc3 - frequency latch for d to a
+;   use equates above
+
+yrRAMWRITELOW   equ     $00ffc4         ; y:$ffc4 - enables writing into d0-d7
+bRAMWRITEen     equ     $0              ; bit 0 allows the dsp to write into the ram
+                                        ; 0 = disable writing into d0-d7
+                                        ; 1 = enable writing into d0-d7
+
+yrDIPIMID       equ     $00ffc5         ; y:$ffc5 - dsp in and proteus in select
+bDIPIMIDdife    equ     $0              ; bit 0 selects dsp midi input
+                                        ; 0 = proteus output
+                                        ; 1 = external input
+bDIPIMIDpife    equ     $1              ; bit 1 selects proteus midi input
+                                        ; 0 = dsp output
+                                        ; 1 = external input
+
+yrEXTMID        equ     $00ffc6         ; y:$ffc6 - external thru and output select
+bEXTMIDetfp     equ     $0              ; bit 0 selects external thru
+                                        ; 0 = dsp output
+                                        ; 1 = proteus output
+bEXTMIDeofd     equ     $1              ; bit 1 selects external output
+                                        ; 0 = proteus output
+                                        ; 1 = dsp output
+
+;--- read
+; On the new (level 2/1st production) MultiSound there are 8 read registers.
+; Bit 0 is the only valid bit on all eight read registers.
+
+yrEXTSR         equ     $00ffc0         ; y:$ffc0 - external status register (level1)
+yrDCALSR        equ     $00ffc0         ; y:$ffc0 - external status register, dcal only
+bEXTSRdcali     equ     $0              ; bit 0 is current state of dcal from a to d
+                                        ; 0 = AD is not in reset
+                                        ; 1 = AD is in reset
+yrEMCSR         equ     $00ffc1         ; y:$ffc1 - external status register
+bEXTSRextmidcon equ     $1              ; bit 1 external midi connected
+                                        ; 0 = no external midi connected
+                                        ; 1 = external midi connected
+
+yrMADDOGBit0    equ     $00ffc2         ; y:$ffc2 - MADDOG level bit 0
+yrMADDOGBit1    equ     $00ffc3         ; y:$ffc3 - MADDOG level bit 1
+yrMADDOGBit2    equ     $00ffc4         ; y:$ffc4 - MADDOG level bit 2
+yrMADDOGBit3    equ     $00ffc5         ; y:$ffc5 - MADDOG level bit 3
+yrMADDOGBit4    equ     $00ffc6         ; y:$ffc6 - MADDOG level bit 4
+yrMADDOGBit5    equ     $00ffc7         ; y:$ffc7 - MADDOG level bit 5
+

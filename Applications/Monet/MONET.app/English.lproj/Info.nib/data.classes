@@ -1,0 +1,6 @@
+"FirstResponder" = {ACTIONS = {}; OUTLETS = {}; SUPERCLASS = NSObject; };
+"MyController" = {
+    ACTIONS = {"appDidInit:" = id; "displayInfoPanel:" = id; }; 
+    OUTLETS = {infoPanel = id; inspectorController = id; }; 
+    SUPERCLASS = Object; 
+};
