@@ -26,13 +26,13 @@ static int inputTableLength(INPUT *ptr);
 *
 ******************************************************************************/
 
-struct _TRMData *parseInputFile(const char *inputFile)
+TRMData *parseInputFile(const char *inputFile)
 {
     int i;
     FILE *fp;
     char line[128];
     int numberInputTables = 0;
-    struct _TRMData data, *result;
+    TRMData data, *result;
 
 
     /*  OPEN THE INPUT FILE  */
@@ -443,7 +443,7 @@ int inputTableLength(INPUT *ptr)
     return count;
 }
 
-void printControlRateInputTable(struct _TRMData *data)
+void printControlRateInputTable(TRMData *data)
 {
     INPUT *ptr;
     int index;

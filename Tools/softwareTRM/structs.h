@@ -227,8 +227,8 @@ typedef struct {
 
     //  VARIABLES FOR INTERPOLATION
     struct {
-        struct _TRMParameters parameters;
-        struct _TRMParameters delta;
+        TRMParameters parameters;
+        TRMParameters delta;
     } current;
 
     TRMSampleRateConverter sampleRateConverter;
