@@ -3,6 +3,7 @@
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
 #import "NSScanner-Extensions.h"
+
 #import "CategoryList.h"
 #import "MMBooleanExpression.h"
 #import "MMBooleanNode.h"
@@ -176,7 +177,7 @@
     return resultExpression;
 }
 
-- (id)continueParse:(id)currentExpression;
+- (MMBooleanNode *)continueParse:(MMBooleanNode *)currentExpression;
 {
     int token;
 
@@ -223,9 +224,10 @@
     return currentExpression;
 }
 
-- (id)notOperation;
+- (MMBooleanNode *)notOperation;
 {
-    MMBooleanExpression *resultExpression = nil, *subExpression;
+    MMBooleanExpression *resultExpression = nil;
+    MMBooleanNode *subExpression;
     MMCategory *aCategory;
 
     resultExpression = [[[MMBooleanExpression alloc] init] autorelease];
@@ -265,9 +267,10 @@
     return resultExpression;
 }
 
-- (id)andOperation:(id)operand;
+- (MMBooleanNode *)andOperation:(MMBooleanNode *)operand;
 {
-    MMBooleanExpression *resultExpression = nil, *subExpression;
+    MMBooleanExpression *resultExpression = nil;
+    MMBooleanNode *subExpression;
     MMCategory *aCategory;
 
     resultExpression = [[[MMBooleanExpression alloc] init] autorelease];
@@ -323,9 +326,10 @@
     return resultExpression;
 }
 
-- (id)orOperation:(id)operand;
+- (MMBooleanNode *)orOperation:(MMBooleanNode *)operand;
 {
-    MMBooleanExpression *resultExpression = nil, *subExpression;
+    MMBooleanExpression *resultExpression = nil;
+    MMBooleanNode *subExpression;
     MMCategory *aCategory;
 
     resultExpression = [[[MMBooleanExpression alloc] init] autorelease];
@@ -380,9 +384,10 @@
     return resultExpression;
 }
 
-- (id)xorOperation:(id)operand;
+- (MMBooleanNode *)xorOperation:(MMBooleanNode *)operand;
 {
-    MMBooleanExpression *resultExpression = nil, *subExpression;
+    MMBooleanExpression *resultExpression = nil;
+    MMBooleanNode *subExpression;
     MMCategory *aCategory;
 
     resultExpression = [[[MMBooleanExpression alloc] init] autorelease];
@@ -438,7 +443,7 @@
     return resultExpression;
 }
 
-- (id)leftParen;
+- (MMBooleanNode *)leftParen;
 {
     id resultExpression = nil;
     MMCategory *aCategory;

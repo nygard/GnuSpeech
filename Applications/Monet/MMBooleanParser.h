@@ -1,6 +1,6 @@
 #import "GSParser.h"
 
-@class MMCategory, MModel;
+@class MMBooleanNode, MMCategory, MModel;
 
 /*===========================================================================
 
@@ -51,16 +51,15 @@
 - (int)nextToken;
 
 /* General Parse Methods */
-// TODO (2004-05-15): BooleanExpression or maybe BooleanTerminal.  Change thiese to return MMBooleanNode
 - (id)beginParseString;
-- (id)continueParse:(id)currentExpression;
+- (MMBooleanNode *)continueParse:(MMBooleanNode *)currentExpression;
 
 /* Internal recursive descent methods */
-- (id)notOperation;
-- (id)andOperation:(id)operand;
-- (id)orOperation:(id)operand;
-- (id)xorOperation:(id)operand;
+- (MMBooleanNode *)notOperation;
+- (MMBooleanNode *)andOperation:(MMBooleanNode *)operand;
+- (MMBooleanNode *)orOperation:(MMBooleanNode *)operand;
+- (MMBooleanNode *)xorOperation:(MMBooleanNode *)operand;
 
-- (id)leftParen;
+- (MMBooleanNode *)leftParen;
 
 @end
