@@ -36,7 +36,6 @@
 
 - (void)dealloc;
 {
-    //NSLog(@"[%p] -> %@ %s", self, NSStringFromClass([self class]), _cmd);
     [ilist release];
 
     [super dealloc];
@@ -117,12 +116,10 @@
     [ilist removeObject:anObject];
 }
 
-- (void)replaceObjectAtIndex:(unsigned)index
-                  withObject:(id)anObject;
+- (void)replaceObjectAtIndex:(unsigned)index withObject:(id)anObject;
 {
     [ilist replaceObjectAtIndex:index withObject:anObject];
 }
-
 
 - (void)removeAllObjects;
 {

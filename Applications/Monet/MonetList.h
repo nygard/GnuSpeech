@@ -8,6 +8,12 @@
 
 @class NSString;
 
+// This contains mostly cover methods for NSMutableArray, but adds the following functionality:
+// - don't crash when index out of range in -objectAtIndex:
+// - don't crash when trying to add a nil object in -addObject:
+// - deocodes old List objects with -initWithCoder:
+// - generates XML
+
 @interface MonetList : NSObject <NSCoding>
 {
     NSMutableArray *ilist;
@@ -33,8 +39,7 @@
 - (void)insertObject:(id)anObject atIndex:(unsigned)index;
 - (void)removeObjectAtIndex:(unsigned)index;
 - (void)removeObject:(id)anObject;
-- (void)replaceObjectAtIndex:(unsigned)index
-                  withObject:(id)anObject;
+- (void)replaceObjectAtIndex:(unsigned)index withObject:(id)anObject;
 
 - (void)removeAllObjects;
 - (void)removeLastObject;
