@@ -1,6 +1,6 @@
 #import "MonetList.h"
 
-@class Parameter;
+@class MMParameter;
 
 /*===========================================================================
 
@@ -15,7 +15,7 @@
 {
 }
 
-- (Parameter *)findParameter:(NSString *)symbol;
+- (MMParameter *)findParameter:(NSString *)symbol;
 - (int)findParameterIndex:(NSString *)symbol;
 - (void)addParameter:(NSString *)newSymbol min:(float)minValue max:(float)maxValue def:(float)defaultValue;
 - (double)defaultValueFromIndex:(int)index;

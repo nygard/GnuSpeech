@@ -1,4 +1,4 @@
-#import "Parameter.h"
+#import "MMParameter.h"
 
 #import <Foundation/Foundation.h>
 #import "NSObject-Extensions.h"
@@ -6,7 +6,7 @@
 
 #import "GSXMLFunctions.h"
 
-@implementation Parameter
+@implementation MMParameter
 
 - (id)init;
 {

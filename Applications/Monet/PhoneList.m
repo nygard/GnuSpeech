@@ -7,7 +7,7 @@
 #import "MMCategory.h"
 #import "CategoryList.h"
 #import "GSXMLFunctions.h"
-#import "Parameter.h"
+#import "MMParameter.h"
 #import "ParameterList.h"
 #import "Phone.h"
 #import "Symbol.h"
@@ -280,7 +280,7 @@
 
         aParameterList = [aPhone parameterList];
         for (j = 0; j < [aParameterList count] / 2; j++) {
-            Parameter *mainParameter;
+            MMParameter *mainParameter;
             Target *aParameter;
 
             aParameter = [aParameterList objectAtIndex:j];
@@ -321,7 +321,7 @@
     fprintf(fp, "\n");
 }
 
-- (void)parameterDefaultChange:(Parameter *)parameter to:(double)value;
+- (void)parameterDefaultChange:(MMParameter *)parameter to:(double)value;
 {
     int i, index;
     id temp;
@@ -347,7 +347,7 @@
     }
 }
 
-- (void)symbolDefaultChange:(Parameter *)parameter to:(double)value;
+- (void)symbolDefaultChange:(MMParameter *)parameter to:(double)value;
 {
     int i, index;
     id temp;

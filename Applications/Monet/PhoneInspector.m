@@ -8,7 +8,7 @@
 #import "NiftyMatrix.h"
 #import "NiftyMatrixCat.h"
 #import "NiftyMatrixCell.h"
-#import "Parameter.h"
+#import "MMParameter.h"
 #import "Phone.h"
 #import "Target.h" // Or Point.h
 #import "TargetList.h"
@@ -255,7 +255,7 @@
     }
 
     if ((currentBrowser == 1) || (currentBrowser == 2) || (currentBrowser == 3)) {
-        Parameter *aParameter;
+        MMParameter *aParameter;
 
         aParameter = [currentMainList objectAtIndex:[[browser matrixInColumn:0] selectedRow]];
         [minText setDoubleValue:[aParameter minimumValue]];
@@ -267,7 +267,7 @@
 - (IBAction)browserDoubleHit:(id)sender;
 {
     Target *aTarget;
-    Parameter *aParameter;
+    MMParameter *aParameter;
     double defaultValue;
 
     aParameter = [currentMainList objectAtIndex:[[browser matrixInColumn:0] selectedRow]];

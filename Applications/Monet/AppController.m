@@ -91,6 +91,7 @@
     [NSUnarchiver decodeClassName:@"List" asClassName:@"MonetList"];
 
     [NSUnarchiver decodeClassName:@"CategoryNode" asClassName:@"MMCategory"];
+    [NSUnarchiver decodeClassName:@"Parameter" asClassName:@"MMParameter"];
     [NSUnarchiver decodeClassName:@"Point" asClassName:@"MMPoint"];
 
     [self _disableUnconvertedClassLoading];

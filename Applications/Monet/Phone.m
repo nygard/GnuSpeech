@@ -8,7 +8,7 @@
 #import "MMCategory.h"
 #import "CategoryList.h"
 #import "GSXMLFunctions.h"
-#import "Parameter.h"
+#import "MMParameter.h"
 #import "ParameterList.h"
 #import "Target.h"
 #import "TargetList.h"
@@ -310,7 +310,7 @@
 {
     ParameterList *mainParameterList;
     int count, index;
-    Parameter *aParameter;
+    MMParameter *aParameter;
     Target *aTarget;
 
     mainParameterList = NXGetNamedObject(@"mainParameterList", NSApp);
@@ -342,7 +342,7 @@
 {
     ParameterList *mainMetaParameterList;
     int count, index;
-    Parameter *aParameter;
+    MMParameter *aParameter;
     Target *aTarget;
 
     mainMetaParameterList = NXGetNamedObject(@"mainMetaParameterList", NSApp);

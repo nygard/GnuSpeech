@@ -1,7 +1,7 @@
 #import "MonetList.h"
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-@class Parameter, Phone;
+@class MMParameter, Phone;
 
 /*===========================================================================
 
@@ -40,8 +40,8 @@
 - (void)printDataTo:(FILE *)fp;
 
 /* List maintenance Methods */
-- (void)parameterDefaultChange:(Parameter *)parameter to:(double)value;
-- (void)symbolDefaultChange:(Parameter *)parameter to:(double)value;
+- (void)parameterDefaultChange:(MMParameter *)parameter to:(double)value;
+- (void)symbolDefaultChange:(MMParameter *)parameter to:(double)value;
 
 - (void)addParameter;
 - (void)removeParameter:(int)index;

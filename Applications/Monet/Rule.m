@@ -8,7 +8,7 @@
 #import "BooleanExpression.h"
 #import "GSXMLFunctions.h"
 #import "MonetList.h"
-#import "Parameter.h"
+#import "MMParameter.h"
 #import "ParameterList.h"
 #import "ProtoEquation.h"
 #import "ProtoTemplate.h"
@@ -539,7 +539,7 @@
 
     count = [mainParameterList count];
     for (index = 0; index < count; index++) {
-        Parameter *aParameter;
+        MMParameter *aParameter;
         ProtoTemplate *aTransition;
 
         aParameter = [mainParameterList objectAtIndex:index];
@@ -570,7 +570,7 @@
 
     count = [mainMetaParameterList count];
     for (index = 0; index < count; index++) {
-        Parameter *aParameter;
+        MMParameter *aParameter;
         ProtoTemplate *aTransition;
 
         aParameter = [mainMetaParameterList objectAtIndex:index];
@@ -608,7 +608,7 @@
     [resultString appendString:@"<special-profiles>\n"];
 
     for (index = 0; index < count && index < 16; index++) {
-        Parameter *aParameter;
+        MMParameter *aParameter;
         ProtoTemplate *aTransition;
 
         aParameter = [mainParameterList objectAtIndex:index];

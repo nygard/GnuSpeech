@@ -3,7 +3,7 @@
 #import <AppKit/AppKit.h>
 #import "AppController.h"
 #import "Inspector.h"
-#import "Parameter.h"
+#import "MMParameter.h"
 #import "PhoneList.h"
 
 @implementation ParameterInspector
@@ -26,7 +26,7 @@
     [super dealloc];
 }
 
-- (void)setCurrentParameter:(Parameter *)aParameter;
+- (void)setCurrentParameter:(MMParameter *)aParameter;
 {
     if (aParameter == currentParameter)
         return;
@@ -35,7 +35,7 @@
     currentParameter = [aParameter retain];
 }
 
-- (void)inspectParameter:(Parameter *)aParameter;
+- (void)inspectParameter:(MMParameter *)aParameter;
 {
     [self setCurrentParameter:aParameter];
     [mainInspector setPopUpListView:parameterPopUpListView];

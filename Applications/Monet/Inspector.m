@@ -111,7 +111,7 @@
     [symbolInspector inspectSymbol:symbol];
 }
 
-- (void)inspectParameter:(Parameter *)parameter;
+- (void)inspectParameter:(MMParameter *)parameter;
 {
     [panel setTitle:@"Parameter Inspector"];
     currentInspectorObject = parameter;
@@ -119,7 +119,7 @@
     [parameterInspector inspectParameter:parameter];
 }
 
-- (void)inspectMetaParameter:(Parameter *)metaParameter;
+- (void)inspectMetaParameter:(MMParameter *)metaParameter;
 {
     [panel setTitle:@"MetaParameter Inspector"];
     currentInspectorObject = metaParameter;

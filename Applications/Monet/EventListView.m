@@ -8,7 +8,7 @@
 #import "NiftyMatrix.h"
 #import "NiftyMatrixCat.h"
 #import "NiftyMatrixCell.h"
-#import "Parameter.h"
+#import "MMParameter.h"
 #import "ParameterList.h"
 #import "Phone.h"
 
@@ -272,7 +272,7 @@
     [[NSColor blackColor] set];
     [timesFont set];
     for (i = 0; i < j; i++) {
-        Parameter *aParameter;
+        MMParameter *aParameter;
 
         aParameter = [parameterList objectAtIndex:[[displayList objectAtIndex:i] orderTag]];
         [[aParameter symbol] drawAtPoint:NSMakePoint(15.0, bounds.size.height - ((float)(i + 1) * TRACKHEIGHT) + 15.0) withAttributes:nil];

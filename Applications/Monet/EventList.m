@@ -6,7 +6,7 @@
 #import "CategoryList.h"
 #import "Event.h"
 #import "IntonationView.h"
-#import "Parameter.h"
+#import "MMParameter.h"
 #import "ParameterList.h"
 #import "Phone.h"
 #import "MMPoint.h"
@@ -784,7 +784,7 @@ static void page_consumed(void)
     RuleList *ruleList = [(RuleManager *)NXGetNamedObject(@"ruleManager", NSApp) ruleList];
     Rule *tempRule;
     ParameterList *mainParameterList = (ParameterList *) NXGetNamedObject(@"mainParameterList", NSApp);
-    Parameter *tempParameter = nil;
+    MMParameter *tempParameter = nil;
 
     NSLog(@"mainParameterList: %@", mainParameterList);
     for (i = 0; i < 16; i++) {

@@ -5,7 +5,7 @@
 
 #import <string.h>
 #import "GSXMLFunctions.h"
-#import "Parameter.h"
+#import "MMParameter.h"
 
 #define DEFAULT_MIN	100.0
 #define DEFAULT_MAX	1000.0
@@ -20,10 +20,10 @@
 
 @implementation ParameterList
 
-- (Parameter *)findParameter:(NSString *)symbol;
+- (MMParameter *)findParameter:(NSString *)symbol;
 {
     int count, index;
-    Parameter *aParameter;
+    MMParameter *aParameter;
 
     count = [self count];
     for (index = 0; index < count; index++) {
@@ -38,7 +38,7 @@
 - (int)findParameterIndex:(NSString *)symbol;
 {
     int count, index;
-    Parameter *aParameter;
+    MMParameter *aParameter;
 
     count = [self count];
     for (index = 0; index < count; index++) {
@@ -52,9 +52,9 @@
 
 - (void)addParameter:(NSString *)newSymbol min:(float)minValue max:(float)maxValue def:(float)defaultValue;
 {
-    Parameter *newParameter;
+    MMParameter *newParameter;
 
-    newParameter = [[Parameter alloc] initWithSymbol:newSymbol];
+    newParameter = [[MMParameter alloc] initWithSymbol:newSymbol];
     [newParameter setMinimumValue:minValue];
     [newParameter setMaximumValue:maxValue];
     [newParameter setDefaultValue:defaultValue];

@@ -7,7 +7,7 @@
 #import "MMCategory.h"
 #import "Inspector.h"
 #import "MonetList.h"
-#import "Parameter.h"
+#import "MMParameter.h"
 #import "ParameterList.h"
 #import "Phone.h"
 #import "PhoneList.h"
@@ -424,7 +424,7 @@ static NSString *symbolString = @"Symbol";
               return;
           }
 
-          tempEntry = [[Parameter alloc] init];
+          tempEntry = [[MMParameter alloc] init];
           break;
 
       case 3:
@@ -433,7 +433,7 @@ static NSString *symbolString = @"Symbol";
               return;
           }
 
-          tempEntry = [[Parameter alloc] init];
+          tempEntry = [[MMParameter alloc] init];
           break;
 
       case 4:

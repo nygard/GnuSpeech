@@ -7,7 +7,7 @@
 #import "Rule.h"
 #import "RuleList.h"
 #import "RuleManager.h"
-#import "Parameter.h"
+#import "MMParameter.h"
 #import "ParameterList.h"
 #import "ProtoEquation.h"
 #import "ProtoTemplate.h"

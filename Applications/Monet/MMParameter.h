@@ -9,7 +9,7 @@
 =============================================================================
 */
 
-@interface Parameter : NSObject
+@interface MMParameter : NSObject
 {
     NSString *parameterSymbol;
     NSString *comment;

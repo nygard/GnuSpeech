@@ -1,7 +1,7 @@
 #import <Foundation/NSObject.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-@class Parameter;
+@class MMParameter;
 @class Inspector;
 
 /*===========================================================================
@@ -40,15 +40,15 @@ History:
     IBOutlet NSButtonCell *setValueButton;
     IBOutlet NSButtonCell *revertValueButton;
 
-    Parameter *currentParameter;
+    MMParameter *currentParameter;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 
 - (void)dealloc;
 
-- (void)setCurrentParameter:(Parameter *)aParameter;
-- (void)inspectParameter:(Parameter *)aParameter;
+- (void)setCurrentParameter:(MMParameter *)aParameter;
+- (void)inspectParameter:(MMParameter *)aParameter;
 - (void)setUpWindow:(NSPopUpButton *)sender;
 - (void)beginEditting;
 
