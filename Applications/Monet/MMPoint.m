@@ -212,7 +212,7 @@
 {
 #ifdef PORTING
     int i, j;
-    PrototypeManager *prototypeManager = NXGetNamedObject(@"prototypeManager", NSApp);
+    //PrototypeManager *prototypeManager = NXGetNamedObject(@"prototypeManager", NSApp);
 
     [aCoder encodeValuesOfObjCTypes:"ddii", &value, &freeTime, &type, &isPhantom];
 
