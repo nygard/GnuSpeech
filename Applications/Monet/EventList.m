@@ -761,7 +761,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
     int cache = [aModel nextCacheTag];
 
     bzero(&ruleSymbols, sizeof(MMFRuleSymbols));
-    [rule evaluateExpressionSymbols:&ruleSymbols tempos:tempos phones:phoneList withCache:cache];
+    [rule evaluateSymbolEquations:&ruleSymbols tempos:tempos phones:phoneList withCache:cache];
     NSLog(@"Rule symbols, duration: %.2f, beat: %.2f, mark1: %.2f, mark2: %.2f, mark3: %.2f",
           ruleSymbols.ruleDuration, ruleSymbols.beat, ruleSymbols.mark1, ruleSymbols.mark2, ruleSymbols.mark3);
 

@@ -17,7 +17,7 @@
 {
     NSMutableArray *parameterTransitions; // Of MMTransitions
     NSMutableArray *metaParameterTransitions; // Of MMTransitions?
-    NSMutableArray *expressionSymbols; // Of MMEquations
+    NSMutableArray *symbolEquations; // Of MMEquations
 
     MMTransition *specialProfiles[16]; // TODO (2004-05-16): We should be able to use an NSMutableDictionary here.
 
@@ -43,8 +43,8 @@
 
 - (void)addSpecialProfilesFromReferenceDictionary:(NSDictionary *)dict;
 
-- (void)addStoredExpressionSymbol:(MMEquation *)anEquation;
-- (void)addExpressionSymbolsFromReferenceDictionary:(NSDictionary *)dict;
+- (void)addStoredSymbolEquation:(MMEquation *)anEquation;
+- (void)addSymbolEquationsFromReferenceDictionary:(NSDictionary *)dict;
 
 
 - (void)setExpression:(MMBooleanNode *)newExpression number:(int)index;
@@ -60,8 +60,8 @@
 
 - (BOOL)matchRule:(NSArray *)categories;
 
-- (MMEquation *)getExpressionSymbol:(int)index;
-- (void)evaluateExpressionSymbols:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos phones:(NSArray *)phones withCache:(int)cache;
+- (MMEquation *)getSymbolEquation:(int)index;
+- (void)evaluateSymbolEquations:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos phones:(NSArray *)phones withCache:(int)cache;
 
 - (NSMutableArray *)parameterTransitions;
 - (NSMutableArray *)metaParameterTransitions;
@@ -84,9 +84,9 @@
 - (void)_appendXMLForParameterTransitionsToString:(NSMutableString *)resultString level:(int)level;
 - (void)_appendXMLForMetaParameterTransitionsToString:(NSMutableString *)resultString level:(int)level;
 - (void)_appendXMLForSpecialProfilesToString:(NSMutableString *)resultString level:(int)level;
-- (void)_appendXMLForExpressionSymbolsToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForSymbolEquationsToString:(NSMutableString *)resultString level:(int)level;
 
-- (NSString *)expressionSymbolNameAtIndex:(int)index;
+- (NSString *)symbolNameAtIndex:(int)index;
 - (void)setRuleExpression1:(MMBooleanNode *)exp1 exp2:(MMBooleanNode *)exp2 exp3:(MMBooleanNode *)exp3 exp4:(MMBooleanNode *)exp4;
 
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;

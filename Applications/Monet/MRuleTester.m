@@ -156,7 +156,7 @@
         [ruleOutputTextField setStringValue:str];
         [consumedTokensTextField setIntValue:[aRule numberExpressions] - 1];
 
-        [aRule evaluateExpressionSymbols:&ruleSymbols tempos:tempos phones:testPostures withCache:[[self model] nextCacheTag]];
+        [aRule evaluateSymbolEquations:&ruleSymbols tempos:tempos phones:testPostures withCache:[[self model] nextCacheTag]];
 
         [[durationOutputForm cellAtIndex:0] setDoubleValue:ruleSymbols.ruleDuration];
         [[durationOutputForm cellAtIndex:1] setDoubleValue:ruleSymbols.beat];

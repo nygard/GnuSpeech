@@ -28,12 +28,9 @@
     if ([super init] == nil)
         return nil;
 
-    /* Alloc lists to point to prototype transition specifiers */
     parameterTransitions = [[NSMutableArray alloc] init];
     metaParameterTransitions = [[NSMutableArray alloc] init];
-
-    /* Set up list for Expression symbols */
-    expressionSymbols = [[NSMutableArray alloc] init];
+    symbolEquations = [[NSMutableArray alloc] init];
 
     /* Zero out expressions and special Profiles */
     bzero(expressions, sizeof(MMBooleanNode *) * 4);
@@ -50,7 +47,7 @@
 
     [parameterTransitions release];
     [metaParameterTransitions release];
-    [expressionSymbols release];
+    [symbolEquations release];
 
     for (index = 0 ; index < 4; index++)
         [expressions[index] release];
@@ -72,7 +69,7 @@
     /* Empty out the lists */
     [parameterTransitions removeAllObjects];
     [metaParameterTransitions removeAllObjects];
-    [expressionSymbols removeAllObjects];
+    [symbolEquations removeAllObjects];
 
     if ((numPhones < 2) || (numPhones > 4))
         return;
@@ -109,57 +106,57 @@
           defaultDuration = [[self model] findEquationList:@"DefaultDurations" named:@"DiphoneDefault"];
           if (defaultDuration == nil)
               break;
-          [expressionSymbols addObject:defaultDuration];
+          [symbolEquations addObject:defaultDuration];
 
           defaultOnset = [[self model] findEquationList:@"SymbolDefaults" named:@"diBeat"];
           if (defaultOnset == nil)
               break;
-          [expressionSymbols addObject:defaultOnset];
+          [symbolEquations addObject:defaultOnset];
 
-          [expressionSymbols addObject:defaultDuration]; /* Make the mark1 value == duration */
+          [symbolEquations addObject:defaultDuration]; /* Make the mark1 value == duration */
           break;
 
       case 3:
           defaultDuration = [[self model] findEquationList:@"DefaultDurations" named:@"TriphoneDefault"];
           if (defaultDuration == nil)
               break;
-          [expressionSymbols addObject:defaultDuration];
+          [symbolEquations addObject:defaultDuration];
 
           defaultOnset = [[self model] findEquationList:@"SymbolDefaults" named:@"triBeat"];
           if (defaultOnset == nil)
               break;
-          [expressionSymbols addObject:defaultOnset];
+          [symbolEquations addObject:defaultOnset];
 
           anEquation = [[self model] findEquationList:@"SymbolDefaults" named:@"Mark1"];
           if (anEquation == nil)
               break;
-          [expressionSymbols addObject:anEquation];
+          [symbolEquations addObject:anEquation];
 
-          [expressionSymbols addObject:defaultDuration]; /* Make the  mark2 value == duration */
+          [symbolEquations addObject:defaultDuration]; /* Make the  mark2 value == duration */
           break;
 
       case 4:
           defaultDuration = [[self model] findEquationList:@"DefaultDurations" named:@"TetraphoneDefault"];
           if (defaultDuration == nil)
               break;
-          [expressionSymbols addObject:defaultDuration];
+          [symbolEquations addObject:defaultDuration];
 
           defaultOnset = [[self model] findEquationList:@"SymbolDefaults" named:@"tetraBeat"]; // TODO (2004-03-24): Not in diphones.monet
           if (defaultOnset == nil)
               break;
-          [expressionSymbols addObject:defaultOnset];
+          [symbolEquations addObject:defaultOnset];
 
           anEquation = [[self model] findEquationList:@"SymbolDefaults" named:@"Mark1"];
           if (anEquation == nil)
               break;
-          [expressionSymbols addObject:anEquation];
+          [symbolEquations addObject:anEquation];
 
           anEquation = [[self model] findEquationList:@"SymbolDefaults" named:@"Mark2"];
           if  (anEquation == nil)
               break;
-          [expressionSymbols addObject:anEquation];
+          [symbolEquations addObject:anEquation];
 
-          [expressionSymbols addObject:defaultDuration]; /* Make the mark3 value == duration */
+          [symbolEquations addObject:defaultDuration]; /* Make the mark3 value == duration */
           break;
     }
 }
@@ -300,12 +297,12 @@
     }
 }
 
-- (void)addStoredExpressionSymbol:(MMEquation *)anEquation;
+- (void)addStoredSymbolEquation:(MMEquation *)anEquation;
 {
-    [expressionSymbols addObject:anEquation];
+    [symbolEquations addObject:anEquation];
 }
 
-- (void)addExpressionSymbolsFromReferenceDictionary:(NSDictionary *)dict;
+- (void)addSymbolEquationsFromReferenceDictionary:(NSDictionary *)dict;
 {
     NSArray *symbols;
     unsigned int count, index;
@@ -326,7 +323,7 @@
         if (equation == nil) {
             NSLog(@"Error: Can't find equation named: %@", equationName);
         } else {
-            [self addStoredExpressionSymbol:equation];
+            [self addStoredSymbolEquation:equation];
         }
     }
 
@@ -426,40 +423,40 @@
     return YES;
 }
 
-- (MMEquation *)getExpressionSymbol:(int)index;
+- (MMEquation *)getSymbolEquation:(int)index;
 {
-    return [expressionSymbols objectAtIndex:index];
+    return [symbolEquations objectAtIndex:index];
 }
 
-- (void)evaluateExpressionSymbols:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos phones:(NSArray *)phones withCache:(int)cache;
+- (void)evaluateSymbolEquations:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos phones:(NSArray *)phones withCache:(int)cache;
 {
     unsigned int count;
 
-    count = [expressionSymbols count];
+    count = [symbolEquations count];
     // It is not okay to do these in order -- beat often depends on duration, mark1, mark2, and/or mark3.
 
     if (count > 0)
-        ruleSymbols->ruleDuration = [(MMEquation *)[expressionSymbols objectAtIndex:0] evaluate:ruleSymbols tempos:tempos phones:phones andCacheWith:cache];
+        ruleSymbols->ruleDuration = [(MMEquation *)[symbolEquations objectAtIndex:0] evaluate:ruleSymbols tempos:tempos phones:phones andCacheWith:cache];
     else
         ruleSymbols->ruleDuration = 0.0;
 
     if (count > 2)
-        ruleSymbols->mark1 = [(MMEquation *)[expressionSymbols objectAtIndex:2] evaluate:ruleSymbols tempos:tempos phones:phones andCacheWith:cache];
+        ruleSymbols->mark1 = [(MMEquation *)[symbolEquations objectAtIndex:2] evaluate:ruleSymbols tempos:tempos phones:phones andCacheWith:cache];
     else
         ruleSymbols->mark1 = 0.0;
 
     if (count > 3)
-        ruleSymbols->mark2 = [(MMEquation *)[expressionSymbols objectAtIndex:3] evaluate:ruleSymbols tempos:tempos phones:phones andCacheWith:cache];
+        ruleSymbols->mark2 = [(MMEquation *)[symbolEquations objectAtIndex:3] evaluate:ruleSymbols tempos:tempos phones:phones andCacheWith:cache];
     else
         ruleSymbols->mark2 = 0.0;
 
     if (count > 4)
-        ruleSymbols->mark3 = [(MMEquation *)[expressionSymbols objectAtIndex:4] evaluate:ruleSymbols tempos:tempos phones:phones andCacheWith:cache];
+        ruleSymbols->mark3 = [(MMEquation *)[symbolEquations objectAtIndex:4] evaluate:ruleSymbols tempos:tempos phones:phones andCacheWith:cache];
     else
         ruleSymbols->mark3 = 0.0;
 
     if (count > 1)
-        ruleSymbols->beat = [(MMEquation *)[expressionSymbols objectAtIndex:1] evaluate:ruleSymbols tempos:tempos phones:phones andCacheWith:cache];
+        ruleSymbols->beat = [(MMEquation *)[symbolEquations objectAtIndex:1] evaluate:ruleSymbols tempos:tempos phones:phones andCacheWith:cache];
     else
         ruleSymbols->beat = 0.0;
 }
@@ -476,7 +473,7 @@
 
 - (NSMutableArray *)symbols;
 {
-    return expressionSymbols;
+    return symbolEquations;
 }
 
 - (MMTransition *)getSpecialProfile:(int)index;
@@ -510,7 +507,7 @@
 
 - (BOOL)isEquationUsed:(MMEquation *)anEquation;
 {
-    if ([expressionSymbols indexOfObject:anEquation] != NSNotFound)
+    if ([symbolEquations indexOfObject:anEquation] != NSNotFound)
         return YES;
 
     return NO;
@@ -554,7 +551,7 @@
 
     parameterTransitions = [[NSMutableArray alloc] init];
     metaParameterTransitions = [[NSMutableArray alloc] init];
-    expressionSymbols = [[NSMutableArray alloc] init];
+    symbolEquations = [[NSMutableArray alloc] init];
 
     [aDecoder decodeValuesOfObjCTypes:"i*", &j, &c_comment];
     comment = [[NSString stringWithASCIICString:c_comment] retain];
@@ -574,7 +571,7 @@
         [aDecoder decodeValuesOfObjCTypes:"ii", &j, &k];
         //NSLog(@"j: %d, k: %d", j, k);
         tempParameter = [model findEquation:j andIndex:k];
-        [expressionSymbols addObject:tempParameter];
+        [symbolEquations addObject:tempParameter];
     }
 
     for (index = 0; index < parameterCount; index++) {
@@ -633,8 +630,8 @@
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@>[%p]: parameterTransitions: %@, metaParameterTransitions: %@, expressionSymbols(%d): %@, comment: %@, e1: %@, e2: %@, e3: %@, e4: %@",
-                     NSStringFromClass([self class]), self, parameterTransitions, metaParameterTransitions, [expressionSymbols count], expressionSymbols,
+    return [NSString stringWithFormat:@"<%@>[%p]: parameterTransitions: %@, metaParameterTransitions: %@, symbolEquations(%d): %@, comment: %@, e1: %@, e2: %@, e3: %@, e4: %@",
+                     NSStringFromClass([self class]), self, parameterTransitions, metaParameterTransitions, [symbolEquations count], symbolEquations,
                      comment, [expressions[0] expressionString], [expressions[1] expressionString], [expressions[2] expressionString],
                      [expressions[3] expressionString]];
 }
@@ -670,7 +667,7 @@
     [self _appendXMLForParameterTransitionsToString:resultString level:level + 1];
     [self _appendXMLForMetaParameterTransitionsToString:resultString level:level + 1];
     [self _appendXMLForSpecialProfilesToString:resultString level:level + 1];
-    [self _appendXMLForExpressionSymbolsToString:resultString level:level + 1];
+    [self _appendXMLForSymbolEquationsToString:resultString level:level + 1];
 
     [resultString indentToLevel:level];
     [resultString appendFormat:@"</rule>\n"];
@@ -778,32 +775,33 @@
     [resultString appendString:@"</special-profiles>\n"];
 }
 
-- (void)_appendXMLForExpressionSymbolsToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForSymbolEquationsToString:(NSMutableString *)resultString level:(int)level;
 {
     int count, index;
 
-    if ([expressionSymbols count] == 0)
+    if ([symbolEquations count] == 0)
         return;
 
     [resultString indentToLevel:level];
+    // TODO (2004-08-15): Rename this to symbol-equations.
     [resultString appendString:@"<expression-symbols>\n"];
 
-    count = [expressionSymbols count];
+    count = [symbolEquations count];
     for (index = 0; index < count; index++) {
         MMEquation *anEquation;
 
-        anEquation = [expressionSymbols objectAtIndex:index];
+        anEquation = [symbolEquations objectAtIndex:index];
 
         [resultString indentToLevel:level + 1];
         [resultString appendFormat:@"<symbol-equation name=\"%@\" equation=\"%@\"/>\n",
-                      GSXMLAttributeString([self expressionSymbolNameAtIndex:index], NO), GSXMLAttributeString([anEquation name], NO)];
+                      GSXMLAttributeString([self symbolNameAtIndex:index], NO), GSXMLAttributeString([anEquation name], NO)];
     }
 
     [resultString indentToLevel:level];
     [resultString appendString:@"</expression-symbols>\n"];
 }
 
-- (NSString *)expressionSymbolNameAtIndex:(int)index;
+- (NSString *)symbolNameAtIndex:(int)index;
 {
     switch (index) {
       case 0: return @"rd";
@@ -878,7 +876,7 @@
         MXMLReferenceDictionaryDelegate *newDelegate;
 
         newDelegate = [[MXMLReferenceDictionaryDelegate alloc] initWithChildElementName:@"symbol-equation" keyAttributeName:@"name" referenceAttributeName:@"equation"
-                                                               delegate:self addObjectsSelector:@selector(addExpressionSymbolsFromReferenceDictionary:)];
+                                                               delegate:self addObjectsSelector:@selector(addSymbolEquationsFromReferenceDictionary:)];
         [(MXMLParser *)parser pushDelegate:newDelegate];
         [newDelegate release];
     } else {

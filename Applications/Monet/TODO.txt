@@ -11,7 +11,9 @@
 - check that we aren't returning floats/doubles from calls to methods that might return nil;
 - we could filter the rules, showing which ones match a given symbol input.
 
-
+XML file format changes:
+- MMRule - change "expression-symbols" to "symbol-equations"
+- MMPosture - renamed "symbol" to "name"
 
 Done
 + change -makeObjectsPerform: to -makeObjectsPerformSelector:
