@@ -120,12 +120,17 @@
 
     float labelHeight;
     float labelDescender;
+    int labelSkip = 1;
 
     [[NSColor whiteColor] set];
     NSRectFill(rect);
 
     labelHeight = ceil([labelFont boundingRectForFont].size.height);
     labelDescender = ceil([labelFont descender]);
+
+    while (sectionHeight * labelSkip < labelHeight && labelSkip < sectionCount) {
+        labelSkip *= 2;
+    }
 
     bounds = [self bounds];
 
@@ -160,9 +165,11 @@
         point.x -= 5.0;
         [bezierPath lineToPoint:point];
 
-        cellFrame.origin.y = point.y - (labelHeight / 2.0) - labelDescender;
-        [labelTextFieldCell setIntValue:index - zeroSection];
-        [labelTextFieldCell drawWithFrame:cellFrame inView:self];
+        if (((index - zeroSection) % labelSkip) == 0) {
+            cellFrame.origin.y = point.y - (labelHeight / 2.0) - labelDescender;
+            [labelTextFieldCell setIntValue:index - zeroSection];
+            [labelTextFieldCell drawWithFrame:cellFrame inView:self];
+        }
     }
 
     [bezierPath stroke];
@@ -185,10 +192,9 @@
 
         glyphRange = [layoutManager glyphRangeForTextContainer:textContainer];
         boundingRect = [layoutManager boundingRectForGlyphRange:glyphRange inTextContainer:textContainer];
-        //NSLog(@"boundingRect: %@", NSStringFromRect(boundingRect));
 
-        //labelPoint = NSMakePoint((bounds.size.height - boundingRect.size.width) / 2.0, -boundingRect.size.height);
-        labelPoint = NSMakePoint((bounds.size.height - boundingRect.size.width) / 2.0, 0);
+        labelPoint.x = yOrigin + (sectionCount * sectionHeight - boundingRect.size.width) / 2.0;
+        labelPoint.y = 0.0;
 
         [context saveGraphicsState];
         [transform concat];
