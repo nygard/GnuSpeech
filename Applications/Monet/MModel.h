@@ -14,7 +14,7 @@ extern NSString *MCategoryInUseException;
     NSMutableArray *parameters;
     NSMutableArray *metaParameters;
     NSMutableArray *symbols;
-    PhoneList *postures; // Keep this list sorted by name
+    NSMutableArray *postures; // Keep this list sorted by name
 
     MonetList *equations; // Of NamedLists of MMEquations
     MonetList *transitions; // Of NamedLists of MMTransitions
@@ -36,7 +36,7 @@ extern NSString *MCategoryInUseException;
 - (NSMutableArray *)parameters;
 - (NSMutableArray *)metaParameters;
 - (NSMutableArray *)symbols;
-- (PhoneList *)postures;
+- (NSMutableArray *)postures;
 
 - (MonetList *)equations;
 - (MonetList *)transitions;

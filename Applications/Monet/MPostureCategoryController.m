@@ -224,7 +224,7 @@
 
 - (BOOL)control:(NSControl *)aControl shouldProcessCharacters:(NSString *)characters;
 {
-    PhoneList *postures;
+    NSArray *postures;
     unsigned int count, index;
     MMPosture *posture;
 

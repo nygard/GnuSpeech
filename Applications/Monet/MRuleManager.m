@@ -33,9 +33,9 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
     matchLists = [[NSMutableArray alloc] init];
     for (index = 0; index < 4; index++) {
-        PhoneList *aPhoneList;
+        NSMutableArray *aPhoneList;
 
-        aPhoneList = [[PhoneList alloc] init];
+        aPhoneList = [[NSMutableArray alloc] init];
         [matchLists addObject:aPhoneList];
         [aPhoneList release];
     }
@@ -311,8 +311,8 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 {
     unsigned int expressionIndex;
     unsigned int count, index;
-    PhoneList *aMatchedPhoneList;
-    PhoneList *mainPhoneList = [[self model] postures];
+    NSMutableArray *aMatchedPhoneList;
+    NSArray *mainPhoneList = [[self model] postures];
     NSString *str;
 
     count = [[model postures] count];
@@ -800,8 +800,8 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 // Warning (building for 10.2 deployment) (2004-04-02): aBrowser might be used uninitialized in this function
 - (IBAction)setExpression:(id)sender;
 {
-    PhoneList *matchedPhoneList;
-    PhoneList *mainPhoneList = [[self model] postures];
+    NSMutableArray *matchedPhoneList;
+    NSArray *mainPhoneList = [[self model] postures];
     MMBooleanNode *parsedExpression;
     int i;
     int tag;

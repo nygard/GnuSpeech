@@ -46,7 +46,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     parameters = [[NSMutableArray alloc] init];
     metaParameters = [[NSMutableArray alloc] init];
     symbols = [[NSMutableArray alloc] init];
-    postures = [[PhoneList alloc] init];
+    postures = [[NSMutableArray alloc] init];
 
     equations = [[MonetList alloc] init];
     transitions = [[MonetList alloc] init];
@@ -137,7 +137,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     return symbols;
 }
 
-- (PhoneList *)postures;
+- (NSMutableArray *)postures;
 {
     return postures;
 }
@@ -951,7 +951,13 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     //NSLog(@"metaParameters: %d", [metaParameters count]);
     [metaParameters makeObjectsPerformSelector:@selector(setModel:) withObject:self];
 
-    postures = [[aDecoder decodeObject] retain];
+    {
+        PhoneList *archivedPostures;
+
+        archivedPostures = [aDecoder decodeObject];
+        postures = [[NSMutableArray alloc] init];
+        [postures addObjectsFromArray:[archivedPostures allObjects]];
+    }
     //NSLog(@"postures: %@", postures);
     //NSLog(@"postures: %d", [postures count]);
     [postures makeObjectsPerformSelector:@selector(setModel:) withObject:self];
