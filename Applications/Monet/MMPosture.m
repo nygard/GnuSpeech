@@ -40,8 +40,8 @@
     comment = nil;
 
     categoryList = [[CategoryList alloc] init];
-    parameterList = [[TargetList alloc] init];
-    metaParameterList = [[TargetList alloc] init];
+    parameterList = [[NSMutableArray alloc] init];
+    metaParameterList = [[NSMutableArray alloc] init];
     symbolList = [[TargetList alloc] init];
 
     nativeCategory = [[MMCategory alloc] init];
@@ -193,12 +193,12 @@
     [self addCategory:category];
 }
 
-- (TargetList *)parameterTargets;
+- (NSMutableArray *)parameterTargets;
 {
     return parameterList;
 }
 
-- (TargetList *)metaParameterTargets;
+- (NSMutableArray *)metaParameterTargets;
 {
     return metaParameterList;
 }
@@ -360,8 +360,20 @@
     phoneSymbol = [[NSString stringWithASCIICString:c_phoneSymbol] retain];
     comment = [[NSString stringWithASCIICString:c_comment] retain];
 
-    parameterList = [[aDecoder decodeObject] retain];
-    metaParameterList = [[aDecoder decodeObject] retain];
+    {
+        TargetList *archivedParameters;
+
+        archivedParameters = [aDecoder decodeObject];
+        parameterList = [[NSMutableArray alloc] init];
+        [parameterList addObjectsFromArray:[archivedParameters allObjects]];
+    }
+    {
+        TargetList *archivedMetaParameters;
+
+        archivedMetaParameters = [aDecoder decodeObject];
+        metaParameterList = [[NSMutableArray alloc] init];
+        [metaParameterList addObjectsFromArray:[archivedMetaParameters allObjects]];
+    }
     symbolList = [[aDecoder decodeObject] retain];
 
     assert(categoryList == nil);

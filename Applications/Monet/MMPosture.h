@@ -51,8 +51,8 @@
 
     // TODO (2004-03-19): Rename categories, parameters, metaParameters, and symbols
     CategoryList *categoryList; // Of MMCategorys
-    TargetList *parameterList; // Of Targets
-    TargetList *metaParameterList; // Of Targets
+    NSMutableArray *parameterList; // Of Targets
+    NSMutableArray *metaParameterList; // Of Targets
     TargetList *symbolList; // Of Targets
 
     MMCategory *nativeCategory;
@@ -80,8 +80,8 @@
 - (void)addCategoryWithName:(NSString *)aCategoryName;
 
 /* Access to target lists */
-- (TargetList *)parameterTargets;
-- (TargetList *)metaParameterTargets;
+- (NSMutableArray *)parameterTargets;
+- (NSMutableArray *)metaParameterTargets;
 - (TargetList *)symbolList;
 
 - (void)addParameterTarget:(MMTarget *)newTarget;
