@@ -71,5 +71,6 @@
 - (void)_appendXMLForExpressionSymbolsToString:(NSMutableString *)resultString level:(int)level;
 
 - (NSString *)expressionSymbolNameAtIndex:(int)index;
+- (void)setRuleExpression1:(BooleanExpression *)exp1 exp2:(BooleanExpression *)exp2 exp3:(BooleanExpression *)exp3 exp4:(BooleanExpression *)exp4;
 
 @end

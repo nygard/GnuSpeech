@@ -1,5 +1,5 @@
 //
-// $Id: MRuleManager.h,v 1.6 2004/03/24 21:33:06 nygard Exp $
+// $Id: MRuleManager.h,v 1.7 2004/03/24 22:57:49 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -8,7 +8,7 @@
 #import <AppKit/NSWindowController.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-@class BooleanExpression, MModel, MMRule, MonetList;
+@class BooleanExpression, BooleanParser, MModel, MMRule, MonetList;
 
 @interface MRuleManager : NSWindowController
 {
@@ -44,6 +44,8 @@
 
     NSFont *regularControlFont;
     NSFont *boldControlFont;
+
+    BooleanParser *boolParser;
 }
 
 - (id)initWithModel:(MModel *)aModel;
@@ -98,5 +100,11 @@
 
 // NSTextView delegate
 - (void)textDidEndEditing:(NSNotification *)aNotification;
+
+// Actions
+- (IBAction)setExpression:(id)sender;
+- (IBAction)addRule:(id)sender;
+- (IBAction)updateRule:(id)sender;
+- (IBAction)removeRule:(id)sender;
 
 @end

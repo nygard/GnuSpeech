@@ -51,6 +51,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     specialTransitions = [[MonetList alloc] init];
 
     rules = [[RuleList alloc] init];
+    // TODO (2004-03-24): Seed list with "phone >> phone" rule.
 
     // And set up some default values:
     newSymbol = [[MMSymbol alloc] initWithSymbol:@"duration"];
@@ -450,6 +451,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
             }
         }
     }
+
+    NSLog(@"Couldn't find equation: %@/%@", aListName, anEquationName);
 
     return nil;
 }

@@ -3,6 +3,7 @@
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {CLASS = MOutlineView; LANGUAGE = ObjC; SUPERCLASS = NSOutlineView; }, 
         {
+            ACTIONS = {addRule = id; removeRule = id; setExpression = id; updateRule = id; }; 
             CLASS = MRuleManager; 
             LANGUAGE = ObjC; 
             OUTLETS = {

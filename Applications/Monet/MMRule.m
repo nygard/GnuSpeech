@@ -59,7 +59,8 @@
 
 - (void)setDefaultsTo:(int)numPhones;
 {
-    id tempEntry = nil, tempOnset = nil, tempDuration = nil;
+    id tempEntry = nil;
+    MMEquation *anEquation, *defaultOnset, *defaultDuration;
     ParameterList *aParameterList;
     int i;
 
@@ -100,41 +101,60 @@
 
     switch (numPhones) {
       case 2:
-          tempDuration = [[self model] findEquationList:@"DefaultDurations" named:@"DiphoneDefault"];
-          [expressionSymbols addObject:tempDuration];
+          defaultDuration = [[self model] findEquationList:@"DefaultDurations" named:@"DiphoneDefault"];
+          if (defaultDuration == nil)
+              break;
+          [expressionSymbols addObject:defaultDuration];
 
-          tempOnset = [[self model] findEquationList:@"SymbolDefaults" named:@"Beat"];
-          [expressionSymbols addObject:tempOnset];
+          defaultOnset = [[self model] findEquationList:@"SymbolDefaults" named:@"diBeat"];
+          if (defaultOnset == nil)
+              break;
+          [expressionSymbols addObject:defaultOnset];
 
-          [expressionSymbols addObject:tempDuration]; /* Make the duration the mark1 value */
-
+          [expressionSymbols addObject:defaultDuration]; /* Make the mark1 value == duration */
           break;
+
       case 3:
-          tempDuration = [[self model] findEquationList:@"DefaultDurations" named:@"TriphoneDefault"];
-          [expressionSymbols addObject:tempDuration];
+          defaultDuration = [[self model] findEquationList:@"DefaultDurations" named:@"TriphoneDefault"];
+          if (defaultDuration == nil)
+              break;
+          [expressionSymbols addObject:defaultDuration];
 
-          tempOnset = [[self model] findEquationList:@"SymbolDefaults" named:@"Beat"];
-          [expressionSymbols addObject:tempOnset];
+          defaultOnset = [[self model] findEquationList:@"SymbolDefaults" named:@"triBeat"];
+          if (defaultOnset == nil)
+              break;
+          [expressionSymbols addObject:defaultOnset];
 
-          tempEntry = [[self model] findEquationList:@"SymbolDefaults" named:@"Mark1"];
-          [expressionSymbols addObject:tempEntry];
-          [expressionSymbols addObject:tempDuration];	/* make the duration the mark2 value */
+          anEquation = [[self model] findEquationList:@"SymbolDefaults" named:@"Mark1"];
+          if (anEquation == nil)
+              break;
+          [expressionSymbols addObject:anEquation];
 
+          [expressionSymbols addObject:defaultDuration]; /* Make the  mark2 value == duration */
           break;
+
       case 4:
-          tempDuration = [[self model] findEquationList:@"DefaultDurations" named:@"TetraphoneDefault"];
-          [expressionSymbols addObject:tempDuration];
+          defaultDuration = [[self model] findEquationList:@"DefaultDurations" named:@"TetraphoneDefault"];
+          if (defaultDuration == nil)
+              break;
+          [expressionSymbols addObject:defaultDuration];
 
-          tempOnset = [[self model] findEquationList:@"SymbolDefaults" named:@"Beat"];
-          [expressionSymbols addObject:tempOnset];
+          defaultOnset = [[self model] findEquationList:@"SymbolDefaults" named:@"tetraBeat"]; // TODO (2004-03-24): Not in diphones.monet
+          if (defaultOnset == nil)
+              break;
+          [expressionSymbols addObject:defaultOnset];
 
-          tempEntry = [[self model] findEquationList:@"SymbolDefaults" named:@"Mark1"];
-          [expressionSymbols addObject:tempEntry];
+          anEquation = [[self model] findEquationList:@"SymbolDefaults" named:@"Mark1"];
+          if (anEquation == nil)
+              break;
+          [expressionSymbols addObject:anEquation];
 
-          tempEntry = [[self model] findEquationList:@"SymbolDefaults" named:@"Mark2"];
-          [expressionSymbols addObject:tempEntry];
-          [expressionSymbols addObject:tempDuration];	/* make the duration the mark3 value */
+          anEquation = [[self model] findEquationList:@"SymbolDefaults" named:@"Mark2"];
+          if  (anEquation == nil)
+              break;
+          [expressionSymbols addObject:anEquation];
 
+          [expressionSymbols addObject:defaultDuration]; /* Make the mark3 value == duration */
           break;
     }
 }
@@ -658,6 +678,21 @@
     }
 
     return nil;
+}
+
+- (void)setRuleExpression1:(BooleanExpression *)exp1 exp2:(BooleanExpression *)exp2 exp3:(BooleanExpression *)exp3 exp4:(BooleanExpression *)exp4;
+{
+    int oldExpressionCount;
+
+    oldExpressionCount = [self numberExpressions];
+
+    [self setExpression:exp1 number:0];
+    [self setExpression:exp2 number:1];
+    [self setExpression:exp3 number:2];
+    [self setExpression:exp4 number:3];
+
+    if (oldExpressionCount != [self numberExpressions])
+        [self setDefaultsTo:[self numberExpressions]];
 }
 
 @end

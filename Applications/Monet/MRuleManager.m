@@ -7,6 +7,7 @@
 #import "NSOutlineView-Extensions.h"
 
 #import "BooleanExpression.h"
+#import "BooleanParser.h"
 #import "MCommentCell.h"
 #import "MMEquation.h"
 #import "MModel.h"
@@ -41,6 +42,8 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
         [aPhoneList release];
     }
 
+    boolParser = [[BooleanParser alloc] init];
+
     [self setWindowFrameAutosaveName:@"New Rule Manager"];
 
     return self;
@@ -52,6 +55,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     [matchLists release];
     [regularControlFont release];
     [boldControlFont release];
+    [boolParser release];
 
     [super dealloc];
 }
@@ -68,6 +72,9 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
     [model release];
     model = [newModel retain];
+
+    [boolParser setCategoryList:[model categories]];
+    [boolParser setPhoneList:[model postures]];
 
     [self updateViews];
     [self expandOutlines];
@@ -108,6 +115,9 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
     [ruleTableView registerForDraggedTypes:[NSArray arrayWithObjects:MRMLocalRuleDragPasteboardType, nil]];
 
+    [boolParser setCategoryList:[model categories]];
+    [boolParser setPhoneList:[model postures]];
+
     [self updateViews];
     [self expandOutlines];
 
@@ -130,7 +140,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     [metaParameterTableView reloadData];
     [metaParameterTransitionOutlineView reloadData];
 
-    // And what about the outline views?
+    [self _updateSelectedRuleDetails];
 }
 
 - (void)expandOutlines;
@@ -207,11 +217,16 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
     selectedRow = [symbolTableView selectedRow];
     anEquation = [[[self selectedRule] symbols] objectAtIndex:selectedRow];
-    if ([anEquation group] != nil) {
-        [symbolEquationOutlineView scrollRowForItemToVisible:[anEquation group]];
-        [symbolEquationOutlineView expandItem:[anEquation group]];
+    if (anEquation == nil) {
+        [symbolEquationOutlineView selectRow:0 byExtendingSelection:NO];
+        [symbolEquationOutlineView scrollRowToVisible:0];
+    } else {
+        if ([anEquation group] != nil) {
+            [symbolEquationOutlineView scrollRowForItemToVisible:[anEquation group]];
+            [symbolEquationOutlineView expandItem:[anEquation group]];
+        }
+        [symbolEquationOutlineView selectItem:anEquation];
     }
-    [symbolEquationOutlineView selectItem:anEquation];
 }
 
 - (void)_updateSelectedParameterDetails;
@@ -265,6 +280,43 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     expressions[index] = [anExpression retain];
 }
 
+/*===========================================================================
+
+	Method: realignExpressions
+	Purpose: The purpose of this method is to align the sub-expressions
+		if one happens to have been removed.
+
+===========================================================================*/
+- (void)realignExpressions;
+{
+    int index;
+    NSCell *thisCell, *nextCell;
+
+    NSLog(@" > %s", _cmd);
+
+    for (index = 0; index < 3; index++) {
+
+        thisCell = [expressionForm cellAtIndex:index];
+        nextCell = [expressionForm cellAtIndex:index + 1];
+
+        if ([[thisCell stringValue] isEqualToString:@""]) {
+            [thisCell setStringValue:[nextCell stringValue]];
+            [nextCell setStringValue:@""];
+            [self setExpression:expressions[index + 1] atIndex:index];
+            [self setExpression:nil atIndex:index + 1];
+        }
+    }
+
+    thisCell = [expressionForm cellAtIndex:3];
+    if ([[thisCell stringValue] isEqualToString:@""]) {
+        [self setExpression:nil atIndex:3];
+    }
+
+    [self evaluateMatchLists];
+
+    NSLog(@"<  %s", _cmd);
+}
+
 - (void)evaluateMatchLists;
 {
     unsigned int expressionIndex;
@@ -272,8 +324,6 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     PhoneList *aMatchedPhoneList;
     PhoneList *mainPhoneList = [[self model] postures];
     NSString *str;
-
-    //NSLog(@"[mainPhoneList count]: %d", [mainPhoneList count]);
 
     count = [[model postures] count];
 
@@ -293,6 +343,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
         //NSLog(@"expressions[%d]: %p, matches[%d] count: %d", expressionIndex, expressions[expressionIndex], expressionIndex, [aMatchedPhoneList count]);
     }
 
+    // TODO (2004-03-24): We're getting an assertion failure in [NSMatrix lockFocus] somewhere in the following code.  This may be a good enough reason to switch to NSTableViews instead of NSBrowsers.
     str = [NSString stringWithFormat:@"Total Matches: %d", [[matchLists objectAtIndex:0] count]];
     [match1Browser setTitle:str ofColumn:0];
     [match1Browser loadColumnZero];
@@ -338,8 +389,12 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     if (tableView == ruleTableView)
         return [[model rules] count];
 
-    if (tableView == symbolTableView)
+    if (tableView == symbolTableView) {
+        if ([self selectedRule] == nil)
+            return 2;
+
         return 2 + [[self selectedRule] numberExpressions] - 1;
+    }
 
     if (tableView == parameterTableView || tableView == specialParameterTableView)
         return [[[self model] parameters] count];
@@ -735,6 +790,119 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     }
 
     [newStringValue release];
+}
+
+//
+// Actions
+//
+
+// Sender should be the form for postures 1-4
+- (IBAction)setExpression:(id)sender;
+{
+    PhoneList *matchedPhoneList;
+    PhoneList *mainPhoneList = [[self model] postures];
+    BooleanExpression *parsedExpression;
+    int i;
+    int tag;
+    NSString *expressionString;
+    NSBrowser *aBrowser;
+
+    tag = [[sender selectedCell] tag];
+
+    if (tag < 0 || tag > 3) {
+        NSLog(@"%s, tag out of range (0-3)", _cmd);
+        return;
+    }
+
+    expressionString = [[sender cellAtIndex:tag] stringValue];
+    //NSLog(@"tag: %d, expressionString: %@", tag, expressionString);
+    if ([expressionString isEqualToString:@""]) {
+        //NSLog(@"Realigning...");
+        [self realignExpressions];
+        NSLog(@"<  %s", _cmd);
+        return;
+    }
+
+    parsedExpression = [boolParser parseString:expressionString];
+    [errorTextField setStringValue:[boolParser errorMessage]];
+    if (parsedExpression == nil) {
+        //NSLog(@"parse error: %@", [boolParser errorMessage]);
+        NSBeep();
+        return;
+    }
+
+    [self setExpression:parsedExpression atIndex:tag];
+
+    matchedPhoneList = [matchLists objectAtIndex:tag];
+    [matchedPhoneList removeAllObjects];
+
+    for (i = 0; i < [mainPhoneList count]; i++) {
+        MMPosture *currentPhone;
+
+        currentPhone = [mainPhoneList objectAtIndex:i];
+        if ([parsedExpression evaluate:[currentPhone categoryList]]) {
+            [matchedPhoneList addObject:currentPhone];
+        }
+    }
+
+    switch (tag) {
+      case 0:
+          aBrowser = match1Browser;
+          break;
+      case 1:
+          aBrowser = match2Browser;
+          break;
+      case 2:
+          aBrowser = match3Browser;
+          break;
+      case 3:
+          aBrowser = match4Browser;
+          break;
+    }
+
+    [aBrowser setTitle:[NSString stringWithFormat:@"Total Matches: %d", [matchedPhoneList count]] ofColumn:0];
+    [aBrowser loadColumnZero];
+    [self updateCombinations];
+}
+
+- (IBAction)addRule:(id)sender;
+{
+    NSLog(@" > %s", _cmd);
+    NSLog(@"<  %s", _cmd);
+}
+
+- (IBAction)updateRule:(id)sender;
+{
+    BooleanExpression *exps[4];
+    int index;
+    MMRule *selectedRule;
+
+    for (index = 0; index < 4; index++) {
+        NSString *str;
+
+        str = [[expressionForm cellAtIndex:index] stringValue];
+        if ([str length] == 0)
+            exps[index] = nil;
+        else
+            exps[index] = [boolParser parseString:str];
+    }
+
+    [errorTextField setStringValue:[boolParser errorMessage]];
+    selectedRule = [self selectedRule];
+    [selectedRule setRuleExpression1:exps[0] exp2:exps[1] exp3:exps[2] exp4:exps[3]];
+
+    [ruleTableView reloadData];
+}
+
+- (IBAction)removeRule:(id)sender;
+{
+    MMRule *selectedRule;
+
+    selectedRule = [self selectedRule];
+    if (selectedRule != nil)
+        [[[self model] rules] removeObject:selectedRule];
+
+    [self updateViews];
 }
 
 @end
