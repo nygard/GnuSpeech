@@ -24,9 +24,10 @@
     int ruleIndex; // Index of the rule for the phone which is the focus of this point
 }
 
-- (id)initWithEventList:(EventList *)anEventList;
+- (id)init;
 
 - (EventList *)eventList;
+- (void)setEventList:(EventList *)newEventList;
 
 - (double)semitone;
 - (void)setSemitone:(double)newSemitone;

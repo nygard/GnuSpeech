@@ -224,9 +224,9 @@ extern NSString *EventListDidRemoveIntonationPoints;
 
 // Intonation points
 - (NSArray *)intonationPoints;
-- (void)removeIntonationPoint:(MMIntonationPoint *)aPoint;
-- (void)clearIntonationPoints;
 - (void)addIntonationPoint:(MMIntonationPoint *)newIntonationPoint;
+- (void)removeIntonationPoint:(MMIntonationPoint *)anIntonationPoint;
+- (void)removeAllIntonationPoints;
 
 // Intonation
 - (void)applyIntonation;

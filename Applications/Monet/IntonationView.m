@@ -847,11 +847,11 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
                 //NSLog(@"Selecting Rule: %d posture index %d", ruleIndex, rule->lastPhone);
 
                 // TODO (2004-08-09): Should just use -[EventList addIntonationPoint:offsetTime:slope:ruleIndex:]
-                iPoint = [[MMIntonationPoint alloc] initWithEventList:eventList];
+                iPoint = [[MMIntonationPoint alloc] init];
                 [iPoint setRuleIndex:ruleIndex];
                 [iPoint setOffsetTime:(double)temp - rule->beat];
                 [iPoint setSemitone:semitone];
-                [self addIntonationPoint:iPoint];
+                [eventList addIntonationPoint:iPoint];
                 [iPoint release];
 
                 [self setNeedsDisplay:YES];

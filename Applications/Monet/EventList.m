@@ -89,7 +89,7 @@ NSString *EventListDidRemoveIntonationPoints = @"EventListDidRemoveIntonationPoi
 
     // TODO (2004-08-19): Maybe it's better just to allocate a new one?  Or create it just before synthesis?
     [self setUp]; // So that we don't have stuff left over from the previous model, which can cause a crash.
-    [self clearIntonationPoints];
+    [self removeAllIntonationPoints];
 
     [model release];
     model = [newModel retain];
@@ -885,7 +885,7 @@ NSString *EventListDidRemoveIntonationPoints = @"EventListDidRemoveIntonationPoi
     zeroIndex = 0;
     duration = [[events lastObject] time] + 100;
 
-    [self clearIntonationPoints];
+    [self removeAllIntonationPoints];
 //    [self addIntonationPoint:-20.0 offsetTime:0.0 slope:0.0 ruleIndex:0];
 
     for (i = 0; i < toneGroupCount; i++) {
@@ -920,7 +920,7 @@ NSString *EventListDidRemoveIntonationPoints = @"EventListDidRemoveIntonationPoi
                 // Slopes from 0.02 to 0.035
                 randomSlope = ((double)random() / (double)0x7fffffff) * 0.015 + 0.02;
 
-                newIntonationPoint = [[MMIntonationPoint alloc] initWithEventList:self];
+                newIntonationPoint = [[MMIntonationPoint alloc] init];
                 // TODO (2004-08-19): But this will generate extra change notifications.  Try setting the event list for the intonation point in -addIntonationPoint:.
                 [newIntonationPoint setSemitone:((phones[phoneIndex].onset-startTime) * pretonicDelta) + intonationParameters.notionalPitch + randomSemitone];
                 [newIntonationPoint setOffsetTime:offsetTime];
@@ -937,7 +937,7 @@ NSString *EventListDidRemoveIntonationPoints = @"EventListDidRemoveIntonationPoi
                 // Slopes from 0.02 to 0.05
                 randomSlope = ((double)random() / (double)0x7fffffff) * 0.03 + 0.02;
 
-                newIntonationPoint = [[MMIntonationPoint alloc] initWithEventList:self];
+                newIntonationPoint = [[MMIntonationPoint alloc] init];
                 [newIntonationPoint setSemitone:intonationParameters.pretonicRange + intonationParameters.notionalPitch];
                 [newIntonationPoint setOffsetTime:offsetTime];
                 [newIntonationPoint setSlope:randomSlope];
@@ -948,7 +948,7 @@ NSString *EventListDidRemoveIntonationPoints = @"EventListDidRemoveIntonationPoi
                 phoneIndex = feet[j].end;
                 ruleIndex = [self ruleIndexForPostureAtIndex:phoneIndex];
 
-                newIntonationPoint = [[MMIntonationPoint alloc] initWithEventList:self];
+                newIntonationPoint = [[MMIntonationPoint alloc] init];
                 [newIntonationPoint setSemitone:intonationParameters.pretonicRange + intonationParameters.notionalPitch + intonationParameters.tonicRange];
                 [newIntonationPoint setOffsetTime:0.0];
                 [newIntonationPoint setSlope:0.0];
@@ -1330,21 +1330,27 @@ NSString *EventListDidRemoveIntonationPoints = @"EventListDidRemoveIntonationPoi
     return intonationPoints;
 }
 
-- (void)removeIntonationPoint:(MMIntonationPoint *)aPoint;
-{
-    [intonationPoints removeObject:aPoint];
-}
-
-- (void)clearIntonationPoints;
-{
-    [intonationPoints removeAllObjects];
-    [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidChangeIntonationPoints object:self userInfo:nil];
-}
-
 - (void)addIntonationPoint:(MMIntonationPoint *)newIntonationPoint;
 {
     [intonationPoints addObject:newIntonationPoint];
+    [newIntonationPoint setEventList:self];
     flags.intonationPointsNeedSorting = YES;
+    [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidAddIntonationPoints object:self userInfo:nil];
+}
+
+- (void)removeIntonationPoint:(MMIntonationPoint *)anIntonationPoint;
+{
+    [anIntonationPoint setEventList:nil];
+    [intonationPoints removeObject:anIntonationPoint];
+    [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidRemoveIntonationPoints object:self userInfo:nil];
+}
+
+- (void)removeAllIntonationPoints;
+{
+    [intonationPoints makeObjectsPerformSelector:@selector(setEventList:) withObject:nil];
+    [intonationPoints removeAllObjects];
+    // TODO (2004-08-20): Change the to "DidRemove".
+    [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidChangeIntonationPoints object:self userInfo:nil];
 }
 
 //
@@ -1406,12 +1412,11 @@ NSString *EventListDidRemoveIntonationPoints = @"EventListDidRemoveIntonationPoi
     if ([intonationPoints count] == 0)
         return;
 
-    firstIntonationPoint = [[MMIntonationPoint alloc] initWithEventList:self];
+    firstIntonationPoint = [[MMIntonationPoint alloc] init];
     [firstIntonationPoint setSemitone:[[[self intonationPoints] objectAtIndex:0] semitone]]; // Make sure it's sorted
     [firstIntonationPoint setSlope:0.0];
     [firstIntonationPoint setRuleIndex:0];
     [firstIntonationPoint setOffsetTime:0];
-
     [self addIntonationPoint:firstIntonationPoint];
 
     count = [[self intonationPoints] count]; // Again, make sure it gets sorted since we just added a point.

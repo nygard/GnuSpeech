@@ -12,12 +12,12 @@
 @implementation MMIntonationPoint
 
 // TODO (2004-08-17): Reject unused init method.
-- (id)initWithEventList:(EventList *)anEventList;
+- (id)init;
 {
     if ([super init] == nil)
         return nil;
 
-    nonretained_eventList = anEventList;
+    nonretained_eventList = nil;
 
     semitone = 0.0;
     offsetTime = 0.0;
@@ -30,6 +30,11 @@
 - (EventList *)eventList;
 {
     return nonretained_eventList;
+}
+
+- (void)setEventList:(EventList *)newEventList;
+{
+    nonretained_eventList = newEventList;
 }
 
 - (double)semitone;
