@@ -13,14 +13,14 @@
     return 0;
 }
 
-- (double)evaluate:(MMFRuleSymbols *)ruleSymbols phones:(NSArray *)phones;
+- (double)evaluate:(MMFRuleSymbols *)ruleSymbols postures:(NSArray *)postures;
 {
     double tempos[4] = {1.0, 1.0, 1.0, 1.0};
 
-    return [self evaluate:ruleSymbols phones:phones tempos:tempos];
+    return [self evaluate:ruleSymbols postures:postures tempos:tempos];
 }
 
-- (double)evaluate:(MMFRuleSymbols *)ruleSymbols phones:(NSArray *)phones tempos:(double *)tempos;
+- (double)evaluate:(MMFRuleSymbols *)ruleSymbols postures:(NSArray *)postures tempos:(double *)tempos;
 {
     // Implement in subclasses
     return 0;

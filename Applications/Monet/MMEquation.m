@@ -125,21 +125,21 @@
     [formulaParser release];
 }
 
-- (double)evaluate:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag;
+- (double)evaluate:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(int)newCacheTag;
 {
     if (newCacheTag != cacheTag) {
         cacheTag = newCacheTag;
-        cacheValue = [formula evaluate:ruleSymbols phones:phones tempos:tempos];
+        cacheValue = [formula evaluate:ruleSymbols postures:postures tempos:tempos];
     }
 
     return cacheValue;
 }
 
-- (double)evaluate:(MMFRuleSymbols *)ruleSymbols phones:(NSArray *)phones andCacheWith:(int)newCacheTag;
+- (double)evaluate:(MMFRuleSymbols *)ruleSymbols postures:(NSArray *)postures andCacheWith:(int)newCacheTag;
 {
     if (newCacheTag != cacheTag) {
         cacheTag = newCacheTag;
-        cacheValue = [formula evaluate:ruleSymbols phones:phones];
+        cacheValue = [formula evaluate:ruleSymbols postures:postures];
     }
 
     return cacheValue;

@@ -110,12 +110,12 @@
     isPhantom = newFlag;
 }
 
-- (void)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag toDisplay:(NSMutableArray *)displayList;
+- (void)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(int)newCacheTag toDisplay:(NSMutableArray *)displayList;
 {
     float dummy;
 
     if (expression) {
-        dummy = [expression evaluate:ruleSymbols tempos:tempos phones:phones andCacheWith:newCacheTag];
+        dummy = [expression evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:newCacheTag];
         //NSLog(@"expression %@ = %g", [[expression expression] expressionString], dummy);
     }
     //NSLog(@"Dummy %f", dummy);
@@ -125,18 +125,18 @@
 
 
 // TODO (2004-08-12): Pass in parameter instead of min, max, and index.
-- (double)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag
+- (double)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(int)newCacheTag
                  baseline:(double)baseline delta:(double)delta min:(double)min max:(double)max
               toEventList:(EventList *)eventList atIndex:(int)index;
 {
     double time, returnValue;
 
     if (expression)
-        time = [expression evaluate:ruleSymbols tempos:tempos phones:phones andCacheWith:(int)newCacheTag];
+        time = [expression evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:(int)newCacheTag];
     else
         time = freeTime;
 
-    //NSLog(@"|%@| = %f tempos: %f %f %f %f", [[phones objectAtIndex:0] symbol], time, tempos[0], tempos[1],tempos[2],tempos[3]);
+    //NSLog(@"|%@| = %f tempos: %f %f %f %f", [[postures objectAtIndex:0] symbol], time, tempos[0], tempos[1],tempos[2],tempos[3]);
 
     returnValue = baseline + ((value / 100.0) * delta);
 

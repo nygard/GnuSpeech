@@ -428,7 +428,7 @@
     return [symbolEquations objectAtIndex:index];
 }
 
-- (void)evaluateSymbolEquations:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos phones:(NSArray *)phones withCache:(int)cache;
+- (void)evaluateSymbolEquations:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures withCache:(int)cache;
 {
     unsigned int count;
 
@@ -436,27 +436,27 @@
     // It is not okay to do these in order -- beat often depends on duration, mark1, mark2, and/or mark3.
 
     if (count > 0)
-        ruleSymbols->ruleDuration = [(MMEquation *)[symbolEquations objectAtIndex:0] evaluate:ruleSymbols tempos:tempos phones:phones andCacheWith:cache];
+        ruleSymbols->ruleDuration = [(MMEquation *)[symbolEquations objectAtIndex:0] evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:cache];
     else
         ruleSymbols->ruleDuration = 0.0;
 
     if (count > 2)
-        ruleSymbols->mark1 = [(MMEquation *)[symbolEquations objectAtIndex:2] evaluate:ruleSymbols tempos:tempos phones:phones andCacheWith:cache];
+        ruleSymbols->mark1 = [(MMEquation *)[symbolEquations objectAtIndex:2] evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:cache];
     else
         ruleSymbols->mark1 = 0.0;
 
     if (count > 3)
-        ruleSymbols->mark2 = [(MMEquation *)[symbolEquations objectAtIndex:3] evaluate:ruleSymbols tempos:tempos phones:phones andCacheWith:cache];
+        ruleSymbols->mark2 = [(MMEquation *)[symbolEquations objectAtIndex:3] evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:cache];
     else
         ruleSymbols->mark2 = 0.0;
 
     if (count > 4)
-        ruleSymbols->mark3 = [(MMEquation *)[symbolEquations objectAtIndex:4] evaluate:ruleSymbols tempos:tempos phones:phones andCacheWith:cache];
+        ruleSymbols->mark3 = [(MMEquation *)[symbolEquations objectAtIndex:4] evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:cache];
     else
         ruleSymbols->mark3 = 0.0;
 
     if (count > 1)
-        ruleSymbols->beat = [(MMEquation *)[symbolEquations objectAtIndex:1] evaluate:ruleSymbols tempos:tempos phones:phones andCacheWith:cache];
+        ruleSymbols->beat = [(MMEquation *)[symbolEquations objectAtIndex:1] evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:cache];
     else
         ruleSymbols->beat = 0.0;
 }

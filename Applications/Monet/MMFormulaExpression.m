@@ -97,23 +97,23 @@
     return 0;
 }
 
-- (double)evaluate:(MMFRuleSymbols *)ruleSymbols phones:(NSArray *)phones tempos:(double *)tempos;
+- (double)evaluate:(MMFRuleSymbols *)ruleSymbols postures:(NSArray *)postures tempos:(double *)tempos;
 {
     switch (operation) {
       case TK_F_ADD:
-          return [left evaluate:ruleSymbols phones:phones tempos:tempos] + [right evaluate:ruleSymbols phones:phones tempos:tempos];
+          return [left evaluate:ruleSymbols postures:postures tempos:tempos] + [right evaluate:ruleSymbols postures:postures tempos:tempos];
           break;
 
       case TK_F_SUB:
-          return [left evaluate:ruleSymbols phones:phones tempos:tempos] - [right evaluate:ruleSymbols phones:phones tempos:tempos];
+          return [left evaluate:ruleSymbols postures:postures tempos:tempos] - [right evaluate:ruleSymbols postures:postures tempos:tempos];
           break;
 
       case TK_F_MULT:
-          return [left evaluate:ruleSymbols phones:phones tempos:tempos] * [right evaluate:ruleSymbols phones:phones tempos:tempos];
+          return [left evaluate:ruleSymbols postures:postures tempos:tempos] * [right evaluate:ruleSymbols postures:postures tempos:tempos];
           break;
 
       case TK_F_DIV:
-          return [left evaluate:ruleSymbols phones:phones tempos:tempos] / [right evaluate:ruleSymbols phones:phones tempos:tempos];
+          return [left evaluate:ruleSymbols postures:postures tempos:tempos] / [right evaluate:ruleSymbols postures:postures tempos:tempos];
           break;
 
       default:

@@ -61,7 +61,7 @@
 - (BOOL)matchRule:(NSArray *)categories;
 
 - (MMEquation *)getSymbolEquation:(int)index;
-- (void)evaluateSymbolEquations:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos phones:(NSArray *)phones withCache:(int)cache;
+- (void)evaluateSymbolEquations:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures withCache:(int)cache;
 
 - (NSMutableArray *)parameterTransitions;
 - (NSMutableArray *)metaParameterTransitions;

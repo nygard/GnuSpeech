@@ -762,7 +762,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
     int cache = [aModel nextCacheTag];
 
     bzero(&ruleSymbols, sizeof(MMFRuleSymbols));
-    [rule evaluateSymbolEquations:&ruleSymbols tempos:tempos phones:somePostures withCache:cache];
+    [rule evaluateSymbolEquations:&ruleSymbols tempos:tempos postures:somePostures withCache:cache];
     NSLog(@"Rule symbols, duration: %.2f, beat: %.2f, mark1: %.2f, mark2: %.2f, mark3: %.2f",
           ruleSymbols.ruleDuration, ruleSymbols.beat, ruleSymbols.mark1, ruleSymbols.mark2, ruleSymbols.mark3);
 
@@ -845,13 +845,13 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
                 if ([currentPoint isKindOfClass:[MMSlopeRatio class]]) {
                     if ([(MMPoint *)[[(MMSlopeRatio *)currentPoint points] objectAtIndex:0] type] != currentType) {
                         currentType = [(MMPoint *)[[(MMSlopeRatio *)currentPoint points] objectAtIndex:0] type];
-                        targets[currentType-2] = maxValue;
+                        targets[currentType - MMPhoneTypeDiphone] = maxValue;
                         currentDelta = targets[currentType-1] - maxValue;
                     }
                 } else {
                     if ([currentPoint type] != currentType) {
                         currentType = [currentPoint type];
-                        targets[currentType-2] = maxValue;
+                        targets[currentType - MMPhoneTypeDiphone] = maxValue;
                         currentDelta = targets[currentType-1] - maxValue;
                     }
 
@@ -859,7 +859,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
                     //tempEvent = [self insertEvent:i atTime:tempTime withValue:value];
                 }
                 // TODO (2004-03-01): I don't see how this works...
-                maxValue = [currentPoint calculatePoints:&ruleSymbols tempos:tempos phones:somePostures
+                maxValue = [currentPoint calculatePoints:&ruleSymbols tempos:tempos postures:somePostures
                                          andCacheWith:cache baseline:targets[currentType-2] delta:currentDelta
                                          min:min[transitionIndex] max:max[transitionIndex] toEventList:self atIndex:transitionIndex];
             }
@@ -883,7 +883,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
                 if ([currentPoint expression] == nil)
                     tempTime = [currentPoint freeTime];
                 else
-                    tempTime = [[currentPoint expression] evaluate:&ruleSymbols tempos:tempos phones:somePostures andCacheWith:cache];
+                    tempTime = [[currentPoint expression] evaluate:&ruleSymbols tempos:tempos postures:somePostures andCacheWith:cache];
 
                 /* Calculate value of event */
                 //value = (([currentPoint value]/100.0) * (max[parameterIndex] - min[parameterIndex])) + min[parameterIndex];

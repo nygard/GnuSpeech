@@ -44,8 +44,8 @@
 
 - (void)setFormulaString:(NSString *)formulaString;
 
-- (double)evaluate:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag;
-- (double)evaluate:(MMFRuleSymbols *)ruleSymbols phones:(NSArray *)phones andCacheWith:(int)newCacheTag;
+- (double)evaluate:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(int)newCacheTag;
+- (double)evaluate:(MMFRuleSymbols *)ruleSymbols postures:(NSArray *)postures andCacheWith:(int)newCacheTag;
 - (double)cacheValue;
 
 - (id)initWithCoder:(NSCoder *)aDecoder;

@@ -114,7 +114,7 @@
     return [[(MMPoint *)[points lastObject] expression] cacheValue];
 }
 
-- (void)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag
+- (void)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(int)newCacheTag
               toDisplay:(MonetList *)displayList;
 {
     int i, numSlopes;
@@ -128,7 +128,7 @@
     for (i = 0; i < [points count]; i++) {
         currentPoint = [points objectAtIndex:i];
         dummy = [[currentPoint expression] evaluate:ruleSymbols
-                                           tempos:tempos phones:phones
+                                           tempos:tempos postures:postures
                                            andCacheWith:newCacheTag];
         //NSLog(@"\t%d: expr %@ = %g", i, [[[currentPoint expression] expression] expressionString], dummy);
         //NSLog(@"point value: %g, expression value: %g", [currentPoint value], [[currentPoint expression] cacheValue]);
@@ -171,7 +171,7 @@
     }
 }
 
-- (double)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag
+- (double)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(int)newCacheTag
                  baseline:(double)baseline delta:(double)parameterDelta min:(double)min max:(double)max
               toEventList:eventList atIndex:(int)index;
 {
@@ -185,7 +185,7 @@
     /* Calculate the times for all points */
     for (i = 0; i < [points count]; i++) {
         currentPoint = [points objectAtIndex:i];
-        dummy = [[currentPoint expression] evaluate:ruleSymbols tempos:tempos phones:phones andCacheWith:newCacheTag];
+        dummy = [[currentPoint expression] evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:newCacheTag];
     }
 
     baseTime = [[points objectAtIndex:0] getTime];
@@ -223,7 +223,7 @@
     }
 
     for (i = 0; i < [points count]; i++) {
-        returnValue = [[points objectAtIndex:i] calculatePoints:ruleSymbols tempos:tempos phones:phones
+        returnValue = [[points objectAtIndex:i] calculatePoints:ruleSymbols tempos:tempos postures:postures
                                                  andCacheWith:newCacheTag baseline:baseline delta:parameterDelta
                                                  min:min max:max toEventList:eventList atIndex:index];
     }

@@ -75,7 +75,7 @@
     return 3;
 }
 
-- (double)evaluate:(MMFRuleSymbols *)ruleSymbols phones:(NSArray *)phones tempos:(double *)tempos;
+- (double)evaluate:(MMFRuleSymbols *)ruleSymbols postures:(NSArray *)postures tempos:(double *)tempos;
 {
     MMTarget *symbolTarget;
 
@@ -109,7 +109,7 @@
     if (symbol == nil)
         return value;
 
-    symbolTarget = [[phones objectAtIndex:whichPhone] targetForSymbol:symbol];
+    symbolTarget = [[postures objectAtIndex:whichPhone] targetForSymbol:symbol];
     if (symbolTarget == nil)
         return 0.0;
 
