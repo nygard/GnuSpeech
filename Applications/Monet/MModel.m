@@ -954,7 +954,6 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)writeDataToFile:(FILE *)fp;
 {
-    //[categories printDataTo:fp];
     [self _writeCategoriesToFile:fp];
     [self _writeParametersToFile:fp];
     [self _writeSymbolsToFile:fp];
@@ -963,13 +962,17 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)_writeCategoriesToFile:(FILE *)fp;
 {
-    int i;
+    unsigned count, index;
 
     fprintf(fp, "Categories\n");
-    for (i = 0; i < [categories count]; i++) {
-        fprintf(fp, "%s\n", [[[categories objectAtIndex:i] symbol] UTF8String]);
-        if ([[categories objectAtIndex:i] comment])
-            fprintf(fp, "%s\n", [[[categories objectAtIndex:i] comment] UTF8String]);
+    count = [categories count];
+    for (index = 0; index < count; index++) {
+        MMCategory *aCategory;
+
+        aCategory = [categories objectAtIndex:index];
+        fprintf(fp, "%s\n", [[aCategory symbol] UTF8String]);
+        if ([aCategory comment])
+            fprintf(fp, "%s\n", [[aCategory comment] UTF8String]);
         fprintf(fp, "\n");
     }
     fprintf(fp, "\n");
@@ -977,15 +980,19 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)_writeParametersToFile:(FILE *)fp;
 {
-    int i;
+    unsigned count, index;
 
     fprintf(fp, "Parameters\n");
-    for (i = 0; i < [parameters count]; i++) {
-        fprintf(fp, "%s\n", [[[parameters objectAtIndex:i] symbol] UTF8String]);
+    count = [parameters count];
+    for (index = 0; index < count; index++) {
+        MMParameter *aParameter;
+
+        aParameter = [parameters objectAtIndex:index];
+        fprintf(fp, "%s\n", [[aParameter symbol] UTF8String]);
         fprintf(fp, "Min: %f  Max: %f  Default: %f\n",
-                [[parameters objectAtIndex:i] minimumValue], [[parameters objectAtIndex:i] maximumValue], [[parameters objectAtIndex:i] defaultValue]);
-        if ([[parameters objectAtIndex:i] comment])
-            fprintf(fp,"%s\n", [[[parameters objectAtIndex:i] comment] UTF8String]);
+                [aParameter minimumValue], [aParameter maximumValue], [aParameter defaultValue]);
+        if ([aParameter comment])
+            fprintf(fp,"%s\n", [[aParameter comment] UTF8String]);
         fprintf(fp, "\n");
     }
     fprintf(fp, "\n");
@@ -993,15 +1000,19 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)_writeSymbolsToFile:(FILE *)fp;
 {
-    int i;
+    unsigned count, index;
 
     fprintf(fp, "Symbols\n");
-    for (i = 0; i < [symbols count]; i++) {
-        fprintf(fp, "%s\n", [[[symbols objectAtIndex:i] symbol] UTF8String]);
+    count = [symbols count];
+    for (index = 0; index < count; index++) {
+        MMSymbol *aSymbol;
+
+        aSymbol = [symbols objectAtIndex:index];
+        fprintf(fp, "%s\n", [[aSymbol symbol] UTF8String]);
         fprintf(fp, "Min: %f  Max: %f  Default: %f\n",
-                [[symbols objectAtIndex:i] minimumValue], [[symbols objectAtIndex:i] maximumValue], [[symbols objectAtIndex:i] defaultValue]);
-        if ([[symbols objectAtIndex:i] comment])
-            fprintf(fp,"%s\n", [[[symbols objectAtIndex:i] comment] UTF8String]);
+                [aSymbol minimumValue], [aSymbol maximumValue], [aSymbol defaultValue]);
+        if ([aSymbol comment])
+            fprintf(fp,"%s\n", [[aSymbol comment] UTF8String]);
         fprintf(fp, "\n");
     }
     fprintf(fp, "\n");
@@ -1009,15 +1020,17 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)_writePosturesToFile:(FILE *)fp;
 {
-    int i, j;
+    unsigned count, index;
+    int j;
 
     fprintf(fp, "Phones\n");
-    for (i = 0; i < [postures count]; i++) {
+    count = [postures count];
+    for (index = 0; index < count; index++) {
         MMPosture *aPhone;
         CategoryList *aCategoryList;
         TargetList *aParameterList, *aSymbolList;
 
-        aPhone = [postures objectAtIndex:i];
+        aPhone = [postures objectAtIndex:index];
         fprintf(fp, "%s\n", [[aPhone symbol] UTF8String]);
         aCategoryList = [aPhone categoryList];
         for (j = 0; j < [aCategoryList count]; j++) {
