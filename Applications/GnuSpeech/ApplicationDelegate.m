@@ -18,7 +18,7 @@
 
 - (IBAction)parseText:(id)sender;
 {
-    NSString *inputString;
+    NSString *inputString, *resultString;
     TTSParser *parser;
 
     NSLog(@" > %s", _cmd);
@@ -27,8 +27,10 @@
     NSLog(@"inputString: %@", inputString);
 
     parser = [[TTSParser alloc] init];
-    [parser parseString:inputString];
+    resultString = [parser parseString:inputString];
     [parser release];
+
+    [outputTextView setString:resultString];
 
     NSLog(@"<  %s", _cmd);
 }

@@ -1,5 +1,5 @@
 //
-// $Id: TTSParser.h,v 1.5 2004/04/30 04:07:34 nygard Exp $
+// $Id: TTSParser.h,v 1.6 2004/04/30 16:16:43 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -31,7 +31,7 @@ typedef enum {
 - (id)init;
 - (void)dealloc;
 
-- (void)parseString:(NSString *)aString;
+- (NSString *)parseString:(NSString *)aString;
 - (void)markModes:(NSString *)aString;
 - (void)stripPunctuationFromString:(NSString *)aString;
 - (void)expandWord:(NSString *)word tonic:(BOOL)isTonic resultString:(NSMutableString *)resultString;

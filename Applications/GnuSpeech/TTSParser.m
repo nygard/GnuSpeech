@@ -81,7 +81,7 @@ static NSDictionary *_specialAcronyms = nil;
     [super dealloc];
 }
 
-- (void)parseString:(NSString *)aString;
+- (NSString *)parseString:(NSString *)aString;
 {
     NSMutableString *resultString;
 
@@ -96,6 +96,8 @@ static NSDictionary *_specialAcronyms = nil;
     NSLog(@"resultString: %@", resultString);
 
     NSLog(@"<  %s", _cmd);
+
+    return resultString;
 }
 
 // TODO (2004-04-28): This wants to embed special characters (-1 through -11) in the output string...  We may need to do this differently, since we want to deal with characters, not bytes.
