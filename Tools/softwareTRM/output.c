@@ -21,6 +21,22 @@ double volume;                      /*  master volume (0 - 60 dB)  */
 int    channels;                    /*  # of sound output channels (1, 2)  */
 double balance;                     /*  stereo balance (-1 to +1)  */
 
+
+void writeAuFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile);
+void writeAiffFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile);
+void writeWaveFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile);
+void writeSamplesMonoMsb(FILE *tempFile, long int numberSamples, double scale, FILE *outputFile);
+void writeSamplesMonoLsb(FILE *tempFile, long int numberSamples, double scale, FILE *outputFile);
+void writeSamplesStereoMsb(FILE *tempFile, long int numberSamples, double leftScale, double rightScale, FILE *outputFile);
+void writeSamplesStereoLsb(FILE *tempFile, long int numberSamples, double leftScale, double rightScale, FILE *outputFile);
+size_t fwriteIntMsb(int data, FILE *stream);
+size_t fwriteIntLsb(int data, FILE *stream);
+size_t fwriteShortMsb(int data, FILE *stream);
+size_t fwriteShortLsb(int data, FILE *stream);
+void convertIntToFloat80(unsigned int value, unsigned char buffer[10]);
+
+
+
 /******************************************************************************
 *
 *	function:	writeOutputToFile
@@ -119,8 +135,7 @@ void writeOutputToFile(char *fileName)
 *
 ******************************************************************************/
 
-void writeAuFileHeader(int channels, long int numberSamples,
-		       float outputRate, FILE *outputFile)
+void writeAuFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile)
 {
     /*  AU magic string: ".snd"  */
     fputs(".snd", outputFile);
@@ -160,8 +175,7 @@ void writeAuFileHeader(int channels, long int numberSamples,
 *
 ******************************************************************************/
 
-void writeAiffFileHeader(int channels, long int numberSamples,
-			 float outputRate, FILE *outputFile)
+void writeAiffFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile)
 {
     unsigned char sampleFramesPerSecond[10];
     int soundDataSize = channels * numberSamples * sizeof(short);
@@ -226,8 +240,7 @@ void writeAiffFileHeader(int channels, long int numberSamples,
 *
 ******************************************************************************/
 
-void writeWaveFileHeader(int channels, long int numberSamples,
-			 float outputRate, FILE *outputFile)
+void writeWaveFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile)
 {
     int soundDataSize = channels * numberSamples * sizeof(short);
     int dataChunkSize = soundDataSize;
@@ -294,8 +307,7 @@ void writeWaveFileHeader(int channels, long int numberSamples,
 *
 ******************************************************************************/
 
-void writeSamplesMonoMsb(FILE *tempFile, long int numberSamples,
-			 double scale, FILE *outputFile)
+void writeSamplesMonoMsb(FILE *tempFile, long int numberSamples, double scale, FILE *outputFile)
 {
     long int i;
 
@@ -330,8 +342,7 @@ void writeSamplesMonoMsb(FILE *tempFile, long int numberSamples,
 *
 ******************************************************************************/
 
-void writeSamplesMonoLsb(FILE *tempFile, long int numberSamples,
-			 double scale, FILE *outputFile)
+void writeSamplesMonoLsb(FILE *tempFile, long int numberSamples, double scale, FILE *outputFile)
 {
     long int i;
 
@@ -366,9 +377,7 @@ void writeSamplesMonoLsb(FILE *tempFile, long int numberSamples,
 *
 ******************************************************************************/
 
-void writeSamplesStereoMsb(FILE *tempFile, long int numberSamples,
-			   double leftScale, double rightScale,
-			   FILE *outputFile)
+void writeSamplesStereoMsb(FILE *tempFile, long int numberSamples, double leftScale, double rightScale, FILE *outputFile)
 {
     long int i;
 
@@ -404,9 +413,7 @@ void writeSamplesStereoMsb(FILE *tempFile, long int numberSamples,
 *
 ******************************************************************************/
 
-void writeSamplesStereoLsb(FILE *tempFile, long int numberSamples,
-			   double leftScale, double rightScale,
-			   FILE *outputFile)
+void writeSamplesStereoLsb(FILE *tempFile, long int numberSamples, double leftScale, double rightScale, FILE *outputFile)
 {
     long int i;
 
