@@ -2,6 +2,7 @@
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 @class EventList, MMIntonationPoint;
+@class MAIntonationScaleView;
 
 /*===========================================================================
 
@@ -23,6 +24,8 @@ extern NSString *MAIntonationViewSelectionDidChangeNotification;
     NSTextFieldCell *postureTextFieldCell;
     NSTextFieldCell *ruleIndexTextFieldCell;
     NSTextFieldCell *ruleDurationTextFieldCell;
+
+    MAIntonationScaleView *scaleView;
 
     NSFont *timesFont;
     NSFont *timesFontSmall;
@@ -46,6 +49,8 @@ extern NSString *MAIntonationViewSelectionDidChangeNotification;
 
 - (id)initWithFrame:(NSRect)frameRect;
 - (void)dealloc;
+
+- (void)setScaleView:(MAIntonationScaleView *)newScaleView;
 
 - (BOOL)acceptsFirstResponder;
 
@@ -97,5 +102,7 @@ extern NSString *MAIntonationViewSelectionDidChangeNotification;
 - (NSRect)rectFormedByPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
 
 - (void)intonationPointDidChange:(NSNotification *)aNotification;
+
+- (void)setFrame:(NSRect)newFrame;
 
 @end

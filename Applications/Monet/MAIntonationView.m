@@ -8,6 +8,7 @@
 #import "Event.h"
 #import "EventList.h"
 #import "GSXMLFunctions.h"
+#import "MAIntonationScaleView.h"
 #import "MMIntonationPoint.h"
 #import "MMPosture.h"
 #import "MonetList.h"
@@ -76,12 +77,28 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     [ruleIndexTextFieldCell release];
     [ruleDurationTextFieldCell release];
 
+    [scaleView release];
     [timesFont release];
     [timesFontSmall release];
     [eventList release];
     [selectedPoints release];
 
     [super dealloc];
+}
+
+- (void)setScaleView:(MAIntonationScaleView *)newScaleView;
+{
+    NSLog(@"%s, scaleView: %p, newScaleView: %p", _cmd, scaleView, newScaleView);
+    if (newScaleView == scaleView)
+        return;
+
+    [scaleView release];
+    scaleView = [newScaleView retain];
+
+    [scaleView setSectionCount:SECTION_COUNT];
+    [scaleView setSectionHeight:[self sectionHeight]];
+    [scaleView setZeroSection:ZERO_SECTION];
+    [scaleView setYOrigin:[self graphOrigin].y];
 }
 
 - (BOOL)acceptsFirstResponder;
@@ -202,7 +219,8 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     // Draw border around graph
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:2];
-    [bezierPath appendBezierPathWithRect:NSMakeRect(graphOrigin.x, graphOrigin.y, bounds.size.width - 2, SECTION_COUNT * sectionHeight)];
+    //[bezierPath appendBezierPathWithRect:NSMakeRect(graphOrigin.x, graphOrigin.y, bounds.size.width - 2, SECTION_COUNT * sectionHeight)];
+    [bezierPath appendBezierPathWithRect:NSMakeRect(graphOrigin.x - 2, graphOrigin.y, bounds.size.width, SECTION_COUNT * sectionHeight)];
 
     [[NSColor blackColor] set];
     [bezierPath stroke];
@@ -214,7 +232,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     for (index = 0; index < SECTION_COUNT; index++) {
         NSPoint aPoint;
 
-        aPoint.x = 2;
+        aPoint.x = 0.0;
         aPoint.y = rint(graphOrigin.y + index * sectionHeight) + 0.5;
         [bezierPath moveToPoint:aPoint];
 
@@ -232,7 +250,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     {
         NSPoint aPoint;
 
-        aPoint.x = 2;
+        aPoint.x = 0.0;
         aPoint.y = rint(graphOrigin.y + ZERO_SECTION * sectionHeight) + 0.5;
         [bezierPath moveToPoint:aPoint];
 
@@ -1021,6 +1039,17 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 - (void)intonationPointDidChange:(NSNotification *)aNotification;
 {
     [self setNeedsDisplay:YES];
+}
+
+- (void)setFrame:(NSRect)newFrame;
+{
+    NSLog(@" > %s", _cmd);
+    [super setFrame:newFrame];
+
+    NSLog(@"scaleView: %p", scaleView);
+    [scaleView setSectionHeight:[self sectionHeight]];
+    [scaleView setYOrigin:[self graphOrigin].y];
+    NSLog(@"<  %s", _cmd);
 }
 
 @end

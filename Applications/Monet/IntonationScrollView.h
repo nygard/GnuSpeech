@@ -18,9 +18,11 @@ History:
 
 ===========================================================================*/
 
+@class MAIntonationScaleView;
+
 @interface IntonationScrollView : NSScrollView
 {
-    IBOutlet NSView *scaleView; // TODO (2004-03-15): Find specific subclass that is used.
+    IBOutlet MAIntonationScaleView *scaleView;
 }
 
 - (id)initWithFrame:(NSRect)frameRect;

@@ -2,6 +2,7 @@
 
 #import <AppKit/AppKit.h>
 #import "MAIntonationView.h"
+#import "MAIntonationScaleView.h"
 
 @implementation IntonationScrollView
 
@@ -11,6 +12,7 @@
 - (id)initWithFrame:(NSRect)frameRect;
 {
     //NSRect scaleRect, clipRect;
+    NSRect scaleFrame;
     MAIntonationView *aView;
 
     NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
@@ -22,16 +24,17 @@
     [self setBorderType:NSLineBorder];
     [self setHasHorizontalScroller:YES];
 
-    /* alloc and init a scale view instance.  Add to subView List */
-    //scaleRect = NSZeroRect;
-    //scaleView = [[FFTScaleView alloc] initFrame:&scaleRect];
-    //[self addSubview:scaleView];
-
     /* alloc and init a intonation view instance.  Make Doc View */
     //clipRect = NSZeroRect;
     // TODO (2004-03-31): See if we can remove this code:
     aView = [[MAIntonationView alloc] initWithFrame:frameRect];
     [self setDocumentView:aView];
+
+    scaleFrame = NSMakeRect(0, 0, SCALE_WIDTH, frameRect.size.height);
+    scaleView = [[MAIntonationScaleView alloc] initWithFrame:scaleFrame];
+    [self addSubview:scaleView];
+    [aView setScaleView:scaleView];
+
     [aView release];
 
     [self setBackgroundColor:[NSColor whiteColor]];
@@ -39,6 +42,29 @@
     NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 
     return self;
+}
+
+- (void)dealloc;
+{
+    [scaleView release];
+
+    [super dealloc];
+}
+
+- (void)awakeFromNib;
+{
+    NSRect frameRect, scaleFrame;
+
+    NSLog(@" > %s", _cmd);
+
+    frameRect = [self frame];
+    scaleFrame = NSMakeRect(0, 0, SCALE_WIDTH, frameRect.size.height);
+    scaleView = [[MAIntonationScaleView alloc] initWithFrame:scaleFrame];
+    [self addSubview:scaleView];
+
+    [[self documentView] setScaleView:scaleView];
+
+    NSLog(@"<  %s", _cmd);
 }
 
 /*===========================================================================
@@ -56,6 +82,7 @@
     contentFrame = [[self contentView] frame];
     NSDivideRect(contentFrame, &scaleFrame, &contentFrame, SCALE_WIDTH, NSMinXEdge);
     [[self contentView] setFrame:contentFrame];
+    [scaleView setFrame:scaleFrame];
 }
 
 /*===========================================================================
