@@ -438,11 +438,8 @@
     [self _takeIntonationParametersFromUI];
     [eventList setIntonationParameters:intonationParameters];
 
-    // This adds events to the EventList
-    [eventList parsePhoneString:[stringTextField stringValue]];
-
-    [eventList generateEvents];
-
+    [eventList parsePhoneString:[stringTextField stringValue]]; // This creates the tone groups, feet.
+    [eventList generateEvents]; // This adds events to the EventList.
     [eventList generateIntonationPoints];
     [self continueSynthesisToSoundFile:shouldSaveToSoundFile];
 }

@@ -311,6 +311,10 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
     return phones[phoneIndex].phone;
 }
 
+//
+// Rules
+//
+
 - (struct _rule *)getRuleAtIndex:(int)ruleIndex;
 {
     if (ruleIndex > currentRule)
@@ -441,6 +445,10 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
     feet[footCount - 1].tempo = tempo;
 }
 
+//
+// Postures
+//
+
 - (void)newPhoneWithObject:(MMPosture *)anObject;
 {
     phoneTempo[postureCount] = 1.0;
@@ -489,6 +497,10 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
 
     phones[postureCount - 1].syllable = 1;
 }
+
+//
+// Events
+//
 
 - (NSArray *)events;
 {
@@ -563,6 +575,10 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
     [lastEvent setValue:value ofIndex:number];
     [lastEvent setFlag:YES];
 }
+
+//
+// Other
+//
 
 - (void)generateOutput;
 {
@@ -1073,6 +1089,10 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
 
     return 0;
 }
+
+//
+// Debugging
+//
 
 - (NSString *)description;
 {

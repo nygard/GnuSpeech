@@ -171,6 +171,8 @@ extern NSString *EventListDidRemoveIntonationPoint;
 - (void)setIntonationParameters:(struct _intonationParameters)newIntonationParameters;
 
 - (MMPosture *)getPhoneAtIndex:(int)phoneIndex;
+
+// Rules
 - (struct _rule *)getRuleAtIndex:(int)ruleIndex;
 - (NSString *)ruleDescriptionAtIndex:(int)ruleIndex;
 - (double)getBeatAtIndex:(int)ruleIndex;
@@ -181,12 +183,14 @@ extern NSString *EventListDidRemoveIntonationPoint;
 - (void)newToneGroup;
 - (void)setCurrentToneGroupType:(int)type;
 
+// Feet
 - (void)endCurrentFoot;
 - (void)newFoot;
 - (void)setCurrentFootMarked;
 - (void)setCurrentFootLast;
 - (void)setCurrentFootTempo:(double)tempo;
 
+// Postures
 - (void)newPhoneWithObject:(MMPosture *)anObject;
 - (void)replaceCurrentPhoneWith:(MMPosture *)anObject;
 - (void)setCurrentPhoneTempo:(double)tempo;
@@ -194,12 +198,14 @@ extern NSString *EventListDidRemoveIntonationPoint;
 - (void)setCurrentPhoneSyllable;
 
 
+// Events
 - (NSArray *)events;
 
 - (Event *)eventAtTimeOffset:(double)time;
 - (Event *)insertEvent:(int)number atTimeOffset:(double)time withValue:(double)value;
 - (void)finalEvent:(int)number withValue:(double)value;
 
+// Other
 - (void)generateOutput;
 - (void)generateEvents;
 
@@ -210,6 +216,7 @@ extern NSString *EventListDidRemoveIntonationPoint;
 
 - (int)ruleIndexForPostureAtIndex:(int)postureIndex;
 
+// Debugging
 - (NSString *)description;
 - (void)printDataStructures:(NSString *)comment;
 
