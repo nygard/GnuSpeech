@@ -112,6 +112,7 @@
 
 - (void)setSmoothing:(NSButton *)smoothingSwitch;
 {
+    NSLog(@"%s, old: %p, new: %p", _cmd, smoothing, smoothingSwitch);
     if (smoothingSwitch == smoothing)
         return;
 

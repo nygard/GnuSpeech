@@ -45,8 +45,6 @@
 {
     NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
 
-    [[self documentView] applicationDidFinishLaunching:notification];
-
     [[self documentView] setNewController:controller];
     [[self documentView] setUtterance:utterance];
     [[self documentView] setSmoothing:smoothing];

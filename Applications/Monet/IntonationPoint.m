@@ -99,12 +99,12 @@
     double time;
 
     time = [eventList getBeatAtIndex:ruleIndex];
-    return time+offsetTime;
+    return time + offsetTime;
 }
 
 - (double)beatTime;
 {
-    return [eventList getBeatAtIndex: ruleIndex];
+    return [eventList getBeatAtIndex:ruleIndex];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder;

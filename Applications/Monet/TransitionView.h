@@ -59,8 +59,6 @@ extern NSString *TransitionViewSelectionDidChangeNotification;
     id nonretained_delegate;
 }
 
-+ (void)initialize;
-
 - (id)initWithFrame:(NSRect)frameRect;
 - (void)dealloc;
 

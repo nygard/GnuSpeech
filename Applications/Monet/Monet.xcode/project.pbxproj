@@ -5,19 +5,6 @@
 	};
 	objectVersion = 39;
 	objects = {
-		01320E020600141A0065A25A = {
-			isa = PBXFileReference;
-			lastKnownFileType = image.tiff;
-			path = selectionBox.tiff;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		01320E030600141A0065A25A = {
-			fileRef = 01320E020600141A0065A25A;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		01710CFB060FAE1B0059DE9A = {
 			children = (
 				01710CFC060FAE1B0059DE9A,
@@ -2034,54 +2021,11 @@
 			settings = {
 			};
 		};
-		01B2014005F82F3800C1F65D = {
-			isa = PBXFileReference;
-			lastKnownFileType = image.tiff;
-			path = dotMarker.tiff;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		01B2014105F82F3800C1F65D = {
-			isa = PBXFileReference;
-			lastKnownFileType = image.tiff;
-			path = squareMarker.tiff;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		01B2014205F82F3800C1F65D = {
-			isa = PBXFileReference;
-			lastKnownFileType = image.tiff;
-			path = triangleMarker.tiff;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		01B2014305F82F3800C1F65D = {
-			fileRef = 01B2014005F82F3800C1F65D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		01B2014405F82F3800C1F65D = {
-			fileRef = 01B2014105F82F3800C1F65D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		01B2014505F82F3800C1F65D = {
-			fileRef = 01B2014205F82F3800C1F65D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		01B2014A05F82F3D00C1F65D = {
 			children = (
 				01B2016805F8305A00C1F65D,
 				01848D4D060AA8B0005E9B67,
 				01B2015505F82F9B00C1F65D,
-				01B2014005F82F3800C1F65D,
-				01B2014105F82F3800C1F65D,
-				01B2014205F82F3800C1F65D,
-				01320E020600141A0065A25A,
 				018F79D806064E4600150223,
 				018F79D906064E4600150223,
 				018F79DA06064E4600150223,
@@ -2920,13 +2864,9 @@
 				8D11072A0486CEB800E47090,
 				8D11072B0486CEB800E47090,
 				01B2003E05F6E11300C1F65D,
-				01B2014305F82F3800C1F65D,
-				01B2014405F82F3800C1F65D,
-				01B2014505F82F3800C1F65D,
 				01B2015605F82F9B00C1F65D,
 				01B2016905F8305A00C1F65D,
 				0175901D05FA74A1004632CC,
-				01320E030600141A0065A25A,
 				018F79DB06064E4600150223,
 				018F79DC06064E4600150223,
 				018F79DD06064E4600150223,

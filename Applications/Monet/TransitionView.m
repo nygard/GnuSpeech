@@ -36,34 +36,6 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 
 @implementation TransitionView
 
-static NSImage *_dotMarker = nil;
-static NSImage *_squareMarker = nil;
-static NSImage *_triangleMarker = nil;
-static NSImage *_selectionBox = nil;
-
-+ (void)initialize;
-{
-    NSBundle *mainBundle;
-    NSString *path;
-
-    mainBundle = [NSBundle mainBundle];
-    path = [mainBundle pathForResource:@"dotMarker" ofType:@"tiff"];
-    //NSLog(@"path: %@", path);
-    _dotMarker = [[NSImage alloc] initWithContentsOfFile:path];
-
-    path = [mainBundle pathForResource:@"squareMarker" ofType:@"tiff"];
-    //NSLog(@"path: %@", path);
-    _squareMarker = [[NSImage alloc] initWithContentsOfFile:path];
-
-    path = [mainBundle pathForResource:@"triangleMarker" ofType:@"tiff"];
-    //NSLog(@"path: %@", path);
-    _triangleMarker = [[NSImage alloc] initWithContentsOfFile:path];
-
-    path = [mainBundle pathForResource:@"selectionBox" ofType:@"tiff"];
-    //NSLog(@"path: %@", path);
-    _selectionBox = [[NSImage alloc] initWithContentsOfFile:path];
-}
-
 // The size was originally 700 x 380
 - (id)initWithFrame:(NSRect)frameRect;
 {

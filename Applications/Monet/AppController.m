@@ -152,6 +152,7 @@
     //[model generateXML:@"DefaultPrototypes"];
 
     [eventListView applicationDidFinishLaunching:aNotification]; // not connected yet
+    [intonationView applicationDidFinishLaunching:aNotification]; // not connected yet
 
     [stringParser applicationDidFinishLaunching:aNotification];
 
