@@ -51,6 +51,10 @@
 
 - (id)objectAtIndex:(unsigned)index;
 {
+    if (index >= [ilist count]) {
+        NSLog(@"Warning: index out of range in %s, returning nil for compatibility with List from NS3.3", _cmd);
+        return nil;
+    }
     return [ilist objectAtIndex:index];
 }
 
@@ -62,6 +66,10 @@
 
 - (void)addObject:(id)anObject;
 {
+    if (anObject == nil) {
+        NSLog(@"Warning: trying to insert nil into MonetList.  Ignoring, for compatibility with List from NS3.3");
+        return;
+    }
     [ilist addObject:anObject];
 }
 
