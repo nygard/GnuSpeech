@@ -82,6 +82,7 @@
     int tempIndex;
 
     str = [[sender selectedCell] title];
+    NSLog(@"%s, str: %@", _cmd, str);
     if ([str hasPrefix:@"C"]) {
         [popUpList setTitle:@"Comment"];
         [mainInspector setGeneralView:commentView];
@@ -286,6 +287,7 @@
 - (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;
 {
     int index;
+    NSLog(@"%s, column: %d", _cmd, column);
 
     if (sender == mainBrowser) {
         switch (currentBrowser) {
