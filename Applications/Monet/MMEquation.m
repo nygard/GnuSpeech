@@ -43,6 +43,16 @@
     [super dealloc];
 }
 
+- (NamedList *)group;
+{
+    return nonretained_group;
+}
+
+- (void)setGroup:(NamedList *)newGroup;
+{
+    nonretained_group = newGroup;
+}
+
 - (NSString *)name;
 {
     return name;

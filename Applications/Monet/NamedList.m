@@ -69,6 +69,7 @@
 {
     unsigned archivedVersion;
     char *c_name, *c_comment;
+    unsigned int count, index;
 
     if ([super initWithCoder:aDecoder] == nil)
         return nil;
@@ -80,6 +81,15 @@
     [aDecoder decodeValuesOfObjCTypes:"**", &c_name, &c_comment];
     [self setName:[NSString stringWithASCIICString:c_name]];
     [self setComment:[NSString stringWithASCIICString:c_comment]];
+
+    count = [self count];
+    for (index = 0; index < count; index++) {
+        id anObject;
+
+        anObject = [self objectAtIndex:index];
+        if ([anObject respondsToSelector:@selector(setGroup:)] == YES)
+            [anObject setGroup:self];
+    }
 
     //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
     return self;
@@ -125,5 +135,30 @@
     [resultString indentToLevel:level];
     [resultString appendFormat:@"</%@>\n", elementName];
 }
+
+- (void)addObject:(id)anObject;
+{
+    [super addObject:anObject];
+
+    if ([anObject respondsToSelector:@selector(setGroup:)] == YES)
+        [anObject setGroup:self];
+}
+
+- (void)insertObject:(id)anObject atIndex:(unsigned)index;
+{
+    [super insertObject:anObject atIndex:index];
+
+    if ([anObject respondsToSelector:@selector(setGroup:)] == YES)
+        [anObject setGroup:self];
+}
+
+- (void)replaceObjectAtIndex:(unsigned)index withObject:(id)anObject;
+{
+    [super replaceObjectAtIndex:index withObject:anObject];
+
+    if ([anObject respondsToSelector:@selector(setGroup:)] == YES)
+        [anObject setGroup:self];
+}
+
 
 @end

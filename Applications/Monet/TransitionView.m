@@ -1228,16 +1228,16 @@ static NSImage *_selectionBox = nil;
 
 - (void)setTransition:(MMTransition *)newTransition;
 {
-    if (newTransition == currentTemplate) {
-        return;
-    }
 
     [[self window] endEditingFor:nil];
     [selectedPoints removeAllObjects];
     [[controller inspector] inspectPoint:nil];
 
-    [currentTemplate release];
-    currentTemplate = [newTransition retain];
+    // In case we've changed the type of the transition
+    if (newTransition != currentTemplate) {
+        [currentTemplate release];
+        currentTemplate = [newTransition retain];
+    }
 
     switch ([currentTemplate type]) {
       case DIPHONE:

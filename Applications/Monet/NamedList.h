@@ -9,6 +9,12 @@
 =============================================================================
 */
 
+@class NamedList;
+
+@protocol MSetGroupProtocol
+- (void)setGroup:(NamedList *)newGroup;
+@end
+
 @interface NamedList : MonetList
 {
     NSString *name;
@@ -31,5 +37,9 @@
 - (NSString *)description;
 
 - (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(int)level;
+
+- (void)addObject:(id)anObject;
+- (void)insertObject:(id)anObject atIndex:(unsigned)index;
+- (void)replaceObjectAtIndex:(unsigned)index withObject:(id)anObject;
 
 @end

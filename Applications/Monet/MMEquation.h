@@ -1,6 +1,6 @@
 #import <Foundation/NSObject.h>
 
-@class FormulaExpression;
+@class FormulaExpression, NamedList;
 
 /*===========================================================================
 
@@ -13,6 +13,8 @@
 
 @interface MMEquation : NSObject
 {
+    NamedList *nonretained_group;
+
     NSString *name;
     NSString *comment;
     FormulaExpression *expression;
@@ -24,6 +26,9 @@
 - (id)init;
 - (id)initWithName:(NSString *)newName;
 - (void)dealloc;
+
+- (NamedList *)group;
+- (void)setGroup:(NamedList *)newGroup;
 
 - (NSString *)name;
 - (void)setName:(NSString *)newName;

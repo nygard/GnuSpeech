@@ -1,6 +1,6 @@
 #import <Foundation/NSObject.h>
 
-@class MonetList, MMEquation;
+@class MonetList, MMEquation, NamedList;
 
 /*===========================================================================
 
@@ -17,6 +17,8 @@
 
 @interface MMTransition : NSObject
 {
+    NamedList *nonretained_group;
+
     NSString *name;
     NSString *comment;
     int type;
@@ -26,6 +28,9 @@
 - (id)init;
 - (id)initWithName:(NSString *)newName;
 - (void)dealloc;
+
+- (NamedList *)group;
+- (void)setGroup:(NamedList *)newGroup;
 
 - (NSString *)name;
 - (void)setName:(NSString *)newName;

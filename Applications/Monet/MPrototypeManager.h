@@ -1,5 +1,5 @@
 //
-// $Id: MPrototypeManager.h,v 1.5 2004/03/22 22:57:25 nygard Exp $
+// $Id: MPrototypeManager.h,v 1.6 2004/03/23 01:21:36 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -15,18 +15,21 @@
 @interface MPrototypeManager : NSWindowController
 {
     IBOutlet NSOutlineView *equationOutlineView;
+    IBOutlet NSButtonCell *addEquationButtonCell;
     IBOutlet NSButtonCell *removeEquationButtonCell;
     IBOutlet NSTextView *equationTextView;
     IBOutlet NSTextView *equationParserMessagesTextView;
     IBOutlet NSTextView *equationCommentTextView;
 
     IBOutlet NSOutlineView *transitionOutlineView;
+    IBOutlet NSButtonCell *addTransitionButtonCell;
     IBOutlet NSButtonCell *removeTransitionButtonCell;
     IBOutlet NSMatrix *transitionTypeMatrix;
     IBOutlet TransitionView *miniTransitionView;
     IBOutlet NSTextView *transitionCommentTextView;
 
     IBOutlet NSOutlineView *specialTransitionOutlineView;
+    IBOutlet NSButtonCell *addSpecialTransitionButtonCell;
     IBOutlet NSButtonCell *removeSpecialTransitionButtonCell;
     IBOutlet NSMatrix *specialTransitionTypeMatrix;
     IBOutlet SpecialView *miniSpecialTransitionView;

@@ -149,6 +149,7 @@
         if (comment == nil)
             comment = @"";
         [equationCommentTextView setString:comment];
+        [addEquationButtonCell setEnabled:YES];
         [removeEquationButtonCell setEnabled:YES];
 
         if ([selectedEquationOrGroup isKindOfClass:[MMEquation class]] == YES) {
@@ -170,6 +171,8 @@
         [equationTextView setString:@""];
         [equationCommentTextView setEditable:NO];
         [equationCommentTextView setString:@""];
+
+        [addEquationButtonCell setEnabled:NO];
         [removeEquationButtonCell setEnabled:NO];
     }
 }
@@ -186,6 +189,7 @@
         if (comment == nil)
             comment = @"";
         [transitionCommentTextView setString:comment];
+        [addTransitionButtonCell setEnabled:YES];
         [removeTransitionButtonCell setEnabled:YES];
 
         if ([selectedTransitionOrGroup isKindOfClass:[MMTransition class]] == YES) {
@@ -200,6 +204,7 @@
     } else {
         [transitionCommentTextView setEditable:NO];
         [transitionCommentTextView setString:@""];
+        [addTransitionButtonCell setEnabled:NO];
         [removeTransitionButtonCell setEnabled:NO];
 
         [transitionTypeMatrix setEnabled:NO];
@@ -219,6 +224,7 @@
         if (comment == nil)
             comment = @"";
         [specialTransitionCommentTextView setString:comment];
+        [addSpecialTransitionButtonCell setEnabled:YES];
         [removeSpecialTransitionButtonCell setEnabled:YES];
 
         if ([selectedSpecialTransitionOrGroup isKindOfClass:[MMTransition class]] == YES) {
@@ -233,6 +239,7 @@
     } else {
         [specialTransitionCommentTextView setEditable:NO];
         [specialTransitionCommentTextView setString:@""];
+        [addSpecialTransitionButtonCell setEnabled:NO];
         [removeSpecialTransitionButtonCell setEnabled:NO];
 
         [specialTransitionTypeMatrix setEnabled:NO];
@@ -281,7 +288,38 @@
 
 - (IBAction)addEquation:(id)sender;
 {
+    id selectedItem;
+    NamedList *targetGroup;
+
     NSLog(@" > %s", _cmd);
+
+    selectedItem = [equationOutlineView selectedItem];
+    if ([selectedItem isKindOfClass:[NamedList class]] == YES) {
+        targetGroup = selectedItem;
+    } else if ([selectedItem isKindOfClass:[MMEquation class]] == YES) {
+        targetGroup = [selectedItem group];
+    } else
+        targetGroup = nil;
+
+    NSLog(@"selectedItem: %p, targetGroup: %p", selectedItem, targetGroup);
+
+    if (targetGroup != nil) {
+        MMEquation *newEquation;
+        int index;
+
+        // TODO (2004-03-22): Need to do something to ensure unique names.
+        newEquation = [[MMEquation alloc] initWithName:@"Untitled"];
+        [targetGroup addObject:newEquation];
+        [equationOutlineView reloadItem:targetGroup reloadChildren:YES];
+
+        index = [equationOutlineView rowForItem:newEquation];
+        [newEquation release];
+
+        // The row needs to be selected before we start editing it.
+        [equationOutlineView selectRow:index byExtendingSelection:NO];
+        [equationOutlineView editColumn:[equationOutlineView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
+    }
+
     NSLog(@"<  %s", _cmd);
 }
 
@@ -343,7 +381,36 @@
 
 - (IBAction)addTransition:(id)sender;
 {
+    id selectedItem;
+    NamedList *targetGroup;
+
     NSLog(@" > %s", _cmd);
+
+    selectedItem = [transitionOutlineView selectedItem];
+    if ([selectedItem isKindOfClass:[NamedList class]] == YES) {
+        targetGroup = selectedItem;
+    } else if ([selectedItem isKindOfClass:[MMTransition class]] == YES) {
+        targetGroup = [selectedItem group];
+    } else
+        targetGroup = nil;
+
+    if (targetGroup != nil) {
+        MMTransition *newTransition;
+        int index;
+
+        // TODO (2004-03-22): Need to do something to ensure unique names.
+        newTransition = [[MMTransition alloc] initWithName:@"Untitled"];
+        [targetGroup addObject:newTransition];
+        [transitionOutlineView reloadItem:targetGroup reloadChildren:YES];
+
+        index = [transitionOutlineView rowForItem:newTransition];
+        [newTransition release];
+
+        // The row needs to be selected before we start editing it.
+        [transitionOutlineView selectRow:index byExtendingSelection:NO];
+        [transitionOutlineView editColumn:[transitionOutlineView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
+    }
+
     NSLog(@"<  %s", _cmd);
 }
 
@@ -357,6 +424,7 @@
 {
     NSLog(@" > %s", _cmd);
     [[self selectedTransition] setType:[[transitionTypeMatrix selectedCell] tag]];
+    [self  _updateTransitionDetails];
     NSLog(@"<  %s", _cmd);
 }
 
@@ -394,7 +462,36 @@
 
 - (IBAction)addSpecialTransition:(id)sender;
 {
+    id selectedItem;
+    NamedList *targetGroup;
+
     NSLog(@" > %s", _cmd);
+
+    selectedItem = [specialTransitionOutlineView selectedItem];
+    if ([selectedItem isKindOfClass:[NamedList class]] == YES) {
+        targetGroup = selectedItem;
+    } else if ([selectedItem isKindOfClass:[MMTransition class]] == YES) {
+        targetGroup = [selectedItem group];
+    } else
+        targetGroup = nil;
+
+    if (targetGroup != nil) {
+        MMTransition *newTransition;
+        int index;
+
+        // TODO (2004-03-22): Need to do something to ensure unique names.
+        newTransition = [[MMTransition alloc] initWithName:@"Untitled"];
+        [targetGroup addObject:newTransition];
+        [specialTransitionOutlineView reloadItem:targetGroup reloadChildren:YES];
+
+        index = [specialTransitionOutlineView rowForItem:newTransition];
+        [newTransition release];
+
+        // The row needs to be selected before we start editing it.
+        [specialTransitionOutlineView selectRow:index byExtendingSelection:NO];
+        [specialTransitionOutlineView editColumn:[specialTransitionOutlineView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
+    }
+
     NSLog(@"<  %s", _cmd);
 }
 
@@ -408,6 +505,7 @@
 {
     NSLog(@" > %s", _cmd);
     [[self selectedSpecialTransition] setType:[[specialTransitionTypeMatrix selectedCell] tag]];
+    [self _updateSpecialTransitionDetails];
     NSLog(@"<  %s", _cmd);
 }
 
@@ -634,7 +732,6 @@
 
         [newStringValue release];
     }
-
 
     NSLog(@"<  %s", _cmd);
 }

@@ -22,11 +22,14 @@
             CLASS = MPrototypeManager; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                addEquationButtonCell = NSButtonCell; 
+                addSpecialTransitionButtonCell = NSButtonCell; 
+                addTransitionButtonCell = NSButtonCell; 
                 equationCommentTextView = NSTextView; 
                 equationOutlineView = NSOutlineView; 
                 equationParserMessagesTextView = NSTextView; 
                 equationTextView = NSTextView; 
-                miniSpecialTransitionView = NSView; 
+                miniSpecialTransitionView = SpecialView; 
                 miniTransitionView = TransitionView; 
                 removeEquationButtonCell = NSButtonCell; 
                 removeSpecialTransitionButtonCell = NSButtonCell; 
