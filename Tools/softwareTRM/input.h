@@ -15,13 +15,6 @@ extern INPUT *inputHead;
 
 int parseInputFile(const char *inputFile);
 
-void addInput(double glotPitch, double glotVol, double aspVol, double fricVol,
-	      double fricPos, double fricCF, double fricBW, double *radius,
-	      double velum);
-INPUT *newInputTable(void);
-
-
-
 double glotPitchAt(INPUT *ptr);
 double glotVolAt(INPUT *ptr);
 double *radiiAt(INPUT *ptr);

@@ -8,7 +8,12 @@
 INPUT *inputHead = NULL;
 static INPUT *inputTail = NULL;
 
-int inputTableLength(INPUT *ptr);
+
+static void addInput(double glotPitch, double glotVol, double aspVol, double fricVol,
+                     double fricPos, double fricCF, double fricBW, double *radius,
+                     double velum);
+static INPUT *newInputTable(void);
+static int inputTableLength(INPUT *ptr);
 
 /******************************************************************************
 *
