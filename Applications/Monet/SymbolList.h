@@ -16,6 +16,5 @@
 }
 
 - (MMSymbol *)findSymbol:(NSString *)searchSymbol;
-- (int)findSymbolIndex:(NSString *)searchSymbol;
 
 @end

@@ -32,20 +32,4 @@
     return nil;
 }
 
-- (int)findSymbolIndex:(NSString *)searchSymbol;
-{
-    int count, index;
-
-    count = [self count];
-    for (index = 0; index < count; index++) {
-        MMSymbol *aSymbol;
-
-        aSymbol = [self objectAtIndex:index];
-        if ([[aSymbol symbol] isEqual:searchSymbol] == YES)
-            return index;
-    }
-
-    return -1;
-}
-
 @end

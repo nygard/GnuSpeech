@@ -375,6 +375,22 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     }
 }
 
+- (MMSymbol *)symbolWithName:(NSString *)aName;
+{
+    unsigned int count, index;
+
+    count = [symbols count];
+    for (index = 0; index < count; index++) {
+        MMSymbol *aSymbol;
+
+        aSymbol = [symbols objectAtIndex:index];
+        if ([[aSymbol symbol] isEqual:aName] == YES)
+            return aSymbol;
+    }
+
+    return nil;
+}
+
 //
 // Postures
 //
@@ -961,19 +977,18 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     MMTarget *tempTarget;
     char tempSymbol[SYMBOL_LENGTH_MAX + 1];
     NSString *str;
+    MMSymbol *durationSymbol;
 
-    symbolIndex = [symbols findSymbolIndex:@"duration"];
-
-    if (symbolIndex == -1) {
+    durationSymbol = [self symbolWithName:@"duration"];
+    if (durationSymbol == nil) {
         MMSymbol *newSymbol;
 
         newSymbol = [[MMSymbol alloc] initWithSymbol:@"duration"];
         [self addSymbol:newSymbol];
+        symbolIndex = [symbols indexOfObject:newSymbol];
         [newSymbol release];
-
-        symbolIndex = [symbols findSymbolIndex:@"duration"];
-        [postures addSymbol];
-    }
+    } else
+        symbolIndex = [symbols indexOfObject:durationSymbol];
 
     /* READ # OF PHONES AND TARGETS FROM FILE  */
     fread(&phoneCount, sizeof(int), 1, fp);

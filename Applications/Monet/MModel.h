@@ -1,5 +1,5 @@
 //
-// $Id: MModel.h,v 1.20 2004/03/25 01:28:29 nygard Exp $
+// $Id: MModel.h,v 1.21 2004/03/25 04:28:52 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -66,6 +66,7 @@ extern NSString *MCategoryInUseException;
 - (void)addSymbol:(MMSymbol *)newSymbol;
 - (void)_uniqueNameForSymbol:(MMSymbol *)newSymbol;
 - (void)removeSymbol:(MMSymbol *)aSymbol;
+- (MMSymbol *)symbolWithName:(NSString *)aName;
 
 // Postures
 - (void)addPosture:(MMPosture *)newPosture;
