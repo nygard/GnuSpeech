@@ -7,9 +7,8 @@
 /*  VARIABLES FOR INPUT TABLE STORAGE  */
 INPUT *inputHead = NULL;
 static INPUT *inputTail = NULL;
-int numberInputTables = 0;
 
-
+int inputTableLength(INPUT *ptr);
 
 /******************************************************************************
 *
@@ -34,6 +33,7 @@ int parseInputFile(const char *inputFile)
     int i;
     FILE *fopen(), *fp;
     char line[128];
+    int numberInputTables = 0;
 
 
     /*  OPEN THE INPUT FILE  */
@@ -228,6 +228,7 @@ int parseInputFile(const char *inputFile)
 	/*  ADD THE PARAMETERS TO THE INPUT LIST  */
 	addInput(glotPitch, glotVol, aspVol, fricVol, fricPos, fricCF,
 		 fricBW, radius, velum);
+        numberInputTables++;
     }
 
     /*  DOUBLE UP THE LAST INPUT TABLE, TO HELP INTERPOLATION CALCULATIONS  */
@@ -303,9 +304,6 @@ void addInput(double glotPitch, double glotVol, double aspVol, double fricVol,
 
     /*  ADD VELUM RADIUS  */
     inputTail->parameters.velum = velum;
-
-    /*  INCREMENT NUMBER OF TABLES  */
-    numberInputTables++;
 }
 
 
@@ -419,4 +417,54 @@ double fricBWAt(INPUT *ptr)
 	return ptr->parameters.fricBW;
 
     return 0.0;
+}
+
+int inputTableLength(INPUT *ptr)
+{
+    int count = 0;
+
+    while (ptr) {
+        count++;
+        ptr = ptr->next;
+    }
+
+    return count;
+}
+
+void printControlRateInputTable(void)
+{
+    INPUT *ptr;
+    int index;
+
+    /*  ECHO TABLE VALUES  */
+    printf("\n%-d control rate input tables:\n\n", inputTableLength(inputHead));
+
+    /*  HEADER  */
+    printf("glPitch");
+    printf("\tglotVol");
+    printf("\taspVol");
+    printf("\tfricVol");
+    printf("\tfricPos");
+    printf("\tfricCF");
+    printf("\tfricBW");
+    for (index = 0; index < TOTAL_REGIONS; index++)
+	printf("\tr%-d", index + 1);
+    printf("\tvelum\n");
+
+    /*  ACTUAL VALUES  */
+    ptr = inputHead;
+    while (ptr != NULL) {
+	printf("%.2f", glotPitchAt(ptr));
+	printf("\t%.2f", glotVolAt(ptr));
+	printf("\t%.2f", aspVolAt(ptr));
+	printf("\t%.2f", fricVolAt(ptr));
+	printf("\t%.2f", fricPosAt(ptr));
+	printf("\t%.2f", fricCFAt(ptr));
+	printf("\t%.2f", fricBWAt(ptr));
+	for (index = 0; index < TOTAL_REGIONS; index++)
+	    printf("\t%.2f", radiusAtRegion(ptr, index));
+	printf("\t%.2f\n", velumAt(ptr));
+        ptr = ptr->next;
+    }
+    printf("\n");
 }

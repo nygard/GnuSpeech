@@ -12,7 +12,6 @@ typedef struct _INPUT {
 } INPUT;
 
 extern INPUT *inputHead;
-extern int numberInputTables;
 
 int parseInputFile(const char *inputFile);
 
@@ -33,5 +32,7 @@ double fricVolAt(INPUT *ptr);
 double fricPosAt(INPUT *ptr);
 double fricCFAt(INPUT *ptr);
 double fricBWAt(INPUT *ptr);
+
+void printControlRateInputTable(void);
 
 #endif

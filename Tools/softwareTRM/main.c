@@ -41,7 +41,6 @@ void printInfo(char *inputFile);
 void printInfo(char *inputFile)
 {
     int i;
-    INPUT *ptr;
 
     /*  PRINT INPUT FILE NAME  */
     printf("input file:\t\t%s\n\n", inputFile);
@@ -106,39 +105,7 @@ void printInfo(char *inputFile)
 	printf("table[%-d] = %.4f\n", i, wavetable[i]);
 #endif
 
-    /*  ECHO TABLE VALUES  */
-    printf("\n%-d control rate input tables:\n\n", numberInputTables - 1);
-
-    /*  HEADER  */
-    printf("glPitch");
-    printf("\tglotVol");
-    printf("\taspVol");
-    printf("\tfricVol");
-    printf("\tfricPos");
-    printf("\tfricCF");
-    printf("\tfricBW");
-    for (i = 1; i <= TOTAL_REGIONS; i++)
-	printf("\tr%-d", i);
-    printf("\tvelum\n");
-
-    /*  ACTUAL VALUES  */
-    ptr = inputHead;
-    for (i = 0; i < numberInputTables - 1; i++) {
-	int j;
-
-	printf("%.2f", glotPitchAt(ptr));
-	printf("\t%.2f", glotVolAt(ptr));
-	printf("\t%.2f", aspVolAt(ptr));
-	printf("\t%.2f", fricVolAt(ptr));
-	printf("\t%.2f", fricPosAt(ptr));
-	printf("\t%.2f", fricCFAt(ptr));
-	printf("\t%.2f", fricBWAt(ptr));
-	for (j = 0; j < TOTAL_REGIONS; j++)
-	    printf("\t%.2f", radiusAtRegion(ptr, j));
-	printf("\t%.2f\n", velumAt(ptr));
-        ptr = ptr->next;
-    }
-    printf("\n");
+    printControlRateInputTable();
 }
 
 /******************************************************************************
