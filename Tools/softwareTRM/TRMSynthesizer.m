@@ -252,18 +252,24 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
 
 - (void)synthesize;
 {
-    // TODO (2004-05-07): Add parameters to inputData.  The inputParameters should be set directly before calling this method.
+    TRMTubeModel *tube;
 
-    initializeSynthesizer(&(inputData->inputParameters));
+    tube = TRMTubeModelCreate(&(inputData->inputParameters));
+    if (tube == NULL) {
+        NSLog(@"Warning: Failed to create tube model.");
+        return;
+    }
 
-    synthesize(inputData);
-    writeOutputToFile(inputData, "/tmp/out0.au");
+    synthesize(tube, inputData);
+    writeOutputToFile(&(tube->sampleRateConverter), inputData, "/tmp/out.au");
 
-    [self convertSamplesIntoData];
+    [self convertSamplesIntoData:&(tube->sampleRateConverter)];
+    TRMTubeModelFree(tube);
+
     [self startPlaying];
 }
 
-- (void)convertSamplesIntoData;
+- (void)convertSamplesIntoData:(TRMSampleRateConverter *)sampleRateConverter;
 {
     double scale;
     long int index;
@@ -272,31 +278,31 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
     [soundData setLength:0];
     bufferIndex = 0;
 
-    //NSLog(@"sampleRateConverter.numberSamples: %d", sampleRateConverter.numberSamples);
+    //NSLog(@"sampleRateConverter->numberSamples: %d", sampleRateConverter->numberSamples);
 
     // TODO (2004-05-07): Would need to reset maximumSampleValue at the beginning of each synthesis
-    //scale = (RANGE_MAX / sampleRateConverter.maximumSampleValue) * amplitude(inputData->inputParameters.volume);
+    //scale = (RANGE_MAX / sampleRateConverter->maximumSampleValue) * amplitude(inputData->inputParameters.volume);
     //NSLog(@"amplitude(inputData->inputParameters.volume): %g", amplitude(inputData->inputParameters.volume));
-    //NSLog(@"sampleRateConverter.maximumSampleValue: %.4f", sampleRateConverter.maximumSampleValue);
-    if (sampleRateConverter.maximumSampleValue == 0)
+    //NSLog(@"sampleRateConverter->maximumSampleValue: %.4f", sampleRateConverter->maximumSampleValue);
+    if (sampleRateConverter->maximumSampleValue == 0)
         NSBeep();
-    scale = (RANGE_MAX / sampleRateConverter.maximumSampleValue) * amplitude(inputData->inputParameters.volume) ;
+    scale = (RANGE_MAX / sampleRateConverter->maximumSampleValue) * amplitude(inputData->inputParameters.volume) ;
     //NSLog(@"scale: %.4f", scale);
-    NSLog(@"number of samples:\t%-ld\n", sampleRateConverter.numberSamples);
-    NSLog(@"maximum sample value:\t%.4f\n", sampleRateConverter.maximumSampleValue);
+    NSLog(@"number of samples:\t%-ld\n", sampleRateConverter->numberSamples);
+    NSLog(@"maximum sample value:\t%.4f\n", sampleRateConverter->maximumSampleValue);
     NSLog(@"scale:\t\t\t%.4f\n", scale);
 
     /*  Rewind the temporary file to beginning  */
-    rewind(sampleRateConverter.tempFilePtr);
+    rewind(sampleRateConverter->tempFilePtr);
 
     //fd = fopen("/tmp/out.au", "wb");
 
-    //writeAuFileHeader(1, sampleRateConverter.numberSamples, inputData->inputParameters.outputRate, fd);
-    for (index = 0; index < sampleRateConverter.numberSamples; index++) {
+    //writeAuFileHeader(1, sampleRateConverter->numberSamples, inputData->inputParameters.outputRate, fd);
+    for (index = 0; index < sampleRateConverter->numberSamples; index++) {
         double sample;
         short value;
 
-        fread(&sample, sizeof(sample), 1, sampleRateConverter.tempFilePtr);
+        fread(&sample, sizeof(sample), 1, sampleRateConverter->tempFilePtr);
 
         value = (short)rint(sample * scale);
         //printf("%8ld: %g -> %hd\n", index, sample, (short)rint(sample * scale));

@@ -33,7 +33,7 @@ extern int verbose;
 - (void)removeAllParameters;
 
 - (void)synthesize;
-- (void)convertSamplesIntoData;
+- (void)convertSamplesIntoData:(TRMSampleRateConverter *)sampleRateConverter;
 - (void)startPlaying;
 - (void)stopPlaying;
 
