@@ -37,6 +37,4 @@ typedef struct _TRMSampleRateConverter {
 TRMSampleRateConverter *TRMSampleRateConverterCreate(int inputSampleRate, int outputSampleRate);
 void TRMSampleRateConverterFree(TRMSampleRateConverter *converter);
 
-void initializeConversion(TRMSampleRateConverter *sampleRateConverter, double sampleRate, double outputRate);
-
 #endif
