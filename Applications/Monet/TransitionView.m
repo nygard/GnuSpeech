@@ -119,7 +119,7 @@ static NSImage *_selectionBox = nil;
     mainParameterList = NXGetNamedObject(@"mainParameterList", NSApp);
     mainMetaParameterList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
 
-    aPhone = [[MMPosture alloc] initWithModel:nil];
+    aPhone = [[MMPosture alloc] initWithModel:nil]; // TODO (2004-03-21): This needs a non-nil model
     [aPhone setSymbol:@"dummy"];
     [(MMTarget *)[[aPhone symbolList] objectAtIndex:0] setValue:100.0]; // Rule Duration
     [(MMTarget *)[[aPhone symbolList] objectAtIndex:1] setValue:33.3333]; // Beat Location

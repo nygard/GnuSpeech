@@ -318,12 +318,14 @@
 - (IBAction)setTransitionType:(id)sender;
 {
     NSLog(@" > %s", _cmd);
+    [[self selectedTransition] setType:[[transitionTypeMatrix selectedCell] tag]];
     NSLog(@"<  %s", _cmd);
 }
 
 - (IBAction)editTransition:(id)sender;
 {
     NSLog(@" > %s", _cmd);
+    [[NSApp delegate] editTransition:[self selectedTransition]];
     NSLog(@"<  %s", _cmd);
 }
 
@@ -352,12 +354,14 @@
 - (IBAction)setSpecialTransitionType:(id)sender;
 {
     NSLog(@" > %s", _cmd);
+    [[self selectedSpecialTransition] setType:[[specialTransitionTypeMatrix selectedCell] tag]];
     NSLog(@"<  %s", _cmd);
 }
 
 - (IBAction)editSpecialTransition:(id)sender;
 {
     NSLog(@" > %s", _cmd);
+    [[NSApp delegate] editSpecialTransition:[self selectedSpecialTransition]];
     NSLog(@"<  %s", _cmd);
 }
 

@@ -1,5 +1,5 @@
 //
-// $Id: AppController.h,v 1.26 2004/03/21 05:02:00 nygard Exp $
+// $Id: AppController.h,v 1.27 2004/03/22 04:33:14 nygard Exp $
 //
 
 /*===========================================================================
@@ -27,7 +27,7 @@ History:
 @class NSMutableDictionary;
 @class CategoryList, ParameterList, PhoneList, StringParser, SymbolList;
 @class DefaultMgr, EventListView, Inspector, IntonationScrollView, PrototypeManager, RuleManager, SpecialView, TransitionView;
-@class MModel;
+@class MModel, MMTransition;
 @class MDataEntryController, MPostureEditor, MPrototypeManager;
 
 @interface AppController : NSObject
@@ -94,6 +94,9 @@ History:
 - (IBAction)showPrototypeManager:(id)sender;
 
 - (IBAction)generateXML:(id)sender;
+
+- (void)editTransition:(MMTransition *)aTransition;
+- (void)editSpecialTransition:(MMTransition *)aTransition;
 
 @end
 

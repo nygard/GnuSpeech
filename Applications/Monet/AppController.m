@@ -483,4 +483,16 @@
     [model generateXML:@""];
 }
 
+- (void)editTransition:(MMTransition *)aTransition;
+{
+    [transitionBuilder setTransition:aTransition];
+    [transitionWindow makeKeyAndOrderFront:nil];
+}
+
+- (void)editSpecialTransition:(MMTransition *)aTransition;
+{
+    [specialTransitionBuilder setTransition:aTransition];
+    [[specialTransitionBuilder window] makeKeyAndOrderFront:nil];
+}
+
 @end
