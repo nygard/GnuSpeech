@@ -5,8 +5,13 @@
 #include "wavetable.h"
 #include <vecLib/vecLib.h>
 
-//  Compile with oversampling or plain oscillator
+// Compile with oversampling or plain oscillator
 #define OVERSAMPLING_OSCILLATOR   1
+
+// Oversampling FIR filter characteristics
+#define FIR_BETA                  .2
+#define FIR_GAMMA                 .1
+#define FIR_CUTOFF                .00000001
 
 //  Glottal source oscillator table variables
 #define TABLE_LENGTH              512
