@@ -1,34 +1,35 @@
 #import <Foundation/NSString.h>
 
-#define NXDEFAULT_OWNER			@"MONET"
-#define NXDEFAULT_NUMBER		22
+// MDK: Monet Default Key
+#define MDK_OWNER			@"MONET"
+#define MDK_NUMBER		22
 
-#define NXDEFAULT_MASTER_VOLUME		@"MasterVolume"
-#define NXDEFAULT_VOCAL_TRACT_LENGTH	@"VocalTractLength"
-#define NXDEFAULT_TEMPERATURE		@"Temperature"
-#define NXDEFAULT_BALANCE		@"Balance"
-#define NXDEFAULT_BREATHINESS		@"Breathiness"
-#define NXDEFAULT_LOSS_FACTOR		@"LossFactor"
+#define MDK_MASTER_VOLUME		@"MasterVolume"
+#define MDK_VOCAL_TRACT_LENGTH	@"VocalTractLength"
+#define MDK_TEMPERATURE		@"Temperature"
+#define MDK_BALANCE		@"Balance"
+#define MDK_BREATHINESS		@"Breathiness"
+#define MDK_LOSS_FACTOR		@"LossFactor"
 
-#define NXDEFAULT_THROAT_CUTTOFF	@"ThroatCuttoff"
-#define NXDEFAULT_THROAT_VOLUME		@"ThroatVolume"
-#define NXDEFAULT_APERTURE_SCALING	@"ApertureScaling"
-#define NXDEFAULT_MOUTH_COEF		@"MouthCoef"
-#define NXDEFAULT_NOSE_COEF		@"NoseCoef"
-#define NXDEFAULT_MIX_OFFSET		@"MixOffset"
+#define MDK_THROAT_CUTTOFF	@"ThroatCuttoff"
+#define MDK_THROAT_VOLUME		@"ThroatVolume"
+#define MDK_APERTURE_SCALING	@"ApertureScaling"
+#define MDK_MOUTH_COEF		@"MouthCoef"
+#define MDK_NOSE_COEF		@"NoseCoef"
+#define MDK_MIX_OFFSET		@"MixOffset"
 
-#define NXDEFAULT_N1			@"N1"
-#define NXDEFAULT_N2			@"N2"
-#define NXDEFAULT_N3			@"N3"
-#define NXDEFAULT_N4			@"N4"
-#define NXDEFAULT_N5			@"N5"
+#define MDK_N1			@"N1"
+#define MDK_N2			@"N2"
+#define MDK_N3			@"N3"
+#define MDK_N4			@"N4"
+#define MDK_N5			@"N5"
 
-#define NXDEFAULT_TP			@"Tp"
-#define NXDEFAULT_TN_MIN		@"TnMin"
-#define NXDEFAULT_TN_MAX		@"TnMax"
+#define MDK_TP			@"Tp"
+#define MDK_TN_MIN		@"TnMin"
+#define MDK_TN_MAX		@"TnMax"
 
-#define NXDEFAULT_GP_SHAPE		@"GpShape"
-#define NXDEFAULT_NOISE_MODULATION	@"NoiseModulation"
+#define MDK_GP_SHAPE		@"GpShape"
+#define MDK_NOISE_MODULATION	@"NoiseModulation"
 
 #define MASTER_VOLUME_DEF		@"60"
 #define VOCAL_TRACT_LENGTH_DEF		@"17.5"
@@ -52,56 +53,3 @@
 #define TN_MAX_DEF			@"32"
 #define GP_SHAPE_DEF			@"PULSE"
 #define NOISE_MODULATION_DEF		@"ON"
-
-#define MonetDefCount 22
-
-NSString  *MonetDefVal[] = {
-	MASTER_VOLUME_DEF,
-	VOCAL_TRACT_LENGTH_DEF,
-	TEMPERATURE_DEF,
-	BALANCE_DEF,
-	BREATHINESS_DEF,
-	LOSS_FACTOR_DEF,
-	THROAT_CUTTOFF_DEF,
-	THROAT_VOLUME_DEF,
-	APERTURE_SCALING_DEF,
-	MOUTH_COEF_DEF,
-	NOSE_COEF_DEF,
-	MIX_OFFSET_DEF,
-	N1_DEF,
-	N2_DEF,
-	N3_DEF,
-	N4_DEF,
-	N5_DEF,
-	TP_DEF,
-	TN_MIN_DEF,
-	TN_MAX_DEF,
-	GP_SHAPE_DEF,
-	NOISE_MODULATION_DEF,
-	nil
-};
-NSString  *MonetDefKeys[] = {
-	NXDEFAULT_MASTER_VOLUME,
-	NXDEFAULT_VOCAL_TRACT_LENGTH,
-	NXDEFAULT_TEMPERATURE,
-	NXDEFAULT_BALANCE,
-	NXDEFAULT_BREATHINESS,
-	NXDEFAULT_LOSS_FACTOR,
-	NXDEFAULT_THROAT_CUTTOFF,
-	NXDEFAULT_THROAT_VOLUME,
-	NXDEFAULT_APERTURE_SCALING,
-	NXDEFAULT_MOUTH_COEF,
-	NXDEFAULT_NOSE_COEF,
-	NXDEFAULT_MIX_OFFSET,
-	NXDEFAULT_N1,
-	NXDEFAULT_N2,
-	NXDEFAULT_N3,
-	NXDEFAULT_N4,
-	NXDEFAULT_N5,
-	NXDEFAULT_TP,
-	NXDEFAULT_TN_MIN,
-	NXDEFAULT_TN_MAX,
-	NXDEFAULT_GP_SHAPE,
-	NXDEFAULT_NOISE_MODULATION,
-	nil
-};
