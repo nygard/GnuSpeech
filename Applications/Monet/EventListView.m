@@ -226,7 +226,7 @@
     NSBezierPath *bezierPath;
     NSRect bounds;
 
-    bounds = [self bounds];
+    bounds = NSIntegralRect([self bounds]);
 
     phoneIndex = 0;
     displayList = [[MonetList alloc] initWithCapacity:10];
@@ -282,6 +282,7 @@
         [str drawAtPoint:NSMakePoint(55.0, bounds.size.height - (50.0 + (float)(i) * TRACKHEIGHT + 3.0)) withAttributes:nil];
     }
 
+    // Draw phones/postures along top, and 
     [timesFont set];
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:1];
@@ -297,12 +298,13 @@
                 [[currentPhone symbol] drawAtPoint:NSMakePoint(currentX - 5.0, bounds.size.height - 42.0) withAttributes:nil];
             }
 
-            [bezierPath moveToPoint:NSMakePoint(currentX, bounds.size.height - (50.0 + (float)(j) * TRACKHEIGHT))];
-            [bezierPath lineToPoint:NSMakePoint(currentX, bounds.size.height - 50.0)];
+            // TODO (2004-03-17): It still goes one pixel below where it should.
+            [bezierPath moveToPoint:NSMakePoint(currentX + 0.5, bounds.size.height - (50.0 + 1 + (float)j * TRACKHEIGHT))];
+            [bezierPath lineToPoint:NSMakePoint(currentX + 0.5, bounds.size.height - 50.0 - 1)];
         } else {
             if (!mouseBeingDragged) {
-                [bezierPath moveToPoint:NSMakePoint(currentX, bounds.size.height - (50.0 + (float)(j) * TRACKHEIGHT))];
-                [bezierPath lineToPoint:NSMakePoint(currentX, bounds.size.height - 50.0)];
+                [bezierPath moveToPoint:NSMakePoint(currentX + 0.5, bounds.size.height - (50.0 + 1 + (float)j * TRACKHEIGHT))];
+                [bezierPath lineToPoint:NSMakePoint(currentX + 0.5, bounds.size.height - 50.0 - 1)];
             }
         }
     }
@@ -337,6 +339,8 @@
                     ((float)([currentEvent getValueAtIndex:parameterIndex] - currentMin) /
                      (currentMax - currentMin) * 100.0);
                 //NSLog(@"cx:%f cy:%f min:%f max:%f", currentX, currentY, currentMin, currentMax);
+                //currentX = rint(currentX);
+                currentY = rint(currentY);
                 if (k == 0) {
                     k = 1;
                     [bezierPath moveToPoint:NSMakePoint(currentX, currentY)];
