@@ -1,4 +1,4 @@
-#import "BooleanParser.h"
+#import "MMBooleanParser.h"
 
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>

@@ -8,7 +8,7 @@
 
 #import "MCommentCell.h"
 #import "MMBooleanNode.h"
-#import "BooleanParser.h"
+#import "MMBooleanParser.h"
 #import "MMEquation.h"
 #import "MModel.h"
 #import "MMParameter.h"

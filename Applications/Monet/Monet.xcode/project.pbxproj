@@ -670,6 +670,34 @@
 			settings = {
 			};
 		};
+		0143DD0706572CF400DB5F6D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = MMBooleanParser.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0143DD0806572CF400DB5F6D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = MMBooleanParser.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0143DD0906572CF400DB5F6D = {
+			fileRef = 0143DD0706572CF400DB5F6D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0143DD0A06572CF400DB5F6D = {
+			fileRef = 0143DD0806572CF400DB5F6D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		015E7BDD06375CE400688D4D = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -1964,42 +1992,14 @@
 				0143DCFB06572A3D00DB5F6D,
 				0143DCFC06572A3D00DB5F6D,
 				0143DD0306572B3B00DB5F6D,
-				0195D93605F3DF4D006D8386,
-				0195D93705F3DF4D006D8386,
+				0143DD0706572CF400DB5F6D,
+				0143DD0806572CF400DB5F6D,
 			);
 			isa = PBXGroup;
 			name = "Boolean Expression Parser";
 			path = "";
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		0195D93605F3DF4D006D8386 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = BooleanParser.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0195D93705F3DF4D006D8386 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = BooleanParser.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0195D93805F3DF4D006D8386 = {
-			fileRef = 0195D93605F3DF4D006D8386;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0195D93905F3DF4D006D8386 = {
-			fileRef = 0195D93705F3DF4D006D8386;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		0195D95305F40DDF006D8386 = {
 			children = (
@@ -3308,7 +3308,6 @@
 				0195D89205F3CADB006D8386,
 				0195D8B705F3D240006D8386,
 				0195D8C505F3D3C5006D8386,
-				0195D93805F3DF4D006D8386,
 				0195D9A805F42843006D8386,
 				0195DA3105F44029006D8386,
 				0195DA4305F44526006D8386,
@@ -3387,6 +3386,7 @@
 				0143DCFD06572A3D00DB5F6D,
 				0143DCFF06572A3D00DB5F6D,
 				0143DD0406572B3B00DB5F6D,
+				0143DD0906572CF400DB5F6D,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3444,7 +3444,6 @@
 				0195D89305F3CADB006D8386,
 				0195D8B805F3D240006D8386,
 				0195D8C605F3D3C5006D8386,
-				0195D93905F3DF4D006D8386,
 				0195D9AD05F42844006D8386,
 				0195DA3605F4402A006D8386,
 				0195DA4805F44527006D8386,
@@ -3519,6 +3518,7 @@
 				0143DCF606570D0700DB5F6D,
 				0143DCFE06572A3D00DB5F6D,
 				0143DD0006572A3D00DB5F6D,
+				0143DD0A06572CF400DB5F6D,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
