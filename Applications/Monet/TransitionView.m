@@ -43,9 +43,9 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     currentTemplate = nil;
 
     samplePhoneList = [[MonetList alloc] init];
-    displayPoints = [[MonetList alloc] init];
+    displayPoints = [[NSMutableArray alloc] init];
     displaySlopes = [[MonetList alloc] init];
-    selectedPoints = [[MonetList alloc] init];
+    selectedPoints = [[NSMutableArray alloc] init];
 
     flags.shouldDrawSelection = NO;
     flags.shouldDrawSlopes = YES;

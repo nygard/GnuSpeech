@@ -34,9 +34,9 @@ extern NSString *TransitionViewSelectionDidChangeNotification;
     MMTransition *currentTemplate;
 
     MonetList *samplePhoneList;
-    MonetList *displayPoints;
+    NSMutableArray *displayPoints;
     MonetList *displaySlopes;
-    MonetList *selectedPoints;
+    NSMutableArray *selectedPoints;
 
     NSPoint selectionPoint1;
     NSPoint selectionPoint2;

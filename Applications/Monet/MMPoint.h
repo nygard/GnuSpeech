@@ -44,7 +44,7 @@
 - (BOOL)isPhantom;
 - (void)setIsPhantom:(BOOL)newFlag;
 
-- (void)calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag toDisplay:(MonetList *)displayList;
+- (void)calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag toDisplay:(NSMutableArray *)displayList;
 
 - (double)calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag
                  baseline:(double)baseline delta:(double)delta min:(double)min max:(double)max

@@ -110,7 +110,7 @@
     isPhantom = newFlag;
 }
 
-- (void)calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag toDisplay:(MonetList *)displayList;
+- (void)calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag toDisplay:(NSMutableArray *)displayList;
 {
     float dummy;
 
