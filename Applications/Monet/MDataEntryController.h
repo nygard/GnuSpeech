@@ -1,5 +1,5 @@
 //
-// $Id: MDataEntryController.h,v 1.4 2004/03/19 19:51:06 nygard Exp $
+// $Id: MDataEntryController.h,v 1.5 2004/03/19 20:00:01 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -15,18 +15,22 @@
     IBOutlet NSTableView *categoryTableView;
     IBOutlet NSTextField *categoryTotalTextField;
     IBOutlet NSTextView *categoryCommentTextView;
+    IBOutlet NSButtonCell *removeCategoryButtonCell;
 
     IBOutlet NSTableView *parameterTableView;
     IBOutlet NSTextField *parameterTotalTextField;
     IBOutlet NSTextView *parameterCommentTextView;
+    IBOutlet NSButtonCell *removeParameterButtonCell;
 
     IBOutlet NSTableView *metaParameterTableView;
     IBOutlet NSTextField *metaParameterTotalTextField;
     IBOutlet NSTextView *metaParameterCommentTextView;
+    IBOutlet NSButtonCell *removeMetaParameterButtonCell;
 
     IBOutlet NSTableView *symbolTableView;
     IBOutlet NSTextField *symbolTotalTextField;
     IBOutlet NSTextView *symbolCommentTextView;
+    IBOutlet NSButtonCell *removeSymbolButtonCell;
 
     MModel *model;
 }

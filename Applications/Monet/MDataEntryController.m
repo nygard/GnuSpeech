@@ -121,6 +121,7 @@
     [self _updateSymbolComment];
 }
 
+// TODO (2004-03-19): This should be _updateCategoryDetails now that it enables/disables the remove button
 - (void)_updateCategoryComment;
 {
     if ([categoryTableView numberOfSelectedRows] == 1) {
@@ -135,9 +136,11 @@
         if (comment == nil)
             comment = @"";
         [categoryCommentTextView setString:comment];
+        [removeCategoryButtonCell setEnabled:YES];
     } else {
         [categoryCommentTextView setEditable:NO];
         [categoryCommentTextView setString:@""];
+        [removeCategoryButtonCell setEnabled:NO];
     }
 }
 
@@ -155,9 +158,11 @@
         if (comment == nil)
             comment = @"";
         [parameterCommentTextView setString:comment];
+        [removeParameterButtonCell setEnabled:YES];
     } else {
         [parameterCommentTextView setEditable:NO];
         [parameterCommentTextView setString:@""];
+        [removeParameterButtonCell setEnabled:NO];
     }
 }
 
@@ -175,9 +180,11 @@
         if (comment == nil)
             comment = @"";
         [metaParameterCommentTextView setString:comment];
+        [removeMetaParameterButtonCell setEnabled:YES];
     } else {
         [metaParameterCommentTextView setEditable:NO];
         [metaParameterCommentTextView setString:@""];
+        [removeMetaParameterButtonCell setEnabled:NO];
     }
 }
 
@@ -195,9 +202,11 @@
         if (comment == nil)
             comment = @"";
         [symbolCommentTextView setString:comment];
+        [removeSymbolButtonCell setEnabled:YES];
     } else {
         [symbolCommentTextView setEditable:NO];
         [symbolCommentTextView setString:@""];
+        [removeSymbolButtonCell setEnabled:NO];
     }
 }
 

@@ -24,6 +24,10 @@
                 parameterCommentTextView = NSTextView; 
                 parameterTableView = NSTableView; 
                 parameterTotalTextField = NSTextField; 
+                removeCategoryButtonCell = NSButtonCell; 
+                removeMetaParameterButtonCell = NSButtonCell; 
+                removeParameterButtonCell = NSButtonCell; 
+                removeSymbolButtonCell = NSButtonCell; 
                 symbolCommentTextView = NSTextView; 
                 symbolTableView = NSTableView; 
                 symbolTotalTextField = NSTextField; 
