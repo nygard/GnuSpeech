@@ -115,3 +115,7 @@ TODO:
 
 2004-03-22:
 - show list of points in transition editor, for easier selection when things go bad (points off screen, multiple points as same place)
+
+2004-03-23:
+- -[NSSString initWithBytes:length:encoding:] not in 10.2.8 SDK, so should be within #if in 10.3 header file.
+- text of NSForm shifts slightly when selected.  This doesn't happen with NSTextFields.
