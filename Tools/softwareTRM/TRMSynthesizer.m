@@ -31,6 +31,33 @@ typedef struct {
 
 int verbose = 0;
 
+void addMonoSampleToBuffer(TRMSampleRateConverter *aConverter, void *context, double sample)
+{
+    OutputCallbackContext *outputContext = context;
+    NSMutableData *data = outputContext->userInfo;
+    short value;
+
+    value = (short)rint(sample * outputContext->scale);
+    [data appendBytes:&value length:sizeof(value)];
+
+    outputContext->sampleCount++;
+}
+
+void addStereoSampleToBuffer(TRMSampleRateConverter *aConverter, void *context, double sample)
+{
+    OutputCallbackContext *outputContext = context;
+    NSMutableData *data = outputContext->userInfo;
+    short value;
+
+    value = (short)rint(sample * outputContext->scale);
+    [data appendBytes:&value length:sizeof(value)];
+
+    value = (short)rint(sample * outputContext->scale);
+    [data appendBytes:&value length:sizeof(value)];
+
+    outputContext->sampleCount++;
+}
+
 OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlags, const AudioTimeStamp *inTimeStamp, UInt32 inBusNumber, AudioBuffer *ioData)
 {
     [(TRMSynthesizer *)inRefCon fillBuffer:ioData];
@@ -297,77 +324,26 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
     TRMTubeModelSynthesize(tube, inputData);
 
     if (shouldSaveToSoundFile) {
-        writeOutputToFile(tube->sampleRateConverter, inputData, [filename UTF8String]);
+        TRMSynthesizeToFile(tube, inputData, [filename UTF8String]);
     } else {
-        [self convertSamplesIntoData:tube->sampleRateConverter];
+        TRMConfigureOutputContext(&context, inputData->inputParameters.volume, inputData->inputParameters.channels, inputData->inputParameters.balance);
+
+        [soundData setLength:0];
+        bufferIndex = 0;
+
+        context.userInfo = soundData;
+        tube->sampleRateConverter->context = &context;
+        if (inputData->inputParameters.channels == 1)
+            tube->sampleRateConverter->callbackFunction = addMonoSampleToBuffer;
+        else
+            tube->sampleRateConverter->callbackFunction = addStereoSampleToBuffer;
+        TRMTubeModelSynthesize(tube, inputData);
+        bufferLength = [soundData length] / sizeof(short);
+
         [self startPlaying];
     }
 
     TRMTubeModelFree(tube);
-}
-
-- (void)convertSamplesIntoData:(TRMSampleRateConverter *)sampleRateConverter;
-{
-    double scale;
-    long int index;
-
-    [soundData setLength:0];
-    bufferIndex = 0;
-
-    if (sampleRateConverter->maximumSampleValue == 0)
-        NSBeep();
-
-    scale = OUTPUT_SCALE * (RANGE_MAX / MAX_SAMPLE) * amplitude(inputData->inputParameters.volume) ;
-
-    NSLog(@"number of samples:\t%-ld\n", sampleRateConverter->numberSamples);
-    NSLog(@"maximum sample value:\t%.4f\n", sampleRateConverter->maximumSampleValue);
-    NSLog(@"scale:\t\t\t%.4f\n", scale);
-
-    /*  Rewind the temporary file to beginning  */
-    rewind(sampleRateConverter->tempFilePtr);
-
-    if (inputData->inputParameters.channels == 2) {
-        double leftScale, rightScale;
-
-	/*  Calculate left and right channel amplitudes  */
-#if 0
-	leftScale = -((inputData->inputParameters.balance / 2.0) - 0.5) * scale * 2.0;
-	rightScale = ((inputData->inputParameters.balance / 2.0) + 0.5) * scale * 2.0;
-#else
-        // This doesn't have the crackling when at all left or all right, but it's not as loud as Mono by default.
-	leftScale = -((inputData->inputParameters.balance / 2.0) - 0.5) * scale;
-	rightScale = ((inputData->inputParameters.balance / 2.0) + 0.5) * scale;
-#endif
-        printf("left scale:\t\t%.4f\n", leftScale);
-        printf("right scale:\t\t%.4f\n", rightScale);
-
-        for (index = 0; index < sampleRateConverter->numberSamples; index++) {
-            double sample;
-            short value;
-
-            fread(&sample, sizeof(sample), 1, sampleRateConverter->tempFilePtr);
-
-            value = (short)rint(sample * leftScale);
-            [soundData appendBytes:&value length:sizeof(value)];
-
-            value = (short)rint(sample * rightScale);
-            [soundData appendBytes:&value length:sizeof(value)];
-        }
-    } else {
-        for (index = 0; index < sampleRateConverter->numberSamples; index++) {
-            double sample;
-            short value;
-
-            fread(&sample, sizeof(sample), 1, sampleRateConverter->tempFilePtr);
-
-            value = (short)rint(sample * scale);
-            [soundData appendBytes:&value length:sizeof(value)];
-        }
-    }
-
-    //NSLog(@"soundData: %p, length: %d", soundData, [soundData length]);
-    bufferLength = [soundData length] / sizeof(short);
-    //NSLog(@"bufferLength: %ld", bufferLength);
 }
 
 - (void)startPlaying;

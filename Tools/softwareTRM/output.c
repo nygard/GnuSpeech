@@ -381,7 +381,7 @@ void writeSampleMonoMsb(TRMSampleRateConverter *aConverter, void *context, doubl
 {
     OutputCallbackContext *outputContext = context;
 
-    fwriteShortMsb((short)rint(value * outputContext->scale), outputContext->fp);
+    fwriteShortMsb((short)rint(value * outputContext->scale), outputContext->userInfo);
     outputContext->sampleCount++;
 }
 
@@ -389,8 +389,8 @@ void writeSampleStereoMsb(TRMSampleRateConverter *aConverter, void *context, dou
 {
     OutputCallbackContext *outputContext = context;
 
-    fwriteShortMsb((short)rint(value * outputContext->leftScale), outputContext->fp);
-    fwriteShortMsb((short)rint(value * outputContext->rightScale), outputContext->fp);
+    fwriteShortMsb((short)rint(value * outputContext->leftScale), outputContext->userInfo);
+    fwriteShortMsb((short)rint(value * outputContext->rightScale), outputContext->userInfo);
     outputContext->sampleCount++;
 }
 
@@ -398,7 +398,7 @@ void writeSampleMonoLsb(TRMSampleRateConverter *aConverter, void *context, doubl
 {
     OutputCallbackContext *outputContext = context;
 
-    fwriteShortLsb((short)rint(value * outputContext->scale), outputContext->fp);
+    fwriteShortLsb((short)rint(value * outputContext->scale), outputContext->userInfo);
     outputContext->sampleCount++;
 }
 
@@ -406,8 +406,8 @@ void writeSampleStereoLsb(TRMSampleRateConverter *aConverter, void *context, dou
 {
     OutputCallbackContext *outputContext = context;
 
-    fwriteShortLsb((short)rint(value * outputContext->leftScale), outputContext->fp);
-    fwriteShortLsb((short)rint(value * outputContext->rightScale), outputContext->fp);
+    fwriteShortLsb((short)rint(value * outputContext->leftScale), outputContext->userInfo);
+    fwriteShortLsb((short)rint(value * outputContext->rightScale), outputContext->userInfo);
     outputContext->sampleCount++;
 }
 
@@ -430,33 +430,33 @@ void TRMConfigureOutputContext(OutputCallbackContext *context, double volume, in
     }
 
     context->sampleCount = 0;
-    context->fp = NULL;
+    context->userInfo = NULL;
 }
 
-void TRMSynthesizeToFile(TRMTubeModel *tube, TRMData *inputData, char *filename)
+void TRMSynthesizeToFile(TRMTubeModel *tube, TRMData *inputData, const char *filename)
 {
     OutputCallbackContext context;
 
     TRMConfigureOutputContext(&context, inputData->inputParameters.volume, inputData->inputParameters.channels, inputData->inputParameters.balance);
 
-    context.fp = fopen(filename, "wb");
+    context.userInfo = fopen(filename, "wb");
     tube->sampleRateConverter->context = &context;
 
     // Write initial header and set up callback function
     if (inputData->inputParameters.outputFileFormat == AU_FILE_FORMAT) {
-        writeAuFileHeader(inputData->inputParameters.channels, 0, inputData->inputParameters.outputRate, context.fp);
+        writeAuFileHeader(inputData->inputParameters.channels, 0, inputData->inputParameters.outputRate, context.userInfo);
         if (inputData->inputParameters.channels == 1)
             tube->sampleRateConverter->callbackFunction = writeSampleMonoMsb;
         else
             tube->sampleRateConverter->callbackFunction = writeSampleStereoMsb;
     } else if (inputData->inputParameters.outputFileFormat == AIFF_FILE_FORMAT) {
-        writeAiffFileHeader(inputData->inputParameters.channels, 0, inputData->inputParameters.outputRate, context.fp);
+        writeAiffFileHeader(inputData->inputParameters.channels, 0, inputData->inputParameters.outputRate, context.userInfo);
         if (inputData->inputParameters.channels == 1)
             tube->sampleRateConverter->callbackFunction = writeSampleMonoMsb;
         else
             tube->sampleRateConverter->callbackFunction = writeSampleStereoMsb;
     } else if (inputData->inputParameters.outputFileFormat == WAVE_FILE_FORMAT) {
-        writeWaveFileHeader(inputData->inputParameters.channels, 0, inputData->inputParameters.outputRate, context.fp);
+        writeWaveFileHeader(inputData->inputParameters.channels, 0, inputData->inputParameters.outputRate, context.userInfo);
         if (inputData->inputParameters.channels == 1)
             tube->sampleRateConverter->callbackFunction = writeSampleMonoLsb;
         else
@@ -472,16 +472,16 @@ void TRMSynthesizeToFile(TRMTubeModel *tube, TRMData *inputData, char *filename)
     TRMTubeModelSynthesize(tube, inputData);
 
     // And then we need to come back and fix the header with the proper sample size.
-    rewind(context.fp);
+    rewind(context.userInfo);
     if (inputData->inputParameters.outputFileFormat == AU_FILE_FORMAT) {
-        writeAuFileHeader(inputData->inputParameters.channels, context.sampleCount, inputData->inputParameters.outputRate, context.fp);
+        writeAuFileHeader(inputData->inputParameters.channels, context.sampleCount, inputData->inputParameters.outputRate, context.userInfo);
     } else if (inputData->inputParameters.outputFileFormat == AIFF_FILE_FORMAT) {
-        writeAiffFileHeader(inputData->inputParameters.channels, context.sampleCount, inputData->inputParameters.outputRate, context.fp);
+        writeAiffFileHeader(inputData->inputParameters.channels, context.sampleCount, inputData->inputParameters.outputRate, context.userInfo);
     } else if (inputData->inputParameters.outputFileFormat == WAVE_FILE_FORMAT) {
-        writeWaveFileHeader(inputData->inputParameters.channels, context.sampleCount, inputData->inputParameters.outputRate, context.fp);
+        writeWaveFileHeader(inputData->inputParameters.channels, context.sampleCount, inputData->inputParameters.outputRate, context.userInfo);
     }
 
-    fclose(context.fp);
+    fclose(context.userInfo);
 
     if (verbose)
         printf("done.\n");

@@ -6,9 +6,9 @@
 //  Copyright (C) 2004 __OWNER__.  All rights reserved.
 
 #import <Foundation/NSObject.h>
-//#import <CoreAudio/AudioHardware.h>
 #import <AudioUnit/AudioUnit.h>
 #import "structs.h"
+#import "output.h"
 
 @class MMSynthesisParameters;
 
@@ -26,6 +26,8 @@ extern int verbose;
 
     BOOL shouldSaveToSoundFile;
     NSString *filename;
+
+    OutputCallbackContext context;
 }
 
 - (id)init;
@@ -45,7 +47,6 @@ extern int verbose;
 - (void)setFileType:(int)newFileType;
 
 - (void)synthesize;
-- (void)convertSamplesIntoData:(TRMSampleRateConverter *)sampleRateConverter;
 - (void)startPlaying;
 - (void)stopPlaying;
 
