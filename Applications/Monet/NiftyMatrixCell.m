@@ -93,13 +93,19 @@
  * Removed it was grossly inefficent. Considering that a Text object will be
  * Present i might as well take advantage of it
  */
+
+// TODO (2004-03-17): This is only used for editing, not displaying.
 - (NSText *)setUpFieldEditorAttributes:(NSText *)textObj;
 {
+    NSLog(@" > %s", _cmd);
     if (controlFlags.toggleValue) {
+        NSLog(@"black");
         [textObj setTextColor:[NSColor blackColor]];
     } else {
+        NSLog(@"darkGray");
         [textObj setTextColor:[NSColor darkGrayColor]];
     }
+    NSLog(@"<  %s", _cmd);
 
     return textObj;
 }
@@ -112,6 +118,22 @@
 - (void)setOrderTag:(int)newOrderTag;
 {
     orderTag = newOrderTag;
+}
+
+- (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView;
+{
+    NSRect rightRect;
+
+    // Take five pixels on the right
+    NSDivideRect(cellFrame, &rightRect, &cellFrame, 5, NSMinXEdge);
+
+    [super drawInteriorWithFrame:cellFrame inView:controlView];
+
+    // And fill them with red, since the text isn't changing properly
+    if ([self toggleValue] == YES) {
+        [[NSColor redColor] set];
+        NSRectFill(rightRect);
+    }
 }
 
 @end

@@ -13,16 +13,17 @@
 
 - (void)mouseDown:(NSEvent *)mouseEvent;
 {
-#if 0
-    NSPoint mouseDownLocation, mouseUpLocation, mouseLocation;
-    int row, column, newRow;
-    NSRect visibleRect, cellFrame;
-    float dy;
-    NSEvent *event, *peek;
-    BOOL scrolled = NO;
-    NSPoint loc;
+    NSPoint mouseDownLocation;
+    //NSPoint mouseUpLocation, mouseLocation;
+    int row, column;
+    //int newRow;
+    //NSRect visibleRect, cellFrame;
+    //float dy;
+    //NSEvent *event, *peek;
+    //BOOL scrolled = NO;
+    //NSPoint loc;
 
-    NSImage *cellCache;
+    //NSImage *cellCache;
 
     /*
      * if the current window is not the key window, and the user simply clicked on the matrix inorder to activate the window.
@@ -31,6 +32,17 @@
     if ([mouseEvent clickCount] == -1) {
         NSLog(@"%s, clickCount == -1", _cmd);
         return;
+    }
+
+    if ([mouseEvent clickCount] == 1) {
+        NSCell *hitCell;
+
+        mouseDownLocation = [self convertPoint:[mouseEvent locationInWindow] fromView:nil];
+        [self getRow:&row column:&column forPoint:mouseDownLocation];
+        hitCell = [self cellAtRow:row column:column];
+
+        NSLog(@"[%p] cell attribute NSChangeGrayCell: %d, state: %d",
+              hitCell, [hitCell cellAttribute:NSChangeGrayCell], [hitCell state]);
     }
 
     /* if the user double clicked on the cell then toggle the cell */
@@ -44,6 +56,7 @@
         return;
     }
 
+#if 0
     /* we are now interested in mouse dragged events */
     [[self window] setAcceptsMouseMovedEvents:YES];
 

@@ -42,7 +42,7 @@
 
     eventList = nil;
 
-    [self display];
+    [self setNeedsDisplay:YES];
 
     return self;
 }
@@ -164,7 +164,9 @@
 
 - (IBAction)itemsChanged:(id)sender;
 {
+    //NSLog(@" > %s", _cmd);
     [self setNeedsDisplay:YES];
+    //NSLog(@"<  %s", _cmd);
 }
 
 - (BOOL)acceptsFirstResponder;
@@ -187,7 +189,7 @@
 {
     NSRect trackRect;
 
-    NSLog(@" > %s", _cmd);
+    //NSLog(@" > %s", _cmd);
 
     trackRect = [self frame];
     [[self superview] convertRect:trackRect toView:nil];
@@ -197,7 +199,7 @@
     [self clearView];
     [self drawGrid];
 
-    NSLog(@"<  %s", _cmd);
+    //NSLog(@"<  %s", _cmd);
 }
 
 - (void)clearView;
@@ -395,7 +397,7 @@
         [self updateScale:(float)column];
         [self unlockFocus];
         mouseBeingDragged = 0;
-        [self display];
+        [self setNeedsDisplay:YES];
     }
 }
 
