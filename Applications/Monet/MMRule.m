@@ -471,7 +471,7 @@
     return metaParameterTransitions;
 }
 
-- (NSMutableArray *)symbols;
+- (NSMutableArray *)symbolEquations;
 {
     return symbolEquations;
 }

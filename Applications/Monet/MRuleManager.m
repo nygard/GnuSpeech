@@ -213,7 +213,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     if (selectedRow == -1)
         anEquation = nil;
     else
-        anEquation = [[[self selectedRule] symbols] objectAtIndex:selectedRow];
+        anEquation = [[[self selectedRule] symbolEquations] objectAtIndex:selectedRow];
 
     if (anEquation == nil) {
         [symbolEquationOutlineView selectRow:0 byExtendingSelection:NO];
@@ -438,7 +438,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
               case 4: return @"Mark 3";
             }
         } else if ([@"equation" isEqual:identifier] == YES) {
-            return [[[[self selectedRule] symbols] objectAtIndex:row] equationPath];
+            return [[[[self selectedRule] symbolEquations] objectAtIndex:row] equationPath];
         }
     } else if (tableView == parameterTableView || tableView == specialParameterTableView) {
         MMParameter *parameter;
@@ -767,7 +767,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
         selectedEquation = [outlineView selectedItemOfClass:[MMEquation class]];
         if (selectedEquation != nil) {
-            [[[self selectedRule] symbols] replaceObjectAtIndex:[symbolTableView selectedRow] withObject:selectedEquation];
+            [[[self selectedRule] symbolEquations] replaceObjectAtIndex:[symbolTableView selectedRow] withObject:selectedEquation];
         }
     } else if (outlineView == parameterTransitionOutlineView) {
         MMTransition *selectedTransition;

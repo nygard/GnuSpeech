@@ -65,7 +65,7 @@
 
 - (NSMutableArray *)parameterTransitions;
 - (NSMutableArray *)metaParameterTransitions;
-- (NSMutableArray *)symbols;
+- (NSMutableArray *)symbolEquations;
 
 - (MMTransition *)getSpecialProfile:(int)index;
 - (void)setSpecialProfile:(int)index to:(MMTransition *)special;
