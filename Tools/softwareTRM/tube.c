@@ -249,7 +249,7 @@ int initializeSynthesizer(TRMInputParameters *inputParameters)
     dampingFactor = (1.0 - (inputParameters->lossFactor / 100.0));
 
     /*  INITIALIZE THE WAVE TABLE  */
-    initializeWavetable(inputParameters);
+    initializeWavetable(inputParameters->waveform, inputParameters->tp, inputParameters->tnMin, inputParameters->tnMax);
 
     /*  INITIALIZE THE FIR FILTER  */
     initializeFIR(FIR_BETA, FIR_GAMMA, FIR_CUTOFF);

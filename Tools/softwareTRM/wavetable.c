@@ -21,7 +21,7 @@ static double mod0(double value);
 static void incrementTablePosition(double frequency);
 
 // Calculates the initial glottal pulse and stores it in the wavetable, for use in the oscillator.
-void initializeWavetable(struct _TRMInputParameters *inputParameters)
+void initializeWavetable(int waveform, double tp, double tnMin, double tnMax)
 {
     int i, j;
 
@@ -30,15 +30,15 @@ void initializeWavetable(struct _TRMInputParameters *inputParameters)
     wavetable = (double *)calloc(TABLE_LENGTH, sizeof(double));
 
     //  Calculate wave table parameters
-    tableDiv1 = rint(TABLE_LENGTH * (inputParameters->tp / 100.0));
-    tableDiv2 = rint(TABLE_LENGTH * ((inputParameters->tp + inputParameters->tnMax) / 100.0));
+    tableDiv1 = rint(TABLE_LENGTH * (tp / 100.0));
+    tableDiv2 = rint(TABLE_LENGTH * ((tp + tnMax) / 100.0));
     tnLength = tableDiv2 - tableDiv1;
-    tnDelta = rint(TABLE_LENGTH * ((inputParameters->tnMax - inputParameters->tnMin) / 100.0));
+    tnDelta = rint(TABLE_LENGTH * ((tnMax - tnMin) / 100.0));
     basicIncrement = (double)TABLE_LENGTH / (double)sampleRate;
     currentPosition = 0;
 
     //  Initialize the wavetable with either a glottal pulse or sine tone
-    if (inputParameters->waveform == PULSE) {
+    if (waveform == PULSE) {
         //  Calculate rise portion of wave table
         for (i = 0; i < tableDiv1; i++) {
             double x = (double)i / (double)tableDiv1;
