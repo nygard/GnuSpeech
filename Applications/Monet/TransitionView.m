@@ -388,11 +388,12 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     int type;
     NSBezierPath *bezierPath;
     NSPoint graphOrigin;
-    int cache;
+    int cacheTag;
 
     graphOrigin = [self graphOrigin];
 
-    cache = [[self model] nextCacheTag];
+    cacheTag = [[self model] nextCacheTag];
+    //NSLog(@"%s, cacheTag: %d", _cmd, cacheTag);
 
     if (transition)
         type = [transition type];
@@ -407,7 +408,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         for (j = 0; j < [namedList count]; j++) {
             equation = [namedList objectAtIndex:j];
             if ([[equation formula] maxPhone] <= type) {
-                time = [equation evaluate:&_parameters postures:samplePostures andCacheWith:cache];
+                time = [equation evaluate:&_parameters postures:samplePostures andCacheWith:cacheTag];
                 //NSLog(@"\t%@", [equation name]);
                 //NSLog(@"\t\ttime = %f", time);
                 //NSLog(@"equation name: %@, formula: %@, time: %f", [equation name], [[equation expression] expressionString], time);
@@ -493,7 +494,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     NSBezierPath *bezierPath;
     NSPoint graphOrigin;
     NSMutableArray *diphonePoints, *triphonePoints, *tetraphonePoints;
-    int cache;
+    int cacheTag;
 
     if (transition == nil)
         return;
@@ -508,7 +509,8 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     timeScale = [self timeScale];
     yScale = [self sectionHeight];
 
-    cache = [[self model] nextCacheTag];
+    cacheTag = [[self model] nextCacheTag];
+    //NSLog(@"%s, cacheTag: %d", _cmd, cacheTag);
 
     currentPoints = [transition points];
     count = [currentPoints count];
@@ -516,7 +518,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         currentPoint = [currentPoints objectAtIndex:index];
         //NSLog(@"%2d: object class: %@", index, NSStringFromClass([currentPoint class]));
         //NSLog(@"%2d (a): value: %g, freeTime: %g, type: %d, isPhantom: %d", index, [currentPoint value], [currentPoint freeTime], [currentPoint type], [currentPoint isPhantom]);
-        [currentPoint calculatePoints:&_parameters tempos:tempos postures:samplePostures andCacheWith:cache toDisplay:displayPoints];
+        [currentPoint calculatePoints:&_parameters tempos:tempos postures:samplePostures andCacheWith:cacheTag toDisplay:displayPoints];
         //NSLog(@"%2d (b): value: %g, freeTime: %g, type: %d, isPhantom: %d", index, [currentPoint value], [currentPoint freeTime], [currentPoint type], [currentPoint isPhantom]);
 
         if ([currentPoint isKindOfClass:[MMSlopeRatio class]])
@@ -854,24 +856,27 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 
 - (void)drawSlopes;
 {
-    int i, j;
+    unsigned int count, index;
+    int j;
     double start, end;
     NSRect rect = NSMakeRect(0, 0, 2 * LEFT_MARGIN, SLOPE_MARKER_HEIGHT);
-    MMSlopeRatio *currentPoint;
-    MonetList *slopes;
-    NSMutableArray *points;
+    id currentPoint;
+    NSMutableArray *points, *slopes;
     float timeScale = [self timeScale];
     NSPoint graphOrigin;
     NSRect bounds;
+    NSArray *transitionPoints;
 
     bounds = [self bounds];
     graphOrigin = [self graphOrigin];
     rect.origin.y = [self slopeMarkerYPosition];
 
-    for (i = 0; i < [[transition points] count]; i++) {
-        currentPoint = [[transition points] objectAtIndex:i];
+    transitionPoints = [transition points];
+    count = [transitionPoints count];
+    for (index = 0; index < count; index++) {
+        currentPoint = [transitionPoints objectAtIndex:index];
         if ([currentPoint isKindOfClass:[MMSlopeRatio class]]) {
-            //NSLog(@"%d: Drawing slope ratio...", i);
+            //NSLog(@"%d: Drawing slope ratio...", index);
             start = graphOrigin.x + [currentPoint startTime] * timeScale;
             end = graphOrigin.x + [currentPoint endTime] * timeScale;
             //NSLog(@"Slope  %f -> %f", start, end);
@@ -891,10 +896,13 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
                 //NSLog(@"Buffer = %@", str);
 
                 [[NSColor blackColor] set];
-                textFieldFrame.origin.x = ([[(MMPoint *)[points objectAtIndex:j] timeEquation] cacheValue]) * timeScale + LEFT_MARGIN + 5.0;
+                // TODO (2004-08-15): This is wrong, it can be a free time value.
+                //textFieldFrame.origin.x = ([[(MMPoint *)[points objectAtIndex:j] timeEquation] cacheValue]) * timeScale + LEFT_MARGIN + 5.0;
+                textFieldFrame.origin.x = ([(MMPoint *)[points objectAtIndex:j] cachedTime]) * timeScale + LEFT_MARGIN + 5.0;
                 textFieldFrame.origin.y = rect.origin.y + 2;
                 textFieldFrame.size.width = 60;
                 textFieldFrame.size.height = SLOPE_MARKER_HEIGHT - 2;
+                //NSLog(@"textFieldFrame: %@", NSStringFromRect(textFieldFrame));
                 //[str drawAtPoint:aPoint withAttributes:nil];
                 [textFieldCell setStringValue:str];
                 [textFieldCell setFont:timesFont];
@@ -1060,11 +1068,12 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     int count, index;
     float timeScale;
     int yScale;
-    int cache;
+    int cacheTag;
 
     [selectedPoints removeAllObjects];
 
-    cache = [[self model] nextCacheTag];
+    cacheTag = [[self model] nextCacheTag];
+    //NSLog(@"%s, cacheTag: %d", _cmd, cacheTag);
     graphOrigin = [self graphOrigin];
     timeScale = [self timeScale];
     yScale = [self sectionHeight];
@@ -1087,7 +1096,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         if (currentExpression == nil)
             currentPoint.x = [currentDisplayPoint freeTime];
         else
-            currentPoint.x = [[currentDisplayPoint timeEquation] evaluate:&_parameters postures:samplePostures andCacheWith:cache];
+            currentPoint.x = [[currentDisplayPoint timeEquation] evaluate:&_parameters postures:samplePostures andCacheWith:cacheTag];
 
         currentPoint.x *= timeScale;
         currentPoint.y = (yScale * ZERO_INDEX) + ([currentDisplayPoint value] * yScale / SECTION_AMOUNT);

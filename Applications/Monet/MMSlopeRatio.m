@@ -31,7 +31,7 @@
         return nil;
 
     points = [[NSMutableArray alloc] init];
-    slopes = [[MonetList alloc] initWithCapacity:4];
+    slopes = [[NSMutableArray alloc] init];
 
     return self;
 }
@@ -65,12 +65,12 @@
     [points addObject:newPoint];
 }
 
-- (MonetList *)slopes;
+- (NSMutableArray *)slopes;
 {
     return slopes;
 }
 
-- (void)setSlopes:(MonetList *)newList;
+- (void)setSlopes:(NSMutableArray *)newList;
 {
     if (newList == slopes)
         return;
@@ -86,33 +86,28 @@
 
 - (void)updateSlopes;
 {
-    if ([slopes count] > ([points count] - 1)) {
-        while ([slopes count] > ([points count] - 1)) {
-            [slopes removeLastObject];
-        }
-        return;
+    while ([slopes count] > ([points count] - 1)) {
+        [slopes removeLastObject];
     }
 
-    if ([slopes count] < ([points count] - 1)) {
-        while ([slopes count] < ([points count] - 1)) {
-            MMSlope *aSlope;
+    while ([slopes count] < ([points count] - 1)) {
+        MMSlope *newSlope;
 
-            aSlope = [[MMSlope alloc] init];
-            [aSlope setSlope:1.0];
-            [slopes addObject:aSlope];
-            [aSlope release];
-        }
+        newSlope = [[MMSlope alloc] init];
+        [newSlope setSlope:1.0];
+        [slopes addObject:newSlope];
+        [newSlope release];
     }
 }
 
 - (double)startTime;
 {
-    return [[(MMPoint *)[points objectAtIndex:0] timeEquation] cacheValue];
+    return [(MMPoint *)[points objectAtIndex:0] cachedTime];
 }
 
 - (double)endTime;
 {
-    return [[(MMPoint *)[points lastObject] timeEquation] cacheValue];
+    return [(MMPoint *)[points lastObject] cachedTime];
 }
 
 - (void)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(int)newCacheTag
@@ -283,7 +278,13 @@
         points = [[NSMutableArray alloc] init];
         [points addObjectsFromArray:[archivedPoints allObjects]];
     }
-    slopes = [[aDecoder decodeObject] retain];
+    {
+        MonetList *archivedSlopes;
+
+        archivedSlopes = [aDecoder decodeObject];
+        slopes = [[NSMutableArray alloc] init];
+        [slopes addObjectsFromArray:[archivedSlopes allObjects]];
+    }
 
     //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
     return self;
