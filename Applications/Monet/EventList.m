@@ -949,13 +949,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
             }
 
             if (!feet[j].marked) {
-                // TODO (2004-08-16): Turn this loop into a method.
-                for (k = 0; k < currentRule; k++) {
-                    if ((phoneIndex >= rules[k].firstPhone) && (phoneIndex <= rules[k].lastPhone)) {
-                        ruleIndex = k;
-                        break;
-                    }
-                }
+                ruleIndex = [self ruleIndexForPostureAtIndex:phoneIndex];
 
                 // randomSemitone is in range of +/- 1/2 of pretonicLift
                 randomSemitone = ((double)random() / (double)0x7fffffff) * (double)intonationParameters.pretonicLift - intonationParameters.pretonicLift / 2.0;
@@ -968,12 +962,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
 //                NSLog(@"Calculated Delta = %f  time = %f", ((phones[phoneIndex].onset-startTime)*pretonicDelta),
 //                       (phones[phoneIndex].onset-startTime));
             } else { /* Tonic */
-                for (k = 0; k < currentRule; k++) {
-                    if ((phoneIndex >= rules[k].firstPhone) && (phoneIndex <= rules[k].lastPhone)) {
-                        ruleIndex = k;
-                        break;
-                    }
-                }
+                ruleIndex = [self ruleIndexForPostureAtIndex:phoneIndex];
 
                 // Slopes from 0.02 to 0.05
                 randomSlope = ((double)random() / (double)0x7fffffff) * 0.03 + 0.02;
@@ -982,12 +971,7 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
                       offsetTime:offsetTime slope:randomSlope ruleIndex:ruleIndex];
 
                 phoneIndex = feet[j].end;
-                for (k = ruleIndex; k < currentRule; k++) {
-                    if ((phoneIndex >= rules[k].firstPhone) && (phoneIndex <= rules[k].lastPhone)) {
-                        ruleIndex = k;
-                        break;
-                    }
-                }
+                ruleIndex = [self ruleIndexForPostureAtIndex:phoneIndex];
 
                 [self addIntonationPoint:intonationParameters.pretonicRange + intonationParameters.notionalPitch + intonationParameters.tonicRange
                       offsetTime:0.0 slope:0.0 ruleIndex:ruleIndex];
@@ -998,6 +982,18 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
     }
 
     //[self printDataStructures:@"After applyIntonation generateEventListWithModel:"];
+}
+
+- (int)ruleIndexForPostureAtIndex:(int)postureIndex;
+{
+    int index;
+
+    for (index = 0; index < currentRule; index++) {
+        if ((postureIndex >= rules[index].firstPhone) && (postureIndex <= rules[index].lastPhone))
+            return index;
+    }
+
+    return 0;
 }
 
 - (NSString *)description;

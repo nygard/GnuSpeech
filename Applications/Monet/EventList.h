@@ -195,6 +195,8 @@ struct _rule {
 
 - (void)generateIntonationPoints;
 
+- (int)ruleIndexForPostureAtIndex:(int)postureIndex;
+
 - (NSString *)description;
 - (void)printDataStructures:(NSString *)comment;
 
