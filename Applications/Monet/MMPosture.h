@@ -75,15 +75,12 @@
 
 - (void)addParameterTarget:(MMTarget *)newTarget;
 - (void)removeParameterTargetAtIndex:(unsigned int)index;
-//- (void)addParameterTargetsFromDictionary:(NSDictionary *)aDictionary;
 
 - (void)addMetaParameterTarget:(MMTarget *)newTarget;
 - (void)removeMetaParameterTargetAtIndex:(unsigned int)index;
-//- (void)addMetaParameterTargetsFromDictionary:(NSDictionary *)aDictionary;
 
 - (void)addSymbolTarget:(MMTarget *)newTarget;
 - (void)removeSymbolTargetAtIndex:(unsigned int)index;
-//- (void)addSymbolTargetsFromDictionary:(NSDictionary *)aDictionary;
 
 - (MMTarget *)targetForSymbol:(MMSymbol *)aSymbol;
 

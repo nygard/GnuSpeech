@@ -973,6 +973,15 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     return [rules lastObject];
 }
 
+- (void)_addRulesFromArray:(NSArray *)newRules;
+{
+    unsigned int count, index;
+
+    count = [newRules count];
+    for (index = 0; index < count; index++)
+        [self _addStoredRule:[newRules objectAtIndex:index]];
+}
+
 //
 // Archiving
 //
@@ -1714,38 +1723,11 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
                 archivedChildren = [childElement loadChildrenNamed:@"transition-group" class:[NamedList class] context:self];
                 [self addSpecialTransitionGroupsFromArray:archivedChildren];
             } else if ([elementName isEqual:@"rules"]) {
-                //archivedChildren = [childElement loadChildrenNamed:@"rule" class:[MMRule class] context:self];
+                archivedChildren = [childElement loadChildrenNamed:@"rule" class:[MMRule class] context:self];
+                [self _addRulesFromArray:archivedChildren];
             }
         }
     }
 }
-#if 0
-- (void)_loadCategoriesFromElement:(NSXMLElement *)element;
-{
-    unsigned int count, index;
-
-    count = [element childCount];
-    for (index = 0; index < count; index++) {
-        NSXMLNode *childNode;
-
-        childNode = [element childAtIndex:index];
-        if ([childNode kind] == NSXMLElementKind) {
-            NSXMLElement *childElement;
-            NSString *elementName;
-
-            childElement = (NSXMLElement *)childNode;
-            elementName = [childElement name];
-            if ([elementName isEqual:@"category"]) {
-                MMCategory *newCategory;
-
-                newCategory = [[MMCategory alloc] init];
-                [newCategory loadFromXMLElement:childElement];
-                [self addCategory:newCategory];
-                [newCategory release];
-            }
-        }
-    }
-}
-#endif
 
 @end

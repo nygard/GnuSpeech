@@ -207,33 +207,7 @@
 {
     [parameterTargets removeObjectAtIndex:index];
 }
-#if 0
-- (void)addParameterTargetsFromDictionary:(NSDictionary *)aDictionary;
-{
-    NSArray *parameters;
-    unsigned int count, index;
 
-    parameters = [[self model] parameters];
-    count = [parameters count];
-    for (index = 0; index < count; index++) {
-        MMParameter *currentParameter;
-        MMTarget *currentTarget;
-
-        currentParameter = [parameters objectAtIndex:index];
-        currentTarget = [aDictionary objectForKey:[currentParameter name]];
-        if (currentTarget == nil) {
-            NSLog(@"Warning: no target for parameter %@ in save file, adding default target.", [currentParameter name]);
-            currentTarget = [[MMTarget alloc] initWithValue:[currentParameter defaultValue] isDefault:YES];
-            [self addParameterTarget:currentTarget];
-            [currentTarget release];
-        } else {
-            [self addParameterTarget:currentTarget];
-        }
-
-        // TODO (2004-04-22): Check for targets that were in the save file, but that don't have a matching parameter.
-    }
-}
-#endif
 - (void)addMetaParameterTarget:(MMTarget *)newTarget;
 {
     [metaParameterTargets addObject:newTarget];
@@ -243,33 +217,7 @@
 {
     [metaParameterTargets removeObjectAtIndex:index];
 }
-#if 0
-- (void)addMetaParameterTargetsFromDictionary:(NSDictionary *)aDictionary;
-{
-    NSArray *parameters;
-    unsigned int count, index;
 
-    parameters = [[self model] metaParameters];
-    count = [parameters count];
-    for (index = 0; index < count; index++) {
-        MMParameter *currentParameter;
-        MMTarget *currentTarget;
-
-        currentParameter = [parameters objectAtIndex:index];
-        currentTarget = [aDictionary objectForKey:[currentParameter name]];
-        if (currentTarget == nil) {
-            NSLog(@"Warning: no target for meta-parameter %@ in save file, adding default target.", [currentParameter name]);
-            currentTarget = [[MMTarget alloc] initWithValue:[currentParameter defaultValue] isDefault:YES];
-            [self addMetaParameterTarget:currentTarget];
-            [currentTarget release];
-        } else {
-            [self addMetaParameterTarget:currentTarget];
-        }
-
-        // TODO (2004-04-22): Check for targets that were in the save file, but that don't have a matching parameter.
-    }
-}
-#endif
 - (void)addSymbolTarget:(MMTarget *)newTarget;
 {
     [symbolTargets addObject:newTarget];
@@ -279,33 +227,7 @@
 {
     [symbolTargets removeObjectAtIndex:index];
 }
-#if 0
-- (void)addSymbolTargetsFromDictionary:(NSDictionary *)aDictionary;
-{
-    NSArray *symbols;
-    unsigned int count, index;
 
-    symbols = [[self model] symbols];
-    count = [symbols count];
-    for (index = 0; index < count; index++) {
-        MMSymbol *currentSymbol;
-        MMTarget *currentTarget;
-
-        currentSymbol = [symbols objectAtIndex:index];
-        currentTarget = [aDictionary objectForKey:[currentSymbol name]];
-        if (currentTarget == nil) {
-            NSLog(@"Warning: no target for symbol %@ in save file, adding default target.", [currentSymbol name]);
-            currentTarget = [[MMTarget alloc] initWithValue:[currentSymbol defaultValue] isDefault:YES];
-            [self addSymbolTarget:currentTarget];
-            [currentTarget release];
-        } else {
-            [self addSymbolTarget:currentTarget];
-        }
-
-        // TODO (2004-04-22): Check for targets that were in the save file, but that don't have a matching symbol.
-    }
-}
-#endif
 - (MMTarget *)targetForSymbol:(MMSymbol *)aSymbol;
 {
     int symbolIndex;

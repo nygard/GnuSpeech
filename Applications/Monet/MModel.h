@@ -112,6 +112,7 @@ extern NSString *MCategoryInUseException;
 - (void)addRule:(MMRule *)newRule;
 - (void)_addStoredRule:(MMRule *)newRule;
 - (MMRule *)findRuleMatchingCategories:(NSArray *)categoryLists ruleIndex:(int *)indexPtr;
+- (void)_addRulesFromArray:(NSArray *)newRules;
 
 // Archiving
 - (id)initWithCoder:(NSCoder *)aDecoder;

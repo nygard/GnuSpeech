@@ -212,117 +212,14 @@
     [parameterTransitions addObject:aTransition];
 }
 
-- (void)addParameterTransitionsFromReferenceDictionary:(NSDictionary *)dict;
-{
-    NSArray *parameters;
-    unsigned int count, index;
-    MMParameter *parameter;
-    NSString *name;
-    MMTransition *transition;
-
-    parameters = [[self model] parameters];
-
-    count = [parameters count];
-    for (index = 0; index < count; index++) {
-
-        parameter = [parameters objectAtIndex:index];
-        name = [dict objectForKey:[parameter name]];
-        transition = [[self model] findTransitionWithName:name];
-        if (transition == nil) {
-            NSLog(@"Error: Can't find transition named: %@", name);
-        } else {
-            [self addStoredParameterTransition:transition];
-        }
-    }
-}
-
 - (void)addStoredMetaParameterTransition:(MMTransition *)aTransition;
 {
     [metaParameterTransitions addObject:aTransition];
 }
 
-- (void)addMetaParameterTransitionsFromReferenceDictionary:(NSDictionary *)dict;
-{
-    NSArray *parameters;
-    unsigned int count, index;
-    MMParameter *parameter;
-    NSString *name;
-    MMTransition *transition;
-
-    parameters = [[self model] metaParameters];
-
-    count = [parameters count];
-    for (index = 0; index < count; index++) {
-
-        parameter = [parameters objectAtIndex:index];
-        name = [dict objectForKey:[parameter name]];
-        transition = [[self model] findTransitionWithName:name];
-        if (transition == nil) {
-            NSLog(@"Error: Can't find transition named: %@", name);
-        } else {
-            [self addStoredMetaParameterTransition:transition];
-        }
-    }
-}
-
-- (void)addSpecialProfilesFromReferenceDictionary:(NSDictionary *)dict;
-{
-    NSArray *parameters;
-    unsigned int count, index;
-    MMParameter *parameter;
-    NSString *transitionName;
-    MMTransition *transition;
-
-    //NSLog(@"%s, dict: %@", _cmd, [dict description]);
-    parameters = [[self model] parameters];
-
-    count = [parameters count];
-    for (index = 0; index < count; index++) {
-        parameter = [parameters objectAtIndex:index];
-        transitionName = [dict objectForKey:[parameter name]];
-        if (transitionName != nil) {
-            //NSLog(@"parameter: %@, transition name: %@", [parameter name], transitionName);
-            transition = [[self model] findSpecialTransitionWithName:transitionName];
-            if (transition == nil) {
-                NSLog(@"Error: Can't find transition named: %@", transitionName);
-            } else {
-                [self setSpecialProfile:index to:transition];
-            }
-        }
-    }
-}
-
 - (void)addStoredSymbolEquation:(MMEquation *)anEquation;
 {
     [symbolEquations addObject:anEquation];
-}
-
-- (void)addSymbolEquationsFromReferenceDictionary:(NSDictionary *)dict;
-{
-    NSArray *symbols;
-    unsigned int count, index;
-    NSString *symbolName, *equationName;
-    MMEquation *equation;
-
-    symbols = [[NSArray alloc] initWithObjects:@"rd", @"beat", @"mark1", @"mark2", @"mark3", nil];
-
-    count = [symbols count];
-    for (index = 0; index < count; index++) {
-
-        symbolName = [symbols objectAtIndex:index];
-        equationName = [dict objectForKey:symbolName];
-        if (equationName == nil)
-            break;
-
-        equation = [[self model] findEquationWithName:equationName];
-        if (equation == nil) {
-            NSLog(@"Error: Can't find equation named: %@", equationName);
-        } else {
-            [self addStoredSymbolEquation:equation];
-        }
-    }
-
-    [symbols release];
 }
 
 - (void)setExpression:(MMBooleanNode *)newExpression number:(int)index;
@@ -824,65 +721,207 @@
         [self setDefaultsTo:[self numberExpressions]];
 }
 
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
+- (void)loadFromXMLElement:(NSXMLElement *)element context:(id)context;
 {
-    if ([self init] == nil)
-        return nil;
+    unsigned int count, index;
 
-    return self;
-}
-#if 0
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-{
-    if ([elementName isEqualToString:@"comment"]) {
-        MXMLPCDataDelegate *newDelegate;
+    [self setModel:context]; // So that parsing boolean expressions will work.
 
-        newDelegate = [[MXMLPCDataDelegate alloc] initWithElementName:elementName delegate:self setSelector:@selector(setComment:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
-    } else if ([elementName isEqualToString:@"boolean-expressions"]) {
-        MXMLArrayDelegate *newDelegate;
+    count = [element childCount];
+    for (index = 0; index < count; index++) {
+        NSXMLNode *childNode;
 
-        newDelegate = [[MXMLStringArrayDelegate alloc] initWithChildElementName:@"boolean-expression" delegate:self addObjectSelector:@selector(addBooleanExpressionString:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
-    } else if ([elementName isEqualToString:@"parameter-profiles"]) {
-        MXMLReferenceDictionaryDelegate *newDelegate;
+        childNode = [element childAtIndex:index];
+        if ([childNode kind] == NSXMLElementKind) {
+            NSXMLElement *childElement;
+            NSString *elementName;
 
-        newDelegate = [[MXMLReferenceDictionaryDelegate alloc] initWithChildElementName:@"parameter-transition" keyAttributeName:@"name" referenceAttributeName:@"transition"
-                                                               delegate:self addObjectsSelector:@selector(addParameterTransitionsFromReferenceDictionary:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
-    } else if ([elementName isEqualToString:@"meta-parameter-profiles"]) {
-        MXMLReferenceDictionaryDelegate *newDelegate;
-
-        newDelegate = [[MXMLReferenceDictionaryDelegate alloc] initWithChildElementName:@"parameter-transition" keyAttributeName:@"name" referenceAttributeName:@"transition"
-                                                               delegate:self addObjectsSelector:@selector(addMetaParameterTransitionsFromReferenceDictionary:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
-    } else if ([elementName isEqualToString:@"special-profiles"]) {
-        MXMLReferenceDictionaryDelegate *newDelegate;
-
-        newDelegate = [[MXMLReferenceDictionaryDelegate alloc] initWithChildElementName:@"parameter-transition" keyAttributeName:@"name" referenceAttributeName:@"transition"
-                                                               delegate:self addObjectsSelector:@selector(addSpecialProfilesFromReferenceDictionary:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
-    } else if ([elementName isEqualToString:@"expression-symbols"]) {
-        MXMLReferenceDictionaryDelegate *newDelegate;
-
-        newDelegate = [[MXMLReferenceDictionaryDelegate alloc] initWithChildElementName:@"symbol-equation" keyAttributeName:@"name" referenceAttributeName:@"equation"
-                                                               delegate:self addObjectsSelector:@selector(addSymbolEquationsFromReferenceDictionary:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
-    } else {
-        NSLog(@"%@, Unknown element: '%@', skipping", [self shortDescription], elementName);
-        [(MXMLParser *)parser skipTree];
+            childElement = (NSXMLElement *)childNode;
+            elementName = [childElement name];
+            if ([elementName isEqual:@"comment"]) {
+                [self setComment:[childElement stringValue]];
+            } else if ([elementName isEqual:@"boolean-expressions"]) {
+                [self _loadBooleanExpressionsFromXMLElement:childElement context:context];
+            } else if ([elementName isEqual:@"parameter-profiles"]) {
+                [self _loadParameterProfilesFromXMLElement:childElement context:context];
+            } else if ([elementName isEqual:@"meta-parameter-profiles"]) {
+                [self _loadMetaParameterProfilesFromXMLElement:childElement context:context];
+            } else if ([elementName isEqual:@"special-profiles"]) {
+                [self _loadSpecialProfilesFromXMLElement:childElement context:context];
+            } else if ([elementName isEqual:@"expression-symbols"]) {
+                [self _loadExpressionSymbolsFromXMLElement:childElement context:context];
+            }
+        }
     }
 }
 
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
+- (void)_loadBooleanExpressionsFromXMLElement:(NSXMLElement *)element context:(id)context;
 {
-    [(MXMLParser *)parser popDelegate];
+    NSArray *children;
+    unsigned int count, index;
+
+    children = [element elementsForName:@"boolean-expression"];
+    count = [children count];
+    for (index = 0; index < count; index++)
+        [self addBooleanExpressionString:[[children objectAtIndex:index] stringValue]];
 }
-#endif
+
+- (void)_loadParameterProfilesFromXMLElement:(NSXMLElement *)element context:(id)context;
+{
+    NSArray *children;
+    unsigned int count, index;
+    NSMutableDictionary *dict;
+
+    NSArray *parameters;
+    MMParameter *parameter;
+    NSString *name;
+    MMTransition *transition;
+
+    dict = [NSMutableDictionary dictionary];
+
+    children = [element elementsForName:@"parameter-transition"];
+    count = [children count];
+    for (index = 0; index < count; index++) {
+        NSXMLElement *childElement;
+
+        childElement = [children objectAtIndex:index];
+        [dict setObject:[[childElement attributeForName:@"transition"] stringValue] forKey:[[childElement attributeForName:@"name"] stringValue]];
+    }
+
+    parameters = [context parameters];
+
+    count = [parameters count];
+    for (index = 0; index < count; index++) {
+
+        parameter = [parameters objectAtIndex:index];
+        name = [dict objectForKey:[parameter name]];
+        transition = [context findTransitionWithName:name];
+        if (transition == nil) {
+            NSLog(@"Error: Can't find transition named: %@", name);
+        } else {
+            [self addStoredParameterTransition:transition];
+        }
+    }
+}
+
+- (void)_loadMetaParameterProfilesFromXMLElement:(NSXMLElement *)element context:(id)context;
+{
+    NSArray *children;
+    unsigned int count, index;
+    NSMutableDictionary *dict;
+
+    NSArray *parameters;
+    MMParameter *parameter;
+    NSString *name;
+    MMTransition *transition;
+
+    dict = [NSMutableDictionary dictionary];
+
+    children = [element elementsForName:@"parameter-transition"];
+    count = [children count];
+    for (index = 0; index < count; index++) {
+        NSXMLElement *childElement;
+
+        childElement = [children objectAtIndex:index];
+        [dict setObject:[[childElement attributeForName:@"transition"] stringValue] forKey:[[childElement attributeForName:@"name"] stringValue]];
+    }
+
+    parameters = [context metaParameters];
+
+    count = [parameters count];
+    for (index = 0; index < count; index++) {
+
+        parameter = [parameters objectAtIndex:index];
+        name = [dict objectForKey:[parameter name]];
+        transition = [context findTransitionWithName:name];
+        if (transition == nil) {
+            NSLog(@"Error: Can't find transition named: %@", name);
+        } else {
+            [self addStoredMetaParameterTransition:transition];
+        }
+    }
+}
+
+- (void)_loadSpecialProfilesFromXMLElement:(NSXMLElement *)element context:(id)context;
+{
+    NSArray *children;
+    unsigned int count, index;
+    NSMutableDictionary *dict;
+
+    NSArray *parameters;
+    MMParameter *parameter;
+    NSString *transitionName;
+    MMTransition *transition;
+
+    dict = [NSMutableDictionary dictionary];
+
+    children = [element elementsForName:@"parameter-transition"];
+    count = [children count];
+    for (index = 0; index < count; index++) {
+        NSXMLElement *childElement;
+
+        childElement = [children objectAtIndex:index];
+        [dict setObject:[[childElement attributeForName:@"transition"] stringValue] forKey:[[childElement attributeForName:@"name"] stringValue]];
+    }
+
+    parameters = [context parameters];
+
+    count = [parameters count];
+    for (index = 0; index < count; index++) {
+        parameter = [parameters objectAtIndex:index];
+        transitionName = [dict objectForKey:[parameter name]];
+        if (transitionName != nil) {
+            //NSLog(@"parameter: %@, transition name: %@", [parameter name], transitionName);
+            transition = [context findSpecialTransitionWithName:transitionName];
+            if (transition == nil) {
+                NSLog(@"Error: Can't find transition named: %@", transitionName);
+            } else {
+                [self setSpecialProfile:index to:transition];
+            }
+        }
+    }
+}
+
+- (void)_loadExpressionSymbolsFromXMLElement:(NSXMLElement *)element context:(id)context;
+{
+    NSArray *children;
+    unsigned int count, index;
+    NSMutableDictionary *dict;
+
+    NSArray *symbols;
+    NSString *symbolName, *equationName;
+    MMEquation *equation;
+
+    dict = [NSMutableDictionary dictionary];
+
+    children = [element elementsForName:@"symbol-equation"];
+    count = [children count];
+    for (index = 0; index < count; index++) {
+        NSXMLElement *childElement;
+
+        childElement = [children objectAtIndex:index];
+        [dict setObject:[[childElement attributeForName:@"equation"] stringValue] forKey:[[childElement attributeForName:@"name"] stringValue]];
+    }
+
+    symbols = [[NSArray alloc] initWithObjects:@"rd", @"beat", @"mark1", @"mark2", @"mark3", nil];
+
+    count = [symbols count];
+    for (index = 0; index < count; index++) {
+
+        symbolName = [symbols objectAtIndex:index];
+        equationName = [dict objectForKey:symbolName];
+        if (equationName == nil)
+            break;
+
+        equation = [context findEquationWithName:equationName];
+        if (equation == nil) {
+            NSLog(@"Error: Can't find equation named: %@", equationName);
+        } else {
+            [self addStoredSymbolEquation:equation];
+        }
+    }
+
+    [symbols release];
+}
+
 @end
