@@ -272,7 +272,7 @@
     assert(categoryList == nil);
 
     [aDecoder decodeValueOfObjCType:"i" at:&count];
-    NSLog(@"TOTAL Categories for %@ = %d", phoneSymbol, count);
+    //NSLog(@"TOTAL Categories for %@ = %d", phoneSymbol, count);
 
     categoryList = [[CategoryList alloc] initWithCapacity:count];
 

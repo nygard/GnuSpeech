@@ -739,24 +739,24 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     //[categories sortUsingSelector:@selector(compareByAscendingName:)];
 
     //NSLog(@"categories: %@", categories);
-    NSLog(@"categories: %d", [categories count]);
+    //NSLog(@"categories: %d", [categories count]);
     NXNameObject(@"mainCategoryList", categories, NSApp);
 
     symbols = [[aDecoder decodeObject] retain];
     //NSLog(@"symbols: %@", symbols);
-    NSLog(@"symbols: %d", [symbols count]);
+    //NSLog(@"symbols: %d", [symbols count]);
 
     parameters = [[aDecoder decodeObject] retain];
     //NSLog(@"parameters: %@", parameters);
-    NSLog(@"parameters: %d", [parameters count]);
+    //NSLog(@"parameters: %d", [parameters count]);
 
     metaParameters = [[aDecoder decodeObject] retain];
     //NSLog(@"metaParameters: %@", metaParameters);
-    NSLog(@"metaParameters: %d", [metaParameters count]);
+    //NSLog(@"metaParameters: %d", [metaParameters count]);
 
     postures = [[aDecoder decodeObject] retain];
     //NSLog(@"postures: %@", postures);
-    NSLog(@"postures: %d", [postures count]);
+    //NSLog(@"postures: %d", [postures count]);
     [postures makeObjectsPerformSelector:@selector(setModel:) withObject:self];
 
     NXNameObject(@"mainSymbolList", symbols, NSApp);
@@ -765,16 +765,16 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     NXNameObject(@"mainPhoneList", postures, NSApp);
 
     equations = [[aDecoder decodeObject] retain];
-    NSLog(@"equations: %d", [equations count]);
+    //NSLog(@"equations: %d", [equations count]);
 
     transitions = [[aDecoder decodeObject] retain];
-    NSLog(@"transitions: %d", [transitions count]);
+    //NSLog(@"transitions: %d", [transitions count]);
 
     specialTransitions = [[aDecoder decodeObject] retain];
-    NSLog(@"specialTransitions: %d", [specialTransitions count]);
+    //NSLog(@"specialTransitions: %d", [specialTransitions count]);
 
     rules = [[aDecoder decodeObject] retain];
-    NSLog(@"rules: %d", [rules count]);
+    //NSLog(@"rules: %d", [rules count]);
     [rules makeObjectsPerformSelector:@selector(setModel:) withObject:self];
 
     return self;
