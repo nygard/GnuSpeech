@@ -35,6 +35,7 @@
 
 - (void)dealloc;
 {
+    NSLog(@"[%p] -> %@ %s", self, NSStringFromClass([self class]), _cmd);
     [name release];
     [comment release];
     [expression release];
@@ -137,8 +138,10 @@
 
 - (void)encodeWithCoder:(NSCoder *)aCoder;
 {
+#ifdef PORTING
     [aCoder encodeValuesOfObjCTypes:"**", &name, &comment];
     [aCoder encodeObject:expression];
+#endif
 }
 
 - (NSString *)description;

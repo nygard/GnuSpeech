@@ -38,12 +38,16 @@
 {
     int index;
 
+    NSLog(@"[%p] -> %@ %s", self, NSStringFromClass([self class]), _cmd);
+
     [parameterProfiles release];
     [metaParameterProfiles release];
     [expressionSymbols release];
 
     for (index = 0 ; index < 4; index++)
         [expressions[index] release];
+
+    // TODO (2004-03-05): Release special profiles
 
     [comment release];
 
@@ -187,15 +191,16 @@
     [metaParameterProfiles removeObjectAtIndex:index];
 }
 
-- (void)setExpression:(BooleanExpression *)expression number:(int)index;
+- (void)setExpression:(BooleanExpression *)newExpression number:(int)index;
 {
     if ((index > 3) || (index < 0))
         return;
 
-    if (expressions[index])
-        [expressions[index] release];
+    if (newExpression == expressions[index])
+        return;
 
-    expressions[index] = expression;
+    [expressions[index] release];
+    expressions[index] = [newExpression retain];
 }
 
 - (int)numberExpressions;
@@ -336,7 +341,7 @@
     id tempParameter;
     char *c_comment;
 
-    if ([super initWithCode:aDecoder] == nil)
+    if ([super initWithCoder:aDecoder] == nil)
         return nil;
 
     NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
@@ -349,6 +354,8 @@
 
     [aDecoder decodeValuesOfObjCTypes:"i*", &j, &c_comment];
     comment = [[NSString stringWithASCIICString:c_comment] retain];
+
+    [NSException raise:@"fail here" format:@"Forcing it to fail here."];
 #ifdef PORTING
     bzero(expressions, sizeof(BooleanExpression *) * 4);
     for (index = 0; index < j; index++) {
@@ -437,6 +444,12 @@
         }
     }
 #endif
+}
+
+- (NSString *)description;
+{
+    return [NSString stringWithFormat:@"<%@>[%p]: parameterProfiles: %@, metaParameterProfiles: %@, expressionSymbols: %@, comment: %@",
+                     NSStringFromClass([self class]), self, parameterProfiles, metaParameterProfiles, expressionSymbols, comment];
 }
 
 @end

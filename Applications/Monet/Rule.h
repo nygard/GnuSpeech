@@ -32,7 +32,7 @@
 - (void)removeParameter:(int)index;
 - (void)removeMetaParameter:(int)index;
 
-- (void)setExpression:(BooleanExpression *)expression number:(int)index;
+- (void)setExpression:(BooleanExpression *)newExpression number:(int)index;
 - (int)numberExpressions;
 - (BooleanExpression *)getExpressionNumber:(int)index;
 

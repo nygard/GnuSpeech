@@ -2,6 +2,8 @@
 
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
+#import "NSObject-Extensions.h"
+
 #import "AppController.h"
 #import "BooleanExpression.h"
 #import "BooleanParser.h"
@@ -763,6 +765,11 @@ static NSString *ruleString = @"Rule";
 {
     int i;
 
+    NSLog(@"********************************************************************** %s", _cmd);
+
+    if ([super initWithCoder:aDecoder] == nil)
+        return nil;
+
     matchLists = [[MonetList alloc] initWithCapacity:4];
     for (i = 0; i < 4; i++) {
         PhoneList *aPhoneList;
@@ -782,13 +789,16 @@ static NSString *ruleString = @"Rule";
 
 - (void)encodeWithCoder:(NSCoder *)aCoder;
 {
+#ifdef PORTING
     [aCoder encodeObject:ruleList];
+#endif
 }
 
 - (void)readRulesFrom:(NSArchiver *)stream;
 {
     NSLog(@" > %s", _cmd);
 
+    NSLog(@"ruleList: %@", ruleList);
     [ruleList release];
     ruleList = nil;
 
