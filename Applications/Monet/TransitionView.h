@@ -55,6 +55,7 @@
 - (int)sectionHeight;
 - (NSPoint)graphOrigin;
 - (float)timeScale;
+- (NSRect)rectFormedByPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
 
 - (void)drawGrid;
 - (void)drawEquations;
@@ -65,6 +66,8 @@
 - (void)mouseDown:(NSEvent *)mouseEvent;
 - (void)mouseUp:(NSEvent *)mouseEvent;
 
+- (void)selectGraphPointsBetweenPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
+
 - getSlopeInput:aSlopeRatio:(float)startTime:(float)endTime;
 - clickSlopeMarker:(float)row:(float)column:(float *)startTime:(float *)endTime;
 
@@ -74,7 +77,7 @@
 - (void)groupInSlopeRatio:sender;
 
 // Publicly used API
-- (void)setTransition:newTransition;
+- (void)setTransition:(ProtoTemplate *)newTransition;
 - (void)showWindow:(int)otherWindow;
 
 @end

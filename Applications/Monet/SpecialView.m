@@ -346,7 +346,7 @@
     }
 }
 
-- (void)setTransition:newTransition;
+- (void)setTransition:(ProtoTemplate *)newTransition;
 {
     selectedPoint = nil;
     currentTemplate = newTransition;

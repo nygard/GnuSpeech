@@ -51,7 +51,7 @@
 - (void)drawPhones;
 - (void)drawTransition;
 
-- (void)setTransition:newTransition;
+- (void)setTransition:(ProtoTemplate *)newTransition;
 
 - (void)mouseDown:(NSEvent *)theEvent;
 - (BOOL)performKeyEquivalent:(NSEvent *)theEvent;

@@ -234,11 +234,11 @@
     int i;
     double tempTime;
 
-    NSLog(@"DisplaySlopesInList: Count = %d", [slopes count]);
+    //NSLog(@"DisplaySlopesInList: Count = %d", [slopes count]);
     for (i = 0; i < [slopes count]; i++) {
         tempTime = ([[points objectAtIndex:i] getTime] + [[points objectAtIndex:i+1] getTime]) / 2.0;
         [[slopes objectAtIndex:i] setDisplayTime:tempTime];
-        NSLog(@"TempTime = %f", tempTime);
+        //NSLog(@"TempTime = %f", tempTime);
         [displaySlopes addObject:[slopes objectAtIndex:i]];
     }
 }

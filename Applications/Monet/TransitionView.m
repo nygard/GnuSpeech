@@ -143,34 +143,14 @@ static NSImage *_selectionBox = nil;
     [self drawEquations];
     [self drawPhones];
     [self drawTransition];
-#if 0
     [self drawSlopes];
-#endif
+
     if (shouldDrawSelection == YES) {
         NSRect selectionRect;
-        float minx, miny, maxx, maxy;
 
-        if (selectionPoint1.x < selectionPoint2.x) {
-            minx = selectionPoint1.x;
-            maxx = selectionPoint2.x;
-        } else {
-            minx = selectionPoint2.x;
-            maxx = selectionPoint1.x;
-        }
-
-        if (selectionPoint1.y < selectionPoint2.y) {
-            miny = selectionPoint1.y;
-            maxy = selectionPoint2.y;
-        } else {
-            miny = selectionPoint2.y;
-            maxy = selectionPoint1.y;
-        }
-
-
-        selectionRect.origin.x = minx + 0.5;
-        selectionRect.origin.y = miny + 0.5;
-        selectionRect.size.width = maxx - minx;
-        selectionRect.size.height = maxy - miny;
+        selectionRect = [self rectFormedByPoint:selectionPoint1 andPoint:selectionPoint2];
+        selectionRect.origin.x += 0.5;
+        selectionRect.origin.y += 0.5;
 
         [[NSColor purpleColor] set];
         [NSBezierPath strokeRect:selectionRect];
@@ -218,6 +198,35 @@ static NSImage *_selectionBox = nil;
 {
     // TODO (2004-03-11): Remove outlets to form, turn these values into ivars.
     return ([self bounds].size.width - 2 * LEFT_MARGIN) / [[displayParameters cellAtIndex:0] floatValue];
+}
+
+- (NSRect)rectFormedByPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
+{
+    float minx, miny, maxx, maxy;
+    NSRect rect;
+
+    if (point1.x < point2.x) {
+        minx = point1.x;
+        maxx = point2.x;
+    } else {
+        minx = point2.x;
+        maxx = point1.x;
+    }
+
+    if (point1.y < point2.y) {
+        miny = point1.y;
+        maxy = point2.y;
+    } else {
+        miny = point2.y;
+        maxy = point1.y;
+    }
+
+    rect.origin.x = minx;
+    rect.origin.y = miny;
+    rect.size.width = maxx - minx;
+    rect.size.height = maxy - miny;
+
+    return rect;
 }
 
 - (void)drawGrid;
@@ -304,7 +313,7 @@ static NSImage *_selectionBox = nil;
 
     for (i = 0; i < 5; i++) {
         symbols[i] = [[displayParameters cellAtIndex:i] doubleValue];
-        NSLog(@"%s, symbols[%d] = %g", _cmd, i, symbols[i]);
+        //NSLog(@"%s, symbols[%d] = %g", _cmd, i, symbols[i]);
     }
 
     [[NSColor darkGrayColor] set];
@@ -514,6 +523,7 @@ static NSImage *_selectionBox = nil;
 //    }
 
     if ([selectedPoints count]) {
+        //NSLog(@"Drawing %d selected points", [selectedPoints count]);
         for (index = 0; index < [selectedPoints count]; index++) {
             tempPoint = [selectedPoints objectAtIndex:index];
             y = (float)[tempPoint value];
@@ -524,7 +534,7 @@ static NSImage *_selectionBox = nil;
             myPoint.x = (graphOrigin.x - 5) + timeScale * eventTime;
             myPoint.y = (graphOrigin.y - 5) + (yScale * 2) + (y * yScale / 10.0);
 
-            //NSLog(@"Selectoion; x: %f y:%f", myPoint.x, myPoint.y);
+            //NSLog(@"Selection; x: %f y:%f", myPoint.x, myPoint.y);
 
             [_selectionBox compositeToPoint:myPoint fromRect:rect operation:NSCompositeSourceOver];
         }
@@ -535,32 +545,41 @@ static NSImage *_selectionBox = nil;
 {
     int i, j;
     double start, end;
-    NSRect rect = {{0.0, 10.0}, {100.0, 20.0}};
+    NSRect rect = NSMakeRect(0, 0, 2 * LEFT_MARGIN, 20.0);
     SlopeRatio *currentPoint;
     MonetList *slopes, *points;
-    float timeScale = ([self bounds].size.width - 100.0) / [[displayParameters cellAtIndex:0] floatValue];
+    float timeScale = [self timeScale];
+    NSPoint graphOrigin;
+    NSRect bounds;
+
+    bounds = [self bounds];
+    graphOrigin = [self graphOrigin];
 
     for (i = 0; i < [[currentTemplate points] count]; i++) {
         currentPoint = [[currentTemplate points] objectAtIndex:i];
         if ([currentPoint isKindOfClass:[SlopeRatio class]]) {
-            start = ([currentPoint startTime]*(double)timeScale)+50.0;
-            end = ([currentPoint endTime]*(double)timeScale)+50.0;
-            NSLog(@"Slope  %f -> %f", start, end);
-            rect.origin.x = (float) start;
-            rect.size.width = (float) (end-start);
-            NSDrawButton(rect, [self bounds]);
+            //NSLog(@"%d: Drawing slope ratio...", i);
+            start = graphOrigin.x + ([currentPoint startTime] * (double)timeScale);
+            end = graphOrigin.x + ([currentPoint endTime] * (double)timeScale);
+            //NSLog(@"Slope  %f -> %f", start, end);
+            rect.origin.x = (float)start;
+            rect.size.width = (float)(end - start);
+            NSDrawButton(rect, bounds);
 
             slopes = [currentPoint slopes];
             points = [currentPoint points];
             for (j = 0; j < [slopes count]; j++) {
                 NSString *str;
+                NSPoint aPoint;
 
                 str = [NSString stringWithFormat:@"%.1f", [[slopes objectAtIndex:j] slope]];
-                NSLog(@"Buffer = %@", str);
+                //NSLog(@"Buffer = %@", str);
 
                 [[NSColor blackColor] set];
                 [[NSColor blueColor] set];
-                [str drawAtPoint:NSMakePoint(([[(GSMPoint *)[points objectAtIndex:j] expression] cacheValue])*timeScale + 55.0, 16) withAttributes:nil];
+                aPoint.x = ([[(GSMPoint *)[points objectAtIndex:j] expression] cacheValue]) * timeScale + LEFT_MARGIN + 5.0;
+                aPoint.y = 16;
+                [str drawAtPoint:aPoint withAttributes:nil];
             }
         }
     }
@@ -579,10 +598,13 @@ static NSImage *_selectionBox = nil;
     hitPoint = [self convertPoint:[mouseEvent locationInWindow] fromView:nil];
     NSLog(@"hitPoint: %@", NSStringFromPoint(hitPoint));
 
+    // TODO: If it hit a slope input, do something else
+    [selectedPoints removeAllObjects];
+    [self setNeedsDisplay:YES];
+
+
     selectionPoint1 = hitPoint;
-    //selectionPoint2 = NSZeroPoint;
-    //selectionPoint1 = NSMakePoint(100, 100);
-    selectionPoint2 = hitPoint;
+    selectionPoint2 = hitPoint; // TODO (2004-03-11): Should only do this one they start dragging
     [self setShouldDrawSelection:YES];
 
     NSLog(@"<  %s", _cmd);
@@ -599,6 +621,8 @@ static NSImage *_selectionBox = nil;
     selectionPoint2 = hitPoint;
     [self setNeedsDisplay:YES];
 
+    [self selectGraphPointsBetweenPoint:selectionPoint1 andPoint:selectionPoint2];
+
     NSLog(@"<  %s", _cmd);
 }
 
@@ -607,6 +631,57 @@ static NSImage *_selectionBox = nil;
     NSLog(@" > %s", _cmd);
     [self setShouldDrawSelection:NO];
     NSLog(@"<  %s", _cmd);
+}
+
+- (void)selectGraphPointsBetweenPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
+{
+    NSPoint graphOrigin;
+    NSRect selectionRect;
+    int count, index;
+    double symbols[5];
+    float timeScale;
+    int yScale;
+
+    [selectedPoints removeAllObjects];
+
+    for (index = 0; index < 5; index++)
+        symbols[index] = [[displayParameters cellAtIndex:index] doubleValue];
+
+    cache++;
+    graphOrigin = [self graphOrigin];
+    timeScale = [self timeScale];
+    yScale = [self sectionHeight];
+
+    selectionRect = [self rectFormedByPoint:point1 andPoint:point2];
+    selectionRect.origin.x -= graphOrigin.x;
+    selectionRect.origin.y -= graphOrigin.y;
+
+    NSLog(@"%s, selectionRect: %@", _cmd, NSStringFromRect(selectionRect));
+
+    count = [displayPoints count];
+    NSLog(@"%d display points", count);
+    for (index = 0; index < count; index++) {
+        GSMPoint *currentDisplayPoint;
+        ProtoEquation *currentExpression;
+        NSPoint currentPoint;
+
+        currentDisplayPoint = [displayPoints objectAtIndex:index];
+        currentExpression = [currentDisplayPoint expression];
+        if (currentExpression == nil)
+            currentPoint.x = [currentDisplayPoint freeTime];
+        else
+            currentPoint.x = [[currentDisplayPoint expression] evaluate:symbols phones:dummyPhoneList andCacheWith:cache];
+
+        currentPoint.x *= timeScale;
+        currentPoint.y = (yScale * 2) + ([currentDisplayPoint value] * yScale / 10.0);
+
+        NSLog(@"%2d: currentPoint: %@", index, NSStringFromPoint(currentPoint));
+        if (NSPointInRect(currentPoint, selectionRect) == YES) {
+            [selectedPoints addObject:currentDisplayPoint];
+        }
+    }
+
+    [self setNeedsDisplay:YES];
 }
 
 #if PORTING
@@ -734,6 +809,9 @@ static NSImage *_selectionBox = nil;
                 [[self window] flushWindow];
             }
             //PSsetinstance(FALSE);
+
+            // [self selectP
+
             loc.y -= 50.0;
             loc.x -= 50.0;
             if (row < loc.y)
@@ -1009,10 +1087,15 @@ static NSImage *_selectionBox = nil;
 // Publicly used API
 //
 
-- (void)setTransition:newTransition;
+- (void)setTransition:(ProtoTemplate *)newTransition;
 {
+    if (newTransition == currentTemplate)
+        return;
+
     [selectedPoints removeAllObjects];
-    currentTemplate = newTransition;
+
+    [currentTemplate release];
+    currentTemplate = [newTransition retain];
 
     switch ([currentTemplate type]) {
       case DIPHONE:
@@ -1038,7 +1121,7 @@ static NSImage *_selectionBox = nil;
           break;
     }
 
-    [self display];
+    [self setNeedsDisplay:YES];
 }
 
 - (void)showWindow:(int)otherWindow;
