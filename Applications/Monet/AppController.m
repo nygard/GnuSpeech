@@ -54,7 +54,7 @@
 {
     NSString *path;
 
-    NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
+    //NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
 
     //NSLog(@"[NSApp delegate]: %@", [NSApp delegate]);
 
@@ -85,7 +85,7 @@
 
     [self _loadMonetXMLFile:path];
 
-    NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
+    //NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }
 
 
@@ -295,16 +295,12 @@
     MDocument *document;
     BOOL result;
 
-    NSLog(@" > %s", _cmd);
-
     document = [[MDocument alloc] init];
     result = [document loadFromXMLFile:filename];
     if (result == YES)
         [self setModel:[document model]];
 
     [document release];
-
-    NSLog(@"<  %s", _cmd);
 }
 
 - (IBAction)savePrototypes:(id)sender;
