@@ -1,10 +1,6 @@
-
 #import <AppKit/NSView.h>
-#import <AppKit/NSCursor.h>
-#import <AppKit/NSImage.h>
-#import <AppKit/NSFont.h>
-#import <Foundation/NSArray.h>
-#import "ProtoTemplate.h"
+
+@class MonetList, ProtoTemplate;
 
 /*===========================================================================
 
@@ -15,39 +11,38 @@
 =============================================================================
 */
 
-@interface SpecialView:NSView
+@interface SpecialView : NSView
 {
-	id	controller;
+    id controller;
 
-	/* Frame For Display */
-	NSRect totalFrame;
+    /* Frame For Display */
+    NSRect totalFrame;
 
-	id	displayParameters;
+    id displayParameters;
 
-	NSFont	*timesFont;
+    NSFont *timesFont;
 
-	NSImage	*dotMarker;
-	NSImage	*squareMarker;
-	NSImage	*triangleMarker;
-	NSImage	*selectionBox;
+    NSImage *dotMarker;
+    NSImage *squareMarker;
+    NSImage *triangleMarker;
+    NSImage *selectionBox;
 
-	ProtoTemplate *currentTemplate;
+    ProtoTemplate *currentTemplate;
 
-	MonetList	*dummyPhoneList;
-	MonetList	*displayPoints;
-	int	cache;
+    MonetList *dummyPhoneList;
+    MonetList *displayPoints;
+    int cache;
 
-	id	selectedPoint;
-
+    id selectedPoint;
 }
 
-- initWithFrame:(NSRect)frameRect;
+- (id)initWithFrame:(NSRect)frameRect;
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 
-- (BOOL) acceptsFirstResponder;
+- (BOOL)acceptsFirstResponder;
 - (BOOL)acceptsFirstMouse:(NSEvent *)theEvent;
 
-- (void)drawRect:(NSRect)rects;
+- (void)drawRect:(NSRect)rect;
 
 - (void)clearView;
 - (void)drawGrid;
