@@ -228,6 +228,8 @@
     float sRate;
     char commandLine[256];
 
+    NSLog(@" > %s", _cmd);
+
     if ([samplingRate selectedColumn])
         sRate = 44100.0;
     else
@@ -276,10 +278,14 @@
 
     [stringTextField selectText:self];
 
+#if 0
     sprintf(commandLine,"/bin/tube /tmp/Monet.parameters %s\n", [[filenameField stringValue] cString]);
     system(commandLine);
     sprintf(commandLine,"sndplay %s\n", [[filenameField stringValue] cString]);
     system(commandLine);
+#endif
+
+    NSLog(@"<  %s", _cmd);
 }
 
 - (void)setUpDataStructures;
