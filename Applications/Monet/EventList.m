@@ -14,7 +14,6 @@
 #import "MMTransition.h"
 #import "MMRule.h"
 #import "RuleList.h"
-#import "RuleManager.h"
 #import "MMSlopeRatio.h"
 #import "MMTarget.h"
 #import "TargetList.h"

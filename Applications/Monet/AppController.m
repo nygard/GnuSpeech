@@ -14,7 +14,6 @@
 #import "ParameterList.h"
 #import "PhoneList.h"
 #import "PrototypeManager.h"
-#import "RuleManager.h"
 #import "StringParser.h"
 #import "SymbolList.h"
 
@@ -79,7 +78,6 @@
     NXNameObject(@"mainPhoneList", [model postures], NSApp);
     NXNameObject(@"rules", [model rules], NSApp);
 
-    NXNameObject(@"ruleManager", ruleManager, NSApp);
     NXNameObject(@"prototypeManager", prototypeManager, NSApp);
     NXNameObject(@"intonationView", intonationView, NSApp);
     NXNameObject(@"stringParser", stringParser, NSApp);
@@ -150,13 +148,11 @@
 
     //[model generateXML:@"DefaultPrototypes"];
 
-    [ruleManager applicationDidFinishLaunching:aNotification];
     [eventListView applicationDidFinishLaunching:aNotification]; // not connected yet
     [intonationView applicationDidFinishLaunching:aNotification]; // not connected yet
 
     [stringParser applicationDidFinishLaunching:aNotification];
 
-    [ruleManagerWindow setFrameAutosaveName:@"RuleManagerWindow"];
     [synthesisWindow setFrameAutosaveName:@"SynthesisWindow"];
     [synthParmWindow setFrameAutosaveName:@"SynthParameterWindow"];
 
@@ -273,7 +269,7 @@
             [stream encodeRootObject:mainMetaParameterList];
             [stream encodeRootObject:mainPhoneList];
             [prototypeManager writePrototypesTo:stream];
-            [ruleManager writeRulesTo:stream];
+            //[ruleManager writeRulesTo:stream];
             [mdata writeToFile:[myPanel filename] atomically:NO];
             [stream release];
         } else {
@@ -329,7 +325,6 @@
                 NXNameObject(@"rules", [model rules], NSApp);
 
                 [prototypeManager setModel:model];
-                [ruleManager setModel:model];
                 [dataEntryController setModel:model];
                 [postureEditor setModel:model];
                 [newPrototypeManager setModel:model];

@@ -29,8 +29,6 @@
                 inspectorController = Inspector; 
                 intonationView = IntonationScrollView; 
                 prototypeManager = PrototypeManager; 
-                ruleManager = RuleManager; 
-                ruleManagerWindow = NSWindow; 
                 stringParser = StringParser; 
                 synthParmWindow = NSWindow; 
                 synthesisWindow = NSWindow; 
