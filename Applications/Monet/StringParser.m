@@ -318,6 +318,7 @@ int parse_string(EventList *eventList, NSString *str);
     [eventList generateOutput];
 
     [eventListView setEventList:eventList];
+    [eventListView display]; // TODO (2004-03-17): It's not updating otherwise
 
     [[intonationView documentView] setEventList:eventList];
 

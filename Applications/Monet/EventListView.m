@@ -38,9 +38,17 @@
 
     startingIndex = 0;
     timeScale = 1.0;
+    timeScale = 2.0;
     mouseBeingDragged = 0;
 
     eventList = nil;
+
+    ruleCell = [[NSTextFieldCell alloc] initTextCell:@""];
+    [ruleCell setControlSize:NSSmallControlSize];
+    [ruleCell setAlignment:NSCenterTextAlignment];
+    [ruleCell setBordered:YES];
+    //[ruleCell setBezeled:YES];
+    [ruleCell setEnabled:YES];
 
     [self setNeedsDisplay:YES];
 
@@ -53,6 +61,7 @@
     [timesFontSmall release];
     [eventList release];
     [niftyMatrix release];
+    [ruleCell release];
 
     [super dealloc];
 }
@@ -198,6 +207,7 @@
 
     [self clearView];
     [self drawGrid];
+    [self drawRules];
 
     //NSLog(@"<  %s", _cmd);
 }
@@ -212,7 +222,6 @@
 
 - (void)drawGrid;
 {
-    NSRect drawFrame;
     NSArray *cellList;
     MonetList *displayList;
     int i, j, k, parameterIndex, phoneIndex;
@@ -222,7 +231,6 @@
     ParameterList *parameterList = NXGetNamedObject(@"mainParameterList", NSApp);
     Event *currentEvent;
     Phone *currentPhone = nil;
-    struct _rule *rule;
     NSBezierPath *bezierPath;
     NSRect bounds;
 
@@ -354,26 +362,41 @@
     [bezierPath stroke];
     [bezierPath release];
 
+    [displayList release];
+}
+
+- (void)drawRules;
+{
+    int count, index;
+    float currentX;
+    struct _rule *rule;
+    NSRect bounds, cellFrame;
+
+    bounds = [self bounds];
+
     [timesFontSmall set];
     currentX = 0;
-    for (i = 0; i < [eventList numberOfRules]; i++) {
+
+    count = [eventList numberOfRules];
+    for (index = 0; index < count; index++) {
         NSString *str;
 
-        rule = [eventList getRuleAtIndex:i];
-        drawFrame.origin.x = 80.0 + currentX;
-        drawFrame.origin.y = bounds.size.height - 25.0;
-        drawFrame.size.height = 15.0;
-        drawFrame.size.width = (float)rule->duration / timeScale;
-        NSDrawWhiteBezel(drawFrame, drawFrame);
+        rule = [eventList getRuleAtIndex:index];
+        cellFrame.origin.x = 80.0 + currentX;
+        cellFrame.origin.y = bounds.size.height - 25.0;
+        cellFrame.size.height = 18.0;
+        cellFrame.size.width = floor((float)rule->duration / timeScale);
+        //NSDrawWhiteBezel(cellFrame, cellFrame);
 
+        [ruleCell setIntValue:rule->number];
+        [ruleCell drawWithFrame:cellFrame inView:self];
+#if 0
         [[NSColor blackColor] set];
         str = [NSString stringWithFormat:@"%d", rule->number];
         [str drawAtPoint:NSMakePoint(80.0 + currentX + (float)rule->duration / (3 * timeScale), bounds.size.height - 21.0) withAttributes:nil];
-        currentX += (float)rule->duration / timeScale;
+#endif
+        currentX += floor((float)rule->duration / timeScale);
     }
-
-
-    [displayList release];
 }
 
 - (void)mouseDown:(NSEvent *)theEvent;

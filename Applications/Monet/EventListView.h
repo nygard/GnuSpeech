@@ -1,6 +1,7 @@
 #import <AppKit/NSView.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
+@class NSTextFieldCell;
 @class EventList;
 @class AppController;
 @class NiftyMatrix;
@@ -33,6 +34,8 @@
     float timeScale;
     int mouseBeingDragged;
     int trackTag;
+
+    NSTextFieldCell *ruleCell;
 }
 
 - (id)initWithFrame:(NSRect)frameRect;
@@ -50,6 +53,7 @@
 
 - (void)clearView;
 - (void)drawGrid;
+- (void)drawRules;
 
 - (void)mouseDown:(NSEvent *)theEvent;
 - (void)mouseEntered:(NSEvent *)theEvent;
