@@ -5,6 +5,7 @@
 
 #include <sys/time.h>
 #import <AppKit/AppKit.h>
+#import "GSXMLFunctions.h"
 #import "NSCharacterSet-Extensions.h"
 #import "NSNumberFormatter-Extensions.h"
 #import "NSScanner-Extensions.h"
@@ -364,6 +365,92 @@
     if ([[eventList intonationPoints] count] > 0)
         [[intonationView documentView] selectIntonationPoint:[[eventList intonationPoints] objectAtIndex:0]];
     [intonationView display];
+
+    NSLog(@"<  %s", _cmd);
+}
+
+- (IBAction)generateGraphImages:(id)sender;
+{
+    unsigned int count, index, offset;
+    int pid;
+    int number = 1;
+    static int group = 1; // Mmm, mmm
+    NSDictionary *jpegProperties;
+    NSMutableString *html;
+    NSString *basePath;
+
+    NSLog(@" > %s", _cmd);
+
+    html = [NSMutableString string];
+
+    [html appendString:@"<?xml version='1.0' encoding='utf-8'?>\n"];
+    [html appendString:@"<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"];
+    [html appendString:@"<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>\n"];
+    [html appendString:@"  <head>\n"];
+    [html appendString:@"    <title>Monet Parameter Graphs</title>\n"];
+    [html appendString:@"    <meta http-equiv='Content-type' content='text/html; charset=utf-8'>\n"];
+    [html appendString:@"  </head>\n"];
+    [html appendString:@"  <body>\n"];
+    [html appendString:@"    <p>Parameter graphs for phone string:</p>\n"];
+    [html appendFormat:@"    <p>%@</p>\n", GSXMLCharacterData([stringTextField stringValue])];
+
+    pid = [[NSProcessInfo processInfo] processIdentifier];
+    number = 1;
+
+    basePath = [NSString stringWithFormat:@"/tmp/Monet-%d-%d", pid, group++];
+    [[NSFileManager defaultManager] createDirectoryAtPath:basePath attributes:nil];
+
+    jpegProperties = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:0.95], NSImageCompressionFactor,
+                                           nil];
+
+    count = [displayParameters count];
+    for (index = 0; index < count; index += 4) {
+        NSMutableArray *parms;
+        NSData *pdfData, *tiffData, *jpegData;
+        NSString *filename1, *filename2;
+        NSImage *image;
+        NSBitmapImageRep *bitmapImageRep;
+
+        parms = [[NSMutableArray alloc] init];
+        for (offset = 0; offset < 4 && index + offset < count; offset++) {
+            [parms addObject:[displayParameters objectAtIndex:index + offset]];
+        }
+        [eventListView setDisplayParameters:parms];
+        [parms release];
+
+        pdfData = [eventListView dataWithPDFInsideRect:[eventListView bounds]];
+        filename1 = [NSString stringWithFormat:@"graph-%d.pdf", number];
+        [pdfData writeToFile:[basePath stringByAppendingPathComponent:filename1] atomically:YES];
+        [html appendFormat:@"    <img src='%@'/>\n", GSXMLAttributeString(filename1, YES)];
+
+        image = [[NSImage alloc] initWithData:pdfData];
+        //NSLog(@"image: %@", image);
+
+        // Generate TIFF data first, otherwise JPEG generation fails.
+        tiffData = [image TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:0.95];
+
+        bitmapImageRep = [[NSBitmapImageRep alloc] initWithData:tiffData];
+        //NSLog(@"bitmapImageRep: %@, size: %@", bitmapImageRep, NSStringFromSize([bitmapImageRep size]));
+        //NSLog(@"bitsPerPixel: %d, samplesPerPixel: %d", [bitmapImageRep bitsPerPixel], [bitmapImageRep samplesPerPixel]);
+
+        jpegData = [bitmapImageRep representationUsingType:NSJPEGFileType properties:jpegProperties];
+        filename2 = [NSString stringWithFormat:@"graph-%d.jpg", number];
+        [jpegData writeToFile:[basePath stringByAppendingPathComponent:filename2] atomically:YES];
+
+        [bitmapImageRep release];
+        [image release];
+
+        number++;
+    }
+
+    [html appendString:@"  </body>\n"];
+    [html appendString:@"</html>\n"];
+
+    [[html dataUsingEncoding:NSUTF8StringEncoding] writeToFile:[basePath stringByAppendingPathComponent:@"index.html"] atomically:YES];
+
+    [jpegProperties release];
+
+    [self _updateDisplayedParameters];
 
     NSLog(@"<  %s", _cmd);
 }

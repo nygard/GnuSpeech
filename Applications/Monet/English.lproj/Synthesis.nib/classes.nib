@@ -31,6 +31,7 @@
         {
             ACTIONS = {
                 generateContour = id; 
+                generateGraphImages = id; 
                 parseStringButton = id; 
                 setBeatOffset = id; 
                 setHertz = id; 
