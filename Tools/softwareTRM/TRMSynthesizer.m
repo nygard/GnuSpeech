@@ -190,6 +190,8 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
 
     initializeSynthesizer(&(inputData->inputParameters));
 
+    printControlRateInputTable(inputData);
+
     synthesize(inputData);
     writeOutputToFile(inputData, "/tmp/out0.au");
 

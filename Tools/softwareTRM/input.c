@@ -231,7 +231,7 @@ struct _TRMData *parseInputFile(const char *inputFile)
         addInput(&data, glotPitch, glotVol, aspVol, fricVol, fricPos, fricCF, fricBW, radius, velum);
         numberInputTables++;
     }
-
+#if 0
     /*  DOUBLE UP THE LAST INPUT TABLE, TO HELP INTERPOLATION CALCULATIONS  */
     if (numberInputTables > 0) {
         addInput(&data, glotPitchAt(data.inputTail), glotVolAt(data.inputTail),
@@ -240,7 +240,7 @@ struct _TRMData *parseInputFile(const char *inputFile)
                  fricBWAt(data.inputTail), radiiAt(data.inputTail),
                  velumAt(data.inputTail));
     }
-
+#endif
     /*  CLOSE THE INPUT FILE  */
     fclose(fp);
 
