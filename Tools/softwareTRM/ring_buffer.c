@@ -100,14 +100,18 @@ void flushBuffer(TRMRingBuffer *ringBuffer)
     dataEmpty(ringBuffer);
 }
 
-void RBIncrementIndex(int *index)
+int RBIncrementIndex(int index)
 {
-    if (++(*index) >= BUFFER_SIZE)
-        (*index) -= BUFFER_SIZE;
+    if (++index >= BUFFER_SIZE)
+        index -= BUFFER_SIZE;
+
+    return index;
 }
 
-void RBDecrementIndex(int *index)
+int RBDecrementIndex(int index)
 {
-    if (--(*index) < 0)
-        (*index) += BUFFER_SIZE;
+    if (--index < 0)
+        index += BUFFER_SIZE;
+
+    return index;
 }

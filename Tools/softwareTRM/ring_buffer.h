@@ -25,7 +25,7 @@ void RBIncrement(TRMRingBuffer *ringBuffer);
 void RBDecrement(TRMRingBuffer *ringBuffer);
 void flushBuffer(TRMRingBuffer *ringBuffer);
 
-void RBIncrementIndex(int *index);
-void RBDecrementIndex(int *index);
+int RBIncrementIndex(int index);
+int RBDecrementIndex(int index);
 
 #endif
