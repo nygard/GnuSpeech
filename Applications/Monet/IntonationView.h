@@ -68,6 +68,7 @@ extern NSString *IntonationViewSelectionDidChangeNotification;
 - (void)deletePoints;
 
 - (IntonationPoint *)selectedIntonationPoint;
+- (void)selectIntonationPoint:(IntonationPoint *)anIntonationPoint;
 - (void)_selectionDidChange;
 
 // View geometry

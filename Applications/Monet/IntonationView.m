@@ -717,6 +717,15 @@ NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelecti
     return [selectedPoints objectAtIndex:0];
 }
 
+- (void)selectIntonationPoint:(IntonationPoint *)anIntonationPoint;
+{
+    [selectedPoints removeAllObjects];
+    if (anIntonationPoint != nil)
+        [selectedPoints addObject:anIntonationPoint];
+    [self setNeedsDisplay:YES];
+    [self _selectionDidChange];
+}
+
 - (void)_selectionDidChange;
 {
     NSNotification *aNotification;

@@ -6,6 +6,7 @@
 #include <sys/time.h>
 #import <AppKit/AppKit.h>
 #import "NSCharacterSet-Extensions.h"
+#import "NSNumberFormatter-Extensions.h"
 #import "NSScanner-Extensions.h"
 
 #import "EventList.h"
@@ -70,6 +71,7 @@
 
 - (void)windowDidLoad;
 {
+    NSNumberFormatter *defaultNumberFormatter;
     NSButtonCell *checkboxCell;
 
     checkboxCell = [[NSButtonCell alloc] initTextCell:@""];
@@ -82,8 +84,18 @@
 
     [checkboxCell release];
 
+    defaultNumberFormatter = [NSNumberFormatter defaultNumberFormatter];
+    [semitoneTextField setFormatter:defaultNumberFormatter];
+    [hertzTextField setFormatter:defaultNumberFormatter];
+    [slopeTextField setFormatter:defaultNumberFormatter];
+    [beatTextField setFormatter:defaultNumberFormatter];
+    [beatOffsetTextField setFormatter:defaultNumberFormatter];
+    [absTimeTextField setFormatter:defaultNumberFormatter];
+
     [[intonationView documentView] setDelegate:self];
     [[intonationView documentView] setEventList:eventList];
+
+    [self _updateSelectedPointDetails];
 
     [self updateViews];
 }
@@ -156,6 +168,25 @@
 
 - (void)_updateSelectedPointDetails;
 {
+    IntonationPoint *selectedIntonationPoint;
+
+    selectedIntonationPoint = [self selectedIntonationPoint];
+
+    if (selectedIntonationPoint == nil) {
+        [semitoneTextField setStringValue:@""];
+        [hertzTextField setStringValue:@""];
+        [slopeTextField setStringValue:@""];
+        [beatTextField setStringValue:@""];
+        [beatOffsetTextField setStringValue:@""];
+        [absTimeTextField setStringValue:@""];
+    } else {
+        [semitoneTextField setDoubleValue:[selectedIntonationPoint semitone]];
+        [hertzTextField setDoubleValue:[selectedIntonationPoint semitoneInHertz]];
+        [slopeTextField setDoubleValue:[selectedIntonationPoint slope]];
+        [beatTextField setDoubleValue:[selectedIntonationPoint beatTime]];
+        [beatOffsetTextField setDoubleValue:[selectedIntonationPoint offsetTime]];
+        [absTimeTextField setDoubleValue:[selectedIntonationPoint absoluteTime]];
+    }
 }
 
 - (IBAction)showIntonationWindow:(id)sender;
@@ -323,6 +354,8 @@
     [eventList setIntonationParameters:intonationParameters];
 
     [eventList applyIntonation];
+    if ([[eventList intonationPoints] count] > 0)
+        [[intonationView documentView] selectIntonationPoint:[[eventList intonationPoints] objectAtIndex:0]];
     [intonationView display];
 
     NSLog(@"<  %s", _cmd);
@@ -561,6 +594,7 @@
 - (void)intonationViewSelectionDidChange:(NSNotification *)aNotification;
 {
     NSLog(@" > %s", _cmd);
+    [self _updateSelectedPointDetails];
     NSLog(@"<  %s", _cmd);
 }
 
