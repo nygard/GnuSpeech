@@ -39,6 +39,13 @@
                 transitionTypeMatrix = NSMatrix; 
             }; 
             SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {delete = id; groupInSlopeRatio = id; updateControlParameter = id; }; 
+            CLASS = TransitionView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {controller = AppController; displayParameters = NSForm; }; 
+            SUPERCLASS = NSView; 
         }
     ); 
     IBVersion = 1; 

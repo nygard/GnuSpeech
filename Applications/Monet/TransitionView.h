@@ -16,7 +16,7 @@
 @interface TransitionView : NSView
 {
     IBOutlet AppController *controller;
-    IBOutlet NSForm *displayParameters;
+    double _parameters[5];
 
     NSFont *timesFont;
 
@@ -48,6 +48,21 @@
 - (void)setModel:(MModel *)newModel;
 
 - (void)_updateFromModel;
+
+- (double)ruleDuration;
+- (void)setRuleDuration:(double)newValue;
+
+- (double)beatLocation;
+- (void)setBeatLocation:(double)newValue;
+
+- (double)mark1;
+- (void)setMark1:(double)newValue;
+
+- (double)mark2;
+- (void)setMark2:(double)newValue;
+
+- (double)mark3;
+- (void)setMark3:(double)newValue;
 
 - (BOOL)shouldDrawSelection;
 - (void)setShouldDrawSelection:(BOOL)newFlag;

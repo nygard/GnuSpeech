@@ -151,6 +151,61 @@ static NSImage *_selectionBox = nil;
     NSLog(@"<  %s", _cmd);
 }
 
+- (double)ruleDuration;
+{
+    return _parameters[0];
+}
+
+- (void)setRuleDuration:(double)newValue;
+{
+    _parameters[0] = newValue;
+    [self setNeedsDisplay:YES];
+}
+
+- (double)beatLocation;
+{
+    return _parameters[1];
+}
+
+- (void)setBeatLocation:(double)newValue;
+{
+    _parameters[1] = newValue;
+    [self setNeedsDisplay:YES];
+}
+
+- (double)mark1;
+{
+    return _parameters[2];
+}
+
+- (void)setMark1:(double)newValue;
+{
+    _parameters[2] = newValue;
+    [self setNeedsDisplay:YES];
+}
+
+- (double)mark2;
+{
+    return _parameters[3];
+}
+
+- (void)setMark2:(double)newValue;
+{
+    _parameters[3] = newValue;
+    [self setNeedsDisplay:YES];
+}
+
+- (double)mark3;
+{
+    return _parameters[4];
+}
+
+- (void)setMark3:(double)newValue;
+{
+    _parameters[4] = newValue;
+    [self setNeedsDisplay:YES];
+}
+
 - (BOOL)shouldDrawSelection;
 {
     return shouldDrawSelection;
@@ -272,7 +327,7 @@ static NSImage *_selectionBox = nil;
 - (void)drawEquations;
 {
     int i, j;
-    double symbols[5], time;
+    double time;
     MonetList *equationList = [NXGetNamedObject(@"prototypeManager", NSApp) equationList];
     NamedList *namedList;
     MMEquation *equation;
@@ -290,11 +345,6 @@ static NSImage *_selectionBox = nil;
     else
         type = DIPHONE;
 
-    for (i = 0; i < 5; i++) {
-        symbols[i] = [[displayParameters cellAtIndex:i] doubleValue];
-        //NSLog(@"%s, symbols[%d] = %g", _cmd, i, symbols[i]);
-    }
-
     [[NSColor darkGrayColor] set];
     bezierPath = [[NSBezierPath alloc] init];
     for (i = 0; i < [equationList count]; i++) {
@@ -303,7 +353,7 @@ static NSImage *_selectionBox = nil;
         for (j = 0; j < [namedList count]; j++) {
             equation = [namedList objectAtIndex:j];
             if ([[equation expression] maxPhone] <= type) {
-                time = [equation evaluate:symbols phones:samplePhoneList andCacheWith:cache];
+                time = [equation evaluate:_parameters phones:samplePhoneList andCacheWith:cache];
                 //NSLog(@"\t%@", [equation name]);
                 //NSLog(@"\t\ttime = %f", time);
                 //NSLog(@"equation name: %@, formula: %@, time: %f", [equation name], [[equation expression] expressionString], time);
@@ -349,7 +399,7 @@ static NSImage *_selectionBox = nil;
 
     switch (type) {
       case TETRAPHONE:
-          currentTimePoint = (timeScale * [[displayParameters cellAtIndex:4] floatValue]);
+          currentTimePoint = (timeScale * [self mark3]);
           [bezierPath moveToPoint:NSMakePoint(graphOrigin.x + currentTimePoint, graphOrigin.y + 1)];
           [bezierPath lineToPoint:NSMakePoint(graphOrigin.x + currentTimePoint, graphTopYPos)];
           myPoint.x = currentTimePoint + LEFT_MARGIN;
@@ -357,7 +407,7 @@ static NSImage *_selectionBox = nil;
           // And draw the other two:
 
       case TRIPHONE:
-          currentTimePoint = (timeScale * [[displayParameters cellAtIndex:3] floatValue]);
+          currentTimePoint = (timeScale * [self mark2]);
           [bezierPath moveToPoint:NSMakePoint(graphOrigin.x + currentTimePoint, graphOrigin.y + 1)];
           [bezierPath lineToPoint:NSMakePoint(graphOrigin.x + currentTimePoint, graphTopYPos)];
           myPoint.x = currentTimePoint + LEFT_MARGIN;
@@ -365,7 +415,7 @@ static NSImage *_selectionBox = nil;
           // And draw the other one:
 
       case DIPHONE:
-          currentTimePoint = (timeScale * [[displayParameters cellAtIndex:2] floatValue]);
+          currentTimePoint = (timeScale * [self mark1]);
           [bezierPath moveToPoint:NSMakePoint(graphOrigin.x + currentTimePoint, graphOrigin.y + 1)];
           [bezierPath lineToPoint:NSMakePoint(graphOrigin.x + currentTimePoint, graphTopYPos)];
           myPoint.x = currentTimePoint + LEFT_MARGIN;
@@ -381,7 +431,6 @@ static NSImage *_selectionBox = nil;
     int count, index;
     MonetList *currentPoints;
     MMPoint *currentPoint;
-    double symbols[5];
     double tempos[4] = {1.0, 1.0, 1.0, 1.0};
     NSPoint myPoint;
     float timeScale, y;
@@ -402,9 +451,6 @@ static NSImage *_selectionBox = nil;
     [displayPoints removeAllObjects];
     [displaySlopes removeAllObjects];
 
-    for (index = 0; index < 5; index++)
-        symbols[index] = [[displayParameters cellAtIndex:index] doubleValue];
-
     timeScale = [self timeScale];
     yScale = [self sectionHeight];
 
@@ -416,7 +462,7 @@ static NSImage *_selectionBox = nil;
         currentPoint = [currentPoints objectAtIndex:index];
         //NSLog(@"%2d: object class: %@", index, NSStringFromClass([currentPoint class]));
         //NSLog(@"%2d (a): value: %g, freeTime: %g, type: %d, isPhantom: %d", index, [currentPoint value], [currentPoint freeTime], [currentPoint type], [currentPoint isPhantom]);
-        [currentPoint calculatePoints:symbols tempos:tempos phones:samplePhoneList andCacheWith:cache toDisplay:displayPoints];
+        [currentPoint calculatePoints:_parameters tempos:tempos phones:samplePhoneList andCacheWith:cache toDisplay:displayPoints];
         //NSLog(@"%2d (b): value: %g, freeTime: %g, type: %d, isPhantom: %d", index, [currentPoint value], [currentPoint freeTime], [currentPoint type], [currentPoint isPhantom]);
 
         if ([currentPoint isKindOfClass:[MMSlopeRatio class]])
@@ -736,7 +782,7 @@ static NSImage *_selectionBox = nil;
 - (float)timeScale;
 {
     // TODO (2004-03-11): Remove outlets to form, turn these values into ivars.
-    return ([self bounds].size.width - 2 * LEFT_MARGIN) / [[displayParameters cellAtIndex:0] floatValue];
+    return ([self bounds].size.width - 2 * LEFT_MARGIN) / [self ruleDuration];
 }
 
 - (NSRect)rectFormedByPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
@@ -1007,14 +1053,10 @@ static NSImage *_selectionBox = nil;
     NSPoint graphOrigin;
     NSRect selectionRect;
     int count, index;
-    double symbols[5];
     float timeScale;
     int yScale;
 
     [selectedPoints removeAllObjects];
-
-    for (index = 0; index < 5; index++)
-        symbols[index] = [[displayParameters cellAtIndex:index] doubleValue];
 
     cache++;
     graphOrigin = [self graphOrigin];
@@ -1039,7 +1081,7 @@ static NSImage *_selectionBox = nil;
         if (currentExpression == nil)
             currentPoint.x = [currentDisplayPoint freeTime];
         else
-            currentPoint.x = [[currentDisplayPoint expression] evaluate:symbols phones:samplePhoneList andCacheWith:cache];
+            currentPoint.x = [[currentDisplayPoint expression] evaluate:_parameters phones:samplePhoneList andCacheWith:cache];
 
         currentPoint.x *= timeScale;
         currentPoint.y = (yScale * ZERO_INDEX) + ([currentDisplayPoint value] * yScale / SECTION_AMOUNT);
@@ -1150,25 +1192,25 @@ static NSImage *_selectionBox = nil;
 
     switch ([currentTemplate type]) {
       case DIPHONE:
-          [[displayParameters cellAtIndex:0] setDoubleValue:100];
-          [[displayParameters cellAtIndex:1] setDoubleValue:33];
-          [[displayParameters cellAtIndex:2] setDoubleValue:100];
-          [[displayParameters cellAtIndex:3] setStringValue:@"--"];
-          [[displayParameters cellAtIndex:4] setStringValue:@"--"];
+          [self setRuleDuration:100];
+          [self setBeatLocation:33];
+          [self setMark1:100];
+          [self setMark2:0];
+          [self setMark3:0];
           break;
       case TRIPHONE:
-          [[displayParameters cellAtIndex:0] setDoubleValue:200];
-          [[displayParameters cellAtIndex:1] setDoubleValue:33];
-          [[displayParameters cellAtIndex:2] setDoubleValue:100];
-          [[displayParameters cellAtIndex:3] setDoubleValue:200];
-          [[displayParameters cellAtIndex:4] setStringValue:@"--"];
+          [self setRuleDuration:200];
+          [self setBeatLocation:33];
+          [self setMark1:100];
+          [self setMark2:200];
+          [self setMark3:0];
           break;
       case TETRAPHONE:
-          [[displayParameters cellAtIndex:0] setDoubleValue:300];
-          [[displayParameters cellAtIndex:1] setDoubleValue:33];
-          [[displayParameters cellAtIndex:2] setDoubleValue:100];
-          [[displayParameters cellAtIndex:3] setDoubleValue:200];
-          [[displayParameters cellAtIndex:4] setDoubleValue:300];
+          [self setRuleDuration:300];
+          [self setBeatLocation:33];
+          [self setMark1:100];
+          [self setMark2:200];
+          [self setMark3:300];
           break;
     }
 

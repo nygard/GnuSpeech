@@ -14,6 +14,7 @@
 #import "MonetList.h"
 #import "NamedList.h"
 #import "MMTransition.h"
+#import "TransitionView.h"
 
 @implementation MPrototypeManager
 
@@ -53,6 +54,7 @@
     model = [newModel retain];
 
     [formulaParser setSymbolList:[model symbols]];
+    [miniTransitionView setModel:model];
 
     [self updateViews];
     [self expandOutlines];
@@ -95,6 +97,8 @@
     [equationCommentTextView setFieldEditor:YES];
     [transitionCommentTextView setFieldEditor:YES];
     [specialTransitionCommentTextView setFieldEditor:YES];
+
+    [miniTransitionView setModel:model];
 
     [self updateViews];
     [self expandOutlines];
@@ -190,6 +194,8 @@
             [transitionTypeMatrix setEnabled:NO];
             [transitionTypeMatrix selectCellWithTag:2];
         }
+
+        [miniTransitionView setTransition:[self selectedTransition]];
     } else {
         [transitionCommentTextView setEditable:NO];
         [transitionCommentTextView setString:@""];
