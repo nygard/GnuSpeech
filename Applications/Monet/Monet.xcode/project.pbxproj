@@ -803,6 +803,455 @@
 			settings = {
 			};
 		};
+		0195DAFF05F46DB2006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = BrowserManager.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB0005F46DB2006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = BrowserManager.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB0405F46DB6006D8386 = {
+			children = (
+				0195DAFF05F46DB2006D8386,
+				0195DB0005F46DB2006D8386,
+				0195DB0905F46DCD006D8386,
+				0195DB0A05F46DCD006D8386,
+				0195DB1105F46DE6006D8386,
+				0195DB1205F46DE6006D8386,
+				0195DB1B05F46E4E006D8386,
+				0195DB1C05F46E4E006D8386,
+				0195DB1D05F46E4E006D8386,
+				0195DB1E05F46E4E006D8386,
+				0195DB1F05F46E4E006D8386,
+				0195DB2005F46E4E006D8386,
+				0195DB2105F46E4E006D8386,
+				0195DB2205F46E4E006D8386,
+				0195DB2305F46E4E006D8386,
+				0195DB2405F46E4E006D8386,
+				0195DB2505F46E4E006D8386,
+				0195DB2605F46E4E006D8386,
+				0195DB2705F46E4E006D8386,
+				0195DB2805F46E4E006D8386,
+				0195DB2905F46E4E006D8386,
+				0195DB2A05F46E4E006D8386,
+				0195DB2B05F46E4E006D8386,
+				0195DB2C05F46E4E006D8386,
+				0195DB2D05F46E4E006D8386,
+				0195DB2E05F46E4E006D8386,
+				0195DB2F05F46E4E006D8386,
+				0195DB3005F46E4E006D8386,
+				0195DB3105F46E4E006D8386,
+				0195DB3205F46E4E006D8386,
+				0195DB3305F46E4E006D8386,
+				0195DB3405F46E4E006D8386,
+				0195DB3505F46E4E006D8386,
+				0195DB3605F46E4E006D8386,
+				0195DB3705F46E4E006D8386,
+				0195DB3805F46E4E006D8386,
+				0195DB3905F46E4E006D8386,
+				0195DB3A05F46E4E006D8386,
+				0195DB3B05F46E4E006D8386,
+				0195DB3C05F46E4E006D8386,
+				0195DB3D05F46E4E006D8386,
+				0195DB3E05F46E4E006D8386,
+				0195DB3F05F46E4E006D8386,
+				0195DB4005F46E4E006D8386,
+				0195DB4105F46E4E006D8386,
+				0195DB4205F46E4E006D8386,
+				0195DB4305F46E4E006D8386,
+				0195DB4405F46E4E006D8386,
+				0195DB4505F46E4E006D8386,
+			);
+			isa = PBXGroup;
+			name = Unchecked;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB0905F46DCD006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = CategoryInspector.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB0A05F46DCD006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = CategoryInspector.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB1105F46DE6006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = DefaultMgr.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB1205F46DE6006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = DefaultMgr.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB1B05F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = DelegateResponder.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB1C05F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = DelegateResponder.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB1D05F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = EventListView.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB1E05F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = EventListView.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB1F05F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = FormulaParser.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB2005F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = FormulaParser.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB2105F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = FormulaSymbols.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB2205F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = FormulaTerminal.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB2305F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = FormulaTerminal.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB2405F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = Inspector.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB2505F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = Inspector.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB2605F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = IntonationPoint.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB2705F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = IntonationPoint.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB2805F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = IntonationPointInspector.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB2905F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = IntonationPointInspector.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB2A05F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = IntonationScrollView.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB2B05F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = IntonationScrollView.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB2C05F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = IntonationView.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB2D05F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = IntonationView.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB2E05F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = NiftyMatrix.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB2F05F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = NiftyMatrix.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB3005F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = NiftyMatrixCat.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB3105F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = NiftyMatrixCat.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB3205F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = NiftyMatrixCell.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB3305F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = NiftyMatrixCell.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB3405F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = PhoneInspector.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB3505F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = PhoneInspector.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB3605F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = PointInspector.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB3705F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = PointInspector.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB3805F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = ProtoEquationInspector.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB3905F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = ProtoEquationInspector.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB3A05F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = RuleInspector.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB3B05F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = RuleInspector.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB3C05F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = SpecialView.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB3D05F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = SpecialView.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB3E05F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = StringParser.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB3F05F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = StringParser.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB4005F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = SymbolInspector.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB4105F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = SymbolInspector.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB4205F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = TransitionView.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB4305F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = TransitionView.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB4405F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = TRMData.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0195DB4505F46E4E006D8386 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = TRMData.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
 //010
 //011
 //012
@@ -823,6 +1272,7 @@
 				0195D9F105F43D4C006D8386,
 				0195DA1205F43F97006D8386,
 				0195DA1305F43F97006D8386,
+				0195DB0405F46DB6006D8386,
 			);
 			isa = PBXGroup;
 			name = Classes;
