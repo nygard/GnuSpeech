@@ -804,7 +804,7 @@
                 [transitionOutlineView reloadItem:selectedItem]; // To show note icon
             }
         } else if (textView == specialTransitionCommentTextView) {
-            selectedItem = [transitionOutlineView selectedItem];
+            selectedItem = [specialTransitionOutlineView selectedItem];
             if ([selectedItem respondsToSelector:@selector(setComment:)] == YES) {
                 [selectedItem setComment:newStringValue];
                 [specialTransitionOutlineView reloadItem:selectedItem]; // To show note icon

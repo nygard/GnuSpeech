@@ -172,3 +172,4 @@ Notes:
 - Equations/Diphones and Tetraphones don't have an equation
 + showing the special transition editor, loading a new file, and then trying to select points logs lots of stuff
   + should clear transition when loading new file.
++ can't change comments for special transitions
