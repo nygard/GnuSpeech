@@ -1,4 +1,4 @@
-#import "BooleanTerminal.h"
+#import "MMBooleanTerminal.h"
 
 #import <Foundation/Foundation.h>
 #import "NSObject-Extensions.h"
