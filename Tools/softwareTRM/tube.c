@@ -163,17 +163,7 @@
 
 #define OUTPUT_SRATE_LOW          22050.0
 #define OUTPUT_SRATE_HIGH         44100.0
-#define BUFFER_SIZE               1024                 /*  ring buffer size  */
 
-
-
-/*  DATA TYPES  **************************************************************/
-
-
-
-/*  GLOBAL VARIABLES *********************************************************/
-
-/*  INPUT VARIABLES  */
 
 
 /*  DERIVED VALUES  */
@@ -234,11 +224,19 @@ struct {
 
 /*  VARIABLES FOR SAMPLE RATE CONVERSION  */
 double sampleRateRatio;
-double h[FILTER_LENGTH], deltaH[FILTER_LENGTH], buffer[BUFFER_SIZE];
-int fillPtr, emptyPtr = 0, padSize, fillSize;
+double h[FILTER_LENGTH], deltaH[FILTER_LENGTH];
 unsigned int timeRegisterIncrement, filterIncrement, phaseIncrement;
 unsigned int timeRegister = 0;
 
+
+//
+// Ring Buffer
+//
+
+#define BUFFER_SIZE               1024                 /*  ring buffer size  */
+
+double buffer[BUFFER_SIZE];
+int fillPtr, emptyPtr = 0, padSize, fillSize;
 
 
 /*  GLOBAL FUNCTIONS (LOCAL TO THIS FILE)  ***********************************/
@@ -1466,6 +1464,7 @@ void initializeBuffer(void)
 {
     int i;
 
+    printf("initializeBuffer(), padSize: %d\n", padSize);
 
     /*  FILL THE RING BUFFER WITH ALL ZEROS  */
     for (i = 0; i < BUFFER_SIZE; i++)
@@ -1541,6 +1540,9 @@ void dataEmpty(void)
 {
     int endPtr;
 
+    printf(" > dataEmpty()\n");
+    printf("buffer size: %d\n", BUFFER_SIZE);
+    printf("numberSamples before: %ld\n", numberSamples);
 
     /*  CALCULATE END POINTER  */
     endPtr = fillPtr - padSize;
@@ -1554,7 +1556,9 @@ void dataEmpty(void)
         endPtr += BUFFER_SIZE;
 
     /*  UPSAMPLE LOOP (SLIGHTLY MORE EFFICIENT THAN DOWNSAMPLING)  */
+    printf("sampleRateRatio: %g\n", sampleRateRatio);
     if (sampleRateRatio >= 1.0) {
+        printf("Upsampling...\n");
         while (emptyPtr < endPtr) {
             int index;
             unsigned int filterIndex;
@@ -1570,7 +1574,7 @@ void dataEmpty(void)
             index = emptyPtr;
             for (filterIndex = lValue(timeRegister);
                  filterIndex < FILTER_LENGTH;
-                 srDecrement(&index,BUFFER_SIZE),
+                 srDecrement(&index, BUFFER_SIZE),
                  filterIndex += filterIncrement) {
                 output += (buffer[index] * (h[filterIndex] + (deltaH[filterIndex] * interpolation)));
             }
@@ -1581,10 +1585,10 @@ void dataEmpty(void)
 
             /*  COMPUTE THE RIGHT SIDE OF THE FILTER CONVOLUTION  */
             index = emptyPtr;
-            srIncrement(&index,BUFFER_SIZE);
+            srIncrement(&index, BUFFER_SIZE);
             for (filterIndex = lValue(timeRegister);
                  filterIndex < FILTER_LENGTH;
-                 srIncrement(&index,BUFFER_SIZE),
+                 srIncrement(&index, BUFFER_SIZE),
                  filterIndex += filterIncrement) {
                 output += (buffer[index] *
                     (h[filterIndex] + (deltaH[filterIndex] * interpolation)));
@@ -1619,6 +1623,7 @@ void dataEmpty(void)
             timeRegister &= (~N_MASK);
         }
     } else {
+        printf("Downsampling...\n");
         /*  DOWNSAMPLING CONVERSION LOOP  */
         while (emptyPtr < endPtr) {
             int index;
@@ -1680,6 +1685,8 @@ void dataEmpty(void)
             timeRegister &= (~N_MASK);
         }
     }
+    printf("numberSamples after: %ld\n", numberSamples);
+    printf("<  dataEmpty()\n");
 }
 
 
