@@ -63,7 +63,7 @@
     mainParameters = [[self model] parameters];
     count = [mainParameters count];
     for (index = 0; index < count; index++) {
-        newTarget = [[MMTarget alloc] initWithValue:[[mainParameters objectAtIndex:index] defaultValue] isDefault:YES];
+        newTarget = [[MMTarget alloc] initWithValue:[(MMParameter *)[mainParameters objectAtIndex:index] defaultValue] isDefault:YES];
         [parameterTargets addObject:newTarget];
         [newTarget release];
     }
@@ -71,7 +71,7 @@
     mainParameters = [[self model] metaParameters];
     count = [mainParameters count];
     for (index = 0; index < count; index++) {
-        newTarget = [[MMTarget alloc] initWithValue:[[mainParameters objectAtIndex:index] defaultValue] isDefault:YES];
+        newTarget = [[MMTarget alloc] initWithValue:[(MMParameter *)[mainParameters objectAtIndex:index] defaultValue] isDefault:YES];
         [metaParameterTargets addObject:newTarget];
         [newTarget release];
     }
@@ -79,7 +79,7 @@
     mainSymbols = [[self model] symbols];
     count = [mainSymbols count];
     for (index = 0; index < count; index++) {
-        newTarget = [[MMTarget alloc] initWithValue:[[mainSymbols objectAtIndex:index] defaultValue] isDefault:YES];
+        newTarget = [[MMTarget alloc] initWithValue:[(MMSymbol *)[mainSymbols objectAtIndex:index] defaultValue] isDefault:YES];
         [symbolTargets addObject:newTarget];
         [newTarget release];
     }
