@@ -10,7 +10,6 @@
 #import "MMParameter.h"
 #import "ParameterList.h"
 #import "MMTarget.h"
-#import "TargetList.h"
 #import "MMSymbol.h"
 
 #import "MModel.h"
@@ -21,6 +20,9 @@
 #import "MXMLDictionaryDelegate.h"
 #import "MXMLPCDataDelegate.h"
 #import "MXMLReferenceArrayDelegate.h"
+
+// For typedstream compatibility
+#import "TargetList.h"
 
 @implementation MMPosture
 

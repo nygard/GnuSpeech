@@ -14,7 +14,6 @@
 #import "MMTarget.h"
 #import "MonetList.h"
 #import "NamedList.h"
-#import "TargetList.h"
 
 #import "MModel.h"
 

@@ -1,6 +1,6 @@
 #import "MMObject.h"
 
-@class CategoryList, MMCategory, MMSymbol, MMTarget, ParameterList, TargetList;
+@class CategoryList, MMCategory, MMSymbol, MMTarget, ParameterList;
 
 /*===========================================================================
 
@@ -29,7 +29,6 @@
 
 	Import Files:
 
-		"TargetList.h":  for access to TargetList methods.
 		"CategoryList.h": for access to CategoryList methods.
 
 	NOTES:

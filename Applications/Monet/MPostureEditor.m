@@ -16,7 +16,6 @@
 #import "MMTarget.h"
 #import "ParameterList.h"
 #import "PhoneList.h"
-#import "TargetList.h"
 
 // TODO (2004-03-20): Implement copy and pasting of postures.
 

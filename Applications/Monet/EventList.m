@@ -16,7 +16,6 @@
 #import "MMTarget.h"
 #import "PhoneList.h"
 #import "ParameterList.h"
-#import "TargetList.h"
 
 #import "TRMSynthesizer.h" // For addParameters:
 

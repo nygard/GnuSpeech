@@ -25,7 +25,6 @@
 #import "MMTarget.h"
 #import "MMTransition.h"
 #import "SymbolList.h"
-#import "TargetList.h"
 #import "TRMData.h"
 
 #import "MUnarchiver.h"

@@ -11,7 +11,6 @@
 #import "MMEquation.h"
 #import "MMTransition.h"
 #import "MMTarget.h"
-#import "TargetList.h"
 
 #import "MModel.h"
 

@@ -8,7 +8,6 @@
 #import "PhoneList.h"
 #import "MMSymbol.h"
 #import "MMTarget.h"
-#import "TargetList.h"
 
 #import "MModel.h"
 #import "MUnarchiver.h"
