@@ -3,13 +3,16 @@
 #import <AppKit/AppKit.h>
 #import "AppController.h"
 #import "Inspector.h"
+#import "FormulaExpression.h"
 #import "MonetList.h"
+#import "NamedList.h"
 #import "Phone.h"
 #import "Point.h"
 #import "PointInspector.h"
 #import "PrototypeManager.h"
 #import "ProtoEquation.h"
 #import "ProtoTemplate.h"
+#import "Target.h"
 #import "TargetList.h"
 
 @implementation SpecialView
@@ -62,10 +65,10 @@
     metaParms = NXGetNamedObject(@"mainMetaParameterList", NSApp);
 
     dummy = [[Phone alloc] initWithSymbol:@"dummy" parmeters:parms metaParameters:metaParms symbols:symbols];
-    [[[dummy symbolList] objectAtIndex:0] setValue:100.0];
-    [[[dummy symbolList] objectAtIndex:1] setValue:33.3333];
-    [[[dummy symbolList] objectAtIndex:2] setValue:33.3333];
-    [[[dummy symbolList] objectAtIndex:3] setValue:33.3333];
+    [(Target *)[[dummy symbolList] objectAtIndex:0] setValue:100.0];
+    [(Target *)[[dummy symbolList] objectAtIndex:1] setValue:33.3333];
+    [(Target *)[[dummy symbolList] objectAtIndex:2] setValue:33.3333];
+    [(Target *)[[dummy symbolList] objectAtIndex:3] setValue:33.3333];
     [dummyPhoneList addObject:dummy];
     [dummyPhoneList addObject:dummy];
     [dummyPhoneList addObject:dummy];
@@ -146,7 +149,8 @@
     int i, j;
     double symbols[5], time;
     MonetList *equationList = [NXGetNamedObject(@"prototypeManager", NSApp) equationList];
-    id namedList, equation;
+    NamedList *namedList;
+    ProtoEquation *equation;
     float timeScale = ([self frame].size.width - 100.0) / [[displayParameters cellAtIndex:0] floatValue];
     int type;
     NSBezierPath *bezierPath;
@@ -163,8 +167,7 @@
 
     [[NSColor darkGrayColor] set];
     bezierPath = [[NSBezierPath alloc] init];
-    for (i = 0; i < [equationList count]; i++)
-    {
+    for (i = 0; i < [equationList count]; i++) {
         namedList = [equationList objectAtIndex:i];
         //NSLog(@"%@", [namedList name]);
         for (j = 0; j < [namedList count]; j++) {
@@ -233,7 +236,7 @@
 - (void)drawTransition;
 {
     int i, j;
-    GSMPoint  *currentPoint;
+    GSMPoint *currentPoint;
     double symbols[5];
     float timeScale, yScale;
     float time, eventTime;
@@ -267,10 +270,10 @@
         else {
             j = [displayPoints count]-1;
             while (j > 0) {
-                if ([[displayPoints objectAtIndex:j] expression] == nil)
+                if ([(GSMPoint *)[displayPoints objectAtIndex:j] expression] == nil)
                     eventTime = (float)[[displayPoints objectAtIndex:j] freeTime];
                 else
-                    eventTime = (float)[[[displayPoints objectAtIndex:j] expression] cacheValue];
+                    eventTime = (float)[[(GSMPoint *)[displayPoints objectAtIndex:j] expression] cacheValue];
 
                 if (time > eventTime)
                     break;
@@ -393,17 +396,17 @@
     if ([theEvent clickCount] == 1) {
         selectedPoint = [displayPoints objectAtIndex:0];
 
-        if ([[displayPoints objectAtIndex:0] expression] == nil)
-            temp = [[displayPoints objectAtIndex:0] freeTime] * timeScale;
+        if ([(GSMPoint *)[displayPoints objectAtIndex:0] expression] == nil)
+            temp = [(GSMPoint *)[displayPoints objectAtIndex:0] freeTime] * timeScale;
         else
-            temp = [[[displayPoints objectAtIndex:0] expression] cacheValue] * timeScale;
+            temp = [[(GSMPoint *)[displayPoints objectAtIndex:0] expression] cacheValue] * timeScale;
         distance = (float)fabs((double)column - temp);
 
         for (i = 1; i < [displayPoints count]; i++) {
-            if ([[displayPoints objectAtIndex:i] expression] == nil)
+            if ([(GSMPoint *)[displayPoints objectAtIndex:i] expression] == nil)
                 temp = [[displayPoints objectAtIndex:i] freeTime] * timeScale;
             else
-                temp = [[[displayPoints objectAtIndex:i] expression] cacheValue] * timeScale;
+                temp = [[(GSMPoint *)[displayPoints objectAtIndex:i] expression] cacheValue] * timeScale;
             distance1 = (float)fabs((double)column - temp);
             if (distance1 < distance) {
                 distance = distance1;

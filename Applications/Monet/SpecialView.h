@@ -1,6 +1,6 @@
 #import <AppKit/NSView.h>
 
-@class MonetList, ProtoTemplate;
+@class GSMPoint, MonetList, ProtoTemplate;
 
 /*===========================================================================
 
@@ -30,10 +30,10 @@
     ProtoTemplate *currentTemplate;
 
     MonetList *dummyPhoneList;
-    MonetList *displayPoints;
+    MonetList *displayPoints; // Contains GSMPoints
     int cache;
 
-    id selectedPoint;
+    GSMPoint *selectedPoint;
 }
 
 - (id)initWithFrame:(NSRect)frameRect;
