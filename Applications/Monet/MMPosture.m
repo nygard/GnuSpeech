@@ -26,11 +26,11 @@
 @implementation MMPosture
 
 // TODO (2004-03-19): Reject unused init method
-#if 0
+// This is now used from -[MMNamedObject initWithXMLAttributes:context:]
 - (id)init;
 {
+    return [self initWithModel:nil];
 }
-#endif
 
 - (id)initWithModel:(MModel *)aModel;
 {
@@ -571,6 +571,7 @@
     [resultString appendString:@"</symbol-targets>\n"];
 }
 
+// TODO (2004-08-12): Rename attribute name from "symbol" to "name", so we can use the superclass implementation of this method.  Do this after we start supporting upgrading from previous versions.
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 {
     if ([self initWithModel:nil] == nil)
@@ -583,13 +584,7 @@
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
 {
-    if ([elementName isEqualToString:@"comment"]) {
-        MXMLPCDataDelegate *newDelegate;
-
-        newDelegate = [[MXMLPCDataDelegate alloc] initWithElementName:elementName delegate:self setSelector:@selector(setComment:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
-    } else if ([elementName isEqualToString:@"posture-categories"]) {
+    if ([elementName isEqualToString:@"posture-categories"]) {
         MXMLReferenceArrayDelegate *newDelegate;
 
         newDelegate = [[MXMLReferenceArrayDelegate alloc] initWithChildElementName:@"category-ref" referenceAttribute:@"name" delegate:self addObjectSelector:@selector(addCategoryWithName:)];
@@ -614,8 +609,7 @@
         [(MXMLParser *)parser pushDelegate:newDelegate];
         [newDelegate release];
     } else {
-        NSLog(@"Warning: %@, Unknown element: '%@', skipping", [self shortDescription], elementName);
-        [(MXMLParser *)parser skipTree];
+        [super parser:parser didStartElement:elementName namespaceURI:namespaceURI qualifiedName:qName attributes:attributeDict];
     }
 }
 

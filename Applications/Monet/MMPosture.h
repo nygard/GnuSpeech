@@ -1,4 +1,4 @@
-#import "MMObject.h"
+#import "MMNamedObject.h"
 
 @class CategoryList, MMCategory, MMSymbol, MMTarget;
 
@@ -43,11 +43,8 @@
 
 ===========================================================================*/
 
-@interface MMPosture : MMObject
+@interface MMPosture : MMNamedObject
 {
-    NSString *name;
-    NSString *comment;
-
     CategoryList *categories; // Of MMCategorys
     NSMutableArray *parameterTargets; // Of Targets
     NSMutableArray *metaParameterTargets; // Of Targets
@@ -56,17 +53,11 @@
     MMCategory *nativeCategory;
 }
 
+- (id)init;
 - (id)initWithModel:(MModel *)aModel;
 - (void)_addDefaultValues;
 
 - (void)dealloc;
-
-- (NSString *)name;
-- (void)setName:(NSString *)newName;
-
-- (NSString *)comment;
-- (void)setComment:(NSString *)newComment;
-- (BOOL)hasComment;
 
 // Categories
 - (MMCategory *)nativeCategory;
