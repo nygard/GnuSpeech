@@ -318,7 +318,7 @@
 // Open a .monet file.
 - (IBAction)readFromDisk:(id)sender;
 {
-    int i, count;
+    int count, index;
     NSArray *types;
     NSArray *fnames;
     NSString *filename;
@@ -331,53 +331,49 @@
     openPanel = [NSOpenPanel openPanel]; // Each call resets values, including filenames
     [openPanel setAllowsMultipleSelection:NO];
 
-    if ([openPanel runModalForTypes:types] == NSOKButton) {
-        fnames = [openPanel filenames];
-        //NSLog(@"fnames: %@", [fnames description]);
-        count = [fnames count];
-        //NSLog(@"count: %d", count);
-        for (i = 0; i < count; i++) {
-            filename = [fnames objectAtIndex:i];
-            //NSLog(@"filename: %@", filename);
-            stream = [[MUnarchiver alloc] initForReadingWithData:[NSData dataWithContentsOfFile:filename]];
-            //NSLog(@"stream: %p", stream);
+    if ([openPanel runModalForTypes:types] == NSCancelButton)
+        return;
 
-            if (stream) {
-                NXUnnameObject(@"mainCategoryList", NSApp);
-                NXUnnameObject(@"mainParameterList", NSApp);
-                NXUnnameObject(@"mainMetaParameterList", NSApp);
-                NXUnnameObject(@"mainSymbolList", NSApp);
-                NXUnnameObject(@"mainPhoneList", NSApp);
-                NXUnnameObject(@"rules", NSApp);
+    fnames = [openPanel filenames];
+    count = [fnames count];
+    for (index = 0; index < count; index++) {
+        filename = [fnames objectAtIndex:index];
+        stream = [[MUnarchiver alloc] initForReadingWithData:[NSData dataWithContentsOfFile:filename]];
 
-                [model release];
-                model = [[MModel alloc] initWithCoder:stream];
+        if (stream) {
+            NXUnnameObject(@"mainCategoryList", NSApp);
+            NXUnnameObject(@"mainParameterList", NSApp);
+            NXUnnameObject(@"mainMetaParameterList", NSApp);
+            NXUnnameObject(@"mainSymbolList", NSApp);
+            NXUnnameObject(@"mainPhoneList", NSApp);
+            NXUnnameObject(@"rules", NSApp);
 
-                NXNameObject(@"mainCategoryList", [model categories], NSApp);
-                NXNameObject(@"mainParameterList", [model parameters], NSApp);
-                NXNameObject(@"mainMetaParameterList", [model metaParameters], NSApp);
-                NXNameObject(@"mainSymbolList", [model symbols], NSApp);
-                NXNameObject(@"mainPhoneList", [model postures], NSApp);
-                NXNameObject(@"rules", [model rules], NSApp);
+            [model release];
+            model = [[MModel alloc] initWithCoder:stream];
 
-                [prototypeManager setModel:model];
-                [dataEntryController setModel:model];
-                [postureEditor setModel:model];
-                [newPrototypeManager setModel:model];
-                [transitionEditor setModel:model];
-                [specialTransitionEditor setModel:model];
-                [ruleTester setModel:model];
-                [newRuleManager setModel:model];
+            NXNameObject(@"mainCategoryList", [model categories], NSApp);
+            NXNameObject(@"mainParameterList", [model parameters], NSApp);
+            NXNameObject(@"mainMetaParameterList", [model metaParameters], NSApp);
+            NXNameObject(@"mainSymbolList", [model symbols], NSApp);
+            NXNameObject(@"mainPhoneList", [model postures], NSApp);
+            NXNameObject(@"rules", [model rules], NSApp);
 
-                [stream release];
+            [prototypeManager setModel:model];
+            [dataEntryController setModel:model];
+            [postureEditor setModel:model];
+            [newPrototypeManager setModel:model];
+            [transitionEditor setModel:model];
+            [specialTransitionEditor setModel:model];
+            [ruleTester setModel:model];
+            [newRuleManager setModel:model];
+
+            [stream release];
 #ifdef PORTING
-                initStringParser();
+            initStringParser();
 #endif
-
-                [model generateXML:filename];
-            } else {
-                NSLog(@"Not a MONET file");
-            }
+            [model generateXML:filename];
+        } else {
+            NSLog(@"Not a MONET file");
         }
     }
 
