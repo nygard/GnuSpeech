@@ -5,7 +5,6 @@
 
 #import <Foundation/Foundation.h>
 #import "MModel.h"
-#import "MXMLParser.h"
 
 @implementation MDocument
 
@@ -33,38 +32,56 @@
 - (BOOL)loadFromXMLFile:(NSString *)filename;
 {
     NSURL *fileURL;
-    MXMLParser *parser;
-    BOOL result;
+    NSXMLDocument *xmlDocument;
+    NSError *error = nil;
+    NSData *data;
 
     fileURL = [NSURL fileURLWithPath:filename];
-    parser = [[MXMLParser alloc] initWithContentsOfURL:fileURL];
-    [parser pushDelegate:self];
-    [parser setShouldResolveExternalEntities:YES];
-    result = [parser parse];
-    if (result == NO) {
-        NSLog(@"Error: Failed to load file %@, (%@)", filename, [[parser parserError] localizedDescription]);
-        NSRunAlertPanel(@"Error", @"Failed to load file %@, (%@)", @"OK", nil, nil, filename, [[parser parserError] localizedDescription]);
+    data = [NSData dataWithContentsOfURL:fileURL];
+    // -initWithContentsOfURL:options:error: fails without explanation.
+    //xmlDocument = [[NSXMLDocument alloc] initWithContentsOfURL:fileURL options:(NSXMLNodePreserveWhitespace|NSXMLNodePreserveCDATA) error:&error];
+    xmlDocument = [[NSXMLDocument alloc] initWithData:data options:(NSXMLNodePreserveWhitespace|NSXMLNodePreserveCDATA) error:&error];
+    if (xmlDocument == nil) {
+        NSLog(@"error: %@", error);
+        return NO;
     }
-    [parser release];
 
-    return result;
+    NSLog(@"DTD: %@", [xmlDocument DTD]);
+    [self loadFromRootElement:[xmlDocument rootElement]];
+
+    return YES;
 }
 
-- (void)parserDidStartDocument:(NSXMLParser *)parser;
+- (BOOL)loadFromRootElement:(NSXMLElement *)rootElement;
 {
-    //NSLog(@" > %s", _cmd);
-    // As of 2004-05-20 these just return nil
-    //NSLog(@"publicID: %@", [parser publicID]);
-    //NSLog(@"systemID: %@", [parser systemID]);
-    //NSLog(@"<  %s", _cmd);
-}
+    NSXMLNode *versionAttribute;
+    MModel *newModel;
 
-- (void)parserDidEndDocument:(NSXMLParser *)parser;
-{
     NSLog(@" > %s", _cmd);
+    NSLog(@"root name: %@", [rootElement name]);
+    versionAttribute = [rootElement attributeForName:@"version"];
+    NSLog(@"versionAttribute: %@", versionAttribute);
+    NSLog(@"string value: %@", [versionAttribute stringValue]);
+    NSLog(@"object value: %@", [versionAttribute objectValue]);
+
+    if ([[versionAttribute objectValue] intValue] != 1) {
+        // TODO (2004-09-03): This would be responsible for upgrading from earlier versions.  Might need document node instead of root element.
+        NSLog(@"wrong version.");
+        return NO;
+    }
+
+    newModel = [[MModel alloc] init];
+    [self setModel:newModel];
+    [newModel release];
+
+    [model loadFromRootElement:rootElement];
+
     NSLog(@"<  %s", _cmd);
+
+    return YES;
 }
 
+#if 0
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
 {
     if ([elementName isEqualToString:@"root"]) {
@@ -78,60 +95,5 @@
         [(MXMLParser *)parser pushDelegate:model];
     }
 }
-
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
-{
-    NSLog(@"</%@>", elementName);
-    //NSLog(@" > %s", _cmd);
-    //NSLog(@"<  %s", _cmd);
-}
-
-- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string;
-{
-    //NSLog(@" > %s", _cmd);
-    //NSLog(@"<  %s", _cmd);
-}
-
-- (void)parser:(NSXMLParser *)parser foundIgnorableWhitespace:(NSString *)whitespaceString;
-{
-    //NSLog(@" > %s", _cmd);
-    //NSLog(@"<  %s", _cmd);
-}
-
-- (void)parser:(NSXMLParser *)parser foundProcessingInstructionWithTarget:(NSString *)target data:(NSString *)data;
-{
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
-}
-
-- (void)parser:(NSXMLParser *)parser foundCDATA:(NSData *)CDATABlock;
-{
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
-}
-
-- (NSData *)parser:(NSXMLParser *)parser resolveExternalEntityName:(NSString *)name systemID:(NSString *)systemID;
-{
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
-
-    return nil;
-}
-
-- (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError;
-{
-    NSLog(@" > %s", _cmd);
-    NSLog(@"parseError: %@", parseError);
-    NSLog(@"[[parser parserError] localizedDescription]: %@", [[parser parserError] localizedDescription]);
-    NSLog(@"line: %d, column: %d", [parser lineNumber], [parser columnNumber]);
-    NSLog(@"<  %s", _cmd);
-}
-
-- (void)parser:(NSXMLParser *)parser validationErrorOccurred:(NSError *)validationError;
-{
-    NSLog(@" > %s", _cmd);
-    NSLog(@"validationError: %@", validationError);
-    NSLog(@"<  %s", _cmd);
-}
-
+#endif
 @end

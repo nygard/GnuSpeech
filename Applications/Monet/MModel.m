@@ -7,6 +7,7 @@
 #import "NSArray-Extensions.h"
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
+#import "NSXMLElement-Extensions.h"
 
 #import "AppController.h"
 #import "CategoryList.h"
@@ -26,8 +27,6 @@
 #import "TRMData.h"
 
 #import "MUnarchiver.h"
-#import "MXMLParser.h"
-#import "MXMLArrayDelegate.h"
 
 // For typedstream compatibility
 #import "ParameterList.h"
@@ -244,6 +243,15 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     return nil;
 }
 
+- (void)addCategoriesFromArray:(NSArray *)array;
+{
+    unsigned int count, index;
+
+    count = [array count];
+    for (index = 0; index < count; index++)
+        [self addCategory:[array objectAtIndex:index]];
+}
+
 //
 // Parameters
 //
@@ -323,6 +331,15 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     }
 }
 
+- (void)addParametersFromArray:(NSArray *)array;
+{
+    unsigned int count, index;
+
+    count = [array count];
+    for (index = 0; index < count; index++)
+        [self addParameter:[array objectAtIndex:index]];
+}
+
 //
 // Meta Parameters
 //
@@ -374,6 +391,15 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
         [metaParameters removeObject:aParameter];
     }
+}
+
+- (void)addMetaParametersFromArray:(NSArray *)array;
+{
+    unsigned int count, index;
+
+    count = [array count];
+    for (index = 0; index < count; index++)
+        [self addMetaParameter:[array objectAtIndex:index]];
 }
 
 //
@@ -465,6 +491,15 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     return nil;
 }
 
+- (void)addSymbolsFromArray:(NSArray *)array;
+{
+    unsigned int count, index;
+
+    count = [array count];
+    for (index = 0; index < count; index++)
+        [self addSymbol:[array objectAtIndex:index]];
+}
+
 //
 // Postures
 //
@@ -552,6 +587,15 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     return nil;
 }
 
+- (void)addPosturesFromArray:(NSArray *)array;
+{
+    unsigned int count, index;
+
+    count = [array count];
+    for (index = 0; index < count; index++)
+        [self addPosture:[array objectAtIndex:index]];
+}
+
 - (void)addEquationGroup:(NamedList *)newGroup;
 {
     [equations addObject:newGroup];
@@ -568,6 +612,33 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 {
     [specialTransitions addObject:newGroup];
     [newGroup setModel:self];
+}
+
+- (void)addEquationGroupsFromArray:(NSArray *)newEquationGroups;
+{
+    unsigned int count, index;
+
+    count = [newEquationGroups count];
+    for (index = 0; index < count; index++)
+        [self addEquationGroup:[newEquationGroups objectAtIndex:index]];
+}
+
+- (void)addTransitionGroupsFromArray:(NSArray *)newTransitionGroups;
+{
+    unsigned int count, index;
+
+    count = [newTransitionGroups count];
+    for (index = 0; index < count; index++)
+        [self addTransitionGroup:[newTransitionGroups objectAtIndex:index]];
+}
+
+- (void)addSpecialTransitionGroupsFromArray:(NSArray *)newSpecialTransitionGroups;
+{
+    unsigned int count, index;
+
+    count = [newSpecialTransitionGroups count];
+    for (index = 0; index < count; index++)
+        [self addSpecialTransitionGroup:[newSpecialTransitionGroups objectAtIndex:index]];
 }
 
 // This will require that all the equation names be unique.  Otherwise we'll need to store the group in the XML file as well.
@@ -1602,71 +1673,79 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     return synthesisParameters;
 }
 
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
+- (void)loadFromRootElement:(NSXMLElement *)element;
 {
-    if ([elementName isEqualToString:@"categories"]) {
-        MXMLArrayDelegate *arrayDelegate;
+    unsigned int count, index;
 
-        arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"category" class:[MMCategory class] delegate:self addObjectSelector:@selector(addCategory:)];
-        [(MXMLParser *)parser pushDelegate:arrayDelegate];
-        [arrayDelegate release];
-    } else if ([elementName isEqualToString:@"parameters"]) {
-        MXMLArrayDelegate *arrayDelegate;
+    count = [element childCount];
+    for (index = 0; index < count; index++) {
+        NSXMLNode *childNode;
 
-        arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"parameter" class:[MMParameter class] delegate:self addObjectSelector:@selector(addParameter:)];
-        [(MXMLParser *)parser pushDelegate:arrayDelegate];
-        [arrayDelegate release];
-    } else if ([elementName isEqualToString:@"meta-parameters"]) {
-        MXMLArrayDelegate *arrayDelegate;
+        childNode = [element childAtIndex:index];
+        if ([childNode kind] == NSXMLElementKind) {
+            NSXMLElement *childElement;
+            NSString *elementName;
+            NSArray *archivedChildren;
 
-        arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"parameter" class:[MMParameter class] delegate:self addObjectSelector:@selector(addMetaParameter:)];
-        [(MXMLParser *)parser pushDelegate:arrayDelegate];
-        [arrayDelegate release];
-    } else if ([elementName isEqualToString:@"symbols"]) {
-        MXMLArrayDelegate *arrayDelegate;
-
-        arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"symbol" class:[MMSymbol class] delegate:self addObjectSelector:@selector(addSymbol:)];
-        [(MXMLParser *)parser pushDelegate:arrayDelegate];
-        [arrayDelegate release];
-    } else if ([elementName isEqualToString:@"postures"]) {
-        MXMLArrayDelegate *arrayDelegate;
-
-        arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"posture" class:[MMPosture class] delegate:self addObjectSelector:@selector(addPosture:)];
-        [(MXMLParser *)parser pushDelegate:arrayDelegate];
-        [arrayDelegate release];
-    } else if ([elementName isEqualToString:@"equations"]) {
-        MXMLArrayDelegate *arrayDelegate;
-
-        arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"equation-group" class:[NamedList class] delegate:self addObjectSelector:@selector(addEquationGroup:)];
-        [(MXMLParser *)parser pushDelegate:arrayDelegate];
-        [arrayDelegate release];
-    } else if ([elementName isEqualToString:@"transitions"]) {
-        MXMLArrayDelegate *arrayDelegate;
-
-        arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"transition-group" class:[NamedList class] delegate:self addObjectSelector:@selector(addTransitionGroup:)];
-        [(MXMLParser *)parser pushDelegate:arrayDelegate];
-        [arrayDelegate release];
-    } else if ([elementName isEqualToString:@"special-transitions"]) {
-        MXMLArrayDelegate *arrayDelegate;
-
-        arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"transition-group" class:[NamedList class] delegate:self addObjectSelector:@selector(addSpecialTransitionGroup:)];
-        [(MXMLParser *)parser pushDelegate:arrayDelegate];
-        [arrayDelegate release];
-    } else if ([elementName isEqualToString:@"rules"]) {
-        MXMLArrayDelegate *arrayDelegate;
-
-        arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"rule" class:[MMRule class] delegate:self addObjectSelector:@selector(_addStoredRule:)];
-        [(MXMLParser *)parser pushDelegate:arrayDelegate];
-        [arrayDelegate release];
-    } else {
-        NSLog(@"starting unknown element: '%@'", elementName);
-        [(MXMLParser *)parser skipTree];
+            childElement = (NSXMLElement *)childNode;
+            elementName = [childElement name];
+            if ([elementName isEqual:@"categories"]) {
+                archivedChildren = [childElement loadChildrenNamed:@"category" class:[MMCategory class] context:self];
+                [self addCategoriesFromArray:archivedChildren];
+            } else if ([elementName isEqual:@"parameters"]) {
+                archivedChildren = [childElement loadChildrenNamed:@"parameter" class:[MMParameter class] context:self];
+                [self addParametersFromArray:archivedChildren];
+            } else if ([elementName isEqual:@"meta-parameters"]) {
+                archivedChildren = [childElement loadChildrenNamed:@"parameter" class:[MMParameter class] context:self];
+                [self addMetaParametersFromArray:archivedChildren];
+            } else if ([elementName isEqual:@"symbols"]) {
+                archivedChildren = [childElement loadChildrenNamed:@"symbol" class:[MMSymbol class] context:self];
+                [self addSymbolsFromArray:archivedChildren];
+            } else if ([elementName isEqual:@"postures"]) {
+                archivedChildren = [childElement loadChildrenNamed:@"posture" class:[MMPosture class] context:self];
+                [self addPosturesFromArray:archivedChildren];
+            } else if ([elementName isEqual:@"equations"]) {
+                archivedChildren = [childElement loadChildrenNamed:@"equation-group" class:[NamedList class] context:self];
+                [self addEquationGroupsFromArray:archivedChildren];
+            } else if ([elementName isEqual:@"transitions"]) {
+                archivedChildren = [childElement loadChildrenNamed:@"transition-group" class:[NamedList class] context:self];
+                [self addTransitionGroupsFromArray:archivedChildren];
+            } else if ([elementName isEqual:@"special-transitions"]) {
+                archivedChildren = [childElement loadChildrenNamed:@"transition-group" class:[NamedList class] context:self];
+                [self addSpecialTransitionGroupsFromArray:archivedChildren];
+            } else if ([elementName isEqual:@"rules"]) {
+                //archivedChildren = [childElement loadChildrenNamed:@"rule" class:[MMRule class] context:self];
+            }
+        }
     }
 }
-
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
+#if 0
+- (void)_loadCategoriesFromElement:(NSXMLElement *)element;
 {
-    //NSLog(@"closing element: '%@'", elementName);
+    unsigned int count, index;
+
+    count = [element childCount];
+    for (index = 0; index < count; index++) {
+        NSXMLNode *childNode;
+
+        childNode = [element childAtIndex:index];
+        if ([childNode kind] == NSXMLElementKind) {
+            NSXMLElement *childElement;
+            NSString *elementName;
+
+            childElement = (NSXMLElement *)childNode;
+            elementName = [childElement name];
+            if ([elementName isEqual:@"category"]) {
+                MMCategory *newCategory;
+
+                newCategory = [[MMCategory alloc] init];
+                [newCategory loadFromXMLElement:childElement];
+                [self addCategory:newCategory];
+                [newCategory release];
+            }
+        }
+    }
 }
+#endif
 
 @end

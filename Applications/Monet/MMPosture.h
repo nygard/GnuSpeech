@@ -75,15 +75,15 @@
 
 - (void)addParameterTarget:(MMTarget *)newTarget;
 - (void)removeParameterTargetAtIndex:(unsigned int)index;
-- (void)addParameterTargetsFromDictionary:(NSDictionary *)aDictionary;
+//- (void)addParameterTargetsFromDictionary:(NSDictionary *)aDictionary;
 
 - (void)addMetaParameterTarget:(MMTarget *)newTarget;
 - (void)removeMetaParameterTargetAtIndex:(unsigned int)index;
-- (void)addMetaParameterTargetsFromDictionary:(NSDictionary *)aDictionary;
+//- (void)addMetaParameterTargetsFromDictionary:(NSDictionary *)aDictionary;
 
 - (void)addSymbolTarget:(MMTarget *)newTarget;
 - (void)removeSymbolTargetAtIndex:(unsigned int)index;
-- (void)addSymbolTargetsFromDictionary:(NSDictionary *)aDictionary;
+//- (void)addSymbolTargetsFromDictionary:(NSDictionary *)aDictionary;
 
 - (MMTarget *)targetForSymbol:(MMSymbol *)aSymbol;
 
@@ -98,8 +98,10 @@
 - (void)_appendXMLForMetaParametersToString:(NSMutableString *)resultString level:(int)level;
 - (void)_appendXMLForSymbolsToString:(NSMutableString *)resultString level:(int)level;
 
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
+- (void)loadFromXMLElement:(NSXMLElement *)element context:(id)context;
+- (void)_loadCategoriesFromXMLElement:(NSXMLElement *)element context:(id)context;
+- (void)_loadParameterTargetsFromXMLElement:(NSXMLElement *)element context:(id)context;
+- (void)_loadMetaParameterTargetsFromXMLElement:(NSXMLElement *)element context:(id)context;
+- (void)_loadSymbolTargetsFromXMLElement:(NSXMLElement *)element context:(id)context;
 
 @end

@@ -15,11 +15,6 @@
 
 #import "MModel.h"
 #import "MUnarchiver.h"
-#import "MXMLParser.h"
-#import "MXMLArrayDelegate.h"
-#import "MXMLPCDataDelegate.h"
-#import "MXMLStringArrayDelegate.h"
-#import "MXMLReferenceDictionaryDelegate.h"
 
 @implementation MMRule
 
@@ -836,7 +831,7 @@
 
     return self;
 }
-
+#if 0
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
 {
     if ([elementName isEqualToString:@"comment"]) {
@@ -889,5 +884,5 @@
 {
     [(MXMLParser *)parser popDelegate];
 }
-
+#endif
 @end

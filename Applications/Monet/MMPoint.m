@@ -11,7 +11,6 @@
 
 #import "MModel.h"
 #import "MUnarchiver.h"
-#import "MXMLParser.h"
 
 @implementation MMPoint
 
@@ -229,26 +228,23 @@
     [resultString appendString:@"/>\n"];
 }
 
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
+- (void)loadFromXMLElement:(NSXMLElement *)element context:(id)context;
 {
     NSString *str;
 
-    if ([self init] == nil)
-        return nil;
-
-    str = [attributes objectForKey:@"type"];
+    str = [[element attributeForName:@"type"] stringValue];
     if (str != nil)
         [self setType:MMPhoneTypeFromString(str)];
 
-    str = [attributes objectForKey:@"value"];
+    str = [[element attributeForName:@"value"] stringValue];
     if (str != nil)
         [self setValue:[str doubleValue]];
 
-    str = [attributes objectForKey:@"free-time"];
+    str = [[element attributeForName:@"free-time"] stringValue];
     if (str != nil)
         [self setFreeTime:[str doubleValue]];
 
-    str = [attributes objectForKey:@"time-expression"];
+    str = [[element attributeForName:@"time-expression"] stringValue];
     if (str != nil) {
         MMEquation *anEquation;
 
@@ -256,22 +252,9 @@
         [self setTimeEquation:anEquation];
     }
 
-    str = [attributes objectForKey:@"is-phantom"];
+    str = [[element attributeForName:@"is-phantom"] stringValue];
     if (str != nil)
         [self setIsPhantom:GSXMLBoolFromString(str)];
-
-    return self;
-}
-
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-{
-    NSLog(@"%@, Unknown element: '%@', skipping", [self shortDescription], elementName);
-    [(MXMLParser *)parser skipTree];
-}
-
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
-{
-    [(MXMLParser *)parser popDelegate];
 }
 
 - (NSComparisonResult)compareByAscendingCachedTime:(MMPoint *)otherPoint;

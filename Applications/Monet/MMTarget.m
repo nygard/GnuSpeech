@@ -5,7 +5,6 @@
 #import "NSString-Extensions.h"
 
 #import "GSXMLFunctions.h"
-#import "MXMLParser.h"
 
 @implementation MMTarget
 
@@ -102,29 +101,13 @@
     [resultString appendString:@"\n"];
 }
 
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
+- (void)loadFromXMLElement:(NSXMLElement *)element context:(id)context;
 {
     NSString *str;
 
-    if ([self init] == nil)
-        return nil;
-
-    str = [attributes objectForKey:@"value"];
+    str = [[element attributeForName:@"value"] stringValue];
     if (str != nil)
         [self setValue:[str doubleValue]];
-
-    return self;
-}
-
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)anElementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-{
-    NSLog(@"%@: skipping element: %@", NSStringFromClass([self class]), anElementName);
-    [(MXMLParser *)parser skipTree];
-}
-
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)anElementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
-{
-    [(MXMLParser *)parser popDelegate];
 }
 
 @end

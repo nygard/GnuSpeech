@@ -6,9 +6,6 @@
 #import "GSXMLFunctions.h"
 #import "MModel.h"
 
-#import "MXMLParser.h"
-#import "MXMLPCDataDelegate.h"
-
 @implementation MMNamedObject
 
 - (void)dealloc;
@@ -52,28 +49,20 @@
     return comment != nil && [comment length] > 0;
 }
 
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
+- (void)loadFromXMLElement:(NSXMLElement *)element context:(id)context;
 {
-    // TODO (2004-08-12): I'm a little wary of calling init here, since subclasses may want to use a different designated initializer, but I'll try it.
-    if ([self init] == nil)
-        return nil;
+    NSArray *comments;
+    unsigned int count, index;
 
-    [self setName:[attributes objectForKey:@"name"]];
+    [self setName:[[element attributeForName:@"name"] stringValue]];
 
-    return self;
-}
+    comments = [element elementsForName:@"comment"];
+    count = [comments count];
+    for (index = 0; index < count; index++) {
+        NSXMLElement *commentElement;
 
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-{
-    if ([elementName isEqualToString:@"comment"]) {
-        MXMLPCDataDelegate *newDelegate;
-
-        newDelegate = [[MXMLPCDataDelegate alloc] initWithElementName:elementName delegate:self setSelector:@selector(setComment:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
-    } else {
-        NSLog(@"%@, Unknown element: '%@', skipping", self, elementName);
-        [(MXMLParser *)parser skipTree];
+        commentElement = [comments objectAtIndex:index];
+        [self setComment:[commentElement stringValue]];
     }
 }
 

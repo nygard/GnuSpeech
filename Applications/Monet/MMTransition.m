@@ -14,10 +14,6 @@
 #import "MModel.h"
 #import "MUnarchiver.h"
 
-#import "MXMLParser.h"
-#import "MXMLArrayDelegate.h"
-#import "MXMLPCDataDelegate.h"
-
 @implementation MMTransition
 
 - (id)init;
@@ -393,50 +389,69 @@
     return [NSString stringWithFormat:@"%@:%@", [[self group] name], name];
 }
 
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
+- (void)loadFromXMLElement:(NSXMLElement *)element context:(id)context;
 {
+    unsigned int count, index;
     NSString *str;
 
-    if ([self init] == nil)
-        return nil;
+    [self setName:[[element attributeForName:@"name"] stringValue]];
 
-    [self setName:[attributes objectForKey:@"name"]];
-
-    str = [attributes objectForKey:@"type"];
+    str = [[element attributeForName:@"type"] stringValue];
     if (str != nil)
         [self setType:MMPhoneTypeFromString(str)];
 
-    return self;
-}
+    count = [element childCount];
+    for (index = 0; index < count; index++) {
+        NSXMLNode *childNode;
 
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-{
-    if ([elementName isEqualToString:@"comment"]) {
-        MXMLPCDataDelegate *newDelegate;
+        childNode = [element childAtIndex:index];
+        if ([childNode kind] == NSXMLElementKind) {
+            NSXMLElement *childElement;
+            NSString *elementName;
 
-        newDelegate = [[MXMLPCDataDelegate alloc] initWithElementName:elementName delegate:self setSelector:@selector(setComment:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
-    } else if ([elementName isEqualToString:@"point-or-slopes"]) {
-        MXMLArrayDelegate *newDelegate;
-        NSDictionary *elementClassMapping;
-
-        elementClassMapping = [[NSDictionary alloc] initWithObjectsAndKeys:[MMPoint class], @"point",
-                                                    [MMSlopeRatio class], @"slope-ratio",
-                                                    nil];
-        newDelegate = [[MXMLArrayDelegate alloc] initWithChildElementToClassMapping:elementClassMapping delegate:self addObjectSelector:@selector(addPoint:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
-        [elementClassMapping release];
-    } else {
-        NSLog(@"%@, Unknown element: '%@', skipping", [self shortDescription], elementName);
-        [(MXMLParser *)parser skipTree];
+            childElement = (NSXMLElement *)childNode;
+            elementName = [childElement name];
+            if ([elementName isEqual:@"comment"]) {
+                [self setComment:[childElement stringValue]];
+            } else if ([elementName isEqual:@"point-or-slopes"]) {
+                [self _loadPointsOrSlopes:childElement context:context];
+            }
+        }
     }
 }
 
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
+- (void)_loadPointsOrSlopes:(NSXMLElement *)element context:(id)context;
 {
-    [(MXMLParser *)parser popDelegate];
+    unsigned int count, index;
+
+    count = [element childCount];
+    for (index = 0; index < count; index++) {
+        NSXMLNode *childNode;
+
+        childNode = [element childAtIndex:index];
+        if ([childNode kind] == NSXMLElementKind) {
+            NSXMLElement *childElement;
+            NSString *elementName;
+
+            childElement = (NSXMLElement *)childNode;
+            elementName = [childElement name];
+            if ([elementName isEqual:@"point"]) {
+                MMPoint *newPoint;
+
+                newPoint = [[MMPoint alloc] init];
+                [newPoint loadFromXMLElement:childElement context:context];
+                [self addPoint:newPoint];
+                [newPoint release];
+            } else if ([elementName isEqual:@"slope-ratio"]) {
+                MMSlopeRatio *newSlopeRatio;
+
+                newSlopeRatio = [[MMSlopeRatio alloc] init];
+                [newSlopeRatio loadFromXMLElement:childElement context:context];
+                [self addPoint:newSlopeRatio];
+                [newSlopeRatio release];
+            }
+        }
+    }
 }
 
 @end

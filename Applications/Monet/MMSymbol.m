@@ -7,9 +7,6 @@
 #import "GSXMLFunctions.h"
 #import "MModel.h"
 
-#import "MXMLParser.h"
-#import "MXMLPCDataDelegate.h"
-
 #define DEFAULT_VALUE 100.0
 #define DEFAULT_MIN 0.0
 #define DEFAULT_MAX 500.0
@@ -112,34 +109,23 @@
     }
 }
 
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
+- (void)loadFromXMLElement:(NSXMLElement *)element context:(id)context;
 {
     id value;
 
-    if ([super initWithXMLAttributes:attributes context:context] == nil)
-        return nil;
+    [super loadFromXMLElement:element context:context];
 
-    value = [attributes objectForKey:@"minimum"];
+    value = [[element attributeForName:@"minimum"] stringValue];
     if (value != nil)
         [self setMinimumValue:[value doubleValue]];
 
-    value = [attributes objectForKey:@"maximum"];
+    value = [[element attributeForName:@"maximum"] stringValue];
     if (value != nil)
         [self setMaximumValue:[value doubleValue]];
 
-    value = [attributes objectForKey:@"default"];
+    value = [[element attributeForName:@"default"] stringValue];
     if (value != nil)
         [self setDefaultValue:[value doubleValue]];
-
-    return self;
-}
-
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
-{
-    if ([elementName isEqualToString:@"symbol"])
-        [(MXMLParser *)parser popDelegate];
-    else
-        [NSException raise:@"Unknown close tag" format:@"Unknown closing tag (%@) in %@", elementName, NSStringFromClass([self class])];
 }
 
 @end

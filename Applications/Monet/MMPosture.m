@@ -3,6 +3,7 @@
 #import <Foundation/Foundation.h>
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
+#import "NSXMLElement-Extensions.h"
 
 #import "MMCategory.h"
 #import "CategoryList.h"
@@ -13,12 +14,6 @@
 
 #import "MModel.h"
 #import "MUnarchiver.h"
-
-#import "MXMLParser.h"
-
-#import "MXMLDictionaryDelegate.h"
-#import "MXMLPCDataDelegate.h"
-#import "MXMLReferenceArrayDelegate.h"
 
 // For typedstream compatibility
 #import "TargetList.h"
@@ -212,7 +207,7 @@
 {
     [parameterTargets removeObjectAtIndex:index];
 }
-
+#if 0
 - (void)addParameterTargetsFromDictionary:(NSDictionary *)aDictionary;
 {
     NSArray *parameters;
@@ -238,7 +233,7 @@
         // TODO (2004-04-22): Check for targets that were in the save file, but that don't have a matching parameter.
     }
 }
-
+#endif
 - (void)addMetaParameterTarget:(MMTarget *)newTarget;
 {
     [metaParameterTargets addObject:newTarget];
@@ -248,7 +243,7 @@
 {
     [metaParameterTargets removeObjectAtIndex:index];
 }
-
+#if 0
 - (void)addMetaParameterTargetsFromDictionary:(NSDictionary *)aDictionary;
 {
     NSArray *parameters;
@@ -274,7 +269,7 @@
         // TODO (2004-04-22): Check for targets that were in the save file, but that don't have a matching parameter.
     }
 }
-
+#endif
 - (void)addSymbolTarget:(MMTarget *)newTarget;
 {
     [symbolTargets addObject:newTarget];
@@ -284,7 +279,7 @@
 {
     [symbolTargets removeObjectAtIndex:index];
 }
-
+#if 0
 - (void)addSymbolTargetsFromDictionary:(NSDictionary *)aDictionary;
 {
     NSArray *symbols;
@@ -310,7 +305,7 @@
         // TODO (2004-04-22): Check for targets that were in the save file, but that don't have a matching symbol.
     }
 }
-
+#endif
 - (MMTarget *)targetForSymbol:(MMSymbol *)aSymbol;
 {
     int symbolIndex;
@@ -566,53 +561,142 @@
 }
 
 // TODO (2004-08-12): Rename attribute name from "symbol" to "name", so we can use the superclass implementation of this method.  Do this after we start supporting upgrading from previous versions.
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
+
+- (void)loadFromXMLElement:(NSXMLElement *)element context:(id)context;
 {
-    if ([self initWithModel:nil] == nil)
-        return nil;
+    unsigned int count, index;
 
-    [self setName:[attributes objectForKey:@"symbol"]];
+    // TODO (2004-09-04): symbol (name) and comment should really be handled by superclass.
+    [self setName:[[element attributeForName:@"symbol"] stringValue]];
 
-    return self;
-}
+    count = [element childCount];
+    for (index = 0; index < count; index++) {
+        NSXMLNode *childNode;
 
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-{
-    if ([elementName isEqualToString:@"posture-categories"]) {
-        MXMLReferenceArrayDelegate *newDelegate;
+        childNode = [element childAtIndex:index];
+        if ([childNode kind] == NSXMLElementKind) {
+            NSXMLElement *childElement;
+            NSString *elementName;
 
-        newDelegate = [[MXMLReferenceArrayDelegate alloc] initWithChildElementName:@"category-ref" referenceAttribute:@"name" delegate:self addObjectSelector:@selector(addCategoryWithName:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
-    } else if ([elementName isEqualToString:@"parameter-targets"]) {
-        MXMLDictionaryDelegate *newDelegate;
-
-        newDelegate = [[MXMLDictionaryDelegate alloc] initWithChildElementName:@"target" class:[MMTarget class] keyAttributeName:@"name" delegate:self addObjectsSelector:@selector(addParameterTargetsFromDictionary:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
-    } else if ([elementName isEqualToString:@"meta-parameter-targets"]) {
-        MXMLDictionaryDelegate *newDelegate;
-
-        newDelegate = [[MXMLDictionaryDelegate alloc] initWithChildElementName:@"target" class:[MMTarget class] keyAttributeName:@"name" delegate:self addObjectsSelector:@selector(addMetaParameterTargetsFromDictionary:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
-    } else if ([elementName isEqualToString:@"symbol-targets"]) {
-        MXMLDictionaryDelegate *newDelegate;
-
-        newDelegate = [[MXMLDictionaryDelegate alloc] initWithChildElementName:@"target" class:[MMTarget class] keyAttributeName:@"name" delegate:self addObjectsSelector:@selector(addSymbolTargetsFromDictionary:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
-    } else {
-        [super parser:parser didStartElement:elementName namespaceURI:namespaceURI qualifiedName:qName attributes:attributeDict];
+            childElement = (NSXMLElement *)childNode;
+            elementName = [childElement name];
+            if ([elementName isEqual:@"comment"]) {
+                [self setComment:[childElement stringValue]];
+            } else if ([elementName isEqual:@"posture-categories"]) {
+                [self _loadCategoriesFromXMLElement:childElement context:context];
+            } else if ([elementName isEqual:@"parameter-targets"]) {
+                [self _loadParameterTargetsFromXMLElement:childElement context:context];
+            } else if ([elementName isEqual:@"meta-parameter-targets"]) {
+                [self _loadMetaParameterTargetsFromXMLElement:childElement context:context];
+            } else if ([elementName isEqual:@"symbol-targets"]) {
+                [self _loadSymbolTargetsFromXMLElement:childElement context:context];
+            }
+        }
     }
 }
 
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
+- (void)_loadCategoriesFromXMLElement:(NSXMLElement *)element context:(id)context;
 {
-    if ([elementName isEqualToString:@"posture"])
-        [(MXMLParser *)parser popDelegate];
-    else
-        [NSException raise:@"Unknown close tag" format:@"Unknown closing tag (%@) in %@", elementName, NSStringFromClass([self class])];
+    NSArray *children;
+    unsigned int count, index;
+    NSString *categoryName;
+
+    children = [element elementsForName:@"category-ref"];
+    count = [children count];
+    for (index = 0; index < count; index++) {
+        categoryName = [[[children objectAtIndex:index] attributeForName:@"name"] stringValue];
+        [self addCategory:[context categoryWithName:categoryName]];
+    }
+}
+
+- (void)_loadParameterTargetsFromXMLElement:(NSXMLElement *)element context:(id)context;
+{
+    NSArray *parameters;
+    unsigned int count, index;
+    NSDictionary *dict;
+
+    dict = [element loadChildrenNamed:@"target" class:[MMTarget class] keyAttributeName:@"name" context:context];
+
+    // Self model not set yet, so need to use context.
+    parameters = [context parameters];
+    count = [parameters count];
+    for (index = 0; index < count; index++) {
+        MMParameter *currentParameter;
+        MMTarget *currentTarget;
+
+        currentParameter = [parameters objectAtIndex:index];
+        currentTarget = [dict objectForKey:[currentParameter name]];
+        if (currentTarget == nil) {
+            NSLog(@"Warning: no target for parameter %@ in save file, adding default target.", [currentParameter name]);
+            currentTarget = [[MMTarget alloc] initWithValue:[currentParameter defaultValue] isDefault:YES];
+            [self addParameterTarget:currentTarget];
+            [currentTarget release];
+        } else {
+            [self addParameterTarget:currentTarget];
+        }
+
+        // TODO (2004-04-22): Check for targets that were in the save file, but that don't have a matching parameter.
+    }
+}
+
+- (void)_loadMetaParameterTargetsFromXMLElement:(NSXMLElement *)element context:(id)context;
+{
+    NSArray *parameters;
+    unsigned int count, index;
+    NSDictionary *dict;
+
+    dict = [element loadChildrenNamed:@"target" class:[MMTarget class] keyAttributeName:@"name" context:context];
+
+    // Self model not set yet, so need to use context.
+    parameters = [context metaParameters];
+    count = [parameters count];
+    for (index = 0; index < count; index++) {
+        MMParameter *currentParameter;
+        MMTarget *currentTarget;
+
+        currentParameter = [parameters objectAtIndex:index];
+        currentTarget = [dict objectForKey:[currentParameter name]];
+        if (currentTarget == nil) {
+            NSLog(@"Warning: no target for meta-parameter %@ in save file, adding default target.", [currentParameter name]);
+            currentTarget = [[MMTarget alloc] initWithValue:[currentParameter defaultValue] isDefault:YES];
+            [self addMetaParameterTarget:currentTarget];
+            [currentTarget release];
+        } else {
+            [self addMetaParameterTarget:currentTarget];
+        }
+
+        // TODO (2004-04-22): Check for targets that were in the save file, but that don't have a matching parameter.
+    }
+}
+
+- (void)_loadSymbolTargetsFromXMLElement:(NSXMLElement *)element context:(id)context;
+{
+    NSArray *symbols;
+    unsigned int count, index;
+    NSDictionary *dict;
+
+    dict = [element loadChildrenNamed:@"target" class:[MMTarget class] keyAttributeName:@"name" context:context];
+
+    // Self model not set yet, so need to use context.
+    symbols = [context symbols];
+    count = [symbols count];
+    for (index = 0; index < count; index++) {
+        MMSymbol *currentSymbol;
+        MMTarget *currentTarget;
+
+        currentSymbol = [symbols objectAtIndex:index];
+        currentTarget = [dict objectForKey:[currentSymbol name]];
+        if (currentTarget == nil) {
+            NSLog(@"Warning: no target for symbol %@ in save file, adding default target.", [currentSymbol name]);
+            currentTarget = [[MMTarget alloc] initWithValue:[currentSymbol defaultValue] isDefault:YES];
+            [self addSymbolTarget:currentTarget];
+            [currentTarget release];
+        } else {
+            [self addSymbolTarget:currentTarget];
+        }
+
+        // TODO (2004-04-22): Check for targets that were in the save file, but that don't have a matching parameter.
+    }
 }
 
 @end

@@ -11,9 +11,6 @@
 #import "MMEquation.h"
 #import "MMSlope.h"
 
-#import "MXMLParser.h"
-#import "MXMLArrayDelegate.h"
-
 /*===========================================================================
 
 	Author: Craig-Richard Taube-Schock
@@ -308,39 +305,71 @@
     [resultString appendString:@"</slope-ratio>\n"];
 }
 
-// TODO (2004-05-14): Maybe with a common superclass we wouldn't need to implement this method here.
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
+// TODO (2004-05-14): Maybe with a common superclass we wouldn't need to implement this method here. (comment on old archiving method)
+
+// TODO (2004-09-05): Could just add slope attribute to point.  display-time always appears to be 0.
+- (void)loadFromXMLElement:(NSXMLElement *)element context:(id)context;
 {
-    if ([self init] == nil)
-        return nil;
+    unsigned int count, index;
 
-    return self;
-}
+    count = [element childCount];
+    for (index = 0; index < count; index++) {
+        NSXMLNode *childNode;
 
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-{
-    if ([elementName isEqualToString:@"points"]) {
-        MXMLArrayDelegate *arrayDelegate;
+        childNode = [element childAtIndex:index];
+        if ([childNode kind] == NSXMLElementKind) {
+            NSXMLElement *childElement;
+            NSString *elementName;
 
-        arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"point" class:[MMPoint class] delegate:self addObjectSelector:@selector(addPoint:)];
-        [(MXMLParser *)parser pushDelegate:arrayDelegate];
-        [arrayDelegate release];
-    } else if ([elementName isEqualToString:@"slopes"]) {
-        MXMLArrayDelegate *arrayDelegate;
-
-        arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"slope" class:[MMSlope class] delegate:self addObjectSelector:@selector(addSlope:)];
-        [(MXMLParser *)parser pushDelegate:arrayDelegate];
-        [arrayDelegate release];
-    } else {
-        NSLog(@"%@, Unknown element: '%@', skipping", [self shortDescription], elementName);
-        [(MXMLParser *)parser skipTree];
+            childElement = (NSXMLElement *)childNode;
+            elementName = [childElement name];
+            if ([elementName isEqual:@"points"]) {
+                [self _loadPointsFromXMLElement:childElement context:context];
+            } else if ([elementName isEqual:@"slopes"]) {
+                [self _loadSlopesFromXMLElement:childElement context:context];
+            }
+        }
     }
 }
 
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
+- (void)_loadPointsFromXMLElement:(NSXMLElement *)element context:(id)context;
 {
-    // TODO (2004-05-14): Should check to make sure we have an appropriate number of points and slopes.
-    [(MXMLParser *)parser popDelegate];
+    NSArray *children;
+    unsigned int count, index;
+
+    children = [element elementsForName:@"point"];
+    count = [children count];
+    for (index = 0; index < count; index++) {
+        NSXMLElement *childElement;
+        MMPoint *newPoint;
+
+        childElement = [children objectAtIndex:index];
+
+        newPoint = [[MMPoint alloc] init];
+        [newPoint loadFromXMLElement:childElement context:context];
+        [self addPoint:newPoint];
+        [newPoint release];
+    }
+}
+
+- (void)_loadSlopesFromXMLElement:(NSXMLElement *)element context:(id)context;
+{
+    NSArray *children;
+    unsigned int count, index;
+
+    children = [element elementsForName:@"slope"];
+    count = [children count];
+    for (index = 0; index < count; index++) {
+        NSXMLElement *childElement;
+        MMSlope *newSlope;
+
+        childElement = [children objectAtIndex:index];
+
+        newSlope = [[MMSlope alloc] init];
+        [newSlope loadFromXMLElement:childElement context:context];
+        [self addSlope:newSlope];
+        [newSlope release];
+    }
 }
 
 @end

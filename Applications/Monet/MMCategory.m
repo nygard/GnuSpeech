@@ -5,8 +5,6 @@
 #import "NSString-Extensions.h"
 
 #import "GSXMLFunctions.h"
-#import "MXMLParser.h"
-#import "MXMLPCDataDelegate.h"
 
 @implementation MMCategory
 
@@ -140,37 +138,21 @@
     }
 }
 
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
+- (void)loadFromXMLElement:(NSXMLElement *)element context:(id)context;
 {
-    if ([self init] == nil)
-        return nil;
+    NSArray *comments;
+    unsigned int count, index;
 
-    [self setName:[attributes objectForKey:@"name"]];
+    [self setName:[[element attributeForName:@"name"] stringValue]];
 
-    return self;
-}
+    comments = [element elementsForName:@"comment"];
+    count = [comments count];
+    for (index = 0; index < count; index++) {
+        NSXMLElement *commentElement;
 
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-{
-    if ([elementName isEqualToString:@"comment"]) {
-        MXMLPCDataDelegate *newDelegate;
-
-        //NSLog(@"Got comment...");
-        newDelegate = [[MXMLPCDataDelegate alloc] initWithElementName:elementName delegate:self setSelector:@selector(setComment:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
-    } else {
-        NSLog(@"%@, Unknown element: '%@', skipping", [self shortDescription], elementName);
-        [(MXMLParser *)parser skipTree];
+        commentElement = [comments objectAtIndex:index];
+        [self setComment:[commentElement stringValue]];
     }
-}
-
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
-{
-    if ([elementName isEqualToString:@"category"])
-        [(MXMLParser *)parser popDelegate];
-    else
-        [NSException raise:@"Unknown close tag" format:@"Unknown closing tag (%@) in %@", elementName, NSStringFromClass([self class])];
 }
 
 @end

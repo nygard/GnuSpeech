@@ -8,8 +8,6 @@
 #import "MMTransition.h"
 
 #import "GSXMLFunctions.h"
-#import "MXMLParser.h"
-#import "MXMLPCDataDelegate.h"
 
 @implementation NamedList
 
@@ -182,51 +180,41 @@
         [anObject setGroup:self];
 }
 
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
+- (void)loadFromXMLElement:(NSXMLElement *)element context:(id)context;
 {
-    if ([self init] == nil)
-        return nil;
+    unsigned int count, index;
 
-    [self setName:[attributes objectForKey:@"name"]];
+    [self setName:[[element attributeForName:@"name"] stringValue]];
+    [self setComment:[[element attributeForName:@"comment"] stringValue]];
 
-    return self;
-}
+    count = [element childCount];
+    for (index = 0; index < count; index++) {
+        NSXMLNode *childNode;
 
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-{
-    if ([elementName isEqualToString:@"comment"]) {
-        MXMLPCDataDelegate *newDelegate;
+        childNode = [element childAtIndex:index];
+        if ([childNode kind] == NSXMLElementKind) {
+            NSXMLElement *childElement;
+            NSString *elementName;
 
-        newDelegate = [[MXMLPCDataDelegate alloc] initWithElementName:elementName delegate:self setSelector:@selector(setComment:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
-    } else if ([elementName isEqualToString:@"equation"]) {
-        MMEquation *newDelegate;
-        NSString *str;
+            childElement = (NSXMLElement *)childNode;
+            elementName = [childElement name];
+            if ([elementName isEqual:@"equation"]) {
+                MMEquation *newEquation;
 
-        newDelegate = [MMEquation objectWithXMLAttributes:attributeDict context:[(MXMLParser *)parser context]];
-        [self addObject:newDelegate];
+                newEquation = [[MMEquation alloc] init];
+                [newEquation loadFromXMLElement:childElement context:context];
+                [self addObject:newEquation];
+                [newEquation release];
+            } else if ([elementName isEqual:@"transition"]) {
+                MMTransition *newTransition;
 
-        // Set the formula after adding it to the group, so that it has access to the model for the symbols
-        str = [attributeDict objectForKey:@"formula"];
-        if (str != nil && [str length] > 0)
-            [newDelegate setFormulaString:str];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-    } else if ([elementName isEqualToString:@"transition"]) {
-        MMTransition *newDelegate;
-
-        newDelegate = [MMTransition objectWithXMLAttributes:attributeDict context:[(MXMLParser *)parser context]];
-        [self addObject:newDelegate];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-    } else {
-        NSLog(@"%@, Unknown element: '%@', skipping", [self shortDescription], elementName);
-        [(MXMLParser *)parser skipTree];
+                newTransition = [[MMTransition alloc] init];
+                [newTransition loadFromXMLElement:childElement context:context];
+                [self addObject:newTransition];
+                [newTransition release];
+            }
+        }
     }
-}
-
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
-{
-    [(MXMLParser *)parser popDelegate];
 }
 
 @end

@@ -10,8 +10,6 @@
 #import "MModel.h"
 #import "MMOldFormulaNode.h"
 #import "MUnarchiver.h"
-#import "MXMLParser.h"
-#import "MXMLPCDataDelegate.h"
 #import "NamedList.h"
 
 @implementation MMEquation
@@ -112,6 +110,11 @@
     MMFormulaParser *formulaParser;
     MMFormulaNode *result;
     NSString *errorString;
+
+    if (formulaString == nil) {
+        [self setFormula:nil];
+        return;
+    }
 
     formulaParser = [[MMFormulaParser alloc] initWithModel:[self model]];
 
@@ -220,33 +223,24 @@
     return [NSString stringWithFormat:@"%@:%@", [[self group] name], name];
 }
 
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
+- (void)loadFromXMLElement:(NSXMLElement *)element context:(id)context;
 {
-    if ([self init] == nil)
-        return nil;
+    NSArray *comments;
+    unsigned int count, index;
 
-    [self setName:[attributes objectForKey:@"name"]];
+    [self setName:[[element attributeForName:@"name"] stringValue]];
 
-    return self;
-}
+    [self setModel:context]; // Need to make sure this is set before we set the formula string.
+    [self setFormulaString:[[element attributeForName:@"formula"] stringValue]];
 
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-{
-    if ([elementName isEqualToString:@"comment"]) {
-        MXMLPCDataDelegate *newDelegate;
+    comments = [element elementsForName:@"comment"];
+    count = [comments count];
+    for (index = 0; index < count; index++) {
+        NSXMLElement *commentElement;
 
-        newDelegate = [[MXMLPCDataDelegate alloc] initWithElementName:elementName delegate:self setSelector:@selector(setComment:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
-    } else {
-        NSLog(@"%@, Unknown element: '%@', skipping", [self shortDescription], elementName);
-        [(MXMLParser *)parser skipTree];
+        commentElement = [comments objectAtIndex:index];
+        [self setComment:[commentElement stringValue]];
     }
-}
-
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
-{
-    [(MXMLParser *)parser popDelegate];
 }
 
 @end

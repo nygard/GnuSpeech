@@ -50,17 +50,20 @@ extern NSString *MCategoryInUseException;
 - (BOOL)isCategoryUsed:(MMCategory *)aCategory;
 - (void)removeCategory:(MMCategory *)aCategory;
 - (MMCategory *)categoryWithName:(NSString *)aName;
+- (void)addCategoriesFromArray:(NSArray *)array;
 
 // Parameters
 - (void)addParameter:(MMParameter *)newParameter;
 - (void)_uniqueNameForParameter:(MMParameter *)newParameter inList:(NSMutableArray *)aParameterList;
 - (void)_addDefaultPostureTargetsForParameter:(MMParameter *)newParameter;
 - (void)removeParameter:(MMParameter *)aParameter;
+- (void)addParametersFromArray:(NSArray *)array;
 
 // Meta Parameters
 - (void)addMetaParameter:(MMParameter *)newParameter;
 - (void)_addDefaultPostureTargetsForMetaParameter:(MMParameter *)newParameter;
 - (void)removeMetaParameter:(MMParameter *)aParameter;
+- (void)addMetaParametersFromArray:(NSArray *)array;
 
 // Symbols
 - (void)addSymbol:(MMSymbol *)newSymbol;
@@ -68,6 +71,7 @@ extern NSString *MCategoryInUseException;
 - (void)_addDefaultPostureTargetsForSymbol:(MMSymbol *)newSymbol;
 - (void)removeSymbol:(MMSymbol *)aSymbol;
 - (MMSymbol *)symbolWithName:(NSString *)aName;
+- (void)addSymbolsFromArray:(NSArray *)array;
 
 // Postures
 - (void)addPosture:(MMPosture *)newPosture;
@@ -75,10 +79,15 @@ extern NSString *MCategoryInUseException;
 - (void)removePosture:(MMPosture *)aPosture;
 - (void)sortPostures;
 - (MMPosture *)postureWithName:(NSString *)aName;
+- (void)addPosturesFromArray:(NSArray *)array;
 
 - (void)addEquationGroup:(NamedList *)newGroup;
 - (void)addTransitionGroup:(NamedList *)newGroup;
 - (void)addSpecialTransitionGroup:(NamedList *)newGroup;
+
+- (void)addEquationGroupsFromArray:(NSArray *)newEquationGroups;
+- (void)addTransitionGroupsFromArray:(NSArray *)newTransitionGroups;
+- (void)addSpecialTransitionGroupsFromArray:(NSArray *)newSpecialTransitionGroups;
 
 - (MMEquation *)findEquationWithName:(NSString *)anEquationName;
 - (MMTransition *)findTransitionWithName:(NSString *)aTransitionName;
@@ -135,7 +144,6 @@ extern NSString *MCategoryInUseException;
 // Other
 - (MMSynthesisParameters *)synthesisParameters;
 
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
+- (void)loadFromRootElement:(NSXMLElement *)element;
 
 @end

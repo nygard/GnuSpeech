@@ -258,22 +258,6 @@
 		};
 		011C70EA0624D5EB0011BFB0 = {
 			children = (
-				015E7BEA06376FF100688D4D,
-				015E7BEB06376FF100688D4D,
-				015E7C050637789E00688D4D,
-				015E7C060637789E00688D4D,
-				015E7C1306377D6300688D4D,
-				015E7C1406377D6300688D4D,
-				015E7C250638454F00688D4D,
-				015E7C260638454F00688D4D,
-				015E7C41063862FC00688D4D,
-				015E7C42063862FC00688D4D,
-				015E7C540638713C00688D4D,
-				015E7C550638713C00688D4D,
-				0143DD0D0657321300DB5F6D,
-				0143DD0E0657321300DB5F6D,
-				0143DD1306580F6500DB5F6D,
-				0143DD1406580F6500DB5F6D,
 			);
 			isa = PBXGroup;
 			name = "XML Handling";
@@ -458,62 +442,6 @@
 		};
 		0143DD0A06572CF400DB5F6D = {
 			fileRef = 0143DD0806572CF400DB5F6D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0143DD0D0657321300DB5F6D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = MXMLStringArrayDelegate.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0143DD0E0657321300DB5F6D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = MXMLStringArrayDelegate.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0143DD0F0657321300DB5F6D = {
-			fileRef = 0143DD0D0657321300DB5F6D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0143DD100657321300DB5F6D = {
-			fileRef = 0143DD0E0657321300DB5F6D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0143DD1306580F6500DB5F6D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = MXMLReferenceDictionaryDelegate.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0143DD1406580F6500DB5F6D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = MXMLReferenceDictionaryDelegate.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0143DD1506580F6500DB5F6D = {
-			fileRef = 0143DD1306580F6500DB5F6D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0143DD1606580F6500DB5F6D = {
-			fileRef = 0143DD1406580F6500DB5F6D;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -1066,174 +994,6 @@
 			settings = {
 			};
 		};
-		015E7BEA06376FF100688D4D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = MXMLParser.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		015E7BEB06376FF100688D4D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = MXMLParser.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		015E7BEC06376FF100688D4D = {
-			fileRef = 015E7BEA06376FF100688D4D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		015E7BED06376FF100688D4D = {
-			fileRef = 015E7BEB06376FF100688D4D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		015E7C050637789E00688D4D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = MXMLIgnoreTreeDelegate.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		015E7C060637789E00688D4D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = MXMLIgnoreTreeDelegate.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		015E7C070637789E00688D4D = {
-			fileRef = 015E7C050637789E00688D4D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		015E7C080637789E00688D4D = {
-			fileRef = 015E7C060637789E00688D4D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		015E7C1306377D6300688D4D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = MXMLArrayDelegate.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		015E7C1406377D6300688D4D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = MXMLArrayDelegate.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		015E7C1506377D6300688D4D = {
-			fileRef = 015E7C1306377D6300688D4D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		015E7C1606377D6300688D4D = {
-			fileRef = 015E7C1406377D6300688D4D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		015E7C250638454F00688D4D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = MXMLPCDataDelegate.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		015E7C260638454F00688D4D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = MXMLPCDataDelegate.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		015E7C270638454F00688D4D = {
-			fileRef = 015E7C250638454F00688D4D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		015E7C280638454F00688D4D = {
-			fileRef = 015E7C260638454F00688D4D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		015E7C41063862FC00688D4D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = MXMLReferenceArrayDelegate.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		015E7C42063862FC00688D4D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = MXMLReferenceArrayDelegate.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		015E7C43063862FC00688D4D = {
-			fileRef = 015E7C41063862FC00688D4D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		015E7C44063862FC00688D4D = {
-			fileRef = 015E7C42063862FC00688D4D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		015E7C540638713C00688D4D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = MXMLDictionaryDelegate.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		015E7C550638713C00688D4D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = MXMLDictionaryDelegate.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		015E7C560638713C00688D4D = {
-			fileRef = 015E7C540638713C00688D4D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		015E7C570638713C00688D4D = {
-			fileRef = 015E7C550638713C00688D4D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		0161CE1206D5426E00CB63DD = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -1744,6 +1504,8 @@
 				019D97680646E449009C37B4,
 				019D97690646E449009C37B4,
 				019D976A0646E449009C37B4,
+				01FCDD5706E96C1F00B30D3D,
+				01FCDD5806E96C1F00B30D3D,
 			);
 			isa = PBXGroup;
 			name = Extensions;
@@ -3600,6 +3362,36 @@
 			settings = {
 			};
 		};
+		01FCDD5706E96C1F00B30D3D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = "NSXMLElement-Extensions.h";
+			path = "Extensions/NSXMLElement-Extensions.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDD5806E96C1F00B30D3D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = "NSXMLElement-Extensions.m";
+			path = "Extensions/NSXMLElement-Extensions.m";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		01FCDD5906E96C1F00B30D3D = {
+			fileRef = 01FCDD5706E96C1F00B30D3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		01FCDD5A06E96C1F00B30D3D = {
+			fileRef = 01FCDD5806E96C1F00B30D3D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 //010
 //011
 //012
@@ -3990,12 +3782,6 @@
 				01104DB2061A294000B529E8,
 				01104DCC061A53BA00B529E8,
 				015E7BDF06375CE400688D4D,
-				015E7BEC06376FF100688D4D,
-				015E7C070637789E00688D4D,
-				015E7C1506377D6300688D4D,
-				015E7C270638454F00688D4D,
-				015E7C43063862FC00688D4D,
-				015E7C560638713C00688D4D,
 				019D976B0646E449009C37B4,
 				019D976D0646E449009C37B4,
 				019D976F0646E449009C37B4,
@@ -4009,8 +3795,6 @@
 				0143DCFF06572A3D00DB5F6D,
 				0143DD0406572B3B00DB5F6D,
 				0143DD0906572CF400DB5F6D,
-				0143DD0F0657321300DB5F6D,
-				0143DD1506580F6500DB5F6D,
 				0143DD1D0658530200DB5F6D,
 				0143DD27065B1C1800DB5F6D,
 				0143DD29065B1C1800DB5F6D,
@@ -4047,6 +3831,7 @@
 				01D001BA06D7ED59009C6C3C,
 				01F2C09706D7FB1500E2A458,
 				0169C70806E13F80009FBDCF,
+				01FCDD5906E96C1F00B30D3D,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4137,12 +3922,6 @@
 				01104DB3061A294000B529E8,
 				01104DCD061A53BA00B529E8,
 				015E7BE006375CE400688D4D,
-				015E7BED06376FF100688D4D,
-				015E7C080637789E00688D4D,
-				015E7C1606377D6300688D4D,
-				015E7C280638454F00688D4D,
-				015E7C44063862FC00688D4D,
-				015E7C570638713C00688D4D,
 				019D976C0646E449009C37B4,
 				019D976E0646E449009C37B4,
 				019D97700646E449009C37B4,
@@ -4155,8 +3934,6 @@
 				0143DCFE06572A3D00DB5F6D,
 				0143DD0006572A3D00DB5F6D,
 				0143DD0A06572CF400DB5F6D,
-				0143DD100657321300DB5F6D,
-				0143DD1606580F6500DB5F6D,
 				0143DD1E0658530200DB5F6D,
 				0143DD28065B1C1800DB5F6D,
 				0143DD2A065B1C1800DB5F6D,
@@ -4190,6 +3967,7 @@
 				01D001BB06D7ED59009C6C3C,
 				01F2C09806D7FB1500E2A458,
 				0169C70706E13F80009FBDCF,
+				01FCDD5A06E96C1F00B30D3D,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

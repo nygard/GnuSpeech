@@ -20,9 +20,6 @@
 #import "MMSlopeRatio.h"
 #import "MMTarget.h"
 #import "MMTransition.h"
-#import "MXMLParser.h"
-#import "MXMLArrayDelegate.h"
-#import "MXMLPCDataDelegate.h"
 #import "PhoneList.h"
 
 #import "TRMSynthesizer.h" // For addParameters:
@@ -1605,12 +1602,13 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 - (BOOL)loadIntonationContourFromXMLFile:(NSString *)filename;
 {
     NSURL *fileURL;
-    MXMLParser *parser;
-    BOOL result;
+    //MXMLParser *parser;
+    BOOL result = NO;
 
     parseState = PARSE_STATE_INITIAL;
 
     fileURL = [NSURL fileURLWithPath:filename];
+#if 0
     parser = [[MXMLParser alloc] initWithContentsOfURL:fileURL];
     [(MXMLParser *)parser setContext:self];
     [parser pushDelegate:self];
@@ -1621,7 +1619,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
         NSRunAlertPanel(@"Error", @"Failed to load file %@, (%@)", @"OK", nil, nil, filename, [[parser parserError] localizedDescription]);
     }
     [parser release];
-
+#endif
     return result;
 }
 
@@ -1631,7 +1629,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     [self applyRhythm];
     [self applyRules];
 }
-
+#if 0
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
 {
     if (parseState == PARSE_STATE_INITIAL) {
@@ -1663,5 +1661,5 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 {
     parseState = PARSE_STATE_INITIAL;
 }
-
+#endif
 @end
