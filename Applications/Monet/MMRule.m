@@ -234,7 +234,7 @@
     for (index = 0; index < count; index++) {
 
         parameter = [parameters objectAtIndex:index];
-        name = [dict objectForKey:[parameter symbol]];
+        name = [dict objectForKey:[parameter name]];
         transition = [[self model] findTransitionWithName:name];
         if (transition == nil) {
             NSLog(@"Error: Can't find transition named: %@", name);
@@ -263,7 +263,7 @@
     for (index = 0; index < count; index++) {
 
         parameter = [parameters objectAtIndex:index];
-        name = [dict objectForKey:[parameter symbol]];
+        name = [dict objectForKey:[parameter name]];
         transition = [[self model] findTransitionWithName:name];
         if (transition == nil) {
             NSLog(@"Error: Can't find transition named: %@", name);
@@ -287,9 +287,9 @@
     count = [parameters count];
     for (index = 0; index < count; index++) {
         parameter = [parameters objectAtIndex:index];
-        transitionName = [dict objectForKey:[parameter symbol]];
+        transitionName = [dict objectForKey:[parameter name]];
         if (transitionName != nil) {
-            //NSLog(@"parameter: %@, transition name: %@", [parameter symbol], transitionName);
+            //NSLog(@"parameter: %@, transition name: %@", [parameter name], transitionName);
             transition = [[self model] findSpecialTransitionWithName:transitionName];
             if (transition == nil) {
                 NSLog(@"Error: Can't find transition named: %@", transitionName);
@@ -704,7 +704,7 @@
 
         [resultString indentToLevel:level + 1];
         [resultString appendFormat:@"<parameter-transition name=\"%@\" transition=\"%@\"/>\n",
-                      GSXMLAttributeString([aParameter symbol], NO), GSXMLAttributeString([aTransition name], NO)];
+                      GSXMLAttributeString([aParameter name], NO), GSXMLAttributeString([aTransition name], NO)];
     }
 
     [resultString indentToLevel:level];
@@ -735,7 +735,7 @@
 
         [resultString indentToLevel:level + 1];
         [resultString appendFormat:@"<parameter-transition name=\"%@\" transition=\"%@\"/>\n",
-                      GSXMLAttributeString([aParameter symbol], NO), GSXMLAttributeString([aTransition name], NO)];
+                      GSXMLAttributeString([aParameter name], NO), GSXMLAttributeString([aTransition name], NO)];
     }
 
     [resultString indentToLevel:level];
@@ -774,7 +774,7 @@
         if (aTransition != nil) {
             [resultString indentToLevel:level + 1];
             [resultString appendFormat:@"<parameter-transition name=\"%@\" transition=\"%@\"/>\n",
-                          GSXMLAttributeString([aParameter symbol], NO), GSXMLAttributeString([aTransition name], NO)];
+                          GSXMLAttributeString([aParameter name], NO), GSXMLAttributeString([aTransition name], NO)];
         }
     }
 

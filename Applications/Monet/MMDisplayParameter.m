@@ -71,18 +71,18 @@
 - (NSString *)name;
 {
     if (isSpecial == YES)
-        return [NSString stringWithFormat:@"%@ (special)", [parameter symbol]];
+        return [NSString stringWithFormat:@"%@ (special)", [parameter name]];
 
-    return [parameter symbol];
+    return [parameter name];
 }
 
 // Used in the EventList view
 - (NSString *)label;
 {
     if (isSpecial == YES)
-        return [NSString stringWithFormat:@"%@\n(special)", [parameter symbol]];
+        return [NSString stringWithFormat:@"%@\n(special)", [parameter name]];
 
-    return [parameter symbol];
+    return [parameter name];
 }
 
 @end

@@ -11,7 +11,7 @@
 
 @interface MMParameter : MMObject
 {
-    NSString *parameterSymbol;
+    NSString *name;
     NSString *comment;
     double minimum;
     double maximum;
@@ -19,11 +19,11 @@
 }
 
 - (id)init;
-- (id)initWithSymbol:(NSString *)newSymbol;
+- (id)initWithName:(NSString *)newName;
 - (void)dealloc;
 
-- (NSString *)symbol;
-- (void)setSymbol:(NSString *)newSymbol;
+- (NSString *)name;
+- (void)setName:(NSString *)newName;
 
 - (NSString *)comment;
 - (void)setComment:(NSString *)newComment;

@@ -20,7 +20,7 @@
     if ([super init] == nil)
         return nil;
 
-    parameterSymbol = nil;
+    name = nil;
     comment = nil;
 
     minimum = DEFAULT_MIN;
@@ -30,36 +30,36 @@
     return self;
 }
 
-- (id)initWithSymbol:(NSString *)newSymbol;
+- (id)initWithName:(NSString *)aName;
 {
     if ([self init] == nil)
         return nil;
 
-    [self setSymbol:newSymbol];
+    [self setName:aName];
 
     return self;
 }
 
 - (void)dealloc;
 {
-    [parameterSymbol release];
+    [name release];
     [comment release];
 
     [super dealloc];
 }
 
-- (NSString *)symbol;
+- (NSString *)name;
 {
-    return parameterSymbol;
+    return name;
 }
 
-- (void)setSymbol:(NSString *)newSymbol;
+- (void)setName:(NSString *)newName;
 {
-    if (newSymbol == parameterSymbol)
+    if (newName == name)
         return;
 
-    [parameterSymbol release];
-    parameterSymbol = [newSymbol retain];
+    [name release];
+    name = [newName retain];
 }
 
 - (NSString *)comment;
@@ -121,7 +121,7 @@
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
     unsigned archivedVersion;
-    char *c_parameterSymbol, *c_comment;
+    char *c_name, *c_comment;
 
     if ([super initWithCoder:aDecoder] == nil)
         return nil;
@@ -130,10 +130,10 @@
     archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
     //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
 
-    [aDecoder decodeValuesOfObjCTypes:"**ddd", &c_parameterSymbol, &c_comment, &minimum, &maximum, &defaultValue];
-    //NSLog(@"c_parameterSymbol: %s, c_comment: %s, minimum: %g, maximum: %g, defaultValue: %g", c_parameterSymbol, c_comment, minimum, maximum, defaultValue);
+    [aDecoder decodeValuesOfObjCTypes:"**ddd", &c_name, &c_comment, &minimum, &maximum, &defaultValue];
+    //NSLog(@"c_name: %s, c_comment: %s, minimum: %g, maximum: %g, defaultValue: %g", c_name, c_comment, minimum, maximum, defaultValue);
 
-    parameterSymbol = [[NSString stringWithASCIICString:c_parameterSymbol] retain];
+    name = [[NSString stringWithASCIICString:c_name] retain];
     comment = [[NSString stringWithASCIICString:c_comment] retain];
 
     //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
@@ -142,8 +142,8 @@
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@>[%p]: parameterSymbol: %@, comment: %@, minimum: %g, maximum: %g, defaultValue: %g",
-                     NSStringFromClass([self class]), self, parameterSymbol, comment, minimum, maximum, defaultValue];
+    return [NSString stringWithFormat:@"<%@>[%p]: name: %@, comment: %@, minimum: %g, maximum: %g, defaultValue: %g",
+                     NSStringFromClass([self class]), self, name, comment, minimum, maximum, defaultValue];
 }
 
 
@@ -151,7 +151,7 @@
 {
     [resultString indentToLevel:level];
     [resultString appendFormat:@"<parameter name=\"%@\" minimum=\"%g\" maximum=\"%g\" default=\"%g\"",
-                  GSXMLAttributeString(parameterSymbol, NO), minimum, maximum, defaultValue];
+                  GSXMLAttributeString(name, NO), minimum, maximum, defaultValue];
 
     if (comment == nil) {
         [resultString appendString:@"/>\n"];
@@ -172,7 +172,7 @@
     if ([self init] == nil)
         return nil;
 
-    [self setSymbol:[attributes objectForKey:@"name"]];
+    [self setName:[attributes objectForKey:@"name"]];
 
     value = [attributes objectForKey:@"minimum"];
     if (value != nil)

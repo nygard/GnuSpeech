@@ -252,7 +252,7 @@
     MMParameter *newParameter;
     unsigned int index;
 
-    newParameter = [[MMParameter alloc] initWithSymbol:nil];
+    newParameter = [[MMParameter alloc] init];
     [[self model] addParameter:newParameter];
     [newParameter release];
 
@@ -282,7 +282,7 @@
     MMParameter *newParameter;
     unsigned int index;
 
-    newParameter = [[MMParameter alloc] initWithSymbol:nil];
+    newParameter = [[MMParameter alloc] init];
     [[self model] addMetaParameter:newParameter];
     [newParameter release];
 
@@ -386,7 +386,7 @@
         if ([@"hasComment" isEqual:identifier] == YES) {
             return [NSNumber numberWithBool:[parameter hasComment]];
         } else if ([@"name" isEqual:identifier] == YES) {
-            return [parameter symbol];
+            return [parameter name];
         } else if ([@"minimum" isEqual:identifier] == YES) {
             return [NSNumber numberWithDouble:[parameter minimumValue]];
         } else if ([@"maximum" isEqual:identifier] == YES) {
@@ -436,7 +436,7 @@
 
         if ([@"name" isEqual:identifier] == YES) {
             // TODO (2004-03-19): Ensure unique name
-            [parameter setSymbol:object];
+            [parameter setName:object];
         } else if ([@"minimum" isEqual:identifier] == YES) {
             // TODO (2004-03-19): Make sure current values are still in range
             [parameter setMinimumValue:[object doubleValue]];

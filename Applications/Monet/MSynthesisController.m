@@ -226,7 +226,7 @@
         if ([displayParameter isSpecial] == NO) {
             tableColumn = [[NSTableColumn alloc] initWithIdentifier:[NSNumber numberWithInt:[displayParameter tag]]];
             [tableColumn setEditable:NO];
-            [[tableColumn headerCell] setTitle:[[displayParameter parameter] symbol]];
+            [[tableColumn headerCell] setTitle:[[displayParameter parameter] name]];
             [[tableColumn dataCell] setFormatter:defaultNumberFormatter];
             [[tableColumn dataCell] setAlignment:NSRightTextAlignment];
             [[tableColumn dataCell] setDrawsBackground:NO];
@@ -915,7 +915,7 @@
 
         count = [displayParameters count];
         for (index = 0; index < count; index++) {
-            if ([[[[displayParameters objectAtIndex:index] parameter] symbol] hasPrefix:characters ignoreCase:YES]) {
+            if ([[[[displayParameters objectAtIndex:index] parameter] name] hasPrefix:characters ignoreCase:YES]) {
                 [parameterTableView selectRow:index byExtendingSelection:NO];
                 [parameterTableView scrollRowToVisible:index];
                 return NO;

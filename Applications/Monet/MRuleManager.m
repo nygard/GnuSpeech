@@ -435,7 +435,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
         parameter = [[[self model] parameters] objectAtIndex:row];
         if ([@"name" isEqual:identifier] == YES) {
-            return [parameter symbol];
+            return [parameter name];
         } else if ([@"transition" isEqual:identifier] == YES) {
             if (tableView == parameterTableView)
                 return [[[[self selectedRule] parameterList] objectAtIndex:row] transitionPath];
@@ -447,7 +447,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
         parameter = [[[self model] metaParameters] objectAtIndex:row];
         if ([@"name" isEqual:identifier] == YES) {
-            return [parameter symbol];
+            return [parameter name];
         } else if ([@"transition" isEqual:identifier] == YES) {
             return [[[[self selectedRule] metaParameterList] objectAtIndex:row] transitionPath];
         }

@@ -248,8 +248,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)addParameter:(MMParameter *)newParameter;
 {
-    if ([newParameter symbol] == nil)
-        [newParameter setSymbol:@"untitled"];
+    if ([newParameter name] == nil)
+        [newParameter setName:@"untitled"];
 
     [self _uniqueNameForParameter:newParameter inList:parameters];
 
@@ -269,18 +269,18 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     names = [[NSMutableSet alloc] init];
     count = [aParameterList count];
     for (index = 0; index < count; index++) {
-        name = [[aParameterList objectAtIndex:index] symbol];
+        name = [[aParameterList objectAtIndex:index] name];
         if (name != nil)
             [names addObject:name];
     }
 
-    name = basename = [newParameter symbol];
+    name = basename = [newParameter name];
     index = 1;
     while ([names containsObject:name] == YES) {
         name = [NSString stringWithFormat:@"%@%d", basename, index++];
     }
 
-    [newParameter setSymbol:name];
+    [newParameter setName:name];
 
     [names release];
 }
@@ -327,8 +327,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)addMetaParameter:(MMParameter *)newParameter;
 {
-    if ([newParameter symbol] == nil)
-        [newParameter setSymbol:@"untitled"];
+    if ([newParameter name] == nil)
+        [newParameter setName:@"untitled"];
 
     [self _uniqueNameForParameter:newParameter inList:metaParameters];
 
@@ -1180,7 +1180,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         fread(&maxValue, sizeof(float), 1, fp);
         fread(&defaultValue, sizeof(float), 1, fp);
 
-        newParameter = [[MMParameter alloc] initWithSymbol:str];
+        newParameter = [[MMParameter alloc] initWithName:str];
         [newParameter setMinimumValue:minValue];
         [newParameter setMaximumValue:maxValue];
         [newParameter setDefaultValue:defaultValue];
@@ -1421,7 +1421,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         MMParameter *aParameter;
 
         aParameter = [parameters objectAtIndex:index];
-        fprintf(fp, "%s\n", [[aParameter symbol] UTF8String]);
+        fprintf(fp, "%s\n", [[aParameter name] UTF8String]);
         fprintf(fp, "Min: %f  Max: %f  Default: %f\n",
                 [aParameter minimumValue], [aParameter maximumValue], [aParameter defaultValue]);
         if ([aParameter comment])
@@ -1485,16 +1485,16 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
             aParameter = [aParameterList objectAtIndex:j];
             mainParameter = [parameters objectAtIndex:j];
             if ([aParameter isDefault])
-                fprintf(fp, "\t%s: *%f\t\t", [[mainParameter symbol] UTF8String], [aParameter value]);
+                fprintf(fp, "\t%s: *%f\t\t", [[mainParameter name] UTF8String], [aParameter value]);
             else
-                fprintf(fp, "\t%s: %f\t\t", [[mainParameter symbol] UTF8String], [aParameter value]);
+                fprintf(fp, "\t%s: %f\t\t", [[mainParameter name] UTF8String], [aParameter value]);
 
             aParameter = [aParameterList objectAtIndex:j+8];
             mainParameter = [parameters objectAtIndex:j+8];
             if ([aParameter isDefault])
-                fprintf(fp, "%s: *%f\n", [[mainParameter symbol] UTF8String], [aParameter value]);
+                fprintf(fp, "%s: *%f\n", [[mainParameter name] UTF8String], [aParameter value]);
             else
-                fprintf(fp, "%s: %f\n", [[mainParameter symbol] UTF8String], [aParameter value]);
+                fprintf(fp, "%s: %f\n", [[mainParameter name] UTF8String], [aParameter value]);
         }
         fprintf(fp, "\n\n");
 

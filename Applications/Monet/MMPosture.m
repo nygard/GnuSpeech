@@ -232,9 +232,9 @@
         MMTarget *currentTarget;
 
         currentParameter = [parameters objectAtIndex:index];
-        currentTarget = [aDictionary objectForKey:[currentParameter symbol]];
+        currentTarget = [aDictionary objectForKey:[currentParameter name]];
         if (currentTarget == nil) {
-            NSLog(@"Warning: no target for parameter %@ in save file, adding default target.", [currentParameter symbol]);
+            NSLog(@"Warning: no target for parameter %@ in save file, adding default target.", [currentParameter name]);
             currentTarget = [[MMTarget alloc] initWithValue:[currentParameter defaultValue] isDefault:YES];
             [self addParameterTarget:currentTarget];
             [currentTarget release];
@@ -268,9 +268,9 @@
         MMTarget *currentTarget;
 
         currentParameter = [parameters objectAtIndex:index];
-        currentTarget = [aDictionary objectForKey:[currentParameter symbol]];
+        currentTarget = [aDictionary objectForKey:[currentParameter name]];
         if (currentTarget == nil) {
-            NSLog(@"Warning: no target for meta-parameter %@ in save file, adding default target.", [currentParameter symbol]);
+            NSLog(@"Warning: no target for meta-parameter %@ in save file, adding default target.", [currentParameter name]);
             currentTarget = [[MMTarget alloc] initWithValue:[currentParameter defaultValue] isDefault:YES];
             [self addMetaParameterTarget:currentTarget];
             [currentTarget release];
@@ -492,7 +492,7 @@
         aTarget = [parameterTargets objectAtIndex:index];
 
         [resultString indentToLevel:level + 1];
-        [resultString appendFormat:@"<target name=\"%@\" value=\"%g\"", [aParameter symbol], [aTarget value]];
+        [resultString appendFormat:@"<target name=\"%@\" value=\"%g\"", [aParameter name], [aTarget value]];
         if ([aTarget value] == [aParameter defaultValue])
             [resultString appendString:@" is-default=\"yes\""];
         [resultString appendString:@"/>\n"];
@@ -526,7 +526,7 @@
         aTarget = [metaParameterTargets objectAtIndex:index];
 
         [resultString indentToLevel:level + 1];
-        [resultString appendFormat:@"<target name=\"%@\" value=\"%g\"", [aParameter symbol], [aTarget value]];
+        [resultString appendFormat:@"<target name=\"%@\" value=\"%g\"", [aParameter name], [aTarget value]];
         if ([aTarget value] == [aParameter defaultValue])
             [resultString appendString:@" is-default=\"yes\""];
         [resultString appendString:@"/>\n"];

@@ -296,7 +296,7 @@
             parameter = [[[self model] metaParameters] objectAtIndex:row];
 
         if ([@"name" isEqual:identifier] == YES) {
-            return [parameter symbol];
+            return [parameter name];
         } else if ([@"value" isEqual:identifier] == YES) {
             MMTarget *aTarget;
 
