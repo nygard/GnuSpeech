@@ -587,6 +587,10 @@ static NSImage *_selectionBox = nil;
     NSBezierPath *bezierPath;
 
     //NSLog(@"->%s, point: %@", _cmd, NSStringFromPoint(aPoint));
+    aPoint.x = rint(aPoint.x);
+    aPoint.y = rint(aPoint.y);
+    //NSLog(@"-->%s, point: %@", _cmd, NSStringFromPoint(aPoint));
+
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath appendBezierPathWithArcWithCenter:aPoint radius:radius startAngle:0 endAngle:360];
     [bezierPath closePath];
@@ -600,6 +604,11 @@ static NSImage *_selectionBox = nil;
     int radius = 5;
     NSBezierPath *bezierPath;
     float angle;
+
+    //NSLog(@"->%s, point: %@", _cmd, NSStringFromPoint(aPoint));
+    aPoint.x = rint(aPoint.x);
+    aPoint.y = rint(aPoint.y);
+    //NSLog(@"-->%s, point: %@", _cmd, NSStringFromPoint(aPoint));
 
     bezierPath = [[NSBezierPath alloc] init];
     //[bezierPath moveToPoint:NSMakePoint(aPoint.x, aPoint.y + radius)];
@@ -622,9 +631,12 @@ static NSImage *_selectionBox = nil;
 {
     NSRect rect;
 
-    // TODO (2004-03-12): I find it a little distressing that a 5x6 rectangle produces a square...
-    // That only affects NSRectFill, not NSFrameRect.
-    rect = NSIntegralRect(NSMakeRect(aPoint.x - 2, aPoint.y - 3, 1, 1));
+    //NSLog(@"->%s, point: %@", _cmd, NSStringFromPoint(aPoint));
+    aPoint.x = rint(aPoint.x);
+    aPoint.y = rint(aPoint.y);
+    //NSLog(@"-->%s, point: %@", _cmd, NSStringFromPoint(aPoint));
+
+    rect = NSIntegralRect(NSMakeRect(aPoint.x - 3, aPoint.y - 3, 1, 1));
     rect.size = NSMakeSize(6, 6);
     //NSLog(@"%s, rect: %@", _cmd, NSStringFromRect(rect));
     [NSBezierPath fillRect:rect];
@@ -637,7 +649,13 @@ static NSImage *_selectionBox = nil;
 {
     NSRect rect;
 
-    rect = NSIntegralRect(NSMakeRect(aPoint.x - 4, aPoint.y - 5, 9, 10));
+    NSLog(@"->%s, point: %@", _cmd, NSStringFromPoint(aPoint));
+    aPoint.x = rint(aPoint.x);
+    aPoint.y = rint(aPoint.y);
+    NSLog(@"-->%s, point: %@", _cmd, NSStringFromPoint(aPoint));
+
+
+    rect = NSIntegralRect(NSMakeRect(aPoint.x - 5, aPoint.y - 5, 10, 10));
     //NSLog(@"%s, rect: %@", _cmd, NSStringFromRect(rect));
     NSFrameRect(rect);
 }
