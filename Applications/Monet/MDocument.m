@@ -36,17 +36,16 @@
     MXMLParser *parser;
     BOOL result;
 
-    NSLog(@" > %s", _cmd);
-
     fileURL = [NSURL fileURLWithPath:filename];
     parser = [[MXMLParser alloc] initWithContentsOfURL:fileURL];
     [parser pushDelegate:self];
     [parser setShouldResolveExternalEntities:YES];
     result = [parser parse];
-    NSLog(@"result: %d", result);
+    if (result == NO) {
+        NSLog(@"Error: Failed to load file %@, (%@)", filename, [[parser parserError] localizedDescription]);
+        NSRunAlertPanel(@"Error", @"Failed to load file %@, (%@)", @"OK", nil, nil, filename, [[parser parserError] localizedDescription]);
+    }
     [parser release];
-
-    NSLog(@"<  %s", _cmd);
 
     return result;
 }
@@ -54,6 +53,9 @@
 - (void)parserDidStartDocument:(NSXMLParser *)parser;
 {
     //NSLog(@" > %s", _cmd);
+    // As of 2004-05-20 these just return nil
+    //NSLog(@"publicID: %@", [parser publicID]);
+    //NSLog(@"systemID: %@", [parser systemID]);
     //NSLog(@"<  %s", _cmd);
 }
 
