@@ -83,6 +83,7 @@
 - (void)addCategory:(MMCategory *)aCategory;
 - (void)removeCategory:(MMCategory *)aCategory;
 - (BOOL)isMemberOfCategory:(MMCategory *)aCategory;
+- (BOOL)isMemberOfCategoryNamed:(NSString *)aCategoryName;
 
 /* Access to target lists */
 - (TargetList *)parameterTargets;

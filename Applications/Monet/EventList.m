@@ -822,8 +822,6 @@
 
 - (void)applyIntonation;
 {
-    CategoryList *mainCategoryList = NXGetNamedObject(@"mainCategoryList", NSApp);
-    id vocoidCategory;
     int firstFoot, endFoot;
     int ruleIndex, phoneIndex;
     int i, j, k;
@@ -833,8 +831,6 @@
     zeroRef = 0;
     zeroIndex = 0;
     duration = [[self lastObject] time] + 100;
-
-    vocoidCategory = [mainCategoryList findSymbol:@"vocoid"];
 
     [self clearIntonationPoints];
 //    [self addPoint:-20.0 offsetTime:0.0 slope:0.0 ruleIndex:0];
@@ -852,7 +848,7 @@
         /* Set up intonation boundary variables */
         for (j = firstFoot; j <= endFoot; j++) {
             phoneIndex = feet[j].start;
-            while ([[phones[phoneIndex].phone categoryList] indexOfObject:vocoidCategory] == NSNotFound) {
+            while ([phones[phoneIndex].phone isMemberOfCategoryNamed:@"vocoid"] == NO) {
                 phoneIndex++;
                 NSLog(@"Checking phone %@ for vocoid", [phones[phoneIndex].phone symbol]);
                 if (phoneIndex > feet[j].end) {

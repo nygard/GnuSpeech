@@ -214,6 +214,19 @@
     return [categoryList containsObject:aCategory];
 }
 
+- (BOOL)isMemberOfCategoryNamed:(NSString *)aCategoryName;
+{
+    unsigned int count, index;
+
+    count = [categoryList count];
+    for (index = 0; index < count; index++) {
+        if ([[[categoryList objectAtIndex:index] symbol] isEqualToString:aCategoryName] == YES)
+            return YES;
+    }
+
+    return NO;
+}
+
 - (TargetList *)parameterTargets;
 {
     return parameterList;
