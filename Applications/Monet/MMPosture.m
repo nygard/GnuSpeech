@@ -21,7 +21,6 @@
 #import "MXMLReferenceArrayDelegate.h"
 
 // For typedstream compatibility
-#import "ParameterList.h"
 #import "TargetList.h"
 
 @implementation MMPosture
