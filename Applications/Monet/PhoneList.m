@@ -190,7 +190,6 @@
         [aPhone setSymbol:str];
         aPhone = [self makePhoneUniqueName:aPhone];
         [self addPhoneObject:aPhone];
-        [[aPhone categoryList] addNativeCategory:str];
 
         /*  Read the file data and store it in the object  */
         if ([myData readFromFile:filename] == NO) {

@@ -289,11 +289,6 @@
             [categoryList addObject:temp1];
         } else {
             //NSLog(@"Read NATIVE category: %@", str);
-            if ([phoneSymbol isEqual:str] == NO) {
-                NSLog(@"NATIVE Category Wrong... correcting: %@ -> %@", str, phoneSymbol);
-                [categoryList addNativeCategory:phoneSymbol];
-            } else
-                [categoryList addNativeCategory:str];
         }
     }
 
@@ -424,7 +419,8 @@
 
     mainMetaParameterList = [[self model] metaParameters];
     count = [mainMetaParameterList count];
-    NSLog(@"%s, (%@) main meta count: %d, count: %d", _cmd, [self symbol], count, [metaParameterList count]);
+    if (count != [metaParameterList count])
+        NSLog(@"%s, (%@) main meta count: %d, count: %d", _cmd, [self symbol], count, [metaParameterList count]);
     //assert(count == [metaParameterList count]);
 
     if (count == 0)

@@ -34,6 +34,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 - (id)init;
 {
     MMSymbol *newSymbol;
+    MMCategory *newCategory;
 
     if ([super init] == nil)
         return nil;
@@ -55,7 +56,10 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [self addSymbol:newSymbol];
     [newSymbol release];
 
-    [[categories addCategory:@"phone"] setComment:@"This is the static phone category.  It cannot be changed or removed."];
+    newCategory = [[MMCategory alloc] initWithSymbol:@"phone"];
+    [newCategory setComment:@"This is the static phone category.  It cannot be changed or removed."];
+    [self addCategory:newCategory];
+    [newCategory release];
 
     return self;
 }
@@ -889,9 +893,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
             str = [NSString stringWithASCIICString:tempSymbol];
 
             tempCategory = [categories findSymbol:str];
-            if (!tempCategory) {
-                [[newPhone categoryList] addNativeCategory:str];
-            } else
+            if (tempCategory)
                 [[newPhone categoryList] addObject:tempCategory];
         }
 

@@ -1,8 +1,6 @@
 #import "CategoryList.h"
 
 #import <Foundation/Foundation.h>
-#import "NSString-Extensions.h"
-
 #import "MMCategory.h"
 
 /*===========================================================================
@@ -33,40 +31,6 @@
 
     //NSLog(@"Could not find: %@\n", searchSymbol);
     return nil;
-}
-
-- (MMCategory *)addCategory:(NSString *)newCategoryName;
-{
-    MMCategory *newCategory;
-
-    newCategory = [[MMCategory alloc] initWithSymbol:newCategoryName];
-    [self addObject:newCategory];
-    [newCategory release];
-
-    return newCategory;
-}
-
-- (void)addNativeCategory:(NSString *)newCategoryName;
-{
-    MMCategory *newCategory;
-
-    newCategory = [[MMCategory alloc] initWithSymbol:newCategoryName];
-    [newCategory setIsNative:YES];
-    [self addObject:newCategory];
-    [newCategory release];
-}
-
-#ifdef PORTING
-- (void)freeNativeCategories;
-{
-    [self makeObjectsPerformSelector:@selector(freeIfNative)];
-}
-#endif
-
-- (NSString *)description;
-{
-    return [NSString stringWithFormat:@"<%@>[%p]: super: %@",
-                     NSStringFromClass([self class]), self, [super description]];
 }
 
 @end
