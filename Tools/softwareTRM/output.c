@@ -8,7 +8,8 @@
 #include "util.h"
 
 /*  FINAL OUTPUT SCALING, SO THAT .SND FILES APPROX. MATCH DSP OUTPUT  */
-#define OUTPUT_SCALE              0.25
+//#define OUTPUT_SCALE              0.25
+#define OUTPUT_SCALE              1.0
 
 /*  MAXIMUM SAMPLE VALUE  */
 #define RANGE_MAX                 32767.0
