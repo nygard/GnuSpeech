@@ -129,13 +129,13 @@
     comment = [newComment retain];
 }
 
-- (void)addToCategoryList:(CategoryNode *)aCategory;
-{
-}
-
 - (CategoryList *)categoryList;
 {
     return categoryList;
+}
+
+- (void)addToCategoryList:(CategoryNode *)aCategory;
+{
 }
 
 - (TargetList *)parameterList;
@@ -274,7 +274,6 @@
         }
         free(string);
     }
-
 
     return self;
 }

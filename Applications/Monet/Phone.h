@@ -69,8 +69,8 @@
 - (void)setComment:(NSString *)newComment;
 
 /* Access to category List instance variable */
-- (void)addToCategoryList:(CategoryNode *)aCategory;
 - (CategoryList *)categoryList;
+- (void)addToCategoryList:(CategoryNode *)aCategory;
 
 /* Access to target lists */
 - (TargetList *)parameterList;

@@ -2,6 +2,7 @@
 
 #import <AppKit/AppKit.h>
 #import "Inspector.h"
+#import "MonetList.h"
 #import "MyController.h"
 #import "Point.h"
 #import "ProtoEquation.h"

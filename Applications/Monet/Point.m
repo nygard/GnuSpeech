@@ -7,11 +7,6 @@
 #import "PrototypeManager.h"
 #import "ProtoTemplate.h"
 
-#ifdef PORTING
-#import <AppKit/NSApplication.h>
-#import <Foundation/NSCoder.h>
-#endif
-
 @implementation GSMPoint
 
 - (id)init;
@@ -57,12 +52,12 @@
     return value;
 }
 
-- expression;
+- (ProtoEquation *)expression;
 {
     return expression;
 }
 
-- (void)setExpression:newExpression;
+- (void)setExpression:(ProtoEquation *)newExpression;
 {
     if (newExpression == expression)
         return;
@@ -109,8 +104,7 @@
     phantom = phantomFlag;
 }
 
-- calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag
-	toDisplay:displayList;
+- calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag toDisplay:displayList;
 {
     float dummy;
 
@@ -127,7 +121,7 @@
 
 - (double)calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag
                  baseline:(double)baseline delta:(double)delta min:(double)min max:(double)max
-              toEventList:eventList atIndex:(int)index;
+              toEventList:(EventList *)eventList atIndex:(int)index;
 {
     double time, returnValue;
 

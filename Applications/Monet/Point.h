@@ -1,6 +1,6 @@
 #import <Foundation/NSObject.h>
 
-@class ProtoEquation;
+@class EventList, ProtoEquation;
 
 /*===========================================================================
 
@@ -29,8 +29,8 @@
 - (double)multiplyValueByFactor:(double)factor;
 - (double)addValue:(double)newValue;
 
-- expression;
-- (void)setExpression:newExpression;
+- (ProtoEquation *)expression;
+- (void)setExpression:(ProtoEquation *)newExpression;
 
 - (double)freeTime;
 - (void)setFreeTime:(double)newTime;
@@ -43,12 +43,11 @@
 - (int)phantom;
 - (void)setPhantom:(int)phantomFlag;
 
-- calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag
-	toDisplay:displayList;
+- calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag toDisplay:displayList;
 
 - (double)calculatePoints:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag
                  baseline:(double)baseline delta:(double)delta min:(double)min max:(double)max
-              toEventList:eventList atIndex:(int)index;
+              toEventList:(EventList *)eventList atIndex:(int)index;
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 - (void)encodeWithCoder:(NSCoder *)aCoder;
