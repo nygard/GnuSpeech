@@ -156,7 +156,6 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
 - (void)setDuration:(int)newValue;
 {
-    NSLog(@"duration: %d", duration);
     duration = newValue;
 }
 
@@ -276,7 +275,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
 - (void)setUp;
 {
-    NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
+    //NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
 
     [events removeAllObjects];
     [self removeAllIntonationPoints];
@@ -316,7 +315,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     phoneTempo[0] = 1.0;
     feet[0].tempo = 1.0;
 
-    NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
+    //NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }
 
 - (void)setFullTimeScale;
@@ -824,14 +823,12 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
         }
     }
 
-    [self printDataStructures:@"Applied rhythm"];
+    //[self printDataStructures:@"Applied rhythm"];
 }
 
 - (void)applyRules;
 {
-    NSLog(@" > %s", _cmd);
-
-    [self printDataStructures:@"Start of generateEvents"];
+    //[self printDataStructures:@"Start of generateEvents"];
     NSParameterAssert(model != nil);
 
     // Record min/max values for each of the parameters
@@ -876,8 +873,8 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
             matchedRule = [model findRuleMatchingCategories:tempCategoryList ruleIndex:&ruleIndex];
             rules[currentRule].number = ruleIndex + 1;
 
-            NSLog(@"----------------------------------------------------------------------");
-            NSLog(@"Applying rule %d", ruleIndex + 1);
+            //NSLog(@"----------------------------------------------------------------------");
+            //NSLog(@"Applying rule %d", ruleIndex + 1);
             [self _applyRule:matchedRule withPostures:tempPostures andTempos:&phoneTempo[index] phoneIndex:index];
 
             index += [matchedRule numberExpressions] - 1;
@@ -895,9 +892,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
     [self printDataStructures:@"Applied rules"];
 
-    NSLog(@"%s, EventList count: %d", _cmd, [events count]);
-
-    NSLog(@"<  %s", _cmd);
+    //NSLog(@"%s, EventList count: %d", _cmd, [events count]);
 }
 
 // Use a 0.0 offset time for the first intonation point in each tone group, -40.0 for the rest.
@@ -924,7 +919,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
         endTime  = phones[feet[endFoot].end].onset;
 
         pretonicDelta = (intonationParameters.pretonicRange) / (endTime - startTime);
-        NSLog(@"Pretonic Delta = %f time = %f", pretonicDelta, (endTime - startTime));
+        //NSLog(@"Pretonic Delta = %f time = %f", pretonicDelta, (endTime - startTime));
 
         /* Set up intonation boundary variables */
         for (j = firstFoot; j <= endFoot; j++) {
@@ -933,7 +928,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
             phoneIndex = feet[j].start;
             while ([phones[phoneIndex].phone isMemberOfCategoryNamed:@"vocoid"] == NO) { // TODO (2004-08-16): Hardcoded category
                 phoneIndex++;
-                NSLog(@"Checking phone %@ for vocoid", [phones[phoneIndex].phone name]);
+                //NSLog(@"Checking phone %@ for vocoid", [phones[phoneIndex].phone name]);
                 if (phoneIndex > feet[j].end) {
                     phoneIndex = feet[j].start;
                     break;
@@ -1158,13 +1153,14 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
     bzero(&ruleSymbols, sizeof(MMFRuleSymbols));
     [rule evaluateSymbolEquations:&ruleSymbols tempos:tempos postures:somePostures withCache:cache];
+#if 0
     NSLog(@"Rule symbols, duration: %.2f, beat: %.2f, mark1: %.2f, mark2: %.2f, mark3: %.2f",
           ruleSymbols.ruleDuration, ruleSymbols.beat, ruleSymbols.mark1, ruleSymbols.mark2, ruleSymbols.mark3);
-
+#endif
     // TODO (2004-08-14): Is this supposed to change the multiplier?  I suppose so, since setMultiplier: is never used.
-    NSLog(@"multiplier before: %f", multiplier);
+    //NSLog(@"multiplier before: %f", multiplier);
     multiplier = 1.0 / (double)(phones[phoneIndex].ruleTempo);
-    NSLog(@"multiplier after: %f", multiplier);
+    //NSLog(@"multiplier after: %f", multiplier);
 
     type = [rule numberExpressions];
     [self setDuration:(int)(ruleSymbols.ruleDuration * multiplier)];
@@ -1315,7 +1311,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     NSLog(@"----------------------------------------------------------------------");
     NSLog(@" > %s (%@)", _cmd, comment);
 
-    NSLog(@"toneGroupCount: %d", toneGroupCount);
+    //NSLog(@"toneGroupCount: %d", toneGroupCount);
     for (toneGroupIndex = 0; toneGroupIndex < toneGroupCount; toneGroupIndex++) {
         NSLog(@"Tone Group %d, type: %@", toneGroupIndex, NSStringFromToneGroupType(toneGroups[toneGroupIndex].type));
 

@@ -241,3 +241,6 @@ des: [~ 12 ]> /Local/Public/nygard/Products/Monet.app/Contents/MacOS/Monet
 - Try tweaking the page breaks when printing the intonation view.  Try to break on rule boundaries.
 + add, remove intonation poitns.
 - could implement cut/paste of intonation points.
+
+2004-08-22:
+- show values out of min-max range in red.  i.e. qssa, qssb for qz are 2, minimum is 10

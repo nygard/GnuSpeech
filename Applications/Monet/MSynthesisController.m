@@ -444,7 +444,7 @@
     [eventList setShouldUseSmoothIntonation:[defaults boolForKey:MDK_ShouldUseSmoothIntonation]];
     [eventList applyIntonation];
 
-    [eventList printDataStructures:@"Before synthesis"];
+    //[eventList printDataStructures:@"Before synthesis"];
     [eventTableView reloadData];
 
     [synthesizer setupSynthesisParameters:[[self model] synthesisParameters]]; // TODO (2004-08-22): This may overwrite the file type...
