@@ -164,3 +164,9 @@ Notes:
 2004-05-20:
 - In the prototype manager, it'll try parsing equations even if an equation isn't selected in the outline view.
   - not critical, just odd
+- still can't remove equations, transitions, special transitions
+- can't set values in slope ratios, but not obvious from UI
+- adding a point to a slope ratio doesn't properly update the ratios along the bottom, at least for 'Diphone'
+  - that's a problem with the timing being fixed.  Setting it to a value between the two makes it work as expected.
+- can't delete points from a slope ratio
+- Equations/Diphones and Tetraphones don't have an equation

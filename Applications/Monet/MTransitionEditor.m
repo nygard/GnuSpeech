@@ -248,6 +248,7 @@
         } else {
             NamedList *group;
             int row, groupRow;
+            NSString *str;
 
             group = [equation group];
             groupRow = [equationOutlineView rowForItem:group];
@@ -258,7 +259,10 @@
             [equationOutlineView scrollRowToVisible:groupRow];
             [equationOutlineView scrollRowToVisible:row];
 
-            [equationTextView setString:[[equation expression] expressionString]];
+            str = [[equation expression] expressionString];
+            if (str == nil)
+                str = @"";
+            [equationTextView setString:str];
         }
 
         // TODO (2004-03-22): You shouldn't be able to set the value of points in a SlopeRatio (except maybe the first point).
