@@ -177,19 +177,19 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
         inputData->inputParameters.noseCoef = strtod(buf, NULL);
 
         sprintf(buf, "%f", [synthesisParameters n1]);
-        inputData->inputParameters.noseRadius[0] = strtod(buf, NULL);
-
-        sprintf(buf, "%f", [synthesisParameters n2]);
         inputData->inputParameters.noseRadius[1] = strtod(buf, NULL);
 
-        sprintf(buf, "%f", [synthesisParameters n3]);
+        sprintf(buf, "%f", [synthesisParameters n2]);
         inputData->inputParameters.noseRadius[2] = strtod(buf, NULL);
 
-        sprintf(buf, "%f", [synthesisParameters n4]);
+        sprintf(buf, "%f", [synthesisParameters n3]);
         inputData->inputParameters.noseRadius[3] = strtod(buf, NULL);
 
-        sprintf(buf, "%f", [synthesisParameters n5]);
+        sprintf(buf, "%f", [synthesisParameters n4]);
         inputData->inputParameters.noseRadius[4] = strtod(buf, NULL);
+
+        sprintf(buf, "%f", [synthesisParameters n5]);
+        inputData->inputParameters.noseRadius[5] = strtod(buf, NULL);
 
         sprintf(buf, "%f", [synthesisParameters throatCutoff]);
         inputData->inputParameters.throatCutoff = strtod(buf, NULL);
@@ -252,28 +252,22 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
 
 - (void)synthesize;
 {
-    NSLog(@" > %s", _cmd);
-
     // TODO (2004-05-07): Add parameters to inputData.  The inputParameters should be set directly before calling this method.
 
     initializeSynthesizer(&(inputData->inputParameters));
-
-    printControlRateInputTable(inputData);
 
     synthesize(inputData);
     writeOutputToFile(inputData, "/tmp/out0.au");
 
     [self convertSamplesIntoData];
     [self startPlaying];
-
-    NSLog(@"<  %s", _cmd);
 }
 
 - (void)convertSamplesIntoData;
 {
     double scale;
     long int index;
-    FILE *fd;
+    //FILE *fd;
 
     [soundData setLength:0];
     bufferIndex = 0;
@@ -295,9 +289,9 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
     /*  Rewind the temporary file to beginning  */
     rewind(sampleRateConverter.tempFilePtr);
 
-    fd = fopen("/tmp/out.au", "wb");
+    //fd = fopen("/tmp/out.au", "wb");
 
-    writeAuFileHeader(1, sampleRateConverter.numberSamples, inputData->inputParameters.outputRate, fd);
+    //writeAuFileHeader(1, sampleRateConverter.numberSamples, inputData->inputParameters.outputRate, fd);
     for (index = 0; index < sampleRateConverter.numberSamples; index++) {
         double sample;
         short value;
@@ -308,14 +302,14 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
         //printf("%8ld: %g -> %hd\n", index, sample, (short)rint(sample * scale));
         //NSLog(@"value: %hd", value);
         [soundData appendBytes:&value length:sizeof(value)];
-        fwriteShortMsb(value, fd);
+        //fwriteShortMsb(value, fd);
     }
 
-    fclose(fd);
+    //fclose(fd);
 
-    NSLog(@"soundData: %p, length: %d", soundData, [soundData length]);
+    //NSLog(@"soundData: %p, length: %d", soundData, [soundData length]);
     bufferLength = [soundData length] / sizeof(short);
-    NSLog(@"bufferLength: %ld", bufferLength);
+    //NSLog(@"bufferLength: %ld", bufferLength);
 }
 
 - (void)startPlaying;

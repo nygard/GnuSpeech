@@ -473,8 +473,6 @@ void synthesize(TRMData *data)
     int j;
     double f0, ax, ah1, pulse, lp_noise, pulsed_noise, signal, crossmix;
     INPUT *previousInput, *currentInput;
-    static int currentIndex = 0;
-
 
     /*  CONTROL RATE LOOP  */
 
@@ -482,8 +480,6 @@ void synthesize(TRMData *data)
     currentInput = data->inputHead->next;
 
     while (currentInput != NULL) {
-        printf("synthesize(), currentIndex = %d\n", currentIndex);
-
         /*  SET CONTROL RATE PARAMETERS FROM INPUT TABLES  */
         setControlRateParameters(previousInput, currentInput);
 
@@ -495,7 +491,6 @@ void synthesize(TRMData *data)
             f0 = frequency(current.parameters.glotPitch);
             ax = amplitude(current.parameters.glotVol);
             ah1 = amplitude(current.parameters.aspVol);
-            printf("j: %d, f0: %g, ax: %g, ah1: %g\n", j, f0, ax, ah1);
             calculateTubeCoefficients(&(data->inputParameters));
             setFricationTaps();
             calculateBandpassCoefficients();
@@ -504,7 +499,6 @@ void synthesize(TRMData *data)
             /*  DO SYNTHESIS HERE  */
             /*  CREATE LOW-PASS FILTERED NOISE  */
             lp_noise = noiseFilter(noise());
-            printf("lp_noise: %g\n", lp_noise);
 
             /*  UPDATE THE SHAPE OF THE GLOTTAL PULSE, IF NECESSARY  */
             if (data->inputParameters.waveform == PULSE)
@@ -512,15 +506,12 @@ void synthesize(TRMData *data)
 
             /*  CREATE GLOTTAL PULSE (OR SINE TONE)  */
             pulse = TRMWavetableOscillator(wavetable, f0);
-            printf("pulse: %g\n", pulse);
 
             /*  CREATE PULSED NOISE  */
             pulsed_noise = lp_noise * pulse;
-            printf("pulsed_nose: %g\n", pulsed_noise);
 
             /*  CREATE NOISY GLOTTAL PULSE  */
             pulse = ax * ((pulse * (1.0 - breathinessFactor)) + (pulsed_noise * breathinessFactor));
-            printf("pulse: %g\n", pulse);
 
             /*  CROSS-MIX PURE NOISE WITH PULSED NOISE  */
             if (data->inputParameters.modulation) {
@@ -535,20 +526,16 @@ void synthesize(TRMData *data)
 
             } else
                 signal = lp_noise;
-            printf("signal before vocal tract: %g\n", signal);
 
             /*  PUT SIGNAL THROUGH VOCAL TRACT  */
             signal = vocalTract(((pulse + (ah1 * signal)) * VT_SCALE),
                                 bandpassFilter(signal));
 
 
-            printf("signal before throat: %g\n", signal);
             /*  PUT PULSE THROUGH THROAT  */
             signal += throat(pulse * VT_SCALE);
             if (verbose)
                 printf("\nDone throat\n");
-
-            printf("signal: %g\n", signal);
 
             /*  OUTPUT SAMPLE HERE  */
             dataFill(ringBuffer, signal);
@@ -564,7 +551,7 @@ void synthesize(TRMData *data)
 
         previousInput = currentInput;
         currentInput = currentInput->next;
-        currentIndex++;
+        //currentIndex++;
     }
 
     /*  BE SURE TO FLUSH SRC BUFFER  */
@@ -651,42 +638,6 @@ void setControlRateParameters(INPUT *previousInput, INPUT *currentInput)
     /*  VELUM RADIUS  */
     current.parameters.velum = velumAt(previousInput);
     current.delta.velum = (velumAt(currentInput) - current.parameters.velum) / (double)controlPeriod;
-
-    {
-        printf("crp: %g(%g) %g(%g) %g(%g) %g(%g) %g(%g) %g(%g) %g(%g) %g(%g) %g(%g) %g(%g) %g(%g) %g(%g) %g(%g) %g(%g) %g(%g) %g(%g)\n",
-               current.parameters.glotPitch,
-               current.delta.glotPitch,
-               current.parameters.glotVol,
-               current.delta.glotVol,
-               current.parameters.aspVol,
-               current.delta.aspVol,
-               current.parameters.fricVol,
-               current.delta.fricVol,
-               current.parameters.fricPos,
-               current.delta.fricPos,
-               current.parameters.fricCF,
-               current.delta.fricCF,
-               current.parameters.fricBW,
-               current.delta.fricBW,
-               current.parameters.radius[0],
-               current.delta.radius[0],
-               current.parameters.radius[1],
-               current.delta.radius[1],
-               current.parameters.radius[2],
-               current.delta.radius[2],
-               current.parameters.radius[3],
-               current.delta.radius[3],
-               current.parameters.radius[4],
-               current.delta.radius[4],
-               current.parameters.radius[5],
-               current.delta.radius[5],
-               current.parameters.radius[6],
-               current.delta.radius[6],
-               current.parameters.radius[7],
-               current.delta.radius[7],
-               current.parameters.velum,
-               current.delta.velum);
-    }
 }
 
 
@@ -841,13 +792,6 @@ void calculateTubeCoefficients(struct _TRMInputParameters *inputParameters)
     radA2 = current.parameters.velum * current.parameters.velum;
     radB2 = inputParameters->noseRadius[N2] * inputParameters->noseRadius[N2];
     nasal_coeff[NC1] = (radA2 - radB2) / (radA2 + radB2);
-
-    {
-        for (i = 0; i < TOTAL_REGIONS; i++)
-            printf("oropharynx_coeff[%d] = %g\n", i, oropharynx_coeff[i]);
-        for (i = 0; i < TOTAL_NASAL_COEFFICIENTS; i++)
-            printf("nasal_coeff[%d] = %g\n", i, nasal_coeff[i]);
-    }
 }
 
 
@@ -1228,17 +1172,8 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context)
     TRMSampleRateConverter *aConverter = (TRMSampleRateConverter *)context;
     int endPtr;
 
-    //printf(" > resampleBuffer()\n");
-    //printf("buffer size: %d\n", BUFFER_SIZE);
-    //printf("&sampleRateConverter: %p, aConverter: %p\n", &sampleRateConverter, aConverter);
-    //printf("aRingBuffer: %p\n", aRingBuffer);
-    //printf("numberSamples before: %ld\n", aConverter->numberSamples);
-    //printf("fillPtr: %d, padSize: %d\n", aRingBuffer->fillPtr, aRingBuffer->padSize);
-
     /*  CALCULATE END POINTER  */
     endPtr = aRingBuffer->fillPtr - aRingBuffer->padSize;
-    //printf("endPtr: %d\n", endPtr);
-    //printf("emptyPtr: %d\n", aRingBuffer->emptyPtr);
 
     /*  ADJUST THE END POINTER, IF LESS THAN ZERO  */
     if (endPtr < 0)
@@ -1249,9 +1184,8 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context)
         endPtr += BUFFER_SIZE;
 
     /*  UPSAMPLE LOOP (SLIGHTLY MORE EFFICIENT THAN DOWNSAMPLING)  */
-    //printf("aConverter->sampleRateRatio: %g\n", aConverter->sampleRateRatio);
     if (aConverter->sampleRateRatio >= 1.0) {
-        printf("Upsampling...\n");
+        //printf("Upsampling...\n");
         while (aRingBuffer->emptyPtr < endPtr) {
             int index;
             unsigned int filterIndex;
@@ -1286,11 +1220,8 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context)
 
             /*  RECORD MAXIMUM SAMPLE VALUE  */
             absoluteSampleValue = fabs(output);
-            //printf("%g > %g ?\n", absoluteSampleValue, aConverter->maximumSampleValue);
-            if (absoluteSampleValue > aConverter->maximumSampleValue) {
-                printf("Setting new maximum: %g\n", absoluteSampleValue);
+            if (absoluteSampleValue > aConverter->maximumSampleValue)
                 aConverter->maximumSampleValue = absoluteSampleValue;
-            }
 
             /*  INCREMENT SAMPLE NUMBER  */
             aConverter->numberSamples++;
@@ -1316,7 +1247,7 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context)
             aConverter->timeRegister &= (~N_MASK);
         }
     } else {
-        printf("Downsampling...\n");
+        //printf("Downsampling...\n");
         /*  DOWNSAMPLING CONVERSION LOOP  */
         while (aRingBuffer->emptyPtr < endPtr) {
             int index;
@@ -1355,11 +1286,8 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context)
 
             /*  RECORD MAXIMUM SAMPLE VALUE  */
             absoluteSampleValue = fabs(output);
-            //printf("%g > %g ?\n", absoluteSampleValue, aConverter->maximumSampleValue);
-            if (absoluteSampleValue > aConverter->maximumSampleValue) {
-                printf("Setting new maximum: %g\n", absoluteSampleValue);
+            if (absoluteSampleValue > aConverter->maximumSampleValue)
                 aConverter->maximumSampleValue = absoluteSampleValue;
-            }
 
             /*  INCREMENT SAMPLE NUMBER  */
             aConverter->numberSamples++;
@@ -1381,6 +1309,4 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context)
             aConverter->timeRegister &= (~N_MASK);
         }
     }
-    //printf("numberSamples after: %ld\n", aConverter->numberSamples);
-    //printf("<  resampleBuffer()\n");
 }
