@@ -1,5 +1,7 @@
 #import <Foundation/NSObject.h>
 
+@class FormulaExpression;
+
 /*===========================================================================
 
 	Author: Craig-Richard Taube-Schock
@@ -13,7 +15,7 @@
 {
     NSString *name;
     NSString *comment;
-    id expression;
+    FormulaExpression *expression;
 
     int cacheTag;
     double cacheValue;
@@ -29,8 +31,8 @@
 - (NSString *)comment;
 - (void)setComment:(NSString *)newComment;
 
-- expression;
-- (void)setExpression:newExpression;
+- (FormulaExpression *)expression;
+- (void)setExpression:(FormulaExpression *)newExpression;
 
 - (double)evaluate:(double *)ruleSymbols tempos:(double *)tempos phones:phones andCacheWith:(int)newCacheTag;
 - (double)evaluate:(double *)ruleSymbols phones:phones andCacheWith:(int)newCacheTag;

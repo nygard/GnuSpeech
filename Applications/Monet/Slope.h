@@ -1,9 +1,4 @@
-
 #import <Foundation/NSObject.h>
-#import <AppKit/NSGraphics.h>
-#ifdef NeXT
-#import <objc/typedstream.h>
-#endif
 
 /*===========================================================================
 
@@ -14,19 +9,19 @@
 =============================================================================
 */
 
-@interface Slope:NSObject
+@interface Slope : NSObject
 {
-	double slope;
-	double displayTime;
+    double slope;
+    double displayTime;
 }
 
-- init;
+- (id)init;
 
+- (double)slope;
 - (void)setSlope:(double)newSlope;
-- (double) slope;
 
+- (double)displayTime;
 - (void)setDisplayTime:(double)newTime;
-- (double) displayTime;
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 - (void)encodeWithCoder:(NSCoder *)aCoder;

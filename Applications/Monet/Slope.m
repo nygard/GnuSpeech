@@ -1,5 +1,6 @@
-
 #import "Slope.h"
+
+#import <Foundation/Foundation.h>
 
 /*===========================================================================
 
@@ -12,51 +13,45 @@
 
 @implementation Slope
 
-- init
+- (id)init;
 {
-	slope = 0.0;
-	return self;
+    if ([super init] == nil)
+        return nil;
+
+    slope = 0.0;
+
+    return self;
 }
 
-- (void)setSlope:(double)newSlope
+- (double)slope;
 {
-	slope = newSlope; 
+    return slope;
 }
 
-- (double) slope
+- (void)setSlope:(double)newSlope;
 {
-	return slope;
+    slope = newSlope;
 }
 
-- (void)setDisplayTime:(double)newTime
+- (double)displayTime;
 {
-	displayTime = newTime; 
+    return displayTime;
 }
 
-- (double) displayTime
+- (void)setDisplayTime:(double)newTime;
 {
-	return displayTime;
+    displayTime = newTime;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+- (id)initWithCoder:(NSCoder *)aDecoder;
 {
-	[aDecoder decodeValueOfObjCType:"d" at:&slope];	
-	return self;
+    [aDecoder decodeValueOfObjCType:"d" at:&slope];
+    return self;
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder
+- (void)encodeWithCoder:(NSCoder *)aCoder;
 {
-	[aCoder encodeValueOfObjCType:"d" at:&slope];
+    [aCoder encodeValueOfObjCType:"d" at:&slope];
 }
-
-#ifdef NeXT
-- read:(NXTypedStream *)stream
-{
-        NXReadType(stream, "d", &slope);
-        return self;
-}
-#endif
-
-
 
 @end

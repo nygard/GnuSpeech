@@ -64,12 +64,12 @@
     comment = [newComment retain];
 }
 
-- expression;
+- (FormulaExpression *)expression;
 {
     return expression;
 }
 
-- (void)setExpression:newExpression;
+- (void)setExpression:(FormulaExpression *)newExpression;
 {
     if (newExpression == expression)
         return;
