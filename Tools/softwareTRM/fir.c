@@ -14,7 +14,6 @@
 
 static int maximallyFlat(double beta, double gamma, int *np, double *coefficient);
 static void trim(double cutoff, int *numberCoefficients, double *coefficient);
-static int increment(int pointer, int modulus);
 static int decrement(int pointer, int modulus);
 static void rationalApproximation(double number, int *order, int *numerator, int *denominator);
 
@@ -283,44 +282,10 @@ void trim(double cutoff, int *coefficientCount, double *coefficient)
 
 /******************************************************************************
 *
-*       function:       increment
-*
-*       purpose:        Increments the pointer to the circular FIR filter
-*                       buffer, keeping it in the range 0 -> modulus-1.
-*
-*       arguments:      pointer, modulus
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      none
-*
-******************************************************************************/
-
-int increment(int pointer, int modulus)
-{
-    if (++pointer >= modulus)
-        return 0;
-
-    return pointer;
-}
-
-
-/******************************************************************************
-*
 *       function:       decrement
 *
 *       purpose:        Decrements the pointer to the circular FIR filter
 *                       buffer, keeping it in the range 0 -> modulus-1.
-*
-*       arguments:      pointer, modulus
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      none
 *
 ******************************************************************************/
 
@@ -340,14 +305,6 @@ int decrement(int pointer, int modulus)
 *
 *       purpose:        Calculates the best rational approximation to 'number',
 *                       given the maximum 'order'.
-*
-*       arguments:      number, order, numerator, denominator
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      fabs
 *
 ******************************************************************************/
 
