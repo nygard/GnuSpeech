@@ -485,22 +485,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		0143DD25065B1C1800DB5F6D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = MMOldFormulaNode.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0143DD26065B1C1800DB5F6D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = MMOldFormulaNode.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
 		0143DD27065B1C1800DB5F6D = {
 			fileRef = 0143DD21065B1C1800DB5F6D;
 			isa = PBXBuildFile;
@@ -525,29 +509,18 @@
 			settings = {
 			};
 		};
-		0143DD2B065B1C1800DB5F6D = {
-			fileRef = 0143DD25065B1C1800DB5F6D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0143DD2C065B1C1800DB5F6D = {
-			fileRef = 0143DD26065B1C1800DB5F6D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		0143DD2D065B1C3900DB5F6D = {
 			children = (
-				0143DD25065B1C1800DB5F6D,
-				0143DD26065B1C1800DB5F6D,
-				01B2FFE205F69FC700C1F65D,
-				01B2FFE305F69FC700C1F65D,
-				0195DB2205F46E4E006D8386,
-				0195DB2305F46E4E006D8386,
+				0165F92906BEDB9100C6D2C9,
+				0165F92A06BEDB9100C6D2C9,
+				0165F92506BEDB9100C6D2C9,
+				0165F92606BEDB9100C6D2C9,
+				0165F92706BEDB9100C6D2C9,
+				0165F92806BEDB9100C6D2C9,
 			);
 			isa = PBXGroup;
 			name = "Mathematical Expressions";
+			path = "";
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1170,6 +1143,7 @@
 		};
 		0165F91406BEDA8400C6D2C9 = {
 			children = (
+				0143DD2D065B1C3900DB5F6D,
 				0165F91006BEDA7D00C6D2C9,
 				0165F91106BEDA7D00C6D2C9,
 			);
@@ -1178,6 +1152,96 @@
 			path = "";
 			refType = 4;
 			sourceTree = "<group>";
+		};
+		0165F92506BEDB9100C6D2C9 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = FormulaExpression.h;
+			path = Compatibility/FormulaExpression.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0165F92606BEDB9100C6D2C9 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = FormulaExpression.m;
+			path = Compatibility/FormulaExpression.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0165F92706BEDB9100C6D2C9 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = FormulaTerminal.h;
+			path = Compatibility/FormulaTerminal.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0165F92806BEDB9100C6D2C9 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = FormulaTerminal.m;
+			path = Compatibility/FormulaTerminal.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0165F92906BEDB9100C6D2C9 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = MMOldFormulaNode.h;
+			path = Compatibility/MMOldFormulaNode.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0165F92A06BEDB9100C6D2C9 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = MMOldFormulaNode.m;
+			path = Compatibility/MMOldFormulaNode.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0165F92B06BEDB9100C6D2C9 = {
+			fileRef = 0165F92506BEDB9100C6D2C9;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0165F92C06BEDB9100C6D2C9 = {
+			fileRef = 0165F92606BEDB9100C6D2C9;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0165F92D06BEDB9100C6D2C9 = {
+			fileRef = 0165F92706BEDB9100C6D2C9;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0165F92E06BEDB9100C6D2C9 = {
+			fileRef = 0165F92806BEDB9100C6D2C9;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0165F92F06BEDB9100C6D2C9 = {
+			fileRef = 0165F92906BEDB9100C6D2C9;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0165F93006BEDB9100C6D2C9 = {
+			fileRef = 0165F92A06BEDB9100C6D2C9;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		016FACCE065D6FCF003ED09E = {
 			fileEncoding = 30;
@@ -2450,22 +2514,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		0195DB2205F46E4E006D8386 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = FormulaTerminal.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0195DB2305F46E4E006D8386 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = FormulaTerminal.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
 		0195DB2605F46E4E006D8386 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -2993,18 +3041,6 @@
 			settings = {
 			};
 		};
-		01B2FF4505F6640C00C1F65D = {
-			fileRef = 0195DB2205F46E4E006D8386;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		01B2FF4B05F6640C00C1F65D = {
-			fileRef = 0195DB2305F46E4E006D8386;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		01B2FF9D05F689F700C1F65D = {
 			children = (
 				016FACD4065D7003003ED09E,
@@ -3016,7 +3052,6 @@
 				0143DD22065B1C1800DB5F6D,
 				0143DD23065B1C1800DB5F6D,
 				0143DD24065B1C1800DB5F6D,
-				0143DD2D065B1C3900DB5F6D,
 			);
 			isa = PBXGroup;
 			name = "Mathematical Expresson Parser";
@@ -3058,34 +3093,6 @@
 		};
 		01B2FFB305F68A3000C1F65D = {
 			fileRef = 01B2FFB105F68A3000C1F65D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		01B2FFE205F69FC700C1F65D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = FormulaExpression.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		01B2FFE305F69FC700C1F65D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = FormulaExpression.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		01B2FFE405F69FC700C1F65D = {
-			fileRef = 01B2FFE205F69FC700C1F65D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		01B2FFE505F69FC700C1F65D = {
-			fileRef = 01B2FFE305F69FC700C1F65D;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -3606,9 +3613,7 @@
 				0195DCDC05F5563C006D8386,
 				0195DCFB05F55AA8006D8386,
 				0195DD0705F55EBA006D8386,
-				01B2FF4505F6640C00C1F65D,
 				01B2FFB205F68A3000C1F65D,
-				01B2FFE405F69FC700C1F65D,
 				01B2FFF405F6DF1B00C1F65D,
 				01B2008905F6EB4D00C1F65D,
 				01B2009205F6ED2900C1F65D,
@@ -3666,7 +3671,6 @@
 				0143DD1D0658530200DB5F6D,
 				0143DD27065B1C1800DB5F6D,
 				0143DD29065B1C1800DB5F6D,
-				0143DD2B065B1C1800DB5F6D,
 				016FACD0065D6FCF003ED09E,
 				016FACD5065D7003003ED09E,
 				016210FF066464D70009CABE,
@@ -3683,6 +3687,9 @@
 				01491E6C06A4836000879FE1,
 				01491E6E06A4836000879FE1,
 				0165F91206BEDA7D00C6D2C9,
+				0165F92B06BEDB9100C6D2C9,
+				0165F92D06BEDB9100C6D2C9,
+				0165F92F06BEDB9100C6D2C9,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3744,9 +3751,7 @@
 				0195DCE205F5563C006D8386,
 				0195DD0105F55AA9006D8386,
 				0195DD0D05F55EBA006D8386,
-				01B2FF4B05F6640C00C1F65D,
 				01B2FFB305F68A3000C1F65D,
-				01B2FFE505F69FC700C1F65D,
 				01B2FFF505F6DF1B00C1F65D,
 				01B2009305F6ED2900C1F65D,
 				01BE469F05F960A900172BDB,
@@ -3802,7 +3807,6 @@
 				0143DD1E0658530200DB5F6D,
 				0143DD28065B1C1800DB5F6D,
 				0143DD2A065B1C1800DB5F6D,
-				0143DD2C065B1C1800DB5F6D,
 				016FACD1065D6FCF003ED09E,
 				01621100066464D70009CABE,
 				0193B80C066AF6AA00D58A08,
@@ -3817,6 +3821,9 @@
 				01491E6B06A4836000879FE1,
 				01491E6D06A4836000879FE1,
 				0165F91306BEDA7D00C6D2C9,
+				0165F92C06BEDB9100C6D2C9,
+				0165F92E06BEDB9100C6D2C9,
+				0165F93006BEDB9100C6D2C9,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
