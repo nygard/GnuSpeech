@@ -249,17 +249,16 @@
 
         filename = [fnames objectAtIndex:index];
         str = [[filename lastPathComponent] stringByDeletingPathExtension];
-        NSLog(@"str: %@", str);
-
-        newPhone = [[[MMPosture alloc] initWithModel:model] autorelease];
-        [newPhone setSymbol:str];
-        [model addPosture:newPhone];
 
         /*  Read the file data and store it in the object  */
         if ([trmData readFromFile:filename] == NO) {
             NSBeep();
             break;
         }
+
+        newPhone = [[MMPosture alloc] initWithModel:model];
+        [newPhone setSymbol:str];
+        [model addPosture:newPhone];
 
         parameterTargets = [newPhone parameterTargets];
 
@@ -282,6 +281,8 @@
         [[parameterTargets objectAtIndex:13] setValue:[trmData r7]];
         [[parameterTargets objectAtIndex:14] setValue:[trmData r8]];
         [[parameterTargets objectAtIndex:15] setValue:[trmData velum]];
+
+        [newPhone release];
     }
 
     [trmData release];
