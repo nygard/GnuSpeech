@@ -103,6 +103,7 @@ extern NSString *MCategoryInUseException;
 
 // Rules
 - (void)addRule:(MMRule *)newRule;
+- (void)_addStoredRule:(MMRule *)newRule;
 
 // Archiving
 - (id)initWithCoder:(NSCoder *)aDecoder;

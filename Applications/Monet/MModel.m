@@ -54,6 +54,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     rules = [[RuleList alloc] init];
 #if 0
     // And set up some default values:
+    // TODO (2004-05-15): Just load these from a default .monet file
     {
         MMSymbol *newSymbol;
         MMCategory *newCategory;
@@ -814,11 +815,18 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 - (void)addRule:(MMRule *)newRule;
 {
     [newRule setModel:self];
-    [newRule setDefaultsTo:[newRule numberExpressions]];
+    [newRule setDefaultsTo:[newRule numberExpressions]]; // TODO (2004-05-15): Try moving this to the init method.
     if ([rules count] > 0)
         [rules insertObject:newRule atIndex:[rules count] - 1];
     else
         [rules addObject:newRule];
+}
+
+// Used when loading from stored file.
+- (void)_addStoredRule:(MMRule *)newRule;
+{
+    [newRule setModel:self];
+    [rules addObject:newRule];
 }
 
 //
@@ -1537,7 +1545,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     } else if ([elementName isEqualToString:@"rules"]) {
         MXMLArrayDelegate *arrayDelegate;
 
-        arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"rule" class:[MMRule class] delegate:self addObjectSelector:@selector(addRule:)];
+        arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"rule" class:[MMRule class] delegate:self addObjectSelector:@selector(_addStoredRule:)];
         [(MXMLParser *)parser pushDelegate:arrayDelegate];
         [arrayDelegate release];
     } else {
