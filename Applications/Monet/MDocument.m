@@ -81,19 +81,4 @@
     return YES;
 }
 
-#if 0
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-{
-    if ([elementName isEqualToString:@"root"]) {
-        MModel *newModel;
-
-        newModel = [[MModel alloc] init];
-        [self setModel:newModel];
-        [newModel release];
-
-        [(MXMLParser *)parser setContext:model];
-        [(MXMLParser *)parser pushDelegate:model];
-    }
-}
-#endif
 @end
