@@ -241,6 +241,8 @@
 
         [transitionTypeMatrix setEnabled:NO];
         [transitionTypeMatrix selectCellWithTag:2];
+
+        [miniTransitionView setTransition:nil];
     }
 }
 
@@ -286,6 +288,8 @@
 
         [specialTransitionTypeMatrix setEnabled:NO];
         [specialTransitionTypeMatrix selectCellWithTag:2];
+
+        [miniSpecialTransitionView setTransition:nil];
     }
 }
 
