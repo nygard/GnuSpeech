@@ -97,6 +97,9 @@
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row;
 - (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(int)row;
 
+// MExtendedTableView delegate
+- (BOOL)control:(NSControl *)aControl shouldProcessCharacters:(NSString *)characters;
+
 // IntonationView delegate
 - (void)intonationViewSelectionDidChange:(NSNotification *)aNotification;
 

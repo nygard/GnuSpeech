@@ -16,4 +16,6 @@
 
 - (void)keyDown:(NSEvent *)keyEvent;
 
+- (void)doNotCombineNextKey;
+
 @end

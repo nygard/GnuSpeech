@@ -63,6 +63,11 @@
     shouldDisplay = newFlag;
 }
 
+- (void)toggleShouldDisplay;
+{
+    shouldDisplay = !shouldDisplay;
+}
+
 - (NSString *)name;
 {
     if (isSpecial == YES)

@@ -21,6 +21,7 @@
             OUTLETS = {controller = AppController; smoothing = id; utterance = id; }; 
             SUPERCLASS = NSView; 
         }, 
+        {CLASS = MExtendedTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
         {
             ACTIONS = {
                 generateContour = id; 

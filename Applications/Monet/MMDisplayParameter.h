@@ -26,6 +26,7 @@
 
 - (BOOL)shouldDisplay;
 - (void)setShouldDisplay:(BOOL)newFlag;
+- (void)toggleShouldDisplay;
 
 - (NSString *)name;
 - (NSString *)label;

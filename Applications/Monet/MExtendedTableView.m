@@ -60,4 +60,9 @@
     //NSLog(@"<  %s", _cmd);
 }
 
+- (void)doNotCombineNextKey;
+{
+    lastTimestamp = 0;
+}
+
 @end

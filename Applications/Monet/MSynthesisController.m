@@ -9,13 +9,16 @@
 #import "NSCharacterSet-Extensions.h"
 #import "NSNumberFormatter-Extensions.h"
 #import "NSScanner-Extensions.h"
+#import "NSString-Extensions.h"
 
 #import "EventList.h"
 #import "EventListView.h"
 #import "IntonationPoint.h"
 #import "IntonationView.h"
+#import "MExtendedTableView.h"
 #import "MMDisplayParameter.h"
 #import "MModel.h"
+#import "MMParameter.h"
 #import "MMPostureRewriter.h"
 #import "MMSynthesisParameters.h"
 #include "driftGenerator.h"
@@ -182,6 +185,8 @@
     }
     [eventListView setDisplayParameters:array];
     [array release];
+
+    [parameterTableView reloadData];
 }
 
 - (void)_takeIntonationParametersFromUI;
@@ -747,6 +752,38 @@
             [self _updateDisplayedParameters];
         }
     }
+}
+
+//
+// MExtendedTableView delegate
+//
+
+- (BOOL)control:(NSControl *)aControl shouldProcessCharacters:(NSString *)characters;
+{
+    if ([characters isEqualToString:@" "]) {
+        int selectedRow;
+
+        selectedRow = [parameterTableView selectedRow];
+        if (selectedRow != -1) {
+            [[displayParameters objectAtIndex:selectedRow] toggleShouldDisplay];
+            [self _updateDisplayedParameters];
+            [(MExtendedTableView *)aControl doNotCombineNextKey];
+            return NO;
+        }
+    } else {
+        unsigned int count, index;
+
+        count = [displayParameters count];
+        for (index = 0; index < count; index++) {
+            if ([[[[displayParameters objectAtIndex:index] parameter] symbol] hasPrefix:characters ignoreCase:YES]) {
+                [parameterTableView selectRow:index byExtendingSelection:NO];
+                [parameterTableView scrollRowToVisible:index];
+                return NO;
+            }
+        }
+    }
+
+    return YES;
 }
 
 //
