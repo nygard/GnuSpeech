@@ -226,7 +226,7 @@ int parse_string(EventList *eventList, NSString *str);
 
     [eventList generateEventList];
     if ([smoothIntonationSwitch state])
-        [[intonationView documentView] applyIntonationSmooth];
+        [[intonationView documentView] applySmoothIntonation];
     else
         [[intonationView documentView] applyIntonation];
 

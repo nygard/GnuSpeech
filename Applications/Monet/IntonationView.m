@@ -742,7 +742,7 @@
     NSLog(@"<  %s", _cmd);
 }
 
-- (void)applyIntonationSmooth;
+- (void)applySmoothIntonation;
 {
     int j;
     IntonationPoint *point1, *point2;

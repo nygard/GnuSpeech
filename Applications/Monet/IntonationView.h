@@ -64,7 +64,7 @@
 - (void)updateScale:(float)column;
 
 - (void)applyIntonation;
-- (void)applyIntonationSmooth;
+- (void)applySmoothIntonation;
 - (void)deletePoints;
 
 - (IBAction)saveIntonationContour:(id)sender;
