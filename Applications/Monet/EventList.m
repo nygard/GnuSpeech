@@ -103,14 +103,14 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
 
     shouldUseSmoothIntonation = NO;
 
-    currentPhone = 0;
+    postureCount = 0;
     bzero(phones, MAXPHONES * sizeof(struct _phone));
     // TODO (2004-08-09): What about phoneTempo[]?
 
-    currentFoot = 0;
+    footCount = 0;
     bzero(feet, MAXFEET * sizeof(struct _foot));
 
-    currentToneGroup = 0;
+    toneGroupCount = 0;
     bzero(toneGroups, MAXTONEGROUPS * sizeof(struct _toneGroup));
 
     currentRule = 0;
@@ -276,7 +276,7 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
 
 - (MMPosture *)getPhoneAtIndex:(int)phoneIndex;
 {
-    if (phoneIndex > currentPhone)
+    if (phoneIndex >= postureCount)
         return nil;
 
     return phones[phoneIndex].phone;
@@ -326,93 +326,167 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
 // Tone groups
 //
 
+// This is horribly ugly and is going to be full of bugs :(
+// It would be easier if we just didn't allow the trailing // that produces an empty tone group.
+- (void)endCurrentToneGroup;
+{
+    NSLog(@" > %s", _cmd);
+    NSLog(@"toneGroupCount: %d", toneGroupCount);
+    if (toneGroupCount > 0) {
+        NSLog(@"current tone group, feet %d -- %d", toneGroups[toneGroupCount-1].startFoot, toneGroups[toneGroupCount-1].endFoot);
+        NSLog(@"footCount: %d", footCount);
+        if (footCount > 0) {
+            NSLog(@"current foot, postures %d -- %d", feet[footCount-1].start, feet[footCount-1].end);
+        }
+        NSLog(@"postureCount: %d", postureCount);
+
+        if (footCount == 0) {
+            toneGroupCount--; // No feet in this tone group, so remove it.
+        } else if (feet[footCount-1].start >= postureCount) {
+            footCount--; // No posture in the foot, so remove it.
+            toneGroupCount--; // And remove the toen group too
+        } else {
+            NSLog(@"Ending current tone group with foot %d", footCount - 1);
+            toneGroups[toneGroupCount - 1].endFoot = footCount - 1; // TODO (2004-08-18): What if footCount == 0
+            [self endCurrentFoot];
+        }
+    }
+    NSLog(@"<  %s", _cmd);
+}
+
 - (void)newToneGroup;
 {
-    if (currentFoot == 0)
-        return;
+    NSLog(@" > %s, toneGroupCount: %d", _cmd, toneGroupCount);
 
-    toneGroups[currentToneGroup++].endFoot = currentFoot;
+    [self endCurrentToneGroup];
     [self newFoot];
 
-    toneGroups[currentToneGroup].startFoot = currentFoot;
-    toneGroups[currentToneGroup].endFoot = -1;
+    toneGroups[toneGroupCount].startFoot = footCount - 1;
+    toneGroups[toneGroupCount].endFoot = -1;
+    toneGroupCount++;
+
+    NSLog(@"<  %s", _cmd);
 }
 
 - (void)setCurrentToneGroupType:(int)type;
 {
-    toneGroups[currentToneGroup].type = type;
+    if (toneGroupCount == 0) {
+        NSLog(@"%s, not tone groups.", _cmd);
+        return;
+    }
+
+    toneGroups[toneGroupCount - 1].type = type;
 }
 
 //
 // Feet
 //
 
+- (void)endCurrentFoot;
+{
+    NSLog(@" > %s", _cmd);
+
+    if (footCount > 0) {
+        NSLog(@"Ending current foot at posture %d", postureCount - 1);
+        feet[footCount - 1].end = postureCount - 1;
+    }
+
+    NSLog(@"<  %s", _cmd);
+}
+
 - (void)newFoot;
 {
-    if (currentPhone == 0)
-        return;
+    NSLog(@" > %s, footCount: %d", _cmd, footCount);
 
-    feet[currentFoot++].end = currentPhone;
-    [self newPhone];
+    [self endCurrentFoot];
+    feet[footCount].start = postureCount; // TODO (2004-08-18): And you better add that posture!
+    feet[footCount].end = -1;
+    feet[footCount].tempo = 1.0;
+    footCount++;
 
-    feet[currentFoot].start = currentPhone;
-    feet[currentFoot].end = -1;
-    feet[currentFoot].tempo = 1.0;
+    NSLog(@"<  %s", _cmd);
 }
 
 - (void)setCurrentFootMarked;
 {
-    feet[currentFoot].marked = 1;
+    if (footCount == 0) {
+        NSLog(@"%s, footCount == 0", _cmd);
+        return;
+    }
+
+    feet[footCount - 1].marked = 1;
 }
 
 - (void)setCurrentFootLast;
 {
-    feet[currentFoot].last = 1;
+    if (footCount == 0) {
+        NSLog(@"%s, footCount == 0", _cmd);
+        return;
+    }
+
+    feet[footCount - 1].last = 1;
 }
 
 - (void)setCurrentFootTempo:(double)tempo;
 {
-    feet[currentFoot].tempo = tempo;
-}
+    if (footCount == 0) {
+        NSLog(@"%s, footCount == 0", _cmd);
+        return;
+    }
 
-- (void)newPhone;
-{
-    if (phones[currentPhone].phone)
-        currentPhone++;
-    phoneTempo[currentPhone] = 1.0;
+    feet[footCount - 1].tempo = tempo;
 }
 
 - (void)newPhoneWithObject:(MMPosture *)anObject;
 {
-    if (phones[currentPhone].phone)
-        currentPhone++;
-    phoneTempo[currentPhone] = 1.0;
-    phones[currentPhone].ruleTempo = 1.0;
-    phones[currentPhone].phone = anObject;
+    NSLog(@" > %s", _cmd);
+    NSLog(@"%s, posture: %@, postureCount: %d", _cmd, [anObject name], postureCount);
+    phoneTempo[postureCount] = 1.0;
+    phones[postureCount].ruleTempo = 1.0;
+    phones[postureCount].phone = anObject;
+    postureCount++;
+    NSLog(@"<  %s", _cmd);
 }
 
 - (void)replaceCurrentPhoneWith:(MMPosture *)anObject;
 {
-    if (phones[currentPhone].phone)
-        phones[currentPhone].phone = anObject;
-    else
-        phones[currentPhone-1].phone = anObject;
-    NSLog(@"Replacing %@ with %@", [phones[currentPhone].phone name], [anObject name]);
+    if (postureCount == 0) {
+        NSLog(@"%s, postureCount == 0");
+        return;
+    }
+
+    NSLog(@"Replacing %@ with %@", [phones[postureCount - 1].phone name], [anObject name]);
+    phones[postureCount - 1].phone = anObject;
 }
 
 - (void)setCurrentPhoneTempo:(double)tempo;
 {
-    phoneTempo[currentPhone] = tempo;
+    if (postureCount == 0) {
+        NSLog(@"%s, postureCount == 0");
+        return;
+    }
+
+    phoneTempo[postureCount - 1] = tempo;
 }
 
 - (void)setCurrentPhoneRuleTempo:(float)tempo;
 {
-    phones[currentPhone].ruleTempo = tempo;
+    if (postureCount == 0) {
+        NSLog(@"%s, postureCount == 0");
+        return;
+    }
+
+    phones[postureCount - 1].ruleTempo = tempo;
 }
 
 - (void)setCurrentPhoneSyllable;
 {
-    phones[currentPhone].syllable = 1;
+    if (postureCount == 0) {
+        NSLog(@"%s, postureCount == 0");
+        return;
+    }
+
+    phones[postureCount - 1].syllable = 1;
 }
 
 - (NSArray *)events;
@@ -662,8 +736,8 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
     {
         int i, j;
 
-        NSLog(@"currentFoot: %d", currentFoot);
-        for (i = 0; i < currentFoot; i++) {
+        NSLog(@"footCount: %d", footCount);
+        for (i = 0; i < footCount; i++) {
             int rus;
             double footTempo;
 
@@ -709,7 +783,7 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
         tempCategoryList = [[NSMutableArray alloc] init];
 
         // Apply rules
-        for (index = 0; index < currentPhone - 1; ) {
+        for (index = 0; index < postureCount - 1; ) {
             int ruleIndex;
             MMRule *matchedRule;
 
@@ -804,14 +878,14 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
 
     /* Loop through the parameters */
     for (transitionIndex = 0; transitionIndex < [parameterTransitions count]; transitionIndex++) {
-        unsigned int postureCount, postureIndex;
+        unsigned int count, index;
 
         /* Get actual parameter target values */
-        postureCount = [somePostures count];
-        for (postureIndex = 0; postureIndex < 4 && postureIndex < postureCount; postureIndex++)
-            targets[postureIndex] = [(MMTarget *)[[[somePostures objectAtIndex:postureIndex] parameterTargets] objectAtIndex:transitionIndex] value];
-        for (; postureIndex < 4; postureIndex++)
-            targets[postureIndex] = 0.0;
+        count = [somePostures count];
+        for (index = 0; index < 4 && index < count; index++)
+            targets[index] = [(MMTarget *)[[[somePostures objectAtIndex:index] parameterTargets] objectAtIndex:transitionIndex] value];
+        for (; index < 4; index++)
+            targets[index] = 0.0;
 
         //NSLog(@"Targets %f %f %f %f", targets[0], targets[1], targets[2], targets[3]);
 
@@ -929,7 +1003,7 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
     [self clearIntonationPoints];
 //    [self addIntonationPoint:-20.0 offsetTime:0.0 slope:0.0 ruleIndex:0];
 
-    for (i = 0; i < currentToneGroup; i++) {
+    for (i = 0; i < toneGroupCount; i++) {
         firstFoot = toneGroups[i].startFoot;
         endFoot = toneGroups[i].endFoot;
 
@@ -1001,8 +1075,8 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@>[%p]: currentPhone: %d, currentFoot: %d, currentToneGroup: %d, currentRule: %d, + a bunch of other stuff, super: %@",
-                     NSStringFromClass([self class]), self, currentPhone, currentFoot, currentToneGroup, currentRule, [super description]];
+    return [NSString stringWithFormat:@"<%@>[%p]: postureCount: %d, footCount: %d, toneGroupCount: %d, currentRule: %d, + a bunch of other stuff, super: %@",
+                     NSStringFromClass([self class]), self, postureCount, footCount, toneGroupCount, currentRule, [super description]];
 }
 
 - (void)printDataStructures:(NSString *)comment;
@@ -1013,13 +1087,16 @@ NSString *EventListDidRemoveIntonationPoint = @"EventListDidRemoveIntonationPoin
     NSLog(@"----------------------------------------------------------------------");
     NSLog(@" > %s (%@)", _cmd, comment);
 
-    for (toneGroupIndex = 0; toneGroupIndex < currentToneGroup; toneGroupIndex++) {
+    NSLog(@"toneGroupCount: %d", toneGroupCount);
+    for (toneGroupIndex = 0; toneGroupIndex < toneGroupCount; toneGroupIndex++) {
         NSLog(@"Tone Group %d, type: %@", toneGroupIndex, NSStringFromToneGroupType(toneGroups[toneGroupIndex].type));
 
+        //NSLog(@"tg (%d -- %d)", toneGroups[toneGroupIndex].startFoot, toneGroups[toneGroupIndex].endFoot);
         for (footIndex = toneGroups[toneGroupIndex].startFoot; footIndex <= toneGroups[toneGroupIndex].endFoot; footIndex++) {
             NSLog(@"  Foot %d  tempo: %.3f, marked: %d, last: %d, onset1: %.3f, onset2: %.3f", footIndex, feet[footIndex].tempo,
                   feet[footIndex].marked, feet[footIndex].last, feet[footIndex].onset1, feet[footIndex].onset2);
 
+            //NSLog(@"Foot (%d -- %d)", feet[footIndex].start, feet[footIndex].end);
             for (postureIndex = feet[footIndex].start; postureIndex <= feet[footIndex].end; postureIndex++) {
                 if (rules[ruleIndex].firstPhone == postureIndex) {
                     NSLog(@"    Posture %2d  tempo: %.3f, syllable: %d, onset: %7.2f, ruleTempo: %.3f, %@ # Rule %2d, duration: %7.2f, beat: %7.2f",

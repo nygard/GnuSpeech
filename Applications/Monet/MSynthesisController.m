@@ -654,8 +654,6 @@
     NSString *buffer;
     BOOL wordMarker = NO;
 
-    //NSLog(@" > %s", _cmd);
-
     scanner = [[[NSScanner alloc] initWithString:str] autorelease];
     [scanner setCharactersToBeSkipped:nil];
 
@@ -771,7 +769,7 @@
         }
     }
 
-    //NSLog(@"<  %s", _cmd);
+    [eventList endCurrentToneGroup];
 }
 
 //

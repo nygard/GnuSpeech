@@ -90,14 +90,14 @@ extern NSString *EventListDidRemoveIntonationPoint;
     struct _intonationParameters intonationParameters;
 
     /* NOTE phones and phoneTempo are separate for Optimization reasons */
-    int currentPhone;
+    int postureCount;
     struct _phone phones[MAXPHONES];
     double phoneTempo[MAXPHONES];
 
-    int currentFoot;
+    int footCount;
     struct _foot feet[MAXFEET];
 
-    int currentToneGroup;
+    int toneGroupCount;
     struct _toneGroup toneGroups[MAXTONEGROUPS];
 
     int currentRule;
@@ -168,15 +168,16 @@ extern NSString *EventListDidRemoveIntonationPoint;
 - (int)numberOfRules;
 
 // Tone groups
+- (void)endCurrentToneGroup;
 - (void)newToneGroup;
 - (void)setCurrentToneGroupType:(int)type;
 
+- (void)endCurrentFoot;
 - (void)newFoot;
 - (void)setCurrentFootMarked;
 - (void)setCurrentFootLast;
 - (void)setCurrentFootTempo:(double)tempo;
 
-- (void)newPhone;
 - (void)newPhoneWithObject:(MMPosture *)anObject;
 - (void)replaceCurrentPhoneWith:(MMPosture *)anObject;
 - (void)setCurrentPhoneTempo:(double)tempo;
