@@ -240,7 +240,7 @@
 
             tempCategory = [categories findSymbol:str];
             if (!tempCategory) {
-                [[tempPhone categoryList] addNativeCategory:tempSymbol];
+                [[tempPhone categoryList] addNativeCategory:str];
             } else
                 [[tempPhone categoryList] addObject:tempCategory];
 
