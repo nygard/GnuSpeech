@@ -2,7 +2,7 @@
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 @class MonetList, ProtoTemplate;
-@class AppController;
+@class AppController, Slope;
 
 /*===========================================================================
 
@@ -57,6 +57,8 @@
 - (NSPoint)graphOrigin;
 - (float)timeScale;
 - (NSRect)rectFormedByPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
+- (float)slopeMarkerYPosition;
+- (NSRect)slopeMarkerRect;
 
 - (void)drawGrid;
 - (void)drawEquations;
@@ -74,7 +76,7 @@
 - (void)selectGraphPointsBetweenPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
 
 - getSlopeInput:aSlopeRatio:(float)startTime:(float)endTime;
-- clickSlopeMarker:(float)row:(float)column:(float *)startTime:(float *)endTime;
+- (Slope *)getSlopeMarkerAtPoint:(NSPoint)aPoint startTime:(float *)startTime endTime:(float *)endTime;
 
 //- (BOOL)performKeyEquivalent:(NSEvent *)theEvent;
 

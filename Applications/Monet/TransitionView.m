@@ -236,6 +236,31 @@ static NSImage *_selectionBox = nil;
     return rect;
 }
 
+- (float)slopeMarkerYPosition;
+{
+    NSPoint graphOrigin;
+
+    graphOrigin = [self graphOrigin];
+
+    return graphOrigin.y - BOTTOM_MARGIN + 10;
+}
+
+- (NSRect)slopeMarkerRect;
+{
+    NSRect bounds, rect;
+    NSPoint graphOrigin;
+
+    bounds = NSIntegralRect([self bounds]);
+    graphOrigin = [self graphOrigin];
+
+    rect.origin.x = graphOrigin.x;
+    rect.origin.y = [self slopeMarkerYPosition];
+    rect.size.width = bounds.size.width - 2 * LEFT_MARGIN;
+    rect.size.height = 18; // Roughly
+
+    return rect;
+}
+
 - (void)drawGrid;
 {
     int i;
@@ -630,6 +655,7 @@ static NSImage *_selectionBox = nil;
 
     bounds = [self bounds];
     graphOrigin = [self graphOrigin];
+    rect.origin.y = [self slopeMarkerYPosition];
 
     for (i = 0; i < [[currentTemplate points] count]; i++) {
         currentPoint = [[currentTemplate points] objectAtIndex:i];
@@ -654,7 +680,7 @@ static NSImage *_selectionBox = nil;
                 [[NSColor blackColor] set];
                 [[NSColor blueColor] set];
                 aPoint.x = ([[(GSMPoint *)[points objectAtIndex:j] expression] cacheValue]) * timeScale + LEFT_MARGIN + 5.0;
-                aPoint.y = 16;
+                aPoint.y = rect.origin.y + 2;
                 [str drawAtPoint:aPoint withAttributes:nil];
             }
         }
@@ -668,15 +694,28 @@ static NSImage *_selectionBox = nil;
 - (void)mouseDown:(NSEvent *)mouseEvent;
 {
     NSPoint hitPoint;
+    Slope *hitSlope;
+    float startTime, endTime;
 
     NSLog(@" > %s", _cmd);
 
     hitPoint = [self convertPoint:[mouseEvent locationInWindow] fromView:nil];
     NSLog(@"hitPoint: %@", NSStringFromPoint(hitPoint));
 
+    hitSlope = [self getSlopeMarkerAtPoint:hitPoint startTime:&startTime endTime:&endTime];
+
     // TODO: If it hit a slope input, do something else
+    [self setShouldDrawSelection:NO];
     [selectedPoints removeAllObjects];
     [self setNeedsDisplay:YES];
+
+    if ([mouseEvent clickCount] == 1) {
+        if (hitSlope != nil) {
+            // TODO: get slope input
+            NSLog(@"Get slope input");
+            return;
+        }
+    }
 
 
     selectionPoint1 = hitPoint;
@@ -692,12 +731,14 @@ static NSImage *_selectionBox = nil;
 
     NSLog(@" > %s", _cmd);
 
-    hitPoint = [self convertPoint:[mouseEvent locationInWindow] fromView:nil];
-    NSLog(@"hitPoint: %@", NSStringFromPoint(hitPoint));
-    selectionPoint2 = hitPoint;
-    [self setNeedsDisplay:YES];
+    if (shouldDrawSelection == YES) {
+        hitPoint = [self convertPoint:[mouseEvent locationInWindow] fromView:nil];
+        NSLog(@"hitPoint: %@", NSStringFromPoint(hitPoint));
+        selectionPoint2 = hitPoint;
+        [self setNeedsDisplay:YES];
 
-    [self selectGraphPointsBetweenPoint:selectionPoint1 andPoint:selectionPoint2];
+        [self selectGraphPointsBetweenPoint:selectionPoint1 andPoint:selectionPoint2];
+    }
 
     NSLog(@"<  %s", _cmd);
 }
@@ -1050,34 +1091,52 @@ static NSImage *_selectionBox = nil;
     return self;
 }
 
-- clickSlopeMarker:(float)row:(float)column:(float *)startTime:(float *)endTime;
+- (Slope *)getSlopeMarkerAtPoint:(NSPoint)aPoint startTime:(float *)startTime endTime:(float *)endTime;
 {
     MonetList *pointList;
-    SlopeRatio *currentPoint;
-    float timeScale = ([self bounds].size.width - 100.0) / [[displayParameters cellAtIndex:0] floatValue];
+    SlopeRatio *currentSlopeRatio;
+    float timeScale = [self timeScale];
     float tempTime;
     float time1, time2;
     int i, j;
+    MonetList *points;
 
-    if ( (row > -21.0) || (row < -39.0))
+    NSRect slopeMarkerRect;
+
+    //NSLog(@" > %s", _cmd);
+    //NSLog(@"aPoint: %@", NSStringFromPoint(aPoint));
+
+    //if ( (aPoint.y > -21.0) || (aPoint.y < -39.0)) {
+
+    slopeMarkerRect = [self slopeMarkerRect];
+    if (NSPointInRect(aPoint, slopeMarkerRect) == NO) {
+        //NSLog(@"Y not in range -21 to -39, returning.");
+        //NSLog(@"<  %s", _cmd);
         return nil;
+    }
 
-    tempTime = column/timeScale;
+    aPoint.x -= LEFT_MARGIN;
+    aPoint.y -= BOTTOM_MARGIN;
 
-    NSLog(@"ClickSlopeMarker Row: %f  Col: %f  time = %f", row, column, tempTime);
+    tempTime = aPoint.x / timeScale;
 
-    for (i = 0; i < [[currentTemplate points] count]; i++) {
-        currentPoint = [[currentTemplate points] objectAtIndex:i];
-        if ([currentPoint isKindOfClass:[SlopeRatio class]]) {
-            if ((tempTime < [currentPoint endTime]) && (tempTime > [currentPoint startTime])) {
-                pointList = [currentPoint points];
+    //NSLog(@"ClickSlopeMarker Row: %f  Col: %f  time = %f", aPoint.y, aPoint.x, tempTime);
+
+    points = [currentTemplate points];
+    for (i = 0; i < [points count]; i++) {
+        currentSlopeRatio = [points objectAtIndex:i];
+        if ([currentSlopeRatio isKindOfClass:[SlopeRatio class]]) {
+            if ((tempTime < [currentSlopeRatio endTime]) && (tempTime > [currentSlopeRatio startTime])) {
+                pointList = [currentSlopeRatio points];
                 time1 = [[pointList objectAtIndex:0] getTime];
+
                 for (j = 1; j < [pointList count]; j++) {
                     time2 = [[pointList objectAtIndex:j] getTime];
                     if ((tempTime < time2) && (tempTime > time1)) {
                         *startTime = time1;
                         *endTime = time2;
-                        return [[currentPoint slopes] objectAtIndex:j-1];
+                        //NSLog(@"<  %s", _cmd);
+                        return [[currentSlopeRatio slopes] objectAtIndex:j-1];
                     }
 
                     time1 = time2;
@@ -1086,6 +1145,7 @@ static NSImage *_selectionBox = nil;
         }
     }
 
+    //NSLog(@"<  %s", _cmd);
     return nil;
 }
 
