@@ -19,6 +19,8 @@
 #import "RuleList.h"
 #import "TargetList.h"
 
+#import "TRMSynthesizer.h" // For addParameters:
+
 @implementation EventList
 
 - (id)initWithCapacity:(unsigned int)numSlots;
@@ -40,8 +42,23 @@
 - (void)dealloc;
 {
     [intonationPoints release];
+    [delegate release];
 
     [super dealloc];
+}
+
+- (id)delegate;
+{
+    return delegate;
+}
+
+- (void)setDelegate:(id)newDelegate;
+{
+    if (newDelegate == delegate)
+        return;
+
+    [delegate release];
+    delegate = [newDelegate retain];
 }
 
 - (void)setUp;
@@ -557,6 +574,9 @@
                     table[4], table[5], table[6], table[7],
                     table[8], table[9], table[10], table[11],
                     table[12], table[13], table[14], table[15]);
+
+        if (delegate != nil && [delegate respondsToSelector:@selector(addParameters:)] == YES)
+            [delegate addParameters:table];
 
         for (j = 0 ; j < 32; j++) {
             if (currentDeltas[j])

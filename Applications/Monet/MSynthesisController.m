@@ -21,6 +21,8 @@
 #import "PhoneList.h"
 #include "driftGenerator.h"
 
+#import "TRMSynthesizer.h"
+
 // TODO (2004-03-31): The original code changed the rule index of the currently selected intonation point when the browser was hit, and then added that point to the intonation view again...
 
 @implementation MSynthesisController
@@ -38,6 +40,8 @@
 
     [self setWindowFrameAutosaveName:@"Synthesis"];
 
+    synthesizer = [[TRMSynthesizer alloc] init];
+
     return self;
 }
 
@@ -46,6 +50,7 @@
     [model release];
     [displayParameters release];
     [eventList release];
+    [synthesizer release];
 
     [super dealloc];
 }
@@ -331,6 +336,76 @@
 
     [eventList printDataStructures];
     [eventList generateOutput];
+
+    [eventListView setEventList:eventList];
+    [eventListView display]; // TODO (2004-03-17): It's not updating otherwise
+
+    [[intonationView documentView] setNeedsDisplay:YES];
+    [stringTextField selectText:self];
+
+#if 0
+    sprintf(commandLine,"/bin/tube /tmp/Monet.parameters %s\n", [[filenameField stringValue] cString]);
+    system(commandLine);
+    sprintf(commandLine,"sndplay %s\n", [[filenameField stringValue] cString]);
+    system(commandLine);
+#endif
+
+    NSLog(@"<  %s", _cmd);
+}
+
+- (IBAction)synthesizeWithSoftware2:(id)sender;
+{
+    //char commandLine[256];
+
+    NSLog(@" > %s", _cmd);
+
+    [[[self model] synthesisParameters] writeToFile:@"/tmp/Monet.parameters" includeComments:YES];
+
+    [eventList setUp];
+    [eventList setShouldUseSoftwareSynthesis:YES];
+
+    [eventList setPitchMean:[[[self model] synthesisParameters] pitch]];
+    [eventList setGlobalTempo:[tempoField doubleValue]];
+    [eventList setShouldStoreParameters:[parametersStore state]];
+
+    [eventList setShouldUseMacroIntonation:[[intonationMatrix cellAtRow:0 column:0] state]];
+    [eventList setShouldUseMicroIntonation:[[intonationMatrix cellAtRow:1 column:0] state]];
+    [eventList setShouldUseDrift:[[intonationMatrix cellAtRow:2 column:0] state]];
+    setDriftGenerator([driftDeviationField floatValue], 500, [driftCutoffField floatValue]);
+    //setDriftGenerator(0.5, 250, 0.5);
+
+    [eventList setRadiusMultiply:[radiusMultiplyField doubleValue]];
+
+    // TODO (2004-03-25): Should we set up the intonation parameters, like the hardware synthesis did?
+#if 1
+    //[eventList setIntonation:[intonationFlag state]];
+    [self _takeIntonationParametersFromUI];
+    [eventList setIntonationParameters:intonationParameters];
+#endif
+
+    [self parsePhoneString:[stringTextField stringValue]];
+
+    [eventList generateEventListWithModel:model];
+#if 1
+    NSLog(@"[smoothIntonationSwitch state]: %d", [smoothIntonationSwitch state]);
+    [eventList applyIntonation];
+    if ([smoothIntonationSwitch state])
+        [eventList applySmoothIntonation];
+
+    [eventList setShouldUseSmoothIntonation:[smoothIntonationSwitch state]];
+#else
+    // TODO (2004-03-25): What about checking for smooth intonation, like the hardware synthesis did?
+    [eventList applyIntonation_fromIntonationView];
+#endif
+
+    [eventList printDataStructures];
+    {
+        [synthesizer setupSynthesisParameters:[[self model] synthesisParameters]];
+        [eventList setDelegate:synthesizer];
+        [eventList generateOutput];
+        [eventList setDelegate:nil];
+        [synthesizer synthesize];
+    }
 
     [eventListView setEventList:eventList];
     [eventListView display]; // TODO (2004-03-17): It's not updating otherwise

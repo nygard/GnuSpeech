@@ -12,6 +12,7 @@
 
 @class MModel;
 @class EventListView, IntonationPoint, IntonationView;
+@class TRMSynthesizer;
 
 @interface MSynthesisController : NSWindowController
 {
@@ -52,6 +53,8 @@
     MModel *model;
     NSMutableArray *displayParameters;
     EventList *eventList;
+
+    TRMSynthesizer *synthesizer;
 }
 
 - (id)initWithModel:(MModel *)aModel;
@@ -75,6 +78,7 @@
 
 - (IBAction)parseStringButton:(id)sender;
 - (IBAction)synthesizeWithSoftware:(id)sender;
+- (IBAction)synthesizeWithSoftware2:(id)sender;
 - (IBAction)synthesizeToFile:(id)sender;
 - (IBAction)generateContour:(id)sender;
 

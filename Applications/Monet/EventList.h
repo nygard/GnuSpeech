@@ -105,10 +105,15 @@ struct _rule {
 
     // Moved from IntonationView
     NSMutableArray *intonationPoints;
+
+    id delegate;
 }
 
 - (id)initWithCapacity:(unsigned int)numSlots;
 - (void)dealloc;
+
+- (id)delegate;
+- (void)setDelegate:(id)newDelegate;
 
 - (void)setUp;
 
