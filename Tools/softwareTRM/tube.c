@@ -261,7 +261,7 @@ double bpAlpha, bpBeta, bpGamma;
 /*  TEMPORARY SAMPLE STORAGE VALUES  */
 double maximumSampleValue = 0.0;
 long int numberSamples = 0;
-FILE  *tempFilePtr;
+FILE *tempFilePtr;
 
 /*  MEMORY FOR TUBE AND TUBE COEFFICIENTS  */
 double oropharynx[TOTAL_SECTIONS][2][2];
@@ -413,15 +413,13 @@ int initializeSynthesizer(void)
 	TUBE LENGTH AND SPEED OF SOUND  */
     if (length > 0.0) {
 	double c = speedOfSound(temperature);
-	controlPeriod =
-	    rint((c * TOTAL_SECTIONS * 100.0) /(length * controlRate));
+	controlPeriod = rint((c * TOTAL_SECTIONS * 100.0) /(length * controlRate));
 	sampleRate = controlRate * controlPeriod;
 	actualTubeLength = (c * TOTAL_SECTIONS * 100.0) / sampleRate;
 	nyquist = (double)sampleRate / 2.0;
-    }
-    else {
+    } else {
 	fprintf(stderr, "Illegal tube length.\n");
-	return (ERROR);
+	return ERROR;
     }
 
     /*  CALCULATE THE BREATHINESS FACTOR  */
@@ -459,7 +457,7 @@ int initializeSynthesizer(void)
     rewind(tempFilePtr);
 
     /*  RETURN SUCCESS  */
-    return (SUCCESS);
+    return SUCCESS;
 }
 
 
@@ -516,8 +514,7 @@ void initializeWavetable(void)
 	/*  SET CLOSED PORTION OF WAVE TABLE  */
 	for (i = tableDiv2; i < TABLE_LENGTH; i++)
 	    wavetable[i] = 0.0;
-    }
-    else {
+    } else {
 	/*  SINE WAVE  */
 	for (i = 0; i < TABLE_LENGTH; i++) {
 	    wavetable[i] = sin( ((double)i/(double)TABLE_LENGTH) * 2.0 * PI );
@@ -547,7 +544,6 @@ void initializeWavetable(void)
 void updateWavetable(double amplitude)
 {
     int i, j;
-
 
     /*  CALCULATE NEW CLOSURE POINT, BASED ON AMPLITUDE  */
     double newDiv2 = tableDiv2 - rint(amplitude * tnDelta);
@@ -676,7 +672,7 @@ double noiseFilter(double input)
 
     double output = input + noiseX;
     noiseX = input;
-    return (output);
+    return output;
 }
 
 
@@ -733,7 +729,7 @@ double reflectionFilter(double input)
 
     double output = (a10 * input) - (b11 * reflectionY);
     reflectionY = output;
-    return (output);
+    return output;
 }
 
 
@@ -763,7 +759,7 @@ double radiationFilter(double input)
     double output = (a20 * input) + (a21 * radiationX) - (b21 * radiationY);
     radiationX = input;
     radiationY = output;
-    return (output);
+    return output;
 }
 
 
@@ -820,7 +816,7 @@ double nasalReflectionFilter(double input)
 
     double output = (na10 * input) - (nb11 * nasalReflectionY);
     nasalReflectionY = output;
-    return (output);
+    return output;
 }
 
 
@@ -846,11 +842,10 @@ double nasalRadiationFilter(double input)
 {
     static double nasalRadiationX = 0.0, nasalRadiationY = 0.0;
 
-    double output = (na20 * input) + (na21 * nasalRadiationX) -
-	(nb21 * nasalRadiationY);
+    double output = (na20 * input) + (na21 * nasalRadiationX) - (nb21 * nasalRadiationY);
     nasalRadiationX = input;
     nasalRadiationY = output;
-    return (output);
+    return output;
 }
 
 
@@ -920,23 +915,20 @@ void synthesize(void)
 	    pulsed_noise = lp_noise * pulse;
 
 	    /*  CREATE NOISY GLOTTAL PULSE  */
-	    pulse = ax * ((pulse * (1.0 - breathinessFactor)) +
-			  (pulsed_noise * breathinessFactor));
+	    pulse = ax * ((pulse * (1.0 - breathinessFactor)) + (pulsed_noise * breathinessFactor));
 
 	    /*  CROSS-MIX PURE NOISE WITH PULSED NOISE  */
 	    if (modulation) {
 		crossmix = ax * crossmixFactor;
 		crossmix = (crossmix < 1.0) ? crossmix : 1.0;
-		signal = (pulsed_noise * crossmix) +
-		    (lp_noise * (1.0 - crossmix));
+		signal = (pulsed_noise * crossmix) + (lp_noise * (1.0 - crossmix));
                 if (verbose) {
                     printf("\nSignal = %e", signal);
                     fflush(stdout);
                 }
 
 
-	    }
-	    else
+	    } else
 		signal = lp_noise;
 
 	    /*  PUT SIGNAL THROUGH VOCAL TRACT  */
@@ -992,21 +984,18 @@ void setControlRateParameters(INPUT *previousInput, INPUT *currentInput)
 
     /*  GLOTTAL PITCH  */
     current.glotPitch = glotPitchAt(previousInput);
-    current.glotPitchDelta =
-	(glotPitchAt(currentInput) - current.glotPitch) / (double)controlPeriod;
+    current.glotPitchDelta = (glotPitchAt(currentInput) - current.glotPitch) / (double)controlPeriod;
 
     /*  GLOTTAL VOLUME  */
     current.glotVol = glotVolAt(previousInput);
-    current.glotVolDelta =
-	(glotVolAt(currentInput) - current.glotVol) / (double)controlPeriod;
+    current.glotVolDelta = (glotVolAt(currentInput) - current.glotVol) / (double)controlPeriod;
 
     /*  ASPIRATION VOLUME  */
     current.aspVol = aspVolAt(previousInput);
 #if MATCH_DSP
     current.aspVolDelta = 0.0;
 #else
-    current.aspVolDelta =
-	(aspVolAt(currentInput) - current.aspVol) / (double)controlPeriod;
+    current.aspVolDelta = (aspVolAt(currentInput) - current.aspVol) / (double)controlPeriod;
 #endif
 
     /*  FRICATION VOLUME  */
@@ -1014,8 +1003,7 @@ void setControlRateParameters(INPUT *previousInput, INPUT *currentInput)
 #if MATCH_DSP
     current.fricVolDelta = 0.0;
 #else
-    current.fricVolDelta =
-	(fricVolAt(currentInput) - current.fricVol) / (double)controlPeriod;
+    current.fricVolDelta = (fricVolAt(currentInput) - current.fricVol) / (double)controlPeriod;
 #endif
 
     /*  FRICATION POSITION  */
@@ -1023,8 +1011,7 @@ void setControlRateParameters(INPUT *previousInput, INPUT *currentInput)
 #if MATCH_DSP
     current.fricPosDelta = 0.0;
 #else
-    current.fricPosDelta =
-	(fricPosAt(currentInput) - current.fricPos) / (double)controlPeriod;
+    current.fricPosDelta = (fricPosAt(currentInput) - current.fricPos) / (double)controlPeriod;
 #endif
 
     /*  FRICATION CENTER FREQUENCY  */
@@ -1032,8 +1019,7 @@ void setControlRateParameters(INPUT *previousInput, INPUT *currentInput)
 #if MATCH_DSP
     current.fricCFDelta = 0.0;
 #else
-    current.fricCFDelta =
-	(fricCFAt(currentInput) - current.fricCF) / (double)controlPeriod;
+    current.fricCFDelta = (fricCFAt(currentInput) - current.fricCF) / (double)controlPeriod;
 #endif
 
     /*  FRICATION BANDWIDTH  */
@@ -1041,22 +1027,18 @@ void setControlRateParameters(INPUT *previousInput, INPUT *currentInput)
 #if MATCH_DSP
     current.fricBWDelta = 0.0;
 #else
-    current.fricBWDelta =
-	(fricBWAt(currentInput) - current.fricBW) / (double)controlPeriod;
+    current.fricBWDelta = (fricBWAt(currentInput) - current.fricBW) / (double)controlPeriod;
 #endif
 
     /*  TUBE REGION RADII  */
     for (i = 0; i < TOTAL_REGIONS; i++) {
 	current.radius[i] = radiusAtRegion(previousInput, i);
-	current.radiusDelta[i] =
-	    (radiusAtRegion(currentInput,i) - current.radius[i]) /
-		(double)controlPeriod;
+	current.radiusDelta[i] = (radiusAtRegion(currentInput,i) - current.radius[i]) / (double)controlPeriod;
     }
 
     /*  VELUM RADIUS  */
     current.velum = velumAt(previousInput);
-    current.velumDelta =
-	(velumAt(currentInput) - current.velum) / (double)controlPeriod;
+    current.velumDelta = (velumAt(currentInput) - current.velum) / (double)controlPeriod;
 }
 
 
@@ -1153,7 +1135,7 @@ void initializeNasalCavity(void)
 
 void initializeThroat(void)
 {
-    ta0 = (throatCutoff * 2.0)/sampleRate;
+    ta0 = (throatCutoff * 2.0) / sampleRate;
     tb1 = 1.0 - ta0;
 
     throatGain = amplitude(throatVol);
@@ -1250,8 +1232,7 @@ void setFricationTaps(void)
 	    fricationTap[i] = remainder * fricationAmplitude;
 	    if ((i+1) < TOTAL_FRIC_COEFFICIENTS)
 		fricationTap[++i] = complement * fricationAmplitude;
-	}
-	else
+	} else
 	    fricationTap[i] = 0.0;
     }
 
@@ -1451,97 +1432,77 @@ double vocalTract(double input, double frication)
     /*  UPDATE OROPHARYNX  */
     /*  INPUT TO TOP OF TUBE  */
 
-    oropharynx[S1][TOP][current_ptr] =
-	(oropharynx[S1][BOTTOM][prev_ptr] * dampingFactor) + input;
+    oropharynx[S1][TOP][current_ptr] = (oropharynx[S1][BOTTOM][prev_ptr] * dampingFactor) + input;
 
     /*  CALCULATE THE SCATTERING JUNCTIONS FOR S1-S2  */
 
-    delta = oropharynx_coeff[C1] *
-	(oropharynx[S1][TOP][prev_ptr] - oropharynx[S2][BOTTOM][prev_ptr]);
-    oropharynx[S2][TOP][current_ptr] =
-	(oropharynx[S1][TOP][prev_ptr] + delta) * dampingFactor;
-    oropharynx[S1][BOTTOM][current_ptr] =
-	(oropharynx[S2][BOTTOM][prev_ptr] + delta) * dampingFactor;
+    delta = oropharynx_coeff[C1] * (oropharynx[S1][TOP][prev_ptr] - oropharynx[S2][BOTTOM][prev_ptr]);
+    oropharynx[S2][TOP][current_ptr] = (oropharynx[S1][TOP][prev_ptr] + delta) * dampingFactor;
+    oropharynx[S1][BOTTOM][current_ptr] = (oropharynx[S2][BOTTOM][prev_ptr] + delta) * dampingFactor;
 
     /*  CALCULATE THE SCATTERING JUNCTIONS FOR S2-S3 AND S3-S4  */
     if (verbose)
         printf("\nCalc scattering\n");
     for (i = S2, j = C2, k = FC1; i < S4; i++, j++, k++) {
-	delta = oropharynx_coeff[j] *
-	    (oropharynx[i][TOP][prev_ptr] - oropharynx[i+1][BOTTOM][prev_ptr]);
+	delta = oropharynx_coeff[j] * (oropharynx[i][TOP][prev_ptr] - oropharynx[i+1][BOTTOM][prev_ptr]);
 	oropharynx[i+1][TOP][current_ptr] =
 	    ((oropharynx[i][TOP][prev_ptr] + delta) * dampingFactor) +
 		(fricationTap[k] * frication);
-	oropharynx[i][BOTTOM][current_ptr] =
-	    (oropharynx[i+1][BOTTOM][prev_ptr] + delta) * dampingFactor;
+	oropharynx[i][BOTTOM][current_ptr] = (oropharynx[i+1][BOTTOM][prev_ptr] + delta) * dampingFactor;
     }
 
     /*  UPDATE 3-WAY JUNCTION BETWEEN THE MIDDLE OF R4 AND NASAL CAVITY  */
     junctionPressure = (alpha[LEFT] * oropharynx[S4][TOP][prev_ptr])+
 	(alpha[RIGHT] * oropharynx[S5][BOTTOM][prev_ptr]) +
 	(alpha[UPPER] * nasal[VELUM][BOTTOM][prev_ptr]);
-    oropharynx[S4][BOTTOM][current_ptr] =
-	(junctionPressure - oropharynx[S4][TOP][prev_ptr]) * dampingFactor;
+    oropharynx[S4][BOTTOM][current_ptr] = (junctionPressure - oropharynx[S4][TOP][prev_ptr]) * dampingFactor;
     oropharynx[S5][TOP][current_ptr] =
 	((junctionPressure - oropharynx[S5][BOTTOM][prev_ptr]) * dampingFactor)
 	    + (fricationTap[FC3] * frication);
-    nasal[VELUM][TOP][current_ptr] =
-	(junctionPressure - nasal[VELUM][BOTTOM][prev_ptr]) * dampingFactor;
+    nasal[VELUM][TOP][current_ptr] = (junctionPressure - nasal[VELUM][BOTTOM][prev_ptr]) * dampingFactor;
 
     /*  CALCULATE JUNCTION BETWEEN R4 AND R5 (S5-S6)  */
-    delta = oropharynx_coeff[C4] *
-	(oropharynx[S5][TOP][prev_ptr] - oropharynx[S6][BOTTOM][prev_ptr]);
+    delta = oropharynx_coeff[C4] * (oropharynx[S5][TOP][prev_ptr] - oropharynx[S6][BOTTOM][prev_ptr]);
     oropharynx[S6][TOP][current_ptr] =
 	((oropharynx[S5][TOP][prev_ptr] + delta) * dampingFactor) +
 	    (fricationTap[FC4] * frication);
-    oropharynx[S5][BOTTOM][current_ptr] =
-	(oropharynx[S6][BOTTOM][prev_ptr] + delta) * dampingFactor;
+    oropharynx[S5][BOTTOM][current_ptr] = (oropharynx[S6][BOTTOM][prev_ptr] + delta) * dampingFactor;
 
     /*  CALCULATE JUNCTION INSIDE R5 (S6-S7) (PURE DELAY WITH DAMPING)  */
     oropharynx[S7][TOP][current_ptr] =
 	(oropharynx[S6][TOP][prev_ptr] * dampingFactor) +
 	    (fricationTap[FC5] * frication);
-    oropharynx[S6][BOTTOM][current_ptr] =
-	oropharynx[S7][BOTTOM][prev_ptr] * dampingFactor;
+    oropharynx[S6][BOTTOM][current_ptr] = oropharynx[S7][BOTTOM][prev_ptr] * dampingFactor;
 
     /*  CALCULATE LAST 3 INTERNAL JUNCTIONS (S7-S8, S8-S9, S9-S10)  */
     for (i = S7, j = C5, k = FC6; i < S10; i++, j++, k++) {
-	delta = oropharynx_coeff[j] *
-	    (oropharynx[i][TOP][prev_ptr] - oropharynx[i+1][BOTTOM][prev_ptr]);
+	delta = oropharynx_coeff[j] * (oropharynx[i][TOP][prev_ptr] - oropharynx[i+1][BOTTOM][prev_ptr]);
 	oropharynx[i+1][TOP][current_ptr] =
 	    ((oropharynx[i][TOP][prev_ptr] + delta) * dampingFactor) +
 		(fricationTap[k] * frication);
-	oropharynx[i][BOTTOM][current_ptr] =
-	    (oropharynx[i+1][BOTTOM][prev_ptr] + delta) * dampingFactor;
+	oropharynx[i][BOTTOM][current_ptr] = (oropharynx[i+1][BOTTOM][prev_ptr] + delta) * dampingFactor;
     }
 
     /*  REFLECTED SIGNAL AT MOUTH GOES THROUGH A LOWPASS FILTER  */
     oropharynx[S10][BOTTOM][current_ptr] =  dampingFactor *
-	reflectionFilter(oropharynx_coeff[C8] *
-			 oropharynx[S10][TOP][prev_ptr]);
+	reflectionFilter(oropharynx_coeff[C8] * oropharynx[S10][TOP][prev_ptr]);
 
     /*  OUTPUT FROM MOUTH GOES THROUGH A HIGHPASS FILTER  */
-    output = radiationFilter((1.0 + oropharynx_coeff[C8]) *
-			     oropharynx[S10][TOP][prev_ptr]);
+    output = radiationFilter((1.0 + oropharynx_coeff[C8]) * oropharynx[S10][TOP][prev_ptr]);
 
 
     /*  UPDATE NASAL CAVITY  */
     for (i = VELUM, j = NC1; i < N6; i++, j++) {
-	delta = nasal_coeff[j] *
-	    (nasal[i][TOP][prev_ptr] - nasal[i+1][BOTTOM][prev_ptr]);
-	nasal[i+1][TOP][current_ptr] =
-	    (nasal[i][TOP][prev_ptr] + delta) * dampingFactor;
-	nasal[i][BOTTOM][current_ptr] =
-	    (nasal[i+1][BOTTOM][prev_ptr] + delta) * dampingFactor;
+	delta = nasal_coeff[j] * (nasal[i][TOP][prev_ptr] - nasal[i+1][BOTTOM][prev_ptr]);
+	nasal[i+1][TOP][current_ptr] = (nasal[i][TOP][prev_ptr] + delta) * dampingFactor;
+	nasal[i][BOTTOM][current_ptr] = (nasal[i+1][BOTTOM][prev_ptr] + delta) * dampingFactor;
     }
 
     /*  REFLECTED SIGNAL AT NOSE GOES THROUGH A LOWPASS FILTER  */
-    nasal[N6][BOTTOM][current_ptr] = dampingFactor *
-	nasalReflectionFilter(nasal_coeff[NC6] * nasal[N6][TOP][prev_ptr]);
+    nasal[N6][BOTTOM][current_ptr] = dampingFactor * nasalReflectionFilter(nasal_coeff[NC6] * nasal[N6][TOP][prev_ptr]);
 
     /*  OUTPUT FROM NOSE GOES THROUGH A HIGHPASS FILTER  */
-    output += nasalRadiationFilter((1.0 + nasal_coeff[NC6]) *
-				   nasal[N6][TOP][prev_ptr]);
+    output += nasalRadiationFilter((1.0 + nasal_coeff[NC6]) * nasal[N6][TOP][prev_ptr]);
 
     /*  RETURN SUMMED OUTPUT FROM MOUTH AND NOSE  */
     return(output);
@@ -1602,15 +1563,14 @@ double bandpassFilter(double input)
     double output;
 
 
-    output = 2.0 *
-	((bpAlpha * (input - xn2)) + (bpGamma * yn1) - (bpBeta * yn2));
+    output = 2.0 * ((bpAlpha * (input - xn2)) + (bpGamma * yn1) - (bpBeta * yn2));
 
     xn2 = xn1;
     xn1 = input;
     yn2 = yn1;
     yn1 = output;
 
-    return (output);
+    return output;
 }
 
 
@@ -1637,14 +1597,14 @@ double amplitude(double decibelLevel)
 
     /*  IF -60 OR LESS, RETURN AMPLITUDE OF 0  */
     if (decibelLevel <= (-VOL_MAX))
-        return(0.0);
+        return 0.0;
 
     /*  IF 0 OR GREATER, RETURN AMPLITUDE OF 1  */
     if (decibelLevel >= 0.0)
-        return(1.0);
+        return 1.0;
 
     /*  ELSE RETURN INVERSE LOG VALUE  */
-    return(pow(10.0,(decibelLevel/20.0)));
+    return pow(10.0, (decibelLevel / 20.0));
 }
 
 
@@ -1666,7 +1626,7 @@ double amplitude(double decibelLevel)
 
 double frequency(double pitch)
 {
-    return(PITCH_BASE * pow(2.0,(((double)(pitch+PITCH_OFFSET))/12.0)));
+    return PITCH_BASE * pow(2.0, (((double)(pitch + PITCH_OFFSET)) / 12.0));
 }
 
 
@@ -1702,18 +1662,18 @@ int maximallyFlat(double beta, double gamma, int *np, double *coefficient)
 
     /*  CUT-OFF FREQUENCY MUST BE BETWEEN 0 HZ AND NYQUIST  */
     if ((beta <= 0.0) || (beta >= 0.5))
-	return(BETA_OUT_OF_RANGE);
+	return BETA_OUT_OF_RANGE;
 
     /*  TRANSITION BAND MUST FIT WITH THE STOP BAND  */
     betaMinimum = ((2.0 * beta) < (1.0 - 2.0 * beta)) ? (2.0 * beta) :
 	(1.0 - 2.0 * beta);
     if ((gamma <= 0.0) || (gamma >= betaMinimum))
-	return(GAMMA_OUT_OF_RANGE);
+	return GAMMA_OUT_OF_RANGE;
 
     /*  MAKE SURE TRANSITION BAND NOT TOO SMALL  */
     nt = (int)(1.0 / (4.0 * gamma * gamma));
     if (nt > 160)
-	return(GAMMA_TOO_SMALL);
+	return GAMMA_TOO_SMALL;
 
     /*  CALCULATE THE RATIONAL APPROXIMATION TO THE CUT-OFF POINT  */
     ac = (1.0 + cos(TWO_PI * beta)) / 2.0;
@@ -1763,7 +1723,7 @@ int maximallyFlat(double beta, double gamma, int *np, double *coefficient)
 		m = n - m;
 	    coefficient[i] += c[m+1] * a[j];
 	}
-	coefficient[i] *= 2.0/(double)n;
+	coefficient[i] *= 2.0 / (double)n;
     }
 
     return(0);
@@ -1905,16 +1865,15 @@ double FIRFilter(double input, int needOutput)
 	FIRPtr = decrement(FIRPtr, numberTaps);
 
 	/*  RETURN THE OUTPUT VALUE  */
-	return(output);
-    }
-    else {
+	return output;
+    } else {
 	/*  PUT INPUT SAMPLE INTO DATA BUFFER  */
 	FIRData[FIRPtr] = input;
 
 	/*  ADJUST THE DATA POINTER, READY FOR NEXT CALL  */
 	FIRPtr = decrement(FIRPtr, numberTaps);
 
-	return(0.0);
+	return 0.0;
     }
 }
 
@@ -1940,9 +1899,9 @@ double FIRFilter(double input, int needOutput)
 int increment(int pointer, int modulus)
 {
     if (++pointer >= modulus)
-	return(0);
-    else
-	return(pointer);
+	return 0;
+
+    return pointer;
 }
 
 
@@ -1966,9 +1925,9 @@ int increment(int pointer, int modulus)
 int decrement(int pointer, int modulus)
 {
     if (--pointer < 0)
-	return(modulus-1);
-    else
-	return(pointer);
+	return modulus - 1;
+
+    return pointer;
 }
 
 
@@ -2001,20 +1960,16 @@ void initializeConversion(void)
     sampleRateRatio = (double)outputRate / (double)sampleRate;
 
     /*  CALCULATE TIME REGISTER INCREMENT  */
-    timeRegisterIncrement =
-	(int)rint( pow(2.0, FRACTION_BITS) / sampleRateRatio );
+    timeRegisterIncrement = (int)rint( pow(2.0, FRACTION_BITS) / sampleRateRatio );
 
     /*  CALCULATE ROUNDED SAMPLE RATE RATIO  */
-    roundedSampleRateRatio =
-	pow(2.0, FRACTION_BITS) / (double)timeRegisterIncrement;
+    roundedSampleRateRatio = pow(2.0, FRACTION_BITS) / (double)timeRegisterIncrement;
 
     /*  CALCULATE PHASE OR FILTER INCREMENT  */
     if (sampleRateRatio >= 1.0) {
 	filterIncrement = L_RANGE;
-    }
-    else {
-	phaseIncrement =
-	     (unsigned int)rint(sampleRateRatio * (double)FRACTION_RANGE);
+    } else {
+	phaseIncrement = (unsigned int)rint(sampleRateRatio * (double)FRACTION_RANGE);
     }
 
     /*  CALCULATE PAD SIZE  */
@@ -2107,7 +2062,7 @@ double Izero(double x)
 	sum += u;
     } while (u >= (IzeroEPSILON * sum));
 
-    return(sum);
+    return sum;
 }
 
 
@@ -2239,8 +2194,7 @@ void dataEmpty(void)
 		 filterIndex < FILTER_LENGTH;
 		 srDecrement(&index,BUFFER_SIZE),
 		 filterIndex += filterIncrement) {
-		output += (buffer[index] *
-		    (h[filterIndex] + (deltaH[filterIndex] * interpolation)));
+		output += (buffer[index] * (h[filterIndex] + (deltaH[filterIndex] * interpolation)));
 	    }
 
 	    /*  ADJUST VALUES FOR RIGHT SIDE CALCULATION  */
@@ -2286,9 +2240,8 @@ void dataEmpty(void)
 	    /*  CLEAR N PART OF TIME REGISTER  */
 	    timeRegister &= (~N_MASK);
 	}
-    }
-    /*  DOWNSAMPLING CONVERSION LOOP  */
-    else {
+    } else {
+        /*  DOWNSAMPLING CONVERSION LOOP  */
 	while (emptyPtr < endPtr) {
 	    int index;
 	    unsigned int phaseIndex, impulseIndex;
@@ -2298,8 +2251,7 @@ void dataEmpty(void)
 	    output = 0.0;
 
 	    /*  COMPUTE P PRIME  */
-	    phaseIndex = (unsigned int)rint(
-		   ((double)fractionValue(timeRegister)) * sampleRateRatio);
+	    phaseIndex = (unsigned int)rint( ((double)fractionValue(timeRegister)) * sampleRateRatio);
 
 	    /*  COMPUTE THE LEFT SIDE OF THE FILTER CONVOLUTION  */
 	    index = emptyPtr;
@@ -2307,22 +2259,21 @@ void dataEmpty(void)
 		impulse = h[impulseIndex] + (deltaH[impulseIndex] *
 		    (((double)mValue(phaseIndex)) / (double)M_RANGE));
 		output += (buffer[index] * impulse);
-		srDecrement(&index,BUFFER_SIZE);
+		srDecrement(&index, BUFFER_SIZE);
 		phaseIndex += phaseIncrement;
 	    }
 
 	    /*  COMPUTE P PRIME, ADJUSTED FOR RIGHT SIDE  */
-	    phaseIndex = (unsigned int)rint(
-		((double)fractionValue(~timeRegister)) * sampleRateRatio);
+	    phaseIndex = (unsigned int)rint( ((double)fractionValue(~timeRegister)) * sampleRateRatio);
 
 	    /*  COMPUTE THE RIGHT SIDE OF THE FILTER CONVOLUTION  */
 	    index = emptyPtr;
-	    srIncrement(&index,BUFFER_SIZE);
+	    srIncrement(&index, BUFFER_SIZE);
 	    while ((impulseIndex = (phaseIndex>>M_BITS)) < FILTER_LENGTH) {
 		impulse = h[impulseIndex] + (deltaH[impulseIndex] *
 		    (((double)mValue(phaseIndex)) / (double)M_RANGE));
 		output += (buffer[index] * impulse);
-		srIncrement(&index,BUFFER_SIZE);
+		srIncrement(&index, BUFFER_SIZE);
 		phaseIndex += phaseIncrement;
 	    }
 
