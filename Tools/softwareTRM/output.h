@@ -25,8 +25,8 @@ typedef struct _OutputCallbackContext {
     double scale;
     double leftScale;
     double rightScale;
-    FILE *fp;
     int sampleCount;
+    FILE *fp; // Optional
 } OutputCallbackContext;
 
 void writeAuFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile);
@@ -37,5 +37,7 @@ void writeSampleMonoMsb(TRMSampleRateConverter *aConverter, void *context, doubl
 void writeSampleStereoMsb(TRMSampleRateConverter *aConverter, void *context, double value);
 void writeSampleMonoLsb(TRMSampleRateConverter *aConverter, void *context, double value);
 void writeSampleStereoLsb(TRMSampleRateConverter *aConverter, void *context, double value);
+
+void TRMWriteOutputToFile(TRMTubeModel *tube, char *filename, TRMData *inputData);
 
 #endif

@@ -103,7 +103,6 @@ int main(int argc, char *argv[])
     TRMData *inputData;
     TRMTubeModel *tube;
     int ch;
-    OutputCallbackContext context;
 
     // Parse the command line
     while ( (ch = getopt(argc, argv, "v")) != -1) {
@@ -144,67 +143,7 @@ int main(int argc, char *argv[])
         printInfo(inputData, inputFilename, tube);
 
     // Calculate scaling, write header, and set up callback function
-    context.scale = OUTPUT_SCALE * (RANGE_MAX / MAX_SAMPLE) * amplitude(inputData->inputParameters.volume);
-    context.sampleCount = 0;
-
-    // If stereo, calculate left and right scaling constants
-    if (inputData->inputParameters.channels == 2) {
-        // Calculate left and right channel amplitudes
-        context.leftScale = -((inputData->inputParameters.balance / 2.0) - 0.5) * context.scale * 2.0;
-        context.rightScale = ((inputData->inputParameters.balance / 2.0) + 0.5) * context.scale * 2.0;
-
-        if (verbose) {
-            printf("left scale:\t\t%.4f\n", context.leftScale);
-            printf("right scale:\t\t%.4f\n", context.rightScale);
-        }
-    } else {
-        context.leftScale = context.rightScale = 1.0;
-    }
-
-    context.fp = fopen(outputFilename, "wb");
-    tube->sampleRateConverter->context = &context;
-    if (inputData->inputParameters.outputFileFormat == AU_FILE_FORMAT) {
-        writeAuFileHeader(inputData->inputParameters.channels, 0, inputData->inputParameters.outputRate, context.fp);
-        if (inputData->inputParameters.channels == 1)
-            tube->sampleRateConverter->callbackFunction = writeSampleMonoMsb;
-        else
-            tube->sampleRateConverter->callbackFunction = writeSampleStereoMsb;
-    } else if (inputData->inputParameters.outputFileFormat == AIFF_FILE_FORMAT) {
-        writeAiffFileHeader(inputData->inputParameters.channels, 0, inputData->inputParameters.outputRate, context.fp);
-        if (inputData->inputParameters.channels == 1)
-            tube->sampleRateConverter->callbackFunction = writeSampleMonoMsb;
-        else
-            tube->sampleRateConverter->callbackFunction = writeSampleStereoMsb;
-    } else if (inputData->inputParameters.outputFileFormat == WAVE_FILE_FORMAT) {
-        writeWaveFileHeader(inputData->inputParameters.channels, 0, inputData->inputParameters.outputRate, context.fp);
-        if (inputData->inputParameters.channels == 1)
-            tube->sampleRateConverter->callbackFunction = writeSampleMonoLsb;
-        else
-            tube->sampleRateConverter->callbackFunction = writeSampleStereoLsb;
-    }
-
-    if (verbose) {
-        printf("\nStarting synthesis, calculating floating point samples...");
-        fflush(stdout);
-    }
-
-    // Synthesize the speech
-    TRMTubeModelSynthesize(tube, inputData);
-
-    // And then we need to come back and fix the header with the proper sample size.
-    rewind(context.fp);
-    if (inputData->inputParameters.outputFileFormat == AU_FILE_FORMAT) {
-        writeAuFileHeader(inputData->inputParameters.channels, context.sampleCount, inputData->inputParameters.outputRate, context.fp);
-    } else if (inputData->inputParameters.outputFileFormat == AIFF_FILE_FORMAT) {
-        writeAiffFileHeader(inputData->inputParameters.channels, context.sampleCount, inputData->inputParameters.outputRate, context.fp);
-    } else if (inputData->inputParameters.outputFileFormat == WAVE_FILE_FORMAT) {
-        writeWaveFileHeader(inputData->inputParameters.channels, context.sampleCount, inputData->inputParameters.outputRate, context.fp);
-    }
-
-    fclose(context.fp);
-
-    if (verbose)
-        printf("done.\n");
+    TRMWriteOutputToFile(tube, outputFilename, inputData);
 
     if (verbose)
         printf("\nWrote scaled samples to file:  %s\n", outputFilename);
