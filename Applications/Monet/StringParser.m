@@ -16,7 +16,7 @@
 #import "tube_module/synthesizer_module.h"
 #endif
 
-int parse_string(id eventList, NSString *str);
+int parse_string(EventList *eventList, NSString *str);
 
 @implementation StringParser
 
@@ -269,7 +269,8 @@ int parse_string(id eventList, NSString *str);
     char commandLine[256];
 
     NSLog(@" > %s", _cmd);
-    NSLog(@"eventList: %@", eventList);
+    //NSLog(@"eventList: %@", eventList);
+    //[[NSApp delegate] generateXML:@"before software synthesis"];
 
     if ([samplingRate selectedColumn])
         sRate = 44100.0;
@@ -362,7 +363,7 @@ int parse_string(id eventList, NSString *str);
 
 @end
 
-int parse_string(id eventList, NSString *str)
+int parse_string(EventList *eventList, NSString *str)
 {
     Phone *aPhone;
     int dummy;
@@ -379,7 +380,7 @@ int parse_string(id eventList, NSString *str)
     NSString *buffer;
 
     mainPhoneList = NXGetNamedObject(@"mainPhoneList", NSApp);
-    NSLog(@"mainPhoneList: %@", mainPhoneList);
+    NSLog(@"mainPhoneList: %p", mainPhoneList);
 
     aPhone = [mainPhoneList binarySearchPhone:@"^" index:&dummy];
     [eventList newPhoneWithObject:aPhone];
@@ -489,7 +490,7 @@ int parse_string(id eventList, NSString *str)
                 if (markedFoot)
                     buffer = [buffer stringByAppendingString:@"'"];
                 aPhone = [mainPhoneList binarySearchPhone:buffer index:&dummy];
-                NSLog(@"aPhone: %@", aPhone);
+                NSLog(@"aPhone: %p, eventList: %p", aPhone, eventList);
                 if (aPhone) {
                     [eventList newPhoneWithObject:aPhone];
                     [eventList setCurrentPhoneTempo:phoneTempo];

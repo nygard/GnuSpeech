@@ -176,4 +176,6 @@ struct _rule {
 
 - (void)applyIntonation;
 
+- (NSString *)description;
+
 @end

@@ -97,6 +97,8 @@ static void page_consumed(void)
 {
     int i;
 
+    NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
+
     [self removeAllObjects];
 
     zeroRef = 0;
@@ -132,6 +134,8 @@ static void page_consumed(void)
 
     phoneTempo[0] = 1.0;
     feet[0].tempo = 1.0;
+
+    NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }
 
 - (int)zeroRef;
@@ -1073,8 +1077,13 @@ static void page_consumed(void)
     }
 }
 
-@end
+- (NSString *)description;
+{
+    return [NSString stringWithFormat:@"<%@>[%p]: currentPhone: %d, currentFoot: %d, currentToneGroup: %d, currentRule: %d, + a bunch of other stuff",
+                     NSStringFromClass([self class]), self, currentPhone, currentFoot, currentToneGroup, currentRule];
+}
 
+@end
 
 
 
