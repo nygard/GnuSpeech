@@ -1,416 +1,390 @@
-
 #import "PhoneInspector.h"
+
+#import <AppKit/AppKit.h>
+#import "CategoryNode.h"
+#import "CategoryList.h"
 #import "Inspector.h"
+#import "MyController.h"
 #import "NiftyMatrix.h"
 #import "NiftyMatrixCat.h"
 #import "NiftyMatrixCell.h"
-#import "MyController.h"
-
+#import "Parameter.h"
+#import "Phone.h"
+#import "Target.h" // Or Point.h
+#import "TargetList.h"
 
 @implementation PhoneInspector
 
-- (void)applicationDidFinishLaunching:(NSNotification *)notification
+- (void)applicationDidFinishLaunching:(NSNotification *)notification;
 {
     NSRect scrollRect, matrixRect;
-NSSize interCellSpacing = {0.0, 0.0};
-NSSize cellSize;
+    NSSize interCellSpacing = {0.0, 0.0};
+    NSSize cellSize;
 
-	[browser setTarget:self];
-	[browser setAction:(SEL)(@selector(browserHit:))];
-	[browser setDoubleAction:(SEL)(@selector(browserDoubleHit:))];
+    [browser setTarget:self];
+    [browser setAction:@selector(browserHit:)];
+    [browser setDoubleAction:@selector(browserDoubleHit:)];
 
-	/* set the niftyMatrixScrollView's attributes */
-	[niftyMatrixScrollView setBorderType:NSBezelBorder];
-	[niftyMatrixScrollView setHasVerticalScroller:YES];
-	[niftyMatrixScrollView setHasHorizontalScroller:NO];
+    /* set the niftyMatrixScrollView's attributes */
+    [niftyMatrixScrollView setBorderType:NSBezelBorder];
+    [niftyMatrixScrollView setHasVerticalScroller:YES];
+    [niftyMatrixScrollView setHasHorizontalScroller:NO];
 
-	/* get the niftyMatrixScrollView's dimensions */
-	scrollRect = [niftyMatrixScrollView frame];
+    /* get the niftyMatrixScrollView's dimensions */
+    scrollRect = [niftyMatrixScrollView frame];
 
-	/* determine the matrix bounds */
-	(matrixRect.size) = [NSScrollView contentSizeForFrameSize:(scrollRect.size) hasHorizontalScroller:NO hasVerticalScroller:NO borderType:NSBezelBorder];
+    /* determine the matrix bounds */
+    matrixRect.size = [NSScrollView contentSizeForFrameSize:(scrollRect.size) hasHorizontalScroller:NO hasVerticalScroller:NO borderType:NSBezelBorder];
 
-	/* prepare a matrix to go inside our niftyMatrixScrollView */
-	niftyMatrix = [[NiftyMatrix allocWithZone:[self zone]] initWithFrame:matrixRect mode:NSRadioModeMatrix cellClass:[NiftyMatrixCell class] numberOfRows:0 numberOfColumns:1];
+    /* prepare a matrix to go inside our niftyMatrixScrollView */
+    niftyMatrix = [[NiftyMatrix allocWithZone:[self zone]] initWithFrame:matrixRect mode:NSRadioModeMatrix cellClass:[NiftyMatrixCell class] numberOfRows:0 numberOfColumns:1];
 
-	/* we don't want any space between the matrix's cells  */
-	[niftyMatrix setIntercellSpacing:interCellSpacing];
+    /* we don't want any space between the matrix's cells  */
+    [niftyMatrix setIntercellSpacing:interCellSpacing];
 
-	/* resize the matrix's cells and size the matrix to contain them */
-	cellSize = [niftyMatrix cellSize];
-	cellSize.width = NSWidth(matrixRect) + 0.1;
-	[niftyMatrix setCellSize:cellSize];
-	[niftyMatrix sizeToCells];
-	[niftyMatrix setAutosizesCells:YES];
+    /* resize the matrix's cells and size the matrix to contain them */
+    cellSize = [niftyMatrix cellSize];
+    cellSize.width = NSWidth(matrixRect) + 0.1;
+    [niftyMatrix setCellSize:cellSize];
+    [niftyMatrix sizeToCells];
+    [niftyMatrix setAutosizesCells:YES];
 
-	/*
-	 * when the user clicks in the matrix and then drags the mouse out of niftyMatrixScrollView's contentView,
-	 * we want the matrix to scroll 
-	 */
+    /*
+     * when the user clicks in the matrix and then drags the mouse out of niftyMatrixScrollView's contentView,
+     * we want the matrix to scroll
+     */
 
-	[niftyMatrix setAutoscroll:YES];
+    [niftyMatrix setAutoscroll:YES];
 
-	/* stick the matrix in our niftyMatrixScrollView */
-	[niftyMatrixScrollView setDocumentView:niftyMatrix];
+    /* stick the matrix in our niftyMatrixScrollView */
+    [niftyMatrixScrollView setDocumentView:niftyMatrix];
 
-	/* set things up so that the matrix will resize properly */
-	[[niftyMatrix superview] setAutoresizesSubviews:YES];
-	[niftyMatrix setAutoresizingMask:NSViewWidthSizable];
+    /* set things up so that the matrix will resize properly */
+    [[niftyMatrix superview] setAutoresizesSubviews:YES];
+    [niftyMatrix setAutoresizingMask:NSViewWidthSizable];
 
-	/* set the matrix's single-click actions */
-	[niftyMatrix setTarget:self];
-	[niftyMatrix setAction:@selector(itemsChanged:)];
-	//[niftyMatrix allowEmptySel:YES];
+    /* set the matrix's single-click actions */
+    [niftyMatrix setTarget:self];
+    [niftyMatrix setAction:@selector(itemsChanged:)];
+    //[niftyMatrix allowEmptySel:YES];
 
-	[niftyMatrix insertCellWithStringValue:"Phone"];
+    [niftyMatrix insertCellWithStringValue:@"Phone"];
 
-	[niftyMatrix grayAllCells];
-	[niftyMatrix display];
+    [niftyMatrix grayAllCells];
+    [niftyMatrix display];
 }
 
-- init
+- (id)init;
 {
+    if ([super init] == nil)
+        return nil;
 
-	currentPhone = nil;
-	currentBrowser = 0;
+    currentPhone = nil;
+    currentBrowser = 0;
 
-	courier = [NSFont fontWithName:@"Courier" size:12];
-	courierBold = [NSFont fontWithName:@"Courier-Bold" size:12];
+    courier = [NSFont fontWithName:@"Courier" size:12];
+    courierBold = [NSFont fontWithName:@"Courier-Bold" size:12];
 
-
-	return self;
-
-
+    return self;
 }
 
-- (void)itemsChanged:sender
+- (void)itemsChanged:(id)sender;
 {
-CategoryList *tempList;
-CategoryNode *tempNode;
-NSArray *list;
-id tempCell;
-id mainCategoryList;
-int i;
+    CategoryList *tempList;
+    CategoryNode *tempNode;
+    NSArray *list;
+    id tempCell;
+    id mainCategoryList;
+    int i;
 
-	tempList = [currentPhone categoryList];
-	mainCategoryList = NXGetNamedObject(@"mainCategoryList", NSApp);
-	list = [niftyMatrix cells];
-	for(i = 0 ; i<[list count]; i++)
-	{
-		tempCell = [list objectAtIndex:i];
-		if ([tempCell toggleValue])
-		{
-			if (![tempList findSymbol:[[tempCell stringValue] cString]])
-			{
-				tempNode = [mainCategoryList findSymbol:[[tempCell stringValue] cString]];
-				[tempList addObject:tempNode];
-			}
-		}
-		else
-		{
-			if ((tempNode = [tempList findSymbol:[[tempCell stringValue] cString]]))
-			{
-				[tempList removeObject:tempNode];
-			}
-		}
-
-	} 
+    tempList = [currentPhone categoryList];
+    mainCategoryList = NXGetNamedObject(@"mainCategoryList", NSApp);
+    list = [niftyMatrix cells];
+    for (i = 0 ; i < [list count]; i++) {
+        tempCell = [list objectAtIndex:i];
+        if ([tempCell toggleValue]) {
+            if (![tempList findSymbol:[tempCell stringValue]])  {
+                tempNode = [mainCategoryList findSymbol:[tempCell stringValue]];
+                [tempList addObject:tempNode];
+            }
+        } else {
+            if ((tempNode = [tempList findSymbol:[tempCell stringValue]])) {
+                [tempList removeObject:tempNode];
+            }
+        }
+    }
 }
 
-- (void)inspectPhone:phone
+- (void)inspectPhone:phone;
 {
-	currentPhone = phone;
-	[mainInspector setPopUpListView:phonePopUpListView];
-	[self setUpWindow:phonePopUpList]; 
+    currentPhone = phone;
+    [mainInspector setPopUpListView:phonePopUpListView];
+    [self setUpWindow:phonePopUpList];
 }
 
-- (void)setUpWindow:sender
+- (void)setUpWindow:(id)sender;
 {
-const char *temp;
-id tempCell;
-CategoryList *tempList, *mainCategoryList;
-int i;
+    NSString *str;
+    id tempCell;
+    CategoryList *tempList, *mainCategoryList;
+    int i;
 
-	temp = [[[sender selectedCell] title] cString];
-	switch(temp[0])
-	{
-		case 'C':
-			if(temp[1] == 'o')
-			{
-				[phonePopUpList setTitle:@"Comment"];
-				[mainInspector setGeneralView:commentView];
+    str = [[sender selectedCell] title];
+    if ([str hasPrefix:@"Co"]) {
+        [phonePopUpList setTitle:@"Comment"];
+        [mainInspector setGeneralView:commentView];
 
-				[setCommentButton setTarget:self];
-				[setCommentButton setAction:(SEL)(@selector(setComment:))];
+        [setCommentButton setTarget:self];
+        [setCommentButton setAction:@selector(setComment:)];
 
-				[revertCommentButton setTarget:self];
-				[revertCommentButton setAction:(SEL)(@selector(revertComment:))];
+        [revertCommentButton setTarget:self];
+        [revertCommentButton setAction:@selector(revertComment:)];
 
-				[commentText setString:[NSString stringWithCString:[currentPhone comment]]];
-			}
-			else
-			{
-				tempList = [currentPhone categoryList];
-				mainCategoryList = NXGetNamedObject(@"mainCategoryList", NSApp);
-				[niftyMatrix removeAllCells];
+        [commentText setString:[currentPhone comment]];
+    } else if ([str hasPrefix:@"C"]) {
+        tempList = [currentPhone categoryList];
+        mainCategoryList = NXGetNamedObject(@"mainCategoryList", NSApp);
+        [niftyMatrix removeAllCells];
 
-				for (i = 0; i<[tempList count]; i++)
-				{
-//					printf("Inserting %s\n", [[tempList objectAtIndex:i] symbol]);
-					[niftyMatrix insertCellWithStringValue:[[tempList objectAtIndex:i] symbol]];
-					if ([[tempList objectAtIndex:i] native])
-					{
-						tempCell = [niftyMatrix findCellNamed:[[tempList objectAtIndex:i] symbol]];
-						[tempCell lock];
-					}
-				}
-				[niftyMatrix ungrayAllCells];
-				tempCell = [niftyMatrix findCellNamed:"phone"];
-				[tempCell lock];
+        for (i = 0; i < [tempList count]; i++) {
+            //NSLog(@"Inserting %@", [[tempList objectAtIndex:i] symbol]);
+            [niftyMatrix insertCellWithStringValue:[[tempList objectAtIndex:i] symbol]];
+            if ([[tempList objectAtIndex:i] isNative]) {
+                tempCell = [niftyMatrix findCellNamed:[[tempList objectAtIndex:i] symbol]];
+                [tempCell lock];
+            }
+        }
+        [niftyMatrix ungrayAllCells];
+        tempCell = [niftyMatrix findCellNamed:@"phone"];
+        [tempCell lock];
 
-				for (i = 0; i<[mainCategoryList count]; i++)
-				{
-					temp = [[mainCategoryList objectAtIndex:i] symbol];
-					if ( ![niftyMatrix findCellNamed:temp])
-					{
-						[niftyMatrix insertCellWithStringValue:temp];
-						tempCell = [niftyMatrix findCellNamed:temp];
-						[tempCell setToggleValue:0];
-					}
-				}
+        for (i = 0; i < [mainCategoryList count]; i++) {
+            str = [[mainCategoryList objectAtIndex:i] symbol];
+            if ( ![niftyMatrix findCellNamed:str]) {
+                [niftyMatrix insertCellWithStringValue:str];
+                tempCell = [niftyMatrix findCellNamed:str];
+                [tempCell setToggleValue:0];
+            }
+        }
 
-				[niftyMatrix display];
-	
-				[mainInspector setGeneralView:niftyMatrixBox];
-				[phonePopUpList setTitle:@"Categories"];
-			}
-			break;
-		case 'P':
-			currentBrowser = 1;
-			currentMainList = NXGetNamedObject(@"mainParameterList", NSApp);
-			[browser setTitle:@"Parameter" ofColumn:0];
-			[mainInspector setGeneralView:browserBox];
-			[phonePopUpList setTitle:@"Parameter Targets"];
-			[browser loadColumnZero];
-			break;
-		case 'M':
-			currentBrowser = 2;
-			currentMainList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
-			[browser setTitle:@"Meta Parameter" ofColumn:0];
-			[mainInspector setGeneralView:browserBox];
-			[phonePopUpList setTitle:@"Meta Parameter Targets"];
-			[browser loadColumnZero];
-			break;
-		case 'S':
-			currentBrowser = 3;
-			currentMainList = NXGetNamedObject(@"mainSymbolList", NSApp);
-			[browser setTitle:@"Symbol" ofColumn:0];
-			[mainInspector setGeneralView:browserBox];
-			[phonePopUpList setTitle:@"Symbols"];
-			[browser loadColumnZero];
-			break;
-	}
-	[minText setStringValue:@"--"];
-	[maxText setStringValue:@"--"];
-	[defText setStringValue:@"--"]; 
+        [niftyMatrix display];
+
+        [mainInspector setGeneralView:niftyMatrixBox];
+        [phonePopUpList setTitle:@"Categories"];
+    } else if ([str hasPrefix:@"P"]) {
+        currentBrowser = 1;
+        currentMainList = NXGetNamedObject(@"mainParameterList", NSApp);
+        [browser setTitle:@"Parameter" ofColumn:0];
+        [mainInspector setGeneralView:browserBox];
+        [phonePopUpList setTitle:@"Parameter Targets"];
+        [browser loadColumnZero];
+    } else if ([str hasPrefix:@"M"]) {
+        currentBrowser = 2;
+        currentMainList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
+        [browser setTitle:@"Meta Parameter" ofColumn:0];
+        [mainInspector setGeneralView:browserBox];
+        [phonePopUpList setTitle:@"Meta Parameter Targets"];
+        [browser loadColumnZero];
+    } else if ([str hasPrefix:@"S"]) {
+        currentBrowser = 3;
+        currentMainList = NXGetNamedObject(@"mainSymbolList", NSApp);
+        [browser setTitle:@"Symbol" ofColumn:0];
+        [mainInspector setGeneralView:browserBox];
+        [phonePopUpList setTitle:@"Symbols"];
+        [browser loadColumnZero];
+    }
+
+    [minText setStringValue:@"--"];
+    [maxText setStringValue:@"--"];
+    [defText setStringValue:@"--"];
 }
 
-- (void)beginEditting
+- (void)beginEditting;
 {
-const char *temp;
+    NSString *str;
 
-	temp = [[[phonePopUpList selectedCell] title] cString];
-	switch(temp[0])
-	{
-		case 'C':
-			if(temp[1] == 'o')
-			{
-				[commentText selectAll:self];
-			}
-			else
-			{
-			
-			}
-			break;
-		case 'P':
-			break;
-		case 'M':
-			break;
-		case 'S':
-			break;
-	} 
+    str = [[phonePopUpList selectedCell] title];
+    if ([str hasPrefix:@"Co"]) {
+        [commentText selectAll:self];
+    } else if ([str hasPrefix:@"C"]) {
+    } else if ([str hasPrefix:@"P"]) {
+    } else if ([str hasPrefix:@"M"]) {
+    } else if ([str hasPrefix:@"S"]) {
+    }
 }
 
-
-- (void)browserHit:sender
+- (void)browserHit:(id)sender;
 {
-id tempParameter;
-id tempList;
+    id tempParameter;
+    id tempList;
+    double value;
 
-	tempParameter = [currentMainList objectAtIndex:[[browser matrixInColumn:0] selectedRow]];
-	switch(currentBrowser)
-	{
-		case 1: [currentPhone parameterList]; tempList = currentPhone;
-			[[valueField cellAtIndex:0] setDoubleValue:[[tempList objectAtIndex:[[browser matrixInColumn:0] selectedRow]] value]];
-			[valueField selectTextAtIndex:0];
-			break;
-		case 2: [currentPhone metaParameterList]; tempList = currentPhone;
-			[[valueField cellAtIndex:0] setDoubleValue:[[tempList objectAtIndex:[[browser matrixInColumn:0] selectedRow]] value]];
-			[valueField selectTextAtIndex:0];
-			break;
-		case 3: [currentPhone symbolList]; tempList = currentPhone;
-			[[valueField cellAtIndex:0] setDoubleValue:[[tempList objectAtIndex:[[browser matrixInColumn:0] selectedRow]] value]];
-			[valueField selectTextAtIndex:0];
-			break;
-		default:
-			return;
-	}
+    tempParameter = [currentMainList objectAtIndex:[[browser matrixInColumn:0] selectedRow]];
+    switch (currentBrowser) {
+      case 1:
+          [currentPhone parameterList];
+          tempList = currentPhone;
+          value = [(Target *)[tempList objectAtIndex:[[browser matrixInColumn:0] selectedRow]] value];
+          [[valueField cellAtIndex:0] setDoubleValue:value];
+          [valueField selectTextAtIndex:0];
+          break;
+      case 2:
+          [currentPhone metaParameterList];
+          tempList = currentPhone;
+          value = [(Target *)[tempList objectAtIndex:[[browser matrixInColumn:0] selectedRow]] value];
+          [[valueField cellAtIndex:0] setDoubleValue:value];
+          [valueField selectTextAtIndex:0];
+          break;
+      case 3:
+          [currentPhone symbolList];
+          tempList = currentPhone;
+          value = [(Target *)[tempList objectAtIndex:[[browser matrixInColumn:0] selectedRow]] value];
+          [[valueField cellAtIndex:0] setDoubleValue:value];
+          [valueField selectTextAtIndex:0];
+          break;
+      default:
+          return;
+    }
 
-	if ((currentBrowser == 1) || (currentBrowser == 2) || (currentBrowser == 3))
-	{
-		[minText setDoubleValue: (double)[tempParameter minimumValue]];
-		[maxText setDoubleValue: (double)[tempParameter maximumValue]];
-		[defText setDoubleValue:[tempParameter defaultValue]];
-	} 
+    if ((currentBrowser == 1) || (currentBrowser == 2) || (currentBrowser == 3)) {
+        [minText setDoubleValue: (double)[tempParameter minimumValue]];
+        [maxText setDoubleValue: (double)[tempParameter maximumValue]];
+        [defText setDoubleValue:[tempParameter defaultValue]];
+    }
 }
 
-- (void)browserDoubleHit:sender
+- (void)browserDoubleHit:(id)sender;
 {
-id tempParameter;
-double tempDefault;
+    id tempParameter;
+    double tempDefault;
 
-	tempParameter = [currentMainList objectAtIndex:[[browser matrixInColumn:0] selectedRow]];
-	switch(currentBrowser)
-	{
-		case 1:
-			tempDefault = [tempParameter defaultValue];
-			tempParameter = [[currentPhone parameterList] objectAtIndex:[[browser matrixInColumn:0] selectedRow]];
-			[tempParameter setValue:tempDefault];
-			[tempParameter setDefault:YES];
-			[browser loadColumnZero];
-			break;
-		case 2:
-			tempDefault = [tempParameter defaultValue];
-			tempParameter = [[currentPhone metaParameterList] objectAtIndex:[[browser matrixInColumn:0] selectedRow]];
-			[tempParameter setValue:tempDefault];
-			[tempParameter setDefault:YES];
-			[browser loadColumnZero];
-		case 3:
-			tempDefault = [tempParameter defaultValue];
-			tempParameter = [[currentPhone symbolList] objectAtIndex:[[browser matrixInColumn:0] selectedRow]];
-			[tempParameter setValue:tempDefault];
-			[tempParameter setDefault:YES];
-			[browser loadColumnZero];
-		default:
-			break;
-	} 
+    tempParameter = [currentMainList objectAtIndex:[[browser matrixInColumn:0] selectedRow]];
+    switch (currentBrowser) {
+      case 1:
+          tempDefault = [tempParameter defaultValue];
+          tempParameter = [[currentPhone parameterList] objectAtIndex:[[browser matrixInColumn:0] selectedRow]];
+          [tempParameter setValue:tempDefault];
+          [tempParameter setIsDefault:YES];
+          [browser loadColumnZero];
+          break;
+      case 2:
+          tempDefault = [tempParameter defaultValue];
+          tempParameter = [[currentPhone metaParameterList] objectAtIndex:[[browser matrixInColumn:0] selectedRow]];
+          [tempParameter setValue:tempDefault];
+          [tempParameter setIsDefault:YES];
+          [browser loadColumnZero];
+      case 3:
+          tempDefault = [tempParameter defaultValue];
+          tempParameter = [[currentPhone symbolList] objectAtIndex:[[browser matrixInColumn:0] selectedRow]];
+          [tempParameter setValue:tempDefault];
+          [tempParameter setIsDefault:YES];
+          [browser loadColumnZero];
+      default:
+          break;
+    }
 }
 
-- (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column
+- (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;
 {
-	switch(currentBrowser)
-	{
-		case 1: 
-			return [[currentPhone parameterList] count];
-		case 2:
-			return [[currentPhone metaParameterList] count];
-		case 3:
-			return [[currentPhone symbolList] count];
-		default:
-			return 0;
-	}
+    switch (currentBrowser) {
+      case 1:
+          return [[currentPhone parameterList] count];
+      case 2:
+          return [[currentPhone metaParameterList] count];
+      case 3:
+          return [[currentPhone symbolList] count];
+      default:
+          return 0;
+    }
 }
 
-- (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column
+- (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
 {
-id list;
-char string[256], string2[32];
-int i;
-	switch(currentBrowser)
-	{
-		case 1: list = [currentPhone parameterList]; 
-			break;
-		case 2:	list = [currentPhone metaParameterList];
-			break;
-		case 3: list = [currentPhone symbolList];
-			break;
-		default:
-			return;
-	}
+    id list;
+    NSString *str;
 
-	bzero(string, 256);
-	bzero(string2, 32);
+    switch (currentBrowser) {
+      case 1:
+          list = [currentPhone parameterList];
+          break;
+      case 2:
+          list = [currentPhone metaParameterList];
+          break;
+      case 3:
+          list = [currentPhone symbolList];
+          break;
+      default:
+          return;
+    }
 
-	sprintf(string2, "%10.2f", [[list objectAtIndex:row] value]);
-	strcpy(string, [[currentMainList objectAtIndex:row] symbol]);
-	for(i = strlen(string); i<20; i++)
-		string[i] = ' ';
+    str = [NSString stringWithFormat:@"%20@ %10.2f", [[currentMainList objectAtIndex:row] symbol], [[list objectAtIndex:row] value]];
 
-	strcat(string, string2);
-
-        [cell setStringValue:[NSString stringWithCString:string]];
-	if ([[list objectAtIndex:row] isDefault])
-		[cell setFont:courierBold];
-	else
-		[cell setFont:courier];
-        [cell setLeaf:YES];
+    [cell setStringValue:str];
+    if ([[list objectAtIndex:row] isDefault])
+        [cell setFont:courierBold];
+    else
+        [cell setFont:courier];
+    [cell setLeaf:YES];
 }
 
-- (void)setComment:sender
+- (void)setComment:(id)sender;
 {
-	[currentPhone setComment: [[commentText string] cString]];
+    [currentPhone setComment:[commentText string]];
 }
 
-- (void)revertComment:sender
+- (void)revertComment:(id)sender;
 {
-	[commentText setString:[NSString stringWithCString:[currentPhone comment]]]; 
+    [commentText setString:[currentPhone comment]];
 }
 
-- (void)setValueNextText:sender
+- (void)setValueNextText:(id)sender;
 {
-int row;
-id temp, tempList;
+    int row;
+    id temp, tempList;
 
-	row = [[browser matrixInColumn:0] selectedRow];
-	switch(currentBrowser)
-	{
-		case 1: tempList = [currentPhone parameterList];
-			temp = [tempList objectAtIndex:row];
-			[temp setValue:[[valueField cellAtIndex:0] doubleValue]];
-			if ([[valueField cellAtIndex:0] doubleValue] == [[currentMainList objectAtIndex:row] defaultValue])
-				[temp setDefault:YES];
-			else
-				[temp setDefault:NO];
-			break;
+    row = [[browser matrixInColumn:0] selectedRow];
+    switch (currentBrowser) {
+      case 1:
+          tempList = [currentPhone parameterList];
+          temp = [tempList objectAtIndex:row];
+          [temp setValue:[[valueField cellAtIndex:0] doubleValue]];
+          if ([[valueField cellAtIndex:0] doubleValue] == [[currentMainList objectAtIndex:row] defaultValue])
+              [temp setIsDefault:YES];
+          else
+              [temp setIsDefault:NO];
+          break;
 
-		case 2: tempList = [currentPhone metaParameterList];
-			temp = [tempList objectAtIndex:row];
-			[temp setValue:[[valueField cellAtIndex:0] doubleValue]];
-			if ([[valueField cellAtIndex:0] doubleValue] == [[currentMainList objectAtIndex:row] defaultValue])
-				[temp setDefault:YES];
-			else
-				[temp setDefault:NO];
-			break;
+      case 2:
+          tempList = [currentPhone metaParameterList];
+          temp = [tempList objectAtIndex:row];
+          [temp setValue:[[valueField cellAtIndex:0] doubleValue]];
+          if ([[valueField cellAtIndex:0] doubleValue] == [[currentMainList objectAtIndex:row] defaultValue])
+              [temp setIsDefault:YES];
+          else
+              [temp setIsDefault:NO];
+          break;
 
-		case 3: tempList = [currentPhone symbolList];
-			temp = [tempList objectAtIndex:row];
-			[temp setValue:[[valueField cellAtIndex:0] doubleValue]];
-			if ([[valueField cellAtIndex:0] doubleValue] == [[currentMainList objectAtIndex:row] defaultValue])
-				[temp setDefault:YES];
-			else
-				[temp setDefault:NO];
-			break;
+      case 3:
+          tempList = [currentPhone symbolList];
+          temp = [tempList objectAtIndex:row];
+          [temp setValue:[[valueField cellAtIndex:0] doubleValue]];
+          if ([[valueField cellAtIndex:0] doubleValue] == [[currentMainList objectAtIndex:row] defaultValue])
+              [temp setIsDefault:YES];
+          else
+              [temp setIsDefault:NO];
+          break;
 
-		default:
-			break;
-	}
+      default:
+          break;
+    }
 
-	[browser loadColumnZero];
-	row++;
-	if (row>=[[[browser matrixInColumn:0] cells] count]) row = 0;
-	[[browser matrixInColumn:0] selectCellAtRow:row column:0];
+    [browser loadColumnZero];
+    row++;
+    if (row >= [[[browser matrixInColumn:0] cells] count])
+        row = 0;
+    [[browser matrixInColumn:0] selectCellAtRow:row column:0];
 
-	[self browserHit:browser]; 
+    [self browserHit:browser];
 }
 
 

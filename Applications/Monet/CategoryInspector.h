@@ -1,6 +1,8 @@
+#import <Foundation/NSObject.h>
+#import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-#import <AppKit/AppKit.h>
-#import "CategoryList.h"
+@class NSButton;
+@class CategoryNode;
 
 /*===========================================================================
 
@@ -21,29 +23,26 @@ History:
 
 ===========================================================================*/
 
-
-@interface CategoryInspector:NSObject
+@interface CategoryInspector : NSObject
 {
-	id	mainInspector;
-	id	categoryPopUpListView;
-	id	categoryPopUpList;
-	id	commentView;
-	id	commentText;
+    id mainInspector;
+    id categoryPopUpListView;
+    id categoryPopUpList;
+    id commentView;
+    id commentText;
 
-	id	setButton;
-	id	revertButton;
+    IBOutlet NSButton *setButton;
+    IBOutlet NSButton *revertButton;
 
-
-	CategoryNode	*currentCategory;
-
+    CategoryNode *currentCategory;
 }
 
-- init;
-- (void)inspectCategory:phone;
-- (void)setUpWindow:sender;
+- (id)init;
+- (void)inspectCategory:category;
+- (void)setUpWindow:(id)sender;
 - (void)beginEditting;
 
-- (void)setComment:sender;
-- (void)revertComment:sender;
+- (void)setComment:(id)sender;
+- (void)revertComment:(id)sender;
 
 @end

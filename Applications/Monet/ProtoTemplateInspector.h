@@ -1,7 +1,7 @@
+#import <Foundation/NSObject.h>
+#import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-#import <AppKit/AppKit.h>
-#import "ProtoTemplate.h"
-#import "FormulaParser.h"
+@class MonetList, ProtoTemplate;
 
 /*===========================================================================
 

@@ -1,6 +1,7 @@
+#import <Foundation/NSObject.h>
+#import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-#import <AppKit/AppKit.h>
-#import "PhoneList.h"
+@class Phone;
 
 /*===========================================================================
 
@@ -24,51 +25,52 @@ History:
 
 @interface PhoneInspector:NSObject
 {
-	id	mainInspector;
-	id	phonePopUpListView;
-	id	phonePopUpList;
+    id mainInspector;
+    id phonePopUpListView;
+    id phonePopUpList;
 
-	id	niftyMatrixScrollView;
-	id	niftyMatrix;
-	id	niftyMatrixBox;
+    id niftyMatrixScrollView;
+    id niftyMatrix;
+    id niftyMatrixBox;
 
-	id	browserBox;
-	id	browser;
-	id	minText;
-	id	maxText;
-	id	defText;
-	id	valueField;
-	id	setBrowserButton;
-	id	defBrowserButton;
-	id	revertBrowserButton;
+    id browserBox;
+    id browser;
+    id minText;
+    id maxText;
+    id defText;
+    id valueField;
+    id setBrowserButton;
+    id defBrowserButton;
+    id revertBrowserButton;
 
-	id      commentView;
-	id      commentText;
-	id	setCommentButton;
-	id	revertCommentButton;
-	
-	Phone	*currentPhone;
-	NSFont	*courier, *courierBold;
+    id commentView;
+    id commentText;
+    id setCommentButton;
+    id revertCommentButton;
 
-	int	currentBrowser;
-	id	currentMainList;
+    Phone *currentPhone;
+    NSFont *courier;
+    NSFont *courierBold;
+
+    int currentBrowser;
+    id currentMainList;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
-- init;
-- (void)itemsChanged:sender;
+- (id)init;
+- (void)itemsChanged:(id)sender;
 - (void)inspectPhone:phone;
-- (void)setUpWindow:sender;
+- (void)setUpWindow:(id)sender;
 - (void)beginEditting;
 
-- (void)browserHit:sender;
-- (void)browserDoubleHit:sender;
+- (void)browserHit:(id)sender;
+- (void)browserDoubleHit:(id)sender;
 - (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
 
-- (void)setComment:sender;
-- (void)revertComment:sender;
+- (void)setComment:(id)sender;
+- (void)revertComment:(id)sender;
 
-- (void)setValueNextText:sender;
+- (void)setValueNextText:(id)sender;
 
 @end

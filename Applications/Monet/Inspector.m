@@ -1,147 +1,151 @@
-
 #import "Inspector.h"
+
+#import <AppKit/AppKit.h>
+#import "CategoryInspector.h"
+#import "IntonationPointInspector.h"
+#import "ParameterInspector.h"
 #import "PhoneInspector.h"
+#import "PointInspector.h"
+#import "ProtoEquationInspector.h"
 #import "ProtoTemplateInspector.h"
+#import "RuleInspector.h"
+#import "SymbolInspector.h"
 
 @implementation Inspector
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
     [panel setFloatingPanel:YES];
-	[phoneInspector applicationDidFinishLaunching:notification];
-	[ruleInspector applicationDidFinishLaunching:notification];
-	[pointInspector applicationDidFinishLaunching:notification];
-	[protoEquationInspector applicationDidFinishLaunching:notification];
+    [phoneInspector applicationDidFinishLaunching:notification];
+    [ruleInspector applicationDidFinishLaunching:notification];
+    [pointInspector applicationDidFinishLaunching:notification];
+    [protoEquationInspector applicationDidFinishLaunching:notification];
 }
 
-- window
+- (NSWindow *)window;
 {
-	return mainInspectorWindow;
+    return mainInspectorWindow;
 }
 
-- (void)cleanInspectorWindow
+- (void)cleanInspectorWindow;
 {
-	[generalView removeFromSuperview];
-	[[mainInspectorWindow contentView] addSubview:noInspectorView];
-	generalView = noInspectorView;
+    [generalView removeFromSuperview];
+    [[mainInspectorWindow contentView] addSubview:noInspectorView];
+    generalView = noInspectorView;
 
-	[popUpListView removeFromSuperview];
-	[[mainInspectorWindow contentView] addSubview:noPopUpListView];
-	popUpListView = noPopUpListView;
+    [popUpListView removeFromSuperview];
+    [[mainInspectorWindow contentView] addSubview:noPopUpListView];
+    popUpListView = noPopUpListView;
 
-	[mainInspectorWindow setTitle:@"Inspector"];
+    [mainInspectorWindow setTitle:@"Inspector"];
 
-	[[mainInspectorWindow contentView] display];
-	[mainInspectorWindow flushWindow]; 
+    [[mainInspectorWindow contentView] display];
+    [mainInspectorWindow flushWindow];
 }
 
-- (void)setGeneralView:aView
+- (void)setGeneralView:aView;
 {
-	if (generalView != aView)
-	{
-		[generalView removeFromSuperview];
-		[[mainInspectorWindow contentView] addSubview:aView];
-		generalView = aView;
-		[[mainInspectorWindow contentView] display];
-		[mainInspectorWindow flushWindow];
-	} 
+    if (generalView != aView) {
+        [generalView removeFromSuperview];
+        [[mainInspectorWindow contentView] addSubview:aView];
+        generalView = aView;
+        [[mainInspectorWindow contentView] display];
+        [mainInspectorWindow flushWindow];
+    }
 }
 
-- (void)setPopUpListView:aView
+- (void)setPopUpListView:aView;
 {
-	if (popUpListView!=aView)
-	{
-		[popUpListView removeFromSuperview];
-		[[mainInspectorWindow contentView] addSubview:aView];
-		popUpListView = aView;
-		[[mainInspectorWindow contentView] display];
-		[mainInspectorWindow flushWindow];
-	} 
+    if (popUpListView != aView) {
+        [popUpListView removeFromSuperview];
+        [[mainInspectorWindow contentView] addSubview:aView];
+        popUpListView = aView;
+        [[mainInspectorWindow contentView] display];
+        [mainInspectorWindow flushWindow];
+    }
 }
 
-- (void)inspectPhone:phone
+- (void)inspectPhone:phone;
 {
-	[panel setTitle:@"Phone Inspector"];
-	currentInspectorObject = phone;
-	currentInspector = phoneInspector;
-	[phoneInspector inspectPhone:phone]; 
+    [panel setTitle:@"Phone Inspector"];
+    currentInspectorObject = phone;
+    currentInspector = phoneInspector;
+    [phoneInspector inspectPhone:phone];
 }
 
-- (void)inspectCategory:category
+- (void)inspectCategory:category;
 {
-	[panel setTitle:@"Category Inspector"];
-	currentInspectorObject = category;
-	currentInspector = categoryInspector;
-	[categoryInspector inspectCategory:category]; 
+    [panel setTitle:@"Category Inspector"];
+    currentInspectorObject = category;
+    currentInspector = categoryInspector;
+    [categoryInspector inspectCategory:category];
 }
 
-- (void)inspectSymbol:symbol
+- (void)inspectSymbol:symbol;
 {
-	[panel setTitle:@"Symbol Inspector"];
-	currentInspectorObject = symbol;
-	currentInspector = symbolInspector;
-	[symbolInspector inspectSymbol:symbol]; 
+    [panel setTitle:@"Symbol Inspector"];
+    currentInspectorObject = symbol;
+    currentInspector = symbolInspector;
+    [symbolInspector inspectSymbol:symbol];
 }
 
-- (void)inspectParameter:parameter
+- (void)inspectParameter:parameter;
 {
-	[panel setTitle:@"Parameter Inspector"];
-	currentInspectorObject = parameter;
-	currentInspector = parameterInspector;
-	[parameterInspector inspectParameter:parameter]; 
+    [panel setTitle:@"Parameter Inspector"];
+    currentInspectorObject = parameter;
+    currentInspector = parameterInspector;
+    [parameterInspector inspectParameter:parameter];
 }
 
-- (void)inspectMetaParameter:metaParameter
+- (void)inspectMetaParameter:metaParameter;
 {
-	[panel setTitle:@"MetaParameter Inspector"];
-	currentInspectorObject = metaParameter;
-	currentInspector = parameterInspector;
-	[parameterInspector inspectParameter:metaParameter]; 
+    [panel setTitle:@"MetaParameter Inspector"];
+    currentInspectorObject = metaParameter;
+    currentInspector = parameterInspector;
+    [parameterInspector inspectParameter:metaParameter];
 }
 
-- (void)beginEdittingCurrentInspector
+- (void)beginEdittingCurrentInspector;
 {
-	[mainInspectorWindow makeKeyAndOrderFront:self];
-	[currentInspector beginEditting]; 
+    [mainInspectorWindow makeKeyAndOrderFront:self];
+    [currentInspector beginEditting];
 }
 
-- (void)inspectProtoEquation:equation
+- (void)inspectProtoEquation:equation;
 {
-	[panel setTitle:@"Prototype Equation Inspector"];
-	currentInspectorObject = equation;
-	currentInspector = protoEquationInspector;
-	[protoEquationInspector inspectProtoEquation:equation]; 
+    [panel setTitle:@"Prototype Equation Inspector"];
+    currentInspectorObject = equation;
+    currentInspector = protoEquationInspector;
+    [protoEquationInspector inspectProtoEquation:equation];
 }
 
-- (void)inspectProtoTransition:transition
+- (void)inspectProtoTransition:transition;
 {
-	[panel setTitle:@"Prototype Transition Inspector"];
-	currentInspectorObject = transition;
-	currentInspector = protoTransitionInspector;
-	[protoTransitionInspector inspectProtoTemplate:transition]; 
+    [panel setTitle:@"Prototype Transition Inspector"];
+    currentInspectorObject = transition;
+    currentInspector = protoTransitionInspector;
+    [protoTransitionInspector inspectProtoTemplate:transition];
 }
 
-- (void)inspectRule:rule
+- (void)inspectRule:rule;
 {
-	[panel setTitle:@"Rule Inspector"];
-	currentInspectorObject = rule;
-	currentInspector = ruleInspector;
-	[ruleInspector inspectRule:rule]; 
+    [panel setTitle:@"Rule Inspector"];
+    currentInspectorObject = rule;
+    currentInspector = ruleInspector;
+    [ruleInspector inspectRule:rule];
 }
 
-- (void)inspectPoint:point
+- (void)inspectPoint:point;
 {
-	[panel setTitle:@"Point Inspector"];
-	currentInspectorObject = point;
-	currentInspector = pointInspector;
-	[pointInspector inspectPoint:point]; 
+    [panel setTitle:@"Point Inspector"];
+    currentInspectorObject = point;
+    currentInspector = pointInspector;
+    [pointInspector inspectPoint:point];
 }
 
-- (void)inspectIntonationPoint:point
+- (void)inspectIntonationPoint:point;
 {
-
-	[intonationPointInspector inspectIntonationPoint:point]; 
+    [intonationPointInspector inspectIntonationPoint:point];
 }
-
 
 @end

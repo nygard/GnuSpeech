@@ -1,11 +1,7 @@
 #import <Foundation/NSObject.h>
+#import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-#ifdef PORTING
-#import "PhoneList.h"
-#import "CategoryList.h"
-#import "SymbolList.h"
-#import "ParameterList.h"
-#endif
+@class CategoryInspector, IntonationPointInspector, ParameterInspector, PhoneInspector, PointInspector, ProtoEquationInspector, RuleInspector, SymbolInspector;
 
 /*===========================================================================
 
@@ -26,34 +22,32 @@ History:
 
 ===========================================================================*/
 
-
-@interface Inspector:NSObject
+@interface Inspector : NSObject
 {
-	id	panel;
-	id	generalView;			/* General Box on Inspector Panel for Coordinates */
-	id	popUpListView;			/* View for PopUpList */
-	id	noInspectorView;		/* "No Inspector" Sign */
-	id	noPopUpListView;		/* "No Inspector" Sign */
-	id	mainInspectorWindow;		/* Pointer to window */
+    id	panel;
+    id	generalView;			/* General Box on Inspector Panel for Coordinates */
+    id	popUpListView;			/* View for PopUpList */
+    id	noInspectorView;		/* "No Inspector" Sign */
+    id	noPopUpListView;		/* "No Inspector" Sign */
+    id	mainInspectorWindow;		/* Pointer to window */
 
-	id	currentInspectorObject;		/* Object with is currently the focus of the inspector */
-	id	currentInspector;
+    id	currentInspectorObject;		/* Object with is currently the focus of the inspector */
+    id	currentInspector;
 
-	id	phoneInspector;
-	id	categoryInspector;
-	id	parameterInspector;
-	id	metaParameterInspector;
-	id	symbolInspector;
-	id	protoEquationInspector;
-	id	protoTransitionInspector;
-	id	ruleInspector;
-	id	pointInspector;
-	id	intonationPointInspector;
-
+    PhoneInspector *phoneInspector;
+    CategoryInspector *categoryInspector;
+    ParameterInspector *parameterInspector;
+    ParameterInspector *metaParameterInspector;
+    SymbolInspector *symbolInspector;
+    ProtoEquationInspector *protoEquationInspector;
+    id protoTransitionInspector;
+    RuleInspector *ruleInspector;
+    PointInspector *pointInspector;
+    IntonationPointInspector *intonationPointInspector;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
-- window;
+- (NSWindow *)window;
 
 - (void)cleanInspectorWindow;
 - (void)setGeneralView:aView;
@@ -65,6 +59,8 @@ History:
 - (void)inspectParameter:parameter;
 - (void)inspectMetaParameter:metaParameter;
 
+- (void)beginEdittingCurrentInspector;
+
 - (void)inspectProtoEquation:equation;
 - (void)inspectProtoTransition:transition;
 - (void)inspectRule:rule;
@@ -72,6 +68,5 @@ History:
 - (void)inspectPoint:point;
 - (void)inspectIntonationPoint:point;
 
-- (void)beginEdittingCurrentInspector;
 
 @end

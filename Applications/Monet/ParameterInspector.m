@@ -1,108 +1,90 @@
-
 #import "ParameterInspector.h"
+
+#import <AppKit/AppKit.h>
 #import "Inspector.h"
 #import "MyController.h"
-#import <AppKit/NSText.h>
-#import <string.h>
+#import "Parameter.h"
+#import "PhoneList.h"
 
 @implementation ParameterInspector
 
-- init
+- (void)inspectParameter:parameter;
 {
-	return self;
+    currentParameter = parameter;
+    [mainInspector setPopUpListView:parameterPopUpListView];
+    [self setUpWindow:parameterPopUpList];
 }
 
-- (void)inspectParameter:parameter
+- (void)setUpWindow:(id)sender;
 {
-	currentParameter= parameter;
-	[mainInspector setPopUpListView:parameterPopUpListView];
-	[self setUpWindow:parameterPopUpList]; 
+    NSString *str;
+
+    str = [[sender selectedCell] title];
+    if ([str hasPrefix:@"C"]) {
+        /* Comment Window */
+        [mainInspector setGeneralView:commentView];
+
+        [setCommentButton setTarget:self];
+        [setCommentButton setAction:@selector(setComment:)];
+
+        [revertCommentButton setTarget:self];
+        [revertCommentButton setAction:@selector(revertComment:)];
+
+        [commentText setString:[currentParameter comment]];
+    } else if ([str hasPrefix:@"D"]) {
+        [mainInspector setGeneralView:valueBox];
+
+        [setValueButton setTarget:self];
+        [setValueButton setAction:@selector(setValue:)];
+
+        [revertValueButton setTarget:self];
+        [revertValueButton setAction:@selector(revertValue:)];
+
+        [[valueFields cellAtIndex:0] setDoubleValue:[currentParameter minimumValue]];
+        [[valueFields cellAtIndex:1] setDoubleValue:[currentParameter maximumValue]];
+        [[valueFields cellAtIndex:2] setDoubleValue:[currentParameter defaultValue]];
+    }
 }
 
-- (void)setUpWindow:sender
+- (void)beginEditting;
 {
-const char *temp;
+    NSString *str;
 
-	temp = [[[sender selectedCell] title] cString];
-	switch(temp[0])
-	{
-		/* Comment Window */
-		case 'C':
-			[mainInspector setGeneralView:commentView];
-
-			[setCommentButton setTarget:self];
-			[setCommentButton setAction:(SEL)(@selector(setComment:))];
-
-			[revertCommentButton setTarget:self];
-			[revertCommentButton setAction:(SEL)(@selector(revertComment:))];
-
-			[commentText setString:[NSString stringWithCString:[currentParameter comment]]];
-
-			break;
-		case 'D':
-			[mainInspector setGeneralView:valueBox];
-
-			[setValueButton setTarget:self];
-			[setValueButton setAction:(SEL)(@selector(setValue:))];
-
-			[revertValueButton setTarget:self];
-			[revertValueButton setAction:(SEL)(@selector(revertValue:))];
-
-			[[valueFields cellAtIndex:0] setDoubleValue:[currentParameter minimumValue]];
-			[[valueFields cellAtIndex:1] setDoubleValue:[currentParameter maximumValue]];
-			[[valueFields cellAtIndex:2] setDoubleValue:[currentParameter defaultValue]];
-
-			break;
-	} 
+    str = [[parameterPopUpList selectedCell] title];
+    if ([str hasPrefix:@"C"]) {
+        /* Comment Window */
+        [commentText selectAll:self];
+    } else if ([str hasPrefix:@"D"]) {
+        [valueFields selectTextAtIndex:0];
+    }
 }
 
-- (void)beginEditting
+- (void)setComment:(id)sender;
 {
-const char *temp;
-
-	temp = [[[parameterPopUpList selectedCell] title] cString];
-	switch(temp[0])
-	{
-		/* Comment Window */
-		case 'C':
-			[commentText selectAll:self];
-			break;
-
-		case 'D':
-			[valueFields selectTextAtIndex:0];
-
-			break;
-	} 
+    [currentParameter setComment:[commentText string]];
 }
 
-- (void)setComment:sender
+- (void)revertComment:(id)sender;
 {
-	[currentParameter setComment: [[commentText string] cString]];
+    [commentText setString:[currentParameter comment]];
 }
 
-- (void)revertComment:sender
+- (void)setValue:(id)sender;
 {
-	[commentText setString:[NSString stringWithCString:[currentParameter comment]]]; 
+    if ([currentParameter defaultValue] != [[valueFields cellAtIndex:2] doubleValue]) {
+        [currentParameter setDefaultValue:[[valueFields cellAtIndex:2] doubleValue]];
+        [NXGetNamedObject(@"mainPhoneList", NSApp) parameterDefaultChange:currentParameter to:[[valueFields cellAtIndex:2] doubleValue]];
+    }
+
+    [currentParameter setMinimumValue:[[valueFields cellAtIndex:0] doubleValue]];
+    [currentParameter setMaximumValue:[[valueFields cellAtIndex:1] doubleValue]];
 }
 
-- (void)setValue:sender
+- (void)revertValue:(id)sender;
 {
-
-	if ([currentParameter defaultValue] !=  [[valueFields cellAtIndex:2] doubleValue])
-	{
-		[currentParameter setDefaultValue:[[valueFields cellAtIndex:2] doubleValue]];
-		[NXGetNamedObject(@"mainPhoneList", NSApp) parameterDefaultChange:currentParameter to:[[valueFields cellAtIndex:2] doubleValue]];
-	}
-
-	[currentParameter setMinimumValue:[[valueFields cellAtIndex:0] doubleValue]];
-	[currentParameter setMaximumValue:[[valueFields cellAtIndex:1] doubleValue]]; 
-}
-
-- (void)revertValue:sender
-{
-	[[valueFields cellAtIndex:0] setDoubleValue:[currentParameter minimumValue]];
-	[[valueFields cellAtIndex:1] setDoubleValue:[currentParameter maximumValue]];
-	[[valueFields cellAtIndex:2] setDoubleValue:[currentParameter defaultValue]]; 
+    [[valueFields cellAtIndex:0] setDoubleValue:[currentParameter minimumValue]];
+    [[valueFields cellAtIndex:1] setDoubleValue:[currentParameter maximumValue]];
+    [[valueFields cellAtIndex:2] setDoubleValue:[currentParameter defaultValue]];
 }
 
 @end

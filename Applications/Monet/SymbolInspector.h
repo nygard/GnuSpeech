@@ -1,6 +1,7 @@
+#import <Foundation/NSObject.h>
+#import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-#import <AppKit/AppKit.h>
-#import "SymbolList.h"
+@class Symbol;
 
 /*===========================================================================
 

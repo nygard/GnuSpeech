@@ -1,6 +1,7 @@
+#import <Foundation/NSObject.h>
+#import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-#import <AppKit/AppKit.h>
-#import "ParameterList.h"
+@class Parameter;
 
 /*===========================================================================
 
@@ -22,35 +23,33 @@ History:
 ===========================================================================*/
 
 
-@interface ParameterInspector:NSObject
+@interface ParameterInspector : NSObject
 {
-	id	mainInspector;
-	id	parameterPopUpListView;
-	id	parameterPopUpList;
+    id mainInspector;
+    id parameterPopUpListView;
+    id parameterPopUpList;
 
-	id	commentView;
-	id	commentText;
-	id	setCommentButton;
-	id	revertCommentButton;
+    id commentView;
+    id commentText;
+    id setCommentButton;
+    id revertCommentButton;
 
-	id	valueBox;
-	id	valueFields;
-	id	setValueButton;
-	id	revertValueButton;
+    id valueBox;
+    id valueFields;
+    id setValueButton;
+    id revertValueButton;
 
-	Parameter	*currentParameter;
-
+    Parameter *currentParameter;
 }
 
-- init;
-- (void)inspectParameter:phone;
-- (void)setUpWindow:sender;
+- (void)inspectParameter:parameter;
+- (void)setUpWindow:(id)sender;
 - (void)beginEditting;
 
-- (void)setComment:sender;
-- (void)revertComment:sender;
+- (void)setComment:(id)sender;
+- (void)revertComment:(id)sender;
 
-- (void)setValue:sender;
-- (void)revertValue:sender;
+- (void)setValue:(id)sender;
+- (void)revertValue:(id)sender;
 
 @end

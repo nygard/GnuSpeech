@@ -1,68 +1,64 @@
-
 #import "CategoryInspector.h"
+
+#import <AppKit/AppKit.h>
+#import "CategoryNode.h"
 #import "Inspector.h"
-#import <AppKit/NSText.h>
-#import <string.h>
 
 @implementation CategoryInspector
 
-- init
+- (id)init;
 {
-	return self;
+    if ([super init] == nil)
+        return nil;
+
+    return self;
 }
 
-- (void)inspectCategory:category
+- (void)inspectCategory:category;
 {
-	currentCategory = category;
-	[mainInspector setPopUpListView:categoryPopUpListView];
-	[self setUpWindow:categoryPopUpList]; 
+    currentCategory = category;
+    [mainInspector setPopUpListView:categoryPopUpListView];
+    [self setUpWindow:categoryPopUpList];
 }
 
-- (void)setUpWindow:sender
+- (void)setUpWindow:(id)sender;
 {
-const char *temp;
+    NSString *str;
 
-	temp = [[[sender selectedCell] title] cString];
-	switch(temp[0])
-	{
-		/* Comment Window */
-		case 'C':
-			[mainInspector setGeneralView:commentView];
+    str = [[sender selectedCell] title];
+    if ([str hasPrefix:@"C"]) {
+        /* Comment Window */
+        [mainInspector setGeneralView:commentView];
 
-			[setButton setTarget:self];
-			[setButton setAction:(SEL)(@selector(setComment:))];
+        [setButton setTarget:self];
+        [setButton setAction:@selector(setComment:)];
 
-			[revertButton setTarget:self];
-			[revertButton setAction:(SEL)(@selector(revertComment:))];
+        [revertButton setTarget:self];
+        [revertButton setAction:@selector(revertComment:)];
 
-			[commentText setString:[NSString stringWithCString:[currentCategory comment]]];
-
-			break;
-	} 
+        [commentText setString:[currentCategory comment]];
+    }
 }
 
-- (void)beginEditting
+- (void)beginEditting;
 {
-const char *temp;
+    NSString *str;
 
-	temp = [[[categoryPopUpList selectedCell] title] cString];
-	switch(temp[0])
-	{
-		/* Comment Window */
-		case 'C':
-			[commentText selectAll:self];
-			break;
-	} 
+    str = [[categoryPopUpList selectedCell] title];
+    if ([str hasPrefix:@"C"]) {
+        /* Comment Window */
+        [commentText selectAll:self];
+    }
 }
 
-- (void)setComment:sender
+- (void)setComment:(id)sender;
 {
-	[currentCategory setComment:[[commentText string] cString] ];
+    [currentCategory setComment:[commentText string]];
 }
 
-- (void)revertComment:sender
+- (void)revertComment:(id)sender;
 {
-	[commentText setString:[NSString stringWithCString:[currentCategory comment]]]; 
+    [commentText setString:[currentCategory comment]];
 }
 
 

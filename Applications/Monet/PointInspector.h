@@ -1,6 +1,5 @@
-
-#import <AppKit/AppKit.h>
-#import "Point.h"
+#import <Foundation/NSObject.h>
+#import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 /*===========================================================================
 
