@@ -440,6 +440,7 @@
     Event  *lastEvent;
     Phone *currentPhone = nil;
     struct _rule *rule;
+    NSBezierPath *bezierPath;
 
     lastEvent = [eventList lastEvent];
     drawFrame = [[self superview] frame];
@@ -451,20 +452,20 @@
     /* Make an outlined white box for display */
     [[NSColor whiteColor] set];
     NSRectFill([self bounds]);
-    PSstroke();
 
     [[NSColor blackColor] set];
-    PSsetlinewidth(2.0);
-    PSmoveto(0.0, 5.0);
-    PSlineto(0.0, [self frame].size.height-65.0);
-    PSlineto([self frame].size.width, [self frame].size.height-65.0);
-    PSlineto([self frame].size.width, 5.0);
-    PSlineto(0.0, 5.0);
-    PSstroke();
+    bezierPath = [[NSBezierPath alloc] init];
+    [bezierPath setLineWidth:2];
+    [bezierPath moveToPoint:NSMakePoint(0.0, 5.0)];
+    [bezierPath lineToPoint:NSMakePoint(0.0, [self frame].size.height-65.0)];
+    [bezierPath lineToPoint:NSMakePoint([self frame].size.width, [self frame].size.height-65.0)];
+    [bezierPath lineToPoint:NSMakePoint([self frame].size.width, 5.0)];
+    [bezierPath lineToPoint:NSMakePoint(0.0, 5.0)];
+    [bezierPath stroke];
+    [bezierPath release];
 
     /* Put phone label on the top */
     [timesFont set];
-    PSsetlinewidth(1.0);
     for (i = 0; i < [eventList count]; i++) {
         currentX = ((float)[[eventList objectAtIndex:i] time] / timeScale);
         if (currentX > [self frame].size.width-20.0)
@@ -476,13 +477,16 @@
             if (currentPhone)
                 [[currentPhone symbol] drawAtPoint:NSMakePoint(currentX-5.0, [self frame].size.height-62.0) withAttributes:nil];
         }
+#ifdef PORTING
         if (!mouseBeingDragged)
             PSstroke();
+#endif
     }
-    PSstroke();
 
     /* Put Rules on top */
     [timesFontSmall set];
+    bezierPath = [[NSBezierPath alloc] init];
+    [bezierPath setLineWidth:1];
     currentX = 0;
     for (i = 0; i < [eventList numberOfRules]; i++) {
         NSString *str;
@@ -500,13 +504,14 @@
         str = [NSString stringWithFormat:@"%.2f", rule->duration];
         [str drawAtPoint:NSMakePoint(currentX+(float)rule->duration/(3*timeScale), [self frame].size.height-35.0) withAttributes:nil];
 
-        [[NSColor darkGrayColor] set];
-        PSmoveto((float)rule->beat/timeScale, [self frame].size.height-62.0);
-        PSlineto((float)rule->beat/timeScale, 5.0);
-        PSstroke();
+        [bezierPath moveToPoint:NSMakePoint((float)rule->beat/timeScale, [self frame].size.height-62.0)];
+        [bezierPath lineToPoint:NSMakePoint((float)rule->beat/timeScale, 5.0)];
 
         currentX += (float)rule->duration / timeScale;
     }
+    [[NSColor darkGrayColor] set];
+    [bezierPath stroke];
+    [bezierPath release];
 
     /* Draw in best fit grid markers */
     j = 0;
@@ -518,25 +523,30 @@
     }
 
     [[NSColor lightGrayColor] set];
+    bezierPath = [[NSBezierPath alloc] init];
+    [bezierPath setLineWidth:1];
     for (i = 0; i< (int)(30.0/increment[j]); i++) {
-        PSmoveto(0.0, ((float)i*increment[j]*([self frame].size.height-70.0))/30.0 + 5.0);
-        PSlineto([self frame].size.width-2.0, ((float)i*increment[j]*([self frame].size.height-70.0))/30.0 + 5.0);
+        [bezierPath moveToPoint:NSMakePoint(0.0, ((float)i*increment[j]*([self frame].size.height-70.0))/30.0 + 5.0)];
+        [bezierPath lineToPoint:NSMakePoint([self frame].size.width-2.0, ((float)i*increment[j]*([self frame].size.height-70.0))/30.0 + 5.0)];
     }
-
-    PSstroke();
+    [bezierPath stroke];
+    [bezierPath release];
 
     [[NSColor blackColor] set];
-    PSmoveto(0.0, 5.0);
+    bezierPath = [[NSBezierPath alloc] init];
+    [bezierPath setLineWidth:1];
+    [bezierPath moveToPoint:NSMakePoint(0.0, 5.0)];
     for (i = 0; i < [intonationPoints count]; i++) {
         currentX = (float) [[intonationPoints objectAtIndex:i] absoluteTime]/timeScale;
         currentY = (float) (([[intonationPoints objectAtIndex:i] semitone] + 20.0) * ([self frame].size.height-70.0))/30.0 + 5.0;
-        PSlineto(currentX, currentY);
+        [bezierPath lineToPoint:NSMakePoint(currentX, currentY)];
 
         myPoint.x = currentX-3.0;
         myPoint.y = currentY-3.0;
         [dotMarker compositeToPoint:myPoint fromRect:rect operation:NSCompositeSourceOver];
     }
-    PSstroke();
+    [bezierPath stroke];
+    [bezierPath release];
 
     for (i = 0; i < [selectedPoints count]; i++) {
         currentX = (float) [[selectedPoints objectAtIndex:i] absoluteTime]/timeScale;
@@ -551,7 +561,6 @@
         myPoint.x = currentX - 5.0;
         myPoint.y = currentY - 5.0;
         [selectionBox compositeToPoint:myPoint fromRect:rect operation:NSCompositeSourceOver];
-
     }
 
     if ((!mouseBeingDragged) && ([smoothing state]))
@@ -762,6 +771,7 @@
     double x, y, xx,yy;
     int i, j;
     id point1, point2;
+    NSBezierPath *bezierPath;
 
     if ([intonationPoints count] < 2)
         return;
@@ -799,10 +809,13 @@
         NSLog(@"x2 = %f y2 = %f m2 = %f", x2, y2, m2);
         NSLog(@"a = %f b = %f c = %f d = %f", a, b, c, d);
 
-        [[NSColor blackColor] set];
         xx = (float)x1 / timeScale;
         yy = ((float)y1 * ([self frame].size.height-70.0))/30.0 +5.0;
-        PSmoveto(xx,yy);
+
+        [[NSColor blackColor] set];
+
+        bezierPath = [[NSBezierPath alloc] init];
+        [bezierPath moveToPoint:NSMakePoint(xx,yy)];
         for (i = (int) x1; i <= (int)x2; i++) {
             x = (double) i;
             y = x*x*x*a + x*x*b + x*c + d;
@@ -810,9 +823,10 @@
             xx = (float)i/timeScale;
             yy = (float) ((float)y * ([self frame].size.height-70.0))/30.0 + 5.0;
             //NSLog(@"x = %f y = %f  yy = %f", (float)i, y, yy);
-            PSlineto(xx,yy);
+            [bezierPath lineToPoint:NSMakePoint(xx,yy)];
         }
-        PSstroke();
+        [bezierPath stroke];
+        [bezierPath release];
     }
 }
 
