@@ -37,7 +37,6 @@
     timesFontSmall = [[NSFont fontWithName:@"Times-Roman" size:10] retain];
 
     startingIndex = 0;
-    timeScale = 1.0;
     timeScale = 2.0;
     mouseBeingDragged = 0;
 
@@ -83,15 +82,7 @@
 
     NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
 
-    //trackRect.origin.x = 80.0;
-    //trackRect.origin.y = 50.0;
-    //trackRect.size.width = frame.size.width - 102.0;
-    //trackRect.size.height = frame.size.height - 102.0;
-
     trackTag = [self addTrackingRect:[self bounds] owner:self userData:NULL assumeInside:NO];
-    //NSLog(@"trackTag: %d", trackTag);
-
-    //[[self window] setAcceptsMouseMovedEvents:YES];
 
     /* set the niftyMatrixScrollView's attributes */
     [niftyMatrixScrollView setBorderType:NSBezelBorder];
@@ -105,8 +96,6 @@
     /* determine the matrix bounds */
     matrixRect.origin = NSZeroPoint;
     matrixRect.size = [NSScrollView contentSizeForFrameSize:scrollRect.size hasHorizontalScroller:NO hasVerticalScroller:NO borderType:NSBezelBorder];
-
-    //NSLog(@"matrixRect: %@", NSStringFromRect(matrixRect));
 
     /* prepare a matrix to go inside our niftyMatrixScrollView */
     niftyMatrix = [[NiftyMatrix allocWithZone:[self zone]] initWithFrame:matrixRect mode:NSRadioModeMatrix cellClass:[NiftyMatrixCell class] numberOfRows:0 numberOfColumns:1];
@@ -138,7 +127,6 @@
     /* set the matrix's single-click actions */
     [niftyMatrix setTarget:self];
     [niftyMatrix setAction:@selector(itemsChanged:)];
-    //[niftyMatrix allowEmptySel:YES];
 
     /* Generalize this LATER */
     [niftyMatrix insertCellWithStringValue:@"glotPitch" withTag:0];
@@ -270,6 +258,7 @@
         NSRectFill(NSMakeRect(80.0 + 1, bounds.size.height - (50.0 + (float)(i + 1) * TRACKHEIGHT), bounds.size.width - 100.0 - 2, BORDERHEIGHT));
     }
 
+    // Draw parameter names
     [[NSColor blackColor] set];
     [timesFont set];
     for (i = 0; i < j; i++) {
@@ -285,7 +274,6 @@
         }
 
         aParameter = [parameterList objectAtIndex:parameterIndex];
-        NSLog(@"%d, orderTag: %d, aParameter: %p", i, [[displayList objectAtIndex:i] orderTag], aParameter);
         if (isSpecial == YES)
             str = [NSString stringWithFormat:@"%@\n(special)", [aParameter symbol]];
         else
@@ -293,6 +281,7 @@
         [str drawAtPoint:NSMakePoint(15.0, bounds.size.height - ((float)(i + 1) * TRACKHEIGHT) + 15.0) withAttributes:nil];
     }
 
+    // Draw min/max parameter values
     [timesFontSmall set];
     for (i = 0; i < j; i++) {
         int parameterIndex;
@@ -315,7 +304,7 @@
         [str drawAtPoint:NSMakePoint(55.0, bounds.size.height - (50.0 + (float)(i) * TRACKHEIGHT + 3.0)) withAttributes:nil];
     }
 
-    // Draw phones/postures along top, and
+    // Draw phones/postures along top
     [timesFont set];
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:1];
@@ -348,9 +337,9 @@
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:2];
     [[NSColor blackColor] set];
-    for (i = 0; i < [displayList count]; i++) {
+    for (i = 0; i < [displayList count] && i < 4; i++) {
         parameterIndex = [[displayList objectAtIndex:i] orderTag];
-        if (parameterIndex == 32) {
+        if (parameterIndex == 32) { // Intonation
             currentMin = -20;
             currentMax = 10;
         } else if (parameterIndex > 15) {
@@ -381,8 +370,6 @@
                     [bezierPath lineToPoint:NSMakePoint(currentX, currentY)];
             }
         }
-        if (i >= 4)
-            break;
     }
     [bezierPath stroke];
     [bezierPath release];
