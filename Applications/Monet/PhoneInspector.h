@@ -1,7 +1,7 @@
 #import <Foundation/NSObject.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-@class MonetList, Phone;
+@class MonetList, MMPosture;
 @class Inspector, NiftyMatrix;
 
 /*===========================================================================
@@ -49,7 +49,7 @@ History:
     IBOutlet NSButtonCell *setCommentButton;
     IBOutlet NSButtonCell *revertCommentButton;
 
-    Phone *currentPhone;
+    MMPosture *currentPhone;
     NSFont *courierFont;
     NSFont *courierBoldFont;
 
@@ -61,8 +61,8 @@ History:
 - (id)init;
 - (void)dealloc;
 
-- (void)setCurrentPhone:(Phone *)aPhone;
-- (void)inspectPhone:(Phone *)aPhone;
+- (void)setCurrentPhone:(MMPosture *)aPhone;
+- (void)inspectPhone:(MMPosture *)aPhone;
 - (void)setUpWindow:(NSPopUpButton *)sender;
 - (void)beginEditting;
 

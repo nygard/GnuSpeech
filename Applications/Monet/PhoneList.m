@@ -9,7 +9,7 @@
 #import "GSXMLFunctions.h"
 #import "MMParameter.h"
 #import "ParameterList.h"
-#import "Phone.h"
+#import "MMPosture.h"
 #import "MMSymbol.h"
 #import "SymbolList.h"
 #import "MMTarget.h"
@@ -23,10 +23,10 @@
 
 @implementation PhoneList
 
-- (Phone *)findPhone:(NSString *)phone;
+- (MMPosture *)findPhone:(NSString *)phone;
 {
     int count, index;
-    Phone *aPhone;
+    MMPosture *aPhone;
 
     count = [self count];
     for (index = 0; index < count; index++) {
@@ -40,7 +40,7 @@
 
 - (void)addPhone:(NSString *)phone;
 {
-    Phone *aPhone;
+    MMPosture *aPhone;
     int index;
     SymbolList *symbols;
     ParameterList *mainParameterList, *mainMetaParameterList;
@@ -54,7 +54,7 @@
     mainParameterList = NXGetNamedObject(@"mainParameterList", NSApp);
     mainMetaParameterList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
 
-    aPhone = [[Phone alloc] initWithSymbol:phone parameters:mainParameterList metaParameters:mainMetaParameterList symbols:symbols];
+    aPhone = [[MMPosture alloc] initWithSymbol:phone parameters:mainParameterList metaParameters:mainMetaParameterList symbols:symbols];
     [[aPhone categoryList] addNativeCategory:phone];
 
     [self insertObject:aPhone atIndex:index];
@@ -62,7 +62,7 @@
 }
 
 // TODO (2004-03-01): Rename above "addPhoneWithName:", and this to "addPhone"
-- (void)addPhoneObject:(Phone *)phone;
+- (void)addPhoneObject:(MMPosture *)phone;
 {
     int index;
 
@@ -74,7 +74,7 @@
 
 // TODO (2004-03-01): Rename index to indexPtr
 
-- (Phone *)binarySearchPhone:(NSString *)searchPhone index:(int *)index;
+- (MMPosture *)binarySearchPhone:(NSString *)searchPhone index:(int *)index;
 {
     int low, high, mid;
     NSComparisonResult test;
@@ -89,7 +89,7 @@
 
 
 #warning: TODO (2004-03-01): Check to see if strcmp() returns the same type of values (positive, negative) as NSComparisonResult.
-    test = [searchPhone compare:[(Phone *)[self objectAtIndex:low] symbol]];
+    test = [searchPhone compare:[(MMPosture *)[self objectAtIndex:low] symbol]];
 
     if (test == 0)		  /* First word in List */
         return [self objectAtIndex:low];
@@ -104,7 +104,7 @@
 
     *index = [self count];
 
-    test = [searchPhone compare:[(Phone *)[self objectAtIndex:high] symbol]];
+    test = [searchPhone compare:[(MMPosture *)[self objectAtIndex:high] symbol]];
     if (test == 0)		  /* Last word in List */
     {
         *index = high;
@@ -124,7 +124,7 @@
 
         mid = (low + high) / 2;
 
-        test = [searchPhone compare:[(Phone *)[self objectAtIndex:mid] symbol]];
+        test = [searchPhone compare:[(MMPosture *)[self objectAtIndex:mid] symbol]];
         if (test == 0)
         {
             *index = mid;
@@ -176,7 +176,7 @@
     int tempDefault;
     float tempValue;
 
-    Phone *tempPhone;
+    MMPosture *tempPhone;
     MMCategory *tempCategory;
     CategoryList *categories;
     SymbolList *symbols;
@@ -207,7 +207,7 @@
         fread(tempSymbol, SYMBOL_LENGTH_MAX + 1, 1, fp);
         str = [NSString stringWithASCIICString:tempSymbol];
 
-        tempPhone = [[Phone alloc] initWithSymbol:str parameters:mainParameterList metaParameters:mainMetaParameterList symbols:symbols];
+        tempPhone = [[MMPosture alloc] initWithSymbol:str parameters:mainParameterList metaParameters:mainMetaParameterList symbols:symbols];
         [self addPhoneObject:tempPhone];
 
         /* READ SYMBOL AND DURATIONS FROM FILE  */
@@ -260,7 +260,7 @@
 
     fprintf(fp, "Phones\n");
     for (i = 0; i < [self count]; i++) {
-        Phone *aPhone;
+        MMPosture *aPhone;
         CategoryList *aCategoryList;
         TargetList *aParameterList, *aSymbolList;
 
@@ -463,13 +463,13 @@
     for (index = 0; index < count; index++) {
         NSString *aFilename, *filename;
         NSString *str;
-        Phone *aPhone;
+        MMPosture *aPhone;
 
         aFilename = [fnames objectAtIndex:index];
         filename = [[[NSOpenPanel openPanel] directory] stringByAppendingPathComponent:aFilename];
         str = [aFilename stringByDeletingPathExtension];
 
-        aPhone = [[[Phone alloc] initWithSymbol:str parameters:mainParameterList metaParameters:mainMetaParameterList symbols:mainSymbolList] autorelease];
+        aPhone = [[[MMPosture alloc] initWithSymbol:str parameters:mainParameterList metaParameters:mainMetaParameterList symbols:mainSymbolList] autorelease];
         aPhone = [self makePhoneUniqueName:aPhone];
         [self addPhoneObject:aPhone];
         [[aPhone categoryList] addNativeCategory:str];
@@ -537,7 +537,7 @@
 }
 
 // TODO (2004-03-01): Make return value void, since it just returns it's parameter.
-- (Phone *)makePhoneUniqueName:(Phone *)aPhone;
+- (MMPosture *)makePhoneUniqueName:(MMPosture *)aPhone;
 {
     int dummy;
     char add1, add2;
@@ -579,7 +579,7 @@
     [resultString appendString:@"<postures>\n"];
 
     for (index = 0; index < count; index++) {
-        Phone *aPhone;
+        MMPosture *aPhone;
 
         aPhone = [self objectAtIndex:index];
         [aPhone appendXMLToString:resultString level:level+1];

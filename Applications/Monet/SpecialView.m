@@ -8,7 +8,7 @@
 #import "Inspector.h"
 #import "MonetList.h"
 #import "NamedList.h"
-#import "Phone.h"
+#import "MMPosture.h"
 #import "MMPoint.h"
 #import "PointInspector.h"
 #import "MMEquation.h"
@@ -103,7 +103,7 @@ static NSImage *_selectionBox = nil;
 {
     SymbolList *symbols;
     ParameterList *mainParameterList, *mainMetaParameterList;
-    Phone *aPhone;
+    MMPosture *aPhone;
 
     NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
 
@@ -116,7 +116,7 @@ static NSImage *_selectionBox = nil;
     mainParameterList = NXGetNamedObject(@"mainParameterList", NSApp);
     mainMetaParameterList = NXGetNamedObject(@"mainMetaParameterList", NSApp);
 
-    aPhone = [[Phone alloc] initWithSymbol:@"dummy" parameters:mainParameterList metaParameters:mainMetaParameterList symbols:symbols];
+    aPhone = [[MMPosture alloc] initWithSymbol:@"dummy" parameters:mainParameterList metaParameters:mainMetaParameterList symbols:symbols];
     [(MMTarget *)[[aPhone symbolList] objectAtIndex:0] setValue:100.0]; // Rule Duration
     [(MMTarget *)[[aPhone symbolList] objectAtIndex:1] setValue:33.3333]; // Beat Location
     [(MMTarget *)[[aPhone symbolList] objectAtIndex:2] setValue:33.3333]; // Mark 1

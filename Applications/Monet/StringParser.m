@@ -8,7 +8,7 @@
 #import "EventList.h"
 #import "EventListView.h"
 #import "IntonationView.h"
-#import "Phone.h"
+#import "MMPosture.h"
 #import "PhoneList.h"
 #include "driftGenerator.h"
 
@@ -369,7 +369,7 @@ int parse_string(EventList *eventList, NSString *str);
 
 int parse_string(EventList *eventList, NSString *str)
 {
-    Phone *aPhone;
+    MMPosture *aPhone;
     int dummy;
     //int chunk = 0;
     int lastFoot = 0, markedFoot = 0;

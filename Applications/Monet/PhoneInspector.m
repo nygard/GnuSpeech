@@ -9,7 +9,7 @@
 #import "NiftyMatrixCat.h"
 #import "NiftyMatrixCell.h"
 #import "MMParameter.h"
-#import "Phone.h"
+#import "MMPosture.h"
 #import "MMTarget.h" // Or Point.h
 #import "TargetList.h"
 
@@ -110,7 +110,7 @@
     [super dealloc];
 }
 
-- (void)setCurrentPhone:(Phone *)aPhone;
+- (void)setCurrentPhone:(MMPosture *)aPhone;
 {
     if (aPhone == currentPhone)
         return;
@@ -119,7 +119,7 @@
     currentPhone = [aPhone retain];
 }
 
-- (void)inspectPhone:(Phone *)aPhone;
+- (void)inspectPhone:(MMPosture *)aPhone;
 {
     [self setCurrentPhone:aPhone];
     [mainInspector setPopUpListView:phonePopUpListView];

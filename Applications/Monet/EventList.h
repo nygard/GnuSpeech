@@ -1,6 +1,6 @@
 #import "MonetList.h"
 
-@class Event, Phone;
+@class Event, MMPosture;
 
 /*===========================================================================
 
@@ -24,7 +24,7 @@
 #define SEMICOLON	4
 
 struct _phone {
-    Phone *phone;
+    MMPosture *phone;
     int syllable;
     double onset;
     float ruleTempo;

@@ -8,7 +8,7 @@
 #import "IntonationPoint.h"
 #import "IntonationScrollView.h"
 #import "IntonationView.h"
-#import "Phone.h"
+#import "MMPosture.h"
 
 #define MIDDLEC	261.6255653
 

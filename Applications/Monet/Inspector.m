@@ -87,7 +87,7 @@
     }
 }
 
-- (void)inspectPhone:(Phone *)phone;
+- (void)inspectPhone:(MMPosture *)phone;
 {
     [panel setTitle:@"Phone Inspector"];
     currentInspectorObject = phone;

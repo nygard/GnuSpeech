@@ -10,7 +10,7 @@
 #import "IntonationPoint.h"
 #import "IntonationPointInspector.h"
 #import "MonetList.h"
-#import "Phone.h"
+#import "MMPosture.h"
 #import "StringParser.h"
 
 #define TOP_MARGIN 65
@@ -224,7 +224,7 @@
 - (void)drawPhoneLabels;
 {
     int count, index;
-    Phone *currentPhone = nil;
+    MMPosture *currentPhone = nil;
     NSRect bounds;
     float currentX;
     int phoneIndex = 0;

@@ -1,7 +1,7 @@
 #import "MonetList.h"
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-@class MMParameter, Phone;
+@class MMParameter, MMPosture;
 
 /*===========================================================================
 
@@ -16,7 +16,7 @@
 		and accessing a list of phones.
 
 	Import Files:
-		"Phone.h":  The objects within this list will all be instances
+		"MMPosture.h":  The objects within this list will all be instances
 			of the "Phone" class.
 
 
@@ -26,10 +26,10 @@
 {
 }
 
-- (Phone *)findPhone:(NSString *)phone;
+- (MMPosture *)findPhone:(NSString *)phone;
 - (void)addPhone:(NSString *)phone;
-- (void)addPhoneObject:(Phone *)phone;
-- (Phone *)binarySearchPhone:(NSString *)searchPhone index:(int *)index;
+- (void)addPhoneObject:(MMPosture *)phone;
+- (MMPosture *)binarySearchPhone:(NSString *)searchPhone index:(int *)index;
 
 /* BrowserManager List delegate Methods */
 - (void)addNewValue:(NSString *)newValue;
@@ -53,7 +53,7 @@
 - (void)removeSymbol:(int)index;
 
 - (IBAction)importTRMData:(id)sender;
-- (Phone *)makePhoneUniqueName:(Phone *)aPhone;
+- (MMPosture *)makePhoneUniqueName:(MMPosture *)aPhone;
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 

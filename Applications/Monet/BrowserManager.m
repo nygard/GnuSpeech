@@ -9,7 +9,7 @@
 #import "MonetList.h"
 #import "MMParameter.h"
 #import "ParameterList.h"
-#import "Phone.h"
+#import "MMPosture.h"
 #import "PhoneList.h"
 #import "RuleManager.h"
 #import "MMSymbol.h"
@@ -396,7 +396,7 @@ static NSString *symbolString = @"Symbol";
               return;
           }
 
-          tempEntry = [[Phone alloc] init];
+          tempEntry = [[MMPosture alloc] init];
           mdata = [myPasteboard dataForType:phoneString];
           typed = [[NSUnarchiver alloc] initForReadingWithData:mdata];
           [tempEntry initWithCoder:typed];

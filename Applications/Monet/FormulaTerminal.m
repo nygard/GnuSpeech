@@ -5,7 +5,7 @@
 #import "NSString-Extensions.h"
 
 #import "AppController.h"
-#import "Phone.h"
+#import "MMPosture.h"
 #import "PhoneList.h"
 #import "MMSymbol.h"
 #import "SymbolList.h"
@@ -141,7 +141,7 @@
     //NSLog(@"%s, whichPhone: %d, symbol: %@, index: %d", _cmd, whichPhone, symbol, index);
 #if 0
     {
-        Phone *aPhone;
+        MMPosture *aPhone;
 
         aPhone = [phones objectAtIndex:whichPhone];
         NSLog(@"aPhone: %@", aPhone);

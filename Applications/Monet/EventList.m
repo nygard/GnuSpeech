@@ -8,7 +8,7 @@
 #import "IntonationView.h"
 #import "MMParameter.h"
 #import "ParameterList.h"
-#import "Phone.h"
+#import "MMPosture.h"
 #import "MMPoint.h"
 #import "MMEquation.h"
 #import "MMTransition.h"

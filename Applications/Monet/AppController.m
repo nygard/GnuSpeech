@@ -92,6 +92,7 @@
 
     [NSUnarchiver decodeClassName:@"CategoryNode" asClassName:@"MMCategory"];
     [NSUnarchiver decodeClassName:@"Parameter" asClassName:@"MMParameter"];
+    [NSUnarchiver decodeClassName:@"Phone" asClassName:@"MMPosture"];
     [NSUnarchiver decodeClassName:@"Point" asClassName:@"MMPoint"];
     [NSUnarchiver decodeClassName:@"ProtoEquation" asClassName:@"MMEquation"];
     [NSUnarchiver decodeClassName:@"ProtoTemplate" asClassName:@"MMTransition"];

@@ -1,4 +1,4 @@
-#import "Phone.h"
+#import "MMPosture.h"
 
 #import <Foundation/Foundation.h>
 #import "NSObject-Extensions.h"
@@ -18,7 +18,7 @@
 #import "MModel.h"
 #import "MUnarchiver.h"
 
-@implementation Phone
+@implementation MMPosture
 
 - (id)init;
 {

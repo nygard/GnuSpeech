@@ -8,7 +8,7 @@
 #import "BooleanTerminal.h"
 #import "MMCategory.h"
 #import "CategoryList.h"
-#import "Phone.h"
+#import "MMPosture.h"
 #import "PhoneList.h"
 
 @implementation BooleanParser
@@ -52,7 +52,7 @@
 - (MMCategory *)categorySymbol:(NSString *)symbol;
 {
     NSString *baseName;
-    Phone *tempPhone;
+    MMPosture *tempPhone;
     int dummy;
 
     if ([symbol hasSuffix:@"*"]) {

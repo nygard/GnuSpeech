@@ -10,7 +10,7 @@
 #import "NiftyMatrixCell.h"
 #import "MMParameter.h"
 #import "ParameterList.h"
-#import "Phone.h"
+#import "MMPosture.h"
 
 #ifdef PORTING
 #import "StringParser.h"
@@ -229,7 +229,7 @@
     float currentMin, currentMax;
     ParameterList *parameterList = NXGetNamedObject(@"mainParameterList", NSApp);
     Event *currentEvent;
-    Phone *currentPhone = nil;
+    MMPosture *currentPhone = nil;
     NSBezierPath *bezierPath;
     NSRect bounds;
 

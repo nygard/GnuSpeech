@@ -44,7 +44,7 @@
 
 ===========================================================================*/
 
-@interface Phone : NSObject
+@interface MMPosture : NSObject
 {
     NSString *phoneSymbol;
     NSString *comment;

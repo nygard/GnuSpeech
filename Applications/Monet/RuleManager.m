@@ -13,7 +13,7 @@
 #import "GSXMLFunctions.h"
 #import "Inspector.h"
 #import "MonetList.h"
-#import "Phone.h"
+#import "MMPosture.h"
 #import "PhoneList.h"
 #import "MMEquation.h"
 #import "Rule.h"
@@ -168,7 +168,7 @@
 
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
 {
-    Phone *aPhone;
+    MMPosture *aPhone;
     Rule *aRule;
 
     if (sender == matchBrowser1) {
@@ -254,7 +254,7 @@
     [matchedPhoneList removeAllObjects];
 
     for (i = 0; i < [mainPhoneList count]; i++) {
-        Phone *currentPhone;
+        MMPosture *currentPhone;
 
         currentPhone = [mainPhoneList objectAtIndex:i];
         if ([parsedExpression evaluate:[currentPhone categoryList]]) {
@@ -337,7 +337,7 @@
         [aMatchedPhoneList removeAllObjects];
 
         for (i = 0; i < [mainPhoneList count]; i++) {
-            Phone *aPhone;
+            MMPosture *aPhone;
 
             aPhone = [mainPhoneList objectAtIndex:i];
             //NSLog(@"i: %d, phone categoryList count: %d", i, [[aPhone categoryList] count]);
@@ -461,7 +461,7 @@
     int i, j, dummy, phones = 0;
     MonetList *tempList, *phoneList;
     PhoneList *mainPhoneList;
-    Phone *tempPhone;
+    MMPosture *tempPhone;
     Rule *aRule;
     double ruleSymbols[5] = {0.0, 0.0, 0.0, 0.0, 0.0};
 

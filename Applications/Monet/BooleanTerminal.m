@@ -7,7 +7,7 @@
 #import "AppController.h"
 #import "CategoryList.h"
 #import "MMCategory.h"
-#import "Phone.h"
+#import "MMPosture.h"
 #import "PhoneList.h"
 
 #import "MModel.h"
