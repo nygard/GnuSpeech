@@ -909,7 +909,6 @@ NSString *NSStringFromToneGroupType(int toneGroupType)
     NSLog(@"Warning: No DSP for -synthesizeToFile:");
 }
 
-// Warning (building for 10.2 deployment) (2004-04-02): ruleIndex might be used uninitialized in this function.
 // Use a 0.0 offset time for the first intonation point in each tone group, -40.0 for the rest.
 - (void)generateIntonationPoints;
 {
