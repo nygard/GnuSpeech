@@ -1,6 +1,8 @@
 #import "IntonationView.h"
 
 #import <AppKit/AppKit.h>
+#import "NSString-Extensions.h"
+
 #import "AppController.h"
 #import "Event.h"
 #import "EventList.h"
@@ -311,19 +313,24 @@
     int count, index;
     NSPoint currentPoint;
     NSRect bounds;
+    NSPoint graphOrigin;
 
     bounds = [self bounds];
+    graphOrigin = [self graphOrigin];
 
     [[NSColor blackColor] set];
+    [[NSColor redColor] set];
 
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:1];
-    [bezierPath moveToPoint:NSMakePoint(0.0, 5.0)];
+    [bezierPath moveToPoint:graphOrigin];
 
     count = [intonationPoints count];
     for (index = 0; index < count; index++) {
         currentPoint.x = (float)[[intonationPoints objectAtIndex:index] absoluteTime] / timeScale;
         currentPoint.y = (float)(([[intonationPoints objectAtIndex:index] semitone] + 20.0) * (bounds.size.height - TOP_MARGIN - BOTTOM_MARGIN)) / 30.0 + 5.0;
+
+        currentPoint.y = rint(currentPoint.y) + 0.5;
         [bezierPath lineToPoint:currentPoint];
 
         [self drawCircleMarkerAtPoint:currentPoint];
@@ -933,7 +940,7 @@
 
     //NSLog(@"->%s, point: %@", _cmd, NSStringFromPoint(aPoint));
     aPoint.x = rint(aPoint.x);
-    aPoint.y = rint(aPoint.y);
+    aPoint.y = rint(aPoint.y) + 0.5; // TODO (2004-03-15): This looks better for the circle in this view.  Check how it looks when selected.
     //NSLog(@"-->%s, point: %@", _cmd, NSStringFromPoint(aPoint));
 
     bezierPath = [[NSBezierPath alloc] init];
@@ -1028,6 +1035,30 @@
     graphOrigin.y = [self bounds].size.height - TOP_MARGIN - SECTION_COUNT * [self sectionHeight];
 
     return graphOrigin;
+}
+
+- (NSString *)contourString;
+{
+    NSMutableString *resultString;
+
+    resultString = [[[NSMutableString alloc] init] autorelease];
+    [self appendXMLForContourToString:resultString level:0];
+
+    return resultString;
+}
+
+- (void)appendXMLForContourToString:(NSMutableString *)resultString level:(int)level;
+{
+    [resultString indentToLevel:level];
+    [resultString appendString:@"<contour>\n"];
+
+    [resultString indentToLevel:level + 1];
+    [resultString appendFormat:@"<utterance>%@</utterance>\n", [utterance stringValue]];
+
+    [intonationPoints appendXMLToString:resultString elementName:@"intonation-points" level:level + 1];
+
+    [resultString indentToLevel:level];
+    [resultString appendString:@"</contour>\n"];
 }
 
 @end

@@ -1,6 +1,8 @@
 #import "IntonationPoint.h"
 
 #import <Foundation/Foundation.h>
+#import "NSString-Extensions.h"
+
 #import "AppController.h"
 #import "EventList.h"
 
@@ -115,6 +117,24 @@
 - (void)encodeWithCoder:(NSCoder *)aCoder;
 {
     [aCoder encodeValuesOfObjCTypes:"dddi", &semitone, &offsetTime, &slope, &ruleIndex];
+}
+
+- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+{
+    [resultString indentToLevel:level];
+    [resultString appendFormat:@"<intonation-point semitone=\"%g\" offset-time=\"%g\" slope=\"%g\" rule-index=\"%d\"",
+                  semitone, offsetTime, slope, ruleIndex];
+    if (eventList == nil || [eventList count] == 0) {
+        [resultString appendString:@"/>\n"];
+    } else {
+        [resultString appendString:@">\n"];
+
+        [resultString indentToLevel:level + 1];
+        [resultString appendFormat:@"<events ptr=\"%p\" count=\"%d\">etc.</events>\n", eventList, [eventList count]];
+
+        [resultString indentToLevel:level];
+        [resultString appendString:@"</intonation-point>\n"];
+    }
 }
 
 @end

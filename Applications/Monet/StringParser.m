@@ -360,6 +360,8 @@ int parse_string(EventList *eventList, NSString *str);
 
     [eventList applyIntonation];
     [intonationView display];
+
+    NSLog(@"contour:\n%@", [[intonationView documentView] contourString]);
 }
 
 @end

@@ -88,4 +88,7 @@
 - (int)sectionHeight;
 - (NSPoint)graphOrigin;
 
+- (NSString *)contourString;
+- (void)appendXMLForContourToString:(NSMutableString *)resultString level:(int)level;
+
 @end
