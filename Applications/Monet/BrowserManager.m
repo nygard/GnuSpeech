@@ -139,15 +139,19 @@
     Inspector *inspector;
     int index;
 
+    NSLog(@" > %s", _cmd);
+
     //[[browser window] makeFirstResponder:self];
     inspector = [controller inspector];
     index = [[sender matrixInColumn:0] selectedRow];
-    if (inspector) {
-        if (index == -1) {
-            [inspector cleanInspectorWindow];
-            return;
-        }
+    NSLog(@"index: %d", index);
+    if (index == -1) {
+        [inspector cleanInspectorWindow];
+        return;
+    }
 
+    if (inspector) {
+        NSLog(@"currentList: %d", currentList);
         switch (currentList) {
           case 0:
               [inspector inspectPhone:[list[currentList] objectAtIndex:index]];
@@ -166,6 +170,8 @@
               break;
         }
     }
+
+    NSLog(@"<  %s", _cmd);
 }
 
 - (void)browserDoubleHit:(id)sender;

@@ -1,7 +1,7 @@
 #import <Foundation/NSObject.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-@class Phone;
+@class MonetList, Phone;
 @class Inspector;
 
 /*===========================================================================
@@ -30,31 +30,31 @@ History:
     IBOutlet NSBox *phonePopUpListView;
     IBOutlet NSPopUpButton *phonePopUpList;
 
-    id niftyMatrixScrollView;
+    IBOutlet NSScrollView *niftyMatrixScrollView;
     id niftyMatrix;
-    id niftyMatrixBox;
+    IBOutlet NSBox *niftyMatrixBox;
 
-    id browserBox;
-    id browser;
-    id minText;
-    id maxText;
-    id defText;
-    id valueField;
-    id setBrowserButton;
-    id defBrowserButton;
-    id revertBrowserButton;
+    IBOutlet NSBox *browserBox;
+    IBOutlet NSBrowser *browser;
+    IBOutlet NSTextField *minText;
+    IBOutlet NSTextField *maxText;
+    IBOutlet NSTextField *defText;
+    IBOutlet NSForm *valueField;
+    IBOutlet NSButtonCell *setBrowserButton;
+    IBOutlet NSButtonCell *defBrowserButton;
+    IBOutlet NSButtonCell *revertBrowserButton;
 
-    id commentView;
-    id commentText;
-    id setCommentButton;
-    id revertCommentButton;
+    IBOutlet NSBox *commentView;
+    IBOutlet NSTextView *commentText;
+    IBOutlet NSButtonCell *setCommentButton;
+    IBOutlet NSButtonCell *revertCommentButton;
 
     Phone *currentPhone;
-    NSFont *courier;
-    NSFont *courierBold;
+    NSFont *courierFont;
+    NSFont *courierBoldFont;
 
     int currentBrowser;
-    id currentMainList;
+    MonetList *currentMainList; // Either SymbolList or ParameterList
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;

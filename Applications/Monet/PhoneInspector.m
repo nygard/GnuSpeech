@@ -87,8 +87,8 @@
     currentPhone = nil;
     currentBrowser = 0;
 
-    courier = [NSFont fontWithName:@"Courier" size:12];
-    courierBold = [NSFont fontWithName:@"Courier-Bold" size:12];
+    courierFont = [[NSFont fontWithName:@"Courier" size:12] retain];
+    courierBoldFont = [[NSFont fontWithName:@"Courier-Bold" size:12] retain];
 
     return self;
 }
@@ -101,6 +101,9 @@
     [phonePopUpListView release];
 
     [currentPhone release];
+
+    [courierFont release];
+    [courierBoldFont release];
 
     [super dealloc];
 }
@@ -128,7 +131,11 @@
     CategoryList *tempList, *mainCategoryList;
     int i;
 
+    NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
+
     str = [[sender selectedCell] title];
+    NSLog(@"str: %@", str);
+
     if ([str hasPrefix:@"Co"]) {
         [phonePopUpList setTitle:@"Comment"];
         [mainInspector setGeneralView:commentView];
@@ -199,6 +206,8 @@
     [minText setStringValue:@"--"];
     [maxText setStringValue:@"--"];
     [defText setStringValue:@"--"];
+
+    NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }
 
 - (void)beginEditting;
@@ -323,9 +332,9 @@
 
     [cell setStringValue:str];
     if ([[list objectAtIndex:row] isDefault])
-        [cell setFont:courierBold];
+        [cell setFont:courierBoldFont];
     else
-        [cell setFont:courier];
+        [cell setFont:courierFont];
     [cell setLeaf:YES];
 }
 

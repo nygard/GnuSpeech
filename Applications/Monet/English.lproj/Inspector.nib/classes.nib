@@ -107,6 +107,41 @@
             ACTIONS = {
                 browserDoubleHit = id; 
                 browserHit = id; 
+                itemsChanged = id; 
+                revertComment = id; 
+                setComment = id; 
+                setUpWindow = id; 
+                setValueNextText = id; 
+            }; 
+            CLASS = PhoneInspector; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                browser = NSBrowser; 
+                browserBox = NSBox; 
+                commentText = NSTextView; 
+                commentView = NSBox; 
+                defBrowserButton = NSButtonCell; 
+                defText = NSTextField; 
+                mainInspector = Inspector; 
+                maxText = NSTextField; 
+                minText = NSTextField; 
+                niftyMatrix = id; 
+                niftyMatrixBox = NSBox; 
+                niftyMatrixScrollView = NSScrollView; 
+                phonePopUpList = NSPopUpButton; 
+                phonePopUpListView = NSBox; 
+                revertBrowserButton = NSButtonCell; 
+                revertCommentButton = NSButtonCell; 
+                setBrowserButton = NSButtonCell; 
+                setCommentButton = NSButtonCell; 
+                valueField = NSForm; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {
+                browserDoubleHit = id; 
+                browserHit = id; 
                 moveRule = id; 
                 revertComment = id; 
                 selectionBrowserDoubleHit = id; 
