@@ -8,7 +8,7 @@
 #import <AppKit/NSWindowController.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-@class MMBooleanNode, BooleanParser, MModel, MMRule, MonetList;
+@class MMBooleanNode, MMBooleanParser, MModel, MMRule, MonetList;
 
 @interface MRuleManager : NSWindowController
 {
@@ -45,7 +45,7 @@
     NSFont *regularControlFont;
     NSFont *boldControlFont;
 
-    BooleanParser *boolParser;
+    MMBooleanParser *boolParser;
 }
 
 - (id)initWithModel:(MModel *)aModel;

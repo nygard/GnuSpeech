@@ -6,9 +6,9 @@
 #import <AppKit/AppKit.h>
 #import "NSOutlineView-Extensions.h"
 
-#import "BooleanParser.h"
 #import "MCommentCell.h"
 #import "MMBooleanNode.h"
+#import "BooleanParser.h"
 #import "MMEquation.h"
 #import "MModel.h"
 #import "MMParameter.h"
@@ -42,7 +42,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
         [aPhoneList release];
     }
 
-    boolParser = [[BooleanParser alloc] init];
+    boolParser = [[MMBooleanParser alloc] init];
 
     [self setWindowFrameAutosaveName:@"New Rule Manager"];
 

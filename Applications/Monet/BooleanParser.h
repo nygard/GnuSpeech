@@ -35,7 +35,7 @@
 	"BooleanSymbols.h" for some TOKEN defines.
 */
 
-@interface BooleanParser : GSParser
+@interface MMBooleanParser : GSParser
 {
     CategoryList *categoryList;
     PhoneList *phoneList;

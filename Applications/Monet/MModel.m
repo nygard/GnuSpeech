@@ -97,10 +97,10 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 - (void)_addDefaultRule;
 {
     MMRule *newRule;
-    BooleanParser *boolParser;
+    MMBooleanParser *boolParser;
     MMBooleanNode *expr1, *expr2;
 
-    boolParser = [[BooleanParser alloc] init];
+    boolParser = [[MMBooleanParser alloc] init];
     [boolParser setCategoryList:[self categories]];
     [boolParser setPhoneList:[self postures]];
 
@@ -1207,11 +1207,11 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     int tempLength;
     char buffer[1024];
     char buffer1[1024];
-    BooleanParser *boolParser;
+    MMBooleanParser *boolParser;
     id temp, temp1;
     NSString *bufferStr, *buffer1Str;
 
-    boolParser = [[BooleanParser alloc] init];
+    boolParser = [[MMBooleanParser alloc] init];
     [boolParser setCategoryList:categories];
     [boolParser setPhoneList:postures];
 

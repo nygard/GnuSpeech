@@ -12,7 +12,7 @@
 #import "MMPosture.h"
 #import "PhoneList.h"
 
-@implementation BooleanParser
+@implementation MMBooleanParser
 
 - (void)dealloc;
 {
