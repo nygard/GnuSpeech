@@ -10,13 +10,10 @@
                 NXReadTypes(stream, "ii", &j, &k);
                 if (i==(-1))
     - I think it should be checking "j" for -1 value.
-- it looks like I'm getting different results when I load MonetBlank.monet twice in a row...
 - I can't load "Play2.monet".  It looks like there's a point encoded as "di" instead of "ddii".
 - Hmm.  Duration form in Rule Parser window, text shifts when selecting it (tabbing into the field.)
-- stars in rules after phones seems to match, i.e., ch and ch' for "ch*"
 - check that we aren't returning floats/doubles from calls to methods that might return nil;
 - we could filter the rules, showing which ones match a given symbol input.
-- we could add a column to the rule list to show the total combinations matched.
 
 
 
@@ -50,6 +47,9 @@ Done
 + it looks like one Point in "DefaultPrototypes" is bad, with list index of -1, secondary index of 0x5037312 (84112146).
   + actually it looks like three points.
   + look at similar code in Rule.m that checks for -1 value.
+x it looks like I'm getting different results when I load MonetBlank.monet twice in a row...
++ stars in rules after phones seems to match, i.e., ch and ch' for "ch*"
+x we could add a column to the rule list to show the total combinations matched.
 
 2004-11-14:
 - +SpecialView, +PointInspector, +RuleInspector, *IntonationView, +IntonationScrollView, *IntonationPointInspector, EventListView
