@@ -158,9 +158,6 @@
 
     //[model generateXML:@"DefaultPrototypes"];
 
-    [eventListView applicationDidFinishLaunching:aNotification];
-    [intonationView applicationDidFinishLaunching:aNotification];
-
     [synthesisWindow setFrameAutosaveName:@"SynthesisWindow"];
 
     NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);

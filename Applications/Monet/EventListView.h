@@ -39,7 +39,7 @@
 - (id)initWithFrame:(NSRect)frameRect;
 - (void)dealloc;
 
-- (void)applicationDidFinishLaunching:(NSNotification *)notification;
+- (void)awakeFromNib;
 
 - (NSArray *)displayParameters;
 - (void)setDisplayParameters:(NSArray *)newDisplayParameters;

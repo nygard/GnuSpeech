@@ -15,20 +15,10 @@
         }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
-            ACTIONS = {
-                loadContour = id; 
-                loadContourAndUtterance = id; 
-                print = id; 
-                saveIntonationContour = id; 
-            }; 
+            ACTIONS = {print = id; }; 
             CLASS = IntonationScrollView; 
             LANGUAGE = ObjC; 
-            OUTLETS = {
-                controller = AppController; 
-                scaleView = NSView; 
-                smoothing = NSButton; 
-                utterance = NSTextField; 
-            }; 
+            OUTLETS = {controller = AppController; scaleView = NSView; }; 
             SUPERCLASS = NSScrollView; 
         }, 
         {

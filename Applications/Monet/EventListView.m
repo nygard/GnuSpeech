@@ -74,13 +74,9 @@
     [super dealloc];
 }
 
-- (void)applicationDidFinishLaunching:(NSNotification *)notification;
+- (void)awakeFromNib;
 {
-    NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
-
     trackTag = [self addTrackingRect:[self bounds] owner:self userData:NULL assumeInside:NO];
-
-    NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }
 
 - (NSArray *)displayParameters;

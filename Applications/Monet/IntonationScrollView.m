@@ -32,7 +32,6 @@
     aView = [[IntonationView alloc] initWithFrame:frameRect];
     [self setDocumentView:aView];
     [aView release];
-    [[self documentView] setNewController:controller];
 
     [self setBackgroundColor:[NSColor whiteColor]];
 
@@ -40,18 +39,6 @@
 
     return self;
 }
-
-- (void)applicationDidFinishLaunching:(NSNotification *)notification;
-{
-    NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
-
-    [[self documentView] setNewController:controller];
-    //[[self documentView] setUtterance:utterance];
-    //[[self documentView] setSmoothing:smoothing];
-
-    NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
-}
-
 
 /*===========================================================================
 
@@ -108,21 +95,6 @@
 - (NSView *)scaleView;
 {
     return scaleView;
-}
-
-- (IBAction)saveIntonationContour:(id)sender;
-{
-    [[self documentView] saveIntonationContour:sender];
-}
-
-- (IBAction)loadContour:(id)sender;
-{
-    [[self documentView] loadContour:sender];
-}
-
-- (IBAction)loadContourAndUtterance:(id)sender;
-{
-    [[self documentView] loadContourAndUtterance:sender];
 }
 
 @end

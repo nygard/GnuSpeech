@@ -4,7 +4,6 @@
 #import "NSBezierPath-Extensions.h"
 #import "NSString-Extensions.h"
 
-#import "AppController.h"
 #import "Event.h"
 #import "EventList.h"
 #import "GSXMLFunctions.h"
@@ -20,6 +19,8 @@
 #define LEFT_MARGIN 1
 
 #define SECTION_COUNT 15
+
+NSString *IntonationViewSelectionDidChangeNotification = @"IntonationViewSelectionDidChangeNotification";
 
 @implementation IntonationView
 
@@ -81,20 +82,6 @@
     NSLog(@"<  %s", _cmd);
 }
 
-- (AppController *)controller;
-{
-    return controller;
-}
-
-- (void)setNewController:(AppController *)newController;
-{
-    if (newController == controller)
-        return;
-
-    [controller release];
-    controller = [newController retain];
-}
-
 - (BOOL)shouldDrawSmoothPoints;
 {
     return shouldDrawSmoothPoints;
@@ -105,6 +92,16 @@
     shouldDrawSmoothPoints = newFlag;
 
     [self setNeedsDisplay:YES];
+}
+
+- (id)delegate;
+{
+    return nonretained_delegate;
+}
+
+- (void)setDelegate:(id)newDelegate;
+{
+    nonretained_delegate = newDelegate;
 }
 
 - (void)drawRect:(NSRect)rect;
@@ -529,9 +526,9 @@
             column1 = [tempPoint absoluteTime] / timeScale;
 
             if ( ((row1-row)*(row1-row) + (column1-column)*(column1-column)) < 100.0) {
-                [[controller inspector] inspectIntonationPoint:tempPoint];
                 [selectedPoints removeAllObjects];
                 [selectedPoints addObject:tempPoint];
+                [self _selectionDidChange];
                 [self setNeedsDisplay:YES];
 
                 return;
@@ -606,6 +603,7 @@
             }
 
             [self unlockFocus];
+            [self _selectionDidChange];
             [self setNeedsDisplay:YES];
         }
     }
@@ -641,8 +639,7 @@
                 [iPoint release];
 
                 [self setNeedsDisplay:YES];
-                //[[[[superview superview] controller] inspector] inspectIntonationPoint:iPoint];
-                [[controller inspector] inspectIntonationPoint:iPoint];
+                // TODO (2004-03-31): Select new point.
                 return;
             }
         }
@@ -689,6 +686,7 @@
 {
     [selectedPoints removeAllObjects];
     [self setNeedsDisplay:YES];
+    [self _selectionDidChange];
 }
 
 - (void)deletePoints;
@@ -704,9 +702,30 @@
         }
 
         [selectedPoints removeAllObjects];
+        [self setNeedsDisplay:YES];
+        [self _selectionDidChange];
     } else {
         NSBeep();
     }
+}
+
+- (IntonationPoint *)selectedIntonationPoint;
+{
+    if ([selectedPoints count] == 0)
+        return nil;
+
+    return [selectedPoints objectAtIndex:0];
+}
+
+- (void)_selectionDidChange;
+{
+    NSNotification *aNotification;
+
+    aNotification = [NSNotification notificationWithName:IntonationViewSelectionDidChangeNotification object:self];
+    [[NSNotificationCenter defaultCenter] postNotification:aNotification];
+
+    if ([[self delegate] respondsToSelector:@selector(intonationViewSelectionDidChange:)] == YES)
+        [[self delegate] intonationViewSelectionDidChange:aNotification];
 }
 
 //

@@ -2,7 +2,6 @@
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 @class EventList, IntonationPoint;
-@class AppController;
 
 /*===========================================================================
 
@@ -13,10 +12,14 @@
 =============================================================================
 */
 
+@protocol IntonationViewNotification
+- (void)intonationViewSelectionDidChange:(NSNotification *)aNotification;
+@end
+
+extern NSString *IntonationViewSelectionDidChangeNotification;
+
 @interface IntonationView : NSView
 {
-    IBOutlet AppController *controller;
-
     NSFont *timesFont;
     NSFont *timesFontSmall;
 
@@ -28,6 +31,8 @@
     NSMutableArray *selectedPoints;
 
     BOOL shouldDrawSmoothPoints;
+
+    id nonretained_delegate;
 }
 
 - (id)initWithFrame:(NSRect)frameRect;
@@ -37,11 +42,11 @@
 
 - (void)setEventList:(EventList *)newEventList;
 
-- (AppController *)controller;
-- (void)setNewController:(AppController *)newController;
-
 - (BOOL)shouldDrawSmoothPoints;
 - (void)setShouldDrawSmoothPoints:(BOOL)newFlag;
+
+- (id)delegate;
+- (void)setDelegate:(id)newDelegate;
 
 - (void)drawRect:(NSRect)rect;
 
@@ -61,6 +66,9 @@
 
 - (void)deselectAllPoints;
 - (void)deletePoints;
+
+- (IntonationPoint *)selectedIntonationPoint;
+- (void)_selectionDidChange;
 
 // View geometry
 - (int)sectionHeight;

@@ -81,6 +81,7 @@
 
     [checkboxCell release];
 
+    [[intonationView documentView] setDelegate:self];
     [[intonationView documentView] setEventList:eventList];
 
     [self updateViews];
@@ -150,6 +151,10 @@
     intonationParameters.pretonicLift = [[intonParmsField cellAtIndex:2] floatValue];
     intonationParameters.tonicRange = [[intonParmsField cellAtIndex:3] floatValue];
     intonationParameters.tonicMovement = [[intonParmsField cellAtIndex:4] floatValue];
+}
+
+- (void)_updateSelectedPointDetails;
+{
 }
 
 - (IBAction)showIntonationWindow:(id)sender;
@@ -512,6 +517,16 @@
             [self _updateDisplayedParameters];
         }
     }
+}
+
+//
+// IntonationView delegate
+//
+
+- (void)intonationViewSelectionDidChange:(NSNotification *)aNotification;
+{
+    NSLog(@" > %s", _cmd);
+    NSLog(@"<  %s", _cmd);
 }
 
 @end

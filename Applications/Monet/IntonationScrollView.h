@@ -24,21 +24,14 @@ History:
 {
     IBOutlet AppController *controller;
     IBOutlet NSView *scaleView; // TODO (2004-03-15): Find specific subclass that is used.
-    IBOutlet NSTextField *utterance;
-    IBOutlet NSButton *smoothing;
 }
 
 - (id)initWithFrame:(NSRect)frameRect;
-- (void)applicationDidFinishLaunching:(NSNotification *)notification;
 
 - (void)drawRect:(NSRect)rect;
 - (void)tile;
 - (IBAction)print:(id)sender;
 
 - (NSView *)scaleView;
-
-- (IBAction)saveIntonationContour:(id)sender;
-- (IBAction)loadContour:(id)sender;
-- (IBAction)loadContourAndUtterance:(id)sender;
 
 @end

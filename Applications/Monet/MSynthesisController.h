@@ -1,5 +1,5 @@
 //
-// $Id: MSynthesisController.h,v 1.4 2004/03/31 20:37:43 nygard Exp $
+// $Id: MSynthesisController.h,v 1.5 2004/03/31 21:26:35 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -56,9 +56,10 @@
 - (void)windowDidLoad;
 
 - (void)_updateDisplayParameters;
-- (void)_takeIntonationParametersFromUI;
 - (void)updateViews;
 - (void)_updateDisplayedParameters;
+- (void)_takeIntonationParametersFromUI;
+- (void)_updateSelectedPointDetails;
 
 - (IBAction)showIntonationWindow:(id)sender;
 - (IBAction)showIntonationParameterWindow:(id)sender;
@@ -70,9 +71,13 @@
 
 - (void)parsePhoneString:(NSString *)str;
 
+
 // NSTableView data source
 - (int)numberOfRowsInTableView:(NSTableView *)tableView;
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row;
 - (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(int)row;
+
+// IntonationView delegate
+- (void)intonationViewSelectionDidChange:(NSNotification *)aNotification;
 
 @end
