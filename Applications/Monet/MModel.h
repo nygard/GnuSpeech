@@ -113,7 +113,7 @@ extern NSString *MCategoryInUseException;
 - (BOOL)importPostureNamed:(NSString *)postureName fromTRMData:(NSCoder *)aDecoder;
 
 // Archiving - XML
-- (void)generateXML:(NSString *)name;
+- (BOOL)writeXMLToFile:(NSString *)aFilename comment:(NSString *)aComment;
 - (void)_appendXMLForCategoriesToString:(NSMutableString *)resultString level:(int)level;
 - (void)_appendXMLForEquationsToString:(NSMutableString *)resultString level:(int)level;
 - (void)_appendXMLForTransitionsToString:(NSMutableString *)resultString level:(int)level;

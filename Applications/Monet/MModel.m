@@ -992,14 +992,16 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 // Archiving - XML
 //
 
-- (void)generateXML:(NSString *)name;
+- (BOOL)writeXMLToFile:(NSString *)aFilename comment:(NSString *)aComment;
 {
     NSMutableString *resultString;
+    BOOL result;
 
     resultString = [[NSMutableString alloc] init];
     [resultString appendString:@"<?xml version='1.0' encoding='utf-8'?>\n"];
     [resultString appendString:@"<!DOCTYPE root PUBLIC \"\" \"monet-v1.dtd\">\n"];
-    [resultString appendFormat:@"<!-- %@ -->\n", name];
+    if (aComment != nil)
+        [resultString appendFormat:@"<!-- %@ -->\n", aComment];
     [resultString appendString:@"<root version='1'>\n"];
     [self _appendXMLForCategoriesToString:resultString level:1];
 
@@ -1016,9 +1018,12 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [resultString appendString:@"</root>\n"];
 
     //NSLog(@"xml: \n%@", resultString);
-    [[resultString dataUsingEncoding:NSUTF8StringEncoding] writeToFile:@"/tmp/out.xml" atomically:YES];
+    //[[resultString dataUsingEncoding:NSUTF8StringEncoding] writeToFile:@"/tmp/out.xml" atomically:YES];
+    result = [[resultString dataUsingEncoding:NSUTF8StringEncoding] writeToFile:aFilename atomically:YES];
 
     [resultString release];
+
+    return result;
 }
 
 - (void)_appendXMLForCategoriesToString:(NSMutableString *)resultString level:(int)level;
@@ -1101,13 +1106,13 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 - (void)readDegasFileFormat:(FILE *)fp;
 {
     [self readParametersFromDegasFile:fp];
-    [self generateXML:@"after reading Degas parameters"];
+    [self writeXMLToFile:@"/tmp/out.xml" comment:@"after reading Degas parameters"];
     [self readCategoriesFromDegasFile:fp];
-    [self generateXML:@"after reading Degas categories"];
+    [self writeXMLToFile:@"/tmp/out.xml" comment:@"after reading Degas categories"];
     [self readPosturesFromDegasFile:fp];
-    [self generateXML:@"after reading Degas postures"];
+    [self writeXMLToFile:@"/tmp/out.xml" comment:@"after reading Degas postures"];
     [self readRulesFromDegasFile:fp];
-    [self generateXML:@"after reading Degas rules"];
+    [self writeXMLToFile:@"/tmp/out.xml" comment:@"after reading Degas rules"];
 }
 
 #define SYMBOL_LENGTH_MAX 12

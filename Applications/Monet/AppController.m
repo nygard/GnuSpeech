@@ -28,6 +28,7 @@
     if ([super init] == nil)
         return nil;
 
+    filename = nil;
     model = [[MModel alloc] init];
 
     return self;
@@ -35,6 +36,7 @@
 
 - (void)dealloc;
 {
+    [filename release];
     [model release];
 
     [dataEntryController release];
@@ -48,6 +50,15 @@
     [synthesisController release];
 
     [super dealloc];
+}
+
+- (void)setFilename:(NSString *)newFilename;
+{
+    if (newFilename == filename)
+        return;
+
+    [filename release];
+    filename = [newFilename retain];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification;
@@ -84,6 +95,7 @@
     //NSLog(@"path: %@", path);
 
     [self _loadMonetXMLFile:path];
+    [self setFilename:nil];
 
     //NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }
@@ -103,7 +115,6 @@
     int count, index;
     NSArray *types;
     NSArray *fnames;
-    NSString *filename;
     NSOpenPanel *openPanel;
 
     NSLog(@" > %s", _cmd);
@@ -117,19 +128,8 @@
 
     fnames = [openPanel filenames];
     count = [fnames count];
-    for (index = 0; index < count; index++) {
-        NSString *extension;
-
-        filename = [fnames objectAtIndex:index];
-        extension = [filename pathExtension];
-        if ([extension isEqualToString:@"monet"] == YES) {
-            [self _loadMonetFile:filename];
-        } else if ([extension isEqualToString:@"degas"] == YES) {
-            [self _loadDegasFile:filename];
-        } else if ([extension isEqualToString:@"mxml"] == YES) {
-            [self _loadMonetXMLFile:filename];
-        }
-    }
+    for (index = 0; index < count; index++)
+        [self _loadFile:[fnames objectAtIndex:index]];
 
     NSLog(@"<  %s", _cmd);
 }
@@ -152,15 +152,15 @@
 
     count = [fnames count];
     for (index = 0; index < count; index++) {
-        NSString *filename;
+        NSString *aFilename;
         NSString *postureName;
         NSData *data;
         NSUnarchiver *unarchiver;
 
-        filename = [fnames objectAtIndex:index];
-        postureName = [[filename lastPathComponent] stringByDeletingPathExtension];
+        aFilename = [fnames objectAtIndex:index];
+        postureName = [[aFilename lastPathComponent] stringByDeletingPathExtension];
 
-        data = [NSData dataWithContentsOfFile:filename];
+        data = [NSData dataWithContentsOfFile:aFilename];
         unarchiver = [[NSUnarchiver alloc] initForReadingWithData:data];
         if ([model importPostureNamed:postureName fromTRMData:unarchiver] == NO) {
             [unarchiver release];
@@ -249,11 +249,25 @@
     [synthesisController setModel:model];
 }
 
-- (void)_loadMonetFile:(NSString *)filename;
+- (void)_loadFile:(NSString *)aFilename;
+{
+    NSString *extension;
+
+    extension = [aFilename pathExtension];
+    if ([extension isEqualToString:@"monet"] == YES) {
+        [self _loadMonetFile:aFilename];
+    } else if ([extension isEqualToString:@"degas"] == YES) {
+        [self _loadDegasFile:aFilename];
+    } else if ([extension isEqualToString:@"mxml"] == YES) {
+        [self _loadMonetXMLFile:aFilename];
+    }
+}
+
+- (void)_loadMonetFile:(NSString *)aFilename;
 {
     NSArchiver *stream;
 
-    stream = [[MUnarchiver alloc] initForReadingWithData:[NSData dataWithContentsOfFile:filename]];
+    stream = [[MUnarchiver alloc] initForReadingWithData:[NSData dataWithContentsOfFile:aFilename]];
 
     if (stream) {
         MModel *newModel;
@@ -262,8 +276,10 @@
         [self setModel:newModel];
         [newModel release];
 
+        [self setFilename:aFilename];
+
         [stream release];
-        [model generateXML:filename];
+        [model writeXMLToFile:@"/tmp/out.xml" comment:aFilename];
     } else {
         NSLog(@"Not a MONET file");
     }
@@ -272,12 +288,12 @@
 #define DEGAS_MAGIC 0x2e646567
 
 // TODO (2004-04-21): This actually imports instead of loading.  Should create new model, like in Monet file case
-- (void)_loadDegasFile:(NSString *)filename;
+- (void)_loadDegasFile:(NSString *)aFilename;
 {
     FILE *fp;
     unsigned int magic;
 
-    fp = fopen([filename UTF8String], "r");
+    fp = fopen([aFilename UTF8String], "r");
 
     fread(&magic, sizeof(int), 1, fp);
     if (magic == DEGAS_MAGIC) {
@@ -290,17 +306,89 @@
     fclose(fp);
 }
 
-- (void)_loadMonetXMLFile:(NSString *)filename;
+- (void)_loadMonetXMLFile:(NSString *)aFilename;
 {
     MDocument *document;
     BOOL result;
 
     document = [[MDocument alloc] init];
-    result = [document loadFromXMLFile:filename];
-    if (result == YES)
+    result = [document loadFromXMLFile:aFilename];
+    if (result == YES) {
         [self setModel:[document model]];
+        [self setFilename:aFilename];
+    }
 
     [document release];
+}
+
+- (IBAction)saveDocument:(id)sender;
+{
+    if (filename == nil) {
+        [self saveDocumentAs:sender];
+    } else {
+        NSString *extension;
+        BOOL result;
+
+        extension = [filename pathExtension];
+
+        if ([@"mxml" isEqualToString:extension] == NO) {
+            NSString *newFilename;
+
+            newFilename = [[filename stringByDeletingPathExtension] stringByAppendingPathExtension:@"mxml"];
+            result = [model writeXMLToFile:newFilename comment:nil];
+            if (result == YES) {
+                NSLog(@"Renamed file from %@ to %@", [filename lastPathComponent], [newFilename lastPathComponent]);
+                [self setFilename:newFilename];
+            }
+        } else
+            result = [model writeXMLToFile:filename comment:nil];
+
+        if (result == NO)
+            NSRunAlertPanel(@"Save Failed", @"Couldn't save document to %@", @"OK", nil, nil, filename);
+        else
+            NSLog(@"Saved file: %@", filename);
+    }
+}
+
+- (IBAction)saveDocumentAs:(id)sender;
+{
+    NSSavePanel *savePanel;
+
+    NSLog(@" > %s", _cmd);
+    NSLog(@"filename: %@", filename);
+
+    savePanel = [NSSavePanel savePanel];
+    [savePanel setRequiredFileType:@"mxml"];
+    if ([savePanel runModalForDirectory:nil file:[filename lastPathComponent]] == NSFileHandlingPanelOKButton) {
+        NSString *newFilename;
+        BOOL result;
+
+        newFilename = [savePanel filename];
+        NSLog(@"new filename: %@", newFilename);
+
+        result = [model writeXMLToFile:newFilename comment:nil];
+
+        if (result == NO)
+            NSRunAlertPanel(@"Save Failed", @"Couldn't save document to %@", @"OK", nil, nil, filename);
+        else {
+            [self setFilename:newFilename];
+            NSLog(@"Saved file: %@", newFilename);
+        }
+    }
+
+    NSLog(@"<  %s", _cmd);
+}
+
+// TODO (2004-05-20): We could only enable this when filename != nil, or just wait until we start using the document architecture.
+- (IBAction)revertDocumentToSaved:(id)sender;
+{
+    NSLog(@" > %s", _cmd);
+    NSLog(@"filename: %@", filename);
+    if (filename == nil)
+        NSBeep();
+    else
+        [self _loadFile:filename];
+    NSLog(@"<  %s", _cmd);
 }
 
 - (IBAction)savePrototypes:(id)sender;
@@ -333,16 +421,16 @@
     NSArray *types;
     NSString *directory;
     NSArchiver *stream;
-    NSString *filename;
+    NSString *aFilename;
 
     types = [NSArray array];
     [[NSOpenPanel openPanel] setAllowsMultipleSelection:NO];
     if ([[NSOpenPanel openPanel] runModalForTypes:types]) {
         fnames = [[NSOpenPanel openPanel] filenames];
         directory = [[NSOpenPanel openPanel] directory];
-        filename = [directory stringByAppendingPathComponent:[fnames objectAtIndex:0]];
+        aFilename = [directory stringByAppendingPathComponent:[fnames objectAtIndex:0]];
 
-        stream = [[NSUnarchiver alloc] initForReadingWithData:[NSData dataWithContentsOfFile:filename]];
+        stream = [[NSUnarchiver alloc] initForReadingWithData:[NSData dataWithContentsOfFile:aFilename]];
 
         if (stream) {
             //[prototypeManager readPrototypesFrom:stream];
@@ -507,7 +595,7 @@
 
 - (IBAction)generateXML:(id)sender;
 {
-    [model generateXML:@""];
+    [model writeXMLToFile:@"/tmp/out.xml" comment:nil];
 }
 
 - (void)editTransition:(MMTransition *)aTransition;

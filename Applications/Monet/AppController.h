@@ -32,6 +32,7 @@ History:
 {
     IBOutlet NSPanel *infoPanel;
 
+    NSString *filename;
     MModel *model;
 
     MDataEntryController *dataEntryController;
@@ -48,6 +49,8 @@ History:
 - (id)init;
 - (void)dealloc;
 
+- (void)setFilename:(NSString *)newFilename;
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification;
 
 - (void)displayInfoPanel:(id)sender;
@@ -59,9 +62,15 @@ History:
 - (IBAction)archiveToDisk:(id)sender;
 
 - (void)setModel:(MModel *)newModel;
-- (void)_loadMonetFile:(NSString *)filename;
-- (void)_loadDegasFile:(NSString *)filename;
-- (void)_loadMonetXMLFile:(NSString *)filename;
+
+- (void)_loadFile:(NSString *)aFilename;
+- (void)_loadMonetFile:(NSString *)aFilename;
+- (void)_loadDegasFile:(NSString *)aFilename;
+- (void)_loadMonetXMLFile:(NSString *)aFilename;
+
+- (IBAction)saveDocument:(id)sender;
+- (IBAction)saveDocumentAs:(id)sender;
+- (IBAction)revertDocumentToSaved:(id)sender;
 
 - (IBAction)savePrototypes:(id)sender;
 - (IBAction)loadPrototypes:(id)sender;
