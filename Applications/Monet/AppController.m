@@ -9,6 +9,7 @@
 #import "MUnarchiver.h"
 
 #import "MDataEntryController.h"
+#import "MDocument.h"
 #import "MMPosture.h"
 #import "MMTarget.h"
 #import "MPostureEditor.h"
@@ -19,9 +20,6 @@
 #import "MSynthesisController.h"
 #import "MSynthesisParameterEditor.h"
 #import "MTransitionEditor.h"
-
-#import "MMXMLNode.h"
-#import "MMXMLElementNode.h"
 
 @implementation AppController
 
@@ -314,14 +312,18 @@
 
 - (void)_loadMonetXMLFile:(NSString *)filename;
 {
-    MMXMLElementNode *tree;
+    MDocument *document;
 
     NSLog(@" > %s", _cmd);
 
-    tree = [MMXMLNode xmlTreeFromContentsOfFile:filename];
-    NSLog(@"tree: %@", tree);
-
-    [model loadFromXMLTree:tree];
+    document = [[MDocument alloc] init];
+    [document loadFromXMLFile:filename];
+    [document release];
+#if 0
+    [model release];
+    model = [[MModel alloc] init]; // TODO (2004-04-21): Want to remove default values.
+    [model loadFromXMLFile:filename];
+#endif
 
     NSLog(@"<  %s", _cmd);
 }

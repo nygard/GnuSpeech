@@ -29,7 +29,6 @@
 #import "TRMData.h"
 
 #import "MUnarchiver.h"
-#import "MMXMLElementNode.h"
 
 NSString *MCategoryInUseException = @"MCategoryInUseException";
 
@@ -37,9 +36,6 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (id)init;
 {
-    MMSymbol *newSymbol;
-    MMCategory *newCategory;
-
     if ([super init] == nil)
         return nil;
 
@@ -54,19 +50,24 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     specialTransitions = [[MonetList alloc] init];
 
     rules = [[RuleList alloc] init];
-
+#if 0
     // And set up some default values:
-    newSymbol = [[MMSymbol alloc] initWithSymbol:@"duration"];
-    [self addSymbol:newSymbol];
-    [newSymbol release];
+    {
+        MMSymbol *newSymbol;
+        MMCategory *newCategory;
 
-    newCategory = [[MMCategory alloc] initWithSymbol:@"phone"];
-    [newCategory setComment:@"This is the static phone category.  It cannot be changed or removed."];
-    [self addCategory:newCategory];
-    [newCategory release];
+        newSymbol = [[MMSymbol alloc] initWithSymbol:@"duration"];
+        [self addSymbol:newSymbol];
+        [newSymbol release];
 
-    [self _addDefaultRule];
+        newCategory = [[MMCategory alloc] initWithSymbol:@"phone"];
+        [newCategory setComment:@"This is the static phone category.  It cannot be changed or removed."];
+        [self addCategory:newCategory];
+        [newCategory release];
 
+        [self _addDefaultRule];
+    }
+#endif
     cacheTag = 1;
 
     synthesisParameters = [[MMSynthesisParameters alloc] init];
@@ -992,134 +993,6 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
     [resultString indentToLevel:level];
     [resultString appendString:@"</special-transitions>\n"];
-}
-
-// This assumes that the file has been validated against the DTD by the XML parser, and so doesn't check for those errors.
-- (void)loadFromXMLTree:(MMXMLElementNode *)rootElement;
-{
-    NSArray *children;
-    unsigned int count, index;
-
-    children = [rootElement children];
-    count = [children count];
-    for (index = 0; index < count; index++) {
-        MMXMLNode *node;
-
-        node = [children objectAtIndex:index];
-
-        if ([node isKindOfClass:[MMXMLElementNode class]] == YES) {
-            MMXMLElementNode *element = (MMXMLElementNode *)node;
-            NSString *elementName;
-
-            elementName = [element name];
-            if ([elementName isEqualToString:@"categories"]) {
-                [self _loadCategoriesFromXMLTree:element];
-            } else if ([elementName isEqualToString:@"parameters"]) {
-                [self _loadParametersFromXMLTree:element];
-            } else if ([elementName isEqualToString:@"symbols"]) {
-                [self _loadSymbolsFromXMLTree:element];
-            } else if ([elementName isEqualToString:@"postures"]) {
-                [self _loadPosturesFromXMLTree:element];
-            } else if ([elementName isEqualToString:@"equations"]) {
-                [self _loadEquationsFromXMLTree:element];
-            } else if ([elementName isEqualToString:@"transitions"]) {
-                [self _loadTransitionsFromXMLTree:element];
-            } else if ([elementName isEqualToString:@"special-transitions"]) {
-                [self _loadSpecialTransitionsFromXMLTree:element];
-            } else if ([elementName isEqualToString:@"rules"]) {
-                [self _loadRulesFromXMLTree:element];
-            } else {
-                NSLog(@"Unknown element: %@", element);
-            }
-        } else {
-            NSLog(@"Unknown node: %@", node);
-        }
-    }
-}
-
-- (void)_loadCategoriesFromXMLTree:(MMXMLElementNode *)element;
-{
-    NSArray *children;
-    unsigned int count, index;
-    MMXMLNode *childNode;
-
-    NSLog(@" > %s", _cmd);
-
-    children = [element children];
-    count = [children count];
-    for (index = 0; index < count; index++) {
-        childNode = [children objectAtIndex:index];
-        if ([childNode isKindOfClass:[MMXMLElementNode class]] == YES) {
-            MMXMLElementNode *childElement = (MMXMLElementNode *)childNode;
-            NSString *elementName = [childElement name];
-
-            if ([elementName isEqualToString:@"category"]) {
-                MMCategory *newCategory;
-
-                newCategory = [[MMCategory alloc] initWithXMLElementNode:childElement];
-                [self addCategory:newCategory];
-                [newCategory release];
-            }
-        }
-    }
-
-    NSLog(@"<  %s", _cmd);
-}
-
-- (void)_loadParametersFromXMLTree:(MMXMLElementNode *)element;
-{
-    NSArray *children;
-    unsigned int count, index;
-    MMXMLNode *childNode;
-
-    NSLog(@" > %s", _cmd);
-
-    children = [element children];
-    count = [children count];
-    for (index = 0; index < count; index++) {
-        childNode = [children objectAtIndex:index];
-        if ([childNode isKindOfClass:[MMXMLElementNode class]] == YES) {
-            MMXMLElementNode *childElement = (MMXMLElementNode *)childNode;
-        }
-    }
-
-    NSLog(@"<  %s", _cmd);
-}
-
-- (void)_loadSymbolsFromXMLTree:(MMXMLElementNode *)element;
-{
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
-}
-
-- (void)_loadPosturesFromXMLTree:(MMXMLElementNode *)element;
-{
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
-}
-
-- (void)_loadEquationsFromXMLTree:(MMXMLElementNode *)element;
-{
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
-}
-
-- (void)_loadTransitionsFromXMLTree:(MMXMLElementNode *)element;
-{
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
-}
-
-- (void)_loadSpecialTransitionsFromXMLTree:(MMXMLElementNode *)element;
-{
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
-}
-
-- (void)_loadRulesFromXMLTree:(MMXMLElementNode *)element;
-{
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
 }
 
 //
