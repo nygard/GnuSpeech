@@ -140,9 +140,9 @@ static NSImage *_selectionBox = nil;
 
     [self clearView];
     [self drawGrid];
-#if 0
     [self drawEquations];
     [self drawPhones];
+#if 0
     [self drawTransition];
     [self drawSlopes];
 #endif
@@ -181,11 +181,38 @@ static NSImage *_selectionBox = nil;
 
 - (void)clearView;
 {
-    NSDrawWhiteBezel([self bounds], [self bounds]);
+    [[NSColor whiteColor] set];
+    NSRectFill([self bounds]);
 }
+
+//
+// View geometry
+//
 
 #define LEFT_MARGIN 50
 #define BOTTOM_MARGIN 50
+#define SECTION_COUNT 14
+
+- (int)sectionHeight;
+{
+    NSRect bounds;
+    int sectionHeight;
+
+    bounds = [self bounds];
+    sectionHeight = (bounds.size.height - 2 * BOTTOM_MARGIN) / SECTION_COUNT;
+
+    return sectionHeight;
+}
+
+- (NSPoint)graphOrigin;
+{
+    NSPoint graphOrigin;
+
+    graphOrigin.x = LEFT_MARGIN;
+    graphOrigin.y = [self bounds].size.height - BOTTOM_MARGIN - 14 * [self sectionHeight];
+
+    return graphOrigin;
+}
 
 - (void)drawGrid;
 {
@@ -196,10 +223,9 @@ static NSImage *_selectionBox = nil;
     NSPoint graphOrigin; // But not the zero point on the graph.
 
     bounds = NSIntegralRect([self bounds]);
-    sectionHeight = (bounds.size.height - 2 * BOTTOM_MARGIN) / 14;
 
-    graphOrigin.x = LEFT_MARGIN;
-    graphOrigin.y = bounds.size.height - BOTTOM_MARGIN - 14 * sectionHeight;
+    sectionHeight = [self sectionHeight];
+    graphOrigin = [self graphOrigin];
 
     [[NSColor lightGrayColor] set];
     rect = NSMakeRect(graphOrigin.x + 1.0, graphOrigin.y + 1.0, bounds.size.width - 2 * (LEFT_MARGIN + 1), 2 * sectionHeight);
@@ -240,7 +266,7 @@ static NSImage *_selectionBox = nil;
         labelSize = [label sizeWithAttributes:nil];
         //NSLog(@"label (%@) size: %@", label, NSStringFromSize(labelSize));
         [label drawAtPoint:NSMakePoint(LEFT_MARGIN - LABEL_MARGIN - labelSize.width, currentYPos) withAttributes:nil];
-        // The current max label width is 35, so...
+        // The current max label width is 35, so we'll just shift the label over a little
         [label drawAtPoint:NSMakePoint(bounds.size.width - 10 - labelSize.width, currentYPos) withAttributes:nil];
     }
 
@@ -259,6 +285,9 @@ static NSImage *_selectionBox = nil;
     float timeScale = ([self bounds].size.width - 100.0) / [[displayParameters cellAtIndex:0] floatValue];
     int type;
     NSBezierPath *bezierPath;
+    NSPoint graphOrigin;
+
+    graphOrigin = [self graphOrigin];
 
     cache++;
 
@@ -284,8 +313,9 @@ static NSImage *_selectionBox = nil;
                 //NSLog(@"\t%@", [equation name]);
                 //NSLog(@"\t\ttime = %f", time);
                 //NSLog(@"equation name: %@, formula: %@, time: %f", [equation name], [[equation expression] expressionString], time);
-                [bezierPath moveToPoint:NSMakePoint(50.0 + (timeScale*(float)time), 49.0)];
-                [bezierPath lineToPoint:NSMakePoint(50.0 + (timeScale*(float)time), 40.0)];
+                // TODO (2004-03-11): Need to check with users to see if floor()'ing the x is okay.
+                [bezierPath moveToPoint:NSMakePoint(graphOrigin.x + 0.5 + floor(timeScale * (float)time), graphOrigin.y - 1)];
+                [bezierPath lineToPoint:NSMakePoint(graphOrigin.x + 0.5 + floor(timeScale * (float)time), graphOrigin.y - 10)];
             }
         }
     }
@@ -302,6 +332,12 @@ static NSImage *_selectionBox = nil;
     float currentTimePoint;
     int type;
     NSBezierPath *bezierPath;
+    NSRect bounds;
+    NSPoint graphOrigin;
+    float graphTopYPos;
+
+    bounds = [self bounds];
+    graphOrigin = [self graphOrigin];
 
     if (currentTemplate)
         type = [currentTemplate type];
@@ -310,32 +346,34 @@ static NSImage *_selectionBox = nil;
 
     [[NSColor blackColor] set];
     [[NSColor redColor] set];
+
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:2];
 
-    timeScale = ([self bounds].size.width - 100.0) / [[displayParameters cellAtIndex:0] floatValue];
-    myPoint.y = [self bounds].size.height - 47.0;
+    timeScale = (bounds.size.width - 2 * LEFT_MARGIN) / [[displayParameters cellAtIndex:0] floatValue];
+    graphTopYPos = bounds.size.height - BOTTOM_MARGIN - 1;
+    myPoint.y = bounds.size.height - BOTTOM_MARGIN + 3;
 
     switch (type) {
       case TETRAPHONE:
           currentTimePoint = (timeScale * [[displayParameters cellAtIndex:4] floatValue]);
-          [bezierPath moveToPoint:NSMakePoint(50.0 + currentTimePoint, 50.0)];
-          [bezierPath lineToPoint:NSMakePoint(50.0 + currentTimePoint, [self bounds].size.height - 50.0)];
-          myPoint.x = currentTimePoint+47.0;
+          [bezierPath moveToPoint:NSMakePoint(graphOrigin.x + currentTimePoint, graphOrigin.y + 1)];
+          [bezierPath lineToPoint:NSMakePoint(graphOrigin.x + currentTimePoint, graphTopYPos)];
+          myPoint.x = currentTimePoint + LEFT_MARGIN - 3;
           [_squareMarker compositeToPoint:myPoint fromRect:rect operation:NSCompositeSourceOver];
 
       case TRIPHONE:
           currentTimePoint = (timeScale * [[displayParameters cellAtIndex:3] floatValue]);
-          [bezierPath moveToPoint:NSMakePoint(50.0 + currentTimePoint, 50.0)];
-          [bezierPath lineToPoint:NSMakePoint(50.0 + currentTimePoint, [self bounds].size.height - 50.0)];
-          myPoint.x = currentTimePoint+47.0;
+          [bezierPath moveToPoint:NSMakePoint(graphOrigin.x + currentTimePoint, graphOrigin.y + 1)];
+          [bezierPath lineToPoint:NSMakePoint(graphOrigin.x + currentTimePoint, graphTopYPos)];
+          myPoint.x = currentTimePoint + LEFT_MARGIN - 3;
           [_triangleMarker compositeToPoint:myPoint fromRect:rect operation:NSCompositeSourceOver];
 
       case DIPHONE:
           currentTimePoint = (timeScale * [[displayParameters cellAtIndex:2] floatValue]);
-          [bezierPath moveToPoint:NSMakePoint(50.0 + currentTimePoint, 50.0)];
-          [bezierPath lineToPoint:NSMakePoint(50.0 + currentTimePoint, [self bounds].size.height - 50.0)];
-          myPoint.x = currentTimePoint+47.0;
+          [bezierPath moveToPoint:NSMakePoint(graphOrigin.x + currentTimePoint, graphOrigin.y + 1)];
+          [bezierPath lineToPoint:NSMakePoint(graphOrigin.x + currentTimePoint, graphTopYPos)];
+          myPoint.x = currentTimePoint + LEFT_MARGIN - 3;
           [_dotMarker compositeToPoint:myPoint fromRect:rect operation:NSCompositeSourceOver];
     }
 

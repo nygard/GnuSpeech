@@ -50,6 +50,11 @@
 - (void)drawRect:(NSRect)rect;
 
 - (void)clearView;
+
+// View geometry
+- (int)sectionHeight;
+- (NSPoint)graphOrigin;
+
 - (void)drawGrid;
 - (void)drawEquations;
 - (void)drawPhones;
