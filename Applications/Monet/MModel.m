@@ -1168,21 +1168,21 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [boolParser setPhoneList:postures];
 
     /* READ FROM FILE  */
-    NXRead(fp, &numRules, sizeof(int));
+    fread(&numRules, sizeof(int), 1, fp);
     for (i = 0; i < numRules; i++) {
         /* READ SPECIFIER CATEGORY #1 FROM FILE  */
-        NXRead(fp, &tempLength, sizeof(int));
+        fread(&tempLength, sizeof(int), 1, fp);
         bzero(buffer, 1024);
-        NXRead(fp, buffer, tempLength + 1);
+        fread(buffer, tempLength + 1, 1, fp);
         bufferStr = [NSString stringWithASCIICString:buffer];
         //NSLog(@"i: %d", i);
         //NSLog(@"bufferStr: %@", bufferStr);
         temp = [boolParser parseString:bufferStr];
 
         /* READ SPECIFIER CATEGORY #2 FROM FILE  */
-        NXRead(fp, &tempLength, sizeof(int));
+        fread(&tempLength, sizeof(int), 1, fp);
         bzero(buffer1, 1024);
-        NXRead(fp, buffer1, tempLength + 1);
+        fread(buffer1, tempLength + 1, 1, fp);
         buffer1Str = [NSString stringWithASCIICString:buffer1];
         //NSLog(@"buffer1Str: %@", buffer1Str);
         temp1 = [boolParser parseString:buffer1Str];
@@ -1202,45 +1202,45 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         }
 
         /* READ TRANSITION INTERVALS FROM FILE  */
-        NXRead(fp, &k1, sizeof(int));
+        fread(&k1, sizeof(int), 1, fp);
         for (j = 0; j < k1; j++) {
-            NXRead(fp, &dummy, sizeof(short int));
-            NXRead(fp, &dummy, sizeof(short int));
-            NXRead(fp, &dummy, sizeof(int));
-            NXRead(fp, &dummy, sizeof(float));
-            NXRead(fp, &dummy, sizeof(float));
+            fread(&dummy, sizeof(short int), 1, fp);
+            fread(&dummy, sizeof(short int), 1, fp);
+            fread(&dummy, sizeof(int), 1, fp);
+            fread(&dummy, sizeof(float), 1, fp);
+            fread(&dummy, sizeof(float), 1, fp);
         }
 
         /* READ TRANSITION INTERVAL MODE FROM FILE  */
-        NXRead(fp, &dummy, sizeof(short int));
+        fread(&dummy, sizeof(short int), 1, fp);
 
         /* READ SPLIT MODE FROM FILE  */
-        NXRead(fp, &dummy, sizeof(short int));
+        fread(&dummy, sizeof(short int), 1, fp);
 
         /* READ SPECIAL EVENTS FROM FILE  */
-        NXRead(fp, &j1, sizeof(int));
+        fread(&j1, sizeof(int), 1, fp);
 
         for (j = 0; j < j1; j++) {
             /* READ SPECIAL EVENT SYMBOL FROM FILE  */
-            NXRead(fp, buffer, SYMBOL_LENGTH_MAX + 1);
+            fread(buffer, SYMBOL_LENGTH_MAX + 1, 1, fp);
 
             /* READ SPECIAL EVENT INTERVALS FROM FILE  */
             for (k = 0; k < k1; k++) {
 
                 /* READ SUB-INTERVALS FROM FILE  */
-                NXRead(fp, &l1, sizeof(int));
+                fread(&l1, sizeof(int), 1, fp);
                 for (l = 0; l < l1; l++) {
                     /* READ SUB-INTERVAL PARAMETERS FROM FILE  */
-                    NXRead(fp, &dummy, sizeof(short int));
-                    NXRead(fp, &dummy, sizeof(int));
-                    NXRead(fp, &dummy, sizeof(float));
+                    fread(&dummy, sizeof(short int), 1, fp);
+                    fread(&dummy, sizeof(int), 1, fp);
+                    fread(&dummy, sizeof(float), 1, fp);
                 }
             }
         }
 
         /* READ DURATION RULE INFORMATION FROM FILE  */
-        NXRead(fp, &dummy, sizeof(int));
-        NXRead(fp, &dummy, sizeof(int));
+        fread(&dummy, sizeof(int), 1, fp);
+        fread(&dummy, sizeof(int), 1, fp);
     }
 
     [boolParser release];

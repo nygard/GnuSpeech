@@ -1,5 +1,5 @@
 //
-// $Id: AppController.h,v 1.46 2004/04/02 03:42:51 nygard Exp $
+// $Id: AppController.h,v 1.47 2004/04/02 03:55:25 nygard Exp $
 //
 
 /*===========================================================================
@@ -95,7 +95,3 @@ History:
 - (void)editSpecialTransition:(MMTransition *)aTransition;
 
 @end
-
-/* NeXT Streams */
-#undef NXRead
-#define NXRead(fp, buf, size) fread(buf, size, 1, fp)
