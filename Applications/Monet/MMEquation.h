@@ -51,4 +51,6 @@
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
 
+- (NSString *)equationPath;
+
 @end

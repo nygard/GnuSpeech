@@ -188,28 +188,31 @@
     return NO;
 }
 
-- findEquation:anEquation andPutIn:(MonetList *)aList;
+- (void)findEquation:(MMEquation *)anEquation andPutIn:(MonetList *)aList;
 {
-    int i, j;
-    id temp, temp1;
+    unsigned count, index;
+    int j;
+    id pointOrSlopeRatio;
 
-    for (i = 0; i < [points count]; i++) {
-        temp = [points objectAtIndex:i];
-        if ([temp isKindOfClass:[MMSlopeRatio class]]) {
-            temp1 = [temp points];
-            for (j = 0; j < [temp1 count]; j++)
-                if (anEquation == [[temp1 objectAtIndex:j] expression]) {
+    count = [points count];
+    for (index = 0; index < count; index++) {
+        pointOrSlopeRatio = [points objectAtIndex:index];
+        if ([pointOrSlopeRatio isKindOfClass:[MMSlopeRatio class]]) {
+            MonetList *slopePoints;
+
+            slopePoints = [pointOrSlopeRatio points];
+            for (j = 0; j < [slopePoints count]; j++)
+                if (anEquation == [[slopePoints objectAtIndex:j] expression]) {
                     [aList addObject:self];
-                    return self;
+                    return;
                 }
-        } else
-            if (anEquation == [[points objectAtIndex:i] expression]) {
-                [aList addObject: self];
-                return self;
+        } else {
+            if (anEquation == [[points objectAtIndex:index] expression]) {
+                [aList addObject:self];
+                return;
             }
+        }
     }
-
-    return self;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder;

@@ -18,6 +18,7 @@
 #import "MMEquation.h"
 #import "MMParameter.h"
 #import "MMPosture.h"
+#import "MMRule.h"
 #import "MMSymbol.h"
 #import "MMTarget.h"
 #import "MMTransition.h"
@@ -566,6 +567,121 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 {
     return [[specialTransitions objectAtIndex:listIndex] objectAtIndex:specialIndex];
 }
+
+- (NSArray *)usageOfEquation:(MMEquation *)anEquation;
+{
+    NSMutableArray *array;
+    int count, index;
+    MMRule *aRule;
+    NamedList *aGroup;
+    MMTransition *aTransition;
+
+    array = [NSMutableArray array];
+    count = [rules count];
+    for (index = 0; index < count; index++) {
+        aRule = [rules objectAtIndex:index];
+        if ([aRule isEquationUsed:anEquation]) {
+            [array addObject:[NSString stringWithFormat:@"Rule: %d", index + 1]];
+        }
+    }
+
+    count = [transitions count];
+    for (index = 0; index < count; index++) {
+        unsigned transitionCount, transitionIndex;
+
+        aGroup = [transitions objectAtIndex:index];
+        transitionCount = [aGroup count];
+        for (transitionIndex = 0; transitionIndex < transitionCount; transitionIndex++) {
+            aTransition = [aGroup objectAtIndex:transitionIndex];
+            if ([aTransition isEquationUsed:anEquation]) {
+                [array addObject:[NSString stringWithFormat:@"T:%@:%@", [[aTransition group] name], [aTransition name]]];
+            }
+        }
+    }
+
+    count = [specialTransitions count];
+    for (index = 0; index < count; index++) {
+        unsigned transitionCount, transitionIndex;
+
+        aGroup = [specialTransitions objectAtIndex:index];
+        transitionCount = [aGroup count];
+        for (transitionIndex = 0; transitionIndex < transitionCount; transitionIndex++) {
+            aTransition = [aGroup objectAtIndex:transitionIndex];
+            if ([aTransition isEquationUsed:anEquation]) {
+                [array addObject:[NSString stringWithFormat:@"S:%@:%@", [[aTransition group] name], [aTransition name]]];
+            }
+        }
+    }
+
+    return array;
+}
+
+#if 0
+- (NSArray *)rulesUsingEquation:(MMEquation *)anEquation;
+{
+    NSMutableArray *array;
+    int count, index;
+    MMRule *aRule;
+
+    array = [NSMutableArray array];
+    count = [rules count];
+    for (index = 0; index < count; index++) {
+        aRule = [rules objectAtIndex:index];
+        if ([aRule isEquationUsed:anEquation]) {
+            [array addObject:aRule];
+        }
+    }
+
+    return array;
+}
+
+- (NSArray *)transitionsUsingEquation:(MMEquation *)anEquation;
+{
+    NSMutableArray *array;
+    int count, index;
+    MMTransition *aTransition;
+
+    array = [NSMutableArray array];
+    count = [transitions count];
+    for (index = 0; index < count; index++) {
+        aTransition = [transitions objectAtIndex:index];
+        if ([aTransition isEquationUsed:anEquation]) {
+            [array addObject:aTransition];
+        }
+    }
+
+    return array;
+}
+
+- (NSArray *)specialTransitionsUsingEquation:(MMEquation *)anEquation;
+{
+    NSMutableArray *array;
+    int count, index;
+    MMTransition *aTransition;
+
+    array = [NSMutableArray array];
+    count = [specialTransitions count];
+    for (index = 0; index < count; index++) {
+        aTransition = [specialTransitions objectAtIndex:index];
+        if ([aTransition isEquationUsed:anEquation]) {
+            [array addObject:aTransition];
+        }
+    }
+
+    return array;
+}
+
+- (NSAray *)objectUsingEquation:(MMEquation *)anEquation;
+{
+    NSMutableArray *array;
+    MMTransition *aTransition;
+
+    array = [NSMutableArray array];
+    [array addObjectsFromArray:[self rulesUsingEquation:anEquation]];
+    [array addObjectsFromArray:[self transitionsUsingEquation:anEquation]];
+    [array addObjectsFromArray:[self specialTransitionsUsingEquation:anEquation]];
+}
+#endif
 
 //
 // Archiving

@@ -1,5 +1,5 @@
 //
-// $Id: MPrototypeManager.h,v 1.6 2004/03/23 01:21:36 nygard Exp $
+// $Id: MPrototypeManager.h,v 1.7 2004/03/23 06:23:04 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -38,6 +38,8 @@
     MModel *model;
 
     FormulaParser *formulaParser;
+
+    NSMutableDictionary *cachedEquationUsages;
 }
 
 - (id)initWithModel:(MModel *)aModel;
@@ -92,8 +94,14 @@
 
 // NSOutlineView delegate
 - (void)outlineViewSelectionDidChange:(NSNotification *)aNotification;
+//- (void)outlineViewItemDidExpand:(NSNotification *)aNotification;
+//- (void)outlineViewItemDidCollapse:(NSNotification *)aNotification;
 
 // NSTextView delegate
 - (void)textDidEndEditing:(NSNotification *)aNotification;
+
+// Equation usage caching
+- (void)clearEquationUsageCache;
+- (NSArray *)usageOfEquation:(MMEquation *)anEquation;
 
 @end

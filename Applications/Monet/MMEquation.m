@@ -6,6 +6,7 @@
 
 #import "FormulaExpression.h"
 #import "GSXMLFunctions.h"
+#import "NamedList.h"
 
 @implementation MMEquation
 
@@ -182,6 +183,11 @@
         [resultString indentToLevel:level];
         [resultString appendFormat:@"</equation>\n"];
     }
+}
+
+- (NSString *)equationPath;
+{
+    return [NSString stringWithFormat:@"%@:%@", [[self group] name], name];
 }
 
 @end

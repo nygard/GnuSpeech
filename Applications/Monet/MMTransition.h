@@ -47,7 +47,7 @@
 - (void)setType:(int)type;
 
 - (BOOL)isEquationUsed:(MMEquation *)anEquation;
-- findEquation:anEquation andPutIn:(MonetList *)aList;
+- (void)findEquation:(MMEquation *)anEquation andPutIn:(MonetList *)aList;
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 - (void)encodeWithCoder:(NSCoder *)aCoder;

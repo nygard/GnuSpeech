@@ -1,5 +1,5 @@
 //
-// $Id: NSOutlineView-Extensions.h,v 1.1 2004/03/22 04:02:38 nygard Exp $
+// $Id: NSOutlineView-Extensions.h,v 1.2 2004/03/23 06:23:04 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -11,5 +11,7 @@
 
 - (id)selectedItem;
 - (id)selectedItemOfClass:(Class)aClass;
+
+- (void)resizeOutlineColumnToFit;
 
 @end

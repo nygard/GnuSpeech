@@ -30,6 +30,8 @@
 
     [self setWindowFrameAutosaveName:@"Prototype Manager"];
 
+    cachedEquationUsages = [[NSMutableDictionary alloc] init];
+
     return self;
 }
 
@@ -37,6 +39,7 @@
 {
     [model release];
     [formulaParser release];
+    [cachedEquationUsages release];
 
     [super dealloc];
 }
@@ -107,6 +110,7 @@
 
 - (void)updateViews;
 {
+    [self clearEquationUsageCache]; // TODO (2004-03-22): Not sure when I need to do this.
     [equationOutlineView reloadData];
     [transitionOutlineView reloadData];
     [specialTransitionOutlineView reloadData];
@@ -132,7 +136,8 @@
     for (index = 0; index < count; index++)
         [specialTransitionOutlineView expandItem:[[model specialTransitions] objectAtIndex:index]];
 
-    [equationOutlineView sizeToFit];
+    //[equationOutlineView sizeToFit];
+    [equationOutlineView resizeOutlineColumnToFit];
     [transitionOutlineView sizeToFit];
     [specialTransitionOutlineView sizeToFit];
 }
@@ -526,6 +531,8 @@
     if (outlineView == equationOutlineView) {
         if (item == nil)
             return [[model equations] count];
+        else if ([item isKindOfClass:[MMEquation class]] == YES)
+            return [[self usageOfEquation:item] count];
         else
             return [item count];
     } else if (outlineView == transitionOutlineView) {
@@ -548,6 +555,8 @@
     if (outlineView == equationOutlineView) {
         if (item == nil)
             return [[model equations] objectAtIndex:index];
+        else if ([item isKindOfClass:[MMEquation class]] == YES)
+            return [[self usageOfEquation:item] objectAtIndex:index];
         else
             return [item objectAtIndex:index];
     } else if (outlineView == transitionOutlineView) {
@@ -568,7 +577,7 @@
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item;
 {
     if (outlineView == equationOutlineView) {
-        return [item isKindOfClass:[NamedList class]];
+        return [item isKindOfClass:[NamedList class]] || [item isKindOfClass:[MMEquation class]];
     } else if (outlineView == transitionOutlineView) {
         return [item isKindOfClass:[NamedList class]];
     } else if (outlineView == specialTransitionOutlineView) {
@@ -586,7 +595,12 @@
     //NSLog(@"identifier: %@, item: %p, item class: %@", identifier, item, NSStringFromClass([item class]));
 
     if (outlineView == equationOutlineView) {
-        if ([@"name" isEqual:identifier] == YES) {
+        if ([item isKindOfClass:[NSString class]] == YES) {
+            if ([@"name" isEqual:identifier] == YES)
+                return item;
+
+            return nil;
+        } else if ([@"name" isEqual:identifier] == YES) {
             return [item name];
         } else if ([@"hasComment" isEqual:identifier] == YES) {
             return [NSNumber numberWithBool:[item hasComment]];
@@ -681,6 +695,36 @@
     }
 }
 
+#if 0
+// NSOutlineView increases the width of the outline column when you expand a row, forcing horizontal scrollers to appear.  Annoying.  Try to work around.
+- (void)outlineViewItemDidExpand:(NSNotification *)aNotification;
+{
+    NSOutlineView *outlineView;
+
+    outlineView = [aNotification object];
+
+    if (outlineView == equationOutlineView) {
+        NSLog(@"-> %s", _cmd);
+        //[outlineView sizeToFit];
+        //[outlineView sizeLastColumnToFit];
+        //[outlineView resizeOutlineColumnToFit];
+    }
+}
+
+- (void)outlineViewItemDidCollapse:(NSNotification *)aNotification;
+{
+    NSOutlineView *outlineView;
+
+    outlineView = [aNotification object];
+
+    if (outlineView == equationOutlineView) {
+        NSLog(@"-> %s", _cmd);
+        //[outlineView resizeOutlineColumnToFit];
+        //[outlineView sizeLastColumnToFit];
+    }
+}
+#endif
+
 //
 // NSTextView delegate
 //
@@ -735,6 +779,30 @@
     }
 
     NSLog(@"<  %s", _cmd);
+}
+
+//
+// Equation usage caching
+//
+
+- (void)clearEquationUsageCache;
+{
+    [cachedEquationUsages removeAllObjects];
+}
+
+- (NSArray *)usageOfEquation:(MMEquation *)anEquation;
+{
+    NSString *key;
+    NSArray *usage;
+
+    key = [anEquation equationPath];
+    usage = [cachedEquationUsages objectForKey:key];
+    if (usage == nil) {
+        usage = [[self model] usageOfEquation:anEquation];
+        [cachedEquationUsages setObject:usage forKey:key];
+    }
+
+    return usage;
 }
 
 @end

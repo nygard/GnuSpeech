@@ -126,7 +126,7 @@
         aRule = [self objectAtIndex:index];
         if ([aRule isEquationUsed:anEquation]) {
             [aList addObject:aRule];
-            break;
+            break; // TODO (2004-03-22): This doesn't seem right: It would only find the first rule, not all rules.
         }
     }
 }
