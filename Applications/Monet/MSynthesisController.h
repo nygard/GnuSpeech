@@ -71,6 +71,7 @@
 - (void)windowDidLoad;
 
 - (void)_updateDisplayParameters;
+- (void)_updateEventColumns;
 - (void)updateViews;
 - (void)_updateDisplayedParameters;
 - (void)_takeIntonationParametersFromUI;
@@ -102,6 +103,9 @@
 - (int)numberOfRowsInTableView:(NSTableView *)tableView;
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row;
 - (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(int)row;
+
+// NSTableView delegate
+- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(int)row;
 
 // MExtendedTableView delegate
 - (BOOL)control:(NSControl *)aControl shouldProcessCharacters:(NSString *)characters;

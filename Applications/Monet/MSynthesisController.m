@@ -100,6 +100,7 @@
     [postureRewriter setModel:model];
 
     [self _updateDisplayParameters];
+    [self _updateEventColumns];
     [self updateViews];
 }
 
@@ -111,7 +112,7 @@
 - (void)windowDidLoad;
 {
     NSNumberFormatter *defaultNumberFormatter;
-    NSButtonCell *checkboxCell;
+    NSButtonCell *checkboxCell, *checkboxCell2;
     NSUserDefaults *defaults;
 
     [intonationParameterWindow setFrameAutosaveName:@"Intonation Parameters"];
@@ -124,7 +125,9 @@
     [checkboxCell setEditable:NO];
 
     [[parameterTableView tableColumnWithIdentifier:@"shouldDisplay"] setDataCell:checkboxCell];
-    [[eventTableView tableColumnWithIdentifier:@"flag"] setDataCell:checkboxCell];
+    checkboxCell2 = [checkboxCell copy]; // So that making it transparent doesn't affect the other one.
+    [[eventTableView tableColumnWithIdentifier:@"flag"] setDataCell:checkboxCell2];
+    [checkboxCell2 release];
 
     [checkboxCell release];
 
@@ -156,23 +159,7 @@
 
     [[[eventTableView tableColumnWithIdentifier:@"flag"] dataCell] setFormatter:defaultNumberFormatter];
 
-    {
-        unsigned int index;
-
-        defaultNumberFormatter = [NSNumberFormatter defaultNumberFormatter2];
-        for (index = 0; index < MAX_EVENTS; index++) {
-            NSTableColumn *tableColumn;
-
-            tableColumn = [[NSTableColumn alloc] initWithIdentifier:[NSNumber numberWithInt:index]];
-            [[tableColumn headerCell] setTitle:[NSString stringWithFormat:@"%d", index]];
-            [[tableColumn dataCell] setFormatter:defaultNumberFormatter];
-            [[tableColumn dataCell] setAlignment:NSRightTextAlignment];
-            [[tableColumn dataCell] setDrawsBackground:NO];
-            [tableColumn setWidth:60.0];
-            [eventTableView addTableColumn:tableColumn];
-            [tableColumn release];
-        }
-    }
+    [self _updateEventColumns];
 }
 
 - (void)_updateDisplayParameters;
@@ -209,6 +196,60 @@
     // TODO (2004-03-30): This used to have Intonation (tag=32).  How did that work?
 
     [parameterTableView reloadData];
+}
+
+- (void)_updateEventColumns;
+{
+    NSArray *tableColumns;
+    int count, index;
+    NSNumberFormatter *defaultNumberFormatter;
+    //NSString *others[4] = { @"32", @"33", @"34", @"35"};
+
+    tableColumns = [eventTableView tableColumns];
+    for (index = [tableColumns count] - 1; index >= 0; index--) { // Note that this fails if we make count an "unsigned int".
+        NSTableColumn *tableColumn;
+
+        tableColumn = [tableColumns objectAtIndex:index];
+        if ([[tableColumn identifier] isKindOfClass:[NSNumber class]])
+            [eventTableView removeTableColumn:tableColumn];
+    }
+
+    defaultNumberFormatter = [NSNumberFormatter defaultNumberFormatter2];
+
+    count = [displayParameters count];
+    for (index = 0; index < count; index++) {
+        MMDisplayParameter *displayParameter;
+        NSTableColumn *tableColumn;
+
+        displayParameter = [displayParameters objectAtIndex:index];
+
+        if ([displayParameter isSpecial] == NO) {
+            tableColumn = [[NSTableColumn alloc] initWithIdentifier:[NSNumber numberWithInt:[displayParameter tag]]];
+            [[tableColumn headerCell] setTitle:[[displayParameter parameter] symbol]];
+            [[tableColumn dataCell] setFormatter:defaultNumberFormatter];
+            [[tableColumn dataCell] setAlignment:NSRightTextAlignment];
+            [[tableColumn dataCell] setDrawsBackground:NO];
+            [tableColumn setWidth:60.0];
+            [eventTableView addTableColumn:tableColumn];
+            [tableColumn release];
+        }
+    }
+
+    // And finally add columns for the intonation values:
+    for (index = 32; index < MAX_EVENTS; index++) {
+        NSTableColumn *tableColumn;
+
+        tableColumn = [[NSTableColumn alloc] initWithIdentifier:[NSNumber numberWithInt:index]];
+        [[tableColumn headerCell] setTitle:[NSString stringWithFormat:@"%d", index]];
+        [[tableColumn dataCell] setFormatter:defaultNumberFormatter];
+        [[tableColumn dataCell] setAlignment:NSRightTextAlignment];
+        [[tableColumn dataCell] setDrawsBackground:NO];
+        [tableColumn setWidth:60.0];
+        [eventTableView addTableColumn:tableColumn];
+        [tableColumn release];
+    }
+
+    [eventTableView reloadData];
 }
 
 - (void)updateViews;
@@ -767,7 +808,7 @@
         return [eventList numberOfRules];
 
     if (tableView == eventTableView)
-        return [eventList count];
+        return [eventList count] * 2;
 
     return 0;
 }
@@ -793,15 +834,23 @@
             return [NSString stringWithFormat:@"%d.", row + 1];
         }
     } else if (tableView == eventTableView) {
+        int eventNumber;
+
+        eventNumber = row / 2;
         if ([@"time" isEqual:identifier] == YES) {
-            return [NSNumber numberWithInt:[[eventList objectAtIndex:row] time]];
+            return [NSNumber numberWithInt:[[eventList objectAtIndex:eventNumber] time]];
         } else if ([@"flag" isEqual:identifier] == YES) {
-            return [NSNumber numberWithBool:[[eventList objectAtIndex:row] flag]];
+            return [NSNumber numberWithBool:[[eventList objectAtIndex:eventNumber] flag]];
         } else if ([identifier isKindOfClass:[NSNumber class]]) {
             double value;
+            int rowOffset, index;
 
-            value = [[eventList objectAtIndex:row] getValueAtIndex:[identifier intValue]];
-            return [NSNumber numberWithDouble:value];
+            rowOffset = row % 2;
+            index = [identifier intValue] + rowOffset * 16;
+            if (rowOffset == 0 || index < 32) {
+                value = [[eventList objectAtIndex:eventNumber] getValueAtIndex:index];
+                return [NSNumber numberWithDouble:value];
+            }
         }
     }
 
@@ -820,6 +869,24 @@
         if ([@"shouldDisplay" isEqual:identifier] == YES) {
             [displayParameter setShouldDisplay:[object boolValue]];
             [self _updateDisplayedParameters];
+        }
+    }
+}
+
+- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(int)row;
+{
+    id identifier;
+
+    identifier = [tableColumn identifier];
+
+    if (tableView == eventTableView) {
+        if ([@"time" isEqual:identifier] && (row % 2) == 1) {
+            [cell setObjectValue:nil];
+        } else if ([@"flag" isEqual:identifier]) {
+            if ((row % 2) == 0)
+                [cell setTransparent:NO];
+            else
+                [cell setTransparent:YES];
         }
     }
 }
