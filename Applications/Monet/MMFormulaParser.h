@@ -11,7 +11,7 @@
 =============================================================================
 */
 
-@interface FormulaParser : GSParser
+@interface MMFormulaParser : GSParser
 {
     SymbolList *symbolList;
 

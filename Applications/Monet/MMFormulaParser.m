@@ -8,14 +8,14 @@
 #import "MMSymbol.h"
 #import "SymbolList.h"
 
-@implementation FormulaParser
+@implementation MMFormulaParser
 
 + (MMFormulaNode *)parsedExpressionFromString:(NSString *)aString symbolList:(SymbolList *)aSymbolList;
 {
-    FormulaParser *parser;
+    MMFormulaParser *parser;
     MMFormulaNode *result;
 
-    parser = [[FormulaParser alloc] init];
+    parser = [[MMFormulaParser alloc] init];
     [parser setSymbolList:aSymbolList];
 
     result = [parser parseString:aString];

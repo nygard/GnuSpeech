@@ -109,11 +109,11 @@
 
 - (void)setFormulaString:(NSString *)formulaString;
 {
-    FormulaParser *formulaParser;
+    MMFormulaParser *formulaParser;
     MMFormulaNode *result;
     NSString *errorString;
 
-    formulaParser = [[FormulaParser alloc] init];
+    formulaParser = [[MMFormulaParser alloc] init];
     [formulaParser setSymbolList:[[self model] symbols]];
 
     result = [formulaParser parseString:formulaString];
@@ -181,7 +181,7 @@
     archivedExpression = [aDecoder decodeObject];
     if (archivedExpression != nil) {
         expressionString = [archivedExpression expressionString];
-        expression = [[FormulaParser parsedExpressionFromString:expressionString symbolList:[model symbols]] retain];
+        expression = [[MMFormulaParser parsedExpressionFromString:expressionString symbolList:[model symbols]] retain];
     }
 
     //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);

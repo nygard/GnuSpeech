@@ -8,8 +8,7 @@
 #import <AppKit/NSWindowController.h>
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-@class FormulaParser;
-@class MMEquation, MModel, MMTransition;
+@class MMEquation, MMFormulaParser, MModel, MMTransition;
 @class SpecialView, TransitionView;
 
 @interface MPrototypeManager : NSWindowController
@@ -37,7 +36,7 @@
 
     MModel *model;
 
-    FormulaParser *formulaParser;
+    MMFormulaParser *formulaParser;
 
     NSMutableDictionary *cachedEquationUsage;
     NSMutableDictionary *cachedTransitionUsage;
