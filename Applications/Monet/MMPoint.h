@@ -1,4 +1,5 @@
 #import <Foundation/NSObject.h>
+#import "GSXMLFunctions.h" // For MMPhoneType
 
 @class EventList, MonetList, MMEquation;
 
@@ -16,7 +17,7 @@
     double value;  /* Value of the point */
     double freeTime; /* Free Floating time */
     MMEquation *expression; /* Time of the point */
-    int type;  /* Which phone it is targeting */
+    MMPhoneType type;  /* Which phone it is targeting */
     BOOL isPhantom; /* Phantom point for place marking purposes only */
 }
 

@@ -24,7 +24,7 @@
     freeTime = 0.0;
     expression = nil;
     isPhantom = NO;
-    type = DIPHONE;
+    type = MMPhoneTypeDiphone;
 
     return self;
 }

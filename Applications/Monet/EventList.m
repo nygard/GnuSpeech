@@ -717,7 +717,7 @@
     rules[currentRule].beat = (ruleSymbols[1]*multiplier) + (double)zeroRef;
     rules[currentRule++].duration = ruleSymbols[0] * multiplier;
 
-    switch(type) {
+    switch (type) {
         /* Note: Case 4 should execute all of the below, case 3 the last two */
       case 4:
           phones[phoneIndex+2].onset = (double)zeroRef + ruleSymbols[1];
@@ -749,22 +749,22 @@
         /* Optimization, Don't calculate if no changes occur */
         cont = 1;
         switch (type) {
-          case DIPHONE:
+          case MMPhoneTypeDiphone:
               if (targets[0] == targets[1])
                   cont = 0;
               break;
-          case TRIPHONE:
+          case MMPhoneTypeTriphone:
               if ((targets[0] == targets[1]) && (targets[0] == targets[2]))
                   cont = 0;
               break;
-          case TETRAPHONE:
+          case MMPhoneTypeTetraphone:
               if ((targets[0] == targets[1]) && (targets[0] == targets[2]) && (targets[0] == targets[3]))
                   cont = 0;
               break;
         }
 
         if (cont) {
-            currentType = DIPHONE;
+            currentType = MMPhoneTypeDiphone;
             currentDelta = targets[1] - targets[0];
 
             /* Get transition profile list */

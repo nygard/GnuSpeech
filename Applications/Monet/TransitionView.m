@@ -361,7 +361,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     if (currentTemplate)
         type = [currentTemplate type];
     else
-        type = DIPHONE;
+        type = MMPhoneTypeDiphone;
 
     [[NSColor darkGrayColor] set];
     bezierPath = [[NSBezierPath alloc] init];
@@ -403,7 +403,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     if (currentTemplate)
         type = [currentTemplate type];
     else
-        type = DIPHONE;
+        type = MMPhoneTypeDiphone;
 
     [[NSColor blackColor] set];
     //[[NSColor redColor] set];
@@ -416,7 +416,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     myPoint.y = bounds.size.height - BOTTOM_MARGIN + 6;
 
     switch (type) {
-      case TETRAPHONE:
+      case MMPhoneTypeTetraphone:
           currentTimePoint = (timeScale * [self mark3]);
           [bezierPath moveToPoint:NSMakePoint(graphOrigin.x + currentTimePoint, graphOrigin.y + 1)];
           [bezierPath lineToPoint:NSMakePoint(graphOrigin.x + currentTimePoint, graphTopYPos)];
@@ -424,7 +424,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
           [NSBezierPath drawSquareMarkerAtPoint:myPoint];
           // And draw the other two:
 
-      case TRIPHONE:
+      case MMPhoneTypeTriphone:
           currentTimePoint = (timeScale * [self mark2]);
           [bezierPath moveToPoint:NSMakePoint(graphOrigin.x + currentTimePoint, graphOrigin.y + 1)];
           [bezierPath lineToPoint:NSMakePoint(graphOrigin.x + currentTimePoint, graphTopYPos)];
@@ -432,7 +432,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
           [NSBezierPath drawTriangleMarkerAtPoint:myPoint];
           // And draw the other one:
 
-      case DIPHONE:
+      case MMPhoneTypeDiphone:
           currentTimePoint = (timeScale * [self mark1]);
           [bezierPath moveToPoint:NSMakePoint(graphOrigin.x + currentTimePoint, graphOrigin.y + 1)];
           [bezierPath lineToPoint:NSMakePoint(graphOrigin.x + currentTimePoint, graphTopYPos)];
@@ -510,13 +510,13 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         myPoint.y = graphOrigin.y + (yScale * ZERO_INDEX) + (y * (float)yScale / SECTION_AMOUNT);
         [bezierPath lineToPoint:myPoint];
         switch ([currentPoint type]) {
-          case TETRAPHONE:
+          case MMPhoneTypeTetraphone:
               [tetraphonePoints addObject:[NSValue valueWithPoint:myPoint]];
               break;
-          case TRIPHONE:
+          case MMPhoneTypeTriphone:
               [triphonePoints addObject:[NSValue valueWithPoint:myPoint]];
               break;
-          case DIPHONE:
+          case MMPhoneTypeDiphone:
               [diphonePoints addObject:[NSValue valueWithPoint:myPoint]];
               break;
         }
@@ -1166,21 +1166,21 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     }
 
     switch ([currentTemplate type]) {
-      case DIPHONE:
+      case MMPhoneTypeDiphone:
           [self setRuleDuration:100];
           [self setBeatLocation:33];
           [self setMark1:100];
           [self setMark2:0];
           [self setMark3:0];
           break;
-      case TRIPHONE:
+      case MMPhoneTypeTriphone:
           [self setRuleDuration:200];
           [self setBeatLocation:33];
           [self setMark1:100];
           [self setMark2:200];
           [self setMark3:0];
           break;
-      case TETRAPHONE:
+      case MMPhoneTypeTetraphone:
           [self setRuleDuration:300];
           [self setBeatLocation:33];
           [self setMark1:100];

@@ -194,13 +194,13 @@
         myPoint.y = graphOrigin.y + (yScale * ZERO_INDEX) + (y * (float)yScale / SECTION_AMOUNT);
         [bezierPath lineToPoint:myPoint];
         switch ([currentPoint type]) {
-          case TETRAPHONE:
+          case MMPhoneTypeTetraphone:
               [tetraphonePoints addObject:[NSValue valueWithPoint:myPoint]];
               break;
-          case TRIPHONE:
+          case MMPhoneTypeTriphone:
               [triphonePoints addObject:[NSValue valueWithPoint:myPoint]];
               break;
-          case DIPHONE:
+          case MMPhoneTypeDiphone:
               [diphonePoints addObject:[NSValue valueWithPoint:myPoint]];
               break;
         }

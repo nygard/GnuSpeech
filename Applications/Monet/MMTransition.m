@@ -16,31 +16,6 @@
 #import "MXMLParser.h"
 #import "MXMLPCDataDelegate.h"
 
-static NSString *MMStringFromTransitionType(int type)
-{
-    switch (type) {
-      case 2: return @"diphone";
-      case 3: return @"triphone";
-      case 4: return @"tetraphone";
-    }
-
-    [NSException raise:NSInvalidArgumentException format:@"Unkonwn transition type: %d", type];
-    return nil;
-}
-
-static int MMTransitionTypeFromString(NSString *str)
-{
-    if ([str isEqualToString:@"diphone"])
-        return 2;
-    else if ([str isEqualToString:@"triphone"])
-        return 3;
-    else if ([str isEqualToString:@"tetraphone"])
-        return 4;
-
-    [NSException raise:NSInvalidArgumentException format:@"Unkonwn transition type: %@", str];
-    return 0;
-}
-
 @implementation MMTransition
 
 - (id)init;
@@ -52,11 +27,11 @@ static int MMTransitionTypeFromString(NSString *str)
 
     name = nil;
     comment = nil;
-    type = DIPHONE;
+    type = MMPhoneTypeDiphone;
     points = [[MonetList alloc] init];
 
     aPoint = [[MMPoint alloc] init];
-    [aPoint setType:DIPHONE];
+    [aPoint setType:MMPhoneTypeDiphone];
     [aPoint setFreeTime:0.0];
     [aPoint setValue:0.0];
     [points addObject:aPoint];
@@ -298,72 +273,72 @@ static int MMTransitionTypeFromString(NSString *str)
 
         aPoint = [[MMPoint alloc] init];
         [aPoint setValue:0.0];
-        [aPoint setType:DIPHONE];
+        [aPoint setType:MMPhoneTypeDiphone];
         [aPoint setExpression:[model findEquationList:@"Test" named:@"Zero"]];
         [defaultPoints addObject:aPoint];
         [aPoint release];
 
         aPoint = [[MMPoint alloc] init];
         [aPoint setValue:12.5];
-        [aPoint setType:DIPHONE];
+        [aPoint setType:MMPhoneTypeDiphone];
         [aPoint setExpression:[model findEquationList:@"Test" named:@"diphoneOneThree"]];
         [defaultPoints addObject:aPoint];
         [aPoint release];
 
         aPoint = [[MMPoint alloc] init];
         [aPoint setValue:87.5];
-        [aPoint setType:DIPHONE];
+        [aPoint setType:MMPhoneTypeDiphone];
         [aPoint setExpression:[model findEquationList:@"Test" named:@"diphoneTwoThree"]];
         [defaultPoints addObject:aPoint];
         [aPoint release];
 
         aPoint = [[MMPoint alloc] init];
         [aPoint setValue:100.0];
-        [aPoint setType:DIPHONE];
+        [aPoint setType:MMPhoneTypeDiphone];
         [aPoint setExpression:[model findEquationList:@"Defaults" named:@"Mark1"]];
         [defaultPoints addObject:aPoint];
         [aPoint release];
 
-        if (type != DIPHONE) {
+        if (type != MMPhoneTypeDiphone) {
             aPoint = [[MMPoint alloc] init];
             [aPoint setValue:12.5];
-            [aPoint setType:TRIPHONE];
+            [aPoint setType:MMPhoneTypeDiphone];
             [aPoint setExpression:[model findEquationList:@"Test" named:@"triphoneOneThree"]];
             [defaultPoints addObject:aPoint];
             [aPoint release];
 
             aPoint = [[MMPoint alloc] init];
             [aPoint setValue:87.5];
-            [aPoint setType:TRIPHONE];
+            [aPoint setType:MMPhoneTypeTriphone];
             [aPoint setExpression:[model findEquationList:@"Test" named:@"triphoneTwoThree"]];
             [defaultPoints addObject:aPoint];
             [aPoint release];
 
             aPoint = [[MMPoint alloc] init];
             [aPoint setValue:100.0];
-            [aPoint setType:TRIPHONE];
+            [aPoint setType:MMPhoneTypeTriphone];
             [aPoint setExpression:[model findEquationList:@"Defaults" named:@"Mark2"]];
             [defaultPoints addObject:aPoint];
             [aPoint release];
 
-            if (type != TRIPHONE) {
+            if (type != MMPhoneTypeTriphone) {
                 aPoint = [[MMPoint alloc] init];
                 [aPoint setValue:12.5];
-                [aPoint setType:TETRAPHONE];
+                [aPoint setType:MMPhoneTypeTetraphone];
                 [aPoint setExpression:[model findEquationList:@"Test" named:@"tetraphoneOneThree"]];
                 [defaultPoints addObject:aPoint];
                 [aPoint release];
 
                 aPoint = [[MMPoint alloc] init];
                 [aPoint setValue:87.5];
-                [aPoint setType:TETRAPHONE];
+                [aPoint setType:MMPhoneTypeTetraphone];
                 [aPoint setExpression:[model findEquationList:@"Test" named:@"tetraphoneTwoThree"]];
                 [defaultPoints addObject:aPoint];
                 [aPoint release];
 
                 aPoint = [[MMPoint alloc] init];
                 [aPoint setValue:100.0];
-                [aPoint setType:TETRAPHONE];
+                [aPoint setType:MMPhoneTypeTetraphone];
                 [aPoint setExpression:[model findEquationList:@"Durations" named:@"TetraphoneDefault"]];
                 [defaultPoints addObject:aPoint];
                 [aPoint release];
@@ -390,7 +365,7 @@ static int MMTransitionTypeFromString(NSString *str)
 {
     [resultString indentToLevel:level];
     [resultString appendFormat:@"<transition name=\"%@\" type=\"%@\">\n",
-                  GSXMLAttributeString(name, NO), GSXMLAttributeString(MMStringFromTransitionType(type), NO)];
+                  GSXMLAttributeString(name, NO), GSXMLAttributeString(MMStringFromPhoneType(type), NO)];
 
     if (comment != nil) {
         [resultString indentToLevel:level + 1];

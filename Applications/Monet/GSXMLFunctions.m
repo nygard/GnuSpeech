@@ -67,3 +67,30 @@ NSString *GSXMLBoolAttributeString(BOOL aFlag)
 
     return @"no";
 }
+
+
+// TODO (2004-04-22): Maybe these should be in another file.
+NSString *MMStringFromPhoneType(MMPhoneType type)
+{
+    switch (type) {
+      case 2: return @"diphone";
+      case 3: return @"triphone";
+      case 4: return @"tetraphone";
+    }
+
+    [NSException raise:NSInvalidArgumentException format:@"Unkonwn phone type: %d", type];
+    return nil;
+}
+
+MMPhoneType MMPhoneTypeFromString(NSString *str)
+{
+    if ([str isEqualToString:@"diphone"])
+        return 2;
+    else if ([str isEqualToString:@"triphone"])
+        return 3;
+    else if ([str isEqualToString:@"tetraphone"])
+        return 4;
+
+    [NSException raise:NSInvalidArgumentException format:@"Unkonwn phone type: %@", str];
+    return 0;
+}

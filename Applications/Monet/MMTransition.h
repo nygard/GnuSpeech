@@ -1,4 +1,5 @@
 #import <Foundation/NSObject.h>
+#import "GSXMLFunctions.h" // To get MMPhoneType
 
 @class MonetList, MMEquation, MMPoint, NamedList;
 
@@ -11,17 +12,13 @@
 =============================================================================
 */
 
-#define DIPHONE 2
-#define TRIPHONE 3
-#define TETRAPHONE 4
-
 @interface MMTransition : NSObject
 {
     NamedList *nonretained_group;
 
     NSString *name;
     NSString *comment;
-    int type;
+    MMPhoneType type;
     MonetList *points; // Of MMSlopeRatios (or maybe something else - MMPoints?)
 }
 

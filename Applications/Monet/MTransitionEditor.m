@@ -264,17 +264,17 @@
         // TODO (2004-03-22): You shouldn't be able to set the value of points in a SlopeRatio (except maybe the first point).
         [valueTextField setDoubleValue:[selectedPoint value]];
         switch ([selectedPoint type]) {
-          case DIPHONE:
+          case MMPhoneTypeDiphone:
               [type1Button setState:1];
               [type2Button setState:0];
               [type3Button setState:0];
               break;
-          case TRIPHONE:
+          case MMPhoneTypeTriphone:
               [type1Button setState:0];
               [type2Button setState:1];
               [type3Button setState:0];
               break;
-          case TETRAPHONE:
+          case MMPhoneTypeTetraphone:
               [type1Button setState:0];
               [type2Button setState:0];
               [type3Button setState:1];

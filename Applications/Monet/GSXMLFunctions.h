@@ -1,11 +1,10 @@
 @class NSString;
 
-#if 0
 typedef enum {
-    GSXMLAttributeQuoteStyleSingle = 0,
-    GSXMLAttributeQuoteStyleDouble = 1,
-} GSMXMLAttributeQuoteStyle;
-#endif
+    MMPhoneTypeDiphone = 2,
+    MMPhoneTypeTriphone = 3,
+    MMPhoneTypeTetraphone = 4,
+} MMPhoneType;
 
 #define GSXMLEntityMaskNone 0x00
 #define GSXMLEntityMaskAmpersand 0x01
@@ -19,3 +18,7 @@ NSString *GSXMLEscapeGeneralEntities(NSString *aString, int entityMask);
 NSString *GSXMLAttributeString(NSString *aString, BOOL isSingleQuoted);
 NSString *GSXMLCharacterData(NSString *aString);
 NSString *GSXMLBoolAttributeString(BOOL aFlag);
+
+
+NSString *MMStringFromPhoneType(MMPhoneType type);
+MMPhoneType MMPhoneTypeFromString(NSString *str);
