@@ -23,47 +23,48 @@ History:
 ===========================================================================*/
 
 
-@interface ProtoTemplateInspector:NSObject
+@interface ProtoTemplateInspector : NSObject
 {
-	id	mainInspector;
-	id	popUpListView;
-	id	popUpList;
+    id mainInspector;
+    id popUpListView;
+    id popUpList;
 
-	id	genInfoView;
-	id	typeMatrix;
+    id genInfoView;
+    id typeMatrix;
 
-	id	commentView;
-	id	commentText;
-	id	setCommentButton;
-	id	revertCommentButton;
+    id commentView;
+    id commentText;
+    id setCommentButton;
+    id revertCommentButton;
 
-	id      usageBox;
-	id      usageBrowser;
-	id      usageField;
+    id usageBox;
+    id usageBrowser;
+    id usageField;
 
-	ProtoTemplate *protoTemplate;
-	id	formParser;
+    ProtoTemplate *protoTemplate;
+    id formParser;
 
-	MonetList	*templateList;
-
+    MonetList *templateList;
 }
 
-- init;
+- (id)init;
+- (void)dealloc;
+
 - (void)inspectProtoTemplate:template;
 
-- (void)setUpWindow:sender;
+- (void)setUpWindow:(id)sender;
 - (void)beginEditting;
 
-- (void)setDiphone:sender;
-- (void)setTriphone:sender;
-- (void)setTetraphone:sender;
+- (void)setComment:(id)sender;
+- (void)revertComment:(id)sender;
 
-- (void)setComment:sender;
-- (void)revertComment:sender;
+- (void)setDiphone:(id)sender;
+- (void)setTriphone:(id)sender;
+- (void)setTetraphone:(id)sender;
 
 - (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
-- (void)browserHit:sender;
-- (void)browserDoubleHit:sender;
+- (void)browserHit:(id)sender;
+- (void)browserDoubleHit:(id)sender;
 
 @end

@@ -1,162 +1,162 @@
-
 #import "ProtoTemplateInspector.h"
+
+#import <AppKit/AppKit.h>
+#import "FormulaParser.h"
 #import "Inspector.h"
 #import "RuleManager.h"
+#import "MonetList.h"
 #import "MyController.h"
-#import <AppKit/NSText.h>
-#import <AppKit/NSApplication.h>
-#import <string.h>
+#import "ProtoTemplate.h"
+#import "Rule.h"
 
 @implementation ProtoTemplateInspector
 
-- init
+- (id)init;
 {
-	formParser = [[FormulaParser alloc] init];
-	templateList = [[MonetList alloc] initWithCapacity:20];
-	return self;
+    if ([super init] == nil)
+        return nil;
+
+    formParser = [[FormulaParser alloc] init];
+    templateList = [[MonetList alloc] initWithCapacity:20];
+
+    return self;
 }
 
-- (void)inspectProtoTemplate:template
+- (void)dealloc;
 {
-	protoTemplate = template;
-	[mainInspector setPopUpListView:popUpListView];
-	[self setUpWindow:popUpList]; 
+    [formParser release];
+    [templateList release];
+
+    [super dealloc];
 }
 
-- (void)setUpWindow:sender
+- (void)inspectProtoTemplate:template;
 {
-id tempRuleManager = NXGetNamedObject(@"ruleManager", NSApp);
-const char *temp;
-
-	temp = [[[sender selectedCell] title] cString];
-	switch(temp[0])
-	{
-		/* Comment Window */
-		case 'C':
-			[mainInspector setGeneralView:commentView];
-
-			[setCommentButton setTarget:self];
-			[setCommentButton setAction:(SEL)(@selector(setComment:))];
-
-			[revertCommentButton setTarget:self];
-			[revertCommentButton setAction:(SEL)(@selector(revertComment:))];
-
-			[commentText setString:[NSString stringWithCString:[protoTemplate comment]]];
-
-			break;
-		case 'G':
-			[mainInspector setGeneralView:genInfoView];
-
-			switch([protoTemplate type])
-			{
-				case DIPHONE: 
-					[typeMatrix selectCellAtRow:0 column:0];
-					break;
-				case TRIPHONE: 
-					[typeMatrix selectCellAtRow:1 column:0];
-					break;
-				case TETRAPHONE: 
-					[typeMatrix selectCellAtRow:2 column:0];
-					break;
-			}
-			[typeMatrix display];
-			break;
-		case 'U':
-			[usageBrowser setDelegate:self];
-			[usageBrowser setTarget:self];
-			[usageBrowser setAction:(SEL)(@selector(browserHit:))];
-			[usageBrowser setDoubleAction:(SEL)(@selector(browserDoubleHit:))];
- 			[mainInspector setGeneralView:usageBox];
-			[templateList removeAllObjects];
-			[tempRuleManager findTemplate: protoTemplate andPutIn: templateList];
-
-			[usageBrowser loadColumnZero];
-			break;
-
-
-	} 
+    protoTemplate = template;
+    [mainInspector setPopUpListView:popUpListView];
+    [self setUpWindow:popUpList];
 }
 
-- (void)beginEditting
+- (void)setUpWindow:(id)sender;
 {
-const char *temp;
+    id tempRuleManager = NXGetNamedObject(@"ruleManager", NSApp);
+    NSString *str;
 
-	temp = [[[popUpList selectedCell] title] cString];
-	switch(temp[0])
-	{
-		/* Comment Window */
-		case 'C':
-			[commentText selectAll:self];
-			break;
+    str = [[sender selectedCell] title];
+    if ([str hasPrefix:@"C"]) {
+        /* Comment Window */
+        [mainInspector setGeneralView:commentView];
 
-	} 
+        [setCommentButton setTarget:self];
+        [setCommentButton setAction:@selector(setComment:)];
+
+        [revertCommentButton setTarget:self];
+        [revertCommentButton setAction:@selector(revertComment:)];
+
+        [commentText setString:[protoTemplate comment]];
+    } else if ([str hasPrefix:@"G"]) {
+        [mainInspector setGeneralView:genInfoView];
+
+        switch ([protoTemplate type]) {
+          case DIPHONE:
+              [typeMatrix selectCellAtRow:0 column:0];
+              break;
+          case TRIPHONE:
+              [typeMatrix selectCellAtRow:1 column:0];
+              break;
+          case TETRAPHONE:
+              [typeMatrix selectCellAtRow:2 column:0];
+              break;
+        }
+        [typeMatrix display];
+    } else if ([str hasPrefix:@"U"]) {
+        [usageBrowser setDelegate:self];
+        [usageBrowser setTarget:self];
+        [usageBrowser setAction:@selector(browserHit:)];
+        [usageBrowser setDoubleAction:@selector(browserDoubleHit:)];
+        [mainInspector setGeneralView:usageBox];
+        [templateList removeAllObjects];
+        [tempRuleManager findTemplate:protoTemplate andPutIn:templateList];
+
+        [usageBrowser loadColumnZero];
+    }
 }
 
-- (void)setComment:sender
+- (void)beginEditting;
 {
-	[protoTemplate setComment: [[commentText string] cString]];
+    NSString *str;
+
+    str = [[popUpList selectedCell] title];
+    if ([str hasPrefix:@"C"]) {
+        /* Comment Window */
+        [commentText selectAll:self];
+    }
 }
 
-- (void)revertComment:sender
+- (void)setComment:(id)sender;
 {
-	[commentText setString:[NSString stringWithCString:[protoTemplate comment]]]; 
+    [protoTemplate setComment:[commentText string]];
 }
 
-- (void)setDiphone:sender
+- (void)revertComment:(id)sender;
 {
-	[protoTemplate setType:DIPHONE];
-	[NXGetNamedObject(@"transitionBuilder", NSApp) display];
-	[NXGetNamedObject(@"specialTransitionBuilder", NSApp) display]; 
+    [commentText setString:[protoTemplate comment]];
 }
 
-- (void)setTriphone:sender
+- (void)setDiphone:(id)sender;
 {
-	[protoTemplate setType:TRIPHONE];
-	[NXGetNamedObject(@"transitionBuilder", NSApp) display];
-	[NXGetNamedObject(@"specialTransitionBuilder", NSApp) display]; 
+    [protoTemplate setType:DIPHONE];
+    [NXGetNamedObject(@"transitionBuilder", NSApp) display];
+    [NXGetNamedObject(@"specialTransitionBuilder", NSApp) display];
 }
 
-- (void)setTetraphone:sender
+- (void)setTriphone:(id)sender;
 {
-	[protoTemplate setType:TETRAPHONE];
-	[NXGetNamedObject(@"transitionBuilder", NSApp) display];
-	[NXGetNamedObject(@"specialTransitionBuilder", NSApp) display]; 
+    [protoTemplate setType:TRIPHONE];
+    [NXGetNamedObject(@"transitionBuilder", NSApp) display];
+    [NXGetNamedObject(@"specialTransitionBuilder", NSApp) display];
 }
 
-- (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column
+- (void)setTetraphone:(id)sender;
 {
-char buffer[128];
-	sprintf(buffer,"Equation Usage: %d", [templateList count]);
-	[usageBrowser setTitle:[NSString stringWithCString:buffer] ofColumn:0];
-	return [templateList count];
+    [protoTemplate setType:TETRAPHONE];
+    [NXGetNamedObject(@"transitionBuilder", NSApp) display];
+    [NXGetNamedObject(@"specialTransitionBuilder", NSApp) display];
 }
 
-- (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column
+- (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;
 {
-id tempRuleManager = NXGetNamedObject(@"ruleManager", NSApp);
-id tempRuleList; 
-char buffer[128];
+    NSString *str;
 
-	tempRuleList = [tempRuleManager ruleList];
-	[cell setLeaf:YES];
-	[cell setLoaded:YES];
+    str = [NSString stringWithFormat:@"Equation Usage: %d", [templateList count]];
+    [usageBrowser setTitle:str ofColumn:0];
 
-	if ([[templateList objectAtIndex: row] isKindOfClassNamed:"Rule"])
-	{
-		bzero(buffer, 128);
-		sprintf(buffer,"Rule: %d\n", [tempRuleList indexOfObject: [templateList objectAtIndex: row]]+1);
-		[cell setStringValue:[NSString stringWithCString:buffer]];
-	}
+    return [templateList count];
 }
 
-- (void)browserHit:sender
+- (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
 {
-	 
+    id tempRuleManager = NXGetNamedObject(@"ruleManager", NSApp);
+    id tempRuleList;
+
+    tempRuleList = [tempRuleManager ruleList];
+    [cell setLeaf:YES];
+    [cell setLoaded:YES];
+
+    if ([[templateList objectAtIndex: row] isKindOfClass:[Rule class]]) {
+        NSString *str;
+
+        str = [NSString stringWithFormat:@"Rule: %d", [tempRuleList indexOfObject:[templateList objectAtIndex:row]]+1];
+        [cell setStringValue:str];
+    }
 }
 
-- (void)browserDoubleHit:sender
+- (void)browserHit:(id)sender;
 {
-	 
+}
+
+- (void)browserDoubleHit:(id)sender;
+{
 }
 
 

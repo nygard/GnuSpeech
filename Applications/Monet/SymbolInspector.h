@@ -25,34 +25,32 @@ History:
 
 @interface SymbolInspector:NSObject
 {
-	id	mainInspector;
-	id	symbolPopUpListView;
-	id	symbolPopUpList;
+    id mainInspector;
+    id symbolPopUpListView;
+    id symbolPopUpList;
 
-	id	commentView;
-	id	commentText;
-	id	setButton;
-	id	revertButton;
+    id commentView;
+    id commentText;
+    id setButton;
+    id revertButton;
 
-	id	valueBox;
-	id	valueFields;
-	id	setValueButton;
-	id	revertValueButton;
+    id valueBox;
+    id valueFields;
+    id setValueButton;
+    id revertValueButton;
 
 
-	Symbol	*currentSymbol;
-
+    Symbol *currentSymbol;
 }
 
-- init;
-- (void)inspectSymbol:phone;
-- (void)setUpWindow:sender;
+- (void)inspectSymbol:symbol;
+- (void)setUpWindow:(id)sender;
 - (void)beginEditting;
 
-- (void)setComment:sender;
-- (void)revertComment:sender;
+- (void)setComment:(id)sender;
+- (void)revertComment:(id)sender;
 
-- (void)setValue:sender;
-- (void)revertValue:sender;
+- (void)setValue:(id)sender;
+- (void)revertValue:(id)sender;
 
 @end

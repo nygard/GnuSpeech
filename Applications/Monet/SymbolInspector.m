@@ -1,104 +1,88 @@
-
 #import "SymbolInspector.h"
+
+#import <AppKit/AppKit.h>
 #import "Inspector.h"
 #import "MyController.h"
-#import <AppKit/NSText.h>
-#import <string.h>
+#import "PhoneList.h"
+#import "Symbol.h"
 
 @implementation SymbolInspector
 
-- init
+- (void)inspectSymbol:symbol;
 {
-	return self;
+    currentSymbol = symbol;
+    [mainInspector setPopUpListView:symbolPopUpListView];
+    [self setUpWindow:symbolPopUpList];
 }
 
-- (void)inspectSymbol:symbol
+- (void)setUpWindow:(id)sender;
 {
-	currentSymbol = symbol;
-	[mainInspector setPopUpListView:symbolPopUpListView];
-	[self setUpWindow:symbolPopUpList]; 
+    NSString *str;
+
+    str = [[sender selectedCell] title];
+    if ([str hasPrefix:@"C"]) {
+        /* Comment Window */
+        [mainInspector setGeneralView:commentView];
+
+        [setButton setTarget:self];
+        [setButton setAction:@selector(setComment:)];
+
+        [revertButton setTarget:self];
+        [revertButton setAction:@selector(revertComment:)];
+
+        [commentText setString:[currentSymbol comment]];
+    } else if ([str hasPrefix:@"D"]) {
+        [mainInspector setGeneralView:valueBox];
+
+        [setValueButton setTarget:self];
+        [setValueButton setAction:@selector(setValue:)];
+
+        [revertValueButton setTarget:self];
+        [revertValueButton setAction:@selector(revertValue:)];
+
+        [[valueFields cellAtIndex:0] setDoubleValue:[currentSymbol minimumValue]];
+        [[valueFields cellAtIndex:1] setDoubleValue:[currentSymbol maximumValue]];
+        [[valueFields cellAtIndex:2] setDoubleValue:[currentSymbol defaultValue]];
+    }
 }
 
-- (void)setUpWindow:sender
+- (void)beginEditting;
 {
-const char *temp;
+    NSString *str;
 
-	temp = [[[sender selectedCell] title] cString];
-	switch(temp[0])
-	{
-		/* Comment Window */
-		case 'C':
-			[mainInspector setGeneralView:commentView];
-
-			[setButton setTarget:self];
-			[setButton setAction:(SEL)(@selector(setComment:))];
-
-			[revertButton setTarget:self];
-			[revertButton setAction:(SEL)(@selector(revertComment:))];
-
-			[commentText setString:[NSString stringWithCString:[currentSymbol comment]]];
-
-			break;
-	       case 'D':
-			[mainInspector setGeneralView:valueBox];
-
-			[setValueButton setTarget:self];
-			[setValueButton setAction:(SEL)(@selector(setValue:))];
-
-			[revertValueButton setTarget:self];
-			[revertValueButton setAction:(SEL)(@selector(revertValue:))];
-
-			[[valueFields cellAtIndex:0] setDoubleValue:[currentSymbol minimumValue]];
-			[[valueFields cellAtIndex:1] setDoubleValue:[currentSymbol maximumValue]];
-			[[valueFields cellAtIndex:2] setDoubleValue:[currentSymbol defaultValue]];
-
-			break;
-	} 
+    str = [[symbolPopUpList selectedCell] title];
+    if ([str hasPrefix:@"C"]) {
+        /* Comment Window */
+        [commentText selectAll:self];
+    }
 }
 
-- (void)beginEditting
+- (void)setComment:(id)sender;
 {
-const char *temp;
-
-	temp = [[[symbolPopUpList selectedCell] title] cString];
-	switch(temp[0])
-	{
-		/* Comment Window */
-		case 'C':
-			[commentText selectAll:self];
-			break;
-	} 
+    [currentSymbol setComment:[commentText string]];
 }
 
-- (void)setComment:sender
+- (void)revertComment:(id)sender;
 {
-	[currentSymbol setComment: [[commentText string] cString]];
+    [commentText setString:[currentSymbol comment]];
 }
 
-- (void)revertComment:sender
+- (void)setValue:(id)sender;
 {
-	[commentText setString:[NSString stringWithCString:[currentSymbol comment]]]; 
+    if ([currentSymbol defaultValue] != [[valueFields cellAtIndex:2] doubleValue]) {
+        [currentSymbol setDefaultValue:[[valueFields cellAtIndex:2] doubleValue]];
+        [NXGetNamedObject(@"mainPhoneList", NSApp) symbolDefaultChange:currentSymbol to:[[valueFields cellAtIndex:2] doubleValue]];
+    }
+
+    [currentSymbol setMinimumValue:[[valueFields cellAtIndex:0] doubleValue]];
+    [currentSymbol setMaximumValue:[[valueFields cellAtIndex:1] doubleValue]];
 }
 
-- (void)setValue:sender
+- (void)revertValue:(id)sender;
 {
-
-	if ([currentSymbol defaultValue] !=  [[valueFields cellAtIndex:2] doubleValue])
-	{
-		[currentSymbol setDefaultValue:[[valueFields cellAtIndex:2] doubleValue]];
-		[NXGetNamedObject(@"mainPhoneList", NSApp) symbolDefaultChange:currentSymbol to:[[valueFields cellAtIndex:2] doubleValue]];
-	}
-
-	[currentSymbol setMinimumValue:[[valueFields cellAtIndex:0] doubleValue]];
-	[currentSymbol setMaximumValue:[[valueFields cellAtIndex:1] doubleValue]]; 
-}
-
-- (void)revertValue:sender
-{
-	[[valueFields cellAtIndex:0] setDoubleValue:[currentSymbol minimumValue]];
-	[[valueFields cellAtIndex:1] setDoubleValue:[currentSymbol maximumValue]];
-	[[valueFields cellAtIndex:2] setDoubleValue:[currentSymbol defaultValue]]; 
+    [[valueFields cellAtIndex:0] setDoubleValue:[currentSymbol minimumValue]];
+    [[valueFields cellAtIndex:1] setDoubleValue:[currentSymbol maximumValue]];
+    [[valueFields cellAtIndex:2] setDoubleValue:[currentSymbol defaultValue]];
 }
 
 @end
-

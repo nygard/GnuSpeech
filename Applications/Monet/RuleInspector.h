@@ -23,47 +23,47 @@ History:
 ===========================================================================*/
 
 
-@interface RuleInspector:NSObject
+@interface RuleInspector : NSObject
 {
-	id	mainInspector;
-	id	popUpListView;
-	id	popUpList;
+    id mainInspector;
+    id popUpListView;
+    id popUpList;
 
-	int	currentBrowser;
-	id	browserView;
-	id	mainBrowser;
-	id	selectionBrowser;
+    int currentBrowser;
+    id browserView;
+    id mainBrowser;
+    id selectionBrowser;
 
-	id	genInfoBox;
-	id	consumeText;
-	id	locationTextField;
-	id	moveToField;
+    id genInfoBox;
+    id consumeText;
+    id locationTextField;
+    id moveToField;
 
-	id	commentText;
-	id	commentView;
-	id	setCommentButton;
-	id	revertCommentButton;
+    id commentText;
+    id commentView;
+    id setCommentButton;
+    id revertCommentButton;
 
-	Rule	*currentRule;
+    Rule *currentRule;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
-- init;
+- (id)init;
 - (void)inspectRule:rule;
-- (void)setUpWindow:sender;
+- (void)setUpWindow:(id)sender;
 - (void)beginEditting;
 
-- (void)browserHit:sender;
-- (void)browserDoubleHit:sender;
-- (void)selectionBrowserHit:sender;
-- (void)selectionBrowserDoubleHit:sender;
+- (void)browserHit:(id)sender;
+- (void)browserDoubleHit:(id)sender;
+- (void)selectionBrowserHit:(id)sender;
+- (void)selectionBrowserDoubleHit:(id)sender;
 
 - (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
 
-- (void)moveRule:sender;
+- (void)moveRule:(id)sender;
 
-- (void)setComment:sender;
-- (void)revertComment:sender;
+- (void)setComment:(id)sender;
+- (void)revertComment:(id)sender;
 
 @end
