@@ -107,6 +107,52 @@
     return rules;
 }
 
+//
+// Categories
+//
+
+- (void)addCategory:(MMCategory *)newCategory;
+{
+    if ([newCategory symbol] == nil)
+        [newCategory setSymbol:@"Untitled"];
+
+    [self uniqueNameForCategory:newCategory];
+
+    [categories addObject:newCategory];
+    // TODO (2004-03-18): And sort categories by name.
+    // TODO (2004-03-18): And post notification of new category.
+}
+
+- (void)uniqueNameForCategory:(MMCategory *)newCategory;
+{
+    NSMutableSet *categoryNames;
+    int count, index;
+    NSString *name, *basename;
+
+    categoryNames = [[NSMutableSet alloc] init];
+    count = [categories count];
+    for (index = 0; index < count; index++) {
+        name = [[categories objectAtIndex:index] symbol];
+        if (name != nil)
+            [categoryNames addObject:name];
+    }
+
+    name = basename = [newCategory symbol];
+    index = 1;
+    while ([categoryNames containsObject:name] == YES) {
+        name = [NSString stringWithFormat:@"%@%d", basename, index++];
+    }
+
+    [newCategory setSymbol:name];
+
+    [categoryNames release];
+}
+
+- (BOOL)isCategoryUsed:(MMCategory *)aCategory;
+{
+    return [rules isCategoryUsed:aCategory];
+}
+
 // TODO (2004-03-06): Find equation named "named" in list named "list"
 // Change to findEquationNamed:(NSString *)anEquationName inList:(NSString *)aListName;
 // TODO (2004-03-06): Merge these three sets of methods, since they're practically identical.

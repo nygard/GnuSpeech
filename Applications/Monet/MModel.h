@@ -1,5 +1,5 @@
 //
-// $Id: MModel.h,v 1.5 2004/03/19 02:00:56 nygard Exp $
+// $Id: MModel.h,v 1.6 2004/03/19 05:00:10 nygard Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -7,7 +7,8 @@
 
 #import <Foundation/NSObject.h>
 
-@class CategoryList, MonetList, ParameterList, PhoneList, MMEquation, MMTransition, RuleList, SymbolList;
+@class CategoryList, MonetList, ParameterList, PhoneList, RuleList, SymbolList;
+@class MMCategory, MMEquation, MMTransition;
 
 @interface MModel : NSObject
 {
@@ -38,6 +39,13 @@
 - (MonetList *)specialTransitions;
 
 - (RuleList *)rules;
+
+
+// Categories
+- (void)addCategory:(MMCategory *)newCategory;
+- (void)uniqueNameForCategory:(MMCategory *)newCategory;
+- (BOOL)isCategoryUsed:(MMCategory *)aCategory;
+
 
 - (MMEquation *)findEquationList:(NSString *)aListName named:(NSString *)anEquationName;
 - (void)findList:(int *)listIndex andIndex:(int *)equationIndex ofEquation:(MMEquation *)anEquation;

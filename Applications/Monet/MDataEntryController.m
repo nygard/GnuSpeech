@@ -122,7 +122,18 @@
 
 - (IBAction)addCategory:(id)sender;
 {
+    MMCategory *newCategory;
+
     NSLog(@" > %s", _cmd);
+
+    newCategory = [[MMCategory alloc] initWithSymbol:nil];
+    [[self model] addCategory:newCategory];
+    [newCategory release];
+
+    [self updateViews];
+
+    // TODO (2004-03-18): Ideally we'd like to select the name of the category for editing.
+
     NSLog(@"<  %s", _cmd);
 }
 
@@ -201,7 +212,7 @@
         if ([@"hasComment" isEqual:identifier] == YES) {
             return [NSNumber numberWithBool:[category hasComment]];
         } else if ([@"isUsed" isEqual:identifier] == YES) {
-            return [NSNumber numberWithBool:YES];
+            return [NSNumber numberWithBool:[[self model] isCategoryUsed:category]];
         } else if ([@"name" isEqual:identifier] == YES) {
             return [category symbol];
         }
