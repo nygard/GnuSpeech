@@ -294,7 +294,7 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
         return;
     }
 
-    synthesize(tube, inputData);
+    TRMTubeModelSynthesize(tube, inputData);
 
     if (shouldSaveToSoundFile) {
         writeOutputToFile(tube->sampleRateConverter, inputData, [filename UTF8String]);
