@@ -628,7 +628,6 @@
     double footTempo, tempTempo;
     int index;
     int i, j, rus;
-    RuleList *ruleList = [aModel rules];
     ParameterList *mainParameterList = [aModel parameters];
     MMParameter *tempParameter = nil;
 
@@ -694,7 +693,7 @@
             [tempCategoryList addObject:[phones[j+index].phone categoryList]];
         }
 
-        tempRule = [ruleList findRule:tempCategoryList index:&ruleIndex];
+        tempRule = [aModel findRuleMatchingCategories:tempCategoryList ruleIndex:&ruleIndex];
         rules[currentRule].number = ruleIndex + 1;
 
         [self applyRule:tempRule withPhones:tempPhoneList andTempos:&phoneTempo[index] phoneIndex:index+1];

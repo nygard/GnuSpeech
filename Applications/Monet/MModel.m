@@ -875,6 +875,32 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [rules addObject:newRule];
 }
 
+// categoryLists is a list of lists of categories
+- (MMRule *)findRuleMatchingCategories:(MonetList *)categoryLists ruleIndex:(int *)indexPtr;
+{
+    unsigned int count, index;
+
+    count = [rules count];
+    assert(count > 0);
+    for (index = 0; index < count; index++) {
+        MMRule *rule;
+
+        rule = [rules objectAtIndex:index];
+        if ([rule numberExpressions] <= [categoryLists count])
+            if ([rule matchRule:categoryLists]) {
+                if (indexPtr != NULL)
+                    *indexPtr = index;
+                return rule;
+            }
+    }
+
+    // This assumes that the last object will always be the "phone >> phone" rule, but that should have been matched above.
+    // TODO (2004-08-01): But what if there are no rules?
+    if (indexPtr != NULL)
+        *indexPtr = count - 1;
+    return [rules lastObject];
+}
+
 //
 // Archiving
 //

@@ -102,6 +102,7 @@ extern NSString *MCategoryInUseException;
 // Rules
 - (void)addRule:(MMRule *)newRule;
 - (void)_addStoredRule:(MMRule *)newRule;
+- (MMRule *)findRuleMatchingCategories:(MonetList *)categoryLists ruleIndex:(int *)indexPtr;
 
 // Archiving
 - (id)initWithCoder:(NSCoder *)aDecoder;
