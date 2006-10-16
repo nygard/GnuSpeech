@@ -1,0 +1,1006 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4107F00B0A2F2BE7009DA243 /* preditor_logo.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 4107F00A0A2F2BE7009DA243 /* preditor_logo.tiff */; };
+		4107F0130A2F2D61009DA243 /* app.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 4107F0120A2F2D61009DA243 /* app.tiff */; };
+		416094AB0A2B2881001A6FBB /* Delete.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 416094AA0A2B2881001A6FBB /* Delete.tiff */; };
+		416094AD0A2B2887001A6FBB /* Speak.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 416094AC0A2B2887001A6FBB /* Speak.tiff */; };
+		416094AF0A2B288B001A6FBB /* Store.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 416094AE0A2B288B001A6FBB /* Store.tiff */; };
+		418641800A31AF2200531338 /* ResponderNotifyingWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 4186417F0A31AF2200531338 /* ResponderNotifyingWindow.m */; };
+		41CC57490AE05E5900DC3B3C /* PrDict.m in Sources */ = {isa = PBXBuildFile; fileRef = 41CC57440AE05E1100DC3B3C /* PrDict.m */; };
+		41E31DB10A2F37DF001E06A9 /* APPL.icns in Resources */ = {isa = PBXBuildFile; fileRef = 41E31DB00A2F37DF001E06A9 /* APPL.icns */; };
+		41E31E770A2F49EA001E06A9 /* PrEditorDocument.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B5FDCFA73011CA2CEA /* PrEditorDocument.nib */; };
+		41E31E7E0A2F4B83001E06A9 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B7FDCFA73011CA2CEA /* MainMenu.nib */; };
+		8D15AC2C0486D014006FF6A4 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */; };
+		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
+		8D15AC310486D014006FF6A4 /* PrEditorDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4ACFDCFA73011CA2CEA /* PrEditorDocument.m */; settings = {ATTRIBUTES = (); }; };
+		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
+		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		089C1660FE840EACC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		13E42FBA07B3F13500E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		2A37F4ACFDCFA73011CA2CEA /* PrEditorDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrEditorDocument.m; sourceTree = "<group>"; };
+		2A37F4AEFDCFA73011CA2CEA /* PrEditorDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrEditorDocument.h; sourceTree = "<group>"; };
+		2A37F4B0FDCFA73011CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		2A37F4B5FDCFA73011CA2CEA /* PrEditorDocument.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = PrEditorDocument.nib; sourceTree = "<group>"; };
+		2A37F4B7FDCFA73011CA2CEA /* MainMenu.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = MainMenu.nib; sourceTree = "<group>"; };
+		2A37F4BAFDCFA73011CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = English.lproj/Credits.rtf; sourceTree = "<group>"; };
+		2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		32DBCF750370BD2300C91783 /* PrEditor_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrEditor_Prefix.pch; sourceTree = "<group>"; };
+		4107F00A0A2F2BE7009DA243 /* preditor_logo.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = preditor_logo.tiff; path = "../../../../../../speechtech (not backed)/gnuspeech/trillium/src/ForbesPrEditor/PrEditor/preditor_logo.tiff"; sourceTree = SOURCE_ROOT; };
+		4107F0120A2F2D61009DA243 /* app.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = app.tiff; path = "../../../../../../speechtech (not backed)/gnuspeech/trillium/src/ForbesPrEditor/PrEditor/app.tiff"; sourceTree = SOURCE_ROOT; };
+		412E6E6C0AE3244B007A00CE /* .dir3_0.wmd */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = .dir3_0.wmd; path = ../../../../ForbesPrEditor/PrEditor/.dir3_0.wmd; sourceTree = SOURCE_ROOT; };
+		412E6E6D0AE3244B007A00CE /* AATOC */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = AATOC; path = ../../../../ForbesPrEditor/PrEditor/AATOC; sourceTree = SOURCE_ROOT; };
+		412E6E6E0AE3244B007A00CE /* AATOC_MMF */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = AATOC_MMF; path = ../../../../ForbesPrEditor/PrEditor/AATOC_MMF; sourceTree = SOURCE_ROOT; };
+		412E6E6F0AE3244B007A00CE /* app.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = app.tiff; path = ../../../../ForbesPrEditor/PrEditor/app.tiff; sourceTree = SOURCE_ROOT; };
+		412E6E700AE3244B007A00CE /* AppPrefMgr.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = AppPrefMgr.h; path = ../../../../ForbesPrEditor/PrEditor/AppPrefMgr.h; sourceTree = SOURCE_ROOT; };
+		412E6E710AE3244B007A00CE /* AppPrefMgr.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = AppPrefMgr.m; path = ../../../../ForbesPrEditor/PrEditor/AppPrefMgr.m; sourceTree = SOURCE_ROOT; };
+		412E6E720AE3244B007A00CE /* book.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = book.tiff; path = ../../../../ForbesPrEditor/PrEditor/book.tiff; sourceTree = SOURCE_ROOT; };
+		412E6E730AE3244B007A00CE /* ChangeLog */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = ChangeLog; path = ../../../../ForbesPrEditor/PrEditor/ChangeLog; sourceTree = SOURCE_ROOT; };
+		412E6E750AE3244B007A00CE /* .dir3_0.wmd */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = .dir3_0.wmd; path = ../../../../ForbesPrEditor/PrEditor/Changes_MMF/.dir3_0.wmd; sourceTree = SOURCE_ROOT; };
+		412E6E760AE3244B007A00CE /* AppPrefMgr.h.log.mmf */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = AppPrefMgr.h.log.mmf; path = ../../../../ForbesPrEditor/PrEditor/Changes_MMF/AppPrefMgr.h.log.mmf; sourceTree = SOURCE_ROOT; };
+		412E6E770AE3244B007A00CE /* AppPrefMgr.m.log.mmf */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = AppPrefMgr.m.log.mmf; path = ../../../../ForbesPrEditor/PrEditor/Changes_MMF/AppPrefMgr.m.log.mmf; sourceTree = SOURCE_ROOT; };
+		412E6E780AE3244B007A00CE /* ChangeLog_MMF */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = ChangeLog_MMF; path = ../../../../ForbesPrEditor/PrEditor/Changes_MMF/ChangeLog_MMF; sourceTree = SOURCE_ROOT; };
+		412E6E790AE3244B007A00CE /* conversion.c.log.mmf */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = conversion.c.log.mmf; path = ../../../../ForbesPrEditor/PrEditor/Changes_MMF/conversion.c.log.mmf; sourceTree = SOURCE_ROOT; };
+		412E6E7A0AE3244B007A00CE /* conversion.h.log.mmf */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = conversion.h.log.mmf; path = ../../../../ForbesPrEditor/PrEditor/Changes_MMF/conversion.h.log.mmf; sourceTree = SOURCE_ROOT; };
+		412E6E7B0AE3244B007A00CE /* EnglishText.h.log.mmf */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = EnglishText.h.log.mmf; path = ../../../../ForbesPrEditor/PrEditor/Changes_MMF/EnglishText.h.log.mmf; sourceTree = SOURCE_ROOT; };
+		412E6E7C0AE3244B007A00CE /* EnglishText.m.log.mmf */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = EnglishText.m.log.mmf; path = ../../../../ForbesPrEditor/PrEditor/Changes_MMF/EnglishText.m.log.mmf; sourceTree = SOURCE_ROOT; };
+		412E6E7D0AE3244B007A00CE /* KeyboardController.h.log.mmf */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = KeyboardController.h.log.mmf; path = ../../../../ForbesPrEditor/PrEditor/Changes_MMF/KeyboardController.h.log.mmf; sourceTree = SOURCE_ROOT; };
+		412E6E7E0AE3244B007A00CE /* KeyboardController.m.log.mmf */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = KeyboardController.m.log.mmf; path = ../../../../ForbesPrEditor/PrEditor/Changes_MMF/KeyboardController.m.log.mmf; sourceTree = SOURCE_ROOT; };
+		412E6E7F0AE3244B007A00CE /* KeyboardText.h.log.mmf */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = KeyboardText.h.log.mmf; path = ../../../../ForbesPrEditor/PrEditor/Changes_MMF/KeyboardText.h.log.mmf; sourceTree = SOURCE_ROOT; };
+		412E6E800AE3244B007A00CE /* KeyboardText.m.log.mmf */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = KeyboardText.m.log.mmf; path = ../../../../ForbesPrEditor/PrEditor/Changes_MMF/KeyboardText.m.log.mmf; sourceTree = SOURCE_ROOT; };
+		412E6E810AE3244B007A00CE /* phone_conversion.h.log.mmf */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = phone_conversion.h.log.mmf; path = ../../../../ForbesPrEditor/PrEditor/Changes_MMF/phone_conversion.h.log.mmf; sourceTree = SOURCE_ROOT; };
+		412E6E820AE3244B007A00CE /* PrDict.h.log.mmf */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = PrDict.h.log.mmf; path = ../../../../ForbesPrEditor/PrEditor/Changes_MMF/PrDict.h.log.mmf; sourceTree = SOURCE_ROOT; };
+		412E6E830AE3244B007A00CE /* PrDict.m.log.mmf */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = PrDict.m.log.mmf; path = ../../../../ForbesPrEditor/PrEditor/Changes_MMF/PrDict.m.log.mmf; sourceTree = SOURCE_ROOT; };
+		412E6E840AE3244B007A00CE /* PrEditorApp.h.log.mmf */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = PrEditorApp.h.log.mmf; path = ../../../../ForbesPrEditor/PrEditor/Changes_MMF/PrEditorApp.h.log.mmf; sourceTree = SOURCE_ROOT; };
+		412E6E850AE3244B007A00CE /* PrEditorApp.m.log.mmf */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = PrEditorApp.m.log.mmf; path = ../../../../ForbesPrEditor/PrEditor/Changes_MMF/PrEditorApp.m.log.mmf; sourceTree = SOURCE_ROOT; };
+		412E6E860AE3244B007A00CE /* PrEditorDocument.h.log.mmf */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = PrEditorDocument.h.log.mmf; path = ../../../../ForbesPrEditor/PrEditor/Changes_MMF/PrEditorDocument.h.log.mmf; sourceTree = SOURCE_ROOT; };
+		412E6E870AE3244B007A00CE /* PrEditorDocument.m.log.mmf */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = PrEditorDocument.m.log.mmf; path = ../../../../ForbesPrEditor/PrEditor/Changes_MMF/PrEditorDocument.m.log.mmf; sourceTree = SOURCE_ROOT; };
+		412E6E880AE3244B007A00CE /* predtiorDict.h.log.mmf */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = predtiorDict.h.log.mmf; path = ../../../../ForbesPrEditor/PrEditor/Changes_MMF/predtiorDict.h.log.mmf; sourceTree = SOURCE_ROOT; };
+		412E6E890AE3244B007A00CE /* predtiorDict.m.log.mmf */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = predtiorDict.m.log.mmf; path = ../../../../ForbesPrEditor/PrEditor/Changes_MMF/predtiorDict.m.log.mmf; sourceTree = SOURCE_ROOT; };
+		412E6E8A0AE3244B007A00CE /* PrTextField.h.log.mmf */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = PrTextField.h.log.mmf; path = ../../../../ForbesPrEditor/PrEditor/Changes_MMF/PrTextField.h.log.mmf; sourceTree = SOURCE_ROOT; };
+		412E6E8B0AE3244B007A00CE /* PrTextField.m.log.mmf */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = PrTextField.m.log.mmf; path = ../../../../ForbesPrEditor/PrEditor/Changes_MMF/PrTextField.m.log.mmf; sourceTree = SOURCE_ROOT; };
+		412E6E8C0AE3244B007A00CE /* README_MMF */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = README_MMF; path = ../../../../ForbesPrEditor/PrEditor/Changes_MMF/README_MMF; sourceTree = SOURCE_ROOT; };
+		412E6E8D0AE3244B007A00CE /* TTSPrefMgr.h.log.mmf */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = TTSPrefMgr.h.log.mmf; path = ../../../../ForbesPrEditor/PrEditor/Changes_MMF/TTSPrefMgr.h.log.mmf; sourceTree = SOURCE_ROOT; };
+		412E6E8E0AE3244B007A00CE /* TTSPrefMgr.m.log.mmf */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = TTSPrefMgr.m.log.mmf; path = ../../../../ForbesPrEditor/PrEditor/Changes_MMF/TTSPrefMgr.m.log.mmf; sourceTree = SOURCE_ROOT; };
+		412E6E8F0AE3244B007A00CE /* conversion.c */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.c; name = conversion.c; path = ../../../../ForbesPrEditor/PrEditor/conversion.c; sourceTree = SOURCE_ROOT; };
+		412E6E900AE3244B007A00CE /* conversion.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = conversion.h; path = ../../../../ForbesPrEditor/PrEditor/conversion.h; sourceTree = SOURCE_ROOT; };
+		412E6E910AE3244B007A00CE /* CustSlider.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = CustSlider.h; path = ../../../../ForbesPrEditor/PrEditor/CustSlider.h; sourceTree = SOURCE_ROOT; };
+		412E6E920AE3244B007A00CE /* CustSlider.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = CustSlider.m; path = ../../../../ForbesPrEditor/PrEditor/CustSlider.m; sourceTree = SOURCE_ROOT; };
+		412E6E930AE3244B007A00CE /* CustSliderCell.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = CustSliderCell.h; path = ../../../../ForbesPrEditor/PrEditor/CustSliderCell.h; sourceTree = SOURCE_ROOT; };
+		412E6E940AE3244B007A00CE /* CustSliderCell.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = CustSliderCell.m; path = ../../../../ForbesPrEditor/PrEditor/CustSliderCell.m; sourceTree = SOURCE_ROOT; };
+		412E6E950AE3244B007A00CE /* Delete.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Delete.tiff; path = ../../../../ForbesPrEditor/PrEditor/Delete.tiff; sourceTree = SOURCE_ROOT; };
+		412E6E960AE3244B007A00CE /* DeleteH.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = DeleteH.tiff; path = ../../../../ForbesPrEditor/PrEditor/DeleteH.tiff; sourceTree = SOURCE_ROOT; };
+		412E6E970AE3244B007A00CE /* dict.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = dict.tiff; path = ../../../../ForbesPrEditor/PrEditor/dict.tiff; sourceTree = SOURCE_ROOT; };
+		412E6E980AE3244B007A00CE /* dictInUse.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = dictInUse.tiff; path = ../../../../ForbesPrEditor/PrEditor/dictInUse.tiff; sourceTree = SOURCE_ROOT; };
+		412E6E9A0AE3244B007A00CE /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/AppPrefMgr.nib; sourceTree = "<group>"; };
+		412E6E9C0AE3244B007A00CE /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Document.nib; sourceTree = "<group>"; };
+		412E6E9E0AE3244B007A00CE /* English */ = {isa = PBXFileReference; lastKnownFileType = file; name = English; path = English.lproj/Help.nib; sourceTree = "<group>"; };
+		412E6EA00AE3244B007A00CE /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Info.nib; sourceTree = "<group>"; };
+		412E6EA20AE3244B007A00CE /* English */ = {isa = PBXFileReference; lastKnownFileType = file; name = English; path = English.lproj/PrDictViewer.nib; sourceTree = "<group>"; };
+		412E6EA40AE3244B007A00CE /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PrEditor.nib; sourceTree = "<group>"; };
+		412E6EA60AE3244B007A00CE /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/TTSPrefMgr.nib; sourceTree = "<group>"; };
+		412E6EA80AE3244B007A00CE /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/TTSPrefMgrOld.nib; sourceTree = "<group>"; };
+		412E6EA90AE3244B007A00CE /* EnglishText.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = EnglishText.h; path = ../../../../ForbesPrEditor/PrEditor/EnglishText.h; sourceTree = SOURCE_ROOT; };
+		412E6EAA0AE3244B007A00CE /* EnglishText.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = EnglishText.m; path = ../../../../ForbesPrEditor/PrEditor/EnglishText.m; sourceTree = SOURCE_ROOT; };
+		412E6EAB0AE3244B007A00CE /* hash.c */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.c; name = hash.c; path = ../../../../ForbesPrEditor/PrEditor/hash.c; sourceTree = SOURCE_ROOT; };
+		412E6EAC0AE3244B007A00CE /* hash.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = hash.h; path = ../../../../ForbesPrEditor/PrEditor/hash.h; sourceTree = SOURCE_ROOT; };
+		412E6EAD0AE3244B007A00CE /* Help.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = Help.h; path = ../../../../ForbesPrEditor/PrEditor/Help.h; sourceTree = SOURCE_ROOT; };
+		412E6EAE0AE3244B007A00CE /* Help.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = Help.m; path = ../../../../ForbesPrEditor/PrEditor/Help.m; sourceTree = SOURCE_ROOT; };
+		412E6EAF0AE3244B007A00CE /* help.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = help.tiff; path = ../../../../ForbesPrEditor/PrEditor/help.tiff; sourceTree = SOURCE_ROOT; };
+		412E6EB00AE3244B007A00CE /* InfoMgr.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = InfoMgr.h; path = ../../../../ForbesPrEditor/PrEditor/InfoMgr.h; sourceTree = SOURCE_ROOT; };
+		412E6EB10AE3244B007A00CE /* InfoMgr.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = InfoMgr.m; path = ../../../../ForbesPrEditor/PrEditor/InfoMgr.m; sourceTree = SOURCE_ROOT; };
+		412E6EB20AE3244B007A00CE /* KeyboardController.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = KeyboardController.h; path = ../../../../ForbesPrEditor/PrEditor/KeyboardController.h; sourceTree = SOURCE_ROOT; };
+		412E6EB30AE3244B007A00CE /* KeyboardController.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = KeyboardController.m; path = ../../../../ForbesPrEditor/PrEditor/KeyboardController.m; sourceTree = SOURCE_ROOT; };
+		412E6EB40AE3244B007A00CE /* KeyboardText.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = KeyboardText.h; path = ../../../../ForbesPrEditor/PrEditor/KeyboardText.h; sourceTree = SOURCE_ROOT; };
+		412E6EB50AE3244B007A00CE /* KeyboardText.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = KeyboardText.m; path = ../../../../ForbesPrEditor/PrEditor/KeyboardText.m; sourceTree = SOURCE_ROOT; };
+		412E6EB60AE3244B007A00CE /* left.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = left.tiff; path = ../../../../ForbesPrEditor/PrEditor/left.tiff; sourceTree = SOURCE_ROOT; };
+		412E6EB70AE3244B007A00CE /* Makefile */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.make; name = Makefile; path = ../../../../ForbesPrEditor/PrEditor/Makefile; sourceTree = SOURCE_ROOT; };
+		412E6EB80AE3244B007A00CE /* Makefile.postamble */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = Makefile.postamble; path = ../../../../ForbesPrEditor/PrEditor/Makefile.postamble; sourceTree = SOURCE_ROOT; };
+		412E6EB90AE3244B007A00CE /* Makefile.preamble */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = Makefile.preamble; path = ../../../../ForbesPrEditor/PrEditor/Makefile.preamble; sourceTree = SOURCE_ROOT; };
+		412E6EBA0AE3244B007A00CE /* max.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = max.tiff; path = ../../../../ForbesPrEditor/PrEditor/max.tiff; sourceTree = SOURCE_ROOT; };
+		412E6EBB0AE3244B007A00CE /* min.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = min.tiff; path = ../../../../ForbesPrEditor/PrEditor/min.tiff; sourceTree = SOURCE_ROOT; };
+		412E6EBC0AE3244B007A00CE /* MyText.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = MyText.h; path = ../../../../ForbesPrEditor/PrEditor/MyText.h; sourceTree = SOURCE_ROOT; };
+		412E6EBD0AE3244B007A00CE /* MyText.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = MyText.m; path = ../../../../ForbesPrEditor/PrEditor/MyText.m; sourceTree = SOURCE_ROOT; };
+		412E6EBE0AE3244B007A00CE /* NiftyMatrix.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = NiftyMatrix.h; path = ../../../../ForbesPrEditor/PrEditor/NiftyMatrix.h; sourceTree = SOURCE_ROOT; };
+		412E6EBF0AE3244B007A00CE /* NiftyMatrix.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = NiftyMatrix.m; path = ../../../../ForbesPrEditor/PrEditor/NiftyMatrix.m; sourceTree = SOURCE_ROOT; };
+		412E6EC00AE3244B007A00CE /* NiftyMatrixCat.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = NiftyMatrixCat.h; path = ../../../../ForbesPrEditor/PrEditor/NiftyMatrixCat.h; sourceTree = SOURCE_ROOT; };
+		412E6EC10AE3244B007A00CE /* NiftyMatrixCat.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = NiftyMatrixCat.m; path = ../../../../ForbesPrEditor/PrEditor/NiftyMatrixCat.m; sourceTree = SOURCE_ROOT; };
+		412E6EC20AE3244B007A00CE /* NiftyMatrixCell.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = NiftyMatrixCell.h; path = ../../../../ForbesPrEditor/PrEditor/NiftyMatrixCell.h; sourceTree = SOURCE_ROOT; };
+		412E6EC30AE3244B007A00CE /* NiftyMatrixCell.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = NiftyMatrixCell.m; path = ../../../../ForbesPrEditor/PrEditor/NiftyMatrixCell.m; sourceTree = SOURCE_ROOT; };
+		412E6EC40AE3244B007A00CE /* Notes_MMF */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = Notes_MMF; path = ../../../../ForbesPrEditor/PrEditor/Notes_MMF; sourceTree = SOURCE_ROOT; };
+		412E6EC50AE3244B007A00CE /* objc-debug.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = "objc-debug.h"; path = "../../../../ForbesPrEditor/PrEditor/objc-debug.h"; sourceTree = SOURCE_ROOT; };
+		412E6EC60AE3244B007A00CE /* Old_Notes_MMF.August 8, 1995 */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "Old_Notes_MMF.August 8, 1995"; path = "../../../../ForbesPrEditor/PrEditor/Old_Notes_MMF.August 8, 1995"; sourceTree = SOURCE_ROOT; };
+		412E6EC70AE3244B007A00CE /* PB.gdbinit */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = PB.gdbinit; path = ../../../../ForbesPrEditor/PrEditor/PB.gdbinit; sourceTree = SOURCE_ROOT; };
+		412E6EC80AE3244B007A00CE /* PB.project */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = PB.project; path = ../../../../ForbesPrEditor/PrEditor/PB.project; sourceTree = SOURCE_ROOT; };
+		412E6EC90AE3244B007A00CE /* Phon-KeyMap */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "Phon-KeyMap"; path = "../../../../ForbesPrEditor/PrEditor/Phon-KeyMap"; sourceTree = SOURCE_ROOT; };
+		412E6ECA0AE3244B007A00CE /* phone_conversion.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = phone_conversion.h; path = ../../../../ForbesPrEditor/PrEditor/phone_conversion.h; sourceTree = SOURCE_ROOT; };
+		412E6ECB0AE3244B007A00CE /* Pics.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Pics.tiff; path = ../../../../ForbesPrEditor/PrEditor/Pics.tiff; sourceTree = SOURCE_ROOT; };
+		412E6ECC0AE3244B007A00CE /* PrDict.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = PrDict.h; path = ../../../../ForbesPrEditor/PrEditor/PrDict.h; sourceTree = SOURCE_ROOT; };
+		412E6ECD0AE3244B007A00CE /* PrDict.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = PrDict.m; path = ../../../../ForbesPrEditor/PrEditor/PrDict.m; sourceTree = SOURCE_ROOT; };
+		412E6ECE0AE3244B007A00CE /* PrDictViewer.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = PrDictViewer.h; path = ../../../../ForbesPrEditor/PrEditor/PrDictViewer.h; sourceTree = SOURCE_ROOT; };
+		412E6ECF0AE3244B007A00CE /* PrDictViewer.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = PrDictViewer.m; path = ../../../../ForbesPrEditor/PrEditor/PrDictViewer.m; sourceTree = SOURCE_ROOT; };
+		412E6ED10AE3244B007A00CE /* AATOC */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = AATOC; path = ../../../../ForbesPrEditor/PrEditor/PrDocumentation/AATOC; sourceTree = SOURCE_ROOT; };
+		412E6ED20AE3244B007A00CE /* Bugs.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Bugs.rtf; path = ../../../../ForbesPrEditor/PrEditor/PrDocumentation/Bugs.rtf; sourceTree = SOURCE_ROOT; };
+		412E6ED30AE3244B007A00CE /* Entering.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Entering.rtf; path = ../../../../ForbesPrEditor/PrEditor/PrDocumentation/Entering.rtf; sourceTree = SOURCE_ROOT; };
+		412E6ED40AE3244B007A00CE /* Phonetic.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Phonetic.rtf; path = ../../../../ForbesPrEditor/PrEditor/PrDocumentation/Phonetic.rtf; sourceTree = SOURCE_ROOT; };
+		412E6ED50AE3244B007A00CE /* Pronunciation.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Pronunciation.rtf; path = ../../../../ForbesPrEditor/PrEditor/PrDocumentation/Pronunciation.rtf; sourceTree = SOURCE_ROOT; };
+		412E6ED70AE3244B007A00CE /* AATOC,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "AATOC,v"; path = "../../../../ForbesPrEditor/PrEditor/PrDocumentation/RCS/AATOC,v"; sourceTree = SOURCE_ROOT; };
+		412E6ED80AE3244B007A00CE /* Bugs.rtf,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "Bugs.rtf,v"; path = "../../../../ForbesPrEditor/PrEditor/PrDocumentation/RCS/Bugs.rtf,v"; sourceTree = SOURCE_ROOT; };
+		412E6ED90AE3244B007A00CE /* Entering.rtf,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "Entering.rtf,v"; path = "../../../../ForbesPrEditor/PrEditor/PrDocumentation/RCS/Entering.rtf,v"; sourceTree = SOURCE_ROOT; };
+		412E6EDA0AE3244B007A00CE /* Phonetic.rtf,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "Phonetic.rtf,v"; path = "../../../../ForbesPrEditor/PrEditor/PrDocumentation/RCS/Phonetic.rtf,v"; sourceTree = SOURCE_ROOT; };
+		412E6EDB0AE3244B007A00CE /* Pronunciation.rtf,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "Pronunciation.rtf,v"; path = "../../../../ForbesPrEditor/PrEditor/PrDocumentation/RCS/Pronunciation.rtf,v"; sourceTree = SOURCE_ROOT; };
+		412E6EDC0AE3244B007A00CE /* Setting.rtf,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "Setting.rtf,v"; path = "../../../../ForbesPrEditor/PrEditor/PrDocumentation/RCS/Setting.rtf,v"; sourceTree = SOURCE_ROOT; };
+		412E6EDD0AE3244B007A00CE /* What.rtf,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "What.rtf,v"; path = "../../../../ForbesPrEditor/PrEditor/PrDocumentation/RCS/What.rtf,v"; sourceTree = SOURCE_ROOT; };
+		412E6EDE0AE3244B007A00CE /* Setting.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Setting.rtf; path = ../../../../ForbesPrEditor/PrEditor/PrDocumentation/Setting.rtf; sourceTree = SOURCE_ROOT; };
+		412E6EDF0AE3244B007A00CE /* What.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = What.rtf; path = ../../../../ForbesPrEditor/PrEditor/PrDocumentation/What.rtf; sourceTree = SOURCE_ROOT; };
+		412E6EE00AE3244B007A00CE /* PrEditor.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = PrEditor.h; path = ../../../../ForbesPrEditor/PrEditor/PrEditor.h; sourceTree = SOURCE_ROOT; };
+		412E6EE10AE3244B007A00CE /* PrEditor.iconheader */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = PrEditor.iconheader; path = ../../../../ForbesPrEditor/PrEditor/PrEditor.iconheader; sourceTree = SOURCE_ROOT; };
+		412E6EE20AE3244B007A00CE /* preditor_logo.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = preditor_logo.tiff; path = ../../../../ForbesPrEditor/PrEditor/preditor_logo.tiff; sourceTree = SOURCE_ROOT; };
+		412E6EE30AE3244B007A00CE /* PrEditor_main.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = PrEditor_main.m; path = ../../../../ForbesPrEditor/PrEditor/PrEditor_main.m; sourceTree = SOURCE_ROOT; };
+		412E6EE40AE3244B007A00CE /* PrEditorApp.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = PrEditorApp.h; path = ../../../../ForbesPrEditor/PrEditor/PrEditorApp.h; sourceTree = SOURCE_ROOT; };
+		412E6EE50AE3244B007A00CE /* PrEditorApp.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = PrEditorApp.m; path = ../../../../ForbesPrEditor/PrEditor/PrEditorApp.m; sourceTree = SOURCE_ROOT; };
+		412E6EE70AE3244B007A00CE /* AATOC */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = AATOC; path = ../../../../ForbesPrEditor/PrEditor/preditorDict/AATOC; sourceTree = SOURCE_ROOT; };
+		412E6EE80AE3244B007A00CE /* ChangeLog */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = ChangeLog; path = ../../../../ForbesPrEditor/PrEditor/preditorDict/ChangeLog; sourceTree = SOURCE_ROOT; };
+		412E6EE90AE3244B007A00CE /* conversion.c */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.c; name = conversion.c; path = ../../../../ForbesPrEditor/PrEditor/preditorDict/conversion.c; sourceTree = SOURCE_ROOT; };
+		412E6EEA0AE3244B007A00CE /* conversion.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = conversion.h; path = ../../../../ForbesPrEditor/PrEditor/preditorDict/conversion.h; sourceTree = SOURCE_ROOT; };
+		412E6EEB0AE3244B007A00CE /* lib.make */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = lib.make; path = ../../../../ForbesPrEditor/PrEditor/preditorDict/lib.make; sourceTree = SOURCE_ROOT; };
+		412E6EEC0AE3244B007A00CE /* Makefile */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.make; name = Makefile; path = ../../../../ForbesPrEditor/PrEditor/preditorDict/Makefile; sourceTree = SOURCE_ROOT; };
+		412E6EED0AE3244B007A00CE /* Makefile.dependencies */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = Makefile.dependencies; path = ../../../../ForbesPrEditor/PrEditor/preditorDict/Makefile.dependencies; sourceTree = SOURCE_ROOT; };
+		412E6EEE0AE3244B007A00CE /* phone_conversion.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = phone_conversion.h; path = ../../../../ForbesPrEditor/PrEditor/preditorDict/phone_conversion.h; sourceTree = SOURCE_ROOT; };
+		412E6EEF0AE3244B007A00CE /* PrDict.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = PrDict.h; path = ../../../../ForbesPrEditor/PrEditor/preditorDict/PrDict.h; sourceTree = SOURCE_ROOT; };
+		412E6EF00AE3244B007A00CE /* PrDict.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = PrDict.m; path = ../../../../ForbesPrEditor/PrEditor/preditorDict/PrDict.m; sourceTree = SOURCE_ROOT; };
+		412E6EF10AE3244B007A00CE /* preditorDict.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = preditorDict.h; path = ../../../../ForbesPrEditor/PrEditor/preditorDict/preditorDict.h; sourceTree = SOURCE_ROOT; };
+		412E6EF20AE3244B007A00CE /* preditorDict.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = preditorDict.m; path = ../../../../ForbesPrEditor/PrEditor/preditorDict/preditorDict.m; sourceTree = SOURCE_ROOT; };
+		412E6EF40AE3244B007A00CE /* AATOC,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "AATOC,v"; path = "../../../../ForbesPrEditor/PrEditor/preditorDict/RCS/AATOC,v"; sourceTree = SOURCE_ROOT; };
+		412E6EF50AE3244B007A00CE /* ChangeLog,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "ChangeLog,v"; path = "../../../../ForbesPrEditor/PrEditor/preditorDict/RCS/ChangeLog,v"; sourceTree = SOURCE_ROOT; };
+		412E6EF60AE3244B007A00CE /* lib.make,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "lib.make,v"; path = "../../../../ForbesPrEditor/PrEditor/preditorDict/RCS/lib.make,v"; sourceTree = SOURCE_ROOT; };
+		412E6EF70AE3244B007A00CE /* Makefile,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "Makefile,v"; path = "../../../../ForbesPrEditor/PrEditor/preditorDict/RCS/Makefile,v"; sourceTree = SOURCE_ROOT; };
+		412E6EF80AE3244B007A00CE /* Makefile.dependencies,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "Makefile.dependencies,v"; path = "../../../../ForbesPrEditor/PrEditor/preditorDict/RCS/Makefile.dependencies,v"; sourceTree = SOURCE_ROOT; };
+		412E6EF90AE3244B007A00CE /* preditorDict.h,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "preditorDict.h,v"; path = "../../../../ForbesPrEditor/PrEditor/preditorDict/RCS/preditorDict.h,v"; sourceTree = SOURCE_ROOT; };
+		412E6EFA0AE3244B007A00CE /* preditorDict.m,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "preditorDict.m,v"; path = "../../../../ForbesPrEditor/PrEditor/preditorDict/RCS/preditorDict.m,v"; sourceTree = SOURCE_ROOT; };
+		412E6EFB0AE3244B007A00CE /* TAGS */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = TAGS; path = ../../../../ForbesPrEditor/PrEditor/preditorDict/TAGS; sourceTree = SOURCE_ROOT; };
+		412E6EFC0AE3244B007A00CE /* PrEditorDocument.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = PrEditorDocument.h; path = ../../../../ForbesPrEditor/PrEditor/PrEditorDocument.h; sourceTree = SOURCE_ROOT; };
+		412E6EFD0AE3244B007A00CE /* PrEditorDocument.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = PrEditorDocument.m; path = ../../../../ForbesPrEditor/PrEditor/PrEditorDocument.m; sourceTree = SOURCE_ROOT; };
+		412E6EFF0AE3244B007A00CE /* Posture.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = Posture.h; path = ../../../../ForbesPrEditor/PrEditor/Pronunciation/Posture.h; sourceTree = SOURCE_ROOT; };
+		412E6F000AE3244B007A00CE /* Posture.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = Posture.m; path = ../../../../ForbesPrEditor/PrEditor/Pronunciation/Posture.m; sourceTree = SOURCE_ROOT; };
+		412E6F010AE3244B007A00CE /* PronPosture.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = PronPosture.h; path = ../../../../ForbesPrEditor/PrEditor/Pronunciation/PronPosture.h; sourceTree = SOURCE_ROOT; };
+		412E6F020AE3244B007A00CE /* PronSyllable.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = PronSyllable.h; path = ../../../../ForbesPrEditor/PrEditor/Pronunciation/PronSyllable.h; sourceTree = SOURCE_ROOT; };
+		412E6F030AE3244B007A00CE /* Pronunciation.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = Pronunciation.h; path = ../../../../ForbesPrEditor/PrEditor/Pronunciation/Pronunciation.h; sourceTree = SOURCE_ROOT; };
+		412E6F040AE3244B007A00CE /* Pronunciation.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = Pronunciation.m; path = ../../../../ForbesPrEditor/PrEditor/Pronunciation/Pronunciation.m; sourceTree = SOURCE_ROOT; };
+		412E6F050AE3244B007A00CE /* test */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = test; path = ../../../../ForbesPrEditor/PrEditor/Pronunciation/test; sourceTree = SOURCE_ROOT; };
+		412E6F060AE3244B007A00CE /* PrTextField.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = PrTextField.h; path = ../../../../ForbesPrEditor/PrEditor/PrTextField.h; sourceTree = SOURCE_ROOT; };
+		412E6F070AE3244B007A00CE /* PrTextField.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = PrTextField.m; path = ../../../../ForbesPrEditor/PrEditor/PrTextField.m; sourceTree = SOURCE_ROOT; };
+		412E6F090AE3244B007A00CE /* AATOC,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "AATOC,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/AATOC,v"; sourceTree = SOURCE_ROOT; };
+		412E6F0A0AE3244B007A00CE /* app.tiff,v */ = {isa = PBXFileReference; lastKnownFileType = file; name = "app.tiff,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/app.tiff,v"; sourceTree = SOURCE_ROOT; };
+		412E6F0B0AE3244B007A00CE /* book.tiff,v */ = {isa = PBXFileReference; lastKnownFileType = file; name = "book.tiff,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/book.tiff,v"; sourceTree = SOURCE_ROOT; };
+		412E6F0C0AE3244B007A00CE /* ChangeLog,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "ChangeLog,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/ChangeLog,v"; sourceTree = SOURCE_ROOT; };
+		412E6F0D0AE3244B007A00CE /* conversion.c,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "conversion.c,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/conversion.c,v"; sourceTree = SOURCE_ROOT; };
+		412E6F0E0AE3244B007A00CE /* conversion.h,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "conversion.h,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/conversion.h,v"; sourceTree = SOURCE_ROOT; };
+		412E6F0F0AE3244B007A00CE /* CustSlider.h,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "CustSlider.h,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/CustSlider.h,v"; sourceTree = SOURCE_ROOT; };
+		412E6F100AE3244B007A00CE /* CustSlider.m,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "CustSlider.m,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/CustSlider.m,v"; sourceTree = SOURCE_ROOT; };
+		412E6F110AE3244B007A00CE /* CustSliderCell.h,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "CustSliderCell.h,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/CustSliderCell.h,v"; sourceTree = SOURCE_ROOT; };
+		412E6F120AE3244B007A00CE /* CustSliderCell.m,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "CustSliderCell.m,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/CustSliderCell.m,v"; sourceTree = SOURCE_ROOT; };
+		412E6F130AE3244B007A00CE /* Delete.tiff,v */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Delete.tiff,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/Delete.tiff,v"; sourceTree = SOURCE_ROOT; };
+		412E6F140AE3244B007A00CE /* DeleteH.tiff,v */ = {isa = PBXFileReference; lastKnownFileType = file; name = "DeleteH.tiff,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/DeleteH.tiff,v"; sourceTree = SOURCE_ROOT; };
+		412E6F150AE3244B007A00CE /* dict.tiff,v */ = {isa = PBXFileReference; lastKnownFileType = file; name = "dict.tiff,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/dict.tiff,v"; sourceTree = SOURCE_ROOT; };
+		412E6F160AE3244B007A00CE /* dictInUse.tiff,v */ = {isa = PBXFileReference; lastKnownFileType = file; name = "dictInUse.tiff,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/dictInUse.tiff,v"; sourceTree = SOURCE_ROOT; };
+		412E6F170AE3244B007A00CE /* Document.nib,v */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Document.nib,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/Document.nib,v"; sourceTree = SOURCE_ROOT; };
+		412E6F180AE3244B007A00CE /* EnglishText.h,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "EnglishText.h,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/EnglishText.h,v"; sourceTree = SOURCE_ROOT; };
+		412E6F190AE3244B007A00CE /* EnglishText.m,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "EnglishText.m,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/EnglishText.m,v"; sourceTree = SOURCE_ROOT; };
+		412E6F1A0AE3244B007A00CE /* EnglishTextCell.h,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "EnglishTextCell.h,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/EnglishTextCell.h,v"; sourceTree = SOURCE_ROOT; };
+		412E6F1B0AE3244B007A00CE /* EnglishTextCell.m,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "EnglishTextCell.m,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/EnglishTextCell.m,v"; sourceTree = SOURCE_ROOT; };
+		412E6F1C0AE3244B007A00CE /* hash.c,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "hash.c,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/hash.c,v"; sourceTree = SOURCE_ROOT; };
+		412E6F1D0AE3244B007A00CE /* hash.h,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "hash.h,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/hash.h,v"; sourceTree = SOURCE_ROOT; };
+		412E6F1E0AE3244B007A00CE /* Help.h,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "Help.h,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/Help.h,v"; sourceTree = SOURCE_ROOT; };
+		412E6F1F0AE3244B007A00CE /* Help.m,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "Help.m,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/Help.m,v"; sourceTree = SOURCE_ROOT; };
+		412E6F200AE3244B007A00CE /* Help.nib,v */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Help.nib,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/Help.nib,v"; sourceTree = SOURCE_ROOT; };
+		412E6F210AE3244B007A00CE /* help.tiff,v */ = {isa = PBXFileReference; lastKnownFileType = file; name = "help.tiff,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/help.tiff,v"; sourceTree = SOURCE_ROOT; };
+		412E6F220AE3244B007A00CE /* IB.proj,v */ = {isa = PBXFileReference; lastKnownFileType = file; name = "IB.proj,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/IB.proj,v"; sourceTree = SOURCE_ROOT; };
+		412E6F230AE3244B007A00CE /* Info.nib,v */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Info.nib,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/Info.nib,v"; sourceTree = SOURCE_ROOT; };
+		412E6F240AE3244B007A00CE /* InfoMgr.h,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "InfoMgr.h,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/InfoMgr.h,v"; sourceTree = SOURCE_ROOT; };
+		412E6F250AE3244B007A00CE /* InfoMgr.m,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "InfoMgr.m,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/InfoMgr.m,v"; sourceTree = SOURCE_ROOT; };
+		412E6F260AE3244B007A00CE /* Inspector.nib,v */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Inspector.nib,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/Inspector.nib,v"; sourceTree = SOURCE_ROOT; };
+		412E6F270AE3244B007A00CE /* InspectorMgr.h,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "InspectorMgr.h,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/InspectorMgr.h,v"; sourceTree = SOURCE_ROOT; };
+		412E6F280AE3244B007A00CE /* InspectorMgr.m,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "InspectorMgr.m,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/InspectorMgr.m,v"; sourceTree = SOURCE_ROOT; };
+		412E6F290AE3244B007A00CE /* KeyboardController.h,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "KeyboardController.h,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/KeyboardController.h,v"; sourceTree = SOURCE_ROOT; };
+		412E6F2A0AE3244B007A00CE /* KeyboardController.m,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "KeyboardController.m,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/KeyboardController.m,v"; sourceTree = SOURCE_ROOT; };
+		412E6F2B0AE3244B007A00CE /* KeyboardText.h,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "KeyboardText.h,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/KeyboardText.h,v"; sourceTree = SOURCE_ROOT; };
+		412E6F2C0AE3244B007A00CE /* KeyboardText.m,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "KeyboardText.m,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/KeyboardText.m,v"; sourceTree = SOURCE_ROOT; };
+		412E6F2D0AE3244B007A00CE /* KeyboardTextCell.h,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "KeyboardTextCell.h,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/KeyboardTextCell.h,v"; sourceTree = SOURCE_ROOT; };
+		412E6F2E0AE3244B007A00CE /* KeyboardTextCell.m,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "KeyboardTextCell.m,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/KeyboardTextCell.m,v"; sourceTree = SOURCE_ROOT; };
+		412E6F2F0AE3244B007A00CE /* left.tiff,v */ = {isa = PBXFileReference; lastKnownFileType = file; name = "left.tiff,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/left.tiff,v"; sourceTree = SOURCE_ROOT; };
+		412E6F300AE3244B007A00CE /* Makefile,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "Makefile,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/Makefile,v"; sourceTree = SOURCE_ROOT; };
+		412E6F310AE3244B007A00CE /* Makefile.dependencies,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "Makefile.dependencies,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/Makefile.dependencies,v"; sourceTree = SOURCE_ROOT; };
+		412E6F320AE3244B007A00CE /* Makefile.postamble,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "Makefile.postamble,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/Makefile.postamble,v"; sourceTree = SOURCE_ROOT; };
+		412E6F330AE3244B007A00CE /* Makefile.preamble,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "Makefile.preamble,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/Makefile.preamble,v"; sourceTree = SOURCE_ROOT; };
+		412E6F340AE3244B007A00CE /* max.tiff,v */ = {isa = PBXFileReference; lastKnownFileType = file; name = "max.tiff,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/max.tiff,v"; sourceTree = SOURCE_ROOT; };
+		412E6F350AE3244B007A00CE /* min.tiff,v */ = {isa = PBXFileReference; lastKnownFileType = file; name = "min.tiff,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/min.tiff,v"; sourceTree = SOURCE_ROOT; };
+		412E6F360AE3244B007A00CE /* MyText.h,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "MyText.h,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/MyText.h,v"; sourceTree = SOURCE_ROOT; };
+		412E6F370AE3244B007A00CE /* MyText.m,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "MyText.m,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/MyText.m,v"; sourceTree = SOURCE_ROOT; };
+		412E6F380AE3244B007A00CE /* NiftyMatrix.h,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "NiftyMatrix.h,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/NiftyMatrix.h,v"; sourceTree = SOURCE_ROOT; };
+		412E6F390AE3244B007A00CE /* NiftyMatrix.m,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "NiftyMatrix.m,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/NiftyMatrix.m,v"; sourceTree = SOURCE_ROOT; };
+		412E6F3A0AE3244B007A00CE /* NiftyMatrixCat.h,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "NiftyMatrixCat.h,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/NiftyMatrixCat.h,v"; sourceTree = SOURCE_ROOT; };
+		412E6F3B0AE3244B007A00CE /* NiftyMatrixCat.m,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "NiftyMatrixCat.m,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/NiftyMatrixCat.m,v"; sourceTree = SOURCE_ROOT; };
+		412E6F3C0AE3244B007A00CE /* NiftyMatrixCell.h,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "NiftyMatrixCell.h,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/NiftyMatrixCell.h,v"; sourceTree = SOURCE_ROOT; };
+		412E6F3D0AE3244B007A00CE /* NiftyMatrixCell.m,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "NiftyMatrixCell.m,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/NiftyMatrixCell.m,v"; sourceTree = SOURCE_ROOT; };
+		412E6F3E0AE3244B007A00CE /* objc-debug.h,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "objc-debug.h,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/objc-debug.h,v"; sourceTree = SOURCE_ROOT; };
+		412E6F3F0AE3244B007A00CE /* phone_conversion.h,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "phone_conversion.h,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/phone_conversion.h,v"; sourceTree = SOURCE_ROOT; };
+		412E6F400AE3244B007A00CE /* Pics.tiff,v */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Pics.tiff,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/Pics.tiff,v"; sourceTree = SOURCE_ROOT; };
+		412E6F410AE3244C007A00CE /* PrDict.h,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "PrDict.h,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/PrDict.h,v"; sourceTree = SOURCE_ROOT; };
+		412E6F420AE3244C007A00CE /* PrDict.m,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "PrDict.m,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/PrDict.m,v"; sourceTree = SOURCE_ROOT; };
+		412E6F430AE3244C007A00CE /* PrDictViewer.h,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "PrDictViewer.h,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/PrDictViewer.h,v"; sourceTree = SOURCE_ROOT; };
+		412E6F440AE3244C007A00CE /* PrDictViewer.m,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "PrDictViewer.m,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/PrDictViewer.m,v"; sourceTree = SOURCE_ROOT; };
+		412E6F450AE3244C007A00CE /* PrDictViewer.nib,v */ = {isa = PBXFileReference; lastKnownFileType = file; name = "PrDictViewer.nib,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/PrDictViewer.nib,v"; sourceTree = SOURCE_ROOT; };
+		412E6F460AE3244C007A00CE /* PrEditor.iconheader,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "PrEditor.iconheader,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/PrEditor.iconheader,v"; sourceTree = SOURCE_ROOT; };
+		412E6F470AE3244C007A00CE /* PrEditor.nib,v */ = {isa = PBXFileReference; lastKnownFileType = file; name = "PrEditor.nib,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/PrEditor.nib,v"; sourceTree = SOURCE_ROOT; };
+		412E6F480AE3244C007A00CE /* preditor_logo.tiff,v */ = {isa = PBXFileReference; lastKnownFileType = file; name = "preditor_logo.tiff,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/preditor_logo.tiff,v"; sourceTree = SOURCE_ROOT; };
+		412E6F490AE3244C007A00CE /* PrEditor_main.m,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "PrEditor_main.m,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/PrEditor_main.m,v"; sourceTree = SOURCE_ROOT; };
+		412E6F4A0AE3244C007A00CE /* PrEditorApp.h,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "PrEditorApp.h,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/PrEditorApp.h,v"; sourceTree = SOURCE_ROOT; };
+		412E6F4B0AE3244C007A00CE /* PrEditorApp.m,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "PrEditorApp.m,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/PrEditorApp.m,v"; sourceTree = SOURCE_ROOT; };
+		412E6F4C0AE3244C007A00CE /* PrEditorDocument.h,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "PrEditorDocument.h,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/PrEditorDocument.h,v"; sourceTree = SOURCE_ROOT; };
+		412E6F4D0AE3244C007A00CE /* PrEditorDocument.m,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "PrEditorDocument.m,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/PrEditorDocument.m,v"; sourceTree = SOURCE_ROOT; };
+		412E6F4E0AE3244C007A00CE /* PrefMgr.h,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "PrefMgr.h,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/PrefMgr.h,v"; sourceTree = SOURCE_ROOT; };
+		412E6F4F0AE3244C007A00CE /* PrefMgr.m,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "PrefMgr.m,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/PrefMgr.m,v"; sourceTree = SOURCE_ROOT; };
+		412E6F500AE3244C007A00CE /* PrefMgr.nib,v */ = {isa = PBXFileReference; lastKnownFileType = file; name = "PrefMgr.nib,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/PrefMgr.nib,v"; sourceTree = SOURCE_ROOT; };
+		412E6F510AE3244C007A00CE /* right.tiff,v */ = {isa = PBXFileReference; lastKnownFileType = file; name = "right.tiff,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/right.tiff,v"; sourceTree = SOURCE_ROOT; };
+		412E6F520AE3244C007A00CE /* Shift.tiff,v */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Shift.tiff,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/Shift.tiff,v"; sourceTree = SOURCE_ROOT; };
+		412E6F530AE3244C007A00CE /* ShiftH.tiff,v */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ShiftH.tiff,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/ShiftH.tiff,v"; sourceTree = SOURCE_ROOT; };
+		412E6F540AE3244C007A00CE /* Speak.tiff,v */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Speak.tiff,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/Speak.tiff,v"; sourceTree = SOURCE_ROOT; };
+		412E6F550AE3244C007A00CE /* SpeakH.tiff,v */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SpeakH.tiff,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/SpeakH.tiff,v"; sourceTree = SOURCE_ROOT; };
+		412E6F560AE3244C007A00CE /* Speech.h,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "Speech.h,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/Speech.h,v"; sourceTree = SOURCE_ROOT; };
+		412E6F570AE3244C007A00CE /* Speech.m,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "Speech.m,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/Speech.m,v"; sourceTree = SOURCE_ROOT; };
+		412E6F580AE3244C007A00CE /* Store.tiff,v */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Store.tiff,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/Store.tiff,v"; sourceTree = SOURCE_ROOT; };
+		412E6F590AE3244C007A00CE /* StoreH.tiff,v */ = {isa = PBXFileReference; lastKnownFileType = file; name = "StoreH.tiff,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/StoreH.tiff,v"; sourceTree = SOURCE_ROOT; };
+		412E6F5A0AE3244C007A00CE /* TextFieldCat.h,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "TextFieldCat.h,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/TextFieldCat.h,v"; sourceTree = SOURCE_ROOT; };
+		412E6F5B0AE3244C007A00CE /* TextFieldCat.m,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "TextFieldCat.m,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/TextFieldCat.m,v"; sourceTree = SOURCE_ROOT; };
+		412E6F5C0AE3244C007A00CE /* word_types.h,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "word_types.h,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/word_types.h,v"; sourceTree = SOURCE_ROOT; };
+		412E6F5D0AE3244C007A00CE /* words,v */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = "words,v"; path = "../../../../ForbesPrEditor/PrEditor/RCS/words,v"; sourceTree = SOURCE_ROOT; };
+		412E6F5E0AE3244C007A00CE /* right.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = right.tiff; path = ../../../../ForbesPrEditor/PrEditor/right.tiff; sourceTree = SOURCE_ROOT; };
+		412E6F5F0AE3244C007A00CE /* Shift.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Shift.tiff; path = ../../../../ForbesPrEditor/PrEditor/Shift.tiff; sourceTree = SOURCE_ROOT; };
+		412E6F600AE3244C007A00CE /* ShiftH.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ShiftH.tiff; path = ../../../../ForbesPrEditor/PrEditor/ShiftH.tiff; sourceTree = SOURCE_ROOT; };
+		412E6F610AE3244C007A00CE /* Speak.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Speak.tiff; path = ../../../../ForbesPrEditor/PrEditor/Speak.tiff; sourceTree = SOURCE_ROOT; };
+		412E6F620AE3244C007A00CE /* SpeakH.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = SpeakH.tiff; path = ../../../../ForbesPrEditor/PrEditor/SpeakH.tiff; sourceTree = SOURCE_ROOT; };
+		412E6F630AE3244C007A00CE /* Speech.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = Speech.h; path = ../../../../ForbesPrEditor/PrEditor/Speech.h; sourceTree = SOURCE_ROOT; };
+		412E6F640AE3244C007A00CE /* Speech.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = Speech.m; path = ../../../../ForbesPrEditor/PrEditor/Speech.m; sourceTree = SOURCE_ROOT; };
+		412E6F650AE3244C007A00CE /* Store.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Store.tiff; path = ../../../../ForbesPrEditor/PrEditor/Store.tiff; sourceTree = SOURCE_ROOT; };
+		412E6F660AE3244C007A00CE /* StoreH.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = StoreH.tiff; path = ../../../../ForbesPrEditor/PrEditor/StoreH.tiff; sourceTree = SOURCE_ROOT; };
+		412E6F670AE3244C007A00CE /* TAGS */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = TAGS; path = ../../../../ForbesPrEditor/PrEditor/TAGS; sourceTree = SOURCE_ROOT; };
+		412E6F680AE3244C007A00CE /* To_Do */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = To_Do; path = ../../../../ForbesPrEditor/PrEditor/To_Do; sourceTree = SOURCE_ROOT; };
+		412E6F690AE3244C007A00CE /* TTSPrefMgr.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = TTSPrefMgr.h; path = ../../../../ForbesPrEditor/PrEditor/TTSPrefMgr.h; sourceTree = SOURCE_ROOT; };
+		412E6F6A0AE3244C007A00CE /* TTSPrefMgr.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = TTSPrefMgr.m; path = ../../../../ForbesPrEditor/PrEditor/TTSPrefMgr.m; sourceTree = SOURCE_ROOT; };
+		412E6F6B0AE3244C007A00CE /* TTSPrefMgrOld.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = TTSPrefMgrOld.h; path = ../../../../ForbesPrEditor/PrEditor/TTSPrefMgrOld.h; sourceTree = SOURCE_ROOT; };
+		412E6F6C0AE3244C007A00CE /* TTSPrefMgrOld.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = TTSPrefMgrOld.m; path = ../../../../ForbesPrEditor/PrEditor/TTSPrefMgrOld.m; sourceTree = SOURCE_ROOT; };
+		412E6F6D0AE3244C007A00CE /* word_types.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = word_types.h; path = ../../../../ForbesPrEditor/PrEditor/word_types.h; sourceTree = SOURCE_ROOT; };
+		416094AA0A2B2881001A6FBB /* Delete.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Delete.tiff; sourceTree = "<group>"; };
+		416094AC0A2B2887001A6FBB /* Speak.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Speak.tiff; sourceTree = "<group>"; };
+		416094AE0A2B288B001A6FBB /* Store.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Store.tiff; sourceTree = "<group>"; };
+		4186417E0A31AF2200531338 /* ResponderNotifyingWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResponderNotifyingWindow.h; sourceTree = "<group>"; };
+		4186417F0A31AF2200531338 /* ResponderNotifyingWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResponderNotifyingWindow.m; sourceTree = "<group>"; };
+		41CC57430AE05E1100DC3B3C /* PrDict.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = PrDict.h; path = preditorDict/PrDict.h; sourceTree = SOURCE_ROOT; };
+		41CC57440AE05E1100DC3B3C /* PrDict.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = PrDict.m; path = preditorDict/PrDict.m; sourceTree = SOURCE_ROOT; };
+		41E31DB00A2F37DF001E06A9 /* APPL.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = APPL.icns; sourceTree = "<group>"; };
+		41E31DD00A2F3CD6001E06A9 /* IPA-SIL keyboard 0.6.dmg */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IPA-SIL keyboard 0.6.dmg"; sourceTree = "<group>"; };
+		41E31DD50A2F3E4A001E06A9 /* DoulosSIL4FontDocumentation.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = DoulosSIL4FontDocumentation.pdf; sourceTree = "<group>"; };
+		41E31DD60A2F3E4A001E06A9 /* DoulosSILR.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DoulosSILR.ttf; sourceTree = "<group>"; };
+		41E31DD70A2F3E4A001E06A9 /* FONTLOG.txt */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; path = FONTLOG.txt; sourceTree = "<group>"; };
+		41E31DD80A2F3E4A001E06A9 /* OFL-FAQ.txt */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; path = "OFL-FAQ.txt"; sourceTree = "<group>"; };
+		41E31DD90A2F3E4A001E06A9 /* OFL.txt */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; path = OFL.txt; sourceTree = "<group>"; };
+		41E31DDA0A2F3E4A001E06A9 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
+		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		8D15AC370486D014006FF6A4 /* PrEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PrEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D15AC330486D014006FF6A4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7A8FEA54F5311CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */,
+				13E42FBA07B3F13500E4EEF1 /* CoreData.framework */,
+				2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FB0FE9D524F11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D15AC370486D014006FF6A4 /* PrEditor.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2A37F4AAFDCFA73011CA2CEA /* PrEditor */ = {
+			isa = PBXGroup;
+			children = (
+				2A37F4ABFDCFA73011CA2CEA /* Classes */,
+				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
+				2A37F4B8FDCFA73011CA2CEA /* Resources */,
+				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
+				19C28FB0FE9D524F11CA2CBB /* Products */,
+				4157234E0ADF84F40048B85B /* Old ForbesPrEditor */,
+			);
+			name = PrEditor;
+			sourceTree = "<group>";
+		};
+		2A37F4ABFDCFA73011CA2CEA /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				4107EF2C0A2EF4C1009DA243 /* preditorDict */,
+				2A37F4AEFDCFA73011CA2CEA /* PrEditorDocument.h */,
+				2A37F4ACFDCFA73011CA2CEA /* PrEditorDocument.m */,
+				4186417E0A31AF2200531338 /* ResponderNotifyingWindow.h */,
+				4186417F0A31AF2200531338 /* ResponderNotifyingWindow.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		2A37F4AFFDCFA73011CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32DBCF750370BD2300C91783 /* PrEditor_Prefix.pch */,
+				2A37F4B0FDCFA73011CA2CEA /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		2A37F4B8FDCFA73011CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				41E31DD20A2F3D6A001E06A9 /* IPA Keylayout */,
+				41E31DB00A2F37DF001E06A9 /* APPL.icns */,
+				2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */,
+				2A37F4B7FDCFA73011CA2CEA /* MainMenu.nib */,
+				2A37F4B5FDCFA73011CA2CEA /* PrEditorDocument.nib */,
+				8D15AC360486D014006FF6A4 /* Info.plist */,
+				089C165FFE840EACC02AAC07 /* InfoPlist.strings */,
+				416094AA0A2B2881001A6FBB /* Delete.tiff */,
+				4107F0120A2F2D61009DA243 /* app.tiff */,
+				416094AC0A2B2887001A6FBB /* Speak.tiff */,
+				416094AE0A2B288B001A6FBB /* Store.tiff */,
+				4107F00A0A2F2BE7009DA243 /* preditor_logo.tiff */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		2A37F4C3FDCFA73011CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */,
+				1058C7A8FEA54F5311CA2CBB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4107EF2C0A2EF4C1009DA243 /* preditorDict */ = {
+			isa = PBXGroup;
+			children = (
+				41CC57430AE05E1100DC3B3C /* PrDict.h */,
+				41CC57440AE05E1100DC3B3C /* PrDict.m */,
+			);
+			path = preditorDict;
+			sourceTree = "<group>";
+		};
+		412E6E6B0AE3244B007A00CE /* PrEditor */ = {
+			isa = PBXGroup;
+			children = (
+				412E6E6C0AE3244B007A00CE /* .dir3_0.wmd */,
+				412E6E6D0AE3244B007A00CE /* AATOC */,
+				412E6E6E0AE3244B007A00CE /* AATOC_MMF */,
+				412E6E6F0AE3244B007A00CE /* app.tiff */,
+				412E6E700AE3244B007A00CE /* AppPrefMgr.h */,
+				412E6E710AE3244B007A00CE /* AppPrefMgr.m */,
+				412E6E720AE3244B007A00CE /* book.tiff */,
+				412E6E730AE3244B007A00CE /* ChangeLog */,
+				412E6E740AE3244B007A00CE /* Changes_MMF */,
+				412E6E8F0AE3244B007A00CE /* conversion.c */,
+				412E6E900AE3244B007A00CE /* conversion.h */,
+				412E6E910AE3244B007A00CE /* CustSlider.h */,
+				412E6E920AE3244B007A00CE /* CustSlider.m */,
+				412E6E930AE3244B007A00CE /* CustSliderCell.h */,
+				412E6E940AE3244B007A00CE /* CustSliderCell.m */,
+				412E6E950AE3244B007A00CE /* Delete.tiff */,
+				412E6E960AE3244B007A00CE /* DeleteH.tiff */,
+				412E6E970AE3244B007A00CE /* dict.tiff */,
+				412E6E980AE3244B007A00CE /* dictInUse.tiff */,
+				412E6E990AE3244B007A00CE /* AppPrefMgr.nib */,
+				412E6E9B0AE3244B007A00CE /* Document.nib */,
+				412E6E9D0AE3244B007A00CE /* Help.nib */,
+				412E6E9F0AE3244B007A00CE /* Info.nib */,
+				412E6EA10AE3244B007A00CE /* PrDictViewer.nib */,
+				412E6EA30AE3244B007A00CE /* PrEditor.nib */,
+				412E6EA50AE3244B007A00CE /* TTSPrefMgr.nib */,
+				412E6EA70AE3244B007A00CE /* TTSPrefMgrOld.nib */,
+				412E6EA90AE3244B007A00CE /* EnglishText.h */,
+				412E6EAA0AE3244B007A00CE /* EnglishText.m */,
+				412E6EAB0AE3244B007A00CE /* hash.c */,
+				412E6EAC0AE3244B007A00CE /* hash.h */,
+				412E6EAD0AE3244B007A00CE /* Help.h */,
+				412E6EAE0AE3244B007A00CE /* Help.m */,
+				412E6EAF0AE3244B007A00CE /* help.tiff */,
+				412E6EB00AE3244B007A00CE /* InfoMgr.h */,
+				412E6EB10AE3244B007A00CE /* InfoMgr.m */,
+				412E6EB20AE3244B007A00CE /* KeyboardController.h */,
+				412E6EB30AE3244B007A00CE /* KeyboardController.m */,
+				412E6EB40AE3244B007A00CE /* KeyboardText.h */,
+				412E6EB50AE3244B007A00CE /* KeyboardText.m */,
+				412E6EB60AE3244B007A00CE /* left.tiff */,
+				412E6EB70AE3244B007A00CE /* Makefile */,
+				412E6EB80AE3244B007A00CE /* Makefile.postamble */,
+				412E6EB90AE3244B007A00CE /* Makefile.preamble */,
+				412E6EBA0AE3244B007A00CE /* max.tiff */,
+				412E6EBB0AE3244B007A00CE /* min.tiff */,
+				412E6EBC0AE3244B007A00CE /* MyText.h */,
+				412E6EBD0AE3244B007A00CE /* MyText.m */,
+				412E6EBE0AE3244B007A00CE /* NiftyMatrix.h */,
+				412E6EBF0AE3244B007A00CE /* NiftyMatrix.m */,
+				412E6EC00AE3244B007A00CE /* NiftyMatrixCat.h */,
+				412E6EC10AE3244B007A00CE /* NiftyMatrixCat.m */,
+				412E6EC20AE3244B007A00CE /* NiftyMatrixCell.h */,
+				412E6EC30AE3244B007A00CE /* NiftyMatrixCell.m */,
+				412E6EC40AE3244B007A00CE /* Notes_MMF */,
+				412E6EC50AE3244B007A00CE /* objc-debug.h */,
+				412E6EC60AE3244B007A00CE /* Old_Notes_MMF.August 8, 1995 */,
+				412E6EC70AE3244B007A00CE /* PB.gdbinit */,
+				412E6EC80AE3244B007A00CE /* PB.project */,
+				412E6EC90AE3244B007A00CE /* Phon-KeyMap */,
+				412E6ECA0AE3244B007A00CE /* phone_conversion.h */,
+				412E6ECB0AE3244B007A00CE /* Pics.tiff */,
+				412E6ECC0AE3244B007A00CE /* PrDict.h */,
+				412E6ECD0AE3244B007A00CE /* PrDict.m */,
+				412E6ECE0AE3244B007A00CE /* PrDictViewer.h */,
+				412E6ECF0AE3244B007A00CE /* PrDictViewer.m */,
+				412E6ED00AE3244B007A00CE /* PrDocumentation */,
+				412E6EE00AE3244B007A00CE /* PrEditor.h */,
+				412E6EE10AE3244B007A00CE /* PrEditor.iconheader */,
+				412E6EE20AE3244B007A00CE /* preditor_logo.tiff */,
+				412E6EE30AE3244B007A00CE /* PrEditor_main.m */,
+				412E6EE40AE3244B007A00CE /* PrEditorApp.h */,
+				412E6EE50AE3244B007A00CE /* PrEditorApp.m */,
+				412E6EE60AE3244B007A00CE /* preditorDict */,
+				412E6EFC0AE3244B007A00CE /* PrEditorDocument.h */,
+				412E6EFD0AE3244B007A00CE /* PrEditorDocument.m */,
+				412E6EFE0AE3244B007A00CE /* Pronunciation */,
+				412E6F060AE3244B007A00CE /* PrTextField.h */,
+				412E6F070AE3244B007A00CE /* PrTextField.m */,
+				412E6F080AE3244B007A00CE /* RCS */,
+				412E6F5E0AE3244C007A00CE /* right.tiff */,
+				412E6F5F0AE3244C007A00CE /* Shift.tiff */,
+				412E6F600AE3244C007A00CE /* ShiftH.tiff */,
+				412E6F610AE3244C007A00CE /* Speak.tiff */,
+				412E6F620AE3244C007A00CE /* SpeakH.tiff */,
+				412E6F630AE3244C007A00CE /* Speech.h */,
+				412E6F640AE3244C007A00CE /* Speech.m */,
+				412E6F650AE3244C007A00CE /* Store.tiff */,
+				412E6F660AE3244C007A00CE /* StoreH.tiff */,
+				412E6F670AE3244C007A00CE /* TAGS */,
+				412E6F680AE3244C007A00CE /* To_Do */,
+				412E6F690AE3244C007A00CE /* TTSPrefMgr.h */,
+				412E6F6A0AE3244C007A00CE /* TTSPrefMgr.m */,
+				412E6F6B0AE3244C007A00CE /* TTSPrefMgrOld.h */,
+				412E6F6C0AE3244C007A00CE /* TTSPrefMgrOld.m */,
+				412E6F6D0AE3244C007A00CE /* word_types.h */,
+			);
+			name = PrEditor;
+			path = ../../../../ForbesPrEditor/PrEditor;
+			sourceTree = SOURCE_ROOT;
+		};
+		412E6E740AE3244B007A00CE /* Changes_MMF */ = {
+			isa = PBXGroup;
+			children = (
+				412E6E750AE3244B007A00CE /* .dir3_0.wmd */,
+				412E6E760AE3244B007A00CE /* AppPrefMgr.h.log.mmf */,
+				412E6E770AE3244B007A00CE /* AppPrefMgr.m.log.mmf */,
+				412E6E780AE3244B007A00CE /* ChangeLog_MMF */,
+				412E6E790AE3244B007A00CE /* conversion.c.log.mmf */,
+				412E6E7A0AE3244B007A00CE /* conversion.h.log.mmf */,
+				412E6E7B0AE3244B007A00CE /* EnglishText.h.log.mmf */,
+				412E6E7C0AE3244B007A00CE /* EnglishText.m.log.mmf */,
+				412E6E7D0AE3244B007A00CE /* KeyboardController.h.log.mmf */,
+				412E6E7E0AE3244B007A00CE /* KeyboardController.m.log.mmf */,
+				412E6E7F0AE3244B007A00CE /* KeyboardText.h.log.mmf */,
+				412E6E800AE3244B007A00CE /* KeyboardText.m.log.mmf */,
+				412E6E810AE3244B007A00CE /* phone_conversion.h.log.mmf */,
+				412E6E820AE3244B007A00CE /* PrDict.h.log.mmf */,
+				412E6E830AE3244B007A00CE /* PrDict.m.log.mmf */,
+				412E6E840AE3244B007A00CE /* PrEditorApp.h.log.mmf */,
+				412E6E850AE3244B007A00CE /* PrEditorApp.m.log.mmf */,
+				412E6E860AE3244B007A00CE /* PrEditorDocument.h.log.mmf */,
+				412E6E870AE3244B007A00CE /* PrEditorDocument.m.log.mmf */,
+				412E6E880AE3244B007A00CE /* predtiorDict.h.log.mmf */,
+				412E6E890AE3244B007A00CE /* predtiorDict.m.log.mmf */,
+				412E6E8A0AE3244B007A00CE /* PrTextField.h.log.mmf */,
+				412E6E8B0AE3244B007A00CE /* PrTextField.m.log.mmf */,
+				412E6E8C0AE3244B007A00CE /* README_MMF */,
+				412E6E8D0AE3244B007A00CE /* TTSPrefMgr.h.log.mmf */,
+				412E6E8E0AE3244B007A00CE /* TTSPrefMgr.m.log.mmf */,
+			);
+			name = Changes_MMF;
+			path = ../../../../ForbesPrEditor/PrEditor/Changes_MMF;
+			sourceTree = SOURCE_ROOT;
+		};
+		412E6ED00AE3244B007A00CE /* PrDocumentation */ = {
+			isa = PBXGroup;
+			children = (
+				412E6ED10AE3244B007A00CE /* AATOC */,
+				412E6ED20AE3244B007A00CE /* Bugs.rtf */,
+				412E6ED30AE3244B007A00CE /* Entering.rtf */,
+				412E6ED40AE3244B007A00CE /* Phonetic.rtf */,
+				412E6ED50AE3244B007A00CE /* Pronunciation.rtf */,
+				412E6ED60AE3244B007A00CE /* RCS */,
+				412E6EDE0AE3244B007A00CE /* Setting.rtf */,
+				412E6EDF0AE3244B007A00CE /* What.rtf */,
+			);
+			name = PrDocumentation;
+			path = ../../../../ForbesPrEditor/PrEditor/PrDocumentation;
+			sourceTree = SOURCE_ROOT;
+		};
+		412E6ED60AE3244B007A00CE /* RCS */ = {
+			isa = PBXGroup;
+			children = (
+				412E6ED70AE3244B007A00CE /* AATOC,v */,
+				412E6ED80AE3244B007A00CE /* Bugs.rtf,v */,
+				412E6ED90AE3244B007A00CE /* Entering.rtf,v */,
+				412E6EDA0AE3244B007A00CE /* Phonetic.rtf,v */,
+				412E6EDB0AE3244B007A00CE /* Pronunciation.rtf,v */,
+				412E6EDC0AE3244B007A00CE /* Setting.rtf,v */,
+				412E6EDD0AE3244B007A00CE /* What.rtf,v */,
+			);
+			name = RCS;
+			path = ../../../../ForbesPrEditor/PrEditor/PrDocumentation/RCS;
+			sourceTree = SOURCE_ROOT;
+		};
+		412E6EE60AE3244B007A00CE /* preditorDict */ = {
+			isa = PBXGroup;
+			children = (
+				412E6EE70AE3244B007A00CE /* AATOC */,
+				412E6EE80AE3244B007A00CE /* ChangeLog */,
+				412E6EE90AE3244B007A00CE /* conversion.c */,
+				412E6EEA0AE3244B007A00CE /* conversion.h */,
+				412E6EEB0AE3244B007A00CE /* lib.make */,
+				412E6EEC0AE3244B007A00CE /* Makefile */,
+				412E6EED0AE3244B007A00CE /* Makefile.dependencies */,
+				412E6EEE0AE3244B007A00CE /* phone_conversion.h */,
+				412E6EEF0AE3244B007A00CE /* PrDict.h */,
+				412E6EF00AE3244B007A00CE /* PrDict.m */,
+				412E6EF10AE3244B007A00CE /* preditorDict.h */,
+				412E6EF20AE3244B007A00CE /* preditorDict.m */,
+				412E6EF30AE3244B007A00CE /* RCS */,
+				412E6EFB0AE3244B007A00CE /* TAGS */,
+			);
+			name = preditorDict;
+			path = ../../../../ForbesPrEditor/PrEditor/preditorDict;
+			sourceTree = SOURCE_ROOT;
+		};
+		412E6EF30AE3244B007A00CE /* RCS */ = {
+			isa = PBXGroup;
+			children = (
+				412E6EF40AE3244B007A00CE /* AATOC,v */,
+				412E6EF50AE3244B007A00CE /* ChangeLog,v */,
+				412E6EF60AE3244B007A00CE /* lib.make,v */,
+				412E6EF70AE3244B007A00CE /* Makefile,v */,
+				412E6EF80AE3244B007A00CE /* Makefile.dependencies,v */,
+				412E6EF90AE3244B007A00CE /* preditorDict.h,v */,
+				412E6EFA0AE3244B007A00CE /* preditorDict.m,v */,
+			);
+			name = RCS;
+			path = ../../../../ForbesPrEditor/PrEditor/preditorDict/RCS;
+			sourceTree = SOURCE_ROOT;
+		};
+		412E6EFE0AE3244B007A00CE /* Pronunciation */ = {
+			isa = PBXGroup;
+			children = (
+				412E6EFF0AE3244B007A00CE /* Posture.h */,
+				412E6F000AE3244B007A00CE /* Posture.m */,
+				412E6F010AE3244B007A00CE /* PronPosture.h */,
+				412E6F020AE3244B007A00CE /* PronSyllable.h */,
+				412E6F030AE3244B007A00CE /* Pronunciation.h */,
+				412E6F040AE3244B007A00CE /* Pronunciation.m */,
+				412E6F050AE3244B007A00CE /* test */,
+			);
+			name = Pronunciation;
+			path = ../../../../ForbesPrEditor/PrEditor/Pronunciation;
+			sourceTree = SOURCE_ROOT;
+		};
+		412E6F080AE3244B007A00CE /* RCS */ = {
+			isa = PBXGroup;
+			children = (
+				412E6F090AE3244B007A00CE /* AATOC,v */,
+				412E6F0A0AE3244B007A00CE /* app.tiff,v */,
+				412E6F0B0AE3244B007A00CE /* book.tiff,v */,
+				412E6F0C0AE3244B007A00CE /* ChangeLog,v */,
+				412E6F0D0AE3244B007A00CE /* conversion.c,v */,
+				412E6F0E0AE3244B007A00CE /* conversion.h,v */,
+				412E6F0F0AE3244B007A00CE /* CustSlider.h,v */,
+				412E6F100AE3244B007A00CE /* CustSlider.m,v */,
+				412E6F110AE3244B007A00CE /* CustSliderCell.h,v */,
+				412E6F120AE3244B007A00CE /* CustSliderCell.m,v */,
+				412E6F130AE3244B007A00CE /* Delete.tiff,v */,
+				412E6F140AE3244B007A00CE /* DeleteH.tiff,v */,
+				412E6F150AE3244B007A00CE /* dict.tiff,v */,
+				412E6F160AE3244B007A00CE /* dictInUse.tiff,v */,
+				412E6F170AE3244B007A00CE /* Document.nib,v */,
+				412E6F180AE3244B007A00CE /* EnglishText.h,v */,
+				412E6F190AE3244B007A00CE /* EnglishText.m,v */,
+				412E6F1A0AE3244B007A00CE /* EnglishTextCell.h,v */,
+				412E6F1B0AE3244B007A00CE /* EnglishTextCell.m,v */,
+				412E6F1C0AE3244B007A00CE /* hash.c,v */,
+				412E6F1D0AE3244B007A00CE /* hash.h,v */,
+				412E6F1E0AE3244B007A00CE /* Help.h,v */,
+				412E6F1F0AE3244B007A00CE /* Help.m,v */,
+				412E6F200AE3244B007A00CE /* Help.nib,v */,
+				412E6F210AE3244B007A00CE /* help.tiff,v */,
+				412E6F220AE3244B007A00CE /* IB.proj,v */,
+				412E6F230AE3244B007A00CE /* Info.nib,v */,
+				412E6F240AE3244B007A00CE /* InfoMgr.h,v */,
+				412E6F250AE3244B007A00CE /* InfoMgr.m,v */,
+				412E6F260AE3244B007A00CE /* Inspector.nib,v */,
+				412E6F270AE3244B007A00CE /* InspectorMgr.h,v */,
+				412E6F280AE3244B007A00CE /* InspectorMgr.m,v */,
+				412E6F290AE3244B007A00CE /* KeyboardController.h,v */,
+				412E6F2A0AE3244B007A00CE /* KeyboardController.m,v */,
+				412E6F2B0AE3244B007A00CE /* KeyboardText.h,v */,
+				412E6F2C0AE3244B007A00CE /* KeyboardText.m,v */,
+				412E6F2D0AE3244B007A00CE /* KeyboardTextCell.h,v */,
+				412E6F2E0AE3244B007A00CE /* KeyboardTextCell.m,v */,
+				412E6F2F0AE3244B007A00CE /* left.tiff,v */,
+				412E6F300AE3244B007A00CE /* Makefile,v */,
+				412E6F310AE3244B007A00CE /* Makefile.dependencies,v */,
+				412E6F320AE3244B007A00CE /* Makefile.postamble,v */,
+				412E6F330AE3244B007A00CE /* Makefile.preamble,v */,
+				412E6F340AE3244B007A00CE /* max.tiff,v */,
+				412E6F350AE3244B007A00CE /* min.tiff,v */,
+				412E6F360AE3244B007A00CE /* MyText.h,v */,
+				412E6F370AE3244B007A00CE /* MyText.m,v */,
+				412E6F380AE3244B007A00CE /* NiftyMatrix.h,v */,
+				412E6F390AE3244B007A00CE /* NiftyMatrix.m,v */,
+				412E6F3A0AE3244B007A00CE /* NiftyMatrixCat.h,v */,
+				412E6F3B0AE3244B007A00CE /* NiftyMatrixCat.m,v */,
+				412E6F3C0AE3244B007A00CE /* NiftyMatrixCell.h,v */,
+				412E6F3D0AE3244B007A00CE /* NiftyMatrixCell.m,v */,
+				412E6F3E0AE3244B007A00CE /* objc-debug.h,v */,
+				412E6F3F0AE3244B007A00CE /* phone_conversion.h,v */,
+				412E6F400AE3244B007A00CE /* Pics.tiff,v */,
+				412E6F410AE3244C007A00CE /* PrDict.h,v */,
+				412E6F420AE3244C007A00CE /* PrDict.m,v */,
+				412E6F430AE3244C007A00CE /* PrDictViewer.h,v */,
+				412E6F440AE3244C007A00CE /* PrDictViewer.m,v */,
+				412E6F450AE3244C007A00CE /* PrDictViewer.nib,v */,
+				412E6F460AE3244C007A00CE /* PrEditor.iconheader,v */,
+				412E6F470AE3244C007A00CE /* PrEditor.nib,v */,
+				412E6F480AE3244C007A00CE /* preditor_logo.tiff,v */,
+				412E6F490AE3244C007A00CE /* PrEditor_main.m,v */,
+				412E6F4A0AE3244C007A00CE /* PrEditorApp.h,v */,
+				412E6F4B0AE3244C007A00CE /* PrEditorApp.m,v */,
+				412E6F4C0AE3244C007A00CE /* PrEditorDocument.h,v */,
+				412E6F4D0AE3244C007A00CE /* PrEditorDocument.m,v */,
+				412E6F4E0AE3244C007A00CE /* PrefMgr.h,v */,
+				412E6F4F0AE3244C007A00CE /* PrefMgr.m,v */,
+				412E6F500AE3244C007A00CE /* PrefMgr.nib,v */,
+				412E6F510AE3244C007A00CE /* right.tiff,v */,
+				412E6F520AE3244C007A00CE /* Shift.tiff,v */,
+				412E6F530AE3244C007A00CE /* ShiftH.tiff,v */,
+				412E6F540AE3244C007A00CE /* Speak.tiff,v */,
+				412E6F550AE3244C007A00CE /* SpeakH.tiff,v */,
+				412E6F560AE3244C007A00CE /* Speech.h,v */,
+				412E6F570AE3244C007A00CE /* Speech.m,v */,
+				412E6F580AE3244C007A00CE /* Store.tiff,v */,
+				412E6F590AE3244C007A00CE /* StoreH.tiff,v */,
+				412E6F5A0AE3244C007A00CE /* TextFieldCat.h,v */,
+				412E6F5B0AE3244C007A00CE /* TextFieldCat.m,v */,
+				412E6F5C0AE3244C007A00CE /* word_types.h,v */,
+				412E6F5D0AE3244C007A00CE /* words,v */,
+			);
+			name = RCS;
+			path = ../../../../ForbesPrEditor/PrEditor/RCS;
+			sourceTree = SOURCE_ROOT;
+		};
+		4157234E0ADF84F40048B85B /* Old ForbesPrEditor */ = {
+			isa = PBXGroup;
+			children = (
+				412E6E6B0AE3244B007A00CE /* PrEditor */,
+			);
+			name = "Old ForbesPrEditor";
+			sourceTree = "<group>";
+		};
+		41E31DD20A2F3D6A001E06A9 /* IPA Keylayout */ = {
+			isa = PBXGroup;
+			children = (
+				41E31DD40A2F3E4A001E06A9 /* DoulosSIL4 */,
+				41E31DD00A2F3CD6001E06A9 /* IPA-SIL keyboard 0.6.dmg */,
+			);
+			name = "IPA Keylayout";
+			sourceTree = "<group>";
+		};
+		41E31DD40A2F3E4A001E06A9 /* DoulosSIL4 */ = {
+			isa = PBXGroup;
+			children = (
+				41E31DD50A2F3E4A001E06A9 /* DoulosSIL4FontDocumentation.pdf */,
+				41E31DD60A2F3E4A001E06A9 /* DoulosSILR.ttf */,
+				41E31DD70A2F3E4A001E06A9 /* FONTLOG.txt */,
+				41E31DD80A2F3E4A001E06A9 /* OFL-FAQ.txt */,
+				41E31DD90A2F3E4A001E06A9 /* OFL.txt */,
+				41E31DDA0A2F3E4A001E06A9 /* README.txt */,
+			);
+			path = DoulosSIL4;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D15AC270486D014006FF6A4 /* PrEditor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C05733C708A9546B00998B17 /* Build configuration list for PBXNativeTarget "PrEditor" */;
+			buildPhases = (
+				8D15AC2B0486D014006FF6A4 /* Resources */,
+				8D15AC300486D014006FF6A4 /* Sources */,
+				8D15AC330486D014006FF6A4 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PrEditor;
+			productInstallPath = "$(HOME)/Applications";
+			productName = PrEditor;
+			productReference = 8D15AC370486D014006FF6A4 /* PrEditor.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C05733CB08A9546B00998B17 /* Build configuration list for PBXProject "PrEditor" */;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+				Irish,
+			);
+			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* PrEditor */;
+			projectDirPath = "";
+			targets = (
+				8D15AC270486D014006FF6A4 /* PrEditor */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D15AC2B0486D014006FF6A4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D15AC2C0486D014006FF6A4 /* Credits.rtf in Resources */,
+				41E31E7E0A2F4B83001E06A9 /* MainMenu.nib in Resources */,
+				41E31E770A2F49EA001E06A9 /* PrEditorDocument.nib in Resources */,
+				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
+				416094AB0A2B2881001A6FBB /* Delete.tiff in Resources */,
+				416094AD0A2B2887001A6FBB /* Speak.tiff in Resources */,
+				416094AF0A2B288B001A6FBB /* Store.tiff in Resources */,
+				4107F00B0A2F2BE7009DA243 /* preditor_logo.tiff in Resources */,
+				4107F0130A2F2D61009DA243 /* app.tiff in Resources */,
+				41E31DB10A2F37DF001E06A9 /* APPL.icns in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D15AC300486D014006FF6A4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D15AC310486D014006FF6A4 /* PrEditorDocument.m in Sources */,
+				8D15AC320486D014006FF6A4 /* main.m in Sources */,
+				418641800A31AF2200531338 /* ResponderNotifyingWindow.m in Sources */,
+				41CC57490AE05E5900DC3B3C /* PrDict.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C165FFE840EACC02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C1660FE840EACC02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2A37F4BAFDCFA73011CA2CEA /* English */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		412E6E990AE3244B007A00CE /* AppPrefMgr.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				412E6E9A0AE3244B007A00CE /* English */,
+			);
+			name = AppPrefMgr.nib;
+			path = ../../../../ForbesPrEditor/PrEditor;
+			sourceTree = SOURCE_ROOT;
+		};
+		412E6E9B0AE3244B007A00CE /* Document.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				412E6E9C0AE3244B007A00CE /* English */,
+			);
+			name = Document.nib;
+			path = ../../../../ForbesPrEditor/PrEditor;
+			sourceTree = SOURCE_ROOT;
+		};
+		412E6E9D0AE3244B007A00CE /* Help.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				412E6E9E0AE3244B007A00CE /* English */,
+			);
+			name = Help.nib;
+			path = ../../../../ForbesPrEditor/PrEditor;
+			sourceTree = SOURCE_ROOT;
+		};
+		412E6E9F0AE3244B007A00CE /* Info.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				412E6EA00AE3244B007A00CE /* English */,
+			);
+			name = Info.nib;
+			path = ../../../../ForbesPrEditor/PrEditor;
+			sourceTree = SOURCE_ROOT;
+		};
+		412E6EA10AE3244B007A00CE /* PrDictViewer.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				412E6EA20AE3244B007A00CE /* English */,
+			);
+			name = PrDictViewer.nib;
+			path = ../../../../ForbesPrEditor/PrEditor;
+			sourceTree = SOURCE_ROOT;
+		};
+		412E6EA30AE3244B007A00CE /* PrEditor.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				412E6EA40AE3244B007A00CE /* English */,
+			);
+			name = PrEditor.nib;
+			path = ../../../../ForbesPrEditor/PrEditor;
+			sourceTree = SOURCE_ROOT;
+		};
+		412E6EA50AE3244B007A00CE /* TTSPrefMgr.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				412E6EA60AE3244B007A00CE /* English */,
+			);
+			name = TTSPrefMgr.nib;
+			path = ../../../../ForbesPrEditor/PrEditor;
+			sourceTree = SOURCE_ROOT;
+		};
+		412E6EA70AE3244B007A00CE /* TTSPrefMgrOld.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				412E6EA80AE3244B007A00CE /* English */,
+			);
+			name = TTSPrefMgrOld.nib;
+			path = ../../../../ForbesPrEditor/PrEditor;
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C05733C808A9546B00998B17 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = PrEditor;
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		C05733C908A9546B00998B17 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = PrEditor;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		C05733CC08A9546B00998B17 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					DEBUG,
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Debug;
+		};
+		C05733CD08A9546B00998B17 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C05733C708A9546B00998B17 /* Build configuration list for PBXNativeTarget "PrEditor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C05733C808A9546B00998B17 /* Debug */,
+				C05733C908A9546B00998B17 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C05733CB08A9546B00998B17 /* Build configuration list for PBXProject "PrEditor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C05733CC08A9546B00998B17 /* Debug */,
+				C05733CD08A9546B00998B17 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+}

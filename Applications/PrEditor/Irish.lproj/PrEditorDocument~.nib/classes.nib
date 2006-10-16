@@ -1,0 +1,13 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {storeWord = id; }; 
+            CLASS = PrEditorDocument; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {orthoField = NSTextField; phonField = NSTextField; posField = NSPopUpButton; }; 
+            SUPERCLASS = NSDocument; 
+        }
+    ); 
+    IBVersion = 1; 
+}
