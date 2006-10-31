@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4107F00B0A2F2BE7009DA243 /* preditor_logo.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 4107F00A0A2F2BE7009DA243 /* preditor_logo.tiff */; };
-		4107F0130A2F2D61009DA243 /* app.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 4107F0120A2F2D61009DA243 /* app.tiff */; };
+		4106BB380AF02BFA00D8AB00 /* app.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 4106BB370AF02BFA00D8AB00 /* app.tiff */; };
 		416094AB0A2B2881001A6FBB /* Delete.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 416094AA0A2B2881001A6FBB /* Delete.tiff */; };
 		416094AD0A2B2887001A6FBB /* Speak.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 416094AC0A2B2887001A6FBB /* Speak.tiff */; };
 		416094AF0A2B288B001A6FBB /* Store.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 416094AE0A2B288B001A6FBB /* Store.tiff */; };
@@ -37,8 +36,7 @@
 		2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32DBCF750370BD2300C91783 /* PrEditor_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrEditor_Prefix.pch; sourceTree = "<group>"; };
-		4107F00A0A2F2BE7009DA243 /* preditor_logo.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = preditor_logo.tiff; path = "../../../../../../speechtech (not backed)/gnuspeech/trillium/src/ForbesPrEditor/PrEditor/preditor_logo.tiff"; sourceTree = SOURCE_ROOT; };
-		4107F0120A2F2D61009DA243 /* app.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = app.tiff; path = "../../../../../../speechtech (not backed)/gnuspeech/trillium/src/ForbesPrEditor/PrEditor/app.tiff"; sourceTree = SOURCE_ROOT; };
+		4106BB370AF02BFA00D8AB00 /* app.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = app.tiff; sourceTree = "<group>"; };
 		412E6E6C0AE3244B007A00CE /* .dir3_0.wmd */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = .dir3_0.wmd; path = ../../../../ForbesPrEditor/PrEditor/.dir3_0.wmd; sourceTree = SOURCE_ROOT; };
 		412E6E6D0AE3244B007A00CE /* AATOC */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = AATOC; path = ../../../../ForbesPrEditor/PrEditor/AATOC; sourceTree = SOURCE_ROOT; };
 		412E6E6E0AE3244B007A00CE /* AATOC_MMF */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = AATOC_MMF; path = ../../../../ForbesPrEditor/PrEditor/AATOC_MMF; sourceTree = SOURCE_ROOT; };
@@ -384,10 +382,9 @@
 				8D15AC360486D014006FF6A4 /* Info.plist */,
 				089C165FFE840EACC02AAC07 /* InfoPlist.strings */,
 				416094AA0A2B2881001A6FBB /* Delete.tiff */,
-				4107F0120A2F2D61009DA243 /* app.tiff */,
 				416094AC0A2B2887001A6FBB /* Speak.tiff */,
+				4106BB370AF02BFA00D8AB00 /* app.tiff */,
 				416094AE0A2B288B001A6FBB /* Store.tiff */,
-				4107F00A0A2F2BE7009DA243 /* preditor_logo.tiff */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -809,9 +806,8 @@
 				416094AB0A2B2881001A6FBB /* Delete.tiff in Resources */,
 				416094AD0A2B2887001A6FBB /* Speak.tiff in Resources */,
 				416094AF0A2B288B001A6FBB /* Store.tiff in Resources */,
-				4107F00B0A2F2BE7009DA243 /* preditor_logo.tiff in Resources */,
-				4107F0130A2F2D61009DA243 /* app.tiff in Resources */,
 				41E31DB10A2F37DF001E06A9 /* APPL.icns in Resources */,
+				4106BB380AF02BFA00D8AB00 /* app.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
