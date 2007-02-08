@@ -5,6 +5,8 @@
 
 #import "MMFRuleSymbols.h"
 
+@class NSArray, NSMutableString;
+
 @interface MMFormulaNode : NSObject
 {
 }

@@ -3,6 +3,7 @@
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 #import "MMFRuleSymbols.h"
 
+@class NSMutableArray;
 @class MonetList, MModel, MMPoint, MMSlope, MMTransition;
 @class TransitionView, NSTextFieldCell;
 

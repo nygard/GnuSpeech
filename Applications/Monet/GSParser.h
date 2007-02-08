@@ -13,6 +13,8 @@
 
 extern NSString *GSParserSyntaxErrorException;
 
+@class NSMutableString;
+
 @interface GSParser : NSObject
 {
     NSString *nonretained_parseString;

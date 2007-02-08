@@ -9,7 +9,7 @@
 =============================================================================
 */
 
-@class NSXMLParser;
+@class NSDictionary, NSMutableString, NSXMLParser;
 
 @interface MMTarget : NSObject
 {

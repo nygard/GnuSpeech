@@ -3,6 +3,7 @@
 
 #import <Foundation/NSObject.h>
 
+@class NSMutableString;
 @class MMCategory, CategoryList;
 
 @interface MMBooleanNode : NSObject

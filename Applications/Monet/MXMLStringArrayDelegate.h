@@ -3,7 +3,7 @@
 
 #import <Foundation/NSObject.h>
 
-@class NSXMLParser;
+@class NSDictionary, NSXMLParser;
 
 @interface MXMLStringArrayDelegate : NSObject
 {

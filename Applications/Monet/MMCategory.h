@@ -1,6 +1,8 @@
 #import <Foundation/NSObject.h>
 #import <Foundation/NSXMLParser.h>
 
+@class NSMutableString;
+
 @interface MMCategory : NSObject
 {
     NSString *name; // TODO (2004-03-18): Create named/commented object.

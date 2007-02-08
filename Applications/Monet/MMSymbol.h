@@ -9,6 +9,8 @@
 =============================================================================
 */
 
+@class NSMutableString;
+
 @interface MMSymbol : MMNamedObject
 {
     double minimum;

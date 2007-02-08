@@ -5,7 +5,7 @@
 
 @class MonetList;
 @class MMPoint, MMSlope, NSMutableArray;
-@class NSXMLParser;
+@class NSMutableString, NSXMLParser;
 
 /*===========================================================================
 

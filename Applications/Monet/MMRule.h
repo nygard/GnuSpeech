@@ -3,7 +3,7 @@
 #import "MMFRuleSymbols.h"
 
 @class MMBooleanNode, MMCategory, MonetList, PhoneList, MMEquation, MMTransition;
-@class NSXMLParser;
+@class NSDictionary, NSMutableArray, NSMutableString, NSXMLParser;
 
 /*===========================================================================
 

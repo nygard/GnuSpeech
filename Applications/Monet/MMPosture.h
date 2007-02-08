@@ -1,5 +1,6 @@
 #import "MMNamedObject.h"
 
+@class NSMutableArray, NSMutableString;
 @class CategoryList, MMCategory, MMSymbol, MMTarget;
 
 /*===========================================================================

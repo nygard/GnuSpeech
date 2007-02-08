@@ -1,6 +1,8 @@
 #import <Foundation/NSObject.h>
+#import <Foundation/NSDate.h> // To get NSTimeInterval
 #import <Foundation/NSXMLParser.h>
 
+@class NSMutableString;
 @class EventList;
 
 /*===========================================================================

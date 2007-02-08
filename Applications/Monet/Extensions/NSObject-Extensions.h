@@ -3,6 +3,8 @@
 
 #import <Foundation/NSObject.h>
 
+@class NSDictionary, NSMutableString;
+
 @interface NSObject (Extensions)
 
 + (id)objectWithXMLAttributes:(NSDictionary *)attributes context:(id)context;

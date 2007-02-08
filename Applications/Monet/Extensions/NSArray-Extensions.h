@@ -3,6 +3,8 @@
 
 #import <Foundation/NSArray.h>
 
+@class NSMutableString;
+
 @interface NSArray (Extensions)
 
 - (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(int)level;

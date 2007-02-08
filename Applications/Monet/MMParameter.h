@@ -1,5 +1,7 @@
 #import "MMNamedObject.h"
 
+@class NSMutableString;
+
 /*===========================================================================
 
 	Author: Craig-Richard Taube-Schock

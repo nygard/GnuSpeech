@@ -2,10 +2,11 @@
 //  Copyright (C) 2004 __OWNER__.  All rights reserved.
 
 #import <Foundation/NSObject.h>
+#include <stdio.h>
 
 @class CategoryList, MonetList, NamedList, PhoneList;
 @class MMCategory, MMEquation, MMParameter, MMPosture, MMRule, MMSymbol, MMSynthesisParameters, MMTransition;
-@class NSMutableArray, NSXMLParser;
+@class NSArray, NSDictionary, NSMutableArray, NSMutableString, NSXMLParser;
 
 extern NSString *MCategoryInUseException;
 

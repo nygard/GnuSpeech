@@ -2,6 +2,9 @@
 //  Copyright (C) 2004 __OWNER__.  All rights reserved.
 
 #import <AppKit/NSTableView.h>
+#import <Foundation/NSDate.h> // To get NSTimeInterval
+
+@class NSMutableString;
 
 @interface MExtendedTableView : NSTableView
 {

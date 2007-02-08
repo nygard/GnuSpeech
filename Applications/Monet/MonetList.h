@@ -6,7 +6,7 @@
 
 #import <Foundation/NSArray.h>
 
-@class NSString;
+@class NSMutableString, NSString;
 
 // This contains mostly cover methods for NSMutableArray, but adds the following functionality:
 // - don't crash when index out of range in -objectAtIndex:

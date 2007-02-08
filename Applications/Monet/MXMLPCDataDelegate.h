@@ -3,7 +3,7 @@
 
 #import <Foundation/NSObject.h>
 
-@class NSMutableDictionary, NSXMLParser;
+@class NSMutableDictionary, NSMutableString, NSXMLParser;
 
 @interface MXMLPCDataDelegate : NSObject
 {
