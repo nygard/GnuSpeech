@@ -25,9 +25,6 @@
 #import "MXMLPCDataDelegate.h"
 #import "PhoneList.h"
 
-#import <AppKit/NSAlert.h>
-#import <AppKit/NSPanel.h>
-
 #import "TRMSynthesizer.h" // For addParameters:
 
 NSString *NSStringFromToneGroupType(int toneGroupType)
@@ -1627,7 +1624,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     result = [parser parse];
     if (result == NO) {
         NSLog(@"Error: Failed to load file %@, (%@)", filename, [[parser parserError] localizedDescription]);
-        NSRunAlertPanel(@"Error", @"Failed to load file %@, (%@)", @"OK", nil, nil, filename, [[parser parserError] localizedDescription]);
+        //NSRunAlertPanel(@"Error", @"Failed to load file %@, (%@)", @"OK", nil, nil, filename, [[parser parserError] localizedDescription]);
     }
     [parser release];
 

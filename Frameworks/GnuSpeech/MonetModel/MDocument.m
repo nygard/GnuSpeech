@@ -4,7 +4,6 @@
 #import "MDocument.h"
 
 #import <Foundation/Foundation.h>
-#import <AppKit/NSAlert.h>
 #import "MModel.h"
 #import "MXMLParser.h"
 
@@ -44,7 +43,7 @@
     result = [parser parse];
     if (result == NO) {
         NSLog(@"Error: Failed to load file %@, (%@)", filename, [[parser parserError] localizedDescription]);
-        NSRunAlertPanel(@"Error", @"Failed to load file %@, (%@)", @"OK", nil, nil, filename, [[parser parserError] localizedDescription]);
+        //NSRunAlertPanel(@"Error", @"Failed to load file %@, (%@)", @"OK", nil, nil, filename, [[parser parserError] localizedDescription]);
     }
     [parser release];
 

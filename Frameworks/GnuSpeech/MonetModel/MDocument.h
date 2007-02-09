@@ -3,7 +3,6 @@
 
 #import <Foundation/NSObject.h>
 #import <Foundation/NSXMLParser.h>
-#import <AppKit/NSAlert.h>
 
 @class MModel;
 

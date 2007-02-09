@@ -1,7 +1,6 @@
 #import "MMBooleanParser.h"
 
 #import <Foundation/Foundation.h>
-#import <AppKit/AppKit.h>
 #import "NSScanner-Extensions.h"
 
 #import "CategoryList.h"
