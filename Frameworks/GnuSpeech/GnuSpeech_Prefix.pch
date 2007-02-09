@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'GnuSpeech' target in the 'GnuSpeech' project.
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif

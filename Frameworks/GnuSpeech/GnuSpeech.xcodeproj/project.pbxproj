@@ -1,0 +1,893 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0155E38E0B7BE80D008D8879 /* NSArray-Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3800B7BE80D008D8879 /* NSArray-Extensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E38F0B7BE80D008D8879 /* NSArray-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3810B7BE80D008D8879 /* NSArray-Extensions.m */; };
+		0155E3900B7BE80D008D8879 /* NSCharacterSet-Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3820B7BE80D008D8879 /* NSCharacterSet-Extensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E3910B7BE80D008D8879 /* NSCharacterSet-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3830B7BE80D008D8879 /* NSCharacterSet-Extensions.m */; };
+		0155E3940B7BE80D008D8879 /* NSObject-Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3860B7BE80D008D8879 /* NSObject-Extensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E3950B7BE80D008D8879 /* NSObject-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3870B7BE80D008D8879 /* NSObject-Extensions.m */; };
+		0155E3960B7BE80D008D8879 /* NSScanner-Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3880B7BE80D008D8879 /* NSScanner-Extensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E3970B7BE80D008D8879 /* NSScanner-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3890B7BE80D008D8879 /* NSScanner-Extensions.m */; };
+		0155E3980B7BE80D008D8879 /* NSString-Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E38A0B7BE80D008D8879 /* NSString-Extensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E3990B7BE80D008D8879 /* NSString-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E38B0B7BE80D008D8879 /* NSString-Extensions.m */; };
+		0155E39A0B7BE80D008D8879 /* NSUserDefaults-Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E38C0B7BE80D008D8879 /* NSUserDefaults-Extensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E39B0B7BE80D008D8879 /* NSUserDefaults-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E38D0B7BE80D008D8879 /* NSUserDefaults-Extensions.m */; };
+		0155E3B40B7BE852008D8879 /* GSParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E39F0B7BE852008D8879 /* GSParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E3B50B7BE852008D8879 /* GSParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3A00B7BE852008D8879 /* GSParser.m */; };
+		0155E3B60B7BE852008D8879 /* MMBooleanExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3A10B7BE852008D8879 /* MMBooleanExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E3B70B7BE852008D8879 /* MMBooleanExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3A20B7BE852008D8879 /* MMBooleanExpression.m */; };
+		0155E3B80B7BE852008D8879 /* MMBooleanNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3A30B7BE852008D8879 /* MMBooleanNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E3B90B7BE852008D8879 /* MMBooleanNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3A40B7BE852008D8879 /* MMBooleanNode.m */; };
+		0155E3BA0B7BE852008D8879 /* MMBooleanParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3A50B7BE852008D8879 /* MMBooleanParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E3BB0B7BE852008D8879 /* MMBooleanParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3A60B7BE852008D8879 /* MMBooleanParser.m */; };
+		0155E3BC0B7BE852008D8879 /* MMBooleanSymbols.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3A70B7BE852008D8879 /* MMBooleanSymbols.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E3BD0B7BE852008D8879 /* MMBooleanTerminal.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3A80B7BE852008D8879 /* MMBooleanTerminal.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E3BE0B7BE852008D8879 /* MMBooleanTerminal.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3A90B7BE852008D8879 /* MMBooleanTerminal.m */; };
+		0155E3BF0B7BE852008D8879 /* MMFormulaExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3AA0B7BE852008D8879 /* MMFormulaExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E3C00B7BE852008D8879 /* MMFormulaExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3AB0B7BE852008D8879 /* MMFormulaExpression.m */; };
+		0155E3C10B7BE852008D8879 /* MMFormulaNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3AC0B7BE852008D8879 /* MMFormulaNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E3C20B7BE852008D8879 /* MMFormulaNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3AD0B7BE852008D8879 /* MMFormulaNode.m */; };
+		0155E3C30B7BE852008D8879 /* MMFormulaParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3AE0B7BE852008D8879 /* MMFormulaParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E3C40B7BE852008D8879 /* MMFormulaParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3AF0B7BE852008D8879 /* MMFormulaParser.m */; };
+		0155E3C50B7BE852008D8879 /* MMFormulaSymbols.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3B00B7BE852008D8879 /* MMFormulaSymbols.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E3C60B7BE852008D8879 /* MMFormulaTerminal.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3B10B7BE852008D8879 /* MMFormulaTerminal.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E3C70B7BE852008D8879 /* MMFormulaTerminal.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3B20B7BE852008D8879 /* MMFormulaTerminal.m */; };
+		0155E3C80B7BE852008D8879 /* MMFRuleSymbols.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3B30B7BE852008D8879 /* MMFRuleSymbols.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E3DE0B7BE8AC008D8879 /* GSXMLFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3CA0B7BE8AC008D8879 /* GSXMLFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E3DF0B7BE8AC008D8879 /* GSXMLFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3CB0B7BE8AC008D8879 /* GSXMLFunctions.m */; };
+		0155E3E00B7BE8AC008D8879 /* MUnarchiver.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3CC0B7BE8AC008D8879 /* MUnarchiver.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E3E10B7BE8AC008D8879 /* MUnarchiver.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3CD0B7BE8AC008D8879 /* MUnarchiver.m */; };
+		0155E3E20B7BE8AC008D8879 /* MXMLArrayDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3CE0B7BE8AC008D8879 /* MXMLArrayDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E3E30B7BE8AC008D8879 /* MXMLArrayDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3CF0B7BE8AC008D8879 /* MXMLArrayDelegate.m */; };
+		0155E3E40B7BE8AC008D8879 /* MXMLDictionaryDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3D00B7BE8AC008D8879 /* MXMLDictionaryDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E3E50B7BE8AC008D8879 /* MXMLDictionaryDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3D10B7BE8AC008D8879 /* MXMLDictionaryDelegate.m */; };
+		0155E3E60B7BE8AC008D8879 /* MXMLIgnoreTreeDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3D20B7BE8AC008D8879 /* MXMLIgnoreTreeDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E3E70B7BE8AC008D8879 /* MXMLIgnoreTreeDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3D30B7BE8AC008D8879 /* MXMLIgnoreTreeDelegate.m */; };
+		0155E3E80B7BE8AC008D8879 /* MXMLParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3D40B7BE8AC008D8879 /* MXMLParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E3E90B7BE8AC008D8879 /* MXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3D50B7BE8AC008D8879 /* MXMLParser.m */; };
+		0155E3EA0B7BE8AC008D8879 /* MXMLPCDataDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3D60B7BE8AC008D8879 /* MXMLPCDataDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E3EB0B7BE8AC008D8879 /* MXMLPCDataDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3D70B7BE8AC008D8879 /* MXMLPCDataDelegate.m */; };
+		0155E3EC0B7BE8AC008D8879 /* MXMLReferenceArrayDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3D80B7BE8AC008D8879 /* MXMLReferenceArrayDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E3ED0B7BE8AC008D8879 /* MXMLReferenceArrayDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3D90B7BE8AC008D8879 /* MXMLReferenceArrayDelegate.m */; };
+		0155E3EE0B7BE8AC008D8879 /* MXMLReferenceDictionaryDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3DA0B7BE8AC008D8879 /* MXMLReferenceDictionaryDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E3EF0B7BE8AC008D8879 /* MXMLReferenceDictionaryDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3DB0B7BE8AC008D8879 /* MXMLReferenceDictionaryDelegate.m */; };
+		0155E3F00B7BE8AC008D8879 /* MXMLStringArrayDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3DC0B7BE8AC008D8879 /* MXMLStringArrayDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E3F10B7BE8AC008D8879 /* MXMLStringArrayDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3DD0B7BE8AC008D8879 /* MXMLStringArrayDelegate.m */; };
+		0155E4010B7BE8D6008D8879 /* FormulaExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3F30B7BE8D6008D8879 /* FormulaExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E4020B7BE8D6008D8879 /* FormulaExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3F40B7BE8D6008D8879 /* FormulaExpression.m */; };
+		0155E4030B7BE8D6008D8879 /* FormulaTerminal.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3F50B7BE8D6008D8879 /* FormulaTerminal.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E4040B7BE8D6008D8879 /* FormulaTerminal.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3F60B7BE8D6008D8879 /* FormulaTerminal.m */; };
+		0155E4050B7BE8D6008D8879 /* MMOldFormulaNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3F70B7BE8D6008D8879 /* MMOldFormulaNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E4060B7BE8D6008D8879 /* MMOldFormulaNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3F80B7BE8D6008D8879 /* MMOldFormulaNode.m */; };
+		0155E4070B7BE8D6008D8879 /* ParameterList.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3F90B7BE8D6008D8879 /* ParameterList.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E4080B7BE8D6008D8879 /* ParameterList.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3FA0B7BE8D6008D8879 /* ParameterList.m */; };
+		0155E4090B7BE8D6008D8879 /* RuleList.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3FB0B7BE8D6008D8879 /* RuleList.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E40A0B7BE8D6008D8879 /* RuleList.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3FC0B7BE8D6008D8879 /* RuleList.m */; };
+		0155E40B0B7BE8D6008D8879 /* SymbolList.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3FD0B7BE8D6008D8879 /* SymbolList.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E40C0B7BE8D6008D8879 /* SymbolList.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3FE0B7BE8D6008D8879 /* SymbolList.m */; };
+		0155E40D0B7BE8D6008D8879 /* TargetList.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3FF0B7BE8D6008D8879 /* TargetList.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E40E0B7BE8D6008D8879 /* TargetList.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E4000B7BE8D6008D8879 /* TargetList.m */; };
+		0155E4400B7BE8FA008D8879 /* CategoryList.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E4100B7BE8F9008D8879 /* CategoryList.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E4410B7BE8FA008D8879 /* CategoryList.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E4110B7BE8F9008D8879 /* CategoryList.m */; };
+		0155E4420B7BE8FA008D8879 /* Event.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E4120B7BE8F9008D8879 /* Event.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E4430B7BE8FA008D8879 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E4130B7BE8F9008D8879 /* Event.m */; };
+		0155E4440B7BE8FA008D8879 /* EventList.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E4140B7BE8F9008D8879 /* EventList.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E4450B7BE8FA008D8879 /* EventList.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E4150B7BE8F9008D8879 /* EventList.m */; };
+		0155E4460B7BE8FA008D8879 /* MDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E4160B7BE8F9008D8879 /* MDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E4470B7BE8FA008D8879 /* MDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E4170B7BE8F9008D8879 /* MDocument.m */; };
+		0155E4480B7BE8FA008D8879 /* MMCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E4180B7BE8F9008D8879 /* MMCategory.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E4490B7BE8FA008D8879 /* MMCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E4190B7BE8F9008D8879 /* MMCategory.m */; };
+		0155E44A0B7BE8FA008D8879 /* MMEquation.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E41A0B7BE8F9008D8879 /* MMEquation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E44B0B7BE8FA008D8879 /* MMEquation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E41B0B7BE8F9008D8879 /* MMEquation.m */; };
+		0155E44C0B7BE8FA008D8879 /* MMIntonationPoint.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E41C0B7BE8F9008D8879 /* MMIntonationPoint.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E44D0B7BE8FA008D8879 /* MMIntonationPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E41D0B7BE8F9008D8879 /* MMIntonationPoint.m */; };
+		0155E44E0B7BE8FA008D8879 /* MMNamedObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E41E0B7BE8F9008D8879 /* MMNamedObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E44F0B7BE8FA008D8879 /* MMNamedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E41F0B7BE8F9008D8879 /* MMNamedObject.m */; };
+		0155E4500B7BE8FA008D8879 /* MMObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E4200B7BE8F9008D8879 /* MMObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E4510B7BE8FA008D8879 /* MMObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E4210B7BE8F9008D8879 /* MMObject.m */; };
+		0155E4520B7BE8FA008D8879 /* MModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E4220B7BE8F9008D8879 /* MModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E4530B7BE8FA008D8879 /* MModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E4230B7BE8F9008D8879 /* MModel.m */; };
+		0155E4540B7BE8FA008D8879 /* MMParameter.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E4240B7BE8F9008D8879 /* MMParameter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E4550B7BE8FA008D8879 /* MMParameter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E4250B7BE8F9008D8879 /* MMParameter.m */; };
+		0155E4560B7BE8FA008D8879 /* MMPoint.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E4260B7BE8F9008D8879 /* MMPoint.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E4570B7BE8FA008D8879 /* MMPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E4270B7BE8F9008D8879 /* MMPoint.m */; };
+		0155E4580B7BE8FA008D8879 /* MMPosture.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E4280B7BE8F9008D8879 /* MMPosture.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E4590B7BE8FA008D8879 /* MMPosture.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E4290B7BE8F9008D8879 /* MMPosture.m */; };
+		0155E45A0B7BE8FA008D8879 /* MMPostureRewriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E42A0B7BE8F9008D8879 /* MMPostureRewriter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E45B0B7BE8FA008D8879 /* MMPostureRewriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E42B0B7BE8F9008D8879 /* MMPostureRewriter.m */; };
+		0155E45C0B7BE8FA008D8879 /* MMRule.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E42C0B7BE8F9008D8879 /* MMRule.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E45D0B7BE8FA008D8879 /* MMRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E42D0B7BE8F9008D8879 /* MMRule.m */; };
+		0155E45E0B7BE8FA008D8879 /* MMSlope.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E42E0B7BE8F9008D8879 /* MMSlope.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E45F0B7BE8FA008D8879 /* MMSlope.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E42F0B7BE8F9008D8879 /* MMSlope.m */; };
+		0155E4600B7BE8FA008D8879 /* MMSlopeRatio.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E4300B7BE8F9008D8879 /* MMSlopeRatio.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E4610B7BE8FA008D8879 /* MMSlopeRatio.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E4310B7BE8F9008D8879 /* MMSlopeRatio.m */; };
+		0155E4620B7BE8FA008D8879 /* MMSymbol.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E4320B7BE8F9008D8879 /* MMSymbol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E4630B7BE8FA008D8879 /* MMSymbol.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E4330B7BE8F9008D8879 /* MMSymbol.m */; };
+		0155E4640B7BE8FA008D8879 /* MMSynthesisParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E4340B7BE8F9008D8879 /* MMSynthesisParameters.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E4650B7BE8FA008D8879 /* MMSynthesisParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E4350B7BE8F9008D8879 /* MMSynthesisParameters.m */; };
+		0155E4660B7BE8FA008D8879 /* MMTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E4360B7BE8F9008D8879 /* MMTarget.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E4670B7BE8FA008D8879 /* MMTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E4370B7BE8F9008D8879 /* MMTarget.m */; };
+		0155E4680B7BE8FA008D8879 /* MMTransition.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E4380B7BE8F9008D8879 /* MMTransition.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E4690B7BE8FA008D8879 /* MMTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E4390B7BE8F9008D8879 /* MMTransition.m */; };
+		0155E46A0B7BE8FA008D8879 /* MonetList.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E43A0B7BE8F9008D8879 /* MonetList.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E46B0B7BE8FA008D8879 /* MonetList.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E43B0B7BE8F9008D8879 /* MonetList.m */; };
+		0155E46C0B7BE8FA008D8879 /* NamedList.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E43C0B7BE8F9008D8879 /* NamedList.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E46D0B7BE8FA008D8879 /* NamedList.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E43D0B7BE8F9008D8879 /* NamedList.m */; };
+		0155E46E0B7BE8FA008D8879 /* PhoneList.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E43E0B7BE8F9008D8879 /* PhoneList.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E46F0B7BE8FA008D8879 /* PhoneList.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E43F0B7BE8FA008D8879 /* PhoneList.m */; };
+		0155E4750B7BE92A008D8879 /* TRMData.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E4710B7BE92A008D8879 /* TRMData.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E4760B7BE92A008D8879 /* TRMData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E4720B7BE92A008D8879 /* TRMData.m */; };
+		0155E4770B7BE92A008D8879 /* TRMSynthesizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E4730B7BE92A008D8879 /* TRMSynthesizer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E4780B7BE92A008D8879 /* TRMSynthesizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E4740B7BE92A008D8879 /* TRMSynthesizer.m */; };
+		0155E47E0B7BEB27008D8879 /* driftGenerator.c in Sources */ = {isa = PBXBuildFile; fileRef = 0155E47C0B7BEB27008D8879 /* driftGenerator.c */; };
+		0155E47F0B7BEB27008D8879 /* driftGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E47D0B7BEB27008D8879 /* driftGenerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E4D00B7BF002008D8879 /* MonetDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E4CF0B7BF002008D8879 /* MonetDefaults.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E4E20B7BF107008D8879 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0155E4E00B7BF107008D8879 /* AudioToolbox.framework */; };
+		0155E4E30B7BF107008D8879 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0155E4E10B7BF107008D8879 /* AudioUnit.framework */; };
+		01AC65C80B7BF562008E4B93 /* Tube.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01AC65B00B7BF554008E4B93 /* Tube.framework */; };
+		01AC65FA0B7BF9B4008E4B93 /* GnuSpeech.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC65F90B7BF9B4008E4B93 /* GnuSpeech.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
+		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		01AC65AF0B7BF554008E4B93 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 01AC65AB0B7BF554008E4B93 /* Tube.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216 /* Tube.framework */;
+			remoteInfo = Tube;
+		};
+		01AC65C90B7BF56C008E4B93 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 01AC65AB0B7BF554008E4B93 /* Tube.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216 /* Tube */;
+			remoteInfo = Tube;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0155E3800B7BE80D008D8879 /* NSArray-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "NSArray-Extensions.h"; path = "Extensions/NSArray-Extensions.h"; sourceTree = "<group>"; };
+		0155E3810B7BE80D008D8879 /* NSArray-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSArray-Extensions.m"; path = "Extensions/NSArray-Extensions.m"; sourceTree = "<group>"; };
+		0155E3820B7BE80D008D8879 /* NSCharacterSet-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "NSCharacterSet-Extensions.h"; path = "Extensions/NSCharacterSet-Extensions.h"; sourceTree = "<group>"; };
+		0155E3830B7BE80D008D8879 /* NSCharacterSet-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSCharacterSet-Extensions.m"; path = "Extensions/NSCharacterSet-Extensions.m"; sourceTree = "<group>"; };
+		0155E3860B7BE80D008D8879 /* NSObject-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "NSObject-Extensions.h"; path = "Extensions/NSObject-Extensions.h"; sourceTree = "<group>"; };
+		0155E3870B7BE80D008D8879 /* NSObject-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSObject-Extensions.m"; path = "Extensions/NSObject-Extensions.m"; sourceTree = "<group>"; };
+		0155E3880B7BE80D008D8879 /* NSScanner-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "NSScanner-Extensions.h"; path = "Extensions/NSScanner-Extensions.h"; sourceTree = "<group>"; };
+		0155E3890B7BE80D008D8879 /* NSScanner-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSScanner-Extensions.m"; path = "Extensions/NSScanner-Extensions.m"; sourceTree = "<group>"; };
+		0155E38A0B7BE80D008D8879 /* NSString-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "NSString-Extensions.h"; path = "Extensions/NSString-Extensions.h"; sourceTree = "<group>"; };
+		0155E38B0B7BE80D008D8879 /* NSString-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSString-Extensions.m"; path = "Extensions/NSString-Extensions.m"; sourceTree = "<group>"; };
+		0155E38C0B7BE80D008D8879 /* NSUserDefaults-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "NSUserDefaults-Extensions.h"; path = "Extensions/NSUserDefaults-Extensions.h"; sourceTree = "<group>"; };
+		0155E38D0B7BE80D008D8879 /* NSUserDefaults-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSUserDefaults-Extensions.m"; path = "Extensions/NSUserDefaults-Extensions.m"; sourceTree = "<group>"; };
+		0155E39F0B7BE852008D8879 /* GSParser.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GSParser.h; path = Parsers/GSParser.h; sourceTree = "<group>"; };
+		0155E3A00B7BE852008D8879 /* GSParser.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GSParser.m; path = Parsers/GSParser.m; sourceTree = "<group>"; };
+		0155E3A10B7BE852008D8879 /* MMBooleanExpression.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMBooleanExpression.h; path = Parsers/MMBooleanExpression.h; sourceTree = "<group>"; };
+		0155E3A20B7BE852008D8879 /* MMBooleanExpression.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MMBooleanExpression.m; path = Parsers/MMBooleanExpression.m; sourceTree = "<group>"; };
+		0155E3A30B7BE852008D8879 /* MMBooleanNode.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMBooleanNode.h; path = Parsers/MMBooleanNode.h; sourceTree = "<group>"; };
+		0155E3A40B7BE852008D8879 /* MMBooleanNode.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MMBooleanNode.m; path = Parsers/MMBooleanNode.m; sourceTree = "<group>"; };
+		0155E3A50B7BE852008D8879 /* MMBooleanParser.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMBooleanParser.h; path = Parsers/MMBooleanParser.h; sourceTree = "<group>"; };
+		0155E3A60B7BE852008D8879 /* MMBooleanParser.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MMBooleanParser.m; path = Parsers/MMBooleanParser.m; sourceTree = "<group>"; };
+		0155E3A70B7BE852008D8879 /* MMBooleanSymbols.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMBooleanSymbols.h; path = Parsers/MMBooleanSymbols.h; sourceTree = "<group>"; };
+		0155E3A80B7BE852008D8879 /* MMBooleanTerminal.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMBooleanTerminal.h; path = Parsers/MMBooleanTerminal.h; sourceTree = "<group>"; };
+		0155E3A90B7BE852008D8879 /* MMBooleanTerminal.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MMBooleanTerminal.m; path = Parsers/MMBooleanTerminal.m; sourceTree = "<group>"; };
+		0155E3AA0B7BE852008D8879 /* MMFormulaExpression.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMFormulaExpression.h; path = Parsers/MMFormulaExpression.h; sourceTree = "<group>"; };
+		0155E3AB0B7BE852008D8879 /* MMFormulaExpression.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MMFormulaExpression.m; path = Parsers/MMFormulaExpression.m; sourceTree = "<group>"; };
+		0155E3AC0B7BE852008D8879 /* MMFormulaNode.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMFormulaNode.h; path = Parsers/MMFormulaNode.h; sourceTree = "<group>"; };
+		0155E3AD0B7BE852008D8879 /* MMFormulaNode.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MMFormulaNode.m; path = Parsers/MMFormulaNode.m; sourceTree = "<group>"; };
+		0155E3AE0B7BE852008D8879 /* MMFormulaParser.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMFormulaParser.h; path = Parsers/MMFormulaParser.h; sourceTree = "<group>"; };
+		0155E3AF0B7BE852008D8879 /* MMFormulaParser.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MMFormulaParser.m; path = Parsers/MMFormulaParser.m; sourceTree = "<group>"; };
+		0155E3B00B7BE852008D8879 /* MMFormulaSymbols.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMFormulaSymbols.h; path = Parsers/MMFormulaSymbols.h; sourceTree = "<group>"; };
+		0155E3B10B7BE852008D8879 /* MMFormulaTerminal.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMFormulaTerminal.h; path = Parsers/MMFormulaTerminal.h; sourceTree = "<group>"; };
+		0155E3B20B7BE852008D8879 /* MMFormulaTerminal.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MMFormulaTerminal.m; path = Parsers/MMFormulaTerminal.m; sourceTree = "<group>"; };
+		0155E3B30B7BE852008D8879 /* MMFRuleSymbols.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMFRuleSymbols.h; path = Parsers/MMFRuleSymbols.h; sourceTree = "<group>"; };
+		0155E3CA0B7BE8AC008D8879 /* GSXMLFunctions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GSXMLFunctions.h; path = Archiving/GSXMLFunctions.h; sourceTree = "<group>"; };
+		0155E3CB0B7BE8AC008D8879 /* GSXMLFunctions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GSXMLFunctions.m; path = Archiving/GSXMLFunctions.m; sourceTree = "<group>"; };
+		0155E3CC0B7BE8AC008D8879 /* MUnarchiver.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MUnarchiver.h; path = Archiving/MUnarchiver.h; sourceTree = "<group>"; };
+		0155E3CD0B7BE8AC008D8879 /* MUnarchiver.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MUnarchiver.m; path = Archiving/MUnarchiver.m; sourceTree = "<group>"; };
+		0155E3CE0B7BE8AC008D8879 /* MXMLArrayDelegate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MXMLArrayDelegate.h; path = Archiving/MXMLArrayDelegate.h; sourceTree = "<group>"; };
+		0155E3CF0B7BE8AC008D8879 /* MXMLArrayDelegate.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MXMLArrayDelegate.m; path = Archiving/MXMLArrayDelegate.m; sourceTree = "<group>"; };
+		0155E3D00B7BE8AC008D8879 /* MXMLDictionaryDelegate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MXMLDictionaryDelegate.h; path = Archiving/MXMLDictionaryDelegate.h; sourceTree = "<group>"; };
+		0155E3D10B7BE8AC008D8879 /* MXMLDictionaryDelegate.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MXMLDictionaryDelegate.m; path = Archiving/MXMLDictionaryDelegate.m; sourceTree = "<group>"; };
+		0155E3D20B7BE8AC008D8879 /* MXMLIgnoreTreeDelegate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MXMLIgnoreTreeDelegate.h; path = Archiving/MXMLIgnoreTreeDelegate.h; sourceTree = "<group>"; };
+		0155E3D30B7BE8AC008D8879 /* MXMLIgnoreTreeDelegate.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MXMLIgnoreTreeDelegate.m; path = Archiving/MXMLIgnoreTreeDelegate.m; sourceTree = "<group>"; };
+		0155E3D40B7BE8AC008D8879 /* MXMLParser.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MXMLParser.h; path = Archiving/MXMLParser.h; sourceTree = "<group>"; };
+		0155E3D50B7BE8AC008D8879 /* MXMLParser.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MXMLParser.m; path = Archiving/MXMLParser.m; sourceTree = "<group>"; };
+		0155E3D60B7BE8AC008D8879 /* MXMLPCDataDelegate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MXMLPCDataDelegate.h; path = Archiving/MXMLPCDataDelegate.h; sourceTree = "<group>"; };
+		0155E3D70B7BE8AC008D8879 /* MXMLPCDataDelegate.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MXMLPCDataDelegate.m; path = Archiving/MXMLPCDataDelegate.m; sourceTree = "<group>"; };
+		0155E3D80B7BE8AC008D8879 /* MXMLReferenceArrayDelegate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MXMLReferenceArrayDelegate.h; path = Archiving/MXMLReferenceArrayDelegate.h; sourceTree = "<group>"; };
+		0155E3D90B7BE8AC008D8879 /* MXMLReferenceArrayDelegate.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MXMLReferenceArrayDelegate.m; path = Archiving/MXMLReferenceArrayDelegate.m; sourceTree = "<group>"; };
+		0155E3DA0B7BE8AC008D8879 /* MXMLReferenceDictionaryDelegate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MXMLReferenceDictionaryDelegate.h; path = Archiving/MXMLReferenceDictionaryDelegate.h; sourceTree = "<group>"; };
+		0155E3DB0B7BE8AC008D8879 /* MXMLReferenceDictionaryDelegate.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MXMLReferenceDictionaryDelegate.m; path = Archiving/MXMLReferenceDictionaryDelegate.m; sourceTree = "<group>"; };
+		0155E3DC0B7BE8AC008D8879 /* MXMLStringArrayDelegate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MXMLStringArrayDelegate.h; path = Archiving/MXMLStringArrayDelegate.h; sourceTree = "<group>"; };
+		0155E3DD0B7BE8AC008D8879 /* MXMLStringArrayDelegate.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MXMLStringArrayDelegate.m; path = Archiving/MXMLStringArrayDelegate.m; sourceTree = "<group>"; };
+		0155E3F30B7BE8D6008D8879 /* FormulaExpression.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = FormulaExpression.h; path = "Compatibility-TypedStream/FormulaExpression.h"; sourceTree = "<group>"; };
+		0155E3F40B7BE8D6008D8879 /* FormulaExpression.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = FormulaExpression.m; path = "Compatibility-TypedStream/FormulaExpression.m"; sourceTree = "<group>"; };
+		0155E3F50B7BE8D6008D8879 /* FormulaTerminal.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = FormulaTerminal.h; path = "Compatibility-TypedStream/FormulaTerminal.h"; sourceTree = "<group>"; };
+		0155E3F60B7BE8D6008D8879 /* FormulaTerminal.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = FormulaTerminal.m; path = "Compatibility-TypedStream/FormulaTerminal.m"; sourceTree = "<group>"; };
+		0155E3F70B7BE8D6008D8879 /* MMOldFormulaNode.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMOldFormulaNode.h; path = "Compatibility-TypedStream/MMOldFormulaNode.h"; sourceTree = "<group>"; };
+		0155E3F80B7BE8D6008D8879 /* MMOldFormulaNode.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MMOldFormulaNode.m; path = "Compatibility-TypedStream/MMOldFormulaNode.m"; sourceTree = "<group>"; };
+		0155E3F90B7BE8D6008D8879 /* ParameterList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ParameterList.h; path = "Compatibility-TypedStream/ParameterList.h"; sourceTree = "<group>"; };
+		0155E3FA0B7BE8D6008D8879 /* ParameterList.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ParameterList.m; path = "Compatibility-TypedStream/ParameterList.m"; sourceTree = "<group>"; };
+		0155E3FB0B7BE8D6008D8879 /* RuleList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RuleList.h; path = "Compatibility-TypedStream/RuleList.h"; sourceTree = "<group>"; };
+		0155E3FC0B7BE8D6008D8879 /* RuleList.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = RuleList.m; path = "Compatibility-TypedStream/RuleList.m"; sourceTree = "<group>"; };
+		0155E3FD0B7BE8D6008D8879 /* SymbolList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SymbolList.h; path = "Compatibility-TypedStream/SymbolList.h"; sourceTree = "<group>"; };
+		0155E3FE0B7BE8D6008D8879 /* SymbolList.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = SymbolList.m; path = "Compatibility-TypedStream/SymbolList.m"; sourceTree = "<group>"; };
+		0155E3FF0B7BE8D6008D8879 /* TargetList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TargetList.h; path = "Compatibility-TypedStream/TargetList.h"; sourceTree = "<group>"; };
+		0155E4000B7BE8D6008D8879 /* TargetList.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = TargetList.m; path = "Compatibility-TypedStream/TargetList.m"; sourceTree = "<group>"; };
+		0155E4100B7BE8F9008D8879 /* CategoryList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CategoryList.h; path = MonetModel/CategoryList.h; sourceTree = "<group>"; };
+		0155E4110B7BE8F9008D8879 /* CategoryList.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = CategoryList.m; path = MonetModel/CategoryList.m; sourceTree = "<group>"; };
+		0155E4120B7BE8F9008D8879 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Event.h; path = MonetModel/Event.h; sourceTree = "<group>"; };
+		0155E4130B7BE8F9008D8879 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = Event.m; path = MonetModel/Event.m; sourceTree = "<group>"; };
+		0155E4140B7BE8F9008D8879 /* EventList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = EventList.h; path = MonetModel/EventList.h; sourceTree = "<group>"; };
+		0155E4150B7BE8F9008D8879 /* EventList.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = EventList.m; path = MonetModel/EventList.m; sourceTree = "<group>"; };
+		0155E4160B7BE8F9008D8879 /* MDocument.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MDocument.h; path = MonetModel/MDocument.h; sourceTree = "<group>"; };
+		0155E4170B7BE8F9008D8879 /* MDocument.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MDocument.m; path = MonetModel/MDocument.m; sourceTree = "<group>"; };
+		0155E4180B7BE8F9008D8879 /* MMCategory.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMCategory.h; path = MonetModel/MMCategory.h; sourceTree = "<group>"; };
+		0155E4190B7BE8F9008D8879 /* MMCategory.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MMCategory.m; path = MonetModel/MMCategory.m; sourceTree = "<group>"; };
+		0155E41A0B7BE8F9008D8879 /* MMEquation.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMEquation.h; path = MonetModel/MMEquation.h; sourceTree = "<group>"; };
+		0155E41B0B7BE8F9008D8879 /* MMEquation.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MMEquation.m; path = MonetModel/MMEquation.m; sourceTree = "<group>"; };
+		0155E41C0B7BE8F9008D8879 /* MMIntonationPoint.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMIntonationPoint.h; path = MonetModel/MMIntonationPoint.h; sourceTree = "<group>"; };
+		0155E41D0B7BE8F9008D8879 /* MMIntonationPoint.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MMIntonationPoint.m; path = MonetModel/MMIntonationPoint.m; sourceTree = "<group>"; };
+		0155E41E0B7BE8F9008D8879 /* MMNamedObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMNamedObject.h; path = MonetModel/MMNamedObject.h; sourceTree = "<group>"; };
+		0155E41F0B7BE8F9008D8879 /* MMNamedObject.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MMNamedObject.m; path = MonetModel/MMNamedObject.m; sourceTree = "<group>"; };
+		0155E4200B7BE8F9008D8879 /* MMObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMObject.h; path = MonetModel/MMObject.h; sourceTree = "<group>"; };
+		0155E4210B7BE8F9008D8879 /* MMObject.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MMObject.m; path = MonetModel/MMObject.m; sourceTree = "<group>"; };
+		0155E4220B7BE8F9008D8879 /* MModel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MModel.h; path = MonetModel/MModel.h; sourceTree = "<group>"; };
+		0155E4230B7BE8F9008D8879 /* MModel.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MModel.m; path = MonetModel/MModel.m; sourceTree = "<group>"; };
+		0155E4240B7BE8F9008D8879 /* MMParameter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMParameter.h; path = MonetModel/MMParameter.h; sourceTree = "<group>"; };
+		0155E4250B7BE8F9008D8879 /* MMParameter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MMParameter.m; path = MonetModel/MMParameter.m; sourceTree = "<group>"; };
+		0155E4260B7BE8F9008D8879 /* MMPoint.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMPoint.h; path = MonetModel/MMPoint.h; sourceTree = "<group>"; };
+		0155E4270B7BE8F9008D8879 /* MMPoint.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MMPoint.m; path = MonetModel/MMPoint.m; sourceTree = "<group>"; };
+		0155E4280B7BE8F9008D8879 /* MMPosture.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMPosture.h; path = MonetModel/MMPosture.h; sourceTree = "<group>"; };
+		0155E4290B7BE8F9008D8879 /* MMPosture.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MMPosture.m; path = MonetModel/MMPosture.m; sourceTree = "<group>"; };
+		0155E42A0B7BE8F9008D8879 /* MMPostureRewriter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMPostureRewriter.h; path = MonetModel/MMPostureRewriter.h; sourceTree = "<group>"; };
+		0155E42B0B7BE8F9008D8879 /* MMPostureRewriter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MMPostureRewriter.m; path = MonetModel/MMPostureRewriter.m; sourceTree = "<group>"; };
+		0155E42C0B7BE8F9008D8879 /* MMRule.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMRule.h; path = MonetModel/MMRule.h; sourceTree = "<group>"; };
+		0155E42D0B7BE8F9008D8879 /* MMRule.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MMRule.m; path = MonetModel/MMRule.m; sourceTree = "<group>"; };
+		0155E42E0B7BE8F9008D8879 /* MMSlope.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMSlope.h; path = MonetModel/MMSlope.h; sourceTree = "<group>"; };
+		0155E42F0B7BE8F9008D8879 /* MMSlope.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MMSlope.m; path = MonetModel/MMSlope.m; sourceTree = "<group>"; };
+		0155E4300B7BE8F9008D8879 /* MMSlopeRatio.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMSlopeRatio.h; path = MonetModel/MMSlopeRatio.h; sourceTree = "<group>"; };
+		0155E4310B7BE8F9008D8879 /* MMSlopeRatio.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MMSlopeRatio.m; path = MonetModel/MMSlopeRatio.m; sourceTree = "<group>"; };
+		0155E4320B7BE8F9008D8879 /* MMSymbol.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMSymbol.h; path = MonetModel/MMSymbol.h; sourceTree = "<group>"; };
+		0155E4330B7BE8F9008D8879 /* MMSymbol.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MMSymbol.m; path = MonetModel/MMSymbol.m; sourceTree = "<group>"; };
+		0155E4340B7BE8F9008D8879 /* MMSynthesisParameters.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMSynthesisParameters.h; path = MonetModel/MMSynthesisParameters.h; sourceTree = "<group>"; };
+		0155E4350B7BE8F9008D8879 /* MMSynthesisParameters.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MMSynthesisParameters.m; path = MonetModel/MMSynthesisParameters.m; sourceTree = "<group>"; };
+		0155E4360B7BE8F9008D8879 /* MMTarget.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMTarget.h; path = MonetModel/MMTarget.h; sourceTree = "<group>"; };
+		0155E4370B7BE8F9008D8879 /* MMTarget.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MMTarget.m; path = MonetModel/MMTarget.m; sourceTree = "<group>"; };
+		0155E4380B7BE8F9008D8879 /* MMTransition.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMTransition.h; path = MonetModel/MMTransition.h; sourceTree = "<group>"; };
+		0155E4390B7BE8F9008D8879 /* MMTransition.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MMTransition.m; path = MonetModel/MMTransition.m; sourceTree = "<group>"; };
+		0155E43A0B7BE8F9008D8879 /* MonetList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MonetList.h; path = MonetModel/MonetList.h; sourceTree = "<group>"; };
+		0155E43B0B7BE8F9008D8879 /* MonetList.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MonetList.m; path = MonetModel/MonetList.m; sourceTree = "<group>"; };
+		0155E43C0B7BE8F9008D8879 /* NamedList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = NamedList.h; path = MonetModel/NamedList.h; sourceTree = "<group>"; };
+		0155E43D0B7BE8F9008D8879 /* NamedList.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = NamedList.m; path = MonetModel/NamedList.m; sourceTree = "<group>"; };
+		0155E43E0B7BE8F9008D8879 /* PhoneList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PhoneList.h; path = MonetModel/PhoneList.h; sourceTree = "<group>"; };
+		0155E43F0B7BE8FA008D8879 /* PhoneList.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PhoneList.m; path = MonetModel/PhoneList.m; sourceTree = "<group>"; };
+		0155E4710B7BE92A008D8879 /* TRMData.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TRMData.h; path = Tube/TRMData.h; sourceTree = "<group>"; };
+		0155E4720B7BE92A008D8879 /* TRMData.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = TRMData.m; path = Tube/TRMData.m; sourceTree = "<group>"; };
+		0155E4730B7BE92A008D8879 /* TRMSynthesizer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TRMSynthesizer.h; path = Tube/TRMSynthesizer.h; sourceTree = "<group>"; };
+		0155E4740B7BE92A008D8879 /* TRMSynthesizer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = TRMSynthesizer.m; path = Tube/TRMSynthesizer.m; sourceTree = "<group>"; };
+		0155E47C0B7BEB27008D8879 /* driftGenerator.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = driftGenerator.c; path = MonetModel/driftGenerator.c; sourceTree = "<group>"; };
+		0155E47D0B7BEB27008D8879 /* driftGenerator.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = driftGenerator.h; path = MonetModel/driftGenerator.h; sourceTree = "<group>"; };
+		0155E4CF0B7BF002008D8879 /* MonetDefaults.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MonetDefaults.h; path = MonetModel/MonetDefaults.h; sourceTree = "<group>"; };
+		0155E4E00B7BF107008D8879 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = /System/Library/Frameworks/AudioToolbox.framework; sourceTree = "<absolute>"; };
+		0155E4E10B7BF107008D8879 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = /System/Library/Frameworks/AudioUnit.framework; sourceTree = "<absolute>"; };
+		01AC65AB0B7BF554008E4B93 /* Tube.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Tube.xcodeproj; path = ../Tube/Tube.xcodeproj; sourceTree = SOURCE_ROOT; };
+		01AC65F90B7BF9B4008E4B93 /* GnuSpeech.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GnuSpeech.h; sourceTree = "<group>"; };
+		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		32DBCF5E0370ADEE00C91783 /* GnuSpeech_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GnuSpeech_Prefix.pch; sourceTree = "<group>"; };
+		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		8DC2EF5B0486A6940098B216 /* GnuSpeech.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GnuSpeech.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8DC2EF560486A6940098B216 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */,
+				0155E4E20B7BF107008D8879 /* AudioToolbox.framework in Frameworks */,
+				0155E4E30B7BF107008D8879 /* AudioUnit.framework in Frameworks */,
+				01AC65C80B7BF562008E4B93 /* Tube.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0155E37F0B7BE7FD008D8879 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				0155E3800B7BE80D008D8879 /* NSArray-Extensions.h */,
+				0155E3810B7BE80D008D8879 /* NSArray-Extensions.m */,
+				0155E3820B7BE80D008D8879 /* NSCharacterSet-Extensions.h */,
+				0155E3830B7BE80D008D8879 /* NSCharacterSet-Extensions.m */,
+				0155E3860B7BE80D008D8879 /* NSObject-Extensions.h */,
+				0155E3870B7BE80D008D8879 /* NSObject-Extensions.m */,
+				0155E3880B7BE80D008D8879 /* NSScanner-Extensions.h */,
+				0155E3890B7BE80D008D8879 /* NSScanner-Extensions.m */,
+				0155E38A0B7BE80D008D8879 /* NSString-Extensions.h */,
+				0155E38B0B7BE80D008D8879 /* NSString-Extensions.m */,
+				0155E38C0B7BE80D008D8879 /* NSUserDefaults-Extensions.h */,
+				0155E38D0B7BE80D008D8879 /* NSUserDefaults-Extensions.m */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
+		0155E39C0B7BE814008D8879 /* Parsers */ = {
+			isa = PBXGroup;
+			children = (
+				0155E39F0B7BE852008D8879 /* GSParser.h */,
+				0155E3A00B7BE852008D8879 /* GSParser.m */,
+				0155E39D0B7BE82A008D8879 /* Boolean Expression Parser */,
+				0155E39E0B7BE834008D8879 /* Mathematical Expression Parser */,
+			);
+			name = Parsers;
+			sourceTree = "<group>";
+		};
+		0155E39D0B7BE82A008D8879 /* Boolean Expression Parser */ = {
+			isa = PBXGroup;
+			children = (
+				0155E3A10B7BE852008D8879 /* MMBooleanExpression.h */,
+				0155E3A20B7BE852008D8879 /* MMBooleanExpression.m */,
+				0155E3A30B7BE852008D8879 /* MMBooleanNode.h */,
+				0155E3A40B7BE852008D8879 /* MMBooleanNode.m */,
+				0155E3A50B7BE852008D8879 /* MMBooleanParser.h */,
+				0155E3A60B7BE852008D8879 /* MMBooleanParser.m */,
+				0155E3A70B7BE852008D8879 /* MMBooleanSymbols.h */,
+				0155E3A80B7BE852008D8879 /* MMBooleanTerminal.h */,
+				0155E3A90B7BE852008D8879 /* MMBooleanTerminal.m */,
+			);
+			name = "Boolean Expression Parser";
+			sourceTree = "<group>";
+		};
+		0155E39E0B7BE834008D8879 /* Mathematical Expression Parser */ = {
+			isa = PBXGroup;
+			children = (
+				0155E3AA0B7BE852008D8879 /* MMFormulaExpression.h */,
+				0155E3AB0B7BE852008D8879 /* MMFormulaExpression.m */,
+				0155E3AC0B7BE852008D8879 /* MMFormulaNode.h */,
+				0155E3AD0B7BE852008D8879 /* MMFormulaNode.m */,
+				0155E3AE0B7BE852008D8879 /* MMFormulaParser.h */,
+				0155E3AF0B7BE852008D8879 /* MMFormulaParser.m */,
+				0155E3B00B7BE852008D8879 /* MMFormulaSymbols.h */,
+				0155E3B10B7BE852008D8879 /* MMFormulaTerminal.h */,
+				0155E3B20B7BE852008D8879 /* MMFormulaTerminal.m */,
+				0155E3B30B7BE852008D8879 /* MMFRuleSymbols.h */,
+			);
+			name = "Mathematical Expression Parser";
+			sourceTree = "<group>";
+		};
+		0155E3C90B7BE89A008D8879 /* Archiving */ = {
+			isa = PBXGroup;
+			children = (
+				0155E3CA0B7BE8AC008D8879 /* GSXMLFunctions.h */,
+				0155E3CB0B7BE8AC008D8879 /* GSXMLFunctions.m */,
+				0155E3CC0B7BE8AC008D8879 /* MUnarchiver.h */,
+				0155E3CD0B7BE8AC008D8879 /* MUnarchiver.m */,
+				0155E3CE0B7BE8AC008D8879 /* MXMLArrayDelegate.h */,
+				0155E3CF0B7BE8AC008D8879 /* MXMLArrayDelegate.m */,
+				0155E3D00B7BE8AC008D8879 /* MXMLDictionaryDelegate.h */,
+				0155E3D10B7BE8AC008D8879 /* MXMLDictionaryDelegate.m */,
+				0155E3D20B7BE8AC008D8879 /* MXMLIgnoreTreeDelegate.h */,
+				0155E3D30B7BE8AC008D8879 /* MXMLIgnoreTreeDelegate.m */,
+				0155E3D40B7BE8AC008D8879 /* MXMLParser.h */,
+				0155E3D50B7BE8AC008D8879 /* MXMLParser.m */,
+				0155E3D60B7BE8AC008D8879 /* MXMLPCDataDelegate.h */,
+				0155E3D70B7BE8AC008D8879 /* MXMLPCDataDelegate.m */,
+				0155E3D80B7BE8AC008D8879 /* MXMLReferenceArrayDelegate.h */,
+				0155E3D90B7BE8AC008D8879 /* MXMLReferenceArrayDelegate.m */,
+				0155E3DA0B7BE8AC008D8879 /* MXMLReferenceDictionaryDelegate.h */,
+				0155E3DB0B7BE8AC008D8879 /* MXMLReferenceDictionaryDelegate.m */,
+				0155E3DC0B7BE8AC008D8879 /* MXMLStringArrayDelegate.h */,
+				0155E3DD0B7BE8AC008D8879 /* MXMLStringArrayDelegate.m */,
+			);
+			name = Archiving;
+			sourceTree = "<group>";
+		};
+		0155E3F20B7BE8B8008D8879 /* Compatibility-TypedStream */ = {
+			isa = PBXGroup;
+			children = (
+				0155E3F30B7BE8D6008D8879 /* FormulaExpression.h */,
+				0155E3F40B7BE8D6008D8879 /* FormulaExpression.m */,
+				0155E3F50B7BE8D6008D8879 /* FormulaTerminal.h */,
+				0155E3F60B7BE8D6008D8879 /* FormulaTerminal.m */,
+				0155E3F70B7BE8D6008D8879 /* MMOldFormulaNode.h */,
+				0155E3F80B7BE8D6008D8879 /* MMOldFormulaNode.m */,
+				0155E3F90B7BE8D6008D8879 /* ParameterList.h */,
+				0155E3FA0B7BE8D6008D8879 /* ParameterList.m */,
+				0155E3FB0B7BE8D6008D8879 /* RuleList.h */,
+				0155E3FC0B7BE8D6008D8879 /* RuleList.m */,
+				0155E3FD0B7BE8D6008D8879 /* SymbolList.h */,
+				0155E3FE0B7BE8D6008D8879 /* SymbolList.m */,
+				0155E3FF0B7BE8D6008D8879 /* TargetList.h */,
+				0155E4000B7BE8D6008D8879 /* TargetList.m */,
+			);
+			name = "Compatibility-TypedStream";
+			sourceTree = "<group>";
+		};
+		0155E40F0B7BE8E7008D8879 /* Monet Model */ = {
+			isa = PBXGroup;
+			children = (
+				0155E4100B7BE8F9008D8879 /* CategoryList.h */,
+				0155E4110B7BE8F9008D8879 /* CategoryList.m */,
+				0155E47C0B7BEB27008D8879 /* driftGenerator.c */,
+				0155E47D0B7BEB27008D8879 /* driftGenerator.h */,
+				0155E4120B7BE8F9008D8879 /* Event.h */,
+				0155E4130B7BE8F9008D8879 /* Event.m */,
+				0155E4140B7BE8F9008D8879 /* EventList.h */,
+				0155E4150B7BE8F9008D8879 /* EventList.m */,
+				0155E4160B7BE8F9008D8879 /* MDocument.h */,
+				0155E4170B7BE8F9008D8879 /* MDocument.m */,
+				0155E4180B7BE8F9008D8879 /* MMCategory.h */,
+				0155E4190B7BE8F9008D8879 /* MMCategory.m */,
+				0155E41A0B7BE8F9008D8879 /* MMEquation.h */,
+				0155E41B0B7BE8F9008D8879 /* MMEquation.m */,
+				0155E41C0B7BE8F9008D8879 /* MMIntonationPoint.h */,
+				0155E41D0B7BE8F9008D8879 /* MMIntonationPoint.m */,
+				0155E41E0B7BE8F9008D8879 /* MMNamedObject.h */,
+				0155E41F0B7BE8F9008D8879 /* MMNamedObject.m */,
+				0155E4200B7BE8F9008D8879 /* MMObject.h */,
+				0155E4210B7BE8F9008D8879 /* MMObject.m */,
+				0155E4220B7BE8F9008D8879 /* MModel.h */,
+				0155E4230B7BE8F9008D8879 /* MModel.m */,
+				0155E4240B7BE8F9008D8879 /* MMParameter.h */,
+				0155E4250B7BE8F9008D8879 /* MMParameter.m */,
+				0155E4260B7BE8F9008D8879 /* MMPoint.h */,
+				0155E4270B7BE8F9008D8879 /* MMPoint.m */,
+				0155E4280B7BE8F9008D8879 /* MMPosture.h */,
+				0155E4290B7BE8F9008D8879 /* MMPosture.m */,
+				0155E42A0B7BE8F9008D8879 /* MMPostureRewriter.h */,
+				0155E42B0B7BE8F9008D8879 /* MMPostureRewriter.m */,
+				0155E42C0B7BE8F9008D8879 /* MMRule.h */,
+				0155E42D0B7BE8F9008D8879 /* MMRule.m */,
+				0155E42E0B7BE8F9008D8879 /* MMSlope.h */,
+				0155E42F0B7BE8F9008D8879 /* MMSlope.m */,
+				0155E4300B7BE8F9008D8879 /* MMSlopeRatio.h */,
+				0155E4310B7BE8F9008D8879 /* MMSlopeRatio.m */,
+				0155E4320B7BE8F9008D8879 /* MMSymbol.h */,
+				0155E4330B7BE8F9008D8879 /* MMSymbol.m */,
+				0155E4340B7BE8F9008D8879 /* MMSynthesisParameters.h */,
+				0155E4350B7BE8F9008D8879 /* MMSynthesisParameters.m */,
+				0155E4360B7BE8F9008D8879 /* MMTarget.h */,
+				0155E4370B7BE8F9008D8879 /* MMTarget.m */,
+				0155E4380B7BE8F9008D8879 /* MMTransition.h */,
+				0155E4390B7BE8F9008D8879 /* MMTransition.m */,
+				0155E4CF0B7BF002008D8879 /* MonetDefaults.h */,
+				0155E43A0B7BE8F9008D8879 /* MonetList.h */,
+				0155E43B0B7BE8F9008D8879 /* MonetList.m */,
+				0155E43C0B7BE8F9008D8879 /* NamedList.h */,
+				0155E43D0B7BE8F9008D8879 /* NamedList.m */,
+				0155E43E0B7BE8F9008D8879 /* PhoneList.h */,
+				0155E43F0B7BE8FA008D8879 /* PhoneList.m */,
+			);
+			name = "Monet Model";
+			sourceTree = "<group>";
+		};
+		0155E4700B7BE906008D8879 /* Tube */ = {
+			isa = PBXGroup;
+			children = (
+				0155E4710B7BE92A008D8879 /* TRMData.h */,
+				0155E4720B7BE92A008D8879 /* TRMData.m */,
+				0155E4730B7BE92A008D8879 /* TRMSynthesizer.h */,
+				0155E4740B7BE92A008D8879 /* TRMSynthesizer.m */,
+			);
+			name = Tube;
+			sourceTree = "<group>";
+		};
+		01AC65AC0B7BF554008E4B93 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				01AC65B00B7BF554008E4B93 /* Tube.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		034768DFFF38A50411DB9C8B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8DC2EF5B0486A6940098B216 /* GnuSpeech.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0867D691FE84028FC02AAC07 /* GnuSpeech */ = {
+			isa = PBXGroup;
+			children = (
+				08FB77AEFE84172EC02AAC07 /* Classes */,
+				32C88DFF0371C24200C91783 /* Other Sources */,
+				089C1665FE841158C02AAC07 /* Resources */,
+				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				034768DFFF38A50411DB9C8B /* Products */,
+			);
+			name = GnuSpeech;
+			sourceTree = "<group>";
+		};
+		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				01AC65AB0B7BF554008E4B93 /* Tube.xcodeproj */,
+				1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */,
+				1058C7B2FEA5585E11CA2CBB /* Other Frameworks */,
+			);
+			name = "External Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C1665FE841158C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8DC2EF5A0486A6940098B216 /* Info.plist */,
+				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AEFE84172EC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				0155E3C90B7BE89A008D8879 /* Archiving */,
+				0155E3F20B7BE8B8008D8879 /* Compatibility-TypedStream */,
+				0155E37F0B7BE7FD008D8879 /* Extensions */,
+				0155E40F0B7BE8E7008D8879 /* Monet Model */,
+				0155E39C0B7BE814008D8879 /* Parsers */,
+				0155E4700B7BE906008D8879 /* Tube */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
+				0155E4E00B7BF107008D8879 /* AudioToolbox.framework */,
+				0155E4E10B7BF107008D8879 /* AudioUnit.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7B2FEA5585E11CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
+				D2F7E79907B2D74100F64583 /* CoreData.framework */,
+				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		32C88DFF0371C24200C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32DBCF5E0370ADEE00C91783 /* GnuSpeech_Prefix.pch */,
+				01AC65F90B7BF9B4008E4B93 /* GnuSpeech.h */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8DC2EF500486A6940098B216 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0155E38E0B7BE80D008D8879 /* NSArray-Extensions.h in Headers */,
+				0155E3900B7BE80D008D8879 /* NSCharacterSet-Extensions.h in Headers */,
+				0155E3940B7BE80D008D8879 /* NSObject-Extensions.h in Headers */,
+				0155E3960B7BE80D008D8879 /* NSScanner-Extensions.h in Headers */,
+				0155E3980B7BE80D008D8879 /* NSString-Extensions.h in Headers */,
+				0155E39A0B7BE80D008D8879 /* NSUserDefaults-Extensions.h in Headers */,
+				0155E3B40B7BE852008D8879 /* GSParser.h in Headers */,
+				0155E3B60B7BE852008D8879 /* MMBooleanExpression.h in Headers */,
+				0155E3B80B7BE852008D8879 /* MMBooleanNode.h in Headers */,
+				0155E3BA0B7BE852008D8879 /* MMBooleanParser.h in Headers */,
+				0155E3BC0B7BE852008D8879 /* MMBooleanSymbols.h in Headers */,
+				0155E3BD0B7BE852008D8879 /* MMBooleanTerminal.h in Headers */,
+				0155E3BF0B7BE852008D8879 /* MMFormulaExpression.h in Headers */,
+				0155E3C10B7BE852008D8879 /* MMFormulaNode.h in Headers */,
+				0155E3C30B7BE852008D8879 /* MMFormulaParser.h in Headers */,
+				0155E3C50B7BE852008D8879 /* MMFormulaSymbols.h in Headers */,
+				0155E3C60B7BE852008D8879 /* MMFormulaTerminal.h in Headers */,
+				0155E3C80B7BE852008D8879 /* MMFRuleSymbols.h in Headers */,
+				0155E3DE0B7BE8AC008D8879 /* GSXMLFunctions.h in Headers */,
+				0155E3E00B7BE8AC008D8879 /* MUnarchiver.h in Headers */,
+				0155E3E20B7BE8AC008D8879 /* MXMLArrayDelegate.h in Headers */,
+				0155E3E40B7BE8AC008D8879 /* MXMLDictionaryDelegate.h in Headers */,
+				0155E3E60B7BE8AC008D8879 /* MXMLIgnoreTreeDelegate.h in Headers */,
+				0155E3E80B7BE8AC008D8879 /* MXMLParser.h in Headers */,
+				0155E3EA0B7BE8AC008D8879 /* MXMLPCDataDelegate.h in Headers */,
+				0155E3EC0B7BE8AC008D8879 /* MXMLReferenceArrayDelegate.h in Headers */,
+				0155E3EE0B7BE8AC008D8879 /* MXMLReferenceDictionaryDelegate.h in Headers */,
+				0155E3F00B7BE8AC008D8879 /* MXMLStringArrayDelegate.h in Headers */,
+				0155E4010B7BE8D6008D8879 /* FormulaExpression.h in Headers */,
+				0155E4030B7BE8D6008D8879 /* FormulaTerminal.h in Headers */,
+				0155E4050B7BE8D6008D8879 /* MMOldFormulaNode.h in Headers */,
+				0155E4070B7BE8D6008D8879 /* ParameterList.h in Headers */,
+				0155E4090B7BE8D6008D8879 /* RuleList.h in Headers */,
+				0155E40B0B7BE8D6008D8879 /* SymbolList.h in Headers */,
+				0155E40D0B7BE8D6008D8879 /* TargetList.h in Headers */,
+				0155E4400B7BE8FA008D8879 /* CategoryList.h in Headers */,
+				0155E4420B7BE8FA008D8879 /* Event.h in Headers */,
+				0155E4440B7BE8FA008D8879 /* EventList.h in Headers */,
+				0155E4460B7BE8FA008D8879 /* MDocument.h in Headers */,
+				0155E4480B7BE8FA008D8879 /* MMCategory.h in Headers */,
+				0155E44A0B7BE8FA008D8879 /* MMEquation.h in Headers */,
+				0155E44C0B7BE8FA008D8879 /* MMIntonationPoint.h in Headers */,
+				0155E44E0B7BE8FA008D8879 /* MMNamedObject.h in Headers */,
+				0155E4500B7BE8FA008D8879 /* MMObject.h in Headers */,
+				0155E4520B7BE8FA008D8879 /* MModel.h in Headers */,
+				0155E4540B7BE8FA008D8879 /* MMParameter.h in Headers */,
+				0155E4560B7BE8FA008D8879 /* MMPoint.h in Headers */,
+				0155E4580B7BE8FA008D8879 /* MMPosture.h in Headers */,
+				0155E45A0B7BE8FA008D8879 /* MMPostureRewriter.h in Headers */,
+				0155E45C0B7BE8FA008D8879 /* MMRule.h in Headers */,
+				0155E45E0B7BE8FA008D8879 /* MMSlope.h in Headers */,
+				0155E4600B7BE8FA008D8879 /* MMSlopeRatio.h in Headers */,
+				0155E4620B7BE8FA008D8879 /* MMSymbol.h in Headers */,
+				0155E4640B7BE8FA008D8879 /* MMSynthesisParameters.h in Headers */,
+				0155E4660B7BE8FA008D8879 /* MMTarget.h in Headers */,
+				0155E4680B7BE8FA008D8879 /* MMTransition.h in Headers */,
+				0155E46A0B7BE8FA008D8879 /* MonetList.h in Headers */,
+				0155E46C0B7BE8FA008D8879 /* NamedList.h in Headers */,
+				0155E46E0B7BE8FA008D8879 /* PhoneList.h in Headers */,
+				0155E4750B7BE92A008D8879 /* TRMData.h in Headers */,
+				0155E4770B7BE92A008D8879 /* TRMSynthesizer.h in Headers */,
+				0155E47F0B7BEB27008D8879 /* driftGenerator.h in Headers */,
+				0155E4D00B7BF002008D8879 /* MonetDefaults.h in Headers */,
+				01AC65FA0B7BF9B4008E4B93 /* GnuSpeech.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8DC2EF4F0486A6940098B216 /* GnuSpeech */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB91AD08733DA50010E9CD /* Build configuration list for PBXNativeTarget "GnuSpeech" */;
+			buildPhases = (
+				8DC2EF500486A6940098B216 /* Headers */,
+				8DC2EF520486A6940098B216 /* Resources */,
+				8DC2EF540486A6940098B216 /* Sources */,
+				8DC2EF560486A6940098B216 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				01AC65CA0B7BF56C008E4B93 /* PBXTargetDependency */,
+			);
+			name = GnuSpeech;
+			productInstallPath = "$(HOME)/Library/Frameworks";
+			productName = GnuSpeech;
+			productReference = 8DC2EF5B0486A6940098B216 /* GnuSpeech.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0867D690FE84028FC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB91B108733DA50010E9CD /* Build configuration list for PBXProject "GnuSpeech" */;
+			hasScannedForEncodings = 1;
+			mainGroup = 0867D691FE84028FC02AAC07 /* GnuSpeech */;
+			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 01AC65AC0B7BF554008E4B93 /* Products */;
+					ProjectRef = 01AC65AB0B7BF554008E4B93 /* Tube.xcodeproj */;
+				},
+			);
+			targets = (
+				8DC2EF4F0486A6940098B216 /* GnuSpeech */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		01AC65B00B7BF554008E4B93 /* Tube.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Tube.framework;
+			remoteRef = 01AC65AF0B7BF554008E4B93 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8DC2EF520486A6940098B216 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8DC2EF540486A6940098B216 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0155E38F0B7BE80D008D8879 /* NSArray-Extensions.m in Sources */,
+				0155E3910B7BE80D008D8879 /* NSCharacterSet-Extensions.m in Sources */,
+				0155E3950B7BE80D008D8879 /* NSObject-Extensions.m in Sources */,
+				0155E3970B7BE80D008D8879 /* NSScanner-Extensions.m in Sources */,
+				0155E3990B7BE80D008D8879 /* NSString-Extensions.m in Sources */,
+				0155E39B0B7BE80D008D8879 /* NSUserDefaults-Extensions.m in Sources */,
+				0155E3B50B7BE852008D8879 /* GSParser.m in Sources */,
+				0155E3B70B7BE852008D8879 /* MMBooleanExpression.m in Sources */,
+				0155E3B90B7BE852008D8879 /* MMBooleanNode.m in Sources */,
+				0155E3BB0B7BE852008D8879 /* MMBooleanParser.m in Sources */,
+				0155E3BE0B7BE852008D8879 /* MMBooleanTerminal.m in Sources */,
+				0155E3C00B7BE852008D8879 /* MMFormulaExpression.m in Sources */,
+				0155E3C20B7BE852008D8879 /* MMFormulaNode.m in Sources */,
+				0155E3C40B7BE852008D8879 /* MMFormulaParser.m in Sources */,
+				0155E3C70B7BE852008D8879 /* MMFormulaTerminal.m in Sources */,
+				0155E3DF0B7BE8AC008D8879 /* GSXMLFunctions.m in Sources */,
+				0155E3E10B7BE8AC008D8879 /* MUnarchiver.m in Sources */,
+				0155E3E30B7BE8AC008D8879 /* MXMLArrayDelegate.m in Sources */,
+				0155E3E50B7BE8AC008D8879 /* MXMLDictionaryDelegate.m in Sources */,
+				0155E3E70B7BE8AC008D8879 /* MXMLIgnoreTreeDelegate.m in Sources */,
+				0155E3E90B7BE8AC008D8879 /* MXMLParser.m in Sources */,
+				0155E3EB0B7BE8AC008D8879 /* MXMLPCDataDelegate.m in Sources */,
+				0155E3ED0B7BE8AC008D8879 /* MXMLReferenceArrayDelegate.m in Sources */,
+				0155E3EF0B7BE8AC008D8879 /* MXMLReferenceDictionaryDelegate.m in Sources */,
+				0155E3F10B7BE8AC008D8879 /* MXMLStringArrayDelegate.m in Sources */,
+				0155E4020B7BE8D6008D8879 /* FormulaExpression.m in Sources */,
+				0155E4040B7BE8D6008D8879 /* FormulaTerminal.m in Sources */,
+				0155E4060B7BE8D6008D8879 /* MMOldFormulaNode.m in Sources */,
+				0155E4080B7BE8D6008D8879 /* ParameterList.m in Sources */,
+				0155E40A0B7BE8D6008D8879 /* RuleList.m in Sources */,
+				0155E40C0B7BE8D6008D8879 /* SymbolList.m in Sources */,
+				0155E40E0B7BE8D6008D8879 /* TargetList.m in Sources */,
+				0155E4410B7BE8FA008D8879 /* CategoryList.m in Sources */,
+				0155E4430B7BE8FA008D8879 /* Event.m in Sources */,
+				0155E4450B7BE8FA008D8879 /* EventList.m in Sources */,
+				0155E4470B7BE8FA008D8879 /* MDocument.m in Sources */,
+				0155E4490B7BE8FA008D8879 /* MMCategory.m in Sources */,
+				0155E44B0B7BE8FA008D8879 /* MMEquation.m in Sources */,
+				0155E44D0B7BE8FA008D8879 /* MMIntonationPoint.m in Sources */,
+				0155E44F0B7BE8FA008D8879 /* MMNamedObject.m in Sources */,
+				0155E4510B7BE8FA008D8879 /* MMObject.m in Sources */,
+				0155E4530B7BE8FA008D8879 /* MModel.m in Sources */,
+				0155E4550B7BE8FA008D8879 /* MMParameter.m in Sources */,
+				0155E4570B7BE8FA008D8879 /* MMPoint.m in Sources */,
+				0155E4590B7BE8FA008D8879 /* MMPosture.m in Sources */,
+				0155E45B0B7BE8FA008D8879 /* MMPostureRewriter.m in Sources */,
+				0155E45D0B7BE8FA008D8879 /* MMRule.m in Sources */,
+				0155E45F0B7BE8FA008D8879 /* MMSlope.m in Sources */,
+				0155E4610B7BE8FA008D8879 /* MMSlopeRatio.m in Sources */,
+				0155E4630B7BE8FA008D8879 /* MMSymbol.m in Sources */,
+				0155E4650B7BE8FA008D8879 /* MMSynthesisParameters.m in Sources */,
+				0155E4670B7BE8FA008D8879 /* MMTarget.m in Sources */,
+				0155E4690B7BE8FA008D8879 /* MMTransition.m in Sources */,
+				0155E46B0B7BE8FA008D8879 /* MonetList.m in Sources */,
+				0155E46D0B7BE8FA008D8879 /* NamedList.m in Sources */,
+				0155E46F0B7BE8FA008D8879 /* PhoneList.m in Sources */,
+				0155E4760B7BE92A008D8879 /* TRMData.m in Sources */,
+				0155E4780B7BE92A008D8879 /* TRMSynthesizer.m in Sources */,
+				0155E47E0B7BEB27008D8879 /* driftGenerator.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		01AC65CA0B7BF56C008E4B93 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Tube;
+			targetProxy = 01AC65C90B7BF56C008E4B93 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		089C1666FE841158C02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C1667FE841158C02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB91AE08733DA50010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = GnuSpeech_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				PRODUCT_NAME = GnuSpeech;
+				WRAPPER_EXTENSION = framework;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		1DEB91AF08733DA50010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = GnuSpeech_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				PRODUCT_NAME = GnuSpeech;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
+		1DEB91B208733DA50010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Debug;
+		};
+		1DEB91B308733DA50010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB91AD08733DA50010E9CD /* Build configuration list for PBXNativeTarget "GnuSpeech" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB91AE08733DA50010E9CD /* Debug */,
+				1DEB91AF08733DA50010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB91B108733DA50010E9CD /* Build configuration list for PBXProject "GnuSpeech" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB91B208733DA50010E9CD /* Debug */,
+				1DEB91B308733DA50010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0867D690FE84028FC02AAC07 /* Project object */;
+}
