@@ -1,0 +1,339 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		01AC657B0B7BF4D8008E4B93 /* fir.c in Sources */ = {isa = PBXBuildFile; fileRef = 01AC656B0B7BF4D8008E4B93 /* fir.c */; };
+		01AC657C0B7BF4D8008E4B93 /* fir.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC656C0B7BF4D8008E4B93 /* fir.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		01AC657D0B7BF4D8008E4B93 /* input.c in Sources */ = {isa = PBXBuildFile; fileRef = 01AC656D0B7BF4D8008E4B93 /* input.c */; };
+		01AC657E0B7BF4D8008E4B93 /* input.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC656E0B7BF4D8008E4B93 /* input.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		01AC657F0B7BF4D8008E4B93 /* output.c in Sources */ = {isa = PBXBuildFile; fileRef = 01AC656F0B7BF4D8008E4B93 /* output.c */; };
+		01AC65800B7BF4D8008E4B93 /* output.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC65700B7BF4D8008E4B93 /* output.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		01AC65810B7BF4D8008E4B93 /* ring_buffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 01AC65710B7BF4D8008E4B93 /* ring_buffer.c */; };
+		01AC65820B7BF4D8008E4B93 /* ring_buffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC65720B7BF4D8008E4B93 /* ring_buffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		01AC65830B7BF4D8008E4B93 /* structs.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC65730B7BF4D8008E4B93 /* structs.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		01AC65840B7BF4D8008E4B93 /* tube.c in Sources */ = {isa = PBXBuildFile; fileRef = 01AC65740B7BF4D8008E4B93 /* tube.c */; };
+		01AC65850B7BF4D8008E4B93 /* tube.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC65750B7BF4D8008E4B93 /* tube.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		01AC65860B7BF4D8008E4B93 /* TubeModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC65760B7BF4D8008E4B93 /* TubeModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		01AC65870B7BF4D8008E4B93 /* util.c in Sources */ = {isa = PBXBuildFile; fileRef = 01AC65770B7BF4D8008E4B93 /* util.c */; };
+		01AC65880B7BF4D8008E4B93 /* util.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC65780B7BF4D8008E4B93 /* util.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		01AC65890B7BF4D8008E4B93 /* wavetable.c in Sources */ = {isa = PBXBuildFile; fileRef = 01AC65790B7BF4D8008E4B93 /* wavetable.c */; };
+		01AC658A0B7BF4D8008E4B93 /* wavetable.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC657A0B7BF4D8008E4B93 /* wavetable.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		01AC65930B7BF51A008E4B93 /* vecLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01AC65920B7BF51A008E4B93 /* vecLib.framework */; };
+		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		01AC656B0B7BF4D8008E4B93 /* fir.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = fir.c; sourceTree = "<group>"; };
+		01AC656C0B7BF4D8008E4B93 /* fir.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = fir.h; sourceTree = "<group>"; };
+		01AC656D0B7BF4D8008E4B93 /* input.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = input.c; sourceTree = "<group>"; };
+		01AC656E0B7BF4D8008E4B93 /* input.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = input.h; sourceTree = "<group>"; };
+		01AC656F0B7BF4D8008E4B93 /* output.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = output.c; sourceTree = "<group>"; };
+		01AC65700B7BF4D8008E4B93 /* output.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = output.h; sourceTree = "<group>"; };
+		01AC65710B7BF4D8008E4B93 /* ring_buffer.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = ring_buffer.c; sourceTree = "<group>"; };
+		01AC65720B7BF4D8008E4B93 /* ring_buffer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ring_buffer.h; sourceTree = "<group>"; };
+		01AC65730B7BF4D8008E4B93 /* structs.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = structs.h; sourceTree = "<group>"; };
+		01AC65740B7BF4D8008E4B93 /* tube.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = tube.c; sourceTree = "<group>"; };
+		01AC65750B7BF4D8008E4B93 /* tube.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = tube.h; sourceTree = "<group>"; };
+		01AC65760B7BF4D8008E4B93 /* TubeModel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TubeModel.h; sourceTree = "<group>"; };
+		01AC65770B7BF4D8008E4B93 /* util.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = util.c; sourceTree = "<group>"; };
+		01AC65780B7BF4D8008E4B93 /* util.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = util.h; sourceTree = "<group>"; };
+		01AC65790B7BF4D8008E4B93 /* wavetable.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = wavetable.c; sourceTree = "<group>"; };
+		01AC657A0B7BF4D8008E4B93 /* wavetable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = wavetable.h; sourceTree = "<group>"; };
+		01AC65920B7BF51A008E4B93 /* vecLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = vecLib.framework; path = /System/Library/Frameworks/vecLib.framework; sourceTree = "<absolute>"; };
+		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		32DBCF5E0370ADEE00C91783 /* Tube_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tube_Prefix.pch; sourceTree = "<group>"; };
+		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		8DC2EF5B0486A6940098B216 /* Tube.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Tube.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8DC2EF560486A6940098B216 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				01AC65930B7BF51A008E4B93 /* vecLib.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		034768DFFF38A50411DB9C8B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8DC2EF5B0486A6940098B216 /* Tube.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0867D691FE84028FC02AAC07 /* Tube */ = {
+			isa = PBXGroup;
+			children = (
+				08FB77AEFE84172EC02AAC07 /* Classes */,
+				32C88DFF0371C24200C91783 /* Other Sources */,
+				089C1665FE841158C02AAC07 /* Resources */,
+				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				034768DFFF38A50411DB9C8B /* Products */,
+			);
+			name = Tube;
+			sourceTree = "<group>";
+		};
+		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */,
+				1058C7B2FEA5585E11CA2CBB /* Other Frameworks */,
+			);
+			name = "External Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C1665FE841158C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8DC2EF5A0486A6940098B216 /* Info.plist */,
+				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AEFE84172EC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				01AC656B0B7BF4D8008E4B93 /* fir.c */,
+				01AC656C0B7BF4D8008E4B93 /* fir.h */,
+				01AC656D0B7BF4D8008E4B93 /* input.c */,
+				01AC656E0B7BF4D8008E4B93 /* input.h */,
+				01AC656F0B7BF4D8008E4B93 /* output.c */,
+				01AC65700B7BF4D8008E4B93 /* output.h */,
+				01AC65710B7BF4D8008E4B93 /* ring_buffer.c */,
+				01AC65720B7BF4D8008E4B93 /* ring_buffer.h */,
+				01AC65730B7BF4D8008E4B93 /* structs.h */,
+				01AC65740B7BF4D8008E4B93 /* tube.c */,
+				01AC65750B7BF4D8008E4B93 /* tube.h */,
+				01AC65760B7BF4D8008E4B93 /* TubeModel.h */,
+				01AC65770B7BF4D8008E4B93 /* util.c */,
+				01AC65780B7BF4D8008E4B93 /* util.h */,
+				01AC65790B7BF4D8008E4B93 /* wavetable.c */,
+				01AC657A0B7BF4D8008E4B93 /* wavetable.h */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				01AC65920B7BF51A008E4B93 /* vecLib.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7B2FEA5585E11CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
+				D2F7E79907B2D74100F64583 /* CoreData.framework */,
+				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		32C88DFF0371C24200C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32DBCF5E0370ADEE00C91783 /* Tube_Prefix.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8DC2EF500486A6940098B216 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				01AC657C0B7BF4D8008E4B93 /* fir.h in Headers */,
+				01AC657E0B7BF4D8008E4B93 /* input.h in Headers */,
+				01AC65800B7BF4D8008E4B93 /* output.h in Headers */,
+				01AC65820B7BF4D8008E4B93 /* ring_buffer.h in Headers */,
+				01AC65830B7BF4D8008E4B93 /* structs.h in Headers */,
+				01AC65850B7BF4D8008E4B93 /* tube.h in Headers */,
+				01AC65860B7BF4D8008E4B93 /* TubeModel.h in Headers */,
+				01AC65880B7BF4D8008E4B93 /* util.h in Headers */,
+				01AC658A0B7BF4D8008E4B93 /* wavetable.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8DC2EF4F0486A6940098B216 /* Tube */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB91AD08733DA50010E9CD /* Build configuration list for PBXNativeTarget "Tube" */;
+			buildPhases = (
+				8DC2EF500486A6940098B216 /* Headers */,
+				8DC2EF520486A6940098B216 /* Resources */,
+				8DC2EF540486A6940098B216 /* Sources */,
+				8DC2EF560486A6940098B216 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Tube;
+			productInstallPath = "$(HOME)/Library/Frameworks";
+			productName = Tube;
+			productReference = 8DC2EF5B0486A6940098B216 /* Tube.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0867D690FE84028FC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB91B108733DA50010E9CD /* Build configuration list for PBXProject "Tube" */;
+			hasScannedForEncodings = 1;
+			mainGroup = 0867D691FE84028FC02AAC07 /* Tube */;
+			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
+			projectDirPath = "";
+			targets = (
+				8DC2EF4F0486A6940098B216 /* Tube */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8DC2EF520486A6940098B216 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8DC2EF540486A6940098B216 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				01AC657B0B7BF4D8008E4B93 /* fir.c in Sources */,
+				01AC657D0B7BF4D8008E4B93 /* input.c in Sources */,
+				01AC657F0B7BF4D8008E4B93 /* output.c in Sources */,
+				01AC65810B7BF4D8008E4B93 /* ring_buffer.c in Sources */,
+				01AC65840B7BF4D8008E4B93 /* tube.c in Sources */,
+				01AC65870B7BF4D8008E4B93 /* util.c in Sources */,
+				01AC65890B7BF4D8008E4B93 /* wavetable.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C1666FE841158C02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C1667FE841158C02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB91AE08733DA50010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Tube_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				PRODUCT_NAME = Tube;
+				WRAPPER_EXTENSION = framework;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		1DEB91AF08733DA50010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Tube_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				PRODUCT_NAME = Tube;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
+		1DEB91B208733DA50010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Debug;
+		};
+		1DEB91B308733DA50010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB91AD08733DA50010E9CD /* Build configuration list for PBXNativeTarget "Tube" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB91AE08733DA50010E9CD /* Debug */,
+				1DEB91AF08733DA50010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB91B108733DA50010E9CD /* Build configuration list for PBXProject "Tube" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB91B208733DA50010E9CD /* Debug */,
+				1DEB91B308733DA50010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0867D690FE84028FC02AAC07 /* Project object */;
+}
