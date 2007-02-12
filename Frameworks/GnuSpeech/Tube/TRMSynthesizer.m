@@ -399,14 +399,29 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
 
 - (void)setupSoundDevice;
 {
+    ComponentDescription searchDesc;
+    Component theAUComponent;
+    OSErr err;
     OSStatus result;
     UInt32 count;
 
-    result = OpenDefaultAudioOutput(&outputUnit);
-    if (result != kAudioHardwareNoError) {
-        NSLog(@"OpenDefaultAudioOutput() failed: %@", [NSString stringWithFourCharCode:result]);
-    } else {
-        NSLog(@"Got default audio output.");
+    searchDesc.componentType = kAudioUnitComponentType;
+    searchDesc.componentSubType = kAudioUnitSubType_Output;
+    searchDesc.componentManufacturer = kAudioUnitID_DefaultOutput;
+    searchDesc.componentFlags = 0;
+    searchDesc.componentFlagsMask = 0;
+
+    theAUComponent = FindNextComponent(NULL, &searchDesc);
+    if (theAUComponent == 0) {
+        NSLog(@"Error: Couldn't find default output audio unit.");
+        return;
+    }
+
+    err = OpenAComponent(theAUComponent, &outputUnit);
+
+    if (err != noErr) {
+        NSLog(@"Error: Couldn't open default output audio unit.");
+        return;
     }
 
     result = AudioUnitInitialize(outputUnit);
