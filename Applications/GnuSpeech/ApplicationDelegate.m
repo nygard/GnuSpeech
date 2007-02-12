@@ -7,11 +7,7 @@
 #import <AppKit/NSTextField.h>
 #import <AppKit/NSTextView.h>
 #import <AppKit/NSButton.h>
-
-#import "GSPronunciationDictionary.h"
-#import "GSDBMPronunciationDictionary.h"
-#import "GSSimplePronunciationDictionary.h"
-#import "TTSParser.h"
+#import <GnuSpeech/GnuSpeech.h>
 
 @implementation ApplicationDelegate
 

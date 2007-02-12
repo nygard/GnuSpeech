@@ -7,47 +7,51 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		012D536B0B7FF4EA001B50FC /* NSFileManager-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 012D53660B7FF4EA001B50FC /* NSFileManager-Extensions.m */; };
-		012D536C0B7FF4EA001B50FC /* NSScanner-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 012D53680B7FF4EA001B50FC /* NSScanner-Extensions.m */; };
-		012D536D0B7FF4EA001B50FC /* NSString-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 012D536A0B7FF4EA001B50FC /* NSString-Extensions.m */; };
 		012D537B0B7FF529001B50FC /* ApplicationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 012D536F0B7FF529001B50FC /* ApplicationDelegate.m */; };
-		012D537C0B7FF529001B50FC /* GSDBMPronunciationDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 012D53710B7FF529001B50FC /* GSDBMPronunciationDictionary.m */; };
-		012D537D0B7FF529001B50FC /* GSPronunciationDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 012D53730B7FF529001B50FC /* GSPronunciationDictionary.m */; };
-		012D537E0B7FF529001B50FC /* GSSimplePronunciationDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 012D53750B7FF529001B50FC /* GSSimplePronunciationDictionary.m */; };
-		012D537F0B7FF529001B50FC /* GSSuffix.m in Sources */ = {isa = PBXBuildFile; fileRef = 012D53770B7FF529001B50FC /* GSSuffix.m */; };
-		012D53800B7FF529001B50FC /* TTSParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 012D537A0B7FF529001B50FC /* TTSParser.m */; };
-		012D53840B7FF552001B50FC /* 2.0eMainDictionary.dict in Resources */ = {isa = PBXBuildFile; fileRef = 012D53810B7FF552001B50FC /* 2.0eMainDictionary.dict */; };
-		012D53850B7FF552001B50FC /* SpecialAcronyms.plist in Resources */ = {isa = PBXBuildFile; fileRef = 012D53820B7FF552001B50FC /* SpecialAcronyms.plist */; };
-		012D53860B7FF552001B50FC /* TTSSuffixList.txt in Resources */ = {isa = PBXBuildFile; fileRef = 012D53830B7FF552001B50FC /* TTSSuffixList.txt */; };
+		012D53C60B7FFC56001B50FC /* GnuSpeech.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 012D53C30B7FFC3C001B50FC /* GnuSpeech.framework */; };
+		012D53D30B80015C001B50FC /* Tube.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 012D53D20B800154001B50FC /* Tube.framework */; };
 		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		012D53C20B7FFC3C001B50FC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 012D53BE0B7FFC3C001B50FC /* GnuSpeech.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216 /* GnuSpeech.framework */;
+			remoteInfo = GnuSpeech;
+		};
+		012D53C40B7FFC4D001B50FC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 012D53BE0B7FFC3C001B50FC /* GnuSpeech.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216 /* GnuSpeech */;
+			remoteInfo = GnuSpeech;
+		};
+		012D53D10B800154001B50FC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 012D53CD0B800154001B50FC /* Tube.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216 /* Tube.framework */;
+			remoteInfo = Tube;
+		};
+		012D53D40B800164001B50FC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 012D53CD0B800154001B50FC /* Tube.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216 /* Tube */;
+			remoteInfo = Tube;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
-		012D53650B7FF4EA001B50FC /* NSFileManager-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "NSFileManager-Extensions.h"; sourceTree = "<group>"; };
-		012D53660B7FF4EA001B50FC /* NSFileManager-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager-Extensions.m"; sourceTree = "<group>"; };
-		012D53670B7FF4EA001B50FC /* NSScanner-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "NSScanner-Extensions.h"; sourceTree = "<group>"; };
-		012D53680B7FF4EA001B50FC /* NSScanner-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = "NSScanner-Extensions.m"; sourceTree = "<group>"; };
-		012D53690B7FF4EA001B50FC /* NSString-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "NSString-Extensions.h"; sourceTree = "<group>"; };
-		012D536A0B7FF4EA001B50FC /* NSString-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = "NSString-Extensions.m"; sourceTree = "<group>"; };
 		012D536E0B7FF529001B50FC /* ApplicationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ApplicationDelegate.h; sourceTree = "<group>"; };
 		012D536F0B7FF529001B50FC /* ApplicationDelegate.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ApplicationDelegate.m; sourceTree = "<group>"; };
-		012D53700B7FF529001B50FC /* GSDBMPronunciationDictionary.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GSDBMPronunciationDictionary.h; sourceTree = "<group>"; };
-		012D53710B7FF529001B50FC /* GSDBMPronunciationDictionary.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GSDBMPronunciationDictionary.m; sourceTree = "<group>"; };
-		012D53720B7FF529001B50FC /* GSPronunciationDictionary.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GSPronunciationDictionary.h; sourceTree = "<group>"; };
-		012D53730B7FF529001B50FC /* GSPronunciationDictionary.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GSPronunciationDictionary.m; sourceTree = "<group>"; };
-		012D53740B7FF529001B50FC /* GSSimplePronunciationDictionary.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GSSimplePronunciationDictionary.h; sourceTree = "<group>"; };
-		012D53750B7FF529001B50FC /* GSSimplePronunciationDictionary.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GSSimplePronunciationDictionary.m; sourceTree = "<group>"; };
-		012D53760B7FF529001B50FC /* GSSuffix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GSSuffix.h; sourceTree = "<group>"; };
-		012D53770B7FF529001B50FC /* GSSuffix.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GSSuffix.m; sourceTree = "<group>"; };
-		012D53780B7FF529001B50FC /* TTSNumberPronunciations.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TTSNumberPronunciations.h; sourceTree = "<group>"; };
-		012D53790B7FF529001B50FC /* TTSParser.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TTSParser.h; sourceTree = "<group>"; };
-		012D537A0B7FF529001B50FC /* TTSParser.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TTSParser.m; sourceTree = "<group>"; };
-		012D53810B7FF552001B50FC /* 2.0eMainDictionary.dict */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = 2.0eMainDictionary.dict; sourceTree = "<group>"; };
-		012D53820B7FF552001B50FC /* SpecialAcronyms.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = SpecialAcronyms.plist; sourceTree = "<group>"; };
-		012D53830B7FF552001B50FC /* TTSSuffixList.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = TTSSuffixList.txt; sourceTree = "<group>"; };
+		012D53BE0B7FFC3C001B50FC /* GnuSpeech.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GnuSpeech.xcodeproj; path = ../../Frameworks/GnuSpeech/GnuSpeech.xcodeproj; sourceTree = SOURCE_ROOT; };
+		012D53CD0B800154001B50FC /* Tube.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Tube.xcodeproj; path = ../../Frameworks/Tube/Tube.xcodeproj; sourceTree = SOURCE_ROOT; };
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
@@ -66,42 +70,35 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+				012D53C60B7FFC56001B50FC /* GnuSpeech.framework in Frameworks */,
+				012D53D30B80015C001B50FC /* Tube.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		012D53640B7FF4C9001B50FC /* Extensions */ = {
+		012D53BF0B7FFC3C001B50FC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				012D53650B7FF4EA001B50FC /* NSFileManager-Extensions.h */,
-				012D53660B7FF4EA001B50FC /* NSFileManager-Extensions.m */,
-				012D53670B7FF4EA001B50FC /* NSScanner-Extensions.h */,
-				012D53680B7FF4EA001B50FC /* NSScanner-Extensions.m */,
-				012D53690B7FF4EA001B50FC /* NSString-Extensions.h */,
-				012D536A0B7FF4EA001B50FC /* NSString-Extensions.m */,
+				012D53C30B7FFC3C001B50FC /* GnuSpeech.framework */,
 			);
-			name = Extensions;
+			name = Products;
+			sourceTree = "<group>";
+		};
+		012D53CE0B800154001B50FC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				012D53D20B800154001B50FC /* Tube.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				012D53640B7FF4C9001B50FC /* Extensions */,
 				012D536E0B7FF529001B50FC /* ApplicationDelegate.h */,
 				012D536F0B7FF529001B50FC /* ApplicationDelegate.m */,
-				012D53700B7FF529001B50FC /* GSDBMPronunciationDictionary.h */,
-				012D53710B7FF529001B50FC /* GSDBMPronunciationDictionary.m */,
-				012D53720B7FF529001B50FC /* GSPronunciationDictionary.h */,
-				012D53730B7FF529001B50FC /* GSPronunciationDictionary.m */,
-				012D53740B7FF529001B50FC /* GSSimplePronunciationDictionary.h */,
-				012D53750B7FF529001B50FC /* GSSimplePronunciationDictionary.m */,
-				012D53760B7FF529001B50FC /* GSSuffix.h */,
-				012D53770B7FF529001B50FC /* GSSuffix.m */,
-				012D53780B7FF529001B50FC /* TTSNumberPronunciations.h */,
-				012D53790B7FF529001B50FC /* TTSParser.h */,
-				012D537A0B7FF529001B50FC /* TTSParser.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -156,9 +153,6 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				012D53810B7FF552001B50FC /* 2.0eMainDictionary.dict */,
-				012D53820B7FF552001B50FC /* SpecialAcronyms.plist */,
-				012D53830B7FF552001B50FC /* TTSSuffixList.txt */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
@@ -169,6 +163,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				012D53BE0B7FFC3C001B50FC /* GnuSpeech.xcodeproj */,
+				012D53CD0B800154001B50FC /* Tube.xcodeproj */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
@@ -189,6 +185,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				012D53C50B7FFC4D001B50FC /* PBXTargetDependency */,
+				012D53D50B800164001B50FC /* PBXTargetDependency */,
 			);
 			name = GnuSpeech;
 			productInstallPath = "$(HOME)/Applications";
@@ -205,11 +203,38 @@
 			hasScannedForEncodings = 1;
 			mainGroup = 29B97314FDCFA39411CA2CEA /* GnuSpeech */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 012D53BF0B7FFC3C001B50FC /* Products */;
+					ProjectRef = 012D53BE0B7FFC3C001B50FC /* GnuSpeech.xcodeproj */;
+				},
+				{
+					ProductGroup = 012D53CE0B800154001B50FC /* Products */;
+					ProjectRef = 012D53CD0B800154001B50FC /* Tube.xcodeproj */;
+				},
+			);
 			targets = (
 				8D1107260486CEB800E47090 /* GnuSpeech */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		012D53C30B7FFC3C001B50FC /* GnuSpeech.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = GnuSpeech.framework;
+			remoteRef = 012D53C20B7FFC3C001B50FC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		012D53D20B800154001B50FC /* Tube.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Tube.framework;
+			remoteRef = 012D53D10B800154001B50FC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8D1107290486CEB800E47090 /* Resources */ = {
@@ -218,9 +243,6 @@
 			files = (
 				8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */,
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
-				012D53840B7FF552001B50FC /* 2.0eMainDictionary.dict in Resources */,
-				012D53850B7FF552001B50FC /* SpecialAcronyms.plist in Resources */,
-				012D53860B7FF552001B50FC /* TTSSuffixList.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,19 +254,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
-				012D536B0B7FF4EA001B50FC /* NSFileManager-Extensions.m in Sources */,
-				012D536C0B7FF4EA001B50FC /* NSScanner-Extensions.m in Sources */,
-				012D536D0B7FF4EA001B50FC /* NSString-Extensions.m in Sources */,
 				012D537B0B7FF529001B50FC /* ApplicationDelegate.m in Sources */,
-				012D537C0B7FF529001B50FC /* GSDBMPronunciationDictionary.m in Sources */,
-				012D537D0B7FF529001B50FC /* GSPronunciationDictionary.m in Sources */,
-				012D537E0B7FF529001B50FC /* GSSimplePronunciationDictionary.m in Sources */,
-				012D537F0B7FF529001B50FC /* GSSuffix.m in Sources */,
-				012D53800B7FF529001B50FC /* TTSParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		012D53C50B7FFC4D001B50FC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GnuSpeech;
+			targetProxy = 012D53C40B7FFC4D001B50FC /* PBXContainerItemProxy */;
+		};
+		012D53D50B800164001B50FC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Tube;
+			targetProxy = 012D53D40B800164001B50FC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
