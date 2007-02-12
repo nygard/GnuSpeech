@@ -4,7 +4,7 @@
 #import "MSpecialTransitionEditor.h"
 
 #import <AppKit/AppKit.h>
-#import "MModel.h"
+#import <GnuSpeech/GnuSpeech.h>
 
 @implementation MSpecialTransitionEditor
 

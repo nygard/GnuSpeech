@@ -1,7 +1,7 @@
 #import <AppKit/NSControl.h>
 
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
-#import "MMFRuleSymbols.h"
+#import <GnuSpeech/GnuSpeech.h> // For MMFRuleSymbols
 
 @class NSMutableArray;
 @class MonetList, MModel, MMPoint, MMSlope, MMTransition;

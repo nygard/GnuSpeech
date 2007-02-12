@@ -4,16 +4,11 @@
 #import "MPrototypeManager.h"
 
 #import <AppKit/AppKit.h>
+#import <GnuSpeech/GnuSpeech.h>
+
 #import "NSOutlineView-Extensions.h"
 
 #import "MCommentCell.h"
-#import "MMEquation.h"
-#import "MMFormulaExpression.h"
-#import "MMFormulaParser.h"
-#import "MModel.h"
-#import "MMTransition.h"
-#import "MonetList.h"
-#import "NamedList.h"
 #import "SpecialView.h"
 #import "TransitionView.h"
 

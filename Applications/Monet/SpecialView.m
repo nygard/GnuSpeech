@@ -1,19 +1,10 @@
 #import "SpecialView.h"
 
 #import <AppKit/AppKit.h>
-#import "NSBezierPath-Extensions.h"
+#import <GnuSpeech/GnuSpeech.h>
 #include <math.h>
 
-#import "MonetList.h"
-#import "NamedList.h"
-#import "MMPosture.h"
-#import "MMPoint.h"
-#import "MMEquation.h"
-#import "MMSlopeRatio.h"
-#import "MMTransition.h"
-#import "MMTarget.h"
-
-#import "MModel.h"
+#import "NSBezierPath-Extensions.h"
 
 #define LABEL_MARGIN 5
 #define LEFT_MARGIN 50

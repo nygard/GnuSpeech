@@ -4,7 +4,7 @@
 #import "MWindowController.h"
 #import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
-#import "EventList.h" // for struct _intonationParameters
+#import <GnuSpeech/GnuSpeech.h> // for struct _intonationParameters
 
 @class MMIntonationPoint, MModel;
 @class EventListView, MAIntonationScrollView;

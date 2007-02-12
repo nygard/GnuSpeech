@@ -5,24 +5,15 @@
 
 #include <sys/time.h>
 #import <AppKit/AppKit.h>
-#import "GSXMLFunctions.h"
-#import "NSNumberFormatter-Extensions.h"
-#import "NSString-Extensions.h"
+#import <GnuSpeech/GnuSpeech.h>
 
-#import "Event.h" // For MAX_EVENTS
-#import "EventList.h"
+#import "NSNumberFormatter-Extensions.h"
+
 #import "EventListView.h"
 #import "MAIntonationScrollView.h"
 #import "MAIntonationView.h"
 #import "MExtendedTableView.h"
 #import "MMDisplayParameter.h"
-#import "MMIntonationPoint.h"
-#import "MModel.h"
-#import "MMParameter.h"
-#import "MMSynthesisParameters.h"
-#include "driftGenerator.h"
-
-#import "TRMSynthesizer.h"
 
 #define MDK_ShouldUseSmoothIntonation @"ShouldUseSmoothIntonation"
 #define MDK_ShouldUseMacroIntonation @"ShouldUseMacroIntonation"

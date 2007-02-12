@@ -4,16 +4,11 @@
 #import "MPostureEditor.h"
 
 #import <AppKit/AppKit.h>
+#import <GnuSpeech/GnuSpeech.h>
+
 #import "NSNumberFormatter-Extensions.h"
 
-#import "CategoryList.h"
 #import "MCommentCell.h"
-#import "MMCategory.h"
-#import "MModel.h"
-#import "MMParameter.h"
-#import "MMPosture.h"
-#import "MMSymbol.h"
-#import "MMTarget.h"
 
 // TODO (2004-03-20): Implement copy and pasting of postures.
 

@@ -9,14 +9,9 @@
 #import <AppKit/NSPanel.h>
 #import <AppKit/NSOpenPanel.h>
 #import <AppKit/NSSavePanel.h>
-
-#import "MModel.h"
-#import "MUnarchiver.h"
+#import <GnuSpeech/GnuSpeech.h>
 
 #import "MDataEntryController.h"
-#import "MDocument.h"
-#import "MMPosture.h"
-#import "MMTarget.h"
 #import "MPostureCategoryController.h"
 #import "MPostureEditor.h"
 #import "MPrototypeManager.h"

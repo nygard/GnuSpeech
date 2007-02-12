@@ -1,18 +1,13 @@
 #import "MAIntonationView.h"
 
 #import <AppKit/AppKit.h>
+#import <GnuSpeech/GnuSpeech.h>
+
 #import "NSBezierPath-Extensions.h"
 #import "NSColor-STExtensions.h"
 #import "NSNumberFormatter-Extensions.h"
-#import "NSString-Extensions.h"
 
-#import "Event.h"
-#import "EventList.h"
-#import "GSXMLFunctions.h"
 #import "MAIntonationScaleView.h"
-#import "MMIntonationPoint.h"
-#import "MMPosture.h"
-#import "MonetList.h"
 
 #import <math.h>
 

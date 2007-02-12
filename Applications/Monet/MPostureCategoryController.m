@@ -3,13 +3,9 @@
 
 #import "MPostureCategoryController.h"
 
-#import "CategoryList.h"
-#import "MModel.h"
-#import "MMCategory.h"
-#import "MMPosture.h"
-
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
+#import <GnuSpeech/GnuSpeech.h>
 
 @implementation MPostureCategoryController
 

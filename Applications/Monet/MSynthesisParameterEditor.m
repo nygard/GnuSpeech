@@ -4,10 +4,9 @@
 #import "MSynthesisParameterEditor.h"
 
 #import <AppKit/AppKit.h>
-#import "NSNumberFormatter-Extensions.h"
+#import <GnuSpeech/GnuSpeech.h>
 
-#import "MModel.h"
-#import "MMSynthesisParameters.h"
+#import "NSNumberFormatter-Extensions.h"
 
 @implementation MSynthesisParameterEditor
 

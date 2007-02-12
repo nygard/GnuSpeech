@@ -1,21 +1,9 @@
 #import "TransitionView.h"
 
 #import <AppKit/AppKit.h>
-#import "NSBezierPath-Extensions.h"
 #include <math.h>
 
-#import "MMEquation.h"
-#import "MMFormulaNode.h"
-#import "MMPosture.h"
-#import "MMPoint.h"
-#import "MMTransition.h"
-#import "MMSlope.h"
-#import "MMSlopeRatio.h"
-#import "MMTarget.h"
-#import "MonetList.h"
-#import "NamedList.h"
-
-#import "MModel.h"
+#import "NSBezierPath-Extensions.h"
 
 #define LABEL_MARGIN 5
 #define LEFT_MARGIN 50

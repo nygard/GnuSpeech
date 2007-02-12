@@ -4,14 +4,9 @@
 #import "MRuleTester.h"
 
 #import <AppKit/AppKit.h>
-#import "NSNumberFormatter-Extensions.h"
+#import <GnuSpeech/GnuSpeech.h>
 
-#import "MMEquation.h"
-#import "MMFRuleSymbols.h"
-#import "MModel.h"
-#import "MMPosture.h"
-#import "MMRule.h"
-#import "MonetList.h"
+#import "NSNumberFormatter-Extensions.h"
 
 @implementation MRuleTester
 

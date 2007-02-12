@@ -1,14 +1,11 @@
 #import "EventListView.h"
 
 #import <AppKit/AppKit.h>
+#import <GnuSpeech/GnuSpeech.h>
+
 #import "NSNumberFormatter-Extensions.h"
 
-#import "Event.h"
-#import "EventList.h"
-#import "MonetList.h"
 #import "MMDisplayParameter.h"
-#import "MMParameter.h"
-#import "MMPosture.h"
 
 #import <math.h>
 
