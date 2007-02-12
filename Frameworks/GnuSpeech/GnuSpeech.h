@@ -24,6 +24,7 @@
 // Extensions
 #import <GnuSpeech/NSArray-Extensions.h>
 #import <GnuSpeech/NSCharacterSet-Extensions.h>
+#import <GnuSpeech/NSFileManager-Extensions.h>
 #import <GnuSpeech/NSObject-Extensions.h>
 #import <GnuSpeech/NSScanner-Extensions.h>
 #import <GnuSpeech/NSString-Extensions.h>
@@ -70,6 +71,14 @@
 #import <GnuSpeech/MMFormulaSymbols.h>
 #import <GnuSpeech/MMFormulaTerminal.h>
 #import <GnuSpeech/MMFRuleSymbols.h>
+
+// Text Processing
+#import <GnuSpeech/GSDBMPronunciationDictionary.h>
+#import <GnuSpeech/GSPronunciationDictionary.h>
+#import <GnuSpeech/GSSimplePronunciationDictionary.h>
+#import <GnuSpeech/GSSuffix.h>
+#import <GnuSpeech/TTSNumberPronunciations.h>
+#import <GnuSpeech/TTSParser.h>
 
 // Tube
 #import <GnuSpeech/TRMData.h>

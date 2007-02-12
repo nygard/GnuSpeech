@@ -7,6 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		012D539E0B7FF851001B50FC /* NSFileManager-Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 012D539C0B7FF851001B50FC /* NSFileManager-Extensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		012D539F0B7FF851001B50FC /* NSFileManager-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 012D539D0B7FF851001B50FC /* NSFileManager-Extensions.m */; };
+		012D53AC0B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 012D53A10B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		012D53AD0B7FF9DC001B50FC /* GSDBMPronunciationDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 012D53A20B7FF9DC001B50FC /* GSDBMPronunciationDictionary.m */; };
+		012D53AE0B7FF9DC001B50FC /* GSPronunciationDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 012D53A30B7FF9DC001B50FC /* GSPronunciationDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		012D53AF0B7FF9DC001B50FC /* GSPronunciationDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 012D53A40B7FF9DC001B50FC /* GSPronunciationDictionary.m */; };
+		012D53B00B7FF9DC001B50FC /* GSSimplePronunciationDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 012D53A50B7FF9DC001B50FC /* GSSimplePronunciationDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		012D53B10B7FF9DC001B50FC /* GSSimplePronunciationDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 012D53A60B7FF9DC001B50FC /* GSSimplePronunciationDictionary.m */; };
+		012D53B20B7FF9DC001B50FC /* GSSuffix.h in Headers */ = {isa = PBXBuildFile; fileRef = 012D53A70B7FF9DC001B50FC /* GSSuffix.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		012D53B30B7FF9DC001B50FC /* GSSuffix.m in Sources */ = {isa = PBXBuildFile; fileRef = 012D53A80B7FF9DC001B50FC /* GSSuffix.m */; };
+		012D53B40B7FF9DC001B50FC /* TTSNumberPronunciations.h in Headers */ = {isa = PBXBuildFile; fileRef = 012D53A90B7FF9DC001B50FC /* TTSNumberPronunciations.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		012D53B50B7FF9DC001B50FC /* TTSParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 012D53AA0B7FF9DC001B50FC /* TTSParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		012D53B60B7FF9DC001B50FC /* TTSParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 012D53AB0B7FF9DC001B50FC /* TTSParser.m */; };
+		012D53BA0B7FFB34001B50FC /* 2.0eMainDictionary.dict in Resources */ = {isa = PBXBuildFile; fileRef = 012D53B70B7FFB34001B50FC /* 2.0eMainDictionary.dict */; };
+		012D53BB0B7FFB34001B50FC /* SpecialAcronyms.plist in Resources */ = {isa = PBXBuildFile; fileRef = 012D53B80B7FFB34001B50FC /* SpecialAcronyms.plist */; };
+		012D53BC0B7FFB34001B50FC /* TTSSuffixList.txt in Resources */ = {isa = PBXBuildFile; fileRef = 012D53B90B7FFB34001B50FC /* TTSSuffixList.txt */; };
 		0155E38E0B7BE80D008D8879 /* NSArray-Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3800B7BE80D008D8879 /* NSArray-Extensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0155E38F0B7BE80D008D8879 /* NSArray-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3810B7BE80D008D8879 /* NSArray-Extensions.m */; };
 		0155E3900B7BE80D008D8879 /* NSCharacterSet-Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3820B7BE80D008D8879 /* NSCharacterSet-Extensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -142,19 +158,35 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 01AC65AB0B7BF554008E4B93 /* Tube.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216 /* Tube.framework */;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
 			remoteInfo = Tube;
 		};
 		01AC65C90B7BF56C008E4B93 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 01AC65AB0B7BF554008E4B93 /* Tube.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216 /* Tube */;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = Tube;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		012D539C0B7FF851001B50FC /* NSFileManager-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "NSFileManager-Extensions.h"; path = "Extensions/NSFileManager-Extensions.h"; sourceTree = "<group>"; };
+		012D539D0B7FF851001B50FC /* NSFileManager-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSFileManager-Extensions.m"; path = "Extensions/NSFileManager-Extensions.m"; sourceTree = "<group>"; };
+		012D53A10B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GSDBMPronunciationDictionary.h; path = TextProcessing/GSDBMPronunciationDictionary.h; sourceTree = "<group>"; };
+		012D53A20B7FF9DC001B50FC /* GSDBMPronunciationDictionary.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GSDBMPronunciationDictionary.m; path = TextProcessing/GSDBMPronunciationDictionary.m; sourceTree = "<group>"; };
+		012D53A30B7FF9DC001B50FC /* GSPronunciationDictionary.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GSPronunciationDictionary.h; path = TextProcessing/GSPronunciationDictionary.h; sourceTree = "<group>"; };
+		012D53A40B7FF9DC001B50FC /* GSPronunciationDictionary.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GSPronunciationDictionary.m; path = TextProcessing/GSPronunciationDictionary.m; sourceTree = "<group>"; };
+		012D53A50B7FF9DC001B50FC /* GSSimplePronunciationDictionary.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GSSimplePronunciationDictionary.h; path = TextProcessing/GSSimplePronunciationDictionary.h; sourceTree = "<group>"; };
+		012D53A60B7FF9DC001B50FC /* GSSimplePronunciationDictionary.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GSSimplePronunciationDictionary.m; path = TextProcessing/GSSimplePronunciationDictionary.m; sourceTree = "<group>"; };
+		012D53A70B7FF9DC001B50FC /* GSSuffix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GSSuffix.h; path = TextProcessing/GSSuffix.h; sourceTree = "<group>"; };
+		012D53A80B7FF9DC001B50FC /* GSSuffix.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GSSuffix.m; path = TextProcessing/GSSuffix.m; sourceTree = "<group>"; };
+		012D53A90B7FF9DC001B50FC /* TTSNumberPronunciations.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TTSNumberPronunciations.h; path = TextProcessing/TTSNumberPronunciations.h; sourceTree = "<group>"; };
+		012D53AA0B7FF9DC001B50FC /* TTSParser.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TTSParser.h; path = TextProcessing/TTSParser.h; sourceTree = "<group>"; };
+		012D53AB0B7FF9DC001B50FC /* TTSParser.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = TTSParser.m; path = TextProcessing/TTSParser.m; sourceTree = "<group>"; };
+		012D53B70B7FFB34001B50FC /* 2.0eMainDictionary.dict */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = 2.0eMainDictionary.dict; path = TextProcessing/2.0eMainDictionary.dict; sourceTree = "<group>"; };
+		012D53B80B7FFB34001B50FC /* SpecialAcronyms.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = SpecialAcronyms.plist; path = TextProcessing/SpecialAcronyms.plist; sourceTree = "<group>"; };
+		012D53B90B7FFB34001B50FC /* TTSSuffixList.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = TTSSuffixList.txt; path = TextProcessing/TTSSuffixList.txt; sourceTree = "<group>"; };
 		0155E3800B7BE80D008D8879 /* NSArray-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "NSArray-Extensions.h"; path = "Extensions/NSArray-Extensions.h"; sourceTree = "<group>"; };
 		0155E3810B7BE80D008D8879 /* NSArray-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSArray-Extensions.m"; path = "Extensions/NSArray-Extensions.m"; sourceTree = "<group>"; };
 		0155E3820B7BE80D008D8879 /* NSCharacterSet-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "NSCharacterSet-Extensions.h"; path = "Extensions/NSCharacterSet-Extensions.h"; sourceTree = "<group>"; };
@@ -306,6 +338,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		012D53A00B7FF9BD001B50FC /* Text Processing */ = {
+			isa = PBXGroup;
+			children = (
+				012D53A10B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h */,
+				012D53A20B7FF9DC001B50FC /* GSDBMPronunciationDictionary.m */,
+				012D53A30B7FF9DC001B50FC /* GSPronunciationDictionary.h */,
+				012D53A40B7FF9DC001B50FC /* GSPronunciationDictionary.m */,
+				012D53A50B7FF9DC001B50FC /* GSSimplePronunciationDictionary.h */,
+				012D53A60B7FF9DC001B50FC /* GSSimplePronunciationDictionary.m */,
+				012D53A70B7FF9DC001B50FC /* GSSuffix.h */,
+				012D53A80B7FF9DC001B50FC /* GSSuffix.m */,
+				012D53A90B7FF9DC001B50FC /* TTSNumberPronunciations.h */,
+				012D53AA0B7FF9DC001B50FC /* TTSParser.h */,
+				012D53AB0B7FF9DC001B50FC /* TTSParser.m */,
+			);
+			name = "Text Processing";
+			sourceTree = "<group>";
+		};
 		0155E37F0B7BE7FD008D8879 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -313,6 +363,8 @@
 				0155E3810B7BE80D008D8879 /* NSArray-Extensions.m */,
 				0155E3820B7BE80D008D8879 /* NSCharacterSet-Extensions.h */,
 				0155E3830B7BE80D008D8879 /* NSCharacterSet-Extensions.m */,
+				012D539C0B7FF851001B50FC /* NSFileManager-Extensions.h */,
+				012D539D0B7FF851001B50FC /* NSFileManager-Extensions.m */,
 				0155E3860B7BE80D008D8879 /* NSObject-Extensions.h */,
 				0155E3870B7BE80D008D8879 /* NSObject-Extensions.m */,
 				0155E3880B7BE80D008D8879 /* NSScanner-Extensions.h */,
@@ -529,6 +581,9 @@
 			children = (
 				8DC2EF5A0486A6940098B216 /* Info.plist */,
 				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
+				012D53B70B7FFB34001B50FC /* 2.0eMainDictionary.dict */,
+				012D53B80B7FFB34001B50FC /* SpecialAcronyms.plist */,
+				012D53B90B7FFB34001B50FC /* TTSSuffixList.txt */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -541,6 +596,7 @@
 				0155E37F0B7BE7FD008D8879 /* Extensions */,
 				0155E40F0B7BE8E7008D8879 /* Monet Model */,
 				0155E39C0B7BE814008D8879 /* Parsers */,
+				012D53A00B7FF9BD001B50FC /* Text Processing */,
 				0155E4700B7BE906008D8879 /* Tube */,
 			);
 			name = Classes;
@@ -646,6 +702,13 @@
 				0155E47F0B7BEB27008D8879 /* driftGenerator.h in Headers */,
 				0155E4D00B7BF002008D8879 /* MonetDefaults.h in Headers */,
 				01AC65FA0B7BF9B4008E4B93 /* GnuSpeech.h in Headers */,
+				012D539E0B7FF851001B50FC /* NSFileManager-Extensions.h in Headers */,
+				012D53AC0B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h in Headers */,
+				012D53AE0B7FF9DC001B50FC /* GSPronunciationDictionary.h in Headers */,
+				012D53B00B7FF9DC001B50FC /* GSSimplePronunciationDictionary.h in Headers */,
+				012D53B20B7FF9DC001B50FC /* GSSuffix.h in Headers */,
+				012D53B40B7FF9DC001B50FC /* TTSNumberPronunciations.h in Headers */,
+				012D53B50B7FF9DC001B50FC /* TTSParser.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -710,6 +773,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */,
+				012D53BA0B7FFB34001B50FC /* 2.0eMainDictionary.dict in Resources */,
+				012D53BB0B7FFB34001B50FC /* SpecialAcronyms.plist in Resources */,
+				012D53BC0B7FFB34001B50FC /* TTSSuffixList.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -779,6 +845,12 @@
 				0155E4760B7BE92A008D8879 /* TRMData.m in Sources */,
 				0155E4780B7BE92A008D8879 /* TRMSynthesizer.m in Sources */,
 				0155E47E0B7BEB27008D8879 /* driftGenerator.c in Sources */,
+				012D539F0B7FF851001B50FC /* NSFileManager-Extensions.m in Sources */,
+				012D53AD0B7FF9DC001B50FC /* GSDBMPronunciationDictionary.m in Sources */,
+				012D53AF0B7FF9DC001B50FC /* GSPronunciationDictionary.m in Sources */,
+				012D53B10B7FF9DC001B50FC /* GSSimplePronunciationDictionary.m in Sources */,
+				012D53B30B7FF9DC001B50FC /* GSSuffix.m in Sources */,
+				012D53B60B7FF9DC001B50FC /* TTSParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -60,6 +60,23 @@
     return YES;
 }
 
+- (BOOL)scanCharacterIntoString:(NSString **)value;
+{
+    BOOL result;
+    unichar ch;
+
+    result = [self scanCharacter:&ch];
+    if (result == YES)
+        *value = [NSString stringWithUnichar:ch];
+
+    return result;
+}
+
+- (BOOL)scanCharacterFromString:(NSString *)aString intoString:(NSString **)value;
+{
+    return [self scanCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:aString] intoString:value];
+}
+
 - (BOOL)scanCharacterFromSet:(NSCharacterSet *)set intoString:(NSString **)value;
 {
     unichar ch;

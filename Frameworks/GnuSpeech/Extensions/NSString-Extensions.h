@@ -20,6 +20,11 @@
 - (NSString *)leftJustifiedStringPaddedToLength:(int)paddedLength;
 - (NSString *)rightJustifiedStringPaddedToLength:(int)paddedLength;
 
+- (BOOL)startsWithLetter;
+- (BOOL)isAllUpperCase;
+- (BOOL)containsPrimaryStress;
+- (NSString *)convertedStress;
+
 @end
 
 @interface NSMutableString (Extensions)

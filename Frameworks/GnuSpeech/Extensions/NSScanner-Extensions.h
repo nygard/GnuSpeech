@@ -13,6 +13,8 @@
 - (NSString *)peekCharacter;
 - (unichar)peekChar;
 - (BOOL)scanCharacter:(unichar *)value;
+- (BOOL)scanCharacterIntoString:(NSString **)value;
+- (BOOL)scanCharacterFromString:(NSString *)aString intoString:(NSString **)value;
 - (BOOL)scanCharacterFromSet:(NSCharacterSet *)set intoString:(NSString **)value;
 - (BOOL)my_scanCharactersFromSet:(NSCharacterSet *)set intoString:(NSString **)value;
 

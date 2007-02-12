@@ -1,0 +1,7 @@
+2004-04-29:
+- "1000" pronounced as 10 hundred.
+- differences in number_pronunciations.h between number_parser and letter_to_sound
+- don't use getRhythmInfo: on ServerTestPlus, as it hangs
+
+2004-04-30:
+- We could preprocess all of the pronunciations in the dictionary, replacing ' with /_, " with /", etc.
