@@ -158,7 +158,7 @@
         sum += temp1;
 
         if (i < numSlopes)
-            [[points objectAtIndex:i] setValue:temp1];
+            [(MMPoint *)[points objectAtIndex:i] setValue:temp1];
     }
     factor = delta / sum;
 
@@ -210,7 +210,7 @@
         sum += temp1;
 
         if (i < numSlopes)
-            [[points objectAtIndex:i] setValue:temp1];
+            [(MMPoint *)[points objectAtIndex:i] setValue:temp1];
     }
     factor = delta / sum;
     temp = startValue;

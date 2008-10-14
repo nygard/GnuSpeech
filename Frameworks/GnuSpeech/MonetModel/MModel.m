@@ -1042,22 +1042,22 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
     // TODO (2004-03-25): These used to set the default flag as well, but I plan to remove that flag.
     // TODO (2004-03-25): Look up parameter indexes by name, so this will still work if they get rearranged in the Monet file.
-    [[parameterTargets objectAtIndex:0] setValue:[trmData glotPitch]];
-    [[parameterTargets objectAtIndex:1] setValue:[trmData glotVol]];
-    [[parameterTargets objectAtIndex:2] setValue:[trmData aspVol]];
-    [[parameterTargets objectAtIndex:3] setValue:[trmData fricVol]];
-    [[parameterTargets objectAtIndex:4] setValue:[trmData fricPos]];
-    [[parameterTargets objectAtIndex:5] setValue:[trmData fricCF]];
-    [[parameterTargets objectAtIndex:6] setValue:[trmData fricBW]];
-    [[parameterTargets objectAtIndex:7] setValue:[trmData r1]];
-    [[parameterTargets objectAtIndex:8] setValue:[trmData r2]];
-    [[parameterTargets objectAtIndex:9] setValue:[trmData r3]];
-    [[parameterTargets objectAtIndex:10] setValue:[trmData r4]];
-    [[parameterTargets objectAtIndex:11] setValue:[trmData r5]];
-    [[parameterTargets objectAtIndex:12] setValue:[trmData r6]];
-    [[parameterTargets objectAtIndex:13] setValue:[trmData r7]];
-    [[parameterTargets objectAtIndex:14] setValue:[trmData r8]];
-    [[parameterTargets objectAtIndex:15] setValue:[trmData velum]];
+    [(MMTarget *)[parameterTargets objectAtIndex:0] setValue:[trmData glotPitch]];
+    [(MMTarget *)[parameterTargets objectAtIndex:1] setValue:[trmData glotVol]];
+    [(MMTarget *)[parameterTargets objectAtIndex:2] setValue:[trmData aspVol]];
+    [(MMTarget *)[parameterTargets objectAtIndex:3] setValue:[trmData fricVol]];
+    [(MMTarget *)[parameterTargets objectAtIndex:4] setValue:[trmData fricPos]];
+    [(MMTarget *)[parameterTargets objectAtIndex:5] setValue:[trmData fricCF]];
+    [(MMTarget *)[parameterTargets objectAtIndex:6] setValue:[trmData fricBW]];
+    [(MMTarget *)[parameterTargets objectAtIndex:7] setValue:[trmData r1]];
+    [(MMTarget *)[parameterTargets objectAtIndex:8] setValue:[trmData r2]];
+    [(MMTarget *)[parameterTargets objectAtIndex:9] setValue:[trmData r3]];
+    [(MMTarget *)[parameterTargets objectAtIndex:10] setValue:[trmData r4]];
+    [(MMTarget *)[parameterTargets objectAtIndex:11] setValue:[trmData r5]];
+    [(MMTarget *)[parameterTargets objectAtIndex:12] setValue:[trmData r6]];
+    [(MMTarget *)[parameterTargets objectAtIndex:13] setValue:[trmData r7]];
+    [(MMTarget *)[parameterTargets objectAtIndex:14] setValue:[trmData r8]];
+    [(MMTarget *)[parameterTargets objectAtIndex:15] setValue:[trmData velum]];
 
     NSLog(@"Imported posture \"%@\"", [newPosture name]);
     [newPosture release];

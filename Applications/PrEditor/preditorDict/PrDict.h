@@ -97,15 +97,6 @@ char *getNameWithoutExtensionOfFile(char *fileName);	/* Function to get name of 
 
 @end
 
-/****** PrEntry *******/
-@interface PrEntry:NSObject
-{
-  @public
-    NSString* phone;
-    NSString* partsOfSpeech; 
-}
-
-@end
 
 
 

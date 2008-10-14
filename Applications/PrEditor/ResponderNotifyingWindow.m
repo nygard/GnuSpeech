@@ -15,7 +15,8 @@
 {
   BOOL response = [super makeFirstResponder:aResponder];
   if (response) {
-    [[self delegate] window:self madeFirstResponder:aResponder];    
+	// Commented out on October 13, 2008 -- dalmazio.
+    //[[self delegate] window:self madeFirstResponder:aResponder];    
   }
   return response;
 }

@@ -49,6 +49,8 @@
  */
 
 #import "PrDict.h"
+#import "PrEntry.h"
+
 //#import "conversion.h" /* Preditor to TTS conversions and vice versa. */
  
 /* To add a new file type, insert it's extension here.
