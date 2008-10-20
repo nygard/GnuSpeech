@@ -306,11 +306,67 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
     if (shouldSaveToSoundFile) {
         writeOutputToFile(&(tube->sampleRateConverter), inputData, [filename UTF8String]);
     } else {
-        [self convertSamplesIntoData:&(tube->sampleRateConverter)];
-        [self startPlaying];
+		// Write to temporary file and play from it since the existing method doesn't work on OS X 10.5. -- Added by dalmazio, October 19, 2008		
+		const char *tempName = tempnam("/tmp", NULL);
+		writeOutputToFile(&(tube->sampleRateConverter), inputData, tempName);
+		NSSound *sound = [[NSSound alloc] initWithContentsOfFile:[NSString stringWithUTF8String:tempName] byReference:YES];
+		[sound play];
+		[sound autorelease];
+		
+		// Originally (doesn't work on OS X 10.5):
+		// [self convertSamplesIntoData:&(tube->sampleRateConverter)];		
+		// [self startPlaying];
     }
 
     TRMTubeModelFree(tube);
+}
+
+/* This method was used to test inclusion of AIFF header information in the sound buffer, as required by the
+ * NSSound documentation. However, it still doesn't play in OS X 10.5. Yet it plays from a file -- odd, considering
+ * this code was esstially taken from the code that writes that header information. -- dalmazio, October 19, 2008.
+ */
+- (void)writeAiffDataHeader:(NSMutableData *)data channels:(int)channels samples:(int)numberSamples rate:(float)outputRate;
+{
+    unsigned char sampleFramesPerSecond[10];
+    int soundDataSize = channels * numberSamples * sizeof(short);
+    int ssndChunkSize = soundDataSize + 8;
+    int formSize = ssndChunkSize + 8 + 26 + 4;
+	
+	const char *formString = [@"FORM" UTF8String];
+	const char *aiffString = [@"AIFF" UTF8String];
+	const char *commString = [@"COMM" UTF8String];
+	const char *ssndString = [@"SSND" UTF8String];
+
+	[data setLength:0];
+	[data appendBytes:formString length:strlen(formString)];	
+	[data appendBytes:&formSize length:sizeof(int)];	
+	[data appendBytes:aiffString length:strlen(aiffString)];	
+	[data appendBytes:commString length:strlen(commString)];
+		
+	int chunkSize = 18;
+	[data appendBytes:&chunkSize length:sizeof(int)];
+	
+	short chan = (short)channels;
+	[data appendBytes:&chan length:sizeof(short)];
+
+	[data appendBytes:&numberSamples length:sizeof(int)];
+
+	short bps = BITS_PER_SAMPLE;
+	[data appendBytes:&bps length:sizeof(short)];
+	
+    /*  Sample frames per second (output sample rate)  */
+    /*  stored as an 80-bit (10-byte) float  */
+	convertIntToFloat80((unsigned int)outputRate, sampleFramesPerSecond);
+	[data appendBytes:sampleFramesPerSecond length:sizeof(unsigned char) * 10];
+
+	[data appendBytes:ssndString length:strlen(ssndString)];    
+	[data appendBytes:&ssndChunkSize length:sizeof(int)];
+
+	int offset = 0;
+	[data appendBytes:&offset length:sizeof(int)];	
+	
+	int blocksize = 0;
+	[data appendBytes:&blocksize length:sizeof(int)];
 }
 
 - (void)convertSamplesIntoData:(TRMSampleRateConverter *)sampleRateConverter;
@@ -320,6 +376,13 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
 
     [soundData setLength:0];
     bufferIndex = 0;
+	
+	// Header data should be written to the soundData buffer first. However, this still doesn't work on OS X 10.5.
+	//
+	// [self writeAiffDataHeader:soundData
+	//				 channels:(int)inputData->inputParameters.channels
+	//				  samples:(int)sampleRateConverter->numberSamples
+	//					 rate:(float)inputData->inputParameters.outputRate];
 
     if (sampleRateConverter->maximumSampleValue == 0)
         NSBeep();
@@ -336,14 +399,14 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
     if (inputData->inputParameters.channels == 2) {
         double leftScale, rightScale;
 
-	/*  Calculate left and right channel amplitudes  */
+		/*  Calculate left and right channel amplitudes  */
 #if 0
-	leftScale = -((inputData->inputParameters.balance / 2.0) - 0.5) * scale * 2.0;
-	rightScale = ((inputData->inputParameters.balance / 2.0) + 0.5) * scale * 2.0;
+		leftScale = -((inputData->inputParameters.balance / 2.0) - 0.5) * scale * 2.0;
+		rightScale = ((inputData->inputParameters.balance / 2.0) + 0.5) * scale * 2.0;
 #else
         // This doesn't have the crackling when at all left or all right, but it's not as loud as Mono by default.
-	leftScale = -((inputData->inputParameters.balance / 2.0) - 0.5) * scale;
-	rightScale = ((inputData->inputParameters.balance / 2.0) + 0.5) * scale;
+		leftScale = -((inputData->inputParameters.balance / 2.0) - 0.5) * scale;
+		rightScale = ((inputData->inputParameters.balance / 2.0) + 0.5) * scale;
 #endif
         printf("left scale:\t\t%.4f\n", leftScale);
         printf("right scale:\t\t%.4f\n", rightScale);

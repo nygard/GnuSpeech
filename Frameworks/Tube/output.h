@@ -20,6 +20,7 @@
 
 
 void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMData *data, const char *fileName);
+void convertIntToFloat80(unsigned int value, unsigned char buffer[10]);
 
 void writeAuFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile);
 size_t fwriteShortMsb(int data, FILE *stream);

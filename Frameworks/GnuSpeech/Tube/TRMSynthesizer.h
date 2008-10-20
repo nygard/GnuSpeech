@@ -1,5 +1,5 @@
 //
-// $Id: TRMSynthesizer.h,v 1.1 2007-02-09 01:12:52 nygard Exp $
+// $Id: TRMSynthesizer.h,v 1.2 2008-10-20 04:39:02 dbrisinda Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -59,5 +59,7 @@
 - (void)setupSoundDevice;
 - (void)fillBuffer:(AudioBuffer *)ioData;
 #endif
+
+- (void)writeAiffDataHeader:(NSMutableData *)data channels:(int)numberChannels samples:(int)numberSamples rate:(float)outputRate;
 
 @end

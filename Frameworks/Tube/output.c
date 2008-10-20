@@ -18,7 +18,7 @@ static size_t fwriteIntMsb(int data, FILE *stream);
 static size_t fwriteIntLsb(int data, FILE *stream);
 //size_t fwriteShortMsb(int data, FILE *stream);
 static size_t fwriteShortLsb(int data, FILE *stream);
-static void convertIntToFloat80(unsigned int value, unsigned char buffer[10]);
+//static void convertIntToFloat80(unsigned int value, unsigned char buffer[10]);
 
 
 
@@ -63,15 +63,15 @@ void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMData *dat
 
     /*  If stereo, calculate left and right scaling constants  */
     if (data->inputParameters.channels == 2) {
-	/*  Calculate left and right channel amplitudes  */
-	leftScale = -((data->inputParameters.balance / 2.0) - 0.5) * scale * 2.0;
-	rightScale = ((data->inputParameters.balance / 2.0) + 0.5) * scale * 2.0;
+		/*  Calculate left and right channel amplitudes  */
+		leftScale = -((data->inputParameters.balance / 2.0) - 0.5) * scale * 2.0;
+		rightScale = ((data->inputParameters.balance / 2.0) + 0.5) * scale * 2.0;
 
-	/*  Print out info  */
-	if (verbose) {
-	    printf("left scale:\t\t%.4f\n", leftScale);
-	    printf("right scale:\t\t%.4f\n", rightScale);
-	}
+		/*  Print out info  */
+		if (verbose) {
+			printf("left scale:\t\t%.4f\n", leftScale);
+			printf("right scale:\t\t%.4f\n", rightScale);
+		}
     }
 
     /*  Rewind the temporary file to beginning  */
@@ -209,8 +209,6 @@ void writeAiffFileHeader(int channels, long int numberSamples, float outputRate,
     /*  Block size:  unused, so set to 0  */
     fwriteIntMsb(0, outputFile);
 }
-
-
 
 /******************************************************************************
 *
