@@ -306,16 +306,18 @@ OSStatus myInputCallback(void *inRefCon, AudioUnitRenderActionFlags inActionFlag
     if (shouldSaveToSoundFile) {
         writeOutputToFile(&(tube->sampleRateConverter), inputData, [filename UTF8String]);
     } else {
+#ifndef GNUSTEP		
 		// Write to temporary file and play from it since the existing method doesn't work on OS X 10.5. -- Added by dalmazio, October 19, 2008		
 		const char *tempName = tempnam("/tmp", NULL);
 		writeOutputToFile(&(tube->sampleRateConverter), inputData, tempName);
 		NSSound *sound = [[NSSound alloc] initWithContentsOfFile:[NSString stringWithUTF8String:tempName] byReference:YES];
 		[sound play];
 		[sound autorelease];
-		
-		// Originally (doesn't work on OS X 10.5):
-		// [self convertSamplesIntoData:&(tube->sampleRateConverter)];		
-		// [self startPlaying];
+#else
+		// This doesn't work on OS X 10.5.
+		[self convertSamplesIntoData:&(tube->sampleRateConverter)];		
+		[self startPlaying];
+#endif		
     }
 
     TRMTubeModelFree(tube);
