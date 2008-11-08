@@ -25,6 +25,16 @@
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		699EF7D70EC5A13300C121EF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 699EF7CD0EC5A11700C121EF /* GnuSpeech.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216 /* GnuSpeech.framework */;
+			remoteInfo = GnuSpeech;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		089C1660FE840EACC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
@@ -56,6 +66,7 @@
 		693432C20EA458E000BE6A55 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		699EF7860EC59E8F00C121EF /* PrEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrEntry.h; sourceTree = "<group>"; };
 		699EF7870EC59E8F00C121EF /* PrEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrEntry.m; sourceTree = "<group>"; };
+		699EF7CD0EC5A11700C121EF /* GnuSpeech.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GnuSpeech.xcodeproj; path = /Users/dalmazio/Developer/xcode/GnuSpeech/Frameworks/GnuSpeech/GnuSpeech.xcodeproj; sourceTree = "<absolute>"; };
 		69EC96730EC5274F005110E3 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		69EC96770EC5276E005110E3 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PrEditorDocument.xib; sourceTree = "<group>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -194,6 +205,14 @@
 			path = DoulosSIL4;
 			sourceTree = "<group>";
 		};
+		699EF7D40EC5A13300C121EF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				699EF7D80EC5A13300C121EF /* GnuSpeech.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -232,12 +251,28 @@
 			);
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* PrEditor */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 699EF7D40EC5A13300C121EF /* Products */;
+					ProjectRef = 699EF7CD0EC5A11700C121EF /* GnuSpeech.xcodeproj */;
+				},
+			);
 			projectRoot = ../..;
 			targets = (
 				8D15AC270486D014006FF6A4 /* PrEditor */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		699EF7D80EC5A13300C121EF /* GnuSpeech.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = GnuSpeech.framework;
+			remoteRef = 699EF7D70EC5A13300C121EF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8D15AC2B0486D014006FF6A4 /* Resources */ = {
