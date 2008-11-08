@@ -16,8 +16,8 @@
 		41E31DB10A2F37DF001E06A9 /* APPL.icns in Resources */ = {isa = PBXBuildFile; fileRef = 41E31DB00A2F37DF001E06A9 /* APPL.icns */; };
 		693432690EA4557F00BE6A55 /* PrEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 693432680EA4557F00BE6A55 /* PrEntry.m */; };
 		693432C30EA458E000BE6A55 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 693432C20EA458E000BE6A55 /* Carbon.framework */; };
-		69EC961E0EC52259005110E3 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69EC961D0EC52259005110E3 /* MainMenu.xib */; };
-		69EC96210EC52267005110E3 /* PrEditorDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69EC96200EC52267005110E3 /* PrEditorDocument.xib */; };
+		69EC96740EC5274F005110E3 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69EC96720EC5274F005110E3 /* MainMenu.xib */; };
+		69EC96780EC5276E005110E3 /* PrEditorDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69EC96760EC5276E005110E3 /* PrEditorDocument.xib */; };
 		8D15AC2C0486D014006FF6A4 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */; };
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC310486D014006FF6A4 /* PrEditorDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4ACFDCFA73011CA2CEA /* PrEditorDocument.m */; settings = {ATTRIBUTES = (); }; };
@@ -56,8 +56,8 @@
 		693432670EA4557F00BE6A55 /* PrEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PrEntry.h; path = ../PrEntry.h; sourceTree = "<group>"; };
 		693432680EA4557F00BE6A55 /* PrEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PrEntry.m; path = ../PrEntry.m; sourceTree = "<group>"; };
 		693432C20EA458E000BE6A55 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
-		69EC961D0EC52259005110E3 /* MainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
-		69EC96200EC52267005110E3 /* PrEditorDocument.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PrEditorDocument.xib; sourceTree = "<group>"; };
+		69EC96730EC5274F005110E3 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		69EC96770EC5276E005110E3 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PrEditorDocument.xib; sourceTree = "<group>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -137,8 +137,8 @@
 		2A37F4B8FDCFA73011CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				69EC961D0EC52259005110E3 /* MainMenu.xib */,
-				69EC96200EC52267005110E3 /* PrEditorDocument.xib */,
+				69EC96720EC5274F005110E3 /* MainMenu.xib */,
+				69EC96760EC5276E005110E3 /* PrEditorDocument.xib */,
 				41E31DD20A2F3D6A001E06A9 /* IPA Keylayout */,
 				41E31DB00A2F37DF001E06A9 /* APPL.icns */,
 				2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */,
@@ -251,8 +251,8 @@
 				416094AF0A2B288B001A6FBB /* Store.tiff in Resources */,
 				41E31DB10A2F37DF001E06A9 /* APPL.icns in Resources */,
 				4106BB380AF02BFA00D8AB00 /* app.tiff in Resources */,
-				69EC961E0EC52259005110E3 /* MainMenu.xib in Resources */,
-				69EC96210EC52267005110E3 /* PrEditorDocument.xib in Resources */,
+				69EC96740EC5274F005110E3 /* MainMenu.xib in Resources */,
+				69EC96780EC5276E005110E3 /* PrEditorDocument.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,6 +288,22 @@
 				2A37F4BAFDCFA73011CA2CEA /* English */,
 			);
 			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		69EC96720EC5274F005110E3 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				69EC96730EC5274F005110E3 /* English */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		69EC96760EC5276E005110E3 /* PrEditorDocument.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				69EC96770EC5276E005110E3 /* English */,
+			);
+			name = PrEditorDocument.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
