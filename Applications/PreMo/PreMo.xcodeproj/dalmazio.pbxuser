@@ -2,9 +2,9 @@
 {
 	012D536E0B7FF529001B50FC /* ApplicationDelegate.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {432, 560}}";
+			sepNavIntBoundsRect = "{{0, 0}, {710, 560}}";
 			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{476, 428}";
+			sepNavVisRange = "{476, 212}";
 			sepNavWindowFrame = "{{38, 294}, {750, 558}}";
 		};
 	};
@@ -95,7 +95,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					138,
+					532,
 					20,
 					48,
 					43,
@@ -174,19 +174,8 @@
 			PBXWorkspaceStateSaveDate = 247820534;
 		};
 		perUserProjectItems = {
-			694D9E460EA5766300DD9BAE = 694D9E460EA5766300DD9BAE /* PlistBookmark */;
-			694D9E7A0EA5782F00DD9BAE = 694D9E7A0EA5782F00DD9BAE /* PBXTextBookmark */;
-			694D9EB80EA57BAC00DD9BAE = 694D9EB80EA57BAC00DD9BAE /* PBXTextBookmark */;
-			694D9EBB0EA57BAC00DD9BAE = 694D9EBB0EA57BAC00DD9BAE /* PBXTextBookmark */;
-			69812F690EA291B000A29449 = 69812F690EA291B000A29449 /* PBXTextBookmark */;
-			6981341A0EA3C7BD00A29449 = 6981341A0EA3C7BD00A29449 /* PBXTextBookmark */;
-			6981341B0EA3C7BD00A29449 = 6981341B0EA3C7BD00A29449 /* PBXTextBookmark */;
-			698134200EA3C7BD00A29449 = 698134200EA3C7BD00A29449 /* PBXTextBookmark */;
-			698134220EA3C7BD00A29449 = 698134220EA3C7BD00A29449 /* PBXTextBookmark */;
-			698134230EA3C7BD00A29449 = 698134230EA3C7BD00A29449 /* PlistBookmark */;
-			698134260EA3C7BD00A29449 = 698134260EA3C7BD00A29449 /* PBXTextBookmark */;
-			698134290EA3C7BD00A29449 = 698134290EA3C7BD00A29449 /* PBXTextBookmark */;
-			699E6F320EA5877E00621FBB = 699E6F320EA5877E00621FBB /* PBXTextBookmark */;
+			699EF7050EC5961000C121EF /* PBXTextBookmark */ = 699EF7050EC5961000C121EF /* PBXTextBookmark */;
+			699EF7060EC5961000C121EF /* PBXTextBookmark */ = 699EF7060EC5961000C121EF /* PBXTextBookmark */;
 		};
 		sourceControlManager = 692303210EA1544B004D32EC /* Source Control */;
 		userBuildSettings = {
@@ -238,58 +227,6 @@
 		isa = PBXCodeSenseManager;
 		indexTemplatePath = "";
 	};
-	694D9E460EA5766300DD9BAE /* PlistBookmark */ = {
-		isa = PlistBookmark;
-		fRef = 8D1107310486CEB800E47090 /* Info.plist */;
-		fallbackIsa = PBXBookmark;
-		isK = 0;
-		kPath = (
-			CFBundleIdentifier,
-		);
-		name = /Users/dalmazio/Developer/xcode/GnuSpeech/Applications/PreMo/Info.plist;
-		rLen = 0;
-		rLoc = 2147483647;
-	};
-	694D9E7A0EA5782F00DD9BAE /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 29B97316FDCFA39411CA2CEA /* main.m */;
-		name = "main.m: 19";
-		rLen = 0;
-		rLoc = 359;
-		rType = 0;
-		vrLen = 358;
-		vrLoc = 3;
-	};
-	694D9EB80EA57BAC00DD9BAE /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 012D536F0B7FF529001B50FC /* ApplicationDelegate.m */;
-		name = "ApplicationDelegate.m: 87";
-		rLen = 33;
-		rLoc = 2646;
-		rType = 0;
-		vrLen = 590;
-		vrLoc = 2487;
-	};
-	694D9EBB0EA57BAC00DD9BAE /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 012D536E0B7FF529001B50FC /* ApplicationDelegate.h */;
-		name = "ApplicationDelegate.h: 1";
-		rLen = 0;
-		rLoc = 0;
-		rType = 0;
-		vrLen = 480;
-		vrLoc = 188;
-	};
-	69812F690EA291B000A29449 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 012D536E0B7FF529001B50FC /* ApplicationDelegate.h */;
-		name = "ApplicationDelegate.h: 1";
-		rLen = 0;
-		rLoc = 0;
-		rType = 0;
-		vrLen = 718;
-		vrLoc = 0;
-	};
 	69812FB00EA2A69D00A29449 /* PreMo_Prefix.pch */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {504, 222}}";
@@ -297,85 +234,24 @@
 			sepNavVisRange = "{0, 141}";
 		};
 	};
-	6981341A0EA3C7BD00A29449 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 089C165DFE840E0CC02AAC07 /* English */;
-		name = "InfoPlist.strings: 2";
-		rLen = 0;
-		rLoc = 44;
-		rType = 0;
-		vrLen = 45;
-		vrLoc = 0;
-	};
-	6981341B0EA3C7BD00A29449 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 69812FB00EA2A69D00A29449 /* PreMo_Prefix.pch */;
-		name = "PreMo_Prefix.pch: 2";
-		rLen = 0;
-		rLoc = 76;
-		rType = 0;
-		vrLen = 141;
-		vrLoc = 0;
-	};
-	698134200EA3C7BD00A29449 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 012D536F0B7FF529001B50FC /* ApplicationDelegate.m */;
-		name = "ApplicationDelegate.m: 9";
-		rLen = 0;
-		rLoc = 273;
-		rType = 0;
-		vrLen = 684;
-		vrLoc = 0;
-	};
-	698134220EA3C7BD00A29449 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 29B97316FDCFA39411CA2CEA /* main.m */;
-		name = "main.m: 19";
-		rLen = 0;
-		rLoc = 359;
-		rType = 0;
-		vrLen = 361;
-		vrLoc = 0;
-	};
-	698134230EA3C7BD00A29449 /* PlistBookmark */ = {
-		isa = PlistBookmark;
-		fRef = 8D1107310486CEB800E47090 /* Info.plist */;
-		fallbackIsa = PBXBookmark;
-		isK = 0;
-		kPath = (
-		);
-		name = /Users/dalmazio/Developer/xcode/GnuSpeech/Applications/PreMo/Info.plist;
-		rLen = 0;
-		rLoc = 2147483647;
-	};
-	698134260EA3C7BD00A29449 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 69812FB00EA2A69D00A29449 /* PreMo_Prefix.pch */;
-		name = "PreMo_Prefix.pch: 2";
-		rLen = 0;
-		rLoc = 76;
-		rType = 0;
-		vrLen = 141;
-		vrLoc = 0;
-	};
-	698134290EA3C7BD00A29449 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 089C165DFE840E0CC02AAC07 /* English */;
-		name = "InfoPlist.strings: 2";
-		rLen = 0;
-		rLoc = 44;
-		rType = 0;
-		vrLen = 45;
-		vrLoc = 0;
-	};
-	699E6F320EA5877E00621FBB /* PBXTextBookmark */ = {
+	699EF7050EC5961000C121EF /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 012D536E0B7FF529001B50FC /* ApplicationDelegate.h */;
 		name = "ApplicationDelegate.h: 1";
 		rLen = 0;
 		rLoc = 0;
 		rType = 0;
-		vrLen = 428;
+		vrLen = 212;
+		vrLoc = 476;
+	};
+	699EF7060EC5961000C121EF /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 012D536E0B7FF529001B50FC /* ApplicationDelegate.h */;
+		name = "ApplicationDelegate.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 212;
 		vrLoc = 476;
 	};
 	8D1107260486CEB800E47090 /* PreMo */ = {
