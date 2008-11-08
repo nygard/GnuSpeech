@@ -1,5 +1,5 @@
 //
-// $Id: TRMSynthesizer.h,v 1.3 2008-11-08 01:33:19 dbrisinda Exp $
+// $Id: TRMSynthesizer.h,v 1.4 2008-11-08 07:45:34 dbrisinda Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -11,7 +11,6 @@
 
 #ifndef GNUSTEP
 
-#import <MTCoreAudio/MTCoreAudio.h>
 #import <AudioUnit/AudioUnit.h>
 
 #endif

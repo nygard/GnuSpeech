@@ -230,6 +230,8 @@
 			<key>Layout</key>
 			<array>
 				<dict>
+					<key>BecomeActive</key>
+					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -293,7 +295,7 @@
 							<real>185</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>206 257 978 522 0 0 1440 878 </string>
+						<string>212 278 978 522 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -332,7 +334,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {771, 0}}</string>
 								<key>RubberWindowFrame</key>
-								<string>206 257 978 522 0 0 1440 878 </string>
+								<string>212 278 978 522 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -355,7 +357,7 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {771, 449}}</string>
+										<string>{{10, 27}, {377, 327}}</string>
 									</dict>
 									<key>Module</key>
 									<string>XCDetailModule</string>
@@ -377,8 +379,6 @@
 									<string>PBXProjectFindModule</string>
 								</dict>
 								<dict>
-									<key>BecomeActive</key>
-									<true/>
 									<key>ContentConfiguration</key>
 									<dict>
 										<key>PBXCVSModuleFilterTypeKey</key>
@@ -387,7 +387,7 @@
 										<dict>
 											<key>PBXCVSModuleTreeModuleColumnWidthsKey</key>
 											<array>
-												<real>387</real>
+												<real>355</real>
 												<real>56</real>
 												<real>63</real>
 												<real>60</real>
@@ -409,14 +409,14 @@
 										<key>PBXProjectModuleLabel</key>
 										<string>SCM Results</string>
 										<key>SCMActivityViewerShowingDefaultKey</key>
-										<string>{{0, 380}, {771, 69}}</string>
+										<string>{{0, 376}, {771, 73}}</string>
 									</dict>
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
 										<string>{{10, 27}, {771, 449}}</string>
 										<key>RubberWindowFrame</key>
-										<string>206 257 978 522 0 0 1440 878 </string>
+										<string>212 278 978 522 0 0 1440 878 </string>
 									</dict>
 									<key>Module</key>
 									<string>PBXCVSModule</string>
@@ -464,11 +464,11 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>697B54DF0EAC4472004EBA93</string>
+				<string>699EF6AE0EC5710A00C121EF</string>
 				<string>1CA23ED40692098700951B8B</string>
-				<string>697B54E00EAC4472004EBA93</string>
+				<string>699EF6AF0EC5710A00C121EF</string>
 				<string>69812F520EA2916B00A29449</string>
-				<string>697B54E10EAC4472004EBA93</string>
+				<string>699EF6B00EC5710A00C121EF</string>
 				<string>1CA23EDF0692099D00951B8B</string>
 				<string>1CA23EE00692099D00951B8B</string>
 				<string>1CA23EE10692099D00951B8B</string>
@@ -655,7 +655,7 @@
 		<string>/Users/dalmazio/Developer/xcode/GnuSpeech/Applications/PreMo/PreMo.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>206 257 978 522 0 0 1440 878 </string>
+	<string>212 278 978 522 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
