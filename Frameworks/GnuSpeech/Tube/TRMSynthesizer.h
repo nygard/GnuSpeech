@@ -1,5 +1,5 @@
 //
-// $Id: TRMSynthesizer.h,v 1.2 2008-10-20 04:39:02 dbrisinda Exp $
+// $Id: TRMSynthesizer.h,v 1.3 2008-11-08 01:33:19 dbrisinda Exp $
 //
 
 //  This file is part of __APPNAME__, __SHORT_DESCRIPTION__.
@@ -7,13 +7,14 @@
 
 #import <Foundation/NSObject.h>
 #import <Foundation/NSData.h>
+#import <Tube/TubeModel.h>
 
 #ifndef GNUSTEP
-//#import <CoreAudio/AudioHardware.h>
-#import <AudioUnit/AudioUnit.h>
-#endif
 
-#include <Tube/TubeModel.h>
+#import <MTCoreAudio/MTCoreAudio.h>
+#import <AudioUnit/AudioUnit.h>
+
+#endif
 
 @class MMSynthesisParameters;
 
@@ -23,14 +24,14 @@
     NSMutableData *soundData;
 
 #ifndef GNUSTEP
-    AudioUnit outputUnit;
+    AudioUnit outputUnit;	
 #endif
 
     int bufferLength;
     int bufferIndex;
 
     BOOL shouldSaveToSoundFile;
-    NSString *filename;
+    NSString *filename;	
 }
 
 - (id)init;
@@ -53,13 +54,11 @@
 - (void)convertSamplesIntoData:(TRMSampleRateConverter *)sampleRateConverter;
 - (void)startPlaying;
 
-#ifndef GNUSTEP
 - (void)stopPlaying;
-
 - (void)setupSoundDevice;
+
+#ifndef GNUSTEP
 - (void)fillBuffer:(AudioBuffer *)ioData;
 #endif
-
-- (void)writeAiffDataHeader:(NSMutableData *)data channels:(int)numberChannels samples:(int)numberSamples rate:(float)outputRate;
 
 @end

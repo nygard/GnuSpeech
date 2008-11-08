@@ -35,7 +35,7 @@
 
     filename = nil;
     model = [[MModel alloc] init];
-
+	
     return self;
 }
 
@@ -99,12 +99,6 @@
     [self _disableUnconvertedClassLoading];
 #endif
 
-    path = [[NSBundle mainBundle] pathForResource:@"Default" ofType:@"mxml"];
-    //NSLog(@"path: %@", path);
-
-    [self _loadMonetXMLFile:path];
-    [self setFilename:nil];
-
     [[self dataEntryController] showWindowIfVisibleOnLaunch];
     [[self postureCategoryController] showWindowIfVisibleOnLaunch];
     [[self postureEditor] showWindowIfVisibleOnLaunch];
@@ -120,6 +114,10 @@
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shouldActivateOnLaunch"])
         [NSApp activateIgnoringOtherApps:YES];
 
+    path = [[NSBundle mainBundle] pathForResource:@"Diphones" ofType:@"mxml"];
+    //path = [[NSBundle mainBundle] pathForResource:@"Default" ofType:@"mxml"];	
+    [self _loadMonetXMLFile:path];	
+	
     //NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }
 

@@ -7,17 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		013090AD0B7BC063005BE974 /* DataEntry.nib in Resources */ = {isa = PBXBuildFile; fileRef = 013090AB0B7BC063005BE974 /* DataEntry.nib */; };
-		013090B70B7BC076005BE974 /* PostureCategory.nib in Resources */ = {isa = PBXBuildFile; fileRef = 013090B00B7BC076005BE974 /* PostureCategory.nib */; };
-		013090B80B7BC076005BE974 /* Postures.nib in Resources */ = {isa = PBXBuildFile; fileRef = 013090B20B7BC076005BE974 /* Postures.nib */; };
-		013090B90B7BC076005BE974 /* PrototypeManager.nib in Resources */ = {isa = PBXBuildFile; fileRef = 013090B40B7BC076005BE974 /* PrototypeManager.nib */; };
-		013090C80B7BC08A005BE974 /* ReleaseNotes.nib in Resources */ = {isa = PBXBuildFile; fileRef = 013090BA0B7BC08A005BE974 /* ReleaseNotes.nib */; };
-		013090C90B7BC08A005BE974 /* RuleManager.nib in Resources */ = {isa = PBXBuildFile; fileRef = 013090BC0B7BC08A005BE974 /* RuleManager.nib */; };
-		013090CA0B7BC08A005BE974 /* RuleTester.nib in Resources */ = {isa = PBXBuildFile; fileRef = 013090BE0B7BC08A005BE974 /* RuleTester.nib */; };
-		013090CB0B7BC08A005BE974 /* SpecialTransitionEditor.nib in Resources */ = {isa = PBXBuildFile; fileRef = 013090C00B7BC08A005BE974 /* SpecialTransitionEditor.nib */; };
-		013090CC0B7BC08A005BE974 /* Synthesis.nib in Resources */ = {isa = PBXBuildFile; fileRef = 013090C20B7BC08A005BE974 /* Synthesis.nib */; };
-		013090CD0B7BC08A005BE974 /* SynthesisParameters.nib in Resources */ = {isa = PBXBuildFile; fileRef = 013090C40B7BC08A005BE974 /* SynthesisParameters.nib */; };
-		013090CE0B7BC08A005BE974 /* TransitionEditor.nib in Resources */ = {isa = PBXBuildFile; fileRef = 013090C60B7BC08A005BE974 /* TransitionEditor.nib */; };
 		01AC65E10B7BF85E008E4B93 /* GnuSpeech.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01AC65E00B7BF85C008E4B93 /* GnuSpeech.framework */; };
 		01AC65E80B7BF875008E4B93 /* Tube.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01AC65E70B7BF871008E4B93 /* Tube.framework */; };
 		01C55C4B0B7BC7C6009F6A92 /* ReleaseNotes.html in Resources */ = {isa = PBXBuildFile; fileRef = 01C55C490B7BC7C6009F6A92 /* ReleaseNotes.html */; };
@@ -56,7 +45,20 @@
 		01C55D900B7BCE53009F6A92 /* MSynthesisParameterEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C55D810B7BCE53009F6A92 /* MSynthesisParameterEditor.m */; };
 		01C55D910B7BCE53009F6A92 /* MTransitionEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C55D830B7BCE53009F6A92 /* MTransitionEditor.m */; };
 		01C55D920B7BCE53009F6A92 /* MWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C55D850B7BCE53009F6A92 /* MWindowController.m */; };
-		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
+		696A23CC0EC224E40055375B /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 696A23CA0EC224E40055375B /* MainMenu.xib */; };
+		696A23D00EC2253C0055375B /* DataEntry.xib in Resources */ = {isa = PBXBuildFile; fileRef = 696A23CE0EC2253C0055375B /* DataEntry.xib */; };
+		696A23D50EC226DC0055375B /* PostureCategory.xib in Resources */ = {isa = PBXBuildFile; fileRef = 696A23D30EC226DC0055375B /* PostureCategory.xib */; };
+		696A23D90EC227010055375B /* Postures.xib in Resources */ = {isa = PBXBuildFile; fileRef = 696A23D70EC227010055375B /* Postures.xib */; };
+		696A23DD0EC227180055375B /* PrototypeManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 696A23DB0EC227180055375B /* PrototypeManager.xib */; };
+		696A23E10EC2272A0055375B /* ReleaseNotes.xib in Resources */ = {isa = PBXBuildFile; fileRef = 696A23DF0EC2272A0055375B /* ReleaseNotes.xib */; };
+		696A23E50EC227370055375B /* RuleManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 696A23E30EC227370055375B /* RuleManager.xib */; };
+		696A23E90EC2274D0055375B /* RuleTester.xib in Resources */ = {isa = PBXBuildFile; fileRef = 696A23E70EC2274D0055375B /* RuleTester.xib */; };
+		696A23ED0EC2275B0055375B /* SpecialTransitionEditor.xib in Resources */ = {isa = PBXBuildFile; fileRef = 696A23EB0EC2275B0055375B /* SpecialTransitionEditor.xib */; };
+		696A23F10EC227680055375B /* Synthesis.xib in Resources */ = {isa = PBXBuildFile; fileRef = 696A23EF0EC227680055375B /* Synthesis.xib */; };
+		696A23F50EC227750055375B /* SynthesisParameters.xib in Resources */ = {isa = PBXBuildFile; fileRef = 696A23F30EC227750055375B /* SynthesisParameters.xib */; };
+		696A23F90EC227800055375B /* TransitionEditor.xib in Resources */ = {isa = PBXBuildFile; fileRef = 696A23F70EC227800055375B /* TransitionEditor.xib */; };
+		69E8A4150EC236890090AD25 /* Diphones.mxml in Resources */ = {isa = PBXBuildFile; fileRef = 69E8A4140EC236890090AD25 /* Diphones.mxml */; };
+		69E8A53F0EC276E20090AD25 /* Diphones.monet in Resources */ = {isa = PBXBuildFile; fileRef = 69E8A53E0EC276E20090AD25 /* Diphones.monet */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -94,17 +96,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		013090AC0B7BC063005BE974 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/DataEntry.nib; sourceTree = "<group>"; };
-		013090B10B7BC076005BE974 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PostureCategory.nib; sourceTree = "<group>"; };
-		013090B30B7BC076005BE974 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Postures.nib; sourceTree = "<group>"; };
-		013090B50B7BC076005BE974 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PrototypeManager.nib; sourceTree = "<group>"; };
-		013090BB0B7BC08A005BE974 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/ReleaseNotes.nib; sourceTree = "<group>"; };
-		013090BD0B7BC08A005BE974 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/RuleManager.nib; sourceTree = "<group>"; };
-		013090BF0B7BC08A005BE974 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/RuleTester.nib; sourceTree = "<group>"; };
-		013090C10B7BC08A005BE974 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SpecialTransitionEditor.nib; sourceTree = "<group>"; };
-		013090C30B7BC08A005BE974 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Synthesis.nib; sourceTree = "<group>"; };
-		013090C50B7BC08A005BE974 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SynthesisParameters.nib; sourceTree = "<group>"; };
-		013090C70B7BC08A005BE974 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/TransitionEditor.nib; sourceTree = "<group>"; };
 		01AC65DB0B7BF85C008E4B93 /* GnuSpeech.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GnuSpeech.xcodeproj; path = ../../Frameworks/GnuSpeech/GnuSpeech.xcodeproj; sourceTree = SOURCE_ROOT; };
 		01AC65E20B7BF871008E4B93 /* Tube.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Tube.xcodeproj; path = ../../Frameworks/Tube/Tube.xcodeproj; sourceTree = SOURCE_ROOT; };
 		01C55C4A0B7BC7C6009F6A92 /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.html; name = English; path = English.lproj/ReleaseNotes.html; sourceTree = "<group>"; };
@@ -175,10 +166,23 @@
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* Monet_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Monet_Prefix.pch; sourceTree = "<group>"; };
+		696A23CB0EC224E40055375B /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		696A23CF0EC2253C0055375B /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/DataEntry.xib; sourceTree = "<group>"; };
+		696A23D40EC226DC0055375B /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PostureCategory.xib; sourceTree = "<group>"; };
+		696A23D80EC227010055375B /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/Postures.xib; sourceTree = "<group>"; };
+		696A23DC0EC227180055375B /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PrototypeManager.xib; sourceTree = "<group>"; };
+		696A23E00EC2272A0055375B /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ReleaseNotes.xib; sourceTree = "<group>"; };
+		696A23E40EC227370055375B /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/RuleManager.xib; sourceTree = "<group>"; };
+		696A23E80EC2274D0055375B /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/RuleTester.xib; sourceTree = "<group>"; };
+		696A23EC0EC2275B0055375B /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SpecialTransitionEditor.xib; sourceTree = "<group>"; };
+		696A23F00EC227680055375B /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/Synthesis.xib; sourceTree = "<group>"; };
+		696A23F40EC227750055375B /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SynthesisParameters.xib; sourceTree = "<group>"; };
+		696A23F80EC227800055375B /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/TransitionEditor.xib; sourceTree = "<group>"; };
+		69E8A4140EC236890090AD25 /* Diphones.mxml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Diphones.mxml; sourceTree = "<group>"; };
+		69E8A53E0EC276E20090AD25 /* Diphones.monet */ = {isa = PBXFileReference; lastKnownFileType = file; path = Diphones.monet; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Monet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Monet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -403,23 +407,25 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				696A23CA0EC224E40055375B /* MainMenu.xib */,
+				696A23CE0EC2253C0055375B /* DataEntry.xib */,
+				696A23D30EC226DC0055375B /* PostureCategory.xib */,
+				696A23D70EC227010055375B /* Postures.xib */,
+				696A23DB0EC227180055375B /* PrototypeManager.xib */,
+				696A23DF0EC2272A0055375B /* ReleaseNotes.xib */,
+				696A23E30EC227370055375B /* RuleManager.xib */,
+				696A23E70EC2274D0055375B /* RuleTester.xib */,
+				696A23EB0EC2275B0055375B /* SpecialTransitionEditor.xib */,
+				696A23EF0EC227680055375B /* Synthesis.xib */,
+				696A23F30EC227750055375B /* SynthesisParameters.xib */,
+				696A23F70EC227800055375B /* TransitionEditor.xib */,
+				69E8A4140EC236890090AD25 /* Diphones.mxml */,
 				01C55C490B7BC7C6009F6A92 /* ReleaseNotes.html */,
 				01C55C4C0B7BC7D8009F6A92 /* Default.mxml */,
+				69E8A53E0EC276E20090AD25 /* Diphones.monet */,
 				01C55C5B0B7BC83B009F6A92 /* Images */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
-				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
-				013090AB0B7BC063005BE974 /* DataEntry.nib */,
-				013090B00B7BC076005BE974 /* PostureCategory.nib */,
-				013090B20B7BC076005BE974 /* Postures.nib */,
-				013090B40B7BC076005BE974 /* PrototypeManager.nib */,
-				013090BA0B7BC08A005BE974 /* ReleaseNotes.nib */,
-				013090BC0B7BC08A005BE974 /* RuleManager.nib */,
-				013090BE0B7BC08A005BE974 /* RuleTester.nib */,
-				013090C00B7BC08A005BE974 /* SpecialTransitionEditor.nib */,
-				013090C20B7BC08A005BE974 /* Synthesis.nib */,
-				013090C40B7BC08A005BE974 /* SynthesisParameters.nib */,
-				013090C60B7BC08A005BE974 /* TransitionEditor.nib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -507,19 +513,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */,
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
-				013090AD0B7BC063005BE974 /* DataEntry.nib in Resources */,
-				013090B70B7BC076005BE974 /* PostureCategory.nib in Resources */,
-				013090B80B7BC076005BE974 /* Postures.nib in Resources */,
-				013090B90B7BC076005BE974 /* PrototypeManager.nib in Resources */,
-				013090C80B7BC08A005BE974 /* ReleaseNotes.nib in Resources */,
-				013090C90B7BC08A005BE974 /* RuleManager.nib in Resources */,
-				013090CA0B7BC08A005BE974 /* RuleTester.nib in Resources */,
-				013090CB0B7BC08A005BE974 /* SpecialTransitionEditor.nib in Resources */,
-				013090CC0B7BC08A005BE974 /* Synthesis.nib in Resources */,
-				013090CD0B7BC08A005BE974 /* SynthesisParameters.nib in Resources */,
-				013090CE0B7BC08A005BE974 /* TransitionEditor.nib in Resources */,
 				01C55C4B0B7BC7C6009F6A92 /* ReleaseNotes.html in Resources */,
 				01C55C4D0B7BC7D8009F6A92 /* Default.mxml in Resources */,
 				01C55C540B7BC82D009F6A92 /* CommentIcon.tiff in Resources */,
@@ -528,6 +522,20 @@
 				01C55C570B7BC82D009F6A92 /* monet.jpg in Resources */,
 				01C55C580B7BC82D009F6A92 /* squareInspector.tiff in Resources */,
 				01C55C590B7BC82D009F6A92 /* triangleInspector.tiff in Resources */,
+				696A23CC0EC224E40055375B /* MainMenu.xib in Resources */,
+				696A23D00EC2253C0055375B /* DataEntry.xib in Resources */,
+				696A23D50EC226DC0055375B /* PostureCategory.xib in Resources */,
+				696A23D90EC227010055375B /* Postures.xib in Resources */,
+				696A23DD0EC227180055375B /* PrototypeManager.xib in Resources */,
+				696A23E10EC2272A0055375B /* ReleaseNotes.xib in Resources */,
+				696A23E50EC227370055375B /* RuleManager.xib in Resources */,
+				696A23E90EC2274D0055375B /* RuleTester.xib in Resources */,
+				696A23ED0EC2275B0055375B /* SpecialTransitionEditor.xib in Resources */,
+				696A23F10EC227680055375B /* Synthesis.xib in Resources */,
+				696A23F50EC227750055375B /* SynthesisParameters.xib in Resources */,
+				696A23F90EC227800055375B /* TransitionEditor.xib in Resources */,
+				69E8A4150EC236890090AD25 /* Diphones.mxml in Resources */,
+				69E8A53F0EC276E20090AD25 /* Diphones.monet in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -586,94 +594,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		013090AB0B7BC063005BE974 /* DataEntry.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				013090AC0B7BC063005BE974 /* English */,
-			);
-			name = DataEntry.nib;
-			sourceTree = "<group>";
-		};
-		013090B00B7BC076005BE974 /* PostureCategory.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				013090B10B7BC076005BE974 /* English */,
-			);
-			name = PostureCategory.nib;
-			sourceTree = "<group>";
-		};
-		013090B20B7BC076005BE974 /* Postures.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				013090B30B7BC076005BE974 /* English */,
-			);
-			name = Postures.nib;
-			sourceTree = "<group>";
-		};
-		013090B40B7BC076005BE974 /* PrototypeManager.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				013090B50B7BC076005BE974 /* English */,
-			);
-			name = PrototypeManager.nib;
-			sourceTree = "<group>";
-		};
-		013090BA0B7BC08A005BE974 /* ReleaseNotes.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				013090BB0B7BC08A005BE974 /* English */,
-			);
-			name = ReleaseNotes.nib;
-			sourceTree = "<group>";
-		};
-		013090BC0B7BC08A005BE974 /* RuleManager.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				013090BD0B7BC08A005BE974 /* English */,
-			);
-			name = RuleManager.nib;
-			sourceTree = "<group>";
-		};
-		013090BE0B7BC08A005BE974 /* RuleTester.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				013090BF0B7BC08A005BE974 /* English */,
-			);
-			name = RuleTester.nib;
-			sourceTree = "<group>";
-		};
-		013090C00B7BC08A005BE974 /* SpecialTransitionEditor.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				013090C10B7BC08A005BE974 /* English */,
-			);
-			name = SpecialTransitionEditor.nib;
-			sourceTree = "<group>";
-		};
-		013090C20B7BC08A005BE974 /* Synthesis.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				013090C30B7BC08A005BE974 /* English */,
-			);
-			name = Synthesis.nib;
-			sourceTree = "<group>";
-		};
-		013090C40B7BC08A005BE974 /* SynthesisParameters.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				013090C50B7BC08A005BE974 /* English */,
-			);
-			name = SynthesisParameters.nib;
-			sourceTree = "<group>";
-		};
-		013090C60B7BC08A005BE974 /* TransitionEditor.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				013090C70B7BC08A005BE974 /* English */,
-			);
-			name = TransitionEditor.nib;
-			sourceTree = "<group>";
-		};
 		01C55C490B7BC7C6009F6A92 /* ReleaseNotes.html */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -690,12 +610,100 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		29B97318FDCFA39411CA2CEA /* MainMenu.nib */ = {
+		696A23CA0EC224E40055375B /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				29B97319FDCFA39411CA2CEA /* English */,
+				696A23CB0EC224E40055375B /* English */,
 			);
-			name = MainMenu.nib;
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		696A23CE0EC2253C0055375B /* DataEntry.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				696A23CF0EC2253C0055375B /* English */,
+			);
+			name = DataEntry.xib;
+			sourceTree = "<group>";
+		};
+		696A23D30EC226DC0055375B /* PostureCategory.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				696A23D40EC226DC0055375B /* English */,
+			);
+			name = PostureCategory.xib;
+			sourceTree = "<group>";
+		};
+		696A23D70EC227010055375B /* Postures.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				696A23D80EC227010055375B /* English */,
+			);
+			name = Postures.xib;
+			sourceTree = "<group>";
+		};
+		696A23DB0EC227180055375B /* PrototypeManager.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				696A23DC0EC227180055375B /* English */,
+			);
+			name = PrototypeManager.xib;
+			sourceTree = "<group>";
+		};
+		696A23DF0EC2272A0055375B /* ReleaseNotes.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				696A23E00EC2272A0055375B /* English */,
+			);
+			name = ReleaseNotes.xib;
+			sourceTree = "<group>";
+		};
+		696A23E30EC227370055375B /* RuleManager.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				696A23E40EC227370055375B /* English */,
+			);
+			name = RuleManager.xib;
+			sourceTree = "<group>";
+		};
+		696A23E70EC2274D0055375B /* RuleTester.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				696A23E80EC2274D0055375B /* English */,
+			);
+			name = RuleTester.xib;
+			sourceTree = "<group>";
+		};
+		696A23EB0EC2275B0055375B /* SpecialTransitionEditor.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				696A23EC0EC2275B0055375B /* English */,
+			);
+			name = SpecialTransitionEditor.xib;
+			sourceTree = "<group>";
+		};
+		696A23EF0EC227680055375B /* Synthesis.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				696A23F00EC227680055375B /* English */,
+			);
+			name = Synthesis.xib;
+			sourceTree = "<group>";
+		};
+		696A23F30EC227750055375B /* SynthesisParameters.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				696A23F40EC227750055375B /* English */,
+			);
+			name = SynthesisParameters.xib;
+			sourceTree = "<group>";
+		};
+		696A23F70EC227800055375B /* TransitionEditor.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				696A23F80EC227800055375B /* English */,
+			);
+			name = TransitionEditor.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -737,10 +745,11 @@
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../Frameworks\"/**";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = 4.2;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
@@ -751,9 +760,10 @@
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../Frameworks\"/**";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = 4.2;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;

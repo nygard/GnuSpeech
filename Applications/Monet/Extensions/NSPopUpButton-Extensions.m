@@ -7,9 +7,10 @@
 
 @implementation NSPopUpButton (Extensions)
 
-- (void)selectItemWithTag:(int)tag;
+- (BOOL)selectItemWithTag:(NSInteger)tag;
 {
     [self selectItemAtIndex:[self indexOfItemWithTag:tag]];
+	return YES;
 }
 
 @end
