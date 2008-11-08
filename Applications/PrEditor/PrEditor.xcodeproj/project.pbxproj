@@ -54,8 +54,6 @@
 		41E31DDA0A2F3E4A001E06A9 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		6934312E0EA3F6AF00BE6A55 /* PrEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PrEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		693432C20EA458E000BE6A55 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
-		699EF76E0EC59DD900C121EF /* PrEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrEntry.m; sourceTree = "<group>"; };
-		699EF7850EC59E6500C121EF /* PrEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrEntry.h; sourceTree = "<group>"; };
 		699EF7860EC59E8F00C121EF /* PrEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrEntry.h; sourceTree = "<group>"; };
 		699EF7870EC59E8F00C121EF /* PrEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrEntry.m; sourceTree = "<group>"; };
 		69EC96730EC5274F005110E3 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
@@ -130,8 +128,6 @@
 		2A37F4AFFDCFA73011CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				699EF7850EC59E6500C121EF /* PrEntry.h */,
-				699EF76E0EC59DD900C121EF /* PrEntry.m */,
 				32DBCF750370BD2300C91783 /* PrEditor_Prefix.pch */,
 				2A37F4B0FDCFA73011CA2CEA /* main.m */,
 			);
