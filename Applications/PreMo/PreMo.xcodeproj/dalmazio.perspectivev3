@@ -278,12 +278,12 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>12</integer>
-									<integer>11</integer>
+									<integer>30</integer>
+									<integer>17</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 83}, {185, 593}}</string>
+							<string>{{0, 257}, {185, 593}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -300,7 +300,7 @@
 							<real>185</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>344 127 989 652 0 0 1440 878 </string>
+						<string>360 226 989 652 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -328,7 +328,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>690C175D0EDB6D0F0029F332</string>
+										<string>690C17780EDB75C60029F332</string>
 										<key>history</key>
 										<array>
 											<string>694FDBAE0ED0B62400143E20</string>
@@ -356,7 +356,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {782, 514}}</string>
 								<key>RubberWindowFrame</key>
-								<string>344 127 989 652 0 0 1440 878 </string>
+								<string>360 226 989 652 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -381,7 +381,7 @@
 										<key>Frame</key>
 										<string>{{10, 27}, {782, 65}}</string>
 										<key>RubberWindowFrame</key>
-										<string>344 127 989 652 0 0 1440 878 </string>
+										<string>360 226 989 652 0 0 1440 878 </string>
 									</dict>
 									<key>Module</key>
 									<string>XCDetailModule</string>
@@ -677,7 +677,7 @@
 		<string>/Users/dalmazio/Developer/xcode/GnuSpeech/Applications/PreMo/PreMo.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>344 127 989 652 0 0 1440 878 </string>
+	<string>360 226 989 652 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
