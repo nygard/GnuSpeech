@@ -24,8 +24,8 @@ static BOOL isBigEndian()
 {
 	unsigned long value = 0x12345678;
 	if (*(unsigned char *)(&value) == 0x12)
-		return true;
-	return false;
+		return YES;
+	return NO;
 }
 
 
@@ -34,8 +34,8 @@ static BOOL isLittleEndian()
 {
 	unsigned long value = 0x12345678;
 	if (*(unsigned char *)(&value) == 0x78)
-		return true;
-	return false;
+		return YES;
+	return NO;
 }
 
 
