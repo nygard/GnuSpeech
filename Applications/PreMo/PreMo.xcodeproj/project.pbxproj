@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		012D537B0B7FF529001B50FC /* ApplicationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 012D536F0B7FF529001B50FC /* ApplicationDelegate.m */; };
-		69812EA00EA2809600A29449 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69812E9E0EA2809600A29449 /* MainMenu.xib */; };
+		690C16D80EDB5FC00029F332 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 690C16D60EDB5FC00029F332 /* MainMenu.nib */; };
 		698133B80EA3B5BA00A29449 /* GnuSpeech.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 012D53C30B7FFC3C001B50FC /* GnuSpeech.framework */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
@@ -42,7 +42,7 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		69812E9F0EA2809600A29449 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		690C16D70EDB5FC00029F332 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		69812FB00EA2A69D00A29449 /* PreMo_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreMo_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* PreMo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PreMo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -128,9 +128,9 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				690C16D60EDB5FC00029F332 /* MainMenu.nib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
-				69812E9E0EA2809600A29449 /* MainMenu.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -206,7 +206,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
-				69812EA00EA2809600A29449 /* MainMenu.xib in Resources */,
+				690C16D80EDB5FC00029F332 /* MainMenu.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -241,12 +241,12 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		69812E9E0EA2809600A29449 /* MainMenu.xib */ = {
+		690C16D60EDB5FC00029F332 /* MainMenu.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				69812E9F0EA2809600A29449 /* English */,
+				690C16D70EDB5FC00029F332 /* English */,
 			);
-			name = MainMenu.xib;
+			name = MainMenu.nib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
