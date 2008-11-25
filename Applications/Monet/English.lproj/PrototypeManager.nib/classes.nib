@@ -1,63 +1,221 @@
-{
-    IBClasses = (
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {CLASS = MOutlineView; LANGUAGE = ObjC; SUPERCLASS = NSOutlineView; }, 
-        {
-            ACTIONS = {
-                addEquation = id; 
-                addEquationGroup = id; 
-                addSpecialTransition = id; 
-                addSpecialTransitionGroup = id; 
-                addTransition = id; 
-                addTransitionGroup = id; 
-                doubleHit = id; 
-                editSpecialTransition = id; 
-                editTransition = id; 
-                removeEquation = id; 
-                removeSpecialTransition = id; 
-                removeTransition = id; 
-                revertEquation = id; 
-                setEquation = id; 
-            }; 
-            CLASS = MPrototypeManager; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                addEquationButtonCell = NSButtonCell; 
-                addSpecialTransitionButtonCell = NSButtonCell; 
-                addTransitionButtonCell = NSButtonCell; 
-                equationCommentTextView = NSTextView; 
-                equationOutlineView = NSOutlineView; 
-                equationParserMessagesTextView = NSTextView; 
-                equationTextView = NSTextView; 
-                miniSpecialTransitionView = SpecialView; 
-                miniTransitionView = TransitionView; 
-                removeEquationButtonCell = NSButtonCell; 
-                removeSpecialTransitionButtonCell = NSButtonCell; 
-                removeTransitionButtonCell = NSButtonCell; 
-                specialTransitionCommentTextView = NSTextView; 
-                specialTransitionOutlineView = NSOutlineView; 
-                transitionCommentTextView = NSTextView; 
-                transitionOutlineView = NSOutlineView; 
-            }; 
-            SUPERCLASS = MWindowController; 
-        }, 
-        {CLASS = MWindowController; LANGUAGE = ObjC; SUPERCLASS = NSWindowController; }, 
-        {CLASS = SpecialView; LANGUAGE = ObjC; SUPERCLASS = TransitionView; }, 
-        {
-            ACTIONS = {
-                delete = id; 
-                groupInSlopeRatio = id; 
-                takeBeatLocationFrom = id; 
-                takeMark1From = id; 
-                takeMark2From = id; 
-                takeMark3From = id; 
-                takeRuleDurationFrom = id; 
-            }; 
-            CLASS = TransitionView; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {controller = AppController; }; 
-            SUPERCLASS = NSView; 
-        }
-    ); 
-    IBVersion = 1; 
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>CLASS</key>
+			<string>NSOutlineView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSTableView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>SpecialView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>TransitionView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>MOutlineView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSOutlineView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>delete</key>
+				<string>id</string>
+				<key>deleteBackward</key>
+				<string>id</string>
+				<key>groupInSlopeRatio</key>
+				<string>id</string>
+				<key>takeBeatLocationFrom</key>
+				<string>id</string>
+				<key>takeMark1From</key>
+				<string>id</string>
+				<key>takeMark2From</key>
+				<string>id</string>
+				<key>takeMark3From</key>
+				<string>id</string>
+				<key>takeRuleDurationFrom</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>TransitionView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>controller</key>
+				<string>AppController</string>
+				<key>nonretained_delegate</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSControl</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>addEquation</key>
+				<string>id</string>
+				<key>addEquationGroup</key>
+				<string>id</string>
+				<key>addSpecialTransition</key>
+				<string>id</string>
+				<key>addSpecialTransitionGroup</key>
+				<string>id</string>
+				<key>addTransition</key>
+				<string>id</string>
+				<key>addTransitionGroup</key>
+				<string>id</string>
+				<key>doubleHit</key>
+				<string>id</string>
+				<key>editSpecialTransition</key>
+				<string>id</string>
+				<key>editTransition</key>
+				<string>id</string>
+				<key>removeEquation</key>
+				<string>id</string>
+				<key>removeSpecialTransition</key>
+				<string>id</string>
+				<key>removeTransition</key>
+				<string>id</string>
+				<key>revertEquation</key>
+				<string>id</string>
+				<key>setEquation</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>MPrototypeManager</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>addEquationButtonCell</key>
+				<string>NSButtonCell</string>
+				<key>addSpecialTransitionButtonCell</key>
+				<string>NSButtonCell</string>
+				<key>addTransitionButtonCell</key>
+				<string>NSButtonCell</string>
+				<key>equationCommentTextView</key>
+				<string>NSTextView</string>
+				<key>equationOutlineView</key>
+				<string>NSOutlineView</string>
+				<key>equationParserMessagesTextView</key>
+				<string>NSTextView</string>
+				<key>equationTextView</key>
+				<string>NSTextView</string>
+				<key>miniSpecialTransitionView</key>
+				<string>SpecialView</string>
+				<key>miniTransitionView</key>
+				<string>TransitionView</string>
+				<key>removeEquationButtonCell</key>
+				<string>NSButtonCell</string>
+				<key>removeSpecialTransitionButtonCell</key>
+				<string>NSButtonCell</string>
+				<key>removeTransitionButtonCell</key>
+				<string>NSButtonCell</string>
+				<key>specialTransitionCommentTextView</key>
+				<string>NSTextView</string>
+				<key>specialTransitionOutlineView</key>
+				<string>NSOutlineView</string>
+				<key>transitionCommentTextView</key>
+				<string>NSTextView</string>
+				<key>transitionOutlineView</key>
+				<string>NSOutlineView</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>MWindowController</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>MWindowController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSWindowController</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>displayInfoPanel</key>
+				<string>id</string>
+				<key>generateXML</key>
+				<string>id</string>
+				<key>importTRMData</key>
+				<string>id</string>
+				<key>loadPrototypes</key>
+				<string>id</string>
+				<key>openFile</key>
+				<string>id</string>
+				<key>printData</key>
+				<string>id</string>
+				<key>revertDocumentToSaved</key>
+				<string>id</string>
+				<key>saveDocument</key>
+				<string>id</string>
+				<key>saveDocumentAs</key>
+				<string>id</string>
+				<key>savePrototypes</key>
+				<string>id</string>
+				<key>showDataEntryWindow</key>
+				<string>id</string>
+				<key>showIntonationParameterWindow</key>
+				<string>id</string>
+				<key>showIntonationWindow</key>
+				<string>id</string>
+				<key>showPostureCategoryWindow</key>
+				<string>id</string>
+				<key>showPostureEditor</key>
+				<string>id</string>
+				<key>showPrototypeManager</key>
+				<string>id</string>
+				<key>showReleaseNotes</key>
+				<string>id</string>
+				<key>showRuleManager</key>
+				<string>id</string>
+				<key>showRuleTester</key>
+				<string>id</string>
+				<key>showSpecialTransitionEditor</key>
+				<string>id</string>
+				<key>showSynthesisController</key>
+				<string>id</string>
+				<key>showSynthesisParameterEditor</key>
+				<string>id</string>
+				<key>showTransitionEditor</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>AppController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>infoPanel</key>
+				<string>NSPanel</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>

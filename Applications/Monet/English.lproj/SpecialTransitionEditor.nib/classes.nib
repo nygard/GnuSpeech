@@ -1,47 +1,133 @@
-{
-    IBClasses = (
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {
-            CLASS = MSpecialTransitionEditor; 
-            LANGUAGE = ObjC; 
-            SUPERCLASS = MTransitionEditor; 
-        }, 
-        {
-            ACTIONS = {setPhantom = id; setPointValue = id; setTransitionType = id; setType = id; }; 
-            CLASS = MTransitionEditor; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                controlParametersForm = NSForm; 
-                equationOutlineView = NSOutlineView; 
-                equationTextView = NSTextView; 
-                isPhantomSwitch = NSButton; 
-                transitionNameTextField = NSTextField; 
-                transitionTypePopUpButton = NSPopUpButton; 
-                transitionView = TransitionView; 
-                type1Button = NSButton; 
-                type2Button = NSButton; 
-                type3Button = NSButton; 
-                valueTextField = NSTextField; 
-            }; 
-            SUPERCLASS = MWindowController; 
-        }, 
-        {CLASS = MWindowController; LANGUAGE = ObjC; SUPERCLASS = NSWindowController; }, 
-        {CLASS = SpecialView; LANGUAGE = ObjC; SUPERCLASS = TransitionView; }, 
-        {
-            ACTIONS = {
-                deleteBackward = id; 
-                groupInSlopeRatio = id; 
-                takeBeatLocationFrom = id; 
-                takeMark1From = id; 
-                takeMark2From = id; 
-                takeMark3From = id; 
-                takeRuleDurationFrom = id; 
-            }; 
-            CLASS = TransitionView; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {"nonretained_delegate" = id; }; 
-            SUPERCLASS = NSControl; 
-        }
-    ); 
-    IBVersion = 1; 
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>CLASS</key>
+			<string>NSOutlineView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSTableView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>MSpecialTransitionEditor</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>MTransitionEditor</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>SpecialView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>TransitionView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSPopUpButton</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSButton</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>deleteBackward</key>
+				<string>id</string>
+				<key>groupInSlopeRatio</key>
+				<string>id</string>
+				<key>takeBeatLocationFrom</key>
+				<string>id</string>
+				<key>takeMark1From</key>
+				<string>id</string>
+				<key>takeMark2From</key>
+				<string>id</string>
+				<key>takeMark3From</key>
+				<string>id</string>
+				<key>takeRuleDurationFrom</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>TransitionView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>nonretained_delegate</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSControl</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>setPhantom</key>
+				<string>id</string>
+				<key>setPointValue</key>
+				<string>id</string>
+				<key>setTransitionType</key>
+				<string>id</string>
+				<key>setType</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>MTransitionEditor</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>controlParametersForm</key>
+				<string>NSForm</string>
+				<key>equationOutlineView</key>
+				<string>NSOutlineView</string>
+				<key>equationTextView</key>
+				<string>NSTextView</string>
+				<key>isPhantomSwitch</key>
+				<string>NSButton</string>
+				<key>transitionNameTextField</key>
+				<string>NSTextField</string>
+				<key>transitionTypePopUpButton</key>
+				<string>NSPopUpButton</string>
+				<key>transitionView</key>
+				<string>TransitionView</string>
+				<key>type1Button</key>
+				<string>NSButton</string>
+				<key>type2Button</key>
+				<string>NSButton</string>
+				<key>type3Button</key>
+				<string>NSButton</string>
+				<key>valueTextField</key>
+				<string>NSTextField</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>MWindowController</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>MWindowController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSWindowController</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>

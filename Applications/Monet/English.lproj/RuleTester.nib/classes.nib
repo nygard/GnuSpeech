@@ -1,22 +1,59 @@
-{
-    IBClasses = (
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {
-            ACTIONS = {parseRule = id; shiftPosturesLeft = id; }; 
-            CLASS = MRuleTester; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                consumedTokensTextField = NSTextField; 
-                durationOutputForm = NSForm; 
-                posture1Form = NSForm; 
-                posture2Form = NSForm; 
-                posture3Form = NSForm; 
-                posture4Form = NSForm; 
-                ruleOutputTextField = NSTextField; 
-            }; 
-            SUPERCLASS = MWindowController; 
-        }, 
-        {CLASS = MWindowController; LANGUAGE = ObjC; SUPERCLASS = NSWindowController; }
-    ); 
-    IBVersion = 1; 
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>parseRule</key>
+				<string>id</string>
+				<key>shiftPosturesLeft</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>MRuleTester</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>consumedTokensTextField</key>
+				<string>NSTextField</string>
+				<key>durationOutputForm</key>
+				<string>NSForm</string>
+				<key>posture1Form</key>
+				<string>NSForm</string>
+				<key>posture2Form</key>
+				<string>NSForm</string>
+				<key>posture3Form</key>
+				<string>NSForm</string>
+				<key>posture4Form</key>
+				<string>NSForm</string>
+				<key>ruleOutputTextField</key>
+				<string>NSTextField</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>MWindowController</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>MWindowController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSWindowController</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>

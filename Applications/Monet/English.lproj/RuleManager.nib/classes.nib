@@ -1,34 +1,107 @@
-{
-    IBClasses = (
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {CLASS = MExtendedTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
-        {CLASS = MOutlineView; LANGUAGE = ObjC; SUPERCLASS = NSOutlineView; }, 
-        {
-            ACTIONS = {addRule = id; removeRule = id; setExpression = id; updateRule = id; }; 
-            CLASS = MRuleManager; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                errorTextField = NSTextField; 
-                expressionForm = NSForm; 
-                match1Browser = NSBrowser; 
-                match2Browser = NSBrowser; 
-                match3Browser = NSBrowser; 
-                match4Browser = NSBrowser; 
-                metaParameterTableView = NSTableView; 
-                metaParameterTransitionOutlineView = NSOutlineView; 
-                parameterTableView = NSTableView; 
-                parameterTransitionOutlineView = NSOutlineView; 
-                possibleCombinationsTextField = NSTextField; 
-                ruleCommentTextView = NSTextView; 
-                ruleTableView = NSTableView; 
-                specialParameterTableView = NSTableView; 
-                specialParameterTransitionOutlineView = NSOutlineView; 
-                symbolEquationOutlineView = NSOutlineView; 
-                symbolTableView = NSTableView; 
-            }; 
-            SUPERCLASS = MWindowController; 
-        }, 
-        {CLASS = MWindowController; LANGUAGE = ObjC; SUPERCLASS = NSWindowController; }
-    ); 
-    IBVersion = 1; 
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>CLASS</key>
+			<string>NSOutlineView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSTableView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>MExtendedTableView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSTableView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>MOutlineView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSOutlineView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>addRule</key>
+				<string>id</string>
+				<key>removeRule</key>
+				<string>id</string>
+				<key>setExpression</key>
+				<string>id</string>
+				<key>updateRule</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>MRuleManager</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>errorTextField</key>
+				<string>NSTextField</string>
+				<key>expressionForm</key>
+				<string>NSForm</string>
+				<key>match1Browser</key>
+				<string>NSBrowser</string>
+				<key>match2Browser</key>
+				<string>NSBrowser</string>
+				<key>match3Browser</key>
+				<string>NSBrowser</string>
+				<key>match4Browser</key>
+				<string>NSBrowser</string>
+				<key>metaParameterTableView</key>
+				<string>NSTableView</string>
+				<key>metaParameterTransitionOutlineView</key>
+				<string>NSOutlineView</string>
+				<key>parameterTableView</key>
+				<string>NSTableView</string>
+				<key>parameterTransitionOutlineView</key>
+				<string>NSOutlineView</string>
+				<key>possibleCombinationsTextField</key>
+				<string>NSTextField</string>
+				<key>ruleCommentTextView</key>
+				<string>NSTextView</string>
+				<key>ruleTableView</key>
+				<string>NSTableView</string>
+				<key>specialParameterTableView</key>
+				<string>NSTableView</string>
+				<key>specialParameterTransitionOutlineView</key>
+				<string>NSOutlineView</string>
+				<key>symbolEquationOutlineView</key>
+				<string>NSOutlineView</string>
+				<key>symbolTableView</key>
+				<string>NSTableView</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>MWindowController</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>MWindowController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSWindowController</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>

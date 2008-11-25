@@ -1,89 +1,187 @@
-{
-    IBClasses = (
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {
-            ACTIONS = {
-                revertToDefaults = id; 
-                saveAsDefaults = id; 
-                updateAperatureScaling = id; 
-                updateBalance = id; 
-                updateBreathiness = id; 
-                updateGlottalPulseShape = id; 
-                updateLossFactor = id; 
-                updateMasterVolume = id; 
-                updateMixOffset = id; 
-                updateMouthCoef = id; 
-                updateN1 = id; 
-                updateN2 = id; 
-                updateN3 = id; 
-                updateN4 = id; 
-                updateN5 = id; 
-                updateNoiseModulation = id; 
-                updateNoseCoef = id; 
-                updateOutputChannels = id; 
-                updatePitchMean = id; 
-                updateSamplingRate = id; 
-                updateTemperature = id; 
-                updateThroatCutoff = id; 
-                updateThroatVolume = id; 
-                updateTnMax = id; 
-                updateTnMin = id; 
-                updateTp = id; 
-                updateTubeLength = id; 
-            }; 
-            CLASS = MSynthesisParameterEditor; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                apScale = NSTextField; 
-                apScaleSlider = NSSlider; 
-                balance = NSTextField; 
-                balanceSlider = NSSlider; 
-                breathiness = NSTextField; 
-                breathinessSlider = NSSlider; 
-                length = NSTextField; 
-                lengthSlider = NSSlider; 
-                lossFactor = NSTextField; 
-                lossFactorSlider = NSSlider; 
-                masterVolume = NSTextField; 
-                masterVolumeSlider = NSSlider; 
-                mixOffset = NSTextField; 
-                mixOffsetSlider = NSSlider; 
-                modulation = NSMatrix; 
-                mouthCoef = NSTextField; 
-                mouthCoefSlider = NSSlider; 
-                n1 = NSTextField; 
-                n1Slider = NSSlider; 
-                n2 = NSTextField; 
-                n2Slider = NSSlider; 
-                n3 = NSTextField; 
-                n3Slider = NSSlider; 
-                n4 = NSTextField; 
-                n4Slider = NSSlider; 
-                n5 = NSTextField; 
-                n5Slider = NSSlider; 
-                noseCoef = NSTextField; 
-                noseCoefSlider = NSSlider; 
-                pitchMean = NSTextField; 
-                pitchMeanSlider = NSSlider; 
-                samplingRate = NSMatrix; 
-                stereoMono = NSMatrix; 
-                temperature = NSTextField; 
-                temperatureSlider = NSSlider; 
-                throatCutoff = NSTextField; 
-                throatCutoffSlider = NSSlider; 
-                throatVolume = NSTextField; 
-                throatVolumeSlider = NSSlider; 
-                tnMax = NSTextField; 
-                tnMaxSlider = NSSlider; 
-                tnMin = NSTextField; 
-                tnMinSlider = NSSlider; 
-                tp = NSTextField; 
-                tpSlider = NSSlider; 
-                waveform = NSMatrix; 
-            }; 
-            SUPERCLASS = MWindowController; 
-        }, 
-        {CLASS = MWindowController; LANGUAGE = ObjC; SUPERCLASS = NSWindowController; }
-    ); 
-    IBVersion = 1; 
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>revertToDefaults</key>
+				<string>id</string>
+				<key>saveAsDefaults</key>
+				<string>id</string>
+				<key>updateAperatureScaling</key>
+				<string>id</string>
+				<key>updateBalance</key>
+				<string>id</string>
+				<key>updateBreathiness</key>
+				<string>id</string>
+				<key>updateGlottalPulseShape</key>
+				<string>id</string>
+				<key>updateLossFactor</key>
+				<string>id</string>
+				<key>updateMasterVolume</key>
+				<string>id</string>
+				<key>updateMixOffset</key>
+				<string>id</string>
+				<key>updateMouthCoef</key>
+				<string>id</string>
+				<key>updateN1</key>
+				<string>id</string>
+				<key>updateN2</key>
+				<string>id</string>
+				<key>updateN3</key>
+				<string>id</string>
+				<key>updateN4</key>
+				<string>id</string>
+				<key>updateN5</key>
+				<string>id</string>
+				<key>updateNoiseModulation</key>
+				<string>id</string>
+				<key>updateNoseCoef</key>
+				<string>id</string>
+				<key>updateOutputChannels</key>
+				<string>id</string>
+				<key>updatePitchMean</key>
+				<string>id</string>
+				<key>updateSamplingRate</key>
+				<string>id</string>
+				<key>updateTemperature</key>
+				<string>id</string>
+				<key>updateThroatCutoff</key>
+				<string>id</string>
+				<key>updateThroatVolume</key>
+				<string>id</string>
+				<key>updateTnMax</key>
+				<string>id</string>
+				<key>updateTnMin</key>
+				<string>id</string>
+				<key>updateTp</key>
+				<string>id</string>
+				<key>updateTubeLength</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>MSynthesisParameterEditor</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>apScale</key>
+				<string>NSTextField</string>
+				<key>apScaleSlider</key>
+				<string>NSSlider</string>
+				<key>balance</key>
+				<string>NSTextField</string>
+				<key>balanceSlider</key>
+				<string>NSSlider</string>
+				<key>breathiness</key>
+				<string>NSTextField</string>
+				<key>breathinessSlider</key>
+				<string>NSSlider</string>
+				<key>length</key>
+				<string>NSTextField</string>
+				<key>lengthSlider</key>
+				<string>NSSlider</string>
+				<key>lossFactor</key>
+				<string>NSTextField</string>
+				<key>lossFactorSlider</key>
+				<string>NSSlider</string>
+				<key>masterVolume</key>
+				<string>NSTextField</string>
+				<key>masterVolumeSlider</key>
+				<string>NSSlider</string>
+				<key>mixOffset</key>
+				<string>NSTextField</string>
+				<key>mixOffsetSlider</key>
+				<string>NSSlider</string>
+				<key>modulation</key>
+				<string>NSMatrix</string>
+				<key>mouthCoef</key>
+				<string>NSTextField</string>
+				<key>mouthCoefSlider</key>
+				<string>NSSlider</string>
+				<key>n1</key>
+				<string>NSTextField</string>
+				<key>n1Slider</key>
+				<string>NSSlider</string>
+				<key>n2</key>
+				<string>NSTextField</string>
+				<key>n2Slider</key>
+				<string>NSSlider</string>
+				<key>n3</key>
+				<string>NSTextField</string>
+				<key>n3Slider</key>
+				<string>NSSlider</string>
+				<key>n4</key>
+				<string>NSTextField</string>
+				<key>n4Slider</key>
+				<string>NSSlider</string>
+				<key>n5</key>
+				<string>NSTextField</string>
+				<key>n5Slider</key>
+				<string>NSSlider</string>
+				<key>noseCoef</key>
+				<string>NSTextField</string>
+				<key>noseCoefSlider</key>
+				<string>NSSlider</string>
+				<key>pitchMean</key>
+				<string>NSTextField</string>
+				<key>pitchMeanSlider</key>
+				<string>NSSlider</string>
+				<key>samplingRate</key>
+				<string>NSMatrix</string>
+				<key>stereoMono</key>
+				<string>NSMatrix</string>
+				<key>temperature</key>
+				<string>NSTextField</string>
+				<key>temperatureSlider</key>
+				<string>NSSlider</string>
+				<key>throatCutoff</key>
+				<string>NSTextField</string>
+				<key>throatCutoffSlider</key>
+				<string>NSSlider</string>
+				<key>throatVolume</key>
+				<string>NSTextField</string>
+				<key>throatVolumeSlider</key>
+				<string>NSSlider</string>
+				<key>tnMax</key>
+				<string>NSTextField</string>
+				<key>tnMaxSlider</key>
+				<string>NSSlider</string>
+				<key>tnMin</key>
+				<string>NSTextField</string>
+				<key>tnMinSlider</key>
+				<string>NSSlider</string>
+				<key>tp</key>
+				<string>NSTextField</string>
+				<key>tpSlider</key>
+				<string>NSSlider</string>
+				<key>waveform</key>
+				<string>NSMatrix</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>MWindowController</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>MWindowController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSWindowController</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>

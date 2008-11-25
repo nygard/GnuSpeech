@@ -1,40 +1,89 @@
-{
-    IBClasses = (
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {
-            ACTIONS = {
-                addCategory = id; 
-                addMetaParameter = id; 
-                addParameter = id; 
-                addSymbol = id; 
-                removeCategory = id; 
-                removeMetaParameter = id; 
-                removeParameter = id; 
-                removeSymbol = id; 
-            }; 
-            CLASS = MDataEntryController; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                categoryCommentTextView = NSTextView; 
-                categoryTableView = NSTableView; 
-                categoryTotalTextField = NSTextField; 
-                metaParameterCommentTextView = NSTextView; 
-                metaParameterTableView = NSTableView; 
-                metaParameterTotalTextField = NSTextField; 
-                parameterCommentTextView = NSTextView; 
-                parameterTableView = NSTableView; 
-                parameterTotalTextField = NSTextField; 
-                removeCategoryButtonCell = NSButtonCell; 
-                removeMetaParameterButtonCell = NSButtonCell; 
-                removeParameterButtonCell = NSButtonCell; 
-                removeSymbolButtonCell = NSButtonCell; 
-                symbolCommentTextView = NSTextView; 
-                symbolTableView = NSTableView; 
-                symbolTotalTextField = NSTextField; 
-            }; 
-            SUPERCLASS = MWindowController; 
-        }, 
-        {CLASS = MWindowController; LANGUAGE = ObjC; SUPERCLASS = NSWindowController; }
-    ); 
-    IBVersion = 1; 
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>addCategory</key>
+				<string>id</string>
+				<key>addMetaParameter</key>
+				<string>id</string>
+				<key>addParameter</key>
+				<string>id</string>
+				<key>addSymbol</key>
+				<string>id</string>
+				<key>removeCategory</key>
+				<string>id</string>
+				<key>removeMetaParameter</key>
+				<string>id</string>
+				<key>removeParameter</key>
+				<string>id</string>
+				<key>removeSymbol</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>MDataEntryController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>categoryCommentTextView</key>
+				<string>NSTextView</string>
+				<key>categoryTableView</key>
+				<string>NSTableView</string>
+				<key>categoryTotalTextField</key>
+				<string>NSTextField</string>
+				<key>metaParameterCommentTextView</key>
+				<string>NSTextView</string>
+				<key>metaParameterTableView</key>
+				<string>NSTableView</string>
+				<key>metaParameterTotalTextField</key>
+				<string>NSTextField</string>
+				<key>parameterCommentTextView</key>
+				<string>NSTextView</string>
+				<key>parameterTableView</key>
+				<string>NSTableView</string>
+				<key>parameterTotalTextField</key>
+				<string>NSTextField</string>
+				<key>removeCategoryButtonCell</key>
+				<string>NSButtonCell</string>
+				<key>removeMetaParameterButtonCell</key>
+				<string>NSButtonCell</string>
+				<key>removeParameterButtonCell</key>
+				<string>NSButtonCell</string>
+				<key>removeSymbolButtonCell</key>
+				<string>NSButtonCell</string>
+				<key>symbolCommentTextView</key>
+				<string>NSTextView</string>
+				<key>symbolTableView</key>
+				<string>NSTableView</string>
+				<key>symbolTotalTextField</key>
+				<string>NSTextField</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>MWindowController</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>MWindowController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSWindowController</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>
