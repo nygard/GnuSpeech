@@ -86,7 +86,7 @@
 {
     if ([super init] == nil)
         return nil;
-
+	
     /*  INITIALIZE INSTANCE VARIABLES TO REASONABLE DEFAULTS  */
     /*  GLOTTAL SOURCE PARAMETERS  */
     waveform = WAVEFORMTYPE_DEF;
@@ -100,7 +100,7 @@
     tp = RISETIME_DEF;
     tnMin = FALLTIMEMIN_DEF;
     tnMax = FALLTIMEMAX_DEF;
-
+	
     /*  NOISE SOURCE PARAMETERS  */
     fricVol = FRIC_VOLUME_DEF;
     fricPos = POSITION_DEF;
@@ -110,12 +110,12 @@
     aspVol = ASP_VOLUME_DEF;
     modulation = PULSE_MOD_DEF;
     mixOffset = CROSSMIX_DEF;
-
+	
     /*  THROAT PARAMETERS  */
     throatVol = THROAT_VOLUME_DEF;
     throatCutoff = CUTOFF_DEF;
     throatResponseScale = RESPONSE_DEF;
-
+	
     /*  RESONANT SYSTEM PARAMETERS  */
     pharynxDiameter[0] = PHARYNX_SECTION1_DEF;
     pharynxDiameter[1] = PHARYNX_SECTION2_DEF;
@@ -140,13 +140,13 @@
     controlPeriod = CONTROL_PERIOD_DEF;
     sampleRate = SAMPLE_RATE_DEF;
     actualLength = ACTUAL_LENGTH_DEF;
-
+	
     /*  CONTROLLER PARAMETERS  */
     volume = VOLUME_DEF;
     balance = BALANCE_DEF;
     channels = CHANNELS_DEF;
     controlRate = CONTROL_RATE_DEF;
-
+	
     /*  ANALYSIS PARAMETERS  */
     normalizeInput = NORMALIZE_INPUT_DEF;
     binSize = BIN_SIZE_DEF;
@@ -161,7 +161,7 @@
     logLowerThreshold = LOWER_THRESH_LOG_DEF;
     spectrographGrid = SPECTROGRAPH_GRID_DEF;
     spectrumGrid = SPECTRUM_GRID_DEF;
-
+	
     return self;
 }
 
@@ -172,51 +172,51 @@
 - (BOOL)readFromCoder:(NSCoder *)aDecoder;
 {
     int fileVersion;
-
+	
     NS_DURING {
         /*  READ FILE VERSION FROM STREAM  */
         [aDecoder decodeValuesOfObjCTypes:"i", &fileVersion];
-
+		
         /*  READ PARAMETERS FROM STREAM  */
         /*  GLOTTAL SOURCE PARAMETERS  */
         [aDecoder decodeValuesOfObjCTypes:"iiiiiififff", &waveform, &showAmplitude,
-                  &harmonicsScale, &unit, &pitch, &cents, &breathiness,
-                  &glotVol, &tp, &tnMin, &tnMax];
-
+		 &harmonicsScale, &unit, &pitch, &cents, &breathiness,
+		 &glotVol, &tp, &tnMin, &tnMax];
+		
         /*  NOISE SOURCE PARAMETERS  */
         [aDecoder decodeValuesOfObjCTypes:"ifiiiiii", &fricVol, &fricPos,
-                  &aspVol, &fricCF, &NoiseSourceResponseScale,
-                  &fricBW, &modulation, &mixOffset];
-
+		 &aspVol, &fricCF, &NoiseSourceResponseScale,
+		 &fricBW, &modulation, &mixOffset];
+		
         /*  THROAT PARAMETERS  */
         [aDecoder decodeValuesOfObjCTypes:"iii", &throatVol, &throatCutoff,
-                  &throatResponseScale];
-
+		 &throatResponseScale];
+		
         /*  RESONANT SYSTEM PARAMETERS  */
         [aDecoder decodeArrayOfObjCType:"d" count:PHARYNX_SECTIONS at:pharynxDiameter];
         [aDecoder decodeArrayOfObjCType:"d" count:VELUM_SECTIONS at:velumDiameter];
         [aDecoder decodeArrayOfObjCType:"d" count:ORAL_SECTIONS at:oralDiameter];
         [aDecoder decodeArrayOfObjCType:"d" count:NASAL_SECTIONS at:nasalDiameter];
         [aDecoder decodeValuesOfObjCTypes:"ddddiiddddi", &lossFactor, &apScale,
-                  &mouthCoef, &noseCoef, &mouthResponseScale,
-                  &noseResponseScale, &temperature, &length, &sampleRate,
-                  &actualLength, &controlPeriod];
-
+		 &mouthCoef, &noseCoef, &mouthResponseScale,
+		 &noseResponseScale, &temperature, &length, &sampleRate,
+		 &actualLength, &controlPeriod];
+		
         /*  CONTROLLER PARAMETERS  */
         [aDecoder decodeValuesOfObjCTypes:"idii", &volume, &balance,
-                  &channels, &controlRate];
-
+		 &channels, &controlRate];
+		
         /*  ANALYSIS PARAMETERS  */
         [aDecoder decodeValuesOfObjCTypes:"ciiffiiffiicc", &normalizeInput, &binSize,
-                  &windowType, &alpha, &beta, &grayLevel, &magnitudeScale,
-                  &linearUpperThreshold, &linearLowerThreshold,
-                  &logUpperThreshold, &logLowerThreshold,
-                  &spectrographGrid, &spectrumGrid];
+		 &windowType, &alpha, &beta, &grayLevel, &magnitudeScale,
+		 &linearUpperThreshold, &linearLowerThreshold,
+		 &logUpperThreshold, &logLowerThreshold,
+		 &spectrographGrid, &spectrumGrid];
     } NS_HANDLER {
         NSLog(@"Caught exception while reading TRM data: %@", localException);
         return NO;
     } NS_ENDHANDLER;
-
+	
     return YES;
 }
 
@@ -230,15 +230,15 @@
     /*  GET THE PITCH AND CENTS VALUES  */
     pitch = (int)value;
     cents = (int)rint((value - (int)value) * 100);
-
+	
     /*  ADJUST PITCH AND CENTS IF CENTS ARE OUT OF RANGE  */
     if (cents > CENTS_MAX) {
-	pitch += 1;
-	cents -= 100;
+		pitch += 1;
+		cents -= 100;
     }
     if (cents < CENTS_MIN) {
-	pitch -= 1;
-	cents += 100;
+		pitch -= 1;
+		cents += 100;
     }
 }
 
