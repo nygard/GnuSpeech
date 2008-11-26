@@ -198,6 +198,8 @@
 			69CD4B6A0EDD177400481C86 /* PBXTextBookmark */ = 69CD4B6A0EDD177400481C86 /* PBXTextBookmark */;
 			69CD4B740EDD17F900481C86 /* PBXTextBookmark */ = 69CD4B740EDD17F900481C86 /* PBXTextBookmark */;
 			69CD4B890EDD19B600481C86 /* PBXTextBookmark */ = 69CD4B890EDD19B600481C86 /* PBXTextBookmark */;
+			69CD4B960EDD1DD700481C86 /* PBXTextBookmark */ = 69CD4B960EDD1DD700481C86 /* PBXTextBookmark */;
+			69CD4B9D0EDD1DFE00481C86 /* PBXTextBookmark */ = 69CD4B9D0EDD1DFE00481C86 /* PBXTextBookmark */;
 			69CF827B0EDB8B8B006FD501 = 69CF827B0EDB8B8B006FD501 /* PBXTextBookmark */;
 			69CF827D0EDB8B8B006FD501 = 69CF827D0EDB8B8B006FD501 /* PBXTextBookmark */;
 			69CF827E0EDB8B8B006FD501 = 69CF827E0EDB8B8B006FD501 /* PBXTextBookmark */;
@@ -523,6 +525,26 @@
 		vrLen = 1016;
 		vrLoc = 0;
 	};
+	69CD4B960EDD1DD700481C86 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 69CF82BE0EDBB2D4006FD501 /* dalmazio.pbxuser */;
+		name = "dalmazio.pbxuser: 610";
+		rLen = 0;
+		rLoc = 18344;
+		rType = 0;
+		vrLen = 1016;
+		vrLoc = 0;
+	};
+	69CD4B9D0EDD1DFE00481C86 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 69CF82BE0EDBB2D4006FD501 /* dalmazio.pbxuser */;
+		name = "dalmazio.pbxuser: 621";
+		rLen = 0;
+		rLoc = 18687;
+		rType = 0;
+		vrLen = 1016;
+		vrLoc = 0;
+	};
 	69CF827B0EDB8B8B006FD501 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 690C173A0EDB63530029F332 /* dalmazio.pbxuser */;
@@ -590,8 +612,8 @@
 		path = /Users/dalmazio/Developer/xcode/GnuSpeech/Applications/PreMo/PreMo.xcodeproj/dalmazio.pbxuser;
 		sourceTree = "<absolute>";
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {721, 8428}}";
-			sepNavSelRange = "{18001, 0}";
+			sepNavIntBoundsRect = "{{0, 0}, {721, 8750}}";
+			sepNavSelRange = "{18687, 0}";
 			sepNavVisRange = "{0, 1016}";
 		};
 	};
