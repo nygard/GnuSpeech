@@ -147,8 +147,8 @@
 		0155E4E30B7BF107008D8879 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0155E4E10B7BF107008D8879 /* AudioUnit.framework */; };
 		01AC65FA0B7BF9B4008E4B93 /* GnuSpeech.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC65F90B7BF9B4008E4B93 /* GnuSpeech.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69342FAE0EA3C9B200BE6A55 /* Tube.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01AC65B00B7BF554008E4B93 /* Tube.framework */; };
-		69716E640EDD2AB700551096 /* TRMData.h in Headers */ = {isa = PBXBuildFile; fileRef = 69716E620EDD2AB700551096 /* TRMData.h */; };
-		69716E650EDD2AB700551096 /* TRMData.m in Sources */ = {isa = PBXBuildFile; fileRef = 69716E630EDD2AB700551096 /* TRMData.m */; };
+		69B1086D0EDD307400DEF197 /* TRMData.h in Headers */ = {isa = PBXBuildFile; fileRef = 69B1086B0EDD307400DEF197 /* TRMData.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		69B1086E0EDD307400DEF197 /* TRMData.m in Sources */ = {isa = PBXBuildFile; fileRef = 69B1086C0EDD307400DEF197 /* TRMData.m */; };
 		69E8A75B0EC2AC4C0090AD25 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69E8A75A0EC2AC4C0090AD25 /* CoreAudio.framework */; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
@@ -317,8 +317,8 @@
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF5E0370ADEE00C91783 /* GnuSpeech_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GnuSpeech_Prefix.pch; sourceTree = "<group>"; };
-		69716E620EDD2AB700551096 /* TRMData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRMData.h; sourceTree = "<group>"; };
-		69716E630EDD2AB700551096 /* TRMData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRMData.m; sourceTree = "<group>"; };
+		69B1086B0EDD307400DEF197 /* TRMData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TRMData.h; path = Tube/TRMData.h; sourceTree = "<group>"; };
+		69B1086C0EDD307400DEF197 /* TRMData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TRMData.m; path = Tube/TRMData.m; sourceTree = "<group>"; };
 		69E8A75A0EC2AC4C0090AD25 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = /System/Library/Frameworks/CoreAudio.framework; sourceTree = "<absolute>"; };
 		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* GnuSpeech.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GnuSpeech.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -535,8 +535,8 @@
 			children = (
 				0155E4730B7BE92A008D8879 /* TRMSynthesizer.h */,
 				0155E4740B7BE92A008D8879 /* TRMSynthesizer.m */,
-				69716E620EDD2AB700551096 /* TRMData.h */,
-				69716E630EDD2AB700551096 /* TRMData.m */,
+				69B1086B0EDD307400DEF197 /* TRMData.h */,
+				69B1086C0EDD307400DEF197 /* TRMData.m */,
 			);
 			name = Tube;
 			sourceTree = "<group>";
@@ -712,7 +712,7 @@
 				0155E47F0B7BEB27008D8879 /* driftGenerator.h in Headers */,
 				0155E4400B7BE8FA008D8879 /* CategoryList.h in Headers */,
 				01AC65FA0B7BF9B4008E4B93 /* GnuSpeech.h in Headers */,
-				69716E640EDD2AB700551096 /* TRMData.h in Headers */,
+				69B1086D0EDD307400DEF197 /* TRMData.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -856,7 +856,7 @@
 				012D53B10B7FF9DC001B50FC /* GSSimplePronunciationDictionary.m in Sources */,
 				012D53B30B7FF9DC001B50FC /* GSSuffix.m in Sources */,
 				012D53B60B7FF9DC001B50FC /* TTSParser.m in Sources */,
-				69716E650EDD2AB700551096 /* TRMData.m in Sources */,
+				69B1086E0EDD307400DEF197 /* TRMData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
