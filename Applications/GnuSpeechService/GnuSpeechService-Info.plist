@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>GnuSpeechService</string>
+	<key>CFBundleIdentifier</key>
+	<string>org.gnu.GnuSpeechService</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
+	<key>LSBackgroundOnly</key>
+	<true/>
+	<key>CFBundleName</key>
+	<string>GnuSpeechService</string>
+	<key>NSServices</key>
+	<array>
+		<dict>
+			<key>NSMessage</key>
+			<string>speakText</string>
+			<key>NSPortName</key>
+			<string>GnuSpeechService</string>
+			<key>NSSendTypes</key>
+			<array>
+				<string>NSStringPboardType</string>
+			</array>
+			<key>NSMenuItem</key>
+			<dict>
+				<key>default</key>
+				<string>GnuSpeech/Speak Text</string>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>

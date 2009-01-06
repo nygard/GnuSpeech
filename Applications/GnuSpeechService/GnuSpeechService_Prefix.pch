@@ -1,0 +1,8 @@
+//
+// Prefix header for all source files of the 'GnuSpeechService' target in the 'GnuSpeechService' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+	#import <Appkit/AppKit.h>
+#endif
