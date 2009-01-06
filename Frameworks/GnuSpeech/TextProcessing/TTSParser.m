@@ -96,14 +96,18 @@ static NSDictionary *_specialAcronyms = nil;
 - (NSString *)parseString:(NSString *)aString;
 {
     NSMutableString *resultString;
+	NSString * newString;
 
     NSLog(@" > %s", _cmd);
 
     NSLog(@"aString: %@", aString);
-    //[self markModes:aString];
+    newString = [self padCharactersInSet:[NSCharacterSet punctuationCharacterSet] 
+								ofString:aString];  // temporary fix for punctuation issues -- dalmazio, Jan. 2009
+	//[self markModes:aString];
 
     resultString = [NSMutableString string];
-    [self finalConversion:aString resultString:resultString];
+    [self finalConversion:newString resultString:resultString];	 // temporary fix for punctuation issues -- dalmazio, Jan. 2009	
+    //[self finalConversion:aString resultString:resultString];
 
     NSLog(@"resultString: %@", resultString);
 
@@ -111,6 +115,24 @@ static NSDictionary *_specialAcronyms = nil;
 
     return resultString;
 }
+
+// As a temporary fix for punctuation problems, we pad all characters in the supplied character set (punctuation)
+// with a space character. -- dalmazio, Jan. 2009.
+- (NSString *) padCharactersInSet:(NSCharacterSet *)characterSet ofString:(NSString *)aString;
+{
+	unichar ch;
+	NSMutableString * newString = [[[NSMutableString alloc] initWithCapacity:[aString length]*2] autorelease];
+
+	for (int i = 0; i < [aString length]; i++) {
+		ch = [aString characterAtIndex:i];
+		if ([characterSet characterIsMember:ch])
+			[newString appendFormat:@" %C ", ch];
+		else
+			[newString appendFormat:@"%C", ch];
+	}
+	return newString;
+}
+
 
 // TODO (2004-04-28): This wants to embed special characters (-1 through -11) in the output string...  We may need to do this differently, since we want to deal with characters, not bytes.
 - (void)markModes:(NSString *)aString;
@@ -180,6 +202,20 @@ static NSDictionary *_specialAcronyms = nil;
     NSLog(@"<  %s", _cmd);
 }
 
+// As part of the temporary fix for punctuation issues, we need to filter empty strings from the word string
+// array so they are not rendered. -- dalmazio, Jan. 2009.
+- (NSArray *) filterEmptyStringsFromArray:(NSArray *)theArray;
+{	
+	NSMutableArray * filteredArray = [[[NSMutableArray alloc] initWithCapacity:[theArray count]] autorelease];
+	NSString * item;
+	for (int i = 0; i < [theArray count]; i++) {
+		item = [theArray objectAtIndex:i];
+		if (![item isEqualToString:@""])
+			[filteredArray addObject:item];
+	}
+	return filteredArray;
+}
+
 - (void)finalConversion:(NSString *)aString resultString:(NSMutableString *)resultString;
 {
     NSArray *words;
@@ -192,7 +228,9 @@ static NSDictionary *_specialAcronyms = nil;
 
     previousState = TTS_STATE_BEGIN;
 
-    words = [aString componentsSeparatedByString:@" "];
+	words = [self filterEmptyStringsFromArray:[aString componentsSeparatedByString:@" "]];   // temporary fix -- dalmazio, Jan. 2009
+	//words = [aString componentsSeparatedByString:@" "];	
+	
     NSLog(@"words: %@", [words description]);
 
     count = [words count];
@@ -313,6 +351,9 @@ static NSDictionary *_specialAcronyms = nil;
 
               case TTS_STATE_END:
                   break;
+
+			  default:  // added as temporary fix -- dalmazio, Jan. 2009
+				  break;		
             }
 
             previousState = currentState;
@@ -343,6 +384,9 @@ static NSDictionary *_specialAcronyms = nil;
 
       case TTS_STATE_BEGIN:
           break;
+			
+	  default:  // added as temporary fix -- dalmazio, Jan. 2009
+		  break;					
     }
 }
 
@@ -354,8 +398,9 @@ static NSDictionary *_specialAcronyms = nil;
     if ([word startsWithLetter] == YES)
         return TTS_STATE_WORD;
 
-    if ([word isEqualToString:@"."] || [word isEqualToString:@"!"] || [word isEqualToString:@"?"]) {
+    if ([word isEqualToString:@"."] || [word isEqualToString:@"!"] || [word isEqualToString:@"?"]) {	
         return TTS_STATE_FINAL_PUNC;
+		
     } else if ([word isEqualToString:@";"] || [word isEqualToString:@":"] || [word isEqualToString:@","]) {
         return TTS_STATE_MEDIAL_PUNC;
     }
