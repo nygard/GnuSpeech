@@ -13,8 +13,8 @@
 	<key>StandardOutPath</key>
 	<string>/Library/Logs/GnuSpeechDaemon.log</string>
 	<key>OnDemand</key>
-	<true/>
-	<key>KeepAlive</key>
 	<false/>
+	<key>KeepAlive</key>
+	<true/>
 </dict>
 </plist>
