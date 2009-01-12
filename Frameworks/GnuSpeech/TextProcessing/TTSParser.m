@@ -116,7 +116,7 @@ static NSDictionary *_specialAcronyms = nil;
     return resultString;
 }
 
-// As a temporary fix for punctuation problems, we pad all characters in the supplied character set (punctuation)
+// Added as a temporary fix for punctuation problems, we pad all characters in the supplied character set (punctuation)
 // with a space character. -- dalmazio, Jan. 2009.
 - (NSString *) padCharactersInSet:(NSCharacterSet *)characterSet ofString:(NSString *)aString;
 {
