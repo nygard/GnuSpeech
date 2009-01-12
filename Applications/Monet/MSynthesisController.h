@@ -8,7 +8,7 @@
 
 @class MMIntonationPoint, MModel;
 @class EventListView, MAIntonationScrollView;
-@class TRMSynthesizer;
+@class TRMSynthesizer, MTextToPhone;
 @class NSComboBox, NSPopUpButton, NSMatrix, NSPrintInfo, NSOpenPanel, NSSavePanel;
 @class NSTableView, NSButton, NSTextField, NSView, NSForm, NSUndoManager;
 @class NSTableColumn, NSNotification, NSControl;
@@ -16,50 +16,53 @@
 @interface MSynthesisController : MWindowController
 {
     // Synthesis window
-    IBOutlet NSComboBox *stringTextField;
+    IBOutlet NSComboBox *phoneStringTextField;
+	IBOutlet NSComboBox *textStringTextField;
     IBOutlet NSTableView *parameterTableView;
     IBOutlet EventListView *eventListView;
     IBOutlet NSButton *parametersStore;
-
+	
     // Save panel accessory view
     IBOutlet NSView *savePanelAccessoryView;
     IBOutlet NSPopUpButton *fileTypePopUpButton;
-
+	
     // Intonation parameter window
     IBOutlet NSWindow *intonationParameterWindow;
-
+	
     IBOutlet NSTextField *tempoField;
     IBOutlet NSForm *intonParmsField;
     IBOutlet NSTextField *radiusMultiplyField;
-
+	
     IBOutlet NSMatrix *intonationMatrix;
     IBOutlet NSTextField *driftDeviationField;
     IBOutlet NSTextField *driftCutoffField;
     IBOutlet NSButton *smoothIntonationSwitch;
-
+	
     // Intonation window
     IBOutlet NSWindow *intonationWindow;
     IBOutlet MAIntonationScrollView *intonationView;
-
+	
     IBOutlet NSTextField *semitoneTextField;
     IBOutlet NSTextField *hertzTextField;
     IBOutlet NSTextField *slopeTextField;
-
+	
     IBOutlet NSTableView *intonationRuleTableView;
     IBOutlet NSTextField *beatTextField;
     IBOutlet NSTextField *beatOffsetTextField;
     IBOutlet NSTextField *absTimeTextField;
-
+	
     NSPrintInfo *intonationPrintInfo;
-
+	
     struct _intonationParameters intonationParameters;
-
+	
     MModel *model;
     NSMutableArray *displayParameters;
     EventList *eventList;
-
+	
     TRMSynthesizer *synthesizer;
-
+	
+	MTextToPhone * textToPhone;
+	
     // Event Table stuff
     IBOutlet NSTableView *eventTableView;
 }
@@ -102,6 +105,7 @@
 - (void)saveGraphImagesToPath:(NSString *)basePath;
 
 - (IBAction)addPhoneString:(id)sender;
+- (IBAction) addTextString:(id)sender;
 
 // Intonation Point details
 - (MMIntonationPoint *)selectedIntonationPoint;

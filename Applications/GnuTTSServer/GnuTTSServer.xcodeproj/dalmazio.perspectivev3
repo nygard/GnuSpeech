@@ -281,8 +281,6 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>6</integer>
-									<integer>1</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -306,7 +304,7 @@
 							<real>245</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>64 -182 1026 715 0 0 1440 878 </string>
+						<string>211 160 1026 715 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -334,33 +332,10 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>693786CA0F133E05005028AF</string>
+										<string>69BED02D0F1ACF4800D66FBE</string>
 										<key>history</key>
 										<array>
-											<string>699B0AAE0F12C94500B4222C</string>
-											<string>699B0B340F12D5C200B4222C</string>
-											<string>699B0BA20F130A3A00B4222C</string>
-											<string>699B0C450F13292800B4222C</string>
-											<string>699B0C480F13292800B4222C</string>
-											<string>699B0C4D0F13292800B4222C</string>
-											<string>699B0C860F132F7C00B4222C</string>
-											<string>6937867F0F133DA3005028AF</string>
-											<string>693786800F133DA3005028AF</string>
-											<string>693786A60F133DE1005028AF</string>
-											<string>693786A70F133DE1005028AF</string>
-										</array>
-										<key>prevStack</key>
-										<array>
-											<string>69E145D10F1035E3008CE33B</string>
-											<string>69E145D40F1035E3008CE33B</string>
-											<string>699B0AB80F12C94500B4222C</string>
-											<string>699B0ABA0F12C94500B4222C</string>
-											<string>699B0ABB0F12C94500B4222C</string>
-											<string>699B0ABC0F12C94500B4222C</string>
-											<string>699B0ABE0F12C94500B4222C</string>
-											<string>699B0ADB0F12C94500B4222C</string>
-											<string>699B0C890F132F7C00B4222C</string>
-											<string>693786A80F133DE1005028AF</string>
+											<string>69BED02C0F1ACF4800D66FBE</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -376,7 +351,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {737, 359}}</string>
 								<key>RubberWindowFrame</key>
-								<string>64 -182 1026 715 0 0 1440 878 </string>
+								<string>211 160 1026 715 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -401,7 +376,7 @@
 										<key>Frame</key>
 										<string>{{10, 27}, {737, 283}}</string>
 										<key>RubberWindowFrame</key>
-										<string>64 -182 1026 715 0 0 1440 878 </string>
+										<string>211 160 1026 715 0 0 1440 878 </string>
 									</dict>
 									<key>Module</key>
 									<string>XCDetailModule</string>
@@ -432,11 +407,11 @@
 											<key>PBXCVSModuleTreeModuleColumnWidthsKey</key>
 											<array>
 												<real>200</real>
-												<real>56</real>
+												<real>56.66162109375</real>
 												<real>63</real>
 												<real>60</real>
 												<real>63</real>
-												<real>139</real>
+												<real>139.556640625</real>
 											</array>
 											<key>PBXCVSModuleTreeModuleColumnsKey</key>
 											<array>
@@ -504,11 +479,11 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>693786AA0F133DE1005028AF</string>
+				<string>69BED02E0F1ACF4800D66FBE</string>
 				<string>1CA23ED40692098700951B8B</string>
-				<string>693786AB0F133DE1005028AF</string>
+				<string>69BED02F0F1ACF4800D66FBE</string>
 				<string>69E145A70F10348C008CE33B</string>
-				<string>693786AC0F133DE1005028AF</string>
+				<string>69BED0300F1ACF4800D66FBE</string>
 				<string>1CA23EDF0692099D00951B8B</string>
 				<string>1CA23EE00692099D00951B8B</string>
 				<string>1CA23EE10692099D00951B8B</string>
@@ -692,10 +667,10 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>/Users/dalmazio/Desktop/Original/GnuTTSServer/GnuTTSServer.xcodeproj</string>
+		<string>/Users/dalmazio/Developer/xcode/gnuspeech/osx/trunk/Applications/GnuTTSServer/GnuTTSServer.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>64 -182 1026 715 0 0 1440 878 </string>
+	<string>211 160 1026 715 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>

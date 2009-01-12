@@ -281,8 +281,6 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>5</integer>
-									<integer>4</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -306,7 +304,7 @@
 							<real>163</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>141 -107 1082 716 0 0 1440 878 </string>
+						<string>197 162 1082 716 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -334,25 +332,10 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>693786C90F133E03005028AF</string>
+										<string>69BED0260F1ACF3E00D66FBE</string>
 										<key>history</key>
 										<array>
-											<string>69E1462C0F103832008CE33B</string>
-											<string>69E1496F0F10763F008CE33B</string>
-											<string>69E149700F10763F008CE33B</string>
-											<string>699B0C130F13167B00B4222C</string>
-											<string>699B0C140F13167B00B4222C</string>
-											<string>693786860F133DBB005028AF</string>
-											<string>693786890F133DBB005028AF</string>
-										</array>
-										<key>prevStack</key>
-										<array>
-											<string>6916C8BB0F0EF96200B22C9D</string>
-											<string>6916C8BC0F0EF96200B22C9D</string>
-											<string>6916C8C90F0EF96200B22C9D</string>
-											<string>6916C96D0F0F05F100B22C9D</string>
-											<string>69E149740F10763F008CE33B</string>
-											<string>69E149750F10763F008CE33B</string>
+											<string>69BED0250F1ACF3E00D66FBE</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -368,7 +351,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {875, 524}}</string>
 								<key>RubberWindowFrame</key>
-								<string>141 -107 1082 716 0 0 1440 878 </string>
+								<string>197 162 1082 716 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -393,7 +376,7 @@
 										<key>Frame</key>
 										<string>{{10, 27}, {875, 119}}</string>
 										<key>RubberWindowFrame</key>
-										<string>141 -107 1082 716 0 0 1440 878 </string>
+										<string>197 162 1082 716 0 0 1440 878 </string>
 									</dict>
 									<key>Module</key>
 									<string>XCDetailModule</string>
@@ -424,11 +407,11 @@
 											<key>PBXCVSModuleTreeModuleColumnWidthsKey</key>
 											<array>
 												<real>200</real>
-												<real>56</real>
+												<real>56.66162109375</real>
 												<real>63</real>
 												<real>60</real>
 												<real>63</real>
-												<real>139</real>
+												<real>139.556640625</real>
 											</array>
 											<key>PBXCVSModuleTreeModuleColumnsKey</key>
 											<array>
@@ -496,11 +479,11 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>693786B50F133DEA005028AF</string>
+				<string>69BED0270F1ACF3E00D66FBE</string>
 				<string>1CA23ED40692098700951B8B</string>
-				<string>693786B60F133DEA005028AF</string>
+				<string>69BED0280F1ACF3E00D66FBE</string>
 				<string>6916C7F10F0E979E00B22C9D</string>
-				<string>693786B70F133DEA005028AF</string>
+				<string>69BED0290F1ACF3E00D66FBE</string>
 				<string>1CA23EDF0692099D00951B8B</string>
 				<string>1CA23EE00692099D00951B8B</string>
 				<string>1CA23EE10692099D00951B8B</string>
@@ -684,10 +667,10 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>/Users/dalmazio/Desktop/Original/GnuTTSClient/GnuTTSClient.xcodeproj</string>
+		<string>/Users/dalmazio/Developer/xcode/gnuspeech/osx/trunk/Applications/GnuTTSClient/GnuTTSClient.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>141 -107 1082 716 0 0 1440 878 </string>
+	<string>197 162 1082 716 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>

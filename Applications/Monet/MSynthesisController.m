@@ -14,6 +14,7 @@
 #import "MAIntonationView.h"
 #import "MExtendedTableView.h"
 #import "MMDisplayParameter.h"
+#import "MTextToPhone.h"
 
 #define MDK_ShouldUseSmoothIntonation @"ShouldUseSmoothIntonation"
 #define MDK_ShouldUseMacroIntonation @"ShouldUseMacroIntonation"
@@ -31,16 +32,24 @@
 {
     NSMutableDictionary *defaultValues;
     NSArray *defaultUtterances;
-
-    defaultUtterances = [NSArray arrayWithObjects:@"/c // /3 # /w i_z /w /_dh_aa_t /w /_ch_ee_z /w t_uu /w /l /*ee_t # ^ // /2 # /w aw_r /w i_z /w /_i_t /w t_uu /w /_p_u_t /w i_n /w uh /w /l /*m_ah_uu_s./\"t_r_aa_p # // /c ",
-                                 @"/c // /1 # /w /*n_y_uu /w /l /*s_p_ee_ch # // /c",
-                                 @"/c // /0 # /w /_ah_i /w /_w_u_d /w /_l_ah_i_k /w t_uu /w /_b_ah_i /w /_s_a_m /w /l /*ch_ee_z # // /c ",
-                                 @"/c // /2 # /w /_h_aa_v /w y_uu /w /_s_ee_n /w dh_uh /w /_s_i_ll_k_s /w /_w_i /w /_g_o_t /w f_r_a_m /w /l /*f_r_aa_n_s # // /c ",
-                                 @"/c // /3 # /w /_ah_i /w /_n_uh_uu /w y_uu /w b_i./_l_ee_v /w y_uu /w a_n.d_uh_r./_s_t_aa_n_d /w /_w_o_t /w y_uu /w /_th_i_ng_k /w /_ah_i /w /l /*s_e_d # ^ // /0 # /w b_a_t /w /_ah_i /w /_aa_m /w /_n_o_t /w /_sh_u_r /w y_uu /w /_r_ee.uh_l.ah_i_z /w /_dh_aa_t /w /_w_o_t /w y_uu /w /_h_uh_r_d /w i_z /w /_n_o_t /w /_w_o_t /w /_ah_i /w /l /*m_e_n_t # // /c ",
-                                 @"/c // /0 # /w /_aw_l /w /_y_aw_r /w /_b_e_i_s /w ar_r /w b_i./_l_o_ng /w t_uu /w /l /*a_s # // /c ",
-                                 @"/c // /0 # /w /_s_a_m.w_a_n /w /_s_e_t /w /_a_p /w /_a_s /w dh_uh /w /l /*b_o_m # // /c ",
-                                 nil];
-
+	
+	//    defaultUtterances = [NSArray arrayWithObjects:@"/c // /3 # /w i_z /w /_dh_aa_t /w /_ch_ee_z /w t_uu /w /l /*ee_t # ^ // /2 # /w aw_r /w i_z /w /_i_t /w t_uu /w /_p_u_t /w i_n /w uh /w /l /*m_ah_uu_s./\"t_r_aa_p # // /c ",
+	//								 @"/c // /1 # /w /*n_y_uu /w /l /*s_p_ee_ch # // /c",
+	//                                 @"/c // /0 # /w /_ah_i /w /_w_u_d /w /_l_ah_i_k /w t_uu /w /_b_ah_i /w /_s_a_m /w /l /*ch_ee_z # // /c ",
+	//                                 @"/c // /2 # /w /_h_aa_v /w y_uu /w /_s_ee_n /w dh_uh /w /_s_i_ll_k_s /w /_w_i /w /_g_o_t /w f_r_a_m /w /l /*f_r_aa_n_s # // /c ",
+	//                                 @"/c // /3 # /w /_ah_i /w /_n_uh_uu /w y_uu /w b_i./_l_ee_v /w y_uu /w a_n.d_uh_r./_s_t_aa_n_d /w /_w_o_t /w y_uu /w /_th_i_ng_k /w /_ah_i /w /l /*s_e_d # ^ // /0 # /w b_a_t /w /_ah_i /w /_aa_m /w /_n_o_t /w /_sh_u_r /w y_uu /w /_r_ee.uh_l.ah_i_z /w /_dh_aa_t /w /_w_o_t /w y_uu /w /_h_uh_r_d /w i_z /w /_n_o_t /w /_w_o_t /w /_ah_i /w /l /*m_e_n_t # // /c ",
+	//                                 @"/c // /0 # /w /_aw_l /w /_y_aw_r /w /_b_e_i_s /w ar_r /w b_i./_l_o_ng /w t_uu /w /l /*a_s # // /c ",
+	//                                 @"/c // /0 # /w /_s_a_m.w_a_n /w /_s_e_t /w /_a_p /w /_a_s /w dh_uh /w /l /*b_o_m # // /c ",
+	//                                 nil];
+	
+    defaultUtterances = [NSArray arrayWithObjects:
+						 @"I'm sorry David, I'm afraid I can't do that."
+						 @"Just what do you think you're doing, David?",
+						 @"Look David, I can see you're really upset about this. I honestly think you ought to sit down calmly, take a stress pill, and think things over.",
+						 @"I know you believe you understand what you think I said, but I'm not sure you realize that what you heard is not what I meant.",
+						 @"Is that cheese to eat, or is it to put in a mouse trap?",
+						 nil];	
+	
     defaultValues = [[NSMutableDictionary alloc] init];
     [defaultValues setObject:defaultUtterances forKey:MDK_DefaultUtterances];
     [defaultValues setObject:[@"~/Desktop" stringByExpandingTildeInPath] forKey:MDK_GraphImagesDirectory];
@@ -54,40 +63,43 @@
 {
     if ([super initWithWindowNibName:@"Synthesis"] == nil)
         return nil;
-
+	
     model = [aModel retain];
     displayParameters = [[NSMutableArray alloc] init];
     [self _updateDisplayParameters];
-
+	
     eventList = [[EventList alloc] init];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                          selector:@selector(intonationPointDidChange:)
-                                          name:EventListDidChangeIntonationPoints
-                                          object:eventList];
-
+											 selector:@selector(intonationPointDidChange:)
+												 name:EventListDidChangeIntonationPoints
+											   object:eventList];
+	
     [self setWindowFrameAutosaveName:@"Synthesis"];
-
+	
     synthesizer = [[TRMSynthesizer alloc] init];
-
+	
+	textToPhone = [[MTextToPhone alloc] init];
+	
     intonationPrintInfo = [[NSPrintInfo alloc] init];
     [intonationPrintInfo setHorizontalPagination:NSAutoPagination];
     [intonationPrintInfo setVerticalPagination:NSFitPagination];
     [intonationPrintInfo setOrientation:NSLandscapeOrientation];
-
+	
     return self;
 }
 
 - (void)dealloc;
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-
+	
     [model release];
     [displayParameters release];
     [eventList release];
     [synthesizer release];
-
+	[textToPhone release];
+	
     [intonationPrintInfo release];
-
+	
     [super dealloc];
 }
 
@@ -100,13 +112,13 @@
 {
     if (newModel == model)
         return;
-
+	
     [model release];
     model = [newModel retain];
-
+	
     [eventList setModel:model];
     [intonationRuleTableView reloadData]; // Because EventList doesn't send out a notification yet.
-
+	
     [self _updateDisplayParameters];
     [self _updateEventColumns];
     [self updateViews];
@@ -122,26 +134,26 @@
     NSNumberFormatter *defaultNumberFormatter;
     NSButtonCell *checkboxCell, *checkboxCell2;
     NSUserDefaults *defaults;
-
+	
     defaults = [NSUserDefaults standardUserDefaults];
-
+	
     [intonationParameterWindow setFrameAutosaveName:@"Intonation Parameters"];
     [intonationWindow setFrameAutosaveName:@"Intonation"];
     [[intonationView documentView] setShouldDrawSmoothPoints:[[NSUserDefaults standardUserDefaults] boolForKey:MDK_ShouldUseSmoothIntonation]];
-
+	
     checkboxCell = [[NSButtonCell alloc] initTextCell:@""];
     [checkboxCell setControlSize:NSSmallControlSize];
     [checkboxCell setButtonType:NSSwitchButton];
     [checkboxCell setImagePosition:NSImageOnly];
     [checkboxCell setEditable:NO];
-
+	
     [[parameterTableView tableColumnWithIdentifier:@"shouldDisplay"] setDataCell:checkboxCell];
     checkboxCell2 = [checkboxCell copy]; // So that making it transparent doesn't affect the other one.
     [[eventTableView tableColumnWithIdentifier:@"flag"] setDataCell:checkboxCell2];
     [checkboxCell2 release];
-
+	
     [checkboxCell release];
-
+	
     defaultNumberFormatter = [NSNumberFormatter defaultNumberFormatter];
     [semitoneTextField setFormatter:defaultNumberFormatter];
     [hertzTextField setFormatter:defaultNumberFormatter];
@@ -149,26 +161,26 @@
     [beatTextField setFormatter:defaultNumberFormatter];
     [beatOffsetTextField setFormatter:defaultNumberFormatter];
     [absTimeTextField setFormatter:defaultNumberFormatter];
-
+	
     [[intonationView documentView] setDelegate:self];
     [[intonationView documentView] setEventList:eventList];
-
+	
     [self _updateSelectedPointDetails];
-
+	
     [self updateViews];
-
+	
     // Set up default values for intonation checkboxes
     [smoothIntonationSwitch setState:[defaults boolForKey:MDK_ShouldUseSmoothIntonation]];
     [[intonationMatrix cellAtRow:0 column:0] setState:[defaults boolForKey:MDK_ShouldUseMacroIntonation]];
     [[intonationMatrix cellAtRow:1 column:0] setState:[defaults boolForKey:MDK_ShouldUseMicroIntonation]];
     [[intonationMatrix cellAtRow:2 column:0] setState:[defaults boolForKey:MDK_ShouldUseDrift]];
-
-    [stringTextField removeAllItems];
-    [stringTextField addItemsWithObjectValues:[[NSUserDefaults standardUserDefaults] objectForKey:MDK_DefaultUtterances]];
-    [stringTextField selectItemAtIndex:0];
-
+	
+    [phoneStringTextField removeAllItems];
+    [phoneStringTextField addItemsWithObjectValues:[[NSUserDefaults standardUserDefaults] objectForKey:MDK_DefaultUtterances]];
+    [phoneStringTextField selectItemAtIndex:0];
+	
     [[[eventTableView tableColumnWithIdentifier:@"flag"] dataCell] setFormatter:defaultNumberFormatter];
-
+	
     [self _updateEventColumns];
 }
 
@@ -179,32 +191,32 @@
     int currentTag = 0;
     MMParameter *currentParameter;
     MMDisplayParameter *displayParameter;
-
+	
     [displayParameters removeAllObjects];
-
+	
     parameters = [model parameters];
     count = [parameters count];
     for (index = 0; index < count && index < 16; index++) { // TODO (2004-03-30): Some hardcoded limits exist in Event
         currentParameter = [parameters objectAtIndex:index];
-
+		
         displayParameter = [[MMDisplayParameter alloc] initWithParameter:currentParameter];
         [displayParameter setTag:currentTag++];
         [displayParameters addObject:displayParameter];
         [displayParameter release];
     }
-
+	
     for (index = 0; index < count && index < 16; index++) { // TODO (2004-03-30): Some hardcoded limits exist in Event
         currentParameter = [parameters objectAtIndex:index];
-
+		
         displayParameter = [[MMDisplayParameter alloc] initWithParameter:currentParameter];
         [displayParameter setIsSpecial:YES];
         [displayParameter setTag:currentTag++];
         [displayParameters addObject:displayParameter];
         [displayParameter release];
     }
-
+	
     // TODO (2004-03-30): This used to have Intonation (tag=32).  How did that work?
-
+	
     [parameterTableView reloadData];
 }
 
@@ -214,25 +226,25 @@
     int count, index;
     NSNumberFormatter *defaultNumberFormatter;
     NSString *others[4] = { @"Semitone", @"Slope", @"2nd Derivative?", @"3rd Derivative?"};
-
+	
     tableColumns = [eventTableView tableColumns];
     for (index = [tableColumns count] - 1; index >= 0; index--) { // Note that this fails if we make count an "unsigned int".
         NSTableColumn *tableColumn;
-
+		
         tableColumn = [tableColumns objectAtIndex:index];
         if ([[tableColumn identifier] isKindOfClass:[NSNumber class]])
             [eventTableView removeTableColumn:tableColumn];
     }
-
+	
     defaultNumberFormatter = [NSNumberFormatter defaultNumberFormatter2];
-
+	
     count = [displayParameters count];
     for (index = 0; index < count; index++) {
         MMDisplayParameter *displayParameter;
         NSTableColumn *tableColumn;
-
+		
         displayParameter = [displayParameters objectAtIndex:index];
-
+		
         if ([displayParameter isSpecial] == NO) {
             tableColumn = [[NSTableColumn alloc] initWithIdentifier:[NSNumber numberWithInt:[displayParameter tag]]];
             [tableColumn setEditable:NO];
@@ -240,18 +252,18 @@
             [[tableColumn dataCell] setFormatter:defaultNumberFormatter];
             [[tableColumn dataCell] setAlignment:NSRightTextAlignment];
 #ifndef GNUSTEP
-        [[tableColumn dataCell] setDrawsBackground:NO];
+			[[tableColumn dataCell] setDrawsBackground:NO];
 #endif
             [tableColumn setWidth:60.0];
             [eventTableView addTableColumn:tableColumn];
             [tableColumn release];
         }
     }
-
+	
     // And finally add columns for the intonation values:
     for (index = 0; index < 4; index++) {
         NSTableColumn *tableColumn;
-
+		
         tableColumn = [[NSTableColumn alloc] initWithIdentifier:[NSNumber numberWithInt:32 + index]];
         [tableColumn setEditable:NO];
         [[tableColumn headerCell] setTitle:others[index]];
@@ -264,7 +276,7 @@
         [eventTableView addTableColumn:tableColumn];
         [tableColumn release];
     }
-
+	
     [eventTableView reloadData];
 }
 
@@ -277,7 +289,7 @@
     NSMutableArray *array;
     unsigned int count, index;
     MMDisplayParameter *displayParameter;
-
+	
     array = [[NSMutableArray alloc] init];
     count = [displayParameters count];
     for (index = 0; index < count; index++) {
@@ -287,7 +299,7 @@
     }
     [eventListView setDisplayParameters:array];
     [array release];
-
+	
     [parameterTableView reloadData];
 }
 
@@ -303,9 +315,9 @@
 - (void)_updateSelectedPointDetails;
 {
     MMIntonationPoint *selectedIntonationPoint;
-
+	
     selectedIntonationPoint = [self selectedIntonationPoint];
-
+	
     if (selectedIntonationPoint == nil) {
         [semitoneTextField setStringValue:@""];
         [hertzTextField setStringValue:@""];
@@ -320,7 +332,7 @@
         [beatTextField setDoubleValue:[selectedIntonationPoint beatTime]];
         [beatOffsetTextField setDoubleValue:[selectedIntonationPoint offsetTime]];
         [absTimeTextField setDoubleValue:[selectedIntonationPoint absoluteTime]];
-
+		
         [intonationRuleTableView scrollRowToVisible:[selectedIntonationPoint ruleIndex]];
         [intonationRuleTableView selectRow:[selectedIntonationPoint ruleIndex] byExtendingSelection:NO];
     }
@@ -350,19 +362,19 @@
 {
     NSString *directory;
     NSSavePanel *savePanel;
-
+	
     NSLog(@" > %s", _cmd);
-
+	
     directory = [[NSUserDefaults standardUserDefaults] objectForKey:MDK_SoundOutputDirectory];
-
+	
     savePanel = [NSSavePanel savePanel];
     [savePanel setCanSelectHiddenExtension:YES];
     [savePanel setAllowedFileTypes:[NSArray arrayWithObjects:@"au", @"aiff", @"wav", nil]];
     [savePanel setAccessoryView:savePanelAccessoryView];
     [self fileTypeDidChange:nil];
-
+	
     [savePanel beginSheetForDirectory:directory file:@"Untitled" modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(savePanelDidEnd:returnCode:contextInfo:) contextInfo:MDK_SoundOutputDirectory];
-
+	
     NSLog(@"<  %s", _cmd);
 }
 
@@ -370,29 +382,30 @@
 {
     NSSavePanel *savePanel;
     NSString *extension;
-
+	
     savePanel = (NSSavePanel *)[fileTypePopUpButton window];
     switch ([[fileTypePopUpButton selectedItem] tag]) {
-      case 1: extension = @"aiff"; break;
-      case 2: extension = @"wav"; break;
-      case 0:
-      default:
-              extension = @"au"; break;
+		case 1: extension = @"aiff"; break;
+		case 2: extension = @"wav"; break;
+		case 0:
+		default:
+			extension = @"au"; break;
     }
-
+	
     [savePanel setRequiredFileType:extension];
 }
 
 - (void)synthesize;
 {
     [self prepareForSynthesis];
-
-    [eventList parsePhoneString:[stringTextField stringValue]]; // This creates the tone groups, feet.
+	
+	NSString * phoneString = [textToPhone phoneForText:[textStringTextField stringValue]];	
+    [eventList parsePhoneString:phoneString]; // This creates the tone groups, feet.
     [eventList applyRhythm];
     [eventList applyRules]; // This applies the rules, adding events to the EventList.
     [eventList generateIntonationPoints];
     [intonationRuleTableView reloadData];
-
+	
     [self continueSynthesis];
 }
 
@@ -406,26 +419,26 @@
 - (void)prepareForSynthesis;
 {
     NSUserDefaults *defaults;
-
+	
     defaults = [NSUserDefaults standardUserDefaults];
-
+	
     if ([parametersStore state] == YES)
         [[[self model] synthesisParameters] writeToFile:@"/tmp/Monet.parameters" includeComments:YES];
-
+	
     [eventList setUp];
-
+	
     [eventList setPitchMean:[[[self model] synthesisParameters] pitch]];
     [eventList setGlobalTempo:[tempoField doubleValue]];
     [eventList setShouldStoreParameters:[parametersStore state]];
-
+	
     [eventList setShouldUseMacroIntonation:[defaults boolForKey:MDK_ShouldUseMacroIntonation]];
     [eventList setShouldUseMicroIntonation:[defaults boolForKey:MDK_ShouldUseMicroIntonation]];
     [eventList setShouldUseDrift:[defaults boolForKey:MDK_ShouldUseDrift]];
     setDriftGenerator([driftDeviationField floatValue], 500, [driftCutoffField floatValue]);
     //setDriftGenerator(0.5, 250, 0.5);
-
+	
     [eventList setRadiusMultiply:[radiusMultiplyField doubleValue]];
-
+	
     [self _takeIntonationParametersFromUI];
     [eventList setIntonationParameters:intonationParameters];
 }
@@ -433,45 +446,45 @@
 - (void)continueSynthesis;
 {
     NSUserDefaults *defaults;
-
+	
     defaults = [NSUserDefaults standardUserDefaults];
-
+	
     [eventList setShouldUseSmoothIntonation:[defaults boolForKey:MDK_ShouldUseSmoothIntonation]];
     [eventList applyIntonation];
-
+	
     //[eventList printDataStructures:@"Before synthesis"];
     [eventTableView reloadData];
-
+	
     [synthesizer setupSynthesisParameters:[[self model] synthesisParameters]]; // TODO (2004-08-22): This may overwrite the file type...
     [synthesizer removeAllParameters];
-
+	
     [eventList setDelegate:synthesizer];
     [eventList generateOutput];
     [eventList setDelegate:nil];
-
+	
     [synthesizer synthesize];
-
+	
     [eventListView setEventList:eventList];
     [eventListView display]; // TODO (2004-03-17): It's not updating otherwise
-
+	
     [[intonationView documentView] updateEvents]; // Because it doesn't post notifications yet.  We need to resize the width.
 }
 
 - (IBAction)generateContour:(id)sender;
 {
     NSLog(@" > %s", _cmd);
-
+	
     [self _takeIntonationParametersFromUI];
     [[intonationView documentView] setShouldDrawSmoothPoints:[[NSUserDefaults standardUserDefaults] boolForKey:MDK_ShouldUseSmoothIntonation]];
     [eventList setIntonationParameters:intonationParameters];
-
+	
     [eventList generateIntonationPoints];
     [intonationRuleTableView reloadData];
     [eventTableView reloadData];
     if ([[eventList intonationPoints] count] > 0)
         [[intonationView documentView] selectIntonationPoint:[[eventList intonationPoints] objectAtIndex:0]];
     [intonationView display];
-
+	
     NSLog(@"<  %s", _cmd);
 }
 
@@ -479,12 +492,12 @@
 {
     NSString *directory;
     NSSavePanel *savePanel;
-
+	
     directory = [[NSUserDefaults standardUserDefaults] objectForKey:MDK_GraphImagesDirectory];
-
+	
     savePanel = [NSSavePanel savePanel];
     [savePanel setRequiredFileType:nil];
-
+	
     [savePanel beginSheetForDirectory:directory file:@"Untitled" modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(savePanelDidEnd:returnCode:contextInfo:) contextInfo:MDK_GraphImagesDirectory];
 }
 
@@ -493,12 +506,12 @@
     if (contextInfo == intonationWindow) {
         if (returnCode == NSOKButton) {
             [[NSUserDefaults standardUserDefaults] setObject:[openPanel directory] forKey:MDK_IntonationContourDirectory];
-
+			
             [self prepareForSynthesis];
-
+			
             [eventList loadIntonationContourFromXMLFile:[openPanel filename]];
-
-            [stringTextField setStringValue:[eventList phoneString]];
+			
+            [phoneStringTextField setStringValue:[eventList phoneString]];
             [intonationRuleTableView reloadData];
         }
     }
@@ -534,11 +547,11 @@
     NSDictionary *jpegProperties = nil;
     NSMutableString *html;
     NSFileManager *fileManager = [NSFileManager defaultManager];
-
+	
     NSLog(@" > %s", _cmd);
-
+	
     html = [NSMutableString string];
-
+	
     [html appendString:@"<?xml version='1.0' encoding='utf-8'?>\n"];
     [html appendString:@"<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"];
     [html appendString:@"<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>\n"];
@@ -548,19 +561,19 @@
     [html appendString:@"  </head>\n"];
     [html appendString:@"  <body>\n"];
     [html appendString:@"    <p>Parameter graphs for phone string:</p>\n"];
-    [html appendFormat:@"    <p>%@</p>\n", GSXMLCharacterData([stringTextField stringValue])];
+    [html appendFormat:@"    <p>%@</p>\n", GSXMLCharacterData([phoneStringTextField stringValue])];
     [html appendString:@"    <p>[<a href='Monet.parameters'>Monet.parameters</a>] [<a href='output.au'>output.au</a>]</p>\n"];
     [html appendString:@"    <p><object type='audio/basic' data='output.au'></object></p>\n"];
     [html appendFormat:@"    <p>Generated %@</p>\n", GSXMLCharacterData([[NSCalendarDate calendarDate] description])];
     [html appendString:@"    <p>\n"];
-
+	
     number = 1;
-
+	
     [fileManager createDirectoryAtPath:basePath attributes:nil];
     [fileManager copyPath:@"/tmp/Monet.parameters" toPath:[basePath stringByAppendingPathComponent:@"Monet.parameters"] handler:nil];
 #ifndef GNUSTEP
     jpegProperties = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:0.95], NSImageCompressionFactor,
-                                           nil];
+					  nil];
 #endif
     count = [displayParameters count];
     for (index = 0; index < count; index += 4) {
@@ -569,67 +582,77 @@
         NSString *filename1, *filename2;
         NSImage *image;
         NSBitmapImageRep *bitmapImageRep;
-
+		
         parms = [[NSMutableArray alloc] init];
         for (offset = 0; offset < 4 && index + offset < count; offset++) {
             [parms addObject:[displayParameters objectAtIndex:index + offset]];
         }
         [eventListView setDisplayParameters:parms];
         [parms release];
-
+		
         pdfData = [eventListView dataWithPDFInsideRect:[eventListView bounds]];
         filename1 = [NSString stringWithFormat:@"graph-%d.pdf", number];
         [pdfData writeToFile:[basePath stringByAppendingPathComponent:filename1] atomically:YES];
         [html appendFormat:@"      <img src='%@' alt='parameter graph %d'/>\n", GSXMLAttributeString(filename1, YES), number];
-
+		
         image = [[NSImage alloc] initWithData:pdfData];
         //NSLog(@"image: %@", image);
-
+		
         // Generate TIFF data first, otherwise JPEG generation fails.
         tiffData = [image TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:0.95];
-
+		
         bitmapImageRep = [[NSBitmapImageRep alloc] initWithData:tiffData];
         //NSLog(@"bitmapImageRep: %@, size: %@", bitmapImageRep, NSStringFromSize([bitmapImageRep size]));
         //NSLog(@"bitsPerPixel: %d, samplesPerPixel: %d", [bitmapImageRep bitsPerPixel], [bitmapImageRep samplesPerPixel]);
-
+		
         jpegData = [bitmapImageRep representationUsingType:NSJPEGFileType properties:jpegProperties];
         filename2 = [NSString stringWithFormat:@"graph-%d.jpg", number];
         [jpegData writeToFile:[basePath stringByAppendingPathComponent:filename2] atomically:YES];
-
+		
         [bitmapImageRep release];
         [image release];
-
+		
         number++;
     }
-
+	
     [html appendString:@"    </p>\n"];
     [html appendString:@"  </body>\n"];
     [html appendString:@"</html>\n"];
-
+	
     [[html dataUsingEncoding:NSUTF8StringEncoding] writeToFile:[basePath stringByAppendingPathComponent:@"index.html"] atomically:YES];
-
+	
     [synthesizer setFileType:0];
     [synthesizer setFilename:[basePath stringByAppendingPathComponent:@"output.au"]];
     [synthesizer setShouldSaveToSoundFile:YES];
     [synthesizer synthesize];
-
+	
     [jpegProperties release];
-
+	
     [self _updateDisplayedParameters];
-
+	
     system([[NSString stringWithFormat:@"open %@", [basePath stringByAppendingPathComponent:@"index.html"]] UTF8String]);
-
+	
     NSLog(@"<  %s", _cmd);
 }
 
 - (IBAction)addPhoneString:(id)sender;
 {
     NSString *str;
+	
+    str = [phoneStringTextField stringValue];
+    [phoneStringTextField removeItemWithObjectValue:str];
+    [phoneStringTextField insertItemWithObjectValue:str atIndex:0];
+    [[NSUserDefaults standardUserDefaults] setObject:[phoneStringTextField objectValues] forKey:MDK_DefaultUtterances];
+}
 
-    str = [stringTextField stringValue];
-    [stringTextField removeItemWithObjectValue:str];
-    [stringTextField insertItemWithObjectValue:str atIndex:0];
-    [[NSUserDefaults standardUserDefaults] setObject:[stringTextField objectValues] forKey:MDK_DefaultUtterances];
+- (IBAction) addTextString:(id)sender;
+{
+    NSString *str;
+	
+    str = [textStringTextField stringValue];
+    [textStringTextField removeItemWithObjectValue:str];
+    [textStringTextField insertItemWithObjectValue:str atIndex:0];
+    [[NSUserDefaults standardUserDefaults] setObject:[textStringTextField objectValues] forKey:MDK_DefaultUtterances];
 }
 
 //
@@ -665,11 +688,11 @@
 {
     NSString *directory;
     NSOpenPanel *openPanel;
-
+	
     directory = [[NSUserDefaults standardUserDefaults] objectForKey:MDK_IntonationContourDirectory];
     openPanel = [NSOpenPanel openPanel];
     [openPanel setRequiredFileType:@"contour"];
-
+	
     [openPanel beginSheetForDirectory:directory file:nil types:[NSArray arrayWithObject:@"contour"] modalForWindow:intonationWindow modalDelegate:self didEndSelector:@selector(openPanelDidEnd:returnCode:contextInfo:) contextInfo:intonationWindow];
 }
 
@@ -677,18 +700,18 @@
 {
     NSString *directory;
     NSSavePanel *savePanel;
-
+	
     directory = [[NSUserDefaults standardUserDefaults] objectForKey:MDK_IntonationContourDirectory];
     savePanel = [NSSavePanel savePanel];
     [savePanel setRequiredFileType:@"contour"];
-
+	
     [savePanel beginSheetForDirectory:directory file:@"Untitled" modalForWindow:intonationWindow modalDelegate:self didEndSelector:@selector(savePanelDidEnd:returnCode:contextInfo:) contextInfo:MDK_IntonationContourDirectory];
 }
 
 - (IBAction)runPageLayout:(id)sneder;
 {
     NSPageLayout *pageLayout;
-
+	
     pageLayout = [NSPageLayout pageLayout];
     [pageLayout runModalWithPrintInfo:intonationPrintInfo];
 }
@@ -700,22 +723,22 @@
     NSPrintOperation *printOperation;
     NSRect printFrame;
     NSSize printableSize;
-
+	
     printableSize = [intonationView printableSize];
     printFrame.origin = NSZeroPoint;
     printFrame.size = [NSScrollView frameSizeForContentSize:printableSize hasHorizontalScroller:NO hasVerticalScroller:NO borderType:NSNoCellMask];
-
+	
     printView = [[MAIntonationScrollView alloc] initWithFrame:printFrame];
     [printView setBorderType:NSNoCellMask];
     [printView setHasHorizontalScroller:NO];
-
+	
     [[printView documentView] setEventList:eventList];
     [[printView documentView] setShouldDrawSelection:NO];
     [[printView documentView] setShouldDrawSmoothPoints:[[intonationView documentView] shouldDrawSmoothPoints]];
-
+	
     printOperation = [NSPrintOperation printOperationWithView:printView printInfo:intonationPrintInfo];
     [printOperation setShowPanels:YES];
-
+	
     [printOperation runOperation];
     [printView release];
 }
@@ -733,25 +756,25 @@
 {
     if (tableView == parameterTableView)
         return [displayParameters count];
-
+	
     if (tableView == intonationRuleTableView)
         return [eventList ruleCount];
-
+	
     if (tableView == eventTableView)
         return [[eventList events] count] * 2;
-
+	
     return 0;
 }
 
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row;
 {
     id identifier;
-
+	
     identifier = [tableColumn identifier];
-
+	
     if (tableView == parameterTableView) {
         MMDisplayParameter *displayParameter = [displayParameters objectAtIndex:row];
-
+		
         if ([@"name" isEqual:identifier] == YES) {
             return [displayParameter name];
         } else if ([@"shouldDisplay" isEqual:identifier] == YES) {
@@ -765,7 +788,7 @@
         }
     } else if (tableView == eventTableView) {
         int eventNumber;
-
+		
         eventNumber = row / 2;
         if ([@"time" isEqual:identifier] == YES) {
             return [NSNumber numberWithInt:[[[eventList events] objectAtIndex:eventNumber] time]];
@@ -774,7 +797,7 @@
         } else if ([identifier isKindOfClass:[NSNumber class]]) {
             double value;
             int rowOffset, index;
-
+			
             rowOffset = row % 2;
             index = [identifier intValue] + rowOffset * 16;
             if (rowOffset == 0 || index < 32) {
@@ -783,19 +806,19 @@
             }
         }
     }
-
+	
     return nil;
 }
 
 - (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(int)row;
 {
     id identifier;
-
+	
     identifier = [tableColumn identifier];
-
+	
     if (tableView == parameterTableView) {
         MMDisplayParameter *displayParameter = [displayParameters objectAtIndex:row];
-
+		
         if ([@"shouldDisplay" isEqual:identifier] == YES) {
             [displayParameter setShouldDisplay:[object boolValue]];
             [self _updateDisplayedParameters];
@@ -806,9 +829,9 @@
 - (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(int)row;
 {
     id identifier;
-
+	
     identifier = [tableColumn identifier];
-
+	
     if (tableView == eventTableView) {
         if ([@"time" isEqual:identifier] && (row % 2) == 1) {
             [cell setObjectValue:nil];
@@ -829,7 +852,7 @@
 {
     if ([characters isEqualToString:@" "]) {
         int selectedRow;
-
+		
         selectedRow = [parameterTableView selectedRow];
         if (selectedRow != -1) {
             [[displayParameters objectAtIndex:selectedRow] toggleShouldDisplay];
@@ -839,7 +862,7 @@
         }
     } else {
         unsigned int count, index;
-
+		
         count = [displayParameters count];
         for (index = 0; index < count; index++) {
             if ([[[[displayParameters objectAtIndex:index] parameter] name] hasPrefix:characters ignoreCase:YES]) {
@@ -849,7 +872,7 @@
             }
         }
     }
-
+	
     return YES;
 }
 
