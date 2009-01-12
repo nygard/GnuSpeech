@@ -1,0 +1,66 @@
+README
+======
+
+
+GnuTTSServer
+------------
+
+This is the GnuSpeech text-to-speech server. The server is implemented using the OS X Distributed Objects architecture. To install the server, build the GnuTTSServer project, locate the GnuTTSServer executable, diphones.xml, org.gnu.GnuSpeech.GnuTTSServer.plist file, and then issue the following commands to install the server and configuration files:
+
+$ sudo mkdir -p /Library/GnuSpeech
+$ sudo cp GnuTTSServer /Library/GnuSpeech/
+$ sudo cp diphones.xml /Library/GnuSpeech/
+$ sudo cp org.gnu.GnuSpeech.GnuTTSServer.plist /Library/LaunchDaemons/
+
+Now restart your computer.
+
+Alternatively, instead of restarting your computer, you can unload, load, and restart the server by issuing these commands from the terminal:
+
+$ sudo launchctl unload /Library/LaunchDaemons/org.gnu.GnuSpeech.GnuTTSServer.plist
+$ sudo launchctl load /Library/LaunchDaemons/org.gnu.GnuSpeech.GnuTTSServer.plist
+$ sudo launchctl start org.gnu.GnuSpeech.GnuTTSServer
+
+Note: All logging for the GnuTTSServer appears in the logfile /Library/Logs/GnuSpeechDaemon.log and is accessible from the Console.
+
+
+GnuTTSClient
+------------
+
+A simple text-to-speech client application that access the functionality of the text-to-speech server (GnuTTSServer) programmatically.
+
+
+GnuSpeechService
+----------------
+
+A GnuSpeech text-to-speech OS X service that appears in the standard OS X service menu under the menu title "GnuSpeech". Build the project, locate the GnuSpeechService.service bundle, and issue the following commands from the terminal:
+
+$ mkdir -p ~/Library/Services
+$ cp -rf GnuSpeechService.service ~/Library/Services
+$ chmod -R go-w ~/Library/Services/GnuSpeechService.service
+
+Alternatively, if you want to install the service for all users on the system and not just for your own user account, type the following instead:
+
+$ sudo cp -rf GnuSpeechServices.service /Library/Services
+$ sudo chmod -R go-w /Library/Services/GnuSpeechService.service
+
+Now log out and log back in so that OS X services recognizes the newly installed service and places a menu item in the Services menu.
+
+Note: If you install the GnuTTSServer and have chosen not to reboot your system and instead have issued the terminal commands to start the server, make sure you kill the GnuSpeechService.service process using the /Applications/Utilities/Activity Monitor.app application (or similar). When you invoke the GnuSpeech service for the first time from the Services menu it will be automatically launched.
+
+
+Monet
+-----
+
+The main interactive application that synthesizes speech and allows for experimentation with many speech parameters and settings. The actual synthesis occurs in the framework GnuSpeech.framework. The tube model that is used by GnuSpeech.framework is located in Tube.framework. Monet now supports entry of text as punctuated English text instead of the original phoneme string produced by PreMo.
+
+
+PrEditor
+--------
+
+An application that allows users to create and maintain their own dictionaries. This application is not yet fully functional.
+
+
+PreMo
+-----
+
+A simple application that allows the user to enter text and convert it into a special phoneme string which was required for input into an older version of Monet.
