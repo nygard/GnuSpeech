@@ -51,7 +51,7 @@ Note: If you install the GnuTTSServer and have chosen not to reboot your system 
 Monet
 -----
 
-The main interactive application that synthesizes speech and allows for experimentation with many speech parameters and settings. The actual synthesis occurs in the framework GnuSpeech.framework. The tube model that is used by GnuSpeech.framework is located in Tube.framework. Note that Monet currently requires a special "phone" string as input, not a raw English text string. See the PreMo application for more information.
+The main interactive application that synthesizes speech and allows for experimentation with many speech parameters and settings. The actual synthesis occurs in the framework GnuSpeech.framework. The tube model that is used by GnuSpeech.framework is located in Tube.framework. Monet now supports entry of text as punctuated English text instead of the original phoneme string produced by PreMo.
 
 
 PrEditor
@@ -63,4 +63,4 @@ An application that allows users to create and maintain their own dictionaries. 
 PreMo
 -----
 
-A simple application that allows the user to enter text and convert it into a special "phone" string which is required for input into Monet.
+A simple application that allows the user to enter text and convert it into a special phoneme string which was required for input into an older version of Monet.
