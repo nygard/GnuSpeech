@@ -43,7 +43,7 @@
 	//                                 nil];
 	
     defaultUtterances = [NSArray arrayWithObjects:
-						 @"I'm sorry David, I'm afraid I can't do that."
+						 @"I'm sorry David, I'm afraid I can't do that.",
 						 @"Just what do you think you're doing, David?",
 						 @"Look David, I can see you're really upset about this. I honestly think you ought to sit down calmly, take a stress pill, and think things over.",
 						 @"I know you believe you understand what you think I said, but I'm not sure you realize that what you heard is not what I meant.",
@@ -175,9 +175,9 @@
     [[intonationMatrix cellAtRow:1 column:0] setState:[defaults boolForKey:MDK_ShouldUseMicroIntonation]];
     [[intonationMatrix cellAtRow:2 column:0] setState:[defaults boolForKey:MDK_ShouldUseDrift]];
 	
-    [phoneStringTextField removeAllItems];
-    [phoneStringTextField addItemsWithObjectValues:[[NSUserDefaults standardUserDefaults] objectForKey:MDK_DefaultUtterances]];
-    [phoneStringTextField selectItemAtIndex:0];
+    [textStringTextField removeAllItems];
+    [textStringTextField addItemsWithObjectValues:[[NSUserDefaults standardUserDefaults] objectForKey:MDK_DefaultUtterances]];
+    [textStringTextField selectItemAtIndex:0];
 	
     [[[eventTableView tableColumnWithIdentifier:@"flag"] dataCell] setFormatter:defaultNumberFormatter];
 	
@@ -511,7 +511,7 @@
 			
             [eventList loadIntonationContourFromXMLFile:[openPanel filename]];
 			
-            [phoneStringTextField setStringValue:[eventList phoneString]];
+            //[phoneStringTextField setStringValue:[eventList phoneString]];
             [intonationRuleTableView reloadData];
         }
     }
@@ -561,7 +561,7 @@
     [html appendString:@"  </head>\n"];
     [html appendString:@"  <body>\n"];
     [html appendString:@"    <p>Parameter graphs for phone string:</p>\n"];
-    [html appendFormat:@"    <p>%@</p>\n", GSXMLCharacterData([phoneStringTextField stringValue])];
+    [html appendFormat:@"    <p>%@</p>\n", GSXMLCharacterData([textStringTextField stringValue])];
     [html appendString:@"    <p>[<a href='Monet.parameters'>Monet.parameters</a>] [<a href='output.au'>output.au</a>]</p>\n"];
     [html appendString:@"    <p><object type='audio/basic' data='output.au'></object></p>\n"];
     [html appendFormat:@"    <p>Generated %@</p>\n", GSXMLCharacterData([[NSCalendarDate calendarDate] description])];
@@ -633,16 +633,6 @@
     system([[NSString stringWithFormat:@"open %@", [basePath stringByAppendingPathComponent:@"index.html"]] UTF8String]);
 	
     NSLog(@"<  %s", _cmd);
-}
-
-- (IBAction)addPhoneString:(id)sender;
-{
-    NSString *str;
-	
-    str = [phoneStringTextField stringValue];
-    [phoneStringTextField removeItemWithObjectValue:str];
-    [phoneStringTextField insertItemWithObjectValue:str atIndex:0];
-    [[NSUserDefaults standardUserDefaults] setObject:[phoneStringTextField objectValues] forKey:MDK_DefaultUtterances];
 }
 
 - (IBAction) addTextString:(id)sender;
