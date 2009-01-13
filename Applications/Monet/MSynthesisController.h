@@ -16,7 +16,6 @@
 @interface MSynthesisController : MWindowController
 {
     // Synthesis window
-    IBOutlet NSComboBox *phoneStringTextField;
 	IBOutlet NSComboBox *textStringTextField;
     IBOutlet NSTableView *parameterTableView;
     IBOutlet EventListView *eventListView;
@@ -104,7 +103,6 @@
 - (void)savePanelDidEnd:(NSSavePanel *)savePanel returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 - (void)saveGraphImagesToPath:(NSString *)basePath;
 
-- (IBAction)addPhoneString:(id)sender;
 - (IBAction) addTextString:(id)sender;
 
 // Intonation Point details
