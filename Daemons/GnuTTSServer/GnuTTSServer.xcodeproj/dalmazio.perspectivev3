@@ -230,8 +230,6 @@
 			<key>Layout</key>
 			<array>
 				<dict>
-					<key>BecomeActive</key>
-					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -304,7 +302,7 @@
 							<real>245</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>211 160 1026 715 0 0 1440 878 </string>
+						<string>239 -297 1026 715 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -320,7 +318,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>69E145A70F10348C008CE33B</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>GnuSpeechServerProtocol.h</string>
+								<string>GnuTTSServer.1</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -328,14 +326,14 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>69E145A80F10348C008CE33B</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>GnuSpeechServerProtocol.h</string>
+										<string>GnuTTSServer.1</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>69BED02D0F1ACF4800D66FBE</string>
+										<string>696CE6CF0F26470A0014B94A</string>
 										<key>history</key>
 										<array>
-											<string>69BED02C0F1ACF4800D66FBE</string>
+											<string>696CE6CE0F26470A0014B94A</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -351,7 +349,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {737, 359}}</string>
 								<key>RubberWindowFrame</key>
-								<string>211 160 1026 715 0 0 1440 878 </string>
+								<string>239 -297 1026 715 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -364,6 +362,8 @@
 							<key>Tabs</key>
 							<array>
 								<dict>
+									<key>BecomeActive</key>
+									<true/>
 									<key>ContentConfiguration</key>
 									<dict>
 										<key>PBXProjectModuleGUID</key>
@@ -376,7 +376,7 @@
 										<key>Frame</key>
 										<string>{{10, 27}, {737, 283}}</string>
 										<key>RubberWindowFrame</key>
-										<string>211 160 1026 715 0 0 1440 878 </string>
+										<string>239 -297 1026 715 0 0 1440 878 </string>
 									</dict>
 									<key>Module</key>
 									<string>XCDetailModule</string>
@@ -402,27 +402,6 @@
 									<dict>
 										<key>PBXCVSModuleFilterTypeKey</key>
 										<integer>1032</integer>
-										<key>PBXCVSModuleTreeModuleColumnData</key>
-										<dict>
-											<key>PBXCVSModuleTreeModuleColumnWidthsKey</key>
-											<array>
-												<real>200</real>
-												<real>56.66162109375</real>
-												<real>63</real>
-												<real>60</real>
-												<real>63</real>
-												<real>139.556640625</real>
-											</array>
-											<key>PBXCVSModuleTreeModuleColumnsKey</key>
-											<array>
-												<string>Name</string>
-												<string>Status</string>
-												<string>Update</string>
-												<string>Revision</string>
-												<string>Author</string>
-												<string>Date</string>
-											</array>
-										</dict>
 										<key>PBXProjectModuleGUID</key>
 										<string>1CA23EE10692099D00951B8B</string>
 										<key>PBXProjectModuleLabel</key>
@@ -479,11 +458,11 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>69BED02E0F1ACF4800D66FBE</string>
+				<string>696CE6D00F26470A0014B94A</string>
 				<string>1CA23ED40692098700951B8B</string>
-				<string>69BED02F0F1ACF4800D66FBE</string>
+				<string>696CE6D10F26470A0014B94A</string>
 				<string>69E145A70F10348C008CE33B</string>
-				<string>69BED0300F1ACF4800D66FBE</string>
+				<string>696CE6D20F26470A0014B94A</string>
 				<string>1CA23EDF0692099D00951B8B</string>
 				<string>1CA23EE00692099D00951B8B</string>
 				<string>1CA23EE10692099D00951B8B</string>
@@ -667,10 +646,10 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>/Users/dalmazio/Developer/xcode/gnuspeech/osx/trunk/Applications/GnuTTSServer/GnuTTSServer.xcodeproj</string>
+		<string>/Users/dalmazio/Developer/xcode/gnuspeech/osx/trunk/Daemons/GnuTTSServer/GnuTTSServer.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>211 160 1026 715 0 0 1440 878 </string>
+	<string>239 -297 1026 715 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>

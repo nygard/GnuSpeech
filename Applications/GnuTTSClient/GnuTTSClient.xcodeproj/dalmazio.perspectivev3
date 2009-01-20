@@ -332,10 +332,10 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>69BED0260F1ACF3E00D66FBE</string>
+										<string>696CE6E10F2647140014B94A</string>
 										<key>history</key>
 										<array>
-											<string>69BED0250F1ACF3E00D66FBE</string>
+											<string>69BED0260F1ACF3E00D66FBE</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -407,11 +407,11 @@
 											<key>PBXCVSModuleTreeModuleColumnWidthsKey</key>
 											<array>
 												<real>200</real>
-												<real>56.66162109375</real>
+												<real>56</real>
 												<real>63</real>
 												<real>60</real>
 												<real>63</real>
-												<real>139.556640625</real>
+												<real>139</real>
 											</array>
 											<key>PBXCVSModuleTreeModuleColumnsKey</key>
 											<array>
@@ -479,11 +479,11 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>69BED0270F1ACF3E00D66FBE</string>
+				<string>696CE6E20F2647140014B94A</string>
 				<string>1CA23ED40692098700951B8B</string>
-				<string>69BED0280F1ACF3E00D66FBE</string>
+				<string>696CE6E30F2647140014B94A</string>
 				<string>6916C7F10F0E979E00B22C9D</string>
-				<string>69BED0290F1ACF3E00D66FBE</string>
+				<string>696CE6E40F2647140014B94A</string>
 				<string>1CA23EDF0692099D00951B8B</string>
 				<string>1CA23EE00692099D00951B8B</string>
 				<string>1CA23EE10692099D00951B8B</string>
