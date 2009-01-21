@@ -15,6 +15,7 @@
 		41CC57490AE05E5900DC3B3C /* PrDict.m in Sources */ = {isa = PBXBuildFile; fileRef = 41CC57440AE05E1100DC3B3C /* PrDict.m */; };
 		41E31DB10A2F37DF001E06A9 /* APPL.icns in Resources */ = {isa = PBXBuildFile; fileRef = 41E31DB00A2F37DF001E06A9 /* APPL.icns */; };
 		693432C30EA458E000BE6A55 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 693432C20EA458E000BE6A55 /* Carbon.framework */; };
+		696CE7B20F26D98F0014B94A /* PrEditor.icns in Resources */ = {isa = PBXBuildFile; fileRef = 696CE7B10F26D98F0014B94A /* PrEditor.icns */; };
 		699EF7880EC59E8F00C121EF /* PrEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 699EF7870EC59E8F00C121EF /* PrEntry.m */; };
 		69CD4B680EDD177000481C86 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69CD4B660EDD177000481C86 /* MainMenu.xib */; };
 		69CD4B6D0EDD178400481C86 /* PrEditorDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69CD4B6B0EDD178400481C86 /* PrEditorDocument.xib */; };
@@ -64,6 +65,7 @@
 		41E31DDA0A2F3E4A001E06A9 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		6934312E0EA3F6AF00BE6A55 /* PrEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PrEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		693432C20EA458E000BE6A55 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
+		696CE7B10F26D98F0014B94A /* PrEditor.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = PrEditor.icns; sourceTree = "<group>"; };
 		699EF7860EC59E8F00C121EF /* PrEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrEntry.h; sourceTree = "<group>"; };
 		699EF7870EC59E8F00C121EF /* PrEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrEntry.m; sourceTree = "<group>"; };
 		699EF7CD0EC5A11700C121EF /* GnuSpeech.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GnuSpeech.xcodeproj; path = /Users/dalmazio/Developer/xcode/GnuSpeech/Frameworks/GnuSpeech/GnuSpeech.xcodeproj; sourceTree = "<absolute>"; };
@@ -152,6 +154,7 @@
 				69CD4B6B0EDD178400481C86 /* PrEditorDocument.xib */,
 				41E31DD20A2F3D6A001E06A9 /* IPA Keylayout */,
 				41E31DB00A2F37DF001E06A9 /* APPL.icns */,
+				696CE7B10F26D98F0014B94A /* PrEditor.icns */,
 				2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */,
 				8D15AC360486D014006FF6A4 /* Info.plist */,
 				089C165FFE840EACC02AAC07 /* InfoPlist.strings */,
@@ -288,6 +291,7 @@
 				4106BB380AF02BFA00D8AB00 /* app.tiff in Resources */,
 				69CD4B680EDD177000481C86 /* MainMenu.xib in Resources */,
 				69CD4B6D0EDD178400481C86 /* PrEditorDocument.xib in Resources */,
+				696CE7B20F26D98F0014B94A /* PrEditor.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -230,6 +230,8 @@
 			<key>Layout</key>
 			<array>
 				<dict>
+					<key>BecomeActive</key>
+					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -302,7 +304,7 @@
 							<real>245</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>239 -297 1026 715 0 0 1440 878 </string>
+						<string>208 159 1026 715 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -318,7 +320,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>69E145A70F10348C008CE33B</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>GnuTTSServer.1</string>
+								<string>TextToPhone.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -326,14 +328,21 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>69E145A80F10348C008CE33B</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>GnuTTSServer.1</string>
+										<string>TextToPhone.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>696CE6CF0F26470A0014B94A</string>
+										<string>696CE7A30F265FAC0014B94A</string>
 										<key>history</key>
 										<array>
-											<string>696CE6CE0F26470A0014B94A</string>
+											<string>696CE7020F264E6D0014B94A</string>
+											<string>696CE7A00F265FAC0014B94A</string>
+											<string>696CE7A10F265FAC0014B94A</string>
+										</array>
+										<key>prevStack</key>
+										<array>
+											<string>696CE7040F264E6D0014B94A</string>
+											<string>696CE7A20F265FAC0014B94A</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -349,7 +358,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {737, 359}}</string>
 								<key>RubberWindowFrame</key>
-								<string>239 -297 1026 715 0 0 1440 878 </string>
+								<string>208 159 1026 715 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -362,8 +371,6 @@
 							<key>Tabs</key>
 							<array>
 								<dict>
-									<key>BecomeActive</key>
-									<true/>
 									<key>ContentConfiguration</key>
 									<dict>
 										<key>PBXProjectModuleGUID</key>
@@ -375,8 +382,6 @@
 									<dict>
 										<key>Frame</key>
 										<string>{{10, 27}, {737, 283}}</string>
-										<key>RubberWindowFrame</key>
-										<string>239 -297 1026 715 0 0 1440 878 </string>
 									</dict>
 									<key>Module</key>
 									<string>XCDetailModule</string>
@@ -402,6 +407,27 @@
 									<dict>
 										<key>PBXCVSModuleFilterTypeKey</key>
 										<integer>1032</integer>
+										<key>PBXCVSModuleTreeModuleColumnData</key>
+										<dict>
+											<key>PBXCVSModuleTreeModuleColumnWidthsKey</key>
+											<array>
+												<real>200</real>
+												<real>56</real>
+												<real>63</real>
+												<real>60</real>
+												<real>63</real>
+												<real>139</real>
+											</array>
+											<key>PBXCVSModuleTreeModuleColumnsKey</key>
+											<array>
+												<string>Name</string>
+												<string>Status</string>
+												<string>Update</string>
+												<string>Revision</string>
+												<string>Author</string>
+												<string>Date</string>
+											</array>
+										</dict>
 										<key>PBXProjectModuleGUID</key>
 										<string>1CA23EE10692099D00951B8B</string>
 										<key>PBXProjectModuleLabel</key>
@@ -430,7 +456,9 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {819, 283}}</string>
+										<string>{{10, 27}, {737, 283}}</string>
+										<key>RubberWindowFrame</key>
+										<string>208 159 1026 715 0 0 1440 878 </string>
 									</dict>
 									<key>Module</key>
 									<string>PBXBuildResultsModule</string>
@@ -458,11 +486,11 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>696CE6D00F26470A0014B94A</string>
+				<string>696CE75A0F265C700014B94A</string>
 				<string>1CA23ED40692098700951B8B</string>
-				<string>696CE6D10F26470A0014B94A</string>
+				<string>696CE75B0F265C700014B94A</string>
 				<string>69E145A70F10348C008CE33B</string>
-				<string>696CE6D20F26470A0014B94A</string>
+				<string>696CE75C0F265C700014B94A</string>
 				<string>1CA23EDF0692099D00951B8B</string>
 				<string>1CA23EE00692099D00951B8B</string>
 				<string>1CA23EE10692099D00951B8B</string>
@@ -649,7 +677,7 @@
 		<string>/Users/dalmazio/Developer/xcode/gnuspeech/osx/trunk/Daemons/GnuTTSServer/GnuTTSServer.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>239 -297 1026 715 0 0 1440 878 </string>
+	<string>208 159 1026 715 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
