@@ -282,6 +282,8 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
+									<integer>9</integer>
+									<integer>8</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -305,7 +307,7 @@
 							<real>205</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>224 214 916 588 0 0 1440 878 </string>
+						<string>342 248 916 588 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -321,7 +323,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>69E14A5E0F108948008CE33B</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>GnuSpeechServerProtocol.h</string>
+								<string>GnuSpeechService-Info.plist</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -329,14 +331,19 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>69E14A5F0F108948008CE33B</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>GnuSpeechServerProtocol.h</string>
+										<string>GnuSpeechService-Info.plist</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>69BED01F0F1ACF3B00D66FBE</string>
+										<string>696CE8500F26ECCE0014B94A</string>
 										<key>history</key>
 										<array>
-											<string>69BED01E0F1ACF3B00D66FBE</string>
+											<string>696CE84D0F26ECCE0014B94A</string>
+											<string>696CE84E0F26ECCE0014B94A</string>
+										</array>
+										<key>prevStack</key>
+										<array>
+											<string>696CE84F0F26ECCE0014B94A</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -352,7 +359,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {667, 370}}</string>
 								<key>RubberWindowFrame</key>
-								<string>224 214 916 588 0 0 1440 878 </string>
+								<string>342 248 916 588 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -377,7 +384,7 @@
 										<key>Frame</key>
 										<string>{{10, 27}, {667, 145}}</string>
 										<key>RubberWindowFrame</key>
-										<string>224 214 916 588 0 0 1440 878 </string>
+										<string>342 248 916 588 0 0 1440 878 </string>
 									</dict>
 									<key>Module</key>
 									<string>XCDetailModule</string>
@@ -480,11 +487,11 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>69BED0200F1ACF3B00D66FBE</string>
+				<string>696CE8510F26ECCE0014B94A</string>
 				<string>1CA23ED40692098700951B8B</string>
-				<string>69BED0210F1ACF3B00D66FBE</string>
+				<string>696CE8520F26ECCE0014B94A</string>
 				<string>69E14A5E0F108948008CE33B</string>
-				<string>69BED0220F1ACF3B00D66FBE</string>
+				<string>696CE8530F26ECCE0014B94A</string>
 				<string>1CA23EDF0692099D00951B8B</string>
 				<string>1CA23EE00692099D00951B8B</string>
 				<string>1CA23EE10692099D00951B8B</string>
@@ -631,14 +638,14 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>6903B8690F10B4E8006DE708</string>
+				<string>696CE8540F26ECCE0014B94A</string>
 				<string>1CCC7628064C1048000F2A68</string>
 				<string>1CCC7629064C1048000F2A68</string>
-				<string>6903B86A0F10B4E8006DE708</string>
-				<string>6903B86B0F10B4E8006DE708</string>
-				<string>6903B86C0F10B4E8006DE708</string>
-				<string>6903B86D0F10B4E8006DE708</string>
-				<string>6903B86E0F10B4E8006DE708</string>
+				<string>696CE8550F26ECCE0014B94A</string>
+				<string>696CE8560F26ECCE0014B94A</string>
+				<string>696CE8570F26ECCE0014B94A</string>
+				<string>696CE8580F26ECCE0014B94A</string>
+				<string>696CE8590F26ECCE0014B94A</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
@@ -667,11 +674,9 @@
 	<key>WindowJustification</key>
 	<integer>5</integer>
 	<key>WindowOrderList</key>
-	<array>
-		<string>/Users/dalmazio/Developer/xcode/gnuspeech/osx/trunk/Applications/GnuSpeechService/GnuSpeechService.xcodeproj</string>
-	</array>
+	<array/>
 	<key>WindowString</key>
-	<string>224 214 916 588 0 0 1440 878 </string>
+	<string>342 248 916 588 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>

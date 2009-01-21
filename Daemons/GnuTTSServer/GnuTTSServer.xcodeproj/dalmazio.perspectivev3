@@ -230,8 +230,6 @@
 			<key>Layout</key>
 			<array>
 				<dict>
-					<key>BecomeActive</key>
-					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -281,6 +279,8 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
+									<integer>15</integer>
+									<integer>14</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -320,7 +320,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>69E145A70F10348C008CE33B</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>TextToPhone.m</string>
+								<string>org.gnu.GnuSpeech.GnuTTSServer.plist</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -328,21 +328,25 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>69E145A80F10348C008CE33B</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>TextToPhone.m</string>
+										<string>org.gnu.GnuSpeech.GnuTTSServer.plist</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>696CE7A30F265FAC0014B94A</string>
+										<string>696CE87F0F26ECCE0014B94A</string>
 										<key>history</key>
 										<array>
 											<string>696CE7020F264E6D0014B94A</string>
-											<string>696CE7A00F265FAC0014B94A</string>
-											<string>696CE7A10F265FAC0014B94A</string>
+											<string>696CE8790F26ECCE0014B94A</string>
+											<string>696CE87A0F26ECCE0014B94A</string>
+											<string>696CE87B0F26ECCE0014B94A</string>
 										</array>
 										<key>prevStack</key>
 										<array>
 											<string>696CE7040F264E6D0014B94A</string>
 											<string>696CE7A20F265FAC0014B94A</string>
+											<string>696CE87C0F26ECCE0014B94A</string>
+											<string>696CE87D0F26ECCE0014B94A</string>
+											<string>696CE87E0F26ECCE0014B94A</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -637,14 +641,14 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>699B0B0F0F12C94500B4222C</string>
+				<string>696CE8800F26ECCE0014B94A</string>
 				<string>1CCC7628064C1048000F2A68</string>
 				<string>1CCC7629064C1048000F2A68</string>
-				<string>699B0B100F12C94500B4222C</string>
-				<string>699B0B110F12C94500B4222C</string>
-				<string>699B0B120F12C94500B4222C</string>
-				<string>699B0B130F12C94500B4222C</string>
-				<string>699B0B140F12C94500B4222C</string>
+				<string>696CE8810F26ECCE0014B94A</string>
+				<string>696CE8820F26ECCE0014B94A</string>
+				<string>696CE8830F26ECCE0014B94A</string>
+				<string>696CE8840F26ECCE0014B94A</string>
+				<string>696CE8850F26ECCE0014B94A</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
@@ -673,9 +677,7 @@
 	<key>WindowJustification</key>
 	<integer>5</integer>
 	<key>WindowOrderList</key>
-	<array>
-		<string>/Users/dalmazio/Developer/xcode/gnuspeech/osx/trunk/Daemons/GnuTTSServer/GnuTTSServer.xcodeproj</string>
-	</array>
+	<array/>
 	<key>WindowString</key>
 	<string>208 159 1026 715 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
