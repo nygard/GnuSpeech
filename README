@@ -14,12 +14,10 @@ is used by GnuSpeech.framework is located in Tube.framework. Monet now supports
 entry of text as punctuated English text instead of the original phoneme string 
 produced by PreMo.
 
-
 PrEditor
 
 An application that allows users to create and maintain their own dictionaries. 
 This application is not yet fully functional.
-
 
 PreMo
 
@@ -27,7 +25,6 @@ A simple application that allows the user to enter text and convert it into a
 special phoneme string which was required for input into an older version of 
 Monet. This is now a legacy application as it is no longer required to use 
 Monet.
-
 
 GnuTTSClient
 
@@ -47,7 +44,6 @@ issue the following commands to install:
 
 $ sudo cp -rf GnuSpeech.framework /Library/Frameworks
 $ sudo chmod -R go-w /Library/Frameworks/GnuSpeech.framework 
-
 
 Tube.framework
 
