@@ -24,7 +24,7 @@
 		69E14A270F107F50008CE33B /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		69E14A290F107F7C008CE33B /* GnuSpeechService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GnuSpeechService.h; sourceTree = "<group>"; };
 		69E14A2A0F107F7C008CE33B /* GnuSpeechService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GnuSpeechService.m; sourceTree = "<group>"; };
-		69E14A3E0F108138008CE33B /* GnuSpeechService.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GnuSpeechService.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		69E14A3E0F108138008CE33B /* GnuSpeechService.service */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GnuSpeechService.service; sourceTree = BUILT_PRODUCTS_DIR; };
 		69E14A560F1083AC008CE33B /* GnuSpeechService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GnuSpeechService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -69,7 +69,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				69E14A3E0F108138008CE33B /* GnuSpeechService.app */,
+				69E14A3E0F108138008CE33B /* GnuSpeechService.service */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -144,7 +144,7 @@
 			);
 			name = GnuSpeechService;
 			productName = GnuSpeechService;
-			productReference = 69E14A3E0F108138008CE33B /* GnuSpeechService.app */;
+			productReference = 69E14A3E0F108138008CE33B /* GnuSpeechService.service */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -259,6 +259,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
 				SDKROOT = macosx10.5;
+				WRAPPER_EXTENSION = service;
 			};
 			name = Release;
 		};

@@ -304,7 +304,7 @@
 							<real>163</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>191 160 1082 716 0 0 1440 878 </string>
+						<string>203 147 1082 716 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -332,14 +332,14 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>696CE84C0F26ECCD0014B94A</string>
+										<string>69FEF4090F29805200868D9C</string>
 										<key>history</key>
 										<array>
 											<string>696CE77C0F265E720014B94A</string>
 											<string>696CE83C0F26ECCD0014B94A</string>
 											<string>696CE83D0F26ECCD0014B94A</string>
 											<string>696CE83E0F26ECCD0014B94A</string>
-											<string>696CE83F0F26ECCD0014B94A</string>
+											<string>696319A90F27158F0082F399</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -348,14 +348,6 @@
 											<string>696CE8410F26ECCD0014B94A</string>
 											<string>696CE8420F26ECCD0014B94A</string>
 											<string>696CE8430F26ECCD0014B94A</string>
-											<string>696CE8440F26ECCD0014B94A</string>
-											<string>696CE8450F26ECCD0014B94A</string>
-											<string>696CE8460F26ECCD0014B94A</string>
-											<string>696CE8470F26ECCD0014B94A</string>
-											<string>696CE8480F26ECCD0014B94A</string>
-											<string>696CE8490F26ECCD0014B94A</string>
-											<string>696CE84A0F26ECCD0014B94A</string>
-											<string>696CE84B0F26ECCD0014B94A</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -371,7 +363,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {875, 524}}</string>
 								<key>RubberWindowFrame</key>
-								<string>191 160 1082 716 0 0 1440 878 </string>
+								<string>203 147 1082 716 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -396,7 +388,7 @@
 										<key>Frame</key>
 										<string>{{10, 27}, {875, 119}}</string>
 										<key>RubberWindowFrame</key>
-										<string>191 160 1082 716 0 0 1440 878 </string>
+										<string>203 147 1082 716 0 0 1440 878 </string>
 									</dict>
 									<key>Module</key>
 									<string>XCDetailModule</string>
@@ -499,11 +491,11 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>696CE6E20F2647140014B94A</string>
+				<string>69FEF3EB0F297E6400868D9C</string>
 				<string>1CA23ED40692098700951B8B</string>
-				<string>696CE6E30F2647140014B94A</string>
+				<string>69FEF3EC0F297E6400868D9C</string>
 				<string>6916C7F10F0E979E00B22C9D</string>
-				<string>696CE6E40F2647140014B94A</string>
+				<string>69FEF3ED0F297E6400868D9C</string>
 				<string>1CA23EDF0692099D00951B8B</string>
 				<string>1CA23EE00692099D00951B8B</string>
 				<string>1CA23EE10692099D00951B8B</string>
@@ -650,14 +642,14 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>696CE7820F265E720014B94A</string>
+				<string>69FEF3EE0F297E6400868D9C</string>
 				<string>1CCC7628064C1048000F2A68</string>
 				<string>1CCC7629064C1048000F2A68</string>
-				<string>696CE7830F265E720014B94A</string>
-				<string>696CE7840F265E720014B94A</string>
-				<string>696CE7850F265E720014B94A</string>
-				<string>696CE7860F265E720014B94A</string>
-				<string>696CE7870F265E720014B94A</string>
+				<string>69FEF3EF0F297E6400868D9C</string>
+				<string>69FEF3F00F297E6400868D9C</string>
+				<string>69FEF3F10F297E6400868D9C</string>
+				<string>69FEF3F20F297E6400868D9C</string>
+				<string>69FEF3F30F297E6400868D9C</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
@@ -686,11 +678,9 @@
 	<key>WindowJustification</key>
 	<integer>5</integer>
 	<key>WindowOrderList</key>
-	<array>
-		<string>/Users/dalmazio/Developer/xcode/gnuspeech/osx/trunk/Applications/GnuTTSClient/GnuTTSClient.xcodeproj</string>
-	</array>
+	<array/>
 	<key>WindowString</key>
-	<string>191 160 1082 716 0 0 1440 878 </string>
+	<string>203 147 1082 716 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>

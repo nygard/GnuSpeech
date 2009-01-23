@@ -230,8 +230,6 @@
 			<key>Layout</key>
 			<array>
 				<dict>
-					<key>BecomeActive</key>
-					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -282,8 +280,6 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>9</integer>
-									<integer>8</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -307,7 +303,7 @@
 							<real>205</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>342 248 916 588 0 0 1440 878 </string>
+						<string>293 239 916 588 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -335,11 +331,11 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>696CE8500F26ECCE0014B94A</string>
+										<string>696319DD0F2715E80082F399</string>
 										<key>history</key>
 										<array>
 											<string>696CE84D0F26ECCE0014B94A</string>
-											<string>696CE84E0F26ECCE0014B94A</string>
+											<string>693011D40F26F575002B0604</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -359,7 +355,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {667, 370}}</string>
 								<key>RubberWindowFrame</key>
-								<string>342 248 916 588 0 0 1440 878 </string>
+								<string>293 239 916 588 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -384,7 +380,7 @@
 										<key>Frame</key>
 										<string>{{10, 27}, {667, 145}}</string>
 										<key>RubberWindowFrame</key>
-										<string>342 248 916 588 0 0 1440 878 </string>
+										<string>293 239 916 588 0 0 1440 878 </string>
 									</dict>
 									<key>Module</key>
 									<string>XCDetailModule</string>
@@ -415,11 +411,11 @@
 											<key>PBXCVSModuleTreeModuleColumnWidthsKey</key>
 											<array>
 												<real>200</real>
-												<real>56.66162109375</real>
+												<real>56</real>
 												<real>63</real>
 												<real>60</real>
 												<real>63</real>
-												<real>139.556640625</real>
+												<real>139</real>
 											</array>
 											<key>PBXCVSModuleTreeModuleColumnsKey</key>
 											<array>
@@ -487,11 +483,11 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>696CE8510F26ECCE0014B94A</string>
+				<string>696319DE0F2715E80082F399</string>
 				<string>1CA23ED40692098700951B8B</string>
-				<string>696CE8520F26ECCE0014B94A</string>
+				<string>696319DF0F2715E80082F399</string>
 				<string>69E14A5E0F108948008CE33B</string>
-				<string>696CE8530F26ECCE0014B94A</string>
+				<string>696319E00F2715E80082F399</string>
 				<string>1CA23EDF0692099D00951B8B</string>
 				<string>1CA23EE00692099D00951B8B</string>
 				<string>1CA23EE10692099D00951B8B</string>
@@ -638,14 +634,14 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>696CE8540F26ECCE0014B94A</string>
+				<string>696319E10F2715E80082F399</string>
 				<string>1CCC7628064C1048000F2A68</string>
 				<string>1CCC7629064C1048000F2A68</string>
-				<string>696CE8550F26ECCE0014B94A</string>
-				<string>696CE8560F26ECCE0014B94A</string>
-				<string>696CE8570F26ECCE0014B94A</string>
-				<string>696CE8580F26ECCE0014B94A</string>
-				<string>696CE8590F26ECCE0014B94A</string>
+				<string>696319E20F2715E80082F399</string>
+				<string>696319E30F2715E80082F399</string>
+				<string>696319E40F2715E80082F399</string>
+				<string>696319E50F2715E80082F399</string>
+				<string>696319E60F2715E80082F399</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
@@ -674,9 +670,11 @@
 	<key>WindowJustification</key>
 	<integer>5</integer>
 	<key>WindowOrderList</key>
-	<array/>
+	<array>
+		<string>/Users/dalmazio/Developer/xcode/gnuspeech/osx/trunk/Services/GnuSpeechService/GnuSpeechService.xcodeproj</string>
+	</array>
 	<key>WindowString</key>
-	<string>342 248 916 588 0 0 1440 878 </string>
+	<string>293 239 916 588 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
