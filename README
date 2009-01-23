@@ -116,6 +116,22 @@ invoke the GnuSpeech service for the first time from the Services menu it will
 be automatically launched.
 
 
+Builds
+------
+
+This folder contains the beta builds of the GnuSpeech project. These builds are
+disk image files (.dmg) and contain packages that contain all the required
+software to run GnuSpeech on OS X.
+
+
+Installers
+----------
+
+This folder contains the package maker documents that are used to create the
+package installer which is later placed within a disk image file (.dmg) for
+distribution.
+
+
 Other
 -----
 
