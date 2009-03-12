@@ -44,7 +44,7 @@
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Creative Commons (cc) 2009. This software is licensed under the terms of the Creative Commons GNU GPL. See http://creativecommons.org/licenses/GPL/2.0/ for more information.</string>
+	<string>Copyright 1991-2009. David R. Hill, Leonard Manzara, Craig Schock. This software is licensed under the terms of the GNU GPL.</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 </dict>
