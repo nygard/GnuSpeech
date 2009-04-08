@@ -397,9 +397,10 @@
 
 - (void)synthesize;
 {
+	NSString * phoneString = [self syncTextAndPhoneString];
+
     [self prepareForSynthesis];
-	
-	NSString * phoneString = [textToPhone phoneForText:[textStringTextField stringValue]];	
+				
     [eventList parsePhoneString:phoneString]; // This creates the tone groups, feet.
     [eventList applyRhythm];
     [eventList applyRules]; // This applies the rules, adding events to the EventList.
@@ -407,6 +408,33 @@
     [intonationRuleTableView reloadData];
 	
     [self continueSynthesis];
+}
+
+- (NSString *)syncTextAndPhoneString;
+{
+	// Synchronize the text string and phone string display fields/views.
+	NSString * phoneString = [[phoneStringTextView string] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	if (phoneString == NULL || [phoneString length] == 0) {
+		
+		phoneString = [[textToPhone phoneForText:[textStringTextField stringValue]] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+		[phoneStringTextView setString:phoneString];
+		
+	} else {  // phone string text view already has a value
+		
+		NSString * textPhoneString = [[textToPhone phoneForText:[textStringTextField stringValue]] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+		if ([phoneString isEqualToString:textPhoneString])  // they are the same; sync colors
+			[textStringTextField setTextColor:[NSColor blackColor]];			
+		else  // they are different; change colors
+			[textStringTextField setTextColor:[NSColor redColor]];			
+	}
+	return phoneString;
+}
+
+- (void)parseText:(id)sender;
+{
+	NSString * phoneString = [textToPhone phoneForText:[textStringTextField stringValue]];
+	[phoneStringTextView setString:phoneString];
+	[textStringTextField setTextColor:[NSColor blackColor]];
 }
 
 - (IBAction)synthesizeWithContour:(id)sender;
@@ -873,6 +901,14 @@
 - (void)intonationViewSelectionDidChange:(NSNotification *)aNotification;
 {
     [self _updateSelectedPointDetails];
+}
+
+//
+// NSTextView delegate
+//
+- (void)textDidChange:(NSNotification *)aNotification;
+{
+	[self syncTextAndPhoneString];
 }
 
 //

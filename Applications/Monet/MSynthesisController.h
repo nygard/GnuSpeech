@@ -10,13 +10,14 @@
 @class EventListView, MAIntonationScrollView;
 @class TRMSynthesizer, MTextToPhone;
 @class NSComboBox, NSPopUpButton, NSMatrix, NSPrintInfo, NSOpenPanel, NSSavePanel;
-@class NSTableView, NSButton, NSTextField, NSView, NSForm, NSUndoManager;
+@class NSTableView, NSButton, NSTextField, NSTextView, NSView, NSForm, NSUndoManager;
 @class NSTableColumn, NSNotification, NSControl;
 
 @interface MSynthesisController : MWindowController
 {
     // Synthesis window
 	IBOutlet NSComboBox *textStringTextField;
+	IBOutlet NSTextView *phoneStringTextView;
     IBOutlet NSTableView *parameterTableView;
     IBOutlet EventListView *eventListView;
     IBOutlet NSButton *parametersStore;
@@ -92,6 +93,8 @@
 - (IBAction)synthesizeToFile:(id)sender;
 - (IBAction)fileTypeDidChange:(id)sender;
 - (void)synthesize;
+- (void)parseText:(id)sender;
+- (NSString *)syncTextAndPhoneString;
 
 - (IBAction)synthesizeWithContour:(id)sender;
 - (void)prepareForSynthesis;
@@ -133,6 +136,9 @@
 
 // MAIntonationView delegate
 - (void)intonationViewSelectionDidChange:(NSNotification *)aNotification;
+
+// NSTextView delegate
+- (void)textDidChange:(NSNotification *)aNotification;
 
 // Intonation Parameters
 - (IBAction)updateSmoothIntonation:(id)sender;

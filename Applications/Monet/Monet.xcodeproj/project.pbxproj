@@ -45,6 +45,7 @@
 		01C55D900B7BCE53009F6A92 /* MSynthesisParameterEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C55D810B7BCE53009F6A92 /* MSynthesisParameterEditor.m */; };
 		01C55D910B7BCE53009F6A92 /* MTransitionEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C55D830B7BCE53009F6A92 /* MTransitionEditor.m */; };
 		01C55D920B7BCE53009F6A92 /* MWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C55D850B7BCE53009F6A92 /* MWindowController.m */; };
+		69454E080F8D4DB200EBA0DC /* ChangeLog.txt in Resources */ = {isa = PBXBuildFile; fileRef = 69454E070F8D4DB200EBA0DC /* ChangeLog.txt */; };
 		696CE7B80F26DBD60014B94A /* Monet.icns in Resources */ = {isa = PBXBuildFile; fileRef = 696CE7B70F26DBD60014B94A /* Monet.icns */; };
 		69BED03F0F1AEA7600D66FBE /* MTextToPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 69BED03D0F1AEA7600D66FBE /* MTextToPhone.m */; };
 		69CD4B2A0EDD15AD00481C86 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69CD4B280EDD15AD00481C86 /* MainMenu.xib */; };
@@ -171,6 +172,7 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* Monet_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Monet_Prefix.pch; sourceTree = "<group>"; };
+		69454E070F8D4DB200EBA0DC /* ChangeLog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ChangeLog.txt; sourceTree = "<group>"; };
 		696CE7B70F26DBD60014B94A /* Monet.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Monet.icns; sourceTree = "<group>"; };
 		69BED03D0F1AEA7600D66FBE /* MTextToPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTextToPhone.m; sourceTree = "<group>"; };
 		69BED03E0F1AEA7600D66FBE /* MTextToPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTextToPhone.h; sourceTree = "<group>"; };
@@ -428,6 +430,7 @@
 				69CD4B5B0EDD166600481C86 /* SynthesisParameters.xib */,
 				69CD4B600EDD168000481C86 /* TransitionEditor.xib */,
 				69E8A4140EC236890090AD25 /* Diphones.mxml */,
+				69454E070F8D4DB200EBA0DC /* ChangeLog.txt */,
 				01C55C490B7BC7C6009F6A92 /* ReleaseNotes.html */,
 				01C55C4C0B7BC7D8009F6A92 /* Default.mxml */,
 				69E8A53E0EC276E20090AD25 /* Diphones.monet */,
@@ -545,6 +548,7 @@
 				69CD4B5D0EDD166600481C86 /* SynthesisParameters.xib in Resources */,
 				69CD4B620EDD168000481C86 /* TransitionEditor.xib in Resources */,
 				696CE7B80F26DBD60014B94A /* Monet.icns in Resources */,
+				69454E080F8D4DB200EBA0DC /* ChangeLog.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
