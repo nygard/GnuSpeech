@@ -1,0 +1,8 @@
+April 8, 2009 | GnuTTSServer v0.1.1
+
+* Added intonation support when speaking a text string (dbrisinda)
+
+January 23, 2009 | GnuTTSServer v0.1
+
+* Initial version of the GnuTTSServer (dbrisinda)
+* Added support for speaking a text string (dbrisinda)

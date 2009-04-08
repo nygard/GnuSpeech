@@ -178,6 +178,7 @@
     [textStringTextField removeAllItems];
     [textStringTextField addItemsWithObjectValues:[[NSUserDefaults standardUserDefaults] objectForKey:MDK_DefaultUtterances]];
     [textStringTextField selectItemAtIndex:0];
+	[phoneStringTextView setString:[textToPhone phoneForText:[textStringTextField stringValue]]];
 	
     [[[eventTableView tableColumnWithIdentifier:@"flag"] dataCell] setFormatter:defaultNumberFormatter];
 	
@@ -378,29 +379,12 @@
     NSLog(@"<  %s", _cmd);
 }
 
-- (IBAction)fileTypeDidChange:(id)sender;
-{
-    NSSavePanel *savePanel;
-    NSString *extension;
-	
-    savePanel = (NSSavePanel *)[fileTypePopUpButton window];
-    switch ([[fileTypePopUpButton selectedItem] tag]) {
-		case 1: extension = @"aiff"; break;
-		case 2: extension = @"wav"; break;
-		case 0:
-		default:
-			extension = @"au"; break;
-    }
-	
-    [savePanel setRequiredFileType:extension];
-}
-
 - (void)synthesize;
 {
 	NSString * phoneString = [self syncTextAndPhoneString];
-
+	
     [self prepareForSynthesis];
-				
+	
     [eventList parsePhoneString:phoneString]; // This creates the tone groups, feet.
     [eventList applyRhythm];
     [eventList applyRules]; // This applies the rules, adding events to the EventList.
@@ -428,6 +412,23 @@
 			[textStringTextField setTextColor:[NSColor redColor]];			
 	}
 	return phoneString;
+}
+
+- (IBAction)fileTypeDidChange:(id)sender;
+{
+    NSSavePanel *savePanel;
+    NSString *extension;
+	
+    savePanel = (NSSavePanel *)[fileTypePopUpButton window];
+    switch ([[fileTypePopUpButton selectedItem] tag]) {
+		case 1: extension = @"aiff"; break;
+		case 2: extension = @"wav"; break;
+		case 0:
+		default:
+			extension = @"au"; break;
+    }
+	
+    [savePanel setRequiredFileType:extension];
 }
 
 - (void)parseText:(id)sender;

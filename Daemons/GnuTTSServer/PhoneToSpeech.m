@@ -79,7 +79,7 @@
 
 - (void) prepareForSynthesis;
 {
-    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+    // NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
 		
     [eventList setUp];
 	
@@ -87,12 +87,13 @@
     [eventList setGlobalTempo:1.0];  // hard-coded defaults taken from Monet
     [eventList setShouldStoreParameters:NO];
 	
-    [eventList setShouldUseMacroIntonation:[defaults boolForKey:MDK_ShouldUseMacroIntonation]];
-    [eventList setShouldUseMicroIntonation:[defaults boolForKey:MDK_ShouldUseMicroIntonation]];
-    [eventList setShouldUseDrift:[defaults boolForKey:MDK_ShouldUseDrift]];
-    //setDriftGenerator(0.5, 250, 0.5);
+    //[eventList setShouldUseMacroIntonation:[defaults boolForKey:MDK_ShouldUseMacroIntonation]];
+    //[eventList setShouldUseMicroIntonation:[defaults boolForKey:MDK_ShouldUseMicroIntonation]];
+    //[eventList setShouldUseDrift:[defaults boolForKey:MDK_ShouldUseDrift]];
+	[eventList setShouldUseMacroIntonation:YES];
+	[eventList setShouldUseMicroIntonation:YES];
+	[eventList setShouldUseDrift:YES];		
 	setDriftGenerator(1.0, 500, 4.0);  // hard-coded defaults taken from Monet
-
     [eventList setRadiusMultiply:1.0];  // hard-coded defaults taken from Monet
 	
     [self _takeIntonationParametersFromUI];
@@ -111,9 +112,10 @@
 
 - (void) continueSynthesis;
 {
-    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+    // NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];	
+    // [eventList setShouldUseSmoothIntonation:[defaults boolForKey:MDK_ShouldUseSmoothIntonation]];
+	[eventList setShouldUseSmoothIntonation:YES];
 	
-    [eventList setShouldUseSmoothIntonation:[defaults boolForKey:MDK_ShouldUseSmoothIntonation]];
     [eventList applyIntonation];
 		
     [synthesizer setupSynthesisParameters:[[self model] synthesisParameters]]; // TODO (2004-08-22): This may overwrite the file type...
