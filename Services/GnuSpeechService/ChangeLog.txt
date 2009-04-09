@@ -1,0 +1,3 @@
+January 3, 2009 | GnuSpeechService v0.5
+
+* Initial version with support for speaking text as an OS X service (dbrisinda)
