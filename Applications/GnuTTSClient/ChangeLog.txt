@@ -1,0 +1,3 @@
+January 23, 2009 | GnuTTSClient v0.5
+
+* Initial version of client application to showcase how to use GnuTTSServer (dbrisinda)

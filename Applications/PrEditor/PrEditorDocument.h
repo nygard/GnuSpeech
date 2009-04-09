@@ -1,3 +1,33 @@
+////////////////////////////////////////////////////////////////////////////////
+//
+//  Copyright 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
+//  
+//  Contributors: Vince DeMarco, Eric Zoerner
+//
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+////////////////////////////////////////////////////////////////////////////////
+//
+//  PrEditorDocument.h
+//  PrEditor
+//
+//  Created by Eric Zoerner on 03/06/2006.
+//
+//	Version: 0.1
+//
+////////////////////////////////////////////////////////////////////////////////
+
 /*
  *    Filename:	PrEditorDocument.h 
  *    Created :	Thu Jan  9 21:31:43 1992 
@@ -27,8 +57,8 @@
  * The entered pronunciation is checked by the Speech object
  * if an error occurs this object will put up a panel notifying
  * the user, which character position is wrong. (On the To Do list
-                                                 * is to add a textfilter to the Phone Field to ensure that the
-                                                 * user can only type in correct things.)
+ * is to add a textfilter to the Phone Field to ensure that the
+ * user can only type in correct things.)
  *
  * Revision 2.2  1995/08/08  Michael Forbes.
  * The document object has been stripped of the core of its saving
@@ -73,8 +103,6 @@
  * with more efficient updating only when neccessary.
  * The accessory view should be dynamically updated based on the list of file types
  * provided by the PrDict object.
- *
- *
  */
 
 #import <Cocoa/Cocoa.h>

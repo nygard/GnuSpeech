@@ -259,6 +259,8 @@
 			children = (
 				01C55D480B7BCD69009F6A92 /* MMDisplayParameter.h */,
 				01C55D490B7BCD69009F6A92 /* MMDisplayParameter.m */,
+				69BED03E0F1AEA7600D66FBE /* MTextToPhone.h */,
+				69BED03D0F1AEA7600D66FBE /* MTextToPhone.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -312,8 +314,6 @@
 				01C55D830B7BCE53009F6A92 /* MTransitionEditor.m */,
 				01C55D840B7BCE53009F6A92 /* MWindowController.h */,
 				01C55D850B7BCE53009F6A92 /* MWindowController.m */,
-				69BED03D0F1AEA7600D66FBE /* MTextToPhone.m */,
-				69BED03E0F1AEA7600D66FBE /* MTextToPhone.h */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";

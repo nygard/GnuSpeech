@@ -1,0 +1,3 @@
+January 23, 2009 | PreMo v0.9
+
+* Conversion of the 'little' GnuSpeech application to 'PreMo' for disambiguation (dbrisinda)
