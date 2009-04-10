@@ -2,7 +2,7 @@
 //
 //  Copyright 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
 //  
-//  Contributors: Steve Nygard
+//  Contributors: Steve Nygard, Dalmazio Brisinda
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by

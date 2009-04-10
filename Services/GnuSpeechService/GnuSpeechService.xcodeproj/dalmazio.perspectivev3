@@ -230,6 +230,8 @@
 			<key>Layout</key>
 			<array>
 				<dict>
+					<key>BecomeActive</key>
+					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -280,6 +282,8 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
+									<integer>9</integer>
+									<integer>8</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -303,7 +307,7 @@
 							<real>205</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>293 239 916 588 0 0 1440 878 </string>
+						<string>197 202 916 588 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -319,7 +323,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>69E14A5E0F108948008CE33B</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>GnuSpeechService-Info.plist</string>
+								<string>ChangeLog.txt</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -327,19 +331,61 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>69E14A5F0F108948008CE33B</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>GnuSpeechService-Info.plist</string>
+										<string>ChangeLog.txt</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>696319DD0F2715E80082F399</string>
+										<string>6933AD010F8EB41900D30AF6</string>
 										<key>history</key>
 										<array>
-											<string>696CE84D0F26ECCE0014B94A</string>
-											<string>693011D40F26F575002B0604</string>
+											<string>6933ACD50F8EB41900D30AF6</string>
+											<string>6933ACD60F8EB41900D30AF6</string>
+											<string>6933ACD70F8EB41900D30AF6</string>
+											<string>6933ACD80F8EB41900D30AF6</string>
+											<string>6933ACD90F8EB41900D30AF6</string>
+											<string>6933ACDA0F8EB41900D30AF6</string>
+											<string>6933ACDB0F8EB41900D30AF6</string>
 										</array>
 										<key>prevStack</key>
 										<array>
 											<string>696CE84F0F26ECCE0014B94A</string>
+											<string>6933ACDC0F8EB41900D30AF6</string>
+											<string>6933ACDD0F8EB41900D30AF6</string>
+											<string>6933ACDE0F8EB41900D30AF6</string>
+											<string>6933ACDF0F8EB41900D30AF6</string>
+											<string>6933ACE00F8EB41900D30AF6</string>
+											<string>6933ACE10F8EB41900D30AF6</string>
+											<string>6933ACE20F8EB41900D30AF6</string>
+											<string>6933ACE30F8EB41900D30AF6</string>
+											<string>6933ACE40F8EB41900D30AF6</string>
+											<string>6933ACE50F8EB41900D30AF6</string>
+											<string>6933ACE60F8EB41900D30AF6</string>
+											<string>6933ACE70F8EB41900D30AF6</string>
+											<string>6933ACE80F8EB41900D30AF6</string>
+											<string>6933ACE90F8EB41900D30AF6</string>
+											<string>6933ACEA0F8EB41900D30AF6</string>
+											<string>6933ACEB0F8EB41900D30AF6</string>
+											<string>6933ACEC0F8EB41900D30AF6</string>
+											<string>6933ACED0F8EB41900D30AF6</string>
+											<string>6933ACEE0F8EB41900D30AF6</string>
+											<string>6933ACEF0F8EB41900D30AF6</string>
+											<string>6933ACF00F8EB41900D30AF6</string>
+											<string>6933ACF10F8EB41900D30AF6</string>
+											<string>6933ACF20F8EB41900D30AF6</string>
+											<string>6933ACF30F8EB41900D30AF6</string>
+											<string>6933ACF40F8EB41900D30AF6</string>
+											<string>6933ACF50F8EB41900D30AF6</string>
+											<string>6933ACF60F8EB41900D30AF6</string>
+											<string>6933ACF70F8EB41900D30AF6</string>
+											<string>6933ACF80F8EB41900D30AF6</string>
+											<string>6933ACF90F8EB41900D30AF6</string>
+											<string>6933ACFA0F8EB41900D30AF6</string>
+											<string>6933ACFB0F8EB41900D30AF6</string>
+											<string>6933ACFC0F8EB41900D30AF6</string>
+											<string>6933ACFD0F8EB41900D30AF6</string>
+											<string>6933ACFE0F8EB41900D30AF6</string>
+											<string>6933ACFF0F8EB41900D30AF6</string>
+											<string>6933AD000F8EB41900D30AF6</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -355,7 +401,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {667, 370}}</string>
 								<key>RubberWindowFrame</key>
-								<string>293 239 916 588 0 0 1440 878 </string>
+								<string>197 202 916 588 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -380,7 +426,7 @@
 										<key>Frame</key>
 										<string>{{10, 27}, {667, 145}}</string>
 										<key>RubberWindowFrame</key>
-										<string>293 239 916 588 0 0 1440 878 </string>
+										<string>197 202 916 588 0 0 1440 878 </string>
 									</dict>
 									<key>Module</key>
 									<string>XCDetailModule</string>
@@ -483,11 +529,11 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>696319DE0F2715E80082F399</string>
+				<string>6933AD020F8EB41900D30AF6</string>
 				<string>1CA23ED40692098700951B8B</string>
-				<string>696319DF0F2715E80082F399</string>
+				<string>6933AD030F8EB41900D30AF6</string>
 				<string>69E14A5E0F108948008CE33B</string>
-				<string>696319E00F2715E80082F399</string>
+				<string>6933AD040F8EB41900D30AF6</string>
 				<string>1CA23EDF0692099D00951B8B</string>
 				<string>1CA23EE00692099D00951B8B</string>
 				<string>1CA23EE10692099D00951B8B</string>
@@ -674,7 +720,7 @@
 		<string>/Users/dalmazio/Developer/xcode/gnuspeech/osx/trunk/Services/GnuSpeechService/GnuSpeechService.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>293 239 916 588 0 0 1440 878 </string>
+	<string>197 202 916 588 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
