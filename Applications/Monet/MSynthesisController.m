@@ -24,7 +24,7 @@
 //
 //  Created by Steve Nygard in 2004.
 //
-//  Version: 0.9.3
+//  Version: 0.9.4
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -437,7 +437,8 @@
 	if (phoneString == NULL || [phoneString length] == 0) {
 		phoneString = [[textToPhone phoneForText:[textStringTextField stringValue]] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 		[phoneStringTextView setFont:[NSFont fontWithName:@"Lucida Grande" size:13]];
-		[phoneStringTextView setString:phoneString];	
+		[phoneStringTextView setString:phoneString];
+		[textStringTextField setTextColor:[NSColor blackColor]];
 	}
 	return phoneString;
 }
@@ -463,6 +464,7 @@
 {
 	NSString * phoneString = [textToPhone phoneForText:[textStringTextField stringValue]];
 	[phoneStringTextView setString:phoneString];
+	[textStringTextField setTextColor:[NSColor blackColor]];	
 }
 
 - (IBAction)synthesizeWithContour:(id)sender;
@@ -941,6 +943,7 @@
 		[phoneStringTextView setFont:[NSFont fontWithName:@"Lucida Grande" size:13]];
 		[phoneStringTextView setString:phoneString];
 	}
+	[textStringTextField setTextColor:[NSColor redColor]];
 }
 
 //

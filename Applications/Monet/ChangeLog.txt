@@ -1,3 +1,7 @@
+April 12, 2009 | Monet v0.9.4
+
+* Added simple text coloring of English text string when phone/posture string is edited (dbrisinda)
+
 April 11, 2009 | Monet v0.9.3
 
 * Added the phone/postures string text view to the GUI alongside the English text field (dbrisinda)
