@@ -1,6 +1,6 @@
 April 11, 2009 | Monet v0.9.3
 
-* Added the phone string text view to the GUI alongside the English text field (dbrisinda)
+* Added the phone/postures string text view to the GUI alongside the English text field (dbrisinda)
 * Added a "Parse Text" button to the main GUI resembling the same functionality in the PreMo application (dbrisinda)
 * Added full scrolling support of the main event view so all parameters and timing values can be seen (dbrisinda)
 * Added full support for mouse tracking in the main event view (dbrisinda)

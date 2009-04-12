@@ -307,7 +307,7 @@
 							<real>245</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>115 151 1106 727 0 0 1440 878 </string>
+						<string>215 151 1106 727 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -335,7 +335,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>6933AE700F8EB42300D30AF6</string>
+										<string>697931450F91922F00E6B2EC</string>
 										<key>history</key>
 										<array>
 											<string>696CE7020F264E6D0014B94A</string>
@@ -351,7 +351,7 @@
 											<string>6933AE4B0F8EB42300D30AF6</string>
 											<string>6933AE4C0F8EB42300D30AF6</string>
 											<string>6933AE4D0F8EB42300D30AF6</string>
-											<string>6933AE4E0F8EB42300D30AF6</string>
+											<string>6933AE700F8EB42300D30AF6</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -369,39 +369,6 @@
 											<string>69454F060F8D7B1C00EBA0DC</string>
 											<string>69454F070F8D7B1C00EBA0DC</string>
 											<string>69454F0B0F8D7B1C00EBA0DC</string>
-											<string>6933AE4F0F8EB42300D30AF6</string>
-											<string>6933AE500F8EB42300D30AF6</string>
-											<string>6933AE510F8EB42300D30AF6</string>
-											<string>6933AE520F8EB42300D30AF6</string>
-											<string>6933AE530F8EB42300D30AF6</string>
-											<string>6933AE540F8EB42300D30AF6</string>
-											<string>6933AE550F8EB42300D30AF6</string>
-											<string>6933AE560F8EB42300D30AF6</string>
-											<string>6933AE570F8EB42300D30AF6</string>
-											<string>6933AE580F8EB42300D30AF6</string>
-											<string>6933AE590F8EB42300D30AF6</string>
-											<string>6933AE5A0F8EB42300D30AF6</string>
-											<string>6933AE5B0F8EB42300D30AF6</string>
-											<string>6933AE5C0F8EB42300D30AF6</string>
-											<string>6933AE5D0F8EB42300D30AF6</string>
-											<string>6933AE5E0F8EB42300D30AF6</string>
-											<string>6933AE5F0F8EB42300D30AF6</string>
-											<string>6933AE600F8EB42300D30AF6</string>
-											<string>6933AE610F8EB42300D30AF6</string>
-											<string>6933AE620F8EB42300D30AF6</string>
-											<string>6933AE630F8EB42300D30AF6</string>
-											<string>6933AE640F8EB42300D30AF6</string>
-											<string>6933AE650F8EB42300D30AF6</string>
-											<string>6933AE660F8EB42300D30AF6</string>
-											<string>6933AE670F8EB42300D30AF6</string>
-											<string>6933AE680F8EB42300D30AF6</string>
-											<string>6933AE690F8EB42300D30AF6</string>
-											<string>6933AE6A0F8EB42300D30AF6</string>
-											<string>6933AE6B0F8EB42300D30AF6</string>
-											<string>6933AE6C0F8EB42300D30AF6</string>
-											<string>6933AE6D0F8EB42300D30AF6</string>
-											<string>6933AE6E0F8EB42300D30AF6</string>
-											<string>6933AE6F0F8EB42300D30AF6</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -417,7 +384,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {817, 410}}</string>
 								<key>RubberWindowFrame</key>
-								<string>115 151 1106 727 0 0 1440 878 </string>
+								<string>215 151 1106 727 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -442,7 +409,7 @@
 										<key>Frame</key>
 										<string>{{10, 27}, {817, 244}}</string>
 										<key>RubberWindowFrame</key>
-										<string>115 151 1106 727 0 0 1440 878 </string>
+										<string>215 151 1106 727 0 0 1440 878 </string>
 									</dict>
 									<key>Module</key>
 									<string>XCDetailModule</string>
@@ -545,11 +512,11 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>6933AE710F8EB42300D30AF6</string>
+				<string>697931460F91922F00E6B2EC</string>
 				<string>1CA23ED40692098700951B8B</string>
-				<string>6933AE720F8EB42300D30AF6</string>
+				<string>697931470F91922F00E6B2EC</string>
 				<string>69E145A70F10348C008CE33B</string>
-				<string>6933AE730F8EB42300D30AF6</string>
+				<string>697931480F91922F00E6B2EC</string>
 				<string>1CA23EDF0692099D00951B8B</string>
 				<string>1CA23EE00692099D00951B8B</string>
 				<string>1CA23EE10692099D00951B8B</string>
@@ -736,7 +703,7 @@
 		<string>/Users/dalmazio/Developer/xcode/gnuspeech/osx/trunk/Daemons/GnuTTSServer/GnuTTSServer.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>115 151 1106 727 0 0 1440 878 </string>
+	<string>215 151 1106 727 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>

@@ -307,7 +307,7 @@
 							<real>205</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>197 202 916 588 0 0 1440 878 </string>
+						<string>178 215 916 588 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -335,16 +335,16 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>6933AD010F8EB41900D30AF6</string>
+										<string>697931590F91935500E6B2EC</string>
 										<key>history</key>
 										<array>
 											<string>6933ACD50F8EB41900D30AF6</string>
-											<string>6933ACD60F8EB41900D30AF6</string>
 											<string>6933ACD70F8EB41900D30AF6</string>
 											<string>6933ACD80F8EB41900D30AF6</string>
 											<string>6933ACD90F8EB41900D30AF6</string>
 											<string>6933ACDA0F8EB41900D30AF6</string>
-											<string>6933ACDB0F8EB41900D30AF6</string>
+											<string>697931560F91935500E6B2EC</string>
+											<string>697931570F91935500E6B2EC</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -352,40 +352,11 @@
 											<string>6933ACDC0F8EB41900D30AF6</string>
 											<string>6933ACDD0F8EB41900D30AF6</string>
 											<string>6933ACDE0F8EB41900D30AF6</string>
-											<string>6933ACDF0F8EB41900D30AF6</string>
 											<string>6933ACE00F8EB41900D30AF6</string>
-											<string>6933ACE10F8EB41900D30AF6</string>
-											<string>6933ACE20F8EB41900D30AF6</string>
-											<string>6933ACE30F8EB41900D30AF6</string>
-											<string>6933ACE40F8EB41900D30AF6</string>
 											<string>6933ACE50F8EB41900D30AF6</string>
-											<string>6933ACE60F8EB41900D30AF6</string>
-											<string>6933ACE70F8EB41900D30AF6</string>
-											<string>6933ACE80F8EB41900D30AF6</string>
-											<string>6933ACE90F8EB41900D30AF6</string>
-											<string>6933ACEA0F8EB41900D30AF6</string>
-											<string>6933ACEB0F8EB41900D30AF6</string>
-											<string>6933ACEC0F8EB41900D30AF6</string>
-											<string>6933ACED0F8EB41900D30AF6</string>
-											<string>6933ACEE0F8EB41900D30AF6</string>
-											<string>6933ACEF0F8EB41900D30AF6</string>
-											<string>6933ACF00F8EB41900D30AF6</string>
-											<string>6933ACF10F8EB41900D30AF6</string>
-											<string>6933ACF20F8EB41900D30AF6</string>
 											<string>6933ACF30F8EB41900D30AF6</string>
-											<string>6933ACF40F8EB41900D30AF6</string>
-											<string>6933ACF50F8EB41900D30AF6</string>
-											<string>6933ACF60F8EB41900D30AF6</string>
-											<string>6933ACF70F8EB41900D30AF6</string>
-											<string>6933ACF80F8EB41900D30AF6</string>
-											<string>6933ACF90F8EB41900D30AF6</string>
-											<string>6933ACFA0F8EB41900D30AF6</string>
-											<string>6933ACFB0F8EB41900D30AF6</string>
-											<string>6933ACFC0F8EB41900D30AF6</string>
-											<string>6933ACFD0F8EB41900D30AF6</string>
-											<string>6933ACFE0F8EB41900D30AF6</string>
-											<string>6933ACFF0F8EB41900D30AF6</string>
-											<string>6933AD000F8EB41900D30AF6</string>
+											<string>697931510F91926100E6B2EC</string>
+											<string>697931580F91935500E6B2EC</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -401,7 +372,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {667, 370}}</string>
 								<key>RubberWindowFrame</key>
-								<string>197 202 916 588 0 0 1440 878 </string>
+								<string>178 215 916 588 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -426,7 +397,7 @@
 										<key>Frame</key>
 										<string>{{10, 27}, {667, 145}}</string>
 										<key>RubberWindowFrame</key>
-										<string>197 202 916 588 0 0 1440 878 </string>
+										<string>178 215 916 588 0 0 1440 878 </string>
 									</dict>
 									<key>Module</key>
 									<string>XCDetailModule</string>
@@ -529,11 +500,11 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>6933AD020F8EB41900D30AF6</string>
+				<string>697931530F91926100E6B2EC</string>
 				<string>1CA23ED40692098700951B8B</string>
-				<string>6933AD030F8EB41900D30AF6</string>
+				<string>697931540F91926100E6B2EC</string>
 				<string>69E14A5E0F108948008CE33B</string>
-				<string>6933AD040F8EB41900D30AF6</string>
+				<string>697931550F91926100E6B2EC</string>
 				<string>1CA23EDF0692099D00951B8B</string>
 				<string>1CA23EE00692099D00951B8B</string>
 				<string>1CA23EE10692099D00951B8B</string>
@@ -720,7 +691,7 @@
 		<string>/Users/dalmazio/Developer/xcode/gnuspeech/osx/trunk/Services/GnuSpeechService/GnuSpeechService.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>197 202 916 588 0 0 1440 878 </string>
+	<string>178 215 916 588 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
