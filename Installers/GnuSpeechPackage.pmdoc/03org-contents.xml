@@ -1,1 +1,1 @@
-<pkg-contents spec="1.12"><f n="org.gnu.GnuSpeech.GnuTTSServer.plist" o="root" g="admin" p="33188" pt="/Users/dalmazio/Developer/xcode/gnuspeech/osx/trunk/Daemons/GnuTTSServer/org.gnu.GnuSpeech.GnuTTSServer.plist" m="false" t="file"><mod>owner</mod><mod>group</mod></f></pkg-contents>
+<pkg-contents spec="1.12"><f n="org.gnu.GnuSpeech.GnuTTSServer.plist" o="root" g="wheel" p="33188" pt="/Users/dalmazio/Developer/xcode/gnuspeech/osx/trunk/Daemons/GnuTTSServer/org.gnu.GnuSpeech.GnuTTSServer.plist" m="false" t="file"><mod>owner</mod><mod>group</mod></f></pkg-contents>
