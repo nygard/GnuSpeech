@@ -47,7 +47,11 @@
 	IBOutlet NSTextView *phoneStringTextView;
     IBOutlet NSTableView *parameterTableView;
     IBOutlet EventListView *eventListView;
+	IBOutlet NSScrollView *scrollView;  // db
     IBOutlet NSButton *parametersStore;
+	
+	IBOutlet NSTextField *mouseTimeField;  // db
+    IBOutlet NSTextField *mouseValueField;  // db
 	
     // Save panel accessory view
     IBOutlet NSView *savePanelAccessoryView;
@@ -121,7 +125,7 @@
 - (IBAction)fileTypeDidChange:(id)sender;
 - (void)synthesize;
 - (void)parseText:(id)sender;
-- (NSString *)syncTextAndPhoneString;
+- (NSString *)getAndSyncPhoneString;
 
 - (IBAction)synthesizeWithContour:(id)sender;
 - (void)prepareForSynthesis;

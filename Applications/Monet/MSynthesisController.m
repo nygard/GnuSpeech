@@ -119,6 +119,8 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 	
+	[eventListView release];  // db
+	
     [model release];
     [displayParameters release];
     [eventList release];
@@ -161,6 +163,13 @@
     NSNumberFormatter *defaultNumberFormatter;
     NSButtonCell *checkboxCell, *checkboxCell2;
     NSUserDefaults *defaults;
+	
+	// Added by dalmazio, April 11, 2009.
+	eventListView = [[EventListView alloc] initWithFrame:[[scrollView contentView] frame]];
+	[eventListView setAutoresizingMask:[scrollView autoresizingMask]];
+	[eventListView setMouseTimeField:mouseTimeField];
+	[eventListView setMouseValueField:mouseValueField];
+	[scrollView setDocumentView:eventListView];
 	
     defaults = [NSUserDefaults standardUserDefaults];
 	
@@ -205,6 +214,7 @@
     [textStringTextField removeAllItems];
     [textStringTextField addItemsWithObjectValues:[[NSUserDefaults standardUserDefaults] objectForKey:MDK_DefaultUtterances]];
     [textStringTextField selectItemAtIndex:0];
+	[phoneStringTextView setFont:[NSFont fontWithName:@"Lucida Grande" size:13]];	
 	[phoneStringTextView setString:[textToPhone phoneForText:[textStringTextField stringValue]]];
 	
     [[[eventTableView tableColumnWithIdentifier:@"flag"] dataCell] setFormatter:defaultNumberFormatter];
@@ -408,8 +418,8 @@
 
 - (void)synthesize;
 {
-	NSString * phoneString = [self syncTextAndPhoneString];
-	
+	NSString * phoneString = [self getAndSyncPhoneString];
+		
     [self prepareForSynthesis];
 	
     [eventList parsePhoneString:phoneString]; // This creates the tone groups, feet.
@@ -421,22 +431,13 @@
     [self continueSynthesis];
 }
 
-- (NSString *)syncTextAndPhoneString;
+- (NSString *)getAndSyncPhoneString;
 {
-	// Synchronize the text string and phone string display fields/views.
 	NSString * phoneString = [[phoneStringTextView string] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 	if (phoneString == NULL || [phoneString length] == 0) {
-		
 		phoneString = [[textToPhone phoneForText:[textStringTextField stringValue]] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-		[phoneStringTextView setString:phoneString];
-		
-	} else {  // phone string text view already has a value
-		
-		NSString * textPhoneString = [[textToPhone phoneForText:[textStringTextField stringValue]] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-		if ([phoneString isEqualToString:textPhoneString])  // they are the same; sync colors
-			[textStringTextField setTextColor:[NSColor blackColor]];			
-		else  // they are different; change colors
-			[textStringTextField setTextColor:[NSColor redColor]];			
+		[phoneStringTextView setFont:[NSFont fontWithName:@"Lucida Grande" size:13]];
+		[phoneStringTextView setString:phoneString];	
 	}
 	return phoneString;
 }
@@ -462,7 +463,6 @@
 {
 	NSString * phoneString = [textToPhone phoneForText:[textStringTextField stringValue]];
 	[phoneStringTextView setString:phoneString];
-	[textStringTextField setTextColor:[NSColor blackColor]];
 }
 
 - (IBAction)synthesizeWithContour:(id)sender;
@@ -936,7 +936,11 @@
 //
 - (void)textDidChange:(NSNotification *)aNotification;
 {
-	[self syncTextAndPhoneString];
+	NSString *phoneString = [phoneStringTextView string];
+	if (phoneString == NULL || [phoneString length] == 0) {
+		[phoneStringTextView setFont:[NSFont fontWithName:@"Lucida Grande" size:13]];
+		[phoneStringTextView setString:phoneString];
+	}
 }
 
 //

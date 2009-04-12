@@ -362,7 +362,6 @@
 				01C55C830B7BC965009F6A92 /* AppKit */,
 				01C55C870B7BC9C3009F6A92 /* Model */,
 				01C55C8B0B7BCA04009F6A92 /* Views */,
-				01C55C8C0B7BCA10009F6A92 /* Controllers */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -397,6 +396,7 @@
 			isa = PBXGroup;
 			children = (
 				080E96DDFE201D6D7F000001 /* Classes */,
+				01C55C8C0B7BCA10009F6A92 /* Controllers */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,

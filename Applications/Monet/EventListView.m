@@ -2,7 +2,7 @@
 //
 //  Copyright 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
 //  
-//  Contributors: Steve Nygard
+//  Contributors: Steve Nygard, Dalmazio Brisinda
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -38,6 +38,8 @@
 #import "MMDisplayParameter.h"
 
 #import <math.h>
+
+#define RIGHT_MARGIN 20.0
 
 @implementation EventListView
 
@@ -89,9 +91,9 @@
     displayParameters = nil;
 
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                          selector:@selector(frameDidChange:)
-                                          name:NSViewFrameDidChangeNotification
-                                          object:self];
+											 selector:@selector(frameDidChange:)
+												 name:NSViewFrameDidChangeNotification
+											   object:self];	
 
     [self setNeedsDisplay:YES];
 
@@ -101,7 +103,7 @@
 - (void)dealloc;
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [self removeTrackingRect:trackTag];
+    [self removeTrackingRect:trackTag];  // track
 
     [timesFont release];
     [timesFontSmall release];
@@ -116,7 +118,7 @@
 
 - (void)awakeFromNib;
 {
-    trackTag = [self addTrackingRect:[self bounds] owner:self userData:NULL assumeInside:NO];
+    trackTag = [self addTrackingRect:[self bounds] owner:self userData:NULL assumeInside:NO];  // track
 }
 
 - (NSArray *)displayParameters;
@@ -160,15 +162,22 @@
 {
     [self clearView];
     [self drawGrid];
-    [self drawRules];
+    [self drawRules];	
 }
 
 - (void)clearView;
 {
-    NSDrawGrayBezel([self bounds], [self bounds]);
+	NSRect bounds;
+	
+	// Added by dalmazio, April 11, 2009.
+	bounds.size.width = [self minimumWidth];
+	bounds.size.height = [self minimumHeight];	
+	[self setFrame:bounds];
+	
+	NSDrawGrayBezel([self bounds], [self bounds]);
 }
 
-#define TRACKHEIGHT	120.0
+#define TRACKHEIGHT		120.0
 #define BORDERHEIGHT	20.0
 
 - (void)drawGrid;
@@ -183,12 +192,14 @@
     NSRect bounds;
     unsigned count, index;
     NSArray *events;
-
-    bounds = NSIntegralRect([self bounds]);
-
-    phoneIndex = 0;
-    displayList = [[NSMutableArray alloc] init];
-
+	
+	// Set the proper bounds according to the event data.
+	bounds.size.width = [self minimumWidth];
+	bounds.size.height = [self minimumHeight];
+	
+	phoneIndex = 0;
+	displayList = [[NSMutableArray alloc] init];
+	
     count = [displayParameters count];
     for (index = 0; index < count; index++) {
         MMDisplayParameter *currentDisplayParameter;
@@ -197,27 +208,24 @@
         [displayList addObject:currentDisplayParameter];
     }
 
-    /* Figure out how many tracks are actually displayed */
-    if ([displayList count ] > 4)
-        j = 4;
-    else
-        j = [displayList count];
+    // Figure out how many tracks are actually displayed.
+	j = [displayList count];
 
     /* Make an outlined white box for display */
     [[NSColor whiteColor] set];
-    NSRectFill(NSMakeRect(80.0, 50.0, bounds.size.width - 100.0, bounds.size.height - 100.0));
+    NSRectFill(NSMakeRect(80.0, 50.0, bounds.size.width - 100.0 - 30.0, bounds.size.height - 100.0));	// reduced 30.0 from x dimension for aesthetics -- db.
 
     [[NSColor blackColor] set];
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:2];
-    [bezierPath appendBezierPathWithRect:NSMakeRect(79, 49, bounds.size.width - 80 - 20 + 2, bounds.size.height - 50 - 50 + 2)];
+    [bezierPath appendBezierPathWithRect:NSMakeRect(79.0, 49.0, bounds.size.width - 80.0 - 20.0 - 30.0 + 2.0, bounds.size.height - 50.0 - 50.0 + 2.0)];  // reduced 30.0 from x dimension for aesthetics -- db.
     [bezierPath stroke];
     [bezierPath release];
 
     /* Draw the space for each Track */
     [[NSColor darkGrayColor] set];
     for (i = 0; i < j; i++) {
-        NSRectFill(NSMakeRect(80.0 + 1, bounds.size.height - (50.0 + (float)(i + 1) * TRACKHEIGHT), bounds.size.width - 100.0 - 2, BORDERHEIGHT));
+        NSRectFill(NSMakeRect(80.0 + 1.0, bounds.size.height - (50.0 + (float)(i + 1) * TRACKHEIGHT), bounds.size.width - 100.0 - 30.0 - 2.0, BORDERHEIGHT));  // reduced 30.0 from x dimension for aesthetics -- db.
     }
 
     // Draw parameter names
@@ -231,9 +239,9 @@
 
         cellFrame.size.height = [parameterNameCell cellSize].height;
 
-        cellFrame.origin.x = 15;
-        cellFrame.origin.y = bounds.size.height - 50 - ((float)(i + 1) * TRACKHEIGHT) + BORDERHEIGHT + (TRACKHEIGHT - BORDERHEIGHT - cellFrame.size.height) / 2;
-        cellFrame.size.width = 60;
+        cellFrame.origin.x = 15.0;
+        cellFrame.origin.y = bounds.size.height - 50.0 - ((float)(i + 1) * TRACKHEIGHT) + BORDERHEIGHT + (TRACKHEIGHT - BORDERHEIGHT - cellFrame.size.height) / 2;
+        cellFrame.size.width = 60.0;
         //cellFrame.size.height = TRACKHEIGHT - BORDERHEIGHT;
         [parameterNameCell drawWithFrame:cellFrame inView:self];
     }
@@ -248,13 +256,13 @@
         aParameter = [displayParameter parameter];
 
         cellFrame.origin.x = 0;
-        cellFrame.origin.y = bounds.size.height - 50 - (float)(i + 1) * TRACKHEIGHT + BORDERHEIGHT - 9;
-        cellFrame.size.height = 18;
-        cellFrame.size.width = 75;
+        cellFrame.origin.y = bounds.size.height - 50.0 - (float)(i + 1) * TRACKHEIGHT + BORDERHEIGHT - 9.0;
+        cellFrame.size.height = 18.0;
+        cellFrame.size.width = 75.0;
         [minMaxCell setIntValue:[aParameter minimumValue]];
         [minMaxCell drawWithFrame:cellFrame inView:self];
 
-        cellFrame.origin.y = bounds.size.height - 50 - (float)i * TRACKHEIGHT - 9;
+        cellFrame.origin.y = bounds.size.height - 50.0 - (float)i * TRACKHEIGHT - 9.0;
         [minMaxCell setIntValue:[aParameter maximumValue]];
         [minMaxCell drawWithFrame:cellFrame inView:self];
     }
@@ -267,8 +275,6 @@
     events = [eventList events];
     for (i = 0; i < [events count]; i++) {
         currentX = [self scaledX:[[events objectAtIndex:i] time]];
-        if (currentX > bounds.size.width - 20.0)
-            break;
 
         if ([[events objectAtIndex:i] flag]) {
             currentPhone = [eventList getPhoneAtIndex:phoneIndex++];
@@ -280,14 +286,15 @@
 
         if (mouseBeingDragged == NO) {
             // TODO (2004-03-17): It still goes one pixel below where it should.
-            [bezierPath moveToPoint:NSMakePoint(currentX + 0.5, bounds.size.height - (50.0 + 1 + (float)j * TRACKHEIGHT))];
-            [bezierPath lineToPoint:NSMakePoint(currentX + 0.5, bounds.size.height - 50.0 - 1)];
+            [bezierPath moveToPoint:NSMakePoint(currentX + 0.5, bounds.size.height - (50.0 + 1.0 + (float)j * TRACKHEIGHT))];
+            [bezierPath lineToPoint:NSMakePoint(currentX + 0.5, bounds.size.height - 50.0 - 1.0)];
         }
     }
     [[NSColor lightGrayColor] set];
     [bezierPath stroke];
     [bezierPath release];
 
+	// Draw bezier curves for each parameter
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:2];
     [[NSColor blackColor] set];
@@ -303,7 +310,7 @@
         for (j = 0; j < [events count]; j++) {
             currentEvent = [events objectAtIndex:j];
             currentX = [self scaledX:[currentEvent time]];
-            if (currentX > bounds.size.width - 20.0)
+            if (currentX > bounds.size.width - 20.0 - 30.0)  // reduced 30.0 from x dimension for aesthetics -- db.
                 break;
             if ([currentEvent getValueAtIndex:parameterIndex] != NaN) {
                 currentY = (bounds.size.height - (50.0 + (float)(i + 1) * TRACKHEIGHT)) + BORDERHEIGHT +
@@ -393,15 +400,22 @@
 
 - (void)mouseMoved:(NSEvent *)theEvent;
 {
-    NSPoint position;
-    int time;
-
-    position = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-    time = (position.x - 80.0) * timeScale;
-    if ((position.x < 80.0) || (position.x > [self bounds].size.width - 20.0))
+    NSPoint position = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+    int time = (position.x - 80.0) * timeScale;
+	float value = [self parameterValueForYCoord:position.y];
+	
+    if ((position.x < 80.0) || (position.x > [self bounds].size.width - 20.0 - 30.0)) {  // reduced 30.0 from x dimension for aesthetics -- db.
         [mouseTimeField setStringValue:@"--"];
-    else
-        [mouseTimeField setIntValue:(position.x - 80.0) * timeScale];
+	} else {
+        [mouseTimeField setIntValue:time];
+	}
+	
+	if ((value == FLT_MAX) || (position.y > [self bounds].size.height - 50.0) || (position.y < 50.0)) {  // inverse y coordinates
+		[mouseValueField setStringValue:@"--"];
+	} else {
+		[mouseValueField setFloatValue:value];
+	}
+
 }
 
 - (void)updateScale:(float)column;
@@ -443,12 +457,13 @@
 
 - (void)frameDidChange:(NSNotification *)aNotification;
 {
-    [self resetTrackingRect];
+	[self setNeedsDisplay:YES];
+    [self resetTrackingRect];  // track
 }
 
 - (void)resetTrackingRect;
 {
-    [self removeTrackingRect:trackTag];
+    [self removeTrackingRect:trackTag];  // track
     trackTag = [self addTrackingRect:[self bounds] owner:self userData:NULL assumeInside:NO];
 }
 
@@ -460,6 +475,119 @@
 - (float)scaledWidth:(float)width;
 {
     return floor(width / timeScale);
+}
+
+// Obtain the parameter value for the y coordinate. Added by dalmazio, April 11, 2009.
+- (float)parameterValueForYCoord:(float)y;
+{
+    NSRect bounds = [self bounds];
+	float value = FLT_MAX;
+	int parameterIndex = (int)floor((bounds.size.height - y - 50.0) / TRACKHEIGHT);
+	
+	if (parameterIndex >= 0 && parameterIndex < [displayParameters count]) {		
+		MMParameter * parameter = [[displayParameters objectAtIndex:parameterIndex] parameter];
+		float minValue = [parameter minimumValue];
+		float maxValue = [parameter maximumValue];
+		
+		// Now to get the value we need to get the % of the range this y coord represents and scale by min and max.
+		float percentage = 1.0 - (bounds.size.height - y - 50.0 - parameterIndex * TRACKHEIGHT) / (TRACKHEIGHT - BORDERHEIGHT);
+		if (percentage >= 0.0)
+			value = minValue + percentage * (maxValue - minValue);
+		else
+			value = FLT_MAX;		
+	}
+	return value;
+}
+
+//
+// Methods to handle sizing and resizing of the main view.
+//
+
+// Added by dalmazio, April 11, 2009.
+- (void)resize;
+{
+    NSScrollView *enclosingScrollView;
+	
+    enclosingScrollView = [self enclosingScrollView];
+    if (enclosingScrollView != nil) {
+        NSRect documentVisibleRect, bounds, visibleRect;
+		
+		visibleRect = [enclosingScrollView frame];
+        documentVisibleRect = [enclosingScrollView documentVisibleRect];
+        bounds = [self bounds];
+		
+        bounds.size.width = [self minimumWidth];
+		if (bounds.size.width < documentVisibleRect.size.width)
+            bounds.size.width = documentVisibleRect.size.width;
+		
+        bounds.size.height = [self minimumHeight];
+        if (bounds.size.height < documentVisibleRect.size.height)
+			bounds.size.height = documentVisibleRect.size.height;
+
+        [self setFrameSize:bounds.size];
+        [self setNeedsDisplay:YES];
+        [[self superview] setNeedsDisplay:YES];
+    }
+}
+
+// Added by dalmazio, April 11, 2009.
+- (float)minimumWidth;
+{
+    float minimumWidth;
+	
+    if ([[eventList events] count] == 0) {
+        minimumWidth = 0.0;
+    } else {
+        Event *lastEvent;
+        lastEvent = [[eventList events] lastObject];		
+        minimumWidth = 80.0 + 30.0 + 1.0 + [self scaleWidth:[lastEvent time]] + RIGHT_MARGIN;  // added 30.0 to x dimension for aesthetics -- db.
+    }
+	
+    // Make sure that we at least show something.
+	NSRect bounds = [[self enclosingScrollView] documentVisibleRect];
+	if (minimumWidth < bounds.size.width)
+		minimumWidth = bounds.size.width;
+	
+    return minimumWidth;
+}
+
+// Added by dalmazio, April 11, 2009.
+- (float)minimumHeight;
+{
+	float minimumHeight;
+	int displayCount = [displayParameters count];
+	
+	minimumHeight = 50.0 + 30.0 + 1.0 + (displayCount * TRACKHEIGHT) + BORDERHEIGHT;
+
+	NSRect bounds = [[self enclosingScrollView] documentVisibleRect];
+	if (minimumHeight < bounds.size.height)
+		minimumHeight = bounds.size.height;
+	
+	return minimumHeight;
+}
+
+// Added by dalmazio, April 11, 2009.
+- (float)scaleWidth:(float)width;
+{
+    return floor(width / timeScale);
+}
+
+// Added by dalmazio, April 11, 2009.
+- (void)resizeWithOldSuperviewSize:(NSSize)oldSize;
+{
+    [super resizeWithOldSuperviewSize:oldSize];
+    [self resize];
+}
+
+// Allow access to mouse tracking fields.
+- (void)setMouseTimeField:(NSTextField *)mtField
+{
+	mouseTimeField = mtField;
+}
+
+- (void)setMouseValueField:(NSTextField *)mvField
+{
+	mouseValueField = mvField;
 }
 
 @end

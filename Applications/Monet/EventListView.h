@@ -2,7 +2,7 @@
 //
 //  Copyright 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
 //  
-//  Contributors: Steve Nygard
+//  Contributors: Steve Nygard, Dalmazio Brisinda
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -53,8 +53,8 @@
 
     EventList *eventList;
 
-    IBOutlet NSTextField *mouseTimeField;
-    IBOutlet NSTextField *mouseValueField;
+	NSTextField *mouseTimeField;
+	NSTextField *mouseValueField;
 
     int startingIndex;
     float timeScale;
@@ -99,5 +99,18 @@
 
 - (float)scaledX:(float)x;
 - (float)scaledWidth:(float)width;
+
+- (float)parameterValueForYCoord:(float)y;
+
+// Handle sizing and correct drawing of the main view.
+- (void)resize;
+- (float)minimumWidth;
+- (float)minimumHeight;
+- (float)scaleWidth:(float)width;
+- (void)resizeWithOldSuperviewSize:(NSSize)oldSize;
+
+// Allow access to mouse tracking fields.
+- (void)setMouseTimeField:(NSTextField *)mtField;
+- (void)setMouseValueField:(NSTextField *)mvField;
 
 @end
