@@ -1,9 +1,0 @@
-April 21, 2009 | Synthesizer v0.7.3
-
-	* Added GNU headers to all source files (dbrisinda)
-	* Initial import into the Savannah GnuSpeech SVN repository (dbrisinda)
-	* Added new/alternate Synthesizer icon (dbrisinda)	
-
-January 17, 2003 | Synthesizer v0.1
-
-	* Port to OpenStep and GNUstep (fedor)
