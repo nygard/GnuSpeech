@@ -439,6 +439,15 @@
 		[phoneStringTextView setFont:[NSFont fontWithName:@"Lucida Grande" size:13]];
 		[phoneStringTextView setString:phoneString];
 		[textStringTextField setTextColor:[NSColor blackColor]];
+	} else {
+		NSString * textStringPhones = [[textToPhone phoneForText:[textStringTextField stringValue]] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+		if ([phoneString isEqualToString:textStringPhones]) {
+			[textStringTextField setTextColor:[NSColor blackColor]];
+			[phoneStringTextView setTextColor:[NSColor blackColor]];
+		} else {
+			if ([phoneStringTextView textColor] == [NSColor redColor])  // not last edited
+				phoneString = textStringPhones;	
+		}
 	}
 	return phoneString;
 }
@@ -463,8 +472,10 @@
 - (void)parseText:(id)sender;
 {
 	NSString * phoneString = [textToPhone phoneForText:[textStringTextField stringValue]];
+	[phoneStringTextView setTextColor:[NSColor blackColor]];	
 	[phoneStringTextView setString:phoneString];
-	[textStringTextField setTextColor:[NSColor blackColor]];	
+	[textStringTextField setTextColor:[NSColor blackColor]];
+
 }
 
 - (IBAction)synthesizeWithContour:(id)sender;
@@ -700,6 +711,8 @@
     str = [textStringTextField stringValue];
     [textStringTextField removeItemWithObjectValue:str];
     [textStringTextField insertItemWithObjectValue:str atIndex:0];
+	[textStringTextField setTextColor:[NSColor blackColor]];
+	[phoneStringTextView setTextColor:[NSColor redColor]];
     [[NSUserDefaults standardUserDefaults] setObject:[textStringTextField objectValues] forKey:MDK_DefaultUtterances];
 }
 
@@ -934,15 +947,25 @@
 }
 
 //
+// NSComboBox delegate
+//
+- (void)controlTextDidChange:(NSNotification *)aNotification;
+{
+	[textStringTextField setTextColor:[NSColor blackColor]];	
+	[phoneStringTextView setTextColor:[NSColor redColor]];	
+}
+
+//
 // NSTextView delegate
 //
 - (void)textDidChange:(NSNotification *)aNotification;
 {
-	NSString *phoneString = [phoneStringTextView string];
+	NSString * phoneString = [phoneStringTextView string];
 	if (phoneString == NULL || [phoneString length] == 0) {
 		[phoneStringTextView setFont:[NSFont fontWithName:@"Lucida Grande" size:13]];
 		[phoneStringTextView setString:phoneString];
 	}
+	[phoneStringTextView setTextColor:[NSColor blackColor]];	
 	[textStringTextField setTextColor:[NSColor redColor]];
 }
 

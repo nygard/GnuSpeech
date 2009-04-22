@@ -8,7 +8,7 @@
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="312"/>
+			<integer value="6"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -82,7 +82,7 @@
 								<reference key="NSSupport" ref="890233787"/>
 								<reference key="NSControlView" ref="552737246"/>
 								<int key="NSButtonFlags">-2038284033</int>
-								<int key="NSButtonFlags2">1</int>
+								<int key="NSButtonFlags2">268435457</int>
 								<reference key="NSAlternateImage" ref="890233787"/>
 								<string key="NSAlternateContents"/>
 								<string type="base64-UTF8" key="NSKeyEquivalent">DQ</string>
@@ -774,9 +774,9 @@ bWVhbnQuA</string>
 								<reference key="NSSupport" ref="890233787"/>
 								<reference key="NSControlView" ref="826840649"/>
 								<int key="NSButtonFlags">-2038284033</int>
-								<int key="NSButtonFlags2">129</int>
+								<int key="NSButtonFlags2">1</int>
 								<string key="NSAlternateContents"/>
-								<string key="NSKeyEquivalent"/>
+								<string type="base64-UTF8" key="NSKeyEquivalent">DQ</string>
 								<int key="NSPeriodicDelay">200</int>
 								<int key="NSPeriodicInterval">25</int>
 							</object>
@@ -881,6 +881,7 @@ bWVhbnQuA</string>
 									</object>
 									<string key="NSFrame">{{1, 1}, {791, 327}}</string>
 									<reference key="NSSuperview" ref="580424897"/>
+									<reference key="NSNextKeyView" ref="547339303"/>
 									<reference key="NSDocView" ref="547339303"/>
 									<reference key="NSBGColor" ref="47654569"/>
 									<int key="NScvFlags">4</int>
@@ -906,6 +907,7 @@ bWVhbnQuA</string>
 							</object>
 							<string key="NSFrame">{{0, 199}, {808, 344}}</string>
 							<reference key="NSSuperview" ref="1005216740"/>
+							<reference key="NSNextKeyView" ref="320420082"/>
 							<int key="NSsFlags">50</int>
 							<reference key="NSVScroller" ref="698315763"/>
 							<reference key="NSHScroller" ref="411627949"/>
@@ -1395,6 +1397,7 @@ bWVhbnQuA</string>
 									</object>
 									<string key="NSFrame">{{1, 17}, {259, 130}}</string>
 									<reference key="NSSuperview" ref="1048055203"/>
+									<reference key="NSNextKeyView" ref="554738275"/>
 									<reference key="NSDocView" ref="554738275"/>
 									<reference key="NSBGColor" ref="494495209"/>
 									<int key="NScvFlags">4</int>
@@ -1427,6 +1430,7 @@ bWVhbnQuA</string>
 									</object>
 									<string key="NSFrame">{{1, 0}, {259, 17}}</string>
 									<reference key="NSSuperview" ref="1048055203"/>
+									<reference key="NSNextKeyView" ref="632000729"/>
 									<reference key="NSDocView" ref="632000729"/>
 									<reference key="NSBGColor" ref="494495209"/>
 									<int key="NScvFlags">4</int>
@@ -1435,6 +1439,7 @@ bWVhbnQuA</string>
 							</object>
 							<string key="NSFrame">{{168, 28}, {276, 163}}</string>
 							<reference key="NSSuperview" ref="1005216740"/>
+							<reference key="NSNextKeyView" ref="311581647"/>
 							<int key="NSsFlags">50</int>
 							<reference key="NSVScroller" ref="179310216"/>
 							<reference key="NSHScroller" ref="1043627678"/>
@@ -2302,6 +2307,7 @@ bWVhbnQuA</string>
 									</object>
 									<string key="NSFrame">{{1, 17}, {878, 508}}</string>
 									<reference key="NSSuperview" ref="555501273"/>
+									<reference key="NSNextKeyView" ref="14197960"/>
 									<reference key="NSDocView" ref="14197960"/>
 									<reference key="NSBGColor" ref="494495209"/>
 									<int key="NScvFlags">4</int>
@@ -2334,6 +2340,7 @@ bWVhbnQuA</string>
 									</object>
 									<string key="NSFrame">{{1, 0}, {878, 17}}</string>
 									<reference key="NSSuperview" ref="555501273"/>
+									<reference key="NSNextKeyView" ref="449603674"/>
 									<reference key="NSDocView" ref="449603674"/>
 									<reference key="NSBGColor" ref="494495209"/>
 									<int key="NScvFlags">4</int>
@@ -2342,6 +2349,7 @@ bWVhbnQuA</string>
 							</object>
 							<string key="NSFrameSize">{895, 541}</string>
 							<reference key="NSSuperview" ref="999919796"/>
+							<reference key="NSNextKeyView" ref="951784166"/>
 							<int key="NSsFlags">50</int>
 							<reference key="NSVScroller" ref="802871292"/>
 							<reference key="NSHScroller" ref="821324638"/>
@@ -2997,6 +3005,14 @@ bWVhbnQuA</string>
 					</object>
 					<int key="connectionID">345</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="249745619"/>
+						<reference key="destination" ref="197401424"/>
+					</object>
+					<int key="connectionID">346</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -3050,11 +3066,11 @@ bWVhbnQuA</string>
 							<reference ref="552737246"/>
 							<reference ref="797088309"/>
 							<reference ref="895626149"/>
-							<reference ref="937881075"/>
-							<reference ref="826840649"/>
 							<reference ref="641957115"/>
 							<reference ref="223333079"/>
 							<reference ref="253771883"/>
+							<reference ref="826840649"/>
+							<reference ref="937881075"/>
 						</object>
 						<reference key="parent" ref="655065997"/>
 					</object>
@@ -4729,7 +4745,7 @@ bWVhbnQuA</string>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">345</int>
+			<int key="maxID">346</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -5146,6 +5162,7 @@ bWVhbnQuA</string>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">NSScrollView</string>
+					<string key="superclassName">NSView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBUserSource</string>
 						<string key="minorKey"/>

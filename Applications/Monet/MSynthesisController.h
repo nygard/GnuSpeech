@@ -168,6 +168,9 @@
 // MAIntonationView delegate
 - (void)intonationViewSelectionDidChange:(NSNotification *)aNotification;
 
+// NSComboBox delegate
+- (void)controlTextDidChange:(NSNotification *)aNotification;
+
 // NSTextView delegate
 - (void)textDidChange:(NSNotification *)aNotification;
 
