@@ -305,7 +305,7 @@
 							<real>163</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>173 147 1082 716 0 0 1440 878 </string>
+						<string>203 152 1082 716 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -333,7 +333,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>69D706E50F9ED5CC002D6CD3</string>
+										<string>69D7083F0F9EDA78002D6CD3</string>
 										<key>history</key>
 										<array>
 											<string>696CE83C0F26ECCD0014B94A</string>
@@ -345,7 +345,7 @@
 											<string>6933AE780F8EB42700D30AF6</string>
 											<string>6933AE790F8EB42700D30AF6</string>
 											<string>697932960F919B7500E6B2EC</string>
-											<string>69D7068C0F9ED2B6002D6CD3</string>
+											<string>69D706E50F9ED5CC002D6CD3</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -374,7 +374,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {875, 524}}</string>
 								<key>RubberWindowFrame</key>
-								<string>173 147 1082 716 0 0 1440 878 </string>
+								<string>203 152 1082 716 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -399,7 +399,7 @@
 										<key>Frame</key>
 										<string>{{10, 27}, {875, 119}}</string>
 										<key>RubberWindowFrame</key>
-										<string>173 147 1082 716 0 0 1440 878 </string>
+										<string>203 152 1082 716 0 0 1440 878 </string>
 									</dict>
 									<key>Module</key>
 									<string>XCDetailModule</string>
@@ -502,11 +502,11 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>69D706A60F9ED2F7002D6CD3</string>
+				<string>69D707F90F9ED944002D6CD3</string>
 				<string>1CA23ED40692098700951B8B</string>
-				<string>69D706A70F9ED2F7002D6CD3</string>
+				<string>69D707FA0F9ED944002D6CD3</string>
 				<string>6916C7F10F0E979E00B22C9D</string>
-				<string>69D706A80F9ED2F7002D6CD3</string>
+				<string>69D707FB0F9ED944002D6CD3</string>
 				<string>1CA23EDF0692099D00951B8B</string>
 				<string>1CA23EE00692099D00951B8B</string>
 				<string>1CA23EE10692099D00951B8B</string>
@@ -653,14 +653,14 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>69D706E60F9ED5CC002D6CD3</string>
+				<string>69D708400F9EDA78002D6CD3</string>
 				<string>1CCC7628064C1048000F2A68</string>
 				<string>1CCC7629064C1048000F2A68</string>
-				<string>69D706E70F9ED5CC002D6CD3</string>
-				<string>69D706E80F9ED5CC002D6CD3</string>
-				<string>69D706E90F9ED5CC002D6CD3</string>
-				<string>69D706EA0F9ED5CC002D6CD3</string>
-				<string>69D706EB0F9ED5CC002D6CD3</string>
+				<string>69D708410F9EDA78002D6CD3</string>
+				<string>69D708420F9EDA78002D6CD3</string>
+				<string>69D708430F9EDA78002D6CD3</string>
+				<string>69D708440F9EDA78002D6CD3</string>
+				<string>69D708450F9EDA78002D6CD3</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
@@ -693,7 +693,7 @@
 		<string>/Users/dalmazio/Developer/xcode/gnuspeech/osx/trunk/Applications/GnuTTSClient/GnuTTSClient.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>173 147 1082 716 0 0 1440 878 </string>
+	<string>203 152 1082 716 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>

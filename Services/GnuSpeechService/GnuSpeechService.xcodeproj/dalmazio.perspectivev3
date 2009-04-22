@@ -282,8 +282,6 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>9</integer>
-									<integer>8</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -335,7 +333,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>6979331A0F91B86C00E6B2EC</string>
+										<string>69D7082C0F9ED9AD002D6CD3</string>
 										<key>history</key>
 										<array>
 											<string>6933ACD50F8EB41900D30AF6</string>
@@ -344,7 +342,7 @@
 											<string>6933ACD90F8EB41900D30AF6</string>
 											<string>6933ACDA0F8EB41900D30AF6</string>
 											<string>697931560F91935500E6B2EC</string>
-											<string>697931590F91935500E6B2EC</string>
+											<string>6979331A0F91B86C00E6B2EC</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -498,11 +496,11 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>6979325F0F919B3F00E6B2EC</string>
+				<string>69D7082D0F9ED9AD002D6CD3</string>
 				<string>1CA23ED40692098700951B8B</string>
-				<string>697932600F919B3F00E6B2EC</string>
+				<string>69D7082E0F9ED9AD002D6CD3</string>
 				<string>69E14A5E0F108948008CE33B</string>
-				<string>697932610F919B3F00E6B2EC</string>
+				<string>69D7082F0F9ED9AD002D6CD3</string>
 				<string>1CA23EDF0692099D00951B8B</string>
 				<string>1CA23EE00692099D00951B8B</string>
 				<string>1CA23EE10692099D00951B8B</string>
@@ -649,14 +647,14 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>6979331B0F91B86C00E6B2EC</string>
+				<string>69D708300F9ED9AD002D6CD3</string>
 				<string>1CCC7628064C1048000F2A68</string>
 				<string>1CCC7629064C1048000F2A68</string>
-				<string>6979331C0F91B86C00E6B2EC</string>
-				<string>6979331D0F91B86C00E6B2EC</string>
-				<string>6979331E0F91B86C00E6B2EC</string>
-				<string>6979331F0F91B86C00E6B2EC</string>
-				<string>697933200F91B86C00E6B2EC</string>
+				<string>69D708310F9ED9AD002D6CD3</string>
+				<string>69D708320F9ED9AD002D6CD3</string>
+				<string>69D708330F9ED9AD002D6CD3</string>
+				<string>69D708340F9ED9AD002D6CD3</string>
+				<string>69D708350F9ED9AD002D6CD3</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
@@ -685,7 +683,9 @@
 	<key>WindowJustification</key>
 	<integer>5</integer>
 	<key>WindowOrderList</key>
-	<array/>
+	<array>
+		<string>/Users/dalmazio/Developer/xcode/gnuspeech/osx/trunk/Services/GnuSpeechService/GnuSpeechService.xcodeproj</string>
+	</array>
 	<key>WindowString</key>
 	<string>211 210 916 588 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
