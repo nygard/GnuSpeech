@@ -1,7 +1,7 @@
 April 22, 2009 | Monet v0.9.5
 
 	* Reworked the English text vs. phone/posture field text coloring to be more intuitive (dbrisinda)
-	* Added Command-Enter (synthesize) and Enter (parse text) short cuts (dbrisinda)
+	* Added short-cuts Command-Enter to synthesize and Enter to parse text (dbrisinda)
 
 April 12, 2009 | Monet v0.9.4
 
