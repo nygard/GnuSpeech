@@ -1,3 +1,18 @@
+April 22, 2009 | GnuSpeech v0.6
+
+    Monet v0.9.5
+	
+        * Reworked the English text vs. phone/posture field text coloring to be more intuitive (dbrisinda)
+        * Added short-cuts Command-Enter to synthesize and Enter to parse text (dbrisinda)
+
+    Synthesizer v0.7.3
+	
+        * Initial distribution release (dbrisinda)
+		
+    GnuSpeechService v0.5
+	
+        * Adjusted xcode settings only for 10.4 and higher deployment target (dbrisinda)
+
 April 11, 2009 | GnuSpeech v0.5.1
 
     Monet v0.9.3
