@@ -37,7 +37,7 @@
 @class EventListView, MAIntonationScrollView;
 @class TRMSynthesizer, MTextToPhone;
 @class NSComboBox, NSPopUpButton, NSMatrix, NSPrintInfo, NSOpenPanel, NSSavePanel;
-@class NSTableView, NSButton, NSTextField, NSTextView, NSView, NSForm, NSUndoManager;
+@class NSTableView, NSButton, NSTextField, NSTextView, NSView, NSForm, NSUndoManager, NSScrollView;
 @class NSTableColumn, NSNotification, NSControl;
 
 @interface MSynthesisController : MWindowController
@@ -170,6 +170,7 @@
 
 // NSComboBox delegate
 - (void)controlTextDidChange:(NSNotification *)aNotification;
+- (void)controlTextDidEndEditing:(NSNotification *)aNotification;
 
 // NSTextView delegate
 - (void)textDidChange:(NSNotification *)aNotification;

@@ -1,3 +1,7 @@
+April xx, 2009 | Monet v0.9.6 (pending)
+
+	* Fixed small bug in color syncing of text and posture field when tab pressed (dbrisinda)
+	
 April 22, 2009 | Monet v0.9.5
 
 	* Reworked the English text vs. phone/posture field text coloring to be more intuitive (dbrisinda)
