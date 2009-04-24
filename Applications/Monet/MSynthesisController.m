@@ -712,7 +712,6 @@
     [textStringTextField removeItemWithObjectValue:str];
     [textStringTextField insertItemWithObjectValue:str atIndex:0];
 	[textStringTextField setTextColor:[NSColor blackColor]];
-	[phoneStringTextView setTextColor:[NSColor redColor]];
     [[NSUserDefaults standardUserDefaults] setObject:[textStringTextField objectValues] forKey:MDK_DefaultUtterances];
 }
 
@@ -955,6 +954,10 @@
 	[phoneStringTextView setTextColor:[NSColor redColor]];	
 }
 
+- (void)controlTextDidEndEditing:(NSNotification *)aNotification;
+{
+}		
+		
 //
 // NSTextView delegate
 //
