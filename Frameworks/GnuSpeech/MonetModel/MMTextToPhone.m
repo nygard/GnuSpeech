@@ -30,8 +30,9 @@
 
 #import "MMTextToPhone.h"
 
-#import <Foundation/Foundation.h>
-#import "GSPronunciationDictionary.h"
+#import "GSDBMPronunciationDictionary.h"
+#import "GSSimplePronunciationDictionary.h"
+#import "TTSParser.h"
 
 @implementation MMTextToPhone
 

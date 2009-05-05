@@ -719,6 +719,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69E226010FB0E9A7001B3C04 /* MMTextToPhone.h in Headers */,
 				012D53B50B7FF9DC001B50FC /* TTSParserOld.h in Headers */,
 				012D53B40B7FF9DC001B50FC /* TTSNumberPronunciations.h in Headers */,
 				0155E4770B7BE92A008D8879 /* TRMSynthesizer.h in Headers */,
@@ -800,7 +801,6 @@
 				695148CB0FB0DEB000B6DDD6 /* streams.h in Headers */,
 				695148CD0FB0DEB000B6DDD6 /* streams_old.h in Headers */,
 				695148CE0FB0DEB000B6DDD6 /* TTS_types.h in Headers */,
-				69E226010FB0E9A7001B3C04 /* MMTextToPhone.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
