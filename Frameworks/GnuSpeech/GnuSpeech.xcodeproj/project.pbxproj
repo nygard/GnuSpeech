@@ -159,6 +159,10 @@
 		695148940FB0DCDC00B6DDD6 /* streams_old.c in Sources */ = {isa = PBXBuildFile; fileRef = 6951488A0FB0DCDC00B6DDD6 /* streams_old.c */; };
 		695148950FB0DCDC00B6DDD6 /* streams_old.h in Headers */ = {isa = PBXBuildFile; fileRef = 6951488B0FB0DCDC00B6DDD6 /* streams_old.h */; };
 		695148960FB0DCDC00B6DDD6 /* TTS_types.h in Headers */ = {isa = PBXBuildFile; fileRef = 6951488C0FB0DCDC00B6DDD6 /* TTS_types.h */; };
+		695148B10FB0DDAA00B6DDD6 /* number_parser.c in Sources */ = {isa = PBXBuildFile; fileRef = 695148AD0FB0DDAA00B6DDD6 /* number_parser.c */; };
+		695148B20FB0DDAA00B6DDD6 /* number_parser.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148AE0FB0DDAA00B6DDD6 /* number_parser.h */; };
+		695148B30FB0DDAA00B6DDD6 /* number_pronunciations.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148AF0FB0DDAA00B6DDD6 /* number_pronunciations.h */; };
+		695148B40FB0DDAA00B6DDD6 /* number_pronunciations_english.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148B00FB0DDAA00B6DDD6 /* number_pronunciations_english.h */; };
 		697930D30F91906B00E6B2EC /* ChangeLog.txt in Resources */ = {isa = PBXBuildFile; fileRef = 697930D20F91906B00E6B2EC /* ChangeLog.txt */; };
 		69B1086D0EDD307400DEF197 /* TRMData.h in Headers */ = {isa = PBXBuildFile; fileRef = 69B1086B0EDD307400DEF197 /* TRMData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69B1086E0EDD307400DEF197 /* TRMData.m in Sources */ = {isa = PBXBuildFile; fileRef = 69B1086C0EDD307400DEF197 /* TRMData.m */; };
@@ -342,6 +346,10 @@
 		6951488A0FB0DCDC00B6DDD6 /* streams_old.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = streams_old.c; sourceTree = "<group>"; };
 		6951488B0FB0DCDC00B6DDD6 /* streams_old.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = streams_old.h; sourceTree = "<group>"; };
 		6951488C0FB0DCDC00B6DDD6 /* TTS_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTS_types.h; sourceTree = "<group>"; };
+		695148AD0FB0DDAA00B6DDD6 /* number_parser.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = number_parser.c; sourceTree = "<group>"; };
+		695148AE0FB0DDAA00B6DDD6 /* number_parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = number_parser.h; sourceTree = "<group>"; };
+		695148AF0FB0DDAA00B6DDD6 /* number_pronunciations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = number_pronunciations.h; sourceTree = "<group>"; };
+		695148B00FB0DDAA00B6DDD6 /* number_pronunciations_english.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = number_pronunciations_english.h; sourceTree = "<group>"; };
 		697930D20F91906B00E6B2EC /* ChangeLog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ChangeLog.txt; sourceTree = "<group>"; };
 		69B1086B0EDD307400DEF197 /* TRMData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TRMData.h; path = Tube/TRMData.h; sourceTree = "<group>"; };
 		69B1086C0EDD307400DEF197 /* TRMData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TRMData.m; path = Tube/TRMData.m; sourceTree = "<group>"; };
@@ -627,6 +635,7 @@
 				694157750FAB8D66009D4192 /* GSParser.m */,
 				695147940FB0D73000B6DDD6 /* BooleanExpressionParser */,
 				695148670FB0DB5500B6DDD6 /* MathematicalExpressionParser */,
+				695148AC0FB0DDAA00B6DDD6 /* NumberParser */,
 				695148820FB0DCDC00B6DDD6 /* TextParsers */,
 			);
 			path = Parsers;
@@ -680,6 +689,17 @@
 				6951488C0FB0DCDC00B6DDD6 /* TTS_types.h */,
 			);
 			path = TextParsers;
+			sourceTree = "<group>";
+		};
+		695148AC0FB0DDAA00B6DDD6 /* NumberParser */ = {
+			isa = PBXGroup;
+			children = (
+				695148AD0FB0DDAA00B6DDD6 /* number_parser.c */,
+				695148AE0FB0DDAA00B6DDD6 /* number_parser.h */,
+				695148AF0FB0DDAA00B6DDD6 /* number_pronunciations.h */,
+				695148B00FB0DDAA00B6DDD6 /* number_pronunciations_english.h */,
+			);
+			path = NumberParser;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -767,6 +787,9 @@
 				695148930FB0DCDC00B6DDD6 /* streams.h in Headers */,
 				695148950FB0DCDC00B6DDD6 /* streams_old.h in Headers */,
 				695148960FB0DCDC00B6DDD6 /* TTS_types.h in Headers */,
+				695148B20FB0DDAA00B6DDD6 /* number_parser.h in Headers */,
+				695148B30FB0DDAA00B6DDD6 /* number_pronunciations.h in Headers */,
+				695148B40FB0DDAA00B6DDD6 /* number_pronunciations_english.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -917,6 +940,7 @@
 				695148900FB0DCDC00B6DDD6 /* parser_module.c in Sources */,
 				695148920FB0DCDC00B6DDD6 /* streams.c in Sources */,
 				695148940FB0DCDC00B6DDD6 /* streams_old.c in Sources */,
+				695148B10FB0DDAA00B6DDD6 /* number_parser.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
