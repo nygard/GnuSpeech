@@ -149,20 +149,20 @@
 		695148790FB0DB5500B6DDD6 /* MMFormulaTerminal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6951486F0FB0DB5500B6DDD6 /* MMFormulaTerminal.h */; };
 		6951487A0FB0DB5500B6DDD6 /* MMFormulaTerminal.m in Sources */ = {isa = PBXBuildFile; fileRef = 695148700FB0DB5500B6DDD6 /* MMFormulaTerminal.m */; };
 		6951487B0FB0DB5500B6DDD6 /* MMFRuleSymbols.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148710FB0DB5500B6DDD6 /* MMFRuleSymbols.h */; };
-		6951488D0FB0DCDC00B6DDD6 /* abbreviations.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148830FB0DCDC00B6DDD6 /* abbreviations.h */; };
-		6951488E0FB0DCDC00B6DDD6 /* NXStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148840FB0DCDC00B6DDD6 /* NXStream.h */; };
-		6951488F0FB0DCDC00B6DDD6 /* NXStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 695148850FB0DCDC00B6DDD6 /* NXStream.m */; };
-		695148900FB0DCDC00B6DDD6 /* parser_module.c in Sources */ = {isa = PBXBuildFile; fileRef = 695148860FB0DCDC00B6DDD6 /* parser_module.c */; };
-		695148910FB0DCDC00B6DDD6 /* parser_module.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148870FB0DCDC00B6DDD6 /* parser_module.h */; };
-		695148920FB0DCDC00B6DDD6 /* streams.c in Sources */ = {isa = PBXBuildFile; fileRef = 695148880FB0DCDC00B6DDD6 /* streams.c */; };
-		695148930FB0DCDC00B6DDD6 /* streams.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148890FB0DCDC00B6DDD6 /* streams.h */; };
-		695148940FB0DCDC00B6DDD6 /* streams_old.c in Sources */ = {isa = PBXBuildFile; fileRef = 6951488A0FB0DCDC00B6DDD6 /* streams_old.c */; };
-		695148950FB0DCDC00B6DDD6 /* streams_old.h in Headers */ = {isa = PBXBuildFile; fileRef = 6951488B0FB0DCDC00B6DDD6 /* streams_old.h */; };
-		695148960FB0DCDC00B6DDD6 /* TTS_types.h in Headers */ = {isa = PBXBuildFile; fileRef = 6951488C0FB0DCDC00B6DDD6 /* TTS_types.h */; };
 		695148B10FB0DDAA00B6DDD6 /* number_parser.c in Sources */ = {isa = PBXBuildFile; fileRef = 695148AD0FB0DDAA00B6DDD6 /* number_parser.c */; };
 		695148B20FB0DDAA00B6DDD6 /* number_parser.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148AE0FB0DDAA00B6DDD6 /* number_parser.h */; };
 		695148B30FB0DDAA00B6DDD6 /* number_pronunciations.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148AF0FB0DDAA00B6DDD6 /* number_pronunciations.h */; };
 		695148B40FB0DDAA00B6DDD6 /* number_pronunciations_english.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148B00FB0DDAA00B6DDD6 /* number_pronunciations_english.h */; };
+		695148C50FB0DEB000B6DDD6 /* abbreviations.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148BB0FB0DEB000B6DDD6 /* abbreviations.h */; };
+		695148C60FB0DEB000B6DDD6 /* NXStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148BC0FB0DEB000B6DDD6 /* NXStream.h */; };
+		695148C70FB0DEB000B6DDD6 /* NXStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 695148BD0FB0DEB000B6DDD6 /* NXStream.m */; };
+		695148C80FB0DEB000B6DDD6 /* parser_module.c in Sources */ = {isa = PBXBuildFile; fileRef = 695148BE0FB0DEB000B6DDD6 /* parser_module.c */; };
+		695148C90FB0DEB000B6DDD6 /* parser_module.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148BF0FB0DEB000B6DDD6 /* parser_module.h */; };
+		695148CA0FB0DEB000B6DDD6 /* streams.c in Sources */ = {isa = PBXBuildFile; fileRef = 695148C00FB0DEB000B6DDD6 /* streams.c */; };
+		695148CB0FB0DEB000B6DDD6 /* streams.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148C10FB0DEB000B6DDD6 /* streams.h */; };
+		695148CC0FB0DEB000B6DDD6 /* streams_old.c in Sources */ = {isa = PBXBuildFile; fileRef = 695148C20FB0DEB000B6DDD6 /* streams_old.c */; };
+		695148CD0FB0DEB000B6DDD6 /* streams_old.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148C30FB0DEB000B6DDD6 /* streams_old.h */; };
+		695148CE0FB0DEB000B6DDD6 /* TTS_types.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148C40FB0DEB000B6DDD6 /* TTS_types.h */; };
 		697930D30F91906B00E6B2EC /* ChangeLog.txt in Resources */ = {isa = PBXBuildFile; fileRef = 697930D20F91906B00E6B2EC /* ChangeLog.txt */; };
 		69B1086D0EDD307400DEF197 /* TRMData.h in Headers */ = {isa = PBXBuildFile; fileRef = 69B1086B0EDD307400DEF197 /* TRMData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69B1086E0EDD307400DEF197 /* TRMData.m in Sources */ = {isa = PBXBuildFile; fileRef = 69B1086C0EDD307400DEF197 /* TRMData.m */; };
@@ -336,20 +336,20 @@
 		6951486F0FB0DB5500B6DDD6 /* MMFormulaTerminal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMFormulaTerminal.h; sourceTree = "<group>"; };
 		695148700FB0DB5500B6DDD6 /* MMFormulaTerminal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMFormulaTerminal.m; sourceTree = "<group>"; };
 		695148710FB0DB5500B6DDD6 /* MMFRuleSymbols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMFRuleSymbols.h; sourceTree = "<group>"; };
-		695148830FB0DCDC00B6DDD6 /* abbreviations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = abbreviations.h; sourceTree = "<group>"; };
-		695148840FB0DCDC00B6DDD6 /* NXStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXStream.h; sourceTree = "<group>"; };
-		695148850FB0DCDC00B6DDD6 /* NXStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NXStream.m; sourceTree = "<group>"; };
-		695148860FB0DCDC00B6DDD6 /* parser_module.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = parser_module.c; sourceTree = "<group>"; };
-		695148870FB0DCDC00B6DDD6 /* parser_module.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = parser_module.h; sourceTree = "<group>"; };
-		695148880FB0DCDC00B6DDD6 /* streams.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = streams.c; sourceTree = "<group>"; };
-		695148890FB0DCDC00B6DDD6 /* streams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = streams.h; sourceTree = "<group>"; };
-		6951488A0FB0DCDC00B6DDD6 /* streams_old.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = streams_old.c; sourceTree = "<group>"; };
-		6951488B0FB0DCDC00B6DDD6 /* streams_old.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = streams_old.h; sourceTree = "<group>"; };
-		6951488C0FB0DCDC00B6DDD6 /* TTS_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTS_types.h; sourceTree = "<group>"; };
 		695148AD0FB0DDAA00B6DDD6 /* number_parser.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = number_parser.c; sourceTree = "<group>"; };
 		695148AE0FB0DDAA00B6DDD6 /* number_parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = number_parser.h; sourceTree = "<group>"; };
 		695148AF0FB0DDAA00B6DDD6 /* number_pronunciations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = number_pronunciations.h; sourceTree = "<group>"; };
 		695148B00FB0DDAA00B6DDD6 /* number_pronunciations_english.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = number_pronunciations_english.h; sourceTree = "<group>"; };
+		695148BB0FB0DEB000B6DDD6 /* abbreviations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = abbreviations.h; sourceTree = "<group>"; };
+		695148BC0FB0DEB000B6DDD6 /* NXStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXStream.h; sourceTree = "<group>"; };
+		695148BD0FB0DEB000B6DDD6 /* NXStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NXStream.m; sourceTree = "<group>"; };
+		695148BE0FB0DEB000B6DDD6 /* parser_module.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = parser_module.c; sourceTree = "<group>"; };
+		695148BF0FB0DEB000B6DDD6 /* parser_module.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = parser_module.h; sourceTree = "<group>"; };
+		695148C00FB0DEB000B6DDD6 /* streams.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = streams.c; sourceTree = "<group>"; };
+		695148C10FB0DEB000B6DDD6 /* streams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = streams.h; sourceTree = "<group>"; };
+		695148C20FB0DEB000B6DDD6 /* streams_old.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = streams_old.c; sourceTree = "<group>"; };
+		695148C30FB0DEB000B6DDD6 /* streams_old.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = streams_old.h; sourceTree = "<group>"; };
+		695148C40FB0DEB000B6DDD6 /* TTS_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTS_types.h; sourceTree = "<group>"; };
 		697930D20F91906B00E6B2EC /* ChangeLog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ChangeLog.txt; sourceTree = "<group>"; };
 		69B1086B0EDD307400DEF197 /* TRMData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TRMData.h; path = Tube/TRMData.h; sourceTree = "<group>"; };
 		69B1086C0EDD307400DEF197 /* TRMData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TRMData.m; path = Tube/TRMData.m; sourceTree = "<group>"; };
@@ -633,15 +633,15 @@
 			children = (
 				694157740FAB8D66009D4192 /* GSParser.h */,
 				694157750FAB8D66009D4192 /* GSParser.m */,
-				695147940FB0D73000B6DDD6 /* BooleanExpressionParser */,
-				695148670FB0DB5500B6DDD6 /* MathematicalExpressionParser */,
-				695148AC0FB0DDAA00B6DDD6 /* NumberParser */,
-				695148820FB0DCDC00B6DDD6 /* TextParsers */,
+				695147940FB0D73000B6DDD6 /* Boolean Expression Parser */,
+				695148670FB0DB5500B6DDD6 /* Mathematical Expression Parser */,
+				695148AC0FB0DDAA00B6DDD6 /* Number Parser */,
+				695148BA0FB0DEB000B6DDD6 /* Text Parser */,
 			);
 			path = Parsers;
 			sourceTree = "<group>";
 		};
-		695147940FB0D73000B6DDD6 /* BooleanExpressionParser */ = {
+		695147940FB0D73000B6DDD6 /* Boolean Expression Parser */ = {
 			isa = PBXGroup;
 			children = (
 				695147950FB0D73000B6DDD6 /* MMBooleanExpression.h */,
@@ -654,10 +654,11 @@
 				6951479C0FB0D73000B6DDD6 /* MMBooleanTerminal.h */,
 				6951479D0FB0D73000B6DDD6 /* MMBooleanTerminal.m */,
 			);
+			name = "Boolean Expression Parser";
 			path = BooleanExpressionParser;
 			sourceTree = "<group>";
 		};
-		695148670FB0DB5500B6DDD6 /* MathematicalExpressionParser */ = {
+		695148670FB0DB5500B6DDD6 /* Mathematical Expression Parser */ = {
 			isa = PBXGroup;
 			children = (
 				695148680FB0DB5500B6DDD6 /* MMFormulaExpression.h */,
@@ -671,27 +672,11 @@
 				695148700FB0DB5500B6DDD6 /* MMFormulaTerminal.m */,
 				695148710FB0DB5500B6DDD6 /* MMFRuleSymbols.h */,
 			);
+			name = "Mathematical Expression Parser";
 			path = MathematicalExpressionParser;
 			sourceTree = "<group>";
 		};
-		695148820FB0DCDC00B6DDD6 /* TextParsers */ = {
-			isa = PBXGroup;
-			children = (
-				695148830FB0DCDC00B6DDD6 /* abbreviations.h */,
-				695148840FB0DCDC00B6DDD6 /* NXStream.h */,
-				695148850FB0DCDC00B6DDD6 /* NXStream.m */,
-				695148860FB0DCDC00B6DDD6 /* parser_module.c */,
-				695148870FB0DCDC00B6DDD6 /* parser_module.h */,
-				695148880FB0DCDC00B6DDD6 /* streams.c */,
-				695148890FB0DCDC00B6DDD6 /* streams.h */,
-				6951488A0FB0DCDC00B6DDD6 /* streams_old.c */,
-				6951488B0FB0DCDC00B6DDD6 /* streams_old.h */,
-				6951488C0FB0DCDC00B6DDD6 /* TTS_types.h */,
-			);
-			path = TextParsers;
-			sourceTree = "<group>";
-		};
-		695148AC0FB0DDAA00B6DDD6 /* NumberParser */ = {
+		695148AC0FB0DDAA00B6DDD6 /* Number Parser */ = {
 			isa = PBXGroup;
 			children = (
 				695148AD0FB0DDAA00B6DDD6 /* number_parser.c */,
@@ -699,7 +684,26 @@
 				695148AF0FB0DDAA00B6DDD6 /* number_pronunciations.h */,
 				695148B00FB0DDAA00B6DDD6 /* number_pronunciations_english.h */,
 			);
+			name = "Number Parser";
 			path = NumberParser;
+			sourceTree = "<group>";
+		};
+		695148BA0FB0DEB000B6DDD6 /* Text Parser */ = {
+			isa = PBXGroup;
+			children = (
+				695148BB0FB0DEB000B6DDD6 /* abbreviations.h */,
+				695148BC0FB0DEB000B6DDD6 /* NXStream.h */,
+				695148BD0FB0DEB000B6DDD6 /* NXStream.m */,
+				695148BE0FB0DEB000B6DDD6 /* parser_module.c */,
+				695148BF0FB0DEB000B6DDD6 /* parser_module.h */,
+				695148C00FB0DEB000B6DDD6 /* streams.c */,
+				695148C10FB0DEB000B6DDD6 /* streams.h */,
+				695148C20FB0DEB000B6DDD6 /* streams_old.c */,
+				695148C30FB0DEB000B6DDD6 /* streams_old.h */,
+				695148C40FB0DEB000B6DDD6 /* TTS_types.h */,
+			);
+			name = "Text Parser";
+			path = TextParser;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -781,15 +785,15 @@
 				695148780FB0DB5500B6DDD6 /* MMFormulaSymbols.h in Headers */,
 				695148790FB0DB5500B6DDD6 /* MMFormulaTerminal.h in Headers */,
 				6951487B0FB0DB5500B6DDD6 /* MMFRuleSymbols.h in Headers */,
-				6951488D0FB0DCDC00B6DDD6 /* abbreviations.h in Headers */,
-				6951488E0FB0DCDC00B6DDD6 /* NXStream.h in Headers */,
-				695148910FB0DCDC00B6DDD6 /* parser_module.h in Headers */,
-				695148930FB0DCDC00B6DDD6 /* streams.h in Headers */,
-				695148950FB0DCDC00B6DDD6 /* streams_old.h in Headers */,
-				695148960FB0DCDC00B6DDD6 /* TTS_types.h in Headers */,
 				695148B20FB0DDAA00B6DDD6 /* number_parser.h in Headers */,
 				695148B30FB0DDAA00B6DDD6 /* number_pronunciations.h in Headers */,
 				695148B40FB0DDAA00B6DDD6 /* number_pronunciations_english.h in Headers */,
+				695148C50FB0DEB000B6DDD6 /* abbreviations.h in Headers */,
+				695148C60FB0DEB000B6DDD6 /* NXStream.h in Headers */,
+				695148C90FB0DEB000B6DDD6 /* parser_module.h in Headers */,
+				695148CB0FB0DEB000B6DDD6 /* streams.h in Headers */,
+				695148CD0FB0DEB000B6DDD6 /* streams_old.h in Headers */,
+				695148CE0FB0DEB000B6DDD6 /* TTS_types.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -936,11 +940,11 @@
 				695148750FB0DB5500B6DDD6 /* MMFormulaNode.m in Sources */,
 				695148770FB0DB5500B6DDD6 /* MMFormulaParser.m in Sources */,
 				6951487A0FB0DB5500B6DDD6 /* MMFormulaTerminal.m in Sources */,
-				6951488F0FB0DCDC00B6DDD6 /* NXStream.m in Sources */,
-				695148900FB0DCDC00B6DDD6 /* parser_module.c in Sources */,
-				695148920FB0DCDC00B6DDD6 /* streams.c in Sources */,
-				695148940FB0DCDC00B6DDD6 /* streams_old.c in Sources */,
 				695148B10FB0DDAA00B6DDD6 /* number_parser.c in Sources */,
+				695148C70FB0DEB000B6DDD6 /* NXStream.m in Sources */,
+				695148C80FB0DEB000B6DDD6 /* parser_module.c in Sources */,
+				695148CA0FB0DEB000B6DDD6 /* streams.c in Sources */,
+				695148CC0FB0DEB000B6DDD6 /* streams_old.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
