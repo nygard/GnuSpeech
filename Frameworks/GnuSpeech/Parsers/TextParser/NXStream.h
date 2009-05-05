@@ -28,7 +28,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
 #define NX_READWRITE		0
 #define NX_READONLY			1
