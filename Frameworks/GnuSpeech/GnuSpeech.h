@@ -82,6 +82,7 @@
 #import <GnuSpeech/MMSymbol.h>
 #import <GnuSpeech/MMSynthesisParameters.h>
 #import <GnuSpeech/MMTarget.h>
+#import <GnuSpeech/MMTextToPhone.h>
 #import <GnuSpeech/MMTransition.h>
 #import <GnuSpeech/MonetDefaults.h>
 #import <GnuSpeech/MonetList.h>
@@ -109,7 +110,6 @@
 #import <GnuSpeech/GSSuffix.h>
 #import <GnuSpeech/TTSNumberPronunciations.h>
 #import <GnuSpeech/TTSParser.h>
-#import <GnuSpeech/TTSParserPartial.h>  // added for testing...
 
 // Tube
 #import <GnuSpeech/TRMData.h>

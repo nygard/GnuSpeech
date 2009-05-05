@@ -166,8 +166,8 @@
 		697930D30F91906B00E6B2EC /* ChangeLog.txt in Resources */ = {isa = PBXBuildFile; fileRef = 697930D20F91906B00E6B2EC /* ChangeLog.txt */; };
 		69B1086D0EDD307400DEF197 /* TRMData.h in Headers */ = {isa = PBXBuildFile; fileRef = 69B1086B0EDD307400DEF197 /* TRMData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69B1086E0EDD307400DEF197 /* TRMData.m in Sources */ = {isa = PBXBuildFile; fileRef = 69B1086C0EDD307400DEF197 /* TRMData.m */; };
-		69E225D50FB0E55C001B3C04 /* MMTextToPhone.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E225D30FB0E55C001B3C04 /* MMTextToPhone.h */; };
-		69E225D60FB0E55C001B3C04 /* MMTextToPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 69E225D40FB0E55C001B3C04 /* MMTextToPhone.m */; };
+		69E226000FB0E9A7001B3C04 /* MMTextToPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 69E225FE0FB0E9A7001B3C04 /* MMTextToPhone.m */; };
+		69E226010FB0E9A7001B3C04 /* MMTextToPhone.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E225FF0FB0E9A7001B3C04 /* MMTextToPhone.h */; };
 		69E8A75B0EC2AC4C0090AD25 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69E8A75A0EC2AC4C0090AD25 /* CoreAudio.framework */; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
@@ -355,8 +355,8 @@
 		697930D20F91906B00E6B2EC /* ChangeLog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ChangeLog.txt; sourceTree = "<group>"; };
 		69B1086B0EDD307400DEF197 /* TRMData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TRMData.h; path = Tube/TRMData.h; sourceTree = "<group>"; };
 		69B1086C0EDD307400DEF197 /* TRMData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TRMData.m; path = Tube/TRMData.m; sourceTree = "<group>"; };
-		69E225D30FB0E55C001B3C04 /* MMTextToPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMTextToPhone.h; sourceTree = "<group>"; };
-		69E225D40FB0E55C001B3C04 /* MMTextToPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMTextToPhone.m; sourceTree = "<group>"; };
+		69E225FE0FB0E9A7001B3C04 /* MMTextToPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMTextToPhone.m; path = MonetModel/MMTextToPhone.m; sourceTree = "<group>"; };
+		69E225FF0FB0E9A7001B3C04 /* MMTextToPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMTextToPhone.h; path = MonetModel/MMTextToPhone.h; sourceTree = "<group>"; };
 		69E8A75A0EC2AC4C0090AD25 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = /System/Library/Frameworks/CoreAudio.framework; sourceTree = "<absolute>"; };
 		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* GnuSpeech.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GnuSpeech.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -513,8 +513,8 @@
 				0155E4350B7BE8F9008D8879 /* MMSynthesisParameters.m */,
 				0155E4360B7BE8F9008D8879 /* MMTarget.h */,
 				0155E4370B7BE8F9008D8879 /* MMTarget.m */,
-				69E225D30FB0E55C001B3C04 /* MMTextToPhone.h */,
-				69E225D40FB0E55C001B3C04 /* MMTextToPhone.m */,
+				69E225FE0FB0E9A7001B3C04 /* MMTextToPhone.m */,
+				69E225FF0FB0E9A7001B3C04 /* MMTextToPhone.h */,
 				0155E4380B7BE8F9008D8879 /* MMTransition.h */,
 				0155E4390B7BE8F9008D8879 /* MMTransition.m */,
 				0155E4CF0B7BF002008D8879 /* MonetDefaults.h */,
@@ -800,7 +800,7 @@
 				695148CB0FB0DEB000B6DDD6 /* streams.h in Headers */,
 				695148CD0FB0DEB000B6DDD6 /* streams_old.h in Headers */,
 				695148CE0FB0DEB000B6DDD6 /* TTS_types.h in Headers */,
-				69E225D50FB0E55C001B3C04 /* MMTextToPhone.h in Headers */,
+				69E226010FB0E9A7001B3C04 /* MMTextToPhone.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -952,7 +952,7 @@
 				695148C80FB0DEB000B6DDD6 /* parser_module.c in Sources */,
 				695148CA0FB0DEB000B6DDD6 /* streams.c in Sources */,
 				695148CC0FB0DEB000B6DDD6 /* streams_old.c in Sources */,
-				69E225D60FB0E55C001B3C04 /* MMTextToPhone.m in Sources */,
+				69E226000FB0E9A7001B3C04 /* MMTextToPhone.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

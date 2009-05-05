@@ -41,7 +41,6 @@
 #import "MAIntonationView.h"
 #import "MExtendedTableView.h"
 #import "MMDisplayParameter.h"
-#import "MTextToPhone.h"
 
 #define MDK_ShouldUseSmoothIntonation @"ShouldUseSmoothIntonation"
 #define MDK_ShouldUseMacroIntonation @"ShouldUseMacroIntonation"
@@ -105,7 +104,7 @@
 	
     synthesizer = [[TRMSynthesizer alloc] init];
 	
-	textToPhone = [[MTextToPhone alloc] init];
+	textToPhone = [[MMTextToPhone alloc] init];
 	
     intonationPrintInfo = [[NSPrintInfo alloc] init];
     [intonationPrintInfo setHorizontalPagination:NSAutoPagination];

@@ -46,7 +46,6 @@
 		694159BA0FABB247009D4192 /* GnuSpeech.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 694158700FABACB4009D4192 /* GnuSpeech.framework */; };
 		69454E080F8D4DB200EBA0DC /* ChangeLog.txt in Resources */ = {isa = PBXBuildFile; fileRef = 69454E070F8D4DB200EBA0DC /* ChangeLog.txt */; };
 		696CE7B80F26DBD60014B94A /* Monet.icns in Resources */ = {isa = PBXBuildFile; fileRef = 696CE7B70F26DBD60014B94A /* Monet.icns */; };
-		69BED03F0F1AEA7600D66FBE /* MTextToPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 69BED03D0F1AEA7600D66FBE /* MTextToPhone.m */; };
 		69CD4B2A0EDD15AD00481C86 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69CD4B280EDD15AD00481C86 /* MainMenu.xib */; };
 		69CD4B300EDD15C800481C86 /* DataEntry.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69CD4B2E0EDD15C800481C86 /* DataEntry.xib */; };
 		69CD4B350EDD15E200481C86 /* PostureCategory.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69CD4B330EDD15E200481C86 /* PostureCategory.xib */; };
@@ -158,8 +157,6 @@
 		6941586B0FABACB4009D4192 /* GnuSpeech.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GnuSpeech.xcodeproj; path = ../../Frameworks/GnuSpeech/GnuSpeech.xcodeproj; sourceTree = SOURCE_ROOT; };
 		69454E070F8D4DB200EBA0DC /* ChangeLog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ChangeLog.txt; sourceTree = "<group>"; };
 		696CE7B70F26DBD60014B94A /* Monet.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Monet.icns; sourceTree = "<group>"; };
-		69BED03D0F1AEA7600D66FBE /* MTextToPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTextToPhone.m; sourceTree = "<group>"; };
-		69BED03E0F1AEA7600D66FBE /* MTextToPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTextToPhone.h; sourceTree = "<group>"; };
 		69CD4B290EDD15AD00481C86 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		69CD4B2F0EDD15C800481C86 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/DataEntry.xib; sourceTree = "<group>"; };
 		69CD4B340EDD15E200481C86 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PostureCategory.xib; sourceTree = "<group>"; };
@@ -226,8 +223,6 @@
 			children = (
 				01C55D480B7BCD69009F6A92 /* MMDisplayParameter.h */,
 				01C55D490B7BCD69009F6A92 /* MMDisplayParameter.m */,
-				69BED03E0F1AEA7600D66FBE /* MTextToPhone.h */,
-				69BED03D0F1AEA7600D66FBE /* MTextToPhone.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -550,7 +545,6 @@
 				01C55D900B7BCE53009F6A92 /* MSynthesisParameterEditor.m in Sources */,
 				01C55D910B7BCE53009F6A92 /* MTransitionEditor.m in Sources */,
 				01C55D920B7BCE53009F6A92 /* MWindowController.m in Sources */,
-				69BED03F0F1AEA7600D66FBE /* MTextToPhone.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
