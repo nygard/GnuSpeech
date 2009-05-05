@@ -130,44 +130,42 @@
 		69342FAE0EA3C9B200BE6A55 /* Tube.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01AC65B00B7BF554008E4B93 /* Tube.framework */; };
 		694157970FAB8D66009D4192 /* GSParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 694157740FAB8D66009D4192 /* GSParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		694157980FAB8D66009D4192 /* GSParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 694157750FAB8D66009D4192 /* GSParser.m */; };
-		6951479E0FB0D73000B6DDD6 /* MMBooleanExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 695147950FB0D73000B6DDD6 /* MMBooleanExpression.h */; };
+		6951479E0FB0D73000B6DDD6 /* MMBooleanExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 695147950FB0D73000B6DDD6 /* MMBooleanExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6951479F0FB0D73000B6DDD6 /* MMBooleanExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 695147960FB0D73000B6DDD6 /* MMBooleanExpression.m */; };
-		695147A00FB0D73000B6DDD6 /* MMBooleanNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 695147970FB0D73000B6DDD6 /* MMBooleanNode.h */; };
+		695147A00FB0D73000B6DDD6 /* MMBooleanNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 695147970FB0D73000B6DDD6 /* MMBooleanNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		695147A10FB0D73000B6DDD6 /* MMBooleanNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 695147980FB0D73000B6DDD6 /* MMBooleanNode.m */; };
-		695147A20FB0D73000B6DDD6 /* MMBooleanParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 695147990FB0D73000B6DDD6 /* MMBooleanParser.h */; };
+		695147A20FB0D73000B6DDD6 /* MMBooleanParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 695147990FB0D73000B6DDD6 /* MMBooleanParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		695147A30FB0D73000B6DDD6 /* MMBooleanParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6951479A0FB0D73000B6DDD6 /* MMBooleanParser.m */; };
-		695147A40FB0D73000B6DDD6 /* MMBooleanSymbols.h in Headers */ = {isa = PBXBuildFile; fileRef = 6951479B0FB0D73000B6DDD6 /* MMBooleanSymbols.h */; };
-		695147A50FB0D73000B6DDD6 /* MMBooleanTerminal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6951479C0FB0D73000B6DDD6 /* MMBooleanTerminal.h */; };
+		695147A40FB0D73000B6DDD6 /* MMBooleanSymbols.h in Headers */ = {isa = PBXBuildFile; fileRef = 6951479B0FB0D73000B6DDD6 /* MMBooleanSymbols.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		695147A50FB0D73000B6DDD6 /* MMBooleanTerminal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6951479C0FB0D73000B6DDD6 /* MMBooleanTerminal.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		695147A60FB0D73000B6DDD6 /* MMBooleanTerminal.m in Sources */ = {isa = PBXBuildFile; fileRef = 6951479D0FB0D73000B6DDD6 /* MMBooleanTerminal.m */; };
-		695148720FB0DB5500B6DDD6 /* MMFormulaExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148680FB0DB5500B6DDD6 /* MMFormulaExpression.h */; };
+		695148720FB0DB5500B6DDD6 /* MMFormulaExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148680FB0DB5500B6DDD6 /* MMFormulaExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		695148730FB0DB5500B6DDD6 /* MMFormulaExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 695148690FB0DB5500B6DDD6 /* MMFormulaExpression.m */; };
-		695148740FB0DB5500B6DDD6 /* MMFormulaNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 6951486A0FB0DB5500B6DDD6 /* MMFormulaNode.h */; };
+		695148740FB0DB5500B6DDD6 /* MMFormulaNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 6951486A0FB0DB5500B6DDD6 /* MMFormulaNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		695148750FB0DB5500B6DDD6 /* MMFormulaNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6951486B0FB0DB5500B6DDD6 /* MMFormulaNode.m */; };
-		695148760FB0DB5500B6DDD6 /* MMFormulaParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 6951486C0FB0DB5500B6DDD6 /* MMFormulaParser.h */; };
+		695148760FB0DB5500B6DDD6 /* MMFormulaParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 6951486C0FB0DB5500B6DDD6 /* MMFormulaParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		695148770FB0DB5500B6DDD6 /* MMFormulaParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6951486D0FB0DB5500B6DDD6 /* MMFormulaParser.m */; };
-		695148780FB0DB5500B6DDD6 /* MMFormulaSymbols.h in Headers */ = {isa = PBXBuildFile; fileRef = 6951486E0FB0DB5500B6DDD6 /* MMFormulaSymbols.h */; };
-		695148790FB0DB5500B6DDD6 /* MMFormulaTerminal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6951486F0FB0DB5500B6DDD6 /* MMFormulaTerminal.h */; };
+		695148780FB0DB5500B6DDD6 /* MMFormulaSymbols.h in Headers */ = {isa = PBXBuildFile; fileRef = 6951486E0FB0DB5500B6DDD6 /* MMFormulaSymbols.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		695148790FB0DB5500B6DDD6 /* MMFormulaTerminal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6951486F0FB0DB5500B6DDD6 /* MMFormulaTerminal.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6951487A0FB0DB5500B6DDD6 /* MMFormulaTerminal.m in Sources */ = {isa = PBXBuildFile; fileRef = 695148700FB0DB5500B6DDD6 /* MMFormulaTerminal.m */; };
-		6951487B0FB0DB5500B6DDD6 /* MMFRuleSymbols.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148710FB0DB5500B6DDD6 /* MMFRuleSymbols.h */; };
+		6951487B0FB0DB5500B6DDD6 /* MMFRuleSymbols.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148710FB0DB5500B6DDD6 /* MMFRuleSymbols.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		695148B10FB0DDAA00B6DDD6 /* number_parser.c in Sources */ = {isa = PBXBuildFile; fileRef = 695148AD0FB0DDAA00B6DDD6 /* number_parser.c */; };
-		695148B20FB0DDAA00B6DDD6 /* number_parser.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148AE0FB0DDAA00B6DDD6 /* number_parser.h */; };
-		695148B30FB0DDAA00B6DDD6 /* number_pronunciations.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148AF0FB0DDAA00B6DDD6 /* number_pronunciations.h */; };
-		695148B40FB0DDAA00B6DDD6 /* number_pronunciations_english.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148B00FB0DDAA00B6DDD6 /* number_pronunciations_english.h */; };
-		695148C50FB0DEB000B6DDD6 /* abbreviations.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148BB0FB0DEB000B6DDD6 /* abbreviations.h */; };
-		695148C60FB0DEB000B6DDD6 /* NXStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148BC0FB0DEB000B6DDD6 /* NXStream.h */; };
+		695148B20FB0DDAA00B6DDD6 /* number_parser.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148AE0FB0DDAA00B6DDD6 /* number_parser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		695148B30FB0DDAA00B6DDD6 /* number_pronunciations.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148AF0FB0DDAA00B6DDD6 /* number_pronunciations.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		695148B40FB0DDAA00B6DDD6 /* number_pronunciations_english.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148B00FB0DDAA00B6DDD6 /* number_pronunciations_english.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		695148C50FB0DEB000B6DDD6 /* abbreviations.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148BB0FB0DEB000B6DDD6 /* abbreviations.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		695148C60FB0DEB000B6DDD6 /* NXStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148BC0FB0DEB000B6DDD6 /* NXStream.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		695148C70FB0DEB000B6DDD6 /* NXStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 695148BD0FB0DEB000B6DDD6 /* NXStream.m */; };
 		695148C80FB0DEB000B6DDD6 /* parser_module.c in Sources */ = {isa = PBXBuildFile; fileRef = 695148BE0FB0DEB000B6DDD6 /* parser_module.c */; };
-		695148C90FB0DEB000B6DDD6 /* parser_module.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148BF0FB0DEB000B6DDD6 /* parser_module.h */; };
+		695148C90FB0DEB000B6DDD6 /* parser_module.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148BF0FB0DEB000B6DDD6 /* parser_module.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		695148CA0FB0DEB000B6DDD6 /* streams.c in Sources */ = {isa = PBXBuildFile; fileRef = 695148C00FB0DEB000B6DDD6 /* streams.c */; };
-		695148CB0FB0DEB000B6DDD6 /* streams.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148C10FB0DEB000B6DDD6 /* streams.h */; };
-		695148CC0FB0DEB000B6DDD6 /* streams_old.c in Sources */ = {isa = PBXBuildFile; fileRef = 695148C20FB0DEB000B6DDD6 /* streams_old.c */; };
-		695148CD0FB0DEB000B6DDD6 /* streams_old.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148C30FB0DEB000B6DDD6 /* streams_old.h */; };
-		695148CE0FB0DEB000B6DDD6 /* TTS_types.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148C40FB0DEB000B6DDD6 /* TTS_types.h */; };
+		695148CB0FB0DEB000B6DDD6 /* streams.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148C10FB0DEB000B6DDD6 /* streams.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		695148CE0FB0DEB000B6DDD6 /* TTS_types.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148C40FB0DEB000B6DDD6 /* TTS_types.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		697930D30F91906B00E6B2EC /* ChangeLog.txt in Resources */ = {isa = PBXBuildFile; fileRef = 697930D20F91906B00E6B2EC /* ChangeLog.txt */; };
 		69B1086D0EDD307400DEF197 /* TRMData.h in Headers */ = {isa = PBXBuildFile; fileRef = 69B1086B0EDD307400DEF197 /* TRMData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69B1086E0EDD307400DEF197 /* TRMData.m in Sources */ = {isa = PBXBuildFile; fileRef = 69B1086C0EDD307400DEF197 /* TRMData.m */; };
-		69E226000FB0E9A7001B3C04 /* MMTextToPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 69E225FE0FB0E9A7001B3C04 /* MMTextToPhone.m */; };
-		69E226010FB0E9A7001B3C04 /* MMTextToPhone.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E225FF0FB0E9A7001B3C04 /* MMTextToPhone.h */; };
+		69E226500FB0EC35001B3C04 /* MMTextToPhone.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E2264E0FB0EC35001B3C04 /* MMTextToPhone.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		69E226510FB0EC35001B3C04 /* MMTextToPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 69E2264F0FB0EC35001B3C04 /* MMTextToPhone.m */; };
 		69E8A75B0EC2AC4C0090AD25 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69E8A75A0EC2AC4C0090AD25 /* CoreAudio.framework */; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
@@ -349,14 +347,12 @@
 		695148BF0FB0DEB000B6DDD6 /* parser_module.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = parser_module.h; sourceTree = "<group>"; };
 		695148C00FB0DEB000B6DDD6 /* streams.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = streams.c; sourceTree = "<group>"; };
 		695148C10FB0DEB000B6DDD6 /* streams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = streams.h; sourceTree = "<group>"; };
-		695148C20FB0DEB000B6DDD6 /* streams_old.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = streams_old.c; sourceTree = "<group>"; };
-		695148C30FB0DEB000B6DDD6 /* streams_old.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = streams_old.h; sourceTree = "<group>"; };
 		695148C40FB0DEB000B6DDD6 /* TTS_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTS_types.h; sourceTree = "<group>"; };
 		697930D20F91906B00E6B2EC /* ChangeLog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ChangeLog.txt; sourceTree = "<group>"; };
 		69B1086B0EDD307400DEF197 /* TRMData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TRMData.h; path = Tube/TRMData.h; sourceTree = "<group>"; };
 		69B1086C0EDD307400DEF197 /* TRMData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TRMData.m; path = Tube/TRMData.m; sourceTree = "<group>"; };
-		69E225FE0FB0E9A7001B3C04 /* MMTextToPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMTextToPhone.m; path = MonetModel/MMTextToPhone.m; sourceTree = "<group>"; };
-		69E225FF0FB0E9A7001B3C04 /* MMTextToPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMTextToPhone.h; path = MonetModel/MMTextToPhone.h; sourceTree = "<group>"; };
+		69E2264E0FB0EC35001B3C04 /* MMTextToPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMTextToPhone.h; path = MonetModel/MMTextToPhone.h; sourceTree = "<group>"; };
+		69E2264F0FB0EC35001B3C04 /* MMTextToPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMTextToPhone.m; path = MonetModel/MMTextToPhone.m; sourceTree = "<group>"; };
 		69E8A75A0EC2AC4C0090AD25 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = /System/Library/Frameworks/CoreAudio.framework; sourceTree = "<absolute>"; };
 		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* GnuSpeech.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GnuSpeech.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -513,8 +509,8 @@
 				0155E4350B7BE8F9008D8879 /* MMSynthesisParameters.m */,
 				0155E4360B7BE8F9008D8879 /* MMTarget.h */,
 				0155E4370B7BE8F9008D8879 /* MMTarget.m */,
-				69E225FE0FB0E9A7001B3C04 /* MMTextToPhone.m */,
-				69E225FF0FB0E9A7001B3C04 /* MMTextToPhone.h */,
+				69E2264E0FB0EC35001B3C04 /* MMTextToPhone.h */,
+				69E2264F0FB0EC35001B3C04 /* MMTextToPhone.m */,
 				0155E4380B7BE8F9008D8879 /* MMTransition.h */,
 				0155E4390B7BE8F9008D8879 /* MMTransition.m */,
 				0155E4CF0B7BF002008D8879 /* MonetDefaults.h */,
@@ -704,8 +700,6 @@
 				695148BF0FB0DEB000B6DDD6 /* parser_module.h */,
 				695148C00FB0DEB000B6DDD6 /* streams.c */,
 				695148C10FB0DEB000B6DDD6 /* streams.h */,
-				695148C20FB0DEB000B6DDD6 /* streams_old.c */,
-				695148C30FB0DEB000B6DDD6 /* streams_old.h */,
 				695148C40FB0DEB000B6DDD6 /* TTS_types.h */,
 			);
 			name = "Text Parser";
@@ -719,7 +713,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				69E226010FB0E9A7001B3C04 /* MMTextToPhone.h in Headers */,
 				012D53B50B7FF9DC001B50FC /* TTSParserOld.h in Headers */,
 				012D53B40B7FF9DC001B50FC /* TTSNumberPronunciations.h in Headers */,
 				0155E4770B7BE92A008D8879 /* TRMSynthesizer.h in Headers */,
@@ -799,8 +792,8 @@
 				695148C60FB0DEB000B6DDD6 /* NXStream.h in Headers */,
 				695148C90FB0DEB000B6DDD6 /* parser_module.h in Headers */,
 				695148CB0FB0DEB000B6DDD6 /* streams.h in Headers */,
-				695148CD0FB0DEB000B6DDD6 /* streams_old.h in Headers */,
 				695148CE0FB0DEB000B6DDD6 /* TTS_types.h in Headers */,
+				69E226500FB0EC35001B3C04 /* MMTextToPhone.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -951,8 +944,7 @@
 				695148C70FB0DEB000B6DDD6 /* NXStream.m in Sources */,
 				695148C80FB0DEB000B6DDD6 /* parser_module.c in Sources */,
 				695148CA0FB0DEB000B6DDD6 /* streams.c in Sources */,
-				695148CC0FB0DEB000B6DDD6 /* streams_old.c in Sources */,
-				69E226000FB0E9A7001B3C04 /* MMTextToPhone.m in Sources */,
+				69E226510FB0EC35001B3C04 /* MMTextToPhone.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
