@@ -28,6 +28,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+#if 0
+
 #import <Foundation/NSObject.h>
 #import <Foundation/NSString.h> // for unichar
 
@@ -68,3 +70,5 @@ typedef enum {
 - (NSString *)toneGroupStringForPunctuation:(NSString *)str;
 
 @end
+
+#endif

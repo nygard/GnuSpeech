@@ -19,7 +19,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
-//  TTSParserPartial.m
+//  TTSParser.m
 //  GnuSpeech
 //
 //  Created by Dalmazio Brisinda on 04/27/2009.
@@ -28,7 +28,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#import "TTSParserPartial.h"
+#import "TTSParser.h"
 #import "NSScanner-Extensions.h"
 #import "NSString-Extensions.h"
 #import "GSPronunciationDictionary.h"
@@ -44,7 +44,7 @@
 #define TTS_LETTER_TO_SOUND             5
 
 
-@implementation TTSParserPartial
+@implementation TTSParser
 
 - (id)initWithPronunciationDictionary:(GSPronunciationDictionary *)aDictionary;
 {

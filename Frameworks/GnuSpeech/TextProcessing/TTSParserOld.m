@@ -28,6 +28,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+#if 0
+
 #import "TTSParser.h"
 
 #import <Foundation/Foundation.h>
@@ -682,3 +684,5 @@ static NSDictionary *_specialAcronyms = nil;
 }
 
 @end
+
+#endif

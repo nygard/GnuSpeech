@@ -88,12 +88,10 @@
 - (NSString *) phoneForText:(NSString *)text;
 {
     NSString * inputString, * resultString;
-    //TTSParser * parser;
-	TTSParserPartial * parser;
+    TTSParser * parser;
 		
     inputString = [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];	
-    //parser = [[TTSParser alloc] initWithPronunciationDictionary:pronunciationDictionary];
-    parser = [[TTSParserPartial alloc] initWithPronunciationDictionary:pronunciationDictionary];	
+    parser = [[TTSParser alloc] initWithPronunciationDictionary:pronunciationDictionary];
     resultString = [parser parseString:inputString];
     [parser release];
 

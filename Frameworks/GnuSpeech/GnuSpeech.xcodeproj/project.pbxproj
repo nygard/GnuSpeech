@@ -125,8 +125,8 @@
 		0155E4E20B7BF107008D8879 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0155E4E00B7BF107008D8879 /* AudioToolbox.framework */; };
 		0155E4E30B7BF107008D8879 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0155E4E10B7BF107008D8879 /* AudioUnit.framework */; };
 		01AC65FA0B7BF9B4008E4B93 /* GnuSpeech.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC65F90B7BF9B4008E4B93 /* GnuSpeech.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		69300A3E0FAB841E0041EBFB /* TTSParserPartial.h in Headers */ = {isa = PBXBuildFile; fileRef = 69300A3C0FAB841E0041EBFB /* TTSParserPartial.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		69300A3F0FAB841E0041EBFB /* TTSParserPartial.m in Sources */ = {isa = PBXBuildFile; fileRef = 69300A3D0FAB841E0041EBFB /* TTSParserPartial.m */; };
+		69300A3E0FAB841E0041EBFB /* TTSParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 69300A3C0FAB841E0041EBFB /* TTSParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		69300A3F0FAB841E0041EBFB /* TTSParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 69300A3D0FAB841E0041EBFB /* TTSParser.m */; };
 		69342FAE0EA3C9B200BE6A55 /* Tube.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01AC65B00B7BF554008E4B93 /* Tube.framework */; };
 		694157970FAB8D66009D4192 /* GSParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 694157740FAB8D66009D4192 /* GSParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		694157980FAB8D66009D4192 /* GSParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 694157750FAB8D66009D4192 /* GSParser.m */; };
@@ -313,8 +313,8 @@
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF5E0370ADEE00C91783 /* GnuSpeech_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GnuSpeech_Prefix.pch; sourceTree = "<group>"; };
-		69300A3C0FAB841E0041EBFB /* TTSParserPartial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTSParserPartial.h; path = TextProcessing/TTSParserPartial.h; sourceTree = "<group>"; };
-		69300A3D0FAB841E0041EBFB /* TTSParserPartial.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TTSParserPartial.m; path = TextProcessing/TTSParserPartial.m; sourceTree = "<group>"; };
+		69300A3C0FAB841E0041EBFB /* TTSParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTSParser.h; path = TextProcessing/TTSParser.h; sourceTree = "<group>"; };
+		69300A3D0FAB841E0041EBFB /* TTSParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TTSParser.m; path = TextProcessing/TTSParser.m; sourceTree = "<group>"; };
 		694157740FAB8D66009D4192 /* GSParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSParser.h; sourceTree = "<group>"; };
 		694157750FAB8D66009D4192 /* GSParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSParser.m; sourceTree = "<group>"; };
 		695147950FB0D73000B6DDD6 /* MMBooleanExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMBooleanExpression.h; sourceTree = "<group>"; };
@@ -389,8 +389,8 @@
 				012D53A90B7FF9DC001B50FC /* TTSNumberPronunciations.h */,
 				012D53AA0B7FF9DC001B50FC /* TTSParserOld.h */,
 				012D53AB0B7FF9DC001B50FC /* TTSParserOld.m */,
-				69300A3C0FAB841E0041EBFB /* TTSParserPartial.h */,
-				69300A3D0FAB841E0041EBFB /* TTSParserPartial.m */,
+				69300A3C0FAB841E0041EBFB /* TTSParser.h */,
+				69300A3D0FAB841E0041EBFB /* TTSParser.m */,
 			);
 			name = "Text Processing";
 			sourceTree = "<group>";
@@ -772,7 +772,7 @@
 				0155E4400B7BE8FA008D8879 /* CategoryList.h in Headers */,
 				01AC65FA0B7BF9B4008E4B93 /* GnuSpeech.h in Headers */,
 				69B1086D0EDD307400DEF197 /* TRMData.h in Headers */,
-				69300A3E0FAB841E0041EBFB /* TTSParserPartial.h in Headers */,
+				69300A3E0FAB841E0041EBFB /* TTSParser.h in Headers */,
 				694157970FAB8D66009D4192 /* GSParser.h in Headers */,
 				6951479E0FB0D73000B6DDD6 /* MMBooleanExpression.h in Headers */,
 				695147A00FB0D73000B6DDD6 /* MMBooleanNode.h in Headers */,
@@ -930,7 +930,7 @@
 				012D53B30B7FF9DC001B50FC /* GSSuffix.m in Sources */,
 				012D53B60B7FF9DC001B50FC /* TTSParserOld.m in Sources */,
 				69B1086E0EDD307400DEF197 /* TRMData.m in Sources */,
-				69300A3F0FAB841E0041EBFB /* TTSParserPartial.m in Sources */,
+				69300A3F0FAB841E0041EBFB /* TTSParser.m in Sources */,
 				694157980FAB8D66009D4192 /* GSParser.m in Sources */,
 				6951479F0FB0D73000B6DDD6 /* MMBooleanExpression.m in Sources */,
 				695147A10FB0D73000B6DDD6 /* MMBooleanNode.m in Sources */,

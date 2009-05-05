@@ -19,7 +19,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
-//  TTSParserPartial.h
+//  TTSParser.h
 //  GnuSpeech
 //
 //  Created by Dalmazio Brisinda on 04/27/2009.
@@ -30,7 +30,7 @@
 
 @class GSPronunciationDictionary;
 
-@interface TTSParserPartial : NSObject
+@interface TTSParser : NSObject
 {
     GSPronunciationDictionary * mainDictionary;
 	GSPronunciationDictionary * userDictionary;
