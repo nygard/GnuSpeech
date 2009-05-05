@@ -425,9 +425,8 @@ OSStatus renderSineCallback(void *inRefCon,
 		//
 		// const char *tempName = tempnam("/tmp", NULL);
 		// writeOutputToFile(&(tube->sampleRateConverter), inputData, tempName);
-		// NSSound *sound = [[NSSound alloc] initWithContentsOfFile:[NSString stringWithUTF8String:tempName] byReference:YES];
+		// NSSound *sound = [[[NSSound alloc] initWithContentsOfFile:[NSString stringWithUTF8String:tempName] byReference:YES] autorelease];
 		// [sound play];
-		// [sound autorelease];
 
 		[self convertSamplesIntoData:&(tube->sampleRateConverter)];		
 		[self startPlaying];

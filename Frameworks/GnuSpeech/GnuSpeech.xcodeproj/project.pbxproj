@@ -18,8 +18,8 @@
 		012D53B20B7FF9DC001B50FC /* GSSuffix.h in Headers */ = {isa = PBXBuildFile; fileRef = 012D53A70B7FF9DC001B50FC /* GSSuffix.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		012D53B30B7FF9DC001B50FC /* GSSuffix.m in Sources */ = {isa = PBXBuildFile; fileRef = 012D53A80B7FF9DC001B50FC /* GSSuffix.m */; };
 		012D53B40B7FF9DC001B50FC /* TTSNumberPronunciations.h in Headers */ = {isa = PBXBuildFile; fileRef = 012D53A90B7FF9DC001B50FC /* TTSNumberPronunciations.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		012D53B50B7FF9DC001B50FC /* TTSParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 012D53AA0B7FF9DC001B50FC /* TTSParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		012D53B60B7FF9DC001B50FC /* TTSParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 012D53AB0B7FF9DC001B50FC /* TTSParser.m */; };
+		012D53B50B7FF9DC001B50FC /* TTSParserOld.h in Headers */ = {isa = PBXBuildFile; fileRef = 012D53AA0B7FF9DC001B50FC /* TTSParserOld.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		012D53B60B7FF9DC001B50FC /* TTSParserOld.m in Sources */ = {isa = PBXBuildFile; fileRef = 012D53AB0B7FF9DC001B50FC /* TTSParserOld.m */; };
 		012D53BA0B7FFB34001B50FC /* 2.0eMainDictionary.dict in Resources */ = {isa = PBXBuildFile; fileRef = 012D53B70B7FFB34001B50FC /* 2.0eMainDictionary.dict */; };
 		012D53BB0B7FFB34001B50FC /* SpecialAcronyms.plist in Resources */ = {isa = PBXBuildFile; fileRef = 012D53B80B7FFB34001B50FC /* SpecialAcronyms.plist */; };
 		012D53BC0B7FFB34001B50FC /* TTSSuffixList.txt in Resources */ = {isa = PBXBuildFile; fileRef = 012D53B90B7FFB34001B50FC /* TTSSuffixList.txt */; };
@@ -35,27 +35,6 @@
 		0155E3990B7BE80D008D8879 /* NSString-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E38B0B7BE80D008D8879 /* NSString-Extensions.m */; };
 		0155E39A0B7BE80D008D8879 /* NSUserDefaults-Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E38C0B7BE80D008D8879 /* NSUserDefaults-Extensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0155E39B0B7BE80D008D8879 /* NSUserDefaults-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E38D0B7BE80D008D8879 /* NSUserDefaults-Extensions.m */; };
-		0155E3B40B7BE852008D8879 /* GSParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E39F0B7BE852008D8879 /* GSParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0155E3B50B7BE852008D8879 /* GSParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3A00B7BE852008D8879 /* GSParser.m */; };
-		0155E3B60B7BE852008D8879 /* MMBooleanExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3A10B7BE852008D8879 /* MMBooleanExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0155E3B70B7BE852008D8879 /* MMBooleanExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3A20B7BE852008D8879 /* MMBooleanExpression.m */; };
-		0155E3B80B7BE852008D8879 /* MMBooleanNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3A30B7BE852008D8879 /* MMBooleanNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0155E3B90B7BE852008D8879 /* MMBooleanNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3A40B7BE852008D8879 /* MMBooleanNode.m */; };
-		0155E3BA0B7BE852008D8879 /* MMBooleanParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3A50B7BE852008D8879 /* MMBooleanParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0155E3BB0B7BE852008D8879 /* MMBooleanParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3A60B7BE852008D8879 /* MMBooleanParser.m */; };
-		0155E3BC0B7BE852008D8879 /* MMBooleanSymbols.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3A70B7BE852008D8879 /* MMBooleanSymbols.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0155E3BD0B7BE852008D8879 /* MMBooleanTerminal.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3A80B7BE852008D8879 /* MMBooleanTerminal.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0155E3BE0B7BE852008D8879 /* MMBooleanTerminal.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3A90B7BE852008D8879 /* MMBooleanTerminal.m */; };
-		0155E3BF0B7BE852008D8879 /* MMFormulaExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3AA0B7BE852008D8879 /* MMFormulaExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0155E3C00B7BE852008D8879 /* MMFormulaExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3AB0B7BE852008D8879 /* MMFormulaExpression.m */; };
-		0155E3C10B7BE852008D8879 /* MMFormulaNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3AC0B7BE852008D8879 /* MMFormulaNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0155E3C20B7BE852008D8879 /* MMFormulaNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3AD0B7BE852008D8879 /* MMFormulaNode.m */; };
-		0155E3C30B7BE852008D8879 /* MMFormulaParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3AE0B7BE852008D8879 /* MMFormulaParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0155E3C40B7BE852008D8879 /* MMFormulaParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3AF0B7BE852008D8879 /* MMFormulaParser.m */; };
-		0155E3C50B7BE852008D8879 /* MMFormulaSymbols.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3B00B7BE852008D8879 /* MMFormulaSymbols.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0155E3C60B7BE852008D8879 /* MMFormulaTerminal.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3B10B7BE852008D8879 /* MMFormulaTerminal.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0155E3C70B7BE852008D8879 /* MMFormulaTerminal.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3B20B7BE852008D8879 /* MMFormulaTerminal.m */; };
-		0155E3C80B7BE852008D8879 /* MMFRuleSymbols.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3B30B7BE852008D8879 /* MMFRuleSymbols.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0155E3DE0B7BE8AC008D8879 /* GSXMLFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3CA0B7BE8AC008D8879 /* GSXMLFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0155E3DF0B7BE8AC008D8879 /* GSXMLFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3CB0B7BE8AC008D8879 /* GSXMLFunctions.m */; };
 		0155E3E00B7BE8AC008D8879 /* MUnarchiver.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3CC0B7BE8AC008D8879 /* MUnarchiver.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -146,7 +125,30 @@
 		0155E4E20B7BF107008D8879 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0155E4E00B7BF107008D8879 /* AudioToolbox.framework */; };
 		0155E4E30B7BF107008D8879 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0155E4E10B7BF107008D8879 /* AudioUnit.framework */; };
 		01AC65FA0B7BF9B4008E4B93 /* GnuSpeech.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC65F90B7BF9B4008E4B93 /* GnuSpeech.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		69300A3E0FAB841E0041EBFB /* TTSParserPartial.h in Headers */ = {isa = PBXBuildFile; fileRef = 69300A3C0FAB841E0041EBFB /* TTSParserPartial.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		69300A3F0FAB841E0041EBFB /* TTSParserPartial.m in Sources */ = {isa = PBXBuildFile; fileRef = 69300A3D0FAB841E0041EBFB /* TTSParserPartial.m */; };
 		69342FAE0EA3C9B200BE6A55 /* Tube.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01AC65B00B7BF554008E4B93 /* Tube.framework */; };
+		694157970FAB8D66009D4192 /* GSParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 694157740FAB8D66009D4192 /* GSParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		694157980FAB8D66009D4192 /* GSParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 694157750FAB8D66009D4192 /* GSParser.m */; };
+		695146C50FB0D30800B6DDD6 /* MMBooleanExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 695146B20FB0D30800B6DDD6 /* MMBooleanExpression.h */; };
+		695146C60FB0D30800B6DDD6 /* MMBooleanExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 695146B30FB0D30800B6DDD6 /* MMBooleanExpression.m */; };
+		695146C70FB0D30800B6DDD6 /* MMBooleanNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 695146B40FB0D30800B6DDD6 /* MMBooleanNode.h */; };
+		695146C80FB0D30800B6DDD6 /* MMBooleanNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 695146B50FB0D30800B6DDD6 /* MMBooleanNode.m */; };
+		695146C90FB0D30800B6DDD6 /* MMBooleanParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 695146B60FB0D30800B6DDD6 /* MMBooleanParser.h */; };
+		695146CA0FB0D30800B6DDD6 /* MMBooleanParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 695146B70FB0D30800B6DDD6 /* MMBooleanParser.m */; };
+		695146CB0FB0D30800B6DDD6 /* MMBooleanSymbols.h in Headers */ = {isa = PBXBuildFile; fileRef = 695146B80FB0D30800B6DDD6 /* MMBooleanSymbols.h */; };
+		695146CC0FB0D30800B6DDD6 /* MMBooleanTerminal.h in Headers */ = {isa = PBXBuildFile; fileRef = 695146B90FB0D30800B6DDD6 /* MMBooleanTerminal.h */; };
+		695146CD0FB0D30800B6DDD6 /* MMBooleanTerminal.m in Sources */ = {isa = PBXBuildFile; fileRef = 695146BA0FB0D30800B6DDD6 /* MMBooleanTerminal.m */; };
+		695146CE0FB0D30800B6DDD6 /* MMFormulaExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 695146BB0FB0D30800B6DDD6 /* MMFormulaExpression.h */; };
+		695146CF0FB0D30800B6DDD6 /* MMFormulaExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 695146BC0FB0D30800B6DDD6 /* MMFormulaExpression.m */; };
+		695146D00FB0D30800B6DDD6 /* MMFormulaNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 695146BD0FB0D30800B6DDD6 /* MMFormulaNode.h */; };
+		695146D10FB0D30800B6DDD6 /* MMFormulaNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 695146BE0FB0D30800B6DDD6 /* MMFormulaNode.m */; };
+		695146D20FB0D30800B6DDD6 /* MMFormulaParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 695146BF0FB0D30800B6DDD6 /* MMFormulaParser.h */; };
+		695146D30FB0D30800B6DDD6 /* MMFormulaParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 695146C00FB0D30800B6DDD6 /* MMFormulaParser.m */; };
+		695146D40FB0D30800B6DDD6 /* MMFormulaSymbols.h in Headers */ = {isa = PBXBuildFile; fileRef = 695146C10FB0D30800B6DDD6 /* MMFormulaSymbols.h */; };
+		695146D50FB0D30800B6DDD6 /* MMFormulaTerminal.h in Headers */ = {isa = PBXBuildFile; fileRef = 695146C20FB0D30800B6DDD6 /* MMFormulaTerminal.h */; };
+		695146D60FB0D30800B6DDD6 /* MMFormulaTerminal.m in Sources */ = {isa = PBXBuildFile; fileRef = 695146C30FB0D30800B6DDD6 /* MMFormulaTerminal.m */; };
+		695146D70FB0D30800B6DDD6 /* MMFRuleSymbols.h in Headers */ = {isa = PBXBuildFile; fileRef = 695146C40FB0D30800B6DDD6 /* MMFRuleSymbols.h */; };
 		697930D30F91906B00E6B2EC /* ChangeLog.txt in Resources */ = {isa = PBXBuildFile; fileRef = 697930D20F91906B00E6B2EC /* ChangeLog.txt */; };
 		69B1086D0EDD307400DEF197 /* TRMData.h in Headers */ = {isa = PBXBuildFile; fileRef = 69B1086B0EDD307400DEF197 /* TRMData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69B1086E0EDD307400DEF197 /* TRMData.m in Sources */ = {isa = PBXBuildFile; fileRef = 69B1086C0EDD307400DEF197 /* TRMData.m */; };
@@ -184,8 +186,8 @@
 		012D53A70B7FF9DC001B50FC /* GSSuffix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GSSuffix.h; path = TextProcessing/GSSuffix.h; sourceTree = "<group>"; };
 		012D53A80B7FF9DC001B50FC /* GSSuffix.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GSSuffix.m; path = TextProcessing/GSSuffix.m; sourceTree = "<group>"; };
 		012D53A90B7FF9DC001B50FC /* TTSNumberPronunciations.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TTSNumberPronunciations.h; path = TextProcessing/TTSNumberPronunciations.h; sourceTree = "<group>"; };
-		012D53AA0B7FF9DC001B50FC /* TTSParser.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TTSParser.h; path = TextProcessing/TTSParser.h; sourceTree = "<group>"; };
-		012D53AB0B7FF9DC001B50FC /* TTSParser.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = TTSParser.m; path = TextProcessing/TTSParser.m; sourceTree = "<group>"; };
+		012D53AA0B7FF9DC001B50FC /* TTSParserOld.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TTSParserOld.h; path = TextProcessing/TTSParserOld.h; sourceTree = "<group>"; };
+		012D53AB0B7FF9DC001B50FC /* TTSParserOld.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = TTSParserOld.m; path = TextProcessing/TTSParserOld.m; sourceTree = "<group>"; };
 		012D53B70B7FFB34001B50FC /* 2.0eMainDictionary.dict */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = 2.0eMainDictionary.dict; path = TextProcessing/2.0eMainDictionary.dict; sourceTree = "<group>"; };
 		012D53B80B7FFB34001B50FC /* SpecialAcronyms.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; name = SpecialAcronyms.plist; path = TextProcessing/SpecialAcronyms.plist; sourceTree = "<group>"; };
 		012D53B90B7FFB34001B50FC /* TTSSuffixList.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = TTSSuffixList.txt; path = TextProcessing/TTSSuffixList.txt; sourceTree = "<group>"; };
@@ -201,27 +203,6 @@
 		0155E38B0B7BE80D008D8879 /* NSString-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSString-Extensions.m"; path = "Extensions/NSString-Extensions.m"; sourceTree = "<group>"; };
 		0155E38C0B7BE80D008D8879 /* NSUserDefaults-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "NSUserDefaults-Extensions.h"; path = "Extensions/NSUserDefaults-Extensions.h"; sourceTree = "<group>"; };
 		0155E38D0B7BE80D008D8879 /* NSUserDefaults-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSUserDefaults-Extensions.m"; path = "Extensions/NSUserDefaults-Extensions.m"; sourceTree = "<group>"; };
-		0155E39F0B7BE852008D8879 /* GSParser.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GSParser.h; path = Parsers/GSParser.h; sourceTree = "<group>"; };
-		0155E3A00B7BE852008D8879 /* GSParser.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GSParser.m; path = Parsers/GSParser.m; sourceTree = "<group>"; };
-		0155E3A10B7BE852008D8879 /* MMBooleanExpression.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMBooleanExpression.h; path = Parsers/MMBooleanExpression.h; sourceTree = "<group>"; };
-		0155E3A20B7BE852008D8879 /* MMBooleanExpression.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MMBooleanExpression.m; path = Parsers/MMBooleanExpression.m; sourceTree = "<group>"; };
-		0155E3A30B7BE852008D8879 /* MMBooleanNode.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMBooleanNode.h; path = Parsers/MMBooleanNode.h; sourceTree = "<group>"; };
-		0155E3A40B7BE852008D8879 /* MMBooleanNode.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MMBooleanNode.m; path = Parsers/MMBooleanNode.m; sourceTree = "<group>"; };
-		0155E3A50B7BE852008D8879 /* MMBooleanParser.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMBooleanParser.h; path = Parsers/MMBooleanParser.h; sourceTree = "<group>"; };
-		0155E3A60B7BE852008D8879 /* MMBooleanParser.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MMBooleanParser.m; path = Parsers/MMBooleanParser.m; sourceTree = "<group>"; };
-		0155E3A70B7BE852008D8879 /* MMBooleanSymbols.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMBooleanSymbols.h; path = Parsers/MMBooleanSymbols.h; sourceTree = "<group>"; };
-		0155E3A80B7BE852008D8879 /* MMBooleanTerminal.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMBooleanTerminal.h; path = Parsers/MMBooleanTerminal.h; sourceTree = "<group>"; };
-		0155E3A90B7BE852008D8879 /* MMBooleanTerminal.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MMBooleanTerminal.m; path = Parsers/MMBooleanTerminal.m; sourceTree = "<group>"; };
-		0155E3AA0B7BE852008D8879 /* MMFormulaExpression.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMFormulaExpression.h; path = Parsers/MMFormulaExpression.h; sourceTree = "<group>"; };
-		0155E3AB0B7BE852008D8879 /* MMFormulaExpression.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MMFormulaExpression.m; path = Parsers/MMFormulaExpression.m; sourceTree = "<group>"; };
-		0155E3AC0B7BE852008D8879 /* MMFormulaNode.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMFormulaNode.h; path = Parsers/MMFormulaNode.h; sourceTree = "<group>"; };
-		0155E3AD0B7BE852008D8879 /* MMFormulaNode.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MMFormulaNode.m; path = Parsers/MMFormulaNode.m; sourceTree = "<group>"; };
-		0155E3AE0B7BE852008D8879 /* MMFormulaParser.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMFormulaParser.h; path = Parsers/MMFormulaParser.h; sourceTree = "<group>"; };
-		0155E3AF0B7BE852008D8879 /* MMFormulaParser.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MMFormulaParser.m; path = Parsers/MMFormulaParser.m; sourceTree = "<group>"; };
-		0155E3B00B7BE852008D8879 /* MMFormulaSymbols.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMFormulaSymbols.h; path = Parsers/MMFormulaSymbols.h; sourceTree = "<group>"; };
-		0155E3B10B7BE852008D8879 /* MMFormulaTerminal.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMFormulaTerminal.h; path = Parsers/MMFormulaTerminal.h; sourceTree = "<group>"; };
-		0155E3B20B7BE852008D8879 /* MMFormulaTerminal.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MMFormulaTerminal.m; path = Parsers/MMFormulaTerminal.m; sourceTree = "<group>"; };
-		0155E3B30B7BE852008D8879 /* MMFRuleSymbols.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMFRuleSymbols.h; path = Parsers/MMFRuleSymbols.h; sourceTree = "<group>"; };
 		0155E3CA0B7BE8AC008D8879 /* GSXMLFunctions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GSXMLFunctions.h; path = Archiving/GSXMLFunctions.h; sourceTree = "<group>"; };
 		0155E3CB0B7BE8AC008D8879 /* GSXMLFunctions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GSXMLFunctions.m; path = Archiving/GSXMLFunctions.m; sourceTree = "<group>"; };
 		0155E3CC0B7BE8AC008D8879 /* MUnarchiver.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MUnarchiver.h; path = Archiving/MUnarchiver.h; sourceTree = "<group>"; };
@@ -318,6 +299,29 @@
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF5E0370ADEE00C91783 /* GnuSpeech_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GnuSpeech_Prefix.pch; sourceTree = "<group>"; };
+		69300A3C0FAB841E0041EBFB /* TTSParserPartial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTSParserPartial.h; path = TextProcessing/TTSParserPartial.h; sourceTree = "<group>"; };
+		69300A3D0FAB841E0041EBFB /* TTSParserPartial.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TTSParserPartial.m; path = TextProcessing/TTSParserPartial.m; sourceTree = "<group>"; };
+		694157740FAB8D66009D4192 /* GSParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSParser.h; sourceTree = "<group>"; };
+		694157750FAB8D66009D4192 /* GSParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSParser.m; sourceTree = "<group>"; };
+		695146B20FB0D30800B6DDD6 /* MMBooleanExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMBooleanExpression.h; sourceTree = "<group>"; };
+		695146B30FB0D30800B6DDD6 /* MMBooleanExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMBooleanExpression.m; sourceTree = "<group>"; };
+		695146B40FB0D30800B6DDD6 /* MMBooleanNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMBooleanNode.h; sourceTree = "<group>"; };
+		695146B50FB0D30800B6DDD6 /* MMBooleanNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMBooleanNode.m; sourceTree = "<group>"; };
+		695146B60FB0D30800B6DDD6 /* MMBooleanParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMBooleanParser.h; sourceTree = "<group>"; };
+		695146B70FB0D30800B6DDD6 /* MMBooleanParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMBooleanParser.m; sourceTree = "<group>"; };
+		695146B80FB0D30800B6DDD6 /* MMBooleanSymbols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMBooleanSymbols.h; sourceTree = "<group>"; };
+		695146B90FB0D30800B6DDD6 /* MMBooleanTerminal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMBooleanTerminal.h; sourceTree = "<group>"; };
+		695146BA0FB0D30800B6DDD6 /* MMBooleanTerminal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMBooleanTerminal.m; sourceTree = "<group>"; };
+		695146BB0FB0D30800B6DDD6 /* MMFormulaExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMFormulaExpression.h; sourceTree = "<group>"; };
+		695146BC0FB0D30800B6DDD6 /* MMFormulaExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMFormulaExpression.m; sourceTree = "<group>"; };
+		695146BD0FB0D30800B6DDD6 /* MMFormulaNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMFormulaNode.h; sourceTree = "<group>"; };
+		695146BE0FB0D30800B6DDD6 /* MMFormulaNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMFormulaNode.m; sourceTree = "<group>"; };
+		695146BF0FB0D30800B6DDD6 /* MMFormulaParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMFormulaParser.h; sourceTree = "<group>"; };
+		695146C00FB0D30800B6DDD6 /* MMFormulaParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMFormulaParser.m; sourceTree = "<group>"; };
+		695146C10FB0D30800B6DDD6 /* MMFormulaSymbols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMFormulaSymbols.h; sourceTree = "<group>"; };
+		695146C20FB0D30800B6DDD6 /* MMFormulaTerminal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMFormulaTerminal.h; sourceTree = "<group>"; };
+		695146C30FB0D30800B6DDD6 /* MMFormulaTerminal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMFormulaTerminal.m; sourceTree = "<group>"; };
+		695146C40FB0D30800B6DDD6 /* MMFRuleSymbols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMFRuleSymbols.h; sourceTree = "<group>"; };
 		697930D20F91906B00E6B2EC /* ChangeLog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ChangeLog.txt; sourceTree = "<group>"; };
 		69B1086B0EDD307400DEF197 /* TRMData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TRMData.h; path = Tube/TRMData.h; sourceTree = "<group>"; };
 		69B1086C0EDD307400DEF197 /* TRMData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TRMData.m; path = Tube/TRMData.m; sourceTree = "<group>"; };
@@ -355,8 +359,10 @@
 				012D53A70B7FF9DC001B50FC /* GSSuffix.h */,
 				012D53A80B7FF9DC001B50FC /* GSSuffix.m */,
 				012D53A90B7FF9DC001B50FC /* TTSNumberPronunciations.h */,
-				012D53AA0B7FF9DC001B50FC /* TTSParser.h */,
-				012D53AB0B7FF9DC001B50FC /* TTSParser.m */,
+				012D53AA0B7FF9DC001B50FC /* TTSParserOld.h */,
+				012D53AB0B7FF9DC001B50FC /* TTSParserOld.m */,
+				69300A3C0FAB841E0041EBFB /* TTSParserPartial.h */,
+				69300A3D0FAB841E0041EBFB /* TTSParserPartial.m */,
 			);
 			name = "Text Processing";
 			sourceTree = "<group>";
@@ -380,50 +386,6 @@
 				0155E38D0B7BE80D008D8879 /* NSUserDefaults-Extensions.m */,
 			);
 			name = Extensions;
-			sourceTree = "<group>";
-		};
-		0155E39C0B7BE814008D8879 /* Parsers */ = {
-			isa = PBXGroup;
-			children = (
-				0155E39F0B7BE852008D8879 /* GSParser.h */,
-				0155E3A00B7BE852008D8879 /* GSParser.m */,
-				0155E39D0B7BE82A008D8879 /* Boolean Expression Parser */,
-				0155E39E0B7BE834008D8879 /* Mathematical Expression Parser */,
-			);
-			name = Parsers;
-			sourceTree = "<group>";
-		};
-		0155E39D0B7BE82A008D8879 /* Boolean Expression Parser */ = {
-			isa = PBXGroup;
-			children = (
-				0155E3A10B7BE852008D8879 /* MMBooleanExpression.h */,
-				0155E3A20B7BE852008D8879 /* MMBooleanExpression.m */,
-				0155E3A30B7BE852008D8879 /* MMBooleanNode.h */,
-				0155E3A40B7BE852008D8879 /* MMBooleanNode.m */,
-				0155E3A50B7BE852008D8879 /* MMBooleanParser.h */,
-				0155E3A60B7BE852008D8879 /* MMBooleanParser.m */,
-				0155E3A70B7BE852008D8879 /* MMBooleanSymbols.h */,
-				0155E3A80B7BE852008D8879 /* MMBooleanTerminal.h */,
-				0155E3A90B7BE852008D8879 /* MMBooleanTerminal.m */,
-			);
-			name = "Boolean Expression Parser";
-			sourceTree = "<group>";
-		};
-		0155E39E0B7BE834008D8879 /* Mathematical Expression Parser */ = {
-			isa = PBXGroup;
-			children = (
-				0155E3AA0B7BE852008D8879 /* MMFormulaExpression.h */,
-				0155E3AB0B7BE852008D8879 /* MMFormulaExpression.m */,
-				0155E3AC0B7BE852008D8879 /* MMFormulaNode.h */,
-				0155E3AD0B7BE852008D8879 /* MMFormulaNode.m */,
-				0155E3AE0B7BE852008D8879 /* MMFormulaParser.h */,
-				0155E3AF0B7BE852008D8879 /* MMFormulaParser.m */,
-				0155E3B00B7BE852008D8879 /* MMFormulaSymbols.h */,
-				0155E3B10B7BE852008D8879 /* MMFormulaTerminal.h */,
-				0155E3B20B7BE852008D8879 /* MMFormulaTerminal.m */,
-				0155E3B30B7BE852008D8879 /* MMFRuleSymbols.h */,
-			);
-			name = "Mathematical Expression Parser";
 			sourceTree = "<group>";
 		};
 		0155E3C90B7BE89A008D8879 /* Archiving */ = {
@@ -601,7 +563,7 @@
 				0155E3F20B7BE8B8008D8879 /* Compatibility-TypedStream */,
 				0155E37F0B7BE7FD008D8879 /* Extensions */,
 				0155E40F0B7BE8E7008D8879 /* Monet Model */,
-				0155E39C0B7BE814008D8879 /* Parsers */,
+				694157690FAB8D66009D4192 /* Parsers */,
 				012D53A00B7FF9BD001B50FC /* Text Processing */,
 				0155E4700B7BE906008D8879 /* Tube */,
 			);
@@ -638,6 +600,34 @@
 			name = "Other Sources";
 			sourceTree = "<group>";
 		};
+		694157690FAB8D66009D4192 /* Parsers */ = {
+			isa = PBXGroup;
+			children = (
+				694157740FAB8D66009D4192 /* GSParser.h */,
+				694157750FAB8D66009D4192 /* GSParser.m */,
+				695146B20FB0D30800B6DDD6 /* MMBooleanExpression.h */,
+				695146B30FB0D30800B6DDD6 /* MMBooleanExpression.m */,
+				695146B40FB0D30800B6DDD6 /* MMBooleanNode.h */,
+				695146B50FB0D30800B6DDD6 /* MMBooleanNode.m */,
+				695146B60FB0D30800B6DDD6 /* MMBooleanParser.h */,
+				695146B70FB0D30800B6DDD6 /* MMBooleanParser.m */,
+				695146B80FB0D30800B6DDD6 /* MMBooleanSymbols.h */,
+				695146B90FB0D30800B6DDD6 /* MMBooleanTerminal.h */,
+				695146BA0FB0D30800B6DDD6 /* MMBooleanTerminal.m */,
+				695146BB0FB0D30800B6DDD6 /* MMFormulaExpression.h */,
+				695146BC0FB0D30800B6DDD6 /* MMFormulaExpression.m */,
+				695146BD0FB0D30800B6DDD6 /* MMFormulaNode.h */,
+				695146BE0FB0D30800B6DDD6 /* MMFormulaNode.m */,
+				695146BF0FB0D30800B6DDD6 /* MMFormulaParser.h */,
+				695146C00FB0D30800B6DDD6 /* MMFormulaParser.m */,
+				695146C10FB0D30800B6DDD6 /* MMFormulaSymbols.h */,
+				695146C20FB0D30800B6DDD6 /* MMFormulaTerminal.h */,
+				695146C30FB0D30800B6DDD6 /* MMFormulaTerminal.m */,
+				695146C40FB0D30800B6DDD6 /* MMFRuleSymbols.h */,
+			);
+			path = Parsers;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -645,7 +635,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				012D53B50B7FF9DC001B50FC /* TTSParser.h in Headers */,
+				012D53B50B7FF9DC001B50FC /* TTSParserOld.h in Headers */,
 				012D53B40B7FF9DC001B50FC /* TTSNumberPronunciations.h in Headers */,
 				0155E4770B7BE92A008D8879 /* TRMSynthesizer.h in Headers */,
 				0155E40D0B7BE8D6008D8879 /* TargetList.h in Headers */,
@@ -688,25 +678,13 @@
 				0155E4500B7BE8FA008D8879 /* MMObject.h in Headers */,
 				0155E44E0B7BE8FA008D8879 /* MMNamedObject.h in Headers */,
 				0155E44C0B7BE8FA008D8879 /* MMIntonationPoint.h in Headers */,
-				0155E3C80B7BE852008D8879 /* MMFRuleSymbols.h in Headers */,
-				0155E3C60B7BE852008D8879 /* MMFormulaTerminal.h in Headers */,
-				0155E3C50B7BE852008D8879 /* MMFormulaSymbols.h in Headers */,
-				0155E3C30B7BE852008D8879 /* MMFormulaParser.h in Headers */,
-				0155E3C10B7BE852008D8879 /* MMFormulaNode.h in Headers */,
-				0155E3BF0B7BE852008D8879 /* MMFormulaExpression.h in Headers */,
 				0155E44A0B7BE8FA008D8879 /* MMEquation.h in Headers */,
 				0155E4480B7BE8FA008D8879 /* MMCategory.h in Headers */,
-				0155E3BD0B7BE852008D8879 /* MMBooleanTerminal.h in Headers */,
-				0155E3BC0B7BE852008D8879 /* MMBooleanSymbols.h in Headers */,
-				0155E3BA0B7BE852008D8879 /* MMBooleanParser.h in Headers */,
-				0155E3B80B7BE852008D8879 /* MMBooleanNode.h in Headers */,
-				0155E3B60B7BE852008D8879 /* MMBooleanExpression.h in Headers */,
 				0155E4460B7BE8FA008D8879 /* MDocument.h in Headers */,
 				0155E3DE0B7BE8AC008D8879 /* GSXMLFunctions.h in Headers */,
 				012D53B20B7FF9DC001B50FC /* GSSuffix.h in Headers */,
 				012D53B00B7FF9DC001B50FC /* GSSimplePronunciationDictionary.h in Headers */,
 				012D53AE0B7FF9DC001B50FC /* GSPronunciationDictionary.h in Headers */,
-				0155E3B40B7BE852008D8879 /* GSParser.h in Headers */,
 				012D53AC0B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h in Headers */,
 				0155E4030B7BE8D6008D8879 /* FormulaTerminal.h in Headers */,
 				0155E4010B7BE8D6008D8879 /* FormulaExpression.h in Headers */,
@@ -716,6 +694,19 @@
 				0155E4400B7BE8FA008D8879 /* CategoryList.h in Headers */,
 				01AC65FA0B7BF9B4008E4B93 /* GnuSpeech.h in Headers */,
 				69B1086D0EDD307400DEF197 /* TRMData.h in Headers */,
+				69300A3E0FAB841E0041EBFB /* TTSParserPartial.h in Headers */,
+				694157970FAB8D66009D4192 /* GSParser.h in Headers */,
+				695146C50FB0D30800B6DDD6 /* MMBooleanExpression.h in Headers */,
+				695146C70FB0D30800B6DDD6 /* MMBooleanNode.h in Headers */,
+				695146C90FB0D30800B6DDD6 /* MMBooleanParser.h in Headers */,
+				695146CB0FB0D30800B6DDD6 /* MMBooleanSymbols.h in Headers */,
+				695146CC0FB0D30800B6DDD6 /* MMBooleanTerminal.h in Headers */,
+				695146CE0FB0D30800B6DDD6 /* MMFormulaExpression.h in Headers */,
+				695146D00FB0D30800B6DDD6 /* MMFormulaNode.h in Headers */,
+				695146D20FB0D30800B6DDD6 /* MMFormulaParser.h in Headers */,
+				695146D40FB0D30800B6DDD6 /* MMFormulaSymbols.h in Headers */,
+				695146D50FB0D30800B6DDD6 /* MMFormulaTerminal.h in Headers */,
+				695146D70FB0D30800B6DDD6 /* MMFRuleSymbols.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -802,15 +793,6 @@
 				0155E3970B7BE80D008D8879 /* NSScanner-Extensions.m in Sources */,
 				0155E3990B7BE80D008D8879 /* NSString-Extensions.m in Sources */,
 				0155E39B0B7BE80D008D8879 /* NSUserDefaults-Extensions.m in Sources */,
-				0155E3B50B7BE852008D8879 /* GSParser.m in Sources */,
-				0155E3B70B7BE852008D8879 /* MMBooleanExpression.m in Sources */,
-				0155E3B90B7BE852008D8879 /* MMBooleanNode.m in Sources */,
-				0155E3BB0B7BE852008D8879 /* MMBooleanParser.m in Sources */,
-				0155E3BE0B7BE852008D8879 /* MMBooleanTerminal.m in Sources */,
-				0155E3C00B7BE852008D8879 /* MMFormulaExpression.m in Sources */,
-				0155E3C20B7BE852008D8879 /* MMFormulaNode.m in Sources */,
-				0155E3C40B7BE852008D8879 /* MMFormulaParser.m in Sources */,
-				0155E3C70B7BE852008D8879 /* MMFormulaTerminal.m in Sources */,
 				0155E3DF0B7BE8AC008D8879 /* GSXMLFunctions.m in Sources */,
 				0155E3E10B7BE8AC008D8879 /* MUnarchiver.m in Sources */,
 				0155E3E30B7BE8AC008D8879 /* MXMLArrayDelegate.m in Sources */,
@@ -859,8 +841,18 @@
 				012D53AF0B7FF9DC001B50FC /* GSPronunciationDictionary.m in Sources */,
 				012D53B10B7FF9DC001B50FC /* GSSimplePronunciationDictionary.m in Sources */,
 				012D53B30B7FF9DC001B50FC /* GSSuffix.m in Sources */,
-				012D53B60B7FF9DC001B50FC /* TTSParser.m in Sources */,
+				012D53B60B7FF9DC001B50FC /* TTSParserOld.m in Sources */,
 				69B1086E0EDD307400DEF197 /* TRMData.m in Sources */,
+				69300A3F0FAB841E0041EBFB /* TTSParserPartial.m in Sources */,
+				694157980FAB8D66009D4192 /* GSParser.m in Sources */,
+				695146C60FB0D30800B6DDD6 /* MMBooleanExpression.m in Sources */,
+				695146C80FB0D30800B6DDD6 /* MMBooleanNode.m in Sources */,
+				695146CA0FB0D30800B6DDD6 /* MMBooleanParser.m in Sources */,
+				695146CD0FB0D30800B6DDD6 /* MMBooleanTerminal.m in Sources */,
+				695146CF0FB0D30800B6DDD6 /* MMFormulaExpression.m in Sources */,
+				695146D10FB0D30800B6DDD6 /* MMFormulaNode.m in Sources */,
+				695146D30FB0D30800B6DDD6 /* MMFormulaParser.m in Sources */,
+				695146D60FB0D30800B6DDD6 /* MMFormulaTerminal.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -944,19 +936,21 @@
 		1DEB91B208733DA50010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				DEPLOYMENT_LOCATION = YES;
 				DSTROOT = /;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/..\"/**";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_INPUT_FILETYPE = sourcecode.c.objc;
 				GCC_MODEL_TUNING = G4;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_VERSION = 4.2;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
-				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Frameworks";
+				INSTALL_PATH = "\"$(HOME)/Library/Frameworks\"";
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
@@ -967,18 +961,20 @@
 		1DEB91B308733DA50010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				DEPLOYMENT_LOCATION = YES;
 				DSTROOT = /;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/..\"/**";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_INPUT_FILETYPE = sourcecode.c.objc;
 				GCC_MODEL_TUNING = G4;
 				GCC_VERSION = 4.2;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
-				INSTALL_PATH = "/Users/$(USER)/Library/Frameworks";
+				INSTALL_PATH = "\"$(HOME)/Library/Frameworks\"";
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				PREBINDING = NO;
 				SDKROOT = macosx10.5;

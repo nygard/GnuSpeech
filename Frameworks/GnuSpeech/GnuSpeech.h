@@ -109,6 +109,7 @@
 #import <GnuSpeech/GSSuffix.h>
 #import <GnuSpeech/TTSNumberPronunciations.h>
 #import <GnuSpeech/TTSParser.h>
+#import <GnuSpeech/TTSParserPartial.h>  // added for testing...
 
 // Tube
 #import <GnuSpeech/TRMData.h>
