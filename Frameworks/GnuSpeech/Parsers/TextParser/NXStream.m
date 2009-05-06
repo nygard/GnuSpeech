@@ -175,9 +175,7 @@
 	NSRange range;
 	range.location = streamPosition;
 	range.length = buflen;
-	
-	// NSLog(@"vprintf: streamBuffer: %@ streamBuffer length: %d buf: %s buflen: %d position: %d", streamBuffer, [streamBuffer length], buf, buflen, streamPosition);
-		
+			
 	if ([self atEOS]) {
 		
 		[streamBuffer appendString:[NSString stringWithCString:buf encoding:NSASCIIStringEncoding]];
