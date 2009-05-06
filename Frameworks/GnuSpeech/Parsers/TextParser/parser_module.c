@@ -32,7 +32,7 @@
 /*  HEADER FILES  ************************************************************/
 #import "parser_module.h"
 #import "number_parser.h"
-//#import "letter_to_sound.h"  -- add back later
+//#import "letter_to_sound.h" // ADD!
 #import "abbreviations.h"
 #import "streams.h"
 #import "TTS_types.h"
@@ -1907,7 +1907,7 @@ static void expand_word(char *word, int is_tonic, NXStream *stream)
 	ptr = pronunciation;
 	last_phoneme[0] = '\0';
 	last_phoneme_ptr = last_phoneme;
-	while (*ptr && (*ptr != '%')) {  // bug: "*ptr" changed to "ptr" -- dalmazio, May 5, 2009
+	while (*ptr && (*ptr != '%')) {
 		switch(*ptr) {
 			case '\'':
 			case '`':
@@ -2130,11 +2130,10 @@ static int illegal_token(char *token)
 		return(0);
 	
 	/*  IF PHONE A VALID DEGAS PHONE, RETURN 0;  1 OTHERWISE  */
-	//  if (validPhone(token))
-	//    return(0);
-	//  else
-	//    return(1);
-	return(0);  // just return true for now -- db.
+	if (validPhone(token))
+	    return(0);
+	else
+		return(1);
 }
 
 
