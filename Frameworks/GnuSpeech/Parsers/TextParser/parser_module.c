@@ -32,11 +32,11 @@
 /*  HEADER FILES  ************************************************************/
 #import "parser_module.h"
 #import "number_parser.h"
-//#import "letter_to_sound.h" // ADD!
+#import "letter_to_sound.h"
 #import "abbreviations.h"
 #import "streams.h"
 #import "TTS_types.h"
-
+#import "diphone_module.h"
 
 #import <ctype.h>
 #import <stdio.h>
@@ -529,16 +529,16 @@ const char *lookup_word(const char *word, short *dict)
 	/*  IF HERE, THEN FIND WORD IN LETTER-TO-SOUND RULEBASE  */
 	/*  THIS IS GUARANTEED TO FIND A PRONUNCIATION OF SOME SORT  */
 	// temporarily comment -- db.
-	//  if ((pronunciation = letter_to_sound((char *)word)) != NULL) {
-	//    *dict = TTS_LETTER_TO_SOUND;
-	//    return((const char *)pronunciation);
-	//  }
-	//  else {
-	//    *dict = TTS_LETTER_TO_SOUND;
-	//    return((const char *)degenerate_string(word));
-	//  }
+	if ((pronunciation = letter_to_sound((char *)word)) != NULL) {
+	   *dict = TTS_LETTER_TO_SOUND;
+	    return((const char *)pronunciation);
+	}
+	else {
+	    *dict = TTS_LETTER_TO_SOUND;
+	    return((const char *)degenerate_string(word));
+	}
 	
-	return "/_b_z_z_z_z_t_uh";
+	//return "/_b_z_z_z_z_t_uh";
 	
 	/*  SHOULD NEVER GET HERE, BUT IF YOU DO, RETURN NULL  */
 	*dict = -1;

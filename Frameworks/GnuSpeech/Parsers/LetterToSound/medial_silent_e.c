@@ -20,7 +20,7 @@
 *
 *	purpose:	
 *                       
-*       arguments:      in, eow
+*   arguments:  input, eow
 *                       
 *	internal
 *	functions:	member, insert_mark
@@ -30,13 +30,13 @@
 *
 ******************************************************************************/
 
-void medial_silent_e(char *in, char **eow)
+void medial_silent_e(char *input, char **eow)
 {
     char               *end = *eow;
     register char      *position;
     register int        index;
 
-    for (position = in + 2; position < end - 5; position++) {
+    for (position = input + 2; position < end - 5; position++) {
 	if (!member(position[0], "bcdfgmnprst"))
 	    continue;		/* c */
 	if (!member(position[1], "bdfgkpt"))
@@ -67,7 +67,7 @@ void medial_silent_e(char *in, char **eow)
 	break;
     }
 
-    for (position = in; position < end - 5; position++) {
+    for (position = input; position < end - 5; position++) {
 	if ((member(position[0], "aeiou#")))
 	    continue;
 	if (!member(position[1], "aiouy"))
@@ -91,7 +91,7 @@ void medial_silent_e(char *in, char **eow)
 	break;
     }
 
-    for (position = in + 1; position < end - 5; position++) {
+    for (position = input + 1; position < end - 5; position++) {
 	if (position[0] != 'o')
 	    continue;
 	if (!member(position[1], "aiouyU"))

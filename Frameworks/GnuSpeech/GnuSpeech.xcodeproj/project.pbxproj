@@ -178,6 +178,44 @@
 		69E227C40FB12AB0001B3C04 /* template.c in Sources */ = {isa = PBXBuildFile; fileRef = 69E227B80FB12AAF001B3C04 /* template.c */; };
 		69E227C50FB12AB0001B3C04 /* template.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E227B90FB12AAF001B3C04 /* template.h */; };
 		69E227C60FB12AB0001B3C04 /* categories.c in Sources */ = {isa = PBXBuildFile; fileRef = 69E227BA0FB12AAF001B3C04 /* categories.c */; };
+		69E228450FB13394001B3C04 /* apply_stress.c in Sources */ = {isa = PBXBuildFile; fileRef = 69E2281F0FB13393001B3C04 /* apply_stress.c */; };
+		69E228460FB13394001B3C04 /* apply_stress.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E228200FB13393001B3C04 /* apply_stress.h */; };
+		69E228470FB13394001B3C04 /* check_word_list.c in Sources */ = {isa = PBXBuildFile; fileRef = 69E228210FB13393001B3C04 /* check_word_list.c */; };
+		69E228480FB13394001B3C04 /* check_word_list.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E228220FB13393001B3C04 /* check_word_list.h */; };
+		69E228490FB13394001B3C04 /* clusters.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E228230FB13393001B3C04 /* clusters.h */; };
+		69E2284A0FB13394001B3C04 /* ends_with.c in Sources */ = {isa = PBXBuildFile; fileRef = 69E228240FB13393001B3C04 /* ends_with.c */; };
+		69E2284B0FB13394001B3C04 /* ends_with.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E228250FB13393001B3C04 /* ends_with.h */; };
+		69E2284C0FB13394001B3C04 /* final_s.c in Sources */ = {isa = PBXBuildFile; fileRef = 69E228260FB13393001B3C04 /* final_s.c */; };
+		69E2284D0FB13394001B3C04 /* final_s.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E228270FB13393001B3C04 /* final_s.h */; };
+		69E2284E0FB13394001B3C04 /* ie_to_y.c in Sources */ = {isa = PBXBuildFile; fileRef = 69E228280FB13393001B3C04 /* ie_to_y.c */; };
+		69E2284F0FB13394001B3C04 /* ie_to_y.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E228290FB13393001B3C04 /* ie_to_y.h */; };
+		69E228500FB13394001B3C04 /* insert_mark.c in Sources */ = {isa = PBXBuildFile; fileRef = 69E2282A0FB13393001B3C04 /* insert_mark.c */; };
+		69E228510FB13394001B3C04 /* insert_mark.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E2282B0FB13393001B3C04 /* insert_mark.h */; };
+		69E228520FB13394001B3C04 /* isp_trans.c in Sources */ = {isa = PBXBuildFile; fileRef = 69E2282C0FB13393001B3C04 /* isp_trans.c */; };
+		69E228530FB13394001B3C04 /* isp_trans.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E2282D0FB13393001B3C04 /* isp_trans.h */; };
+		69E228540FB13394001B3C04 /* letter_to_sound.c in Sources */ = {isa = PBXBuildFile; fileRef = 69E2282E0FB13393001B3C04 /* letter_to_sound.c */; };
+		69E228550FB13394001B3C04 /* letter_to_sound.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E2282F0FB13393001B3C04 /* letter_to_sound.h */; };
+		69E228560FB13394001B3C04 /* long_medial_vowels.c in Sources */ = {isa = PBXBuildFile; fileRef = 69E228300FB13393001B3C04 /* long_medial_vowels.c */; };
+		69E228570FB13394001B3C04 /* long_medial_vowels.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E228310FB13393001B3C04 /* long_medial_vowels.h */; };
+		69E228580FB13394001B3C04 /* mark_final_e.c in Sources */ = {isa = PBXBuildFile; fileRef = 69E228320FB13393001B3C04 /* mark_final_e.c */; };
+		69E228590FB13394001B3C04 /* mark_final_e.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E228330FB13393001B3C04 /* mark_final_e.h */; };
+		69E2285A0FB13394001B3C04 /* medial_s.c in Sources */ = {isa = PBXBuildFile; fileRef = 69E228340FB13393001B3C04 /* medial_s.c */; };
+		69E2285B0FB13394001B3C04 /* medial_s.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E228350FB13393001B3C04 /* medial_s.h */; };
+		69E2285C0FB13394001B3C04 /* medial_silent_e.c in Sources */ = {isa = PBXBuildFile; fileRef = 69E228360FB13393001B3C04 /* medial_silent_e.c */; };
+		69E2285D0FB13394001B3C04 /* medial_silent_e.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E228370FB13393001B3C04 /* medial_silent_e.h */; };
+		69E2285E0FB13394001B3C04 /* member.c in Sources */ = {isa = PBXBuildFile; fileRef = 69E228380FB13393001B3C04 /* member.c */; };
+		69E2285F0FB13394001B3C04 /* member.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E228390FB13393001B3C04 /* member.h */; };
+		69E228600FB13394001B3C04 /* stresstables.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E2283A0FB13393001B3C04 /* stresstables.h */; };
+		69E228610FB13394001B3C04 /* suffix.c in Sources */ = {isa = PBXBuildFile; fileRef = 69E2283B0FB13393001B3C04 /* suffix.c */; };
+		69E228620FB13394001B3C04 /* suffix.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E2283C0FB13393001B3C04 /* suffix.h */; };
+		69E228630FB13394001B3C04 /* suffix_list.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E2283D0FB13393001B3C04 /* suffix_list.h */; };
+		69E228640FB13394001B3C04 /* syllabify.c in Sources */ = {isa = PBXBuildFile; fileRef = 69E2283E0FB13393001B3C04 /* syllabify.c */; };
+		69E228650FB13394001B3C04 /* syllabify.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E2283F0FB13393001B3C04 /* syllabify.h */; };
+		69E228660FB13394001B3C04 /* tail.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E228400FB13393001B3C04 /* tail.h */; };
+		69E228670FB13394001B3C04 /* vowel_before.c in Sources */ = {isa = PBXBuildFile; fileRef = 69E228410FB13393001B3C04 /* vowel_before.c */; };
+		69E228680FB13394001B3C04 /* vowel_before.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E228420FB13393001B3C04 /* vowel_before.h */; };
+		69E228690FB13394001B3C04 /* word_to_patphone.c in Sources */ = {isa = PBXBuildFile; fileRef = 69E228430FB13393001B3C04 /* word_to_patphone.c */; };
+		69E2286A0FB13394001B3C04 /* word_to_patphone.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E228440FB13393001B3C04 /* word_to_patphone.h */; };
 		69E8A75B0EC2AC4C0090AD25 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69E8A75A0EC2AC4C0090AD25 /* CoreAudio.framework */; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
@@ -377,6 +415,44 @@
 		69E227B80FB12AAF001B3C04 /* template.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = template.c; sourceTree = "<group>"; };
 		69E227B90FB12AAF001B3C04 /* template.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = template.h; sourceTree = "<group>"; };
 		69E227BA0FB12AAF001B3C04 /* categories.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = categories.c; sourceTree = "<group>"; };
+		69E2281F0FB13393001B3C04 /* apply_stress.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = apply_stress.c; sourceTree = "<group>"; };
+		69E228200FB13393001B3C04 /* apply_stress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = apply_stress.h; sourceTree = "<group>"; };
+		69E228210FB13393001B3C04 /* check_word_list.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = check_word_list.c; sourceTree = "<group>"; };
+		69E228220FB13393001B3C04 /* check_word_list.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = check_word_list.h; sourceTree = "<group>"; };
+		69E228230FB13393001B3C04 /* clusters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = clusters.h; sourceTree = "<group>"; };
+		69E228240FB13393001B3C04 /* ends_with.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ends_with.c; sourceTree = "<group>"; };
+		69E228250FB13393001B3C04 /* ends_with.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ends_with.h; sourceTree = "<group>"; };
+		69E228260FB13393001B3C04 /* final_s.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = final_s.c; sourceTree = "<group>"; };
+		69E228270FB13393001B3C04 /* final_s.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = final_s.h; sourceTree = "<group>"; };
+		69E228280FB13393001B3C04 /* ie_to_y.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ie_to_y.c; sourceTree = "<group>"; };
+		69E228290FB13393001B3C04 /* ie_to_y.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ie_to_y.h; sourceTree = "<group>"; };
+		69E2282A0FB13393001B3C04 /* insert_mark.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = insert_mark.c; sourceTree = "<group>"; };
+		69E2282B0FB13393001B3C04 /* insert_mark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = insert_mark.h; sourceTree = "<group>"; };
+		69E2282C0FB13393001B3C04 /* isp_trans.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = isp_trans.c; sourceTree = "<group>"; };
+		69E2282D0FB13393001B3C04 /* isp_trans.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = isp_trans.h; sourceTree = "<group>"; };
+		69E2282E0FB13393001B3C04 /* letter_to_sound.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = letter_to_sound.c; sourceTree = "<group>"; };
+		69E2282F0FB13393001B3C04 /* letter_to_sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = letter_to_sound.h; sourceTree = "<group>"; };
+		69E228300FB13393001B3C04 /* long_medial_vowels.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = long_medial_vowels.c; sourceTree = "<group>"; };
+		69E228310FB13393001B3C04 /* long_medial_vowels.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = long_medial_vowels.h; sourceTree = "<group>"; };
+		69E228320FB13393001B3C04 /* mark_final_e.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mark_final_e.c; sourceTree = "<group>"; };
+		69E228330FB13393001B3C04 /* mark_final_e.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mark_final_e.h; sourceTree = "<group>"; };
+		69E228340FB13393001B3C04 /* medial_s.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = medial_s.c; sourceTree = "<group>"; };
+		69E228350FB13393001B3C04 /* medial_s.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = medial_s.h; sourceTree = "<group>"; };
+		69E228360FB13393001B3C04 /* medial_silent_e.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = medial_silent_e.c; sourceTree = "<group>"; };
+		69E228370FB13393001B3C04 /* medial_silent_e.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = medial_silent_e.h; sourceTree = "<group>"; };
+		69E228380FB13393001B3C04 /* member.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = member.c; sourceTree = "<group>"; };
+		69E228390FB13393001B3C04 /* member.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = member.h; sourceTree = "<group>"; };
+		69E2283A0FB13393001B3C04 /* stresstables.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stresstables.h; sourceTree = "<group>"; };
+		69E2283B0FB13393001B3C04 /* suffix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = suffix.c; sourceTree = "<group>"; };
+		69E2283C0FB13393001B3C04 /* suffix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = suffix.h; sourceTree = "<group>"; };
+		69E2283D0FB13393001B3C04 /* suffix_list.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = suffix_list.h; sourceTree = "<group>"; };
+		69E2283E0FB13393001B3C04 /* syllabify.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = syllabify.c; sourceTree = "<group>"; };
+		69E2283F0FB13393001B3C04 /* syllabify.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = syllabify.h; sourceTree = "<group>"; };
+		69E228400FB13393001B3C04 /* tail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tail.h; sourceTree = "<group>"; };
+		69E228410FB13393001B3C04 /* vowel_before.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vowel_before.c; sourceTree = "<group>"; };
+		69E228420FB13393001B3C04 /* vowel_before.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vowel_before.h; sourceTree = "<group>"; };
+		69E228430FB13393001B3C04 /* word_to_patphone.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = word_to_patphone.c; sourceTree = "<group>"; };
+		69E228440FB13393001B3C04 /* word_to_patphone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = word_to_patphone.h; sourceTree = "<group>"; };
 		69E8A75A0EC2AC4C0090AD25 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = /System/Library/Frameworks/CoreAudio.framework; sourceTree = "<absolute>"; };
 		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* GnuSpeech.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GnuSpeech.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -663,6 +739,7 @@
 				695148670FB0DB5500B6DDD6 /* Mathematical Expression Parser */,
 				695148AC0FB0DDAA00B6DDD6 /* Number Parser */,
 				695148BA0FB0DEB000B6DDD6 /* Text Parser */,
+				69E2281E0FB13393001B3C04 /* Letter To Sound */,
 			);
 			path = Parsers;
 			sourceTree = "<group>";
@@ -740,6 +817,52 @@
 			);
 			name = "Text Parser";
 			path = TextParser;
+			sourceTree = "<group>";
+		};
+		69E2281E0FB13393001B3C04 /* Letter To Sound */ = {
+			isa = PBXGroup;
+			children = (
+				69E2281F0FB13393001B3C04 /* apply_stress.c */,
+				69E228200FB13393001B3C04 /* apply_stress.h */,
+				69E228210FB13393001B3C04 /* check_word_list.c */,
+				69E228220FB13393001B3C04 /* check_word_list.h */,
+				69E228230FB13393001B3C04 /* clusters.h */,
+				69E228240FB13393001B3C04 /* ends_with.c */,
+				69E228250FB13393001B3C04 /* ends_with.h */,
+				69E228260FB13393001B3C04 /* final_s.c */,
+				69E228270FB13393001B3C04 /* final_s.h */,
+				69E228280FB13393001B3C04 /* ie_to_y.c */,
+				69E228290FB13393001B3C04 /* ie_to_y.h */,
+				69E2282A0FB13393001B3C04 /* insert_mark.c */,
+				69E2282B0FB13393001B3C04 /* insert_mark.h */,
+				69E2282C0FB13393001B3C04 /* isp_trans.c */,
+				69E2282D0FB13393001B3C04 /* isp_trans.h */,
+				69E2282E0FB13393001B3C04 /* letter_to_sound.c */,
+				69E2282F0FB13393001B3C04 /* letter_to_sound.h */,
+				69E228300FB13393001B3C04 /* long_medial_vowels.c */,
+				69E228310FB13393001B3C04 /* long_medial_vowels.h */,
+				69E228320FB13393001B3C04 /* mark_final_e.c */,
+				69E228330FB13393001B3C04 /* mark_final_e.h */,
+				69E228340FB13393001B3C04 /* medial_s.c */,
+				69E228350FB13393001B3C04 /* medial_s.h */,
+				69E228360FB13393001B3C04 /* medial_silent_e.c */,
+				69E228370FB13393001B3C04 /* medial_silent_e.h */,
+				69E228380FB13393001B3C04 /* member.c */,
+				69E228390FB13393001B3C04 /* member.h */,
+				69E2283A0FB13393001B3C04 /* stresstables.h */,
+				69E2283B0FB13393001B3C04 /* suffix.c */,
+				69E2283C0FB13393001B3C04 /* suffix.h */,
+				69E2283D0FB13393001B3C04 /* suffix_list.h */,
+				69E2283E0FB13393001B3C04 /* syllabify.c */,
+				69E2283F0FB13393001B3C04 /* syllabify.h */,
+				69E228400FB13393001B3C04 /* tail.h */,
+				69E228410FB13393001B3C04 /* vowel_before.c */,
+				69E228420FB13393001B3C04 /* vowel_before.h */,
+				69E228430FB13393001B3C04 /* word_to_patphone.c */,
+				69E228440FB13393001B3C04 /* word_to_patphone.h */,
+			);
+			name = "Letter To Sound";
+			path = LetterToSound;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -836,6 +959,27 @@
 				69E227C10FB12AB0001B3C04 /* phoneDescription.h in Headers */,
 				69E227C30FB12AB0001B3C04 /* rule.h in Headers */,
 				69E227C50FB12AB0001B3C04 /* template.h in Headers */,
+				69E228460FB13394001B3C04 /* apply_stress.h in Headers */,
+				69E228480FB13394001B3C04 /* check_word_list.h in Headers */,
+				69E228490FB13394001B3C04 /* clusters.h in Headers */,
+				69E2284B0FB13394001B3C04 /* ends_with.h in Headers */,
+				69E2284D0FB13394001B3C04 /* final_s.h in Headers */,
+				69E2284F0FB13394001B3C04 /* ie_to_y.h in Headers */,
+				69E228510FB13394001B3C04 /* insert_mark.h in Headers */,
+				69E228530FB13394001B3C04 /* isp_trans.h in Headers */,
+				69E228550FB13394001B3C04 /* letter_to_sound.h in Headers */,
+				69E228570FB13394001B3C04 /* long_medial_vowels.h in Headers */,
+				69E228590FB13394001B3C04 /* mark_final_e.h in Headers */,
+				69E2285B0FB13394001B3C04 /* medial_s.h in Headers */,
+				69E2285D0FB13394001B3C04 /* medial_silent_e.h in Headers */,
+				69E2285F0FB13394001B3C04 /* member.h in Headers */,
+				69E228600FB13394001B3C04 /* stresstables.h in Headers */,
+				69E228620FB13394001B3C04 /* suffix.h in Headers */,
+				69E228630FB13394001B3C04 /* suffix_list.h in Headers */,
+				69E228650FB13394001B3C04 /* syllabify.h in Headers */,
+				69E228660FB13394001B3C04 /* tail.h in Headers */,
+				69E228680FB13394001B3C04 /* vowel_before.h in Headers */,
+				69E2286A0FB13394001B3C04 /* word_to_patphone.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -993,6 +1137,23 @@
 				69E227C20FB12AB0001B3C04 /* rule.c in Sources */,
 				69E227C40FB12AB0001B3C04 /* template.c in Sources */,
 				69E227C60FB12AB0001B3C04 /* categories.c in Sources */,
+				69E228450FB13394001B3C04 /* apply_stress.c in Sources */,
+				69E228470FB13394001B3C04 /* check_word_list.c in Sources */,
+				69E2284A0FB13394001B3C04 /* ends_with.c in Sources */,
+				69E2284C0FB13394001B3C04 /* final_s.c in Sources */,
+				69E2284E0FB13394001B3C04 /* ie_to_y.c in Sources */,
+				69E228500FB13394001B3C04 /* insert_mark.c in Sources */,
+				69E228520FB13394001B3C04 /* isp_trans.c in Sources */,
+				69E228540FB13394001B3C04 /* letter_to_sound.c in Sources */,
+				69E228560FB13394001B3C04 /* long_medial_vowels.c in Sources */,
+				69E228580FB13394001B3C04 /* mark_final_e.c in Sources */,
+				69E2285A0FB13394001B3C04 /* medial_s.c in Sources */,
+				69E2285C0FB13394001B3C04 /* medial_silent_e.c in Sources */,
+				69E2285E0FB13394001B3C04 /* member.c in Sources */,
+				69E228610FB13394001B3C04 /* suffix.c in Sources */,
+				69E228640FB13394001B3C04 /* syllabify.c in Sources */,
+				69E228670FB13394001B3C04 /* vowel_before.c in Sources */,
+				69E228690FB13394001B3C04 /* word_to_patphone.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
