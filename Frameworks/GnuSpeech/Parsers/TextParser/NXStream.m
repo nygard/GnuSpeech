@@ -192,7 +192,7 @@
 			range.length = streamBufferLength - streamPosition;  // adjust range to be within stream buffer bounds
 			[streamBuffer deleteCharactersInRange:range];
 			[streamBuffer appendString:[NSString stringWithCString:buf encoding:NSASCIIStringEncoding]];
-			streamPosition += buflen - range.length;
+			streamPosition += buflen;
 		
 		} else {  // range to write is within string bounds; replace characters in range
 		

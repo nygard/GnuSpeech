@@ -355,11 +355,7 @@ int parser(const char *input, const char **output)
 	char *buffer1, *buffer2;
 	NXStream *stream1;
 	long stream1_length, stream2_length;
-	
-	NSLog(@"> parser()");
-	
-	NXLogError("parser(): Input is: %s", input);
-	
+			
 	/*  FIND LENGTH OF INPUT  */
 	input_length = strlen(input);
 	
@@ -371,7 +367,7 @@ int parser(const char *input, const char **output)
 	 (EXCEPT ESC CHAR), CONNECT WORDS HYPHENATED OVER A NEWLINE  */
 	condition_input(input, buffer1, input_length, &buffer1_length);
 	
-	NXLogError("parser(): Conditioned input is: %s", buffer1);
+	NSLog(@"parser(): Conditioned input is: %s", buffer1);
 	
 	/*  RATIONALIZE MODE MARKINGS, CHECKING FOR ERRORS  */
 	if ((error = mark_modes(buffer1, buffer2, buffer1_length, &buffer2_length)) != TTS_PARSER_SUCCESS) {
@@ -393,6 +389,8 @@ int parser(const char *input, const char **output)
 	
 	/*  STRIP OUT OR CONVERT UNESSENTIAL PUNCTUATION  */
 	strip_punctuation(buffer2, buffer2_length, stream1, &stream1_length);
+	
+	NSLog(@"Stripped punctuation: %@", [stream1 buffer]);
 	
 	/*  FREE BUFFER 2  */
 	free(buffer2);
