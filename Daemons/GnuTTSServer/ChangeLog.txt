@@ -1,9 +1,13 @@
+May 6, 2009 | GnuTTSServer v0.1.2
+
+	* Replaced TextToPhone class with MMTextToPhone class from the GnuSpeech Framework (dbrisinda)
+
 April 8, 2009 | GnuTTSServer v0.1.1
 
-* Added intonation support when speaking a text string (dbrisinda)
-* Added GNU header and copyright information to source files (dbrisinda)
+	* Added intonation support when speaking a text string (dbrisinda)
+	* Added GNU header and copyright information to source files (dbrisinda)
 
 January 5, 2009 | GnuTTSServer v0.1
 
-* Initial version of the GnuTTSServer (dbrisinda)
-* Added support for speaking a text string (dbrisinda)
+	* Initial version of the GnuTTSServer (dbrisinda)
+	* Added support for speaking a text string (dbrisinda)
