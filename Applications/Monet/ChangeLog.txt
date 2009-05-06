@@ -1,4 +1,4 @@
-April xx, 2009 | Monet v0.9.6 (pending)
+May 6, 2009 | Monet v0.9.6
 
 	* Fixed small bug in color syncing of text and posture field when tab pressed (dbrisinda)
 	
