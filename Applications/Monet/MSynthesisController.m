@@ -711,6 +711,12 @@
     [textStringTextField removeItemWithObjectValue:str];
     [textStringTextField insertItemWithObjectValue:str atIndex:0];
 	[textStringTextField setTextColor:[NSColor blackColor]];
+
+	str = [[textToPhone phoneForText:[textStringTextField stringValue]] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	[phoneStringTextView setFont:[NSFont fontWithName:@"Lucida Grande" size:13]];
+	[phoneStringTextView setString:str];
+	[phoneStringTextView setTextColor:[NSColor blackColor]];
+	
     [[NSUserDefaults standardUserDefaults] setObject:[textStringTextField objectValues] forKey:MDK_DefaultUtterances];
 }
 
