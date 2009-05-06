@@ -24,13 +24,14 @@
 //
 //  Created by Dalmazio on 05/01/09.
 //
-//  Version: 0.1.1
+//  Version: 0.1.2
 //
 ////////////////////////////////////////////////////////////////////////////////
 
 #import "TextToSpeech.h"
-#import "TextToPhone.h"
 #import "PhoneToSpeech.h"
+
+#import <GnuSpeech/GnuSpeech.h>
 
 @implementation TextToSpeech
 
@@ -38,7 +39,7 @@
 {
 	[super init];
 	
-	textToPhone = [[TextToPhone alloc] init];
+	textToPhone = [[MMTextToPhone alloc] init];
 	phoneToSpeech = [[PhoneToSpeech alloc] init];
 
 	return self;

@@ -92,7 +92,7 @@
 	
     TRMSynthesizer *synthesizer;
 	
-	MTextToPhone * textToPhone;
+	MMTextToPhone * textToPhone;
 	
     // Event Table stuff
     IBOutlet NSTableView *eventTableView;

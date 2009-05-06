@@ -24,16 +24,16 @@
 //
 //  Created by Dalmazio on 05/01/09.
 //
-//  Version: 0.1.1
+//  Version: 0.1.2
 //
 ////////////////////////////////////////////////////////////////////////////////
 
 #import <Foundation/Foundation.h>
 
-@class TextToPhone, PhoneToSpeech;
+@class MMTextToPhone, PhoneToSpeech;
 
 @interface TextToSpeech : NSObject {
-	TextToPhone * textToPhone;
+	MMTextToPhone * textToPhone;
 	PhoneToSpeech * phoneToSpeech;
 }
 
