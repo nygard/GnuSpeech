@@ -1,3 +1,9 @@
+May xx, 2009 | GnuSpeech Framework v0.9
+
+	* Added full support for English text parsing from the original parser module (dalmazio)
+	* Added full support for number parsing from the original number parser (dalmazio)
+	* Added full support for letter-to-sound rules from the orignal letter-to-sound rules (dalmazio)
+
 January 23, 2009 | GnuSpeech Framework v0.8
 
-* Added support for handling punctuation as a temporary fix (dbrisinda)
+	* Added support for handling punctuation as a temporary fix (dbrisinda)

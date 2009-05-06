@@ -1,11 +1,31 @@
-/******************************************************************************
-*
-*     member.c
-*
-*     
-*     
-*
-******************************************************************************/
+/*******************************************************************************
+ *
+ *  Copyright (c) 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
+ *  
+ *  Contributors: 
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *******************************************************************************
+ *
+ *  member.c
+ *  GnuSpeech
+ *
+ *  Version: 0.8
+ *
+ ******************************************************************************/
+
 
 /*  HEADER FILES  ************************************************************/
 #import "member.h"
@@ -13,26 +33,26 @@
 
 
 /******************************************************************************
-*
-*	function:	member
-*
-*	purpose:	Return true if element in set, false otherwise.
-*			
-*       arguments:      element, set
-*                       
-*	internal
-*	functions:	none
-*
-*	library
-*	functions:	none
-*
-******************************************************************************/
+ *
+ *	function:	member
+ *
+ *	purpose:	Return true if element in set, false otherwise.
+ *			
+ *       arguments:      element, set
+ *                       
+ *	internal
+ *	functions:	none
+ *
+ *	library
+ *	functions:	none
+ *
+ ******************************************************************************/
 
 int member(char element, char *set)
 {
     while (*set)
-	if (element == *set++)
-	    return(1);
-
+		if (element == *set++)
+			return(1);
+	
     return(0);
 }

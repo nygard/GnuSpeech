@@ -1,121 +1,147 @@
-/******************************************************************************
-*
-*	Program Module:		number_parser.c
-*
-*	Programmer:		Leonard Manzara
-*
-*	Date of completion:	September 9th, 1990
-*
-*       Last Edit:              February 21st, 1992.  Added seconds to clock
-*                                 times, o'clock on the hour.
-*
-*******************************************************************************
-*
-*       number_parser.c, in conjunction with number_parser.h, is used to create
-*       the function number_parser().  This function can be used to return to
-*       the caller the pronunciation of any string containing a numeral.  The
-*       calling routine must include number_parser.h to access number_parser()
-*       (and also degenerate_string(), another useful function).
-*       The include file number_pronunciations.h contains pronunciations for
-*       all numbers and symbols; it can be changed as needed to improve
-*       the pronunciations.  number_parser.c must be recompiled if any of the
-*       header files change.
-*
-*       number_parser() has two arguments:
-*       1) word_ptr - a pointer to a NULL terminated character string,
-*          containing the number or number string to be parsed.
-*       2) mode - an integer, specifying in what mode the number or
-*          number string is to be parsed.  Three constants are defined
-*          in number_parser.h:  NP_NORMAL, NP_OVERRIDE_YEARS, and
-*          NP_FORCE_SPELL.  Using NP_NORMAL, the function attempts
-*          to parse the number string according to the guidelines
-*          listed below.  NP_OVERRIDE_YEARS forces the function to
-*          interpret numbers from 1000 to 1999 NOT as years, but as
-*          ordinary integers.  NP_FORCE_SPELL forces the function to
-*          spell out each character of the number string.  This may
-*          be useful with very long numbers, or when the numbers are
-*          not to be interpreted in the usual way.
-*
-*       number_parser() returns a pointer to NULL if the word_ptr points
-*       to a string which contains NO numerals at all.  It returns a pointer
-*       to a NULL terminated character string containing the pronunciation
-*       for the number string in all other cases.
-*
-*       The parser can deal with the following cases:
-*       1) Cardinal numbers.
-*          a) Will name triads with numbers up to 10^63 (vigintillion);  with
-*             numbers longer than this the numerals are pronounced one at a
-*             time.  Eg: 1547630 is pronounced as one million, five hundred
-*             and forty-seven thousand, six hundred and thirty.
-*          b) Cardinal numbers can be with or without commas.  The function
-*             checks that the commas are properly placed.  Eg: 23,567 is
-*             pronounced as twenty-three thousand, five hundred and sixty-
-*             seven.
-*       2) Positive and negative numbers.  A + or - sign can be placed before
-*          most numbers, except before telephone numbers, clock times, or
-*          years.  Eg:  -34.5 is pronounced as negative thirty-four point five.
-*       3) Decimal numbers.  All numbers with a decimal point can be
-*          pronounced.  Eg:  +34.234 is pronounced as positive thirty-four
-*          point two three four.
-*       4) Simple fractions.  Number strings with the form  integer/integer
-*          are pronounced correctly.  Each integer must NOT contain commas
-*          or decimals.  Any + or - sign must precede the first integer,
-*          and any % sign must follow the last integer.  Eg:  -3/4% is
-*          pronounced as negative three quarters percent.
-*       5) Ordinal numbers.  Ordinal numbers up to 10^63 are pronounced
-*          correctly, provided the proper suffix (-st, -nd, or -th) is
-*          provided.  Eg:  101ST is pronounced as one hundred and first.
-*       6) Dollars and cents.  Dollars and cents are pronounced correctly
-*          if the $ sign is placed before the number.  An optional + or -
-*          sign can be placed before the dollar sign.  Eg:  -$2.01 is
-*          pronounced as negative two dollars and one cent.
-*       7) Percent.  If a % sign is placed after the number, the word
-*          "percent" is also pronounced.  Eg:  2.45% is pronounced as
-*          two point four five percent.
-*       8) Telephone numbers.  The parser recognizes the following types of
-*          telephone numbers:
-*          a) 7 digit code.  Eg:  555-2345.
-*          b) 10 digit code.  Eg:  203-555-2345
-*          c) 11 digit code.  Eg:  1-800-555-2345
-*          d) area codes.  Eg:  (203) 555-2345  or  (203)555-2345
-*               (Note the optional space above.)
-*       9) Clock times.  The function recognizes both normal and military
-*          (24 hour) time.  Eg:  9:31 is pronounced nine thirty-one.
-*          08:00 is pronounced oh eight hundred.  Seconds are also recognized.
-*          Eg. 10:23:14 is pronounced ten twenty-three and 14 seconds.  Non-
-*          military times on the hour have o'clock appended.  Eg. 9:00 is
-*          pronounced nine o'clock.
-*       10) Years.  Integers from 1000 to 1999 are pronounced as two pairs.
-*           Eg:  1906 is pronounced as nineteen oh six, NOT one thousand,
-*           nine hundred and six.  This default can be changed by setting
-*           the mode to NP_OVERRIDE_YEARS.
-*
-*       If the function cannot put the number string it receives into
-*       any of the above cases, it will pronounce the string one character
-*       at a time.  If the calling routine wishes to have character-by-
-*       character pronunciation as the default, the mode should be set to
-*       NP_FORCE_SPELL.  Using the function degenerate_string() will also
-*       achieve the same thing.
-*
-*******************************************************************************
-*
-*	LIST OF INTERNAL AND LIBRARY FUNCTIONS USED IN THE PROGRAM MODULE
-*
-*	Internal functions:	                number_parser
-*                                               process_word
-*                                               initial_parse
-*                                               error_check
-*                                               degenerate_string
-*                                               process_triad
-*                                               process_digit
-*						
-*
-*	Library functions:	<string.h>	strlen
-*                                               strcmp
-*                                               strcat
-*                               <stdlib.h>      atoi
-*
-******************************************************************************/
+/*******************************************************************************
+ *
+ *  Copyright (c) 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
+ *  
+ *  Contributors: Dalmazio Brisinda
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *******************************************************************************
+ *
+ *  number_parser.c
+ *  GnuSpeech
+ *
+ *  Version: 0.8
+ *
+ *******************************************************************************
+ *
+ *	Program Module:			number_parser.c
+ *
+ *	Programmer:				Leonard Manzara
+ *
+ *	Date of completion:		September 9th, 1990
+ *
+ *  Last Edit:              February 21st, 1992.  Added seconds to clock
+ *                          times, o'clock on the hour.
+ *
+ *******************************************************************************
+ *
+ *       number_parser.c, in conjunction with number_parser.h, is used to create
+ *       the function number_parser().  This function can be used to return to
+ *       the caller the pronunciation of any string containing a numeral.  The
+ *       calling routine must include number_parser.h to access number_parser()
+ *       (and also degenerate_string(), another useful function).
+ *       The include file number_pronunciations.h contains pronunciations for
+ *       all numbers and symbols; it can be changed as needed to improve
+ *       the pronunciations.  number_parser.c must be recompiled if any of the
+ *       header files change.
+ *
+ *       number_parser() has two arguments:
+ *       1) word_ptr - a pointer to a NULL terminated character string,
+ *          containing the number or number string to be parsed.
+ *       2) mode - an integer, specifying in what mode the number or
+ *          number string is to be parsed.  Three constants are defined
+ *          in number_parser.h:  NP_NORMAL, NP_OVERRIDE_YEARS, and
+ *          NP_FORCE_SPELL.  Using NP_NORMAL, the function attempts
+ *          to parse the number string according to the guidelines
+ *          listed below.  NP_OVERRIDE_YEARS forces the function to
+ *          interpret numbers from 1000 to 1999 NOT as years, but as
+ *          ordinary integers.  NP_FORCE_SPELL forces the function to
+ *          spell out each character of the number string.  This may
+ *          be useful with very long numbers, or when the numbers are
+ *          not to be interpreted in the usual way.
+ *
+ *       number_parser() returns a pointer to NULL if the word_ptr points
+ *       to a string which contains NO numerals at all.  It returns a pointer
+ *       to a NULL terminated character string containing the pronunciation
+ *       for the number string in all other cases.
+ *
+ *       The parser can deal with the following cases:
+ *       1) Cardinal numbers.
+ *          a) Will name triads with numbers up to 10^63 (vigintillion);  with
+ *             numbers longer than this the numerals are pronounced one at a
+ *             time.  Eg: 1547630 is pronounced as one million, five hundred
+ *             and forty-seven thousand, six hundred and thirty.
+ *          b) Cardinal numbers can be with or without commas.  The function
+ *             checks that the commas are properly placed.  Eg: 23,567 is
+ *             pronounced as twenty-three thousand, five hundred and sixty-
+ *             seven.
+ *       2) Positive and negative numbers.  A + or - sign can be placed before
+ *          most numbers, except before telephone numbers, clock times, or
+ *          years.  Eg:  -34.5 is pronounced as negative thirty-four point five.
+ *       3) Decimal numbers.  All numbers with a decimal point can be
+ *          pronounced.  Eg:  +34.234 is pronounced as positive thirty-four
+ *          point two three four.
+ *       4) Simple fractions.  Number strings with the form  integer/integer
+ *          are pronounced correctly.  Each integer must NOT contain commas
+ *          or decimals.  Any + or - sign must precede the first integer,
+ *          and any % sign must follow the last integer.  Eg:  -3/4% is
+ *          pronounced as negative three quarters percent.
+ *       5) Ordinal numbers.  Ordinal numbers up to 10^63 are pronounced
+ *          correctly, provided the proper suffix (-st, -nd, or -th) is
+ *          provided.  Eg:  101ST is pronounced as one hundred and first.
+ *       6) Dollars and cents.  Dollars and cents are pronounced correctly
+ *          if the $ sign is placed before the number.  An optional + or -
+ *          sign can be placed before the dollar sign.  Eg:  -$2.01 is
+ *          pronounced as negative two dollars and one cent.
+ *       7) Percent.  If a % sign is placed after the number, the word
+ *          "percent" is also pronounced.  Eg:  2.45% is pronounced as
+ *          two point four five percent.
+ *       8) Telephone numbers.  The parser recognizes the following types of
+ *          telephone numbers:
+ *          a) 7 digit code.  Eg:  555-2345.
+ *          b) 10 digit code.  Eg:  203-555-2345
+ *          c) 11 digit code.  Eg:  1-800-555-2345
+ *          d) area codes.  Eg:  (203) 555-2345  or  (203)555-2345
+ *               (Note the optional space above.)
+ *       9) Clock times.  The function recognizes both normal and military
+ *          (24 hour) time.  Eg:  9:31 is pronounced nine thirty-one.
+ *          08:00 is pronounced oh eight hundred.  Seconds are also recognized.
+ *          Eg. 10:23:14 is pronounced ten twenty-three and 14 seconds.  Non-
+ *          military times on the hour have o'clock appended.  Eg. 9:00 is
+ *          pronounced nine o'clock.
+ *       10) Years.  Integers from 1000 to 1999 are pronounced as two pairs.
+ *           Eg:  1906 is pronounced as nineteen oh six, NOT one thousand,
+ *           nine hundred and six.  This default can be changed by setting
+ *           the mode to NP_OVERRIDE_YEARS.
+ *
+ *       If the function cannot put the number string it receives into
+ *       any of the above cases, it will pronounce the string one character
+ *       at a time.  If the calling routine wishes to have character-by-
+ *       character pronunciation as the default, the mode should be set to
+ *       NP_FORCE_SPELL.  Using the function degenerate_string() will also
+ *       achieve the same thing.
+ *
+ *******************************************************************************
+ *
+ *	LIST OF INTERNAL AND LIBRARY FUNCTIONS USED IN THE PROGRAM MODULE
+ *
+ *	Internal functions:				number_parser
+ *									process_word
+ *									initial_parse
+ *									error_check
+ *									degenerate_string
+ *									process_triad
+ *									process_digit
+ *						
+ *
+ *	Library functions:	<string.h>	strlen
+ *									strcmp
+ *									strcat
+ *						<stdlib.h>	atoi
+ *
+ ******************************************************************************/
 
 
 /*  INCLUDE FILES  ***********************************************************/

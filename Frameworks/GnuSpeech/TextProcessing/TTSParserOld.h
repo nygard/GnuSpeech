@@ -19,7 +19,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
-//  TTSParser.h
+//  TTSParserOld.h
 //  GnuSpeech
 //
 //  Created by Steve Nygard in 2004.
@@ -27,8 +27,6 @@
 //  Version: 0.8
 //
 ////////////////////////////////////////////////////////////////////////////////
-
-#if 0
 
 #import <Foundation/NSObject.h>
 #import <Foundation/NSString.h> // for unichar
@@ -45,7 +43,7 @@ typedef enum {
 
 @class GSPronunciationDictionary;
 
-@interface TTSParser : NSObject
+@interface TTSParserOld : NSObject
 {
     GSPronunciationDictionary *mainDictionary;
     unichar escapeCharacter;
@@ -70,5 +68,3 @@ typedef enum {
 - (NSString *)toneGroupStringForPunctuation:(NSString *)str;
 
 @end
-
-#endif

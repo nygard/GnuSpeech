@@ -19,7 +19,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
-//  TTSParser.m
+//  TTSParserOld.m
 //  GnuSpeech
 //
 //  Created by Steve Nygard in 2004.
@@ -28,9 +28,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#if 0
-
-#import "TTSParser.h"
+#import "TTSParserOld.h"
 
 #import <Foundation/Foundation.h>
 #import "NSScanner-Extensions.h"
@@ -89,7 +87,7 @@ TTSInputMode TTSInputModeFromString(NSString *str)
 
 static NSDictionary *_specialAcronyms = nil;
 
-@implementation TTSParser
+@implementation TTSParserOld
 
 + (void)initialize;
 {
@@ -684,5 +682,3 @@ static NSDictionary *_specialAcronyms = nil;
 }
 
 @end
-
-#endif
