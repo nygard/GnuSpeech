@@ -176,32 +176,30 @@
 	range.location = streamPosition;
 	range.length = buflen;
 	
-	//NSLog(@"vprintf: streamBuffer: %@ streamBuffer length: %d buf: %s buflen: %d position: %d", streamBuffer, [streamBuffer length], buf, buflen, streamPosition);
+	// NSLog(@"vprintf: streamBuffer: %@ streamBuffer length: %d buf: %s buflen: %d position: %d", streamBuffer, [streamBuffer length], buf, buflen, streamPosition);
 		
 	if ([self atEOS]) {
 		
 		[streamBuffer appendString:[NSString stringWithCString:buf encoding:NSASCIIStringEncoding]];
-		streamPosition += range.length;
 		
 	} else {
 		
 		int streamBufferLength = [streamBuffer length];
-
-		if (streamPosition > streamBufferLength - range.length) {  // range to write is beyond string bounds; delete characters in range then append
+		if (streamPosition > (int)streamBufferLength - (int)range.length) {  // range to write is beyond string bounds; note necessary casts to (int)
 		
 			range.length = streamBufferLength - streamPosition;  // adjust range to be within stream buffer bounds
-			[streamBuffer deleteCharactersInRange:range];
-			[streamBuffer appendString:[NSString stringWithCString:buf encoding:NSASCIIStringEncoding]];
-			streamPosition += buflen;
+			[streamBuffer replaceCharactersInRange:range 
+										withString:[NSString stringWithCString:buf encoding:NSASCIIStringEncoding]];		
 		
 		} else {  // range to write is within string bounds; replace characters in range
 		
 			[streamBuffer replaceCharactersInRange:range 
 										withString:[NSString stringWithCString:buf encoding:NSASCIIStringEncoding]];
-			streamPosition += range.length;	
 		}
 	}
-		
+	
+	streamPosition += buflen;
+	
 	free(buf);
 }
 
