@@ -1036,13 +1036,13 @@
 												<key>IFPkgDescriptionTitle</key>
 												<string>Monet</string>
 												<key>IFPkgDescriptionVersion</key>
-												<string>0.9.5</string>
+												<string>0.9.6</string>
 											</dict>
 										</dict>
 										<key>Display Information</key>
 										<dict>
 											<key>CFBundleGetInfoString</key>
-											<string></string>
+											<string>Copyright © 1991-2009 David R. Hill, Leonard Manzara, Craig Schock. This software is licensed under the terms of the GNU GPL.</string>
 											<key>CFBundleIconFile</key>
 											<string>/Users/dalmazio/Developer/xcode/gnuspeech/osx/trunk/Applications/Monet/Monet.icns</string>
 											<key>CFBundleIconFile Path Type</key>
@@ -1052,7 +1052,7 @@
 											<key>CFBundleName</key>
 											<string>Monet</string>
 											<key>CFBundleShortVersionString</key>
-											<string>0.9.5</string>
+											<string>0.9.6</string>
 										</dict>
 										<key>Options</key>
 										<dict>
@@ -3433,7 +3433,7 @@
 										<key>Display Information</key>
 										<dict>
 											<key>CFBundleGetInfoString</key>
-											<string></string>
+											<string>Copyright © 1991-2009 David R. Hill, Leonard Manzara, Craig Schock. This software is licensed under the terms of the GNU GPL.</string>
 											<key>CFBundleIconFile</key>
 											<string>/Users/dalmazio/Developer/xcode/gnuspeech/osx/trunk/Applications/Synthesizer/Synthesizer.icns</string>
 											<key>CFBundleIconFile Path Type</key>
@@ -4170,13 +4170,13 @@
 												<key>IFPkgDescriptionTitle</key>
 												<string>PreMo</string>
 												<key>IFPkgDescriptionVersion</key>
-												<string>0.9</string>
+												<string>0.9.1</string>
 											</dict>
 										</dict>
 										<key>Display Information</key>
 										<dict>
 											<key>CFBundleGetInfoString</key>
-											<string></string>
+											<string>Copyright © 1991-2009 David R. Hill, Leonard Manzara, Craig Schock. This software is licensed under the terms of the GNU GPL.</string>
 											<key>CFBundleIconFile</key>
 											<string>/Users/dalmazio/Developer/xcode/gnuspeech/osx/trunk/Applications/PreMo/PreMo.icns</string>
 											<key>CFBundleIconFile Path Type</key>
@@ -4186,7 +4186,7 @@
 											<key>CFBundleName</key>
 											<string>PreMo</string>
 											<key>CFBundleShortVersionString</key>
-											<string>0.9</string>
+											<string>0.9.1</string>
 										</dict>
 										<key>Options</key>
 										<dict>
@@ -5031,7 +5031,7 @@
 										<key>Display Information</key>
 										<dict>
 											<key>CFBundleGetInfoString</key>
-											<string></string>
+											<string>Copyright © 1991-2009 David R. Hill, Leonard Manzara, Craig Schock. This software is licensed under the terms of the GNU GPL.</string>
 											<key>CFBundleIconFile</key>
 											<string>/Users/dalmazio/Developer/xcode/gnuspeech/osx/trunk/Applications/PrEditor/PrEditor.icns</string>
 											<key>CFBundleIconFile Path Type</key>
@@ -5774,7 +5774,7 @@
 										<key>Display Information</key>
 										<dict>
 											<key>CFBundleGetInfoString</key>
-											<string></string>
+											<string>Copyright © 1991-2009 David R. Hill, Leonard Manzara, Craig Schock. This software is licensed under the terms of the GNU GPL.</string>
 											<key>CFBundleIconFile</key>
 											<string>/Users/dalmazio/Developer/xcode/gnuspeech/osx/trunk/Applications/PrEditor/PrEditor.icns</string>
 											<key>CFBundleIconFile Path Type</key>
@@ -5994,13 +5994,13 @@
 									<key>IFPkgDescriptionTitle</key>
 									<string>Applications</string>
 									<key>IFPkgDescriptionVersion</key>
-									<string>0.6</string>
+									<string></string>
 								</dict>
 							</dict>
 							<key>Display Information</key>
 							<dict>
 								<key>CFBundleGetInfoString</key>
-								<string></string>
+								<string>Copyright © 1991-2009 David R. Hill, Leonard Manzara, Craig Schock. This software is licensed under the terms of the GNU GPL.</string>
 								<key>CFBundleIconFile</key>
 								<string></string>
 								<key>CFBundleIconFile Path Type</key>
@@ -6010,14 +6010,14 @@
 								<key>CFBundleName</key>
 								<string>Applications</string>
 								<key>CFBundleShortVersionString</key>
-								<string>0.6</string>
+								<string></string>
 							</dict>
 							<key>Version</key>
 							<dict>
 								<key>IFMajorVersion</key>
 								<integer>0</integer>
 								<key>IFMinorVersion</key>
-								<integer>6</integer>
+								<integer>0</integer>
 							</dict>
 						</dict>
 					</dict>
@@ -6189,381 +6189,11 @@
 															<array>
 																<dict>
 																	<key>Children</key>
-																	<array>
-																		<dict>
-																			<key>Children</key>
-																			<array/>
-																			<key>GID</key>
-																			<integer>80</integer>
-																			<key>Path</key>
-																			<string>/Users/dalmazio/Library/Frameworks/Tube.framework/Headers</string>
-																			<key>Path Type</key>
-																			<integer>1</integer>
-																			<key>Privileges</key>
-																			<integer>511</integer>
-																			<key>Type</key>
-																			<integer>3</integer>
-																			<key>UID</key>
-																			<integer>0</integer>
-																		</dict>
-																		<dict>
-																			<key>Children</key>
-																			<array/>
-																			<key>GID</key>
-																			<integer>80</integer>
-																			<key>Path</key>
-																			<string>/Users/dalmazio/Library/Frameworks/Tube.framework/Resources</string>
-																			<key>Path Type</key>
-																			<integer>1</integer>
-																			<key>Privileges</key>
-																			<integer>511</integer>
-																			<key>Type</key>
-																			<integer>3</integer>
-																			<key>UID</key>
-																			<integer>0</integer>
-																		</dict>
-																		<dict>
-																			<key>Children</key>
-																			<array/>
-																			<key>GID</key>
-																			<integer>80</integer>
-																			<key>Path</key>
-																			<string>/Users/dalmazio/Library/Frameworks/Tube.framework/Tube</string>
-																			<key>Path Type</key>
-																			<integer>1</integer>
-																			<key>Privileges</key>
-																			<integer>511</integer>
-																			<key>Type</key>
-																			<integer>3</integer>
-																			<key>UID</key>
-																			<integer>0</integer>
-																		</dict>
-																		<dict>
-																			<key>Children</key>
-																			<array>
-																				<dict>
-																					<key>Children</key>
-																					<array>
-																						<dict>
-																							<key>Children</key>
-																							<array>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/Tube.framework/Versions/A/Headers/fir.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/Tube.framework/Versions/A/Headers/input.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/Tube.framework/Versions/A/Headers/output.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/Tube.framework/Versions/A/Headers/ring_buffer.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/Tube.framework/Versions/A/Headers/structs.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/Tube.framework/Versions/A/Headers/tube.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/Tube.framework/Versions/A/Headers/TubeModel.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/Tube.framework/Versions/A/Headers/util.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/Tube.framework/Versions/A/Headers/wavetable.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																							</array>
-																							<key>Expanded</key>
-																							<true/>
-																							<key>GID</key>
-																							<integer>80</integer>
-																							<key>Path</key>
-																							<string>/Users/dalmazio/Library/Frameworks/Tube.framework/Versions/A/Headers</string>
-																							<key>Path Type</key>
-																							<integer>1</integer>
-																							<key>Privileges</key>
-																							<integer>493</integer>
-																							<key>Type</key>
-																							<integer>3</integer>
-																							<key>UID</key>
-																							<integer>0</integer>
-																						</dict>
-																						<dict>
-																							<key>Children</key>
-																							<array>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/Tube.framework/Versions/A/Resources/ChangeLog.txt</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array>
-																										<dict>
-																											<key>Children</key>
-																											<array/>
-																											<key>GID</key>
-																											<integer>80</integer>
-																											<key>Path</key>
-																											<string>/Users/dalmazio/Library/Frameworks/Tube.framework/Versions/A/Resources/English.lproj/InfoPlist.strings</string>
-																											<key>Path Type</key>
-																											<integer>1</integer>
-																											<key>Privileges</key>
-																											<integer>420</integer>
-																											<key>Type</key>
-																											<integer>3</integer>
-																											<key>UID</key>
-																											<integer>0</integer>
-																										</dict>
-																									</array>
-																									<key>Expanded</key>
-																									<true/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/Tube.framework/Versions/A/Resources/English.lproj</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>493</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/Tube.framework/Versions/A/Resources/Info.plist</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																							</array>
-																							<key>Expanded</key>
-																							<true/>
-																							<key>GID</key>
-																							<integer>80</integer>
-																							<key>Path</key>
-																							<string>/Users/dalmazio/Library/Frameworks/Tube.framework/Versions/A/Resources</string>
-																							<key>Path Type</key>
-																							<integer>1</integer>
-																							<key>Privileges</key>
-																							<integer>493</integer>
-																							<key>Type</key>
-																							<integer>3</integer>
-																							<key>UID</key>
-																							<integer>0</integer>
-																						</dict>
-																						<dict>
-																							<key>Children</key>
-																							<array/>
-																							<key>GID</key>
-																							<integer>80</integer>
-																							<key>Path</key>
-																							<string>/Users/dalmazio/Library/Frameworks/Tube.framework/Versions/A/Tube</string>
-																							<key>Path Type</key>
-																							<integer>1</integer>
-																							<key>Privileges</key>
-																							<integer>493</integer>
-																							<key>Type</key>
-																							<integer>3</integer>
-																							<key>UID</key>
-																							<integer>0</integer>
-																						</dict>
-																					</array>
-																					<key>Expanded</key>
-																					<true/>
-																					<key>GID</key>
-																					<integer>80</integer>
-																					<key>Path</key>
-																					<string>/Users/dalmazio/Library/Frameworks/Tube.framework/Versions/A</string>
-																					<key>Path Type</key>
-																					<integer>1</integer>
-																					<key>Privileges</key>
-																					<integer>493</integer>
-																					<key>Type</key>
-																					<integer>3</integer>
-																					<key>UID</key>
-																					<integer>0</integer>
-																				</dict>
-																				<dict>
-																					<key>Children</key>
-																					<array/>
-																					<key>GID</key>
-																					<integer>80</integer>
-																					<key>Path</key>
-																					<string>/Users/dalmazio/Library/Frameworks/Tube.framework/Versions/Current</string>
-																					<key>Path Type</key>
-																					<integer>1</integer>
-																					<key>Privileges</key>
-																					<integer>511</integer>
-																					<key>Type</key>
-																					<integer>3</integer>
-																					<key>UID</key>
-																					<integer>0</integer>
-																				</dict>
-																			</array>
-																			<key>Expanded</key>
-																			<true/>
-																			<key>GID</key>
-																			<integer>80</integer>
-																			<key>Path</key>
-																			<string>/Users/dalmazio/Library/Frameworks/Tube.framework/Versions</string>
-																			<key>Path Type</key>
-																			<integer>1</integer>
-																			<key>Privileges</key>
-																			<integer>493</integer>
-																			<key>Type</key>
-																			<integer>3</integer>
-																			<key>UID</key>
-																			<integer>0</integer>
-																		</dict>
-																	</array>
-																	<key>Expanded</key>
-																	<true/>
+																	<array/>
 																	<key>GID</key>
 																	<integer>80</integer>
 																	<key>Path</key>
-																	<string>/Users/dalmazio/Library/Frameworks/Tube.framework</string>
+																	<string>/Users/dalmazio/Developer/xcode/gnuspeech/osx/trunk/Frameworks/Tube/build/Release/Tube.framework</string>
 																	<key>Path Type</key>
 																	<integer>1</integer>
 																	<key>Privileges</key>
@@ -6892,7 +6522,7 @@
 										<key>Display Information</key>
 										<dict>
 											<key>CFBundleGetInfoString</key>
-											<string></string>
+											<string>Copyright © 1991-2009 David R. Hill, Leonard Manzara, Craig Schock. This software is licensed under the terms of the GNU GPL.</string>
 											<key>CFBundleIconFile</key>
 											<string></string>
 											<key>CFBundleIconFile Path Type</key>
@@ -7095,1421 +6725,11 @@
 															<array>
 																<dict>
 																	<key>Children</key>
-																	<array>
-																		<dict>
-																			<key>Children</key>
-																			<array/>
-																			<key>GID</key>
-																			<integer>80</integer>
-																			<key>Path</key>
-																			<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/GnuSpeech</string>
-																			<key>Path Type</key>
-																			<integer>1</integer>
-																			<key>Privileges</key>
-																			<integer>511</integer>
-																			<key>Type</key>
-																			<integer>3</integer>
-																			<key>UID</key>
-																			<integer>0</integer>
-																		</dict>
-																		<dict>
-																			<key>Children</key>
-																			<array/>
-																			<key>GID</key>
-																			<integer>80</integer>
-																			<key>Path</key>
-																			<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Headers</string>
-																			<key>Path Type</key>
-																			<integer>1</integer>
-																			<key>Privileges</key>
-																			<integer>511</integer>
-																			<key>Type</key>
-																			<integer>3</integer>
-																			<key>UID</key>
-																			<integer>0</integer>
-																		</dict>
-																		<dict>
-																			<key>Children</key>
-																			<array/>
-																			<key>GID</key>
-																			<integer>80</integer>
-																			<key>Path</key>
-																			<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Resources</string>
-																			<key>Path Type</key>
-																			<integer>1</integer>
-																			<key>Privileges</key>
-																			<integer>511</integer>
-																			<key>Type</key>
-																			<integer>3</integer>
-																			<key>UID</key>
-																			<integer>0</integer>
-																		</dict>
-																		<dict>
-																			<key>Children</key>
-																			<array>
-																				<dict>
-																					<key>Children</key>
-																					<array>
-																						<dict>
-																							<key>Children</key>
-																							<array/>
-																							<key>GID</key>
-																							<integer>80</integer>
-																							<key>Path</key>
-																							<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/GnuSpeech</string>
-																							<key>Path Type</key>
-																							<integer>1</integer>
-																							<key>Privileges</key>
-																							<integer>493</integer>
-																							<key>Type</key>
-																							<integer>3</integer>
-																							<key>UID</key>
-																							<integer>0</integer>
-																						</dict>
-																						<dict>
-																							<key>Children</key>
-																							<array>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/CategoryList.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/driftGenerator.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/Event.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/EventList.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/FormulaExpression.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/FormulaTerminal.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/GnuSpeech.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/GSDBMPronunciationDictionary.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/GSParser.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/GSPronunciationDictionary.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/GSSimplePronunciationDictionary.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/GSSuffix.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/GSXMLFunctions.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MDocument.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MMBooleanExpression.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MMBooleanNode.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MMBooleanParser.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MMBooleanSymbols.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MMBooleanTerminal.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MMCategory.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MMEquation.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MMFormulaExpression.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MMFormulaNode.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MMFormulaParser.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MMFormulaSymbols.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MMFormulaTerminal.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MMFRuleSymbols.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MMIntonationPoint.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MMNamedObject.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MMObject.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MModel.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MMOldFormulaNode.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MMParameter.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MMPoint.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MMPosture.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MMPostureRewriter.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MMRule.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MMSlope.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MMSlopeRatio.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MMSymbol.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MMSynthesisParameters.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MMTarget.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MMTransition.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MonetDefaults.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MonetList.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MUnarchiver.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MXMLArrayDelegate.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MXMLDictionaryDelegate.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MXMLIgnoreTreeDelegate.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MXMLParser.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MXMLPCDataDelegate.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MXMLReferenceArrayDelegate.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MXMLReferenceDictionaryDelegate.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/MXMLStringArrayDelegate.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/NamedList.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/NSArray-Extensions.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/NSCharacterSet-Extensions.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/NSFileManager-Extensions.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/NSObject-Extensions.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/NSScanner-Extensions.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/NSString-Extensions.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/NSUserDefaults-Extensions.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/ParameterList.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/PhoneList.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/RuleList.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/SymbolList.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/TargetList.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/TRMData.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/TRMSynthesizer.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/TTSNumberPronunciations.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers/TTSParser.h</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																							</array>
-																							<key>Expanded</key>
-																							<true/>
-																							<key>GID</key>
-																							<integer>80</integer>
-																							<key>Path</key>
-																							<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Headers</string>
-																							<key>Path Type</key>
-																							<integer>1</integer>
-																							<key>Privileges</key>
-																							<integer>493</integer>
-																							<key>Type</key>
-																							<integer>3</integer>
-																							<key>UID</key>
-																							<integer>0</integer>
-																						</dict>
-																						<dict>
-																							<key>Children</key>
-																							<array>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Resources/2.0eMainDictionary.dict</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>493</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Resources/ChangeLog.txt</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array>
-																										<dict>
-																											<key>Children</key>
-																											<array/>
-																											<key>GID</key>
-																											<integer>80</integer>
-																											<key>Path</key>
-																											<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Resources/English.lproj/InfoPlist.strings</string>
-																											<key>Path Type</key>
-																											<integer>1</integer>
-																											<key>Privileges</key>
-																											<integer>420</integer>
-																											<key>Type</key>
-																											<integer>3</integer>
-																											<key>UID</key>
-																											<integer>0</integer>
-																										</dict>
-																									</array>
-																									<key>Expanded</key>
-																									<true/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Resources/English.lproj</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>493</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Resources/Info.plist</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Resources/SpecialAcronyms.plist</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																								<dict>
-																									<key>Children</key>
-																									<array/>
-																									<key>GID</key>
-																									<integer>80</integer>
-																									<key>Path</key>
-																									<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Resources/TTSSuffixList.txt</string>
-																									<key>Path Type</key>
-																									<integer>1</integer>
-																									<key>Privileges</key>
-																									<integer>420</integer>
-																									<key>Type</key>
-																									<integer>3</integer>
-																									<key>UID</key>
-																									<integer>0</integer>
-																								</dict>
-																							</array>
-																							<key>Expanded</key>
-																							<true/>
-																							<key>GID</key>
-																							<integer>80</integer>
-																							<key>Path</key>
-																							<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A/Resources</string>
-																							<key>Path Type</key>
-																							<integer>1</integer>
-																							<key>Privileges</key>
-																							<integer>493</integer>
-																							<key>Type</key>
-																							<integer>3</integer>
-																							<key>UID</key>
-																							<integer>0</integer>
-																						</dict>
-																					</array>
-																					<key>Expanded</key>
-																					<true/>
-																					<key>GID</key>
-																					<integer>80</integer>
-																					<key>Path</key>
-																					<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/A</string>
-																					<key>Path Type</key>
-																					<integer>1</integer>
-																					<key>Privileges</key>
-																					<integer>493</integer>
-																					<key>Type</key>
-																					<integer>3</integer>
-																					<key>UID</key>
-																					<integer>0</integer>
-																				</dict>
-																				<dict>
-																					<key>Children</key>
-																					<array/>
-																					<key>GID</key>
-																					<integer>80</integer>
-																					<key>Path</key>
-																					<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions/Current</string>
-																					<key>Path Type</key>
-																					<integer>1</integer>
-																					<key>Privileges</key>
-																					<integer>511</integer>
-																					<key>Type</key>
-																					<integer>3</integer>
-																					<key>UID</key>
-																					<integer>0</integer>
-																				</dict>
-																			</array>
-																			<key>Expanded</key>
-																			<true/>
-																			<key>GID</key>
-																			<integer>80</integer>
-																			<key>Path</key>
-																			<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework/Versions</string>
-																			<key>Path Type</key>
-																			<integer>1</integer>
-																			<key>Privileges</key>
-																			<integer>493</integer>
-																			<key>Type</key>
-																			<integer>3</integer>
-																			<key>UID</key>
-																			<integer>0</integer>
-																		</dict>
-																	</array>
-																	<key>Expanded</key>
-																	<true/>
+																	<array/>
 																	<key>GID</key>
 																	<integer>80</integer>
 																	<key>Path</key>
-																	<string>/Users/dalmazio/Library/Frameworks/GnuSpeech.framework</string>
+																	<string>/Users/dalmazio/Developer/xcode/gnuspeech/osx/trunk/Frameworks/GnuSpeech/build/Release/GnuSpeech.framework</string>
 																	<key>Path Type</key>
 																	<integer>1</integer>
 																	<key>Privileges</key>
@@ -8832,13 +7052,13 @@
 												<key>IFPkgDescriptionTitle</key>
 												<string>GnuSpeech Framework</string>
 												<key>IFPkgDescriptionVersion</key>
-												<string>0.8</string>
+												<string>0.9</string>
 											</dict>
 										</dict>
 										<key>Display Information</key>
 										<dict>
 											<key>CFBundleGetInfoString</key>
-											<string></string>
+											<string>Copyright © 1991-2009 David R. Hill, Leonard Manzara, Craig Schock. This software is licensed under the terms of the GNU GPL.</string>
 											<key>CFBundleIconFile</key>
 											<string></string>
 											<key>CFBundleIconFile Path Type</key>
@@ -8848,7 +7068,7 @@
 											<key>CFBundleName</key>
 											<string>GnuSpeech Framework</string>
 											<key>CFBundleShortVersionString</key>
-											<string>0.8</string>
+											<string>0.9</string>
 										</dict>
 										<key>Options</key>
 										<dict>
@@ -8876,7 +7096,7 @@
 											<key>IFMajorVersion</key>
 											<integer>0</integer>
 											<key>IFMinorVersion</key>
-											<integer>8</integer>
+											<integer>9</integer>
 										</dict>
 									</dict>
 								</dict>
@@ -9058,13 +7278,13 @@
 									<key>IFPkgDescriptionTitle</key>
 									<string>Frameworks</string>
 									<key>IFPkgDescriptionVersion</key>
-									<string>0.6</string>
+									<string></string>
 								</dict>
 							</dict>
 							<key>Display Information</key>
 							<dict>
 								<key>CFBundleGetInfoString</key>
-								<string></string>
+								<string>Copyright © 1991-2009 David R. Hill, Leonard Manzara, Craig Schock. This software is licensed under the terms of the GNU GPL.</string>
 								<key>CFBundleIconFile</key>
 								<string></string>
 								<key>CFBundleIconFile Path Type</key>
@@ -9074,14 +7294,14 @@
 								<key>CFBundleName</key>
 								<string>Frameworks</string>
 								<key>CFBundleShortVersionString</key>
-								<string>0.6</string>
+								<string></string>
 							</dict>
 							<key>Version</key>
 							<dict>
 								<key>IFMajorVersion</key>
 								<integer>0</integer>
 								<key>IFMinorVersion</key>
-								<integer>6</integer>
+								<integer>0</integer>
 							</dict>
 						</dict>
 					</dict>
@@ -9596,13 +7816,13 @@
 												<key>IFPkgDescriptionTitle</key>
 												<string>GnuTTSServer</string>
 												<key>IFPkgDescriptionVersion</key>
-												<string>0.1.1</string>
+												<string>0.1.2</string>
 											</dict>
 										</dict>
 										<key>Display Information</key>
 										<dict>
 											<key>CFBundleGetInfoString</key>
-											<string></string>
+											<string>Copyright © 1991-2009 David R. Hill, Leonard Manzara, Craig Schock. This software is licensed under the terms of the GNU GPL.</string>
 											<key>CFBundleIconFile</key>
 											<string></string>
 											<key>CFBundleIconFile Path Type</key>
@@ -9612,7 +7832,7 @@
 											<key>CFBundleName</key>
 											<string>GnuTTSServer</string>
 											<key>CFBundleShortVersionString</key>
-											<string>0.1.1</string>
+											<string>0.1.2</string>
 										</dict>
 										<key>Options</key>
 										<dict>
@@ -10148,13 +8368,13 @@
 												<key>IFPkgDescriptionTitle</key>
 												<string>GnuTTSServer Launch Daemon</string>
 												<key>IFPkgDescriptionVersion</key>
-												<string>0.1.1</string>
+												<string>0.1.2</string>
 											</dict>
 										</dict>
 										<key>Display Information</key>
 										<dict>
 											<key>CFBundleGetInfoString</key>
-											<string></string>
+											<string>Copyright © 1991-2009 David R. Hill, Leonard Manzara, Craig Schock. This software is licensed under the terms of the GNU GPL.</string>
 											<key>CFBundleIconFile</key>
 											<string></string>
 											<key>CFBundleIconFile Path Type</key>
@@ -10164,7 +8384,7 @@
 											<key>CFBundleName</key>
 											<string>GnuTTSServer Launch Daemon</string>
 											<key>CFBundleShortVersionString</key>
-											<string>0.1.1</string>
+											<string>0.1.2</string>
 										</dict>
 										<key>Options</key>
 										<dict>
@@ -10374,13 +8594,13 @@
 									<key>IFPkgDescriptionTitle</key>
 									<string>Daemons</string>
 									<key>IFPkgDescriptionVersion</key>
-									<string>0.6</string>
+									<string></string>
 								</dict>
 							</dict>
 							<key>Display Information</key>
 							<dict>
 								<key>CFBundleGetInfoString</key>
-								<string></string>
+								<string>Copyright © 1991-2009 David R. Hill, Leonard Manzara, Craig Schock. This software is licensed under the terms of the GNU GPL.</string>
 								<key>CFBundleIconFile</key>
 								<string></string>
 								<key>CFBundleIconFile Path Type</key>
@@ -10390,14 +8610,14 @@
 								<key>CFBundleName</key>
 								<string>Daemons</string>
 								<key>CFBundleShortVersionString</key>
-								<string>0.6</string>
+								<string></string>
 							</dict>
 							<key>Version</key>
 							<dict>
 								<key>IFMajorVersion</key>
 								<integer>0</integer>
 								<key>IFMinorVersion</key>
-								<integer>6</integer>
+								<integer>0</integer>
 							</dict>
 						</dict>
 					</dict>
@@ -11042,7 +9262,7 @@
 										<key>Display Information</key>
 										<dict>
 											<key>CFBundleGetInfoString</key>
-											<string></string>
+											<string>Copyright © 1991-2009 David R. Hill, Leonard Manzara, Craig Schock. This software is licensed under the terms of the GNU GPL.</string>
 											<key>CFBundleIconFile</key>
 											<string></string>
 											<key>CFBundleIconFile Path Type</key>
@@ -11262,13 +9482,13 @@
 									<key>IFPkgDescriptionTitle</key>
 									<string>Services</string>
 									<key>IFPkgDescriptionVersion</key>
-									<string>0.6</string>
+									<string></string>
 								</dict>
 							</dict>
 							<key>Display Information</key>
 							<dict>
 								<key>CFBundleGetInfoString</key>
-								<string></string>
+								<string>Copyright © 1991-2009 David R. Hill, Leonard Manzara, Craig Schock. This software is licensed under the terms of the GNU GPL.</string>
 								<key>CFBundleIconFile</key>
 								<string></string>
 								<key>CFBundleIconFile Path Type</key>
@@ -11278,14 +9498,14 @@
 								<key>CFBundleName</key>
 								<string>Services</string>
 								<key>CFBundleShortVersionString</key>
-								<string>0.6</string>
+								<string></string>
 							</dict>
 							<key>Version</key>
 							<dict>
 								<key>IFMajorVersion</key>
 								<integer>0</integer>
 								<key>IFMinorVersion</key>
-								<integer>6</integer>
+								<integer>0</integer>
 							</dict>
 						</dict>
 					</dict>
@@ -11800,13 +10020,13 @@
 												<key>IFPkgDescriptionTitle</key>
 												<string>Diphone Library</string>
 												<key>IFPkgDescriptionVersion</key>
-												<string>0.1.1</string>
+												<string>0.1.2</string>
 											</dict>
 										</dict>
 										<key>Display Information</key>
 										<dict>
 											<key>CFBundleGetInfoString</key>
-											<string></string>
+											<string>Copyright © 1991-2009 David R. Hill, Leonard Manzara, Craig Schock. This software is licensed under the terms of the GNU GPL.</string>
 											<key>CFBundleIconFile</key>
 											<string></string>
 											<key>CFBundleIconFile Path Type</key>
@@ -11816,7 +10036,7 @@
 											<key>CFBundleName</key>
 											<string>Diphone Library</string>
 											<key>CFBundleShortVersionString</key>
-											<string>0.1.1</string>
+											<string>0.1.2</string>
 										</dict>
 										<key>Options</key>
 										<dict>
@@ -12026,13 +10246,13 @@
 									<key>IFPkgDescriptionTitle</key>
 									<string>Libraries</string>
 									<key>IFPkgDescriptionVersion</key>
-									<string>0.6</string>
+									<string></string>
 								</dict>
 							</dict>
 							<key>Display Information</key>
 							<dict>
 								<key>CFBundleGetInfoString</key>
-								<string></string>
+								<string>Copyright © 1991-2009 David R. Hill, Leonard Manzara, Craig Schock. This software is licensed under the terms of the GNU GPL.</string>
 								<key>CFBundleIconFile</key>
 								<string></string>
 								<key>CFBundleIconFile Path Type</key>
@@ -12042,19 +10262,19 @@
 								<key>CFBundleName</key>
 								<string>Libraries</string>
 								<key>CFBundleShortVersionString</key>
-								<string>0.6</string>
+								<string></string>
 							</dict>
 							<key>Version</key>
 							<dict>
 								<key>IFMajorVersion</key>
 								<integer>0</integer>
 								<key>IFMinorVersion</key>
-								<integer>6</integer>
+								<integer>0</integer>
 							</dict>
 						</dict>
 					</dict>
 					<key>IFPkgFlagComponentDirectory</key>
-					<string>..</string>
+					<string>Contents/Resources</string>
 					<key>IFPkgFlagPackageSelection</key>
 					<integer>1</integer>
 					<key>Name</key>
@@ -12262,13 +10482,13 @@
 						<key>IFPkgDescriptionTitle</key>
 						<string>GnuSpeech</string>
 						<key>IFPkgDescriptionVersion</key>
-						<string>0.6</string>
+						<string>0.7</string>
 					</dict>
 				</dict>
 				<key>Display Information</key>
 				<dict>
 					<key>CFBundleGetInfoString</key>
-					<string>GnuSpeech 0.6 Copyright © 1991-2009 David R. Hill, Leonard Manzara, Craig Schock. This software is licensed under the terms of the GNU GPL.</string>
+					<string>Copyright © 1991-2009 David R. Hill, Leonard Manzara, Craig Schock. This software is licensed under the terms of the GNU GPL.</string>
 					<key>CFBundleIconFile</key>
 					<string></string>
 					<key>CFBundleIconFile Path Type</key>
@@ -12278,14 +10498,14 @@
 					<key>CFBundleName</key>
 					<string>GnuSpeech</string>
 					<key>CFBundleShortVersionString</key>
-					<string>0.6</string>
+					<string>0.7</string>
 				</dict>
 				<key>Version</key>
 				<dict>
 					<key>IFMajorVersion</key>
 					<integer>0</integer>
 					<key>IFMinorVersion</key>
-					<integer>6</integer>
+					<integer>7</integer>
 				</dict>
 			</dict>
 		</dict>
