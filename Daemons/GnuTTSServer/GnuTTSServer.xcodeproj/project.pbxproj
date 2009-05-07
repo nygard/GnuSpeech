@@ -243,6 +243,8 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = NO;
+				DEPLOYMENT_LOCATION = NO;
+				DEPLOYMENT_POSTPROCESSING = NO;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../Frameworks\"/**";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -261,6 +263,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				DEPLOYMENT_LOCATION = NO;
+				DEPLOYMENT_POSTPROCESSING = NO;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../Frameworks\"/**";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_VERSION = 4.2;
