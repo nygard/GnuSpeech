@@ -59,10 +59,7 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification;
 
-- (void)_createDBMFileIfNecessary;
-
 - (IBAction)parseText:(id)sender;
-- (IBAction)loadMainDictionary:(id)sender;
 - (IBAction)lookupPronunication:(id)sender;
 
 @end
