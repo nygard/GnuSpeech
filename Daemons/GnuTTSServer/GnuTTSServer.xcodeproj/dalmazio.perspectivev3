@@ -333,7 +333,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>69D47B9B0FB2B70E007B5C04</string>
+										<string>69D47C060FB2BD77007B5C04</string>
 										<key>history</key>
 										<array>
 											<string>696CE7020F264E6D0014B94A</string>
@@ -347,7 +347,7 @@
 											<string>6962391A0FB27C6A00AA8211</string>
 											<string>6962391B0FB27C6A00AA8211</string>
 											<string>6962391C0FB27C6A00AA8211</string>
-											<string>69D47B9A0FB2B70E007B5C04</string>
+											<string>69D47B9B0FB2B70E007B5C04</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -506,11 +506,11 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>69D47B9C0FB2B70E007B5C04</string>
+				<string>69D47C070FB2BD77007B5C04</string>
 				<string>1CA23ED40692098700951B8B</string>
-				<string>69D47B9D0FB2B70E007B5C04</string>
+				<string>69D47C080FB2BD77007B5C04</string>
 				<string>69E145A70F10348C008CE33B</string>
-				<string>69D47B9E0FB2B70E007B5C04</string>
+				<string>69D47C090FB2BD77007B5C04</string>
 				<string>1CA23EDF0692099D00951B8B</string>
 				<string>1CA23EE00692099D00951B8B</string>
 				<string>1CA23EE10692099D00951B8B</string>
@@ -693,9 +693,7 @@
 	<key>WindowJustification</key>
 	<integer>5</integer>
 	<key>WindowOrderList</key>
-	<array>
-		<string>/Users/dalmazio/Developer/xcode/gnuspeech/osx/trunk/Daemons/GnuTTSServer/GnuTTSServer.xcodeproj</string>
-	</array>
+	<array/>
 	<key>WindowString</key>
 	<string>122 151 1106 727 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
