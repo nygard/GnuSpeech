@@ -22,7 +22,7 @@
  *  number_pronuncuations_english.h
  *  GnuSpeech
  *
- *  Version: 0.8
+ *  Version: 0.9
  *
  ******************************************************************************/
 

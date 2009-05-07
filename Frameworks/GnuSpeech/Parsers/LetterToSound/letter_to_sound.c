@@ -22,7 +22,7 @@
  *  letter_to_sound.c
  *  GnuSpeech
  *
- *  Version: 0.8
+ *  Version: 0.9
  *
  *  Routines to return pronunciation of word based on letter-to-sound rules.
  *
