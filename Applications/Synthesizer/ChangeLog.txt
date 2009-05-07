@@ -4,6 +4,10 @@ April 21, 2009 | Synthesizer v0.7.3
 	* Initial import into the Savannah GnuSpeech SVN repository (dbrisinda)
 	* Added new/alternate Synthesizer icon (dbrisinda)	
 
+April 20, 2009 | Synthesizer v0.7.2
+
+	* Port to Mac OS X (davidhill)
+	
 January 17, 2003 | Synthesizer v0.1
 
 	* Port to OpenStep and GNUstep (fedor)
