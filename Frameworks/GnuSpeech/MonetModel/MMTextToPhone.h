@@ -33,16 +33,16 @@
 @class GSPronunciationDictionary;
 
 @interface MMTextToPhone : NSObject {
-    GSPronunciationDictionary * pronunciationDictionary;
 }
 
-- (id) init;
-- (void) dealloc;
++ (void)initialize;
++ (void)_createDBMFileIfNecessary;
 
-- (void) _createDBMFileIfNecessary;
+- (id)init;
+- (void)dealloc;
 
-- (NSString *) phoneForText:(NSString *)text;
+- (NSString *)phoneForText:(NSString *)text;
 
-- (void) loadMainDictionary;
+- (void)loadMainDictionary;
 
 @end

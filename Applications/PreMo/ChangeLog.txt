@@ -1,3 +1,7 @@
+May 6, 2009 | PreMo v0.9.1
+
+	* Simplified PreMo to use the MMTextToPhone class.
+
 January 2, 2009 | PreMo v0.9
 
-* Conversion of the 'little' GnuSpeech application to 'PreMo' for disambiguation (dbrisinda)
+	* Conversion of the 'little' GnuSpeech application to 'PreMo' for disambiguation (dbrisinda)

@@ -24,7 +24,7 @@
 //
 //  Created by Steve Nygard in 2004.
 //
-//  Version: 0.9
+//  Version: 0.9.1
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -36,6 +36,7 @@
 @class NSTextView;
 @class NSButton;
 @class NSTextField;
+@class MMTextToPhone;
 
 @interface ApplicationDelegate : NSObject
 {
@@ -48,6 +49,7 @@
     IBOutlet NSTextField *pronunciationTextField;
 
     GSPronunciationDictionary *dictionary;
+	MMTextToPhone *textToPhone;
 }
 
 + (void)initialize;

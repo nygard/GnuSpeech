@@ -34,38 +34,41 @@
 #import "GSSimplePronunciationDictionary.h"
 #import "TTSParser.h"
 
+static GSPronunciationDictionary * pronunciationDictionary = nil;
+
 @implementation MMTextToPhone
 
-- (id) init;
++ (void)initialize;
 {
-	[super init];
-	
 	NSDictionary * dict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES], @"ShouldUseDBMFile", nil];
     [[NSUserDefaults standardUserDefaults] registerDefaults:dict];
 	
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"ShouldUseDBMFile"]) {
-        NSLog(@"init: Using DBM dictionary.");
-        [self _createDBMFileIfNecessary];
+        NSLog(@"initialize: Using DBM dictionary.");
+        [MMTextToPhone _createDBMFileIfNecessary];
         pronunciationDictionary = [[GSDBMPronunciationDictionary mainDictionary] retain];
     } else {
-        NSLog(@"init: Using simple dictionary.");
+        NSLog(@"initialize: Using simple dictionary.");
         pronunciationDictionary = [[GSSimplePronunciationDictionary mainDictionary] retain];
         [pronunciationDictionary loadDictionaryIfNecessary];
     }
 	
     if ([pronunciationDictionary version] != nil)
-		NSLog(@"init: Dictionary version %@", [pronunciationDictionary version]);
-	
+		NSLog(@"initialize: Dictionary version %@", [pronunciationDictionary version]);	
+}
+
+- (id)init;
+{
+	[super init];
     return self;
 }
 
-- (void) dealloc;
+- (void)dealloc;
 {
-    [pronunciationDictionary release];
     [super dealloc];
 }
 
-- (void) _createDBMFileIfNecessary
++ (void)_createDBMFileIfNecessary
 {
     GSSimplePronunciationDictionary * simpleDictionary;
     GSDBMPronunciationDictionary * dbmDictionary;
@@ -86,7 +89,7 @@
     }
 }
 
-- (NSString *) phoneForText:(NSString *)text;
+- (NSString *)phoneForText:(NSString *)text;
 {
     NSString * inputString, * resultString;
     TTSParser * parser;
@@ -99,7 +102,7 @@
     return resultString;	
 }
 
-- (void) loadMainDictionary;
+- (void)loadMainDictionary;
 {
     NSString * path;
     GSPronunciationDictionary * aDictionary;

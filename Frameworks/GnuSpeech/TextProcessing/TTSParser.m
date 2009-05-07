@@ -34,15 +34,7 @@
 #import "GSPronunciationDictionary.h"
 
 #import "parser_module.h"
-
-/*  Dictionary Ordering Definitions - from TTS_types.h  */
-#define TTS_EMPTY                       0
-#define TTS_NUMBER_PARSER               1
-#define TTS_USER_DICTIONARY             2
-#define TTS_APPLICATION_DICTIONARY      3
-#define TTS_MAIN_DICTIONARY             4
-#define TTS_LETTER_TO_SOUND             5
-
+#import "TTS_types.h"  // Required for dictionary ordering defitions.
 
 @implementation TTSParser
 
