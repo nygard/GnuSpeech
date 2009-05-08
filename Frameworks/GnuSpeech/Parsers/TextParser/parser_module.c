@@ -395,18 +395,14 @@ int parser(const char *input, const char **output)
 	/*  CONDITION INPUT:  CONVERT NON-PRINTABLE CHARS TO SPACES
 	 (EXCEPT ESC CHAR), CONNECT WORDS HYPHENATED OVER A NEWLINE  */
 	condition_input(input, buffer1, input_length, &buffer1_length);
-	
-	NSLog(@"parser(): Conditioned input is: %s", buffer1);
-	
+		
 	/*  RATIONALIZE MODE MARKINGS, CHECKING FOR ERRORS  */
 	if ((error = mark_modes(buffer1, buffer2, buffer1_length, &buffer2_length)) != TTS_PARSER_SUCCESS) {
 		free(buffer1);
 		free(buffer2);
 		return(error);
 	}
-	
-	//NXLogError("parser(): Marked modes buffer1: %s buffer2: %s", buffer1, buffer2);
-	
+		
 	/*  FREE BUFFER 1  */
 	free(buffer1);
 	
@@ -418,8 +414,6 @@ int parser(const char *input, const char **output)
 	
 	/*  STRIP OUT OR CONVERT UNESSENTIAL PUNCTUATION  */
 	strip_punctuation(buffer2, buffer2_length, stream1, &stream1_length);
-	
-	NSLog(@"Stripped punctuation: %@", [stream1 buffer]);
 	
 	/*  FREE BUFFER 2  */
 	free(buffer2);
@@ -537,16 +531,14 @@ const char *lookup_word(const char *word, short *dict)
 				}
 				break;
 			case TTS_LETTER_TO_SOUND:
-				fprintf(stderr, "TTS_LETTER_TO_SOUND...");
-				// temorarily comment -- db.			
-				//      if ((pronunciation = letter_to_sound((char *)word)) != NULL) {
-				//		  *dict = TTS_LETTER_TO_SOUND;
-				//		  return((const char *)pronunciation);
-				//      }
-				//      else {
-				//		  *dict = TTS_LETTER_TO_SOUND;
-				//		  return((const char *)degenerate_string(word));
-				//      }
+				if ((pronunciation = letter_to_sound((char *)word)) != NULL) {
+					*dict = TTS_LETTER_TO_SOUND;
+					return((const char *)pronunciation);
+				}
+				else {
+					*dict = TTS_LETTER_TO_SOUND;
+					return((const char *)degenerate_string(word));
+				}
 				break;
 			default:
 				break;
@@ -555,7 +547,6 @@ const char *lookup_word(const char *word, short *dict)
 	
 	/*  IF HERE, THEN FIND WORD IN LETTER-TO-SOUND RULEBASE  */
 	/*  THIS IS GUARANTEED TO FIND A PRONUNCIATION OF SOME SORT  */
-	// temporarily comment -- db.
 	if ((pronunciation = letter_to_sound((char *)word)) != NULL) {
 	   *dict = TTS_LETTER_TO_SOUND;
 	    return((const char *)pronunciation);
@@ -564,9 +555,7 @@ const char *lookup_word(const char *word, short *dict)
 	    *dict = TTS_LETTER_TO_SOUND;
 	    return((const char *)degenerate_string(word));
 	}
-	
-	//return "/_b_z_z_z_z_t_uh";
-	
+		
 	/*  SHOULD NEVER GET HERE, BUT IF YOU DO, RETURN NULL  */
 	*dict = -1;
 	return(NULL);
