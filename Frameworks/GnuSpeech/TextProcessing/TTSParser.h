@@ -35,9 +35,9 @@
     GSPronunciationDictionary * mainDictionary;
 	GSPronunciationDictionary * userDictionary;
 	GSPronunciationDictionary * appDictionary;
-
-	NSDictionary * specialAcronyms;
 }
+
++ (void)initialize;
 
 - (id)initWithPronunciationDictionary:(GSPronunciationDictionary *)aDictionary;
 - (void)dealloc;

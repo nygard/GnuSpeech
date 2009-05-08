@@ -36,17 +36,22 @@
 #import "parser_module.h"
 #import "TTS_types.h"  // Required for dictionary ordering defitions.
 
+static NSDictionary * specialAcronyms;  // static class variable
+
 @implementation TTSParser
+
++ (void)initialize;
+{
+	NSString * path = [[NSBundle bundleForClass:[self class]] pathForResource:@"SpecialAcronyms" ofType:@"plist"];
+    NSLog(@"path: %@", path);
+	
+    specialAcronyms = [[NSDictionary alloc] initWithContentsOfFile:path];
+    NSLog(@"specialAcronyms: %@", [specialAcronyms description]);	
+}
 
 - (id)initWithPronunciationDictionary:(GSPronunciationDictionary *)aDictionary;
 {
     [super init];
-
-	NSString * path = [[NSBundle bundleForClass:[self class]] pathForResource:@"SpecialAcronyms" ofType:@"plist"];
-    NSLog(@"path: %@", path);
-	
-    specialAcronyms = [[[NSDictionary alloc] initWithContentsOfFile:path] retain];
-    NSLog(@"specialAcronyms: %@", [specialAcronyms description]);
 	
 	userDictionary = [aDictionary retain];
 	appDictionary = [aDictionary retain];
@@ -62,9 +67,7 @@
     [mainDictionary release];
     [appDictionary release];
     [userDictionary release];	
-	
-	[specialAcronyms release];
-	
+		
     [super dealloc];
 }
 
