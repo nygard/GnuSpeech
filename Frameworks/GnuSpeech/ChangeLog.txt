@@ -1,3 +1,7 @@
+May xx, 2009 | GnuSpeech Framework v0.9.1 (pending)
+
+	* Fixed bug that crashed system when parsing strings containing non-ascii-convertible characters (dbrisinda)
+
 May 6, 2009 | GnuSpeech Framework v0.9
 
 	* Added full support for English text parsing from the original parser module (dbrisinda)

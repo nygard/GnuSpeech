@@ -34,7 +34,7 @@
 #import "GSPronunciationDictionary.h"
 
 #import "parser_module.h"
-#import "TTS_types.h"  // Required for dictionary ordering defitions.
+#import "TTS_types.h"  // Required for dictionary ordering definitions.
 
 static NSDictionary * specialAcronyms;  // static class variable
 
@@ -90,13 +90,31 @@ static NSDictionary * specialAcronyms;  // static class variable
 	
 	set_dict_data(order, userDictionary, appDictionary, mainDictionary, specialAcronyms);
 		
-	const char * input = [aString cStringUsingEncoding:NSASCIIStringEncoding];
+	// The contents of aString cannot be losslessly converted if it contains non-ascii information.
+	// In this case NULL is returned. We need to check for this, and then perform lossy conversion
+	// if required.
+	
+	const char * input;
 	const char * output;
 	
-	NSLog(@"input: %s", input);
+	if ([aString canBeConvertedToEncoding:NSASCIIStringEncoding]) {
+		
+		input = [aString cStringUsingEncoding:NSASCIIStringEncoding];
+		
+	} else {  // strip the non-ascii-convertible characters
 
-	// TODO: check return type.
-	parser(input, &output);
+		NSLog(@"parseString: String cannot be converted without information loss.");
+		NSData * lossyInput = [aString dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+		NSString * stringInput = [[[NSString alloc] initWithData:lossyInput encoding:NSASCIIStringEncoding] autorelease];  // this needs to stick around at least as long as 'input'
+		input = [stringInput cStringUsingEncoding:NSASCIIStringEncoding];
+	}
+	
+	NSLog(@"input: %s", input);
+	
+	if (parser(input, &output) != TTS_PARSER_SUCCESS) {
+		NSLog(@"parseString: Parsing failed.");
+		return nil;
+	}
 	
 	NSLog(@"output: %s", output);
 	
