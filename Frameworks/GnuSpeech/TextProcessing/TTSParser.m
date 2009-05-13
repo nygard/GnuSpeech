@@ -118,9 +118,8 @@ static NSDictionary * specialAcronyms;  // static class variable
 	
 	NSLog(@"output: %s", output);
 	
-    NSString * resultString = [NSString stringWithCString:output encoding:NSASCIIStringEncoding];
-	
-    NSLog(@"resultString: %@", resultString);	
+    NSString * resultString = [NSString stringWithCString:output encoding:NSASCIIStringEncoding];	
+
     NSLog(@"< %s", _cmd);
 
 	return resultString;	
