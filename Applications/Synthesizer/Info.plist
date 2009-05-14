@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFile</key>
-	<string>Synthesizer.icns</string>
+	<string>synth.icns</string>
 	<key>CFBundleIdentifier</key>
 	<string>org.gnu.gnuspeech.${PRODUCT_NAME:identifier}</string>
 	<key>CFBundleInfoDictionaryVersion</key>

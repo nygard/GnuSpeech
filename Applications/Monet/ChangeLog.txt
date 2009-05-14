@@ -1,3 +1,7 @@
+May xx, 2009 | Monet v0.9.7 (pending)
+
+	* Changed intonation settings to more natural-sounding defaults (dbrisinda)
+
 May 6, 2009 | Monet v0.9.6
 
 	* Fixed small bug in color syncing of text and posture field when tab pressed (dbrisinda)

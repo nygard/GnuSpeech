@@ -1,3 +1,7 @@
+May xx, 2009 | GnuTTSServer v0.1.3 (pending)
+
+	* Changed intonation settings to more natural-sounding defaults (dbrisinda)
+
 May 6, 2009 | GnuTTSServer v0.1.2
 
 	* Replaced TextToPhone class with MMTextToPhone class from the GnuSpeech Framework (dbrisinda)
