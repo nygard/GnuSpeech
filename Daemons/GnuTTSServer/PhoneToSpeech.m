@@ -125,8 +125,8 @@
 - (void) _takeIntonationParametersFromUI;
 {
 	// These are the Monet defaults we've just hard-coded (for now).
-    intonationParameters.notionalPitch = 0.0;
-    intonationParameters.pretonicRange = 5.0;
+    intonationParameters.notionalPitch = -1.0;
+    intonationParameters.pretonicRange = 2.0;
     intonationParameters.pretonicLift = -2.0;
     intonationParameters.tonicRange = -10.0;
     intonationParameters.tonicMovement = -6.0;
