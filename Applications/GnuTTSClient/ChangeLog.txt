@@ -1,3 +1,7 @@
+May xx, 2009 | GnuTTSClient v0.5.1
+
+	* Fixed bug that caused speech/server to fail on 10.4 systems (dbrisinda)
+
 January 2, 2009 | GnuTTSClient v0.5
 
-* Initial version of client application to showcase how to use GnuTTSServer (dbrisinda)
+	* Initial version of client application to showcase how to use GnuTTSServer (dbrisinda)

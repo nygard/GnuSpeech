@@ -4,19 +4,27 @@ May xx, 2009 | GnuSpeech v0.7.1 (pending)
 			
 		* Changed intonation settings to more natural-sounding defaults (dbrisinda)
 		
-	GnuTTSServer v0.1.3
+	GnuTTSClient v0.5.1
+
+		* Fixed bug that caused D.O. speech/server to fail on 10.4 systems (dbrisinda)
+		
+	Synthesizer v0.7.4
 	
-		* Changed intonation settings to more natural-sounding defaults (dbrisinda)
+		* Changed main application icon to original tube model diagram (dbrisinda)		
 	
 	GnuSpeech Framework v0.9.1
 	
 		* Fixed bug that crashed system when parsing strings containing non-ascii-convertible characters (dbrisinda)	
 
-	Synthesizer v0.7.4
+	GnuTTSServer v0.1.3
 	
-		* Changed main application icon to original tube model diagram (dbrisinda)
-		
-		
+		* Changed intonation settings to more natural-sounding defaults (dbrisinda)
+				
+	GnuSpeechService v0.5.1
+	
+		* Fixed bug that caused D.O. speech/server to fail on 10.4 systems (dbrisinda)
+
+
 
 May 6, 2009 | GnuSpeech v0.7
 

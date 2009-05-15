@@ -230,8 +230,6 @@
 			<key>Layout</key>
 			<array>
 				<dict>
-					<key>BecomeActive</key>
-					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -282,8 +280,8 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>10</integer>
-									<integer>8</integer>
+									<integer>3</integer>
+									<integer>1</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -318,12 +316,14 @@
 					<key>Dock</key>
 					<array>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>6916C7F10F0E979E00B22C9D</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>GnuTTSClient.icns</string>
+								<string>ApplicationController.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -331,11 +331,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>6916C7F20F0E979E00B22C9D</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>GnuTTSClient.icns</string>
+										<string>ApplicationController.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>69D47BE80FB2BD77007B5C04</string>
+										<string>69495F6E0FBD012A00AF0757</string>
 										<key>history</key>
 										<array>
 											<string>696CE83C0F26ECCD0014B94A</string>
@@ -345,10 +345,10 @@
 											<string>6933AE770F8EB42700D30AF6</string>
 											<string>696239020FB27C6A00AA8211</string>
 											<string>69D47BDF0FB2BD77007B5C04</string>
-											<string>69D47BE00FB2BD77007B5C04</string>
-											<string>69D47BE10FB2BD77007B5C04</string>
 											<string>69D47BE20FB2BD77007B5C04</string>
-											<string>69D47BE30FB2BD77007B5C04</string>
+											<string>69495F640FBD008F00AF0757</string>
+											<string>69495F650FBD008F00AF0757</string>
+											<string>69D47BE00FB2BD77007B5C04</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -363,10 +363,8 @@
 											<string>6933AE890F8EB42700D30AF6</string>
 											<string>6933AE9C0F8EB42700D30AF6</string>
 											<string>696239060FB27C6A00AA8211</string>
-											<string>69D47BE40FB2BD77007B5C04</string>
-											<string>69D47BE50FB2BD77007B5C04</string>
-											<string>69D47BE60FB2BD77007B5C04</string>
-											<string>69D47BE70FB2BD77007B5C04</string>
+											<string>69495F660FBD008F00AF0757</string>
+											<string>69495F670FBD008F00AF0757</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -510,11 +508,11 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>69D47BE90FB2BD77007B5C04</string>
+				<string>69495F690FBD008F00AF0757</string>
 				<string>1CA23ED40692098700951B8B</string>
-				<string>69D47BEA0FB2BD77007B5C04</string>
+				<string>69495F6A0FBD008F00AF0757</string>
 				<string>6916C7F10F0E979E00B22C9D</string>
-				<string>69D47BEB0FB2BD77007B5C04</string>
+				<string>69495F6B0FBD008F00AF0757</string>
 				<string>1CA23EDF0692099D00951B8B</string>
 				<string>1CA23EE00692099D00951B8B</string>
 				<string>1CA23EE10692099D00951B8B</string>
@@ -661,14 +659,14 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>69D47BEC0FB2BD77007B5C04</string>
+				<string>69495F6F0FBD012A00AF0757</string>
 				<string>1CCC7628064C1048000F2A68</string>
 				<string>1CCC7629064C1048000F2A68</string>
-				<string>69D47BED0FB2BD77007B5C04</string>
-				<string>69D47BEE0FB2BD77007B5C04</string>
-				<string>69D47BEF0FB2BD77007B5C04</string>
-				<string>69D47BF00FB2BD77007B5C04</string>
-				<string>69D47BF10FB2BD77007B5C04</string>
+				<string>69495F700FBD012A00AF0757</string>
+				<string>69495F710FBD012A00AF0757</string>
+				<string>69495F720FBD012A00AF0757</string>
+				<string>69495F730FBD012A00AF0757</string>
+				<string>69495F740FBD012A00AF0757</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
@@ -697,7 +695,9 @@
 	<key>WindowJustification</key>
 	<integer>5</integer>
 	<key>WindowOrderList</key>
-	<array/>
+	<array>
+		<string>/Users/dalmazio/Developer/xcode/gnuspeech/osx/trunk/Applications/GnuTTSClient/GnuTTSClient.xcodeproj</string>
+	</array>
 	<key>WindowString</key>
 	<string>147 162 1082 716 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
