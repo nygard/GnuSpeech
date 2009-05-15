@@ -186,7 +186,7 @@
 
 - (int) speakText:(in NSString *)text;
 {
-	NSLog(@"GnuTTSServer: %s: %@", _cmd, text);	
+	NSLog(@"GnuTTSServer: %s %@", _cmd, text);	
 	[textToSpeech speakText:text];
 	
 	return 0;
