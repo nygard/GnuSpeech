@@ -52,6 +52,7 @@
 	
 	connection = [NSConnection defaultConnection];
 	[connection setRootObject:self];
+	
 	if (![connection registerName:GNUSPEECH_SERVER_REGISTERED_NAME]) {
 		NSLog([NSString stringWithFormat:@"GnuTTSServer: Unable to register name \"%@\" as it is already registered.", GNUSPEECH_SERVER_REGISTERED_NAME]);
 		return nil;
@@ -185,7 +186,7 @@
 
 - (int) speakText:(in NSString *)text;
 {
-	NSLog(@"GnuTTSServer: Text: %@", text);	
+	NSLog(@"GnuTTSServer: %s: %@", _cmd, text);	
 	[textToSpeech speakText:text];
 	
 	return 0;
