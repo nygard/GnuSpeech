@@ -1,4 +1,4 @@
-May xx, 2009 | Synthesizer v0.7.4 (pending)
+May 19, 2009 | Synthesizer v0.7.4
 
 	* Changed main application icon to original tube model diagram (dbrisinda)
 
