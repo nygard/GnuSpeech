@@ -14,7 +14,11 @@ May xx, 2009 | GnuSpeech v0.7.1 (pending)
 	
 	GnuSpeech Framework v0.9.1
 	
-		* Fixed bug that crashed system when parsing strings containing non-ascii-convertible characters (dbrisinda)	
+		* Fixed bug that crashed system when parsing strings containing non-ascii-convertible characters (dbrisinda)
+		
+	Tube Framework v1.0.1
+	
+		* Updated header files with new GNU headers (dbrisinda)
 
 	GnuTTSServer v0.1.3
 	
