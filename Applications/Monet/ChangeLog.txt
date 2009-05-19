@@ -1,4 +1,4 @@
-May xx, 2009 | Monet v0.9.7 (pending)
+May 19, 2009 | Monet v0.9.7
 
 	* Changed intonation settings to more natural-sounding defaults (dbrisinda)
 
