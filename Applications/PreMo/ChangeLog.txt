@@ -1,6 +1,6 @@
 May 6, 2009 | PreMo v0.9.1
 
-	* Simplified PreMo to use the MMTextToPhone class.
+	* Simplified PreMo to use the MMTextToPhone class (dbrisinda)
 
 January 2, 2009 | PreMo v0.9
 
