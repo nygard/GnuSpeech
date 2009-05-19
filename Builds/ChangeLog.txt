@@ -1,4 +1,4 @@
-May xx, 2009 | GnuSpeech v0.7.1 (pending)
+May 19, 2009 | GnuSpeech v0.7.1
 
 	Monet v0.9.7
 			
