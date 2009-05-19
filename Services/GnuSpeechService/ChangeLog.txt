@@ -1,4 +1,4 @@
-May xx, 2009 | GnuSpeechService v0.5.1 (pending)
+May 19, 2009 | GnuSpeechService v0.5.1
 
 	* Fixed bug that caused speech/server to fail on 10.4 systems (dbrisinda)
 
