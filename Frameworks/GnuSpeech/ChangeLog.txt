@@ -1,4 +1,4 @@
-May xx, 2009 | GnuSpeech Framework v0.9.1 (pending)
+May 19, 2009 | GnuSpeech Framework v0.9.1
 
 	* Fixed bug that crashed system when parsing strings containing non-ascii-convertible characters (dbrisinda)
 
