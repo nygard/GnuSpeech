@@ -1036,7 +1036,7 @@
 												<key>IFPkgDescriptionTitle</key>
 												<string>Monet</string>
 												<key>IFPkgDescriptionVersion</key>
-												<string>0.9.6</string>
+												<string>0.9.7</string>
 											</dict>
 										</dict>
 										<key>Display Information</key>
@@ -1052,7 +1052,7 @@
 											<key>CFBundleName</key>
 											<string>Monet</string>
 											<key>CFBundleShortVersionString</key>
-											<string>0.9.6</string>
+											<string>0.9.7</string>
 										</dict>
 										<key>Options</key>
 										<dict>
@@ -3427,7 +3427,7 @@
 												<key>IFPkgDescriptionTitle</key>
 												<string>Synthesizer</string>
 												<key>IFPkgDescriptionVersion</key>
-												<string>0.7.3</string>
+												<string>0.7.4</string>
 											</dict>
 										</dict>
 										<key>Display Information</key>
@@ -3443,7 +3443,7 @@
 											<key>CFBundleName</key>
 											<string>Synthesizer</string>
 											<key>CFBundleShortVersionString</key>
-											<string>0.7.3</string>
+											<string>0.7.4</string>
 										</dict>
 										<key>Options</key>
 										<dict>
@@ -5768,7 +5768,7 @@
 												<key>IFPkgDescriptionTitle</key>
 												<string>GnuTTSClient</string>
 												<key>IFPkgDescriptionVersion</key>
-												<string>0.5</string>
+												<string>0.5.1</string>
 											</dict>
 										</dict>
 										<key>Display Information</key>
@@ -5784,7 +5784,7 @@
 											<key>CFBundleName</key>
 											<string>GnuTTSClient</string>
 											<key>CFBundleShortVersionString</key>
-											<string>0.5</string>
+											<string>0.5.1</string>
 										</dict>
 										<key>Options</key>
 										<dict>
@@ -6516,7 +6516,7 @@
 												<key>IFPkgDescriptionTitle</key>
 												<string>Tube Framework</string>
 												<key>IFPkgDescriptionVersion</key>
-												<string>1.0</string>
+												<string>1.0.1</string>
 											</dict>
 										</dict>
 										<key>Display Information</key>
@@ -6532,7 +6532,7 @@
 											<key>CFBundleName</key>
 											<string>Tube Framework</string>
 											<key>CFBundleShortVersionString</key>
-											<string>1.0</string>
+											<string>1.0.1</string>
 										</dict>
 										<key>Options</key>
 										<dict>
@@ -7052,7 +7052,7 @@
 												<key>IFPkgDescriptionTitle</key>
 												<string>GnuSpeech Framework</string>
 												<key>IFPkgDescriptionVersion</key>
-												<string>0.9</string>
+												<string>0.9.1</string>
 											</dict>
 										</dict>
 										<key>Display Information</key>
@@ -7068,7 +7068,7 @@
 											<key>CFBundleName</key>
 											<string>GnuSpeech Framework</string>
 											<key>CFBundleShortVersionString</key>
-											<string>0.9</string>
+											<string>0.9.1</string>
 										</dict>
 										<key>Options</key>
 										<dict>
@@ -7816,7 +7816,7 @@
 												<key>IFPkgDescriptionTitle</key>
 												<string>GnuTTSServer</string>
 												<key>IFPkgDescriptionVersion</key>
-												<string>0.1.2</string>
+												<string>0.1.3</string>
 											</dict>
 										</dict>
 										<key>Display Information</key>
@@ -7832,7 +7832,7 @@
 											<key>CFBundleName</key>
 											<string>GnuTTSServer</string>
 											<key>CFBundleShortVersionString</key>
-											<string>0.1.2</string>
+											<string>0.1.3</string>
 										</dict>
 										<key>Options</key>
 										<dict>
@@ -8368,7 +8368,7 @@
 												<key>IFPkgDescriptionTitle</key>
 												<string>GnuTTSServer Launch Daemon</string>
 												<key>IFPkgDescriptionVersion</key>
-												<string>0.1.2</string>
+												<string>0.1.3</string>
 											</dict>
 										</dict>
 										<key>Display Information</key>
@@ -8384,7 +8384,7 @@
 											<key>CFBundleName</key>
 											<string>GnuTTSServer Launch Daemon</string>
 											<key>CFBundleShortVersionString</key>
-											<string>0.1.2</string>
+											<string>0.1.3</string>
 										</dict>
 										<key>Options</key>
 										<dict>
@@ -9256,7 +9256,7 @@
 												<key>IFPkgDescriptionTitle</key>
 												<string>GnuSpeech Service</string>
 												<key>IFPkgDescriptionVersion</key>
-												<string>0.5</string>
+												<string>0.5.1</string>
 											</dict>
 										</dict>
 										<key>Display Information</key>
@@ -9272,7 +9272,7 @@
 											<key>CFBundleName</key>
 											<string>GnuSpeech Service</string>
 											<key>CFBundleShortVersionString</key>
-											<string>0.5</string>
+											<string>0.5.1</string>
 										</dict>
 										<key>Options</key>
 										<dict>
@@ -10020,7 +10020,7 @@
 												<key>IFPkgDescriptionTitle</key>
 												<string>Diphone Library</string>
 												<key>IFPkgDescriptionVersion</key>
-												<string>0.1.2</string>
+												<string>1.0</string>
 											</dict>
 										</dict>
 										<key>Display Information</key>
@@ -10036,7 +10036,7 @@
 											<key>CFBundleName</key>
 											<string>Diphone Library</string>
 											<key>CFBundleShortVersionString</key>
-											<string>0.1.2</string>
+											<string>1.0</string>
 										</dict>
 										<key>Options</key>
 										<dict>
@@ -10062,9 +10062,9 @@
 										<key>Version</key>
 										<dict>
 											<key>IFMajorVersion</key>
-											<integer>0</integer>
-											<key>IFMinorVersion</key>
 											<integer>1</integer>
+											<key>IFMinorVersion</key>
+											<integer>0</integer>
 										</dict>
 									</dict>
 								</dict>
@@ -10482,7 +10482,7 @@
 						<key>IFPkgDescriptionTitle</key>
 						<string>GnuSpeech</string>
 						<key>IFPkgDescriptionVersion</key>
-						<string>0.7</string>
+						<string>0.7.1</string>
 					</dict>
 				</dict>
 				<key>Display Information</key>
@@ -10498,7 +10498,7 @@
 					<key>CFBundleName</key>
 					<string>GnuSpeech</string>
 					<key>CFBundleShortVersionString</key>
-					<string>0.7</string>
+					<string>0.7.1</string>
 				</dict>
 				<key>Version</key>
 				<dict>
