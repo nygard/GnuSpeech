@@ -15,7 +15,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>0.5</string>
+	<string>0.5.1</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>LSBackgroundOnly</key>
