@@ -1,4 +1,4 @@
-May xx, 2009 | GnuTTSServer v0.1.3 (pending)
+May 19, 2009 | GnuTTSServer v0.1.3
 
 	* Changed intonation settings to more natural-sounding defaults (dbrisinda)
 
