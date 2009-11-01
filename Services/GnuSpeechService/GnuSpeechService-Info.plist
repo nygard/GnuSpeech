@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleIconFile</key>
+	<string>GnuSpeechService.icns</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
@@ -29,6 +31,11 @@
 	<key>NSServices</key>
 	<array>
 		<dict>
+			<key>NSKeyEquivalent</key>
+			<dict>
+				<key>Key equivalent (with command and shift)</key>
+				<string>~S</string>
+			</dict>
 			<key>NSMessage</key>
 			<string>speakText</string>
 			<key>NSPortName</key>
