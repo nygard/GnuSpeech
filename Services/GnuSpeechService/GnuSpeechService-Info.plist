@@ -15,13 +15,15 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>0.5.1</string>
+	<string>0.6</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>LSBackgroundOnly</key>
 	<true/>
 	<key>CFBundleName</key>
 	<string>${EXECUTABLE_NAME}</string>
+	<key>NSRequiredContext</key>
+	<string></string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright 1991-2009. David R. Hill, Leonard Manzara, Craig Schock. This software is licensed under the terms of the GNU GPL.</string>
 	<key>NSServices</key>
@@ -33,12 +35,13 @@
 			<string>GnuSpeechService</string>
 			<key>NSSendTypes</key>
 			<array>
+				<string>NSPasteboardTypeString</string>
 				<string>NSStringPboardType</string>
 			</array>
 			<key>NSMenuItem</key>
 			<dict>
 				<key>default</key>
-				<string>GnuSpeech/Speak Text</string>
+				<string>GnuSpeech Speak Text</string>
 			</dict>
 		</dict>
 	</array>

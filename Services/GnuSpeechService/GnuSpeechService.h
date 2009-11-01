@@ -24,7 +24,7 @@
 //
 //  Created by Dalmazio on 03/01/09.
 //
-//  Version: 0.5.1
+//  Version: 0.6
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -37,6 +37,7 @@
 
 // Service initialization methods.
 - (id) init;
+- (void) applicationDidFinishLaunching:(NSNotification *)notification;
 
 // Service provider methods.
 - (void) speakText:(NSPasteboard *)pboard userData:(NSString *)userData error:(NSString **)error;

@@ -24,7 +24,7 @@
 //
 //  Created by Dalmazio on 03/01/09.
 //
-//  Version: 0.5.1
+//  Version: 0.6
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -47,6 +47,12 @@
 	
 }
 
+- (void) applicationDidFinishLaunching:(NSNotification *)notification;
+{
+	[NSApp setServicesProvider:self];
+	NSUpdateDynamicServices();  // dynamically update services list so we don't have to log out
+}
+
 //**********************************************************************************************************************
 // Service provider methods.
 //**********************************************************************************************************************
@@ -56,23 +62,20 @@
 	NSString * pboardString;
     NSArray * types = [pboard types];
 	
-    if (![types containsObject:NSStringPboardType]) {
-        *error = NSLocalizedString(@"Error: couldn't speak text.",
+	// Test for strings on the pasteboard.
+	NSArray *classes = [NSArray arrayWithObject:[NSString class]];
+	NSDictionary *options = [NSDictionary dictionary];
+		
+	if (![pboard canReadObjectForClasses:classes options:options]) {
+		*error = NSLocalizedString(@"Error: couldn't speak text.",
 								   @"pboard couldn't give string.");
-        return;
-    }
-	
-    pboardString = [pboard stringForType:NSStringPboardType];
-    if (!pboardString) {
-        *error = NSLocalizedString(@"Error: couldn't speak text.",
-								   @"pboard couldn't give string.");
-        return;
-    }
-	
-    int response = [ttsServerProxy speakText:pboardString];
+		return;
+	}
+						
+	int response = [ttsServerProxy speakText:pboardString];
 	if (response != 0) {
 		*error = NSLocalizedString(@"Error: couldn't speak text.",
-								   @"self couldn't speak text.");
+								   @"Server couldn't speak text.");
 		NSLog(@"%s Could not speak text.", _cmd);		
 		return;
 	}	

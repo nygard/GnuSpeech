@@ -1,3 +1,7 @@
+November 1, 2009 | GnuSpeechService v0.6
+
+	* Added Snow Leopard OS X 10.6 support (dbrisinda)
+	
 May 19, 2009 | GnuSpeechService v0.5.1
 
 	* Fixed bug that caused speech/server to fail on 10.4 systems (dbrisinda)
