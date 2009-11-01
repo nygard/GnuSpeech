@@ -49,8 +49,6 @@
 
 - (void) applicationDidFinishLaunching:(NSNotification *)notification;
 {
-	[NSApp setServicesProvider:self];
-	NSUpdateDynamicServices();  // dynamically update services list so we don't have to log out
 }
 
 //**********************************************************************************************************************
@@ -61,17 +59,20 @@
 {	
 	NSString * pboardString;
     NSArray * types = [pboard types];
-	
-	// Test for strings on the pasteboard.
-	NSArray *classes = [NSArray arrayWithObject:[NSString class]];
-	NSDictionary *options = [NSDictionary dictionary];
 		
-	if (![pboard canReadObjectForClasses:classes options:options]) {
-		*error = NSLocalizedString(@"Error: couldn't speak text.",
+    if (![types containsObject:NSStringPboardType]) {
+        *error = NSLocalizedString(@"Error: couldn't speak text.",
 								   @"pboard couldn't give string.");
-		return;
-	}
-						
+        return;
+    }
+	
+    pboardString = [pboard stringForType:NSStringPboardType];
+    if (!pboardString) {
+        *error = NSLocalizedString(@"Error: couldn't speak text.",
+								   @"pboard couldn't give string.");
+        return;
+    }
+		
 	int response = [ttsServerProxy speakText:pboardString];
 	if (response != 0) {
 		*error = NSLocalizedString(@"Error: couldn't speak text.",

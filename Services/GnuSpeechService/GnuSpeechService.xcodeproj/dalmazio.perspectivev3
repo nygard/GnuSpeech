@@ -231,6 +231,8 @@
 			<key>Layout</key>
 			<array>
 				<dict>
+					<key>BecomeActive</key>
+					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -256,7 +258,7 @@
 							<key>PBXSmartGroupTreeModuleColumnWidthsKey</key>
 							<array>
 								<real>22</real>
-								<real>205</real>
+								<real>234</real>
 							</array>
 							<key>PBXSmartGroupTreeModuleColumnsKey_v4</key>
 							<array>
@@ -285,7 +287,7 @@
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 0}, {227, 661}}</string>
+							<string>{{0, 0}, {256, 661}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -295,34 +297,32 @@
 					<key>GeometryConfiguration</key>
 					<dict>
 						<key>Frame</key>
-						<string>{{0, 0}, {244, 679}}</string>
+						<string>{{0, 0}, {273, 679}}</string>
 						<key>GroupTreeTableConfiguration</key>
 						<array>
 							<string>SCMStatusColumn</string>
 							<real>22</real>
 							<string>MainColumn</string>
-							<real>205</real>
+							<real>234</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>170 158 1117 720 0 0 1440 878 </string>
+						<string>169 158 1117 720 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
 					<key>Proportion</key>
-					<string>244pt</string>
+					<string>273pt</string>
 				</dict>
 				<dict>
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>69E14A5E0F108948008CE33B</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>ChangeLog.txt</string>
+								<string>GnuSpeechService-Info.plist</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -330,21 +330,23 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>69E14A5F0F108948008CE33B</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>ChangeLog.txt</string>
+										<string>GnuSpeechService-Info.plist</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>69D67838109E0F2B0021007E</string>
+										<string>69D67881109E22F50021007E</string>
 										<key>history</key>
 										<array>
-											<string>6933ACD90F8EB41900D30AF6</string>
-											<string>6933ACDA0F8EB41900D30AF6</string>
-											<string>69051F910FC32BAC00E483DE</string>
-											<string>69051F920FC32BAC00E483DE</string>
-											<string>69051F930FC32BAC00E483DE</string>
 											<string>69051F940FC32BAC00E483DE</string>
-											<string>690520370FC3983E00E483DE</string>
-											<string>6905203B0FC3983E00E483DE</string>
+											<string>69D67876109E22F50021007E</string>
+											<string>69D67877109E22F50021007E</string>
+											<string>69D67878109E22F50021007E</string>
+											<string>69D6787A109E22F50021007E</string>
+											<string>69D6787C109E22F50021007E</string>
+											<string>69D6787D109E22F50021007E</string>
+											<string>69D6787E109E22F50021007E</string>
+											<string>69D6787F109E22F50021007E</string>
+											<string>69D67880109E22F50021007E</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -358,9 +360,9 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {868, 497}}</string>
+								<string>{{0, 0}, {839, 497}}</string>
 								<key>RubberWindowFrame</key>
-								<string>170 158 1117 720 0 0 1440 878 </string>
+								<string>169 158 1117 720 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -383,9 +385,7 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {868, 150}}</string>
-										<key>RubberWindowFrame</key>
-										<string>170 158 1117 720 0 0 1440 878 </string>
+										<string>{{10, 27}, {910, 150}}</string>
 									</dict>
 									<key>Module</key>
 									<string>XCDetailModule</string>
@@ -460,7 +460,9 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {868, 145}}</string>
+										<string>{{10, 27}, {839, 150}}</string>
+										<key>RubberWindowFrame</key>
+										<string>169 158 1117 720 0 0 1440 878 </string>
 									</dict>
 									<key>Module</key>
 									<string>PBXBuildResultsModule</string>
@@ -469,7 +471,7 @@
 						</dict>
 					</array>
 					<key>Proportion</key>
-					<string>868pt</string>
+					<string>839pt</string>
 				</dict>
 			</array>
 			<key>Name</key>
@@ -510,6 +512,7 @@
 				<string>NSToolbarSeparatorItem</string>
 				<string>active-combo-popup</string>
 				<string>NSToolbarFlexibleSpaceItem</string>
+				<string>debugger-enable-breakpoints</string>
 				<string>build-and-go</string>
 				<string>com.apple.ide.PBXToolbarStopButton</string>
 				<string>debugger-restart-executable</string>
@@ -517,10 +520,9 @@
 				<string>debugger-step-over</string>
 				<string>debugger-step-into</string>
 				<string>debugger-step-out</string>
-				<string>debugger-enable-breakpoints</string>
 				<string>NSToolbarFlexibleSpaceItem</string>
-				<string>com.apple.ide.XCBreakpointsToolbarItem</string>
-				<string>clear-log</string>
+				<string>servicesModulebreakpoints</string>
+				<string>debugger-show-console-window</string>
 			</array>
 			<key>ControllerClassBaseName</key>
 			<string>PBXDebugSessionModule</string>
@@ -641,15 +643,17 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>69051FA00FC32BAC00E483DE</string>
+				<string>69D67882109E22F50021007E</string>
 				<string>1CCC7628064C1048000F2A68</string>
 				<string>1CCC7629064C1048000F2A68</string>
-				<string>69051FA10FC32BAC00E483DE</string>
-				<string>69051FA20FC32BAC00E483DE</string>
-				<string>69051FA30FC32BAC00E483DE</string>
-				<string>69051FA40FC32BAC00E483DE</string>
-				<string>69051FA50FC32BAC00E483DE</string>
+				<string>69D67883109E22F50021007E</string>
+				<string>69D67884109E22F50021007E</string>
+				<string>69D67885109E22F50021007E</string>
+				<string>69D67886109E22F50021007E</string>
+				<string>69D67887109E22F50021007E</string>
 			</array>
+			<key>ToolbarConfigUserDefaultsMinorVersion</key>
+			<string>2</string>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
 		</dict>
@@ -681,7 +685,7 @@
 		<string>/Users/dalmazio/Developer/xcode/gnuspeech/osx/trunk/Services/GnuSpeechService/GnuSpeechService.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>170 158 1117 720 0 0 1440 878 </string>
+	<string>169 158 1117 720 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
