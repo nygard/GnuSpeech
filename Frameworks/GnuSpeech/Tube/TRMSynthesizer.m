@@ -36,6 +36,7 @@
 
 #import <CoreAudio/CoreAudio.h>
 #import <AudioToolbox/AudioToolbox.h>
+#import <AudioUnit/AudioUnit.h>
 
 #else
 
@@ -532,8 +533,8 @@ OSStatus renderSineCallback(void *inRefCon,
     OSStatus result;
     UInt32 count;
 
-    searchDesc.componentType = kAudioUnitComponentType;
-    searchDesc.componentSubType = kAudioUnitSubType_Output;
+    searchDesc.componentType = kAudioUnitType_Output;
+    searchDesc.componentSubType = kAudioUnitSubType_DefaultOutput;
     searchDesc.componentManufacturer = kAudioUnitID_DefaultOutput;
     searchDesc.componentFlags = 0;
     searchDesc.componentFlagsMask = 0;
