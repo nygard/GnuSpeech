@@ -127,7 +127,7 @@
 - (double)absoluteTime;
 {
     if (nonretained_eventList == nil) {
-        NSLog(@"Warning: no event list for intonation point in %s, returning 0.0", _cmd);
+        NSLog(@"Warning: no event list for intonation point in %s, returning 0.0", __PRETTY_FUNCTION__);
         return 0.0;
     }
 
@@ -137,7 +137,7 @@
 - (double)beatTime;
 {
     if (nonretained_eventList == nil) {
-        NSLog(@"Warning: no event list for intonation point in %s, returning 0.0", _cmd);
+        NSLog(@"Warning: no event list for intonation point in %s, returning 0.0", __PRETTY_FUNCTION__);
         return 0.0;
     }
 

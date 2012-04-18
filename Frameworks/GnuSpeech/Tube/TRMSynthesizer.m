@@ -178,7 +178,7 @@ OSStatus renderSineCallback(void *inRefCon,
 
 - (void)dealloc;
 {
-    NSLog(@"%s, free(inputData)", _cmd);
+    NSLog(@"%s, free(inputData)", __PRETTY_FUNCTION__);
     free(inputData);
     [soundData release];
 	

@@ -79,17 +79,17 @@
 
 - (void)parserDidStartDocument:(NSXMLParser *)parser;
 {
-    //NSLog(@" > %s", _cmd);
+    //NSLog(@" > %s", __PRETTY_FUNCTION__);
     // As of 2004-05-20 these just return nil
     //NSLog(@"publicID: %@", [parser publicID]);
     //NSLog(@"systemID: %@", [parser systemID]);
-    //NSLog(@"<  %s", _cmd);
+    //NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser;
 {
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
+    NSLog(@" > %s", __PRETTY_FUNCTION__);
+    NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
@@ -109,56 +109,56 @@
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 {
     NSLog(@"</%@>", elementName);
-    //NSLog(@" > %s", _cmd);
-    //NSLog(@"<  %s", _cmd);
+    //NSLog(@" > %s", __PRETTY_FUNCTION__);
+    //NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
 
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string;
 {
-    //NSLog(@" > %s", _cmd);
-    //NSLog(@"<  %s", _cmd);
+    //NSLog(@" > %s", __PRETTY_FUNCTION__);
+    //NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
 
 - (void)parser:(NSXMLParser *)parser foundIgnorableWhitespace:(NSString *)whitespaceString;
 {
-    //NSLog(@" > %s", _cmd);
-    //NSLog(@"<  %s", _cmd);
+    //NSLog(@" > %s", __PRETTY_FUNCTION__);
+    //NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
 
 - (void)parser:(NSXMLParser *)parser foundProcessingInstructionWithTarget:(NSString *)target data:(NSString *)data;
 {
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
+    NSLog(@" > %s", __PRETTY_FUNCTION__);
+    NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
 
 - (void)parser:(NSXMLParser *)parser foundCDATA:(NSData *)CDATABlock;
 {
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
+    NSLog(@" > %s", __PRETTY_FUNCTION__);
+    NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
 
 - (NSData *)parser:(NSXMLParser *)parser resolveExternalEntityName:(NSString *)name systemID:(NSString *)systemID;
 {
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
+    NSLog(@" > %s", __PRETTY_FUNCTION__);
+    NSLog(@"<  %s", __PRETTY_FUNCTION__);
 
     return nil;
 }
 
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError;
 {
-    NSLog(@" > %s", _cmd);
+    NSLog(@" > %s", __PRETTY_FUNCTION__);
     NSLog(@"parseError: %@", parseError);
     NSLog(@"[[parser parserError] localizedDescription]: %@", [[parser parserError] localizedDescription]);
     NSLog(@"line: %d, column: %d", [parser lineNumber], [parser columnNumber]);
-    NSLog(@"<  %s", _cmd);
+    NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
 
 - (void)parser:(NSXMLParser *)parser validationErrorOccurred:(NSError *)validationError;
 {
-    NSLog(@" > %s", _cmd);
+    NSLog(@" > %s", __PRETTY_FUNCTION__);
     NSLog(@"validationError: %@", validationError);
-    NSLog(@"<  %s", _cmd);
+    NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
 
 @end

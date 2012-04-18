@@ -33,8 +33,6 @@
 		0155E3970B7BE80D008D8879 /* NSScanner-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3890B7BE80D008D8879 /* NSScanner-Extensions.m */; };
 		0155E3980B7BE80D008D8879 /* NSString-Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E38A0B7BE80D008D8879 /* NSString-Extensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0155E3990B7BE80D008D8879 /* NSString-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E38B0B7BE80D008D8879 /* NSString-Extensions.m */; };
-		0155E39A0B7BE80D008D8879 /* NSUserDefaults-Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E38C0B7BE80D008D8879 /* NSUserDefaults-Extensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0155E39B0B7BE80D008D8879 /* NSUserDefaults-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E38D0B7BE80D008D8879 /* NSUserDefaults-Extensions.m */; };
 		0155E3DE0B7BE8AC008D8879 /* GSXMLFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3CA0B7BE8AC008D8879 /* GSXMLFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0155E3DF0B7BE8AC008D8879 /* GSXMLFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3CB0B7BE8AC008D8879 /* GSXMLFunctions.m */; };
 		0155E3E00B7BE8AC008D8879 /* MUnarchiver.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3CC0B7BE8AC008D8879 /* MUnarchiver.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -265,8 +263,6 @@
 		0155E3890B7BE80D008D8879 /* NSScanner-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSScanner-Extensions.m"; path = "Extensions/NSScanner-Extensions.m"; sourceTree = "<group>"; };
 		0155E38A0B7BE80D008D8879 /* NSString-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "NSString-Extensions.h"; path = "Extensions/NSString-Extensions.h"; sourceTree = "<group>"; };
 		0155E38B0B7BE80D008D8879 /* NSString-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSString-Extensions.m"; path = "Extensions/NSString-Extensions.m"; sourceTree = "<group>"; };
-		0155E38C0B7BE80D008D8879 /* NSUserDefaults-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "NSUserDefaults-Extensions.h"; path = "Extensions/NSUserDefaults-Extensions.h"; sourceTree = "<group>"; };
-		0155E38D0B7BE80D008D8879 /* NSUserDefaults-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSUserDefaults-Extensions.m"; path = "Extensions/NSUserDefaults-Extensions.m"; sourceTree = "<group>"; };
 		0155E3CA0B7BE8AC008D8879 /* GSXMLFunctions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GSXMLFunctions.h; path = Archiving/GSXMLFunctions.h; sourceTree = "<group>"; };
 		0155E3CB0B7BE8AC008D8879 /* GSXMLFunctions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GSXMLFunctions.m; path = Archiving/GSXMLFunctions.m; sourceTree = "<group>"; };
 		0155E3CC0B7BE8AC008D8879 /* MUnarchiver.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MUnarchiver.h; path = Archiving/MUnarchiver.h; sourceTree = "<group>"; };
@@ -510,8 +506,6 @@
 				0155E3890B7BE80D008D8879 /* NSScanner-Extensions.m */,
 				0155E38A0B7BE80D008D8879 /* NSString-Extensions.h */,
 				0155E38B0B7BE80D008D8879 /* NSString-Extensions.m */,
-				0155E38C0B7BE80D008D8879 /* NSUserDefaults-Extensions.h */,
-				0155E38D0B7BE80D008D8879 /* NSUserDefaults-Extensions.m */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -880,7 +874,6 @@
 				0155E4090B7BE8D6008D8879 /* RuleList.h in Headers */,
 				0155E46E0B7BE8FA008D8879 /* PhoneList.h in Headers */,
 				0155E4070B7BE8D6008D8879 /* ParameterList.h in Headers */,
-				0155E39A0B7BE80D008D8879 /* NSUserDefaults-Extensions.h in Headers */,
 				0155E3980B7BE80D008D8879 /* NSString-Extensions.h in Headers */,
 				0155E3960B7BE80D008D8879 /* NSScanner-Extensions.h in Headers */,
 				0155E3940B7BE80D008D8879 /* NSObject-Extensions.h in Headers */,
@@ -1069,7 +1062,6 @@
 				0155E3950B7BE80D008D8879 /* NSObject-Extensions.m in Sources */,
 				0155E3970B7BE80D008D8879 /* NSScanner-Extensions.m in Sources */,
 				0155E3990B7BE80D008D8879 /* NSString-Extensions.m in Sources */,
-				0155E39B0B7BE80D008D8879 /* NSUserDefaults-Extensions.m in Sources */,
 				0155E3DF0B7BE8AC008D8879 /* GSXMLFunctions.m in Sources */,
 				0155E3E10B7BE8AC008D8879 /* MUnarchiver.m in Sources */,
 				0155E3E30B7BE8AC008D8879 /* MXMLArrayDelegate.m in Sources */,

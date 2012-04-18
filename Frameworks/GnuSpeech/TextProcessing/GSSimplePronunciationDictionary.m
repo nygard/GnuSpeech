@@ -135,7 +135,7 @@
     [str release];
     [data release];
 
-    NSLog(@"%s, self: %@", _cmd, self);
+    NSLog(@"%s, self: %@", __PRETTY_FUNCTION__, self);
 
 
     return YES;

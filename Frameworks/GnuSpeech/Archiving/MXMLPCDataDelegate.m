@@ -77,7 +77,7 @@
             // Make an immutable copy of the string
             [delegate performSelector:setSelector withObject:[NSString stringWithString:string]];
         } else {
-            NSLog(@"%@ doesn not respond to selector: %s", delegate, setSelector);
+            NSLog(@"%@ does not respond to selector: %@", delegate, NSStringFromSelector(setSelector));
         }
 
         [delegate release];

@@ -37,7 +37,7 @@
 - (id)init;
 {
     // TODO (2004-08-15): Reject unused method
-    NSLog(@"-[%@ %s] should not be called", NSStringFromClass([self class]), _cmd);
+    NSLog(@"%s should not be called", __PRETTY_FUNCTION__);
     return nil;
 }
 

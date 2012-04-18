@@ -125,7 +125,7 @@ static NSDictionary *_specialAcronyms = nil;
     NSMutableString *resultString;
 	NSString * newString;
 
-    NSLog(@" > %s", _cmd);
+    NSLog(@" > %s", __PRETTY_FUNCTION__);
 
     NSLog(@"aString: %@", aString);
     newString = [self padCharactersInSet:[NSCharacterSet punctuationCharacterSet] 
@@ -138,7 +138,7 @@ static NSDictionary *_specialAcronyms = nil;
 
     NSLog(@"resultString: %@", resultString);
 
-    NSLog(@"<  %s", _cmd);
+    NSLog(@"<  %s", __PRETTY_FUNCTION__);
 
     return resultString;
 }
@@ -225,8 +225,8 @@ static NSDictionary *_specialAcronyms = nil;
 
 - (void)stripPunctuationFromString:(NSString *)aString;
 {
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
+    NSLog(@" > %s", __PRETTY_FUNCTION__);
+    NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
 
 // As part of the temporary fix for punctuation issues, we need to filter empty strings from the word string
@@ -263,7 +263,7 @@ static NSDictionary *_specialAcronyms = nil;
     count = [words count];
     if (count == 0) {
         currentState = TTS_STATE_END;
-        NSLog(@"%s, No words.", _cmd);
+        NSLog(@"%s, No words.", __PRETTY_FUNCTION__);
     } else {
         for (index = 0; index < count; index++) {
             currentWord = [words objectAtIndex:index];
