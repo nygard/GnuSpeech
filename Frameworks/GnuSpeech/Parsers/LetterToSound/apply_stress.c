@@ -237,7 +237,7 @@ int prefix(char *orthography)
     char               *a;
 	
     m = strlen(orthography);
-    while (a = prefices[t++])
+    while ((a = prefices[t++]))
 		if (((l = strlen(a)) <= m) && !strncmp(a, orthography, l))
 			return(1);
 	

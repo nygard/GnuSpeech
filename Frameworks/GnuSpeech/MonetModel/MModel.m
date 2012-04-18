@@ -714,7 +714,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 {
     //NSLog(@"-> %s, listIndex: %d, index: %d", _cmd, listIndex, index);
     if (listIndex < 0 || listIndex > [equations count]) {
-        NSLog(@"%s: listIndex: %d out of range.  index: %d", __PRETTY_FUNCTION__, listIndex, index);
+        NSLog(@"%s: listIndex: %d out of range.  count: %d", __PRETTY_FUNCTION__, listIndex, [equations count]);
         return nil;
     }
 

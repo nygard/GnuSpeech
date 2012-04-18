@@ -310,17 +310,17 @@ OSStatus renderSineCallback(void *inRefCon,
 		format.mFormatFlags =  kAudioFormatFlagIsBigEndian | kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked;	
 
 	NSLog(@"sample rate: %f", format.mSampleRate);
-	NSLog(@"format id: %08x (%@)", format.mFormatID, [NSString stringWithFourCharCode:format.mFormatID]);
-	NSLog(@"format flags: %x", format.mFormatFlags);
-	NSLog(@"bytes per packet: %d", format.mBytesPerPacket);
-	NSLog(@"frames per packet: %d", format.mFramesPerPacket);
-	NSLog(@"bytes per frame: %d", format.mBytesPerFrame);
-	NSLog(@"channels per frame: %d", format.mChannelsPerFrame);
-	NSLog(@"bits per channel: %d", format.mBitsPerChannel);
+	NSLog(@"format id: %08lx (%@)", format.mFormatID, [NSString stringWithFourCharCode:format.mFormatID]);
+	NSLog(@"format flags: %lx", format.mFormatFlags);
+	NSLog(@"bytes per packet: %ld", format.mBytesPerPacket);
+	NSLog(@"frames per packet: %ld", format.mFramesPerPacket);
+	NSLog(@"bytes per frame: %ld", format.mBytesPerFrame);
+	NSLog(@"channels per frame: %ld", format.mChannelsPerFrame);
+	NSLog(@"bits per channel: %ld", format.mBitsPerChannel);
 
 	result = AudioUnitSetProperty(outputUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &format, sizeof(format));
 	if (result != kAudioHardwareNoError) {
-		NSLog(@"AudioUnitSetProperty(StreamFormat) failed: %d %x %@", result, result, [NSString stringWithFourCharCode:result]);
+		NSLog(@"AudioUnitSetProperty(StreamFormat) failed: %ld %lx %@", result, result, [NSString stringWithFourCharCode:result]);
 	}
 
 #endif
@@ -563,7 +563,7 @@ OSStatus renderSineCallback(void *inRefCon,
 	
 	result = AudioUnitSetProperty(outputUnit, kAudioUnitProperty_SetInputCallback, kAudioUnitScope_Global, 0, &inputCallback, sizeof(inputCallback));
 	if (result != kAudioHardwareNoError) {
-		NSLog(@"AudioUnitSetProperty(SetInputCallback) failed: %d %x %@", result, result, [NSString stringWithFourCharCode:result]);
+		NSLog(@"AudioUnitSetProperty(SetInputCallback) failed: %ld %lx %@", result, result, [NSString stringWithFourCharCode:result]);
 		return;
     }
 	

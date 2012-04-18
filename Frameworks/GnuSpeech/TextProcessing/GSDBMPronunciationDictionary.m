@@ -131,7 +131,7 @@
 {
     NSDictionary *attributes;
 
-    attributes = [[NSFileManager defaultManager] fileAttributesAtPath:[filename stringByAppendingString:@".db"] traverseLink:YES];
+    attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[filename stringByAppendingString:@".db"] error:NULL];
     return [attributes fileModificationDate];
 }
 

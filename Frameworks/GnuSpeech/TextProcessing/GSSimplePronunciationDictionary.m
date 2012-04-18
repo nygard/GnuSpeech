@@ -70,7 +70,7 @@
 {
     NSDictionary *attributes;
 
-    attributes = [[NSFileManager defaultManager] fileAttributesAtPath:filename traverseLink:YES];
+    attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:filename error:NULL];
     return [attributes fileModificationDate];
 }
 
