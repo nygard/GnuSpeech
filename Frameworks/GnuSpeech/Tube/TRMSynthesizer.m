@@ -31,127 +31,14 @@
 #import "TRMSynthesizer.h"
 #import "MMSynthesisParameters.h"
 #import <Foundation/Foundation.h>
+#import "NSData-STExtensions.h"
+#import <AVFoundation/AVFoundation.h>
 
-#ifndef GNUSTEP
+const uint16_t kWAVEFormat_Unknown         = 0x0000;
+const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 
-#import <CoreAudio/CoreAudio.h>
-#import <AudioToolbox/AudioToolbox.h>
-#import <AudioUnit/AudioUnit.h>
-
-#else
-
-#import <AppKit/NSSound.h>
-#import <AppKit/NSGraphics.h>
-#import <Foundation/NSAutoreleasePool.h>
-
-#endif
-
-
-/* Checks if currect architecture is big-endian (PowerPC). */
-static BOOL isBigEndian()
-{
-	unsigned long value = 0x12345678;
-	if (*(unsigned char *)(&value) == 0x12)
-		return YES;
-	return NO;
-}
-
-
-/* Checks if currect architecture is little-endian (Intel). */
-static BOOL isLittleEndian()
-{
-	unsigned long value = 0x12345678;
-	if (*(unsigned char *)(&value) == 0x78)
-		return YES;
-	return NO;
-}
-
-
-typedef struct {
-    char a, b, c, d;
-} MyFourCharCode;
-
-
-@interface NSString (MyExtensions)
-+ (NSString *)stringWithFourCharCode:(unsigned int)code;
-@end
-
-
-@implementation NSString (MyExtensions)
-+ (NSString *)stringWithFourCharCode:(unsigned int)code;
-{
-    MyFourCharCode *charcode = (MyFourCharCode *)(&code);
-
-	// On Intel (little-endian) we need to use kAudioFormatFlagIsAlignedHigh; on PowerPC (big-endian) kAudioFormatFlagIsBigEndian.
-	if (isLittleEndian())
-		return [NSString stringWithFormat:@"%c%c%c%c", charcode->d, charcode->c, charcode->b, charcode->a];
-	else
-		return [NSString stringWithFormat:@"%c%c%c%c", charcode->a, charcode->b, charcode->c, charcode->d];		
-}
-@end
-
-
-
-#ifndef GNUSTEP
-OSStatus renderSpeechCallback(void *inRefCon,
-							  AudioUnitRenderActionFlags inActionFlags, 
-							  const AudioTimeStamp *inTimeStamp, 
-							  UInt32 inBusNumber, 
-							  AudioBuffer *ioData)
-{
-    [(TRMSynthesizer *)inRefCon fillBuffer:ioData];
-    return kAudioHardwareNoError;
-}
-#endif
-
-
-#ifndef GNUSTEP
-OSStatus renderSineCallback(void *inRefCon, 
-							AudioUnitRenderActionFlags inActionFlags, 
-							const AudioTimeStamp *inTimeStamp, 
-							UInt32 inBusNumber, 
-							AudioBuffer *ioData)
-{
-	static double phase;
-	int x, c;
-	double stride;
-	UInt32 samplesPerBuffer;
-	double phasePerStream;
-	static UInt64 firstTime = 0;
-	static UInt64 totalSamples = 0;
-		
-	if (firstTime == 0)
-		firstTime = inTimeStamp->mHostTime;
-	
-	if (totalSamples > 88200)
-	{
-		firstTime = inTimeStamp->mHostTime;
-		totalSamples = 0;
-	}
-	
-	stride = *(double *)inRefCon;
-	
-	{
-		phasePerStream = phase;
-		samplesPerBuffer = ioData->mDataByteSize / sizeof(Float32);
-		totalSamples += samplesPerBuffer / ioData->mNumberChannels;
-		for ( x = 0; x < samplesPerBuffer; x+=ioData->mNumberChannels )
-		{
-			for ( c = 0; c < ioData->mNumberChannels; c++ )
-			{
-				((Float32 *)(ioData->mData))[x + c] = sin ( phasePerStream ) * 0.01 ;
-			}
-			phasePerStream += stride;
-			while (phasePerStream > (2.0 * M_PI))
-				phasePerStream -= (2.0 * M_PI);
-		}
-	}
-	
-	phase = phasePerStream;
-    return kAudioHardwareNoError;
-}
-#endif
-
+/*  SIZE IN BITS PER OUTPUT SAMPLE  */
+#define BITS_PER_SAMPLE           16
 
 @implementation TRMSynthesizer
 
@@ -170,18 +57,14 @@ OSStatus renderSineCallback(void *inRefCon,
     inputData->inputParameters.outputFileFormat = 0;
     inputData->inputHead = NULL;
     inputData->inputTail = NULL;
-
-    soundData = [[NSMutableData alloc] init];
 	
-    [self setupSoundDevice];
     return self;
 }
 
 - (void)dealloc;
 {
-    NSLog(@"%s, free(inputData)", __PRETTY_FUNCTION__);
     free(inputData);
-    [soundData release];
+    [m_audioPlayer release];
 	
     [super dealloc];
 }
@@ -214,87 +97,7 @@ OSStatus renderSineCallback(void *inRefCon,
     inputData->inputParameters.throatVol = [synthesisParameters throatVolume];
     inputData->inputParameters.modulation = [synthesisParameters shouldUseNoiseModulation];
     inputData->inputParameters.mixOffset = [synthesisParameters mixOffset];
-
-	/*
-	char buf[100];
-
-	sprintf(buf, "%f", [MMSynthesisParameters samplingRate:[synthesisParameters samplingRate]]);
-	inputData->inputParameters.outputRate = strtod(buf, NULL);
-
-	sprintf(buf, "%f", [synthesisParameters masterVolume]);
-	inputData->inputParameters.volume = strtod(buf, NULL);
-
-	sprintf(buf, "%f", [synthesisParameters balance]);
-	inputData->inputParameters.balance = strtod(buf, NULL);
-
-	sprintf(buf, "%f", [synthesisParameters tp]);
-	inputData->inputParameters.tp = strtod(buf, NULL);
-
-	sprintf(buf, "%f", [synthesisParameters tnMin]);
-	inputData->inputParameters.tnMin = strtod(buf, NULL);
-	
-	sprintf(buf, "%f", [synthesisParameters tnMax]);
-	inputData->inputParameters.tnMax = strtod(buf, NULL);
-
-	sprintf(buf, "%f", [synthesisParameters breathiness]);
-	inputData->inputParameters.breathiness = strtod(buf, NULL);
-
-	sprintf(buf, "%f", [synthesisParameters vocalTractLength]);
-	inputData->inputParameters.length = strtod(buf, NULL);
-
-	sprintf(buf, "%f", [synthesisParameters temperature]);
-	inputData->inputParameters.temperature = strtod(buf, NULL);
-
-	sprintf(buf, "%f", [synthesisParameters lossFactor]);
-	inputData->inputParameters.lossFactor = strtod(buf, NULL);
-
-	sprintf(buf, "%f", [synthesisParameters apertureScaling]);
-	inputData->inputParameters.apScale = strtod(buf, NULL);
-
-	sprintf(buf, "%f", [synthesisParameters mouthCoef]);
-	inputData->inputParameters.mouthCoef = strtod(buf, NULL);
-
-	sprintf(buf, "%f", [synthesisParameters noseCoef]);
-	inputData->inputParameters.noseCoef = strtod(buf, NULL);
-
-	sprintf(buf, "%f", [synthesisParameters n1]);
-	inputData->inputParameters.noseRadius[1] = strtod(buf, NULL);
-
-	sprintf(buf, "%f", [synthesisParameters n2]);
-	inputData->inputParameters.noseRadius[2] = strtod(buf, NULL);
-
-	sprintf(buf, "%f", [synthesisParameters n3]);
-	inputData->inputParameters.noseRadius[3] = strtod(buf, NULL);
-
-	sprintf(buf, "%f", [synthesisParameters n4]);
-	inputData->inputParameters.noseRadius[4] = strtod(buf, NULL);
-
-	sprintf(buf, "%f", [synthesisParameters n5]);
-	inputData->inputParameters.noseRadius[5] = strtod(buf, NULL);
-
-	sprintf(buf, "%f", [synthesisParameters throatCutoff]);
-	inputData->inputParameters.throatCutoff = strtod(buf, NULL);
-
-	sprintf(buf, "%f", [synthesisParameters throatVolume]);
-	inputData->inputParameters.throatVol = strtod(buf, NULL);
-
-	sprintf(buf, "%f", [synthesisParameters mixOffset]);
-	inputData->inputParameters.mixOffset = strtod(buf, NULL);
-	*/
-
-#ifndef GNUSTEP
-	
-	OSStatus result;
-	UInt32 count;
-	AudioStreamBasicDescription format;
-
-	count = sizeof(format);
-	result = AudioUnitGetProperty(outputUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 0, &format, &count);
-	if (result != kAudioHardwareNoError) {
-		NSLog(@"AudioUnitGetProperty() failed.");
-		return;
-	}
-
+#if 0
 	// It looks like you need to use an AudioConverter to change the sampling rate.
 	format.mFormatID = kAudioFormatLinearPCM;
 	format.mSampleRate = inputData->inputParameters.outputRate;
@@ -323,9 +126,7 @@ OSStatus renderSineCallback(void *inRefCon,
 	if (result != kAudioHardwareNoError) {
 		NSLog(@"AudioUnitSetProperty(StreamFormat) failed: %ld %lx %@", result, result, [NSString stringWithFourCharCode:result]);
 	}
-
 #endif
-
 }
 
 - (void)removeAllParameters;
@@ -429,30 +230,41 @@ OSStatus renderSineCallback(void *inRefCon,
 		// NSSound *sound = [[[NSSound alloc] initWithContentsOfFile:[NSString stringWithUTF8String:tempName] byReference:YES] autorelease];
 		// [sound play];
 
-		[self convertSamplesIntoData:&(tube->sampleRateConverter)];		
-		[self startPlaying];
+		[self generateWAVDataWithSampleRateConverter:&(tube->sampleRateConverter)];		
+		[self startPlaying:tube];
     }
 
     TRMTubeModelFree(tube);
 }
 
-- (void)convertSamplesIntoData:(TRMSampleRateConverter *)sampleRateConverter;
+// RIFF
+#define WAV_CHUNK_ID        0x52494646
+
+// WAVE
+#define WAV_RIFF_TYPE       0x57415645
+
+// fmt
+#define WAV_FORMAT_CHUNK_ID 0x666d7420
+
+// data
+#define WAV_DATA_CHUNK_ID   0x64617461
+
+- (NSData *)generateWAVDataWithSampleRateConverter:(TRMSampleRateConverter *)sampleRateConverter;
 {
     double scale;
     long int index;
 
-    [soundData setLength:0];
-    bufferIndex = 0;
-
     if (sampleRateConverter->maximumSampleValue == 0)
         NSBeep();
+
+    NSMutableData *sampleData = [[NSMutableData alloc] init];
 
     scale = OUTPUT_SCALE * (RANGE_MAX / sampleRateConverter->maximumSampleValue) * amplitude(inputData->inputParameters.volume) ;
 
     NSLog(@"number of samples:\t%-ld\n", sampleRateConverter->numberSamples);
     NSLog(@"maximum sample value:\t%.4f\n", sampleRateConverter->maximumSampleValue);
     NSLog(@"scale:\t\t\t%.4f\n", scale);
-
+    
     /*  Rewind the temporary file to beginning  */
     rewind(sampleRateConverter->tempFilePtr);
 
@@ -478,10 +290,10 @@ OSStatus renderSineCallback(void *inRefCon,
             fread(&sample, sizeof(sample), 1, sampleRateConverter->tempFilePtr);
 
             value = (short)rint(sample * leftScale);
-            [soundData appendBytes:&value length:sizeof(value)];
+            [sampleData appendBytes:&value length:sizeof(value)];
 
             value = (short)rint(sample * rightScale);
-            [soundData appendBytes:&value length:sizeof(value)];
+            [sampleData appendBytes:&value length:sizeof(value)];
         }
 		
     } else {
@@ -493,112 +305,72 @@ OSStatus renderSineCallback(void *inRefCon,
             fread(&sample, sizeof(sample), 1, sampleRateConverter->tempFilePtr);
 
             value = (short)rint(sample * scale);
-            [soundData appendBytes:&value length:sizeof(value)];
+            [sampleData appendBytes:&value length:sizeof(value)];
         }
     }
 
-    //NSLog(@"soundData: %p, length: %d", soundData, [soundData length]);
-    bufferLength = [soundData length] / sizeof(short);
-    //NSLog(@"bufferLength: %ld", bufferLength);
+    int frameSize = (int)ceil(inputData->inputParameters.channels * ((double)BITS_PER_SAMPLE / 8));
+    int bytesPerSecond = (int)ceil(inputData->inputParameters.outputRate * frameSize);
+    
+    NSMutableData *data = [NSMutableData data];
+    uint32_t subChunk1Size = 18;
+    uint32_t subChunk2Size = [sampleData length];
+    uint32_t chunkSize = 4 + (8 + subChunk1Size) + (8 + subChunk2Size);
+    
+    // Header - RIFF type chunk
+    [data appendBigInt32:WAV_CHUNK_ID]; // RIFF
+    [data appendLittleInt32:chunkSize];
+    [data appendBigInt32:WAV_RIFF_TYPE]; // WAVE
+    
+    // Format chunk
+    [data appendBigInt32:WAV_FORMAT_CHUNK_ID]; // fmt
+    [data appendLittleInt32:subChunk1Size];
+    [data appendLittleInt16:kWAVEFormat_UncompressedPCM];
+    [data appendLittleInt16:inputData->inputParameters.channels];
+    [data appendLittleInt32:inputData->inputParameters.outputRate];
+    [data appendLittleInt32:bytesPerSecond];
+    [data appendLittleInt16:frameSize];
+    [data appendLittleInt16:BITS_PER_SAMPLE];
+    [data appendLittleInt16:0];
+    
+    // Data chunk
+    [data appendBigInt32:WAV_DATA_CHUNK_ID];
+    [data appendLittleInt32:subChunk2Size];
+    
+    [data appendData:sampleData];
+    
+    return [[data copy] autorelease];
 }
 
-- (void)startPlaying;
+- (AVAudioPlayer *)audioPlayer;
 {
-#ifndef GNUSTEP
-    AudioOutputUnitStart(outputUnit);
-#else
-    CREATE_AUTORELEASE_POOL(pool);
-    NSSound *sound = [[NSSound alloc] initWithData: soundData];
-    [sound play];
-    RELEASE(pool);
-#endif
+    return m_audioPlayer;
+}
+
+- (void)setAudioPlayer:(AVAudioPlayer *)audioPlayer;
+{
+    if (audioPlayer != m_audioPlayer) {
+        [m_audioPlayer release];
+        m_audioPlayer = [audioPlayer retain];
+    }
+}
+
+- (void)startPlaying:(TRMTubeModel *)tube;
+{
+    NSError *error = nil;
+    AVAudioPlayer *audioPlayer = [[AVAudioPlayer alloc] initWithData:[self generateWAVDataWithSampleRateConverter:&(tube->sampleRateConverter)] error:&error];
+    if (audioPlayer == nil) {
+        NSLog(@"error: %@", error);
+    } else {
+        [self setAudioPlayer:audioPlayer];
+        [audioPlayer play];
+    }
 }
 
 - (void)stopPlaying;
 {
-#ifndef GNUSTEP
-    AudioOutputUnitStop(outputUnit);
-#endif
+    [[self audioPlayer] stop];
+    [self setAudioPlayer:nil];
 }
-
-// See <http://developer.apple.com/documentation/MusicAudio/Reference/CoreAudio/core_audio_types/chapter_6_section_4.html>
-- (void)setupSoundDevice;
-{
-
-#ifndef GNUSTEP
-	
-    ComponentDescription searchDesc;
-    Component theAUComponent;
-    OSErr err;
-    OSStatus result;
-    UInt32 count;
-
-    searchDesc.componentType = kAudioUnitType_Output;
-    searchDesc.componentSubType = kAudioUnitSubType_DefaultOutput;
-    searchDesc.componentManufacturer = kAudioUnitID_DefaultOutput;
-    searchDesc.componentFlags = 0;
-    searchDesc.componentFlagsMask = 0;
-
-    theAUComponent = FindNextComponent(NULL, &searchDesc);
-    if (theAUComponent == 0) {
-        NSLog(@"Error: Couldn't find default output audio unit.");
-        return;
-    }
-
-    err = OpenAComponent(theAUComponent, &outputUnit);
-    if (err != noErr) {
-        NSLog(@"Error: Couldn't open default output audio unit.");
-        return;
-    }
-
-    result = AudioUnitInitialize(outputUnit);
-    if (result != kAudioHardwareNoError) {
-        NSLog(@"AudioUnitInitialize() failed: %@", [NSString stringWithFourCharCode:result]);
-    }
-
-    // Need to set kAudioUnitProperty_SetInputCallback	
-	AudioUnitInputCallback inputCallback;
-	inputCallback.inputProc = renderSpeechCallback;
-	inputCallback.inputProcRefCon = self;
-	count = sizeof(inputCallback);
-	
-	result = AudioUnitSetProperty(outputUnit, kAudioUnitProperty_SetInputCallback, kAudioUnitScope_Global, 0, &inputCallback, sizeof(inputCallback));
-	if (result != kAudioHardwareNoError) {
-		NSLog(@"AudioUnitSetProperty(SetInputCallback) failed: %ld %lx %@", result, result, [NSString stringWithFourCharCode:result]);
-		return;
-    }
-	
-#endif
-	
-}
-
-#ifndef GNUSTEP
-- (void)fillBuffer:(AudioBuffer *)ioData;
-{
-    short *buffer;
-    int index, count;
-    const short *ptr = [soundData bytes];
-
-    //NSLog(@"mNumberChannels: %d", ioData->mNumberChannels);
-    // It looks like the buffer size is 4096
-    //NSLog(@"mDataByteSize: %d", ioData->mDataByteSize);
-
-    count = ioData->mDataByteSize / sizeof(short);
-    buffer = ioData->mData;
-
-    //NSLog(@"%s, bufferIndex: %d, bufferLength: %d", _cmd, bufferIndex, bufferLength);
-    for (index = 0; index < count && bufferIndex < bufferLength; index++) {
-        buffer[index] = ptr[bufferIndex];
-        bufferIndex++;
-    }
-
-    for (; index < count; index++) {
-        buffer[index] = 0;
-    }
-
-    if (bufferIndex >= bufferLength)
-        [self stopPlaying];
-}
-#endif
 
 @end

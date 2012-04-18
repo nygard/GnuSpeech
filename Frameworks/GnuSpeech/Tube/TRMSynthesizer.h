@@ -32,28 +32,16 @@
 #import <Foundation/NSData.h>
 #import <Tube/TubeModel.h>
 
-#ifndef GNUSTEP
-
-#import <AudioUnit/AudioUnit.h>
-
-#endif
-
+@class AVAudioPlayer;
 @class MMSynthesisParameters;
 
 @interface TRMSynthesizer : NSObject
 {
     TRMData *inputData;
-    NSMutableData *soundData;
-
-#ifndef GNUSTEP
-    AudioUnit outputUnit;	
-#endif
-
-    int bufferLength;
-    int bufferIndex;
 
     BOOL shouldSaveToSoundFile;
-    NSString *filename;	
+    NSString *filename;
+    AVAudioPlayer *m_audioPlayer;
 }
 
 - (id)init;
@@ -73,14 +61,13 @@
 - (void)setFileType:(int)newFileType;
 
 - (void)synthesize;
-- (void)convertSamplesIntoData:(TRMSampleRateConverter *)sampleRateConverter;
-- (void)startPlaying;
+- (NSData *)generateWAVDataWithSampleRateConverter:(TRMSampleRateConverter *)sampleRateConverter;
+
+- (AVAudioPlayer *)audioPlayer;
+- (void)setAudioPlayer:(AVAudioPlayer *)audioPlayer;
+
+- (void)startPlaying:(TRMTubeModel *)tube;
 
 - (void)stopPlaying;
-- (void)setupSoundDevice;
-
-#ifndef GNUSTEP
-- (void)fillBuffer:(AudioBuffer *)ioData;
-#endif
 
 @end
