@@ -14,7 +14,7 @@ extern void addInput(TRMDataList *data, double glotPitch, double glotVol, double
 extern double glotPitchAt(INPUT *ptr);
 extern double glotVolAt(INPUT *ptr);
 extern double *radiiAt(INPUT *ptr);
-extern double radiusAtRegion(INPUT *ptr, int region);
+extern double radiusAtRegion(INPUT *ptr, int32_t region);
 extern double velumAt(INPUT *ptr);
 extern double aspVolAt(INPUT *ptr);
 extern double fricVolAt(INPUT *ptr);

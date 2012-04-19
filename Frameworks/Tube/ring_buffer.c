@@ -9,7 +9,7 @@
 TRMRingBuffer *TRMRingBufferCreate(int aPadSize)
 {
     TRMRingBuffer *newRingBuffer;
-    int index;
+    int32_t index;
 
     newRingBuffer = (TRMRingBuffer *)malloc(sizeof(TRMRingBuffer));
     if (newRingBuffer == NULL) {
@@ -82,7 +82,7 @@ void RBDecrement(TRMRingBuffer *ringBuffer)
 // Pads the buffer with zero samples, and flushes it by converting the remaining samples.
 void flushBuffer(TRMRingBuffer *ringBuffer)
 {
-    int index;
+    int32_t index;
 
     /*  PAD END OF RING BUFFER WITH ZEROS  */
     for (index = 0; index < (ringBuffer->padSize * 2); index++)
@@ -92,13 +92,13 @@ void flushBuffer(TRMRingBuffer *ringBuffer)
     dataEmpty(ringBuffer);
 }
 
-void RBIncrementIndex(int *index)
+void RBIncrementIndex(int32_t *index)
 {
     if (++(*index) >= BUFFER_SIZE)
         (*index) -= BUFFER_SIZE;
 }
 
-void RBDecrementIndex(int *index)
+void RBDecrementIndex(int32_t *index)
 {
     if (--(*index) < 0)
         (*index) += BUFFER_SIZE;

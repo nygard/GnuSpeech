@@ -13,11 +13,11 @@
 #define GAMMA_TOO_SMALL           3
 
 
-static int maximallyFlat(double beta, double gamma, int *np, double *coefficient);
-static void trim(double cutoff, int *numberCoefficients, double *coefficient);
-static int increment(int pointer, int modulus);
-static int decrement(int pointer, int modulus);
-static void rationalApproximation(double number, int *order, int *numerator, int *denominator);
+static int32_t maximallyFlat(double beta, double gamma, int32_t *np, double *coefficient);
+static void trim(double cutoff, int32_t *numberCoefficients, double *coefficient);
+static int32_t increment(int32_t pointer, int32_t modulus);
+static int32_t decrement(int32_t pointer, int32_t modulus);
+static void rationalApproximation(double number, int32_t *order, int32_t *numerator, int32_t *denominator);
 
 // Allocates memory and initializes the coefficients for the FIR filter used in the oversampling oscillator.
 
@@ -25,7 +25,7 @@ TRMFIRFilter *TRMFIRFilterCreate(double beta, double gamma, double cutoff)
 {
     TRMFIRFilter *newFilter;
 
-    int i, pointer, increment, numberCoefficients;
+    int32_t i, pointer, increment, numberCoefficients;
     double coefficient[LIMIT+1];
 
     newFilter = (TRMFIRFilter *)malloc(sizeof(TRMFIRFilter));
@@ -105,10 +105,10 @@ void TRMFIRFilterFree(TRMFIRFilter *filter)
 // Calculates coefficients for a linear phase lowpass FIR  filter, with beta being the center frequency of the
 // transition band (as a fraction of the sampling frequency), and gamma the width of the transition band.
 
-int maximallyFlat(double beta, double gamma, int *np, double *coefficient)
+int maximallyFlat(double beta, double gamma, int32_t *np, double *coefficient)
 {
     double a[LIMIT+1], c[LIMIT+1], betaMinimum, ac;
-    int nt, numerator, n, ll, i;
+    int32_t nt, numerator, n, ll, i;
 
 
     // Initialize number of points
@@ -183,9 +183,9 @@ int maximallyFlat(double beta, double gamma, int *np, double *coefficient)
 }
 
 // Trims the higher order coefficients of the FIR filter which fall below the cutoff value.
-void trim(double cutoff, int *numberCoefficients, double *coefficient)
+void trim(double cutoff, int32_t *numberCoefficients, double *coefficient)
 {
-    int i;
+    int32_t i;
 
     for (i = (*numberCoefficients); i > 0; i--) {
         if (fabs(coefficient[i]) >= fabs(cutoff)) {
@@ -196,10 +196,10 @@ void trim(double cutoff, int *numberCoefficients, double *coefficient)
 }
 
 // Is the linear phase, lowpass FIR filter.
-double FIRFilter(TRMFIRFilter *filter, double input, int needOutput)
+double FIRFilter(TRMFIRFilter *filter, double input, int32_t needOutput)
 {
     if (needOutput) {
-        int i;
+        int32_t i;
         double output = 0.0;
         
         /*  PUT INPUT SAMPLE INTO DATA BUFFER  */
@@ -230,28 +230,28 @@ double FIRFilter(TRMFIRFilter *filter, double input, int needOutput)
 }
 
 // Increments the pointer to the circular FIR filter buffer, keeping it in the range 0 -> modulus-1.
-int increment(int pointer, int modulus)
+int32_t increment(int32_t pointer, int32_t modulus)
 {
     if (++pointer >= modulus)
-	return 0;
+        return 0;
 
     return pointer;
 }
 
 // Decrements the pointer to the circular FIR filter buffer, keeping it in the range 0 -> modulus-1.
-int decrement(int pointer, int modulus)
+int32_t decrement(int32_t pointer, int32_t modulus)
 {
     if (--pointer < 0)
-	return modulus - 1;
+        return modulus - 1;
 
     return pointer;
 }
 
 // Calculates the best rational approximation to 'number', given the maximum 'order'.
-void rationalApproximation(double number, int *order, int *numerator, int *denominator)
+void rationalApproximation(double number, int32_t *order, int32_t *numerator, int32_t *denominator)
 {
     double fractionalPart, minimumError = 1.0;
-    int i, orderMaximum, modulus = 0;
+    int32_t i, orderMaximum, modulus = 0;
 
 
     /*  RETURN IMMEDIATELY IF THE ORDER IS LESS THAN ONE  */
@@ -284,7 +284,7 @@ void rationalApproximation(double number, int *order, int *numerator, int *denom
     /*  DETERMINE THE NUMERATOR VALUE, MAKING IT NEGATIVE IF NECESSARY  */
     *numerator = (int)fabs(number) * (*denominator) + modulus;
     if (number < 0)
-	*numerator *= (-1);
+        *numerator *= (-1);
 
     /*  SET THE ORDER  */
     *order = *denominator - 1;

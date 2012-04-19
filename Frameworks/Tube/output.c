@@ -10,16 +10,16 @@
 #include "util.h"
 
 //void writeAuFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile);
-static void writeAiffFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile);
-static void writeWaveFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile);
-static void writeSamplesMonoMsb(FILE *tempFile, long int numberSamples, double scale, FILE *outputFile);
-static void writeSamplesMonoLsb(FILE *tempFile, long int numberSamples, double scale, FILE *outputFile);
-static void writeSamplesStereoMsb(FILE *tempFile, long int numberSamples, double leftScale, double rightScale, FILE *outputFile);
-static void writeSamplesStereoLsb(FILE *tempFile, long int numberSamples, double leftScale, double rightScale, FILE *outputFile);
-static size_t fwriteIntMsb(int data, FILE *stream);
-static size_t fwriteIntLsb(int data, FILE *stream);
+static void writeAiffFileHeader(int32_t channels, int32_t numberSamples, float outputRate, FILE *outputFile);
+static void writeWaveFileHeader(int32_t channels, int32_t numberSamples, float outputRate, FILE *outputFile);
+static void writeSamplesMonoMsb(FILE *tempFile, int32_t numberSamples, double scale, FILE *outputFile);
+static void writeSamplesMonoLsb(FILE *tempFile, int32_t numberSamples, double scale, FILE *outputFile);
+static void writeSamplesStereoMsb(FILE *tempFile, int32_t numberSamples, double leftScale, double rightScale, FILE *outputFile);
+static void writeSamplesStereoLsb(FILE *tempFile, int32_t numberSamples, double leftScale, double rightScale, FILE *outputFile);
+static size_t fwriteIntMsb(int32_t data, FILE *stream);
+static size_t fwriteIntLsb(int32_t data, FILE *stream);
 //size_t fwriteShortMsb(int data, FILE *stream);
-static size_t fwriteShortLsb(int data, FILE *stream);
+static size_t fwriteShortLsb(int32_t data, FILE *stream);
 //static void convertIntToFloat80(uint32_t value, uint8_t buffer[10]);
 
 // Scales the samples stored in the temporary file, and writes them to the output file, with the appropriate
@@ -36,7 +36,7 @@ void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMDataList 
 
     // Print out info
     /*if (verbose)*/ {
-        printf("\nnumber of samples:\t%-ld\n", sampleRateConverter->numberSamples);
+        printf("\nnumber of samples:\t%-d\n", sampleRateConverter->numberSamples);
         printf("maximum sample value:\t%.4f\n", sampleRateConverter->maximumSampleValue);
         printf("scale:\t\t\t%.4f\n", scale);
     }
@@ -86,7 +86,7 @@ void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMDataList 
 }
 
 // Writes the header in AU format to the output file.
-void writeAuFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile)
+void writeAuFileHeader(int32_t channels, int32_t numberSamples, float outputRate, FILE *outputFile)
 {
     /*  AU magic string: ".snd"  */
     fputs(".snd", outputFile);
@@ -111,12 +111,12 @@ void writeAuFileHeader(int channels, long int numberSamples, float outputRate, F
 }
 
 // Writes the header in AIFF format to the output file.
-void writeAiffFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile)
+void writeAiffFileHeader(int32_t channels, int32_t numberSamples, float outputRate, FILE *outputFile)
 {
     uint8_t sampleFramesPerSecond[10];
-    int soundDataSize = channels * numberSamples * sizeof(short);
-    int ssndChunkSize = soundDataSize + 8;
-    int formSize = ssndChunkSize + 8 + 26 + 4;
+    int32_t soundDataSize = channels * numberSamples * sizeof(uint16_t);
+    int32_t ssndChunkSize = soundDataSize + 8;
+    int32_t formSize = ssndChunkSize + 8 + 26 + 4;
 
     /*  Form container identifier  */
     fputs("FORM", outputFile);
@@ -161,13 +161,13 @@ void writeAiffFileHeader(int channels, long int numberSamples, float outputRate,
 }
 
 // Writes the header in WAVE format to the output file.
-void writeWaveFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile)
+void writeWaveFileHeader(int32_t channels, int32_t numberSamples, float outputRate, FILE *outputFile)
 {
-    int soundDataSize = channels * numberSamples * sizeof(short);
-    int dataChunkSize = soundDataSize;
-    int formSize = dataChunkSize + 8 + 24 + 4;
-    int frameSize = (int)ceil(channels * ((double)BITS_PER_SAMPLE / 8));
-    int bytesPerSecond = (int)ceil(outputRate * frameSize);
+    int32_t soundDataSize = channels * numberSamples * sizeof(uint16_t);
+    int32_t dataChunkSize = soundDataSize;
+    int32_t formSize = dataChunkSize + 8 + 24 + 4;
+    int32_t frameSize = (int32_t)ceil(channels * ((double)BITS_PER_SAMPLE / 8));
+    int32_t bytesPerSecond = (int32_t)ceil(outputRate * frameSize);
 
     /*  Form container identifier  */
     fputs("RIFF", outputFile);
@@ -211,70 +211,70 @@ void writeWaveFileHeader(int channels, long int numberSamples, float outputRate,
 
 // Reads the double f.p. samples in the temporary file, scales them, rounds them to a short (16-bit) integer,
 // and writes them to the output file in big-endian format.
-void writeSamplesMonoMsb(FILE *tempFile, long int numberSamples, double scale, FILE *outputFile)
+void writeSamplesMonoMsb(FILE *tempFile, int32_t numberSamples, double scale, FILE *outputFile)
 {
-    long int i;
+    int32_t i;
 
     /*  Write the samples to file, scaling each sample  */
     for (i = 0; i < numberSamples; i++) {
         double sample;
 
         fread(&sample, sizeof(sample), 1, tempFile);
-        fwriteShortMsb((short)rint(sample * scale), outputFile);
+        fwriteShortMsb((int16_t)rint(sample * scale), outputFile);
         //printf("%8ld: %g -> %hd\n", i, sample, (short)rint(sample * scale));
     }
 }
 
 // Reads the double f.p. samples in the temporary file, scales them, rounds them to a short (16-bit) integer,
 // and writes them to the output file in little-endian format.
-void writeSamplesMonoLsb(FILE *tempFile, long int numberSamples, double scale, FILE *outputFile)
+void writeSamplesMonoLsb(FILE *tempFile, int32_t numberSamples, double scale, FILE *outputFile)
 {
-    long int i;
+    int32_t i;
 
     /*  Write the samples to file, scaling each sample  */
     for (i = 0; i < numberSamples; i++) {
         double sample;
 
         fread(&sample, sizeof(sample), 1, tempFile);
-        fwriteShortLsb((short)rint(sample * scale), outputFile);
+        fwriteShortLsb((int16_t)rint(sample * scale), outputFile);
     }
 }
 
 // Reads the double f.p. samples in the temporary file, does stereo scaling, rounds them to a short (16-bit)
 // integer, and writes them to the output file in big-endian format.
-void writeSamplesStereoMsb(FILE *tempFile, long int numberSamples, double leftScale, double rightScale, FILE *outputFile)
+void writeSamplesStereoMsb(FILE *tempFile, int32_t numberSamples, double leftScale, double rightScale, FILE *outputFile)
 {
-    long int i;
+    int32_t i;
 
     /*  Write the samples to file, scaling each sample  */
     for (i = 0; i < numberSamples; i++) {
         double sample;
 
         fread(&sample, sizeof(sample), 1, tempFile);
-        fwriteShortMsb((short)rint(sample * leftScale), outputFile);
-        fwriteShortMsb((short)rint(sample * rightScale), outputFile);
+        fwriteShortMsb((int16_t)rint(sample * leftScale), outputFile);
+        fwriteShortMsb((int16_t)rint(sample * rightScale), outputFile);
     }
 }
 
 // Reads the double f.p. samples in the temporary file, does stereo scaling, rounds them to a short (16-bit)
 // integer, and writes them to the output file in little-endian format.
-void writeSamplesStereoLsb(FILE *tempFile, long int numberSamples, double leftScale, double rightScale, FILE *outputFile)
+void writeSamplesStereoLsb(FILE *tempFile, int32_t numberSamples, double leftScale, double rightScale, FILE *outputFile)
 {
-    long int i;
+    int32_t i;
 
     /*  Write the samples to file, scaling each sample  */
     for (i = 0; i < numberSamples; i++) {
         double sample;
 
         fread(&sample, sizeof(sample), 1, tempFile);
-        fwriteShortLsb((short)rint(sample * leftScale), outputFile);
-        fwriteShortLsb((short)rint(sample * rightScale), outputFile);
+        fwriteShortLsb((int16_t)rint(sample * leftScale), outputFile);
+        fwriteShortLsb((int16_t)rint(sample * rightScale), outputFile);
     }
 }
 
 // Writes a 4-byte integer to the file stream, starting with the most significant byte (i.e. writes the int
 // in big-endian form).  This routine will work on both big-endian and little-endian architectures.
-size_t fwriteIntMsb(int data, FILE *stream)
+size_t fwriteIntMsb(int32_t data, FILE *stream)
 {
     uint8_t array[4];
 
@@ -287,7 +287,7 @@ size_t fwriteIntMsb(int data, FILE *stream)
 
 // Writes a 4-byte integer to the file stream, starting with the least significant byte (i.e. writes the int
 // in little-endian form).  This routine will work on both big-endian and little-endian architectures.
-size_t fwriteIntLsb(int data, FILE *stream)
+size_t fwriteIntLsb(int32_t data, FILE *stream)
 {
     uint8_t array[4];
 
@@ -300,7 +300,7 @@ size_t fwriteIntLsb(int data, FILE *stream)
 
 // Writes a 2-byte integer to the file stream, starting with the most significant byte (i.e. writes the int
 // in big-endian form).  This routine will work on both big-endian and little-endian architectures.
-size_t fwriteShortMsb(int data, FILE *stream)
+size_t fwriteShortMsb(int32_t data, FILE *stream)
 {
     uint8_t array[2];
 
@@ -324,7 +324,7 @@ size_t fwriteShortLsb(int data, FILE *stream)
 void convertIntToFloat80(uint32_t value, uint8_t buffer[10])
 {
     uint32_t exp;
-    unsigned short i;
+    uint16_t i;
 
     // Set all bytes in buffer to 0
     memset(buffer, 0, 10);

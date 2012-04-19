@@ -31,10 +31,10 @@ static double mod0(double value)
 }
 
 // Calculates the initial glottal pulse and stores it in the wavetable, for use in the oscillator.
-TRMWavetable *TRMWavetableCreate(int waveform, double tp, double tnMin, double tnMax, double sampleRate)
+TRMWavetable *TRMWavetableCreate(int32_t waveform, double tp, double tnMin, double tnMax, double sampleRate)
 {
     TRMWavetable *newWavetable;
-    int i, j;
+    int32_t i, j;
 
     newWavetable = (TRMWavetable *)malloc(sizeof(TRMWavetable));
     if (newWavetable == NULL) {
@@ -122,7 +122,7 @@ void TRMWavetableUpdate(TRMWavetable *wavetable, double amplitude)
     {
         double aj[TABLE_LENGTH], ajj[TABLE_LENGTH], one[TABLE_LENGTH];
         double scale = 1.0 / (newTnLength * newTnLength);
-        int len;
+        int32_t len;
 
         len = newTnLength;
         for (i = 0, j = 0.0; i < len; i++, j += 1.0) {
@@ -168,7 +168,7 @@ static void TRMWavetableIncrementPosition(TRMWavetable *wavetable, double freque
 #if OVERSAMPLING_OSCILLATOR
 double TRMWavetableOscillator(TRMWavetable *wavetable, double frequency)  //  2X oversampling oscillator
 {
-    int i, lowerPosition, upperPosition;
+    int32_t i, lowerPosition, upperPosition;
     double interpolatedValue, output;
 
 
@@ -195,7 +195,7 @@ double TRMWavetableOscillator(TRMWavetable *wavetable, double frequency)  //  2X
 #else
 double TRMWavetableOscillator(TRMWavetable *wavetable, double frequency)  //  Plain oscillator
 {
-    int lowerPosition, upperPosition;
+    int32_t lowerPosition, upperPosition;
 
 
     //  First increment the table position, depending on frequency

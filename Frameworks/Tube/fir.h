@@ -4,6 +4,8 @@
 #ifndef __FIR_H
 #define __FIR_H
 
+#include <stdint.h> // For int32_t
+
 // Oversampling FIR filter characteristics
 #define FIR_BETA                  .2
 #define FIR_GAMMA                 .1
@@ -11,13 +13,15 @@
 
 // Variables for FIR lowpass filter
 typedef struct {
-    double *FIRData, *FIRCoef;
-    int FIRPtr, numberTaps;
+    double *FIRData;
+    double *FIRCoef;
+    int32_t FIRPtr;
+    int32_t numberTaps;
 } TRMFIRFilter;
 
 extern TRMFIRFilter *TRMFIRFilterCreate(double beta, double gamma, double cutoff);
 extern void TRMFIRFilterFree(TRMFIRFilter *filter);
 
-extern double FIRFilter(TRMFIRFilter *filter, double input, int needOutput);
+extern double FIRFilter(TRMFIRFilter *filter, double input, int32_t needOutput);
 
 #endif

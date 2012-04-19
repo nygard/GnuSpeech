@@ -234,7 +234,7 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 
     scale = OUTPUT_SCALE * (RANGE_MAX / sampleRateConverter->maximumSampleValue) * amplitude(inputData->inputParameters.volume) ;
 
-    NSLog(@"number of samples:\t%-ld\n", sampleRateConverter->numberSamples);
+    NSLog(@"number of samples:\t%-d\n", sampleRateConverter->numberSamples);
     NSLog(@"maximum sample value:\t%.4f\n", sampleRateConverter->maximumSampleValue);
     NSLog(@"scale:\t\t\t%.4f\n", scale);
     

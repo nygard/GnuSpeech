@@ -79,15 +79,15 @@ typedef struct _INPUT {
 } INPUT;
 
 typedef struct _TRMInputParameters {
-    int    outputFileFormat;            // file format (0=AU, 1=AIFF, 2=WAVE)
-    float  outputRate;                  // output sample rate (22.05, 44.1 KHz)
-    float  controlRate;                 // 1.0-1000.0 input tables/second (Hz)
+    int32_t outputFileFormat;           // file format (0=AU, 1=AIFF, 2=WAVE)
+    float outputRate;                   // output sample rate (22.05, 44.1 KHz)
+    float controlRate;                  // 1.0-1000.0 input tables/second (Hz)
 
     double volume;                      // master volume (0 - 60 dB)
-    int    channels;                    // # of sound output channels (1, 2)
+    int32_t channels;                   // # of sound output channels (1, 2)
     double balance;                     // stereo balance (-1 to +1)
 
-    int    waveform;                    // GS waveform type (0=PULSE, 1=SINE)
+    int32_t waveform;                   // GS waveform type (0=PULSE, 1=SINE)
     double tp;                          // % glottal pulse rise time
     double tnMin;                       // % glottal pulse fall time minimum
     double tnMax;                       // % glottal pulse fall time maximum
@@ -106,7 +106,7 @@ typedef struct _TRMInputParameters {
     double throatCutoff;                // throat lp cutoff (50 - nyquist Hz)
     double throatVol;                   // throat volume (0 - 48 dB)
 
-    int    modulation;                  // pulse mod. of noise (0=OFF, 1=ON)
+    int32_t modulation;                 // pulse mod. of noise (0=OFF, 1=ON)
     double mixOffset;                   // noise crossmix offset (30 - 60 dB)
 } TRMInputParameters;
 
@@ -121,12 +121,12 @@ typedef struct _TRMDataList {
 typedef struct _TRMSampleRateConverter {
     double sampleRateRatio;
     double h[FILTER_LENGTH], deltaH[FILTER_LENGTH];
-    unsigned int timeRegisterIncrement, filterIncrement, phaseIncrement;
-    unsigned int timeRegister;
+    uint32_t timeRegisterIncrement, filterIncrement, phaseIncrement;
+    uint32_t timeRegister;
 
     // Temporary sample storage values
     double maximumSampleValue;
-    long int numberSamples;
+    int32_t numberSamples;
     FILE *tempFilePtr;
 } TRMSampleRateConverter;
 
@@ -195,8 +195,8 @@ typedef struct _TRMSampleRateConverter {
 
 typedef struct {
     // Derived values
-    int    controlPeriod;
-    int    sampleRate;
+    int32_t controlPeriod;
+    int32_t sampleRate;
     double actualTubeLength;            // actual length in cm
 
     double dampingFactor;               // calculated damping factor
@@ -224,8 +224,8 @@ typedef struct {
     double nasal_coeff[TOTAL_NASAL_COEFFICIENTS];
 
     double alpha[TOTAL_ALPHA_COEFFICIENTS];
-    int current_ptr;
-    int prev_ptr;
+    int32_t current_ptr;
+    int32_t prev_ptr;
 
     // Memory for frication taps
     double fricationTap[TOTAL_FRIC_COEFFICIENTS];

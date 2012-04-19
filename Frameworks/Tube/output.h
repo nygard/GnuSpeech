@@ -26,7 +26,7 @@
 extern void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMDataList *data, const char *fileName);
 extern void convertIntToFloat80(uint32_t value, uint8_t buffer[10]);
 
-extern void writeAuFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile);
-extern size_t fwriteShortMsb(int data, FILE *stream);
+extern void writeAuFileHeader(int32_t channels, int32_t numberSamples, float outputRate, FILE *outputFile);
+extern size_t fwriteShortMsb(int32_t data, FILE *stream);
 
 #endif

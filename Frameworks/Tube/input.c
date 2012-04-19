@@ -9,15 +9,15 @@
 // Variables for input table storage
 
 static INPUT *newInputTable(void);
-static int inputTableLength(INPUT *ptr);
+static int32_t inputTableLength(INPUT *ptr);
 
 // Parses the input file and assigns values to global variables.
 TRMDataList *parseInputFile(const char *inputFile)
 {
-    int i;
+    int32_t i;
     FILE *fp;
     char line[128];
-    int numberInputTables = 0;
+    int32_t numberInputTables = 0;
     TRMDataList data, *result;
 
 
@@ -245,7 +245,7 @@ void addInput(TRMDataList *data, double glotPitch, double glotVol, double aspVol
               double fricPos, double fricCF, double fricBW, double *radius,
               double velum)
 {
-    int i;
+    int32_t i;
     INPUT *tempPtr;
 #if 0
     printf("addInput(%p, %8.4g %8.4g %8.4g %8.4g %8.4g %8.4g %8.4g [%8.4g %8.4g %8.4g %8.4g %8.4g %8.4g %8.4g %8.4g] %8.4g)\n", data,
@@ -320,7 +320,7 @@ double *radiiAt(INPUT *ptr)
 }
 
 // Returns the radius for 'region', from the table 'ptr'.
-double radiusAtRegion(INPUT *ptr, int region)
+double radiusAtRegion(INPUT *ptr, int32_t region)
 {
     if (ptr)
         return ptr->parameters.radius[region];
@@ -384,7 +384,7 @@ double fricBWAt(INPUT *ptr)
 
 int inputTableLength(INPUT *ptr)
 {
-    int count = 0;
+    int32_t count = 0;
 
     while (ptr) {
         count++;
@@ -397,7 +397,7 @@ int inputTableLength(INPUT *ptr)
 void printControlRateInputTable(TRMDataList *data)
 {
     INPUT *ptr;
-    int index;
+    int32_t index;
 
     // Echo table values
     printf("\n%-d control rate input tables:\n\n", inputTableLength(data->inputHead));

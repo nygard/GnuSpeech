@@ -17,7 +17,7 @@
 #include "wavetable.h"
 
 
-int verbose = 0;
+int32_t verbose = 0;
 
 
 #pragma mark - Local defines
@@ -42,7 +42,7 @@ static void initializeNasalCavity(TRMTubeModel *tubeModel, struct _TRMInputParam
 static void initializeThroat(TRMTubeModel *tubeModel, struct _TRMInputParameters *inputParameters);
 static void calculateTubeCoefficients(TRMTubeModel *tubeModel, struct _TRMInputParameters *inputParameters);
 static void setFricationTaps(TRMTubeModel *tubeModel);
-static void calculateBandpassCoefficients(TRMTubeModel *tubeModel, int sampleRate);
+static void calculateBandpassCoefficients(TRMTubeModel *tubeModel, int32_t sampleRate);
 static double vocalTract(TRMTubeModel *tubeModel, double input, double frication);
 static double throat(TRMTubeModel *tubeModel, double input);
 static double bandpassFilter(TRMTubeModel *tubeModel, double input);
@@ -129,7 +129,7 @@ double nasalRadiationFilter(TRMTubeModel *tubeModel, double input)
 
 void synthesize(TRMTubeModel *tubeModel, TRMDataList *data)
 {
-    int j;
+    int32_t j;
     double f0, ax, ah1, pulse, lp_noise, pulsed_noise, signal, crossmix;
     INPUT *previousInput, *currentInput;
 
@@ -221,7 +221,7 @@ void synthesize(TRMTubeModel *tubeModel, TRMDataList *data)
 
 void setControlRateParameters(TRMTubeModel *tubeModel, INPUT *previousInput, INPUT *currentInput)
 {
-    int i;
+    int32_t i;
 
     // Glottal pitch
     tubeModel->current.parameters.glotPitch = glotPitchAt(previousInput);
@@ -287,7 +287,7 @@ void setControlRateParameters(TRMTubeModel *tubeModel, INPUT *previousInput, INP
 
 void sampleRateInterpolation(TRMTubeModel *tubeModel)
 {
-    int i;
+    int32_t i;
 
     tubeModel->current.parameters.glotPitch += tubeModel->current.delta.glotPitch;
     tubeModel->current.parameters.glotVol += tubeModel->current.delta.glotVol;
@@ -306,7 +306,7 @@ void sampleRateInterpolation(TRMTubeModel *tubeModel)
 
 void initializeNasalCavity(TRMTubeModel *tubeModel, struct _TRMInputParameters *inputParameters)
 {
-    int i, j;
+    int32_t i, j;
     double radA2, radB2;
 
 
@@ -340,7 +340,7 @@ void initializeThroat(TRMTubeModel *tubeModel, struct _TRMInputParameters *input
 
 void calculateTubeCoefficients(TRMTubeModel *tubeModel, struct _TRMInputParameters *inputParameters)
 {
-    int i;
+    int32_t i;
     double radA2, radB2, r0_2, r1_2, r2_2, sum;
 
 
@@ -376,7 +376,7 @@ void calculateTubeCoefficients(TRMTubeModel *tubeModel, struct _TRMInputParamete
 
 void setFricationTaps(TRMTubeModel *tubeModel)
 {
-    int i, integerPart;
+    int32_t i, integerPart;
     double complement, remainder;
     double fricationAmplitude = amplitude(tubeModel->current.parameters.fricVol);
 
@@ -426,7 +426,7 @@ void calculateBandpassCoefficients(TRMTubeModel *tubeModel, int sampleRate)
 
 double vocalTract(TRMTubeModel *tubeModel, double input, double frication)
 {
-    int i, j, k;
+    int32_t i, j, k;
     double delta, output, junctionPressure;
 
     // copies to shorten code
@@ -561,7 +561,7 @@ double bandpassFilter(TRMTubeModel *tubeModel, double input)
 void initializeConversion(TRMTubeModel *tubeModel, struct _TRMInputParameters *inputParameters)
 {
     double roundedSampleRateRatio;
-    int padSize;
+    int32_t padSize;
 
     tubeModel->sampleRateConverter.timeRegister = 0;
     tubeModel->sampleRateConverter.maximumSampleValue = 0.0;
@@ -606,7 +606,7 @@ void initializeConversion(TRMTubeModel *tubeModel, struct _TRMInputParameters *i
 void initializeFilter(TRMSampleRateConverter *sampleRateConverter)
 {
     double x, IBeta;
-    int i;
+    int32_t i;
 
 
     // Initialize the filter impulse response
@@ -638,7 +638,7 @@ void initializeFilter(TRMSampleRateConverter *sampleRateConverter)
 void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context)
 {
     TRMSampleRateConverter *aConverter = (TRMSampleRateConverter *)context;
-    int endPtr;
+    int32_t endPtr;
 
     // Calculate end pointer
     endPtr = aRingBuffer->fillPtr - aRingBuffer->padSize;
@@ -655,8 +655,8 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context)
     if (aConverter->sampleRateRatio >= 1.0) {
         //printf("Upsampling...\n");
         while (aRingBuffer->emptyPtr < endPtr) {
-            int index;
-            unsigned int filterIndex;
+            int32_t index;
+            uint32_t filterIndex;
             double output, interpolation, absoluteSampleValue;
 
             // Reset accumulator to zero
@@ -718,8 +718,8 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context)
         //printf("Downsampling...\n");
         // Downsampling conversion loop
         while (aRingBuffer->emptyPtr < endPtr) {
-            int index;
-            unsigned int phaseIndex, impulseIndex;
+            int32_t index;
+            uint32_t phaseIndex, impulseIndex;
             double absoluteSampleValue, output, impulse;
 
             // Reset accumulator to zero

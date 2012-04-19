@@ -2,6 +2,7 @@
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #include <math.h>
+#include <stdint.h>
 #include "util.h"
 
 // Range of all volume controls
@@ -50,7 +51,7 @@ double frequency(double pitch)
 double Izero(double x)
 {
     double sum, u, halfx, temp;
-    int n;
+    int32_t n;
 
 
     sum = u = n = 1;

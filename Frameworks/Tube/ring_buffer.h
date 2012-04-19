@@ -8,18 +8,18 @@
 
 typedef struct _TRMRingBuffer {
     double buffer[BUFFER_SIZE];
-    int padSize;
-    int fillSize; // Derived from BUFFER_SIZE and padSize.  Remains constant.
+    int32_t padSize;
+    int32_t fillSize; // Derived from BUFFER_SIZE and padSize.  Remains constant.
 
-    int fillPtr;
-    int emptyPtr;
-    int fillCounter;
+    int32_t fillPtr;
+    int32_t emptyPtr;
+    int32_t fillCounter;
 
     void *context;
     void (*callbackFunction)(struct _TRMRingBuffer *, void *);
 } TRMRingBuffer;
 
-extern TRMRingBuffer *TRMRingBufferCreate(int aPadSize);
+extern TRMRingBuffer *TRMRingBufferCreate(int32_t aPadSize);
 extern void TRMRingBufferFree(TRMRingBuffer *ringBuffer);
 
 extern void dataFill(TRMRingBuffer *ringBuffer, double data);
@@ -28,7 +28,7 @@ extern void RBIncrement(TRMRingBuffer *ringBuffer);
 extern void RBDecrement(TRMRingBuffer *ringBuffer);
 extern void flushBuffer(TRMRingBuffer *ringBuffer);
 
-extern void RBIncrementIndex(int *index);
-extern void RBDecrementIndex(int *index);
+extern void RBIncrementIndex(int32_t *index);
+extern void RBDecrementIndex(int32_t *index);
 
 #endif

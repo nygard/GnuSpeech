@@ -13,8 +13,8 @@ typedef struct _TRMWavetable {
     TRMFIRFilter *FIRFilter;
     double *wavetable;
 
-    int tableDiv1;
-    int tableDiv2;
+    int32_t tableDiv1;
+    int32_t tableDiv2;
     double tnLength;
     double tnDelta;
 
@@ -22,7 +22,7 @@ typedef struct _TRMWavetable {
     double currentPosition;
 } TRMWavetable;
 
-extern TRMWavetable *TRMWavetableCreate(int waveform, double tp, double tnMin, double tnMax, double sampleRate);
+extern TRMWavetable *TRMWavetableCreate(int32_t waveform, double tp, double tnMin, double tnMax, double sampleRate);
 extern void TRMWavetableFree(TRMWavetable *wavetable);
 
 extern void TRMWavetableUpdate(TRMWavetable *wavetable, double amplitude);
