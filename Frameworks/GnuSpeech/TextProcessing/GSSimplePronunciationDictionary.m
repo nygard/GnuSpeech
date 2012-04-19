@@ -70,7 +70,7 @@
 {
     NSDictionary *attributes;
 
-    attributes = [[NSFileManager defaultManager] fileAttributesAtPath:filename traverseLink:YES];
+    attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:filename error:NULL];
     return [attributes fileModificationDate];
 }
 
@@ -135,7 +135,7 @@
     [str release];
     [data release];
 
-    NSLog(@"%s, self: %@", _cmd, self);
+    NSLog(@"%s, self: %@", __PRETTY_FUNCTION__, self);
 
 
     return YES;

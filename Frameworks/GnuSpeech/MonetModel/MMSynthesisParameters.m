@@ -31,7 +31,6 @@
 #import "MMSynthesisParameters.h"
 
 #import <Foundation/Foundation.h>
-#import "NSUserDefaults-Extensions.h"
 
 #import "MonetDefaults.h"
 
@@ -258,7 +257,7 @@ static NSString *MonetDefKeys[] = {
     [defaults setDouble:tnMin forKey:MDK_TN_MIN];
     [defaults setDouble:tnMax forKey:MDK_TN_MAX];
 
-    NSLog(@"%s, glottalPulseShape: %d, str: %@", _cmd, glottalPulseShape, [MMSynthesisParameters stringForGlottalPulseShape:glottalPulseShape]);
+    NSLog(@"%s, glottalPulseShape: %d, str: %@", __PRETTY_FUNCTION__, glottalPulseShape, [MMSynthesisParameters stringForGlottalPulseShape:glottalPulseShape]);
     [defaults setObject:[MMSynthesisParameters stringForGlottalPulseShape:glottalPulseShape] forKey:MDK_GP_SHAPE];
     [defaults setBool:shouldUseNoiseModulation forKey:MDK_NOISE_MODULATION];
     [defaults setObject:[MMSynthesisParameters stringForSamplingRate:samplingRate] forKey:MDK_SAMPLING_RATE];

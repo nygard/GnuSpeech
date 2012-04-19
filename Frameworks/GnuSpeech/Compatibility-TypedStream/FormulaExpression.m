@@ -101,7 +101,7 @@
 {
     switch ([expressions count]) {
       case 0:
-          NSLog(@"Drat, there should be an operandOne in %s", _cmd);
+          NSLog(@"Drat, there should be an operandOne in %s", __PRETTY_FUNCTION__);
           break;
       case 1:
           if (operand != nil)

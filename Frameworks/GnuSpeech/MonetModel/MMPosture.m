@@ -539,7 +539,7 @@
     mainMetaParameterList = [[self model] metaParameters];
     count = [mainMetaParameterList count];
     if (count != [metaParameterTargets count])
-        NSLog(@"%s, (%@) main meta count: %d, count: %d", _cmd, [self name], count, [metaParameterTargets count]);
+        NSLog(@"%s, (%@) main meta count: %d, count: %d", __PRETTY_FUNCTION__, [self name], count, [metaParameterTargets count]);
     //assert(count == [metaParameterTargets count]);
 
     if (count == 0)

@@ -72,7 +72,7 @@ static size_t fwriteShortLsb(int data, FILE *stream);
 *
 ******************************************************************************/
 
-void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMData *data, const char *fileName)
+void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMDataList *data, const char *fileName)
 {
     FILE *fd;
     double scale, leftScale = 0.0, rightScale = 0.0;

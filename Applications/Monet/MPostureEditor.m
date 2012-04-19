@@ -76,7 +76,7 @@
     model = [newModel retain];
 
     [self updateViews];
-    [postureTableView selectRow:0 byExtendingSelection:NO];
+    [postureTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
 }
 
 - (NSUndoManager *)undoManager;
@@ -128,7 +128,7 @@
     [[[symbolTableView tableColumnWithIdentifier:@"default"] dataCell] setFormatter:defaultNumberFormatter];
 
     [self updateViews];
-    [postureTableView selectRow:0 byExtendingSelection:NO];
+    [postureTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
 }
 
 - (void)updateViews;
@@ -198,7 +198,7 @@
     [postureTableView scrollRowToVisible:index];
 
     // The row needs to be selected before we start editing it.
-    [postureTableView selectRow:index byExtendingSelection:NO];
+    [postureTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
     [postureTableView editColumn:[postureTableView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
 }
 
@@ -472,7 +472,7 @@
     for (index = 0; index < count; index++) {
         posture = [postures objectAtIndex:index];
         if ([[posture name] hasPrefix:characters] == YES) {
-            [postureTableView selectRow:index byExtendingSelection:NO];
+            [postureTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
             [postureTableView scrollRowToVisible:index];
             return NO;
         }

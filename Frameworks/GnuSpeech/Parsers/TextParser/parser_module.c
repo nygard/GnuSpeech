@@ -3295,7 +3295,7 @@ static void print_stream(NXStream *stream, long stream_length)
 	NXSeek(stream, 0, NX_FROMSTART);
 	
 	/*  PRINT LOOP  */
-	printf("stream_length = %-d\n<begin>",stream_length);
+	printf("stream_length = %-ld\n<begin>", stream_length);
 	for (i = 0; i < stream_length; i++) {
 		char c = NXGetc(stream);
 		switch(c) {

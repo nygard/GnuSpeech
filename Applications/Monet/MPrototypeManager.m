@@ -328,7 +328,7 @@
     [newGroup release];
 
     // The row needs to be selected before we start editing it.
-    [equationOutlineView selectRow:index byExtendingSelection:NO];
+    [equationOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
     [equationOutlineView editColumn:[equationOutlineView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
 }
 
@@ -358,15 +358,15 @@
         [newEquation release];
 
         // The row needs to be selected before we start editing it.
-        [equationOutlineView selectRow:index byExtendingSelection:NO];
+        [equationOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
         [equationOutlineView editColumn:[equationOutlineView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
     }
 }
 
 - (IBAction)removeEquation:(id)sender;
 {
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
+    NSLog(@" > %s", __PRETTY_FUNCTION__);
+    NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
 
 - (IBAction)setEquation:(id)sender;
@@ -414,7 +414,7 @@
     [newGroup release];
 
     // The row needs to be selected before we start editing it.
-    [transitionOutlineView selectRow:index byExtendingSelection:NO];
+    [transitionOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
     [transitionOutlineView editColumn:[transitionOutlineView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
 }
 
@@ -445,15 +445,15 @@
         [newTransition release];
 
         // The row needs to be selected before we start editing it.
-        [transitionOutlineView selectRow:index byExtendingSelection:NO];
+        [transitionOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
         [transitionOutlineView editColumn:[transitionOutlineView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
     }
 }
 
 - (IBAction)removeTransition:(id)sender;
 {
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
+    NSLog(@" > %s", __PRETTY_FUNCTION__);
+    NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
 
 - (IBAction)editTransition:(id)sender;
@@ -481,7 +481,7 @@
     [newGroup release];
 
     // The row needs to be selected before we start editing it.
-    [specialTransitionOutlineView selectRow:index byExtendingSelection:NO];
+    [specialTransitionOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
     [specialTransitionOutlineView editColumn:[specialTransitionOutlineView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
 }
 
@@ -512,15 +512,15 @@
         [newTransition release];
 
         // The row needs to be selected before we start editing it.
-        [specialTransitionOutlineView selectRow:index byExtendingSelection:NO];
+        [specialTransitionOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
         [specialTransitionOutlineView editColumn:[specialTransitionOutlineView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
     }
 }
 
 - (IBAction)removeSpecialTransition:(id)sender;
 {
-    NSLog(@" > %s", _cmd);
-    NSLog(@"<  %s", _cmd);
+    NSLog(@" > %s", __PRETTY_FUNCTION__);
+    NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
 
 - (IBAction)editSpecialTransition:(id)sender;
@@ -873,9 +873,9 @@
 
 - (IBAction)doubleHit:(id)sender;
 {
-    NSLog(@" > %s", _cmd);
+    NSLog(@" > %s", __PRETTY_FUNCTION__);
     // We could open the selected Rule, Transition, or Special Transition that was double clicked in the Usage.
-    NSLog(@"<  %s", _cmd);
+    NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
 
 @end

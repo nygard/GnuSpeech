@@ -47,7 +47,7 @@
 #define BITS_PER_SAMPLE           16
 
 
-void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMData *data, const char *fileName);
+void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMDataList *data, const char *fileName);
 void convertIntToFloat80(unsigned int value, unsigned char buffer[10]);
 
 void writeAuFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile);

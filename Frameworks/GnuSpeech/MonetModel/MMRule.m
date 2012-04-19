@@ -876,7 +876,7 @@
         [(MXMLParser *)parser pushDelegate:newDelegate];
         [newDelegate release];
     } else if ([elementName isEqualToString:@"boolean-expressions"]) {
-        MXMLArrayDelegate *newDelegate;
+        MXMLStringArrayDelegate *newDelegate;
 
         newDelegate = [[MXMLStringArrayDelegate alloc] initWithChildElementName:@"boolean-expression" delegate:self addObjectSelector:@selector(addBooleanExpressionString:)];
         [(MXMLParser *)parser pushDelegate:newDelegate];

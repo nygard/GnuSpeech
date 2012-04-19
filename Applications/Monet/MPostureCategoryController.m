@@ -184,7 +184,7 @@
 
         newTableColumn = [[NSTableColumn alloc] init];
         //[newTableColumn setIdentifier:[category symbol]];
-        [newTableColumn setIdentifier:category];
+        [newTableColumn setIdentifier:[category name]];
         [[newTableColumn headerCell] setTitle:[category name]];
 
         checkboxCell = [[NSButtonCell alloc] initTextCell:@""];
@@ -204,7 +204,7 @@
 
 - (void)_selectFirstRow;
 {
-    [postureCategoryTableView selectRow:0 byExtendingSelection:NO];
+    [postureCategoryTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
 }
 
 //
@@ -231,8 +231,8 @@
         posture = [[[self model] postures] objectAtIndex:row];
         if ([@"name" isEqual:identifier] == YES) {
             return [posture name];
-        } else if ([identifier isKindOfClass:[MMCategory class]]) {
-            return [NSNumber numberWithBool:[posture isMemberOfCategory:identifier]];
+        } else {
+            return [NSNumber numberWithBool:[posture isMemberOfCategoryNamed:identifier]];
         }
     }
 
@@ -258,7 +258,7 @@
     for (index = 0; index < count; index++) {
         posture = [postures objectAtIndex:index];
         if ([[posture name] hasPrefix:characters] == YES) {
-            [postureCategoryTableView selectRow:index byExtendingSelection:NO];
+            [postureCategoryTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
             [postureCategoryTableView scrollRowToVisible:index];
             return NO;
         }

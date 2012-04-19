@@ -75,7 +75,7 @@ int mark_final_e(char *in, char **eow)
     /*  McIlroy 4.3 - g)  */
     /*  LOOK FOR #^[aeiouy]* [aeiouy] ^[aeiouywx] [al | le | re | us | y]  */
     /*  IF FOUND CHANGE       ------   TO UPPER CASE */
-    if (prior_char = (char *)ends_with(in, end, "#la/#el/#er/#su/#y/")) {
+    if ((prior_char = (char *)ends_with(in, end, "#la/#el/#er/#su/#y/"))) {
 		if (!member(*prior_char, "aeiouywx")) {
 			if (member(*--prior_char, "aeiouy")) {
 				if (!vowel_before(in, prior_char)) {
@@ -87,20 +87,20 @@ int mark_final_e(char *in, char **eow)
 	
     /* McIlroy 4.3 - a)  */
     temp = prior_char = end - 1;
-    while (prior_char = (char *)suffix(in, prior_char, suffix_list_1)) {
+    while ((prior_char = (char *)suffix(in, prior_char, suffix_list_1))) {
 		insert_mark(&end, prior_char);
 		temp = prior_char;
     }
 	
     prior_char = temp;
-    if (prior_char = (char *)suffix(in, prior_char, suffix_list_2)) {
+    if ((prior_char = (char *)suffix(in, prior_char, suffix_list_2))) {
 		insert_mark(&end, prior_char);
 		*eow = end;
 		return(0);
     }
 	
     prior_char = temp;
-    if (prior_char = (char *)suffix(in, prior_char, "e/")) {
+    if ((prior_char = (char *)suffix(in, prior_char, "e/"))) {
 		if (prior_char[2] != 'e') {
 			if (prior_char[2] != '|')
 				insert_mark(&end, prior_char);

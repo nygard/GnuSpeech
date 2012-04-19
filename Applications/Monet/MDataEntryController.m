@@ -149,10 +149,10 @@
 
 - (void)_selectFirstRows;
 {
-    [categoryTableView selectRow:0 byExtendingSelection:NO];
-    [parameterTableView selectRow:0 byExtendingSelection:NO];
-    [metaParameterTableView selectRow:0 byExtendingSelection:NO];
-    [symbolTableView selectRow:0 byExtendingSelection:NO];
+    [categoryTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
+    [parameterTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
+    [metaParameterTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
+    [symbolTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
 }
 
 // TODO (2004-03-19): This should be _updateCategoryDetails now that it enables/disables the remove button
@@ -256,7 +256,7 @@
     [categoryTableView scrollRowToVisible:index];
 
     // The row needs to be selected before we start editing it.
-    [categoryTableView selectRow:index byExtendingSelection:NO];
+    [categoryTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
     [categoryTableView editColumn:[categoryTableView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
 }
 
@@ -286,7 +286,7 @@
     [parameterTableView scrollRowToVisible:index];
 
     // The row needs to be selected before we start editing it.
-    [parameterTableView selectRow:index byExtendingSelection:NO];
+    [parameterTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
     [parameterTableView editColumn:[parameterTableView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
 }
 
@@ -316,7 +316,7 @@
     [metaParameterTableView scrollRowToVisible:index];
 
     // The row needs to be selected before we start editing it.
-    [metaParameterTableView selectRow:index byExtendingSelection:NO];
+    [metaParameterTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
     [metaParameterTableView editColumn:[metaParameterTableView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
 }
 
@@ -346,7 +346,7 @@
     [symbolTableView scrollRowToVisible:index];
 
     // The row needs to be selected before we start editing it.
-    [symbolTableView selectRow:index byExtendingSelection:NO];
+    [symbolTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
     [symbolTableView editColumn:[symbolTableView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
 }
 

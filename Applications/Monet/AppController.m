@@ -182,24 +182,25 @@
     NSArray *fnames;
     NSOpenPanel *openPanel;
 
-    NSLog(@" > %s", _cmd);
+    NSLog(@" > %s", __PRETTY_FUNCTION__);
 
     types = [NSArray arrayWithObjects:@"monet", @"degas", @"mxml", nil];
     openPanel = [NSOpenPanel openPanel]; // Each call resets values, including filenames
-    [openPanel setDirectory:[[NSUserDefaults standardUserDefaults] objectForKey:MDK_MonetFileDirectory]];
+    [openPanel setDirectoryURL:[NSURL fileURLWithPath:[[NSUserDefaults standardUserDefaults] objectForKey:MDK_MonetFileDirectory]]];
     [openPanel setAllowsMultipleSelection:NO];
+    [openPanel setAllowedFileTypes:types];
 
-    if ([openPanel runModalForTypes:types] == NSCancelButton)
+    if ([openPanel runModal] == NSFileHandlingPanelCancelButton)
         return;
 
-    [[NSUserDefaults standardUserDefaults] setObject:[openPanel directory] forKey:MDK_MonetFileDirectory];
+    [[NSUserDefaults standardUserDefaults] setObject:[[openPanel directoryURL] path] forKey:MDK_MonetFileDirectory];
 
-    fnames = [openPanel filenames];
+    fnames = [openPanel URLs];
     count = [fnames count];
     for (index = 0; index < count; index++)
-        [self _loadFile:[fnames objectAtIndex:index]];
+        [self _loadFile:[[fnames objectAtIndex:index] path]];
 
-    NSLog(@"<  %s", _cmd);
+    NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
 
 - (IBAction)importTRMData:(id)sender;
@@ -213,10 +214,11 @@
 
     openPanel = [NSOpenPanel openPanel]; // Each call resets values, including filenames
     [openPanel setAllowsMultipleSelection:YES];
-    if ([openPanel runModalForTypes:types] == NSCancelButton)
+    [openPanel setAllowedFileTypes:types];
+    if ([openPanel runModal] == NSFileHandlingPanelCancelButton)
         return;
 
-    fnames = [openPanel filenames];
+    fnames = [openPanel URLs];
 
     count = [fnames count];
     for (index = 0; index < count; index++) {
@@ -225,7 +227,7 @@
         NSData *data;
         NSUnarchiver *unarchiver;
 
-        aFilename = [fnames objectAtIndex:index];
+        aFilename = [[fnames objectAtIndex:index] path];
         postureName = [[aFilename lastPathComponent] stringByDeletingPathExtension];
 
         data = [NSData dataWithContentsOfFile:aFilename];
@@ -301,7 +303,7 @@
 
 - (void)_loadMonetFile:(NSString *)aFilename;
 {
-    NSArchiver *stream;
+    MUnarchiver *stream;
 
     stream = [[MUnarchiver alloc] initForReadingWithData:[NSData dataWithContentsOfFile:aFilename]];
 
@@ -391,15 +393,16 @@
     NSSavePanel *savePanel;
 
     savePanel = [NSSavePanel savePanel];
-    [savePanel setDirectory:[[NSUserDefaults standardUserDefaults] objectForKey:MDK_MonetFileDirectory]];
-    [savePanel setRequiredFileType:@"mxml"];
-    if ([savePanel runModalForDirectory:nil file:[filename lastPathComponent]] == NSFileHandlingPanelOKButton) {
+    [savePanel setDirectoryURL:[NSURL fileURLWithPath:[[NSUserDefaults standardUserDefaults] objectForKey:MDK_MonetFileDirectory]]];
+    [savePanel setAllowedFileTypes:[NSArray arrayWithObject:@"mxml"]];
+    [savePanel setNameFieldStringValue:[filename lastPathComponent]];
+    if ([savePanel runModal] == NSFileHandlingPanelOKButton) {
         NSString *newFilename;
         BOOL result;
 
-        [[NSUserDefaults standardUserDefaults] setObject:[savePanel directory] forKey:MDK_MonetFileDirectory];
+        [[NSUserDefaults standardUserDefaults] setObject:[[savePanel directoryURL] path] forKey:MDK_MonetFileDirectory];
 
-        newFilename = [savePanel filename];
+        newFilename = [[savePanel URL] path];
 
         result = [model writeXMLToFile:newFilename comment:nil];
 
@@ -455,7 +458,8 @@
 
     types = [NSArray array];
     [[NSOpenPanel openPanel] setAllowsMultipleSelection:NO];
-    if ([[NSOpenPanel openPanel] runModalForTypes:types]) {
+    [[NSOpenPanel openPanel] setAllowedFileTypes:types];
+    if ([[NSOpenPanel openPanel] runModal] == NSFileHandlingPanelOKButton) {
         fnames = [[NSOpenPanel openPanel] filenames];
         directory = [[NSOpenPanel openPanel] directory];
         aFilename = [directory stringByAppendingPathComponent:[fnames objectAtIndex:0]];

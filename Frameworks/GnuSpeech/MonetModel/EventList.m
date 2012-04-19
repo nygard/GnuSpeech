@@ -455,7 +455,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 - (void)setCurrentToneGroupType:(int)type;
 {
     if (toneGroupCount == 0) {
-        NSLog(@"%s, not tone groups.", _cmd);
+        NSLog(@"%s, not tone groups.", __PRETTY_FUNCTION__);
         return;
     }
 
@@ -484,7 +484,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 - (void)setCurrentFootMarked;
 {
     if (footCount == 0) {
-        NSLog(@"%s, footCount == 0", _cmd);
+        NSLog(@"%s, footCount == 0", __PRETTY_FUNCTION__);
         return;
     }
 
@@ -494,7 +494,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 - (void)setCurrentFootLast;
 {
     if (footCount == 0) {
-        NSLog(@"%s, footCount == 0", _cmd);
+        NSLog(@"%s, footCount == 0", __PRETTY_FUNCTION__);
         return;
     }
 
@@ -504,7 +504,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 - (void)setCurrentFootTempo:(double)tempo;
 {
     if (footCount == 0) {
-        NSLog(@"%s, footCount == 0", _cmd);
+        NSLog(@"%s, footCount == 0", __PRETTY_FUNCTION__);
         return;
     }
 
@@ -534,7 +534,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 - (void)replaceCurrentPhoneWith:(MMPosture *)anObject;
 {
     if (postureCount == 0) {
-        NSLog(@"%s, postureCount == 0");
+        NSLog(@"%s, postureCount == 0", __PRETTY_FUNCTION__);
         return;
     }
 
@@ -545,7 +545,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 - (void)setCurrentPhoneTempo:(double)tempo;
 {
     if (postureCount == 0) {
-        NSLog(@"%s, postureCount == 0");
+        NSLog(@"%s, postureCount == 0", __PRETTY_FUNCTION__);
         return;
     }
 
@@ -555,7 +555,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 - (void)setCurrentPhoneRuleTempo:(float)tempo;
 {
     if (postureCount == 0) {
-        NSLog(@"%s, postureCount == 0");
+        NSLog(@"%s, postureCount == 0", __PRETTY_FUNCTION__);
         return;
     }
 
@@ -565,7 +565,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 - (void)setCurrentPhoneSyllable;
 {
     if (postureCount == 0) {
-        NSLog(@"%s, postureCount == 0");
+        NSLog(@"%s, postureCount == 0", __PRETTY_FUNCTION__);
         return;
     }
 
@@ -1339,7 +1339,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     int ruleIndex = 0;
 
     NSLog(@"----------------------------------------------------------------------");
-    NSLog(@" > %s (%@)", _cmd, comment);
+    NSLog(@" > %s (%@)", __PRETTY_FUNCTION__, comment);
 
     //NSLog(@"toneGroupCount: %d", toneGroupCount);
     for (toneGroupIndex = 0; toneGroupIndex < toneGroupCount; toneGroupIndex++) {
@@ -1367,7 +1367,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
         }
     }
 
-    NSLog(@"<  %s", _cmd);
+    NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
 
 //
@@ -1462,7 +1462,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     unsigned int count, index;
     MMIntonationPoint *anIntonationPoint;
 
-    NSLog(@" > %s", _cmd);
+    NSLog(@" > %s", __PRETTY_FUNCTION__);
 
     [self setFullTimeScale];
     [self insertEvent:32 atTimeOffset:0.0 withValue:-20.0];
@@ -1481,7 +1481,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
     [self finalEvent:32 withValue:-20.0];
 
-    NSLog(@"<  %s", _cmd);
+    NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
 
 - (void)_applySmoothIntonation;

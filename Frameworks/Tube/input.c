@@ -54,13 +54,13 @@ static int inputTableLength(INPUT *ptr);
 *
 ******************************************************************************/
 
-TRMData *parseInputFile(const char *inputFile)
+TRMDataList *parseInputFile(const char *inputFile)
 {
     int i;
     FILE *fp;
     char line[128];
     int numberInputTables = 0;
-    TRMData data, *result;
+    TRMDataList data, *result;
 
 
     /*  OPEN THE INPUT FILE  */
@@ -272,13 +272,13 @@ TRMData *parseInputFile(const char *inputFile)
     /*  CLOSE THE INPUT FILE  */
     fclose(fp);
 
-    result = (TRMData *)malloc(sizeof(TRMData));
+    result = (TRMDataList *)malloc(sizeof(TRMDataList));
     if (result == NULL) {
         fprintf(stderr, "Couldn't malloc() TRMData.\n");
         return NULL;
     }
 
-    memcpy(result, &data, sizeof(TRMData));
+    memcpy(result, &data, sizeof(TRMDataList));
 
     return result;
 }
@@ -301,7 +301,7 @@ TRMData *parseInputFile(const char *inputFile)
 *
 ******************************************************************************/
 
-void addInput(TRMData *data, double glotPitch, double glotVol, double aspVol, double fricVol,
+void addInput(TRMDataList *data, double glotPitch, double glotVol, double aspVol, double fricVol,
               double fricPos, double fricCF, double fricBW, double *radius,
               double velum)
 {
@@ -471,7 +471,7 @@ int inputTableLength(INPUT *ptr)
     return count;
 }
 
-void printControlRateInputTable(TRMData *data)
+void printControlRateInputTable(TRMDataList *data)
 {
     INPUT *ptr;
     int index;

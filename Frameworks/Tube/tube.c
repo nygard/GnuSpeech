@@ -316,7 +316,7 @@ double nasalRadiationFilter(TRMTubeModel *tubeModel, double input)
 *
 ******************************************************************************/
 
-void synthesize(TRMTubeModel *tubeModel, TRMData *data)
+void synthesize(TRMTubeModel *tubeModel, TRMDataList *data)
 {
     int j;
     double f0, ax, ah1, pulse, lp_noise, pulsed_noise, signal, crossmix;

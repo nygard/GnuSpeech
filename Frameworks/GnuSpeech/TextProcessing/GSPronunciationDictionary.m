@@ -104,7 +104,7 @@
 {
     if (hasBeenLoaded == NO) {
         hasBeenLoaded = [self loadDictionary];
-        NSLog(@"%s, hasBeenLoaded: %d", _cmd, hasBeenLoaded);
+        NSLog(@"%s, hasBeenLoaded: %d", __PRETTY_FUNCTION__, hasBeenLoaded);
     }
 }
 
@@ -121,7 +121,7 @@
     NSArray *lines;
     unsigned int count, index;
 
-    NSLog(@" > %s", _cmd);
+    NSLog(@" > %s", __PRETTY_FUNCTION__);
 
     data = [[NSData alloc] initWithContentsOfFile:aFilename];
     NSLog(@"data: %p", data);
@@ -155,7 +155,7 @@
 
     NSLog(@"Read %d suffixes.", [suffixOrder count]);
 
-    NSLog(@"<  %s", _cmd);
+    NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
 
 - (NSString *)lookupPronunciationForWord:(NSString *)aWord;

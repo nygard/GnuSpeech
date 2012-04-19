@@ -34,32 +34,10 @@
 
 @implementation NSFileManager (Extensions)
 
+//  TODO (2012-04-18) Just call the new method directly
 - (BOOL)createDirectoryAtPath:(NSString *)path attributes:(NSDictionary *)attributes createIntermediateDirectories:(BOOL)shouldCreateIntermediateDirectories;
 {
-    NSArray *pathComponents;
-    unsigned int count, index;
-
-    if (shouldCreateIntermediateDirectories == NO)
-        return [self createDirectoryAtPath:path attributes:attributes];
-
-    pathComponents = [path pathComponents];
-    count = [pathComponents count];
-    for (index = 1; index <= count; index++) {
-        NSString *aPath;
-
-        aPath = [NSString pathWithComponents:[pathComponents subarrayWithRange:NSMakeRange(0, index)]];
-        if ([self fileExistsAtPath:aPath]) {
-            //NSLog(@"path exists, skipping: %@", aPath);
-            continue;
-        }
-
-        if ([self createDirectoryAtPath:aPath attributes:attributes] == NO) {
-            //NSLog(@"failed to create directory: %@", aPath);
-            return NO;
-        }
-    }
-
-    return YES;
+    return [self createDirectoryAtPath:path withIntermediateDirectories:shouldCreateIntermediateDirectories attributes:attributes error:NULL];
 }
 
 @end

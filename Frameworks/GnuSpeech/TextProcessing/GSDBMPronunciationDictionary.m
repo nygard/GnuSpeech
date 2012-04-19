@@ -46,7 +46,7 @@
 {
     static GSDBMPronunciationDictionary *_mainDictionary = nil;
 
-    NSLog(@" > %s", _cmd);
+    NSLog(@" > %s", __PRETTY_FUNCTION__);
 
     if (_mainDictionary == nil) {
         //NSString *path;
@@ -57,7 +57,7 @@
         //[_mainDictionary loadDictionary];
     }
 
-    NSLog(@"<  %s", _cmd);
+    NSLog(@"<  %s", __PRETTY_FUNCTION__);
 
     return _mainDictionary;
 }
@@ -131,24 +131,24 @@
 {
     NSDictionary *attributes;
 
-    attributes = [[NSFileManager defaultManager] fileAttributesAtPath:[filename stringByAppendingString:@".db"] traverseLink:YES];
+    attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[filename stringByAppendingString:@".db"] error:NULL];
     return [attributes fileModificationDate];
 }
 
 - (BOOL)loadDictionary;
 {
-    NSLog(@" > %s, db: %p", _cmd, db);
+    NSLog(@" > %s, db: %p", __PRETTY_FUNCTION__, db);
     NSParameterAssert(db == NULL);
     NSParameterAssert(filename != nil);
 
-    NSLog(@"%s, filename: %@", _cmd, filename);
+    NSLog(@"%s, filename: %@", __PRETTY_FUNCTION__, filename);
     db = dbm_open([filename UTF8String], O_RDONLY, 0660);
     if (db == NULL) {
         perror("dbm_open()");
         return NO;
     }
 
-    NSLog(@"<  %s, db: %p", _cmd, db);
+    NSLog(@"<  %s, db: %p", __PRETTY_FUNCTION__, db);
 
     return YES;
 }

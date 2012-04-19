@@ -73,7 +73,7 @@ static NSDictionary * specialAcronyms;  // static class variable
 
 - (NSString *)parseString:(NSString *)aString;
 {
-	NSLog(@"> %s", _cmd);
+	NSLog(@"> %s", __PRETTY_FUNCTION__);
 
 	short order[4];
 	
@@ -120,7 +120,7 @@ static NSDictionary * specialAcronyms;  // static class variable
 	
     NSString * resultString = [NSString stringWithCString:output encoding:NSASCIIStringEncoding];	
 
-    NSLog(@"< %s", _cmd);
+    NSLog(@"< %s", __PRETTY_FUNCTION__);
 
 	return resultString;	
 }

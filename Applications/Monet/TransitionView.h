@@ -58,7 +58,7 @@
 extern NSString *TransitionViewSelectionDidChangeNotification;
 
 // TODO (2004-03-22): Make this an NSControl subclass.
-@interface TransitionView : NSControl
+@interface TransitionView : NSControl <NSTextDelegate>
 {
     MMFRuleSymbols _parameters;
 

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 45;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -33,8 +33,6 @@
 		0155E3970B7BE80D008D8879 /* NSScanner-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3890B7BE80D008D8879 /* NSScanner-Extensions.m */; };
 		0155E3980B7BE80D008D8879 /* NSString-Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E38A0B7BE80D008D8879 /* NSString-Extensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0155E3990B7BE80D008D8879 /* NSString-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E38B0B7BE80D008D8879 /* NSString-Extensions.m */; };
-		0155E39A0B7BE80D008D8879 /* NSUserDefaults-Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E38C0B7BE80D008D8879 /* NSUserDefaults-Extensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0155E39B0B7BE80D008D8879 /* NSUserDefaults-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E38D0B7BE80D008D8879 /* NSUserDefaults-Extensions.m */; };
 		0155E3DE0B7BE8AC008D8879 /* GSXMLFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3CA0B7BE8AC008D8879 /* GSXMLFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0155E3DF0B7BE8AC008D8879 /* GSXMLFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3CB0B7BE8AC008D8879 /* GSXMLFunctions.m */; };
 		0155E3E00B7BE8AC008D8879 /* MUnarchiver.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3CC0B7BE8AC008D8879 /* MUnarchiver.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -122,8 +120,9 @@
 		0155E47E0B7BEB27008D8879 /* driftGenerator.c in Sources */ = {isa = PBXBuildFile; fileRef = 0155E47C0B7BEB27008D8879 /* driftGenerator.c */; };
 		0155E47F0B7BEB27008D8879 /* driftGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E47D0B7BEB27008D8879 /* driftGenerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0155E4D00B7BF002008D8879 /* MonetDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E4CF0B7BF002008D8879 /* MonetDefaults.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0155E4E20B7BF107008D8879 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0155E4E00B7BF107008D8879 /* AudioToolbox.framework */; };
-		0155E4E30B7BF107008D8879 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0155E4E10B7BF107008D8879 /* AudioUnit.framework */; };
+		019745A2153F855000695CD7 /* NSData-STExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 019745A0153F854F00695CD7 /* NSData-STExtensions.h */; };
+		019745A3153F855000695CD7 /* NSData-STExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 019745A1153F854F00695CD7 /* NSData-STExtensions.m */; };
+		019745A5153F8A2100695CD7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 019745A4153F8A2100695CD7 /* AVFoundation.framework */; };
 		01AC65FA0B7BF9B4008E4B93 /* GnuSpeech.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC65F90B7BF9B4008E4B93 /* GnuSpeech.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69300A3E0FAB841E0041EBFB /* TTSParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 69300A3C0FAB841E0041EBFB /* TTSParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69300A3F0FAB841E0041EBFB /* TTSParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 69300A3D0FAB841E0041EBFB /* TTSParser.m */; };
@@ -216,7 +215,6 @@
 		69E228680FB13394001B3C04 /* vowel_before.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E228420FB13393001B3C04 /* vowel_before.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69E228690FB13394001B3C04 /* word_to_patphone.c in Sources */ = {isa = PBXBuildFile; fileRef = 69E228430FB13393001B3C04 /* word_to_patphone.c */; };
 		69E2286A0FB13394001B3C04 /* word_to_patphone.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E228440FB13393001B3C04 /* word_to_patphone.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		69E8A75B0EC2AC4C0090AD25 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69E8A75A0EC2AC4C0090AD25 /* CoreAudio.framework */; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
@@ -265,8 +263,6 @@
 		0155E3890B7BE80D008D8879 /* NSScanner-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSScanner-Extensions.m"; path = "Extensions/NSScanner-Extensions.m"; sourceTree = "<group>"; };
 		0155E38A0B7BE80D008D8879 /* NSString-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "NSString-Extensions.h"; path = "Extensions/NSString-Extensions.h"; sourceTree = "<group>"; };
 		0155E38B0B7BE80D008D8879 /* NSString-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSString-Extensions.m"; path = "Extensions/NSString-Extensions.m"; sourceTree = "<group>"; };
-		0155E38C0B7BE80D008D8879 /* NSUserDefaults-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "NSUserDefaults-Extensions.h"; path = "Extensions/NSUserDefaults-Extensions.h"; sourceTree = "<group>"; };
-		0155E38D0B7BE80D008D8879 /* NSUserDefaults-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSUserDefaults-Extensions.m"; path = "Extensions/NSUserDefaults-Extensions.m"; sourceTree = "<group>"; };
 		0155E3CA0B7BE8AC008D8879 /* GSXMLFunctions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GSXMLFunctions.h; path = Archiving/GSXMLFunctions.h; sourceTree = "<group>"; };
 		0155E3CB0B7BE8AC008D8879 /* GSXMLFunctions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GSXMLFunctions.m; path = Archiving/GSXMLFunctions.m; sourceTree = "<group>"; };
 		0155E3CC0B7BE8AC008D8879 /* MUnarchiver.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MUnarchiver.h; path = Archiving/MUnarchiver.h; sourceTree = "<group>"; };
@@ -356,6 +352,9 @@
 		0155E4CF0B7BF002008D8879 /* MonetDefaults.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MonetDefaults.h; path = MonetModel/MonetDefaults.h; sourceTree = "<group>"; };
 		0155E4E00B7BF107008D8879 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = /System/Library/Frameworks/AudioToolbox.framework; sourceTree = "<absolute>"; };
 		0155E4E10B7BF107008D8879 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = /System/Library/Frameworks/AudioUnit.framework; sourceTree = "<absolute>"; };
+		019745A0153F854F00695CD7 /* NSData-STExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData-STExtensions.h"; path = "Extensions/NSData-STExtensions.h"; sourceTree = "<group>"; };
+		019745A1153F854F00695CD7 /* NSData-STExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData-STExtensions.m"; path = "Extensions/NSData-STExtensions.m"; sourceTree = "<group>"; };
+		019745A4153F8A2100695CD7 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = /System/Library/Frameworks/AVFoundation.framework; sourceTree = "<absolute>"; };
 		01AC65AB0B7BF554008E4B93 /* Tube.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Tube.xcodeproj; path = ../Tube/Tube.xcodeproj; sourceTree = SOURCE_ROOT; };
 		01AC65F90B7BF9B4008E4B93 /* GnuSpeech.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GnuSpeech.h; sourceTree = "<group>"; };
 		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -464,11 +463,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				019745A5153F8A2100695CD7 /* AVFoundation.framework in Frameworks */,
 				69342FAE0EA3C9B200BE6A55 /* Tube.framework in Frameworks */,
 				8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */,
-				0155E4E20B7BF107008D8879 /* AudioToolbox.framework in Frameworks */,
-				0155E4E30B7BF107008D8879 /* AudioUnit.framework in Frameworks */,
-				69E8A75B0EC2AC4C0090AD25 /* CoreAudio.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -502,6 +499,8 @@
 				0155E3810B7BE80D008D8879 /* NSArray-Extensions.m */,
 				0155E3820B7BE80D008D8879 /* NSCharacterSet-Extensions.h */,
 				0155E3830B7BE80D008D8879 /* NSCharacterSet-Extensions.m */,
+				019745A0153F854F00695CD7 /* NSData-STExtensions.h */,
+				019745A1153F854F00695CD7 /* NSData-STExtensions.m */,
 				012D539C0B7FF851001B50FC /* NSFileManager-Extensions.h */,
 				012D539D0B7FF851001B50FC /* NSFileManager-Extensions.m */,
 				0155E3860B7BE80D008D8879 /* NSObject-Extensions.h */,
@@ -510,8 +509,6 @@
 				0155E3890B7BE80D008D8879 /* NSScanner-Extensions.m */,
 				0155E38A0B7BE80D008D8879 /* NSString-Extensions.h */,
 				0155E38B0B7BE80D008D8879 /* NSString-Extensions.m */,
-				0155E38C0B7BE80D008D8879 /* NSUserDefaults-Extensions.h */,
-				0155E38D0B7BE80D008D8879 /* NSUserDefaults-Extensions.m */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -714,6 +711,7 @@
 		1058C7B2FEA5585E11CA2CBB /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				019745A4153F8A2100695CD7 /* AVFoundation.framework */,
 				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
 				D2F7E79907B2D74100F64583 /* CoreData.framework */,
 				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
@@ -880,7 +878,6 @@
 				0155E4090B7BE8D6008D8879 /* RuleList.h in Headers */,
 				0155E46E0B7BE8FA008D8879 /* PhoneList.h in Headers */,
 				0155E4070B7BE8D6008D8879 /* ParameterList.h in Headers */,
-				0155E39A0B7BE80D008D8879 /* NSUserDefaults-Extensions.h in Headers */,
 				0155E3980B7BE80D008D8879 /* NSString-Extensions.h in Headers */,
 				0155E3960B7BE80D008D8879 /* NSScanner-Extensions.h in Headers */,
 				0155E3940B7BE80D008D8879 /* NSObject-Extensions.h in Headers */,
@@ -980,6 +977,7 @@
 				69E228660FB13394001B3C04 /* tail.h in Headers */,
 				69E228680FB13394001B3C04 /* vowel_before.h in Headers */,
 				69E2286A0FB13394001B3C04 /* word_to_patphone.h in Headers */,
+				019745A2153F855000695CD7 /* NSData-STExtensions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1012,8 +1010,12 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 1DEB91B108733DA50010E9CD /* Build configuration list for PBXProject "GnuSpeech" */;
-			compatibilityVersion = "Xcode 3.1";
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				en,
+			);
 			mainGroup = 0867D691FE84028FC02AAC07 /* GnuSpeech */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
 			projectDirPath = "";
@@ -1065,7 +1067,6 @@
 				0155E3950B7BE80D008D8879 /* NSObject-Extensions.m in Sources */,
 				0155E3970B7BE80D008D8879 /* NSScanner-Extensions.m in Sources */,
 				0155E3990B7BE80D008D8879 /* NSString-Extensions.m in Sources */,
-				0155E39B0B7BE80D008D8879 /* NSUserDefaults-Extensions.m in Sources */,
 				0155E3DF0B7BE8AC008D8879 /* GSXMLFunctions.m in Sources */,
 				0155E3E10B7BE8AC008D8879 /* MUnarchiver.m in Sources */,
 				0155E3E30B7BE8AC008D8879 /* MXMLArrayDelegate.m in Sources */,
@@ -1154,6 +1155,7 @@
 				69E228640FB13394001B3C04 /* syllabify.c in Sources */,
 				69E228670FB13394001B3C04 /* vowel_before.c in Sources */,
 				69E228690FB13394001B3C04 /* word_to_patphone.c in Sources */,
+				019745A3153F855000695CD7 /* NSData-STExtensions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1194,7 +1196,6 @@
 				FRAMEWORK_VERSION = A;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G4;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1247,17 +1248,15 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INPUT_FILETYPE = sourcecode.c.objc;
-				GCC_MODEL_TUNING = G4;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_VERSION = 4.2;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
 				INSTALL_PATH = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
-				PREBINDING = NO;
-				SDKROOT = macosx10.5;
+				SDKROOT = "";
 				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Debug;
@@ -1274,15 +1273,13 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INPUT_FILETYPE = sourcecode.c.objc;
-				GCC_MODEL_TUNING = G4;
-				GCC_VERSION = 4.2;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
 				INSTALL_PATH = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				PREBINDING = NO;
-				SDKROOT = macosx10.5;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = "";
 			};
 			name = Release;
 		};
