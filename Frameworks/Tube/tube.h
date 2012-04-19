@@ -53,6 +53,6 @@ extern int verbose;
 TRMTubeModel *TRMTubeModelCreate(TRMInputParameters *inputParameters);
 void TRMTubeModelFree(TRMTubeModel *model);
 
-void synthesize(TRMTubeModel *tubeModel, TRMData *data);
+void synthesize(TRMTubeModel *tubeModel, TRMDataList *data);
 
 #endif

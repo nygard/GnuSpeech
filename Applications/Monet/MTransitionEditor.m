@@ -35,7 +35,6 @@
 
 #import "NSNumberFormatter-Extensions.h"
 #import "NSOutlineView-Extensions.h"
-#import "NSPopUpButton-Extensions.h"
 
 #import "TransitionView.h"
 

@@ -134,12 +134,12 @@ typedef struct _TRMInputParameters {
     double mixOffset;                   /*  noise crossmix offset (30 - 60 dB)  */
 } TRMInputParameters;
 
-typedef struct _TRMData {
+typedef struct _TRMDataList {
     TRMInputParameters inputParameters;
 
     INPUT *inputHead;
     INPUT *inputTail;
-} TRMData;
+} TRMDataList;
 
 /*  VARIABLES FOR SAMPLE RATE CONVERSION  */
 typedef struct _TRMSampleRateConverter {

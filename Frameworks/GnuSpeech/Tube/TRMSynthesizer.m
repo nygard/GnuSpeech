@@ -47,7 +47,7 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
     if ([super init] == nil)
         return nil;
 
-    inputData = (TRMData *)malloc(sizeof(TRMData));
+    inputData = (TRMDataList *)malloc(sizeof(TRMDataList));
     if (inputData == NULL) {
         NSLog(@"Failed to malloc TRMData.");
         [super release];

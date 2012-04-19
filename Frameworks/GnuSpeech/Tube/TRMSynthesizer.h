@@ -37,7 +37,7 @@
 
 @interface TRMSynthesizer : NSObject
 {
-    TRMData *inputData;
+    TRMDataList *inputData;
 
     BOOL shouldSaveToSoundFile;
     NSString *filename;

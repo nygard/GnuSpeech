@@ -31,8 +31,8 @@
 
 #include "structs.h" // For TRMParameters
 
-TRMData *parseInputFile(const char *inputFile);
-void addInput(TRMData *data, double glotPitch, double glotVol, double aspVol, double fricVol,
+TRMDataList *parseInputFile(const char *inputFile);
+void addInput(TRMDataList *data, double glotPitch, double glotVol, double aspVol, double fricVol,
               double fricPos, double fricCF, double fricBW, double *radius,
               double velum);
 
@@ -47,6 +47,6 @@ double fricPosAt(INPUT *ptr);
 double fricCFAt(INPUT *ptr);
 double fricBWAt(INPUT *ptr);
 
-void printControlRateInputTable(TRMData *data);
+void printControlRateInputTable(TRMDataList *data);
 
 #endif
