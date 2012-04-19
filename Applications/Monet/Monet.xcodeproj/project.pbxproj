@@ -42,7 +42,7 @@
 		01C55D900B7BCE53009F6A92 /* MSynthesisParameterEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C55D810B7BCE53009F6A92 /* MSynthesisParameterEditor.m */; };
 		01C55D910B7BCE53009F6A92 /* MTransitionEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C55D830B7BCE53009F6A92 /* MTransitionEditor.m */; };
 		01C55D920B7BCE53009F6A92 /* MWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C55D850B7BCE53009F6A92 /* MWindowController.m */; };
-		694159BA0FABB247009D4192 /* GnuSpeech.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 694158700FABACB4009D4192 /* GnuSpeech.framework */; };
+		01F470B115408C3300A604B8 /* GnuSpeech.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01F470B015408C3300A604B8 /* GnuSpeech.framework */; };
 		69454E080F8D4DB200EBA0DC /* ChangeLog.txt in Resources */ = {isa = PBXBuildFile; fileRef = 69454E070F8D4DB200EBA0DC /* ChangeLog.txt */; };
 		696CE7B80F26DBD60014B94A /* Monet.icns in Resources */ = {isa = PBXBuildFile; fileRef = 696CE7B70F26DBD60014B94A /* Monet.icns */; };
 		69CD4B2A0EDD15AD00481C86 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69CD4B280EDD15AD00481C86 /* MainMenu.xib */; };
@@ -63,16 +63,6 @@
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		6941586F0FABACB4009D4192 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6941586B0FABACB4009D4192 /* GnuSpeech.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
-			remoteInfo = GnuSpeech;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		01C55C4A0B7BC7C6009F6A92 /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.html; name = English; path = English.lproj/ReleaseNotes.html; sourceTree = "<group>"; };
@@ -137,6 +127,7 @@
 		01C55D830B7BCE53009F6A92 /* MTransitionEditor.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MTransitionEditor.m; sourceTree = "<group>"; };
 		01C55D840B7BCE53009F6A92 /* MWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MWindowController.h; sourceTree = "<group>"; };
 		01C55D850B7BCE53009F6A92 /* MWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MWindowController.m; sourceTree = "<group>"; };
+		01F470B015408C3300A604B8 /* GnuSpeech.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GnuSpeech.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/GnuSpeech-asltgrlxcnhnopcwrardgfljqcve/Build/Products/Debug/GnuSpeech.framework"; sourceTree = "<group>"; };
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
@@ -144,7 +135,6 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* Monet_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Monet_Prefix.pch; sourceTree = "<group>"; };
-		6941586B0FABACB4009D4192 /* GnuSpeech.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GnuSpeech.xcodeproj; path = ../../Frameworks/GnuSpeech/GnuSpeech.xcodeproj; sourceTree = SOURCE_ROOT; };
 		69454E070F8D4DB200EBA0DC /* ChangeLog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ChangeLog.txt; sourceTree = "<group>"; };
 		696CE7B70F26DBD60014B94A /* Monet.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Monet.icns; sourceTree = "<group>"; };
 		69CD4B290EDD15AD00481C86 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
@@ -170,8 +160,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01F470B115408C3300A604B8 /* GnuSpeech.framework in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
-				694159BA0FABB247009D4192 /* GnuSpeech.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -320,6 +310,7 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				01F470B015408C3300A604B8 /* GnuSpeech.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
@@ -394,19 +385,10 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6941586B0FABACB4009D4192 /* GnuSpeech.xcodeproj */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		6941586C0FABACB4009D4192 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				694158700FABACB4009D4192 /* GnuSpeech.framework */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -441,31 +423,17 @@
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				en,
+				English,
+				Japanese,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* Monet */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 6941586C0FABACB4009D4192 /* Products */;
-					ProjectRef = 6941586B0FABACB4009D4192 /* GnuSpeech.xcodeproj */;
-				},
-			);
 			projectRoot = ../..;
 			targets = (
 				8D1107260486CEB800E47090 /* Monet */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		694158700FABACB4009D4192 /* GnuSpeech.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = GnuSpeech.framework;
-			remoteRef = 6941586F0FABACB4009D4192 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8D1107290486CEB800E47090 /* Resources */ = {
@@ -659,8 +627,11 @@
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../Library/Developer/Xcode/DerivedData/GnuSpeech-asltgrlxcnhnopcwrardgfljqcve/Build/Products/Debug\"",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
@@ -675,7 +646,10 @@
 		C01FCF4C08A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../Library/Developer/Xcode/DerivedData/GnuSpeech-asltgrlxcnhnopcwrardgfljqcve/Build/Products/Debug\"",
+				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = Monet_Prefix.pch;
@@ -690,7 +664,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				DEPLOYMENT_LOCATION = NO;
 				DEPLOYMENT_POSTPROCESSING = NO;
@@ -710,7 +684,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				DEPLOYMENT_LOCATION = NO;
 				DEPLOYMENT_POSTPROCESSING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;

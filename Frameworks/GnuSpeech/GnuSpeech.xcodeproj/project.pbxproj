@@ -124,9 +124,9 @@
 		019745A3153F855000695CD7 /* NSData-STExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 019745A1153F854F00695CD7 /* NSData-STExtensions.m */; };
 		019745A5153F8A2100695CD7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 019745A4153F8A2100695CD7 /* AVFoundation.framework */; };
 		01AC65FA0B7BF9B4008E4B93 /* GnuSpeech.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC65F90B7BF9B4008E4B93 /* GnuSpeech.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		01F470A915408B7800A604B8 /* Tube.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01F470A815408B7800A604B8 /* Tube.framework */; };
 		69300A3E0FAB841E0041EBFB /* TTSParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 69300A3C0FAB841E0041EBFB /* TTSParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69300A3F0FAB841E0041EBFB /* TTSParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 69300A3D0FAB841E0041EBFB /* TTSParser.m */; };
-		69342FAE0EA3C9B200BE6A55 /* Tube.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01AC65B00B7BF554008E4B93 /* Tube.framework */; };
 		694157970FAB8D66009D4192 /* GSParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 694157740FAB8D66009D4192 /* GSParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		694157980FAB8D66009D4192 /* GSParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 694157750FAB8D66009D4192 /* GSParser.m */; };
 		6951479E0FB0D73000B6DDD6 /* MMBooleanExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 695147950FB0D73000B6DDD6 /* MMBooleanExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -218,23 +218,6 @@
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		01AC65AF0B7BF554008E4B93 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 01AC65AB0B7BF554008E4B93 /* Tube.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
-			remoteInfo = Tube;
-		};
-		69342FA00EA3C8BC00BE6A55 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 01AC65AB0B7BF554008E4B93 /* Tube.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = Tube;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		012D539C0B7FF851001B50FC /* NSFileManager-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "NSFileManager-Extensions.h"; path = "Extensions/NSFileManager-Extensions.h"; sourceTree = "<group>"; };
@@ -355,8 +338,8 @@
 		019745A0153F854F00695CD7 /* NSData-STExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData-STExtensions.h"; path = "Extensions/NSData-STExtensions.h"; sourceTree = "<group>"; };
 		019745A1153F854F00695CD7 /* NSData-STExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData-STExtensions.m"; path = "Extensions/NSData-STExtensions.m"; sourceTree = "<group>"; };
 		019745A4153F8A2100695CD7 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = /System/Library/Frameworks/AVFoundation.framework; sourceTree = "<absolute>"; };
-		01AC65AB0B7BF554008E4B93 /* Tube.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Tube.xcodeproj; path = ../Tube/Tube.xcodeproj; sourceTree = SOURCE_ROOT; };
 		01AC65F90B7BF9B4008E4B93 /* GnuSpeech.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GnuSpeech.h; sourceTree = "<group>"; };
+		01F470A815408B7800A604B8 /* Tube.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Tube.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/GnuSpeech-asltgrlxcnhnopcwrardgfljqcve/Build/Products/Debug/Tube.framework"; sourceTree = "<group>"; };
 		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -463,8 +446,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01F470A915408B7800A604B8 /* Tube.framework in Frameworks */,
 				019745A5153F8A2100695CD7 /* AVFoundation.framework in Frameworks */,
-				69342FAE0EA3C9B200BE6A55 /* Tube.framework in Frameworks */,
 				8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -632,14 +615,6 @@
 			name = Tube;
 			sourceTree = "<group>";
 		};
-		01AC65AC0B7BF554008E4B93 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				01AC65B00B7BF554008E4B93 /* Tube.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		034768DFFF38A50411DB9C8B /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -663,7 +638,6 @@
 		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				01AC65AB0B7BF554008E4B93 /* Tube.xcodeproj */,
 				1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */,
 				1058C7B2FEA5585E11CA2CBB /* Other Frameworks */,
 			);
@@ -700,6 +674,7 @@
 		1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				01F470A815408B7800A604B8 /* Tube.framework */,
 				69E8A75A0EC2AC4C0090AD25 /* CoreAudio.framework */,
 				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
 				0155E4E00B7BF107008D8879 /* AudioToolbox.framework */,
@@ -996,7 +971,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				69342FA10EA3C8BC00BE6A55 /* PBXTargetDependency */,
 			);
 			name = GnuSpeech;
 			productInstallPath = "$(HOME)/Library/Frameworks";
@@ -1019,28 +993,12 @@
 			mainGroup = 0867D691FE84028FC02AAC07 /* GnuSpeech */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 01AC65AC0B7BF554008E4B93 /* Products */;
-					ProjectRef = 01AC65AB0B7BF554008E4B93 /* Tube.xcodeproj */;
-				},
-			);
 			projectRoot = ../..;
 			targets = (
 				8DC2EF4F0486A6940098B216 /* GnuSpeech */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		01AC65B00B7BF554008E4B93 /* Tube.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Tube.framework;
-			remoteRef = 01AC65AF0B7BF554008E4B93 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8DC2EF520486A6940098B216 /* Resources */ = {
@@ -1161,14 +1119,6 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		69342FA10EA3C8BC00BE6A55 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Tube;
-			targetProxy = 69342FA00EA3C8BC00BE6A55 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin PBXVariantGroup section */
 		089C1666FE841158C02AAC07 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
@@ -1184,7 +1134,6 @@
 		1DEB91AE08733DA50010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = NO;
 				DSTROOT = /;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1192,6 +1141,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SRCROOT)/..\"/**",
 					"\"$(SRCROOT)/../../../../../Library/Frameworks\"",
+					"\"$(SRCROOT)/../../../../../Library/Developer/Xcode/DerivedData/GnuSpeech-asltgrlxcnhnopcwrardgfljqcve/Build/Products/Debug\"",
 				);
 				FRAMEWORK_VERSION = A;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1212,13 +1162,13 @@
 		1DEB91AF08733DA50010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				DSTROOT = /;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SRCROOT)/..\"/**",
 					"\"$(SRCROOT)/../../../../../Library/Frameworks\"",
+					"\"$(SRCROOT)/../../../../../Library/Developer/Xcode/DerivedData/GnuSpeech-asltgrlxcnhnopcwrardgfljqcve/Build/Products/Debug\"",
 				);
 				FRAMEWORK_VERSION = A;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1239,7 +1189,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				DEPLOYMENT_LOCATION = NO;
 				DEPLOYMENT_POSTPROCESSING = NO;
@@ -1265,7 +1215,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				DEPLOYMENT_LOCATION = NO;
 				DEPLOYMENT_POSTPROCESSING = NO;
 				DSTROOT = "/tmp/$(PROJECT_NAME).dst";
