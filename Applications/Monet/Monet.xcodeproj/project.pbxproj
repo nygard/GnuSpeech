@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 45;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -19,7 +19,6 @@
 		01C55CB60B7BCB03009F6A92 /* NSBezierPath-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C55CAF0B7BCB03009F6A92 /* NSBezierPath-Extensions.m */; };
 		01C55CB70B7BCB03009F6A92 /* NSColor-STExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C55CB10B7BCB03009F6A92 /* NSColor-STExtensions.m */; };
 		01C55CB80B7BCB03009F6A92 /* NSOutlineView-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C55CB30B7BCB03009F6A92 /* NSOutlineView-Extensions.m */; };
-		01C55CB90B7BCB03009F6A92 /* NSPopUpButton-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C55CB50B7BCB03009F6A92 /* NSPopUpButton-Extensions.m */; };
 		01C55D4D0B7BCD69009F6A92 /* MMDisplayParameter.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C55D490B7BCD69009F6A92 /* MMDisplayParameter.m */; };
 		01C55D570B7BCDB4009F6A92 /* MAIntonationScaleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C55D520B7BCDB4009F6A92 /* MAIntonationScaleView.m */; };
 		01C55D580B7BCDB4009F6A92 /* MAIntonationScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C55D540B7BCDB4009F6A92 /* MAIntonationScrollView.m */; };
@@ -99,8 +98,6 @@
 		01C55CB10B7BCB03009F6A92 /* NSColor-STExtensions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSColor-STExtensions.m"; path = "Extensions/NSColor-STExtensions.m"; sourceTree = "<group>"; };
 		01C55CB20B7BCB03009F6A92 /* NSOutlineView-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "NSOutlineView-Extensions.h"; path = "Extensions/NSOutlineView-Extensions.h"; sourceTree = "<group>"; };
 		01C55CB30B7BCB03009F6A92 /* NSOutlineView-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSOutlineView-Extensions.m"; path = "Extensions/NSOutlineView-Extensions.m"; sourceTree = "<group>"; };
-		01C55CB40B7BCB03009F6A92 /* NSPopUpButton-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "NSPopUpButton-Extensions.h"; path = "Extensions/NSPopUpButton-Extensions.h"; sourceTree = "<group>"; };
-		01C55CB50B7BCB03009F6A92 /* NSPopUpButton-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSPopUpButton-Extensions.m"; path = "Extensions/NSPopUpButton-Extensions.m"; sourceTree = "<group>"; };
 		01C55D480B7BCD69009F6A92 /* MMDisplayParameter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MMDisplayParameter.h; sourceTree = "<group>"; };
 		01C55D490B7BCD69009F6A92 /* MMDisplayParameter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MMDisplayParameter.m; sourceTree = "<group>"; };
 		01C55D510B7BCDB4009F6A92 /* MAIntonationScaleView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MAIntonationScaleView.h; sourceTree = "<group>"; };
@@ -298,8 +295,6 @@
 				01C55CB10B7BCB03009F6A92 /* NSColor-STExtensions.m */,
 				01C55CB20B7BCB03009F6A92 /* NSOutlineView-Extensions.h */,
 				01C55CB30B7BCB03009F6A92 /* NSOutlineView-Extensions.m */,
-				01C55CB40B7BCB03009F6A92 /* NSPopUpButton-Extensions.h */,
-				01C55CB50B7BCB03009F6A92 /* NSPopUpButton-Extensions.m */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -449,7 +444,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Monet" */;
-			compatibilityVersion = "Xcode 3.1";
+			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
@@ -525,7 +520,6 @@
 				01C55CB60B7BCB03009F6A92 /* NSBezierPath-Extensions.m in Sources */,
 				01C55CB70B7BCB03009F6A92 /* NSColor-STExtensions.m in Sources */,
 				01C55CB80B7BCB03009F6A92 /* NSOutlineView-Extensions.m in Sources */,
-				01C55CB90B7BCB03009F6A92 /* NSPopUpButton-Extensions.m in Sources */,
 				01C55D4D0B7BCD69009F6A92 /* MMDisplayParameter.m in Sources */,
 				01C55D570B7BCDB4009F6A92 /* MAIntonationScaleView.m in Sources */,
 				01C55D580B7BCDB4009F6A92 /* MAIntonationScrollView.m in Sources */,
@@ -688,7 +682,6 @@
 					"\"$(SRCROOT)/../../Frameworks/GnuSpeech/build/Debug\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INFOPLIST_FILE = Info.plist;
@@ -733,7 +726,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
-				PREBINDING = NO;
 				SDKROOT = "";
 				STRIP_INSTALLED_PRODUCT = NO;
 			};
@@ -752,7 +744,6 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				PREBINDING = NO;
 				SDKROOT = "";
 			};
 			name = Release;
