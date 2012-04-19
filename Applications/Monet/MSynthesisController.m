@@ -409,8 +409,17 @@
     [savePanel setAllowedFileTypes:[NSArray arrayWithObjects:@"au", @"aiff", @"wav", nil]];
     [savePanel setAccessoryView:savePanelAccessoryView];
     [self fileTypeDidChange:nil];
+    // TODO (2012-04-18): Might need to set up "Untitled" in name
 	
-    [savePanel beginSheetForDirectory:directory file:@"Untitled" modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(savePanelDidEnd:returnCode:contextInfo:) contextInfo:MDK_SoundOutputDirectory];
+    [savePanel beginSheetModalForWindow:[self window] completionHandler:^(NSInteger result){
+        if (result == NSFileHandlingPanelOKButton) {
+            [[NSUserDefaults standardUserDefaults] setObject:[savePanel directory] forKey:MDK_SoundOutputDirectory];
+            [synthesizer setShouldSaveToSoundFile:YES];
+            [synthesizer setFileType:[[fileTypePopUpButton selectedItem] tag]];
+            [synthesizer setFilename:[savePanel filename]];
+            [self synthesize];
+        }
+    }];
 	
     NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
@@ -565,47 +574,12 @@
 	
     savePanel = [NSSavePanel savePanel];
     [savePanel setRequiredFileType:nil];
-	
-    [savePanel beginSheetForDirectory:directory file:@"Untitled" modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(savePanelDidEnd:returnCode:contextInfo:) contextInfo:MDK_GraphImagesDirectory];
-}
-
-- (void)openPanelDidEnd:(NSOpenPanel *)openPanel returnCode:(int)returnCode contextInfo:(void *)contextInfo;
-{
-    if (contextInfo == intonationWindow) {
-        if (returnCode == NSOKButton) {
-            [[NSUserDefaults standardUserDefaults] setObject:[openPanel directory] forKey:MDK_IntonationContourDirectory];
-			
-            [self prepareForSynthesis];
-			
-            [eventList loadIntonationContourFromXMLFile:[openPanel filename]];
-			
-            //[phoneStringTextField setStringValue:[eventList phoneString]];
-            [intonationRuleTableView reloadData];
-        }
-    }
-}
-
-- (void)savePanelDidEnd:(NSSavePanel *)savePanel returnCode:(int)returnCode contextInfo:(void *)contextInfo;
-{
-    if (contextInfo == MDK_GraphImagesDirectory) {
-        if (returnCode == NSOKButton) {
+    [savePanel beginSheetModalForWindow:[self window] completionHandler:^(NSInteger result){
+        if (result == NSFileHandlingPanelOKButton) {
             [[NSUserDefaults standardUserDefaults] setObject:[savePanel directory] forKey:MDK_GraphImagesDirectory];
             [self saveGraphImagesToPath:[savePanel filename]];
         }
-    } else if (contextInfo == MDK_IntonationContourDirectory) {
-        if (returnCode == NSOKButton) {
-            [[NSUserDefaults standardUserDefaults] setObject:[savePanel directory] forKey:MDK_IntonationContourDirectory];
-            [eventList writeXMLToFile:[savePanel filename] comment:nil];
-        }
-    } else if (contextInfo == MDK_SoundOutputDirectory) {
-        if (returnCode == NSOKButton) {
-            [[NSUserDefaults standardUserDefaults] setObject:[savePanel directory] forKey:MDK_SoundOutputDirectory];
-            [synthesizer setShouldSaveToSoundFile:YES];
-            [synthesizer setFileType:[[fileTypePopUpButton selectedItem] tag]];
-            [synthesizer setFilename:[savePanel filename]];
-            [self synthesize];
-        }
-    }
+    }];
 }
 
 - (void)saveGraphImagesToPath:(NSString *)basePath;
@@ -637,8 +611,14 @@
 	
     number = 1;
 	
-    [fileManager createDirectoryAtPath:basePath attributes:nil];
-    [fileManager copyPath:@"/tmp/Monet.parameters" toPath:[basePath stringByAppendingPathComponent:@"Monet.parameters"] handler:nil];
+    NSError *error = nil;
+    if (![fileManager createDirectoryAtPath:basePath withIntermediateDirectories:NO attributes:nil error:&error]) {
+        NSLog(@"Error: %@", error);
+    }
+    error = nil;
+    if (![fileManager copyItemAtPath:@"/tmp/Monet.parameters" toPath:[basePath stringByAppendingPathComponent:@"Monet.parameters"] error:&error]) {
+        NSLog(@"Error: %@", error);
+    }
 #ifndef GNUSTEP
     jpegProperties = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:0.95], NSImageCompressionFactor,
 					  nil];
@@ -758,7 +738,18 @@
     openPanel = [NSOpenPanel openPanel];
     [openPanel setRequiredFileType:@"contour"];
 	
-    [openPanel beginSheetForDirectory:directory file:nil types:[NSArray arrayWithObject:@"contour"] modalForWindow:intonationWindow modalDelegate:self didEndSelector:@selector(openPanelDidEnd:returnCode:contextInfo:) contextInfo:intonationWindow];
+    [openPanel beginSheetModalForWindow:intonationWindow completionHandler:^(NSInteger result){
+        if (result == NSFileHandlingPanelOKButton) {
+            [[NSUserDefaults standardUserDefaults] setObject:[openPanel directory] forKey:MDK_IntonationContourDirectory];
+			
+            [self prepareForSynthesis];
+			
+            [eventList loadIntonationContourFromXMLFile:[openPanel filename]];
+			
+            //[phoneStringTextField setStringValue:[eventList phoneString]];
+            [intonationRuleTableView reloadData];
+        }
+    }];
 }
 
 - (IBAction)saveIntonationContour:(id)sender;
@@ -769,8 +760,13 @@
     directory = [[NSUserDefaults standardUserDefaults] objectForKey:MDK_IntonationContourDirectory];
     savePanel = [NSSavePanel savePanel];
     [savePanel setRequiredFileType:@"contour"];
-	
-    [savePanel beginSheetForDirectory:directory file:@"Untitled" modalForWindow:intonationWindow modalDelegate:self didEndSelector:@selector(savePanelDidEnd:returnCode:contextInfo:) contextInfo:MDK_IntonationContourDirectory];
+
+    [savePanel beginSheetModalForWindow:intonationWindow completionHandler:^(NSInteger result){
+        if (result == NSFileHandlingPanelOKButton) {
+            [[NSUserDefaults standardUserDefaults] setObject:[savePanel directory] forKey:MDK_IntonationContourDirectory];
+            [eventList writeXMLToFile:[savePanel filename] comment:nil];
+        }
+    }];
 }
 
 - (IBAction)runPageLayout:(id)sneder;
