@@ -1176,13 +1176,13 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     // This creates events (if necessary) at the posture times, and sets the "flag" on them to indicate this is for a posture.
     switch (type) {
         /* Note: Case 4 should execute all of the below, case 3 the last two */
-      case MMPhoneTypeTetraphone:
+      case MMPhoneType_Tetraphone:
           phones[phoneIndex+3].onset = (double)zeroRef + ruleSymbols.beat;
           [[self insertEvent:-1 atTimeOffset:ruleSymbols.mark2 withValue:0.0] setFlag:YES];
-      case MMPhoneTypeTriphone:
+      case MMPhoneType_Triphone:
           phones[phoneIndex+2].onset = (double)zeroRef + ruleSymbols.beat;
           [[self insertEvent:-1 atTimeOffset:ruleSymbols.mark1 withValue:0.0] setFlag:YES];
-      case MMPhoneTypeDiphone:
+      case MMPhoneType_Diphone:
           phones[phoneIndex+1].onset = (double)zeroRef + ruleSymbols.beat;
           [[self insertEvent:-1 atTimeOffset:0.0 withValue:0.0] setFlag:YES];
           break;
@@ -1206,15 +1206,15 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
         // Optimization: Don't calculate if no changes occur.
         shouldCalculate = YES;
         switch (type) {
-          case MMPhoneTypeDiphone:
+          case MMPhoneType_Diphone:
               if (targets[0] == targets[1])
                   shouldCalculate = NO;
               break;
-          case MMPhoneTypeTriphone:
+          case MMPhoneType_Triphone:
               if ((targets[0] == targets[1]) && (targets[0] == targets[2]))
                   shouldCalculate = NO;
               break;
-          case MMPhoneTypeTetraphone:
+          case MMPhoneType_Tetraphone:
               if ((targets[0] == targets[1]) && (targets[0] == targets[2]) && (targets[0] == targets[3]))
                   shouldCalculate = NO;
               break;
@@ -1223,7 +1223,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
         if (shouldCalculate) {
             unsigned int pointIndex, pointCount;
 
-            currentType = MMPhoneTypeDiphone;
+            currentType = MMPhoneType_Diphone;
             currentDelta = targets[1] - targets[0];
 
             transition = [parameterTransitions objectAtIndex:transitionIndex];
@@ -1238,13 +1238,13 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
                 if ([currentPoint isKindOfClass:[MMSlopeRatio class]]) {
                     if ([(MMPoint *)[[(MMSlopeRatio *)currentPoint points] objectAtIndex:0] type] != currentType) {
                         currentType = [(MMPoint *)[[(MMSlopeRatio *)currentPoint points] objectAtIndex:0] type];
-                        targets[currentType - MMPhoneTypeDiphone] = maxValue;
+                        targets[currentType - MMPhoneType_Diphone] = maxValue;
                         currentDelta = targets[currentType-1] - maxValue;
                     }
                 } else {
                     if ([currentPoint type] != currentType) {
                         currentType = [currentPoint type];
-                        targets[currentType - MMPhoneTypeDiphone] = maxValue;
+                        targets[currentType - MMPhoneType_Diphone] = maxValue;
                         currentDelta = targets[currentType-1] - maxValue;
                     }
 

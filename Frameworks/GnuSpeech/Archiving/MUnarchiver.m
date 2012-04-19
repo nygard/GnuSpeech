@@ -3,29 +3,15 @@
 
 #import "MUnarchiver.h"
 
-#import <Foundation/Foundation.h>
-
 @implementation MUnarchiver
 
 - (void)dealloc;
 {
-    [userInfo release];
+    [m_userInfo release];
 
     [super dealloc];
 }
 
-- (id)userInfo;
-{
-    return userInfo;
-}
-
-- (void)setUserInfo:(id)newUserInfo;
-{
-    if (newUserInfo == userInfo)
-        return;
-
-    [userInfo release];
-    userInfo = [newUserInfo retain];
-}
+@synthesize userInfo = m_userInfo;
 
 @end

@@ -30,7 +30,7 @@
 
     name = nil;
     comment = nil;
-    type = MMPhoneTypeDiphone;
+    type = MMPhoneType_Diphone;
     points = [[NSMutableArray alloc] init];
 
     return self;
@@ -60,7 +60,7 @@
     MMPoint *aPoint;
 
     aPoint = [[MMPoint alloc] init];
-    [aPoint setType:MMPhoneTypeDiphone];
+    [aPoint setType:MMPhoneType_Diphone];
     [aPoint setFreeTime:0.0];
     [aPoint setValue:0.0];
     [self addPoint:aPoint];
@@ -288,72 +288,72 @@
 
         aPoint = [[MMPoint alloc] init];
         [aPoint setValue:0.0];
-        [aPoint setType:MMPhoneTypeDiphone];
+        [aPoint setType:MMPhoneType_Diphone];
         [aPoint setTimeEquation:[model findEquationList:@"Test" named:@"Zero"]];
         [points addObject:aPoint];
         [aPoint release];
 
         aPoint = [[MMPoint alloc] init];
         [aPoint setValue:12.5];
-        [aPoint setType:MMPhoneTypeDiphone];
+        [aPoint setType:MMPhoneType_Diphone];
         [aPoint setTimeEquation:[model findEquationList:@"Test" named:@"diphoneOneThree"]];
         [points addObject:aPoint];
         [aPoint release];
 
         aPoint = [[MMPoint alloc] init];
         [aPoint setValue:87.5];
-        [aPoint setType:MMPhoneTypeDiphone];
+        [aPoint setType:MMPhoneType_Diphone];
         [aPoint setTimeEquation:[model findEquationList:@"Test" named:@"diphoneTwoThree"]];
         [points addObject:aPoint];
         [aPoint release];
 
         aPoint = [[MMPoint alloc] init];
         [aPoint setValue:100.0];
-        [aPoint setType:MMPhoneTypeDiphone];
+        [aPoint setType:MMPhoneType_Diphone];
         [aPoint setTimeEquation:[model findEquationList:@"Defaults" named:@"Mark1"]];
         [points addObject:aPoint];
         [aPoint release];
 
-        if (type != MMPhoneTypeDiphone) {
+        if (type != MMPhoneType_Diphone) {
             aPoint = [[MMPoint alloc] init];
             [aPoint setValue:12.5];
-            [aPoint setType:MMPhoneTypeDiphone];
+            [aPoint setType:MMPhoneType_Diphone];
             [aPoint setTimeEquation:[model findEquationList:@"Test" named:@"triphoneOneThree"]];
             [points addObject:aPoint];
             [aPoint release];
 
             aPoint = [[MMPoint alloc] init];
             [aPoint setValue:87.5];
-            [aPoint setType:MMPhoneTypeTriphone];
+            [aPoint setType:MMPhoneType_Triphone];
             [aPoint setTimeEquation:[model findEquationList:@"Test" named:@"triphoneTwoThree"]];
             [points addObject:aPoint];
             [aPoint release];
 
             aPoint = [[MMPoint alloc] init];
             [aPoint setValue:100.0];
-            [aPoint setType:MMPhoneTypeTriphone];
+            [aPoint setType:MMPhoneType_Triphone];
             [aPoint setTimeEquation:[model findEquationList:@"Defaults" named:@"Mark2"]];
             [points addObject:aPoint];
             [aPoint release];
 
-            if (type != MMPhoneTypeTriphone) {
+            if (type != MMPhoneType_Triphone) {
                 aPoint = [[MMPoint alloc] init];
                 [aPoint setValue:12.5];
-                [aPoint setType:MMPhoneTypeTetraphone];
+                [aPoint setType:MMPhoneType_Tetraphone];
                 [aPoint setTimeEquation:[model findEquationList:@"Test" named:@"tetraphoneOneThree"]];
                 [points addObject:aPoint];
                 [aPoint release];
 
                 aPoint = [[MMPoint alloc] init];
                 [aPoint setValue:87.5];
-                [aPoint setType:MMPhoneTypeTetraphone];
+                [aPoint setType:MMPhoneType_Tetraphone];
                 [aPoint setTimeEquation:[model findEquationList:@"Test" named:@"tetraphoneTwoThree"]];
                 [points addObject:aPoint];
                 [aPoint release];
 
                 aPoint = [[MMPoint alloc] init];
                 [aPoint setValue:100.0];
-                [aPoint setType:MMPhoneTypeTetraphone];
+                [aPoint setType:MMPhoneType_Tetraphone];
                 [aPoint setTimeEquation:[model findEquationList:@"Durations" named:@"TetraphoneDefault"]];
                 [points addObject:aPoint];
                 [aPoint release];

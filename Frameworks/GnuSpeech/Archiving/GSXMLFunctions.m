@@ -3,36 +3,27 @@
 
 #import "GSXMLFunctions.h"
 
-#import <Foundation/Foundation.h>
 #import "NSCharacterSet-Extensions.h"
 #import "NSScanner-Extensions.h"
 
-NSString *GSXMLEscapeGeneralEntities(NSString *aString, int entityMask)
+NSString *GSXMLEscapeGeneralEntities(NSString *string, int entityMask)
 {
-    NSScanner *scanner;
-    NSString *str;
-    NSMutableString *result;
-    NSCharacterSet *generalXMLEntityCharacterSet;
+    NSCharacterSet *generalXMLEntityCharacterSet = [NSCharacterSet generalXMLEntityCharacterSet];
+    NSMutableString *result = [NSMutableString string];
 
-    generalXMLEntityCharacterSet = [NSCharacterSet generalXMLEntityCharacterSet];
-    result = [NSMutableString string];
-
-    scanner = [[NSScanner alloc] initWithString:aString];
+    NSScanner *scanner = [[NSScanner alloc] initWithString:string];
     [scanner setCharactersToBeSkipped:nil]; // Keep whitespace
     do {
+        NSString *str;
         if ([scanner scanUpToCharactersFromSet:generalXMLEntityCharacterSet intoString:&str] == YES)
             [result appendString:str];
+
         if ([scanner scanCharacterFromSet:generalXMLEntityCharacterSet intoString:&str] == YES) {
-            if ((entityMask & GSXMLEntityMaskAmpersand) && [str isEqual:@"&"] == YES)
-                [result appendString:@"&amp;"];
-            else if ((entityMask & GSXMLEntityMaskLessThan) && [str isEqual:@"<"] == YES)
-                [result appendString:@"&lt;"];
-            else if ((entityMask & GSXMLEntityMaskGreaterThan) && [str isEqual:@">"] == YES)
-                [result appendString:@"&gt;"];
-            else if ((entityMask & GSXMLEntityMaskSingleQuote) && [str isEqual:@"'"] == YES)
-                [result appendString:@"&apos;"];
-            else if ((entityMask & GSXMLEntityMaskDoubleQuote) && [str isEqual:@"\""] == YES)
-                [result appendString:@"&quot;"];
+            if ((entityMask & GSXMLEntityMask_Ampersand)        && [str isEqual:@"&"] == YES)  [result appendString:@"&amp;"];
+            else if ((entityMask & GSXMLEntityMask_LessThan)    && [str isEqual:@"<"] == YES)  [result appendString:@"&lt;"];
+            else if ((entityMask & GSXMLEntityMask_GreaterThan) && [str isEqual:@">"] == YES)  [result appendString:@"&gt;"];
+            else if ((entityMask & GSXMLEntityMask_SingleQuote) && [str isEqual:@"'"] == YES)  [result appendString:@"&apos;"];
+            else if ((entityMask & GSXMLEntityMask_DoubleQuote) && [str isEqual:@"\""] == YES) [result appendString:@"&quot;"];
             else
                 [result appendString:str];
         }
@@ -44,28 +35,28 @@ NSString *GSXMLEscapeGeneralEntities(NSString *aString, int entityMask)
     return result;
 }
 
-NSString *GSXMLAttributeString(NSString *aString, BOOL isSingleQuoted)
+NSString *GSXMLAttributeString(NSString *string, BOOL isSingleQuoted)
 {
-    if (aString == nil)
+    if (string == nil)
         return nil;
 
     if (isSingleQuoted == YES)
-        return GSXMLEscapeGeneralEntities(aString, GSXMLEntityMaskAmpersand|GSXMLEntityMaskSingleQuote);
+        return GSXMLEscapeGeneralEntities(string, GSXMLEntityMask_Ampersand|GSXMLEntityMask_SingleQuote);
 
-    return GSXMLEscapeGeneralEntities(aString, GSXMLEntityMaskAmpersand|GSXMLEntityMaskDoubleQuote);
+    return GSXMLEscapeGeneralEntities(string, GSXMLEntityMask_Ampersand|GSXMLEntityMask_DoubleQuote);
 }
 
-NSString *GSXMLCharacterData(NSString *aString)
+NSString *GSXMLCharacterData(NSString *string)
 {
-    if (aString == nil)
+    if (string == nil)
         return nil;
 
-    return GSXMLEscapeGeneralEntities(aString, GSXMLEntityMaskAmpersand|GSXMLEntityMaskLessThan);
+    return GSXMLEscapeGeneralEntities(string, GSXMLEntityMask_Ampersand|GSXMLEntityMask_LessThan);
 }
 
-NSString *GSXMLBoolAttributeString(BOOL aFlag)
+NSString *GSXMLBoolAttributeString(BOOL flag)
 {
-    if (aFlag == YES)
+    if (flag == YES)
         return @"yes";
 
     return @"no";
@@ -80,9 +71,9 @@ BOOL GSXMLBoolFromString(NSString *str)
 NSString *MMStringFromPhoneType(MMPhoneType type)
 {
     switch (type) {
-      case 2: return @"diphone";
-      case 3: return @"triphone";
-      case 4: return @"tetraphone";
+        case 2: return @"diphone";
+        case 3: return @"triphone";
+        case 4: return @"tetraphone";
     }
 
     [NSException raise:NSInvalidArgumentException format:@"Unkonwn phone type: %d", type];
@@ -91,12 +82,9 @@ NSString *MMStringFromPhoneType(MMPhoneType type)
 
 MMPhoneType MMPhoneTypeFromString(NSString *str)
 {
-    if ([str isEqualToString:@"diphone"])
-        return 2;
-    else if ([str isEqualToString:@"triphone"])
-        return 3;
-    else if ([str isEqualToString:@"tetraphone"])
-        return 4;
+    if ([str isEqualToString:@"diphone"])         return 2;
+    else if ([str isEqualToString:@"triphone"])   return 3;
+    else if ([str isEqualToString:@"tetraphone"]) return 4;
 
     [NSException raise:NSInvalidArgumentException format:@"Unkonwn phone type: %@", str];
     return 0;
