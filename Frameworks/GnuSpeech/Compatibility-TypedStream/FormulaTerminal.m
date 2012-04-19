@@ -59,12 +59,12 @@
     value = newValue;
 }
 
-- (int)whichPhone;
+- (NSUInteger)whichPhone;
 {
     return whichPhone;
 }
 
-- (void)setWhichPhone:(int)newValue;
+- (void)setWhichPhone:(NSUInteger)newValue;
 {
     whichPhone = newValue;
 }
@@ -120,7 +120,6 @@
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
-    unsigned archivedVersion;
     MModel *model;
 
     if ([super initWithCoder:aDecoder] == nil)
@@ -129,7 +128,7 @@
     model = [(MUnarchiver *)aDecoder userInfo];
 
     //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
-    archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
+    NSInteger archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
     //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
 
     symbol = nil;

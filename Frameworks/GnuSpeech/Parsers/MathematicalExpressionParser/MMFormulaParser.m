@@ -25,7 +25,7 @@
     return result;
 }
 
-+ (NSString *)nameForToken:(int)aToken;
++ (NSString *)nameForToken:(NSUInteger)aToken;
 {
     switch (aToken) {
       case TK_F_ADD: return @"'+'";
@@ -73,7 +73,7 @@
     model = [newModel retain];
 }
 
-- (int)nextToken;
+- (NSUInteger)nextToken;
 {
     NSString *str;
 
@@ -148,7 +148,7 @@
     return NO;
 }
 
-- (void)match:(int)token;
+- (void)match:(NSUInteger)token;
 {
     if (lookahead != token) {
         [self appendErrorFormat:@"Expected token %@, got %@", [[self class] nameForToken:token], [[self class] nameForToken:lookahead]];
@@ -290,7 +290,7 @@
         } else if ([symbolString isEqualToString:@"tempo4"]) {
             [result setWhichPhone:TEMPO3];
         } else {
-            int whichPhone;
+            NSInteger whichPhone;
             NSString *baseSymbolName;
             MMSymbol *aSymbol;
 

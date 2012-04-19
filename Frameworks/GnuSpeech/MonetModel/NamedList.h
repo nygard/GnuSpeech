@@ -18,7 +18,7 @@
     NSString *comment;
 }
 
-- (id)initWithCapacity:(unsigned)numSlots;
+- (id)initWithCapacity:(NSUInteger)numSlots;
 - (void)dealloc;
 
 - (MModel *)model;
@@ -37,12 +37,12 @@
 
 - (NSString *)description;
 
-- (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(int)level;
+- (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(NSUInteger)level;
 
 // These set the group (if possible) on objects added to the list
 - (void)addObject:(id)anObject;
-- (void)insertObject:(id)anObject atIndex:(unsigned)index;
-- (void)replaceObjectAtIndex:(unsigned)index withObject:(id)anObject;
+- (void)insertObject:(id)anObject atIndex:(NSUInteger)index;
+- (void)replaceObjectAtIndex:(NSUInteger)index withObject:(id)anObject;
 
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;

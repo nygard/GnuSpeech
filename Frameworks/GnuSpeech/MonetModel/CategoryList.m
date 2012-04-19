@@ -14,7 +14,7 @@
 
 - (MMCategory *)findSymbol:(NSString *)searchSymbol;
 {
-    int count, index;
+    NSUInteger count, index;
     MMCategory *aCategory;
 
     //NSLog(@"CategoryList searching for: %@\n", searchSymbol);

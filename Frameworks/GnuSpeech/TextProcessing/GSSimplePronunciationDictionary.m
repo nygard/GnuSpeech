@@ -51,7 +51,7 @@
     NSData *data;
     NSString *str;
     NSArray *lines;
-    unsigned int count, index;
+    NSUInteger count, index;
 
     data = [[NSData alloc] initWithContentsOfFile:filename];
     //NSLog(@"data: %p", data);

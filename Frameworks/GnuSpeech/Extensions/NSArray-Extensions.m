@@ -9,14 +9,14 @@
 
 @implementation NSArray (Extensions)
 
-- (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(int)level;
+- (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(NSUInteger)level;
 {
     [self appendXMLToString:resultString elementName:elementName level:level numberCommentPrefix:nil];
 }
 
-- (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(int)level numberCommentPrefix:(NSString *)prefix;
+- (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(NSUInteger)level numberCommentPrefix:(NSString *)prefix;
 {
-    int count, index;
+    NSUInteger count, index;
 
     count = [self count];
     if (count == 0)

@@ -117,7 +117,7 @@ static NSDictionary *_specialAcronyms = nil;
 
 // Added as a temporary fix for punctuation problems, we pad all characters in the supplied character set (punctuation)
 // with a space character. -- dalmazio, Jan. 2009.
-- (NSString *) padCharactersInSet:(NSCharacterSet *)characterSet ofString:(NSString *)aString;
+- (NSString *)padCharactersInSet:(NSCharacterSet *)characterSet ofString:(NSString *)aString;
 {
 	unichar ch;
 	NSMutableString * newString = [[[NSMutableString alloc] initWithCapacity:[aString length]*2] autorelease];
@@ -205,9 +205,9 @@ static NSDictionary *_specialAcronyms = nil;
 // array so they are not rendered. -- dalmazio, Jan. 2009.
 - (NSArray *) filterEmptyStringsFromArray:(NSArray *)theArray;
 {	
-	NSMutableArray * filteredArray = [[[NSMutableArray alloc] initWithCapacity:[theArray count]] autorelease];
-	NSString * item;
-	for (int i = 0; i < [theArray count]; i++) {
+	NSMutableArray *filteredArray = [[[NSMutableArray alloc] initWithCapacity:[theArray count]] autorelease];
+	NSString *item;
+	for (NSUInteger i = 0; i < [theArray count]; i++) {
 		item = [theArray objectAtIndex:i];
 		if (![item isEqualToString:@""])
 			[filteredArray addObject:item];
@@ -218,11 +218,11 @@ static NSDictionary *_specialAcronyms = nil;
 - (void)finalConversion:(NSString *)aString resultString:(NSMutableString *)resultString;
 {
     NSArray *words;
-    int previousState, currentState, nextState;
-    unsigned int count, index;
+    NSUInteger previousState, currentState, nextState;
+    NSUInteger count, index;
     BOOL priorTonic = NO;
-    unsigned int toneGroupMarkerLocation = NSNotFound;
-    unsigned int lastWordEndLocation = NSNotFound;
+    NSUInteger toneGroupMarkerLocation = NSNotFound;
+    NSUInteger lastWordEndLocation = NSNotFound;
     NSString *currentWord, *nextWord;
 
     previousState = TTS_STATE_BEGIN;
@@ -389,7 +389,7 @@ static NSDictionary *_specialAcronyms = nil;
     }
 }
 
-- (int)stateForWord:(NSString *)word;
+- (NSUInteger)stateForWord:(NSString *)word;
 {
     if (word == nil)
         return TTS_STATE_END;
@@ -411,7 +411,7 @@ static NSDictionary *_specialAcronyms = nil;
 {
     BOOL isPossessive;
     NSString *pronunciation = nil;
-    unsigned int lastFootBegin;
+    NSUInteger lastFootBegin;
     NSString *lastPhoneme = nil;
 
     // Strip of possessive if word ends with 's
@@ -518,7 +518,7 @@ static NSDictionary *_specialAcronyms = nil;
 - (NSString *)degenerateString:(NSString *)word;
 {
     NSMutableString *resultString;
-    unsigned int length, index;
+    NSUInteger length, index;
     unichar ch;
 
     resultString = [NSMutableString string];

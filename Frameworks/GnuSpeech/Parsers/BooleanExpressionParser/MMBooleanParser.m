@@ -73,7 +73,7 @@
     return [model categoryWithName:aName];
 }
 
-- (int)nextToken;
+- (NSUInteger)nextToken;
 {
     NSString *scannedString;
 
@@ -181,7 +181,7 @@
 
 - (MMBooleanNode *)continueParse:(MMBooleanNode *)currentExpression;
 {
-    int token;
+    NSUInteger token;
 
     while ( (token = [self nextToken]) != TK_B_END) {
         switch (token) {
@@ -449,7 +449,7 @@
 {
     id resultExpression = nil;
     MMCategory *aCategory;
-    int token;
+    NSUInteger token;
 
     switch ([self nextToken]) {
       case TK_B_END:

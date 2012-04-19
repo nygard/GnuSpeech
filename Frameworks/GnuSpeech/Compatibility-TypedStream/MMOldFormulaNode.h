@@ -5,10 +5,10 @@
 
 @interface MMOldFormulaNode : MMFormulaNode
 {
-    int precedence;
+    NSUInteger precedence;
 }
 
-- (int)precedence;
-- (void)setPrecedence:(int)newPrecedence;
+- (NSUInteger)precedence;
+- (void)setPrecedence:(NSUInteger)newPrecedence;
 
 @end

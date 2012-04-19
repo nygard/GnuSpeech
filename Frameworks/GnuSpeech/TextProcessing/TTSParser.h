@@ -4,9 +4,9 @@
 
 @interface TTSParser : NSObject
 {
-    GSPronunciationDictionary * mainDictionary;
-	GSPronunciationDictionary * userDictionary;
-	GSPronunciationDictionary * appDictionary;
+    GSPronunciationDictionary *mainDictionary;
+	GSPronunciationDictionary *userDictionary;
+	GSPronunciationDictionary *appDictionary;
 }
 
 + (void)initialize;

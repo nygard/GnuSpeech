@@ -17,16 +17,16 @@
 }
 
 - (id)init;
-- (id)initWithCapacity:(unsigned)numItems;
+- (id)initWithCapacity:(NSUInteger)numItems;
 - (void)dealloc;
 
 - (NSArray *)allObjects;
 
-- (unsigned)count;
-- (unsigned)indexOfObject:(id)anObject;
+- (NSUInteger)count;
+- (NSUInteger)indexOfObject:(id)anObject;
 - (id)lastObject;
 - (void)_warning;
-- (id)objectAtIndex:(unsigned)index;
+- (id)objectAtIndex:(NSUInteger)index;
 
 - (void)makeObjectsPerformSelector:(SEL)aSelector;
 - (void)makeObjectsPerformSelector:(SEL)aSelector withObject:(id)argument;
@@ -35,10 +35,10 @@
 
 - (void)_addNilWarning;
 - (void)addObject:(id)anObject;
-- (void)insertObject:(id)anObject atIndex:(unsigned)index;
-- (void)removeObjectAtIndex:(unsigned)index;
+- (void)insertObject:(id)anObject atIndex:(NSUInteger)index;
+- (void)removeObjectAtIndex:(NSUInteger)index;
 - (void)removeObject:(id)anObject;
-- (void)replaceObjectAtIndex:(unsigned)index withObject:(id)anObject;
+- (void)replaceObjectAtIndex:(NSUInteger)index withObject:(id)anObject;
 
 - (void)removeAllObjects;
 - (void)removeLastObject;
@@ -48,7 +48,7 @@
 
 - (NSString *)description;
 
-- (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(int)level;
-- (void)appendXMLForObjectPointersToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(int)level;
+- (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(NSUInteger)level;
+- (void)appendXMLForObjectPointersToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(NSUInteger)level;
 
 @end

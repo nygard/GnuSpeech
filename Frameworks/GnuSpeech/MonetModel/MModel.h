@@ -23,7 +23,7 @@ extern NSString *MCategoryInUseException;
     NSMutableArray *specialTransitions; // Of NamedLists of MMTransitions
 
     NSMutableArray *rules;
-    int cacheTag;
+    NSUInteger cacheTag;
 
     // This doesn't really belong here, but I'll put it here for now.
     MMSynthesisParameters *synthesisParameters;
@@ -87,16 +87,16 @@ extern NSString *MCategoryInUseException;
 - (MMTransition *)findSpecialTransitionWithName:(NSString *)aTransitionName;
 
 - (MMEquation *)findEquationList:(NSString *)aListName named:(NSString *)anEquationName;
-- (void)findList:(int *)listIndex andIndex:(int *)equationIndex ofEquation:(MMEquation *)anEquation;
-- (MMEquation *)findEquation:(int)listIndex andIndex:(int)equationIndex;
+- (void)findList:(NSUInteger *)listIndex andIndex:(NSUInteger *)equationIndex ofEquation:(MMEquation *)anEquation;
+- (MMEquation *)findEquation:(NSUInteger)listIndex andIndex:(NSUInteger)equationIndex;
 
 - (MMTransition *)findTransitionList:(NSString *)aListName named:(NSString *)aTransitionName;
-- (void)findList:(int *)listIndex andIndex:(int *)transitionIndex ofTransition:(MMTransition *)aTransition;
-- (MMTransition *)findTransition:(int)listIndex andIndex:(int)transitionIndex;
+- (void)findList:(NSUInteger *)listIndex andIndex:(NSUInteger *)transitionIndex ofTransition:(MMTransition *)aTransition;
+- (MMTransition *)findTransition:(NSUInteger)listIndex andIndex:(NSUInteger)transitionIndex;
 
 - (MMTransition *)findSpecialList:(NSString *)aListName named:(NSString *)aSpecialName;
-- (void)findList:(int *)listIndex andIndex:(int *)specialIndex ofSpecial:(MMTransition *)aTransition;
-- (MMTransition *)findSpecial:(int)listIndex andIndex:(int)specialIndex;
+- (void)findList:(NSUInteger *)listIndex andIndex:(NSUInteger *)specialIndex ofSpecial:(MMTransition *)aTransition;
+- (MMTransition *)findSpecial:(NSUInteger)listIndex andIndex:(NSUInteger)specialIndex;
 
 - (NSArray *)usageOfEquation:(MMEquation *)anEquation;
 - (NSArray *)usageOfTransition:(MMTransition *)aTransition;
@@ -104,7 +104,7 @@ extern NSString *MCategoryInUseException;
 // Rules
 - (void)addRule:(MMRule *)newRule;
 - (void)_addStoredRule:(MMRule *)newRule;
-- (MMRule *)findRuleMatchingCategories:(NSArray *)categoryLists ruleIndex:(int *)indexPtr;
+- (MMRule *)findRuleMatchingCategories:(NSArray *)categoryLists ruleIndex:(NSInteger *)indexPtr;
 
 // Archiving
 - (id)initWithCoder:(NSCoder *)aDecoder;
@@ -113,9 +113,9 @@ extern NSString *MCategoryInUseException;
 
 // Archiving - XML
 - (BOOL)writeXMLToFile:(NSString *)aFilename comment:(NSString *)aComment;
-- (void)_appendXMLForEquationsToString:(NSMutableString *)resultString level:(int)level;
-- (void)_appendXMLForTransitionsToString:(NSMutableString *)resultString level:(int)level;
-- (void)_appendXMLForProtoSpecialsToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForEquationsToString:(NSMutableString *)resultString level:(NSUInteger)level;
+- (void)_appendXMLForTransitionsToString:(NSMutableString *)resultString level:(NSUInteger)level;
+- (void)_appendXMLForProtoSpecialsToString:(NSMutableString *)resultString level:(NSUInteger)level;
 
 // Archiving - Degas support
 - (void)readDegasFileFormat:(FILE *)fp;

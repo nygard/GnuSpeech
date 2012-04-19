@@ -28,4 +28,4 @@
 
 
 /*  GLOBAL FUNCTIONS *********************************************************/
-extern int word_to_patphone(char *word);
+int word_to_patphone(char *word);

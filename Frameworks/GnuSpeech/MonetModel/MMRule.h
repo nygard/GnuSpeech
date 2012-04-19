@@ -23,11 +23,11 @@
 - (id)init;
 - (void)dealloc;
 
-- (void)setDefaultsTo:(int)numPhones;
+- (void)setDefaultsTo:(NSUInteger)numPhones;
 - (void)addDefaultParameter;
 - (void)addDefaultMetaParameter;
-- (void)removeParameterAtIndex:(int)index;
-- (void)removeMetaParameterAtIndex:(int)index;
+- (void)removeParameterAtIndex:(NSUInteger)index;
+- (void)removeMetaParameterAtIndex:(NSUInteger)index;
 
 
 - (void)addStoredParameterTransition:(MMTransition *)aTransition;
@@ -42,9 +42,9 @@
 - (void)addSymbolEquationsFromReferenceDictionary:(NSDictionary *)dict;
 
 
-- (void)setExpression:(MMBooleanNode *)newExpression number:(int)index;
-- (int)numberExpressions;
-- (MMBooleanNode *)getExpressionNumber:(int)index;
+- (void)setExpression:(MMBooleanNode *)newExpression number:(NSUInteger)index;
+- (NSUInteger)numberExpressions;
+- (MMBooleanNode *)getExpressionNumber:(NSUInteger)index;
 
 - (void)addBooleanExpression:(MMBooleanNode *)newExpression;
 - (void)addBooleanExpressionString:(NSString *)aString;
@@ -56,14 +56,14 @@
 - (BOOL)matchRule:(NSArray *)categories;
 
 - (MMEquation *)getSymbolEquation:(int)index;
-- (void)evaluateSymbolEquations:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures withCache:(int)cache;
+- (void)evaluateSymbolEquations:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures withCache:(NSUInteger)cache;
 
 - (NSMutableArray *)parameterTransitions;
 - (NSMutableArray *)metaParameterTransitions;
 - (NSMutableArray *)symbolEquations;
 
-- (MMTransition *)getSpecialProfile:(int)index;
-- (void)setSpecialProfile:(int)index to:(MMTransition *)special;
+- (MMTransition *)getSpecialProfile:(NSUInteger)index;
+- (void)setSpecialProfile:(NSUInteger)index to:(MMTransition *)special;
 
 - (BOOL)isCategoryUsed:(MMCategory *)aCategory;
 - (BOOL)isEquationUsed:(MMEquation *)anEquation;
@@ -75,13 +75,13 @@
 
 - (NSString *)description;
 
-- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
-- (void)_appendXMLForParameterTransitionsToString:(NSMutableString *)resultString level:(int)level;
-- (void)_appendXMLForMetaParameterTransitionsToString:(NSMutableString *)resultString level:(int)level;
-- (void)_appendXMLForSpecialProfilesToString:(NSMutableString *)resultString level:(int)level;
-- (void)_appendXMLForSymbolEquationsToString:(NSMutableString *)resultString level:(int)level;
+- (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
+- (void)_appendXMLForParameterTransitionsToString:(NSMutableString *)resultString level:(NSUInteger)level;
+- (void)_appendXMLForMetaParameterTransitionsToString:(NSMutableString *)resultString level:(NSUInteger)level;
+- (void)_appendXMLForSpecialProfilesToString:(NSMutableString *)resultString level:(NSUInteger)level;
+- (void)_appendXMLForSymbolEquationsToString:(NSMutableString *)resultString level:(NSUInteger)level;
 
-- (NSString *)symbolNameAtIndex:(int)index;
+- (NSString *)symbolNameAtIndex:(NSUInteger)index;
 - (void)setRuleExpression1:(MMBooleanNode *)exp1 exp2:(MMBooleanNode *)exp2 exp3:(MMBooleanNode *)exp3 exp4:(MMBooleanNode *)exp4;
 
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;

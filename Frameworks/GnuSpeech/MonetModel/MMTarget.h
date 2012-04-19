@@ -28,7 +28,7 @@
 
 - (NSString *)description;
 
-- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+- (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 

@@ -8,21 +8,21 @@
 
 @interface Event : NSObject
 {
-    int time;
+    NSUInteger time;
     BOOL flag;
     double events[MAX_EVENTS];
 }
 
 - (id)init;
-- (id)initWithTime:(int)aTime;
+- (id)initWithTime:(NSUInteger)aTime;
 
-- (int)time;
+- (NSUInteger)time;
 
 - (BOOL)flag;
 - (void)setFlag:(BOOL)newFlag;
 
-- (double)getValueAtIndex:(int)index;
-- (void)setValue:(double)newValue ofIndex:(int)index;
+- (double)getValueAtIndex:(NSUInteger)index;
+- (void)setValue:(double)newValue ofIndex:(NSUInteger)index;
 
 - (NSString *)description;
 

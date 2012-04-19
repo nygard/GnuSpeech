@@ -9,11 +9,11 @@
 {
     MModel *model;
 
-    int lookahead;
+    NSUInteger lookahead;
 }
 
 + (MMFormulaNode *)parsedExpressionFromString:(NSString *)aString model:(MModel *)aModel;
-+ (NSString *)nameForToken:(int)aToken;
++ (NSString *)nameForToken:(NSUInteger)aToken;
 
 - (id)initWithModel:(MModel *)aModel;
 - (void)dealloc;
@@ -21,11 +21,11 @@
 - (MModel *)model;
 - (void)setModel:(MModel *)newModel;
 
-- (int)nextToken;
+- (NSUInteger)nextToken;
 - (BOOL)scanNumber;
 
 
-- (void)match:(int)token;
+- (void)match:(NSUInteger)token;
 - (MMFormulaNode *)parseExpression;
 - (MMFormulaNode *)parseTerm;
 - (MMFormulaNode *)parseFactor;

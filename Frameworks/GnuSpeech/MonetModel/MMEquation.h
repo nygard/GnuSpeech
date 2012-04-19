@@ -15,7 +15,7 @@
     NSString *comment;
     MMFormulaNode *formula;
 
-    int cacheTag;
+    NSUInteger cacheTag;
     double cacheValue;
 }
 
@@ -38,15 +38,15 @@
 
 - (void)setFormulaString:(NSString *)formulaString;
 
-- (double)evaluate:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(int)newCacheTag;
-- (double)evaluate:(MMFRuleSymbols *)ruleSymbols postures:(NSArray *)postures andCacheWith:(int)newCacheTag;
+- (double)evaluate:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag;
+- (double)evaluate:(MMFRuleSymbols *)ruleSymbols postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag;
 - (double)cacheValue;
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 
 - (NSString *)description;
 
-- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+- (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 
 - (NSString *)equationPath;
 

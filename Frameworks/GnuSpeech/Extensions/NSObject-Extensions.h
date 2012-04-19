@@ -17,5 +17,5 @@
 @end
 
 @interface NSObject (Other)
-- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+- (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 @end

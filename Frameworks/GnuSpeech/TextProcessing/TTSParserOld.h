@@ -30,10 +30,10 @@ typedef enum {
 - (void)markModes:(NSString *)aString;
 - (void)stripPunctuationFromString:(NSString *)aString;
 
-- (NSString *) padCharactersInSet:(NSCharacterSet *)characterSet ofString:(NSString *)aString;
+- (NSString *)padCharactersInSet:(NSCharacterSet *)characterSet ofString:(NSString *)aString;
 
 - (void)finalConversion:(NSString *)aString resultString:(NSMutableString *)resultString;
-- (int)stateForWord:(NSString *)word;
+- (NSUInteger)stateForWord:(NSString *)word;
 - (void)expandWord:(NSString *)word tonic:(BOOL)isTonic resultString:(NSMutableString *)resultString;
 - (NSString *)degenerateString:(NSString *)word;
 - (BOOL)shiftSilence;

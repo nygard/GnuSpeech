@@ -91,7 +91,7 @@
     NSData *data;
     NSString *str;
     NSArray *lines;
-    unsigned int count, index;
+    NSUInteger count, index;
 
     NSLog(@" > %s", __PRETTY_FUNCTION__);
 
@@ -170,7 +170,7 @@
 - (void)testString:(NSString *)str;
 {
     NSArray *words;
-    unsigned int count, index;
+    NSUInteger count, index;
 
     //NSLog(@" > %s", _cmd);
 

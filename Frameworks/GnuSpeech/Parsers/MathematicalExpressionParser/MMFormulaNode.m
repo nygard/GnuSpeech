@@ -7,7 +7,7 @@
 
 @implementation MMFormulaNode
 
-- (int)precedence;
+- (NSUInteger)precedence;
 {
     // Implement in subclasses
     return 0;
@@ -26,7 +26,7 @@
     return 0;
 }
 
-- (int)maxPhone;
+- (NSUInteger)maxPhone;
 {
     // Implement in subclasses
     return 0;

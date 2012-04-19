@@ -174,7 +174,7 @@
 
 - (BOOL)readFromCoder:(NSCoder *)aDecoder;
 {
-    int fileVersion;
+    int32_t fileVersion;
 	
     NS_DURING {
         /*  READ FILE VERSION FROM STREAM  */
@@ -266,7 +266,7 @@
 
 - (void)setAspVol:(float)value;
 {
-    aspVol = (int)rint(value);
+    aspVol = (int32_t)rint(value);
 }
 
 
@@ -278,7 +278,7 @@
 
 - (void)setFricVol:(float)value;
 {
-    fricVol = (int)rint(value);
+    fricVol = (int32_t)rint(value);
 }
 
 
@@ -302,7 +302,7 @@
 
 - (void)setFricCF:(float)value;
 {
-    fricCF = (int)rint(value);
+    fricCF = (int32_t)rint(value);
 }
 
 
@@ -314,7 +314,7 @@
 
 - (void)setFricBW:(float)value;
 {
-    fricBW = (int)rint(value);
+    fricBW = (int32_t)rint(value);
 }
 
 
@@ -427,12 +427,12 @@
 
 
 
-- (int)controlRate;
+- (int32_t)controlRate;
 {
     return controlRate;
 }
 
-- (void)setControlRate:(int)value;
+- (void)setControlRate:(int32_t)value;
 {
     controlRate = value;
 }
@@ -446,17 +446,17 @@
 
 - (void)setVolume:(float)value;
 {
-    volume = (int)rint(value);
+    volume = (int32_t)rint(value);
 }
 
 
 
-- (int)channels;
+- (int32_t)channels;
 {
     return channels;
 }
 
-- (void)setChannels:(int)value;
+- (void)setChannels:(int32_t)value;
 {
     channels = value;
 }
@@ -475,12 +475,12 @@
 
 
 
-- (int)waveform;
+- (int32_t)waveform;
 {
     return waveform;
 }
 
-- (void)setWaveform:(int)value;
+- (void)setWaveform:(int32_t)value;
 {
     waveform = value;
 }
@@ -674,7 +674,7 @@
 
 - (void)setThroatCutoff:(float)value;
 {
-    throatCutoff = (int)rint(value);
+    throatCutoff = (int32_t)rint(value);
 }
 
 
@@ -686,17 +686,17 @@
 
 - (void)setThroatVol:(float)value;
 {
-    throatVol = (int)rint(value);
+    throatVol = (int32_t)rint(value);
 }
 
 
 
-- (int)modulation;
+- (int32_t)modulation;
 {
     return modulation;
 }
 
-- (void)setModulation:(int)value;
+- (void)setModulation:(int32_t)value;
 {
     modulation = value;
 }
@@ -710,7 +710,7 @@
 
 - (void)setMixOffset:(float)value;
 {
-    mixOffset = (int)rint(value);
+    mixOffset = (int32_t)rint(value);
 }
 
 @end

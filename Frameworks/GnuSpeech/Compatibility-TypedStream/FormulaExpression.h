@@ -6,15 +6,15 @@
 
 @interface FormulaExpression : MMOldFormulaNode
 {
-    int operation;
+    NSUInteger operation;
     NSMutableArray *expressions;
 }
 
 - (id)init;
 - (void)dealloc;
 
-- (int)operation;
-- (void)setOperation:(int)newOp;
+- (NSUInteger)operation;
+- (void)setOperation:(NSUInteger)newOp;
 
 - (void)addSubExpression:newExpression;
 

@@ -8,15 +8,6 @@
 
 @class EventList, MonetList, MMEquation;
 
-/*===========================================================================
-
-	Author: Craig-Richard Taube-Schock
-		Copyright (c) 1994, Trillium Sound Research Incorporated.
-		All Rights Reserved.
-
-=============================================================================
-*/
-
 @interface MMPoint : NSObject
 {
     double value;  /* Value of the point */
@@ -43,23 +34,23 @@
 
 - (double)cachedTime;
 
-- (int)type;
-- (void)setType:(int)newType;
+- (NSUInteger)type;
+- (void)setType:(NSUInteger)newType;
 
 - (BOOL)isPhantom;
 - (void)setIsPhantom:(BOOL)newFlag;
 
-- (void)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(int)newCacheTag toDisplay:(NSMutableArray *)displayList;
+- (void)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag toDisplay:(NSMutableArray *)displayList;
 
-- (double)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(int)newCacheTag
+- (double)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag
                  baseline:(double)baseline delta:(double)delta min:(double)min max:(double)max
-              toEventList:(EventList *)eventList atIndex:(int)index;
+              toEventList:(EventList *)eventList atIndex:(NSUInteger)index;
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 
 - (NSString *)description;
 
-- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+- (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;

@@ -3,11 +3,12 @@
 
 #import <Foundation/Foundation.h>
 
-typedef enum {
+enum {
     MMPhoneType_Diphone    = 2,
     MMPhoneType_Triphone   = 3,
     MMPhoneType_Tetraphone = 4,
-} MMPhoneType;
+};
+typedef NSUInteger MMPhoneType;
 
 #define GSXMLEntityMask_None        0x00
 #define GSXMLEntityMask_Ampersand   0x01
@@ -16,13 +17,15 @@ typedef enum {
 #define GSXMLEntityMask_SingleQuote 0x08
 #define GSXMLEntityMask_DoubleQuote 0x10
 
-NSString *GSXMLEscapeGeneralEntities(NSString *string, int entityMask);
+typedef NSUInteger GSXMLEntityMask;
 
-NSString *GSXMLAttributeString(NSString *string, BOOL isSingleQuoted);
-NSString *GSXMLCharacterData(NSString *string);
-NSString *GSXMLBoolAttributeString(BOOL flag);
-BOOL GSXMLBoolFromString(NSString *str);
+NSString *GSXMLEscapeGeneralEntities(NSString *string, GSXMLEntityMask entityMask);
+
+ NSString *GSXMLAttributeString(NSString *string, BOOL isSingleQuoted);
+ NSString *GSXMLCharacterData(NSString *string);
+ NSString *GSXMLBoolAttributeString(BOOL flag);
+ BOOL GSXMLBoolFromString(NSString *str);
 
 
-NSString *MMStringFromPhoneType(MMPhoneType type);
-MMPhoneType MMPhoneTypeFromString(NSString *str);
+ NSString *MMStringFromPhoneType(MMPhoneType type);
+ MMPhoneType MMPhoneTypeFromString(NSString *str);

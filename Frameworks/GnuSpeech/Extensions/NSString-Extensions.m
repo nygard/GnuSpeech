@@ -13,17 +13,17 @@
     return [[NSFileManager defaultManager] stringWithFileSystemRepresentation:str length:strlen(str)];
 }
 
-+ (NSString *)spacesIndentedToLevel:(int)level;
++ (NSString *)spacesIndentedToLevel:(NSUInteger)level;
 {
     return [self spacesIndentedToLevel:level spacesPerLevel:4];
 }
 
-+ (NSString *)spacesIndentedToLevel:(int)level spacesPerLevel:(int)spacesPerLevel;
++ (NSString *)spacesIndentedToLevel:(NSUInteger)level spacesPerLevel:(NSUInteger)spacesPerLevel;
 {
     NSString *spaces = @"                                        ";
     NSString *levelSpaces;
     NSMutableString *str;
-    int l;
+    NSUInteger l;
 
     assert(spacesPerLevel <= [spaces length]);
     levelSpaces = [spaces substringToIndex:spacesPerLevel];
@@ -35,11 +35,11 @@
     return str;
 }
 
-+ (NSString *)spacesOfLength:(int)targetLength;
++ (NSString *)spacesOfLength:(NSUInteger)targetLength;
 {
     NSString *spaces = @"                                        ";
     NSMutableString *str;
-    int spacesLength;
+    NSUInteger spacesLength;
 
     spacesLength = [spaces length];
     str = [NSMutableString string];
@@ -89,9 +89,9 @@
 }
 
 // TODO (2004-08-12): A class method would let us pad nil as well...
-- (NSString *)leftJustifiedStringPaddedToLength:(int)paddedLength;
+- (NSString *)leftJustifiedStringPaddedToLength:(NSUInteger)paddedLength;
 {
-    int spaces;
+    NSUInteger spaces;
 
     spaces = paddedLength - [self length];
     if (spaces <= 0)
@@ -100,9 +100,9 @@
     return [self stringByAppendingString:[NSString spacesOfLength:spaces]];
 }
 
-- (NSString *)rightJustifiedStringPaddedToLength:(int)paddedLength;
+- (NSString *)rightJustifiedStringPaddedToLength:(NSUInteger)paddedLength;
 {
-    int spaces;
+    NSUInteger spaces;
 
     spaces = paddedLength - [self length];
     if (spaces <= 0)
@@ -157,7 +157,7 @@
 
 @implementation NSMutableString (Extensions)
 
-- (void)indentToLevel:(int)level;
+- (void)indentToLevel:(NSUInteger)level;
 {
     [self appendString:[NSString spacesIndentedToLevel:level spacesPerLevel:2]];
 }

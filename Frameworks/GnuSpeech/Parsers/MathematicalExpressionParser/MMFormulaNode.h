@@ -11,12 +11,12 @@
 {
 }
 
-- (int)precedence;
+- (NSUInteger)precedence;
 
 - (double)evaluate:(MMFRuleSymbols *)ruleSymbols postures:(NSArray *)postures;
 - (double)evaluate:(MMFRuleSymbols *)ruleSymbols postures:(NSArray *)postures tempos:(double *)tempos;
 
-- (int)maxPhone;
+- (NSUInteger)maxPhone;
 
 - (NSString *)expressionString;
 - (void)expressionString:(NSMutableString *)resultString;

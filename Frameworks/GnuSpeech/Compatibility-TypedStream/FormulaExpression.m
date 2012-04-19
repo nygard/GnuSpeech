@@ -28,12 +28,12 @@
     [super dealloc];
 }
 
-- (int)operation;
+- (NSUInteger)operation;
 {
     return operation;
 }
 
-- (void)setOperation:(int)newOp;
+- (void)setOperation:(NSUInteger)newOp;
 {
     operation = newOp;
 }
@@ -106,7 +106,7 @@
 
 - (void)expressionString:(NSMutableString *)resultString;
 {
-    int count, index;
+    NSUInteger count, index;
     NSString *opString;
 
     opString = [self opString];
@@ -133,15 +133,14 @@
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
-    unsigned archivedVersion;
-    int index;
-    int numExpressions, maxExpressions;
+    NSUInteger index;
+    NSUInteger numExpressions, maxExpressions;
 
     if ([super initWithCoder:aDecoder] == nil)
         return nil;
 
     //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
-    archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
+    /*NSInteger archivedVersion =*/ [aDecoder versionForClassName:NSStringFromClass([self class])];
     //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
 
     [aDecoder decodeValuesOfObjCTypes:"iiii", &operation, &numExpressions, &maxExpressions, &precedence];

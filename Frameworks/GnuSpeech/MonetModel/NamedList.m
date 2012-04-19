@@ -16,7 +16,7 @@
 
 @implementation NamedList
 
-- (id)initWithCapacity:(unsigned)numSlots;
+- (id)initWithCapacity:(NSUInteger)numSlots;
 {
     if ([super initWithCapacity:numSlots] == nil)
         return nil;
@@ -42,7 +42,7 @@
 
 - (void)setModel:(MModel *)newModel;
 {
-    unsigned int count, index;
+    NSUInteger count, index;
 
     nonretained_model = newModel;
 
@@ -96,15 +96,14 @@
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
-    unsigned archivedVersion;
     char *c_name, *c_comment;
-    unsigned int count, index;
+    NSUInteger count, index;
 
     if ([super initWithCoder:aDecoder] == nil)
         return nil;
 
     //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
-    archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
+    /*NSInteger archivedVersion =*/ [aDecoder versionForClassName:NSStringFromClass([self class])];
     //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
 
     [aDecoder decodeValuesOfObjCTypes:"**", &c_name, &c_comment];
@@ -132,9 +131,9 @@
                      NSStringFromClass([self class]), self, name, comment];
 }
 
-- (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(int)level;
+- (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(NSUInteger)level;
 {
-    int count, index;
+    NSUInteger count, index;
 
     count = [self count];
     if (count == 0)
@@ -169,7 +168,7 @@
         [anObject setModel:[self model]];
 }
 
-- (void)insertObject:(id)anObject atIndex:(unsigned)index;
+- (void)insertObject:(id)anObject atIndex:(NSUInteger)index;
 {
     [super insertObject:anObject atIndex:index];
 
@@ -177,7 +176,7 @@
         [anObject setGroup:self];
 }
 
-- (void)replaceObjectAtIndex:(unsigned)index withObject:(id)anObject;
+- (void)replaceObjectAtIndex:(NSUInteger)index withObject:(id)anObject;
 {
     [super replaceObjectAtIndex:index withObject:anObject];
 

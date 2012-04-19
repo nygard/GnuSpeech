@@ -51,7 +51,7 @@
 {
     //NSLog(@"%@: closing element: '%@', popping delegate", NSStringFromClass([self class]), anElementName);
     if ([delegate respondsToSelector:addObjectSelector]) {
-        unsigned int count, index;
+        NSUInteger count, index;
 
         count = [references count];
         //NSLog(@"Adding %d references to %@ with selector %s", count, delegate, addObjectSelector);

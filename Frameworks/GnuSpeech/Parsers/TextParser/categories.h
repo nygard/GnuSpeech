@@ -28,4 +28,4 @@
 
 #import <stdio.h>
 
-extern void readFromFileCategories(FILE *fp1);
+void readFromFileCategories(FILE *fp1);

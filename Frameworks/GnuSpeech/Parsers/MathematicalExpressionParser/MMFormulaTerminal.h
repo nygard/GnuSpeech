@@ -20,7 +20,7 @@
 {
     MMSymbol *symbol;
     double value;
-    int whichPhone; // TODO (2004-03-10): Rename this
+    NSInteger whichPhone; // TODO (2004-03-10): Rename this
 }
 
 - (id)init;
@@ -32,15 +32,15 @@
 - (double)value;
 - (void)setValue:(double)newValue;
 
-- (int)whichPhone;
-- (void)setWhichPhone:(int)newValue;
+- (NSInteger)whichPhone;
+- (void)setWhichPhone:(NSInteger)newValue;
 
 // Methods overridden from MMFormulaNode
-- (int)precedence;
+- (NSUInteger)precedence;
 
 - (double)evaluate:(MMFRuleSymbols *)ruleSymbols postures:(NSArray *)postures tempos:(double *)tempos;
 
-- (int)maxPhone;
+- (NSInteger)maxPhone;
 
 - (void)expressionString:(NSMutableString *)resultString;
 

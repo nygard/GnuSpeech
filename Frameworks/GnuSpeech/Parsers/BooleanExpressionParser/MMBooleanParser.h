@@ -51,7 +51,7 @@
 
 /* General purpose internal methods */
 - (MMCategory *)categoryWithName:(NSString *)aName;
-- (int)nextToken;
+- (NSUInteger)nextToken;
 
 /* General Parse Methods */
 - (id)beginParseString;

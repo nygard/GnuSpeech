@@ -56,7 +56,7 @@
 
 - (void)_addDefaultValues;
 {
-    int count, index;
+    NSUInteger count, index;
     MMTarget *newTarget;
     NSArray *mainParameters;
     NSArray *mainSymbols;
@@ -172,7 +172,7 @@
 
 - (BOOL)isMemberOfCategoryNamed:(NSString *)aCategoryName;
 {
-    unsigned int count, index;
+    NSUInteger count, index;
 
     count = [categories count];
     for (index = 0; index < count; index++) {
@@ -219,7 +219,7 @@
 - (void)addParameterTargetsFromDictionary:(NSDictionary *)aDictionary;
 {
     NSArray *parameters;
-    unsigned int count, index;
+    NSUInteger count, index;
 
     parameters = [[self model] parameters];
     count = [parameters count];
@@ -255,7 +255,7 @@
 - (void)addMetaParameterTargetsFromDictionary:(NSDictionary *)aDictionary;
 {
     NSArray *parameters;
-    unsigned int count, index;
+    NSUInteger count, index;
 
     parameters = [[self model] metaParameters];
     count = [parameters count];
@@ -291,7 +291,7 @@
 - (void)addSymbolTargetsFromDictionary:(NSDictionary *)aDictionary;
 {
     NSArray *symbols;
-    unsigned int count, index;
+    NSUInteger count, index;
 
     symbols = [[self model] symbols];
     count = [symbols count];
@@ -316,7 +316,7 @@
 
 - (MMTarget *)targetForSymbol:(MMSymbol *)aSymbol;
 {
-    int symbolIndex;
+    NSUInteger symbolIndex;
 
     assert([self model] != nil);
     symbolIndex = [[[self model] symbols] indexOfObject:aSymbol];
@@ -337,8 +337,7 @@
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
-    unsigned archivedVersion;
-    int count, index;
+    NSUInteger count, index;
     MMCategory *temp1;
     char *c_name, *c_comment, *c_str;
     MModel *model;
@@ -349,7 +348,7 @@
     model = [(MUnarchiver *)aDecoder userInfo];
 
     //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
-    archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
+    /*NSInteger archivedVersion =*/ [aDecoder versionForClassName:NSStringFromClass([self class])];
     //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
 
     [aDecoder decodeValuesOfObjCTypes:"**", &c_name, &c_comment];
@@ -421,7 +420,7 @@
                      NSStringFromClass([self class]), self, name, comment, categories, parameterTargets, metaParameterTargets, symbolTargets];
 }
 
-- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+- (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     [resultString indentToLevel:level];
     [resultString appendFormat:@"<posture symbol=\"%@\"", GSXMLAttributeString(name, NO)];
@@ -446,9 +445,9 @@
     }
 }
 
-- (void)_appendXMLForCategoriesToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForCategoriesToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
-    int count, index;
+    NSUInteger count, index;
 
     count = [categories count];
     if (count == 0)
@@ -470,10 +469,10 @@
     [resultString appendString:@"</posture-categories>\n"];
 }
 
-- (void)_appendXMLForParametersToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForParametersToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     NSArray *mainParameterList;
-    int count, index;
+    NSUInteger count, index;
     MMParameter *aParameter;
     MMTarget *aTarget;
 
@@ -502,10 +501,10 @@
     [resultString appendString:@"</parameter-targets>\n"];
 }
 
-- (void)_appendXMLForMetaParametersToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForMetaParametersToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     NSArray *mainMetaParameterList;
-    int count, index;
+    NSUInteger count, index;
     MMParameter *aParameter;
     MMTarget *aTarget;
 
@@ -536,10 +535,10 @@
     [resultString appendString:@"</meta-parameter-targets>\n"];
 }
 
-- (void)_appendXMLForSymbolsToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForSymbolsToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     NSArray *mainSymbolList;
-    int count, index;
+    NSUInteger count, index;
     MMSymbol *aSymbol;
     MMTarget *aTarget;
 

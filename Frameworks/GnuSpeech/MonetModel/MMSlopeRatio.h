@@ -31,12 +31,12 @@
 - (double)startTime;
 - (double)endTime;
 
-- (void)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(int)newCacheTag
+- (void)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag
               toDisplay:(MonetList *)displayList;
 
-- (double)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(int)newCacheTag
+- (double)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag
                  baseline:(double)baseline delta:(double)parameterDelta min:(double)min max:(double)max
-              toEventList:(EventList *)eventList atIndex:(int)index;
+              toEventList:(EventList *)eventList atIndex:(NSUInteger)index;
 
 - (double)totalSlopeUnits;
 - (void)displaySlopesInList:(NSMutableArray *)displaySlopes;
@@ -46,7 +46,7 @@
 
 - (NSString *)description;
 
-- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+- (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;

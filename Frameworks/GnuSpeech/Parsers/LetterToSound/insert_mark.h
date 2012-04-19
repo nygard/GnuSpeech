@@ -28,4 +28,4 @@
 
 
 /*  GLOBAL FUNCTIONS *********************************************************/
-extern void insert_mark(char **end, char *at);
+void insert_mark(char **end, char *at);

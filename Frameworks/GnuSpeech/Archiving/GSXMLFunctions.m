@@ -6,7 +6,7 @@
 #import "NSCharacterSet-Extensions.h"
 #import "NSScanner-Extensions.h"
 
-NSString *GSXMLEscapeGeneralEntities(NSString *string, int entityMask)
+NSString *GSXMLEscapeGeneralEntities(NSString *string, GSXMLEntityMask entityMask)
 {
     NSCharacterSet *generalXMLEntityCharacterSet = [NSCharacterSet generalXMLEntityCharacterSet];
     NSMutableString *result = [NSMutableString string];
@@ -40,7 +40,7 @@ NSString *GSXMLAttributeString(NSString *string, BOOL isSingleQuoted)
     if (string == nil)
         return nil;
 
-    if (isSingleQuoted == YES)
+    if (isSingleQuoted)
         return GSXMLEscapeGeneralEntities(string, GSXMLEntityMask_Ampersand|GSXMLEntityMask_SingleQuote);
 
     return GSXMLEscapeGeneralEntities(string, GSXMLEntityMask_Ampersand|GSXMLEntityMask_DoubleQuote);
@@ -56,7 +56,7 @@ NSString *GSXMLCharacterData(NSString *string)
 
 NSString *GSXMLBoolAttributeString(BOOL flag)
 {
-    if (flag == YES)
+    if (flag)
         return @"yes";
 
     return @"no";

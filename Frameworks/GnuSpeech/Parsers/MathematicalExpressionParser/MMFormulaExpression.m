@@ -30,12 +30,12 @@
     [super dealloc];
 }
 
-- (int)operation;
+- (NSUInteger)operation;
 {
     return operation;
 }
 
-- (void)setOperation:(int)newOp;
+- (void)setOperation:(NSUInteger)newOp;
 {
     operation = newOp;
 }
@@ -85,7 +85,7 @@
 // Methods overridden from MMFormulaNode
 //
 
-- (int)precedence;
+- (NSUInteger)precedence;
 {
     switch (operation) {
       case TK_F_ADD:
@@ -126,10 +126,10 @@
     return 0.0;
 }
 
-- (int)maxPhone;
+- (NSUInteger)maxPhone;
 {
-    int max = 0;
-    int temp;
+    NSUInteger max = 0;
+    NSUInteger temp;
 
     temp = [left maxPhone];
     if (temp > max)

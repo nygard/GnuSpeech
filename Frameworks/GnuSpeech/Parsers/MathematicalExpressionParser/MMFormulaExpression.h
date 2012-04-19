@@ -5,7 +5,7 @@
 
 @interface MMFormulaExpression : MMFormulaNode
 {
-    int operation;
+    NSUInteger operation;
     MMFormulaNode *left;
     MMFormulaNode *right;
 }
@@ -13,8 +13,8 @@
 - (id)init;
 - (void)dealloc;
 
-- (int)operation;
-- (void)setOperation:(int)newOp;
+- (NSUInteger)operation;
+- (void)setOperation:(NSUInteger)newOp;
 
 - (id)operandOne;
 - (void)setOperandOne:(id)operand;
@@ -25,11 +25,11 @@
 - (NSString *)opString;
 
 // Methods overridden from MMFormulaNode
-- (int)precedence;
+- (NSUInteger)precedence;
 
 - (double)evaluate:(MMFRuleSymbols *)ruleSymbols postures:(NSArray *)postures tempos:(double *)tempos;
 
-- (int)maxPhone;
+- (NSUInteger)maxPhone;
 
 - (void)expressionString:(NSMutableString *)resultString;
 

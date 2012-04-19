@@ -47,7 +47,7 @@ static NSDictionary * specialAcronyms;  // static class variable
 {
 	NSLog(@"> %s", __PRETTY_FUNCTION__);
 
-	short order[4];
+	int16_t order[4];
 	
 	/*  INITIALIZE PARSER MODULE  */
 	init_parser_module();

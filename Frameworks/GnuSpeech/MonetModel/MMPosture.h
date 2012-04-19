@@ -78,15 +78,15 @@
 - (NSMutableArray *)symbolTargets;
 
 - (void)addParameterTarget:(MMTarget *)newTarget;
-- (void)removeParameterTargetAtIndex:(unsigned int)index;
+- (void)removeParameterTargetAtIndex:(NSUInteger)index;
 - (void)addParameterTargetsFromDictionary:(NSDictionary *)aDictionary;
 
 - (void)addMetaParameterTarget:(MMTarget *)newTarget;
-- (void)removeMetaParameterTargetAtIndex:(unsigned int)index;
+- (void)removeMetaParameterTargetAtIndex:(NSUInteger)index;
 - (void)addMetaParameterTargetsFromDictionary:(NSDictionary *)aDictionary;
 
 - (void)addSymbolTarget:(MMTarget *)newTarget;
-- (void)removeSymbolTargetAtIndex:(unsigned int)index;
+- (void)removeSymbolTargetAtIndex:(NSUInteger)index;
 - (void)addSymbolTargetsFromDictionary:(NSDictionary *)aDictionary;
 
 - (MMTarget *)targetForSymbol:(MMSymbol *)aSymbol;
@@ -96,11 +96,11 @@
 // Archiving
 - (id)initWithCoder:(NSCoder *)aDecoder;
 
-- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
-- (void)_appendXMLForCategoriesToString:(NSMutableString *)resultString level:(int)level;
-- (void)_appendXMLForParametersToString:(NSMutableString *)resultString level:(int)level;
-- (void)_appendXMLForMetaParametersToString:(NSMutableString *)resultString level:(int)level;
-- (void)_appendXMLForSymbolsToString:(NSMutableString *)resultString level:(int)level;
+- (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
+- (void)_appendXMLForCategoriesToString:(NSMutableString *)resultString level:(NSUInteger)level;
+- (void)_appendXMLForParametersToString:(NSMutableString *)resultString level:(NSUInteger)level;
+- (void)_appendXMLForMetaParametersToString:(NSMutableString *)resultString level:(NSUInteger)level;
+- (void)_appendXMLForSymbolsToString:(NSMutableString *)resultString level:(NSUInteger)level;
 
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;

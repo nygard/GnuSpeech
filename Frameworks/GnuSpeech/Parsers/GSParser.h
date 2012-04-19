@@ -15,7 +15,7 @@ extern NSString *GSParserSyntaxErrorException;
     NSScanner *scanner;
     NSString *symbolString;
 
-    unsigned int startOfTokenLocation;
+    NSUInteger startOfTokenLocation;
     NSRange errorRange;
     NSMutableString *errorMessage;
 }

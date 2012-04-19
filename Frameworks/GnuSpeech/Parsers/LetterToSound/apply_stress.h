@@ -26,4 +26,4 @@
  *
  ******************************************************************************/
 
-extern int apply_stress(char *buffer, char *orthography);
+int apply_stress(char *buffer, char *orthography);

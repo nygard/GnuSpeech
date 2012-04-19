@@ -123,7 +123,7 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
     double radius[TOTAL_REGIONS];
 
     {
-        int index;
+        NSUInteger index;
         char buf[100];
 
         for (index = 0; index < 16; index++) {
@@ -225,7 +225,7 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 - (NSData *)generateWAVDataWithSampleRateConverter:(TRMSampleRateConverter *)sampleRateConverter;
 {
     double scale;
-    long int index;
+    NSUInteger index;
 
     if (sampleRateConverter->maximumSampleValue == 0)
         NSBeep();
@@ -258,7 +258,7 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 
         for (index = 0; index < sampleRateConverter->numberSamples; index++) {
             double sample;
-            short value;
+            uint16_t value;
 
             fread(&sample, sizeof(sample), 1, sampleRateConverter->tempFilePtr);
 
@@ -273,7 +273,7 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 		
         for (index = 0; index < sampleRateConverter->numberSamples; index++) {
             double sample;
-            short value;
+            uint16_t value;
 
             fread(&sample, sizeof(sample), 1, sampleRateConverter->tempFilePtr);
 

@@ -305,7 +305,7 @@ int set_escape_code(char new_escape_code)
  *
  ******************************************************************************/
 
-int set_dict_data(const short order[4], 
+int set_dict_data(const int16_t order[4], 
 				  GSPronunciationDictionary *userDict, 
 				  GSPronunciationDictionary *appDict, 
 				  GSPronunciationDictionary *mainDict,

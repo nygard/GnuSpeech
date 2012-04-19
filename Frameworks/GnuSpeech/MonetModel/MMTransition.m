@@ -133,7 +133,7 @@
 // pointTime = [aPoint cachedTime];
 - (BOOL)isTimeInSlopeRatio:(double)aTime;
 {
-    unsigned pointCount, pointIndex;
+    NSUInteger pointCount, pointIndex;
     id currentPointOrSlopeRatio;
 
     pointCount = [points count];
@@ -155,7 +155,7 @@
 
 - (void)insertPoint:(MMPoint *)aPoint;
 {
-    int i, j;
+    NSUInteger i, j;
     id temp, temp1, temp2;
     double pointTime = [aPoint cachedTime];
 
@@ -202,7 +202,7 @@
 
 - (BOOL)isEquationUsed:(MMEquation *)anEquation;
 {
-    int i, j;
+    NSUInteger i, j;
     id temp;
 
     for (i = 0; i < [points count]; i++) {
@@ -222,8 +222,8 @@
 
 - (void)findEquation:(MMEquation *)anEquation andPutIn:(MonetList *)aList;
 {
-    unsigned count, index;
-    int j;
+    NSUInteger count, index;
+    NSUInteger j;
     id pointOrSlopeRatio;
 
     count = [points count];
@@ -249,7 +249,7 @@
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
-    unsigned archivedVersion;
+    NSUInteger archivedVersion;
     char *c_name, *c_comment;
     MonetList *archivedPoints;
     MModel *model;
@@ -374,7 +374,7 @@
                      NSStringFromClass([self class]), self, name, comment, type, points];
 }
 
-- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+- (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     [resultString indentToLevel:level];
     [resultString appendFormat:@"<transition name=\"%@\" type=\"%@\">\n",

@@ -28,4 +28,4 @@
 
 
 /*  GLOBAL FUNCTIONS *********************************************************/
-extern int member(char element, char *set);
+int member(char element, char *set);

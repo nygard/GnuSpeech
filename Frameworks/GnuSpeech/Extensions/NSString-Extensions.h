@@ -6,9 +6,9 @@
 @interface NSString (CDExtensions)
 
 + (NSString *)stringWithFileSystemRepresentation:(const char *)str;
-+ (NSString *)spacesIndentedToLevel:(int)level;
-+ (NSString *)spacesIndentedToLevel:(int)level spacesPerLevel:(int)spacesPerLevel;
-+ (NSString *)spacesOfLength:(int)targetLength;
++ (NSString *)spacesIndentedToLevel:(NSUInteger)level;
++ (NSString *)spacesIndentedToLevel:(NSUInteger)level spacesPerLevel:(NSUInteger)spacesPerLevel;
++ (NSString *)spacesOfLength:(NSUInteger)targetLength;
 + (NSString *)stringWithUnichar:(unichar)character;
 
 - (BOOL)isFirstLetterUppercase;
@@ -16,8 +16,8 @@
 
 + (NSString *)stringWithASCIICString:(const char *)bytes;
 
-- (NSString *)leftJustifiedStringPaddedToLength:(int)paddedLength;
-- (NSString *)rightJustifiedStringPaddedToLength:(int)paddedLength;
+- (NSString *)leftJustifiedStringPaddedToLength:(NSUInteger)paddedLength;
+- (NSString *)rightJustifiedStringPaddedToLength:(NSUInteger)paddedLength;
 
 - (BOOL)startsWithLetter;
 - (BOOL)isAllUpperCase;
@@ -28,6 +28,6 @@
 
 @interface NSMutableString (Extensions)
 
-- (void)indentToLevel:(int)level;
+- (void)indentToLevel:(NSUInteger)level;
 
 @end

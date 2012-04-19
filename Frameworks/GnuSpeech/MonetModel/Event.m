@@ -14,9 +14,9 @@
     return nil;
 }
 
-- (id)initWithTime:(int)aTime;
+- (id)initWithTime:(NSUInteger)aTime;
 {
-    int index;
+    NSUInteger index;
 
     if ([super init] == nil)
         return nil;
@@ -30,7 +30,7 @@
     return self;
 }
 
-- (int)time;
+- (NSUInteger)time;
 {
     return time;
 }
@@ -45,15 +45,15 @@
     flag = newFlag;
 }
 
-- (double)getValueAtIndex:(int)index;
+- (double)getValueAtIndex:(NSUInteger)index;
 {
     assert(index >= 0 && index < MAX_EVENTS);
     return events[index];
 }
 
-- (void)setValue:(double)newValue ofIndex:(int)index;
+- (void)setValue:(double)newValue ofIndex:(NSUInteger)index;
 {
-    if (index < 0 || index >= MAX_EVENTS)
+    if (index >= MAX_EVENTS)
         return;
 
     events[index] = newValue;

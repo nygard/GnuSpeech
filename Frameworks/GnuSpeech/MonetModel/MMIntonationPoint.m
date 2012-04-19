@@ -83,12 +83,12 @@
     [nonretained_eventList intonationPointDidChange:self];
 }
 
-- (int)ruleIndex;
+- (NSUInteger)ruleIndex;
 {
     return ruleIndex;
 }
 
-- (void)setRuleIndex:(int)newRuleIndex;
+- (void)setRuleIndex:(NSUInteger)newRuleIndex;
 {
     if (newRuleIndex == ruleIndex)
         return;
@@ -174,7 +174,7 @@
 // XML - Archiving
 //
 
-- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+- (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     [resultString indentToLevel:level];
     [resultString appendFormat:@"<intonation-point offset-time=\"%g\" semitone=\"%g\" slope=\"%g\" rule-index=\"%d\"/>\n",

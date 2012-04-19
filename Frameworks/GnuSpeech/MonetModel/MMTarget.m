@@ -74,14 +74,13 @@
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
-    unsigned archivedVersion;
-    int defaultInt;
+    NSUInteger defaultInt;
 
     if ([super initWithCoder:aDecoder] == nil)
         return nil;
 
     //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
-    archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
+    /*NSInteger archivedVersion =*/ [aDecoder versionForClassName:NSStringFromClass([self class])];
     //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
 
     [aDecoder decodeValuesOfObjCTypes:"id", &defaultInt, &value];
@@ -96,7 +95,7 @@
     return [NSString stringWithFormat:@"<%@>[%p]: isDefault: %d, value: %g", NSStringFromClass([self class]), self, isDefault, value];
 }
 
-- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+- (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     [resultString indentToLevel:level];
     [resultString appendFormat:@"<target ptr=\"%p\" value=\"%g\"/>", self, value];

@@ -38,7 +38,7 @@
 {
     NSDictionary *pronunciations;
     NSArray *allKeys;
-    unsigned int count, index;
+    NSUInteger count, index;
     DBM *newDB;
     NSString *key, *value;
     datum keyDatum, valueDatum;

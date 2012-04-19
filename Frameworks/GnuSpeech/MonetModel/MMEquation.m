@@ -128,7 +128,7 @@
     [formulaParser release];
 }
 
-- (double)evaluate:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(int)newCacheTag;
+- (double)evaluate:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag;
 {
     if (newCacheTag != cacheTag) {
         cacheTag = newCacheTag;
@@ -138,7 +138,7 @@
     return cacheValue;
 }
 
-- (double)evaluate:(MMFRuleSymbols *)ruleSymbols postures:(NSArray *)postures andCacheWith:(int)newCacheTag;
+- (double)evaluate:(MMFRuleSymbols *)ruleSymbols postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag;
 {
     if (newCacheTag != cacheTag) {
         cacheTag = newCacheTag;
@@ -198,7 +198,7 @@
                      NSStringFromClass([self class]), self, name, comment, formula, cacheTag, cacheValue];
 }
 
-- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+- (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     [resultString indentToLevel:level];
     [resultString appendFormat:@"<equation name=\"%@\"", GSXMLAttributeString(name, NO)];

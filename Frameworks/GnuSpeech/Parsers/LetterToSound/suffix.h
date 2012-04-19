@@ -28,4 +28,4 @@
 
 
 /*  GLOBAL FUNCTIONS *********************************************************/
-extern char *suffix(char *in, char *end, char *suflist);
+char *suffix(char *in, char *end, char *suflist);

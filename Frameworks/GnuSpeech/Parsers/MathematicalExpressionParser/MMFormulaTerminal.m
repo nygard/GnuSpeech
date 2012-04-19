@@ -59,12 +59,12 @@
     value = newValue;
 }
 
-- (int)whichPhone;
+- (NSInteger)whichPhone;
 {
     return whichPhone;
 }
 
-- (void)setWhichPhone:(int)newValue;
+- (void)setWhichPhone:(NSInteger)newValue;
 {
     whichPhone = newValue;
 }
@@ -73,7 +73,7 @@
 // Methods overridden from MMFormulaNode
 //
 
-- (int)precedence;
+- (NSUInteger)precedence;
 {
     return 3;
 }
@@ -120,7 +120,7 @@
     return [symbolTarget value];
 }
 
-- (int)maxPhone;
+- (NSInteger)maxPhone;
 {
     return whichPhone;
 }

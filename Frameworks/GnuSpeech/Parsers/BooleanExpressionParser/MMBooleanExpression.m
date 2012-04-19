@@ -26,12 +26,12 @@
     [super dealloc];
 }
 
-- (int)operation;
+- (NSUInteger)operation;
 {
     return operation;
 }
 
-- (void)setOperation:(int)newOperation;
+- (void)setOperation:(NSUInteger)newOperation;
 {
     operation = newOperation;
 }
@@ -115,7 +115,7 @@
         if ([expressions count] > 0)
             [[expressions objectAtIndex:0] expressionString:resultString];
     } else {
-        int count, index;
+        NSUInteger count, index;
 
         count = [expressions count];
         for (index = 0; index < count; index++) {
@@ -130,7 +130,7 @@
 
 - (BOOL)isCategoryUsed:(MMCategory *)aCategory;
 {
-    int count, index;
+    NSUInteger count, index;
 
     count = [expressions count];
     for (index = 0; index < count; index++) {
@@ -147,15 +147,14 @@
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
-    unsigned archivedVersion;
-    int numExpressions, maxExpressions;
-    int i;
+    NSUInteger numExpressions, maxExpressions;
+    NSUInteger i;
 
     if ([super initWithCoder:aDecoder] == nil)
         return nil;
 
     //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
-    archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
+    /*NSInteger archivedVersion =*/ [aDecoder versionForClassName:NSStringFromClass([self class])];
     //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
 
     [aDecoder decodeValuesOfObjCTypes:"iii", &operation, &numExpressions, &maxExpressions];

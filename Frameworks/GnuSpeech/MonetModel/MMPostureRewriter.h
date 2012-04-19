@@ -12,7 +12,7 @@
     NSString *categoryNames[15];
     MMPosture *returnPostures[7];
 
-    int currentState;
+    NSUInteger currentState;
     MMPosture *lastPosture;
 }
 

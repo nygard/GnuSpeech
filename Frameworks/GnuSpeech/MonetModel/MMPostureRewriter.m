@@ -27,7 +27,7 @@
 
 - (void)dealloc;
 {
-    unsigned int index;
+    NSUInteger index;
 
     [model release];
 
@@ -68,7 +68,7 @@
 
 - (void)_setup;
 {
-    unsigned int index;
+    NSUInteger index;
 
     for (index = 0; index < 7; index++)
         [returnPostures[index] release];
@@ -122,11 +122,11 @@
 
 - (void)rewriteEventList:(EventList *)eventList withNextPosture:(MMPosture *)nextPosture wordMarker:(BOOL)followsWordMarker;
 {
-    int index;
+    NSUInteger index;
     BOOL didMakeTransition = NO;
     MMPosture *insertPosture = nil;
 
-    static int stateTable[17][15] =
+    static NSUInteger stateTable[17][15] =
         {
             //              h*,hv*      ll*   s*      z*
             //              ==========  ---------------------

@@ -7,28 +7,19 @@
 
 @class Event, MMIntonationPoint, MModel, MMPosture, MMPostureRewriter, MMRule, PhoneList;
 
-/*===========================================================================
-
-	Author: Craig-Richard Taube-Schock
-		Copyright (c) 1994, Trillium Sound Research Incorporated.
-		All Rights Reserved.
-
-=============================================================================
-*/
-
 #define MAXPHONES	1500
 #define MAXFEET		110
 #define MAXTONEGROUPS	50
 
 #define MAXRULES	MAXPHONES-1
 
-#define STATEMENT	0
-#define EXCLAMATION	1
-#define QUESTION	2
+#define STATEMENT	    0
+#define EXCLAMATION	    1
+#define QUESTION	    2
 #define CONTINUATION	3
-#define SEMICOLON	4
+#define SEMICOLON	    4
 
-NSString *NSStringFromToneGroupType(int toneGroupType);
+NSString *NSStringFromToneGroupType(NSUInteger toneGroupType);
 
 struct _intonationParameters {
     float notionalPitch;
@@ -40,7 +31,7 @@ struct _intonationParameters {
 
 struct _phone {
     MMPosture *phone;
-    int syllable; // TODO (2004-08-12): This isn't used for anything right now.
+    NSUInteger syllable; // TODO (2004-08-12): This isn't used for anything right now.
     double onset;
     float ruleTempo;
 };
@@ -49,23 +40,23 @@ struct _foot {
     double onset1;
     double onset2;
     double tempo;
-    int start; // index into postures
-    int end;   // index into postures
-    int marked;
-    int last; // Is this the last foot of (the tone group?)
+    NSUInteger start; // index into postures
+    NSUInteger end;   // index into postures
+    NSUInteger marked;
+    NSUInteger last; // Is this the last foot of (the tone group?)
 };
 
 struct _toneGroup {
-    int startFoot;
-    int endFoot;
-    int type;
+    NSUInteger startFoot;
+    NSUInteger endFoot;
+    NSUInteger type;
 };
 
 // This is used by EventListView, IntonationView
 struct _rule {
-    int number;
-    int firstPhone;
-    int lastPhone;
+    NSUInteger number;
+    NSUInteger firstPhone;
+    NSUInteger lastPhone;
     double duration;
     double beat; // absolute time of beat, in milliseconds
 };
@@ -80,11 +71,11 @@ extern NSString *EventListDidChangeIntonationPoints;
 
     NSString *phoneString;
 
-    int zeroRef;
-    int zeroIndex; // Event index derived from zeroRef.
+    NSInteger zeroRef;
+    NSUInteger zeroIndex; // Event index derived from zeroRef.
 
-    int duration; // Move... somewhere else.
-    int timeQuantization; // in msecs.  By default it generates parameters every 4 msec
+    NSUInteger duration; // Move... somewhere else.
+    NSUInteger timeQuantization; // in msecs.  By default it generates parameters every 4 msec
 
     struct {
         unsigned int shouldStoreParameters:1; // YES -> -generateOutput writes to /tmp/Monet.parameters
@@ -102,17 +93,17 @@ extern NSString *EventListDidChangeIntonationPoints;
     struct _intonationParameters intonationParameters;
 
     /* NOTE phones and phoneTempo are separate for Optimization reasons */
-    int postureCount;
+    NSUInteger postureCount;
     struct _phone phones[MAXPHONES];
     double phoneTempo[MAXPHONES];
 
-    int footCount;
+    NSUInteger footCount;
     struct _foot feet[MAXFEET];
 
-    int toneGroupCount;
+    NSUInteger toneGroupCount;
     struct _toneGroup toneGroups[MAXTONEGROUPS];
 
-    int currentRule;
+    NSUInteger currentRule;
     struct _rule rules[MAXRULES];
 
     double min[16]; // Min of each parameter value
@@ -124,7 +115,7 @@ extern NSString *EventListDidChangeIntonationPoints;
     id delegate;
 
     // Hack for inflexible XML parsing.  I have plan to change how I parse XML.
-    int parseState;
+    NSUInteger parseState;
 }
 
 - (id)init;
@@ -139,14 +130,14 @@ extern NSString *EventListDidChangeIntonationPoints;
 - (NSString *)phoneString;
 - (void)_setPhoneString:(NSString *)newPhoneString;
 
-- (int)zeroRef;
-- (void)setZeroRef:(int)newValue;
+- (NSInteger)zeroRef;
+- (void)setZeroRef:(NSInteger)newValue;
 
-- (int)duration;
-- (void)setDuration:(int)newValue;
+- (NSUInteger)duration;
+- (void)setDuration:(NSUInteger)newValue;
 
-- (int)timeQuantization;
-- (void)setTimeQuantization:(int)newValue;
+- (NSUInteger)timeQuantization;
+- (void)setTimeQuantization:(NSUInteger)newValue;
 
 - (BOOL)shouldStoreParameters;
 - (void)setShouldStoreParameters:(BOOL)newFlag;
@@ -184,16 +175,16 @@ extern NSString *EventListDidChangeIntonationPoints;
 - (void)setFullTimeScale;
 
 // Rules
-- (struct _rule *)getRuleAtIndex:(int)ruleIndex;
-- (NSString *)ruleDescriptionAtIndex:(int)ruleIndex;
-- (double)getBeatAtIndex:(int)ruleIndex;
-- (int)ruleCount;
-- (void)getRuleIndex:(int *)ruleIndexPtr offsetTime:(double *)offsetTimePtr forAbsoluteTime:(double)absoluteTime;
+- (struct _rule *)getRuleAtIndex:(NSUInteger)ruleIndex;
+- (NSString *)ruleDescriptionAtIndex:(NSUInteger)ruleIndex;
+- (double)getBeatAtIndex:(NSUInteger)ruleIndex;
+- (NSUInteger)ruleCount;
+- (void)getRuleIndex:(NSUInteger *)ruleIndexPtr offsetTime:(double *)offsetTimePtr forAbsoluteTime:(double)absoluteTime;
 
 // Tone groups
 - (void)endCurrentToneGroup;
 - (void)newToneGroup;
-- (void)setCurrentToneGroupType:(int)type;
+- (void)setCurrentToneGroupType:(NSUInteger)type;
 
 // Feet
 - (void)endCurrentFoot;
@@ -203,19 +194,19 @@ extern NSString *EventListDidChangeIntonationPoints;
 - (void)setCurrentFootTempo:(double)tempo;
 
 // Postures
-- (MMPosture *)getPhoneAtIndex:(int)phoneIndex;
+- (MMPosture *)getPhoneAtIndex:(NSUInteger)phoneIndex;
 - (void)newPhoneWithObject:(MMPosture *)anObject;
 - (void)replaceCurrentPhoneWith:(MMPosture *)anObject;
 - (void)setCurrentPhoneTempo:(double)tempo;
 - (void)setCurrentPhoneRuleTempo:(float)tempo;
 - (void)setCurrentPhoneSyllable;
-- (int)ruleIndexForPostureAtIndex:(int)postureIndex;
+- (NSUInteger)ruleIndexForPostureAtIndex:(NSUInteger)postureIndex;
 
 // Events
 - (NSArray *)events;
 - (Event *)eventAtTimeOffset:(double)time;
-- (Event *)insertEvent:(int)number atTimeOffset:(double)time withValue:(double)value;
-- (void)finalEvent:(int)number withValue:(double)value;
+- (Event *)insertEvent:(NSInteger)number atTimeOffset:(double)time withValue:(double)value;
+- (void)finalEvent:(NSUInteger)number withValue:(double)value;
 
 // Other
 - (void)parsePhoneString:(NSString *)str;
@@ -224,7 +215,7 @@ extern NSString *EventListDidChangeIntonationPoints;
 - (void)generateIntonationPoints;
 - (void)generateOutput;
 
-- (void)_applyRule:(MMRule *)rule withPostures:(NSArray *)somePostures andTempos:(double *)tempos phoneIndex:(int)phoneIndex;
+- (void)_applyRule:(MMRule *)rule withPostures:(NSArray *)somePostures andTempos:(double *)tempos phoneIndex:(NSUInteger)phoneIndex;
 
 // Debugging
 - (NSString *)description;
@@ -243,7 +234,7 @@ extern NSString *EventListDidChangeIntonationPoints;
 - (void)_applySmoothIntonation;
 
 - (void)clearIntonationEvents;
-- (void)clearEventNumber:(int)number;
+- (void)clearEventNumber:(NSUInteger)number;
 - (void)removeEmptyEvents;
 
 - (void)intonationPointTimeDidChange:(MMIntonationPoint *)anIntonationPoint;

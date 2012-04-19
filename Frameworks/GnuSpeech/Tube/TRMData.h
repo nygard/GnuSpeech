@@ -12,32 +12,32 @@
 @interface TRMData : NSObject
 {
     /*  GLOTTAL SOURCE PARAMETERS  */
-    int waveform;
-    int showAmplitude;
-    int harmonicsScale;
-    int unit;
-    int pitch;
-    int cents;
+    int32_t waveform;
+    int32_t showAmplitude;
+    int32_t harmonicsScale;
+    int32_t unit;
+    int32_t pitch;
+    int32_t cents;
     float breathiness;
-    int glotVol;
+    int32_t glotVol;
     float tp;
     float tnMin;
     float tnMax;
 	
     /*  NOISE SOURCE PARAMETERS  */
-    int fricVol;
+    int32_t fricVol;
     float fricPos;
-    int fricCF;
-    int fricBW;
-    int NoiseSourceResponseScale;
-    int aspVol;
-    int modulation;
-    int mixOffset;
+    int32_t fricCF;
+    int32_t fricBW;
+    int32_t NoiseSourceResponseScale;
+    int32_t aspVol;
+    int32_t modulation;
+    int32_t mixOffset;
 	
     /*  THROAT PARAMETERS  */
-    int throatVol;
-    int throatCutoff;
-    int throatResponseScale;
+    int32_t throatVol;
+    int32_t throatCutoff;
+    int32_t throatResponseScale;
 	
     /*  RESONANT SYSTEM PARAMETERS  */
     double pharynxDiameter[PHARYNX_SECTIONS];
@@ -48,32 +48,32 @@
     double apScale;
     double mouthCoef;
     double noseCoef;
-    int mouthResponseScale;
-    int noseResponseScale;
+    int32_t mouthResponseScale;
+    int32_t noseResponseScale;
     double temperature;
     double length;
     double sampleRate;
     double actualLength;
-    int controlPeriod;
+    int32_t controlPeriod;
 	
     /*  CONTROLLER PARAMETERS  */
-    int volume;
+    int32_t volume;
     double balance;
-    int channels;
-    int controlRate;
+    int32_t channels;
+    int32_t controlRate;
 	
     /*  ANALYSIS PARAMETERS  */
     BOOL normalizeInput;
-    int binSize;
-    int windowType;
+    int32_t binSize;
+    int32_t windowType;
     float alpha;
     float beta;
-    int grayLevel;
-    int magnitudeScale;
+    int32_t grayLevel;
+    int32_t magnitudeScale;
     float linearUpperThreshold;
     float linearLowerThreshold;
-    int logUpperThreshold;
-    int logLowerThreshold;
+    int32_t logUpperThreshold;
+    int32_t logLowerThreshold;
     BOOL spectrographGrid;
     BOOL spectrumGrid;
 }
@@ -121,18 +121,18 @@
 - (void)setVelum:(float)value;
 
 
-- (int)controlRate;
-- (void)setControlRate:(int)value;
+- (int32_t)controlRate;
+- (void)setControlRate:(int32_t)value;
 
 - (float)volume;
 - (void)setVolume:(float)value;
-- (int)channels;
-- (void)setChannels:(int)value;
+- (int32_t)channels;
+- (void)setChannels:(int32_t)value;
 - (float)balance;
 - (void)setBalance:(float)value;
 
-- (int)waveform;
-- (void)setWaveform:(int)value;
+- (int32_t)waveform;
+- (void)setWaveform:(int32_t)value;
 - (float)tp;
 - (void)setTp:(float)value;
 - (float)tnMin;
@@ -172,8 +172,8 @@
 - (float)throatVol;
 - (void)setThroatVol:(float)value;
 
-- (int)modulation;
-- (void)setModulation:(int)value;
+- (int32_t)modulation;
+- (void)setModulation:(int32_t)value;
 - (float)mixOffset;
 - (void)setMixOffset:(float)value;
 

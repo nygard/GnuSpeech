@@ -5,12 +5,12 @@
 
 @implementation MMOldFormulaNode
 
-- (int)precedence;
+- (NSUInteger)precedence;
 {
     return precedence;
 }
 
-- (void)setPrecedence:(int)newPrecedence;
+- (void)setPrecedence:(NSUInteger)newPrecedence;
 {
     precedence = newPrecedence;
 }

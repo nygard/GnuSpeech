@@ -7,7 +7,7 @@
 
 @interface MXMLIgnoreTreeDelegate : NSObject
 {
-    int depth;
+    NSUInteger depth;
 }
 
 - (id)init;

@@ -57,18 +57,17 @@
 
 @interface MMBooleanExpression : MMBooleanNode
 {
-    int operation;
+    NSUInteger operation;
 
     NSMutableArray *expressions;
 }
 
-/* Init and free */
 - (id)init;
 - (void)dealloc;
 
 /* Access to instance variables */
-- (int)operation;
-- (void)setOperation:(int)newOperation;
+- (NSUInteger)operation;
+- (void)setOperation:(NSUInteger)newOperation;
 
 - (void)addSubExpression:(MMBooleanNode *)newExpression;
 - (MMBooleanNode *)operandOne;

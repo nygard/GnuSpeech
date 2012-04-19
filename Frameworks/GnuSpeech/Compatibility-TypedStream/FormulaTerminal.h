@@ -20,7 +20,7 @@
 {
     MMSymbol *symbol;
     double value;
-    int whichPhone; // TODO (2004-03-10): Rename this
+    NSUInteger whichPhone; // TODO (2004-03-10): Rename this
 }
 
 - (id)init;
@@ -32,8 +32,8 @@
 - (double)value;
 - (void)setValue:(double)newValue;
 
-- (int)whichPhone;
-- (void)setWhichPhone:(int)newValue;
+- (NSUInteger)whichPhone;
+- (void)setWhichPhone:(NSUInteger)newValue;
 
 // Methods common to "FormulaNode" -- for both FormulaExpression, FormulaTerminal
 - (void)expressionString:(NSMutableString *)resultString;

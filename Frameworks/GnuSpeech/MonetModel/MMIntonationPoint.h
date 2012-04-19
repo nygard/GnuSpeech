@@ -18,7 +18,7 @@
     double offsetTime; // Points are timed wrt a beat + this offset
     double slope;  // Slope of point
 
-    int ruleIndex; // Index of the rule for the phone which is the focus of this point
+    NSUInteger ruleIndex; // Index of the rule for the phone which is the focus of this point
 }
 
 - (id)init;
@@ -35,8 +35,8 @@
 - (double)slope;
 - (void)setSlope:(double)newSlope;
 
-- (int)ruleIndex;
-- (void)setRuleIndex:(int)newRuleIndex;
+- (NSUInteger)ruleIndex;
+- (void)setRuleIndex:(NSUInteger)newRuleIndex;
 
 - (double)absoluteTime;
 - (double)beatTime;
@@ -53,7 +53,7 @@
 - (NSComparisonResult)compareByAscendingAbsoluteTime:(MMIntonationPoint *)otherIntonationPoint;
 
 // XML - Archiving
-- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+- (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
