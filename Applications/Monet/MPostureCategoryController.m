@@ -184,7 +184,7 @@
 
         newTableColumn = [[NSTableColumn alloc] init];
         //[newTableColumn setIdentifier:[category symbol]];
-        [newTableColumn setIdentifier:category];
+        [newTableColumn setIdentifier:[category name]];
         [[newTableColumn headerCell] setTitle:[category name]];
 
         checkboxCell = [[NSButtonCell alloc] initTextCell:@""];
@@ -231,8 +231,8 @@
         posture = [[[self model] postures] objectAtIndex:row];
         if ([@"name" isEqual:identifier] == YES) {
             return [posture name];
-        } else if ([identifier isKindOfClass:[MMCategory class]]) {
-            return [NSNumber numberWithBool:[posture isMemberOfCategory:identifier]];
+        } else {
+            return [NSNumber numberWithBool:[posture isMemberOfCategoryNamed:identifier]];
         }
     }
 
