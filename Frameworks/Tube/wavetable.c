@@ -11,7 +11,7 @@
 #undef USE_VECLIB
 #else
 #define USE_VECLIB
-#include <vecLib/vecLib.h>
+#import <Accelerate/Accelerate.h>
 #endif
 
 //  Glottal source oscillator table variables
@@ -131,9 +131,9 @@ void TRMWavetableUpdate(TRMWavetable *wavetable, double amplitude)
             one[i] = 1.0;
         }
 
-        vsqD(aj, 1, ajj, 1, len);
-        vsmulD(ajj, 1, &scale, aj, 1, len);
-        vsubD(aj, 1, one, 1, &(wavetable->wavetable[wavetable->tableDiv1]), 1, len); // The docs seem to be wrong about which one gets subtracted...
+        vDSP_vsqD(aj, 1, ajj, 1, len);
+        vDSP_vsmulD(ajj, 1, &scale, aj, 1, len);
+        vDSP_vsubD(aj, 1, one, 1, &(wavetable->wavetable[wavetable->tableDiv1]), 1, len); // The docs seem to be wrong about which one gets subtracted...
     }
 #else
     {

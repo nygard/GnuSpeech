@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0172DA14153FDD2F00413F56 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0172DA13153FDD2F00413F56 /* Accelerate.framework */; };
 		01AC657B0B7BF4D8008E4B93 /* fir.c in Sources */ = {isa = PBXBuildFile; fileRef = 01AC656B0B7BF4D8008E4B93 /* fir.c */; };
 		01AC657C0B7BF4D8008E4B93 /* fir.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC656C0B7BF4D8008E4B93 /* fir.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01AC657D0B7BF4D8008E4B93 /* input.c in Sources */ = {isa = PBXBuildFile; fileRef = 01AC656D0B7BF4D8008E4B93 /* input.c */; };
@@ -23,12 +24,12 @@
 		01AC65880B7BF4D8008E4B93 /* util.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC65780B7BF4D8008E4B93 /* util.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01AC65890B7BF4D8008E4B93 /* wavetable.c in Sources */ = {isa = PBXBuildFile; fileRef = 01AC65790B7BF4D8008E4B93 /* wavetable.c */; };
 		01AC658A0B7BF4D8008E4B93 /* wavetable.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC657A0B7BF4D8008E4B93 /* wavetable.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		692303CB0EA1A262004D32EC /* vecLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01AC65920B7BF51A008E4B93 /* vecLib.framework */; };
 		697930D80F91911E00E6B2EC /* ChangeLog.txt in Resources */ = {isa = PBXBuildFile; fileRef = 697930D70F91911E00E6B2EC /* ChangeLog.txt */; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0172DA13153FDD2F00413F56 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = ../../../../../../../System/Library/Frameworks/Accelerate.framework; sourceTree = "<group>"; };
 		01AC656B0B7BF4D8008E4B93 /* fir.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = fir.c; sourceTree = "<group>"; };
 		01AC656C0B7BF4D8008E4B93 /* fir.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = fir.h; sourceTree = "<group>"; };
 		01AC656D0B7BF4D8008E4B93 /* input.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = input.c; sourceTree = "<group>"; };
@@ -61,7 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				692303CB0EA1A262004D32EC /* vecLib.framework in Frameworks */,
+				0172DA14153FDD2F00413F56 /* Accelerate.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,6 +80,7 @@
 		0867D691FE84028FC02AAC07 /* Tube */ = {
 			isa = PBXGroup;
 			children = (
+				0172DA13153FDD2F00413F56 /* Accelerate.framework */,
 				08FB77AEFE84172EC02AAC07 /* Classes */,
 				32C88DFF0371C24200C91783 /* Other Sources */,
 				089C1665FE841158C02AAC07 /* Resources */,
@@ -263,7 +265,6 @@
 		1DEB91AE08733DA50010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -284,7 +285,6 @@
 		1DEB91AF08733DA50010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -304,7 +304,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				DEPLOYMENT_LOCATION = NO;
 				DEPLOYMENT_POSTPROCESSING = NO;
@@ -327,7 +327,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				DEPLOYMENT_LOCATION = NO;
 				DEPLOYMENT_POSTPROCESSING = NO;
 				DSTROOT = "/tmp/$(PROJECT_NAME).dst";
