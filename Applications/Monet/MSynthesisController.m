@@ -371,7 +371,7 @@
         [absTimeTextField setDoubleValue:[selectedIntonationPoint absoluteTime]];
 		
         [intonationRuleTableView scrollRowToVisible:[selectedIntonationPoint ruleIndex]];
-        [intonationRuleTableView selectRow:[selectedIntonationPoint ruleIndex] byExtendingSelection:NO];
+        [intonationRuleTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[selectedIntonationPoint ruleIndex]] byExtendingSelection:NO];
     }
 }
 
@@ -389,10 +389,10 @@
 
 - (IBAction)synthesizeWithSoftware:(id)sender;
 {
-    NSLog(@" > %s", _cmd);
+    NSLog(@" > %s", __PRETTY_FUNCTION__);
     [synthesizer setShouldSaveToSoundFile:NO];
     [self synthesize];
-    NSLog(@"<  %s", _cmd);
+    NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
 
 - (IBAction)synthesizeToFile:(id)sender;
@@ -400,7 +400,7 @@
     NSString *directory;
     NSSavePanel *savePanel;
 	
-    NSLog(@" > %s", _cmd);
+    NSLog(@" > %s", __PRETTY_FUNCTION__);
 	
     directory = [[NSUserDefaults standardUserDefaults] objectForKey:MDK_SoundOutputDirectory];
 	
@@ -412,7 +412,7 @@
 	
     [savePanel beginSheetForDirectory:directory file:@"Untitled" modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(savePanelDidEnd:returnCode:contextInfo:) contextInfo:MDK_SoundOutputDirectory];
 	
-    NSLog(@"<  %s", _cmd);
+    NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
 
 - (void)synthesize;
@@ -540,7 +540,7 @@
 
 - (IBAction)generateContour:(id)sender;
 {
-    NSLog(@" > %s", _cmd);
+    NSLog(@" > %s", __PRETTY_FUNCTION__);
 	
     [self _takeIntonationParametersFromUI];
     [[intonationView documentView] setShouldDrawSmoothPoints:[[NSUserDefaults standardUserDefaults] boolForKey:MDK_ShouldUseSmoothIntonation]];
@@ -553,7 +553,7 @@
         [[intonationView documentView] selectIntonationPoint:[[eventList intonationPoints] objectAtIndex:0]];
     [intonationView display];
 	
-    NSLog(@"<  %s", _cmd);
+    NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
 
 - (IBAction)generateGraphImages:(id)sender;
@@ -616,7 +616,7 @@
     NSMutableString *html;
     NSFileManager *fileManager = [NSFileManager defaultManager];
 	
-    NSLog(@" > %s", _cmd);
+    NSLog(@" > %s", __PRETTY_FUNCTION__);
 	
     html = [NSMutableString string];
 	
@@ -700,7 +700,7 @@
 	
     system([[NSString stringWithFormat:@"open %@", [basePath stringByAppendingPathComponent:@"index.html"]] UTF8String]);
 	
-    NSLog(@"<  %s", _cmd);
+    NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
 
 - (IBAction) addTextString:(id)sender;
@@ -931,7 +931,7 @@
         count = [displayParameters count];
         for (index = 0; index < count; index++) {
             if ([[[[displayParameters objectAtIndex:index] parameter] name] hasPrefix:characters ignoreCase:YES]) {
-                [parameterTableView selectRow:index byExtendingSelection:NO];
+                [parameterTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
                 [parameterTableView scrollRowToVisible:index];
                 return NO;
             }

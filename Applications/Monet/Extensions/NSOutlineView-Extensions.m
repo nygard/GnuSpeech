@@ -64,7 +64,7 @@
         int row;
 
         row = [self rowForItem:anItem];
-        [self selectRow:row byExtendingSelection:NO];
+        [self selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
         [self scrollRowToVisible:row];
     }
 }

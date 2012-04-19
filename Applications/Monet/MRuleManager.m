@@ -95,7 +95,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     [self updateViews];
     [self expandOutlines];
 
-    [ruleTableView selectRow:0 byExtendingSelection:NO];
+    [ruleTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
 }
 
 - (NSUndoManager *)undoManager;
@@ -136,7 +136,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     [self updateViews];
     [self expandOutlines];
 
-    [ruleTableView selectRow:0 byExtendingSelection:NO];
+    [ruleTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
 }
 
 - (void)updateViews;
@@ -235,7 +235,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
         anEquation = [[[self selectedRule] symbolEquations] objectAtIndex:selectedRow];
 
     if (anEquation == nil) {
-        [symbolEquationOutlineView selectRow:0 byExtendingSelection:NO];
+        [symbolEquationOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
         [symbolEquationOutlineView scrollRowToVisible:0];
     } else {
         if ([anEquation group] != nil) {
@@ -583,7 +583,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
         [aRule release];
 
         [ruleTableView reloadData];
-        [ruleTableView selectRow:row byExtendingSelection:NO];
+        [ruleTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
 
         return YES;
     }
@@ -602,7 +602,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     count = [[model rules] count];
     index = [characters intValue];
     if (index > 0 && index <= count) {
-        [ruleTableView selectRow:index - 1 byExtendingSelection:NO];
+        [ruleTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:index - 1] byExtendingSelection:NO];
         [ruleTableView scrollRowToVisible:index - 1];
         return NO;
     }
@@ -863,7 +863,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     tag = [[sender selectedCell] tag];
 
     if (tag < 0 || tag > 3) {
-        NSLog(@"%s, tag out of range (0-3)", _cmd);
+        NSLog(@"%s, tag out of range (0-3)", __PRETTY_FUNCTION__);
         return;
     }
 
@@ -951,7 +951,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     [newRule release];
 
     [ruleTableView reloadData];
-    [ruleTableView selectRow:[[model rules] count] - 2 byExtendingSelection:NO];
+    [ruleTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[[model rules] count] - 2] byExtendingSelection:NO];
     [ruleTableView scrollRowToVisible:[[model rules] count] - 2];
 }
 

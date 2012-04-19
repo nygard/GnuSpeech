@@ -182,7 +182,7 @@
     NSArray *fnames;
     NSOpenPanel *openPanel;
 
-    NSLog(@" > %s", _cmd);
+    NSLog(@" > %s", __PRETTY_FUNCTION__);
 
     types = [NSArray arrayWithObjects:@"monet", @"degas", @"mxml", nil];
     openPanel = [NSOpenPanel openPanel]; // Each call resets values, including filenames
@@ -199,7 +199,7 @@
     for (index = 0; index < count; index++)
         [self _loadFile:[fnames objectAtIndex:index]];
 
-    NSLog(@"<  %s", _cmd);
+    NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
 
 - (IBAction)importTRMData:(id)sender;

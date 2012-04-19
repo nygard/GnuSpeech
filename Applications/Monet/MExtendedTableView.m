@@ -80,7 +80,7 @@
     [combinedCharacters appendString:[keyEvent characters]];
 
     if ([[self delegate] respondsToSelector:@selector(control:shouldProcessCharacters:)] == NO ||
-        [[self delegate] control:self shouldProcessCharacters:combinedCharacters] == YES) {
+        [(MExtendedTableView *)[self delegate] control:self shouldProcessCharacters:combinedCharacters] == YES) {
         [super keyDown:keyEvent];
         [combinedCharacters setString:@""];
     }

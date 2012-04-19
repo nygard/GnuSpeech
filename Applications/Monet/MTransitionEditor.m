@@ -279,7 +279,7 @@
             group = [equation group];
             groupRow = [equationOutlineView rowForItem:group];
             row = [equationOutlineView rowForItem:equation];
-            [equationOutlineView selectRow:row byExtendingSelection:NO];
+            [equationOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
             if ([equationOutlineView isItemExpanded:group] == NO)
                 [equationOutlineView expandItem:group];
             [equationOutlineView scrollRowToVisible:groupRow];

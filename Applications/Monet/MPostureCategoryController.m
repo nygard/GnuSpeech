@@ -204,7 +204,7 @@
 
 - (void)_selectFirstRow;
 {
-    [postureCategoryTableView selectRow:0 byExtendingSelection:NO];
+    [postureCategoryTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
 }
 
 //
@@ -258,7 +258,7 @@
     for (index = 0; index < count; index++) {
         posture = [postures objectAtIndex:index];
         if ([[posture name] hasPrefix:characters] == YES) {
-            [postureCategoryTableView selectRow:index byExtendingSelection:NO];
+            [postureCategoryTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
             [postureCategoryTableView scrollRowToVisible:index];
             return NO;
         }
