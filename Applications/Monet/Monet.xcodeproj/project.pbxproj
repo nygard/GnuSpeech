@@ -72,13 +72,6 @@
 			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
 			remoteInfo = GnuSpeech;
 		};
-		694159560FABB011009D4192 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6941586B0FABACB4009D4192 /* GnuSpeech.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = GnuSpeech;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -430,7 +423,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				694159570FABB011009D4192 /* PBXTargetDependency */,
 			);
 			name = Monet;
 			productInstallPath = "$(HOME)/Applications";
@@ -547,14 +539,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		694159570FABB011009D4192 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = GnuSpeech;
-			targetProxy = 694159560FABB011009D4192 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		01C55C490B7BC7C6009F6A92 /* ReleaseNotes.html */ = {
@@ -677,10 +661,6 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../Frameworks/GnuSpeech/build/Debug\"",
-				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
@@ -696,10 +676,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../Frameworks/GnuSpeech/build/Debug\"",
-				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = Monet_Prefix.pch;
@@ -718,7 +694,6 @@
 				COPY_PHASE_STRIP = NO;
 				DEPLOYMENT_LOCATION = NO;
 				DEPLOYMENT_POSTPROCESSING = NO;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../Frameworks\"/**";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -738,7 +713,6 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				DEPLOYMENT_LOCATION = NO;
 				DEPLOYMENT_POSTPROCESSING = NO;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../Frameworks\"/**";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
