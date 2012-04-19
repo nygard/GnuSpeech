@@ -22,10 +22,10 @@ typedef struct _TRMWavetable {
     double currentPosition;
 } TRMWavetable;
 
-TRMWavetable *TRMWavetableCreate(int waveform, double tp, double tnMin, double tnMax, double sampleRate);
-void TRMWavetableFree(TRMWavetable *wavetable);
+extern TRMWavetable *TRMWavetableCreate(int waveform, double tp, double tnMin, double tnMax, double sampleRate);
+extern void TRMWavetableFree(TRMWavetable *wavetable);
 
-void TRMWavetableUpdate(TRMWavetable *wavetable, double amplitude);
-double TRMWavetableOscillator(TRMWavetable *wavetable, double frequency);
+extern void TRMWavetableUpdate(TRMWavetable *wavetable, double amplitude);
+extern double TRMWavetableOscillator(TRMWavetable *wavetable, double frequency);
 
 #endif

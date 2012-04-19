@@ -6,29 +6,12 @@
 #include <string.h>
 #include "input.h"
 
-/*  VARIABLES FOR INPUT TABLE STORAGE  */
+// Variables for input table storage
 
 static INPUT *newInputTable(void);
 static int inputTableLength(INPUT *ptr);
 
-/******************************************************************************
-*
-*       function:       parseInputFile
-*
-*       purpose:        Parses the input file and assigns values to global
-*                       variables.
-*
-*       arguments:      inputFile
-*
-*       internal
-*       functions:      addInput, glotPitchAt, glotVolAt, aspVolAt, fricVolAt,
-*                       fricPosAt, fricCFAt, fricBWAt, radiiAt, velumAt
-*
-*       library
-*       functions:      fopen, fprintf, fgets, strtol, strod, fclose
-*
-******************************************************************************/
-
+// Parses the input file and assigns values to global variables.
 TRMDataList *parseInputFile(const char *inputFile)
 {
     int i;
@@ -38,28 +21,27 @@ TRMDataList *parseInputFile(const char *inputFile)
     TRMDataList data, *result;
 
 
-    /*  OPEN THE INPUT FILE  */
     if ((fp = fopen(inputFile, "r")) == NULL) {
         fprintf(stderr, "Can't open input file \"%s\".\n", inputFile);
         return NULL;
     }
 
 
-    /*  GET THE OUTPUT FILE FORMAT  */
+    // Get the output file format
     if (fgets(line, 128, fp) == NULL) {
         fprintf(stderr, "Can't read output file format.\n");
         return NULL;
     } else
         data.inputParameters.outputFileFormat = strtol(line, NULL, 10);
 
-    /*  GET THE OUTPUT SAMPLE RATE  */
+    // Get the output sample rate
     if (fgets(line, 128, fp) == NULL) {
         fprintf(stderr, "Can't read output sample rate.\n");
         return NULL;
     } else
         data.inputParameters.outputRate = strtod(line, NULL);
 
-    /*  GET THE INPUT CONTROL RATE  */
+    // Get the input control rate
     if (fgets(line, 128, fp) == NULL) {
         fprintf(stderr, "Can't read input control rate.\n");
         return NULL;
@@ -67,21 +49,21 @@ TRMDataList *parseInputFile(const char *inputFile)
         data.inputParameters.controlRate = strtod(line, NULL);
 
 
-    /*  GET THE MASTER VOLUME  */
+    // Get the master volume
     if (fgets(line, 128, fp) == NULL) {
         fprintf(stderr, "Can't read master volume.\n");
         return NULL;
     } else
         data.inputParameters.volume = strtod(line, NULL);
 
-    /*  GET THE NUMBER OF SOUND OUTPUT CHANNELS  */
+    // Get the number of sound output channels
     if (fgets(line, 128, fp) == NULL) {
         fprintf(stderr, "Can't read number of sound output channels.\n");
         return NULL;
     } else
         data.inputParameters.channels = strtol(line, NULL, 10);
 
-    /*  GET THE STEREO BALANCE  */
+    // Get the stereo balance
     if (fgets(line, 128, fp) == NULL) {
         fprintf(stderr, "Can't read stereo balance.\n");
         return NULL;
@@ -89,35 +71,35 @@ TRMDataList *parseInputFile(const char *inputFile)
         data.inputParameters.balance = strtod(line, NULL);
 
 
-    /*  GET THE GLOTTAL SOURCE WAVEFORM TYPE  */
+    // Get the glottal source waveform type
     if (fgets(line, 128, fp) == NULL) {
         fprintf(stderr, "Can't read glottal source waveform type.\n");
         return NULL;
     } else
         data.inputParameters.waveform = strtol(line, NULL, 10);
 
-    /*  GET THE GLOTTAL PULSE RISE TIME (tp)  */
+    // Get the glottal pulse rise time (tp)
     if (fgets(line, 128, fp) == NULL) {
         fprintf(stderr, "Can't read glottal pulse rise time (tp).\n");
         return NULL;
     } else
         data.inputParameters.tp = strtod(line, NULL);
 
-    /*  GET THE GLOTTAL PULSE FALL TIME MINIMUM (tnMin)  */
+    // Get the glottal pulse fall time minimum (tnMin)
     if (fgets(line, 128, fp) == NULL) {
         fprintf(stderr, "Can't read glottal pulse fall time minimum (tnMin).\n");
         return NULL;
     } else
         data.inputParameters.tnMin = strtod(line, NULL);
 
-    /*  GET THE GLOTTAL PULSE FALL TIME MAXIMUM (tnMax)  */
+    // Get the glottal pulse fall time maximum (tnMax)
     if (fgets(line, 128, fp) == NULL) {
         fprintf(stderr, "Can't read glottal pulse fall time maximum (tnMax).\n");
         return NULL;
     } else
         data.inputParameters.tnMax = strtod(line, NULL);
 
-    /*  GET THE GLOTTAL SOURCE BREATHINESS  */
+    // Get the glottal source breathiness
     if (fgets(line, 128, fp) == NULL) {
         fprintf(stderr, "Can't read glottal source breathiness.\n");
         return NULL;
@@ -125,21 +107,21 @@ TRMDataList *parseInputFile(const char *inputFile)
         data.inputParameters.breathiness = strtod(line, NULL);
 
 
-    /*  GET THE NOMINAL TUBE LENGTH  */
+    // Get the nominal tube length
     if (fgets(line, 128, fp) == NULL) {
         fprintf(stderr, "Can't read nominal tube length.\n");
         return NULL;
     } else
         data.inputParameters.length = strtod(line, NULL);
 
-    /*  GET THE TUBE TEMPERATURE  */
+    // Get the tube temperature
     if (fgets(line, 128, fp) == NULL) {
         fprintf(stderr, "Can't read tube temperature.\n");
         return NULL;
     } else
         data.inputParameters.temperature = strtod(line, NULL);
 
-    /*  GET THE JUNCTION LOSS FACTOR  */
+    // Get the junction loss factor
     if (fgets(line, 128, fp) == NULL) {
         fprintf(stderr, "Can't read junction loss factor.\n");
         return NULL;
@@ -147,21 +129,21 @@ TRMDataList *parseInputFile(const char *inputFile)
         data.inputParameters.lossFactor = strtod(line, NULL);
 
 
-    /*  GET THE APERTURE SCALING RADIUS  */
+    // Getthe aperture scaling radius
     if (fgets(line, 128, fp) == NULL) {
         fprintf(stderr, "Can't read aperture scaling radius.\n");
         return NULL;
     } else
         data.inputParameters.apScale = strtod(line, NULL);
 
-    /*  GET THE MOUTH APERTURE COEFFICIENT  */
+    // Get the mouth aperture coefficient
     if (fgets(line, 128, fp) == NULL) {
         fprintf(stderr, "Can't read mouth aperture coefficient\n");
         return NULL;
     } else
         data.inputParameters.mouthCoef = strtod(line, NULL);
 
-    /*  GET THE NOSE APERTURE COEFFICIENT  */
+    // Get the nose aperture coefficient
     if (fgets(line, 128, fp) == NULL) {
         fprintf(stderr, "Can't read nose aperture coefficient\n");
         return NULL;
@@ -169,7 +151,7 @@ TRMDataList *parseInputFile(const char *inputFile)
         data.inputParameters.noseCoef = strtod(line, NULL);
 
 
-    /*  GET THE NOSE RADII  */
+    // Get the nose radii
     for (i = 1; i < TOTAL_NASAL_SECTIONS; i++) {
         if (fgets(line, 128, fp) == NULL) {
             fprintf(stderr, "Can't read nose radius %-d.\n", i);
@@ -179,14 +161,14 @@ TRMDataList *parseInputFile(const char *inputFile)
     }
 
 
-    /*  GET THE THROAT LOWPASS FREQUENCY CUTOFF  */
+    // Get the throat lowpass frequency cutoff
     if (fgets(line, 128, fp) == NULL) {
         fprintf(stderr, "Can't read throat lowpass filter cutoff.\n");
         return NULL;
     } else
         data.inputParameters.throatCutoff = strtod(line, NULL);
 
-    /*  GET THE THROAT VOLUME  */
+    // Get the throat volume
     if (fgets(line, 128, fp) == NULL) {
         fprintf(stderr, "Can't read throat volume.\n");
         return NULL;
@@ -194,14 +176,14 @@ TRMDataList *parseInputFile(const char *inputFile)
         data.inputParameters.throatVol = strtod(line, NULL);
 
 
-    /*  GET THE PULSE MODULATION OF NOISE FLAG  */
+    // Get the pulse modulation of noise flag
     if (fgets(line, 128, fp) == NULL) {
         fprintf(stderr, "Can't read pulse modulation of noise flag.\n");
         return NULL;
     } else
         data.inputParameters.modulation = strtol(line, NULL, 10);
 
-    /*  GET THE NOISE CROSSMIX OFFSET  */
+    // Get the noise crossmix offset
     if (fgets(line, 128, fp) == NULL) {
         fprintf(stderr, "Can't read noise crossmix offset.\n");
         return NULL;
@@ -212,13 +194,13 @@ TRMDataList *parseInputFile(const char *inputFile)
     data.inputHead = NULL;
     data.inputTail = NULL;
 
-    /*  GET THE INPUT TABLE VALUES  */
+    // Get the inputtable values
     while (fgets(line, 128, fp)) {
         double glotPitch, glotVol, radius[TOTAL_REGIONS], velum, aspVol;
         double fricVol, fricPos, fricCF, fricBW;
         char *ptr = line;
 
-        /*  GET EACH PARAMETER  */
+        // Get each parameter
         glotPitch = strtod(ptr, &ptr);
         glotVol = strtod(ptr, &ptr);
         aspVol = strtod(ptr, &ptr);
@@ -230,12 +212,12 @@ TRMDataList *parseInputFile(const char *inputFile)
             radius[i] = strtod(ptr, &ptr);
         velum = strtod(ptr, &ptr);
 
-        /*  ADD THE PARAMETERS TO THE INPUT LIST  */
+        // Add the parameters to the input list
         addInput(&data, glotPitch, glotVol, aspVol, fricVol, fricPos, fricCF, fricBW, radius, velum);
         numberInputTables++;
     }
 #if 0
-    /*  DOUBLE UP THE LAST INPUT TABLE, TO HELP INTERPOLATION CALCULATIONS  */
+    // Double up the last input table, to help interpolation calculations
     if (numberInputTables > 0) {
         addInput(&data, glotPitchAt(data.inputTail), glotVolAt(data.inputTail),
                  aspVolAt(data.inputTail), fricVolAt(data.inputTail),
@@ -244,7 +226,7 @@ TRMDataList *parseInputFile(const char *inputFile)
                  velumAt(data.inputTail));
     }
 #endif
-    /*  CLOSE THE INPUT FILE  */
+    // Close the input file
     fclose(fp);
 
     result = (TRMDataList *)malloc(sizeof(TRMDataList));
@@ -258,24 +240,7 @@ TRMDataList *parseInputFile(const char *inputFile)
     return result;
 }
 
-/******************************************************************************
-*
-*       function:       addInput
-*
-*       purpose:        Adds table control data to the end of a linked list.
-*
-*       arguments:      glotPitch, glotVol, radius, velum, aspVol,
-*                       fricVol, fricPos,
-*                       fricCF, fricBW
-*
-*       internal
-*       functions:      newInputTable
-*
-*       library
-*       functions:      none
-*
-******************************************************************************/
-
+// Adds table control data to the end of a linked list.
 void addInput(TRMDataList *data, double glotPitch, double glotVol, double aspVol, double fricVol,
               double fricPos, double fricCF, double fricBW, double *radius,
               double velum)
@@ -297,48 +262,31 @@ void addInput(TRMDataList *data, double glotPitch, double glotVol, double aspVol
         data->inputTail->previous = tempPtr;
     }
 
-    /*  SET NULL POINTER TO NEXT, SINCE END OF LIST  */
+    // Set NULL pointer to next, since end of list
     data->inputTail->next = NULL;
 
-    /*  ADD GLOTTAL PITCH AND VOLUME  */
+    // Add glottal pitch and volume
     data->inputTail->parameters.glotPitch = glotPitch;
     data->inputTail->parameters.glotVol = glotVol;
 
-    /*  ADD ASPIRATION  */
+    // Add aspiration
     data->inputTail->parameters.aspVol = aspVol;
 
-    /*  ADD FRICATION PARAMETERS  */
+    // Add frication parameters
     data->inputTail->parameters.fricVol = fricVol;
     data->inputTail->parameters.fricPos = fricPos;
     data->inputTail->parameters.fricCF = fricCF;
     data->inputTail->parameters.fricBW = fricBW;
 
-    /*  ADD TUBE REGION RADII  */
+    // Add tube region radii
     for (i = 0; i < TOTAL_REGIONS; i++)
         data->inputTail->parameters.radius[i] = radius[i];
 
-    /*  ADD VELUM RADIUS  */
+    // Add velum radius
     data->inputTail->parameters.velum = velum;
 }
 
-
-
-/******************************************************************************
-*
-*       function:       newInputTable
-*
-*       purpose:        Allocates memory for a new input table.
-*
-*       arguments:      none
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      malloc
-*
-******************************************************************************/
-
+// Allocates memory for a new input table.
 INPUT *newInputTable(void)
 {
     return ((INPUT *)malloc(sizeof(INPUT)));
@@ -451,10 +399,10 @@ void printControlRateInputTable(TRMDataList *data)
     INPUT *ptr;
     int index;
 
-    /*  ECHO TABLE VALUES  */
+    // Echo table values
     printf("\n%-d control rate input tables:\n\n", inputTableLength(data->inputHead));
 
-    /*  HEADER  */
+    // Header
     printf("glPitch");
     printf("\tglotVol");
     printf("\taspVol");
@@ -466,7 +414,7 @@ void printControlRateInputTable(TRMDataList *data)
         printf("\tr%-d", index + 1);
     printf("\tvelum\n");
 
-    /*  ACTUAL VALUES  */
+    // Actual values
     ptr = data->inputHead;
     while (ptr != NULL) {
         TRMParameters *parameters;

@@ -41,21 +41,19 @@ void TRMRingBufferFree(TRMRingBuffer *ringBuffer)
     free(ringBuffer);
 }
 
-// Fills the ring buffer with a single sample, increments
-// the counters and pointers, and empties the buffer when
-// full.
+// Fills the ring buffer with a single sample, increments the counters and pointers, and empties the buffer when full.
 void dataFill(TRMRingBuffer *ringBuffer, double data)
 {
     ringBuffer->buffer[ringBuffer->fillPtr] = data;
 
-    /*  INCREMENT THE FILL POINTER, MODULO THE BUFFER SIZE  */
+    // Increment the fill pointer, module the buffer size
     RBIncrement(ringBuffer);
 
-    /*  INCREMENT THE COUNTER, AND EMPTY THE BUFFER IF FULL  */
+    // Increment the counter, and empty the bufferif full
     if (++(ringBuffer->fillCounter) >= ringBuffer->fillSize) {
-	dataEmpty(ringBuffer);
-	/* RESET THE FILL COUNTER  */
-	ringBuffer->fillCounter = 0;
+        dataEmpty(ringBuffer);
+        // Reset the fill counter
+        ringBuffer->fillCounter = 0;
     }
 }
 
@@ -72,13 +70,13 @@ void dataEmpty(TRMRingBuffer *ringBuffer)
 void RBIncrement(TRMRingBuffer *ringBuffer)
 {
     if (++(ringBuffer->fillPtr) >= BUFFER_SIZE)
-	ringBuffer->fillPtr -= BUFFER_SIZE;
+        ringBuffer->fillPtr -= BUFFER_SIZE;
 }
 
 void RBDecrement(TRMRingBuffer *ringBuffer)
 {
     if (--(ringBuffer->fillPtr) < 0)
-	ringBuffer->fillPtr += BUFFER_SIZE;
+        ringBuffer->fillPtr += BUFFER_SIZE;
 }
 
 // Pads the buffer with zero samples, and flushes it by converting the remaining samples.
@@ -88,7 +86,7 @@ void flushBuffer(TRMRingBuffer *ringBuffer)
 
     /*  PAD END OF RING BUFFER WITH ZEROS  */
     for (index = 0; index < (ringBuffer->padSize * 2); index++)
-	dataFill(ringBuffer, 0.0);
+        dataFill(ringBuffer, 0.0);
 
     /*  FLUSH UP TO FILL POINTER - PADSIZE  */
     dataEmpty(ringBuffer);
@@ -97,11 +95,11 @@ void flushBuffer(TRMRingBuffer *ringBuffer)
 void RBIncrementIndex(int *index)
 {
     if (++(*index) >= BUFFER_SIZE)
-	(*index) -= BUFFER_SIZE;
+        (*index) -= BUFFER_SIZE;
 }
 
 void RBDecrementIndex(int *index)
 {
     if (--(*index) < 0)
-	(*index) += BUFFER_SIZE;
+        (*index) += BUFFER_SIZE;
 }

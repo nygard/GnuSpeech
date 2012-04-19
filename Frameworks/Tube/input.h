@@ -6,22 +6,22 @@
 
 #include "structs.h" // For TRMParameters
 
-TRMDataList *parseInputFile(const char *inputFile);
-void addInput(TRMDataList *data, double glotPitch, double glotVol, double aspVol, double fricVol,
-              double fricPos, double fricCF, double fricBW, double *radius,
-              double velum);
+extern TRMDataList *parseInputFile(const char *inputFile);
+extern void addInput(TRMDataList *data, double glotPitch, double glotVol, double aspVol, double fricVol,
+                     double fricPos, double fricCF, double fricBW, double *radius,
+                     double velum);
 
-double glotPitchAt(INPUT *ptr);
-double glotVolAt(INPUT *ptr);
-double *radiiAt(INPUT *ptr);
-double radiusAtRegion(INPUT *ptr, int region);
-double velumAt(INPUT *ptr);
-double aspVolAt(INPUT *ptr);
-double fricVolAt(INPUT *ptr);
-double fricPosAt(INPUT *ptr);
-double fricCFAt(INPUT *ptr);
-double fricBWAt(INPUT *ptr);
+extern double glotPitchAt(INPUT *ptr);
+extern double glotVolAt(INPUT *ptr);
+extern double *radiiAt(INPUT *ptr);
+extern double radiusAtRegion(INPUT *ptr, int region);
+extern double velumAt(INPUT *ptr);
+extern double aspVolAt(INPUT *ptr);
+extern double fricVolAt(INPUT *ptr);
+extern double fricPosAt(INPUT *ptr);
+extern double fricCFAt(INPUT *ptr);
+extern double fricBWAt(INPUT *ptr);
 
-void printControlRateInputTable(TRMDataList *data);
+extern void printControlRateInputTable(TRMDataList *data);
 
 #endif

@@ -107,7 +107,6 @@ void TRMWavetableFree(TRMWavetable *wavetable)
     free(wavetable);
 }
 
-
 // Rewrites the changeable part of the glottal pulse according to the amplitude.
 void TRMWavetableUpdate(TRMWavetable *wavetable, double amplitude)
 {

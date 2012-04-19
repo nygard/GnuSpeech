@@ -19,16 +19,16 @@ typedef struct _TRMRingBuffer {
     void (*callbackFunction)(struct _TRMRingBuffer *, void *);
 } TRMRingBuffer;
 
-TRMRingBuffer *TRMRingBufferCreate(int aPadSize);
-void TRMRingBufferFree(TRMRingBuffer *ringBuffer);
+extern TRMRingBuffer *TRMRingBufferCreate(int aPadSize);
+extern void TRMRingBufferFree(TRMRingBuffer *ringBuffer);
 
-void dataFill(TRMRingBuffer *ringBuffer, double data);
-void dataEmpty(TRMRingBuffer *ringBuffer);
-void RBIncrement(TRMRingBuffer *ringBuffer);
-void RBDecrement(TRMRingBuffer *ringBuffer);
-void flushBuffer(TRMRingBuffer *ringBuffer);
+extern void dataFill(TRMRingBuffer *ringBuffer, double data);
+extern void dataEmpty(TRMRingBuffer *ringBuffer);
+extern void RBIncrement(TRMRingBuffer *ringBuffer);
+extern void RBDecrement(TRMRingBuffer *ringBuffer);
+extern void flushBuffer(TRMRingBuffer *ringBuffer);
 
-void RBIncrementIndex(int *index);
-void RBDecrementIndex(int *index);
+extern void RBIncrementIndex(int *index);
+extern void RBDecrementIndex(int *index);
 
 #endif

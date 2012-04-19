@@ -4,14 +4,14 @@
 #ifndef __UTIL_H
 #define __UTIL_H
 
-#define BETA                      5.658        /*  kaiser window parameters  */
+#define BETA                      5.658        // Kaiser window parameters
 #define IzeroEPSILON              1E-21
 
-double speedOfSound(double temperature);
-double amplitude(double decibelLevel);
-double frequency(double pitch);
-double Izero(double x);
-double noise(void);
-double noiseFilter(double input);
+extern double speedOfSound(double temperature);
+extern double amplitude(double decibelLevel);
+extern double frequency(double pitch);
+extern double Izero(double x);
+extern double noise(void);
+extern double noiseFilter(double input);
 
 #endif
