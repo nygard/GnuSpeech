@@ -1,4 +1,4 @@
-//  Copyright 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "GSPronunciationDictionary.h"
 #include <fcntl.h>

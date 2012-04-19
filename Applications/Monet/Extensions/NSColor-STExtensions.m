@@ -1,5 +1,5 @@
 //  This file is part of STAppKit, a framework of AppKit extensions.
-//  Copyright (C) 2004 Steve Nygard.  All rights reserved.
+//  Copyright (C) 2004-2012 Steve Nygard.  All rights reserved.
 
 #import "NSColor-STExtensions.h"
 
