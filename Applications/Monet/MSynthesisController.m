@@ -283,7 +283,7 @@
         displayParameter = [displayParameters objectAtIndex:index];
 		
         if ([displayParameter isSpecial] == NO) {
-            tableColumn = [[NSTableColumn alloc] initWithIdentifier:[NSNumber numberWithInt:[displayParameter tag]]];
+            tableColumn = [[NSTableColumn alloc] initWithIdentifier:[NSString stringWithFormat:@"%d", [displayParameter tag]]];
             [tableColumn setEditable:NO];
             [[tableColumn headerCell] setTitle:[[displayParameter parameter] name]];
             [[tableColumn dataCell] setFormatter:defaultNumberFormatter];
@@ -301,7 +301,7 @@
     for (index = 0; index < 4; index++) {
         NSTableColumn *tableColumn;
 		
-        tableColumn = [[NSTableColumn alloc] initWithIdentifier:[NSNumber numberWithInt:32 + index]];
+        tableColumn = [[NSTableColumn alloc] initWithIdentifier:[NSString stringWithFormat:@"%d", 32 + index]];
         [tableColumn setEditable:NO];
         [[tableColumn headerCell] setTitle:others[index]];
         [[tableColumn dataCell] setFormatter:defaultNumberFormatter];
@@ -859,7 +859,7 @@
             return [NSNumber numberWithInt:[[[eventList events] objectAtIndex:eventNumber] time]];
         } else if ([@"flag" isEqual:identifier] == YES) {
             return [NSNumber numberWithBool:[[[eventList events] objectAtIndex:eventNumber] flag]];
-        } else if ([identifier isKindOfClass:[NSNumber class]]) {
+        } else {
             double value;
             int rowOffset, index;
 			
