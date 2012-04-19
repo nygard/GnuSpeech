@@ -413,10 +413,10 @@
 	
     [savePanel beginSheetModalForWindow:[self window] completionHandler:^(NSInteger result){
         if (result == NSFileHandlingPanelOKButton) {
-            [[NSUserDefaults standardUserDefaults] setObject:[savePanel directory] forKey:MDK_SoundOutputDirectory];
+            [[NSUserDefaults standardUserDefaults] setObject:[[savePanel directoryURL] path] forKey:MDK_SoundOutputDirectory];
             [synthesizer setShouldSaveToSoundFile:YES];
             [synthesizer setFileType:[[fileTypePopUpButton selectedItem] tag]];
-            [synthesizer setFilename:[savePanel filename]];
+            [synthesizer setFilename:[[savePanel URL] path]];
             [self synthesize];
         }
     }];
@@ -474,7 +474,7 @@
 			extension = @"au"; break;
     }
 	
-    [savePanel setRequiredFileType:extension];
+    [savePanel setAllowedFileTypes:[NSArray arrayWithObject:extension]];
 }
 
 - (void)parseText:(id)sender;
@@ -573,11 +573,11 @@
     directory = [[NSUserDefaults standardUserDefaults] objectForKey:MDK_GraphImagesDirectory];
 	
     savePanel = [NSSavePanel savePanel];
-    [savePanel setRequiredFileType:nil];
+    [savePanel setAllowedFileTypes:nil]; // TODO (2012-04-18): Not sure if nil is ok.
     [savePanel beginSheetModalForWindow:[self window] completionHandler:^(NSInteger result){
         if (result == NSFileHandlingPanelOKButton) {
-            [[NSUserDefaults standardUserDefaults] setObject:[savePanel directory] forKey:MDK_GraphImagesDirectory];
-            [self saveGraphImagesToPath:[savePanel filename]];
+            [[NSUserDefaults standardUserDefaults] setObject:[[savePanel directoryURL] path] forKey:MDK_GraphImagesDirectory];
+            [self saveGraphImagesToPath:[[savePanel URL] path]];
         }
     }];
 }
@@ -736,15 +736,15 @@
 	
     directory = [[NSUserDefaults standardUserDefaults] objectForKey:MDK_IntonationContourDirectory];
     openPanel = [NSOpenPanel openPanel];
-    [openPanel setRequiredFileType:@"contour"];
+    [openPanel setAllowedFileTypes:[NSArray arrayWithObject:@"contour"]];
 	
     [openPanel beginSheetModalForWindow:intonationWindow completionHandler:^(NSInteger result){
         if (result == NSFileHandlingPanelOKButton) {
-            [[NSUserDefaults standardUserDefaults] setObject:[openPanel directory] forKey:MDK_IntonationContourDirectory];
+            [[NSUserDefaults standardUserDefaults] setObject:[[openPanel directoryURL] path] forKey:MDK_IntonationContourDirectory];
 			
             [self prepareForSynthesis];
 			
-            [eventList loadIntonationContourFromXMLFile:[openPanel filename]];
+            [eventList loadIntonationContourFromXMLFile:[[openPanel URL] path]];
 			
             //[phoneStringTextField setStringValue:[eventList phoneString]];
             [intonationRuleTableView reloadData];
@@ -759,12 +759,12 @@
 	
     directory = [[NSUserDefaults standardUserDefaults] objectForKey:MDK_IntonationContourDirectory];
     savePanel = [NSSavePanel savePanel];
-    [savePanel setRequiredFileType:@"contour"];
+    [savePanel setAllowedFileTypes:[NSArray arrayWithObject:@"contour"]];
 
     [savePanel beginSheetModalForWindow:intonationWindow completionHandler:^(NSInteger result){
         if (result == NSFileHandlingPanelOKButton) {
-            [[NSUserDefaults standardUserDefaults] setObject:[savePanel directory] forKey:MDK_IntonationContourDirectory];
-            [eventList writeXMLToFile:[savePanel filename] comment:nil];
+            [[NSUserDefaults standardUserDefaults] setObject:[[savePanel directoryURL] path] forKey:MDK_IntonationContourDirectory];
+            [eventList writeXMLToFile:[[savePanel URL] path] comment:nil];
         }
     }];
 }
@@ -798,7 +798,8 @@
     [[printView documentView] setShouldDrawSmoothPoints:[[intonationView documentView] shouldDrawSmoothPoints]];
 	
     printOperation = [NSPrintOperation printOperationWithView:printView printInfo:intonationPrintInfo];
-    [printOperation setShowPanels:YES];
+    [printOperation setShowsPrintPanel:YES];
+    [printOperation setShowsProgressPanel:YES];
 	
     [printOperation runOperation];
     [printView release];
