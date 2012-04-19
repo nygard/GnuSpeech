@@ -171,8 +171,9 @@
 	
 	// Added by dalmazio, April 11, 2009.
 	bounds.size.width = [self minimumWidth];
-	bounds.size.height = [self minimumHeight];	
-	[self setFrame:bounds];
+	bounds.size.height = [self minimumHeight];
+    // This is call during drawing, and it's a bad idea to change the frame during drawing.  On 10.7.3 it slows down the app tremendously.
+	//[self setFrame:bounds];
 	
 	NSDrawGrayBezel([self bounds], [self bounds]);
 }
