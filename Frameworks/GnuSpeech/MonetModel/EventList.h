@@ -70,7 +70,7 @@ extern NSString *EventListDidChangeIntonationPoints;
     NSString *phoneString;
 
     NSInteger zeroRef;
-    NSUInteger zeroIndex; // Event index derived from zeroRef.
+    NSInteger zeroIndex; // Event index derived from zeroRef.
 
     NSUInteger duration; // Move... somewhere else.
     NSUInteger timeQuantization; // in msecs.  By default it generates parameters every 4 msec

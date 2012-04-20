@@ -570,7 +570,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 - (Event *)eventAtTimeOffset:(double)time;
 {
     Event *newEvent = nil;
-    NSUInteger i, tempTime;
+    NSInteger i, tempTime;
 
     time = time * multiplier;
     if (time < 0.0)
