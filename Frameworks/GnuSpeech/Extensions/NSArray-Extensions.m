@@ -27,7 +27,7 @@
     for (index = 0; index < count; index++) {
         if (prefix != nil) {
             [resultString indentToLevel:level+1];
-            [resultString appendFormat:@"<!-- %@: %d -->\n", prefix, index + 1];
+            [resultString appendFormat:@"<!-- %@: %lu -->\n", prefix, index + 1];
         }
 
         [[self objectAtIndex:index] appendXMLToString:resultString level:level+1];

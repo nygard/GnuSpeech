@@ -210,7 +210,7 @@
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@>[%p]: value: %g, freeTime: %g, timeEquation: %@, type: %d, isPhantom: %d",
+    return [NSString stringWithFormat:@"<%@>[%p]: value: %g, freeTime: %g, timeEquation: %@, type: %lu, isPhantom: %d",
                      NSStringFromClass([self class]), self, value, freeTime, timeEquation, type, isPhantom];
 }
 

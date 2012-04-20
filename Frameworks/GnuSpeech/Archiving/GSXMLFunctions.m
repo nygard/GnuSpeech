@@ -76,7 +76,7 @@ NSString *MMStringFromPhoneType(MMPhoneType type)
         case 4: return @"tetraphone";
     }
 
-    [NSException raise:NSInvalidArgumentException format:@"Unkonwn phone type: %d", type];
+    [NSException raise:NSInvalidArgumentException format:@"Unkonwn phone type: %ld", type];
     return nil;
 }
 

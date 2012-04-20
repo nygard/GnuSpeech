@@ -174,7 +174,7 @@
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@>[%p]: operation: %d, expressions: %@, expressionString: %@",
+    return [NSString stringWithFormat:@"<%@>[%p]: operation: %lu, expressions: %@, expressionString: %@",
                      NSStringFromClass([self class]), self, operation, expressions, [self expressionString]];
 }
 

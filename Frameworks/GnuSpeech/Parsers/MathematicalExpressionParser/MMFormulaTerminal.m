@@ -159,7 +159,7 @@
           if (symbol == nil) {
               [resultString appendFormat:@"%f", value];
           } else {
-              [resultString appendFormat:@"%@%d", [symbol name], whichPhone+1];
+              [resultString appendFormat:@"%@%lu", [symbol name], whichPhone+1];
           }
           break;
     }

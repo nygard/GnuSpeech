@@ -193,7 +193,7 @@
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@>[%p]: name: %@, comment: %@, formula: %@, cacheTag: %d, cacheValue: %g",
+    return [NSString stringWithFormat:@"<%@>[%p]: name: %@, comment: %@, formula: %@, cacheTag: %lu, cacheValue: %g",
                      NSStringFromClass([self class]), self, name, comment, formula, cacheTag, cacheValue];
 }
 

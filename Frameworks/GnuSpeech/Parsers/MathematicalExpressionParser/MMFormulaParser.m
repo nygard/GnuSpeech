@@ -38,7 +38,7 @@
       case TK_F_END: return @"<eof>";
     }
 
-    return [NSString stringWithFormat:@"<unknown token %d>", aToken];
+    return [NSString stringWithFormat:@"<unknown token %lu>", aToken];
 }
 
 - (id)initWithModel:(MModel *)aModel;
@@ -297,7 +297,7 @@
             //NSLog(@"Phone = %d", whichPhone);
             if ( (whichPhone < 0) || (whichPhone > 3)) {
                 [self appendErrorFormat:@"Error, incorrect phone index %d", whichPhone];
-                [NSException raise:GSParserSyntaxErrorException format:@"incorrect phone index %d", whichPhone];
+                [NSException raise:GSParserSyntaxErrorException format:@"incorrect phone index %lu", whichPhone];
                 return nil;
             }
 

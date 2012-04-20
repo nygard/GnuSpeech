@@ -1301,7 +1301,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@>[%p]: postureCount: %d, footCount: %d, toneGroupCount: %d, currentRule: %d, + a bunch of other stuff, super: %@",
+    return [NSString stringWithFormat:@"<%@>[%p]: postureCount: %lu, footCount: %lu, toneGroupCount: %lu, currentRule: %lu, + a bunch of other stuff, super: %@",
                      NSStringFromClass([self class]), self, postureCount, footCount, toneGroupCount, currentRule, [super description]];
 }
 

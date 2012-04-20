@@ -369,7 +369,7 @@
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@>[%p]: name: %@, comment: %@, type: %d, points: %@",
+    return [NSString stringWithFormat:@"<%@>[%p]: name: %@, comment: %@, type: %lu, points: %@",
                      NSStringFromClass([self class]), self, name, comment, type, points];
 }
 

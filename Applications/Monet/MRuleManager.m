@@ -339,19 +339,19 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     }
 
     // TODO (2004-03-24): We're getting an assertion failure in [NSMatrix lockFocus] somewhere in the following code.  This may be a good enough reason to switch to NSTableViews instead of NSBrowsers.
-    str = [NSString stringWithFormat:@"Total Matches: %d", [[matchLists objectAtIndex:0] count]];
+    str = [NSString stringWithFormat:@"Total Matches: %lu", [[matchLists objectAtIndex:0] count]];
     [match1Browser setTitle:str ofColumn:0];
     [match1Browser loadColumnZero];
 
-    str = [NSString stringWithFormat:@"Total Matches: %d", [[matchLists objectAtIndex:1] count]];
+    str = [NSString stringWithFormat:@"Total Matches: %lu", [[matchLists objectAtIndex:1] count]];
     [match2Browser setTitle:str ofColumn:0];
     [match2Browser loadColumnZero];
 
-    str = [NSString stringWithFormat:@"Total Matches: %d", [[matchLists objectAtIndex:2] count]];
+    str = [NSString stringWithFormat:@"Total Matches: %lu", [[matchLists objectAtIndex:2] count]];
     [match3Browser setTitle:str ofColumn:0];
     [match3Browser loadColumnZero];
 
-    str = [NSString stringWithFormat:@"Total Matches: %d", [[matchLists objectAtIndex:3] count]];
+    str = [NSString stringWithFormat:@"Total Matches: %lu", [[matchLists objectAtIndex:3] count]];
     [match4Browser setTitle:str ofColumn:0];
     [match4Browser loadColumnZero];
 
@@ -413,7 +413,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
         if ([@"hasComment" isEqual:identifier] == YES) {
             return [NSNumber numberWithBool:[rule hasComment]];
         } else if ([@"number" isEqual:identifier] == YES) {
-            return [NSString stringWithFormat:@"%d.", row + 1];
+            return [NSString stringWithFormat:@"%lu.", row + 1];
         } else if ([@"rule" isEqual:identifier] == YES) {
             return [rule ruleString];
         } else if ([@"numberOfTokensConsumed" isEqual:identifier] == YES) {
@@ -886,7 +886,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
           aBrowser = nil;
     }
 
-    [aBrowser setTitle:[NSString stringWithFormat:@"Total Matches: %d", [matchedPhoneList count]] ofColumn:0];
+    [aBrowser setTitle:[NSString stringWithFormat:@"Total Matches: %lu", [matchedPhoneList count]] ofColumn:0];
     [aBrowser loadColumnZero];
     [self updateCombinations];
 }

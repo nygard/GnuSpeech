@@ -146,7 +146,7 @@
     if (aRule != nil) {
         NSString *str;
 
-        str = [NSString stringWithFormat:@"%d. %@", ruleIndex + 1, [aRule ruleString]];
+        str = [NSString stringWithFormat:@"%lu. %@", ruleIndex + 1, [aRule ruleString]];
         [ruleOutputTextField setStringValue:str];
         [consumedTokensTextField setIntValue:[aRule numberExpressions] - 1];
 

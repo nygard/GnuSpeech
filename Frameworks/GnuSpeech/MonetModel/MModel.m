@@ -195,7 +195,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     name = basename = [newCategory name];
     index = 1;
     while ([names containsObject:name] == YES) {
-        name = [NSString stringWithFormat:@"%@%d", basename, index++];
+        name = [NSString stringWithFormat:@"%@%lu", basename, index++];
     }
 
     [newCategory setName:name];
@@ -277,7 +277,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     name = basename = [newParameter name];
     index = 1;
     while ([names containsObject:name] == YES) {
-        name = [NSString stringWithFormat:@"%@%d", basename, index++];
+        name = [NSString stringWithFormat:@"%@%lu", basename, index++];
     }
 
     [newParameter setName:name];
@@ -407,7 +407,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     name = basename = [newSymbol name];
     index = 1;
     while ([names containsObject:name] == YES) {
-        name = [NSString stringWithFormat:@"%@%d", basename, index++];
+        name = [NSString stringWithFormat:@"%@%lu", basename, index++];
     }
 
     [newSymbol setName:name];
@@ -515,7 +515,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     }
 
     while ([names containsObject:name] == YES) {
-        name = [NSString stringWithFormat:@"%@%d", basename, index++];
+        name = [NSString stringWithFormat:@"%@%lu", basename, index++];
     }
 
     [newPosture setName:name];
@@ -798,7 +798,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     for (index = 0; index < count; index++) {
         aRule = [rules objectAtIndex:index];
         if ([aRule isEquationUsed:anEquation]) {
-            [array addObject:[NSString stringWithFormat:@"Rule: %d", index + 1]];
+            [array addObject:[NSString stringWithFormat:@"Rule: %lu", index + 1]];
         }
     }
 
@@ -846,7 +846,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     for (index = 0; index < count; index++) {
         aRule = [rules objectAtIndex:index];
         if ([aRule isTransitionUsed:aTransition]) {
-            [array addObject:[NSString stringWithFormat:@"Rule: %d", index + 1]];
+            [array addObject:[NSString stringWithFormat:@"Rule: %lu", index + 1]];
         }
     }
 

@@ -255,7 +255,7 @@
         displayParameter = [displayParameters objectAtIndex:index];
 		
         if ([displayParameter isSpecial] == NO) {
-            tableColumn = [[NSTableColumn alloc] initWithIdentifier:[NSString stringWithFormat:@"%d", [displayParameter tag]]];
+            tableColumn = [[NSTableColumn alloc] initWithIdentifier:[NSString stringWithFormat:@"%lu", [displayParameter tag]]];
             [tableColumn setEditable:NO];
             [[tableColumn headerCell] setTitle:[[displayParameter parameter] name]];
             [[tableColumn dataCell] setFormatter:defaultNumberFormatter];
@@ -273,7 +273,7 @@
     for (index = 0; index < 4; index++) {
         NSTableColumn *tableColumn;
 		
-        tableColumn = [[NSTableColumn alloc] initWithIdentifier:[NSString stringWithFormat:@"%d", 32 + index]];
+        tableColumn = [[NSTableColumn alloc] initWithIdentifier:[NSString stringWithFormat:@"%lu", 32 + index]];
         [tableColumn setEditable:NO];
         [[tableColumn headerCell] setTitle:others[index]];
         [[tableColumn dataCell] setFormatter:defaultNumberFormatter];
@@ -611,9 +611,9 @@
         [parms release];
 		
         pdfData = [eventListView dataWithPDFInsideRect:[eventListView bounds]];
-        filename1 = [NSString stringWithFormat:@"graph-%d.pdf", number];
+        filename1 = [NSString stringWithFormat:@"graph-%lu.pdf", number];
         [pdfData writeToFile:[basePath stringByAppendingPathComponent:filename1] atomically:YES];
-        [html appendFormat:@"      <img src='%@' alt='parameter graph %d'/>\n", GSXMLAttributeString(filename1, YES), number];
+        [html appendFormat:@"      <img src='%@' alt='parameter graph %lu'/>\n", GSXMLAttributeString(filename1, YES), number];
 		
         image = [[NSImage alloc] initWithData:pdfData];
         //NSLog(@"image: %@", image);
@@ -626,7 +626,7 @@
         //NSLog(@"bitsPerPixel: %d, samplesPerPixel: %d", [bitmapImageRep bitsPerPixel], [bitmapImageRep samplesPerPixel]);
 		
         jpegData = [bitmapImageRep representationUsingType:NSJPEGFileType properties:jpegProperties];
-        filename2 = [NSString stringWithFormat:@"graph-%d.jpg", number];
+        filename2 = [NSString stringWithFormat:@"graph-%lu.jpg", number];
         [jpegData writeToFile:[basePath stringByAppendingPathComponent:filename2] atomically:YES];
 		
         [bitmapImageRep release];
@@ -818,7 +818,7 @@
         if ([@"rule" isEqual:identifier] == YES) {
             return [eventList ruleDescriptionAtIndex:row];
         } else if ([@"number" isEqual:identifier] == YES) {
-            return [NSString stringWithFormat:@"%d.", row + 1];
+            return [NSString stringWithFormat:@"%lu.", row + 1];
         }
     } else if (tableView == eventTableView) {
         int eventNumber;

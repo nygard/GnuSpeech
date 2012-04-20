@@ -188,7 +188,7 @@
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@>[%p]: suffix count: %d, version: %@", NSStringFromClass([self class]), self, [suffixOrder count], version];
+    return [NSString stringWithFormat:@"<%@>[%p]: suffix count: %lu, version: %@", NSStringFromClass([self class]), self, [suffixOrder count], version];
 }
 
 @end

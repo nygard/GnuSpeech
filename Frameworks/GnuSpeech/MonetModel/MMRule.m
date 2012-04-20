@@ -631,7 +631,7 @@
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@>[%p]: parameterTransitions: %@, metaParameterTransitions: %@, symbolEquations(%d): %@, comment: %@, e1: %@, e2: %@, e3: %@, e4: %@",
+    return [NSString stringWithFormat:@"<%@>[%p]: parameterTransitions: %@, metaParameterTransitions: %@, symbolEquations(%lu): %@, comment: %@, e1: %@, e2: %@, e3: %@, e4: %@",
                      NSStringFromClass([self class]), self, parameterTransitions, metaParameterTransitions, [symbolEquations count], symbolEquations,
                      comment, [expressions[0] expressionString], [expressions[1] expressionString], [expressions[2] expressionString],
                      [expressions[3] expressionString]];
