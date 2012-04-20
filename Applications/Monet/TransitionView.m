@@ -801,7 +801,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 // View geometry
 //
 
-- (int)sectionHeight;
+- (CGFloat)sectionHeight;
 {
     NSRect bounds;
     CGFloat sectionHeight;
@@ -822,7 +822,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     return graphOrigin;
 }
 
-- (float)timeScale;
+- (CGFloat)timeScale;
 {
     return ([self bounds].size.width - 2 * LEFT_MARGIN) / [self ruleDuration];
 }
@@ -856,7 +856,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     return rect;
 }
 
-- (float)slopeMarkerYPosition;
+- (CGFloat)slopeMarkerYPosition;
 {
     NSPoint graphOrigin;
 
@@ -952,7 +952,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     editingSlope = [newSlope retain];
 }
 
-- (void)editSlope:(MMSlope *)aSlope startTime:(float)startTime endTime:(float)endTime;
+- (void)editSlope:(MMSlope *)aSlope startTime:(CGFloat)startTime endTime:(CGFloat)endTime;
 {
     NSWindow *window;
 
@@ -1003,7 +1003,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     }
 }
 
-- (MMSlope *)getSlopeMarkerAtPoint:(NSPoint)aPoint startTime:(float *)startTime endTime:(float *)endTime;
+- (MMSlope *)getSlopeMarkerAtPoint:(NSPoint)aPoint startTime:(CGFloat *)startTime endTime:(CGFloat *)endTime;
 {
     NSMutableArray *pointList;
     MMSlopeRatio *currentMMSlopeRatio;

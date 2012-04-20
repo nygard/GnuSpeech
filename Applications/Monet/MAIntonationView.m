@@ -460,7 +460,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     }
 
     {
-        float dashes[2] = {2.0, 2.0};
+        CGFloat dashes[2] = {2.0, 2.0};
         [bezierPath setLineDash:dashes count:2 phase:0.0];
     }
 
@@ -731,7 +731,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
               break;
 
           default:
-              NSLog(@"index: %d, character: %@ (%d)", index, [characters substringWithRange:NSMakeRange(index, 1)], [characters characterAtIndex:index]);
+              NSLog(@"index: %lu, character: %@ (%d)", index, [characters substringWithRange:NSMakeRange(index, 1)], [characters characterAtIndex:index]);
         }
     }
 }
@@ -1102,7 +1102,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
 - (void)removeOldSelectedPoints;
 {
-    NSUInteger count, index;
+    NSInteger count, index;
 
     // This is another case where count cannot be unsigned.
     count = [selectedPoints count];

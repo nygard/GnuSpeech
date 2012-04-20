@@ -385,7 +385,7 @@
 
 }
 
-- (void)updateScale:(float)column;
+- (void)updateScale:(CGFloat)column;
 {
     NSPoint mouseDownLocation;
     NSEvent *newEvent;
@@ -449,7 +449,7 @@
 {
     NSRect bounds = [self bounds];
 	CGFloat value = FLT_MAX;
-	NSUInteger parameterIndex = (int)floor((bounds.size.height - y - 50.0) / TRACKHEIGHT);
+	NSInteger parameterIndex = (int)floor((bounds.size.height - y - 50.0) / TRACKHEIGHT);
 	
 	if (parameterIndex >= 0 && parameterIndex < [displayParameters count]) {		
 		MMParameter * parameter = [[displayParameters objectAtIndex:parameterIndex] parameter];

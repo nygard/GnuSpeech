@@ -534,7 +534,7 @@
     return 0;
 }
 
-- (id)outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item;
+- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item;
 {
     if (outlineView == equationOutlineView) {
         if (item == nil)

@@ -35,8 +35,8 @@
 - (double)slope;
 - (void)setSlope:(double)newSlope;
 
-- (NSUInteger)ruleIndex;
-- (void)setRuleIndex:(NSUInteger)newRuleIndex;
+- (NSInteger)ruleIndex;
+- (void)setRuleIndex:(NSInteger)newRuleIndex;
 
 - (double)absoluteTime;
 - (double)beatTime;

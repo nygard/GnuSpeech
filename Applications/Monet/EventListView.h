@@ -64,13 +64,13 @@
 - (CGFloat)scaledX:(CGFloat)x;
 - (CGFloat)scaledWidth:(CGFloat)width;
 
-- (float)parameterValueForYCoord:(CGFloat)y;
+- (CGFloat)parameterValueForYCoord:(CGFloat)y;
 
 // Handle sizing and correct drawing of the main view.
 - (void)resize;
 - (CGFloat)minimumWidth;
 - (CGFloat)minimumHeight;
-- (CGFloat)scaleWidth:(float)width;
+- (CGFloat)scaleWidth:(CGFloat)width;
 - (void)resizeWithOldSuperviewSize:(NSSize)oldSize;
 
 // Allow access to mouse tracking fields.

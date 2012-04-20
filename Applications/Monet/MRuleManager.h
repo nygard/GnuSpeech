@@ -68,7 +68,7 @@
 - (void)_updateSelectedSpecialParameterDetails;
 - (void)_updateSelectedMetaParameterDetails;
 
-- (void)setExpression:(MMBooleanNode *)anExpression atIndex:(NSUInteger)index;
+- (void)setExpression:(MMBooleanNode *)anExpression atIndex:(NSInteger)index;
 - (void)evaluateMatchLists;
 - (void)updateCombinations;
 
@@ -82,7 +82,7 @@
 
 // NSTableView dragging
 - (BOOL)tableView:(NSTableView *)tableView writeRows:(NSArray *)rows toPasteboard:(NSPasteboard *)pboard;
-- (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(int)row proposedDropOperation:(NSTableViewDropOperation)op;
+- (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)op;
 - (BOOL)tableView:(NSTableView *)tableView acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)op;
 
 // MExtendedTableView delegate

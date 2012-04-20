@@ -82,7 +82,7 @@
 
 - (IBAction)parseRule:(id)sender;
 {
-    NSUInteger ruleIndex;
+    NSInteger ruleIndex;
     NSMutableArray *testPostures, *testCategoryLists;
     MMPosture *aPosture;
     MMRule *aRule;

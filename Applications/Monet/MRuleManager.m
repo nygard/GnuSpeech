@@ -277,7 +277,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     }
 }
 
-- (void)setExpression:(MMBooleanNode *)anExpression atIndex:(int)index;
+- (void)setExpression:(MMBooleanNode *)anExpression atIndex:(NSInteger)index;
 {
     if (anExpression == expressions[index])
         return;

@@ -83,12 +83,12 @@
     [nonretained_eventList intonationPointDidChange:self];
 }
 
-- (NSUInteger)ruleIndex;
+- (NSInteger)ruleIndex;
 {
     return ruleIndex;
 }
 
-- (void)setRuleIndex:(NSUInteger)newRuleIndex;
+- (void)setRuleIndex:(NSInteger)newRuleIndex;
 {
     if (newRuleIndex == ruleIndex)
         return;

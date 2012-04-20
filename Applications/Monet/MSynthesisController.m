@@ -233,7 +233,7 @@
 - (void)_updateEventColumns;
 {
     NSArray *tableColumns;
-    NSUInteger count, index;
+    NSInteger count, index;
     NSNumberFormatter *defaultNumberFormatter;
     NSString *others[4] = { @"Semitone", @"Slope", @"2nd Derivative?", @"3rd Derivative?"};
 	
