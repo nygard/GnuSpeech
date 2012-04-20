@@ -1,10 +1,7 @@
 //  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
-#import <AppKit/NSTableView.h>
-#import <Foundation/NSDate.h> // To get NSTimeInterval
-
-@class NSMutableString;
+#import <Cocoa/Cocoa.h>
 
 @interface MExtendedTableView : NSTableView
 {

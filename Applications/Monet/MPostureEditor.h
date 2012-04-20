@@ -2,10 +2,8 @@
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "MWindowController.h"
-#import <AppKit/AppKit.h>
 
 @class MMCategory, MModel, MMParameter, MMPosture, MMSymbol;
-@class NSButton, NSButtonCell, NSFont, NSControl;
 
 @interface MPostureEditor : MWindowController
 {

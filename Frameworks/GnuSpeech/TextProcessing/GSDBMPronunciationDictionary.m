@@ -1,11 +1,9 @@
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "GSDBMPronunciationDictionary.h"
+
 #import "NSFileManager-Extensions.h"
 #import "GSSimplePronunciationDictionary.h"
-#import <Foundation/NSArray.h>
-#import <Foundation/NSDictionary.h>
-#import <Foundation/NSException.h>
 
 @implementation GSDBMPronunciationDictionary
 

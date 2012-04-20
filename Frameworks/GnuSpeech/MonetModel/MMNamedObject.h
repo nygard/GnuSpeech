@@ -2,7 +2,6 @@
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "MMObject.h"
-#import <Foundation/NSXMLParser.h>
 
 @interface MMNamedObject : MMObject
 {

@@ -2,14 +2,8 @@
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "MWindowController.h"
-#import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
-#import <AppKit/NSDragging.h>
-#import <AppKit/NSTableView.h>
-#import <AppKit/NSOutlineView.h>
-#import <AppKit/NSTextField.h>
 
 @class MMBooleanNode, MMBooleanParser, MModel, MMRule, MonetList;
-@class NSBrowser, NSPasteboard, NSForm;
 
 @interface MRuleManager : MWindowController
 {

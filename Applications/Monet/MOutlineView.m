@@ -3,8 +3,6 @@
 
 #import "MOutlineView.h"
 
-#import <AppKit/AppKit.h>
-
 @implementation MOutlineView
 
 - (void)_resizeOutlineColumn;

@@ -4,7 +4,6 @@
 #import "MSynthesisController.h"
 
 #include <sys/time.h>
-#import <AppKit/AppKit.h>
 #import <GnuSpeech/GnuSpeech.h>
 
 #import "NSNumberFormatter-Extensions.h"

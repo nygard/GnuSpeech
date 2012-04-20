@@ -3,12 +3,6 @@
 
 #import "AppController.h"
 
-#import <Foundation/Foundation.h>
-#import <AppKit/NSApplication.h>
-#import <AppKit/NSNibLoading.h>
-#import <AppKit/NSPanel.h>
-#import <AppKit/NSOpenPanel.h>
-#import <AppKit/NSSavePanel.h>
 #import <GnuSpeech/GnuSpeech.h>
 
 #import "MDataEntryController.h"

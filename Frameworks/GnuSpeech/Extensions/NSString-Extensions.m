@@ -3,8 +3,6 @@
 
 #import "NSString-Extensions.h"
 
-#import <Foundation/Foundation.h>
-
 @implementation NSString (CDExtensions)
 
 + (NSString *)stringWithFileSystemRepresentation:(const char *)str;

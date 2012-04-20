@@ -3,8 +3,6 @@
 
 #import "MCommentCell.h"
 
-#import <AppKit/AppKit.h>
-
 static NSImage *_commentIcon = nil;
 
 @implementation MCommentCell

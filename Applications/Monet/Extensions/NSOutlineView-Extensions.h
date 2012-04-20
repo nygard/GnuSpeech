@@ -1,7 +1,7 @@
 //  This file is part of SNFoundation, a personal collection of Foundation 
 //  extensions. Copyright (C) 2004-2012 Steve Nygard.  All rights reserved.
 
-#import <AppKit/NSOutlineView.h>
+#import <Cocoa/Cocoa.h>
 
 @interface NSOutlineView (Extensions)
 

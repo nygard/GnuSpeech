@@ -3,8 +3,6 @@
 
 #import "SymbolList.h"
 
-#import <Foundation/Foundation.h>
-
 @implementation SymbolList
 
 @end

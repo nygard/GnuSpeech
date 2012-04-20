@@ -1,13 +1,9 @@
 //  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
-#import <Foundation/NSObject.h>
-#import <Foundation/NSScanner.h>
-#import <Foundation/NSRange.h>
+#import <Foundation/Foundation.h>
 
 extern NSString *GSParserSyntaxErrorException;
-
-@class NSMutableString;
 
 @interface GSParser : NSObject
 {

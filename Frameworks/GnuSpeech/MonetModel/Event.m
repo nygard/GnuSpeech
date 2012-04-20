@@ -3,8 +3,6 @@
 
 #import "Event.h"
 
-#import <Foundation/Foundation.h>
-
 @implementation Event
 
 - (id)init;

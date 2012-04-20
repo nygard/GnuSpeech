@@ -3,7 +3,6 @@
 
 #import "MMBooleanNode.h"
 
-#import <Foundation/Foundation.h>
 #import "CategoryList.h"
 
 @implementation MMBooleanNode

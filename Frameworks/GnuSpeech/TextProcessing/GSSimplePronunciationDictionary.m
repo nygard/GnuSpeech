@@ -2,7 +2,6 @@
 
 #import "GSSimplePronunciationDictionary.h"
 
-#import <Foundation/Foundation.h>
 #import "GSSuffix.h"
 
 @implementation GSSimplePronunciationDictionary

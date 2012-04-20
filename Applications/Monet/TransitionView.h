@@ -1,14 +1,11 @@
 //  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
-#import <AppKit/NSControl.h>
-
-#import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
+#import <Cocoa/Cocoa.h>
 #import <GnuSpeech/GnuSpeech.h> // For MMFRuleSymbols
 
-@class NSMutableArray;
 @class MonetList, MModel, MMPoint, MMSlope, MMTransition;
-@class TransitionView, NSTextFieldCell;
+@class TransitionView;
 
 @protocol TransitionViewNotifications
 - (void)transitionViewSelectionDidChange:(NSNotification *)aNotification;

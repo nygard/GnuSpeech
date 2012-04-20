@@ -2,7 +2,6 @@
 //  Copyright (c) 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "MMBooleanNode.h"
-#import <Foundation/NSArray.h>
 
 @class CategoryList, MMCategory;
 

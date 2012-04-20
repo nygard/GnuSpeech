@@ -3,7 +3,6 @@
 
 #import "MAIntonationScrollView.h"
 
-#import <AppKit/AppKit.h>
 #import "MAIntonationView.h"
 #import "MAIntonationScaleView.h"
 

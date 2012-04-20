@@ -3,8 +3,6 @@
 
 #import "NSOutlineView-Extensions.h"
 
-#import <AppKit/AppKit.h>
-
 @implementation NSOutlineView (Extensions)
 
 - (id)selectedItem;

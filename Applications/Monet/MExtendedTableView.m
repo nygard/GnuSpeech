@@ -3,8 +3,6 @@
 
 #import "MExtendedTableView.h"
 
-#import <AppKit/AppKit.h>
-
 @interface NSObject (MExtendedTableViewMethods)
 - (BOOL)control:(NSControl *)aControl shouldProcessCharacters:(NSString *)characters;
 @end

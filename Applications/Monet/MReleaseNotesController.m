@@ -2,7 +2,6 @@
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "MReleaseNotesController.h"
-#import <Foundation/NSBundle.h>
 
 #ifndef GNUSTEP
 #import <WebKit/WebKit.h>

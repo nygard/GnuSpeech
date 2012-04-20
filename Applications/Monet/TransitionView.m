@@ -3,7 +3,6 @@
 
 #import "TransitionView.h"
 
-#import <AppKit/AppKit.h>
 #include <math.h>
 
 #import "NSBezierPath-Extensions.h"

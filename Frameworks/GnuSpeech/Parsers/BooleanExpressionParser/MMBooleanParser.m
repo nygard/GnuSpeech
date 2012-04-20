@@ -3,7 +3,6 @@
 
 #import "MMBooleanParser.h"
 
-#import <Foundation/Foundation.h>
 #import "NSScanner-Extensions.h"
 
 #import "CategoryList.h"

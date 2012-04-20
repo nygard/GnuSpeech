@@ -3,8 +3,6 @@
 
 #import "NSObject-Extensions.h"
 
-#import <Foundation/Foundation.h>
-
 @implementation NSObject (Extensions)
 
 + (id)objectWithXMLAttributes:(NSDictionary *)attributes context:(id)context;

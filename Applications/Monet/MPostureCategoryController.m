@@ -3,8 +3,6 @@
 
 #import "MPostureCategoryController.h"
 
-#import <Foundation/Foundation.h>
-#import <AppKit/AppKit.h>
 #import <GnuSpeech/GnuSpeech.h>
 
 @implementation MPostureCategoryController

@@ -3,7 +3,6 @@
 
 #import "MTransitionEditor.h"
 
-#import <AppKit/AppKit.h>
 #import <GnuSpeech/GnuSpeech.h>
 
 #import "NSNumberFormatter-Extensions.h"

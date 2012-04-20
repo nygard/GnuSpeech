@@ -3,8 +3,6 @@
 
 #import "NSCharacterSet-Extensions.h"
 
-#import <Foundation/Foundation.h>
-
 @implementation NSCharacterSet (Extensions)
 
 + (NSCharacterSet *)generalXMLEntityCharacterSet;

@@ -1,12 +1,11 @@
 //  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
-#import <Foundation/NSObject.h>
+#import <Foundation/Foundation.h>
 #include <stdio.h>
 
 @class CategoryList, MonetList, NamedList, PhoneList;
 @class MMCategory, MMEquation, MMParameter, MMPosture, MMRule, MMSymbol, MMSynthesisParameters, MMTransition;
-@class NSArray, NSDictionary, NSMutableArray, NSMutableString, NSXMLParser;
 
 extern NSString *MCategoryInUseException;
 

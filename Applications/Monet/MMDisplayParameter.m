@@ -3,7 +3,6 @@
 
 #import "MMDisplayParameter.h"
 
-#import <Foundation/Foundation.h>
 #import <GnuSpeech/GnuSpeech.h>
 
 @implementation MMDisplayParameter

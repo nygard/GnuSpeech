@@ -3,7 +3,6 @@
 
 #import "MMTransition.h"
 
-#import <Foundation/Foundation.h>
 #import "NSArray-Extensions.h"
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"

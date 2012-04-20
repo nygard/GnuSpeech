@@ -3,7 +3,6 @@
 
 #import "MAIntonationView.h"
 
-#import <AppKit/AppKit.h>
 #import <GnuSpeech/GnuSpeech.h>
 
 #import "NSBezierPath-Extensions.h"

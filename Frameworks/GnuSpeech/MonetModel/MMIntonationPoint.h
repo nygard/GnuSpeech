@@ -1,11 +1,8 @@
 //  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
-#import <Foundation/NSObject.h>
-#import <Foundation/NSDate.h> // To get NSTimeInterval
-#import <Foundation/NSXMLParser.h>
+#import <Foundation/Foundation.h>
 
-@class NSMutableString;
 @class EventList;
 
 // TODO (2004-08-09): absoluteTime is derived from offsetTime and beatTime.  And beatTime is derived from ruleIndex and eventList.

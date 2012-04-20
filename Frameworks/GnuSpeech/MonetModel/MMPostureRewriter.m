@@ -3,7 +3,6 @@
 
 #import "MMPostureRewriter.h"
 
-#import <Foundation/Foundation.h>
 #import "EventList.h"
 #import "MModel.h"
 #import "MMPosture.h"

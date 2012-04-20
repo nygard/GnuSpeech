@@ -3,7 +3,6 @@
 
 #import "MSpecialTransitionEditor.h"
 
-#import <AppKit/AppKit.h>
 #import <GnuSpeech/GnuSpeech.h>
 
 @implementation MSpecialTransitionEditor

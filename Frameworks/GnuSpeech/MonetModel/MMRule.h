@@ -6,7 +6,6 @@
 #import "MMFRuleSymbols.h"
 
 @class MMBooleanNode, MMCategory, MonetList, PhoneList, MMEquation, MMTransition;
-@class NSDictionary, NSMutableArray, NSMutableString, NSXMLParser;
 
 @interface MMRule : MMObject
 {

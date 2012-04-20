@@ -3,7 +3,6 @@
 
 #import "MMBooleanExpression.h"
 
-#import <Foundation/Foundation.h>
 #import "NSObject-Extensions.h"
 
 @implementation MMBooleanExpression

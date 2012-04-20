@@ -3,7 +3,6 @@
 
 #import "NSScanner-Extensions.h"
 
-#import <Foundation/Foundation.h>
 #import "NSString-Extensions.h"
 
 @implementation NSScanner (CDExtensions)

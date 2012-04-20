@@ -3,7 +3,6 @@
 
 #import "TRMData.h"
 
-#import <Foundation/Foundation.h>
 #import <math.h>
 
 

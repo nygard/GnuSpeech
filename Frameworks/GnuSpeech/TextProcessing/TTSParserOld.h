@@ -1,7 +1,6 @@
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
-#import <Foundation/NSObject.h>
-#import <Foundation/NSString.h> // for unichar
+#import <Foundation/Foundation.h>
 
 typedef enum {
     TTSInputModeUnknown = 0,

@@ -3,7 +3,6 @@
 
 #import "MRuleManager.h"
 
-#import <AppKit/AppKit.h>
 #import <GnuSpeech/GnuSpeech.h>
 
 #import "NSOutlineView-Extensions.h"

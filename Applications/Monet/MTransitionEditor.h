@@ -2,17 +2,9 @@
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "MWindowController.h"
-#import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
-#import <AppKit/NSForm.h>
-#import <AppKit/NSButton.h>
-#import <AppKit/NSTextField.h>
-#import <AppKit/NSTextView.h>
-#import <AppKit/NSOutlineView.h>
-#import <AppKit/NSPopUpButton.h>
 
 @class MModel, MMPoint, MMTransition;
 @class TransitionView;
-@class NSPopUpButton;
 
 @interface MTransitionEditor : MWindowController
 {

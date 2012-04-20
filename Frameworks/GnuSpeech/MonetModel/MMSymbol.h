@@ -3,8 +3,6 @@
 
 #import "MMNamedObject.h"
 
-@class NSMutableString;
-
 @interface MMSymbol : MMNamedObject
 {
     double minimum;

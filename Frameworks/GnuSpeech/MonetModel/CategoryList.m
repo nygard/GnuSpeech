@@ -3,7 +3,6 @@
 
 #import "CategoryList.h"
 
-#import <Foundation/Foundation.h>
 #import "MMCategory.h"
 
 // This Class currently adds no functionality to the List class.

@@ -3,8 +3,6 @@
 
 #import "MMObject.h"
 
-#import <Foundation/Foundation.h>
-
 @implementation MMObject
 
 - (MModel *)model;

@@ -2,8 +2,6 @@
 
 #import "GSSuffix.h"
 
-#import <Foundation/Foundation.h>
-
 @implementation GSSuffix
 
 - (id)initWithSuffix:(NSString *)aSuffix replacementString:(NSString *)aReplacementString appendedPronunciation:(NSString *)anAppendedPronunciation;

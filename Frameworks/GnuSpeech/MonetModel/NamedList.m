@@ -3,7 +3,6 @@
 
 #import "NamedList.h"
 
-#import <Foundation/Foundation.h>
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
 #import "MMEquation.h"

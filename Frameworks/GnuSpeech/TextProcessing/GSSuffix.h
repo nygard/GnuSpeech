@@ -1,6 +1,6 @@
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
-#import <Foundation/NSObject.h>
+#import <Foundation/Foundation.h>
 
 @interface GSSuffix : NSObject
 {

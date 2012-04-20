@@ -3,7 +3,6 @@
 
 #import "SpecialView.h"
 
-#import <AppKit/AppKit.h>
 #import <GnuSpeech/GnuSpeech.h>
 #include <math.h>
 

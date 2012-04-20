@@ -1,7 +1,7 @@
 //  This file is part of STAppKit, a framework of AppKit extensions.
 //  Copyright (C) 2004-2012 Steve Nygard.  All rights reserved.
 
-#import <AppKit/NSColor.h>
+#import <Cocoa/Cocoa.h>
 
 @interface NSColor (STExtensions)
 

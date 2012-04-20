@@ -3,10 +3,7 @@
 
 #import "MWindowController.h"
 
-@class NSTextField, NSSlider, NSMatrix, NSUndoManager;
-
 @class MModel;
-@class NSSlider;
 
 @interface MSynthesisParameterEditor : MWindowController
 {

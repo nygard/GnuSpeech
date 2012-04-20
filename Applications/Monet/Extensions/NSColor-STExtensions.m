@@ -3,8 +3,6 @@
 
 #import "NSColor-STExtensions.h"
 
-#import <AppKit/AppKit.h>
-
 @implementation NSColor (STExtensions)
 
 + (NSColor *)lightBlueColor;

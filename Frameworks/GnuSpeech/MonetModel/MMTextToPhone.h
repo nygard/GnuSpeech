@@ -3,9 +3,8 @@
 
 #import <Foundation/Foundation.h>
 
-@class GSPronunciationDictionary;
-
-@interface MMTextToPhone : NSObject {
+@interface MMTextToPhone : NSObject
+{
 }
 
 + (void)initialize;

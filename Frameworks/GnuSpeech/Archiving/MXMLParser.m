@@ -3,7 +3,6 @@
 
 #import "MXMLParser.h"
 
-#import <Foundation/Foundation.h>
 #import "MXMLIgnoreTreeDelegate.h"
 
 @implementation MXMLParser

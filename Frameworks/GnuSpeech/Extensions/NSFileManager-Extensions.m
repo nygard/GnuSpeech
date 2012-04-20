@@ -3,8 +3,6 @@
 
 #import "NSFileManager-Extensions.h"
 
-#import <Foundation/Foundation.h>
-
 @implementation NSFileManager (Extensions)
 
 //  TODO (2012-04-18) Just call the new method directly

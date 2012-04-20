@@ -3,8 +3,6 @@
 
 #import "NSNumberFormatter-Extensions.h"
 
-#import <Foundation/Foundation.h>
-
 @implementation NSNumberFormatter (Extensions)
 
 + (NSNumberFormatter *)defaultNumberFormatter;

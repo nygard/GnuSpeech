@@ -3,7 +3,6 @@
 
 #import "GSParser.h"
 
-#import <Foundation/Foundation.h>
 #import "NSScanner-Extensions.h"
 
 NSString *GSParserSyntaxErrorException = @"GSParserSyntaxErrorException";

@@ -2,9 +2,6 @@
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "MWindowController.h"
-#import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
-#import <AppKit/NSForm.h>
-#import <AppKit/NSTextField.h>
 
 @class MModel;
 

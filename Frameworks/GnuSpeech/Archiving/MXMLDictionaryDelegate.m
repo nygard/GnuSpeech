@@ -3,7 +3,6 @@
 
 #import "MXMLDictionaryDelegate.h"
 
-#import <Foundation/Foundation.h>
 #import "MXMLParser.h"
 
 @implementation MXMLDictionaryDelegate

@@ -3,7 +3,6 @@
 
 #import "MXMLStringArrayDelegate.h"
 
-#import <Foundation/Foundation.h>
 #import "MXMLParser.h"
 #import "MXMLPCDataDelegate.h"
 

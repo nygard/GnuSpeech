@@ -3,8 +3,6 @@
 
 #import "MMFormulaNode.h"
 
-#import <Foundation/Foundation.h>
-
 @implementation MMFormulaNode
 
 - (NSUInteger)precedence;

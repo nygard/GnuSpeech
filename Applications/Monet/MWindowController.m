@@ -3,8 +3,6 @@
 
 #import "MWindowController.h"
 
-#import <AppKit/AppKit.h>
-
 @implementation MWindowController
 
 - (BOOL)isVisibleOnLaunch;

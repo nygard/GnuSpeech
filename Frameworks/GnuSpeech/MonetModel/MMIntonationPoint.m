@@ -4,7 +4,6 @@
 #import "MMIntonationPoint.h"
 
 #include <math.h>
-#import <Foundation/Foundation.h>
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
 

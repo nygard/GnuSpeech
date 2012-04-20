@@ -3,7 +3,6 @@
 
 #import "MonetList.h"
 
-#import <Foundation/Foundation.h>
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
 

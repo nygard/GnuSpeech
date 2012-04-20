@@ -3,8 +3,6 @@
 
 #import "MAIntonationScaleView.h"
 
-#import <AppKit/AppKit.h>
-
 @implementation MAIntonationScaleView
 
 - (id)initWithFrame:(NSRect)frameRect;

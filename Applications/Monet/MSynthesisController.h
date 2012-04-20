@@ -2,16 +2,12 @@
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "MWindowController.h"
-#import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
 
 #import <GnuSpeech/GnuSpeech.h> // for struct _intonationParameters
 
 @class MMIntonationPoint, MModel;
 @class EventListView, MAIntonationScrollView;
 @class TRMSynthesizer, MTextToPhone;
-@class NSComboBox, NSPopUpButton, NSMatrix, NSPrintInfo, NSOpenPanel, NSSavePanel;
-@class NSTableView, NSButton, NSTextField, NSTextView, NSView, NSForm, NSUndoManager, NSScrollView;
-@class NSTableColumn, NSNotification, NSControl;
 
 @interface MSynthesisController : MWindowController
 {

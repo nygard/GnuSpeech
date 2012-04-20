@@ -2,12 +2,9 @@
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "MWindowController.h"
-#import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
-#import <AppKit/AppKit.h>
 
 @class MMEquation, MMFormulaParser, MModel, MMTransition;
 @class SpecialView, TransitionView;
-@class NSOutlineView;
 
 @interface MPrototypeManager : MWindowController
 {

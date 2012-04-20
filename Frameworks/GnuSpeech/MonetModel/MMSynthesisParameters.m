@@ -3,8 +3,6 @@
 
 #import "MMSynthesisParameters.h"
 
-#import <Foundation/Foundation.h>
-
 #import "MonetDefaults.h"
 
 #define MonetDefCount 25

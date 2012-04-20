@@ -3,7 +3,6 @@
 
 #import "EventList.h"
 
-#import <Foundation/Foundation.h>
 #import "NSArray-Extensions.h"
 #import "NSCharacterSet-Extensions.h"
 #import "NSScanner-Extensions.h"

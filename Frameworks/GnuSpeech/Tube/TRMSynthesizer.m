@@ -2,10 +2,10 @@
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "TRMSynthesizer.h"
-#import "MMSynthesisParameters.h"
-#import <Foundation/Foundation.h>
-#import "NSData-STExtensions.h"
+
 #import <AVFoundation/AVFoundation.h>
+#import "MMSynthesisParameters.h"
+#import "NSData-STExtensions.h"
 
 const uint16_t kWAVEFormat_Unknown         = 0x0000;
 const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;

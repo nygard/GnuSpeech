@@ -3,7 +3,6 @@
 
 #import "MDocument.h"
 
-#import <Foundation/Foundation.h>
 #import "MModel.h"
 #import "MXMLParser.h"
 

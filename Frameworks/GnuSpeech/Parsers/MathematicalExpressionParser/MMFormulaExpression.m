@@ -3,7 +3,6 @@
 
 #import "MMFormulaExpression.h"
 
-#import <Foundation/Foundation.h>
 #import "NSObject-Extensions.h"
 
 #import "MMFormulaSymbols.h"
