@@ -6,7 +6,7 @@
 
 @implementation GnuSpeechServer
 
-#pragma mark -Internal methods.
+#pragma mark - Internal methods.
 
 - (int)restartServer;
 {
@@ -19,11 +19,11 @@
 {
 	[super init];
 	
-	connection = [NSConnection defaultConnection];
+	connection = [[NSConnection new] autorelease];
 	[connection setRootObject:self];
 	
 	if (![connection registerName:GNUSPEECH_SERVER_REGISTERED_NAME]) {
-		NSLog([NSString stringWithFormat:@"GnuTTSServer: Unable to register name \"%@\" as it is already registered.", GNUSPEECH_SERVER_REGISTERED_NAME]);
+		NSLog(@"GnuTTSServer: Unable to register name \"%@\" as it is already registered.", GNUSPEECH_SERVER_REGISTERED_NAME);
 		return nil;
 	}
 
@@ -149,7 +149,7 @@
 
 - (int)speakText:(in NSString *)text;
 {
-	NSLog(@"GnuTTSServer: %s %@", _cmd, text);	
+	NSLog(@"GnuTTSServer: %s %@", __PRETTY_FUNCTION__, text);	
 	[textToSpeech speakText:text];
 	
 	return 0;
