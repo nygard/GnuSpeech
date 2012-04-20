@@ -101,18 +101,18 @@
 #import "PrEditorDocument.h"
 
 #define NUM_PARTS_OF_SPEECH 9
-#define IPA_KB_LAYOUT_PREFIX "IPA"
+static NSString *KeyboardLayoutPrefix_IPA = @"IPA";
 
 // cache the keyboard layout for IPA
-static KeyboardLayoutRef ipaKeyboardLayoutRef = NULL;
+static TISInputSourceRef ipaKeyboardLayoutRef = NULL;
 
 static NSString* PARTS_OF_SPEECH[9] = {
-  @"Noun", @"Verb", @"Adjective", @"Adverb", @"Pronoun", @"Article",
-  @"Preposition", @"Conjunction", @"Interjection"
+    @"Noun", @"Verb", @"Adjective", @"Adverb", @"Pronoun", @"Article",
+    @"Preposition", @"Conjunction", @"Interjection"
 };
 
 static NSString* POS_CODES[9] = {
-  @"a", @"b", @"c", @"d", @"e", @"f", @"g", @"h", @"i"
+    @"a", @"b", @"c", @"d", @"e", @"f", @"g", @"h", @"i"
 };
 
 static NSString* UnknownPOS = @"j";
@@ -122,28 +122,28 @@ static NSString* UnknownPOS = @"j";
 // Class initialization
 + (void)initialize;
 {
-  if (ipaKeyboardLayoutRef == NULL) {
-    [self initIPAKeyboardLayout];
-  }
+    if (ipaKeyboardLayoutRef == NULL) {
+        [self initIPAKeyboardLayout];
+    }
 }
 
 
 
-- (id)init
+- (id)init;
 {
     self = [super init];
     if (self) {
-
+        
         // custom initialization goes here
         // if error occurrs, [self release] and return nil
-      
-      // if this is not from a file...
-      prDictionary = [PrDict new]; /* alloc a PrDict Object */  
+        
+        // if this is not from a file...
+        prDictionary = [PrDict new]; /* alloc a PrDict Object */  
     }
     return self;
 }
 
-- (NSString *)windowNibName
+- (NSString *)windowNibName;
 {
     // Override returning the nib file name of the document
     // If you need to use a subclass of NSWindowController or if your document
@@ -152,29 +152,29 @@ static NSString* UnknownPOS = @"j";
     return @"PrEditorDocument";
 }
 
-- (void)windowControllerDidLoadNib:(NSWindowController *) aController
+- (void)windowControllerDidLoadNib:(NSWindowController *)aController;
 {
     [super windowControllerDidLoadNib:aController];
     // Add any code here that needs to be executed once the windowController has loaded the document's window.
 }
 
 
-- (BOOL)readFromData:(NSData *)data ofType:(NSString *)typeName error:(NSError **)outError
+- (BOOL)readFromData:(NSData *)data ofType:(NSString *)typeName error:(NSError **)outError;
 {
-  BOOL readSuccess = NO;
-//  NSAttributedString *fileContents = [[NSAttributedString alloc]
-//            initWithData:data options:NULL documentAttributes:NULL
-//                   error:outError];
-//  if (fileContents) {
-//    readSuccess = YES;
-//    [self setText:fileContents];
-//    [fileContents release];
-//  }
-  return readSuccess;
+    BOOL readSuccess = NO;
+    //  NSAttributedString *fileContents = [[NSAttributedString alloc]
+    //            initWithData:data options:NULL documentAttributes:NULL
+    //                   error:outError];
+    //  if (fileContents) {
+    //    readSuccess = YES;
+    //    [self setText:fileContents];
+    //    [fileContents release];
+    //  }
+    return readSuccess;
 }
 
 
-- (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
+- (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError;
 {
 //  NSData *data = [textView RTFFromRange:NSMakeRange(0, 
 //                                                    [[textView textStorage] length])];
@@ -183,72 +183,70 @@ static NSString* UnknownPOS = @"j";
 //                                    code:NSFileWriteUnknownError userInfo:nil];
 //  }
 //  return data;
-  return NULL;
+    return NULL;
 }
 
 /* Store the currently selected word in the dictionary */
-- (void)storeWord:sender
+- (void)storeWord:(id)sender;
 {
-  NSString* phone = [phonField stringValue];
-  NSString* word = [wordField stringValue];
-  NSString* pos;
-  NSString* message;
-  BOOL  inList = NO;
-//  char  *wordtype;
-//  char  dictentry[1024];
-  
-//  DEBUG_METHOD;
-  
-  if ((phone && word) && ([phone length] > 0 && [word length] > 0)) {
-    /* Make sure the word and the pronounciation have been
-     * entered by the user before trying to save it
-     */
-    pos = [self getPos:[posField selectedRowIndexes]];
-//    dictEntry = [NSString stringWithFormat: @"%s%%%s", phone, posString];
-      
+    NSString *phone = [phonField stringValue];
+    NSString *word = [wordField stringValue];
+    NSString *pos;
+    NSString *message;
+    BOOL inList = NO;
+    //  char  *wordtype;
+    //  char  dictentry[1024];
+    
+    //  DEBUG_METHOD;
+    
+    if ((phone && word) && ([phone length] > 0 && [word length] > 0)) {
+        /* Make sure the word and the pronounciation have been
+         * entered by the user before trying to save it
+         */
+        pos = [self getPos:[posField selectedRowIndexes]];
+        //    dictEntry = [NSString stringWithFormat: @"%s%%%s", phone, posString];
+        
 #ifdef DEBUG
-    NSLog(@"storeWord: word = %@ phone = %@ pos = %@\n", word, phone, pos);
+        NSLog(@"storeWord: word = %@ phone = %@ pos = %@\n", word, phone, pos);
 #endif
-    
-    if ([prDictionary containsWord: word]) {
-      message = [NSString stringWithFormat:
-        @"\"%@\" is already in the Current Dictionary, replacing old entry",
-        word];
-      [messageField setStringValue: message];
-      NSBeep();
-      inList = YES;
+        
+        if ([prDictionary containsWord: word]) {
+            message = [NSString stringWithFormat:
+                       @"\"%@\" is already in the Current Dictionary, replacing old entry",
+                       word];
+            [messageField setStringValue: message];
+            NSBeep();
+            inList = YES;
+        } else {
+            message = [NSString stringWithFormat:
+                       @"\"%@\" Stored in Current Dictionary", word];
+            [messageField setStringValue:message];
+        }
+        
+        [prDictionary setPhone:phone partsOfSpeech:pos forWord:word];
+        
+        dirty = YES;
+        if (!inList) {
+            // Update Contents inspector (PrDictViewer)
+            // only if a new word has been added to the
+            // dictionary, ie inList == NO
+            //      [wordList loadDict: prDictionary];
+        }
+        //    [documentWindow setDocEdited: dirty];
     } else {
-      message = [NSString stringWithFormat:
-        @"\"%@\" Stored in Current Dictionary", word];
-	    [messageField setStringValue:message];
+        NSBeep();
     }
-    
-    [prDictionary setPhone:phone partsOfSpeech:pos forWord:word];
-    
-    dirty = YES;
-    if (!inList) {
-      // Update Contents inspector (PrDictViewer)
-      // only if a new word has been added to the
-      // dictionary, ie inList == NO
-//      [wordList loadDict: prDictionary];
-    }
-//    [documentWindow setDocEdited: dirty];
-  } else {
-    NSBeep();
-  }
 }
 
 
-- (id)tableView:(NSTableView *)aTableView
-    objectValueForTableColumn:(NSTableColumn *)aTableColumn
-            row:(int)rowIndex
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex;
 {
-  return PARTS_OF_SPEECH[rowIndex];
+    return PARTS_OF_SPEECH[rowIndex];
 }
 
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView
+- (int)numberOfRowsInTableView:(NSTableView *)aTableView;
 {
-  return NUM_PARTS_OF_SPEECH;
+    return NUM_PARTS_OF_SPEECH;
 }
 
 /***************************************************************************
@@ -256,22 +254,22 @@ static NSString* UnknownPOS = @"j";
  * construct a string object containing the parts of speech code characters
  * and return it
  ***************************************************************************/
-- (NSString*)getPos:(NSIndexSet*)partsOfSpeech
+- (NSString *)getPos:(NSIndexSet*)partsOfSpeech;
 {
-  NSString* s = [NSString string];
-  int i;
-  
-  // if no part of speech is selected, use UnknownPOS
-  if ([partsOfSpeech count] == 0) {
-    return UnknownPOS;
-  }
+    NSString* s = [NSString string];
+    int i;
     
-  for (i = 0; i < NUM_PARTS_OF_SPEECH; i++) {
-    if ([partsOfSpeech containsIndex: i]) {
-      s = [s stringByAppendingString: POS_CODES[i]]; 
+    // if no part of speech is selected, use UnknownPOS
+    if ([partsOfSpeech count] == 0) {
+        return UnknownPOS;
     }
-  }
-  return s;
+    
+    for (i = 0; i < NUM_PARTS_OF_SPEECH; i++) {
+        if ([partsOfSpeech containsIndex: i]) {
+            s = [s stringByAppendingString: POS_CODES[i]]; 
+        }
+    }
+    return s;
 }
 
 /////////////////////////////////////
@@ -280,113 +278,93 @@ static NSString* UnknownPOS = @"j";
 
 // Notification from the ResponderNotifyingWindow that firstResponder has changed
 
-- (void)window:(ResponderNotifyingWindow*)aWindow madeFirstResponder:(NSResponder*)aResponder
+- (void)window:(ResponderNotifyingWindow*)aWindow madeFirstResponder:(NSResponder*)aResponder;
 {
-  // if the responder is the phonField or any view within it then swap
-  // in the IPA keyboard
-  if (aResponder == phonField ||
-      ([aResponder isKindOfClass: [NSView class]] &&
-       [((NSView*)aResponder) isDescendantOf: phonField])) {
-    [self swapInIPAKeyboard];
-  }
-  else {
-    [self swapOutIPAKeyboard];
-  }
+    // if the responder is the phonField or any view within it then swap
+    // in the IPA keyboard
+    if (aResponder == phonField ||
+        ([aResponder isKindOfClass: [NSView class]] &&
+         [((NSView*)aResponder) isDescendantOf: phonField])) {
+            [self swapInIPAKeyboard];
+        }
+    else {
+        [self swapOutIPAKeyboard];
+    }
 }
 
 // Notification that the window is becoming or resigning being key
 
-- (void)windowDidBecomeKey:(NSNotification *)aNotification
+- (void)windowDidBecomeKey:(NSNotification *)aNotification;
 {
-  ResponderNotifyingWindow* myWindow = [aNotification object];
-  [self window:myWindow madeFirstResponder:[myWindow firstResponder]]; 
+    ResponderNotifyingWindow* myWindow = [aNotification object];
+    [self window:myWindow madeFirstResponder:[myWindow firstResponder]]; 
 }
 
-- (void)windowDidResignKey:(NSNotification *)aNotification
+- (void)windowDidResignKey:(NSNotification *)aNotification;
 {
-  [self swapOutIPAKeyboard];
+    [self swapOutIPAKeyboard];
 }
 
-/////////////////////////////////////
-//  Keyboard Swapping
-/////////////////////////////////////
+#pragma mark - Keyboard Swapping
 
-- (void)swapInIPAKeyboard
+- (void)swapInIPAKeyboard;
 {
-  if (oldKeyboardLayoutRef != NULL) {
-    return;
-  }
-  if (ipaKeyboardLayoutRef != NULL) {
-    // save the current keyboard layout
-    OSStatus osstatus;
-    if ((osstatus = KLGetCurrentKeyboardLayout(&oldKeyboardLayoutRef))) {
-      NSLog(@"error in KLGetCurrentKeyboardLayout osstatus=%ld\n", osstatus);
+    if (oldKeyboardLayoutRef != NULL) {
+        return;
     }
-    
-    // set the current keyboard layout to be the IPA keyboard layout
-    if ((osstatus = KLSetCurrentKeyboardLayout (ipaKeyboardLayoutRef))) {
-      NSLog(@"error in KLSetCurrentKeyboardLayout osstatus=%ld\n", osstatus);
+    if (ipaKeyboardLayoutRef != NULL) {
+        // save the current keyboard layout
+        oldKeyboardLayoutRef = TISCopyCurrentKeyboardLayoutInputSource();
+        
+        // set the current keyboard layout to be the IPA keyboard layout
+        OSStatus osstatus = TISSelectInputSource(ipaKeyboardLayoutRef);
+        if (osstatus != noErr) {
+            NSLog(@"error in TISSelectInputSource osstatus=%ld\n", osstatus);
+        }
+    } 
+    else {
+        NSLog(@"Error: PrEditorDocument -swapInIPAKeyboard: ipa layout is NULL");
     }
-  } 
-  else {
-    NSLog(@"Error: PrEditorDocument -swapInIPAKeyboard: ipa layout is NULL");
-  }
 }
 
 
 // Notification to end editing
-- (void)swapOutIPAKeyboard
+- (void)swapOutIPAKeyboard;
 {
-  if (oldKeyboardLayoutRef != NULL) {
-    if (ipaKeyboardLayoutRef != NULL) {
-      // set the current keyboard layout to be the saved layout
-      OSStatus osstatus;
-      if ((osstatus = KLSetCurrentKeyboardLayout (oldKeyboardLayoutRef))) {
-        NSLog(@"error in KLSetCurrentKeyboardLayout osstatus=%ld\n", osstatus);    
-      }
-      oldKeyboardLayoutRef = NULL;
+    if (oldKeyboardLayoutRef != NULL) {
+        if (ipaKeyboardLayoutRef != NULL) {
+            // set the current keyboard layout to be the saved layout
+            OSStatus osstatus = TISSelectInputSource (oldKeyboardLayoutRef);
+            if (osstatus != noErr) {
+                NSLog(@"error in KLSetCurrentKeyboardLayout osstatus=%ld\n", osstatus);    
+            }
+            oldKeyboardLayoutRef = NULL;
+        } else {
+            NSLog(@"Error: PrEditorDocument -swapOutIPAKeyboard: ipa layout is NULL");
+        }
     } 
-    else {
-      NSLog(@"Error: PrEditorDocument -swapOutIPAKeyboard: ipa layout is NULL");
-    }
-  } 
 }
 
 
 // Class method to find and cache the IPA keyboard layout
-// Looks for a keyboard layout that starts with the IPA_KB_LAYOUT_PREFIX
-+ (bool)initIPAKeyboardLayout
+// Looks for a keyboard layout that starts with the KeyboardLayoutPrefix_IPA
+
+// See <https://developer.apple.com/library/mac/#documentation/TextFonts/Reference/TextInputSourcesReference/Reference/reference.html>
++ (BOOL)initIPAKeyboardLayout;
 {
-  CFIndex count;
-  OSStatus osstatus;
-  if ((osstatus = KLGetKeyboardLayoutCount(&count))) {
-    NSLog(@"error in KLGetKeyboardLayoutCount, osstatus=%ld", osstatus);
-    return NO;
-  }
-  
-  CFIndex i;
-  for (i = 0; i < count; i++) {
-    KeyboardLayoutRef kbLayout;
-    if ((osstatus = KLGetKeyboardLayoutAtIndex (i, &kbLayout))) {
-      NSLog(@"error in KLGetKeyboardLayoutAtIndex, osstatus=%ld", osstatus);
-      return NO;
-    }
-    CFStringRef layoutName;
-    if ((osstatus = KLGetKeyboardLayoutProperty (kbLayout,
-                                                kKLName,
-                                                (const void **)&layoutName))) {
-      NSLog(@"error in KLGetKeyboardLayoutProperty, osstatus=%ld", osstatus);
-      return NO;
+    NSDictionary *properties = [NSDictionary dictionaryWithObjectsAndKeys:(id)kTISTypeKeyboardLayout, kTISPropertyInputSourceType, nil];
+    NSArray *keyboards = (NSArray *)TISCreateInputSourceList((CFDictionaryRef)properties, false);
+    //NSLog(@"keyboards: %@", keyboards);
+    for (id inputSource in keyboards) {
+        NSString *name = TISGetInputSourceProperty((TISInputSourceRef)inputSource, kTISPropertyLocalizedName);
+        if ([name hasPrefix:KeyboardLayoutPrefix_IPA]) {
+            ipaKeyboardLayoutRef = (TISInputSourceRef)inputSource;
+            return YES;
+        }
     }
     
-    if (CFStringHasPrefix(layoutName, CFSTR(IPA_KB_LAYOUT_PREFIX))) {
-      ipaKeyboardLayoutRef = kbLayout;
-      return YES;
-    }
-  }
-  
-  // no IPA keyboard layout was found, ref left as NULL
-  return NO;
+    // no IPA keyboard layout was found, ref left as NULL
+    return NO;
 }
 
 
