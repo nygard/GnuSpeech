@@ -39,7 +39,7 @@
 {
     NSString *inputString, *resultString;
 
-    NSLog(@"> %s", _cmd);
+    NSLog(@"> %s", __PRETTY_FUNCTION__);
 
     inputString = [[inputTextView string] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSLog(@"parseText: inputString is: %@", inputString);
@@ -52,7 +52,7 @@
     if ([copyPhoneStringCheckBox state])
         [outputTextView copy:nil];
 
-    NSLog(@"<  %s", _cmd);
+    NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
 
 - (IBAction)lookupPronunication:(id)sender;
