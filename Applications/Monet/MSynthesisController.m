@@ -708,7 +708,7 @@
 	
     directory = [[NSUserDefaults standardUserDefaults] objectForKey:MDK_IntonationContourDirectory];
     openPanel = [NSOpenPanel openPanel];
-    [openPanel setAllowedFileTypes:[NSArray arrayWithObject:@"contour"]];
+    [openPanel setAllowedFileTypes:[NSArray arrayWithObject:@"org.gnu.gnuspeech.intonation-contour"]];
 	
     [openPanel beginSheetModalForWindow:intonationWindow completionHandler:^(NSInteger result){
         if (result == NSFileHandlingPanelOKButton) {
@@ -731,7 +731,7 @@
 	
     directory = [[NSUserDefaults standardUserDefaults] objectForKey:MDK_IntonationContourDirectory];
     savePanel = [NSSavePanel savePanel];
-    [savePanel setAllowedFileTypes:[NSArray arrayWithObject:@"contour"]];
+    [savePanel setAllowedFileTypes:[NSArray arrayWithObject:@"org.gnu.gnuspeech.intonation-contour"]];
 
     [savePanel beginSheetModalForWindow:intonationWindow completionHandler:^(NSInteger result){
         if (result == NSFileHandlingPanelOKButton) {
