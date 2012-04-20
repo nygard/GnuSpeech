@@ -120,6 +120,7 @@
 		0155E47E0B7BEB27008D8879 /* driftGenerator.c in Sources */ = {isa = PBXBuildFile; fileRef = 0155E47C0B7BEB27008D8879 /* driftGenerator.c */; };
 		0155E47F0B7BEB27008D8879 /* driftGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E47D0B7BEB27008D8879 /* driftGenerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0155E4D00B7BF002008D8879 /* MonetDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E4CF0B7BF002008D8879 /* MonetDefaults.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0157785815410A48008C2ECF /* GnuSpeechServerProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AE22D7154109B200AC1015 /* GnuSpeechServerProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		019745A2153F855000695CD7 /* NSData-STExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 019745A0153F854F00695CD7 /* NSData-STExtensions.h */; };
 		019745A3153F855000695CD7 /* NSData-STExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 019745A1153F854F00695CD7 /* NSData-STExtensions.m */; };
 		019745A5153F8A2100695CD7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 019745A4153F8A2100695CD7 /* AVFoundation.framework */; };
@@ -214,7 +215,6 @@
 		69E228670FB13394001B3C04 /* vowel_before.c in Sources */ = {isa = PBXBuildFile; fileRef = 69E228410FB13393001B3C04 /* vowel_before.c */; };
 		69E228680FB13394001B3C04 /* vowel_before.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E228420FB13393001B3C04 /* vowel_before.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69E228690FB13394001B3C04 /* word_to_patphone.c in Sources */ = {isa = PBXBuildFile; fileRef = 69E228430FB13393001B3C04 /* word_to_patphone.c */; };
-		69E2286A0FB13394001B3C04 /* word_to_patphone.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E228440FB13393001B3C04 /* word_to_patphone.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
@@ -339,6 +339,7 @@
 		019745A1153F854F00695CD7 /* NSData-STExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData-STExtensions.m"; path = "Extensions/NSData-STExtensions.m"; sourceTree = "<group>"; };
 		019745A4153F8A2100695CD7 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = /System/Library/Frameworks/AVFoundation.framework; sourceTree = "<absolute>"; };
 		01AC65F90B7BF9B4008E4B93 /* GnuSpeech.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GnuSpeech.h; sourceTree = "<group>"; };
+		01AE22D7154109B200AC1015 /* GnuSpeechServerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GnuSpeechServerProtocol.h; sourceTree = "<group>"; };
 		01F470A815408B7800A604B8 /* Tube.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Tube.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/GnuSpeech-asltgrlxcnhnopcwrardgfljqcve/Build/Products/Debug/Tube.framework"; sourceTree = "<group>"; };
 		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
@@ -667,6 +668,7 @@
 				694157690FAB8D66009D4192 /* Parsers */,
 				012D53A00B7FF9BD001B50FC /* Text Processing */,
 				0155E4700B7BE906008D8879 /* Tube */,
+				01AE22D7154109B200AC1015 /* GnuSpeechServerProtocol.h */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -951,7 +953,7 @@
 				69E228650FB13394001B3C04 /* syllabify.h in Headers */,
 				69E228660FB13394001B3C04 /* tail.h in Headers */,
 				69E228680FB13394001B3C04 /* vowel_before.h in Headers */,
-				69E2286A0FB13394001B3C04 /* word_to_patphone.h in Headers */,
+				0157785815410A48008C2ECF /* GnuSpeechServerProtocol.h in Headers */,
 				019745A2153F855000695CD7 /* NSData-STExtensions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -2,7 +2,7 @@
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "ApplicationController.h"
-#import "GnuSpeechServerProtocol.h"
+#import <GnuSpeech/GnuSpeechServerProtocol.h>
 
 @implementation ApplicationController
 

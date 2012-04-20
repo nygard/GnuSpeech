@@ -28,7 +28,6 @@
 		6916C7FA0F0E9B6500B22C9D /* ApplicationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplicationController.h; sourceTree = "<group>"; };
 		6916C7FB0F0E9B6500B22C9D /* ApplicationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationController.m; sourceTree = "<group>"; };
 		6933AACC0F8E782E00D30AF6 /* ChangeLog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ChangeLog.txt; sourceTree = "<group>"; };
-		693786850F133DB7005028AF /* GnuSpeechServerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GnuSpeechServerProtocol.h; sourceTree = "<group>"; };
 		696CE7BB0F26DE560014B94A /* GnuTTSClient.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = GnuTTSClient.icns; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* GnuTTSClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GnuTTSClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,7 +95,6 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				693786850F133DB7005028AF /* GnuSpeechServerProtocol.h */,
 				32CA4F630368D1EE00C91783 /* GnuTTSClient_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 			);

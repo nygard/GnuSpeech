@@ -3,7 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "GnuSpeechServerProtocol.h"
+#import <GnuSpeech/GnuSpeechServerProtocol.h>
 
 @class TextToSpeech;
 

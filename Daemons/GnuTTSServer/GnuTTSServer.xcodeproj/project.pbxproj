@@ -35,7 +35,6 @@
 		08FB779EFE84155DC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32A70AAB03705E1F00C91783 /* GnuTTSServer_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GnuTTSServer_Prefix.pch; sourceTree = "<group>"; };
 		6903B8950F119279006DE708 /* org.gnu.GnuSpeech.GnuTTSServer.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = org.gnu.GnuSpeech.GnuTTSServer.plist; sourceTree = "<group>"; };
-		6937867D0F133D9C005028AF /* GnuSpeechServerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GnuSpeechServerProtocol.h; sourceTree = "<group>"; };
 		69454E2E0F8D659E00EBA0DC /* ChangeLog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ChangeLog.txt; sourceTree = "<group>"; };
 		699B09F10F129D6C00B4222C /* PhoneToSpeech.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneToSpeech.h; sourceTree = "<group>"; };
 		699B09F20F129D6C00B4222C /* PhoneToSpeech.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhoneToSpeech.m; sourceTree = "<group>"; };
@@ -79,7 +78,6 @@
 				08FB7796FE84155DC02AAC07 /* GnuTTSServer.m */,
 				69E145B70F1034EC008CE33B /* GnuSpeechServer.h */,
 				69E145B80F1034EC008CE33B /* GnuSpeechServer.m */,
-				6937867D0F133D9C005028AF /* GnuSpeechServerProtocol.h */,
 				699B09F10F129D6C00B4222C /* PhoneToSpeech.h */,
 				699B09F20F129D6C00B4222C /* PhoneToSpeech.m */,
 				699B09F40F129D8400B4222C /* TextToSpeech.h */,

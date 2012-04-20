@@ -2,7 +2,7 @@
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "GnuSpeechService.h"
-#import "GnuSpeechServerProtocol.h"
+#import <GnuSpeech/GnuSpeechServerProtocol.h>
 
 @implementation GnuSpeechService
 
@@ -50,7 +50,7 @@
 	if (response != 0) {
 		*error = NSLocalizedString(@"Error: couldn't speak text.",
 								   @"Server couldn't speak text.");
-		NSLog(@"%s Could not speak text.", _cmd);		
+		NSLog(@"%s Could not speak text.", __PRETTY_FUNCTION__);		
 		return;
 	}	
 }

@@ -10,7 +10,6 @@
 		6903B8460F10B159006DE708 /* GnuSpeechService.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E14A290F107F7C008CE33B /* GnuSpeechService.h */; };
 		6903B8470F10B166006DE708 /* GnuSpeechService_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32CA4F630368D1EE00C91783 /* GnuSpeechService_Prefix.pch */; };
 		6933ACCA0F8EB26100D30AF6 /* ChangeLog.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6933ACC90F8EB26100D30AF6 /* ChangeLog.txt */; };
-		693786950F133DD1005028AF /* GnuSpeechServerProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 693786940F133DD1005028AF /* GnuSpeechServerProtocol.h */; };
 		69652039109E2705009EFB3F /* GnuSpeechService.icns in Resources */ = {isa = PBXBuildFile; fileRef = 69652038109E2705009EFB3F /* GnuSpeechService.icns */; };
 		69E14A430F108192008CE33B /* GnuSpeechService.m in Sources */ = {isa = PBXBuildFile; fileRef = 69E14A2A0F107F7C008CE33B /* GnuSpeechService.m */; };
 		69E14A440F108192008CE33B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 69E14A270F107F50008CE33B /* main.m */; };
@@ -23,7 +22,6 @@
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* GnuSpeechService_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GnuSpeechService_Prefix.pch; sourceTree = "<group>"; };
 		6933ACC90F8EB26100D30AF6 /* ChangeLog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ChangeLog.txt; sourceTree = "<group>"; };
-		693786940F133DD1005028AF /* GnuSpeechServerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GnuSpeechServerProtocol.h; sourceTree = "<group>"; };
 		69652038109E2705009EFB3F /* GnuSpeechService.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = GnuSpeechService.icns; sourceTree = "<group>"; };
 		69E14A270F107F50008CE33B /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		69E14A290F107F7C008CE33B /* GnuSpeechService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GnuSpeechService.h; sourceTree = "<group>"; };
@@ -93,7 +91,6 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				693786940F133DD1005028AF /* GnuSpeechServerProtocol.h */,
 				32CA4F630368D1EE00C91783 /* GnuSpeechService_Prefix.pch */,
 				69E14A270F107F50008CE33B /* main.m */,
 			);
@@ -128,7 +125,6 @@
 			files = (
 				6903B8460F10B159006DE708 /* GnuSpeechService.h in Headers */,
 				6903B8470F10B166006DE708 /* GnuSpeechService_Prefix.pch in Headers */,
-				693786950F133DD1005028AF /* GnuSpeechServerProtocol.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
