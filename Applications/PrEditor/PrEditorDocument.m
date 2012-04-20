@@ -319,7 +319,7 @@ static NSString* UnknownPOS = @"j";
         // set the current keyboard layout to be the IPA keyboard layout
         OSStatus osstatus = TISSelectInputSource(ipaKeyboardLayoutRef);
         if (osstatus != noErr) {
-            NSLog(@"error in TISSelectInputSource osstatus=%ld\n", osstatus);
+            NSLog(@"error in TISSelectInputSource osstatus=%d\n", osstatus);
         }
     } 
     else {
@@ -336,7 +336,7 @@ static NSString* UnknownPOS = @"j";
             // set the current keyboard layout to be the saved layout
             OSStatus osstatus = TISSelectInputSource (oldKeyboardLayoutRef);
             if (osstatus != noErr) {
-                NSLog(@"error in KLSetCurrentKeyboardLayout osstatus=%ld\n", osstatus);    
+                NSLog(@"error in KLSetCurrentKeyboardLayout osstatus=%d\n", osstatus);    
             }
             oldKeyboardLayoutRef = NULL;
         } else {
