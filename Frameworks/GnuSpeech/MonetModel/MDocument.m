@@ -35,6 +35,9 @@
     MXMLParser *parser;
     BOOL result;
 
+    if (filename == nil)
+        return NO;
+    
     fileURL = [NSURL fileURLWithPath:filename];
     parser = [[MXMLParser alloc] initWithContentsOfURL:fileURL];
     [parser pushDelegate:self];

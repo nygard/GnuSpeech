@@ -1618,6 +1618,9 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
     parseState = PARSE_STATE_INITIAL;
 
+    if (filename == nil)
+        return NO;
+    
     fileURL = [NSURL fileURLWithPath:filename];
     parser = [[MXMLParser alloc] initWithContentsOfURL:fileURL];
     [(MXMLParser *)parser setContext:self];

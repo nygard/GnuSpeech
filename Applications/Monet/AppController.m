@@ -153,7 +153,9 @@
 
     types = [NSArray arrayWithObjects:@"monet", @"degas", @"mxml", nil];
     openPanel = [NSOpenPanel openPanel]; // Each call resets values, including filenames
-    [openPanel setDirectoryURL:[NSURL fileURLWithPath:[[NSUserDefaults standardUserDefaults] objectForKey:MDK_MonetFileDirectory]]];
+    NSString *path = [[NSUserDefaults standardUserDefaults] objectForKey:MDK_MonetFileDirectory];
+    if (path != nil)
+        [openPanel setDirectoryURL:[NSURL fileURLWithPath:path]];
     [openPanel setAllowsMultipleSelection:NO];
     [openPanel setAllowedFileTypes:types];
 
@@ -360,7 +362,9 @@
     NSSavePanel *savePanel;
 
     savePanel = [NSSavePanel savePanel];
-    [savePanel setDirectoryURL:[NSURL fileURLWithPath:[[NSUserDefaults standardUserDefaults] objectForKey:MDK_MonetFileDirectory]]];
+    NSString *path = [[NSUserDefaults standardUserDefaults] objectForKey:MDK_MonetFileDirectory];
+    if (path != nil)
+        [savePanel setDirectoryURL:[NSURL fileURLWithPath:path]];
     [savePanel setAllowedFileTypes:[NSArray arrayWithObject:@"mxml"]];
     [savePanel setNameFieldStringValue:[filename lastPathComponent]];
     if ([savePanel runModal] == NSFileHandlingPanelOKButton) {
