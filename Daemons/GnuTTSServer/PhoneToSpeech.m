@@ -14,7 +14,7 @@
 
 @implementation PhoneToSpeech
 
-- (id) init;
+- (id)init;
 {
 	[super init];
 			
@@ -31,7 +31,7 @@
 	return self;
 }
 
-- (void) dealloc;
+- (void)dealloc;
 {
     [model release];
     [eventList release];
@@ -40,17 +40,17 @@
 	[super dealloc];
 }
 
-- (void) speakPhoneString:(NSString *)phoneString;
+- (void)speakPhoneString:(NSString *)phoneString;
 {
 	[self synthesize:phoneString];
 }
 
-- (MModel *) model;
+- (MModel *)model;
 {
     return model;
 }
 
-- (void) setModel:(MModel *)newModel;
+- (void)setModel:(MModel *)newModel;
 {
     if (newModel == model)
         return;
@@ -60,7 +60,7 @@
     [eventList setModel:model];
 }
 
-- (void) synthesize:(NSString *)phoneString;
+- (void)synthesize:(NSString *)phoneString;
 {
     [self prepareForSynthesis];
 	
@@ -72,7 +72,7 @@
     [self continueSynthesis];
 }
 
-- (void) prepareForSynthesis;
+- (void)prepareForSynthesis;
 {
     // NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
 		
@@ -95,7 +95,7 @@
     [eventList setIntonationParameters:intonationParameters];
 }
 
-- (void) _takeIntonationParametersFromUI;
+- (void)_takeIntonationParametersFromUI;
 {
 	// These are the Monet defaults we've just hard-coded (for now).
     intonationParameters.notionalPitch = -1.0;
@@ -105,7 +105,7 @@
     intonationParameters.tonicMovement = -6.0;
 }
 
-- (void) continueSynthesis;
+- (void)continueSynthesis;
 {
     // NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];	
     // [eventList setShouldUseSmoothIntonation:[defaults boolForKey:MDK_ShouldUseSmoothIntonation]];

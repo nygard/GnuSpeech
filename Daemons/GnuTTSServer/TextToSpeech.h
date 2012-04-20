@@ -5,14 +5,15 @@
 
 @class MMTextToPhone, PhoneToSpeech;
 
-@interface TextToSpeech : NSObject {
-	MMTextToPhone * textToPhone;
-	PhoneToSpeech * phoneToSpeech;
+@interface TextToSpeech : NSObject
+{
+	MMTextToPhone *textToPhone;
+	PhoneToSpeech *phoneToSpeech;
 }
 
-- (id) init;
-- (void) dealloc;
+- (id)init;
+- (void)dealloc;
 
-- (void) speakText:(NSString *)text;
+- (void)speakText:(NSString *)text;
 
 @end

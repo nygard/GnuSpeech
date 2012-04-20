@@ -6,20 +6,16 @@
 
 @implementation GnuSpeechServer
 
-//**********************************************************************************************************************
-// Internal methods.
-//**********************************************************************************************************************
+#pragma mark -Internal methods.
 
-- (int) restartServer;
+- (int)restartServer;
 {
 	return 0;
 }
 
-//**********************************************************************************************************************
-// Creating and deallocating the object.
-//**********************************************************************************************************************
+#pragma mark - Creating and deallocating the object.
 
-- (id) init;
+- (id)init;
 {
 	[super init];
 	
@@ -36,7 +32,7 @@
 	return self;
 }
 
-- (void) dealloc;
+- (void)dealloc;
 {
 	NSLog(@"GnuTTSServer: Deallocating server...");
 	[connection invalidate];
@@ -44,120 +40,114 @@
 	[super dealloc];
 }
 
-//**********************************************************************************************************************
-// Voice quality methods.
-//********************************************************************************************************************** 
+#pragma mark - Voice quality methods.
 
-- (int) setSpeed:(float)speedValue;
+- (int)setSpeed:(float)speedValue;
 {
 	return 0;
 }
 
-- (float) speed;
+- (float)speed;
 {
 	return 0;
 }
 
-- (int) setElasticity:(int)elasticityType;
+- (int)setElasticity:(int)elasticityType;
 {
 	return 0;	
 }
 
-- (int) elasticity;
+- (int)elasticity;
 {
 	return 0;
 }
 
-- (int) setIntonation:(int)intonationMask;
+- (int)setIntonation:(int)intonationMask;
 {
 	return 0;
 }
 
-- (int) intonation;
+- (int)intonation;
 {
 	return 0;
 }
 
-- (int) setVoiceType:(int)voiceType;
+- (int)setVoiceType:(int)voiceType;
 {
 	return 0;
 }
 
-- (int) voiceType;
+- (int)voiceType;
 {
 	return 0;
 }
 
-- (int) setPitchOffset:(float)offsetValue;
+- (int)setPitchOffset:(float)offsetValue;
 {
 	return 0;
 }
 
 
-- (float) pitchOffset;
+- (float)pitchOffset;
 {
 	return 0;
 }
 
-- (int) setVolume:(float)volumeLevel;
+- (int)setVolume:(float)volumeLevel;
 {
 	return 0;
 }
 
-- (float) volume;
+- (float)volume;
 {
 	return 0;
 }
 
-- (int) setBalance:(float)balanceValue;
+- (int)setBalance:(float)balanceValue;
 {
 	return 0;
 }
 
-- (float) balance;
+- (float)balance;
 {
 	return 0;
 }
 
-//**********************************************************************************************************************
-// Dictionary control methods.
-//**********************************************************************************************************************
+#pragma mark - Dictionary control methods.
 
-- (int) setDictionaryOrder:(const short *)order;
+- (int)setDictionaryOrder:(const short *)order;
 {
 	return 0;
 }
 
-- (const short *) dictionaryOrder;
+- (const short *)dictionaryOrder;
 {
 	return NULL;
 }
 
-- (int) setAppDictPath:(const char *)path;
+- (int)setAppDictPath:(const char *)path;
 {
 	return 0;
 }
 
-- (const char *) appDictPath;
+- (const char *)appDictPath;
 {
 	return NULL;
 }
 
-- (int) setUserDictPath:(const char *)path;
+- (int)setUserDictPath:(const char *)path;
 {
 	return 0;
 }
 
-- (const char *) userDictPath;
+- (const char *)userDictPath;
 {
 	return NULL;
 }
 
-//**********************************************************************************************************************
-// Text input methods.
-//**********************************************************************************************************************
+#pragma mark - Text input methods.
 
-- (int) speakText:(in NSString *)text;
+- (int)speakText:(in NSString *)text;
 {
 	NSLog(@"GnuTTSServer: %s %@", _cmd, text);	
 	[textToSpeech speakText:text];
@@ -165,162 +155,152 @@
 	return 0;
 }
 
-- (int) speakStream:(in NSStream *)stream;
+- (int)speakStream:(in NSStream *)stream;
 {
 	return 0;
 }
 
-- (int) setEscapeCharacter:(char)character;
+- (int)setEscapeCharacter:(char)character;
 {
 	return 0;
 }
 
-- (char) escapeCharacter;
+- (char)escapeCharacter;
 {
 	return 0;
 }
 
-- (int) setBlock:(BOOL)flag;
+- (int)setBlock:(BOOL)flag;
 {
 	return 0;
 }
 
-- (BOOL) block;
+- (BOOL)block;
 {
 	return TRUE;
 }
 
-//**********************************************************************************************************************
-// Real-time methods.
-//**********************************************************************************************************************
+#pragma mark - Real-time methods.
 
-- (int) pauseImmediately;
+- (int)pauseImmediately;
 {
 	return 0;
 }
 
-- (int) pauseAfterCurrentWord;
+- (int)pauseAfterCurrentWord;
 {
 	return 0;
 }
 
-- (int) pauseAfterCurrentUtterance;
+- (int)pauseAfterCurrentUtterance;
 {
 	return 0;
 }
 
-- (int) continueImmediately;
+- (int)continueImmediately;
 {
 	return 0;
 }
 
-- (int) eraseAllSound;
+- (int)eraseAllSound;
 {
 	return 0;
 }
 
-- (int) eraseAllWords;
+- (int)eraseAllWords;
 {
 	return 0;
 }
 
-- (int) eraseCurrentUtterance;
+- (int)eraseCurrentUtterance;
 {
 	return 0;
 }
 
-//**********************************************************************************************************************
-// Version methods.
-//**********************************************************************************************************************
+#pragma mark - Version methods.
 
-- (const char *) serverVersion;
+- (const char *)serverVersion;
 {
 	return NULL;
 }
 
-- (const char *) dictionaryVersion;
+- (const char *)dictionaryVersion;
 {
 	return NULL;
 }
 
-//**********************************************************************************************************************
-// Sync messaging methods.
-//**********************************************************************************************************************
+#pragma mark - Sync messaging methods.
 
-- (id) sendSyncMessagesTo:destinationObject:(SEL)aSelector;
+- (id)sendSyncMessagesTo:destinationObject:(SEL)aSelector;
 {
 	return nil;
 }
 
-- (id) syncMessagesDestination;
+- (id)syncMessagesDestination;
 {
 	return nil;	
 }
 
-- (SEL) syncMessagesSelector;
+- (SEL)syncMessagesSelector;
 {
 	return nil;
 }
 
-- (int) setSyncRate:(int)rate;
+- (int)setSyncRate:(int)rate;
 {
 	return 0;
 }
 
-- (int) syncRate;
+- (int)syncRate;
 {
 	return 0;	
 }
 
-- (id) setSyncMessages:(BOOL)flag;
+- (id)setSyncMessages:(BOOL)flag;
 {
 	return nil;	
 }
 
-- (BOOL) syncMessages;
+- (BOOL)syncMessages;
 {
 	return NO;
 }
 
-//**********************************************************************************************************************
-// Real-time messaging methods.
-//**********************************************************************************************************************
+#pragma mark - Real-time messaging methods.
 
-- (id) sendRealTimeMessagesTo:destinationObject:(SEL)aSelector;
+- (id)sendRealTimeMessagesTo:destinationObject:(SEL)aSelector;
 {
 	return nil;
 }
 
-- (id) realTimeMessagesDestination;
+- (id)realTimeMessagesDestination;
 {
 	return nil;
 }
 
-- (SEL) realTimeMessagesSelector;
+- (SEL)realTimeMessagesSelector;
 {
 	return nil;
 }
 
-- (id) setRealTimeMessages:(BOOL)flag;
+- (id)setRealTimeMessages:(BOOL)flag;
 {
 	return nil;
 }
 
-- (BOOL) realTimeMessages;
+- (BOOL)realTimeMessages;
 {
 	return NO;
 }
 
-//**********************************************************************************************************************
-// Formerly hidden methods.
-//**********************************************************************************************************************
+#pragma mark - Formerly hidden methods.
 
-- (const char *) pronunciation:(const char *)word:(in short *)dict:(int)password;
+- (const char *)pronunciation:(const char *)word:(in short *)dict:(int)password;
 {
 	return NULL;
 }
 
-- (const char *) linePronunciation:(const char *)line:(int)password;
+- (const char *)linePronunciation:(const char *)line:(int)password;
 {
 	return NULL;
 }

@@ -6,7 +6,7 @@
 
 @implementation ApplicationController
 
-- (id) init;
+- (id)init;
 {
 	[super init];
 	ttsServerProxy = [[NSConnection rootProxyForConnectionWithRegisteredName:GNUSPEECH_SERVER_REGISTERED_NAME host:nil] retain];
@@ -15,12 +15,12 @@
 	return self;
 }
 
-- (void) speak:(id)sender;
+- (IBAction)speak:(id)sender;
 {
 	[ttsServerProxy speakText:[textView string]];	
 }
 
-- (void) dealloc;
+- (void)dealloc;
 {
 	[ttsServerProxy release];
 	[super dealloc];

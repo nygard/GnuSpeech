@@ -3,13 +3,14 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface ApplicationController : NSObject {
-	IBOutlet NSTextView * textView;
+@interface ApplicationController : NSObject
+{
+	IBOutlet NSTextView *textView;
 	id ttsServerProxy;
 }
 
-- (id) init;
-- (void) speak:(id)sender;
-- (void) dealloc;
+- (id)init;
+- (IBAction)speak:(id)sender;
+- (void)dealloc;
 
 @end

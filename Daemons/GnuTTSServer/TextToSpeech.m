@@ -8,7 +8,7 @@
 
 @implementation TextToSpeech
 
-- (id) init;
+- (id)init;
 {
 	[super init];
 	
@@ -18,7 +18,7 @@
 	return self;
 }
 
-- (void) dealloc;
+- (void)dealloc;
 {
 	[textToPhone release];
 	[phoneToSpeech release];
@@ -26,7 +26,7 @@
 	[super dealloc];
 }
 
-- (void) speakText:(NSString *)text;
+- (void)speakText:(NSString *)text;
 {
 	NSString * phoneString = [textToPhone phoneForText:text];	
 	[phoneToSpeech speakPhoneString:phoneString];

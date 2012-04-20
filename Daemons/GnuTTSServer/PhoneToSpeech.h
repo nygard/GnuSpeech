@@ -2,28 +2,30 @@
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import <Foundation/Foundation.h>
+
 #import <GnuSpeech/GnuSpeech.h>  // for struct _intonationParameters
 
-@interface PhoneToSpeech : NSObject {
-	MModel * model;
-    EventList * eventList;	
-	TRMSynthesizer * synthesizer;
+@interface PhoneToSpeech : NSObject
+{
+	MModel *model;
+    EventList *eventList;	
+	TRMSynthesizer *synthesizer;
 	struct _intonationParameters intonationParameters;
 }
 
-- (id) init;
-- (void) dealloc;
+- (id)init;
+- (void)dealloc;
 
-- (void) speakPhoneString:(NSString *)phoneString;
+- (void)speakPhoneString:(NSString *)phoneString;
 
-- (MModel *) model;
-- (void) setModel:(MModel *)newModel;
+- (MModel *)model;
+- (void)setModel:(MModel *)newModel;
 
-- (void) synthesize:(NSString *)phoneString;
-- (void) prepareForSynthesis;
-- (void) continueSynthesis;
+- (void)synthesize:(NSString *)phoneString;
+- (void)prepareForSynthesis;
+- (void)continueSynthesis;
 
-- (void) _takeIntonationParametersFromUI;
+- (void)_takeIntonationParametersFromUI;
 
 
 @end
