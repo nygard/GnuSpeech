@@ -13,10 +13,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8DC2EF4F0486A6940098B216"
-               BuildableName = "Tube.framework"
-               BlueprintName = "Tube"
-               ReferencedContainer = "container:Frameworks/Tube/Tube.xcodeproj">
+               BlueprintIdentifier = "8D1107260486CEB800E47090"
+               BuildableName = "Monet.app"
+               BlueprintName = "Monet"
+               ReferencedContainer = "container:Applications/Monet/Monet.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -41,10 +41,80 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "8DC2EF4F0486A6940098B216"
+               BuildableName = "Tube.framework"
+               BlueprintName = "Tube"
+               ReferencedContainer = "container:Frameworks/Tube/Tube.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "8DD76F960486AA7600D96B5E"
+               BuildableName = "GnuTTSServer"
+               BlueprintName = "GnuTTSServer"
+               ReferencedContainer = "container:Daemons/GnuTTSServer/GnuTTSServer.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "8D1107260486CEB800E47090"
-               BuildableName = "Monet.app"
-               BlueprintName = "Monet"
-               ReferencedContainer = "container:Applications/Monet/Monet.xcodeproj">
+               BuildableName = "GnuTTSClient.app"
+               BlueprintName = "GnuTTSClient"
+               ReferencedContainer = "container:Applications/GnuTTSClient/GnuTTSClient.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "69E14A3D0F108138008CE33B"
+               BuildableName = "GnuSpeechService.service"
+               BlueprintName = "GnuSpeechService"
+               ReferencedContainer = "container:Services/GnuSpeechService/GnuSpeechService.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "8D1107260486CEB800E47090"
+               BuildableName = "PreMo.app"
+               BlueprintName = "PreMo"
+               ReferencedContainer = "container:Applications/PreMo/PreMo.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "8D15AC270486D014006FF6A4"
+               BuildableName = "PrEditor.app"
+               BlueprintName = "PrEditor"
+               ReferencedContainer = "container:Applications/PrEditor/PrEditor.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
