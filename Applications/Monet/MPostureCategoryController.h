@@ -6,11 +6,6 @@
 @class MModel;
 
 @interface MPostureCategoryController : MWindowController
-{
-    IBOutlet NSTableView *postureCategoryTableView;
-
-    MModel *model;
-}
 
 - (id)initWithModel:(MModel *)aModel;
 - (void)dealloc;

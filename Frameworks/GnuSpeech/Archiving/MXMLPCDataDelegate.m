@@ -6,6 +6,13 @@
 #import "MXMLParser.h"
 
 @implementation MXMLPCDataDelegate
+{
+    NSString *elementName;
+    id delegate;
+    SEL setSelector;
+    
+    NSMutableString *string;
+}
 
 // TODO (2004-04-22): Reject unused init method
 // TODO (2004-04-22): Perhaps use keypaths instead of selectors.

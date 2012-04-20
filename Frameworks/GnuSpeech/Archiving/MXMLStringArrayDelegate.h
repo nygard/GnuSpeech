@@ -4,11 +4,6 @@
 #import <Foundation/Foundation.h>
 
 @interface MXMLStringArrayDelegate : NSObject
-{
-    NSString *childElementName;
-    id delegate;
-    SEL addObjectSelector;
-}
 
 - (id)initWithChildElementName:(NSString *)anElementName delegate:(id)aDelegate addObjectSelector:(SEL)aSelector;
 - (void)dealloc;

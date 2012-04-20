@@ -6,15 +6,6 @@
 @class EventList, MModel, MMPosture;
 
 @interface MMPostureRewriter : NSObject
-{
-    MModel *model;
-
-    NSString *categoryNames[15];
-    MMPosture *returnPostures[7];
-
-    NSUInteger currentState;
-    MMPosture *lastPosture;
-}
 
 - (id)initWithModel:(MModel *)aModel;
 - (void)dealloc;

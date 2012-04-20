@@ -6,8 +6,6 @@
 #import "MMFRuleSymbols.h"
 
 @interface MMFormulaNode : NSObject
-{
-}
 
 - (NSUInteger)precedence;
 

@@ -4,5 +4,7 @@
 #import "SymbolList.h"
 
 @implementation SymbolList
+{
+}
 
 @end

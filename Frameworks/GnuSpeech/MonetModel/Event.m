@@ -4,6 +4,11 @@
 #import "Event.h"
 
 @implementation Event
+{
+    NSUInteger time;
+    BOOL flag;
+    double events[MAX_EVENTS];
+}
 
 - (id)init;
 {

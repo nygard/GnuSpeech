@@ -4,11 +4,6 @@
 #import <Foundation/Foundation.h>
 
 @interface MXMLArrayDelegate : NSObject
-{
-    NSMutableDictionary *classesByChildElementName;
-    id delegate;
-    SEL addObjectSelector;
-}
 
 - (id)initWithChildElementName:(NSString *)anElementName class:(Class)aClass delegate:(id)aDelegate addObjectSelector:(SEL)aSelector;
 - (id)initWithChildElementToClassMapping:(NSDictionary *)aMapping delegate:(id)aDelegate addObjectSelector:(SEL)aSelector;

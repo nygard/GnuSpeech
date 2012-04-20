@@ -83,6 +83,73 @@
 #define SPECTRUM_GRID_DEF     1
 
 @implementation TRMData
+{
+    /*  GLOTTAL SOURCE PARAMETERS  */
+    int32_t waveform;
+    int32_t showAmplitude;
+    int32_t harmonicsScale;
+    int32_t unit;
+    int32_t pitch;
+    int32_t cents;
+    float breathiness;
+    int32_t glotVol;
+    float tp;
+    float tnMin;
+    float tnMax;
+	
+    /*  NOISE SOURCE PARAMETERS  */
+    int32_t fricVol;
+    float fricPos;
+    int32_t fricCF;
+    int32_t fricBW;
+    int32_t NoiseSourceResponseScale;
+    int32_t aspVol;
+    int32_t modulation;
+    int32_t mixOffset;
+	
+    /*  THROAT PARAMETERS  */
+    int32_t throatVol;
+    int32_t throatCutoff;
+    int32_t throatResponseScale;
+	
+    /*  RESONANT SYSTEM PARAMETERS  */
+    double pharynxDiameter[PHARYNX_SECTIONS];
+    double velumDiameter[VELUM_SECTIONS];
+    double oralDiameter[ORAL_SECTIONS];
+    double nasalDiameter[NASAL_SECTIONS];
+    double lossFactor;
+    double apScale;
+    double mouthCoef;
+    double noseCoef;
+    int32_t mouthResponseScale;
+    int32_t noseResponseScale;
+    double temperature;
+    double length;
+    double sampleRate;
+    double actualLength;
+    int32_t controlPeriod;
+	
+    /*  CONTROLLER PARAMETERS  */
+    int32_t volume;
+    double balance;
+    int32_t channels;
+    int32_t controlRate;
+	
+    /*  ANALYSIS PARAMETERS  */
+    BOOL normalizeInput;
+    int32_t binSize;
+    int32_t windowType;
+    float alpha;
+    float beta;
+    int32_t grayLevel;
+    int32_t magnitudeScale;
+    float linearUpperThreshold;
+    float linearLowerThreshold;
+    int32_t logUpperThreshold;
+    int32_t logLowerThreshold;
+    BOOL spectrographGrid;
+    BOOL spectrumGrid;
+}
 
 - (id)init;
 {

@@ -4,10 +4,6 @@
 #import <Cocoa/Cocoa.h>
 
 @interface ApplicationController : NSObject
-{
-	IBOutlet NSTextView *textView;
-	id ttsServerProxy;
-}
 
 - (id)init;
 - (IBAction)speak:(id)sender;

@@ -8,6 +8,10 @@
 #import "MMFormulaSymbols.h"
 
 @implementation FormulaExpression
+{
+    NSUInteger operation;
+    NSMutableArray *expressions;
+}
 
 - (id)init;
 {
@@ -110,7 +114,7 @@
 
     opString = [self opString];
 
-    if (precedence == 3)
+    if (self.precedence == 3)
         [resultString appendString:@"("];
 
     count = [expressions count];
@@ -122,7 +126,7 @@
 
     }
 
-    if (precedence == 3)
+    if (self.precedence == 3)
         [resultString appendString:@")"];
 }
 
@@ -141,8 +145,11 @@
     //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
     /*NSInteger archivedVersion =*/ [aDecoder versionForClassName:NSStringFromClass([self class])];
     //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
-
+    
+    NSUInteger precedence;
     [aDecoder decodeValuesOfObjCTypes:"iiii", &operation, &numExpressions, &maxExpressions, &precedence];
+    self.precedence = precedence;
+    
     if (numExpressions != 2)
         NSLog(@"operation: %lu, numExpressions: %lu, maxExpressions: %lu, precedence: %lu", operation, numExpressions, maxExpressions, precedence);
     expressions = [[NSMutableArray alloc] init];

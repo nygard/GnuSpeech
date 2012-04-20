@@ -7,11 +7,6 @@
 #define MAX_EVENTS 36
 
 @interface Event : NSObject
-{
-    NSUInteger time;
-    BOOL flag;
-    double events[MAX_EVENTS];
-}
 
 - (id)init;
 - (id)initWithTime:(NSUInteger)aTime;

@@ -3,10 +3,9 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface PrEntry : NSObject {
-@public	
-	NSString * phone;
-	NSString * partsOfSpeech;
-}
+@interface PrEntry : NSObject
+
+@property (retain) NSString *phone;
+@property (retain) NSString *partsOfSpeech;
 
 @end

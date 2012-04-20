@@ -9,13 +9,6 @@
 @class EventList, MonetList, MMEquation;
 
 @interface MMPoint : NSObject
-{
-    double value;  /* Value of the point */
-    double freeTime; /* Free Floating time */
-    MMEquation *timeEquation; /* Time of the point */
-    MMPhoneType type;  /* Which phone it is targeting */
-    BOOL isPhantom; /* Phantom point for place marking purposes only */
-}
 
 - (id)init;
 - (void)dealloc;

@@ -29,6 +29,35 @@
 NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSelectionDidChangeNotification";
 
 @implementation MAIntonationView
+{
+    NSTextFieldCell *postureTextFieldCell;
+    NSTextFieldCell *ruleIndexTextFieldCell;
+    NSTextFieldCell *ruleDurationTextFieldCell;
+    
+    NSTextFieldCell *labelTextFieldCell;
+    NSTextFieldCell *horizontalAxisLabelTextFieldCell;
+    
+    MAIntonationScaleView *scaleView;
+    
+    NSFont *timesFont;
+    NSFont *timesFontSmall;
+    
+    EventList *eventList;
+    
+    CGFloat timeScale;
+    
+    NSMutableArray *selectedPoints;
+    NSPoint selectionPoint1;
+    NSPoint selectionPoint2;
+    
+    struct {
+        unsigned int shouldDrawSelection:1;
+        unsigned int shouldDrawSmoothPoints:1;
+        unsigned int mouseBeingDragged:1;
+    } flags;
+    
+    id nonretained_delegate;
+}
 
 - (id)initWithFrame:(NSRect)frameRect;
 {

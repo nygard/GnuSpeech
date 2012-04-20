@@ -45,6 +45,59 @@ NSString *NSStringFromToneGroupType(NSUInteger toneGroupType)
 NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoints";
 
 @implementation EventList
+{
+    MModel *model;
+    
+    MMPostureRewriter *postureRewriter;
+    
+    NSString *phoneString;
+    
+    NSInteger zeroRef;
+    NSInteger zeroIndex; // Event index derived from zeroRef.
+    
+    NSUInteger duration; // Move... somewhere else.
+    NSUInteger timeQuantization; // in msecs.  By default it generates parameters every 4 msec
+    
+    struct {
+        unsigned int shouldStoreParameters:1; // YES -> -generateOutput writes to /tmp/Monet.parameters
+        unsigned int shouldUseMacroIntonation:1;
+        unsigned int shouldUseMicroIntonation:1;
+        unsigned int shouldUseDrift:1;
+        unsigned int shouldUseSmoothIntonation:1;
+        unsigned int intonationPointsNeedSorting:1;
+    } flags;
+    
+    double radiusMultiply; // Affects hard coded parameters, in this case r1 and r2.
+    double pitchMean;
+    double globalTempo;
+    double multiplier; // Move... somewhere else.
+    struct _intonationParameters intonationParameters;
+    
+    /* NOTE phones and phoneTempo are separate for Optimization reasons */
+    NSUInteger postureCount;
+    struct _phone phones[MAXPHONES];
+    double phoneTempo[MAXPHONES];
+    
+    NSUInteger footCount;
+    struct _foot feet[MAXFEET];
+    
+    NSUInteger toneGroupCount;
+    struct _toneGroup toneGroups[MAXTONEGROUPS];
+    
+    NSUInteger currentRule;
+    struct _rule rules[MAXRULES];
+    
+    double min[16]; // Min of each parameter value
+    double max[16]; // Max of each parameter value
+    
+    NSMutableArray *events;
+    NSMutableArray *intonationPoints; // Sorted by absolute time
+    
+    id delegate;
+    
+    // Hack for inflexible XML parsing.  I have plan to change how I parse XML.
+    NSUInteger parseState;
+}
 
 - (id)init;
 {

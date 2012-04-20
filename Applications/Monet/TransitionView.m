@@ -21,6 +21,37 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 // TODO (2004-03-15): Should have methods to convert between points in the view and graph values.
 
 @implementation TransitionView
+{
+    MMFRuleSymbols _parameters;
+    
+    NSFont *timesFont;
+    
+    MMTransition *transition;
+    
+    NSMutableArray *samplePostures;
+    NSMutableArray *displayPoints;
+    NSMutableArray *displaySlopes;
+    NSMutableArray *selectedPoints;
+    
+    NSPoint selectionPoint1;
+    NSPoint selectionPoint2;
+    
+    MMSlope *editingSlope;
+    NSTextFieldCell *textFieldCell;
+    NSText *nonretained_fieldEditor;
+    
+    NSUInteger zeroIndex;
+    NSInteger sectionAmount;
+    
+    MModel *model;
+    
+    struct {
+        unsigned int shouldDrawSelection:1;
+        unsigned int shouldDrawSlopes:1;
+    } flags;
+    
+    id nonretained_delegate;
+}
 
 // The size was originally 700 x 380
 - (id)initWithFrame:(NSRect)frameRect;
@@ -66,6 +97,13 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     [model release];
 
     [super dealloc];
+}
+
+@synthesize timesFont, samplePostures, displayPoints, displaySlopes, selectedPoints;
+
+- (MMFRuleSymbols *)parameters;
+{
+    return &_parameters;
 }
 
 - (NSUInteger)zeroIndex;

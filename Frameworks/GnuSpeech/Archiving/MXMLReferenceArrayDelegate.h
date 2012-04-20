@@ -4,14 +4,6 @@
 #import <Foundation/Foundation.h>
 
 @interface MXMLReferenceArrayDelegate : NSObject
-{
-    NSString *childElementName;
-    NSString *referenceAttribute;
-    id delegate;
-    SEL addObjectSelector;
-
-    NSMutableArray *references;
-}
 
 // TODO (2004-05-16): Change this to referenceAttributeName:, to be consistent
 - (id)initWithChildElementName:(NSString *)anElementName referenceAttribute:(NSString *)anAttribute delegate:(id)aDelegate addObjectSelector:(SEL)aSelector;

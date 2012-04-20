@@ -5,6 +5,15 @@
 #import "GSSuffix.h"
 
 @implementation GSPronunciationDictionary
+{
+    NSString *m_filename;
+    NSString *version;
+    
+    NSMutableArray *suffixOrder;
+    NSMutableDictionary *suffixes;
+    
+    BOOL hasBeenLoaded;
+}
 
 + (id)mainDictionary;
 {
@@ -19,8 +28,8 @@
     if ([super init] == nil)
         return nil;
 
-    filename = [aFilename retain];
-    NSLog(@"filename: %@", filename);
+    m_filename = [aFilename retain];
+    NSLog(@"filename: %@", m_filename);
     version = nil;
 
     suffixOrder = [[NSMutableArray alloc] init];
@@ -37,7 +46,7 @@
 
 - (void)dealloc;
 {
-    [filename release];
+    [m_filename release];
     [version release];
     [suffixOrder release];
     [suffixes release];
@@ -45,10 +54,7 @@
     [super dealloc];
 }
 
-- (NSString *)filename;
-{
-    return filename;
-}
+@synthesize filename = m_filename;
 
 - (NSString *)version;
 {

@@ -39,9 +39,6 @@
 */
 
 @interface MMBooleanParser : GSParser
-{
-    MModel *model;
-}
 
 - (id)initWithModel:(MModel *)aModel;
 - (void)dealloc;

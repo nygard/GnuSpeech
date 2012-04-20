@@ -6,6 +6,8 @@
 #import "CategoryList.h"
 
 @implementation MMBooleanNode
+{
+}
 
 - (BOOL)evaluateWithCategories:(CategoryList *)categories;
 {

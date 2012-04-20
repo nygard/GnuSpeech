@@ -3,11 +3,6 @@
 @class GSPronunciationDictionary;
 
 @interface TTSParser : NSObject
-{
-    GSPronunciationDictionary *mainDictionary;
-	GSPronunciationDictionary *userDictionary;
-	GSPronunciationDictionary *appDictionary;
-}
 
 + (void)initialize;
 

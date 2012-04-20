@@ -14,6 +14,26 @@
 #define RIGHT_MARGIN 20.0
 
 @implementation EventListView
+{
+    NSFont *timesFont;
+    NSFont *timesFontSmall;
+    
+    EventList *eventList;
+    
+	NSTextField *mouseTimeField;
+	NSTextField *mouseValueField;
+    
+    NSUInteger startingIndex;
+    CGFloat timeScale;
+    BOOL mouseBeingDragged;
+    NSTrackingRectTag trackTag;
+    
+    NSTextFieldCell *ruleCell;
+    NSTextFieldCell *minMaxCell;
+    NSTextFieldCell *parameterNameCell;
+    
+    NSArray *displayParameters;
+}
 
 - (id)initWithFrame:(NSRect)frameRect;
 {

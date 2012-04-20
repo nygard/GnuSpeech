@@ -38,10 +38,6 @@
 */
 
 @interface MMBooleanTerminal : MMBooleanNode
-{
-    MMCategory *category;
-    BOOL shouldMatchAll;
-}
 
 - (id)init;
 - (void)dealloc;

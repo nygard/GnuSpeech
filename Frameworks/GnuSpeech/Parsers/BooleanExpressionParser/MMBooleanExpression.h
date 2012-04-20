@@ -55,11 +55,6 @@
 #define XOR_OP	4
 
 @interface MMBooleanExpression : MMBooleanNode
-{
-    NSUInteger operation;
-
-    NSMutableArray *expressions;
-}
 
 - (id)init;
 - (void)dealloc;

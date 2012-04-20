@@ -12,6 +12,28 @@
 // TODO (2004-03-20): Implement copy and pasting of postures.
 
 @implementation MPostureEditor
+{
+    IBOutlet NSTableView *postureTableView;
+    IBOutlet NSTextField *postureTotalTextField;
+    IBOutlet NSButtonCell *removePostureButtonCell;
+    IBOutlet NSTextView *postureCommentTextView;
+    
+    IBOutlet NSTableView *categoryTableView;
+    
+    IBOutlet NSTableView *parameterTableView;
+    IBOutlet NSButton *useDefaultParameterButton;
+    
+    IBOutlet NSTableView *metaParameterTableView;
+    IBOutlet NSButton *useDefaultMetaParameterButton;
+    
+    IBOutlet NSTableView *symbolTableView;
+    IBOutlet NSButton *useDefaultSymbolButton;
+    
+    MModel *model;
+    
+    NSFont *regularControlFont;
+    NSFont *boldControlFont;
+}
 
 - (id)initWithModel:(MModel *)aModel;
 {

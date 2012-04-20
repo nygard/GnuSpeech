@@ -12,6 +12,29 @@
 // TODO (2004-03-20): Implement copy and pasting of categories, parameters, meta parameters, and symbols, although it looks like the original code did actually do the pasting part.
 
 @implementation MDataEntryController
+{
+    IBOutlet NSTableView *categoryTableView;
+    IBOutlet NSTextField *categoryTotalTextField;
+    IBOutlet NSTextView *categoryCommentTextView;
+    IBOutlet NSButtonCell *removeCategoryButtonCell;
+    
+    IBOutlet NSTableView *parameterTableView;
+    IBOutlet NSTextField *parameterTotalTextField;
+    IBOutlet NSTextView *parameterCommentTextView;
+    IBOutlet NSButtonCell *removeParameterButtonCell;
+    
+    IBOutlet NSTableView *metaParameterTableView;
+    IBOutlet NSTextField *metaParameterTotalTextField;
+    IBOutlet NSTextView *metaParameterCommentTextView;
+    IBOutlet NSButtonCell *removeMetaParameterButtonCell;
+    
+    IBOutlet NSTableView *symbolTableView;
+    IBOutlet NSTextField *symbolTotalTextField;
+    IBOutlet NSTextView *symbolCommentTextView;
+    IBOutlet NSButtonCell *removeSymbolButtonCell;
+    
+    MModel *model;
+}
 
 - (id)initWithModel:(MModel *)aModel;
 {

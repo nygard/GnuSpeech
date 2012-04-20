@@ -8,6 +8,10 @@
 @end
 
 @implementation MExtendedTableView
+{
+    NSTimeInterval lastTimestamp;
+    NSMutableString *combinedCharacters;
+}
 
 - (id)initWithFrame:(NSRect)frameRect;
 {

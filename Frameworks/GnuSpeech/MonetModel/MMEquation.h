@@ -8,16 +8,6 @@
 @class MMFormulaNode, NamedList;
 
 @interface MMEquation : MMObject
-{
-    NamedList *nonretained_group;
-
-    NSString *name;
-    NSString *comment;
-    MMFormulaNode *formula;
-
-    NSUInteger cacheTag;
-    double cacheValue;
-}
 
 - (id)init;
 - (id)initWithName:(NSString *)newName;

@@ -3,6 +3,11 @@
 #import "GSSuffix.h"
 
 @implementation GSSuffix
+{
+    NSString *suffix;
+    NSString *replacementString;
+    NSString *appendedPronunciation;
+}
 
 - (id)initWithSuffix:(NSString *)aSuffix replacementString:(NSString *)aReplacementString appendedPronunciation:(NSString *)anAppendedPronunciation;
 {

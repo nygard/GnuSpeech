@@ -14,6 +14,34 @@
 // TODO (2004-03-23): Implement copy/paste of equations, transitions, special transitions.  Original code didn't copy groups.
 
 @implementation MPrototypeManager
+{
+    IBOutlet NSOutlineView *equationOutlineView;
+    IBOutlet NSButtonCell *addEquationButtonCell;
+    IBOutlet NSButtonCell *removeEquationButtonCell;
+    IBOutlet NSTextView *equationTextView;
+    IBOutlet NSTextView *equationParserMessagesTextView;
+    IBOutlet NSTextView *equationCommentTextView;
+    
+    IBOutlet NSOutlineView *transitionOutlineView;
+    IBOutlet NSButtonCell *addTransitionButtonCell;
+    IBOutlet NSButtonCell *removeTransitionButtonCell;
+    IBOutlet TransitionView *miniTransitionView;
+    IBOutlet NSTextView *transitionCommentTextView;
+    
+    IBOutlet NSOutlineView *specialTransitionOutlineView;
+    IBOutlet NSButtonCell *addSpecialTransitionButtonCell;
+    IBOutlet NSButtonCell *removeSpecialTransitionButtonCell;
+    IBOutlet SpecialView *miniSpecialTransitionView;
+    IBOutlet NSTextView *specialTransitionCommentTextView;
+    
+    MModel *model;
+    
+    MMFormulaParser *formulaParser;
+    
+    NSMutableDictionary *cachedEquationUsage;
+    NSMutableDictionary *cachedTransitionUsage;
+    //NSMutableDictionary *cachedSpecialTransitionUsage;
+}
 
 - (id)initWithModel:(MModel *)aModel;
 {

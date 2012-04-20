@@ -13,6 +13,15 @@
 #define MIDDLEC	261.6255653
 
 @implementation MMIntonationPoint
+{
+    EventList *nonretained_eventList;
+    
+    double semitone; // Value of the point in semitones
+    double offsetTime; // Points are timed wrt a beat + this offset
+    double slope;  // Slope of point
+    
+    NSUInteger ruleIndex; // Index of the rule for the phone which is the focus of this point
+}
 
 // TODO (2004-08-17): Reject unused init method.
 - (id)init;

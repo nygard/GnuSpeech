@@ -21,6 +21,14 @@
 #import "MXMLPCDataDelegate.h"
 
 @implementation MMTransition
+{
+    NamedList *nonretained_group;
+    
+    NSString *name;
+    NSString *comment;
+    MMPhoneType type;
+    NSMutableArray *points; // Of MMSlopeRatios and/or MMPoints
+}
 
 - (id)init;
 {

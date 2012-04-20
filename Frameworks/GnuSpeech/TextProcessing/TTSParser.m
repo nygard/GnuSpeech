@@ -12,6 +12,11 @@
 static NSDictionary * specialAcronyms;  // static class variable
 
 @implementation TTSParser
+{
+    GSPronunciationDictionary *mainDictionary;
+	GSPronunciationDictionary *userDictionary;
+	GSPronunciationDictionary *appDictionary;
+}
 
 + (void)initialize;
 {

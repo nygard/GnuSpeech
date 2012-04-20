@@ -6,8 +6,6 @@
 @class MMCategory;
 
 @interface CategoryList : MonetList
-{
-}
 
 - (MMCategory *)findSymbol:(NSString *)searchSymbol;
 

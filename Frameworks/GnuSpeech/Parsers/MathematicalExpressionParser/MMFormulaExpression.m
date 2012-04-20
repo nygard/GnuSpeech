@@ -8,6 +8,11 @@
 #import "MMFormulaSymbols.h"
 
 @implementation MMFormulaExpression
+{
+    NSUInteger operation;
+    MMFormulaNode *left;
+    MMFormulaNode *right;
+}
 
 - (id)init;
 {

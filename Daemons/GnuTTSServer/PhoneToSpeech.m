@@ -13,6 +13,12 @@
 #define MDK_ShouldUseDrift @"ShouldUseDrift"
 
 @implementation PhoneToSpeech
+{
+	MModel *model;
+    EventList *eventList;	
+	TRMSynthesizer *synthesizer;
+	struct _intonationParameters intonationParameters;
+}
 
 - (id)init;
 {

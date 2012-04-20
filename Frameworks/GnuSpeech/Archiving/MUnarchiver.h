@@ -4,9 +4,6 @@
 #import <Foundation/Foundation.h>
 
 @interface MUnarchiver : NSUnarchiver
-{
-    id m_userInfo;
-}
 
 @property (strong) id userInfo;
 

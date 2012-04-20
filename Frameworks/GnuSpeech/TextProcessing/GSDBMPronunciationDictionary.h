@@ -7,9 +7,6 @@
 @class GSSimplePronunciationDictionary;
 
 @interface GSDBMPronunciationDictionary : GSPronunciationDictionary
-{
-    DBM *db;
-}
 
 + (NSString *)mainFilename;
 + (BOOL)createDatabase:(NSString *)aFilename fromSimpleDictionary:(GSSimplePronunciationDictionary *)simpleDictionary;

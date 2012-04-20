@@ -4,7 +4,5 @@
 #import "MonetList.h"
 
 @interface ParameterList : MonetList
-{
-}
 
 @end

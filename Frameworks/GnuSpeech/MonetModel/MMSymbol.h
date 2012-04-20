@@ -4,11 +4,6 @@
 #import "MMNamedObject.h"
 
 @interface MMSymbol : MMNamedObject
-{
-    double minimum;
-    double maximum;
-    double defaultValue;
-}
 
 - (id)init;
 

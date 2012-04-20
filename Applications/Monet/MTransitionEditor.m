@@ -11,13 +11,31 @@
 #import "TransitionView.h"
 
 @implementation MTransitionEditor
+{
+    IBOutlet NSTextField *transitionNameTextField;
+    IBOutlet NSPopUpButton *transitionTypePopUpButton;
+    IBOutlet TransitionView *transitionView;
+    IBOutlet NSForm *controlParametersForm;
+    
+    IBOutlet NSOutlineView *equationOutlineView;
+    IBOutlet NSTextField *valueTextField;
+    IBOutlet NSButton *isPhantomSwitch;
+    
+    IBOutlet NSButton *type1Button;
+    IBOutlet NSButton *type2Button;
+    IBOutlet NSButton *type3Button;
+    
+    IBOutlet NSTextView *equationTextView;
+    
+    MModel *model;
+    
+    MMTransition *transition;
+}
 
-- (id)initWithModel:(MModel *)aModel;
+- (id)init;
 {
     if ([super initWithWindowNibName:@"TransitionEditor"] == nil)
         return nil;
-
-    model = [aModel retain];
 
     [self setWindowFrameAutosaveName:@"Transition Editor"];
 

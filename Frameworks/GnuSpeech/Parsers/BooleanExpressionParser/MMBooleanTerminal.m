@@ -14,6 +14,10 @@
 #import "MUnarchiver.h"
 
 @implementation MMBooleanTerminal
+{
+    MMCategory *category;
+    BOOL shouldMatchAll;
+}
 
 - (id)init;
 {

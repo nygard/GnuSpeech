@@ -4,11 +4,7 @@
 #import "MMFormulaNode.h"
 
 @interface MMOldFormulaNode : MMFormulaNode
-{
-    NSUInteger precedence;
-}
 
-- (NSUInteger)precedence;
-- (void)setPrecedence:(NSUInteger)newPrecedence;
+@property (assign) NSUInteger precedence;
 
 @end

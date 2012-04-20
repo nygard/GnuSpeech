@@ -25,6 +25,62 @@
 #define MDK_IntonationContourDirectory @"IntonationContourDirectory"
 
 @implementation MSynthesisController
+{
+    // Synthesis window
+	IBOutlet NSComboBox *textStringTextField;
+	IBOutlet NSTextView *phoneStringTextView;
+    IBOutlet NSTableView *parameterTableView;
+    IBOutlet EventListView *eventListView;
+	IBOutlet NSScrollView *scrollView;  // db
+    IBOutlet NSButton *parametersStore;
+	
+	IBOutlet NSTextField *mouseTimeField;  // db
+    IBOutlet NSTextField *mouseValueField;  // db
+	
+    // Save panel accessory view
+    IBOutlet NSView *savePanelAccessoryView;
+    IBOutlet NSPopUpButton *fileTypePopUpButton;
+	
+    // Intonation parameter window
+    IBOutlet NSWindow *intonationParameterWindow;
+	
+    IBOutlet NSTextField *tempoField;
+    IBOutlet NSForm *intonParmsField;
+    IBOutlet NSTextField *radiusMultiplyField;
+	
+    IBOutlet NSMatrix *intonationMatrix;
+    IBOutlet NSTextField *driftDeviationField;
+    IBOutlet NSTextField *driftCutoffField;
+    IBOutlet NSButton *smoothIntonationSwitch;
+	
+    // Intonation window
+    IBOutlet NSWindow *intonationWindow;
+    IBOutlet MAIntonationScrollView *intonationView;
+	
+    IBOutlet NSTextField *semitoneTextField;
+    IBOutlet NSTextField *hertzTextField;
+    IBOutlet NSTextField *slopeTextField;
+	
+    IBOutlet NSTableView *intonationRuleTableView;
+    IBOutlet NSTextField *beatTextField;
+    IBOutlet NSTextField *beatOffsetTextField;
+    IBOutlet NSTextField *absTimeTextField;
+	
+    NSPrintInfo *intonationPrintInfo;
+	
+    struct _intonationParameters intonationParameters;
+	
+    MModel *model;
+    NSMutableArray *displayParameters;
+    EventList *eventList;
+	
+    TRMSynthesizer *synthesizer;
+	
+	MMTextToPhone * textToPhone;
+	
+    // Event Table stuff
+    IBOutlet NSTableView *eventTableView;
+}
 
 + (void)initialize;
 {

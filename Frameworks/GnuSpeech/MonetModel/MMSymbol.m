@@ -17,6 +17,11 @@
 #define DEFAULT_MAX 500.0
 
 @implementation MMSymbol
+{
+    double minimum;
+    double maximum;
+    double defaultValue;
+}
 
 - (id)init;
 {
@@ -80,8 +85,8 @@
 
     [aDecoder decodeValuesOfObjCTypes:"**ddd", &c_name, &c_comment, &minimum, &maximum, &defaultValue];
 
-    name = [[NSString stringWithASCIICString:c_name] retain];
-    comment = [[NSString stringWithASCIICString:c_comment] retain];
+    self.name = [[NSString stringWithASCIICString:c_name] retain];
+    self.comment = [[NSString stringWithASCIICString:c_comment] retain];
     free(c_name);
     free(c_comment);
 
@@ -92,21 +97,21 @@
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"<%@>[%p]: name: %@, comment: %@, minimum: %g, maximum: %g, defaultValue: %g",
-                     NSStringFromClass([self class]), self, name, comment, minimum, maximum, defaultValue];
+                     NSStringFromClass([self class]), self, self.name, self.comment, minimum, maximum, defaultValue];
 }
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     [resultString indentToLevel:level];
     [resultString appendFormat:@"<symbol name=\"%@\" minimum=\"%g\" maximum=\"%g\" default=\"%g\"",
-                  GSXMLAttributeString(name, NO), minimum, maximum, defaultValue];
+                  GSXMLAttributeString(self.name, NO), minimum, maximum, defaultValue];
 
-    if (comment == nil) {
+    if (self.comment == nil) {
         [resultString appendString:@"/>\n"];
     } else {
         [resultString appendString:@">\n"];
         [resultString indentToLevel:level + 1];
-        [resultString appendFormat:@"<comment>%@</comment>\n", GSXMLCharacterData(comment)];
+        [resultString appendFormat:@"<comment>%@</comment>\n", GSXMLCharacterData(self.comment)];
 
         [resultString indentToLevel:level];
         [resultString appendString:@"</symbol>\n"];

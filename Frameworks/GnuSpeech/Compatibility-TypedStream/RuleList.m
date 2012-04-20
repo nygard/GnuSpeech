@@ -4,5 +4,7 @@
 #import "RuleList.h"
 
 @implementation RuleList
+{
+}
 
 @end

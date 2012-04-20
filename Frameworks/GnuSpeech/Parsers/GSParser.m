@@ -8,6 +8,15 @@
 NSString *GSParserSyntaxErrorException = @"GSParserSyntaxErrorException";
 
 @implementation GSParser
+{
+    NSString *nonretained_parseString;
+    NSScanner *scanner;
+    NSString *symbolString;
+    
+    NSUInteger startOfTokenLocation;
+    NSRange errorRange;
+    NSMutableString *errorMessage;
+}
 
 - (id)init;
 {
@@ -28,19 +37,7 @@ NSString *GSParserSyntaxErrorException = @"GSParserSyntaxErrorException";
     [super dealloc];
 }
 
-- (NSString *)symbolString;
-{
-    return symbolString;
-}
-
-- (void)setSymbolString:(NSString *)newString;
-{
-    if (newString == symbolString)
-        return;
-
-    [symbolString release];
-    symbolString = [newString retain];
-}
+@synthesize scanner, symbolString, startOfTokenLocation;
 
 - (id)parseString:(NSString *)aString;
 {

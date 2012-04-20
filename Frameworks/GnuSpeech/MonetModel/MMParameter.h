@@ -4,11 +4,6 @@
 #import "MMNamedObject.h"
 
 @interface MMParameter : MMNamedObject
-{
-    double minimum;
-    double maximum;
-    double defaultValue;
-}
 
 - (id)init;
 

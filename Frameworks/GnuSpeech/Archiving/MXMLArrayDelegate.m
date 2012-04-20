@@ -6,6 +6,11 @@
 #import "MXMLParser.h"
 
 @implementation MXMLArrayDelegate
+{
+    NSMutableDictionary *classesByChildElementName;
+    id delegate;
+    SEL addObjectSelector;
+}
 
 - (id)initWithChildElementName:(NSString *)anElementName class:(Class)aClass delegate:(id)aDelegate addObjectSelector:(SEL)aSelector;
 {

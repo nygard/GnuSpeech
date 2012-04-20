@@ -11,6 +11,11 @@
 #import "MModel.h"
 
 @implementation MMFormulaParser
+{
+    MModel *model;
+    
+    NSUInteger lookahead;
+}
 
 + (MMFormulaNode *)parsedExpressionFromString:(NSString *)aString model:(MModel *)aModel;
 {
@@ -76,51 +81,51 @@
 {
     NSString *str;
 
-    [scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:NULL];
-    startOfTokenLocation = [scanner scanLocation];
+    [self.scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:NULL];
+    self.startOfTokenLocation = [self.scanner scanLocation];
 
     // TODO (2004-03-03): It used to end on a newline as well...
-    if ([scanner isAtEnd])
+    if ([self.scanner isAtEnd])
         return TK_F_END;
 
-    if ([scanner scanString:@"(" intoString:NULL] == YES) {
+    if ([self.scanner scanString:@"(" intoString:NULL] == YES) {
         [self setSymbolString:@"("];
         return TK_F_LPAREN;
     }
 
-    if ([scanner scanString:@")" intoString:NULL] == YES) {
+    if ([self.scanner scanString:@")" intoString:NULL] == YES) {
         [self setSymbolString:@")"];
         return TK_F_RPAREN;
     }
 
-    if ([scanner scanString:@"+" intoString:NULL] == YES) {
+    if ([self.scanner scanString:@"+" intoString:NULL] == YES) {
         [self setSymbolString:@"+"];
         return TK_F_ADD;
     }
 
-    if ([scanner scanString:@"-" intoString:NULL] == YES) {
+    if ([self.scanner scanString:@"-" intoString:NULL] == YES) {
         [self setSymbolString:@"-"];
         return TK_F_SUB;
     }
 
-    if ([scanner scanString:@"*" intoString:NULL] == YES) {
+    if ([self.scanner scanString:@"*" intoString:NULL] == YES) {
         [self setSymbolString:@"*"];
         return TK_F_MULT;
     }
 
-    if ([scanner scanString:@"/" intoString:NULL] == YES) {
+    if ([self.scanner scanString:@"/" intoString:NULL] == YES) {
         [self setSymbolString:@"/"];
         return TK_F_DIV;
     }
 
-    if ([[NSCharacterSet decimalDigitCharacterSet] characterIsMember:[scanner peekChar]]) {
+    if ([[NSCharacterSet decimalDigitCharacterSet] characterIsMember:[self.scanner peekChar]]) {
         if ([self scanNumber])
             return TK_F_CONST;
 
         return TK_F_ERROR;
     }
 
-    if ([scanner scanIdentifierIntoString:&str] == YES) {
+    if ([self.scanner scanIdentifierIntoString:&str] == YES) {
         [self setSymbolString:str];
         return TK_F_SYMBOL;
     }
@@ -132,9 +137,9 @@
 {
     NSString *firstPart, *secondPart;
 
-    if ([scanner scanCharactersFromSet:[NSCharacterSet decimalDigitCharacterSet] intoString:&firstPart] == YES) {
-        if ([scanner scanString:@"." intoString:NULL] == YES) {
-            if ([scanner scanCharactersFromSet:[NSCharacterSet decimalDigitCharacterSet] intoString:&secondPart] == YES) {
+    if ([self.scanner scanCharactersFromSet:[NSCharacterSet decimalDigitCharacterSet] intoString:&firstPart] == YES) {
+        if ([self.scanner scanString:@"." intoString:NULL] == YES) {
+            if ([self.scanner scanCharactersFromSet:[NSCharacterSet decimalDigitCharacterSet] intoString:&secondPart] == YES) {
                 [self setSymbolString:[NSString stringWithFormat:@"%@.%@", firstPart, secondPart]];
                 return YES;
             }
@@ -255,7 +260,7 @@
     } else {
         if (lookahead == TK_F_CONST) {
             result = [[[MMFormulaTerminal alloc] init] autorelease];
-            [result setValue:[symbolString doubleValue]];
+            [result setValue:[self.symbolString doubleValue]];
         }
         [self match:TK_F_CONST];
     }
@@ -270,30 +275,30 @@
     if (lookahead == TK_F_SYMBOL) {
         result = [[[MMFormulaTerminal alloc] init] autorelease];
 
-        if ([symbolString isEqualToString:@"rd"]) {
+        if ([self.symbolString isEqualToString:@"rd"]) {
             [result setWhichPhone:RULEDURATION];
-        } else if ([symbolString isEqualToString:@"beat"]) {
+        } else if ([self.symbolString isEqualToString:@"beat"]) {
             [result setWhichPhone:BEAT];
-        } else if ([symbolString isEqualToString:@"mark1"]) {
+        } else if ([self.symbolString isEqualToString:@"mark1"]) {
             [result setWhichPhone:MARK1];
-        } else if ([symbolString isEqualToString:@"mark2"]) {
+        } else if ([self.symbolString isEqualToString:@"mark2"]) {
             [result setWhichPhone:MARK2];
-        } else if ([symbolString isEqualToString:@"mark3"]) {
+        } else if ([self.symbolString isEqualToString:@"mark3"]) {
             [result setWhichPhone:MARK3];
-        } else if ([symbolString isEqualToString:@"tempo1"]) {
+        } else if ([self.symbolString isEqualToString:@"tempo1"]) {
             [result setWhichPhone:TEMPO0];
-        } else if ([symbolString isEqualToString:@"tempo2"]) {
+        } else if ([self.symbolString isEqualToString:@"tempo2"]) {
             [result setWhichPhone:TEMPO1];
-        } else if ([symbolString isEqualToString:@"tempo3"]) {
+        } else if ([self.symbolString isEqualToString:@"tempo3"]) {
             [result setWhichPhone:TEMPO2];
-        } else if ([symbolString isEqualToString:@"tempo4"]) {
+        } else if ([self.symbolString isEqualToString:@"tempo4"]) {
             [result setWhichPhone:TEMPO3];
         } else {
             NSInteger whichPhone;
             NSString *baseSymbolName;
             MMSymbol *aSymbol;
 
-            whichPhone = [symbolString characterAtIndex:[symbolString length] - 1] - '1';
+            whichPhone = [self.symbolString characterAtIndex:[self.symbolString length] - 1] - '1';
             //NSLog(@"Phone = %d", whichPhone);
             if ( (whichPhone < 0) || (whichPhone > 3)) {
                 [self appendErrorFormat:@"Error, incorrect phone index %d", whichPhone];
@@ -301,15 +306,15 @@
                 return nil;
             }
 
-            baseSymbolName = [symbolString substringToIndex:[symbolString length] - 1];
+            baseSymbolName = [self.symbolString substringToIndex:[self.symbolString length] - 1];
 
             aSymbol = [model symbolWithName:baseSymbolName];
             if (aSymbol) {
                 [result setSymbol:aSymbol];
                 [result setWhichPhone:whichPhone];
             } else {
-                [self appendErrorFormat:@"Unknown symbol %@.", symbolString];
-                [NSException raise:GSParserSyntaxErrorException format:@"Unknown symbol %@.", symbolString];
+                [self appendErrorFormat:@"Unknown symbol %@.", self.symbolString];
+                [NSException raise:GSParserSyntaxErrorException format:@"Unknown symbol %@.", self.symbolString];
                 //NSLog(@"\t Error, Undefined Symbol %@", tempSymbolString);
                 return nil;
             }

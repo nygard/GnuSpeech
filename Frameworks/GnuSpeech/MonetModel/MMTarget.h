@@ -4,10 +4,6 @@
 #import <Foundation/Foundation.h>
 
 @interface MMTarget : NSObject
-{
-    BOOL isDefault;
-    double value;
-}
 
 - (id)init;
 - (id)initWithValue:(double)newValue isDefault:(BOOL)shouldBeDefault;

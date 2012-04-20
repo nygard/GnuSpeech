@@ -6,7 +6,5 @@
 // This class needs to exist for unarchiving from the old typedstream archives.
 
 @interface RuleList : MonetList
-{
-}
 
 @end

@@ -87,24 +87,6 @@
 #import "PrDict.h"
 
 @interface PrEditorDocument: NSDocument
-{
-    IBOutlet NSTextField *wordField;
-    IBOutlet NSTextField *phonField;
-    IBOutlet NSTableView *posField;
-    
-    // Field to indicate in which knowledge base the pronunciation
-    // was found in, and where messages (not error messages)
-    // get presented to the user.
-    IBOutlet NSTextField *messageField;
-    
-    IBOutlet NSTableView *wordList;
-    
-    // Dictionary Object
-    PrDict *prDictionary;	
-    
-    BOOL dirty;
-    TISInputSourceRef oldKeyboardLayoutRef;
-}
 
 - (void)storeWord:sender;
 - (void)window:(ResponderNotifyingWindow *)aWindow madeFirstResponder:(NSResponder *)aResponder;

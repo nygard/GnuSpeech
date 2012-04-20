@@ -4,9 +4,6 @@
 #import <Foundation/Foundation.h>
 
 @interface MXMLIgnoreTreeDelegate : NSObject
-{
-    NSUInteger depth;
-}
 
 - (id)init;
 

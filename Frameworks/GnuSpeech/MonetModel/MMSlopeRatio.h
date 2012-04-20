@@ -10,10 +10,6 @@
 @class MMPoint, MMSlope;
 
 @interface MMSlopeRatio : NSObject
-{
-    NSMutableArray *points; // Of MMPoints
-    NSMutableArray *slopes; // Of MMSlopes
-}
 
 - (id)init;
 - (void)dealloc;

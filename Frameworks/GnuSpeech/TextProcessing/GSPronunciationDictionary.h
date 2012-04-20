@@ -3,22 +3,13 @@
 #import <Foundation/Foundation.h>
 
 @interface GSPronunciationDictionary : NSObject
-{
-    NSString *filename;
-    NSString *version;
-
-    NSMutableArray *suffixOrder;
-    NSMutableDictionary *suffixes;
-
-    BOOL hasBeenLoaded;
-}
 
 + (id)mainDictionary;
 
 - (id)initWithFilename:(NSString *)aFilename;
 - (void)dealloc;
 
-- (NSString *)filename;
+@property (readonly) NSString *filename;
 
 - (NSString *)version;
 - (void)setVersion:(NSString *)newVersion;

@@ -6,18 +6,6 @@
 @class MModel;
 
 @interface MRuleTester : MWindowController
-{
-    IBOutlet NSForm *posture1Form;
-    IBOutlet NSForm *posture2Form;
-    IBOutlet NSForm *posture3Form;
-    IBOutlet NSForm *posture4Form;
-
-    IBOutlet NSTextField *ruleOutputTextField;
-    IBOutlet NSTextField *consumedTokensTextField;
-    IBOutlet NSForm *durationOutputForm;
-
-    MModel *model;
-}
 
 - (id)initWithModel:(MModel *)aModel;
 - (void)dealloc;

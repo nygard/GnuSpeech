@@ -17,6 +17,16 @@
 #import "NamedList.h"
 
 @implementation MMEquation
+{
+    NamedList *nonretained_group;
+    
+    NSString *name;
+    NSString *comment;
+    MMFormulaNode *formula;
+    
+    NSUInteger cacheTag;
+    double cacheValue;
+}
 
 - (id)init;
 {

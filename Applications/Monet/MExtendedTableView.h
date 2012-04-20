@@ -4,10 +4,6 @@
 #import <Cocoa/Cocoa.h>
 
 @interface MExtendedTableView : NSTableView
-{
-    NSTimeInterval lastTimestamp;
-    NSMutableString *combinedCharacters;
-}
 
 - (id)initWithFrame:(NSRect)frameRect;
 - (void)dealloc;

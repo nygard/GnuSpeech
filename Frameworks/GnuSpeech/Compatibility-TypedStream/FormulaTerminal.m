@@ -12,6 +12,11 @@
 #import "MUnarchiver.h"
 
 @implementation FormulaTerminal
+{
+    MMSymbol *symbol;
+    double value;
+    NSUInteger whichPhone; // TODO (2004-03-10): Rename this
+}
 
 - (id)init;
 {
@@ -135,8 +140,10 @@
     if (archivedVersion == 0) {
         char *c_symbolName;
         NSString *symbolName;
+        NSUInteger precedence;
 
         [aDecoder decodeValuesOfObjCTypes:"dii", &value, &whichPhone, &precedence];
+        self.precedence = precedence;
         //NSLog(@"value: %g, whichPhone: %d, precedence: %d", value, whichPhone, precedence);
 
         [aDecoder decodeValueOfObjCType:@encode(char *) at:&c_symbolName];

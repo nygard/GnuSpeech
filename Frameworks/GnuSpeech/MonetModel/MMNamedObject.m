@@ -10,46 +10,25 @@
 #import "MXMLPCDataDelegate.h"
 
 @implementation MMNamedObject
+{
+    NSString *m_name;
+    NSString *m_comment;
+}
 
 - (void)dealloc;
 {
-    [name release];
-    [comment release];
+    [m_name release];
+    [m_comment release];
 
     [super dealloc];
 }
 
-- (NSString *)name;
-{
-    return name;
-}
-
-- (void)setName:(NSString *)newName;
-{
-    if (newName == name)
-        return;
-
-    [name release];
-    name = [newName retain];
-}
-
-- (NSString *)comment;
-{
-    return comment;
-}
-
-- (void)setComment:(NSString *)newComment;
-{
-    if (newComment == comment)
-        return;
-
-    [comment release];
-    comment = [newComment retain];
-}
+@synthesize name = m_name;
+@synthesize comment = m_comment;
 
 - (BOOL)hasComment;
 {
-    return comment != nil && [comment length] > 0;
+    return self.comment != nil && [self.comment length] > 0;
 }
 
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;

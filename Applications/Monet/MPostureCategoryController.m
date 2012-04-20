@@ -6,6 +6,11 @@
 #import <GnuSpeech/GnuSpeech.h>
 
 @implementation MPostureCategoryController
+{
+    IBOutlet NSTableView *postureCategoryTableView;
+    
+    MModel *model;
+}
 
 - (id)initWithModel:(MModel *)aModel;
 {

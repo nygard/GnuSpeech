@@ -8,24 +8,6 @@
 @class MSpecialTransitionEditor, MSynthesisController, MSynthesisParameterEditor, MTransitionEditor;
 
 @interface AppController : NSObject
-{
-    IBOutlet NSPanel *infoPanel;
-
-    NSString *filename;
-    MModel *model;
-
-    MDataEntryController *dataEntryController;
-    MPostureCategoryController *postureCategoryController;
-    MPostureEditor *postureEditor;
-    MPrototypeManager *prototypeManager;
-    MTransitionEditor *transitionEditor;
-    MSpecialTransitionEditor *specialTransitionEditor;
-    MRuleTester *ruleTester;
-    MRuleManager *ruleManager;
-    MSynthesisParameterEditor *synthesisParameterEditor;
-    MSynthesisController *synthesisController;
-    MReleaseNotesController *releaseNotesController;
-}
 
 - (id)init;
 - (void)dealloc;

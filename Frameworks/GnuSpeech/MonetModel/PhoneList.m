@@ -4,5 +4,7 @@
 #import "PhoneList.h"
 
 @implementation PhoneList
+{
+}
 
 @end

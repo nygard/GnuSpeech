@@ -19,46 +19,18 @@ extern NSString *TransitionViewSelectionDidChangeNotification;
 
 // TODO (2004-03-22): Make this an NSControl subclass.
 @interface TransitionView : NSControl <NSTextDelegate>
-{
-    MMFRuleSymbols _parameters;
-
-    NSFont *timesFont;
-
-    MMTransition *transition;
-
-    NSMutableArray *samplePostures;
-    NSMutableArray *displayPoints;
-    NSMutableArray *displaySlopes;
-    NSMutableArray *selectedPoints;
-
-    NSPoint selectionPoint1;
-    NSPoint selectionPoint2;
-
-    MMSlope *editingSlope;
-    NSTextFieldCell *textFieldCell;
-    NSText *nonretained_fieldEditor;
-
-    NSUInteger zeroIndex;
-    NSInteger sectionAmount;
-
-    MModel *model;
-
-    struct {
-        unsigned int shouldDrawSelection:1;
-        unsigned int shouldDrawSlopes:1;
-    } flags;
-
-    id nonretained_delegate;
-}
 
 - (id)initWithFrame:(NSRect)frameRect;
 - (void)dealloc;
 
-- (NSUInteger)zeroIndex;
-- (void)setZeroIndex:(NSUInteger)newZeroIndex;
-
-- (NSInteger)sectionAmount;
-- (void)setSectionAmount:(NSInteger)newSectionAmount;
+@property (readonly) NSFont *timesFont;
+@property (nonatomic, assign) NSUInteger zeroIndex;
+@property (nonatomic, assign) NSInteger sectionAmount;
+@property (readonly) NSMutableArray *samplePostures;
+@property (readonly) NSMutableArray *displayPoints;
+@property (readonly) NSMutableArray *displaySlopes;
+@property (readonly) NSMutableArray *selectedPoints;
+@property (nonatomic, readonly) MMFRuleSymbols *parameters;
 
 - (MModel *)model;
 - (void)setModel:(MModel *)newModel;

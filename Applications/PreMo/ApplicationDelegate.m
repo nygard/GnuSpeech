@@ -3,13 +3,21 @@
 
 #import "ApplicationDelegate.h"
 
-#import <Foundation/Foundation.h>
-#import <AppKit/NSTextField.h>
-#import <AppKit/NSTextView.h>
-#import <AppKit/NSButton.h>
 #import <GnuSpeech/GnuSpeech.h>
 
 @implementation ApplicationDelegate
+{
+    IBOutlet NSTextView *inputTextView;
+    IBOutlet NSButton *copyPhoneStringCheckBox;
+    IBOutlet NSTextView *outputTextView;
+    
+    IBOutlet NSTextField *dictionaryVersionTextField;
+    IBOutlet NSTextField *wordTextField;
+    IBOutlet NSTextField *pronunciationTextField;
+    
+    GSPronunciationDictionary *dictionary;
+	MMTextToPhone *textToPhone;
+}
 
 + (void)initialize;
 {

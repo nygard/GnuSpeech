@@ -7,6 +7,9 @@
 #import "NSString-Extensions.h"
 
 @implementation MonetList
+{
+    NSMutableArray *ilist;
+}
 
 - (id)init;
 {
@@ -29,6 +32,8 @@
 
     [super dealloc];
 }
+
+@synthesize ilist;
 
 - (NSArray *)allObjects;
 {

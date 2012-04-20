@@ -4,6 +4,9 @@
 #import "MUnarchiver.h"
 
 @implementation MUnarchiver
+{
+    id m_userInfo;
+}
 
 - (void)dealloc;
 {

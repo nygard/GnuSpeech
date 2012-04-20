@@ -6,6 +6,12 @@
 #import <GnuSpeech/GnuSpeech.h>
 
 @implementation MMDisplayParameter
+{
+    MMParameter *parameter;
+    BOOL isSpecial;
+    NSUInteger tag;
+    BOOL shouldDisplay;
+}
 
 - (id)initWithParameter:(MMParameter *)aParameter;
 {

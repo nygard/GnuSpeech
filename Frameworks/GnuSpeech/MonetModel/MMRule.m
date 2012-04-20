@@ -24,6 +24,16 @@
 #import "MXMLReferenceDictionaryDelegate.h"
 
 @implementation MMRule
+{
+    NSMutableArray *parameterTransitions; // Of MMTransitions
+    NSMutableArray *metaParameterTransitions; // Of MMTransitions?
+    NSMutableArray *symbolEquations; // Of MMEquations
+    
+    MMTransition *specialProfiles[16]; // TODO (2004-05-16): We should be able to use an NSMutableDictionary here.
+    
+    MMBooleanNode *expressions[4];
+    NSString *comment;
+}
 
 - (id)init;
 {

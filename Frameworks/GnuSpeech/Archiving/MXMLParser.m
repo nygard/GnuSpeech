@@ -6,6 +6,10 @@
 #import "MXMLIgnoreTreeDelegate.h"
 
 @implementation MXMLParser
+{
+    NSMutableArray *delegateStack;
+    id context;
+}
 
 - (id)initWithData:(NSData *)data;
 {

@@ -10,6 +10,8 @@
 static GSPronunciationDictionary * pronunciationDictionary = nil;
 
 @implementation MMTextToPhone
+{
+}
 
 + (void)initialize;
 {

@@ -10,6 +10,10 @@
 #import "MXMLParser.h"
 
 @implementation MMTarget
+{
+    BOOL isDefault;
+    double value;
+}
 
 - (id)init;
 {

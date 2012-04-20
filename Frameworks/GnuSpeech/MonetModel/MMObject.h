@@ -6,9 +6,6 @@
 @class MModel;
 
 @interface MMObject : NSObject
-{
-    MModel *nonretained_model;
-}
 
 - (MModel *)model;
 - (void)setModel:(MModel *)newModel;

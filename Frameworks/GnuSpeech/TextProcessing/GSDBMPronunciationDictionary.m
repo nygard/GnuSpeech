@@ -6,6 +6,9 @@
 #import "GSSimplePronunciationDictionary.h"
 
 @implementation GSDBMPronunciationDictionary
+{
+    DBM *db;
+}
 
 + (NSString *)mainFilename;
 {
@@ -101,7 +104,7 @@
 {
     NSDictionary *attributes;
 
-    attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[filename stringByAppendingString:@".db"] error:NULL];
+    attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[self.filename stringByAppendingString:@".db"] error:NULL];
     return [attributes fileModificationDate];
 }
 
@@ -109,10 +112,10 @@
 {
     NSLog(@" > %s, db: %p", __PRETTY_FUNCTION__, db);
     NSParameterAssert(db == NULL);
-    NSParameterAssert(filename != nil);
+    NSParameterAssert(self.filename != nil);
 
-    NSLog(@"%s, filename: %@", __PRETTY_FUNCTION__, filename);
-    db = dbm_open([filename UTF8String], O_RDONLY, 0660);
+    NSLog(@"%s, filename: %@", __PRETTY_FUNCTION__, self.filename);
+    db = dbm_open([self.filename UTF8String], O_RDONLY, 0660);
     if (db == NULL) {
         perror("dbm_open()");
         return NO;

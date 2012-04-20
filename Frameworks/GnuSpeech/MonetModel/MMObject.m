@@ -4,6 +4,9 @@
 #import "MMObject.h"
 
 @implementation MMObject
+{
+    MModel *nonretained_model;
+}
 
 - (MModel *)model;
 {

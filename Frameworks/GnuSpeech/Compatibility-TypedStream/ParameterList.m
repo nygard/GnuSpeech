@@ -8,5 +8,7 @@
 // to the Phone class.
 
 @implementation ParameterList
+{
+}
 
 @end

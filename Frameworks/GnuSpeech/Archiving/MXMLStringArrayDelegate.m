@@ -7,6 +7,11 @@
 #import "MXMLPCDataDelegate.h"
 
 @implementation MXMLStringArrayDelegate
+{
+    NSString *childElementName;
+    id delegate;
+    SEL addObjectSelector;
+}
 
 - (id)initWithChildElementName:(NSString *)anElementName delegate:(id)aDelegate addObjectSelector:(SEL)aSelector;
 {

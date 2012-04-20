@@ -6,8 +6,6 @@
 @class MMCategory, CategoryList;
 
 @interface MMBooleanNode : NSObject
-{
-}
 
 - (BOOL)evaluateWithCategories:(CategoryList *)categories;
 

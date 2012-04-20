@@ -26,6 +26,8 @@
 // - different method of calculating point times
 
 @implementation SpecialView
+{
+}
 
 // The size was originally 700 x 380
 - (id)initWithFrame:(NSRect)frameRect;
@@ -34,8 +36,8 @@
         return nil;
 
     //[self setShouldDrawSlopes:NO];
-    [self setZeroIndex:7];
-    [self setSectionAmount:20];
+    self.zeroIndex = 7;
+    self.sectionAmount = 20;
 
     return self;
 }
@@ -63,7 +65,7 @@
     graphOrigin = [self graphOrigin];
 
     [[NSColor lightGrayColor] set];
-    rect = NSMakeRect(graphOrigin.x + 1.0, graphOrigin.y + 1.0, bounds.size.width - 2 * (LEFT_MARGIN + 1), zeroIndex * sectionHeight);
+    rect = NSMakeRect(graphOrigin.x + 1.0, graphOrigin.y + 1.0, bounds.size.width - 2 * (LEFT_MARGIN + 1), self.zeroIndex * sectionHeight);
     NSRectFill(rect);
 
     /* Grayed out (unused) data spaces should be placed here */
@@ -76,7 +78,7 @@
     [bezierPath release];
 
     [[NSColor blackColor] set];
-    [timesFont set];
+    [self.timesFont set];
 
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:1];
@@ -91,7 +93,7 @@
         [bezierPath lineToPoint:NSMakePoint(bounds.size.width - LEFT_MARGIN + 0.5, currentYPos)];
 
         currentYPos = graphOrigin.y + i * sectionHeight - 5;
-        label = [NSString stringWithFormat:@"%4lu%%", (i - zeroIndex) * sectionAmount];
+        label = [NSString stringWithFormat:@"%4lu%%", (i - self.zeroIndex) * self.sectionAmount];
         labelSize = [label sizeWithAttributes:nil];
         //NSLog(@"label (%@) size: %@", label, NSStringFromSize(labelSize));
         [label drawAtPoint:NSMakePoint(LEFT_MARGIN - LABEL_MARGIN - labelSize.width, currentYPos) withAttributes:nil];
@@ -106,12 +108,12 @@
 - (void)updateDisplayPoints;
 {
     [super updateDisplayPoints];
-    [displayPoints sortUsingSelector:@selector(compareByAscendingCachedTime:)];
+    [self.displayPoints sortUsingSelector:@selector(compareByAscendingCachedTime:)];
 }
 
 - (void)highlightSelectedPoints;
 {
-    if ([selectedPoints count]) {
+    if ([self.selectedPoints count]) {
         NSUInteger index;
         CGFloat timeScale, y;
         CGFloat yScale;
@@ -126,20 +128,20 @@
         timeScale = [self timeScale];
         yScale = [self sectionHeight];
 
-        for (index = 0; index < [selectedPoints count]; index++) {
+        for (index = 0; index < [self.selectedPoints count]; index++) {
             MMPoint *currentPoint;
             CGFloat eventTime;
             NSPoint myPoint;
 
-            currentPoint = [selectedPoints objectAtIndex:index];
+            currentPoint = [self.selectedPoints objectAtIndex:index];
             y = (float)[currentPoint value];
             if ([currentPoint timeEquation] == nil)
                 eventTime = [currentPoint freeTime];
             else
-                eventTime = [[currentPoint timeEquation] evaluate:&_parameters postures:samplePostures andCacheWith:cacheTag];
+                eventTime = [[currentPoint timeEquation] evaluate:self.parameters postures:self.samplePostures andCacheWith:cacheTag];
 
             myPoint.x = graphOrigin.x + timeScale * eventTime;
-            myPoint.y = graphOrigin.y + (yScale * zeroIndex) + (y * (float)yScale / sectionAmount);
+            myPoint.y = graphOrigin.y + (yScale * self.zeroIndex) + (y * (float)yScale / self.sectionAmount);
 
             //NSLog(@"Selection; x: %f y:%f", myPoint.x, myPoint.y);
 
@@ -178,7 +180,7 @@
             newPoint = [[MMPoint alloc] init];
             [newPoint setFreeTime:(hitPoint.x - graphOrigin.x) / [self timeScale]];
             //NSLog(@"hitPoint: %@, graphOrigin: %@, yScale: %d", NSStringFromPoint(hitPoint), NSStringFromPoint(graphOrigin), yScale);
-            newValue = (hitPoint.y - graphOrigin.y - (zeroIndex * yScale)) * sectionAmount / yScale;
+            newValue = (hitPoint.y - graphOrigin.y - (zeroIndex * yScale)) * self.sectionAmount / yScale;
 
             //NSLog(@"NewPoint Time: %f  value: %f", [tempPoint freeTime], [tempPoint value]);
             [newPoint setValue:newValue];
@@ -215,7 +217,7 @@
     CGFloat yScale;
     NSUInteger cacheTag;
 
-    [selectedPoints removeAllObjects];
+    [self.selectedPoints removeAllObjects];
 
     cacheTag = [[self model] nextCacheTag];
     graphOrigin = [self graphOrigin];
@@ -228,26 +230,26 @@
 
     //NSLog(@"%s, selectionRect: %@", _cmd, NSStringFromRect(selectionRect));
 
-    count = [displayPoints count];
+    count = [self.displayPoints count];
     //NSLog(@"%d display points", count);
     for (index = 0; index < count; index++) {
         MMPoint *currentDisplayPoint;
         MMEquation *currentExpression;
         NSPoint currentPoint;
 
-        currentDisplayPoint = [displayPoints objectAtIndex:index];
+        currentDisplayPoint = [self.displayPoints objectAtIndex:index];
         currentExpression = [currentDisplayPoint timeEquation];
         if (currentExpression == nil)
             currentPoint.x = [currentDisplayPoint freeTime];
         else
-            currentPoint.x = [[currentDisplayPoint timeEquation] evaluate:&_parameters postures:samplePostures andCacheWith:cacheTag];
+            currentPoint.x = [[currentDisplayPoint timeEquation] evaluate:self.parameters postures:self.samplePostures andCacheWith:cacheTag];
 
         currentPoint.x *= timeScale;
-        currentPoint.y = (yScale * zeroIndex) + ([currentDisplayPoint value] * yScale / sectionAmount);
+        currentPoint.y = (yScale * self.zeroIndex) + ([currentDisplayPoint value] * yScale / self.sectionAmount);
 
         //NSLog(@"%2d: currentPoint: %@", index, NSStringFromPoint(currentPoint));
         if (NSPointInRect(currentPoint, selectionRect) == YES) {
-            [selectedPoints addObject:currentDisplayPoint];
+            [self.selectedPoints addObject:currentDisplayPoint];
         }
     }
 

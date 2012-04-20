@@ -10,23 +10,6 @@
 extern NSString *MCategoryInUseException;
 
 @interface MModel : NSObject
-{
-    CategoryList *categories; // Keep this list sorted by name
-    NSMutableArray *parameters;
-    NSMutableArray *metaParameters;
-    NSMutableArray *symbols;
-    NSMutableArray *postures; // Keep this list sorted by name
-
-    NSMutableArray *equations; // Of NamedLists of MMEquations
-    NSMutableArray *transitions; // Of NamedLists of MMTransitions
-    NSMutableArray *specialTransitions; // Of NamedLists of MMTransitions
-
-    NSMutableArray *rules;
-    NSUInteger cacheTag;
-
-    // This doesn't really belong here, but I'll put it here for now.
-    MMSynthesisParameters *synthesisParameters;
-}
 
 - (id)init;
 - (void)dealloc;

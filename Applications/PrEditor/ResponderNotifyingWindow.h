@@ -5,9 +5,7 @@
 
 // A window that notifies its delegate when the firstResponder changes
 
-@interface ResponderNotifyingWindow : NSWindow {
-
-}
+@interface ResponderNotifyingWindow : NSWindow
 
 - (BOOL)makeFirstResponder:(NSResponder *)aResponder;
 

@@ -4,11 +4,6 @@
 #import "MMFormulaNode.h"
 
 @interface MMFormulaExpression : MMFormulaNode
-{
-    NSUInteger operation;
-    MMFormulaNode *left;
-    MMFormulaNode *right;
-}
 
 - (id)init;
 - (void)dealloc;

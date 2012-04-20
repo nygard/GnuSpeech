@@ -10,6 +10,8 @@
 // to the MMCategory class.
 
 @implementation CategoryList
+{
+}
 
 - (MMCategory *)findSymbol:(NSString *)searchSymbol;
 {

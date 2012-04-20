@@ -19,6 +19,10 @@
 #import "EventList.h"
 
 @implementation MMSlopeRatio
+{
+    NSMutableArray *points; // Of MMPoints
+    NSMutableArray *slopes; // Of MMSlopes
+}
 
 - (id)init;
 {

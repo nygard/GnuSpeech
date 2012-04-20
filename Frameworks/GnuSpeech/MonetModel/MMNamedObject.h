@@ -4,15 +4,11 @@
 #import "MMObject.h"
 
 @interface MMNamedObject : MMObject
-{
-    NSString *name;
-    NSString *comment;
-}
 
 - (void)dealloc;
 
-- (NSString *)name;
-- (void)setName:(NSString *)newName;
+@property (retain) NSString *name;
+@property (retain) NSString *comment;
 
 - (NSString *)comment;
 - (void)setComment:(NSString *)newComment;

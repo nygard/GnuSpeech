@@ -6,6 +6,11 @@
 #import "NSObject-Extensions.h"
 
 @implementation MMBooleanExpression
+{
+    NSUInteger operation;
+    
+    NSMutableArray *expressions;
+}
 
 - (id)init;
 {

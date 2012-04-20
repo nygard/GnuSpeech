@@ -3,9 +3,6 @@
 #import "GSPronunciationDictionary.h"
 
 @interface GSSimplePronunciationDictionary : GSPronunciationDictionary
-{
-    NSMutableDictionary *pronunciations;
-}
 
 + (id)mainDictionary;
 

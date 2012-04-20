@@ -11,12 +11,6 @@
 @end
 
 @interface NamedList : MonetList
-{
-    MModel *nonretained_model;
-
-    NSString *name;
-    NSString *comment;
-}
 
 - (id)initWithCapacity:(NSUInteger)numSlots;
 - (void)dealloc;

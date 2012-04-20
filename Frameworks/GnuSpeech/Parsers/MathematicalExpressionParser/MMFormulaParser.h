@@ -6,11 +6,6 @@
 @class MMFormulaTerminal, MMFormulaNode, MModel;
 
 @interface MMFormulaParser : GSParser
-{
-    MModel *model;
-
-    NSUInteger lookahead;
-}
 
 + (MMFormulaNode *)parsedExpressionFromString:(NSString *)aString model:(MModel *)aModel;
 + (NSString *)nameForToken:(NSUInteger)aToken;

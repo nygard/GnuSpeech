@@ -19,38 +19,6 @@ typedef enum {
 } MMChannels;
 
 @interface MMSynthesisParameters : NSObject
-{
-    double masterVolume;
-    double vocalTractLength;
-    double temperature;
-    double balance;
-    double breathiness;
-    double lossFactor;
-    double pitch;
-
-    double throatCutoff;
-    double throatVolume;
-    double apertureScaling;
-    double mouthCoef;
-    double noseCoef;
-    double mixOffset;
-
-    double n1;
-    double n2;
-    double n3;
-    double n4;
-    double n5;
-
-    double tp;
-    double tnMin;
-    double tnMax;
-
-    MMGlottalPulseShape glottalPulseShape;
-    BOOL shouldUseNoiseModulation;
-
-    MMSamplingRate samplingRate;
-    MMChannels outputChannels;
-}
 
 + (void)initialize;
 

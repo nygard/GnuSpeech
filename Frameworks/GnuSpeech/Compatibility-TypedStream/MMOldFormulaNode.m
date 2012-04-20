@@ -4,15 +4,10 @@
 #import "MMOldFormulaNode.h"
 
 @implementation MMOldFormulaNode
-
-- (NSUInteger)precedence;
 {
-    return precedence;
+    NSUInteger m_precedence;
 }
 
-- (void)setPrecedence:(NSUInteger)newPrecedence;
-{
-    precedence = newPrecedence;
-}
+@synthesize precedence = m_precedence;
 
 @end

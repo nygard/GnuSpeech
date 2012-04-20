@@ -4,9 +4,7 @@
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
 
-@interface GnuSpeechService : NSObject {
-	id ttsServerProxy;
-}
+@interface GnuSpeechService : NSObject
 
 // Service initialization methods.
 - (id) init;

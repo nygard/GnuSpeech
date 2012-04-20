@@ -11,6 +11,11 @@
 #import "MXMLPCDataDelegate.h"
 
 @implementation MMCategory
+{
+    NSString *name; // TODO (2004-03-18): Create named/commented object.
+    NSString *comment;
+    BOOL isNative;
+}
 
 - (id)init;
 {

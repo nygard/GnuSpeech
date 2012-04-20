@@ -7,6 +7,9 @@
 #import "MXMLParser.h"
 
 @implementation MDocument
+{
+    MModel *model;
+}
 
 - (void)dealloc;
 {

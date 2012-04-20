@@ -17,11 +17,6 @@
 
 
 @interface MMFormulaTerminal : MMFormulaNode
-{
-    MMSymbol *symbol;
-    double value;
-    NSInteger whichPhone; // TODO (2004-03-10): Rename this
-}
 
 - (id)init;
 - (void)dealloc;

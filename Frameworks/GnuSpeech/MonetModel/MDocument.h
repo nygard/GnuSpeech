@@ -6,9 +6,6 @@
 @class MModel;
 
 @interface MDocument : NSObject
-{
-    MModel *model;
-}
 
 - (void)dealloc;
 

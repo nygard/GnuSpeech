@@ -14,6 +14,12 @@
 #import "MXMLPCDataDelegate.h"
 
 @implementation NamedList
+{
+    MModel *nonretained_model;
+    
+    NSString *name;
+    NSString *comment;
+}
 
 - (id)initWithCapacity:(NSUInteger)numSlots;
 {
@@ -45,11 +51,11 @@
 
     nonretained_model = newModel;
 
-    count = [ilist count];
+    count = [self.ilist count];
     for (index = 0; index < count; index++) {
         id currentObject;
 
-        currentObject = [ilist objectAtIndex:index];
+        currentObject = [self.ilist objectAtIndex:index];
         if ([currentObject respondsToSelector:@selector(setModel:)])
             [currentObject setModel:newModel];
     }

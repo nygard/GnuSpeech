@@ -14,6 +14,13 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 #define BITS_PER_SAMPLE           16
 
 @implementation TRMSynthesizer
+{
+    TRMDataList *inputData;
+    
+    BOOL shouldSaveToSoundFile;
+    NSString *filename;
+    AVAudioPlayer *m_audioPlayer;
+}
 
 - (id)init;
 {	

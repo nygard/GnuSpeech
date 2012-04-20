@@ -4,11 +4,6 @@
 #import <Foundation/Foundation.h>
 
 @interface MMCategory : NSObject
-{
-    NSString *name; // TODO (2004-03-18): Create named/commented object.
-    NSString *comment;
-    BOOL isNative;
-}
 
 - (id)init;
 - (id)initWithName:(NSString *)aName;

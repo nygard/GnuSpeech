@@ -7,29 +7,6 @@
 @class TransitionView;
 
 @interface MTransitionEditor : MWindowController
-{
-    IBOutlet NSTextField *transitionNameTextField;
-    IBOutlet NSPopUpButton *transitionTypePopUpButton;
-    IBOutlet TransitionView *transitionView;
-    IBOutlet NSForm *controlParametersForm;
-
-    IBOutlet NSOutlineView *equationOutlineView;
-    IBOutlet NSTextField *valueTextField;
-    IBOutlet NSButton *isPhantomSwitch;
-
-    IBOutlet NSButton *type1Button;
-    IBOutlet NSButton *type2Button;
-    IBOutlet NSButton *type3Button;
-
-    IBOutlet NSTextView *equationTextView;
-
-    MModel *model;
-
-    MMTransition *transition;
-}
-
-- (id)initWithModel:(MModel *)aModel;
-- (void)dealloc;
 
 - (MModel *)model;
 - (void)setModel:(MModel *)newModel;

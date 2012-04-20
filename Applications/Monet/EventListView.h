@@ -7,26 +7,6 @@
 @class AppController;
 
 @interface EventListView : NSView
-{
-    NSFont *timesFont;
-    NSFont *timesFontSmall;
-
-    EventList *eventList;
-
-	NSTextField *mouseTimeField;
-	NSTextField *mouseValueField;
-
-    NSUInteger startingIndex;
-    CGFloat timeScale;
-    BOOL mouseBeingDragged;
-    NSTrackingRectTag trackTag;
-
-    NSTextFieldCell *ruleCell;
-    NSTextFieldCell *minMaxCell;
-    NSTextFieldCell *parameterNameCell;
-
-    NSArray *displayParameters;
-}
 
 - (id)initWithFrame:(NSRect)frameRect;
 - (void)dealloc;

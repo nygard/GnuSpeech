@@ -8,15 +8,6 @@
 // TODO (2004-08-09): absoluteTime is derived from offsetTime and beatTime.  And beatTime is derived from ruleIndex and eventList.
 
 @interface MMIntonationPoint : NSObject
-{
-    EventList *nonretained_eventList;
-
-    double semitone; // Value of the point in semitones
-    double offsetTime; // Points are timed wrt a beat + this offset
-    double slope;  // Slope of point
-
-    NSUInteger ruleIndex; // Index of the rule for the phone which is the focus of this point
-}
 
 - (id)init;
 

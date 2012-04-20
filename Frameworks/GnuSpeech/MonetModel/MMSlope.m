@@ -10,6 +10,10 @@
 #import "MXMLParser.h"
 
 @implementation MMSlope
+{
+    double slope;
+    double displayTime;
+}
 
 - (id)init;
 {

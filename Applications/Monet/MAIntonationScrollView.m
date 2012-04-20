@@ -7,6 +7,9 @@
 #import "MAIntonationScaleView.h"
 
 @implementation MAIntonationScrollView
+{
+    IBOutlet MAIntonationScaleView *scaleView;
+}
 
 #define SCALE_WIDTH 50
 

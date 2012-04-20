@@ -6,12 +6,6 @@
 @class MMParameter;
 
 @interface MMDisplayParameter : NSObject
-{
-    MMParameter *parameter;
-    BOOL isSpecial;
-    NSUInteger tag;
-    BOOL shouldDisplay;
-}
 
 - (id)initWithParameter:(MMParameter *)aParameter;
 - (void)dealloc;

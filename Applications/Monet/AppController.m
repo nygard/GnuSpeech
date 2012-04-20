@@ -21,6 +21,24 @@
 #define MDK_MonetFileDirectory @"MonetFileDirectory"
 
 @implementation AppController
+{
+    IBOutlet NSPanel *infoPanel;
+    
+    NSString *filename;
+    MModel *model;
+    
+    MDataEntryController *dataEntryController;
+    MPostureCategoryController *postureCategoryController;
+    MPostureEditor *postureEditor;
+    MPrototypeManager *prototypeManager;
+    MTransitionEditor *transitionEditor;
+    MSpecialTransitionEditor *specialTransitionEditor;
+    MRuleTester *ruleTester;
+    MRuleManager *ruleManager;
+    MSynthesisParameterEditor *synthesisParameterEditor;
+    MSynthesisController *synthesisController;
+    MReleaseNotesController *releaseNotesController;
+}
 
 - (id)init;
 {
@@ -528,7 +546,8 @@
 - (MTransitionEditor *)transitionEditor;
 {
     if (transitionEditor == nil) {
-        transitionEditor = [[MTransitionEditor alloc] initWithModel:model];
+        transitionEditor = [[MTransitionEditor alloc] init];
+        transitionEditor.model = model;
     }
 
     return transitionEditor;
@@ -544,7 +563,8 @@
 - (MSpecialTransitionEditor *)specialTransitionEditor;
 {
     if (specialTransitionEditor == nil) {
-        specialTransitionEditor = [[MSpecialTransitionEditor alloc] initWithModel:model];
+        specialTransitionEditor = [[MSpecialTransitionEditor alloc] init];
+        specialTransitionEditor.model = model;
     }
 
     return specialTransitionEditor;

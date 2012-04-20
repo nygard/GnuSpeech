@@ -9,7 +9,5 @@
 */
 
 @interface PhoneList : MonetList
-{
-}
 
 @end

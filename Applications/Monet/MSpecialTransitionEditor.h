@@ -4,7 +4,5 @@
 #import "MTransitionEditor.h"
 
 @interface MSpecialTransitionEditor : MTransitionEditor
-{
-}
 
 @end

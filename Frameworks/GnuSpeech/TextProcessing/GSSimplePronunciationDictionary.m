@@ -5,6 +5,9 @@
 #import "GSSuffix.h"
 
 @implementation GSSimplePronunciationDictionary
+{
+    NSMutableDictionary *pronunciations;
+}
 
 + (id)mainDictionary;
 {
@@ -41,7 +44,7 @@
 {
     NSDictionary *attributes;
 
-    attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:filename error:NULL];
+    attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:self.filename error:NULL];
     return [attributes fileModificationDate];
 }
 
@@ -52,7 +55,7 @@
     NSArray *lines;
     NSUInteger count, index;
 
-    data = [[NSData alloc] initWithContentsOfFile:filename];
+    data = [[NSData alloc] initWithContentsOfFile:self.filename];
     //NSLog(@"data: %p", data);
     //str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]; // utf-8 fails
     str = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];

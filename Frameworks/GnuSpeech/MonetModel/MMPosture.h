@@ -47,14 +47,6 @@
 ===========================================================================*/
 
 @interface MMPosture : MMNamedObject
-{
-    CategoryList *categories; // Of MMCategorys
-    NSMutableArray *parameterTargets; // Of Targets
-    NSMutableArray *metaParameterTargets; // Of Targets
-    NSMutableArray *symbolTargets; // Of Targets
-
-    MMCategory *nativeCategory;
-}
 
 - (id)init;
 - (id)initWithModel:(MModel *)aModel;

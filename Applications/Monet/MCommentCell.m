@@ -6,6 +6,8 @@
 static NSImage *_commentIcon = nil;
 
 @implementation MCommentCell
+{
+}
 
 + (void)initialize;
 {

@@ -4,6 +4,8 @@
 #import "MMFormulaNode.h"
 
 @implementation MMFormulaNode
+{
+}
 
 - (NSUInteger)precedence;
 {

@@ -7,14 +7,6 @@
 @class MonetList, MMEquation, MMPoint, NamedList;
 
 @interface MMTransition : NSObject
-{
-    NamedList *nonretained_group;
-
-    NSString *name;
-    NSString *comment;
-    MMPhoneType type;
-    NSMutableArray *points; // Of MMSlopeRatios and/or MMPoints
-}
 
 - (id)init;
 - (id)initWithName:(NSString *)newName;

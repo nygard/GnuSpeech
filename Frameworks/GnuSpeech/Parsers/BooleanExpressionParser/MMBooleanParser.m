@@ -15,6 +15,9 @@
 #import "MModel.h"
 
 @implementation MMBooleanParser
+{
+    MModel *model;
+}
 
 - (id)initWithModel:(MModel *)aModel;
 {
@@ -76,21 +79,21 @@
 {
     NSString *scannedString;
 
-    [scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:NULL];
+    [self.scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:NULL];
 
-    if ([scanner scanString:@"(" intoString:NULL] == YES) {
+    if ([self.scanner scanString:@"(" intoString:NULL] == YES) {
         [self setSymbolString:@"("];
         return TK_B_LPAREN;
     }
 
-    if ([scanner scanString:@")" intoString:NULL] == YES) {
+    if ([self.scanner scanString:@")" intoString:NULL] == YES) {
         [self setSymbolString:@")"];
         return TK_B_RPAREN;
     }
 
     scannedString = nil;
-    [scanner scanCharactersFromSet:[NSScanner gsBooleanIdentifierCharacterSet] intoString:&scannedString];
-    if ([scanner scanString:@"*" intoString:NULL] == YES) {
+    [self.scanner scanCharactersFromSet:[NSScanner gsBooleanIdentifierCharacterSet] intoString:&scannedString];
+    if ([self.scanner scanString:@"*" intoString:NULL] == YES) {
         if (scannedString == nil)
             scannedString = @"*";
         else
@@ -99,16 +102,16 @@
 
     [self setSymbolString:scannedString];
 
-    if ([symbolString isEqual:@"and"])
+    if ([self.symbolString isEqual:@"and"])
         return TK_B_AND;
-    if ([symbolString isEqual:@"or"])
+    if ([self.symbolString isEqual:@"or"])
         return TK_B_OR;
-    if ([symbolString isEqual:@"not"])
+    if ([self.symbolString isEqual:@"not"])
         return TK_B_NOT;
-    if ([symbolString isEqual:@"xor"])
+    if ([self.symbolString isEqual:@"xor"])
         return TK_B_XOR;
 
-    if (symbolString == nil || [symbolString length] == 0)
+    if (self.symbolString == nil || [self.symbolString length] == 0)
         return TK_B_END;
 #if 0
     // TODO (2004-03-01): This is a probably programming error, with the ';' at the end of the if statement it doesn't do anything.
@@ -116,9 +119,9 @@
 //     printf("Category Not Found!\n");
     return TK_B_CATEGORY;
 #endif
-    if ([self categoryWithName:symbolString] == nil) {
+    if ([self categoryWithName:self.symbolString] == nil) {
         /* do nothing? */;
-        NSLog(@"Category Not Found! (%@)", symbolString);
+        NSLog(@"Category Not Found! (%@)", self.symbolString);
     }
 
     return TK_B_CATEGORY;
@@ -138,7 +141,7 @@
       case TK_B_OR:
       case TK_B_AND:
       case TK_B_XOR:
-          [self appendErrorFormat:@"Error, unexpected %@ operation.", symbolString];
+          [self appendErrorFormat:@"Error, unexpected %@ operation.", self.symbolString];
           return nil;
 
       case TK_B_NOT:
@@ -154,16 +157,16 @@
           break;
 
       case TK_B_CATEGORY:
-          aCategory = [self categoryWithName:symbolString];
+          aCategory = [self categoryWithName:self.symbolString];
           if (aCategory == nil) {
-              [self appendErrorFormat:@"Error, unknown category %@.", symbolString];
+              [self appendErrorFormat:@"Error, unknown category %@.", self.symbolString];
               return nil;
           } else {
               MMBooleanTerminal *aTerminal = nil;
 
               aTerminal = [[[MMBooleanTerminal alloc] init] autorelease];
               [aTerminal setCategory:aCategory];
-              if ([symbolString hasSuffix:@"*"])
+              if ([self.symbolString hasSuffix:@"*"])
                   [aTerminal setShouldMatchAll:YES];
               resultExpression = aTerminal;
           }
@@ -214,7 +217,7 @@
               return nil;
 
           case TK_B_CATEGORY:
-              [self appendErrorFormat:@"Error, unexpected category %@.", symbolString];
+              [self appendErrorFormat:@"Error, unexpected category %@.", self.symbolString];
               return nil;
         }
 
@@ -239,20 +242,20 @@
       case TK_B_XOR:
       case TK_B_OR:
       case TK_B_NOT:
-          [self appendErrorFormat:@"Error, unexpected %@ operation.", symbolString];
+          [self appendErrorFormat:@"Error, unexpected %@ operation.", self.symbolString];
           return nil;
 
       case TK_B_CATEGORY:
-          aCategory = [self categoryWithName:symbolString];
+          aCategory = [self categoryWithName:self.symbolString];
           if (aCategory == nil) {
-              [self appendErrorFormat:@"Error, unknown category %@.", symbolString];
+              [self appendErrorFormat:@"Error, unknown category %@.", self.symbolString];
               return nil;
           } else {
               MMBooleanTerminal *aTerminal;
 
               aTerminal = [[MMBooleanTerminal alloc] init];
               [aTerminal setCategory:aCategory];
-              if ([symbolString hasSuffix:@"*"])
+              if ([self.symbolString hasSuffix:@"*"])
                   [aTerminal setShouldMatchAll:YES];
               [resultExpression addSubExpression:aTerminal];
               [aTerminal release];
@@ -287,7 +290,7 @@
       case TK_B_AND:
       case TK_B_OR:
       case TK_B_XOR:
-          [self appendErrorFormat:@"Error, unexpected %@ operation.", symbolString];
+          [self appendErrorFormat:@"Error, unexpected %@ operation.", self.symbolString];
           return nil;
 
       case TK_B_RPAREN:
@@ -307,16 +310,16 @@
           break;
 
       case TK_B_CATEGORY:
-          aCategory = [self categoryWithName:symbolString];
+          aCategory = [self categoryWithName:self.symbolString];
           if (aCategory == nil) {
-              [self appendErrorFormat:@"Error, unknown category %@.", symbolString];
+              [self appendErrorFormat:@"Error, unknown category %@.", self.symbolString];
               return nil;
           } else {
               MMBooleanTerminal *aTerminal;
 
               aTerminal = [[MMBooleanTerminal alloc] init];
               [aTerminal setCategory:aCategory];
-              if ([symbolString hasSuffix:@"*"])
+              if ([self.symbolString hasSuffix:@"*"])
                   [aTerminal setShouldMatchAll:YES];
               [resultExpression addSubExpression:aTerminal];
               [aTerminal release];
@@ -345,7 +348,7 @@
       case TK_B_AND:
       case TK_B_OR:
       case TK_B_XOR:
-          [self appendErrorFormat:@"Error, unexpected %@ operation.", symbolString];
+          [self appendErrorFormat:@"Error, unexpected %@ operation.", self.symbolString];
           return nil;
 
       case TK_B_RPAREN:
@@ -365,16 +368,16 @@
           break;
 
       case TK_B_CATEGORY:
-          aCategory = [self categoryWithName:symbolString];
+          aCategory = [self categoryWithName:self.symbolString];
           if (aCategory == nil) {
-              [self appendErrorFormat:@"Error, unknown category %@.", symbolString];
+              [self appendErrorFormat:@"Error, unknown category %@.", self.symbolString];
               return nil;
           } else {
               MMBooleanTerminal *aTerminal;
 
               aTerminal = [[MMBooleanTerminal alloc] init];
               [aTerminal setCategory:aCategory];
-              if ([symbolString hasSuffix:@"*"])
+              if ([self.symbolString hasSuffix:@"*"])
                   [aTerminal setShouldMatchAll:YES];
               [resultExpression addSubExpression:aTerminal];
               [aTerminal release];
@@ -404,7 +407,7 @@
       case TK_B_AND:
       case TK_B_OR:
       case TK_B_XOR:
-          [self appendErrorFormat:@"Error, unexpected %@ operation.", symbolString];
+          [self appendErrorFormat:@"Error, unexpected %@ operation.", self.symbolString];
           return nil;
 
       case TK_B_RPAREN:
@@ -424,16 +427,16 @@
           break;
 
       case TK_B_CATEGORY:
-          aCategory = [self categoryWithName:symbolString];
+          aCategory = [self categoryWithName:self.symbolString];
           if (aCategory == nil) {
-              [self appendErrorFormat:@"Error, unknown category %@.", symbolString];
+              [self appendErrorFormat:@"Error, unknown category %@.", self.symbolString];
               return nil;
           } else {
               MMBooleanTerminal *aTerminal;
 
               aTerminal = [[MMBooleanTerminal alloc] init];
               [aTerminal setCategory:aCategory];
-              if ([symbolString hasSuffix:@"*"])
+              if ([self.symbolString hasSuffix:@"*"])
                   [aTerminal setShouldMatchAll:YES];
               [resultExpression addSubExpression:aTerminal];
               [aTerminal release];
@@ -465,7 +468,7 @@
       case TK_B_AND:
       case TK_B_OR:
       case TK_B_XOR:
-          [self appendErrorFormat:@"Error, unexpected %@ operation.", symbolString];
+          [self appendErrorFormat:@"Error, unexpected %@ operation.", self.symbolString];
           return nil;
 
       case TK_B_NOT:
@@ -473,16 +476,16 @@
           break;
 
       case TK_B_CATEGORY:
-          aCategory = [self categoryWithName:symbolString];
+          aCategory = [self categoryWithName:self.symbolString];
           if (aCategory == nil) {
-              [self appendErrorFormat:@"Error, unknown category %@.", symbolString];
+              [self appendErrorFormat:@"Error, unknown category %@.", self.symbolString];
               return nil;
           } else {
               MMBooleanTerminal *aTerminal;
 
               aTerminal = [[[MMBooleanTerminal alloc] init] autorelease];
               [aTerminal setCategory:aCategory];
-              if ([symbolString hasSuffix:@"*"])
+              if ([self.symbolString hasSuffix:@"*"])
                   [aTerminal setShouldMatchAll:YES];
               resultExpression = aTerminal;
           }
@@ -519,7 +522,7 @@
               return nil;
 
           case TK_B_CATEGORY:
-              [self appendErrorFormat:@"Error, unexpected category %@.", symbolString];
+              [self appendErrorFormat:@"Error, unexpected category %@.", self.symbolString];
               return nil;
         }
     }

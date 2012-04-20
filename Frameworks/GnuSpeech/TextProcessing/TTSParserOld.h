@@ -15,10 +15,6 @@ typedef enum {
 @class GSPronunciationDictionary;
 
 @interface TTSParserOld : NSObject
-{
-    GSPronunciationDictionary *mainDictionary;
-    unichar escapeCharacter;
-}
 
 + (void)initialize;
 

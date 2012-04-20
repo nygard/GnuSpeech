@@ -6,6 +6,9 @@
 #import "MXMLParser.h"
 
 @implementation MXMLIgnoreTreeDelegate
+{
+    NSUInteger depth;
+}
 
 - (id)init;
 {

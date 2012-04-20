@@ -4,8 +4,6 @@
 #import "TransitionView.h"
 
 @interface SpecialView : TransitionView
-{
-}
 
 - (id)initWithFrame:(NSRect)frameRect;
 - (void)dealloc;

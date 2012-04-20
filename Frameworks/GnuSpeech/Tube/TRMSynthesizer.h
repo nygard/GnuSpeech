@@ -8,13 +8,6 @@
 @class MMSynthesisParameters;
 
 @interface TRMSynthesizer : NSObject
-{
-    TRMDataList *inputData;
-
-    BOOL shouldSaveToSoundFile;
-    NSString *filename;
-    AVAudioPlayer *m_audioPlayer;
-}
 
 - (id)init;
 - (void)dealloc;

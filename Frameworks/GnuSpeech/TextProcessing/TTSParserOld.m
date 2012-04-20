@@ -59,6 +59,10 @@ TTSInputMode TTSInputModeFromString(NSString *str)
 static NSDictionary *_specialAcronyms = nil;
 
 @implementation TTSParserOld
+{
+    GSPronunciationDictionary *mainDictionary;
+    unichar escapeCharacter;
+}
 
 + (void)initialize;
 {

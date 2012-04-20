@@ -26,6 +26,14 @@
 #import "TargetList.h"
 
 @implementation MMPosture
+{
+    CategoryList *categories; // Of MMCategorys
+    NSMutableArray *parameterTargets; // Of Targets
+    NSMutableArray *metaParameterTargets; // Of Targets
+    NSMutableArray *symbolTargets; // Of Targets
+    
+    MMCategory *nativeCategory;
+}
 
 // This is now used from -[MMNamedObject initWithXMLAttributes:context:]
 - (id)init;
@@ -98,42 +106,12 @@
     [super dealloc];
 }
 
-- (NSString *)name;
-{
-    return name;
-}
-
 // TODO (2004-03-19): Enforce unique names.
 - (void)setName:(NSString *)newName;
 {
-    if (newName == name)
-        return;
-
-    [name release];
-    name = [newName retain];
-
+    [super setName:newName];
     [[self model] sortPostures];
-
     [nativeCategory setName:newName];
-}
-
-- (NSString *)comment;
-{
-    return comment;
-}
-
-- (void)setComment:(NSString *)newComment;
-{
-    if (newComment == comment)
-        return;
-
-    [comment release];
-    comment = [newComment retain];
-}
-
-- (BOOL)hasComment;
-{
-    return comment != nil && [comment length] > 0;
 }
 
 //
@@ -320,14 +298,14 @@
     assert([self model] != nil);
     symbolIndex = [[[self model] symbols] indexOfObject:aSymbol];
     if (symbolIndex == NSNotFound)
-        NSLog(@"Warning: Couldn't find symbol %@ in posture %@", [aSymbol name], name);
+        NSLog(@"Warning: Couldn't find symbol %@ in posture %@", [aSymbol name], self.name);
 
     return [symbolTargets objectAtIndex:symbolIndex];
 }
 
 - (NSComparisonResult)compareByAscendingName:(MMPosture *)otherPosture;
 {
-    return [name compare:[otherPosture name]];
+    return [self.name compare:[otherPosture name]];
 }
 
 //
@@ -353,8 +331,8 @@
     [aDecoder decodeValuesOfObjCTypes:"**", &c_name, &c_comment];
     //NSLog(@"c_name: %s, c_comment: %s", c_name, c_comment);
 
-    name = [[NSString stringWithASCIICString:c_name] retain];
-    comment = [[NSString stringWithASCIICString:c_comment] retain];
+    self.name = [[NSString stringWithASCIICString:c_name] retain];
+    self.comment = [[NSString stringWithASCIICString:c_comment] retain];
     free(c_name);
     free(c_comment);
 
@@ -416,22 +394,22 @@
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"<%@>[%p]: name: %@, comment: %@, categories: %@, parameterTargets: %@, metaParameterTargets: %@, symbolTargets: %@",
-                     NSStringFromClass([self class]), self, name, comment, categories, parameterTargets, metaParameterTargets, symbolTargets];
+                     NSStringFromClass([self class]), self, self.name, self.comment, categories, parameterTargets, metaParameterTargets, symbolTargets];
 }
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     [resultString indentToLevel:level];
-    [resultString appendFormat:@"<posture symbol=\"%@\"", GSXMLAttributeString(name, NO)];
+    [resultString appendFormat:@"<posture symbol=\"%@\"", GSXMLAttributeString(self.name, NO)];
 
-    if (comment == nil && [categories count] == 0 && [parameterTargets count] == 0 && [metaParameterTargets count] == 0 && [symbolTargets count] == 0) {
+    if (self.comment == nil && [categories count] == 0 && [parameterTargets count] == 0 && [metaParameterTargets count] == 0 && [symbolTargets count] == 0) {
         [resultString appendString:@"/>\n"];
     } else {
         [resultString appendString:@">\n"];
 
-        if (comment != nil) {
+        if (self.comment != nil) {
             [resultString indentToLevel:level + 1];
-            [resultString appendFormat:@"<comment>%@</comment>\n", GSXMLCharacterData(comment)];
+            [resultString appendFormat:@"<comment>%@</comment>\n", GSXMLCharacterData(self.comment)];
         }
 
         [self _appendXMLForCategoriesToString:resultString level:level + 1];

@@ -4,8 +4,6 @@
 #import <Cocoa/Cocoa.h>
 
 @interface MWindowController : NSWindowController
-{
-}
 
 - (BOOL)isVisibleOnLaunch;
 - (void)setIsVisibleOnLaunch:(BOOL)newFlag;

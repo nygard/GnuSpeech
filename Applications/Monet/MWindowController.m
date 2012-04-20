@@ -4,6 +4,8 @@
 #import "MWindowController.h"
 
 @implementation MWindowController
+{
+}
 
 - (BOOL)isVisibleOnLaunch;
 {

@@ -6,29 +6,6 @@
 @class MMCategory, MModel, MMParameter, MMSymbol;
 
 @interface MDataEntryController : MWindowController
-{
-    IBOutlet NSTableView *categoryTableView;
-    IBOutlet NSTextField *categoryTotalTextField;
-    IBOutlet NSTextView *categoryCommentTextView;
-    IBOutlet NSButtonCell *removeCategoryButtonCell;
-
-    IBOutlet NSTableView *parameterTableView;
-    IBOutlet NSTextField *parameterTotalTextField;
-    IBOutlet NSTextView *parameterCommentTextView;
-    IBOutlet NSButtonCell *removeParameterButtonCell;
-
-    IBOutlet NSTableView *metaParameterTableView;
-    IBOutlet NSTextField *metaParameterTotalTextField;
-    IBOutlet NSTextView *metaParameterCommentTextView;
-    IBOutlet NSButtonCell *removeMetaParameterButtonCell;
-
-    IBOutlet NSTableView *symbolTableView;
-    IBOutlet NSTextField *symbolTotalTextField;
-    IBOutlet NSTextView *symbolCommentTextView;
-    IBOutlet NSButtonCell *removeSymbolButtonCell;
-
-    MModel *model;
-}
 
 - (id)initWithModel:(MModel *)aModel;
 - (void)dealloc;

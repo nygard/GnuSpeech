@@ -4,6 +4,8 @@
 #import "MOutlineView.h"
 
 @implementation MOutlineView
+{
+}
 
 - (void)_resizeOutlineColumn;
 {

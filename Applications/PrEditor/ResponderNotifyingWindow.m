@@ -3,17 +3,18 @@
 
 #import "ResponderNotifyingWindow.h"
 
-
 @implementation ResponderNotifyingWindow
+{
+}
 
 - (BOOL)makeFirstResponder:(NSResponder *)aResponder
 {
-  BOOL response = [super makeFirstResponder:aResponder];
-  if (response) {
-	// Commented out on October 13, 2008 -- dalmazio.
-    //[[self delegate] window:self madeFirstResponder:aResponder];    
-  }
-  return response;
+    BOOL response = [super makeFirstResponder:aResponder];
+    if (response) {
+        // Commented out on October 13, 2008 -- dalmazio.
+        //[[self delegate] window:self madeFirstResponder:aResponder];    
+    }
+    return response;
 }
 
 @end

@@ -5,10 +5,6 @@
 #import "MMOldFormulaNode.h"
 
 @interface FormulaExpression : MMOldFormulaNode
-{
-    NSUInteger operation;
-    NSMutableArray *expressions;
-}
 
 - (id)init;
 - (void)dealloc;

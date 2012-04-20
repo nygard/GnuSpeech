@@ -8,5 +8,7 @@
 // to the Target class.
 
 @implementation TargetList
+{
+}
 
 @end

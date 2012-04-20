@@ -7,6 +7,10 @@
 #import <GnuSpeech/GnuSpeech.h>
 
 @implementation TextToSpeech
+{
+	MMTextToPhone *textToPhone;
+	PhoneToSpeech *phoneToSpeech;
+}
 
 - (id)init;
 {

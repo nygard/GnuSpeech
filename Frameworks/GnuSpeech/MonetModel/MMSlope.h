@@ -4,10 +4,6 @@
 #import <Foundation/Foundation.h>
 
 @interface MMSlope : NSObject
-{
-    double slope;
-    double displayTime;
-}
 
 - (id)init;
 

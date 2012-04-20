@@ -10,13 +10,12 @@
 // - generates XML
 
 @interface MonetList : NSObject
-{
-    NSMutableArray *ilist;
-}
 
 - (id)init;
 - (id)initWithCapacity:(NSUInteger)numItems;
 - (void)dealloc;
+
+@property (readonly) NSMutableArray *ilist;
 
 - (NSArray *)allObjects;
 
