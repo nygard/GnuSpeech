@@ -3,28 +3,18 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 45;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		017E27B015409DEF00FE4644 /* GnuSpeech.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 017E27AF15409DEF00FE4644 /* GnuSpeech.framework */; };
 		699B09F30F129D6C00B4222C /* PhoneToSpeech.m in Sources */ = {isa = PBXBuildFile; fileRef = 699B09F20F129D6C00B4222C /* PhoneToSpeech.m */; };
 		699B09F60F129D8400B4222C /* TextToSpeech.m in Sources */ = {isa = PBXBuildFile; fileRef = 699B09F50F129D8400B4222C /* TextToSpeech.m */; };
-		699B0AAB0F12C93100B4222C /* GnuSpeech.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 699B09FD0F12A33C00B4222C /* GnuSpeech.framework */; };
 		69E145B90F1034EC008CE33B /* GnuSpeechServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 69E145B80F1034EC008CE33B /* GnuSpeechServer.m */; };
 		8DD76F9A0486AA7600D96B5E /* GnuTTSServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* GnuTTSServer.m */; settings = {ATTRIBUTES = (); }; };
 		8DD76F9C0486AA7600D96B5E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FB779EFE84155DC02AAC07 /* Foundation.framework */; };
 		8DD76F9F0486AA7600D96B5E /* GnuTTSServer.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C6859EA3029092ED04C91782 /* GnuTTSServer.1 */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		699B09FC0F12A33C00B4222C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 699B09F80F12A33C00B4222C /* GnuSpeech.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
-			remoteInfo = GnuSpeech;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		8DD76F9E0486AA7600D96B5E /* CopyFiles */ = {
@@ -40,17 +30,16 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		017E27AF15409DEF00FE4644 /* GnuSpeech.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GnuSpeech.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/GnuSpeech-asltgrlxcnhnopcwrardgfljqcve/Build/Products/Debug/GnuSpeech.framework"; sourceTree = "<group>"; };
 		08FB7796FE84155DC02AAC07 /* GnuTTSServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GnuTTSServer.m; sourceTree = "<group>"; };
 		08FB779EFE84155DC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32A70AAB03705E1F00C91783 /* GnuTTSServer_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GnuTTSServer_Prefix.pch; sourceTree = "<group>"; };
 		6903B8950F119279006DE708 /* org.gnu.GnuSpeech.GnuTTSServer.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = org.gnu.GnuSpeech.GnuTTSServer.plist; sourceTree = "<group>"; };
-		6937867D0F133D9C005028AF /* GnuSpeechServerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GnuSpeechServerProtocol.h; sourceTree = "<group>"; };
 		69454E2E0F8D659E00EBA0DC /* ChangeLog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ChangeLog.txt; sourceTree = "<group>"; };
 		699B09F10F129D6C00B4222C /* PhoneToSpeech.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneToSpeech.h; sourceTree = "<group>"; };
 		699B09F20F129D6C00B4222C /* PhoneToSpeech.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhoneToSpeech.m; sourceTree = "<group>"; };
 		699B09F40F129D8400B4222C /* TextToSpeech.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextToSpeech.h; sourceTree = "<group>"; };
 		699B09F50F129D8400B4222C /* TextToSpeech.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextToSpeech.m; sourceTree = "<group>"; };
-		699B09F80F12A33C00B4222C /* GnuSpeech.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GnuSpeech.xcodeproj; path = ../../Frameworks/GnuSpeech/GnuSpeech.xcodeproj; sourceTree = SOURCE_ROOT; };
 		69E145B70F1034EC008CE33B /* GnuSpeechServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GnuSpeechServer.h; sourceTree = "<group>"; };
 		69E145B80F1034EC008CE33B /* GnuSpeechServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GnuSpeechServer.m; sourceTree = "<group>"; };
 		8DD76FA10486AA7600D96B5E /* GnuTTSServer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GnuTTSServer; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -62,7 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				699B0AAB0F12C93100B4222C /* GnuSpeech.framework in Frameworks */,
+				017E27B015409DEF00FE4644 /* GnuSpeech.framework in Frameworks */,
 				8DD76F9C0486AA7600D96B5E /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -89,7 +78,6 @@
 				08FB7796FE84155DC02AAC07 /* GnuTTSServer.m */,
 				69E145B70F1034EC008CE33B /* GnuSpeechServer.h */,
 				69E145B80F1034EC008CE33B /* GnuSpeechServer.m */,
-				6937867D0F133D9C005028AF /* GnuSpeechServerProtocol.h */,
 				699B09F10F129D6C00B4222C /* PhoneToSpeech.h */,
 				699B09F20F129D6C00B4222C /* PhoneToSpeech.m */,
 				699B09F40F129D8400B4222C /* TextToSpeech.h */,
@@ -101,7 +89,7 @@
 		08FB779DFE84155DC02AAC07 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				699B09F80F12A33C00B4222C /* GnuSpeech.xcodeproj */,
+				017E27AF15409DEF00FE4644 /* GnuSpeech.framework */,
 				08FB779EFE84155DC02AAC07 /* Foundation.framework */,
 			);
 			name = "External Frameworks and Libraries";
@@ -122,14 +110,6 @@
 				6903B8950F119279006DE708 /* org.gnu.GnuSpeech.GnuTTSServer.plist */,
 			);
 			name = Resources;
-			sourceTree = "<group>";
-		};
-		699B09F90F12A33C00B4222C /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				699B09FD0F12A33C00B4222C /* GnuSpeech.framework */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		C6859EA2029092E104C91782 /* Documentation */ = {
@@ -167,7 +147,7 @@
 		08FB7793FE84155DC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 1DEB927808733DD40010E9CD /* Build configuration list for PBXProject "GnuTTSServer" */;
-			compatibilityVersion = "Xcode 3.1";
+			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
@@ -175,28 +155,12 @@
 			);
 			mainGroup = 08FB7794FE84155DC02AAC07 /* GnuTTSServer */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 699B09F90F12A33C00B4222C /* Products */;
-					ProjectRef = 699B09F80F12A33C00B4222C /* GnuSpeech.xcodeproj */;
-				},
-			);
 			projectRoot = ../..;
 			targets = (
 				8DD76F960486AA7600D96B5E /* GnuTTSServer */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		699B09FD0F12A33C00B4222C /* GnuSpeech.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = GnuSpeech.framework;
-			remoteRef = 699B09FC0F12A33C00B4222C /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8DD76F990486AA7600D96B5E /* Sources */ = {
@@ -218,8 +182,11 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../Library/Developer/Xcode/DerivedData/GnuSpeech-asltgrlxcnhnopcwrardgfljqcve/Build/Products/Debug\"",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -234,6 +201,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../Library/Developer/Xcode/DerivedData/GnuSpeech-asltgrlxcnhnopcwrardgfljqcve/Build/Products/Debug\"",
+				);
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = GnuTTSServer_Prefix.pch;
@@ -245,20 +216,19 @@
 		1DEB927908733DD40010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEPLOYMENT_LOCATION = NO;
 				DEPLOYMENT_POSTPROCESSING = NO;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../Frameworks\"/**";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_VERSION = 4.2;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
-				PREBINDING = NO;
-				SDKROOT = macosx10.5;
+				SDKROOT = "";
 				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Debug;
@@ -266,17 +236,16 @@
 		1DEB927A08733DD40010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COMBINE_HIDPI_IMAGES = YES;
 				DEPLOYMENT_LOCATION = NO;
 				DEPLOYMENT_POSTPROCESSING = NO;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../Frameworks\"/**";
 				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_VERSION = 4.2;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				PREBINDING = NO;
-				SDKROOT = macosx10.5;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = "";
 			};
 			name = Release;
 		};

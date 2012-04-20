@@ -1,57 +1,31 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
-//  
-//  Contributors: Steve Nygard
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
-////////////////////////////////////////////////////////////////////////////////
-//
-//  GSXMLFunctions.h
-//  GnuSpeech
-//
-//  Created by Steve Nygard in 2004
-//
-//  Version: 0.9.1
-//
-////////////////////////////////////////////////////////////////////////////////
+//  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import <Foundation/Foundation.h>
 
-@class NSString;
+enum {
+    MMPhoneType_Diphone    = 2,
+    MMPhoneType_Triphone   = 3,
+    MMPhoneType_Tetraphone = 4,
+};
+typedef NSUInteger MMPhoneType;
 
-typedef enum {
-    MMPhoneTypeDiphone = 2,
-    MMPhoneTypeTriphone = 3,
-    MMPhoneTypeTetraphone = 4,
-} MMPhoneType;
+#define GSXMLEntityMask_None        0x00
+#define GSXMLEntityMask_Ampersand   0x01
+#define GSXMLEntityMask_LessThan    0x02
+#define GSXMLEntityMask_GreaterThan 0x04
+#define GSXMLEntityMask_SingleQuote 0x08
+#define GSXMLEntityMask_DoubleQuote 0x10
 
-#define GSXMLEntityMaskNone 0x00
-#define GSXMLEntityMaskAmpersand 0x01
-#define GSXMLEntityMaskLessThan 0x02
-#define GSXMLEntityMaskGreaterThan 0x04
-#define GSXMLEntityMaskSingleQuote 0x08
-#define GSXMLEntityMaskDoubleQuote 0x10
+typedef NSUInteger GSXMLEntityMask;
 
-NSString *GSXMLEscapeGeneralEntities(NSString *aString, int entityMask);
+NSString *GSXMLEscapeGeneralEntities(NSString *string, GSXMLEntityMask entityMask);
 
-NSString *GSXMLAttributeString(NSString *aString, BOOL isSingleQuoted);
-NSString *GSXMLCharacterData(NSString *aString);
-NSString *GSXMLBoolAttributeString(BOOL aFlag);
-BOOL GSXMLBoolFromString(NSString *str);
+ NSString *GSXMLAttributeString(NSString *string, BOOL isSingleQuoted);
+ NSString *GSXMLCharacterData(NSString *string);
+ NSString *GSXMLBoolAttributeString(BOOL flag);
+ BOOL GSXMLBoolFromString(NSString *str);
 
 
-NSString *MMStringFromPhoneType(MMPhoneType type);
-MMPhoneType MMPhoneTypeFromString(NSString *str);
+ NSString *MMStringFromPhoneType(MMPhoneType type);
+ MMPhoneType MMPhoneTypeFromString(NSString *str);

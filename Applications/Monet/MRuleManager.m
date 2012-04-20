@@ -1,36 +1,8 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
-//  
-//  Contributors: Steve Nygard
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
-////////////////////////////////////////////////////////////////////////////////
-//
-//  MRuleManager.m
-//  Monet
-//
-//  Created by Steve Nygard in 2004.
-//
-//  Version: 0.9.7
-//
-////////////////////////////////////////////////////////////////////////////////
+//  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "MRuleManager.h"
 
-#import <AppKit/AppKit.h>
 #import <GnuSpeech/GnuSpeech.h>
 
 #import "NSOutlineView-Extensions.h"
@@ -43,7 +15,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
 - (id)initWithModel:(MModel *)aModel;
 {
-    unsigned int index;
+    NSUInteger index;
 
     if ([super initWithWindowNibName:@"RuleManager"] == nil)
         return nil;
@@ -105,7 +77,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
 - (MMRule *)selectedRule;
 {
-    int selectedRow;
+    NSInteger selectedRow;
 
     selectedRow = [ruleTableView selectedRow];
     if (selectedRow == -1)
@@ -160,7 +132,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
 - (void)expandOutlines;
 {
-    unsigned int count, index;
+    NSUInteger count, index;
 
     count = [[model equations] count];
     for (index = 0; index < count; index++)
@@ -184,7 +156,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     MMRule *aRule;
     NSString *str;
     MMBooleanNode *anExpression;
-    int index;
+    NSInteger index;
 
     aRule = [self selectedRule];
 
@@ -223,7 +195,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
 - (void)_updateSelectedSymbolDetails;
 {
-    int selectedRow;
+    NSInteger selectedRow;
     MMEquation *anEquation;
 
     [symbolTableView reloadData]; // To get changes to values
@@ -248,7 +220,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
 - (void)_updateSelectedParameterDetails;
 {
-    int selectedRow;
+    NSInteger selectedRow;
     NSArray *transitions;
 
     [parameterTableView reloadData]; // To get updated values
@@ -269,7 +241,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
 - (void)_updateSelectedSpecialParameterDetails;
 {
-    int selectedRow;
+    NSInteger selectedRow;
     MMTransition *aTransition;
 
     [specialParameterTableView reloadData]; // To get updated values
@@ -285,7 +257,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
 - (void)_updateSelectedMetaParameterDetails;
 {
-    int selectedRow;
+    NSInteger selectedRow;
     NSArray *transitions;
 
     [metaParameterTableView reloadData]; // To get updated values
@@ -304,7 +276,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     }
 }
 
-- (void)setExpression:(MMBooleanNode *)anExpression atIndex:(int)index;
+- (void)setExpression:(MMBooleanNode *)anExpression atIndex:(NSInteger)index;
 {
     if (anExpression == expressions[index])
         return;
@@ -316,7 +288,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 // Align the sub-expressions if one happens to have been removed.
 - (void)realignExpressions;
 {
-    int index;
+    NSInteger index;
     NSCell *thisCell, *nextCell;
 
     for (index = 0; index < 3; index++) {
@@ -342,8 +314,8 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
 - (void)evaluateMatchLists;
 {
-    unsigned int expressionIndex;
-    unsigned int count, index;
+    NSUInteger expressionIndex;
+    NSUInteger count, index;
     NSMutableArray *aMatchedPhoneList;
     NSArray *mainPhoneList = [[self model] postures];
     NSString *str;
@@ -367,19 +339,19 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     }
 
     // TODO (2004-03-24): We're getting an assertion failure in [NSMatrix lockFocus] somewhere in the following code.  This may be a good enough reason to switch to NSTableViews instead of NSBrowsers.
-    str = [NSString stringWithFormat:@"Total Matches: %d", [[matchLists objectAtIndex:0] count]];
+    str = [NSString stringWithFormat:@"Total Matches: %lu", [[matchLists objectAtIndex:0] count]];
     [match1Browser setTitle:str ofColumn:0];
     [match1Browser loadColumnZero];
 
-    str = [NSString stringWithFormat:@"Total Matches: %d", [[matchLists objectAtIndex:1] count]];
+    str = [NSString stringWithFormat:@"Total Matches: %lu", [[matchLists objectAtIndex:1] count]];
     [match2Browser setTitle:str ofColumn:0];
     [match2Browser loadColumnZero];
 
-    str = [NSString stringWithFormat:@"Total Matches: %d", [[matchLists objectAtIndex:2] count]];
+    str = [NSString stringWithFormat:@"Total Matches: %lu", [[matchLists objectAtIndex:2] count]];
     [match3Browser setTitle:str ofColumn:0];
     [match3Browser loadColumnZero];
 
-    str = [NSString stringWithFormat:@"Total Matches: %d", [[matchLists objectAtIndex:3] count]];
+    str = [NSString stringWithFormat:@"Total Matches: %lu", [[matchLists objectAtIndex:3] count]];
     [match4Browser setTitle:str ofColumn:0];
     [match4Browser loadColumnZero];
 
@@ -388,8 +360,8 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
 - (void)updateCombinations;
 {
-    unsigned int index;
-    int totalCombinations;
+    NSUInteger index;
+    NSUInteger totalCombinations;
 
     totalCombinations = [[matchLists objectAtIndex:0] count];
     for (index = 1; index < 4; index++) {
@@ -407,7 +379,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 // NSTableView data source
 //
 
-- (int)numberOfRowsInTableView:(NSTableView *)tableView;
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView;
 {
     if (tableView == ruleTableView)
         return [[model rules] count];
@@ -428,7 +400,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     return 0;
 }
 
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row;
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
 {
     id identifier;
 
@@ -441,7 +413,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
         if ([@"hasComment" isEqual:identifier] == YES) {
             return [NSNumber numberWithBool:[rule hasComment]];
         } else if ([@"number" isEqual:identifier] == YES) {
-            return [NSString stringWithFormat:@"%d.", row + 1];
+            return [NSString stringWithFormat:@"%lu.", row + 1];
         } else if ([@"rule" isEqual:identifier] == YES) {
             return [rule ruleString];
         } else if ([@"numberOfTokensConsumed" isEqual:identifier] == YES) {
@@ -509,7 +481,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     }
 }
 
-- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(int)row;
+- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
 {
     if (tableView == specialParameterTableView) {
         if ([[self selectedRule] getSpecialProfile:row] != nil)
@@ -534,7 +506,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     return NO;
 }
 
-- (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(int)row proposedDropOperation:(NSTableViewDropOperation)op;
+- (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)op;
 {
     if  (tableView == ruleTableView) {
         NSPasteboard *pasteboard;
@@ -553,7 +525,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     return NSDragOperationNone;
 }
 
-- (BOOL)tableView:(NSTableView *)tableView acceptDrop:(id <NSDraggingInfo>)info row:(int)row dropOperation:(NSTableViewDropOperation)op;
+- (BOOL)tableView:(NSTableView *)tableView acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)op;
 {
     if  (tableView == ruleTableView) {
         NSPasteboard *pasteboard;
@@ -614,7 +586,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 // Browser delegate methods
 //
 
-- (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;
+- (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(NSInteger)column;
 {
     if (sender == match1Browser)
         return [[matchLists objectAtIndex:0] count];
@@ -631,7 +603,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     return 0;
 }
 
-- (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
+- (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(NSInteger)row column:(NSInteger)column;
 {
     MMPosture *aPosture;
 
@@ -656,7 +628,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 // NSOutlineView data source
 //
 
-- (int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item;
+- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item;
 {
     if (outlineView == symbolEquationOutlineView) {
         if (item == nil)
@@ -678,7 +650,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     return 0;
 }
 
-- (id)outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item;
+- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item;
 {
     if (outlineView == symbolEquationOutlineView) {
         if (item == nil)
@@ -855,8 +827,8 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     NSMutableArray *matchedPhoneList;
     NSArray *mainPhoneList = [[self model] postures];
     MMBooleanNode *parsedExpression;
-    int i;
-    int tag;
+    NSUInteger i;
+    NSInteger tag;
     NSString *expressionString;
     NSBrowser *aBrowser;
 
@@ -914,7 +886,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
           aBrowser = nil;
     }
 
-    [aBrowser setTitle:[NSString stringWithFormat:@"Total Matches: %d", [matchedPhoneList count]] ofColumn:0];
+    [aBrowser setTitle:[NSString stringWithFormat:@"Total Matches: %lu", [matchedPhoneList count]] ofColumn:0];
     [aBrowser loadColumnZero];
     [self updateCombinations];
 }
@@ -922,7 +894,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 - (IBAction)addRule:(id)sender;
 {
     MMBooleanNode *exps[4];
-    int index;
+    NSUInteger index;
     MMRule *newRule;
 
     for (index = 0; index < 4; index++) {
@@ -958,7 +930,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 - (IBAction)updateRule:(id)sender;
 {
     MMBooleanNode *exps[4];
-    int index;
+    NSUInteger index;
     MMRule *selectedRule;
 
     for (index = 0; index < 4; index++) {

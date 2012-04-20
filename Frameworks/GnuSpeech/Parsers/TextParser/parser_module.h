@@ -1,6 +1,6 @@
 /*******************************************************************************
  *
- *  Copyright (c) 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
+ *  Copyright (c) 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
  *  
  *  Contributors: Dalmazio Brisinda
  *
@@ -40,9 +40,9 @@
 
 
 /*  GLOBAL FUNCTIONS *********************************************************/
-extern void init_parser_module(void);
-extern int set_escape_code(char new_escape_code);
-extern int set_dict_data(const short order[4], GSPronunciationDictionary *userDict, GSPronunciationDictionary *appDict, GSPronunciationDictionary *mainDict, NSDictionary *specialAcronymsDict);
-extern int parser(const char *input, const char **output);
-extern const char *lookup_word(const char *word, short *dict);
+void init_parser_module(void);
+int set_escape_code(char new_escape_code);
+int set_dict_data(const int16_t order[4], GSPronunciationDictionary *userDict, GSPronunciationDictionary *appDict, GSPronunciationDictionary *mainDict, NSDictionary *specialAcronymsDict);
+int parser(const char *input, const char **output);
+const char *lookup_word(const char *word, short *dict);
 

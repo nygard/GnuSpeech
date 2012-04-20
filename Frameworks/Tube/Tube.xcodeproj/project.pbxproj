@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0172DA14153FDD2F00413F56 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0172DA13153FDD2F00413F56 /* Accelerate.framework */; };
 		01AC657B0B7BF4D8008E4B93 /* fir.c in Sources */ = {isa = PBXBuildFile; fileRef = 01AC656B0B7BF4D8008E4B93 /* fir.c */; };
 		01AC657C0B7BF4D8008E4B93 /* fir.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC656C0B7BF4D8008E4B93 /* fir.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01AC657D0B7BF4D8008E4B93 /* input.c in Sources */ = {isa = PBXBuildFile; fileRef = 01AC656D0B7BF4D8008E4B93 /* input.c */; };
@@ -23,12 +24,12 @@
 		01AC65880B7BF4D8008E4B93 /* util.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC65780B7BF4D8008E4B93 /* util.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01AC65890B7BF4D8008E4B93 /* wavetable.c in Sources */ = {isa = PBXBuildFile; fileRef = 01AC65790B7BF4D8008E4B93 /* wavetable.c */; };
 		01AC658A0B7BF4D8008E4B93 /* wavetable.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC657A0B7BF4D8008E4B93 /* wavetable.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		692303CB0EA1A262004D32EC /* vecLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01AC65920B7BF51A008E4B93 /* vecLib.framework */; };
 		697930D80F91911E00E6B2EC /* ChangeLog.txt in Resources */ = {isa = PBXBuildFile; fileRef = 697930D70F91911E00E6B2EC /* ChangeLog.txt */; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0172DA13153FDD2F00413F56 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = /System/Library/Frameworks/Accelerate.framework; sourceTree = "<absolute>"; };
 		01AC656B0B7BF4D8008E4B93 /* fir.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = fir.c; sourceTree = "<group>"; };
 		01AC656C0B7BF4D8008E4B93 /* fir.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = fir.h; sourceTree = "<group>"; };
 		01AC656D0B7BF4D8008E4B93 /* input.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = input.c; sourceTree = "<group>"; };
@@ -45,7 +46,6 @@
 		01AC65780B7BF4D8008E4B93 /* util.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = util.h; sourceTree = "<group>"; };
 		01AC65790B7BF4D8008E4B93 /* wavetable.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = wavetable.c; sourceTree = "<group>"; };
 		01AC657A0B7BF4D8008E4B93 /* wavetable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = wavetable.h; sourceTree = "<group>"; };
-		01AC65920B7BF51A008E4B93 /* vecLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = vecLib.framework; path = /System/Library/Frameworks/vecLib.framework; sourceTree = "<absolute>"; };
 		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -61,7 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				692303CB0EA1A262004D32EC /* vecLib.framework in Frameworks */,
+				0172DA14153FDD2F00413F56 /* Accelerate.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,7 +133,6 @@
 		1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				01AC65920B7BF51A008E4B93 /* vecLib.framework */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
@@ -141,6 +140,7 @@
 		1058C7B2FEA5585E11CA2CBB /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0172DA13153FDD2F00413F56 /* Accelerate.framework */,
 				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
 				D2F7E79907B2D74100F64583 /* CoreData.framework */,
 				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
@@ -263,7 +263,6 @@
 		1DEB91AE08733DA50010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -284,7 +283,6 @@
 		1DEB91AF08733DA50010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -304,7 +302,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEPLOYMENT_LOCATION = NO;
 				DEPLOYMENT_POSTPROCESSING = NO;
@@ -327,7 +326,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COMBINE_HIDPI_IMAGES = YES;
 				DEPLOYMENT_LOCATION = NO;
 				DEPLOYMENT_POSTPROCESSING = NO;
 				DSTROOT = "/tmp/$(PROJECT_NAME).dst";

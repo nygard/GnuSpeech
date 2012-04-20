@@ -1,51 +1,11 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
-//  
-//  Contributors: Steve Nygard
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
-////////////////////////////////////////////////////////////////////////////////
-//
-//  TransitionView.h
-//  Monet
-//
-//  Created by Steve Nygard in 2004.
-//
-//  Version: 0.9.7
-//
-////////////////////////////////////////////////////////////////////////////////
+//  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
-#import <AppKit/NSControl.h>
-
-#import <AppKit/NSNibDeclarations.h> // For IBAction, IBOutlet
+#import <Cocoa/Cocoa.h>
 #import <GnuSpeech/GnuSpeech.h> // For MMFRuleSymbols
 
-@class NSMutableArray;
 @class MonetList, MModel, MMPoint, MMSlope, MMTransition;
-@class TransitionView, NSTextFieldCell;
-
-/*===========================================================================
-
-	Author: Craig-Richard Taube-Schock
-		Copyright (c) 1994, Trillium Sound Research Incorporated.
-		All Rights Reserved.
-
-=============================================================================
-*/
-
+@class TransitionView;
 
 @protocol TransitionViewNotifications
 - (void)transitionViewSelectionDidChange:(NSNotification *)aNotification;
@@ -78,8 +38,8 @@ extern NSString *TransitionViewSelectionDidChangeNotification;
     NSTextFieldCell *textFieldCell;
     NSText *nonretained_fieldEditor;
 
-    int zeroIndex;
-    int sectionAmount;
+    NSUInteger zeroIndex;
+    NSInteger sectionAmount;
 
     MModel *model;
 
@@ -94,11 +54,11 @@ extern NSString *TransitionViewSelectionDidChangeNotification;
 - (id)initWithFrame:(NSRect)frameRect;
 - (void)dealloc;
 
-- (int)zeroIndex;
-- (void)setZeroIndex:(int)newZeroIndex;
+- (NSUInteger)zeroIndex;
+- (void)setZeroIndex:(NSUInteger)newZeroIndex;
 
-- (int)sectionAmount;
-- (void)setSectionAmount:(int)newSectionAmount;
+- (NSInteger)sectionAmount;
+- (void)setSectionAmount:(NSInteger)newSectionAmount;
 
 - (MModel *)model;
 - (void)setModel:(MModel *)newModel;
@@ -156,18 +116,18 @@ extern NSString *TransitionViewSelectionDidChangeNotification;
 - (void)keyDown:(NSEvent *)keyEvent;
 
 // View geometry
-- (int)sectionHeight;
+- (CGFloat)sectionHeight;
 - (NSPoint)graphOrigin;
-- (float)timeScale;
+- (CGFloat)timeScale;
 - (NSRect)rectFormedByPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
-- (float)slopeMarkerYPosition;
+- (CGFloat)slopeMarkerYPosition;
 - (NSRect)slopeMarkerRect;
 
 // Slopes
 - (void)drawSlopes;
 - (void)_setEditingSlope:(MMSlope *)newSlope;
-- (void)editSlope:(MMSlope *)aSlope startTime:(float)startTime endTime:(float)endTime;
-- (MMSlope *)getSlopeMarkerAtPoint:(NSPoint)aPoint startTime:(float *)startTime endTime:(float *)endTime;
+- (void)editSlope:(MMSlope *)aSlope startTime:(CGFloat)startTime endTime:(CGFloat)endTime;
+- (MMSlope *)getSlopeMarkerAtPoint:(NSPoint)aPoint startTime:(CGFloat *)startTime endTime:(CGFloat *)endTime;
 
 // NSTextView delegate method, used for editing slopes
 - (void)textDidEndEditing:(NSNotification *)notification;

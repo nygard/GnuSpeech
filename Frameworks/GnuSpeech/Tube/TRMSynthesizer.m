@@ -1,38 +1,11 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
-//  
-//  Contributors: Steve Nygard
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
-////////////////////////////////////////////////////////////////////////////////
-//
-//  TRMSynthesizer.m
-//  GnuSpeech
-//
-//  Created by Steve Nygard in 2004.
-//
-//  Version: 0.9.1
-//
-////////////////////////////////////////////////////////////////////////////////
+//  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "TRMSynthesizer.h"
-#import "MMSynthesisParameters.h"
-#import <Foundation/Foundation.h>
-#import "NSData-STExtensions.h"
+
 #import <AVFoundation/AVFoundation.h>
+#import "MMSynthesisParameters.h"
+#import "NSData-STExtensions.h"
 
 const uint16_t kWAVEFormat_Unknown         = 0x0000;
 const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
@@ -150,7 +123,7 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
     double radius[TOTAL_REGIONS];
 
     {
-        int index;
+        NSUInteger index;
         char buf[100];
 
         for (index = 0; index < 16; index++) {
@@ -252,7 +225,7 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 - (NSData *)generateWAVDataWithSampleRateConverter:(TRMSampleRateConverter *)sampleRateConverter;
 {
     double scale;
-    long int index;
+    NSUInteger index;
 
     if (sampleRateConverter->maximumSampleValue == 0)
         NSBeep();
@@ -261,7 +234,7 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 
     scale = OUTPUT_SCALE * (RANGE_MAX / sampleRateConverter->maximumSampleValue) * amplitude(inputData->inputParameters.volume) ;
 
-    NSLog(@"number of samples:\t%-ld\n", sampleRateConverter->numberSamples);
+    NSLog(@"number of samples:\t%-d\n", sampleRateConverter->numberSamples);
     NSLog(@"maximum sample value:\t%.4f\n", sampleRateConverter->maximumSampleValue);
     NSLog(@"scale:\t\t\t%.4f\n", scale);
     
@@ -285,7 +258,7 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 
         for (index = 0; index < sampleRateConverter->numberSamples; index++) {
             double sample;
-            short value;
+            uint16_t value;
 
             fread(&sample, sizeof(sample), 1, sampleRateConverter->tempFilePtr);
 
@@ -300,7 +273,7 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 		
         for (index = 0; index < sampleRateConverter->numberSamples; index++) {
             double sample;
-            short value;
+            uint16_t value;
 
             fread(&sample, sizeof(sample), 1, sampleRateConverter->tempFilePtr);
 

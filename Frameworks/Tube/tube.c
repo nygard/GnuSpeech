@@ -1,82 +1,8 @@
-/*******************************************************************************
- *
- *  Copyright (c) 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
- *  
- *  Contributors: Steve Nygard
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- *******************************************************************************
- *
- *  tube.c
- *  Tube
- *
- *  Version: 1.0.1
- *
- ******************************************************************************/
+//  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
+// Software (non-real-time) implementation of the Tube Resonance Model for speech production.
 
-/*  REVISION INFORMATION  *****************************************************
- *
- * Revision 1.8  1995/04/17  19:51:21  len
- * Temporary fix to frication balance.
- *
- * Revision 1.7  1995/03/21  04:52:37  len
- * Now compiles FAT.  Also adjusted mono and stereo output volume to match
- * approximately the output volume of the DSP.
- *
- * Revision 1.6  1995/03/04  05:55:57  len
- * Changed controlRate parameter to a float.
- *
- * Revision 1.5  1995/03/02  04:33:04  len
- * Added amplitude scaling to input of vocal tract and throat, to keep the
- * software TRM in line with the DSP version.
- *
- * Revision 1.4  1994/11/24  05:24:12  len
- * Added Hi/Low output sample rate switch.
- *
- * Revision 1.3  1994/10/20  21:20:19  len
- * Changed nose and mouth aperture filter coefficients, so now specified as
- * Hz values (which scale appropriately as the tube length changes), rather
- * than arbitrary coefficient values (which don't scale).
- *
- * Revision 1.2  1994/08/05  03:12:52  len
- * Resectioned tube so that it more closely conforms the the DRM proportions.
- * Also changed frication injection so now allowed from S3 to S10.
- *
- * Revision 1.1.1.1  1994/07/07  03:48:52  len
- * Initial archived version.
- *
-
-******************************************************************************/
-
-
-/******************************************************************************
-*
-*     Program:       tube
-*
-*     Description:   Software (non-real-time) implementation of the Tube
-*                    Resonance Model for speech production.
-*
-*     Author:        Leonard Manzara
-*
-*     Date:          July 5th, 1994
-*
-******************************************************************************/
-
-
-/*  HEADER FILES  ************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/param.h>
@@ -91,58 +17,43 @@
 #include "wavetable.h"
 
 
-int verbose = 0;
+int32_t verbose = 0;
 
 
-/*  LOCAL DEFINES  ***********************************************************/
+#pragma mark - Local defines
 
-/*  1 MEANS COMPILE SO THAT INTERPOLATION NOT DONE FOR
-    SOME CONTROL RATE PARAMETERS  */
-#define MATCH_DSP                 0
+// 1 means to compile so that interpolation not done for some control rate parameters
+#define MATCH_DSP 0
 
 
-/*  GLOBAL FUNCTIONS (LOCAL TO THIS FILE)  ***********************************/
+#pragma mark - Local funcations
 
-void initializeMouthCoefficients(TRMTubeModel *tubeModel, double coeff);
-double reflectionFilter(TRMTubeModel *tubeModel, double input);
-double radiationFilter(TRMTubeModel *tubeModel, double input);
+static void initializeMouthCoefficients(TRMTubeModel *tubeModel, double coeff);
+static double reflectionFilter(TRMTubeModel *tubeModel, double input);
+static double radiationFilter(TRMTubeModel *tubeModel, double input);
 
-void initializeNasalFilterCoefficients(TRMTubeModel *tubeModel, double coeff);
-double nasalReflectionFilter(TRMTubeModel *tubeModel, double input);
-double nasalRadiationFilter(TRMTubeModel *tubeModel, double input);
+static void initializeNasalFilterCoefficients(TRMTubeModel *tubeModel, double coeff);
+static double nasalReflectionFilter(TRMTubeModel *tubeModel, double input);
+static double nasalRadiationFilter(TRMTubeModel *tubeModel, double input);
 
-void setControlRateParameters(TRMTubeModel *tubeModel, INPUT *previousInput, INPUT *currentInput);
-void sampleRateInterpolation(TRMTubeModel *tubeModel);
-void initializeNasalCavity(TRMTubeModel *tubeModel, struct _TRMInputParameters *inputParameters);
-void initializeThroat(TRMTubeModel *tubeModel, struct _TRMInputParameters *inputParameters);
-void calculateTubeCoefficients(TRMTubeModel *tubeModel, struct _TRMInputParameters *inputParameters);
-void setFricationTaps(TRMTubeModel *tubeModel);
-void calculateBandpassCoefficients(TRMTubeModel *tubeModel, int sampleRate);
-double vocalTract(TRMTubeModel *tubeModel, double input, double frication);
-double throat(TRMTubeModel *tubeModel, double input);
-double bandpassFilter(TRMTubeModel *tubeModel, double input);
+static void setControlRateParameters(TRMTubeModel *tubeModel, INPUT *previousInput, INPUT *currentInput);
+static void sampleRateInterpolation(TRMTubeModel *tubeModel);
+static void initializeNasalCavity(TRMTubeModel *tubeModel, struct _TRMInputParameters *inputParameters);
+static void initializeThroat(TRMTubeModel *tubeModel, struct _TRMInputParameters *inputParameters);
+static void calculateTubeCoefficients(TRMTubeModel *tubeModel, struct _TRMInputParameters *inputParameters);
+static void setFricationTaps(TRMTubeModel *tubeModel);
+static void calculateBandpassCoefficients(TRMTubeModel *tubeModel, int32_t sampleRate);
+static double vocalTract(TRMTubeModel *tubeModel, double input, double frication);
+static double throat(TRMTubeModel *tubeModel, double input);
+static double bandpassFilter(TRMTubeModel *tubeModel, double input);
 
-void initializeConversion(TRMTubeModel *tubeModel, struct _TRMInputParameters *inputParameters);
-void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context);
-void initializeFilter(TRMSampleRateConverter *sampleRateConverter);
+static void initializeConversion(TRMTubeModel *tubeModel, struct _TRMInputParameters *inputParameters);
+static void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context);
+static void initializeFilter(TRMSampleRateConverter *sampleRateConverter);
 
-/******************************************************************************
-*
-*       function:       initializeMouthCoefficients
-*
-*       purpose:        Calculates the reflection/radiation filter coefficients
-*                       for the mouth, according to the mouth aperture
-*                       coefficient.
-*
-*       arguments:      coeff - mouth aperture coefficient
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      fabs
-*
-******************************************************************************/
+
+// Calculates the reflection/radiation filter coefficients for the mouth, according to the mouth aperture coefficient.
+// coeff - mouth aperture coefficient
 
 void initializeMouthCoefficients(TRMTubeModel *tubeModel, double coeff)
 {
@@ -154,23 +65,7 @@ void initializeMouthCoefficients(TRMTubeModel *tubeModel, double coeff)
 }
 
 
-
-/******************************************************************************
-*
-*       function:       reflectionFilter
-*
-*       purpose:        Is a variable, one-pole lowpass filter, whose cutoff
-*                       is determined by the mouth aperture coefficient.
-*
-*       arguments:      input
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      none
-*
-******************************************************************************/
+// Is a variable, one-pole lowpass filter, whose cutoff is determined by the mouth aperture coefficient.
 
 double reflectionFilter(TRMTubeModel *tubeModel, double input)
 {
@@ -181,25 +76,7 @@ double reflectionFilter(TRMTubeModel *tubeModel, double input)
     return output;
 }
 
-
-
-/******************************************************************************
-*
-*       function:       radiationFilter
-*
-*       purpose:        Is a variable, one-zero, one-pole, highpass filter,
-*                       whose cutoff point is determined by the mouth aperture
-*                       coefficient.
-*
-*       arguments:      input
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      none
-*
-******************************************************************************/
+// Is a variable, one-zero, one-pole, highpass filter, whose cutoff point is determined by the mouth aperture coefficient.
 
 double radiationFilter(TRMTubeModel *tubeModel, double input)
 {
@@ -211,25 +88,8 @@ double radiationFilter(TRMTubeModel *tubeModel, double input)
     return output;
 }
 
-
-
-/******************************************************************************
-*
-*       function:       initializeNasalFilterCoefficients
-*
-*       purpose:        Calculates the fixed coefficients for the nasal
-*                       reflection/radiation filter pair, according to the
-*                       nose aperture coefficient.
-*
-*       arguments:      coeff - nose aperture coefficient
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      fabs
-*
-******************************************************************************/
+// Calculates the fixed coefficients for the nasal reflection/radiation filter pair, according to the nose aperture coefficient.
+// coeff - nose aperture coefficient
 
 void initializeNasalFilterCoefficients(TRMTubeModel *tubeModel, double coeff)
 {
@@ -241,23 +101,7 @@ void initializeNasalFilterCoefficients(TRMTubeModel *tubeModel, double coeff)
 }
 
 
-
-/******************************************************************************
-*
-*       function:       nasalReflectionFilter
-*
-*       purpose:        Is a one-pole lowpass filter, used for terminating
-*                       the end of the nasal cavity.
-*
-*       arguments:      input
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      none
-*
-******************************************************************************/
+// Is a one-pole lowpass filter, used for terminating the end of the nasal cavity.
 
 double nasalReflectionFilter(TRMTubeModel *tubeModel, double input)
 {
@@ -269,23 +113,7 @@ double nasalReflectionFilter(TRMTubeModel *tubeModel, double input)
 }
 
 
-
-/******************************************************************************
-*
-*       function:       nasalRadiationFilter
-*
-*       purpose:        Is a one-zero, one-pole highpass filter, used for the
-*                       radiation characteristic from the nasal cavity.
-*
-*       arguments:      input
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      none
-*
-******************************************************************************/
+// Is a one-zero, one-pole highpass filter, used for the radiation characteristic from the nasal cavity.
 
 double nasalRadiationFilter(TRMTubeModel *tubeModel, double input)
 {
@@ -297,50 +125,33 @@ double nasalRadiationFilter(TRMTubeModel *tubeModel, double input)
     return output;
 }
 
-/******************************************************************************
-*
-*       function:       synthesize
-*
-*       purpose:        Performs the actual synthesis of sound samples.
-*
-*       arguments:      none
-*
-*       internal
-*       functions:      setControlRateParameters, frequency, amplitude,
-*                       calculateTubeCoefficients, noise, noiseFilter,
-*                       updateWavetable, oscillator, vocalTract, throat,
-*                       dataFill, sampleRateInterpolation
-*
-*       library
-*       functions:      none
-*
-******************************************************************************/
+// Performs the actual synthesis of sound samples.
 
 void synthesize(TRMTubeModel *tubeModel, TRMDataList *data)
 {
-    int j;
+    int32_t j;
     double f0, ax, ah1, pulse, lp_noise, pulsed_noise, signal, crossmix;
     INPUT *previousInput, *currentInput;
-
-    /*  CONTROL RATE LOOP  */
 
     if (data->inputHead == NULL) {
         // No data
         return;
     }
+    
+    // Control rate loop
 
     previousInput = data->inputHead;
     currentInput = data->inputHead->next;
 
     while (currentInput != NULL) {
-        /*  SET CONTROL RATE PARAMETERS FROM INPUT TABLES  */
+        // Set control rate parameters from input tables
         setControlRateParameters(tubeModel, previousInput, currentInput);
 
 
-        /*  SAMPLE RATE LOOP  */
+        // Sample rate loop
         for (j = 0; j < tubeModel->controlPeriod; j++) {
 
-            /*  CONVERT PARAMETERS HERE  */
+            // Convert parameters here
             f0 = frequency(tubeModel->current.parameters.glotPitch);
             ax = amplitude(tubeModel->current.parameters.glotVol);
             ah1 = amplitude(tubeModel->current.parameters.aspVol);
@@ -349,24 +160,24 @@ void synthesize(TRMTubeModel *tubeModel, TRMDataList *data)
             calculateBandpassCoefficients(tubeModel, tubeModel->sampleRate);
 
 
-            /*  DO SYNTHESIS HERE  */
-            /*  CREATE LOW-PASS FILTERED NOISE  */
+            // Do synthesis here
+            // Create low-pass filtered noise
             lp_noise = noiseFilter(noise());
 
-            /*  UPDATE THE SHAPE OF THE GLOTTAL PULSE, IF NECESSARY  */
+            // Update the shape of the glottal pulse, if necessary
             if (data->inputParameters.waveform == PULSE)
                 TRMWavetableUpdate(tubeModel->wavetable, ax);
 
-            /*  CREATE GLOTTAL PULSE (OR SINE TONE)  */
+            // Create glottal pulse (or sine tone)
             pulse = TRMWavetableOscillator(tubeModel->wavetable, f0);
 
-            /*  CREATE PULSED NOISE  */
+            // Create pulsed noise
             pulsed_noise = lp_noise * pulse;
 
-            /*  CREATE NOISY GLOTTAL PULSE  */
+            // Create noisy glottal pulse
             pulse = ax * ((pulse * (1.0 - tubeModel->breathinessFactor)) + (pulsed_noise * tubeModel->breathinessFactor));
 
-            /*  CROSS-MIX PURE NOISE WITH PULSED NOISE  */
+            // Cross-mix pure noise with pulsed noise
             if (data->inputParameters.modulation) {
                 crossmix = ax * tubeModel->crossmixFactor;
                 crossmix = (crossmix < 1.0) ? crossmix : 1.0;
@@ -375,72 +186,52 @@ void synthesize(TRMTubeModel *tubeModel, TRMDataList *data)
                     printf("\nSignal = %e", signal);
                     fflush(stdout);
                 }
-
-
             } else
                 signal = lp_noise;
 
-            /*  PUT SIGNAL THROUGH VOCAL TRACT  */
+            // Put signal through vocal tract
             signal = vocalTract(tubeModel, ((pulse + (ah1 * signal)) * VT_SCALE), bandpassFilter(tubeModel, signal));
 
 
-            /*  PUT PULSE THROUGH THROAT  */
+            // Put pulse through throat
             signal += throat(tubeModel, pulse * VT_SCALE);
             if (verbose)
                 printf("\nDone throat\n");
 
-            /*  OUTPUT SAMPLE HERE  */
+            // Output sample
             dataFill(tubeModel->ringBuffer, signal);
             if (verbose)
                 printf("\nDone datafil\n");
 
-            /*  DO SAMPLE RATE INTERPOLATION OF CONTROL PARAMETERS  */
+            // Do sample rate interpolation of control parameters
             sampleRateInterpolation(tubeModel);
             if (verbose)
                 printf("\nDone sample rate interp\n");
-
         }
 
         previousInput = currentInput;
         currentInput = currentInput->next;
     }
 
-    /*  BE SURE TO FLUSH SRC BUFFER  */
+    // Be sure to flush source buffer
     flushBuffer(tubeModel->ringBuffer);
 }
 
-
-/******************************************************************************
-*
-*       function:       setControlRateParameters
-*
-*       purpose:        Calculates the current table values, and their
-*                       associated sample-to-sample delta values.
-*
-*       arguments:      pos
-*
-*       internal
-*       functions:      glotPitchAt, glotVolAt, aspVolAt, fricVolAt, fricPosAt,
-*                       fricCFAt, fricBWAt, radiusAtRegion, velumAt,
-*
-*       library
-*       functions:      none
-*
-******************************************************************************/
+// Calculates the current table values, and their associated sample-to-sample delta values.
 
 void setControlRateParameters(TRMTubeModel *tubeModel, INPUT *previousInput, INPUT *currentInput)
 {
-    int i;
+    int32_t i;
 
-    /*  GLOTTAL PITCH  */
+    // Glottal pitch
     tubeModel->current.parameters.glotPitch = glotPitchAt(previousInput);
     tubeModel->current.delta.glotPitch = (glotPitchAt(currentInput) - tubeModel->current.parameters.glotPitch) / (double)tubeModel->controlPeriod;
 
-    /*  GLOTTAL VOLUME  */
+    // Glottal volume
     tubeModel->current.parameters.glotVol = glotVolAt(previousInput);
     tubeModel->current.delta.glotVol = (glotVolAt(currentInput) - tubeModel->current.parameters.glotVol) / (double)tubeModel->controlPeriod;
 
-    /*  ASPIRATION VOLUME  */
+    // Aspiration volume
     tubeModel->current.parameters.aspVol = aspVolAt(previousInput);
 #if MATCH_DSP
     tubeModel->current.delta.aspVol = 0.0;
@@ -448,7 +239,7 @@ void setControlRateParameters(TRMTubeModel *tubeModel, INPUT *previousInput, INP
     tubeModel->current.delta.aspVol = (aspVolAt(currentInput) - tubeModel->current.parameters.aspVol) / (double)tubeModel->controlPeriod;
 #endif
 
-    /*  FRICATION VOLUME  */
+    // Frication volume
     tubeModel->current.parameters.fricVol = fricVolAt(previousInput);
 #if MATCH_DSP
     tubeModel->current.delta.fricVol = 0.0;
@@ -456,7 +247,7 @@ void setControlRateParameters(TRMTubeModel *tubeModel, INPUT *previousInput, INP
     tubeModel->current.delta.fricVol = (fricVolAt(currentInput) - tubeModel->current.parameters.fricVol) / (double)tubeModel->controlPeriod;
 #endif
 
-    /*  FRICATION POSITION  */
+    // Frication position
     tubeModel->current.parameters.fricPos = fricPosAt(previousInput);
 #if MATCH_DSP
     tubeModel->current.delta.fricPos = 0.0;
@@ -464,7 +255,7 @@ void setControlRateParameters(TRMTubeModel *tubeModel, INPUT *previousInput, INP
     tubeModel->current.delta.fricPos = (fricPosAt(currentInput) - tubeModel->current.parameters.fricPos) / (double)tubeModel->controlPeriod;
 #endif
 
-    /*  FRICATION CENTER FREQUENCY  */
+    // Frication center frequency
     tubeModel->current.parameters.fricCF = fricCFAt(previousInput);
 #if MATCH_DSP
     tubeModel->current.delta.fricCF = 0.0;
@@ -472,7 +263,7 @@ void setControlRateParameters(TRMTubeModel *tubeModel, INPUT *previousInput, INP
     tubeModel->current.delta.fricCF = (fricCFAt(currentInput) - tubeModel->current.parameters.fricCF) / (double)tubeModel->controlPeriod;
 #endif
 
-    /*  FRICATION BANDWIDTH  */
+    // Frication bandwidth
     tubeModel->current.parameters.fricBW = fricBWAt(previousInput);
 #if MATCH_DSP
     tubeModel->current.delta.fricBW = 0.0;
@@ -480,38 +271,23 @@ void setControlRateParameters(TRMTubeModel *tubeModel, INPUT *previousInput, INP
     tubeModel->current.delta.fricBW = (fricBWAt(currentInput) - tubeModel->current.parameters.fricBW) / (double)tubeModel->controlPeriod;
 #endif
 
-    /*  TUBE REGION RADII  */
+    // Tube region radii
     for (i = 0; i < TOTAL_REGIONS; i++) {
         tubeModel->current.parameters.radius[i] = radiusAtRegion(previousInput, i);
         tubeModel->current.delta.radius[i] = (radiusAtRegion(currentInput,i) - tubeModel->current.parameters.radius[i]) / (double)tubeModel->controlPeriod;
     }
 
-    /*  VELUM RADIUS  */
+    // Velum radius
     tubeModel->current.parameters.velum = velumAt(previousInput);
     tubeModel->current.delta.velum = (velumAt(currentInput) - tubeModel->current.parameters.velum) / (double)tubeModel->controlPeriod;
 }
 
 
-
-/******************************************************************************
-*
-*       function:       sampleRateInterpolation
-*
-*       purpose:        Interpolates table values at the sample rate.
-*
-*       arguments:      none
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      none
-*
-******************************************************************************/
+// Interpolates table values at the sample rate.
 
 void sampleRateInterpolation(TRMTubeModel *tubeModel)
 {
-    int i;
+    int32_t i;
 
     tubeModel->current.parameters.glotPitch += tubeModel->current.delta.glotPitch;
     tubeModel->current.parameters.glotVol += tubeModel->current.delta.glotVol;
@@ -526,62 +302,29 @@ void sampleRateInterpolation(TRMTubeModel *tubeModel)
 }
 
 
-
-/******************************************************************************
-*
-*       function:       initializeNasalCavity
-*
-*       purpose:        Calculates the scattering coefficients for the fixed
-*                       sections of the nasal cavity.
-*
-*       arguments:      none
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      none
-*
-******************************************************************************/
+// Calculates the scattering coefficients for the fixed sections of the nasal cavity.
 
 void initializeNasalCavity(TRMTubeModel *tubeModel, struct _TRMInputParameters *inputParameters)
 {
-    int i, j;
+    int32_t i, j;
     double radA2, radB2;
 
 
-    /*  CALCULATE COEFFICIENTS FOR INTERNAL FIXED SECTIONS OF NASAL CAVITY  */
+    // Calculate coefficients for internal fixed sections of nasal cavity
     for (i = TRM_N2, j = NC2; i < TRM_N6; i++, j++) {
         radA2 = inputParameters->noseRadius[i] * inputParameters->noseRadius[i];
         radB2 = inputParameters->noseRadius[i+1] * inputParameters->noseRadius[i+1];
         tubeModel->nasal_coeff[j] = (radA2 - radB2) / (radA2 + radB2);
     }
 
-    /*  CALCULATE THE FIXED COEFFICIENT FOR THE NOSE APERTURE  */
+    // Calculate the fixed coefficient for the nose aperture
     radA2 = inputParameters->noseRadius[TRM_N6] * inputParameters->noseRadius[TRM_N6];
     radB2 = inputParameters->apScale * inputParameters->apScale;
     tubeModel->nasal_coeff[NC6] = (radA2 - radB2) / (radA2 + radB2);
 }
 
 
-
-/******************************************************************************
-*
-*       function:       initializeThroat
-*
-*       purpose:        Initializes the throat lowpass filter coefficients
-*                       according to the throatCutoff value, and also the
-*                       throatGain, according to the throatVol value.
-*
-*       arguments:      none
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      fabs
-*
-******************************************************************************/
+// Initializes the throat lowpass filter coefficients according to the throatCutoff value, and also the throatGain, according to the throatVol value.
 
 void initializeThroat(TRMTubeModel *tubeModel, struct _TRMInputParameters *inputParameters)
 {
@@ -592,46 +335,29 @@ void initializeThroat(TRMTubeModel *tubeModel, struct _TRMInputParameters *input
 }
 
 
-
-/******************************************************************************
-*
-*       function:       calculateTubeCoefficients
-*
-*       purpose:        Calculates the scattering coefficients for the vocal
-*                       tract according to the current radii.  Also calculates
-*                       the coefficients for the reflection/radiation filter
-*                       pair for the mouth and nose.
-*
-*       arguments:      none
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      none
-*
-******************************************************************************/
+// Calculates the scattering coefficients for the vocal tract according to the current radii.  Also calculates
+// the coefficients for the reflection/radiation filter pair for the mouth and nose.
 
 void calculateTubeCoefficients(TRMTubeModel *tubeModel, struct _TRMInputParameters *inputParameters)
 {
-    int i;
+    int32_t i;
     double radA2, radB2, r0_2, r1_2, r2_2, sum;
 
 
-    /*  CALCULATE COEFFICIENTS FOR THE OROPHARYNX  */
+    // Calcualte coefficients for the oropharynx
     for (i = 0; i < (TOTAL_REGIONS-1); i++) {
         radA2 = tubeModel->current.parameters.radius[i] * tubeModel->current.parameters.radius[i];
         radB2 = tubeModel->current.parameters.radius[i+1] * tubeModel->current.parameters.radius[i+1];
         tubeModel->oropharynx_coeff[i] = (radA2 - radB2) / (radA2 + radB2);
     }
 
-    /*  CALCULATE THE COEFFICIENT FOR THE MOUTH APERTURE  */
+    // Calculate the coefficient for the mouth aperture
     radA2 = tubeModel->current.parameters.radius[TRM_R8] * tubeModel->current.parameters.radius[TRM_R8];
     radB2 = inputParameters->apScale * inputParameters->apScale;
     tubeModel->oropharynx_coeff[C8] = (radA2 - radB2) / (radA2 + radB2);
 
-    /*  CALCULATE ALPHA COEFFICIENTS FOR 3-WAY JUNCTION  */
-    /*  NOTE:  SINCE JUNCTION IS IN MIDDLE OF REGION 4, r0_2 = r1_2  */
+    // Calculate alpha coefficients for 3-way junction
+    // Note: Since junction is in middle of region 4, r0_2 = r1_2
     r0_2 = r1_2 = tubeModel->current.parameters.radius[TRM_R4] * tubeModel->current.parameters.radius[TRM_R4];
     r2_2 = tubeModel->current.parameters.velum * tubeModel->current.parameters.velum;
     sum = 2.0 / (r0_2 + r1_2 + r2_2);
@@ -639,44 +365,28 @@ void calculateTubeCoefficients(TRMTubeModel *tubeModel, struct _TRMInputParamete
     tubeModel->alpha[RIGHT] = sum * r1_2;
     tubeModel->alpha[UPPER] = sum * r2_2;
 
-    /*  AND 1ST NASAL PASSAGE COEFFICIENT  */
+    // And first nasal passage coefficient
     radA2 = tubeModel->current.parameters.velum * tubeModel->current.parameters.velum;
     radB2 = inputParameters->noseRadius[TRM_N2] * inputParameters->noseRadius[TRM_N2];
     tubeModel->nasal_coeff[NC1] = (radA2 - radB2) / (radA2 + radB2);
 }
 
 
-
-/******************************************************************************
-*
-*       function:       setFricationTaps
-*
-*       purpose:        Sets the frication taps according to the current
-*                       position and amplitude of frication.
-*
-*       arguments:      none
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      none
-*
-******************************************************************************/
+// Sets the frication taps according to the current position and amplitude of frication.
 
 void setFricationTaps(TRMTubeModel *tubeModel)
 {
-    int i, integerPart;
+    int32_t i, integerPart;
     double complement, remainder;
     double fricationAmplitude = amplitude(tubeModel->current.parameters.fricVol);
 
 
-    /*  CALCULATE POSITION REMAINDER AND COMPLEMENT  */
+    // Calculate position remainder and complement
     integerPart = (int)tubeModel->current.parameters.fricPos;
     complement = tubeModel->current.parameters.fricPos - (double)integerPart;
     remainder = 1.0 - complement;
 
-    /*  SET THE FRICATION TAPS  */
+    // Set the frication taps
     for (i = FC1; i < TOTAL_FRIC_COEFFICIENTS; i++) {
         if (i == integerPart) {
             tubeModel->fricationTap[i] = remainder * fricationAmplitude;
@@ -687,7 +397,6 @@ void setFricationTaps(TRMTubeModel *tubeModel)
     }
 
 #if DEBUG
-    /*  PRINT OUT  */
     printf("fricationTaps:  ");
     for (i = FC1; i < TOTAL_FRIC_COEFFICIENTS; i++)
         printf("%.6f  ", tubeModel->fricationTap[i]);
@@ -695,25 +404,7 @@ void setFricationTaps(TRMTubeModel *tubeModel)
 #endif
 }
 
-
-
-/******************************************************************************
-*
-*       function:       calculateBandpassCoefficients
-*
-*       purpose:        Sets the frication bandpass filter coefficients
-*                       according to the current center frequency and
-*                       bandwidth.
-*
-*       arguments:      none
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      tan, cos
-*
-******************************************************************************/
+// Sets the frication bandpass filter coefficients according to the current center frequency and bandwidth.
 
 // TODO (2004-05-13): I imagine passing this a bandpass filter object (which won't have the sample rate) and the sample rate in the future.
 void calculateBandpassCoefficients(TRMTubeModel *tubeModel, int sampleRate)
@@ -730,29 +421,12 @@ void calculateBandpassCoefficients(TRMTubeModel *tubeModel, int sampleRate)
 }
 
 
-
-/******************************************************************************
-*
-*       function:       vocalTract
-*
-*       purpose:        Updates the pressure wave throughout the vocal tract,
-*                       and returns the summed output of the oral and nasal
-*                       cavities.  Also injects frication appropriately.
-*
-*       arguments:      input, frication
-*
-*       internal
-*       functions:      reflectionFilter, radiationFilter,
-*                       nasalReflectionFilter, nasalRadiationFilter
-*
-*       library
-*       functions:      none
-*
-******************************************************************************/
+// Updates the pressure wave throughout the vocal tract, and returns the summed output of the oral and nasal
+// cavities.  Also injects frication appropriately.
 
 double vocalTract(TRMTubeModel *tubeModel, double input, double frication)
 {
-    int i, j, k;
+    int32_t i, j, k;
     double delta, output, junctionPressure;
 
     // copies to shorten code
@@ -760,7 +434,7 @@ double vocalTract(TRMTubeModel *tubeModel, double input, double frication)
     double dampingFactor;
 
 
-    /*  INCREMENT CURRENT AND PREVIOUS POINTERS  */
+    // Increment current and previous pointers
     if (++(tubeModel->current_ptr) > 1)
         tubeModel->current_ptr = 0;
     if (++(tubeModel->prev_ptr) > 1)
@@ -770,18 +444,18 @@ double vocalTract(TRMTubeModel *tubeModel, double input, double frication)
     prev_ptr = tubeModel->prev_ptr;
     dampingFactor = tubeModel->dampingFactor;
 
-    /*  UPDATE OROPHARYNX  */
-    /*  INPUT TO TOP OF TUBE  */
+    // Upate oropharynx
+    // Input to top of tube
 
     tubeModel->oropharynx[S1][TOP][current_ptr] = (tubeModel->oropharynx[S1][BOTTOM][prev_ptr] * dampingFactor) + input;
 
-    /*  CALCULATE THE SCATTERING JUNCTIONS FOR S1-S2  */
+    // Calculate the scattering junctions for S1-S2
 
     delta = tubeModel->oropharynx_coeff[C1] * (tubeModel->oropharynx[S1][TOP][prev_ptr] - tubeModel->oropharynx[S2][BOTTOM][prev_ptr]);
     tubeModel->oropharynx[S2][TOP][current_ptr] = (tubeModel->oropharynx[S1][TOP][prev_ptr] + delta) * dampingFactor;
     tubeModel->oropharynx[S1][BOTTOM][current_ptr] = (tubeModel->oropharynx[S2][BOTTOM][prev_ptr] + delta) * dampingFactor;
 
-    /*  CALCULATE THE SCATTERING JUNCTIONS FOR S2-S3 AND S3-S4  */
+    // Calculate the scattering junctions for S2-S3 and S3-S4
     if (verbose)
         printf("\nCalc scattering\n");
     for (i = S2, j = C2, k = FC1; i < S4; i++, j++, k++) {
@@ -792,7 +466,7 @@ double vocalTract(TRMTubeModel *tubeModel, double input, double frication)
         tubeModel->oropharynx[i][BOTTOM][current_ptr] = (tubeModel->oropharynx[i+1][BOTTOM][prev_ptr] + delta) * dampingFactor;
     }
 
-    /*  UPDATE 3-WAY JUNCTION BETWEEN THE MIDDLE OF R4 AND NASAL CAVITY  */
+    // Update 3-way junction between the middle of R4 and nasal cavity
     junctionPressure = (tubeModel->alpha[LEFT] * tubeModel->oropharynx[S4][TOP][prev_ptr])+
         (tubeModel->alpha[RIGHT] * tubeModel->oropharynx[S5][BOTTOM][prev_ptr]) +
         (tubeModel->alpha[UPPER] * tubeModel->nasal[TRM_VELUM][BOTTOM][prev_ptr]);
@@ -802,20 +476,20 @@ double vocalTract(TRMTubeModel *tubeModel, double input, double frication)
             + (tubeModel->fricationTap[FC3] * frication);
     tubeModel->nasal[TRM_VELUM][TOP][current_ptr] = (junctionPressure - tubeModel->nasal[TRM_VELUM][BOTTOM][prev_ptr]) * dampingFactor;
 
-    /*  CALCULATE JUNCTION BETWEEN R4 AND R5 (S5-S6)  */
+    // Calculate junction between R4 and R5 (S5-S6)
     delta = tubeModel->oropharynx_coeff[C4] * (tubeModel->oropharynx[S5][TOP][prev_ptr] - tubeModel->oropharynx[S6][BOTTOM][prev_ptr]);
     tubeModel->oropharynx[S6][TOP][current_ptr] =
         ((tubeModel->oropharynx[S5][TOP][prev_ptr] + delta) * dampingFactor) +
             (tubeModel->fricationTap[FC4] * frication);
     tubeModel->oropharynx[S5][BOTTOM][current_ptr] = (tubeModel->oropharynx[S6][BOTTOM][prev_ptr] + delta) * dampingFactor;
 
-    /*  CALCULATE JUNCTION INSIDE R5 (S6-S7) (PURE DELAY WITH DAMPING)  */
+    // Calculate junction inside R5 (S6-S7) (pure delay with damping)
     tubeModel->oropharynx[S7][TOP][current_ptr] =
         (tubeModel->oropharynx[S6][TOP][prev_ptr] * dampingFactor) +
             (tubeModel->fricationTap[FC5] * frication);
     tubeModel->oropharynx[S6][BOTTOM][current_ptr] = tubeModel->oropharynx[S7][BOTTOM][prev_ptr] * dampingFactor;
 
-    /*  CALCULATE LAST 3 INTERNAL JUNCTIONS (S7-S8, S8-S9, S9-S10)  */
+    // Calculate last 3 internal junctions (S7-S8, S8-S9, S9-S10
     for (i = S7, j = C5, k = FC6; i < S10; i++, j++, k++) {
         delta = tubeModel->oropharynx_coeff[j] * (tubeModel->oropharynx[i][TOP][prev_ptr] - tubeModel->oropharynx[i+1][BOTTOM][prev_ptr]);
         tubeModel->oropharynx[i+1][TOP][current_ptr] =
@@ -824,51 +498,34 @@ double vocalTract(TRMTubeModel *tubeModel, double input, double frication)
         tubeModel->oropharynx[i][BOTTOM][current_ptr] = (tubeModel->oropharynx[i+1][BOTTOM][prev_ptr] + delta) * dampingFactor;
     }
 
-    /*  REFLECTED SIGNAL AT MOUTH GOES THROUGH A LOWPASS FILTER  */
+    // Reflected signal at mouth goes through a lowpass filter
     tubeModel->oropharynx[S10][BOTTOM][current_ptr] =  dampingFactor *
         reflectionFilter(tubeModel, tubeModel->oropharynx_coeff[C8] * tubeModel->oropharynx[S10][TOP][prev_ptr]);
 
-    /*  OUTPUT FROM MOUTH GOES THROUGH A HIGHPASS FILTER  */
+    // Output from mouth goes through a highpass filter
     output = radiationFilter(tubeModel, (1.0 + tubeModel->oropharynx_coeff[C8]) * tubeModel->oropharynx[S10][TOP][prev_ptr]);
 
 
-    /*  UPDATE NASAL CAVITY  */
+    // Update nasal cavity
     for (i = TRM_VELUM, j = NC1; i < TRM_N6; i++, j++) {
         delta = tubeModel->nasal_coeff[j] * (tubeModel->nasal[i][TOP][prev_ptr] - tubeModel->nasal[i+1][BOTTOM][prev_ptr]);
         tubeModel->nasal[i+1][TOP][current_ptr] = (tubeModel->nasal[i][TOP][prev_ptr] + delta) * dampingFactor;
         tubeModel->nasal[i][BOTTOM][current_ptr] = (tubeModel->nasal[i+1][BOTTOM][prev_ptr] + delta) * dampingFactor;
     }
 
-    /*  REFLECTED SIGNAL AT NOSE GOES THROUGH A LOWPASS FILTER  */
+    // Reflected signal at nose goes through a lowpass filter
     tubeModel->nasal[TRM_N6][BOTTOM][current_ptr] = dampingFactor * nasalReflectionFilter(tubeModel, tubeModel->nasal_coeff[NC6] * tubeModel->nasal[TRM_N6][TOP][prev_ptr]);
 
-    /*  OUTPUT FROM NOSE GOES THROUGH A HIGHPASS FILTER  */
+    // Outpout from nose goes through a highpass filter
     output += nasalRadiationFilter(tubeModel, (1.0 + tubeModel->nasal_coeff[NC6]) * tubeModel->nasal[TRM_N6][TOP][prev_ptr]);
 
-    /*  RETURN SUMMED OUTPUT FROM MOUTH AND NOSE  */
+    // Return summed output from mouth and nose
     return output;
 }
 
 
-
-/******************************************************************************
-*
-*       function:       throat
-*
-*       purpose:        Simulates the radiation of sound through the walls
-*                       of the throat.  Note that this form of the filter
-*                       uses addition instead of subtraction for the
-*                       second term, since tb1 has reversed sign.
-*
-*       arguments:      input
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      none
-*
-******************************************************************************/
+// Simulates the radiation of sound through the walls of the throat.  Note that this form of the filter
+// uses addition instead of subtraction for the second term, since tb1 has reversed sign.
 
 double throat(TRMTubeModel *tubeModel, double input)
 {
@@ -880,23 +537,7 @@ double throat(TRMTubeModel *tubeModel, double input)
 }
 
 
-
-/******************************************************************************
-*
-*       function:       bandpassFilter
-*
-*       purpose:        Frication bandpass filter, with variable center
-*                       frequency and bandwidth.
-*
-*       arguments:      input
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      none
-*
-******************************************************************************/
+// Frication bandpass filter, with variable center frequency and bandwidth.
 
 double bandpassFilter(TRMTubeModel *tubeModel, double input)
 {
@@ -915,53 +556,38 @@ double bandpassFilter(TRMTubeModel *tubeModel, double input)
 }
 
 
-
-/******************************************************************************
-*
-*       function:       initializeConversion
-*
-*       purpose:        Initializes all the sample rate conversion functions.
-*
-*       arguments:      none
-*
-*       internal
-*       functions:      initializeFilter, initializeBuffer
-*
-*       library
-*       functions:      rint, pow
-*
-******************************************************************************/
+// Initializes all the sample rate conversion functions.
 
 void initializeConversion(TRMTubeModel *tubeModel, struct _TRMInputParameters *inputParameters)
 {
     double roundedSampleRateRatio;
-    int padSize;
+    int32_t padSize;
 
     tubeModel->sampleRateConverter.timeRegister = 0;
     tubeModel->sampleRateConverter.maximumSampleValue = 0.0;
     tubeModel->sampleRateConverter.numberSamples = 0;
     printf("initializeConversion(), sampleRateConverter.maximumSampleValue: %g\n", tubeModel->sampleRateConverter.maximumSampleValue);
 
-    /*  INITIALIZE FILTER IMPULSE RESPONSE  */
+    // Initialize filter impulse response
     initializeFilter(&(tubeModel->sampleRateConverter));
 
-    /*  CALCULATE SAMPLE RATE RATIO  */
+    // Calculate sample rate ratio
     tubeModel->sampleRateConverter.sampleRateRatio = (double)inputParameters->outputRate / (double)tubeModel->sampleRate;
 
-    /*  CALCULATE TIME REGISTER INCREMENT  */
+    // Calculate time register increment
     tubeModel->sampleRateConverter.timeRegisterIncrement = (int)rint(pow(2.0, FRACTION_BITS) / tubeModel->sampleRateConverter.sampleRateRatio);
 
-    /*  CALCULATE ROUNDED SAMPLE RATE RATIO  */
+    // Calculate rounded sample rate ratio
     roundedSampleRateRatio = pow(2.0, FRACTION_BITS) / (double)tubeModel->sampleRateConverter.timeRegisterIncrement;
 
-    /*  CALCULATE PHASE OR FILTER INCREMENT  */
+    // Calculate phase or filter increment
     if (tubeModel->sampleRateConverter.sampleRateRatio >= 1.0) {
         tubeModel->sampleRateConverter.filterIncrement = L_RANGE;
     } else {
         tubeModel->sampleRateConverter.phaseIncrement = (unsigned int)rint(tubeModel->sampleRateConverter.sampleRateRatio * (double)FRACTION_RANGE);
     }
 
-    /*  CALCULATE PAD SIZE  */
+    // Calculate pad size
     padSize = (tubeModel->sampleRateConverter.sampleRateRatio >= 1.0) ? ZERO_CROSSINGS :
         (int)((float)ZERO_CROSSINGS / roundedSampleRateRatio) + 1;
 
@@ -975,30 +601,15 @@ void initializeConversion(TRMTubeModel *tubeModel, struct _TRMInputParameters *i
     rewind(tubeModel->sampleRateConverter.tempFilePtr);
 }
 
-/******************************************************************************
-*
-*       function:       initializeFilter
-*
-*       purpose:        Initializes filter impulse response and impulse delta
-*                       values.
-*
-*       arguments:      none
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      sin, cos
-*
-******************************************************************************/
+// Initializes filter impulse response and impulse delta values.
 
 void initializeFilter(TRMSampleRateConverter *sampleRateConverter)
 {
     double x, IBeta;
-    int i;
+    int32_t i;
 
 
-    /*  INITIALIZE THE FILTER IMPULSE RESPONSE  */
+    // Initialize the filter impulse response
     sampleRateConverter->h[0] = LP_CUTOFF;
     x = PI / (double)L_RANGE;
     for (i = 1; i < FILTER_LENGTH; i++) {
@@ -1006,14 +617,14 @@ void initializeFilter(TRMSampleRateConverter *sampleRateConverter)
         sampleRateConverter->h[i] = sin(y * LP_CUTOFF) / y;
     }
 
-    /*  APPLY A KAISER WINDOW TO THE IMPULSE RESPONSE  */
+    // Apply a Kaiser window to the impulse response
     IBeta = 1.0 / Izero(BETA);
     for (i = 0; i < FILTER_LENGTH; i++) {
         double temp = (double)i / FILTER_LENGTH;
         sampleRateConverter->h[i] *= Izero(BETA * sqrt(1.0 - (temp * temp))) * IBeta;
     }
 
-    /*  INITIALIZE THE FILTER IMPULSE RESPONSE DELTA VALUES  */
+    // Initialize the filter impulse response delta values
     for (i = 0; i < FILTER_LIMIT; i++)
         sampleRateConverter->deltaH[i] = sampleRateConverter->h[i+1] - sampleRateConverter->h[i];
     sampleRateConverter->deltaH[FILTER_LIMIT] = 0.0 - sampleRateConverter->h[FILTER_LIMIT];
@@ -1027,34 +638,34 @@ void initializeFilter(TRMSampleRateConverter *sampleRateConverter)
 void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context)
 {
     TRMSampleRateConverter *aConverter = (TRMSampleRateConverter *)context;
-    int endPtr;
+    int32_t endPtr;
 
-    /*  CALCULATE END POINTER  */
+    // Calculate end pointer
     endPtr = aRingBuffer->fillPtr - aRingBuffer->padSize;
 
-    /*  ADJUST THE END POINTER, IF LESS THAN ZERO  */
+    // Adjust the end pointer, if less than zero
     if (endPtr < 0)
         endPtr += BUFFER_SIZE;
 
-    /*  ADJUST THE ENDPOINT, IF LESS THEN THE EMPTY POINTER  */
+    // Adjust the endpoint, if less then the empty pointer
     if (endPtr < aRingBuffer->emptyPtr)
         endPtr += BUFFER_SIZE;
 
-    /*  UPSAMPLE LOOP (SLIGHTLY MORE EFFICIENT THAN DOWNSAMPLING)  */
+    // Upsample loop (slightly more efficient than downsampling)
     if (aConverter->sampleRateRatio >= 1.0) {
         //printf("Upsampling...\n");
         while (aRingBuffer->emptyPtr < endPtr) {
-            int index;
-            unsigned int filterIndex;
+            int32_t index;
+            uint32_t filterIndex;
             double output, interpolation, absoluteSampleValue;
 
-            /*  RESET ACCUMULATOR TO ZERO  */
+            // Reset accumulator to zero
             output = 0.0;
 
-            /*  CALCULATE INTERPOLATION VALUE (STATIC WHEN UPSAMPLING)  */
+            // Calculate interpolation value (static when upsampling)
             interpolation = (double)mValue(aConverter->timeRegister) / (double)M_RANGE;
 
-            /*  COMPUTE THE LEFT SIDE OF THE FILTER CONVOLUTION  */
+            // Compute the left side of the filter convolution
             index = aRingBuffer->emptyPtr;
             for (filterIndex = lValue(aConverter->timeRegister);
                  filterIndex < FILTER_LENGTH;
@@ -1062,11 +673,11 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context)
                 output += aRingBuffer->buffer[index] * (aConverter->h[filterIndex] + aConverter->deltaH[filterIndex] * interpolation);
             }
 
-            /*  ADJUST VALUES FOR RIGHT SIDE CALCULATION  */
+            // Adjust values for right side calculation
             aConverter->timeRegister = ~aConverter->timeRegister;
             interpolation = (double)mValue(aConverter->timeRegister) / (double)M_RANGE;
 
-            /*  COMPUTE THE RIGHT SIDE OF THE FILTER CONVOLUTION  */
+            // Compute the right side of the filter convolution
             index = aRingBuffer->emptyPtr;
             RBIncrementIndex(&index);
             for (filterIndex = lValue(aConverter->timeRegister);
@@ -1075,24 +686,24 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context)
                 output += aRingBuffer->buffer[index] * (aConverter->h[filterIndex] + aConverter->deltaH[filterIndex] * interpolation);
             }
 
-            /*  RECORD MAXIMUM SAMPLE VALUE  */
+            // Record maximum sample value
             absoluteSampleValue = fabs(output);
             if (absoluteSampleValue > aConverter->maximumSampleValue)
                 aConverter->maximumSampleValue = absoluteSampleValue;
 
-            /*  INCREMENT SAMPLE NUMBER  */
+            // Increment sample number
             aConverter->numberSamples++;
 
-            /*  OUTPUT THE SAMPLE TO THE TEMPORARY FILE  */
+            // Output the sample to the temporary file
             fwrite((char *)&output, sizeof(output), 1, aConverter->tempFilePtr);
 
-            /*  CHANGE TIME REGISTER BACK TO ORIGINAL FORM  */
+            // Change time register back to original form
             aConverter->timeRegister = ~aConverter->timeRegister;
 
-            /*  INCREMENT THE TIME REGISTER  */
+            // Increment the time register
             aConverter->timeRegister += aConverter->timeRegisterIncrement;
 
-            /*  INCREMENT THE EMPTY POINTER, ADJUSTING IT AND END POINTER  */
+            // Increment the empty pointer, adjusting it and end pointer
             aRingBuffer->emptyPtr += nValue(aConverter->timeRegister);
 
             if (aRingBuffer->emptyPtr >= BUFFER_SIZE) {
@@ -1100,24 +711,24 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context)
                 endPtr -= BUFFER_SIZE;
             }
 
-            /*  CLEAR N PART OF TIME REGISTER  */
+            // Clear N part of time register
             aConverter->timeRegister &= (~N_MASK);
         }
     } else {
         //printf("Downsampling...\n");
-        /*  DOWNSAMPLING CONVERSION LOOP  */
+        // Downsampling conversion loop
         while (aRingBuffer->emptyPtr < endPtr) {
-            int index;
-            unsigned int phaseIndex, impulseIndex;
+            int32_t index;
+            uint32_t phaseIndex, impulseIndex;
             double absoluteSampleValue, output, impulse;
 
-            /*  RESET ACCUMULATOR TO ZERO  */
+            // Reset accumulator to zero
             output = 0.0;
 
-            /*  COMPUTE P PRIME  */
+            // Compute P prime
             phaseIndex = (unsigned int)rint( ((double)fractionValue(aConverter->timeRegister)) * aConverter->sampleRateRatio);
 
-            /*  COMPUTE THE LEFT SIDE OF THE FILTER CONVOLUTION  */
+            // Compute the left side of the filter convolution
             index = aRingBuffer->emptyPtr;
             while ((impulseIndex = (phaseIndex >> M_BITS)) < FILTER_LENGTH) {
                 impulse = aConverter->h[impulseIndex] + (aConverter->deltaH[impulseIndex] *
@@ -1127,10 +738,10 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context)
                 phaseIndex += aConverter->phaseIncrement;
             }
 
-            /*  COMPUTE P PRIME, ADJUSTED FOR RIGHT SIDE  */
+            // Compute P prime, adjusted for right side
             phaseIndex = (unsigned int)rint( ((double)fractionValue(~aConverter->timeRegister)) * aConverter->sampleRateRatio);
 
-            /*  COMPUTE THE RIGHT SIDE OF THE FILTER CONVOLUTION  */
+            // Compute the right side of the filter convolution
             index = aRingBuffer->emptyPtr;
             RBIncrementIndex(&index);
             while ((impulseIndex = (phaseIndex>>M_BITS)) < FILTER_LENGTH) {
@@ -1141,28 +752,28 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context)
                 phaseIndex += aConverter->phaseIncrement;
             }
 
-            /*  RECORD MAXIMUM SAMPLE VALUE  */
+            // Record maximum sample value
             absoluteSampleValue = fabs(output);
             if (absoluteSampleValue > aConverter->maximumSampleValue)
                 aConverter->maximumSampleValue = absoluteSampleValue;
 
-            /*  INCREMENT SAMPLE NUMBER  */
+            // Increment sample number
             aConverter->numberSamples++;
 
-            /*  OUTPUT THE SAMPLE TO THE TEMPORARY FILE  */
+            // Output the sample to the temporary file
             fwrite((char *)&output, sizeof(output), 1, aConverter->tempFilePtr);
 
-            /*  INCREMENT THE TIME REGISTER  */
+            // Increment the time register
             aConverter->timeRegister += aConverter->timeRegisterIncrement;
 
-            /*  INCREMENT THE EMPTY POINTER, ADJUSTING IT AND END POINTER  */
+            // Increment the empty pointer, adjusting it and end pointer
             aRingBuffer->emptyPtr += nValue(aConverter->timeRegister);
             if (aRingBuffer->emptyPtr >= BUFFER_SIZE) {
                 aRingBuffer->emptyPtr -= BUFFER_SIZE;
                 endPtr -= BUFFER_SIZE;
             }
 
-            /*  CLEAR N PART OF TIME REGISTER  */
+            // Clear N part of time register
             aConverter->timeRegister &= (~N_MASK);
         }
     }
@@ -1181,7 +792,7 @@ TRMTubeModel *TRMTubeModelCreate(TRMInputParameters *inputParameters)
 
     memset(newTubeModel, 0, sizeof(TRMTubeModel));
 
-    /*  CALCULATE THE SAMPLE RATE, BASED ON NOMINAL TUBE LENGTH AND SPEED OF SOUND  */
+    // Calculate the sample rate, based on nominal tube length and speed of sound
     if (inputParameters->length > 0.0) {
         double c = speedOfSound(inputParameters->temperature);
 
@@ -1195,33 +806,33 @@ TRMTubeModel *TRMTubeModelCreate(TRMInputParameters *inputParameters)
         return NULL;
     }
 
-    /*  CALCULATE THE BREATHINESS FACTOR  */
+    // Calculate the breathiness factor
     newTubeModel->breathinessFactor = inputParameters->breathiness / 100.0;
 
-    /*  CALCULATE CROSSMIX FACTOR  */
+    // Calculate crossmix factor
     newTubeModel->crossmixFactor = 1.0 / amplitude(inputParameters->mixOffset);
 
-    /*  CALCULATE THE DAMPING FACTOR  */
+    // Calculate the damping factor
     newTubeModel->dampingFactor = (1.0 - (inputParameters->lossFactor / 100.0));
 
-    /*  INITIALIZE THE WAVE TABLE  */
+    // Initialize the wave table
     newTubeModel->wavetable = TRMWavetableCreate(inputParameters->waveform, inputParameters->tp, inputParameters->tnMin, inputParameters->tnMax, newTubeModel->sampleRate);
 
-    /*  INITIALIZE REFLECTION AND RADIATION FILTER COEFFICIENTS FOR MOUTH  */
+    // Initialize reflection and radiation filter coefficients for mouth
     initializeMouthCoefficients(newTubeModel, (nyquist - inputParameters->mouthCoef) / nyquist);
 
-    /*  INITIALIZE REFLECTION AND RADIATION FILTER COEFFICIENTS FOR NOSE  */
+    // Initialize reflection and radiation filter coefficients for nose
     initializeNasalFilterCoefficients(newTubeModel, (nyquist - inputParameters->noseCoef) / nyquist);
 
-    /*  INITIALIZE NASAL CAVITY FIXED SCATTERING COEFFICIENTS  */
+    // Initialize nasal cavity fixed scattering coefficients
     initializeNasalCavity(newTubeModel, inputParameters);
 
     // TODO (2004-05-07): nasal?
 
-    /*  INITIALIZE THE THROAT LOWPASS FILTER  */
+    // Initialize the throat lowpass filter
     initializeThroat(newTubeModel, inputParameters);
 
-    /*  INITIALIZE THE SAMPLE RATE CONVERSION ROUTINES  */
+    // Initialize the sample rate conversion routines
     initializeConversion(newTubeModel, inputParameters);
 
     // These get calculated each time through the synthesize() loop:

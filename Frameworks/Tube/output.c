@@ -1,30 +1,5 @@
-/*******************************************************************************
- *
- *  Copyright (c) 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
- *  
- *  Contributors: Steve Nygard
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- *******************************************************************************
- *
- *  output.c
- *  Tube
- *
- *  Version: 1.0.1
- *
- ******************************************************************************/
+//  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #include "output.h"
 
@@ -34,59 +9,36 @@
 #include "tube.h"
 #include "util.h"
 
-// TODO (2004-05-03): Do we need to declare the function static here, at the implementation, or in both places?
 //void writeAuFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile);
-static void writeAiffFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile);
-static void writeWaveFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile);
-static void writeSamplesMonoMsb(FILE *tempFile, long int numberSamples, double scale, FILE *outputFile);
-static void writeSamplesMonoLsb(FILE *tempFile, long int numberSamples, double scale, FILE *outputFile);
-static void writeSamplesStereoMsb(FILE *tempFile, long int numberSamples, double leftScale, double rightScale, FILE *outputFile);
-static void writeSamplesStereoLsb(FILE *tempFile, long int numberSamples, double leftScale, double rightScale, FILE *outputFile);
-static size_t fwriteIntMsb(int data, FILE *stream);
-static size_t fwriteIntLsb(int data, FILE *stream);
+static void writeAiffFileHeader(int32_t channels, int32_t numberSamples, float outputRate, FILE *outputFile);
+static void writeWaveFileHeader(int32_t channels, int32_t numberSamples, float outputRate, FILE *outputFile);
+static void writeSamplesMonoMsb(FILE *tempFile, int32_t numberSamples, double scale, FILE *outputFile);
+static void writeSamplesMonoLsb(FILE *tempFile, int32_t numberSamples, double scale, FILE *outputFile);
+static void writeSamplesStereoMsb(FILE *tempFile, int32_t numberSamples, double leftScale, double rightScale, FILE *outputFile);
+static void writeSamplesStereoLsb(FILE *tempFile, int32_t numberSamples, double leftScale, double rightScale, FILE *outputFile);
+static size_t fwriteIntMsb(int32_t data, FILE *stream);
+static size_t fwriteIntLsb(int32_t data, FILE *stream);
 //size_t fwriteShortMsb(int data, FILE *stream);
-static size_t fwriteShortLsb(int data, FILE *stream);
-//static void convertIntToFloat80(unsigned int value, unsigned char buffer[10]);
+static size_t fwriteShortLsb(int32_t data, FILE *stream);
+//static void convertIntToFloat80(uint32_t value, uint8_t buffer[10]);
 
-
-
-/******************************************************************************
-*
-*	function:	writeOutputToFile
-*
-*	purpose:	Scales the samples stored in the temporary file, and
-*                       writes them to the output file, with the appropriate
-*                       header.  Also does master volume scaling, and stereo
-*                       balance scaling, if 2 channels of output.
-*
-*       arguments:      fileName
-*
-*	internal
-*	functions:	writeAuFileHeader, writeSamplesMonoMsb,
-*                       writeSamplesStereoMsb, writeAiffHeader,
-*                       writeWaveHeader, writeSamplesMonoLsb,
-*                       writeSamplesStereoLsb
-*
-*	library
-*	functions:	fopen, printf, fclose
-*
-******************************************************************************/
-
+// Scales the samples stored in the temporary file, and writes them to the output file, with the appropriate
+// header.  Also does master volume scaling, and stereo balance scaling, if 2 channels of output.
 void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMDataList *data, const char *fileName)
 {
     FILE *fd;
     double scale, leftScale = 0.0, rightScale = 0.0;
 
 
-    /*  Calculate scaling constant  */
+    // Calculate scaling constant
     //printf("maximumSampleValue: %g\n", sampleRateConverter->maximumSampleValue);
     scale = OUTPUT_SCALE * (RANGE_MAX / sampleRateConverter->maximumSampleValue) * amplitude(data->inputParameters.volume);
 
-    /*  Print out info  */
+    // Print out info
     /*if (verbose)*/ {
-	printf("\nnumber of samples:\t%-ld\n", sampleRateConverter->numberSamples);
-	printf("maximum sample value:\t%.4f\n", sampleRateConverter->maximumSampleValue);
-	printf("scale:\t\t\t%.4f\n", scale);
+        printf("\nnumber of samples:\t%-d\n", sampleRateConverter->numberSamples);
+        printf("maximum sample value:\t%.4f\n", sampleRateConverter->maximumSampleValue);
+        printf("scale:\t\t\t%.4f\n", scale);
     }
 
     /*  If stereo, calculate left and right scaling constants  */
@@ -133,23 +85,8 @@ void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMDataList 
     fclose(fd);
 }
 
-
-
-/******************************************************************************
-*
-*       function:       writeAuFileHeader
-*
-*       purpose:        Writes the header in AU format to the output file.
-*
-*       internal
-*       functions:      fwriteIntMsb
-*
-*       library
-*       functions:      fputs
-*
-******************************************************************************/
-
-void writeAuFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile)
+// Writes the header in AU format to the output file.
+void writeAuFileHeader(int32_t channels, int32_t numberSamples, float outputRate, FILE *outputFile)
 {
     /*  AU magic string: ".snd"  */
     fputs(".snd", outputFile);
@@ -173,28 +110,13 @@ void writeAuFileHeader(int channels, long int numberSamples, float outputRate, F
     fwriteIntMsb(0, outputFile);
 }
 
-
-
-/******************************************************************************
-*
-*       function:       writeAiffFileHeader
-*
-*       purpose:        Writes the header in AIFF format to the output file.
-*
-*       internal
-*       functions:      fwriteIntMsb, fwriteShortMsb, convertIntToFloat80
-*
-*       library
-*       functions:      fputs, fwrite
-*
-******************************************************************************/
-
-void writeAiffFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile)
+// Writes the header in AIFF format to the output file.
+void writeAiffFileHeader(int32_t channels, int32_t numberSamples, float outputRate, FILE *outputFile)
 {
-    unsigned char sampleFramesPerSecond[10];
-    int soundDataSize = channels * numberSamples * sizeof(short);
-    int ssndChunkSize = soundDataSize + 8;
-    int formSize = ssndChunkSize + 8 + 26 + 4;
+    uint8_t sampleFramesPerSecond[10];
+    int32_t soundDataSize = channels * numberSamples * sizeof(uint16_t);
+    int32_t ssndChunkSize = soundDataSize + 8;
+    int32_t formSize = ssndChunkSize + 8 + 26 + 4;
 
     /*  Form container identifier  */
     fputs("FORM", outputFile);
@@ -222,8 +144,8 @@ void writeAiffFileHeader(int channels, long int numberSamples, float outputRate,
 
     /*  Sample frames per second (output sample rate)  */
     /*  stored as an 80-bit (10-byte) float  */
-    convertIntToFloat80((unsigned int)outputRate, sampleFramesPerSecond);
-    fwrite(sampleFramesPerSecond, sizeof(unsigned char), 10, outputFile);
+    convertIntToFloat80((uint32_t)outputRate, sampleFramesPerSecond);
+    fwrite(sampleFramesPerSecond, sizeof(uint8_t), 10, outputFile);
 
     /*  Sound Data chunk identifier  */
     fputs("SSND", outputFile);
@@ -238,27 +160,14 @@ void writeAiffFileHeader(int channels, long int numberSamples, float outputRate,
     fwriteIntMsb(0, outputFile);
 }
 
-/******************************************************************************
-*
-*       function:       writeWaveFileHeader
-*
-*       purpose:        Writes the header in WAVE format to the output file.
-*
-*       internal
-*       functions:      fwriteIntLsb, fwriteShortLsb
-*
-*       library
-*       functions:      fputs
-*
-******************************************************************************/
-
-void writeWaveFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile)
+// Writes the header in WAVE format to the output file.
+void writeWaveFileHeader(int32_t channels, int32_t numberSamples, float outputRate, FILE *outputFile)
 {
-    int soundDataSize = channels * numberSamples * sizeof(short);
-    int dataChunkSize = soundDataSize;
-    int formSize = dataChunkSize + 8 + 24 + 4;
-    int frameSize = (int)ceil(channels * ((double)BITS_PER_SAMPLE / 8));
-    int bytesPerSecond = (int)ceil(outputRate * frameSize);
+    int32_t soundDataSize = channels * numberSamples * sizeof(uint16_t);
+    int32_t dataChunkSize = soundDataSize;
+    int32_t formSize = dataChunkSize + 8 + 24 + 4;
+    int32_t frameSize = (int32_t)ceil(channels * ((double)BITS_PER_SAMPLE / 8));
+    int32_t bytesPerSecond = (int32_t)ceil(outputRate * frameSize);
 
     /*  Form container identifier  */
     fputs("RIFF", outputFile);
@@ -300,279 +209,127 @@ void writeWaveFileHeader(int channels, long int numberSamples, float outputRate,
     fwriteIntLsb(dataChunkSize, outputFile);
 }
 
-
-
-/******************************************************************************
-*
-*       function:       writeSamplesMonoMsb
-*
-*       purpose:        Reads the double f.p. samples in the temporary file,
-*                       scales them, rounds them to a short (16-bit) integer,
-*                       and writes them to the output file in big-endian
-*                       format.
-*
-*       internal
-*       functions:      fwriteShortMsb
-*
-*       library
-*       functions:      fread
-*
-******************************************************************************/
-
-void writeSamplesMonoMsb(FILE *tempFile, long int numberSamples, double scale, FILE *outputFile)
+// Reads the double f.p. samples in the temporary file, scales them, rounds them to a short (16-bit) integer,
+// and writes them to the output file in big-endian format.
+void writeSamplesMonoMsb(FILE *tempFile, int32_t numberSamples, double scale, FILE *outputFile)
 {
-    long int i;
+    int32_t i;
 
     /*  Write the samples to file, scaling each sample  */
     for (i = 0; i < numberSamples; i++) {
         double sample;
 
         fread(&sample, sizeof(sample), 1, tempFile);
-        fwriteShortMsb((short)rint(sample * scale), outputFile);
+        fwriteShortMsb((int16_t)rint(sample * scale), outputFile);
         //printf("%8ld: %g -> %hd\n", i, sample, (short)rint(sample * scale));
     }
 }
 
-
-
-/******************************************************************************
-*
-*       function:       writeSamplesMonoLsb
-*
-*       purpose:        Reads the double f.p. samples in the temporary file,
-*                       scales them, rounds them to a short (16-bit) integer,
-*                       and writes them to the output file in little-endian
-*                       format.
-*
-*       internal
-*       functions:      fwriteShortLsb
-*
-*       library
-*       functions:      fread
-*
-******************************************************************************/
-
-void writeSamplesMonoLsb(FILE *tempFile, long int numberSamples, double scale, FILE *outputFile)
+// Reads the double f.p. samples in the temporary file, scales them, rounds them to a short (16-bit) integer,
+// and writes them to the output file in little-endian format.
+void writeSamplesMonoLsb(FILE *tempFile, int32_t numberSamples, double scale, FILE *outputFile)
 {
-    long int i;
+    int32_t i;
 
     /*  Write the samples to file, scaling each sample  */
     for (i = 0; i < numberSamples; i++) {
         double sample;
 
         fread(&sample, sizeof(sample), 1, tempFile);
-        fwriteShortLsb((short)rint(sample * scale), outputFile);
+        fwriteShortLsb((int16_t)rint(sample * scale), outputFile);
     }
 }
 
-
-
-/******************************************************************************
-*
-*       function:       writeSamplesStereoMsb
-*
-*       purpose:        Reads the double f.p. samples in the temporary file,
-*                       does stereo scaling, rounds them to a short (16-bit)
-*                       integer, and writes them to the output file in
-*                       big-endian format.
-*
-*       internal
-*       functions:      fwriteShortMsb
-*
-*       library
-*       functions:      fread
-*
-******************************************************************************/
-
-void writeSamplesStereoMsb(FILE *tempFile, long int numberSamples, double leftScale, double rightScale, FILE *outputFile)
+// Reads the double f.p. samples in the temporary file, does stereo scaling, rounds them to a short (16-bit)
+// integer, and writes them to the output file in big-endian format.
+void writeSamplesStereoMsb(FILE *tempFile, int32_t numberSamples, double leftScale, double rightScale, FILE *outputFile)
 {
-    long int i;
+    int32_t i;
 
     /*  Write the samples to file, scaling each sample  */
     for (i = 0; i < numberSamples; i++) {
         double sample;
 
         fread(&sample, sizeof(sample), 1, tempFile);
-        fwriteShortMsb((short)rint(sample * leftScale), outputFile);
-        fwriteShortMsb((short)rint(sample * rightScale), outputFile);
+        fwriteShortMsb((int16_t)rint(sample * leftScale), outputFile);
+        fwriteShortMsb((int16_t)rint(sample * rightScale), outputFile);
     }
 }
 
-
-
-/******************************************************************************
-*
-*       function:       writeSamplesStereoLsb
-*
-*       purpose:        Reads the double f.p. samples in the temporary file,
-*                       does stereo scaling, rounds them to a short (16-bit)
-*                       integer, and writes them to the output file in
-*                       little-endian format.
-*
-*       internal
-*       functions:      fwriteShortLsb
-*
-*       library
-*       functions:      fread
-*
-******************************************************************************/
-
-void writeSamplesStereoLsb(FILE *tempFile, long int numberSamples, double leftScale, double rightScale, FILE *outputFile)
+// Reads the double f.p. samples in the temporary file, does stereo scaling, rounds them to a short (16-bit)
+// integer, and writes them to the output file in little-endian format.
+void writeSamplesStereoLsb(FILE *tempFile, int32_t numberSamples, double leftScale, double rightScale, FILE *outputFile)
 {
-    long int i;
+    int32_t i;
 
     /*  Write the samples to file, scaling each sample  */
     for (i = 0; i < numberSamples; i++) {
         double sample;
 
         fread(&sample, sizeof(sample), 1, tempFile);
-        fwriteShortLsb((short)rint(sample * leftScale), outputFile);
-        fwriteShortLsb((short)rint(sample * rightScale), outputFile);
+        fwriteShortLsb((int16_t)rint(sample * leftScale), outputFile);
+        fwriteShortLsb((int16_t)rint(sample * rightScale), outputFile);
     }
 }
 
-
-
-/******************************************************************************
-*
-*       function:       fwriteIntMsb
-*
-*       purpose:        Writes a 4-byte integer to the file stream, starting
-*                       with the most significant byte (i.e. writes the int
-*                       in big-endian form).  This routine will work on both
-*                       big-endian and little-endian architectures.
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      fwrite
-*
-******************************************************************************/
-
-size_t fwriteIntMsb(int data, FILE *stream)
+// Writes a 4-byte integer to the file stream, starting with the most significant byte (i.e. writes the int
+// in big-endian form).  This routine will work on both big-endian and little-endian architectures.
+size_t fwriteIntMsb(int32_t data, FILE *stream)
 {
-    unsigned char array[4];
+    uint8_t array[4];
 
-    array[0] = (unsigned char)((data >> 24) & 0xFF);
-    array[1] = (unsigned char)((data >> 16) & 0xFF);
-    array[2] = (unsigned char)((data >> 8) & 0xFF);
-    array[3] = (unsigned char)(data & 0xFF);
-    return (fwrite(array, sizeof(unsigned char), 4, stream));
+    array[0] = (uint8_t)((data >> 24) & 0xFF);
+    array[1] = (uint8_t)((data >> 16) & 0xFF);
+    array[2] = (uint8_t)((data >> 8) & 0xFF);
+    array[3] = (uint8_t)(data & 0xFF);
+    return (fwrite(array, sizeof(uint8_t), 4, stream));
 }
 
-
-
-/******************************************************************************
-*
-*       function:       fwriteIntLsb
-*
-*       purpose:        Writes a 4-byte integer to the file stream, starting
-*                       with the least significant byte (i.e. writes the int
-*                       in little-endian form).  This routine will work on both
-*                       big-endian and little-endian architectures.
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      fwrite
-*
-******************************************************************************/
-
-size_t fwriteIntLsb(int data, FILE *stream)
+// Writes a 4-byte integer to the file stream, starting with the least significant byte (i.e. writes the int
+// in little-endian form).  This routine will work on both big-endian and little-endian architectures.
+size_t fwriteIntLsb(int32_t data, FILE *stream)
 {
-    unsigned char array[4];
+    uint8_t array[4];
 
-    array[3] = (unsigned char)((data >> 24) & 0xFF);
-    array[2] = (unsigned char)((data >> 16) & 0xFF);
-    array[1] = (unsigned char)((data >> 8) & 0xFF);
-    array[0] = (unsigned char)(data & 0xFF);
-    return (fwrite(array, sizeof(unsigned char), 4, stream));
+    array[3] = (uint8_t)((data >> 24) & 0xFF);
+    array[2] = (uint8_t)((data >> 16) & 0xFF);
+    array[1] = (uint8_t)((data >> 8) & 0xFF);
+    array[0] = (uint8_t)(data & 0xFF);
+    return (fwrite(array, sizeof(uint8_t), 4, stream));
 }
 
-
-
-/******************************************************************************
-*
-*       function:       fwriteShortMsb
-*
-*       purpose:        Writes a 2-byte integer to the file stream, starting
-*                       with the most significant byte (i.e. writes the int
-*                       in big-endian form).  This routine will work on both
-*                       big-endian and little-endian architectures.
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      fwrite
-*
-******************************************************************************/
-
-size_t fwriteShortMsb(int data, FILE *stream)
+// Writes a 2-byte integer to the file stream, starting with the most significant byte (i.e. writes the int
+// in big-endian form).  This routine will work on both big-endian and little-endian architectures.
+size_t fwriteShortMsb(int32_t data, FILE *stream)
 {
-    unsigned char array[2];
+    uint8_t array[2];
 
-    array[0] = (unsigned char)((data >> 8) & 0xFF);
-    array[1] = (unsigned char)(data & 0xFF);
-    return (fwrite(array, sizeof(unsigned char), 2, stream));
+    array[0] = (uint8_t)((data >> 8) & 0xFF);
+    array[1] = (uint8_t)(data & 0xFF);
+    return (fwrite(array, sizeof(uint8_t), 2, stream));
 }
 
-
-
-/******************************************************************************
-*
-*       function:       fwriteShortLsb
-*
-*       purpose:        Writes a 2-byte integer to the file stream, starting
-*                       with the leastt significant byte (i.e. writes the int
-*                       in little-endian form).  This routine will work on both
-*                       big-endian and little-endian architectures.
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      fwrite
-*
-******************************************************************************/
-
+// Writes a 2-byte integer to the file stream, starting with the leastt significant byte (i.e. writes the int
+// in little-endian form).  This routine will work on both big-endian and little-endian architectures.
 size_t fwriteShortLsb(int data, FILE *stream)
 {
-    unsigned char array[2];
+    uint8_t array[2];
 
-    array[1] = (unsigned char)((data >> 8) & 0xFF);
-    array[0] = (unsigned char)(data & 0xFF);
-    return (fwrite(array, sizeof(unsigned char), 2, stream));
+    array[1] = (uint8_t)((data >> 8) & 0xFF);
+    array[0] = (uint8_t)(data & 0xFF);
+    return (fwrite(array, sizeof(uint8_t), 2, stream));
 }
 
-
-
-/******************************************************************************
-*
-*       function:       convertIntToFloat80
-*
-*       purpose:        Converts an unsigned 4-byte integer to an IEEE 754
-*                       10-byte (80-bit) floating point number.
-*
-*       internal
-*       functions:      none
-*
-*       library
-*       functions:      memset
-*
-******************************************************************************/
-
-void convertIntToFloat80(unsigned int value, unsigned char buffer[10])
+// Converts an unsigned 4-byte integer to an IEEE 754 10-byte (80-bit) floating point number.
+void convertIntToFloat80(uint32_t value, uint8_t buffer[10])
 {
-    unsigned int exp;
-    unsigned short i;
+    uint32_t exp;
+    uint16_t i;
 
-    /*  Set all bytes in buffer to 0  */
+    // Set all bytes in buffer to 0
     memset(buffer, 0, 10);
 
-    /*  Calculate the exponent  */
+    // Calculate the exponent
     exp = value;
     for (i = 0; i < 32; i++) {
         exp >>= 1;
@@ -580,24 +337,23 @@ void convertIntToFloat80(unsigned int value, unsigned char buffer[10])
             break;
     }
 
-    /*  Add the bias to the exponent  */
+    // Add the bias to the exponent
     i += 0x3FFF;
 
-    /*  Store the exponent  */
-    buffer[0] = (unsigned char)((i >> 8) & 0x7F);
-    buffer[1] = (unsigned char)(i & 0xFF);
+    // Store the exponent
+    buffer[0] = (uint8_t)((i >> 8) & 0x7F);
+    buffer[1] = (uint8_t)(i & 0xFF);
 
-    /*  Calculate the mantissa  */
+    // Calculate the mantissa
     for (i = 32; i; i--) {
         if (value & 0x80000000)
             break;
         value <<= 1;
     }
 
-    /*  Store the mantissa:  this should work on both big-endian and
-        little-endian architectures  */
-    buffer[2] = (unsigned char)((value >> 24) & 0xFF);
-    buffer[3] = (unsigned char)((value >> 16) & 0xFF);
-    buffer[4] = (unsigned char)((value >> 8) & 0xFF);
-    buffer[5] = (unsigned char)(value & 0xFF);
+    // Store the mantissa:  this should work on both big-endian and little-endian architectures
+    buffer[2] = (uint8_t)((value >> 24) & 0xFF);
+    buffer[3] = (uint8_t)((value >> 16) & 0xFF);
+    buffer[4] = (uint8_t)((value >> 8) & 0xFF);
+    buffer[5] = (uint8_t)(value & 0xFF);
 }

@@ -1,36 +1,7 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
-//  
-//  Contributors: Steve Nygard
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Event.m
-//  GnuSpeech
-//
-//  Created by Steve Nygard in 2004.
-//
-//  Version: 0.9.1
-//
-////////////////////////////////////////////////////////////////////////////////
+//  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "Event.h"
-
-#import <Foundation/Foundation.h>
 
 @implementation Event
 
@@ -41,9 +12,9 @@
     return nil;
 }
 
-- (id)initWithTime:(int)aTime;
+- (id)initWithTime:(NSUInteger)aTime;
 {
-    int index;
+    NSUInteger index;
 
     if ([super init] == nil)
         return nil;
@@ -57,7 +28,7 @@
     return self;
 }
 
-- (int)time;
+- (NSUInteger)time;
 {
     return time;
 }
@@ -72,15 +43,15 @@
     flag = newFlag;
 }
 
-- (double)getValueAtIndex:(int)index;
+- (double)getValueAtIndex:(NSUInteger)index;
 {
     assert(index >= 0 && index < MAX_EVENTS);
     return events[index];
 }
 
-- (void)setValue:(double)newValue ofIndex:(int)index;
+- (void)setValue:(double)newValue ofIndex:(NSUInteger)index;
 {
-    if (index < 0 || index >= MAX_EVENTS)
+    if (index >= MAX_EVENTS)
         return;
 
     events[index] = newValue;
@@ -89,7 +60,7 @@
 - (NSString *)description;
 {
     //return [NSString stringWithFormat:@"<%@>[%p]: time: %d, flag: %d, events: (%g %g %g %g %g %g) (%g %g %g %g %g %g) (%g %g %g %g %g %g) (%g %g %g %g %g %g) (%g %g %g %g %g %g) (%g %g %g %g %g %g)",
-    return [NSString stringWithFormat:@"<%@>[%p]: time: %d, flag: %d, events: (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g) (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g) (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g) (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g) (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g) (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g)",
+    return [NSString stringWithFormat:@"<%@>[%p]: time: %lu, flag: %d, events: (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g) (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g) (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g) (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g) (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g) (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g)",
                      NSStringFromClass([self class]), self, time, flag,
                      events[0], events[1], events[2], events[3], events[4], events[5],
                      events[6], events[7], events[8], events[9], events[10], events[11],

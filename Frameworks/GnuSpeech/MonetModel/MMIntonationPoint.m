@@ -1,37 +1,9 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
-//  
-//  Contributors: Steve Nygard
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
-////////////////////////////////////////////////////////////////////////////////
-//
-//  MMIntonationPoint.m
-//  GnuSpeech
-//
-//  Created by Steve Nygard in 2004.
-//
-//  Version: 0.9.1
-//
-////////////////////////////////////////////////////////////////////////////////
+//  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "MMIntonationPoint.h"
 
 #include <math.h>
-#import <Foundation/Foundation.h>
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
 
@@ -110,12 +82,12 @@
     [nonretained_eventList intonationPointDidChange:self];
 }
 
-- (int)ruleIndex;
+- (NSInteger)ruleIndex;
 {
     return ruleIndex;
 }
 
-- (void)setRuleIndex:(int)newRuleIndex;
+- (void)setRuleIndex:(NSInteger)newRuleIndex;
 {
     if (newRuleIndex == ruleIndex)
         return;
@@ -201,10 +173,10 @@
 // XML - Archiving
 //
 
-- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+- (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     [resultString indentToLevel:level];
-    [resultString appendFormat:@"<intonation-point offset-time=\"%g\" semitone=\"%g\" slope=\"%g\" rule-index=\"%d\"/>\n",
+    [resultString appendFormat:@"<intonation-point offset-time=\"%g\" semitone=\"%g\" slope=\"%g\" rule-index=\"%lu\"/>\n",
                   offsetTime, semitone, slope, ruleIndex];
 }
 
@@ -250,7 +222,7 @@
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<intonation-point offset-time=\"%g\" semitone=\"%g\" slope=\"%g\" rule-index=\"%d\"/>\n",
+    return [NSString stringWithFormat:@"<intonation-point offset-time=\"%g\" semitone=\"%g\" slope=\"%g\" rule-index=\"%lu\"/>\n",
                      offsetTime, semitone, slope, ruleIndex];
 }
 

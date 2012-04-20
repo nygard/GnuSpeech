@@ -1,36 +1,8 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
-//  
-//  Contributors: Steve Nygard
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
-////////////////////////////////////////////////////////////////////////////////
-//
-//  MAIntonationView.m
-//  Monet
-//
-//  Created by Steve Nygard in 2004.
-//
-//  Version: 0.9.7
-//
-////////////////////////////////////////////////////////////////////////////////
+//  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "MAIntonationView.h"
 
-#import <AppKit/AppKit.h>
 #import <GnuSpeech/GnuSpeech.h>
 
 #import "NSBezierPath-Extensions.h"
@@ -203,9 +175,9 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     nonretained_delegate = newDelegate;
 }
 
-- (float)minimumWidth;
+- (CGFloat)minimumWidth;
 {
-    float minimumWidth;
+    CGFloat minimumWidth;
 
     if ([[eventList events] count] == 0) {
         minimumWidth = 0.0;
@@ -284,8 +256,8 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     NSBezierPath *bezierPath;
     NSRect bounds;
     NSPoint graphOrigin;
-    int sectionHeight;
-    int index;
+    CGFloat sectionHeight;
+    NSUInteger index;
 
     bounds = NSIntegralRect([self bounds]);
     graphOrigin = [self graphOrigin];
@@ -344,7 +316,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     NSRect bounds, rect;
     NSBezierPath *bezierPath;
     NSPoint point;
-    float time;
+    CGFloat time;
     NSRect cellFrame;
 
     bounds = NSIntegralRect([self bounds]);
@@ -370,7 +342,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
         point.y = graphOrigin.y;
         [bezierPath moveToPoint:point];
 
-        if (((int)time % 100) == 0) {
+        if (((NSInteger)time % 100) == 0) {
             point.y -= 10;
 
             [labelTextFieldCell setIntValue:time];
@@ -403,11 +375,11 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 // TODO (2004-08-16): Need right margin so that the last posture is visible.
 - (void)drawPostureLabels;
 {
-    int count, index;
+    NSUInteger count, index;
     MMPosture *currentPosture;
     NSRect bounds;
-    float currentX;
-    int postureIndex = 0;
+    CGFloat currentX;
+    NSUInteger postureIndex = 0;
     NSArray *events;
 
     bounds = NSIntegralRect([self bounds]);
@@ -436,11 +408,11 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 - (void)drawRules;
 {
     NSBezierPath *bezierPath;
-    float currentX, extraWidth;
-    int count, index;
+    CGFloat currentX, extraWidth;
+    NSUInteger count, index;
     NSRect bounds;
     NSPoint graphOrigin;
-    int sectionHeight;
+    CGFloat sectionHeight;
     struct _rule *rule;
 
     bounds = NSIntegralRect([self bounds]);
@@ -487,7 +459,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     }
 
     {
-        float dashes[2] = {2.0, 2.0};
+        CGFloat dashes[2] = {2.0, 2.0};
         [bezierPath setLineDash:dashes count:2 phase:0.0];
     }
 
@@ -498,11 +470,11 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
 - (void)drawRuleBackground;
 {
-    float extraWidth;
-    int count, index;
+    CGFloat extraWidth;
+    NSUInteger count, index;
     NSRect ruleFrame;
     NSPoint graphOrigin;
-    int sectionHeight;
+    CGFloat sectionHeight;
     struct _rule *rule;
 
     graphOrigin = [self graphOrigin];
@@ -532,7 +504,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 - (void)drawIntonationPoints;
 {
     NSBezierPath *bezierPath;
-    int count, index;
+    NSUInteger count, index;
     NSPoint currentPoint;
     NSRect bounds;
     NSPoint graphOrigin;
@@ -579,7 +551,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     double x2, y2, m2, x22, x23;
     double denominator;
     double x, y;
-    int i, j;
+    NSUInteger i, j;
     id point1, point2;
     NSBezierPath *bezierPath;
     NSArray *intonationPoints = [eventList intonationPoints];
@@ -651,7 +623,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 #ifdef PORTING
     NSEvent *nextEvent;
     NSPoint position;
-    int time;
+    CGFloat time;
 
     [[self window] setAcceptsMouseMovedEvents:YES];
     while (1) {
@@ -681,17 +653,17 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 - (void)keyDown:(NSEvent *)keyEvent;
 {
     NSString *characters;
-    int index, length;
+    NSUInteger index, length;
     unichar ch;
 
-    unsigned int ruleCount;
+    NSUInteger ruleCount;
 
     ruleCount = [eventList ruleCount];
 
     characters = [keyEvent characters];
     length = [characters length];
     for (index = 0; index < length; index++) {
-        unsigned int pointCount, pointIndex;
+        NSUInteger pointCount, pointIndex;
 
         pointCount = [selectedPoints count];
 
@@ -758,7 +730,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
               break;
 
           default:
-              NSLog(@"index: %d, character: %@ (%d)", index, [characters substringWithRange:NSMakeRange(index, 1)], [characters characterAtIndex:index]);
+              NSLog(@"index: %lu, character: %@ (%d)", index, [characters substringWithRange:NSMakeRange(index, 1)], [characters characterAtIndex:index]);
         }
     }
 }
@@ -786,8 +758,8 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
         if ([mouseEvent modifierFlags] & NSAlternateKeyMask) {
             MMIntonationPoint *newIntonationPoint;
             NSPoint graphOrigin;
-            int yScale, absoluteTime;
-            int ruleIndex;
+            CGFloat yScale, absoluteTime;
+            NSUInteger ruleIndex;
             double offsetTime;
 
             graphOrigin = [self graphOrigin];
@@ -846,9 +818,9 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 {
     NSPoint graphOrigin;
     NSRect selectionRect;
-    int count, index;
+    NSUInteger count, index;
     //float timeScale;
-    int yScale;
+    CGFloat yScale;
     NSArray *intonationPoints;
     NSRect bounds;
 
@@ -917,14 +889,14 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 // Double-clicking adds intonation point?
 - (void)mouseDown:(NSEvent *)theEvent;
 {
-    float row, column;
-    float row1, column1;
-    float row2, column2;
-    float temp, distance, distance1, tally = 0.0, tally1 = 0.0;
-    float semitone;
+    CGFloat row, column;
+    CGFloat row1, column1;
+    CGFloat row2, column2;
+    CGFloat temp, distance, distance1, tally = 0.0, tally1 = 0.0;
+    CGFloat semitone;
     NSPoint mouseDownLocation = [theEvent locationInWindow];
     NSEvent *newEvent;
-    int i, ruleIndex = 0;
+    NSUInteger i, ruleIndex = 0;
     struct _rule *rule;
     MMIntonationPoint *iPoint;
     id tempPoint;
@@ -969,7 +941,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 #ifdef PORTING
     NSPoint mouseDownLocation;
     NSEvent *newEvent;
-    float delta, originalScale;
+    CGFloat delta, originalScale;
 
     originalScale = timeScale;
 
@@ -1041,10 +1013,10 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 // View geometry
 //
 
-- (int)sectionHeight;
+- (CGFloat)sectionHeight;
 {
     NSRect bounds;
-    int sectionHeight;
+    CGFloat sectionHeight;
 
     bounds = [self bounds];
     sectionHeight = (bounds.size.height - TOP_MARGIN - BOTTOM_MARGIN) / SECTION_COUNT;
@@ -1068,19 +1040,19 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     [self setNeedsDisplay:YES];
 }
 
-- (float)scaleXPosition:(float)xPosition;
+- (CGFloat)scaleXPosition:(CGFloat)xPosition;
 {
     return floor(xPosition / timeScale);
 }
 
-- (float)scaleWidth:(float)width;
+- (CGFloat)scaleWidth:(CGFloat)width;
 {
     return floor(width / timeScale);
 }
 
 - (NSRect)rectFormedByPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
 {
-    float minx, miny, maxx, maxy;
+    CGFloat minx, miny, maxx, maxy;
     NSRect rect;
 
     if (point1.x < point2.x) {
@@ -1107,7 +1079,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     return rect;
 }
 
-- (float)convertYPositionToSemitone:(float)yPosition;
+- (CGFloat)convertYPositionToSemitone:(CGFloat)yPosition;
 {
     NSPoint graphOrigin;
 
@@ -1116,7 +1088,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     return ((yPosition - graphOrigin.y) / [self sectionHeight]) - ZERO_SECTION;
 }
 
-- (float)convertXPositionToTime:(float)xPosition;
+- (CGFloat)convertXPositionToTime:(CGFloat)xPosition;
 {
     return xPosition * timeScale;
 }
@@ -1129,7 +1101,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
 - (void)removeOldSelectedPoints;
 {
-    int count, index;
+    NSInteger count, index;
 
     // This is another case where count cannot be unsigned.
     count = [selectedPoints count];

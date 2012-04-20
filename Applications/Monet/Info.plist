@@ -20,11 +20,31 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>0.9.7</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright 1991-2012. David R. Hill, Leonard Manzara, Craig Schock. This software is licensed under the terms of the GNU GPL.</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
-	<key>NSHumanReadableCopyright</key>
-	<string>Copyright 1991-2009. David R. Hill, Leonard Manzara, Craig Schock. This software is licensed under the terms of the GNU GPL.</string>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.xml</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Monet Intonation Contour</string>
+			<key>UTTypeIdentifier</key>
+			<string>org.gnu.gnuspeech.intonation-contour</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>contour</string>
+				</array>
+			</dict>
+		</dict>
+	</array>
 </dict>
 </plist>

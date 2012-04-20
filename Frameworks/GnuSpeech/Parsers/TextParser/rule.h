@@ -1,6 +1,6 @@
 /*******************************************************************************
  *
- *  Copyright (c) 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
+ *  Copyright (c) 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
  *  
  *  Contributors: 
  *
@@ -170,12 +170,12 @@ typedef struct _filterParam filterParam;
 typedef filterParam *filterParamPtr;
 
 
-extern void initRule(void);
-extern specifierStructPtr governingRule(char *phone1,char *phone2);
-extern void writeDiphone(char *phone1,char *phone2,specifierStructPtr g_rule,
-              filterParamPtr filter_paramHead,FILE *fp,vm_address_t page);
-extern void readFromFileRule(FILE *fp1);
+void initRule(void);
+specifierStructPtr governingRule(char *phone1,char *phone2);
+void writeDiphone(char *phone1,char *phone2,specifierStructPtr g_rule,
+                  filterParamPtr filter_paramHead,FILE *fp,vm_address_t page);
+void readFromFileRule(FILE *fp1);
 #if DEBUG
-extern void printRule(void);
+void printRule(void);
 #endif
-extern int nint(float value);
+int nint(float value);

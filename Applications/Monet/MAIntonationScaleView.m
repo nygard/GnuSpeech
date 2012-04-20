@@ -1,36 +1,7 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
-//  
-//  Contributors: Steve Nygard
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
-////////////////////////////////////////////////////////////////////////////////
-//
-//  MAIntonationScaleView.m
-//  Monet
-//
-//  Created by Steve Nygard in 2004.
-//
-//  Version: 0.9.7
-//
-////////////////////////////////////////////////////////////////////////////////
+//  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "MAIntonationScaleView.h"
-
-#import <AppKit/AppKit.h>
 
 @implementation MAIntonationScaleView
 
@@ -82,12 +53,12 @@
     [super dealloc];
 }
 
-- (int)sectionCount;
+- (NSUInteger)sectionCount;
 {
     return sectionCount;
 }
 
-- (void)setSectionCount:(int)newSectionCount;
+- (void)setSectionCount:(NSUInteger)newSectionCount;
 {
     if (newSectionCount == sectionCount)
         return;
@@ -96,12 +67,12 @@
     [self setNeedsDisplay:YES];
 }
 
-- (int)sectionHeight;
+- (CGFloat)sectionHeight;
 {
     return sectionHeight;
 }
 
-- (void)setSectionHeight:(int)newSectionHeight;
+- (void)setSectionHeight:(CGFloat)newSectionHeight;
 {
     if (newSectionHeight == sectionHeight)
         return;
@@ -110,12 +81,12 @@
     [self setNeedsDisplay:YES];
 }
 
-- (int)zeroSection;
+- (NSUInteger)zeroSection;
 {
     return zeroSection;
 }
 
-- (void)setZeroSection:(int)newZeroSection;
+- (void)setZeroSection:(NSUInteger)newZeroSection;
 {
     if (newZeroSection == zeroSection)
         return;
@@ -124,12 +95,12 @@
     [self setNeedsDisplay:YES];
 }
 
-- (int)yOrigin;
+- (CGFloat)yOrigin;
 {
     return yOrigin;
 }
 
-- (void)setYOrigin:(int)newYOrigin;
+- (void)setYOrigin:(CGFloat)newYOrigin;
 {
     if (newYOrigin == yOrigin)
         return;
@@ -143,11 +114,11 @@
     NSBezierPath *bezierPath;
     NSRect bounds, cellFrame;
     NSPoint point;
-    unsigned int index;
+    NSUInteger index;
 
-    float labelHeight;
-    float labelDescender;
-    int labelSkip = 1;
+    CGFloat labelHeight;
+    CGFloat labelDescender;
+    NSUInteger labelSkip = 1;
 
     [[NSColor whiteColor] set];
     NSRectFill(rect);
@@ -208,7 +179,7 @@
         NSPoint labelPoint;
         NSRange glyphRange;
         NSRect boundingRect;
-        float axisLabelHeight;
+        CGFloat axisLabelHeight;
 
         axisLabelHeight = ceil([axisLabelFont boundingRectForFont].size.height);
 

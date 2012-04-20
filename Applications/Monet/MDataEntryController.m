@@ -1,36 +1,8 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
-//  
-//  Contributors: Steve Nygard
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
-////////////////////////////////////////////////////////////////////////////////
-//
-//  MDataEntryController.m
-//  Monet
-//
-//  Created by Steve Nygard in 2004.
-//
-//  Version: 0.9.7
-//
-////////////////////////////////////////////////////////////////////////////////
+//  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "MDataEntryController.h"
 
-#import <AppKit/AppKit.h>
 #import <GnuSpeech/GnuSpeech.h>
 
 #import "NSNumberFormatter-Extensions.h"
@@ -243,7 +215,7 @@
 - (IBAction)addCategory:(id)sender;
 {
     MMCategory *newCategory;
-    unsigned int index;
+    NSUInteger index;
 
     newCategory = [[MMCategory alloc] init];
     [[self model] addCategory:newCategory];
@@ -274,7 +246,7 @@
 - (IBAction)addParameter:(id)sender;
 {
     MMParameter *newParameter;
-    unsigned int index;
+    NSUInteger index;
 
     newParameter = [[MMParameter alloc] init];
     [[self model] addParameter:newParameter];
@@ -304,7 +276,7 @@
 - (IBAction)addMetaParameter:(id)sender;
 {
     MMParameter *newParameter;
-    unsigned int index;
+    NSUInteger index;
 
     newParameter = [[MMParameter alloc] init];
     [[self model] addMetaParameter:newParameter];
@@ -334,7 +306,7 @@
 - (IBAction)addSymbol:(id)sender;
 {
     MMSymbol *newSymbol;
-    unsigned int index;
+    NSUInteger index;
 
     newSymbol = [[MMSymbol alloc] init];
     [[self model] addSymbol:newSymbol];
@@ -382,7 +354,7 @@
     return 0;
 }
 
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row;
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
 {
     id identifier;
 
@@ -437,7 +409,7 @@
     return nil;
 }
 
-- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(int)row;
+- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
 {
     id identifier;
 
@@ -550,7 +522,7 @@
 
 - (MMCategory *)selectedCategory;
 {
-    int selectedRow;
+    NSInteger selectedRow;
 
     selectedRow = [categoryTableView selectedRow];
 
@@ -559,7 +531,7 @@
 
 - (MMParameter *)selectedParameter;
 {
-    int selectedRow;
+    NSInteger selectedRow;
 
     selectedRow = [parameterTableView selectedRow];
 
@@ -568,7 +540,7 @@
 
 - (MMParameter *)selectedMetaParameter;
 {
-    int selectedRow;
+    NSInteger selectedRow;
 
     selectedRow = [metaParameterTableView selectedRow];
 
@@ -577,7 +549,7 @@
 
 - (MMSymbol *)selectedSymbol;
 {
-    int selectedRow;
+    NSInteger selectedRow;
 
     selectedRow = [symbolTableView selectedRow];
 

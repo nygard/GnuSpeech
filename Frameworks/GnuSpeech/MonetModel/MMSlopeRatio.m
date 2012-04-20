@@ -1,36 +1,8 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
-//  
-//  Contributors: Steve Nygard
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
-////////////////////////////////////////////////////////////////////////////////
-//
-//  MMSlopeRatio.m
-//  GnuSpeech
-//
-//  Created by Steve Nygard in 2004.
-//
-//  Version: 0.9.1
-//
-////////////////////////////////////////////////////////////////////////////////
+//  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "MMSlopeRatio.h"
 
-#import <Foundation/Foundation.h>
 #import "NSArray-Extensions.h"
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
@@ -45,15 +17,6 @@
 #import "MXMLArrayDelegate.h"
 
 #import "EventList.h"
-
-/*===========================================================================
-
-	Author: Craig-Richard Taube-Schock
-		Copyright (c) 1994, Trillium Sound Research Incorporated.
-		All Rights Reserved.
-
-=============================================================================
-*/
 
 @implementation MMSlopeRatio
 
@@ -142,10 +105,10 @@
     return [(MMPoint *)[points lastObject] cachedTime];
 }
 
-- (void)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(int)newCacheTag
+- (void)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag
               toDisplay:(MonetList *)displayList;
 {
-    int i, numSlopes;
+    NSUInteger i, numSlopes;
     double temp = 0.0, temp1 = 0.0, intervalTime = 0.0, sum = 0.0, factor = 0.0;
     double dummy, baseTime = 0.0, endTime = 0.0, totalTime = 0.0, delta = 0.0;
     double startValue;
@@ -199,12 +162,12 @@
     }
 }
 
-- (double)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(int)newCacheTag
+- (double)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag
                  baseline:(double)baseline delta:(double)parameterDelta min:(double)min max:(double)max
-              toEventList:(EventList *)eventList atIndex:(int)index;
+              toEventList:(EventList *)eventList atIndex:(NSUInteger)index;
 {
     double returnValue = 0.0;
-    int i, numSlopes;
+    NSUInteger i, numSlopes;
     double temp = 0.0, temp1 = 0.0, intervalTime = 0.0, sum = 0.0, factor = 0.0;
     double baseTime = 0.0, endTime = 0.0, totalTime = 0.0, delta = 0.0;
     double startValue;
@@ -261,7 +224,7 @@
 
 - (double)totalSlopeUnits;
 {
-    int i;
+    NSUInteger i;
     double temp = 0.0;
 
     for (i = 0; i < [slopes count]; i++)
@@ -272,7 +235,7 @@
 
 - (void)displaySlopesInList:(NSMutableArray *)displaySlopes;
 {
-    int count, index;
+    NSUInteger count, index;
     double tempTime;
 
     count = [slopes count];
@@ -328,7 +291,7 @@
                      NSStringFromClass([self class]), self, points, slopes];
 }
 
-- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+- (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     [resultString indentToLevel:level];
     [resultString appendString:@"<slope-ratio>\n"];

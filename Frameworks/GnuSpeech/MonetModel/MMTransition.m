@@ -1,36 +1,8 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
-//  
-//  Contributors: Steve Nygard
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
-////////////////////////////////////////////////////////////////////////////////
-//
-//  MMTransition.m
-//  GnuSpeech
-//
-//  Created by Steve Nygard in 2004.
-//
-//  Version: 0.9.1
-//
-////////////////////////////////////////////////////////////////////////////////
+//  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "MMTransition.h"
 
-#import <Foundation/Foundation.h>
 #import "NSArray-Extensions.h"
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
@@ -57,7 +29,7 @@
 
     name = nil;
     comment = nil;
-    type = MMPhoneTypeDiphone;
+    type = MMPhoneType_Diphone;
     points = [[NSMutableArray alloc] init];
 
     return self;
@@ -87,7 +59,7 @@
     MMPoint *aPoint;
 
     aPoint = [[MMPoint alloc] init];
-    [aPoint setType:MMPhoneTypeDiphone];
+    [aPoint setType:MMPhoneType_Diphone];
     [aPoint setFreeTime:0.0];
     [aPoint setValue:0.0];
     [self addPoint:aPoint];
@@ -160,7 +132,7 @@
 // pointTime = [aPoint cachedTime];
 - (BOOL)isTimeInSlopeRatio:(double)aTime;
 {
-    unsigned pointCount, pointIndex;
+    NSUInteger pointCount, pointIndex;
     id currentPointOrSlopeRatio;
 
     pointCount = [points count];
@@ -182,7 +154,7 @@
 
 - (void)insertPoint:(MMPoint *)aPoint;
 {
-    int i, j;
+    NSUInteger i, j;
     id temp, temp1, temp2;
     double pointTime = [aPoint cachedTime];
 
@@ -229,7 +201,7 @@
 
 - (BOOL)isEquationUsed:(MMEquation *)anEquation;
 {
-    int i, j;
+    NSUInteger i, j;
     id temp;
 
     for (i = 0; i < [points count]; i++) {
@@ -249,8 +221,8 @@
 
 - (void)findEquation:(MMEquation *)anEquation andPutIn:(MonetList *)aList;
 {
-    unsigned count, index;
-    int j;
+    NSUInteger count, index;
+    NSUInteger j;
     id pointOrSlopeRatio;
 
     count = [points count];
@@ -276,7 +248,7 @@
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
-    unsigned archivedVersion;
+    NSUInteger archivedVersion;
     char *c_name, *c_comment;
     MonetList *archivedPoints;
     MModel *model;
@@ -315,72 +287,72 @@
 
         aPoint = [[MMPoint alloc] init];
         [aPoint setValue:0.0];
-        [aPoint setType:MMPhoneTypeDiphone];
+        [aPoint setType:MMPhoneType_Diphone];
         [aPoint setTimeEquation:[model findEquationList:@"Test" named:@"Zero"]];
         [points addObject:aPoint];
         [aPoint release];
 
         aPoint = [[MMPoint alloc] init];
         [aPoint setValue:12.5];
-        [aPoint setType:MMPhoneTypeDiphone];
+        [aPoint setType:MMPhoneType_Diphone];
         [aPoint setTimeEquation:[model findEquationList:@"Test" named:@"diphoneOneThree"]];
         [points addObject:aPoint];
         [aPoint release];
 
         aPoint = [[MMPoint alloc] init];
         [aPoint setValue:87.5];
-        [aPoint setType:MMPhoneTypeDiphone];
+        [aPoint setType:MMPhoneType_Diphone];
         [aPoint setTimeEquation:[model findEquationList:@"Test" named:@"diphoneTwoThree"]];
         [points addObject:aPoint];
         [aPoint release];
 
         aPoint = [[MMPoint alloc] init];
         [aPoint setValue:100.0];
-        [aPoint setType:MMPhoneTypeDiphone];
+        [aPoint setType:MMPhoneType_Diphone];
         [aPoint setTimeEquation:[model findEquationList:@"Defaults" named:@"Mark1"]];
         [points addObject:aPoint];
         [aPoint release];
 
-        if (type != MMPhoneTypeDiphone) {
+        if (type != MMPhoneType_Diphone) {
             aPoint = [[MMPoint alloc] init];
             [aPoint setValue:12.5];
-            [aPoint setType:MMPhoneTypeDiphone];
+            [aPoint setType:MMPhoneType_Diphone];
             [aPoint setTimeEquation:[model findEquationList:@"Test" named:@"triphoneOneThree"]];
             [points addObject:aPoint];
             [aPoint release];
 
             aPoint = [[MMPoint alloc] init];
             [aPoint setValue:87.5];
-            [aPoint setType:MMPhoneTypeTriphone];
+            [aPoint setType:MMPhoneType_Triphone];
             [aPoint setTimeEquation:[model findEquationList:@"Test" named:@"triphoneTwoThree"]];
             [points addObject:aPoint];
             [aPoint release];
 
             aPoint = [[MMPoint alloc] init];
             [aPoint setValue:100.0];
-            [aPoint setType:MMPhoneTypeTriphone];
+            [aPoint setType:MMPhoneType_Triphone];
             [aPoint setTimeEquation:[model findEquationList:@"Defaults" named:@"Mark2"]];
             [points addObject:aPoint];
             [aPoint release];
 
-            if (type != MMPhoneTypeTriphone) {
+            if (type != MMPhoneType_Triphone) {
                 aPoint = [[MMPoint alloc] init];
                 [aPoint setValue:12.5];
-                [aPoint setType:MMPhoneTypeTetraphone];
+                [aPoint setType:MMPhoneType_Tetraphone];
                 [aPoint setTimeEquation:[model findEquationList:@"Test" named:@"tetraphoneOneThree"]];
                 [points addObject:aPoint];
                 [aPoint release];
 
                 aPoint = [[MMPoint alloc] init];
                 [aPoint setValue:87.5];
-                [aPoint setType:MMPhoneTypeTetraphone];
+                [aPoint setType:MMPhoneType_Tetraphone];
                 [aPoint setTimeEquation:[model findEquationList:@"Test" named:@"tetraphoneTwoThree"]];
                 [points addObject:aPoint];
                 [aPoint release];
 
                 aPoint = [[MMPoint alloc] init];
                 [aPoint setValue:100.0];
-                [aPoint setType:MMPhoneTypeTetraphone];
+                [aPoint setType:MMPhoneType_Tetraphone];
                 [aPoint setTimeEquation:[model findEquationList:@"Durations" named:@"TetraphoneDefault"]];
                 [points addObject:aPoint];
                 [aPoint release];
@@ -397,11 +369,11 @@
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@>[%p]: name: %@, comment: %@, type: %d, points: %@",
+    return [NSString stringWithFormat:@"<%@>[%p]: name: %@, comment: %@, type: %lu, points: %@",
                      NSStringFromClass([self class]), self, name, comment, type, points];
 }
 
-- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+- (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     [resultString indentToLevel:level];
     [resultString appendFormat:@"<transition name=\"%@\" type=\"%@\">\n",

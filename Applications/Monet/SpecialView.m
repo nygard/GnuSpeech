@@ -1,36 +1,8 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
-//  
-//  Contributors: Steve Nygard
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
-////////////////////////////////////////////////////////////////////////////////
-//
-//  SpecialView.m
-//  Monet
-//
-//  Created by Steve Nygard in 2004.
-//
-//  Version: 0.9.7
-//
-////////////////////////////////////////////////////////////////////////////////
+//  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "SpecialView.h"
 
-#import <AppKit/AppKit.h>
 #import <GnuSpeech/GnuSpeech.h>
 #include <math.h>
 
@@ -79,8 +51,8 @@
 
 - (void)drawGrid;
 {
-    int i;
-    int sectionHeight;
+    NSUInteger i;
+    CGFloat sectionHeight;
     NSBezierPath *bezierPath;
     NSRect bounds, rect;
     NSPoint graphOrigin; // But not the zero point on the graph.
@@ -111,7 +83,7 @@
 
     for (i = 1; i < 14; i++) {
         NSString *label;
-        float currentYPos;
+        CGFloat currentYPos;
         NSSize labelSize;
 
         currentYPos = graphOrigin.y + 0.5 + i * sectionHeight;
@@ -119,7 +91,7 @@
         [bezierPath lineToPoint:NSMakePoint(bounds.size.width - LEFT_MARGIN + 0.5, currentYPos)];
 
         currentYPos = graphOrigin.y + i * sectionHeight - 5;
-        label = [NSString stringWithFormat:@"%4d%%", (i - zeroIndex) * sectionAmount];
+        label = [NSString stringWithFormat:@"%4lu%%", (i - zeroIndex) * sectionAmount];
         labelSize = [label sizeWithAttributes:nil];
         //NSLog(@"label (%@) size: %@", label, NSStringFromSize(labelSize));
         [label drawAtPoint:NSMakePoint(LEFT_MARGIN - LABEL_MARGIN - labelSize.width, currentYPos) withAttributes:nil];
@@ -140,11 +112,11 @@
 - (void)highlightSelectedPoints;
 {
     if ([selectedPoints count]) {
-        unsigned int index;
-        float timeScale, y;
-        int yScale;
+        NSUInteger index;
+        CGFloat timeScale, y;
+        CGFloat yScale;
         NSPoint graphOrigin;
-        int cacheTag;
+        NSUInteger cacheTag;
 
         //NSLog(@"Drawing %d selected points", [selectedPoints count]);
 
@@ -156,7 +128,7 @@
 
         for (index = 0; index < [selectedPoints count]; index++) {
             MMPoint *currentPoint;
-            float eventTime;
+            CGFloat eventTime;
             NSPoint myPoint;
 
             currentPoint = [selectedPoints objectAtIndex:index];
@@ -199,8 +171,8 @@
         if ([mouseEvent modifierFlags] & NSAlternateKeyMask) {
             MMPoint *newPoint;
             NSPoint graphOrigin = [self graphOrigin];
-            int yScale = [self sectionHeight];
-            float newValue;
+            CGFloat yScale = [self sectionHeight];
+            CGFloat newValue;
 
             //NSLog(@"Alt-clicked!");
             newPoint = [[MMPoint alloc] init];
@@ -238,10 +210,10 @@
 {
     NSPoint graphOrigin;
     NSRect selectionRect;
-    int count, index;
-    float timeScale;
-    int yScale;
-    int cacheTag;
+    NSUInteger count, index;
+    CGFloat timeScale;
+    CGFloat yScale;
+    NSUInteger cacheTag;
 
     [selectedPoints removeAllObjects];
 

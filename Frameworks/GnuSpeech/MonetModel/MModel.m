@@ -1,36 +1,8 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
-//  
-//  Contributors: Steve Nygard
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
-////////////////////////////////////////////////////////////////////////////////
-//
-//  MModel.m
-//  GnuSpeech
-//
-//  Created by Steve Nygard in 2004.
-//
-//  Version: 0.9.1
-//
-////////////////////////////////////////////////////////////////////////////////
+//  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "MModel.h"
 
-#import <Foundation/Foundation.h>
 #import "NSArray-Extensions.h"
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
@@ -209,7 +181,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 - (void)_uniqueNameForCategory:(MMCategory *)newCategory;
 {
     NSMutableSet *names;
-    int count, index;
+    NSUInteger count, index;
     NSString *name, *basename;
 
     names = [[NSMutableSet alloc] init];
@@ -223,7 +195,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     name = basename = [newCategory name];
     index = 1;
     while ([names containsObject:name] == YES) {
-        name = [NSString stringWithFormat:@"%@%d", basename, index++];
+        name = [NSString stringWithFormat:@"%@%lu", basename, index++];
     }
 
     [newCategory setName:name];
@@ -234,7 +206,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 // TODO (2004-03-19): Is it used by rules, anyway.  Postures can also use categories.
 - (BOOL)isCategoryUsed:(MMCategory *)aCategory;
 {
-    int count, index;
+    NSUInteger count, index;
 
     count = [rules count];
     for (index = 0; index < count; index++) {
@@ -257,7 +229,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 // TODO (2004-03-19): We could store these in a dictionary for quick lookup by name.
 - (MMCategory *)categoryWithName:(NSString *)aName;
 {
-    int count, index;
+    NSUInteger count, index;
     MMCategory *aCategory;
 
     count = [categories count];
@@ -291,7 +263,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 - (void)_uniqueNameForParameter:(MMParameter *)newParameter inList:(NSMutableArray *)aParameterList;
 {
     NSMutableSet *names;
-    int count, index;
+    NSUInteger count, index;
     NSString *name, *basename;
 
     names = [[NSMutableSet alloc] init];
@@ -305,7 +277,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     name = basename = [newParameter name];
     index = 1;
     while ([names containsObject:name] == YES) {
-        name = [NSString stringWithFormat:@"%@%d", basename, index++];
+        name = [NSString stringWithFormat:@"%@%lu", basename, index++];
     }
 
     [newParameter setName:name];
@@ -315,7 +287,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)_addDefaultPostureTargetsForParameter:(MMParameter *)newParameter;
 {
-    unsigned int count, index;
+    NSUInteger count, index;
     double value;
 
     value = [newParameter defaultValue];
@@ -331,7 +303,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)removeParameter:(MMParameter *)aParameter;
 {
-    unsigned int parameterIndex;
+    NSUInteger parameterIndex;
 
     parameterIndex  = [parameters indexOfObject:aParameter];
     if (parameterIndex != NSNotFound) {
@@ -368,7 +340,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)_addDefaultPostureTargetsForMetaParameter:(MMParameter *)newParameter;
 {
-    unsigned int count, index;
+    NSUInteger count, index;
     double value;
 
     value = [newParameter defaultValue];
@@ -384,11 +356,11 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)removeMetaParameter:(MMParameter *)aParameter;
 {
-    unsigned int parameterIndex;
+    NSUInteger parameterIndex;
 
     parameterIndex  = [metaParameters indexOfObject:aParameter];
     if (parameterIndex != NSNotFound) {
-        int count, index;
+        NSUInteger count, index;
 
         count = [postures count];
         for (index = 0; index < count; index++)
@@ -421,7 +393,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 - (void)_uniqueNameForSymbol:(MMSymbol *)newSymbol;
 {
     NSMutableSet *names;
-    int count, index;
+    NSUInteger count, index;
     NSString *name, *basename;
 
     names = [[NSMutableSet alloc] init];
@@ -435,7 +407,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     name = basename = [newSymbol name];
     index = 1;
     while ([names containsObject:name] == YES) {
-        name = [NSString stringWithFormat:@"%@%d", basename, index++];
+        name = [NSString stringWithFormat:@"%@%lu", basename, index++];
     }
 
     [newSymbol setName:name];
@@ -445,7 +417,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)_addDefaultPostureTargetsForSymbol:(MMSymbol *)newSymbol;
 {
-    unsigned int count, index;
+    NSUInteger count, index;
     double value;
 
     value = [newSymbol defaultValue];
@@ -461,11 +433,11 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)removeSymbol:(MMSymbol *)aSymbol;
 {
-    unsigned int symbolIndex;
+    NSUInteger symbolIndex;
 
     symbolIndex = [symbols indexOfObject:aSymbol];
     if (symbolIndex != NSNotFound) {
-        unsigned int count, index;
+        NSUInteger count, index;
 
         count = [postures count];
         for (index = 0; index < count; index++)
@@ -477,7 +449,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (MMSymbol *)symbolWithName:(NSString *)aName;
 {
-    unsigned int count, index;
+    NSUInteger count, index;
 
     count = [symbols count];
     for (index = 0; index < count; index++) {
@@ -510,7 +482,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 - (void)_uniqueNameForPosture:(MMPosture *)newPosture;
 {
     NSMutableSet *names;
-    int count, index;
+    NSUInteger count, index;
     NSString *name, *basename;
     BOOL isUsed;
 
@@ -543,7 +515,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     }
 
     while ([names containsObject:name] == YES) {
-        name = [NSString stringWithFormat:@"%@%d", basename, index++];
+        name = [NSString stringWithFormat:@"%@%lu", basename, index++];
     }
 
     [newPosture setName:name];
@@ -565,7 +537,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (MMPosture *)postureWithName:(NSString *)aName;
 {
-    int count, index;
+    NSUInteger count, index;
     MMPosture *aPosture;
 
     count = [postures count];
@@ -599,8 +571,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 // This will require that all the equation names be unique.  Otherwise we'll need to store the group in the XML file as well.
 - (MMEquation *)findEquationWithName:(NSString *)anEquationName;
 {
-    unsigned int groupCount, groupIndex;
-    unsigned int count, index;
+    NSUInteger groupCount, groupIndex;
+    NSUInteger count, index;
 
     groupCount = [equations count];
     for (groupIndex = 0; groupIndex < groupCount; groupIndex++) {
@@ -622,8 +594,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (MMTransition *)findTransitionWithName:(NSString *)aTransitionName;
 {
-    unsigned int groupCount, groupIndex;
-    unsigned int count, index;
+    NSUInteger groupCount, groupIndex;
+    NSUInteger count, index;
 
     groupCount = [transitions count];
     for (groupIndex = 0; groupIndex < groupCount; groupIndex++) {
@@ -645,8 +617,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (MMTransition *)findSpecialTransitionWithName:(NSString *)aTransitionName;
 {
-    unsigned int groupCount, groupIndex;
-    unsigned int count, index;
+    NSUInteger groupCount, groupIndex;
+    NSUInteger count, index;
 
     groupCount = [specialTransitions count];
     for (groupIndex = 0; groupIndex < groupCount; groupIndex++) {
@@ -671,7 +643,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 // TODO (2004-03-06): Merge these three sets of methods, since they're practically identical.
 - (MMEquation *)findEquationList:(NSString *)aListName named:(NSString *)anEquationName;
 {
-    int i, j;
+    NSUInteger i, j;
 
     for (i = 0 ; i < [equations count]; i++) {
         NamedList *currentList;
@@ -693,9 +665,9 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     return nil;
 }
 
-- (void)findList:(int *)listIndex andIndex:(int *)equationIndex ofEquation:(MMEquation *)anEquation;
+- (void)findList:(NSUInteger *)listIndex andIndex:(NSUInteger *)equationIndex ofEquation:(MMEquation *)anEquation;
 {
-    int i, temp;
+    NSUInteger i, temp;
 
     for (i = 0 ; i < [equations count]; i++) {
         temp = [[equations objectAtIndex:i] indexOfObject:anEquation];
@@ -710,11 +682,11 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     // TODO (2004-03-06): This might be where/how the large list indexes were archived.
 }
 
-- (MMEquation *)findEquation:(int)listIndex andIndex:(int)equationIndex;
+- (MMEquation *)findEquation:(NSUInteger)listIndex andIndex:(NSUInteger)equationIndex;
 {
     //NSLog(@"-> %s, listIndex: %d, index: %d", _cmd, listIndex, index);
-    if (listIndex < 0 || listIndex > [equations count]) {
-        NSLog(@"%s: listIndex: %d out of range.  count: %d", __PRETTY_FUNCTION__, listIndex, [equations count]);
+    if (listIndex > [equations count]) {
+        NSLog(@"%s: listIndex: %lu out of range.  count: %lu", __PRETTY_FUNCTION__, listIndex, [equations count]);
         return nil;
     }
 
@@ -723,7 +695,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (MMTransition *)findTransitionList:(NSString *)aListName named:(NSString *)aTransitionName;
 {
-    int i, j;
+    NSUInteger i, j;
 
     for (i = 0 ; i < [transitions count]; i++) {
         NamedList *currentList;
@@ -745,9 +717,9 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     return nil;
 }
 
-- (void)findList:(int *)listIndex andIndex:(int *)transitionIndex ofTransition:(MMTransition *)aTransition;
+- (void)findList:(NSUInteger *)listIndex andIndex:(NSUInteger *)transitionIndex ofTransition:(MMTransition *)aTransition;
 {
-    int i, temp;
+    NSUInteger i, temp;
 
     for (i = 0 ; i < [transitions count]; i++) {
         temp = [[transitions objectAtIndex:i] indexOfObject:aTransition];
@@ -761,7 +733,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     *listIndex = -1;
 }
 
-- (MMTransition *)findTransition:(int)listIndex andIndex:(int)transitionIndex;
+- (MMTransition *)findTransition:(NSUInteger)listIndex andIndex:(NSUInteger)transitionIndex;
 {
     //NSLog(@"Name: %@ (%d)\n", [[transitions objectAtIndex: listIndex] name], listIndex);
     //NSLog(@"\tCount: %d  index: %d  count: %d\n", [transitions count], index, [[transitions objectAtIndex: listIndex] count]);
@@ -770,7 +742,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (MMTransition *)findSpecialList:(NSString *)aListName named:(NSString *)aSpecialName;
 {
-    int i, j;
+    NSUInteger i, j;
 
     for (i = 0 ; i < [specialTransitions count]; i++) {
         NamedList *currentList;
@@ -792,9 +764,9 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     return nil;
 }
 
-- (void)findList:(int *)listIndex andIndex:(int *)specialIndex ofSpecial:(MMTransition *)aTransition;
+- (void)findList:(NSUInteger *)listIndex andIndex:(NSUInteger *)specialIndex ofSpecial:(MMTransition *)aTransition;
 {
-    int i, temp;
+    NSUInteger i, temp;
 
     for (i = 0 ; i < [specialTransitions count]; i++) {
         temp = [[specialTransitions objectAtIndex:i] indexOfObject:aTransition];
@@ -808,7 +780,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     *listIndex = -1;
 }
 
-- (MMTransition *)findSpecial:(int)listIndex andIndex:(int)specialIndex;
+- (MMTransition *)findSpecial:(NSUInteger)listIndex andIndex:(NSUInteger)specialIndex;
 {
     return [[specialTransitions objectAtIndex:listIndex] objectAtIndex:specialIndex];
 }
@@ -816,7 +788,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 - (NSArray *)usageOfEquation:(MMEquation *)anEquation;
 {
     NSMutableArray *array;
-    int count, index;
+    NSUInteger count, index;
     MMRule *aRule;
     NamedList *aGroup;
     MMTransition *aTransition;
@@ -826,13 +798,13 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     for (index = 0; index < count; index++) {
         aRule = [rules objectAtIndex:index];
         if ([aRule isEquationUsed:anEquation]) {
-            [array addObject:[NSString stringWithFormat:@"Rule: %d", index + 1]];
+            [array addObject:[NSString stringWithFormat:@"Rule: %lu", index + 1]];
         }
     }
 
     count = [transitions count];
     for (index = 0; index < count; index++) {
-        unsigned transitionCount, transitionIndex;
+        NSUInteger transitionCount, transitionIndex;
 
         aGroup = [transitions objectAtIndex:index];
         transitionCount = [aGroup count];
@@ -846,7 +818,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
     count = [specialTransitions count];
     for (index = 0; index < count; index++) {
-        unsigned transitionCount, transitionIndex;
+        NSUInteger transitionCount, transitionIndex;
 
         aGroup = [specialTransitions objectAtIndex:index];
         transitionCount = [aGroup count];
@@ -865,7 +837,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 - (NSArray *)usageOfTransition:(MMTransition *)aTransition;
 {
     NSMutableArray *array;
-    unsigned int count, index;
+    NSUInteger count, index;
     MMRule *aRule;
 
     array = [NSMutableArray array];
@@ -874,7 +846,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     for (index = 0; index < count; index++) {
         aRule = [rules objectAtIndex:index];
         if ([aRule isTransitionUsed:aTransition]) {
-            [array addObject:[NSString stringWithFormat:@"Rule: %d", index + 1]];
+            [array addObject:[NSString stringWithFormat:@"Rule: %lu", index + 1]];
         }
     }
 
@@ -903,9 +875,9 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 }
 
 // categoryLists is a list of lists of categories.
-- (MMRule *)findRuleMatchingCategories:(NSArray *)categoryLists ruleIndex:(int *)indexPtr;
+- (MMRule *)findRuleMatchingCategories:(NSArray *)categoryLists ruleIndex:(NSInteger *)indexPtr;
 {
-    unsigned int count, index;
+    NSUInteger count, index;
 
     count = [rules count];
     assert(count > 0);
@@ -1132,10 +1104,10 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     return result;
 }
 
-- (void)_appendXMLForEquationsToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForEquationsToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     NamedList *namedList;
-    int count, index;
+    NSUInteger count, index;
 
     [resultString indentToLevel:level];
     [resultString appendString:@"<equations>\n"];
@@ -1149,10 +1121,10 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [resultString appendString:@"</equations>\n"];
 }
 
-- (void)_appendXMLForTransitionsToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForTransitionsToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     NamedList *namedList;
-    int count, index;
+    NSUInteger count, index;
 
     [resultString indentToLevel:level];
     [resultString appendString:@"<transitions>\n"];
@@ -1166,10 +1138,10 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [resultString appendString:@"</transitions>\n"];
 }
 
-- (void)_appendXMLForProtoSpecialsToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForProtoSpecialsToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     NamedList *namedList;
-    int count, index;
+    NSUInteger count, index;
 
     [resultString indentToLevel:level];
     [resultString appendString:@"<special-transitions>\n"];
@@ -1202,7 +1174,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 #define SYMBOL_LENGTH_MAX 12
 - (void)readParametersFromDegasFile:(FILE *)fp;
 {
-    int i, sampleSize, number_of_phones, number_of_parameters;
+    NSUInteger i, sampleSize, number_of_phones, number_of_parameters;
     float minValue, maxValue, defaultValue;
     char tempSymbol[SYMBOL_LENGTH_MAX + 1];
     NSString *str;
@@ -1242,7 +1214,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)readCategoriesFromDegasFile:(FILE *)fp;
 {
-    int i, count;
+    NSUInteger i, count;
 
     MMCategory *newCategory;
     char symbolString[SYMBOL_LENGTH_MAX+1];
@@ -1266,13 +1238,13 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)readPosturesFromDegasFile:(FILE *)fp;
 {
-    int i, j, symbolIndex;
-    int phoneCount, targetCount, categoryCount;
+    NSUInteger i, j, symbolIndex;
+    NSUInteger phoneCount, targetCount, categoryCount;
 
-    int tempDuration, tempType, tempFixed;
+    NSUInteger tempDuration, tempType, tempFixed;
     float tempProp;
 
-    int tempDefault;
+    NSUInteger tempDefault;
     float tempValue;
 
     MMPosture *newPhone;
@@ -1346,11 +1318,11 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)readRulesFromDegasFile:(FILE *)fp;
 {
-    int numRules;
-    int i, j, k, l;
-    int j1, k1, l1;
-    int dummy;
-    int tempLength;
+    NSUInteger numRules;
+    NSUInteger i, j, k, l;
+    NSUInteger j1, k1, l1;
+    NSUInteger dummy;
+    NSUInteger tempLength;
     char buffer[1024];
     char buffer1[1024];
     MMBooleanParser *boolParser;
@@ -1448,7 +1420,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)_writeCategoriesToFile:(FILE *)fp;
 {
-    unsigned count, index;
+    NSUInteger count, index;
 
     fprintf(fp, "Categories\n");
     count = [categories count];
@@ -1466,7 +1438,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)_writeParametersToFile:(FILE *)fp;
 {
-    unsigned count, index;
+    NSUInteger count, index;
 
     fprintf(fp, "Parameters\n");
     count = [parameters count];
@@ -1486,7 +1458,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)_writeSymbolsToFile:(FILE *)fp;
 {
-    unsigned count, index;
+    NSUInteger count, index;
 
     fprintf(fp, "Symbols\n");
     count = [symbols count];
@@ -1506,8 +1478,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)_writePosturesToFile:(FILE *)fp;
 {
-    unsigned count, index;
-    int j;
+    NSUInteger count, index;
+    NSUInteger j;
 
     fprintf(fp, "Phones\n");
     count = [postures count];
@@ -1581,8 +1553,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 - (void)parameter:(MMParameter *)aParameter willChangeDefaultValue:(double)newDefaultValue;
 {
     double oldDefaultValue;
-    unsigned int count, index;
-    unsigned int parameterIndex;
+    NSUInteger count, index;
+    NSUInteger parameterIndex;
 
     oldDefaultValue = [aParameter defaultValue];
     count = [postures count];
@@ -1605,8 +1577,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 - (void)symbol:(MMSymbol *)aSymbol willChangeDefaultValue:(double)newDefaultValue;
 {
     double oldDefaultValue;
-    unsigned int count, index;
-    unsigned int symbolIndex;
+    NSUInteger count, index;
+    NSUInteger symbolIndex;
 
     oldDefaultValue = [aSymbol defaultValue];
     count = [postures count];

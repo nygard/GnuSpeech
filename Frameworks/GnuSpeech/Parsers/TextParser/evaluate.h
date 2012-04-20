@@ -1,6 +1,6 @@
 /*******************************************************************************
  *
- *  Copyright (c) 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
+ *  Copyright (c) 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
  *  
  *  Contributors: 
  *
@@ -29,4 +29,4 @@
 #define  EVAL_NO             0
 #define  EVAL_YES            1
 
-extern int evaluate(char *rule, char *phone);
+int evaluate(char *rule, char *phone);

@@ -1,6 +1,6 @@
 /*******************************************************************************
  *
- *  Copyright (c) 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
+ *  Copyright (c) 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
  *  
  *  Contributors: 
  *
@@ -28,4 +28,4 @@
 
 #import <stdio.h>
 
-extern void readFromFileCategories(FILE *fp1);
+void readFromFileCategories(FILE *fp1);

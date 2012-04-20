@@ -1,36 +1,7 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
-//  
-//  Contributors: Steve Nygard, Dalmazio Brisinda
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
-////////////////////////////////////////////////////////////////////////////////
-//
-//  TTSParserOld.m
-//  GnuSpeech
-//
-//  Created by Steve Nygard in 2004.
-//
-//  Version: 0.9.1
-//
-////////////////////////////////////////////////////////////////////////////////
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "TTSParserOld.h"
 
-#import <Foundation/Foundation.h>
 #import "NSScanner-Extensions.h"
 #import "NSString-Extensions.h"
 
@@ -145,7 +116,7 @@ static NSDictionary *_specialAcronyms = nil;
 
 // Added as a temporary fix for punctuation problems, we pad all characters in the supplied character set (punctuation)
 // with a space character. -- dalmazio, Jan. 2009.
-- (NSString *) padCharactersInSet:(NSCharacterSet *)characterSet ofString:(NSString *)aString;
+- (NSString *)padCharactersInSet:(NSCharacterSet *)characterSet ofString:(NSString *)aString;
 {
 	unichar ch;
 	NSMutableString * newString = [[[NSMutableString alloc] initWithCapacity:[aString length]*2] autorelease];
@@ -233,9 +204,9 @@ static NSDictionary *_specialAcronyms = nil;
 // array so they are not rendered. -- dalmazio, Jan. 2009.
 - (NSArray *) filterEmptyStringsFromArray:(NSArray *)theArray;
 {	
-	NSMutableArray * filteredArray = [[[NSMutableArray alloc] initWithCapacity:[theArray count]] autorelease];
-	NSString * item;
-	for (int i = 0; i < [theArray count]; i++) {
+	NSMutableArray *filteredArray = [[[NSMutableArray alloc] initWithCapacity:[theArray count]] autorelease];
+	NSString *item;
+	for (NSUInteger i = 0; i < [theArray count]; i++) {
 		item = [theArray objectAtIndex:i];
 		if (![item isEqualToString:@""])
 			[filteredArray addObject:item];
@@ -246,11 +217,11 @@ static NSDictionary *_specialAcronyms = nil;
 - (void)finalConversion:(NSString *)aString resultString:(NSMutableString *)resultString;
 {
     NSArray *words;
-    int previousState, currentState, nextState;
-    unsigned int count, index;
+    NSUInteger previousState, currentState, nextState;
+    NSUInteger count, index;
     BOOL priorTonic = NO;
-    unsigned int toneGroupMarkerLocation = NSNotFound;
-    unsigned int lastWordEndLocation = NSNotFound;
+    NSUInteger toneGroupMarkerLocation = NSNotFound;
+    NSUInteger lastWordEndLocation = NSNotFound;
     NSString *currentWord, *nextWord;
 
     previousState = TTS_STATE_BEGIN;
@@ -417,7 +388,7 @@ static NSDictionary *_specialAcronyms = nil;
     }
 }
 
-- (int)stateForWord:(NSString *)word;
+- (NSUInteger)stateForWord:(NSString *)word;
 {
     if (word == nil)
         return TTS_STATE_END;
@@ -439,7 +410,7 @@ static NSDictionary *_specialAcronyms = nil;
 {
     BOOL isPossessive;
     NSString *pronunciation = nil;
-    unsigned int lastFootBegin;
+    NSUInteger lastFootBegin;
     NSString *lastPhoneme = nil;
 
     // Strip of possessive if word ends with 's
@@ -546,7 +517,7 @@ static NSDictionary *_specialAcronyms = nil;
 - (NSString *)degenerateString:(NSString *)word;
 {
     NSMutableString *resultString;
-    unsigned int length, index;
+    NSUInteger length, index;
     unichar ch;
 
     resultString = [NSMutableString string];

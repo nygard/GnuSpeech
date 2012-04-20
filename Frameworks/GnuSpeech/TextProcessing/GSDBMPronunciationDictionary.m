@@ -1,39 +1,9 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
-//  
-//  Contributors: Steve Nygard
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
-////////////////////////////////////////////////////////////////////////////////
-//
-//  GSDBMPronunciationDictionary.m
-//  GnuSpeech
-//
-//  Created by Steve Nygard in 2004.
-//
-//  Version: 0.9.1
-//
-////////////////////////////////////////////////////////////////////////////////
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "GSDBMPronunciationDictionary.h"
+
 #import "NSFileManager-Extensions.h"
 #import "GSSimplePronunciationDictionary.h"
-#import <Foundation/NSArray.h>
-#import <Foundation/NSDictionary.h>
-#import <Foundation/NSException.h>
 
 @implementation GSDBMPronunciationDictionary
 
@@ -66,7 +36,7 @@
 {
     NSDictionary *pronunciations;
     NSArray *allKeys;
-    unsigned int count, index;
+    NSUInteger count, index;
     DBM *newDB;
     NSString *key, *value;
     datum keyDatum, valueDatum;
@@ -84,7 +54,7 @@
     }
 
     count = [allKeys count];
-    NSLog(@"%d keys", count);
+    NSLog(@"%lu keys", count);
 
     for (index = 0; index < count; index++) {
         key = [allKeys objectAtIndex:index];
@@ -99,7 +69,7 @@
 
         result = dbm_store(newDB, keyDatum, valueDatum, DBM_REPLACE);
         if (result != 0)
-            NSLog(@"Could not dbmstore(): index: %5d, key: %@, value: %@", index, key, value);
+            NSLog(@"Could not dbmstore(): index: %5lu, key: %@, value: %@", index, key, value);
     }
 
     dbm_close(newDB);

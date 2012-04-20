@@ -1,36 +1,8 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
-//  
-//  Contributors: Steve Nygard
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
-////////////////////////////////////////////////////////////////////////////////
-//
-//  MMPosture.h
-//  GnuSpeech
-//
-//  Created by Steve Nygard in 2004.
-//
-//  Version: 0.9.1
-//
-////////////////////////////////////////////////////////////////////////////////
+//  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "MMNamedObject.h"
 
-@class NSMutableArray, NSMutableString;
 @class CategoryList, MMCategory, MMSymbol, MMTarget;
 
 /*===========================================================================
@@ -105,15 +77,15 @@
 - (NSMutableArray *)symbolTargets;
 
 - (void)addParameterTarget:(MMTarget *)newTarget;
-- (void)removeParameterTargetAtIndex:(unsigned int)index;
+- (void)removeParameterTargetAtIndex:(NSUInteger)index;
 - (void)addParameterTargetsFromDictionary:(NSDictionary *)aDictionary;
 
 - (void)addMetaParameterTarget:(MMTarget *)newTarget;
-- (void)removeMetaParameterTargetAtIndex:(unsigned int)index;
+- (void)removeMetaParameterTargetAtIndex:(NSUInteger)index;
 - (void)addMetaParameterTargetsFromDictionary:(NSDictionary *)aDictionary;
 
 - (void)addSymbolTarget:(MMTarget *)newTarget;
-- (void)removeSymbolTargetAtIndex:(unsigned int)index;
+- (void)removeSymbolTargetAtIndex:(NSUInteger)index;
 - (void)addSymbolTargetsFromDictionary:(NSDictionary *)aDictionary;
 
 - (MMTarget *)targetForSymbol:(MMSymbol *)aSymbol;
@@ -123,11 +95,11 @@
 // Archiving
 - (id)initWithCoder:(NSCoder *)aDecoder;
 
-- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
-- (void)_appendXMLForCategoriesToString:(NSMutableString *)resultString level:(int)level;
-- (void)_appendXMLForParametersToString:(NSMutableString *)resultString level:(int)level;
-- (void)_appendXMLForMetaParametersToString:(NSMutableString *)resultString level:(int)level;
-- (void)_appendXMLForSymbolsToString:(NSMutableString *)resultString level:(int)level;
+- (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
+- (void)_appendXMLForCategoriesToString:(NSMutableString *)resultString level:(NSUInteger)level;
+- (void)_appendXMLForParametersToString:(NSMutableString *)resultString level:(NSUInteger)level;
+- (void)_appendXMLForMetaParametersToString:(NSMutableString *)resultString level:(NSUInteger)level;
+- (void)_appendXMLForSymbolsToString:(NSMutableString *)resultString level:(NSUInteger)level;
 
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;

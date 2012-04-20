@@ -1,36 +1,8 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright (c) 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
-//  
-//  Contributors: Steve Nygard
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
-////////////////////////////////////////////////////////////////////////////////
-//
-//  MMFormulaTerminal.m
-//  GnuSpeech
-//
-//  Created by Steve Nygard in 2004.
-//
-//  Version: 0.9.1
-//
-////////////////////////////////////////////////////////////////////////////////
+//  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
+//  Copyright (c) 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "MMFormulaTerminal.h"
 
-#import <Foundation/Foundation.h>
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
 
@@ -86,12 +58,12 @@
     value = newValue;
 }
 
-- (int)whichPhone;
+- (NSInteger)whichPhone;
 {
     return whichPhone;
 }
 
-- (void)setWhichPhone:(int)newValue;
+- (void)setWhichPhone:(NSInteger)newValue;
 {
     whichPhone = newValue;
 }
@@ -100,7 +72,7 @@
 // Methods overridden from MMFormulaNode
 //
 
-- (int)precedence;
+- (NSUInteger)precedence;
 {
     return 3;
 }
@@ -147,7 +119,7 @@
     return [symbolTarget value];
 }
 
-- (int)maxPhone;
+- (NSInteger)maxPhone;
 {
     return whichPhone;
 }
@@ -187,7 +159,7 @@
           if (symbol == nil) {
               [resultString appendFormat:@"%f", value];
           } else {
-              [resultString appendFormat:@"%@%d", [symbol name], whichPhone+1];
+              [resultString appendFormat:@"%@%lu", [symbol name], whichPhone+1];
           }
           break;
     }

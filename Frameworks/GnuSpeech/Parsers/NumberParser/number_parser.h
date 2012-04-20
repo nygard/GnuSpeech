@@ -1,6 +1,6 @@
 /*******************************************************************************
  *
- *  Copyright (c) 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
+ *  Copyright (c) 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
  *  
  *  Contributors: 
  *
@@ -34,8 +34,8 @@
 
 
 /*  DECLARATONS TO MAKE THESE FUNCTIONS USABLE BY CALLING ROUTINES  */
-extern char *number_parser(const char *word_ptr, int mode);
-extern char *degenerate_string(const char *word);
+char *number_parser(const char *word_ptr, int mode);
+char *degenerate_string(const char *word);
 
 
 

@@ -1,30 +1,5 @@
-/*******************************************************************************
- *
- *  Copyright (c) 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
- *  
- *  Contributors: Steve Nygard
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- *******************************************************************************
- *
- *  wavetable.c
- *  Tube
- *
- *  Version: 1.0.1
- *
- ******************************************************************************/
+//  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #include <stdlib.h>
 #include <math.h>
@@ -36,7 +11,7 @@
 #undef USE_VECLIB
 #else
 #define USE_VECLIB
-#include <vecLib/vecLib.h>
+#import <Accelerate/Accelerate.h>
 #endif
 
 //  Glottal source oscillator table variables
@@ -56,10 +31,10 @@ static double mod0(double value)
 }
 
 // Calculates the initial glottal pulse and stores it in the wavetable, for use in the oscillator.
-TRMWavetable *TRMWavetableCreate(int waveform, double tp, double tnMin, double tnMax, double sampleRate)
+TRMWavetable *TRMWavetableCreate(int32_t waveform, double tp, double tnMin, double tnMax, double sampleRate)
 {
     TRMWavetable *newWavetable;
-    int i, j;
+    int32_t i, j;
 
     newWavetable = (TRMWavetable *)malloc(sizeof(TRMWavetable));
     if (newWavetable == NULL) {
@@ -132,7 +107,6 @@ void TRMWavetableFree(TRMWavetable *wavetable)
     free(wavetable);
 }
 
-
 // Rewrites the changeable part of the glottal pulse according to the amplitude.
 void TRMWavetableUpdate(TRMWavetable *wavetable, double amplitude)
 {
@@ -148,7 +122,7 @@ void TRMWavetableUpdate(TRMWavetable *wavetable, double amplitude)
     {
         double aj[TABLE_LENGTH], ajj[TABLE_LENGTH], one[TABLE_LENGTH];
         double scale = 1.0 / (newTnLength * newTnLength);
-        int len;
+        int32_t len;
 
         len = newTnLength;
         for (i = 0, j = 0.0; i < len; i++, j += 1.0) {
@@ -156,9 +130,9 @@ void TRMWavetableUpdate(TRMWavetable *wavetable, double amplitude)
             one[i] = 1.0;
         }
 
-        vsqD(aj, 1, ajj, 1, len);
-        vsmulD(ajj, 1, &scale, aj, 1, len);
-        vsubD(aj, 1, one, 1, &(wavetable->wavetable[wavetable->tableDiv1]), 1, len); // The docs seem to be wrong about which one gets subtracted...
+        vDSP_vsqD(aj, 1, ajj, 1, len);
+        vDSP_vsmulD(ajj, 1, &scale, aj, 1, len);
+        vDSP_vsubD(aj, 1, one, 1, &(wavetable->wavetable[wavetable->tableDiv1]), 1, len); // The docs seem to be wrong about which one gets subtracted...
     }
 #else
     {
@@ -194,7 +168,7 @@ static void TRMWavetableIncrementPosition(TRMWavetable *wavetable, double freque
 #if OVERSAMPLING_OSCILLATOR
 double TRMWavetableOscillator(TRMWavetable *wavetable, double frequency)  //  2X oversampling oscillator
 {
-    int i, lowerPosition, upperPosition;
+    int32_t i, lowerPosition, upperPosition;
     double interpolatedValue, output;
 
 
@@ -221,7 +195,7 @@ double TRMWavetableOscillator(TRMWavetable *wavetable, double frequency)  //  2X
 #else
 double TRMWavetableOscillator(TRMWavetable *wavetable, double frequency)  //  Plain oscillator
 {
-    int lowerPosition, upperPosition;
+    int32_t lowerPosition, upperPosition;
 
 
     //  First increment the table position, depending on frequency

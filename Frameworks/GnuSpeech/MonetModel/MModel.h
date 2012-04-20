@@ -1,39 +1,11 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
-//  
-//  Contributors: Steve Nygard
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
-////////////////////////////////////////////////////////////////////////////////
-//
-//  MModel.h
-//  GnuSpeech
-//
-//  Created by Steve Nygard in 2004.
-//
-//  Version: 0.9.1
-//
-////////////////////////////////////////////////////////////////////////////////
+//  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
-#import <Foundation/NSObject.h>
+#import <Foundation/Foundation.h>
 #include <stdio.h>
 
 @class CategoryList, MonetList, NamedList, PhoneList;
 @class MMCategory, MMEquation, MMParameter, MMPosture, MMRule, MMSymbol, MMSynthesisParameters, MMTransition;
-@class NSArray, NSDictionary, NSMutableArray, NSMutableString, NSXMLParser;
 
 extern NSString *MCategoryInUseException;
 
@@ -50,7 +22,7 @@ extern NSString *MCategoryInUseException;
     NSMutableArray *specialTransitions; // Of NamedLists of MMTransitions
 
     NSMutableArray *rules;
-    int cacheTag;
+    NSUInteger cacheTag;
 
     // This doesn't really belong here, but I'll put it here for now.
     MMSynthesisParameters *synthesisParameters;
@@ -114,16 +86,16 @@ extern NSString *MCategoryInUseException;
 - (MMTransition *)findSpecialTransitionWithName:(NSString *)aTransitionName;
 
 - (MMEquation *)findEquationList:(NSString *)aListName named:(NSString *)anEquationName;
-- (void)findList:(int *)listIndex andIndex:(int *)equationIndex ofEquation:(MMEquation *)anEquation;
-- (MMEquation *)findEquation:(int)listIndex andIndex:(int)equationIndex;
+- (void)findList:(NSUInteger *)listIndex andIndex:(NSUInteger *)equationIndex ofEquation:(MMEquation *)anEquation;
+- (MMEquation *)findEquation:(NSUInteger)listIndex andIndex:(NSUInteger)equationIndex;
 
 - (MMTransition *)findTransitionList:(NSString *)aListName named:(NSString *)aTransitionName;
-- (void)findList:(int *)listIndex andIndex:(int *)transitionIndex ofTransition:(MMTransition *)aTransition;
-- (MMTransition *)findTransition:(int)listIndex andIndex:(int)transitionIndex;
+- (void)findList:(NSUInteger *)listIndex andIndex:(NSUInteger *)transitionIndex ofTransition:(MMTransition *)aTransition;
+- (MMTransition *)findTransition:(NSUInteger)listIndex andIndex:(NSUInteger)transitionIndex;
 
 - (MMTransition *)findSpecialList:(NSString *)aListName named:(NSString *)aSpecialName;
-- (void)findList:(int *)listIndex andIndex:(int *)specialIndex ofSpecial:(MMTransition *)aTransition;
-- (MMTransition *)findSpecial:(int)listIndex andIndex:(int)specialIndex;
+- (void)findList:(NSUInteger *)listIndex andIndex:(NSUInteger *)specialIndex ofSpecial:(MMTransition *)aTransition;
+- (MMTransition *)findSpecial:(NSUInteger)listIndex andIndex:(NSUInteger)specialIndex;
 
 - (NSArray *)usageOfEquation:(MMEquation *)anEquation;
 - (NSArray *)usageOfTransition:(MMTransition *)aTransition;
@@ -131,7 +103,7 @@ extern NSString *MCategoryInUseException;
 // Rules
 - (void)addRule:(MMRule *)newRule;
 - (void)_addStoredRule:(MMRule *)newRule;
-- (MMRule *)findRuleMatchingCategories:(NSArray *)categoryLists ruleIndex:(int *)indexPtr;
+- (MMRule *)findRuleMatchingCategories:(NSArray *)categoryLists ruleIndex:(NSInteger *)indexPtr;
 
 // Archiving
 - (id)initWithCoder:(NSCoder *)aDecoder;
@@ -140,9 +112,9 @@ extern NSString *MCategoryInUseException;
 
 // Archiving - XML
 - (BOOL)writeXMLToFile:(NSString *)aFilename comment:(NSString *)aComment;
-- (void)_appendXMLForEquationsToString:(NSMutableString *)resultString level:(int)level;
-- (void)_appendXMLForTransitionsToString:(NSMutableString *)resultString level:(int)level;
-- (void)_appendXMLForProtoSpecialsToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForEquationsToString:(NSMutableString *)resultString level:(NSUInteger)level;
+- (void)_appendXMLForTransitionsToString:(NSMutableString *)resultString level:(NSUInteger)level;
+- (void)_appendXMLForProtoSpecialsToString:(NSMutableString *)resultString level:(NSUInteger)level;
 
 // Archiving - Degas support
 - (void)readDegasFileFormat:(FILE *)fp;

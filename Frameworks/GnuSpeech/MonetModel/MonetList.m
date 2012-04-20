@@ -1,42 +1,8 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
-//  
-//  Contributors: Adam Fedor
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
-////////////////////////////////////////////////////////////////////////////////
-//
-//  MonetList.m
-//  GnuSpeech
-//
-//  Created by Adam Fedor in December, 2002.
-//
-//  Version: 0.9.1
-//
-////////////////////////////////////////////////////////////////////////////////
-
-/* MonetList - Base list class for all MONET list classes
- *
- * Written: Adam Fedor <fedor@gnu.org>
- * Date: Dec, 2002
- */
+//  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "MonetList.h"
 
-#import <Foundation/Foundation.h>
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
 
@@ -47,7 +13,7 @@
     return [self initWithCapacity:2];
 }
 
-- (id)initWithCapacity:(unsigned)numItems;
+- (id)initWithCapacity:(NSUInteger)numItems;
 {
     if ([super init] == nil)
         return nil;
@@ -69,12 +35,12 @@
     return ilist;
 }
 
-- (unsigned)count;
+- (NSUInteger)count;
 {
     return [ilist count];
 }
 
-- (unsigned)indexOfObject:(id)anObject;
+- (NSUInteger)indexOfObject:(id)anObject;
 {
     return [ilist indexOfObject:anObject];
 }
@@ -89,7 +55,7 @@
     //NSLog(@"%s", _cmd);
 }
 
-- (id)objectAtIndex:(unsigned)index;
+- (id)objectAtIndex:(NSUInteger)index;
 {
     if (index >= [ilist count]) {
         //NSLog(@"Warning: index out of range in %s, returning nil for compatibility with List from NS3.3", _cmd);
@@ -129,12 +95,12 @@
     [ilist addObject:anObject];
 }
 
-- (void)insertObject:(id)anObject atIndex:(unsigned)index;
+- (void)insertObject:(id)anObject atIndex:(NSUInteger)index;
 {
     [ilist insertObject:anObject atIndex:index];
 }
 
-- (void)removeObjectAtIndex:(unsigned)index;
+- (void)removeObjectAtIndex:(NSUInteger)index;
 {
     [ilist removeObjectAtIndex:index];
 }
@@ -144,7 +110,7 @@
     [ilist removeObject:anObject];
 }
 
-- (void)replaceObjectAtIndex:(unsigned)index withObject:(id)anObject;
+- (void)replaceObjectAtIndex:(NSUInteger)index withObject:(id)anObject;
 {
     [ilist replaceObjectAtIndex:index withObject:anObject];
 }
@@ -166,8 +132,7 @@
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
-    unsigned archivedVersion;
-    int count;
+    NSUInteger count;
 
     if ([super initWithCoder:aDecoder] == nil)
         return nil;
@@ -176,7 +141,7 @@
     ilist = [[NSMutableArray alloc] init];
 
     //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
-    archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
+    /*NSInteger archivedVersion =*/ [aDecoder versionForClassName:NSStringFromClass([self class])];
     //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
     //NSLog(@"aDecoder version for class %@ is: %u", @"List", archivedVersion);
 
@@ -189,7 +154,7 @@
 
         array = malloc(count * sizeof(id *));
         if (array == NULL) {
-            NSLog(@"malloc()'ing %d id *'s failed.", count);
+            NSLog(@"malloc()'ing %lu id *'s failed.", count);
         } else {
             int index;
 
@@ -211,9 +176,9 @@
     return [ilist description];
 }
 
-- (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(int)level;
+- (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(NSUInteger)level;
 {
-    int count, index;
+    NSUInteger count, index;
 
     count = [self count];
     if (count == 0)
@@ -229,9 +194,9 @@
     [resultString appendFormat:@"</%@>\n", elementName];
 }
 
-- (void)appendXMLForObjectPointersToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(int)level;
+- (void)appendXMLForObjectPointersToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(NSUInteger)level;
 {
-    int count, index;
+    NSUInteger count, index;
 
     count = [self count];
     if (count == 0)

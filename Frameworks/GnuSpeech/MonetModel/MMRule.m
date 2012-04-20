@@ -1,36 +1,8 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
-//  
-//  Contributors: Steve Nygard
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
-////////////////////////////////////////////////////////////////////////////////
-//
-//  MMRule.m
-//  GnuSpeech
-//
-//  Created by Steve Nygard in 2004.
-//
-//  Version: 0.9.1
-//
-////////////////////////////////////////////////////////////////////////////////
+//  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "MMRule.h"
 
-#import <Foundation/Foundation.h>
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
 
@@ -73,7 +45,7 @@
 
 - (void)dealloc;
 {
-    int index;
+    NSUInteger index;
 
     [parameterTransitions release];
     [metaParameterTransitions release];
@@ -89,12 +61,12 @@
     [super dealloc];
 }
 
-- (void)setDefaultsTo:(int)numPhones;
+- (void)setDefaultsTo:(NSUInteger)numPhones;
 {
     id tempEntry = nil;
     MMEquation *anEquation, *defaultOnset, *defaultDuration;
     NSArray *aParameterList;
-    int i;
+    NSUInteger i;
 
     /* Empty out the lists */
     [parameterTransitions removeAllObjects];
@@ -232,12 +204,12 @@
         [metaParameterTransitions addObject:aTransition];
 }
 
-- (void)removeParameterAtIndex:(int)index;
+- (void)removeParameterAtIndex:(NSUInteger)index;
 {
     [parameterTransitions removeObjectAtIndex:index];
 }
 
-- (void)removeMetaParameterAtIndex:(int)index;
+- (void)removeMetaParameterAtIndex:(NSUInteger)index;
 {
     [metaParameterTransitions removeObjectAtIndex:index];
 }
@@ -250,7 +222,7 @@
 - (void)addParameterTransitionsFromReferenceDictionary:(NSDictionary *)dict;
 {
     NSArray *parameters;
-    unsigned int count, index;
+    NSUInteger count, index;
     MMParameter *parameter;
     NSString *name;
     MMTransition *transition;
@@ -279,7 +251,7 @@
 - (void)addMetaParameterTransitionsFromReferenceDictionary:(NSDictionary *)dict;
 {
     NSArray *parameters;
-    unsigned int count, index;
+    NSUInteger count, index;
     MMParameter *parameter;
     NSString *name;
     MMTransition *transition;
@@ -303,7 +275,7 @@
 - (void)addSpecialProfilesFromReferenceDictionary:(NSDictionary *)dict;
 {
     NSArray *parameters;
-    unsigned int count, index;
+    NSUInteger count, index;
     MMParameter *parameter;
     NSString *transitionName;
     MMTransition *transition;
@@ -335,7 +307,7 @@
 - (void)addSymbolEquationsFromReferenceDictionary:(NSDictionary *)dict;
 {
     NSArray *symbols;
-    unsigned int count, index;
+    NSUInteger count, index;
     NSString *symbolName, *equationName;
     MMEquation *equation;
 
@@ -360,9 +332,9 @@
     [symbols release];
 }
 
-- (void)setExpression:(MMBooleanNode *)newExpression number:(int)index;
+- (void)setExpression:(MMBooleanNode *)newExpression number:(NSUInteger)index;
 {
-    if ((index > 3) || (index < 0))
+    if (index > 3)
         return;
 
     if (newExpression == expressions[index])
@@ -372,9 +344,9 @@
     expressions[index] = [newExpression retain];
 }
 
-- (int)numberExpressions;
+- (NSUInteger)numberExpressions;
 {
-    int index;
+    NSUInteger index;
 
     for (index = 0; index < 4; index++)
         if (expressions[index] == nil)
@@ -383,9 +355,9 @@
     return index;
 }
 
-- (MMBooleanNode *)getExpressionNumber:(int)index;
+- (MMBooleanNode *)getExpressionNumber:(NSUInteger)index;
 {
-    if ((index > 3) || (index < 0))
+    if (index > 3)
         return nil;
 
     return expressions[index];
@@ -393,7 +365,7 @@
 
 - (void)addBooleanExpression:(MMBooleanNode *)newExpression;
 {
-    int index;
+    NSUInteger index;
 
     for (index = 0; index < 4; index++) {
         if (expressions[index] == nil) {
@@ -443,7 +415,7 @@
 
 - (BOOL)matchRule:(NSArray *)categories;
 {
-    int index;
+    NSUInteger index;
 
     for (index = 0; index < [self numberExpressions]; index++) {
         if (![expressions[index] evaluateWithCategories:[categories objectAtIndex:index]])
@@ -458,9 +430,9 @@
     return [symbolEquations objectAtIndex:index];
 }
 
-- (void)evaluateSymbolEquations:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures withCache:(int)cache;
+- (void)evaluateSymbolEquations:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures withCache:(NSUInteger)cache;
 {
-    unsigned int count;
+    NSUInteger count;
 
     count = [symbolEquations count];
     // It is not okay to do these in order -- beat often depends on duration, mark1, mark2, and/or mark3.
@@ -506,17 +478,17 @@
     return symbolEquations;
 }
 
-- (MMTransition *)getSpecialProfile:(int)index;
+- (MMTransition *)getSpecialProfile:(NSUInteger)index;
 {
-    if ((index > 15) || (index < 0))
+    if (index > 15)
         return nil;
 
     return specialProfiles[index];
 }
 
-- (void)setSpecialProfile:(int)index to:(MMTransition *)special;
+- (void)setSpecialProfile:(NSUInteger)index to:(MMTransition *)special;
 {
-    if ((index > 15) || (index < 0))
+    if (index > 15)
         return;
 
     specialProfiles[index] = special;
@@ -524,7 +496,7 @@
 
 - (BOOL)isCategoryUsed:(MMCategory *)aCategory;
 {
-    int count, index;
+    NSUInteger count, index;
 
     count = [self numberExpressions];
     for (index = 0; index < count; index++) {
@@ -545,7 +517,7 @@
 
 - (BOOL)isTransitionUsed:(MMTransition *)aTransition;
 {
-    int index;
+    NSUInteger index;
 
     if ([parameterTransitions indexOfObject:aTransition] != NSNotFound)
         return YES;
@@ -562,9 +534,8 @@
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
-    unsigned archivedVersion;
-    int index, j, k;
-    int symbolCount, parameterCount, metaParmaterCount;
+    NSUInteger index, j, k;
+    NSUInteger symbolCount, parameterCount, metaParmaterCount;
     id tempParameter;
     char *c_comment;
     MModel *model;
@@ -576,7 +547,7 @@
     //NSLog(@"model: %p, class: %@", model, NSStringFromClass([model class]));
 
     //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
-    archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
+    /*NSInteger archivedVersion =*/ [aDecoder versionForClassName:NSStringFromClass([self class])];
     //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
 
     parameterTransitions = [[NSMutableArray alloc] init];
@@ -660,15 +631,15 @@
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@>[%p]: parameterTransitions: %@, metaParameterTransitions: %@, symbolEquations(%d): %@, comment: %@, e1: %@, e2: %@, e3: %@, e4: %@",
+    return [NSString stringWithFormat:@"<%@>[%p]: parameterTransitions: %@, metaParameterTransitions: %@, symbolEquations(%lu): %@, comment: %@, e1: %@, e2: %@, e3: %@, e4: %@",
                      NSStringFromClass([self class]), self, parameterTransitions, metaParameterTransitions, [symbolEquations count], symbolEquations,
                      comment, [expressions[0] expressionString], [expressions[1] expressionString], [expressions[2] expressionString],
                      [expressions[3] expressionString]];
 }
 
-- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+- (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
-    unsigned int index;
+    NSUInteger index;
 
     [resultString indentToLevel:level];
     [resultString appendString:@"<rule>\n"];
@@ -703,10 +674,10 @@
     [resultString appendFormat:@"</rule>\n"];
 }
 
-- (void)_appendXMLForParameterTransitionsToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForParameterTransitionsToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     NSArray *mainParameterList;
-    int count, index;
+    NSUInteger count, index;
 
     mainParameterList = [[self model] parameters];
     assert([mainParameterList count] == [parameterTransitions count]);
@@ -734,10 +705,10 @@
     [resultString appendString:@"</parameter-profiles>\n"];
 }
 
-- (void)_appendXMLForMetaParameterTransitionsToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForMetaParameterTransitionsToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     NSArray *mainMetaParameterList;
-    int count, index;
+    NSUInteger count, index;
 
     mainMetaParameterList = [[self model] metaParameters];
     assert([mainMetaParameterList count] == [metaParameterTransitions count]);
@@ -765,10 +736,10 @@
     [resultString appendString:@"</meta-parameter-profiles>\n"];
 }
 
-- (void)_appendXMLForSpecialProfilesToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForSpecialProfilesToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     NSArray *mainParameterList;
-    int count, index;
+    NSUInteger count, index;
     BOOL hasSpecialProfiles = NO;
 
     mainParameterList = [[self model] parameters];
@@ -805,9 +776,9 @@
     [resultString appendString:@"</special-profiles>\n"];
 }
 
-- (void)_appendXMLForSymbolEquationsToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForSymbolEquationsToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
-    int count, index;
+    NSUInteger count, index;
 
     if ([symbolEquations count] == 0)
         return;
@@ -831,7 +802,7 @@
     [resultString appendString:@"</expression-symbols>\n"];
 }
 
-- (NSString *)symbolNameAtIndex:(int)index;
+- (NSString *)symbolNameAtIndex:(NSUInteger)index;
 {
     switch (index) {
       case 0: return @"rd";
@@ -846,7 +817,7 @@
 
 - (void)setRuleExpression1:(MMBooleanNode *)exp1 exp2:(MMBooleanNode *)exp2 exp3:(MMBooleanNode *)exp3 exp4:(MMBooleanNode *)exp4;
 {
-    int oldExpressionCount;
+    NSUInteger oldExpressionCount;
 
     oldExpressionCount = [self numberExpressions];
 

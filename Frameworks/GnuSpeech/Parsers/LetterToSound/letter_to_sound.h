@@ -1,6 +1,6 @@
 /*******************************************************************************
  *
- *  Copyright (c) 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
+ *  Copyright (c) 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
  *  
  *  Contributors: 
  *
@@ -28,5 +28,5 @@
 
 
 /*  GLOBAL FUNCTIONS *********************************************************/
-extern char *letter_to_sound(char *word);
+char *letter_to_sound(char *word);
 

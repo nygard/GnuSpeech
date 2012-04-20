@@ -1,47 +1,10 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
-//  
-//  Contributors: Steve Nygard
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
-////////////////////////////////////////////////////////////////////////////////
-//
-//  MAIntonationView.h
-//  Monet
-//
-//  Created by Steve Nygard in 2004.
-//
-//  Version: 0.9.7
-//
-////////////////////////////////////////////////////////////////////////////////
+//  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
-#import <Foundation/Foundation.h>
-#import <AppKit/AppKit.h> 
+#import <Cocoa/Cocoa.h>
 
 @class EventList, MMIntonationPoint;
 @class MAIntonationScaleView;
-
-/*===========================================================================
-
-	Author: Craig-Richard Taube-Schock
-		Copyright (c) 1994, Trillium Sound Research Incorporated.
-		All Rights Reserved.
-
-=============================================================================
-*/
 
 @protocol MAIntonationViewNotification
 - (void)intonationViewSelectionDidChange:(NSNotification *)aNotification;
@@ -65,7 +28,7 @@ extern NSString *MAIntonationViewSelectionDidChangeNotification;
 
     EventList *eventList;
 
-    float timeScale;
+    CGFloat timeScale;
 
     NSMutableArray *selectedPoints;
     NSPoint selectionPoint1;
@@ -98,7 +61,7 @@ extern NSString *MAIntonationViewSelectionDidChangeNotification;
 - (id)delegate;
 - (void)setDelegate:(id)newDelegate;
 
-- (float)minimumWidth;
+- (CGFloat)minimumWidth;
 - (void)resizeWithOldSuperviewSize:(NSSize)oldSize;
 - (void)resizeWidth;
 
@@ -134,18 +97,18 @@ extern NSString *MAIntonationViewSelectionDidChangeNotification;
 - (void)_selectionDidChange;
 
 // View geometry
-- (int)sectionHeight;
+- (CGFloat)sectionHeight;
 - (NSPoint)graphOrigin;
 
 - (void)updateEvents;
 
 
-- (float)scaleXPosition:(float)xPosition;
-- (float)scaleWidth:(float)width;
+- (CGFloat)scaleXPosition:(CGFloat)xPosition;
+- (CGFloat)scaleWidth:(CGFloat)width;
 - (NSRect)rectFormedByPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
 
-- (float)convertYPositionToSemitone:(float)yPosition;
-- (float)convertXPositionToTime:(float)xPosition;
+- (CGFloat)convertYPositionToSemitone:(CGFloat)yPosition;
+- (CGFloat)convertXPositionToTime:(CGFloat)xPosition;
 
 - (void)intonationPointDidChange:(NSNotification *)aNotification;
 - (void)removeOldSelectedPoints;

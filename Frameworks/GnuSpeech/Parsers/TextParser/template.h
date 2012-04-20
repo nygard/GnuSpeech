@@ -1,6 +1,6 @@
 /*******************************************************************************
  *
- *  Copyright (c) 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
+ *  Copyright (c) 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
  *  
  *  Contributors: 
  *
@@ -50,14 +50,14 @@ struct _parameterStruct {
 typedef struct _parameterStruct parameterStruct;
 typedef parameterStruct *parameterStructPtr;
 
-extern void initTemplate(void);
-extern int sampleValue(void);
-extern char *parameterSymbol(int number);
-extern float parameterSymMinimum(char *parameter);
-extern float parameterSymMaximum(char *parameter);
-extern void readFromFileTemplate(FILE *fp1);
-extern int legalPhone(char *phone);
-extern int legalParameter(char *parameter);
+void initTemplate(void);
+int sampleValue(void);
+char *parameterSymbol(int number);
+float parameterSymMinimum(char *parameter);
+float parameterSymMaximum(char *parameter);
+void readFromFileTemplate(FILE *fp1);
+int legalPhone(char *phone);
+int legalParameter(char *parameter);
 #if DEBUG
-extern void printTemplate(void);
+void printTemplate(void);
 #endif

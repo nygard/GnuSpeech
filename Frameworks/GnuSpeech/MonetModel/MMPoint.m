@@ -1,36 +1,8 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
-//  
-//  Contributors: Steve Nygard
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
-////////////////////////////////////////////////////////////////////////////////
-//
-//  MMPoint.m
-//  GnuSpeech
-//
-//  Created by Steve Nygard in 2004.
-//
-//  Version: 0.9.1
-//
-////////////////////////////////////////////////////////////////////////////////
+//  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "MMPoint.h"
 
-#import <Foundation/Foundation.h>
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
 
@@ -54,7 +26,7 @@
     freeTime = 0.0;
     timeEquation = nil;
     isPhantom = NO;
-    type = MMPhoneTypeDiphone;
+    type = MMPhoneType_Diphone;
 
     return self;
 }
@@ -120,12 +92,12 @@
     return freeTime;
 }
 
-- (int)type;
+- (NSUInteger)type;
 {
     return type;
 }
 
-- (void)setType:(int)newType;
+- (void)setType:(NSUInteger)newType;
 {
     type = newType;
 }
@@ -140,7 +112,7 @@
     isPhantom = newFlag;
 }
 
-- (void)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(int)newCacheTag toDisplay:(NSMutableArray *)displayList;
+- (void)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag toDisplay:(NSMutableArray *)displayList;
 {
     if (timeEquation != nil)
         [timeEquation evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:newCacheTag];
@@ -150,9 +122,9 @@
 
 
 // TODO (2004-08-12): Pass in parameter instead of min, max, and index.
-- (double)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(int)newCacheTag
+- (double)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag
                  baseline:(double)baseline delta:(double)delta min:(double)min max:(double)max
-              toEventList:(EventList *)eventList atIndex:(int)index;
+              toEventList:(EventList *)eventList atIndex:(NSUInteger)index;
 {
     double time, returnValue;
 
@@ -180,18 +152,17 @@
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
-    unsigned archivedVersion;
-    int i, j;
+    NSUInteger i, j;
     MMEquation *anExpression;
     MModel *model;
-    int phantom;
+    NSUInteger phantom;
 
     if ([super initWithCoder:aDecoder] == nil)
         return nil;
 
     model = [(MUnarchiver *)aDecoder userInfo];
     //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
-    archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
+    /*NSInteger archivedVersion =*/ [aDecoder versionForClassName:NSStringFromClass([self class])];
     //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
 
 #if 1
@@ -239,11 +210,11 @@
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@>[%p]: value: %g, freeTime: %g, timeEquation: %@, type: %d, isPhantom: %d",
+    return [NSString stringWithFormat:@"<%@>[%p]: value: %g, freeTime: %g, timeEquation: %@, type: %lu, isPhantom: %d",
                      NSStringFromClass([self class]), self, value, freeTime, timeEquation, type, isPhantom];
 }
 
-- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+- (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     [resultString indentToLevel:level];
     [resultString appendFormat:@"<point type=\"%@\" value=\"%g\"", MMStringFromPhoneType(type), value];

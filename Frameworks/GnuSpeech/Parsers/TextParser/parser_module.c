@@ -1,6 +1,6 @@
 /*******************************************************************************
  *
- *  Copyright (c) 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
+ *  Copyright (c) 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
  *  
  *  Contributors: Dalmazio Brisinda
  *
@@ -305,7 +305,7 @@ int set_escape_code(char new_escape_code)
  *
  ******************************************************************************/
 
-int set_dict_data(const short order[4], 
+int set_dict_data(const int16_t order[4], 
 				  GSPronunciationDictionary *userDict, 
 				  GSPronunciationDictionary *appDict, 
 				  GSPronunciationDictionary *mainDict,

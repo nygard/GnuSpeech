@@ -1,6 +1,6 @@
 /*******************************************************************************
  *
- *  Copyright (c) 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
+ *  Copyright (c) 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
  *  
  *  Contributors: 
  *
@@ -26,4 +26,4 @@
  *
  ******************************************************************************/
 
-extern int apply_stress(char *buffer, char *orthography);
+int apply_stress(char *buffer, char *orthography);

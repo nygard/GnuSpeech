@@ -1,6 +1,6 @@
 /*******************************************************************************
  *
- *  Copyright (c) 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
+ *  Copyright (c) 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
  *  
  *  Contributors: 
  *
@@ -67,14 +67,14 @@ typedef struct _phoneDescription phoneDescription;
 typedef phoneDescription *phoneDescriptionPtr;
 
 
-extern void initPhoneDescription(void);
-extern int matchPhone(char *phone,char *category);
-extern float getTarget(char *phone,char *parameter);
-extern int getPhoneLength(char *phone);
-extern int getTransitionType(char *phone);
-extern int getTransitionDurationFixed(char *phone);
-extern float getTransitionDurationProp(char *phone);
-extern void readFromFilePhoneDescription(FILE *fp1);
+void initPhoneDescription(void);
+int matchPhone(char *phone,char *category);
+float getTarget(char *phone,char *parameter);
+int getPhoneLength(char *phone);
+int getTransitionType(char *phone);
+int getTransitionDurationFixed(char *phone);
+float getTransitionDurationProp(char *phone);
+void readFromFilePhoneDescription(FILE *fp1);
 #if DEBUG
-extern void printPhoneDescription(void);
+void printPhoneDescription(void);
 #endif

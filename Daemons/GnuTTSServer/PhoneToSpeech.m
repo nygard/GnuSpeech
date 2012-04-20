@@ -1,32 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
-//  
-//  Contributors: Dalmazio Brisinda
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
-////////////////////////////////////////////////////////////////////////////////
-//
-//  PhoneToSpeech.m
-//  GnuTTSServer
-//
-//  Created by Dalmazio on 05/01/09.
-//
-//  Version: 0.1.3
-//
-////////////////////////////////////////////////////////////////////////////////
+//  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "PhoneToSpeech.h"
 
@@ -41,7 +14,7 @@
 
 @implementation PhoneToSpeech
 
-- (id) init;
+- (id)init;
 {
 	[super init];
 			
@@ -58,7 +31,7 @@
 	return self;
 }
 
-- (void) dealloc;
+- (void)dealloc;
 {
     [model release];
     [eventList release];
@@ -67,17 +40,17 @@
 	[super dealloc];
 }
 
-- (void) speakPhoneString:(NSString *)phoneString;
+- (void)speakPhoneString:(NSString *)phoneString;
 {
 	[self synthesize:phoneString];
 }
 
-- (MModel *) model;
+- (MModel *)model;
 {
     return model;
 }
 
-- (void) setModel:(MModel *)newModel;
+- (void)setModel:(MModel *)newModel;
 {
     if (newModel == model)
         return;
@@ -87,7 +60,7 @@
     [eventList setModel:model];
 }
 
-- (void) synthesize:(NSString *)phoneString;
+- (void)synthesize:(NSString *)phoneString;
 {
     [self prepareForSynthesis];
 	
@@ -99,7 +72,7 @@
     [self continueSynthesis];
 }
 
-- (void) prepareForSynthesis;
+- (void)prepareForSynthesis;
 {
     // NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
 		
@@ -122,7 +95,7 @@
     [eventList setIntonationParameters:intonationParameters];
 }
 
-- (void) _takeIntonationParametersFromUI;
+- (void)_takeIntonationParametersFromUI;
 {
 	// These are the Monet defaults we've just hard-coded (for now).
     intonationParameters.notionalPitch = -1.0;
@@ -132,7 +105,7 @@
     intonationParameters.tonicMovement = -6.0;
 }
 
-- (void) continueSynthesis;
+- (void)continueSynthesis;
 {
     // NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];	
     // [eventList setShouldUseSmoothIntonation:[defaults boolForKey:MDK_ShouldUseSmoothIntonation]];

@@ -1,37 +1,9 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
-//  
-//  Contributors: Steve Nygard, Dalmazio Brisinda
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
-////////////////////////////////////////////////////////////////////////////////
-//
-//  MSynthesisController.m
-//  Monet
-//
-//  Created by Steve Nygard in 2004.
-//
-//  Version: 0.9.7
-//
-////////////////////////////////////////////////////////////////////////////////
+//  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "MSynthesisController.h"
 
 #include <sys/time.h>
-#import <AppKit/AppKit.h>
 #import <GnuSpeech/GnuSpeech.h>
 
 #import "NSNumberFormatter-Extensions.h"
@@ -224,8 +196,8 @@
 - (void)_updateDisplayParameters;
 {
     NSArray *parameters;
-    unsigned int count, index;
-    int currentTag = 0;
+    NSUInteger count, index;
+    NSInteger currentTag = 0;
     MMParameter *currentParameter;
     MMDisplayParameter *displayParameter;
 	
@@ -260,7 +232,7 @@
 - (void)_updateEventColumns;
 {
     NSArray *tableColumns;
-    int count, index;
+    NSInteger count, index;
     NSNumberFormatter *defaultNumberFormatter;
     NSString *others[4] = { @"Semitone", @"Slope", @"2nd Derivative?", @"3rd Derivative?"};
 	
@@ -283,7 +255,7 @@
         displayParameter = [displayParameters objectAtIndex:index];
 		
         if ([displayParameter isSpecial] == NO) {
-            tableColumn = [[NSTableColumn alloc] initWithIdentifier:[NSString stringWithFormat:@"%d", [displayParameter tag]]];
+            tableColumn = [[NSTableColumn alloc] initWithIdentifier:[NSString stringWithFormat:@"%lu", [displayParameter tag]]];
             [tableColumn setEditable:NO];
             [[tableColumn headerCell] setTitle:[[displayParameter parameter] name]];
             [[tableColumn dataCell] setFormatter:defaultNumberFormatter];
@@ -301,7 +273,7 @@
     for (index = 0; index < 4; index++) {
         NSTableColumn *tableColumn;
 		
-        tableColumn = [[NSTableColumn alloc] initWithIdentifier:[NSString stringWithFormat:@"%d", 32 + index]];
+        tableColumn = [[NSTableColumn alloc] initWithIdentifier:[NSString stringWithFormat:@"%lu", 32 + index]];
         [tableColumn setEditable:NO];
         [[tableColumn headerCell] setTitle:others[index]];
         [[tableColumn dataCell] setFormatter:defaultNumberFormatter];
@@ -324,7 +296,7 @@
 - (void)_updateDisplayedParameters;
 {
     NSMutableArray *array;
-    unsigned int count, index;
+    NSUInteger count, index;
     MMDisplayParameter *displayParameter;
 	
     array = [[NSMutableArray alloc] init];
@@ -479,7 +451,7 @@
 
 - (void)parseText:(id)sender;
 {
-	NSString * phoneString = [textToPhone phoneForText:[textStringTextField stringValue]];
+	NSString *phoneString = [textToPhone phoneForText:[textStringTextField stringValue]];
 	[phoneStringTextView setTextColor:[NSColor blackColor]];	
 	[phoneStringTextView setString:phoneString];
 	[textStringTextField setTextColor:[NSColor blackColor]];
@@ -584,8 +556,8 @@
 
 - (void)saveGraphImagesToPath:(NSString *)basePath;
 {
-    unsigned int count, index, offset;
-    int number = 1;
+    NSUInteger count, index, offset;
+    NSUInteger number = 1;
     NSDictionary *jpegProperties = nil;
     NSMutableString *html;
     NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -639,9 +611,9 @@
         [parms release];
 		
         pdfData = [eventListView dataWithPDFInsideRect:[eventListView bounds]];
-        filename1 = [NSString stringWithFormat:@"graph-%d.pdf", number];
+        filename1 = [NSString stringWithFormat:@"graph-%lu.pdf", number];
         [pdfData writeToFile:[basePath stringByAppendingPathComponent:filename1] atomically:YES];
-        [html appendFormat:@"      <img src='%@' alt='parameter graph %d'/>\n", GSXMLAttributeString(filename1, YES), number];
+        [html appendFormat:@"      <img src='%@' alt='parameter graph %lu'/>\n", GSXMLAttributeString(filename1, YES), number];
 		
         image = [[NSImage alloc] initWithData:pdfData];
         //NSLog(@"image: %@", image);
@@ -654,7 +626,7 @@
         //NSLog(@"bitsPerPixel: %d, samplesPerPixel: %d", [bitmapImageRep bitsPerPixel], [bitmapImageRep samplesPerPixel]);
 		
         jpegData = [bitmapImageRep representationUsingType:NSJPEGFileType properties:jpegProperties];
-        filename2 = [NSString stringWithFormat:@"graph-%d.jpg", number];
+        filename2 = [NSString stringWithFormat:@"graph-%lu.jpg", number];
         [jpegData writeToFile:[basePath stringByAppendingPathComponent:filename2] atomically:YES];
 		
         [bitmapImageRep release];
@@ -736,7 +708,7 @@
 	
     directory = [[NSUserDefaults standardUserDefaults] objectForKey:MDK_IntonationContourDirectory];
     openPanel = [NSOpenPanel openPanel];
-    [openPanel setAllowedFileTypes:[NSArray arrayWithObject:@"contour"]];
+    [openPanel setAllowedFileTypes:[NSArray arrayWithObject:@"org.gnu.gnuspeech.intonation-contour"]];
 	
     [openPanel beginSheetModalForWindow:intonationWindow completionHandler:^(NSInteger result){
         if (result == NSFileHandlingPanelOKButton) {
@@ -759,7 +731,7 @@
 	
     directory = [[NSUserDefaults standardUserDefaults] objectForKey:MDK_IntonationContourDirectory];
     savePanel = [NSSavePanel savePanel];
-    [savePanel setAllowedFileTypes:[NSArray arrayWithObject:@"contour"]];
+    [savePanel setAllowedFileTypes:[NSArray arrayWithObject:@"org.gnu.gnuspeech.intonation-contour"]];
 
     [savePanel beginSheetModalForWindow:intonationWindow completionHandler:^(NSInteger result){
         if (result == NSFileHandlingPanelOKButton) {
@@ -814,7 +786,7 @@
 // NSTableView data source
 //
 
-- (int)numberOfRowsInTableView:(NSTableView *)tableView;
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView;
 {
     if (tableView == parameterTableView)
         return [displayParameters count];
@@ -828,7 +800,7 @@
     return 0;
 }
 
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row;
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
 {
     id identifier;
 	
@@ -846,7 +818,7 @@
         if ([@"rule" isEqual:identifier] == YES) {
             return [eventList ruleDescriptionAtIndex:row];
         } else if ([@"number" isEqual:identifier] == YES) {
-            return [NSString stringWithFormat:@"%d.", row + 1];
+            return [NSString stringWithFormat:@"%lu.", row + 1];
         }
     } else if (tableView == eventTableView) {
         int eventNumber;
@@ -872,7 +844,7 @@
     return nil;
 }
 
-- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(int)row;
+- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
 {
     id identifier;
 	
@@ -888,7 +860,7 @@
     }
 }
 
-- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(int)row;
+- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
 {
     id identifier;
 	
@@ -913,7 +885,7 @@
 - (BOOL)control:(NSControl *)aControl shouldProcessCharacters:(NSString *)characters;
 {
     if ([characters isEqualToString:@" "]) {
-        int selectedRow;
+        NSInteger selectedRow;
 		
         selectedRow = [parameterTableView selectedRow];
         if (selectedRow != -1) {
@@ -923,7 +895,7 @@
             return NO;
         }
     } else {
-        unsigned int count, index;
+        NSUInteger count, index;
 		
         count = [displayParameters count];
         for (index = 0; index < count; index++) {

@@ -1,36 +1,8 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
-//  
-//  Contributors: Steve Nygard
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
-////////////////////////////////////////////////////////////////////////////////
-//
-//  MMPosture.m
-//  GnuSpeech
-//
-//  Created by Steve Nygard in 2004.
-//
-//  Version: 0.9.1
-//
-////////////////////////////////////////////////////////////////////////////////
+//  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "MMPosture.h"
 
-#import <Foundation/Foundation.h>
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
 
@@ -83,7 +55,7 @@
 
 - (void)_addDefaultValues;
 {
-    int count, index;
+    NSUInteger count, index;
     MMTarget *newTarget;
     NSArray *mainParameters;
     NSArray *mainSymbols;
@@ -199,7 +171,7 @@
 
 - (BOOL)isMemberOfCategoryNamed:(NSString *)aCategoryName;
 {
-    unsigned int count, index;
+    NSUInteger count, index;
 
     count = [categories count];
     for (index = 0; index < count; index++) {
@@ -238,7 +210,7 @@
     [parameterTargets addObject:newTarget];
 }
 
-- (void)removeParameterTargetAtIndex:(unsigned int)index;
+- (void)removeParameterTargetAtIndex:(NSUInteger)index;
 {
     [parameterTargets removeObjectAtIndex:index];
 }
@@ -246,7 +218,7 @@
 - (void)addParameterTargetsFromDictionary:(NSDictionary *)aDictionary;
 {
     NSArray *parameters;
-    unsigned int count, index;
+    NSUInteger count, index;
 
     parameters = [[self model] parameters];
     count = [parameters count];
@@ -274,7 +246,7 @@
     [metaParameterTargets addObject:newTarget];
 }
 
-- (void)removeMetaParameterTargetAtIndex:(unsigned int)index;
+- (void)removeMetaParameterTargetAtIndex:(NSUInteger)index;
 {
     [metaParameterTargets removeObjectAtIndex:index];
 }
@@ -282,7 +254,7 @@
 - (void)addMetaParameterTargetsFromDictionary:(NSDictionary *)aDictionary;
 {
     NSArray *parameters;
-    unsigned int count, index;
+    NSUInteger count, index;
 
     parameters = [[self model] metaParameters];
     count = [parameters count];
@@ -310,7 +282,7 @@
     [symbolTargets addObject:newTarget];
 }
 
-- (void)removeSymbolTargetAtIndex:(unsigned int)index;
+- (void)removeSymbolTargetAtIndex:(NSUInteger)index;
 {
     [symbolTargets removeObjectAtIndex:index];
 }
@@ -318,7 +290,7 @@
 - (void)addSymbolTargetsFromDictionary:(NSDictionary *)aDictionary;
 {
     NSArray *symbols;
-    unsigned int count, index;
+    NSUInteger count, index;
 
     symbols = [[self model] symbols];
     count = [symbols count];
@@ -343,7 +315,7 @@
 
 - (MMTarget *)targetForSymbol:(MMSymbol *)aSymbol;
 {
-    int symbolIndex;
+    NSUInteger symbolIndex;
 
     assert([self model] != nil);
     symbolIndex = [[[self model] symbols] indexOfObject:aSymbol];
@@ -364,8 +336,7 @@
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 {
-    unsigned archivedVersion;
-    int count, index;
+    NSUInteger count, index;
     MMCategory *temp1;
     char *c_name, *c_comment, *c_str;
     MModel *model;
@@ -376,7 +347,7 @@
     model = [(MUnarchiver *)aDecoder userInfo];
 
     //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
-    archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
+    /*NSInteger archivedVersion =*/ [aDecoder versionForClassName:NSStringFromClass([self class])];
     //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
 
     [aDecoder decodeValuesOfObjCTypes:"**", &c_name, &c_comment];
@@ -448,7 +419,7 @@
                      NSStringFromClass([self class]), self, name, comment, categories, parameterTargets, metaParameterTargets, symbolTargets];
 }
 
-- (void)appendXMLToString:(NSMutableString *)resultString level:(int)level;
+- (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     [resultString indentToLevel:level];
     [resultString appendFormat:@"<posture symbol=\"%@\"", GSXMLAttributeString(name, NO)];
@@ -473,9 +444,9 @@
     }
 }
 
-- (void)_appendXMLForCategoriesToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForCategoriesToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
-    int count, index;
+    NSUInteger count, index;
 
     count = [categories count];
     if (count == 0)
@@ -497,10 +468,10 @@
     [resultString appendString:@"</posture-categories>\n"];
 }
 
-- (void)_appendXMLForParametersToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForParametersToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     NSArray *mainParameterList;
-    int count, index;
+    NSUInteger count, index;
     MMParameter *aParameter;
     MMTarget *aTarget;
 
@@ -529,17 +500,17 @@
     [resultString appendString:@"</parameter-targets>\n"];
 }
 
-- (void)_appendXMLForMetaParametersToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForMetaParametersToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     NSArray *mainMetaParameterList;
-    int count, index;
+    NSUInteger count, index;
     MMParameter *aParameter;
     MMTarget *aTarget;
 
     mainMetaParameterList = [[self model] metaParameters];
     count = [mainMetaParameterList count];
     if (count != [metaParameterTargets count])
-        NSLog(@"%s, (%@) main meta count: %d, count: %d", __PRETTY_FUNCTION__, [self name], count, [metaParameterTargets count]);
+        NSLog(@"%s, (%@) main meta count: %lu, count: %lu", __PRETTY_FUNCTION__, [self name], count, [metaParameterTargets count]);
     //assert(count == [metaParameterTargets count]);
 
     if (count == 0)
@@ -563,10 +534,10 @@
     [resultString appendString:@"</meta-parameter-targets>\n"];
 }
 
-- (void)_appendXMLForSymbolsToString:(NSMutableString *)resultString level:(int)level;
+- (void)_appendXMLForSymbolsToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     NSArray *mainSymbolList;
-    int count, index;
+    NSUInteger count, index;
     MMSymbol *aSymbol;
     MMTarget *aTarget;
 
