@@ -29,7 +29,7 @@ extern NSString *MAIntonationViewSelectionDidChangeNotification;
 
     EventList *eventList;
 
-    float timeScale;
+    CGFloat timeScale;
 
     NSMutableArray *selectedPoints;
     NSPoint selectionPoint1;
@@ -62,7 +62,7 @@ extern NSString *MAIntonationViewSelectionDidChangeNotification;
 - (id)delegate;
 - (void)setDelegate:(id)newDelegate;
 
-- (float)minimumWidth;
+- (CGFloat)minimumWidth;
 - (void)resizeWithOldSuperviewSize:(NSSize)oldSize;
 - (void)resizeWidth;
 
@@ -98,18 +98,18 @@ extern NSString *MAIntonationViewSelectionDidChangeNotification;
 - (void)_selectionDidChange;
 
 // View geometry
-- (int)sectionHeight;
+- (CGFloat)sectionHeight;
 - (NSPoint)graphOrigin;
 
 - (void)updateEvents;
 
 
-- (float)scaleXPosition:(float)xPosition;
-- (float)scaleWidth:(float)width;
+- (CGFloat)scaleXPosition:(CGFloat)xPosition;
+- (CGFloat)scaleWidth:(CGFloat)width;
 - (NSRect)rectFormedByPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
 
-- (float)convertYPositionToSemitone:(float)yPosition;
-- (float)convertXPositionToTime:(float)xPosition;
+- (CGFloat)convertYPositionToSemitone:(CGFloat)yPosition;
+- (CGFloat)convertXPositionToTime:(CGFloat)xPosition;
 
 - (void)intonationPointDidChange:(NSNotification *)aNotification;
 - (void)removeOldSelectedPoints;

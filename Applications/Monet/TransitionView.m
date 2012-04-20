@@ -69,12 +69,12 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     [super dealloc];
 }
 
-- (int)zeroIndex;
+- (NSUInteger)zeroIndex;
 {
     return zeroIndex;
 }
 
-- (void)setZeroIndex:(int)newZeroIndex;
+- (void)setZeroIndex:(NSUInteger)newZeroIndex;
 {
     if (newZeroIndex == zeroIndex)
         return;
@@ -83,12 +83,12 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     [self setNeedsDisplay:YES];
 }
 
-- (int)sectionAmount;
+- (NSInteger)sectionAmount;
 {
     return sectionAmount;
 }
 
-- (void)setSectionAmount:(int)newSectionAmount;
+- (void)setSectionAmount:(NSInteger)newSectionAmount;
 {
     if (newSectionAmount == sectionAmount)
         return;
@@ -342,8 +342,8 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 
 - (void)drawGrid;
 {
-    int i;
-    int sectionHeight;
+    NSUInteger i;
+    CGFloat sectionHeight;
     NSBezierPath *bezierPath;
     NSRect bounds, rect;
     NSPoint graphOrigin; // But not the zero point on the graph.
@@ -378,7 +378,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 
     for (i = 1; i < SECTION_COUNT; i++) {
         NSString *label;
-        float currentYPos;
+        CGFloat currentYPos;
         NSSize labelSize;
 
         currentYPos = graphOrigin.y + 0.5 + i * sectionHeight;
@@ -401,16 +401,16 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 // These are the proto equations
 - (void)drawEquations;
 {
-    int i, j;
+    NSUInteger i, j;
     double time;
     NSArray *equationList = [model equations];
     NamedList *namedList;
     MMEquation *equation;
-    float timeScale = [self timeScale];
-    int type;
+    CGFloat timeScale = [self timeScale];
+    NSUInteger type;
     NSBezierPath *bezierPath;
     NSPoint graphOrigin;
-    int cacheTag;
+    NSUInteger cacheTag;
 
     graphOrigin = [self graphOrigin];
 
@@ -448,13 +448,13 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 - (void)drawPhones;
 {
     NSPoint myPoint;
-    float timeScale;
-    float currentTimePoint;
-    int type;
+    CGFloat timeScale;
+    CGFloat currentTimePoint;
+    NSUInteger type;
     NSBezierPath *bezierPath;
     NSRect bounds;
     NSPoint graphOrigin;
-    float graphTopYPos;
+    CGFloat graphTopYPos;
 
     bounds = NSIntegralRect([self bounds]);
     graphOrigin = [self graphOrigin];
@@ -505,12 +505,12 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 
 - (void)drawTransition;
 {
-    int count, index;
+    NSUInteger count, index;
     MMPoint *currentPoint;
     NSPoint myPoint;
-    float timeScale, y;
-    int yScale;
-    float eventTime;
+    CGFloat timeScale, y;
+    CGFloat yScale;
+    CGFloat eventTime;
     NSBezierPath *bezierPath;
     NSPoint graphOrigin;
     NSMutableArray *diphonePoints, *triphonePoints, *tetraphonePoints;
@@ -616,11 +616,11 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 
 - (void)updateDisplayPoints;
 {
-    int count, index;
+    NSUInteger count, index;
     NSArray *currentPoints;
     MMPoint *currentPoint;
     double tempos[4] = {1.0, 1.0, 1.0, 1.0};
-    int cacheTag;
+    NSUInteger cacheTag;
 
     if (transition == nil)
         return;
@@ -648,9 +648,9 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 - (void)highlightSelectedPoints;
 {
     if ([selectedPoints count]) {
-        unsigned int index;
-        float timeScale, y;
-        int yScale;
+        NSUInteger index;
+        CGFloat timeScale, y;
+        CGFloat yScale;
         NSPoint graphOrigin;
 
         //NSLog(@"Drawing %d selected points", [selectedPoints count]);
@@ -661,7 +661,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 
         for (index = 0; index < [selectedPoints count]; index++) {
             MMPoint *currentPoint;
-            float eventTime;
+            CGFloat eventTime;
             NSPoint myPoint;
 
             currentPoint = [selectedPoints objectAtIndex:index];
@@ -698,7 +698,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 {
     NSPoint hitPoint;
     MMSlope *hitSlope;
-    float startTime, endTime;
+    CGFloat startTime, endTime;
 
     if ([self isEnabled] == NO) {
         [super mouseDown:mouseEvent];
@@ -730,8 +730,8 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         if ([mouseEvent modifierFlags] & NSAlternateKeyMask) {
             MMPoint *newPoint;
             NSPoint graphOrigin = [self graphOrigin];
-            int yScale = [self sectionHeight];
-            float newValue;
+            CGFloat yScale = [self sectionHeight];
+            CGFloat newValue;
 
             //NSLog(@"Alt-clicked!");
             newPoint = [[MMPoint alloc] init];
@@ -804,7 +804,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 - (int)sectionHeight;
 {
     NSRect bounds;
-    int sectionHeight;
+    CGFloat sectionHeight;
 
     bounds = [self bounds];
     sectionHeight = (bounds.size.height - 2 * BOTTOM_MARGIN) / SECTION_COUNT;
@@ -829,7 +829,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 
 - (NSRect)rectFormedByPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
 {
-    float minx, miny, maxx, maxy;
+    CGFloat minx, miny, maxx, maxy;
     NSRect rect;
 
     if (point1.x < point2.x) {
@@ -887,13 +887,13 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 
 - (void)drawSlopes;
 {
-    unsigned int count, index;
-    int j;
+    NSUInteger count, index;
+    NSUInteger j;
     double start, end;
     NSRect rect = NSMakeRect(0, 0, 2 * LEFT_MARGIN, SLOPE_MARKER_HEIGHT);
     id currentPoint;
     NSMutableArray *points, *slopes;
-    float timeScale = [self timeScale];
+    CGFloat timeScale = [self timeScale];
     NSPoint graphOrigin;
     NSRect bounds;
     NSArray *transitionPoints;
@@ -962,7 +962,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     window = [self window];
 
     if ([window makeFirstResponder:window] == YES) {
-        float timeScale;
+        CGFloat timeScale;
         NSRect rect;
 
         [self _setEditingSlope:aSlope];
@@ -1007,10 +1007,10 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 {
     NSMutableArray *pointList;
     MMSlopeRatio *currentMMSlopeRatio;
-    float timeScale = [self timeScale];
-    float tempTime;
-    float time1, time2;
-    int i, j;
+    CGFloat timeScale = [self timeScale];
+    CGFloat tempTime;
+    CGFloat time1, time2;
+    NSUInteger i, j;
     NSArray *points;
 
     NSRect slopeMarkerRect;
@@ -1096,10 +1096,10 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 {
     NSPoint graphOrigin;
     NSRect selectionRect;
-    int count, index;
-    float timeScale;
-    int yScale;
-    int cacheTag;
+    NSUInteger count, index;
+    CGFloat timeScale;
+    CGFloat yScale;
+    NSUInteger cacheTag;
 
     [selectedPoints removeAllObjects];
 
@@ -1159,7 +1159,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 
 - (IBAction)deleteBackward:(id)sender;
 {
-    int i;
+    NSUInteger i;
     MMPoint *tempPoint;
 
     if (transition == nil || [selectedPoints count] == 0) {
@@ -1183,8 +1183,8 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 
 - (IBAction)groupInSlopeRatio:(id)sender;
 {
-    int i, index;
-    int type;
+    NSUInteger i, index;
+    NSUInteger type;
     NSMutableArray *tempPoints, *newPoints;
     MMSlopeRatio *newSlopeRatio;
 

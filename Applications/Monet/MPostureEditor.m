@@ -146,7 +146,7 @@
 
 - (MMPosture *)selectedPosture;
 {
-    int selectedRow;
+    NSInteger selectedRow;
 
     selectedRow = [postureTableView selectedRow];
     if (selectedRow == -1)
@@ -158,7 +158,7 @@
 - (IBAction)addPosture:(id)sender;
 {
     MMPosture *newPosture;
-    unsigned int index;
+    NSUInteger index;
 
     newPosture = [[MMPosture alloc] initWithModel:[self model]];
     [[self model] addPosture:newPosture];
@@ -188,7 +188,7 @@
 
 - (IBAction)useDefaultValueForParameter:(id)sender;
 {
-    int selectedRow;
+    NSInteger selectedRow;
     MMParameter *selectedParameter;
     MMTarget *selectedTarget;
 
@@ -205,7 +205,7 @@
 
 - (IBAction)useDefaultValueForMetaParameter:(id)sender;
 {
-    int selectedRow;
+    NSInteger selectedRow;
     MMParameter *selectedParameter;
     MMTarget *selectedTarget;
 
@@ -222,7 +222,7 @@
 
 - (IBAction)useDefaultValueForSymbol:(id)sender;
 {
-    int selectedRow;
+    NSInteger selectedRow;
     MMSymbol *selectedSymbol;
     MMTarget *selectedTarget;
 
@@ -241,7 +241,7 @@
 // NSTableView data source
 //
 
-- (int)numberOfRowsInTableView:(NSTableView *)tableView;
+- (NSUInteger)numberOfRowsInTableView:(NSTableView *)tableView;
 {
     if (tableView == postureTableView)
         return [[[self model] postures] count];
@@ -261,7 +261,7 @@
     return 0;
 }
 
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row;
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
 {
     id identifier;
 
@@ -337,7 +337,7 @@
     return nil;
 }
 
-- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(int)row;
+- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
 {
     id identifier;
 
@@ -400,7 +400,7 @@
     }
 }
 
-- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(int)row;
+- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
 {
     // TODO (2004-03-19): Would really prefer to have "isDefaultValue" method in the model.  Plus it could cache the value.
     if (tableView == parameterTableView || tableView == metaParameterTableView) {

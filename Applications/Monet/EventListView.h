@@ -20,8 +20,8 @@
 	NSTextField *mouseTimeField;
 	NSTextField *mouseValueField;
 
-    int startingIndex;
-    float timeScale;
+    NSUInteger startingIndex;
+    CGFloat timeScale;
     BOOL mouseBeingDragged;
     NSTrackingRectTag trackTag;
 
@@ -56,21 +56,21 @@
 - (void)mouseExited:(NSEvent *)theEvent;
 - (void)mouseMoved:(NSEvent *)theEvent;
 
-- (void)updateScale:(float)column;
+- (void)updateScale:(CGFloat)column;
 
 - (void)frameDidChange:(NSNotification *)aNotification;
 - (void)resetTrackingRect;
 
-- (float)scaledX:(float)x;
-- (float)scaledWidth:(float)width;
+- (CGFloat)scaledX:(CGFloat)x;
+- (CGFloat)scaledWidth:(CGFloat)width;
 
-- (float)parameterValueForYCoord:(float)y;
+- (float)parameterValueForYCoord:(CGFloat)y;
 
 // Handle sizing and correct drawing of the main view.
 - (void)resize;
-- (float)minimumWidth;
-- (float)minimumHeight;
-- (float)scaleWidth:(float)width;
+- (CGFloat)minimumWidth;
+- (CGFloat)minimumHeight;
+- (CGFloat)scaleWidth:(float)width;
 - (void)resizeWithOldSuperviewSize:(NSSize)oldSize;
 
 // Allow access to mouse tracking fields.

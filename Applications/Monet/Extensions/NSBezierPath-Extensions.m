@@ -12,7 +12,7 @@
 
 + (void)drawCircleMarkerAtPoint:(NSPoint)aPoint;
 {
-    int radius = 3;
+    CGFloat radius = 3;
     NSBezierPath *bezierPath;
 
     //NSLog(@"->%s, point: %@", _cmd, NSStringFromPoint(aPoint));
@@ -30,9 +30,9 @@
 
 + (void)drawTriangleMarkerAtPoint:(NSPoint)aPoint;
 {
-    int radius = 5;
+    CGFloat radius = 5;
     NSBezierPath *bezierPath;
-    float angle;
+    CGFloat angle;
 
     //NSLog(@"->%s, point: %@", _cmd, NSStringFromPoint(aPoint));
     aPoint.x = rint(aPoint.x);

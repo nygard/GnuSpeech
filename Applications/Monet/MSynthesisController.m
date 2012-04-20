@@ -197,8 +197,8 @@
 - (void)_updateDisplayParameters;
 {
     NSArray *parameters;
-    unsigned int count, index;
-    int currentTag = 0;
+    NSUInteger count, index;
+    NSInteger currentTag = 0;
     MMParameter *currentParameter;
     MMDisplayParameter *displayParameter;
 	
@@ -233,7 +233,7 @@
 - (void)_updateEventColumns;
 {
     NSArray *tableColumns;
-    int count, index;
+    NSUInteger count, index;
     NSNumberFormatter *defaultNumberFormatter;
     NSString *others[4] = { @"Semitone", @"Slope", @"2nd Derivative?", @"3rd Derivative?"};
 	
@@ -297,7 +297,7 @@
 - (void)_updateDisplayedParameters;
 {
     NSMutableArray *array;
-    unsigned int count, index;
+    NSUInteger count, index;
     MMDisplayParameter *displayParameter;
 	
     array = [[NSMutableArray alloc] init];
@@ -452,7 +452,7 @@
 
 - (void)parseText:(id)sender;
 {
-	NSString * phoneString = [textToPhone phoneForText:[textStringTextField stringValue]];
+	NSString *phoneString = [textToPhone phoneForText:[textStringTextField stringValue]];
 	[phoneStringTextView setTextColor:[NSColor blackColor]];	
 	[phoneStringTextView setString:phoneString];
 	[textStringTextField setTextColor:[NSColor blackColor]];
@@ -557,8 +557,8 @@
 
 - (void)saveGraphImagesToPath:(NSString *)basePath;
 {
-    unsigned int count, index, offset;
-    int number = 1;
+    NSUInteger count, index, offset;
+    NSUInteger number = 1;
     NSDictionary *jpegProperties = nil;
     NSMutableString *html;
     NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -787,7 +787,7 @@
 // NSTableView data source
 //
 
-- (int)numberOfRowsInTableView:(NSTableView *)tableView;
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView;
 {
     if (tableView == parameterTableView)
         return [displayParameters count];
@@ -801,7 +801,7 @@
     return 0;
 }
 
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row;
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
 {
     id identifier;
 	
@@ -845,7 +845,7 @@
     return nil;
 }
 
-- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(int)row;
+- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
 {
     id identifier;
 	
@@ -861,7 +861,7 @@
     }
 }
 
-- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(int)row;
+- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
 {
     id identifier;
 	
@@ -886,7 +886,7 @@
 - (BOOL)control:(NSControl *)aControl shouldProcessCharacters:(NSString *)characters;
 {
     if ([characters isEqualToString:@" "]) {
-        int selectedRow;
+        NSInteger selectedRow;
 		
         selectedRow = [parameterTableView selectedRow];
         if (selectedRow != -1) {
@@ -896,7 +896,7 @@
             return NO;
         }
     } else {
-        unsigned int count, index;
+        NSUInteger count, index;
 		
         count = [displayParameters count];
         for (index = 0; index < count; index++) {

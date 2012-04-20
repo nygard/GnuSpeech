@@ -41,8 +41,8 @@ extern NSString *TransitionViewSelectionDidChangeNotification;
     NSTextFieldCell *textFieldCell;
     NSText *nonretained_fieldEditor;
 
-    int zeroIndex;
-    int sectionAmount;
+    NSUInteger zeroIndex;
+    NSInteger sectionAmount;
 
     MModel *model;
 
@@ -57,11 +57,11 @@ extern NSString *TransitionViewSelectionDidChangeNotification;
 - (id)initWithFrame:(NSRect)frameRect;
 - (void)dealloc;
 
-- (int)zeroIndex;
-- (void)setZeroIndex:(int)newZeroIndex;
+- (NSUInteger)zeroIndex;
+- (void)setZeroIndex:(NSUInteger)newZeroIndex;
 
-- (int)sectionAmount;
-- (void)setSectionAmount:(int)newSectionAmount;
+- (NSInteger)sectionAmount;
+- (void)setSectionAmount:(NSInteger)newSectionAmount;
 
 - (MModel *)model;
 - (void)setModel:(MModel *)newModel;
@@ -119,18 +119,18 @@ extern NSString *TransitionViewSelectionDidChangeNotification;
 - (void)keyDown:(NSEvent *)keyEvent;
 
 // View geometry
-- (int)sectionHeight;
+- (CGFloat)sectionHeight;
 - (NSPoint)graphOrigin;
-- (float)timeScale;
+- (CGFloat)timeScale;
 - (NSRect)rectFormedByPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
-- (float)slopeMarkerYPosition;
+- (CGFloat)slopeMarkerYPosition;
 - (NSRect)slopeMarkerRect;
 
 // Slopes
 - (void)drawSlopes;
 - (void)_setEditingSlope:(MMSlope *)newSlope;
-- (void)editSlope:(MMSlope *)aSlope startTime:(float)startTime endTime:(float)endTime;
-- (MMSlope *)getSlopeMarkerAtPoint:(NSPoint)aPoint startTime:(float *)startTime endTime:(float *)endTime;
+- (void)editSlope:(MMSlope *)aSlope startTime:(CGFloat)startTime endTime:(CGFloat)endTime;
+- (MMSlope *)getSlopeMarkerAtPoint:(NSPoint)aPoint startTime:(CGFloat *)startTime endTime:(CGFloat *)endTime;
 
 // NSTextView delegate method, used for editing slopes
 - (void)textDidEndEditing:(NSNotification *)notification;

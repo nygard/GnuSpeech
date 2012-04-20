@@ -150,7 +150,7 @@
 
 - (IBAction)openFile:(id)sender;
 {
-    int count, index;
+    NSUInteger count, index;
     NSArray *types;
     NSArray *fnames;
     NSOpenPanel *openPanel;
@@ -180,7 +180,7 @@
 {
     NSArray *types;
     NSArray *fnames;
-    int count, index;
+    NSUInteger count, index;
     NSOpenPanel *openPanel;
 
     types = [NSArray arrayWithObject:@"trm"];
@@ -302,7 +302,7 @@
 - (void)_loadDegasFile:(NSString *)aFilename;
 {
     FILE *fp;
-    unsigned int magic;
+    uint32_t magic;
 
     fp = fopen([aFilename UTF8String], "r");
 
@@ -456,7 +456,7 @@
 - (void)_disableUnconvertedClassLoading;
 {
     NSString *names[] = { @"IntonationPoint", @"RuleManager", nil };
-    int index = 0;
+    NSUInteger index = 0;
 
     while (names[index] != nil) {
         [NSUnarchiver decodeClassName:names[index] asClassName:[NSString stringWithFormat:@"%@_NOT_CONVERTED", names[index]]];

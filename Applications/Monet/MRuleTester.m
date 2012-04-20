@@ -52,7 +52,7 @@
 
 - (void)windowDidLoad;
 {
-    int index;
+    NSUInteger index;
 
     NSNumberFormatter *defaultNumberFormatter;
 
@@ -82,7 +82,7 @@
 
 - (IBAction)parseRule:(id)sender;
 {
-    int ruleIndex;
+    NSUInteger ruleIndex;
     NSMutableArray *testPostures, *testCategoryLists;
     MMPosture *aPosture;
     MMRule *aRule;

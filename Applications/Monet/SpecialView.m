@@ -52,8 +52,8 @@
 
 - (void)drawGrid;
 {
-    int i;
-    int sectionHeight;
+    NSUInteger i;
+    CGFloat sectionHeight;
     NSBezierPath *bezierPath;
     NSRect bounds, rect;
     NSPoint graphOrigin; // But not the zero point on the graph.
@@ -84,7 +84,7 @@
 
     for (i = 1; i < 14; i++) {
         NSString *label;
-        float currentYPos;
+        CGFloat currentYPos;
         NSSize labelSize;
 
         currentYPos = graphOrigin.y + 0.5 + i * sectionHeight;
@@ -113,11 +113,11 @@
 - (void)highlightSelectedPoints;
 {
     if ([selectedPoints count]) {
-        unsigned int index;
-        float timeScale, y;
-        int yScale;
+        NSUInteger index;
+        CGFloat timeScale, y;
+        CGFloat yScale;
         NSPoint graphOrigin;
-        int cacheTag;
+        NSUInteger cacheTag;
 
         //NSLog(@"Drawing %d selected points", [selectedPoints count]);
 
@@ -129,7 +129,7 @@
 
         for (index = 0; index < [selectedPoints count]; index++) {
             MMPoint *currentPoint;
-            float eventTime;
+            CGFloat eventTime;
             NSPoint myPoint;
 
             currentPoint = [selectedPoints objectAtIndex:index];
@@ -172,8 +172,8 @@
         if ([mouseEvent modifierFlags] & NSAlternateKeyMask) {
             MMPoint *newPoint;
             NSPoint graphOrigin = [self graphOrigin];
-            int yScale = [self sectionHeight];
-            float newValue;
+            CGFloat yScale = [self sectionHeight];
+            CGFloat newValue;
 
             //NSLog(@"Alt-clicked!");
             newPoint = [[MMPoint alloc] init];
@@ -211,10 +211,10 @@
 {
     NSPoint graphOrigin;
     NSRect selectionRect;
-    int count, index;
-    float timeScale;
-    int yScale;
-    int cacheTag;
+    NSUInteger count, index;
+    CGFloat timeScale;
+    CGFloat yScale;
+    NSUInteger cacheTag;
 
     [selectedPoints removeAllObjects];
 

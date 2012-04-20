@@ -216,7 +216,7 @@
 - (IBAction)addCategory:(id)sender;
 {
     MMCategory *newCategory;
-    unsigned int index;
+    NSUInteger index;
 
     newCategory = [[MMCategory alloc] init];
     [[self model] addCategory:newCategory];
@@ -247,7 +247,7 @@
 - (IBAction)addParameter:(id)sender;
 {
     MMParameter *newParameter;
-    unsigned int index;
+    NSUInteger index;
 
     newParameter = [[MMParameter alloc] init];
     [[self model] addParameter:newParameter];
@@ -277,7 +277,7 @@
 - (IBAction)addMetaParameter:(id)sender;
 {
     MMParameter *newParameter;
-    unsigned int index;
+    NSUInteger index;
 
     newParameter = [[MMParameter alloc] init];
     [[self model] addMetaParameter:newParameter];
@@ -307,7 +307,7 @@
 - (IBAction)addSymbol:(id)sender;
 {
     MMSymbol *newSymbol;
-    unsigned int index;
+    NSUInteger index;
 
     newSymbol = [[MMSymbol alloc] init];
     [[self model] addSymbol:newSymbol];
@@ -355,7 +355,7 @@
     return 0;
 }
 
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row;
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
 {
     id identifier;
 
@@ -410,7 +410,7 @@
     return nil;
 }
 
-- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(int)row;
+- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
 {
     id identifier;
 
@@ -523,7 +523,7 @@
 
 - (MMCategory *)selectedCategory;
 {
-    int selectedRow;
+    NSInteger selectedRow;
 
     selectedRow = [categoryTableView selectedRow];
 
@@ -532,7 +532,7 @@
 
 - (MMParameter *)selectedParameter;
 {
-    int selectedRow;
+    NSInteger selectedRow;
 
     selectedRow = [parameterTableView selectedRow];
 
@@ -541,7 +541,7 @@
 
 - (MMParameter *)selectedMetaParameter;
 {
-    int selectedRow;
+    NSInteger selectedRow;
 
     selectedRow = [metaParameterTableView selectedRow];
 
@@ -550,7 +550,7 @@
 
 - (MMSymbol *)selectedSymbol;
 {
-    int selectedRow;
+    NSInteger selectedRow;
 
     selectedRow = [symbolTableView selectedRow];
 

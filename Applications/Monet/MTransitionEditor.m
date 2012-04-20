@@ -92,7 +92,7 @@
 
 - (void)expandEquations;
 {
-    unsigned int count, index;
+    NSUInteger count, index;
 
     count = [[model equations] count];
     for (index = 0; index < count; index++)
@@ -123,7 +123,7 @@
 // NSOutlineView data source
 //
 
-- (int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item;
+- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item;
 {
     //NSLog(@"-> %s, item: %p", _cmd, item);
     if (outlineView == equationOutlineView) {
@@ -136,7 +136,7 @@
     return 0;
 }
 
-- (id)outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item;
+- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item;
 {
     if (outlineView == equationOutlineView) {
         if (item == nil)
@@ -298,7 +298,7 @@
 
 - (IBAction)setType:(id)sender;
 {
-    int tag = [sender tag];
+    NSInteger tag = [sender tag];
 
     [type1Button setState:tag == 2];
     [type2Button setState:tag == 3];

@@ -41,7 +41,7 @@
 
 - (void)scrollRowForItemToVisible:(id)anItem;
 {
-    int row;
+    NSInteger row;
 
     if (anItem == nil)
         return;

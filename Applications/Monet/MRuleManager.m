@@ -16,7 +16,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
 - (id)initWithModel:(MModel *)aModel;
 {
-    unsigned int index;
+    NSUInteger index;
 
     if ([super initWithWindowNibName:@"RuleManager"] == nil)
         return nil;
@@ -78,7 +78,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
 - (MMRule *)selectedRule;
 {
-    int selectedRow;
+    NSInteger selectedRow;
 
     selectedRow = [ruleTableView selectedRow];
     if (selectedRow == -1)
@@ -133,7 +133,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
 - (void)expandOutlines;
 {
-    unsigned int count, index;
+    NSUInteger count, index;
 
     count = [[model equations] count];
     for (index = 0; index < count; index++)
@@ -157,7 +157,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     MMRule *aRule;
     NSString *str;
     MMBooleanNode *anExpression;
-    int index;
+    NSInteger index;
 
     aRule = [self selectedRule];
 
@@ -196,7 +196,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
 - (void)_updateSelectedSymbolDetails;
 {
-    int selectedRow;
+    NSInteger selectedRow;
     MMEquation *anEquation;
 
     [symbolTableView reloadData]; // To get changes to values
@@ -221,7 +221,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
 - (void)_updateSelectedParameterDetails;
 {
-    int selectedRow;
+    NSInteger selectedRow;
     NSArray *transitions;
 
     [parameterTableView reloadData]; // To get updated values
@@ -242,7 +242,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
 - (void)_updateSelectedSpecialParameterDetails;
 {
-    int selectedRow;
+    NSInteger selectedRow;
     MMTransition *aTransition;
 
     [specialParameterTableView reloadData]; // To get updated values
@@ -258,7 +258,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
 - (void)_updateSelectedMetaParameterDetails;
 {
-    int selectedRow;
+    NSInteger selectedRow;
     NSArray *transitions;
 
     [metaParameterTableView reloadData]; // To get updated values
@@ -289,7 +289,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 // Align the sub-expressions if one happens to have been removed.
 - (void)realignExpressions;
 {
-    int index;
+    NSInteger index;
     NSCell *thisCell, *nextCell;
 
     for (index = 0; index < 3; index++) {
@@ -315,8 +315,8 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
 - (void)evaluateMatchLists;
 {
-    unsigned int expressionIndex;
-    unsigned int count, index;
+    NSUInteger expressionIndex;
+    NSUInteger count, index;
     NSMutableArray *aMatchedPhoneList;
     NSArray *mainPhoneList = [[self model] postures];
     NSString *str;
@@ -361,8 +361,8 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
 - (void)updateCombinations;
 {
-    unsigned int index;
-    int totalCombinations;
+    NSUInteger index;
+    NSUInteger totalCombinations;
 
     totalCombinations = [[matchLists objectAtIndex:0] count];
     for (index = 1; index < 4; index++) {
@@ -380,7 +380,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 // NSTableView data source
 //
 
-- (int)numberOfRowsInTableView:(NSTableView *)tableView;
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView;
 {
     if (tableView == ruleTableView)
         return [[model rules] count];
@@ -401,7 +401,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     return 0;
 }
 
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row;
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
 {
     id identifier;
 
@@ -482,7 +482,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     }
 }
 
-- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(int)row;
+- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
 {
     if (tableView == specialParameterTableView) {
         if ([[self selectedRule] getSpecialProfile:row] != nil)
@@ -507,7 +507,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     return NO;
 }
 
-- (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(int)row proposedDropOperation:(NSTableViewDropOperation)op;
+- (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)op;
 {
     if  (tableView == ruleTableView) {
         NSPasteboard *pasteboard;
@@ -526,7 +526,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     return NSDragOperationNone;
 }
 
-- (BOOL)tableView:(NSTableView *)tableView acceptDrop:(id <NSDraggingInfo>)info row:(int)row dropOperation:(NSTableViewDropOperation)op;
+- (BOOL)tableView:(NSTableView *)tableView acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)op;
 {
     if  (tableView == ruleTableView) {
         NSPasteboard *pasteboard;
@@ -587,7 +587,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 // Browser delegate methods
 //
 
-- (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(int)column;
+- (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(NSInteger)column;
 {
     if (sender == match1Browser)
         return [[matchLists objectAtIndex:0] count];
@@ -604,7 +604,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     return 0;
 }
 
-- (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column;
+- (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(NSInteger)row column:(NSInteger)column;
 {
     MMPosture *aPosture;
 
@@ -629,7 +629,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 // NSOutlineView data source
 //
 
-- (int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item;
+- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item;
 {
     if (outlineView == symbolEquationOutlineView) {
         if (item == nil)
@@ -651,7 +651,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     return 0;
 }
 
-- (id)outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item;
+- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item;
 {
     if (outlineView == symbolEquationOutlineView) {
         if (item == nil)
@@ -828,8 +828,8 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     NSMutableArray *matchedPhoneList;
     NSArray *mainPhoneList = [[self model] postures];
     MMBooleanNode *parsedExpression;
-    int i;
-    int tag;
+    NSUInteger i;
+    NSInteger tag;
     NSString *expressionString;
     NSBrowser *aBrowser;
 
@@ -895,7 +895,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 - (IBAction)addRule:(id)sender;
 {
     MMBooleanNode *exps[4];
-    int index;
+    NSUInteger index;
     MMRule *newRule;
 
     for (index = 0; index < 4; index++) {
@@ -931,7 +931,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 - (IBAction)updateRule:(id)sender;
 {
     MMBooleanNode *exps[4];
-    int index;
+    NSUInteger index;
     MMRule *selectedRule;
 
     for (index = 0; index < 4; index++) {

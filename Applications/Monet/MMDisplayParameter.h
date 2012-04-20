@@ -9,7 +9,7 @@
 {
     MMParameter *parameter;
     BOOL isSpecial;
-    int tag;
+    NSUInteger tag;
     BOOL shouldDisplay;
 }
 
@@ -21,8 +21,8 @@
 - (BOOL)isSpecial;
 - (void)setIsSpecial:(BOOL)newFlag;
 
-- (int)tag;
-- (void)setTag:(int)newTag;
+- (NSUInteger)tag;
+- (void)setTag:(NSUInteger)newTag;
 
 - (BOOL)shouldDisplay;
 - (void)setShouldDisplay:(BOOL)newFlag;

@@ -131,7 +131,7 @@
 
 - (void)expandOutlines;
 {
-    unsigned int count, index;
+    NSUInteger count, index;
 
     count = [[model equations] count];
     for (index = 0; index < count; index++)
@@ -288,7 +288,7 @@
 - (IBAction)addEquationGroup:(id)sender;
 {
     NamedList *newGroup;
-    unsigned int index;
+    NSUInteger index;
 
     newGroup = [[NamedList alloc] init];
     [newGroup setName:@"Untitled"];
@@ -320,7 +320,7 @@
 
     if (targetGroup != nil) {
         MMEquation *newEquation;
-        int index;
+        NSUInteger index;
 
         // TODO (2004-03-22): Need to do something to ensure unique names.
         newEquation = [[MMEquation alloc] initWithName:@"Untitled"];
@@ -374,7 +374,7 @@
 - (IBAction)addTransitionGroup:(id)sender;
 {
     NamedList *newGroup;
-    unsigned int index;
+    NSUInteger index;
 
     newGroup = [[NamedList alloc] init];
     [newGroup setName:@"Untitled"];
@@ -406,7 +406,7 @@
 
     if (targetGroup != nil) {
         MMTransition *newTransition;
-        int index;
+        NSUInteger index;
 
         // TODO (2004-03-22): Need to do something to ensure unique names.
         newTransition = [[MMTransition alloc] initWithName:@"Untitled"];
@@ -441,7 +441,7 @@
 - (IBAction)addSpecialTransitionGroup:(id)sender;
 {
     NamedList *newGroup;
-    unsigned int index;
+    NSUInteger index;
 
     newGroup = [[NamedList alloc] init];
     [newGroup setName:@"Untitled"];
@@ -473,7 +473,7 @@
 
     if (targetGroup != nil) {
         MMTransition *newTransition;
-        int index;
+        NSUInteger index;
 
         // TODO (2004-03-22): Need to do something to ensure unique names.
         newTransition = [[MMTransition alloc] initWithName:@"Untitled"];

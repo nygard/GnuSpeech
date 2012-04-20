@@ -55,12 +55,12 @@
     [super dealloc];
 }
 
-- (int)sectionCount;
+- (NSUInteger)sectionCount;
 {
     return sectionCount;
 }
 
-- (void)setSectionCount:(int)newSectionCount;
+- (void)setSectionCount:(NSUInteger)newSectionCount;
 {
     if (newSectionCount == sectionCount)
         return;
@@ -69,12 +69,12 @@
     [self setNeedsDisplay:YES];
 }
 
-- (int)sectionHeight;
+- (CGFloat)sectionHeight;
 {
     return sectionHeight;
 }
 
-- (void)setSectionHeight:(int)newSectionHeight;
+- (void)setSectionHeight:(CGFloat)newSectionHeight;
 {
     if (newSectionHeight == sectionHeight)
         return;
@@ -83,12 +83,12 @@
     [self setNeedsDisplay:YES];
 }
 
-- (int)zeroSection;
+- (NSUInteger)zeroSection;
 {
     return zeroSection;
 }
 
-- (void)setZeroSection:(int)newZeroSection;
+- (void)setZeroSection:(NSUInteger)newZeroSection;
 {
     if (newZeroSection == zeroSection)
         return;
@@ -97,12 +97,12 @@
     [self setNeedsDisplay:YES];
 }
 
-- (int)yOrigin;
+- (CGFloat)yOrigin;
 {
     return yOrigin;
 }
 
-- (void)setYOrigin:(int)newYOrigin;
+- (void)setYOrigin:(CGFloat)newYOrigin;
 {
     if (newYOrigin == yOrigin)
         return;
@@ -116,11 +116,11 @@
     NSBezierPath *bezierPath;
     NSRect bounds, cellFrame;
     NSPoint point;
-    unsigned int index;
+    NSUInteger index;
 
-    float labelHeight;
-    float labelDescender;
-    int labelSkip = 1;
+    CGFloat labelHeight;
+    CGFloat labelDescender;
+    NSUInteger labelSkip = 1;
 
     [[NSColor whiteColor] set];
     NSRectFill(rect);
@@ -181,7 +181,7 @@
         NSPoint labelPoint;
         NSRange glyphRange;
         NSRect boundingRect;
-        float axisLabelHeight;
+        CGFloat axisLabelHeight;
 
         axisLabelHeight = ceil([axisLabelFont boundingRectForFont].size.height);
 

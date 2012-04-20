@@ -16,13 +16,6 @@
 
 @implementation EventListView
 
-/*===========================================================================
-
-	Method: initFrame
-	Purpose: To initialize the frame
-
-===========================================================================*/
-
 - (id)initWithFrame:(NSRect)frameRect;
 {
     if ([super initWithFrame:frameRect] == nil)
@@ -157,14 +150,14 @@
 - (void)drawGrid;
 {
     NSMutableArray *displayList;
-    int i, j, k, parameterIndex, phoneIndex;
-    float currentX, currentY;
-    float currentMin, currentMax;
+    NSUInteger i, j, k, parameterIndex, phoneIndex;
+    CGFloat currentX, currentY;
+    CGFloat currentMin, currentMax;
     Event *currentEvent;
     MMPosture *currentPhone = nil;
     NSBezierPath *bezierPath;
     NSRect bounds;
-    unsigned count, index;
+    NSUInteger count, index;
     NSArray *events;
 	
 	// Set the proper bounds according to the event data.
@@ -309,8 +302,8 @@
 
 - (void)drawRules;
 {
-    int count, index;
-    float currentX, extraWidth;
+    NSUInteger count, index;
+    CGFloat currentX, extraWidth;
     struct _rule *rule;
     NSRect bounds, cellFrame;
 
@@ -339,7 +332,7 @@
 
 - (void)mouseDown:(NSEvent *)theEvent;
 {
-    float row, column;
+    CGFloat row, column;
     NSPoint mouseDownLocation = [theEvent locationInWindow];
 
     /* Get information about the original location of the mouse event */
@@ -375,8 +368,8 @@
 - (void)mouseMoved:(NSEvent *)theEvent;
 {
     NSPoint position = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-    int time = (position.x - 80.0) * timeScale;
-	float value = [self parameterValueForYCoord:position.y];
+    CGFloat time = (position.x - 80.0) * timeScale;
+	CGFloat value = [self parameterValueForYCoord:position.y];
 	
     if ((position.x < 80.0) || (position.x > [self bounds].size.width - 20.0 - 30.0)) {  // reduced 30.0 from x dimension for aesthetics -- db.
         [mouseTimeField setStringValue:@"--"];
@@ -396,7 +389,7 @@
 {
     NSPoint mouseDownLocation;
     NSEvent *newEvent;
-    float delta, originalScale;
+    CGFloat delta, originalScale;
 
     originalScale = timeScale;
 
@@ -441,27 +434,27 @@
     trackTag = [self addTrackingRect:[self bounds] owner:self userData:NULL assumeInside:NO];
 }
 
-- (float)scaledX:(float)x;
+- (CGFloat)scaledX:(CGFloat)x;
 {
     return rint(80.0 + x / timeScale);
 }
 
-- (float)scaledWidth:(float)width;
+- (CGFloat)scaledWidth:(CGFloat)width;
 {
     return floor(width / timeScale);
 }
 
 // Obtain the parameter value for the y coordinate. Added by dalmazio, April 11, 2009.
-- (float)parameterValueForYCoord:(float)y;
+- (CGFloat)parameterValueForYCoord:(CGFloat)y;
 {
     NSRect bounds = [self bounds];
-	float value = FLT_MAX;
-	int parameterIndex = (int)floor((bounds.size.height - y - 50.0) / TRACKHEIGHT);
+	CGFloat value = FLT_MAX;
+	NSUInteger parameterIndex = (int)floor((bounds.size.height - y - 50.0) / TRACKHEIGHT);
 	
 	if (parameterIndex >= 0 && parameterIndex < [displayParameters count]) {		
 		MMParameter * parameter = [[displayParameters objectAtIndex:parameterIndex] parameter];
-		float minValue = [parameter minimumValue];
-		float maxValue = [parameter maximumValue];
+		CGFloat minValue = [parameter minimumValue];
+		CGFloat maxValue = [parameter maximumValue];
 		
 		// Now to get the value we need to get the % of the range this y coord represents and scale by min and max.
 		float percentage = 1.0 - (bounds.size.height - y - 50.0 - parameterIndex * TRACKHEIGHT) / (TRACKHEIGHT - BORDERHEIGHT);
@@ -505,9 +498,9 @@
 }
 
 // Added by dalmazio, April 11, 2009.
-- (float)minimumWidth;
+- (CGFloat)minimumWidth;
 {
-    float minimumWidth;
+    CGFloat minimumWidth;
 	
     if ([[eventList events] count] == 0) {
         minimumWidth = 0.0;
@@ -526,10 +519,10 @@
 }
 
 // Added by dalmazio, April 11, 2009.
-- (float)minimumHeight;
+- (CGFloat)minimumHeight;
 {
-	float minimumHeight;
-	int displayCount = [displayParameters count];
+	CGFloat minimumHeight;
+	NSUInteger displayCount = [displayParameters count];
 	
 	minimumHeight = 50.0 + 30.0 + 1.0 + (displayCount * TRACKHEIGHT) + BORDERHEIGHT;
 
@@ -541,7 +534,7 @@
 }
 
 // Added by dalmazio, April 11, 2009.
-- (float)scaleWidth:(float)width;
+- (CGFloat)scaleWidth:(CGFloat)width;
 {
     return floor(width / timeScale);
 }

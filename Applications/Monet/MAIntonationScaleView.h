@@ -14,26 +14,26 @@
     NSFont *labelFont;
     NSFont *axisLabelFont;
 
-    int sectionCount;
-    int sectionHeight;
-    int zeroSection;
-    int yOrigin;
+    NSUInteger sectionCount;
+    CGFloat sectionHeight;
+    NSUInteger zeroSection;
+    CGFloat yOrigin;
 }
 
 - (id)initWithFrame:(NSRect)frameRect;
 - (void)dealloc;
 
-- (int)sectionCount;
-- (void)setSectionCount:(int)newSectionCount;
+- (NSUInteger)sectionCount;
+- (void)setSectionCount:(NSUInteger)newSectionCount;
 
-- (int)sectionHeight;
-- (void)setSectionHeight:(int)newSectionHeight;
+- (CGFloat)sectionHeight;
+- (void)setSectionHeight:(CGFloat)newSectionHeight;
 
-- (int)zeroSection;
-- (void)setZeroSection:(int)newZeroSection;
+- (NSUInteger)zeroSection;
+- (void)setZeroSection:(NSUInteger)newZeroSection;
 
-- (int)yOrigin;
-- (void)setYOrigin:(int)newYOrigin;
+- (CGFloat)yOrigin;
+- (void)setYOrigin:(CGFloat)newYOrigin;
 
 - (void)drawRect:(NSRect)rect;
 

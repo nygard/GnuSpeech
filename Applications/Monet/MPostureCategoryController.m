@@ -128,7 +128,7 @@
 {
     NSTableColumn *postureNameTableColumn;
     NSArray *tableColumns;
-    unsigned int count, index;
+    NSUInteger count, index;
     CategoryList *categories;
 
     // Retain this column because we'll be removing it but want to add it back.
@@ -192,7 +192,7 @@
     return 0;
 }
 
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row;
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
 {
     id identifier;
 
@@ -212,7 +212,7 @@
     return nil;
 }
 
-- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(int)row;
+- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
 {
 }
 
@@ -223,7 +223,7 @@
 - (BOOL)control:(NSControl *)aControl shouldProcessCharacters:(NSString *)characters;
 {
     NSArray *postures;
-    unsigned int count, index;
+    NSUInteger count, index;
     MMPosture *posture;
 
     postures = [[self model] postures];
