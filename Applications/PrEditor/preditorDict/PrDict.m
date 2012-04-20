@@ -199,7 +199,7 @@ const char *getExtension(const char *fileName)
 {
 	const char *extension;
 
-	if (extension = strrchr(fileName, '.'))	/* extension points to the last '.' in the string, */
+	if ((extension = strrchr(fileName, '.')))	/* extension points to the last '.' in the string, */
 		return ++extension;
 	else
 		return fileName;
@@ -210,7 +210,7 @@ char *getNameWithoutExtensionOfFile(char *fileName)
 {
 	char *extension;
 	
-	if (extension = strrchr(fileName, '.')){	/* extension points to the last '.' in the string, */
+	if ((extension = strrchr(fileName, '.'))){	/* extension points to the last '.' in the string, */
 		*extension = '\000';					/* Sets end of string */
 		return fileName;
 	}

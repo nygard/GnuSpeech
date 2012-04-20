@@ -319,13 +319,13 @@ static NSString* UnknownPOS = @"j";
   if (ipaKeyboardLayoutRef != NULL) {
     // save the current keyboard layout
     OSStatus osstatus;
-    if (osstatus = KLGetCurrentKeyboardLayout(&oldKeyboardLayoutRef)) {
-      NSLog(@"error in KLGetCurrentKeyboardLayout osstatus=%d\n", osstatus);
+    if ((osstatus = KLGetCurrentKeyboardLayout(&oldKeyboardLayoutRef))) {
+      NSLog(@"error in KLGetCurrentKeyboardLayout osstatus=%ld\n", osstatus);
     }
     
     // set the current keyboard layout to be the IPA keyboard layout
-    if (osstatus = KLSetCurrentKeyboardLayout (ipaKeyboardLayoutRef)) {
-      NSLog(@"error in KLSetCurrentKeyboardLayout osstatus=%d\n", osstatus);
+    if ((osstatus = KLSetCurrentKeyboardLayout (ipaKeyboardLayoutRef))) {
+      NSLog(@"error in KLSetCurrentKeyboardLayout osstatus=%ld\n", osstatus);
     }
   } 
   else {
@@ -341,8 +341,8 @@ static NSString* UnknownPOS = @"j";
     if (ipaKeyboardLayoutRef != NULL) {
       // set the current keyboard layout to be the saved layout
       OSStatus osstatus;
-      if (osstatus = KLSetCurrentKeyboardLayout (oldKeyboardLayoutRef)) {
-        NSLog(@"error in KLSetCurrentKeyboardLayout osstatus=%d\n", osstatus);    
+      if ((osstatus = KLSetCurrentKeyboardLayout (oldKeyboardLayoutRef))) {
+        NSLog(@"error in KLSetCurrentKeyboardLayout osstatus=%ld\n", osstatus);    
       }
       oldKeyboardLayoutRef = NULL;
     } 
@@ -359,23 +359,23 @@ static NSString* UnknownPOS = @"j";
 {
   CFIndex count;
   OSStatus osstatus;
-  if (osstatus = KLGetKeyboardLayoutCount(&count)) {
-    NSLog(@"error in KLGetKeyboardLayoutCount, osstatus=%d", osstatus);
+  if ((osstatus = KLGetKeyboardLayoutCount(&count))) {
+    NSLog(@"error in KLGetKeyboardLayoutCount, osstatus=%ld", osstatus);
     return NO;
   }
   
   CFIndex i;
   for (i = 0; i < count; i++) {
     KeyboardLayoutRef kbLayout;
-    if (osstatus = KLGetKeyboardLayoutAtIndex (i, &kbLayout)) {
-      NSLog(@"error in KLGetKeyboardLayoutAtIndex, osstatus=%d", osstatus);
+    if ((osstatus = KLGetKeyboardLayoutAtIndex (i, &kbLayout))) {
+      NSLog(@"error in KLGetKeyboardLayoutAtIndex, osstatus=%ld", osstatus);
       return NO;
     }
     CFStringRef layoutName;
-    if (osstatus = KLGetKeyboardLayoutProperty (kbLayout,
+    if ((osstatus = KLGetKeyboardLayoutProperty (kbLayout,
                                                 kKLName,
-                                                (const void **)&layoutName)) {
-      NSLog(@"error in KLGetKeyboardLayoutProperty, osstatus=%d", osstatus);
+                                                (const void **)&layoutName))) {
+      NSLog(@"error in KLGetKeyboardLayoutProperty, osstatus=%ld", osstatus);
       return NO;
     }
     
