@@ -155,7 +155,7 @@
 
         array = malloc(count * sizeof(id *));
         if (array == NULL) {
-            NSLog(@"malloc()'ing %d id *'s failed.", count);
+            NSLog(@"malloc()'ing %lu id *'s failed.", count);
         } else {
             int index;
 

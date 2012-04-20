@@ -102,7 +102,7 @@
     lines = [str componentsSeparatedByString:@"\n"];
 
     count = [lines count];
-    NSLog(@"lines: %d", count);
+    NSLog(@"lines: %lu", count);
     for (index = 0; index < count; index++) {
         NSString *line;
         NSArray *parts;
@@ -125,7 +125,7 @@
         }
     }
 
-    NSLog(@"Read %d suffixes.", [suffixOrder count]);
+    NSLog(@"Read %lu suffixes.", [suffixOrder count]);
 
     NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }

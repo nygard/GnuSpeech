@@ -145,7 +145,7 @@
 
     [aDecoder decodeValuesOfObjCTypes:"iiii", &operation, &numExpressions, &maxExpressions, &precedence];
     if (numExpressions != 2)
-        NSLog(@"operation: %d, numExpressions: %d, maxExpressions: %d, precedence: %d", operation, numExpressions, maxExpressions, precedence);
+        NSLog(@"operation: %lu, numExpressions: %lu, maxExpressions: %lu, precedence: %lu", operation, numExpressions, maxExpressions, precedence);
     expressions = [[NSMutableArray alloc] init];
     for (index = 0; index < numExpressions; index++)
         [self addSubExpression:[aDecoder decodeObject]];

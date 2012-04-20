@@ -148,7 +148,7 @@
         if ([symbolName isEqual:@"No Symbol"] == NO)
             [self setSymbol:[model symbolWithName:symbolName]];
     } else {
-        NSLog(@"<%@>: Unknown version %u", NSStringFromClass([self class]), archivedVersion);
+        NSLog(@"<%@>: Unknown version %ld", NSStringFromClass([self class]), archivedVersion);
         //NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
         return nil;
     }

@@ -56,7 +56,7 @@
     }
 
     count = [allKeys count];
-    NSLog(@"%d keys", count);
+    NSLog(@"%lu keys", count);
 
     for (index = 0; index < count; index++) {
         key = [allKeys objectAtIndex:index];
@@ -71,7 +71,7 @@
 
         result = dbm_store(newDB, keyDatum, valueDatum, DBM_REPLACE);
         if (result != 0)
-            NSLog(@"Could not dbmstore(): index: %5d, key: %@, value: %@", index, key, value);
+            NSLog(@"Could not dbmstore(): index: %5lu, key: %@, value: %@", index, key, value);
     }
 
     dbm_close(newDB);

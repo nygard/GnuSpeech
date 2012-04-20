@@ -1316,23 +1316,23 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
     //NSLog(@"toneGroupCount: %d", toneGroupCount);
     for (toneGroupIndex = 0; toneGroupIndex < toneGroupCount; toneGroupIndex++) {
-        NSLog(@"Tone Group %d, type: %@", toneGroupIndex, NSStringFromToneGroupType(toneGroups[toneGroupIndex].type));
+        NSLog(@"Tone Group %lu, type: %@", toneGroupIndex, NSStringFromToneGroupType(toneGroups[toneGroupIndex].type));
 
         //NSLog(@"tg (%d -- %d)", toneGroups[toneGroupIndex].startFoot, toneGroups[toneGroupIndex].endFoot);
         for (footIndex = toneGroups[toneGroupIndex].startFoot; footIndex <= toneGroups[toneGroupIndex].endFoot; footIndex++) {
-            NSLog(@"  Foot %d  tempo: %.3f, marked: %d, last: %d, onset1: %.3f, onset2: %.3f", footIndex, feet[footIndex].tempo,
+            NSLog(@"  Foot %lu  tempo: %.3f, marked: %lu, last: %lu, onset1: %.3f, onset2: %.3f", footIndex, feet[footIndex].tempo,
                   feet[footIndex].marked, feet[footIndex].last, feet[footIndex].onset1, feet[footIndex].onset2);
 
             //NSLog(@"Foot (%d -- %d)", feet[footIndex].start, feet[footIndex].end);
             for (postureIndex = feet[footIndex].start; postureIndex <= feet[footIndex].end; postureIndex++) {
                 if (rules[ruleIndex].firstPhone == postureIndex) {
-                    NSLog(@"    Posture %2d  tempo: %.3f, syllable: %d, onset: %7.2f, ruleTempo: %.3f, %@ # Rule %2d, duration: %7.2f, beat: %7.2f",
+                    NSLog(@"    Posture %2lu  tempo: %.3f, syllable: %lu, onset: %7.2f, ruleTempo: %.3f, %@ # Rule %2lu, duration: %7.2f, beat: %7.2f",
                           postureIndex, phoneTempo[postureIndex], phones[postureIndex].syllable, phones[postureIndex].onset,
                           phones[postureIndex].ruleTempo, [[phones[postureIndex].phone name] leftJustifiedStringPaddedToLength:18],
                           rules[ruleIndex].number, rules[ruleIndex].duration, rules[ruleIndex].beat);
                     ruleIndex++;
                 } else {
-                    NSLog(@"    Posture %2d  tempo: %.3f, syllable: %d, onset: %7.2f, ruleTempo: %.3f, %@",
+                    NSLog(@"    Posture %2lu  tempo: %.3f, syllable: %lu, onset: %7.2f, ruleTempo: %.3f, %@",
                           postureIndex, phoneTempo[postureIndex], phones[postureIndex].syllable, phones[postureIndex].onset,
                           phones[postureIndex].ruleTempo, [phones[postureIndex].phone name]);
                 }
@@ -1441,7 +1441,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     [self insertEvent:32 atTimeOffset:0.0 withValue:-20.0];
 
     count = [[self intonationPoints] count]; // This makes sure they get sorted
-    NSLog(@"Applying intonation, %d points", count);
+    NSLog(@"Applying intonation, %lu points", count);
 
     for (index = 0; index < count; index++) {
         anIntonationPoint = [intonationPoints objectAtIndex:index];

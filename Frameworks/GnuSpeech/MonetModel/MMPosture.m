@@ -211,7 +211,7 @@
     [parameterTargets addObject:newTarget];
 }
 
-- (void)removeParameterTargetAtIndex:(unsigned int)index;
+- (void)removeParameterTargetAtIndex:(NSUInteger)index;
 {
     [parameterTargets removeObjectAtIndex:index];
 }
@@ -247,7 +247,7 @@
     [metaParameterTargets addObject:newTarget];
 }
 
-- (void)removeMetaParameterTargetAtIndex:(unsigned int)index;
+- (void)removeMetaParameterTargetAtIndex:(NSUInteger)index;
 {
     [metaParameterTargets removeObjectAtIndex:index];
 }
@@ -283,7 +283,7 @@
     [symbolTargets addObject:newTarget];
 }
 
-- (void)removeSymbolTargetAtIndex:(unsigned int)index;
+- (void)removeSymbolTargetAtIndex:(NSUInteger)index;
 {
     [symbolTargets removeObjectAtIndex:index];
 }
@@ -511,7 +511,7 @@
     mainMetaParameterList = [[self model] metaParameters];
     count = [mainMetaParameterList count];
     if (count != [metaParameterTargets count])
-        NSLog(@"%s, (%@) main meta count: %d, count: %d", __PRETTY_FUNCTION__, [self name], count, [metaParameterTargets count]);
+        NSLog(@"%s, (%@) main meta count: %lu, count: %lu", __PRETTY_FUNCTION__, [self name], count, [metaParameterTargets count]);
     //assert(count == [metaParameterTargets count]);
 
     if (count == 0)

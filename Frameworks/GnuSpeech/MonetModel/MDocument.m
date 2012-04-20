@@ -123,7 +123,7 @@
     NSLog(@" > %s", __PRETTY_FUNCTION__);
     NSLog(@"parseError: %@", parseError);
     NSLog(@"[[parser parserError] localizedDescription]: %@", [[parser parserError] localizedDescription]);
-    NSLog(@"line: %d, column: %d", [parser lineNumber], [parser columnNumber]);
+    NSLog(@"line: %lu, column: %lu", [parser lineNumber], [parser columnNumber]);
     NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
 
