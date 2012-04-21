@@ -11,9 +11,6 @@ extern NSString *MCategoryInUseException;
 
 @interface MModel : NSObject
 
-- (id)init;
-- (void)dealloc;
-
 - (void)_addDefaultRule;
 
 - (CategoryList *)categories;

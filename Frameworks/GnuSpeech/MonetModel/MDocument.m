@@ -18,19 +18,9 @@
     [super dealloc];
 }
 
-- (MModel *)model;
-{
-    return model;
-}
+#pragma mark -
 
-- (void)setModel:(MModel *)newModel;
-{
-    if (newModel == model)
-        return;
-
-    [model release];
-    model = [newModel retain];
-}
+@synthesize model;
 
 - (BOOL)loadFromXMLFile:(NSString *)filename;
 {

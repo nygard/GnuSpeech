@@ -53,44 +53,43 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (id)init;
 {
-    if ([super init] == nil)
-        return nil;
-
-    categories = [[CategoryList alloc] init];
-    parameters = [[NSMutableArray alloc] init];
-    metaParameters = [[NSMutableArray alloc] init];
-    symbols = [[NSMutableArray alloc] init];
-    postures = [[NSMutableArray alloc] init];
-
-    equations = [[NSMutableArray alloc] init];
-    transitions = [[NSMutableArray alloc] init];
-    specialTransitions = [[NSMutableArray alloc] init];
-
-    rules = [[NSMutableArray alloc] init];
+    if ((self = [super init])) {
+        categories = [[CategoryList alloc] init];
+        parameters = [[NSMutableArray alloc] init];
+        metaParameters = [[NSMutableArray alloc] init];
+        symbols = [[NSMutableArray alloc] init];
+        postures = [[NSMutableArray alloc] init];
+        
+        equations = [[NSMutableArray alloc] init];
+        transitions = [[NSMutableArray alloc] init];
+        specialTransitions = [[NSMutableArray alloc] init];
+        
+        rules = [[NSMutableArray alloc] init];
 #if 0
-    // And set up some default values:
-    // TODO (2004-05-15): Just load these from a default .monet file
-    {
-        MMSymbol *newSymbol;
-        MMCategory *newCategory;
-
-        newSymbol = [[MMSymbol alloc] init];
-        [newSymbol setName:@"duration"];
-        [self addSymbol:newSymbol];
-        [newSymbol release];
-
-        newCategory = [[MMCategory alloc] init];
-        [newCategory setName:@"phone"];
-        [newCategory setComment:@"This is the static phone category.  It cannot be changed or removed."];
-        [self addCategory:newCategory];
-        [newCategory release];
-
-        [self _addDefaultRule];
-    }
+        // And set up some default values:
+        // TODO (2004-05-15): Just load these from a default .monet file
+        {
+            MMSymbol *newSymbol;
+            MMCategory *newCategory;
+            
+            newSymbol = [[MMSymbol alloc] init];
+            [newSymbol setName:@"duration"];
+            [self addSymbol:newSymbol];
+            [newSymbol release];
+            
+            newCategory = [[MMCategory alloc] init];
+            [newCategory setName:@"phone"];
+            [newCategory setComment:@"This is the static phone category.  It cannot be changed or removed."];
+            [self addCategory:newCategory];
+            [newCategory release];
+            
+            [self _addDefaultRule];
+        }
 #endif
-    cacheTag = 1;
-
-    synthesisParameters = [[MMSynthesisParameters alloc] init];
+        cacheTag = 1;
+        
+        synthesisParameters = [[MMSynthesisParameters alloc] init];
+    }
 
     return self;
 }
@@ -111,6 +110,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
     [super dealloc];
 }
+
+#pragma mark -
 
 - (void)_addDefaultRule;
 {
@@ -178,9 +179,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     return rules;
 }
 
-//
-// Categories
-//
+#pragma mark - Categories
 
 - (void)addCategory:(MMCategory *)newCategory;
 {
@@ -258,9 +257,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     return nil;
 }
 
-//
-// Parameters
-//
+#pragma mark - Parameters
 
 - (void)addParameter:(MMParameter *)newParameter;
 {
@@ -337,9 +334,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     }
 }
 
-//
-// Meta Parameters
-//
+#pragma mark - Meta Parameters
 
 - (void)addMetaParameter:(MMParameter *)newParameter;
 {
@@ -390,9 +385,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     }
 }
 
-//
-// Symbols
-//
+#pragma mark - Symbols
 
 - (void)addSymbol:(MMSymbol *)newSymbol;
 {
@@ -479,9 +472,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     return nil;
 }
 
-//
-// Postures
-//
+#pragma mark - Postures
 
 - (void)addPosture:(MMPosture *)newPosture;
 {
@@ -869,9 +860,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     return array;
 }
 
-//
-// Rules
-//
+#pragma mark - Rules
 
 - (void)addRule:(MMRule *)newRule;
 {
@@ -916,9 +905,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     return [rules lastObject];
 }
 
-//
-// Archiving - XML
-//
+#pragma mark - Archiving - XML
 
 - (BOOL)writeXMLToFile:(NSString *)aFilename comment:(NSString *)aComment;
 {
@@ -1442,9 +1429,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     }
 }
 
-//
-// Other
-//
+#pragma mark - Other
 
 - (MMSynthesisParameters *)synthesisParameters;
 {
