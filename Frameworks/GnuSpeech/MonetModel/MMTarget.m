@@ -71,28 +71,6 @@
     }
 }
 
-//
-// Archiving
-//
-
-- (id)initWithCoder:(NSCoder *)aDecoder;
-{
-    NSUInteger defaultInt;
-
-    if ([super initWithCoder:aDecoder] == nil)
-        return nil;
-
-    //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
-    /*NSInteger archivedVersion =*/ [aDecoder versionForClassName:NSStringFromClass([self class])];
-    //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
-
-    [aDecoder decodeValuesOfObjCTypes:"id", &defaultInt, &value];
-    isDefault = defaultInt;
-
-    //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
-    return self;
-}
-
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"<%@>[%p]: isDefault: %d, value: %g", NSStringFromClass([self class]), self, isDefault, value];

@@ -58,8 +58,6 @@
 - (BOOL)isEquationUsed:(MMEquation *)anEquation;
 - (BOOL)isTransitionUsed:(MMTransition *)aTransition;
 
-- (id)initWithCoder:(NSCoder *)aDecoder;
-
 - (NSString *)ruleString;
 
 - (NSString *)description;

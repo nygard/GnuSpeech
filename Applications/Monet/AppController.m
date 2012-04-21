@@ -192,6 +192,8 @@
 
 - (IBAction)importTRMData:(id)sender;
 {
+#if 0
+    // 2012-04-21: Check to see what this was supposed to do, and replace functionality if necessary.
     NSArray *types;
     NSArray *fnames;
     NSUInteger count, index;
@@ -227,6 +229,7 @@
 
         [unarchiver release];
     }
+#endif
 }
 
 - (IBAction)printData:(id)sender;
@@ -279,34 +282,10 @@
     NSString *extension;
 
     extension = [aFilename pathExtension];
-    if ([extension isEqualToString:@"monet"] == YES) {
-        [self _loadMonetFile:aFilename];
-    } else if ([extension isEqualToString:@"degas"] == YES) {
+    if ([extension isEqualToString:@"degas"] == YES) {
         [self _loadDegasFile:aFilename];
     } else if ([extension isEqualToString:@"mxml"] == YES) {
         [self _loadMonetXMLFile:aFilename];
-    }
-}
-
-- (void)_loadMonetFile:(NSString *)aFilename;
-{
-    MUnarchiver *stream;
-
-    stream = [[MUnarchiver alloc] initForReadingWithData:[NSData dataWithContentsOfFile:aFilename]];
-
-    if (stream) {
-        MModel *newModel;
-
-        newModel = [[MModel alloc] initWithCoder:stream];
-        [self setModel:newModel];
-        [newModel release];
-
-        [self setFilename:aFilename];
-
-        [stream release];
-        //[model writeXMLToFile:@"/tmp/out.xml" comment:aFilename];
-    } else {
-        NSLog(@"Not a MONET file");
     }
 }
 

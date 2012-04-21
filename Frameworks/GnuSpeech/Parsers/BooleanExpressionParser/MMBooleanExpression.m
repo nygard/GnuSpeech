@@ -100,31 +100,6 @@
     return NO;
 }
 
-#pragma mark - Archiving
-
-- (id)initWithCoder:(NSCoder *)decoder;
-{
-    if ((self = [super initWithCoder:decoder])) {
-        [decoder versionForClassName:NSStringFromClass([self class])];
-
-        NSUInteger expressionCount, maxExpressionCount;
-        
-        // TODO (2012-04-20): Separate required archived values of operation from current enum values.
-        NSUInteger archivedOperation;
-        [decoder decodeValuesOfObjCTypes:"iii", &archivedOperation, &expressionCount, &maxExpressionCount];
-        self.operation = archivedOperation;
-        m_expressions = [[NSMutableArray alloc] init];
-        
-        for (NSUInteger i = 0; i < expressionCount; i++) {
-            MMBooleanNode *expression = [decoder decodeObject];
-            if (expression != nil)
-                [self addSubExpression:expression];
-        }
-    }
-
-    return self;
-}
-
 #pragma mark -
 
 @synthesize operation = m_operation;

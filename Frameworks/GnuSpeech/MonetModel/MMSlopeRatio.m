@@ -255,40 +255,6 @@
     }
 }
 
-//
-// Archiving
-//
-
-- (id)initWithCoder:(NSCoder *)aDecoder;
-{
-    unsigned archivedVersion;
-
-    if ([super initWithCoder:aDecoder] == nil)
-        return nil;
-
-    //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
-    archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
-    //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
-
-    {
-        MonetList *archivedPoints;
-
-        archivedPoints = [aDecoder decodeObject];
-        points = [[NSMutableArray alloc] init];
-        [points addObjectsFromArray:[archivedPoints allObjects]];
-    }
-    {
-        MonetList *archivedSlopes;
-
-        archivedSlopes = [aDecoder decodeObject];
-        slopes = [[NSMutableArray alloc] init];
-        [slopes addObjectsFromArray:[archivedSlopes allObjects]];
-    }
-
-    //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
-    return self;
-}
-
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"<%@>[%p]: points: %@, slopes: %@",

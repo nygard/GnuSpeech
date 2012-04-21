@@ -135,47 +135,6 @@
     return [ilist containsObject:anObject];
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder;
-{
-    NSUInteger count;
-
-    if ([super initWithCoder:aDecoder] == nil)
-        return nil;
-
-    // TODO (2004-03-05): On second thought I don't think these should call init -- also doing so in subclasses may cause problems, multiple-initialization
-    ilist = [[NSMutableArray alloc] init];
-
-    //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
-    /*NSInteger archivedVersion =*/ [aDecoder versionForClassName:NSStringFromClass([self class])];
-    //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
-    //NSLog(@"aDecoder version for class %@ is: %u", @"List", archivedVersion);
-
-    count = 0;
-    [aDecoder decodeValueOfObjCType:@encode(int) at:&count];
-    //NSLog(@"count: %d", count);
-
-    if (count > 0) {
-        id *array;
-
-        array = malloc(count * sizeof(id *));
-        if (array == NULL) {
-            NSLog(@"malloc()'ing %lu id *'s failed.", count);
-        } else {
-            int index;
-
-            [aDecoder decodeArrayOfObjCType:@encode(id) count:count at:array];
-
-            for (index = 0; index < count; index++)
-                [self addObject:array[index]];
-
-            free(array);
-        }
-    }
-
-    //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
-    return self;
-}
-
 - (NSString *)description;
 {
     return [ilist description];

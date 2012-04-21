@@ -36,9 +36,6 @@
 - (double)totalSlopeUnits;
 - (void)displaySlopesInList:(NSMutableArray *)displaySlopes;
 
-// Archiving
-- (id)initWithCoder:(NSCoder *)aDecoder;
-
 - (NSString *)description;
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;

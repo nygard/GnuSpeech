@@ -9,9 +9,6 @@
 
 @interface AppController : NSObject
 
-- (id)init;
-- (void)dealloc;
-
 - (void)setFilename:(NSString *)newFilename;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification;
@@ -26,7 +23,6 @@
 - (void)setModel:(MModel *)newModel;
 
 - (void)_loadFile:(NSString *)aFilename;
-- (void)_loadMonetFile:(NSString *)aFilename;
 - (void)_loadDegasFile:(NSString *)aFilename;
 - (void)_loadMonetXMLFile:(NSString *)aFilename;
 

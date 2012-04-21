@@ -84,9 +84,6 @@
 
 - (NSComparisonResult)compareByAscendingName:(MMPosture *)otherPosture;
 
-// Archiving
-- (id)initWithCoder:(NSCoder *)aDecoder;
-
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 - (void)_appendXMLForCategoriesToString:(NSMutableString *)resultString level:(NSUInteger)level;
 - (void)_appendXMLForParametersToString:(NSMutableString *)resultString level:(NSUInteger)level;

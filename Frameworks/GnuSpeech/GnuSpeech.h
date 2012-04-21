@@ -3,7 +3,6 @@
 
 // Archiving
 #import <GnuSpeech/GSXMLFunctions.h>
-#import <GnuSpeech/MUnarchiver.h>
 #import <GnuSpeech/MXMLArrayDelegate.h>
 #import <GnuSpeech/MXMLDictionaryDelegate.h>
 #import <GnuSpeech/MXMLIgnoreTreeDelegate.h>

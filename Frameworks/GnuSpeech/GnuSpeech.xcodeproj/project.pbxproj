@@ -35,8 +35,6 @@
 		0155E3990B7BE80D008D8879 /* NSString-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E38B0B7BE80D008D8879 /* NSString-Extensions.m */; };
 		0155E3DE0B7BE8AC008D8879 /* GSXMLFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3CA0B7BE8AC008D8879 /* GSXMLFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0155E3DF0B7BE8AC008D8879 /* GSXMLFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3CB0B7BE8AC008D8879 /* GSXMLFunctions.m */; };
-		0155E3E00B7BE8AC008D8879 /* MUnarchiver.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3CC0B7BE8AC008D8879 /* MUnarchiver.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0155E3E10B7BE8AC008D8879 /* MUnarchiver.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3CD0B7BE8AC008D8879 /* MUnarchiver.m */; };
 		0155E3E20B7BE8AC008D8879 /* MXMLArrayDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3CE0B7BE8AC008D8879 /* MXMLArrayDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0155E3E30B7BE8AC008D8879 /* MXMLArrayDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3CF0B7BE8AC008D8879 /* MXMLArrayDelegate.m */; };
 		0155E3E40B7BE8AC008D8879 /* MXMLDictionaryDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3D00B7BE8AC008D8879 /* MXMLDictionaryDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -240,8 +238,6 @@
 		0155E38B0B7BE80D008D8879 /* NSString-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSString-Extensions.m"; path = "Extensions/NSString-Extensions.m"; sourceTree = "<group>"; };
 		0155E3CA0B7BE8AC008D8879 /* GSXMLFunctions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GSXMLFunctions.h; path = Archiving/GSXMLFunctions.h; sourceTree = "<group>"; };
 		0155E3CB0B7BE8AC008D8879 /* GSXMLFunctions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GSXMLFunctions.m; path = Archiving/GSXMLFunctions.m; sourceTree = "<group>"; };
-		0155E3CC0B7BE8AC008D8879 /* MUnarchiver.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MUnarchiver.h; path = Archiving/MUnarchiver.h; sourceTree = "<group>"; };
-		0155E3CD0B7BE8AC008D8879 /* MUnarchiver.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MUnarchiver.m; path = Archiving/MUnarchiver.m; sourceTree = "<group>"; };
 		0155E3CE0B7BE8AC008D8879 /* MXMLArrayDelegate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MXMLArrayDelegate.h; path = Archiving/MXMLArrayDelegate.h; sourceTree = "<group>"; };
 		0155E3CF0B7BE8AC008D8879 /* MXMLArrayDelegate.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MXMLArrayDelegate.m; path = Archiving/MXMLArrayDelegate.m; sourceTree = "<group>"; };
 		0155E3D00B7BE8AC008D8879 /* MXMLDictionaryDelegate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MXMLDictionaryDelegate.h; path = Archiving/MXMLDictionaryDelegate.h; sourceTree = "<group>"; };
@@ -486,8 +482,6 @@
 			children = (
 				0155E3CA0B7BE8AC008D8879 /* GSXMLFunctions.h */,
 				0155E3CB0B7BE8AC008D8879 /* GSXMLFunctions.m */,
-				0155E3CC0B7BE8AC008D8879 /* MUnarchiver.h */,
-				0155E3CD0B7BE8AC008D8879 /* MUnarchiver.m */,
 				0155E3CE0B7BE8AC008D8879 /* MXMLArrayDelegate.h */,
 				0155E3CF0B7BE8AC008D8879 /* MXMLArrayDelegate.m */,
 				0155E3D00B7BE8AC008D8879 /* MXMLDictionaryDelegate.h */,
@@ -846,7 +840,6 @@
 				0155E3E60B7BE8AC008D8879 /* MXMLIgnoreTreeDelegate.h in Headers */,
 				0155E3E40B7BE8AC008D8879 /* MXMLDictionaryDelegate.h in Headers */,
 				0155E3E20B7BE8AC008D8879 /* MXMLArrayDelegate.h in Headers */,
-				0155E3E00B7BE8AC008D8879 /* MUnarchiver.h in Headers */,
 				0155E46A0B7BE8FA008D8879 /* MonetList.h in Headers */,
 				0155E4D00B7BF002008D8879 /* MonetDefaults.h in Headers */,
 				0155E4680B7BE8FA008D8879 /* MMTransition.h in Headers */,
@@ -999,7 +992,6 @@
 				0155E3970B7BE80D008D8879 /* NSScanner-Extensions.m in Sources */,
 				0155E3990B7BE80D008D8879 /* NSString-Extensions.m in Sources */,
 				0155E3DF0B7BE8AC008D8879 /* GSXMLFunctions.m in Sources */,
-				0155E3E10B7BE8AC008D8879 /* MUnarchiver.m in Sources */,
 				0155E3E30B7BE8AC008D8879 /* MXMLArrayDelegate.m in Sources */,
 				0155E3E50B7BE8AC008D8879 /* MXMLDictionaryDelegate.m in Sources */,
 				0155E3E70B7BE8AC008D8879 /* MXMLIgnoreTreeDelegate.m in Sources */,

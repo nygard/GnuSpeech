@@ -46,27 +46,6 @@
     displayTime = newTime;
 }
 
-//
-// Archiving
-//
-
-- (id)initWithCoder:(NSCoder *)aDecoder;
-{
-    if ([super initWithCoder:aDecoder] == nil)
-        return nil;
-
-    //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
-    /*NSInteger archivedVersion =*/ [aDecoder versionForClassName:NSStringFromClass([self class])];
-    //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
-
-    [aDecoder decodeValueOfObjCType:@encode(double) at:&slope];
-    //NSLog(@"slope: %g", slope);
-    displayTime = 0;
-
-    //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
-    return self;
-}
-
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"<%@>[%p]: slope: %g, displayTime: %g",

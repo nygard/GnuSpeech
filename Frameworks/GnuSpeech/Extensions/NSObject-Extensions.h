@@ -8,8 +8,6 @@
 + (id)objectWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 
-- (id)initWithCoder:(NSCoder *)aDecoder;
-
 - (NSString *)shortDescription;
 
 @end

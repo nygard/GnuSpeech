@@ -37,8 +37,6 @@
 - (BOOL)isEquationUsed:(MMEquation *)anEquation;
 - (void)findEquation:(MMEquation *)anEquation andPutIn:(MonetList *)aList;
 
-- (id)initWithCoder:(NSCoder *)aDecoder;
-
 - (NSString *)description;
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;

@@ -11,7 +11,6 @@
 #import "MMPosture.h"
 
 #import "MModel.h"
-#import "MUnarchiver.h"
 
 @implementation MMBooleanTerminal
 {
@@ -85,36 +84,6 @@
         return YES;
 
     return NO;
-}
-
-#pragma mark - Archiving
-
-- (id)initWithCoder:(NSCoder *)decoder;
-{
-    if ((self = [super initWithCoder:decoder])) {
-        MModel *model = [(MUnarchiver *)decoder userInfo];
-        
-        [decoder versionForClassName:NSStringFromClass([self class])];
-
-        uint32_t match;
-        [decoder decodeValueOfObjCType:@encode(uint32_t) at:&match]; // Can't decode an int into a BOOL
-        self.shouldMatchAll = match;
-
-        // TODO (2012-04-20): Add - (NSString *)decodeCStringWithEncoding:
-        char *c_string;
-        [decoder decodeValueOfObjCType:@encode(char *) at:&c_string];
-        NSString *str = [NSString stringWithASCIICString:c_string];
-        free(c_string);
-        
-        MMCategory *category = [model categoryWithName:str];
-        if (category == nil) {
-            self.category = [[[model postureWithName:str] nativeCategory] retain];
-        } else {
-            self.category = [category retain];
-        }
-    }
-
-    return self;
 }
 
 @end

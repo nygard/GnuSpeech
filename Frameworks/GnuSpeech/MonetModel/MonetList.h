@@ -6,7 +6,6 @@
 // This contains mostly cover methods for NSMutableArray, but adds the following functionality:
 // - don't crash when index out of range in -objectAtIndex:
 // - don't crash when trying to add a nil object in -addObject:
-// - deocodes old List objects with -initWithCoder:
 // - generates XML
 
 @interface MonetList : NSObject
@@ -40,8 +39,6 @@
 - (void)removeAllObjects;
 - (void)removeLastObject;
 - (BOOL)containsObject:(id)anObject;
-
-- (id)initWithCoder:(NSCoder *)aDecoder;
 
 - (NSString *)description;
 

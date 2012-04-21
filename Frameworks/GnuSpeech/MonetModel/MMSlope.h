@@ -13,9 +13,6 @@
 - (double)displayTime;
 - (void)setDisplayTime:(double)newTime;
 
-// Archiving
-- (id)initWithCoder:(NSCoder *)aDecoder;
-
 - (NSString *)description;
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;

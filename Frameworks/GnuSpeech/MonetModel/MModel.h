@@ -88,11 +88,6 @@ extern NSString *MCategoryInUseException;
 - (void)_addStoredRule:(MMRule *)newRule;
 - (MMRule *)findRuleMatchingCategories:(NSArray *)categoryLists ruleIndex:(NSInteger *)indexPtr;
 
-// Archiving
-- (id)initWithCoder:(NSCoder *)aDecoder;
-- (void)readPrototypes:(NSCoder *)aDecoder;
-- (BOOL)importPostureNamed:(NSString *)postureName fromTRMData:(NSCoder *)aDecoder;
-
 // Archiving - XML
 - (BOOL)writeXMLToFile:(NSString *)aFilename comment:(NSString *)aComment;
 - (void)_appendXMLForEquationsToString:(NSMutableString *)resultString level:(NSUInteger)level;
