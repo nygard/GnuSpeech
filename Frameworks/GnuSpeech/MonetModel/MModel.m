@@ -25,9 +25,6 @@
 #import "MXMLParser.h"
 #import "MXMLArrayDelegate.h"
 
-// For typedstream compatibility
-#import "ParameterList.h"
-
 NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 @implementation MModel
