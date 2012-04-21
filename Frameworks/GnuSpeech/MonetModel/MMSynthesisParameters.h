@@ -20,8 +20,6 @@ typedef enum {
 
 @interface MMSynthesisParameters : NSObject
 
-+ (void)initialize;
-
 + (NSString *)stringForGlottalPulseShape:(MMGlottalPulseShape)aShape;
 + (MMGlottalPulseShape)glottalPulseShapeFromString:(NSString *)aString;
 
@@ -32,85 +30,34 @@ typedef enum {
 + (NSString *)stringForChannels:(MMChannels)channels;
 + (MMChannels)channelsFromString:(NSString *)aString;
 
-- (id)init;
-
 - (void)restoreDefaultValues;
 - (void)saveAsDefaults;
 
-- (double)masterVolume;
-- (void)setMasterVolume:(double)value;
-
-- (double)vocalTractLength;
-- (void)setVocalTractLength:(double)value;
-
-- (double)temperature;
-- (void)setTemperature:(double)value;
-
-- (double)balance;
-- (void)setBalance:(double)value;
-
-- (double)breathiness;
-- (void)setBreathiness:(double)value;
-
-- (double)lossFactor;
-- (void)setLossFactor:(double)value;
-
-- (double)pitch;
-- (void)setPitch:(double)value;
-
-- (double)throatCutoff;
-- (void)setThroatCutoff:(double)value;
-
-- (double)throatVolume;
-- (void)setThroatVolume:(double)value;
-
-- (double)apertureScaling;
-- (void)setApertureScaling:(double)value;
-
-- (double)mouthCoef;
-- (void)setMouthCoef:(double)value;
-
-- (double)noseCoef;
-- (void)setNoseCoef:(double)value;
-
-- (double)mixOffset;
-- (void)setMixOffset:(double)value;
-
-- (double)n1;
-- (void)setN1:(double)value;
-
-- (double)n2;
-- (void)setN2:(double)value;
-
-- (double)n3;
-- (void)setN3:(double)value;
-
-- (double)n4;
-- (void)setN4:(double)value;
-
-- (double)n5;
-- (void)setN5:(double)value;
-
-- (double)tp;
-- (void)setTp:(double)value;
-
-- (double)tnMin;
-- (void)setTnMin:(double)value;
-
-- (double)tnMax;
-- (void)setTnMax:(double)value;
-
-- (MMGlottalPulseShape)glottalPulseShape;
-- (void)setGlottalPulseShape:(MMGlottalPulseShape)value;
-
-- (BOOL)shouldUseNoiseModulation;
-- (void)setShouldUseNoiseModulation:(BOOL)value;
-
-- (MMSamplingRate)samplingRate;
-- (void)setSamplingRate:(MMSamplingRate)value;
-
-- (MMChannels)outputChannels;
-- (void)setOutputChannels:(MMChannels)value;
+@property (assign) double masterVolume;
+@property (assign) double vocalTractLength;
+@property (assign) double temperature;
+@property (assign) double balance;
+@property (assign) double breathiness;
+@property (assign) double lossFactor;
+@property (assign) double pitch;
+@property (assign) double throatCutoff;
+@property (assign) double throatVolume;
+@property (assign) double apertureScaling;
+@property (assign) double mouthCoef;
+@property (assign) double noseCoef;
+@property (assign) double mixOffset;
+@property (assign) double n1;
+@property (assign) double n2;
+@property (assign) double n3;
+@property (assign) double n4;
+@property (assign) double n5;
+@property (assign) double tp;
+@property (assign) double tnMin;
+@property (assign) double tnMax;
+@property (assign) MMGlottalPulseShape glottalPulseShape;
+@property (assign) BOOL shouldUseNoiseModulation;
+@property (assign) MMSamplingRate samplingRate;
+@property (assign) MMChannels outputChannels;
 
 - (void)writeToFile:(NSString *)aFilename includeComments:(BOOL)shouldIncludeComments;
 
