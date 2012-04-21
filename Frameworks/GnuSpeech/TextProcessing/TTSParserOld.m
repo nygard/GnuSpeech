@@ -66,9 +66,7 @@ static NSDictionary *_specialAcronyms = nil;
 
 + (void)initialize;
 {
-    NSString *path;
-
-    path = [[NSBundle bundleForClass:[self class]] pathForResource:@"SpecialAcronyms" ofType:@"plist"];
+    NSString *path = [[NSBundle bundleForClass:[self class]] pathForResource:@"SpecialAcronyms" ofType:@"plist"];
     NSLog(@"path: %@", path);
 
     _specialAcronyms = [[NSDictionary alloc] initWithContentsOfFile:path];
@@ -77,13 +75,12 @@ static NSDictionary *_specialAcronyms = nil;
 
 - (id)initWithPronunciationDictionary:(GSPronunciationDictionary *)aDictionary;
 {
-    if ([super init] == nil)
-        return nil;
+    if ((self = [super init])) {
+        mainDictionary = [aDictionary retain];
+        //[mainDictionary loadDictionary];
 
-    mainDictionary = [aDictionary retain];
-    //[mainDictionary loadDictionary];
-
-    escapeCharacter = '%';
+        escapeCharacter = '%';
+    }
 
     return self;
 }
@@ -95,19 +92,18 @@ static NSDictionary *_specialAcronyms = nil;
     [super dealloc];
 }
 
+#pragma mark -
+
 - (NSString *)parseString:(NSString *)aString;
 {
-    NSMutableString *resultString;
-	NSString * newString;
-
     NSLog(@" > %s", __PRETTY_FUNCTION__);
 
     NSLog(@"aString: %@", aString);
-    newString = [self padCharactersInSet:[NSCharacterSet punctuationCharacterSet] 
+    NSString *newString = [self padCharactersInSet:[NSCharacterSet punctuationCharacterSet] 
 								ofString:aString];  // temporary fix for punctuation issues -- dalmazio, Jan. 2009
 	//[self markModes:aString];
 
-    resultString = [NSMutableString string];
+    NSMutableString *resultString = [NSMutableString string];
     [self finalConversion:newString resultString:resultString];	 // temporary fix for punctuation issues -- dalmazio, Jan. 2009	
     //[self finalConversion:aString resultString:resultString];
 
@@ -123,7 +119,7 @@ static NSDictionary *_specialAcronyms = nil;
 - (NSString *)padCharactersInSet:(NSCharacterSet *)characterSet ofString:(NSString *)aString;
 {
 	unichar ch;
-	NSMutableString * newString = [[[NSMutableString alloc] initWithCapacity:[aString length]*2] autorelease];
+	NSMutableString *newString = [[[NSMutableString alloc] initWithCapacity:[aString length]*2] autorelease];
 
 	for (int i = 0; i < [aString length]; i++) {
 		ch = [aString characterAtIndex:i];
@@ -139,21 +135,15 @@ static NSDictionary *_specialAcronyms = nil;
 // TODO (2004-04-28): This wants to embed special characters (-1 through -11) in the output string...  We may need to do this differently, since we want to deal with characters, not bytes.
 - (void)markModes:(NSString *)aString;
 {
-    NSMutableArray *modeStack;
-    NSScanner *scanner;
-    NSCharacterSet *escapeCharacterSet;
-    NSMutableString *resultString;
     NSString *str;
-    TTSInputMode currentMode;
+    NSCharacterSet *escapeCharacterSet = [NSCharacterSet characterSetWithCharactersInString:[NSString stringWithUnichar:escapeCharacter]];
+    NSMutableString *resultString = [NSMutableString string];
 
-    escapeCharacterSet = [NSCharacterSet characterSetWithCharactersInString:[NSString stringWithUnichar:escapeCharacter]];
-    resultString = [NSMutableString string];
-
-    modeStack = [[NSMutableArray alloc] init];
-    currentMode = TTSInputModeNormal;
+    NSMutableArray *modeStack = [[NSMutableArray alloc] init];
+    TTSInputMode currentMode = TTSInputModeNormal;
     [modeStack addObject:[NSNumber numberWithInt:currentMode]];
 
-    scanner = [[NSScanner alloc] initWithString:aString];
+    NSScanner *scanner = [[NSScanner alloc] initWithString:aString];
     while ([scanner isAtEnd] == NO) {
         if ([scanner scanUpToCharactersFromSet:escapeCharacterSet intoString:&str] == YES)
             [resultString appendString:str];
@@ -168,10 +158,8 @@ static NSDictionary *_specialAcronyms = nil;
                     NSString *modeString;
 
                     if ([scanner scanCharacterIntoString:&modeString] == YES) {
-                        TTSInputMode aMode;
-
                         NSLog(@"scanned mode: '%@'", modeString);
-                        aMode = TTSInputModeFromString(modeString);
+                        TTSInputMode aMode = TTSInputModeFromString(modeString);
                         if (aMode == TTSInputModeUnknown) {
                             NSLog(@"Unknown mode, skipping...");
                         } else {
@@ -220,17 +208,16 @@ static NSDictionary *_specialAcronyms = nil;
 
 - (void)finalConversion:(NSString *)aString resultString:(NSMutableString *)resultString;
 {
-    NSArray *words;
-    NSUInteger previousState, currentState, nextState;
+    NSUInteger currentState, nextState;
     NSUInteger count, index;
     BOOL priorTonic = NO;
     NSUInteger toneGroupMarkerLocation = NSNotFound;
     NSUInteger lastWordEndLocation = NSNotFound;
     NSString *currentWord, *nextWord;
 
-    previousState = TTS_STATE_BEGIN;
+    NSUInteger previousState = TTS_STATE_BEGIN;
 
-	words = [self filterEmptyStringsFromArray:[aString componentsSeparatedByString:@" "]];   // temporary fix -- dalmazio, Jan. 2009
+	NSArray *words = [self filterEmptyStringsFromArray:[aString componentsSeparatedByString:@" "]];   // temporary fix -- dalmazio, Jan. 2009
 	//words = [aString componentsSeparatedByString:@" "];	
 	
     NSLog(@"words: %@", [words description]);
@@ -253,142 +240,142 @@ static NSDictionary *_specialAcronyms = nil;
             //NSLog(@"previousState: %d, currentState: %d (%@), nextState: %d (%@)", previousState, currentState, currentWord, nextState, nextWord);
 
             switch (currentState) {
-              case TTS_STATE_WORD:
-                  // Switch fall through desired:
-                  switch (previousState) {
-                    case TTS_STATE_BEGIN:
-                        [resultString appendString:TTS_CHUNK_BOUNDARY];
-                        [resultString appendString:@" "];
-                    case TTS_STATE_FINAL_PUNC:
-                        [resultString appendString:TTS_TONE_GROUP_BOUNDARY];
-                        [resultString appendString:@" "];
-                        priorTonic = NO;
-                    case TTS_STATE_MEDIAL_PUNC:
-                        toneGroupMarkerLocation = [resultString length];
-                        [resultString appendString:TG_UNDEFINED];
-                        [resultString appendString:@" "];
-                    case TTS_STATE_SILENCE:
-                        [resultString appendString:TTS_UTTERANCE_BOUNDARY];
-                        [resultString appendString:@" "];
-                  }
-
-                  if (1) { // Normal Mode
-                      [resultString appendString:TTS_WORD_BEGIN];
-                      [resultString appendString:@" "];
-
-                      switch (nextState) {
-                        case TTS_STATE_MEDIAL_PUNC:
+                case TTS_STATE_WORD:
+                    // Switch fall through desired:
+                    switch (previousState) {
+                        case TTS_STATE_BEGIN:
+                            [resultString appendString:TTS_CHUNK_BOUNDARY];
+                            [resultString appendString:@" "];
                         case TTS_STATE_FINAL_PUNC:
-                        case TTS_STATE_END:
-                            [resultString appendString:TTS_LAST_WORD];
+                            [resultString appendString:TTS_TONE_GROUP_BOUNDARY];
                             [resultString appendString:@" "];
-                            // Write word to result with tonic if no prior tonicization
-                            [self expandWord:currentWord tonic:!priorTonic resultString:resultString];
-                            break;
-                        default:
-                            // Write word to result without tonic
-                            [self expandWord:currentWord tonic:NO resultString:resultString];
-                      }
-                  } else {
-                  }
-
-                  lastWordEndLocation = [resultString length];
-                  break;
-
-              case TTS_STATE_MEDIAL_PUNC:
-
-                  // Switch fall through desired:
-                  switch (previousState) {
-                    case TTS_STATE_WORD:
-                        if ([self shiftSilence] == YES) {
-                        } else if (nextState != TTS_STATE_END && [nextWord startsWithLetter] == YES) {
+                            priorTonic = NO;
+                        case TTS_STATE_MEDIAL_PUNC:
+                            toneGroupMarkerLocation = [resultString length];
+                            [resultString appendString:TG_UNDEFINED];
+                            [resultString appendString:@" "];
+                        case TTS_STATE_SILENCE:
                             [resultString appendString:TTS_UTTERANCE_BOUNDARY];
                             [resultString appendString:@" "];
-                            if ([currentWord isEqualToString:@","] == YES) {
-                                [resultString appendString:TTS_MEDIAL_PAUSE];
-                            } else {
-                                [resultString appendString:TTS_LONG_MEDIAL_PAUSE];
-                            }
-                            [resultString appendString:@" "];
-                        } else if (nextState == TTS_STATE_END) {
-                            [resultString appendString:TTS_UTTERANCE_BOUNDARY];
-                            [resultString appendString:@" "];
-                        }
-
-                    case TTS_STATE_SILENCE:
-                        [resultString appendString:TTS_TONE_GROUP_BOUNDARY];
+                    }
+                    
+                    if (1) { // Normal Mode
+                        [resultString appendString:TTS_WORD_BEGIN];
                         [resultString appendString:@" "];
-                        priorTonic = NO;
-                        if (toneGroupMarkerLocation != NSNotFound)
-                            [resultString replaceCharactersInRange:NSMakeRange(toneGroupMarkerLocation, 2)
-                                          withString:[self toneGroupStringForPunctuation:currentWord]];
-                          else
-                              NSLog(@"Warning: Couldn't set tone group");
-                        toneGroupMarkerLocation = NSNotFound;
-                  }
-                  break;
-
-              case TTS_STATE_FINAL_PUNC:
-                  if (previousState == TTS_STATE_WORD) {
-                      if ([self shiftSilence] == YES) {
-                      } else {
-                          [resultString appendFormat:@"%@ %@ %@ ", TTS_UTTERANCE_BOUNDARY, TTS_TONE_GROUP_BOUNDARY, TTS_CHUNK_BOUNDARY];
-                          priorTonic = NO;
-                          if (toneGroupMarkerLocation != NSNotFound)
-                              [resultString replaceCharactersInRange:NSMakeRange(toneGroupMarkerLocation, 2)
-                                            withString:[self toneGroupStringForPunctuation:currentWord]];
-                          else
-                              NSLog(@"Warning: Couldn't set tone group");
-                          toneGroupMarkerLocation = NSNotFound;
-                      }
-                  } else if (previousState == TTS_STATE_SILENCE) {
-                  }
-                  break;
-
-              case TTS_STATE_SILENCE:
-                  break;
-
-              case TTS_STATE_TAGGING:
-                  break;
-
-              case TTS_STATE_END:
-                  break;
-
-			  default:  // added as temporary fix -- dalmazio, Jan. 2009
-				  break;		
+                        
+                        switch (nextState) {
+                            case TTS_STATE_MEDIAL_PUNC:
+                            case TTS_STATE_FINAL_PUNC:
+                            case TTS_STATE_END:
+                                [resultString appendString:TTS_LAST_WORD];
+                                [resultString appendString:@" "];
+                                // Write word to result with tonic if no prior tonicization
+                                [self expandWord:currentWord tonic:!priorTonic resultString:resultString];
+                                break;
+                            default:
+                                // Write word to result without tonic
+                                [self expandWord:currentWord tonic:NO resultString:resultString];
+                        }
+                    } else {
+                    }
+                    
+                    lastWordEndLocation = [resultString length];
+                    break;
+                    
+                case TTS_STATE_MEDIAL_PUNC:
+                    
+                    // Switch fall through desired:
+                    switch (previousState) {
+                        case TTS_STATE_WORD:
+                            if ([self shiftSilence]) {
+                            } else if (nextState != TTS_STATE_END && [nextWord startsWithLetter] == YES) {
+                                [resultString appendString:TTS_UTTERANCE_BOUNDARY];
+                                [resultString appendString:@" "];
+                                if ([currentWord isEqualToString:@","]) {
+                                    [resultString appendString:TTS_MEDIAL_PAUSE];
+                                } else {
+                                    [resultString appendString:TTS_LONG_MEDIAL_PAUSE];
+                                }
+                                [resultString appendString:@" "];
+                            } else if (nextState == TTS_STATE_END) {
+                                [resultString appendString:TTS_UTTERANCE_BOUNDARY];
+                                [resultString appendString:@" "];
+                            }
+                            
+                        case TTS_STATE_SILENCE:
+                            [resultString appendString:TTS_TONE_GROUP_BOUNDARY];
+                            [resultString appendString:@" "];
+                            priorTonic = NO;
+                            if (toneGroupMarkerLocation != NSNotFound)
+                                [resultString replaceCharactersInRange:NSMakeRange(toneGroupMarkerLocation, 2)
+                                                            withString:[self toneGroupStringForPunctuation:currentWord]];
+                            else
+                                NSLog(@"Warning: Couldn't set tone group");
+                            toneGroupMarkerLocation = NSNotFound;
+                    }
+                    break;
+                    
+                case TTS_STATE_FINAL_PUNC:
+                    if (previousState == TTS_STATE_WORD) {
+                        if ([self shiftSilence]) {
+                        } else {
+                            [resultString appendFormat:@"%@ %@ %@ ", TTS_UTTERANCE_BOUNDARY, TTS_TONE_GROUP_BOUNDARY, TTS_CHUNK_BOUNDARY];
+                            priorTonic = NO;
+                            if (toneGroupMarkerLocation != NSNotFound)
+                                [resultString replaceCharactersInRange:NSMakeRange(toneGroupMarkerLocation, 2)
+                                                            withString:[self toneGroupStringForPunctuation:currentWord]];
+                            else
+                                NSLog(@"Warning: Couldn't set tone group");
+                            toneGroupMarkerLocation = NSNotFound;
+                        }
+                    } else if (previousState == TTS_STATE_SILENCE) {
+                    }
+                    break;
+                    
+                case TTS_STATE_SILENCE:
+                    break;
+                    
+                case TTS_STATE_TAGGING:
+                    break;
+                    
+                case TTS_STATE_END:
+                    break;
+                    
+                default:  // added as temporary fix -- dalmazio, Jan. 2009
+                    break;		
             }
-
+            
             previousState = currentState;
         }
     }
-
+    
     switch (previousState) {
-      case TTS_STATE_MEDIAL_PUNC:
-          [resultString appendString:TTS_CHUNK_BOUNDARY];
-          break;
-
-          // Switch fall through desired:
-      case TTS_STATE_WORD:
-          [resultString appendString:TTS_UTTERANCE_BOUNDARY];
-          [resultString appendString:@" "];
-      case TTS_STATE_SILENCE:
-          [resultString appendString:TTS_TONE_GROUP_BOUNDARY];
-          [resultString appendString:@" "];
-          [resultString appendString:TTS_CHUNK_BOUNDARY];
-          priorTonic = NO;
-          if (toneGroupMarkerLocation != NSNotFound)
-              [resultString replaceCharactersInRange:NSMakeRange(toneGroupMarkerLocation, 2)
-                            withString:[self toneGroupStringForPunctuation:TTS_DEFAULT_END_PUNC]];
-          else
-              NSLog(@"Warning: Couldn't set tone group");
-          toneGroupMarkerLocation = NSNotFound;
-          break;
-
-      case TTS_STATE_BEGIN:
-          break;
+        case TTS_STATE_MEDIAL_PUNC:
+            [resultString appendString:TTS_CHUNK_BOUNDARY];
+            break;
+            
+            // Switch fall through desired:
+        case TTS_STATE_WORD:
+            [resultString appendString:TTS_UTTERANCE_BOUNDARY];
+            [resultString appendString:@" "];
+        case TTS_STATE_SILENCE:
+            [resultString appendString:TTS_TONE_GROUP_BOUNDARY];
+            [resultString appendString:@" "];
+            [resultString appendString:TTS_CHUNK_BOUNDARY];
+            priorTonic = NO;
+            if (toneGroupMarkerLocation != NSNotFound)
+                [resultString replaceCharactersInRange:NSMakeRange(toneGroupMarkerLocation, 2)
+                                            withString:[self toneGroupStringForPunctuation:TTS_DEFAULT_END_PUNC]];
+            else
+                NSLog(@"Warning: Couldn't set tone group");
+            toneGroupMarkerLocation = NSNotFound;
+            break;
+            
+        case TTS_STATE_BEGIN:
+            break;
 			
-	  default:  // added as temporary fix -- dalmazio, Jan. 2009
-		  break;					
+        default:  // added as temporary fix -- dalmazio, Jan. 2009
+            break;					
     }
 }
 
@@ -396,40 +383,38 @@ static NSDictionary *_specialAcronyms = nil;
 {
     if (word == nil)
         return TTS_STATE_END;
-
-    if ([word startsWithLetter] == YES)
+    
+    if ([word startsWithLetter])
         return TTS_STATE_WORD;
-
+    
     if ([word isEqualToString:@"."] || [word isEqualToString:@"!"] || [word isEqualToString:@"?"]) {	
         return TTS_STATE_FINAL_PUNC;
 		
     } else if ([word isEqualToString:@";"] || [word isEqualToString:@":"] || [word isEqualToString:@","]) {
         return TTS_STATE_MEDIAL_PUNC;
     }
-
+    
     return TTS_STATE_UNDEFINED;
 }
 
 - (void)expandWord:(NSString *)word tonic:(BOOL)isTonic resultString:(NSMutableString *)resultString;
 {
-    BOOL isPossessive;
     NSString *pronunciation = nil;
-    NSUInteger lastFootBegin;
     NSString *lastPhoneme = nil;
-
+    
     // Strip of possessive if word ends with 's
-    isPossessive = [word hasSuffix:@"'s"];
+    BOOL isPossessive = [word hasSuffix:@"'s"];
     if (isPossessive == YES)
         word = [word substringToIndex:[word length] - 2];
-
-    if ([word length] == 1 && [word startsWithLetter] == YES) {
-        if ([word isEqualToString:@"a"] == YES) {
+    
+    if ([word length] == 1 && [word startsWithLetter]) {
+        if ([word isEqualToString:@"a"]) {
             pronunciation = @"uh";
         } else {
             pronunciation = [self degenerateString:word];
         }
         // dictionary = TTS_LETTER_TO_SOUND;
-    } else if ([word isAllUpperCase] == YES) {
+    } else if ([word isAllUpperCase]) {
         pronunciation = [_specialAcronyms objectForKey:word];
         if (pronunciation == nil)
             pronunciation = [self degenerateString:word];
@@ -438,12 +423,10 @@ static NSDictionary *_specialAcronyms = nil;
         pronunciation = [mainDictionary pronunciationForWord:[word lowercaseString]];
         // TODO (2004-04-29): And that should set the dictionary
     }
-
-    lastFootBegin = NSNotFound;
-    if (isTonic == YES && [pronunciation containsPrimaryStress] == NO) {
-        NSString *convertedStress;
-
-        convertedStress = [pronunciation convertedStress];
+    
+    NSUInteger lastFootBegin = NSNotFound;
+    if (isTonic && [pronunciation containsPrimaryStress] == NO) {
+        NSString *convertedStress = [pronunciation convertedStress];
         if (convertedStress != nil) {
             // For example, "saltwater"
             pronunciation = convertedStress;
@@ -453,29 +436,27 @@ static NSDictionary *_specialAcronyms = nil;
             [resultString appendString:TTS_FOOT_BEGIN];
         }
     }
-
+    
     // TODO (2004-04-30): We could preprocess the dictionary to do these transformations on the pronunciations.
     if (pronunciation != nil) {
-        NSScanner *scanner;
-
-        scanner = [[NSScanner alloc] initWithString:pronunciation];
+        NSScanner *scanner = [[NSScanner alloc] initWithString:pronunciation];
         // TODO (2004-04-30): I'm assuming there are no spaces in the pronunciation.
-
+        
         while ([scanner isAtEnd] == NO) {
-            if ([scanner scanString:@"'" intoString:NULL] == YES) {
+            if ([scanner scanString:@"'" intoString:NULL]) {
                 lastFootBegin = [resultString length];
                 [resultString appendString:TTS_FOOT_BEGIN];
                 lastPhoneme = nil;
-            } else if ([scanner scanString:@"\"" intoString:NULL] == YES) {
+            } else if ([scanner scanString:@"\"" intoString:NULL]) {
                 [resultString appendString:TTS_SECONDARY_STRESS];
                 lastPhoneme = nil;
-            } else if ([scanner scanString:@"_" intoString:NULL] == YES) {
+            } else if ([scanner scanString:@"_" intoString:NULL]) {
                 [resultString appendString:@"_"];
                 lastPhoneme = nil;
-            } else if ([scanner scanString:@"." intoString:NULL] == YES) {
+            } else if ([scanner scanString:@"." intoString:NULL]) {
                 [resultString appendString:@"."];
                 lastPhoneme = nil;
-            } else if ([scanner scanCharactersFromSet:[NSCharacterSet letterCharacterSet] intoString:&lastPhoneme] == YES) {
+            } else if ([scanner scanCharactersFromSet:[NSCharacterSet letterCharacterSet] intoString:&lastPhoneme]) {
                 [resultString appendString:lastPhoneme];
             }
         }
@@ -520,111 +501,109 @@ static NSDictionary *_specialAcronyms = nil;
 
 - (NSString *)degenerateString:(NSString *)word;
 {
-    NSMutableString *resultString;
     NSUInteger length, index;
-    unichar ch;
 
-    resultString = [NSMutableString string];
+    NSMutableString *resultString = [NSMutableString string];
     length = [word length];
     for (index = 0; index < length; index++) {
-        ch = [word characterAtIndex:index];
+        unichar ch = [word characterAtIndex:index];
         switch (ch) {
-          case ' ': [resultString appendString:PR_BLANK];                break;
-          case '!': [resultString appendString:PR_EXCLAMATION_POINT];    break;
-          case '"': [resultString appendString:PR_DOUBLE_QUOTE];         break;
-          case '#': [resultString appendString:PR_NUMBER_SIGN];          break;
-          case '$': [resultString appendString:PR_DOLLAR_SIGN];          break;
-          case '%': [resultString appendString:PR_PERCENT_SIGN];         break;
-          case '&': [resultString appendString:PR_AMPERSAND];            break;
-          case '\'':[resultString appendString:PR_SINGLE_QUOTE];         break;
-          case '(': [resultString appendString:PR_OPEN_PARENTHESIS];     break;
-          case ')': [resultString appendString:PR_CLOSE_PARENTHESIS];    break;
-          case '*': [resultString appendString:PR_ASTERISK];             break;
-          case '+': [resultString appendString:PR_PLUS_SIGN];            break;
-          case ',': [resultString appendString:PR_COMMA];                break;
-          case '-': [resultString appendString:PR_HYPHEN];               break;
-          case '.': [resultString appendString:PR_PERIOD];               break;
-          case '/': [resultString appendString:PR_SLASH];                break;
-          case '0': [resultString appendString:PR_ZERO];                 break;
-          case '1': [resultString appendString:PR_ONE];                  break;
-          case '2': [resultString appendString:PR_TWO];                  break;
-          case '3': [resultString appendString:PR_THREE];                break;
-          case '4': [resultString appendString:PR_FOUR];                 break;
-          case '5': [resultString appendString:PR_FIVE];                 break;
-          case '6': [resultString appendString:PR_SIX];                  break;
-          case '7': [resultString appendString:PR_SEVEN];                break;
-          case '8': [resultString appendString:PR_EIGHT];                break;
-          case '9': [resultString appendString:PR_NINE];                 break;
-          case ':': [resultString appendString:PR_COLON];                break;
-          case ';': [resultString appendString:PR_SEMICOLON];            break;
-          case '<': [resultString appendString:PR_OPEN_ANGLE_BRACKET];   break;
-          case '=': [resultString appendString:PR_EQUAL_SIGN];           break;
-          case '>': [resultString appendString:PR_CLOSE_ANGLE_BRACKET];  break;
-          case '?': [resultString appendString:PR_QUESTION_MARK];        break;
-          case '@': [resultString appendString:PR_AT_SIGN];              break;
-          case 'A':
-          case 'a': [resultString appendString:PR_A];                    break;
-          case 'B':
-          case 'b': [resultString appendString:PR_B];                    break;
-          case 'C':
-          case 'c': [resultString appendString:PR_C];                    break;
-          case 'D':
-          case 'd': [resultString appendString:PR_D];                    break;
-          case 'E':
-          case 'e': [resultString appendString:PR_E];                    break;
-          case 'F':
-          case 'f': [resultString appendString:PR_F];                    break;
-          case 'G':
-          case 'g': [resultString appendString:PR_G];                    break;
-          case 'H':
-          case 'h': [resultString appendString:PR_H];                    break;
-          case 'I':
-          case 'i': [resultString appendString:PR_I];                    break;
-          case 'J':
-          case 'j': [resultString appendString:PR_J];                    break;
-          case 'K':
-          case 'k': [resultString appendString:PR_K];                    break;
-          case 'L':
-          case 'l': [resultString appendString:PR_L];                    break;
-          case 'M':
-          case 'm': [resultString appendString:PR_M];                    break;
-          case 'N':
-          case 'n': [resultString appendString:PR_N];                    break;
-          case 'O':
-          case 'o': [resultString appendString:PR_O];                    break;
-          case 'P':
-          case 'p': [resultString appendString:PR_P];                    break;
-          case 'Q':
-          case 'q': [resultString appendString:PR_Q];                    break;
-          case 'R':
-          case 'r': [resultString appendString:PR_R];                    break;
-          case 'S':
-          case 's': [resultString appendString:PR_S];                    break;
-          case 'T':
-          case 't': [resultString appendString:PR_T];                    break;
-          case 'U':
-          case 'u': [resultString appendString:PR_U];                    break;
-          case 'V':
-          case 'v': [resultString appendString:PR_V];                    break;
-          case 'W':
-          case 'w': [resultString appendString:PR_W];                    break;
-          case 'X':
-          case 'x': [resultString appendString:PR_X];                    break;
-          case 'Y':
-          case 'y': [resultString appendString:PR_Y];                    break;
-          case 'Z':
-          case 'z': [resultString appendString:PR_Z];                    break;
-          case '[': [resultString appendString:PR_OPEN_SQUARE_BRACKET];  break;
-          case '\\':[resultString appendString:PR_BACKSLASH];            break;
-          case ']': [resultString appendString:PR_CLOSE_SQUARE_BRACKET]; break;
-          case '^': [resultString appendString:PR_CARET];                break;
-          case '_': [resultString appendString:PR_UNDERSCORE];           break;
-          case '`': [resultString appendString:PR_GRAVE_ACCENT];         break;
-          case '{': [resultString appendString:PR_OPEN_BRACE];           break;
-          case '|': [resultString appendString:PR_VERTICAL_BAR];         break;
-          case '}': [resultString appendString:PR_CLOSE_BRACE];          break;
-          case '~': [resultString appendString:PR_TILDE];                break;
-          default:  [resultString appendString:PR_UNKNOWN];              break;
+            case ' ': [resultString appendString:PR_BLANK];                break;
+            case '!': [resultString appendString:PR_EXCLAMATION_POINT];    break;
+            case '"': [resultString appendString:PR_DOUBLE_QUOTE];         break;
+            case '#': [resultString appendString:PR_NUMBER_SIGN];          break;
+            case '$': [resultString appendString:PR_DOLLAR_SIGN];          break;
+            case '%': [resultString appendString:PR_PERCENT_SIGN];         break;
+            case '&': [resultString appendString:PR_AMPERSAND];            break;
+            case '\'':[resultString appendString:PR_SINGLE_QUOTE];         break;
+            case '(': [resultString appendString:PR_OPEN_PARENTHESIS];     break;
+            case ')': [resultString appendString:PR_CLOSE_PARENTHESIS];    break;
+            case '*': [resultString appendString:PR_ASTERISK];             break;
+            case '+': [resultString appendString:PR_PLUS_SIGN];            break;
+            case ',': [resultString appendString:PR_COMMA];                break;
+            case '-': [resultString appendString:PR_HYPHEN];               break;
+            case '.': [resultString appendString:PR_PERIOD];               break;
+            case '/': [resultString appendString:PR_SLASH];                break;
+            case '0': [resultString appendString:PR_ZERO];                 break;
+            case '1': [resultString appendString:PR_ONE];                  break;
+            case '2': [resultString appendString:PR_TWO];                  break;
+            case '3': [resultString appendString:PR_THREE];                break;
+            case '4': [resultString appendString:PR_FOUR];                 break;
+            case '5': [resultString appendString:PR_FIVE];                 break;
+            case '6': [resultString appendString:PR_SIX];                  break;
+            case '7': [resultString appendString:PR_SEVEN];                break;
+            case '8': [resultString appendString:PR_EIGHT];                break;
+            case '9': [resultString appendString:PR_NINE];                 break;
+            case ':': [resultString appendString:PR_COLON];                break;
+            case ';': [resultString appendString:PR_SEMICOLON];            break;
+            case '<': [resultString appendString:PR_OPEN_ANGLE_BRACKET];   break;
+            case '=': [resultString appendString:PR_EQUAL_SIGN];           break;
+            case '>': [resultString appendString:PR_CLOSE_ANGLE_BRACKET];  break;
+            case '?': [resultString appendString:PR_QUESTION_MARK];        break;
+            case '@': [resultString appendString:PR_AT_SIGN];              break;
+            case 'A':
+            case 'a': [resultString appendString:PR_A];                    break;
+            case 'B':
+            case 'b': [resultString appendString:PR_B];                    break;
+            case 'C':
+            case 'c': [resultString appendString:PR_C];                    break;
+            case 'D':
+            case 'd': [resultString appendString:PR_D];                    break;
+            case 'E':
+            case 'e': [resultString appendString:PR_E];                    break;
+            case 'F':
+            case 'f': [resultString appendString:PR_F];                    break;
+            case 'G':
+            case 'g': [resultString appendString:PR_G];                    break;
+            case 'H':
+            case 'h': [resultString appendString:PR_H];                    break;
+            case 'I':
+            case 'i': [resultString appendString:PR_I];                    break;
+            case 'J':
+            case 'j': [resultString appendString:PR_J];                    break;
+            case 'K':
+            case 'k': [resultString appendString:PR_K];                    break;
+            case 'L':
+            case 'l': [resultString appendString:PR_L];                    break;
+            case 'M':
+            case 'm': [resultString appendString:PR_M];                    break;
+            case 'N':
+            case 'n': [resultString appendString:PR_N];                    break;
+            case 'O':
+            case 'o': [resultString appendString:PR_O];                    break;
+            case 'P':
+            case 'p': [resultString appendString:PR_P];                    break;
+            case 'Q':
+            case 'q': [resultString appendString:PR_Q];                    break;
+            case 'R':
+            case 'r': [resultString appendString:PR_R];                    break;
+            case 'S':
+            case 's': [resultString appendString:PR_S];                    break;
+            case 'T':
+            case 't': [resultString appendString:PR_T];                    break;
+            case 'U':
+            case 'u': [resultString appendString:PR_U];                    break;
+            case 'V':
+            case 'v': [resultString appendString:PR_V];                    break;
+            case 'W':
+            case 'w': [resultString appendString:PR_W];                    break;
+            case 'X':
+            case 'x': [resultString appendString:PR_X];                    break;
+            case 'Y':
+            case 'y': [resultString appendString:PR_Y];                    break;
+            case 'Z':
+            case 'z': [resultString appendString:PR_Z];                    break;
+            case '[': [resultString appendString:PR_OPEN_SQUARE_BRACKET];  break;
+            case '\\':[resultString appendString:PR_BACKSLASH];            break;
+            case ']': [resultString appendString:PR_CLOSE_SQUARE_BRACKET]; break;
+            case '^': [resultString appendString:PR_CARET];                break;
+            case '_': [resultString appendString:PR_UNDERSCORE];           break;
+            case '`': [resultString appendString:PR_GRAVE_ACCENT];         break;
+            case '{': [resultString appendString:PR_OPEN_BRACE];           break;
+            case '|': [resultString appendString:PR_VERTICAL_BAR];         break;
+            case '}': [resultString appendString:PR_CLOSE_BRACE];          break;
+            case '~': [resultString appendString:PR_TILDE];                break;
+            default:  [resultString appendString:PR_UNKNOWN];              break;
         }
     }
 
@@ -639,19 +618,12 @@ static NSDictionary *_specialAcronyms = nil;
 
 - (NSString *)toneGroupStringForPunctuation:(NSString *)str;
 {
-    if ([str isEqualToString:@"."]) {
-        return TG_STATEMENT;
-    } else if ([str isEqualToString:@"!"]) {
-        return TG_EXCLAMATION;
-    } else if ([str isEqualToString:@"?"]) {
-        return TG_QUESTION;
-    } else if ([str isEqualToString:@","]) {
-        return TG_CONTINUATION;
-    } else if ([str isEqualToString:@";"]) {
-        return TG_HALF_PERIOD;
-    } else if ([str isEqualToString:@":"]) {
-        return TG_CONTINUATION;
-    }
+    if ([str isEqualToString:@"."]) {        return TG_STATEMENT;
+    } else if ([str isEqualToString:@"!"]) { return TG_EXCLAMATION;
+    } else if ([str isEqualToString:@"?"]) { return TG_QUESTION;
+    } else if ([str isEqualToString:@","]) { return TG_CONTINUATION;
+    } else if ([str isEqualToString:@";"]) { return TG_HALF_PERIOD;
+    } else if ([str isEqualToString:@":"]) { return TG_CONTINUATION;    }
 
     return TG_UNDEFINED;
 }

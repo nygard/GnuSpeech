@@ -3,23 +3,20 @@
 #import <Foundation/Foundation.h>
 
 typedef enum {
-    TTSInputModeUnknown = 0,
-    TTSInputModeNormal = 1,
-    TTSInputModeRaw = 2,
-    TTSInputModeLetter = 3,
+    TTSInputModeUnknown  = 0,
+    TTSInputModeNormal   = 1,
+    TTSInputModeRaw      = 2,
+    TTSInputModeLetter   = 3,
     TTSInputModeEmphasis = 4,
-    TTSInputModeTagging = 5,
-    TTSInputModeSilence = 6,
+    TTSInputModeTagging  = 5,
+    TTSInputModeSilence  = 6,
 } TTSInputMode;
 
 @class GSPronunciationDictionary;
 
 @interface TTSParserOld : NSObject
 
-+ (void)initialize;
-
 - (id)initWithPronunciationDictionary:(GSPronunciationDictionary *)aDictionary;
-- (void)dealloc;
 
 - (NSString *)parseString:(NSString *)aString;
 - (void)markModes:(NSString *)aString;

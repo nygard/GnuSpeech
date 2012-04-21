@@ -12,7 +12,6 @@
 + (BOOL)createDatabase:(NSString *)aFilename fromSimpleDictionary:(GSSimplePronunciationDictionary *)simpleDictionary;
 
 - (id)initWithFilename:(NSString *)aFilename;
-- (void)dealloc;
 
 - (NSDate *)modificationDate;
 - (BOOL)loadDictionary;

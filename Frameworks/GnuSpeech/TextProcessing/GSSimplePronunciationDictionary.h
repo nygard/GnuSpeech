@@ -7,7 +7,6 @@
 + (id)mainDictionary;
 
 - (id)initWithFilename:(NSString *)aFilename;
-- (void)dealloc;
 
 - (NSDate *)modificationDate;
 - (BOOL)loadDictionary;
