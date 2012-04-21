@@ -11,6 +11,6 @@
 @property (assign) BOOL flag;
 
 - (double)getValueAtIndex:(NSUInteger)index;
-- (void)setValue:(double)value ofIndex:(NSUInteger)index;
+- (void)setValue:(double)value atIndex:(NSUInteger)index;
 
 @end

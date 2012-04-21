@@ -536,9 +536,9 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     event = [self eventAtTimeOffset:time];
     if (number >= 0) {
         if ((number >= 7) && (number <= 8))
-            [event setValue:value*self.radiusMultiply ofIndex:number];
+            [event setValue:value*self.radiusMultiply atIndex:number];
         else
-            [event setValue:value ofIndex:number];
+            [event setValue:value atIndex:number];
     }
 
     return event;
@@ -549,7 +549,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     Event *lastEvent;
 
     lastEvent = [events lastObject];
-    [lastEvent setValue:value ofIndex:number];
+    [lastEvent setValue:value atIndex:number];
     [lastEvent setFlag:YES];
 }
 
@@ -1444,11 +1444,9 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
 - (void)clearEventNumber:(NSUInteger)number;
 {
-    NSUInteger count, index;
-
-    count = [events count];
-    for (index = 0; index < count; index++)
-        [[events objectAtIndex:index] setValue:NaN ofIndex:number];
+    for (Event *event in events) {
+        [event setValue:NaN atIndex:number];
+    }
 }
 
 - (void)removeEmptyEvents;

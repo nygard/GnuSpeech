@@ -53,7 +53,7 @@
     return m_value[index];
 }
 
-- (void)setValue:(double)value ofIndex:(NSUInteger)index;
+- (void)setValue:(double)value atIndex:(NSUInteger)index;
 {
     NSParameterAssert(index < MAX_VALUES);
     m_value[index] = value;
