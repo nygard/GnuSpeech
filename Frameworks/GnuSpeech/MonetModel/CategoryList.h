@@ -3,10 +3,6 @@
 
 #import "MonetList.h"
 
-@class MMCategory;
-
 @interface CategoryList : MonetList
-
-- (MMCategory *)findSymbol:(NSString *)searchSymbol;
 
 @end

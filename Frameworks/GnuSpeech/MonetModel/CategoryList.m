@@ -3,29 +3,8 @@
 
 #import "CategoryList.h"
 
-#import "MMCategory.h"
-
-// This Class currently adds no functionality to the List class.
-// However, it is planned that this object will provide sorting functions
-// to the MMCategory class.
-
 @implementation CategoryList
 {
-}
-
-- (MMCategory *)findSymbol:(NSString *)searchSymbol;
-{
-    //NSLog(@"CategoryList searching for: %@\n", searchSymbol);
-
-    for (MMCategory *category in self.ilist) {
-        if ([[category name] isEqual:searchSymbol]) {
-            //NSLog(@"Found: %@\n", searchSymbol);
-            return category;
-        }
-    }
-
-    //NSLog(@"Could not find: %@\n", searchSymbol);
-    return nil;
 }
 
 @end

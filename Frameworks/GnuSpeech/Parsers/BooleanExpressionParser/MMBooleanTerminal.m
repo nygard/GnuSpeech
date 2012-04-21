@@ -12,6 +12,12 @@
 
 #import "MModel.h"
 
+@interface MMBooleanTerminal ()
+- (MMCategory *)findSymbol:(NSString *)searchSymbol inCategories:(CategoryList *)categories;
+@end
+
+#pragma mark -
+
 @implementation MMBooleanTerminal
 {
     MMCategory *m_category;
@@ -51,15 +57,30 @@
 
 #pragma mark - Superclass methods
 
+- (MMCategory *)findSymbol:(NSString *)searchSymbol inCategories:(CategoryList *)categories;
+{
+    //NSLog(@"CategoryList searching for: %@\n", searchSymbol);
+    
+    for (MMCategory *category in categories.ilist) {
+        if ([[category name] isEqual:searchSymbol]) {
+            //NSLog(@"Found: %@\n", searchSymbol);
+            return category;
+        }
+    }
+    
+    //NSLog(@"Could not find: %@\n", searchSymbol);
+    return nil;
+}
+
 - (BOOL)evaluateWithCategories:(CategoryList *)categories;
 {
     // TODO (2004-08-02): This seems a little overkill, searching through the list once with -indexOfObject: and then again with findSymbol:.
     if ([categories.ilist indexOfObject:self.category] == NSNotFound) {
         if (self.shouldMatchAll) {
-            if ([categories findSymbol:[self.category name]] != nil)
+            if ([self findSymbol:[self.category name] inCategories:categories] != nil)
                 return YES;
 
-            if ([categories findSymbol:[NSString stringWithFormat:@"%@'", [self.category name]]] != nil)
+            if ([self findSymbol:[NSString stringWithFormat:@"%@'", [self.category name]] inCategories:categories] != nil)
                 return YES;
         }
 
