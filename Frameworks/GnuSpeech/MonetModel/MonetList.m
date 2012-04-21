@@ -48,11 +48,6 @@
     return ilist;
 }
 
-- (id)lastObject;
-{
-    return [ilist lastObject];
-}
-
 - (void)_warning;
 {
     //NSLog(@"%s", _cmd);
