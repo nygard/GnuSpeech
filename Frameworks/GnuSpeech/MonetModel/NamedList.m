@@ -109,7 +109,7 @@
 
 - (void)replaceObjectAtIndex:(NSUInteger)index withObject:(id)anObject;
 {
-    [super replaceObjectAtIndex:index withObject:anObject];
+    [self.ilist replaceObjectAtIndex:index withObject:anObject];
 
     if ([anObject respondsToSelector:@selector(setGroup:)] == YES)
         [anObject setGroup:self];
