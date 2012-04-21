@@ -12,37 +12,16 @@
 
 @implementation MMCategory
 {
-    NSString *name; // TODO (2004-03-18): Create named/commented object.
-    NSString *comment;
-    BOOL isNative;
+    BOOL m_isNative;
 }
 
 - (id)init;
 {
     if ((self = [super init])) {
-        name = nil;
-        comment = nil;
-        isNative = NO;
+        m_isNative = NO;
     }
 
     return self;
-}
-
-- (id)initWithName:(NSString *)aName;
-{
-    if ((self = [self init])) {
-        self.name = aName;
-    }
-
-    return self;
-}
-
-- (void)dealloc;
-{
-    [name release];
-    [comment release];
-
-    [super dealloc];
 }
 
 #pragma mark - Debugging
@@ -50,65 +29,34 @@
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"<%@: %p> name: %@, comment: %@, isNative: %d",
-            NSStringFromClass([self class]), self, name, comment, isNative];
+            NSStringFromClass([self class]), self,
+            self.name, self.comment, self.isNative];
 }
 
 #pragma mark -
 
-@synthesize name, comment;
+@synthesize isNative = m_isNative;
 
-- (BOOL)hasComment;
+- (NSComparisonResult)compareByAscendingName:(MMCategory *)other;
 {
-    return comment != nil && [comment length] > 0;
-}
-
-@synthesize isNative;
-
-- (NSComparisonResult)compareByAscendingName:(MMCategory *)otherCategory;
-{
-    return [name compare:[otherCategory name]];
+    return [self.name compare:other.name];
 }
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     [resultString indentToLevel:level];
-    [resultString appendFormat:@"<category name=\"%@\"", GSXMLAttributeString(name, NO)];
+    [resultString appendFormat:@"<category name=\"%@\"", GSXMLAttributeString(self.name, NO)];
 
-    if (comment == nil) {
+    if (self.comment == nil) {
         [resultString appendString:@"/>\n"];
     } else {
         [resultString appendString:@">\n"];
 
         [resultString indentToLevel:level + 1];
-        [resultString appendFormat:@"<comment>%@</comment>\n", GSXMLCharacterData(comment)];
+        [resultString appendFormat:@"<comment>%@</comment>\n", GSXMLCharacterData(self.comment)];
 
         [resultString indentToLevel:level];
         [resultString appendString:@"</category>\n"];
-    }
-}
-
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
-{
-    if ([self init] == nil)
-        return nil;
-
-    [self setName:[attributes objectForKey:@"name"]];
-
-    return self;
-}
-
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-{
-    if ([elementName isEqualToString:@"comment"]) {
-        MXMLPCDataDelegate *newDelegate;
-
-        //NSLog(@"Got comment...");
-        newDelegate = [[MXMLPCDataDelegate alloc] initWithElementName:elementName delegate:self setSelector:@selector(setComment:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
-    } else {
-        NSLog(@"%@, Unknown element: '%@', skipping", [self shortDescription], elementName);
-        [(MXMLParser *)parser skipTree];
     }
 }
 
