@@ -27,7 +27,6 @@
 
 // For typedstream compatibility
 #import "ParameterList.h"
-#import "SymbolList.h"
 
 NSString *MCategoryInUseException = @"MCategoryInUseException";
 
