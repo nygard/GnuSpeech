@@ -134,7 +134,7 @@
 
 - (void)removeCategory:(MMCategory *)aCategory;
 {
-    [categories removeObject:aCategory];
+    [categories.ilist removeObject:aCategory];
 }
 
 - (BOOL)isMemberOfCategory:(MMCategory *)aCategory;

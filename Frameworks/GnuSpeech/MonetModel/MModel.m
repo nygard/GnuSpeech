@@ -237,7 +237,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         [NSException raise:MCategoryInUseException format:@"Cannot remove category that is in use."];
     }
 
-    [categories removeObject:aCategory];
+    [categories.ilist removeObject:aCategory];
 }
 
 // TODO (2004-03-19): We could store these in a dictionary for quick lookup by name.

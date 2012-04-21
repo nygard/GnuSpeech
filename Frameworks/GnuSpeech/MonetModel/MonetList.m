@@ -73,11 +73,6 @@
     [ilist addObject:anObject];
 }
 
-- (void)removeObject:(id)anObject;
-{
-    [ilist removeObject:anObject];
-}
-
 - (void)replaceObjectAtIndex:(NSUInteger)index withObject:(id)anObject;
 {
     [ilist replaceObjectAtIndex:index withObject:anObject];
