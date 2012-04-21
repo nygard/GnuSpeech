@@ -12,19 +12,12 @@
 
 @interface NamedList : MonetList
 
-- (id)initWithCapacity:(NSUInteger)numSlots;
-- (void)dealloc;
-
-- (MModel *)model;
-- (void)setModel:(MModel *)newModel;
+@property (weak) MModel *model;
 
 - (NSUndoManager *)undoManager;
 
-- (NSString *)name;
-- (void)setName:(NSString *)newName;
-
-- (NSString *)comment;
-- (void)setComment:(NSString *)newComment;
+@property (retain) NSString *name;
+@property (retain) NSString *comment;
 - (BOOL)hasComment;
 
 - (NSString *)description;

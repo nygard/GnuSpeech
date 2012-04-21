@@ -3,11 +3,6 @@
 
 #import "MonetList.h"
 
-/*===========================================================================
-	Purpose: To provide special functionality specific to maintaining
-		and accessing a list of phones.
-*/
-
 @interface PhoneList : MonetList
 
 @end

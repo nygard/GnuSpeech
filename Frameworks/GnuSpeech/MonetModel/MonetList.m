@@ -18,10 +18,9 @@
 
 - (id)initWithCapacity:(NSUInteger)numItems;
 {
-    if ([super init] == nil)
-        return nil;
-
-    ilist = [[NSMutableArray alloc] initWithCapacity:numItems];
+    if ((self = [super init])) {
+        ilist = [[NSMutableArray alloc] initWithCapacity:numItems];
+    }
 
     return self;
 }
@@ -32,6 +31,15 @@
 
     [super dealloc];
 }
+
+#pragma mark - Debugging
+
+- (NSString *)description;
+{
+    return [ilist description];
+}
+
+#pragma mark -
 
 @synthesize ilist;
 
@@ -133,11 +141,6 @@
 - (BOOL)containsObject:(id)anObject;
 {
     return [ilist containsObject:anObject];
-}
-
-- (NSString *)description;
-{
-    return [ilist description];
 }
 
 - (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(NSUInteger)level;

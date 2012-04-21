@@ -10,9 +10,7 @@
 
 @interface MonetList : NSObject
 
-- (id)init;
 - (id)initWithCapacity:(NSUInteger)numItems;
-- (void)dealloc;
 
 @property (readonly) NSMutableArray *ilist;
 
@@ -39,8 +37,6 @@
 - (void)removeAllObjects;
 - (void)removeLastObject;
 - (BOOL)containsObject:(id)anObject;
-
-- (NSString *)description;
 
 - (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(NSUInteger)level;
 - (void)appendXMLForObjectPointersToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(NSUInteger)level;
