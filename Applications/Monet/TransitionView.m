@@ -40,7 +40,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     NSTextFieldCell *textFieldCell;
     NSText *nonretained_fieldEditor;
     
-    NSUInteger zeroIndex;
+    NSInteger zeroIndex;
     NSInteger sectionAmount;
     
     MModel *model;
@@ -108,12 +108,12 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     return &_parameters;
 }
 
-- (NSUInteger)zeroIndex;
+- (NSInteger)zeroIndex;
 {
     return zeroIndex;
 }
 
-- (void)setZeroIndex:(NSUInteger)newZeroIndex;
+- (void)setZeroIndex:(NSInteger)newZeroIndex;
 {
     if (newZeroIndex == zeroIndex)
         return;
@@ -379,7 +379,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 
 - (void)drawGrid;
 {
-    NSUInteger i;
+    NSInteger i;
     CGFloat sectionHeight;
     NSBezierPath *bezierPath;
     NSRect bounds, rect;
@@ -423,7 +423,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         [bezierPath lineToPoint:NSMakePoint(bounds.size.width - LEFT_MARGIN + 0.5, currentYPos)];
 
         currentYPos = graphOrigin.y + i * sectionHeight - 5;
-        label = [NSString stringWithFormat:@"%4lu%%", (i - zeroIndex) * sectionAmount];
+        label = [NSString stringWithFormat:@"%4ld%%", (i - zeroIndex) * sectionAmount];
         labelSize = [label sizeWithAttributes:nil];
         //NSLog(@"label (%@) size: %@", label, NSStringFromSize(labelSize));
         [label drawAtPoint:NSMakePoint(LEFT_MARGIN - LABEL_MARGIN - labelSize.width, currentYPos) withAttributes:nil];
