@@ -15,17 +15,12 @@
 
 - (MMCategory *)findSymbol:(NSString *)searchSymbol;
 {
-    NSUInteger count, index;
-    MMCategory *aCategory;
-
     //NSLog(@"CategoryList searching for: %@\n", searchSymbol);
 
-    count = [self count];
-    for (index = 0; index < count; index++) {
-        aCategory = [self objectAtIndex:index];
-        if ([[aCategory name] isEqual:searchSymbol] == YES) {
+    for (MMCategory *category in self.ilist) {
+        if ([[category name] isEqual:searchSymbol]) {
             //NSLog(@"Found: %@\n", searchSymbol);
-            return aCategory;
+            return category;
         }
     }
 
