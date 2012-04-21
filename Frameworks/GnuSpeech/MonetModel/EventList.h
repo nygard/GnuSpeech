@@ -3,7 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class Event, MMIntonationPoint, MModel, MMPosture, MMPostureRewriter, MMRule, PhoneList;
+@class Event, MMIntonationPoint, MModel, MMPosture, MMPostureRewriter, MMRule;
 
 #define MAXPHONES	1500
 #define MAXFEET		110

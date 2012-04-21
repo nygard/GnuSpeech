@@ -47,7 +47,6 @@
 #import <GnuSpeech/MonetDefaults.h>
 #import <GnuSpeech/MonetList.h>
 #import <GnuSpeech/NamedList.h>
-#import <GnuSpeech/PhoneList.h>
 
 // Parsers
 #import <GnuSpeech/GSParser.h>

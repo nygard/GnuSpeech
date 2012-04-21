@@ -4,7 +4,7 @@
 #import <Foundation/Foundation.h>
 #include <stdio.h>
 
-@class CategoryList, MonetList, NamedList, PhoneList;
+@class CategoryList, MonetList, NamedList;
 @class MMCategory, MMEquation, MMParameter, MMPosture, MMRule, MMSymbol, MMSynthesisParameters, MMTransition;
 
 extern NSString *MCategoryInUseException;

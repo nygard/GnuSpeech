@@ -25,7 +25,6 @@
 #import "MXMLParser.h"
 #import "MXMLArrayDelegate.h"
 #import "MXMLPCDataDelegate.h"
-#import "PhoneList.h"
 
 #import "TRMSynthesizer.h" // For addParameters:
 
