@@ -9,8 +9,6 @@
 
 @interface MMEquation : MMObject
 
-- (id)initWithName:(NSString *)newName;
-
 @property (weak) NamedList *group;
 @property (retain) NSString *name;
 

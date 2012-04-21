@@ -40,15 +40,6 @@
     return self;
 }
 
-- (id)initWithName:(NSString *)newName;
-{
-    if ((self = [self init])) {
-        [self setName:newName];
-    }
-
-    return self;
-}
-
 - (void)dealloc;
 {
     [name release];

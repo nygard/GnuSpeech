@@ -348,7 +348,8 @@
         NSUInteger index;
 
         // TODO (2004-03-22): Need to do something to ensure unique names.
-        newEquation = [[MMEquation alloc] initWithName:@"Untitled"];
+        newEquation = [[MMEquation alloc] init];
+        newEquation.name = @"Untitled";
         [targetGroup addObject:newEquation];
         [equationOutlineView reloadItem:targetGroup reloadChildren:YES];
 
@@ -432,7 +433,8 @@
         NSUInteger index;
 
         // TODO (2004-03-22): Need to do something to ensure unique names.
-        newTransition = [[MMTransition alloc] initWithName:@"Untitled"];
+        newTransition = [[MMTransition alloc] init];
+        newTransition.name = @"Untitled";
         [newTransition addInitialPoint];
         [targetGroup addObject:newTransition];
         [transitionOutlineView reloadItem:targetGroup reloadChildren:YES];
@@ -497,7 +499,8 @@
         NSUInteger index;
 
         // TODO (2004-03-22): Need to do something to ensure unique names.
-        newTransition = [[MMTransition alloc] initWithName:@"Untitled"];
+        newTransition = [[MMTransition alloc] init];
+        newTransition.name = @"Untitled";
         [newTransition addInitialPoint];
         [targetGroup addObject:newTransition];
         [specialTransitionOutlineView reloadItem:targetGroup reloadChildren:YES];

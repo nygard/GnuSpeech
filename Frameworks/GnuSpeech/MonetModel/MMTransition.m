@@ -31,23 +31,12 @@
 
 - (id)init;
 {
-    if ([super init] == nil)
-        return nil;
-
-    name = nil;
-    comment = nil;
-    type = MMPhoneType_Diphone;
-    points = [[NSMutableArray alloc] init];
-
-    return self;
-}
-
-- (id)initWithName:(NSString *)newName;
-{
-    if ([self init] == nil)
-        return nil;
-
-    [self setName:newName];
+    if ((self = [super init])) {
+        name = nil;
+        comment = nil;
+        type = MMPhoneType_Diphone;
+        points = [[NSMutableArray alloc] init];
+    }
 
     return self;
 }

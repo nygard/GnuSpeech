@@ -8,8 +8,6 @@
 
 @interface MMTransition : NSObject
 
-- (id)initWithName:(NSString *)newName;
-
 - (void)addInitialPoint;
 
 @property (weak) NamedList *group;
