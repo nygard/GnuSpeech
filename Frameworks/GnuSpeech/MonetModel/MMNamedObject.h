@@ -5,13 +5,8 @@
 
 @interface MMNamedObject : MMObject
 
-- (void)dealloc;
-
 @property (retain) NSString *name;
 @property (retain) NSString *comment;
-
-- (NSString *)comment;
-- (void)setComment:(NSString *)newComment;
 - (BOOL)hasComment;
 
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;

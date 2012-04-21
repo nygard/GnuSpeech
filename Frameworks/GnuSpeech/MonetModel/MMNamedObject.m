@@ -23,6 +23,8 @@
     [super dealloc];
 }
 
+#pragma mark -
+
 @synthesize name = m_name;
 @synthesize comment = m_comment;
 
@@ -34,10 +36,9 @@
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 {
     // TODO (2004-08-12): I'm a little wary of calling init here, since subclasses may want to use a different designated initializer, but I'll try it.
-    if ([self init] == nil)
-        return nil;
-
-    [self setName:[attributes objectForKey:@"name"]];
+    if ((self = [self init])) {
+        [self setName:[attributes objectForKey:@"name"]];
+    }
 
     return self;
 }
