@@ -21,10 +21,10 @@ static NSDictionary * specialAcronyms;  // static class variable
 + (void)initialize;
 {
 	NSString *path = [[NSBundle bundleForClass:[self class]] pathForResource:@"SpecialAcronyms" ofType:@"plist"];
-    NSLog(@"path: %@", path);
+    //NSLog(@"path: %@", path);
 	
     specialAcronyms = [[NSDictionary alloc] initWithContentsOfFile:path];
-    NSLog(@"specialAcronyms: %@", [specialAcronyms description]);	
+    //NSLog(@"specialAcronyms: %@", [specialAcronyms description]);
 }
 
 - (id)initWithPronunciationDictionary:(GSPronunciationDictionary *)aDictionary;

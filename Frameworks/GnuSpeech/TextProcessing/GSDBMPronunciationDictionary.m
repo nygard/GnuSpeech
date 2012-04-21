@@ -19,7 +19,7 @@
 {
     static GSDBMPronunciationDictionary *_mainDictionary = nil;
 
-    NSLog(@" > %s", __PRETTY_FUNCTION__);
+    //NSLog(@" > %s", __PRETTY_FUNCTION__);
 
     if (_mainDictionary == nil) {
         //NSString *path;
@@ -30,7 +30,7 @@
         //[_mainDictionary loadDictionary];
     }
 
-    NSLog(@"<  %s", __PRETTY_FUNCTION__);
+    //NSLog(@"<  %s", __PRETTY_FUNCTION__);
 
     return _mainDictionary;
 }
@@ -51,7 +51,7 @@
     }
 
     count = [allKeys count];
-    NSLog(@"%lu keys", count);
+    //NSLog(@"%lu keys", count);
 
     for (index = 0; index < count; index++) {
         NSString *key = [allKeys objectAtIndex:index];
@@ -103,18 +103,18 @@
 
 - (BOOL)loadDictionary;
 {
-    NSLog(@" > %s, db: %p", __PRETTY_FUNCTION__, db);
+    //NSLog(@" > %s, db: %p", __PRETTY_FUNCTION__, db);
     NSParameterAssert(db == NULL);
     NSParameterAssert(self.filename != nil);
 
-    NSLog(@"%s, filename: %@", __PRETTY_FUNCTION__, self.filename);
+    //NSLog(@"%s, filename: %@", __PRETTY_FUNCTION__, self.filename);
     db = dbm_open([self.filename UTF8String], O_RDONLY, 0660);
     if (db == NULL) {
         perror("dbm_open()");
         return NO;
     }
 
-    NSLog(@"<  %s, db: %p", __PRETTY_FUNCTION__, db);
+    //NSLog(@"<  %s, db: %p", __PRETTY_FUNCTION__, db);
 
     return YES;
 }

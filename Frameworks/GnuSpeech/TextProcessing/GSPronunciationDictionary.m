@@ -24,7 +24,7 @@
 {
     if ((self = [super init])) {
         m_filename = [aFilename retain];
-        NSLog(@"filename: %@", m_filename);
+        //NSLog(@"filename: %@", m_filename);
         version = nil;
         
         suffixOrder = [[NSMutableArray alloc] init];
@@ -77,7 +77,7 @@
 {
     if (hasBeenLoaded == NO) {
         hasBeenLoaded = [self loadDictionary];
-        NSLog(@"%s, hasBeenLoaded: %d", __PRETTY_FUNCTION__, hasBeenLoaded);
+        //NSLog(@"%s, hasBeenLoaded: %d", __PRETTY_FUNCTION__, hasBeenLoaded);
     }
 }
 
@@ -91,16 +91,16 @@
 {
     NSUInteger count, index;
 
-    NSLog(@" > %s", __PRETTY_FUNCTION__);
+    //NSLog(@" > %s", __PRETTY_FUNCTION__);
 
     NSData *data = [[NSData alloc] initWithContentsOfFile:aFilename];
-    NSLog(@"data: %p", data);
+    //NSLog(@"data: %p", data);
     //str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]; // utf-8 fails
     NSString *str = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
     NSArray *lines = [str componentsSeparatedByString:@"\n"];
 
     count = [lines count];
-    NSLog(@"lines: %lu", count);
+    //NSLog(@"lines: %lu", count);
     for (index = 0; index < count; index++) {
         NSString *line = [lines objectAtIndex:index];
         if ([line hasPrefix:@"#"] == YES)
@@ -118,9 +118,9 @@
         }
     }
 
-    NSLog(@"Read %lu suffixes.", [suffixOrder count]);
+    //NSLog(@"Read %lu suffixes.", [suffixOrder count]);
 
-    NSLog(@"<  %s", __PRETTY_FUNCTION__);
+    //NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
 
 - (NSString *)lookupPronunciationForWord:(NSString *)aWord;

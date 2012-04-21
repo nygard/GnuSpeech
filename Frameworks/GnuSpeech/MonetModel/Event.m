@@ -22,7 +22,7 @@
             m_value[index] = NaN;
     }
     
-    NSLog(@"%@", self);
+    //NSLog(@"%@", self);
 
     return self;
 }

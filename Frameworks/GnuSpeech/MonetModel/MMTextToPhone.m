@@ -25,17 +25,18 @@ static GSPronunciationDictionary * pronunciationDictionary = nil;
     [[NSUserDefaults standardUserDefaults] registerDefaults:dict];
 	
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"ShouldUseDBMFile"]) {
-        NSLog(@"initialize: Using DBM dictionary.");
+        //NSLog(@"initialize: Using DBM dictionary.");
         [MMTextToPhone _createDBMFileIfNecessary];
         pronunciationDictionary = [[GSDBMPronunciationDictionary mainDictionary] retain];
     } else {
-        NSLog(@"initialize: Using simple dictionary.");
+        //NSLog(@"initialize: Using simple dictionary.");
         pronunciationDictionary = [[GSSimplePronunciationDictionary mainDictionary] retain];
         [pronunciationDictionary loadDictionaryIfNecessary];
     }
 	
-    if ([pronunciationDictionary version] != nil)
-		NSLog(@"initialize: Dictionary version %@", [pronunciationDictionary version]);	
+    if ([pronunciationDictionary version] != nil) {
+		//NSLog(@"initialize: Dictionary version %@", [pronunciationDictionary version]);
+    }
 }
 
 + (void)_createDBMFileIfNecessary
@@ -45,8 +46,8 @@ static GSPronunciationDictionary * pronunciationDictionary = nil;
 	
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] initWithDateFormat:@"%Y-%m-%d %H:%M:%S" allowNaturalLanguage:NO];
 	
-    NSLog(@"_createDBMFileIfNecessary: simpleDictionary modificationDate: %@", [dateFormatter stringForObjectValue:[simpleDictionary modificationDate]]);
-    NSLog(@"_createDBMFileIfNecessary: dbmDictionary modificationDate: %@", [dateFormatter stringForObjectValue:[dbmDictionary modificationDate]]);
+    //NSLog(@"_createDBMFileIfNecessary: simpleDictionary modificationDate: %@", [dateFormatter stringForObjectValue:[simpleDictionary modificationDate]]);
+    //NSLog(@"_createDBMFileIfNecessary: dbmDictionary modificationDate: %@", [dateFormatter stringForObjectValue:[dbmDictionary modificationDate]]);
 	
     [dateFormatter release];
 	
