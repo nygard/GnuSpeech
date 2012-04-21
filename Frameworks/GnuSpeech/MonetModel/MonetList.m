@@ -73,11 +73,6 @@
     [ilist addObject:anObject];
 }
 
-- (BOOL)containsObject:(id)anObject;
-{
-    return [ilist containsObject:anObject];
-}
-
 - (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(NSUInteger)level;
 {
     NSUInteger count, index;

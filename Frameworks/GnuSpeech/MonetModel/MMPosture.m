@@ -128,7 +128,7 @@
     if (aCategory == nil)
         return;
 
-    if ([categories containsObject:aCategory] == NO)
+    if ([categories.ilist containsObject:aCategory] == NO)
         [categories addObject:aCategory];
 }
 
@@ -139,7 +139,7 @@
 
 - (BOOL)isMemberOfCategory:(MMCategory *)aCategory;
 {
-    return [categories containsObject:aCategory];
+    return [categories.ilist containsObject:aCategory];
 }
 
 - (BOOL)isMemberOfCategoryNamed:(NSString *)aCategoryName;
