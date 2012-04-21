@@ -466,9 +466,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
 - (NSUInteger)ruleIndexForPostureAtIndex:(NSUInteger)postureIndex;
 {
-    NSUInteger index;
-
-    for (index = 0; index < currentRule; index++) {
+    for (NSUInteger index = 0; index < currentRule; index++) {
         if ((postureIndex >= rules[index].firstPhone) && (postureIndex <= rules[index].lastPhone))
             return index;
     }
@@ -501,7 +499,8 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
     // If there are no events yet, we can just add it.
     if ([events count] == 0) {
-        newEvent = [[[Event alloc] initWithTime:tempTime] autorelease];
+        newEvent = [[[Event alloc] init] autorelease];
+        newEvent.time = tempTime;
         [events addObject:newEvent];
         return newEvent;
     }
@@ -514,14 +513,16 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
         // Otherwise we'll need to create an Event at that time and insert it in the proper place.
         if ([[events objectAtIndex:i] time] < tempTime) {
-            newEvent = [[[Event alloc] initWithTime:tempTime] autorelease];
+            newEvent = [[[Event alloc] init] autorelease];
+            newEvent.time = tempTime;
             [events insertObject:newEvent atIndex:i+1];
             return newEvent;
         }
     }
 
     // In this case the event should come at the end of the list.
-    newEvent = [[[Event alloc] initWithTime:tempTime] autorelease];
+    newEvent = [[[Event alloc] init] autorelease];
+    newEvent.time = tempTime;
     [events insertObject:newEvent atIndex:i+1];
 
     return newEvent;
