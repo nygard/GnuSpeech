@@ -17,40 +17,25 @@
 
 - (id)init;
 {
-    if ([super init] == nil)
-        return nil;
-
-    slope = 0.0;
-    displayTime = 0;
+    if ((self = [super init])) {
+        slope = 0.0;
+        displayTime = 0;
+    }
 
     return self;
 }
 
-- (double)slope;
-{
-    return slope;
-}
-
-- (void)setSlope:(double)newSlope;
-{
-    slope = newSlope;
-}
-
-- (double)displayTime;
-{
-    return displayTime;
-}
-
-- (void)setDisplayTime:(double)newTime;
-{
-    displayTime = newTime;
-}
+#pragma mark - Debugging
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@>[%p]: slope: %g, displayTime: %g",
+    return [NSString stringWithFormat:@"<%@: %p> slope: %g, displayTime: %g",
                      NSStringFromClass([self class]), self, slope, displayTime];
 }
+
+#pragma mark -
+
+@synthesize slope, displayTime;
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
@@ -60,18 +45,15 @@
 
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 {
-    NSString *str;
-
-    if ([self init] == nil)
-        return nil;
-
-    str = [attributes objectForKey:@"slope"];
-    if (str != nil)
-        [self setSlope:[str doubleValue]];
-
-    str = [attributes objectForKey:@"display-time"];
-    if (str == nil)
-        [self setDisplayTime:[str doubleValue]];
+    if ((self = [self init])) {
+        NSString *str = [attributes objectForKey:@"slope"];
+        if (str != nil)
+            [self setSlope:[str doubleValue]];
+        
+        str = [attributes objectForKey:@"display-time"];
+        if (str == nil)
+            [self setDisplayTime:[str doubleValue]];
+    }
 
     return self;
 }

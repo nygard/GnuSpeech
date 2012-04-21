@@ -14,7 +14,7 @@
 
 @implementation MMIntonationPoint
 {
-    EventList *nonretained_eventList;
+    __weak EventList *nonretained_eventList;
     
     double semitone; // Value of the point in semitones
     double offsetTime; // Points are timed wrt a beat + this offset
@@ -26,29 +26,31 @@
 // TODO (2004-08-17): Reject unused init method.
 - (id)init;
 {
-    if ([super init] == nil)
-        return nil;
+    if ((self = [super init])) {
+        nonretained_eventList = nil;
 
-    nonretained_eventList = nil;
-
-    semitone = 0.0;
-    offsetTime = 0.0;
-    slope = 0.0;
-    ruleIndex = 0;
+        semitone = 0.0;
+        offsetTime = 0.0;
+        slope = 0.0;
+        ruleIndex = 0;
+    }
 
     return self;
 }
 
-- (EventList *)eventList;
+#pragma mark - Debugging
+
+- (NSString *)description;
 {
-    return nonretained_eventList;
+    return [NSString stringWithFormat:@"<intonation-point offset-time=\"%g\" semitone=\"%g\" slope=\"%g\" rule-index=\"%lu\"/>\n",
+            offsetTime, semitone, slope, ruleIndex];
 }
 
-- (void)setEventList:(EventList *)newEventList;
-{
-    nonretained_eventList = newEventList;
-}
+#pragma mark -
 
+@synthesize eventList = nonretained_eventList;
+
+// TODO (2012-04-21): Have event list use kvo to watch for changes.
 - (double)semitone;
 {
     return semitone;
@@ -127,19 +129,15 @@
 
 - (double)semitoneInHertz;
 {
-    double hertz;
-
-    hertz = pow(2, semitone / 12.0) * MIDDLEC;
+    double hertz = pow(2, semitone / 12.0) * MIDDLEC;
 
     return hertz;
 }
 
 - (void)setSemitoneInHertz:(double)newHertzValue;
 {
-    double newValue;
-
     // i.e. 12.0 * log_2(newHertzValue / MIDDLEC)
-    newValue = 12.0 * (log10(newHertzValue / MIDDLEC) / log10(2.0));
+    double newValue = 12.0 * (log10(newHertzValue / MIDDLEC) / log10(2.0));
     [self setSemitone:newValue];
 }
 
@@ -165,10 +163,8 @@
 
 - (NSComparisonResult)compareByAscendingAbsoluteTime:(MMIntonationPoint *)otherIntonationPoint;
 {
-    double thisTime, otherTime;
-
-    thisTime = [self absoluteTime];
-    otherTime = [otherIntonationPoint absoluteTime];
+    double thisTime = [self absoluteTime];
+    double otherTime = [otherIntonationPoint absoluteTime];
 
     if (thisTime < otherTime)
         return NSOrderedAscending;
@@ -178,9 +174,7 @@
     return NSOrderedSame;
 }
 
-//
-// XML - Archiving
-//
+#pragma mark - XML - Archiving
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
@@ -191,26 +185,25 @@
 
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 {
-    NSString *value;
-
-    if ([self init] == nil)
-        return nil;
-
-    value = [attributes objectForKey:@"offset-time"];
-    if (value != nil)
-        [self setOffsetTime:[value doubleValue]];
-
-    value = [attributes objectForKey:@"semitone"];
-    if (value != nil)
-        [self setSemitone:[value doubleValue]];
-
-    value = [attributes objectForKey:@"slope"];
-    if (value != nil)
-        [self setSlope:[value doubleValue]];
-
-    value = [attributes objectForKey:@"rule-index"];
-    if (value != nil)
-        [self setRuleIndex:[value intValue]];
+    if ((self = [self init])) {
+        NSString *value;
+        
+        value = [attributes objectForKey:@"offset-time"];
+        if (value != nil)
+            [self setOffsetTime:[value doubleValue]];
+        
+        value = [attributes objectForKey:@"semitone"];
+        if (value != nil)
+            [self setSemitone:[value doubleValue]];
+        
+        value = [attributes objectForKey:@"slope"];
+        if (value != nil)
+            [self setSlope:[value doubleValue]];
+        
+        value = [attributes objectForKey:@"rule-index"];
+        if (value != nil)
+            [self setRuleIndex:[value intValue]];
+    }
 
     return self;
 }
@@ -223,16 +216,6 @@
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 {
     [(MXMLParser *)parser popDelegate];
-}
-
-//
-// Debugging
-//
-
-- (NSString *)description;
-{
-    return [NSString stringWithFormat:@"<intonation-point offset-time=\"%g\" semitone=\"%g\" slope=\"%g\" rule-index=\"%lu\"/>\n",
-                     offsetTime, semitone, slope, ruleIndex];
 }
 
 @end

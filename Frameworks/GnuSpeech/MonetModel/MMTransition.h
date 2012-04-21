@@ -8,36 +8,26 @@
 
 @interface MMTransition : NSObject
 
-- (id)init;
 - (id)initWithName:(NSString *)newName;
-- (void)dealloc;
 
 - (void)addInitialPoint;
 
-- (NamedList *)group;
-- (void)setGroup:(NamedList *)newGroup;
+@property (weak) NamedList *group;
 
-- (NSString *)name;
-- (void)setName:(NSString *)newName;
-
-- (NSString *)comment;
-- (void)setComment:(NSString *)newComment;
+@property (retain) NSString *name;
+@property (retain) NSString *comment;
 - (BOOL)hasComment;
 
-- (NSMutableArray *)points;
-- (void)setPoints:(NSMutableArray *)newList;
+@property (retain) NSMutableArray *points;
 - (void)addPoint:(id)newPoint;
 
 - (BOOL)isTimeInSlopeRatio:(double)aTime;
 - (void)insertPoint:(MMPoint *)aPoint;
 
-- (int)type;
-- (void)setType:(int)type;
+@property (assign) MMPhoneType type;
 
 - (BOOL)isEquationUsed:(MMEquation *)anEquation;
 - (void)findEquation:(MMEquation *)anEquation andPutIn:(MonetList *)aList;
-
-- (NSString *)description;
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 

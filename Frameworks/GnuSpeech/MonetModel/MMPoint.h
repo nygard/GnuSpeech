@@ -10,36 +10,24 @@
 
 @interface MMPoint : NSObject
 
-- (id)init;
-- (void)dealloc;
-
-- (double)value;
-- (void)setValue:(double)newValue;
+@property (assign) double value;
 
 - (double)multiplyValueByFactor:(double)factor;
 - (double)addValue:(double)newValue;
 
-- (MMEquation *)timeEquation;
-- (void)setTimeEquation:(MMEquation *)newTimeEquation;
-
-- (double)freeTime;
-- (void)setFreeTime:(double)newTime;
+@property (retain) MMEquation *timeEquation;
+@property (assign) double freeTime;
 
 - (double)cachedTime;
 
-- (NSUInteger)type;
-- (void)setType:(NSUInteger)newType;
-
-- (BOOL)isPhantom;
-- (void)setIsPhantom:(BOOL)newFlag;
+@property (assign) NSUInteger type;
+@property (assign) BOOL isPhantom;
 
 - (void)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag toDisplay:(NSMutableArray *)displayList;
 
 - (double)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag
                  baseline:(double)baseline delta:(double)delta min:(double)min max:(double)max
               toEventList:(EventList *)eventList atIndex:(NSUInteger)index;
-
-- (NSString *)description;
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 

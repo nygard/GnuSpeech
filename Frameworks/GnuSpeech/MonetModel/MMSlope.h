@@ -5,15 +5,8 @@
 
 @interface MMSlope : NSObject
 
-- (id)init;
-
-- (double)slope;
-- (void)setSlope:(double)newSlope;
-
-- (double)displayTime;
-- (void)setDisplayTime:(double)newTime;
-
-- (NSString *)description;
+@property (assign) double slope;
+@property (assign) double displayTime;
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 

@@ -9,28 +9,17 @@
 
 @interface MMIntonationPoint : NSObject
 
-- (id)init;
+@property (weak) EventList *eventList;
+@property (nonatomic, assign) double semitone;
+@property (nonatomic, assign) double offsetTime;
+@property (nonatomic, assign) double slope;
 
-- (EventList *)eventList;
-- (void)setEventList:(EventList *)newEventList;
+@property (nonatomic, assign) NSInteger ruleIndex;
 
-- (double)semitone;
-- (void)setSemitone:(double)newSemitone;
+@property (nonatomic, readonly) double absoluteTime;
+@property (nonatomic, readonly) double beatTime;
 
-- (double)offsetTime;
-- (void)setOffsetTime:(double)newOffsetTime;
-
-- (double)slope;
-- (void)setSlope:(double)newSlope;
-
-- (NSInteger)ruleIndex;
-- (void)setRuleIndex:(NSInteger)newRuleIndex;
-
-- (double)absoluteTime;
-- (double)beatTime;
-
-- (double)semitoneInHertz;
-- (void)setSemitoneInHertz:(double)newHertzValue;
+@property (nonatomic, assign) double semitoneInHertz;
 
 - (void)incrementSemitone;
 - (void)decrementSemitone;
@@ -45,8 +34,5 @@
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
-
-// Debugging
-- (NSString *)description;
 
 @end

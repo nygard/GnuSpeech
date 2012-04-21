@@ -26,11 +26,10 @@
 
 - (id)init;
 {
-    if ([super init] == nil)
-        return nil;
-
-    points = [[NSMutableArray alloc] init];
-    slopes = [[NSMutableArray alloc] init];
+    if ((self = [super init])) {
+        points = [[NSMutableArray alloc] init];
+        slopes = [[NSMutableArray alloc] init];
+    }
 
     return self;
 }
@@ -42,6 +41,16 @@
 
     [super dealloc];
 }
+
+#pragma mark - Debugging
+
+- (NSString *)description;
+{
+    return [NSString stringWithFormat:@"<%@: %p> points: %@, slopes: %@",
+            NSStringFromClass([self class]), self, points, slopes];
+}
+
+#pragma mark -
 
 - (NSMutableArray *)points;
 {
@@ -64,19 +73,7 @@
     [points addObject:newPoint];
 }
 
-- (NSMutableArray *)slopes;
-{
-    return slopes;
-}
-
-- (void)setSlopes:(NSMutableArray *)newList;
-{
-    if (newList == slopes)
-        return;
-
-    [slopes release];
-    slopes = [newList retain];
-}
+@synthesize slopes;
 
 - (void)addSlope:(MMSlope *)newSlope;
 {
@@ -255,12 +252,6 @@
     }
 }
 
-- (NSString *)description;
-{
-    return [NSString stringWithFormat:@"<%@>[%p]: points: %@, slopes: %@",
-                     NSStringFromClass([self class]), self, points, slopes];
-}
-
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     [resultString indentToLevel:level];
@@ -276,8 +267,8 @@
 // TODO (2004-05-14): Maybe with a common superclass we wouldn't need to implement this method here.
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 {
-    if ([self init] == nil)
-        return nil;
+    if ((self = [self init])) {
+    }
 
     return self;
 }

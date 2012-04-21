@@ -11,15 +11,11 @@
 
 @interface MMSlopeRatio : NSObject
 
-- (id)init;
-- (void)dealloc;
-
 - (NSMutableArray *)points;
 - (void)setPoints:(NSMutableArray *)newList;
 - (void)addPoint:(MMPoint *)newPoint;
 
-- (NSMutableArray *)slopes;
-- (void)setSlopes:(NSMutableArray *)newList;
+@property (retain) NSMutableArray *slopes;
 - (void)addSlope:(MMSlope *)newSlope;
 - (void)updateSlopes;
 
@@ -35,8 +31,6 @@
 
 - (double)totalSlopeUnits;
 - (void)displaySlopesInList:(NSMutableArray *)displaySlopes;
-
-- (NSString *)description;
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 

@@ -16,23 +16,22 @@
 
 @implementation MMPoint
 {
-    double value;  /* Value of the point */
-    double freeTime; /* Free Floating time */
-    MMEquation *timeEquation; /* Time of the point */
-    MMPhoneType type;  /* Which phone it is targeting */
-    BOOL isPhantom; /* Phantom point for place marking purposes only */
+    double value;             // Value of the point
+    double freeTime;          // Free Floating time
+    MMEquation *timeEquation; // Time of the point
+    MMPhoneType type;         // Which phone it is targeting
+    BOOL isPhantom;           // Phantom point for place marking purposes only
 }
 
 - (id)init;
 {
-    if ([super init] == nil)
-        return nil;
-
-    value = 0.0;
-    freeTime = 0.0;
-    timeEquation = nil;
-    isPhantom = NO;
-    type = MMPhoneType_Diphone;
+    if ((self = [super init])) {
+        value = 0.0;
+        freeTime = 0.0;
+        timeEquation = nil;
+        isPhantom = NO;
+        type = MMPhoneType_Diphone;
+    }
 
     return self;
 }
@@ -44,15 +43,17 @@
     [super dealloc];
 }
 
-- (double)value;
+#pragma mark -
+
+- (NSString *)description;
 {
-    return value;
+    return [NSString stringWithFormat:@"<%@: %p> value: %g, freeTime: %g, timeEquation: %@, type: %lu, isPhantom: %d",
+            NSStringFromClass([self class]), self, value, freeTime, timeEquation, type, isPhantom];
 }
 
-- (void)setValue:(double)newValue;
-{
-    value = newValue;
-}
+#pragma mark -
+
+@synthesize value;
 
 - (double)multiplyValueByFactor:(double)factor;
 {
@@ -66,29 +67,7 @@
     return value;
 }
 
-- (MMEquation *)timeEquation;
-{
-    return timeEquation;
-}
-
-- (void)setTimeEquation:(MMEquation *)newTimeEquation;
-{
-    if (newTimeEquation == timeEquation)
-        return;
-
-    [timeEquation release];
-    timeEquation = [newTimeEquation retain];
-}
-
-- (double)freeTime;
-{
-    return freeTime;
-}
-
-- (void)setFreeTime:(double)newTime;
-{
-    freeTime = newTime;
-}
+@synthesize timeEquation, freeTime;
 
 - (double)cachedTime;
 {
@@ -98,25 +77,7 @@
     return freeTime;
 }
 
-- (NSUInteger)type;
-{
-    return type;
-}
-
-- (void)setType:(NSUInteger)newType;
-{
-    type = newType;
-}
-
-- (BOOL)isPhantom;
-{
-    return isPhantom;
-}
-
-- (void)setIsPhantom:(BOOL)newFlag;
-{
-    isPhantom = newFlag;
-}
+@synthesize type, isPhantom;
 
 - (void)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag toDisplay:(NSMutableArray *)displayList;
 {
@@ -154,12 +115,6 @@
         [eventList insertEvent:index atTimeOffset:time withValue:returnValue];
 
     return returnValue;
-}
-
-- (NSString *)description;
-{
-    return [NSString stringWithFormat:@"<%@>[%p]: value: %g, freeTime: %g, timeEquation: %@, type: %lu, isPhantom: %d",
-                     NSStringFromClass([self class]), self, value, freeTime, timeEquation, type, isPhantom];
 }
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;

@@ -8,16 +8,11 @@
 - (id)init;
 - (id)initWithValue:(double)newValue isDefault:(BOOL)shouldBeDefault;
 
-- (double)value;
-- (void)setValue:(double)newValue;
-
-- (BOOL)isDefault;
-- (void)setIsDefault:(BOOL)newFlag;
+@property (assign) double value;
+@property (assign) BOOL isDefault;
 
 - (void)setValue:(double)newValue isDefault:(BOOL)shouldBeDefault;
 - (void)changeDefaultValueFrom:(double)oldDefault to:(double)newDefault;
-
-- (NSString *)description;
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 

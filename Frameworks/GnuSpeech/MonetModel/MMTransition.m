@@ -21,7 +21,7 @@
 
 @implementation MMTransition
 {
-    NamedList *nonretained_group;
+    __weak NamedList *nonretained_group;
     
     NSString *name;
     NSString *comment;
@@ -61,11 +61,19 @@
     [super dealloc];
 }
 
+#pragma mark - Debugging
+
+- (NSString *)description;
+{
+    return [NSString stringWithFormat:@"<%@: %p> name: %@, comment: %@, type: %lu, points: %@",
+            NSStringFromClass([self class]), self, name, comment, type, points];
+}
+
+#pragma mark -
+
 - (void)addInitialPoint;
 {
-    MMPoint *aPoint;
-
-    aPoint = [[MMPoint alloc] init];
+    MMPoint *aPoint = [[MMPoint alloc] init];
     [aPoint setType:MMPhoneType_Diphone];
     [aPoint setFreeTime:0.0];
     [aPoint setValue:0.0];
@@ -73,62 +81,16 @@
     [aPoint release];
 }
 
-- (NamedList *)group;
-{
-    return nonretained_group;
-}
+@synthesize group = nonretained_group;
 
-- (void)setGroup:(NamedList *)newGroup;
-{
-    nonretained_group = newGroup;
-}
-
-- (NSString *)name;
-{
-    return name;
-}
-
-- (void)setName:(NSString *)newName;
-{
-    if (newName == name)
-        return;
-
-    [name release];
-    name = [newName retain];
-}
-
-- (NSString *)comment;
-{
-    return comment;
-}
-
-- (void)setComment:(NSString *)newComment;
-{
-    if (newComment == comment)
-        return;
-
-    [comment release];
-    comment = [newComment retain];
-}
+@synthesize name, comment;
 
 - (BOOL)hasComment;
 {
     return comment != nil && [comment length] > 0;
 }
 
-- (NSMutableArray *)points;
-{
-    return points;
-}
-
-- (void)setPoints:(NSMutableArray *)newList;
-{
-    if (newList == points)
-        return;
-
-    [points release];
-    points = [newList retain];
-}
+@synthesize points;
 
 // Can be either an MMPoint or an MMSlopeRatio
 - (void)addPoint:(id)newPoint;
@@ -196,15 +158,7 @@
     [points addObject:aPoint];
 }
 
-- (int)type;
-{
-    return type;
-}
-
-- (void)setType:(int)newType;
-{
-    type = newType;
-}
+@synthesize type;
 
 - (BOOL)isEquationUsed:(MMEquation *)anEquation;
 {
@@ -253,12 +207,6 @@
     }
 }
 
-- (NSString *)description;
-{
-    return [NSString stringWithFormat:@"<%@>[%p]: name: %@, comment: %@, type: %lu, points: %@",
-                     NSStringFromClass([self class]), self, name, comment, type, points];
-}
-
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     [resultString indentToLevel:level];
@@ -283,16 +231,13 @@
 
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 {
-    NSString *str;
-
-    if ([self init] == nil)
-        return nil;
-
-    [self setName:[attributes objectForKey:@"name"]];
-
-    str = [attributes objectForKey:@"type"];
-    if (str != nil)
-        [self setType:MMPhoneTypeFromString(str)];
+    if ((self = [self init])) {
+        [self setName:[attributes objectForKey:@"name"]];
+        
+        NSString *str = [attributes objectForKey:@"type"];
+        if (str != nil)
+            [self setType:MMPhoneTypeFromString(str)];
+    }
 
     return self;
 }
@@ -300,19 +245,14 @@
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
 {
     if ([elementName isEqualToString:@"comment"]) {
-        MXMLPCDataDelegate *newDelegate;
-
-        newDelegate = [[MXMLPCDataDelegate alloc] initWithElementName:elementName delegate:self setSelector:@selector(setComment:)];
+        MXMLPCDataDelegate *newDelegate = [[MXMLPCDataDelegate alloc] initWithElementName:elementName delegate:self setSelector:@selector(setComment:)];
         [(MXMLParser *)parser pushDelegate:newDelegate];
         [newDelegate release];
     } else if ([elementName isEqualToString:@"point-or-slopes"]) {
-        MXMLArrayDelegate *newDelegate;
-        NSDictionary *elementClassMapping;
-
-        elementClassMapping = [[NSDictionary alloc] initWithObjectsAndKeys:[MMPoint class], @"point",
-                                                    [MMSlopeRatio class], @"slope-ratio",
-                                                    nil];
-        newDelegate = [[MXMLArrayDelegate alloc] initWithChildElementToClassMapping:elementClassMapping delegate:self addObjectSelector:@selector(addPoint:)];
+        NSDictionary *elementClassMapping = [[NSDictionary alloc] initWithObjectsAndKeys:[MMPoint class], @"point",
+                                             [MMSlopeRatio class], @"slope-ratio",
+                                             nil];
+        MXMLArrayDelegate *newDelegate = [[MXMLArrayDelegate alloc] initWithChildElementToClassMapping:elementClassMapping delegate:self addObjectSelector:@selector(addPoint:)];
         [(MXMLParser *)parser pushDelegate:newDelegate];
         [newDelegate release];
         [elementClassMapping release];

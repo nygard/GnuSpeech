@@ -17,45 +17,34 @@
 
 - (id)init;
 {
-    if ([super init] == nil)
-        return nil;
-
-    isDefault = YES;
-    value = 0.0;
+    if ((self = [super init])) {
+        isDefault = YES;
+        value = 0.0;
+    }
 
     return self;
 }
 
 - (id)initWithValue:(double)newValue isDefault:(BOOL)shouldBeDefault;
 {
-    if ([self init] == nil)
-        return nil;
-
-    [self setValue:newValue];
-    [self setIsDefault:shouldBeDefault];
+    if ((self = [self init])) {
+        [self setValue:newValue];
+        [self setIsDefault:shouldBeDefault];
+    }
 
     return self;
 }
 
-- (double)value;
+#pragma mark - Debugging
+
+- (NSString *)description;
 {
-    return value;
+    return [NSString stringWithFormat:@"<%@: %p> isDefault: %d, value: %g", NSStringFromClass([self class]), self, isDefault, value];
 }
 
-- (void)setValue:(double)newValue;
-{
-    value = newValue;
-}
+#pragma mark -
 
-- (BOOL)isDefault;
-{
-    return isDefault;
-}
-
-- (void)setIsDefault:(BOOL)newFlag;
-{
-    isDefault = newFlag;
-}
+@synthesize value, isDefault;
 
 - (void)setValue:(double)newValue isDefault:(BOOL)shouldBeDefault;
 {
@@ -71,11 +60,6 @@
     }
 }
 
-- (NSString *)description;
-{
-    return [NSString stringWithFormat:@"<%@>[%p]: isDefault: %d, value: %g", NSStringFromClass([self class]), self, isDefault, value];
-}
-
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     [resultString indentToLevel:level];
@@ -87,14 +71,11 @@
 
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 {
-    NSString *str;
-
-    if ([self init] == nil)
-        return nil;
-
-    str = [attributes objectForKey:@"value"];
-    if (str != nil)
-        [self setValue:[str doubleValue]];
+    if ((self = [self init])) {
+        NSString *str = [attributes objectForKey:@"value"];
+        if (str != nil)
+            [self setValue:[str doubleValue]];
+    }
 
     return self;
 }

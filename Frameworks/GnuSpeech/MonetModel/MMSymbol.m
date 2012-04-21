@@ -18,42 +18,23 @@
 
 @implementation MMSymbol
 {
-    double minimum;
-    double maximum;
+    double minimumValue;
+    double maximumValue;
     double defaultValue;
 }
 
 - (id)init;
 {
-    if ([super init] == nil)
-        return nil;
-
-    minimum = DEFAULT_MIN;
-    maximum = DEFAULT_MAX;
-    defaultValue = DEFAULT_VALUE;
+    if ((self = [super init])) {
+        minimumValue = DEFAULT_MIN;
+        maximumValue = DEFAULT_MAX;
+        defaultValue = DEFAULT_VALUE;
+    }
 
     return self;
 }
 
-- (double)minimumValue;
-{
-    return minimum;
-}
-
-- (void)setMinimumValue:(double)newMinimum;
-{
-    minimum = newMinimum;
-}
-
-- (double)maximumValue;
-{
-    return maximum;
-}
-
-- (void)setMaximumValue:(double)newMaximum;
-{
-    maximum = newMaximum;
-}
+@synthesize minimumValue, maximumValue;
 
 - (double)defaultValue;
 {
@@ -71,14 +52,14 @@
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"<%@>[%p]: name: %@, comment: %@, minimum: %g, maximum: %g, defaultValue: %g",
-                     NSStringFromClass([self class]), self, self.name, self.comment, minimum, maximum, defaultValue];
+                     NSStringFromClass([self class]), self, self.name, self.comment, self.minimumValue, self.maximumValue, self.defaultValue];
 }
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     [resultString indentToLevel:level];
     [resultString appendFormat:@"<symbol name=\"%@\" minimum=\"%g\" maximum=\"%g\" default=\"%g\"",
-                  GSXMLAttributeString(self.name, NO), minimum, maximum, defaultValue];
+                  GSXMLAttributeString(self.name, NO), self.minimumValue, self.maximumValue, self.defaultValue];
 
     if (self.comment == nil) {
         [resultString appendString:@"/>\n"];
@@ -94,22 +75,19 @@
 
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 {
-    id value;
-
-    if ([super initWithXMLAttributes:attributes context:context] == nil)
-        return nil;
-
-    value = [attributes objectForKey:@"minimum"];
-    if (value != nil)
-        [self setMinimumValue:[value doubleValue]];
-
-    value = [attributes objectForKey:@"maximum"];
-    if (value != nil)
-        [self setMaximumValue:[value doubleValue]];
-
-    value = [attributes objectForKey:@"default"];
-    if (value != nil)
-        [self setDefaultValue:[value doubleValue]];
+    if ((self = [super initWithXMLAttributes:attributes context:context])) {
+        id value = [attributes objectForKey:@"minimum"];
+        if (value != nil)
+            [self setMinimumValue:[value doubleValue]];
+        
+        value = [attributes objectForKey:@"maximum"];
+        if (value != nil)
+            [self setMaximumValue:[value doubleValue]];
+        
+        value = [attributes objectForKey:@"default"];
+        if (value != nil)
+            [self setDefaultValue:[value doubleValue]];
+    }
 
     return self;
 }
