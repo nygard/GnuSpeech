@@ -9,6 +9,12 @@
 
 static GSPronunciationDictionary * pronunciationDictionary = nil;
 
+@interface MMTextToPhone ()
++ (void)_createDBMFileIfNecessary;
+@end
+
+#pragma mark -
+
 @implementation MMTextToPhone
 {
 }
@@ -32,27 +38,12 @@ static GSPronunciationDictionary * pronunciationDictionary = nil;
 		NSLog(@"initialize: Dictionary version %@", [pronunciationDictionary version]);	
 }
 
-- (id)init;
-{
-	[super init];
-    return self;
-}
-
-- (void)dealloc;
-{
-    [super dealloc];
-}
-
 + (void)_createDBMFileIfNecessary
 {
-    GSSimplePronunciationDictionary * simpleDictionary;
-    GSDBMPronunciationDictionary * dbmDictionary;
-    NSDateFormatter * dateFormatter;
+    GSSimplePronunciationDictionary *simpleDictionary = [GSSimplePronunciationDictionary mainDictionary];
+    GSDBMPronunciationDictionary *dbmDictionary = [GSDBMPronunciationDictionary mainDictionary];
 	
-    simpleDictionary = [GSSimplePronunciationDictionary mainDictionary];
-    dbmDictionary = [GSDBMPronunciationDictionary mainDictionary];
-	
-    dateFormatter = [[NSDateFormatter alloc] initWithDateFormat:@"%Y-%m-%d %H:%M:%S" allowNaturalLanguage:NO];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] initWithDateFormat:@"%Y-%m-%d %H:%M:%S" allowNaturalLanguage:NO];
 	
     NSLog(@"_createDBMFileIfNecessary: simpleDictionary modificationDate: %@", [dateFormatter stringForObjectValue:[simpleDictionary modificationDate]]);
     NSLog(@"_createDBMFileIfNecessary: dbmDictionary modificationDate: %@", [dateFormatter stringForObjectValue:[dbmDictionary modificationDate]]);
@@ -66,24 +57,19 @@ static GSPronunciationDictionary * pronunciationDictionary = nil;
 
 - (NSString *)phoneForText:(NSString *)text;
 {
-    NSString * inputString, * resultString;
-    TTSParser * parser;
-	
-    inputString = [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];	
-    parser = [[TTSParser alloc] initWithPronunciationDictionary:pronunciationDictionary];
-    resultString = [parser parseString:inputString];
+    NSString *inputString = [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];	
+    TTSParser *parser = [[TTSParser alloc] initWithPronunciationDictionary:pronunciationDictionary];
+    NSString *resultString = [parser parseString:inputString];
     [parser release];
 	
     return resultString;	
 }
 
+// TODO (2012-04-21): Uh, this method is useless.
 - (void)loadMainDictionary;
 {
-    NSString * path;
-    GSPronunciationDictionary * aDictionary;
-	
-    path = [[NSBundle bundleForClass:[self class]] pathForResource:@"2.0eMainDictionary" ofType:@"dict"];
-    aDictionary = [[GSSimplePronunciationDictionary alloc] initWithFilename:path];
+    NSString *path = [[NSBundle bundleForClass:[self class]] pathForResource:@"2.0eMainDictionary" ofType:@"dict"];
+    GSPronunciationDictionary *aDictionary = [[GSSimplePronunciationDictionary alloc] initWithFilename:path];
     [aDictionary loadDictionary];
     NSLog(@"loadMainDictionary: Loaded %@", aDictionary);
     [aDictionary release];	
