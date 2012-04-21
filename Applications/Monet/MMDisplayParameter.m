@@ -32,6 +32,8 @@
     [super dealloc];
 }
 
+#pragma mark -
+
 - (MMParameter *)parameter;
 {
     return parameter;

@@ -308,9 +308,7 @@
     return [specialTransitionOutlineView selectedItemOfClass:[MMTransition class]];
 }
 
-//
-// Equations
-//
+#pragma mark - Equations
 
 - (IBAction)addEquationGroup:(id)sender;
 {
@@ -394,9 +392,7 @@
     [self _updateEquationDetails];
 }
 
-//
-// Transitions
-//
+#pragma mark - Transitions
 
 - (IBAction)addTransitionGroup:(id)sender;
 {
@@ -461,9 +457,7 @@
     [[NSApp delegate] editTransition:[self selectedTransition]];
 }
 
-//
-// Special Transitions
-//
+#pragma mark - Special Transitions
 
 - (IBAction)addSpecialTransitionGroup:(id)sender;
 {
@@ -528,9 +522,7 @@
     [[NSApp delegate] editSpecialTransition:[self selectedSpecialTransition]];
 }
 
-//
-// NSOutlineView data source
-//
+#pragma mark - NSOutlineView data source
 
 - (int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item;
 {
@@ -703,9 +695,7 @@
     }
 }
 
-//
-// NSOutlineView delegate
-//
+#pragma mark - NSOutlineView delegate
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)aNotification;
 {
@@ -744,9 +734,7 @@
     return YES;
 }
 
-//
-// NSTextView delegate
-//
+#pragma mark - NSTextView delegate
 
 - (void)textDidEndEditing:(NSNotification *)aNotification;
 {
@@ -796,9 +784,7 @@
     }
 }
 
-//
-// Equation usage caching
-//
+#pragma mark - Equation usage caching
 
 - (void)clearEquationUsageCache;
 {
@@ -833,9 +819,7 @@
     return [[self usageOfEquation:anEquation] count] > 0;
 }
 
-//
-// Transition usage caching
-//
+#pragma mark - Transition usage caching
 
 - (void)clearTransitionUsageCache;
 {

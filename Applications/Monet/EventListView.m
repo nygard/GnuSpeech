@@ -101,6 +101,8 @@
     [super dealloc];
 }
 
+#pragma mark -
+
 - (void)awakeFromNib;
 {
     trackTag = [self addTrackingRect:[self bounds] owner:self userData:NULL assumeInside:NO];  // track
@@ -485,9 +487,7 @@
 	return value;
 }
 
-//
-// Methods to handle sizing and resizing of the main view.
-//
+#pragma mark - Methods to handle sizing and resizing of the main view.
 
 // Added by dalmazio, April 11, 2009.
 - (void)resize;

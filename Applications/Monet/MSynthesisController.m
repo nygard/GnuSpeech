@@ -159,6 +159,8 @@
     [super dealloc];
 }
 
+#pragma mark -
+
 - (MModel *)model;
 {
     return model;
@@ -728,9 +730,7 @@
     [[NSUserDefaults standardUserDefaults] setObject:[textStringTextField objectValues] forKey:MDK_DefaultUtterances];
 }
 
-//
-// Intonation Point details
-//
+#pragma mark - Intonation Point details
 
 - (MMIntonationPoint *)selectedIntonationPoint;
 {
@@ -838,9 +838,7 @@
     [self _updateSelectedPointDetails];
 }
 
-//
-// NSTableView data source
-//
+#pragma mark - NSTableView data source
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView;
 {
@@ -934,9 +932,7 @@
     }
 }
 
-//
-// MExtendedTableView delegate
-//
+#pragma mark - MExtendedTableView delegate
 
 - (BOOL)control:(NSControl *)aControl shouldProcessCharacters:(NSString *)characters;
 {
@@ -966,18 +962,15 @@
     return YES;
 }
 
-//
-// MAIntonationView delegate
-//
+#pragma mark - MAIntonationView delegate
 
 - (void)intonationViewSelectionDidChange:(NSNotification *)aNotification;
 {
     [self _updateSelectedPointDetails];
 }
 
-//
-// NSComboBox delegate
-//
+#pragma mark - NSComboBox delegate
+
 - (void)controlTextDidChange:(NSNotification *)aNotification;
 {
 	[textStringTextField setTextColor:[NSColor blackColor]];	
@@ -988,9 +981,8 @@
 {
 }		
 		
-//
-// NSTextView delegate
-//
+#pragma mark - NSTextView delegate
+
 - (void)textDidChange:(NSNotification *)aNotification;
 {
 	NSString * phoneString = [phoneStringTextView string];
@@ -1002,9 +994,7 @@
 	[textStringTextField setTextColor:[NSColor redColor]];
 }
 
-//
-// Intonation Parameters
-//
+#pragma mark - Intonation Parameters
 
 - (IBAction)updateSmoothIntonation:(id)sender;
 {

@@ -47,9 +47,7 @@
     [super dealloc];
 }
 
-//
-// Drawing
-//
+#pragma mark - Drawing
 
 - (void)drawGrid;
 {
@@ -150,9 +148,7 @@
     }
 }
 
-//
-// Event handling
-//
+#pragma mark - Event handling
 
 // TODO (2004-03-22): Need methods to convert between view coordinates and (time, value) pairs.
 #ifdef PORTING
@@ -204,9 +200,7 @@
 }
 #endif
 
-//
-// Selection
-//
+#pragma mark - Selection
 
 - (void)selectGraphPointsBetweenPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
 {

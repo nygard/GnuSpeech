@@ -56,6 +56,8 @@
     [super dealloc];
 }
 
+#pragma mark -
+
 - (MModel *)model;
 {
     return model;
@@ -258,9 +260,7 @@
     [self updateViews];
 }
 
-//
-// NSTableView data source
-//
+#pragma mark - NSTableView data source
 
 - (NSUInteger)numberOfRowsInTableView:(NSTableView *)tableView;
 {
@@ -400,9 +400,7 @@
     }
 }
 
-//
-// NSTableView delegate
-//
+#pragma mark - NSTableView delegate
 
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification;
 {
@@ -475,9 +473,7 @@
     return YES;
 }
 
-//
-// NSTextView delegate
-//
+#pragma mark - NSTextView delegate
 
 - (void)textDidEndEditing:(NSNotification *)aNotification;
 {

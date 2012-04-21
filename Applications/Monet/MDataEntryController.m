@@ -55,6 +55,8 @@
     [super dealloc];
 }
 
+#pragma mark -
+
 - (MModel *)model;
 {
     return model;
@@ -231,9 +233,7 @@
     }
 }
 
-//
-// Actions
-//
+#pragma mark - Actions
 
 - (IBAction)addCategory:(id)sender;
 {
@@ -356,9 +356,7 @@
     [self updateViews];
 }
 
-//
-// NSTableView data source
-//
+#pragma mark - NSTableView data source
 
 - (int)numberOfRowsInTableView:(NSTableView *)tableView;
 {
@@ -483,9 +481,7 @@
     }
 }
 
-//
-// NSTableView delegate
-//
+#pragma mark - NSTableView delegate
 
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification;
 {
@@ -504,9 +500,7 @@
     }
 }
 
-//
-// NSTextView delegate
-//
+#pragma mark - NSTextView delegate
 
 - (void)textDidEndEditing:(NSNotification *)aNotification;
 {

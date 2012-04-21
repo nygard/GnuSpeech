@@ -393,6 +393,8 @@
     [tnMaxSlider setDoubleValue:value];
 }
 
+#pragma mark -
+
 - (IBAction)updateGlottalPulseShape:(id)sender;
 {
     [[[self model] synthesisParameters] setGlottalPulseShape:[[sender selectedCell] tag]];

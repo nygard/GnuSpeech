@@ -40,6 +40,8 @@
     [super dealloc];
 }
 
+#pragma mark -
+
 - (MModel *)model;
 {
     return model;
@@ -87,9 +89,7 @@
     [consumedTokensTextField setStringValue:@""];
 }
 
-//
-// Actions
-//
+#pragma mark - Actions
 
 - (IBAction)parseRule:(id)sender;
 {

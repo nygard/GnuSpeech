@@ -99,6 +99,8 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     [super dealloc];
 }
 
+#pragma mark -
+
 @synthesize timesFont, samplePostures, displayPoints, displaySlopes, selectedPoints;
 
 - (MMFRuleSymbols *)parameters;
@@ -330,9 +332,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     nonretained_delegate = newDelegate;
 }
 
-//
-// Drawing
-//
+#pragma mark - Drawing
 
 - (void)drawRect:(NSRect)rect;
 {
@@ -717,9 +717,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     }
 }
 
-//
-// Event handling
-//
+#pragma mark - Event handling
 
 - (BOOL)acceptsFirstResponder;
 {
@@ -834,9 +832,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     [keyEvents release];
 }
 
-//
-// View geometry
-//
+#pragma mark - View geometry
 
 - (CGFloat)sectionHeight;
 {
@@ -918,9 +914,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     return rect;
 }
 
-//
-// Slopes
-//
+#pragma mark - Slopes
 
 - (void)drawSlopes;
 {
@@ -1098,9 +1092,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     return nil;
 }
 
-//
-// NSTextView delegate method, used for editing slopes
-//
+#pragma mark - NSTextView delegate method, used for editing slopes
 
 - (void)textDidEndEditing:(NSNotification *)notification;
 {
@@ -1117,9 +1109,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     [self setNeedsDisplay:YES];
 }
 
-//
-// Selection
-//
+#pragma mark - Selection
 
 - (MMPoint *)selectedPoint;
 {
@@ -1190,9 +1180,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         [[self delegate] transitionViewSelectionDidChange:aNotification];
 }
 
-//
-// Actions
-//
+#pragma mark - Actions
 
 - (IBAction)deleteBackward:(id)sender;
 {
@@ -1256,9 +1244,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     [self setNeedsDisplay:YES];
 }
 
-//
-// Publicly used API
-//
+#pragma mark - Publicly used API
 
 - (MMTransition *)transition;
 {

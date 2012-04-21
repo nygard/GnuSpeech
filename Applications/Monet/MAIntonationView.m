@@ -127,6 +127,8 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     [super dealloc];
 }
 
+#pragma mark -
+
 - (void)setScaleView:(MAIntonationScaleView *)newScaleView;
 {
     if (newScaleView == scaleView)
@@ -643,9 +645,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     }
 }
 
-//
-// Event handling
-//
+#pragma mark - Event handling
 
 - (void)mouseEntered:(NSEvent *)theEvent;
 {
@@ -888,9 +888,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     [self _selectionDidChange];
 }
 
-//
-// Actions
-//
+#pragma mark - Actions
 
 - (IBAction)selectAll:(id)sender;
 {
@@ -1038,9 +1036,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     [self setNeedsDisplay:YES];
 }
 
-//
-// View geometry
-//
+#pragma mark - View geometry
 
 - (CGFloat)sectionHeight;
 {

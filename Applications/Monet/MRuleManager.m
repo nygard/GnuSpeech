@@ -85,6 +85,8 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     [super dealloc];
 }
 
+#pragma mark -
+
 - (MModel *)model;
 {
     return model;
@@ -411,9 +413,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     [possibleCombinationsTextField setIntValue:totalCombinations];
 }
 
-//
-// NSTableView data source
-//
+#pragma mark - NSTableView data source
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView;
 {
@@ -494,9 +494,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     return nil;
 }
 
-//
-// NSTableView delegate
-//
+#pragma mark - NSTableView delegate
 
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification;
 {
@@ -527,9 +525,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     }
 }
 
-//
-// NSTableView dragging
-//
+#pragma mark - NSTableView dragging
 
 - (BOOL)tableView:(NSTableView *)tableView writeRows:(NSArray *)rows toPasteboard:(NSPasteboard *)pboard;
 {
@@ -599,9 +595,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     return NO;
 }
 
-//
-// MExtendedTableView delegate
-//
+#pragma mark - MExtendedTableView delegate
 
 - (BOOL)control:(NSControl *)aControl shouldProcessCharacters:(NSString *)characters;
 {
@@ -618,9 +612,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     return YES;
 }
 
-//
-// Browser delegate methods
-//
+#pragma mark - Browser delegate methods
 
 - (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(NSInteger)column;
 {
@@ -660,9 +652,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     [cell setLeaf:YES];
 }
 
-//
-// NSOutlineView data source
-//
+#pragma mark - NSOutlineView data source
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item;
 {
@@ -745,9 +735,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     return nil;
 }
 
-//
-// NSOutlineView delegate
-//
+#pragma mark - NSOutlineView delegate
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item;
 {
@@ -819,9 +807,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     }
 }
 
-//
-// NSTextView delegate
-//
+#pragma mark - NSTextView delegate
 
 - (void)textDidEndEditing:(NSNotification *)aNotification;
 {
@@ -852,9 +838,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     [newStringValue release];
 }
 
-//
-// Actions
-//
+#pragma mark - Actions
 
 // Sender should be the form for postures 1-4
 // Warning (building for 10.2 deployment) (2004-04-02): aBrowser might be used uninitialized in this function

@@ -39,6 +39,8 @@
     [super dealloc];
 }
 
+#pragma mark -
+
 // -initWithFrame: isn't used when loaded from a nib.
 - (void)awakeFromNib;
 {

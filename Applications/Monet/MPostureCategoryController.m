@@ -31,6 +31,8 @@
     [super dealloc];
 }
 
+#pragma mark -
+
 - (MModel *)model;
 {
     return model;
@@ -183,9 +185,7 @@
     [postureCategoryTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
 }
 
-//
-// NSTableView data source
-//
+#pragma mark - NSTableView data source
 
 - (int)numberOfRowsInTableView:(NSTableView *)tableView;
 {
@@ -219,9 +219,7 @@
 {
 }
 
-//
-// NSTableView delegate
-//
+#pragma mark - NSTableView delegate
 
 - (BOOL)control:(NSControl *)aControl shouldProcessCharacters:(NSString *)characters;
 {

@@ -67,6 +67,8 @@
     [super dealloc];
 }
 
+#pragma mark -
+
 - (NSUInteger)sectionCount;
 {
     return sectionCount;
