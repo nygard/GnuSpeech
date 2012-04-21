@@ -137,8 +137,10 @@
     if (outlineView == equationOutlineView) {
         if (item == nil)
             return [[model equations] count];
-        else
-            return [item count];
+        else {
+            MonetList *list = item;
+            return [list.ilist count];
+        }
     }
 
     return 0;
@@ -149,8 +151,10 @@
     if (outlineView == equationOutlineView) {
         if (item == nil)
             return [[model equations] objectAtIndex:index];
-        else
-            return [item objectAtIndex:index];
+        else {
+            MonetList *list = item;
+            return [list.ilist objectAtIndex:index];
+        }
     }
 
     return nil;
