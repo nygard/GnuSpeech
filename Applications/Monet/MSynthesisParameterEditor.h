@@ -8,14 +8,11 @@
 @interface MSynthesisParameterEditor : MWindowController
 
 - (id)initWithModel:(MModel *)aModel;
-- (void)dealloc;
 
-- (MModel *)model;
-- (void)setModel:(MModel *)newModel;
+@property (nonatomic, retain) MModel *model;
 
 - (NSUndoManager *)undoManager;
 
-- (void)windowDidLoad;
 - (void)updateViews;
 
 - (IBAction)revertToDefaults:(id)sender;

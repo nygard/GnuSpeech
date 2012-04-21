@@ -5,8 +5,7 @@
 
 @interface MWindowController : NSWindowController
 
-- (BOOL)isVisibleOnLaunch;
-- (void)setIsVisibleOnLaunch:(BOOL)newFlag;
+@property (nonatomic, assign) BOOL isVisibleOnLaunch;
 
 - (void)saveWindowIsVisibleOnLaunch;
 - (void)showWindowIfVisibleOnLaunch;

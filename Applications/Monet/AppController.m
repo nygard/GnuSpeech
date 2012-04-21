@@ -20,11 +20,33 @@
 
 #define MDK_MonetFileDirectory @"MonetFileDirectory"
 
+@interface AppController ()
+
+- (void)_loadFile:(NSString *)aFilename;
+- (void)_loadDegasFile:(NSString *)aFilename;
+- (void)_loadMonetXMLFile:(NSString *)aFilename;
+
+- (void)_disableUnconvertedClassLoading;
+@property (nonatomic, readonly) MDataEntryController *dataEntryController;
+@property (nonatomic, readonly) MPostureCategoryController *postureCategoryController;
+@property (nonatomic, readonly) MPostureEditor *postureEditor;
+@property (nonatomic, readonly) MPrototypeManager *prototypeManager;
+@property (nonatomic, readonly) MTransitionEditor *transitionEditor;
+@property (nonatomic, readonly) MSpecialTransitionEditor *specialTransitionEditor;
+@property (nonatomic, readonly) MRuleTester *ruleTester;
+@property (nonatomic, readonly) MRuleManager *ruleManager;
+@property (nonatomic, readonly) MSynthesisParameterEditor *synthesisParameterEditor;
+@property (nonatomic, readonly) MSynthesisController *synthesisController;
+@property (nonatomic, readonly) MReleaseNotesController *releaseNotesController;
+@end
+
+#pragma mark -
+
 @implementation AppController
 {
     IBOutlet NSPanel *infoPanel;
     
-    NSString *filename;
+    NSString *m_filename;
     MModel *model;
     
     MDataEntryController *dataEntryController;
@@ -42,18 +64,17 @@
 
 - (id)init;
 {
-    if ([super init] == nil)
-        return nil;
-
-    filename = nil;
-    model = [[MModel alloc] init];
+    if ((self = [super init])) {
+        m_filename = nil;
+        model = [[MModel alloc] init];
+    }
 	
     return self;
 }
 
 - (void)dealloc;
 {
-    [filename release];
+    [m_filename release];
     [model release];
 
     [dataEntryController release];
@@ -70,19 +91,10 @@
     [super dealloc];
 }
 
-- (void)setFilename:(NSString *)newFilename;
+@synthesize filename = m_filename;
+
+- (void)applicationDidFinishLaunching:(NSNotification *)notification;
 {
-    if (newFilename == filename)
-        return;
-
-    [filename release];
-    filename = [newFilename retain];
-}
-
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification;
-{
-    NSString *path;
-
     //NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
 
     //NSLog(@"[NSApp delegate]: %@", [NSApp delegate]);
@@ -90,22 +102,22 @@
     //NSLog(@"decode List as %@", [NSUnarchiver classNameDecodedForArchiveClassName:@"List"]);
     //NSLog(@"decode Object as %@", [NSUnarchiver classNameDecodedForArchiveClassName:@"Object"]);
 
-    [NSUnarchiver decodeClassName:@"Object" asClassName:@"NSObject"];
-    [NSUnarchiver decodeClassName:@"List" asClassName:@"MonetList"];
+    [NSUnarchiver decodeClassName:@"Object"            asClassName:@"NSObject"];
+    [NSUnarchiver decodeClassName:@"List"              asClassName:@"MonetList"];
 
     [NSUnarchiver decodeClassName:@"BooleanExpression" asClassName:@"MMBooleanExpression"];
-    [NSUnarchiver decodeClassName:@"BooleanTerminal" asClassName:@"MMBooleanTerminal"];
-    [NSUnarchiver decodeClassName:@"CategoryNode" asClassName:@"MMCategory"];
-    [NSUnarchiver decodeClassName:@"Parameter" asClassName:@"MMParameter"];
-    [NSUnarchiver decodeClassName:@"Phone" asClassName:@"MMPosture"];
-    [NSUnarchiver decodeClassName:@"Point" asClassName:@"MMPoint"];
-    [NSUnarchiver decodeClassName:@"ProtoEquation" asClassName:@"MMEquation"];
-    [NSUnarchiver decodeClassName:@"ProtoTemplate" asClassName:@"MMTransition"];
-    [NSUnarchiver decodeClassName:@"Rule" asClassName:@"MMRule"];
-    [NSUnarchiver decodeClassName:@"Slope" asClassName:@"MMSlope"];
-    [NSUnarchiver decodeClassName:@"SlopeRatio" asClassName:@"MMSlopeRatio"];
-    [NSUnarchiver decodeClassName:@"Symbol" asClassName:@"MMSymbol"];
-    [NSUnarchiver decodeClassName:@"Target" asClassName:@"MMTarget"];
+    [NSUnarchiver decodeClassName:@"BooleanTerminal"   asClassName:@"MMBooleanTerminal"];
+    [NSUnarchiver decodeClassName:@"CategoryNode"      asClassName:@"MMCategory"];
+    [NSUnarchiver decodeClassName:@"Parameter"         asClassName:@"MMParameter"];
+    [NSUnarchiver decodeClassName:@"Phone"             asClassName:@"MMPosture"];
+    [NSUnarchiver decodeClassName:@"Point"             asClassName:@"MMPoint"];
+    [NSUnarchiver decodeClassName:@"ProtoEquation"     asClassName:@"MMEquation"];
+    [NSUnarchiver decodeClassName:@"ProtoTemplate"     asClassName:@"MMTransition"];
+    [NSUnarchiver decodeClassName:@"Rule"              asClassName:@"MMRule"];
+    [NSUnarchiver decodeClassName:@"Slope"             asClassName:@"MMSlope"];
+    [NSUnarchiver decodeClassName:@"SlopeRatio"        asClassName:@"MMSlopeRatio"];
+    [NSUnarchiver decodeClassName:@"Symbol"            asClassName:@"MMSymbol"];
+    [NSUnarchiver decodeClassName:@"Target"            asClassName:@"MMTarget"];
 
 #ifndef GNUSTEP
     [self _disableUnconvertedClassLoading];
@@ -126,7 +138,7 @@
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shouldActivateOnLaunch"])
         [NSApp activateIgnoringOtherApps:YES];
 
-    path = [[NSBundle mainBundle] pathForResource:@"Diphones" ofType:@"mxml"];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"Diphones" ofType:@"mxml"];
     //path = [[NSBundle mainBundle] pathForResource:@"Default" ofType:@"mxml"];	
     [self _loadMonetXMLFile:path];	
 	
@@ -294,12 +306,10 @@
 // TODO (2004-04-21): This actually imports instead of loading.  Should create new model, like in Monet file case
 - (void)_loadDegasFile:(NSString *)aFilename;
 {
-    FILE *fp;
+    FILE *fp = fopen([aFilename UTF8String], "r");
+
     uint32_t magic;
-
-    fp = fopen([aFilename UTF8String], "r");
-
-    fread(&magic, sizeof(int), 1, fp);
+    fread(&magic, sizeof(uint32_t), 1, fp);
     if (magic == DEGAS_MAGIC) {
         NSLog(@"Loading DEGAS File");
         [model readDegasFileFormat:fp];
@@ -312,11 +322,8 @@
 
 - (void)_loadMonetXMLFile:(NSString *)aFilename;
 {
-    MDocument *document;
-    BOOL result;
-
-    document = [[MDocument alloc] init];
-    result = [document loadFromXMLFile:aFilename];
+    MDocument *document = [[MDocument alloc] init];
+    BOOL result = [document loadFromXMLFile:aFilename];
     if (result == YES) {
         [self setModel:[document model]];
         [self setFilename:aFilename];
@@ -327,55 +334,49 @@
 
 - (IBAction)saveDocument:(id)sender;
 {
-    if (filename == nil) {
+    if (self.filename == nil) {
         [self saveDocumentAs:sender];
     } else {
-        NSString *extension;
         BOOL result;
 
-        extension = [filename pathExtension];
+        NSString *extension = [self.filename pathExtension];
 
         if ([@"mxml" isEqualToString:extension] == NO) {
             NSString *newFilename;
 
-            newFilename = [[filename stringByDeletingPathExtension] stringByAppendingPathExtension:@"mxml"];
+            newFilename = [[self.filename stringByDeletingPathExtension] stringByAppendingPathExtension:@"mxml"];
             result = [model writeXMLToFile:newFilename comment:nil];
             if (result == YES) {
-                NSLog(@"Renamed file from %@ to %@", [filename lastPathComponent], [newFilename lastPathComponent]);
+                NSLog(@"Renamed file from %@ to %@", [self.filename lastPathComponent], [newFilename lastPathComponent]);
                 [self setFilename:newFilename];
             }
         } else
-            result = [model writeXMLToFile:filename comment:nil];
+            result = [model writeXMLToFile:self.filename comment:nil];
 
         if (result == NO)
-            NSRunAlertPanel(@"Save Failed", @"Couldn't save document to %@", @"OK", nil, nil, filename);
+            NSRunAlertPanel(@"Save Failed", @"Couldn't save document to %@", @"OK", nil, nil, self.filename);
         else
-            NSLog(@"Saved file: %@", filename);
+            NSLog(@"Saved file: %@", self.filename);
     }
 }
 
 - (IBAction)saveDocumentAs:(id)sender;
 {
-    NSSavePanel *savePanel;
-
-    savePanel = [NSSavePanel savePanel];
+    NSSavePanel *savePanel = [NSSavePanel savePanel];
     NSString *path = [[NSUserDefaults standardUserDefaults] objectForKey:MDK_MonetFileDirectory];
     if (path != nil)
         [savePanel setDirectoryURL:[NSURL fileURLWithPath:path]];
     [savePanel setAllowedFileTypes:[NSArray arrayWithObject:@"mxml"]];
-    [savePanel setNameFieldStringValue:[filename lastPathComponent]];
+    [savePanel setNameFieldStringValue:[self.filename lastPathComponent]];
     if ([savePanel runModal] == NSFileHandlingPanelOKButton) {
-        NSString *newFilename;
-        BOOL result;
-
         [[NSUserDefaults standardUserDefaults] setObject:[[savePanel directoryURL] path] forKey:MDK_MonetFileDirectory];
 
-        newFilename = [[savePanel URL] path];
+        NSString *newFilename = [[savePanel URL] path];
 
-        result = [model writeXMLToFile:newFilename comment:nil];
+        BOOL result = [model writeXMLToFile:newFilename comment:nil];
 
         if (result == NO)
-            NSRunAlertPanel(@"Save Failed", @"Couldn't save document to %@", @"OK", nil, nil, filename);
+            NSRunAlertPanel(@"Save Failed", @"Couldn't save document to %@", @"OK", nil, nil, self.filename);
         else {
             [self setFilename:newFilename];
             NSLog(@"Saved file: %@", newFilename);
@@ -386,23 +387,19 @@
 // TODO (2004-05-20): We could only enable this when filename != nil, or just wait until we start using the document architecture.
 - (IBAction)revertDocumentToSaved:(id)sender;
 {
-    if (filename == nil)
+    if (self.filename == nil)
         NSBeep();
     else
-        [self _loadFile:filename];
+        [self _loadFile:self.filename];
 }
 
 - (IBAction)savePrototypes:(id)sender;
 {
 #ifdef PORTING
-    NSSavePanel *myPanel;
-    NSArchiver *stream;
-    NSMutableData *mdata;
-
-    myPanel = [NSSavePanel savePanel];
+    NSSavePanel *myPanel = [NSSavePanel savePanel];
     if ([myPanel runModal]) {
-        mdata = [NSMutableData dataWithCapacity:16];
-        stream = [[NSArchiver alloc] initForWritingWithMutableData:mdata];
+        NSMutableData *mdata = [NSMutableData dataWithCapacity:16];
+        NSArchiver *stream = [[NSArchiver alloc] initForWritingWithMutableData:mdata];
 
         if (stream) {
             //[prototypeManager writePrototypesTo:stream];
@@ -418,21 +415,15 @@
 - (IBAction)loadPrototypes:(id)sender;
 {
 #ifdef PORTING
-    NSArray *fnames;
-    NSArray *types;
-    NSString *directory;
-    NSArchiver *stream;
-    NSString *aFilename;
-
-    types = [NSArray array];
+    NSArray *types = [NSArray array];
     [[NSOpenPanel openPanel] setAllowsMultipleSelection:NO];
     [[NSOpenPanel openPanel] setAllowedFileTypes:types];
     if ([[NSOpenPanel openPanel] runModal] == NSFileHandlingPanelOKButton) {
-        fnames = [[NSOpenPanel openPanel] filenames];
-        directory = [[NSOpenPanel openPanel] directory];
-        aFilename = [directory stringByAppendingPathComponent:[fnames objectAtIndex:0]];
+        NSArray *fnames = [[NSOpenPanel openPanel] filenames];
+        NSString *directory = [[NSOpenPanel openPanel] directory];
+        NSString *aFilename = [directory stringByAppendingPathComponent:[fnames objectAtIndex:0]];
 
-        stream = [[NSUnarchiver alloc] initForReadingWithData:[NSData dataWithContentsOfFile:aFilename]];
+        NSArchiver *stream = [[NSUnarchiver alloc] initForReadingWithData:[NSData dataWithContentsOfFile:aFilename]];
 
         if (stream) {
             //[prototypeManager readPrototypesFrom:stream];
@@ -466,9 +457,8 @@
 
 - (IBAction)showDataEntryWindow:(id)sender;
 {
-    [self dataEntryController]; // Make sure it's been created
-    [dataEntryController setModel:model];
-    [dataEntryController showWindow:self];
+    [self.dataEntryController setModel:model];
+    [self.dataEntryController showWindow:self];
 }
 
 - (MPostureCategoryController *)postureCategoryController;
@@ -481,9 +471,8 @@
 
 - (IBAction)showPostureCategoryWindow:(id)sender;
 {
-    [self postureCategoryController]; // Make sure it's been created
-    [postureCategoryController setModel:model];
-    [postureCategoryController showWindow:self];
+    [self.postureCategoryController setModel:model];
+    [self.postureCategoryController showWindow:self];
 }
 
 - (MPostureEditor *)postureEditor;
@@ -497,9 +486,8 @@
 
 - (IBAction)showPostureEditor:(id)sender;
 {
-    [self postureEditor]; // Make sure it's been created
-    [postureEditor setModel:model];
-    [postureEditor showWindow:self];
+    [self.postureEditor setModel:model];
+    [self.postureEditor showWindow:self];
 }
 
 - (MPrototypeManager *)prototypeManager;
@@ -513,9 +501,8 @@
 
 - (IBAction)showPrototypeManager:(id)sender;
 {
-    [self prototypeManager]; // Make sure it's been created
-    [prototypeManager setModel:model];
-    [prototypeManager showWindow:self];
+    [self.prototypeManager setModel:model];
+    [self.prototypeManager showWindow:self];
 }
 
 - (MTransitionEditor *)transitionEditor;
@@ -530,9 +517,8 @@
 
 - (IBAction)showTransitionEditor:(id)sender;
 {
-    [self transitionEditor]; // Make sure it's been created
-    [transitionEditor setModel:model];
-    [transitionEditor showWindow:self];
+    [self.transitionEditor setModel:model];
+    [self.transitionEditor showWindow:self];
 }
 
 - (MSpecialTransitionEditor *)specialTransitionEditor;
@@ -547,9 +533,8 @@
 
 - (IBAction)showSpecialTransitionEditor:(id)sender;
 {
-    [self specialTransitionEditor]; // Make sure it's been created
-    [specialTransitionEditor setModel:model];
-    [specialTransitionEditor showWindow:self];
+    [self.specialTransitionEditor setModel:model];
+    [self.specialTransitionEditor showWindow:self];
 }
 
 - (MRuleTester *)ruleTester;
@@ -562,9 +547,8 @@
 
 - (IBAction)showRuleTester:(id)sender;
 {
-    [self ruleTester]; // Make sure it's been created
-    [ruleTester setModel:model];
-    [ruleTester showWindow:self];
+    [self.ruleTester setModel:model];
+    [self.ruleTester showWindow:self];
 }
 
 - (MRuleManager *)ruleManager;
@@ -577,9 +561,8 @@
 
 - (IBAction)showRuleManager:(id)sender;
 {
-    [self ruleManager]; // Make sure it's been created
-    [ruleManager setModel:model];
-    [ruleManager showWindow:self];
+    [self.ruleManager setModel:model];
+    [self.ruleManager showWindow:self];
 }
 
 - (MSynthesisParameterEditor *)synthesisParameterEditor;
@@ -592,9 +575,8 @@
 
 - (IBAction)showSynthesisParameterEditor:(id)sender;
 {
-    [self synthesisParameterEditor]; // Make sure it's been created
-    [synthesisParameterEditor setModel:model];
-    [synthesisParameterEditor showWindow:self];
+    [self.synthesisParameterEditor setModel:model];
+    [self.synthesisParameterEditor showWindow:self];
 }
 
 - (MSynthesisController *)synthesisController;
@@ -607,23 +589,20 @@
 
 - (IBAction)showSynthesisController:(id)sender;
 {
-    [self synthesisController]; // Make sure it's been created
-    [synthesisController setModel:model];
-    [synthesisController showWindow:self];
+    [self.synthesisController setModel:model];
+    [self.synthesisController showWindow:self];
 }
 
 - (IBAction)showIntonationWindow:(id)sender;
 {
-    [self synthesisController]; // Make sure it's been created
-    [synthesisController setModel:model];
-    [synthesisController showIntonationWindow:self];
+    [self.synthesisController setModel:model];
+    [self.synthesisController showIntonationWindow:self];
 }
 
 - (IBAction)showIntonationParameterWindow:(id)sender;
 {
-    [self synthesisController]; // Make sure it's been created
-    [synthesisController setModel:model];
-    [synthesisController showIntonationParameterWindow:self];
+    [self.synthesisController setModel:model];
+    [self.synthesisController showIntonationParameterWindow:self];
 }
 
 - (IBAction)generateXML:(id)sender;
@@ -633,18 +612,14 @@
 
 - (void)editTransition:(MMTransition *)aTransition;
 {
-    [self transitionEditor]; // Make sure it's been created
-
-    [transitionEditor setTransition:aTransition];
-    [transitionEditor showWindow:self];
+    [self.transitionEditor setTransition:aTransition];
+    [self.transitionEditor showWindow:self];
 }
 
-- (void)editSpecialTransition:(MMTransition *)aTransition;
+- (void)editSpecialTransition:(MMTransition *)transition;
 {
-    [self specialTransitionEditor]; // Make sure it's been created
-
-    [specialTransitionEditor setTransition:aTransition];
-    [specialTransitionEditor showWindow:self];
+    [self.specialTransitionEditor setTransition:transition];
+    [self.specialTransitionEditor showWindow:self];
 }
 
 - (MReleaseNotesController *)releaseNotesController;
@@ -657,8 +632,7 @@
 
 - (IBAction)showReleaseNotes:(id)sender;
 {
-    [self releaseNotesController]; // Make sure it's been created
-    [releaseNotesController showWindow:self];
+    [self.releaseNotesController showWindow:self];
 }
 
 @end
