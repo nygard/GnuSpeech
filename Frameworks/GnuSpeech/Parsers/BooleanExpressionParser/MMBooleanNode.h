@@ -5,16 +5,14 @@
 
 @class MMCategory, CategoryList;
 
+
 @interface MMBooleanNode : NSObject
 
 - (BOOL)evaluateWithCategories:(CategoryList *)categories;
 
-// General purpose routines
 - (NSString *)expressionString;
-- (void)expressionString:(NSMutableString *)resultString;
+- (void)appendExpressionToString:(NSMutableString *)resultString;
 
-- (BOOL)isCategoryUsed:(MMCategory *)aCategory;
-
-- (NSString *)description;
+- (BOOL)isCategoryUsed:(MMCategory *)category;
 
 @end

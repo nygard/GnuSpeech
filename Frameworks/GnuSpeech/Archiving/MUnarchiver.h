@@ -5,6 +5,7 @@
 
 @interface MUnarchiver : NSUnarchiver
 
+// TODO (2012-04-20): Make this a dictionary, to be consistent with what userInfos usually are.
 @property (strong) id userInfo;
 
 @end

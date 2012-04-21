@@ -620,9 +620,9 @@
 
     ruleString = [[[NSMutableString alloc] init] autorelease];
 
-    [expressions[0] expressionString:ruleString];
+    [expressions[0] appendExpressionToString:ruleString];
     [ruleString appendString:@" >> "];
-    [expressions[1] expressionString:ruleString];
+    [expressions[1] appendExpressionToString:ruleString];
 
     str = [expressions[2] expressionString];
     if (str != nil) {

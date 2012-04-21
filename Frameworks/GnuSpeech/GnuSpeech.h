@@ -66,7 +66,6 @@
 #import <GnuSpeech/MMBooleanExpression.h>
 #import <GnuSpeech/MMBooleanNode.h>
 #import <GnuSpeech/MMBooleanParser.h>
-#import <GnuSpeech/MMBooleanSymbols.h>
 #import <GnuSpeech/MMBooleanTerminal.h>
 #import <GnuSpeech/MMFormulaExpression.h>
 #import <GnuSpeech/MMFormulaNode.h>

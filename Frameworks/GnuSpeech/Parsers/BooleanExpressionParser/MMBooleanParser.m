@@ -8,219 +8,203 @@
 #import "CategoryList.h"
 #import "MMBooleanExpression.h"
 #import "MMBooleanNode.h"
-#import "MMBooleanSymbols.h"
 #import "MMBooleanTerminal.h"
 #import "MMCategory.h"
 #import "MMPosture.h"
 #import "MModel.h"
 
+enum {
+    MMBooleanParserToken_Operator_Or          = 0,
+    MMBooleanParserToken_Operator_Not         = 1,
+    MMBooleanParserToken_Operator_ExclusiveOr = 2,
+    MMBooleanParserToken_Operator_And         = 3,
+    MMBooleanParserToken_LeftParenthesis      = 4,
+    MMBooleanParserToken_RightParenthesis     = 5,
+    MMBooleanParserToken_Category             = 6,
+    MMBooleanParserToken_End                  = 7,
+};
+typedef NSUInteger MMBooleanParserToken;
+
+@interface MMBooleanParser ()
+- (MMCategory *)categoryWithName:(NSString *)name;
+- (MMBooleanParserToken)scanNextToken;
+
+- (MMBooleanNode *)continueParse:(MMBooleanNode *)currentExpression;
+
+// Internal recursive descent parsing methods
+- (MMBooleanNode *)parseNotOperation;
+- (MMBooleanNode *)parseAndOperation:(MMBooleanNode *)operand;
+- (MMBooleanNode *)parseOrOperation:(MMBooleanNode *)operand;
+- (MMBooleanNode *)parseExclusiveOrOperation:(MMBooleanNode *)operand;
+
+- (MMBooleanNode *)leftParen;
+- (MMBooleanNode *)terminalForParsedCategory;
+@end
+
+#pragma mark -
+
 @implementation MMBooleanParser
 {
-    MModel *model;
+    MModel *m_model;
 }
 
-- (id)initWithModel:(MModel *)aModel;
+- (id)initWithModel:(MModel *)model;
 {
-    if ([super init] == nil)
-        return nil;
-
-    model = [aModel retain];
+    if ((self = [super init])) {
+        m_model = [model retain];
+    }
 
     return self;
 }
 
 - (void)dealloc;
 {
-    [model release];
+    [m_model release];
 
     [super dealloc];
 }
 
-- (MModel *)model;
-{
-    return model;
-}
+#pragma mark -
 
-- (void)setModel:(MModel *)newModel;
-{
-    if (newModel == model)
-        return;
-
-    [model release];
-    model = [newModel retain];
-}
+@synthesize model = m_model;
 
 // This strips off the optional "*" suffix before searching.  A "*" will match either a stressed or unstressed posture.  i.e. ee or ee'.
-- (MMCategory *)categoryWithName:(NSString *)aName;
+- (MMCategory *)categoryWithName:(NSString *)name;
 {
-    NSString *baseName;
-    MMPosture *aPosture;
-
-    if ([aName hasSuffix:@"*"]) {
-        baseName = [aName substringToIndex:[aName length] - 1];
-    } else {
-        baseName = aName;
-    }
+    NSString *baseName = [name hasSuffix:@"*"] ? [name substringToIndex:[name length] - 1] : name;
 
     // Search first for a native category -- i.e. a posture name
-    aPosture = [model postureWithName:baseName];
-    //NSLog(@"%s, baseName: %@, aPosture: %p", _cmd, baseName, aPosture);
+    MMPosture *posture = [self.model postureWithName:baseName];
 
-    if (aPosture != nil) {
-        //NSLog(@"%@: native category\n", baseName);
-        return [aPosture nativeCategory];
+    if (posture != nil) {
+        return [posture nativeCategory];
     }
 
-    //NSLog(@"%@: NON native category\n", aName);
-    return [model categoryWithName:aName];
+    return [self.model categoryWithName:name];
 }
 
-- (NSUInteger)nextToken;
+- (NSUInteger)scanNextToken;
 {
-    NSString *scannedString;
-
     [self.scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:NULL];
 
-    if ([self.scanner scanString:@"(" intoString:NULL] == YES) {
-        [self setSymbolString:@"("];
-        return TK_B_LPAREN;
+    if ([self.scanner scanString:@"(" intoString:NULL]) {
+        self.symbolString = @"(";
+        return MMBooleanParserToken_LeftParenthesis;
     }
 
-    if ([self.scanner scanString:@")" intoString:NULL] == YES) {
-        [self setSymbolString:@")"];
-        return TK_B_RPAREN;
+    if ([self.scanner scanString:@")" intoString:NULL]) {
+        self.symbolString = @")";
+        return MMBooleanParserToken_RightParenthesis;
     }
 
-    scannedString = nil;
+    NSString *scannedString = nil;
     [self.scanner scanCharactersFromSet:[NSScanner gsBooleanIdentifierCharacterSet] intoString:&scannedString];
-    if ([self.scanner scanString:@"*" intoString:NULL] == YES) {
+    if ([self.scanner scanString:@"*" intoString:NULL]) {
         if (scannedString == nil)
             scannedString = @"*";
         else
             scannedString = [scannedString stringByAppendingString:@"*"];
     }
 
-    [self setSymbolString:scannedString];
+    self.symbolString = scannedString;
 
-    if ([self.symbolString isEqual:@"and"])
-        return TK_B_AND;
-    if ([self.symbolString isEqual:@"or"])
-        return TK_B_OR;
-    if ([self.symbolString isEqual:@"not"])
-        return TK_B_NOT;
-    if ([self.symbolString isEqual:@"xor"])
-        return TK_B_XOR;
+    if ([self.symbolString isEqual:@"and"]) return MMBooleanParserToken_Operator_And;
+    if ([self.symbolString isEqual:@"or"])  return MMBooleanParserToken_Operator_Or;
+    if ([self.symbolString isEqual:@"not"]) return MMBooleanParserToken_Operator_Not;
+    if ([self.symbolString isEqual:@"xor"]) return MMBooleanParserToken_Operator_ExclusiveOr;
 
     if (self.symbolString == nil || [self.symbolString length] == 0)
-        return TK_B_END;
-#if 0
-    // TODO (2004-03-01): This is a probably programming error, with the ';' at the end of the if statement it doesn't do anything.
-    if (![self categoryWithName:symbolString]);
-//     printf("Category Not Found!\n");
-    return TK_B_CATEGORY;
-#endif
+        return MMBooleanParserToken_End;
+
     if ([self categoryWithName:self.symbolString] == nil) {
         /* do nothing? */;
         NSLog(@"Category Not Found! (%@)", self.symbolString);
     }
 
-    return TK_B_CATEGORY;
+    return MMBooleanParserToken_Category;
 }
 
 - (id)beginParseString;
 {
-    MMCategory *aCategory;
-    id resultExpression = nil;
+    MMBooleanNode *resultExpression = nil;
 
-    switch ([self nextToken]) {
-      default:
-      case TK_B_END:
-          [self appendErrorFormat:@"Error, unexpected End."];
-          return nil;
-
-      case TK_B_OR:
-      case TK_B_AND:
-      case TK_B_XOR:
-          [self appendErrorFormat:@"Error, unexpected %@ operation.", self.symbolString];
-          return nil;
-
-      case TK_B_NOT:
-          resultExpression = [self notOperation];
-          break;
-
-      case TK_B_LPAREN:
-          resultExpression = [self leftParen];
-          break;
-
-      case TK_B_RPAREN:
-          [self appendErrorFormat:@"Error, unexpected ')'."];
-          break;
-
-      case TK_B_CATEGORY:
-          aCategory = [self categoryWithName:self.symbolString];
-          if (aCategory == nil) {
-              [self appendErrorFormat:@"Error, unknown category %@.", self.symbolString];
-              return nil;
-          } else {
-              MMBooleanTerminal *aTerminal = nil;
-
-              aTerminal = [[[MMBooleanTerminal alloc] init] autorelease];
-              [aTerminal setCategory:aCategory];
-              if ([self.symbolString hasSuffix:@"*"])
-                  [aTerminal setShouldMatchAll:YES];
-              resultExpression = aTerminal;
-          }
-          break;
-
+    switch ([self scanNextToken]) {
+        default:
+        case MMBooleanParserToken_End:
+            [self appendErrorFormat:@"Error, unexpected End."];
+            return nil;
+            
+        case MMBooleanParserToken_Operator_Or:
+        case MMBooleanParserToken_Operator_And:
+        case MMBooleanParserToken_Operator_ExclusiveOr:
+            [self appendErrorFormat:@"Error, unexpected %@ operation.", self.symbolString];
+            return nil;
+            
+        case MMBooleanParserToken_Operator_Not:
+            resultExpression = [self parseNotOperation];
+            break;
+            
+        case MMBooleanParserToken_LeftParenthesis:
+            resultExpression = [self leftParen];
+            break;
+            
+        case MMBooleanParserToken_RightParenthesis:
+            [self appendErrorFormat:@"Error, unexpected ')'."];
+            break;
+            
+        case MMBooleanParserToken_Category:
+            resultExpression = [self terminalForParsedCategory];
+            break;
     }
+
     if (resultExpression == nil)
         return nil;
-
+    
     resultExpression = [self continueParse:resultExpression];
-
+    
     return resultExpression;
 }
 
 - (MMBooleanNode *)continueParse:(MMBooleanNode *)currentExpression;
 {
-    NSUInteger token;
+    MMBooleanParserToken token;
 
-    while ( (token = [self nextToken]) != TK_B_END) {
+    while ( (token = [self scanNextToken]) != MMBooleanParserToken_End) {
         switch (token) {
-          default:
-          case TK_B_END:
-              [self appendErrorFormat:@"Error, unexpected End."];
-              return nil;
-
-          case TK_B_OR:
-              currentExpression = [self orOperation:currentExpression];
-              break;
-
-          case TK_B_AND:
-              currentExpression = [self andOperation:currentExpression];
-              break;
-
-          case TK_B_XOR:
-              currentExpression = [self xorOperation:currentExpression];
-              break;
-
-          case TK_B_NOT:
-              [self appendErrorFormat:@"Error, unexpected NOT operation."];
-              return nil;
-
-          case TK_B_LPAREN:
-              [self appendErrorFormat:@"Error, unexpected '('."];
-              return nil;
-
-          case TK_B_RPAREN:
-              [self appendErrorFormat:@"Error, unexpected ')'."];
-              return nil;
-
-          case TK_B_CATEGORY:
-              [self appendErrorFormat:@"Error, unexpected category %@.", self.symbolString];
-              return nil;
+            default:
+            case MMBooleanParserToken_End:
+                [self appendErrorFormat:@"Error, unexpected End."];
+                return nil;
+                
+            case MMBooleanParserToken_Operator_Or:
+                currentExpression = [self parseOrOperation:currentExpression];
+                break;
+                
+            case MMBooleanParserToken_Operator_And:
+                currentExpression = [self parseAndOperation:currentExpression];
+                break;
+                
+            case MMBooleanParserToken_Operator_ExclusiveOr:
+                currentExpression = [self parseExclusiveOrOperation:currentExpression];
+                break;
+                
+            case MMBooleanParserToken_Operator_Not:
+                [self appendErrorFormat:@"Error, unexpected NOT operation."];
+                return nil;
+                
+            case MMBooleanParserToken_LeftParenthesis:
+                [self appendErrorFormat:@"Error, unexpected '('."];
+                return nil;
+                
+            case MMBooleanParserToken_RightParenthesis:
+                [self appendErrorFormat:@"Error, unexpected ')'."];
+                return nil;
+                
+            case MMBooleanParserToken_Category:
+                [self appendErrorFormat:@"Error, unexpected category %@.", self.symbolString];
+                return nil;
         }
-
+        
         if (currentExpression == nil)
             return nil;
     }
@@ -228,220 +212,187 @@
     return currentExpression;
 }
 
-- (MMBooleanNode *)notOperation;
+- (MMBooleanNode *)parseNotOperation;
 {
     MMBooleanExpression *resultExpression = nil;
     MMBooleanNode *subExpression;
-    MMCategory *aCategory;
 
     resultExpression = [[[MMBooleanExpression alloc] init] autorelease];
-    [resultExpression setOperation:NOT_OP];
+    resultExpression.operation = MMBooleanOperation_Not;
 
-    switch ([self nextToken]) {
-      case TK_B_AND:
-      case TK_B_XOR:
-      case TK_B_OR:
-      case TK_B_NOT:
-          [self appendErrorFormat:@"Error, unexpected %@ operation.", self.symbolString];
-          return nil;
-
-      case TK_B_CATEGORY:
-          aCategory = [self categoryWithName:self.symbolString];
-          if (aCategory == nil) {
-              [self appendErrorFormat:@"Error, unknown category %@.", self.symbolString];
-              return nil;
-          } else {
-              MMBooleanTerminal *aTerminal;
-
-              aTerminal = [[MMBooleanTerminal alloc] init];
-              [aTerminal setCategory:aCategory];
-              if ([self.symbolString hasSuffix:@"*"])
-                  [aTerminal setShouldMatchAll:YES];
-              [resultExpression addSubExpression:aTerminal];
-              [aTerminal release];
-          }
-          break;
-
-      case TK_B_LPAREN:
-          subExpression = [self leftParen];
-          if (subExpression != nil)
-              [resultExpression addSubExpression:subExpression];
+    switch ([self scanNextToken]) {
+        case MMBooleanParserToken_Operator_And:
+        case MMBooleanParserToken_Operator_ExclusiveOr:
+        case MMBooleanParserToken_Operator_Or:
+        case MMBooleanParserToken_Operator_Not:
+            [self appendErrorFormat:@"Error, unexpected %@ operation.", self.symbolString];
+            return nil;
+            
+        case MMBooleanParserToken_Category:
+        {
+            MMBooleanNode *terminal = [self terminalForParsedCategory];
+            if (subExpression == nil)
+                return nil;
+            else
+                [resultExpression addSubExpression:terminal];
+            break;
+        }
+            
+        case MMBooleanParserToken_LeftParenthesis:
+            subExpression = [self leftParen];
+            if (subExpression != nil)
+                [resultExpression addSubExpression:subExpression];
     }
-
+    
     return resultExpression;
 }
 
-- (MMBooleanNode *)andOperation:(MMBooleanNode *)operand;
+- (MMBooleanNode *)parseAndOperation:(MMBooleanNode *)operand;
 {
     MMBooleanExpression *resultExpression = nil;
     MMBooleanNode *subExpression;
-    MMCategory *aCategory;
 
     resultExpression = [[[MMBooleanExpression alloc] init] autorelease];
     [resultExpression addSubExpression:operand];
-    [resultExpression setOperation:AND_OP];
+    resultExpression.operation = MMBooleanOperation_And;
 
-    switch ([self nextToken])
+    switch ([self scanNextToken])
     {
-      case TK_B_END:
-          [self appendErrorFormat:@"Error, unexpected End."];
-          return nil;
-
-      case TK_B_AND:
-      case TK_B_OR:
-      case TK_B_XOR:
-          [self appendErrorFormat:@"Error, unexpected %@ operation.", self.symbolString];
-          return nil;
-
-      case TK_B_RPAREN:
-          [self appendErrorFormat:@"Error, unexpected ')'."];
-          return nil;
-
-      case TK_B_NOT:
-          subExpression = [self notOperation];
-          if (subExpression != nil)
-              [resultExpression addSubExpression:subExpression];
-          break;
-
-      case TK_B_LPAREN:
-          subExpression = [self leftParen];
-          if (subExpression != nil)
-              [resultExpression addSubExpression:subExpression];
-          break;
-
-      case TK_B_CATEGORY:
-          aCategory = [self categoryWithName:self.symbolString];
-          if (aCategory == nil) {
-              [self appendErrorFormat:@"Error, unknown category %@.", self.symbolString];
-              return nil;
-          } else {
-              MMBooleanTerminal *aTerminal;
-
-              aTerminal = [[MMBooleanTerminal alloc] init];
-              [aTerminal setCategory:aCategory];
-              if ([self.symbolString hasSuffix:@"*"])
-                  [aTerminal setShouldMatchAll:YES];
-              [resultExpression addSubExpression:aTerminal];
-              [aTerminal release];
-          }
-          break;
+        case MMBooleanParserToken_End:
+            [self appendErrorFormat:@"Error, unexpected End."];
+            return nil;
+            
+        case MMBooleanParserToken_Operator_And:
+        case MMBooleanParserToken_Operator_Or:
+        case MMBooleanParserToken_Operator_ExclusiveOr:
+            [self appendErrorFormat:@"Error, unexpected %@ operation.", self.symbolString];
+            return nil;
+            
+        case MMBooleanParserToken_RightParenthesis:
+            [self appendErrorFormat:@"Error, unexpected ')'."];
+            return nil;
+            
+        case MMBooleanParserToken_Operator_Not:
+            subExpression = [self parseNotOperation];
+            if (subExpression != nil)
+                [resultExpression addSubExpression:subExpression];
+            break;
+            
+        case MMBooleanParserToken_LeftParenthesis:
+            subExpression = [self leftParen];
+            if (subExpression != nil)
+                [resultExpression addSubExpression:subExpression];
+            break;
+            
+        case MMBooleanParserToken_Category:
+        {
+            MMBooleanNode *terminal = [self terminalForParsedCategory];
+            if (subExpression == nil)
+                return nil;
+            else
+                [resultExpression addSubExpression:terminal];
+            break;
+        }
     }
-
+    
     return resultExpression;
 }
 
-- (MMBooleanNode *)orOperation:(MMBooleanNode *)operand;
+- (MMBooleanNode *)parseOrOperation:(MMBooleanNode *)operand;
 {
     MMBooleanExpression *resultExpression = nil;
     MMBooleanNode *subExpression;
-    MMCategory *aCategory;
-
+    
     resultExpression = [[[MMBooleanExpression alloc] init] autorelease];
     [resultExpression addSubExpression:operand];
-    [resultExpression setOperation:OR_OP];
-
-    switch ([self nextToken]) {
-      case TK_B_END:
-          [self appendErrorFormat:@"Error, unexpected End."];
-          return nil;
-
-      case TK_B_AND:
-      case TK_B_OR:
-      case TK_B_XOR:
-          [self appendErrorFormat:@"Error, unexpected %@ operation.", self.symbolString];
-          return nil;
-
-      case TK_B_RPAREN:
-          [self appendErrorFormat:@"Error, unexpected ')'."];
-          return nil;
-
-      case TK_B_NOT:
-          subExpression = [self notOperation];
-          if (subExpression != nil)
-              [resultExpression addSubExpression:subExpression];
-          break;
-
-      case TK_B_LPAREN:
-          subExpression = [self leftParen];
-          if (subExpression != nil)
-              [resultExpression addSubExpression:subExpression];
-          break;
-
-      case TK_B_CATEGORY:
-          aCategory = [self categoryWithName:self.symbolString];
-          if (aCategory == nil) {
-              [self appendErrorFormat:@"Error, unknown category %@.", self.symbolString];
-              return nil;
-          } else {
-              MMBooleanTerminal *aTerminal;
-
-              aTerminal = [[MMBooleanTerminal alloc] init];
-              [aTerminal setCategory:aCategory];
-              if ([self.symbolString hasSuffix:@"*"])
-                  [aTerminal setShouldMatchAll:YES];
-              [resultExpression addSubExpression:aTerminal];
-              [aTerminal release];
-          }
-          break;
+    resultExpression.operation = MMBooleanOperation_Or;
+    
+    switch ([self scanNextToken]) {
+        case MMBooleanParserToken_End:
+            [self appendErrorFormat:@"Error, unexpected End."];
+            return nil;
+            
+        case MMBooleanParserToken_Operator_And:
+        case MMBooleanParserToken_Operator_Or:
+        case MMBooleanParserToken_Operator_ExclusiveOr:
+            [self appendErrorFormat:@"Error, unexpected %@ operation.", self.symbolString];
+            return nil;
+            
+        case MMBooleanParserToken_RightParenthesis:
+            [self appendErrorFormat:@"Error, unexpected ')'."];
+            return nil;
+            
+        case MMBooleanParserToken_Operator_Not:
+            subExpression = [self parseNotOperation];
+            if (subExpression != nil)
+                [resultExpression addSubExpression:subExpression];
+            break;
+            
+        case MMBooleanParserToken_LeftParenthesis:
+            subExpression = [self leftParen];
+            if (subExpression != nil)
+                [resultExpression addSubExpression:subExpression];
+            break;
+            
+        case MMBooleanParserToken_Category:
+        {
+            MMBooleanNode *terminal = [self terminalForParsedCategory];
+            if (subExpression == nil)
+                return nil;
+            else
+                [resultExpression addSubExpression:terminal];
+            break;
+        }
     }
-
+    
     return resultExpression;
 }
 
-- (MMBooleanNode *)xorOperation:(MMBooleanNode *)operand;
+- (MMBooleanNode *)parseExclusiveOrOperation:(MMBooleanNode *)operand;
 {
     MMBooleanExpression *resultExpression = nil;
     MMBooleanNode *subExpression;
-    MMCategory *aCategory;
 
     resultExpression = [[[MMBooleanExpression alloc] init] autorelease];
     [resultExpression addSubExpression:operand];
-    [resultExpression setOperation:XOR_OP];
+    resultExpression.operation = MMBooleanOperation_ExclusiveOr;
 
-    switch ([self nextToken])
-    {
-      case TK_B_END:
-          [self appendErrorFormat:@"Error, unexpected End."];
-          return nil;
-
-      case TK_B_AND:
-      case TK_B_OR:
-      case TK_B_XOR:
-          [self appendErrorFormat:@"Error, unexpected %@ operation.", self.symbolString];
-          return nil;
-
-      case TK_B_RPAREN:
-          [self appendErrorFormat:@"Error, unexpected ')'."];
-          return nil;
-
-      case TK_B_NOT:
-          subExpression = [self notOperation];
-          if (subExpression != nil)
-              [resultExpression addSubExpression:subExpression];
-          break;
-
-      case TK_B_LPAREN:
-          subExpression = [self leftParen];
-          if (subExpression != nil)
-              [resultExpression addSubExpression:subExpression];
-          break;
-
-      case TK_B_CATEGORY:
-          aCategory = [self categoryWithName:self.symbolString];
-          if (aCategory == nil) {
-              [self appendErrorFormat:@"Error, unknown category %@.", self.symbolString];
-              return nil;
-          } else {
-              MMBooleanTerminal *aTerminal;
-
-              aTerminal = [[MMBooleanTerminal alloc] init];
-              [aTerminal setCategory:aCategory];
-              if ([self.symbolString hasSuffix:@"*"])
-                  [aTerminal setShouldMatchAll:YES];
-              [resultExpression addSubExpression:aTerminal];
-              [aTerminal release];
-          }
-          break;
+    switch ([self scanNextToken]) {
+        case MMBooleanParserToken_End:
+            [self appendErrorFormat:@"Error, unexpected End."];
+            return nil;
+            
+        case MMBooleanParserToken_Operator_And:
+        case MMBooleanParserToken_Operator_Or:
+        case MMBooleanParserToken_Operator_ExclusiveOr:
+            [self appendErrorFormat:@"Error, unexpected %@ operation.", self.symbolString];
+            return nil;
+            
+        case MMBooleanParserToken_RightParenthesis:
+            [self appendErrorFormat:@"Error, unexpected ')'."];
+            return nil;
+            
+        case MMBooleanParserToken_Operator_Not:
+            subExpression = [self parseNotOperation];
+            if (subExpression != nil)
+                [resultExpression addSubExpression:subExpression];
+            break;
+            
+        case MMBooleanParserToken_LeftParenthesis:
+            subExpression = [self leftParen];
+            if (subExpression != nil)
+                [resultExpression addSubExpression:subExpression];
+            break;
+            
+        case MMBooleanParserToken_Category:
+        {
+            MMBooleanNode *terminal = [self terminalForParsedCategory];
+            if (subExpression == nil)
+                return nil;
+            else
+                [resultExpression addSubExpression:terminal];
+            break;
+        }
     }
 
     return resultExpression;
@@ -449,85 +400,94 @@
 
 - (MMBooleanNode *)leftParen;
 {
-    id resultExpression = nil;
-    MMCategory *aCategory;
-    NSUInteger token;
-
-    switch ([self nextToken]) {
-      case TK_B_END:
-          [self appendErrorFormat:@"Error, unexpected End."];
-          return nil;
-
-      case TK_B_RPAREN:
-          return nil;
-
-      case TK_B_LPAREN:
-          resultExpression = [self leftParen];
-          break;
-
-      case TK_B_AND:
-      case TK_B_OR:
-      case TK_B_XOR:
-          [self appendErrorFormat:@"Error, unexpected %@ operation.", self.symbolString];
-          return nil;
-
-      case TK_B_NOT:
-          resultExpression = [self notOperation];
-          break;
-
-      case TK_B_CATEGORY:
-          aCategory = [self categoryWithName:self.symbolString];
-          if (aCategory == nil) {
-              [self appendErrorFormat:@"Error, unknown category %@.", self.symbolString];
-              return nil;
-          } else {
-              MMBooleanTerminal *aTerminal;
-
-              aTerminal = [[[MMBooleanTerminal alloc] init] autorelease];
-              [aTerminal setCategory:aCategory];
-              if ([self.symbolString hasSuffix:@"*"])
-                  [aTerminal setShouldMatchAll:YES];
-              resultExpression = aTerminal;
-          }
-          break;
-    }
-
-    while ( (token = [self nextToken]) != TK_B_RPAREN) {
-        switch (token) {
-          case TK_B_END:
-              [self appendErrorFormat:@"Error, unexpected End."];
-              return nil;
-
-          case TK_B_RPAREN:
-              return nil; // Won't happen
-
-          case TK_B_LPAREN:
-              [self appendErrorFormat:@"Error, unexpected '('."];
-              return nil;
-
-          case TK_B_AND:
-              resultExpression = [self andOperation:resultExpression];
-              break;
-
-          case TK_B_OR:
-              resultExpression = [self orOperation:resultExpression];
-              break;
-
-          case TK_B_XOR:
-              resultExpression = [self xorOperation:resultExpression];
-              break;
-
-          case TK_B_NOT:
-              [self appendErrorFormat:@"Error, unexpected NOT operation."];
-              return nil;
-
-          case TK_B_CATEGORY:
-              [self appendErrorFormat:@"Error, unexpected category %@.", self.symbolString];
-              return nil;
+    MMBooleanNode *resultExpression = nil;
+    
+    switch ([self scanNextToken]) {
+        case MMBooleanParserToken_End:
+            [self appendErrorFormat:@"Error, unexpected End."];
+            return nil;
+            
+        case MMBooleanParserToken_RightParenthesis:
+            return nil;
+            
+        case MMBooleanParserToken_LeftParenthesis:
+            resultExpression = [self leftParen];
+            break;
+            
+        case MMBooleanParserToken_Operator_And:
+        case MMBooleanParserToken_Operator_Or:
+        case MMBooleanParserToken_Operator_ExclusiveOr:
+            [self appendErrorFormat:@"Error, unexpected %@ operation.", self.symbolString];
+            return nil;
+            
+        case MMBooleanParserToken_Operator_Not:
+            resultExpression = [self parseNotOperation];
+            break;
+            
+        case MMBooleanParserToken_Category:
+        {
+            MMBooleanNode *terminal = [self terminalForParsedCategory];
+            if (terminal == nil)
+                return nil;
+            else
+                resultExpression = terminal;
+            break;
         }
     }
-
+    
+    MMBooleanParserToken token;
+    while ( (token = [self scanNextToken]) != MMBooleanParserToken_RightParenthesis) {
+        switch (token) {
+            case MMBooleanParserToken_End:
+                [self appendErrorFormat:@"Error, unexpected End."];
+                return nil;
+                
+            case MMBooleanParserToken_RightParenthesis:
+                return nil; // Won't happen
+                
+            case MMBooleanParserToken_LeftParenthesis:
+                [self appendErrorFormat:@"Error, unexpected '('."];
+                return nil;
+                
+            case MMBooleanParserToken_Operator_And:
+                resultExpression = [self parseAndOperation:resultExpression];
+                break;
+                
+            case MMBooleanParserToken_Operator_Or:
+                resultExpression = [self parseOrOperation:resultExpression];
+                break;
+                
+            case MMBooleanParserToken_Operator_ExclusiveOr:
+                resultExpression = [self parseExclusiveOrOperation:resultExpression];
+                break;
+                
+            case MMBooleanParserToken_Operator_Not:
+                [self appendErrorFormat:@"Error, unexpected NOT operation."];
+                return nil;
+                
+            case MMBooleanParserToken_Category:
+                [self appendErrorFormat:@"Error, unexpected category %@.", self.symbolString];
+                return nil;
+        }
+    }
+    
     return resultExpression;
+}
+
+// An MMBooleanParserToken_Category has already been parsed, and the name is sitting in self.symbolString
+- (MMBooleanNode *)terminalForParsedCategory;
+{
+    MMCategory *category = [self categoryWithName:self.symbolString];
+    if (category == nil) {
+        [self appendErrorFormat:@"Error, unknown category %@.", self.symbolString];
+        return nil;
+    } else {
+        MMBooleanTerminal *terminal = [[[MMBooleanTerminal alloc] init] autorelease];
+        terminal.category = category;
+        if ([self.symbolString hasSuffix:@"*"])
+            terminal.shouldMatchAll = YES;
+        return terminal;
+    }
 }
 
 @end

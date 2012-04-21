@@ -136,7 +136,6 @@
 		695147A10FB0D73000B6DDD6 /* MMBooleanNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 695147980FB0D73000B6DDD6 /* MMBooleanNode.m */; };
 		695147A20FB0D73000B6DDD6 /* MMBooleanParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 695147990FB0D73000B6DDD6 /* MMBooleanParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		695147A30FB0D73000B6DDD6 /* MMBooleanParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6951479A0FB0D73000B6DDD6 /* MMBooleanParser.m */; };
-		695147A40FB0D73000B6DDD6 /* MMBooleanSymbols.h in Headers */ = {isa = PBXBuildFile; fileRef = 6951479B0FB0D73000B6DDD6 /* MMBooleanSymbols.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		695147A50FB0D73000B6DDD6 /* MMBooleanTerminal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6951479C0FB0D73000B6DDD6 /* MMBooleanTerminal.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		695147A60FB0D73000B6DDD6 /* MMBooleanTerminal.m in Sources */ = {isa = PBXBuildFile; fileRef = 6951479D0FB0D73000B6DDD6 /* MMBooleanTerminal.m */; };
 		695148720FB0DB5500B6DDD6 /* MMFormulaExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148680FB0DB5500B6DDD6 /* MMFormulaExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -356,7 +355,6 @@
 		695147980FB0D73000B6DDD6 /* MMBooleanNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMBooleanNode.m; sourceTree = "<group>"; };
 		695147990FB0D73000B6DDD6 /* MMBooleanParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMBooleanParser.h; sourceTree = "<group>"; };
 		6951479A0FB0D73000B6DDD6 /* MMBooleanParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMBooleanParser.m; sourceTree = "<group>"; };
-		6951479B0FB0D73000B6DDD6 /* MMBooleanSymbols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMBooleanSymbols.h; sourceTree = "<group>"; };
 		6951479C0FB0D73000B6DDD6 /* MMBooleanTerminal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMBooleanTerminal.h; sourceTree = "<group>"; };
 		6951479D0FB0D73000B6DDD6 /* MMBooleanTerminal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMBooleanTerminal.m; sourceTree = "<group>"; };
 		695148680FB0DB5500B6DDD6 /* MMFormulaExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMFormulaExpression.h; sourceTree = "<group>"; };
@@ -728,7 +726,6 @@
 				695147980FB0D73000B6DDD6 /* MMBooleanNode.m */,
 				695147990FB0D73000B6DDD6 /* MMBooleanParser.h */,
 				6951479A0FB0D73000B6DDD6 /* MMBooleanParser.m */,
-				6951479B0FB0D73000B6DDD6 /* MMBooleanSymbols.h */,
 				6951479C0FB0D73000B6DDD6 /* MMBooleanTerminal.h */,
 				6951479D0FB0D73000B6DDD6 /* MMBooleanTerminal.m */,
 			);
@@ -910,7 +907,6 @@
 				6951479E0FB0D73000B6DDD6 /* MMBooleanExpression.h in Headers */,
 				695147A00FB0D73000B6DDD6 /* MMBooleanNode.h in Headers */,
 				695147A20FB0D73000B6DDD6 /* MMBooleanParser.h in Headers */,
-				695147A40FB0D73000B6DDD6 /* MMBooleanSymbols.h in Headers */,
 				695147A50FB0D73000B6DDD6 /* MMBooleanTerminal.h in Headers */,
 				695148720FB0DB5500B6DDD6 /* MMFormulaExpression.h in Headers */,
 				695148740FB0DB5500B6DDD6 /* MMFormulaNode.h in Headers */,

@@ -9,38 +9,39 @@
 {
 }
 
+#pragma mark - Debugging
+
+- (NSString *)description;
+{
+    return [NSString stringWithFormat:@"<%@: %p>",
+            NSStringFromClass([self class]), self];
+}
+
+#pragma mark -
+
 - (BOOL)evaluateWithCategories:(CategoryList *)categories;
 {
     return NO;
 }
 
-//
-// General purpose routines
-//
+#pragma mark - General purpose routines
 
 - (NSString *)expressionString;
 {
-    NSMutableString *resultString;
-
-    resultString = [NSMutableString string];
-    [self expressionString:resultString];
+    NSMutableString *resultString = [NSMutableString string];
+    [self appendExpressionToString:resultString];
 
     return resultString;
 }
 
-- (void)expressionString:(NSMutableString *)resultString;
+- (void)appendExpressionToString:(NSMutableString *)resultString;
 {
     // Implement in subclasses
 }
 
-- (BOOL)isCategoryUsed:(MMCategory *)aCategory;
+- (BOOL)isCategoryUsed:(MMCategory *)category;
 {
     return NO;
-}
-
-- (NSString *)description;
-{
-    return [NSString stringWithFormat:@"<%@>[%p]", NSStringFromClass([self class]), self];
 }
 
 @end
