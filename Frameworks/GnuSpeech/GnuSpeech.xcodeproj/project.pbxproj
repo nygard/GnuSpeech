@@ -53,12 +53,6 @@
 		0155E3EF0B7BE8AC008D8879 /* MXMLReferenceDictionaryDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3DB0B7BE8AC008D8879 /* MXMLReferenceDictionaryDelegate.m */; };
 		0155E3F00B7BE8AC008D8879 /* MXMLStringArrayDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3DC0B7BE8AC008D8879 /* MXMLStringArrayDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0155E3F10B7BE8AC008D8879 /* MXMLStringArrayDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3DD0B7BE8AC008D8879 /* MXMLStringArrayDelegate.m */; };
-		0155E4010B7BE8D6008D8879 /* FormulaExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3F30B7BE8D6008D8879 /* FormulaExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0155E4020B7BE8D6008D8879 /* FormulaExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3F40B7BE8D6008D8879 /* FormulaExpression.m */; };
-		0155E4030B7BE8D6008D8879 /* FormulaTerminal.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3F50B7BE8D6008D8879 /* FormulaTerminal.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0155E4040B7BE8D6008D8879 /* FormulaTerminal.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3F60B7BE8D6008D8879 /* FormulaTerminal.m */; };
-		0155E4050B7BE8D6008D8879 /* MMOldFormulaNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3F70B7BE8D6008D8879 /* MMOldFormulaNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0155E4060B7BE8D6008D8879 /* MMOldFormulaNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3F80B7BE8D6008D8879 /* MMOldFormulaNode.m */; };
 		0155E4070B7BE8D6008D8879 /* ParameterList.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3F90B7BE8D6008D8879 /* ParameterList.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0155E4080B7BE8D6008D8879 /* ParameterList.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3FA0B7BE8D6008D8879 /* ParameterList.m */; };
 		0155E4090B7BE8D6008D8879 /* RuleList.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3FB0B7BE8D6008D8879 /* RuleList.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -265,12 +259,6 @@
 		0155E3DB0B7BE8AC008D8879 /* MXMLReferenceDictionaryDelegate.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MXMLReferenceDictionaryDelegate.m; path = Archiving/MXMLReferenceDictionaryDelegate.m; sourceTree = "<group>"; };
 		0155E3DC0B7BE8AC008D8879 /* MXMLStringArrayDelegate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MXMLStringArrayDelegate.h; path = Archiving/MXMLStringArrayDelegate.h; sourceTree = "<group>"; };
 		0155E3DD0B7BE8AC008D8879 /* MXMLStringArrayDelegate.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MXMLStringArrayDelegate.m; path = Archiving/MXMLStringArrayDelegate.m; sourceTree = "<group>"; };
-		0155E3F30B7BE8D6008D8879 /* FormulaExpression.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = FormulaExpression.h; path = "Compatibility-TypedStream/FormulaExpression.h"; sourceTree = "<group>"; };
-		0155E3F40B7BE8D6008D8879 /* FormulaExpression.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = FormulaExpression.m; path = "Compatibility-TypedStream/FormulaExpression.m"; sourceTree = "<group>"; };
-		0155E3F50B7BE8D6008D8879 /* FormulaTerminal.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = FormulaTerminal.h; path = "Compatibility-TypedStream/FormulaTerminal.h"; sourceTree = "<group>"; };
-		0155E3F60B7BE8D6008D8879 /* FormulaTerminal.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = FormulaTerminal.m; path = "Compatibility-TypedStream/FormulaTerminal.m"; sourceTree = "<group>"; };
-		0155E3F70B7BE8D6008D8879 /* MMOldFormulaNode.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMOldFormulaNode.h; path = "Compatibility-TypedStream/MMOldFormulaNode.h"; sourceTree = "<group>"; };
-		0155E3F80B7BE8D6008D8879 /* MMOldFormulaNode.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MMOldFormulaNode.m; path = "Compatibility-TypedStream/MMOldFormulaNode.m"; sourceTree = "<group>"; };
 		0155E3F90B7BE8D6008D8879 /* ParameterList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ParameterList.h; path = "Compatibility-TypedStream/ParameterList.h"; sourceTree = "<group>"; };
 		0155E3FA0B7BE8D6008D8879 /* ParameterList.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ParameterList.m; path = "Compatibility-TypedStream/ParameterList.m"; sourceTree = "<group>"; };
 		0155E3FB0B7BE8D6008D8879 /* RuleList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RuleList.h; path = "Compatibility-TypedStream/RuleList.h"; sourceTree = "<group>"; };
@@ -525,12 +513,6 @@
 		0155E3F20B7BE8B8008D8879 /* Compatibility-TypedStream */ = {
 			isa = PBXGroup;
 			children = (
-				0155E3F30B7BE8D6008D8879 /* FormulaExpression.h */,
-				0155E3F40B7BE8D6008D8879 /* FormulaExpression.m */,
-				0155E3F50B7BE8D6008D8879 /* FormulaTerminal.h */,
-				0155E3F60B7BE8D6008D8879 /* FormulaTerminal.m */,
-				0155E3F70B7BE8D6008D8879 /* MMOldFormulaNode.h */,
-				0155E3F80B7BE8D6008D8879 /* MMOldFormulaNode.m */,
 				0155E3F90B7BE8D6008D8879 /* ParameterList.h */,
 				0155E3FA0B7BE8D6008D8879 /* ParameterList.m */,
 				0155E3FB0B7BE8D6008D8879 /* RuleList.h */,
@@ -881,7 +863,6 @@
 				0155E4580B7BE8FA008D8879 /* MMPosture.h in Headers */,
 				0155E4560B7BE8FA008D8879 /* MMPoint.h in Headers */,
 				0155E4540B7BE8FA008D8879 /* MMParameter.h in Headers */,
-				0155E4050B7BE8D6008D8879 /* MMOldFormulaNode.h in Headers */,
 				0155E4520B7BE8FA008D8879 /* MModel.h in Headers */,
 				0155E4500B7BE8FA008D8879 /* MMObject.h in Headers */,
 				0155E44E0B7BE8FA008D8879 /* MMNamedObject.h in Headers */,
@@ -894,8 +875,6 @@
 				012D53B00B7FF9DC001B50FC /* GSSimplePronunciationDictionary.h in Headers */,
 				012D53AE0B7FF9DC001B50FC /* GSPronunciationDictionary.h in Headers */,
 				012D53AC0B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h in Headers */,
-				0155E4030B7BE8D6008D8879 /* FormulaTerminal.h in Headers */,
-				0155E4010B7BE8D6008D8879 /* FormulaExpression.h in Headers */,
 				0155E4440B7BE8FA008D8879 /* EventList.h in Headers */,
 				0155E4420B7BE8FA008D8879 /* Event.h in Headers */,
 				0155E47F0B7BEB27008D8879 /* driftGenerator.h in Headers */,
@@ -1033,9 +1012,6 @@
 				0155E3ED0B7BE8AC008D8879 /* MXMLReferenceArrayDelegate.m in Sources */,
 				0155E3EF0B7BE8AC008D8879 /* MXMLReferenceDictionaryDelegate.m in Sources */,
 				0155E3F10B7BE8AC008D8879 /* MXMLStringArrayDelegate.m in Sources */,
-				0155E4020B7BE8D6008D8879 /* FormulaExpression.m in Sources */,
-				0155E4040B7BE8D6008D8879 /* FormulaTerminal.m in Sources */,
-				0155E4060B7BE8D6008D8879 /* MMOldFormulaNode.m in Sources */,
 				0155E4080B7BE8D6008D8879 /* ParameterList.m in Sources */,
 				0155E40A0B7BE8D6008D8879 /* RuleList.m in Sources */,
 				0155E40C0B7BE8D6008D8879 /* SymbolList.m in Sources */,

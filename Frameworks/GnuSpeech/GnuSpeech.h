@@ -13,17 +13,6 @@
 #import <GnuSpeech/MXMLReferenceDictionaryDelegate.h>
 #import <GnuSpeech/MXMLStringArrayDelegate.h>
 
-#ifndef GNUSTEP
-// Compatibility-TypedStream
-#import <GnuSpeech/FormulaExpression.h>
-#import <GnuSpeech/FormulaTerminal.h>
-#import <GnuSpeech/MMOldFormulaNode.h>
-#import <GnuSpeech/ParameterList.h>
-#import <GnuSpeech/RuleList.h>
-#import <GnuSpeech/SymbolList.h>
-#import <GnuSpeech/TargetList.h>
-#endif
-
 // Extensions
 #import <GnuSpeech/NSArray-Extensions.h>
 #import <GnuSpeech/NSCharacterSet-Extensions.h>
