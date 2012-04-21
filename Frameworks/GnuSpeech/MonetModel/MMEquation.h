@@ -9,22 +9,15 @@
 
 @interface MMEquation : MMObject
 
-- (id)init;
 - (id)initWithName:(NSString *)newName;
-- (void)dealloc;
 
-- (NamedList *)group;
-- (void)setGroup:(NamedList *)newGroup;
+@property (weak) NamedList *group;
+@property (retain) NSString *name;
 
-- (NSString *)name;
-- (void)setName:(NSString *)newName;
-
-- (NSString *)comment;
-- (void)setComment:(NSString *)newComment;
+@property (retain) NSString *comment;
 - (BOOL)hasComment;
 
-- (MMFormulaNode *)formula;
-- (void)setFormula:(MMFormulaNode *)newFormula;
+@property (retain) MMFormulaNode *formula;
 
 - (void)setFormulaString:(NSString *)formulaString;
 

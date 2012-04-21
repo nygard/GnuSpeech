@@ -48,11 +48,8 @@
 
 @interface MMPosture : MMNamedObject
 
-- (id)init;
 - (id)initWithModel:(MModel *)aModel;
 - (void)_addDefaultValues;
-
-- (void)dealloc;
 
 // Categories
 - (MMCategory *)nativeCategory;

@@ -17,9 +17,9 @@
 
 @implementation MMParameter
 {
-    double minimum;
-    double maximum;
-    double defaultValue;
+    double m_minimumValue;
+    double m_maximumValue;
+    double m_defaultValue;
 }
 
 - (id)init;
@@ -27,50 +27,39 @@
     if ([super init] == nil)
         return nil;
 
-    minimum = DEFAULT_MIN;
-    maximum = DEFAULT_MAX;
-    defaultValue = DEFAULT_MIN;
+    m_minimumValue = DEFAULT_MIN;
+    m_maximumValue = DEFAULT_MAX;
+    m_defaultValue = DEFAULT_MIN;
 
     return self;
 }
 
-- (double)minimumValue;
+#pragma mark - Debugging
+
+- (NSString *)description;
 {
-    return minimum;
+    return [NSString stringWithFormat:@"<%@: %p>: name: %@, comment: %@, minimum: %g, maximum: %g, defaultValue: %g",
+            NSStringFromClass([self class]), self,
+            self.name, self.comment, self.minimumValue, self.maximumValue, self.defaultValue];
 }
 
-- (void)setMinimumValue:(double)newMinimum;
-{
-    minimum = newMinimum;
-}
+#pragma mark -
 
-- (double)maximumValue;
-{
-    return maximum;
-}
-
-- (void)setMaximumValue:(double)newMaximum;
-{
-    maximum = newMaximum;
-}
+@synthesize minimumValue = m_minimumValue;
+@synthesize maximumValue = m_maximumValue;
+@synthesize defaultValue = m_defaultValue;
 
 - (double)defaultValue;
 {
-    return defaultValue;
+    return m_defaultValue;
 }
 
 - (void)setDefaultValue:(double)newDefault;
 {
-    if (newDefault != defaultValue)
+    if (newDefault != m_defaultValue)
         [[self model] parameter:self willChangeDefaultValue:newDefault];
 
-    defaultValue = newDefault;
-}
-
-- (NSString *)description;
-{
-    return [NSString stringWithFormat:@"<%@>[%p]: name: %@, comment: %@, minimum: %g, maximum: %g, defaultValue: %g",
-                     NSStringFromClass([self class]), self, self.name, self.comment, minimum, maximum, defaultValue];
+    m_defaultValue = newDefault;
 }
 
 
@@ -78,7 +67,7 @@
 {
     [resultString indentToLevel:level];
     [resultString appendFormat:@"<parameter name=\"%@\" minimum=\"%g\" maximum=\"%g\" default=\"%g\"",
-                  GSXMLAttributeString(self.name, NO), minimum, maximum, defaultValue];
+                  GSXMLAttributeString(self.name, NO), self.minimumValue, self.maximumValue, self.defaultValue];
 
     if ([self hasComment] == NO) {
         [resultString appendString:@"/>\n"];
@@ -94,22 +83,21 @@
 
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 {
-    id value;
-
-    if ([super initWithXMLAttributes:attributes context:context] == nil)
-        return nil;
-
-    value = [attributes objectForKey:@"minimum"];
-    if (value != nil)
-        [self setMinimumValue:[value doubleValue]];
-
-    value = [attributes objectForKey:@"maximum"];
-    if (value != nil)
-        [self setMaximumValue:[value doubleValue]];
-
-    value = [attributes objectForKey:@"default"];
-    if (value != nil)
-        [self setDefaultValue:[value doubleValue]];
+    if ((self = [super initWithXMLAttributes:attributes context:context])) {
+        id value;
+        
+        value = [attributes objectForKey:@"minimum"];
+        if (value != nil)
+            [self setMinimumValue:[value doubleValue]];
+        
+        value = [attributes objectForKey:@"maximum"];
+        if (value != nil)
+            [self setMaximumValue:[value doubleValue]];
+        
+        value = [attributes objectForKey:@"default"];
+        if (value != nil)
+            [self setDefaultValue:[value doubleValue]];
+    }
 
     return self;
 }

@@ -8,16 +8,13 @@
 
 @interface Event : NSObject
 
-- (id)init;
-- (id)initWithTime:(NSUInteger)aTime;
+- (id)initWithTime:(NSUInteger)time;
 
-- (NSUInteger)time;
-
-- (BOOL)flag;
-- (void)setFlag:(BOOL)newFlag;
+@property (readonly) NSUInteger time;
+@property (assign) BOOL flag;
 
 - (double)getValueAtIndex:(NSUInteger)index;
-- (void)setValue:(double)newValue ofIndex:(NSUInteger)index;
+- (void)setValue:(double)value ofIndex:(NSUInteger)index;
 
 - (NSString *)description;
 

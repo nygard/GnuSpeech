@@ -19,22 +19,20 @@
 
 - (id)init;
 {
-    if ([super init] == nil)
-        return nil;
-
-    name = nil;
-    comment = nil;
-    isNative = NO;
+    if ((self = [super init])) {
+        name = nil;
+        comment = nil;
+        isNative = NO;
+    }
 
     return self;
 }
 
 - (id)initWithName:(NSString *)aName;
 {
-    if ([self init] == nil)
-        return nil;
-
-    [self setName:aName];
+    if ((self = [self init])) {
+        self.name = aName;
+    }
 
     return self;
 }
@@ -47,58 +45,28 @@
     [super dealloc];
 }
 
-- (NSString *)name;
+#pragma mark - Debugging
+
+- (NSString *)description;
 {
-    return name;
+    return [NSString stringWithFormat:@"<%@: %p> name: %@, comment: %@, isNative: %d",
+            NSStringFromClass([self class]), self, name, comment, isNative];
 }
 
-- (void)setName:(NSString *)newName;
-{
-    if (newName == name)
-        return;
+#pragma mark -
 
-    [name release];
-    name = [newName retain];
-}
-
-- (NSString *)comment;
-{
-    return comment;
-}
-
-- (void)setComment:(NSString *)newComment;
-{
-    if (newComment == comment)
-        return;
-
-    [comment release];
-    comment = [newComment retain];
-}
+@synthesize name, comment;
 
 - (BOOL)hasComment;
 {
     return comment != nil && [comment length] > 0;
 }
 
-- (BOOL)isNative;
-{
-    return isNative;
-}
-
-- (void)setIsNative:(BOOL)newFlag;
-{
-    isNative = newFlag;
-}
+@synthesize isNative;
 
 - (NSComparisonResult)compareByAscendingName:(MMCategory *)otherCategory;
 {
     return [name compare:[otherCategory name]];
-}
-
-- (NSString *)description;
-{
-    return [NSString stringWithFormat:@"<%@>[%p]: name: %@, comment: %@, isNative: %d",
-                     NSStringFromClass([self class]), self, name, comment, isNative];
 }
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;

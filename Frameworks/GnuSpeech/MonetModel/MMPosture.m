@@ -26,10 +26,10 @@
 
 @implementation MMPosture
 {
-    CategoryList *categories; // Of MMCategorys
-    NSMutableArray *parameterTargets; // Of Targets
+    CategoryList *categories;             // Of MMCategorys
+    NSMutableArray *parameterTargets;     // Of Targets
     NSMutableArray *metaParameterTargets; // Of Targets
-    NSMutableArray *symbolTargets; // Of Targets
+    NSMutableArray *symbolTargets;        // Of Targets
     
     MMCategory *nativeCategory;
 }
@@ -42,20 +42,19 @@
 
 - (id)initWithModel:(MModel *)aModel;
 {
-    if ([super init] == nil)
-        return nil;
-
-    categories = [[CategoryList alloc] init];
-    parameterTargets = [[NSMutableArray alloc] init];
-    metaParameterTargets = [[NSMutableArray alloc] init];
-    symbolTargets = [[NSMutableArray alloc] init];
-
-    nativeCategory = [[MMCategory alloc] init];
-    [nativeCategory setIsNative:YES];
-    [categories addObject:nativeCategory];
-
-    [self setModel:aModel];
-    [self _addDefaultValues];
+    if ((self = [super init])) {
+        categories = [[CategoryList alloc] init];
+        parameterTargets = [[NSMutableArray alloc] init];
+        metaParameterTargets = [[NSMutableArray alloc] init];
+        symbolTargets = [[NSMutableArray alloc] init];
+        
+        nativeCategory = [[MMCategory alloc] init];
+        [nativeCategory setIsNative:YES];
+        [categories addObject:nativeCategory];
+        
+        [self setModel:aModel];
+        [self _addDefaultValues];
+    }
 
     return self;
 }
@@ -65,7 +64,6 @@
     NSUInteger count, index;
     MMTarget *newTarget;
     NSArray *mainParameters;
-    NSArray *mainSymbols;
 
     [self addCategory:[[self model] categoryWithName:@"phone"]];
 
@@ -85,7 +83,7 @@
         [newTarget release];
     }
 
-    mainSymbols = [[self model] symbols];
+    NSArray *mainSymbols = [[self model] symbols];
     count = [mainSymbols count];
     for (index = 0; index < count; index++) {
         newTarget = [[MMTarget alloc] initWithValue:[(MMSymbol *)[mainSymbols objectAtIndex:index] defaultValue] isDefault:YES];
@@ -113,9 +111,7 @@
     [nativeCategory setName:newName];
 }
 
-//
-// Categories
-//
+#pragma mark - Categories
 
 - (MMCategory *)nativeCategory;
 {

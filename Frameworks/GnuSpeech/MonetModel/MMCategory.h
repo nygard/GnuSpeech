@@ -5,23 +5,15 @@
 
 @interface MMCategory : NSObject
 
-- (id)init;
 - (id)initWithName:(NSString *)aName;
-- (void)dealloc;
 
-- (NSString *)name;
-- (void)setName:(NSString *)newName;
-
-- (NSString *)comment;
-- (void)setComment:(NSString *)newComment;
+@property (retain) NSString *name;
+@property (retain) NSString *comment;
 - (BOOL)hasComment;
 
-- (BOOL)isNative;
-- (void)setIsNative:(BOOL)newFlag;
+@property (assign) BOOL isNative;
 
 - (NSComparisonResult)compareByAscendingName:(MMCategory *)otherCategory;
-
-- (NSString *)description;
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;

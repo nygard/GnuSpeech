@@ -9,9 +9,6 @@
 
 @interface MMRule : MMObject
 
-- (id)init;
-- (void)dealloc;
-
 - (void)setDefaultsTo:(NSUInteger)numPhones;
 - (void)addDefaultParameter;
 - (void)addDefaultMetaParameter;
@@ -38,8 +35,7 @@
 - (void)addBooleanExpression:(MMBooleanNode *)newExpression;
 - (void)addBooleanExpressionString:(NSString *)aString;
 
-- (NSString *)comment;
-- (void)setComment:(NSString *)newComment;
+@property (retain) NSString *comment;
 - (BOOL)hasComment;
 
 - (BOOL)matchRule:(NSArray *)categories;
@@ -59,8 +55,6 @@
 - (BOOL)isTransitionUsed:(MMTransition *)aTransition;
 
 - (NSString *)ruleString;
-
-- (NSString *)description;
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 - (void)_appendXMLForParameterTransitionsToString:(NSMutableString *)resultString level:(NSUInteger)level;
