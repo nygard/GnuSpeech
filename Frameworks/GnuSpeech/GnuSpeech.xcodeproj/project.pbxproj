@@ -435,6 +435,8 @@
 		014185291542B0F1001AE3B5 /* Input data form XML file */ = {
 			isa = PBXGroup;
 			children = (
+				0155E4220B7BE8F9008D8879 /* MModel.h */,
+				0155E4230B7BE8F9008D8879 /* MModel.m */,
 				0155E4180B7BE8F9008D8879 /* MMCategory.h */,
 				0155E4190B7BE8F9008D8879 /* MMCategory.m */,
 				0155E41A0B7BE8F9008D8879 /* MMEquation.h */,
@@ -525,8 +527,6 @@
 				0155E41F0B7BE8F9008D8879 /* MMNamedObject.m */,
 				0155E4200B7BE8F9008D8879 /* MMObject.h */,
 				0155E4210B7BE8F9008D8879 /* MMObject.m */,
-				0155E4220B7BE8F9008D8879 /* MModel.h */,
-				0155E4230B7BE8F9008D8879 /* MModel.m */,
 				0155E42A0B7BE8F9008D8879 /* MMPostureRewriter.h */,
 				0155E42B0B7BE8F9008D8879 /* MMPostureRewriter.m */,
 				0155E4340B7BE8F9008D8879 /* MMSynthesisParameters.h */,

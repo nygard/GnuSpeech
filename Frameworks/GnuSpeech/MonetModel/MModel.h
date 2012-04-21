@@ -9,50 +9,41 @@
 
 extern NSString *MCategoryInUseException;
 
-@interface MModel : NSObject
+@interface MModel : NSObject <NSXMLParserDelegate>
 
-- (void)_addDefaultRule;
+@property (readonly) NSMutableArray *categories;
+@property (readonly) NSMutableArray *parameters;
+@property (readonly) NSMutableArray *metaParameters;
+@property (readonly) NSMutableArray *symbols;
+@property (readonly) NSMutableArray *postures;
 
-- (NSMutableArray *)categories;
-- (NSMutableArray *)parameters;
-- (NSMutableArray *)metaParameters;
-- (NSMutableArray *)symbols;
-- (NSMutableArray *)postures;
+@property (readonly) NSMutableArray *equations;
+@property (readonly) NSMutableArray *transitions;
+@property (readonly) NSMutableArray *specialTransitions;
 
-- (NSMutableArray *)equations;
-- (NSMutableArray *)transitions;
-- (NSMutableArray *)specialTransitions;
-
-- (NSMutableArray *)rules;
+@property (readonly) NSMutableArray *rules;
 
 // Categories
 - (void)addCategory:(MMCategory *)newCategory;
-- (void)_uniqueNameForCategory:(MMCategory *)newCategory;
 - (BOOL)isCategoryUsed:(MMCategory *)aCategory;
 - (void)removeCategory:(MMCategory *)aCategory;
 - (MMCategory *)categoryWithName:(NSString *)aName;
 
 // Parameters
 - (void)addParameter:(MMParameter *)newParameter;
-- (void)_uniqueNameForParameter:(MMParameter *)newParameter inList:(NSMutableArray *)aParameterList;
-- (void)_addDefaultPostureTargetsForParameter:(MMParameter *)newParameter;
 - (void)removeParameter:(MMParameter *)aParameter;
 
 // Meta Parameters
 - (void)addMetaParameter:(MMParameter *)newParameter;
-- (void)_addDefaultPostureTargetsForMetaParameter:(MMParameter *)newParameter;
 - (void)removeMetaParameter:(MMParameter *)aParameter;
 
 // Symbols
 - (void)addSymbol:(MMSymbol *)newSymbol;
-- (void)_uniqueNameForSymbol:(MMSymbol *)newSymbol;
-- (void)_addDefaultPostureTargetsForSymbol:(MMSymbol *)newSymbol;
 - (void)removeSymbol:(MMSymbol *)aSymbol;
 - (MMSymbol *)symbolWithName:(NSString *)aName;
 
 // Postures
 - (void)addPosture:(MMPosture *)newPosture;
-- (void)_uniqueNameForPosture:(MMPosture *)newPosture;
 - (void)removePosture:(MMPosture *)aPosture;
 - (void)sortPostures;
 - (MMPosture *)postureWithName:(NSString *)aName;
@@ -82,14 +73,10 @@ extern NSString *MCategoryInUseException;
 
 // Rules
 - (void)addRule:(MMRule *)newRule;
-- (void)_addStoredRule:(MMRule *)newRule;
 - (MMRule *)findRuleMatchingCategories:(NSArray *)categoryLists ruleIndex:(NSInteger *)indexPtr;
 
 // Archiving - XML
 - (BOOL)writeXMLToFile:(NSString *)aFilename comment:(NSString *)aComment;
-- (void)_appendXMLForEquationsToString:(NSMutableString *)resultString level:(NSUInteger)level;
-- (void)_appendXMLForTransitionsToString:(NSMutableString *)resultString level:(NSUInteger)level;
-- (void)_appendXMLForProtoSpecialsToString:(NSMutableString *)resultString level:(NSUInteger)level;
 
 // Archiving - Degas support
 - (void)readDegasFileFormat:(FILE *)fp;
@@ -99,10 +86,6 @@ extern NSString *MCategoryInUseException;
 - (void)readRulesFromDegasFile:(FILE *)fp;
 
 - (void)writeDataToFile:(FILE *)fp;
-- (void)_writeCategoriesToFile:(FILE *)fp;
-- (void)_writeParametersToFile:(FILE *)fp;
-- (void)_writeSymbolsToFile:(FILE *)fp;
-- (void)_writePosturesToFile:(FILE *)fp;
 
 - (int)nextCacheTag;
 - (void)parameter:(MMParameter *)aParameter willChangeDefaultValue:(double)newDefaultValue;
@@ -110,8 +93,5 @@ extern NSString *MCategoryInUseException;
 
 // Other
 - (MMSynthesisParameters *)synthesisParameters;
-
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 
 @end
