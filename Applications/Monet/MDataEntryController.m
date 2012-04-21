@@ -245,7 +245,7 @@
 
     [self updateViews];
 
-    index = [[[self model] categories] indexOfObject:newCategory];
+    index = [[[self model] categories].ilist indexOfObject:newCategory];
     [newCategory release];
 
     [categoryTableView scrollRowToVisible:index];

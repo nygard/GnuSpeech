@@ -48,11 +48,6 @@
     return ilist;
 }
 
-- (NSUInteger)indexOfObject:(id)anObject;
-{
-    return [ilist indexOfObject:anObject];
-}
-
 - (id)lastObject;
 {
     return [ilist lastObject];
