@@ -101,7 +101,7 @@
 
 - (void)insertObject:(id)anObject atIndex:(NSUInteger)index;
 {
-    [super insertObject:anObject atIndex:index];
+    [self.ilist insertObject:anObject atIndex:index];
 
     if ([anObject respondsToSelector:@selector(setGroup:)] == YES)
         [anObject setGroup:self];

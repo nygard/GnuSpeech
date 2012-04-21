@@ -20,7 +20,6 @@
 
 - (void)_addNilWarning;
 - (void)addObject:(id)anObject;
-- (void)insertObject:(id)anObject atIndex:(NSUInteger)index;
 - (void)removeObjectAtIndex:(NSUInteger)index;
 - (void)removeObject:(id)anObject;
 - (void)replaceObjectAtIndex:(NSUInteger)index withObject:(id)anObject;
