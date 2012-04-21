@@ -507,13 +507,6 @@
 			name = Archiving;
 			sourceTree = "<group>";
 		};
-		0155E3F20B7BE8B8008D8879 /* Compatibility-TypedStream */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Compatibility-TypedStream";
-			sourceTree = "<group>";
-		};
 		0155E40F0B7BE8E7008D8879 /* Monet Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -606,7 +599,6 @@
 			isa = PBXGroup;
 			children = (
 				0155E3C90B7BE89A008D8879 /* Archiving */,
-				0155E3F20B7BE8B8008D8879 /* Compatibility-TypedStream */,
 				0155E37F0B7BE7FD008D8879 /* Extensions */,
 				0155E40F0B7BE8E7008D8879 /* Monet Model */,
 				694157690FAB8D66009D4192 /* Parsers */,
