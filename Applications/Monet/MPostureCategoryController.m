@@ -132,7 +132,7 @@
     NSTableColumn *postureNameTableColumn;
     NSArray *tableColumns;
     NSUInteger count, index;
-    CategoryList *categories;
+    NSMutableArray *categories;
 
     // Retain this column because we'll be removing it but want to add it back.
     postureNameTableColumn = [[postureCategoryTableView tableColumnWithIdentifier:@"name"] retain];
@@ -150,7 +150,7 @@
 
     // Now we can add the category columns
     categories = [[self model] categories];
-    count = [categories.ilist count];
+    count = [categories count];
     for (index = 0; index < count; index++) {
         NSTableColumn *newTableColumn;
         MMCategory *category;

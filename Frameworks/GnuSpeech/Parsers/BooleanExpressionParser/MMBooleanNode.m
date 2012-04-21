@@ -3,8 +3,6 @@
 
 #import "MMBooleanNode.h"
 
-#import "CategoryList.h"
-
 @implementation MMBooleanNode
 {
 }
@@ -19,7 +17,7 @@
 
 #pragma mark -
 
-- (BOOL)evaluateWithCategories:(CategoryList *)categories;
+- (BOOL)evaluateWithCategories:(NSArray *)categories;
 {
     return NO;
 }

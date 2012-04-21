@@ -3,12 +3,12 @@
 
 #import <Foundation/Foundation.h>
 
-@class MMCategory, CategoryList;
+@class MMCategory;
 
 
 @interface MMBooleanNode : NSObject
 
-- (BOOL)evaluateWithCategories:(CategoryList *)categories;
+- (BOOL)evaluateWithCategories:(NSArray *)categories;
 
 - (NSString *)expressionString;
 - (void)appendExpressionToString:(NSMutableString *)resultString;

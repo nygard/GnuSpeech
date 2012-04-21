@@ -5,7 +5,6 @@
 
 #import "NSScanner-Extensions.h"
 
-#import "CategoryList.h"
 #import "MMBooleanExpression.h"
 #import "MMBooleanNode.h"
 #import "MMBooleanTerminal.h"

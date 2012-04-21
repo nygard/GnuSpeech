@@ -7,7 +7,6 @@
 #import "NSString-Extensions.h"
 
 #import "MMCategory.h"
-#import "CategoryList.h"
 #import "GSXMLFunctions.h"
 #import "MMParameter.h"
 #import "MMTarget.h"
@@ -23,7 +22,7 @@
 
 @implementation MMPosture
 {
-    CategoryList *categories;             // Of MMCategorys
+    NSMutableArray *categories;           // Of MMCategorys
     NSMutableArray *parameterTargets;     // Of Targets
     NSMutableArray *metaParameterTargets; // Of Targets
     NSMutableArray *symbolTargets;        // Of Targets
@@ -40,7 +39,7 @@
 - (id)initWithModel:(MModel *)aModel;
 {
     if ((self = [super init])) {
-        categories = [[CategoryList alloc] init];
+        categories = [[NSMutableArray alloc] init];
         parameterTargets = [[NSMutableArray alloc] init];
         metaParameterTargets = [[NSMutableArray alloc] init];
         symbolTargets = [[NSMutableArray alloc] init];
@@ -115,7 +114,7 @@
     return nativeCategory;
 }
 
-- (CategoryList *)categories;
+- (NSMutableArray *)categories;
 {
     return categories;
 }
@@ -125,25 +124,25 @@
     if (aCategory == nil)
         return;
 
-    if ([categories.ilist containsObject:aCategory] == NO)
+    if ([categories containsObject:aCategory] == NO)
         [categories addObject:aCategory];
 }
 
 - (void)removeCategory:(MMCategory *)aCategory;
 {
-    [categories.ilist removeObject:aCategory];
+    [categories removeObject:aCategory];
 }
 
 - (BOOL)isMemberOfCategory:(MMCategory *)aCategory;
 {
-    return [categories.ilist containsObject:aCategory];
+    return [categories containsObject:aCategory];
 }
 
 - (BOOL)isMemberOfCategoryNamed:(NSString *)aCategoryName;
 {
     NSUInteger count, index;
 
-    count = [categories.ilist count];
+    count = [categories count];
     for (index = 0; index < count; index++) {
         if ([[(MMNamedObject *)[categories objectAtIndex:index] name] isEqualToString:aCategoryName] == YES)
             return YES;
@@ -311,7 +310,7 @@
     [resultString indentToLevel:level];
     [resultString appendFormat:@"<posture symbol=\"%@\"", GSXMLAttributeString(self.name, NO)];
 
-    if (self.comment == nil && [categories.ilist count] == 0 && [parameterTargets count] == 0 && [metaParameterTargets count] == 0 && [symbolTargets count] == 0) {
+    if (self.comment == nil && [categories count] == 0 && [parameterTargets count] == 0 && [metaParameterTargets count] == 0 && [symbolTargets count] == 0) {
         [resultString appendString:@"/>\n"];
     } else {
         [resultString appendString:@">\n"];
@@ -335,7 +334,7 @@
 {
     NSUInteger count, index;
 
-    count = [categories.ilist count];
+    count = [categories count];
     if (count == 0)
         return;
 

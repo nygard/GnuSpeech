@@ -51,8 +51,6 @@
 		0155E3EF0B7BE8AC008D8879 /* MXMLReferenceDictionaryDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3DB0B7BE8AC008D8879 /* MXMLReferenceDictionaryDelegate.m */; };
 		0155E3F00B7BE8AC008D8879 /* MXMLStringArrayDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3DC0B7BE8AC008D8879 /* MXMLStringArrayDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0155E3F10B7BE8AC008D8879 /* MXMLStringArrayDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3DD0B7BE8AC008D8879 /* MXMLStringArrayDelegate.m */; };
-		0155E4400B7BE8FA008D8879 /* CategoryList.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E4100B7BE8F9008D8879 /* CategoryList.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0155E4410B7BE8FA008D8879 /* CategoryList.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E4110B7BE8F9008D8879 /* CategoryList.m */; };
 		0155E4420B7BE8FA008D8879 /* Event.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E4120B7BE8F9008D8879 /* Event.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0155E4430B7BE8FA008D8879 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E4130B7BE8F9008D8879 /* Event.m */; };
 		0155E4440B7BE8FA008D8879 /* EventList.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E4140B7BE8F9008D8879 /* EventList.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -244,8 +242,6 @@
 		0155E3DB0B7BE8AC008D8879 /* MXMLReferenceDictionaryDelegate.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MXMLReferenceDictionaryDelegate.m; path = Archiving/MXMLReferenceDictionaryDelegate.m; sourceTree = "<group>"; };
 		0155E3DC0B7BE8AC008D8879 /* MXMLStringArrayDelegate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MXMLStringArrayDelegate.h; path = Archiving/MXMLStringArrayDelegate.h; sourceTree = "<group>"; };
 		0155E3DD0B7BE8AC008D8879 /* MXMLStringArrayDelegate.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MXMLStringArrayDelegate.m; path = Archiving/MXMLStringArrayDelegate.m; sourceTree = "<group>"; };
-		0155E4100B7BE8F9008D8879 /* CategoryList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = CategoryList.h; path = MonetModel/CategoryList.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		0155E4110B7BE8F9008D8879 /* CategoryList.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = CategoryList.m; path = MonetModel/CategoryList.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0155E4120B7BE8F9008D8879 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Event.h; path = MonetModel/Event.h; sourceTree = "<group>"; };
 		0155E4130B7BE8F9008D8879 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = Event.m; path = MonetModel/Event.m; sourceTree = "<group>"; };
 		0155E4140B7BE8F9008D8879 /* EventList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = EventList.h; path = MonetModel/EventList.h; sourceTree = "<group>"; };
@@ -439,8 +435,6 @@
 		014185291542B0F1001AE3B5 /* Input data form XML file */ = {
 			isa = PBXGroup;
 			children = (
-				0155E4100B7BE8F9008D8879 /* CategoryList.h */,
-				0155E4110B7BE8F9008D8879 /* CategoryList.m */,
 				0155E4180B7BE8F9008D8879 /* MMCategory.h */,
 				0155E4190B7BE8F9008D8879 /* MMCategory.m */,
 				0155E41A0B7BE8F9008D8879 /* MMEquation.h */,
@@ -841,7 +835,6 @@
 				0155E4440B7BE8FA008D8879 /* EventList.h in Headers */,
 				0155E4420B7BE8FA008D8879 /* Event.h in Headers */,
 				0155E47F0B7BEB27008D8879 /* driftGenerator.h in Headers */,
-				0155E4400B7BE8FA008D8879 /* CategoryList.h in Headers */,
 				01AC65FA0B7BF9B4008E4B93 /* GnuSpeech.h in Headers */,
 				69B1086D0EDD307400DEF197 /* TRMData.h in Headers */,
 				69300A3E0FAB841E0041EBFB /* TTSParser.h in Headers */,
@@ -973,7 +966,6 @@
 				0155E3ED0B7BE8AC008D8879 /* MXMLReferenceArrayDelegate.m in Sources */,
 				0155E3EF0B7BE8AC008D8879 /* MXMLReferenceDictionaryDelegate.m in Sources */,
 				0155E3F10B7BE8AC008D8879 /* MXMLStringArrayDelegate.m in Sources */,
-				0155E4410B7BE8FA008D8879 /* CategoryList.m in Sources */,
 				0155E4430B7BE8FA008D8879 /* Event.m in Sources */,
 				0155E4450B7BE8FA008D8879 /* EventList.m in Sources */,
 				0155E4470B7BE8FA008D8879 /* MDocument.m in Sources */,

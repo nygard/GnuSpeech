@@ -4,7 +4,7 @@
 #import <Foundation/Foundation.h>
 #include <stdio.h>
 
-@class CategoryList, MonetList, NamedList;
+@class MonetList, NamedList;
 @class MMCategory, MMEquation, MMParameter, MMPosture, MMRule, MMSymbol, MMSynthesisParameters, MMTransition;
 
 extern NSString *MCategoryInUseException;
@@ -13,7 +13,7 @@ extern NSString *MCategoryInUseException;
 
 - (void)_addDefaultRule;
 
-- (CategoryList *)categories;
+- (NSMutableArray *)categories;
 - (NSMutableArray *)parameters;
 - (NSMutableArray *)metaParameters;
 - (NSMutableArray *)symbols;

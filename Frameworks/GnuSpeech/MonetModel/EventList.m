@@ -8,7 +8,6 @@
 #import "NSScanner-Extensions.h"
 #import "NSString-Extensions.h"
 #import "driftGenerator.h"
-#import "CategoryList.h"
 #import "Event.h"
 #import "MMEquation.h"
 #import "MMFRuleSymbols.h"

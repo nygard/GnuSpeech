@@ -21,7 +21,6 @@
 #import <GnuSpeech/NSString-Extensions.h>
 
 // MonetModel
-#import <GnuSpeech/CategoryList.h>
 #import <GnuSpeech/driftGenerator.h>
 #import <GnuSpeech/Event.h>
 #import <GnuSpeech/EventList.h>

@@ -6,14 +6,13 @@
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
 
-#import "CategoryList.h"
 #import "MMCategory.h"
 #import "MMPosture.h"
 
 #import "MModel.h"
 
 @interface MMBooleanTerminal ()
-- (MMCategory *)findSymbol:(NSString *)searchSymbol inCategories:(CategoryList *)categories;
+- (MMCategory *)findSymbol:(NSString *)searchSymbol inCategories:(NSArray *)categories;
 @end
 
 #pragma mark -
@@ -57,11 +56,9 @@
 
 #pragma mark - Superclass methods
 
-- (MMCategory *)findSymbol:(NSString *)searchSymbol inCategories:(CategoryList *)categories;
+- (MMCategory *)findSymbol:(NSString *)searchSymbol inCategories:(NSArray *)categories;
 {
-    //NSLog(@"CategoryList searching for: %@\n", searchSymbol);
-    
-    for (MMCategory *category in categories.ilist) {
+    for (MMCategory *category in categories) {
         if ([[category name] isEqual:searchSymbol]) {
             //NSLog(@"Found: %@\n", searchSymbol);
             return category;
@@ -72,10 +69,10 @@
     return nil;
 }
 
-- (BOOL)evaluateWithCategories:(CategoryList *)categories;
+- (BOOL)evaluateWithCategories:(NSArray *)categories;
 {
     // TODO (2004-08-02): This seems a little overkill, searching through the list once with -indexOfObject: and then again with findSymbol:.
-    if ([categories.ilist indexOfObject:self.category] == NSNotFound) {
+    if ([categories indexOfObject:self.category] == NSNotFound) {
         if (self.shouldMatchAll) {
             if ([self findSymbol:[self.category name] inCategories:categories] != nil)
                 return YES;

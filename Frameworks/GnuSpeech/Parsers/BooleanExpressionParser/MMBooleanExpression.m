@@ -46,7 +46,7 @@
 
 #pragma mark - Superclass methods
 
-- (BOOL)evaluateWithCategories:(CategoryList *)categories;
+- (BOOL)evaluateWithCategories:(NSArray *)categories;
 {
     switch (self.operation) {
         case MMBooleanOperation_Not:

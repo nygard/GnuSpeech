@@ -3,7 +3,7 @@
 
 #import "MMNamedObject.h"
 
-@class CategoryList, MMCategory, MMSymbol, MMTarget;
+@class MMCategory, MMSymbol, MMTarget;
 
 /*===========================================================================
 
@@ -30,16 +30,8 @@
 			this phone.
 		symbolList: List of symbol definitions for this phone.
 
-	Import Files:
-
-		"CategoryList.h": for access to CategoryList methods.
 
 	NOTES:
-
-	categoryList:  Of the objects in this list, only those which are
-		"native" belong to the phone object.  When freeing, free
-		only native objects using the "freeNativeCategories" method
-		in the CategoryList Object.
 
 	See "data_relationships" document for information about the
 		parameterList, metaParameterList and symbolList variables.
@@ -53,7 +45,7 @@
 
 // Categories
 - (MMCategory *)nativeCategory;
-- (CategoryList *)categories;
+- (NSMutableArray *)categories;
 - (void)addCategory:(MMCategory *)aCategory;
 - (void)removeCategory:(MMCategory *)aCategory;
 - (BOOL)isMemberOfCategory:(MMCategory *)aCategory;

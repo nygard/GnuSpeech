@@ -7,7 +7,6 @@
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
 
-#import "CategoryList.h"
 #import "MMCategory.h"
 #import "MonetList.h"
 #import "NamedList.h"
@@ -29,7 +28,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 @implementation MModel
 {
-    CategoryList *categories; // Keep this list sorted by name
+    NSMutableArray *categories; // Keep this list sorted by name
     NSMutableArray *parameters;
     NSMutableArray *metaParameters;
     NSMutableArray *symbols;
@@ -49,7 +48,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 - (id)init;
 {
     if ((self = [super init])) {
-        categories = [[CategoryList alloc] init];
+        categories = [[NSMutableArray alloc] init];
         parameters = [[NSMutableArray alloc] init];
         metaParameters = [[NSMutableArray alloc] init];
         symbols = [[NSMutableArray alloc] init];
@@ -129,7 +128,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [newRule release];
 }
 
-- (CategoryList *)categories;
+- (NSMutableArray *)categories;
 {
     return categories;
 }
@@ -195,7 +194,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     NSString *name, *basename;
 
     names = [[NSMutableSet alloc] init];
-    count = [categories.ilist count];
+    count = [categories count];
     for (index = 0; index < count; index++) {
         name = [[categories objectAtIndex:index] name];
         if (name != nil)
@@ -233,7 +232,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         [NSException raise:MCategoryInUseException format:@"Cannot remove category that is in use."];
     }
 
-    [categories.ilist removeObject:aCategory];
+    [categories removeObject:aCategory];
 }
 
 // TODO (2004-03-19): We could store these in a dictionary for quick lookup by name.
@@ -242,7 +241,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     NSUInteger count, index;
     MMCategory *aCategory;
 
-    count = [categories.ilist count];
+    count = [categories count];
     for (index = 0; index < count; index++) {
         aCategory = [categories objectAtIndex:index];
         if ([[aCategory name] isEqual:aName])
@@ -1256,11 +1255,11 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     NSUInteger count, index;
 
     fprintf(fp, "Categories\n");
-    count = [categories.ilist count];
+    count = [categories count];
     for (index = 0; index < count; index++) {
         MMCategory *aCategory;
 
-        aCategory = [categories.ilist objectAtIndex:index];
+        aCategory = [categories objectAtIndex:index];
         fprintf(fp, "%s\n", [[aCategory name] UTF8String]);
         if ([aCategory comment])
             fprintf(fp, "%s\n", [[aCategory comment] UTF8String]);
@@ -1318,13 +1317,13 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     count = [postures count];
     for (index = 0; index < count; index++) {
         MMPosture *aPhone;
-        CategoryList *aCategoryList;
+        NSMutableArray *aCategoryList;
         NSMutableArray *aParameterList, *aSymbolList;
 
         aPhone = [postures objectAtIndex:index];
         fprintf(fp, "%s\n", [[aPhone name] UTF8String]);
         aCategoryList = [aPhone categories];
-        for (j = 0; j < [aCategoryList.ilist count]; j++) {
+        for (j = 0; j < [aCategoryList count]; j++) {
             MMCategory *aCategory;
 
             aCategory = [aCategoryList objectAtIndex:j];

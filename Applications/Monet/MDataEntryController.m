@@ -126,7 +126,7 @@
 
 - (void)updateViews;
 {
-    [categoryTotalTextField setIntValue:[[[self model] categories].ilist count]];
+    [categoryTotalTextField setIntValue:[[[self model] categories] count]];
     [parameterTotalTextField setIntValue:[[[self model] parameters] count]];
     [metaParameterTotalTextField setIntValue:[[[self model] metaParameters] count]];
     [symbolTotalTextField setIntValue:[[[self model] symbols] count]];
@@ -245,7 +245,7 @@
 
     [self updateViews];
 
-    index = [[[self model] categories].ilist indexOfObject:newCategory];
+    index = [[[self model] categories] indexOfObject:newCategory];
     [newCategory release];
 
     [categoryTableView scrollRowToVisible:index];
@@ -363,7 +363,7 @@
 - (int)numberOfRowsInTableView:(NSTableView *)tableView;
 {
     if (tableView == categoryTableView)
-        return [[[self model] categories].ilist count];
+        return [[[self model] categories] count];
 
     if (tableView == parameterTableView)
         return [[[self model] parameters] count];

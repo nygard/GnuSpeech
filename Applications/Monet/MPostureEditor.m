@@ -268,7 +268,7 @@
         return [[[self model] postures] count];
 
     if (tableView == categoryTableView)
-        return [[[self model] categories].ilist count];
+        return [[[self model] categories] count];
 
     if (tableView == parameterTableView)
         return [[[self model] parameters] count];
