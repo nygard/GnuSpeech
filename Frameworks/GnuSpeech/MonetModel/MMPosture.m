@@ -21,9 +21,6 @@
 #import "MXMLPCDataDelegate.h"
 #import "MXMLReferenceArrayDelegate.h"
 
-// For typedstream compatibility
-#import "TargetList.h"
-
 @implementation MMPosture
 {
     CategoryList *categories;             // Of MMCategorys

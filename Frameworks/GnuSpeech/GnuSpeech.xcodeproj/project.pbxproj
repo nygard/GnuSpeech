@@ -57,8 +57,6 @@
 		0155E40A0B7BE8D6008D8879 /* RuleList.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3FC0B7BE8D6008D8879 /* RuleList.m */; };
 		0155E40B0B7BE8D6008D8879 /* SymbolList.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3FD0B7BE8D6008D8879 /* SymbolList.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0155E40C0B7BE8D6008D8879 /* SymbolList.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3FE0B7BE8D6008D8879 /* SymbolList.m */; };
-		0155E40D0B7BE8D6008D8879 /* TargetList.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3FF0B7BE8D6008D8879 /* TargetList.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0155E40E0B7BE8D6008D8879 /* TargetList.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E4000B7BE8D6008D8879 /* TargetList.m */; };
 		0155E4400B7BE8FA008D8879 /* CategoryList.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E4100B7BE8F9008D8879 /* CategoryList.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0155E4410B7BE8FA008D8879 /* CategoryList.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E4110B7BE8F9008D8879 /* CategoryList.m */; };
 		0155E4420B7BE8FA008D8879 /* Event.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E4120B7BE8F9008D8879 /* Event.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -258,8 +256,6 @@
 		0155E3FC0B7BE8D6008D8879 /* RuleList.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = RuleList.m; path = "Compatibility-TypedStream/RuleList.m"; sourceTree = "<group>"; };
 		0155E3FD0B7BE8D6008D8879 /* SymbolList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SymbolList.h; path = "Compatibility-TypedStream/SymbolList.h"; sourceTree = "<group>"; };
 		0155E3FE0B7BE8D6008D8879 /* SymbolList.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = SymbolList.m; path = "Compatibility-TypedStream/SymbolList.m"; sourceTree = "<group>"; };
-		0155E3FF0B7BE8D6008D8879 /* TargetList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TargetList.h; path = "Compatibility-TypedStream/TargetList.h"; sourceTree = "<group>"; };
-		0155E4000B7BE8D6008D8879 /* TargetList.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = TargetList.m; path = "Compatibility-TypedStream/TargetList.m"; sourceTree = "<group>"; };
 		0155E4100B7BE8F9008D8879 /* CategoryList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = CategoryList.h; path = MonetModel/CategoryList.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		0155E4110B7BE8F9008D8879 /* CategoryList.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = CategoryList.m; path = MonetModel/CategoryList.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0155E4120B7BE8F9008D8879 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Event.h; path = MonetModel/Event.h; sourceTree = "<group>"; };
@@ -538,8 +534,6 @@
 				0155E3FC0B7BE8D6008D8879 /* RuleList.m */,
 				0155E3FD0B7BE8D6008D8879 /* SymbolList.h */,
 				0155E3FE0B7BE8D6008D8879 /* SymbolList.m */,
-				0155E3FF0B7BE8D6008D8879 /* TargetList.h */,
-				0155E4000B7BE8D6008D8879 /* TargetList.m */,
 			);
 			name = "Compatibility-TypedStream";
 			sourceTree = "<group>";
@@ -822,7 +816,6 @@
 				012D53B50B7FF9DC001B50FC /* TTSParserOld.h in Headers */,
 				012D53B40B7FF9DC001B50FC /* TTSNumberPronunciations.h in Headers */,
 				0155E4770B7BE92A008D8879 /* TRMSynthesizer.h in Headers */,
-				0155E40D0B7BE8D6008D8879 /* TargetList.h in Headers */,
 				0155E40B0B7BE8D6008D8879 /* SymbolList.h in Headers */,
 				0155E4090B7BE8D6008D8879 /* RuleList.h in Headers */,
 				0155E4070B7BE8D6008D8879 /* ParameterList.h in Headers */,
@@ -1004,7 +997,6 @@
 				0155E4080B7BE8D6008D8879 /* ParameterList.m in Sources */,
 				0155E40A0B7BE8D6008D8879 /* RuleList.m in Sources */,
 				0155E40C0B7BE8D6008D8879 /* SymbolList.m in Sources */,
-				0155E40E0B7BE8D6008D8879 /* TargetList.m in Sources */,
 				0155E4410B7BE8FA008D8879 /* CategoryList.m in Sources */,
 				0155E4430B7BE8FA008D8879 /* Event.m in Sources */,
 				0155E4450B7BE8FA008D8879 /* EventList.m in Sources */,
