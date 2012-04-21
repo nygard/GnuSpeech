@@ -19,8 +19,6 @@
 - (void)_warning;
 - (id)objectAtIndex:(NSUInteger)index;
 
-- (void)makeObjectsPerformSelector:(SEL)aSelector;
-- (void)makeObjectsPerformSelector:(SEL)aSelector withObject:(id)argument;
 - (void)sortUsingSelector:(SEL)comparator;
 
 

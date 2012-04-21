@@ -63,16 +63,6 @@
     return [ilist objectAtIndex:index];
 }
 
-- (void)makeObjectsPerformSelector:(SEL)aSelector;
-{
-    [ilist makeObjectsPerformSelector:aSelector];
-}
-
-- (void)makeObjectsPerformSelector:(SEL)aSelector withObject:(id)argument;
-{
-    [ilist makeObjectsPerformSelector:aSelector withObject:argument];
-}
-
 - (void)sortUsingSelector:(SEL)comparator;
 {
     [ilist sortUsingSelector:comparator];
