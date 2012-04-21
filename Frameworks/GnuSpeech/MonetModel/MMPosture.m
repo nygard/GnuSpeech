@@ -146,7 +146,7 @@
 {
     NSUInteger count, index;
 
-    count = [categories count];
+    count = [categories.ilist count];
     for (index = 0; index < count; index++) {
         if ([[(MMNamedObject *)[categories objectAtIndex:index] name] isEqualToString:aCategoryName] == YES)
             return YES;
@@ -314,7 +314,7 @@
     [resultString indentToLevel:level];
     [resultString appendFormat:@"<posture symbol=\"%@\"", GSXMLAttributeString(self.name, NO)];
 
-    if (self.comment == nil && [categories count] == 0 && [parameterTargets count] == 0 && [metaParameterTargets count] == 0 && [symbolTargets count] == 0) {
+    if (self.comment == nil && [categories.ilist count] == 0 && [parameterTargets count] == 0 && [metaParameterTargets count] == 0 && [symbolTargets count] == 0) {
         [resultString appendString:@"/>\n"];
     } else {
         [resultString appendString:@">\n"];
@@ -338,7 +338,7 @@
 {
     NSUInteger count, index;
 
-    count = [categories count];
+    count = [categories.ilist count];
     if (count == 0)
         return;
 

@@ -464,7 +464,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     for (i = 0; i < [equationList count]; i++) {
         namedList = [equationList objectAtIndex:i];
         //NSLog(@"named list: %@, count: %d", [namedList name], [namedList count]);
-        for (j = 0; j < [namedList count]; j++) {
+        for (j = 0; j < [namedList.ilist count]; j++) {
             equation = [namedList objectAtIndex:j];
             if ([[equation formula] maxPhone] <= type) {
                 time = [equation evaluate:&_parameters postures:samplePostures andCacheWith:cacheTag];

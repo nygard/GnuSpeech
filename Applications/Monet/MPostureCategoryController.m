@@ -150,7 +150,7 @@
 
     // Now we can add the category columns
     categories = [[self model] categories];
-    count = [categories count];
+    count = [categories.ilist count];
     for (index = 0; index < count; index++) {
         NSTableColumn *newTableColumn;
         MMCategory *category;

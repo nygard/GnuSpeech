@@ -68,7 +68,7 @@
 
 - (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(NSUInteger)level;
 {
-    NSUInteger count = [self count];
+    NSUInteger count = [self.ilist count];
     if (count == 0)
         return;
 

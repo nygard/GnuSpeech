@@ -126,7 +126,7 @@
 
 - (void)updateViews;
 {
-    [categoryTotalTextField setIntValue:[[[self model] categories] count]];
+    [categoryTotalTextField setIntValue:[[[self model] categories].ilist count]];
     [parameterTotalTextField setIntValue:[[[self model] parameters] count]];
     [metaParameterTotalTextField setIntValue:[[[self model] metaParameters] count]];
     [symbolTotalTextField setIntValue:[[[self model] symbols] count]];
@@ -363,7 +363,7 @@
 - (int)numberOfRowsInTableView:(NSTableView *)tableView;
 {
     if (tableView == categoryTableView)
-        return [[[self model] categories] count];
+        return [[[self model] categories].ilist count];
 
     if (tableView == parameterTableView)
         return [[[self model] parameters] count];

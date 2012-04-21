@@ -16,7 +16,6 @@
 
 - (NSArray *)allObjects;
 
-- (NSUInteger)count;
 - (NSUInteger)indexOfObject:(id)anObject;
 - (id)lastObject;
 - (void)_warning;

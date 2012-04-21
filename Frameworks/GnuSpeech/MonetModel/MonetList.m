@@ -48,11 +48,6 @@
     return ilist;
 }
 
-- (NSUInteger)count;
-{
-    return [ilist count];
-}
-
 - (NSUInteger)indexOfObject:(id)anObject;
 {
     return [ilist indexOfObject:anObject];
@@ -147,7 +142,7 @@
 {
     NSUInteger count, index;
 
-    count = [self count];
+    count = [self.ilist count];
     if (count == 0)
         return;
 
@@ -165,7 +160,7 @@
 {
     NSUInteger count, index;
 
-    count = [self count];
+    count = [self.ilist count];
     if (count == 0)
         return;
 
