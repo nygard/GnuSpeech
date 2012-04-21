@@ -33,6 +33,8 @@
     return self.comment != nil && [self.comment length] > 0;
 }
 
+#pragma mark - XML Archiving
+
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 {
     // TODO (2004-08-12): I'm a little wary of calling init here, since subclasses may want to use a different designated initializer, but I'll try it.
@@ -46,9 +48,7 @@
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
 {
     if ([elementName isEqualToString:@"comment"]) {
-        MXMLPCDataDelegate *newDelegate;
-
-        newDelegate = [[MXMLPCDataDelegate alloc] initWithElementName:elementName delegate:self setSelector:@selector(setComment:)];
+        MXMLPCDataDelegate *newDelegate = [[MXMLPCDataDelegate alloc] initWithElementName:elementName delegate:self setSelector:@selector(setComment:)];
         [(MXMLParser *)parser pushDelegate:newDelegate];
         [newDelegate release];
     } else {
