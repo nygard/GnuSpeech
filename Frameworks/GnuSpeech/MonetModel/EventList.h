@@ -63,57 +63,29 @@ extern NSString *EventListDidChangeIntonationPoints;
 
 @interface EventList : NSObject
 
-- (id)init;
-- (void)dealloc;
+@property (nonatomic, retain) MModel *model;
+@property (retain) id delegate;
 
-- (MModel *)model;
-- (void)setModel:(MModel *)newModel;
-
-- (id)delegate;
-- (void)setDelegate:(id)newDelegate;
-
-- (NSString *)phoneString;
-- (void)_setPhoneString:(NSString *)newPhoneString;
+@property (retain) NSString *phoneString;
 
 - (NSInteger)zeroRef;
 - (void)setZeroRef:(NSInteger)newValue;
 
-- (NSUInteger)duration;
-- (void)setDuration:(NSUInteger)newValue;
+@property (assign) NSUInteger duration;
+@property (assign) NSUInteger timeQuantization;
 
-- (NSUInteger)timeQuantization;
-- (void)setTimeQuantization:(NSUInteger)newValue;
+@property (assign) BOOL shouldStoreParameters;
+@property (assign) BOOL shouldUseMacroIntonation;
+@property (assign) BOOL shouldUseMicroIntonation;
+@property (assign) BOOL shouldUseDrift;
+@property (assign) BOOL shouldUseSmoothIntonation;
 
-- (BOOL)shouldStoreParameters;
-- (void)setShouldStoreParameters:(BOOL)newFlag;
+@property (assign) double radiusMultiply;
+@property (assign) double pitchMean;
+@property (assign) double globalTempo;
+@property (assign) double multiplier;
 
-- (BOOL)shouldUseMacroIntonation;
-- (void)setShouldUseMacroIntonation:(BOOL)newFlag;
-
-- (BOOL)shouldUseMicroIntonation;
-- (void)setShouldUseMicroIntonation:(BOOL)newFlag;
-
-- (BOOL)shouldUseDrift;
-- (void)setShouldUseDrift:(BOOL)newFlag;
-
-- (BOOL)shouldUseSmoothIntonation;
-- (void)setShouldUseSmoothIntonation:(BOOL)newValue;
-
-- (double)radiusMultiply;
-- (void)setRadiusMultiply:(double)newValue;
-
-- (double)pitchMean;
-- (void)setPitchMean:(double)newMean;
-
-- (double)globalTempo;
-- (void)setGlobalTempo:(double)newTempo;
-
-- (double)multiplier;
-- (void)setMultiplier:(double)newValue;
-
-- (struct _intonationParameters)intonationParameters;
-- (void)setIntonationParameters:(struct _intonationParameters)newIntonationParameters;
-
+@property (assign) struct _intonationParameters intonationParameters;
 
 //
 - (void)setUp;
