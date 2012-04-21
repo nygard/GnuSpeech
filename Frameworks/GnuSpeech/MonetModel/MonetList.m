@@ -63,11 +63,6 @@
     return [ilist objectAtIndex:index];
 }
 
-- (void)sortUsingSelector:(SEL)comparator;
-{
-    [ilist sortUsingSelector:comparator];
-}
-
 - (void)_addNilWarning;
 {
     NSLog(@"Tried to add nil.");

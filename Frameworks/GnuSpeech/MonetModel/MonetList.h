@@ -19,8 +19,6 @@
 - (void)_warning;
 - (id)objectAtIndex:(NSUInteger)index;
 
-- (void)sortUsingSelector:(SEL)comparator;
-
 
 - (void)_addNilWarning;
 - (void)addObject:(id)anObject;
