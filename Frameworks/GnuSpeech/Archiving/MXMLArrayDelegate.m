@@ -14,21 +14,18 @@
 
 - (id)initWithChildElementName:(NSString *)anElementName class:(Class)aClass delegate:(id)aDelegate addObjectSelector:(SEL)aSelector;
 {
-    NSDictionary *mapping;
-
-    mapping = [NSDictionary dictionaryWithObject:aClass forKey:anElementName];
+    NSDictionary *mapping = [NSDictionary dictionaryWithObject:aClass forKey:anElementName];
     return [self initWithChildElementToClassMapping:mapping delegate:aDelegate addObjectSelector:aSelector];
 }
 
 - (id)initWithChildElementToClassMapping:(NSDictionary *)aMapping delegate:(id)aDelegate addObjectSelector:(SEL)aSelector;
 {
-    if ([super init] == nil)
-        return nil;
-
-    classesByChildElementName = [[NSMutableDictionary alloc] init];
-    [classesByChildElementName addEntriesFromDictionary:aMapping];
-    delegate = [aDelegate retain];
-    addObjectSelector = aSelector;
+    if ((self = [super init])) {
+        classesByChildElementName = [[NSMutableDictionary alloc] init];
+        [classesByChildElementName addEntriesFromDictionary:aMapping];
+        delegate = [aDelegate retain];
+        addObjectSelector = aSelector;
+    }
 
     return self;
 }
@@ -40,6 +37,8 @@
 
     [super dealloc];
 }
+
+#pragma mark -
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)anElementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
 {

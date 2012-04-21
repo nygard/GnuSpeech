@@ -17,14 +17,13 @@
 
 - (id)initWithChildElementName:(NSString *)anElementName referenceAttribute:(NSString *)anAttribute delegate:(id)aDelegate addObjectSelector:(SEL)aSelector;
 {
-    if ([super init] == nil)
-        return nil;
-
-    childElementName = [anElementName retain];
-    referenceAttribute = [anAttribute retain];
-    delegate = [aDelegate retain];
-    addObjectSelector = aSelector;
-    references = [[NSMutableArray alloc] init];
+    if ((self = [super init])) {
+        childElementName = [anElementName retain];
+        referenceAttribute = [anAttribute retain];
+        delegate = [aDelegate retain];
+        addObjectSelector = aSelector;
+        references = [[NSMutableArray alloc] init];
+    }
 
     return self;
 }
@@ -38,6 +37,8 @@
 
     [super dealloc];
 }
+
+#pragma mark -
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)anElementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
 {

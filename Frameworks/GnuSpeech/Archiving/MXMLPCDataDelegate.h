@@ -6,7 +6,6 @@
 @interface MXMLPCDataDelegate : NSObject
 
 - (id)initWithElementName:(NSString *)anElementName delegate:(id)aDelegate setSelector:(SEL)aSetSelector;
-- (void)dealloc;
 
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)aString;
 
