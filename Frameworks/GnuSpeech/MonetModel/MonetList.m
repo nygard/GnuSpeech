@@ -43,11 +43,6 @@
 
 @synthesize ilist;
 
-- (NSArray *)allObjects;
-{
-    return ilist;
-}
-
 - (void)_warning;
 {
     //NSLog(@"%s", _cmd);

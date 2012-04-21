@@ -14,8 +14,6 @@
 
 @property (readonly) NSMutableArray *ilist;
 
-- (NSArray *)allObjects;
-
 - (void)_warning;
 - (id)objectAtIndex:(NSUInteger)index;
 
