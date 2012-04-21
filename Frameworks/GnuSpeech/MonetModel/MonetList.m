@@ -73,16 +73,6 @@
     [ilist addObject:anObject];
 }
 
-- (void)removeAllObjects;
-{
-    [ilist removeAllObjects];
-}
-
-- (void)removeLastObject;
-{
-    [ilist removeLastObject];
-}
-
 - (BOOL)containsObject:(id)anObject;
 {
     return [ilist containsObject:anObject];

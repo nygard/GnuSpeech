@@ -21,8 +21,6 @@
 - (void)_addNilWarning;
 - (void)addObject:(id)anObject;
 
-- (void)removeAllObjects;
-- (void)removeLastObject;
 - (BOOL)containsObject:(id)anObject;
 
 - (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(NSUInteger)level;
