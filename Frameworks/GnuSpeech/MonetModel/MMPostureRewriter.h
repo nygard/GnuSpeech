@@ -7,17 +7,14 @@
 
 @interface MMPostureRewriter : NSObject
 
-- (id)initWithModel:(MModel *)aModel;
-- (void)dealloc;
+- (id)initWithModel:(MModel *)model;
 
 - (void)_setupCategoryNames;
 - (void)_setup;
 
-- (MModel *)model;
-- (void)setModel:(MModel *)newModel;
+@property (nonatomic, retain) MModel *model;
 
-- (MMPosture *)lastPosture;
-- (void)setLastPosture:(MMPosture *)newPosture;
+@property (retain) MMPosture *lastPosture;
 
 - (void)resetState;
 - (void)rewriteEventList:(EventList *)eventList withNextPosture:(MMPosture *)nextPosture wordMarker:(BOOL)followsWordMarker;
