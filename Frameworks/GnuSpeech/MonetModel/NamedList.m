@@ -29,6 +29,16 @@
     [super dealloc];
 }
 
+#pragma mark - Debugging
+
+- (NSString *)description;
+{
+    return [NSString stringWithFormat:@"<%@: %p> name: %@, comment: %@",
+            NSStringFromClass([self class]), self, name, comment];
+}
+
+#pragma mark -
+
 - (MModel *)model;
 {
     return nonretained_model;
@@ -36,15 +46,9 @@
 
 - (void)setModel:(MModel *)newModel;
 {
-    NSUInteger count, index;
-
     nonretained_model = newModel;
 
-    count = [self.ilist count];
-    for (index = 0; index < count; index++) {
-        id currentObject;
-
-        currentObject = [self.ilist objectAtIndex:index];
+    for (id currentObject in self.ilist) {
         if ([currentObject respondsToSelector:@selector(setModel:)])
             [currentObject setModel:newModel];
     }
@@ -62,17 +66,9 @@
     return comment != nil && [comment length] > 0;
 }
 
-- (NSString *)description;
-{
-    return [NSString stringWithFormat:@"<%@>[%p]: name: %@, comment: %@",
-                     NSStringFromClass([self class]), self, name, comment];
-}
-
 - (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(NSUInteger)level;
 {
-    NSUInteger count, index;
-
-    count = [self count];
+    NSUInteger count = [self count];
     if (count == 0)
         return;
 
@@ -84,10 +80,8 @@
 
     [resultString appendString:@">\n"];
 
-    for (index = 0; index < count; index++) {
-        id anObject;
-
-        anObject = [self objectAtIndex:index];
+    for (NSUInteger index = 0; index < count; index++) {
+        id anObject = [self objectAtIndex:index];
         [anObject appendXMLToString:resultString level:level+1];
     }
 
@@ -123,10 +117,9 @@
 
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 {
-    if ([self init] == nil)
-        return nil;
-
-    [self setName:[attributes objectForKey:@"name"]];
+    if ((self = [self init])) {
+        [self setName:[attributes objectForKey:@"name"]];
+    }
 
     return self;
 }
@@ -134,27 +127,20 @@
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
 {
     if ([elementName isEqualToString:@"comment"]) {
-        MXMLPCDataDelegate *newDelegate;
-
-        newDelegate = [[MXMLPCDataDelegate alloc] initWithElementName:elementName delegate:self setSelector:@selector(setComment:)];
+        MXMLPCDataDelegate *newDelegate = [[MXMLPCDataDelegate alloc] initWithElementName:elementName delegate:self setSelector:@selector(setComment:)];
         [(MXMLParser *)parser pushDelegate:newDelegate];
         [newDelegate release];
     } else if ([elementName isEqualToString:@"equation"]) {
-        MMEquation *newDelegate;
-        NSString *str;
-
-        newDelegate = [MMEquation objectWithXMLAttributes:attributeDict context:[(MXMLParser *)parser context]];
+        MMEquation *newDelegate = [MMEquation objectWithXMLAttributes:attributeDict context:[(MXMLParser *)parser context]];
         [self addObject:newDelegate];
 
         // Set the formula after adding it to the group, so that it has access to the model for the symbols
-        str = [attributeDict objectForKey:@"formula"];
+        NSString *str = [attributeDict objectForKey:@"formula"];
         if (str != nil && [str length] > 0)
             [newDelegate setFormulaString:str];
         [(MXMLParser *)parser pushDelegate:newDelegate];
     } else if ([elementName isEqualToString:@"transition"]) {
-        MMTransition *newDelegate;
-
-        newDelegate = [MMTransition objectWithXMLAttributes:attributeDict context:[(MXMLParser *)parser context]];
+        MMTransition *newDelegate = [MMTransition objectWithXMLAttributes:attributeDict context:[(MXMLParser *)parser context]];
         [self addObject:newDelegate];
         [(MXMLParser *)parser pushDelegate:newDelegate];
     } else {
