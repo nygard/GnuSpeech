@@ -526,28 +526,34 @@
 
 - (int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item;
 {
-    //NSLog(@"-> %s, item: %p", _cmd, item);
+   // NSLog(@"-> %s, item: %p", __PRETTY_FUNCTION__, item);
     if (outlineView == equationOutlineView) {
         if (item == nil)
             return [[model equations] count];
-        else if ([item isKindOfClass:[MMEquation class]] == YES)
+        else if ([item isKindOfClass:[MMEquation class]])
             return [[self usageOfEquation:item] count];
-        else
-            return [item count];
+        else {
+            MonetList *list = item;
+            return [list.ilist count];
+        }
     } else if (outlineView == transitionOutlineView) {
         if (item == nil)
             return [[model transitions] count];
-        else if ([item isKindOfClass:[MMTransition class]] == YES)
+        else if ([item isKindOfClass:[MMTransition class]])
             return [[self usageOfTransition:item] count];
-        else
-            return [item count];
+        else {
+            MonetList *list = item;
+            return [list.ilist count];
+        }
     } else if (outlineView == specialTransitionOutlineView) {
         if (item == nil)
             return [[model specialTransitions] count];
-        else if ([item isKindOfClass:[MMTransition class]] == YES)
+        else if ([item isKindOfClass:[MMTransition class]])
             return [[self usageOfTransition:item] count];
-        else
-            return [item count];
+        else {
+            MonetList *list = item;
+            return [list.ilist count];
+        }
     }
 
     return 0;
@@ -560,22 +566,28 @@
             return [[model equations] objectAtIndex:index];
         else if ([item isKindOfClass:[MMEquation class]] == YES)
             return [[self usageOfEquation:item] objectAtIndex:index];
-        else
-            return [item objectAtIndex:index];
+        else {
+            MonetList *list = item;
+            return [list objectAtIndex:index];
+        }
     } else if (outlineView == transitionOutlineView) {
         if (item == nil)
             return [[model transitions] objectAtIndex:index];
         else if ([item isKindOfClass:[MMTransition class]] == YES)
             return [[self usageOfTransition:item] objectAtIndex:index];
-        else
-            return [item objectAtIndex:index];
+        else {
+            MonetList *list = item;
+            return [list objectAtIndex:index];
+        }
     } else if (outlineView == specialTransitionOutlineView) {
         if (item == nil)
             return [[model specialTransitions] objectAtIndex:index];
         else if ([item isKindOfClass:[MMTransition class]] == YES)
             return [[self usageOfTransition:item] objectAtIndex:index];
-        else
-            return [item objectAtIndex:index];
+        else {
+            MonetList *list = item;
+            return [list objectAtIndex:index];
+        }
     }
 
     return nil;

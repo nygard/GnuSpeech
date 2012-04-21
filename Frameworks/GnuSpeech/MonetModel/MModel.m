@@ -830,6 +830,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
             }
         }
     }
+    
+    NSParameterAssert([array isKindOfClass:[NSArray class]]);
 
     return array;
 }
