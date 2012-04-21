@@ -5,6 +5,4 @@
 
 @interface MOutlineView : NSOutlineView
 
-- (void)_resizeOutlineColumn;
-
 @end

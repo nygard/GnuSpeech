@@ -3,6 +3,12 @@
 
 #import "MOutlineView.h"
 
+@interface MOutlineView ()
+- (void)_resizeOutlineColumn;
+@end
+
+#pragma mark -
+
 @implementation MOutlineView
 {
 }

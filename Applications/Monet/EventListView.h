@@ -8,29 +8,14 @@
 
 @interface EventListView : NSView
 
-- (id)initWithFrame:(NSRect)frameRect;
-- (void)dealloc;
-
-- (void)awakeFromNib;
-
 - (NSArray *)displayParameters;
 - (void)setDisplayParameters:(NSArray *)newDisplayParameters;
 
-- (BOOL)acceptsFirstResponder;
-
 - (void)setEventList:(EventList *)newEventList;
-
-- (BOOL)isOpaque;
-- (void)drawRect:(NSRect)rects;
 
 - (void)clearView;
 - (void)drawGrid;
 - (void)drawRules;
-
-- (void)mouseDown:(NSEvent *)theEvent;
-- (void)mouseEntered:(NSEvent *)theEvent;
-- (void)mouseExited:(NSEvent *)theEvent;
-- (void)mouseMoved:(NSEvent *)theEvent;
 
 - (void)updateScale:(CGFloat)column;
 

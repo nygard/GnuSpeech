@@ -5,8 +5,6 @@
 
 @interface MCommentCell : NSImageCell
 
-+ (void)initialize;
-
 //- (void)setObjectValue:(id)newObjectValue;
 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView;

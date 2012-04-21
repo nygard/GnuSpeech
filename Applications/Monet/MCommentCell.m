@@ -11,11 +11,8 @@ static NSImage *_commentIcon = nil;
 
 + (void)initialize;
 {
-    NSBundle *mainBundle;
-    NSString *path;
-
-    mainBundle = [NSBundle mainBundle];
-    path = [mainBundle pathForResource:@"CommentIcon" ofType:@"tiff"];
+    NSBundle *mainBundle = [NSBundle mainBundle];
+    NSString *path = [mainBundle pathForResource:@"CommentIcon" ofType:@"tiff"];
     _commentIcon = [[NSImage alloc] initWithContentsOfFile:path];
 }
 

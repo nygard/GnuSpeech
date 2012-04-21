@@ -21,7 +21,6 @@ extern NSString *TransitionViewSelectionDidChangeNotification;
 @interface TransitionView : NSControl <NSTextDelegate>
 
 - (id)initWithFrame:(NSRect)frameRect;
-- (void)dealloc;
 
 @property (readonly) NSFont *timesFont;
 @property (nonatomic, assign) NSInteger zeroIndex;
@@ -32,26 +31,16 @@ extern NSString *TransitionViewSelectionDidChangeNotification;
 @property (readonly) NSMutableArray *selectedPoints;
 @property (nonatomic, readonly) MMFRuleSymbols *parameters;
 
-- (MModel *)model;
-- (void)setModel:(MModel *)newModel;
+@property (nonatomic, retain) MModel *model;
 
 - (void)_updateFromModel;
 - (void)updateTransitionType;
 
-- (double)ruleDuration;
-- (void)setRuleDuration:(double)newValue;
-
-- (double)beatLocation;
-- (void)setBeatLocation:(double)newValue;
-
-- (double)mark1;
-- (void)setMark1:(double)newValue;
-
-- (double)mark2;
-- (void)setMark2:(double)newValue;
-
-- (double)mark3;
-- (void)setMark3:(double)newValue;
+@property (nonatomic, assign) double ruleDuration;
+@property (nonatomic, assign) double beatLocation;
+@property (nonatomic, assign) double mark1;
+@property (nonatomic, assign) double mark2;
+@property (nonatomic, assign) double mark3;
 
 - (IBAction)takeRuleDurationFrom:(id)sender;
 - (IBAction)takeBeatLocationFrom:(id)sender;
@@ -59,14 +48,10 @@ extern NSString *TransitionViewSelectionDidChangeNotification;
 - (IBAction)takeMark2From:(id)sender;
 - (IBAction)takeMark3From:(id)sender;
 
-- (BOOL)shouldDrawSelection;
-- (void)setShouldDrawSelection:(BOOL)newFlag;
+@property (assign) BOOL shouldDrawSelection;
+@property (assign) BOOL shouldDrawSlopes;
 
-- (BOOL)shouldDrawSlopes;
-- (void)setShouldDrawSlopes:(BOOL)newFlag;
-
-- (id)delegate;
-- (void)setDelegate:(id)newDelegate;
+@property (assign) id delegate;
 
 // Drawing
 - (void)drawRect:(NSRect)rect;

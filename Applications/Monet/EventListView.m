@@ -37,50 +37,49 @@
 
 - (id)initWithFrame:(NSRect)frameRect;
 {
-    if ([super initWithFrame:frameRect] == nil)
-        return nil;
-
-    [self allocateGState];
-
-    timesFont = [[NSFont fontWithName:@"Times-Roman" size:12] retain];
-    timesFontSmall = [[NSFont fontWithName:@"Times-Roman" size:10] retain];
-
-    startingIndex = 0;
-    timeScale = 2.0;
-    mouseBeingDragged = NO;
-
-    eventList = nil;
-    trackTag = 0;
-
-    ruleCell = [[NSTextFieldCell alloc] initTextCell:@""];
-    [ruleCell setFont:[NSFont labelFontOfSize:10.0]];
-    [ruleCell setAlignment:NSCenterTextAlignment];
-    [ruleCell setBordered:YES];
-    [ruleCell setEnabled:YES];
-
-    minMaxCell = [[NSTextFieldCell alloc] initTextCell:@""];
-    [minMaxCell setControlSize:NSSmallControlSize];
-    [minMaxCell setAlignment:NSRightTextAlignment];
-    [minMaxCell setBordered:NO];
-    [minMaxCell setEnabled:YES];
-    [minMaxCell setFont:timesFontSmall];
-    [minMaxCell setFormatter:[NSNumberFormatter defaultNumberFormatter]];
-
-    parameterNameCell = [[NSTextFieldCell alloc] initTextCell:@""];
-    [parameterNameCell setControlSize:NSSmallControlSize];
-    [parameterNameCell setAlignment:NSLeftTextAlignment];
-    [parameterNameCell setBordered:NO];
-    [parameterNameCell setEnabled:YES];
-    [parameterNameCell setFont:timesFont];
-
-    displayParameters = nil;
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(frameDidChange:)
-												 name:NSViewFrameDidChangeNotification
-											   object:self];	
-
-    [self setNeedsDisplay:YES];
+    if ((self = [super initWithFrame:frameRect])) {
+        [self allocateGState];
+        
+        timesFont = [[NSFont fontWithName:@"Times-Roman" size:12] retain];
+        timesFontSmall = [[NSFont fontWithName:@"Times-Roman" size:10] retain];
+        
+        startingIndex = 0;
+        timeScale = 2.0;
+        mouseBeingDragged = NO;
+        
+        eventList = nil;
+        trackTag = 0;
+        
+        ruleCell = [[NSTextFieldCell alloc] initTextCell:@""];
+        [ruleCell setFont:[NSFont labelFontOfSize:10.0]];
+        [ruleCell setAlignment:NSCenterTextAlignment];
+        [ruleCell setBordered:YES];
+        [ruleCell setEnabled:YES];
+        
+        minMaxCell = [[NSTextFieldCell alloc] initTextCell:@""];
+        [minMaxCell setControlSize:NSSmallControlSize];
+        [minMaxCell setAlignment:NSRightTextAlignment];
+        [minMaxCell setBordered:NO];
+        [minMaxCell setEnabled:YES];
+        [minMaxCell setFont:timesFontSmall];
+        [minMaxCell setFormatter:[NSNumberFormatter defaultNumberFormatter]];
+        
+        parameterNameCell = [[NSTextFieldCell alloc] initTextCell:@""];
+        [parameterNameCell setControlSize:NSSmallControlSize];
+        [parameterNameCell setAlignment:NSLeftTextAlignment];
+        [parameterNameCell setBordered:NO];
+        [parameterNameCell setEnabled:YES];
+        [parameterNameCell setFont:timesFont];
+        
+        displayParameters = nil;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(frameDidChange:)
+                                                     name:NSViewFrameDidChangeNotification
+                                                   object:self];	
+        
+        [self setNeedsDisplay:YES];
+    }
 
     return self;
 }
@@ -107,6 +106,8 @@
 {
     trackTag = [self addTrackingRect:[self bounds] owner:self userData:NULL assumeInside:NO];  // track
 }
+
+#pragma mark -
 
 - (NSArray *)displayParameters;
 {
@@ -170,29 +171,22 @@
 
 - (void)drawGrid;
 {
-    NSMutableArray *displayList;
-    NSUInteger i, j, k, parameterIndex, phoneIndex;
+    NSUInteger j, k, parameterIndex;
     CGFloat currentX, currentY;
     CGFloat currentMin, currentMax;
-    Event *currentEvent;
     MMPosture *currentPhone = nil;
-    NSBezierPath *bezierPath;
     NSRect bounds;
-    NSUInteger count, index;
-    NSArray *events;
 	
 	// Set the proper bounds according to the event data.
 	bounds.size.width = [self minimumWidth];
 	bounds.size.height = [self minimumHeight];
 	
-	phoneIndex = 0;
-	displayList = [[NSMutableArray alloc] init];
+	NSUInteger phoneIndex = 0;
+	NSMutableArray *displayList = [[NSMutableArray alloc] init];
 	
-    count = [displayParameters count];
-    for (index = 0; index < count; index++) {
-        MMDisplayParameter *currentDisplayParameter;
-
-        currentDisplayParameter = [displayParameters objectAtIndex:index];
+    NSUInteger count = [displayParameters count];
+    for (NSUInteger index = 0; index < count; index++) {
+        MMDisplayParameter *currentDisplayParameter = [displayParameters objectAtIndex:index];
         [displayList addObject:currentDisplayParameter];
     }
 
@@ -204,7 +198,7 @@
     NSRectFill(NSMakeRect(80.0, 50.0, bounds.size.width - 100.0 - 30.0, bounds.size.height - 100.0));	// reduced 30.0 from x dimension for aesthetics -- db.
 
     [[NSColor blackColor] set];
-    bezierPath = [[NSBezierPath alloc] init];
+    NSBezierPath *bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:2];
     [bezierPath appendBezierPathWithRect:NSMakeRect(79.0, 49.0, bounds.size.width - 80.0 - 20.0 - 30.0 + 2.0, bounds.size.height - 50.0 - 50.0 + 2.0)];  // reduced 30.0 from x dimension for aesthetics -- db.
     [bezierPath stroke];
@@ -212,19 +206,17 @@
 
     /* Draw the space for each Track */
     [[NSColor darkGrayColor] set];
-    for (i = 0; i < j; i++) {
+    for (NSUInteger i = 0; i < j; i++) {
         NSRectFill(NSMakeRect(80.0 + 1.0, bounds.size.height - (50.0 + (float)(i + 1) * TRACKHEIGHT), bounds.size.width - 100.0 - 30.0 - 2.0, BORDERHEIGHT));  // reduced 30.0 from x dimension for aesthetics -- db.
     }
 
     // Draw parameter names
     [[NSColor blackColor] set];
-    for (i = 0; i < j; i++) {
-        MMDisplayParameter *displayParameter;
-        NSRect cellFrame;
-
-        displayParameter = [displayList objectAtIndex:i];
+    for (NSUInteger i = 0; i < j; i++) {
+        MMDisplayParameter *displayParameter = [displayList objectAtIndex:i];
         [parameterNameCell setStringValue:[displayParameter label]];
 
+        NSRect cellFrame;
         cellFrame.size.height = [parameterNameCell cellSize].height;
 
         cellFrame.origin.x = 15.0;
@@ -235,14 +227,11 @@
     }
 
     // Draw min/max parameter values
-    for (i = 0; i < j; i++) {
-        MMDisplayParameter *displayParameter;
-        MMParameter *aParameter;
+    for (NSUInteger i = 0; i < j; i++) {
+        MMDisplayParameter *displayParameter = [displayList objectAtIndex:i];
+        MMParameter *aParameter = [displayParameter parameter];
+
         NSRect cellFrame;
-
-        displayParameter = [displayList objectAtIndex:i];
-        aParameter = [displayParameter parameter];
-
         cellFrame.origin.x = 0;
         cellFrame.origin.y = bounds.size.height - 50.0 - (float)(i + 1) * TRACKHEIGHT + BORDERHEIGHT - 9.0;
         cellFrame.size.height = 18.0;
@@ -260,8 +249,8 @@
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:1];
 
-    events = [eventList events];
-    for (i = 0; i < [events count]; i++) {
+    NSArray *events = [eventList events];
+    for (NSUInteger i = 0; i < [events count]; i++) {
         currentX = [self scaledX:[[events objectAtIndex:i] time]];
 
         if ([[events objectAtIndex:i] flag]) {
@@ -286,17 +275,15 @@
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:2];
     [[NSColor blackColor] set];
-    for (i = 0; i < [displayList count] && i < 4; i++) {
-        MMDisplayParameter *displayParameter;
-
-        displayParameter = [displayList objectAtIndex:i];
+    for (NSUInteger i = 0; i < [displayList count] && i < 4; i++) {
+        MMDisplayParameter *displayParameter = [displayList objectAtIndex:i];
         parameterIndex = [displayParameter tag];
         currentMin = (float)[[displayParameter parameter] minimumValue];
         currentMax = (float)[[displayParameter parameter] maximumValue];
 
         k = 0;
         for (j = 0; j < [events count]; j++) {
-            currentEvent = [events objectAtIndex:j];
+            Event *currentEvent = [events objectAtIndex:j];
             currentX = [self scaledX:[currentEvent time]];
             if (currentX > bounds.size.width - 20.0 - 30.0)  // reduced 30.0 from x dimension for aesthetics -- db.
                 break;
@@ -323,21 +310,17 @@
 
 - (void)drawRules;
 {
-    NSUInteger count, index;
-    CGFloat currentX, extraWidth;
-    struct _rule *rule;
-    NSRect bounds, cellFrame;
-
-    bounds = NSIntegralRect([self bounds]);
+    NSRect bounds = NSIntegralRect([self bounds]);
 
     [timesFontSmall set];
-    currentX = 0;
-    extraWidth = 0.0;
+    CGFloat currentX = 0;
+    CGFloat extraWidth = 0.0;
 
-    count = [eventList ruleCount];
-    for (index = 0; index < count; index++) {
-        rule = [eventList getRuleAtIndex:index];
+    NSUInteger count = [eventList ruleCount];
+    for (NSUInteger index = 0; index < count; index++) {
+        struct _rule *rule = [eventList getRuleAtIndex:index];
 
+        NSRect cellFrame;
         cellFrame.origin.x = 80.0 + currentX;
         cellFrame.origin.y = bounds.size.height - 25.0;
         cellFrame.size.height = 18.0;
@@ -353,13 +336,9 @@
 
 - (void)mouseDown:(NSEvent *)theEvent;
 {
-    CGFloat row, column;
-    NSPoint mouseDownLocation = [theEvent locationInWindow];
-
     /* Get information about the original location of the mouse event */
-    mouseDownLocation = [self convertPoint:mouseDownLocation fromView:nil];
-    row = mouseDownLocation.y;
-    column = mouseDownLocation.x;
+    NSPoint mouseDownLocation = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+    CGFloat column = mouseDownLocation.x;
 
     /* Single click mouse events */
     if ([theEvent clickCount] == 1) {
@@ -408,24 +387,20 @@
 
 - (void)updateScale:(CGFloat)column;
 {
-    NSPoint mouseDownLocation;
-    NSEvent *newEvent;
-    CGFloat delta, originalScale;
-
-    originalScale = timeScale;
+    CGFloat originalScale = timeScale;
 
     [[self window] setAcceptsMouseMovedEvents:YES];
     while (1) {
-        newEvent = [NSApp nextEventMatchingMask:NSLeftMouseDraggedMask|NSLeftMouseUpMask
-                          untilDate:[NSDate distantFuture]
-                          inMode:NSEventTrackingRunLoopMode
-                          dequeue:YES];
+        NSEvent *newEvent = [NSApp nextEventMatchingMask:NSLeftMouseDraggedMask|NSLeftMouseUpMask
+                                               untilDate:[NSDate distantFuture]
+                                                  inMode:NSEventTrackingRunLoopMode
+                                                 dequeue:YES];
 
         if ([newEvent type] == NSLeftMouseUp)
             break;
 
-        mouseDownLocation = [self convertPoint:[newEvent locationInWindow] fromView:nil];
-        delta = column - mouseDownLocation.x;
+        NSPoint mouseDownLocation = [self convertPoint:[newEvent locationInWindow] fromView:nil];
+        CGFloat delta = column - mouseDownLocation.x;
         timeScale = originalScale + delta / 20.0;
 
         if (timeScale > 10.0)
@@ -492,15 +467,10 @@
 // Added by dalmazio, April 11, 2009.
 - (void)resize;
 {
-    NSScrollView *enclosingScrollView;
-	
-    enclosingScrollView = [self enclosingScrollView];
+    NSScrollView *enclosingScrollView = [self enclosingScrollView];
     if (enclosingScrollView != nil) {
-        NSRect documentVisibleRect, bounds, visibleRect;
-		
-		visibleRect = [enclosingScrollView frame];
-        documentVisibleRect = [enclosingScrollView documentVisibleRect];
-        bounds = [self bounds];
+        NSRect documentVisibleRect = [enclosingScrollView documentVisibleRect];
+        NSRect bounds = [self bounds];
 		
         bounds.size.width = [self minimumWidth];
 		if (bounds.size.width < documentVisibleRect.size.width)
@@ -540,10 +510,9 @@
 // Added by dalmazio, April 11, 2009.
 - (CGFloat)minimumHeight;
 {
-	CGFloat minimumHeight;
 	NSUInteger displayCount = [displayParameters count];
 	
-	minimumHeight = 50.0 + 30.0 + 1.0 + (displayCount * TRACKHEIGHT) + BORDERHEIGHT;
+	CGFloat minimumHeight = 50.0 + 30.0 + 1.0 + (displayCount * TRACKHEIGHT) + BORDERHEIGHT;
 
 	NSRect bounds = [[self enclosingScrollView] documentVisibleRect];
 	if (minimumHeight < bounds.size.height)

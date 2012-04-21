@@ -32,44 +32,32 @@
 // The size was originally 700 x 380
 - (id)initWithFrame:(NSRect)frameRect;
 {
-    if ([super initWithFrame:frameRect] == nil)
-        return nil;
-
-    //[self setShouldDrawSlopes:NO];
-    self.zeroIndex = 7;
-    self.sectionAmount = 20;
+    if ((self = [super initWithFrame:frameRect])) {
+        //[self setShouldDrawSlopes:NO];
+        self.zeroIndex = 7;
+        self.sectionAmount = 20;
+    }
 
     return self;
-}
-
-- (void)dealloc;
-{
-    [super dealloc];
 }
 
 #pragma mark - Drawing
 
 - (void)drawGrid;
 {
-    NSUInteger i;
-    CGFloat sectionHeight;
-    NSBezierPath *bezierPath;
-    NSRect bounds, rect;
-    NSPoint graphOrigin; // But not the zero point on the graph.
+    NSRect bounds = NSIntegralRect([self bounds]);
 
-    bounds = NSIntegralRect([self bounds]);
-
-    sectionHeight = [self sectionHeight];
-    graphOrigin = [self graphOrigin];
+    CGFloat sectionHeight = [self sectionHeight];
+    NSPoint graphOrigin = [self graphOrigin]; // But not the zero point on the graph.
 
     [[NSColor lightGrayColor] set];
-    rect = NSMakeRect(graphOrigin.x + 1.0, graphOrigin.y + 1.0, bounds.size.width - 2 * (LEFT_MARGIN + 1), self.zeroIndex * sectionHeight);
+    NSRect rect = NSMakeRect(graphOrigin.x + 1.0, graphOrigin.y + 1.0, bounds.size.width - 2 * (LEFT_MARGIN + 1), self.zeroIndex * sectionHeight);
     NSRectFill(rect);
 
     /* Grayed out (unused) data spaces should be placed here */
 
     [[NSColor blackColor] set];
-    bezierPath = [[NSBezierPath alloc] init];
+    NSBezierPath *bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:2];
     [bezierPath appendBezierPathWithRect:NSMakeRect(graphOrigin.x, graphOrigin.y, bounds.size.width - 2 * LEFT_MARGIN, 14 * sectionHeight)];
     [bezierPath stroke];
@@ -81,7 +69,7 @@
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:1];
 
-    for (i = 1; i < 14; i++) {
+    for (NSUInteger i = 1; i < 14; i++) {
         NSString *label;
         CGFloat currentYPos;
         NSSize labelSize;
@@ -112,32 +100,25 @@
 - (void)highlightSelectedPoints;
 {
     if ([self.selectedPoints count]) {
-        NSUInteger index;
-        CGFloat timeScale, y;
-        CGFloat yScale;
-        NSPoint graphOrigin;
-        NSUInteger cacheTag;
-
         //NSLog(@"Drawing %d selected points", [selectedPoints count]);
 
-        cacheTag = [[self model] nextCacheTag];
+        NSUInteger cacheTag = [[self model] nextCacheTag];
 
-        graphOrigin = [self graphOrigin];
-        timeScale = [self timeScale];
-        yScale = [self sectionHeight];
+        NSPoint graphOrigin = [self graphOrigin];
+        CGFloat timeScale = [self timeScale];
+        CGFloat yScale = [self sectionHeight];
 
-        for (index = 0; index < [self.selectedPoints count]; index++) {
-            MMPoint *currentPoint;
+        for (NSUInteger index = 0; index < [self.selectedPoints count]; index++) {
             CGFloat eventTime;
-            NSPoint myPoint;
 
-            currentPoint = [self.selectedPoints objectAtIndex:index];
-            y = (float)[currentPoint value];
+            MMPoint *currentPoint = [self.selectedPoints objectAtIndex:index];
+            CGFloat y = (CGFloat)[currentPoint value];
             if ([currentPoint timeEquation] == nil)
                 eventTime = [currentPoint freeTime];
             else
                 eventTime = [[currentPoint timeEquation] evaluate:self.parameters postures:self.samplePostures andCacheWith:cacheTag];
 
+            NSPoint myPoint;
             myPoint.x = graphOrigin.x + timeScale * eventTime;
             myPoint.y = graphOrigin.y + (yScale * self.zeroIndex) + (y * (float)yScale / self.sectionAmount);
 
@@ -154,9 +135,7 @@
 #ifdef PORTING
 - (void)mouseDown:(NSEvent *)mouseEvent;
 {
-    NSPoint hitPoint;
-
-    hitPoint = [self convertPoint:[mouseEvent locationInWindow] fromView:nil];
+    NSPoint hitPoint = [self convertPoint:[mouseEvent locationInWindow] fromView:nil];
     //NSLog(@"hitPoint: %@", NSStringFromPoint(hitPoint));
 
     [self setShouldDrawSelection:NO];
@@ -167,16 +146,14 @@
     if ([mouseEvent clickCount] == 1) {
         //NSLog(@"[mouseEvent modifierFlags]: %x", [mouseEvent modifierFlags]);
         if ([mouseEvent modifierFlags] & NSAlternateKeyMask) {
-            MMPoint *newPoint;
             NSPoint graphOrigin = [self graphOrigin];
             CGFloat yScale = [self sectionHeight];
-            CGFloat newValue;
 
             //NSLog(@"Alt-clicked!");
-            newPoint = [[MMPoint alloc] init];
+            MMPoint *newPoint = [[MMPoint alloc] init];
             [newPoint setFreeTime:(hitPoint.x - graphOrigin.x) / [self timeScale]];
             //NSLog(@"hitPoint: %@, graphOrigin: %@, yScale: %d", NSStringFromPoint(hitPoint), NSStringFromPoint(graphOrigin), yScale);
-            newValue = (hitPoint.y - graphOrigin.y - (zeroIndex * yScale)) * self.sectionAmount / yScale;
+            CGFloat newValue = (hitPoint.y - graphOrigin.y - (zeroIndex * yScale)) * self.sectionAmount / yScale;
 
             //NSLog(@"NewPoint Time: %f  value: %f", [tempPoint freeTime], [tempPoint value]);
             [newPoint setValue:newValue];
@@ -204,35 +181,26 @@
 
 - (void)selectGraphPointsBetweenPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
 {
-    NSPoint graphOrigin;
-    NSRect selectionRect;
-    NSUInteger count, index;
-    CGFloat timeScale;
-    CGFloat yScale;
-    NSUInteger cacheTag;
-
     [self.selectedPoints removeAllObjects];
 
-    cacheTag = [[self model] nextCacheTag];
-    graphOrigin = [self graphOrigin];
-    timeScale = [self timeScale];
-    yScale = [self sectionHeight];
+    NSUInteger cacheTag = [[self model] nextCacheTag];
+    NSPoint graphOrigin = [self graphOrigin];
+    CGFloat timeScale = [self timeScale];
+    CGFloat yScale = [self sectionHeight];
 
-    selectionRect = [self rectFormedByPoint:point1 andPoint:point2];
+    NSRect selectionRect = [self rectFormedByPoint:point1 andPoint:point2];
     selectionRect.origin.x -= graphOrigin.x;
     selectionRect.origin.y -= graphOrigin.y;
 
     //NSLog(@"%s, selectionRect: %@", _cmd, NSStringFromRect(selectionRect));
 
-    count = [self.displayPoints count];
+    NSUInteger count = [self.displayPoints count];
     //NSLog(@"%d display points", count);
-    for (index = 0; index < count; index++) {
-        MMPoint *currentDisplayPoint;
-        MMEquation *currentExpression;
+    for (NSUInteger index = 0; index < count; index++) {
         NSPoint currentPoint;
 
-        currentDisplayPoint = [self.displayPoints objectAtIndex:index];
-        currentExpression = [currentDisplayPoint timeEquation];
+        MMPoint *currentDisplayPoint = [self.displayPoints objectAtIndex:index];
+        MMEquation *currentExpression = [currentDisplayPoint timeEquation];
         if (currentExpression == nil)
             currentPoint.x = [currentDisplayPoint freeTime];
         else

@@ -15,11 +15,10 @@
 
 - (id)initWithFrame:(NSRect)frameRect;
 {
-    if ([super initWithFrame:frameRect] == nil)
-        return nil;
-
-    lastTimestamp = 0.0;
-    combinedCharacters = [[NSMutableString alloc] init];
+    if ((self = [super initWithFrame:frameRect])) {
+        lastTimestamp = 0.0;
+        combinedCharacters = [[NSMutableString alloc] init];
+    }
 
     return self;
 }
