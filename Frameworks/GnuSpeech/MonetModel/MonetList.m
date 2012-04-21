@@ -51,7 +51,7 @@
 - (id)objectAtIndex:(NSUInteger)index;
 {
     if (index >= [ilist count]) {
-        //NSLog(@"Warning: index out of range in %s, returning nil for compatibility with List from NS3.3", _cmd);
+        NSLog(@"Warning: index out of range in %s, returning nil for compatibility with List from NS3.3", __PRETTY_FUNCTION__);
         [self _warning];
         return nil;
     }
@@ -75,43 +75,35 @@
 
 - (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(NSUInteger)level;
 {
-    NSUInteger count, index;
+    NSUInteger count = [self.ilist count];
+    if (count > 0) {
+        [resultString indentToLevel:level];
+        [resultString appendFormat:@"<%@>\n", elementName];
 
-    count = [self.ilist count];
-    if (count == 0)
-        return;
-
-    [resultString indentToLevel:level];
-    [resultString appendFormat:@"<%@>\n", elementName];
-
-    for (index = 0; index < count; index++)
-        [[self objectAtIndex:index] appendXMLToString:resultString level:level+1];
-
-    [resultString indentToLevel:level];
-    [resultString appendFormat:@"</%@>\n", elementName];
+        for (id object in self.ilist) {
+            [object appendXMLToString:resultString level:level+1];
+        }
+        
+        [resultString indentToLevel:level];
+        [resultString appendFormat:@"</%@>\n", elementName];
+    }
 }
 
 - (void)appendXMLForObjectPointersToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(NSUInteger)level;
 {
-    NSUInteger count, index;
-
-    count = [self.ilist count];
-    if (count == 0)
-        return;
-
-    [resultString indentToLevel:level];
-    [resultString appendFormat:@"<%@>\n", elementName];
-
-    for (index = 0; index < count; index++) {
-        id anObject;
-
-        anObject = [self objectAtIndex:index];
-        [resultString indentToLevel:level + 1];
-        [resultString appendFormat:@"<object ptr=\"%p\" class=\"%@\"/>\n", anObject, NSStringFromClass([anObject class])];
+    NSUInteger count = [self.ilist count];
+    if (count > 0) {
+        [resultString indentToLevel:level];
+        [resultString appendFormat:@"<%@>\n", elementName];
+        
+        for (id object in self.ilist) {
+            [resultString indentToLevel:level + 1];
+            [resultString appendFormat:@"<object ptr=\"%p\" class=\"%@\"/>\n", object, NSStringFromClass([object class])];
+        }
+        
+        [resultString indentToLevel:level];
+        [resultString appendFormat:@"</%@>\n", elementName];
     }
-
-    [resultString indentToLevel:level];
-    [resultString appendFormat:@"</%@>\n", elementName];
 }
 
 @end
