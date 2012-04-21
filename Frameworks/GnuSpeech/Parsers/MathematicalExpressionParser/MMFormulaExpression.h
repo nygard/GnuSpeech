@@ -3,21 +3,23 @@
 
 #import "MMFormulaNode.h"
 
+enum {
+    MMFormulaOperation_None     = 0,
+    MMFormulaOperation_Add      = 1,
+    MMFormulaOperation_Subtract = 2,
+    MMFormulaOperation_Multiply = 3,
+    MMFormulaOperation_Divide   = 4,
+};
+typedef NSUInteger MMFormulaOperation;
+
 @interface MMFormulaExpression : MMFormulaNode
 
-- (id)init;
-- (void)dealloc;
+@property (assign) MMFormulaOperation operation;
 
-- (NSUInteger)operation;
-- (void)setOperation:(NSUInteger)newOp;
+@property (retain) id operandOne;
+@property (retain) id operandTwo;
 
-- (id)operandOne;
-- (void)setOperandOne:(id)operand;
-
-- (id)operandTwo;
-- (void)setOperandTwo:(id)operand;
-
-- (NSString *)opString;
+@property (nonatomic, readonly) NSString *operationString;
 
 // Methods overridden from MMFormulaNode
 - (NSUInteger)precedence;
@@ -25,7 +27,5 @@
 - (double)evaluate:(MMFRuleSymbols *)ruleSymbols postures:(NSArray *)postures tempos:(double *)tempos;
 
 - (NSUInteger)maxPhone;
-
-- (void)expressionString:(NSMutableString *)resultString;
 
 @end

@@ -465,10 +465,6 @@
 #endif
 }
 
-// Converted classes:
-// MMCategory, FormulaExpression, FormulaTerminal, MonetList, NamedList, Parameter, Phone, Point, MMEquation, ProtoTemplte, MMRule, Symbol, Target
-// MMBooleanExpression, MMBooleanTerminal, MMSlope, MMSlopeRatio
-
 - (void)_disableUnconvertedClassLoading;
 {
     NSString *names[] = { @"IntonationPoint", @"RuleManager", nil };

@@ -59,7 +59,6 @@
 #import <GnuSpeech/MMFormulaExpression.h>
 #import <GnuSpeech/MMFormulaNode.h>
 #import <GnuSpeech/MMFormulaParser.h>
-#import <GnuSpeech/MMFormulaSymbols.h>
 #import <GnuSpeech/MMFormulaTerminal.h>
 #import <GnuSpeech/MMFRuleSymbols.h>
 

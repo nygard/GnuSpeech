@@ -3,31 +3,15 @@
 
 #import "GSParser.h"
 
-@class MMFormulaTerminal, MMFormulaNode, MModel;
+@class MMFormulaNode, MModel;
 
 @interface MMFormulaParser : GSParser
 
-+ (MMFormulaNode *)parsedExpressionFromString:(NSString *)aString model:(MModel *)aModel;
-+ (NSString *)nameForToken:(NSUInteger)aToken;
++ (MMFormulaNode *)parsedExpressionFromString:(NSString *)string model:(MModel *)model;
++ (NSString *)nameForToken:(NSUInteger)token;
 
-- (id)initWithModel:(MModel *)aModel;
-- (void)dealloc;
+- (id)initWithModel:(MModel *)model;
 
-- (MModel *)model;
-- (void)setModel:(MModel *)newModel;
-
-- (NSUInteger)nextToken;
-- (BOOL)scanNumber;
-
-
-- (void)match:(NSUInteger)token;
-- (MMFormulaNode *)parseExpression;
-- (MMFormulaNode *)parseTerm;
-- (MMFormulaNode *)parseFactor;
-
-- (MMFormulaTerminal *)parseNumber;
-- (MMFormulaNode *)parseSymbol;
-
-- (id)beginParseString;
+@property (retain) MModel *model;
 
 @end

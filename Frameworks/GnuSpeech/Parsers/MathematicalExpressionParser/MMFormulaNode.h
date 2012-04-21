@@ -7,14 +7,14 @@
 
 @interface MMFormulaNode : NSObject
 
-- (NSUInteger)precedence;
+@property (nonatomic, readonly) NSUInteger precedence;
 
 - (double)evaluate:(MMFRuleSymbols *)ruleSymbols postures:(NSArray *)postures;
 - (double)evaluate:(MMFRuleSymbols *)ruleSymbols postures:(NSArray *)postures tempos:(double *)tempos;
 
-- (NSUInteger)maxPhone;
+- (NSInteger)maxPhone;
 
 - (NSString *)expressionString;
-- (void)expressionString:(NSMutableString *)resultString;
+- (void)appendExpressionToString:(NSMutableString *)resultString;
 
 @end

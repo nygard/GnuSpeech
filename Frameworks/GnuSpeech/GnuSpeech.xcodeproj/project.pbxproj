@@ -138,7 +138,6 @@
 		695148750FB0DB5500B6DDD6 /* MMFormulaNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6951486B0FB0DB5500B6DDD6 /* MMFormulaNode.m */; };
 		695148760FB0DB5500B6DDD6 /* MMFormulaParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 6951486C0FB0DB5500B6DDD6 /* MMFormulaParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		695148770FB0DB5500B6DDD6 /* MMFormulaParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6951486D0FB0DB5500B6DDD6 /* MMFormulaParser.m */; };
-		695148780FB0DB5500B6DDD6 /* MMFormulaSymbols.h in Headers */ = {isa = PBXBuildFile; fileRef = 6951486E0FB0DB5500B6DDD6 /* MMFormulaSymbols.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		695148790FB0DB5500B6DDD6 /* MMFormulaTerminal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6951486F0FB0DB5500B6DDD6 /* MMFormulaTerminal.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6951487A0FB0DB5500B6DDD6 /* MMFormulaTerminal.m in Sources */ = {isa = PBXBuildFile; fileRef = 695148700FB0DB5500B6DDD6 /* MMFormulaTerminal.m */; };
 		6951487B0FB0DB5500B6DDD6 /* MMFRuleSymbols.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148710FB0DB5500B6DDD6 /* MMFRuleSymbols.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -351,7 +350,6 @@
 		6951486B0FB0DB5500B6DDD6 /* MMFormulaNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMFormulaNode.m; sourceTree = "<group>"; };
 		6951486C0FB0DB5500B6DDD6 /* MMFormulaParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMFormulaParser.h; sourceTree = "<group>"; };
 		6951486D0FB0DB5500B6DDD6 /* MMFormulaParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMFormulaParser.m; sourceTree = "<group>"; };
-		6951486E0FB0DB5500B6DDD6 /* MMFormulaSymbols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMFormulaSymbols.h; sourceTree = "<group>"; };
 		6951486F0FB0DB5500B6DDD6 /* MMFormulaTerminal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMFormulaTerminal.h; sourceTree = "<group>"; };
 		695148700FB0DB5500B6DDD6 /* MMFormulaTerminal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMFormulaTerminal.m; sourceTree = "<group>"; };
 		695148710FB0DB5500B6DDD6 /* MMFRuleSymbols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMFRuleSymbols.h; sourceTree = "<group>"; };
@@ -702,12 +700,12 @@
 		695147940FB0D73000B6DDD6 /* Boolean Expression Parser */ = {
 			isa = PBXGroup;
 			children = (
-				695147950FB0D73000B6DDD6 /* MMBooleanExpression.h */,
-				695147960FB0D73000B6DDD6 /* MMBooleanExpression.m */,
-				695147970FB0D73000B6DDD6 /* MMBooleanNode.h */,
-				695147980FB0D73000B6DDD6 /* MMBooleanNode.m */,
 				695147990FB0D73000B6DDD6 /* MMBooleanParser.h */,
 				6951479A0FB0D73000B6DDD6 /* MMBooleanParser.m */,
+				695147970FB0D73000B6DDD6 /* MMBooleanNode.h */,
+				695147980FB0D73000B6DDD6 /* MMBooleanNode.m */,
+				695147950FB0D73000B6DDD6 /* MMBooleanExpression.h */,
+				695147960FB0D73000B6DDD6 /* MMBooleanExpression.m */,
 				6951479C0FB0D73000B6DDD6 /* MMBooleanTerminal.h */,
 				6951479D0FB0D73000B6DDD6 /* MMBooleanTerminal.m */,
 			);
@@ -718,13 +716,12 @@
 		695148670FB0DB5500B6DDD6 /* Mathematical Expression Parser */ = {
 			isa = PBXGroup;
 			children = (
-				695148680FB0DB5500B6DDD6 /* MMFormulaExpression.h */,
-				695148690FB0DB5500B6DDD6 /* MMFormulaExpression.m */,
-				6951486A0FB0DB5500B6DDD6 /* MMFormulaNode.h */,
-				6951486B0FB0DB5500B6DDD6 /* MMFormulaNode.m */,
 				6951486C0FB0DB5500B6DDD6 /* MMFormulaParser.h */,
 				6951486D0FB0DB5500B6DDD6 /* MMFormulaParser.m */,
-				6951486E0FB0DB5500B6DDD6 /* MMFormulaSymbols.h */,
+				6951486A0FB0DB5500B6DDD6 /* MMFormulaNode.h */,
+				6951486B0FB0DB5500B6DDD6 /* MMFormulaNode.m */,
+				695148680FB0DB5500B6DDD6 /* MMFormulaExpression.h */,
+				695148690FB0DB5500B6DDD6 /* MMFormulaExpression.m */,
 				6951486F0FB0DB5500B6DDD6 /* MMFormulaTerminal.h */,
 				695148700FB0DB5500B6DDD6 /* MMFormulaTerminal.m */,
 				695148710FB0DB5500B6DDD6 /* MMFRuleSymbols.h */,
@@ -890,7 +887,6 @@
 				695148720FB0DB5500B6DDD6 /* MMFormulaExpression.h in Headers */,
 				695148740FB0DB5500B6DDD6 /* MMFormulaNode.h in Headers */,
 				695148760FB0DB5500B6DDD6 /* MMFormulaParser.h in Headers */,
-				695148780FB0DB5500B6DDD6 /* MMFormulaSymbols.h in Headers */,
 				695148790FB0DB5500B6DDD6 /* MMFormulaTerminal.h in Headers */,
 				6951487B0FB0DB5500B6DDD6 /* MMFRuleSymbols.h in Headers */,
 				695148B20FB0DDAA00B6DDD6 /* number_parser.h in Headers */,
