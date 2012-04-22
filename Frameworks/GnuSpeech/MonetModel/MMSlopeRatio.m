@@ -8,7 +8,6 @@
 #import "NSString-Extensions.h"
 
 #import "GSXMLFunctions.h"
-#import "MonetList.h"
 #import "MMPoint.h"
 #import "MMEquation.h"
 #import "MMSlope.h"
@@ -17,6 +16,8 @@
 #import "MXMLArrayDelegate.h"
 
 #import "EventList.h"
+
+#pragma mark -
 
 @implementation MMSlopeRatio
 {
@@ -106,8 +107,10 @@
     return [(MMPoint *)[points lastObject] cachedTime];
 }
 
+#pragma mark - Used by TransitionView
+
 - (void)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag
-              toDisplay:(MonetList *)displayList;
+              toDisplay:(NSMutableArray *)displayList;
 {
     NSUInteger i, numSlopes;
     double temp = 0.0, temp1 = 0.0, intervalTime = 0.0, sum = 0.0, factor = 0.0;
@@ -125,7 +128,7 @@
         //NSLog(@"\t%d: expr %@ = %g", i, [[[currentPoint expression] expression] expressionString], dummy);
         //NSLog(@"point value: %g, expression value: %g", [currentPoint value], [[currentPoint expression] cacheValue]);
 
-        [displayList.ilist addObject:currentPoint];
+        [displayList addObject:currentPoint];
     }
 
     baseTime = [[points objectAtIndex:0] cachedTime];
@@ -162,6 +165,8 @@
         temp = [[points objectAtIndex:i] addValue:temp];
     }
 }
+
+#pragma mark - Used by ???
 
 - (double)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag
                  baseline:(double)baseline delta:(double)parameterDelta min:(double)min max:(double)max
