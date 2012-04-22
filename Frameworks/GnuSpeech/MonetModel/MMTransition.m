@@ -184,12 +184,12 @@
             slopePoints = [pointOrSlopeRatio points];
             for (j = 0; j < [slopePoints count]; j++)
                 if (anEquation == [[slopePoints objectAtIndex:j] timeEquation]) {
-                    [aList addObject:self];
+                    [aList.ilist addObject:self];
                     return;
                 }
         } else {
             if (anEquation == [[points objectAtIndex:index] timeEquation]) {
-                [aList addObject:self];
+                [aList.ilist addObject:self];
                 return;
             }
         }

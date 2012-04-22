@@ -125,7 +125,7 @@
         //NSLog(@"\t%d: expr %@ = %g", i, [[[currentPoint expression] expression] expressionString], dummy);
         //NSLog(@"point value: %g, expression value: %g", [currentPoint value], [[currentPoint expression] cacheValue]);
 
-        [displayList addObject:currentPoint];
+        [displayList.ilist addObject:currentPoint];
     }
 
     baseTime = [[points objectAtIndex:0] cachedTime];

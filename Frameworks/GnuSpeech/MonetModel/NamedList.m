@@ -91,7 +91,7 @@
 
 - (void)addObject:(id)anObject;
 {
-    [super addObject:anObject];
+    [self.ilist addObject:anObject];
 
     if ([anObject respondsToSelector:@selector(setGroup:)] == YES)
         [anObject setGroup:self];

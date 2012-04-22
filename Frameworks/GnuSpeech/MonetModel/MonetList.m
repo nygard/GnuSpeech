@@ -43,21 +43,6 @@
 
 @synthesize ilist;
 
-- (void)_addNilWarning;
-{
-    NSLog(@"Tried to add nil.");
-}
-
-- (void)addObject:(id)anObject;
-{
-    if (anObject == nil) {
-        NSLog(@"Warning: trying to insert nil into MonetList.  Ignoring, for compatibility with List from NS3.3");
-        [self _addNilWarning];
-        return;
-    }
-    [ilist addObject:anObject];
-}
-
 - (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(NSUInteger)level;
 {
     NSUInteger count = [self.ilist count];
