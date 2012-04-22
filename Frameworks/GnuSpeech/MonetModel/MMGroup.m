@@ -8,10 +8,15 @@
 #import "MMEquation.h"
 #import "MMTarget.h" // Just to get -appendXMLToString:level:, this is just a quick hack
 #import "MMTransition.h"
+#import "MMGroupedObject.h"
 
 #import "GSXMLFunctions.h"
 #import "MXMLParser.h"
 #import "MXMLPCDataDelegate.h"
+
+@interface MMGroup ()
+@property (readonly) NSMutableArray *mutableObjects;
+@end
 
 @implementation MMGroup
 {
@@ -45,7 +50,12 @@
 
 #pragma mark -
 
-@synthesize objects = m_objects;
+- (NSArray *)objects;
+{
+    return [[m_objects copy] autorelease];
+}
+
+@synthesize mutableObjects = m_objects;
 
 - (void)setModel:(MModel *)newModel;
 {
@@ -57,22 +67,12 @@
     }
 }
 
-- (void)addObject:(id)object;
+- (void)addObject:(MMGroupedObject *)object;
 {
-    [self.objects addObject:object];
+    [self.mutableObjects addObject:object];
 
-    if ([object respondsToSelector:@selector(setModel:)] == YES)
-        [object setModel:[self model]];
-}
-
-- (void)insertObject:(id)object atIndex:(NSUInteger)index;
-{
-    [self.objects insertObject:object atIndex:index];
-}
-
-- (void)replaceObjectAtIndex:(NSUInteger)index withObject:(id)object;
-{
-    [self.objects replaceObjectAtIndex:index withObject:object];
+    object.model = self.model;
+    object.group = self;
 }
 
 #pragma mark - XML Archiving

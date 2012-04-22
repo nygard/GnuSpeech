@@ -3,14 +3,14 @@
 
 #import "MMNamedObject.h"
 
+@class MMGroupedObject;
+
 @interface MMGroup : MMNamedObject
 
-@property (readonly) NSMutableArray *objects;
+@property (nonatomic, readonly) NSArray *objects;
 
 // These set the group (if possible) on objects added to the list
-- (void)addObject:(id)object;
-- (void)insertObject:(id)object atIndex:(NSUInteger)index;
-- (void)replaceObjectAtIndex:(NSUInteger)index withObject:(id)object;
+- (void)addObject:(MMGroupedObject *)object;
 
 - (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(NSUInteger)level;
 
