@@ -56,7 +56,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     NSMutableArray *symbols;
     NSMutableArray *postures; // Keep this list sorted by name
     
-    NSMutableArray *equations; // Of NamedLists of MMEquations
+    NSMutableArray *equations; // Of NamedLists of MMEquations // TODO (2012-04-22): Rename equationGroups, transitionGroups, specialTransitionGroups
     NSMutableArray *transitions; // Of NamedLists of MMTransitions
     NSMutableArray *specialTransitions; // Of NamedLists of MMTransitions
     

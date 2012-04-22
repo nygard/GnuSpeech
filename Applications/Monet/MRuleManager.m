@@ -417,8 +417,9 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView;
 {
-    if (tableView == ruleTableView)
+    if (tableView == ruleTableView) {
         return [[model rules] count];
+    }
 
     if (tableView == symbolTableView) {
         if ([self selectedRule] == nil)
@@ -657,20 +658,26 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item;
 {
     if (outlineView == symbolEquationOutlineView) {
-        if (item == nil)
+        if (item == nil) {
             return [[[self model] equations] count];
-        else
-            return [item count];
+        } else {
+            MonetList *list = item;
+            return [list.ilist count];
+        }
     } else if (outlineView == parameterTransitionOutlineView || outlineView == metaParameterTransitionOutlineView) {
-        if (item == nil)
+        if (item == nil) {
             return [[[self model] transitions] count];
-        else
-            return [item count];
+        } else {
+            MonetList *list = item;
+            return [list.ilist count];
+        }
     } else if (outlineView == specialParameterTransitionOutlineView) {
-        if (item == nil)
+        if (item == nil) {
             return [[[self model] specialTransitions] count];
-        else
-            return [item count];
+        } else {
+            MonetList *list = item;
+            return [list.ilist count];
+        }
     }
 
     return 0;
@@ -679,20 +686,26 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item;
 {
     if (outlineView == symbolEquationOutlineView) {
-        if (item == nil)
+        if (item == nil) {
             return [[[self model] equations] objectAtIndex:index];
-        else
-            return [item objectAtIndex:index];
+        } else {
+            MonetList *list = item;
+            return [list.ilist objectAtIndex:index];
+        }
     } else if (outlineView == parameterTransitionOutlineView || outlineView == metaParameterTransitionOutlineView) {
-        if (item == nil)
+        if (item == nil) {
             return [[[self model] transitions] objectAtIndex:index];
-        else
-            return [item objectAtIndex:index];
+        } else {
+            MonetList *list = item;
+            return [list.ilist objectAtIndex:index];
+        }
     } else if (outlineView == specialParameterTransitionOutlineView) {
-        if (item == nil)
+        if (item == nil) {
             return [[[self model] specialTransitions] objectAtIndex:index];
-        else
-            return [item objectAtIndex:index];
+        } else {
+            MonetList *list = item;
+            return [list.ilist objectAtIndex:index];
+        }
     }
 
     return nil;
