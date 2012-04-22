@@ -1510,7 +1510,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     MXMLParser *parser = [[MXMLParser alloc] initWithContentsOfURL:fileURL];
     [(MXMLParser *)parser setContext:self];
     [parser pushDelegate:self];
-    [parser setShouldResolveExternalEntities:YES];
+    [parser setShouldResolveExternalEntities:NO];
     BOOL result = [parser parse];
     if (result == NO) {
         NSLog(@"Error: Failed to load file %@, (%@)", filename, [[parser parserError] localizedDescription]);

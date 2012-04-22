@@ -34,7 +34,7 @@
     fileURL = [NSURL fileURLWithPath:filename];
     parser = [[MXMLParser alloc] initWithContentsOfURL:fileURL];
     [parser pushDelegate:self];
-    [parser setShouldResolveExternalEntities:YES];
+    [parser setShouldResolveExternalEntities:NO];
     result = [parser parse];
     if (result == NO) {
         NSLog(@"Error: Failed to load file %@, (%@)", filename, [[parser parserError] localizedDescription]);
