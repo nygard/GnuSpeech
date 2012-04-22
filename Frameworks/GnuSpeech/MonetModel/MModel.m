@@ -8,7 +8,6 @@
 #import "NSString-Extensions.h"
 
 #import "MMCategory.h"
-#import "MonetList.h"
 #import "NamedList.h"
 #import "MMBooleanParser.h"
 #import "MMEquation.h"
