@@ -301,7 +301,10 @@
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 {
     // TODO (2004-05-14): Should check to make sure we have an appropriate number of points and slopes.
-    [(MXMLParser *)parser popDelegate];
+    if ([elementName isEqualToString:@"slope-ratio"])
+        [(MXMLParser *)parser popDelegate];
+    else
+        [NSException raise:@"Unknown close tag" format:@"Unknown closing tag (%@) in %@", elementName, NSStringFromClass([self class])];
 }
 
 @end

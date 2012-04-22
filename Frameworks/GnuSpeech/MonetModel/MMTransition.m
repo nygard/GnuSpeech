@@ -22,8 +22,6 @@
 {
     __weak MMGroup *nonretained_group;
     
-    NSString *name;
-    NSString *comment;
     MMPhoneType type;
     NSMutableArray *points; // Of MMSlopeRatios and/or MMPoints
 }
@@ -31,8 +29,6 @@
 - (id)init;
 {
     if ((self = [super init])) {
-        name = nil;
-        comment = nil;
         type = MMPhoneType_Diphone;
         points = [[NSMutableArray alloc] init];
     }
@@ -42,8 +38,6 @@
 
 - (void)dealloc;
 {
-    [name release];
-    [comment release];
     [points release];
 
     [super dealloc];
@@ -54,7 +48,7 @@
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"<%@: %p> name: %@, comment: %@, type: %lu, points: %@",
-            NSStringFromClass([self class]), self, name, comment, type, points];
+            NSStringFromClass([self class]), self, self.name, self.comment, type, points];
 }
 
 #pragma mark -
@@ -70,13 +64,6 @@
 }
 
 @synthesize group = nonretained_group;
-
-@synthesize name, comment;
-
-- (BOOL)hasComment;
-{
-    return comment != nil && [comment length] > 0;
-}
 
 @synthesize points;
 
@@ -172,11 +159,11 @@
 {
     [resultString indentToLevel:level];
     [resultString appendFormat:@"<transition name=\"%@\" type=\"%@\">\n",
-                  GSXMLAttributeString(name, NO), GSXMLAttributeString(MMStringFromPhoneType(type), NO)];
+                  GSXMLAttributeString(self.name, NO), GSXMLAttributeString(MMStringFromPhoneType(type), NO)];
 
-    if (comment != nil) {
+    if (self.comment != nil) {
         [resultString indentToLevel:level + 1];
-        [resultString appendFormat:@"<comment>%@</comment>\n", GSXMLCharacterData(comment)];
+        [resultString appendFormat:@"<comment>%@</comment>\n", GSXMLCharacterData(self.comment)];
     }
 
     [points appendXMLToString:resultString elementName:@"point-or-slopes" level:level + 1];
@@ -187,17 +174,15 @@
 
 - (NSString *)transitionPath;
 {
-    return [NSString stringWithFormat:@"%@:%@", [[self group] name], name];
+    return [NSString stringWithFormat:@"%@:%@", self.group.name, self.name];
 }
 
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 {
-    if ((self = [self init])) {
-        [self setName:[attributes objectForKey:@"name"]];
-        
+    if ((self = [super initWithXMLAttributes:attributes context:context])) {
         NSString *str = [attributes objectForKey:@"type"];
         if (str != nil)
-            [self setType:MMPhoneTypeFromString(str)];
+            self.type = MMPhoneTypeFromString(str);
     }
 
     return self;
@@ -205,11 +190,7 @@
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
 {
-    if ([elementName isEqualToString:@"comment"]) {
-        MXMLPCDataDelegate *newDelegate = [[MXMLPCDataDelegate alloc] initWithElementName:elementName delegate:self setSelector:@selector(setComment:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
-    } else if ([elementName isEqualToString:@"point-or-slopes"]) {
+    if ([elementName isEqualToString:@"point-or-slopes"]) {
         NSDictionary *elementClassMapping = [[NSDictionary alloc] initWithObjectsAndKeys:[MMPoint class], @"point",
                                              [MMSlopeRatio class], @"slope-ratio",
                                              nil];
@@ -218,14 +199,16 @@
         [newDelegate release];
         [elementClassMapping release];
     } else {
-        NSLog(@"%@, Unknown element: '%@', skipping", [self shortDescription], elementName);
-        [(MXMLParser *)parser skipTree];
+        [super parser:parser didStartElement:elementName namespaceURI:namespaceURI qualifiedName:qName attributes:attributeDict];
     }
 }
 
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 {
-    [(MXMLParser *)parser popDelegate];
+    if ([elementName isEqualToString:@"transition"])
+        [(MXMLParser *)parser popDelegate];
+    else
+        [NSException raise:@"Unknown close tag" format:@"Unknown closing tag (%@) in %@", elementName, NSStringFromClass([self class])];
 }
 
 @end
