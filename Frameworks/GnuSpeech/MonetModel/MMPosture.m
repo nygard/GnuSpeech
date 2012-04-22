@@ -20,14 +20,27 @@
 #import "MXMLPCDataDelegate.h"
 #import "MXMLReferenceArrayDelegate.h"
 
+@interface MMPosture ()
+- (void)_addDefaultValues;
+- (void)addParameterTargetsFromDictionary:(NSDictionary *)dictionary;
+- (void)addMetaParameterTargetsFromDictionary:(NSDictionary *)dictionary;
+- (void)addSymbolTargetsFromDictionary:(NSDictionary *)dictionary;
+- (void)_appendXMLForCategoriesToString:(NSMutableString *)resultString level:(NSUInteger)level;
+- (void)_appendXMLForParametersToString:(NSMutableString *)resultString level:(NSUInteger)level;
+- (void)_appendXMLForMetaParametersToString:(NSMutableString *)resultString level:(NSUInteger)level;
+- (void)_appendXMLForSymbolsToString:(NSMutableString *)resultString level:(NSUInteger)level;
+@end
+
+#pragma mark -
+
 @implementation MMPosture
 {
-    NSMutableArray *categories;           // Of MMCategorys
-    NSMutableArray *parameterTargets;     // Of Targets
-    NSMutableArray *metaParameterTargets; // Of Targets
-    NSMutableArray *symbolTargets;        // Of Targets
+    NSMutableArray *m_categories;           // Of MMCategorys (member of these categories)
+    NSMutableArray *m_parameterTargets;     // Of Targets
+    NSMutableArray *m_metaParameterTargets; // Of Targets
+    NSMutableArray *m_symbolTargets;        // Of Targets (symbol definitions)
     
-    MMCategory *nativeCategory;
+    MMCategory *m_nativeCategory;
 }
 
 // This is now used from -[MMNamedObject initWithXMLAttributes:context:]
@@ -36,19 +49,19 @@
     return [self initWithModel:nil];
 }
 
-- (id)initWithModel:(MModel *)aModel;
+- (id)initWithModel:(MModel *)model;
 {
     if ((self = [super init])) {
-        categories = [[NSMutableArray alloc] init];
-        parameterTargets = [[NSMutableArray alloc] init];
-        metaParameterTargets = [[NSMutableArray alloc] init];
-        symbolTargets = [[NSMutableArray alloc] init];
+        m_categories           = [[NSMutableArray alloc] init];
+        m_parameterTargets     = [[NSMutableArray alloc] init];
+        m_metaParameterTargets = [[NSMutableArray alloc] init];
+        m_symbolTargets        = [[NSMutableArray alloc] init];
         
-        nativeCategory = [[MMCategory alloc] init];
-        [nativeCategory setIsNative:YES];
-        [categories addObject:nativeCategory];
+        m_nativeCategory = [[MMCategory alloc] init];
+        [m_nativeCategory setIsNative:YES];
+        [m_categories addObject:m_nativeCategory];
         
-        [self setModel:aModel];
+        self.model = model;
         [self _addDefaultValues];
     }
 
@@ -58,145 +71,131 @@
 - (void)_addDefaultValues;
 {
     NSUInteger count, index;
-    MMTarget *newTarget;
     NSArray *mainParameters;
 
-    [self addCategory:[[self model] categoryWithName:@"phone"]];
+    [self addCategory:[self.model categoryWithName:@"phone"]];
 
-    mainParameters = [[self model] parameters];
+    mainParameters = [self.model parameters];
     count = [mainParameters count];
     for (index = 0; index < count; index++) {
-        newTarget = [[MMTarget alloc] initWithValue:[(MMParameter *)[mainParameters objectAtIndex:index] defaultValue] isDefault:YES];
-        [parameterTargets addObject:newTarget];
+        MMTarget *newTarget = [[MMTarget alloc] initWithValue:[(MMParameter *)[mainParameters objectAtIndex:index] defaultValue] isDefault:YES];
+        [self.parameterTargets addObject:newTarget];
         [newTarget release];
     }
 
-    mainParameters = [[self model] metaParameters];
+    mainParameters = [self.model metaParameters];
     count = [mainParameters count];
     for (index = 0; index < count; index++) {
-        newTarget = [[MMTarget alloc] initWithValue:[(MMParameter *)[mainParameters objectAtIndex:index] defaultValue] isDefault:YES];
-        [metaParameterTargets addObject:newTarget];
+        MMTarget *newTarget = [[MMTarget alloc] initWithValue:[(MMParameter *)[mainParameters objectAtIndex:index] defaultValue] isDefault:YES];
+        [self.metaParameterTargets addObject:newTarget];
         [newTarget release];
     }
 
-    NSArray *mainSymbols = [[self model] symbols];
+    NSArray *mainSymbols = [self.model symbols];
     count = [mainSymbols count];
     for (index = 0; index < count; index++) {
-        newTarget = [[MMTarget alloc] initWithValue:[(MMSymbol *)[mainSymbols objectAtIndex:index] defaultValue] isDefault:YES];
-        [symbolTargets addObject:newTarget];
+        MMTarget *newTarget = [[MMTarget alloc] initWithValue:[(MMSymbol *)[mainSymbols objectAtIndex:index] defaultValue] isDefault:YES];
+        [self.symbolTargets addObject:newTarget];
         [newTarget release];
     }
 }
 
 - (void)dealloc;
 {
-    [categories release];
-    [parameterTargets release];
-    [metaParameterTargets release];
-    [symbolTargets release];
-    [nativeCategory release];
+    [m_categories release];
+    [m_parameterTargets release];
+    [m_metaParameterTargets release];
+    [m_symbolTargets release];
+    [m_nativeCategory release];
 
     [super dealloc];
 }
+
+#pragma mark - Debugging
+
+- (NSString *)description;
+{
+    return [NSString stringWithFormat:@"<%@: %p> name: %@, comment: %@, categories: %@, parameterTargets: %@, metaParameterTargets: %@, symbolTargets: %@",
+            NSStringFromClass([self class]), self,
+            self.name, self.comment, self.categories, self.parameterTargets, self.metaParameterTargets, self.symbolTargets];
+}
+
+#pragma mark -
 
 // TODO (2004-03-19): Enforce unique names.
 - (void)setName:(NSString *)newName;
 {
     [super setName:newName];
-    [[self model] sortPostures];
-    [nativeCategory setName:newName];
+    [self.model sortPostures];
+    [self.nativeCategory setName:newName];
 }
 
 #pragma mark - Categories
 
-- (MMCategory *)nativeCategory;
-{
-    return nativeCategory;
-}
+@synthesize nativeCategory = m_nativeCategory;
+@synthesize categories = m_categories;
 
-- (NSMutableArray *)categories;
+- (void)addCategory:(MMCategory *)category;
 {
-    return categories;
-}
-
-- (void)addCategory:(MMCategory *)aCategory;
-{
-    if (aCategory == nil)
+    if (category == nil)
         return;
 
-    if ([categories containsObject:aCategory] == NO)
-        [categories addObject:aCategory];
+    if ([self.categories containsObject:category] == NO)
+        [self.categories addObject:category];
 }
 
-- (void)removeCategory:(MMCategory *)aCategory;
+- (void)removeCategory:(MMCategory *)category;
 {
-    [categories removeObject:aCategory];
+    [self.categories removeObject:category];
 }
 
-- (BOOL)isMemberOfCategory:(MMCategory *)aCategory;
+- (BOOL)isMemberOfCategory:(MMCategory *)category;
 {
-    return [categories containsObject:aCategory];
+    return [self.categories containsObject:category];
 }
 
-- (BOOL)isMemberOfCategoryNamed:(NSString *)aCategoryName;
+- (BOOL)isMemberOfCategoryNamed:(NSString *)name;
 {
     NSUInteger count, index;
 
-    count = [categories count];
+    count = [self.categories count];
     for (index = 0; index < count; index++) {
-        if ([[(MMNamedObject *)[categories objectAtIndex:index] name] isEqualToString:aCategoryName] == YES)
+        if ([[(MMNamedObject *)[self.categories objectAtIndex:index] name] isEqualToString:name])
             return YES;
     }
 
     return NO;
 }
 
-- (void)addCategoryWithName:(NSString *)aCategoryName;
+- (void)addCategoryWithName:(NSString *)name;
 {
-    MMCategory *category;
-
-    category = [[self model] categoryWithName:aCategoryName];
+    MMCategory *category = [self.model categoryWithName:name];
     [self addCategory:category];
 }
 
-- (NSMutableArray *)parameterTargets;
-{
-    return parameterTargets;
-}
+#pragma mark - Parameter Targets
 
-- (NSMutableArray *)metaParameterTargets;
-{
-    return metaParameterTargets;
-}
+@synthesize parameterTargets = m_parameterTargets;
 
-- (NSMutableArray *)symbolTargets;
+- (void)addParameterTarget:(MMTarget *)target;
 {
-    return symbolTargets;
-}
-
-- (void)addParameterTarget:(MMTarget *)newTarget;
-{
-    [parameterTargets addObject:newTarget];
+    [self.parameterTargets addObject:target];
 }
 
 - (void)removeParameterTargetAtIndex:(NSUInteger)index;
 {
-    [parameterTargets removeObjectAtIndex:index];
+    [self.parameterTargets removeObjectAtIndex:index];
 }
 
-- (void)addParameterTargetsFromDictionary:(NSDictionary *)aDictionary;
+- (void)addParameterTargetsFromDictionary:(NSDictionary *)dictionary;
 {
-    NSArray *parameters;
     NSUInteger count, index;
 
-    parameters = [[self model] parameters];
+    NSArray *parameters = [self.model parameters];
     count = [parameters count];
     for (index = 0; index < count; index++) {
-        MMParameter *currentParameter;
-        MMTarget *currentTarget;
-
-        currentParameter = [parameters objectAtIndex:index];
-        currentTarget = [aDictionary objectForKey:[currentParameter name]];
+        MMParameter *currentParameter = [parameters objectAtIndex:index];
+        MMTarget *currentTarget = [dictionary objectForKey:[currentParameter name]];
         if (currentTarget == nil) {
             NSLog(@"Warning: no target for parameter %@ in save file, adding default target.", [currentParameter name]);
             currentTarget = [[MMTarget alloc] initWithValue:[currentParameter defaultValue] isDefault:YES];
@@ -210,29 +209,29 @@
     }
 }
 
-- (void)addMetaParameterTarget:(MMTarget *)newTarget;
+#pragma mark - Meta-parameter Targets
+
+@synthesize metaParameterTargets = m_metaParameterTargets;
+
+- (void)addMetaParameterTarget:(MMTarget *)target;
 {
-    [metaParameterTargets addObject:newTarget];
+    [self.metaParameterTargets addObject:target];
 }
 
 - (void)removeMetaParameterTargetAtIndex:(NSUInteger)index;
 {
-    [metaParameterTargets removeObjectAtIndex:index];
+    [self.metaParameterTargets removeObjectAtIndex:index];
 }
 
-- (void)addMetaParameterTargetsFromDictionary:(NSDictionary *)aDictionary;
+- (void)addMetaParameterTargetsFromDictionary:(NSDictionary *)dictionary;
 {
-    NSArray *parameters;
     NSUInteger count, index;
 
-    parameters = [[self model] metaParameters];
+    NSArray *parameters = [self.model metaParameters];
     count = [parameters count];
     for (index = 0; index < count; index++) {
-        MMParameter *currentParameter;
-        MMTarget *currentTarget;
-
-        currentParameter = [parameters objectAtIndex:index];
-        currentTarget = [aDictionary objectForKey:[currentParameter name]];
+        MMParameter *currentParameter = [parameters objectAtIndex:index];
+        MMTarget *currentTarget = [dictionary objectForKey:[currentParameter name]];
         if (currentTarget == nil) {
             NSLog(@"Warning: no target for meta-parameter %@ in save file, adding default target.", [currentParameter name]);
             currentTarget = [[MMTarget alloc] initWithValue:[currentParameter defaultValue] isDefault:YES];
@@ -246,29 +245,29 @@
     }
 }
 
-- (void)addSymbolTarget:(MMTarget *)newTarget;
+#pragma mark - Symbol Targets
+
+@synthesize symbolTargets = m_symbolTargets;
+
+- (void)addSymbolTarget:(MMTarget *)target;
 {
-    [symbolTargets addObject:newTarget];
+    [self.symbolTargets addObject:target];
 }
 
 - (void)removeSymbolTargetAtIndex:(NSUInteger)index;
 {
-    [symbolTargets removeObjectAtIndex:index];
+    [self.symbolTargets removeObjectAtIndex:index];
 }
 
-- (void)addSymbolTargetsFromDictionary:(NSDictionary *)aDictionary;
+- (void)addSymbolTargetsFromDictionary:(NSDictionary *)dictionary;
 {
-    NSArray *symbols;
     NSUInteger count, index;
 
-    symbols = [[self model] symbols];
+    NSArray *symbols = [self.model symbols];
     count = [symbols count];
     for (index = 0; index < count; index++) {
-        MMSymbol *currentSymbol;
-        MMTarget *currentTarget;
-
-        currentSymbol = [symbols objectAtIndex:index];
-        currentTarget = [aDictionary objectForKey:[currentSymbol name]];
+        MMSymbol *currentSymbol = [symbols objectAtIndex:index];
+        MMTarget *currentTarget = [dictionary objectForKey:[currentSymbol name]];
         if (currentTarget == nil) {
             NSLog(@"Warning: no target for symbol %@ in save file, adding default target.", [currentSymbol name]);
             currentTarget = [[MMTarget alloc] initWithValue:[currentSymbol defaultValue] isDefault:YES];
@@ -282,35 +281,31 @@
     }
 }
 
-- (MMTarget *)targetForSymbol:(MMSymbol *)aSymbol;
+- (MMTarget *)targetForSymbol:(MMSymbol *)symbol;
 {
-    NSUInteger symbolIndex;
-
-    assert([self model] != nil);
-    symbolIndex = [[[self model] symbols] indexOfObject:aSymbol];
+    NSParameterAssert(self.model != nil);
+    NSUInteger symbolIndex = [[self.model symbols] indexOfObject:symbol];
     if (symbolIndex == NSNotFound)
-        NSLog(@"Warning: Couldn't find symbol %@ in posture %@", [aSymbol name], self.name);
+        NSLog(@"Warning: Couldn't find symbol %@ in posture %@", [symbol name], self.name);
 
-    return [symbolTargets objectAtIndex:symbolIndex];
+    return [self.symbolTargets objectAtIndex:symbolIndex];
 }
 
-- (NSComparisonResult)compareByAscendingName:(MMPosture *)otherPosture;
+#pragma mark - Sorting
+
+- (NSComparisonResult)compareByAscendingName:(MMPosture *)other;
 {
-    return [self.name compare:[otherPosture name]];
+    return [self.name compare:other.name];
 }
 
-- (NSString *)description;
-{
-    return [NSString stringWithFormat:@"<%@>[%p]: name: %@, comment: %@, categories: %@, parameterTargets: %@, metaParameterTargets: %@, symbolTargets: %@",
-                     NSStringFromClass([self class]), self, self.name, self.comment, categories, parameterTargets, metaParameterTargets, symbolTargets];
-}
+#pragma mark - XML Archiving
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     [resultString indentToLevel:level];
     [resultString appendFormat:@"<posture symbol=\"%@\"", GSXMLAttributeString(self.name, NO)];
 
-    if (self.comment == nil && [categories count] == 0 && [parameterTargets count] == 0 && [metaParameterTargets count] == 0 && [symbolTargets count] == 0) {
+    if (self.comment == nil && [self.categories count] == 0 && [self.parameterTargets count] == 0 && [self.metaParameterTargets count] == 0 && [self.symbolTargets count] == 0) {
         [resultString appendString:@"/>\n"];
     } else {
         [resultString appendString:@">\n"];
@@ -334,7 +329,7 @@
 {
     NSUInteger count, index;
 
-    count = [categories count];
+    count = [self.categories count];
     if (count == 0)
         return;
 
@@ -342,12 +337,10 @@
     [resultString appendString:@"<posture-categories>\n"];
 
     for (index = 0; index < count; index++) {
-        MMCategory *aCategory;
-
-        aCategory = [categories objectAtIndex:index];
+        MMCategory *category = [self.categories objectAtIndex:index];
 
         [resultString indentToLevel:level + 1];
-        [resultString appendFormat:@"<category-ref name=\"%@\"/>\n", [aCategory name]];
+        [resultString appendFormat:@"<category-ref name=\"%@\"/>\n", [category name]];
     }
 
     [resultString indentToLevel:level];
@@ -356,14 +349,11 @@
 
 - (void)_appendXMLForParametersToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
-    NSArray *mainParameterList;
     NSUInteger count, index;
-    MMParameter *aParameter;
-    MMTarget *aTarget;
 
-    mainParameterList = [[self model] parameters];
+    NSArray *mainParameterList = [self.model parameters];
     count = [mainParameterList count];
-    assert(count == [parameterTargets count]);
+    assert(count == [self.parameterTargets count]);
 
     if (count == 0)
         return;
@@ -372,12 +362,12 @@
     [resultString appendFormat:@"<parameter-targets>\n"];
 
     for (index = 0; index < count; index++) {
-        aParameter = [mainParameterList objectAtIndex:index];
-        aTarget = [parameterTargets objectAtIndex:index];
+        MMParameter *parameter = [mainParameterList objectAtIndex:index];
+        MMTarget *target = [self.parameterTargets objectAtIndex:index];
 
         [resultString indentToLevel:level + 1];
-        [resultString appendFormat:@"<target name=\"%@\" value=\"%g\"/>", [aParameter name], [aTarget value]];
-        if ([aTarget value] == [aParameter defaultValue])
+        [resultString appendFormat:@"<target name=\"%@\" value=\"%g\"/>", [parameter name], [target value]];
+        if ([target value] == [parameter defaultValue])
             [resultString appendString:@"<!-- default -->"];
         [resultString appendString:@"\n"];
     }
@@ -388,15 +378,12 @@
 
 - (void)_appendXMLForMetaParametersToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
-    NSArray *mainMetaParameterList;
     NSUInteger count, index;
-    MMParameter *aParameter;
-    MMTarget *aTarget;
 
-    mainMetaParameterList = [[self model] metaParameters];
+    NSArray *mainMetaParameterList = [self.model metaParameters];
     count = [mainMetaParameterList count];
-    if (count != [metaParameterTargets count])
-        NSLog(@"%s, (%@) main meta count: %lu, count: %lu", __PRETTY_FUNCTION__, [self name], count, [metaParameterTargets count]);
+    if (count != [self.metaParameterTargets count])
+        NSLog(@"%s, (%@) main meta count: %lu, count: %lu", __PRETTY_FUNCTION__, self.name, count, [self.metaParameterTargets count]);
     //assert(count == [metaParameterTargets count]);
 
     if (count == 0)
@@ -406,12 +393,12 @@
     [resultString appendFormat:@"<meta-parameter-targets>\n"];
 
     for (index = 0; index < count; index++) {
-        aParameter = [mainMetaParameterList objectAtIndex:index];
-        aTarget = [metaParameterTargets objectAtIndex:index];
+        MMParameter *parameter = [mainMetaParameterList objectAtIndex:index];
+        MMTarget *target = [self.metaParameterTargets objectAtIndex:index];
 
         [resultString indentToLevel:level + 1];
-        [resultString appendFormat:@"<target name=\"%@\" value=\"%g\"/>", [aParameter name], [aTarget value]];
-        if ([aTarget value] == [aParameter defaultValue])
+        [resultString appendFormat:@"<target name=\"%@\" value=\"%g\"/>", [parameter name], [target value]];
+        if ([target value] == [parameter defaultValue])
             [resultString appendString:@"<!-- default -->"];
         [resultString appendString:@"\n"];
     }
@@ -422,14 +409,11 @@
 
 - (void)_appendXMLForSymbolsToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
-    NSArray *mainSymbolList;
     NSUInteger count, index;
-    MMSymbol *aSymbol;
-    MMTarget *aTarget;
 
-    mainSymbolList = [[self model] symbols];
+    NSArray *mainSymbolList = [self.model symbols];
     count = [mainSymbolList count];
-    assert(count == [symbolTargets count]);
+    assert(count == [self.symbolTargets count]);
 
     if (count == 0)
         return;
@@ -438,12 +422,12 @@
     [resultString appendFormat:@"<symbol-targets>\n"];
 
     for (index = 0; index < count; index++) {
-        aSymbol = [mainSymbolList objectAtIndex:index];
-        aTarget = [symbolTargets objectAtIndex:index];
+        MMSymbol *symbol = [mainSymbolList objectAtIndex:index];
+        MMTarget *target = [self.symbolTargets objectAtIndex:index];
 
         [resultString indentToLevel:level + 1];
-        [resultString appendFormat:@"<target name=\"%@\" value=\"%g\"/>", [aSymbol name], [aTarget value]];
-        if ([aTarget value] == [aSymbol defaultValue])
+        [resultString appendFormat:@"<target name=\"%@\" value=\"%g\"/>", [symbol name], [target value]];
+        if ([target value] == [symbol defaultValue])
             [resultString appendString:@"<!-- default -->"];
         [resultString appendString:@"\n"];
     }
@@ -455,10 +439,9 @@
 // TODO (2004-08-12): Rename attribute name from "symbol" to "name", so we can use the superclass implementation of this method.  Do this after we start supporting upgrading from previous versions.
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 {
-    if ([self initWithModel:nil] == nil)
-        return nil;
-
-    [self setName:[attributes objectForKey:@"symbol"]];
+    if ((self = [self initWithModel:nil])) {
+        self.name = [attributes objectForKey:@"symbol"];
+    }
 
     return self;
 }
@@ -466,27 +449,19 @@
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
 {
     if ([elementName isEqualToString:@"posture-categories"]) {
-        MXMLReferenceArrayDelegate *newDelegate;
-
-        newDelegate = [[MXMLReferenceArrayDelegate alloc] initWithChildElementName:@"category-ref" referenceAttribute:@"name" delegate:self addObjectSelector:@selector(addCategoryWithName:)];
+        MXMLReferenceArrayDelegate *newDelegate = [[MXMLReferenceArrayDelegate alloc] initWithChildElementName:@"category-ref" referenceAttribute:@"name" delegate:self addObjectSelector:@selector(addCategoryWithName:)];
         [(MXMLParser *)parser pushDelegate:newDelegate];
         [newDelegate release];
     } else if ([elementName isEqualToString:@"parameter-targets"]) {
-        MXMLDictionaryDelegate *newDelegate;
-
-        newDelegate = [[MXMLDictionaryDelegate alloc] initWithChildElementName:@"target" class:[MMTarget class] keyAttributeName:@"name" delegate:self addObjectsSelector:@selector(addParameterTargetsFromDictionary:)];
+        MXMLDictionaryDelegate *newDelegate = [[MXMLDictionaryDelegate alloc] initWithChildElementName:@"target" class:[MMTarget class] keyAttributeName:@"name" delegate:self addObjectsSelector:@selector(addParameterTargetsFromDictionary:)];
         [(MXMLParser *)parser pushDelegate:newDelegate];
         [newDelegate release];
     } else if ([elementName isEqualToString:@"meta-parameter-targets"]) {
-        MXMLDictionaryDelegate *newDelegate;
-
-        newDelegate = [[MXMLDictionaryDelegate alloc] initWithChildElementName:@"target" class:[MMTarget class] keyAttributeName:@"name" delegate:self addObjectsSelector:@selector(addMetaParameterTargetsFromDictionary:)];
+        MXMLDictionaryDelegate *newDelegate = [[MXMLDictionaryDelegate alloc] initWithChildElementName:@"target" class:[MMTarget class] keyAttributeName:@"name" delegate:self addObjectsSelector:@selector(addMetaParameterTargetsFromDictionary:)];
         [(MXMLParser *)parser pushDelegate:newDelegate];
         [newDelegate release];
     } else if ([elementName isEqualToString:@"symbol-targets"]) {
-        MXMLDictionaryDelegate *newDelegate;
-
-        newDelegate = [[MXMLDictionaryDelegate alloc] initWithChildElementName:@"target" class:[MMTarget class] keyAttributeName:@"name" delegate:self addObjectsSelector:@selector(addSymbolTargetsFromDictionary:)];
+        MXMLDictionaryDelegate *newDelegate = [[MXMLDictionaryDelegate alloc] initWithChildElementName:@"target" class:[MMTarget class] keyAttributeName:@"name" delegate:self addObjectsSelector:@selector(addSymbolTargetsFromDictionary:)];
         [(MXMLParser *)parser pushDelegate:newDelegate];
         [newDelegate release];
     } else {

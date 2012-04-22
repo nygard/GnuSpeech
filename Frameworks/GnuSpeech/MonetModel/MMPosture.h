@@ -5,79 +5,38 @@
 
 @class MMCategory, MMSymbol, MMTarget;
 
-/*===========================================================================
-
-	Author: Craig-Richard Taube-Schock
-		Copyright (c) 1994, Trillium Sound Research Incorporated.
-		All Rights Reserved.
-
-=============================================================================
-
-	Object: Phone.
-	Purpose: This object stores the information pertinent to one phone or
-		"posture".
-
-	Instance Variables:
-		phoneSymbol: (char *) String which holds the symbol
-			representing this phone.
-		comment: (char *) string which holds any user comment made
-			regarding this phone.
-
-		categoryList: List of categories which this phone is a member
-			of.
-		parameterList: List of parameter target values for this phone.
-		metaParameterList: List of meta-parameter target values for
-			this phone.
-		symbolList: List of symbol definitions for this phone.
-
-
-	NOTES:
-
-	See "data_relationships" document for information about the
-		parameterList, metaParameterList and symbolList variables.
-
-===========================================================================*/
-
+// Contains informaion for one phone or "posture"
 @interface MMPosture : MMNamedObject
 
-- (id)initWithModel:(MModel *)aModel;
-- (void)_addDefaultValues;
+- (id)initWithModel:(MModel *)model;
 
 // Categories
-- (MMCategory *)nativeCategory;
-- (NSMutableArray *)categories;
-- (void)addCategory:(MMCategory *)aCategory;
-- (void)removeCategory:(MMCategory *)aCategory;
-- (BOOL)isMemberOfCategory:(MMCategory *)aCategory;
-- (BOOL)isMemberOfCategoryNamed:(NSString *)aCategoryName;
-- (void)addCategoryWithName:(NSString *)aCategoryName;
+@property (readonly) MMCategory *nativeCategory;
+@property (readonly) NSMutableArray *categories;
 
-/* Access to target lists */
-- (NSMutableArray *)parameterTargets;
-- (NSMutableArray *)metaParameterTargets;
-- (NSMutableArray *)symbolTargets;
+- (void)addCategory:(MMCategory *)category;
+- (void)removeCategory:(MMCategory *)category;
+- (BOOL)isMemberOfCategory:(MMCategory *)category;
+- (BOOL)isMemberOfCategoryNamed:(NSString *)name;
+- (void)addCategoryWithName:(NSString *)name;
 
-- (void)addParameterTarget:(MMTarget *)newTarget;
+@property (readonly) NSMutableArray *parameterTargets;
+- (void)addParameterTarget:(MMTarget *)target;
 - (void)removeParameterTargetAtIndex:(NSUInteger)index;
-- (void)addParameterTargetsFromDictionary:(NSDictionary *)aDictionary;
 
-- (void)addMetaParameterTarget:(MMTarget *)newTarget;
+@property (readonly) NSMutableArray *metaParameterTargets;
+- (void)addMetaParameterTarget:(MMTarget *)target;
 - (void)removeMetaParameterTargetAtIndex:(NSUInteger)index;
-- (void)addMetaParameterTargetsFromDictionary:(NSDictionary *)aDictionary;
 
-- (void)addSymbolTarget:(MMTarget *)newTarget;
+@property (readonly) NSMutableArray *symbolTargets;
+- (void)addSymbolTarget:(MMTarget *)target;
 - (void)removeSymbolTargetAtIndex:(NSUInteger)index;
-- (void)addSymbolTargetsFromDictionary:(NSDictionary *)aDictionary;
 
-- (MMTarget *)targetForSymbol:(MMSymbol *)aSymbol;
+- (MMTarget *)targetForSymbol:(MMSymbol *)symbol;
 
-- (NSComparisonResult)compareByAscendingName:(MMPosture *)otherPosture;
+- (NSComparisonResult)compareByAscendingName:(MMPosture *)other;
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
-- (void)_appendXMLForCategoriesToString:(NSMutableString *)resultString level:(NSUInteger)level;
-- (void)_appendXMLForParametersToString:(NSMutableString *)resultString level:(NSUInteger)level;
-- (void)_appendXMLForMetaParametersToString:(NSMutableString *)resultString level:(NSUInteger)level;
-- (void)_appendXMLForSymbolsToString:(NSMutableString *)resultString level:(NSUInteger)level;
 
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
