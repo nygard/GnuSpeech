@@ -29,13 +29,12 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 @interface MModel ()
 
 - (void)_addDefaultRule;
-- (void)_uniqueNameForCategory:(MMCategory *)newCategory;
-- (void)_uniqueNameForParameter:(MMParameter *)newParameter inList:(NSMutableArray *)aParameterList;
+- (void)_generateUniqueNameForObject:(MMNamedObject *)newObject existingObjects:(NSArray *)existingObjects;
+
 - (void)_addDefaultPostureTargetsForParameter:(MMParameter *)newParameter;
 - (void)_addDefaultPostureTargetsForMetaParameter:(MMParameter *)newParameter;
-- (void)_uniqueNameForSymbol:(MMSymbol *)newSymbol;
 - (void)_addDefaultPostureTargetsForSymbol:(MMSymbol *)newSymbol;
-- (void)_uniqueNameForPosture:(MMPosture *)newPosture;
+- (void)_generateUniqueNameForPosture:(MMPosture *)newPosture;
 - (void)_addStoredRule:(MMRule *)newRule;
 - (void)_appendXMLForEquationsToString:(NSMutableString *)resultString level:(NSUInteger)level;
 - (void)_appendXMLForTransitionsToString:(NSMutableString *)resultString level:(NSUInteger)level;
@@ -132,19 +131,15 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)_addDefaultRule;
 {
-    MMBooleanParser *boolParser = [[MMBooleanParser alloc] initWithModel:self];
-
+    MMBooleanParser *boolParser = [[[MMBooleanParser alloc] initWithModel:self] autorelease];
     MMBooleanNode *expr1 = [boolParser parseString:@"phone"];
     MMBooleanNode *expr2 = [boolParser parseString:@"phone"];
 
-    [boolParser release];
-
-    MMRule *newRule = [[MMRule alloc] init];
+    MMRule *newRule = [[[MMRule alloc] init] autorelease];
     [newRule setExpression:expr1 number:0];
     [newRule setExpression:expr2 number:1];
     [newRule setDefaultsTo:[newRule numberExpressions]];
     [self addRule:newRule];
-    [newRule release];
 }
 
 @synthesize categories, parameters, metaParameters, symbols, postures, equations, transitions, specialTransitions, rules;
@@ -153,73 +148,40 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)addCategory:(MMCategory *)newCategory;
 {
-    if ([newCategory name] == nil)
-        [newCategory setName:@"untitled"];
-
-    [self _uniqueNameForCategory:newCategory];
+    [self _generateUniqueNameForObject:newCategory existingObjects:self.categories];
 
     [categories addObject:newCategory];
     //[categories sortUsingSelector:@selector(compareByAscendingName:)];
     // TODO (2004-03-18): And post notification of new category.
 }
 
-- (void)_uniqueNameForCategory:(MMCategory *)newCategory;
-{
-    NSUInteger count, index;
-    NSString *name, *basename;
-
-    NSMutableSet *names = [[NSMutableSet alloc] init];
-    count = [categories count];
-    for (index = 0; index < count; index++) {
-        name = [[categories objectAtIndex:index] name];
-        if (name != nil)
-            [names addObject:name];
-    }
-
-    name = basename = [newCategory name];
-    index = 1;
-    while ([names containsObject:name] == YES) {
-        name = [NSString stringWithFormat:@"%@%lu", basename, index++];
-    }
-
-    [newCategory setName:name];
-
-    [names release];
-}
-
 // TODO (2004-03-19): Is it used by rules, anyway.  Postures can also use categories.
-- (BOOL)isCategoryUsed:(MMCategory *)aCategory;
+- (BOOL)isCategoryUsed:(MMCategory *)category;
 {
-    NSUInteger count, index;
-
-    count = [rules count];
-    for (index = 0; index < count; index++) {
-        if ([[rules objectAtIndex:index] isCategoryUsed:aCategory])
+    for (MMRule *rule in self.rules) {
+        if ([rule isCategoryUsed:category])
             return YES;
     }
 
     return NO;
 }
 
-- (void)removeCategory:(MMCategory *)aCategory;
+- (void)removeCategory:(MMCategory *)category;
 {
-    if ([self isCategoryUsed:aCategory] == YES) {
+    if ([self isCategoryUsed:category]) {
+        // TODO: Don't raise exception.  Return NO and an NSError
         [NSException raise:MCategoryInUseException format:@"Cannot remove category that is in use."];
     }
 
-    [categories removeObject:aCategory];
+    [categories removeObject:category];
 }
 
 // TODO (2004-03-19): We could store these in a dictionary for quick lookup by name.
-- (MMCategory *)categoryWithName:(NSString *)aName;
+- (MMCategory *)categoryWithName:(NSString *)name;
 {
-    NSUInteger count, index;
-
-    count = [categories count];
-    for (index = 0; index < count; index++) {
-        MMCategory *aCategory = [categories objectAtIndex:index];
-        if ([[aCategory name] isEqual:aName])
-            return aCategory;
+    for (MMCategory *category in self.categories) {
+        if ([[category name] isEqual:name])
+            return category;
     }
 
     return nil;
@@ -227,42 +189,36 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 #pragma mark - Parameters
 
-- (void)addParameter:(MMParameter *)newParameter;
+- (void)addParameter:(MMParameter *)parameter;
 {
-    if ([newParameter name] == nil)
-        [newParameter setName:@"untitled"];
+    if (parameter.name == nil)
+        [parameter setName:@"untitled"];
 
-    [self _uniqueNameForParameter:newParameter inList:parameters];
+    [self _generateUniqueNameForObject:parameter existingObjects:self.parameters];
 
-    [parameters addObject:newParameter];
-    [newParameter setModel:self];
-    [self _addDefaultPostureTargetsForParameter:newParameter];
-    [rules makeObjectsPerformSelector:@selector(addDefaultParameter)];
+    [self.parameters addObject:parameter];
+    [parameter setModel:self];
+    [self _addDefaultPostureTargetsForParameter:parameter];
+    [self.rules makeObjectsPerformSelector:@selector(addDefaultParameter)];
 }
 
-// TODO (2004-03-19): When MMParameter and MMSymbol are the same class, this can be shared
-- (void)_uniqueNameForParameter:(MMParameter *)newParameter inList:(NSMutableArray *)aParameterList;
+- (void)_generateUniqueNameForObject:(MMNamedObject *)object existingObjects:(NSArray *)existingObjects;
 {
-    NSUInteger count, index;
-    NSString *name, *basename;
-
-    NSMutableSet *names = [[NSMutableSet alloc] init];
-    count = [aParameterList count];
-    for (index = 0; index < count; index++) {
-        name = [[aParameterList objectAtIndex:index] name];
-        if (name != nil)
-            [names addObject:name];
+    NSMutableSet *names = [[[NSMutableSet alloc] init] autorelease];
+    for (MMNamedObject *namedObject in existingObjects) {
+        if (namedObject.name != nil)
+            [names addObject:namedObject.name];
     }
 
-    name = basename = [newParameter name];
-    index = 1;
-    while ([names containsObject:name] == YES) {
+    NSString *basename = (object.name == nil) ? @"untitled" : object.name;
+    NSString *name = basename;
+
+    NSUInteger index = 1;
+    while ([names containsObject:name]) {
         name = [NSString stringWithFormat:@"%@%lu", basename, index++];
     }
 
-    [newParameter setName:name];
-
-    [names release];
+    object.name = name;
 }
 
 - (void)_addDefaultPostureTargetsForParameter:(MMParameter *)newParameter;
@@ -278,21 +234,17 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     }
 }
 
-- (void)removeParameter:(MMParameter *)aParameter;
+- (void)removeParameter:(MMParameter *)parameter;
 {
-    NSUInteger parameterIndex  = [parameters indexOfObject:aParameter];
+    NSUInteger parameterIndex  = [parameters indexOfObject:parameter];
     if (parameterIndex != NSNotFound) {
-        int count, index;
+        for (MMPosture *posture in self.postures)
+            [posture removeParameterTargetAtIndex:parameterIndex];
 
-        count = [postures count];
-        for (index = 0; index < count; index++)
-            [[postures objectAtIndex:index] removeParameterTargetAtIndex:parameterIndex];
+        for (MMRule *rule in self.rules)
+            [rule removeParameterAtIndex:parameterIndex];
 
-        count = [rules count];
-        for (index = 0; index < count; index++)
-            [[rules objectAtIndex:index] removeParameterAtIndex:parameterIndex];
-
-        [parameters removeObject:aParameter];
+        [parameters removeObject:parameter];
     }
 }
 
@@ -303,7 +255,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     if ([newParameter name] == nil)
         [newParameter setName:@"untitled"];
 
-    [self _uniqueNameForParameter:newParameter inList:metaParameters];
+    [self _generateUniqueNameForObject:newParameter existingObjects:metaParameters];
 
     [metaParameters addObject:newParameter];
     [newParameter setModel:self];
@@ -349,35 +301,11 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     if ([newSymbol name] == nil)
         [newSymbol setName:@"untitled"];
 
-    [self _uniqueNameForSymbol:newSymbol];
+    [self _generateUniqueNameForObject:newSymbol existingObjects:self.symbols];
 
     [symbols addObject:newSymbol];
     [newSymbol setModel:self];
     [self _addDefaultPostureTargetsForSymbol:newSymbol];
-}
-
-- (void)_uniqueNameForSymbol:(MMSymbol *)newSymbol;
-{
-    NSUInteger count, index;
-    NSString *name, *basename;
-
-    NSMutableSet *names = [[NSMutableSet alloc] init];
-    count = [symbols count];
-    for (index = 0; index < count; index++) {
-        name = [[symbols objectAtIndex:index] name];
-        if (name != nil)
-            [names addObject:name];
-    }
-
-    name = basename = [newSymbol name];
-    index = 1;
-    while ([names containsObject:name] == YES) {
-        name = [NSString stringWithFormat:@"%@%lu", basename, index++];
-    }
-
-    [newSymbol setName:name];
-
-    [names release];
 }
 
 - (void)_addDefaultPostureTargetsForSymbol:(MMSymbol *)newSymbol;
@@ -424,43 +352,34 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)addPosture:(MMPosture *)newPosture;
 {
-    if ([newPosture name] == nil)
-        [newPosture setName:@"untitled"];
-
     [newPosture setModel:self];
-    [self _uniqueNameForPosture:newPosture];
+    [self _generateUniqueNameForPosture:newPosture];
 
     [postures addObject:newPosture];
     [self sortPostures];
 }
 
-- (void)_uniqueNameForPosture:(MMPosture *)newPosture;
+- (void)_generateUniqueNameForPosture:(MMPosture *)newPosture;
 {
-    NSUInteger count, index;
-    NSString *name, *basename;
-
     NSMutableSet *names = [[NSMutableSet alloc] init];
-    count = [postures count];
-    for (index = 0; index < count; index++) {
-        name = [[postures objectAtIndex:index] name];
-        if (name != nil)
-            [names addObject:name];
+    for (MMPosture *posture in self.postures) {
+        if (posture.name != nil)
+            [names addObject:posture.name];
     }
 
-    index = 1;
-    name = basename = [newPosture name];
+    NSUInteger index = 1;
+    NSString *basename = (newPosture.name == nil) ? @"untitled" : newPosture.name;
+    NSString *name = basename;
     BOOL isUsed = [names containsObject:name];
 
     if (isUsed) {
-        char ch1, ch2;
-
-        for (ch1 = 'A'; isUsed && ch1 <= 'Z'; ch1++) {
+        for (char ch1 = 'A'; isUsed && ch1 <= 'Z'; ch1++) {
             name = [NSString stringWithFormat:@"%@%c", basename, ch1];
             isUsed = [names containsObject:name];
         }
 
-        for (ch1 = 'A'; isUsed && ch1 <= 'Z'; ch1++) {
-            for (ch2 = 'A'; isUsed == YES && ch2 <= 'Z'; ch2++) {
+        for (char ch1 = 'A'; isUsed && ch1 <= 'Z'; ch1++) {
+            for (char ch2 = 'A'; isUsed && ch2 <= 'Z'; ch2++) {
                 name = [NSString stringWithFormat:@"%@%c%c", basename, ch1, ch2];
                 isUsed = [names containsObject:name];
             }
