@@ -180,9 +180,9 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     for (index = 0; index < count; index++)
         [parameterTransitionOutlineView expandItem:[[model transitionGroups] objectAtIndex:index]];
 
-    count = [[model specialTransitions] count];
+    count = [[model specialTransitionGroups] count];
     for (index = 0; index < count; index++)
-        [specialParameterTransitionOutlineView expandItem:[[model specialTransitions] objectAtIndex:index]];
+        [specialParameterTransitionOutlineView expandItem:[[model specialTransitionGroups] objectAtIndex:index]];
 
     count = [[model transitionGroups] count];
     for (index = 0; index < count; index++)
@@ -673,7 +673,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
         }
     } else if (outlineView == specialParameterTransitionOutlineView) {
         if (item == nil) {
-            return [[[self model] specialTransitions] count];
+            return [[[self model] specialTransitionGroups] count];
         } else {
             MMGroup *group = item;
             return [group.objects count];
@@ -701,7 +701,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
         }
     } else if (outlineView == specialParameterTransitionOutlineView) {
         if (item == nil) {
-            return [[[self model] specialTransitions] objectAtIndex:index];
+            return [[[self model] specialTransitionGroups] objectAtIndex:index];
         } else {
             MMGroup *group = item;
             return [group.objects objectAtIndex:index];

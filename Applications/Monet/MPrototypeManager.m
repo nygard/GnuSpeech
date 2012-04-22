@@ -168,9 +168,9 @@
     for (index = 0; index < count; index++)
         [transitionOutlineView expandItem:[[model transitionGroups] objectAtIndex:index]];
 
-    count = [[model specialTransitions] count];
+    count = [[model specialTransitionGroups] count];
     for (index = 0; index < count; index++)
-        [specialTransitionOutlineView expandItem:[[model specialTransitions] objectAtIndex:index]];
+        [specialTransitionOutlineView expandItem:[[model specialTransitionGroups] objectAtIndex:index]];
 
     //[equationOutlineView sizeToFit];
     [transitionOutlineView sizeToFit];
@@ -468,7 +468,7 @@
 
     newGroup = [[MMGroup alloc] init];
     [newGroup setName:@"Untitled"];
-    [[[self model] specialTransitions] addObject:newGroup];
+    [[[self model] specialTransitionGroups] addObject:newGroup];
 
     [self updateViews];
 
@@ -550,7 +550,7 @@
         }
     } else if (outlineView == specialTransitionOutlineView) {
         if (item == nil)
-            return [[model specialTransitions] count];
+            return [[model specialTransitionGroups] count];
         else if ([item isKindOfClass:[MMTransition class]])
             return [[self usageOfTransition:item] count];
         else {
@@ -584,7 +584,7 @@
         }
     } else if (outlineView == specialTransitionOutlineView) {
         if (item == nil)
-            return [[model specialTransitions] objectAtIndex:index];
+            return [[model specialTransitionGroups] objectAtIndex:index];
         else if ([item isKindOfClass:[MMTransition class]] == YES)
             return [[self usageOfTransition:item] objectAtIndex:index];
         else {

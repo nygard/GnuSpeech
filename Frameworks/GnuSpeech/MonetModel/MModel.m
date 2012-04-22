@@ -55,9 +55,9 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     NSMutableArray *symbols;
     NSMutableArray *postures; // Keep this list sorted by name
     
-    NSMutableArray *equationGroups; // Of MMGroups of MMEquations
-    NSMutableArray *transitionGroups; // Of MMGroups of MMTransitions
-    NSMutableArray *specialTransitions; // Of MMGroups of MMTransitions
+    NSMutableArray *equationGroups;          // Of MMGroups of MMEquations
+    NSMutableArray *transitionGroups;        // Of MMGroups of MMTransitions
+    NSMutableArray *specialTransitionGroups; // Of MMGroups of MMTransitions
     
     NSMutableArray *rules;
     NSUInteger cacheTag;
@@ -77,7 +77,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         
         equationGroups = [[NSMutableArray alloc] init];
         transitionGroups = [[NSMutableArray alloc] init];
-        specialTransitions = [[NSMutableArray alloc] init];
+        specialTransitionGroups = [[NSMutableArray alloc] init];
         
         rules = [[NSMutableArray alloc] init];
 #if 0
@@ -118,7 +118,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [postures release];
     [equationGroups release];
     [transitionGroups release];
-    [specialTransitions release];
+    [specialTransitionGroups release];
     [rules release];
 
     [synthesisParameters release];
@@ -141,7 +141,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [self addRule:newRule];
 }
 
-@synthesize categories, parameters, metaParameters, symbols, postures, equationGroups, transitionGroups, specialTransitions, rules;
+@synthesize categories, parameters, metaParameters, symbols, postures, equationGroups, transitionGroups, specialTransitionGroups, rules;
 
 #pragma mark - Categories
 
@@ -434,7 +434,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)addSpecialTransitionGroup:(MMGroup *)newGroup;
 {
-    [specialTransitions addObject:newGroup];
+    [specialTransitionGroups addObject:newGroup];
     [newGroup setModel:self];
 }
 
@@ -482,9 +482,9 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     NSUInteger groupCount, groupIndex;
     NSUInteger count, index;
 
-    groupCount = [specialTransitions count];
+    groupCount = [specialTransitionGroups count];
     for (groupIndex = 0; groupIndex < groupCount; groupIndex++) {
-        MMGroup *currentGroup = [specialTransitions objectAtIndex:groupIndex];
+        MMGroup *currentGroup = [specialTransitionGroups objectAtIndex:groupIndex];
         count = [currentGroup.objects count];
         for (index = 0; index < count; index++) {
             MMTransition *aTransition = [currentGroup.objects objectAtIndex:index];
@@ -598,8 +598,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 {
     NSUInteger i, j;
 
-    for (i = 0 ; i < [specialTransitions count]; i++) {
-        MMGroup *currentGroup = [specialTransitions objectAtIndex:i];
+    for (i = 0 ; i < [specialTransitionGroups count]; i++) {
+        MMGroup *currentGroup = [specialTransitionGroups objectAtIndex:i];
         if ([aListName isEqualToString:[currentGroup name]]) {
             for (j = 0; j < [currentGroup.objects count]; j++) {
                 MMTransition *aTransition = [currentGroup.objects objectAtIndex:j];
@@ -618,8 +618,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 {
     NSUInteger i, temp;
 
-    for (i = 0 ; i < [specialTransitions count]; i++) {
-        temp = [[specialTransitions objectAtIndex:i] indexOfObject:aTransition];
+    for (i = 0 ; i < [specialTransitionGroups count]; i++) {
+        temp = [[specialTransitionGroups objectAtIndex:i] indexOfObject:aTransition];
         if (temp != NSNotFound) {
             *listIndex = i;
             *specialIndex = temp;
@@ -632,7 +632,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (MMTransition *)findSpecial:(NSUInteger)listIndex andIndex:(NSUInteger)specialIndex;
 {
-    return [[specialTransitions objectAtIndex:listIndex] objectAtIndex:specialIndex];
+    return [[specialTransitionGroups objectAtIndex:listIndex] objectAtIndex:specialIndex];
 }
 
 - (NSArray *)usageOfEquation:(MMEquation *)anEquation;
@@ -662,11 +662,11 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         }
     }
 
-    count = [specialTransitions count];
+    count = [specialTransitionGroups count];
     for (index = 0; index < count; index++) {
         NSUInteger transitionCount, transitionIndex;
 
-        MMGroup *group = [specialTransitions objectAtIndex:index];
+        MMGroup *group = [specialTransitionGroups objectAtIndex:index];
         transitionCount = [group.objects count];
         for (transitionIndex = 0; transitionIndex < transitionCount; transitionIndex++) {
             MMTransition *aTransition = [group.objects objectAtIndex:transitionIndex];
@@ -813,9 +813,9 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
     [resultString indentToLevel:level];
     [resultString appendString:@"<special-transitions>\n"];
-    count = [specialTransitions count];
+    count = [specialTransitionGroups count];
     for (index = 0; index < count; index++) {
-        MMGroup *gropu = [specialTransitions objectAtIndex:index];
+        MMGroup *gropu = [specialTransitionGroups objectAtIndex:index];
         [gropu appendXMLToString:resultString elementName:@"transition-group" level:level + 1];
     }
 
