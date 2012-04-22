@@ -18,7 +18,7 @@ extern NSString *MCategoryInUseException;
 @property (readonly) NSMutableArray *postures;
 
 @property (readonly) NSMutableArray *equationGroups;
-@property (readonly) NSMutableArray *transitions;
+@property (readonly) NSMutableArray *transitionGroups;
 @property (readonly) NSMutableArray *specialTransitions;
 
 @property (readonly) NSMutableArray *rules;

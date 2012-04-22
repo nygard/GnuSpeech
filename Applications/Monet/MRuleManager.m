@@ -176,17 +176,17 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     for (index = 0; index < count; index++)
         [symbolEquationOutlineView expandItem:[[model equationGroups] objectAtIndex:index]];
 
-    count = [[model transitions] count];
+    count = [[model transitionGroups] count];
     for (index = 0; index < count; index++)
-        [parameterTransitionOutlineView expandItem:[[model transitions] objectAtIndex:index]];
+        [parameterTransitionOutlineView expandItem:[[model transitionGroups] objectAtIndex:index]];
 
     count = [[model specialTransitions] count];
     for (index = 0; index < count; index++)
         [specialParameterTransitionOutlineView expandItem:[[model specialTransitions] objectAtIndex:index]];
 
-    count = [[model transitions] count];
+    count = [[model transitionGroups] count];
     for (index = 0; index < count; index++)
-        [metaParameterTransitionOutlineView expandItem:[[model transitions] objectAtIndex:index]];
+        [metaParameterTransitionOutlineView expandItem:[[model transitionGroups] objectAtIndex:index]];
 }
 
 - (void)_updateSelectedRuleDetails;
@@ -666,7 +666,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
         }
     } else if (outlineView == parameterTransitionOutlineView || outlineView == metaParameterTransitionOutlineView) {
         if (item == nil) {
-            return [[[self model] transitions] count];
+            return [[[self model] transitionGroups] count];
         } else {
             MMGroup *group = item;
             return [group.objects count];
@@ -694,7 +694,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
         }
     } else if (outlineView == parameterTransitionOutlineView || outlineView == metaParameterTransitionOutlineView) {
         if (item == nil) {
-            return [[[self model] transitions] objectAtIndex:index];
+            return [[[self model] transitionGroups] objectAtIndex:index];
         } else {
             MMGroup *group = item;
             return [group.objects objectAtIndex:index];
