@@ -4,7 +4,7 @@
 #import <Foundation/Foundation.h>
 #import "GSXMLFunctions.h" // To get MMPhoneType
 
-@class MonetList, MMEquation, MMPoint, NamedList;
+@class MMEquation, MMPoint, NamedList;
 
 @interface MMTransition : NSObject
 
@@ -25,7 +25,6 @@
 @property (assign) MMPhoneType type;
 
 - (BOOL)isEquationUsed:(MMEquation *)anEquation;
-- (void)findEquation:(MMEquation *)anEquation andPutIn:(MonetList *)aList;
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 

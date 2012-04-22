@@ -8,7 +8,6 @@
 #import "NSString-Extensions.h"
 
 #import "GSXMLFunctions.h"
-#import "MonetList.h"
 #import "MMPoint.h"
 #import "MMSlopeRatio.h"
 #import "NamedList.h"
@@ -167,33 +166,6 @@
     }
 
     return NO;
-}
-
-- (void)findEquation:(MMEquation *)anEquation andPutIn:(MonetList *)aList;
-{
-    NSUInteger count, index;
-    NSUInteger j;
-    id pointOrSlopeRatio;
-
-    count = [points count];
-    for (index = 0; index < count; index++) {
-        pointOrSlopeRatio = [points objectAtIndex:index];
-        if ([pointOrSlopeRatio isKindOfClass:[MMSlopeRatio class]]) {
-            NSArray *slopePoints;
-
-            slopePoints = [pointOrSlopeRatio points];
-            for (j = 0; j < [slopePoints count]; j++)
-                if (anEquation == [[slopePoints objectAtIndex:j] timeEquation]) {
-                    [aList.ilist addObject:self];
-                    return;
-                }
-        } else {
-            if (anEquation == [[points objectAtIndex:index] timeEquation]) {
-                [aList.ilist addObject:self];
-                return;
-            }
-        }
-    }
 }
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
