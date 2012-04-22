@@ -105,8 +105,8 @@
 
 - (void)expandEquations;
 {
-    for (MMEquation *equation in [model equations]) {
-        [equationOutlineView expandItem:equation];
+    for (MMGroup *group in model.equationGroups) {
+        [equationOutlineView expandItem:group];
     }
 
     [equationOutlineView sizeToFit];
@@ -136,7 +136,7 @@
     //NSLog(@"-> %s, item: %p", _cmd, item);
     if (outlineView == equationOutlineView) {
         if (item == nil)
-            return [[model equations] count];
+            return [model.equationGroups count];
         else {
             MMGroup *group = item;
             return [group.objects count];
@@ -150,7 +150,7 @@
 {
     if (outlineView == equationOutlineView) {
         if (item == nil)
-            return [[model equations] objectAtIndex:index];
+            return [model.equationGroups objectAtIndex:index];
         else {
             MMGroup *group = item;
             return [group.objects objectAtIndex:index];

@@ -55,7 +55,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     NSMutableArray *symbols;
     NSMutableArray *postures; // Keep this list sorted by name
     
-    NSMutableArray *equations; // Of NamedLists of MMEquations // TODO (2012-04-22): Rename equationGroups, transitionGroups, specialTransitionGroups
+    NSMutableArray *equationGroups; // Of MMGroups of MMEquations
     NSMutableArray *transitions; // Of NamedLists of MMTransitions
     NSMutableArray *specialTransitions; // Of NamedLists of MMTransitions
     
@@ -75,7 +75,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         symbols = [[NSMutableArray alloc] init];
         postures = [[NSMutableArray alloc] init];
         
-        equations = [[NSMutableArray alloc] init];
+        equationGroups = [[NSMutableArray alloc] init];
         transitions = [[NSMutableArray alloc] init];
         specialTransitions = [[NSMutableArray alloc] init];
         
@@ -116,7 +116,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [metaParameters release];
     [symbols release];
     [postures release];
-    [equations release];
+    [equationGroups release];
     [transitions release];
     [specialTransitions release];
     [rules release];
@@ -141,7 +141,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [self addRule:newRule];
 }
 
-@synthesize categories, parameters, metaParameters, symbols, postures, equations, transitions, specialTransitions, rules;
+@synthesize categories, parameters, metaParameters, symbols, postures, equationGroups, transitions, specialTransitions, rules;
 
 #pragma mark - Categories
 
@@ -422,7 +422,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)addEquationGroup:(MMGroup *)newGroup;
 {
-    [equations addObject:newGroup];
+    [equationGroups addObject:newGroup];
     [newGroup setModel:self];
 }
 
@@ -444,9 +444,9 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     NSUInteger groupCount, groupIndex;
     NSUInteger count, index;
 
-    groupCount = [equations count];
+    groupCount = [equationGroups count];
     for (groupIndex = 0; groupIndex < groupCount; groupIndex++) {
-        MMGroup *currentGroup = [equations objectAtIndex:groupIndex];
+        MMGroup *currentGroup = [equationGroups objectAtIndex:groupIndex];
         count = [currentGroup.objects count];
         for (index = 0; index < count; index++) {
             MMEquation *anEquation = [currentGroup.objects objectAtIndex:index];
@@ -503,8 +503,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 {
     NSUInteger i, j;
 
-    for (i = 0 ; i < [equations count]; i++) {
-        MMGroup *currentGroup = [equations objectAtIndex:i];
+    for (i = 0 ; i < [equationGroups count]; i++) {
+        MMGroup *currentGroup = [equationGroups objectAtIndex:i];
         if ([aListName isEqualToString:[currentGroup name]]) {
             for (j = 0; j < [currentGroup.objects count]; j++) {
                 MMEquation *anEquation;
@@ -525,8 +525,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 {
     NSUInteger i, temp;
 
-    for (i = 0 ; i < [equations count]; i++) {
-        temp = [[equations objectAtIndex:i] indexOfObject:anEquation];
+    for (i = 0 ; i < [equationGroups count]; i++) {
+        temp = [[equationGroups objectAtIndex:i] indexOfObject:anEquation];
         if (temp != NSNotFound) {
             *listIndex = i;
             *equationIndex = temp;
@@ -541,12 +541,12 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 - (MMEquation *)findEquation:(NSUInteger)listIndex andIndex:(NSUInteger)equationIndex;
 {
     //NSLog(@"-> %s, listIndex: %d, index: %d", _cmd, listIndex, index);
-    if (listIndex > [equations count]) {
-        NSLog(@"%s: listIndex: %lu out of range.  count: %lu", __PRETTY_FUNCTION__, listIndex, [equations count]);
+    if (listIndex > [equationGroups count]) {
+        NSLog(@"%s: listIndex: %lu out of range.  count: %lu", __PRETTY_FUNCTION__, listIndex, [equationGroups count]);
         return nil;
     }
 
-    return [[equations objectAtIndex:listIndex] objectAtIndex:equationIndex];
+    return [[equationGroups objectAtIndex:listIndex] objectAtIndex:equationIndex];
 }
 
 - (MMTransition *)findTransitionList:(NSString *)aListName named:(NSString *)aTransitionName;
@@ -781,9 +781,9 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
     [resultString indentToLevel:level];
     [resultString appendString:@"<equations>\n"];
-    count = [equations count];
+    count = [equationGroups count];
     for (index = 0; index < count; index++) {
-        MMGroup *group = [equations objectAtIndex:index];
+        MMGroup *group = [equationGroups objectAtIndex:index];
         [group appendXMLToString:resultString elementName:@"equation-group" level:level + 1];
     }
 

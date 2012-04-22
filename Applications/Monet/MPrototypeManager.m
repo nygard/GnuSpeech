@@ -160,9 +160,9 @@
 {
     NSUInteger count, index;
 
-    count = [[model equations] count];
+    count = [[model equationGroups] count];
     for (index = 0; index < count; index++)
-        [equationOutlineView expandItem:[[model equations] objectAtIndex:index]];
+        [equationOutlineView expandItem:[[model equationGroups] objectAtIndex:index]];
 
     count = [[model transitions] count];
     for (index = 0; index < count; index++)
@@ -317,7 +317,7 @@
 
     newGroup = [[MMGroup alloc] init];
     [newGroup setName:@"Untitled"];
-    [[[self model] equations] addObject:newGroup];
+    [[[self model] equationGroups] addObject:newGroup];
 
     [self updateViews];
 
@@ -532,7 +532,7 @@
    // NSLog(@"-> %s, item: %p", __PRETTY_FUNCTION__, item);
     if (outlineView == equationOutlineView) {
         if (item == nil)
-            return [[model equations] count];
+            return [[model equationGroups] count];
         else if ([item isKindOfClass:[MMEquation class]])
             return [[self usageOfEquation:item] count];
         else {
@@ -566,7 +566,7 @@
 {
     if (outlineView == equationOutlineView) {
         if (item == nil)
-            return [[model equations] objectAtIndex:index];
+            return [[model equationGroups] objectAtIndex:index];
         else if ([item isKindOfClass:[MMEquation class]] == YES)
             return [[self usageOfEquation:item] objectAtIndex:index];
         else {

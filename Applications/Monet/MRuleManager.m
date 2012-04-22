@@ -172,9 +172,9 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 {
     NSUInteger count, index;
 
-    count = [[model equations] count];
+    count = [[model equationGroups] count];
     for (index = 0; index < count; index++)
-        [symbolEquationOutlineView expandItem:[[model equations] objectAtIndex:index]];
+        [symbolEquationOutlineView expandItem:[[model equationGroups] objectAtIndex:index]];
 
     count = [[model transitions] count];
     for (index = 0; index < count; index++)
@@ -659,7 +659,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 {
     if (outlineView == symbolEquationOutlineView) {
         if (item == nil) {
-            return [[[self model] equations] count];
+            return [[[self model] equationGroups] count];
         } else {
             MMGroup *group = item;
             return [group.objects count];
@@ -687,7 +687,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 {
     if (outlineView == symbolEquationOutlineView) {
         if (item == nil) {
-            return [[[self model] equations] objectAtIndex:index];
+            return [[[self model] equationGroups] objectAtIndex:index];
         } else {
             MMGroup *group = item;
             return [group.objects objectAtIndex:index];

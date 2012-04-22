@@ -412,7 +412,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 // These are the proto equations
 - (void)drawEquations;
 {
-    NSArray *equationList = [model equations];
+    NSArray *groups = [model equationGroups];
     CGFloat timeScale = [self timeScale];
     NSUInteger type;
 
@@ -428,8 +428,8 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 
     [[NSColor darkGrayColor] set];
     NSBezierPath *bezierPath = [[NSBezierPath alloc] init];
-    for (NSUInteger i = 0; i < [equationList count]; i++) {
-        MMGroup *group = [equationList objectAtIndex:i];
+    for (NSUInteger i = 0; i < [groups count]; i++) {
+        MMGroup *group = [groups objectAtIndex:i];
         //NSLog(@"named list: %@, count: %d", [namedList name], [namedList count]);
         for (NSUInteger j = 0; j < [group.objects count]; j++) {
             MMEquation *equation = [group.objects objectAtIndex:j];
