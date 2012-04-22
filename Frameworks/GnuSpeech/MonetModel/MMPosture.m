@@ -70,33 +70,21 @@
 
 - (void)_addDefaultValues;
 {
-    NSUInteger count, index;
-    NSArray *mainParameters;
-
     [self addCategory:[self.model categoryWithName:@"phone"]];
 
-    mainParameters = [self.model parameters];
-    count = [mainParameters count];
-    for (index = 0; index < count; index++) {
-        MMTarget *newTarget = [[MMTarget alloc] initWithValue:[(MMParameter *)[mainParameters objectAtIndex:index] defaultValue] isDefault:YES];
-        [self.parameterTargets addObject:newTarget];
-        [newTarget release];
+    for (MMParameter *parameter in [self.model parameters]) {
+        MMTarget *target = [[[MMTarget alloc] initWithValue:[parameter defaultValue] isDefault:YES] autorelease];
+        [self.parameterTargets addObject:target];
     }
 
-    mainParameters = [self.model metaParameters];
-    count = [mainParameters count];
-    for (index = 0; index < count; index++) {
-        MMTarget *newTarget = [[MMTarget alloc] initWithValue:[(MMParameter *)[mainParameters objectAtIndex:index] defaultValue] isDefault:YES];
-        [self.metaParameterTargets addObject:newTarget];
-        [newTarget release];
+    for (MMParameter *parameter in [self.model metaParameters]) {
+        MMTarget *target = [[[MMTarget alloc] initWithValue:[parameter defaultValue] isDefault:YES] autorelease];
+        [self.metaParameterTargets addObject:target];
     }
 
-    NSArray *mainSymbols = [self.model symbols];
-    count = [mainSymbols count];
-    for (index = 0; index < count; index++) {
-        MMTarget *newTarget = [[MMTarget alloc] initWithValue:[(MMSymbol *)[mainSymbols objectAtIndex:index] defaultValue] isDefault:YES];
-        [self.symbolTargets addObject:newTarget];
-        [newTarget release];
+    for (MMParameter *parameter in [self.model symbols]) {
+        MMTarget *target = [[[MMTarget alloc] initWithValue:[parameter defaultValue] isDefault:YES] autorelease];
+        [self.symbolTargets addObject:target];
     }
 }
 
@@ -120,14 +108,15 @@
             self.name, self.comment, self.categories, self.parameterTargets, self.metaParameterTargets, self.symbolTargets];
 }
 
-#pragma mark -
+#pragma mark - Superclass methods
 
 // TODO (2004-03-19): Enforce unique names.
-- (void)setName:(NSString *)newName;
+// TODO (2012-04-21): Model should observe chanes to posture names and resort.
+- (void)setName:(NSString *)name;
 {
-    [super setName:newName];
+    [super setName:name];
     [self.model sortPostures];
-    [self.nativeCategory setName:newName];
+    self.nativeCategory.name = name;
 }
 
 #pragma mark - Categories
@@ -137,11 +126,10 @@
 
 - (void)addCategory:(MMCategory *)category;
 {
-    if (category == nil)
-        return;
-
-    if ([self.categories containsObject:category] == NO)
-        [self.categories addObject:category];
+    if (category != nil) {
+        if ([self.categories containsObject:category] == NO)
+            [self.categories addObject:category];
+    }
 }
 
 - (void)removeCategory:(MMCategory *)category;
@@ -156,11 +144,8 @@
 
 - (BOOL)isMemberOfCategoryNamed:(NSString *)name;
 {
-    NSUInteger count, index;
-
-    count = [self.categories count];
-    for (index = 0; index < count; index++) {
-        if ([[(MMNamedObject *)[self.categories objectAtIndex:index] name] isEqualToString:name])
+    for (MMNamedObject *category in self.categories) {
+        if ([category.name isEqualToString:name])
             return YES;
     }
 
@@ -189,20 +174,14 @@
 
 - (void)addParameterTargetsFromDictionary:(NSDictionary *)dictionary;
 {
-    NSUInteger count, index;
-
-    NSArray *parameters = [self.model parameters];
-    count = [parameters count];
-    for (index = 0; index < count; index++) {
-        MMParameter *currentParameter = [parameters objectAtIndex:index];
-        MMTarget *currentTarget = [dictionary objectForKey:[currentParameter name]];
-        if (currentTarget == nil) {
-            NSLog(@"Warning: no target for parameter %@ in save file, adding default target.", [currentParameter name]);
-            currentTarget = [[MMTarget alloc] initWithValue:[currentParameter defaultValue] isDefault:YES];
-            [self addParameterTarget:currentTarget];
-            [currentTarget release];
+    for (MMParameter *parameter in self.model.parameters) {
+        MMTarget *target = [dictionary objectForKey:parameter.name];
+        if (target == nil) {
+            NSLog(@"Warning: no target for parameter %@ in save file, adding default target.", parameter.name);
+            target = [[[MMTarget alloc] initWithValue:parameter.defaultValue isDefault:YES] autorelease];
+            [self addParameterTarget:target];
         } else {
-            [self addParameterTarget:currentTarget];
+            [self addParameterTarget:target];
         }
 
         // TODO (2004-04-22): Check for targets that were in the save file, but that don't have a matching parameter.
@@ -225,20 +204,14 @@
 
 - (void)addMetaParameterTargetsFromDictionary:(NSDictionary *)dictionary;
 {
-    NSUInteger count, index;
-
-    NSArray *parameters = [self.model metaParameters];
-    count = [parameters count];
-    for (index = 0; index < count; index++) {
-        MMParameter *currentParameter = [parameters objectAtIndex:index];
-        MMTarget *currentTarget = [dictionary objectForKey:[currentParameter name]];
-        if (currentTarget == nil) {
-            NSLog(@"Warning: no target for meta-parameter %@ in save file, adding default target.", [currentParameter name]);
-            currentTarget = [[MMTarget alloc] initWithValue:[currentParameter defaultValue] isDefault:YES];
-            [self addMetaParameterTarget:currentTarget];
-            [currentTarget release];
+    for (MMParameter *parameter in self.model.metaParameters) {
+        MMTarget *target = [dictionary objectForKey:parameter.name];
+        if (target == nil) {
+            NSLog(@"Warning: no target for meta parameter %@ in save file, adding default target.", parameter.name);
+            target = [[[MMTarget alloc] initWithValue:parameter.defaultValue isDefault:YES] autorelease];
+            [self addMetaParameterTarget:target];
         } else {
-            [self addMetaParameterTarget:currentTarget];
+            [self addMetaParameterTarget:target];
         }
 
         // TODO (2004-04-22): Check for targets that were in the save file, but that don't have a matching parameter.
@@ -261,23 +234,17 @@
 
 - (void)addSymbolTargetsFromDictionary:(NSDictionary *)dictionary;
 {
-    NSUInteger count, index;
-
-    NSArray *symbols = [self.model symbols];
-    count = [symbols count];
-    for (index = 0; index < count; index++) {
-        MMSymbol *currentSymbol = [symbols objectAtIndex:index];
-        MMTarget *currentTarget = [dictionary objectForKey:[currentSymbol name]];
-        if (currentTarget == nil) {
-            NSLog(@"Warning: no target for symbol %@ in save file, adding default target.", [currentSymbol name]);
-            currentTarget = [[MMTarget alloc] initWithValue:[currentSymbol defaultValue] isDefault:YES];
-            [self addSymbolTarget:currentTarget];
-            [currentTarget release];
+    for (MMParameter *parameter in self.model.symbols) {
+        MMTarget *target = [dictionary objectForKey:parameter.name];
+        if (target == nil) {
+            NSLog(@"Warning: no target for symbol %@ in save file, adding default target.", parameter.name);
+            target = [[[MMTarget alloc] initWithValue:parameter.defaultValue isDefault:YES] autorelease];
+            [self addSymbolTarget:target];
         } else {
-            [self addSymbolTarget:currentTarget];
+            [self addSymbolTarget:target];
         }
-
-        // TODO (2004-04-22): Check for targets that were in the save file, but that don't have a matching symbol.
+        
+        // TODO (2004-04-22): Check for targets that were in the save file, but that don't have a matching parameter.
     }
 }
 
@@ -327,113 +294,87 @@
 
 - (void)_appendXMLForCategoriesToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
-    NSUInteger count, index;
-
-    count = [self.categories count];
-    if (count == 0)
-        return;
-
-    [resultString indentToLevel:level];
-    [resultString appendString:@"<posture-categories>\n"];
-
-    for (index = 0; index < count; index++) {
-        MMCategory *category = [self.categories objectAtIndex:index];
-
-        [resultString indentToLevel:level + 1];
-        [resultString appendFormat:@"<category-ref name=\"%@\"/>\n", [category name]];
+    if ([self.categories count] > 0) {
+        [resultString indentToLevel:level];
+        [resultString appendString:@"<posture-categories>\n"];
+        
+        for (MMCategory *category in self.categories) {
+            [resultString indentToLevel:level + 1];
+            [resultString appendFormat:@"<category-ref name=\"%@\"/>\n", [category name]];
+        }
+        
+        [resultString indentToLevel:level];
+        [resultString appendString:@"</posture-categories>\n"];
     }
-
-    [resultString indentToLevel:level];
-    [resultString appendString:@"</posture-categories>\n"];
 }
 
 - (void)_appendXMLForParametersToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
-    NSUInteger count, index;
-
-    NSArray *mainParameterList = [self.model parameters];
-    count = [mainParameterList count];
-    assert(count == [self.parameterTargets count]);
-
-    if (count == 0)
-        return;
-
-    [resultString indentToLevel:level];
-    [resultString appendFormat:@"<parameter-targets>\n"];
-
-    for (index = 0; index < count; index++) {
-        MMParameter *parameter = [mainParameterList objectAtIndex:index];
-        MMTarget *target = [self.parameterTargets objectAtIndex:index];
-
-        [resultString indentToLevel:level + 1];
-        [resultString appendFormat:@"<target name=\"%@\" value=\"%g\"/>", [parameter name], [target value]];
-        if ([target value] == [parameter defaultValue])
-            [resultString appendString:@"<!-- default -->"];
-        [resultString appendString:@"\n"];
+    NSParameterAssert([self.model.parameters count] == [self.parameterTargets count]);
+    
+    if ([self.model.parameters count] > 0) {
+        [resultString indentToLevel:level];
+        [resultString appendFormat:@"<parameter-targets>\n"];
+        
+        [self.model.parameters enumerateObjectsUsingBlock:^(MMParameter *parameter, NSUInteger index, BOOL *stop){
+            MMTarget *target = [self.parameterTargets objectAtIndex:index];
+            
+            [resultString indentToLevel:level + 1];
+            [resultString appendFormat:@"<target name=\"%@\" value=\"%g\"/>", parameter.name, target.value];
+            if (target.value == parameter.defaultValue)
+                [resultString appendString:@"<!-- default -->"];
+            [resultString appendString:@"\n"];
+        }];
+        
+        [resultString indentToLevel:level];
+        [resultString appendString:@"</parameter-targets>\n"];
     }
-
-    [resultString indentToLevel:level];
-    [resultString appendString:@"</parameter-targets>\n"];
 }
 
 - (void)_appendXMLForMetaParametersToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
-    NSUInteger count, index;
-
-    NSArray *mainMetaParameterList = [self.model metaParameters];
-    count = [mainMetaParameterList count];
-    if (count != [self.metaParameterTargets count])
-        NSLog(@"%s, (%@) main meta count: %lu, count: %lu", __PRETTY_FUNCTION__, self.name, count, [self.metaParameterTargets count]);
-    //assert(count == [metaParameterTargets count]);
-
-    if (count == 0)
-        return;
-
-    [resultString indentToLevel:level];
-    [resultString appendFormat:@"<meta-parameter-targets>\n"];
-
-    for (index = 0; index < count; index++) {
-        MMParameter *parameter = [mainMetaParameterList objectAtIndex:index];
-        MMTarget *target = [self.metaParameterTargets objectAtIndex:index];
-
-        [resultString indentToLevel:level + 1];
-        [resultString appendFormat:@"<target name=\"%@\" value=\"%g\"/>", [parameter name], [target value]];
-        if ([target value] == [parameter defaultValue])
-            [resultString appendString:@"<!-- default -->"];
-        [resultString appendString:@"\n"];
+    NSParameterAssert([self.model.metaParameters count] == [self.metaParameterTargets count]);
+    
+    if ([self.model.metaParameters count] > 0) {
+        [resultString indentToLevel:level];
+        [resultString appendFormat:@"<meta-parameter-targets>\n"];
+        
+        [self.model.metaParameters enumerateObjectsUsingBlock:^(MMParameter *parameter, NSUInteger index, BOOL *stop){
+            MMTarget *target = [self.metaParameterTargets objectAtIndex:index];
+            
+            [resultString indentToLevel:level + 1];
+            [resultString appendFormat:@"<target name=\"%@\" value=\"%g\"/>", parameter.name, target.value];
+            if (target.value == parameter.defaultValue)
+                [resultString appendString:@"<!-- default -->"];
+            [resultString appendString:@"\n"];
+        }];
+        
+        [resultString indentToLevel:level];
+        [resultString appendString:@"</meta-parameter-targets>\n"];
     }
-
-    [resultString indentToLevel:level];
-    [resultString appendString:@"</meta-parameter-targets>\n"];
 }
 
 - (void)_appendXMLForSymbolsToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
-    NSUInteger count, index;
-
-    NSArray *mainSymbolList = [self.model symbols];
-    count = [mainSymbolList count];
-    assert(count == [self.symbolTargets count]);
-
-    if (count == 0)
-        return;
-
-    [resultString indentToLevel:level];
-    [resultString appendFormat:@"<symbol-targets>\n"];
-
-    for (index = 0; index < count; index++) {
-        MMSymbol *symbol = [mainSymbolList objectAtIndex:index];
-        MMTarget *target = [self.symbolTargets objectAtIndex:index];
-
-        [resultString indentToLevel:level + 1];
-        [resultString appendFormat:@"<target name=\"%@\" value=\"%g\"/>", [symbol name], [target value]];
-        if ([target value] == [symbol defaultValue])
-            [resultString appendString:@"<!-- default -->"];
-        [resultString appendString:@"\n"];
+    NSParameterAssert([self.model.symbols count] == [self.symbolTargets count]);
+    
+    if ([self.model.symbols count] > 0) {
+        [resultString indentToLevel:level];
+        [resultString appendFormat:@"<symbol-targets>\n"];
+        
+        [self.model.symbols enumerateObjectsUsingBlock:^(MMParameter *parameter, NSUInteger index, BOOL *stop){
+            MMTarget *target = [self.symbolTargets objectAtIndex:index];
+            
+            [resultString indentToLevel:level + 1];
+            [resultString appendFormat:@"<target name=\"%@\" value=\"%g\"/>", parameter.name, target.value];
+            if (target.value == parameter.defaultValue)
+                [resultString appendString:@"<!-- default -->"];
+            [resultString appendString:@"\n"];
+        }];
+        
+        [resultString indentToLevel:level];
+        [resultString appendString:@"</symbol-targets>\n"];
     }
-
-    [resultString indentToLevel:level];
-    [resultString appendString:@"</symbol-targets>\n"];
 }
 
 // TODO (2004-08-12): Rename attribute name from "symbol" to "name", so we can use the superclass implementation of this method.  Do this after we start supporting upgrading from previous versions.
