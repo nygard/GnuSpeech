@@ -13,15 +13,12 @@
 
 - (id)init;
 {
-    return [self initWithCapacity:2];
-}
-
-- (id)initWithCapacity:(NSUInteger)numItems;
-{
     if ((self = [super init])) {
-        ilist = [[NSMutableArray alloc] initWithCapacity:numItems];
+        ilist = [[NSMutableArray alloc] init];
     }
-
+    
+    NSParameterAssert([self class] != [MonetList class]);
+    
     return self;
 }
 

@@ -10,8 +10,6 @@
 
 @interface MonetList : NSObject
 
-- (id)initWithCapacity:(NSUInteger)numItems;
-
 @property (readonly) NSMutableArray *ilist;
 
 - (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(NSUInteger)level;
