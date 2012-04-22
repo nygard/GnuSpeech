@@ -541,8 +541,8 @@
     [eventList setShouldUseMacroIntonation:[defaults boolForKey:MDK_ShouldUseMacroIntonation]];
     [eventList setShouldUseMicroIntonation:[defaults boolForKey:MDK_ShouldUseMicroIntonation]];
     [eventList setShouldUseDrift:[defaults boolForKey:MDK_ShouldUseDrift]];
-    setDriftGenerator([driftDeviationField floatValue], 500, [driftCutoffField floatValue]);
-    //setDriftGenerator(0.5, 250, 0.5);
+    [eventList.driftGenerator configureWithDeviation:[driftDeviationField floatValue] sampleRate:500 lowpassCutoff:[driftCutoffField floatValue]];
+    //[eventList.driftGenerator setupWithDeviation:0.5 sampleRate:250 lowpassCutoff:0.5];
 	
     [eventList setRadiusMultiply:[radiusMultiplyField doubleValue]];
 	

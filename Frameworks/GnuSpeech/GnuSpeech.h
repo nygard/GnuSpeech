@@ -21,11 +21,11 @@
 #import <GnuSpeech/NSString-Extensions.h>
 
 // MonetModel
-#import <GnuSpeech/driftGenerator.h>
 #import <GnuSpeech/Event.h>
 #import <GnuSpeech/EventList.h>
 #import <GnuSpeech/MDocument.h>
 #import <GnuSpeech/MMCategory.h>
+#import <GnuSpeech/MMDriftGenerator.h>
 #import <GnuSpeech/MMEquation.h>
 #import <GnuSpeech/MMIntonationPoint.h>
 #import <GnuSpeech/MMNamedObject.h>

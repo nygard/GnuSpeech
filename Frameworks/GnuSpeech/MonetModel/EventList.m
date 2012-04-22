@@ -7,7 +7,7 @@
 #import "NSCharacterSet-Extensions.h"
 #import "NSScanner-Extensions.h"
 #import "NSString-Extensions.h"
-#import "driftGenerator.h"
+#import "MMDriftGenerator.h"
 #import "Event.h"
 #import "MMEquation.h"
 #import "MMFRuleSymbols.h"
@@ -99,6 +99,8 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     
     // Hack for inflexible XML parsing.  I have plan to change how I parse XML.
     NSUInteger parseState;
+    
+    MMDriftGenerator *m_driftGenerator;
 }
 
 - (id)init;
@@ -112,9 +114,11 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
         intonationPoints = [[NSMutableArray alloc] init];
         m_intonationPointsNeedSorting = NO;
         
+        m_driftGenerator = [[MMDriftGenerator alloc] init];
+        [m_driftGenerator configureWithDeviation:1 sampleRate:500 lowpassCutoff:1000];
+        
         [self setUp];
         
-        setDriftGenerator(1.0, 500.0, 1000.0);
         m_radiusMultiply = 1.0;
     }
         
@@ -977,7 +981,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
         if (!self.shouldUseMicroIntonation)
             table[0] = 0.0;
         if (self.shouldUseDrift)
-            table[0] += drift();
+            table[0] += self.driftGenerator.generateDrift;
         if (self.shouldUseMacroIntonation) {
             //NSLog(@"sumi, table[0]: %f, currentValues[32]: %f", table[0], currentValues[32]);
             table[0] += currentValues[32];
@@ -1555,5 +1559,9 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 {
     parseState = PARSE_STATE_INITIAL;
 }
+
+#pragma mark -
+
+@synthesize driftGenerator = m_driftGenerator;
 
 @end
