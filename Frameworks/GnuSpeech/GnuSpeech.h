@@ -45,7 +45,6 @@
 #import <GnuSpeech/MMTextToPhone.h>
 #import <GnuSpeech/MMTransition.h>
 #import <GnuSpeech/MonetDefaults.h>
-#import <GnuSpeech/MonetList.h>
 
 // Parsers
 #import <GnuSpeech/GSParser.h>
