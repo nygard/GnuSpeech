@@ -723,7 +723,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     NSUInteger count, index;
 
     count = [rules count];
-    assert(count > 0);
+    NSParameterAssert(count > 0);
     for (index = 0; index < count; index++) {
         MMRule *rule = [rules objectAtIndex:index];
         if ([rule numberExpressions] <= [categoryLists count])

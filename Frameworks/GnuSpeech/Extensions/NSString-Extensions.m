@@ -20,7 +20,7 @@
 {
     NSString *spaces = @"                                        ";
 
-    assert(spacesPerLevel <= [spaces length]);
+    NSParameterAssert(spacesPerLevel <= [spaces length]);
     NSString *levelSpaces = [spaces substringToIndex:spacesPerLevel];
 
     NSMutableString *str = [NSMutableString string];

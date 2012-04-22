@@ -217,10 +217,10 @@
 
     selectedRow = [parameterTableView selectedRow];
     selectedParameter = [[[self model] parameters] objectAtIndex:selectedRow];
-    assert(selectedParameter != nil);
+    NSParameterAssert(selectedParameter != nil);
 
     selectedTarget = [[[self selectedPosture] parameterTargets] objectAtIndex:selectedRow];
-    assert(selectedTarget != nil);
+    NSParameterAssert(selectedTarget != nil);
 
     [selectedTarget setValue:[selectedParameter defaultValue]];
     [self updateViews];
@@ -234,10 +234,10 @@
 
     selectedRow = [metaParameterTableView selectedRow];
     selectedParameter = [[[self model] metaParameters] objectAtIndex:selectedRow];
-    assert(selectedParameter != nil);
+    NSParameterAssert(selectedParameter != nil);
 
     selectedTarget = [[[self selectedPosture] metaParameterTargets] objectAtIndex:selectedRow];
-    assert(selectedTarget != nil);
+    NSParameterAssert(selectedTarget != nil);
 
     [selectedTarget setValue:[selectedParameter defaultValue]];
     [self updateViews];
@@ -251,10 +251,10 @@
 
     selectedRow = [symbolTableView selectedRow];
     selectedSymbol = [[[self model] symbols] objectAtIndex:selectedRow];
-    assert(selectedSymbol != nil);
+    NSParameterAssert(selectedSymbol != nil);
 
     selectedTarget = [[[self selectedPosture] symbolTargets] objectAtIndex:selectedRow];
-    assert(selectedTarget != nil);
+    NSParameterAssert(selectedTarget != nil);
 
     [selectedTarget setValue:[selectedSymbol defaultValue]];
     [self updateViews];

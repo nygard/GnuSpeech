@@ -574,7 +574,7 @@
     NSUInteger count, index;
 
     NSArray *mainParameterList = [[self model] parameters];
-    assert([mainParameterList count] == [parameterTransitions count]);
+    NSParameterAssert([mainParameterList count] == [parameterTransitions count]);
 
     if ([parameterTransitions count] == 0)
         return;
@@ -601,7 +601,7 @@
     NSUInteger count, index;
 
     NSArray *mainMetaParameterList = [[self model] metaParameters];
-    assert([mainMetaParameterList count] == [metaParameterTransitions count]);
+    NSParameterAssert([mainMetaParameterList count] == [metaParameterTransitions count]);
 
     if ([metaParameterTransitions count] == 0)
         return;
