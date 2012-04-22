@@ -3,7 +3,7 @@
 
 #import "MWindowController.h"
 
-@class MMBooleanNode, MMBooleanParser, MModel, MMRule, MonetList;
+@class MMBooleanNode, MMBooleanParser, MModel, MMRule;
 
 @interface MRuleManager : MWindowController
 
