@@ -26,7 +26,6 @@
 - (void)_loadDegasFile:(NSString *)aFilename;
 - (void)_loadMonetXMLFile:(NSString *)aFilename;
 
-- (void)_disableUnconvertedClassLoading;
 @property (nonatomic, readonly) MDataEntryController *dataEntryController;
 @property (nonatomic, readonly) MPostureCategoryController *postureCategoryController;
 @property (nonatomic, readonly) MPostureEditor *postureEditor;
@@ -98,30 +97,6 @@
     //NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
 
     //NSLog(@"[NSApp delegate]: %@", [NSApp delegate]);
-
-    //NSLog(@"decode List as %@", [NSUnarchiver classNameDecodedForArchiveClassName:@"List"]);
-    //NSLog(@"decode Object as %@", [NSUnarchiver classNameDecodedForArchiveClassName:@"Object"]);
-
-    [NSUnarchiver decodeClassName:@"Object"            asClassName:@"NSObject"];
-    [NSUnarchiver decodeClassName:@"List"              asClassName:@"MonetList"];
-
-    [NSUnarchiver decodeClassName:@"BooleanExpression" asClassName:@"MMBooleanExpression"];
-    [NSUnarchiver decodeClassName:@"BooleanTerminal"   asClassName:@"MMBooleanTerminal"];
-    [NSUnarchiver decodeClassName:@"CategoryNode"      asClassName:@"MMCategory"];
-    [NSUnarchiver decodeClassName:@"Parameter"         asClassName:@"MMParameter"];
-    [NSUnarchiver decodeClassName:@"Phone"             asClassName:@"MMPosture"];
-    [NSUnarchiver decodeClassName:@"Point"             asClassName:@"MMPoint"];
-    [NSUnarchiver decodeClassName:@"ProtoEquation"     asClassName:@"MMEquation"];
-    [NSUnarchiver decodeClassName:@"ProtoTemplate"     asClassName:@"MMTransition"];
-    [NSUnarchiver decodeClassName:@"Rule"              asClassName:@"MMRule"];
-    [NSUnarchiver decodeClassName:@"Slope"             asClassName:@"MMSlope"];
-    [NSUnarchiver decodeClassName:@"SlopeRatio"        asClassName:@"MMSlopeRatio"];
-    [NSUnarchiver decodeClassName:@"Symbol"            asClassName:@"MMSymbol"];
-    [NSUnarchiver decodeClassName:@"Target"            asClassName:@"MMTarget"];
-
-#ifndef GNUSTEP
-    [self _disableUnconvertedClassLoading];
-#endif
 
     [[self dataEntryController] showWindowIfVisibleOnLaunch];
     [[self postureCategoryController] showWindowIfVisibleOnLaunch];
@@ -433,17 +408,6 @@
         }
     }
 #endif
-}
-
-- (void)_disableUnconvertedClassLoading;
-{
-    NSString *names[] = { @"IntonationPoint", @"RuleManager", nil };
-    NSUInteger index = 0;
-
-    while (names[index] != nil) {
-        [NSUnarchiver decodeClassName:names[index] asClassName:[NSString stringWithFormat:@"%@_NOT_CONVERTED", names[index]]];
-        index++;
-    }
 }
 
 - (MDataEntryController *)dataEntryController;
