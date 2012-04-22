@@ -168,6 +168,117 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0161BEF61544C3F100A1D178 /* Data Entry */ = {
+			isa = PBXGroup;
+			children = (
+				01C55D6E0B7BCE53009F6A92 /* MDataEntryController.h */,
+				01C55D6F0B7BCE53009F6A92 /* MDataEntryController.m */,
+				69CD4B2E0EDD15C800481C86 /* DataEntry.xib */,
+			);
+			name = "Data Entry";
+			sourceTree = "<group>";
+		};
+		0161BEF71544C3F900A1D178 /* Posture Category */ = {
+			isa = PBXGroup;
+			children = (
+				01C55D700B7BCE53009F6A92 /* MPostureCategoryController.h */,
+				01C55D710B7BCE53009F6A92 /* MPostureCategoryController.m */,
+				69CD4B330EDD15E200481C86 /* PostureCategory.xib */,
+			);
+			name = "Posture Category";
+			sourceTree = "<group>";
+		};
+		0161BEF81544C40500A1D178 /* Posture Editor */ = {
+			isa = PBXGroup;
+			children = (
+				01C55D720B7BCE53009F6A92 /* MPostureEditor.h */,
+				01C55D730B7BCE53009F6A92 /* MPostureEditor.m */,
+				69CD4B380EDD15F300481C86 /* Postures.xib */,
+			);
+			name = "Posture Editor";
+			sourceTree = "<group>";
+		};
+		0161BEF91544C41200A1D178 /* Rule Manager */ = {
+			isa = PBXGroup;
+			children = (
+				01C55D780B7BCE53009F6A92 /* MRuleManager.h */,
+				01C55D790B7BCE53009F6A92 /* MRuleManager.m */,
+				69CD4B470EDD162800481C86 /* RuleManager.xib */,
+			);
+			name = "Rule Manager";
+			sourceTree = "<group>";
+		};
+		0161BEFA1544C41B00A1D178 /* Rule Tester */ = {
+			isa = PBXGroup;
+			children = (
+				01C55D7A0B7BCE53009F6A92 /* MRuleTester.h */,
+				01C55D7B0B7BCE53009F6A92 /* MRuleTester.m */,
+				69CD4B4C0EDD163700481C86 /* RuleTester.xib */,
+			);
+			name = "Rule Tester";
+			sourceTree = "<group>";
+		};
+		0161BEFB1544C42800A1D178 /* Special Transition Editor */ = {
+			isa = PBXGroup;
+			children = (
+				01C55D7C0B7BCE53009F6A92 /* MSpecialTransitionEditor.h */,
+				01C55D7D0B7BCE53009F6A92 /* MSpecialTransitionEditor.m */,
+				69CD4B510EDD164800481C86 /* SpecialTransitionEditor.xib */,
+			);
+			name = "Special Transition Editor";
+			sourceTree = "<group>";
+		};
+		0161BEFC1544C43A00A1D178 /* Synthesis */ = {
+			isa = PBXGroup;
+			children = (
+				01C55D7E0B7BCE53009F6A92 /* MSynthesisController.h */,
+				01C55D7F0B7BCE53009F6A92 /* MSynthesisController.m */,
+				69CD4B560EDD165700481C86 /* Synthesis.xib */,
+			);
+			name = Synthesis;
+			sourceTree = "<group>";
+		};
+		0161BEFD1544C44A00A1D178 /* Prototype Manager */ = {
+			isa = PBXGroup;
+			children = (
+				01C55D740B7BCE53009F6A92 /* MPrototypeManager.h */,
+				01C55D750B7BCE53009F6A92 /* MPrototypeManager.m */,
+				69CD4B3D0EDD160400481C86 /* PrototypeManager.xib */,
+			);
+			name = "Prototype Manager";
+			sourceTree = "<group>";
+		};
+		0161BEFE1544C46100A1D178 /* Release Notes */ = {
+			isa = PBXGroup;
+			children = (
+				01C55D760B7BCE53009F6A92 /* MReleaseNotesController.h */,
+				01C55D770B7BCE53009F6A92 /* MReleaseNotesController.m */,
+				69CD4B420EDD161800481C86 /* ReleaseNotes.xib */,
+				01C55C490B7BC7C6009F6A92 /* ReleaseNotes.html */,
+			);
+			name = "Release Notes";
+			sourceTree = "<group>";
+		};
+		0161BEFF1544C46C00A1D178 /* Synthesis Parameters */ = {
+			isa = PBXGroup;
+			children = (
+				01C55D800B7BCE53009F6A92 /* MSynthesisParameterEditor.h */,
+				01C55D810B7BCE53009F6A92 /* MSynthesisParameterEditor.m */,
+				69CD4B5B0EDD166600481C86 /* SynthesisParameters.xib */,
+			);
+			name = "Synthesis Parameters";
+			sourceTree = "<group>";
+		};
+		0161BF001544C47E00A1D178 /* Transition Editor */ = {
+			isa = PBXGroup;
+			children = (
+				01C55D820B7BCE53009F6A92 /* MTransitionEditor.h */,
+				01C55D830B7BCE53009F6A92 /* MTransitionEditor.m */,
+				69CD4B600EDD168000481C86 /* TransitionEditor.xib */,
+			);
+			name = "Transition Editor";
+			sourceTree = "<group>";
+		};
 		01C55C5B0B7BC83B009F6A92 /* Images */ = {
 			isa = PBXGroup;
 			children = (
@@ -232,28 +343,18 @@
 			children = (
 				01C55D6C0B7BCE53009F6A92 /* AppController.h */,
 				01C55D6D0B7BCE53009F6A92 /* AppController.m */,
-				01C55D6E0B7BCE53009F6A92 /* MDataEntryController.h */,
-				01C55D6F0B7BCE53009F6A92 /* MDataEntryController.m */,
-				01C55D700B7BCE53009F6A92 /* MPostureCategoryController.h */,
-				01C55D710B7BCE53009F6A92 /* MPostureCategoryController.m */,
-				01C55D720B7BCE53009F6A92 /* MPostureEditor.h */,
-				01C55D730B7BCE53009F6A92 /* MPostureEditor.m */,
-				01C55D740B7BCE53009F6A92 /* MPrototypeManager.h */,
-				01C55D750B7BCE53009F6A92 /* MPrototypeManager.m */,
-				01C55D760B7BCE53009F6A92 /* MReleaseNotesController.h */,
-				01C55D770B7BCE53009F6A92 /* MReleaseNotesController.m */,
-				01C55D780B7BCE53009F6A92 /* MRuleManager.h */,
-				01C55D790B7BCE53009F6A92 /* MRuleManager.m */,
-				01C55D7A0B7BCE53009F6A92 /* MRuleTester.h */,
-				01C55D7B0B7BCE53009F6A92 /* MRuleTester.m */,
-				01C55D7C0B7BCE53009F6A92 /* MSpecialTransitionEditor.h */,
-				01C55D7D0B7BCE53009F6A92 /* MSpecialTransitionEditor.m */,
-				01C55D7E0B7BCE53009F6A92 /* MSynthesisController.h */,
-				01C55D7F0B7BCE53009F6A92 /* MSynthesisController.m */,
-				01C55D800B7BCE53009F6A92 /* MSynthesisParameterEditor.h */,
-				01C55D810B7BCE53009F6A92 /* MSynthesisParameterEditor.m */,
-				01C55D820B7BCE53009F6A92 /* MTransitionEditor.h */,
-				01C55D830B7BCE53009F6A92 /* MTransitionEditor.m */,
+				69CD4B280EDD15AD00481C86 /* MainMenu.xib */,
+				0161BEF61544C3F100A1D178 /* Data Entry */,
+				0161BEF71544C3F900A1D178 /* Posture Category */,
+				0161BEF81544C40500A1D178 /* Posture Editor */,
+				0161BEFD1544C44A00A1D178 /* Prototype Manager */,
+				0161BEFE1544C46100A1D178 /* Release Notes */,
+				0161BEF91544C41200A1D178 /* Rule Manager */,
+				0161BEFA1544C41B00A1D178 /* Rule Tester */,
+				0161BEFB1544C42800A1D178 /* Special Transition Editor */,
+				0161BEFC1544C43A00A1D178 /* Synthesis */,
+				0161BEFF1544C46C00A1D178 /* Synthesis Parameters */,
+				0161BF001544C47E00A1D178 /* Transition Editor */,
 				01C55D840B7BCE53009F6A92 /* MWindowController.h */,
 				01C55D850B7BCE53009F6A92 /* MWindowController.m */,
 			);
@@ -358,21 +459,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				69CD4B280EDD15AD00481C86 /* MainMenu.xib */,
-				69CD4B2E0EDD15C800481C86 /* DataEntry.xib */,
-				69CD4B330EDD15E200481C86 /* PostureCategory.xib */,
-				69CD4B380EDD15F300481C86 /* Postures.xib */,
-				69CD4B3D0EDD160400481C86 /* PrototypeManager.xib */,
-				69CD4B420EDD161800481C86 /* ReleaseNotes.xib */,
-				69CD4B470EDD162800481C86 /* RuleManager.xib */,
-				69CD4B4C0EDD163700481C86 /* RuleTester.xib */,
-				69CD4B510EDD164800481C86 /* SpecialTransitionEditor.xib */,
-				69CD4B560EDD165700481C86 /* Synthesis.xib */,
-				69CD4B5B0EDD166600481C86 /* SynthesisParameters.xib */,
-				69CD4B600EDD168000481C86 /* TransitionEditor.xib */,
 				69E8A4140EC236890090AD25 /* Diphones.mxml */,
 				69454E070F8D4DB200EBA0DC /* ChangeLog.txt */,
-				01C55C490B7BC7C6009F6A92 /* ReleaseNotes.html */,
 				01C55C4C0B7BC7D8009F6A92 /* Default.mxml */,
 				69E8A53E0EC276E20090AD25 /* Diphones.monet */,
 				01C55C5B0B7BC83B009F6A92 /* Images */,
