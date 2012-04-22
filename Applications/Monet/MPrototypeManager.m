@@ -571,7 +571,7 @@
             return [[self usageOfEquation:item] objectAtIndex:index];
         else {
             MonetList *list = item;
-            return [list objectAtIndex:index];
+            return [list.ilist objectAtIndex:index];
         }
     } else if (outlineView == transitionOutlineView) {
         if (item == nil)
@@ -580,7 +580,7 @@
             return [[self usageOfTransition:item] objectAtIndex:index];
         else {
             MonetList *list = item;
-            return [list objectAtIndex:index];
+            return [list.ilist objectAtIndex:index];
         }
     } else if (outlineView == specialTransitionOutlineView) {
         if (item == nil)
@@ -589,7 +589,7 @@
             return [[self usageOfTransition:item] objectAtIndex:index];
         else {
             MonetList *list = item;
-            return [list objectAtIndex:index];
+            return [list.ilist objectAtIndex:index];
         }
     }
 

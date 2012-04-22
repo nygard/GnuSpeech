@@ -43,21 +43,6 @@
 
 @synthesize ilist;
 
-- (void)_warning;
-{
-    //NSLog(@"%s", _cmd);
-}
-
-- (id)objectAtIndex:(NSUInteger)index;
-{
-    if (index >= [ilist count]) {
-        NSLog(@"Warning: index out of range in %s, returning nil for compatibility with List from NS3.3", __PRETTY_FUNCTION__);
-        [self _warning];
-        return nil;
-    }
-    return [ilist objectAtIndex:index];
-}
-
 - (void)_addNilWarning;
 {
     NSLog(@"Tried to add nil.");

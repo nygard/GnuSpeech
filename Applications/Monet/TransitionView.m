@@ -432,7 +432,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         NamedList *namedList = [equationList objectAtIndex:i];
         //NSLog(@"named list: %@, count: %d", [namedList name], [namedList count]);
         for (NSUInteger j = 0; j < [namedList.ilist count]; j++) {
-            MMEquation *equation = [namedList objectAtIndex:j];
+            MMEquation *equation = [namedList.ilist objectAtIndex:j];
             if ([[equation formula] maxPhone] <= type) {
                 double time = [equation evaluate:&_parameters postures:samplePostures andCacheWith:cacheTag];
                 //NSLog(@"\t%@", [equation name]);

@@ -450,7 +450,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         NamedList *currentGroup = [equations objectAtIndex:groupIndex];
         count = [currentGroup.ilist count];
         for (index = 0; index < count; index++) {
-            MMEquation *anEquation = [currentGroup objectAtIndex:index];
+            MMEquation *anEquation = [currentGroup.ilist objectAtIndex:index];
             if ([anEquationName isEqualToString:[anEquation name]])
                 return anEquation;
         }
@@ -469,7 +469,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         NamedList *currentGroup = [transitions objectAtIndex:groupIndex];
         count = [currentGroup.ilist count];
         for (index = 0; index < count; index++) {
-            MMTransition *aTransition = [currentGroup objectAtIndex:index];
+            MMTransition *aTransition = [currentGroup.ilist objectAtIndex:index];
             if ([aTransitionName isEqualToString:[aTransition name]])
                 return aTransition;
         }
@@ -488,7 +488,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         NamedList *currentGroup = [specialTransitions objectAtIndex:groupIndex];
         count = [currentGroup.ilist count];
         for (index = 0; index < count; index++) {
-            MMTransition *aTransition = [currentGroup objectAtIndex:index];
+            MMTransition *aTransition = [currentGroup.ilist objectAtIndex:index];
             if ([aTransitionName isEqualToString:[aTransition name]])
                 return aTransition;
         }
@@ -510,7 +510,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
             for (j = 0; j < [currentList.ilist count]; j++) {
                 MMEquation *anEquation;
 
-                anEquation = [currentList objectAtIndex:j];
+                anEquation = [currentList.ilist objectAtIndex:j];
                 if ([anEquationName isEqualToString:[anEquation name]])
                     return anEquation;
             }
@@ -603,7 +603,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         NamedList *currentList = [specialTransitions objectAtIndex:i];
         if ([aListName isEqualToString:[currentList name]]) {
             for (j = 0; j < [currentList.ilist count]; j++) {
-                MMTransition *aTransition = [currentList objectAtIndex:j];
+                MMTransition *aTransition = [currentList.ilist objectAtIndex:j];
                 if ([aSpecialName isEqualToString:[aTransition name]])
                     return aTransition;
             }
@@ -656,7 +656,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         NamedList *aGroup = [transitions objectAtIndex:index];
         transitionCount = [aGroup.ilist count];
         for (transitionIndex = 0; transitionIndex < transitionCount; transitionIndex++) {
-            MMTransition *aTransition = [aGroup objectAtIndex:transitionIndex];
+            MMTransition *aTransition = [aGroup.ilist objectAtIndex:transitionIndex];
             if ([aTransition isEquationUsed:anEquation]) {
                 [array addObject:[NSString stringWithFormat:@"T:%@:%@", [[aTransition group] name], [aTransition name]]];
             }
@@ -670,7 +670,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         NamedList *aGroup = [specialTransitions objectAtIndex:index];
         transitionCount = [aGroup.ilist count];
         for (transitionIndex = 0; transitionIndex < transitionCount; transitionIndex++) {
-            MMTransition *aTransition = [aGroup objectAtIndex:transitionIndex];
+            MMTransition *aTransition = [aGroup.ilist objectAtIndex:transitionIndex];
             if ([aTransition isEquationUsed:anEquation]) {
                 [array addObject:[NSString stringWithFormat:@"S:%@:%@", [[aTransition group] name], [aTransition name]]];
             }

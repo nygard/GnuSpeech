@@ -81,7 +81,7 @@
     [resultString appendString:@">\n"];
 
     for (NSUInteger index = 0; index < count; index++) {
-        id anObject = [self objectAtIndex:index];
+        id anObject = [self.ilist objectAtIndex:index];
         [anObject appendXMLToString:resultString level:level+1];
     }
 
