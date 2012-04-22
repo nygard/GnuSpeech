@@ -103,6 +103,8 @@
 		019745A3153F855000695CD7 /* NSData-STExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 019745A1153F854F00695CD7 /* NSData-STExtensions.m */; };
 		019745A5153F8A2100695CD7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 019745A4153F8A2100695CD7 /* AVFoundation.framework */; };
 		01AC65FA0B7BF9B4008E4B93 /* GnuSpeech.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC65F90B7BF9B4008E4B93 /* GnuSpeech.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		01ACA5E01544A80A00278339 /* MMGroupedObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 01ACA5DE1544A80700278339 /* MMGroupedObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		01ACA5E11544A80A00278339 /* MMGroupedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 01ACA5DF1544A80800278339 /* MMGroupedObject.m */; };
 		01F470A915408B7800A604B8 /* Tube.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01F470A815408B7800A604B8 /* Tube.framework */; };
 		69300A3E0FAB841E0041EBFB /* TTSParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 69300A3C0FAB841E0041EBFB /* TTSParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69300A3F0FAB841E0041EBFB /* TTSParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 69300A3D0FAB841E0041EBFB /* TTSParser.m */; };
@@ -293,6 +295,8 @@
 		019745A1153F854F00695CD7 /* NSData-STExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData-STExtensions.m"; path = "Extensions/NSData-STExtensions.m"; sourceTree = "<group>"; };
 		019745A4153F8A2100695CD7 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = /System/Library/Frameworks/AVFoundation.framework; sourceTree = "<absolute>"; };
 		01AC65F90B7BF9B4008E4B93 /* GnuSpeech.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GnuSpeech.h; sourceTree = "<group>"; };
+		01ACA5DE1544A80700278339 /* MMGroupedObject.h */ = {isa = PBXFileReference; fileEncoding = 30; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = MMGroupedObject.h; path = MonetModel/MMGroupedObject.h; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		01ACA5DF1544A80800278339 /* MMGroupedObject.m */ = {isa = PBXFileReference; fileEncoding = 30; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = MMGroupedObject.m; path = MonetModel/MMGroupedObject.m; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		01AE22D7154109B200AC1015 /* GnuSpeechServerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GnuSpeechServerProtocol.h; sourceTree = "<group>"; };
 		01F470A815408B7800A604B8 /* Tube.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Tube.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/GnuSpeech-asltgrlxcnhnopcwrardgfljqcve/Build/Products/Debug/Tube.framework"; sourceTree = "<group>"; };
 		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -547,6 +551,8 @@
 				0155E4330B7BE8F9008D8879 /* MMSymbol.m */,
 				0155E4360B7BE8F9008D8879 /* MMTarget.h */,
 				0155E4370B7BE8F9008D8879 /* MMTarget.m */,
+				01ACA5DE1544A80700278339 /* MMGroupedObject.h */,
+				01ACA5DF1544A80800278339 /* MMGroupedObject.m */,
 				0155E4380B7BE8F9008D8879 /* MMTransition.h */,
 				0155E4390B7BE8F9008D8879 /* MMTransition.m */,
 				0165043B1543B42700D64E98 /* MMDriftGenerator.h */,
@@ -783,6 +789,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01ACA5E01544A80A00278339 /* MMGroupedObject.h in Headers */,
 				012D53B50B7FF9DC001B50FC /* TTSParserOld.h in Headers */,
 				012D53B40B7FF9DC001B50FC /* TTSNumberPronunciations.h in Headers */,
 				0155E4770B7BE92A008D8879 /* TRMSynthesizer.h in Headers */,
@@ -1028,6 +1035,7 @@
 				69E228690FB13394001B3C04 /* word_to_patphone.c in Sources */,
 				019745A3153F855000695CD7 /* NSData-STExtensions.m in Sources */,
 				0165043E1543B42700D64E98 /* MMDriftGenerator.m in Sources */,
+				01ACA5E11544A80A00278339 /* MMGroupedObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

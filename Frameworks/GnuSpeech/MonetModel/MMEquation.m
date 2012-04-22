@@ -16,8 +16,6 @@
 
 @implementation MMEquation
 {
-    __weak MMGroup *nonretained_group;
-    
     MMFormulaNode *formula;
     
     NSUInteger cacheTag;
@@ -52,8 +50,6 @@
 }
 
 #pragma mark -
-
-@synthesize group = nonretained_group;
 
 @synthesize formula;
 

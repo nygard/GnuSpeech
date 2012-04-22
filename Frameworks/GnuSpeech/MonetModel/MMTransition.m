@@ -20,8 +20,6 @@
 
 @implementation MMTransition
 {
-    __weak MMGroup *nonretained_group;
-    
     MMPhoneType type;
     NSMutableArray *points; // Of MMSlopeRatios and/or MMPoints
 }
@@ -62,8 +60,6 @@
     [self addPoint:aPoint];
     [aPoint release];
 }
-
-@synthesize group = nonretained_group;
 
 @synthesize points;
 
