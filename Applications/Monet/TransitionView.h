@@ -4,7 +4,7 @@
 #import <Cocoa/Cocoa.h>
 #import <GnuSpeech/GnuSpeech.h> // For MMFRuleSymbols
 
-@class MonetList, MModel, MMPoint, MMSlope, MMTransition;
+@class MModel, MMPoint, MMSlope, MMTransition;
 @class TransitionView;
 
 @protocol TransitionViewNotifications

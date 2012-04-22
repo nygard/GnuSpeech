@@ -5,7 +5,7 @@
 
 #import "MMFRuleSymbols.h"
 
-@class MMBooleanNode, MMCategory, MonetList, MMEquation, MMTransition;
+@class MMBooleanNode, MMCategory, MMEquation, MMTransition;
 
 @interface MMRule : MMObject
 

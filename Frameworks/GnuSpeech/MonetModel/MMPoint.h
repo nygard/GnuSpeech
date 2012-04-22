@@ -6,7 +6,7 @@
 #import "GSXMLFunctions.h" // For MMPhoneType
 #import "MMFRuleSymbols.h"
 
-@class EventList, MonetList, MMEquation;
+@class EventList, MMEquation;
 
 @interface MMPoint : NSObject
 
