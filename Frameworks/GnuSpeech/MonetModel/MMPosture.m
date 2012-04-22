@@ -26,6 +26,7 @@
 - (void)addMetaParameterTargetsFromDictionary:(NSDictionary *)dictionary;
 - (void)addSymbolTargetsFromDictionary:(NSDictionary *)dictionary;
 - (void)_appendXMLForCategoriesToString:(NSMutableString *)resultString level:(NSUInteger)level;
+- (void)_appendXMLForParameters:(NSArray *)parameters targets:(NSArray *)targets elementName:(NSString *)elementName toString:(NSMutableString *)resultString level:(NSUInteger)level;
 - (void)_appendXMLForParametersToString:(NSMutableString *)resultString level:(NSUInteger)level;
 - (void)_appendXMLForMetaParametersToString:(NSMutableString *)resultString level:(NSUInteger)level;
 - (void)_appendXMLForSymbolsToString:(NSMutableString *)resultString level:(NSUInteger)level;
@@ -308,16 +309,16 @@
     }
 }
 
-- (void)_appendXMLForParametersToString:(NSMutableString *)resultString level:(NSUInteger)level;
+- (void)_appendXMLForParameters:(NSArray *)parameters targets:(NSArray *)targets elementName:(NSString *)elementName toString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
-    NSParameterAssert([self.model.parameters count] == [self.parameterTargets count]);
+    NSParameterAssert([parameters count] == [targets count]);
     
-    if ([self.model.parameters count] > 0) {
+    if ([parameters count] > 0) {
         [resultString indentToLevel:level];
-        [resultString appendFormat:@"<parameter-targets>\n"];
+        [resultString appendFormat:@"<%@>\n", elementName];
         
-        [self.model.parameters enumerateObjectsUsingBlock:^(MMParameter *parameter, NSUInteger index, BOOL *stop){
-            MMTarget *target = [self.parameterTargets objectAtIndex:index];
+        [parameters enumerateObjectsUsingBlock:^(MMParameter *parameter, NSUInteger index, BOOL *stop){
+            MMTarget *target = [targets objectAtIndex:index];
             
             [resultString indentToLevel:level + 1];
             [resultString appendFormat:@"<target name=\"%@\" value=\"%g\"/>", parameter.name, target.value];
@@ -327,54 +328,23 @@
         }];
         
         [resultString indentToLevel:level];
-        [resultString appendString:@"</parameter-targets>\n"];
+        [resultString appendFormat:@"</%@>\n", elementName];
     }
+}
+
+- (void)_appendXMLForParametersToString:(NSMutableString *)resultString level:(NSUInteger)level;
+{
+    [self _appendXMLForParameters:self.model.parameters targets:self.parameterTargets elementName:@"parameter-targets" toString:resultString level:level];
 }
 
 - (void)_appendXMLForMetaParametersToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
-    NSParameterAssert([self.model.metaParameters count] == [self.metaParameterTargets count]);
-    
-    if ([self.model.metaParameters count] > 0) {
-        [resultString indentToLevel:level];
-        [resultString appendFormat:@"<meta-parameter-targets>\n"];
-        
-        [self.model.metaParameters enumerateObjectsUsingBlock:^(MMParameter *parameter, NSUInteger index, BOOL *stop){
-            MMTarget *target = [self.metaParameterTargets objectAtIndex:index];
-            
-            [resultString indentToLevel:level + 1];
-            [resultString appendFormat:@"<target name=\"%@\" value=\"%g\"/>", parameter.name, target.value];
-            if (target.value == parameter.defaultValue)
-                [resultString appendString:@"<!-- default -->"];
-            [resultString appendString:@"\n"];
-        }];
-        
-        [resultString indentToLevel:level];
-        [resultString appendString:@"</meta-parameter-targets>\n"];
-    }
+    [self _appendXMLForParameters:self.model.metaParameters targets:self.metaParameterTargets elementName:@"meta-parameter-targets" toString:resultString level:level];
 }
 
 - (void)_appendXMLForSymbolsToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
-    NSParameterAssert([self.model.symbols count] == [self.symbolTargets count]);
-    
-    if ([self.model.symbols count] > 0) {
-        [resultString indentToLevel:level];
-        [resultString appendFormat:@"<symbol-targets>\n"];
-        
-        [self.model.symbols enumerateObjectsUsingBlock:^(MMParameter *parameter, NSUInteger index, BOOL *stop){
-            MMTarget *target = [self.symbolTargets objectAtIndex:index];
-            
-            [resultString indentToLevel:level + 1];
-            [resultString appendFormat:@"<target name=\"%@\" value=\"%g\"/>", parameter.name, target.value];
-            if (target.value == parameter.defaultValue)
-                [resultString appendString:@"<!-- default -->"];
-            [resultString appendString:@"\n"];
-        }];
-        
-        [resultString indentToLevel:level];
-        [resultString appendString:@"</symbol-targets>\n"];
-    }
+    [self _appendXMLForParameters:self.model.symbols targets:self.symbolTargets elementName:@"symbol-targets" toString:resultString level:level];
 }
 
 // TODO (2004-08-12): Rename attribute name from "symbol" to "name", so we can use the superclass implementation of this method.  Do this after we start supporting upgrading from previous versions.
