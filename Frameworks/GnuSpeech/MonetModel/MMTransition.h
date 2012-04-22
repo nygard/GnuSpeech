@@ -4,13 +4,13 @@
 #import <Foundation/Foundation.h>
 #import "GSXMLFunctions.h" // To get MMPhoneType
 
-@class MMEquation, MMPoint, NamedList;
+@class MMEquation, MMPoint, MMGroup;
 
 @interface MMTransition : NSObject
 
 - (void)addInitialPoint;
 
-@property (weak) NamedList *group;
+@property (weak) MMGroup *group;
 
 @property (retain) NSString *name;
 @property (retain) NSString *comment;

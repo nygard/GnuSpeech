@@ -93,8 +93,8 @@
 		0155E4690B7BE8FA008D8879 /* MMTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E4390B7BE8F9008D8879 /* MMTransition.m */; };
 		0155E46A0B7BE8FA008D8879 /* MonetList.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E43A0B7BE8F9008D8879 /* MonetList.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0155E46B0B7BE8FA008D8879 /* MonetList.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E43B0B7BE8F9008D8879 /* MonetList.m */; };
-		0155E46C0B7BE8FA008D8879 /* NamedList.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E43C0B7BE8F9008D8879 /* NamedList.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0155E46D0B7BE8FA008D8879 /* NamedList.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E43D0B7BE8F9008D8879 /* NamedList.m */; };
+		0155E46C0B7BE8FA008D8879 /* MMGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E43C0B7BE8F9008D8879 /* MMGroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0155E46D0B7BE8FA008D8879 /* MMGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E43D0B7BE8F9008D8879 /* MMGroup.m */; };
 		0155E4770B7BE92A008D8879 /* TRMSynthesizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E4730B7BE92A008D8879 /* TRMSynthesizer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0155E4780B7BE92A008D8879 /* TRMSynthesizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E4740B7BE92A008D8879 /* TRMSynthesizer.m */; };
 		0155E4D00B7BF002008D8879 /* MonetDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E4CF0B7BF002008D8879 /* MonetDefaults.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -284,8 +284,8 @@
 		0155E4390B7BE8F9008D8879 /* MMTransition.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MMTransition.m; path = MonetModel/MMTransition.m; sourceTree = "<group>"; };
 		0155E43A0B7BE8F9008D8879 /* MonetList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MonetList.h; path = MonetModel/MonetList.h; sourceTree = "<group>"; };
 		0155E43B0B7BE8F9008D8879 /* MonetList.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MonetList.m; path = MonetModel/MonetList.m; sourceTree = "<group>"; };
-		0155E43C0B7BE8F9008D8879 /* NamedList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = NamedList.h; path = MonetModel/NamedList.h; sourceTree = "<group>"; };
-		0155E43D0B7BE8F9008D8879 /* NamedList.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = NamedList.m; path = MonetModel/NamedList.m; sourceTree = "<group>"; };
+		0155E43C0B7BE8F9008D8879 /* MMGroup.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MMGroup.h; path = MonetModel/MMGroup.h; sourceTree = "<group>"; };
+		0155E43D0B7BE8F9008D8879 /* MMGroup.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MMGroup.m; path = MonetModel/MMGroup.m; sourceTree = "<group>"; };
 		0155E4730B7BE92A008D8879 /* TRMSynthesizer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TRMSynthesizer.h; path = Tube/TRMSynthesizer.h; sourceTree = "<group>"; };
 		0155E4740B7BE92A008D8879 /* TRMSynthesizer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = TRMSynthesizer.m; path = Tube/TRMSynthesizer.m; sourceTree = "<group>"; };
 		0155E4CF0B7BF002008D8879 /* MonetDefaults.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MonetDefaults.h; path = MonetModel/MonetDefaults.h; sourceTree = "<group>"; };
@@ -443,6 +443,8 @@
 				0155E4210B7BE8F9008D8879 /* MMObject.m */,
 				0155E41E0B7BE8F9008D8879 /* MMNamedObject.h */,
 				0155E41F0B7BE8F9008D8879 /* MMNamedObject.m */,
+				0155E43C0B7BE8F9008D8879 /* MMGroup.h */,
+				0155E43D0B7BE8F9008D8879 /* MMGroup.m */,
 				016503E315436FBA00D64E98 /* Concrete subclasses */,
 			);
 			name = "Input data form XML file";
@@ -513,8 +515,6 @@
 				0155E4CF0B7BF002008D8879 /* MonetDefaults.h */,
 				0155E43A0B7BE8F9008D8879 /* MonetList.h */,
 				0155E43B0B7BE8F9008D8879 /* MonetList.m */,
-				0155E43C0B7BE8F9008D8879 /* NamedList.h */,
-				0155E43D0B7BE8F9008D8879 /* NamedList.m */,
 			);
 			name = "Monet Model";
 			sourceTree = "<group>";
@@ -798,7 +798,7 @@
 				012D539E0B7FF851001B50FC /* NSFileManager-Extensions.h in Headers */,
 				0155E3900B7BE80D008D8879 /* NSCharacterSet-Extensions.h in Headers */,
 				0155E38E0B7BE80D008D8879 /* NSArray-Extensions.h in Headers */,
-				0155E46C0B7BE8FA008D8879 /* NamedList.h in Headers */,
+				0155E46C0B7BE8FA008D8879 /* MMGroup.h in Headers */,
 				0155E3F00B7BE8AC008D8879 /* MXMLStringArrayDelegate.h in Headers */,
 				0155E3EE0B7BE8AC008D8879 /* MXMLReferenceDictionaryDelegate.h in Headers */,
 				0155E3EC0B7BE8AC008D8879 /* MXMLReferenceArrayDelegate.h in Headers */,
@@ -987,7 +987,7 @@
 				0155E4670B7BE8FA008D8879 /* MMTarget.m in Sources */,
 				0155E4690B7BE8FA008D8879 /* MMTransition.m in Sources */,
 				0155E46B0B7BE8FA008D8879 /* MonetList.m in Sources */,
-				0155E46D0B7BE8FA008D8879 /* NamedList.m in Sources */,
+				0155E46D0B7BE8FA008D8879 /* MMGroup.m in Sources */,
 				0155E4780B7BE92A008D8879 /* TRMSynthesizer.m in Sources */,
 				012D539F0B7FF851001B50FC /* NSFileManager-Extensions.m in Sources */,
 				012D53AD0B7FF9DC001B50FC /* GSDBMPronunciationDictionary.m in Sources */,

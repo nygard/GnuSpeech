@@ -7,7 +7,7 @@
 
 @interface MMObject : NSObject
 
-@property (weak) MModel *model;
+@property (nonatomic, weak) MModel *model;
 @property (nonatomic, readonly) NSUndoManager *undoManager;
 
 @end

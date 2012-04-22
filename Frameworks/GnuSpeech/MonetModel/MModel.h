@@ -4,7 +4,7 @@
 #import <Foundation/Foundation.h>
 #include <stdio.h>
 
-@class NamedList;
+@class MMGroup;
 @class MMCategory, MMEquation, MMParameter, MMPosture, MMRule, MMSymbol, MMSynthesisParameters, MMTransition;
 
 extern NSString *MCategoryInUseException;
@@ -48,9 +48,9 @@ extern NSString *MCategoryInUseException;
 - (void)sortPostures;
 - (MMPosture *)postureWithName:(NSString *)aName;
 
-- (void)addEquationGroup:(NamedList *)newGroup;
-- (void)addTransitionGroup:(NamedList *)newGroup;
-- (void)addSpecialTransitionGroup:(NamedList *)newGroup;
+- (void)addEquationGroup:(MMGroup *)newGroup;
+- (void)addTransitionGroup:(MMGroup *)newGroup;
+- (void)addSpecialTransitionGroup:(MMGroup *)newGroup;
 
 - (MMEquation *)findEquationWithName:(NSString *)anEquationName;
 - (MMTransition *)findTransitionWithName:(NSString *)aTransitionName;

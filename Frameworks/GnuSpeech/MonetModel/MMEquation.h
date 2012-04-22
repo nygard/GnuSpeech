@@ -4,11 +4,11 @@
 #import "MMNamedObject.h"
 #import "MMFRuleSymbols.h"
 
-@class MMFormulaNode, NamedList;
+@class MMFormulaNode, MMGroup;
 
 @interface MMEquation : MMNamedObject
 
-@property (weak) NamedList *group;
+@property (weak) MMGroup *group;
 
 @property (retain) MMFormulaNode *formula;
 

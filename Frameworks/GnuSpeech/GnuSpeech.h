@@ -27,6 +27,7 @@
 #import <GnuSpeech/MMCategory.h>
 #import <GnuSpeech/MMDriftGenerator.h>
 #import <GnuSpeech/MMEquation.h>
+#import <GnuSpeech/MMGroup.h>
 #import <GnuSpeech/MMIntonationPoint.h>
 #import <GnuSpeech/MMNamedObject.h>
 #import <GnuSpeech/MMObject.h>
@@ -45,7 +46,6 @@
 #import <GnuSpeech/MMTransition.h>
 #import <GnuSpeech/MonetDefaults.h>
 #import <GnuSpeech/MonetList.h>
-#import <GnuSpeech/NamedList.h>
 
 // Parsers
 #import <GnuSpeech/GSParser.h>

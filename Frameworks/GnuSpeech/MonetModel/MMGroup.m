@@ -1,7 +1,7 @@
 //  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
-#import "NamedList.h"
+#import "MMGroup.h"
 
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
@@ -13,18 +13,23 @@
 #import "MXMLParser.h"
 #import "MXMLPCDataDelegate.h"
 
-@implementation NamedList
+@implementation MMGroup
 {
-    __weak MModel *nonretained_model;
+    NSMutableArray *m_objects;
+}
+
+- (id)init;
+{
+    if ((self = [super init])) {
+        m_objects = [[NSMutableArray alloc] init];
+    }
     
-    NSString *name;
-    NSString *comment;
+    return self;
 }
 
 - (void)dealloc;
 {
-    [comment release];
-    [name release];
+    [m_objects release];
 
     [super dealloc];
 }
@@ -33,96 +38,71 @@
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@: %p> name: %@, comment: %@",
-            NSStringFromClass([self class]), self, name, comment];
+    return [NSString stringWithFormat:@"<%@: %p> name: %@, comment: %@, objects: %@",
+            NSStringFromClass([self class]), self,
+            self.name, self.comment, self.objects];
 }
 
 #pragma mark -
 
-- (MModel *)model;
-{
-    return nonretained_model;
-}
+@synthesize objects = m_objects;
 
 - (void)setModel:(MModel *)newModel;
 {
-    nonretained_model = newModel;
-
-    for (id currentObject in self.ilist) {
+    [super setModel:newModel];
+    
+    for (id currentObject in self.objects) {
         if ([currentObject respondsToSelector:@selector(setModel:)])
             [currentObject setModel:newModel];
     }
 }
 
-- (NSUndoManager *)undoManager;
+- (void)addObject:(id)object;
 {
-    return nil;
+    [self.objects addObject:object];
+
+    if ([object respondsToSelector:@selector(setModel:)] == YES)
+        [object setModel:[self model]];
 }
 
-@synthesize name, comment;
-
-- (BOOL)hasComment;
+- (void)insertObject:(id)object atIndex:(NSUInteger)index;
 {
-    return comment != nil && [comment length] > 0;
+    [self.objects insertObject:object atIndex:index];
 }
+
+- (void)replaceObjectAtIndex:(NSUInteger)index withObject:(id)object;
+{
+    [self.objects replaceObjectAtIndex:index withObject:object];
+}
+
+#pragma mark - XML Archiving
 
 - (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(NSUInteger)level;
 {
-    NSUInteger count = [self.ilist count];
+    NSUInteger count = [self.objects count];
     if (count == 0)
         return;
-
+    
     [resultString indentToLevel:level];
-    [resultString appendFormat:@"<%@ name=\"%@\"", elementName, GSXMLAttributeString(name, NO)];
-
-    if (comment != nil)
-        [resultString appendFormat:@" comment=\"%@\"", GSXMLAttributeString(comment, NO)];
-
+    [resultString appendFormat:@"<%@ name=\"%@\"", elementName, GSXMLAttributeString(self.name, NO)];
+    
+    if (self.comment != nil)
+        [resultString appendFormat:@" comment=\"%@\"", GSXMLAttributeString(self.comment, NO)];
+    
     [resultString appendString:@">\n"];
-
+    
     for (NSUInteger index = 0; index < count; index++) {
-        id anObject = [self.ilist objectAtIndex:index];
+        id anObject = [self.objects objectAtIndex:index];
         [anObject appendXMLToString:resultString level:level+1];
     }
-
+    
     [resultString indentToLevel:level];
     [resultString appendFormat:@"</%@>\n", elementName];
 }
 
-- (void)addObject:(id)anObject;
-{
-    [self.ilist addObject:anObject];
-
-    if ([anObject respondsToSelector:@selector(setModel:)] == YES)
-        [anObject setModel:[self model]];
-}
-
-- (void)insertObject:(id)anObject atIndex:(NSUInteger)index;
-{
-    [self.ilist insertObject:anObject atIndex:index];
-}
-
-- (void)replaceObjectAtIndex:(NSUInteger)index withObject:(id)anObject;
-{
-    [self.ilist replaceObjectAtIndex:index withObject:anObject];
-}
-
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
-{
-    if ((self = [self init])) {
-        [self setName:[attributes objectForKey:@"name"]];
-    }
-
-    return self;
-}
-
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
 {
-    if ([elementName isEqualToString:@"comment"]) {
-        MXMLPCDataDelegate *newDelegate = [[MXMLPCDataDelegate alloc] initWithElementName:elementName delegate:self setSelector:@selector(setComment:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
-    } else if ([elementName isEqualToString:@"equation"]) {
+    if ([elementName isEqualToString:@"equation"]) {
         MMEquation *newDelegate = [MMEquation objectWithXMLAttributes:attributeDict context:[(MXMLParser *)parser context]];
         [self addObject:newDelegate];
 
@@ -136,14 +116,20 @@
         [self addObject:newDelegate];
         [(MXMLParser *)parser pushDelegate:newDelegate];
     } else {
-        NSLog(@"%@, Unknown element: '%@', skipping", [self shortDescription], elementName);
-        [(MXMLParser *)parser skipTree];
+        [super parser:parser didStartElement:elementName namespaceURI:namespaceURI qualifiedName:qName attributes:attributeDict];
     }
 }
 
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 {
+#if 0
+    if ([elementName isEqualToString:@"posture"])
+        [(MXMLParser *)parser popDelegate];
+    else
+        [NSException raise:@"Unknown close tag" format:@"Unknown closing tag (%@) in %@", elementName, NSStringFromClass([self class])];
+#else
     [(MXMLParser *)parser popDelegate];
+#endif
 }
 
 @end

@@ -8,7 +8,7 @@
 #import "NSString-Extensions.h"
 
 #import "MMCategory.h"
-#import "NamedList.h"
+#import "MMGroup.h"
 #import "MMBooleanParser.h"
 #import "MMEquation.h"
 #import "MMParameter.h"
@@ -420,19 +420,19 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     return nil;
 }
 
-- (void)addEquationGroup:(NamedList *)newGroup;
+- (void)addEquationGroup:(MMGroup *)newGroup;
 {
     [equations addObject:newGroup];
     [newGroup setModel:self];
 }
 
-- (void)addTransitionGroup:(NamedList *)newGroup;
+- (void)addTransitionGroup:(MMGroup *)newGroup;
 {
     [transitions addObject:newGroup];
     [newGroup setModel:self];
 }
 
-- (void)addSpecialTransitionGroup:(NamedList *)newGroup;
+- (void)addSpecialTransitionGroup:(MMGroup *)newGroup;
 {
     [specialTransitions addObject:newGroup];
     [newGroup setModel:self];
@@ -446,10 +446,10 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
     groupCount = [equations count];
     for (groupIndex = 0; groupIndex < groupCount; groupIndex++) {
-        NamedList *currentGroup = [equations objectAtIndex:groupIndex];
-        count = [currentGroup.ilist count];
+        MMGroup *currentGroup = [equations objectAtIndex:groupIndex];
+        count = [currentGroup.objects count];
         for (index = 0; index < count; index++) {
-            MMEquation *anEquation = [currentGroup.ilist objectAtIndex:index];
+            MMEquation *anEquation = [currentGroup.objects objectAtIndex:index];
             if ([anEquationName isEqualToString:[anEquation name]])
                 return anEquation;
         }
@@ -465,10 +465,10 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
     groupCount = [transitions count];
     for (groupIndex = 0; groupIndex < groupCount; groupIndex++) {
-        NamedList *currentGroup = [transitions objectAtIndex:groupIndex];
-        count = [currentGroup.ilist count];
+        MMGroup *currentGroup = [transitions objectAtIndex:groupIndex];
+        count = [currentGroup.objects count];
         for (index = 0; index < count; index++) {
-            MMTransition *aTransition = [currentGroup.ilist objectAtIndex:index];
+            MMTransition *aTransition = [currentGroup.objects objectAtIndex:index];
             if ([aTransitionName isEqualToString:[aTransition name]])
                 return aTransition;
         }
@@ -484,10 +484,10 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
     groupCount = [specialTransitions count];
     for (groupIndex = 0; groupIndex < groupCount; groupIndex++) {
-        NamedList *currentGroup = [specialTransitions objectAtIndex:groupIndex];
-        count = [currentGroup.ilist count];
+        MMGroup *currentGroup = [specialTransitions objectAtIndex:groupIndex];
+        count = [currentGroup.objects count];
         for (index = 0; index < count; index++) {
-            MMTransition *aTransition = [currentGroup.ilist objectAtIndex:index];
+            MMTransition *aTransition = [currentGroup.objects objectAtIndex:index];
             if ([aTransitionName isEqualToString:[aTransition name]])
                 return aTransition;
         }
@@ -504,12 +504,12 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     NSUInteger i, j;
 
     for (i = 0 ; i < [equations count]; i++) {
-        NamedList *currentList = [equations objectAtIndex:i];
-        if ([aListName isEqualToString:[currentList name]]) {
-            for (j = 0; j < [currentList.ilist count]; j++) {
+        MMGroup *currentGroup = [equations objectAtIndex:i];
+        if ([aListName isEqualToString:[currentGroup name]]) {
+            for (j = 0; j < [currentGroup.objects count]; j++) {
                 MMEquation *anEquation;
 
-                anEquation = [currentList.ilist objectAtIndex:j];
+                anEquation = [currentGroup.objects objectAtIndex:j];
                 if ([anEquationName isEqualToString:[anEquation name]])
                     return anEquation;
             }
@@ -554,12 +554,12 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     NSUInteger i, j;
 
     for (i = 0 ; i < [transitions count]; i++) {
-        NamedList *currentList = [transitions objectAtIndex:i];
-        if ([aListName isEqualToString:[currentList name]]) {
-            for (j = 0; j < [currentList.ilist count]; j++) {
+        MMGroup *currentGroup = [transitions objectAtIndex:i];
+        if ([aListName isEqualToString:[currentGroup name]]) {
+            for (j = 0; j < [currentGroup.objects count]; j++) {
                 MMTransition *aTransition;
 
-                aTransition = [currentList.ilist objectAtIndex:j];
+                aTransition = [currentGroup.objects objectAtIndex:j];
                 if ([aTransitionName isEqualToString:[aTransition name]])
                     return aTransition;
             }
@@ -599,10 +599,10 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     NSUInteger i, j;
 
     for (i = 0 ; i < [specialTransitions count]; i++) {
-        NamedList *currentList = [specialTransitions objectAtIndex:i];
-        if ([aListName isEqualToString:[currentList name]]) {
-            for (j = 0; j < [currentList.ilist count]; j++) {
-                MMTransition *aTransition = [currentList.ilist objectAtIndex:j];
+        MMGroup *currentGroup = [specialTransitions objectAtIndex:i];
+        if ([aListName isEqualToString:[currentGroup name]]) {
+            for (j = 0; j < [currentGroup.objects count]; j++) {
+                MMTransition *aTransition = [currentGroup.objects objectAtIndex:j];
                 if ([aSpecialName isEqualToString:[aTransition name]])
                     return aTransition;
             }
@@ -652,10 +652,10 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     for (index = 0; index < count; index++) {
         NSUInteger transitionCount, transitionIndex;
 
-        NamedList *aGroup = [transitions objectAtIndex:index];
-        transitionCount = [aGroup.ilist count];
+        MMGroup *group = [transitions objectAtIndex:index];
+        transitionCount = [group.objects count];
         for (transitionIndex = 0; transitionIndex < transitionCount; transitionIndex++) {
-            MMTransition *aTransition = [aGroup.ilist objectAtIndex:transitionIndex];
+            MMTransition *aTransition = [group.objects objectAtIndex:transitionIndex];
             if ([aTransition isEquationUsed:anEquation]) {
                 [array addObject:[NSString stringWithFormat:@"T:%@:%@", [[aTransition group] name], [aTransition name]]];
             }
@@ -666,10 +666,10 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     for (index = 0; index < count; index++) {
         NSUInteger transitionCount, transitionIndex;
 
-        NamedList *aGroup = [specialTransitions objectAtIndex:index];
-        transitionCount = [aGroup.ilist count];
+        MMGroup *group = [specialTransitions objectAtIndex:index];
+        transitionCount = [group.objects count];
         for (transitionIndex = 0; transitionIndex < transitionCount; transitionIndex++) {
-            MMTransition *aTransition = [aGroup.ilist objectAtIndex:transitionIndex];
+            MMTransition *aTransition = [group.objects objectAtIndex:transitionIndex];
             if ([aTransition isEquationUsed:anEquation]) {
                 [array addObject:[NSString stringWithFormat:@"S:%@:%@", [[aTransition group] name], [aTransition name]]];
             }
@@ -783,8 +783,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [resultString appendString:@"<equations>\n"];
     count = [equations count];
     for (index = 0; index < count; index++) {
-        NamedList *namedList = [equations objectAtIndex:index];
-        [namedList appendXMLToString:resultString elementName:@"equation-group" level:level + 1];
+        MMGroup *group = [equations objectAtIndex:index];
+        [group appendXMLToString:resultString elementName:@"equation-group" level:level + 1];
     }
 
     [resultString indentToLevel:level];
@@ -799,8 +799,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [resultString appendString:@"<transitions>\n"];
     count = [transitions count];
     for (index = 0; index < count; index++) {
-        NamedList *namedList = [transitions objectAtIndex:index];
-        [namedList appendXMLToString:resultString elementName:@"transition-group" level:level + 1];
+        MMGroup *group = [transitions objectAtIndex:index];
+        [group appendXMLToString:resultString elementName:@"transition-group" level:level + 1];
     }
 
     [resultString indentToLevel:level];
@@ -815,8 +815,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [resultString appendString:@"<special-transitions>\n"];
     count = [specialTransitions count];
     for (index = 0; index < count; index++) {
-        NamedList *namedList = [specialTransitions objectAtIndex:index];
-        [namedList appendXMLToString:resultString elementName:@"transition-group" level:level + 1];
+        MMGroup *gropu = [specialTransitions objectAtIndex:index];
+        [gropu appendXMLToString:resultString elementName:@"transition-group" level:level + 1];
     }
 
     [resultString indentToLevel:level];
@@ -1267,15 +1267,15 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         [(MXMLParser *)parser pushDelegate:arrayDelegate];
         [arrayDelegate release];
     } else if ([elementName isEqualToString:@"equations"]) {
-        MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"equation-group" class:[NamedList class] delegate:self addObjectSelector:@selector(addEquationGroup:)];
+        MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"equation-group" class:[MMGroup class] delegate:self addObjectSelector:@selector(addEquationGroup:)];
         [(MXMLParser *)parser pushDelegate:arrayDelegate];
         [arrayDelegate release];
     } else if ([elementName isEqualToString:@"transitions"]) {
-        MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"transition-group" class:[NamedList class] delegate:self addObjectSelector:@selector(addTransitionGroup:)];
+        MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"transition-group" class:[MMGroup class] delegate:self addObjectSelector:@selector(addTransitionGroup:)];
         [(MXMLParser *)parser pushDelegate:arrayDelegate];
         [arrayDelegate release];
     } else if ([elementName isEqualToString:@"special-transitions"]) {
-        MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"transition-group" class:[NamedList class] delegate:self addObjectSelector:@selector(addSpecialTransitionGroup:)];
+        MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"transition-group" class:[MMGroup class] delegate:self addObjectSelector:@selector(addSpecialTransitionGroup:)];
         [(MXMLParser *)parser pushDelegate:arrayDelegate];
         [arrayDelegate release];
     } else if ([elementName isEqualToString:@"rules"]) {

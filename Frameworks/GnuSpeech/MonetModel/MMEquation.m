@@ -12,11 +12,11 @@
 #import "MModel.h"
 #import "MXMLParser.h"
 #import "MXMLPCDataDelegate.h"
-#import "NamedList.h"
+#import "MMGroup.h"
 
 @implementation MMEquation
 {
-    __weak NamedList *nonretained_group;
+    __weak MMGroup *nonretained_group;
     
     MMFormulaNode *formula;
     

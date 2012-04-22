@@ -138,8 +138,8 @@
         if (item == nil)
             return [[model equations] count];
         else {
-            MonetList *list = item;
-            return [list.ilist count];
+            MMGroup *group = item;
+            return [group.objects count];
         }
     }
 
@@ -152,8 +152,8 @@
         if (item == nil)
             return [[model equations] objectAtIndex:index];
         else {
-            MonetList *list = item;
-            return [list.ilist objectAtIndex:index];
+            MMGroup *group = item;
+            return [group.objects objectAtIndex:index];
         }
     }
 
@@ -163,7 +163,7 @@
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item;
 {
     if (outlineView == equationOutlineView) {
-        return [item isKindOfClass:[NamedList class]];
+        return [item isKindOfClass:[MMGroup class]];
     }
 
     return NO;
@@ -241,7 +241,7 @@
 
             [equationTextView setString:[NSString stringWithFormat:@"Fixed: %.3f ms", [selectedPoint freeTime]]];
         } else {
-            NamedList *group = [equation group];
+            MMGroup *group = [equation group];
             NSInteger groupRow = [equationOutlineView rowForItem:group];
             NSInteger row = [equationOutlineView rowForItem:equation];
             [equationOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];

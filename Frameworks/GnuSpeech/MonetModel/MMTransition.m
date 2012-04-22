@@ -10,7 +10,7 @@
 #import "GSXMLFunctions.h"
 #import "MMPoint.h"
 #import "MMSlopeRatio.h"
-#import "NamedList.h"
+#import "MMGroup.h"
 
 #import "MModel.h"
 
@@ -20,7 +20,7 @@
 
 @implementation MMTransition
 {
-    __weak NamedList *nonretained_group;
+    __weak MMGroup *nonretained_group;
     
     NSString *name;
     NSString *comment;

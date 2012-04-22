@@ -312,10 +312,10 @@
 
 - (IBAction)addEquationGroup:(id)sender;
 {
-    NamedList *newGroup;
+    MMGroup *newGroup;
     NSUInteger index;
 
-    newGroup = [[NamedList alloc] init];
+    newGroup = [[MMGroup alloc] init];
     [newGroup setName:@"Untitled"];
     [[[self model] equations] addObject:newGroup];
 
@@ -333,10 +333,10 @@
 - (IBAction)addEquation:(id)sender;
 {
     id selectedItem;
-    NamedList *targetGroup;
+    MMGroup *targetGroup;
 
     selectedItem = [equationOutlineView selectedItem];
-    if ([selectedItem isKindOfClass:[NamedList class]] == YES) {
+    if ([selectedItem isKindOfClass:[MMGroup class]] == YES) {
         targetGroup = selectedItem;
     } else if ([selectedItem isKindOfClass:[MMEquation class]] == YES) {
         targetGroup = [selectedItem group];
@@ -397,10 +397,10 @@
 
 - (IBAction)addTransitionGroup:(id)sender;
 {
-    NamedList *newGroup;
+    MMGroup *newGroup;
     NSUInteger index;
 
-    newGroup = [[NamedList alloc] init];
+    newGroup = [[MMGroup alloc] init];
     [newGroup setName:@"Untitled"];
     [[[self model] transitions] addObject:newGroup];
 
@@ -418,10 +418,10 @@
 - (IBAction)addTransition:(id)sender;
 {
     id selectedItem;
-    NamedList *targetGroup;
+    MMGroup *targetGroup;
 
     selectedItem = [transitionOutlineView selectedItem];
-    if ([selectedItem isKindOfClass:[NamedList class]] == YES) {
+    if ([selectedItem isKindOfClass:[MMGroup class]] == YES) {
         targetGroup = selectedItem;
     } else if ([selectedItem isKindOfClass:[MMTransition class]] == YES) {
         targetGroup = [selectedItem group];
@@ -463,10 +463,10 @@
 
 - (IBAction)addSpecialTransitionGroup:(id)sender;
 {
-    NamedList *newGroup;
+    MMGroup *newGroup;
     NSUInteger index;
 
-    newGroup = [[NamedList alloc] init];
+    newGroup = [[MMGroup alloc] init];
     [newGroup setName:@"Untitled"];
     [[[self model] specialTransitions] addObject:newGroup];
 
@@ -484,10 +484,10 @@
 - (IBAction)addSpecialTransition:(id)sender;
 {
     id selectedItem;
-    NamedList *targetGroup;
+    MMGroup *targetGroup;
 
     selectedItem = [specialTransitionOutlineView selectedItem];
-    if ([selectedItem isKindOfClass:[NamedList class]] == YES) {
+    if ([selectedItem isKindOfClass:[MMGroup class]] == YES) {
         targetGroup = selectedItem;
     } else if ([selectedItem isKindOfClass:[MMTransition class]] == YES) {
         targetGroup = [selectedItem group];
@@ -536,8 +536,8 @@
         else if ([item isKindOfClass:[MMEquation class]])
             return [[self usageOfEquation:item] count];
         else {
-            MonetList *list = item;
-            return [list.ilist count];
+            MMGroup *group = item;
+            return [group.objects count];
         }
     } else if (outlineView == transitionOutlineView) {
         if (item == nil)
@@ -545,8 +545,8 @@
         else if ([item isKindOfClass:[MMTransition class]])
             return [[self usageOfTransition:item] count];
         else {
-            MonetList *list = item;
-            return [list.ilist count];
+            MMGroup *group = item;
+            return [group.objects count];
         }
     } else if (outlineView == specialTransitionOutlineView) {
         if (item == nil)
@@ -554,8 +554,8 @@
         else if ([item isKindOfClass:[MMTransition class]])
             return [[self usageOfTransition:item] count];
         else {
-            MonetList *list = item;
-            return [list.ilist count];
+            MMGroup *group = item;
+            return [group.objects count];
         }
     }
 
@@ -570,8 +570,8 @@
         else if ([item isKindOfClass:[MMEquation class]] == YES)
             return [[self usageOfEquation:item] objectAtIndex:index];
         else {
-            MonetList *list = item;
-            return [list.ilist objectAtIndex:index];
+            MMGroup *group = item;
+            return [group.objects objectAtIndex:index];
         }
     } else if (outlineView == transitionOutlineView) {
         if (item == nil)
@@ -579,8 +579,8 @@
         else if ([item isKindOfClass:[MMTransition class]] == YES)
             return [[self usageOfTransition:item] objectAtIndex:index];
         else {
-            MonetList *list = item;
-            return [list.ilist objectAtIndex:index];
+            MMGroup *group = item;
+            return [group.objects objectAtIndex:index];
         }
     } else if (outlineView == specialTransitionOutlineView) {
         if (item == nil)
@@ -588,8 +588,8 @@
         else if ([item isKindOfClass:[MMTransition class]] == YES)
             return [[self usageOfTransition:item] objectAtIndex:index];
         else {
-            MonetList *list = item;
-            return [list.ilist objectAtIndex:index];
+            MMGroup *group = item;
+            return [group.objects objectAtIndex:index];
         }
     }
 
@@ -599,11 +599,11 @@
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item;
 {
     if (outlineView == equationOutlineView) {
-        return [item isKindOfClass:[NamedList class]] || ([item isKindOfClass:[MMEquation class]] && [self isEquationUsed:item]);
+        return [item isKindOfClass:[MMGroup class]] || ([item isKindOfClass:[MMEquation class]] && [self isEquationUsed:item]);
     } else if (outlineView == transitionOutlineView) {
-        return [item isKindOfClass:[NamedList class]] || ([item isKindOfClass:[MMTransition class]] && [self isTransitionUsed:item]);
+        return [item isKindOfClass:[MMGroup class]] || ([item isKindOfClass:[MMTransition class]] && [self isTransitionUsed:item]);
     } else if (outlineView == specialTransitionOutlineView) {
-        return [item isKindOfClass:[NamedList class]] || ([item isKindOfClass:[MMTransition class]] && [self isTransitionUsed:item]);
+        return [item isKindOfClass:[MMGroup class]] || ([item isKindOfClass:[MMTransition class]] && [self isTransitionUsed:item]);
     }
 
     return NO;

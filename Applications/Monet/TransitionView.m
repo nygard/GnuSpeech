@@ -429,10 +429,10 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     [[NSColor darkGrayColor] set];
     NSBezierPath *bezierPath = [[NSBezierPath alloc] init];
     for (NSUInteger i = 0; i < [equationList count]; i++) {
-        NamedList *namedList = [equationList objectAtIndex:i];
+        MMGroup *group = [equationList objectAtIndex:i];
         //NSLog(@"named list: %@, count: %d", [namedList name], [namedList count]);
-        for (NSUInteger j = 0; j < [namedList.ilist count]; j++) {
-            MMEquation *equation = [namedList.ilist objectAtIndex:j];
+        for (NSUInteger j = 0; j < [group.objects count]; j++) {
+            MMEquation *equation = [group.objects objectAtIndex:j];
             if ([[equation formula] maxPhone] <= type) {
                 double time = [equation evaluate:&_parameters postures:samplePostures andCacheWith:cacheTag];
                 //NSLog(@"\t%@", [equation name]);
