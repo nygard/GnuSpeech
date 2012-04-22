@@ -5,10 +5,6 @@
 
 @class MModel, NamedList;
 
-@protocol MSetGroupProtocol
-- (void)setGroup:(NamedList *)newGroup;
-@end
-
 @interface NamedList : MonetList
 
 @property (weak) MModel *model;

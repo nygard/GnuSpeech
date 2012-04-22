@@ -93,8 +93,6 @@
 {
     [self.ilist addObject:anObject];
 
-    if ([anObject respondsToSelector:@selector(setGroup:)] == YES)
-        [anObject setGroup:self];
     if ([anObject respondsToSelector:@selector(setModel:)] == YES)
         [anObject setModel:[self model]];
 }
@@ -102,17 +100,11 @@
 - (void)insertObject:(id)anObject atIndex:(NSUInteger)index;
 {
     [self.ilist insertObject:anObject atIndex:index];
-
-    if ([anObject respondsToSelector:@selector(setGroup:)] == YES)
-        [anObject setGroup:self];
 }
 
 - (void)replaceObjectAtIndex:(NSUInteger)index withObject:(id)anObject;
 {
     [self.ilist replaceObjectAtIndex:index withObject:anObject];
-
-    if ([anObject respondsToSelector:@selector(setGroup:)] == YES)
-        [anObject setGroup:self];
 }
 
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
