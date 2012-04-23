@@ -24,6 +24,7 @@
 #import "MXMLParser.h"
 #import "MXMLArrayDelegate.h"
 #import "MXMLPCDataDelegate.h"
+#import "MMIntonationParameters.h"
 
 #import "TRMSynthesizer.h" // For addParameters:
 
@@ -73,7 +74,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     double m_pitchMean;
     double m_globalTempo;
     double m_multiplier; // Move... somewhere else.
-    struct _intonationParameters m_intonationParameters;
+    MMIntonationParameters *m_intonationParameters;
     
     /* NOTE phones and phoneTempo are separate for Optimization reasons */
     NSUInteger postureCount;
@@ -113,6 +114,8 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
         events = [[NSMutableArray alloc] init];
         intonationPoints = [[NSMutableArray alloc] init];
         m_intonationPointsNeedSorting = NO;
+        
+        m_intonationParameters = [[MMIntonationParameters alloc] init];
         
         m_driftGenerator = [[MMDriftGenerator alloc] init];
         [m_driftGenerator configureWithDeviation:1 sampleRate:500 lowpassCutoff:1000];
@@ -169,19 +172,16 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
 - (void)setZeroRef:(NSInteger)newValue;
 {
-    NSInteger index;
-
     zeroRef = newValue;
     zeroIndex = 0;
 
-    if ([events count] == 0)
-        return;
-
-    for (index = [events count] - 1; index >= 0; index--) {
-        //NSLog(@"index = %d", index);
-        if ([[events objectAtIndex:index] time] < newValue) {
-            zeroIndex = index;
-            return;
+    if ([events count] > 0) {
+        for (NSInteger index = [events count] - 1; index >= 0; index--) {
+            //NSLog(@"index = %d", index);
+            if ([[events objectAtIndex:index] time] < newValue) {
+                zeroIndex = index;
+                return;
+            }
         }
     }
 }

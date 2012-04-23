@@ -19,14 +19,6 @@
 
 NSString *NSStringFromToneGroupType(NSUInteger toneGroupType);
 
-struct _intonationParameters {
-    float notionalPitch;
-    float pretonicRange;
-    float pretonicLift;
-    float tonicRange;
-    float tonicMovement; // TODO (2004-03-30): Apparently not used.
-};
-
 struct _phone {
     MMPosture *phone;
     NSUInteger syllable; // TODO (2004-08-12): This isn't used for anything right now.
@@ -61,6 +53,8 @@ struct _rule {
 
 extern NSString *EventListDidChangeIntonationPoints;
 
+@class MMIntonationParameters;
+
 @interface EventList : NSObject
 
 @property (nonatomic, retain) MModel *model;
@@ -68,8 +62,7 @@ extern NSString *EventListDidChangeIntonationPoints;
 
 @property (retain) NSString *phoneString;
 
-- (NSInteger)zeroRef;
-- (void)setZeroRef:(NSInteger)newValue;
+@property (nonatomic, assign) NSInteger zeroRef;
 
 @property (assign) NSUInteger duration;
 @property (assign) NSUInteger timeQuantization;
@@ -85,7 +78,7 @@ extern NSString *EventListDidChangeIntonationPoints;
 @property (assign) double globalTempo;
 @property (assign) double multiplier;
 
-@property (assign) struct _intonationParameters intonationParameters;
+@property (readonly) MMIntonationParameters *intonationParameters;
 
 //
 - (void)setUp;

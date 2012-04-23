@@ -26,6 +26,8 @@
 
 @interface MSynthesisController () <NSTableViewDataSource, NSTableViewDelegate, NSComboBoxDelegate, NSTextViewDelegate>
 
+@property (readonly) EventList *eventList;
+
 - (void)_updateDisplayParameters;
 - (void)_updateEventColumns;
 - (void)updateViews;
@@ -88,8 +90,6 @@
     IBOutlet NSTextField *absTimeTextField;
 	
     NSPrintInfo *intonationPrintInfo;
-	
-    struct _intonationParameters intonationParameters;
 	
     MModel *model;
     NSMutableArray *displayParameters;
@@ -167,6 +167,8 @@
 }
 
 #pragma mark -
+
+@synthesize eventList;
 
 - (MModel *)model;
 {
@@ -360,11 +362,11 @@
 
 - (void)_takeIntonationParametersFromUI;
 {
-    intonationParameters.notionalPitch = [[intonParmsField cellAtIndex:0] floatValue];
-    intonationParameters.pretonicRange = [[intonParmsField cellAtIndex:1] floatValue];
-    intonationParameters.pretonicLift = [[intonParmsField cellAtIndex:2] floatValue];
-    intonationParameters.tonicRange = [[intonParmsField cellAtIndex:3] floatValue];
-    intonationParameters.tonicMovement = [[intonParmsField cellAtIndex:4] floatValue];
+    self.eventList.intonationParameters.notionalPitch = [[intonParmsField cellAtIndex:0] floatValue];
+    self.eventList.intonationParameters.pretonicRange = [[intonParmsField cellAtIndex:1] floatValue];
+    self.eventList.intonationParameters.pretonicLift = [[intonParmsField cellAtIndex:2] floatValue];
+    self.eventList.intonationParameters.tonicRange = [[intonParmsField cellAtIndex:3] floatValue];
+    self.eventList.intonationParameters.tonicMovement = [[intonParmsField cellAtIndex:4] floatValue];
 }
 
 - (void)_updateSelectedPointDetails;
@@ -530,7 +532,6 @@
     [eventList setRadiusMultiply:[radiusMultiplyField doubleValue]];
 	
     [self _takeIntonationParametersFromUI];
-    [eventList setIntonationParameters:intonationParameters];
 }
 
 - (void)continueSynthesis;
@@ -564,7 +565,6 @@
 	
     [self _takeIntonationParametersFromUI];
     [[intonationView documentView] setShouldDrawSmoothPoints:[[NSUserDefaults standardUserDefaults] boolForKey:MDK_ShouldUseSmoothIntonation]];
-    [eventList setIntonationParameters:intonationParameters];
 	
     [eventList generateIntonationPoints];
     [intonationRuleTableView reloadData];
