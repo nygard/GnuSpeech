@@ -5,29 +5,6 @@
 
 @class Event, MMIntonationPoint, MModel, MMPosture, MMPostureRewriter, MMRule, MMDriftGenerator;
 
-struct _phone {
-    MMPosture *phone;
-    NSUInteger syllable; // TODO (2004-08-12): This isn't used for anything right now.
-    double onset;
-    float ruleTempo;
-};
-
-struct _foot {
-    double onset1;
-    double onset2;
-    double tempo;
-    NSUInteger start; // index into postures
-    NSUInteger end;   // index into postures
-    NSUInteger marked;
-    NSUInteger last; // Is this the last foot of (the tone group?)
-};
-
-struct _toneGroup {
-    NSUInteger startFoot;
-    NSUInteger endFoot;
-    NSUInteger type;
-};
-
 // This is used by EventListView, IntonationView
 struct _rule {
     NSUInteger number;
