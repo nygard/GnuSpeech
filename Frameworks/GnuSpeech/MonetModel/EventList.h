@@ -62,7 +62,6 @@ extern NSString *EventListDidChangeIntonationPoints;
 
 @property (retain) NSString *phoneString;
 
-@property (nonatomic, assign) NSInteger zeroRef;
 
 @property (assign) NSUInteger duration;
 @property (assign) NSUInteger timeQuantization;

@@ -45,6 +45,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
 @interface EventList ()
 @property (assign) BOOL intonationPointsNeedSorting;
+@property (nonatomic, assign) NSInteger zeroRef;
 @end
 
 #pragma mark -
@@ -165,6 +166,9 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
 @synthesize phoneString;
 
+// The zero reference is TIME.
+// The zero index is the index of the last event whose time is before the zero reference.
+
 - (NSInteger)zeroRef;
 {
     return zeroRef;
@@ -174,16 +178,13 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 {
     zeroRef = newValue;
     zeroIndex = 0;
-
-    if ([events count] > 0) {
-        for (NSInteger index = [events count] - 1; index >= 0; index--) {
-            //NSLog(@"index = %d", index);
-            if ([[events objectAtIndex:index] time] < newValue) {
-                zeroIndex = index;
-                return;
-            }
+    
+    [events enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(Event *event, NSUInteger index, BOOL *stop){
+        if (event.time < newValue) {
+            zeroIndex = index;
+            *stop = YES;
         }
-    }
+    }];
 }
 
 @synthesize duration, timeQuantization;
