@@ -5,7 +5,6 @@
 
 // MDK: Monet Default Key
 #define MDK_OWNER		            @"MONET"
-#define MDK_NUMBER		            22
 
 #define MDK_MASTER_VOLUME	        @"MasterVolume"
 #define MDK_VOCAL_TRACT_LENGTH	    @"VocalTractLength"
@@ -37,93 +36,6 @@
 #define MDK_PITCH		            @"Pitch"
 #define MDK_SAMPLING_RATE	        @"SamplingRate"
 #define MDK_OUTPUT_CHANNELS	        @"OutputChannels"
-
-#define DEFAULT_MASTER_VOLUME		@"60"
-#define DEFAULT_VOCAL_TRACT_LENGTH	@"17.5"
-#define DEFAULT_TEMPERATURE		    @"25"
-#define DEFAULT_BALANCE			    @"0"
-#define DEFAULT_BREATHINESS		    @"1"
-#define DEFAULT_LOSS_FACTOR		    @"0.5"
-#define DEFAULT_THROAT_CUTTOFF		@"1500"
-#define DEFAULT_THROAT_VOLUME		@"6"
-#define DEFAULT_APERTURE_SCALING	@"3.05"
-#define DEFAULT_MOUTH_COEF		    @"5000"
-#define DEFAULT_NOSE_COEF		    @"5000"
-#define DEFAULT_MIX_OFFSET		    @"54"
-#define DEFAULT_N1			        @"1.35"
-#define DEFAULT_N2			        @"1.96"
-#define DEFAULT_N3			        @"1.91"
-#define DEFAULT_N4		            @"1.3"
-#define DEFAULT_N5			        @"0.73"
-#define DEFAULT_TP			        @"40"
-#define DEFAULT_TN_MIN			    @"16"
-#define DEFAULT_TN_MAX			    @"32"
-#define DEFAULT_GP_SHAPE		    @"Pulse"
-#define DEFAULT_NOISE_MODULATION	@"YES"
-
-#define DEFAULT_PITCH			    @"-12"
-#define DEFAULT_SAMPLING_RATE		@"22050"
-#define DEFAULT_OUTPUT_CHANNELS		@"Mono"
-
-#define MonetDefCount 25
-
-static NSString *MonetDefVal[] = {
-    DEFAULT_MASTER_VOLUME,
-    DEFAULT_VOCAL_TRACT_LENGTH,
-    DEFAULT_TEMPERATURE,
-    DEFAULT_BALANCE,
-    DEFAULT_BREATHINESS,
-    DEFAULT_LOSS_FACTOR,
-    DEFAULT_THROAT_CUTTOFF,
-    DEFAULT_THROAT_VOLUME,
-    DEFAULT_APERTURE_SCALING,
-    DEFAULT_MOUTH_COEF,
-    DEFAULT_NOSE_COEF,
-    DEFAULT_MIX_OFFSET,
-    DEFAULT_N1,
-    DEFAULT_N2,
-    DEFAULT_N3,
-    DEFAULT_N4,
-    DEFAULT_N5,
-    DEFAULT_TP,
-    DEFAULT_TN_MIN,
-    DEFAULT_TN_MAX,
-    DEFAULT_GP_SHAPE,
-    DEFAULT_NOISE_MODULATION,
-    DEFAULT_PITCH,
-    DEFAULT_SAMPLING_RATE,
-    DEFAULT_OUTPUT_CHANNELS,
-    nil
-};
-
-static NSString *MonetDefKeys[] = {
-    MDK_MASTER_VOLUME,
-    MDK_VOCAL_TRACT_LENGTH,
-    MDK_TEMPERATURE,
-    MDK_BALANCE,
-    MDK_BREATHINESS,
-    MDK_LOSS_FACTOR,
-    MDK_THROAT_CUTTOFF,
-    MDK_THROAT_VOLUME,
-    MDK_APERTURE_SCALING,
-    MDK_MOUTH_COEF,
-    MDK_NOSE_COEF,
-    MDK_MIX_OFFSET,
-    MDK_N1,
-    MDK_N2,
-    MDK_N3,
-    MDK_N4,
-    MDK_N5,
-    MDK_TP,
-    MDK_TN_MIN,
-    MDK_TN_MAX,
-    MDK_GP_SHAPE,
-    MDK_NOISE_MODULATION,
-    MDK_PITCH,
-    MDK_SAMPLING_RATE,
-    MDK_OUTPUT_CHANNELS,
-    nil
-};
 
 NSString *MMGlottalPulseShapeName(MMGlottalPulseShape shape);
 MMGlottalPulseShape MMGlottalPulseShapeFromString(NSString *string);
@@ -245,7 +157,34 @@ MMChannels MMChannelsFromString(NSString *string)
 
 + (void)initialize;
 {
-    NSDictionary *dict = [NSDictionary dictionaryWithObjects:MonetDefVal forKeys:MonetDefKeys count:MonetDefCount];
+    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
+                          [NSNumber numberWithDouble:60],                     MDK_MASTER_VOLUME,
+                          [NSNumber numberWithDouble:17.5],                   MDK_VOCAL_TRACT_LENGTH,
+                          [NSNumber numberWithDouble:25],                     MDK_TEMPERATURE,
+                          [NSNumber numberWithDouble:0],                      MDK_BALANCE,
+                          [NSNumber numberWithDouble:1],                      MDK_BREATHINESS,
+                          [NSNumber numberWithDouble:0.5],                    MDK_LOSS_FACTOR,
+                          [NSNumber numberWithDouble:1500],                   MDK_THROAT_CUTTOFF,
+                          [NSNumber numberWithDouble:6],                      MDK_THROAT_VOLUME,
+                          [NSNumber numberWithDouble:3.05],                   MDK_APERTURE_SCALING,
+                          [NSNumber numberWithDouble:5000],                   MDK_MOUTH_COEF,
+                          [NSNumber numberWithDouble:5000],                   MDK_NOSE_COEF,
+                          [NSNumber numberWithDouble:54],                     MDK_MIX_OFFSET,
+                          [NSNumber numberWithDouble:1.35],                   MDK_N1,
+                          [NSNumber numberWithDouble:1.96],                   MDK_N2,
+                          [NSNumber numberWithDouble:1.91],                   MDK_N3,
+                          [NSNumber numberWithDouble:1.3],                    MDK_N4,
+                          [NSNumber numberWithDouble:0.73],                   MDK_N5,
+                          [NSNumber numberWithDouble:40],                     MDK_TP,
+                          [NSNumber numberWithDouble:16],                     MDK_TN_MIN,
+                          [NSNumber numberWithDouble:32],                     MDK_TN_MAX,
+                          MMGlottalPulseShapeName(MMGlottalPulseShape_Pulse), MDK_GP_SHAPE,
+                          [NSNumber numberWithBool:YES],                      MDK_NOISE_MODULATION,
+                          [NSNumber numberWithDouble:-12],                    MDK_PITCH,
+                          [NSNumber numberWithDouble:22050],                  MDK_SAMPLING_RATE,
+                          MMChannelsName(MMChannels_Mono),                    MDK_OUTPUT_CHANNELS,
+                          nil];
+    
     [[NSUserDefaults standardUserDefaults] registerDefaults:dict];
 }
 
@@ -270,12 +209,12 @@ MMChannels MMChannelsFromString(NSString *string)
     lossFactor       = [defaults doubleForKey:MDK_LOSS_FACTOR];
     pitch            = [defaults doubleForKey:MDK_PITCH];
 
-    throatCutoff    = [defaults doubleForKey:MDK_THROAT_CUTTOFF];
-    throatVolume    = [defaults doubleForKey:MDK_THROAT_VOLUME];
-    apertureScaling = [defaults doubleForKey:MDK_APERTURE_SCALING];
-    mouthCoef       = [defaults doubleForKey:MDK_MOUTH_COEF];
-    noseCoef        = [defaults doubleForKey:MDK_NOSE_COEF];
-    mixOffset       = [defaults doubleForKey:MDK_MIX_OFFSET];
+    throatCutoff     = [defaults doubleForKey:MDK_THROAT_CUTTOFF];
+    throatVolume     = [defaults doubleForKey:MDK_THROAT_VOLUME];
+    apertureScaling  = [defaults doubleForKey:MDK_APERTURE_SCALING];
+    mouthCoef        = [defaults doubleForKey:MDK_MOUTH_COEF];
+    noseCoef         = [defaults doubleForKey:MDK_NOSE_COEF];
+    mixOffset        = [defaults doubleForKey:MDK_MIX_OFFSET];
 
     n1 = [defaults doubleForKey:MDK_N1];
     n2 = [defaults doubleForKey:MDK_N2];
@@ -338,11 +277,10 @@ MMChannels MMChannelsFromString(NSString *string)
 
 - (BOOL)writeToURL:(NSURL *)url error:(NSError **)error;
 {
-    float sRate = (samplingRate == MMSamplingRate_44100) ? 44100.0 : 22050.0;
     NSMutableString *str = [NSMutableString string];
     
     [str appendFormat:@"%u\t\t; %@\n",  0,                        @"output file format (0 = AU, 1 = AIFF, 2 = WAVE)"];
-    [str appendFormat:@"%f\t; %@\n",    sRate,                    @"output sample rate (22050.0, 44100.0)"];
+    [str appendFormat:@"%g\t; %@\n",    self.sampleRate,          @"output sample rate (22050.0, 44100.0)"];
     [str appendFormat:@"%u\t\t; %@\n",  250,                      @"input control rate (1 - 1000 Hz)"];
     [str appendFormat:@"%f\t; %@\n",    masterVolume,             @"master volume (0 - 60 dB)"];
     [str appendFormat:@"%lu\t\t; %@\n", outputChannels + 1,       @"number of sound output channels (1 or 2)"];
