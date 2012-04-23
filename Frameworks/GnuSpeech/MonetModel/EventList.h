@@ -53,8 +53,8 @@ extern NSString *EventListDidChangeIntonationPoints;
 
 // Postures
 - (MMPosture *)getPhoneAtIndex:(NSUInteger)phoneIndex;
-- (void)newPhoneWithObject:(MMPosture *)anObject;
-- (void)replaceCurrentPhoneWith:(MMPosture *)anObject;
+- (void)newPhoneWithObject:(MMPosture *)object;
+- (void)replaceCurrentPhoneWith:(MMPosture *)object;
 
 // Events
 - (NSArray *)events;
@@ -70,11 +70,11 @@ extern NSString *EventListDidChangeIntonationPoints;
 // Debugging
 - (void)printDataStructures:(NSString *)comment;
 
-// Intonation points
+// Intonation points.  These are kept sorted by time.
 - (NSArray *)intonationPoints;
-- (void)addIntonationPoint:(MMIntonationPoint *)newIntonationPoint;
-- (void)removeIntonationPoint:(MMIntonationPoint *)anIntonationPoint;
-- (void)removeIntonationPointsFromArray:(NSArray *)someIntonationPoints;
+- (void)addIntonationPoint:(MMIntonationPoint *)intonationPoint;
+- (void)removeIntonationPoint:(MMIntonationPoint *)intonationPoint;
+- (void)removeIntonationPointsFromArray:(NSArray *)array;
 - (void)removeAllIntonationPoints;
 
 // Intonation
@@ -82,15 +82,15 @@ extern NSString *EventListDidChangeIntonationPoints;
 
 - (void)clearIntonationEvents;
 
-- (void)intonationPointTimeDidChange:(MMIntonationPoint *)anIntonationPoint;
-- (void)intonationPointDidChange:(MMIntonationPoint *)anIntonationPoint;
+- (void)intonationPointTimeDidChange:(MMIntonationPoint *)intonationPoint;
+- (void)intonationPointDidChange:(MMIntonationPoint *)intonationPoint;
 
 // Archiving - XML
-- (BOOL)writeXMLToFile:(NSString *)aFilename comment:(NSString *)aComment;
+- (BOOL)writeXMLToFile:(NSString *)filename comment:(NSString *)comment;
 
 - (BOOL)loadIntonationContourFromXMLFile:(NSString *)filename;
-- (void)loadStoredPhoneString:(NSString *)aPhoneString;
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
+- (void)loadStoredPhoneString:(NSString *)str;
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributes;
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 
 @property (readonly) MMDriftGenerator *driftGenerator;

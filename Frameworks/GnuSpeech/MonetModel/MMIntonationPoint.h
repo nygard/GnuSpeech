@@ -10,6 +10,7 @@
 @interface MMIntonationPoint : NSObject
 
 @property (weak) EventList *eventList;
+
 @property (nonatomic, assign) double semitone;
 @property (nonatomic, assign) double offsetTime;
 @property (nonatomic, assign) double slope;
