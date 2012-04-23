@@ -53,6 +53,6 @@ typedef NSUInteger MMChannels;
 @property (assign) MMSamplingRate samplingRate;
 @property (assign) MMChannels outputChannels;
 
-- (void)writeToFile:(NSString *)filename includeComments:(BOOL)shouldIncludeComments;
+- (BOOL)writeToURL:(NSURL *)url error:(NSError **)error;
 
 @end

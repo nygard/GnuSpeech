@@ -3,7 +3,6 @@
 
 #import "MSynthesisController.h"
 
-#include <sys/time.h>
 #import <GnuSpeech/GnuSpeech.h>
 
 #import "NSNumberFormatter-Extensions.h"
@@ -513,8 +512,12 @@
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	
-    if ([parametersStore state])
-        [[[self model] synthesisParameters] writeToFile:@"/tmp/Monet.parameters" includeComments:YES];
+    if ([parametersStore state]) {
+        NSError *error = nil;
+        if ([[[self model] synthesisParameters] writeToURL:[NSURL fileURLWithPath:@"/tmp/Monet.parameters"] error:&error] == NO) {
+            NSLog(@"Error writing synthesis parameters: %@", error);
+        }
+    }
 	
     [eventList setUp];
 	

@@ -4,8 +4,6 @@
 #import "MWindowController.h"
 
 @class MMIntonationPoint, MModel;
-@class EventListView, MAIntonationScrollView;
-@class TRMSynthesizer, MTextToPhone;
 
 @interface MSynthesisController : MWindowController
 
