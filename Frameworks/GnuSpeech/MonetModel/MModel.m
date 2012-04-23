@@ -437,24 +437,18 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 // TODO (2004-03-06): Find equation named "named" in list named "list"
 // Change to findEquationNamed:(NSString *)anEquationName inList:(NSString *)aListName;
 // TODO (2004-03-06): Merge these three sets of methods, since they're practically identical.
-- (MMEquation *)findEquationList:(NSString *)aListName named:(NSString *)anEquationName;
+- (MMEquation *)findEquationWithName:(NSString *)equationName inGroupWithName:(NSString *)groupName;
 {
-    NSUInteger i, j;
-
-    for (i = 0 ; i < [equationGroups count]; i++) {
-        MMGroup *currentGroup = [equationGroups objectAtIndex:i];
-        if ([aListName isEqualToString:[currentGroup name]]) {
-            for (j = 0; j < [currentGroup.objects count]; j++) {
-                MMEquation *anEquation;
-
-                anEquation = [currentGroup.objects objectAtIndex:j];
-                if ([anEquationName isEqualToString:[anEquation name]])
-                    return anEquation;
+    for (MMGroup *group in self.equationGroups) {
+        if ([groupName isEqualToString:group.name]) {
+            for (MMEquation *equation in group.objects) {
+                if ([equationName isEqualToString:equation.name])
+                    return equation;
             }
         }
     }
 
-    NSLog(@"Couldn't find equation: %@/%@", aListName, anEquationName);
+    NSLog(@"Couldn't find equation: %@/%@", groupName, equationName);
 
     return nil;
 }

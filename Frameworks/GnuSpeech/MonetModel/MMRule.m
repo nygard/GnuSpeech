@@ -124,12 +124,12 @@
 
     switch (numPhones) {
         case 2:
-            defaultDuration = [self.model findEquationList:@"DefaultDurations" named:@"DiphoneDefault"];
+            defaultDuration = [self.model findEquationWithName:@"DiphoneDefault" inGroupWithName:@"DefaultDurations" ];
             if (defaultDuration == nil)
                 break;
             [symbolEquations addObject:defaultDuration];
             
-            defaultOnset = [self.model findEquationList:@"SymbolDefaults" named:@"diBeat"];
+            defaultOnset = [self.model findEquationWithName:@"diBeat" inGroupWithName:@"SymbolDefaults"];
             if (defaultOnset == nil)
                 break;
             [symbolEquations addObject:defaultOnset];
@@ -138,17 +138,17 @@
             break;
             
         case 3:
-            defaultDuration = [self.model findEquationList:@"DefaultDurations" named:@"TriphoneDefault"];
+            defaultDuration = [self.model findEquationWithName:@"TriphoneDefault" inGroupWithName:@"DefaultDurations"];
             if (defaultDuration == nil)
                 break;
             [symbolEquations addObject:defaultDuration];
             
-            defaultOnset = [self.model findEquationList:@"SymbolDefaults" named:@"triBeat"];
+            defaultOnset = [self.model findEquationWithName:@"triBeat" inGroupWithName:@"SymbolDefaults"];
             if (defaultOnset == nil)
                 break;
             [symbolEquations addObject:defaultOnset];
             
-            anEquation = [self.model findEquationList:@"SymbolDefaults" named:@"Mark1"];
+            anEquation = [self.model findEquationWithName:@"Mark1" inGroupWithName:@"SymbolDefaults"];
             if (anEquation == nil)
                 break;
             [symbolEquations addObject:anEquation];
@@ -157,22 +157,22 @@
             break;
             
         case 4:
-            defaultDuration = [self.model findEquationList:@"DefaultDurations" named:@"TetraphoneDefault"];
+            defaultDuration = [self.model findEquationWithName:@"TetraphoneDefault" inGroupWithName:@"DefaultDurations"];
             if (defaultDuration == nil)
                 break;
             [symbolEquations addObject:defaultDuration];
             
-            defaultOnset = [self.model findEquationList:@"SymbolDefaults" named:@"tetraBeat"]; // TODO (2004-03-24): Not in diphones.monet
+            defaultOnset = [self.model findEquationWithName:@"tetraBeat" inGroupWithName:@"SymbolDefaults"]; // TODO (2004-03-24): Not in diphones.monet
             if (defaultOnset == nil)
                 break;
             [symbolEquations addObject:defaultOnset];
             
-            anEquation = [self.model findEquationList:@"SymbolDefaults" named:@"Mark1"];
+            anEquation = [self.model findEquationWithName:@"Mark1" inGroupWithName:@"SymbolDefaults"];
             if (anEquation == nil)
                 break;
             [symbolEquations addObject:anEquation];
             
-            anEquation = [self.model findEquationList:@"SymbolDefaults" named:@"Mark2"];
+            anEquation = [self.model findEquationWithName:@"Mark2" inGroupWithName:@"SymbolDefaults"];
             if  (anEquation == nil)
                 break;
             [symbolEquations addObject:anEquation];

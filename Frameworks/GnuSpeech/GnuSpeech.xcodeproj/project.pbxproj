@@ -451,6 +451,8 @@
 				0155E41F0B7BE8F9008D8879 /* MMNamedObject.m */,
 				0155E43C0B7BE8F9008D8879 /* MMGroup.h */,
 				0155E43D0B7BE8F9008D8879 /* MMGroup.m */,
+				01ACA5DE1544A80700278339 /* MMGroupedObject.h */,
+				01ACA5DF1544A80800278339 /* MMGroupedObject.m */,
 				016503E315436FBA00D64E98 /* Concrete subclasses */,
 			);
 			name = "Input data form XML file";
@@ -560,8 +562,6 @@
 				0155E4330B7BE8F9008D8879 /* MMSymbol.m */,
 				0155E4360B7BE8F9008D8879 /* MMTarget.h */,
 				0155E4370B7BE8F9008D8879 /* MMTarget.m */,
-				01ACA5DE1544A80700278339 /* MMGroupedObject.h */,
-				01ACA5DF1544A80800278339 /* MMGroupedObject.m */,
 				0155E4380B7BE8F9008D8879 /* MMTransition.h */,
 				0155E4390B7BE8F9008D8879 /* MMTransition.m */,
 				0165043B1543B42700D64E98 /* MMDriftGenerator.h */,
