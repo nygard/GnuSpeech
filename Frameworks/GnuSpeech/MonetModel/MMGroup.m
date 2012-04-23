@@ -75,6 +75,16 @@
     object.group = self;
 }
 
+- (id)objectWithName:(NSString *)name;
+{
+    for (MMNamedObject *object in self.objects) {
+        if ([name isEqualToString:object.name])
+            return object;
+    }
+    
+    return nil;
+}
+
 #pragma mark - XML Archiving
 
 - (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(NSUInteger)level;

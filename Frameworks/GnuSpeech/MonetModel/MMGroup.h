@@ -11,6 +11,7 @@
 
 // These set the group (if possible) on objects added to the list
 - (void)addObject:(MMGroupedObject *)object;
+- (id)objectWithName:(NSString *)name;
 
 - (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(NSUInteger)level;
 

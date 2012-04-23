@@ -401,14 +401,12 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 }
 
 // This will require that all the equation names be unique.  Otherwise we'll need to store the group in the XML file as well.
-// TODO (2012-04-23): Make an -objectWithName: method on MMGroup
 - (MMEquation *)findEquationWithName:(NSString *)name;
 {
     for (MMGroup *group in self.equationGroups) {
-        for (MMEquation *equation in group.objects) {
-            if ([name isEqualToString:equation.name])
-                return equation;
-        }
+        MMEquation *equation = [group objectWithName:name];
+        if (equation != nil)
+            return equation;
     }
 
     return nil;
@@ -417,10 +415,9 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 - (MMTransition *)findTransitionWithName:(NSString *)name;
 {
     for (MMGroup *group in self.transitionGroups) {
-        for (MMTransition *transition in group.objects) {
-            if ([name isEqualToString:transition.name])
-                return transition;
-        }
+        MMTransition *transition = [group objectWithName:name];
+        if (transition != nil)
+            return transition;
     }
 
     return nil;
@@ -429,10 +426,9 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 - (MMTransition *)findSpecialTransitionWithName:(NSString *)name;
 {
     for (MMGroup *group in self.specialTransitionGroups) {
-        for (MMTransition *transition in group.objects) {
-            if ([name isEqualToString:transition.name])
-                return transition;
-        }
+        MMTransition *transition = [group objectWithName:name];
+        if (transition != nil)
+            return transition;
     }
 
     return nil;
