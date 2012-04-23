@@ -7,6 +7,17 @@
 #import "MModel.h"
 #import "MMPosture.h"
 
+@interface MMPostureRewriter ()
+
+- (void)_setupCategoryNames;
+- (void)_setup;
+
+@property (retain) MMPosture *lastPosture;
+
+@end
+
+#pragma mark -
+
 @implementation MMPostureRewriter
 {
     MModel *model;
@@ -34,14 +45,12 @@
 
 - (void)dealloc;
 {
-    NSUInteger index;
-
     [model release];
 
-    for (index = 0; index < 15; index++)
+    for (NSUInteger index = 0; index < 15; index++)
         [categoryNames[index] release];
 
-    for (index = 0; index < 7; index++)
+    for (NSUInteger index = 0; index < 7; index++)
         [returnPostures[index] release];
 
     [lastPosture release];
@@ -75,9 +84,7 @@
 
 - (void)_setup;
 {
-    NSUInteger index;
-
-    for (index = 0; index < 7; index++)
+    for (NSUInteger index = 0; index < 7; index++)
         [returnPostures[index] release];
 
     returnPostures[0] = [[model postureWithName:@"qc"] retain];
@@ -98,13 +105,12 @@
 
 - (void)setModel:(MModel *)newModel;
 {
-    if (newModel == model)
-        return;
+    if (newModel != model) {
+        [model release];
+        model = [newModel retain];
 
-    [model release];
-    model = [newModel retain];
-
-    [self _setup];
+        [self _setup];
+    }
 }
 
 @synthesize lastPosture;
@@ -112,46 +118,44 @@
 - (void)resetState;
 {
     currentState = 0;
-    [self setLastPosture:nil];
+    self.lastPosture = nil;
 }
 
 - (void)rewriteEventList:(EventList *)eventList withNextPosture:(MMPosture *)nextPosture wordMarker:(BOOL)followsWordMarker;
 {
-    NSUInteger index;
     BOOL didMakeTransition = NO;
-    MMPosture *insertPosture = nil;
 
     static NSUInteger stateTable[17][15] =
-        {
-            //              h*,hv*      ll*   s*      z*
-            //              ==========  ---------------------
-            //0   1   2  3  4  5  6  7  8  9  10  11  12  13  14
-
-            { 1,  9,  0, 7, 0, 0, 0, 0, 5, 5, 13, 13, 15, 15,  0},	// State 0
-            { 3,  9,  0, 7, 2, 2, 2, 2, 5, 5, 13, 13, 15, 15,  0},	// State 1
-            { 1,  9,  0, 7, 0, 0, 0, 0, 5, 5, 13, 13, 15, 15,  0},	// State 2
-            { 4,  9,  0, 7, 0, 0, 0, 0, 5, 5, 13, 13, 15, 15,  0},	// State 3
-            { 1,  9,  0, 7, 0, 0, 0, 0, 5, 5, 13, 13, 15, 15,  0},	// State 4
-            { 1,  9,  0, 6, 0, 0, 0, 0, 5, 5, 13, 13, 15, 15,  0},	// State 5
-            { 1,  9,  0, 8, 0, 0, 0, 0, 5, 5, 13, 13, 15, 15,  0},	// State 6
-            { 1,  9,  0, 8, 0, 0, 0, 0, 5, 5, 13, 13, 15, 15,  0},	// State 7
-            { 1,  9,  0, 8, 0, 0, 0, 0, 5, 5, 13, 13, 15, 15,  0},	// State 8
-            {10, 12, 12, 0, 0, 0, 0, 0, 5, 5, 13, 13, 15, 15,  0},	// State 9
-            {11, 11, 11, 0, 0, 0, 0, 0, 5, 5, 13, 13, 15, 15,  0},	// State 10
-            { 1,  9,  0, 0, 0, 0, 0, 0, 5, 5, 13, 13, 15, 15,  0},	// State 11
-            { 1,  9,  0, 0, 0, 0, 0, 0, 5, 5, 13, 13, 15, 15,  0},	// State 12
-            { 1,  9,  0, 0, 0, 0, 0, 0, 5, 5, 13, 13, 15, 15, 14},	// State 13
-            { 1,  9,  0, 0, 0, 0, 0, 0, 5, 5, 13, 13, 15, 15,  0},	// State 14
-            { 1,  9,  0, 0, 0, 0, 0, 0, 5, 5, 13, 13, 15, 15, 16},	// State 15
-            { 1,  9,  0, 0, 0, 0, 0, 0, 5, 5, 13, 13, 15, 15,  0},	// State 16
-        };
+    {
+        //              h*,hv*      ll*   s*      z*
+        //              ==========  ---------------------
+        //0   1   2  3  4  5  6  7  8  9  10  11  12  13  14
+        
+        { 1,  9,  0, 7, 0, 0, 0, 0, 5, 5, 13, 13, 15, 15,  0},	// State 0
+        { 3,  9,  0, 7, 2, 2, 2, 2, 5, 5, 13, 13, 15, 15,  0},	// State 1
+        { 1,  9,  0, 7, 0, 0, 0, 0, 5, 5, 13, 13, 15, 15,  0},	// State 2
+        { 4,  9,  0, 7, 0, 0, 0, 0, 5, 5, 13, 13, 15, 15,  0},	// State 3
+        { 1,  9,  0, 7, 0, 0, 0, 0, 5, 5, 13, 13, 15, 15,  0},	// State 4
+        { 1,  9,  0, 6, 0, 0, 0, 0, 5, 5, 13, 13, 15, 15,  0},	// State 5
+        { 1,  9,  0, 8, 0, 0, 0, 0, 5, 5, 13, 13, 15, 15,  0},	// State 6
+        { 1,  9,  0, 8, 0, 0, 0, 0, 5, 5, 13, 13, 15, 15,  0},	// State 7
+        { 1,  9,  0, 8, 0, 0, 0, 0, 5, 5, 13, 13, 15, 15,  0},	// State 8
+        {10, 12, 12, 0, 0, 0, 0, 0, 5, 5, 13, 13, 15, 15,  0},	// State 9
+        {11, 11, 11, 0, 0, 0, 0, 0, 5, 5, 13, 13, 15, 15,  0},	// State 10
+        { 1,  9,  0, 0, 0, 0, 0, 0, 5, 5, 13, 13, 15, 15,  0},	// State 11
+        { 1,  9,  0, 0, 0, 0, 0, 0, 5, 5, 13, 13, 15, 15,  0},	// State 12
+        { 1,  9,  0, 0, 0, 0, 0, 0, 5, 5, 13, 13, 15, 15, 14},	// State 13
+        { 1,  9,  0, 0, 0, 0, 0, 0, 5, 5, 13, 13, 15, 15,  0},	// State 14
+        { 1,  9,  0, 0, 0, 0, 0, 0, 5, 5, 13, 13, 15, 15, 16},	// State 15
+        { 1,  9,  0, 0, 0, 0, 0, 0, 5, 5, 13, 13, 15, 15,  0},	// State 16
+    };
 
     //NSLog(@" > %s", _cmd);
 
     //NSLog(@"currentState: %d", currentState);
-    for (index = 0; index < 15; index++) {
+    for (NSUInteger index = 0; index < 15; index++) {
         //NSLog(@"Checking posture %@ for category %@", [nextPosture symbol], categoryNames[index]);
-        if ([nextPosture isMemberOfCategoryNamed:categoryNames[index]] == YES) {
+        if ([nextPosture isMemberOfCategoryNamed:categoryNames[index]]) {
             //NSLog(@"Found %@ %@ state %d -> %d", [nextPosture symbol], categoryNames[index], currentState, stateTable[currentState][index]);
             currentState = stateTable[currentState][index];
             didMakeTransition = YES;
@@ -159,7 +163,8 @@
         }
     }
 
-    if (didMakeTransition == YES) {
+    MMPosture *insertPosture = nil;
+    if (didMakeTransition) {
         //NSLog(@"Made transition to state %d", currentState);
         switch (currentState) {
             default:
@@ -178,28 +183,17 @@
             {
                 NSString *str = [lastPosture name];
                 //NSLog(@"state 2, 4, 11: lastPosture symbol: %@", str);
-                if ([str hasPrefix:@"d"] == YES || [str hasPrefix:@"t"] == YES) {
-                    insertPosture = returnPostures[1];
-                } else if ([str hasPrefix:@"p"] == YES || [str hasPrefix:@"b"] == YES) {
-                    insertPosture = returnPostures[2];
-                } else if ([str hasPrefix:@"k"] == YES || [str hasPrefix:@"g"] == YES) {
-                    insertPosture = returnPostures[3];
-                }
+                if ([str hasPrefix:@"d"] || [str hasPrefix:@"t"])      insertPosture = returnPostures[1];
+                else if ([str hasPrefix:@"p"] || [str hasPrefix:@"b"]) insertPosture = returnPostures[2];
+                else if ([str hasPrefix:@"k"] || [str hasPrefix:@"g"]) insertPosture = returnPostures[3];
                 
                 break;
             }
                 
             case 6:
             {
-                MMPosture *replacementPosture;
-                
-                if ([[lastPosture name] hasSuffix:@"'"] == YES)
-                    replacementPosture = [model postureWithName:@"l'"];
-                else
-                    replacementPosture = [model postureWithName:@"l"];
-                
+                MMPosture *replacementPosture = ([[lastPosture name] hasSuffix:@"'"]) ? [model postureWithName:@"l'"] : [model postureWithName:@"l"];
                 //NSLog(@"Replace last posture (%@) with %@", [lastPosture symbol], [replacementPosture symbol]);
-                
                 [eventList replaceCurrentPhoneWith:replacementPosture];
                 
                 break;
@@ -207,9 +201,7 @@
                 
             case 8:
                 //NSLog(@"vowels %@ -> %@   %d", [lastPosture symbol], [nextPosture symbol], followsWordMarker);
-                if (nextPosture == lastPosture && followsWordMarker == YES) {
-                    insertPosture = returnPostures[4];
-                }
+                if (nextPosture == lastPosture && followsWordMarker) insertPosture = returnPostures[4];
                 break;
                 
             case 10:
@@ -229,11 +221,11 @@
                 break;
         }
         
-        [self setLastPosture:nextPosture];
+        self.lastPosture = nextPosture;
     } else {
         //NSLog(@"Returning to state 0");
         currentState = 0;
-        [self setLastPosture:nil];
+        self.lastPosture = nil;
     }
     
     if (insertPosture != nil) {

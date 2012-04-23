@@ -9,12 +9,7 @@
 
 - (id)initWithModel:(MModel *)model;
 
-- (void)_setupCategoryNames;
-- (void)_setup;
-
 @property (nonatomic, retain) MModel *model;
-
-@property (retain) MMPosture *lastPosture;
 
 - (void)resetState;
 - (void)rewriteEventList:(EventList *)eventList withNextPosture:(MMPosture *)nextPosture wordMarker:(BOOL)followsWordMarker;
