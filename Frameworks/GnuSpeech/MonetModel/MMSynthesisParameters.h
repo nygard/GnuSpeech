@@ -3,32 +3,26 @@
 
 #import <Foundation/Foundation.h>
 
-typedef enum {
-    MMGPShapePulse = 0,
-    MMGPShapeSine = 1,
-} MMGlottalPulseShape;
+enum {
+    MMGlottalPulseShape_Pulse = 0,
+    MMGlottalPulseShape_Sine  = 1,
+};
+typedef NSUInteger MMGlottalPulseShape;
 
-typedef enum {
-    MMSamplingRate22050 = 0,
-    MMSamplingRate44100 = 1,
-} MMSamplingRate;
+enum {
+    MMSamplingRate_22050 = 0,
+    MMSamplingRate_44100 = 1,
+};
+typedef NSUInteger MMSamplingRate;
 
-typedef enum {
-    MMChannelsMono = 0,
-    MMChannelsStereo = 1,
-} MMChannels;
+enum {
+    MMChannels_Mono   = 0,
+    MMChannels_Stereo = 1,
+};
+typedef NSUInteger MMChannels;
 
 @interface MMSynthesisParameters : NSObject
-
-+ (NSString *)stringForGlottalPulseShape:(MMGlottalPulseShape)aShape;
-+ (MMGlottalPulseShape)glottalPulseShapeFromString:(NSString *)aString;
-
-+ (NSString *)stringForSamplingRate:(MMSamplingRate)aRate;
-+ (MMSamplingRate)samplingRateFromString:(NSString *)aString;
 + (double)samplingRate:(MMSamplingRate)aRate;
-
-+ (NSString *)stringForChannels:(MMChannels)channels;
-+ (MMChannels)channelsFromString:(NSString *)aString;
 
 - (void)restoreDefaultValues;
 - (void)saveAsDefaults;
@@ -59,6 +53,6 @@ typedef enum {
 @property (assign) MMSamplingRate samplingRate;
 @property (assign) MMChannels outputChannels;
 
-- (void)writeToFile:(NSString *)aFilename includeComments:(BOOL)shouldIncludeComments;
+- (void)writeToFile:(NSString *)filename includeComments:(BOOL)shouldIncludeComments;
 
 @end
