@@ -10,8 +10,8 @@
 @interface MMRule : MMObject
 
 - (void)setDefaultsTo:(NSUInteger)numPhones;
-- (void)addDefaultParameter;
-- (void)addDefaultMetaParameter;
+- (void)addDefaultTransitionForLastParameter;
+- (void)addDefaultTransitionForLastMetaParameter;
 - (void)removeParameterAtIndex:(NSUInteger)index;
 - (void)removeMetaParameterAtIndex:(NSUInteger)index;
 

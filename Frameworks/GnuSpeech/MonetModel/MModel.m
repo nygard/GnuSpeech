@@ -30,9 +30,6 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 - (void)_addDefaultRule;
 - (void)_generateUniqueNameForObject:(MMNamedObject *)newObject existingObjects:(NSArray *)existingObjects;
 
-- (void)_addDefaultPostureTargetsForParameter:(MMParameter *)newParameter;
-- (void)_addDefaultPostureTargetsForMetaParameter:(MMParameter *)newParameter;
-- (void)_addDefaultPostureTargetsForSymbol:(MMSymbol *)newSymbol;
 - (void)_generateUniqueNameForPosture:(MMPosture *)newPosture;
 - (void)_addStoredRule:(MMRule *)newRule;
 - (void)_appendXMLForEquationsToString:(NSMutableString *)resultString level:(NSUInteger)level;
@@ -134,22 +131,22 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     MMBooleanNode *expr1 = [boolParser parseString:@"phone"];
     MMBooleanNode *expr2 = [boolParser parseString:@"phone"];
 
-    MMRule *newRule = [[[MMRule alloc] init] autorelease];
-    [newRule setExpression:expr1 number:0];
-    [newRule setExpression:expr2 number:1];
-    [newRule setDefaultsTo:[newRule numberExpressions]];
-    [self addRule:newRule];
+    MMRule *rule = [[[MMRule alloc] init] autorelease];
+    [rule setExpression:expr1 number:0];
+    [rule setExpression:expr2 number:1];
+    [rule setDefaultsTo:[rule numberExpressions]];
+    [self addRule:rule];
 }
 
 @synthesize categories, parameters, metaParameters, symbols, postures, equationGroups, transitionGroups, specialTransitionGroups, rules;
 
 #pragma mark - Categories
 
-- (void)addCategory:(MMCategory *)newCategory;
+- (void)addCategory:(MMCategory *)category;
 {
-    [self _generateUniqueNameForObject:newCategory existingObjects:self.categories];
+    [self _generateUniqueNameForObject:category existingObjects:self.categories];
 
-    [categories addObject:newCategory];
+    [categories addObject:category];
     //[categories sortUsingSelector:@selector(compareByAscendingName:)];
     // TODO (2004-03-18): And post notification of new category.
 }
@@ -158,6 +155,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 - (BOOL)isCategoryUsed:(MMCategory *)category;
 {
     for (MMRule *rule in self.rules) {
+        // TODO (2012-04-23): Rename usesCategory:
         if ([rule isCategoryUsed:category])
             return YES;
     }
@@ -190,15 +188,22 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)addParameter:(MMParameter *)parameter;
 {
-    if (parameter.name == nil)
-        [parameter setName:@"untitled"];
+    if (parameter.name == nil) parameter.name = @"untitled";
 
     [self _generateUniqueNameForObject:parameter existingObjects:self.parameters];
 
     [self.parameters addObject:parameter];
-    [parameter setModel:self];
-    [self _addDefaultPostureTargetsForParameter:parameter];
-    [self.rules makeObjectsPerformSelector:@selector(addDefaultParameter)];
+    parameter.model = self;
+    
+    // Add default posture targets
+    for (MMPosture *posture in self.postures) {
+        MMTarget *target = [[[MMTarget alloc] initWithValue:parameter.defaultValue isDefault:YES] autorelease];
+        [posture addParameterTarget:target];
+    }
+
+    // TODO (2012-04-23): Not sure about this, seems a little bit odd
+    for (MMRule *rule in self.rules)
+        [rule addDefaultTransitionForLastParameter];
 }
 
 - (void)_generateUniqueNameForObject:(MMNamedObject *)object existingObjects:(NSArray *)existingObjects;
@@ -220,128 +225,91 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     object.name = name;
 }
 
-- (void)_addDefaultPostureTargetsForParameter:(MMParameter *)newParameter;
-{
-    NSUInteger count, index;
-
-    double value = [newParameter defaultValue];
-    count = [postures count];
-    for (index = 0; index < count; index++) {
-        MMTarget *newTarget = [[MMTarget alloc] initWithValue:value isDefault:YES];
-        [[postures objectAtIndex:index] addParameterTarget:newTarget];
-        [newTarget release];
-    }
-}
-
 - (void)removeParameter:(MMParameter *)parameter;
 {
-    NSUInteger parameterIndex  = [parameters indexOfObject:parameter];
-    if (parameterIndex != NSNotFound) {
+    NSUInteger index  = [self.parameters indexOfObject:parameter];
+    if (index != NSNotFound) {
         for (MMPosture *posture in self.postures)
-            [posture removeParameterTargetAtIndex:parameterIndex];
+            [posture removeParameterTargetAtIndex:index];
 
         for (MMRule *rule in self.rules)
-            [rule removeParameterAtIndex:parameterIndex];
+            [rule removeParameterAtIndex:index];
 
-        [parameters removeObject:parameter];
+        [self.parameters removeObject:parameter];
     }
 }
 
 #pragma mark - Meta Parameters
 
-- (void)addMetaParameter:(MMParameter *)newParameter;
+- (void)addMetaParameter:(MMParameter *)parameter;
 {
-    if ([newParameter name] == nil)
-        [newParameter setName:@"untitled"];
+    if (parameter.name == nil) parameter.name = @"untitled";
 
-    [self _generateUniqueNameForObject:newParameter existingObjects:metaParameters];
+    [self _generateUniqueNameForObject:parameter existingObjects:self.metaParameters];
 
-    [metaParameters addObject:newParameter];
-    [newParameter setModel:self];
-    [self _addDefaultPostureTargetsForMetaParameter:newParameter];
-    [rules makeObjectsPerformSelector:@selector(addDefaultMetaParameter)];
-}
+    [self.metaParameters addObject:parameter];
+    parameter.model = self;
 
-- (void)_addDefaultPostureTargetsForMetaParameter:(MMParameter *)newParameter;
-{
-    NSUInteger count, index;
-
-    double value = [newParameter defaultValue];
-    count = [postures count];
-    for (index = 0; index < count; index++) {
-        MMTarget *newTarget = [[MMTarget alloc] initWithValue:value isDefault:YES];
-        [[postures objectAtIndex:index] addMetaParameterTarget:newTarget];
-        [newTarget release];
+    // Add default posture targets
+    for (MMPosture *posture in self.postures) {
+        MMTarget *target = [[[MMTarget alloc] initWithValue:parameter.defaultValue isDefault:YES] autorelease];
+        [posture addMetaParameterTarget:target];
     }
+    
+    // TODO (2012-04-23): It's not clear how these all interact.  It looks like this is adding a default _Transition_ for the new meta parameter to all the rules.
+    // And this is just assuming that the new meta parameter was added at the end...
+    for (MMRule *rule in self.rules)
+        [rule addDefaultTransitionForLastMetaParameter];
 }
 
-- (void)removeMetaParameter:(MMParameter *)aParameter;
+- (void)removeMetaParameter:(MMParameter *)parameter;
 {
-    NSUInteger parameterIndex  = [metaParameters indexOfObject:aParameter];
-    if (parameterIndex != NSNotFound) {
-        NSUInteger count, index;
+    NSUInteger index  = [self.metaParameters indexOfObject:parameter];
+    if (index != NSNotFound) {
+        for (MMPosture *posture in self.postures)
+            [posture removeMetaParameterTargetAtIndex:index];
 
-        count = [postures count];
-        for (index = 0; index < count; index++)
-            [[postures objectAtIndex:index] removeMetaParameterTargetAtIndex:parameterIndex];
+        for (MMRule *rule in self.rules)
+            [rule removeMetaParameterAtIndex:index];
 
-        count = [rules count];
-        for (index = 0; index < count; index++)
-            [[rules objectAtIndex:index] removeMetaParameterAtIndex:parameterIndex];
-
-        [metaParameters removeObject:aParameter];
+        [self.metaParameters removeObject:parameter];
     }
 }
 
 #pragma mark - Symbols
 
-- (void)addSymbol:(MMSymbol *)newSymbol;
+- (void)addSymbol:(MMSymbol *)symbol;
 {
-    if ([newSymbol name] == nil)
-        [newSymbol setName:@"untitled"];
+    if (symbol.name == nil) symbol.name = @"untitled";
 
-    [self _generateUniqueNameForObject:newSymbol existingObjects:self.symbols];
+    [self _generateUniqueNameForObject:symbol existingObjects:self.symbols];
 
-    [symbols addObject:newSymbol];
-    [newSymbol setModel:self];
-    [self _addDefaultPostureTargetsForSymbol:newSymbol];
-}
-
-- (void)_addDefaultPostureTargetsForSymbol:(MMSymbol *)newSymbol;
-{
-    NSUInteger count, index;
-    double value = [newSymbol defaultValue];
-    count = [postures count];
-    for (index = 0; index < count; index++) {
-        MMTarget *newTarget = [[MMTarget alloc] initWithValue:value isDefault:YES];
-        [[postures objectAtIndex:index] addSymbolTarget:newTarget];
-        [newTarget release];
+    [symbols addObject:symbol];
+    symbol.model = self;
+    
+    // Add default symbol targets
+    for (MMPosture *posture in self.postures) {
+        MMTarget *target = [[[MMTarget alloc] initWithValue:symbol.defaultValue isDefault:YES] autorelease];
+        [posture addSymbolTarget:target];
     }
 }
 
-- (void)removeSymbol:(MMSymbol *)aSymbol;
+- (void)removeSymbol:(MMSymbol *)symbol;
 {
-    NSUInteger symbolIndex = [symbols indexOfObject:aSymbol];
-    if (symbolIndex != NSNotFound) {
-        NSUInteger count, index;
+    NSUInteger index = [symbols indexOfObject:symbol];
+    if (index != NSNotFound) {
+        for (MMPosture *posture in postures)
+            [posture removeSymbolTargetAtIndex:index];
 
-        count = [postures count];
-        for (index = 0; index < count; index++)
-            [[postures objectAtIndex:index] removeSymbolTargetAtIndex:symbolIndex];
-
-        [symbols removeObject:aSymbol];
+        [symbols removeObject:symbol];
     }
 }
 
-- (MMSymbol *)symbolWithName:(NSString *)aName;
+- (MMSymbol *)symbolWithName:(NSString *)name;
 {
-    NSUInteger count, index;
-
-    count = [symbols count];
-    for (index = 0; index < count; index++) {
-        MMSymbol *aSymbol = [symbols objectAtIndex:index];
-        if ([[aSymbol name] isEqual:aName] == YES)
-            return aSymbol;
+    for (MMSymbol *symbol in symbols) {
+        if ([symbol.name isEqual:name])
+            return symbol;
     }
 
     return nil;
@@ -349,18 +317,18 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 #pragma mark - Postures
 
-- (void)addPosture:(MMPosture *)newPosture;
+- (void)addPosture:(MMPosture *)posture;
 {
-    [newPosture setModel:self];
-    [self _generateUniqueNameForPosture:newPosture];
+    posture.model = self;
+    [self _generateUniqueNameForPosture:posture];
 
-    [postures addObject:newPosture];
+    [postures addObject:posture];
     [self sortPostures];
 }
 
 - (void)_generateUniqueNameForPosture:(MMPosture *)newPosture;
 {
-    NSMutableSet *names = [[NSMutableSet alloc] init];
+    NSMutableSet *names = [[[NSMutableSet alloc] init] autorelease];
     for (MMPosture *posture in self.postures) {
         if (posture.name != nil)
             [names addObject:posture.name];
@@ -389,14 +357,12 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         name = [NSString stringWithFormat:@"%@%lu", basename, index++];
     }
 
-    [newPosture setName:name];
-
-    [names release];
+    newPosture.name = name;
 }
 
-- (void)removePosture:(MMPosture *)aPosture;
+- (void)removePosture:(MMPosture *)posture;
 {
-    [postures removeObject:aPosture];
+    [postures removeObject:posture];
 
     // TODO (2004-03-20): Make sure it isn't used by any rules?
 }
@@ -406,90 +372,66 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [postures sortUsingSelector:@selector(compareByAscendingName:)];
 }
 
-- (MMPosture *)postureWithName:(NSString *)aName;
+- (MMPosture *)postureWithName:(NSString *)name;
 {
-    NSUInteger count, index;
-
-    count = [postures count];
-    for (index = 0; index < count; index++) {
-        MMPosture *aPosture = [postures objectAtIndex:index];
-        if ([[aPosture name] isEqual:aName])
-            return aPosture;
+    for (MMPosture *posture in self.postures) {
+        if ([posture.name isEqual:name])
+            return posture;
     }
 
     return nil;
 }
 
-- (void)addEquationGroup:(MMGroup *)newGroup;
+- (void)addEquationGroup:(MMGroup *)group;
 {
-    [equationGroups addObject:newGroup];
-    [newGroup setModel:self];
+    [equationGroups addObject:group];
+    group.model = self;
 }
 
-- (void)addTransitionGroup:(MMGroup *)newGroup;
+- (void)addTransitionGroup:(MMGroup *)group;
 {
-    [transitionGroups addObject:newGroup];
-    [newGroup setModel:self];
+    [transitionGroups addObject:group];
+    group.model = self;
 }
 
-- (void)addSpecialTransitionGroup:(MMGroup *)newGroup;
+- (void)addSpecialTransitionGroup:(MMGroup *)group;
 {
-    [specialTransitionGroups addObject:newGroup];
-    [newGroup setModel:self];
+    [specialTransitionGroups addObject:group];
+    group.model = self;
 }
 
 // This will require that all the equation names be unique.  Otherwise we'll need to store the group in the XML file as well.
-- (MMEquation *)findEquationWithName:(NSString *)anEquationName;
+// TODO (2012-04-23): Make an -objectWithName: method on MMGroup
+- (MMEquation *)findEquationWithName:(NSString *)name;
 {
-    NSUInteger groupCount, groupIndex;
-    NSUInteger count, index;
-
-    groupCount = [equationGroups count];
-    for (groupIndex = 0; groupIndex < groupCount; groupIndex++) {
-        MMGroup *currentGroup = [equationGroups objectAtIndex:groupIndex];
-        count = [currentGroup.objects count];
-        for (index = 0; index < count; index++) {
-            MMEquation *anEquation = [currentGroup.objects objectAtIndex:index];
-            if ([anEquationName isEqualToString:[anEquation name]])
-                return anEquation;
+    for (MMGroup *group in self.equationGroups) {
+        for (MMEquation *equation in group.objects) {
+            if ([name isEqualToString:equation.name])
+                return equation;
         }
     }
 
     return nil;
 }
 
-- (MMTransition *)findTransitionWithName:(NSString *)aTransitionName;
+- (MMTransition *)findTransitionWithName:(NSString *)name;
 {
-    NSUInteger groupCount, groupIndex;
-    NSUInteger count, index;
-
-    groupCount = [transitionGroups count];
-    for (groupIndex = 0; groupIndex < groupCount; groupIndex++) {
-        MMGroup *currentGroup = [transitionGroups objectAtIndex:groupIndex];
-        count = [currentGroup.objects count];
-        for (index = 0; index < count; index++) {
-            MMTransition *aTransition = [currentGroup.objects objectAtIndex:index];
-            if ([aTransitionName isEqualToString:[aTransition name]])
-                return aTransition;
+    for (MMGroup *group in self.transitionGroups) {
+        for (MMTransition *transition in group.objects) {
+            if ([name isEqualToString:transition.name])
+                return transition;
         }
     }
 
     return nil;
 }
 
-- (MMTransition *)findSpecialTransitionWithName:(NSString *)aTransitionName;
+- (MMTransition *)findSpecialTransitionWithName:(NSString *)name;
 {
-    NSUInteger groupCount, groupIndex;
-    NSUInteger count, index;
-
-    groupCount = [specialTransitionGroups count];
-    for (groupIndex = 0; groupIndex < groupCount; groupIndex++) {
-        MMGroup *currentGroup = [specialTransitionGroups objectAtIndex:groupIndex];
-        count = [currentGroup.objects count];
-        for (index = 0; index < count; index++) {
-            MMTransition *aTransition = [currentGroup.objects objectAtIndex:index];
-            if ([aTransitionName isEqualToString:[aTransition name]])
-                return aTransition;
+    for (MMGroup *group in self.specialTransitionGroups) {
+        for (MMTransition *transition in group.objects) {
+            if ([name isEqualToString:transition.name])
+                return transition;
         }
     }
 

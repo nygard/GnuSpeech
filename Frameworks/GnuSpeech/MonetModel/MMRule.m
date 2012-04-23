@@ -97,13 +97,13 @@
 
     switch (numPhones) {
         case 2:
-            tempEntry = [[self model] findTransitionList:@"Defaults" named:@"Diphone"];
+            tempEntry = [self.model findTransitionList:@"Defaults" named:@"Diphone"];
             break;
         case 3:
-            tempEntry = [[self model] findTransitionList:@"Defaults" named:@"Triphone"];
+            tempEntry = [self.model findTransitionList:@"Defaults" named:@"Triphone"];
             break;
         case 4:
-            tempEntry = [[self model] findTransitionList:@"Defaults" named:@"Tetraphone"];
+            tempEntry = [self.model findTransitionList:@"Defaults" named:@"Tetraphone"];
             break;
     }
 
@@ -111,25 +111,25 @@
         NSLog(@"CANNOT find temp entry");
     }
 
-    aParameterList = [[self model] parameters];
+    aParameterList = [self.model parameters];
     for (i = 0; i < [aParameterList count]; i++) {
         [parameterTransitions addObject:tempEntry];
     }
 
     /* Alloc lists to point to prototype transition specifiers */
-    aParameterList = [[self model] metaParameters];
+    aParameterList = [self.model metaParameters];
     for (i = 0; i < [aParameterList count]; i++) {
         [metaParameterTransitions addObject:tempEntry];
     }
 
     switch (numPhones) {
         case 2:
-            defaultDuration = [[self model] findEquationList:@"DefaultDurations" named:@"DiphoneDefault"];
+            defaultDuration = [self.model findEquationList:@"DefaultDurations" named:@"DiphoneDefault"];
             if (defaultDuration == nil)
                 break;
             [symbolEquations addObject:defaultDuration];
             
-            defaultOnset = [[self model] findEquationList:@"SymbolDefaults" named:@"diBeat"];
+            defaultOnset = [self.model findEquationList:@"SymbolDefaults" named:@"diBeat"];
             if (defaultOnset == nil)
                 break;
             [symbolEquations addObject:defaultOnset];
@@ -138,17 +138,17 @@
             break;
             
         case 3:
-            defaultDuration = [[self model] findEquationList:@"DefaultDurations" named:@"TriphoneDefault"];
+            defaultDuration = [self.model findEquationList:@"DefaultDurations" named:@"TriphoneDefault"];
             if (defaultDuration == nil)
                 break;
             [symbolEquations addObject:defaultDuration];
             
-            defaultOnset = [[self model] findEquationList:@"SymbolDefaults" named:@"triBeat"];
+            defaultOnset = [self.model findEquationList:@"SymbolDefaults" named:@"triBeat"];
             if (defaultOnset == nil)
                 break;
             [symbolEquations addObject:defaultOnset];
             
-            anEquation = [[self model] findEquationList:@"SymbolDefaults" named:@"Mark1"];
+            anEquation = [self.model findEquationList:@"SymbolDefaults" named:@"Mark1"];
             if (anEquation == nil)
                 break;
             [symbolEquations addObject:anEquation];
@@ -157,22 +157,22 @@
             break;
             
         case 4:
-            defaultDuration = [[self model] findEquationList:@"DefaultDurations" named:@"TetraphoneDefault"];
+            defaultDuration = [self.model findEquationList:@"DefaultDurations" named:@"TetraphoneDefault"];
             if (defaultDuration == nil)
                 break;
             [symbolEquations addObject:defaultDuration];
             
-            defaultOnset = [[self model] findEquationList:@"SymbolDefaults" named:@"tetraBeat"]; // TODO (2004-03-24): Not in diphones.monet
+            defaultOnset = [self.model findEquationList:@"SymbolDefaults" named:@"tetraBeat"]; // TODO (2004-03-24): Not in diphones.monet
             if (defaultOnset == nil)
                 break;
             [symbolEquations addObject:defaultOnset];
             
-            anEquation = [[self model] findEquationList:@"SymbolDefaults" named:@"Mark1"];
+            anEquation = [self.model findEquationList:@"SymbolDefaults" named:@"Mark1"];
             if (anEquation == nil)
                 break;
             [symbolEquations addObject:anEquation];
             
-            anEquation = [[self model] findEquationList:@"SymbolDefaults" named:@"Mark2"];
+            anEquation = [self.model findEquationList:@"SymbolDefaults" named:@"Mark2"];
             if  (anEquation == nil)
                 break;
             [symbolEquations addObject:anEquation];
@@ -182,45 +182,45 @@
     }
 }
 
-- (void)addDefaultParameter;
+- (void)addDefaultTransitionForLastParameter;
 {
-    MMTransition *aTransition = nil;
+    MMTransition *transition = nil;
 
     switch ([self numberExpressions]) {
         case 2:
-            aTransition = [[self model] findTransitionList:@"Defaults" named:@"Diphone"];
+            transition = [self.model findTransitionList:@"Defaults" named:@"Diphone"];
             break;
         case 3:
-            aTransition = [[self model] findTransitionList:@"Defaults" named:@"Triphone"];
+            transition = [self.model findTransitionList:@"Defaults" named:@"Triphone"];
             break;
         case 4:
-            aTransition = [[self model] findTransitionList:@"Defaults" named:@"Tetraphone"];
+            transition = [self.model findTransitionList:@"Defaults" named:@"Tetraphone"];
             break;
     }
 
-    if (aTransition != nil)
-        [parameterTransitions addObject:aTransition];
+    if (transition != nil)
+        [parameterTransitions addObject:transition];
 }
 
 // Warning (building for 10.2 deployment) (2004-04-02): tempEntry might be used uninitialized in this function
-- (void)addDefaultMetaParameter;
+- (void)addDefaultTransitionForLastMetaParameter;
 {
-    MMTransition *aTransition = nil;
+    MMTransition *transition = nil;
 
     switch ([self numberExpressions]) {
         case 2:
-            aTransition = [[self model] findTransitionList:@"Defaults" named:@"Diphone"];
+            transition = [self.model findTransitionList:@"Defaults" named:@"Diphone"];
             break;
         case 3:
-            aTransition = [[self model] findTransitionList:@"Defaults" named:@"Triphone"];
+            transition = [self.model findTransitionList:@"Defaults" named:@"Triphone"];
             break;
         case 4:
-            aTransition = [[self model] findTransitionList:@"Defaults" named:@"Tetraphone"];
+            transition = [self.model findTransitionList:@"Defaults" named:@"Tetraphone"];
             break;
     }
     
-    if (aTransition != nil)
-        [metaParameterTransitions addObject:aTransition];
+    if (transition != nil)
+        [metaParameterTransitions addObject:transition];
 }
 
 - (void)removeParameterAtIndex:(NSUInteger)index;
