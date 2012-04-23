@@ -22,7 +22,6 @@ enum {
 typedef NSUInteger MMChannels;
 
 @interface MMSynthesisParameters : NSObject
-+ (double)samplingRate:(MMSamplingRate)aRate;
 
 - (void)restoreDefaultValues;
 - (void)saveAsDefaults;
@@ -52,6 +51,8 @@ typedef NSUInteger MMChannels;
 @property (assign) BOOL shouldUseNoiseModulation;
 @property (assign) MMSamplingRate samplingRate;
 @property (assign) MMChannels outputChannels;
+
+@property (nonatomic, readonly) double sampleRate;
 
 - (BOOL)writeToURL:(NSURL *)url error:(NSError **)error;
 

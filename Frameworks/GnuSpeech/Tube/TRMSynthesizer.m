@@ -51,7 +51,7 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 
 - (void)setupSynthesisParameters:(MMSynthesisParameters *)synthesisParameters;
 {
-    inputData->inputParameters.outputRate = [MMSynthesisParameters samplingRate:[synthesisParameters samplingRate]];
+    inputData->inputParameters.outputRate = synthesisParameters.sampleRate;
     inputData->inputParameters.controlRate = 250;
     inputData->inputParameters.volume = [synthesisParameters masterVolume];
     inputData->inputParameters.channels = [synthesisParameters outputChannels] + 1;

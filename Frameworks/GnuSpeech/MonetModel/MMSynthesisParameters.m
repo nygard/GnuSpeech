@@ -125,16 +125,85 @@ static NSString *MonetDefKeys[] = {
     nil
 };
 
+NSString *MMGlottalPulseShapeName(MMGlottalPulseShape shape);
+MMGlottalPulseShape MMGlottalPulseShapeFromString(NSString *string);
+
+NSString *MMSamplingRateName(MMSamplingRate rate);
+MMSamplingRate MMSamplingRateFromString(NSString *string);
+double MMSampleRate(MMSamplingRate rate);
+
+NSString *MMChannelsName(MMChannels channels);
+MMChannels MMChannelsFromString(NSString *string);
+
+NSString *MMGlottalPulseShapeName(MMGlottalPulseShape shape)
+{
+    switch (shape) {
+        case MMGlottalPulseShape_Pulse: return @"Pulse";
+        case MMGlottalPulseShape_Sine:  return @"Sine";
+    }
+    
+    return nil;
+}
+
+MMGlottalPulseShape MMGlottalPulseShapeFromString(NSString *string)
+{
+    if ([string isEqualToString:@"Pulse"]) return MMGlottalPulseShape_Pulse;
+    if ([string isEqualToString:@"Sine"])  return MMGlottalPulseShape_Sine;
+    
+    [NSException raise:NSInvalidArgumentException format:@"Unknown glottal pulse shape: '%@'", string];
+    return MMGlottalPulseShape_Pulse;
+}
+
+NSString *MMSamplingRateName(MMSamplingRate rate)
+{
+    switch (rate) {
+        case MMSamplingRate_22050: return @"22050";
+        case MMSamplingRate_44100: return @"44100";
+    }
+    
+    return nil;
+}
+
+MMSamplingRate MMSamplingRateFromString(NSString *string)
+{
+    if ([string isEqualToString:@"22050"]) return MMSamplingRate_22050;
+    if ([string isEqualToString:@"44100"]) return MMSamplingRate_44100;
+    
+    [NSException raise:NSInvalidArgumentException format:@"Unknown sampling rate: '%@'", string];
+    return MMSamplingRate_22050;
+}
+
+double MMSampleRate(MMSamplingRate rate)
+{
+    switch (rate) {
+        case MMSamplingRate_22050: return 22050;
+        case MMSamplingRate_44100: return 44100;
+    }
+    
+    [NSException raise:NSInvalidArgumentException format:@"Unknown sampling rate: %lu", rate];
+    return 22050;
+}
+
+NSString *MMChannelsName(MMChannels channels)
+{
+    switch (channels) {
+        case MMChannels_Mono:   return @"Mono";
+        case MMChannels_Stereo: return @"Stereo";
+    }
+    
+    return nil;
+}
+
+MMChannels MMChannelsFromString(NSString *string)
+{
+    if ([string isEqualToString:@"Mono"])   return MMChannels_Mono;
+    if ([string isEqualToString:@"Stereo"]) return MMChannels_Stereo;
+    
+    [NSException raise:NSInvalidArgumentException format:@"Unknown channels: '%@'", string];
+    return MMChannels_Mono;
+}
+
 @interface MMSynthesisParameters ()
-
-+ (NSString *)stringForGlottalPulseShape:(MMGlottalPulseShape)shape;
-+ (MMGlottalPulseShape)glottalPulseShapeFromString:(NSString *)string;
-
-+ (NSString *)stringForSamplingRate:(MMSamplingRate)rate;
-+ (MMSamplingRate)samplingRateFromString:(NSString *)string;
-
-+ (NSString *)stringForChannels:(MMChannels)channels;
-+ (MMChannels)channelsFromString:(NSString *)aString;
 
 @end
 
@@ -180,80 +249,6 @@ static NSString *MonetDefKeys[] = {
     [[NSUserDefaults standardUserDefaults] registerDefaults:dict];
 }
 
-+ (NSString *)stringForGlottalPulseShape:(MMGlottalPulseShape)shape;
-{
-    switch (shape) {
-        case MMGlottalPulseShape_Pulse: return @"Pulse";
-        case MMGlottalPulseShape_Sine:  return @"Sine";
-    }
-
-    return nil;
-}
-
-+ (MMGlottalPulseShape)glottalPulseShapeFromString:(NSString *)string;
-{
-    if ([string isEqualToString:@"Pulse"])
-        return MMGlottalPulseShape_Pulse;
-    if ([string isEqualToString:@"Sine"])
-        return MMGlottalPulseShape_Sine;
-
-    [NSException raise:NSInvalidArgumentException format:@"Unknown glottal pulse shape: '%@'", string];
-    return MMGlottalPulseShape_Pulse;
-}
-
-+ (NSString *)stringForSamplingRate:(MMSamplingRate)rate;
-{
-    switch (rate) {
-        case MMSamplingRate_22050: return @"22050";
-        case MMSamplingRate_44100: return @"44100";
-    }
-
-    return nil;
-}
-
-+ (MMSamplingRate)samplingRateFromString:(NSString *)string;
-{
-    if ([string isEqualToString:@"22050"])
-        return MMSamplingRate_22050;
-    if ([string isEqualToString:@"44100"])
-        return MMSamplingRate_44100;
-
-    [NSException raise:NSInvalidArgumentException format:@"Unknown sampling rate: '%@'", string];
-    return MMSamplingRate_22050;
-}
-
-+ (double)samplingRate:(MMSamplingRate)rate;
-{
-    switch (rate) {
-        case MMSamplingRate_22050: return 22050;
-        case MMSamplingRate_44100: return 44100;
-    }
-
-    [NSException raise:NSInvalidArgumentException format:@"Unknown sampling rate: %lu", rate];
-    return 22050;
-}
-
-+ (NSString *)stringForChannels:(MMChannels)channels;
-{
-    switch (channels) {
-        case MMChannels_Mono: return @"Mono";
-        case MMChannels_Stereo: return @"Stereo";
-    }
-
-    return nil;
-}
-
-+ (MMChannels)channelsFromString:(NSString *)string;
-{
-    if ([string isEqualToString:@"Mono"])
-        return MMChannels_Mono;
-    if ([string isEqualToString:@"Stereo"])
-        return MMChannels_Stereo;
-
-    [NSException raise:NSInvalidArgumentException format:@"Unknown channels: '%@'", string];
-    return MMChannels_Mono;
-}
-
 - (id)init;
 {
     if ((self = [super init])) {
@@ -292,11 +287,11 @@ static NSString *MonetDefKeys[] = {
     tnMin = [defaults doubleForKey:MDK_TN_MIN];
     tnMax = [defaults doubleForKey:MDK_TN_MAX];
 
-    glottalPulseShape        = [MMSynthesisParameters glottalPulseShapeFromString:[defaults stringForKey:MDK_GP_SHAPE]];
+    glottalPulseShape        = MMGlottalPulseShapeFromString([defaults stringForKey:MDK_GP_SHAPE]);
     shouldUseNoiseModulation = [defaults boolForKey:MDK_NOISE_MODULATION];
 
-    samplingRate   = [MMSynthesisParameters samplingRateFromString:[defaults stringForKey:MDK_SAMPLING_RATE]];
-    outputChannels = [MMSynthesisParameters channelsFromString:[defaults stringForKey:MDK_OUTPUT_CHANNELS]];
+    samplingRate   = MMSamplingRateFromString([defaults stringForKey:MDK_SAMPLING_RATE]);
+    outputChannels = MMChannelsFromString([defaults stringForKey:MDK_OUTPUT_CHANNELS]);
 }
 
 - (void)saveAsDefaults;
@@ -328,14 +323,18 @@ static NSString *MonetDefKeys[] = {
     [defaults setDouble:tnMin forKey:MDK_TN_MIN];
     [defaults setDouble:tnMax forKey:MDK_TN_MAX];
 
-    [defaults setObject:[MMSynthesisParameters stringForGlottalPulseShape:glottalPulseShape] forKey:MDK_GP_SHAPE];
-    [defaults setBool:shouldUseNoiseModulation forKey:MDK_NOISE_MODULATION];
-    [defaults setObject:[MMSynthesisParameters stringForSamplingRate:samplingRate] forKey:MDK_SAMPLING_RATE];
-    [defaults setObject:[MMSynthesisParameters stringForChannels:outputChannels] forKey:MDK_OUTPUT_CHANNELS];
+    [defaults setObject:MMGlottalPulseShapeName(glottalPulseShape) forKey:MDK_GP_SHAPE];
+    [defaults setBool:shouldUseNoiseModulation                     forKey:MDK_NOISE_MODULATION];
+    [defaults setObject:MMSamplingRateName(samplingRate)           forKey:MDK_SAMPLING_RATE];
+    [defaults setObject:MMChannelsName(outputChannels)             forKey:MDK_OUTPUT_CHANNELS];
 }
 
 @synthesize masterVolume, vocalTractLength, temperature, balance, breathiness, lossFactor, pitch, throatCutoff, throatVolume, apertureScaling, mouthCoef, noseCoef, mixOffset, n1, n2, n3, n4, n5, tp, tnMin, tnMax, glottalPulseShape, shouldUseNoiseModulation, samplingRate, outputChannels;
 
+- (double)sampleRate;
+{
+    return MMSampleRate(self.samplingRate);
+}
 
 - (BOOL)writeToURL:(NSURL *)url error:(NSError **)error;
 {
