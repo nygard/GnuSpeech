@@ -24,23 +24,18 @@
 
 - (BOOL)loadFromXMLFile:(NSString *)filename;
 {
-    NSURL *fileURL;
-    MXMLParser *parser;
-    BOOL result;
-
     if (filename == nil)
         return NO;
     
-    fileURL = [NSURL fileURLWithPath:filename];
-    parser = [[MXMLParser alloc] initWithContentsOfURL:fileURL];
+    NSURL *fileURL = [NSURL fileURLWithPath:filename];
+    MXMLParser *parser = [[[MXMLParser alloc] initWithContentsOfURL:fileURL] autorelease];
     [parser pushDelegate:self];
     [parser setShouldResolveExternalEntities:NO];
-    result = [parser parse];
+    BOOL result = [parser parse];
     if (result == NO) {
         NSLog(@"Error: Failed to load file %@, (%@)", filename, [[parser parserError] localizedDescription]);
         //NSRunAlertPanel(@"Error", @"Failed to load file %@, (%@)", @"OK", nil, nil, filename, [[parser parserError] localizedDescription]);
     }
-    [parser release];
 
     return result;
 }
