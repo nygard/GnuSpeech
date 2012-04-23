@@ -28,19 +28,11 @@
 
 #import "TRMSynthesizer.h" // For addParameters:
 
-#define MAXPHONES	1500
-#define MAXFEET		110
+#define MAXPHONES	    1500
+#define MAXFEET		    110
 #define MAXTONEGROUPS	50
 
-#define MAXRULES	MAXPHONES-1
-
-#if 0
-#define STATEMENT	    0
-#define EXCLAMATION	    1
-#define QUESTION	    2
-#define CONTINUATION	3
-#define SEMICOLON	    4
-#endif
+#define MAXRULES	    (MAXPHONES-1)
 
 enum {
     MMToneGroupType_Statement    = 0,
@@ -50,9 +42,8 @@ enum {
     MMToneGroupType_Semicolon    = 4,
 };
 typedef NSUInteger MMToneGroupType;
-//NSString *NSStringFromToneGroupType(MMToneGroupType toneGroupType);
 
-NSString *NSStringFromToneGroupType(MMToneGroupType toneGroupType)
+NSString *MMToneGroupTypeName(MMToneGroupType toneGroupType)
 {
     switch (toneGroupType) {
         case MMToneGroupType_Statement:    return @"Statement";
@@ -1263,7 +1254,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
     //NSLog(@"toneGroupCount: %d", toneGroupCount);
     for (toneGroupIndex = 0; toneGroupIndex < toneGroupCount; toneGroupIndex++) {
-        NSLog(@"Tone Group %lu, type: %@", toneGroupIndex, NSStringFromToneGroupType(toneGroups[toneGroupIndex].type));
+        NSLog(@"Tone Group %lu, type: %@", toneGroupIndex, MMToneGroupTypeName(toneGroups[toneGroupIndex].type));
 
         //NSLog(@"tg (%d -- %d)", toneGroups[toneGroupIndex].startFoot, toneGroups[toneGroupIndex].endFoot);
         for (footIndex = toneGroups[toneGroupIndex].startFoot; footIndex <= toneGroups[toneGroupIndex].endFoot; footIndex++) {
