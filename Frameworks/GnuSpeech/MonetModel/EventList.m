@@ -25,28 +25,16 @@
 #import "MXMLArrayDelegate.h"
 #import "MXMLPCDataDelegate.h"
 #import "MMIntonationParameters.h"
+#import "MMToneGroup.h"
 
 #import "TRMSynthesizer.h" // For addParameters:
 
 #define MAXPHONES	    1500
 #define MAXFEET		    110
-#define MAXTONEGROUPS	50
 
 #define MAXRULES	    (MAXPHONES-1)
 
-enum {
-    MMToneGroupType_Statement    = 0,
-    MMToneGroupType_Exclamation  = 1,
-    MMToneGroupType_Question     = 2,
-    MMToneGroupType_Continuation = 3,
-    MMToneGroupType_Semicolon    = 4,
-};
-typedef NSUInteger MMToneGroupType;
-
 struct _toneGroup {
-    NSUInteger startFootIndex;
-    NSUInteger endFootIndex;
-    MMToneGroupType type;
 };
 
 struct _foot {
@@ -66,19 +54,6 @@ struct _phone {
     float ruleTempo;
 };
 
-NSString *MMToneGroupTypeName(MMToneGroupType toneGroupType)
-{
-    switch (toneGroupType) {
-        case MMToneGroupType_Statement:    return @"Statement";
-        case MMToneGroupType_Exclamation:  return @"Exclamation";
-        case MMToneGroupType_Question:     return @"Question";
-        case MMToneGroupType_Continuation: return @"Continuation";
-        case MMToneGroupType_Semicolon:    return @"Semicolon";
-    }
-
-    return nil;
-}
-
 NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoints";
 
 @interface EventList ()
@@ -86,9 +61,10 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 @property (nonatomic, assign) NSInteger zeroRef;
 
 // Tone groups
+@property (readonly) NSMutableArray *toneGroups;
+@property (nonatomic, readonly) MMToneGroup *currentToneGroup;
 - (void)endCurrentToneGroup;
 - (void)newToneGroup;
-- (void)setCurrentToneGroupType:(MMToneGroupType)type;
 
 // Feet
 - (void)endCurrentFoot;
@@ -155,8 +131,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     NSUInteger footCount;
     struct _foot feet[MAXFEET];
     
-    NSUInteger toneGroupCount;
-    struct _toneGroup toneGroups[MAXTONEGROUPS];
+    NSMutableArray *m_toneGroups;
     
     NSUInteger currentRule;
     struct _rule rules[MAXRULES];
@@ -188,6 +163,8 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
         
         m_intonationParameters = [[MMIntonationParameters alloc] init];
         
+        m_toneGroups = [[NSMutableArray alloc] init];
+        
         m_driftGenerator = [[MMDriftGenerator alloc] init];
         [m_driftGenerator configureWithDeviation:1 sampleRate:500 lowpassCutoff:1000];
         
@@ -207,6 +184,8 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
     [events release];
     [intonationPoints release];
+    [m_intonationParameters release];
+    [m_toneGroups release];
     [delegate release];
 
     [super dealloc];
@@ -302,14 +281,13 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     footCount = 0;
     bzero(feet, MAXFEET * sizeof(struct _foot));
 
-    toneGroupCount = 0;
-    bzero(toneGroups, MAXTONEGROUPS * sizeof(struct _toneGroup));
-
     currentRule = 0;
     bzero(rules, MAXRULES * sizeof(struct _rule));
 
     phoneTempo[0] = 1.0;
     feet[0].tempo = 1.0;
+    
+    [self.toneGroups removeAllObjects];
 }
 
 - (void)setFullTimeScale;
@@ -374,18 +352,27 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
 #pragma mark - Tone groups
 
+@synthesize toneGroups = m_toneGroups;
+
+- (MMToneGroup *)currentToneGroup;
+{
+    return [self.toneGroups lastObject];
+}
+
 // This is horribly ugly and is going to be full of bugs :(
 // It would be easier if we just didn't allow the trailing // that produces an empty tone group.
 - (void)endCurrentToneGroup;
 {
-    if (toneGroupCount > 0) {
+    MMToneGroup *toneGroup = self.currentToneGroup;
+    
+    if (toneGroup != nil) {
         if (footCount == 0) {
-            toneGroupCount--; // No feet in this tone group, so remove it.
+            [self.toneGroups removeLastObject]; // No feet in this tone group, so remove it.
         } else if (feet[footCount-1].startPhoneIndex >= postureCount) {
-            footCount--; // No posture in the foot, so remove it.
-            toneGroupCount--; // And remove the toen group too
+            footCount--;                        // No posture in the foot, so remove it.
+            [self.toneGroups removeLastObject]; // And remove the tone group too
         } else {
-            toneGroups[toneGroupCount - 1].endFootIndex = footCount - 1; // TODO (2004-08-18): What if footCount == 0
+            toneGroup.endFootIndex = footCount - 1; // TODO (2004-08-18): What if footCount == 0
             [self endCurrentFoot];
         }
     }
@@ -395,20 +382,12 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 {
     [self endCurrentToneGroup];
     [self newFoot];
+    
+    MMToneGroup *toneGroup = [[[MMToneGroup alloc] init] autorelease];
 
-    toneGroups[toneGroupCount].startFootIndex = footCount - 1;
-    toneGroups[toneGroupCount].endFootIndex = -1;
-    toneGroupCount++;
-}
-
-- (void)setCurrentToneGroupType:(MMToneGroupType)type;
-{
-    if (toneGroupCount == 0) {
-        NSLog(@"%s, no tone groups.", __PRETTY_FUNCTION__);
-        return;
-    }
-
-    toneGroups[toneGroupCount - 1].type = type;
+    toneGroup.startFootIndex = footCount - 1;
+    toneGroup.endFootIndex = -1;
+    [self.toneGroups addObject:toneGroup];
 }
 
 #pragma mark - Feet
@@ -605,7 +584,6 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 #pragma mark - Other
 
 // EventList API used:
-//  - setCurrentToneGroupType:
 //  - newFoot
 //  - setCurrentFooLast
 //  - setCurrentFootMarked
@@ -642,23 +620,23 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
             if ([scanner scanString:@"0" intoString:NULL] == YES) {
                 // Tone group 0. Statement
                 //NSLog(@"Tone group 0. Statement");
-                [self setCurrentToneGroupType:MMToneGroupType_Statement];
+                self.currentToneGroup.type = MMToneGroupType_Statement;
             } else if ([scanner scanString:@"1" intoString:NULL] == YES) {
                 // Tone group 1. Exclamation
                 //NSLog(@"Tone group 1. Exclamation");
-                [self setCurrentToneGroupType:MMToneGroupType_Exclamation];
+                self.currentToneGroup.type = MMToneGroupType_Exclamation;
             } else if ([scanner scanString:@"2" intoString:NULL] == YES) {
                 // Tone group 2. Question
                 //NSLog(@"Tone group 2. Question");
-                [self setCurrentToneGroupType:MMToneGroupType_Question];
+                self.currentToneGroup.type = MMToneGroupType_Question;
             } else if ([scanner scanString:@"3" intoString:NULL] == YES) {
                 // Tone group 3. Continuation
                 //NSLog(@"Tone group 3. Continuation");
-                [self setCurrentToneGroupType:MMToneGroupType_Continuation];
+                self.currentToneGroup.type = MMToneGroupType_Continuation;
             } else if ([scanner scanString:@"4" intoString:NULL] == YES) {
                 // Tone group 4. Semi-colon
                 //NSLog(@"Tone group 4. Semi-colon");
-                [self setCurrentToneGroupType:MMToneGroupType_Semicolon];
+                self.currentToneGroup.type = MMToneGroupType_Semicolon;
             } else if ([scanner scanString:@" " intoString:NULL] == YES || [scanner scanString:@"_" intoString:NULL] == YES) {
                 // New foot
                 //NSLog(@"New foot");
@@ -866,7 +844,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 {
     NSUInteger firstFoot, endFoot;
     NSUInteger ruleIndex, phoneIndex;
-    NSUInteger i, j;
+    NSUInteger j;
     double startTime, endTime, pretonicDelta, offsetTime = 0.0;
     double randomSemitone, randomSlope;
 
@@ -877,9 +855,9 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     [self removeAllIntonationPoints];
 //    [self addIntonationPoint:-20.0 offsetTime:0.0 slope:0.0 ruleIndex:0];
 
-    for (i = 0; i < toneGroupCount; i++) {
-        firstFoot = toneGroups[i].startFootIndex;
-        endFoot = toneGroups[i].endFootIndex;
+    for (MMToneGroup *toneGroup in self.toneGroups) {
+        firstFoot = toneGroup.startFootIndex;
+        endFoot = toneGroup.endFootIndex;
 
         startTime  = phones[feet[firstFoot].startPhoneIndex].onset;
         endTime  = phones[feet[endFoot].endPhoneIndex].onset;
@@ -1264,22 +1242,22 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"<%@>[%p]: postureCount: %lu, footCount: %lu, toneGroupCount: %lu, currentRule: %lu, + a bunch of other stuff, super: %@",
-                     NSStringFromClass([self class]), self, postureCount, footCount, toneGroupCount, currentRule, [super description]];
+                     NSStringFromClass([self class]), self, postureCount, footCount, [self.toneGroups count], currentRule, [super description]];
 }
 
 - (void)printDataStructures:(NSString *)comment;
 {
-    NSUInteger ruleIndex = 0;
+    __block NSUInteger ruleIndex = 0;
 
     NSLog(@"----------------------------------------------------------------------");
     NSLog(@" > %s (%@)", __PRETTY_FUNCTION__, comment);
 
     //NSLog(@"toneGroupCount: %d", toneGroupCount);
-    for (NSUInteger toneGroupIndex = 0; toneGroupIndex < toneGroupCount; toneGroupIndex++) {
-        NSLog(@"Tone Group %lu, type: %@", toneGroupIndex, MMToneGroupTypeName(toneGroups[toneGroupIndex].type));
+    [self.toneGroups enumerateObjectsUsingBlock:^(MMToneGroup *toneGroup, NSUInteger toneGroupIndex, BOOL *stop1){
+        NSLog(@"Tone Group %lu, type: %@", toneGroupIndex, MMToneGroupTypeName(toneGroup.type));
 
         //NSLog(@"tg (%d -- %d)", toneGroups[toneGroupIndex].startFoot, toneGroups[toneGroupIndex].endFoot);
-        for (NSUInteger footIndex = toneGroups[toneGroupIndex].startFootIndex; footIndex <= toneGroups[toneGroupIndex].endFootIndex; footIndex++) {
+        for (NSUInteger footIndex = toneGroup.startFootIndex; footIndex <= toneGroup.endFootIndex; footIndex++) {
             NSLog(@"  Foot %lu  tempo: %.3f, marked: %lu, last: %lu, onset1: %.3f, onset2: %.3f", footIndex, feet[footIndex].tempo,
                   feet[footIndex].marked, feet[footIndex].last, feet[footIndex].onset1, feet[footIndex].onset2);
 
@@ -1298,7 +1276,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
                 }
             }
         }
-    }
+    }];
 
     NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
