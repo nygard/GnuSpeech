@@ -28,14 +28,38 @@
 
 #import "TRMSynthesizer.h" // For addParameters:
 
-NSString *NSStringFromToneGroupType(NSUInteger toneGroupType)
+#define MAXPHONES	1500
+#define MAXFEET		110
+#define MAXTONEGROUPS	50
+
+#define MAXRULES	MAXPHONES-1
+
+#if 0
+#define STATEMENT	    0
+#define EXCLAMATION	    1
+#define QUESTION	    2
+#define CONTINUATION	3
+#define SEMICOLON	    4
+#endif
+
+enum {
+    MMToneGroupType_Statement    = 0,
+    MMToneGroupType_Exclamation  = 1,
+    MMToneGroupType_Question     = 2,
+    MMToneGroupType_Continuation = 3,
+    MMToneGroupType_Semicolon    = 4,
+};
+typedef NSUInteger MMToneGroupType;
+//NSString *NSStringFromToneGroupType(MMToneGroupType toneGroupType);
+
+NSString *NSStringFromToneGroupType(MMToneGroupType toneGroupType)
 {
     switch (toneGroupType) {
-        case STATEMENT:    return @"Statement";
-        case EXCLAMATION:  return @"Exclamation";
-        case QUESTION:     return @"Question";
-        case CONTINUATION: return @"Continuation";
-        case SEMICOLON:    return @"Semicolon";
+        case MMToneGroupType_Statement:    return @"Statement";
+        case MMToneGroupType_Exclamation:  return @"Exclamation";
+        case MMToneGroupType_Question:     return @"Question";
+        case MMToneGroupType_Continuation: return @"Continuation";
+        case MMToneGroupType_Semicolon:    return @"Semicolon";
     }
 
     return nil;
@@ -46,6 +70,38 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 @interface EventList ()
 @property (assign) BOOL intonationPointsNeedSorting;
 @property (nonatomic, assign) NSInteger zeroRef;
+
+// Tone groups
+- (void)endCurrentToneGroup;
+- (void)newToneGroup;
+- (void)setCurrentToneGroupType:(MMToneGroupType)type;
+
+// Feet
+- (void)endCurrentFoot;
+- (void)newFoot;
+- (void)setCurrentFootMarked;
+- (void)setCurrentFootLast;
+- (void)setCurrentFootTempo:(double)tempo;
+
+- (void)_applyRule:(MMRule *)rule withPostures:(NSArray *)somePostures andTempos:(double *)tempos phoneIndex:(NSUInteger)phoneIndex;
+- (void)setFullTimeScale;
+
+// Postures
+- (void)setCurrentPhoneTempo:(double)tempo;
+- (void)setCurrentPhoneRuleTempo:(float)tempo;
+- (void)setCurrentPhoneSyllable;
+- (NSUInteger)ruleIndexForPostureAtIndex:(NSUInteger)postureIndex;
+
+// Events
+- (Event *)eventAtTimeOffset:(double)time;
+- (void)finalEvent:(NSUInteger)number withValue:(double)value;
+
+// Intonation
+- (void)_applyFlatIntonation;
+- (void)_applySmoothIntonation;
+- (void)clearEventNumber:(NSUInteger)number;
+- (void)removeEmptyEvents;
+
 @end
 
 #pragma mark -
@@ -163,7 +219,6 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 }
 
 @synthesize delegate;
-
 @synthesize phoneString;
 
 // The zero reference is TIME.
@@ -200,14 +255,10 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 @synthesize multiplier = m_multiplier;
 @synthesize intonationParameters = m_intonationParameters;
 
-//
-//
-//
+#pragma mark -
 
 - (void)setUp;
 {
-    //NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
-
     [events removeAllObjects];
     [self removeAllIntonationPoints];
 
@@ -224,8 +275,8 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
     m_intonationParameters.notionalPitch = 0;
     m_intonationParameters.pretonicRange = 0;
-    m_intonationParameters.pretonicLift = -2;
-    m_intonationParameters.tonicRange = -8;
+    m_intonationParameters.pretonicLift  = -2;
+    m_intonationParameters.tonicRange    = -8;
     m_intonationParameters.tonicMovement = -6;
 
     self.shouldUseSmoothIntonation = NO;
@@ -245,8 +296,6 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
     phoneTempo[0] = 1.0;
     feet[0].tempo = 1.0;
-
-    //NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }
 
 - (void)setFullTimeScale;
@@ -256,9 +305,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     duration = [[events lastObject] time] + 100;
 }
 
-//
-// Rules
-//
+#pragma mark - Rules
 
 - (struct _rule *)getRuleAtIndex:(NSUInteger)ruleIndex;
 {
@@ -270,14 +317,10 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
 - (NSString *)ruleDescriptionAtIndex:(NSUInteger)ruleIndex;
 {
-    NSMutableString *str;
-    struct _rule *rule;
-    NSUInteger index;
+    struct _rule *rule = [self getRuleAtIndex:ruleIndex];
+    NSMutableString *str = [NSMutableString string];
 
-    rule = [self getRuleAtIndex:ruleIndex];
-    str = [NSMutableString string];
-
-    for (index = rule->firstPhone; index <= rule->lastPhone; index++) {
+    for (NSUInteger index = rule->firstPhone; index <= rule->lastPhone; index++) {
         [str appendString:[[self getPhoneAtIndex:index] name]];
         if (index == rule->lastPhone)
             break;
@@ -302,24 +345,17 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
 - (void)getRuleIndex:(NSUInteger *)ruleIndexPtr offsetTime:(double *)offsetTimePtr forAbsoluteTime:(double)absoluteTime;
 {
-    NSUInteger index;
-    double onset;
-
-    for (index = 0; index <= currentRule; index++) {
-        onset = phones[rules[index].firstPhone].onset;
+    for (NSUInteger index = 0; index <= currentRule; index++) {
+        double onset = phones[rules[index].firstPhone].onset;
         if (absoluteTime >= onset && absoluteTime < onset + rules[index].duration) {
-            if (ruleIndexPtr != NULL)
-                *ruleIndexPtr = index;
-            if (offsetTimePtr != NULL)
-                *offsetTimePtr = absoluteTime - rules[index].beat;
+            if (ruleIndexPtr != NULL)  *ruleIndexPtr  = index;
+            if (offsetTimePtr != NULL) *offsetTimePtr = absoluteTime - rules[index].beat;
             return;
         }
     }
 
-    if (ruleIndexPtr != NULL)
-        *ruleIndexPtr = -1;
-    if (offsetTimePtr != NULL)
-        *offsetTimePtr = 0.0;
+    if (ruleIndexPtr != NULL)  *ruleIndexPtr = -1;
+    if (offsetTimePtr != NULL) *offsetTimePtr = 0.0;
 }
 
 #pragma mark - Tone groups
@@ -351,10 +387,10 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     toneGroupCount++;
 }
 
-- (void)setCurrentToneGroupType:(NSUInteger)type;
+- (void)setCurrentToneGroupType:(MMToneGroupType)type;
 {
     if (toneGroupCount == 0) {
-        NSLog(@"%s, not tone groups.", __PRETTY_FUNCTION__);
+        NSLog(@"%s, no tone groups.", __PRETTY_FUNCTION__);
         return;
     }
 
@@ -489,7 +525,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 - (Event *)eventAtTimeOffset:(double)time;
 {
     Event *newEvent = nil;
-    NSInteger i, tempTime;
+    NSInteger i;
 
     time = time * self.multiplier;
     if (time < 0.0)
@@ -497,7 +533,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     if (time > (double)(duration + timeQuantization))
         return nil;
 
-    tempTime = zeroRef + (int)time;
+    NSInteger tempTime = zeroRef + (int)time;
     tempTime = tempTime - (tempTime % timeQuantization);
 
     // If there are no events yet, we can just add it.
@@ -534,9 +570,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 // Time relative to zeroRef
 - (Event *)insertEvent:(NSInteger)number atTimeOffset:(double)time withValue:(double)value;
 {
-    Event *event;
-
-    event = [self eventAtTimeOffset:time];
+    Event *event = [self eventAtTimeOffset:time];
     if (number >= 0) {
         if ((number >= 7) && (number <= 8))
             [event setValue:value*self.radiusMultiply atIndex:number];
@@ -549,9 +583,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
 - (void)finalEvent:(NSUInteger)number withValue:(double)value;
 {
-    Event *lastEvent;
-
-    lastEvent = [events lastObject];
+    Event *lastEvent = [events lastObject];
     [lastEvent setValue:value atIndex:number];
     [lastEvent setFlag:YES];
 }
@@ -571,27 +603,24 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 //  - setCurrentPhoneRuleTempo:
 - (void)parsePhoneString:(NSString *)str;
 {
-    MMPosture *aPhone;
     NSUInteger lastFoot = 0, markedFoot = 0;
     double footTempo = 1.0;
     double ruleTempo = 1.0;
     double aPhoneTempo = 1.0;
     double aDouble;
-    NSScanner *scanner;
     NSCharacterSet *whitespaceCharacterSet = [NSCharacterSet phoneStringWhitespaceCharacterSet];
     NSCharacterSet *defaultCharacterSet = [NSCharacterSet phoneStringIdentifierCharacterSet];
-    NSString *buffer;
     BOOL wordMarker = NO;
 
     self.phoneString = str;
     [postureRewriter resetState];
 
-    scanner = [[[NSScanner alloc] initWithString:str] autorelease];
+    NSScanner *scanner = [[[NSScanner alloc] initWithString:str] autorelease];
     [scanner setCharactersToBeSkipped:nil];
 
     while ([scanner isAtEnd] == NO) {
         [scanner scanCharactersFromSet:whitespaceCharacterSet intoString:NULL];
-        if ([scanner isAtEnd] == YES)
+        if ([scanner isAtEnd])
             break;
 
         if ([scanner scanString:@"/" intoString:NULL] == YES) {
@@ -599,23 +628,23 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
             if ([scanner scanString:@"0" intoString:NULL] == YES) {
                 // Tone group 0. Statement
                 //NSLog(@"Tone group 0. Statement");
-                [self setCurrentToneGroupType:STATEMENT];
+                [self setCurrentToneGroupType:MMToneGroupType_Statement];
             } else if ([scanner scanString:@"1" intoString:NULL] == YES) {
                 // Tone group 1. Exclamation
                 //NSLog(@"Tone group 1. Exclamation");
-                [self setCurrentToneGroupType:EXCLAMATION];
+                [self setCurrentToneGroupType:MMToneGroupType_Exclamation];
             } else if ([scanner scanString:@"2" intoString:NULL] == YES) {
                 // Tone group 2. Question
                 //NSLog(@"Tone group 2. Question");
-                [self setCurrentToneGroupType:QUESTION];
+                [self setCurrentToneGroupType:MMToneGroupType_Question];
             } else if ([scanner scanString:@"3" intoString:NULL] == YES) {
                 // Tone group 3. Continuation
                 //NSLog(@"Tone group 3. Continuation");
-                [self setCurrentToneGroupType:CONTINUATION];
+                [self setCurrentToneGroupType:MMToneGroupType_Continuation];
             } else if ([scanner scanString:@"4" intoString:NULL] == YES) {
                 // Tone group 4. Semi-colon
                 //NSLog(@"Tone group 4. Semi-colon");
-                [self setCurrentToneGroupType:SEMICOLON];
+                [self setCurrentToneGroupType:MMToneGroupType_Semicolon];
             } else if ([scanner scanString:@" " intoString:NULL] == YES || [scanner scanString:@"_" intoString:NULL] == YES) {
                 // New foot
                 //NSLog(@"New foot");
@@ -679,11 +708,12 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
             //NSLog(@"aPhoneTempo = %g", aDouble);
             aPhoneTempo = aDouble;
         } else {
+            NSString *buffer;
             if ([scanner scanCharactersFromSet:defaultCharacterSet intoString:&buffer] == YES) {
                 //NSLog(@"Scanned this: '%@'", buffer);
                 if (markedFoot)
                     buffer = [buffer stringByAppendingString:@"'"];
-                aPhone = [model postureWithName:buffer];
+                MMPosture *aPhone = [model postureWithName:buffer];
                 //NSLog(@"aPhone: %p (%@), eventList: %p", aPhone, [aPhone name], self); // Each has the same event list
                 if (aPhone) {
                     [postureRewriter rewriteEventList:self withNextPosture:aPhone wordMarker:wordMarker];

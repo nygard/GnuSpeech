@@ -5,20 +5,6 @@
 
 @class Event, MMIntonationPoint, MModel, MMPosture, MMPostureRewriter, MMRule, MMDriftGenerator;
 
-#define MAXPHONES	1500
-#define MAXFEET		110
-#define MAXTONEGROUPS	50
-
-#define MAXRULES	MAXPHONES-1
-
-#define STATEMENT	    0
-#define EXCLAMATION	    1
-#define QUESTION	    2
-#define CONTINUATION	3
-#define SEMICOLON	    4
-
-NSString *NSStringFromToneGroupType(NSUInteger toneGroupType);
-
 struct _phone {
     MMPosture *phone;
     NSUInteger syllable; // TODO (2004-08-12): This isn't used for anything right now.
@@ -79,9 +65,7 @@ extern NSString *EventListDidChangeIntonationPoints;
 
 @property (readonly) MMIntonationParameters *intonationParameters;
 
-//
 - (void)setUp;
-- (void)setFullTimeScale;
 
 // Rules
 - (struct _rule *)getRuleAtIndex:(NSUInteger)ruleIndex;
@@ -90,32 +74,14 @@ extern NSString *EventListDidChangeIntonationPoints;
 - (NSUInteger)ruleCount;
 - (void)getRuleIndex:(NSUInteger *)ruleIndexPtr offsetTime:(double *)offsetTimePtr forAbsoluteTime:(double)absoluteTime;
 
-// Tone groups
-- (void)endCurrentToneGroup;
-- (void)newToneGroup;
-- (void)setCurrentToneGroupType:(NSUInteger)type;
-
-// Feet
-- (void)endCurrentFoot;
-- (void)newFoot;
-- (void)setCurrentFootMarked;
-- (void)setCurrentFootLast;
-- (void)setCurrentFootTempo:(double)tempo;
-
 // Postures
 - (MMPosture *)getPhoneAtIndex:(NSUInteger)phoneIndex;
 - (void)newPhoneWithObject:(MMPosture *)anObject;
 - (void)replaceCurrentPhoneWith:(MMPosture *)anObject;
-- (void)setCurrentPhoneTempo:(double)tempo;
-- (void)setCurrentPhoneRuleTempo:(float)tempo;
-- (void)setCurrentPhoneSyllable;
-- (NSUInteger)ruleIndexForPostureAtIndex:(NSUInteger)postureIndex;
 
 // Events
 - (NSArray *)events;
-- (Event *)eventAtTimeOffset:(double)time;
 - (Event *)insertEvent:(NSInteger)number atTimeOffset:(double)time withValue:(double)value;
-- (void)finalEvent:(NSUInteger)number withValue:(double)value;
 
 // Other
 - (void)parsePhoneString:(NSString *)str;
@@ -124,10 +90,7 @@ extern NSString *EventListDidChangeIntonationPoints;
 - (void)generateIntonationPoints;
 - (void)generateOutput;
 
-- (void)_applyRule:(MMRule *)rule withPostures:(NSArray *)somePostures andTempos:(double *)tempos phoneIndex:(NSUInteger)phoneIndex;
-
 // Debugging
-- (NSString *)description;
 - (void)printDataStructures:(NSString *)comment;
 
 // Intonation points
@@ -139,12 +102,8 @@ extern NSString *EventListDidChangeIntonationPoints;
 
 // Intonation
 - (void)applyIntonation;
-- (void)_applyFlatIntonation;
-- (void)_applySmoothIntonation;
 
 - (void)clearIntonationEvents;
-- (void)clearEventNumber:(NSUInteger)number;
-- (void)removeEmptyEvents;
 
 - (void)intonationPointTimeDidChange:(MMIntonationPoint *)anIntonationPoint;
 - (void)intonationPointDidChange:(MMIntonationPoint *)anIntonationPoint;
