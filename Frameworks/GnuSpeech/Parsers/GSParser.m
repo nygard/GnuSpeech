@@ -8,13 +8,21 @@
 NSString *GSParserSyntaxErrorException = @"GSParserSyntaxErrorException";
 
 @implementation GSParser
+{
+    NSString *nonretained_parseString;
+    NSScanner *scanner;
+    NSString *symbolString;
+    
+    NSUInteger startOfTokenLocation;
+    NSRange errorRange;
+    NSMutableString *errorMessage;
+}
 
 - (id)init;
 {
-    if ([super init] == nil)
-        return nil;
-
-    errorMessage = [[NSMutableString alloc] init];
+    if ((self = [super init])) {
+        errorMessage = [[NSMutableString alloc] init];
+    }
 
     return self;
 }
@@ -28,19 +36,9 @@ NSString *GSParserSyntaxErrorException = @"GSParserSyntaxErrorException";
     [super dealloc];
 }
 
-- (NSString *)symbolString;
-{
-    return symbolString;
-}
+#pragma mark -
 
-- (void)setSymbolString:(NSString *)newString;
-{
-    if (newString == symbolString)
-        return;
-
-    [symbolString release];
-    symbolString = [newString retain];
-}
+@synthesize scanner, symbolString, startOfTokenLocation;
 
 - (id)parseString:(NSString *)aString;
 {
@@ -81,9 +79,7 @@ NSString *GSParserSyntaxErrorException = @"GSParserSyntaxErrorException";
     return nil;
 }
 
-//
-// Error reporting
-//
+#pragma mark - Error reporting
 
 - (NSRange)errorRange;
 {
@@ -98,7 +94,6 @@ NSString *GSParserSyntaxErrorException = @"GSParserSyntaxErrorException";
 
 - (void)appendErrorFormat:(NSString *)format, ...;
 {
-    NSString *str;
     va_list args;
 
     // TODO (2004-03-13): Probably need better control over this.  It should start at the beginning of the last token scanned.
@@ -108,7 +103,7 @@ NSString *GSParserSyntaxErrorException = @"GSParserSyntaxErrorException";
     }
 
     va_start(args, format);
-    str = [[NSString alloc] initWithFormat:format arguments:args];
+    NSString *str = [[NSString alloc] initWithFormat:format arguments:args];
     va_end(args);
 
     [errorMessage appendString:str];

@@ -4,7 +4,7 @@
 #import <Cocoa/Cocoa.h>
 #import <GnuSpeech/GnuSpeech.h> // For MMFRuleSymbols
 
-@class MonetList, MModel, MMPoint, MMSlope, MMTransition;
+@class MModel, MMPoint, MMSlope, MMTransition;
 @class TransitionView;
 
 @protocol TransitionViewNotifications
@@ -19,67 +19,28 @@ extern NSString *TransitionViewSelectionDidChangeNotification;
 
 // TODO (2004-03-22): Make this an NSControl subclass.
 @interface TransitionView : NSControl <NSTextDelegate>
-{
-    MMFRuleSymbols _parameters;
-
-    NSFont *timesFont;
-
-    MMTransition *transition;
-
-    NSMutableArray *samplePostures;
-    NSMutableArray *displayPoints;
-    NSMutableArray *displaySlopes;
-    NSMutableArray *selectedPoints;
-
-    NSPoint selectionPoint1;
-    NSPoint selectionPoint2;
-
-    MMSlope *editingSlope;
-    NSTextFieldCell *textFieldCell;
-    NSText *nonretained_fieldEditor;
-
-    NSUInteger zeroIndex;
-    NSInteger sectionAmount;
-
-    MModel *model;
-
-    struct {
-        unsigned int shouldDrawSelection:1;
-        unsigned int shouldDrawSlopes:1;
-    } flags;
-
-    id nonretained_delegate;
-}
 
 - (id)initWithFrame:(NSRect)frameRect;
-- (void)dealloc;
 
-- (NSUInteger)zeroIndex;
-- (void)setZeroIndex:(NSUInteger)newZeroIndex;
+@property (readonly) NSFont *timesFont;
+@property (nonatomic, assign) NSInteger zeroIndex;
+@property (nonatomic, assign) NSInteger sectionAmount;
+@property (readonly) NSMutableArray *samplePostures;
+@property (readonly) NSMutableArray *displayPoints;
+@property (readonly) NSMutableArray *displaySlopes;
+@property (readonly) NSMutableArray *selectedPoints;
+@property (nonatomic, readonly) MMFRuleSymbols *parameters;
 
-- (NSInteger)sectionAmount;
-- (void)setSectionAmount:(NSInteger)newSectionAmount;
-
-- (MModel *)model;
-- (void)setModel:(MModel *)newModel;
+@property (nonatomic, retain) MModel *model;
 
 - (void)_updateFromModel;
 - (void)updateTransitionType;
 
-- (double)ruleDuration;
-- (void)setRuleDuration:(double)newValue;
-
-- (double)beatLocation;
-- (void)setBeatLocation:(double)newValue;
-
-- (double)mark1;
-- (void)setMark1:(double)newValue;
-
-- (double)mark2;
-- (void)setMark2:(double)newValue;
-
-- (double)mark3;
-- (void)setMark3:(double)newValue;
+@property (nonatomic, assign) double ruleDuration;
+@property (nonatomic, assign) double beatLocation;
+@property (nonatomic, assign) double mark1;
+@property (nonatomic, assign) double mark2;
+@property (nonatomic, assign) double mark3;
 
 - (IBAction)takeRuleDurationFrom:(id)sender;
 - (IBAction)takeBeatLocationFrom:(id)sender;
@@ -87,14 +48,10 @@ extern NSString *TransitionViewSelectionDidChangeNotification;
 - (IBAction)takeMark2From:(id)sender;
 - (IBAction)takeMark3From:(id)sender;
 
-- (BOOL)shouldDrawSelection;
-- (void)setShouldDrawSelection:(BOOL)newFlag;
+@property (assign) BOOL shouldDrawSelection;
+@property (assign) BOOL shouldDrawSlopes;
 
-- (BOOL)shouldDrawSlopes;
-- (void)setShouldDrawSlopes:(BOOL)newFlag;
-
-- (id)delegate;
-- (void)setDelegate:(id)newDelegate;
+@property (assign) id delegate;
 
 // Drawing
 - (void)drawRect:(NSRect)rect;

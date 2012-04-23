@@ -6,16 +6,20 @@
 #import "MXMLParser.h"
 
 @implementation MXMLIgnoreTreeDelegate
+{
+    NSUInteger depth;
+}
 
 - (id)init;
 {
-    if ([super init] == nil)
-        return nil;
-
-    depth = 1;
+    if ((self = [super init])) {
+        depth = 1;
+    }
 
     return self;
 }
+
+#pragma mark -
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
 {

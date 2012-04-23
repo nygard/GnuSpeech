@@ -3,15 +3,19 @@
 #import "GSSuffix.h"
 
 @implementation GSSuffix
+{
+    NSString *suffix;
+    NSString *replacementString;
+    NSString *appendedPronunciation;
+}
 
 - (id)initWithSuffix:(NSString *)aSuffix replacementString:(NSString *)aReplacementString appendedPronunciation:(NSString *)anAppendedPronunciation;
 {
-    if ([super init] == nil)
-        return nil;
-
-    suffix = [aSuffix retain];
-    replacementString = [aReplacementString retain];
-    appendedPronunciation = [anAppendedPronunciation retain];
+    if ((self = [super init])) {
+        suffix = [aSuffix retain];
+        replacementString = [aReplacementString retain];
+        appendedPronunciation = [anAppendedPronunciation retain];
+    }
 
     return self;
 }
@@ -24,6 +28,16 @@
 
     [super dealloc];
 }
+
+#pragma mark - Debugging
+
+- (NSString *)description;
+{
+    return [NSString stringWithFormat:@"<%@: %p> suffix: %@, replacementString: %@, appendedPronunciation: %@",
+            NSStringFromClass([self class]), self, suffix, replacementString, appendedPronunciation];
+}
+
+#pragma mark -
 
 - (NSString *)suffix;
 {
@@ -38,12 +52,6 @@
 - (NSString *)appendedPronunciation;
 {
     return appendedPronunciation;
-}
-
-- (NSString *)description;
-{
-    return [NSString stringWithFormat:@"<%@>[%p]: suffix: %@, replacementString: %@, appendedPronunciation: %@",
-                     NSStringFromClass([self class]), self, suffix, replacementString, appendedPronunciation];
 }
 
 @end

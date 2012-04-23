@@ -3,20 +3,16 @@
 
 #import <Foundation/Foundation.h>
 
-@class MMCategory, CategoryList;
+@class MMCategory;
+
 
 @interface MMBooleanNode : NSObject
-{
-}
 
-- (BOOL)evaluateWithCategories:(CategoryList *)categories;
+- (BOOL)evaluateWithCategories:(NSArray *)categories;
 
-// General purpose routines
 - (NSString *)expressionString;
-- (void)expressionString:(NSMutableString *)resultString;
+- (void)appendExpressionToString:(NSMutableString *)resultString;
 
-- (BOOL)isCategoryUsed:(MMCategory *)aCategory;
-
-- (NSString *)description;
+- (BOOL)isCategoryUsed:(MMCategory *)category;
 
 @end

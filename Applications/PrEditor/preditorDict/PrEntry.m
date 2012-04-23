@@ -4,5 +4,11 @@
 #import "PrEntry.h"
 
 @implementation PrEntry
+{
+	NSString *phone;
+	NSString *partsOfSpeech;
+}
+
+@synthesize phone, partsOfSpeech;
 
 @end

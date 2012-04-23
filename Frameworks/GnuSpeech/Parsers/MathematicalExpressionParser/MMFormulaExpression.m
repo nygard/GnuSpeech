@@ -5,76 +5,75 @@
 
 #import "NSObject-Extensions.h"
 
-#import "MMFormulaSymbols.h"
+@interface MMFormulaExpression ()
+@property (retain) MMFormulaNode *left;
+@property (retain) MMFormulaNode *right;
+@end
+
+#pragma mark -
 
 @implementation MMFormulaExpression
+{
+    MMFormulaOperation m_operation;
+    MMFormulaNode *m_left;
+    MMFormulaNode *m_right;
+}
 
 - (id)init;
 {
     if ([super init] == nil)
         return nil;
 
-    operation = TK_F_END;
-    left = nil;
-    right = nil;
+    m_operation = MMFormulaOperation_None;
+    m_left = nil;
+    m_right = nil;
 
     return self;
 }
 
 - (void)dealloc;
 {
-    [left release];
-    [right release];
+    [m_left release];
+    [m_right release];
 
     [super dealloc];
 }
 
-- (NSUInteger)operation;
-{
-    return operation;
-}
+#pragma mark -
 
-- (void)setOperation:(NSUInteger)newOp;
-{
-    operation = newOp;
-}
+@synthesize operation = m_operation;
+@synthesize left = m_left;
+@synthesize right = m_right;
 
 - (id)operandOne;
 {
-    return left;
+    return self.left;
 }
 
 - (void)setOperandOne:(id)operand;
 {
-    if (operand == left)
-        return;
-
-    [left release];
-    left = [operand retain];
+    self.left = operand;
 }
 
 - (id)operandTwo;
 {
-    return right;
+    return self.right;
 }
 
 - (void)setOperandTwo:(id)operand;
 {
-    if (operand == right)
-        return;
-
-    [right release];right = [operand retain];
+    self.right = operand;
 }
 
-- (NSString *)opString;
+- (NSString *)operationString;
 {
-    switch (operation) {
-      default:
-      case TK_F_END: return @"";
-      case TK_F_ADD: return @" + ";
-      case TK_F_SUB: return @" - ";
-      case TK_F_MULT: return @" * ";
-      case TK_F_DIV: return @" / ";
+    switch (self.operation) {
+        default:
+        case MMFormulaOperation_None:     return @"";
+        case MMFormulaOperation_Add:      return @" + ";
+        case MMFormulaOperation_Subtract: return @" - ";
+        case MMFormulaOperation_Multiply: return @" * ";
+        case MMFormulaOperation_Divide:   return @" / ";
     }
 
     return @"";
@@ -86,13 +85,13 @@
 
 - (NSUInteger)precedence;
 {
-    switch (operation) {
-      case TK_F_ADD:
-      case TK_F_SUB:
+    switch (self.operation) {
+      case MMFormulaOperation_Add:
+      case MMFormulaOperation_Subtract:
           return 1;
 
-      case TK_F_MULT:
-      case TK_F_DIV:
+      case MMFormulaOperation_Multiply:
+      case MMFormulaOperation_Divide:
           return 2;
     }
 
@@ -101,21 +100,21 @@
 
 - (double)evaluate:(MMFRuleSymbols *)ruleSymbols postures:(NSArray *)postures tempos:(double *)tempos;
 {
-    switch (operation) {
-      case TK_F_ADD:
-          return [left evaluate:ruleSymbols postures:postures tempos:tempos] + [right evaluate:ruleSymbols postures:postures tempos:tempos];
+    switch (self.operation) {
+      case MMFormulaOperation_Add:
+          return [self.left evaluate:ruleSymbols postures:postures tempos:tempos] + [self.right evaluate:ruleSymbols postures:postures tempos:tempos];
           break;
 
-      case TK_F_SUB:
-          return [left evaluate:ruleSymbols postures:postures tempos:tempos] - [right evaluate:ruleSymbols postures:postures tempos:tempos];
+      case MMFormulaOperation_Subtract:
+          return [self.left evaluate:ruleSymbols postures:postures tempos:tempos] - [self.right evaluate:ruleSymbols postures:postures tempos:tempos];
           break;
 
-      case TK_F_MULT:
-          return [left evaluate:ruleSymbols postures:postures tempos:tempos] * [right evaluate:ruleSymbols postures:postures tempos:tempos];
+      case MMFormulaOperation_Multiply:
+          return [self.left evaluate:ruleSymbols postures:postures tempos:tempos] * [self.right evaluate:ruleSymbols postures:postures tempos:tempos];
           break;
 
-      case TK_F_DIV:
-          return [left evaluate:ruleSymbols postures:postures tempos:tempos] / [right evaluate:ruleSymbols postures:postures tempos:tempos];
+      case MMFormulaOperation_Divide:
+          return [self.left evaluate:ruleSymbols postures:postures tempos:tempos] / [self.right evaluate:ruleSymbols postures:postures tempos:tempos];
           break;
 
       default:
@@ -130,41 +129,40 @@
     NSUInteger max = 0;
     NSUInteger temp;
 
-    temp = [left maxPhone];
+    temp = self.left.maxPhone;
     if (temp > max)
         max = temp;
 
-    temp = [right maxPhone];
+    temp = self.right.maxPhone;
     if (temp > max)
         max = temp;
 
     return max + 1;
 }
 
-- (void)expressionString:(NSMutableString *)resultString;
+- (void)appendExpressionToString:(NSMutableString *)resultString;
 {
-    NSString *opString;
-    BOOL shouldParenthesize;
+    BOOL shouldParenthesize = self.left.precedence < self.precedence;
 
-    opString = [self opString];
-
-    shouldParenthesize = [left precedence] < [self precedence];
-
-    if (shouldParenthesize)
+    if (shouldParenthesize) {
         [resultString appendString:@"("];
-    [left expressionString:resultString];
-    if (shouldParenthesize)
+        [self.left appendExpressionToString:resultString];
         [resultString appendString:@")"];
+    } else {
+        [self.left appendExpressionToString:resultString];
+    }
 
-    [resultString appendString:opString];
+    [resultString appendString:self.operationString];
 
-    shouldParenthesize = [right precedence] < [self precedence];
+    shouldParenthesize = self.right.precedence < self.precedence;
 
-    if (shouldParenthesize)
+    if (shouldParenthesize) {
         [resultString appendString:@"("];
-    [right expressionString:resultString];
-    if (shouldParenthesize)
+        [self.right appendExpressionToString:resultString];
         [resultString appendString:@")"];
+    } else {
+        [self.right appendExpressionToString:resultString];
+    }
 }
 
 @end

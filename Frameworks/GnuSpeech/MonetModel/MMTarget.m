@@ -10,48 +10,41 @@
 #import "MXMLParser.h"
 
 @implementation MMTarget
+{
+    BOOL isDefault;
+    double value;
+}
 
 - (id)init;
 {
-    if ([super init] == nil)
-        return nil;
-
-    isDefault = YES;
-    value = 0.0;
+    if ((self = [super init])) {
+        isDefault = YES;
+        value = 0.0;
+    }
 
     return self;
 }
 
 - (id)initWithValue:(double)newValue isDefault:(BOOL)shouldBeDefault;
 {
-    if ([self init] == nil)
-        return nil;
-
-    [self setValue:newValue];
-    [self setIsDefault:shouldBeDefault];
+    if ((self = [self init])) {
+        [self setValue:newValue];
+        [self setIsDefault:shouldBeDefault];
+    }
 
     return self;
 }
 
-- (double)value;
+#pragma mark - Debugging
+
+- (NSString *)description;
 {
-    return value;
+    return [NSString stringWithFormat:@"<%@: %p> isDefault: %d, value: %g", NSStringFromClass([self class]), self, isDefault, value];
 }
 
-- (void)setValue:(double)newValue;
-{
-    value = newValue;
-}
+#pragma mark -
 
-- (BOOL)isDefault;
-{
-    return isDefault;
-}
-
-- (void)setIsDefault:(BOOL)newFlag;
-{
-    isDefault = newFlag;
-}
+@synthesize value, isDefault;
 
 - (void)setValue:(double)newValue isDefault:(BOOL)shouldBeDefault;
 {
@@ -67,33 +60,6 @@
     }
 }
 
-//
-// Archiving
-//
-
-- (id)initWithCoder:(NSCoder *)aDecoder;
-{
-    NSUInteger defaultInt;
-
-    if ([super initWithCoder:aDecoder] == nil)
-        return nil;
-
-    //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
-    /*NSInteger archivedVersion =*/ [aDecoder versionForClassName:NSStringFromClass([self class])];
-    //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
-
-    [aDecoder decodeValuesOfObjCTypes:"id", &defaultInt, &value];
-    isDefault = defaultInt;
-
-    //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
-    return self;
-}
-
-- (NSString *)description;
-{
-    return [NSString stringWithFormat:@"<%@>[%p]: isDefault: %d, value: %g", NSStringFromClass([self class]), self, isDefault, value];
-}
-
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     [resultString indentToLevel:level];
@@ -105,27 +71,27 @@
 
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 {
-    NSString *str;
-
-    if ([self init] == nil)
-        return nil;
-
-    str = [attributes objectForKey:@"value"];
-    if (str != nil)
-        [self setValue:[str doubleValue]];
+    if ((self = [self init])) {
+        NSString *str = [attributes objectForKey:@"value"];
+        if (str != nil)
+            [self setValue:[str doubleValue]];
+    }
 
     return self;
 }
 
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)anElementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
 {
-    NSLog(@"%@: skipping element: %@", NSStringFromClass([self class]), anElementName);
+    NSLog(@"%@: skipping element: %@", NSStringFromClass([self class]), elementName);
     [(MXMLParser *)parser skipTree];
 }
 
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)anElementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
+- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 {
-    [(MXMLParser *)parser popDelegate];
+    if ([elementName isEqualToString:@"target"])
+        [(MXMLParser *)parser popDelegate];
+    else
+        [NSException raise:@"Unknown close tag" format:@"Unknown closing tag (%@) in %@", elementName, NSStringFromClass([self class])];
 }
 
 @end

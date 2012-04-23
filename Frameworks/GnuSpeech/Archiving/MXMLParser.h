@@ -9,16 +9,10 @@
 @end
 
 @interface MXMLParser : NSXMLParser
-{
-    NSMutableArray *delegateStack;
-    id context;
-}
 
 - (id)initWithData:(NSData *)data;
-- (void)dealloc;
 
-- (id)context;
-- (void)setContext:(id)newContext;
+@property (retain) id context;
 
 - (void)pushDelegate:(id)newDelegate;
 - (void)popDelegate;

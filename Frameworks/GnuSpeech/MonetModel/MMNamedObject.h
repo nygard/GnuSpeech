@@ -4,19 +4,10 @@
 #import "MMObject.h"
 
 @interface MMNamedObject : MMObject
-{
-    NSString *name;
-    NSString *comment;
-}
 
-- (void)dealloc;
-
-- (NSString *)name;
-- (void)setName:(NSString *)newName;
-
-- (NSString *)comment;
-- (void)setComment:(NSString *)newComment;
-- (BOOL)hasComment;
+@property (retain) NSString *name;
+@property (retain) NSString *comment;
+@property (nonatomic, readonly) BOOL hasComment;
 
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;

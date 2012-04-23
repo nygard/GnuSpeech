@@ -6,13 +6,13 @@
 #import <GnuSpeech/GnuSpeech.h>
 
 @implementation MSpecialTransitionEditor
+{
+}
 
-- (id)initWithModel:(MModel *)aModel;
+- (id)init;
 {
     if ([super initWithWindowNibName:@"SpecialTransitionEditor"] == nil)
         return nil;
-
-    model = [aModel retain];
 
     [self setWindowFrameAutosaveName:@"Special Transition Editor"];
 

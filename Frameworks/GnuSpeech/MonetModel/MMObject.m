@@ -4,16 +4,11 @@
 #import "MMObject.h"
 
 @implementation MMObject
-
-- (MModel *)model;
 {
-    return nonretained_model;
+    __weak MModel *nonretained_model;
 }
 
-- (void)setModel:(MModel *)newModel;
-{
-    nonretained_model = newModel;
-}
+@synthesize model = nonretained_model;
 
 - (NSUndoManager *)undoManager;
 {

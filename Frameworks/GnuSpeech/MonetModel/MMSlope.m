@@ -10,64 +10,32 @@
 #import "MXMLParser.h"
 
 @implementation MMSlope
+{
+    double slope;
+    double displayTime;
+}
 
 - (id)init;
 {
-    if ([super init] == nil)
-        return nil;
-
-    slope = 0.0;
-    displayTime = 0;
+    if ((self = [super init])) {
+        slope = 0.0;
+        displayTime = 0;
+    }
 
     return self;
 }
 
-- (double)slope;
-{
-    return slope;
-}
-
-- (void)setSlope:(double)newSlope;
-{
-    slope = newSlope;
-}
-
-- (double)displayTime;
-{
-    return displayTime;
-}
-
-- (void)setDisplayTime:(double)newTime;
-{
-    displayTime = newTime;
-}
-
-//
-// Archiving
-//
-
-- (id)initWithCoder:(NSCoder *)aDecoder;
-{
-    if ([super initWithCoder:aDecoder] == nil)
-        return nil;
-
-    //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
-    /*NSInteger archivedVersion =*/ [aDecoder versionForClassName:NSStringFromClass([self class])];
-    //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
-
-    [aDecoder decodeValueOfObjCType:@encode(double) at:&slope];
-    //NSLog(@"slope: %g", slope);
-    displayTime = 0;
-
-    //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
-    return self;
-}
+#pragma mark - Debugging
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@>[%p]: slope: %g, displayTime: %g",
+    return [NSString stringWithFormat:@"<%@: %p> slope: %g, displayTime: %g",
                      NSStringFromClass([self class]), self, slope, displayTime];
 }
+
+#pragma mark -
+
+@synthesize slope, displayTime;
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
@@ -77,18 +45,15 @@
 
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 {
-    NSString *str;
-
-    if ([self init] == nil)
-        return nil;
-
-    str = [attributes objectForKey:@"slope"];
-    if (str != nil)
-        [self setSlope:[str doubleValue]];
-
-    str = [attributes objectForKey:@"display-time"];
-    if (str == nil)
-        [self setDisplayTime:[str doubleValue]];
+    if ((self = [self init])) {
+        NSString *str = [attributes objectForKey:@"slope"];
+        if (str != nil)
+            [self setSlope:[str doubleValue]];
+        
+        str = [attributes objectForKey:@"display-time"];
+        if (str == nil)
+            [self setDisplayTime:[str doubleValue]];
+    }
 
     return self;
 }
@@ -101,7 +66,10 @@
 
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 {
-    [(MXMLParser *)parser popDelegate];
+    if ([elementName isEqualToString:@"slope"])
+        [(MXMLParser *)parser popDelegate];
+    else
+        [NSException raise:@"Unknown close tag" format:@"Unknown closing tag (%@) in %@", elementName, NSStringFromClass([self class])];
 }
 
 @end

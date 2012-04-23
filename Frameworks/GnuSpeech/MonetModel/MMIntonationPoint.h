@@ -8,38 +8,18 @@
 // TODO (2004-08-09): absoluteTime is derived from offsetTime and beatTime.  And beatTime is derived from ruleIndex and eventList.
 
 @interface MMIntonationPoint : NSObject
-{
-    EventList *nonretained_eventList;
 
-    double semitone; // Value of the point in semitones
-    double offsetTime; // Points are timed wrt a beat + this offset
-    double slope;  // Slope of point
+@property (weak) EventList *eventList;
+@property (nonatomic, assign) double semitone;
+@property (nonatomic, assign) double offsetTime;
+@property (nonatomic, assign) double slope;
 
-    NSUInteger ruleIndex; // Index of the rule for the phone which is the focus of this point
-}
+@property (nonatomic, assign) NSInteger ruleIndex;
 
-- (id)init;
+@property (nonatomic, readonly) double absoluteTime;
+@property (nonatomic, readonly) double beatTime;
 
-- (EventList *)eventList;
-- (void)setEventList:(EventList *)newEventList;
-
-- (double)semitone;
-- (void)setSemitone:(double)newSemitone;
-
-- (double)offsetTime;
-- (void)setOffsetTime:(double)newOffsetTime;
-
-- (double)slope;
-- (void)setSlope:(double)newSlope;
-
-- (NSInteger)ruleIndex;
-- (void)setRuleIndex:(NSInteger)newRuleIndex;
-
-- (double)absoluteTime;
-- (double)beatTime;
-
-- (double)semitoneInHertz;
-- (void)setSemitoneInHertz:(double)newHertzValue;
+@property (nonatomic, assign) double semitoneInHertz;
 
 - (void)incrementSemitone;
 - (void)decrementSemitone;
@@ -54,8 +34,5 @@
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
-
-// Debugging
-- (NSString *)description;
 
 @end

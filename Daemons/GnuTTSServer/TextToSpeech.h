@@ -6,10 +6,6 @@
 @class MMTextToPhone, PhoneToSpeech;
 
 @interface TextToSpeech : NSObject
-{
-	MMTextToPhone *textToPhone;
-	PhoneToSpeech *phoneToSpeech;
-}
 
 - (id)init;
 - (void)dealloc;

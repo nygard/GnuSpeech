@@ -25,6 +25,62 @@
 #define MDK_IntonationContourDirectory @"IntonationContourDirectory"
 
 @implementation MSynthesisController
+{
+    // Synthesis window
+	IBOutlet NSComboBox *textStringTextField;
+	IBOutlet NSTextView *phoneStringTextView;
+    IBOutlet NSTableView *parameterTableView;
+    IBOutlet EventListView *eventListView;
+	IBOutlet NSScrollView *scrollView;  // db
+    IBOutlet NSButton *parametersStore;
+	
+	IBOutlet NSTextField *mouseTimeField;  // db
+    IBOutlet NSTextField *mouseValueField;  // db
+	
+    // Save panel accessory view
+    IBOutlet NSView *savePanelAccessoryView;
+    IBOutlet NSPopUpButton *fileTypePopUpButton;
+	
+    // Intonation parameter window
+    IBOutlet NSWindow *intonationParameterWindow;
+	
+    IBOutlet NSTextField *tempoField;
+    IBOutlet NSForm *intonParmsField;
+    IBOutlet NSTextField *radiusMultiplyField;
+	
+    IBOutlet NSMatrix *intonationMatrix;
+    IBOutlet NSTextField *driftDeviationField;
+    IBOutlet NSTextField *driftCutoffField;
+    IBOutlet NSButton *smoothIntonationSwitch;
+	
+    // Intonation window
+    IBOutlet NSWindow *intonationWindow;
+    IBOutlet MAIntonationScrollView *intonationView;
+	
+    IBOutlet NSTextField *semitoneTextField;
+    IBOutlet NSTextField *hertzTextField;
+    IBOutlet NSTextField *slopeTextField;
+	
+    IBOutlet NSTableView *intonationRuleTableView;
+    IBOutlet NSTextField *beatTextField;
+    IBOutlet NSTextField *beatOffsetTextField;
+    IBOutlet NSTextField *absTimeTextField;
+	
+    NSPrintInfo *intonationPrintInfo;
+	
+    struct _intonationParameters intonationParameters;
+	
+    MModel *model;
+    NSMutableArray *displayParameters;
+    EventList *eventList;
+	
+    TRMSynthesizer *synthesizer;
+	
+	MMTextToPhone * textToPhone;
+	
+    // Event Table stuff
+    IBOutlet NSTableView *eventTableView;
+}
 
 + (void)initialize;
 {
@@ -102,6 +158,8 @@
 	
     [super dealloc];
 }
+
+#pragma mark -
 
 - (MModel *)model;
 {
@@ -483,8 +541,8 @@
     [eventList setShouldUseMacroIntonation:[defaults boolForKey:MDK_ShouldUseMacroIntonation]];
     [eventList setShouldUseMicroIntonation:[defaults boolForKey:MDK_ShouldUseMicroIntonation]];
     [eventList setShouldUseDrift:[defaults boolForKey:MDK_ShouldUseDrift]];
-    setDriftGenerator([driftDeviationField floatValue], 500, [driftCutoffField floatValue]);
-    //setDriftGenerator(0.5, 250, 0.5);
+    [eventList.driftGenerator configureWithDeviation:[driftDeviationField floatValue] sampleRate:500 lowpassCutoff:[driftCutoffField floatValue]];
+    //[eventList.driftGenerator setupWithDeviation:0.5 sampleRate:250 lowpassCutoff:0.5];
 	
     [eventList setRadiusMultiply:[radiusMultiplyField doubleValue]];
 	
@@ -672,9 +730,7 @@
     [[NSUserDefaults standardUserDefaults] setObject:[textStringTextField objectValues] forKey:MDK_DefaultUtterances];
 }
 
-//
-// Intonation Point details
-//
+#pragma mark - Intonation Point details
 
 - (MMIntonationPoint *)selectedIntonationPoint;
 {
@@ -782,9 +838,7 @@
     [self _updateSelectedPointDetails];
 }
 
-//
-// NSTableView data source
-//
+#pragma mark - NSTableView data source
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView;
 {
@@ -878,9 +932,7 @@
     }
 }
 
-//
-// MExtendedTableView delegate
-//
+#pragma mark - MExtendedTableView delegate
 
 - (BOOL)control:(NSControl *)aControl shouldProcessCharacters:(NSString *)characters;
 {
@@ -910,18 +962,15 @@
     return YES;
 }
 
-//
-// MAIntonationView delegate
-//
+#pragma mark - MAIntonationView delegate
 
 - (void)intonationViewSelectionDidChange:(NSNotification *)aNotification;
 {
     [self _updateSelectedPointDetails];
 }
 
-//
-// NSComboBox delegate
-//
+#pragma mark - NSComboBox delegate
+
 - (void)controlTextDidChange:(NSNotification *)aNotification;
 {
 	[textStringTextField setTextColor:[NSColor blackColor]];	
@@ -932,9 +981,8 @@
 {
 }		
 		
-//
-// NSTextView delegate
-//
+#pragma mark - NSTextView delegate
+
 - (void)textDidChange:(NSNotification *)aNotification;
 {
 	NSString * phoneString = [phoneStringTextView string];
@@ -946,9 +994,7 @@
 	[textStringTextField setTextColor:[NSColor redColor]];
 }
 
-//
-// Intonation Parameters
-//
+#pragma mark - Intonation Parameters
 
 - (IBAction)updateSmoothIntonation:(id)sender;
 {

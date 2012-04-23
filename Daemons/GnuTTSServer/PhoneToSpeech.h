@@ -6,12 +6,6 @@
 #import <GnuSpeech/GnuSpeech.h>  // for struct _intonationParameters
 
 @interface PhoneToSpeech : NSObject
-{
-	MModel *model;
-    EventList *eventList;	
-	TRMSynthesizer *synthesizer;
-	struct _intonationParameters intonationParameters;
-}
 
 - (id)init;
 - (void)dealloc;

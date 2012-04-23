@@ -3,71 +3,60 @@
 
 #import "Event.h"
 
+#define MAX_VALUES 36
+
 @implementation Event
+{
+    NSUInteger m_time;
+    BOOL m_flag;
+    double m_value[MAX_VALUES];
+}
 
 - (id)init;
 {
-    // TODO (2004-08-15): Reject unused method
-    NSLog(@"%s should not be called", __PRETTY_FUNCTION__);
-    return nil;
-}
+    if ((self = [super init])) {
+        m_time = 0;
+        m_flag = NO;
 
-- (id)initWithTime:(NSUInteger)aTime;
-{
-    NSUInteger index;
-
-    if ([super init] == nil)
-        return nil;
-
-    time = aTime;
-    flag = NO;
-
-    for (index = 0; index < MAX_EVENTS; index++)
-        events[index] = NaN;
+        for (NSUInteger index = 0; index < MAX_VALUES; index++)
+            m_value[index] = NaN;
+    }
+    
+    //NSLog(@"%@", self);
 
     return self;
 }
 
-- (NSUInteger)time;
-{
-    return time;
-}
-
-- (BOOL)flag;
-{
-    return flag;
-}
-
-- (void)setFlag:(BOOL)newFlag;
-{
-    flag = newFlag;
-}
-
-- (double)getValueAtIndex:(NSUInteger)index;
-{
-    assert(index >= 0 && index < MAX_EVENTS);
-    return events[index];
-}
-
-- (void)setValue:(double)newValue ofIndex:(NSUInteger)index;
-{
-    if (index >= MAX_EVENTS)
-        return;
-
-    events[index] = newValue;
-}
+#pragma mark - Debugging
 
 - (NSString *)description;
 {
-    //return [NSString stringWithFormat:@"<%@>[%p]: time: %d, flag: %d, events: (%g %g %g %g %g %g) (%g %g %g %g %g %g) (%g %g %g %g %g %g) (%g %g %g %g %g %g) (%g %g %g %g %g %g) (%g %g %g %g %g %g)",
-    return [NSString stringWithFormat:@"<%@>[%p]: time: %lu, flag: %d, events: (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g) (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g) (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g) (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g) (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g) (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g)",
-                     NSStringFromClass([self class]), self, time, flag,
-                     events[0], events[1], events[2], events[3], events[4], events[5],
-                     events[6], events[7], events[8], events[9], events[10], events[11],
-                     events[12], events[13], events[14], events[15], events[16], events[17],
-                     events[18], events[19], events[20], events[21], events[22], events[23],
-                     events[24], events[25], events[26], events[27], events[28], events[29],
-                     events[30], events[31], events[32], events[33], events[34], events[35]];
+    return [NSString stringWithFormat:@"<%@: %p> time: %lu, flag: %d, values: (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g) (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g) (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g) (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g) (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g) (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g)",
+            NSStringFromClass([self class]), self,
+            self.time, self.flag,
+            m_value[0], m_value[1], m_value[2], m_value[3], m_value[4], m_value[5],
+            m_value[6], m_value[7], m_value[8], m_value[9], m_value[10], m_value[11],
+            m_value[12], m_value[13], m_value[14], m_value[15], m_value[16], m_value[17],
+            m_value[18], m_value[19], m_value[20], m_value[21], m_value[22], m_value[23],
+            m_value[24], m_value[25], m_value[26], m_value[27], m_value[28], m_value[29],
+            m_value[30], m_value[31], m_value[32], m_value[33], m_value[34], m_value[35]];
+}
+
+#pragma mark -
+
+@synthesize time = m_time;
+@synthesize flag = m_flag;
+
+- (double)getValueAtIndex:(NSUInteger)index;
+{
+    NSParameterAssert(index < MAX_VALUES);
+    return m_value[index];
+}
+
+- (void)setValue:(double)value atIndex:(NSUInteger)index;
+{
+    NSParameterAssert(index < MAX_VALUES);
+    m_value[index] = value;
 }
 
 @end

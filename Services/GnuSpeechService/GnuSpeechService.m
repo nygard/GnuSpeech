@@ -5,6 +5,9 @@
 #import <GnuSpeech/GnuSpeechServerProtocol.h>
 
 @implementation GnuSpeechService
+{
+	id ttsServerProxy;
+}
 
 //**********************************************************************************************************************
 // Service initialization methods.

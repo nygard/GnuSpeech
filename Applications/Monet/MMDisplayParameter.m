@@ -6,81 +6,58 @@
 #import <GnuSpeech/GnuSpeech.h>
 
 @implementation MMDisplayParameter
+{
+    MMParameter *m_parameter;
+    BOOL m_isSpecial;
+    NSUInteger m_tag;
+    BOOL m_shouldDisplay;
+}
 
 - (id)initWithParameter:(MMParameter *)aParameter;
 {
-    if ([super init] == nil)
-        return nil;
-
-    parameter = [aParameter retain];
-    isSpecial = NO;
-    tag = 0;
+    if ((self = [super init])) {
+        m_parameter = [aParameter retain];
+        m_isSpecial = NO;
+        m_tag = 0;
+    }
 
     return self;
 }
 
 - (void)dealloc;
 {
-    [parameter release];
+    [m_parameter release];
 
     [super dealloc];
 }
 
-- (MMParameter *)parameter;
-{
-    return parameter;
-}
+#pragma mark -
 
-- (BOOL)isSpecial;
-{
-    return isSpecial;
-}
-
-- (void)setIsSpecial:(BOOL)newFlag;
-{
-    isSpecial = newFlag;
-}
-
-- (NSUInteger)tag;
-{
-    return tag;
-}
-
-- (void)setTag:(NSUInteger)newTag;
-{
-    tag = newTag;
-}
-
-- (BOOL)shouldDisplay;
-{
-    return shouldDisplay;
-}
-
-- (void)setShouldDisplay:(BOOL)newFlag;
-{
-    shouldDisplay = newFlag;
-}
+@synthesize parameter = m_parameter;
+@synthesize isSpecial = m_isSpecial;
+@synthesize tag = m_tag;
+@synthesize shouldDisplay = m_shouldDisplay;
 
 - (void)toggleShouldDisplay;
 {
-    shouldDisplay = !shouldDisplay;
+    self.shouldDisplay = !self.shouldDisplay;
 }
 
 - (NSString *)name;
 {
-    if (isSpecial == YES)
-        return [NSString stringWithFormat:@"%@ (special)", [parameter name]];
+    if (self.isSpecial)
+        return [NSString stringWithFormat:@"%@ (special)", self.parameter.name];
 
-    return [parameter name];
+    return self.parameter.name;
 }
 
 // Used in the EventList view
 - (NSString *)label;
 {
-    if (isSpecial == YES)
-        return [NSString stringWithFormat:@"%@\n(special)", [parameter name]];
+    if (self.isSpecial)
+        return [NSString stringWithFormat:@"%@\n(special)", self.parameter.name];
 
-    return [parameter name];
+    return self.parameter.name;
 }
 
 @end

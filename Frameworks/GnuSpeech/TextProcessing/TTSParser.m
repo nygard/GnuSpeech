@@ -12,25 +12,30 @@
 static NSDictionary * specialAcronyms;  // static class variable
 
 @implementation TTSParser
+{
+    GSPronunciationDictionary *mainDictionary;
+	GSPronunciationDictionary *userDictionary;
+	GSPronunciationDictionary *appDictionary;
+}
 
 + (void)initialize;
 {
-	NSString * path = [[NSBundle bundleForClass:[self class]] pathForResource:@"SpecialAcronyms" ofType:@"plist"];
-    NSLog(@"path: %@", path);
+	NSString *path = [[NSBundle bundleForClass:[self class]] pathForResource:@"SpecialAcronyms" ofType:@"plist"];
+    //NSLog(@"path: %@", path);
 	
     specialAcronyms = [[NSDictionary alloc] initWithContentsOfFile:path];
-    NSLog(@"specialAcronyms: %@", [specialAcronyms description]);	
+    //NSLog(@"specialAcronyms: %@", [specialAcronyms description]);
 }
 
 - (id)initWithPronunciationDictionary:(GSPronunciationDictionary *)aDictionary;
 {
-    [super init];
+    if ((self = [super init])) {
+        userDictionary = [aDictionary retain];
+        appDictionary = [aDictionary retain];
+        mainDictionary = [aDictionary retain];	
 	
-	userDictionary = [aDictionary retain];
-	appDictionary = [aDictionary retain];
-    mainDictionary = [aDictionary retain];	
-	
-    //[mainDictionary loadDictionary];
+        //[mainDictionary loadDictionary];
+    }
 
     return self;
 }
@@ -43,6 +48,8 @@ static NSDictionary * specialAcronyms;  // static class variable
 		
     [super dealloc];
 }
+
+#pragma mark -
 
 - (NSString *)parseString:(NSString *)aString;
 {
@@ -67,8 +74,8 @@ static NSDictionary * specialAcronyms;  // static class variable
 	// In this case NULL is returned. We need to check for this, and then perform lossy conversion
 	// if required.
 	
-	const char * input;
-	const char * output;
+	const char *input;
+	const char *output;
 	
 	if ([aString canBeConvertedToEncoding:NSASCIIStringEncoding]) {
 		
@@ -91,7 +98,7 @@ static NSDictionary * specialAcronyms;  // static class variable
 	
 	NSLog(@"output: %s", output);
 	
-    NSString * resultString = [NSString stringWithCString:output encoding:NSASCIIStringEncoding];	
+    NSString *resultString = [NSString stringWithCString:output encoding:NSASCIIStringEncoding];	
 
     NSLog(@"< %s", __PRETTY_FUNCTION__);
 

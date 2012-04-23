@@ -1,16 +1,19 @@
 //  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
-#import <Foundation/Foundation.h>
+#import "MMNamedObject.h"
 
-@interface MMSlope : NSObject
+@class MMGroupedObject;
 
-@property (assign) double slope;
-@property (assign) double displayTime;
+@interface MMGroup : MMNamedObject
 
-- (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
+@property (nonatomic, readonly) NSArray *objects;
 
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
+// These set the group (if possible) on objects added to the list
+- (void)addObject:(MMGroupedObject *)object;
+
+- (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(NSUInteger)level;
+
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 

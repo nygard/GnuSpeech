@@ -6,14 +6,8 @@
 @class MModel;
 
 @interface MDocument : NSObject
-{
-    MModel *model;
-}
 
-- (void)dealloc;
-
-- (MModel *)model;
-- (void)setModel:(MModel *)newModel;
+@property (retain) MModel *model;
 
 - (BOOL)loadFromXMLFile:(NSString *)filename;
 

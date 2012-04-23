@@ -8,10 +8,6 @@
 @class TextToSpeech;
 
 @interface GnuSpeechServer : NSObject <GnuSpeechServerProtocol>
-{
-	NSConnection *connection;
-	TextToSpeech *textToSpeech;
-}
 
 /* Internal methods. */
 - (int)restartServer;

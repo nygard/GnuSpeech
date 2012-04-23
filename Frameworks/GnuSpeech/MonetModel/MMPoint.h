@@ -6,49 +6,28 @@
 #import "GSXMLFunctions.h" // For MMPhoneType
 #import "MMFRuleSymbols.h"
 
-@class EventList, MonetList, MMEquation;
+@class EventList, MMEquation;
 
 @interface MMPoint : NSObject
-{
-    double value;  /* Value of the point */
-    double freeTime; /* Free Floating time */
-    MMEquation *timeEquation; /* Time of the point */
-    MMPhoneType type;  /* Which phone it is targeting */
-    BOOL isPhantom; /* Phantom point for place marking purposes only */
-}
 
-- (id)init;
-- (void)dealloc;
-
-- (double)value;
-- (void)setValue:(double)newValue;
+@property (assign) double value;
 
 - (double)multiplyValueByFactor:(double)factor;
 - (double)addValue:(double)newValue;
 
-- (MMEquation *)timeEquation;
-- (void)setTimeEquation:(MMEquation *)newTimeEquation;
-
-- (double)freeTime;
-- (void)setFreeTime:(double)newTime;
+@property (retain) MMEquation *timeEquation;
+@property (assign) double freeTime;
 
 - (double)cachedTime;
 
-- (NSUInteger)type;
-- (void)setType:(NSUInteger)newType;
-
-- (BOOL)isPhantom;
-- (void)setIsPhantom:(BOOL)newFlag;
+@property (assign) NSUInteger type;
+@property (assign) BOOL isPhantom;
 
 - (void)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag toDisplay:(NSMutableArray *)displayList;
 
 - (double)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag
                  baseline:(double)baseline delta:(double)delta min:(double)min max:(double)max
               toEventList:(EventList *)eventList atIndex:(NSUInteger)index;
-
-- (id)initWithCoder:(NSCoder *)aDecoder;
-
-- (NSString *)description;
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 

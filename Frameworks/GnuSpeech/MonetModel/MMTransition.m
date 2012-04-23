@@ -8,57 +8,52 @@
 #import "NSString-Extensions.h"
 
 #import "GSXMLFunctions.h"
-#import "MonetList.h"
 #import "MMPoint.h"
 #import "MMSlopeRatio.h"
-#import "NamedList.h"
+#import "MMGroup.h"
 
 #import "MModel.h"
-#import "MUnarchiver.h"
 
 #import "MXMLParser.h"
 #import "MXMLArrayDelegate.h"
 #import "MXMLPCDataDelegate.h"
 
 @implementation MMTransition
+{
+    MMPhoneType type;
+    NSMutableArray *points; // Of MMSlopeRatios and/or MMPoints
+}
 
 - (id)init;
 {
-    if ([super init] == nil)
-        return nil;
-
-    name = nil;
-    comment = nil;
-    type = MMPhoneType_Diphone;
-    points = [[NSMutableArray alloc] init];
-
-    return self;
-}
-
-- (id)initWithName:(NSString *)newName;
-{
-    if ([self init] == nil)
-        return nil;
-
-    [self setName:newName];
+    if ((self = [super init])) {
+        type = MMPhoneType_Diphone;
+        points = [[NSMutableArray alloc] init];
+    }
 
     return self;
 }
 
 - (void)dealloc;
 {
-    [name release];
-    [comment release];
     [points release];
 
     [super dealloc];
 }
 
+#pragma mark - Debugging
+
+- (NSString *)description;
+{
+    return [NSString stringWithFormat:@"<%@: %p> name: %@, comment: %@, type: %lu, points: %@",
+            NSStringFromClass([self class]), self, self.name, self.comment, type, points];
+}
+
+#pragma mark -
+
 - (void)addInitialPoint;
 {
-    MMPoint *aPoint;
-
-    aPoint = [[MMPoint alloc] init];
+    MMPoint *aPoint = [[MMPoint alloc] init];
     [aPoint setType:MMPhoneType_Diphone];
     [aPoint setFreeTime:0.0];
     [aPoint setValue:0.0];
@@ -66,62 +61,7 @@
     [aPoint release];
 }
 
-- (NamedList *)group;
-{
-    return nonretained_group;
-}
-
-- (void)setGroup:(NamedList *)newGroup;
-{
-    nonretained_group = newGroup;
-}
-
-- (NSString *)name;
-{
-    return name;
-}
-
-- (void)setName:(NSString *)newName;
-{
-    if (newName == name)
-        return;
-
-    [name release];
-    name = [newName retain];
-}
-
-- (NSString *)comment;
-{
-    return comment;
-}
-
-- (void)setComment:(NSString *)newComment;
-{
-    if (newComment == comment)
-        return;
-
-    [comment release];
-    comment = [newComment retain];
-}
-
-- (BOOL)hasComment;
-{
-    return comment != nil && [comment length] > 0;
-}
-
-- (NSMutableArray *)points;
-{
-    return points;
-}
-
-- (void)setPoints:(NSMutableArray *)newList;
-{
-    if (newList == points)
-        return;
-
-    [points release];
-    points = [newList retain];
-}
+@synthesize points;
 
 // Can be either an MMPoint or an MMSlopeRatio
 - (void)addPoint:(id)newPoint;
@@ -189,15 +129,7 @@
     [points addObject:aPoint];
 }
 
-- (int)type;
-{
-    return type;
-}
-
-- (void)setType:(int)newType;
-{
-    type = newType;
-}
+@synthesize type;
 
 - (BOOL)isEquationUsed:(MMEquation *)anEquation;
 {
@@ -219,169 +151,15 @@
     return NO;
 }
 
-- (void)findEquation:(MMEquation *)anEquation andPutIn:(MonetList *)aList;
-{
-    NSUInteger count, index;
-    NSUInteger j;
-    id pointOrSlopeRatio;
-
-    count = [points count];
-    for (index = 0; index < count; index++) {
-        pointOrSlopeRatio = [points objectAtIndex:index];
-        if ([pointOrSlopeRatio isKindOfClass:[MMSlopeRatio class]]) {
-            NSArray *slopePoints;
-
-            slopePoints = [pointOrSlopeRatio points];
-            for (j = 0; j < [slopePoints count]; j++)
-                if (anEquation == [[slopePoints objectAtIndex:j] timeEquation]) {
-                    [aList addObject:self];
-                    return;
-                }
-        } else {
-            if (anEquation == [[points objectAtIndex:index] timeEquation]) {
-                [aList addObject:self];
-                return;
-            }
-        }
-    }
-}
-
-- (id)initWithCoder:(NSCoder *)aDecoder;
-{
-    NSUInteger archivedVersion;
-    char *c_name, *c_comment;
-    MonetList *archivedPoints;
-    MModel *model;
-
-    if ([super initWithCoder:aDecoder] == nil)
-        return nil;
-
-    name = nil;
-    comment = nil;
-    type = 2;
-    points = [[NSMutableArray alloc] init];
-
-    model = [(MUnarchiver *)aDecoder userInfo];
-
-    //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
-    archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
-    //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
-
-    [aDecoder decodeValuesOfObjCTypes:"**i", &c_name, &c_comment, &type];
-    //NSLog(@"c_name: %s, c_comment: %s, type: %d", c_name, c_comment, type);
-    [self setName:[NSString stringWithASCIICString:c_name]];
-    [self setComment:[NSString stringWithASCIICString:c_comment]];
-    free(c_name);
-    free(c_comment);
-
-    archivedPoints = [aDecoder decodeObject];
-    points = [[NSMutableArray alloc] init];
-    //NSLog(@"archivedPoints: %@", archivedPoints);
-
-    //NSLog(@"Points = %d", [points count]);
-
-    if (archivedPoints == nil) {
-        MMPoint *aPoint;
-
-        NSLog(@"Archived points were nil, using defaults.");
-
-        aPoint = [[MMPoint alloc] init];
-        [aPoint setValue:0.0];
-        [aPoint setType:MMPhoneType_Diphone];
-        [aPoint setTimeEquation:[model findEquationList:@"Test" named:@"Zero"]];
-        [points addObject:aPoint];
-        [aPoint release];
-
-        aPoint = [[MMPoint alloc] init];
-        [aPoint setValue:12.5];
-        [aPoint setType:MMPhoneType_Diphone];
-        [aPoint setTimeEquation:[model findEquationList:@"Test" named:@"diphoneOneThree"]];
-        [points addObject:aPoint];
-        [aPoint release];
-
-        aPoint = [[MMPoint alloc] init];
-        [aPoint setValue:87.5];
-        [aPoint setType:MMPhoneType_Diphone];
-        [aPoint setTimeEquation:[model findEquationList:@"Test" named:@"diphoneTwoThree"]];
-        [points addObject:aPoint];
-        [aPoint release];
-
-        aPoint = [[MMPoint alloc] init];
-        [aPoint setValue:100.0];
-        [aPoint setType:MMPhoneType_Diphone];
-        [aPoint setTimeEquation:[model findEquationList:@"Defaults" named:@"Mark1"]];
-        [points addObject:aPoint];
-        [aPoint release];
-
-        if (type != MMPhoneType_Diphone) {
-            aPoint = [[MMPoint alloc] init];
-            [aPoint setValue:12.5];
-            [aPoint setType:MMPhoneType_Diphone];
-            [aPoint setTimeEquation:[model findEquationList:@"Test" named:@"triphoneOneThree"]];
-            [points addObject:aPoint];
-            [aPoint release];
-
-            aPoint = [[MMPoint alloc] init];
-            [aPoint setValue:87.5];
-            [aPoint setType:MMPhoneType_Triphone];
-            [aPoint setTimeEquation:[model findEquationList:@"Test" named:@"triphoneTwoThree"]];
-            [points addObject:aPoint];
-            [aPoint release];
-
-            aPoint = [[MMPoint alloc] init];
-            [aPoint setValue:100.0];
-            [aPoint setType:MMPhoneType_Triphone];
-            [aPoint setTimeEquation:[model findEquationList:@"Defaults" named:@"Mark2"]];
-            [points addObject:aPoint];
-            [aPoint release];
-
-            if (type != MMPhoneType_Triphone) {
-                aPoint = [[MMPoint alloc] init];
-                [aPoint setValue:12.5];
-                [aPoint setType:MMPhoneType_Tetraphone];
-                [aPoint setTimeEquation:[model findEquationList:@"Test" named:@"tetraphoneOneThree"]];
-                [points addObject:aPoint];
-                [aPoint release];
-
-                aPoint = [[MMPoint alloc] init];
-                [aPoint setValue:87.5];
-                [aPoint setType:MMPhoneType_Tetraphone];
-                [aPoint setTimeEquation:[model findEquationList:@"Test" named:@"tetraphoneTwoThree"]];
-                [points addObject:aPoint];
-                [aPoint release];
-
-                aPoint = [[MMPoint alloc] init];
-                [aPoint setValue:100.0];
-                [aPoint setType:MMPhoneType_Tetraphone];
-                [aPoint setTimeEquation:[model findEquationList:@"Durations" named:@"TetraphoneDefault"]];
-                [points addObject:aPoint];
-                [aPoint release];
-            }
-        }
-    } else {
-        [points addObjectsFromArray:[archivedPoints allObjects]];
-    }
-
-    //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
-
-    return self;
-}
-
-- (NSString *)description;
-{
-    return [NSString stringWithFormat:@"<%@>[%p]: name: %@, comment: %@, type: %lu, points: %@",
-                     NSStringFromClass([self class]), self, name, comment, type, points];
-}
-
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     [resultString indentToLevel:level];
     [resultString appendFormat:@"<transition name=\"%@\" type=\"%@\">\n",
-                  GSXMLAttributeString(name, NO), GSXMLAttributeString(MMStringFromPhoneType(type), NO)];
+                  GSXMLAttributeString(self.name, NO), GSXMLAttributeString(MMStringFromPhoneType(type), NO)];
 
-    if (comment != nil) {
+    if (self.comment != nil) {
         [resultString indentToLevel:level + 1];
-        [resultString appendFormat:@"<comment>%@</comment>\n", GSXMLCharacterData(comment)];
+        [resultString appendFormat:@"<comment>%@</comment>\n", GSXMLCharacterData(self.comment)];
     }
 
     [points appendXMLToString:resultString elementName:@"point-or-slopes" level:level + 1];
@@ -392,53 +170,41 @@
 
 - (NSString *)transitionPath;
 {
-    return [NSString stringWithFormat:@"%@:%@", [[self group] name], name];
+    return [NSString stringWithFormat:@"%@:%@", self.group.name, self.name];
 }
 
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 {
-    NSString *str;
-
-    if ([self init] == nil)
-        return nil;
-
-    [self setName:[attributes objectForKey:@"name"]];
-
-    str = [attributes objectForKey:@"type"];
-    if (str != nil)
-        [self setType:MMPhoneTypeFromString(str)];
+    if ((self = [super initWithXMLAttributes:attributes context:context])) {
+        NSString *str = [attributes objectForKey:@"type"];
+        if (str != nil)
+            self.type = MMPhoneTypeFromString(str);
+    }
 
     return self;
 }
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
 {
-    if ([elementName isEqualToString:@"comment"]) {
-        MXMLPCDataDelegate *newDelegate;
-
-        newDelegate = [[MXMLPCDataDelegate alloc] initWithElementName:elementName delegate:self setSelector:@selector(setComment:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
-    } else if ([elementName isEqualToString:@"point-or-slopes"]) {
-        MXMLArrayDelegate *newDelegate;
-        NSDictionary *elementClassMapping;
-
-        elementClassMapping = [[NSDictionary alloc] initWithObjectsAndKeys:[MMPoint class], @"point",
-                                                    [MMSlopeRatio class], @"slope-ratio",
-                                                    nil];
-        newDelegate = [[MXMLArrayDelegate alloc] initWithChildElementToClassMapping:elementClassMapping delegate:self addObjectSelector:@selector(addPoint:)];
+    if ([elementName isEqualToString:@"point-or-slopes"]) {
+        NSDictionary *elementClassMapping = [[NSDictionary alloc] initWithObjectsAndKeys:[MMPoint class], @"point",
+                                             [MMSlopeRatio class], @"slope-ratio",
+                                             nil];
+        MXMLArrayDelegate *newDelegate = [[MXMLArrayDelegate alloc] initWithChildElementToClassMapping:elementClassMapping delegate:self addObjectSelector:@selector(addPoint:)];
         [(MXMLParser *)parser pushDelegate:newDelegate];
         [newDelegate release];
         [elementClassMapping release];
     } else {
-        NSLog(@"%@, Unknown element: '%@', skipping", [self shortDescription], elementName);
-        [(MXMLParser *)parser skipTree];
+        [super parser:parser didStartElement:elementName namespaceURI:namespaceURI qualifiedName:qName attributes:attributeDict];
     }
 }
 
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 {
-    [(MXMLParser *)parser popDelegate];
+    if ([elementName isEqualToString:@"transition"])
+        [(MXMLParser *)parser popDelegate];
+    else
+        [NSException raise:@"Unknown close tag" format:@"Unknown closing tag (%@) in %@", elementName, NSStringFromClass([self class])];
 }
 
 @end

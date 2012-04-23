@@ -5,15 +5,16 @@
 #import "GSSuffix.h"
 
 @implementation GSSimplePronunciationDictionary
+{
+    NSMutableDictionary *pronunciations;
+}
 
 + (id)mainDictionary;
 {
     static GSSimplePronunciationDictionary *_mainDictionary = nil;
 
     if (_mainDictionary == nil) {
-        NSString *path;
-
-        path = [[NSBundle bundleForClass:self] pathForResource:@"2.0eMainDictionary" ofType:@"dict"];
+        NSString *path = [[NSBundle bundleForClass:self] pathForResource:@"2.0eMainDictionary" ofType:@"dict"];
         _mainDictionary = [[GSSimplePronunciationDictionary alloc] initWithFilename:path];
     }
 
@@ -22,10 +23,9 @@
 
 - (id)initWithFilename:(NSString *)aFilename;
 {
-    if ([super initWithFilename:aFilename] == nil)
-        return nil;
-
-    pronunciations = [[NSMutableDictionary alloc] init]; // This is a case where setting the capacity might be a good idea!
+    if ((self = [super initWithFilename:aFilename])) {
+        pronunciations = [[NSMutableDictionary alloc] init]; // This is a case where setting the capacity might be a good idea!
+    }
 
     return self;
 }
@@ -37,28 +37,27 @@
     [super dealloc];
 }
 
+#pragma mark -
+
 - (NSDate *)modificationDate;
 {
     NSDictionary *attributes;
 
-    attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:filename error:NULL];
+    attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:self.filename error:NULL];
     return [attributes fileModificationDate];
 }
 
 - (BOOL)loadDictionary;
 {
-    NSData *data;
-    NSString *str;
-    NSArray *lines;
     NSUInteger count, index;
 
-    data = [[NSData alloc] initWithContentsOfFile:filename];
+    NSData *data = [[NSData alloc] initWithContentsOfFile:self.filename];
     //NSLog(@"data: %p", data);
     //str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]; // utf-8 fails
-    str = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+    NSString *str = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
     //NSLog(@"str: %p", str);
     //NSLog(@"str length: %d", [str length]);
-    lines = [str componentsSeparatedByString:@"\n"];
+    NSArray *lines = [str componentsSeparatedByString:@"\n"];
 
     count = [lines count];
     if (count > 0)
@@ -66,20 +65,16 @@
 
     //NSLog(@"lines: %d", count);
     for (index = 1; index < count; index++) {
-        NSString *line;
-        NSArray *parts;
-
-        line = [lines objectAtIndex:index];
-        parts = [line componentsSeparatedByString:@" "];
+        NSString *line = [lines objectAtIndex:index];
+        NSArray *parts = [line componentsSeparatedByString:@" "];
         if ([parts count] >= 2) {
-            NSString *key, *value, *partOfSpeech, *wordType;
-            NSRange range;
+            NSString *wordType;
 
-            key = [parts objectAtIndex:0];
-            value = [parts objectAtIndex:1];
-            partOfSpeech = nil;
+            NSString *key = [parts objectAtIndex:0];
+            NSString *value = [parts objectAtIndex:1];
+            NSString *partOfSpeech = nil;
 
-            range = [key rangeOfString:@"/"];
+            NSRange range = [key rangeOfString:@"/"];
             if (range.location != NSNotFound) {
                 partOfSpeech = [key substringFromIndex:NSMaxRange(range)];
                 key = [key substringToIndex:range.location];

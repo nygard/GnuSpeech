@@ -6,19 +6,25 @@
 #import "MXMLParser.h"
 
 @implementation MXMLPCDataDelegate
+{
+    NSString *elementName;
+    id delegate;
+    SEL setSelector;
+    
+    NSMutableString *string;
+}
 
 // TODO (2004-04-22): Reject unused init method
 // TODO (2004-04-22): Perhaps use keypaths instead of selectors.
 
 - (id)initWithElementName:(NSString *)anElementName delegate:(id)aDelegate setSelector:(SEL)aSetSelector;
 {
-    if ([super init] == nil)
-        return nil;
-
-    elementName = [anElementName retain];
-    delegate = [aDelegate retain];
-    setSelector = aSetSelector;
-    string = [[NSMutableString alloc] init];
+    if ((self = [super init])) {
+        elementName = [anElementName retain];
+        delegate = [aDelegate retain];
+        setSelector = aSetSelector;
+        string = [[NSMutableString alloc] init];
+    }
 
     return self;
 }
@@ -31,6 +37,8 @@
 
     [super dealloc];
 }
+
+#pragma mark -
 
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)aString;
 {

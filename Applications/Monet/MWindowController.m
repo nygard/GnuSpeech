@@ -4,21 +4,23 @@
 #import "MWindowController.h"
 
 @implementation MWindowController
+{
+}
 
 - (BOOL)isVisibleOnLaunch;
 {
     return [[NSUserDefaults standardUserDefaults] boolForKey:[NSString stringWithFormat:@"VisibleOnLaunch %@", [self windowFrameAutosaveName]]];
 }
 
-- (void)setIsVisibleOnLaunch:(BOOL)newFlag;
+- (void)setIsVisibleOnLaunch:(BOOL)flag;
 {
-    [[NSUserDefaults standardUserDefaults] setBool:newFlag forKey:[NSString stringWithFormat:@"VisibleOnLaunch %@", [self windowFrameAutosaveName]]];
+    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:[NSString stringWithFormat:@"VisibleOnLaunch %@", [self windowFrameAutosaveName]]];
 }
 
 - (void)saveWindowIsVisibleOnLaunch;
 {
     // Don't load the window if it hasn't already been loaded.
-    if ([self isWindowLoaded] == YES && [[self window] isVisible] == YES)
+    if ([self isWindowLoaded] && [[self window] isVisible])
         [self setIsVisibleOnLaunch:YES];
     else
         [self setIsVisibleOnLaunch:NO];
@@ -26,7 +28,7 @@
 
 - (void)showWindowIfVisibleOnLaunch;
 {
-    if ([self isVisibleOnLaunch] == YES)
+    if ([self isVisibleOnLaunch])
         [self showWindow:nil];
 }
 

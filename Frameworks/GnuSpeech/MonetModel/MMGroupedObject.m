@@ -1,14 +1,15 @@
 //  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
-#import "MMFormulaNode.h"
+#import "MMGroupedObject.h"
 
-@interface MMOldFormulaNode : MMFormulaNode
+#import "MMGroup.h"
+
+@implementation MMGroupedObject
 {
-    NSUInteger precedence;
+    __weak MMGroup *nonretained_group;
 }
 
-- (NSUInteger)precedence;
-- (void)setPrecedence:(NSUInteger)newPrecedence;
+@synthesize group = nonretained_group;
 
 @end

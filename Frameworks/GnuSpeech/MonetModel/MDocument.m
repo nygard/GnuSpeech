@@ -7,6 +7,9 @@
 #import "MXMLParser.h"
 
 @implementation MDocument
+{
+    MModel *model;
+}
 
 - (void)dealloc;
 {
@@ -15,19 +18,9 @@
     [super dealloc];
 }
 
-- (MModel *)model;
-{
-    return model;
-}
+#pragma mark -
 
-- (void)setModel:(MModel *)newModel;
-{
-    if (newModel == model)
-        return;
-
-    [model release];
-    model = [newModel retain];
-}
+@synthesize model;
 
 - (BOOL)loadFromXMLFile:(NSString *)filename;
 {
@@ -41,7 +34,7 @@
     fileURL = [NSURL fileURLWithPath:filename];
     parser = [[MXMLParser alloc] initWithContentsOfURL:fileURL];
     [parser pushDelegate:self];
-    [parser setShouldResolveExternalEntities:YES];
+    [parser setShouldResolveExternalEntities:NO];
     result = [parser parse];
     if (result == NO) {
         NSLog(@"Error: Failed to load file %@, (%@)", filename, [[parser parserError] localizedDescription]);

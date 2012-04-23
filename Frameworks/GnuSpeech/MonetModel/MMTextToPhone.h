@@ -4,14 +4,6 @@
 #import <Foundation/Foundation.h>
 
 @interface MMTextToPhone : NSObject
-{
-}
-
-+ (void)initialize;
-+ (void)_createDBMFileIfNecessary;
-
-- (id)init;
-- (void)dealloc;
 
 - (NSString *)phoneForText:(NSString *)text;
 

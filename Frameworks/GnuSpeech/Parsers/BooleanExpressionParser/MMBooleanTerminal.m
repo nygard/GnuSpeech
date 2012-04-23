@@ -6,70 +6,78 @@
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
 
-#import "CategoryList.h"
 #import "MMCategory.h"
 #import "MMPosture.h"
 
 #import "MModel.h"
-#import "MUnarchiver.h"
+
+@interface MMBooleanTerminal ()
+- (MMCategory *)findSymbol:(NSString *)searchSymbol inCategories:(NSArray *)categories;
+@end
+
+#pragma mark -
 
 @implementation MMBooleanTerminal
+{
+    MMCategory *m_category;
+    BOOL m_shouldMatchAll;
+}
 
 - (id)init;
 {
-    if ([super init] == nil)
-        return nil;
-
-    category = nil;
-    shouldMatchAll = NO;
+    if ((self = [super init])) {
+        m_category = nil;
+        m_shouldMatchAll = NO;
+    }
 
     return self;
 }
 
 - (void)dealloc;
 {
-    [category release];
+    [m_category release];
 
     [super dealloc];
 }
 
-- (MMCategory *)category;
+#pragma mark - Debugging
+
+- (NSString *)description;
 {
-    return category;
+    return [NSString stringWithFormat:@"<%@: %p> category: %@, shouldMatchAll: %d",
+            NSStringFromClass([self class]), self,
+            self.category, self.shouldMatchAll];
 }
 
-- (void)setCategory:(MMCategory *)newCategory;
-{
-    if (newCategory == category)
-        return;
+#pragma mark -
 
-    [category release];
-    category = [newCategory retain];
+@synthesize category = m_category;
+@synthesize shouldMatchAll = m_shouldMatchAll;
+
+#pragma mark - Superclass methods
+
+- (MMCategory *)findSymbol:(NSString *)searchSymbol inCategories:(NSArray *)categories;
+{
+    for (MMCategory *category in categories) {
+        if ([[category name] isEqual:searchSymbol]) {
+            //NSLog(@"Found: %@\n", searchSymbol);
+            return category;
+        }
+    }
+    
+    //NSLog(@"Could not find: %@\n", searchSymbol);
+    return nil;
 }
 
-- (BOOL)shouldMatchAll;
-{
-    return shouldMatchAll;
-}
-
-- (void)setShouldMatchAll:(BOOL)newFlag;
-{
-    shouldMatchAll = newFlag;
-}
-
-//
-// Methods common to "BooleanNode" -- for both BooleanExpress, BooleanTerminal
-//
-
-- (BOOL)evaluateWithCategories:(CategoryList *)categories;
+- (BOOL)evaluateWithCategories:(NSArray *)categories;
 {
     // TODO (2004-08-02): This seems a little overkill, searching through the list once with -indexOfObject: and then again with findSymbol:.
-    if ([categories indexOfObject:category] == NSNotFound) {
-        if (shouldMatchAll) {
-            if ([categories findSymbol:[category name]] != nil)
+    if ([categories indexOfObject:self.category] == NSNotFound) {
+        if (self.shouldMatchAll) {
+            if ([self findSymbol:[self.category name] inCategories:categories] != nil)
                 return YES;
 
-            if ([categories findSymbol:[NSString stringWithFormat:@"%@'", [category name]]] != nil)
+            if ([self findSymbol:[NSString stringWithFormat:@"%@'", [self.category name]] inCategories:categories] != nil)
                 return YES;
         }
 
@@ -79,70 +87,21 @@
     return YES;
 }
 
-- (void)expressionString:(NSMutableString *)resultString;
+- (void)appendExpressionToString:(NSMutableString *)resultString;
 {
-    if (category == nil)
-        return;
-
-    [resultString appendString:[category name]];
-    if (shouldMatchAll)
-        [resultString appendString:@"*"];
+    if (self.category != nil) {
+        [resultString appendString:[self.category name]];
+        if (self.shouldMatchAll)
+            [resultString appendString:@"*"];
+    }
 }
 
-- (BOOL)isCategoryUsed:(MMCategory *)aCategory;
+- (BOOL)isCategoryUsed:(MMCategory *)category;
 {
-    if (category == aCategory)
+    if (self.category == category)
         return YES;
 
     return NO;
-}
-
-//
-// Archiving
-//
-
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-    unsigned archivedVersion;
-    char *c_string;
-    MMCategory *aCategory;
-    NSString *str;
-    MModel *model;
-    int match;
-
-    if ([super initWithCoder:aDecoder] == nil)
-        return nil;
-
-    model = [(MUnarchiver *)aDecoder userInfo];
-
-    //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
-    archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
-    //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
-
-    [aDecoder decodeValueOfObjCType:@encode(int) at:&match]; // Can't decode an int into a BOOL
-    //NSLog(@"match: %d", match);
-    shouldMatchAll = match;
-
-    [aDecoder decodeValueOfObjCType:@encode(char *) at:&c_string];
-    //NSLog(@"c_string: %s", c_string);
-    str = [NSString stringWithASCIICString:c_string];
-    free(c_string);
-
-    aCategory = [model categoryWithName:str];
-    if (aCategory == nil) {
-        category = [[[model postureWithName:str] nativeCategory] retain];
-    } else {
-        category = [aCategory retain];
-    }
-
-    //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
-    return self;
-}
-
-- (NSString *)description;
-{
-    return [NSString stringWithFormat:@"<%@>[%p]: category: %@, shouldMatchAll: %d",
-                     NSStringFromClass([self class]), self, category, shouldMatchAll];
 }
 
 @end

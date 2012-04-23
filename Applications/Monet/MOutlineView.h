@@ -4,9 +4,5 @@
 #import <Cocoa/Cocoa.h>
 
 @interface MOutlineView : NSOutlineView
-{
-}
-
-- (void)_resizeOutlineColumn;
 
 @end

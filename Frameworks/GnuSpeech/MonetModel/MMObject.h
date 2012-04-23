@@ -6,13 +6,8 @@
 @class MModel;
 
 @interface MMObject : NSObject
-{
-    MModel *nonretained_model;
-}
 
-- (MModel *)model;
-- (void)setModel:(MModel *)newModel;
-
-- (NSUndoManager *)undoManager;
+@property (nonatomic, weak) MModel *model;
+@property (nonatomic, readonly) NSUndoManager *undoManager;
 
 @end

@@ -6,29 +6,18 @@
 @class MMParameter;
 
 @interface MMDisplayParameter : NSObject
-{
-    MMParameter *parameter;
-    BOOL isSpecial;
-    NSUInteger tag;
-    BOOL shouldDisplay;
-}
 
 - (id)initWithParameter:(MMParameter *)aParameter;
-- (void)dealloc;
 
-- (MMParameter *)parameter;
+@property (readonly) MMParameter *parameter;
 
-- (BOOL)isSpecial;
-- (void)setIsSpecial:(BOOL)newFlag;
+@property (assign) BOOL isSpecial;
+@property (assign) NSUInteger tag;
 
-- (NSUInteger)tag;
-- (void)setTag:(NSUInteger)newTag;
-
-- (BOOL)shouldDisplay;
-- (void)setShouldDisplay:(BOOL)newFlag;
+@property (assign) BOOL shouldDisplay;
 - (void)toggleShouldDisplay;
 
-- (NSString *)name;
-- (NSString *)label;
+@property (nonatomic, readonly) NSString *name;
+@property (nonatomic, readonly) NSString *label;
 
 @end

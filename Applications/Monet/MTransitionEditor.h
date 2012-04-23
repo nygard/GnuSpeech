@@ -3,61 +3,19 @@
 
 #import "MWindowController.h"
 
+#import "TransitionView.h" // For TransitionViewDelegate
 @class MModel, MMPoint, MMTransition;
-@class TransitionView;
 
-@interface MTransitionEditor : MWindowController
-{
-    IBOutlet NSTextField *transitionNameTextField;
-    IBOutlet NSPopUpButton *transitionTypePopUpButton;
-    IBOutlet TransitionView *transitionView;
-    IBOutlet NSForm *controlParametersForm;
+@interface MTransitionEditor : MWindowController <NSOutlineViewDataSource, NSOutlineViewDelegate, TransitionViewDelegate>
 
-    IBOutlet NSOutlineView *equationOutlineView;
-    IBOutlet NSTextField *valueTextField;
-    IBOutlet NSButton *isPhantomSwitch;
-
-    IBOutlet NSButton *type1Button;
-    IBOutlet NSButton *type2Button;
-    IBOutlet NSButton *type3Button;
-
-    IBOutlet NSTextView *equationTextView;
-
-    MModel *model;
-
-    MMTransition *transition;
-}
-
-- (id)initWithModel:(MModel *)aModel;
-- (void)dealloc;
-
-- (MModel *)model;
-- (void)setModel:(MModel *)newModel;
+@property (nonatomic, retain) MModel *model;
 
 - (NSUndoManager *)undoManager;
-
-- (void)windowDidLoad;
 
 - (void)updateViews;
 - (void)expandEquations;
 
-- (MMTransition *)transition;
-- (void)setTransition:(MMTransition *)newTransition;
-
-// NSOutlineView data source
-- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item;
-- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item;
-- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item;
-- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item;
-
-// NSOutlineView delegate
-- (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item;
-- (BOOL)outlineView:(NSOutlineView *)outlineView shouldCollapseItem:(id)item;
-- (void)outlineViewSelectionDidChange:(NSNotification *)aNotification;
-
-// TransitionView delegate
-- (void)transitionViewSelectionDidChange:(NSNotification *)aNotification;
-- (BOOL)transitionView:(TransitionView *)aTransitionView shouldAddPoint:(MMPoint *)aPoint;
+@property (nonatomic, retain) MMTransition *transition;
 
 - (void)_updateSelectedPointDetails;
 - (IBAction)setType:(id)sender;

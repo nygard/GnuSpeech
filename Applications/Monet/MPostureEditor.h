@@ -6,28 +6,6 @@
 @class MMCategory, MModel, MMParameter, MMPosture, MMSymbol;
 
 @interface MPostureEditor : MWindowController
-{
-    IBOutlet NSTableView *postureTableView;
-    IBOutlet NSTextField *postureTotalTextField;
-    IBOutlet NSButtonCell *removePostureButtonCell;
-    IBOutlet NSTextView *postureCommentTextView;
-
-    IBOutlet NSTableView *categoryTableView;
-
-    IBOutlet NSTableView *parameterTableView;
-    IBOutlet NSButton *useDefaultParameterButton;
-
-    IBOutlet NSTableView *metaParameterTableView;
-    IBOutlet NSButton *useDefaultMetaParameterButton;
-
-    IBOutlet NSTableView *symbolTableView;
-    IBOutlet NSButton *useDefaultSymbolButton;
-
-    MModel *model;
-
-    NSFont *regularControlFont;
-    NSFont *boldControlFont;
-}
 
 - (id)initWithModel:(MModel *)aModel;
 - (void)dealloc;

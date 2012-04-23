@@ -8,14 +8,17 @@
 @end
 
 @implementation MExtendedTableView
+{
+    NSTimeInterval lastTimestamp;
+    NSMutableString *combinedCharacters;
+}
 
 - (id)initWithFrame:(NSRect)frameRect;
 {
-    if ([super initWithFrame:frameRect] == nil)
-        return nil;
-
-    lastTimestamp = 0.0;
-    combinedCharacters = [[NSMutableString alloc] init];
+    if ((self = [super initWithFrame:frameRect])) {
+        lastTimestamp = 0.0;
+        combinedCharacters = [[NSMutableString alloc] init];
+    }
 
     return self;
 }
@@ -26,6 +29,8 @@
 
     [super dealloc];
 }
+
+#pragma mark -
 
 // This doesn't get init'd when loaded from a nib, so we need to initialize the instance variables here.
 - (void)awakeFromNib;

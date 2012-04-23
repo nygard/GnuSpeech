@@ -66,119 +66,146 @@ static NSString *MonetDefKeys[] = {
 };
 
 @implementation MMSynthesisParameters
+{
+    double masterVolume;
+    double vocalTractLength;
+    double temperature;
+    double balance;
+    double breathiness;
+    double lossFactor;
+    double pitch;
+    
+    double throatCutoff;
+    double throatVolume;
+    double apertureScaling;
+    double mouthCoef;
+    double noseCoef;
+    double mixOffset;
+    
+    double n1;
+    double n2;
+    double n3;
+    double n4;
+    double n5;
+    
+    double tp;
+    double tnMin;
+    double tnMax;
+    
+    MMGlottalPulseShape glottalPulseShape;
+    BOOL shouldUseNoiseModulation;
+    
+    MMSamplingRate samplingRate;
+    MMChannels outputChannels;
+}
 
 + (void)initialize;
 {
-    NSDictionary *dict;
-
-    dict = [NSDictionary dictionaryWithObjects:MonetDefVal forKeys:MonetDefKeys count:MonetDefCount];
+    NSDictionary *dict = [NSDictionary dictionaryWithObjects:MonetDefVal forKeys:MonetDefKeys count:MonetDefCount];
     [[NSUserDefaults standardUserDefaults] registerDefaults:dict];
 }
 
-+ (NSString *)stringForGlottalPulseShape:(MMGlottalPulseShape)aShape;
++ (NSString *)stringForGlottalPulseShape:(MMGlottalPulseShape)shape;
 {
-    switch (aShape) {
-      case MMGPShapePulse: return @"Pulse";
-      case MMGPShapeSine: return @"Sine";
+    switch (shape) {
+        case MMGPShapePulse: return @"Pulse";
+        case MMGPShapeSine:  return @"Sine";
     }
 
     return nil;
 }
 
-+ (MMGlottalPulseShape)glottalPulseShapeFromString:(NSString *)aString;
++ (MMGlottalPulseShape)glottalPulseShapeFromString:(NSString *)string;
 {
-    if ([aString isEqualToString:@"Pulse"])
+    if ([string isEqualToString:@"Pulse"])
         return MMGPShapePulse;
-    if ([aString isEqualToString:@"Sine"])
+    if ([string isEqualToString:@"Sine"])
         return MMGPShapeSine;
 
-    [NSException raise:NSInvalidArgumentException format:@"Unknown glottal pulse shape: '%@'", aString];
+    [NSException raise:NSInvalidArgumentException format:@"Unknown glottal pulse shape: '%@'", string];
     return MMGPShapePulse;
 }
 
-+ (NSString *)stringForSamplingRate:(MMSamplingRate)aRate;
++ (NSString *)stringForSamplingRate:(MMSamplingRate)rate;
 {
-    switch (aRate) {
-      case MMSamplingRate22050: return @"22050";
-      case MMSamplingRate44100: return @"44100";
+    switch (rate) {
+        case MMSamplingRate22050: return @"22050";
+        case MMSamplingRate44100: return @"44100";
     }
 
     return nil;
 }
 
-+ (MMSamplingRate)samplingRateFromString:(NSString *)aString;
++ (MMSamplingRate)samplingRateFromString:(NSString *)string;
 {
-    if ([aString isEqualToString:@"22050"])
+    if ([string isEqualToString:@"22050"])
         return MMSamplingRate22050;
-    if ([aString isEqualToString:@"44100"])
+    if ([string isEqualToString:@"44100"])
         return MMSamplingRate44100;
 
-    [NSException raise:NSInvalidArgumentException format:@"Unknown sampling rate: '%@'", aString];
+    [NSException raise:NSInvalidArgumentException format:@"Unknown sampling rate: '%@'", string];
     return MMSamplingRate22050;
 }
 
-+ (double)samplingRate:(MMSamplingRate)aRate;
++ (double)samplingRate:(MMSamplingRate)rate;
 {
-    switch (aRate) {
-      case MMSamplingRate22050: return 22050;
-      case MMSamplingRate44100: return 44100;
+    switch (rate) {
+        case MMSamplingRate22050: return 22050;
+        case MMSamplingRate44100: return 44100;
     }
 
-    [NSException raise:NSInvalidArgumentException format:@"Unknown sampling rate: %d", aRate];
+    [NSException raise:NSInvalidArgumentException format:@"Unknown sampling rate: %d", rate];
     return 22050;
 }
 
 + (NSString *)stringForChannels:(MMChannels)channels;
 {
     switch (channels) {
-      case MMChannelsMono: return @"Mono";
-      case MMChannelsStereo: return @"Stereo";
+        case MMChannelsMono: return @"Mono";
+        case MMChannelsStereo: return @"Stereo";
     }
 
     return nil;
 }
 
-+ (MMChannels)channelsFromString:(NSString *)aString;
++ (MMChannels)channelsFromString:(NSString *)string;
 {
-    if ([aString isEqualToString:@"Mono"])
+    if ([string isEqualToString:@"Mono"])
         return MMChannelsMono;
-    if ([aString isEqualToString:@"Stereo"])
+    if ([string isEqualToString:@"Stereo"])
         return MMChannelsStereo;
 
-    [NSException raise:NSInvalidArgumentException format:@"Unknown channels: '%@'", aString];
+    [NSException raise:NSInvalidArgumentException format:@"Unknown channels: '%@'", string];
     return MMChannelsMono;
 }
 
 - (id)init;
 {
-    if ([super init] == nil)
-        return nil;
-
-    [self restoreDefaultValues];
+    if ((self = [super init])) {
+        [self restoreDefaultValues];
+    }
 
     return self;
 }
 
 - (void)restoreDefaultValues;
 {
-    NSUserDefaults *defaults;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
-    defaults = [NSUserDefaults standardUserDefaults];
-
-    masterVolume = [defaults doubleForKey:MDK_MASTER_VOLUME];
+    masterVolume     = [defaults doubleForKey:MDK_MASTER_VOLUME];
     vocalTractLength = [defaults doubleForKey:MDK_VOCAL_TRACT_LENGTH];
-    temperature = [defaults doubleForKey:MDK_TEMPERATURE];
-    balance = [defaults doubleForKey:MDK_BALANCE];
-    breathiness = [defaults doubleForKey:MDK_BREATHINESS];
-    lossFactor = [defaults doubleForKey:MDK_LOSS_FACTOR];
-    pitch = [defaults doubleForKey:MDK_PITCH];
+    temperature      = [defaults doubleForKey:MDK_TEMPERATURE];
+    balance          = [defaults doubleForKey:MDK_BALANCE];
+    breathiness      = [defaults doubleForKey:MDK_BREATHINESS];
+    lossFactor       = [defaults doubleForKey:MDK_LOSS_FACTOR];
+    pitch            = [defaults doubleForKey:MDK_PITCH];
 
-    throatCutoff = [defaults doubleForKey:MDK_THROAT_CUTTOFF];
-    throatVolume = [defaults doubleForKey:MDK_THROAT_VOLUME];
+    throatCutoff    = [defaults doubleForKey:MDK_THROAT_CUTTOFF];
+    throatVolume    = [defaults doubleForKey:MDK_THROAT_VOLUME];
     apertureScaling = [defaults doubleForKey:MDK_APERTURE_SCALING];
-    mouthCoef = [defaults doubleForKey:MDK_MOUTH_COEF];
-    noseCoef = [defaults doubleForKey:MDK_NOSE_COEF];
-    mixOffset = [defaults doubleForKey:MDK_MIX_OFFSET];
+    mouthCoef       = [defaults doubleForKey:MDK_MOUTH_COEF];
+    noseCoef        = [defaults doubleForKey:MDK_NOSE_COEF];
+    mixOffset       = [defaults doubleForKey:MDK_MIX_OFFSET];
 
     n1 = [defaults doubleForKey:MDK_N1];
     n2 = [defaults doubleForKey:MDK_N2];
@@ -186,22 +213,20 @@ static NSString *MonetDefKeys[] = {
     n4 = [defaults doubleForKey:MDK_N4];
     n5 = [defaults doubleForKey:MDK_N5];
 
-    tp = [defaults doubleForKey:MDK_TP];
+    tp    = [defaults doubleForKey:MDK_TP];
     tnMin = [defaults doubleForKey:MDK_TN_MIN];
     tnMax = [defaults doubleForKey:MDK_TN_MAX];
 
-    glottalPulseShape = [MMSynthesisParameters glottalPulseShapeFromString:[defaults stringForKey:MDK_GP_SHAPE]];
+    glottalPulseShape        = [MMSynthesisParameters glottalPulseShapeFromString:[defaults stringForKey:MDK_GP_SHAPE]];
     shouldUseNoiseModulation = [defaults boolForKey:MDK_NOISE_MODULATION];
 
-    samplingRate = [MMSynthesisParameters samplingRateFromString:[defaults stringForKey:MDK_SAMPLING_RATE]];
+    samplingRate   = [MMSynthesisParameters samplingRateFromString:[defaults stringForKey:MDK_SAMPLING_RATE]];
     outputChannels = [MMSynthesisParameters channelsFromString:[defaults stringForKey:MDK_OUTPUT_CHANNELS]];
 }
 
 - (void)saveAsDefaults;
 {
-    NSUserDefaults *defaults;
-
-    defaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
     [defaults setDouble:masterVolume forKey:MDK_MASTER_VOLUME];
     [defaults setDouble:vocalTractLength forKey:MDK_VOCAL_TRACT_LENGTH];
@@ -235,259 +260,11 @@ static NSString *MonetDefKeys[] = {
     [defaults setObject:[MMSynthesisParameters stringForChannels:outputChannels] forKey:MDK_OUTPUT_CHANNELS];
 }
 
-- (double)masterVolume;
-{
-    return masterVolume;
-}
+@synthesize masterVolume, vocalTractLength, temperature, balance, breathiness, lossFactor, pitch, throatCutoff, throatVolume, apertureScaling, mouthCoef, noseCoef, mixOffset, n1, n2, n3, n4, n5, tp, tnMin, tnMax, glottalPulseShape, shouldUseNoiseModulation, samplingRate, outputChannels;
 
-- (void)setMasterVolume:(double)value;
-{
-    masterVolume = value;
-}
-
-- (double)vocalTractLength;
-{
-    return vocalTractLength;
-}
-
-- (void)setVocalTractLength:(double)value;
-{
-    vocalTractLength = value;
-}
-
-- (double)temperature;
-{
-    return temperature;
-}
-
-- (void)setTemperature:(double)value;
-{
-    temperature = value;
-}
-
-- (double)balance;
-{
-    return balance;
-}
-
-- (void)setBalance:(double)value;
-{
-    balance = value;
-}
-
-- (double)breathiness;
-{
-    return breathiness;
-}
-
-- (void)setBreathiness:(double)value;
-{
-    breathiness = value;
-}
-
-- (double)lossFactor;
-{
-    return lossFactor;
-}
-
-- (void)setLossFactor:(double)value;
-{
-    lossFactor = value;
-}
-
-- (double)pitch;
-{
-    return pitch;
-}
-
-- (void)setPitch:(double)value;
-{
-    pitch = value;
-}
-
-- (double)throatCutoff;
-{
-    return throatCutoff;
-}
-
-- (void)setThroatCutoff:(double)value;
-{
-    throatCutoff = value;
-}
-
-- (double)throatVolume;
-{
-    return throatVolume;
-}
-
-- (void)setThroatVolume:(double)value;
-{
-    throatVolume = value;
-}
-
-- (double)apertureScaling;
-{
-    return apertureScaling;
-}
-
-- (void)setApertureScaling:(double)value;
-{
-    apertureScaling = value;
-}
-
-- (double)mouthCoef;
-{
-    return mouthCoef;
-}
-
-- (void)setMouthCoef:(double)value;
-{
-    mouthCoef = value;
-}
-
-- (double)noseCoef;
-{
-    return noseCoef;
-}
-
-- (void)setNoseCoef:(double)value;
-{
-    noseCoef = value;
-}
-
-- (double)mixOffset;
-{
-    return mixOffset;
-}
-
-- (void)setMixOffset:(double)value;
-{
-    mixOffset = value;
-}
-
-- (double)n1;
-{
-    return n1;
-}
-
-- (void)setN1:(double)value;
-{
-    n1 = value;
-}
-
-- (double)n2;
-{
-    return n2;
-}
-
-- (void)setN2:(double)value;
-{
-    n2 = value;
-}
-
-- (double)n3;
-{
-    return n3;
-}
-
-- (void)setN3:(double)value;
-{
-    n3 = value;
-}
-
-- (double)n4;
-{
-    return n4;
-}
-
-- (void)setN4:(double)value;
-{
-    n4 = value;
-}
-
-- (double)n5;
-{
-    return n5;
-}
-
-- (void)setN5:(double)value;
-{
-    n5 = value;
-}
-
-- (double)tp;
-{
-    return tp;
-}
-
-- (void)setTp:(double)value;
-{
-    tp = value;
-}
-
-- (double)tnMin;
-{
-    return tnMin;
-}
-
-- (void)setTnMin:(double)value;
-{
-    tnMin = value;
-}
-
-- (double)tnMax;
-{
-    return tnMax;
-}
-
-- (void)setTnMax:(double)value;
-{
-    tnMax = value;
-}
-
-- (MMGlottalPulseShape)glottalPulseShape;
-{
-    return glottalPulseShape;
-}
-
-- (void)setGlottalPulseShape:(MMGlottalPulseShape)value;
-{
-    glottalPulseShape = value;
-}
-
-- (BOOL)shouldUseNoiseModulation;
-{
-    return shouldUseNoiseModulation;
-}
-
-- (void)setShouldUseNoiseModulation:(BOOL)value;
-{
-    shouldUseNoiseModulation = value;
-}
-
-- (MMSamplingRate)samplingRate;
-{
-    return samplingRate;
-}
-
-- (void)setSamplingRate:(MMSamplingRate)value;
-{
-    samplingRate = value;
-}
-
-- (MMChannels)outputChannels;
-{
-    return outputChannels;
-}
-
-- (void)setOutputChannels:(MMChannels)value;
-{
-    outputChannels = value;
-}
 
 - (void)writeToFile:(NSString *)aFilename includeComments:(BOOL)shouldIncludeComments;
 {
-    FILE *fp;
     float sRate;
 
     if (samplingRate == MMSamplingRate44100)
@@ -495,7 +272,7 @@ static NSString *MonetDefKeys[] = {
     else
         sRate = 22050.0;
 
-    fp = fopen("/tmp/Monet.parameters", "w");
+    FILE *fp = fopen("/tmp/Monet.parameters", "w");
 
     if (shouldIncludeComments == YES) {
         fprintf(fp, "%d\t\t; %s\n", 0, "output file format (0 = AU, 1 = AIFF, 2 = WAVE)");

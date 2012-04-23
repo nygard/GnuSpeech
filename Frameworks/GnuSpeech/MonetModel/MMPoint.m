@@ -12,21 +12,26 @@
 #import "MMTransition.h"
 
 #import "MModel.h"
-#import "MUnarchiver.h"
 #import "MXMLParser.h"
 
 @implementation MMPoint
+{
+    double value;             // Value of the point
+    double freeTime;          // Free Floating time
+    MMEquation *timeEquation; // Time of the point
+    MMPhoneType type;         // Which phone it is targeting
+    BOOL isPhantom;           // Phantom point for place marking purposes only
+}
 
 - (id)init;
 {
-    if ([super init] == nil)
-        return nil;
-
-    value = 0.0;
-    freeTime = 0.0;
-    timeEquation = nil;
-    isPhantom = NO;
-    type = MMPhoneType_Diphone;
+    if ((self = [super init])) {
+        value = 0.0;
+        freeTime = 0.0;
+        timeEquation = nil;
+        isPhantom = NO;
+        type = MMPhoneType_Diphone;
+    }
 
     return self;
 }
@@ -38,15 +43,17 @@
     [super dealloc];
 }
 
-- (double)value;
+#pragma mark -
+
+- (NSString *)description;
 {
-    return value;
+    return [NSString stringWithFormat:@"<%@: %p> value: %g, freeTime: %g, timeEquation: %@, type: %lu, isPhantom: %d",
+            NSStringFromClass([self class]), self, value, freeTime, timeEquation, type, isPhantom];
 }
 
-- (void)setValue:(double)newValue;
-{
-    value = newValue;
-}
+#pragma mark -
+
+@synthesize value;
 
 - (double)multiplyValueByFactor:(double)factor;
 {
@@ -60,29 +67,7 @@
     return value;
 }
 
-- (MMEquation *)timeEquation;
-{
-    return timeEquation;
-}
-
-- (void)setTimeEquation:(MMEquation *)newTimeEquation;
-{
-    if (newTimeEquation == timeEquation)
-        return;
-
-    [timeEquation release];
-    timeEquation = [newTimeEquation retain];
-}
-
-- (double)freeTime;
-{
-    return freeTime;
-}
-
-- (void)setFreeTime:(double)newTime;
-{
-    freeTime = newTime;
-}
+@synthesize timeEquation, freeTime;
 
 - (double)cachedTime;
 {
@@ -92,25 +77,7 @@
     return freeTime;
 }
 
-- (NSUInteger)type;
-{
-    return type;
-}
-
-- (void)setType:(NSUInteger)newType;
-{
-    type = newType;
-}
-
-- (BOOL)isPhantom;
-{
-    return isPhantom;
-}
-
-- (void)setIsPhantom:(BOOL)newFlag;
-{
-    isPhantom = newFlag;
-}
+@synthesize type, isPhantom;
 
 - (void)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag toDisplay:(NSMutableArray *)displayList;
 {
@@ -148,70 +115,6 @@
         [eventList insertEvent:index atTimeOffset:time withValue:returnValue];
 
     return returnValue;
-}
-
-- (id)initWithCoder:(NSCoder *)aDecoder;
-{
-    NSUInteger i, j;
-    MMEquation *anExpression;
-    MModel *model;
-    NSUInteger phantom;
-
-    if ([super initWithCoder:aDecoder] == nil)
-        return nil;
-
-    model = [(MUnarchiver *)aDecoder userInfo];
-    //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
-    /*NSInteger archivedVersion =*/ [aDecoder versionForClassName:NSStringFromClass([self class])];
-    //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
-
-#if 1
-    // TODO (2004-03-17): Check to make sure that isPhantom is being properly decoded.
-    [aDecoder decodeValuesOfObjCTypes:"ddii", &value, &freeTime, &type, &phantom];
-    isPhantom = phantom; // Can't decode an int into a BOOL
-    //NSLog(@"isPhantom: %d", isPhantom);
-#else
-    // Hack to check "Play2.monet".
-    {
-        static int hack_count = 0;
-
-        hack_count++;
-        NSLog(@"hack_count: %d", hack_count);
-
-        NS_DURING {
-            if (hack_count >= 23) {
-                double valueOne;
-                int valueTwo;
-
-                [aDecoder decodeValuesOfObjCTypes:"di", &valueOne, &valueTwo];
-                NSLog(@"read: %g, %d", valueOne, valueTwo);
-            } else {
-                [aDecoder decodeValuesOfObjCTypes:"ddii", &value, &freeTime, &type, &isPhantom];
-            }
-        } NS_HANDLER {
-            NSLog(@"Caught exception: %@", localException);
-            return nil;
-        } NS_ENDHANDLER;
-    }
-#endif
-    //NSLog(@"value: %g, freeTime: %g, type: %d, isPhantom: %d", value, freeTime, type, isPhantom);
-
-    [aDecoder decodeValuesOfObjCTypes:"ii", &i, &j];
-    //NSLog(@"i: %d, j: %d", i, j);
-    if (i != -1) {
-        anExpression = [model findEquation:i andIndex:j];
-        //NSLog(@"anExpression: %@", anExpression);
-        [self setTimeEquation:anExpression];
-    }
-
-    //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
-    return self;
-}
-
-- (NSString *)description;
-{
-    return [NSString stringWithFormat:@"<%@>[%p]: value: %g, freeTime: %g, timeEquation: %@, type: %lu, isPhantom: %d",
-                     NSStringFromClass([self class]), self, value, freeTime, timeEquation, type, isPhantom];
 }
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
@@ -266,8 +169,10 @@
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
 {
-    NSLog(@"%@, Unknown element: '%@', skipping", [self shortDescription], elementName);
-    [(MXMLParser *)parser skipTree];
+    if ([elementName isEqualToString:@"point"])
+        [(MXMLParser *)parser popDelegate];
+    else
+        [NSException raise:@"Unknown close tag" format:@"Unknown closing tag (%@) in %@", elementName, NSStringFromClass([self class])];
 }
 
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;

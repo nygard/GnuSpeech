@@ -12,6 +12,42 @@
 static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardType";
 
 @implementation MRuleManager
+{
+    IBOutlet NSTableView *ruleTableView;
+    
+    IBOutlet NSBrowser *match1Browser;
+    IBOutlet NSBrowser *match2Browser;
+    IBOutlet NSBrowser *match3Browser;
+    IBOutlet NSBrowser *match4Browser;
+    
+    IBOutlet NSForm *expressionForm;
+    IBOutlet NSTextField *errorTextField;
+    IBOutlet NSTextField *possibleCombinationsTextField;
+    
+    IBOutlet NSTableView *symbolTableView;
+    IBOutlet NSOutlineView *symbolEquationOutlineView;
+    
+    IBOutlet NSTableView *parameterTableView;
+    IBOutlet NSOutlineView *parameterTransitionOutlineView;
+    
+    IBOutlet NSTableView *specialParameterTableView;
+    IBOutlet NSOutlineView *specialParameterTransitionOutlineView;
+    
+    IBOutlet NSTableView *metaParameterTableView;
+    IBOutlet NSOutlineView *metaParameterTransitionOutlineView;
+    
+    IBOutlet NSTextView *ruleCommentTextView;
+    
+    MModel *model;
+    
+    NSMutableArray *matchLists; // Of arrays of postures/categories?
+    MMBooleanNode *expressions[4];
+    
+    NSFont *regularControlFont;
+    NSFont *boldControlFont;
+    
+    MMBooleanParser *boolParser;
+}
 
 - (id)initWithModel:(MModel *)aModel;
 {
@@ -48,6 +84,8 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
     [super dealloc];
 }
+
+#pragma mark -
 
 - (MModel *)model;
 {
@@ -134,21 +172,21 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 {
     NSUInteger count, index;
 
-    count = [[model equations] count];
+    count = [[model equationGroups] count];
     for (index = 0; index < count; index++)
-        [symbolEquationOutlineView expandItem:[[model equations] objectAtIndex:index]];
+        [symbolEquationOutlineView expandItem:[[model equationGroups] objectAtIndex:index]];
 
-    count = [[model transitions] count];
+    count = [[model transitionGroups] count];
     for (index = 0; index < count; index++)
-        [parameterTransitionOutlineView expandItem:[[model transitions] objectAtIndex:index]];
+        [parameterTransitionOutlineView expandItem:[[model transitionGroups] objectAtIndex:index]];
 
-    count = [[model specialTransitions] count];
+    count = [[model specialTransitionGroups] count];
     for (index = 0; index < count; index++)
-        [specialParameterTransitionOutlineView expandItem:[[model specialTransitions] objectAtIndex:index]];
+        [specialParameterTransitionOutlineView expandItem:[[model specialTransitionGroups] objectAtIndex:index]];
 
-    count = [[model transitions] count];
+    count = [[model transitionGroups] count];
     for (index = 0; index < count; index++)
-        [metaParameterTransitionOutlineView expandItem:[[model transitions] objectAtIndex:index]];
+        [metaParameterTransitionOutlineView expandItem:[[model transitionGroups] objectAtIndex:index]];
 }
 
 - (void)_updateSelectedRuleDetails;
@@ -375,14 +413,13 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     [possibleCombinationsTextField setIntValue:totalCombinations];
 }
 
-//
-// NSTableView data source
-//
+#pragma mark - NSTableView data source
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView;
 {
-    if (tableView == ruleTableView)
+    if (tableView == ruleTableView) {
         return [[model rules] count];
+    }
 
     if (tableView == symbolTableView) {
         if ([self selectedRule] == nil)
@@ -458,9 +495,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     return nil;
 }
 
-//
-// NSTableView delegate
-//
+#pragma mark - NSTableView delegate
 
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification;
 {
@@ -491,9 +526,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     }
 }
 
-//
-// NSTableView dragging
-//
+#pragma mark - NSTableView dragging
 
 - (BOOL)tableView:(NSTableView *)tableView writeRows:(NSArray *)rows toPasteboard:(NSPasteboard *)pboard;
 {
@@ -563,9 +596,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     return NO;
 }
 
-//
-// MExtendedTableView delegate
-//
+#pragma mark - MExtendedTableView delegate
 
 - (BOOL)control:(NSControl *)aControl shouldProcessCharacters:(NSString *)characters;
 {
@@ -582,9 +613,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     return YES;
 }
 
-//
-// Browser delegate methods
-//
+#pragma mark - Browser delegate methods
 
 - (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(NSInteger)column;
 {
@@ -624,27 +653,31 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     [cell setLeaf:YES];
 }
 
-//
-// NSOutlineView data source
-//
+#pragma mark - NSOutlineView data source
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item;
 {
     if (outlineView == symbolEquationOutlineView) {
-        if (item == nil)
-            return [[[self model] equations] count];
-        else
-            return [item count];
+        if (item == nil) {
+            return [[[self model] equationGroups] count];
+        } else {
+            MMGroup *group = item;
+            return [group.objects count];
+        }
     } else if (outlineView == parameterTransitionOutlineView || outlineView == metaParameterTransitionOutlineView) {
-        if (item == nil)
-            return [[[self model] transitions] count];
-        else
-            return [item count];
+        if (item == nil) {
+            return [[[self model] transitionGroups] count];
+        } else {
+            MMGroup *group = item;
+            return [group.objects count];
+        }
     } else if (outlineView == specialParameterTransitionOutlineView) {
-        if (item == nil)
-            return [[[self model] specialTransitions] count];
-        else
-            return [item count];
+        if (item == nil) {
+            return [[[self model] specialTransitionGroups] count];
+        } else {
+            MMGroup *group = item;
+            return [group.objects count];
+        }
     }
 
     return 0;
@@ -653,20 +686,26 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item;
 {
     if (outlineView == symbolEquationOutlineView) {
-        if (item == nil)
-            return [[[self model] equations] objectAtIndex:index];
-        else
-            return [item objectAtIndex:index];
+        if (item == nil) {
+            return [[[self model] equationGroups] objectAtIndex:index];
+        } else {
+            MMGroup *group = item;
+            return [group.objects objectAtIndex:index];
+        }
     } else if (outlineView == parameterTransitionOutlineView || outlineView == metaParameterTransitionOutlineView) {
-        if (item == nil)
-            return [[[self model] transitions] objectAtIndex:index];
-        else
-            return [item objectAtIndex:index];
+        if (item == nil) {
+            return [[[self model] transitionGroups] objectAtIndex:index];
+        } else {
+            MMGroup *group = item;
+            return [group.objects objectAtIndex:index];
+        }
     } else if (outlineView == specialParameterTransitionOutlineView) {
-        if (item == nil)
-            return [[[self model] specialTransitions] objectAtIndex:index];
-        else
-            return [item objectAtIndex:index];
+        if (item == nil) {
+            return [[[self model] specialTransitionGroups] objectAtIndex:index];
+        } else {
+            MMGroup *group = item;
+            return [group.objects objectAtIndex:index];
+        }
     }
 
     return nil;
@@ -675,11 +714,11 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item;
 {
     if (outlineView == symbolEquationOutlineView) {
-        return [item isKindOfClass:[NamedList class]];
+        return [item isKindOfClass:[MMGroup class]];
     } else if (outlineView == parameterTransitionOutlineView || outlineView == metaParameterTransitionOutlineView) {
-        return [item isKindOfClass:[NamedList class]];
+        return [item isKindOfClass:[MMGroup class]];
     } else if (outlineView == specialParameterTransitionOutlineView) {
-        return [item isKindOfClass:[NamedList class]];
+        return [item isKindOfClass:[MMGroup class]];
     }
 
     return NO;
@@ -709,9 +748,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     return nil;
 }
 
-//
-// NSOutlineView delegate
-//
+#pragma mark - NSOutlineView delegate
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item;
 {
@@ -783,9 +820,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     }
 }
 
-//
-// NSTextView delegate
-//
+#pragma mark - NSTextView delegate
 
 - (void)textDidEndEditing:(NSNotification *)aNotification;
 {
@@ -816,9 +851,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     [newStringValue release];
 }
 
-//
-// Actions
-//
+#pragma mark - Actions
 
 // Sender should be the form for postures 1-4
 // Warning (building for 10.2 deployment) (2004-04-02): aBrowser might be used uninitialized in this function

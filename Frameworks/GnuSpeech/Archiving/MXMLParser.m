@@ -6,13 +6,16 @@
 #import "MXMLIgnoreTreeDelegate.h"
 
 @implementation MXMLParser
+{
+    NSMutableArray *delegateStack;
+    id context;
+}
 
 - (id)initWithData:(NSData *)data;
 {
-    if ([super initWithData:data] == nil)
-        return nil;
-
-    delegateStack = [[NSMutableArray alloc] init];
+    if ((self = [super initWithData:data])) {
+        delegateStack = [[NSMutableArray alloc] init];
+    }
 
     return self;
 }
@@ -25,19 +28,7 @@
     [super dealloc];
 }
 
-- (id)context;
-{
-    return context;
-}
-
-- (void)setContext:(id)newContext;
-{
-    if (newContext == context)
-        return;
-
-    [context release];
-    context = [newContext retain];
-}
+@synthesize context;
 
 - (void)pushDelegate:(id)newDelegate;
 {

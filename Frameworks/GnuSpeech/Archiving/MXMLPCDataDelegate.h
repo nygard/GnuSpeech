@@ -4,16 +4,8 @@
 #import <Foundation/Foundation.h>
 
 @interface MXMLPCDataDelegate : NSObject
-{
-    NSString *elementName;
-    id delegate;
-    SEL setSelector;
-
-    NSMutableString *string;
-}
 
 - (id)initWithElementName:(NSString *)anElementName delegate:(id)aDelegate setSelector:(SEL)aSetSelector;
-- (void)dealloc;
 
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)aString;
 

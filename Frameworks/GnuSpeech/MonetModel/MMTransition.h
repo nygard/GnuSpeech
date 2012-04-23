@@ -1,53 +1,25 @@
 //  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
-#import <Foundation/Foundation.h>
+#import "MMGroupedObject.h"
+
 #import "GSXMLFunctions.h" // To get MMPhoneType
 
-@class MonetList, MMEquation, MMPoint, NamedList;
+@class MMEquation, MMPoint, MMGroup;
 
-@interface MMTransition : NSObject
-{
-    NamedList *nonretained_group;
-
-    NSString *name;
-    NSString *comment;
-    MMPhoneType type;
-    NSMutableArray *points; // Of MMSlopeRatios and/or MMPoints
-}
-
-- (id)init;
-- (id)initWithName:(NSString *)newName;
-- (void)dealloc;
+@interface MMTransition : MMGroupedObject
 
 - (void)addInitialPoint;
 
-- (NamedList *)group;
-- (void)setGroup:(NamedList *)newGroup;
-
-- (NSString *)name;
-- (void)setName:(NSString *)newName;
-
-- (NSString *)comment;
-- (void)setComment:(NSString *)newComment;
-- (BOOL)hasComment;
-
-- (NSMutableArray *)points;
-- (void)setPoints:(NSMutableArray *)newList;
+@property (retain) NSMutableArray *points;
 - (void)addPoint:(id)newPoint;
 
 - (BOOL)isTimeInSlopeRatio:(double)aTime;
 - (void)insertPoint:(MMPoint *)aPoint;
 
-- (int)type;
-- (void)setType:(int)type;
+@property (assign) MMPhoneType type;
 
 - (BOOL)isEquationUsed:(MMEquation *)anEquation;
-- (void)findEquation:(MMEquation *)anEquation andPutIn:(MonetList *)aList;
-
-- (id)initWithCoder:(NSCoder *)aDecoder;
-
-- (NSString *)description;
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 

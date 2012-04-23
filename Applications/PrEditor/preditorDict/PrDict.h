@@ -58,10 +58,6 @@ const char *getExtension(const char *fileName);		/* Function to get extension af
 char *getNameWithoutExtensionOfFile(char *fileName);	/* Function to get name of file without extension. */
 
 @interface PrDict:NSObject
-{
-    NSMutableDictionary*  dictionary;
-    BOOL  has_changed;
-}
 
 /* Class Methods */
 /* Initiialization */

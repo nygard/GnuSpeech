@@ -3,45 +3,9 @@
 
 #import "MWindowController.h"
 
-@class MMBooleanNode, MMBooleanParser, MModel, MMRule, MonetList;
+@class MMBooleanNode, MMBooleanParser, MModel, MMRule;
 
 @interface MRuleManager : MWindowController
-{
-    IBOutlet NSTableView *ruleTableView;
-
-    IBOutlet NSBrowser *match1Browser;
-    IBOutlet NSBrowser *match2Browser;
-    IBOutlet NSBrowser *match3Browser;
-    IBOutlet NSBrowser *match4Browser;
-
-    IBOutlet NSForm *expressionForm;
-    IBOutlet NSTextField *errorTextField;
-    IBOutlet NSTextField *possibleCombinationsTextField;
-
-    IBOutlet NSTableView *symbolTableView;
-    IBOutlet NSOutlineView *symbolEquationOutlineView;
-
-    IBOutlet NSTableView *parameterTableView;
-    IBOutlet NSOutlineView *parameterTransitionOutlineView;
-
-    IBOutlet NSTableView *specialParameterTableView;
-    IBOutlet NSOutlineView *specialParameterTransitionOutlineView;
-
-    IBOutlet NSTableView *metaParameterTableView;
-    IBOutlet NSOutlineView *metaParameterTransitionOutlineView;
-
-    IBOutlet NSTextView *ruleCommentTextView;
-
-    MModel *model;
-
-    NSMutableArray *matchLists; // Of arrays of postures/categories?
-    MMBooleanNode *expressions[4];
-
-    NSFont *regularControlFont;
-    NSFont *boldControlFont;
-
-    MMBooleanParser *boolParser;
-}
 
 - (id)initWithModel:(MModel *)aModel;
 - (void)dealloc;

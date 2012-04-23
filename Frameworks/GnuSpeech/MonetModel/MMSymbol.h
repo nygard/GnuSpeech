@@ -4,27 +4,10 @@
 #import "MMNamedObject.h"
 
 @interface MMSymbol : MMNamedObject
-{
-    double minimum;
-    double maximum;
-    double defaultValue;
-}
 
-- (id)init;
-
-- (double)minimumValue;
-- (void)setMinimumValue:(double)newMinimum;
-
-- (double)maximumValue;
-- (void)setMaximumValue:(double)newMaximum;
-
-- (double)defaultValue;
-- (void)setDefaultValue:(double)newDefault;
-
-// Archiving
-- (id)initWithCoder:(NSCoder *)aDecoder;
-
-- (NSString *)description;
+@property (assign) double minimumValue;
+@property (assign) double maximumValue;
+@property (nonatomic, assign) double defaultValue;
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 

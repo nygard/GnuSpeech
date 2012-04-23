@@ -6,21 +6,10 @@
 extern NSString *GSParserSyntaxErrorException;
 
 @interface GSParser : NSObject
-{
-    NSString *nonretained_parseString;
-    NSScanner *scanner;
-    NSString *symbolString;
 
-    NSUInteger startOfTokenLocation;
-    NSRange errorRange;
-    NSMutableString *errorMessage;
-}
-
-- (id)init;
-- (void)dealloc;
-
-- (NSString *)symbolString;
-- (void)setSymbolString:(NSString *)newString;
+@property (readonly) NSScanner *scanner;
+@property (retain) NSString *symbolString;
+@property (assign) NSUInteger startOfTokenLocation;
 
 - (id)parseString:(NSString *)aString;
 - (id)beginParseString;

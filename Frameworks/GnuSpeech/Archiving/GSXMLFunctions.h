@@ -21,11 +21,11 @@ typedef NSUInteger GSXMLEntityMask;
 
 NSString *GSXMLEscapeGeneralEntities(NSString *string, GSXMLEntityMask entityMask);
 
- NSString *GSXMLAttributeString(NSString *string, BOOL isSingleQuoted);
- NSString *GSXMLCharacterData(NSString *string);
- NSString *GSXMLBoolAttributeString(BOOL flag);
- BOOL GSXMLBoolFromString(NSString *str);
+NSString *GSXMLAttributeString(NSString *string, BOOL isSingleQuoted);
+NSString *GSXMLCharacterData(NSString *string);
+NSString *GSXMLBoolAttributeString(BOOL flag);
+BOOL GSXMLBoolFromString(NSString *str);
 
 
- NSString *MMStringFromPhoneType(MMPhoneType type);
- MMPhoneType MMPhoneTypeFromString(NSString *str);
+NSString *MMStringFromPhoneType(MMPhoneType type);
+MMPhoneType MMPhoneTypeFromString(NSString *str);

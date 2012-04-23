@@ -4,20 +4,6 @@
 #import <Cocoa/Cocoa.h>
 
 @interface MAIntonationScaleView : NSView
-{
-    NSTextFieldCell *labelTextFieldCell;
-
-    NSTextStorage *textStorage;
-    NSLayoutManager *layoutManager;
-    NSTextContainer *textContainer;
-    NSFont *labelFont;
-    NSFont *axisLabelFont;
-
-    NSUInteger sectionCount;
-    CGFloat sectionHeight;
-    NSUInteger zeroSection;
-    CGFloat yOrigin;
-}
 
 - (id)initWithFrame:(NSRect)frameRect;
 - (void)dealloc;

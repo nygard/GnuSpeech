@@ -11,158 +11,52 @@
 #import "MXMLPCDataDelegate.h"
 
 @implementation MMCategory
+{
+    BOOL m_isNative;
+}
 
 - (id)init;
 {
-    if ([super init] == nil)
-        return nil;
-
-    name = nil;
-    comment = nil;
-    isNative = NO;
+    if ((self = [super init])) {
+        m_isNative = NO;
+    }
 
     return self;
 }
 
-- (id)initWithName:(NSString *)aName;
-{
-    if ([self init] == nil)
-        return nil;
-
-    [self setName:aName];
-
-    return self;
-}
-
-- (void)dealloc;
-{
-    [name release];
-    [comment release];
-
-    [super dealloc];
-}
-
-- (NSString *)name;
-{
-    return name;
-}
-
-- (void)setName:(NSString *)newName;
-{
-    if (newName == name)
-        return;
-
-    [name release];
-    name = [newName retain];
-}
-
-- (NSString *)comment;
-{
-    return comment;
-}
-
-- (void)setComment:(NSString *)newComment;
-{
-    if (newComment == comment)
-        return;
-
-    [comment release];
-    comment = [newComment retain];
-}
-
-- (BOOL)hasComment;
-{
-    return comment != nil && [comment length] > 0;
-}
-
-- (BOOL)isNative;
-{
-    return isNative;
-}
-
-- (void)setIsNative:(BOOL)newFlag;
-{
-    isNative = newFlag;
-}
-
-- (NSComparisonResult)compareByAscendingName:(MMCategory *)otherCategory;
-{
-    return [name compare:[otherCategory name]];
-}
-
-//
-// Archiving
-//
-
-- (id)initWithCoder:(NSCoder *)aDecoder;
-{
-    char *c_name, *c_comment;
-
-    if ([super initWithCoder:aDecoder] == nil)
-        return nil;
-
-    //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
-    /*NSInteger archivedVersion =*/ [aDecoder versionForClassName:NSStringFromClass([self class])];
-    //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
-
-    [aDecoder decodeValuesOfObjCTypes:"**i", &c_name, &c_comment, &isNative];
-    //NSLog(@"c_name: %s, c_comment: %s, isNative: %d", c_name, c_comment, isNative);
-
-    name = [[NSString stringWithASCIICString:c_name] retain];
-    comment = [[NSString stringWithASCIICString:c_comment] retain];
-    free(c_name);
-    free(c_comment);
-
-    //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
-    return self;
-}
+#pragma mark - Debugging
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@>[%p]: name: %@, comment: %@, isNative: %d",
-                     NSStringFromClass([self class]), self, name, comment, isNative];
+    return [NSString stringWithFormat:@"<%@: %p> name: %@, comment: %@, isNative: %d",
+            NSStringFromClass([self class]), self,
+            self.name, self.comment, self.isNative];
+}
+
+#pragma mark -
+
+@synthesize isNative = m_isNative;
+
+- (NSComparisonResult)compareByAscendingName:(MMCategory *)other;
+{
+    return [self.name compare:other.name];
 }
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     [resultString indentToLevel:level];
-    [resultString appendFormat:@"<category name=\"%@\"", GSXMLAttributeString(name, NO)];
+    [resultString appendFormat:@"<category name=\"%@\"", GSXMLAttributeString(self.name, NO)];
 
-    if (comment == nil) {
+    if (self.comment == nil) {
         [resultString appendString:@"/>\n"];
     } else {
         [resultString appendString:@">\n"];
 
         [resultString indentToLevel:level + 1];
-        [resultString appendFormat:@"<comment>%@</comment>\n", GSXMLCharacterData(comment)];
+        [resultString appendFormat:@"<comment>%@</comment>\n", GSXMLCharacterData(self.comment)];
 
         [resultString indentToLevel:level];
         [resultString appendString:@"</category>\n"];
-    }
-}
-
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
-{
-    if ([self init] == nil)
-        return nil;
-
-    [self setName:[attributes objectForKey:@"name"]];
-
-    return self;
-}
-
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-{
-    if ([elementName isEqualToString:@"comment"]) {
-        MXMLPCDataDelegate *newDelegate;
-
-        //NSLog(@"Got comment...");
-        newDelegate = [[MXMLPCDataDelegate alloc] initWithElementName:elementName delegate:self setSelector:@selector(setComment:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
-    } else {
-        NSLog(@"%@, Unknown element: '%@', skipping", [self shortDescription], elementName);
-        [(MXMLParser *)parser skipTree];
     }
 }
 

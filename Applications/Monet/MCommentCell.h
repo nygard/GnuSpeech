@@ -4,10 +4,6 @@
 #import <Cocoa/Cocoa.h>
 
 @interface MCommentCell : NSImageCell
-{
-}
-
-+ (void)initialize;
 
 //- (void)setObjectValue:(id)newObjectValue;
 

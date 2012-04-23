@@ -4,7 +4,7 @@
 #import "PhoneToSpeech.h"
 
 // Location of the diphones XML file that allows speech to happen.
-#define GNUSPEECH_SERVER_DIPHONES_XML_PATH	@"/Library/GnuSpeech/diphones.mxml"
+#define GNUSPEECH_SERVER_DIPHONES_XML_PATH	@"/Library/GnuSpeech/Diphones.mxml"
 
 // These defines were taken from Monet's MSynthesisController.m
 #define MDK_ShouldUseSmoothIntonation @"ShouldUseSmoothIntonation"
@@ -13,6 +13,12 @@
 #define MDK_ShouldUseDrift @"ShouldUseDrift"
 
 @implementation PhoneToSpeech
+{
+	MModel *model;
+    EventList *eventList;	
+	TRMSynthesizer *synthesizer;
+	struct _intonationParameters intonationParameters;
+}
 
 - (id)init;
 {

@@ -3,7 +3,6 @@
 
 // Archiving
 #import <GnuSpeech/GSXMLFunctions.h>
-#import <GnuSpeech/MUnarchiver.h>
 #import <GnuSpeech/MXMLArrayDelegate.h>
 #import <GnuSpeech/MXMLDictionaryDelegate.h>
 #import <GnuSpeech/MXMLIgnoreTreeDelegate.h>
@@ -12,17 +11,6 @@
 #import <GnuSpeech/MXMLReferenceArrayDelegate.h>
 #import <GnuSpeech/MXMLReferenceDictionaryDelegate.h>
 #import <GnuSpeech/MXMLStringArrayDelegate.h>
-
-#ifndef GNUSTEP
-// Compatibility-TypedStream
-#import <GnuSpeech/FormulaExpression.h>
-#import <GnuSpeech/FormulaTerminal.h>
-#import <GnuSpeech/MMOldFormulaNode.h>
-#import <GnuSpeech/ParameterList.h>
-#import <GnuSpeech/RuleList.h>
-#import <GnuSpeech/SymbolList.h>
-#import <GnuSpeech/TargetList.h>
-#endif
 
 // Extensions
 #import <GnuSpeech/NSArray-Extensions.h>
@@ -33,13 +21,14 @@
 #import <GnuSpeech/NSString-Extensions.h>
 
 // MonetModel
-#import <GnuSpeech/CategoryList.h>
-#import <GnuSpeech/driftGenerator.h>
 #import <GnuSpeech/Event.h>
 #import <GnuSpeech/EventList.h>
 #import <GnuSpeech/MDocument.h>
 #import <GnuSpeech/MMCategory.h>
+#import <GnuSpeech/MMDriftGenerator.h>
 #import <GnuSpeech/MMEquation.h>
+#import <GnuSpeech/MMGroup.h>
+#import <GnuSpeech/MMGroupedObject.h>
 #import <GnuSpeech/MMIntonationPoint.h>
 #import <GnuSpeech/MMNamedObject.h>
 #import <GnuSpeech/MMObject.h>
@@ -57,21 +46,16 @@
 #import <GnuSpeech/MMTextToPhone.h>
 #import <GnuSpeech/MMTransition.h>
 #import <GnuSpeech/MonetDefaults.h>
-#import <GnuSpeech/MonetList.h>
-#import <GnuSpeech/NamedList.h>
-#import <GnuSpeech/PhoneList.h>
 
 // Parsers
 #import <GnuSpeech/GSParser.h>
 #import <GnuSpeech/MMBooleanExpression.h>
 #import <GnuSpeech/MMBooleanNode.h>
 #import <GnuSpeech/MMBooleanParser.h>
-#import <GnuSpeech/MMBooleanSymbols.h>
 #import <GnuSpeech/MMBooleanTerminal.h>
 #import <GnuSpeech/MMFormulaExpression.h>
 #import <GnuSpeech/MMFormulaNode.h>
 #import <GnuSpeech/MMFormulaParser.h>
-#import <GnuSpeech/MMFormulaSymbols.h>
 #import <GnuSpeech/MMFormulaTerminal.h>
 #import <GnuSpeech/MMFRuleSymbols.h>
 

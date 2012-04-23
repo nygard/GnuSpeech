@@ -3,11 +3,12 @@
 
 #import "MReleaseNotesController.h"
 
-#ifndef GNUSTEP
 #import <WebKit/WebKit.h>
-#endif
 
 @implementation MReleaseNotesController
+{
+    IBOutlet WebView *webView;
+}
 
 - (id)init;
 {
@@ -24,9 +25,7 @@
     NSString *path;
 
     path = [[NSBundle mainBundle] pathForResource:@"ReleaseNotes" ofType:@"html"];
-#ifndef GNUSTEP
     [[webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:path]]];
-#endif
 }
 
 @end

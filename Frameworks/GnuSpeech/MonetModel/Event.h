@@ -4,26 +4,13 @@
 #import <Foundation/Foundation.h>
 
 #define NaN (1.0/0.0)
-#define MAX_EVENTS 36
 
 @interface Event : NSObject
-{
-    NSUInteger time;
-    BOOL flag;
-    double events[MAX_EVENTS];
-}
 
-- (id)init;
-- (id)initWithTime:(NSUInteger)aTime;
-
-- (NSUInteger)time;
-
-- (BOOL)flag;
-- (void)setFlag:(BOOL)newFlag;
+@property (assign) NSUInteger time;
+@property (assign) BOOL flag;
 
 - (double)getValueAtIndex:(NSUInteger)index;
-- (void)setValue:(double)newValue ofIndex:(NSUInteger)index;
-
-- (NSString *)description;
+- (void)setValue:(double)value atIndex:(NSUInteger)index;
 
 @end

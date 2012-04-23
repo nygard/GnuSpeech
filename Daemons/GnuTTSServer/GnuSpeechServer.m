@@ -5,6 +5,10 @@
 #import "TextToSpeech.h"
 
 @implementation GnuSpeechServer
+{
+	NSConnection *connection;
+	TextToSpeech *textToSpeech;
+}
 
 #pragma mark - Internal methods.
 

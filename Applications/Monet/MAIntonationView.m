@@ -29,6 +29,35 @@
 NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSelectionDidChangeNotification";
 
 @implementation MAIntonationView
+{
+    NSTextFieldCell *postureTextFieldCell;
+    NSTextFieldCell *ruleIndexTextFieldCell;
+    NSTextFieldCell *ruleDurationTextFieldCell;
+    
+    NSTextFieldCell *labelTextFieldCell;
+    NSTextFieldCell *horizontalAxisLabelTextFieldCell;
+    
+    MAIntonationScaleView *scaleView;
+    
+    NSFont *timesFont;
+    NSFont *timesFontSmall;
+    
+    EventList *eventList;
+    
+    CGFloat timeScale;
+    
+    NSMutableArray *selectedPoints;
+    NSPoint selectionPoint1;
+    NSPoint selectionPoint2;
+    
+    struct {
+        unsigned int shouldDrawSelection:1;
+        unsigned int shouldDrawSmoothPoints:1;
+        unsigned int mouseBeingDragged:1;
+    } flags;
+    
+    id nonretained_delegate;
+}
 
 - (id)initWithFrame:(NSRect)frameRect;
 {
@@ -97,6 +126,8 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
     [super dealloc];
 }
+
+#pragma mark -
 
 - (void)setScaleView:(MAIntonationScaleView *)newScaleView;
 {
@@ -614,9 +645,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     }
 }
 
-//
-// Event handling
-//
+#pragma mark - Event handling
 
 - (void)mouseEntered:(NSEvent *)theEvent;
 {
@@ -859,9 +888,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     [self _selectionDidChange];
 }
 
-//
-// Actions
-//
+#pragma mark - Actions
 
 - (IBAction)selectAll:(id)sender;
 {
@@ -1009,9 +1036,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     [self setNeedsDisplay:YES];
 }
 
-//
-// View geometry
-//
+#pragma mark - View geometry
 
 - (CGFloat)sectionHeight;
 {

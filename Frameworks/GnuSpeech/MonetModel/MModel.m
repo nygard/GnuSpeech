@@ -7,11 +7,8 @@
 #import "NSObject-Extensions.h"
 #import "NSString-Extensions.h"
 
-#import "CategoryList.h"
 #import "MMCategory.h"
-#import "MonetList.h"
-#import "NamedList.h"
-#import "PhoneList.h"
+#import "MMGroup.h"
 #import "MMBooleanParser.h"
 #import "MMEquation.h"
 #import "MMParameter.h"
@@ -23,58 +20,91 @@
 #import "MMTransition.h"
 #import "TRMData.h"
 
-#import "MUnarchiver.h"
 #import "MXMLParser.h"
 #import "MXMLArrayDelegate.h"
 
-// For typedstream compatibility
-#import "ParameterList.h"
-#import "SymbolList.h"
-
 NSString *MCategoryInUseException = @"MCategoryInUseException";
 
+@interface MModel ()
+
+- (void)_addDefaultRule;
+- (void)_generateUniqueNameForObject:(MMNamedObject *)newObject existingObjects:(NSArray *)existingObjects;
+
+- (void)_addDefaultPostureTargetsForParameter:(MMParameter *)newParameter;
+- (void)_addDefaultPostureTargetsForMetaParameter:(MMParameter *)newParameter;
+- (void)_addDefaultPostureTargetsForSymbol:(MMSymbol *)newSymbol;
+- (void)_generateUniqueNameForPosture:(MMPosture *)newPosture;
+- (void)_addStoredRule:(MMRule *)newRule;
+- (void)_appendXMLForEquationsToString:(NSMutableString *)resultString level:(NSUInteger)level;
+- (void)_appendXMLForTransitionsToString:(NSMutableString *)resultString level:(NSUInteger)level;
+- (void)_appendXMLForProtoSpecialsToString:(NSMutableString *)resultString level:(NSUInteger)level;
+- (void)_writeCategoriesToFile:(FILE *)fp;
+- (void)_writeParametersToFile:(FILE *)fp;
+- (void)_writeSymbolsToFile:(FILE *)fp;
+- (void)_writePosturesToFile:(FILE *)fp;
+
+@end
+
+#pragma mark -
+
 @implementation MModel
+{
+    NSMutableArray *categories; // Keep this list sorted by name
+    NSMutableArray *parameters;
+    NSMutableArray *metaParameters;
+    NSMutableArray *symbols;
+    NSMutableArray *postures; // Keep this list sorted by name
+    
+    NSMutableArray *equationGroups;          // Of MMGroups of MMEquations
+    NSMutableArray *transitionGroups;        // Of MMGroups of MMTransitions
+    NSMutableArray *specialTransitionGroups; // Of MMGroups of MMTransitions
+    
+    NSMutableArray *rules;
+    NSUInteger cacheTag;
+    
+    // This doesn't really belong here, but I'll put it here for now.
+    MMSynthesisParameters *synthesisParameters;
+}
 
 - (id)init;
 {
-    if ([super init] == nil)
-        return nil;
-
-    categories = [[CategoryList alloc] init];
-    parameters = [[NSMutableArray alloc] init];
-    metaParameters = [[NSMutableArray alloc] init];
-    symbols = [[NSMutableArray alloc] init];
-    postures = [[NSMutableArray alloc] init];
-
-    equations = [[NSMutableArray alloc] init];
-    transitions = [[NSMutableArray alloc] init];
-    specialTransitions = [[NSMutableArray alloc] init];
-
-    rules = [[NSMutableArray alloc] init];
+    if ((self = [super init])) {
+        categories = [[NSMutableArray alloc] init];
+        parameters = [[NSMutableArray alloc] init];
+        metaParameters = [[NSMutableArray alloc] init];
+        symbols = [[NSMutableArray alloc] init];
+        postures = [[NSMutableArray alloc] init];
+        
+        equationGroups = [[NSMutableArray alloc] init];
+        transitionGroups = [[NSMutableArray alloc] init];
+        specialTransitionGroups = [[NSMutableArray alloc] init];
+        
+        rules = [[NSMutableArray alloc] init];
 #if 0
-    // And set up some default values:
-    // TODO (2004-05-15): Just load these from a default .monet file
-    {
-        MMSymbol *newSymbol;
-        MMCategory *newCategory;
-
-        newSymbol = [[MMSymbol alloc] init];
-        [newSymbol setName:@"duration"];
-        [self addSymbol:newSymbol];
-        [newSymbol release];
-
-        newCategory = [[MMCategory alloc] init];
-        [newCategory setName:@"phone"];
-        [newCategory setComment:@"This is the static phone category.  It cannot be changed or removed."];
-        [self addCategory:newCategory];
-        [newCategory release];
-
-        [self _addDefaultRule];
-    }
+        // And set up some default values:
+        // TODO (2004-05-15): Just load these from a default .monet file
+        {
+            MMSymbol *newSymbol;
+            MMCategory *newCategory;
+            
+            newSymbol = [[MMSymbol alloc] init];
+            [newSymbol setName:@"duration"];
+            [self addSymbol:newSymbol];
+            [newSymbol release];
+            
+            newCategory = [[MMCategory alloc] init];
+            [newCategory setName:@"phone"];
+            [newCategory setComment:@"This is the static phone category.  It cannot be changed or removed."];
+            [self addCategory:newCategory];
+            [newCategory release];
+            
+            [self _addDefaultRule];
+        }
 #endif
-    cacheTag = 1;
-
-    synthesisParameters = [[MMSynthesisParameters alloc] init];
+        cacheTag = 1;
+        
+        synthesisParameters = [[MMSynthesisParameters alloc] init];
+    }
 
     return self;
 }
@@ -86,9 +116,9 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [metaParameters release];
     [symbols release];
     [postures release];
-    [equations release];
-    [transitions release];
-    [specialTransitions release];
+    [equationGroups release];
+    [transitionGroups release];
+    [specialTransitionGroups release];
     [rules release];
 
     [synthesisParameters release];
@@ -96,241 +126,135 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     [super dealloc];
 }
 
+#pragma mark -
+
 - (void)_addDefaultRule;
 {
-    MMRule *newRule;
-    MMBooleanParser *boolParser;
-    MMBooleanNode *expr1, *expr2;
+    MMBooleanParser *boolParser = [[[MMBooleanParser alloc] initWithModel:self] autorelease];
+    MMBooleanNode *expr1 = [boolParser parseString:@"phone"];
+    MMBooleanNode *expr2 = [boolParser parseString:@"phone"];
 
-    boolParser = [[MMBooleanParser alloc] initWithModel:self];
-
-    expr1 = [boolParser parseString:@"phone"];
-    expr2 = [boolParser parseString:@"phone"];
-
-    [boolParser release];
-
-    newRule = [[MMRule alloc] init];
+    MMRule *newRule = [[[MMRule alloc] init] autorelease];
     [newRule setExpression:expr1 number:0];
     [newRule setExpression:expr2 number:1];
     [newRule setDefaultsTo:[newRule numberExpressions]];
     [self addRule:newRule];
-    [newRule release];
 }
 
-- (CategoryList *)categories;
-{
-    return categories;
-}
+@synthesize categories, parameters, metaParameters, symbols, postures, equationGroups, transitionGroups, specialTransitionGroups, rules;
 
-- (NSMutableArray *)parameters;
-{
-    return parameters;
-}
-
-- (NSMutableArray *)metaParameters;
-{
-    return metaParameters;
-}
-
-- (NSMutableArray *)symbols;
-{
-    return symbols;
-}
-
-- (NSMutableArray *)postures;
-{
-    return postures;
-}
-
-- (NSMutableArray *)equations;
-{
-    return equations;
-}
-
-- (NSMutableArray *)transitions;
-{
-    return transitions;
-}
-
-- (NSMutableArray *)specialTransitions;
-{
-    return specialTransitions;
-}
-
-- (NSMutableArray *)rules;
-{
-    return rules;
-}
-
-//
-// Categories
-//
+#pragma mark - Categories
 
 - (void)addCategory:(MMCategory *)newCategory;
 {
-    if ([newCategory name] == nil)
-        [newCategory setName:@"untitled"];
-
-    [self _uniqueNameForCategory:newCategory];
+    [self _generateUniqueNameForObject:newCategory existingObjects:self.categories];
 
     [categories addObject:newCategory];
     //[categories sortUsingSelector:@selector(compareByAscendingName:)];
     // TODO (2004-03-18): And post notification of new category.
 }
 
-- (void)_uniqueNameForCategory:(MMCategory *)newCategory;
-{
-    NSMutableSet *names;
-    NSUInteger count, index;
-    NSString *name, *basename;
-
-    names = [[NSMutableSet alloc] init];
-    count = [categories count];
-    for (index = 0; index < count; index++) {
-        name = [[categories objectAtIndex:index] name];
-        if (name != nil)
-            [names addObject:name];
-    }
-
-    name = basename = [newCategory name];
-    index = 1;
-    while ([names containsObject:name] == YES) {
-        name = [NSString stringWithFormat:@"%@%lu", basename, index++];
-    }
-
-    [newCategory setName:name];
-
-    [names release];
-}
-
 // TODO (2004-03-19): Is it used by rules, anyway.  Postures can also use categories.
-- (BOOL)isCategoryUsed:(MMCategory *)aCategory;
+- (BOOL)isCategoryUsed:(MMCategory *)category;
 {
-    NSUInteger count, index;
-
-    count = [rules count];
-    for (index = 0; index < count; index++) {
-        if ([[rules objectAtIndex:index] isCategoryUsed:aCategory])
+    for (MMRule *rule in self.rules) {
+        if ([rule isCategoryUsed:category])
             return YES;
     }
 
     return NO;
 }
 
-- (void)removeCategory:(MMCategory *)aCategory;
+- (void)removeCategory:(MMCategory *)category;
 {
-    if ([self isCategoryUsed:aCategory] == YES) {
+    if ([self isCategoryUsed:category]) {
+        // TODO: Don't raise exception.  Return NO and an NSError
         [NSException raise:MCategoryInUseException format:@"Cannot remove category that is in use."];
     }
 
-    [categories removeObject:aCategory];
+    [categories removeObject:category];
 }
 
 // TODO (2004-03-19): We could store these in a dictionary for quick lookup by name.
-- (MMCategory *)categoryWithName:(NSString *)aName;
+- (MMCategory *)categoryWithName:(NSString *)name;
 {
-    NSUInteger count, index;
-    MMCategory *aCategory;
-
-    count = [categories count];
-    for (index = 0; index < count; index++) {
-        aCategory = [categories objectAtIndex:index];
-        if ([[aCategory name] isEqual:aName])
-            return aCategory;
+    for (MMCategory *category in self.categories) {
+        if ([[category name] isEqual:name])
+            return category;
     }
 
     return nil;
 }
 
-//
-// Parameters
-//
+#pragma mark - Parameters
 
-- (void)addParameter:(MMParameter *)newParameter;
+- (void)addParameter:(MMParameter *)parameter;
 {
-    if ([newParameter name] == nil)
-        [newParameter setName:@"untitled"];
+    if (parameter.name == nil)
+        [parameter setName:@"untitled"];
 
-    [self _uniqueNameForParameter:newParameter inList:parameters];
+    [self _generateUniqueNameForObject:parameter existingObjects:self.parameters];
 
-    [parameters addObject:newParameter];
-    [newParameter setModel:self];
-    [self _addDefaultPostureTargetsForParameter:newParameter];
-    [rules makeObjectsPerformSelector:@selector(addDefaultParameter)];
+    [self.parameters addObject:parameter];
+    [parameter setModel:self];
+    [self _addDefaultPostureTargetsForParameter:parameter];
+    [self.rules makeObjectsPerformSelector:@selector(addDefaultParameter)];
 }
 
-// TODO (2004-03-19): When MMParameter and MMSymbol are the same class, this can be shared
-- (void)_uniqueNameForParameter:(MMParameter *)newParameter inList:(NSMutableArray *)aParameterList;
+- (void)_generateUniqueNameForObject:(MMNamedObject *)object existingObjects:(NSArray *)existingObjects;
 {
-    NSMutableSet *names;
-    NSUInteger count, index;
-    NSString *name, *basename;
-
-    names = [[NSMutableSet alloc] init];
-    count = [aParameterList count];
-    for (index = 0; index < count; index++) {
-        name = [[aParameterList objectAtIndex:index] name];
-        if (name != nil)
-            [names addObject:name];
+    NSMutableSet *names = [[[NSMutableSet alloc] init] autorelease];
+    for (MMNamedObject *namedObject in existingObjects) {
+        if (namedObject.name != nil)
+            [names addObject:namedObject.name];
     }
 
-    name = basename = [newParameter name];
-    index = 1;
-    while ([names containsObject:name] == YES) {
+    NSString *basename = (object.name == nil) ? @"untitled" : object.name;
+    NSString *name = basename;
+
+    NSUInteger index = 1;
+    while ([names containsObject:name]) {
         name = [NSString stringWithFormat:@"%@%lu", basename, index++];
     }
 
-    [newParameter setName:name];
-
-    [names release];
+    object.name = name;
 }
 
 - (void)_addDefaultPostureTargetsForParameter:(MMParameter *)newParameter;
 {
     NSUInteger count, index;
-    double value;
 
-    value = [newParameter defaultValue];
+    double value = [newParameter defaultValue];
     count = [postures count];
     for (index = 0; index < count; index++) {
-        MMTarget *newTarget;
-
-        newTarget = [[MMTarget alloc] initWithValue:value isDefault:YES];
+        MMTarget *newTarget = [[MMTarget alloc] initWithValue:value isDefault:YES];
         [[postures objectAtIndex:index] addParameterTarget:newTarget];
         [newTarget release];
     }
 }
 
-- (void)removeParameter:(MMParameter *)aParameter;
+- (void)removeParameter:(MMParameter *)parameter;
 {
-    NSUInteger parameterIndex;
-
-    parameterIndex  = [parameters indexOfObject:aParameter];
+    NSUInteger parameterIndex  = [parameters indexOfObject:parameter];
     if (parameterIndex != NSNotFound) {
-        int count, index;
+        for (MMPosture *posture in self.postures)
+            [posture removeParameterTargetAtIndex:parameterIndex];
 
-        count = [postures count];
-        for (index = 0; index < count; index++)
-            [[postures objectAtIndex:index] removeParameterTargetAtIndex:parameterIndex];
+        for (MMRule *rule in self.rules)
+            [rule removeParameterAtIndex:parameterIndex];
 
-        count = [rules count];
-        for (index = 0; index < count; index++)
-            [[rules objectAtIndex:index] removeParameterAtIndex:parameterIndex];
-
-        [parameters removeObject:aParameter];
+        [parameters removeObject:parameter];
     }
 }
 
-//
-// Meta Parameters
-//
+#pragma mark - Meta Parameters
 
 - (void)addMetaParameter:(MMParameter *)newParameter;
 {
     if ([newParameter name] == nil)
         [newParameter setName:@"untitled"];
 
-    [self _uniqueNameForParameter:newParameter inList:metaParameters];
+    [self _generateUniqueNameForObject:newParameter existingObjects:metaParameters];
 
     [metaParameters addObject:newParameter];
     [newParameter setModel:self];
@@ -341,14 +265,11 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 - (void)_addDefaultPostureTargetsForMetaParameter:(MMParameter *)newParameter;
 {
     NSUInteger count, index;
-    double value;
 
-    value = [newParameter defaultValue];
+    double value = [newParameter defaultValue];
     count = [postures count];
     for (index = 0; index < count; index++) {
-        MMTarget *newTarget;
-
-        newTarget = [[MMTarget alloc] initWithValue:value isDefault:YES];
+        MMTarget *newTarget = [[MMTarget alloc] initWithValue:value isDefault:YES];
         [[postures objectAtIndex:index] addMetaParameterTarget:newTarget];
         [newTarget release];
     }
@@ -356,9 +277,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)removeMetaParameter:(MMParameter *)aParameter;
 {
-    NSUInteger parameterIndex;
-
-    parameterIndex  = [metaParameters indexOfObject:aParameter];
+    NSUInteger parameterIndex  = [metaParameters indexOfObject:aParameter];
     if (parameterIndex != NSNotFound) {
         NSUInteger count, index;
 
@@ -374,58 +293,27 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     }
 }
 
-//
-// Symbols
-//
+#pragma mark - Symbols
 
 - (void)addSymbol:(MMSymbol *)newSymbol;
 {
     if ([newSymbol name] == nil)
         [newSymbol setName:@"untitled"];
 
-    [self _uniqueNameForSymbol:newSymbol];
+    [self _generateUniqueNameForObject:newSymbol existingObjects:self.symbols];
 
     [symbols addObject:newSymbol];
     [newSymbol setModel:self];
     [self _addDefaultPostureTargetsForSymbol:newSymbol];
 }
 
-- (void)_uniqueNameForSymbol:(MMSymbol *)newSymbol;
-{
-    NSMutableSet *names;
-    NSUInteger count, index;
-    NSString *name, *basename;
-
-    names = [[NSMutableSet alloc] init];
-    count = [symbols count];
-    for (index = 0; index < count; index++) {
-        name = [[symbols objectAtIndex:index] name];
-        if (name != nil)
-            [names addObject:name];
-    }
-
-    name = basename = [newSymbol name];
-    index = 1;
-    while ([names containsObject:name] == YES) {
-        name = [NSString stringWithFormat:@"%@%lu", basename, index++];
-    }
-
-    [newSymbol setName:name];
-
-    [names release];
-}
-
 - (void)_addDefaultPostureTargetsForSymbol:(MMSymbol *)newSymbol;
 {
     NSUInteger count, index;
-    double value;
-
-    value = [newSymbol defaultValue];
+    double value = [newSymbol defaultValue];
     count = [postures count];
     for (index = 0; index < count; index++) {
-        MMTarget *newTarget;
-
-        newTarget = [[MMTarget alloc] initWithValue:value isDefault:YES];
+        MMTarget *newTarget = [[MMTarget alloc] initWithValue:value isDefault:YES];
         [[postures objectAtIndex:index] addSymbolTarget:newTarget];
         [newTarget release];
     }
@@ -433,9 +321,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)removeSymbol:(MMSymbol *)aSymbol;
 {
-    NSUInteger symbolIndex;
-
-    symbolIndex = [symbols indexOfObject:aSymbol];
+    NSUInteger symbolIndex = [symbols indexOfObject:aSymbol];
     if (symbolIndex != NSNotFound) {
         NSUInteger count, index;
 
@@ -453,9 +339,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
     count = [symbols count];
     for (index = 0; index < count; index++) {
-        MMSymbol *aSymbol;
-
-        aSymbol = [symbols objectAtIndex:index];
+        MMSymbol *aSymbol = [symbols objectAtIndex:index];
         if ([[aSymbol name] isEqual:aName] == YES)
             return aSymbol;
     }
@@ -463,58 +347,45 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     return nil;
 }
 
-//
-// Postures
-//
+#pragma mark - Postures
 
 - (void)addPosture:(MMPosture *)newPosture;
 {
-    if ([newPosture name] == nil)
-        [newPosture setName:@"untitled"];
-
     [newPosture setModel:self];
-    [self _uniqueNameForPosture:newPosture];
+    [self _generateUniqueNameForPosture:newPosture];
 
     [postures addObject:newPosture];
     [self sortPostures];
 }
 
-- (void)_uniqueNameForPosture:(MMPosture *)newPosture;
+- (void)_generateUniqueNameForPosture:(MMPosture *)newPosture;
 {
-    NSMutableSet *names;
-    NSUInteger count, index;
-    NSString *name, *basename;
-    BOOL isUsed;
-
-    names = [[NSMutableSet alloc] init];
-    count = [postures count];
-    for (index = 0; index < count; index++) {
-        name = [[postures objectAtIndex:index] name];
-        if (name != nil)
-            [names addObject:name];
+    NSMutableSet *names = [[NSMutableSet alloc] init];
+    for (MMPosture *posture in self.postures) {
+        if (posture.name != nil)
+            [names addObject:posture.name];
     }
 
-    index = 1;
-    name = basename = [newPosture name];
-    isUsed = [names containsObject:name];
+    NSUInteger index = 1;
+    NSString *basename = (newPosture.name == nil) ? @"untitled" : newPosture.name;
+    NSString *name = basename;
+    BOOL isUsed = [names containsObject:name];
 
-    if (isUsed == YES) {
-        char ch1, ch2;
-
-        for (ch1 = 'A'; isUsed == YES && ch1 <= 'Z'; ch1++) {
+    if (isUsed) {
+        for (char ch1 = 'A'; isUsed && ch1 <= 'Z'; ch1++) {
             name = [NSString stringWithFormat:@"%@%c", basename, ch1];
             isUsed = [names containsObject:name];
         }
 
-        for (ch1 = 'A'; isUsed == YES && ch1 <= 'Z'; ch1++) {
-            for (ch2 = 'A'; isUsed == YES && ch2 <= 'Z'; ch2++) {
+        for (char ch1 = 'A'; isUsed && ch1 <= 'Z'; ch1++) {
+            for (char ch2 = 'A'; isUsed && ch2 <= 'Z'; ch2++) {
                 name = [NSString stringWithFormat:@"%@%c%c", basename, ch1, ch2];
                 isUsed = [names containsObject:name];
             }
         }
     }
 
-    while ([names containsObject:name] == YES) {
+    while ([names containsObject:name]) {
         name = [NSString stringWithFormat:@"%@%lu", basename, index++];
     }
 
@@ -538,11 +409,10 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 - (MMPosture *)postureWithName:(NSString *)aName;
 {
     NSUInteger count, index;
-    MMPosture *aPosture;
 
     count = [postures count];
     for (index = 0; index < count; index++) {
-        aPosture = [postures objectAtIndex:index];
+        MMPosture *aPosture = [postures objectAtIndex:index];
         if ([[aPosture name] isEqual:aName])
             return aPosture;
     }
@@ -550,21 +420,21 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     return nil;
 }
 
-- (void)addEquationGroup:(NamedList *)newGroup;
+- (void)addEquationGroup:(MMGroup *)newGroup;
 {
-    [equations addObject:newGroup];
+    [equationGroups addObject:newGroup];
     [newGroup setModel:self];
 }
 
-- (void)addTransitionGroup:(NamedList *)newGroup;
+- (void)addTransitionGroup:(MMGroup *)newGroup;
 {
-    [transitions addObject:newGroup];
+    [transitionGroups addObject:newGroup];
     [newGroup setModel:self];
 }
 
-- (void)addSpecialTransitionGroup:(NamedList *)newGroup;
+- (void)addSpecialTransitionGroup:(MMGroup *)newGroup;
 {
-    [specialTransitions addObject:newGroup];
+    [specialTransitionGroups addObject:newGroup];
     [newGroup setModel:self];
 }
 
@@ -574,16 +444,12 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     NSUInteger groupCount, groupIndex;
     NSUInteger count, index;
 
-    groupCount = [equations count];
+    groupCount = [equationGroups count];
     for (groupIndex = 0; groupIndex < groupCount; groupIndex++) {
-        NamedList *currentGroup;
-
-        currentGroup = [equations objectAtIndex:groupIndex];
-        count = [currentGroup count];
+        MMGroup *currentGroup = [equationGroups objectAtIndex:groupIndex];
+        count = [currentGroup.objects count];
         for (index = 0; index < count; index++) {
-            MMEquation *anEquation;
-
-            anEquation = [currentGroup objectAtIndex:index];
+            MMEquation *anEquation = [currentGroup.objects objectAtIndex:index];
             if ([anEquationName isEqualToString:[anEquation name]])
                 return anEquation;
         }
@@ -597,16 +463,12 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     NSUInteger groupCount, groupIndex;
     NSUInteger count, index;
 
-    groupCount = [transitions count];
+    groupCount = [transitionGroups count];
     for (groupIndex = 0; groupIndex < groupCount; groupIndex++) {
-        NamedList *currentGroup;
-
-        currentGroup = [transitions objectAtIndex:groupIndex];
-        count = [currentGroup count];
+        MMGroup *currentGroup = [transitionGroups objectAtIndex:groupIndex];
+        count = [currentGroup.objects count];
         for (index = 0; index < count; index++) {
-            MMTransition *aTransition;
-
-            aTransition = [currentGroup objectAtIndex:index];
+            MMTransition *aTransition = [currentGroup.objects objectAtIndex:index];
             if ([aTransitionName isEqualToString:[aTransition name]])
                 return aTransition;
         }
@@ -620,16 +482,12 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     NSUInteger groupCount, groupIndex;
     NSUInteger count, index;
 
-    groupCount = [specialTransitions count];
+    groupCount = [specialTransitionGroups count];
     for (groupIndex = 0; groupIndex < groupCount; groupIndex++) {
-        NamedList *currentGroup;
-
-        currentGroup = [specialTransitions objectAtIndex:groupIndex];
-        count = [currentGroup count];
+        MMGroup *currentGroup = [specialTransitionGroups objectAtIndex:groupIndex];
+        count = [currentGroup.objects count];
         for (index = 0; index < count; index++) {
-            MMTransition *aTransition;
-
-            aTransition = [currentGroup objectAtIndex:index];
+            MMTransition *aTransition = [currentGroup.objects objectAtIndex:index];
             if ([aTransitionName isEqualToString:[aTransition name]])
                 return aTransition;
         }
@@ -645,15 +503,13 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 {
     NSUInteger i, j;
 
-    for (i = 0 ; i < [equations count]; i++) {
-        NamedList *currentList;
-
-        currentList = [equations objectAtIndex:i];
-        if ([aListName isEqualToString:[currentList name]]) {
-            for (j = 0; j < [currentList count]; j++) {
+    for (i = 0 ; i < [equationGroups count]; i++) {
+        MMGroup *currentGroup = [equationGroups objectAtIndex:i];
+        if ([aListName isEqualToString:[currentGroup name]]) {
+            for (j = 0; j < [currentGroup.objects count]; j++) {
                 MMEquation *anEquation;
 
-                anEquation = [currentList objectAtIndex:j];
+                anEquation = [currentGroup.objects objectAtIndex:j];
                 if ([anEquationName isEqualToString:[anEquation name]])
                     return anEquation;
             }
@@ -669,8 +525,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 {
     NSUInteger i, temp;
 
-    for (i = 0 ; i < [equations count]; i++) {
-        temp = [[equations objectAtIndex:i] indexOfObject:anEquation];
+    for (i = 0 ; i < [equationGroups count]; i++) {
+        temp = [[equationGroups objectAtIndex:i] indexOfObject:anEquation];
         if (temp != NSNotFound) {
             *listIndex = i;
             *equationIndex = temp;
@@ -685,27 +541,25 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 - (MMEquation *)findEquation:(NSUInteger)listIndex andIndex:(NSUInteger)equationIndex;
 {
     //NSLog(@"-> %s, listIndex: %d, index: %d", _cmd, listIndex, index);
-    if (listIndex > [equations count]) {
-        NSLog(@"%s: listIndex: %lu out of range.  count: %lu", __PRETTY_FUNCTION__, listIndex, [equations count]);
+    if (listIndex > [equationGroups count]) {
+        NSLog(@"%s: listIndex: %lu out of range.  count: %lu", __PRETTY_FUNCTION__, listIndex, [equationGroups count]);
         return nil;
     }
 
-    return [[equations objectAtIndex:listIndex] objectAtIndex:equationIndex];
+    return [[equationGroups objectAtIndex:listIndex] objectAtIndex:equationIndex];
 }
 
 - (MMTransition *)findTransitionList:(NSString *)aListName named:(NSString *)aTransitionName;
 {
     NSUInteger i, j;
 
-    for (i = 0 ; i < [transitions count]; i++) {
-        NamedList *currentList;
-
-        currentList = [transitions objectAtIndex:i];
-        if ([aListName isEqualToString:[currentList name]]) {
-            for (j = 0; j < [currentList count]; j++) {
+    for (i = 0 ; i < [transitionGroups count]; i++) {
+        MMGroup *currentGroup = [transitionGroups objectAtIndex:i];
+        if ([aListName isEqualToString:[currentGroup name]]) {
+            for (j = 0; j < [currentGroup.objects count]; j++) {
                 MMTransition *aTransition;
 
-                aTransition = [currentList objectAtIndex:j];
+                aTransition = [currentGroup.objects objectAtIndex:j];
                 if ([aTransitionName isEqualToString:[aTransition name]])
                     return aTransition;
             }
@@ -721,8 +575,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 {
     NSUInteger i, temp;
 
-    for (i = 0 ; i < [transitions count]; i++) {
-        temp = [[transitions objectAtIndex:i] indexOfObject:aTransition];
+    for (i = 0 ; i < [transitionGroups count]; i++) {
+        temp = [[transitionGroups objectAtIndex:i] indexOfObject:aTransition];
         if (temp != NSNotFound) {
             *listIndex = i;
             *transitionIndex = temp;
@@ -737,22 +591,18 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 {
     //NSLog(@"Name: %@ (%d)\n", [[transitions objectAtIndex: listIndex] name], listIndex);
     //NSLog(@"\tCount: %d  index: %d  count: %d\n", [transitions count], index, [[transitions objectAtIndex: listIndex] count]);
-    return [[transitions objectAtIndex:listIndex] objectAtIndex:transitionIndex];
+    return [[transitionGroups objectAtIndex:listIndex] objectAtIndex:transitionIndex];
 }
 
 - (MMTransition *)findSpecialList:(NSString *)aListName named:(NSString *)aSpecialName;
 {
     NSUInteger i, j;
 
-    for (i = 0 ; i < [specialTransitions count]; i++) {
-        NamedList *currentList;
-
-        currentList = [specialTransitions objectAtIndex:i];
-        if ([aListName isEqualToString:[currentList name]]) {
-            for (j = 0; j < [currentList count]; j++) {
-                MMTransition *aTransition;
-
-                aTransition = [currentList objectAtIndex:j];
+    for (i = 0 ; i < [specialTransitionGroups count]; i++) {
+        MMGroup *currentGroup = [specialTransitionGroups objectAtIndex:i];
+        if ([aListName isEqualToString:[currentGroup name]]) {
+            for (j = 0; j < [currentGroup.objects count]; j++) {
+                MMTransition *aTransition = [currentGroup.objects objectAtIndex:j];
                 if ([aSpecialName isEqualToString:[aTransition name]])
                     return aTransition;
             }
@@ -768,8 +618,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 {
     NSUInteger i, temp;
 
-    for (i = 0 ; i < [specialTransitions count]; i++) {
-        temp = [[specialTransitions objectAtIndex:i] indexOfObject:aTransition];
+    for (i = 0 ; i < [specialTransitionGroups count]; i++) {
+        temp = [[specialTransitionGroups objectAtIndex:i] indexOfObject:aTransition];
         if (temp != NSNotFound) {
             *listIndex = i;
             *specialIndex = temp;
@@ -782,53 +632,51 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (MMTransition *)findSpecial:(NSUInteger)listIndex andIndex:(NSUInteger)specialIndex;
 {
-    return [[specialTransitions objectAtIndex:listIndex] objectAtIndex:specialIndex];
+    return [[specialTransitionGroups objectAtIndex:listIndex] objectAtIndex:specialIndex];
 }
 
 - (NSArray *)usageOfEquation:(MMEquation *)anEquation;
 {
-    NSMutableArray *array;
     NSUInteger count, index;
-    MMRule *aRule;
-    NamedList *aGroup;
-    MMTransition *aTransition;
 
-    array = [NSMutableArray array];
+    NSMutableArray *array = [NSMutableArray array];
     count = [rules count];
     for (index = 0; index < count; index++) {
-        aRule = [rules objectAtIndex:index];
+        MMRule *aRule = [rules objectAtIndex:index];
         if ([aRule isEquationUsed:anEquation]) {
             [array addObject:[NSString stringWithFormat:@"Rule: %lu", index + 1]];
         }
     }
 
-    count = [transitions count];
+    count = [transitionGroups count];
     for (index = 0; index < count; index++) {
         NSUInteger transitionCount, transitionIndex;
 
-        aGroup = [transitions objectAtIndex:index];
-        transitionCount = [aGroup count];
+        MMGroup *group = [transitionGroups objectAtIndex:index];
+        transitionCount = [group.objects count];
         for (transitionIndex = 0; transitionIndex < transitionCount; transitionIndex++) {
-            aTransition = [aGroup objectAtIndex:transitionIndex];
+            MMTransition *aTransition = [group.objects objectAtIndex:transitionIndex];
             if ([aTransition isEquationUsed:anEquation]) {
                 [array addObject:[NSString stringWithFormat:@"T:%@:%@", [[aTransition group] name], [aTransition name]]];
             }
         }
     }
 
-    count = [specialTransitions count];
+    count = [specialTransitionGroups count];
     for (index = 0; index < count; index++) {
         NSUInteger transitionCount, transitionIndex;
 
-        aGroup = [specialTransitions objectAtIndex:index];
-        transitionCount = [aGroup count];
+        MMGroup *group = [specialTransitionGroups objectAtIndex:index];
+        transitionCount = [group.objects count];
         for (transitionIndex = 0; transitionIndex < transitionCount; transitionIndex++) {
-            aTransition = [aGroup objectAtIndex:transitionIndex];
+            MMTransition *aTransition = [group.objects objectAtIndex:transitionIndex];
             if ([aTransition isEquationUsed:anEquation]) {
                 [array addObject:[NSString stringWithFormat:@"S:%@:%@", [[aTransition group] name], [aTransition name]]];
             }
         }
     }
+    
+    NSParameterAssert([array isKindOfClass:[NSArray class]]);
 
     return array;
 }
@@ -836,15 +684,12 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (NSArray *)usageOfTransition:(MMTransition *)aTransition;
 {
-    NSMutableArray *array;
     NSUInteger count, index;
-    MMRule *aRule;
-
-    array = [NSMutableArray array];
+    NSMutableArray *array = [NSMutableArray array];
 
     count = [rules count];
     for (index = 0; index < count; index++) {
-        aRule = [rules objectAtIndex:index];
+        MMRule *aRule = [rules objectAtIndex:index];
         if ([aRule isTransitionUsed:aTransition]) {
             [array addObject:[NSString stringWithFormat:@"Rule: %lu", index + 1]];
         }
@@ -853,9 +698,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     return array;
 }
 
-//
-// Rules
-//
+#pragma mark - Rules
 
 - (void)addRule:(MMRule *)newRule;
 {
@@ -880,11 +723,9 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     NSUInteger count, index;
 
     count = [rules count];
-    assert(count > 0);
+    NSParameterAssert(count > 0);
     for (index = 0; index < count; index++) {
-        MMRule *rule;
-
-        rule = [rules objectAtIndex:index];
+        MMRule *rule = [rules objectAtIndex:index];
         if ([rule numberExpressions] <= [categoryLists count])
             if ([rule matchRule:categoryLists]) {
                 if (indexPtr != NULL)
@@ -900,181 +741,11 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     return [rules lastObject];
 }
 
-//
-// Archiving
-//
-
-- (id)initWithCoder:(NSCoder *)aDecoder;
-{
-    if ([super initWithCoder:aDecoder] == nil)
-        return nil;
-
-    [(MUnarchiver *)aDecoder setUserInfo:self];
-
-    /* Category list must be named immediately */
-    categories = [[aDecoder decodeObject] retain];
-    //[categories sortUsingSelector:@selector(compareByAscendingName:)];
-
-    //NSLog(@"categories: %@", categories);
-    //NSLog(@"categories: %d", [categories count]);
-
-    {
-        SymbolList *archivedSymbols;
-
-        archivedSymbols = [aDecoder decodeObject];
-        symbols = [[NSMutableArray alloc] init];
-        [symbols addObjectsFromArray:[archivedSymbols allObjects]];
-
-        //NSLog(@"symbols: %@", symbols);
-        //NSLog(@"symbols: %d", [symbols count]);
-        [symbols makeObjectsPerformSelector:@selector(setModel:) withObject:self];
-    }
-
-    {
-        ParameterList *archivedParameters;
-
-        archivedParameters = [aDecoder decodeObject];
-        parameters = [[NSMutableArray alloc] init];
-        [parameters addObjectsFromArray:[archivedParameters allObjects]];
-
-        //NSLog(@"parameters: %@", parameters);
-        //NSLog(@"parameters: %d", [parameters count]);
-        [parameters makeObjectsPerformSelector:@selector(setModel:) withObject:self];
-    }
-
-    {
-        ParameterList *archivedMetaParameters;
-
-        archivedMetaParameters = [aDecoder decodeObject];
-        metaParameters = [[NSMutableArray alloc] init];
-        [metaParameters addObjectsFromArray:[archivedMetaParameters allObjects]];
-
-        //NSLog(@"metaParameters: %@", metaParameters);
-        //NSLog(@"metaParameters: %d", [metaParameters count]);
-        [metaParameters makeObjectsPerformSelector:@selector(setModel:) withObject:self];
-    }
-
-    {
-        PhoneList *archivedPostures;
-
-        archivedPostures = [aDecoder decodeObject];
-        postures = [[NSMutableArray alloc] init];
-        [postures addObjectsFromArray:[archivedPostures allObjects]];
-
-        //NSLog(@"postures: %@", postures);
-        //NSLog(@"postures: %d", [postures count]);
-        [postures makeObjectsPerformSelector:@selector(setModel:) withObject:self];
-    }
-
-    {
-        MonetList *archivedEquations;
-
-        archivedEquations = [aDecoder decodeObject];
-        equations = [[NSMutableArray alloc] init];
-        [equations addObjectsFromArray:[archivedEquations allObjects]];
-        //NSLog(@"equations: %d", [equations count]);
-    }
-
-    {
-        MonetList *archivedTransitions;
-
-        archivedTransitions = [aDecoder decodeObject];
-        transitions = [[NSMutableArray alloc] init];
-        [transitions addObjectsFromArray:[archivedTransitions allObjects]];
-        //NSLog(@"transitions: %d", [transitions count]);
-    }
-
-    {
-        MonetList *archivedSpecialTransitions;
-
-        archivedSpecialTransitions = [aDecoder decodeObject];
-        specialTransitions = [[NSMutableArray alloc] init];
-        [specialTransitions addObjectsFromArray:[archivedSpecialTransitions allObjects]];
-        //NSLog(@"specialTransitions: %d", [specialTransitions count]);
-    }
-
-    {
-        MonetList *archivedRules;
-
-        archivedRules = [aDecoder decodeObject];
-        rules = [[NSMutableArray alloc] init];
-        [rules addObjectsFromArray:[archivedRules allObjects]];
-    }
-    //NSLog(@"rules: %d", [rules count]);
-    [rules makeObjectsPerformSelector:@selector(setModel:) withObject:self];
-
-    synthesisParameters = [[MMSynthesisParameters alloc] init];
-
-    return self;
-}
-
-// TODO (2004-03-18): Replace with xml file that contains complete info
-- (void)readPrototypes:(NSCoder *)aDecoder;
-{
-    [equations release];
-    equations = [[aDecoder decodeObject] retain];
-
-    [transitions release];
-    transitions = [[aDecoder decodeObject] retain];
-
-    [specialTransitions release];
-    specialTransitions = [[aDecoder decodeObject] retain];
-}
-
-- (BOOL)importPostureNamed:(NSString *)postureName fromTRMData:(NSCoder *)aDecoder;
-{
-    TRMData *trmData;
-    MMPosture *newPosture;
-    NSMutableArray *parameterTargets;
-
-    trmData = [[TRMData alloc] init];
-    if ([trmData readFromCoder:aDecoder] == NO) {
-        [trmData release];
-        return NO;
-    }
-
-    newPosture = [[MMPosture alloc] initWithModel:self];
-    [newPosture setName:postureName];
-    [self addPosture:newPosture];
-
-    parameterTargets = [newPosture parameterTargets];
-
-    // TODO (2004-03-25): These used to set the default flag as well, but I plan to remove that flag.
-    // TODO (2004-03-25): Look up parameter indexes by name, so this will still work if they get rearranged in the Monet file.
-    [(MMTarget *)[parameterTargets objectAtIndex:0] setValue:[trmData glotPitch]];
-    [(MMTarget *)[parameterTargets objectAtIndex:1] setValue:[trmData glotVol]];
-    [(MMTarget *)[parameterTargets objectAtIndex:2] setValue:[trmData aspVol]];
-    [(MMTarget *)[parameterTargets objectAtIndex:3] setValue:[trmData fricVol]];
-    [(MMTarget *)[parameterTargets objectAtIndex:4] setValue:[trmData fricPos]];
-    [(MMTarget *)[parameterTargets objectAtIndex:5] setValue:[trmData fricCF]];
-    [(MMTarget *)[parameterTargets objectAtIndex:6] setValue:[trmData fricBW]];
-    [(MMTarget *)[parameterTargets objectAtIndex:7] setValue:[trmData r1]];
-    [(MMTarget *)[parameterTargets objectAtIndex:8] setValue:[trmData r2]];
-    [(MMTarget *)[parameterTargets objectAtIndex:9] setValue:[trmData r3]];
-    [(MMTarget *)[parameterTargets objectAtIndex:10] setValue:[trmData r4]];
-    [(MMTarget *)[parameterTargets objectAtIndex:11] setValue:[trmData r5]];
-    [(MMTarget *)[parameterTargets objectAtIndex:12] setValue:[trmData r6]];
-    [(MMTarget *)[parameterTargets objectAtIndex:13] setValue:[trmData r7]];
-    [(MMTarget *)[parameterTargets objectAtIndex:14] setValue:[trmData r8]];
-    [(MMTarget *)[parameterTargets objectAtIndex:15] setValue:[trmData velum]];
-
-    NSLog(@"Imported posture \"%@\"", [newPosture name]);
-    [newPosture release];
-    [trmData release];
-
-    return YES;
-}
-
-//
-// Archiving - XML
-//
+#pragma mark - Archiving - XML
 
 - (BOOL)writeXMLToFile:(NSString *)aFilename comment:(NSString *)aComment;
 {
-    NSMutableString *resultString;
-    BOOL result;
-
-    resultString = [[NSMutableString alloc] init];
+    NSMutableString *resultString = [[NSMutableString alloc] init];
     [resultString appendString:@"<?xml version='1.0' encoding='utf-8'?>\n"];
     [resultString appendString:@"<!DOCTYPE root PUBLIC \"\" \"monet-v1.dtd\">\n"];
     if (aComment != nil)
@@ -1097,7 +768,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
     //NSLog(@"xml: \n%@", resultString);
     //[[resultString dataUsingEncoding:NSUTF8StringEncoding] writeToFile:@"/tmp/out.xml" atomically:YES];
-    result = [[resultString dataUsingEncoding:NSUTF8StringEncoding] writeToFile:aFilename atomically:YES];
+    BOOL result = [[resultString dataUsingEncoding:NSUTF8StringEncoding] writeToFile:aFilename atomically:YES];
 
     [resultString release];
 
@@ -1106,15 +777,14 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)_appendXMLForEquationsToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
-    NamedList *namedList;
     NSUInteger count, index;
 
     [resultString indentToLevel:level];
     [resultString appendString:@"<equations>\n"];
-    count = [equations count];
+    count = [equationGroups count];
     for (index = 0; index < count; index++) {
-        namedList = [equations objectAtIndex:index];
-        [namedList appendXMLToString:resultString elementName:@"equation-group" level:level + 1];
+        MMGroup *group = [equationGroups objectAtIndex:index];
+        [group appendXMLToString:resultString elementName:@"equation-group" level:level + 1];
     }
 
     [resultString indentToLevel:level];
@@ -1123,15 +793,14 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)_appendXMLForTransitionsToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
-    NamedList *namedList;
     NSUInteger count, index;
 
     [resultString indentToLevel:level];
     [resultString appendString:@"<transitions>\n"];
-    count = [transitions count];
+    count = [transitionGroups count];
     for (index = 0; index < count; index++) {
-        namedList = [transitions objectAtIndex:index];
-        [namedList appendXMLToString:resultString elementName:@"transition-group" level:level + 1];
+        MMGroup *group = [transitionGroups objectAtIndex:index];
+        [group appendXMLToString:resultString elementName:@"transition-group" level:level + 1];
     }
 
     [resultString indentToLevel:level];
@@ -1140,15 +809,14 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)_appendXMLForProtoSpecialsToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
-    NamedList *namedList;
     NSUInteger count, index;
 
     [resultString indentToLevel:level];
     [resultString appendString:@"<special-transitions>\n"];
-    count = [specialTransitions count];
+    count = [specialTransitionGroups count];
     for (index = 0; index < count; index++) {
-        namedList = [specialTransitions objectAtIndex:index];
-        [namedList appendXMLToString:resultString elementName:@"transition-group" level:level + 1];
+        MMGroup *gropu = [specialTransitionGroups objectAtIndex:index];
+        [gropu appendXMLToString:resultString elementName:@"transition-group" level:level + 1];
     }
 
     [resultString indentToLevel:level];
@@ -1177,7 +845,6 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     NSUInteger i, sampleSize, number_of_phones, number_of_parameters;
     float minValue, maxValue, defaultValue;
     char tempSymbol[SYMBOL_LENGTH_MAX + 1];
-    NSString *str;
 
     /* READ SAMPLE SIZE FROM FILE  */
     fread((char *)&sampleSize, sizeof(sampleSize), 1, fp);
@@ -1196,7 +863,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
         bzero(tempSymbol, SYMBOL_LENGTH_MAX + 1);
         fread(tempSymbol, SYMBOL_LENGTH_MAX + 1, 1, fp);
-        str = [NSString stringWithASCIICString:tempSymbol];
+        NSString *str = [NSString stringWithASCIICString:tempSymbol];
 
         fread(&minValue, sizeof(float), 1, fp);
         fread(&maxValue, sizeof(float), 1, fp);
@@ -1216,9 +883,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 {
     NSUInteger i, count;
 
-    MMCategory *newCategory;
     char symbolString[SYMBOL_LENGTH_MAX+1];
-    NSString *str;
 
     /* Load in the count */
     fread(&count, sizeof(int), 1, fp);
@@ -1226,8 +891,8 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     for (i = 0; i < count; i++) {
         fread(symbolString, SYMBOL_LENGTH_MAX+1, 1, fp);
 
-        str = [NSString stringWithASCIICString:symbolString];
-        newCategory = [[MMCategory alloc] init];
+        NSString *str = [NSString stringWithASCIICString:symbolString];
+        MMCategory *newCategory = [[MMCategory alloc] init];
         [newCategory setName:str];
         [self addCategory:newCategory];
         [newCategory release];
@@ -1247,7 +912,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     NSUInteger tempDefault;
     float tempValue;
 
-    MMPosture *newPhone;
+    ;
     MMCategory *tempCategory;
     MMTarget *tempTarget;
     char tempSymbol[SYMBOL_LENGTH_MAX + 1];
@@ -1256,9 +921,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
     durationSymbol = [self symbolWithName:@"duration"];
     if (durationSymbol == nil) {
-        MMSymbol *newSymbol;
-
-        newSymbol = [[MMSymbol alloc] init];
+        MMSymbol *newSymbol = [[MMSymbol alloc] init];
         [newSymbol setName:@"duration"];
         [self addSymbol:newSymbol];
         symbolIndex = [symbols indexOfObject:newSymbol];
@@ -1275,7 +938,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         fread(tempSymbol, SYMBOL_LENGTH_MAX + 1, 1, fp);
         str = [NSString stringWithASCIICString:tempSymbol];
 
-        newPhone = [[MMPosture alloc] initWithModel:self];
+        MMPosture *newPhone = [[MMPosture alloc] initWithModel:self];
         [newPhone setName:str];
         [self addPosture:newPhone];
 
@@ -1325,11 +988,10 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     NSUInteger tempLength;
     char buffer[1024];
     char buffer1[1024];
-    MMBooleanParser *boolParser;
     id temp, temp1;
     NSString *bufferStr, *buffer1Str;
 
-    boolParser = [[MMBooleanParser alloc] initWithModel:self];
+    MMBooleanParser *boolParser = [[MMBooleanParser alloc] initWithModel:self];
 
     /* READ FROM FILE  */
     fread(&numRules, sizeof(int), 1, fp);
@@ -1463,9 +1125,7 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     fprintf(fp, "Symbols\n");
     count = [symbols count];
     for (index = 0; index < count; index++) {
-        MMSymbol *aSymbol;
-
-        aSymbol = [symbols objectAtIndex:index];
+        MMSymbol *aSymbol = [symbols objectAtIndex:index];
         fprintf(fp, "%s\n", [[aSymbol name] UTF8String]);
         fprintf(fp, "Min: %f  Max: %f  Default: %f\n",
                 [aSymbol minimumValue], [aSymbol maximumValue], [aSymbol defaultValue]);
@@ -1484,17 +1144,11 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     fprintf(fp, "Phones\n");
     count = [postures count];
     for (index = 0; index < count; index++) {
-        MMPosture *aPhone;
-        CategoryList *aCategoryList;
-        NSMutableArray *aParameterList, *aSymbolList;
-
-        aPhone = [postures objectAtIndex:index];
+        MMPosture *aPhone = [postures objectAtIndex:index];
         fprintf(fp, "%s\n", [[aPhone name] UTF8String]);
-        aCategoryList = [aPhone categories];
+        NSMutableArray *aCategoryList = [aPhone categories];
         for (j = 0; j < [aCategoryList count]; j++) {
-            MMCategory *aCategory;
-
-            aCategory = [aCategoryList objectAtIndex:j];
+            MMCategory *aCategory = [aCategoryList objectAtIndex:j];
             if ([aCategory isNative])
                 fprintf(fp, "*%s ", [[aCategory name] UTF8String]);
             else
@@ -1502,13 +1156,10 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         }
         fprintf(fp, "\n\n");
 
-        aParameterList = [aPhone parameterTargets];
+        NSMutableArray *aParameterList = [aPhone parameterTargets];
         for (j = 0; j < [aParameterList count] / 2; j++) {
-            MMParameter *mainParameter;
-            MMTarget *aParameter;
-
-            aParameter = [aParameterList objectAtIndex:j];
-            mainParameter = [parameters objectAtIndex:j];
+            MMTarget *aParameter = [aParameterList objectAtIndex:j];
+            MMParameter *mainParameter = [parameters objectAtIndex:j];
             if ([aParameter isDefault])
                 fprintf(fp, "\t%s: *%f\t\t", [[mainParameter name] UTF8String], [aParameter value]);
             else
@@ -1523,13 +1174,10 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
         }
         fprintf(fp, "\n\n");
 
-        aSymbolList = [aPhone symbolTargets];
+        NSMutableArray *aSymbolList = [aPhone symbolTargets];
         for (j = 0; j < [aSymbolList count]; j++) {
-            MMSymbol *mainSymbol;
-            MMTarget *aSymbol;
-
-            aSymbol = [aSymbolList objectAtIndex:j];
-            mainSymbol = [symbols objectAtIndex:j];
+            MMTarget *aSymbol = [aSymbolList objectAtIndex:j];
+            MMSymbol *mainSymbol = [symbols objectAtIndex:j];
             if ([aSymbol isDefault])
                 fprintf(fp, "%s: *%f ", [[mainSymbol name] UTF8String], [aSymbol value]);
             else
@@ -1552,14 +1200,12 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)parameter:(MMParameter *)aParameter willChangeDefaultValue:(double)newDefaultValue;
 {
-    double oldDefaultValue;
     NSUInteger count, index;
-    NSUInteger parameterIndex;
 
-    oldDefaultValue = [aParameter defaultValue];
+    double oldDefaultValue = [aParameter defaultValue];
     count = [postures count];
 
-    parameterIndex = [parameters indexOfObject:aParameter];
+    NSUInteger parameterIndex = [parameters indexOfObject:aParameter];
     if (parameterIndex != NSNotFound) {
         for (index = 0; index < count; index++) {
             [[[[postures objectAtIndex:index] parameterTargets] objectAtIndex:parameterIndex] changeDefaultValueFrom:oldDefaultValue to:newDefaultValue];
@@ -1576,14 +1222,12 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
 
 - (void)symbol:(MMSymbol *)aSymbol willChangeDefaultValue:(double)newDefaultValue;
 {
-    double oldDefaultValue;
     NSUInteger count, index;
-    NSUInteger symbolIndex;
 
-    oldDefaultValue = [aSymbol defaultValue];
+    double oldDefaultValue = [aSymbol defaultValue];
     count = [postures count];
 
-    symbolIndex = [symbols indexOfObject:aSymbol];
+    NSUInteger symbolIndex = [symbols indexOfObject:aSymbol];
     if (symbolIndex != NSNotFound) {
         for (index = 0; index < count; index++) {
             [[[[postures objectAtIndex:index] symbolTargets] objectAtIndex:symbolIndex] changeDefaultValueFrom:oldDefaultValue to:newDefaultValue];
@@ -1591,69 +1235,51 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     }
 }
 
-//
-// Other
-//
+#pragma mark - Other
 
 - (MMSynthesisParameters *)synthesisParameters;
 {
     return synthesisParameters;
 }
 
+#pragma mark NSXMLParserDelegate
+
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
 {
     if ([elementName isEqualToString:@"categories"]) {
-        MXMLArrayDelegate *arrayDelegate;
-
-        arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"category" class:[MMCategory class] delegate:self addObjectSelector:@selector(addCategory:)];
+        MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"category" class:[MMCategory class] delegate:self addObjectSelector:@selector(addCategory:)];
         [(MXMLParser *)parser pushDelegate:arrayDelegate];
         [arrayDelegate release];
     } else if ([elementName isEqualToString:@"parameters"]) {
-        MXMLArrayDelegate *arrayDelegate;
-
-        arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"parameter" class:[MMParameter class] delegate:self addObjectSelector:@selector(addParameter:)];
+        MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"parameter" class:[MMParameter class] delegate:self addObjectSelector:@selector(addParameter:)];
         [(MXMLParser *)parser pushDelegate:arrayDelegate];
         [arrayDelegate release];
     } else if ([elementName isEqualToString:@"meta-parameters"]) {
-        MXMLArrayDelegate *arrayDelegate;
-
-        arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"parameter" class:[MMParameter class] delegate:self addObjectSelector:@selector(addMetaParameter:)];
+        MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"parameter" class:[MMParameter class] delegate:self addObjectSelector:@selector(addMetaParameter:)];
         [(MXMLParser *)parser pushDelegate:arrayDelegate];
         [arrayDelegate release];
     } else if ([elementName isEqualToString:@"symbols"]) {
-        MXMLArrayDelegate *arrayDelegate;
-
-        arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"symbol" class:[MMSymbol class] delegate:self addObjectSelector:@selector(addSymbol:)];
+        MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"symbol" class:[MMSymbol class] delegate:self addObjectSelector:@selector(addSymbol:)];
         [(MXMLParser *)parser pushDelegate:arrayDelegate];
         [arrayDelegate release];
     } else if ([elementName isEqualToString:@"postures"]) {
-        MXMLArrayDelegate *arrayDelegate;
-
-        arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"posture" class:[MMPosture class] delegate:self addObjectSelector:@selector(addPosture:)];
+        MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"posture" class:[MMPosture class] delegate:self addObjectSelector:@selector(addPosture:)];
         [(MXMLParser *)parser pushDelegate:arrayDelegate];
         [arrayDelegate release];
     } else if ([elementName isEqualToString:@"equations"]) {
-        MXMLArrayDelegate *arrayDelegate;
-
-        arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"equation-group" class:[NamedList class] delegate:self addObjectSelector:@selector(addEquationGroup:)];
+        MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"equation-group" class:[MMGroup class] delegate:self addObjectSelector:@selector(addEquationGroup:)];
         [(MXMLParser *)parser pushDelegate:arrayDelegate];
         [arrayDelegate release];
     } else if ([elementName isEqualToString:@"transitions"]) {
-        MXMLArrayDelegate *arrayDelegate;
-
-        arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"transition-group" class:[NamedList class] delegate:self addObjectSelector:@selector(addTransitionGroup:)];
+        MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"transition-group" class:[MMGroup class] delegate:self addObjectSelector:@selector(addTransitionGroup:)];
         [(MXMLParser *)parser pushDelegate:arrayDelegate];
         [arrayDelegate release];
     } else if ([elementName isEqualToString:@"special-transitions"]) {
-        MXMLArrayDelegate *arrayDelegate;
-
-        arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"transition-group" class:[NamedList class] delegate:self addObjectSelector:@selector(addSpecialTransitionGroup:)];
+        MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"transition-group" class:[MMGroup class] delegate:self addObjectSelector:@selector(addSpecialTransitionGroup:)];
         [(MXMLParser *)parser pushDelegate:arrayDelegate];
         [arrayDelegate release];
     } else if ([elementName isEqualToString:@"rules"]) {
-        MXMLArrayDelegate *arrayDelegate;
-
-        arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"rule" class:[MMRule class] delegate:self addObjectSelector:@selector(_addStoredRule:)];
+        MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"rule" class:[MMRule class] delegate:self addObjectSelector:@selector(_addStoredRule:)];
         [(MXMLParser *)parser pushDelegate:arrayDelegate];
         [arrayDelegate release];
     } else {

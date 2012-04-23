@@ -6,6 +6,11 @@
 #import <GnuSpeech/GnuSpeech.h>
 
 @implementation MPostureCategoryController
+{
+    IBOutlet NSTableView *postureCategoryTableView;
+    
+    MModel *model;
+}
 
 - (id)initWithModel:(MModel *)aModel;
 {
@@ -25,6 +30,8 @@
 
     [super dealloc];
 }
+
+#pragma mark -
 
 - (MModel *)model;
 {
@@ -127,7 +134,7 @@
     NSTableColumn *postureNameTableColumn;
     NSArray *tableColumns;
     NSUInteger count, index;
-    CategoryList *categories;
+    NSMutableArray *categories;
 
     // Retain this column because we'll be removing it but want to add it back.
     postureNameTableColumn = [[postureCategoryTableView tableColumnWithIdentifier:@"name"] retain];
@@ -178,9 +185,7 @@
     [postureCategoryTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
 }
 
-//
-// NSTableView data source
-//
+#pragma mark - NSTableView data source
 
 - (int)numberOfRowsInTableView:(NSTableView *)tableView;
 {
@@ -214,9 +219,7 @@
 {
 }
 
-//
-// NSTableView delegate
-//
+#pragma mark - NSTableView delegate
 
 - (BOOL)control:(NSControl *)aControl shouldProcessCharacters:(NSString *)characters;
 {

@@ -6,9 +6,6 @@
 @class MAIntonationScaleView;
 
 @interface MAIntonationScrollView : NSScrollView
-{
-    IBOutlet MAIntonationScaleView *scaleView;
-}
 
 - (id)initWithFrame:(NSRect)frameRect;
 - (void)dealloc;

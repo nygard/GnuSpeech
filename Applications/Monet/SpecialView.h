@@ -4,19 +4,11 @@
 #import "TransitionView.h"
 
 @interface SpecialView : TransitionView
-{
-}
-
-- (id)initWithFrame:(NSRect)frameRect;
-- (void)dealloc;
 
 // Drawing
 - (void)drawGrid;
 - (void)updateDisplayPoints;
 - (void)highlightSelectedPoints;
-
-// Event handling
-//- (void)mouseDown:(NSEvent *)mouseEvent;
 
 // Selection
 - (void)selectGraphPointsBetweenPoint:(NSPoint)point1 andPoint:(NSPoint)point2;

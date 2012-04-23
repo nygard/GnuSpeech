@@ -6,18 +6,25 @@
 #import "MXMLParser.h"
 
 @implementation MXMLDictionaryDelegate
+{
+    NSString *childElementName;
+    Class objectClass;
+    NSString *keyAttributeName;
+    id delegate;
+    SEL addObjectsSelector;
+    NSMutableDictionary *objects;
+}
 
 - (id)initWithChildElementName:(NSString *)anElementName class:(Class)aClass keyAttributeName:(NSString *)anAttributeName delegate:(id)aDelegate addObjectsSelector:(SEL)aSelector;
 {
-    if ([super init] == nil)
-        return nil;
-
-    childElementName = [anElementName retain];
-    objectClass = aClass;
-    keyAttributeName = [anAttributeName retain];
-    delegate = [aDelegate retain];
-    addObjectsSelector = aSelector;
-    objects = [[NSMutableDictionary alloc] init];
+    if ((self = [super init])) {
+        childElementName = [anElementName retain];
+        objectClass = aClass;
+        keyAttributeName = [anAttributeName retain];
+        delegate = [aDelegate retain];
+        addObjectsSelector = aSelector;
+        objects = [[NSMutableDictionary alloc] init];
+    }
 
     return self;
 }
@@ -31,6 +38,8 @@
 
     [super dealloc];
 }
+
+#pragma mark -
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)anElementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
 {

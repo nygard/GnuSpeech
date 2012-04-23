@@ -5,6 +5,10 @@
 #import <GnuSpeech/GnuSpeechServerProtocol.h>
 
 @implementation ApplicationController
+{
+	IBOutlet NSTextView *textView;
+	id ttsServerProxy;
+}
 
 - (id)init;
 {

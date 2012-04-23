@@ -4,6 +4,8 @@
 #import "MMFormulaNode.h"
 
 @implementation MMFormulaNode
+{
+}
 
 - (NSUInteger)precedence;
 {
@@ -24,7 +26,7 @@
     return 0;
 }
 
-- (NSUInteger)maxPhone;
+- (NSInteger)maxPhone;
 {
     // Implement in subclasses
     return 0;
@@ -35,12 +37,12 @@
     NSMutableString *resultString;
 
     resultString = [NSMutableString string];
-    [self expressionString:resultString];
+    [self appendExpressionToString:resultString];
 
     return resultString;
 }
 
-- (void)expressionString:(NSMutableString *)resultString;
+- (void)appendExpressionToString:(NSMutableString *)resultString;
 {
     // Implement in subclasses
 }

@@ -5,177 +5,140 @@
 
 #import "NSObject-Extensions.h"
 
+@interface MMBooleanExpression ()
+@property (readonly) NSMutableArray *expressions;
+@property (nonatomic, readonly) NSString *operationString;
+@end
+
+#pragma mark -
+
 @implementation MMBooleanExpression
+{
+    MMBooleanOperation m_operation;
+    NSMutableArray *m_expressions;
+}
 
 - (id)init;
 {
-    if ([super init] == nil)
-        return nil;
-
-    operation = NO_OP;
-    expressions = [[NSMutableArray alloc] initWithCapacity:4];
+    if ((self = [super init])) {
+        m_operation = MMBooleanOperation_None;
+        m_expressions = [[NSMutableArray alloc] initWithCapacity:4];
+    }
 
     return self;
 }
 
 - (void)dealloc;
 {
-    [expressions release];
+    [m_expressions release];
 
     [super dealloc];
 }
 
-- (NSUInteger)operation;
+#pragma mark - Debugging
+
+- (NSString *)description;
 {
-    return operation;
+    return [NSString stringWithFormat:@"<%@: %p> operation: %lu, expressions: %@, expressionString: %@",
+            NSStringFromClass([self class]), self,
+            self.operation, self.expressions, self.expressionString];
 }
 
-- (void)setOperation:(NSUInteger)newOperation;
+#pragma mark - Superclass methods
+
+- (BOOL)evaluateWithCategories:(NSArray *)categories;
 {
-    operation = newOperation;
-}
-
-- (void)addSubExpression:(MMBooleanNode *)newExpression;
-{
-    if (newExpression != nil)
-        [expressions addObject:newExpression];
-}
-
-- (MMBooleanNode *)operandOne;
-{
-    if  ([expressions count] > 0)
-        return [expressions objectAtIndex:0];
-
-    return nil;
-}
-
-- (MMBooleanNode *)operandTwo;
-{
-    if  ([expressions count] > 1)
-        return [expressions objectAtIndex:1];
-
-    return nil;
-}
-
-- (NSString *)opString;
-{
-    switch (operation) {
-      default:
-      case NO_OP: return @"";
-      case NOT_OP: return @" not ";
-      case OR_OP: return @" or ";
-      case AND_OP: return @" and ";
-      case XOR_OP: return @" xor ";
-    }
-
-    return @"";
-}
-
-//
-// Methods common to "BooleanNode" -- for both BooleanExpress, BooleanTerminal
-//
-
-- (BOOL)evaluateWithCategories:(CategoryList *)categories;
-{
-    switch (operation) {
-      case NOT_OP:
-          return ![[self operandOne] evaluateWithCategories:categories];
-          break;
-
-      case AND_OP:
-          return [[self operandOne] evaluateWithCategories:categories] && [[self operandTwo] evaluateWithCategories:categories];
-          break;
-
-      case OR_OP:
-          return [[self operandOne] evaluateWithCategories:categories] || [[self operandTwo] evaluateWithCategories:categories];
-          break;
-
-      case XOR_OP:
-          return [[self operandOne] evaluateWithCategories:categories] ^ [[self operandTwo] evaluateWithCategories:categories];
-          break;
-
-      default:
-          return YES;
-    }
-
-    return NO;
-}
-
-- (void)expressionString:(NSMutableString *)resultString;
-{
-    NSString *opString;
-
-    opString = [self opString];
-
-    [resultString appendString:@"("];
-
-    if (operation == NOT_OP) {
-        [resultString appendString:@"not "];
-        if ([expressions count] > 0)
-            [[expressions objectAtIndex:0] expressionString:resultString];
-    } else {
-        NSUInteger count, index;
-
-        count = [expressions count];
-        for (index = 0; index < count; index++) {
-            if (index != 0)
-                [resultString appendString:opString];
-            [[expressions objectAtIndex:index] expressionString:resultString];
-	}
-    }
-
-    [resultString appendString:@")"];
-}
-
-- (BOOL)isCategoryUsed:(MMCategory *)aCategory;
-{
-    NSUInteger count, index;
-
-    count = [expressions count];
-    for (index = 0; index < count; index++) {
-        if ([[expressions objectAtIndex:index] isCategoryUsed:aCategory])
+    switch (self.operation) {
+        case MMBooleanOperation_Not:
+            return ![self.operandOne evaluateWithCategories:categories];
+            
+        case MMBooleanOperation_And:
+            return [self.operandOne evaluateWithCategories:categories] && [self.operandTwo evaluateWithCategories:categories];
+            
+        case MMBooleanOperation_Or:
+            return [self.operandOne evaluateWithCategories:categories] || [self.operandTwo evaluateWithCategories:categories];
+            
+        case MMBooleanOperation_ExclusiveOr:
+            // TODO (2012-04-20): This is a bitwise exclusive or, not necessarily a logical one.
+            return [self.operandOne evaluateWithCategories:categories] ^ [self.operandTwo evaluateWithCategories:categories];
+            
+        default:
             return YES;
     }
 
     return NO;
 }
 
-//
-// Archiving
-//
-
-- (id)initWithCoder:(NSCoder *)aDecoder;
+- (void)appendExpressionToString:(NSMutableString *)resultString;
 {
-    NSUInteger numExpressions, maxExpressions;
-    NSUInteger i;
+    NSString *operationString = [self operationString];
 
-    if ([super initWithCoder:aDecoder] == nil)
-        return nil;
+    [resultString appendString:@"("];
 
-    //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
-    /*NSInteger archivedVersion =*/ [aDecoder versionForClassName:NSStringFromClass([self class])];
-    //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
-
-    [aDecoder decodeValuesOfObjCTypes:"iii", &operation, &numExpressions, &maxExpressions];
-    //NSLog(@"operation: %d, numExpressions: %d, maxExpressions: %d", operation, numExpressions, maxExpressions);
-    expressions = [[NSMutableArray alloc] init];
-
-    for (i = 0; i < numExpressions; i++) {
-        MMBooleanNode *anExpression;
-
-        anExpression = [aDecoder decodeObject];
-        if (anExpression != nil)
-            [self addSubExpression:anExpression];
+    if (self.operation == MMBooleanOperation_Not) {
+        [resultString appendString:@"not "];
+        if ([self.expressions count] > 0)
+            [[self.expressions objectAtIndex:0] appendExpressionToString:resultString];
+    } else {
+        [self.expressions enumerateObjectsUsingBlock:^(MMBooleanNode *node, NSUInteger index, BOOL *stop){
+            if (index != 0)
+                [resultString appendString:operationString];
+            [node appendExpressionToString:resultString];
+        }];
     }
 
-    //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
-    return self;
+    [resultString appendString:@")"];
 }
 
-- (NSString *)description;
+- (BOOL)isCategoryUsed:(MMCategory *)category;
 {
-    return [NSString stringWithFormat:@"<%@>[%p]: operation: %lu, expressions: %@, expressionString: %@",
-                     NSStringFromClass([self class]), self, operation, expressions, [self expressionString]];
+    for (MMBooleanExpression *expression in self.expressions) {
+        if ([expression isCategoryUsed:category])
+            return YES;
+    }
+
+    return NO;
+}
+
+#pragma mark -
+
+@synthesize operation = m_operation;
+@synthesize expressions = m_expressions;
+
+- (void)addSubExpression:(MMBooleanNode *)expression;
+{
+    if (expression != nil)
+        [self.expressions addObject:expression];
+}
+
+- (MMBooleanNode *)operandOne;
+{
+    if ([self.expressions count] > 0)
+        return [self.expressions objectAtIndex:0];
+    
+    return nil;
+}
+
+- (MMBooleanNode *)operandTwo;
+{
+    if ([self.expressions count] > 1)
+        return [self.expressions objectAtIndex:1];
+    
+    return nil;
+}
+
+- (NSString *)operationString;
+{
+    switch (self.operation) {
+        default:
+        case MMBooleanOperation_Not:         return @" not ";
+        case MMBooleanOperation_None:        return @"";
+        case MMBooleanOperation_Or:          return @" or ";
+        case MMBooleanOperation_And:         return @" and ";
+        case MMBooleanOperation_ExclusiveOr: return @" xor ";
+    }
+    
+    return @"";
 }
 
 @end

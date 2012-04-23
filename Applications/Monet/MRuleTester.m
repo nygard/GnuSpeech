@@ -8,6 +8,18 @@
 #import "NSNumberFormatter-Extensions.h"
 
 @implementation MRuleTester
+{
+    IBOutlet NSForm *posture1Form;
+    IBOutlet NSForm *posture2Form;
+    IBOutlet NSForm *posture3Form;
+    IBOutlet NSForm *posture4Form;
+    
+    IBOutlet NSTextField *ruleOutputTextField;
+    IBOutlet NSTextField *consumedTokensTextField;
+    IBOutlet NSForm *durationOutputForm;
+    
+    MModel *model;
+}
 
 - (id)initWithModel:(MModel *)aModel;
 {
@@ -27,6 +39,8 @@
 
     [super dealloc];
 }
+
+#pragma mark -
 
 - (MModel *)model;
 {
@@ -75,9 +89,7 @@
     [consumedTokensTextField setStringValue:@""];
 }
 
-//
-// Actions
-//
+#pragma mark - Actions
 
 - (IBAction)parseRule:(id)sender;
 {

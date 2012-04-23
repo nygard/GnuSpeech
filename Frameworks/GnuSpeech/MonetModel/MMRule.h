@@ -5,22 +5,9 @@
 
 #import "MMFRuleSymbols.h"
 
-@class MMBooleanNode, MMCategory, MonetList, PhoneList, MMEquation, MMTransition;
+@class MMBooleanNode, MMCategory, MMEquation, MMTransition;
 
 @interface MMRule : MMObject
-{
-    NSMutableArray *parameterTransitions; // Of MMTransitions
-    NSMutableArray *metaParameterTransitions; // Of MMTransitions?
-    NSMutableArray *symbolEquations; // Of MMEquations
-
-    MMTransition *specialProfiles[16]; // TODO (2004-05-16): We should be able to use an NSMutableDictionary here.
-
-    MMBooleanNode *expressions[4];
-    NSString *comment;
-}
-
-- (id)init;
-- (void)dealloc;
 
 - (void)setDefaultsTo:(NSUInteger)numPhones;
 - (void)addDefaultParameter;
@@ -48,8 +35,7 @@
 - (void)addBooleanExpression:(MMBooleanNode *)newExpression;
 - (void)addBooleanExpressionString:(NSString *)aString;
 
-- (NSString *)comment;
-- (void)setComment:(NSString *)newComment;
+@property (retain) NSString *comment;
 - (BOOL)hasComment;
 
 - (BOOL)matchRule:(NSArray *)categories;
@@ -68,11 +54,7 @@
 - (BOOL)isEquationUsed:(MMEquation *)anEquation;
 - (BOOL)isTransitionUsed:(MMTransition *)aTransition;
 
-- (id)initWithCoder:(NSCoder *)aDecoder;
-
 - (NSString *)ruleString;
-
-- (NSString *)description;
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 - (void)_appendXMLForParameterTransitionsToString:(NSMutableString *)resultString level:(NSUInteger)level;

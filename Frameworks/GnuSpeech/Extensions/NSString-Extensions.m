@@ -19,15 +19,12 @@
 + (NSString *)spacesIndentedToLevel:(NSUInteger)level spacesPerLevel:(NSUInteger)spacesPerLevel;
 {
     NSString *spaces = @"                                        ";
-    NSString *levelSpaces;
-    NSMutableString *str;
-    NSUInteger l;
 
-    assert(spacesPerLevel <= [spaces length]);
-    levelSpaces = [spaces substringToIndex:spacesPerLevel];
+    NSParameterAssert(spacesPerLevel <= [spaces length]);
+    NSString *levelSpaces = [spaces substringToIndex:spacesPerLevel];
 
-    str = [NSMutableString string];
-    for (l = 0; l < level; l++)
+    NSMutableString *str = [NSMutableString string];
+    for (NSUInteger l = 0; l < level; l++)
         [str appendString:levelSpaces];
 
     return str;
@@ -36,11 +33,9 @@
 + (NSString *)spacesOfLength:(NSUInteger)targetLength;
 {
     NSString *spaces = @"                                        ";
-    NSMutableString *str;
-    NSUInteger spacesLength;
 
-    spacesLength = [spaces length];
-    str = [NSMutableString string];
+    NSUInteger spacesLength = [spaces length];
+    NSMutableString *str = [NSMutableString string];
     while (targetLength > spacesLength) {
         [str appendString:spaces];
         targetLength -= spacesLength;
@@ -69,12 +64,10 @@
 
 - (BOOL)hasPrefix:(NSString *)aString ignoreCase:(BOOL)shouldIgnoreCase;
 {
-    NSRange range;
-
     if (shouldIgnoreCase == NO)
         return [self hasPrefix:aString];
 
-    range = [self rangeOfString:aString options:NSCaseInsensitiveSearch|NSAnchoredSearch];
+    NSRange range = [self rangeOfString:aString options:NSCaseInsensitiveSearch|NSAnchoredSearch];
     return range.location != NSNotFound;
 }
 
@@ -89,9 +82,7 @@
 // TODO (2004-08-12): A class method would let us pad nil as well...
 - (NSString *)leftJustifiedStringPaddedToLength:(NSUInteger)paddedLength;
 {
-    NSUInteger spaces;
-
-    spaces = paddedLength - [self length];
+    NSUInteger spaces = paddedLength - [self length];
     if (spaces <= 0)
         return self;
 
@@ -100,9 +91,7 @@
 
 - (NSString *)rightJustifiedStringPaddedToLength:(NSUInteger)paddedLength;
 {
-    NSUInteger spaces;
-
-    spaces = paddedLength - [self length];
+    NSUInteger spaces = paddedLength - [self length];
     if (spaces <= 0)
         return self;
 
@@ -119,18 +108,14 @@
 
 - (BOOL)isAllUpperCase;
 {
-    NSRange range;
-
-    range = [self rangeOfCharacterFromSet:[[NSCharacterSet uppercaseLetterCharacterSet] invertedSet]];
+    NSRange range = [self rangeOfCharacterFromSet:[[NSCharacterSet uppercaseLetterCharacterSet] invertedSet]];
 
     return range.location == NSNotFound;
 }
 
 - (BOOL)containsPrimaryStress;
 {
-    NSRange range;
-
-    range = [self rangeOfString:@"'"];
+    NSRange range = [self rangeOfString:@"'"];
 
     return range.location != NSNotFound;
 }
@@ -138,14 +123,11 @@
 // Returns the pronunciation with the first " converted to a ', or nil otherwise.
 - (NSString *)convertedStress;
 {
-    NSRange range;
-    NSMutableString *str;
-
-    range = [self rangeOfString:@"\""];
+    NSRange range = [self rangeOfString:@"\""];
     if (range.location == NSNotFound)
         return nil;
 
-    str = [NSMutableString stringWithString:self];
+    NSMutableString *str = [NSMutableString stringWithString:self];
     [str replaceCharactersInRange:range withString:@"'"];
 
     return [NSString stringWithString:str];

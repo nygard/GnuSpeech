@@ -12,6 +12,28 @@
 // TODO (2004-03-20): Implement copy and pasting of postures.
 
 @implementation MPostureEditor
+{
+    IBOutlet NSTableView *postureTableView;
+    IBOutlet NSTextField *postureTotalTextField;
+    IBOutlet NSButtonCell *removePostureButtonCell;
+    IBOutlet NSTextView *postureCommentTextView;
+    
+    IBOutlet NSTableView *categoryTableView;
+    
+    IBOutlet NSTableView *parameterTableView;
+    IBOutlet NSButton *useDefaultParameterButton;
+    
+    IBOutlet NSTableView *metaParameterTableView;
+    IBOutlet NSButton *useDefaultMetaParameterButton;
+    
+    IBOutlet NSTableView *symbolTableView;
+    IBOutlet NSButton *useDefaultSymbolButton;
+    
+    MModel *model;
+    
+    NSFont *regularControlFont;
+    NSFont *boldControlFont;
+}
 
 - (id)initWithModel:(MModel *)aModel;
 {
@@ -33,6 +55,8 @@
 
     [super dealloc];
 }
+
+#pragma mark -
 
 - (MModel *)model;
 {
@@ -193,10 +217,10 @@
 
     selectedRow = [parameterTableView selectedRow];
     selectedParameter = [[[self model] parameters] objectAtIndex:selectedRow];
-    assert(selectedParameter != nil);
+    NSParameterAssert(selectedParameter != nil);
 
     selectedTarget = [[[self selectedPosture] parameterTargets] objectAtIndex:selectedRow];
-    assert(selectedTarget != nil);
+    NSParameterAssert(selectedTarget != nil);
 
     [selectedTarget setValue:[selectedParameter defaultValue]];
     [self updateViews];
@@ -210,10 +234,10 @@
 
     selectedRow = [metaParameterTableView selectedRow];
     selectedParameter = [[[self model] metaParameters] objectAtIndex:selectedRow];
-    assert(selectedParameter != nil);
+    NSParameterAssert(selectedParameter != nil);
 
     selectedTarget = [[[self selectedPosture] metaParameterTargets] objectAtIndex:selectedRow];
-    assert(selectedTarget != nil);
+    NSParameterAssert(selectedTarget != nil);
 
     [selectedTarget setValue:[selectedParameter defaultValue]];
     [self updateViews];
@@ -227,18 +251,16 @@
 
     selectedRow = [symbolTableView selectedRow];
     selectedSymbol = [[[self model] symbols] objectAtIndex:selectedRow];
-    assert(selectedSymbol != nil);
+    NSParameterAssert(selectedSymbol != nil);
 
     selectedTarget = [[[self selectedPosture] symbolTargets] objectAtIndex:selectedRow];
-    assert(selectedTarget != nil);
+    NSParameterAssert(selectedTarget != nil);
 
     [selectedTarget setValue:[selectedSymbol defaultValue]];
     [self updateViews];
 }
 
-//
-// NSTableView data source
-//
+#pragma mark - NSTableView data source
 
 - (NSUInteger)numberOfRowsInTableView:(NSTableView *)tableView;
 {
@@ -378,9 +400,7 @@
     }
 }
 
-//
-// NSTableView delegate
-//
+#pragma mark - NSTableView delegate
 
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification;
 {
@@ -453,9 +473,7 @@
     return YES;
 }
 
-//
-// NSTextView delegate
-//
+#pragma mark - NSTextView delegate
 
 - (void)textDidEndEditing:(NSNotification *)aNotification;
 {

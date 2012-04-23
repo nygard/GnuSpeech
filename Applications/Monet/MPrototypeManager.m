@@ -14,6 +14,34 @@
 // TODO (2004-03-23): Implement copy/paste of equations, transitions, special transitions.  Original code didn't copy groups.
 
 @implementation MPrototypeManager
+{
+    IBOutlet NSOutlineView *equationOutlineView;
+    IBOutlet NSButtonCell *addEquationButtonCell;
+    IBOutlet NSButtonCell *removeEquationButtonCell;
+    IBOutlet NSTextView *equationTextView;
+    IBOutlet NSTextView *equationParserMessagesTextView;
+    IBOutlet NSTextView *equationCommentTextView;
+    
+    IBOutlet NSOutlineView *transitionOutlineView;
+    IBOutlet NSButtonCell *addTransitionButtonCell;
+    IBOutlet NSButtonCell *removeTransitionButtonCell;
+    IBOutlet TransitionView *miniTransitionView;
+    IBOutlet NSTextView *transitionCommentTextView;
+    
+    IBOutlet NSOutlineView *specialTransitionOutlineView;
+    IBOutlet NSButtonCell *addSpecialTransitionButtonCell;
+    IBOutlet NSButtonCell *removeSpecialTransitionButtonCell;
+    IBOutlet SpecialView *miniSpecialTransitionView;
+    IBOutlet NSTextView *specialTransitionCommentTextView;
+    
+    MModel *model;
+    
+    MMFormulaParser *formulaParser;
+    
+    NSMutableDictionary *cachedEquationUsage;
+    NSMutableDictionary *cachedTransitionUsage;
+    //NSMutableDictionary *cachedSpecialTransitionUsage;
+}
 
 - (id)initWithModel:(MModel *)aModel;
 {
@@ -132,17 +160,17 @@
 {
     NSUInteger count, index;
 
-    count = [[model equations] count];
+    count = [[model equationGroups] count];
     for (index = 0; index < count; index++)
-        [equationOutlineView expandItem:[[model equations] objectAtIndex:index]];
+        [equationOutlineView expandItem:[[model equationGroups] objectAtIndex:index]];
 
-    count = [[model transitions] count];
+    count = [[model transitionGroups] count];
     for (index = 0; index < count; index++)
-        [transitionOutlineView expandItem:[[model transitions] objectAtIndex:index]];
+        [transitionOutlineView expandItem:[[model transitionGroups] objectAtIndex:index]];
 
-    count = [[model specialTransitions] count];
+    count = [[model specialTransitionGroups] count];
     for (index = 0; index < count; index++)
-        [specialTransitionOutlineView expandItem:[[model specialTransitions] objectAtIndex:index]];
+        [specialTransitionOutlineView expandItem:[[model specialTransitionGroups] objectAtIndex:index]];
 
     //[equationOutlineView sizeToFit];
     [transitionOutlineView sizeToFit];
@@ -280,18 +308,16 @@
     return [specialTransitionOutlineView selectedItemOfClass:[MMTransition class]];
 }
 
-//
-// Equations
-//
+#pragma mark - Equations
 
 - (IBAction)addEquationGroup:(id)sender;
 {
-    NamedList *newGroup;
+    MMGroup *newGroup;
     NSUInteger index;
 
-    newGroup = [[NamedList alloc] init];
+    newGroup = [[MMGroup alloc] init];
     [newGroup setName:@"Untitled"];
-    [[[self model] equations] addObject:newGroup];
+    [[[self model] equationGroups] addObject:newGroup];
 
     [self updateViews];
 
@@ -307,10 +333,10 @@
 - (IBAction)addEquation:(id)sender;
 {
     id selectedItem;
-    NamedList *targetGroup;
+    MMGroup *targetGroup;
 
     selectedItem = [equationOutlineView selectedItem];
-    if ([selectedItem isKindOfClass:[NamedList class]] == YES) {
+    if ([selectedItem isKindOfClass:[MMGroup class]] == YES) {
         targetGroup = selectedItem;
     } else if ([selectedItem isKindOfClass:[MMEquation class]] == YES) {
         targetGroup = [selectedItem group];
@@ -322,7 +348,8 @@
         NSUInteger index;
 
         // TODO (2004-03-22): Need to do something to ensure unique names.
-        newEquation = [[MMEquation alloc] initWithName:@"Untitled"];
+        newEquation = [[MMEquation alloc] init];
+        newEquation.name = @"Untitled";
         [targetGroup addObject:newEquation];
         [equationOutlineView reloadItem:targetGroup reloadChildren:YES];
 
@@ -366,18 +393,16 @@
     [self _updateEquationDetails];
 }
 
-//
-// Transitions
-//
+#pragma mark - Transitions
 
 - (IBAction)addTransitionGroup:(id)sender;
 {
-    NamedList *newGroup;
+    MMGroup *newGroup;
     NSUInteger index;
 
-    newGroup = [[NamedList alloc] init];
+    newGroup = [[MMGroup alloc] init];
     [newGroup setName:@"Untitled"];
-    [[[self model] transitions] addObject:newGroup];
+    [[[self model] transitionGroups] addObject:newGroup];
 
     [self updateViews];
 
@@ -393,10 +418,10 @@
 - (IBAction)addTransition:(id)sender;
 {
     id selectedItem;
-    NamedList *targetGroup;
+    MMGroup *targetGroup;
 
     selectedItem = [transitionOutlineView selectedItem];
-    if ([selectedItem isKindOfClass:[NamedList class]] == YES) {
+    if ([selectedItem isKindOfClass:[MMGroup class]] == YES) {
         targetGroup = selectedItem;
     } else if ([selectedItem isKindOfClass:[MMTransition class]] == YES) {
         targetGroup = [selectedItem group];
@@ -408,7 +433,8 @@
         NSUInteger index;
 
         // TODO (2004-03-22): Need to do something to ensure unique names.
-        newTransition = [[MMTransition alloc] initWithName:@"Untitled"];
+        newTransition = [[MMTransition alloc] init];
+        newTransition.name = @"Untitled";
         [newTransition addInitialPoint];
         [targetGroup addObject:newTransition];
         [transitionOutlineView reloadItem:targetGroup reloadChildren:YES];
@@ -433,18 +459,16 @@
     [[NSApp delegate] editTransition:[self selectedTransition]];
 }
 
-//
-// Special Transitions
-//
+#pragma mark - Special Transitions
 
 - (IBAction)addSpecialTransitionGroup:(id)sender;
 {
-    NamedList *newGroup;
+    MMGroup *newGroup;
     NSUInteger index;
 
-    newGroup = [[NamedList alloc] init];
+    newGroup = [[MMGroup alloc] init];
     [newGroup setName:@"Untitled"];
-    [[[self model] specialTransitions] addObject:newGroup];
+    [[[self model] specialTransitionGroups] addObject:newGroup];
 
     [self updateViews];
 
@@ -460,10 +484,10 @@
 - (IBAction)addSpecialTransition:(id)sender;
 {
     id selectedItem;
-    NamedList *targetGroup;
+    MMGroup *targetGroup;
 
     selectedItem = [specialTransitionOutlineView selectedItem];
-    if ([selectedItem isKindOfClass:[NamedList class]] == YES) {
+    if ([selectedItem isKindOfClass:[MMGroup class]] == YES) {
         targetGroup = selectedItem;
     } else if ([selectedItem isKindOfClass:[MMTransition class]] == YES) {
         targetGroup = [selectedItem group];
@@ -475,7 +499,8 @@
         NSUInteger index;
 
         // TODO (2004-03-22): Need to do something to ensure unique names.
-        newTransition = [[MMTransition alloc] initWithName:@"Untitled"];
+        newTransition = [[MMTransition alloc] init];
+        newTransition.name = @"Untitled";
         [newTransition addInitialPoint];
         [targetGroup addObject:newTransition];
         [specialTransitionOutlineView reloadItem:targetGroup reloadChildren:YES];
@@ -500,34 +525,38 @@
     [[NSApp delegate] editSpecialTransition:[self selectedSpecialTransition]];
 }
 
-//
-// NSOutlineView data source
-//
+#pragma mark - NSOutlineView data source
 
 - (int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item;
 {
-    //NSLog(@"-> %s, item: %p", _cmd, item);
+   // NSLog(@"-> %s, item: %p", __PRETTY_FUNCTION__, item);
     if (outlineView == equationOutlineView) {
         if (item == nil)
-            return [[model equations] count];
-        else if ([item isKindOfClass:[MMEquation class]] == YES)
+            return [[model equationGroups] count];
+        else if ([item isKindOfClass:[MMEquation class]])
             return [[self usageOfEquation:item] count];
-        else
-            return [item count];
+        else {
+            MMGroup *group = item;
+            return [group.objects count];
+        }
     } else if (outlineView == transitionOutlineView) {
         if (item == nil)
-            return [[model transitions] count];
-        else if ([item isKindOfClass:[MMTransition class]] == YES)
+            return [[model transitionGroups] count];
+        else if ([item isKindOfClass:[MMTransition class]])
             return [[self usageOfTransition:item] count];
-        else
-            return [item count];
+        else {
+            MMGroup *group = item;
+            return [group.objects count];
+        }
     } else if (outlineView == specialTransitionOutlineView) {
         if (item == nil)
-            return [[model specialTransitions] count];
-        else if ([item isKindOfClass:[MMTransition class]] == YES)
+            return [[model specialTransitionGroups] count];
+        else if ([item isKindOfClass:[MMTransition class]])
             return [[self usageOfTransition:item] count];
-        else
-            return [item count];
+        else {
+            MMGroup *group = item;
+            return [group.objects count];
+        }
     }
 
     return 0;
@@ -537,25 +566,31 @@
 {
     if (outlineView == equationOutlineView) {
         if (item == nil)
-            return [[model equations] objectAtIndex:index];
+            return [[model equationGroups] objectAtIndex:index];
         else if ([item isKindOfClass:[MMEquation class]] == YES)
             return [[self usageOfEquation:item] objectAtIndex:index];
-        else
-            return [item objectAtIndex:index];
+        else {
+            MMGroup *group = item;
+            return [group.objects objectAtIndex:index];
+        }
     } else if (outlineView == transitionOutlineView) {
         if (item == nil)
-            return [[model transitions] objectAtIndex:index];
+            return [[model transitionGroups] objectAtIndex:index];
         else if ([item isKindOfClass:[MMTransition class]] == YES)
             return [[self usageOfTransition:item] objectAtIndex:index];
-        else
-            return [item objectAtIndex:index];
+        else {
+            MMGroup *group = item;
+            return [group.objects objectAtIndex:index];
+        }
     } else if (outlineView == specialTransitionOutlineView) {
         if (item == nil)
-            return [[model specialTransitions] objectAtIndex:index];
+            return [[model specialTransitionGroups] objectAtIndex:index];
         else if ([item isKindOfClass:[MMTransition class]] == YES)
             return [[self usageOfTransition:item] objectAtIndex:index];
-        else
-            return [item objectAtIndex:index];
+        else {
+            MMGroup *group = item;
+            return [group.objects objectAtIndex:index];
+        }
     }
 
     return nil;
@@ -564,11 +599,11 @@
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item;
 {
     if (outlineView == equationOutlineView) {
-        return [item isKindOfClass:[NamedList class]] || ([item isKindOfClass:[MMEquation class]] && [self isEquationUsed:item]);
+        return [item isKindOfClass:[MMGroup class]] || ([item isKindOfClass:[MMEquation class]] && [self isEquationUsed:item]);
     } else if (outlineView == transitionOutlineView) {
-        return [item isKindOfClass:[NamedList class]] || ([item isKindOfClass:[MMTransition class]] && [self isTransitionUsed:item]);
+        return [item isKindOfClass:[MMGroup class]] || ([item isKindOfClass:[MMTransition class]] && [self isTransitionUsed:item]);
     } else if (outlineView == specialTransitionOutlineView) {
-        return [item isKindOfClass:[NamedList class]] || ([item isKindOfClass:[MMTransition class]] && [self isTransitionUsed:item]);
+        return [item isKindOfClass:[MMGroup class]] || ([item isKindOfClass:[MMTransition class]] && [self isTransitionUsed:item]);
     }
 
     return NO;
@@ -675,9 +710,7 @@
     }
 }
 
-//
-// NSOutlineView delegate
-//
+#pragma mark - NSOutlineView delegate
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)aNotification;
 {
@@ -716,9 +749,7 @@
     return YES;
 }
 
-//
-// NSTextView delegate
-//
+#pragma mark - NSTextView delegate
 
 - (void)textDidEndEditing:(NSNotification *)aNotification;
 {
@@ -768,9 +799,7 @@
     }
 }
 
-//
-// Equation usage caching
-//
+#pragma mark - Equation usage caching
 
 - (void)clearEquationUsageCache;
 {
@@ -805,9 +834,7 @@
     return [[self usageOfEquation:anEquation] count] > 0;
 }
 
-//
-// Transition usage caching
-//
+#pragma mark - Transition usage caching
 
 - (void)clearTransitionUsageCache;
 {

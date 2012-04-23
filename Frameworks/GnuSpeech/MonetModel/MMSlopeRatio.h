@@ -6,44 +6,31 @@
 #import "MMFRuleSymbols.h"
 #import "EventList.h"
 
-@class MonetList;
 @class MMPoint, MMSlope;
 
 @interface MMSlopeRatio : NSObject
-{
-    NSMutableArray *points; // Of MMPoints
-    NSMutableArray *slopes; // Of MMSlopes
-}
-
-- (id)init;
-- (void)dealloc;
 
 - (NSMutableArray *)points;
 - (void)setPoints:(NSMutableArray *)newList;
 - (void)addPoint:(MMPoint *)newPoint;
 
-- (NSMutableArray *)slopes;
-- (void)setSlopes:(NSMutableArray *)newList;
+@property (retain) NSMutableArray *slopes;
 - (void)addSlope:(MMSlope *)newSlope;
 - (void)updateSlopes;
 
 - (double)startTime;
 - (double)endTime;
 
-- (void)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag
-              toDisplay:(MonetList *)displayList;
+// Used by TransitionView
+- (void)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag toDisplay:(NSMutableArray *)displayList;
 
+// Used by ???
 - (double)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag
                  baseline:(double)baseline delta:(double)parameterDelta min:(double)min max:(double)max
               toEventList:(EventList *)eventList atIndex:(NSUInteger)index;
 
 - (double)totalSlopeUnits;
 - (void)displaySlopesInList:(NSMutableArray *)displaySlopes;
-
-// Archiving
-- (id)initWithCoder:(NSCoder *)aDecoder;
-
-- (NSString *)description;
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 

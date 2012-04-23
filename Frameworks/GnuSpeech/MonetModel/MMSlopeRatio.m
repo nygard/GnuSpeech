@@ -8,7 +8,6 @@
 #import "NSString-Extensions.h"
 
 #import "GSXMLFunctions.h"
-#import "MonetList.h"
 #import "MMPoint.h"
 #import "MMEquation.h"
 #import "MMSlope.h"
@@ -18,15 +17,20 @@
 
 #import "EventList.h"
 
+#pragma mark -
+
 @implementation MMSlopeRatio
+{
+    NSMutableArray *points; // Of MMPoints
+    NSMutableArray *slopes; // Of MMSlopes
+}
 
 - (id)init;
 {
-    if ([super init] == nil)
-        return nil;
-
-    points = [[NSMutableArray alloc] init];
-    slopes = [[NSMutableArray alloc] init];
+    if ((self = [super init])) {
+        points = [[NSMutableArray alloc] init];
+        slopes = [[NSMutableArray alloc] init];
+    }
 
     return self;
 }
@@ -38,6 +42,16 @@
 
     [super dealloc];
 }
+
+#pragma mark - Debugging
+
+- (NSString *)description;
+{
+    return [NSString stringWithFormat:@"<%@: %p> points: %@, slopes: %@",
+            NSStringFromClass([self class]), self, points, slopes];
+}
+
+#pragma mark -
 
 - (NSMutableArray *)points;
 {
@@ -60,19 +74,7 @@
     [points addObject:newPoint];
 }
 
-- (NSMutableArray *)slopes;
-{
-    return slopes;
-}
-
-- (void)setSlopes:(NSMutableArray *)newList;
-{
-    if (newList == slopes)
-        return;
-
-    [slopes release];
-    slopes = [newList retain];
-}
+@synthesize slopes;
 
 - (void)addSlope:(MMSlope *)newSlope;
 {
@@ -105,8 +107,10 @@
     return [(MMPoint *)[points lastObject] cachedTime];
 }
 
+#pragma mark - Used by TransitionView
+
 - (void)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag
-              toDisplay:(MonetList *)displayList;
+              toDisplay:(NSMutableArray *)displayList;
 {
     NSUInteger i, numSlopes;
     double temp = 0.0, temp1 = 0.0, intervalTime = 0.0, sum = 0.0, factor = 0.0;
@@ -161,6 +165,8 @@
         temp = [[points objectAtIndex:i] addValue:temp];
     }
 }
+
+#pragma mark - Used by ???
 
 - (double)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag
                  baseline:(double)baseline delta:(double)parameterDelta min:(double)min max:(double)max
@@ -251,46 +257,6 @@
     }
 }
 
-//
-// Archiving
-//
-
-- (id)initWithCoder:(NSCoder *)aDecoder;
-{
-    unsigned archivedVersion;
-
-    if ([super initWithCoder:aDecoder] == nil)
-        return nil;
-
-    //NSLog(@"[%p]<%@>  > %s", self, NSStringFromClass([self class]), _cmd);
-    archivedVersion = [aDecoder versionForClassName:NSStringFromClass([self class])];
-    //NSLog(@"aDecoder version for class %@ is: %u", NSStringFromClass([self class]), archivedVersion);
-
-    {
-        MonetList *archivedPoints;
-
-        archivedPoints = [aDecoder decodeObject];
-        points = [[NSMutableArray alloc] init];
-        [points addObjectsFromArray:[archivedPoints allObjects]];
-    }
-    {
-        MonetList *archivedSlopes;
-
-        archivedSlopes = [aDecoder decodeObject];
-        slopes = [[NSMutableArray alloc] init];
-        [slopes addObjectsFromArray:[archivedSlopes allObjects]];
-    }
-
-    //NSLog(@"[%p]<%@> <  %s", self, NSStringFromClass([self class]), _cmd);
-    return self;
-}
-
-- (NSString *)description;
-{
-    return [NSString stringWithFormat:@"<%@>[%p]: points: %@, slopes: %@",
-                     NSStringFromClass([self class]), self, points, slopes];
-}
-
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     [resultString indentToLevel:level];
@@ -306,8 +272,8 @@
 // TODO (2004-05-14): Maybe with a common superclass we wouldn't need to implement this method here.
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 {
-    if ([self init] == nil)
-        return nil;
+    if ((self = [self init])) {
+    }
 
     return self;
 }
@@ -335,7 +301,10 @@
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 {
     // TODO (2004-05-14): Should check to make sure we have an appropriate number of points and slopes.
-    [(MXMLParser *)parser popDelegate];
+    if ([elementName isEqualToString:@"slope-ratio"])
+        [(MXMLParser *)parser popDelegate];
+    else
+        [NSException raise:@"Unknown close tag" format:@"Unknown closing tag (%@) in %@", elementName, NSStringFromClass([self class])];
 }
 
 @end

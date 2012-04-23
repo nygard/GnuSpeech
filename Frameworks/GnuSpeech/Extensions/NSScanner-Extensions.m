@@ -13,9 +13,7 @@
     static NSCharacterSet *identifierCharacterSet = nil;
 
     if (identifierCharacterSet == nil) {
-        NSMutableCharacterSet *aSet;
-
-        aSet = [[NSCharacterSet letterCharacterSet] mutableCopy];
+        NSMutableCharacterSet *aSet = [[NSCharacterSet letterCharacterSet] mutableCopy];
         [aSet addCharactersInString:@"'"];
         identifierCharacterSet = [aSet copy];
 
@@ -42,14 +40,12 @@
 
 - (BOOL)scanCharacter:(unichar *)value;
 {
-    unichar ch;
-
     //[self skipCharacters];
 
     if ([self isAtEnd] == YES)
         return NO;
 
-    ch = [[self string] characterAtIndex:[self scanLocation]];
+    unichar ch = [[self string] characterAtIndex:[self scanLocation]];
     if (value != NULL)
         *value = ch;
 
@@ -60,10 +56,9 @@
 
 - (BOOL)scanCharacterIntoString:(NSString **)value;
 {
-    BOOL result;
     unichar ch;
 
-    result = [self scanCharacter:&ch];
+    BOOL result = [self scanCharacter:&ch];
     if (result == YES)
         *value = [NSString stringWithUnichar:ch];
 
@@ -77,14 +72,12 @@
 
 - (BOOL)scanCharacterFromSet:(NSCharacterSet *)set intoString:(NSString **)value;
 {
-    unichar ch;
-
     //[self skipCharacters];
 
     if ([self isAtEnd] == YES)
         return NO;
 
-    ch = [[self string] characterAtIndex:[self scanLocation]];
+    unichar ch = [[self string] characterAtIndex:[self scanLocation]];
     if ([set characterIsMember:ch] == YES) {
         if (value != NULL) {
             *value = [NSString stringWithUnichar:ch];
@@ -105,18 +98,15 @@
 - (BOOL)my_scanCharactersFromSet:(NSCharacterSet *)set intoString:(NSString **)value;
 {
     NSRange matchedRange;
-    unsigned int currentLocation;
 
     //[self skipCharacters];
 
-    currentLocation = [self scanLocation];
+    NSUInteger currentLocation = [self scanLocation];
     matchedRange.location = currentLocation;
     matchedRange.length = 0;
 
     while ([self isAtEnd] == NO) {
-        unichar ch;
-
-        ch = [[self string] characterAtIndex:currentLocation];
+        unichar ch = [[self string] characterAtIndex:currentLocation];
         if ([set characterIsMember:ch] == NO)
             break;
 

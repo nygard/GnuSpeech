@@ -64,6 +64,10 @@ static const char **fileTypes = (const char *[]){"preditor",
 												 NULL};	 /* fileTypes is an array of supported file extensions. */
 
 @implementation PrDict
+{
+    NSMutableDictionary*  dictionary;
+    BOOL  has_changed;
+}
 
 + initialize
 {
@@ -160,8 +164,8 @@ static const char **fileTypes = (const char *[]){"preditor",
 {
   PrEntry* entry = [[PrEntry alloc] init];
   
-  entry->phone = phoneString;
-  entry->partsOfSpeech = posString;
+  entry.phone = phoneString;
+  entry.partsOfSpeech = posString;
   
   [dictionary setObject:entry forKey:aWord];
 	has_changed = YES;
@@ -180,12 +184,12 @@ static const char **fileTypes = (const char *[]){"preditor",
 
 - (NSString*)phoneForWord:(NSString*)aWord
 {
-  return ((PrEntry*)[dictionary objectForKey:aWord])->phone;  
+  return ((PrEntry*)[dictionary objectForKey:aWord]).phone;
 }
 
 - (NSString*)partsOfSpeechForWord:(NSString*)aWord
 {
-  return ((PrEntry*)[dictionary objectForKey:aWord])->partsOfSpeech;    
+  return ((PrEntry*)[dictionary objectForKey:aWord]).partsOfSpeech;
 }
 
 - (unsigned)count

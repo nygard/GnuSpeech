@@ -3,14 +3,10 @@
 #import "GSPronunciationDictionary.h"
 
 @interface GSSimplePronunciationDictionary : GSPronunciationDictionary
-{
-    NSMutableDictionary *pronunciations;
-}
 
 + (id)mainDictionary;
 
 - (id)initWithFilename:(NSString *)aFilename;
-- (void)dealloc;
 
 - (NSDate *)modificationDate;
 - (BOOL)loadDictionary;
