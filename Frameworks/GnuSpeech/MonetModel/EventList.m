@@ -34,29 +34,6 @@
 
 #define MAXRULES	    (MAXPHONES-1)
 
-struct _phone {
-    MMPosture *phone;
-    NSUInteger syllable; // TODO (2004-08-12): This isn't used for anything right now.
-    double onset;
-    float ruleTempo;
-};
-
-struct _foot {
-    double onset1;
-    double onset2;
-    double tempo;
-    NSUInteger start; // index into postures
-    NSUInteger end;   // index into postures
-    NSUInteger marked;
-    NSUInteger last; // Is this the last foot of (the tone group?)
-};
-
-struct _toneGroup {
-    NSUInteger startFoot;
-    NSUInteger endFoot;
-    NSUInteger type;
-};
-
 enum {
     MMToneGroupType_Statement    = 0,
     MMToneGroupType_Exclamation  = 1,
@@ -65,6 +42,29 @@ enum {
     MMToneGroupType_Semicolon    = 4,
 };
 typedef NSUInteger MMToneGroupType;
+
+struct _toneGroup {
+    NSUInteger startFootIndex;
+    NSUInteger endFootIndex;
+    MMToneGroupType type;
+};
+
+struct _foot {
+    double onset1;
+    double onset2;
+    double tempo;
+    NSUInteger startPhoneIndex; // index into phones
+    NSUInteger endPhoneIndex;   // index into phones
+    NSUInteger marked;
+    NSUInteger last; // Is this the last foot of (the tone group?)
+};
+
+struct _phone {
+    MMPosture *phone;
+    NSUInteger syllable; // TODO (2004-08-12): This isn't used for anything right now.
+    double onset;
+    float ruleTempo;
+};
 
 NSString *MMToneGroupTypeName(MMToneGroupType toneGroupType)
 {
@@ -381,11 +381,11 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     if (toneGroupCount > 0) {
         if (footCount == 0) {
             toneGroupCount--; // No feet in this tone group, so remove it.
-        } else if (feet[footCount-1].start >= postureCount) {
+        } else if (feet[footCount-1].startPhoneIndex >= postureCount) {
             footCount--; // No posture in the foot, so remove it.
             toneGroupCount--; // And remove the toen group too
         } else {
-            toneGroups[toneGroupCount - 1].endFoot = footCount - 1; // TODO (2004-08-18): What if footCount == 0
+            toneGroups[toneGroupCount - 1].endFootIndex = footCount - 1; // TODO (2004-08-18): What if footCount == 0
             [self endCurrentFoot];
         }
     }
@@ -396,8 +396,8 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     [self endCurrentToneGroup];
     [self newFoot];
 
-    toneGroups[toneGroupCount].startFoot = footCount - 1;
-    toneGroups[toneGroupCount].endFoot = -1;
+    toneGroups[toneGroupCount].startFootIndex = footCount - 1;
+    toneGroups[toneGroupCount].endFootIndex = -1;
     toneGroupCount++;
 }
 
@@ -416,14 +416,14 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 - (void)endCurrentFoot;
 {
     if (footCount > 0)
-        feet[footCount - 1].end = postureCount - 1;
+        feet[footCount - 1].endPhoneIndex = postureCount - 1;
 }
 
 - (void)newFoot;
 {
     [self endCurrentFoot];
-    feet[footCount].start = postureCount; // TODO (2004-08-18): And you better add that posture!
-    feet[footCount].end = -1;
+    feet[footCount].startPhoneIndex = postureCount; // TODO (2004-08-18): And you better add that posture!
+    feet[footCount].endPhoneIndex = -1;
     feet[footCount].tempo = 1.0;
     footCount++;
 }
@@ -757,7 +757,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
         int rus;
         double footTempo;
 
-        rus = feet[i].end - feet[i].start + 1;
+        rus = feet[i].endPhoneIndex - feet[i].startPhoneIndex + 1;
 
         /* Apply rhythm model */
         if (feet[i].marked) {
@@ -778,7 +778,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
         // Adjust the posture tempos for postures in this foot, limiting it to a minimum of 0.2 and maximum of 2.0.
         //NSLog(@"Foot Tempo = %f", footTempo);
-        for (j = feet[i].start; j < feet[i].end + 1; j++) {
+        for (j = feet[i].startPhoneIndex; j < feet[i].endPhoneIndex + 1; j++) {
             phoneTempo[j] *= footTempo;
             if (phoneTempo[j] < 0.2)
                 phoneTempo[j] = 0.2;
@@ -878,11 +878,11 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 //    [self addIntonationPoint:-20.0 offsetTime:0.0 slope:0.0 ruleIndex:0];
 
     for (i = 0; i < toneGroupCount; i++) {
-        firstFoot = toneGroups[i].startFoot;
-        endFoot = toneGroups[i].endFoot;
+        firstFoot = toneGroups[i].startFootIndex;
+        endFoot = toneGroups[i].endFootIndex;
 
-        startTime  = phones[feet[firstFoot].start].onset;
-        endTime  = phones[feet[endFoot].end].onset;
+        startTime  = phones[feet[firstFoot].startPhoneIndex].onset;
+        endTime  = phones[feet[endFoot].endPhoneIndex].onset;
 
         pretonicDelta = (m_intonationParameters.pretonicRange) / (endTime - startTime);
         //NSLog(@"Pretonic Delta = %f time = %f", pretonicDelta, (endTime - startTime));
@@ -891,12 +891,12 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
         for (j = firstFoot; j <= endFoot; j++) {
             MMIntonationPoint *newIntonationPoint;
 
-            phoneIndex = feet[j].start;
+            phoneIndex = feet[j].startPhoneIndex;
             while ([phones[phoneIndex].phone isMemberOfCategoryNamed:@"vocoid"] == NO) { // TODO (2004-08-16): Hardcoded category
                 phoneIndex++;
                 //NSLog(@"Checking phone %@ for vocoid", [phones[phoneIndex].phone name]);
-                if (phoneIndex > feet[j].end) {
-                    phoneIndex = feet[j].start;
+                if (phoneIndex > feet[j].endPhoneIndex) {
+                    phoneIndex = feet[j].startPhoneIndex;
                     break;
                 }
             }
@@ -934,7 +934,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
                 [self addIntonationPoint:newIntonationPoint];
                 [newIntonationPoint release];
 
-                phoneIndex = feet[j].end;
+                phoneIndex = feet[j].endPhoneIndex;
                 ruleIndex = [self ruleIndexForPostureAtIndex:phoneIndex];
 
                 newIntonationPoint = [[MMIntonationPoint alloc] init];
@@ -1269,23 +1269,22 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
 - (void)printDataStructures:(NSString *)comment;
 {
-    NSUInteger toneGroupIndex, footIndex, postureIndex;
     NSUInteger ruleIndex = 0;
 
     NSLog(@"----------------------------------------------------------------------");
     NSLog(@" > %s (%@)", __PRETTY_FUNCTION__, comment);
 
     //NSLog(@"toneGroupCount: %d", toneGroupCount);
-    for (toneGroupIndex = 0; toneGroupIndex < toneGroupCount; toneGroupIndex++) {
+    for (NSUInteger toneGroupIndex = 0; toneGroupIndex < toneGroupCount; toneGroupIndex++) {
         NSLog(@"Tone Group %lu, type: %@", toneGroupIndex, MMToneGroupTypeName(toneGroups[toneGroupIndex].type));
 
         //NSLog(@"tg (%d -- %d)", toneGroups[toneGroupIndex].startFoot, toneGroups[toneGroupIndex].endFoot);
-        for (footIndex = toneGroups[toneGroupIndex].startFoot; footIndex <= toneGroups[toneGroupIndex].endFoot; footIndex++) {
+        for (NSUInteger footIndex = toneGroups[toneGroupIndex].startFootIndex; footIndex <= toneGroups[toneGroupIndex].endFootIndex; footIndex++) {
             NSLog(@"  Foot %lu  tempo: %.3f, marked: %lu, last: %lu, onset1: %.3f, onset2: %.3f", footIndex, feet[footIndex].tempo,
                   feet[footIndex].marked, feet[footIndex].last, feet[footIndex].onset1, feet[footIndex].onset2);
 
             //NSLog(@"Foot (%d -- %d)", feet[footIndex].start, feet[footIndex].end);
-            for (postureIndex = feet[footIndex].start; postureIndex <= feet[footIndex].end; postureIndex++) {
+            for (NSUInteger postureIndex = feet[footIndex].startPhoneIndex; postureIndex <= feet[footIndex].endPhoneIndex; postureIndex++) {
                 if (rules[ruleIndex].firstPhone == postureIndex) {
                     NSLog(@"    Posture %2lu  tempo: %.3f, syllable: %lu, onset: %7.2f, ruleTempo: %.3f, %@ # Rule %2lu, duration: %7.2f, beat: %7.2f",
                           postureIndex, phoneTempo[postureIndex], phones[postureIndex].syllable, phones[postureIndex].onset,
