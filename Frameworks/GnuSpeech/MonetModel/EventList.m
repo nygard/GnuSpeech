@@ -952,19 +952,24 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
         fp = NULL;
 
     currentTime = 0;
+    
+    
+    // So it looks like this... uses the first value as the current value (makes sense), and then looks for the _next_ available value (skipping NaN) to calculate the deltas
     for (i = 0; i < 16; i++) {
         j = 1;
         while ( ( temp = [[events objectAtIndex:j] getValueAtIndex:i]) == NaN)
             j++;
 
         currentValues[i] = [[events objectAtIndex:0] getValueAtIndex:i];
-        currentDeltas[i] = ((temp - currentValues[i]) / (double) ([[events objectAtIndex:j] time])) * 4.0;
+        currentDeltas[i] = ((temp - currentValues[i]) / (double) ([[events objectAtIndex:j] time])) * 4.0; // TODO (2012-04-23): This 4 must be the same 4 as in two following places.  Input control rate, hard coded to 250 Hz
     }
 
+    // Not sure what the next 16+4 values are
     for (i = 16; i < 36; i++)
         currentValues[i] = currentDeltas[i] = 0.0;
 
     if (self.shouldUseSmoothIntonation) {
+        // Find the first value for "32", and use that as the current value[32], no delta
         j = 0;
         while ( (temp = [[events objectAtIndex:j] getValueAtIndex:32]) == NaN) {
             j++;
@@ -976,6 +981,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
         currentDeltas[32] = 0.0;
         //NSLog(@"Smooth intonation: %f %f j = %d", currentValues[32], currentDeltas[32], j);
     } else {
+        // Find the first value for "32" (skipping the very first value).  Use the very first entry as the current value, and calculate delta from the other one
         j = 1;
         while ( (temp = [[events objectAtIndex:j] getValueAtIndex:32]) == NaN) {
             j++;
@@ -1022,8 +1028,8 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
         if (self.delegate != nil && [self.delegate respondsToSelector:@selector(addParameters:)])
             [self.delegate addParameters:table];
 
-        for (j = 0 ; j < 32; j++) {
-            if (currentDeltas[j])
+        for (j = 0; j < 32; j++) {
+            if (currentDeltas[j]) // TODO (2012-04-23): Just add unconditionally
                 currentValues[j] += currentDeltas[j];
         }
         if (self.shouldUseSmoothIntonation) {
@@ -1031,10 +1037,10 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
             currentDeltas[33] += currentDeltas[34];
             currentValues[32] += currentDeltas[33];
         } else {
-            if (currentDeltas[32])
+            if (currentDeltas[32]) // TODO (2012-04-23): Just add unconditionally
                 currentValues[32] += currentDeltas[32];
         }
-        currentTime += 4;
+        currentTime += 4; // TODO (2012-04-23): 4 milliseconds?  Hardcoded?
 
         if (currentTime >= nextTime) {
             i++;
