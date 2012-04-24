@@ -30,7 +30,6 @@
     MMTransition *specialProfiles[16]; // TODO (2004-05-16): We should be able to use an NSMutableDictionary here.
     
     MMBooleanNode *expressions[4];
-    NSString *comment;
 }
 
 - (id)init;
@@ -43,8 +42,6 @@
         /* Zero out expressions and special Profiles */
         bzero(expressions, sizeof(MMBooleanNode *) * 4);
         bzero(specialProfiles, sizeof(id) * 16);
-        
-        comment = nil;
     }
 
     return self;
@@ -63,8 +60,6 @@
 
     // TODO (2004-03-05): Release special profiles
 
-    [comment release];
-
     [super dealloc];
 }
 
@@ -74,7 +69,7 @@
 {
     return [NSString stringWithFormat:@"<%@: %p> parameterTransitions: %@, metaParameterTransitions: %@, symbolEquations(%lu): %@, comment: %@, e1: %@, e2: %@, e3: %@, e4: %@",
             NSStringFromClass([self class]), self, parameterTransitions, metaParameterTransitions, [symbolEquations count], symbolEquations,
-            comment, [expressions[0] expressionString], [expressions[1] expressionString], [expressions[2] expressionString],
+            self.comment, [expressions[0] expressionString], [expressions[1] expressionString], [expressions[2] expressionString],
             [expressions[3] expressionString]];
 }
 
@@ -391,13 +386,6 @@
     [parser release];
 }
 
-@synthesize comment;
-
-- (BOOL)hasComment;
-{
-    return comment != nil && [comment length] > 0;
-}
-
 - (BOOL)matchRule:(NSArray *)categories;
 {
     for (NSUInteger index = 0; index < [self numberExpressions]; index++) {
@@ -555,9 +543,9 @@
     [resultString indentToLevel:level + 1];
     [resultString appendString:@"</boolean-expressions>\n"];
 
-    if (comment != nil) {
+    if (self.comment != nil) {
         [resultString indentToLevel:level + 1];
-        [resultString appendFormat:@"<comment>%@</comment>\n", GSXMLCharacterData(comment)];
+        [resultString appendFormat:@"<comment>%@</comment>\n", GSXMLCharacterData(self.comment)];
     }
 
     [self _appendXMLForParameterTransitionsToString:resultString level:level + 1];
@@ -717,21 +705,9 @@
         [self setDefaultsTo:[self numberExpressions]];
 }
 
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributes;
 {
-    if ((self = [self init])) {
-    }
-
-    return self;
-}
-
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-{
-    if ([elementName isEqualToString:@"comment"]) {
-        MXMLPCDataDelegate *newDelegate = [[MXMLPCDataDelegate alloc] initWithElementName:elementName delegate:self setSelector:@selector(setComment:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
-    } else if ([elementName isEqualToString:@"boolean-expressions"]) {
+    if ([elementName isEqualToString:@"boolean-expressions"]) {
         MXMLStringArrayDelegate *newDelegate = [[MXMLStringArrayDelegate alloc] initWithChildElementName:@"boolean-expression" delegate:self addObjectSelector:@selector(addBooleanExpressionString:)];
         [(MXMLParser *)parser pushDelegate:newDelegate];
         [newDelegate release];
@@ -756,8 +732,7 @@
         [(MXMLParser *)parser pushDelegate:newDelegate];
         [newDelegate release];
     } else {
-        NSLog(@"%@, Unknown element: '%@', skipping", [self shortDescription], elementName);
-        [(MXMLParser *)parser skipTree];
+        [super parser:parser didStartElement:elementName namespaceURI:namespaceURI qualifiedName:qName attributes:attributes];
     }
 }
 

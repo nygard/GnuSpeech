@@ -1,13 +1,13 @@
 //  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
-#import "MMObject.h"
+#import "MMNamedObject.h"
 
 #import "MMFRuleSymbols.h"
 
 @class MMBooleanNode, MMCategory, MMEquation, MMTransition;
 
-@interface MMRule : MMObject
+@interface MMRule : MMNamedObject
 
 - (void)setDefaultsTo:(NSUInteger)numPhones;
 - (void)addDefaultTransitionForLastParameter;
@@ -34,9 +34,6 @@
 
 - (void)addBooleanExpression:(MMBooleanNode *)newExpression;
 - (void)addBooleanExpressionString:(NSString *)aString;
-
-@property (retain) NSString *comment;
-- (BOOL)hasComment;
 
 - (BOOL)matchRule:(NSArray *)categories;
 
@@ -65,7 +62,6 @@
 - (NSString *)symbolNameAtIndex:(NSUInteger)index;
 - (void)setRuleExpression1:(MMBooleanNode *)exp1 exp2:(MMBooleanNode *)exp2 exp3:(MMBooleanNode *)exp3 exp4:(MMBooleanNode *)exp4;
 
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 
