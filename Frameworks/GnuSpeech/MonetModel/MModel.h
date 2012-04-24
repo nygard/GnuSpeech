@@ -54,7 +54,7 @@
 - (MMTransition *)findSpecialTransitionWithName:(NSString *)name;
 
 - (MMEquation *)findEquationWithName:(NSString *)equationName inGroupWithName:(NSString *)groupName;
-- (MMTransition *)findTransitionList:(NSString *)aListName named:(NSString *)aTransitionName;
+- (MMTransition *)findTransitionWithName:(NSString *)transitionName inGroupWithName:(NSString *)groupName;
 
 - (NSArray *)usageOfEquation:(MMEquation *)equation;
 - (NSArray *)usageOfTransition:(MMTransition *)transition;
@@ -66,7 +66,7 @@
 // Archiving - XML
 - (BOOL)writeXMLToFile:(NSString *)filename comment:(NSString *)comment;
 
-- (int)nextCacheTag;
+- (NSUInteger)nextCacheTag;
 - (void)parameter:(MMParameter *)parameter willChangeDefaultValue:(double)newDefaultValue;
 - (void)symbol:(MMSymbol *)symbol willChangeDefaultValue:(double)newDefaultValue;
 

@@ -97,13 +97,13 @@
 
     switch (numPhones) {
         case 2:
-            tempEntry = [self.model findTransitionList:@"Defaults" named:@"Diphone"];
+            tempEntry = [self.model findTransitionWithName:@"Diphone" inGroupWithName:@"Defaults"];
             break;
         case 3:
-            tempEntry = [self.model findTransitionList:@"Defaults" named:@"Triphone"];
+            tempEntry = [self.model findTransitionWithName:@"Triphone" inGroupWithName:@"Defaults"];
             break;
         case 4:
-            tempEntry = [self.model findTransitionList:@"Defaults" named:@"Tetraphone"];
+            tempEntry = [self.model findTransitionWithName:@"Tetraphone" inGroupWithName:@"Defaults"];
             break;
     }
 
@@ -188,13 +188,13 @@
 
     switch ([self numberExpressions]) {
         case 2:
-            transition = [self.model findTransitionList:@"Defaults" named:@"Diphone"];
+            transition = [self.model findTransitionWithName:@"Diphone" inGroupWithName:@"Defaults"];
             break;
         case 3:
-            transition = [self.model findTransitionList:@"Defaults" named:@"Triphone"];
+            transition = [self.model findTransitionWithName:@"Triphone" inGroupWithName:@"Defaults"];
             break;
         case 4:
-            transition = [self.model findTransitionList:@"Defaults" named:@"Tetraphone"];
+            transition = [self.model findTransitionWithName:@"Tetraphone" inGroupWithName:@"Defaults"];
             break;
     }
 
@@ -209,13 +209,13 @@
 
     switch ([self numberExpressions]) {
         case 2:
-            transition = [self.model findTransitionList:@"Defaults" named:@"Diphone"];
+            transition = [self.model findTransitionWithName:@"Diphone" inGroupWithName:@"Defaults"];
             break;
         case 3:
-            transition = [self.model findTransitionList:@"Defaults" named:@"Triphone"];
+            transition = [self.model findTransitionWithName:@"Triphone" inGroupWithName:@"Defaults"];
             break;
         case 4:
-            transition = [self.model findTransitionList:@"Defaults" named:@"Tetraphone"];
+            transition = [self.model findTransitionWithName:@"Tetraphone" inGroupWithName:@"Defaults"];
             break;
     }
     

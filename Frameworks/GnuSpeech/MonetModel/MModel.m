@@ -428,9 +428,6 @@
     return nil;
 }
 
-// TODO (2004-03-06): Find equation named "named" in list named "list"
-// Change to findEquationNamed:(NSString *)anEquationName inList:(NSString *)aListName;
-// TODO (2004-03-06): Merge these three sets of methods, since they're practically identical.
 - (MMEquation *)findEquationWithName:(NSString *)equationName inGroupWithName:(NSString *)groupName;
 {
     for (MMGroup *group in self.equationGroups) {
@@ -447,24 +444,17 @@
 }
 
 
-- (MMTransition *)findTransitionList:(NSString *)aListName named:(NSString *)aTransitionName;
+- (MMTransition *)findTransitionWithName:(NSString *)transitionName inGroupWithName:(NSString *)groupName;
 {
-    NSUInteger i, j;
-
-    for (i = 0 ; i < [transitionGroups count]; i++) {
-        MMGroup *currentGroup = [transitionGroups objectAtIndex:i];
-        if ([aListName isEqualToString:[currentGroup name]]) {
-            for (j = 0; j < [currentGroup.objects count]; j++) {
-                MMTransition *aTransition;
-
-                aTransition = [currentGroup.objects objectAtIndex:j];
-                if ([aTransitionName isEqualToString:[aTransition name]])
-                    return aTransition;
-            }
+    for (MMGroup *group in self.transitionGroups) {
+        if ([groupName isEqualToString:group.name]) {
+            MMTransition *transition = [group objectWithName:transitionName];
+            if (transition != nil)
+                return transition;
         }
     }
 
-    NSLog(@"Couldn't find transition: %@/%@", aListName, aTransitionName);
+    NSLog(@"Couldn't find transition: %@/%@", groupName, transitionName);
 
     return nil;
 }
@@ -623,7 +613,7 @@
     [resultString appendString:@"</special-transitions>\n"];
 }
 
-- (int)nextCacheTag;
+- (NSUInteger)nextCacheTag;
 {
     return ++cacheTag;
 }
