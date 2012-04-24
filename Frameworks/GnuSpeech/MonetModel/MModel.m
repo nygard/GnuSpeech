@@ -562,65 +562,46 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     return [[specialTransitionGroups objectAtIndex:listIndex] objectAtIndex:specialIndex];
 }
 
-- (NSArray *)usageOfEquation:(MMEquation *)anEquation;
+// Returns strings idicatig which rules, transitions, and special transitions use this equation.
+- (NSArray *)usageOfEquation:(MMEquation *)equation;
 {
-    NSUInteger count, index;
-
     NSMutableArray *array = [NSMutableArray array];
-    count = [rules count];
-    for (index = 0; index < count; index++) {
-        MMRule *aRule = [rules objectAtIndex:index];
-        if ([aRule isEquationUsed:anEquation]) {
+    
+    [self.rules enumerateObjectsUsingBlock:^(MMRule *rule, NSUInteger index, BOOL *stop) {
+        if ([rule isEquationUsed:equation]) {
             [array addObject:[NSString stringWithFormat:@"Rule: %lu", index + 1]];
         }
-    }
+    }];
 
-    count = [transitionGroups count];
-    for (index = 0; index < count; index++) {
-        NSUInteger transitionCount, transitionIndex;
-
-        MMGroup *group = [transitionGroups objectAtIndex:index];
-        transitionCount = [group.objects count];
-        for (transitionIndex = 0; transitionIndex < transitionCount; transitionIndex++) {
-            MMTransition *aTransition = [group.objects objectAtIndex:transitionIndex];
-            if ([aTransition isEquationUsed:anEquation]) {
-                [array addObject:[NSString stringWithFormat:@"T:%@:%@", [[aTransition group] name], [aTransition name]]];
+    for (MMGroup *group in self.transitionGroups) {
+        for (MMTransition *transition in group.objects) {
+            if ([transition isEquationUsed:equation]) {
+                [array addObject:[NSString stringWithFormat:@"T:%@:%@", transition.group.name, transition.name]];
             }
         }
     }
 
-    count = [specialTransitionGroups count];
-    for (index = 0; index < count; index++) {
-        NSUInteger transitionCount, transitionIndex;
-
-        MMGroup *group = [specialTransitionGroups objectAtIndex:index];
-        transitionCount = [group.objects count];
-        for (transitionIndex = 0; transitionIndex < transitionCount; transitionIndex++) {
-            MMTransition *aTransition = [group.objects objectAtIndex:transitionIndex];
-            if ([aTransition isEquationUsed:anEquation]) {
-                [array addObject:[NSString stringWithFormat:@"S:%@:%@", [[aTransition group] name], [aTransition name]]];
+    for (MMGroup *group in self.specialTransitionGroups) {
+        for (MMTransition *transition in group.objects) {
+            if ([transition isEquationUsed:equation]) {
+                [array addObject:[NSString stringWithFormat:@"S:%@:%@", transition.group.name, transition.name]];
             }
         }
     }
-    
-    NSParameterAssert([array isKindOfClass:[NSArray class]]);
 
     return array;
 }
 
-
-- (NSArray *)usageOfTransition:(MMTransition *)aTransition;
+// Returns strings indicating which rules use this transition.
+- (NSArray *)usageOfTransition:(MMTransition *)transition;
 {
-    NSUInteger count, index;
     NSMutableArray *array = [NSMutableArray array];
 
-    count = [rules count];
-    for (index = 0; index < count; index++) {
-        MMRule *aRule = [rules objectAtIndex:index];
-        if ([aRule isTransitionUsed:aTransition]) {
+    [self.rules enumerateObjectsUsingBlock:^(MMRule *rule, NSUInteger index, BOOL *stop) {
+        if ([rule isTransitionUsed:transition]) {
             [array addObject:[NSString stringWithFormat:@"Rule: %lu", index + 1]];
         }
-    }
+    }];
 
     return array;
 }
