@@ -37,7 +37,7 @@
     // Implement in subclasses
 }
 
-- (BOOL)isCategoryUsed:(MMCategory *)category;
+- (BOOL)usesCategory:(MMCategory *)category;
 {
     return NO;
 }

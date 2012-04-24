@@ -50,9 +50,9 @@
 - (MMTransition *)getSpecialProfile:(NSUInteger)index;
 - (void)setSpecialProfile:(NSUInteger)index to:(MMTransition *)special;
 
-- (BOOL)isCategoryUsed:(MMCategory *)aCategory;
-- (BOOL)isEquationUsed:(MMEquation *)anEquation;
-- (BOOL)isTransitionUsed:(MMTransition *)aTransition;
+- (BOOL)usesCategory:(MMCategory *)aCategory;
+- (BOOL)usesEquation:(MMEquation *)anEquation;
+- (BOOL)usesTransition:(MMTransition *)aTransition;
 
 - (NSString *)ruleString;
 

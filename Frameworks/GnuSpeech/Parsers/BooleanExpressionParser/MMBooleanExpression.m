@@ -90,10 +90,10 @@
     [resultString appendString:@")"];
 }
 
-- (BOOL)isCategoryUsed:(MMCategory *)category;
+- (BOOL)usesCategory:(MMCategory *)category;
 {
     for (MMBooleanExpression *expression in self.expressions) {
-        if ([expression isCategoryUsed:category])
+        if ([expression usesCategory:category])
             return YES;
     }
 

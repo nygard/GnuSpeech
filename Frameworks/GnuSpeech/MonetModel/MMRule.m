@@ -475,20 +475,20 @@
     specialProfiles[index] = special;
 }
 
-- (BOOL)isCategoryUsed:(MMCategory *)aCategory;
+- (BOOL)usesCategory:(MMCategory *)aCategory;
 {
     NSUInteger count, index;
 
     count = [self numberExpressions];
     for (index = 0; index < count; index++) {
-        if ([expressions[index] isCategoryUsed:aCategory])
+        if ([expressions[index] usesCategory:aCategory])
             return YES;
     }
 
     return NO;
 }
 
-- (BOOL)isEquationUsed:(MMEquation *)anEquation;
+- (BOOL)usesEquation:(MMEquation *)anEquation;
 {
     if ([symbolEquations indexOfObject:anEquation] != NSNotFound)
         return YES;
@@ -496,7 +496,7 @@
     return NO;
 }
 
-- (BOOL)isTransitionUsed:(MMTransition *)aTransition;
+- (BOOL)usesTransition:(MMTransition *)aTransition;
 {
     if ([parameterTransitions indexOfObject:aTransition] != NSNotFound)
         return YES;

@@ -149,8 +149,7 @@
 - (BOOL)isCategoryUsed:(MMCategory *)category;
 {
     for (MMRule *rule in self.rules) {
-        // TODO (2012-04-23): Rename usesCategory:
-        if ([rule isCategoryUsed:category])
+        if ([rule usesCategory:category])
             return YES;
     }
 
@@ -476,7 +475,7 @@
     NSMutableArray *array = [NSMutableArray array];
     
     [self.rules enumerateObjectsUsingBlock:^(MMRule *rule, NSUInteger index, BOOL *stop) {
-        if ([rule isEquationUsed:equation]) {
+        if ([rule usesEquation:equation]) {
             [array addObject:[NSString stringWithFormat:@"Rule: %lu", index + 1]];
         }
     }];
@@ -506,7 +505,7 @@
     NSMutableArray *array = [NSMutableArray array];
 
     [self.rules enumerateObjectsUsingBlock:^(MMRule *rule, NSUInteger index, BOOL *stop) {
-        if ([rule isTransitionUsed:transition]) {
+        if ([rule usesTransition:transition]) {
             [array addObject:[NSString stringWithFormat:@"Rule: %lu", index + 1]];
         }
     }];

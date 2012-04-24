@@ -13,6 +13,6 @@
 - (NSString *)expressionString;
 - (void)appendExpressionToString:(NSMutableString *)resultString;
 
-- (BOOL)isCategoryUsed:(MMCategory *)category;
+- (BOOL)usesCategory:(MMCategory *)category;
 
 @end
