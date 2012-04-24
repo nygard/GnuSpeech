@@ -23,7 +23,6 @@
 @interface AppController ()
 
 - (void)_loadFile:(NSString *)aFilename;
-- (void)_loadDegasFile:(NSString *)aFilename;
 - (void)_loadMonetXMLFile:(NSString *)aFilename;
 
 @property (nonatomic, readonly) MDataEntryController *dataEntryController;
@@ -156,7 +155,7 @@
 
     NSLog(@" > %s", __PRETTY_FUNCTION__);
 
-    types = [NSArray arrayWithObjects:@"monet", @"degas", @"mxml", nil];
+    types = [NSArray arrayWithObjects:@"mxml", nil];
     openPanel = [NSOpenPanel openPanel]; // Each call resets values, including filenames
     NSString *path = [[NSUserDefaults standardUserDefaults] objectForKey:MDK_MonetFileDirectory];
     if (path != nil)
@@ -219,31 +218,6 @@
 #endif
 }
 
-- (IBAction)printData:(id)sender;
-{
-    FILE *fp;
-#if 0
-    const char *temp;
-    NSSavePanel *myPanel;
-
-    myPanel = [NSSavePanel savePanel];
-    if ([myPanel runModal]) {
-        temp = [[myPanel filename] UTF8String];
-        fp = fopen(temp, "w");
-        if (fp) {
-            [model writeDataToFile:fp];
-            fclose(fp);
-        }
-    }
-#else
-    fp = fopen("/tmp/data.txt", "w");
-    if (fp) {
-        [model writeDataToFile:fp];
-        fclose(fp);
-    }
-#endif
-}
-
 - (void)setModel:(MModel *)newModel;
 {
     if (newModel == model)
@@ -266,33 +240,10 @@
 
 - (void)_loadFile:(NSString *)aFilename;
 {
-    NSString *extension;
-
-    extension = [aFilename pathExtension];
-    if ([extension isEqualToString:@"degas"] == YES) {
-        [self _loadDegasFile:aFilename];
-    } else if ([extension isEqualToString:@"mxml"] == YES) {
+    NSString *extension = [aFilename pathExtension];
+    if ([extension isEqualToString:@"mxml"] == YES) {
         [self _loadMonetXMLFile:aFilename];
     }
-}
-
-#define DEGAS_MAGIC 0x2e646567
-
-// TODO (2004-04-21): This actually imports instead of loading.  Should create new model, like in Monet file case
-- (void)_loadDegasFile:(NSString *)aFilename;
-{
-    FILE *fp = fopen([aFilename UTF8String], "r");
-
-    uint32_t magic;
-    fread(&magic, sizeof(uint32_t), 1, fp);
-    if (magic == DEGAS_MAGIC) {
-        NSLog(@"Loading DEGAS File");
-        [model readDegasFileFormat:fp];
-    } else {
-        NSLog(@"Not a DEGAS file");
-    }
-
-    fclose(fp);
 }
 
 - (void)_loadMonetXMLFile:(NSString *)aFilename;
@@ -410,6 +361,8 @@
 #endif
 }
 
+#pragma mark - Data Entry Controllers
+
 - (MDataEntryController *)dataEntryController;
 {
     if (dataEntryController == nil) {
@@ -425,6 +378,8 @@
     [self.dataEntryController showWindow:self];
 }
 
+#pragma mark - Posture Category Controller
+
 - (MPostureCategoryController *)postureCategoryController;
 {
     if (postureCategoryController == nil)
@@ -438,6 +393,8 @@
     [self.postureCategoryController setModel:model];
     [self.postureCategoryController showWindow:self];
 }
+
+#pragma mark - Posture Editor
 
 - (MPostureEditor *)postureEditor;
 {
@@ -454,6 +411,8 @@
     [self.postureEditor showWindow:self];
 }
 
+#pragma mark - Prototype Manager
+
 - (MPrototypeManager *)prototypeManager;
 {
     if (prototypeManager == nil) {
@@ -468,6 +427,8 @@
     [self.prototypeManager setModel:model];
     [self.prototypeManager showWindow:self];
 }
+
+#pragma mark - Transition Editor
 
 - (MTransitionEditor *)transitionEditor;
 {
@@ -485,6 +446,8 @@
     [self.transitionEditor showWindow:self];
 }
 
+#pragma mark - Special Transition Editor
+
 - (MSpecialTransitionEditor *)specialTransitionEditor;
 {
     if (specialTransitionEditor == nil) {
@@ -501,6 +464,8 @@
     [self.specialTransitionEditor showWindow:self];
 }
 
+#pragma mark - Rule Tester
+
 - (MRuleTester *)ruleTester;
 {
     if (ruleTester == nil)
@@ -514,6 +479,8 @@
     [self.ruleTester setModel:model];
     [self.ruleTester showWindow:self];
 }
+
+#pragma mark - Rule Manager
 
 - (MRuleManager *)ruleManager;
 {
@@ -529,6 +496,8 @@
     [self.ruleManager showWindow:self];
 }
 
+#pragma mark - Synthesis Paremeter Editor
+
 - (MSynthesisParameterEditor *)synthesisParameterEditor;
 {
     if (synthesisParameterEditor == nil)
@@ -542,6 +511,8 @@
     [self.synthesisParameterEditor setModel:model];
     [self.synthesisParameterEditor showWindow:self];
 }
+
+#pragma mark - Synthesis Controller
 
 - (MSynthesisController *)synthesisController;
 {
@@ -557,11 +528,15 @@
     [self.synthesisController showWindow:self];
 }
 
+#pragma mark - Intonation Widnow
+
 - (IBAction)showIntonationWindow:(id)sender;
 {
     [self.synthesisController setModel:model];
     [self.synthesisController showIntonationWindow:self];
 }
+
+#pragma mark - Intonation Parameter Window
 
 - (IBAction)showIntonationParameterWindow:(id)sender;
 {
@@ -569,22 +544,7 @@
     [self.synthesisController showIntonationParameterWindow:self];
 }
 
-- (IBAction)generateXML:(id)sender;
-{
-    [model writeXMLToFile:@"/tmp/out.xml" comment:nil];
-}
-
-- (void)editTransition:(MMTransition *)aTransition;
-{
-    [self.transitionEditor setTransition:aTransition];
-    [self.transitionEditor showWindow:self];
-}
-
-- (void)editSpecialTransition:(MMTransition *)transition;
-{
-    [self.specialTransitionEditor setTransition:transition];
-    [self.specialTransitionEditor showWindow:self];
-}
+#pragma mark - Release Notes Controller
 
 - (MReleaseNotesController *)releaseNotesController;
 {
@@ -597,6 +557,25 @@
 - (IBAction)showReleaseNotes:(id)sender;
 {
     [self.releaseNotesController showWindow:self];
+}
+
+#pragma mark - Other
+
+- (IBAction)generateXML:(id)sender;
+{
+    [model writeXMLToFile:@"/tmp/out.xml" comment:nil];
+}
+
+- (void)editTransition:(MMTransition *)transition;
+{
+    [self.transitionEditor setTransition:transition];
+    [self.transitionEditor showWindow:self];
+}
+
+- (void)editSpecialTransition:(MMTransition *)transition;
+{
+    [self.specialTransitionEditor setTransition:transition];
+    [self.specialTransitionEditor showWindow:self];
 }
 
 @end

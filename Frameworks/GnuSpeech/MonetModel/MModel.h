@@ -2,7 +2,6 @@
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import <Foundation/Foundation.h>
-#include <stdio.h>
 
 @class MMGroup;
 @class MMCategory, MMEquation, MMParameter, MMPosture, MMRule, MMSymbol, MMSynthesisParameters, MMTransition;
@@ -77,15 +76,6 @@ extern NSString *MCategoryInUseException;
 
 // Archiving - XML
 - (BOOL)writeXMLToFile:(NSString *)filename comment:(NSString *)comment;
-
-// Archiving - Degas support
-- (void)readDegasFileFormat:(FILE *)fp;
-- (void)readParametersFromDegasFile:(FILE *)fp;
-- (void)readCategoriesFromDegasFile:(FILE *)fp;
-- (void)readPosturesFromDegasFile:(FILE *)fp;
-- (void)readRulesFromDegasFile:(FILE *)fp;
-
-- (void)writeDataToFile:(FILE *)fp;
 
 - (int)nextCacheTag;
 - (void)parameter:(MMParameter *)parameter willChangeDefaultValue:(double)newDefaultValue;
