@@ -17,22 +17,21 @@
 	MModel *model;
     EventList *eventList;	
 	TRMSynthesizer *synthesizer;
-	struct _intonationParameters intonationParameters;
 }
 
 - (id)init;
 {
-	[super init];
-			
-    eventList = [[EventList alloc] init];
-    synthesizer = [[TRMSynthesizer alloc] init];
+	if ((self = [super init])) {
+        eventList = [[EventList alloc] init];
+        synthesizer = [[TRMSynthesizer alloc] init];
 	
-	// Now get the model from the diphones XML file.
-    MDocument * document = [[MDocument alloc] init];
-    BOOL result = [document loadFromXMLFile:GNUSPEECH_SERVER_DIPHONES_XML_PATH];
-    if (result == YES)
-        [self setModel:[document model]];
-    [document release];	
+        // Now get the model from the diphones XML file.
+        MDocument *document = [[MDocument alloc] init];
+        BOOL result = [document loadFromXMLFile:GNUSPEECH_SERVER_DIPHONES_XML_PATH];
+        if (result == YES)
+            [self setModel:[document model]];
+        [document release];
+    }
 	
 	return self;
 }
@@ -41,7 +40,7 @@
 {
     [model release];
     [eventList release];
-    [synthesizer release];	
+    [synthesizer release];
 	
 	[super dealloc];
 }
@@ -94,21 +93,20 @@
 	[eventList setShouldUseMacroIntonation:YES];
 	[eventList setShouldUseMicroIntonation:YES];
 	[eventList setShouldUseDrift:YES];		
-	setDriftGenerator(1.0, 500, 4.0);  // hard-coded defaults taken from Monet
+	[eventList.driftGenerator configureWithDeviation:1.0 sampleRate:500 lowpassCutoff:4.0];  // hard-coded defaults taken from Monet
     [eventList setRadiusMultiply:1.0];  // hard-coded defaults taken from Monet
 	
     [self _takeIntonationParametersFromUI];
-    [eventList setIntonationParameters:intonationParameters];
 }
 
 - (void)_takeIntonationParametersFromUI;
 {
 	// These are the Monet defaults we've just hard-coded (for now).
-    intonationParameters.notionalPitch = -1.0;
-    intonationParameters.pretonicRange = 2.0;
-    intonationParameters.pretonicLift = -2.0;
-    intonationParameters.tonicRange = -10.0;
-    intonationParameters.tonicMovement = -6.0;
+    eventList.intonationParameters.notionalPitch = -1.0;
+    eventList.intonationParameters.pretonicRange = 2.0;
+    eventList.intonationParameters.pretonicLift  = -2.0;
+    eventList.intonationParameters.tonicRange    = -10.0;
+    eventList.intonationParameters.tonicMovement = -6.0;
 }
 
 - (void)continueSynthesis;
