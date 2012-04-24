@@ -1,0 +1,2217 @@
+Categories
+phone
+This is the static phone category.  It cannot be changed or removed
+
+asp
+
+vocoid
+
+contoid
+
+stopped
+
+silence
+
+glide
+
+fricative
+
+nasal
+
+affricate
+
+checked
+
+voiced
+
+fortis
+
+hlike
+
+whistlehack
+Added so we can easily do the rewrite rule:
+
+s* >> [f* | v* | th* | dh*] 
+
+				transforms to:
+
+s* >> qt* >> [f* | v* | th* | dh*] 
+
+Now works as:
+
+s* >> whistlehack         transforms to:
+
+s* >> qt* >> whistlehack
+
+lhack
+
+
+Parameters
+microInt
+Min: -10.000000  Max: 10.000000  Default: 0.000000
+
+glotVol
+Min: 0.000000  Max: 60.000000  Default: 60.000000
+
+aspVol
+Min: 0.000000  Max: 60.000000  Default: 0.000000
+
+fricVol
+Min: 0.000000  Max: 10.000000  Default: 0.000000
+
+fricPos
+Min: 0.000000  Max: 7.000000  Default: 5.500000
+
+fricCF
+Min: 100.000000  Max: 20000.000000  Default: 2500.000000
+
+fricBW
+Min: 250.000000  Max: 20000.000000  Default: 500.000000
+
+r1
+Min: 0.000000  Max: 3.000000  Default: 0.800000
+
+r2
+Min: 0.000000  Max: 3.000000  Default: 1.500000
+
+r3
+Min: 0.000000  Max: 3.000000  Default: 1.500000
+
+r4
+Min: 0.000000  Max: 3.000000  Default: 1.500000
+
+r5
+Min: 0.000000  Max: 3.000000  Default: 1.500000
+
+r6
+Min: 0.000000  Max: 3.000000  Default: 1.500000
+
+r7
+Min: 0.000000  Max: 3.000000  Default: 1.500000
+
+r8
+Min: 0.000000  Max: 3.000000  Default: 1.500000
+
+velum
+Min: 0.000000  Max: 1.500000  Default: 0.100000
+
+
+Symbols
+duration
+Min: 0.000000  Max: 500.000000  Default: 100.000000
+
+transition
+Min: 2.000000  Max: 400.000000  Default: 27.800000
+
+qssa
+Min: 10.000000  Max: 500.000000  Default: 75.000000
+
+qssb
+Min: 10.000000  Max: 500.000000  Default: 75.000000
+
+
+Phones
+#
+*# silence phone 
+
+	microInt: *0.000000		r2: *0.890000
+	glotVol: *0.000000		r3: *0.990000
+	aspVol: *0.000000		r4: *0.810000
+	fricVol: *0.000000		r5: *0.760000
+	fricPos: *5.500000		r6: *1.050000
+	fricCF: *2500.000000		r7: *1.230000
+	fricBW: *500.000000		r8: *0.010000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *72.000000 transition: *20.000000 qssa: *26.000000 qssb: *26.000000 
+
+This is an "at rest" symbol that is used to start and terminate utterances without introducing ridiculous transitions etc!
+
+#'
+*#' silence phone 
+
+	microInt: *0.000000		r2: *0.890000
+	glotVol: *0.000000		r3: *0.990000
+	aspVol: *0.000000		r4: *0.810000
+	fricVol: *0.000000		r5: *0.760000
+	fricPos: *5.500000		r6: *1.050000
+	fricCF: *2500.000000		r7: *1.230000
+	fricBW: *500.000000		r8: *0.010000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *72.000000 transition: *20.000000 qssa: *26.000000 qssb: *26.000000 
+
+This is an "at rest" symbol that is used to start and terminate utterances without introducing ridiculous transitions etc!
+
+^
+*^ silence phone 
+
+	microInt: *0.000000		r2: *0.890000
+	glotVol: *0.000000		r3: *0.990000
+	aspVol: *0.000000		r4: *0.810000
+	fricVol: *0.000000		r5: *0.760000
+	fricPos: *5.500000		r6: *1.050000
+	fricCF: *2500.000000		r7: *1.230000
+	fricBW: *500.000000		r8: *0.010000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *100.000000 transition: *40.000000 qssa: *30.000000 qssb: *30.000000 
+
+
+^'
+*^' silence phone 
+
+	microInt: *0.000000		r2: *0.890000
+	glotVol: *0.000000		r3: *0.990000
+	aspVol: *0.000000		r4: *0.810000
+	fricVol: *0.000000		r5: *0.760000
+	fricPos: *5.500000		r6: *1.050000
+	fricCF: *2500.000000		r7: *1.230000
+	fricBW: *500.000000		r8: *0.010000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *100.000000 transition: *40.000000 qssa: *30.000000 qssb: *30.000000 
+
+
+a
+*a phone vocoid voiced 
+
+	microInt: *0.000000		r2: *0.650000
+	glotVol: *60.000000		r3: *0.650000
+	aspVol: *0.000000		r4: *0.650000
+	fricVol: *0.000000		r5: *1.310000
+	fricPos: *5.500000		r6: *1.230000
+	fricCF: *2500.000000		r7: *1.310000
+	fricBW: *500.000000		r8: *1.670000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *77.000000 transition: *27.800000 qssa: *25.900000 qssb: *25.900000 
+
+
+a'
+*a' phone vocoid voiced 
+
+	microInt: *0.000000		r2: *0.650000
+	glotVol: *60.000000		r3: *0.650000
+	aspVol: *0.000000		r4: *0.650000
+	fricVol: *0.000000		r5: *1.310000
+	fricPos: *5.500000		r6: *1.230000
+	fricCF: *2500.000000		r7: *1.310000
+	fricBW: *500.000000		r8: *1.670000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *132.400000 transition: *27.800000 qssa: *53.600000 qssb: *53.600000 
+
+
+aa
+*aa phone vocoid voiced 
+
+	microInt: *0.000000		r2: *0.650000
+	glotVol: *60.000000		r3: *0.840000
+	aspVol: *0.000000		r4: *1.150000
+	fricVol: *0.000000		r5: *1.310000
+	fricPos: *5.500000		r6: *1.590000
+	fricCF: *2500.000000		r7: *1.590000
+	fricBW: *500.000000		r8: *2.610000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *84.000000 transition: *27.800000 qssa: *29.400000 qssb: *29.400000 
+
+
+aa'
+*aa' phone vocoid voiced 
+
+	microInt: *0.000000		r2: *0.650000
+	glotVol: *60.000000		r3: *0.840000
+	aspVol: *0.000000		r4: *1.150000
+	fricVol: *0.000000		r5: *1.310000
+	fricPos: *5.500000		r6: *1.590000
+	fricCF: *2500.000000		r7: *1.590000
+	fricBW: *500.000000		r8: *2.610000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *122.000000 transition: *27.800000 qssa: *48.400000 qssb: *48.400000 
+
+
+ah
+*ah phone vocoid voiced 
+
+	microInt: *0.000000		r2: *0.650000
+	glotVol: *60.000000		r3: *0.450000
+	aspVol: *0.000000		r4: *0.940000
+	fricVol: *0.000000		r5: *1.100000
+	fricPos: *5.500000		r6: *1.520000
+	fricCF: *2500.000000		r7: *1.460000
+	fricBW: *500.000000		r8: *2.450000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *65.400000 transition: *27.800000 qssa: *20.100000 qssb: *20.100000 
+
+
+ah'
+*ah' phone vocoid voiced 
+
+	microInt: *0.000000		r2: *0.650000
+	glotVol: *60.000000		r3: *0.450000
+	aspVol: *0.000000		r4: *0.940000
+	fricVol: *0.000000		r5: *1.100000
+	fricPos: *5.500000		r6: *1.520000
+	fricCF: *2500.000000		r7: *1.460000
+	fricBW: *500.000000		r8: *2.450000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *118.500000 transition: *27.800000 qssa: *46.600000 qssb: *46.600000 
+
+This primed version was shortened since the original data was statistically invalid (too few samples).  We simply substituted the durations from uh'.
+
+an
+*an phone vocoid voiced 
+
+	microInt: *0.000000		r2: *0.520000
+	glotVol: *60.000000		r3: *0.450000
+	aspVol: *0.000000		r4: *0.790000
+	fricVol: *0.000000		r5: *1.490000
+	fricPos: *5.500000		r6: *1.670000
+	fricCF: *2500.000000		r7: *1.020000
+	fricBW: *500.000000		r8: *1.590000
+	r1: *0.800000		velum: *1.500000
+
+
+duration: *106.800000 transition: *27.800000 qssa: *40.800000 qssb: *40.800000 
+
+
+an'
+*an' phone vocoid voiced 
+
+	microInt: *0.000000		r2: *0.520000
+	glotVol: *60.000000		r3: *0.450000
+	aspVol: *0.000000		r4: *0.790000
+	fricVol: *0.000000		r5: *1.490000
+	fricPos: *5.500000		r6: *1.670000
+	fricCF: *2500.000000		r7: *1.020000
+	fricBW: *500.000000		r8: *1.590000
+	r1: *0.800000		velum: *1.500000
+
+
+duration: *181.600000 transition: *27.800000 qssa: *78.200000 qssb: *78.200000 
+
+
+ar
+*ar phone vocoid voiced 
+
+	microInt: *0.000000		r2: *0.520000
+	glotVol: *60.000000		r3: *0.450000
+	aspVol: *0.000000		r4: *0.790000
+	fricVol: *0.000000		r5: *1.490000
+	fricPos: *5.500000		r6: *1.670000
+	fricCF: *2500.000000		r7: *1.020000
+	fricBW: *500.000000		r8: *1.590000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *106.800000 transition: *27.800000 qssa: *40.800000 qssb: *40.800000 
+
+
+ar'
+*ar' phone vocoid voiced 
+
+	microInt: *0.000000		r2: *0.520000
+	glotVol: *60.000000		r3: *0.450000
+	aspVol: *0.000000		r4: *0.790000
+	fricVol: *0.000000		r5: *1.490000
+	fricPos: *5.500000		r6: *1.670000
+	fricCF: *2500.000000		r7: *1.020000
+	fricBW: *500.000000		r8: *1.590000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *181.600000 transition: *27.800000 qssa: *78.200000 qssb: *78.200000 
+
+
+aw
+*aw phone vocoid voiced 
+
+	microInt: *0.000000		r2: *1.100000
+	glotVol: *60.000000		r3: *0.940000
+	aspVol: *0.000000		r4: *0.420000
+	fricVol: *0.000000		r5: *1.490000
+	fricPos: *5.500000		r6: *1.670000
+	fricCF: *2500.000000		r7: *1.780000
+	fricBW: *500.000000		r8: *1.050000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *114.000000 transition: *27.800000 qssa: *44.400000 qssb: *44.400000 
+
+
+aw'
+*aw' phone vocoid voiced 
+
+	microInt: *0.000000		r2: *1.100000
+	glotVol: *60.000000		r3: *0.940000
+	aspVol: *0.000000		r4: *0.420000
+	fricVol: *0.000000		r5: *1.490000
+	fricPos: *5.500000		r6: *1.670000
+	fricCF: *2500.000000		r7: *1.780000
+	fricBW: *500.000000		r8: *1.050000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *194.000000 transition: *27.800000 qssa: *84.400000 qssb: *84.400000 
+
+
+b
+*b phone contoid stopped checked voiced lhack 
+
+	microInt: *-2.000000		r2: *0.890000
+	glotVol: *43.500000		r3: *0.760000
+	aspVol: *0.000000		r4: *1.280000
+	fricVol: *0.000000		r5: *1.800000
+	fricPos: *7.000000		r6: *0.990000
+	fricCF: *2000.000000		r7: *0.840000
+	fricBW: *700.000000		r8: *0.100000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *61.000000 transition: *24.000000 qssa: *30.500000 qssb: *30.500000 
+
+
+b'
+*b' phone contoid stopped checked voiced lhack 
+
+	microInt: *-2.000000		r2: *0.890000
+	glotVol: *43.500000		r3: *0.760000
+	aspVol: *0.000000		r4: *1.280000
+	fricVol: *0.000000		r5: *1.800000
+	fricPos: *7.000000		r6: *0.990000
+	fricCF: *2000.000000		r7: *0.840000
+	fricBW: *700.000000		r8: *0.100000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *70.800000 transition: *24.000000 qssa: *35.400000 qssb: *35.400000 
+
+
+bx
+*bx contoid phone checked voiced stopped lhack 
+
+	microInt: *-2.000000		r2: *0.890000
+	glotVol: *43.500000		r3: *0.760000
+	aspVol: *0.000000		r4: *1.280000
+	fricVol: *0.000000		r5: *1.800000
+	fricPos: *7.000000		r6: *0.990000
+	fricCF: *2000.000000		r7: *0.840000
+	fricBW: *700.000000		r8: *0.100000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *74.000000 transition: *21.500000 qssa: *37.000000 qssb: *37.000000 
+
+
+bx'
+*bx' phone contoid stopped checked voiced lhack 
+
+	microInt: *-2.000000		r2: *0.890000
+	glotVol: *43.500000		r3: *0.760000
+	aspVol: *0.000000		r4: *1.280000
+	fricVol: *0.000000		r5: *1.800000
+	fricPos: *7.000000		r6: *0.990000
+	fricCF: *2000.000000		r7: *0.840000
+	fricBW: *700.000000		r8: *0.100000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *94.000000 transition: *21.500000 qssa: *47.000000 qssb: *47.000000 
+
+
+ch
+*ch phone contoid checked voiced affricate lhack 
+
+	microInt: *-2.000000		r2: *1.360000
+	glotVol: *0.000000		r3: *1.740000
+	aspVol: *0.000000		r4: *1.870000
+	fricVol: *0.000000		r5: *0.940000
+	fricPos: *5.600000		r6: *0.000000
+	fricCF: *2500.000000		r7: *0.790000
+	fricBW: *2600.000000		r8: *0.790000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *118.600000 transition: *24.200000 qssa: *59.300000 qssb: *59.300000 
+
+
+ch'
+*ch' phone contoid affricate checked lhack 
+
+	microInt: *-2.000000		r2: *1.360000
+	glotVol: *0.000000		r3: *1.740000
+	aspVol: *0.000000		r4: *1.870000
+	fricVol: *0.000000		r5: *0.940000
+	fricPos: *5.600000		r6: *0.000000
+	fricCF: *2500.000000		r7: *0.790000
+	fricBW: *2600.000000		r8: *0.790000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *118.800000 transition: *62.000000 qssa: *59.400000 qssb: *59.400000 
+
+
+d
+*d phone contoid stopped checked voiced lhack 
+
+	microInt: *-2.000000		r2: *1.310000
+	glotVol: *43.500000		r3: *1.490000
+	aspVol: *0.000000		r4: *1.250000
+	fricVol: *0.000000		r5: *0.760000
+	fricPos: *6.700000		r6: *0.100000
+	fricCF: *4500.000000		r7: *1.440000
+	fricBW: *2000.000000		r8: *1.300000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *45.600000 transition: *28.000000 qssa: *22.800000 qssb: *22.800000 
+
+
+d'
+*d' phone contoid voiced checked stopped lhack 
+
+	microInt: *-2.000000		r2: *1.310000
+	glotVol: *43.500000		r3: *1.490000
+	aspVol: *0.000000		r4: *1.250000
+	fricVol: *0.000000		r5: *0.760000
+	fricPos: *6.700000		r6: *0.100000
+	fricCF: *4500.000000		r7: *1.440000
+	fricBW: *2000.000000		r8: *1.310000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *73.200000 transition: *28.000000 qssa: *36.600000 qssb: *36.600000 
+
+
+dh
+*dh phone contoid fricative checked voiced whistlehack lhack 
+
+	microInt: *-1.000000		r2: *1.200000
+	glotVol: *54.000000		r3: *1.500000
+	aspVol: *0.000000		r4: *1.350000
+	fricVol: *0.250000		r5: *1.200000
+	fricPos: *6.000000		r6: *1.200000
+	fricCF: *4400.000000		r7: *0.400000
+	fricBW: *4500.000000		r8: *1.000000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *41.400000 transition: *44.000000 qssa: *20.700000 qssb: *20.700000 
+
+
+dh'
+*dh' phone contoid fricative checked voiced whistlehack lhack 
+
+	microInt: *-1.000000		r2: *1.200000
+	glotVol: *54.000000		r3: *1.500000
+	aspVol: *0.000000		r4: *1.350000
+	fricVol: *0.250000		r5: *1.200000
+	fricPos: *6.000000		r6: *1.200000
+	fricCF: *4400.000000		r7: *0.400000
+	fricBW: *4500.000000		r8: *1.000000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *41.400000 transition: *44.000000 qssa: *20.700000 qssb: *20.700000 
+
+
+dx
+*dx phone contoid stopped checked voiced lhack 
+
+	microInt: *-2.000000		r2: *1.310000
+	glotVol: *43.500000		r3: *1.490000
+	aspVol: *0.000000		r4: *1.250000
+	fricVol: *0.000000		r5: *0.760000
+	fricPos: *6.700000		r6: *0.100000
+	fricCF: *4500.000000		r7: *1.440000
+	fricBW: *2000.000000		r8: *1.310000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *51.600000 transition: *28.500000 qssa: *25.800000 qssb: *25.800000 
+
+
+dx'
+*dx' phone contoid stopped checked voiced lhack 
+
+	microInt: *-2.000000		r2: *1.310000
+	glotVol: *43.500000		r3: *1.490000
+	aspVol: *0.000000		r4: *1.250000
+	fricVol: *0.000000		r5: *0.760000
+	fricPos: *6.700000		r6: *0.100000
+	fricCF: *4500.000000		r7: *1.440000
+	fricBW: *2000.000000		r8: *1.310000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *65.400000 transition: *28.500000 qssa: *32.700000 qssb: *32.700000 
+
+
+e
+*e phone vocoid voiced 
+
+	microInt: *0.000000		r2: *0.680000
+	glotVol: *60.000000		r3: *1.120000
+	aspVol: *0.000000		r4: *1.695000
+	fricVol: *0.000000		r5: *1.385000
+	fricPos: *5.500000		r6: *1.070000
+	fricCF: *2500.000000		r7: *1.045000
+	fricBW: *500.000000		r8: *2.060000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *61.000000 transition: *27.800000 qssa: *17.900000 qssb: *17.900000 
+
+
+e'
+*e' phone vocoid voiced 
+
+	microInt: *0.000000		r2: *0.680000
+	glotVol: *60.000000		r3: *1.120000
+	aspVol: *0.000000		r4: *1.695000
+	fricVol: *0.000000		r5: *1.385000
+	fricPos: *5.500000		r6: *1.070000
+	fricCF: *2500.000000		r7: *1.045000
+	fricBW: *500.000000		r8: *2.060000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *77.600000 transition: *27.800000 qssa: *26.200000 qssb: *26.200000 
+
+
+ee
+*ee phone vocoid voiced 
+
+	microInt: *0.000000		r2: *1.670000
+	glotVol: *60.000000		r3: *1.905000
+	aspVol: *0.000000		r4: *1.985000
+	fricVol: *0.000000		r5: *0.810000
+	fricPos: *5.500000		r6: *0.495000
+	fricCF: *2500.000000		r7: *0.730000
+	fricBW: *500.000000		r8: *1.485000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *82.400000 transition: *27.800000 qssa: *28.600000 qssb: *28.600000 
+
+
+ee'
+*ee' phone vocoid voiced 
+
+	microInt: *0.000000		r2: *1.670000
+	glotVol: *60.000000		r3: *1.905000
+	aspVol: *0.000000		r4: *1.985000
+	fricVol: *0.000000		r5: *0.810000
+	fricPos: *5.500000		r6: *0.495000
+	fricCF: *2500.000000		r7: *0.730000
+	fricBW: *500.000000		r8: *1.485000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *141.800000 transition: *27.800000 qssa: *58.300000 qssb: *58.300000 
+
+
+er
+*er phone vocoid voiced 
+
+	microInt: *0.000000		r2: *0.885000
+	glotVol: *60.000000		r3: *0.990000
+	aspVol: *0.000000		r4: *0.810000
+	fricVol: *0.000000		r5: *0.755000
+	fricPos: *5.500000		r6: *1.045000
+	fricCF: *2500.000000		r7: *1.225000
+	fricBW: *500.000000		r8: *1.120000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *132.200000 transition: *27.800000 qssa: *53.500000 qssb: *53.500000 
+
+
+er'
+*er' phone vocoid voiced 
+
+	microInt: *0.000000		r2: *0.885000
+	glotVol: *60.000000		r3: *0.990000
+	aspVol: *0.000000		r4: *0.810000
+	fricVol: *0.000000		r5: *0.755000
+	fricPos: *5.500000		r6: *1.045000
+	fricCF: *2500.000000		r7: *1.225000
+	fricBW: *500.000000		r8: *1.120000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *167.600000 transition: *27.800000 qssa: *71.200000 qssb: *71.200000 
+
+
+f
+*f phone contoid fricative checked whistlehack lhack 
+
+	microInt: *-1.000000		r2: *0.890000
+	glotVol: *0.000000		r3: *0.990000
+	aspVol: *0.000000		r4: *0.810000
+	fricVol: *0.500000		r5: *0.760000
+	fricPos: *7.000000		r6: *0.890000
+	fricCF: *3300.000000		r7: *0.840000
+	fricBW: *1000.000000		r8: *0.500000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *70.000000 transition: *40.000000 qssa: *35.000000 qssb: *35.000000 
+
+
+f'
+*f' phone contoid fricative checked whistlehack lhack 
+
+	microInt: *-1.000000		r2: *0.890000
+	glotVol: *0.000000		r3: *0.990000
+	aspVol: *0.000000		r4: *0.810000
+	fricVol: *0.500000		r5: *0.760000
+	fricPos: *7.000000		r6: *0.890000
+	fricCF: *3300.000000		r7: *0.840000
+	fricBW: *1000.000000		r8: *0.500000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *98.000000 transition: *40.000000 qssa: *49.000000 qssb: *49.000000 
+
+
+g
+*g phone contoid stopped checked voiced lhack 
+
+	microInt: *-2.000000		r2: *1.700000
+	glotVol: *43.500000		r3: *1.300000
+	aspVol: *0.000000		r4: *0.990000
+	fricVol: *0.000000		r5: *0.100000
+	fricPos: *4.700000		r6: *1.070000
+	fricCF: *2000.000000		r7: *0.730000
+	fricBW: *2000.000000		r8: *1.490000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *53.400000 transition: *22.000000 qssa: *26.700000 qssb: *26.700000 
+
+
+g'
+*g' phone contoid stopped checked voiced lhack 
+
+	microInt: *-2.000000		r2: *1.700000
+	glotVol: *43.500000		r3: *1.300000
+	aspVol: *0.000000		r4: *0.990000
+	fricVol: *0.000000		r5: *0.100000
+	fricPos: *4.700000		r6: *1.070000
+	fricCF: *2000.000000		r7: *0.730000
+	fricBW: *2000.000000		r8: *1.490000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *68.200000 transition: *22.000000 qssa: *34.100000 qssb: *34.100000 
+
+
+gs
+*gs phone silence contoid stopped hlike 
+
+	microInt: *0.000000		r2: *0.800000
+	glotVol: *0.000000		r3: *0.800000
+	aspVol: *0.000000		r4: *0.800000
+	fricVol: *0.000000		r5: *0.800000
+	fricPos: *5.500000		r6: *0.800000
+	fricCF: *2500.000000		r7: *0.800000
+	fricBW: *500.000000		r8: *0.800000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *70.000000 transition: *18.000000 qssa: *35.000000 qssb: *35.000000 
+
+
+gs'
+*gs' phone hlike contoid stopped 
+
+	microInt: *0.000000		r2: *0.800000
+	glotVol: *0.000000		r3: *0.800000
+	aspVol: *0.000000		r4: *0.800000
+	fricVol: *0.000000		r5: *0.800000
+	fricPos: *5.500000		r6: *0.800000
+	fricCF: *2500.000000		r7: *0.800000
+	fricBW: *500.000000		r8: *0.800000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *90.000000 transition: *18.000000 qssa: *45.000000 qssb: *45.000000 
+
+
+h
+*h phone asp hlike contoid 
+
+	microInt: *0.000000		r2: *0.800000
+	glotVol: *0.000000		r3: *0.800000
+	aspVol: *10.000000		r4: *0.800000
+	fricVol: *0.000000		r5: *0.800000
+	fricPos: *5.500000		r6: *0.800000
+	fricCF: *2500.000000		r7: *0.800000
+	fricBW: *500.000000		r8: *0.800000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *49.800000 transition: *27.800000 qssa: *24.900000 qssb: *24.900000 
+
+
+h'
+*h' phone asp contoid hlike 
+
+	microInt: *0.000000		r2: *0.800000
+	glotVol: *0.000000		r3: *0.800000
+	aspVol: *10.000000		r4: *0.800000
+	fricVol: *0.000000		r5: *0.800000
+	fricPos: *5.500000		r6: *0.800000
+	fricCF: *2500.000000		r7: *0.800000
+	fricBW: *500.000000		r8: *0.800000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *66.600000 transition: *27.800000 qssa: *33.300000 qssb: *33.300000 
+
+
+hh
+*hh phone contoid fricative 
+
+	microInt: *0.000000		r2: *0.240000
+	glotVol: *0.000000		r3: *0.400000
+	aspVol: *10.000000		r4: *0.810000
+	fricVol: *0.000000		r5: *0.760000
+	fricPos: *1.000000		r6: *1.050000
+	fricCF: *1000.000000		r7: *1.230000
+	fricBW: *1000.000000		r8: *1.120000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *63.800000 transition: *34.200000 qssa: *31.900000 qssb: *31.900000 
+
+
+hh'
+*hh' phone contoid fricative 
+
+	microInt: *0.000000		r2: *0.240000
+	glotVol: *0.000000		r3: *0.400000
+	aspVol: *10.000000		r4: *0.810000
+	fricVol: *0.000000		r5: *0.760000
+	fricPos: *1.000000		r6: *1.050000
+	fricCF: *1000.000000		r7: *1.230000
+	fricBW: *1000.000000		r8: *1.120000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *124.200000 transition: *24.200000 qssa: *62.100000 qssb: *62.100000 
+
+
+hv
+*hv phone asp hlike contoid 
+
+	microInt: *0.000000		r2: *0.800000
+	glotVol: *42.000000		r3: *0.800000
+	aspVol: *10.000000		r4: *0.800000
+	fricVol: *0.000000		r5: *0.800000
+	fricPos: *5.500000		r6: *0.800000
+	fricCF: *2500.000000		r7: *0.800000
+	fricBW: *500.000000		r8: *0.800000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *49.800000 transition: *27.800000 qssa: *24.900000 qssb: *24.900000 
+
+
+hv'
+*hv' phone asp contoid hlike 
+
+	microInt: *0.000000		r2: *0.800000
+	glotVol: *42.000000		r3: *0.800000
+	aspVol: *10.000000		r4: *0.800000
+	fricVol: *0.000000		r5: *0.800000
+	fricPos: *5.500000		r6: *0.800000
+	fricCF: *2500.000000		r7: *0.800000
+	fricBW: *500.000000		r8: *0.800000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *66.600000 transition: *27.800000 qssa: *33.300000 qssb: *33.300000 
+
+
+i
+*i phone vocoid voiced 
+
+	microInt: *0.000000		r2: *1.045000
+	glotVol: *60.000000		r3: *1.565000
+	aspVol: *0.000000		r4: *1.750000
+	fricVol: *0.000000		r5: *0.940000
+	fricPos: *5.500000		r6: *0.680000
+	fricCF: *2500.000000		r7: *0.785000
+	fricBW: *500.000000		r8: *1.120000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *53.200000 transition: *27.800000 qssa: *14.000000 qssb: *14.000000 
+
+Bumped qss values up to 30 from 14
+
+i'
+*i' phone vocoid voiced 
+
+	microInt: *0.000000		r2: *1.045000
+	glotVol: *60.000000		r3: *1.565000
+	aspVol: *0.000000		r4: *1.750000
+	fricVol: *0.000000		r5: *0.940000
+	fricPos: *5.500000		r6: *0.680000
+	fricCF: *2500.000000		r7: *0.785000
+	fricBW: *500.000000		r8: *1.120000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *76.200000 transition: *27.800000 qssa: *25.500000 qssb: *25.500000 
+
+
+in
+*in phone vocoid voiced 
+
+	microInt: *0.000000		r2: *0.650000
+	glotVol: *60.000000		r3: *0.835000
+	aspVol: *0.000000		r4: *1.150000
+	fricVol: *0.000000		r5: *1.305000
+	fricPos: *5.500000		r6: *1.590000
+	fricCF: *2500.000000		r7: *1.590000
+	fricBW: *500.000000		r8: *2.610000
+	r1: *0.800000		velum: *1.500000
+
+
+duration: *84.000000 transition: *27.800000 qssa: *29.400000 qssb: *29.400000 
+
+
+in'
+*in' phone vocoid voiced 
+
+	microInt: *0.000000		r2: *0.650000
+	glotVol: *60.000000		r3: *0.835000
+	aspVol: *0.000000		r4: *1.150000
+	fricVol: *0.000000		r5: *1.305000
+	fricPos: *5.500000		r6: *1.590000
+	fricCF: *2500.000000		r7: *1.590000
+	fricBW: *500.000000		r8: *2.610000
+	r1: *0.800000		velum: *1.500000
+
+
+duration: *122.000000 transition: *27.800000 qssa: *48.400000 qssb: *48.400000 
+
+
+j
+*j phone contoid affricate checked voiced lhack 
+
+	microInt: *-2.000000		r2: *1.360000
+	glotVol: *48.000000		r3: *1.740000
+	aspVol: *0.000000		r4: *1.870000
+	fricVol: *0.000000		r5: *0.940000
+	fricPos: *5.600000		r6: *0.000000
+	fricCF: *2500.000000		r7: *0.790000
+	fricBW: *2600.000000		r8: *0.790000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *93.400000 transition: *24.200000 qssa: *46.700000 qssb: *46.700000 
+
+
+j'
+*j' phone contoid affricate checked voiced lhack 
+
+	microInt: *-2.000000		r2: *1.360000
+	glotVol: *48.000000		r3: *1.740000
+	aspVol: *0.000000		r4: *1.870000
+	fricVol: *0.000000		r5: *0.940000
+	fricPos: *5.600000		r6: *0.000000
+	fricCF: *2500.000000		r7: *0.790000
+	fricBW: *2600.000000		r8: *0.790000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *100.000000 transition: *24.200000 qssa: *50.000000 qssb: *50.000000 
+
+
+k
+*k phone contoid stopped lhack 
+
+	microInt: *-10.000000		r2: *1.700000
+	glotVol: *0.000000		r3: *1.300000
+	aspVol: *0.000000		r4: *0.990000
+	fricVol: *0.000000		r5: *0.100000
+	fricPos: *4.700000		r6: *1.070000
+	fricCF: *2000.000000		r7: *0.730000
+	fricBW: *2000.000000		r8: *1.490000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *62.800000 transition: *30.000000 qssa: *31.400000 qssb: *31.400000 
+
+
+k'
+*k' phone contoid stopped lhack 
+
+	microInt: *-10.000000		r2: *1.700000
+	glotVol: *0.000000		r3: *1.300000
+	aspVol: *0.000000		r4: *0.990000
+	fricVol: *0.000000		r5: *0.100000
+	fricPos: *4.700000		r6: *1.070000
+	fricCF: *2000.000000		r7: *0.730000
+	fricBW: *2000.000000		r8: *1.490000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *82.400000 transition: *30.000000 qssa: *41.700000 qssb: *41.700000 
+
+
+kx
+*kx phone contoid stopped lhack 
+
+	microInt: *-10.000000		r2: *1.700000
+	glotVol: *0.000000		r3: *1.300000
+	aspVol: *0.000000		r4: *0.990000
+	fricVol: *0.000000		r5: *0.100000
+	fricPos: *4.700000		r6: *1.070000
+	fricCF: *2000.000000		r7: *0.730000
+	fricBW: *2000.000000		r8: *1.490000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *87.200000 transition: *30.000000 qssa: *43.600000 qssb: *43.600000 
+
+
+kx'
+*kx' phone contoid stopped lhack 
+
+	microInt: *-10.000000		r2: *1.700000
+	glotVol: *0.000000		r3: *1.300000
+	aspVol: *0.000000		r4: *0.990000
+	fricVol: *0.000000		r5: *0.100000
+	fricPos: *4.700000		r6: *1.070000
+	fricCF: *2000.000000		r7: *0.730000
+	fricBW: *2000.000000		r8: *1.490000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *114.600000 transition: *30.000000 qssa: *57.300000 qssb: *57.300000 
+
+
+l
+*l phone glide contoid voiced checked 
+
+	microInt: *0.000000		r2: *0.890000
+	glotVol: *60.000000		r3: *1.100000
+	aspVol: *0.000000		r4: *0.970000
+	fricVol: *0.000000		r5: *0.890000
+	fricPos: *5.500000		r6: *0.340000
+	fricCF: *2500.000000		r7: *0.290000
+	fricBW: *500.000000		r8: *1.120000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *72.000000 transition: *22.600000 qssa: *36.000000 qssb: *36.000000 
+
+
+l'
+*l' phone contoid glide voiced checked 
+
+	microInt: *0.000000		r2: *0.890000
+	glotVol: *60.000000		r3: *1.100000
+	aspVol: *0.000000		r4: *0.970000
+	fricVol: *0.000000		r5: *0.890000
+	fricPos: *5.500000		r6: *0.340000
+	fricCF: *2500.000000		r7: *0.290000
+	fricBW: *500.000000		r8: *1.120000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *84.000000 transition: *22.600000 qssa: *42.000000 qssb: *42.000000 
+
+
+ll
+*ll phone contoid glide voiced checked 
+
+	microInt: *0.000000		r2: *0.630000
+	glotVol: *60.000000		r3: *0.470000
+	aspVol: *0.000000		r4: *0.650000
+	fricVol: *0.000000		r5: *1.540000
+	fricPos: *5.500000		r6: *0.450000
+	fricCF: *2500.000000		r7: *0.260000
+	fricBW: *500.000000		r8: *1.050000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *72.000000 transition: *22.600000 qssa: *36.000000 qssb: *36.000000 
+
+
+ll'
+*ll' phone contoid glide voiced checked 
+
+	microInt: *0.000000		r2: *0.630000
+	glotVol: *60.000000		r3: *0.470000
+	aspVol: *0.000000		r4: *0.650000
+	fricVol: *0.000000		r5: *1.540000
+	fricPos: *5.500000		r6: *0.450000
+	fricCF: *2500.000000		r7: *0.260000
+	fricBW: *500.000000		r8: *1.050000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *84.000000 transition: *22.600000 qssa: *42.000000 qssb: *42.000000 
+
+
+ls
+*ls phone contoid glide voiced checked 
+
+	microInt: *0.000000		r2: *0.630000
+	glotVol: *60.000000		r3: *0.470000
+	aspVol: *0.000000		r4: *0.650000
+	fricVol: *0.000000		r5: *1.540000
+	fricPos: *5.500000		r6: *0.450000
+	fricCF: *2500.000000		r7: *0.260000
+	fricBW: *500.000000		r8: *1.050000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *100.000000 transition: *22.600000 qssa: *50.000000 qssb: *50.000000 
+
+
+ls'
+*ls' phone contoid glide voiced checked 
+
+	microInt: *0.000000		r2: *0.630000
+	glotVol: *60.000000		r3: *0.470000
+	aspVol: *0.000000		r4: *0.650000
+	fricVol: *0.000000		r5: *1.540000
+	fricPos: *5.500000		r6: *0.450000
+	fricCF: *2500.000000		r7: *0.260000
+	fricBW: *500.000000		r8: *1.050000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *150.000000 transition: *22.600000 qssa: *75.000000 qssb: *75.000000 
+
+
+m
+*m phone contoid nasal checked voiced lhack 
+
+	microInt: *0.000000		r2: *0.890000
+	glotVol: *60.000000		r3: *0.760000
+	aspVol: *0.000000		r4: *1.280000
+	fricVol: *0.000000		r5: *1.800000
+	fricPos: *5.500000		r6: *0.990000
+	fricCF: *2500.000000		r7: *0.840000
+	fricBW: *500.000000		r8: *0.100000
+	r1: *0.800000		velum: *0.500000
+
+
+duration: *49.800000 transition: *16.000000 qssa: *24.800000 qssb: *24.800000 
+
+
+m'
+*m' phone contoid nasal checked voiced lhack 
+
+	microInt: *0.000000		r2: *0.890000
+	glotVol: *60.000000		r3: *0.760000
+	aspVol: *0.000000		r4: *1.280000
+	fricVol: *0.000000		r5: *1.800000
+	fricPos: *5.500000		r6: *0.990000
+	fricCF: *2500.000000		r7: *0.840000
+	fricBW: *500.000000		r8: *0.100000
+	r1: *0.800000		velum: *0.500000
+
+
+duration: *94.400000 transition: *16.000000 qssa: *47.200000 qssb: *47.200000 
+
+
+n
+*n phone contoid nasal checked voiced lhack 
+
+	microInt: *0.000000		r2: *1.310000
+	glotVol: *60.000000		r3: *1.490000
+	aspVol: *0.000000		r4: *1.250000
+	fricVol: *0.000000		r5: *1.000000
+	fricPos: *5.500000		r6: *0.050000
+	fricCF: *2500.000000		r7: *1.440000
+	fricBW: *500.000000		r8: *1.310000
+	r1: *0.800000		velum: *0.500000
+
+
+duration: *50.600000 transition: *25.700000 qssa: *25.300000 qssb: *25.300000 
+
+
+n'
+*n' phone contoid nasal checked voiced lhack 
+
+	microInt: *0.000000		r2: *1.310000
+	glotVol: *60.000000		r3: *1.490000
+	aspVol: *0.000000		r4: *1.250000
+	fricVol: *0.000000		r5: *1.000000
+	fricPos: *5.500000		r6: *0.050000
+	fricCF: *2500.000000		r7: *1.440000
+	fricBW: *500.000000		r8: *1.310000
+	r1: *0.800000		velum: *0.500000
+
+
+duration: *66.000000 transition: *25.700000 qssa: *33.000000 qssb: *33.000000 
+
+
+ng
+*ng phone contoid nasal voiced 
+
+	microInt: *0.000000		r2: *1.700000
+	glotVol: *60.000000		r3: *1.300000
+	aspVol: *0.000000		r4: *0.990000
+	fricVol: *0.000000		r5: *0.100000
+	fricPos: *5.500000		r6: *1.070000
+	fricCF: *2500.000000		r7: *0.730000
+	fricBW: *500.000000		r8: *1.490000
+	r1: *0.800000		velum: *0.500000
+
+
+duration: *50.000000 transition: *28.500000 qssa: *25.000000 qssb: *25.000000 
+
+
+ng'
+*ng' phone contoid nasal voiced 
+
+	microInt: *0.000000		r2: *1.700000
+	glotVol: *60.000000		r3: *1.300000
+	aspVol: *0.000000		r4: *0.990000
+	fricVol: *0.000000		r5: *0.100000
+	fricPos: *5.500000		r6: *1.070000
+	fricCF: *2500.000000		r7: *0.730000
+	fricBW: *500.000000		r8: *1.490000
+	r1: *0.800000		velum: *0.500000
+
+
+duration: *68.000000 transition: *28.500000 qssa: *34.000000 qssb: *34.000000 
+
+
+o
+*o phone vocoid voiced 
+
+	microInt: *0.000000		r2: *1.000000
+	glotVol: *60.000000		r3: *0.925000
+	aspVol: *0.000000		r4: *0.600000
+	fricVol: *0.000000		r5: *1.270000
+	fricPos: *5.500000		r6: *1.830000
+	fricCF: *2500.000000		r7: *1.970000
+	fricBW: *500.000000		r8: *1.120000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *70.400000 transition: *27.800000 qssa: *22.600000 qssb: *22.600000 
+
+
+o'
+*o' phone vocoid voiced 
+
+	microInt: *0.000000		r2: *1.000000
+	glotVol: *60.000000		r3: *0.930000
+	aspVol: *0.000000		r4: *0.600000
+	fricVol: *0.000000		r5: *1.270000
+	fricPos: *5.500000		r6: *1.830000
+	fricCF: *2500.000000		r7: *1.970000
+	fricBW: *500.000000		r8: *1.120000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *103.800000 transition: *27.800000 qssa: *39.300000 qssb: *39.300000 
+
+
+oh
+*oh phone vocoid voiced 
+
+	microInt: *0.000000		r2: *0.885000
+	glotVol: *0.000000		r3: *0.990000
+	aspVol: *0.000000		r4: *0.810000
+	fricVol: *0.000000		r5: *0.755000
+	fricPos: *5.500000		r6: *1.045000
+	fricCF: *2500.000000		r7: *1.225000
+	fricBW: *500.000000		r8: *1.120000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *37.800000 transition: *27.800000 qssa: *5.000000 qssb: *5.000000 
+
+We have fiddled the duration by plus 20 msec because the very short qss was causing impulse problems in paramater construction.
+
+
+oh'
+*oh' phone vocoid voiced 
+
+	microInt: *0.000000		r2: *0.885000
+	glotVol: *0.000000		r3: *0.990000
+	aspVol: *0.000000		r4: *0.810000
+	fricVol: *0.000000		r5: *0.755000
+	fricPos: *5.500000		r6: *1.045000
+	fricCF: *2500.000000		r7: *1.225000
+	fricBW: *500.000000		r8: *1.120000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *41.800000 transition: *27.800000 qssa: *7.000000 qssb: *7.000000 
+
+
+
+on
+*on phone vocoid voiced 
+
+	microInt: *0.000000		r2: *1.000000
+	glotVol: *60.000000		r3: *0.925000
+	aspVol: *0.000000		r4: *0.600000
+	fricVol: *0.000000		r5: *1.265000
+	fricPos: *5.500000		r6: *1.830000
+	fricCF: *2500.000000		r7: *1.965000
+	fricBW: *500.000000		r8: *1.120000
+	r1: *0.800000		velum: *1.500000
+
+
+duration: *70.400000 transition: *27.800000 qssa: *22.600000 qssb: *22.600000 
+
+
+on'
+*on' phone vocoid voiced 
+
+	microInt: *0.000000		r2: *1.000000
+	glotVol: *60.000000		r3: *0.925000
+	aspVol: *0.000000		r4: *0.600000
+	fricVol: *0.000000		r5: *1.265000
+	fricPos: *7.000000		r6: *1.830000
+	fricCF: *2000.000000		r7: *1.965000
+	fricBW: *1000.000000		r8: *1.120000
+	r1: *0.800000		velum: *1.500000
+
+
+duration: *103.800000 transition: *27.800000 qssa: *39.300000 qssb: *39.300000 
+
+
+ov
+*ov phone vocoid voiced 
+
+	microInt: *0.000000		r2: *0.885000
+	glotVol: *60.000000		r3: *0.990000
+	aspVol: *0.000000		r4: *0.810000
+	fricVol: *0.000000		r5: *0.755000
+	fricPos: *5.500000		r6: *1.045000
+	fricCF: *2500.000000		r7: *1.225000
+	fricBW: *500.000000		r8: *1.120000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *37.800000 transition: *27.800000 qssa: *5.000000 qssb: *5.000000 
+
+We have fiddled the duration by plus 20 msec because the very short qss was causing impulse problems in paramater construction.
+
+
+ov'
+*ov' phone vocoid voiced 
+
+	microInt: *0.000000		r2: *0.885000
+	glotVol: *60.000000		r3: *0.990000
+	aspVol: *0.000000		r4: *0.810000
+	fricVol: *0.000000		r5: *0.755000
+	fricPos: *5.500000		r6: *1.045000
+	fricCF: *2500.000000		r7: *1.225000
+	fricBW: *500.000000		r8: *1.120000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *41.800000 transition: *27.800000 qssa: *7.000000 qssb: *7.000000 
+
+
+
+p
+*p phone contoid stopped checked fortis lhack 
+
+	microInt: *-10.000000		r2: *0.890000
+	glotVol: *0.000000		r3: *0.760000
+	aspVol: *0.000000		r4: *1.280000
+	fricVol: *0.000000		r5: *1.800000
+	fricPos: *7.000000		r6: *0.990000
+	fricCF: *2000.000000		r7: *0.840000
+	fricBW: *700.000000		r8: *0.100000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *76.000000 transition: *18.300000 qssa: *38.000000 qssb: *38.000000 
+
+
+p'
+*p' phone contoid stopped checked fortis lhack 
+
+	microInt: *-10.000000		r2: *0.890000
+	glotVol: *0.000000		r3: *0.760000
+	aspVol: *0.000000		r4: *1.280000
+	fricVol: *0.000000		r5: *1.800000
+	fricPos: *7.000000		r6: *0.990000
+	fricCF: *2000.000000		r7: *0.840000
+	fricBW: *700.000000		r8: *0.100000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *81.600000 transition: *18.300000 qssa: *40.800000 qssb: *40.800000 
+
+
+ph
+*ph phone contoid fricative checked lhack 
+
+	microInt: *-1.000000		r2: *0.890000
+	glotVol: *0.000000		r3: *0.990000
+	aspVol: *0.000000		r4: *0.810000
+	fricVol: *24.000000		r5: *0.600000
+	fricPos: *7.000000		r6: *0.520000
+	fricCF: *864.000000		r7: *0.710000
+	fricBW: *3587.000000		r8: *0.240000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *100.000000 transition: *18.300000 qssa: *50.000000 qssb: *50.000000 
+
+
+ph'
+*ph' phone contoid fricative checked lhack 
+
+	microInt: *-1.000000		r2: *0.890000
+	glotVol: *0.000000		r3: *0.990000
+	aspVol: *0.000000		r4: *0.810000
+	fricVol: *24.000000		r5: *0.600000
+	fricPos: *7.000000		r6: *0.520000
+	fricCF: *864.000000		r7: *0.710000
+	fricBW: *3587.000000		r8: *0.240000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *126.000000 transition: *18.300000 qssa: *63.000000 qssb: *63.000000 
+
+
+px
+*px phone contoid stopped checked fortis lhack 
+
+	microInt: *-10.000000		r2: *0.890000
+	glotVol: *0.000000		r3: *0.760000
+	aspVol: *0.000000		r4: *1.280000
+	fricVol: *0.000000		r5: *1.800000
+	fricPos: *7.000000		r6: *0.990000
+	fricCF: *2000.000000		r7: *0.840000
+	fricBW: *700.000000		r8: *0.100000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *89.400000 transition: *18.300000 qssa: *44.700000 qssb: *44.700000 
+
+
+px'
+*px' phone contoid stopped checked fortis lhack 
+
+	microInt: *-10.000000		r2: *0.890000
+	glotVol: *0.000000		r3: *0.760000
+	aspVol: *0.000000		r4: *1.280000
+	fricVol: *0.000000		r5: *1.800000
+	fricPos: *7.000000		r6: *0.990000
+	fricCF: *2000.000000		r7: *0.840000
+	fricBW: *700.000000		r8: *0.100000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *116.200000 transition: *18.300000 qssa: *58.100000 qssb: *58.100000 
+
+
+q
+*q silence phone 
+
+	microInt: *0.000000		r2: *0.890000
+	glotVol: *0.000000		r3: *0.990000
+	aspVol: *0.000000		r4: *0.810000
+	fricVol: *0.000000		r5: *0.760000
+	fricPos: *5.500000		r6: *1.050000
+	fricCF: *2500.000000		r7: *1.230000
+	fricBW: *500.000000		r8: *0.010000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *18.000000 transition: *6.000000 qssa: *6.000000 qssb: *6.000000 
+
+This is an "at rest" symbol that is used to start and terminate utterances without introducing ridiculous transitions etc!
+
+q'
+*q' silence phone 
+
+	microInt: *0.000000		r2: *0.890000
+	glotVol: *0.000000		r3: *0.990000
+	aspVol: *0.000000		r4: *0.810000
+	fricVol: *0.000000		r5: *0.760000
+	fricPos: *5.500000		r6: *1.050000
+	fricCF: *2500.000000		r7: *1.230000
+	fricBW: *500.000000		r8: *0.010000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *21.000000 transition: *7.000000 qssa: *7.000000 qssb: *7.000000 
+
+This is an "at rest" symbol that is used to start and terminate utterances without introducing ridiculous transitions etc!
+
+qc
+*qc phone silence 
+
+	microInt: *-2.000000		r2: *1.360000
+	glotVol: *0.000000		r3: *1.740000
+	aspVol: *0.000000		r4: *1.870000
+	fricVol: *0.000000		r5: *0.940000
+	fricPos: *5.600000		r6: *0.100000
+	fricCF: *2500.000000		r7: *0.790000
+	fricBW: *2600.000000		r8: *0.790000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *6.000000 transition: *2.000000 qssa: *2.000000 qssb: *2.000000 
+
+
+qc'
+*qc' phone silence 
+
+	microInt: *-2.000000		r2: *1.360000
+	glotVol: *0.000000		r3: *1.740000
+	aspVol: *0.000000		r4: *1.870000
+	fricVol: *0.000000		r5: *0.940000
+	fricPos: *5.600000		r6: *0.100000
+	fricCF: *2500.000000		r7: *0.790000
+	fricBW: *2600.000000		r8: *0.790000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *6.000000 transition: *2.000000 qssa: *2.000000 qssb: *2.000000 
+
+
+qk
+*qk phone silence 
+
+	microInt: *-10.000000		r2: *1.700000
+	glotVol: *0.000000		r3: *1.300000
+	aspVol: *0.000000		r4: *0.990000
+	fricVol: *0.000000		r5: *0.100000
+	fricPos: *4.700000		r6: *1.070000
+	fricCF: *2000.000000		r7: *0.730000
+	fricBW: *2000.000000		r8: *1.490000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *6.000000 transition: *2.000000 qssa: *2.000000 qssb: *2.000000 
+
+
+qk'
+*qk' phone silence 
+
+	microInt: *-10.000000		r2: *1.700000
+	glotVol: *0.000000		r3: *1.300000
+	aspVol: *0.000000		r4: *0.990000
+	fricVol: *0.000000		r5: *0.100000
+	fricPos: *4.700000		r6: *1.070000
+	fricCF: *2000.000000		r7: *0.730000
+	fricBW: *2000.000000		r8: *1.490000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *6.000000 transition: *2.000000 qssa: *2.000000 qssb: *2.000000 
+
+
+qp
+*qp phone silence 
+
+	microInt: *-10.000000		r2: *0.890000
+	glotVol: *0.000000		r3: *0.760000
+	aspVol: *0.000000		r4: *1.280000
+	fricVol: *0.000000		r5: *1.800000
+	fricPos: *7.000000		r6: *0.990000
+	fricCF: *2000.000000		r7: *0.840000
+	fricBW: *700.000000		r8: *0.100000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *6.000000 transition: *2.000000 qssa: *2.000000 qssb: *2.000000 
+
+
+qp'
+*qp' phone silence 
+
+	microInt: *-10.000000		r2: *0.890000
+	glotVol: *0.000000		r3: *0.760000
+	aspVol: *0.000000		r4: *1.280000
+	fricVol: *0.000000		r5: *1.800000
+	fricPos: *7.000000		r6: *0.990000
+	fricCF: *2000.000000		r7: *0.840000
+	fricBW: *700.000000		r8: *0.100000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *6.000000 transition: *2.000000 qssa: *2.000000 qssb: *2.000000 
+
+
+qs
+*qs phone silence 
+
+	microInt: *0.000000		r2: *1.310000
+	glotVol: *0.000000		r3: *1.490000
+	aspVol: *0.000000		r4: *1.250000
+	fricVol: *0.000000		r5: *0.900000
+	fricPos: *5.800000		r6: *0.200000
+	fricCF: *5500.000000		r7: *0.400000
+	fricBW: *500.000000		r8: *1.310000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *6.000000 transition: *2.000000 qssa: *2.000000 qssb: *2.000000 
+
+Added for rewrite rule, to be inserted between s and whistlehack phones.
+
+qs'
+*qs' phone silence 
+
+	microInt: *0.000000		r2: *1.310000
+	glotVol: *0.000000		r3: *1.490000
+	aspVol: *0.000000		r4: *1.250000
+	fricVol: *0.000000		r5: *0.900000
+	fricPos: *5.800000		r6: *0.200000
+	fricCF: *5500.000000		r7: *0.400000
+	fricBW: *500.000000		r8: *1.310000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *6.000000 transition: *2.000000 qssa: *2.000000 qssb: *2.000000 
+
+Added for rewrite rule, to be inserted between s and whistlehack phones.
+
+qt
+*qt phone silence 
+
+	microInt: *-10.000000		r2: *1.310000
+	glotVol: *0.000000		r3: *1.490000
+	aspVol: *0.000000		r4: *1.250000
+	fricVol: *0.000000		r5: *0.760000
+	fricPos: *7.000000		r6: *0.100000
+	fricCF: *4500.000000		r7: *1.440000
+	fricBW: *2000.000000		r8: *1.310000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *6.000000 transition: *2.000000 qssa: *2.000000 qssb: *2.000000 
+
+
+qt'
+*qt' phone silence 
+
+	microInt: *-10.000000		r2: *1.310000
+	glotVol: *0.000000		r3: *1.490000
+	aspVol: *0.000000		r4: *1.250000
+	fricVol: *0.000000		r5: *0.760000
+	fricPos: *7.000000		r6: *0.100000
+	fricCF: *4500.000000		r7: *1.440000
+	fricBW: *2000.000000		r8: *1.310000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *6.000000 transition: *2.000000 qssa: *2.000000 qssb: *2.000000 
+
+
+qz
+*qz phone silence 
+
+	microInt: *-1.000000		r2: *1.310000
+	glotVol: *0.000000		r3: *1.490000
+	aspVol: *0.000000		r4: *1.250000
+	fricVol: *0.000000		r5: *0.900000
+	fricPos: *5.800000		r6: *0.200000
+	fricCF: *5500.000000		r7: *0.600000
+	fricBW: *500.000000		r8: *1.310000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *6.000000 transition: *2.000000 qssa: *2.000000 qssb: *2.000000 
+
+Added for rewrite rule, to be inserted between z and whistlehack phones.
+
+qz'
+*qz' phone silence 
+
+	microInt: *-1.000000		r2: *1.310000
+	glotVol: *0.000000		r3: *1.490000
+	aspVol: *0.000000		r4: *1.250000
+	fricVol: *0.000000		r5: *0.900000
+	fricPos: *5.800000		r6: *0.200000
+	fricCF: *5500.000000		r7: *0.600000
+	fricBW: *500.000000		r8: *1.310000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *6.000000 transition: *2.000000 qssa: *2.000000 qssb: *2.000000 
+
+Added for rewrite rule, to be inserted between z and whistlehack phones.
+
+r
+*r phone contoid glide voiced checked lhack 
+
+	microInt: *0.000000		r2: *1.310000
+	glotVol: *60.000000		r3: *0.730000
+	aspVol: *0.000000		r4: *1.070000
+	fricVol: *0.000000		r5: *2.120000
+	fricPos: *5.500000		r6: *0.470000
+	fricCF: *2500.000000		r7: *1.780000
+	fricBW: *500.000000		r8: *0.650000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *40.400000 transition: *40.000000 qssa: *20.200000 qssb: *20.200000 
+
+
+r'
+*r' contoid glide checked voiced phone lhack 
+
+	microInt: *0.000000		r2: *1.310000
+	glotVol: *60.000000		r3: *0.730000
+	aspVol: *0.000000		r4: *1.070000
+	fricVol: *0.000000		r5: *2.120000
+	fricPos: *5.500000		r6: *0.470000
+	fricCF: *2500.000000		r7: *1.780000
+	fricBW: *500.000000		r8: *0.650000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *70.800000 transition: *40.000000 qssa: *35.400000 qssb: *35.400000 
+
+
+rr
+*rr contoid glide checked voiced phone lhack 
+
+	microInt: *0.000000		r2: *1.310000
+	glotVol: *60.000000		r3: *0.730000
+	aspVol: *0.000000		r4: *1.310000
+	fricVol: *0.000000		r5: *2.120000
+	fricPos: *5.500000		r6: *0.630000
+	fricCF: *2500.000000		r7: *1.780000
+	fricBW: *500.000000		r8: *0.650000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *40.400000 transition: *40.000000 qssa: *20.200000 qssb: *20.200000 
+
+
+rr'
+*rr' contoid glide checked voiced phone lhack 
+
+	microInt: *0.000000		r2: *1.310000
+	glotVol: *60.000000		r3: *0.730000
+	aspVol: *0.000000		r4: *1.310000
+	fricVol: *0.000000		r5: *2.120000
+	fricPos: *5.500000		r6: *0.630000
+	fricCF: *2500.000000		r7: *1.780000
+	fricBW: *500.000000		r8: *0.650000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *70.800000 transition: *40.000000 qssa: *35.400000 qssb: *35.400000 
+
+
+s
+*s fortis phone contoid fricative checked lhack 
+
+	microInt: *0.000000		r2: *1.310000
+	glotVol: *0.000000		r3: *1.490000
+	aspVol: *0.000000		r4: *1.250000
+	fricVol: *0.800000		r5: *0.900000
+	fricPos: *5.800000		r6: *0.200000
+	fricCF: *5500.000000		r7: *0.400000
+	fricBW: *500.000000		r8: *1.310000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *78.200000 transition: *29.600000 qssa: *39.100000 qssb: *39.100000 
+
+
+s'
+*s' phone contoid fricative checked fortis lhack 
+
+	microInt: *0.000000		r2: *1.310000
+	glotVol: *0.000000		r3: *1.490000
+	aspVol: *0.000000		r4: *1.250000
+	fricVol: *0.800000		r5: *0.900000
+	fricPos: *5.800000		r6: *0.200000
+	fricCF: *5500.000000		r7: *0.400000
+	fricBW: *500.000000		r8: *1.310000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *111.600000 transition: *29.600000 qssa: *55.800000 qssb: *55.800000 
+
+
+sh
+*sh phone contoid fricative checked fortis lhack 
+
+	microInt: *0.000000		r2: *1.360000
+	glotVol: *0.000000		r3: *1.740000
+	aspVol: *0.000000		r4: *1.870000
+	fricVol: *0.400000		r5: *0.940000
+	fricPos: *5.600000		r6: *0.370000
+	fricCF: *2500.000000		r7: *0.790000
+	fricBW: *2600.000000		r8: *0.790000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *63.800000 transition: *24.200000 qssa: *31.900000 qssb: *31.900000 
+
+
+sh'
+*sh' phone contoid fricative checked fortis lhack 
+
+	microInt: *0.000000		r2: *1.360000
+	glotVol: *0.000000		r3: *1.740000
+	aspVol: *0.000000		r4: *1.870000
+	fricVol: *0.400000		r5: *0.940000
+	fricPos: *5.600000		r6: *0.370000
+	fricCF: *2500.000000		r7: *0.790000
+	fricBW: *2600.000000		r8: *0.790000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *124.200000 transition: *24.200000 qssa: *62.100000 qssb: *62.100000 
+
+
+t
+*t phone contoid stopped checked fortis lhack 
+
+	microInt: *-10.000000		r2: *1.310000
+	glotVol: *0.000000		r3: *1.490000
+	aspVol: *0.000000		r4: *1.250000
+	fricVol: *0.000000		r5: *0.760000
+	fricPos: *7.000000		r6: *0.100000
+	fricCF: *4500.000000		r7: *1.440000
+	fricBW: *2000.000000		r8: *1.310000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *49.800000 transition: *24.200000 qssa: *24.900000 qssb: *24.900000 
+
+
+t'
+*t' phone contoid stopped checked fortis lhack 
+
+	microInt: *-10.000000		r2: *1.310000
+	glotVol: *0.000000		r3: *1.490000
+	aspVol: *0.000000		r4: *1.250000
+	fricVol: *0.000000		r5: *0.760000
+	fricPos: *7.000000		r6: *0.100000
+	fricCF: *4500.000000		r7: *1.440000
+	fricBW: *2000.000000		r8: *1.310000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *70.400000 transition: *24.200000 qssa: *35.200000 qssb: *35.200000 
+
+
+th
+*th phone contoid fricative checked voiced whistlehack lhack 
+
+	microInt: *0.000000		r2: *1.200000
+	glotVol: *0.000000		r3: *1.500000
+	aspVol: *0.000000		r4: *1.350000
+	fricVol: *0.250000		r5: *1.200000
+	fricPos: *6.000000		r6: *1.200000
+	fricCF: *4400.000000		r7: *0.400000
+	fricBW: *4500.000000		r8: *1.000000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *54.600000 transition: *40.000000 qssa: *27.300000 qssb: *27.300000 
+
+
+th'
+*th' phone contoid fricative checked voiced whistlehack lhack 
+
+	microInt: *0.000000		r2: *1.200000
+	glotVol: *0.000000		r3: *1.500000
+	aspVol: *0.000000		r4: *1.350000
+	fricVol: *0.250000		r5: *1.200000
+	fricPos: *6.000000		r6: *1.200000
+	fricCF: *4400.000000		r7: *0.400000
+	fricBW: *4500.000000		r8: *1.500000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *116.200000 transition: *40.000000 qssa: *58.100000 qssb: *58.100000 
+
+
+tx
+*tx phone contoid stopped checked fortis lhack 
+
+	microInt: *-10.000000		r2: *1.310000
+	glotVol: *0.000000		r3: *1.490000
+	aspVol: *0.000000		r4: *1.250000
+	fricVol: *0.000000		r5: *0.760000
+	fricPos: *6.700000		r6: *0.100000
+	fricCF: *4500.000000		r7: *1.440000
+	fricBW: *2000.000000		r8: *1.310000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *90.000000 transition: *24.200000 qssa: *45.000000 qssb: *45.000000 
+
+
+tx'
+*tx' phone contoid stopped checked fortis lhack 
+
+	microInt: *-10.000000		r2: *1.310000
+	glotVol: *0.000000		r3: *1.490000
+	aspVol: *0.000000		r4: *1.250000
+	fricVol: *0.000000		r5: *0.760000
+	fricPos: *6.700000		r6: *0.100000
+	fricCF: *4500.000000		r7: *1.440000
+	fricBW: *2000.000000		r8: *1.310000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *107.000000 transition: *24.200000 qssa: *53.500000 qssb: *53.500000 
+
+
+u
+*u phone vocoid voiced 
+
+	microInt: *0.000000		r2: *0.625000
+	glotVol: *60.000000		r3: *0.600000
+	aspVol: *0.000000		r4: *0.705000
+	fricVol: *0.000000		r5: *1.120000
+	fricPos: *5.500000		r6: *1.930000
+	fricCF: *2500.000000		r7: *1.515000
+	fricBW: *500.000000		r8: *0.625000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *51.000000 transition: *27.800000 qssa: *12.900000 qssb: *12.900000 
+
+
+u'
+*u' phone vocoid voiced 
+
+	microInt: *0.000000		r2: *0.625000
+	glotVol: *60.000000		r3: *0.600000
+	aspVol: *0.000000		r4: *0.705000
+	fricVol: *0.000000		r5: *1.120000
+	fricPos: *5.500000		r6: *1.930000
+	fricCF: *2500.000000		r7: *1.515000
+	fricBW: *500.000000		r8: *0.625000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *108.800000 transition: *27.800000 qssa: *41.800000 qssb: *41.800000 
+
+
+uh
+*uh phone vocoid voiced 
+
+	microInt: *0.000000		r2: *0.890000
+	glotVol: *60.000000		r3: *0.990000
+	aspVol: *0.000000		r4: *0.810000
+	fricVol: *0.000000		r5: *0.760000
+	fricPos: *5.500000		r6: *1.050000
+	fricCF: *2500.000000		r7: *1.230000
+	fricBW: *500.000000		r8: *1.120000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *46.200000 transition: *27.800000 qssa: *10.400000 qssb: *10.400000 
+
+We have fiddled the duration by plus 20 msec because the very short qss was causing impulse problems in paramater construction.
+
+
+uh'
+*uh' phone vocoid voiced 
+
+	microInt: *0.000000		r2: *0.890000
+	glotVol: *60.000000		r3: *0.990000
+	aspVol: *0.000000		r4: *0.810000
+	fricVol: *0.000000		r5: *0.760000
+	fricPos: *5.500000		r6: *1.050000
+	fricCF: *2500.000000		r7: *1.230000
+	fricBW: *500.000000		r8: *1.120000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *74.000000 transition: *27.800000 qssa: *24.400000 qssb: *24.400000 
+
+
+
+un
+*un phone vocoid voiced 
+
+	microInt: *0.000000		r2: *0.885000
+	glotVol: *60.000000		r3: *0.990000
+	aspVol: *0.000000		r4: *0.810000
+	fricVol: *0.000000		r5: *0.755000
+	fricPos: *5.500000		r6: *1.045000
+	fricCF: *2500.000000		r7: *1.225000
+	fricBW: *500.000000		r8: *1.120000
+	r1: *0.800000		velum: *1.500000
+
+
+duration: *46.200000 transition: *27.800000 qssa: *23.100000 qssb: *23.100000 
+
+
+un'
+*un' phone vocoid voiced 
+
+	microInt: *0.000000		r2: *0.885000
+	glotVol: *60.000000		r3: *0.990000
+	aspVol: *0.000000		r4: *0.810000
+	fricVol: *0.000000		r5: *0.755000
+	fricPos: *5.500000		r6: *1.045000
+	fricCF: *2500.000000		r7: *1.225000
+	fricBW: *500.000000		r8: *1.120000
+	r1: *0.800000		velum: *1.500000
+
+
+duration: *74.000000 transition: *27.800000 qssa: *24.400000 qssb: *24.400000 
+
+
+uu
+*uu phone vocoid voiced 
+
+	microInt: *0.000000		r2: *1.910000
+	glotVol: *60.000000		r3: *1.440000
+	aspVol: *0.000000		r4: *0.600000
+	fricVol: *0.000000		r5: *1.020000
+	fricPos: *5.500000		r6: *1.330000
+	fricCF: *2500.000000		r7: *1.560000
+	fricBW: *500.000000		r8: *0.550000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *105.200000 transition: *27.800000 qssa: *40.000000 qssb: *40.000000 
+
+We have doubled the qss's because uu tends to get underestimated as it is often final and dies away.
+
+uu'
+*uu' phone vocoid voiced 
+
+	microInt: *0.000000		r2: *1.910000
+	glotVol: *60.000000		r3: *1.440000
+	aspVol: *0.000000		r4: *0.600000
+	fricVol: *0.000000		r5: *1.020000
+	fricPos: *5.500000		r6: *1.330000
+	fricCF: *2500.000000		r7: *1.560000
+	fricBW: *500.000000		r8: *0.550000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *145.200000 transition: *27.800000 qssa: *60.000000 qssb: *60.000000 
+
+We have increased the qss's because uu tends to get underestimated as it is often final and dies away.  The "'" version is longer in proportion to the not-' version by rough comparison with other vowels.  Yes!!! This is *very* ad hoc and Len disapproves!
+
+v
+*v phone contoid fricative checked voiced whistlehack lhack 
+
+	microInt: *-1.000000		r2: *0.890000
+	glotVol: *54.000000		r3: *0.990000
+	aspVol: *0.000000		r4: *0.810000
+	fricVol: *0.200000		r5: *0.760000
+	fricPos: *7.000000		r6: *0.890000
+	fricCF: *3300.000000		r7: *0.840000
+	fricBW: *1000.000000		r8: *0.500000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *48.400000 transition: *44.000000 qssa: *24.200000 qssb: *24.200000 
+
+
+v'
+*v' phone contoid fricative checked voiced whistlehack lhack 
+
+	microInt: *-1.000000		r2: *0.890000
+	glotVol: *54.000000		r3: *0.990000
+	aspVol: *0.000000		r4: *0.810000
+	fricVol: *0.200000		r5: *0.760000
+	fricPos: *7.000000		r6: *0.890000
+	fricCF: *3300.000000		r7: *0.840000
+	fricBW: *1000.000000		r8: *0.500000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *70.000000 transition: *44.000000 qssa: *35.000000 qssb: *35.000000 
+
+
+w
+*w phone contoid glide voiced checked lhack 
+
+	microInt: *0.000000		r2: *1.910000
+	glotVol: *60.000000		r3: *1.440000
+	aspVol: *0.000000		r4: *0.600000
+	fricVol: *0.000000		r5: *1.020000
+	fricPos: *5.500000		r6: *1.330000
+	fricCF: *2500.000000		r7: *1.560000
+	fricBW: *500.000000		r8: *0.550000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *47.400000 transition: *33.700000 qssa: *23.700000 qssb: *23.700000 
+
+
+w'
+*w' phone contoid glide checked voiced lhack 
+
+	microInt: *0.000000		r2: *1.910000
+	glotVol: *60.000000		r3: *1.440000
+	aspVol: *0.000000		r4: *0.600000
+	fricVol: *0.000000		r5: *1.020000
+	fricPos: *5.500000		r6: *1.330000
+	fricCF: *2500.000000		r7: *1.560000
+	fricBW: *500.000000		r8: *0.550000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *68.600000 transition: *33.700000 qssa: *34.300000 qssb: *34.300000 
+
+
+x
+*x phone contoid fricative 
+
+	microInt: *0.000000		r2: *1.700000
+	glotVol: *0.000000		r3: *1.300000
+	aspVol: *0.000000		r4: *0.400000
+	fricVol: *0.500000		r5: *0.990000
+	fricPos: *2.000000		r6: *1.070000
+	fricCF: *1770.000000		r7: *0.730000
+	fricBW: *900.000000		r8: *1.490000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *98.000000 transition: *30.000000 qssa: *49.000000 qssb: *49.000000 
+
+
+x'
+*x' phone contoid fricative 
+
+	microInt: *0.000000		r2: *1.700000
+	glotVol: *0.000000		r3: *1.300000
+	aspVol: *0.000000		r4: *0.400000
+	fricVol: *0.500000		r5: *0.990000
+	fricPos: *2.000000		r6: *1.070000
+	fricCF: *1770.000000		r7: *0.730000
+	fricBW: *900.000000		r8: *1.490000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *124.000000 transition: *45.000000 qssa: *62.000000 qssb: *62.000000 
+
+
+y
+*y contoid glide voiced phone 
+
+	microInt: *0.000000		r2: *1.670000
+	glotVol: *60.000000		r3: *1.910000
+	aspVol: *0.000000		r4: *1.990000
+	fricVol: *0.000000		r5: *0.630000
+	fricPos: *5.500000		r6: *0.290000
+	fricCF: *2500.000000		r7: *0.580000
+	fricBW: *500.000000		r8: *1.490000
+	r1: *0.800000		velum: *0.250000
+
+
+duration: *54.600000 transition: *37.700000 qssa: *27.300000 qssb: *27.300000 
+
+Nasalized this phone slightly (velum = 0.25).  This results in better transitions with nasals (i.e. n y uu), and eliminates the bumping.  Has no ill effects on y's in other, non-nasalized contexts.
+
+y'
+*y' contoid glide voiced phone 
+
+	microInt: *0.000000		r2: *1.670000
+	glotVol: *60.000000		r3: *1.910000
+	aspVol: *0.000000		r4: *1.990000
+	fricVol: *0.000000		r5: *0.630000
+	fricPos: *5.500000		r6: *0.290000
+	fricCF: *2500.000000		r7: *0.580000
+	fricBW: *500.000000		r8: *1.490000
+	r1: *0.800000		velum: *0.250000
+
+
+duration: *84.400000 transition: *37.700000 qssa: *42.200000 qssb: *42.200000 
+
+Nasalized this phone slightly (velum = 0.25).  This results in better transitions with nasals (i.e. n y uu), and eliminates the bumping.  Has no ill effects on y's in other, non-nasalized contexts.
+
+z
+*z phone contoid fricative voiced fortis checked lhack 
+
+	microInt: *-1.000000		r2: *1.310000
+	glotVol: *54.000000		r3: *1.490000
+	aspVol: *0.000000		r4: *1.250000
+	fricVol: *0.800000		r5: *0.900000
+	fricPos: *5.800000		r6: *0.200000
+	fricCF: *5500.000000		r7: *0.600000
+	fricBW: *500.000000		r8: *1.310000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *56.600000 transition: *30.400000 qssa: *28.300000 qssb: *28.300000 
+
+
+z'
+*z' phone contoid fricative voiced fortis checked lhack 
+
+	microInt: *-1.000000		r2: *1.310000
+	glotVol: *54.000000		r3: *1.490000
+	aspVol: *0.000000		r4: *1.250000
+	fricVol: *0.800000		r5: *0.900000
+	fricPos: *5.800000		r6: *0.200000
+	fricCF: *5500.000000		r7: *0.600000
+	fricBW: *500.000000		r8: *1.310000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *84.800000 transition: *30.400000 qssa: *42.400000 qssb: *42.400000 
+
+
+zh
+*zh phone contoid fricative checked voiced fortis lhack 
+
+	microInt: *-1.000000		r2: *1.360000
+	glotVol: *54.000000		r3: *1.740000
+	aspVol: *0.000000		r4: *1.870000
+	fricVol: *0.400000		r5: *0.940000
+	fricPos: *5.600000		r6: *0.370000
+	fricCF: *2500.000000		r7: *0.790000
+	fricBW: *2600.000000		r8: *0.790000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *40.000000 transition: *29.600000 qssa: *20.000000 qssb: *20.000000 
+
+
+zh'
+*zh' phone contoid fricative checked voiced fortis lhack 
+
+	microInt: *-1.000000		r2: *1.360000
+	glotVol: *54.000000		r3: *1.740000
+	aspVol: *0.000000		r4: *1.870000
+	fricVol: *0.400000		r5: *0.940000
+	fricPos: *5.600000		r6: *0.370000
+	fricCF: *2500.000000		r7: *0.790000
+	fricBW: *2600.000000		r8: *0.790000
+	r1: *0.800000		velum: *0.100000
+
+
+duration: *83.000000 transition: *29.600000 qssa: *41.500000 qssb: *41.500000 
+
+
+
