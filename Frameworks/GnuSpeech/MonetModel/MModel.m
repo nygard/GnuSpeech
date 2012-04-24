@@ -448,33 +448,6 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     return nil;
 }
 
-- (void)findList:(NSUInteger *)listIndex andIndex:(NSUInteger *)equationIndex ofEquation:(MMEquation *)anEquation;
-{
-    NSUInteger i, temp;
-
-    for (i = 0 ; i < [equationGroups count]; i++) {
-        temp = [[equationGroups objectAtIndex:i] indexOfObject:anEquation];
-        if (temp != NSNotFound) {
-            *listIndex = i;
-            *equationIndex = temp;
-            return;
-        }
-    }
-
-    *listIndex = -1;
-    // TODO (2004-03-06): This might be where/how the large list indexes were archived.
-}
-
-- (MMEquation *)findEquation:(NSUInteger)listIndex andIndex:(NSUInteger)equationIndex;
-{
-    //NSLog(@"-> %s, listIndex: %d, index: %d", _cmd, listIndex, index);
-    if (listIndex > [equationGroups count]) {
-        NSLog(@"%s: listIndex: %lu out of range.  count: %lu", __PRETTY_FUNCTION__, listIndex, [equationGroups count]);
-        return nil;
-    }
-
-    return [[equationGroups objectAtIndex:listIndex] objectAtIndex:equationIndex];
-}
 
 - (MMTransition *)findTransitionList:(NSString *)aListName named:(NSString *)aTransitionName;
 {
@@ -496,70 +469,6 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     NSLog(@"Couldn't find transition: %@/%@", aListName, aTransitionName);
 
     return nil;
-}
-
-- (void)findList:(NSUInteger *)listIndex andIndex:(NSUInteger *)transitionIndex ofTransition:(MMTransition *)aTransition;
-{
-    NSUInteger i, temp;
-
-    for (i = 0 ; i < [transitionGroups count]; i++) {
-        temp = [[transitionGroups objectAtIndex:i] indexOfObject:aTransition];
-        if (temp != NSNotFound) {
-            *listIndex = i;
-            *transitionIndex = temp;
-            return;
-        }
-    }
-
-    *listIndex = -1;
-}
-
-- (MMTransition *)findTransition:(NSUInteger)listIndex andIndex:(NSUInteger)transitionIndex;
-{
-    //NSLog(@"Name: %@ (%d)\n", [[transitions objectAtIndex: listIndex] name], listIndex);
-    //NSLog(@"\tCount: %d  index: %d  count: %d\n", [transitions count], index, [[transitions objectAtIndex: listIndex] count]);
-    return [[transitionGroups objectAtIndex:listIndex] objectAtIndex:transitionIndex];
-}
-
-- (MMTransition *)findSpecialList:(NSString *)aListName named:(NSString *)aSpecialName;
-{
-    NSUInteger i, j;
-
-    for (i = 0 ; i < [specialTransitionGroups count]; i++) {
-        MMGroup *currentGroup = [specialTransitionGroups objectAtIndex:i];
-        if ([aListName isEqualToString:[currentGroup name]]) {
-            for (j = 0; j < [currentGroup.objects count]; j++) {
-                MMTransition *aTransition = [currentGroup.objects objectAtIndex:j];
-                if ([aSpecialName isEqualToString:[aTransition name]])
-                    return aTransition;
-            }
-        }
-    }
-
-    NSLog(@"Couldn't find special transition: %@/%@", aListName, aSpecialName);
-
-    return nil;
-}
-
-- (void)findList:(NSUInteger *)listIndex andIndex:(NSUInteger *)specialIndex ofSpecial:(MMTransition *)aTransition;
-{
-    NSUInteger i, temp;
-
-    for (i = 0 ; i < [specialTransitionGroups count]; i++) {
-        temp = [[specialTransitionGroups objectAtIndex:i] indexOfObject:aTransition];
-        if (temp != NSNotFound) {
-            *listIndex = i;
-            *specialIndex = temp;
-            return;
-        }
-    }
-
-    *listIndex = -1;
-}
-
-- (MMTransition *)findSpecial:(NSUInteger)listIndex andIndex:(NSUInteger)specialIndex;
-{
-    return [[specialTransitionGroups objectAtIndex:listIndex] objectAtIndex:specialIndex];
 }
 
 // Returns strings idicatig which rules, transitions, and special transitions use this equation.
