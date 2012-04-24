@@ -1085,9 +1085,8 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 {
     NSUInteger cache = [model nextCacheTag];
 
-    MMFRuleSymbols ruleSymbols;
-    bzero(&ruleSymbols, sizeof(MMFRuleSymbols));
-    [rule evaluateSymbolEquations:&ruleSymbols tempos:tempos postures:somePostures withCache:cache];
+    MMFRuleSymbols *ruleSymbols = [[[MMFRuleSymbols alloc] init] autorelease];
+    [rule evaluateSymbolEquations:ruleSymbols tempos:tempos postures:somePostures withCache:cache];
 
 #if 0
     NSLog(@"Rule symbols, duration: %.2f, beat: %.2f, mark1: %.2f, mark2: %.2f, mark3: %.2f",
@@ -1187,7 +1186,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
                     //tempEvent = [self insertEvent:i atTimeOffset:tempTime withValue:value];
                 }
                 // TODO (2004-03-01): I don't see how this works...
-                maxValue = [currentPoint calculatePoints:&ruleSymbols tempos:tempos postures:somePostures
+                maxValue = [currentPoint calculatePoints:ruleSymbols tempos:tempos postures:somePostures
                                          andCacheWith:cache baseline:targets[currentType-2] delta:currentDelta
                                          min:min[transitionIndex] max:max[transitionIndex] toEventList:self atIndex:transitionIndex];
             }
@@ -1213,7 +1212,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
                 if ([currentPoint timeEquation] == nil)
                     tempTime = [currentPoint freeTime];
                 else
-                    tempTime = [[currentPoint timeEquation] evaluate:&ruleSymbols tempos:tempos postures:somePostures andCacheWith:cache];
+                    tempTime = [[currentPoint timeEquation] evaluate:ruleSymbols tempos:tempos postures:somePostures andCacheWith:cache];
 
                 /* Calculate value of event */
                 //value = (([currentPoint value]/100.0) * (max[parameterIndex] - min[parameterIndex])) + min[parameterIndex];

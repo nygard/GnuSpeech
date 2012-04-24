@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		010DE7331545598D005E337E /* MMToneGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 010DE7311545598D005E337E /* MMToneGroup.h */; };
 		010DE7341545598D005E337E /* MMToneGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 010DE7321545598D005E337E /* MMToneGroup.m */; };
+		010DE75A15463851005E337E /* MMFRuleSymbols.m in Sources */ = {isa = PBXBuildFile; fileRef = 010DE75915463851005E337E /* MMFRuleSymbols.m */; };
 		012D539E0B7FF851001B50FC /* NSFileManager-Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 012D539C0B7FF851001B50FC /* NSFileManager-Extensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		012D539F0B7FF851001B50FC /* NSFileManager-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 012D539D0B7FF851001B50FC /* NSFileManager-Extensions.m */; };
 		012D53AC0B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 012D53A10B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -203,6 +204,7 @@
 /* Begin PBXFileReference section */
 		010DE7311545598D005E337E /* MMToneGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMToneGroup.h; path = MonetModel/MMToneGroup.h; sourceTree = "<group>"; };
 		010DE7321545598D005E337E /* MMToneGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMToneGroup.m; path = MonetModel/MMToneGroup.m; sourceTree = "<group>"; };
+		010DE75915463851005E337E /* MMFRuleSymbols.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMFRuleSymbols.m; sourceTree = "<group>"; };
 		012D539C0B7FF851001B50FC /* NSFileManager-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "NSFileManager-Extensions.h"; path = "Extensions/NSFileManager-Extensions.h"; sourceTree = "<group>"; };
 		012D539D0B7FF851001B50FC /* NSFileManager-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSFileManager-Extensions.m"; path = "Extensions/NSFileManager-Extensions.m"; sourceTree = "<group>"; };
 		012D53A10B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GSDBMPronunciationDictionary.h; path = TextProcessing/GSDBMPronunciationDictionary.h; sourceTree = "<group>"; };
@@ -700,6 +702,7 @@
 				6951486F0FB0DB5500B6DDD6 /* MMFormulaTerminal.h */,
 				695148700FB0DB5500B6DDD6 /* MMFormulaTerminal.m */,
 				695148710FB0DB5500B6DDD6 /* MMFRuleSymbols.h */,
+				010DE75915463851005E337E /* MMFRuleSymbols.m */,
 			);
 			name = "Mathematical Expression Parser";
 			path = MathematicalExpressionParser;
@@ -1048,6 +1051,7 @@
 				01ACA5E11544A80A00278339 /* MMGroupedObject.m in Sources */,
 				01B4561215452BE400D00A1A /* MMIntonationParameters.m in Sources */,
 				010DE7341545598D005E337E /* MMToneGroup.m in Sources */,
+				010DE75A15463851005E337E /* MMFRuleSymbols.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

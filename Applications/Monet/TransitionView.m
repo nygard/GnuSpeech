@@ -22,7 +22,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 
 @implementation TransitionView
 {
-    MMFRuleSymbols _parameters;
+    MMFRuleSymbols *m_parameters;
     
     NSFont *timesFont;
     
@@ -57,6 +57,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 - (id)initWithFrame:(NSRect)frameRect;
 {
     if ((self = [super initWithFrame:frameRect])) {
+        m_parameters = [[MMFRuleSymbols alloc] init];
         timesFont = [[NSFont fontWithName:@"Times-Roman" size:12] retain];
         transition = nil;
         
@@ -83,6 +84,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 
 - (void)dealloc;
 {
+    [m_parameters release];
     [timesFont release];
     [transition release];
 
@@ -102,10 +104,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 
 @synthesize timesFont, samplePostures, displayPoints, displaySlopes, selectedPoints;
 
-- (MMFRuleSymbols *)parameters;
-{
-    return &_parameters;
-}
+@synthesize parameters = m_parameters;
 
 - (NSInteger)zeroIndex;
 {
@@ -210,58 +209,60 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     [self setNeedsDisplay:YES];
 }
 
+// TODO (2012-04-23): Observe any changes to self.parameters values w/ KVO
+
 - (double)ruleDuration;
 {
-    return _parameters.ruleDuration;
+    return self.parameters.ruleDuration;
 }
 
 - (void)setRuleDuration:(double)newValue;
 {
-    _parameters.ruleDuration = newValue;
+    self.parameters.ruleDuration = newValue;
     [self setNeedsDisplay:YES];
 }
 
 - (double)beatLocation;
 {
-    return _parameters.beat;
+    return self.parameters.beat;
 }
 
 - (void)setBeatLocation:(double)newValue;
 {
-    _parameters.beat = newValue;
+    self.parameters.beat = newValue;
     [self setNeedsDisplay:YES];
 }
 
 - (double)mark1;
 {
-    return _parameters.mark1;
+    return self.parameters.mark1;
 }
 
 - (void)setMark1:(double)newValue;
 {
-    _parameters.mark1 = newValue;
+    self.parameters.mark1 = newValue;
     [self setNeedsDisplay:YES];
 }
 
 - (double)mark2;
 {
-    return _parameters.mark2;
+    return self.parameters.mark2;
 }
 
 - (void)setMark2:(double)newValue;
 {
-    _parameters.mark2 = newValue;
+    self.parameters.mark2 = newValue;
     [self setNeedsDisplay:YES];
 }
 
 - (double)mark3;
 {
-    return _parameters.mark3;
+    return self.parameters.mark3;
 }
 
 - (void)setMark3:(double)newValue;
 {
-    _parameters.mark3 = newValue;
+    self.parameters.mark3 = newValue;
     [self setNeedsDisplay:YES];
 }
 
@@ -434,7 +435,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         for (NSUInteger j = 0; j < [group.objects count]; j++) {
             MMEquation *equation = [group.objects objectAtIndex:j];
             if ([[equation formula] maxPhone] <= type) {
-                double time = [equation evaluate:&_parameters postures:samplePostures andCacheWith:cacheTag];
+                double time = [equation evaluate:self.parameters postures:samplePostures andCacheWith:cacheTag];
                 //NSLog(@"\t%@", [equation name]);
                 //NSLog(@"\t\ttime = %f", time);
                 //NSLog(@"equation name: %@, formula: %@, time: %f", [equation name], [[equation expression] expressionString], time);
@@ -625,7 +626,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         MMPoint *currentPoint = [currentPoints objectAtIndex:index];
         //NSLog(@"%2d: object class: %@", index, NSStringFromClass([currentPoint class]));
         //NSLog(@"%2d (a): value: %g, freeTime: %g, type: %d, isPhantom: %d", index, [currentPoint value], [currentPoint freeTime], [currentPoint type], [currentPoint isPhantom]);
-        [currentPoint calculatePoints:&_parameters tempos:tempos postures:samplePostures andCacheWith:cacheTag toDisplay:displayPoints];
+        [currentPoint calculatePoints:self.parameters tempos:tempos postures:samplePostures andCacheWith:cacheTag toDisplay:displayPoints];
         //NSLog(@"%2d (b): value: %g, freeTime: %g, type: %d, isPhantom: %d", index, [currentPoint value], [currentPoint freeTime], [currentPoint type], [currentPoint isPhantom]);
 
         if ([currentPoint isKindOfClass:[MMSlopeRatio class]])
@@ -1051,7 +1052,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         if (currentExpression == nil)
             currentPoint.x = [currentDisplayPoint freeTime];
         else
-            currentPoint.x = [[currentDisplayPoint timeEquation] evaluate:&_parameters postures:samplePostures andCacheWith:cacheTag];
+            currentPoint.x = [[currentDisplayPoint timeEquation] evaluate:self.parameters postures:samplePostures andCacheWith:cacheTag];
 
         currentPoint.x *= timeScale;
         currentPoint.y = (yScale * zeroIndex) + ([currentDisplayPoint value] * yScale / sectionAmount);

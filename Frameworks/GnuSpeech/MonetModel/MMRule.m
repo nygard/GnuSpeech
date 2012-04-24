@@ -407,29 +407,29 @@
     // It is not okay to do these in order -- beat often depends on duration, mark1, mark2, and/or mark3.
 
     if (count > 0)
-        ruleSymbols->ruleDuration = [(MMEquation *)[symbolEquations objectAtIndex:0] evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:cache];
+        ruleSymbols.ruleDuration = [(MMEquation *)[symbolEquations objectAtIndex:0] evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:cache];
     else
-        ruleSymbols->ruleDuration = 0.0;
+        ruleSymbols.ruleDuration = 0.0;
 
     if (count > 2)
-        ruleSymbols->mark1 = [(MMEquation *)[symbolEquations objectAtIndex:2] evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:cache];
+        ruleSymbols.mark1 = [(MMEquation *)[symbolEquations objectAtIndex:2] evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:cache];
     else
-        ruleSymbols->mark1 = 0.0;
+        ruleSymbols.mark1 = 0.0;
 
     if (count > 3)
-        ruleSymbols->mark2 = [(MMEquation *)[symbolEquations objectAtIndex:3] evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:cache];
+        ruleSymbols.mark2 = [(MMEquation *)[symbolEquations objectAtIndex:3] evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:cache];
     else
-        ruleSymbols->mark2 = 0.0;
+        ruleSymbols.mark2 = 0.0;
 
     if (count > 4)
-        ruleSymbols->mark3 = [(MMEquation *)[symbolEquations objectAtIndex:4] evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:cache];
+        ruleSymbols.mark3 = [(MMEquation *)[symbolEquations objectAtIndex:4] evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:cache];
     else
-        ruleSymbols->mark3 = 0.0;
+        ruleSymbols.mark3 = 0.0;
 
     if (count > 1)
-        ruleSymbols->beat = [(MMEquation *)[symbolEquations objectAtIndex:1] evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:cache];
+        ruleSymbols.beat = [(MMEquation *)[symbolEquations objectAtIndex:1] evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:cache];
     else
-        ruleSymbols->beat = 0.0;
+        ruleSymbols.beat = 0.0;
 }
 
 - (NSMutableArray *)parameterTransitions;
