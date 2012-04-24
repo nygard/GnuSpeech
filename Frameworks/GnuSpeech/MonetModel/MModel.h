@@ -6,8 +6,6 @@
 @class MMGroup;
 @class MMCategory, MMEquation, MMParameter, MMPosture, MMRule, MMSymbol, MMSynthesisParameters, MMTransition;
 
-extern NSString *MCategoryInUseException;
-
 @interface MModel : NSObject <NSXMLParserDelegate>
 
 @property (readonly) NSMutableArray *categories;
@@ -25,7 +23,7 @@ extern NSString *MCategoryInUseException;
 // Categories
 - (void)addCategory:(MMCategory *)category;
 - (BOOL)isCategoryUsed:(MMCategory *)category;
-- (void)removeCategory:(MMCategory *)category;
+- (BOOL)removeCategory:(MMCategory *)category;
 - (MMCategory *)categoryWithName:(NSString *)name;
 
 // Parameters

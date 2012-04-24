@@ -23,8 +23,6 @@
 #import "MXMLParser.h"
 #import "MXMLArrayDelegate.h"
 
-NSString *MCategoryInUseException = @"MCategoryInUseException";
-
 @interface MModel ()
 
 - (void)_addDefaultRule;
@@ -159,14 +157,15 @@ NSString *MCategoryInUseException = @"MCategoryInUseException";
     return NO;
 }
 
-- (void)removeCategory:(MMCategory *)category;
+// Returns YES if the category was removed, or NO if the category is still being used.
+- (BOOL)removeCategory:(MMCategory *)category;
 {
     if ([self isCategoryUsed:category]) {
-        // TODO: Don't raise exception.  Return NO and an NSError
-        [NSException raise:MCategoryInUseException format:@"Cannot remove category that is in use."];
+        return NO;
     }
 
     [categories removeObject:category];
+    return YES;
 }
 
 // TODO (2004-03-19): We could store these in a dictionary for quick lookup by name.
