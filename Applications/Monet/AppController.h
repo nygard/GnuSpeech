@@ -18,7 +18,6 @@
 
 - (IBAction)openFile:(id)sender;
 - (IBAction)importTRMData:(id)sender;
-- (IBAction)printData:(id)sender;
 
 - (void)setModel:(MModel *)newModel;
 

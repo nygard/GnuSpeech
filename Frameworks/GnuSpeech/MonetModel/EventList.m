@@ -24,26 +24,69 @@
 #import "MXMLParser.h"
 #import "MXMLArrayDelegate.h"
 #import "MXMLPCDataDelegate.h"
+#import "MMIntonationParameters.h"
+#import "MMToneGroup.h"
 
 #import "TRMSynthesizer.h" // For addParameters:
 
-NSString *NSStringFromToneGroupType(NSUInteger toneGroupType)
-{
-    switch (toneGroupType) {
-        case STATEMENT:    return @"Statement";
-        case EXCLAMATION:  return @"Exclamation";
-        case QUESTION:     return @"Question";
-        case CONTINUATION: return @"Continuation";
-        case SEMICOLON:    return @"Semicolon";
-    }
+#define MAXPHONES	    1500
+#define MAXFEET		    110
 
-    return nil;
-}
+#define MAXRULES	    (MAXPHONES-1)
+
+struct _foot {
+    double onset1;
+    double onset2;
+    double tempo;
+    NSUInteger startPhoneIndex; // index into phones
+    NSUInteger endPhoneIndex;   // index into phones
+    NSUInteger marked;
+    NSUInteger last; // Is this the last foot of (the tone group?)
+};
+
+struct _phone {
+    MMPosture *phone;
+    NSUInteger syllable; // TODO (2004-08-12): This isn't used for anything right now.
+    double onset;
+    float ruleTempo;
+};
 
 NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoints";
 
 @interface EventList ()
 @property (assign) BOOL intonationPointsNeedSorting;
+@property (nonatomic, assign) NSInteger zeroRef;
+
+// Tone groups
+@property (readonly) NSMutableArray *toneGroups;
+@property (nonatomic, readonly) MMToneGroup *currentToneGroup;
+- (void)endCurrentToneGroup;
+- (void)newToneGroup;
+
+// Feet
+- (void)endCurrentFoot;
+- (void)newFoot;
+- (void)setCurrentFootMarked;
+- (void)setCurrentFootLast;
+- (void)setCurrentFootTempo:(double)tempo;
+
+- (void)_applyRule:(MMRule *)rule withPostures:(NSArray *)somePostures andTempos:(double *)tempos phoneIndex:(NSUInteger)phoneIndex;
+- (void)setFullTimeScale;
+
+// Postures
+- (void)setCurrentPhoneTempo:(double)tempo;
+- (void)setCurrentPhoneRuleTempo:(float)tempo;
+- (void)setCurrentPhoneSyllable;
+- (NSUInteger)ruleIndexForPostureAtIndex:(NSUInteger)postureIndex;
+
+// Events
+- (Event *)eventAtTimeOffset:(double)time;
+- (void)finalEvent:(NSUInteger)number withValue:(double)value;
+
+// Intonation
+- (void)_applyFlatIntonation;
+- (void)_applySmoothIntonation;
+
 @end
 
 #pragma mark -
@@ -73,7 +116,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     double m_pitchMean;
     double m_globalTempo;
     double m_multiplier; // Move... somewhere else.
-    struct _intonationParameters m_intonationParameters;
+    MMIntonationParameters *m_intonationParameters;
     
     /* NOTE phones and phoneTempo are separate for Optimization reasons */
     NSUInteger postureCount;
@@ -83,8 +126,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     NSUInteger footCount;
     struct _foot feet[MAXFEET];
     
-    NSUInteger toneGroupCount;
-    struct _toneGroup toneGroups[MAXTONEGROUPS];
+    NSMutableArray *m_toneGroups;
     
     NSUInteger currentRule;
     struct _rule rules[MAXRULES];
@@ -114,6 +156,10 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
         intonationPoints = [[NSMutableArray alloc] init];
         m_intonationPointsNeedSorting = NO;
         
+        m_intonationParameters = [[MMIntonationParameters alloc] init];
+        
+        m_toneGroups = [[NSMutableArray alloc] init];
+        
         m_driftGenerator = [[MMDriftGenerator alloc] init];
         [m_driftGenerator configureWithDeviation:1 sampleRate:500 lowpassCutoff:1000];
         
@@ -133,6 +179,8 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
     [events release];
     [intonationPoints release];
+    [m_intonationParameters release];
+    [m_toneGroups release];
     [delegate release];
 
     [super dealloc];
@@ -159,8 +207,10 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 }
 
 @synthesize delegate;
-
 @synthesize phoneString;
+
+// The zero reference is TIME.
+// The zero index is the index of the last event whose time is before the zero reference.
 
 - (NSInteger)zeroRef;
 {
@@ -169,21 +219,15 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
 - (void)setZeroRef:(NSInteger)newValue;
 {
-    NSInteger index;
-
     zeroRef = newValue;
     zeroIndex = 0;
-
-    if ([events count] == 0)
-        return;
-
-    for (index = [events count] - 1; index >= 0; index--) {
-        //NSLog(@"index = %d", index);
-        if ([[events objectAtIndex:index] time] < newValue) {
+    
+    [events enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(Event *event, NSUInteger index, BOOL *stop){
+        if (event.time < newValue) {
             zeroIndex = index;
-            return;
+            *stop = YES;
         }
-    }
+    }];
 }
 
 @synthesize duration, timeQuantization;
@@ -199,14 +243,10 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 @synthesize multiplier = m_multiplier;
 @synthesize intonationParameters = m_intonationParameters;
 
-//
-//
-//
+#pragma mark -
 
 - (void)setUp;
 {
-    //NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
-
     [events removeAllObjects];
     [self removeAllIntonationPoints];
 
@@ -223,8 +263,8 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
     m_intonationParameters.notionalPitch = 0;
     m_intonationParameters.pretonicRange = 0;
-    m_intonationParameters.pretonicLift = -2;
-    m_intonationParameters.tonicRange = -8;
+    m_intonationParameters.pretonicLift  = -2;
+    m_intonationParameters.tonicRange    = -8;
     m_intonationParameters.tonicMovement = -6;
 
     self.shouldUseSmoothIntonation = NO;
@@ -236,16 +276,13 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     footCount = 0;
     bzero(feet, MAXFEET * sizeof(struct _foot));
 
-    toneGroupCount = 0;
-    bzero(toneGroups, MAXTONEGROUPS * sizeof(struct _toneGroup));
-
     currentRule = 0;
     bzero(rules, MAXRULES * sizeof(struct _rule));
 
     phoneTempo[0] = 1.0;
     feet[0].tempo = 1.0;
-
-    //NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
+    
+    [self.toneGroups removeAllObjects];
 }
 
 - (void)setFullTimeScale;
@@ -255,9 +292,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     duration = [[events lastObject] time] + 100;
 }
 
-//
-// Rules
-//
+#pragma mark - Rules
 
 - (struct _rule *)getRuleAtIndex:(NSUInteger)ruleIndex;
 {
@@ -269,14 +304,10 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
 - (NSString *)ruleDescriptionAtIndex:(NSUInteger)ruleIndex;
 {
-    NSMutableString *str;
-    struct _rule *rule;
-    NSUInteger index;
+    struct _rule *rule = [self getRuleAtIndex:ruleIndex];
+    NSMutableString *str = [NSMutableString string];
 
-    rule = [self getRuleAtIndex:ruleIndex];
-    str = [NSMutableString string];
-
-    for (index = rule->firstPhone; index <= rule->lastPhone; index++) {
+    for (NSUInteger index = rule->firstPhone; index <= rule->lastPhone; index++) {
         [str appendString:[[self getPhoneAtIndex:index] name]];
         if (index == rule->lastPhone)
             break;
@@ -301,40 +332,42 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
 - (void)getRuleIndex:(NSUInteger *)ruleIndexPtr offsetTime:(double *)offsetTimePtr forAbsoluteTime:(double)absoluteTime;
 {
-    NSUInteger index;
-    double onset;
-
-    for (index = 0; index <= currentRule; index++) {
-        onset = phones[rules[index].firstPhone].onset;
+    for (NSUInteger index = 0; index <= currentRule; index++) {
+        double onset = phones[rules[index].firstPhone].onset;
         if (absoluteTime >= onset && absoluteTime < onset + rules[index].duration) {
-            if (ruleIndexPtr != NULL)
-                *ruleIndexPtr = index;
-            if (offsetTimePtr != NULL)
-                *offsetTimePtr = absoluteTime - rules[index].beat;
+            if (ruleIndexPtr != NULL)  *ruleIndexPtr  = index;
+            if (offsetTimePtr != NULL) *offsetTimePtr = absoluteTime - rules[index].beat;
             return;
         }
     }
 
-    if (ruleIndexPtr != NULL)
-        *ruleIndexPtr = -1;
-    if (offsetTimePtr != NULL)
-        *offsetTimePtr = 0.0;
+    if (ruleIndexPtr != NULL)  *ruleIndexPtr = -1;
+    if (offsetTimePtr != NULL) *offsetTimePtr = 0.0;
 }
 
 #pragma mark - Tone groups
+
+@synthesize toneGroups = m_toneGroups;
+
+- (MMToneGroup *)currentToneGroup;
+{
+    return [self.toneGroups lastObject];
+}
 
 // This is horribly ugly and is going to be full of bugs :(
 // It would be easier if we just didn't allow the trailing // that produces an empty tone group.
 - (void)endCurrentToneGroup;
 {
-    if (toneGroupCount > 0) {
+    MMToneGroup *toneGroup = self.currentToneGroup;
+    
+    if (toneGroup != nil) {
         if (footCount == 0) {
-            toneGroupCount--; // No feet in this tone group, so remove it.
-        } else if (feet[footCount-1].start >= postureCount) {
-            footCount--; // No posture in the foot, so remove it.
-            toneGroupCount--; // And remove the toen group too
+            [self.toneGroups removeLastObject]; // No feet in this tone group, so remove it.
+        } else if (feet[footCount-1].startPhoneIndex >= postureCount) {
+            footCount--;                        // No posture in the foot, so remove it.
+            [self.toneGroups removeLastObject]; // And remove the tone group too
         } else {
-            toneGroups[toneGroupCount - 1].endFoot = footCount - 1; // TODO (2004-08-18): What if footCount == 0
+            toneGroup.endFootIndex = footCount - 1; // TODO (2004-08-18): What if footCount == 0
             [self endCurrentFoot];
         }
     }
@@ -344,20 +377,11 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 {
     [self endCurrentToneGroup];
     [self newFoot];
-
-    toneGroups[toneGroupCount].startFoot = footCount - 1;
-    toneGroups[toneGroupCount].endFoot = -1;
-    toneGroupCount++;
-}
-
-- (void)setCurrentToneGroupType:(NSUInteger)type;
-{
-    if (toneGroupCount == 0) {
-        NSLog(@"%s, not tone groups.", __PRETTY_FUNCTION__);
-        return;
-    }
-
-    toneGroups[toneGroupCount - 1].type = type;
+    
+    MMToneGroup *toneGroup = [[[MMToneGroup alloc] init] autorelease];
+    toneGroup.startFootIndex = footCount - 1;
+    toneGroup.endFootIndex = -1;
+    [self.toneGroups addObject:toneGroup];
 }
 
 #pragma mark - Feet
@@ -365,14 +389,14 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 - (void)endCurrentFoot;
 {
     if (footCount > 0)
-        feet[footCount - 1].end = postureCount - 1;
+        feet[footCount - 1].endPhoneIndex = postureCount - 1;
 }
 
 - (void)newFoot;
 {
     [self endCurrentFoot];
-    feet[footCount].start = postureCount; // TODO (2004-08-18): And you better add that posture!
-    feet[footCount].end = -1;
+    feet[footCount].startPhoneIndex = postureCount; // TODO (2004-08-18): And you better add that posture!
+    feet[footCount].endPhoneIndex = -1;
     feet[footCount].tempo = 1.0;
     footCount++;
 }
@@ -417,23 +441,23 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     return phones[phoneIndex].phone;
 }
 
-- (void)newPhoneWithObject:(MMPosture *)anObject;
+- (void)newPhoneWithObject:(MMPosture *)object;
 {
     phoneTempo[postureCount] = 1.0;
     phones[postureCount].ruleTempo = 1.0;
-    phones[postureCount].phone = anObject;
+    phones[postureCount].phone = object;
     postureCount++;
 }
 
-- (void)replaceCurrentPhoneWith:(MMPosture *)anObject;
+- (void)replaceCurrentPhoneWith:(MMPosture *)object;
 {
     if (postureCount == 0) {
         NSLog(@"%s, postureCount == 0", __PRETTY_FUNCTION__);
         return;
     }
 
-    NSLog(@"Replacing %@ with %@", [phones[postureCount - 1].phone name], [anObject name]);
-    phones[postureCount - 1].phone = anObject;
+    NSLog(@"Replacing %@ with %@", [phones[postureCount - 1].phone name], object.name);
+    phones[postureCount - 1].phone = object;
 }
 
 - (void)setCurrentPhoneTempo:(double)tempo;
@@ -488,7 +512,6 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 - (Event *)eventAtTimeOffset:(double)time;
 {
     Event *newEvent = nil;
-    NSInteger i, tempTime;
 
     time = time * self.multiplier;
     if (time < 0.0)
@@ -496,7 +519,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     if (time > (double)(duration + timeQuantization))
         return nil;
 
-    tempTime = zeroRef + (int)time;
+    NSInteger tempTime = zeroRef + (int)time;
     tempTime = tempTime - (tempTime % timeQuantization);
 
     // If there are no events yet, we can just add it.
@@ -508,6 +531,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     }
 
     // Otherwise we need to search through the events to find the correct place to insert it.
+    NSInteger i;
     for (i = [events count] - 1; i >= zeroIndex; i--) {
         // If there is an Event at exactly this time, we can use that event.
         if ([[events objectAtIndex:i] time] == tempTime)
@@ -533,10 +557,9 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 // Time relative to zeroRef
 - (Event *)insertEvent:(NSInteger)number atTimeOffset:(double)time withValue:(double)value;
 {
-    Event *event;
-
-    event = [self eventAtTimeOffset:time];
+    Event *event = [self eventAtTimeOffset:time];
     if (number >= 0) {
+        // TODO (2012-04-23): This appears to be another hard-coded setting.  7 and 8 seems to be... parameters r1 and r2
         if ((number >= 7) && (number <= 8))
             [event setValue:value*self.radiusMultiply atIndex:number];
         else
@@ -548,9 +571,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
 - (void)finalEvent:(NSUInteger)number withValue:(double)value;
 {
-    Event *lastEvent;
-
-    lastEvent = [events lastObject];
+    Event *lastEvent = [events lastObject];
     [lastEvent setValue:value atIndex:number];
     [lastEvent setFlag:YES];
 }
@@ -558,7 +579,6 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 #pragma mark - Other
 
 // EventList API used:
-//  - setCurrentToneGroupType:
 //  - newFoot
 //  - setCurrentFooLast
 //  - setCurrentFootMarked
@@ -570,53 +590,57 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 //  - setCurrentPhoneRuleTempo:
 - (void)parsePhoneString:(NSString *)str;
 {
-    MMPosture *aPhone;
     NSUInteger lastFoot = 0, markedFoot = 0;
     double footTempo = 1.0;
     double ruleTempo = 1.0;
     double aPhoneTempo = 1.0;
-    double aDouble;
-    NSScanner *scanner;
     NSCharacterSet *whitespaceCharacterSet = [NSCharacterSet phoneStringWhitespaceCharacterSet];
     NSCharacterSet *defaultCharacterSet = [NSCharacterSet phoneStringIdentifierCharacterSet];
-    NSString *buffer;
     BOOL wordMarker = NO;
 
     self.phoneString = str;
     [postureRewriter resetState];
 
-    scanner = [[[NSScanner alloc] initWithString:str] autorelease];
+    NSScanner *scanner = [[[NSScanner alloc] initWithString:str] autorelease];
     [scanner setCharactersToBeSkipped:nil];
 
     while ([scanner isAtEnd] == NO) {
         [scanner scanCharactersFromSet:whitespaceCharacterSet intoString:NULL];
-        if ([scanner isAtEnd] == YES)
+        if ([scanner isAtEnd])
             break;
+        
+        double tempDouble;
 
-        if ([scanner scanString:@"/" intoString:NULL] == YES) {
+        if ([scanner scanString:@"/" intoString:NULL])
+        {
             // Handle "/" escape sequences
-            if ([scanner scanString:@"0" intoString:NULL] == YES) {
-                // Tone group 0. Statement
+            if ([scanner scanString:@"0" intoString:NULL])                    // Tone group 0. Statement
+            {
                 //NSLog(@"Tone group 0. Statement");
-                [self setCurrentToneGroupType:STATEMENT];
-            } else if ([scanner scanString:@"1" intoString:NULL] == YES) {
-                // Tone group 1. Exclamation
+                self.currentToneGroup.type = MMToneGroupType_Statement;
+            }
+            else if ([scanner scanString:@"1" intoString:NULL])               // Tone group 1. Exclamation
+            {
                 //NSLog(@"Tone group 1. Exclamation");
-                [self setCurrentToneGroupType:EXCLAMATION];
-            } else if ([scanner scanString:@"2" intoString:NULL] == YES) {
-                // Tone group 2. Question
+                self.currentToneGroup.type = MMToneGroupType_Exclamation;
+            }
+            else if ([scanner scanString:@"2" intoString:NULL])               // Tone group 2. Question
+            {
                 //NSLog(@"Tone group 2. Question");
-                [self setCurrentToneGroupType:QUESTION];
-            } else if ([scanner scanString:@"3" intoString:NULL] == YES) {
-                // Tone group 3. Continuation
+                self.currentToneGroup.type = MMToneGroupType_Question;
+            }
+            else if ([scanner scanString:@"3" intoString:NULL])               // Tone group 3. Continuation
+            {
                 //NSLog(@"Tone group 3. Continuation");
-                [self setCurrentToneGroupType:CONTINUATION];
-            } else if ([scanner scanString:@"4" intoString:NULL] == YES) {
-                // Tone group 4. Semi-colon
+                self.currentToneGroup.type = MMToneGroupType_Continuation;
+            }
+            else if ([scanner scanString:@"4" intoString:NULL])               // Tone group 4. Semi-colon
+            {
                 //NSLog(@"Tone group 4. Semi-colon");
-                [self setCurrentToneGroupType:SEMICOLON];
-            } else if ([scanner scanString:@" " intoString:NULL] == YES || [scanner scanString:@"_" intoString:NULL] == YES) {
-                // New foot
+                self.currentToneGroup.type = MMToneGroupType_Semicolon;
+            }
+            else if ([scanner scanString:@" " intoString:NULL] || [scanner scanString:@"_" intoString:NULL])   // New foot
+            {
                 //NSLog(@"New foot");
                 [self newFoot];
                 if (lastFoot)
@@ -624,8 +648,9 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
                 footTempo = 1.0;
                 lastFoot = 0;
                 markedFoot = 0;
-            } else if ([scanner scanString:@"*" intoString:NULL] == YES) {
-                // New Marked foot
+            }
+            else if ([scanner scanString:@"*" intoString:NULL])               // New Marked foot
+            {
                 //NSLog(@"New Marked foot");
                 [self newFoot];
                 [self setCurrentFootMarked];
@@ -635,54 +660,69 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
                 footTempo = 1.0;
                 lastFoot = 0;
                 markedFoot = 1;
-            } else if ([scanner scanString:@"/" intoString:NULL] == YES) {
-                // New Tone Group
+            }
+            else if ([scanner scanString:@"/" intoString:NULL])               // New Tone Group
+            {
                 //NSLog(@"New Tone Group");
                 [self newToneGroup];
-            } else if ([scanner scanString:@"c" intoString:NULL] == YES) {
-                // New Chunk
+            }
+            else if ([scanner scanString:@"c" intoString:NULL])               // New Chunk
+            {
                 //NSLog(@"New Chunk -- not sure that this is working.");
-            } else if ([scanner scanString:@"w" intoString:NULL] == YES) {
-                // Word Marker
+            }
+            else if ([scanner scanString:@"w" intoString:NULL])               // Word Marker
+            {
                 wordMarker = YES;
-            } else if ([scanner scanString:@"l" intoString:NULL] == YES) {
-                // Last Foot in tone group marker
+            }
+            else if ([scanner scanString:@"l" intoString:NULL])               // Last Foot in tone group marker
+            {
                 //NSLog(@"Last Foot in tone group");
                 lastFoot = 1;
-            } else if ([scanner scanString:@"f" intoString:NULL] == YES) {
-                // Foot tempo indicator
+            }
+            else if ([scanner scanString:@"f" intoString:NULL])               // Foot tempo indicator
+            {
                 //NSLog(@"Foot tempo indicator - 'f'");
                 [scanner scanCharactersFromSet:whitespaceCharacterSet intoString:NULL];
+                double aDouble;
                 if ([scanner scanDouble:&aDouble] == YES) {
                     //NSLog(@"current foot tempo: %g", aDouble);
                     [self setCurrentFootTempo:aDouble];
                 }
-            } else if ([scanner scanString:@"r" intoString:NULL] == YES) {
-                // Foot tempo indicator
+            }
+            else if ([scanner scanString:@"r" intoString:NULL])               // Foot tempo indicator
+            {
                 //NSLog(@"Foot tempo indicator - 'r'");
                 [scanner scanCharactersFromSet:whitespaceCharacterSet intoString:NULL];
+                double aDouble;
                 if ([scanner scanDouble:&aDouble] == YES) {
                     //NSLog(@"ruleTemp = %g", aDouble);
                     ruleTempo = aDouble;
                 }
-            } else {
+            }
+            else
+            {
                 // Skip character
                 [scanner scanCharacter:NULL];
             }
-        } else if ([scanner scanString:@"." intoString:NULL] == YES) {
-            // Syllable Marker
+        }
+        else if ([scanner scanString:@"." intoString:NULL])                   // Syllable Marker
+        {
             //NSLog(@"Syllable Marker");
             [self setCurrentPhoneSyllable];
-        } else if ([scanner scanDouble:&aDouble] == YES) {
+        }
+        else if ([scanner scanDouble:&tempDouble])                               // Phone tempo
+        {
             // TODO (2004-03-05): The original scanned digits and '.', and then used atof.
             //NSLog(@"aPhoneTempo = %g", aDouble);
-            aPhoneTempo = aDouble;
-        } else {
-            if ([scanner scanCharactersFromSet:defaultCharacterSet intoString:&buffer] == YES) {
+            aPhoneTempo = tempDouble;
+        }
+        else {
+            NSString *buffer;
+            if ([scanner scanCharactersFromSet:defaultCharacterSet intoString:&buffer]) {
                 //NSLog(@"Scanned this: '%@'", buffer);
                 if (markedFoot)
                     buffer = [buffer stringByAppendingString:@"'"];
-                aPhone = [model postureWithName:buffer];
+                MMPosture *aPhone = [model postureWithName:buffer];
                 //NSLog(@"aPhone: %p (%@), eventList: %p", aPhone, [aPhone name], self); // Each has the same event list
                 if (aPhone) {
                     [postureRewriter rewriteEventList:self withNextPosture:aPhone wordMarker:wordMarker];
@@ -706,26 +746,20 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 // Adjust the tempos of each of the feet.  They start out at 1.0.
 - (void)applyRhythm;
 {
-    NSUInteger i, j;
-
-    for (i = 0; i < footCount; i++) {
-        int rus;
+    for (NSUInteger i = 0; i < footCount; i++) {
         double footTempo;
 
-        rus = feet[i].end - feet[i].start + 1;
+        // TODO (2012-04-23): What does "rus" mean?
+        int rus = feet[i].endPhoneIndex - feet[i].startPhoneIndex + 1;
 
         /* Apply rhythm model */
         if (feet[i].marked) {
-            double tempo;
-
-            tempo = 117.7 - (19.36 * (double)rus);
+            double tempo = 117.7 - (19.36 * (double)rus);
             feet[i].tempo -= tempo / 180.0;
             //NSLog(@"Rus = %d tempTempo = %f", rus, tempo);
             footTempo = self.globalTempo * feet[i].tempo;
         } else {
-            double tempo;
-
-            tempo = 18.5 - (2.08 * (double)rus);
+            double tempo = 18.5 - (2.08 * (double)rus);
             feet[i].tempo -= tempo / 140.0;
             //NSLog(@"Rus = %d tempTempo = %f", rus, tempTempo);
             footTempo = self.globalTempo * feet[i].tempo;
@@ -733,7 +767,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
         // Adjust the posture tempos for postures in this foot, limiting it to a minimum of 0.2 and maximum of 2.0.
         //NSLog(@"Foot Tempo = %f", footTempo);
-        for (j = feet[i].start; j < feet[i].end + 1; j++) {
+        for (NSUInteger j = feet[i].startPhoneIndex; j < feet[i].endPhoneIndex + 1; j++) {
             phoneTempo[j] *= footTempo;
             if (phoneTempo[j] < 0.2)
                 phoneTempo[j] = 0.2;
@@ -754,44 +788,37 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
     // Record min/max values for each of the parameters
     {
-        NSMutableArray *parameters = [model parameters];
-        NSUInteger count, index;
-        MMParameter *aParameter = nil;
+        NSMutableArray *parameters = model.parameters;
 
         //NSLog(@"parameters: %@", parameters);
-        count = [parameters count];
-        for (index = 0; index < count && index < 16; index++) {
-            aParameter = [parameters objectAtIndex:index];
+        NSUInteger count = [parameters count];
+        for (NSUInteger index = 0; index < count && index < 16; index++) {
+            MMParameter *parameter = [parameters objectAtIndex:index];
 
-            min[index] = [aParameter minimumValue];
-            max[index] = [aParameter maximumValue];
+            min[index] = parameter.minimumValue;
+            max[index] = parameter.maximumValue;
             //NSLog(@"Min: %9.3f Max: %9.3f", min[index], max[index]);
         }
     }
 
     {
-        NSMutableArray *tempPostures, *tempCategoryList;
-        NSUInteger index, j;
-
-        tempPostures = [[NSMutableArray alloc] init];
-        tempCategoryList = [[NSMutableArray alloc] init];
+        NSMutableArray *tempPostures     = [[NSMutableArray alloc] init];
+        NSMutableArray *tempCategoryList = [[NSMutableArray alloc] init];
 
         // Apply rules
-        for (index = 0; index < postureCount - 1; ) {
-            NSInteger ruleIndex;
-            MMRule *matchedRule;
-
+        for (NSUInteger index = 0; index < postureCount - 1; ) {
             [tempPostures removeAllObjects];
             [tempCategoryList removeAllObjects];
 
-            for (j = 0; j < 4; j++) {
+            for (NSUInteger j = 0; j < 4; j++) {
                 if (phones[j+index].phone != nil) {
                     [tempPostures addObject:phones[j+index].phone];
                     [tempCategoryList addObject:[phones[j+index].phone categories]];
                 }
             }
 
-            matchedRule = [model findRuleMatchingCategories:tempCategoryList ruleIndex:&ruleIndex];
+            NSInteger ruleIndex;
+            MMRule *matchedRule = [model findRuleMatchingCategories:tempCategoryList ruleIndex:&ruleIndex];
             rules[currentRule].number = ruleIndex + 1;
 
             //NSLog(@"----------------------------------------------------------------------");
@@ -819,11 +846,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 // Use a 0.0 offset time for the first intonation point in each tone group, -40.0 for the rest.
 - (void)generateIntonationPoints;
 {
-    NSUInteger firstFoot, endFoot;
-    NSUInteger ruleIndex, phoneIndex;
-    NSUInteger i, j;
-    double startTime, endTime, pretonicDelta, offsetTime = 0.0;
-    double randomSemitone, randomSlope;
+    double offsetTime = 0.0;
 
     zeroRef = 0;
     zeroIndex = 0;
@@ -832,73 +855,68 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     [self removeAllIntonationPoints];
 //    [self addIntonationPoint:-20.0 offsetTime:0.0 slope:0.0 ruleIndex:0];
 
-    for (i = 0; i < toneGroupCount; i++) {
-        firstFoot = toneGroups[i].startFoot;
-        endFoot = toneGroups[i].endFoot;
+    for (MMToneGroup *toneGroup in self.toneGroups) {
+        NSUInteger firstFoot = toneGroup.startFootIndex;
+        NSUInteger endFoot   = toneGroup.endFootIndex;
 
-        startTime  = phones[feet[firstFoot].start].onset;
-        endTime  = phones[feet[endFoot].end].onset;
+        double startTime = phones[feet[firstFoot].startPhoneIndex].onset;
+        double endTime   = phones[feet[endFoot].endPhoneIndex].onset;
 
-        pretonicDelta = (m_intonationParameters.pretonicRange) / (endTime - startTime);
+        double pretonicDelta = (m_intonationParameters.pretonicRange) / (endTime - startTime);
         //NSLog(@"Pretonic Delta = %f time = %f", pretonicDelta, (endTime - startTime));
 
         /* Set up intonation boundary variables */
-        for (j = firstFoot; j <= endFoot; j++) {
-            MMIntonationPoint *newIntonationPoint;
-
-            phoneIndex = feet[j].start;
+        for (NSUInteger j = firstFoot; j <= endFoot; j++) {
+            NSUInteger phoneIndex = feet[j].startPhoneIndex;
             while ([phones[phoneIndex].phone isMemberOfCategoryNamed:@"vocoid"] == NO) { // TODO (2004-08-16): Hardcoded category
                 phoneIndex++;
                 //NSLog(@"Checking phone %@ for vocoid", [phones[phoneIndex].phone name]);
-                if (phoneIndex > feet[j].end) {
-                    phoneIndex = feet[j].start;
+                if (phoneIndex > feet[j].endPhoneIndex) {
+                    phoneIndex = feet[j].startPhoneIndex;
                     break;
                 }
             }
 
             if (!feet[j].marked) {
-                ruleIndex = [self ruleIndexForPostureAtIndex:phoneIndex];
+                NSUInteger ruleIndex = [self ruleIndexForPostureAtIndex:phoneIndex];
 
                 // randomSemitone is in range of +/- 1/2 of pretonicLift
-                randomSemitone = ((double)random() / (double)0x7fffffff) * (double)m_intonationParameters.pretonicLift - m_intonationParameters.pretonicLift / 2.0;
+                double randomSemitone = ((double)random() / (double)0x7fffffff) * (double)m_intonationParameters.pretonicLift - m_intonationParameters.pretonicLift / 2.0;
                 // Slopes from 0.02 to 0.035
-                randomSlope = ((double)random() / (double)0x7fffffff) * 0.015 + 0.02;
+                double randomSlope = ((double)random() / (double)0x7fffffff) * 0.015 + 0.02;
 
-                newIntonationPoint = [[MMIntonationPoint alloc] init];
+                MMIntonationPoint *newIntonationPoint = [[[MMIntonationPoint alloc] init] autorelease];
                 // TODO (2004-08-19): But this will generate extra change notifications.  Try setting the event list for the intonation point in -addIntonationPoint:.
                 [newIntonationPoint setSemitone:((phones[phoneIndex].onset-startTime) * pretonicDelta) + m_intonationParameters.notionalPitch + randomSemitone];
                 [newIntonationPoint setOffsetTime:offsetTime];
                 [newIntonationPoint setSlope:randomSlope];
                 [newIntonationPoint setRuleIndex:ruleIndex];
                 [self addIntonationPoint:newIntonationPoint];
-                [newIntonationPoint release];
 
 //                NSLog(@"Calculated Delta = %f  time = %f", ((phones[phoneIndex].onset-startTime)*pretonicDelta),
 //                       (phones[phoneIndex].onset-startTime));
             } else { /* Tonic */
-                ruleIndex = [self ruleIndexForPostureAtIndex:phoneIndex];
+                NSUInteger ruleIndex = [self ruleIndexForPostureAtIndex:phoneIndex];
 
                 // Slopes from 0.02 to 0.05
-                randomSlope = ((double)random() / (double)0x7fffffff) * 0.03 + 0.02;
+                double randomSlope = ((double)random() / (double)0x7fffffff) * 0.03 + 0.02;
 
-                newIntonationPoint = [[MMIntonationPoint alloc] init];
+                MMIntonationPoint *newIntonationPoint = [[[MMIntonationPoint alloc] init] autorelease];
                 [newIntonationPoint setSemitone:m_intonationParameters.pretonicRange + m_intonationParameters.notionalPitch];
                 [newIntonationPoint setOffsetTime:offsetTime];
                 [newIntonationPoint setSlope:randomSlope];
                 [newIntonationPoint setRuleIndex:ruleIndex];
                 [self addIntonationPoint:newIntonationPoint];
-                [newIntonationPoint release];
 
-                phoneIndex = feet[j].end;
+                phoneIndex = feet[j].endPhoneIndex;
                 ruleIndex = [self ruleIndexForPostureAtIndex:phoneIndex];
 
-                newIntonationPoint = [[MMIntonationPoint alloc] init];
+                newIntonationPoint = [[[MMIntonationPoint alloc] init] autorelease];
                 [newIntonationPoint setSemitone:m_intonationParameters.pretonicRange + m_intonationParameters.notionalPitch + m_intonationParameters.tonicRange];
                 [newIntonationPoint setOffsetTime:0.0];
                 [newIntonationPoint setSlope:0.0];
                 [newIntonationPoint setRuleIndex:ruleIndex];
                 [self addIntonationPoint:newIntonationPoint];
-                [newIntonationPoint release];
             }
 
             offsetTime = -40.0;
@@ -910,12 +928,8 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
 - (void)generateOutput;
 {
-    NSUInteger i, j, k;
-    NSUInteger currentTime, nextTime;
-    double currentValues[36];
-    double currentDeltas[36];
+    NSUInteger j, k;
     double temp;
-    float table[16];
     FILE *fp;
 
     //NSLog(@"%s, self: %@", _cmd, self);
@@ -928,20 +942,27 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     } else
         fp = NULL;
 
-    currentTime = 0;
-    for (i = 0; i < 16; i++) {
+    NSUInteger currentTime = 0;
+    
+    
+    // So it looks like this... uses the first value as the current value (makes sense), and then looks for the _next_ available value (skipping NaN) to calculate the deltas
+    double currentValues[36];
+    double currentDeltas[36];
+    for (NSUInteger i = 0; i < 16; i++) {
         j = 1;
         while ( ( temp = [[events objectAtIndex:j] getValueAtIndex:i]) == NaN)
             j++;
 
         currentValues[i] = [[events objectAtIndex:0] getValueAtIndex:i];
-        currentDeltas[i] = ((temp - currentValues[i]) / (double) ([[events objectAtIndex:j] time])) * 4.0;
+        currentDeltas[i] = ((temp - currentValues[i]) / (double) ([[events objectAtIndex:j] time])) * 4.0; // TODO (2012-04-23): This 4 must be the same 4 as in two following places.  Input control rate, hard coded to 250 Hz
     }
 
-    for (i = 16; i < 36; i++)
+    // Not sure what the next 16+4 values are
+    for (NSUInteger i = 16; i < 36; i++)
         currentValues[i] = currentDeltas[i] = 0.0;
 
     if (self.shouldUseSmoothIntonation) {
+        // Find the first value for "32", and use that as the current value[32], no delta
         j = 0;
         while ( (temp = [[events objectAtIndex:j] getValueAtIndex:32]) == NaN) {
             j++;
@@ -953,6 +974,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
         currentDeltas[32] = 0.0;
         //NSLog(@"Smooth intonation: %f %f j = %d", currentValues[32], currentDeltas[32], j);
     } else {
+        // Find the first value for "32" (skipping the very first value).  Use the very first entry as the current value, and calculate delta from the other one
         j = 1;
         while ( (temp = [[events objectAtIndex:j] getValueAtIndex:32]) == NaN) {
             j++;
@@ -971,9 +993,11 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 //    for (i = 0; i < 32; i++)
 //        NSLog(@"%d;  cv: %f  cd: %f", i, currentValues[i], currentDeltas[i]);
 
-    i = 1;
+    NSUInteger i = 1;
     currentTime = 0;
-    nextTime = [[events objectAtIndex:1] time];
+    NSUInteger nextTime = [[events objectAtIndex:1] time];
+    float table[16];
+
     while (i < [events count]) {
         for (j = 0; j < 16; j++) {
             table[j] = (float)currentValues[j] + (float)currentValues[j+16];
@@ -999,8 +1023,8 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
         if (self.delegate != nil && [self.delegate respondsToSelector:@selector(addParameters:)])
             [self.delegate addParameters:table];
 
-        for (j = 0 ; j < 32; j++) {
-            if (currentDeltas[j])
+        for (j = 0; j < 32; j++) {
+            if (currentDeltas[j]) // TODO (2012-04-23): Just add unconditionally
                 currentValues[j] += currentDeltas[j];
         }
         if (self.shouldUseSmoothIntonation) {
@@ -1008,10 +1032,10 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
             currentDeltas[33] += currentDeltas[34];
             currentValues[32] += currentDeltas[33];
         } else {
-            if (currentDeltas[32])
+            if (currentDeltas[32]) // TODO (2012-04-23): Just add unconditionally
                 currentValues[32] += currentDeltas[32];
         }
-        currentTime += 4;
+        currentTime += 4; // TODO (2012-04-23): 4 milliseconds?  Hardcoded?
 
         if (currentTime >= nextTime) {
             i++;
@@ -1059,61 +1083,55 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 // 2.
 - (void)_applyRule:(MMRule *)rule withPostures:(NSArray *)somePostures andTempos:(double *)tempos phoneIndex:(NSUInteger)phoneIndex;
 {
-    NSUInteger transitionIndex, parameterIndex;
-    NSUInteger type;
-    BOOL shouldCalculate;
-    NSUInteger currentType;
-    double currentDelta, value, maxValue;
-    double tempTime, targets[4];
-    MMFRuleSymbols ruleSymbols;
-    MMTransition *transition;
-    MMPoint *currentPoint;
-    NSArray *parameterTransitions;
-    NSArray *points;
     NSUInteger cache = [model nextCacheTag];
 
-    bzero(&ruleSymbols, sizeof(MMFRuleSymbols));
-    [rule evaluateSymbolEquations:&ruleSymbols tempos:tempos postures:somePostures withCache:cache];
+    MMFRuleSymbols *ruleSymbols = [[[MMFRuleSymbols alloc] init] autorelease];
+    [rule evaluateSymbolEquations:ruleSymbols tempos:tempos postures:somePostures withCache:cache];
+
 #if 0
     NSLog(@"Rule symbols, duration: %.2f, beat: %.2f, mark1: %.2f, mark2: %.2f, mark3: %.2f",
           ruleSymbols.ruleDuration, ruleSymbols.beat, ruleSymbols.mark1, ruleSymbols.mark2, ruleSymbols.mark3);
 #endif
+
     // TODO (2004-08-14): Is this supposed to change the multiplier?  I suppose so, since setMultiplier: is never used.
     //NSLog(@"multiplier before: %f", multiplier);
     self.multiplier = 1.0 / (double)(phones[phoneIndex].ruleTempo);
     //NSLog(@"multiplier after: %f", multiplier);
 
-    type = [rule numberExpressions];
+    NSUInteger type = [rule numberExpressions];
     [self setDuration:(int)(ruleSymbols.ruleDuration * self.multiplier)];
 
     rules[currentRule].firstPhone = phoneIndex;
-    rules[currentRule].lastPhone = phoneIndex + (type - 1);
-    rules[currentRule].beat = (ruleSymbols.beat * self.multiplier) + (double)zeroRef;
+    rules[currentRule].lastPhone  = phoneIndex + (type - 1);
+    rules[currentRule].beat       = (ruleSymbols.beat * self.multiplier) + (double)zeroRef;
     rules[currentRule++].duration = ruleSymbols.ruleDuration * self.multiplier;
 
     // This creates events (if necessary) at the posture times, and sets the "flag" on them to indicate this is for a posture.
     switch (type) {
-        /* Note: Case 4 should execute all of the below, case 3 the last two */
-      case MMPhoneType_Tetraphone:
-          phones[phoneIndex+3].onset = (double)zeroRef + ruleSymbols.beat;
-          [[self insertEvent:-1 atTimeOffset:ruleSymbols.mark2 withValue:0.0] setFlag:YES];
-      case MMPhoneType_Triphone:
-          phones[phoneIndex+2].onset = (double)zeroRef + ruleSymbols.beat;
-          [[self insertEvent:-1 atTimeOffset:ruleSymbols.mark1 withValue:0.0] setFlag:YES];
-      case MMPhoneType_Diphone:
-          phones[phoneIndex+1].onset = (double)zeroRef + ruleSymbols.beat;
-          [[self insertEvent:-1 atTimeOffset:0.0 withValue:0.0] setFlag:YES];
-          break;
+            // Note: Tetraphone case should execute all of the below, Triphone case the last two.
+        case MMPhoneType_Tetraphone:
+            phones[phoneIndex+3].onset = (double)zeroRef + ruleSymbols.beat;
+            [[self insertEvent:-1 atTimeOffset:ruleSymbols.mark2 withValue:0.0] setFlag:YES];
+            // Fall through
+        case MMPhoneType_Triphone:
+            phones[phoneIndex+2].onset = (double)zeroRef + ruleSymbols.beat;
+            [[self insertEvent:-1 atTimeOffset:ruleSymbols.mark1 withValue:0.0] setFlag:YES];
+            // Fall through
+        case MMPhoneType_Diphone:
+            phones[phoneIndex+1].onset = (double)zeroRef + ruleSymbols.beat;
+            [[self insertEvent:-1 atTimeOffset:0.0 withValue:0.0] setFlag:YES];
+            break;
     }
 
-    parameterTransitions = [rule parameterTransitions];
+    NSArray *parameterTransitions = [rule parameterTransitions];
 
     /* Loop through the parameters */
-    for (transitionIndex = 0; transitionIndex < [parameterTransitions count]; transitionIndex++) {
-        NSUInteger count, index;
+    for (NSUInteger transitionIndex = 0; transitionIndex < [parameterTransitions count]; transitionIndex++) {
+        NSUInteger index;
 
+        double targets[4];
         /* Get actual parameter target values */
-        count = [somePostures count];
+        NSUInteger count = [somePostures count];
         for (index = 0; index < 4 && index < count; index++)
             targets[index] = [(MMTarget *)[[[somePostures objectAtIndex:index] parameterTargets] objectAtIndex:transitionIndex] value];
         for (; index < 4; index++)
@@ -1122,36 +1140,34 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
         //NSLog(@"Targets %f %f %f %f", targets[0], targets[1], targets[2], targets[3]);
 
         // Optimization: Don't calculate if no changes occur.
-        shouldCalculate = YES;
+        BOOL shouldCalculate = YES;
         switch (type) {
-          case MMPhoneType_Diphone:
-              if (targets[0] == targets[1])
-                  shouldCalculate = NO;
-              break;
-          case MMPhoneType_Triphone:
-              if ((targets[0] == targets[1]) && (targets[0] == targets[2]))
-                  shouldCalculate = NO;
-              break;
-          case MMPhoneType_Tetraphone:
-              if ((targets[0] == targets[1]) && (targets[0] == targets[2]) && (targets[0] == targets[3]))
-                  shouldCalculate = NO;
-              break;
+            case MMPhoneType_Diphone:
+                if (targets[0] == targets[1])
+                    shouldCalculate = NO;
+                break;
+            case MMPhoneType_Triphone:
+                if ((targets[0] == targets[1]) && (targets[0] == targets[2]))
+                    shouldCalculate = NO;
+                break;
+            case MMPhoneType_Tetraphone:
+                if ((targets[0] == targets[1]) && (targets[0] == targets[2]) && (targets[0] == targets[3]))
+                    shouldCalculate = NO;
+                break;
         }
 
         if (shouldCalculate) {
-            NSUInteger pointIndex, pointCount;
+            NSUInteger currentType = MMPhoneType_Diphone;
+            double currentDelta = targets[1] - targets[0];
 
-            currentType = MMPhoneType_Diphone;
-            currentDelta = targets[1] - targets[0];
-
-            transition = [parameterTransitions objectAtIndex:transitionIndex];
-            maxValue = 0.0;
-            points = [transition points];
-            pointCount = [points count];
+            MMTransition *transition = [parameterTransitions objectAtIndex:transitionIndex];
+            double maxValue = 0.0;
+            NSArray *points = [transition points];
+            NSUInteger pointCount = [points count];
 
             /* Apply lists to parameter */
-            for (pointIndex = 0; pointIndex < pointCount; pointIndex++) {
-                currentPoint = [points objectAtIndex:pointIndex];
+            for (NSUInteger pointIndex = 0; pointIndex < pointCount; pointIndex++) {
+                MMPoint *currentPoint = [points objectAtIndex:pointIndex];
 
                 if ([currentPoint isKindOfClass:[MMSlopeRatio class]]) {
                     if ([(MMPoint *)[[(MMSlopeRatio *)currentPoint points] objectAtIndex:0] type] != currentType) {
@@ -1170,7 +1186,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
                     //tempEvent = [self insertEvent:i atTimeOffset:tempTime withValue:value];
                 }
                 // TODO (2004-03-01): I don't see how this works...
-                maxValue = [currentPoint calculatePoints:&ruleSymbols tempos:tempos postures:somePostures
+                maxValue = [currentPoint calculatePoints:ruleSymbols tempos:tempos postures:somePostures
                                          andCacheWith:cache baseline:targets[currentType-2] delta:currentDelta
                                          min:min[transitionIndex] max:max[transitionIndex] toEventList:self atIndex:transitionIndex];
             }
@@ -1182,26 +1198,25 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
     /* Special Event Profiles */
     // TODO (2004-08-15): Does this support slope ratios?
-    for (parameterIndex = 0; parameterIndex < 16; parameterIndex++) {
-        transition = [rule getSpecialProfile:parameterIndex];
+    for (NSUInteger parameterIndex = 0; parameterIndex < 16; parameterIndex++) {
+        MMTransition *transition = [rule getSpecialProfile:parameterIndex];
         if (transition != nil) {
-            NSUInteger pointIndex, pointCount;
+            NSArray *points = [transition points];
+            NSUInteger pointCount = [points count];
 
-            points = [transition points];
-            pointCount = [points count];
+            for (NSUInteger pointIndex = 0; pointIndex < pointCount; pointIndex++) {
+                MMPoint *currentPoint = [points objectAtIndex:pointIndex];
 
-            for (pointIndex = 0; pointIndex < pointCount; pointIndex++) {
-                currentPoint = [points objectAtIndex:pointIndex];
-
+                double tempTime;
                 /* calculate time of event */
                 if ([currentPoint timeEquation] == nil)
                     tempTime = [currentPoint freeTime];
                 else
-                    tempTime = [[currentPoint timeEquation] evaluate:&ruleSymbols tempos:tempos postures:somePostures andCacheWith:cache];
+                    tempTime = [[currentPoint timeEquation] evaluate:ruleSymbols tempos:tempos postures:somePostures andCacheWith:cache];
 
                 /* Calculate value of event */
                 //value = (([currentPoint value]/100.0) * (max[parameterIndex] - min[parameterIndex])) + min[parameterIndex];
-                value = (([currentPoint value] / 100.0) * (max[parameterIndex] - min[parameterIndex]));
+                double value = (([currentPoint value] / 100.0) * (max[parameterIndex] - min[parameterIndex]));
                 //maxValue = value;
 
                 /* insert event into event list */
@@ -1219,28 +1234,27 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"<%@>[%p]: postureCount: %lu, footCount: %lu, toneGroupCount: %lu, currentRule: %lu, + a bunch of other stuff, super: %@",
-                     NSStringFromClass([self class]), self, postureCount, footCount, toneGroupCount, currentRule, [super description]];
+                     NSStringFromClass([self class]), self, postureCount, footCount, [self.toneGroups count], currentRule, [super description]];
 }
 
 - (void)printDataStructures:(NSString *)comment;
 {
-    NSUInteger toneGroupIndex, footIndex, postureIndex;
-    NSUInteger ruleIndex = 0;
+    __block NSUInteger ruleIndex = 0;
 
     NSLog(@"----------------------------------------------------------------------");
     NSLog(@" > %s (%@)", __PRETTY_FUNCTION__, comment);
 
     //NSLog(@"toneGroupCount: %d", toneGroupCount);
-    for (toneGroupIndex = 0; toneGroupIndex < toneGroupCount; toneGroupIndex++) {
-        NSLog(@"Tone Group %lu, type: %@", toneGroupIndex, NSStringFromToneGroupType(toneGroups[toneGroupIndex].type));
+    [self.toneGroups enumerateObjectsUsingBlock:^(MMToneGroup *toneGroup, NSUInteger toneGroupIndex, BOOL *stop1){
+        NSLog(@"Tone Group %lu, type: %@", toneGroupIndex, MMToneGroupTypeName(toneGroup.type));
 
         //NSLog(@"tg (%d -- %d)", toneGroups[toneGroupIndex].startFoot, toneGroups[toneGroupIndex].endFoot);
-        for (footIndex = toneGroups[toneGroupIndex].startFoot; footIndex <= toneGroups[toneGroupIndex].endFoot; footIndex++) {
+        for (NSUInteger footIndex = toneGroup.startFootIndex; footIndex <= toneGroup.endFootIndex; footIndex++) {
             NSLog(@"  Foot %lu  tempo: %.3f, marked: %lu, last: %lu, onset1: %.3f, onset2: %.3f", footIndex, feet[footIndex].tempo,
                   feet[footIndex].marked, feet[footIndex].last, feet[footIndex].onset1, feet[footIndex].onset2);
 
             //NSLog(@"Foot (%d -- %d)", feet[footIndex].start, feet[footIndex].end);
-            for (postureIndex = feet[footIndex].start; postureIndex <= feet[footIndex].end; postureIndex++) {
+            for (NSUInteger postureIndex = feet[footIndex].startPhoneIndex; postureIndex <= feet[footIndex].endPhoneIndex; postureIndex++) {
                 if (rules[ruleIndex].firstPhone == postureIndex) {
                     NSLog(@"    Posture %2lu  tempo: %.3f, syllable: %lu, onset: %7.2f, ruleTempo: %.3f, %@ # Rule %2lu, duration: %7.2f, beat: %7.2f",
                           postureIndex, phoneTempo[postureIndex], phones[postureIndex].syllable, phones[postureIndex].onset,
@@ -1254,7 +1268,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
                 }
             }
         }
-    }
+    }];
 
     NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
@@ -1271,38 +1285,34 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     return intonationPoints;
 }
 
-- (void)addIntonationPoint:(MMIntonationPoint *)newIntonationPoint;
+- (void)addIntonationPoint:(MMIntonationPoint *)intonationPoint;
 {
-    NSDictionary *userInfo = nil;
-
-    [intonationPoints addObject:newIntonationPoint];
-    [newIntonationPoint setEventList:self];
+    [intonationPoints addObject:intonationPoint];
+    [intonationPoint setEventList:self];
     self.intonationPointsNeedSorting = YES;
-    userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:NSKeyValueChangeInsertion], NSKeyValueChangeKindKey, nil];
+
+    NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:NSKeyValueChangeInsertion], NSKeyValueChangeKindKey, nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidChangeIntonationPoints object:self userInfo:userInfo];
     [userInfo release];
 }
 
-- (void)removeIntonationPoint:(MMIntonationPoint *)anIntonationPoint;
+- (void)removeIntonationPoint:(MMIntonationPoint *)intonationPoint;
 {
-    [anIntonationPoint setEventList:nil];
-    [intonationPoints removeObject:anIntonationPoint];
+    [intonationPoint setEventList:nil];
+    [intonationPoints removeObject:intonationPoint];
+
     NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:NSKeyValueChangeRemoval], NSKeyValueChangeKindKey, nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidChangeIntonationPoints object:self userInfo:userInfo];
     [userInfo release];
 }
 
-- (void)removeIntonationPointsFromArray:(NSArray *)someIntonationPoints;
+- (void)removeIntonationPointsFromArray:(NSArray *)array;
 {
-    NSUInteger count, index;
-    MMIntonationPoint *anIntonationPoint;
-
-    count = [someIntonationPoints count];
-    for (index = 0; index < count; index++) {
-        anIntonationPoint = [someIntonationPoints objectAtIndex:index];
-        [anIntonationPoint setEventList:nil];
-        [intonationPoints removeObject:anIntonationPoint];
+    for (MMIntonationPoint *intonationPoint in array) {
+        intonationPoint.eventList = nil;
+        [intonationPoints removeObject:intonationPoint];
     }
+
     NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:NSKeyValueChangeRemoval], NSKeyValueChangeKindKey, nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidChangeIntonationPoints object:self userInfo:userInfo];
     [userInfo release];
@@ -1310,11 +1320,12 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
 - (void)removeAllIntonationPoints;
 {
-    NSDictionary *userInfo = nil;
-
-    [intonationPoints makeObjectsPerformSelector:@selector(setEventList:) withObject:nil];
+    for (MMIntonationPoint *intonationPoint in intonationPoints) {
+        intonationPoint.eventList = nil;
+    }
     [intonationPoints removeAllObjects];
-    userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:NSKeyValueChangeRemoval], NSKeyValueChangeKindKey, nil];
+
+    NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:NSKeyValueChangeRemoval], NSKeyValueChangeKindKey, nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidChangeIntonationPoints object:self userInfo:nil];
     [userInfo release];
 }
@@ -1333,24 +1344,21 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 // Values with a semitone of -20 are added at the start and end (but their slopes, etc., aren't reset to 0.).
 - (void)_applyFlatIntonation;
 {
-    NSUInteger count, index;
-    MMIntonationPoint *anIntonationPoint;
-
     NSLog(@" > %s", __PRETTY_FUNCTION__);
 
     [self setFullTimeScale];
     [self insertEvent:32 atTimeOffset:0.0 withValue:-20.0];
 
-    count = [[self intonationPoints] count]; // This makes sure they get sorted
+    NSUInteger count = [[self intonationPoints] count]; // This makes sure they get sorted
     NSLog(@"Applying intonation, %lu points", count);
 
-    for (index = 0; index < count; index++) {
-        anIntonationPoint = [intonationPoints objectAtIndex:index];
-        NSLog(@"Added Event at Time: %f withValue: %f", [anIntonationPoint absoluteTime], [anIntonationPoint semitone]);
-        [self insertEvent:32 atTimeOffset:[anIntonationPoint absoluteTime] withValue:[anIntonationPoint semitone]];
-        [self insertEvent:33 atTimeOffset:[anIntonationPoint absoluteTime] withValue:0.0];
-        [self insertEvent:34 atTimeOffset:[anIntonationPoint absoluteTime] withValue:0.0];
-        [self insertEvent:35 atTimeOffset:[anIntonationPoint absoluteTime] withValue:0.0];
+    for (NSUInteger index = 0; index < count; index++) {
+        MMIntonationPoint *intonationPoint = [intonationPoints objectAtIndex:index];
+        NSLog(@"Added Event at Time: %f withValue: %f", intonationPoint.absoluteTime, intonationPoint.semitone);
+        [self insertEvent:32 atTimeOffset:intonationPoint.absoluteTime withValue:intonationPoint.semitone];
+        [self insertEvent:33 atTimeOffset:intonationPoint.absoluteTime withValue:0.0];
+        [self insertEvent:34 atTimeOffset:intonationPoint.absoluteTime withValue:0.0];
+        [self insertEvent:35 atTimeOffset:intonationPoint.absoluteTime withValue:0.0];
     }
 
     [self finalEvent:32 withValue:-20.0];
@@ -1360,15 +1368,6 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
 - (void)_applySmoothIntonation;
 {
-    NSUInteger count, index;
-    MMIntonationPoint *point1, *point2;
-    MMIntonationPoint *firstIntonationPoint;
-    double a, b, c, d;
-    double x1, y1, m1, x12, x13;
-    double x2, y2, m2, x22, x23;
-    double denominator;
-    double yTemp;
-
     //NSLog(@" > %s", _cmd);
 
     [self setFullTimeScale];
@@ -1376,45 +1375,45 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     if ([intonationPoints count] == 0)
         return;
 
-    firstIntonationPoint = [[MMIntonationPoint alloc] init];
+    MMIntonationPoint *firstIntonationPoint = [[MMIntonationPoint alloc] init];
     [firstIntonationPoint setSemitone:[[[self intonationPoints] objectAtIndex:0] semitone]]; // Make sure it's sorted
     [firstIntonationPoint setSlope:0.0];
     [firstIntonationPoint setRuleIndex:0];
     [firstIntonationPoint setOffsetTime:0];
     [self addIntonationPoint:firstIntonationPoint];
 
-    count = [[self intonationPoints] count]; // Again, make sure it gets sorted since we just added a point.
+    NSUInteger count = [[self intonationPoints] count]; // Again, make sure it gets sorted since we just added a point.
 
     //[self insertEvent:32 atTimeOffset:0.0 withValue:-20.0];
-    for (index = 0; index < count - 1; index++) {
-        point1 = [intonationPoints objectAtIndex:index];
-        point2 = [intonationPoints objectAtIndex:index + 1];
+    for (NSUInteger index = 0; index < count - 1; index++) {
+        MMIntonationPoint *point1 = [intonationPoints objectAtIndex:index];
+        MMIntonationPoint *point2 = [intonationPoints objectAtIndex:index + 1];
 
-        x1 = [point1 absoluteTime] / 4.0;
-        y1 = [point1 semitone] + 20.0;
-        m1 = [point1 slope];
+        double x1 = [point1 absoluteTime] / 4.0;
+        double y1 = [point1 semitone] + 20.0;
+        double m1 = [point1 slope];
 
-        x2 = [point2 absoluteTime] / 4.0;
-        y2 = [point2 semitone] + 20.0;
-        m2 = [point2 slope];
+        double x2 = [point2 absoluteTime] / 4.0;
+        double y2 = [point2 semitone] + 20.0;
+        double m2 = [point2 slope];
 
-        x12 = x1*x1;
-        x13 = x12*x1;
+        double x1_2 = x1*x1;
+        double x1_3 = x1_2*x1;
 
-        x22 = x2*x2;
-        x23 = x22*x2;
+        double x2_2 = x2*x2;
+        double x2_3 = x2_2*x2;
 
-        denominator = (x2 - x1);
+        double denominator = (x2 - x1);
         denominator = denominator * denominator * denominator;
 
-        d = ( -(y2*x13) + 3*y2*x12*x2 + m2*x13*x2 + m1*x12*x22 - m2*x12*x22 - 3*x1*y1*x22 - m1*x1*x23 + y1*x23) / denominator;
-        c = ( -(m2*x13) - 6*y2*x1*x2 - 2*m1*x12*x2 - m2*x12*x2 + 6*x1*y1*x2 + m1*x1*x22 + 2*m2*x1*x22 + m1*x23) / denominator;
-        b = ( 3*y2*x1 + m1*x12 + 2*m2*x12 - 3*x1*y1 + 3*x2*y2 + m1*x1*x2 - m2*x1*x2 - 3*y1*x2 - 2*m1*x22 - m2*x22) / denominator;
-        a = ( -2*y2 - m1*x1 - m2*x1 + 2*y1 + m1*x2 + m2*x2) / denominator;
+        //double d = ( -(y2*x1_3) + 3*y2*x1_2*x2 + m2*x1_3*x2 + m1*x1_2*x2_2 - m2*x1_2*x2_2 - 3*x1*y1*x2_2 - m1*x1*x2_3 + y1*x2_3) / denominator;
+        double c = ( -(m2*x1_3) - 6*y2*x1*x2 - 2*m1*x1_2*x2 - m2*x1_2*x2 + 6*x1*y1*x2 + m1*x1*x2_2 + 2*m2*x1*x2_2 + m1*x2_3) / denominator;
+        double b = ( 3*y2*x1 + m1*x1_2 + 2*m2*x1_2 - 3*x1*y1 + 3*x2*y2 + m1*x1*x2 - m2*x1*x2 - 3*y1*x2 - 2*m1*x2_2 - m2*x2_2) / denominator;
+        double a = ( -2*y2 - m1*x1 - m2*x1 + 2*y1 + m1*x2 + m2*x2) / denominator;
 
         [self insertEvent:32 atTimeOffset:[point1 absoluteTime] withValue:[point1 semitone]];
 
-        yTemp = (3.0 * a * x12) + (2.0 * b * x1) + c;
+        double yTemp = (3.0 * a * x1_2) + (2.0 * b * x1) + c;
         //NSLog(@"time: %.2f", [point1 absoluteTime]);
         //NSLog(@"index: %d, inserting event 33: %7.3f", index, yTemp);
         [self insertEvent:33 atTimeOffset:[point1 absoluteTime] withValue:yTemp];
@@ -1437,32 +1436,21 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 // So that we can reapply the current intonation to the events.
 - (void)clearIntonationEvents;
 {
-    [self clearEventNumber:32];
-    [self clearEventNumber:33];
-    [self clearEventNumber:34];
-    [self clearEventNumber:35];
-    [self removeEmptyEvents];
-}
-
-- (void)clearEventNumber:(NSUInteger)number;
-{
     for (Event *event in events) {
-        [event setValue:NaN atIndex:number];
+        [event setValue:NaN atIndex:32];
+        [event setValue:NaN atIndex:33];
+        [event setValue:NaN atIndex:34];
+        [event setValue:NaN atIndex:35];
     }
 }
 
-- (void)removeEmptyEvents;
-{
-    // TODO (2004-08-17): not yet implemented.
-}
-
-- (void)intonationPointTimeDidChange:(MMIntonationPoint *)anIntonationPoint;
+- (void)intonationPointTimeDidChange:(MMIntonationPoint *)intonationPoint;
 {
     self.intonationPointsNeedSorting = YES;
-    [self intonationPointDidChange:anIntonationPoint];
+    [self intonationPointDidChange:intonationPoint];
 }
 
-- (void)intonationPointDidChange:(MMIntonationPoint *)anIntonationPoint;
+- (void)intonationPointDidChange:(MMIntonationPoint *)intonationPoint;
 {
     NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:NSKeyValueChangeSetting], NSKeyValueChangeKindKey, nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidChangeIntonationPoints object:self userInfo:userInfo];
@@ -1473,13 +1461,13 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
 #pragma mark - Archiving - XML
 
-- (BOOL)writeXMLToFile:(NSString *)aFilename comment:(NSString *)aComment;
+- (BOOL)writeXMLToFile:(NSString *)filename comment:(NSString *)comment;
 {
     NSMutableString *resultString = [[NSMutableString alloc] init];
     [resultString appendString:@"<?xml version='1.0' encoding='utf-8'?>\n"];
     //[resultString appendString:@"<!DOCTYPE root PUBLIC \"\" \"monet-v1.dtd\">\n"];
-    if (aComment != nil)
-        [resultString appendFormat:@"<!-- %@ -->\n", aComment];
+    if (comment != nil)
+        [resultString appendFormat:@"<!-- %@ -->\n", comment];
     [resultString appendString:@"<intonation-contour version='1'>\n"];
 
     [resultString indentToLevel:1];
@@ -1489,7 +1477,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
     [resultString appendString:@"</intonation-contour>\n"];
 
-    BOOL result = [[resultString dataUsingEncoding:NSUTF8StringEncoding] writeToFile:aFilename atomically:YES];
+    BOOL result = [[resultString dataUsingEncoding:NSUTF8StringEncoding] writeToFile:filename atomically:YES];
 
     [resultString release];
 
@@ -1521,14 +1509,14 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     return result;
 }
 
-- (void)loadStoredPhoneString:(NSString *)aPhoneString;
+- (void)loadStoredPhoneString:(NSString *)str;
 {
-    [self parsePhoneString:aPhoneString];
+    [self parsePhoneString:str];
     [self applyRhythm];
     [self applyRules];
 }
 
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributes;
 {
     if (parseState == PARSE_STATE_INITIAL) {
         if ([elementName isEqualToString:@"intonation-contour"]) {

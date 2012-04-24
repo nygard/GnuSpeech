@@ -48,11 +48,11 @@
 {
     // Duration of the rule itself
     switch (whichPhone) {
-        case MMPhoneIndex_RuleDuration: return ruleSymbols->ruleDuration;
-        case MMPhoneIndex_Beat:         return ruleSymbols->beat;
-        case MMPhoneIndex_Mark1:        return ruleSymbols->mark1;
-        case MMPhoneIndex_Mark2:        return ruleSymbols->mark2;
-        case MMPhoneIndex_Mark3:        return ruleSymbols->mark3;
+        case MMPhoneIndex_RuleDuration: return ruleSymbols.ruleDuration;
+        case MMPhoneIndex_Beat:         return ruleSymbols.beat;
+        case MMPhoneIndex_Mark1:        return ruleSymbols.mark1;
+        case MMPhoneIndex_Mark2:        return ruleSymbols.mark2;
+        case MMPhoneIndex_Mark3:        return ruleSymbols.mark3;
         case MMPhoneIndex_Tempo0:       return tempos[0];
         case MMPhoneIndex_Tempo1:       return tempos[1];
         case MMPhoneIndex_Tempo2:       return tempos[2];

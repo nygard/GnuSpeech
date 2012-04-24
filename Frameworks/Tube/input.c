@@ -129,7 +129,7 @@ TRMDataList *parseInputFile(const char *inputFile)
         data.inputParameters.lossFactor = strtod(line, NULL);
 
 
-    // Getthe aperture scaling radius
+    // Get the aperture scaling radius
     if (fgets(line, 128, fp) == NULL) {
         fprintf(stderr, "Can't read aperture scaling radius.\n");
         return NULL;

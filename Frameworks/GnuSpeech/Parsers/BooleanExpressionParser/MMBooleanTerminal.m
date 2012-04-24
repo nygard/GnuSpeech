@@ -96,7 +96,7 @@
     }
 }
 
-- (BOOL)isCategoryUsed:(MMCategory *)category;
+- (BOOL)usesCategory:(MMCategory *)category;
 {
     if (self.category == category)
         return YES;

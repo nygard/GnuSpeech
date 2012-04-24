@@ -29,6 +29,7 @@
 #import <GnuSpeech/MMEquation.h>
 #import <GnuSpeech/MMGroup.h>
 #import <GnuSpeech/MMGroupedObject.h>
+#import <GnuSpeech/MMIntonationParameters.h>
 #import <GnuSpeech/MMIntonationPoint.h>
 #import <GnuSpeech/MMNamedObject.h>
 #import <GnuSpeech/MMObject.h>
@@ -45,7 +46,6 @@
 #import <GnuSpeech/MMTarget.h>
 #import <GnuSpeech/MMTextToPhone.h>
 #import <GnuSpeech/MMTransition.h>
-#import <GnuSpeech/MonetDefaults.h>
 
 // Parsers
 #import <GnuSpeech/GSParser.h>

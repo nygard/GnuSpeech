@@ -2,12 +2,9 @@
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import <Foundation/Foundation.h>
-#include <stdio.h>
 
 @class MMGroup;
 @class MMCategory, MMEquation, MMParameter, MMPosture, MMRule, MMSymbol, MMSynthesisParameters, MMTransition;
-
-extern NSString *MCategoryInUseException;
 
 @interface MModel : NSObject <NSXMLParserDelegate>
 
@@ -24,74 +21,56 @@ extern NSString *MCategoryInUseException;
 @property (readonly) NSMutableArray *rules;
 
 // Categories
-- (void)addCategory:(MMCategory *)newCategory;
-- (BOOL)isCategoryUsed:(MMCategory *)aCategory;
-- (void)removeCategory:(MMCategory *)aCategory;
-- (MMCategory *)categoryWithName:(NSString *)aName;
+- (void)addCategory:(MMCategory *)category;
+- (BOOL)isCategoryUsed:(MMCategory *)category;
+- (BOOL)removeCategory:(MMCategory *)category;
+- (MMCategory *)categoryWithName:(NSString *)name;
 
 // Parameters
-- (void)addParameter:(MMParameter *)newParameter;
-- (void)removeParameter:(MMParameter *)aParameter;
+- (void)addParameter:(MMParameter *)parameter;
+- (void)removeParameter:(MMParameter *)parameter;
 
 // Meta Parameters
-- (void)addMetaParameter:(MMParameter *)newParameter;
-- (void)removeMetaParameter:(MMParameter *)aParameter;
+- (void)addMetaParameter:(MMParameter *)parameter;
+- (void)removeMetaParameter:(MMParameter *)parameter;
 
 // Symbols
-- (void)addSymbol:(MMSymbol *)newSymbol;
-- (void)removeSymbol:(MMSymbol *)aSymbol;
-- (MMSymbol *)symbolWithName:(NSString *)aName;
+- (void)addSymbol:(MMSymbol *)symbol;
+- (void)removeSymbol:(MMSymbol *)symbol;
+- (MMSymbol *)symbolWithName:(NSString *)name;
 
 // Postures
-- (void)addPosture:(MMPosture *)newPosture;
-- (void)removePosture:(MMPosture *)aPosture;
+- (void)addPosture:(MMPosture *)posture;
+- (void)removePosture:(MMPosture *)posture;
 - (void)sortPostures;
-- (MMPosture *)postureWithName:(NSString *)aName;
+- (MMPosture *)postureWithName:(NSString *)name;
 
-- (void)addEquationGroup:(MMGroup *)newGroup;
-- (void)addTransitionGroup:(MMGroup *)newGroup;
-- (void)addSpecialTransitionGroup:(MMGroup *)newGroup;
+- (void)addEquationGroup:(MMGroup *)group;
+- (void)addTransitionGroup:(MMGroup *)group;
+- (void)addSpecialTransitionGroup:(MMGroup *)group;
 
-- (MMEquation *)findEquationWithName:(NSString *)anEquationName;
-- (MMTransition *)findTransitionWithName:(NSString *)aTransitionName;
-- (MMTransition *)findSpecialTransitionWithName:(NSString *)aTransitionName;
+- (MMEquation *)findEquationWithName:(NSString *)name;
+- (MMTransition *)findTransitionWithName:(NSString *)name;
+- (MMTransition *)findSpecialTransitionWithName:(NSString *)name;
 
-- (MMEquation *)findEquationList:(NSString *)aListName named:(NSString *)anEquationName;
-- (void)findList:(NSUInteger *)listIndex andIndex:(NSUInteger *)equationIndex ofEquation:(MMEquation *)anEquation;
-- (MMEquation *)findEquation:(NSUInteger)listIndex andIndex:(NSUInteger)equationIndex;
+- (MMEquation *)findEquationWithName:(NSString *)equationName inGroupWithName:(NSString *)groupName;
+- (MMTransition *)findTransitionWithName:(NSString *)transitionName inGroupWithName:(NSString *)groupName;
 
-- (MMTransition *)findTransitionList:(NSString *)aListName named:(NSString *)aTransitionName;
-- (void)findList:(NSUInteger *)listIndex andIndex:(NSUInteger *)transitionIndex ofTransition:(MMTransition *)aTransition;
-- (MMTransition *)findTransition:(NSUInteger)listIndex andIndex:(NSUInteger)transitionIndex;
-
-- (MMTransition *)findSpecialList:(NSString *)aListName named:(NSString *)aSpecialName;
-- (void)findList:(NSUInteger *)listIndex andIndex:(NSUInteger *)specialIndex ofSpecial:(MMTransition *)aTransition;
-- (MMTransition *)findSpecial:(NSUInteger)listIndex andIndex:(NSUInteger)specialIndex;
-
-- (NSArray *)usageOfEquation:(MMEquation *)anEquation;
-- (NSArray *)usageOfTransition:(MMTransition *)aTransition;
+- (NSArray *)usageOfEquation:(MMEquation *)equation;
+- (NSArray *)usageOfTransition:(MMTransition *)transition;
 
 // Rules
-- (void)addRule:(MMRule *)newRule;
+- (void)addRule:(MMRule *)rule;
 - (MMRule *)findRuleMatchingCategories:(NSArray *)categoryLists ruleIndex:(NSInteger *)indexPtr;
 
 // Archiving - XML
-- (BOOL)writeXMLToFile:(NSString *)aFilename comment:(NSString *)aComment;
+- (BOOL)writeXMLToFile:(NSString *)filename comment:(NSString *)comment;
 
-// Archiving - Degas support
-- (void)readDegasFileFormat:(FILE *)fp;
-- (void)readParametersFromDegasFile:(FILE *)fp;
-- (void)readCategoriesFromDegasFile:(FILE *)fp;
-- (void)readPosturesFromDegasFile:(FILE *)fp;
-- (void)readRulesFromDegasFile:(FILE *)fp;
-
-- (void)writeDataToFile:(FILE *)fp;
-
-- (int)nextCacheTag;
-- (void)parameter:(MMParameter *)aParameter willChangeDefaultValue:(double)newDefaultValue;
-- (void)symbol:(MMSymbol *)aSymbol willChangeDefaultValue:(double)newDefaultValue;
+- (NSUInteger)nextCacheTag;
+- (void)parameter:(MMParameter *)parameter willChangeDefaultValue:(double)newDefaultValue;
+- (void)symbol:(MMSymbol *)symbol willChangeDefaultValue:(double)newDefaultValue;
 
 // Other
-- (MMSynthesisParameters *)synthesisParameters;
+@property (readonly) MMSynthesisParameters *synthesisParameters;
 
 @end

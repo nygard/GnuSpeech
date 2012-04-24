@@ -2,10 +2,12 @@
 //  Copyright (c) 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 // MMF - Monet Model Formula
-typedef struct _MMFRuleSymbols {
-    double ruleDuration; // 0
-    double beat;         // 1
-    double mark1;        // 2
-    double mark2;        // 3
-    double mark3;        // 4
-} MMFRuleSymbols;
+@interface MMFRuleSymbols : NSObject
+
+@property (assign) double ruleDuration;
+@property (assign) double beat;
+@property (assign) double mark1;
+@property (assign) double mark2;
+@property (assign) double mark3;
+
+@end;

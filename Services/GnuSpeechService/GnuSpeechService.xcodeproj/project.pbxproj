@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		010DE75E154640DF005E337E /* GnuSpeech.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 010DE75B15463FFB005E337E /* GnuSpeech.framework */; };
 		6903B8460F10B159006DE708 /* GnuSpeechService.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E14A290F107F7C008CE33B /* GnuSpeechService.h */; };
 		6903B8470F10B166006DE708 /* GnuSpeechService_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32CA4F630368D1EE00C91783 /* GnuSpeechService_Prefix.pch */; };
 		6933ACCA0F8EB26100D30AF6 /* ChangeLog.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6933ACC90F8EB26100D30AF6 /* ChangeLog.txt */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		010DE75B15463FFB005E337E /* GnuSpeech.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GnuSpeech.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/GnuSpeech-asltgrlxcnhnopcwrardgfljqcve/Build/Products/Debug/GnuSpeech.framework"; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* GnuSpeechService_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GnuSpeechService_Prefix.pch; sourceTree = "<group>"; };
@@ -35,6 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				010DE75E154640DF005E337E /* GnuSpeech.framework in Frameworks */,
 				69E14A450F10819C008CE33B /* AppKit.framework in Frameworks */,
 				69E14A460F10819C008CE33B /* Foundation.framework in Frameworks */,
 			);
@@ -79,6 +82,7 @@
 		29B97314FDCFA39411CA2CEA /* GnuSpeechService */ = {
 			isa = PBXGroup;
 			children = (
+				010DE75B15463FFB005E337E /* GnuSpeech.framework */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -200,6 +204,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../Library/Developer/Xcode/DerivedData/GnuSpeech-asltgrlxcnhnopcwrardgfljqcve/Build/Products/Debug\"",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -216,6 +224,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../Library/Developer/Xcode/DerivedData/GnuSpeech-asltgrlxcnhnopcwrardgfljqcve/Build/Products/Debug\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				INFOPLIST_FILE = "GnuSpeechService-Info.plist";
