@@ -510,24 +510,15 @@
 
 - (void)prepareForSynthesis;
 {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	
-    if ([parametersStore state]) {
-        NSError *error = nil;
-        if ([[[self model] synthesisParameters] writeToURL:[NSURL fileURLWithPath:@"/tmp/Monet.parameters"] error:&error] == NO) {
-            NSLog(@"Error writing synthesis parameters: %@", error);
-        }
-    }
-	
     [eventList setUp];
 	
     [eventList setPitchMean:[[[self model] synthesisParameters] pitch]];
     [eventList setGlobalTempo:[tempoField doubleValue]];
-    [eventList setShouldStoreParameters:[parametersStore state]];
 	
-    [eventList setShouldUseMacroIntonation:[defaults boolForKey:MDK_ShouldUseMacroIntonation]];
-    [eventList setShouldUseMicroIntonation:[defaults boolForKey:MDK_ShouldUseMicroIntonation]];
-    [eventList setShouldUseDrift:[defaults boolForKey:MDK_ShouldUseDrift]];
+    [eventList setShouldUseMacroIntonation:[[NSUserDefaults standardUserDefaults] boolForKey:MDK_ShouldUseMacroIntonation]];
+    [eventList setShouldUseMicroIntonation:[[NSUserDefaults standardUserDefaults] boolForKey:MDK_ShouldUseMicroIntonation]];
+    [eventList setShouldUseDrift:[[NSUserDefaults standardUserDefaults] boolForKey:MDK_ShouldUseDrift]];
+
     NSLog(@"%s, drift deviation: %f, cutoff: %f", __PRETTY_FUNCTION__, [driftDeviationField floatValue], [driftCutoffField floatValue]);
     [eventList.driftGenerator configureWithDeviation:[driftDeviationField floatValue] sampleRate:500 lowpassCutoff:[driftCutoffField floatValue]];
     //[eventList.driftGenerator setupWithDeviation:0.5 sampleRate:250 lowpassCutoff:0.5];
@@ -549,7 +540,15 @@
 	
     [synthesizer setupSynthesisParameters:[[self model] synthesisParameters]]; // TODO (2004-08-22): This may overwrite the file type...
     [synthesizer removeAllParameters];
-	
+
+    [eventList setShouldStoreParameters:[parametersStore state]];
+    if ([parametersStore state]) {
+        NSError *error = nil;
+        if ([[[self model] synthesisParameters] writeToURL:[NSURL fileURLWithPath:@"/tmp/Monet.parameters"] error:&error] == NO) {
+            NSLog(@"Error writing synthesis parameters: %@", error);
+        }
+    }
+    
     [eventList setDelegate:synthesizer];
     [eventList generateOutput];
     [eventList setDelegate:nil];
