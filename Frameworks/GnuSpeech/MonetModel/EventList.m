@@ -137,7 +137,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     NSMutableArray *events;
     NSMutableArray *intonationPoints; // Sorted by absolute time
     
-    id delegate;
+    __weak id <EventListDelegate> nonretained_delegate;
     
     // Hack for inflexible XML parsing.  I have plan to change how I parse XML.
     NSUInteger parseState;
@@ -181,7 +181,6 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     [intonationPoints release];
     [m_intonationParameters release];
     [m_toneGroups release];
-    [delegate release];
 
     [super dealloc];
 }
@@ -206,7 +205,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     }
 }
 
-@synthesize delegate;
+@synthesize delegate = nonretained_delegate;
 @synthesize phoneString;
 
 // The zero reference is TIME.
@@ -931,6 +930,8 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 {
     //NSLog(@"%s, self: %@", _cmd, self);
 
+    [self.delegate eventListWillGenerateOutput:self];
+    
     if ([events count] == 0)
         return;
 
@@ -1023,8 +1024,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
                     table[8], table[9], table[10], table[11],
                     table[12], table[13], table[14], table[15]);
 
-        if (self.delegate != nil && [self.delegate respondsToSelector:@selector(addParameters:)])
-            [self.delegate addParameters:table];
+        [self.delegate eventList:self generatedOutputValues:table valueCount:16];
 
         for (NSUInteger j = 0; j < 32; j++) {
             if (currentDeltas[j]) // TODO (2012-04-23): Just add unconditionally
@@ -1230,6 +1230,8 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
     [self setZeroRef:(int)(ruleSymbols.ruleDuration * self.multiplier) + zeroRef];
     [[self insertEvent:-1 atTimeOffset:0.0 withValue:0.0] setFlag:YES];
+    
+    [self.delegate eventListDidGenerateOutput:self];
 }
 
 #pragma mark - Debugging

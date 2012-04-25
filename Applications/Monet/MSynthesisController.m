@@ -23,7 +23,7 @@
 #define MDK_SoundOutputDirectory       @"SoundOutputDirectory"
 #define MDK_IntonationContourDirectory @"IntonationContourDirectory"
 
-@interface MSynthesisController () <NSTableViewDataSource, NSTableViewDelegate, NSComboBoxDelegate, NSTextViewDelegate>
+@interface MSynthesisController () <NSTableViewDataSource, NSTableViewDelegate, NSComboBoxDelegate, NSTextViewDelegate, EventListDelegate>
 
 @property (readonly) EventList *eventList;
 
@@ -41,6 +41,8 @@
 
 - (void)intonationPointDidChange:(NSNotification *)aNotification;
 - (void)saveGraphImagesToPath:(NSString *)basePath;
+
+@property (readonly) TRMSynthesizer *synthesizer;
 
 @end
 
@@ -94,7 +96,7 @@
     NSMutableArray *displayParameters;
     EventList *eventList;
 	
-    TRMSynthesizer *synthesizer;
+    TRMSynthesizer *m_synthesizer;
 	
 	MMTextToPhone *textToPhone;
 	
@@ -135,7 +137,7 @@
         
         [self setWindowFrameAutosaveName:@"Synthesis"];
         
-        synthesizer = [[TRMSynthesizer alloc] init];
+        m_synthesizer = [[TRMSynthesizer alloc] init];
         
         textToPhone = [[MMTextToPhone alloc] init];
         
@@ -157,7 +159,7 @@
     [model release];
     [displayParameters release];
     [eventList release];
-    [synthesizer release];
+    [m_synthesizer release];
 	[textToPhone release];
 	
     [intonationPrintInfo release];
@@ -168,6 +170,7 @@
 #pragma mark -
 
 @synthesize eventList;
+@synthesize synthesizer = m_synthesizer;
 
 - (MModel *)model;
 {
@@ -407,7 +410,7 @@
 - (IBAction)synthesizeWithSoftware:(id)sender;
 {
     NSLog(@" > %s", __PRETTY_FUNCTION__);
-    [synthesizer setShouldSaveToSoundFile:NO];
+    [self.synthesizer setShouldSaveToSoundFile:NO];
     [self synthesize];
     NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
@@ -430,9 +433,9 @@
     [savePanel beginSheetModalForWindow:[self window] completionHandler:^(NSInteger result){
         if (result == NSFileHandlingPanelOKButton) {
             [[NSUserDefaults standardUserDefaults] setObject:[[savePanel directoryURL] path] forKey:MDK_SoundOutputDirectory];
-            [synthesizer setShouldSaveToSoundFile:YES];
-            [synthesizer setFileType:[[fileTypePopUpButton selectedItem] tag]];
-            [synthesizer setFilename:[[savePanel URL] path]];
+            [self.synthesizer setShouldSaveToSoundFile:YES];
+            [self.synthesizer setFileType:[[fileTypePopUpButton selectedItem] tag]];
+            [self.synthesizer setFilename:[[savePanel URL] path]];
             [self synthesize];
         }
     }];
@@ -504,7 +507,7 @@
 - (IBAction)synthesizeWithContour:(id)sender;
 {
     [eventList clearIntonationEvents];
-    [synthesizer setShouldSaveToSoundFile:NO];
+    [self.synthesizer setShouldSaveToSoundFile:NO];
     [self continueSynthesis];
 }
 
@@ -538,8 +541,8 @@
     //[eventList printDataStructures:@"Before synthesis"];
     [eventTableView reloadData];
 	
-    [synthesizer setupSynthesisParameters:[[self model] synthesisParameters]]; // TODO (2004-08-22): This may overwrite the file type...
-    [synthesizer removeAllParameters];
+    [self.synthesizer setupSynthesisParameters:[[self model] synthesisParameters]]; // TODO (2004-08-22): This may overwrite the file type...
+    [self.synthesizer removeAllParameters];
 
     [eventList setShouldStoreParameters:[parametersStore state]];
     if ([parametersStore state]) {
@@ -549,11 +552,11 @@
         }
     }
     
-    [eventList setDelegate:synthesizer];
+    [eventList setDelegate:self];
     [eventList generateOutput];
     [eventList setDelegate:nil];
 	
-    [synthesizer synthesize];
+    [self.synthesizer synthesize];
 	
     [eventListView setEventList:eventList];
     [eventListView display]; // TODO (2004-03-17): It's not updating otherwise
@@ -674,10 +677,10 @@
 	
     [[html dataUsingEncoding:NSUTF8StringEncoding] writeToFile:[basePath stringByAppendingPathComponent:@"index.html"] atomically:YES];
 	
-    [synthesizer setFileType:0];
-    [synthesizer setFilename:[basePath stringByAppendingPathComponent:@"output.au"]];
-    [synthesizer setShouldSaveToSoundFile:YES];
-    [synthesizer synthesize];
+    [self.synthesizer setFileType:0];
+    [self.synthesizer setFilename:[basePath stringByAppendingPathComponent:@"output.au"]];
+    [self.synthesizer setShouldSaveToSoundFile:YES];
+    [self.synthesizer synthesize];
 	
     [jpegProperties release];
 	
@@ -969,6 +972,27 @@
 - (IBAction)updateDrift:(id)sender;
 {
     [[NSUserDefaults standardUserDefaults] setBool:[[sender selectedCell] state] forKey:MDK_ShouldUseDrift];
+}
+
+#pragma mark - EventListDelegate
+
+- (void)eventListWillGenerateOutput:(EventList *)eventList;
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    // Open file and save initial parameters
+}
+
+- (void)eventList:(EventList *)eventList generatedOutputValues:(float *)valPtr valueCount:(NSUInteger)count;
+{
+    //NSLog(@"%s", __PRETTY_FUNCTION__);
+    [self.synthesizer addParameters:valPtr];
+    // Write values to file
+}
+
+- (void)eventListDidGenerateOutput:(EventList *)eventList;
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    // Close file
 }
 
 @end

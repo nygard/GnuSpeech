@@ -14,14 +14,15 @@ struct _rule {
     double beat; // absolute time of beat, in milliseconds
 };
 
-extern NSString *EventListDidChangeIntonationPoints;
+@protocol EventListDelegate;
+
 
 @class MMIntonationParameters;
 
 @interface EventList : NSObject
 
 @property (nonatomic, retain) MModel *model;
-@property (retain) id delegate;
+@property (weak) id <EventListDelegate> delegate;
 
 @property (retain) NSString *phoneString;
 
@@ -96,3 +97,14 @@ extern NSString *EventListDidChangeIntonationPoints;
 @property (readonly) MMDriftGenerator *driftGenerator;
 
 @end
+
+#pragma mark -
+
+@protocol EventListDelegate <NSObject>
+- (void)eventListWillGenerateOutput:(EventList *)eventList;
+- (void)eventList:(EventList *)eventList generatedOutputValues:(float *)valPtr valueCount:(NSUInteger)count;
+- (void)eventListDidGenerateOutput:(EventList *)eventList;
+@end
+
+extern NSString *EventListDidChangeIntonationPoints;
+
