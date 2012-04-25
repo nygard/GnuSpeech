@@ -849,6 +849,7 @@
             NSInteger index = [identifier intValue] + rowOffset * 16;
             if (rowOffset == 0 || index < 32) {
                 double value = [[[eventList events] objectAtIndex:eventNumber] getValueAtIndex:index];
+                if (value == NaN) return nil;
                 return [NSNumber numberWithDouble:value];
             }
         }
