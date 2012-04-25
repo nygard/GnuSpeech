@@ -5,6 +5,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include <math.h>
 #include "tube.h"
 #include "util.h"
@@ -59,6 +60,10 @@ void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMDataList 
 
     /*  Open the output file  */
     fd = fopen(fileName, "wb");
+    if (fd == NULL) {
+        perror("fopen");
+        exit(-1);
+    }
 
     /*  Scale and write out samples to the output file  */
     if (data->inputParameters.outputFileFormat == AU_FILE_FORMAT) {

@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01115F7F1547C35A002ABAAF /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 01115F7E1547C35A002ABAAF /* main.c */; };
+		01115F891547C381002ABAAF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01115F881547C381002ABAAF /* Foundation.framework */; };
+		01115F941547C399002ABAAF /* fir.c in Sources */ = {isa = PBXBuildFile; fileRef = 01AC656B0B7BF4D8008E4B93 /* fir.c */; };
+		01115F961547C399002ABAAF /* input.c in Sources */ = {isa = PBXBuildFile; fileRef = 01AC656D0B7BF4D8008E4B93 /* input.c */; };
+		01115F981547C399002ABAAF /* output.c in Sources */ = {isa = PBXBuildFile; fileRef = 01AC656F0B7BF4D8008E4B93 /* output.c */; };
+		01115F9A1547C399002ABAAF /* ring_buffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 01AC65710B7BF4D8008E4B93 /* ring_buffer.c */; };
+		01115F9D1547C399002ABAAF /* tube.c in Sources */ = {isa = PBXBuildFile; fileRef = 01AC65740B7BF4D8008E4B93 /* tube.c */; };
+		01115FA01547C399002ABAAF /* util.c in Sources */ = {isa = PBXBuildFile; fileRef = 01AC65770B7BF4D8008E4B93 /* util.c */; };
+		01115FA21547C399002ABAAF /* wavetable.c in Sources */ = {isa = PBXBuildFile; fileRef = 01AC65790B7BF4D8008E4B93 /* wavetable.c */; };
+		01115FA51547C3D4002ABAAF /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01115FA41547C3D3002ABAAF /* Accelerate.framework */; };
+		01115FA61547C43E002ABAAF /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 01115F7E1547C35A002ABAAF /* main.c */; };
 		0172DA14153FDD2F00413F56 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0172DA13153FDD2F00413F56 /* Accelerate.framework */; };
 		01AC657B0B7BF4D8008E4B93 /* fir.c in Sources */ = {isa = PBXBuildFile; fileRef = 01AC656B0B7BF4D8008E4B93 /* fir.c */; };
 		01AC657C0B7BF4D8008E4B93 /* fir.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC656C0B7BF4D8008E4B93 /* fir.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -28,7 +39,26 @@
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		01115F831547C381002ABAAF /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		01115F7E1547C35A002ABAAF /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		01115F851547C381002ABAAF /* softwareTRM */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = softwareTRM; sourceTree = BUILT_PRODUCTS_DIR; };
+		01115F881547C381002ABAAF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		01115F8B1547C381002ABAAF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		01115F8E1547C381002ABAAF /* softwareTRM-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "softwareTRM-Prefix.pch"; sourceTree = "<group>"; };
+		01115F8F1547C381002ABAAF /* softwareTRM.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = softwareTRM.1; sourceTree = "<group>"; };
+		01115FA41547C3D3002ABAAF /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/Accelerate.framework; sourceTree = DEVELOPER_DIR; };
 		0172DA13153FDD2F00413F56 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = /System/Library/Frameworks/Accelerate.framework; sourceTree = "<absolute>"; };
 		01AC656B0B7BF4D8008E4B93 /* fir.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = fir.c; sourceTree = "<group>"; };
 		01AC656C0B7BF4D8008E4B93 /* fir.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = fir.h; sourceTree = "<group>"; };
@@ -57,6 +87,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		01115F821547C381002ABAAF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				01115FA51547C3D4002ABAAF /* Accelerate.framework in Frameworks */,
+				01115F891547C381002ABAAF /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8DC2EF560486A6940098B216 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -68,10 +107,37 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		01115F871547C381002ABAAF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				01115F881547C381002ABAAF /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		01115F8A1547C381002ABAAF /* softwareTRM */ = {
+			isa = PBXGroup;
+			children = (
+				01115F8B1547C381002ABAAF /* main.m */,
+				01115F8F1547C381002ABAAF /* softwareTRM.1 */,
+				01115F8D1547C381002ABAAF /* Supporting Files */,
+			);
+			path = softwareTRM;
+			sourceTree = "<group>";
+		};
+		01115F8D1547C381002ABAAF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				01115F8E1547C381002ABAAF /* softwareTRM-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		034768DFFF38A50411DB9C8B /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				8DC2EF5B0486A6940098B216 /* Tube.framework */,
+				01115F851547C381002ABAAF /* softwareTRM */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -83,6 +149,8 @@
 				32C88DFF0371C24200C91783 /* Other Sources */,
 				089C1665FE841158C02AAC07 /* Resources */,
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				01115F8A1547C381002ABAAF /* softwareTRM */,
+				01115F871547C381002ABAAF /* Frameworks */,
 				034768DFFF38A50411DB9C8B /* Products */,
 			);
 			name = Tube;
@@ -126,6 +194,7 @@
 				01AC65780B7BF4D8008E4B93 /* util.h */,
 				01AC65790B7BF4D8008E4B93 /* wavetable.c */,
 				01AC657A0B7BF4D8008E4B93 /* wavetable.h */,
+				01115F7E1547C35A002ABAAF /* main.c */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -133,6 +202,7 @@
 		1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				01115FA41547C3D3002ABAAF /* Accelerate.framework */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
@@ -178,6 +248,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		01115F841547C381002ABAAF /* softwareTRM */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 01115F911547C381002ABAAF /* Build configuration list for PBXNativeTarget "softwareTRM" */;
+			buildPhases = (
+				01115F811547C381002ABAAF /* Sources */,
+				01115F821547C381002ABAAF /* Frameworks */,
+				01115F831547C381002ABAAF /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = softwareTRM;
+			productName = softwareTRM;
+			productReference = 01115F851547C381002ABAAF /* softwareTRM */;
+			productType = "com.apple.product-type.tool";
+		};
 		8DC2EF4F0486A6940098B216 /* Tube */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1DEB91AD08733DA50010E9CD /* Build configuration list for PBXNativeTarget "Tube" */;
@@ -215,6 +302,7 @@
 			projectRoot = ../..;
 			targets = (
 				8DC2EF4F0486A6940098B216 /* Tube */,
+				01115F841547C381002ABAAF /* softwareTRM */,
 			);
 		};
 /* End PBXProject section */
@@ -232,6 +320,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		01115F811547C381002ABAAF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				01115FA61547C43E002ABAAF /* main.c in Sources */,
+				01115F941547C399002ABAAF /* fir.c in Sources */,
+				01115F961547C399002ABAAF /* input.c in Sources */,
+				01115F981547C399002ABAAF /* output.c in Sources */,
+				01115F9A1547C399002ABAAF /* ring_buffer.c in Sources */,
+				01115F9D1547C399002ABAAF /* tube.c in Sources */,
+				01115FA01547C399002ABAAF /* util.c in Sources */,
+				01115FA21547C399002ABAAF /* wavetable.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8DC2EF540486A6940098B216 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -243,6 +346,7 @@
 				01AC65840B7BF4D8008E4B93 /* tube.c in Sources */,
 				01AC65870B7BF4D8008E4B93 /* util.c in Sources */,
 				01AC65890B7BF4D8008E4B93 /* wavetable.c in Sources */,
+				01115F7F1547C35A002ABAAF /* main.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,6 +364,41 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		01115F921547C381002ABAAF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=0",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		01115F931547C381002ABAAF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
 		1DEB91AE08733DA50010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -345,6 +484,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		01115F911547C381002ABAAF /* Build configuration list for PBXNativeTarget "softwareTRM" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				01115F921547C381002ABAAF /* Debug */,
+				01115F931547C381002ABAAF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		1DEB91AD08733DA50010E9CD /* Build configuration list for PBXNativeTarget "Tube" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
