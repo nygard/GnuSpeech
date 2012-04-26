@@ -87,6 +87,10 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 - (void)_applyFlatIntonation;
 - (void)_applySmoothIntonation;
 
+
+@property (retain) NSString *phoneString;
+
+
 @end
 
 #pragma mark -
@@ -94,8 +98,6 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 @implementation EventList
 {
     MModel *model;
-    
-    MMPostureRewriter *postureRewriter;
     
     NSString *phoneString;
     
@@ -148,7 +150,6 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 {
     if ((self = [super init])) {
         model = nil;
-        postureRewriter = [[MMPostureRewriter alloc] initWithModel:nil];
         phoneString = nil;
         
         events = [[NSMutableArray alloc] init];
@@ -173,7 +174,6 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 - (void)dealloc;
 {
     [model release];
-    [postureRewriter release];
     [phoneString release];
 
     [events release];
@@ -199,8 +199,6 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
         [model release];
         model = [newModel retain];
-
-        [postureRewriter setModel:model];
     }
 }
 
@@ -596,7 +594,9 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     BOOL wordMarker = NO;
 
     self.phoneString = str;
-    [postureRewriter resetState];
+    
+    MMPostureRewriter *postureRewriter = [[[MMPostureRewriter alloc] initWithModel:self.model] autorelease];
+    //[postureRewriter resetState];
 
     NSScanner *scanner = [[[NSScanner alloc] initWithString:str] autorelease];
     [scanner setCharactersToBeSkipped:nil];

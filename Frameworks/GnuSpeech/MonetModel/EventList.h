@@ -24,9 +24,6 @@ struct _rule {
 @property (nonatomic, retain) MModel *model;
 @property (weak) id <EventListDelegate> delegate;
 
-@property (retain) NSString *phoneString;
-
-
 @property (assign) NSUInteger duration;
 @property (assign) NSUInteger timeQuantization;
 
