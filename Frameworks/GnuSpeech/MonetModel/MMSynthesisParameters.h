@@ -21,6 +21,8 @@ enum {
 };
 typedef NSUInteger MMChannels;
 
+@class STLogger;
+
 @interface MMSynthesisParameters : NSObject
 
 - (void)restoreDefaultValues;
@@ -54,6 +56,9 @@ typedef NSUInteger MMChannels;
 
 @property (nonatomic, readonly) double sampleRate;
 
+@property (nonatomic, readonly) NSString *parameterString;
+
 - (BOOL)writeToURL:(NSURL *)url error:(NSError **)error;
+- (void)logToLogger:(STLogger *)logger;
 
 @end

@@ -3,6 +3,8 @@
 
 #import "MMSynthesisParameters.h"
 
+#import "STLogger.h"
+
 // MDK: Monet Default Key
 #define MDK_OWNER		            @"MONET"
 
@@ -275,12 +277,12 @@ MMChannels MMChannelsFromString(NSString *string)
     return MMSampleRate(self.samplingRate);
 }
 
-- (BOOL)writeToURL:(NSURL *)url error:(NSError **)error;
+- (NSString *)parameterString;
 {
     NSMutableString *str = [NSMutableString string];
     
     [str appendFormat:@"%u\t\t; %@\n",  0,                        @"output file format (0 = AU, 1 = AIFF, 2 = WAVE)"];
-    [str appendFormat:@"%g\t; %@\n",    self.sampleRate,          @"output sample rate (22050.0, 44100.0)"];
+    [str appendFormat:@"%g\t\t; %@\n",  self.sampleRate,          @"output sample rate (22050.0, 44100.0)"];
     [str appendFormat:@"%u\t\t; %@\n",  250,                      @"input control rate (1 - 1000 Hz)"];
     [str appendFormat:@"%f\t; %@\n",    masterVolume,             @"master volume (0 - 60 dB)"];
     [str appendFormat:@"%lu\t\t; %@\n", outputChannels + 1,       @"number of sound output channels (1 or 2)"];
@@ -304,9 +306,20 @@ MMChannels MMChannelsFromString(NSString *string)
     [str appendFormat:@"%f\t; %@\n",    throatCutoff,             @"throat lowpass frequency cutoff (50 - nyquist Hz)"];
     [str appendFormat:@"%f\t; %@\n",    throatVolume,             @"throat volume (0 - 48 dB)"];
     [str appendFormat:@"%d\t\t; %@\n",  shouldUseNoiseModulation, @"pulse modulation of noise (0 = off, 1 = on)"];
-    [str appendFormat:@"%f\t; %@\n",    mixOffset,                @"noise crossmix offset (30 - 60 db)"];
+    [str appendFormat:@"%f\t; %@",    mixOffset,                @"noise crossmix offset (30 - 60 db)"];
     
-    return [str writeToURL:url atomically:YES encoding:NSUTF8StringEncoding error:error];
+    return str;
+}
+
+- (BOOL)writeToURL:(NSURL *)url error:(NSError **)error;
+{
+    return [self.parameterString writeToURL:url atomically:YES encoding:NSUTF8StringEncoding error:error];
+}
+
+- (void)logToLogger:(STLogger *)logger;
+{
+    // Well, this isn't perfect, it wouldn't get the proper indentation and prefix from the logger.
+    [logger log:self.parameterString];
 }
 
 @end

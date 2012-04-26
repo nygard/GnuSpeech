@@ -70,3 +70,7 @@
 // Tube
 #import <GnuSpeech/TRMData.h>
 #import <GnuSpeech/TRMSynthesizer.h>
+
+// Other
+#import <GnuSpeech/STLogger.h>
+

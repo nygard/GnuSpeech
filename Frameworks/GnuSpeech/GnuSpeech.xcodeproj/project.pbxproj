@@ -99,6 +99,8 @@
 		0155E4770B7BE92A008D8879 /* TRMSynthesizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E4730B7BE92A008D8879 /* TRMSynthesizer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0155E4780B7BE92A008D8879 /* TRMSynthesizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E4740B7BE92A008D8879 /* TRMSynthesizer.m */; };
 		0157785815410A48008C2ECF /* GnuSpeechServerProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AE22D7154109B200AC1015 /* GnuSpeechServerProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		015E9CD2154932E200E6974F /* STLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 015E9CD0154932E100E6974F /* STLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		015E9CD3154932E200E6974F /* STLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 015E9CD1154932E200E6974F /* STLogger.m */; };
 		0165043D1543B42700D64E98 /* MMDriftGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 0165043B1543B42700D64E98 /* MMDriftGenerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0165043E1543B42700D64E98 /* MMDriftGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0165043C1543B42700D64E98 /* MMDriftGenerator.m */; };
 		019745A2153F855000695CD7 /* NSData-STExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 019745A0153F854F00695CD7 /* NSData-STExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -295,6 +297,8 @@
 		0155E4740B7BE92A008D8879 /* TRMSynthesizer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = TRMSynthesizer.m; path = Tube/TRMSynthesizer.m; sourceTree = "<group>"; };
 		0155E4E00B7BF107008D8879 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = /System/Library/Frameworks/AudioToolbox.framework; sourceTree = "<absolute>"; };
 		0155E4E10B7BF107008D8879 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = /System/Library/Frameworks/AudioUnit.framework; sourceTree = "<absolute>"; };
+		015E9CD0154932E100E6974F /* STLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STLogger.h; sourceTree = "<group>"; };
+		015E9CD1154932E200E6974F /* STLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STLogger.m; sourceTree = "<group>"; };
 		0165043B1543B42700D64E98 /* MMDriftGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMDriftGenerator.h; path = MonetModel/MMDriftGenerator.h; sourceTree = "<group>"; };
 		0165043C1543B42700D64E98 /* MMDriftGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMDriftGenerator.m; path = MonetModel/MMDriftGenerator.m; sourceTree = "<group>"; };
 		019745A0153F854F00695CD7 /* NSData-STExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData-STExtensions.h"; path = "Extensions/NSData-STExtensions.h"; sourceTree = "<group>"; };
@@ -624,6 +628,8 @@
 				012D53A00B7FF9BD001B50FC /* Text Processing */,
 				0155E4700B7BE906008D8879 /* Tube */,
 				01AE22D7154109B200AC1015 /* GnuSpeechServerProtocol.h */,
+				015E9CD0154932E100E6974F /* STLogger.h */,
+				015E9CD1154932E200E6974F /* STLogger.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -801,6 +807,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				015E9CD2154932E200E6974F /* STLogger.h in Headers */,
 				010DE7331545598D005E337E /* MMToneGroup.h in Headers */,
 				01B4561115452BE400D00A1A /* MMIntonationParameters.h in Headers */,
 				01ACA5E01544A80A00278339 /* MMGroupedObject.h in Headers */,
@@ -1052,6 +1059,7 @@
 				01B4561215452BE400D00A1A /* MMIntonationParameters.m in Sources */,
 				010DE7341545598D005E337E /* MMToneGroup.m in Sources */,
 				010DE75A15463851005E337E /* MMFRuleSymbols.m in Sources */,
+				015E9CD3154932E200E6974F /* STLogger.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -43,6 +43,7 @@
 - (void)saveGraphImagesToPath:(NSString *)basePath;
 
 @property (readonly) TRMSynthesizer *synthesizer;
+@property (strong) STLogger *logger;
 
 @end
 
@@ -95,6 +96,7 @@
     MModel *model;
     NSMutableArray *displayParameters;
     EventList *eventList;
+    STLogger *m_logger;
 	
     TRMSynthesizer *m_synthesizer;
 	
@@ -976,10 +978,23 @@
 
 #pragma mark - EventListDelegate
 
+@synthesize logger = m_logger;
+
 - (void)eventListWillGenerateOutput:(EventList *)eventList;
 {
     NSLog(@"%s", __PRETTY_FUNCTION__);
     // Open file and save initial parameters
+    if ([parametersStore state]) {
+        NSError *error = nil;
+        STLogger *logger = [[STLogger alloc] initWithOutputToPath:@"/tmp/Monet2.parameters" error:&error];
+        if (logger == nil) {
+            NSLog(@"Error logging to file: %@", error);
+        } else {
+            self.logger = logger;
+        }
+        
+        [self.model.synthesisParameters logToLogger:self.logger];
+    }
 }
 
 - (void)eventList:(EventList *)eventList generatedOutputValues:(float *)valPtr valueCount:(NSUInteger)count;
@@ -987,12 +1002,17 @@
     //NSLog(@"%s", __PRETTY_FUNCTION__);
     [self.synthesizer addParameters:valPtr];
     // Write values to file
+    NSMutableArray *a1 = [NSMutableArray array];
+    for (NSUInteger index = 0; index < count; index++)
+        [a1 addObject:[NSString stringWithFormat:@"%.3f", valPtr[index]]];
+    [self.logger log:@"%@", [a1 componentsJoinedByString:@" "]];
 }
 
 - (void)eventListDidGenerateOutput:(EventList *)eventList;
 {
     NSLog(@"%s", __PRETTY_FUNCTION__);
     // Close file
+    self.logger = nil;
 }
 
 @end
