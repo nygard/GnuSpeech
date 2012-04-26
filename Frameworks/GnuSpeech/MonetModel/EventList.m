@@ -1240,8 +1240,8 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
         //NSLog(@"tg (%d -- %d)", toneGroups[toneGroupIndex].startFoot, toneGroups[toneGroupIndex].endFoot);
         for (NSUInteger footIndex = toneGroup.startFootIndex; footIndex <= toneGroup.endFootIndex; footIndex++) {
-            [logger log:@"  Foot %lu  tempo: %.3f, marked: %lu, last: %lu, onset1: %.3f, onset2: %.3f", footIndex, feet[footIndex].tempo,
-             feet[footIndex].marked, feet[footIndex].last, feet[footIndex].onset1, feet[footIndex].onset2];
+            [logger log:@"  Foot %lu  tempo: %.3f, marked: %lu, last: %lu, onset1: %.3f, onset2: %.3f  (%ld -- %ld)", footIndex, feet[footIndex].tempo,
+             feet[footIndex].marked, feet[footIndex].last, feet[footIndex].onset1, feet[footIndex].onset2, feet[footIndex].startPhoneIndex, feet[footIndex].endPhoneIndex];
 
             //NSLog(@"Foot (%d -- %d)", feet[footIndex].start, feet[footIndex].end);
             for (NSUInteger postureIndex = feet[footIndex].startPhoneIndex; postureIndex <= feet[footIndex].endPhoneIndex; postureIndex++) {
