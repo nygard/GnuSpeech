@@ -27,7 +27,7 @@
 #import "MMIntonationParameters.h"
 #import "MMToneGroup.h"
 
-#import "TRMSynthesizer.h" // For addParameters:
+#import "STLogger.h"
 
 #define MAXPHONES	    1500
 #define MAXFEET		    110
@@ -1227,35 +1227,38 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 - (void)printDataStructures:(NSString *)comment;
 {
     __block NSUInteger ruleIndex = 0;
+    
+    STLogger *logger = [[STLogger alloc] init];
 
-    NSLog(@"----------------------------------------------------------------------");
-    NSLog(@" > %s (%@)", __PRETTY_FUNCTION__, comment);
+    [logger log:@"----------------------------------------------------------------------"];
 
     //NSLog(@"toneGroupCount: %d", toneGroupCount);
     [self.toneGroups enumerateObjectsUsingBlock:^(MMToneGroup *toneGroup, NSUInteger toneGroupIndex, BOOL *stop1){
-        NSLog(@"Tone Group %lu, type: %@", toneGroupIndex, MMToneGroupTypeName(toneGroup.type));
+        [logger log:@"Tone Group %lu, type: %@", toneGroupIndex, MMToneGroupTypeName(toneGroup.type)];
 
         //NSLog(@"tg (%d -- %d)", toneGroups[toneGroupIndex].startFoot, toneGroups[toneGroupIndex].endFoot);
         for (NSUInteger footIndex = toneGroup.startFootIndex; footIndex <= toneGroup.endFootIndex; footIndex++) {
-            NSLog(@"  Foot %lu  tempo: %.3f, marked: %lu, last: %lu, onset1: %.3f, onset2: %.3f", footIndex, feet[footIndex].tempo,
-                  feet[footIndex].marked, feet[footIndex].last, feet[footIndex].onset1, feet[footIndex].onset2);
+            [logger log:@"  Foot %lu  tempo: %.3f, marked: %lu, last: %lu, onset1: %.3f, onset2: %.3f", footIndex, feet[footIndex].tempo,
+             feet[footIndex].marked, feet[footIndex].last, feet[footIndex].onset1, feet[footIndex].onset2];
 
             //NSLog(@"Foot (%d -- %d)", feet[footIndex].start, feet[footIndex].end);
             for (NSUInteger postureIndex = feet[footIndex].startPhoneIndex; postureIndex <= feet[footIndex].endPhoneIndex; postureIndex++) {
                 if (rules[ruleIndex].firstPhone == postureIndex) {
-                    NSLog(@"    Posture %2lu  tempo: %.3f, syllable: %lu, onset: %7.2f, ruleTempo: %.3f, %@ # Rule %2lu, duration: %7.2f, beat: %7.2f",
-                          postureIndex, phoneTempo[postureIndex], phones[postureIndex].syllable, phones[postureIndex].onset,
-                          phones[postureIndex].ruleTempo, [[phones[postureIndex].phone name] leftJustifiedStringPaddedToLength:18],
-                          rules[ruleIndex].number, rules[ruleIndex].duration, rules[ruleIndex].beat);
+                    [logger log:@"    Posture %2lu  tempo: %.3f, syllable: %lu, onset: %7.2f, ruleTempo: %.3f, %@ # Rule %2lu, duration: %7.2f, beat: %7.2f",
+                     postureIndex, phoneTempo[postureIndex], phones[postureIndex].syllable, phones[postureIndex].onset,
+                     phones[postureIndex].ruleTempo, [[phones[postureIndex].phone name] leftJustifiedStringPaddedToLength:18],
+                     rules[ruleIndex].number, rules[ruleIndex].duration, rules[ruleIndex].beat];
                     ruleIndex++;
                 } else {
-                    NSLog(@"    Posture %2lu  tempo: %.3f, syllable: %lu, onset: %7.2f, ruleTempo: %.3f, %@",
-                          postureIndex, phoneTempo[postureIndex], phones[postureIndex].syllable, phones[postureIndex].onset,
-                          phones[postureIndex].ruleTempo, [phones[postureIndex].phone name]);
+                    [logger log:@"    Posture %2lu  tempo: %.3f, syllable: %lu, onset: %7.2f, ruleTempo: %.3f, %@",
+                     postureIndex, phoneTempo[postureIndex], phones[postureIndex].syllable, phones[postureIndex].onset,
+                     phones[postureIndex].ruleTempo, [phones[postureIndex].phone name]];
                 }
             }
         }
     }];
+
+    [logger release];
 
     NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }

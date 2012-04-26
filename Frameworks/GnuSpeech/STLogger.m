@@ -8,6 +8,7 @@
 @property (strong) NSString *linePrefix;
 @property (strong) NSString *lineSuffix;
 @property (readonly) NSMutableArray *indentations;
+@property (readonly) BOOL shouldCloseFile;
 @end
 
 #pragma mark -
@@ -18,6 +19,7 @@
     NSString *m_linePrefix;
     NSString *m_lineSuffix;
     NSMutableArray *m_indentations;
+    BOOL m_shouldCloseFile;
 }
 
 - (id)init;
@@ -25,6 +27,7 @@
     if ((self = [super init])) {
         m_outputFileHandle = [NSFileHandle fileHandleWithStandardOutput];
         m_indentations = [[NSMutableArray alloc] init];
+        m_shouldCloseFile = NO;
     }
     
     return self;
@@ -39,6 +42,7 @@
             return nil;
         } else {
             self.outputFileHandle = [[NSFileHandle alloc] initWithFileDescriptor:fd closeOnDealloc:YES];
+            m_shouldCloseFile = YES;
         }
     }
     
@@ -47,7 +51,7 @@
 
 - (void)dealloc;
 {
-    [m_outputFileHandle closeFile];
+    if (m_shouldCloseFile) [m_outputFileHandle closeFile];
     [m_outputFileHandle release];
     [m_linePrefix release];
     [m_lineSuffix release];
