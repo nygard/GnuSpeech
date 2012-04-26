@@ -105,7 +105,6 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     NSUInteger duration; // Move... somewhere else.
     NSUInteger timeQuantization; // in msecs.  By default it generates parameters every 4 msec
     
-    BOOL m_shouldStoreParameters; // YES -> -generateOutput writes to /tmp/Monet.parameters
     BOOL m_shouldUseMacroIntonation;
     BOOL m_shouldUseMicroIntonation;
     BOOL m_shouldUseDrift;
@@ -230,7 +229,6 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 }
 
 @synthesize duration, timeQuantization;
-@synthesize shouldStoreParameters = m_shouldStoreParameters;
 @synthesize shouldUseMacroIntonation = m_shouldUseMacroIntonation;
 @synthesize shouldUseMicroIntonation = m_shouldUseMicroIntonation;
 @synthesize shouldUseDrift = m_shouldUseDrift;
@@ -935,12 +933,6 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     if ([events count] == 0)
         return;
 
-    FILE *fp;
-    if (self.shouldStoreParameters == YES) {
-        fp = fopen("/tmp/Monet.parameters", "a+");
-    } else
-        fp = NULL;
-
     double controlRate = 250.0;
     double millisecondsPerInterval = 1000.0 / controlRate;
     NSParameterAssert(millisecondsPerInterval == 4.0);
@@ -1017,13 +1009,6 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
         table[0] += self.pitchMean;
 
-        if (fp)
-            fprintf(fp, "%.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f\n",
-                    table[0], table[1], table[2], table[3],
-                    table[4], table[5], table[6], table[7],
-                    table[8], table[9], table[10], table[11],
-                    table[12], table[13], table[14], table[15]);
-
         [self.delegate eventList:self generatedOutputValues:table valueCount:16];
 
         for (NSUInteger j = 0; j < 32; j++) {
@@ -1075,9 +1060,6 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     }
 
     // TODO (2004-03-25): There used to be some silence padding here.
-
-    if (fp)
-        fclose(fp);
 
     [self writeXMLToFile:@"/tmp/contour.xml" comment:nil];
 }

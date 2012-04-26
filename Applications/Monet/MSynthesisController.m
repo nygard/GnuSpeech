@@ -545,14 +545,6 @@
 	
     [self.synthesizer setupSynthesisParameters:[[self model] synthesisParameters]]; // TODO (2004-08-22): This may overwrite the file type...
     [self.synthesizer removeAllParameters];
-
-    [eventList setShouldStoreParameters:[parametersStore state]];
-    if ([parametersStore state]) {
-        NSError *error = nil;
-        if ([[[self model] synthesisParameters] writeToURL:[NSURL fileURLWithPath:@"/tmp/Monet.parameters"] error:&error] == NO) {
-            NSLog(@"Error writing synthesis parameters: %@", error);
-        }
-    }
     
     [eventList setDelegate:self];
     [eventList generateOutput];
@@ -986,7 +978,7 @@
     // Open file and save initial parameters
     if ([parametersStore state]) {
         NSError *error = nil;
-        STLogger *logger = [[STLogger alloc] initWithOutputToPath:@"/tmp/Monet2.parameters" error:&error];
+        STLogger *logger = [[STLogger alloc] initWithOutputToPath:@"/tmp/Monet.parameters" error:&error];
         if (logger == nil) {
             NSLog(@"Error logging to file: %@", error);
         } else {

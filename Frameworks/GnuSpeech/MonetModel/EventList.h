@@ -30,7 +30,6 @@ struct _rule {
 @property (assign) NSUInteger duration;
 @property (assign) NSUInteger timeQuantization;
 
-@property (assign) BOOL shouldStoreParameters;
 @property (assign) BOOL shouldUseMacroIntonation;
 @property (assign) BOOL shouldUseMicroIntonation;
 @property (assign) BOOL shouldUseDrift;
