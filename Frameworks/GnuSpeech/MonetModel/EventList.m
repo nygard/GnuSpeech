@@ -87,9 +87,11 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 - (void)_applyFlatIntonation;
 - (void)_applySmoothIntonation;
 
-
 @property (retain) NSString *phoneString;
+@property (assign) NSUInteger duration;
+@property (assign) NSUInteger timeQuantization;
 
+@property (assign) double multiplier;
 
 @end
 

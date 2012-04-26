@@ -24,9 +24,6 @@ struct _rule {
 @property (nonatomic, retain) MModel *model;
 @property (weak) id <EventListDelegate> delegate;
 
-@property (assign) NSUInteger duration;
-@property (assign) NSUInteger timeQuantization;
-
 @property (assign) BOOL shouldUseMacroIntonation;
 @property (assign) BOOL shouldUseMicroIntonation;
 @property (assign) BOOL shouldUseDrift;
@@ -35,11 +32,10 @@ struct _rule {
 @property (assign) double radiusMultiply;
 @property (assign) double pitchMean;
 @property (assign) double globalTempo;
-@property (assign) double multiplier;
 
 @property (readonly) MMIntonationParameters *intonationParameters;
 
-- (void)setUp;
+- (void)setUp; // TODO (2012-04-26): See if we can't just do this when we apply intonation
 
 // Rules
 - (struct _rule *)getRuleAtIndex:(NSUInteger)ruleIndex;
