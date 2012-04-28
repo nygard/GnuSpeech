@@ -60,7 +60,7 @@ int run;
 float *envelopeData;
 
 /*  INPUT VARIABLES  */
-int    outputFileFormat;            /*  file format (0=AU, 1=AIFF, 2=WAVE)  */
+TRMSoundFileFormat outputFileFormat;   //  file format (0=AU, 1=AIFF, 2=WAVE)
 float  outputRate;                  /*  output sample rate (22.05, 44.1 KHz)  */
 //float  controlRate;                 /*  1.0-1000.0 input tables/second (Hz)  */
 

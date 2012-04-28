@@ -66,19 +66,19 @@ void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMDataList 
     }
 
     /*  Scale and write out samples to the output file  */
-    if (data->inputParameters.outputFileFormat == AU_FILE_FORMAT) {
+    if (data->inputParameters.outputFileFormat == TRMSoundFileFormat_AU) {
         writeAuFileHeader(data->inputParameters.channels, sampleRateConverter->numberSamples, data->inputParameters.outputRate, fd);
         if (data->inputParameters.channels == 1)
             writeSamplesMonoMsb(sampleRateConverter->tempFilePtr, sampleRateConverter->numberSamples, scale, fd);
         else
             writeSamplesStereoMsb(sampleRateConverter->tempFilePtr, sampleRateConverter->numberSamples, leftScale, rightScale, fd);
-    } else if (data->inputParameters.outputFileFormat == AIFF_FILE_FORMAT) {
+    } else if (data->inputParameters.outputFileFormat == TRMSoundFileFormat_AIFF) {
         writeAiffFileHeader(data->inputParameters.channels, sampleRateConverter->numberSamples, data->inputParameters.outputRate, fd);
         if (data->inputParameters.channels == 1)
             writeSamplesMonoMsb(sampleRateConverter->tempFilePtr, sampleRateConverter->numberSamples, scale, fd);
         else
             writeSamplesStereoMsb(sampleRateConverter->tempFilePtr, sampleRateConverter->numberSamples, leftScale, rightScale, fd);
-    } else if (data->inputParameters.outputFileFormat == WAVE_FILE_FORMAT) {
+    } else if (data->inputParameters.outputFileFormat == TRMSoundFileFormat_WAVE) {
         writeWaveFileHeader(data->inputParameters.channels, sampleRateConverter->numberSamples, data->inputParameters.outputRate, fd);
         if (data->inputParameters.channels == 1)
             writeSamplesMonoLsb(sampleRateConverter->tempFilePtr, sampleRateConverter->numberSamples, scale, fd);

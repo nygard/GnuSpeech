@@ -8,9 +8,12 @@
 #include "structs.h" // For TRMData
 
 // Output file format constants
-#define AU_FILE_FORMAT            0
-#define AIFF_FILE_FORMAT          1
-#define WAVE_FILE_FORMAT          2
+enum {
+    TRMSoundFileFormat_AU   = 0,
+    TRMSoundFileFormat_AIFF = 1,
+    TRMSoundFileFormat_WAVE = 2,
+};
+typedef NSUInteger TRMSoundFileFormat;
 
 // Final output scaling, so that .snd files approximately match DSP output
 //#define OUTPUT_SCALE              0.25

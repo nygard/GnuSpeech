@@ -18,11 +18,11 @@ void printInputParameters(struct _TRMDataList *data, char *inputFile)
     
     /*  ECHO INPUT PARAMETERS  */
     printf("outputFileFormat:\t");
-    if (data->inputParameters.outputFileFormat == AU_FILE_FORMAT)
+    if (data->inputParameters.outputFileFormat == TRMSoundFileFormat_AU)
         printf("AU\n");
-    else if (data->inputParameters.outputFileFormat == AIFF_FILE_FORMAT)
+    else if (data->inputParameters.outputFileFormat == TRMSoundFileFormat_AIFF)
         printf("AIFF\n");
-    else if (data->inputParameters.outputFileFormat == WAVE_FILE_FORMAT)
+    else if (data->inputParameters.outputFileFormat == TRMSoundFileFormat_WAVE)
         printf("WAVE\n");
     
     printf("outputRate:\t\t%.1f Hz\n", data->inputParameters.outputRate);
