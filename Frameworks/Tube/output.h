@@ -4,7 +4,6 @@
 #ifndef __OUTPUT_H
 #define __OUTPUT_H
 
-#include <stdint.h> // For uint8_t, uint32_t, etc.
 #include "structs.h" // For TRMDataList
 
 // Output file format constants
