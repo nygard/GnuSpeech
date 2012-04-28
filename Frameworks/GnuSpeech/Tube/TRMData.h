@@ -11,103 +11,52 @@
 
 @interface TRMData : NSObject
 
-- (id)init;
+@property (nonatomic, assign) float glotPitch;
+@property (nonatomic, assign) float glotVol;
+@property (nonatomic, assign) float aspVol;
+@property (nonatomic, assign) float fricVol;
+@property (assign) float fricPos;
+@property (nonatomic, assign) float fricCF;
+@property (nonatomic, assign) float fricBW;
+@property (nonatomic, assign) float r1;
+@property (nonatomic, assign) float r2;
+@property (nonatomic, assign) float r3;
+@property (nonatomic, assign) float r4;
+@property (nonatomic, assign) float r5;
+@property (nonatomic, assign) float r6;
+@property (nonatomic, assign) float r7;
+@property (nonatomic, assign) float r8;
+@property (nonatomic, assign) float velum;
 
-// Archiving
-- (BOOL)readFromCoder:(NSCoder *)aDecoder;
+@property (assign) int32_t controlRate;
+@property (nonatomic, assign) float volume;
+@property (assign) int32_t channels;
+@property (assign) double balance;
 
-- (float)glotPitch;
-- (void)setGlotPitch:(float)value;
-- (float)glotVol;
-- (void)setGlotVol:(float)value;
+@property (assign) int32_t waveform;
+@property (assign) float tp;
+@property (assign) float tnMin;
+@property (assign) float tnMax;
+@property (assign) float breathiness;
 
-- (float)aspVol;
-- (void)setAspVol:(float)value;
+@property (assign) double length;
+@property (assign) double temperature;
+@property (nonatomic, assign) float lossFactor;
 
-- (float)fricVol;
-- (void)setFricVol:(float)value;
-- (float)fricPos;
-- (void)setFricPos:(float)value;
-- (float)fricCF;
-- (void)setFricCF:(float)value;
-- (float)fricBW;
-- (void)setFricBW:(float)value;
+@property (nonatomic, assign) float apScale;
+@property (assign) double mouthCoef;
+@property (assign) double noseCoef;
 
-- (float)r1;
-- (void)setR1:(float)value;
-- (float)r2;
-- (void)setR2:(float)value;
-- (float)r3;
-- (void)setR3:(float)value;
-- (float)r4;
-- (void)setR4:(float)value;
-- (float)r5;
-- (void)setR5:(float)value;
-- (float)r6;
-- (void)setR6:(float)value;
-- (float)r7;
-- (void)setR7:(float)value;
-- (float)r8;
-- (void)setR8:(float)value;
+@property (nonatomic, assign) float n1;
+@property (nonatomic, assign) float n2;
+@property (nonatomic, assign) float n3;
+@property (nonatomic, assign) float n4;
+@property (nonatomic, assign) float n5;
 
-- (float)velum;
-- (void)setVelum:(float)value;
+@property (nonatomic, assign) float throatCutoff;
+@property (nonatomic, assign) float throatVol;
 
-
-- (int32_t)controlRate;
-- (void)setControlRate:(int32_t)value;
-
-- (float)volume;
-- (void)setVolume:(float)value;
-- (int32_t)channels;
-- (void)setChannels:(int32_t)value;
-- (float)balance;
-- (void)setBalance:(float)value;
-
-- (int32_t)waveform;
-- (void)setWaveform:(int32_t)value;
-- (float)tp;
-- (void)setTp:(float)value;
-- (float)tnMin;
-- (void)setTnMin:(float)value;
-- (float)tnMax;
-- (void)setTnMax:(float)value;
-- (float)breathiness;
-- (void)setBreathiness:(float)value;
-
-- (float)length;
-- (void)setLength:(float)value;
-- (float)temperature;
-- (void)setTemperature:(float)value;
-- (float)lossFactor;
-- (void)setLossFactor:(float)value;
-
-- (float)apScale;
-- (void)setApScale:(float)value;
-- (float)mouthCoef;
-- (void)setMouthCoef:(float)value;
-- (float)noseCoef;
-- (void)setNoseCoef:(float)value;
-
-- (float)n1;
-- (void)setN1:(float)value;
-- (float)n2;
-- (void)setN2:(float)value;
-- (float)n3;
-- (void)setN3:(float)value;
-- (float)n4;
-- (void)setN4:(float)value;
-- (float)n5;
-- (void)setN5:(float)value;
-
-- (float)throatCutoff;
-- (void)setThroatCutoff:(float)value;
-- (float)throatVol;
-- (void)setThroatVol:(float)value;
-
-- (int32_t)modulation;
-- (void)setModulation:(int32_t)value;
-- (float)mixOffset;
-- (void)setMixOffset:(float)value;
+@property (assign) int32_t modulation;
+@property (nonatomic, assign) float mixOffset;
 
 @end
