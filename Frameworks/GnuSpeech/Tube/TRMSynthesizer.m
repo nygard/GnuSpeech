@@ -13,79 +13,90 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 /*  SIZE IN BITS PER OUTPUT SAMPLE  */
 #define BITS_PER_SAMPLE           16
 
+@interface TRMSynthesizer ()
+- (NSData *)generateWAVDataWithSampleRateConverter:(TRMSampleRateConverter *)sampleRateConverter;
+@property (strong) AVAudioPlayer *audioPlayer;
+
+- (void)startPlaying:(TRMTubeModel *)tube;
+- (void)stopPlaying;
+@end
+
+#pragma mark -
+
 @implementation TRMSynthesizer
 {
-    TRMDataList *inputData;
+    TRMDataList *m_inputData;
     
-    BOOL shouldSaveToSoundFile;
-    NSString *filename;
+    BOOL m_shouldSaveToSoundFile;
+    NSString *m_filename;
     AVAudioPlayer *m_audioPlayer;
 }
 
 - (id)init;
 {	
-    if ([super init] == nil)
-        return nil;
-
-    inputData = (TRMDataList *)malloc(sizeof(TRMDataList));
-    if (inputData == NULL) {
-        NSLog(@"Failed to malloc TRMData.");
-        [super release];
-        return nil;
+    if ((self = [super init])) {
+        m_inputData = (TRMDataList *)malloc(sizeof(TRMDataList));
+        if (m_inputData == NULL) {
+            NSLog(@"Failed to malloc TRMData.");
+            [super release];
+            return nil;
+        }
+        
+        m_inputData->inputParameters.outputFileFormat = 0;
+        m_inputData->inputHead = NULL;
+        m_inputData->inputTail = NULL;
     }
-
-    inputData->inputParameters.outputFileFormat = 0;
-    inputData->inputHead = NULL;
-    inputData->inputTail = NULL;
 	
     return self;
 }
 
 - (void)dealloc;
 {
-    free(inputData);
+    free(m_inputData);
     [m_audioPlayer release];
 	
     [super dealloc];
 }
 
+#pragma mark -
+
 - (void)setupSynthesisParameters:(MMSynthesisParameters *)synthesisParameters;
 {
-    inputData->inputParameters.outputRate = synthesisParameters.sampleRate;
-    inputData->inputParameters.controlRate = 250;
-    inputData->inputParameters.volume = [synthesisParameters masterVolume];
-    inputData->inputParameters.channels = [synthesisParameters outputChannels] + 1;
-    inputData->inputParameters.balance = [synthesisParameters balance];
-    inputData->inputParameters.waveform = [synthesisParameters glottalPulseShape];
-    inputData->inputParameters.tp = [synthesisParameters tp];
-    inputData->inputParameters.tnMin = [synthesisParameters tnMin];
-    inputData->inputParameters.tnMax = [synthesisParameters tnMax];
-    inputData->inputParameters.breathiness = [synthesisParameters breathiness];
-    inputData->inputParameters.length = [synthesisParameters vocalTractLength];
-    inputData->inputParameters.temperature = [synthesisParameters temperature];
-    inputData->inputParameters.lossFactor = [synthesisParameters lossFactor];
-    inputData->inputParameters.apScale = [synthesisParameters apertureScaling];
-    inputData->inputParameters.mouthCoef = [synthesisParameters mouthCoef];
-    inputData->inputParameters.noseCoef = [synthesisParameters noseCoef];
-    inputData->inputParameters.noseRadius[0] = 0; // Give it a predictable value.
-    inputData->inputParameters.noseRadius[1] = [synthesisParameters n1];
-    inputData->inputParameters.noseRadius[2] = [synthesisParameters n2];
-    inputData->inputParameters.noseRadius[3] = [synthesisParameters n3];
-    inputData->inputParameters.noseRadius[4] = [synthesisParameters n4];
-    inputData->inputParameters.noseRadius[5] = [synthesisParameters n5];
-    inputData->inputParameters.throatCutoff = [synthesisParameters throatCutoff];
-    inputData->inputParameters.throatVol = [synthesisParameters throatVolume];
-    inputData->inputParameters.modulation = [synthesisParameters shouldUseNoiseModulation];
-    inputData->inputParameters.mixOffset = [synthesisParameters mixOffset];
+    m_inputData->inputParameters.outputRate    = synthesisParameters.sampleRate;
+    m_inputData->inputParameters.controlRate   = 250;
+    m_inputData->inputParameters.volume        = [synthesisParameters masterVolume];
+    m_inputData->inputParameters.channels      = [synthesisParameters outputChannels] + 1;
+    m_inputData->inputParameters.balance       = [synthesisParameters balance];
+    m_inputData->inputParameters.waveform      = [synthesisParameters glottalPulseShape];
+    m_inputData->inputParameters.tp            = [synthesisParameters tp];
+    m_inputData->inputParameters.tnMin         = [synthesisParameters tnMin];
+    m_inputData->inputParameters.tnMax         = [synthesisParameters tnMax];
+    m_inputData->inputParameters.breathiness   = [synthesisParameters breathiness];
+    m_inputData->inputParameters.length        = [synthesisParameters vocalTractLength];
+    m_inputData->inputParameters.temperature   = [synthesisParameters temperature];
+    m_inputData->inputParameters.lossFactor    = [synthesisParameters lossFactor];
+    m_inputData->inputParameters.apScale       = [synthesisParameters apertureScaling];
+    m_inputData->inputParameters.mouthCoef     = [synthesisParameters mouthCoef];
+    m_inputData->inputParameters.noseCoef      = [synthesisParameters noseCoef];
+    m_inputData->inputParameters.noseRadius[0] = 0; // Give it a predictable value.
+    m_inputData->inputParameters.noseRadius[1] = [synthesisParameters n1];
+    m_inputData->inputParameters.noseRadius[2] = [synthesisParameters n2];
+    m_inputData->inputParameters.noseRadius[3] = [synthesisParameters n3];
+    m_inputData->inputParameters.noseRadius[4] = [synthesisParameters n4];
+    m_inputData->inputParameters.noseRadius[5] = [synthesisParameters n5];
+    m_inputData->inputParameters.throatCutoff  = [synthesisParameters throatCutoff];
+    m_inputData->inputParameters.throatVol     = [synthesisParameters throatVolume];
+    m_inputData->inputParameters.modulation    = [synthesisParameters shouldUseNoiseModulation];
+    m_inputData->inputParameters.mixOffset     = [synthesisParameters mixOffset];
 #if 0
 	// It looks like you need to use an AudioConverter to change the sampling rate.
-	format.mFormatID = kAudioFormatLinearPCM;
-	format.mSampleRate = inputData->inputParameters.outputRate;
+	format.mFormatID         = kAudioFormatLinearPCM;
+	format.mSampleRate       = inputData->inputParameters.outputRate;
 	format.mChannelsPerFrame = inputData->inputParameters.channels;	
-	format.mBytesPerPacket = 2 * format.mChannelsPerFrame;
-	format.mFramesPerPacket = 1;
-	format.mBytesPerFrame = 2 * format.mChannelsPerFrame;
-	format.mBitsPerChannel = 16;
+	format.mBytesPerPacket   = 2 * format.mChannelsPerFrame;
+	format.mFramesPerPacket  = 1;
+	format.mBytesPerFrame    = 2 * format.mChannelsPerFrame;
+	format.mBitsPerChannel   = 16;
 	
 	// On Intel (little-endian) we need to use kAudioFormatFlagIsAlignedHigh; on PowerPC (big-endian) kAudioFormatFlagIsBigEndian.
 	if (isLittleEndian())
@@ -93,14 +104,14 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 	else
 		format.mFormatFlags =  kAudioFormatFlagIsBigEndian | kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked;	
 
-	NSLog(@"sample rate: %f", format.mSampleRate);
-	NSLog(@"format id: %08lx (%@)", format.mFormatID, [NSString stringWithFourCharCode:format.mFormatID]);
-	NSLog(@"format flags: %lx", format.mFormatFlags);
-	NSLog(@"bytes per packet: %ld", format.mBytesPerPacket);
-	NSLog(@"frames per packet: %ld", format.mFramesPerPacket);
-	NSLog(@"bytes per frame: %ld", format.mBytesPerFrame);
+	NSLog(@"sample rate: %f",         format.mSampleRate);
+	NSLog(@"format id: %08lx (%@)",   format.mFormatID, [NSString stringWithFourCharCode:format.mFormatID]);
+	NSLog(@"format flags: %lx",       format.mFormatFlags);
+	NSLog(@"bytes per packet: %ld",   format.mBytesPerPacket);
+	NSLog(@"frames per packet: %ld",  format.mFramesPerPacket);
+	NSLog(@"bytes per frame: %ld",    format.mBytesPerFrame);
 	NSLog(@"channels per frame: %ld", format.mChannelsPerFrame);
-	NSLog(@"bits per channel: %ld", format.mBitsPerChannel);
+	NSLog(@"bits per channel: %ld",   format.mBitsPerChannel);
 
 	result = AudioUnitSetProperty(outputUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &format, sizeof(format));
 	if (result != kAudioHardwareNoError) {
@@ -111,17 +122,17 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 
 - (void)removeAllParameters;
 {
-    INPUT *ptr, *next;
+    INPUT *next;
 
-    ptr = inputData->inputHead;
+    INPUT *ptr = m_inputData->inputHead;
     while (ptr != NULL) {
         next = ptr->next;
         free(ptr);
         ptr = next;
     }
 
-    inputData->inputHead = NULL;
-    inputData->inputTail = NULL;
+    m_inputData->inputHead = NULL;
+    m_inputData->inputTail = NULL;
 }
 
 - (void)addParameters:(float *)values;
@@ -130,10 +141,9 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
     double radius[TOTAL_REGIONS];
 
     {
-        NSUInteger index;
         char buf[100];
 
-        for (index = 0; index < 16; index++) {
+        for (NSUInteger index = 0; index < 16; index++) {
             sprintf(buf, "%.3f", values[index]);
             dvalues[index] = strtod(buf, NULL);
         }
@@ -148,58 +158,35 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
     radius[5] = dvalues[12];
     radius[6] = dvalues[13];
     radius[7] = dvalues[14];
-    addInput(inputData, dvalues[0], dvalues[1], dvalues[2], dvalues[3], dvalues[4], dvalues[5], dvalues[6], radius, dvalues[15]);
+    addInput(m_inputData, dvalues[0], dvalues[1], dvalues[2], dvalues[3], dvalues[4], dvalues[5], dvalues[6], radius, dvalues[15]);
 }
 
-- (BOOL)shouldSaveToSoundFile;
-{
-    return shouldSaveToSoundFile;
-}
-
-- (void)setShouldSaveToSoundFile:(BOOL)newFlag;
-{
-    shouldSaveToSoundFile = newFlag;
-}
-
-- (NSString *)filename;
-{
-    return filename;
-}
-
-- (void)setFilename:(NSString *)newFilename;
-{
-    if (newFilename == filename)
-        return;
-
-    [filename release];
-    filename = [newFilename retain];
-}
+@synthesize shouldSaveToSoundFile = m_shouldSaveToSoundFile;
+@synthesize filename = m_filename;
 
 - (int)fileType;
 {
-    return inputData->inputParameters.outputFileFormat;
+    return m_inputData->inputParameters.outputFileFormat;
 }
 
 - (void)setFileType:(int)newFileType;
 {
-    inputData->inputParameters.outputFileFormat = newFileType;
+    m_inputData->inputParameters.outputFileFormat = newFileType;
 }
 
 - (void)synthesize;
 {
-    TRMTubeModel *tube;
-
-    tube = TRMTubeModelCreate(&(inputData->inputParameters));
+    TRMTubeModel *tube = TRMTubeModelCreate(&(m_inputData->inputParameters));
     if (tube == NULL) {
         NSLog(@"Warning: Failed to create tube model.");
         return;
     }
 
-    synthesize(tube, inputData);
+    synthesize(tube, m_inputData);
 
-    if (shouldSaveToSoundFile) {
+    if (self.shouldSaveToSoundFile) {
 		
-        writeOutputToFile(&(tube->sampleRateConverter), inputData, [filename UTF8String]);
+        writeOutputToFile(&(tube->sampleRateConverter), m_inputData, [self.filename UTF8String]);
 
     } else {
 
@@ -239,7 +226,7 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 
     NSMutableData *sampleData = [[NSMutableData alloc] init];
 
-    scale = OUTPUT_SCALE * (RANGE_MAX / sampleRateConverter->maximumSampleValue) * amplitude(inputData->inputParameters.volume) ;
+    scale = OUTPUT_SCALE * (RANGE_MAX / sampleRateConverter->maximumSampleValue) * amplitude(m_inputData->inputParameters.volume) ;
 
     NSLog(@"number of samples:\t%-d\n", sampleRateConverter->numberSamples);
     NSLog(@"maximum sample value:\t%.4f\n", sampleRateConverter->maximumSampleValue);
@@ -248,7 +235,7 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
     /*  Rewind the temporary file to beginning  */
     rewind(sampleRateConverter->tempFilePtr);
 
-    if (inputData->inputParameters.channels == 2) {
+    if (m_inputData->inputParameters.channels == 2) {
         double leftScale, rightScale;
 	
 		// Calculate left and right channel amplitudes.
@@ -257,8 +244,8 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 		// rightScale = ((inputData->inputParameters.balance / 2.0) + 0.5) * scale * 2.0;
 
         // This doesn't have the crackling when at all left or all right, but it's not as loud as Mono by default.
-		leftScale = -((inputData->inputParameters.balance / 2.0) - 0.5) * scale;
-		rightScale = ((inputData->inputParameters.balance / 2.0) + 0.5) * scale;
+		leftScale = -((m_inputData->inputParameters.balance / 2.0) - 0.5) * scale;
+		rightScale = ((m_inputData->inputParameters.balance / 2.0) + 0.5) * scale;
 
         printf("left scale:\t\t%.4f\n", leftScale);
         printf("right scale:\t\t%.4f\n", rightScale);
@@ -289,8 +276,8 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
         }
     }
 
-    int frameSize = (int)ceil(inputData->inputParameters.channels * ((double)BITS_PER_SAMPLE / 8));
-    int bytesPerSecond = (int)ceil(inputData->inputParameters.outputRate * frameSize);
+    int frameSize = (int)ceil(m_inputData->inputParameters.channels * ((double)BITS_PER_SAMPLE / 8));
+    int bytesPerSecond = (int)ceil(m_inputData->inputParameters.outputRate * frameSize);
     
     NSMutableData *data = [NSMutableData data];
     uint32_t subChunk1Size = 18;
@@ -306,8 +293,8 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
     [data appendBigInt32:WAV_FORMAT_CHUNK_ID]; // fmt
     [data appendLittleInt32:subChunk1Size];
     [data appendLittleInt16:kWAVEFormat_UncompressedPCM];
-    [data appendLittleInt16:inputData->inputParameters.channels];
-    [data appendLittleInt32:inputData->inputParameters.outputRate];
+    [data appendLittleInt16:m_inputData->inputParameters.channels];
+    [data appendLittleInt32:m_inputData->inputParameters.outputRate];
     [data appendLittleInt32:bytesPerSecond];
     [data appendLittleInt16:frameSize];
     [data appendLittleInt16:BITS_PER_SAMPLE];
@@ -322,18 +309,7 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
     return [[data copy] autorelease];
 }
 
-- (AVAudioPlayer *)audioPlayer;
-{
-    return m_audioPlayer;
-}
-
-- (void)setAudioPlayer:(AVAudioPlayer *)audioPlayer;
-{
-    if (audioPlayer != m_audioPlayer) {
-        [m_audioPlayer release];
-        m_audioPlayer = [audioPlayer retain];
-    }
-}
+@synthesize audioPlayer = m_audioPlayer;
 
 - (void)startPlaying:(TRMTubeModel *)tube;
 {
