@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		01115F7F1547C35A002ABAAF /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 01115F7E1547C35A002ABAAF /* main.c */; };
+		01115F7F1547C35A002ABAAF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 01115F7E1547C35A002ABAAF /* main.m */; };
 		01115F891547C381002ABAAF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01115F881547C381002ABAAF /* Foundation.framework */; };
 		01115F941547C399002ABAAF /* fir.c in Sources */ = {isa = PBXBuildFile; fileRef = 01AC656B0B7BF4D8008E4B93 /* fir.c */; };
 		01115F961547C399002ABAAF /* input.c in Sources */ = {isa = PBXBuildFile; fileRef = 01AC656D0B7BF4D8008E4B93 /* input.c */; };
@@ -17,7 +17,7 @@
 		01115FA01547C399002ABAAF /* util.c in Sources */ = {isa = PBXBuildFile; fileRef = 01AC65770B7BF4D8008E4B93 /* util.c */; };
 		01115FA21547C399002ABAAF /* wavetable.c in Sources */ = {isa = PBXBuildFile; fileRef = 01AC65790B7BF4D8008E4B93 /* wavetable.c */; };
 		01115FA51547C3D4002ABAAF /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01115FA41547C3D3002ABAAF /* Accelerate.framework */; };
-		01115FA61547C43E002ABAAF /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 01115F7E1547C35A002ABAAF /* main.c */; };
+		01115FA61547C43E002ABAAF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 01115F7E1547C35A002ABAAF /* main.m */; };
 		0172DA14153FDD2F00413F56 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0172DA13153FDD2F00413F56 /* Accelerate.framework */; };
 		01AC657B0B7BF4D8008E4B93 /* fir.c in Sources */ = {isa = PBXBuildFile; fileRef = 01AC656B0B7BF4D8008E4B93 /* fir.c */; };
 		01AC657C0B7BF4D8008E4B93 /* fir.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC656C0B7BF4D8008E4B93 /* fir.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -52,7 +52,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		01115F7E1547C35A002ABAAF /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		01115F7E1547C35A002ABAAF /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		01115F851547C381002ABAAF /* softwareTRM */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = softwareTRM; sourceTree = BUILT_PRODUCTS_DIR; };
 		01115F881547C381002ABAAF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		01115F8B1547C381002ABAAF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -194,7 +194,7 @@
 				01AC65780B7BF4D8008E4B93 /* util.h */,
 				01AC65790B7BF4D8008E4B93 /* wavetable.c */,
 				01AC657A0B7BF4D8008E4B93 /* wavetable.h */,
-				01115F7E1547C35A002ABAAF /* main.c */,
+				01115F7E1547C35A002ABAAF /* main.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -324,7 +324,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				01115FA61547C43E002ABAAF /* main.c in Sources */,
+				01115FA61547C43E002ABAAF /* main.m in Sources */,
 				01115F941547C399002ABAAF /* fir.c in Sources */,
 				01115F961547C399002ABAAF /* input.c in Sources */,
 				01115F981547C399002ABAAF /* output.c in Sources */,
@@ -346,7 +346,7 @@
 				01AC65840B7BF4D8008E4B93 /* tube.c in Sources */,
 				01AC65870B7BF4D8008E4B93 /* util.c in Sources */,
 				01AC65890B7BF4D8008E4B93 /* wavetable.c in Sources */,
-				01115F7F1547C35A002ABAAF /* main.c in Sources */,
+				01115F7F1547C35A002ABAAF /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
