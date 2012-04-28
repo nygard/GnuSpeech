@@ -33,7 +33,7 @@ void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMDataList 
 
     // Calculate scaling constant
     //printf("maximumSampleValue: %g\n", sampleRateConverter->maximumSampleValue);
-    scale = OUTPUT_SCALE * (RANGE_MAX / sampleRateConverter->maximumSampleValue) * amplitude(data->inputParameters.volume);
+    scale = (RANGE_MAX / sampleRateConverter->maximumSampleValue) * amplitude(data->inputParameters.volume);
 
     // Print out info
     /*if (verbose)*/ {

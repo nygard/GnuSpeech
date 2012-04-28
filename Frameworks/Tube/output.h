@@ -15,10 +15,6 @@ enum {
 };
 typedef NSUInteger TRMSoundFileFormat;
 
-// Final output scaling, so that .snd files approximately match DSP output
-//#define OUTPUT_SCALE              0.25
-#define OUTPUT_SCALE              1.0
-
 // Maximum sample value
 #define RANGE_MAX                 32767.0
 

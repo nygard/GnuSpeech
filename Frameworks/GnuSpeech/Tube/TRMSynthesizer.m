@@ -218,7 +218,6 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 
 - (NSData *)generateWAVDataWithSampleRateConverter:(TRMSampleRateConverter *)sampleRateConverter;
 {
-    double scale;
     NSUInteger index;
 
     if (sampleRateConverter->maximumSampleValue == 0)
@@ -226,7 +225,7 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 
     NSMutableData *sampleData = [[NSMutableData alloc] init];
 
-    scale = OUTPUT_SCALE * (RANGE_MAX / sampleRateConverter->maximumSampleValue) * amplitude(m_inputData->inputParameters.volume) ;
+    double scale = (RANGE_MAX / sampleRateConverter->maximumSampleValue) * amplitude(m_inputData->inputParameters.volume);
 
     NSLog(@"number of samples:\t%-d\n", sampleRateConverter->numberSamples);
     NSLog(@"maximum sample value:\t%.4f\n", sampleRateConverter->maximumSampleValue);

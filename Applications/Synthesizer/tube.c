@@ -206,9 +206,6 @@ $Log: tube.c,v $
 // this is a temporary fix only, to try to match dsp synthesizer
 #define VT_SCALE                  0.125     /*  2^(-3)  */
 
-/*  FINAL OUTPUT SCALING, SO THAT .SND FILES APPROX. MATCH DSP OUTPUT  */
-#define OUTPUT_SCALE              0.25
-
 /*  CONSTANTS FOR THE FIR FILTER  */
 #define LIMIT                     200
 #define BETA_OUT_OF_RANGE         1
