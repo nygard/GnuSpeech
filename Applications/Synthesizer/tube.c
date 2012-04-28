@@ -262,10 +262,6 @@ $Log: tube.c,v $
 /*  SIZE IN BITS PER OUTPUT SAMPLE  */
 #define BITS_PER_SAMPLE           16
 
-/*  BOOLEAN CONSTANTS  */
-#define FALSE                     0
-#define TRUE                      1
-
 extern float PI, PI2;
 
 
@@ -337,7 +333,7 @@ double throatVol = 6.0;                   /*  throat volume (0 - 48 dB) */
 double tnMax = 40;                       /*  % glottal pulse fall time maximum  */
 double tnMin = 16;                       /*  % glottal pulse fall time minimum  */
 double tp = 35;                          /*  % glottal pulse rise time  */
-int verbose = FALSE;
+BOOL verbose = NO;
 double volume = 60;                      /*  master volume (0 - 60 dB)  */
 int    waveform = 0;                    /*  GS waveform type (0=PULSE, 1=SINE)  */
 

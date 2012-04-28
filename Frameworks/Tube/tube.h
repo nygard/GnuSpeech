@@ -20,7 +20,7 @@
 #define PI                        3.14159265358979
 #define TWO_PI                    (2.0 * PI)
 
-extern int verbose;
+extern BOOL verbose;
 
 TRMTubeModel *TRMTubeModelCreate(TRMInputParameters *inputParameters);
 void TRMTubeModelFree(TRMTubeModel *model);

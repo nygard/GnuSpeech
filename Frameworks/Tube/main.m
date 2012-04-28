@@ -9,10 +9,6 @@
 #include "output.h"
 #include "structs.h"
 
-/*  BOOLEAN CONSTANTS  */
-#define FALSE                     0
-#define TRUE                      1
-
 void printInputParameters(struct _TRMDataList *data, char *inputFile);
 
 void printInputParameters(struct _TRMDataList *data, char *inputFile)
@@ -93,7 +89,7 @@ int main(int argc, char *argv[])
         strcpy(inputFile, argv[1]);
         strcpy(outputFile, argv[2]);
     } else if ((argc == 4) && (!strcmp("-v", argv[1]))) {
-        verbose = TRUE;
+        verbose = YES;
         strcpy(inputFile, argv[2]);
         strcpy(outputFile, argv[3]);
     } else {

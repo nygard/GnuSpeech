@@ -17,7 +17,7 @@
 #include "wavetable.h"
 
 
-int32_t verbose = 0;
+BOOL verbose = NO;
 
 
 #pragma mark - Local defines
