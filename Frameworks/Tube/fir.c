@@ -7,7 +7,9 @@
 #include "tube.h" // for TWO_PI
 
 // Constants for the FIR filter
-#define LIMIT                     200
+#define COEFFICIENT_LIMIT         200
+
+// Error return codes for maximallyFlat()
 #define BETA_OUT_OF_RANGE         1
 #define GAMMA_OUT_OF_RANGE        2
 #define GAMMA_TOO_SMALL           3
@@ -15,7 +17,7 @@
 
 static int32_t maximallyFlat(double beta, double gamma, int32_t *np, double *coefficient);
 static void trim(double cutoff, int32_t *numberCoefficients, double *coefficient);
-static int32_t increment(int32_t pointer, int32_t modulus);
+static int32_t increment(int32_t pointer, int32_t modulus); // TODO (2012-04-28): Change name, make sure it doesn't get confused with local variables
 static int32_t decrement(int32_t pointer, int32_t modulus);
 static void rationalApproximation(double number, int32_t *order, int32_t *numerator, int32_t *denominator);
 
@@ -23,17 +25,15 @@ static void rationalApproximation(double number, int32_t *order, int32_t *numera
 
 TRMFIRFilter *TRMFIRFilterCreate(double beta, double gamma, double cutoff)
 {
-    TRMFIRFilter *newFilter;
-
-    int32_t i, pointer, increment, numberCoefficients;
-    double coefficient[LIMIT+1];
-
-    newFilter = (TRMFIRFilter *)malloc(sizeof(TRMFIRFilter));
+    TRMFIRFilter *newFilter = (TRMFIRFilter *)malloc(sizeof(TRMFIRFilter));
     if (newFilter == NULL) {
         fprintf(stderr, "Couldn't malloc() FIRFilter.\n");
         return NULL;
     }
 
+    int32_t numberCoefficients;
+    double coefficient[COEFFICIENT_LIMIT+1];
+    
     // Determine ideal low pass filter coefficients
     maximallyFlat(beta, gamma, &numberCoefficients, coefficient);
 
@@ -60,10 +60,10 @@ TRMFIRFilter *TRMFIRFilterCreate(double beta, double gamma, double cutoff)
     }
 
     // Initialize the coefficients
-    increment = -1;
-    pointer = numberCoefficients;
-    for (i = 0; i < newFilter->numberTaps; i++) {
-        newFilter->FIRCoef[i] = coefficient[pointer];
+    int32_t increment = -1;
+    int32_t pointer = numberCoefficients;
+    for (uint32_t index = 0; index < newFilter->numberTaps; index++) {
+        newFilter->FIRCoef[index] = coefficient[pointer];
         pointer += increment;
         if (pointer <= 0) {
             pointer = 2;
@@ -76,8 +76,8 @@ TRMFIRFilter *TRMFIRFilterCreate(double beta, double gamma, double cutoff)
 
 #if DEBUG
     printf("\n");
-    for (i = 0; i < newFilter->numberTaps; i++)
-        printf("FIRCoef[%-d] = %11.8f\n", i, newFilter->FIRCoef[i]);
+    for (uint32_t index = 0; index < newFilter->numberTaps; index++)
+        printf("FIRCoef[%-d] = %11.8f\n", index, newFilter->FIRCoef[index]);
 #endif
 
     return newFilter;
@@ -105,58 +105,61 @@ void TRMFIRFilterFree(TRMFIRFilter *filter)
 // Calculates coefficients for a linear phase lowpass FIR  filter, with beta being the center frequency of the
 // transition band (as a fraction of the sampling frequency), and gamma the width of the transition band.
 
+// Returns 0 on success, or:
+//   BETA_OUT_OF_RANGE
+//   GAMMA_OUT_OF_RANGE
+//   GAMMA_TOO_SMALL
+
 int maximallyFlat(double beta, double gamma, int32_t *np, double *coefficient)
 {
-    double a[LIMIT+1], c[LIMIT+1], betaMinimum, ac;
-    int32_t nt, numerator, n, ll, i;
-
-
     // Initialize number of points
     (*np) = 0;
 
     // Cut-off frequency must be between 0 HZ and Nyquist
     if ((beta <= 0.0) || (beta >= 0.5))
         return BETA_OUT_OF_RANGE;
-
+    
     // Transition band must fit with the stop band
-    betaMinimum = ((2.0 * beta) < (1.0 - 2.0 * beta)) ? (2.0 * beta) : (1.0 - 2.0 * beta);
+    double betaMinimum = ((2.0 * beta) < (1.0 - 2.0 * beta)) ? (2.0 * beta) : (1.0 - 2.0 * beta);
     if ((gamma <= 0.0) || (gamma >= betaMinimum))
         return GAMMA_OUT_OF_RANGE;
-
+    
     // Make sure transition band not too small
-    nt = (int)(1.0 / (4.0 * gamma * gamma));
+    int32_t nt = (int32_t)(1.0 / (4.0 * gamma * gamma));
     if (nt > 160)
         return GAMMA_TOO_SMALL;
 
     // Calculate the rational approximation to the cut-off point
-    ac = (1.0 + cos(TWO_PI * beta)) / 2.0;
+    double ac = (1.0 + cos(TWO_PI * beta)) / 2.0;
+    
+    int32_t numerator;
     rationalApproximation(ac, &nt, &numerator, np);
 
     // Calculate filter order
-    n = (2 * (*np)) - 1;
+    int32_t n = (2 * (*np)) - 1;
     if (numerator == 0)
         numerator = 1;
 
+    
+    double a[COEFFICIENT_LIMIT+1], c[COEFFICIENT_LIMIT+1];
 
     // Compute magnitude at NP points
     c[1] = a[1] = 1.0;
-    ll = nt - numerator;
+    int32_t ll = nt - numerator;
 
-    for (i = 2; i <= (*np); i++) {
-        int j;
-        double x, sum = 1.0, y;
+    for (int32_t i = 2; i <= (*np); i++) {
+        double sum = 1.0;
         c[i] = cos(TWO_PI * ((double)(i-1)/(double)n));
-        x = (1.0 - c[i]) / 2.0;
-        y = x;
+        double x = (1.0 - c[i]) / 2.0;
+        double y = x;
         
         if (numerator == nt)
             continue;
         
-        for (j = 1; j <= ll; j++) {
+        for (int32_t j = 1; j <= ll; j++) {
             double z = y;
             if (numerator != 1) {
-                int jj;
-                for (jj = 1; jj <= (numerator - 1); jj++)
+                for (int32_t jj = 1; jj <= (numerator - 1); jj++)
                     z *= 1.0 + ((double)j / (double)jj);
             }
             y *= x;
@@ -167,10 +170,9 @@ int maximallyFlat(double beta, double gamma, int32_t *np, double *coefficient)
 
 
     /*  CALCULATE WEIGHTING COEFFICIENTS BY AN N-POINT IDFT  */
-    for (i = 1; i <= (*np); i++) {
-        int j;
+    for (int32_t i = 1; i <= (*np); i++) {
         coefficient[i] = a[1] / 2.0;
-        for (j = 2; j <= (*np); j++) {
+        for (int32_t j = 2; j <= (*np); j++) {
             int m = ((i - 1) * (j - 1)) % n;
             if (m > nt)
                 m = n - m;
@@ -185,9 +187,7 @@ int maximallyFlat(double beta, double gamma, int32_t *np, double *coefficient)
 // Trims the higher order coefficients of the FIR filter which fall below the cutoff value.
 void trim(double cutoff, int32_t *numberCoefficients, double *coefficient)
 {
-    int32_t i;
-
-    for (i = (*numberCoefficients); i > 0; i--) {
+    for (int32_t i = (*numberCoefficients); i > 0; i--) {
         if (fabs(coefficient[i]) >= fabs(cutoff)) {
             (*numberCoefficients) = i;
             return;
@@ -199,29 +199,28 @@ void trim(double cutoff, int32_t *numberCoefficients, double *coefficient)
 double FIRFilter(TRMFIRFilter *filter, double input, int32_t needOutput)
 {
     if (needOutput) {
-        int32_t i;
         double output = 0.0;
         
-        /*  PUT INPUT SAMPLE INTO DATA BUFFER  */
+        // Put input sample into data buffer
         filter->FIRData[filter->FIRPtr] = input;
         
-        /*  SUM THE OUTPUT FROM ALL FILTER TAPS  */
-        for (i = 0; i < filter->numberTaps; i++) {
+        // Sum the output from all filter taps
+        for (int32_t i = 0; i < filter->numberTaps; i++) {
             output += filter->FIRData[filter->FIRPtr] * filter->FIRCoef[i];
             filter->FIRPtr = increment(filter->FIRPtr, filter->numberTaps);
         }
         
-        /*  DECREMENT THE DATA POINTER READY FOR NEXT CALL  */
+        // Decrement the data pointer ready for next call
         filter->FIRPtr = decrement(filter->FIRPtr, filter->numberTaps);
         
-        /*  RETURN THE OUTPUT VALUE  */
+        // Return the output value
         //printf("FIRFilter(%g, %d) = %g\n", input, needOutput, output);
         return output;
     } else {
-        /*  PUT INPUT SAMPLE INTO DATA BUFFER  */
+        // Put input sample into data buffer
         filter->FIRData[filter->FIRPtr] = input;
         
-        /*  ADJUST THE DATA POINTER, READY FOR NEXT CALL  */
+        // Adjust the data pointer, ready for next call
         filter->FIRPtr = decrement(filter->FIRPtr, filter->numberTaps);
         
         //printf("FIRFilter(%g, %d) = %g\n", input, needOutput, 0.0);
@@ -250,11 +249,7 @@ int32_t decrement(int32_t pointer, int32_t modulus)
 // Calculates the best rational approximation to 'number', given the maximum 'order'.
 void rationalApproximation(double number, int32_t *order, int32_t *numerator, int32_t *denominator)
 {
-    double fractionalPart, minimumError = 1.0;
-    int32_t i, orderMaximum, modulus = 0;
-
-
-    /*  RETURN IMMEDIATELY IF THE ORDER IS LESS THAN ONE  */
+    // Return immediately if the order is less than one
     if (*order <= 0) {
         *numerator = 0;
         *denominator = 0;
@@ -262,15 +257,18 @@ void rationalApproximation(double number, int32_t *order, int32_t *numerator, in
         return;
     }
 
-    /*  FIND THE ABSOLUTE VALUE OF THE FRACTIONAL PART OF THE NUMBER  */
-    fractionalPart = fabs(number - (int)number);
+    // Find the absolute value of the fractional part of the number
+    double fractionalPart = fabs(number - (int)number);
 
-    /*  DETERMINE THE MAXIMUM VALUE OF THE DENOMINATOR  */
-    orderMaximum = 2 * (*order);
-    orderMaximum = (orderMaximum > LIMIT) ? LIMIT : orderMaximum;
+    // Determine the maximum value of the denominator
+    int32_t orderMaximum = 2 * (*order);
+    orderMaximum = (orderMaximum > COEFFICIENT_LIMIT) ? COEFFICIENT_LIMIT : orderMaximum;
 
-    /*  FIND THE BEST DENOMINATOR VALUE  */
-    for (i = (*order); i <= orderMaximum; i++) {
+    int32_t modulus = 0;
+    double minimumError = 1.0;
+
+    // Find the best denominator value
+    for (int32_t i = (*order); i <= orderMaximum; i++) {
         double ps = i * fractionalPart;
         int ip = (int)(ps + 0.5);
         double error = fabs( (ps - (double)ip)/(double)i );
@@ -281,15 +279,15 @@ void rationalApproximation(double number, int32_t *order, int32_t *numerator, in
         }
     }
 
-    /*  DETERMINE THE NUMERATOR VALUE, MAKING IT NEGATIVE IF NECESSARY  */
+    // Determine the numerator value, making it negative if necessary
     *numerator = (int)fabs(number) * (*denominator) + modulus;
     if (number < 0)
         *numerator *= (-1);
 
-    /*  SET THE ORDER  */
+    // set the order
     *order = *denominator - 1;
 
-    /*  RESET THE NUMERATOR AND DENOMINATOR IF THEY ARE EQUAL  */
+    // Reset the numerator and denominator if they are equal
     if (*numerator == *denominator) {
         *denominator = orderMaximum;
         *order = *numerator = *denominator - 1;
