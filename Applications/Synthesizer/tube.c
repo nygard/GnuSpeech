@@ -253,9 +253,6 @@ $Log: tube.c,v $
 #define OUTPUT_SRATE_HIGH         44100.0      /* not used apparently */
 #define BUFFER_SIZE               1024                 /*  ring buffer size  */
 
-/*  SIZE IN BITS PER OUTPUT SAMPLE  */
-#define BITS_PER_SAMPLE           16
-
 extern float PI, PI2;
 
 

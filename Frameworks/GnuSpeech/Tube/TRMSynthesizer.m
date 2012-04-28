@@ -10,9 +10,6 @@
 const uint16_t kWAVEFormat_Unknown         = 0x0000;
 const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 
-/*  SIZE IN BITS PER OUTPUT SAMPLE  */
-#define BITS_PER_SAMPLE           16
-
 @interface TRMSynthesizer ()
 - (NSData *)generateWAVDataWithSampleRateConverter:(TRMSampleRateConverter *)sampleRateConverter;
 @property (strong) AVAudioPlayer *audioPlayer;
