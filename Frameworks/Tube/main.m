@@ -9,41 +9,15 @@
 #include "output.h"
 #include "structs.h"
 
-//#define SHARK
-
 /*  BOOLEAN CONSTANTS  */
 #define FALSE                     0
 #define TRUE                      1
 
-/*  COMMAND LINE ARGUMENT VARIABLES  */
-//int verbose = FALSE;
+void printInputParameters(struct _TRMDataList *data, char *inputFile);
 
-void printInfo(struct _TRMDataList *data, char *inputFile);
-
-/******************************************************************************
- *
- *	function:	printInfo
- *
- *	purpose:	Prints pertinent variables to standard output.
- *
- *       arguments:      none
- *
- *	internal
- *	functions:	glotPitchAt, glotVolAt, aspVolAt, fricVolAt,
- *                       fricPosAt, fricCFAt, fricBWAt, radiusAtRegion,
- *                       velumAt
- *
- *	library
- *	functions:	printf
- *
- ******************************************************************************/
-
-void printInfo(struct _TRMDataList *data, char *inputFile)
+void printInputParameters(struct _TRMDataList *data, char *inputFile)
 {
 #if 0
-    int i;
-    
-    /*  PRINT INPUT FILE NAME  */
     printf("input file:\t\t%s\n\n", inputFile);
     
     /*  ECHO INPUT PARAMETERS  */
@@ -80,8 +54,8 @@ void printInfo(struct _TRMDataList *data, char *inputFile)
     printf("mouthCoef:\t\t%.1f Hz\n", data->inputParameters.mouthCoef);
     printf("noseCoef:\t\t%.1f Hz\n\n", data->inputParameters.noseCoef);
     
-    for (i = 1; i < TOTAL_NASAL_SECTIONS; i++)
-        printf("n%-d:\t\t\t%.2f cm\n", i, data->inputParameters.noseRadius[i]);
+    for (NSUInteger index = 1; index < TOTAL_NASAL_SECTIONS; index++)
+        printf("n%-d:\t\t\t%.2f cm\n", index, data->inputParameters.noseRadius[index]);
     
     printf("\nthroatCutoff:\t\t%.1f Hz\n", data->inputParameters.throatCutoff);
     printf("throatVol:\t\t%.2f dB\n\n", data->inputParameters.throatVol);
@@ -102,39 +76,19 @@ void printInfo(struct _TRMDataList *data, char *inputFile)
 #if DEBUG
     /*  PRINT OUT WAVE TABLE VALUES  */
     printf("\n");
-    for (i = 0; i < TABLE_LENGTH; i++)
-        printf("table[%-d] = %.4f\n", i, wavetable[i]);
+    for (NSUInteger index = 0; index < TABLE_LENGTH; i++)
+        printf("table[%-d] = %.4f\n", index, wavetable[index]);
 #endif
     
     printControlRateInputTable(data);
 #endif
 }
 
-/******************************************************************************
- *
- *	function:	main
- *
- *	purpose:	Controls overall execution.
- *
- *       arguments:      inputFile, outputFile
- *
- *	internal
- *	functions:	parseInputFile, initializeSynthesizer, printInfo,
- *                       synthesize, writeOutputToFile
- *
- *	library
- *	functions:	strcpy, fprintf, exit, printf, fflush
- *
- ******************************************************************************/
-
 int main(int argc, char *argv[])
 {
     char inputFile[MAXPATHLEN + 1];
     char outputFile[MAXPATHLEN + 1];
-    TRMDataList *inputData;
-    TRMTubeModel *tube;
     
-    /*  PARSE THE COMMAND LINE  */
     if (argc == 3) {
         strcpy(inputFile, argv[1]);
         strcpy(outputFile, argv[2]);
@@ -147,65 +101,43 @@ int main(int argc, char *argv[])
         exit(-1);
     }
     
-#ifdef SHARK
-    {
-        char buf[100];
-        printf("Waiting to start...\n");
-        gets(buf);
-    }
-#endif
-    
-    /*  PARSE THE INPUT FILE FOR INPUT INFORMATION  */
-    inputData = parseInputFile(inputFile);
+    TRMDataList *inputData = parseInputFile(inputFile);
     if (inputData == NULL) {
         fprintf(stderr, "Aborting...\n");
         exit(-1);
     }
     
-    /*  INITIALIZE THE SYNTHESIZER  */
-    tube = TRMTubeModelCreate(&(inputData->inputParameters));
+    // Initialize the synthesizer
+    TRMTubeModel *tube = TRMTubeModelCreate(&(inputData->inputParameters));
     if (tube == NULL) {
         fprintf(stderr, "Aborting...\n");
         exit(-1);
     }
     
-    /*  PRINT OUT PARAMETER INFORMATION  */
+    // Print out parameter information
     if (verbose)
-        printInfo(inputData, inputFile);
+        printInputParameters(inputData, inputFile);
     
-    /*  PRINT OUT CALCULATING MESSAGE  */
     if (verbose) {
         printf("\nCalculating floating point samples...");
         fflush(stdout);
     }
     
-    /*  SYNTHESIZE THE SPEECH  */
     if (verbose) {
         printf("\nStarting synthesis\n");
         fflush(stdout);
     }
     synthesize(tube, inputData);
     
-    /*  PRINT OUT DONE MESSAGE  */
     if (verbose)
         printf("done.\n");
     
-    /*  OUTPUT SAMPLES TO OUTPUT FILE  */
     writeOutputToFile(&(tube->sampleRateConverter), inputData, outputFile);
     
-    /*  PRINT OUT FINISHED MESSAGE  */
     if (verbose)
         printf("\nWrote scaled samples to file:  %s\n", outputFile);
     
     TRMTubeModelFree(tube);
-    
-#ifdef SHARK
-    {
-        char buf[100];
-        printf("Done, waiting...\n");
-        gets(buf);
-    }
-#endif
     
     return 0;
 }
