@@ -3,34 +3,46 @@
 
 #import "PhoneToSpeech.h"
 
+#import <GnuSpeech/GnuSpeech.h>
+
 // Location of the diphones XML file that allows speech to happen.
 #define GNUSPEECH_SERVER_DIPHONES_XML_PATH	@"/Library/GnuSpeech/Diphones.mxml"
 
 // These defines were taken from Monet's MSynthesisController.m
 #define MDK_ShouldUseSmoothIntonation @"ShouldUseSmoothIntonation"
-#define MDK_ShouldUseMacroIntonation @"ShouldUseMacroIntonation"
-#define MDK_ShouldUseMicroIntonation @"ShouldUseMicroIntonation"
-#define MDK_ShouldUseDrift @"ShouldUseDrift"
+#define MDK_ShouldUseMacroIntonation  @"ShouldUseMacroIntonation"
+#define MDK_ShouldUseMicroIntonation  @"ShouldUseMicroIntonation"
+#define MDK_ShouldUseDrift            @"ShouldUseDrift"
+
+@interface PhoneToSpeech () <EventListDelegate>
+
+@property (nonatomic, strong) MModel *model;
+@property (readonly) EventList *eventList;
+@property (readonly) TRMSynthesizer *synthesizer;
+
+- (void)synthesize:(NSString *)phoneString;
+- (void)prepareForSynthesis;
+- (void)continueSynthesis;
+@end
 
 @implementation PhoneToSpeech
 {
-	MModel *model;
-    EventList *eventList;	
-	TRMSynthesizer *synthesizer;
+	MModel *m_model;
+    EventList *m_eventList;
+	TRMSynthesizer *m_synthesizer;
 }
 
 - (id)init;
 {
 	if ((self = [super init])) {
-        eventList = [[EventList alloc] init];
-        synthesizer = [[TRMSynthesizer alloc] init];
+        m_eventList = [[EventList alloc] init];
+        m_synthesizer = [[TRMSynthesizer alloc] init];
 	
         // Now get the model from the diphones XML file.
-        MDocument *document = [[MDocument alloc] init];
+        MDocument *document = [[[MDocument alloc] init] autorelease];
         BOOL result = [document loadFromXMLFile:GNUSPEECH_SERVER_DIPHONES_XML_PATH];
-        if (result == YES)
-            [self setModel:[document model]];
-        [document release];
+        if (result)
+            self.model = document.model;
     }
 	
 	return self;
@@ -38,93 +50,105 @@
 
 - (void)dealloc;
 {
-    [model release];
-    [eventList release];
-    [synthesizer release];
+    [m_model release];
+    [m_eventList release];
+    [m_synthesizer release];
 	
 	[super dealloc];
 }
 
-- (void)speakPhoneString:(NSString *)phoneString;
-{
-	[self synthesize:phoneString];
-}
+#pragma mark -
 
 - (MModel *)model;
 {
-    return model;
+    return m_model;
 }
 
 - (void)setModel:(MModel *)newModel;
 {
-    if (newModel == model)
-        return;
-	
-    [model release];
-    model = [newModel retain];	
-    [eventList setModel:model];
+    if (newModel != m_model) {
+        [m_model release];
+        m_model = [newModel retain];
+        [self.eventList setModel:m_model];
+    }
 }
+
+@synthesize synthesizer = m_synthesizer;
+@synthesize eventList = m_eventList;
+
+#pragma mark -
 
 - (void)synthesize:(NSString *)phoneString;
 {
     [self prepareForSynthesis];
 	
-    [eventList parsePhoneString:phoneString];  // this creates the tone groups, feet, etc.
-    [eventList applyRhythm];
-    [eventList applyRules];  // this applies the rules, adding events to the EventList
-    [eventList generateIntonationPoints];
+    [self.eventList parsePhoneString:phoneString];  // this creates the tone groups, feet, etc.
+    [self.eventList applyRhythm];
+    [self.eventList applyRules];                    // this applies the rules, adding events to the EventList
+    [self.eventList generateIntonationPoints];
 	
     [self continueSynthesis];
 }
 
 - (void)prepareForSynthesis;
 {
-    // NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
-		
-    [eventList setUp];
+    [self.eventList setUp];
 	
-    [eventList setPitchMean:[[[self model] synthesisParameters] pitch]];
-    [eventList setGlobalTempo:1.0];  // hard-coded defaults taken from Monet
-    [eventList setShouldStoreParameters:NO];
+    self.eventList.pitchMean = [[[self model] synthesisParameters] pitch];
+    self.eventList.globalTempo = 1.0;  // hard-coded defaults taken from Monet
 	
-    //[eventList setShouldUseMacroIntonation:[defaults boolForKey:MDK_ShouldUseMacroIntonation]];
-    //[eventList setShouldUseMicroIntonation:[defaults boolForKey:MDK_ShouldUseMicroIntonation]];
-    //[eventList setShouldUseDrift:[defaults boolForKey:MDK_ShouldUseDrift]];
-	[eventList setShouldUseMacroIntonation:YES];
-	[eventList setShouldUseMicroIntonation:YES];
-	[eventList setShouldUseDrift:YES];		
-	[eventList.driftGenerator configureWithDeviation:1.0 sampleRate:500 lowpassCutoff:4.0];  // hard-coded defaults taken from Monet
-    [eventList setRadiusMultiply:1.0];  // hard-coded defaults taken from Monet
+	self.eventList.shouldUseMacroIntonation = YES;
+	self.eventList.shouldUseMicroIntonation = YES;
+	self.eventList.shouldUseDrift = YES;
+	[self.eventList.driftGenerator configureWithDeviation:1.0 sampleRate:500 lowpassCutoff:4.0];  // hard-coded defaults taken from Monet
+    self.eventList.radiusMultiply = 1.0;  // hard-coded defaults taken from Monet
 	
-    [self _takeIntonationParametersFromUI];
-}
-
-- (void)_takeIntonationParametersFromUI;
-{
 	// These are the Monet defaults we've just hard-coded (for now).
-    eventList.intonationParameters.notionalPitch = -1.0;
-    eventList.intonationParameters.pretonicRange = 2.0;
-    eventList.intonationParameters.pretonicLift  = -2.0;
-    eventList.intonationParameters.tonicRange    = -10.0;
-    eventList.intonationParameters.tonicMovement = -6.0;
+    self.eventList.intonationParameters.notionalPitch = -1.0;
+    self.eventList.intonationParameters.pretonicRange = 2.0;
+    self.eventList.intonationParameters.pretonicLift  = -2.0;
+    self.eventList.intonationParameters.tonicRange    = -10.0;
+    self.eventList.intonationParameters.tonicMovement = -6.0;
 }
 
 - (void)continueSynthesis;
 {
     // NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];	
     // [eventList setShouldUseSmoothIntonation:[defaults boolForKey:MDK_ShouldUseSmoothIntonation]];
-	[eventList setShouldUseSmoothIntonation:YES];
+	[self.eventList setShouldUseSmoothIntonation:YES];
 	
-    [eventList applyIntonation];
+    [self.eventList applyIntonation];
 		
-    [synthesizer setupSynthesisParameters:[[self model] synthesisParameters]]; // TODO (2004-08-22): This may overwrite the file type...
-    [synthesizer removeAllParameters];
+    [self.synthesizer setupSynthesisParameters:[[self model] synthesisParameters]]; // TODO (2004-08-22): This may overwrite the file type...
+    [self.synthesizer removeAllParameters];
 	
-    [eventList setDelegate:synthesizer];
-    [eventList generateOutput];
-    [eventList setDelegate:nil];
+    self.eventList.delegate = self;
+    [self.eventList generateOutput];
+    self.eventList.delegate = nil;
 	
-    [synthesizer synthesize];		
+    [self.synthesizer synthesize];
+}
+
+#pragma mark - EventListDelegate
+
+- (void)eventListWillGenerateOutput:(EventList *)eventList;
+{
+}
+
+- (void)eventList:(EventList *)eventList generatedOutputValues:(float *)valPtr valueCount:(NSUInteger)count;
+{
+    [self.synthesizer addParameters:valPtr];
+}
+
+- (void)eventListDidGenerateOutput:(EventList *)eventList;
+{
+}
+
+#pragma mark - Public API
+
+- (void)speakPhoneString:(NSString *)phoneString;
+{
+	[self synthesize:phoneString];
 }
 
 @end

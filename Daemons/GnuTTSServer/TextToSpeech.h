@@ -3,12 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class MMTextToPhone, PhoneToSpeech;
-
 @interface TextToSpeech : NSObject
-
-- (id)init;
-- (void)dealloc;
 
 - (void)speakText:(NSString *)text;
 

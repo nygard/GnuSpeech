@@ -2,38 +2,40 @@
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "TextToSpeech.h"
-#import "PhoneToSpeech.h"
 
 #import <GnuSpeech/GnuSpeech.h>
+#import "PhoneToSpeech.h"
 
 @implementation TextToSpeech
 {
-	MMTextToPhone *textToPhone;
-	PhoneToSpeech *phoneToSpeech;
+	MMTextToPhone *m_textToPhone;
+	PhoneToSpeech *m_phoneToSpeech;
 }
 
 - (id)init;
 {
-	[super init];
-	
-	textToPhone = [[MMTextToPhone alloc] init];
-	phoneToSpeech = [[PhoneToSpeech alloc] init];
+	if ((self = [super init])) {
+        m_textToPhone = [[MMTextToPhone alloc] init];
+        m_phoneToSpeech = [[PhoneToSpeech alloc] init];
+    }
 
 	return self;
 }
 
 - (void)dealloc;
 {
-	[textToPhone release];
-	[phoneToSpeech release];
+	[m_textToPhone release];
+	[m_phoneToSpeech release];
 	
 	[super dealloc];
 }
 
+#pragma mark -
+
 - (void)speakText:(NSString *)text;
 {
-	NSString * phoneString = [textToPhone phoneForText:text];	
-	[phoneToSpeech speakPhoneString:phoneString];
+	NSString *phoneString = [m_textToPhone phoneForText:text];
+	[m_phoneToSpeech speakPhoneString:phoneString];
 }
 
 @end
