@@ -138,18 +138,13 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 - (void)addParameters:(float *)values;
 {
     double dvalues[16];
-    double radius[TOTAL_REGIONS];
 
-    {
-        char buf[100];
-
-        for (NSUInteger index = 0; index < 16; index++) {
-            sprintf(buf, "%.3f", values[index]);
-            dvalues[index] = strtod(buf, NULL); // TODO (2012-04-28): Just assign the values!
-        }
+    for (NSUInteger index = 0; index < 16; index++) {
+        dvalues[index] = values[index];
     }
 
     // TODO (2004-05-07): I don't think the last two are used!
+    double radius[TOTAL_REGIONS];
     radius[0] = dvalues[7];
     radius[1] = dvalues[8];
     radius[2] = dvalues[9];
