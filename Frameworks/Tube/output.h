@@ -16,7 +16,7 @@ enum {
 typedef NSUInteger TRMSoundFileFormat;
 
 // Maximum sample value
-#define RANGE_MAX                 32767.0
+#define TRMSampleValue_Maximum    32767.0
 
 // Size in bits per output sample
 #define BITS_PER_SAMPLE           16
