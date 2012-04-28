@@ -22,9 +22,9 @@
 
 extern int verbose;
 
-extern TRMTubeModel *TRMTubeModelCreate(TRMInputParameters *inputParameters);
-extern void TRMTubeModelFree(TRMTubeModel *model);
+TRMTubeModel *TRMTubeModelCreate(TRMInputParameters *inputParameters);
+void TRMTubeModelFree(TRMTubeModel *model);
 
-extern void synthesize(TRMTubeModel *tubeModel, TRMDataList *data);
+void synthesize(TRMTubeModel *tubeModel, TRMDataList *data);
 
 #endif

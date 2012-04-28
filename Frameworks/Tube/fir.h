@@ -19,9 +19,9 @@ typedef struct {
     int32_t numberTaps;
 } TRMFIRFilter;
 
-extern TRMFIRFilter *TRMFIRFilterCreate(double beta, double gamma, double cutoff);
-extern void TRMFIRFilterFree(TRMFIRFilter *filter);
+TRMFIRFilter *TRMFIRFilterCreate(double beta, double gamma, double cutoff);
+void TRMFIRFilterFree(TRMFIRFilter *filter);
 
-extern double FIRFilter(TRMFIRFilter *filter, double input, int32_t needOutput);
+double FIRFilter(TRMFIRFilter *filter, double input, int32_t needOutput);
 
 #endif
