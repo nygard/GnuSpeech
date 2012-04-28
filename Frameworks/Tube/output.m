@@ -27,91 +27,86 @@ static size_t fwriteShortLsb(int32_t data, FILE *stream);
 // header.  Also does master volume scaling, and stereo balance scaling, if 2 channels of output.
 void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMDataList *data, const char *fileName)
 {
-    FILE *fd;
-    double scale, leftScale = 0.0, rightScale = 0.0;
-
-
-    // Calculate scaling constant
     //printf("maximumSampleValue: %g\n", sampleRateConverter->maximumSampleValue);
-    scale = (RANGE_MAX / sampleRateConverter->maximumSampleValue) * amplitude(data->inputParameters.volume);
+    
+    // Calculate scaling constant
+    double scale = (RANGE_MAX / sampleRateConverter->maximumSampleValue) * amplitude(data->inputParameters.volume);
 
-    // Print out info
     /*if (verbose)*/ {
         printf("\nnumber of samples:\t%-d\n", sampleRateConverter->numberSamples);
         printf("maximum sample value:\t%.4f\n", sampleRateConverter->maximumSampleValue);
         printf("scale:\t\t\t%.4f\n", scale);
     }
 
-    /*  If stereo, calculate left and right scaling constants  */
+    // If stereo, calculate left and right scaling constants
+    double leftScale = 1.0, rightScale = 1.0;
     if (data->inputParameters.channels == 2) {
-		/*  Calculate left and right channel amplitudes  */
+		// Calculate left and right channel amplitudes
 		leftScale = -((data->inputParameters.balance / 2.0) - 0.5) * scale * 2.0;
 		rightScale = ((data->inputParameters.balance / 2.0) + 0.5) * scale * 2.0;
 
-		/*  Print out info  */
 		if (verbose) {
 			printf("left scale:\t\t%.4f\n", leftScale);
 			printf("right scale:\t\t%.4f\n", rightScale);
 		}
     }
 
-    /*  Rewind the temporary file to beginning  */
+    // Rewind the temporary file to beginning
     rewind(sampleRateConverter->tempFilePtr);
 
-    /*  Open the output file  */
-    fd = fopen(fileName, "wb");
-    if (fd == NULL) {
+    // Open the output file
+    FILE *outputFileDescriptor = fopen(fileName, "wb");
+    if (outputFileDescriptor == NULL) {
         perror("fopen");
         exit(-1);
     }
 
-    /*  Scale and write out samples to the output file  */
+    // Scale and write out samples to the output file
     if (data->inputParameters.outputFileFormat == TRMSoundFileFormat_AU) {
-        writeAuFileHeader(data->inputParameters.channels, sampleRateConverter->numberSamples, data->inputParameters.outputRate, fd);
+        writeAuFileHeader(data->inputParameters.channels, sampleRateConverter->numberSamples, data->inputParameters.outputRate, outputFileDescriptor);
         if (data->inputParameters.channels == 1)
-            writeSamplesMonoMsb(sampleRateConverter->tempFilePtr, sampleRateConverter->numberSamples, scale, fd);
+            writeSamplesMonoMsb(sampleRateConverter->tempFilePtr, sampleRateConverter->numberSamples, scale, outputFileDescriptor);
         else
-            writeSamplesStereoMsb(sampleRateConverter->tempFilePtr, sampleRateConverter->numberSamples, leftScale, rightScale, fd);
+            writeSamplesStereoMsb(sampleRateConverter->tempFilePtr, sampleRateConverter->numberSamples, leftScale, rightScale, outputFileDescriptor);
     } else if (data->inputParameters.outputFileFormat == TRMSoundFileFormat_AIFF) {
-        writeAiffFileHeader(data->inputParameters.channels, sampleRateConverter->numberSamples, data->inputParameters.outputRate, fd);
+        writeAiffFileHeader(data->inputParameters.channels, sampleRateConverter->numberSamples, data->inputParameters.outputRate, outputFileDescriptor);
         if (data->inputParameters.channels == 1)
-            writeSamplesMonoMsb(sampleRateConverter->tempFilePtr, sampleRateConverter->numberSamples, scale, fd);
+            writeSamplesMonoMsb(sampleRateConverter->tempFilePtr, sampleRateConverter->numberSamples, scale, outputFileDescriptor);
         else
-            writeSamplesStereoMsb(sampleRateConverter->tempFilePtr, sampleRateConverter->numberSamples, leftScale, rightScale, fd);
+            writeSamplesStereoMsb(sampleRateConverter->tempFilePtr, sampleRateConverter->numberSamples, leftScale, rightScale, outputFileDescriptor);
     } else if (data->inputParameters.outputFileFormat == TRMSoundFileFormat_WAVE) {
-        writeWaveFileHeader(data->inputParameters.channels, sampleRateConverter->numberSamples, data->inputParameters.outputRate, fd);
+        writeWaveFileHeader(data->inputParameters.channels, sampleRateConverter->numberSamples, data->inputParameters.outputRate, outputFileDescriptor);
         if (data->inputParameters.channels == 1)
-            writeSamplesMonoLsb(sampleRateConverter->tempFilePtr, sampleRateConverter->numberSamples, scale, fd);
+            writeSamplesMonoLsb(sampleRateConverter->tempFilePtr, sampleRateConverter->numberSamples, scale, outputFileDescriptor);
         else
-            writeSamplesStereoLsb(sampleRateConverter->tempFilePtr, sampleRateConverter->numberSamples, leftScale, rightScale, fd);
+            writeSamplesStereoLsb(sampleRateConverter->tempFilePtr, sampleRateConverter->numberSamples, leftScale, rightScale, outputFileDescriptor);
     }
 
-    /*  Close the output file  */
-    fclose(fd);
+    fclose(outputFileDescriptor);
 }
 
 // Writes the header in AU format to the output file.
 void writeAuFileHeader(int32_t channels, int32_t numberSamples, float outputRate, FILE *outputFile)
 {
-    /*  AU magic string: ".snd"  */
+    // AU magic string: ".snd"
     fputs(".snd", outputFile);
 
-    /*  Header size (fixed in size at 28 bytes)  */
+    // Header size (fixed in size at 28 bytes)
     fwriteIntMsb(28, outputFile);
 
-    /*  Number of bytes of sound data  */
+    // Number of bytes of sound data
     fwriteIntMsb(channels * numberSamples * sizeof(short), outputFile);
 
-    /*  Sound format:  3 is 16-bit linear  */
+    // Sound format:  3 is 16-bit linear
     fwriteIntMsb(3, outputFile);
 
-    /*  Output sample rate in samples/second  */
+    // Output sample rate in samples/second
     fwriteIntMsb((int)outputRate, outputFile);
 
-    /*  Number of channels  */
+    // Number of channels
     fwriteIntMsb(channels, outputFile);
 
-    /*  Optional text description (4 bytes minimum)  */
+    // Optional text description (4 bytes minimum)
     fwriteIntMsb(0, outputFile);
 }
 
@@ -123,45 +118,45 @@ void writeAiffFileHeader(int32_t channels, int32_t numberSamples, float outputRa
     int32_t ssndChunkSize = soundDataSize + 8;
     int32_t formSize = ssndChunkSize + 8 + 26 + 4;
 
-    /*  Form container identifier  */
+    // Form container identifier
     fputs("FORM", outputFile);
 
-    /*  Form size  */
+    // Form size
     fwriteIntMsb(formSize, outputFile);
 
-    /*  Form container type  */
+    // Form container type
     fputs("AIFF", outputFile);
 
-    /*  Common chunk identifier  */
+    // Common chunk identifier
     fputs("COMM", outputFile);
 
-    /*  Chunk size (fixed at 18 bytes)  */
+    // Chunk size (fixed at 18 bytes)
     fwriteIntMsb(18, outputFile);
 
-    /*  Number of channels  */
+    // Number of channels
     fwriteShortMsb((short)channels, outputFile);
 
-    /*  Number of sample frames  */
+    // Number of sample frames
     fwriteIntMsb(numberSamples, outputFile);
 
-    /*  Number of bits per samples (fixed at 16)  */
+    // Number of bits per samples (fixed at 16)
     fwriteShortMsb(BITS_PER_SAMPLE, outputFile);
 
-    /*  Sample frames per second (output sample rate)  */
-    /*  stored as an 80-bit (10-byte) float  */
+    // Sample frames per second (output sample rate)
+    // stored as an 80-bit (10-byte) float
     convertIntToFloat80((uint32_t)outputRate, sampleFramesPerSecond);
     fwrite(sampleFramesPerSecond, sizeof(uint8_t), 10, outputFile);
 
-    /*  Sound Data chunk identifier  */
+    // Sound Data chunk identifier
     fputs("SSND", outputFile);
 
-    /*  Chunk size  */
+    // Chunk size
     fwriteIntMsb(ssndChunkSize, outputFile);
 
-    /*  Offset:  unused, so set to 0  */
+    // Offset:  unused, so set to 0
     fwriteIntMsb(0, outputFile);
 
-    /*  Block size:  unused, so set to 0  */
+    // Block size:  unused, so set to 0
     fwriteIntMsb(0, outputFile);
 }
 
@@ -174,43 +169,43 @@ void writeWaveFileHeader(int32_t channels, int32_t numberSamples, float outputRa
     int32_t frameSize = (int32_t)ceil(channels * ((double)BITS_PER_SAMPLE / 8));
     int32_t bytesPerSecond = (int32_t)ceil(outputRate * frameSize);
 
-    /*  Form container identifier  */
+    // Form container identifier
     fputs("RIFF", outputFile);
 
-    /*  Form size  */
+    // Form size
     fwriteIntLsb(formSize, outputFile);
 
-    /*  Form container type  */
+    // Form container type
     fputs("WAVE", outputFile);
 
-    /*  Format chunk identifier (Note:  space after 't' needed)  */
+    // Format chunk identifier (Note:  space after 't' needed)
     fputs("fmt ", outputFile);
 
-    /*  Chunk size (fixed at 16 bytes)  */
+    // Chunk size (fixed at 16 bytes)
     fwriteIntLsb(16, outputFile);
 
-    /*  Compression code:  1 = PCM  */
+    // Compression code:  1 = PCM
     fwriteShortLsb(1, outputFile);
 
-    /*  Number of channels  */
+    // Number of channels
     fwriteShortLsb((short)channels, outputFile);
 
-    /*  Output Sample Rate  */
+    // Output Sample Rate
     fwriteIntLsb((int)outputRate, outputFile);
 
-    /*  Bytes per second  */
+    // Bytes per second
     fwriteIntLsb(bytesPerSecond, outputFile);
 
-    /*  Block alignment (frame size)  */
+    // Block alignment (frame size)
     fwriteShortLsb((short)frameSize, outputFile);
 
-    /*  Bits per sample  */
+    // Bits per sample
     fwriteShortLsb((short)BITS_PER_SAMPLE, outputFile);
 
-    /*  Sound Data chunk identifier  */
+    // Sound Data chunk identifier
     fputs("data", outputFile);
 
-    /*  Chunk size  */
+    // Chunk size
     fwriteIntLsb(dataChunkSize, outputFile);
 }
 
@@ -218,10 +213,8 @@ void writeWaveFileHeader(int32_t channels, int32_t numberSamples, float outputRa
 // and writes them to the output file in big-endian format.
 void writeSamplesMonoMsb(FILE *tempFile, int32_t numberSamples, double scale, FILE *outputFile)
 {
-    int32_t i;
-
-    /*  Write the samples to file, scaling each sample  */
-    for (i = 0; i < numberSamples; i++) {
+    // Write the samples to file, scaling each sample
+    for (int32_t i = 0; i < numberSamples; i++) {
         double sample;
 
         fread(&sample, sizeof(sample), 1, tempFile);
@@ -234,10 +227,8 @@ void writeSamplesMonoMsb(FILE *tempFile, int32_t numberSamples, double scale, FI
 // and writes them to the output file in little-endian format.
 void writeSamplesMonoLsb(FILE *tempFile, int32_t numberSamples, double scale, FILE *outputFile)
 {
-    int32_t i;
-
-    /*  Write the samples to file, scaling each sample  */
-    for (i = 0; i < numberSamples; i++) {
+    // Write the samples to file, scaling each sample
+    for (int32_t i = 0; i < numberSamples; i++) {
         double sample;
 
         fread(&sample, sizeof(sample), 1, tempFile);
@@ -249,10 +240,8 @@ void writeSamplesMonoLsb(FILE *tempFile, int32_t numberSamples, double scale, FI
 // integer, and writes them to the output file in big-endian format.
 void writeSamplesStereoMsb(FILE *tempFile, int32_t numberSamples, double leftScale, double rightScale, FILE *outputFile)
 {
-    int32_t i;
-
-    /*  Write the samples to file, scaling each sample  */
-    for (i = 0; i < numberSamples; i++) {
+    // Write the samples to file, scaling each sample
+    for (int32_t i = 0; i < numberSamples; i++) {
         double sample;
 
         fread(&sample, sizeof(sample), 1, tempFile);
@@ -265,10 +254,8 @@ void writeSamplesStereoMsb(FILE *tempFile, int32_t numberSamples, double leftSca
 // integer, and writes them to the output file in little-endian format.
 void writeSamplesStereoLsb(FILE *tempFile, int32_t numberSamples, double leftScale, double rightScale, FILE *outputFile)
 {
-    int32_t i;
-
-    /*  Write the samples to file, scaling each sample  */
-    for (i = 0; i < numberSamples; i++) {
+    // Write the samples to file, scaling each sample
+    for (int32_t i = 0; i < numberSamples; i++) {
         double sample;
 
         fread(&sample, sizeof(sample), 1, tempFile);
@@ -328,14 +315,13 @@ size_t fwriteShortLsb(int data, FILE *stream)
 // Converts an unsigned 4-byte integer to an IEEE 754 10-byte (80-bit) floating point number.
 void convertIntToFloat80(uint32_t value, uint8_t buffer[10])
 {
-    uint32_t exp;
     uint16_t i;
 
     // Set all bytes in buffer to 0
     memset(buffer, 0, 10);
 
     // Calculate the exponent
-    exp = value;
+    uint32_t exp = value;
     for (i = 0; i < 32; i++) {
         exp >>= 1;
         if (!exp)

@@ -145,7 +145,7 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 
         for (NSUInteger index = 0; index < 16; index++) {
             sprintf(buf, "%.3f", values[index]);
-            dvalues[index] = strtod(buf, NULL);
+            dvalues[index] = strtod(buf, NULL); // TODO (2012-04-28): Just assign the values!
         }
     }
 
@@ -218,8 +218,6 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 
 - (NSData *)generateWAVDataWithSampleRateConverter:(TRMSampleRateConverter *)sampleRateConverter;
 {
-    NSUInteger index;
-
     if (sampleRateConverter->maximumSampleValue == 0)
         NSBeep();
 
@@ -235,27 +233,24 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
     rewind(sampleRateConverter->tempFilePtr);
 
     if (m_inputData->inputParameters.channels == 2) {
-        double leftScale, rightScale;
-	
 		// Calculate left and right channel amplitudes.
 		//
 		// leftScale = -((inputData->inputParameters.balance / 2.0) - 0.5) * scale * 2.0;
 		// rightScale = ((inputData->inputParameters.balance / 2.0) + 0.5) * scale * 2.0;
 
         // This doesn't have the crackling when at all left or all right, but it's not as loud as Mono by default.
-		leftScale = -((m_inputData->inputParameters.balance / 2.0) - 0.5) * scale;
-		rightScale = ((m_inputData->inputParameters.balance / 2.0) + 0.5) * scale;
+		double leftScale = -((m_inputData->inputParameters.balance / 2.0) - 0.5) * scale;
+		double rightScale = ((m_inputData->inputParameters.balance / 2.0) + 0.5) * scale;
 
         printf("left scale:\t\t%.4f\n", leftScale);
         printf("right scale:\t\t%.4f\n", rightScale);
 
-        for (index = 0; index < sampleRateConverter->numberSamples; index++) {
+        for (NSUInteger index = 0; index < sampleRateConverter->numberSamples; index++) {
             double sample;
-            uint16_t value;
 
             fread(&sample, sizeof(sample), 1, sampleRateConverter->tempFilePtr);
 
-            value = (short)rint(sample * leftScale);
+            uint16_t value = (short)rint(sample * leftScale);
             [sampleData appendBytes:&value length:sizeof(value)];
 
             value = (short)rint(sample * rightScale);
@@ -264,13 +259,12 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 		
     } else {
 		
-        for (index = 0; index < sampleRateConverter->numberSamples; index++) {
+        for (NSUInteger index = 0; index < sampleRateConverter->numberSamples; index++) {
             double sample;
-            uint16_t value;
 
             fread(&sample, sizeof(sample), 1, sampleRateConverter->tempFilePtr);
 
-            value = (short)rint(sample * scale);
+            uint16_t value = (short)rint(sample * scale);
             [sampleData appendBytes:&value length:sizeof(value)];
         }
     }
