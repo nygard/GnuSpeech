@@ -193,11 +193,6 @@ $Log: tube.c,v $
 #define PULSE                     0
 #define SINE                      1
 
-/*  OVERSAMPLING FIR FILTER CHARACTERISTICS  */
-#define FIR_BETA                  .2
-#define FIR_GAMMA                 .1
-#define FIR_CUTOFF                .00000001
-
 /*  PITCH VARIABLES  */
 #define PITCH_BASE                220.0
 #define PITCH_OFFSET              3           /*  MIDDLE C = 0  */
@@ -260,17 +255,9 @@ $Log: tube.c,v $
 #define mValue(x)                 ((x) & M_MASK)
 #define fractionValue(x)          ((x) & FRACTION_MASK)
 
-#define BETA                      5.658        /*  kaiser window parameters  */
-#define IzeroEPSILON              1E-21
-
 #define OUTPUT_SRATE_LOW          22050.0      /* not used apparently */
 #define OUTPUT_SRATE_HIGH         44100.0      /* not used apparently */
 #define BUFFER_SIZE               1024                 /*  ring buffer size  */
-
-/*  OUTPUT FILE FORMAT CONSTANTS  */
-#define AU_FILE_FORMAT            0
-#define AIFF_FILE_FORMAT          1
-#define WAVE_FILE_FORMAT          2
 
 /*  SIZE IN BITS PER OUTPUT SAMPLE  */
 #define BITS_PER_SAMPLE           16
