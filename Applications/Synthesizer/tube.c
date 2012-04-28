@@ -216,9 +216,6 @@ $Log: tube.c,v $
 #define FACTOR                    377.0
 #define INITIAL_SEED              0.7892347
 
-/*  MAXIMUM SAMPLE VALUE  */
-#define RANGE_MAX                 32767.0
-
 /*  FUNCTION RETURN CONSTANTS  */
 #define ERROR                     (-1)
 #define SUCCESS                   0
