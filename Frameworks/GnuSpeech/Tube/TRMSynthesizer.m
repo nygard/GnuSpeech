@@ -261,7 +261,7 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
         }
     }
 
-    int frameSize = (int)ceil(m_inputData->inputParameters.channels * ((double)BITS_PER_SAMPLE / 8));
+    int frameSize = (int)ceil(m_inputData->inputParameters.channels * ((double)TRMBitsPerSample / 8));
     int bytesPerSecond = (int)ceil(m_inputData->inputParameters.outputRate * frameSize);
     
     NSMutableData *data = [NSMutableData data];
@@ -282,7 +282,7 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
     [data appendLittleInt32:m_inputData->inputParameters.outputRate];
     [data appendLittleInt32:bytesPerSecond];
     [data appendLittleInt16:frameSize];
-    [data appendLittleInt16:BITS_PER_SAMPLE];
+    [data appendLittleInt16:TRMBitsPerSample];
     [data appendLittleInt16:0];
     
     // Data chunk

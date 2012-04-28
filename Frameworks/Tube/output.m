@@ -140,7 +140,7 @@ void writeAiffFileHeader(int32_t channels, int32_t numberSamples, float outputRa
     fwriteIntMsb(numberSamples, outputFile);
 
     // Number of bits per samples (fixed at 16)
-    fwriteShortMsb(BITS_PER_SAMPLE, outputFile);
+    fwriteShortMsb(TRMBitsPerSample, outputFile);
 
     // Sample frames per second (output sample rate)
     // stored as an 80-bit (10-byte) float
@@ -166,7 +166,7 @@ void writeWaveFileHeader(int32_t channels, int32_t numberSamples, float outputRa
     int32_t soundDataSize = channels * numberSamples * sizeof(uint16_t);
     int32_t dataChunkSize = soundDataSize;
     int32_t formSize = dataChunkSize + 8 + 24 + 4;
-    int32_t frameSize = (int32_t)ceil(channels * ((double)BITS_PER_SAMPLE / 8));
+    int32_t frameSize = (int32_t)ceil(channels * ((double)TRMBitsPerSample / 8));
     int32_t bytesPerSecond = (int32_t)ceil(outputRate * frameSize);
 
     // Form container identifier
@@ -200,7 +200,7 @@ void writeWaveFileHeader(int32_t channels, int32_t numberSamples, float outputRa
     fwriteShortLsb((short)frameSize, outputFile);
 
     // Bits per sample
-    fwriteShortLsb((short)BITS_PER_SAMPLE, outputFile);
+    fwriteShortLsb((short)TRMBitsPerSample, outputFile);
 
     // Sound Data chunk identifier
     fputs("data", outputFile);

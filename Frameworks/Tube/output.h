@@ -19,7 +19,7 @@ typedef NSUInteger TRMSoundFileFormat;
 #define TRMSampleValue_Maximum    32767.0
 
 // Size in bits per output sample
-#define BITS_PER_SAMPLE           16
+#define TRMBitsPerSample          16
 
 
 void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMDataList *data, const char *fileName);
