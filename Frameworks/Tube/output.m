@@ -10,7 +10,7 @@
 #include "tube.h"
 #include "util.h"
 
-//void writeAuFileHeader(int channels, long int numberSamples, float outputRate, FILE *outputFile);
+static void writeAuFileHeader(int32_t channels, int32_t numberSamples, float outputRate, FILE *outputFile);
 static void writeAiffFileHeader(int32_t channels, int32_t numberSamples, float outputRate, FILE *outputFile);
 static void writeWaveFileHeader(int32_t channels, int32_t numberSamples, float outputRate, FILE *outputFile);
 static void writeSamplesMonoMsb(FILE *tempFile, int32_t numberSamples, double scale, FILE *outputFile);
@@ -19,9 +19,9 @@ static void writeSamplesStereoMsb(FILE *tempFile, int32_t numberSamples, double 
 static void writeSamplesStereoLsb(FILE *tempFile, int32_t numberSamples, double leftScale, double rightScale, FILE *outputFile);
 static size_t fwriteIntMsb(int32_t data, FILE *stream);
 static size_t fwriteIntLsb(int32_t data, FILE *stream);
-//size_t fwriteShortMsb(int data, FILE *stream);
+static size_t fwriteShortMsb(int32_t data, FILE *stream);
 static size_t fwriteShortLsb(int32_t data, FILE *stream);
-//static void convertIntToFloat80(uint32_t value, uint8_t buffer[10]);
+static void convertIntToFloat80(uint32_t value, uint8_t buffer[10]);
 
 // Scales the samples stored in the temporary file, and writes them to the output file, with the appropriate
 // header.  Also does master volume scaling, and stereo balance scaling, if 2 channels of output.

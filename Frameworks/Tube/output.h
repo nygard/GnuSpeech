@@ -5,7 +5,7 @@
 #define __OUTPUT_H
 
 #include <stdint.h> // For uint8_t, uint32_t, etc.
-#include "structs.h" // For TRMData
+#include "structs.h" // For TRMDataList
 
 // Output file format constants
 enum {
@@ -23,9 +23,5 @@ typedef NSUInteger TRMSoundFileFormat;
 
 
 void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMDataList *data, const char *fileName);
-void convertIntToFloat80(uint32_t value, uint8_t buffer[10]);
-
-void writeAuFileHeader(int32_t channels, int32_t numberSamples, float outputRate, FILE *outputFile);
-size_t fwriteShortMsb(int32_t data, FILE *stream);
 
 #endif
