@@ -9,9 +9,9 @@
 #include "output.h"
 #include "structs.h"
 
-void printInputParameters(TRMDataList *data, char *inputFile);
+void printInputParameters(TRMDataList *data, const char *inputFile);
 
-void printInputParameters(TRMDataList *data, char *inputFile)
+void printInputParameters(TRMDataList *data, const char *inputFile)
 {
 #if 0
     printf("input file:\t\t%s\n\n", inputFile);
@@ -82,58 +82,60 @@ void printInputParameters(TRMDataList *data, char *inputFile)
 
 int main(int argc, char *argv[])
 {
-    char inputFile[MAXPATHLEN + 1];
-    char outputFile[MAXPATHLEN + 1];
-    
-    if (argc == 3) {
-        strcpy(inputFile, argv[1]);
-        strcpy(outputFile, argv[2]);
-    } else if ((argc == 4) && (!strcmp("-v", argv[1]))) {
-        verbose = YES;
-        strcpy(inputFile, argv[2]);
-        strcpy(outputFile, argv[3]);
-    } else {
-        fprintf(stderr, "Usage:  %s [-v] inputFile outputFile\n", argv[0]);
-        exit(-1);
+    @autoreleasepool {
+        NSString *inputFile = nil;
+        NSString *outputFile = nil;;
+        
+        if (argc == 3) {
+            inputFile = [[[NSString alloc] initWithUTF8String:argv[1]] autorelease];
+            outputFile = [[[NSString alloc] initWithUTF8String:argv[2]] autorelease];
+        } else if ((argc == 4) && (!strcmp("-v", argv[1]))) {
+            verbose = YES;
+            inputFile = [[[NSString alloc] initWithUTF8String:argv[2]] autorelease];
+            outputFile = [[[NSString alloc] initWithUTF8String:argv[3]] autorelease];
+        } else {
+            fprintf(stderr, "Usage:  %s [-v] inputFile outputFile\n", argv[0]);
+            exit(-1);
+        }
+        
+        TRMDataList *inputData = [[TRMDataList alloc] initWithContentsOfFile:inputFile error:NULL];
+        if (inputData == NULL) {
+            fprintf(stderr, "Aborting...\n");
+            exit(-1);
+        }
+        
+        // Initialize the synthesizer
+        TRMTubeModel *tube = TRMTubeModelCreate(inputData.inputParameters);
+        if (tube == NULL) {
+            fprintf(stderr, "Aborting...\n");
+            exit(-1);
+        }
+        
+        // Print out parameter information
+        if (verbose)
+            printInputParameters(inputData, [inputFile UTF8String]);
+        
+        if (verbose) {
+            printf("\nCalculating floating point samples...");
+            fflush(stdout);
+        }
+        
+        if (verbose) {
+            printf("\nStarting synthesis\n");
+            fflush(stdout);
+        }
+        synthesize(tube, inputData);
+        
+        if (verbose)
+            printf("done.\n");
+        
+        writeOutputToFile(&(tube->sampleRateConverter), inputData, [outputFile UTF8String]);
+        
+        if (verbose)
+            printf("\nWrote scaled samples to file:  %s\n", [outputFile UTF8String]);
+        
+        TRMTubeModelFree(tube);
     }
-    
-    TRMDataList *inputData = parseInputFile(inputFile);
-    if (inputData == NULL) {
-        fprintf(stderr, "Aborting...\n");
-        exit(-1);
-    }
-    
-    // Initialize the synthesizer
-    TRMTubeModel *tube = TRMTubeModelCreate(inputData.inputParameters);
-    if (tube == NULL) {
-        fprintf(stderr, "Aborting...\n");
-        exit(-1);
-    }
-    
-    // Print out parameter information
-    if (verbose)
-        printInputParameters(inputData, inputFile);
-    
-    if (verbose) {
-        printf("\nCalculating floating point samples...");
-        fflush(stdout);
-    }
-    
-    if (verbose) {
-        printf("\nStarting synthesis\n");
-        fflush(stdout);
-    }
-    synthesize(tube, inputData);
-    
-    if (verbose)
-        printf("done.\n");
-    
-    writeOutputToFile(&(tube->sampleRateConverter), inputData, outputFile);
-    
-    if (verbose)
-        printf("\nWrote scaled samples to file:  %s\n", outputFile);
-    
-    TRMTubeModelFree(tube);
-    
+        
     return 0;
 }

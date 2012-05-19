@@ -7,6 +7,8 @@
 
 @interface TRMDataList : NSObject
 
+- (id)initWithContentsOfFile:(NSString *)path error:(NSError **)error;
+
 @property (readonly) TRMInputParameters *inputParameters;
 @property (readonly) NSMutableArray *values;
 

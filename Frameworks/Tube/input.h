@@ -7,8 +7,6 @@
 #include "structs.h" // For TRMParameters
 #import "TRMDataList.h"
 
-TRMDataList *parseInputFile(const char *inputFile);
-
 void printControlRateInputTable(TRMDataList *data);
 
 #endif
