@@ -9,9 +9,9 @@
 #include "output.h"
 #include "structs.h"
 
-void printInputParameters(struct _TRMDataList *data, char *inputFile);
+void printInputParameters(TRMDataList *data, char *inputFile);
 
-void printInputParameters(struct _TRMDataList *data, char *inputFile)
+void printInputParameters(TRMDataList *data, char *inputFile)
 {
 #if 0
     printf("input file:\t\t%s\n\n", inputFile);
@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
     }
     
     // Initialize the synthesizer
-    TRMTubeModel *tube = TRMTubeModelCreate(&(inputData->inputParameters));
+    TRMTubeModel *tube = TRMTubeModelCreate(inputData.inputParameters);
     if (tube == NULL) {
         fprintf(stderr, "Aborting...\n");
         exit(-1);

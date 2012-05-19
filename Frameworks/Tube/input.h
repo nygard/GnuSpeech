@@ -5,22 +5,9 @@
 #define __INPUT_H
 
 #include "structs.h" // For TRMParameters
+#import "TRMDataList.h"
 
 TRMDataList *parseInputFile(const char *inputFile);
-void addInput(TRMDataList *data, double glotPitch, double glotVol, double aspVol, double fricVol,
-              double fricPos, double fricCF, double fricBW, double *radius,
-              double velum);
-
-double glotPitchAt(INPUT *ptr);
-double glotVolAt(INPUT *ptr);
-double *radiiAt(INPUT *ptr);
-double radiusAtRegion(INPUT *ptr, int32_t region);
-double velumAt(INPUT *ptr);
-double aspVolAt(INPUT *ptr);
-double fricVolAt(INPUT *ptr);
-double fricPosAt(INPUT *ptr);
-double fricCFAt(INPUT *ptr);
-double fricBWAt(INPUT *ptr);
 
 void printControlRateInputTable(TRMDataList *data);
 

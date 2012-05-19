@@ -10,6 +10,9 @@
 #include "tube.h"
 #include "util.h"
 
+#import "TRMDataList.h"
+#import "TRMInputParameters.h"
+
 static void writeAuFileHeader(int32_t channels, int32_t numberSamples, float outputRate, FILE *outputFile);
 static void writeAiffFileHeader(int32_t channels, int32_t numberSamples, float outputRate, FILE *outputFile);
 static void writeWaveFileHeader(int32_t channels, int32_t numberSamples, float outputRate, FILE *outputFile);
@@ -30,7 +33,7 @@ void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMDataList 
     //printf("maximumSampleValue: %g\n", sampleRateConverter->maximumSampleValue);
     
     // Calculate scaling constant
-    double scale = (TRMSampleValue_Maximum / sampleRateConverter->maximumSampleValue) * amplitude(data->inputParameters.volume);
+    double scale = (TRMSampleValue_Maximum / sampleRateConverter->maximumSampleValue) * amplitude(data.inputParameters.volume);
 
     /*if (verbose)*/ {
         printf("\nnumber of samples:\t%-d\n", sampleRateConverter->numberSamples);
@@ -40,10 +43,10 @@ void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMDataList 
 
     // If stereo, calculate left and right scaling constants
     double leftScale = 1.0, rightScale = 1.0;
-    if (data->inputParameters.channels == 2) {
+    if (data.inputParameters.channels == 2) {
 		// Calculate left and right channel amplitudes
-		leftScale = -((data->inputParameters.balance / 2.0) - 0.5) * scale * 2.0;
-		rightScale = ((data->inputParameters.balance / 2.0) + 0.5) * scale * 2.0;
+		leftScale = -((data.inputParameters.balance / 2.0) - 0.5) * scale * 2.0;
+		rightScale = ((data.inputParameters.balance / 2.0) + 0.5) * scale * 2.0;
 
 		if (verbose) {
 			printf("left scale:\t\t%.4f\n", leftScale);
@@ -62,21 +65,21 @@ void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMDataList 
     }
 
     // Scale and write out samples to the output file
-    if (data->inputParameters.outputFileFormat == TRMSoundFileFormat_AU) {
-        writeAuFileHeader(data->inputParameters.channels, sampleRateConverter->numberSamples, data->inputParameters.outputRate, outputFileDescriptor);
-        if (data->inputParameters.channels == 1)
+    if (data.inputParameters.outputFileFormat == TRMSoundFileFormat_AU) {
+        writeAuFileHeader(data.inputParameters.channels, sampleRateConverter->numberSamples, data.inputParameters.outputRate, outputFileDescriptor);
+        if (data.inputParameters.channels == 1)
             writeSamplesMonoMsb(sampleRateConverter->tempFilePtr, sampleRateConverter->numberSamples, scale, outputFileDescriptor);
         else
             writeSamplesStereoMsb(sampleRateConverter->tempFilePtr, sampleRateConverter->numberSamples, leftScale, rightScale, outputFileDescriptor);
-    } else if (data->inputParameters.outputFileFormat == TRMSoundFileFormat_AIFF) {
-        writeAiffFileHeader(data->inputParameters.channels, sampleRateConverter->numberSamples, data->inputParameters.outputRate, outputFileDescriptor);
-        if (data->inputParameters.channels == 1)
+    } else if (data.inputParameters.outputFileFormat == TRMSoundFileFormat_AIFF) {
+        writeAiffFileHeader(data.inputParameters.channels, sampleRateConverter->numberSamples, data.inputParameters.outputRate, outputFileDescriptor);
+        if (data.inputParameters.channels == 1)
             writeSamplesMonoMsb(sampleRateConverter->tempFilePtr, sampleRateConverter->numberSamples, scale, outputFileDescriptor);
         else
             writeSamplesStereoMsb(sampleRateConverter->tempFilePtr, sampleRateConverter->numberSamples, leftScale, rightScale, outputFileDescriptor);
-    } else if (data->inputParameters.outputFileFormat == TRMSoundFileFormat_WAVE) {
-        writeWaveFileHeader(data->inputParameters.channels, sampleRateConverter->numberSamples, data->inputParameters.outputRate, outputFileDescriptor);
-        if (data->inputParameters.channels == 1)
+    } else if (data.inputParameters.outputFileFormat == TRMSoundFileFormat_WAVE) {
+        writeWaveFileHeader(data.inputParameters.channels, sampleRateConverter->numberSamples, data.inputParameters.outputRate, outputFileDescriptor);
+        if (data.inputParameters.channels == 1)
             writeSamplesMonoLsb(sampleRateConverter->tempFilePtr, sampleRateConverter->numberSamples, scale, outputFileDescriptor);
         else
             writeSamplesStereoLsb(sampleRateConverter->tempFilePtr, sampleRateConverter->numberSamples, leftScale, rightScale, outputFileDescriptor);

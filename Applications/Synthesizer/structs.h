@@ -31,9 +31,7 @@
 #include <sys/param.h>
 
 
-#define TOTAL_NASAL_SECTIONS 6
 //#define MAXPATHLEN 255
-#define TOTAL_REGIONS 8
 #define FALSE 0
 #define TABLE_LENGTH              512
 #define TEMPERATURE_DEF		32.0

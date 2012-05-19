@@ -9,6 +9,8 @@
 #include "ring_buffer.h"
 #include "wavetable.h"
 
+#import "TRMParameters.h"
+
 // Oropharynx Regions
 #define TRM_R1          0      //  S1
 #define TRM_R2          1      //  S2
@@ -57,65 +59,6 @@
 
 #define OUTPUT_SRATE_LOW          22050.0
 #define OUTPUT_SRATE_HIGH         44100.0
-
-typedef struct _TRMParameters {
-    double glotPitch;
-    double glotVol;
-    double aspVol;
-    double fricVol;
-    double fricPos;
-    double fricCF;
-    double fricBW;
-    double radius[TOTAL_REGIONS];
-    double velum;
-} TRMParameters;
-
-// Variables for input tables
-typedef struct _INPUT {
-    struct _INPUT *previous;
-    struct _INPUT *next;
-
-    TRMParameters parameters;
-} INPUT;
-
-typedef struct _TRMInputParameters {
-    int32_t outputFileFormat;           // file format (0=AU, 1=AIFF, 2=WAVE)
-    float outputRate;                   // output sample rate (22.05, 44.1 KHz)
-    float controlRate;                  // 1.0-1000.0 input tables/second (Hz)
-
-    double volume;                      // master volume (0 - 60 dB)
-    int32_t channels;                   // # of sound output channels (1, 2)
-    double balance;                     // stereo balance (-1 to +1)
-
-    int32_t waveform;                   // GS waveform type (0=PULSE, 1=SINE)
-    double tp;                          // % glottal pulse rise time
-    double tnMin;                       // % glottal pulse fall time minimum
-    double tnMax;                       // % glottal pulse fall time maximum
-    double breathiness;                 // % glottal source breathiness
-
-    double length;                      // nominal tube length (10 - 20 cm)
-    double temperature;                 // tube temperature (25 - 40 C)
-    double lossFactor;                  // junction loss factor in (0 - 5 %)
-
-    double apScale;                     // aperture scl. radius (3.05 - 12 cm)
-    double mouthCoef;                   // mouth aperture coefficient
-    double noseCoef;                    // nose aperture coefficient
-
-    double noseRadius[TOTAL_NASAL_SECTIONS];  // fixed nose radii (0 - 3 cm)
-
-    double throatCutoff;                // throat lp cutoff (50 - nyquist Hz)
-    double throatVol;                   // throat volume (0 - 48 dB)
-
-    int32_t modulation;                 // pulse mod. of noise (0=OFF, 1=ON)
-    double mixOffset;                   // noise crossmix offset (30 - 60 dB)
-} TRMInputParameters;
-
-typedef struct _TRMDataList {
-    TRMInputParameters inputParameters;
-
-    INPUT *inputHead;
-    INPUT *inputTail;
-} TRMDataList;
 
 // Variables for sample rate conversion
 typedef struct _TRMSampleRateConverter {
@@ -232,8 +175,8 @@ typedef struct {
 
     // Variables for interpolation
     struct {
-        TRMParameters parameters;
-        TRMParameters delta;
+        TRMParameters *parameters;
+        TRMParameters *delta;
     } current;
 
     TRMSampleRateConverter sampleRateConverter;
