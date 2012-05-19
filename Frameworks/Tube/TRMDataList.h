@@ -12,4 +12,6 @@
 @property (readonly) TRMInputParameters *inputParameters;
 @property (readonly) NSMutableArray *values;
 
+- (void)printControlRateInputTable;
+
 @end

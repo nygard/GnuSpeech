@@ -5,8 +5,9 @@
 #define __TUBE_H
 
 #include <stdio.h> // For FILE
-#include "input.h" // For INPUT
 #include "structs.h" // For TRMSampleRateConverter
+
+@class TRMInputParameters, TRMDataList;
 
 // Function return constants
 #define ERROR                     (-1)

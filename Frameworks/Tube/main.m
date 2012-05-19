@@ -5,7 +5,6 @@
 #include <string.h>
 
 #include "tube.h"
-#include "input.h"
 #include "output.h"
 #include "structs.h"
 
@@ -76,7 +75,7 @@ void printInputParameters(TRMDataList *data, const char *inputFile)
         printf("table[%-d] = %.4f\n", index, wavetable[index]);
 #endif
     
-    printControlRateInputTable(data);
+    [data printControlRateInputTable];
 #endif
 }
 

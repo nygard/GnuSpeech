@@ -9,7 +9,6 @@
 #include <math.h>
 #include <string.h>
 #include "tube.h"
-#include "input.h"
 #include "fir.h"
 #include "util.h"
 #include "structs.h"
@@ -18,6 +17,7 @@
 
 #import "TRMInputParameters.h"
 #import "TRMParameters.h"
+#import "TRMDataList.h"
 
 BOOL verbose = NO;
 

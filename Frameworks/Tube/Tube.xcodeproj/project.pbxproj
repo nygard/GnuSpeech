@@ -10,7 +10,6 @@
 		01115F7F1547C35A002ABAAF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 01115F7E1547C35A002ABAAF /* main.m */; };
 		01115F891547C381002ABAAF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01115F881547C381002ABAAF /* Foundation.framework */; };
 		01115F941547C399002ABAAF /* fir.m in Sources */ = {isa = PBXBuildFile; fileRef = 01AC656B0B7BF4D8008E4B93 /* fir.m */; };
-		01115F961547C399002ABAAF /* input.m in Sources */ = {isa = PBXBuildFile; fileRef = 01AC656D0B7BF4D8008E4B93 /* input.m */; };
 		01115F981547C399002ABAAF /* output.m in Sources */ = {isa = PBXBuildFile; fileRef = 01AC656F0B7BF4D8008E4B93 /* output.m */; };
 		01115F9A1547C399002ABAAF /* ring_buffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 01AC65710B7BF4D8008E4B93 /* ring_buffer.m */; };
 		01115F9D1547C399002ABAAF /* tube.m in Sources */ = {isa = PBXBuildFile; fileRef = 01AC65740B7BF4D8008E4B93 /* tube.m */; };
@@ -27,8 +26,6 @@
 		019CCB9D154BE65400A9CF7A /* TRMParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 019CCB9B154BE65400A9CF7A /* TRMParameters.m */; };
 		01AC657B0B7BF4D8008E4B93 /* fir.m in Sources */ = {isa = PBXBuildFile; fileRef = 01AC656B0B7BF4D8008E4B93 /* fir.m */; };
 		01AC657C0B7BF4D8008E4B93 /* fir.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC656C0B7BF4D8008E4B93 /* fir.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		01AC657D0B7BF4D8008E4B93 /* input.m in Sources */ = {isa = PBXBuildFile; fileRef = 01AC656D0B7BF4D8008E4B93 /* input.m */; };
-		01AC657E0B7BF4D8008E4B93 /* input.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC656E0B7BF4D8008E4B93 /* input.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01AC657F0B7BF4D8008E4B93 /* output.m in Sources */ = {isa = PBXBuildFile; fileRef = 01AC656F0B7BF4D8008E4B93 /* output.m */; };
 		01AC65800B7BF4D8008E4B93 /* output.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC65700B7BF4D8008E4B93 /* output.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01AC65810B7BF4D8008E4B93 /* ring_buffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 01AC65710B7BF4D8008E4B93 /* ring_buffer.m */; };
@@ -74,8 +71,6 @@
 		019CCB9B154BE65400A9CF7A /* TRMParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRMParameters.m; sourceTree = "<group>"; };
 		01AC656B0B7BF4D8008E4B93 /* fir.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = fir.m; sourceTree = "<group>"; };
 		01AC656C0B7BF4D8008E4B93 /* fir.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = fir.h; sourceTree = "<group>"; };
-		01AC656D0B7BF4D8008E4B93 /* input.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = input.m; sourceTree = "<group>"; };
-		01AC656E0B7BF4D8008E4B93 /* input.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = input.h; sourceTree = "<group>"; };
 		01AC656F0B7BF4D8008E4B93 /* output.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = output.m; sourceTree = "<group>"; };
 		01AC65700B7BF4D8008E4B93 /* output.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = output.h; sourceTree = "<group>"; };
 		01AC65710B7BF4D8008E4B93 /* ring_buffer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ring_buffer.m; sourceTree = "<group>"; };
@@ -193,8 +188,6 @@
 				01AC65760B7BF4D8008E4B93 /* TubeModel.h */,
 				01AC656B0B7BF4D8008E4B93 /* fir.m */,
 				01AC656C0B7BF4D8008E4B93 /* fir.h */,
-				01AC656D0B7BF4D8008E4B93 /* input.m */,
-				01AC656E0B7BF4D8008E4B93 /* input.h */,
 				01AC656F0B7BF4D8008E4B93 /* output.m */,
 				01AC65700B7BF4D8008E4B93 /* output.h */,
 				01AC65710B7BF4D8008E4B93 /* ring_buffer.m */,
@@ -255,7 +248,6 @@
 				019CCB93154BE46B00A9CF7A /* TRMDataList.h in Headers */,
 				019CCB9C154BE65400A9CF7A /* TRMParameters.h in Headers */,
 				01AC657C0B7BF4D8008E4B93 /* fir.h in Headers */,
-				01AC657E0B7BF4D8008E4B93 /* input.h in Headers */,
 				01AC65800B7BF4D8008E4B93 /* output.h in Headers */,
 				01AC65820B7BF4D8008E4B93 /* ring_buffer.h in Headers */,
 				01AC65830B7BF4D8008E4B93 /* structs.h in Headers */,
@@ -347,7 +339,6 @@
 			files = (
 				01115FA61547C43E002ABAAF /* main.m in Sources */,
 				01115F941547C399002ABAAF /* fir.m in Sources */,
-				01115F961547C399002ABAAF /* input.m in Sources */,
 				01115F981547C399002ABAAF /* output.m in Sources */,
 				01115F9A1547C399002ABAAF /* ring_buffer.m in Sources */,
 				01115F9D1547C399002ABAAF /* tube.m in Sources */,
@@ -361,7 +352,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				01AC657B0B7BF4D8008E4B93 /* fir.m in Sources */,
-				01AC657D0B7BF4D8008E4B93 /* input.m in Sources */,
 				01AC657F0B7BF4D8008E4B93 /* output.m in Sources */,
 				01AC65810B7BF4D8008E4B93 /* ring_buffer.m in Sources */,
 				01AC65840B7BF4D8008E4B93 /* tube.m in Sources */,
