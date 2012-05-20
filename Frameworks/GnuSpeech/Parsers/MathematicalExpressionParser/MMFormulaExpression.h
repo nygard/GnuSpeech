@@ -26,6 +26,6 @@ typedef NSUInteger MMFormulaOperation;
 
 - (double)evaluate:(MMFRuleSymbols *)ruleSymbols postures:(NSArray *)postures tempos:(double *)tempos;
 
-- (NSUInteger)maxPhone;
+- (NSInteger)maxPhone;
 
 @end

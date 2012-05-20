@@ -21,35 +21,32 @@
 
 - (id)initWithFrame:(NSRect)frameRect;
 {
-    NSDictionary *attributes;
-
-    if ([super initWithFrame:frameRect] == nil)
-        return nil;
-
-    labelTextFieldCell = [[NSTextFieldCell alloc] initTextCell:@""];
-    labelFont = [[[NSFontManager sharedFontManager] fontWithFamily:@"Times" traits:0 weight:0 size:10.0] retain];
-    [labelTextFieldCell setFont:labelFont];
-    [labelTextFieldCell setAlignment:NSRightTextAlignment];
-
-    axisLabelFont = [[[NSFontManager sharedFontManager] fontWithFamily:@"Times" traits:0 weight:0 size:14.0] retain];
-    attributes = [[NSDictionary alloc] initWithObjectsAndKeys:axisLabelFont, NSFontAttributeName,
-                                       [NSColor blackColor], NSForegroundColorAttributeName,
-                                       nil];
-
-
-    textStorage = [[NSTextStorage alloc] initWithString:@"Semitone" attributes:attributes];
-    layoutManager = [[NSLayoutManager alloc] init];
-    textContainer = [[NSTextContainer alloc] init];
-    [layoutManager addTextContainer:textContainer];
-    [textStorage addLayoutManager:layoutManager];
-    [layoutManager setUsesScreenFonts:NO];
-
-    [attributes release];
-
-    sectionCount = 20;
-    sectionHeight = 10;
-    zeroSection = 10;
-    yOrigin = 0;
+    if ((self = [super initWithFrame:frameRect])) {
+        labelTextFieldCell = [[NSTextFieldCell alloc] initTextCell:@""];
+        labelFont = [[[NSFontManager sharedFontManager] fontWithFamily:@"Times" traits:0 weight:0 size:10.0] retain];
+        [labelTextFieldCell setFont:labelFont];
+        [labelTextFieldCell setAlignment:NSRightTextAlignment];
+        
+        axisLabelFont = [[[NSFontManager sharedFontManager] fontWithFamily:@"Times" traits:0 weight:0 size:14.0] retain];
+        NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:axisLabelFont, NSFontAttributeName,
+                                    [NSColor blackColor], NSForegroundColorAttributeName,
+                                    nil];
+        
+        
+        textStorage = [[NSTextStorage alloc] initWithString:@"Semitone" attributes:attributes];
+        layoutManager = [[NSLayoutManager alloc] init];
+        textContainer = [[NSTextContainer alloc] init];
+        [layoutManager addTextContainer:textContainer];
+        [textStorage addLayoutManager:layoutManager];
+        [layoutManager setUsesScreenFonts:NO];
+        
+        [attributes release];
+        
+        sectionCount = 20;
+        sectionHeight = 10;
+        zeroSection = 10;
+        yOrigin = 0;
+    }
 
     return self;
 }

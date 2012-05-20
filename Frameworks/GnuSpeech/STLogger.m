@@ -36,12 +36,12 @@
 - (id)initWithOutputToPath:(NSString *)path error:(NSError **)error;
 {
     if ((self = [self init])) {
-        int fd = open([path fileSystemRepresentation], O_WRONLY|O_CREAT|O_TRUNC);
+        int fd = open([path fileSystemRepresentation], O_WRONLY|O_CREAT|O_TRUNC, 0666);
         if (fd == -1) {
             if (error != NULL) *error = [NSError errorWithDomain:NSPOSIXErrorDomain code:errno userInfo:nil];
             return nil;
         } else {
-            self.outputFileHandle = [[NSFileHandle alloc] initWithFileDescriptor:fd closeOnDealloc:YES];
+            self.outputFileHandle = [[[NSFileHandle alloc] initWithFileDescriptor:fd closeOnDealloc:YES] autorelease];
             m_shouldCloseFile = YES;
         }
     }
@@ -73,7 +73,7 @@
         va_list argList;
         
         va_start(argList, format);
-        NSString *string = [[NSString alloc] initWithFormat:format arguments:argList];
+        NSString *string = [[[NSString alloc] initWithFormat:format arguments:argList] autorelease];
         va_end(argList);
 
         if (self.linePrefix != nil && [string length] > 0) [self.outputFileHandle writeData:[self.linePrefix dataUsingEncoding:NSUTF8StringEncoding]];

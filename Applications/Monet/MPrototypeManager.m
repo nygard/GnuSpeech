@@ -45,17 +45,16 @@
 
 - (id)initWithModel:(MModel *)aModel;
 {
-    if ([super initWithWindowNibName:@"PrototypeManager"] == nil)
-        return nil;
-
-    model = [aModel retain];
-    formulaParser = [[MMFormulaParser alloc] initWithModel:model];
-
-    [self setWindowFrameAutosaveName:@"Prototype Manager"];
-
-    cachedEquationUsage = [[NSMutableDictionary alloc] init];
-    cachedTransitionUsage = [[NSMutableDictionary alloc] init];
-    //cachedSpecialTransitionUsage = [[NSMutableDictionary alloc] init];
+    if ((self = [super initWithWindowNibName:@"PrototypeManager"])) {
+        model = [aModel retain];
+        formulaParser = [[MMFormulaParser alloc] initWithModel:model];
+        
+        [self setWindowFrameAutosaveName:@"Prototype Manager"];
+        
+        cachedEquationUsage = [[NSMutableDictionary alloc] init];
+        cachedTransitionUsage = [[NSMutableDictionary alloc] init];
+        //cachedSpecialTransitionUsage = [[NSMutableDictionary alloc] init];
+    }
 
     return self;
 }

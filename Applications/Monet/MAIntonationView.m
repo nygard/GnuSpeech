@@ -61,49 +61,45 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
 - (id)initWithFrame:(NSRect)frameRect;
 {
-    NSNumberFormatter *durationFormatter;
-    NSFont *font;
-
-    if ([super initWithFrame:frameRect] == nil)
-        return nil;
-
-    postureTextFieldCell = [[NSTextFieldCell alloc] initTextCell:@""];
-    ruleIndexTextFieldCell = [[NSTextFieldCell alloc] initTextCell:@""];
-    [ruleIndexTextFieldCell setFont:[NSFont labelFontOfSize:10.0]];
-    [ruleIndexTextFieldCell setAlignment:NSCenterTextAlignment];
-
-    durationFormatter = [[NSNumberFormatter alloc] init];
-    [durationFormatter setFormat:@"0.##"];
-
-    ruleDurationTextFieldCell = [[NSTextFieldCell alloc] initTextCell:@""];
-    [ruleDurationTextFieldCell setAlignment:NSCenterTextAlignment];
-    [ruleDurationTextFieldCell setFont:[NSFont labelFontOfSize:8.0]];
-    [ruleDurationTextFieldCell setFormatter:durationFormatter];
-
-    [durationFormatter release];
-
-    font = [[NSFontManager sharedFontManager] fontWithFamily:@"Times" traits:0 weight:0 size:10.0];
-    labelTextFieldCell = [[NSTextFieldCell alloc] initTextCell:@""];
-    [labelTextFieldCell setFont:font];
-
-    font = [[NSFontManager sharedFontManager] fontWithFamily:@"Times" traits:0 weight:0 size:14.0];
-    horizontalAxisLabelTextFieldCell = [[NSTextFieldCell alloc] initTextCell:@""];
-    [horizontalAxisLabelTextFieldCell setFont:font];
-    [horizontalAxisLabelTextFieldCell setStringValue:@"Time (ms)"];
-
-    timesFont = [[NSFont fontWithName:@"Times-Roman" size:12] retain];
-    timesFontSmall = [[NSFont fontWithName:@"Times-Roman" size:10] retain];
-
-    [postureTextFieldCell setFont:timesFont];
-
-    timeScale = 2.0;
-    flags.mouseBeingDragged = NO;
-
-    eventList = nil;
-
-    selectedPoints = [[NSMutableArray alloc] init];
-
-    [self setNeedsDisplay:YES];
+    if ((self = [super initWithFrame:frameRect])) {
+        postureTextFieldCell = [[NSTextFieldCell alloc] initTextCell:@""];
+        ruleIndexTextFieldCell = [[NSTextFieldCell alloc] initTextCell:@""];
+        [ruleIndexTextFieldCell setFont:[NSFont labelFontOfSize:10.0]];
+        [ruleIndexTextFieldCell setAlignment:NSCenterTextAlignment];
+        
+        NSNumberFormatter *durationFormatter = [[NSNumberFormatter alloc] init];
+        [durationFormatter setFormat:@"0.##"];
+        
+        ruleDurationTextFieldCell = [[NSTextFieldCell alloc] initTextCell:@""];
+        [ruleDurationTextFieldCell setAlignment:NSCenterTextAlignment];
+        [ruleDurationTextFieldCell setFont:[NSFont labelFontOfSize:8.0]];
+        [ruleDurationTextFieldCell setFormatter:durationFormatter];
+        
+        [durationFormatter release];
+        
+        NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Times" traits:0 weight:0 size:10.0];
+        labelTextFieldCell = [[NSTextFieldCell alloc] initTextCell:@""];
+        [labelTextFieldCell setFont:font];
+        
+        font = [[NSFontManager sharedFontManager] fontWithFamily:@"Times" traits:0 weight:0 size:14.0];
+        horizontalAxisLabelTextFieldCell = [[NSTextFieldCell alloc] initTextCell:@""];
+        [horizontalAxisLabelTextFieldCell setFont:font];
+        [horizontalAxisLabelTextFieldCell setStringValue:@"Time (ms)"];
+        
+        timesFont = [[NSFont fontWithName:@"Times-Roman" size:12] retain];
+        timesFontSmall = [[NSFont fontWithName:@"Times-Roman" size:10] retain];
+        
+        [postureTextFieldCell setFont:timesFont];
+        
+        timeScale = 2.0;
+        flags.mouseBeingDragged = NO;
+        
+        eventList = nil;
+        
+        selectedPoints = [[NSMutableArray alloc] init];
+        
+        [self setNeedsDisplay:YES];
+    }
 
     return self;
 }
@@ -537,12 +533,10 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     NSBezierPath *bezierPath;
     NSUInteger count, index;
     NSPoint currentPoint;
-    NSRect bounds;
     NSPoint graphOrigin;
     NSArray *intonationPoints = [eventList intonationPoints];
     MMIntonationPoint *currentIntonationPoint;
 
-    bounds = [self bounds];
     graphOrigin = [self graphOrigin];
 
     [[NSColor blackColor] set];
@@ -786,13 +780,9 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     if ([mouseEvent clickCount] == 1) {
         if ([mouseEvent modifierFlags] & NSAlternateKeyMask) {
             MMIntonationPoint *newIntonationPoint;
-            NSPoint graphOrigin;
-            CGFloat yScale, absoluteTime;
+            CGFloat absoluteTime;
             NSUInteger ruleIndex;
             double offsetTime;
-
-            graphOrigin = [self graphOrigin];
-            yScale = [self sectionHeight];
 
             absoluteTime = [self convertXPositionToTime:hitPoint.x];
             [eventList getRuleIndex:&ruleIndex offsetTime:&offsetTime forAbsoluteTime:absoluteTime];
@@ -849,18 +839,13 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     NSRect selectionRect;
     NSUInteger count, index;
     //float timeScale;
-    CGFloat yScale;
     NSArray *intonationPoints;
-    NSRect bounds;
-
-    bounds = NSIntegralRect([self bounds]);
 
     [selectedPoints removeAllObjects];
 
     //NSLog(@"%s, cacheTag: %d", _cmd, cacheTag);
     graphOrigin = [self graphOrigin];
     //timeScale = [self timeScale];
-    yScale = [self sectionHeight];
 
     selectionRect = [self rectFormedByPoint:point1 andPoint:point2];
     selectionRect.origin.x -= graphOrigin.x;

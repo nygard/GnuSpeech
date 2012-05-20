@@ -12,10 +12,9 @@
 
 - (id)init;
 {
-    if ([super initWithWindowNibName:@"ReleaseNotes"] == nil)
-        return nil;
-
-    [self setWindowFrameAutosaveName:@"ReleaseNotes"];
+    if ((self = [super initWithWindowNibName:@"ReleaseNotes"])) {
+        [self setWindowFrameAutosaveName:@"ReleaseNotes"];
+    }
 
     return self;
 }

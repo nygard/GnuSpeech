@@ -11,10 +11,9 @@
 
 - (id)init;
 {
-    if ([super initWithWindowNibName:@"SpecialTransitionEditor"] == nil)
-        return nil;
-
-    [self setWindowFrameAutosaveName:@"Special Transition Editor"];
+    if ((self = [super initWithWindowNibName:@"SpecialTransitionEditor"])) {
+        [self setWindowFrameAutosaveName:@"Special Transition Editor"];
+    }
 
     return self;
 }

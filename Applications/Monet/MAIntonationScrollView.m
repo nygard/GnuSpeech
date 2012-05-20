@@ -15,19 +15,17 @@
 
 - (id)initWithFrame:(NSRect)frameRect;
 {
-    NSRect contentFrame;
-    MAIntonationView *intonationView;
+    if ((self = [super initWithFrame:frameRect])) {
+        NSRect contentFrame;
+        contentFrame.origin = NSZeroPoint;
+        contentFrame.size = [self contentSize];
 
-    if ([super initWithFrame:frameRect] == nil)
-        return nil;
-
-    contentFrame.origin = NSZeroPoint;
-    contentFrame.size = [self contentSize];
-    intonationView = [[MAIntonationView alloc] initWithFrame:contentFrame];
-    [self setDocumentView:intonationView];
-    [intonationView release];
-
-    [self addScaleView];
+        MAIntonationView *intonationView = [[MAIntonationView alloc] initWithFrame:contentFrame];
+        [self setDocumentView:intonationView];
+        [intonationView release];
+        
+        [self addScaleView];
+    }
 
     return self;
 }
@@ -50,11 +48,10 @@
 - (void)addScaleView;
 {
     NSSize contentSize;
-    NSRect frameRect, scaleFrame;
+    NSRect scaleFrame;
     NSRect documentVisibleRect;
 
     contentSize = [self contentSize];
-    frameRect = [self frame];
 
     scaleFrame = NSMakeRect(0, 0, SCALE_WIDTH, contentSize.height);
     scaleView = [[MAIntonationScaleView alloc] initWithFrame:scaleFrame];

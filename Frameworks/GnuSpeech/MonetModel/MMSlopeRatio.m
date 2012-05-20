@@ -114,7 +114,7 @@
 {
     NSUInteger i, numSlopes;
     double temp = 0.0, temp1 = 0.0, intervalTime = 0.0, sum = 0.0, factor = 0.0;
-    double dummy, baseTime = 0.0, endTime = 0.0, totalTime = 0.0, delta = 0.0;
+    double baseTime = 0.0, endTime = 0.0, totalTime = 0.0, delta = 0.0;
     double startValue;
     MMPoint *currentPoint;
 
@@ -122,9 +122,9 @@
     //NSLog(@"%s, count: %d", _cmd, [points count]);
     for (i = 0; i < [points count]; i++) {
         currentPoint = [points objectAtIndex:i];
-        dummy = [[currentPoint timeEquation] evaluate:ruleSymbols
-                                             tempos:tempos postures:postures
-                                             andCacheWith:newCacheTag];
+        [[currentPoint timeEquation] evaluate:ruleSymbols
+                                       tempos:tempos postures:postures
+                                 andCacheWith:newCacheTag];
         //NSLog(@"\t%d: expr %@ = %g", i, [[[currentPoint expression] expression] expressionString], dummy);
         //NSLog(@"point value: %g, expression value: %g", [currentPoint value], [[currentPoint expression] cacheValue]);
 
@@ -161,7 +161,7 @@
 
     temp = startValue;
     for (i = 1; i < [points count]-1; i++) {
-        temp1 = [[points objectAtIndex:i] multiplyValueByFactor:factor];
+        [[points objectAtIndex:i] multiplyValueByFactor:factor];
         temp = [[points objectAtIndex:i] addValue:temp];
     }
 }
@@ -215,7 +215,7 @@
     temp = startValue;
 
     for (i = 1; i < [points count]-1; i++) {
-        temp1 = [[points objectAtIndex:i] multiplyValueByFactor:factor];
+        [[points objectAtIndex:i] multiplyValueByFactor:factor];
         temp = [[points objectAtIndex:i] addValue:temp];
     }
 
@@ -230,10 +230,9 @@
 
 - (double)totalSlopeUnits;
 {
-    NSUInteger i;
     double temp = 0.0;
 
-    for (i = 0; i < [slopes count]; i++)
+    for (NSUInteger i = 0; i < [slopes count]; i++)
         temp += [[slopes objectAtIndex:i] slope];
 
     return temp;
@@ -241,16 +240,10 @@
 
 - (void)displaySlopesInList:(NSMutableArray *)displaySlopes;
 {
-    NSUInteger count, index;
-    double tempTime;
-
-    count = [slopes count];
     //NSLog(@"DisplaySlopesInList: Count = %d", count);
-    for (index = 0; index < [slopes count]; index++) {
-        MMSlope *currentSlope;
-
-        tempTime = ([[points objectAtIndex:index] cachedTime] + [[points objectAtIndex:index+1] cachedTime]) / 2.0;
-        currentSlope = [slopes objectAtIndex:index];
+    for (NSUInteger index = 0; index < [slopes count]; index++) {
+        double tempTime = ([[points objectAtIndex:index] cachedTime] + [[points objectAtIndex:index+1] cachedTime]) / 2.0;
+        MMSlope *currentSlope = [slopes objectAtIndex:index];
         [currentSlope setDisplayTime:tempTime];
         //NSLog(@"TempTime = %f", tempTime);
         [displaySlopes addObject:currentSlope];

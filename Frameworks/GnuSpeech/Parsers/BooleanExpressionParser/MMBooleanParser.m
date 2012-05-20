@@ -214,7 +214,7 @@ typedef NSUInteger MMBooleanParserToken;
 - (MMBooleanNode *)parseNotOperation;
 {
     MMBooleanExpression *resultExpression = nil;
-    MMBooleanNode *subExpression;
+    MMBooleanNode *subExpression = nil;
 
     resultExpression = [[[MMBooleanExpression alloc] init] autorelease];
     resultExpression.operation = MMBooleanOperation_Not;
@@ -249,7 +249,7 @@ typedef NSUInteger MMBooleanParserToken;
 - (MMBooleanNode *)parseAndOperation:(MMBooleanNode *)operand;
 {
     MMBooleanExpression *resultExpression = nil;
-    MMBooleanNode *subExpression;
+    MMBooleanNode *subExpression = nil;
 
     resultExpression = [[[MMBooleanExpression alloc] init] autorelease];
     [resultExpression addSubExpression:operand];
@@ -300,7 +300,7 @@ typedef NSUInteger MMBooleanParserToken;
 - (MMBooleanNode *)parseOrOperation:(MMBooleanNode *)operand;
 {
     MMBooleanExpression *resultExpression = nil;
-    MMBooleanNode *subExpression;
+    MMBooleanNode *subExpression = nil;
     
     resultExpression = [[[MMBooleanExpression alloc] init] autorelease];
     [resultExpression addSubExpression:operand];
@@ -350,7 +350,7 @@ typedef NSUInteger MMBooleanParserToken;
 - (MMBooleanNode *)parseExclusiveOrOperation:(MMBooleanNode *)operand;
 {
     MMBooleanExpression *resultExpression = nil;
-    MMBooleanNode *subExpression;
+    MMBooleanNode *subExpression = nil;
 
     resultExpression = [[[MMBooleanExpression alloc] init] autorelease];
     [resultExpression addSubExpression:operand];

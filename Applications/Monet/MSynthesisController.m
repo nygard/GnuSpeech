@@ -978,7 +978,7 @@
     // Open file and save initial parameters
     if ([parametersStore state]) {
         NSError *error = nil;
-        STLogger *logger = [[STLogger alloc] initWithOutputToPath:@"/tmp/Monet.parameters" error:&error];
+        STLogger *logger = [[[STLogger alloc] initWithOutputToPath:@"/tmp/Monet.parameters" error:&error] autorelease];
         if (logger == nil) {
             NSLog(@"Error logging to file: %@", error);
         } else {

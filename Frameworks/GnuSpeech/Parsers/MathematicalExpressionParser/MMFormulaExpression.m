@@ -21,12 +21,11 @@
 
 - (id)init;
 {
-    if ([super init] == nil)
-        return nil;
-
-    m_operation = MMFormulaOperation_None;
-    m_left = nil;
-    m_right = nil;
+    if ((self = [super init])) {
+        m_operation = MMFormulaOperation_None;
+        m_left = nil;
+        m_right = nil;
+    }
 
     return self;
 }
@@ -124,7 +123,7 @@
     return 0.0;
 }
 
-- (NSUInteger)maxPhone;
+- (NSInteger)maxPhone;
 {
     NSUInteger max = 0;
     NSUInteger temp;

@@ -23,12 +23,11 @@
 
 - (id)initWithModel:(MModel *)aModel;
 {
-    if ([super initWithWindowNibName:@"RuleTester"] == nil)
-        return nil;
+    if ((self = [super initWithWindowNibName:@"RuleTester"])) {
+        model = [aModel retain];
 
-    model = [aModel retain];
-
-    [self setWindowFrameAutosaveName:@"Rule Tester"];
+        [self setWindowFrameAutosaveName:@"Rule Tester"];
+    }
 
     return self;
 }

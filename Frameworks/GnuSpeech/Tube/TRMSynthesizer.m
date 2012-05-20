@@ -199,7 +199,7 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
     if (sampleRateConverter->maximumSampleValue == 0)
         NSBeep();
 
-    NSMutableData *sampleData = [[NSMutableData alloc] init];
+    NSMutableData *sampleData = [[[NSMutableData alloc] init] autorelease];
 
     double scale = (TRMSampleValue_Maximum / sampleRateConverter->maximumSampleValue) * amplitude(m_inputData.inputParameters.volume);
 
@@ -285,7 +285,7 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 - (void)startPlaying:(TRMTubeModel *)tube;
 {
     NSError *error = nil;
-    AVAudioPlayer *audioPlayer = [[AVAudioPlayer alloc] initWithData:[self generateWAVDataWithSampleRateConverter:tube.sampleRateConverter] error:&error];
+    AVAudioPlayer *audioPlayer = [[[AVAudioPlayer alloc] initWithData:[self generateWAVDataWithSampleRateConverter:tube.sampleRateConverter] error:&error] autorelease];
     if (audioPlayer == nil) {
         NSLog(@"error: %@", error);
     } else {

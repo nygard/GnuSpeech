@@ -37,12 +37,11 @@
 
 - (id)initWithModel:(MModel *)aModel;
 {
-    if ([super initWithWindowNibName:@"Postures"] == nil)
-        return nil;
+    if ((self = [super initWithWindowNibName:@"Postures"])) {
+        model = [aModel retain];
 
-    model = [aModel retain];
-
-    [self setWindowFrameAutosaveName:@"Postures"];
+        [self setWindowFrameAutosaveName:@"Postures"];
+    }
 
     return self;
 }

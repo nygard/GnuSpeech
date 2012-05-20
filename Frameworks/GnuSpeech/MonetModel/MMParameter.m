@@ -24,12 +24,11 @@
 
 - (id)init;
 {
-    if ([super init] == nil)
-        return nil;
-
-    m_minimumValue = DEFAULT_MIN;
-    m_maximumValue = DEFAULT_MAX;
-    m_defaultValue = DEFAULT_MIN;
+    if ((self = [super init])) {
+        m_minimumValue = DEFAULT_MIN;
+        m_maximumValue = DEFAULT_MAX;
+        m_defaultValue = DEFAULT_MIN;
+    }
 
     return self;
 }

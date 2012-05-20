@@ -135,34 +135,33 @@
 
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 {
-    NSString *str;
-
-    if ([self init] == nil)
-        return nil;
-
-    str = [attributes objectForKey:@"type"];
-    if (str != nil)
-        [self setType:MMPhoneTypeFromString(str)];
-
-    str = [attributes objectForKey:@"value"];
-    if (str != nil)
-        [self setValue:[str doubleValue]];
-
-    str = [attributes objectForKey:@"free-time"];
-    if (str != nil)
-        [self setFreeTime:[str doubleValue]];
-
-    str = [attributes objectForKey:@"time-expression"];
-    if (str != nil) {
-        MMEquation *anEquation;
-
-        anEquation = [context findEquationWithName:str];
-        [self setTimeEquation:anEquation];
+    if ((self = [self init])) {
+        NSString *str;
+        
+        str = [attributes objectForKey:@"type"];
+        if (str != nil)
+            [self setType:MMPhoneTypeFromString(str)];
+        
+        str = [attributes objectForKey:@"value"];
+        if (str != nil)
+            [self setValue:[str doubleValue]];
+        
+        str = [attributes objectForKey:@"free-time"];
+        if (str != nil)
+            [self setFreeTime:[str doubleValue]];
+        
+        str = [attributes objectForKey:@"time-expression"];
+        if (str != nil) {
+            MMEquation *anEquation;
+            
+            anEquation = [context findEquationWithName:str];
+            [self setTimeEquation:anEquation];
+        }
+        
+        str = [attributes objectForKey:@"is-phantom"];
+        if (str != nil)
+            [self setIsPhantom:GSXMLBoolFromString(str)];
     }
-
-    str = [attributes objectForKey:@"is-phantom"];
-    if (str != nil)
-        [self setIsPhantom:GSXMLBoolFromString(str)];
 
     return self;
 }

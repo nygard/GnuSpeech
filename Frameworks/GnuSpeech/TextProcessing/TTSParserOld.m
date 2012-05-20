@@ -208,7 +208,7 @@ static NSDictionary *_specialAcronyms = nil;
 
 - (void)finalConversion:(NSString *)aString resultString:(NSMutableString *)resultString;
 {
-    NSUInteger currentState, nextState;
+    NSUInteger nextState;
     NSUInteger count, index;
     BOOL priorTonic = NO;
     NSUInteger toneGroupMarkerLocation = NSNotFound;
@@ -224,7 +224,6 @@ static NSDictionary *_specialAcronyms = nil;
 
     count = [words count];
     if (count == 0) {
-        currentState = TTS_STATE_END;
         NSLog(@"%s, No words.", __PRETTY_FUNCTION__);
     } else {
         for (index = 0; index < count; index++) {
@@ -234,7 +233,7 @@ static NSDictionary *_specialAcronyms = nil;
             else
                 nextWord = nil;
 
-            currentState = [self stateForWord:currentWord];
+            NSUInteger currentState = [self stateForWord:currentWord];
             nextState = [self stateForWord:nextWord];
 
             //NSLog(@"previousState: %d, currentState: %d (%@), nextState: %d (%@)", previousState, currentState, currentWord, nextState, nextWord);

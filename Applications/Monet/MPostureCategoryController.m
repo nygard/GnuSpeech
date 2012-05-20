@@ -14,12 +14,11 @@
 
 - (id)initWithModel:(MModel *)aModel;
 {
-    if ([super initWithWindowNibName:@"PostureCategory"] == nil)
-        return nil;
+    if ((self = [super initWithWindowNibName:@"PostureCategory"])) {
+        model = [aModel retain];
 
-    model = [aModel retain];
-
-    [self setWindowFrameAutosaveName:@"Posture Categories"];
+        [self setWindowFrameAutosaveName:@"Posture Categories"];
+    }
 
     return self;
 }
