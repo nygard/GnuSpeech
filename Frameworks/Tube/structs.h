@@ -6,8 +6,9 @@
 
 #include <stdint.h> // For uint8_t, uint32_t, etc.
 #include <stdio.h> // For FILE
-#include "ring_buffer.h"
-#include "wavetable.h"
+#include "TRMWavetable.h"
+
+#import "TRMParameters.h"
 
 // Oropharynx Regions
 #define TRM_R1          0      //  S1
@@ -57,78 +58,6 @@
 
 #define OUTPUT_SRATE_LOW          22050.0
 #define OUTPUT_SRATE_HIGH         44100.0
-
-typedef struct _TRMParameters {
-    double glotPitch;
-    double glotVol;
-    double aspVol;
-    double fricVol;
-    double fricPos;
-    double fricCF;
-    double fricBW;
-    double radius[TOTAL_REGIONS];
-    double velum;
-} TRMParameters;
-
-// Variables for input tables
-typedef struct _INPUT {
-    struct _INPUT *previous;
-    struct _INPUT *next;
-
-    TRMParameters parameters;
-} INPUT;
-
-typedef struct _TRMInputParameters {
-    int32_t outputFileFormat;           // file format (0=AU, 1=AIFF, 2=WAVE)
-    float outputRate;                   // output sample rate (22.05, 44.1 KHz)
-    float controlRate;                  // 1.0-1000.0 input tables/second (Hz)
-
-    double volume;                      // master volume (0 - 60 dB)
-    int32_t channels;                   // # of sound output channels (1, 2)
-    double balance;                     // stereo balance (-1 to +1)
-
-    int32_t waveform;                   // GS waveform type (0=PULSE, 1=SINE)
-    double tp;                          // % glottal pulse rise time
-    double tnMin;                       // % glottal pulse fall time minimum
-    double tnMax;                       // % glottal pulse fall time maximum
-    double breathiness;                 // % glottal source breathiness
-
-    double length;                      // nominal tube length (10 - 20 cm)
-    double temperature;                 // tube temperature (25 - 40 C)
-    double lossFactor;                  // junction loss factor in (0 - 5 %)
-
-    double apScale;                     // aperture scl. radius (3.05 - 12 cm)
-    double mouthCoef;                   // mouth aperture coefficient
-    double noseCoef;                    // nose aperture coefficient
-
-    double noseRadius[TOTAL_NASAL_SECTIONS];  // fixed nose radii (0 - 3 cm)
-
-    double throatCutoff;                // throat lp cutoff (50 - nyquist Hz)
-    double throatVol;                   // throat volume (0 - 48 dB)
-
-    int32_t modulation;                 // pulse mod. of noise (0=OFF, 1=ON)
-    double mixOffset;                   // noise crossmix offset (30 - 60 dB)
-} TRMInputParameters;
-
-typedef struct _TRMDataList {
-    TRMInputParameters inputParameters;
-
-    INPUT *inputHead;
-    INPUT *inputTail;
-} TRMDataList;
-
-// Variables for sample rate conversion
-typedef struct _TRMSampleRateConverter {
-    double sampleRateRatio;
-    double h[FILTER_LENGTH], deltaH[FILTER_LENGTH];
-    uint32_t timeRegisterIncrement, filterIncrement, phaseIncrement;
-    uint32_t timeRegister;
-
-    // Temporary sample storage values
-    double maximumSampleValue;
-    int32_t numberSamples;
-    FILE *tempFilePtr;
-} TRMSampleRateConverter;
 
 // Oropharynx scattering junction coefficients (between each region)
 #define C1                        TRM_R1     // R1-R2 (S1-S2)
@@ -190,55 +119,5 @@ typedef struct _TRMSampleRateConverter {
 // Bi-directional transmission line pointers
 #define TOP                       0
 #define BOTTOM                    1
-
-
-
-typedef struct {
-    // Derived values
-    int32_t controlPeriod;
-    int32_t sampleRate;
-    double actualTubeLength;            // actual length in cm
-
-    double dampingFactor;               // calculated damping factor
-    double crossmixFactor;              // calculated crossmix factor
-
-    double breathinessFactor;
-
-    // Reflection and radiation filter memory
-    double a10, b11, a20, a21, b21;
-
-    // Nasal reflection and radiation filter memory
-    double na10, nb11, na20, na21, nb21;
-
-    // Throad lowpass filter memory, gain
-    double tb1, ta0, throatGain;
-
-    // Frication bandpass filter memory
-    double bpAlpha, bpBeta, bpGamma;
-
-    // Memory for tue and tube coefficients
-    double oropharynx[TOTAL_SECTIONS][2][2];
-    double oropharynx_coeff[TOTAL_COEFFICIENTS];
-
-    double nasal[TOTAL_NASAL_SECTIONS][2][2];
-    double nasal_coeff[TOTAL_NASAL_COEFFICIENTS];
-
-    double alpha[TOTAL_ALPHA_COEFFICIENTS];
-    int32_t current_ptr;
-    int32_t prev_ptr;
-
-    // Memory for frication taps
-    double fricationTap[TOTAL_FRIC_COEFFICIENTS];
-
-    // Variables for interpolation
-    struct {
-        TRMParameters parameters;
-        TRMParameters delta;
-    } current;
-
-    TRMSampleRateConverter sampleRateConverter;
-    TRMRingBuffer *ringBuffer;
-    TRMWavetable *wavetable;
-} TRMTubeModel;
 
 #endif

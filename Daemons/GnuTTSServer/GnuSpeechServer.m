@@ -4,6 +4,12 @@
 #import "GnuSpeechServer.h"
 #import "TextToSpeech.h"
 
+@interface GnuSpeechServer ()
+- (int)restartServer;
+@end
+
+#pragma mark -
+
 @implementation GnuSpeechServer
 {
 	NSConnection *connection;
@@ -21,17 +27,17 @@
 
 - (id)init;
 {
-	[super init];
-	
-	connection = [[NSConnection new] autorelease];
-	[connection setRootObject:self];
-	
-	if (![connection registerName:GNUSPEECH_SERVER_REGISTERED_NAME]) {
-		NSLog(@"GnuTTSServer: Unable to register name \"%@\" as it is already registered.", GNUSPEECH_SERVER_REGISTERED_NAME);
-		return nil;
-	}
-
-	textToSpeech = [[TextToSpeech alloc] init];
+	if ((self = [super init])) {
+        connection = [[NSConnection new] autorelease];
+        [connection setRootObject:self];
+        
+        if (![connection registerName:GNUSPEECH_SERVER_REGISTERED_NAME]) {
+            NSLog(@"GnuTTSServer: Unable to register name \"%@\" as it is already registered.", GNUSPEECH_SERVER_REGISTERED_NAME);
+            return nil;
+        }
+        
+        textToSpeech = [[TextToSpeech alloc] init];
+    }
 	
 	return self;
 }

@@ -57,7 +57,7 @@
 const char *getExtension(const char *fileName);		/* Function to get extension after last "." of fileName. */
 char *getNameWithoutExtensionOfFile(char *fileName);	/* Function to get name of file without extension. */
 
-@interface PrDict:NSObject
+@interface PrDict : NSObject
 
 /* Class Methods */
 /* Initiialization */
@@ -67,21 +67,21 @@ char *getNameWithoutExtensionOfFile(char *fileName);	/* Function to get name of 
 + (const char **)fileTypes;
 + (int)numFileTypes;
 + (int)getTagOfFileType:(const char *)fileName;
-+ (BOOL)acceptsFileType:(const char*)fileName;
++ (BOOL)acceptsFileType:(const char *)fileName;
 
 /* Instance Methods. */
 /* Initialization */
-- init;
+- (id)init;
 - (id)initWithContentsOfFile:(NSString *)path;
 
 /* Dictionary Methods */
-- (void)removeWord:(NSString*)aWord;
-- (void)setPhone:(NSString*)phoneString
-        partsOfSpeech:(NSString*)posString
-        forWord:(NSString*)aWord;
-- (NSString*)phoneForWord:(NSString*)aWord;
-- (NSString*)partsOfSpeechForWord:(NSString*)aWord;
-- (BOOL)containsWord:(NSString*)aWord;
+- (void)removeWord:(NSString *)aWord;
+- (void)setPhone:(NSString *)phoneString
+        partsOfSpeech:(NSString *)posString
+        forWord:(NSString *)aWord;
+- (NSString *)phoneForWord:(NSString *)aWord;
+- (NSString *)partsOfSpeechForWord:(NSString *)aWord;
+- (BOOL)containsWord:(NSString *)aWord;
 - (unsigned)count;
 
 /* Archiving dictionaries in different formats. */

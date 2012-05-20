@@ -41,10 +41,10 @@
 
 - (id)initWithCapacity:(NSUInteger)capacity;
 {
-	[super init];
-	
-	streamBuffer = [[[NSMutableString alloc] initWithCapacity:capacity] retain];
-	streamPosition = 0;
+    if ((self =	[super init])) {
+        streamBuffer = [[[NSMutableString alloc] initWithCapacity:capacity] retain];
+        streamPosition = 0;
+    }
 	
 	return self;
 }

@@ -93,10 +93,10 @@
 
     //NSLog(@" > %s", __PRETTY_FUNCTION__);
 
-    NSData *data = [[NSData alloc] initWithContentsOfFile:aFilename];
+    NSData *data = [[[NSData alloc] initWithContentsOfFile:aFilename] autorelease];
     //NSLog(@"data: %p", data);
     //str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]; // utf-8 fails
-    NSString *str = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+    NSString *str = [[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding] autorelease];
     NSArray *lines = [str componentsSeparatedByString:@"\n"];
 
     count = [lines count];

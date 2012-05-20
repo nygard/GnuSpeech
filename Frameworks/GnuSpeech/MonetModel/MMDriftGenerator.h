@@ -4,8 +4,6 @@
 #import <Foundation/Foundation.h>
 
 @interface MMDriftGenerator : NSObject
-{
-}
 
 - (void)configureWithDeviation:(float)deviation sampleRate:(float)sampleRate lowpassCutoff:(float)lowpassCutoff;
 

@@ -214,7 +214,7 @@ typedef NSUInteger MMBooleanParserToken;
 - (MMBooleanNode *)parseNotOperation;
 {
     MMBooleanExpression *resultExpression = nil;
-    MMBooleanNode *subExpression;
+    MMBooleanNode *subExpression = nil;
 
     resultExpression = [[[MMBooleanExpression alloc] init] autorelease];
     resultExpression.operation = MMBooleanOperation_Not;
@@ -230,10 +230,12 @@ typedef NSUInteger MMBooleanParserToken;
         case MMBooleanParserToken_Category:
         {
             MMBooleanNode *terminal = [self terminalForParsedCategory];
-            if (subExpression == nil)
+            if (terminal == nil) {
+                [self appendErrorFormat:@"Error, terminal returned nil, %s", __PRETTY_FUNCTION__];
                 return nil;
-            else
+            } else {
                 [resultExpression addSubExpression:terminal];
+            }
             break;
         }
             
@@ -249,7 +251,7 @@ typedef NSUInteger MMBooleanParserToken;
 - (MMBooleanNode *)parseAndOperation:(MMBooleanNode *)operand;
 {
     MMBooleanExpression *resultExpression = nil;
-    MMBooleanNode *subExpression;
+    MMBooleanNode *subExpression = nil;
 
     resultExpression = [[[MMBooleanExpression alloc] init] autorelease];
     [resultExpression addSubExpression:operand];
@@ -286,10 +288,12 @@ typedef NSUInteger MMBooleanParserToken;
         case MMBooleanParserToken_Category:
         {
             MMBooleanNode *terminal = [self terminalForParsedCategory];
-            if (subExpression == nil)
+            if (terminal == nil) {
+                [self appendErrorFormat:@"Error, terminal returned nil, %s", __PRETTY_FUNCTION__];
                 return nil;
-            else
+            } else {
                 [resultExpression addSubExpression:terminal];
+            }
             break;
         }
     }
@@ -300,7 +304,7 @@ typedef NSUInteger MMBooleanParserToken;
 - (MMBooleanNode *)parseOrOperation:(MMBooleanNode *)operand;
 {
     MMBooleanExpression *resultExpression = nil;
-    MMBooleanNode *subExpression;
+    MMBooleanNode *subExpression = nil;
     
     resultExpression = [[[MMBooleanExpression alloc] init] autorelease];
     [resultExpression addSubExpression:operand];
@@ -336,10 +340,12 @@ typedef NSUInteger MMBooleanParserToken;
         case MMBooleanParserToken_Category:
         {
             MMBooleanNode *terminal = [self terminalForParsedCategory];
-            if (subExpression == nil)
+            if (terminal == nil) {
+                [self appendErrorFormat:@"Error, terminal returned nil, %s", __PRETTY_FUNCTION__];
                 return nil;
-            else
+            } else {
                 [resultExpression addSubExpression:terminal];
+            }
             break;
         }
     }
@@ -350,7 +356,7 @@ typedef NSUInteger MMBooleanParserToken;
 - (MMBooleanNode *)parseExclusiveOrOperation:(MMBooleanNode *)operand;
 {
     MMBooleanExpression *resultExpression = nil;
-    MMBooleanNode *subExpression;
+    MMBooleanNode *subExpression = nil;
 
     resultExpression = [[[MMBooleanExpression alloc] init] autorelease];
     [resultExpression addSubExpression:operand];
@@ -386,10 +392,12 @@ typedef NSUInteger MMBooleanParserToken;
         case MMBooleanParserToken_Category:
         {
             MMBooleanNode *terminal = [self terminalForParsedCategory];
-            if (subExpression == nil)
+            if (terminal == nil) {
+                [self appendErrorFormat:@"Error, terminal returned nil, %s", __PRETTY_FUNCTION__];
                 return nil;
-            else
+            } else {
                 [resultExpression addSubExpression:terminal];
+            }
             break;
         }
     }
@@ -407,6 +415,7 @@ typedef NSUInteger MMBooleanParserToken;
             return nil;
             
         case MMBooleanParserToken_RightParenthesis:
+            [self appendErrorFormat:@"Error, unexpected right paren."];
             return nil;
             
         case MMBooleanParserToken_LeftParenthesis:
@@ -426,10 +435,12 @@ typedef NSUInteger MMBooleanParserToken;
         case MMBooleanParserToken_Category:
         {
             MMBooleanNode *terminal = [self terminalForParsedCategory];
-            if (terminal == nil)
+            if (terminal == nil) {
+                [self appendErrorFormat:@"Error, terminal returned nil, %s", __PRETTY_FUNCTION__];
                 return nil;
-            else
+            } else {
                 resultExpression = terminal;
+            }
             break;
         }
     }
@@ -442,6 +453,7 @@ typedef NSUInteger MMBooleanParserToken;
                 return nil;
                 
             case MMBooleanParserToken_RightParenthesis:
+                [self appendErrorFormat:@"Won't happen?"];
                 return nil; // Won't happen
                 
             case MMBooleanParserToken_LeftParenthesis:
@@ -455,7 +467,7 @@ typedef NSUInteger MMBooleanParserToken;
             case MMBooleanParserToken_Operator_Or:
                 resultExpression = [self parseOrOperation:resultExpression];
                 break;
-                
+
             case MMBooleanParserToken_Operator_ExclusiveOr:
                 resultExpression = [self parseExclusiveOrOperation:resultExpression];
                 break;

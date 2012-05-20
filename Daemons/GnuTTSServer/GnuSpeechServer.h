@@ -5,14 +5,6 @@
 
 #import <GnuSpeech/GnuSpeechServerProtocol.h>
 
-@class TextToSpeech;
-
 @interface GnuSpeechServer : NSObject <GnuSpeechServerProtocol>
-
-/* Internal methods. */
-- (int)restartServer;
-
-- (id)init;
-- (void)dealloc;
 
 @end

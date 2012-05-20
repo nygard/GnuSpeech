@@ -31,9 +31,7 @@
 #include <sys/param.h>
 
 
-#define TOTAL_NASAL_SECTIONS 6
 //#define MAXPATHLEN 255
-#define TOTAL_REGIONS 8
 #define FALSE 0
 #define TABLE_LENGTH              512
 #define TEMPERATURE_DEF		32.0
@@ -60,7 +58,7 @@ int run;
 float *envelopeData;
 
 /*  INPUT VARIABLES  */
-int    outputFileFormat;            /*  file format (0=AU, 1=AIFF, 2=WAVE)  */
+TRMSoundFileFormat outputFileFormat;   //  file format (0=AU, 1=AIFF, 2=WAVE)
 float  outputRate;                  /*  output sample rate (22.05, 44.1 KHz)  */
 //float  controlRate;                 /*  1.0-1000.0 input tables/second (Hz)  */
 

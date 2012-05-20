@@ -23,7 +23,7 @@
 #define MDK_SoundOutputDirectory       @"SoundOutputDirectory"
 #define MDK_IntonationContourDirectory @"IntonationContourDirectory"
 
-@interface MSynthesisController () <NSTableViewDataSource, NSTableViewDelegate, NSComboBoxDelegate, NSTextViewDelegate>
+@interface MSynthesisController () <NSTableViewDataSource, NSTableViewDelegate, NSComboBoxDelegate, NSTextViewDelegate, EventListDelegate>
 
 @property (readonly) EventList *eventList;
 
@@ -41,6 +41,9 @@
 
 - (void)intonationPointDidChange:(NSNotification *)aNotification;
 - (void)saveGraphImagesToPath:(NSString *)basePath;
+
+@property (readonly) TRMSynthesizer *synthesizer;
+@property (strong) STLogger *logger;
 
 @end
 
@@ -93,8 +96,9 @@
     MModel *model;
     NSMutableArray *displayParameters;
     EventList *eventList;
+    STLogger *m_logger;
 	
-    TRMSynthesizer *synthesizer;
+    TRMSynthesizer *m_synthesizer;
 	
 	MMTextToPhone *textToPhone;
 	
@@ -135,7 +139,7 @@
         
         [self setWindowFrameAutosaveName:@"Synthesis"];
         
-        synthesizer = [[TRMSynthesizer alloc] init];
+        m_synthesizer = [[TRMSynthesizer alloc] init];
         
         textToPhone = [[MMTextToPhone alloc] init];
         
@@ -157,7 +161,7 @@
     [model release];
     [displayParameters release];
     [eventList release];
-    [synthesizer release];
+    [m_synthesizer release];
 	[textToPhone release];
 	
     [intonationPrintInfo release];
@@ -168,6 +172,7 @@
 #pragma mark -
 
 @synthesize eventList;
+@synthesize synthesizer = m_synthesizer;
 
 - (MModel *)model;
 {
@@ -407,7 +412,7 @@
 - (IBAction)synthesizeWithSoftware:(id)sender;
 {
     NSLog(@" > %s", __PRETTY_FUNCTION__);
-    [synthesizer setShouldSaveToSoundFile:NO];
+    [self.synthesizer setShouldSaveToSoundFile:NO];
     [self synthesize];
     NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
@@ -430,9 +435,9 @@
     [savePanel beginSheetModalForWindow:[self window] completionHandler:^(NSInteger result){
         if (result == NSFileHandlingPanelOKButton) {
             [[NSUserDefaults standardUserDefaults] setObject:[[savePanel directoryURL] path] forKey:MDK_SoundOutputDirectory];
-            [synthesizer setShouldSaveToSoundFile:YES];
-            [synthesizer setFileType:[[fileTypePopUpButton selectedItem] tag]];
-            [synthesizer setFilename:[[savePanel URL] path]];
+            [self.synthesizer setShouldSaveToSoundFile:YES];
+            [self.synthesizer setFileType:[[fileTypePopUpButton selectedItem] tag]];
+            [self.synthesizer setFilename:[[savePanel URL] path]];
             [self synthesize];
         }
     }];
@@ -504,30 +509,21 @@
 - (IBAction)synthesizeWithContour:(id)sender;
 {
     [eventList clearIntonationEvents];
-    [synthesizer setShouldSaveToSoundFile:NO];
+    [self.synthesizer setShouldSaveToSoundFile:NO];
     [self continueSynthesis];
 }
 
 - (void)prepareForSynthesis;
 {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	
-    if ([parametersStore state]) {
-        NSError *error = nil;
-        if ([[[self model] synthesisParameters] writeToURL:[NSURL fileURLWithPath:@"/tmp/Monet.parameters"] error:&error] == NO) {
-            NSLog(@"Error writing synthesis parameters: %@", error);
-        }
-    }
-	
     [eventList setUp];
 	
     [eventList setPitchMean:[[[self model] synthesisParameters] pitch]];
     [eventList setGlobalTempo:[tempoField doubleValue]];
-    [eventList setShouldStoreParameters:[parametersStore state]];
 	
-    [eventList setShouldUseMacroIntonation:[defaults boolForKey:MDK_ShouldUseMacroIntonation]];
-    [eventList setShouldUseMicroIntonation:[defaults boolForKey:MDK_ShouldUseMicroIntonation]];
-    [eventList setShouldUseDrift:[defaults boolForKey:MDK_ShouldUseDrift]];
+    [eventList setShouldUseMacroIntonation:[[NSUserDefaults standardUserDefaults] boolForKey:MDK_ShouldUseMacroIntonation]];
+    [eventList setShouldUseMicroIntonation:[[NSUserDefaults standardUserDefaults] boolForKey:MDK_ShouldUseMicroIntonation]];
+    [eventList setShouldUseDrift:[[NSUserDefaults standardUserDefaults] boolForKey:MDK_ShouldUseDrift]];
+
     NSLog(@"%s, drift deviation: %f, cutoff: %f", __PRETTY_FUNCTION__, [driftDeviationField floatValue], [driftCutoffField floatValue]);
     [eventList.driftGenerator configureWithDeviation:[driftDeviationField floatValue] sampleRate:500 lowpassCutoff:[driftCutoffField floatValue]];
     //[eventList.driftGenerator setupWithDeviation:0.5 sampleRate:250 lowpassCutoff:0.5];
@@ -547,14 +543,14 @@
     //[eventList printDataStructures:@"Before synthesis"];
     [eventTableView reloadData];
 	
-    [synthesizer setupSynthesisParameters:[[self model] synthesisParameters]]; // TODO (2004-08-22): This may overwrite the file type...
-    [synthesizer removeAllParameters];
-	
-    [eventList setDelegate:synthesizer];
+    [self.synthesizer setupSynthesisParameters:[[self model] synthesisParameters]]; // TODO (2004-08-22): This may overwrite the file type...
+    [self.synthesizer removeAllParameters];
+    
+    [eventList setDelegate:self];
     [eventList generateOutput];
     [eventList setDelegate:nil];
 	
-    [synthesizer synthesize];
+    [self.synthesizer synthesize];
 	
     [eventListView setEventList:eventList];
     [eventListView display]; // TODO (2004-03-17): It's not updating otherwise
@@ -675,10 +671,10 @@
 	
     [[html dataUsingEncoding:NSUTF8StringEncoding] writeToFile:[basePath stringByAppendingPathComponent:@"index.html"] atomically:YES];
 	
-    [synthesizer setFileType:0];
-    [synthesizer setFilename:[basePath stringByAppendingPathComponent:@"output.au"]];
-    [synthesizer setShouldSaveToSoundFile:YES];
-    [synthesizer synthesize];
+    [self.synthesizer setFileType:0];
+    [self.synthesizer setFilename:[basePath stringByAppendingPathComponent:@"output.au"]];
+    [self.synthesizer setShouldSaveToSoundFile:YES];
+    [self.synthesizer synthesize];
 	
     [jpegProperties release];
 	
@@ -849,6 +845,7 @@
             NSInteger index = [identifier intValue] + rowOffset * 16;
             if (rowOffset == 0 || index < 32) {
                 double value = [[[eventList events] objectAtIndex:eventNumber] getValueAtIndex:index];
+                if (value == NaN) return nil;
                 return [NSNumber numberWithDouble:value];
             }
         }
@@ -969,6 +966,45 @@
 - (IBAction)updateDrift:(id)sender;
 {
     [[NSUserDefaults standardUserDefaults] setBool:[[sender selectedCell] state] forKey:MDK_ShouldUseDrift];
+}
+
+#pragma mark - EventListDelegate
+
+@synthesize logger = m_logger;
+
+- (void)eventListWillGenerateOutput:(EventList *)eventList;
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    // Open file and save initial parameters
+    if ([parametersStore state]) {
+        NSError *error = nil;
+        STLogger *logger = [[[STLogger alloc] initWithOutputToPath:@"/tmp/Monet.parameters" error:&error] autorelease];
+        if (logger == nil) {
+            NSLog(@"Error logging to file: %@", error);
+        } else {
+            self.logger = logger;
+        }
+        
+        [self.model.synthesisParameters logToLogger:self.logger];
+    }
+}
+
+- (void)eventList:(EventList *)eventList generatedOutputValues:(float *)valPtr valueCount:(NSUInteger)count;
+{
+    //NSLog(@"%s", __PRETTY_FUNCTION__);
+    [self.synthesizer addParameters:valPtr];
+    // Write values to file
+    NSMutableArray *a1 = [NSMutableArray array];
+    for (NSUInteger index = 0; index < count; index++)
+        [a1 addObject:[NSString stringWithFormat:@"%.3f", valPtr[index]]];
+    [self.logger log:@"%@", [a1 componentsJoinedByString:@" "]];
+}
+
+- (void)eventListDidGenerateOutput:(EventList *)eventList;
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    // Close file
+    self.logger = nil;
 }
 
 @end

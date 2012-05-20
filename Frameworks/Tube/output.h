@@ -4,29 +4,25 @@
 #ifndef __OUTPUT_H
 #define __OUTPUT_H
 
-#include <stdint.h> // For uint8_t, uint32_t, etc.
-#include "structs.h" // For TRMData
+#import "TRMDataList.h"
+
+@class TRMSampleRateConverter;
 
 // Output file format constants
-#define AU_FILE_FORMAT            0
-#define AIFF_FILE_FORMAT          1
-#define WAVE_FILE_FORMAT          2
-
-// Final output scaling, so that .snd files approximately match DSP output
-//#define OUTPUT_SCALE              0.25
-#define OUTPUT_SCALE              1.0
+enum {
+    TRMSoundFileFormat_AU   = 0,
+    TRMSoundFileFormat_AIFF = 1,
+    TRMSoundFileFormat_WAVE = 2,
+};
+typedef NSUInteger TRMSoundFileFormat;
 
 // Maximum sample value
-#define RANGE_MAX                 32767.0
+#define TRMSampleValue_Maximum    32767.0
 
 // Size in bits per output sample
-#define BITS_PER_SAMPLE           16
+#define TRMBitsPerSample          16
 
 
-extern void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMDataList *data, const char *fileName);
-extern void convertIntToFloat80(uint32_t value, uint8_t buffer[10]);
-
-extern void writeAuFileHeader(int32_t channels, int32_t numberSamples, float outputRate, FILE *outputFile);
-extern size_t fwriteShortMsb(int32_t data, FILE *stream);
+void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMDataList *data, const char *fileName);
 
 #endif

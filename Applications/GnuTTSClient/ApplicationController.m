@@ -13,11 +13,13 @@
 
 - (id)init;
 {
-	[super init];
-	ttsServerProxy = [[NSConnection rootProxyForConnectionWithRegisteredName:GNUSPEECH_SERVER_REGISTERED_NAME host:nil] retain];
-	[[ttsServerProxy connectionForProxy] enableMultipleThreads];  // required for 10.4 support	
-	[ttsServerProxy setProtocolForProxy:@protocol(GnuSpeechServerProtocol)];
-	return self;
+	if ((self = [super init])) {
+        ttsServerProxy = [[NSConnection rootProxyForConnectionWithRegisteredName:GNUSPEECH_SERVER_REGISTERED_NAME host:nil] retain];
+        [[ttsServerProxy connectionForProxy] enableMultipleThreads];  // required for 10.4 support	
+        [ttsServerProxy setProtocolForProxy:@protocol(GnuSpeechServerProtocol)];
+    }
+
+    return self;
 }
 
 - (IBAction)speak:(id)sender;

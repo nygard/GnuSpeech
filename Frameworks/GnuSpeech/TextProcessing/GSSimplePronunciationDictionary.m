@@ -68,21 +68,20 @@
         NSString *line = [lines objectAtIndex:index];
         NSArray *parts = [line componentsSeparatedByString:@" "];
         if ([parts count] >= 2) {
-            NSString *wordType;
-
             NSString *key = [parts objectAtIndex:0];
             NSString *value = [parts objectAtIndex:1];
-            NSString *partOfSpeech = nil;
+            //NSString *partOfSpeech = nil;
+            //NSString *wordType = nil;
 
             NSRange range = [key rangeOfString:@"/"];
             if (range.location != NSNotFound) {
-                partOfSpeech = [key substringFromIndex:NSMaxRange(range)];
+                //partOfSpeech = [key substringFromIndex:NSMaxRange(range)];
                 key = [key substringToIndex:range.location];
             }
 
             range = [value rangeOfString:@"%"];
             if (range.location != NSNotFound) {
-                wordType = [value substringFromIndex:NSMaxRange(range)];
+                //wordType = [value substringFromIndex:NSMaxRange(range)];
                 value = [value substringToIndex:range.location];
             }
 

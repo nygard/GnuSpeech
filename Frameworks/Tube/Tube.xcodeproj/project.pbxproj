@@ -7,45 +7,84 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0102B0AC15685F81009943D7 /* TRMTubeModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 0102B0AA15685F81009943D7 /* TRMTubeModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0102B0AD15685F81009943D7 /* TRMTubeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0102B0AB15685F81009943D7 /* TRMTubeModel.m */; };
+		01115F7F1547C35A002ABAAF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 01115F7E1547C35A002ABAAF /* main.m */; };
+		01115F891547C381002ABAAF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01115F881547C381002ABAAF /* Foundation.framework */; };
+		01115F941547C399002ABAAF /* TRMFIRFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 01AC656B0B7BF4D8008E4B93 /* TRMFIRFilter.m */; };
+		01115F981547C399002ABAAF /* output.m in Sources */ = {isa = PBXBuildFile; fileRef = 01AC656F0B7BF4D8008E4B93 /* output.m */; };
+		01115F9A1547C399002ABAAF /* TRMRingBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 01AC65710B7BF4D8008E4B93 /* TRMRingBuffer.m */; };
+		01115FA01547C399002ABAAF /* util.m in Sources */ = {isa = PBXBuildFile; fileRef = 01AC65770B7BF4D8008E4B93 /* util.m */; };
+		01115FA21547C399002ABAAF /* TRMWavetable.m in Sources */ = {isa = PBXBuildFile; fileRef = 01AC65790B7BF4D8008E4B93 /* TRMWavetable.m */; };
+		01115FA51547C3D4002ABAAF /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01115FA41547C3D3002ABAAF /* Accelerate.framework */; };
+		01115FA61547C43E002ABAAF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 01115F7E1547C35A002ABAAF /* main.m */; };
 		0172DA14153FDD2F00413F56 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0172DA13153FDD2F00413F56 /* Accelerate.framework */; };
-		01AC657B0B7BF4D8008E4B93 /* fir.c in Sources */ = {isa = PBXBuildFile; fileRef = 01AC656B0B7BF4D8008E4B93 /* fir.c */; };
-		01AC657C0B7BF4D8008E4B93 /* fir.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC656C0B7BF4D8008E4B93 /* fir.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		01AC657D0B7BF4D8008E4B93 /* input.c in Sources */ = {isa = PBXBuildFile; fileRef = 01AC656D0B7BF4D8008E4B93 /* input.c */; };
-		01AC657E0B7BF4D8008E4B93 /* input.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC656E0B7BF4D8008E4B93 /* input.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		01AC657F0B7BF4D8008E4B93 /* output.c in Sources */ = {isa = PBXBuildFile; fileRef = 01AC656F0B7BF4D8008E4B93 /* output.c */; };
+		019CCB8E154BE30D00A9CF7A /* TRMInputParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 019CCB8C154BE30C00A9CF7A /* TRMInputParameters.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		019CCB8F154BE30D00A9CF7A /* TRMInputParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 019CCB8D154BE30C00A9CF7A /* TRMInputParameters.m */; };
+		019CCB93154BE46B00A9CF7A /* TRMDataList.h in Headers */ = {isa = PBXBuildFile; fileRef = 019CCB91154BE46B00A9CF7A /* TRMDataList.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		019CCB94154BE46B00A9CF7A /* TRMDataList.m in Sources */ = {isa = PBXBuildFile; fileRef = 019CCB92154BE46B00A9CF7A /* TRMDataList.m */; };
+		019CCB9C154BE65400A9CF7A /* TRMParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 019CCB9A154BE65400A9CF7A /* TRMParameters.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		019CCB9D154BE65400A9CF7A /* TRMParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 019CCB9B154BE65400A9CF7A /* TRMParameters.m */; };
+		01AC657B0B7BF4D8008E4B93 /* TRMFIRFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 01AC656B0B7BF4D8008E4B93 /* TRMFIRFilter.m */; };
+		01AC657C0B7BF4D8008E4B93 /* TRMFIRFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC656C0B7BF4D8008E4B93 /* TRMFIRFilter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		01AC657F0B7BF4D8008E4B93 /* output.m in Sources */ = {isa = PBXBuildFile; fileRef = 01AC656F0B7BF4D8008E4B93 /* output.m */; };
 		01AC65800B7BF4D8008E4B93 /* output.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC65700B7BF4D8008E4B93 /* output.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		01AC65810B7BF4D8008E4B93 /* ring_buffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 01AC65710B7BF4D8008E4B93 /* ring_buffer.c */; };
-		01AC65820B7BF4D8008E4B93 /* ring_buffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC65720B7BF4D8008E4B93 /* ring_buffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		01AC65810B7BF4D8008E4B93 /* TRMRingBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 01AC65710B7BF4D8008E4B93 /* TRMRingBuffer.m */; };
+		01AC65820B7BF4D8008E4B93 /* TRMRingBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC65720B7BF4D8008E4B93 /* TRMRingBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01AC65830B7BF4D8008E4B93 /* structs.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC65730B7BF4D8008E4B93 /* structs.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		01AC65840B7BF4D8008E4B93 /* tube.c in Sources */ = {isa = PBXBuildFile; fileRef = 01AC65740B7BF4D8008E4B93 /* tube.c */; };
-		01AC65850B7BF4D8008E4B93 /* tube.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC65750B7BF4D8008E4B93 /* tube.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01AC65860B7BF4D8008E4B93 /* TubeModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC65760B7BF4D8008E4B93 /* TubeModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		01AC65870B7BF4D8008E4B93 /* util.c in Sources */ = {isa = PBXBuildFile; fileRef = 01AC65770B7BF4D8008E4B93 /* util.c */; };
+		01AC65870B7BF4D8008E4B93 /* util.m in Sources */ = {isa = PBXBuildFile; fileRef = 01AC65770B7BF4D8008E4B93 /* util.m */; };
 		01AC65880B7BF4D8008E4B93 /* util.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC65780B7BF4D8008E4B93 /* util.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		01AC65890B7BF4D8008E4B93 /* wavetable.c in Sources */ = {isa = PBXBuildFile; fileRef = 01AC65790B7BF4D8008E4B93 /* wavetable.c */; };
-		01AC658A0B7BF4D8008E4B93 /* wavetable.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC657A0B7BF4D8008E4B93 /* wavetable.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		01AC65890B7BF4D8008E4B93 /* TRMWavetable.m in Sources */ = {isa = PBXBuildFile; fileRef = 01AC65790B7BF4D8008E4B93 /* TRMWavetable.m */; };
+		01AC658A0B7BF4D8008E4B93 /* TRMWavetable.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC657A0B7BF4D8008E4B93 /* TRMWavetable.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		01C6719315687CF6008840E9 /* TRMSampleRateConverter.h in Headers */ = {isa = PBXBuildFile; fileRef = 01C6719115687CF6008840E9 /* TRMSampleRateConverter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		01C6719415687CF6008840E9 /* TRMSampleRateConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C6719215687CF6008840E9 /* TRMSampleRateConverter.m */; };
 		697930D80F91911E00E6B2EC /* ChangeLog.txt in Resources */ = {isa = PBXBuildFile; fileRef = 697930D70F91911E00E6B2EC /* ChangeLog.txt */; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		01115F831547C381002ABAAF /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		0102B0AA15685F81009943D7 /* TRMTubeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRMTubeModel.h; sourceTree = "<group>"; };
+		0102B0AB15685F81009943D7 /* TRMTubeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRMTubeModel.m; sourceTree = "<group>"; };
+		01115F7E1547C35A002ABAAF /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		01115F851547C381002ABAAF /* softwareTRM */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = softwareTRM; sourceTree = BUILT_PRODUCTS_DIR; };
+		01115F881547C381002ABAAF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		01115F8B1547C381002ABAAF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		01115F8E1547C381002ABAAF /* softwareTRM-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "softwareTRM-Prefix.pch"; sourceTree = "<group>"; };
+		01115FA41547C3D3002ABAAF /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/Accelerate.framework; sourceTree = DEVELOPER_DIR; };
 		0172DA13153FDD2F00413F56 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = /System/Library/Frameworks/Accelerate.framework; sourceTree = "<absolute>"; };
-		01AC656B0B7BF4D8008E4B93 /* fir.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = fir.c; sourceTree = "<group>"; };
-		01AC656C0B7BF4D8008E4B93 /* fir.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = fir.h; sourceTree = "<group>"; };
-		01AC656D0B7BF4D8008E4B93 /* input.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = input.c; sourceTree = "<group>"; };
-		01AC656E0B7BF4D8008E4B93 /* input.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = input.h; sourceTree = "<group>"; };
-		01AC656F0B7BF4D8008E4B93 /* output.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = output.c; sourceTree = "<group>"; };
+		019CCB8C154BE30C00A9CF7A /* TRMInputParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRMInputParameters.h; sourceTree = "<group>"; };
+		019CCB8D154BE30C00A9CF7A /* TRMInputParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRMInputParameters.m; sourceTree = "<group>"; };
+		019CCB91154BE46B00A9CF7A /* TRMDataList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRMDataList.h; sourceTree = "<group>"; };
+		019CCB92154BE46B00A9CF7A /* TRMDataList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRMDataList.m; sourceTree = "<group>"; };
+		019CCB9A154BE65400A9CF7A /* TRMParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRMParameters.h; sourceTree = "<group>"; };
+		019CCB9B154BE65400A9CF7A /* TRMParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRMParameters.m; sourceTree = "<group>"; };
+		01AC656B0B7BF4D8008E4B93 /* TRMFIRFilter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TRMFIRFilter.m; sourceTree = "<group>"; };
+		01AC656C0B7BF4D8008E4B93 /* TRMFIRFilter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TRMFIRFilter.h; sourceTree = "<group>"; };
+		01AC656F0B7BF4D8008E4B93 /* output.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = output.m; sourceTree = "<group>"; };
 		01AC65700B7BF4D8008E4B93 /* output.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = output.h; sourceTree = "<group>"; };
-		01AC65710B7BF4D8008E4B93 /* ring_buffer.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = ring_buffer.c; sourceTree = "<group>"; };
-		01AC65720B7BF4D8008E4B93 /* ring_buffer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ring_buffer.h; sourceTree = "<group>"; };
+		01AC65710B7BF4D8008E4B93 /* TRMRingBuffer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TRMRingBuffer.m; sourceTree = "<group>"; };
+		01AC65720B7BF4D8008E4B93 /* TRMRingBuffer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TRMRingBuffer.h; sourceTree = "<group>"; };
 		01AC65730B7BF4D8008E4B93 /* structs.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = structs.h; sourceTree = "<group>"; };
-		01AC65740B7BF4D8008E4B93 /* tube.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = tube.c; sourceTree = "<group>"; };
-		01AC65750B7BF4D8008E4B93 /* tube.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = tube.h; sourceTree = "<group>"; };
 		01AC65760B7BF4D8008E4B93 /* TubeModel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TubeModel.h; sourceTree = "<group>"; };
-		01AC65770B7BF4D8008E4B93 /* util.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = util.c; sourceTree = "<group>"; };
+		01AC65770B7BF4D8008E4B93 /* util.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = util.m; sourceTree = "<group>"; };
 		01AC65780B7BF4D8008E4B93 /* util.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = util.h; sourceTree = "<group>"; };
-		01AC65790B7BF4D8008E4B93 /* wavetable.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = wavetable.c; sourceTree = "<group>"; };
-		01AC657A0B7BF4D8008E4B93 /* wavetable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = wavetable.h; sourceTree = "<group>"; };
+		01AC65790B7BF4D8008E4B93 /* TRMWavetable.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TRMWavetable.m; sourceTree = "<group>"; };
+		01AC657A0B7BF4D8008E4B93 /* TRMWavetable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TRMWavetable.h; sourceTree = "<group>"; };
+		01C6719115687CF6008840E9 /* TRMSampleRateConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRMSampleRateConverter.h; sourceTree = "<group>"; };
+		01C6719215687CF6008840E9 /* TRMSampleRateConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRMSampleRateConverter.m; sourceTree = "<group>"; };
 		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -57,6 +96,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		01115F821547C381002ABAAF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				01115FA51547C3D4002ABAAF /* Accelerate.framework in Frameworks */,
+				01115F891547C381002ABAAF /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8DC2EF560486A6940098B216 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -68,10 +116,36 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		01115F871547C381002ABAAF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				01115F881547C381002ABAAF /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		01115F8A1547C381002ABAAF /* softwareTRM */ = {
+			isa = PBXGroup;
+			children = (
+				01115F8B1547C381002ABAAF /* main.m */,
+				01115F8D1547C381002ABAAF /* Supporting Files */,
+			);
+			path = softwareTRM;
+			sourceTree = "<group>";
+		};
+		01115F8D1547C381002ABAAF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				01115F8E1547C381002ABAAF /* softwareTRM-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		034768DFFF38A50411DB9C8B /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				8DC2EF5B0486A6940098B216 /* Tube.framework */,
+				01115F851547C381002ABAAF /* softwareTRM */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -83,6 +157,8 @@
 				32C88DFF0371C24200C91783 /* Other Sources */,
 				089C1665FE841158C02AAC07 /* Resources */,
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				01115F8A1547C381002ABAAF /* softwareTRM */,
+				01115F871547C381002ABAAF /* Frameworks */,
 				034768DFFF38A50411DB9C8B /* Products */,
 			);
 			name = Tube;
@@ -110,22 +186,29 @@
 		08FB77AEFE84172EC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				01AC656B0B7BF4D8008E4B93 /* fir.c */,
-				01AC656C0B7BF4D8008E4B93 /* fir.h */,
-				01AC656D0B7BF4D8008E4B93 /* input.c */,
-				01AC656E0B7BF4D8008E4B93 /* input.h */,
-				01AC656F0B7BF4D8008E4B93 /* output.c */,
-				01AC65700B7BF4D8008E4B93 /* output.h */,
-				01AC65710B7BF4D8008E4B93 /* ring_buffer.c */,
-				01AC65720B7BF4D8008E4B93 /* ring_buffer.h */,
-				01AC65730B7BF4D8008E4B93 /* structs.h */,
-				01AC65740B7BF4D8008E4B93 /* tube.c */,
-				01AC65750B7BF4D8008E4B93 /* tube.h */,
 				01AC65760B7BF4D8008E4B93 /* TubeModel.h */,
-				01AC65770B7BF4D8008E4B93 /* util.c */,
+				01AC656F0B7BF4D8008E4B93 /* output.m */,
+				01AC65700B7BF4D8008E4B93 /* output.h */,
+				01AC65730B7BF4D8008E4B93 /* structs.h */,
+				01AC65770B7BF4D8008E4B93 /* util.m */,
 				01AC65780B7BF4D8008E4B93 /* util.h */,
-				01AC65790B7BF4D8008E4B93 /* wavetable.c */,
-				01AC657A0B7BF4D8008E4B93 /* wavetable.h */,
+				019CCB91154BE46B00A9CF7A /* TRMDataList.h */,
+				019CCB92154BE46B00A9CF7A /* TRMDataList.m */,
+				01AC656C0B7BF4D8008E4B93 /* TRMFIRFilter.h */,
+				01AC656B0B7BF4D8008E4B93 /* TRMFIRFilter.m */,
+				019CCB8C154BE30C00A9CF7A /* TRMInputParameters.h */,
+				019CCB8D154BE30C00A9CF7A /* TRMInputParameters.m */,
+				019CCB9A154BE65400A9CF7A /* TRMParameters.h */,
+				019CCB9B154BE65400A9CF7A /* TRMParameters.m */,
+				01AC65720B7BF4D8008E4B93 /* TRMRingBuffer.h */,
+				01AC65710B7BF4D8008E4B93 /* TRMRingBuffer.m */,
+				01C6719115687CF6008840E9 /* TRMSampleRateConverter.h */,
+				01C6719215687CF6008840E9 /* TRMSampleRateConverter.m */,
+				0102B0AA15685F81009943D7 /* TRMTubeModel.h */,
+				0102B0AB15685F81009943D7 /* TRMTubeModel.m */,
+				01AC657A0B7BF4D8008E4B93 /* TRMWavetable.h */,
+				01AC65790B7BF4D8008E4B93 /* TRMWavetable.m */,
+				01115F7E1547C35A002ABAAF /* main.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -133,6 +216,7 @@
 		1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				01115FA41547C3D3002ABAAF /* Accelerate.framework */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
@@ -163,21 +247,41 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				01AC657C0B7BF4D8008E4B93 /* fir.h in Headers */,
-				01AC657E0B7BF4D8008E4B93 /* input.h in Headers */,
+				01C6719315687CF6008840E9 /* TRMSampleRateConverter.h in Headers */,
+				0102B0AC15685F81009943D7 /* TRMTubeModel.h in Headers */,
+				019CCB8E154BE30D00A9CF7A /* TRMInputParameters.h in Headers */,
+				019CCB93154BE46B00A9CF7A /* TRMDataList.h in Headers */,
+				019CCB9C154BE65400A9CF7A /* TRMParameters.h in Headers */,
+				01AC657C0B7BF4D8008E4B93 /* TRMFIRFilter.h in Headers */,
 				01AC65800B7BF4D8008E4B93 /* output.h in Headers */,
-				01AC65820B7BF4D8008E4B93 /* ring_buffer.h in Headers */,
+				01AC65820B7BF4D8008E4B93 /* TRMRingBuffer.h in Headers */,
 				01AC65830B7BF4D8008E4B93 /* structs.h in Headers */,
-				01AC65850B7BF4D8008E4B93 /* tube.h in Headers */,
 				01AC65860B7BF4D8008E4B93 /* TubeModel.h in Headers */,
 				01AC65880B7BF4D8008E4B93 /* util.h in Headers */,
-				01AC658A0B7BF4D8008E4B93 /* wavetable.h in Headers */,
+				01AC658A0B7BF4D8008E4B93 /* TRMWavetable.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		01115F841547C381002ABAAF /* softwareTRM */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 01115F911547C381002ABAAF /* Build configuration list for PBXNativeTarget "softwareTRM" */;
+			buildPhases = (
+				01115F811547C381002ABAAF /* Sources */,
+				01115F821547C381002ABAAF /* Frameworks */,
+				01115F831547C381002ABAAF /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = softwareTRM;
+			productName = softwareTRM;
+			productReference = 01115F851547C381002ABAAF /* softwareTRM */;
+			productType = "com.apple.product-type.tool";
+		};
 		8DC2EF4F0486A6940098B216 /* Tube */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1DEB91AD08733DA50010E9CD /* Build configuration list for PBXNativeTarget "Tube" */;
@@ -215,6 +319,7 @@
 			projectRoot = ../..;
 			targets = (
 				8DC2EF4F0486A6940098B216 /* Tube */,
+				01115F841547C381002ABAAF /* softwareTRM */,
 			);
 		};
 /* End PBXProject section */
@@ -232,17 +337,34 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		01115F811547C381002ABAAF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				01115FA61547C43E002ABAAF /* main.m in Sources */,
+				01115F941547C399002ABAAF /* TRMFIRFilter.m in Sources */,
+				01115F981547C399002ABAAF /* output.m in Sources */,
+				01115F9A1547C399002ABAAF /* TRMRingBuffer.m in Sources */,
+				01115FA01547C399002ABAAF /* util.m in Sources */,
+				01115FA21547C399002ABAAF /* TRMWavetable.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8DC2EF540486A6940098B216 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				01AC657B0B7BF4D8008E4B93 /* fir.c in Sources */,
-				01AC657D0B7BF4D8008E4B93 /* input.c in Sources */,
-				01AC657F0B7BF4D8008E4B93 /* output.c in Sources */,
-				01AC65810B7BF4D8008E4B93 /* ring_buffer.c in Sources */,
-				01AC65840B7BF4D8008E4B93 /* tube.c in Sources */,
-				01AC65870B7BF4D8008E4B93 /* util.c in Sources */,
-				01AC65890B7BF4D8008E4B93 /* wavetable.c in Sources */,
+				01AC657B0B7BF4D8008E4B93 /* TRMFIRFilter.m in Sources */,
+				01AC657F0B7BF4D8008E4B93 /* output.m in Sources */,
+				01AC65810B7BF4D8008E4B93 /* TRMRingBuffer.m in Sources */,
+				01AC65870B7BF4D8008E4B93 /* util.m in Sources */,
+				01AC65890B7BF4D8008E4B93 /* TRMWavetable.m in Sources */,
+				01115F7F1547C35A002ABAAF /* main.m in Sources */,
+				019CCB8F154BE30D00A9CF7A /* TRMInputParameters.m in Sources */,
+				019CCB94154BE46B00A9CF7A /* TRMDataList.m in Sources */,
+				019CCB9D154BE65400A9CF7A /* TRMParameters.m in Sources */,
+				0102B0AD15685F81009943D7 /* TRMTubeModel.m in Sources */,
+				01C6719415687CF6008840E9 /* TRMSampleRateConverter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,6 +382,41 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		01115F921547C381002ABAAF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=0",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		01115F931547C381002ABAAF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
 		1DEB91AE08733DA50010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -345,6 +502,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		01115F911547C381002ABAAF /* Build configuration list for PBXNativeTarget "softwareTRM" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				01115F921547C381002ABAAF /* Debug */,
+				01115F931547C381002ABAAF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		1DEB91AD08733DA50010E9CD /* Build configuration list for PBXNativeTarget "Tube" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

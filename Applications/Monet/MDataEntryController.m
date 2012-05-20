@@ -38,12 +38,11 @@
 
 - (id)initWithModel:(MModel *)aModel;
 {
-    if ([super initWithWindowNibName:@"DataEntry"] == nil)
-        return nil;
+    if ((self = [super initWithWindowNibName:@"DataEntry"])) {
+        model = [aModel retain];
 
-    model = [aModel retain];
-
-    [self setWindowFrameAutosaveName:@"Data Entry"];
+        [self setWindowFrameAutosaveName:@"Data Entry"];
+    }
 
     return self;
 }

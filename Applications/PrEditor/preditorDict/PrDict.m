@@ -65,11 +65,11 @@ static const char **fileTypes = (const char *[]){"preditor",
 
 @implementation PrDict
 {
-    NSMutableDictionary*  dictionary;
-    BOOL  has_changed;
+    NSMutableDictionary *dictionary;
+    BOOL has_changed;
 }
 
-+ initialize
++ initialize;
 {
     [PrDict setVersion:CURRENT_VERSION];
     return self;
@@ -78,7 +78,7 @@ static const char **fileTypes = (const char *[]){"preditor",
 /* fileTypes.
  * Returns a pointer to a null terminated list of valid file types.
  */
-+ (const char **)fileTypes
++ (const char **)fileTypes;
 {
 	return fileTypes;
 }
@@ -86,7 +86,7 @@ static const char **fileTypes = (const char *[]){"preditor",
 /* numFileTypes.
  * Returns the number of supported file types.
  */
-+ (int)numFileTypes
++ (int)numFileTypes;
 {
 	int i = 0;
 	while(fileTypes[i])
@@ -99,7 +99,7 @@ static const char **fileTypes = (const char *[]){"preditor",
  * The tag number is it's position in the fileTypes array.
  * Returns -1 if type is not valid or in array.
  */
-+ (int)getTagOfFileType:(const char *)fileName
++ (int)getTagOfFileType:(const char *)fileName;
 {
 	const char *extension;
 	int i = 0;
@@ -119,7 +119,7 @@ static const char **fileTypes = (const char *[]){"preditor",
  * Returns YES if fileName has a valid extension.
  * Returns NO if the extension is not supported.
  */
-+ (BOOL)acceptsFileType:(const char*)fileName
++ (BOOL)acceptsFileType:(const char*)fileName;
 {
 	if ([self getTagOfFileType:fileName] > -1)	/* The type has a tag if it is in the fileTypes array. */
 		return YES;
@@ -128,73 +128,71 @@ static const char **fileTypes = (const char *[]){"preditor",
 }
 
 
-- init
+- (id)init;
 {
-  self = [super init];
-  if (self) {
-    
-    // custom initialization goes here
-    // if error occurrs, [self release] and return nil
-    
-    //	hashTableZone = NXCreateZone(	vm_page_size,
-    //									vm_page_size,
-    //									NO);
-    //    contentsZone  = NXCreateChildZone(	hashTableZone,
-    //										vm_page_size,
-    //										vm_page_size,
-    //										NO);
-    //    NXNameZone(	hashTableZone,
-    //				"PrDict Object hashTableZone");
-    //    NXNameZone(	contentsZone,
-    //				"PrDict Object Contents Viewer Zone");
-    //    hashTable = NXCreateHashTableFromZone(NXStrStructKeyPrototype,
-    //										  10,
-    //										  "PrDict Object",
-    //										  hashTableZone);
-    dictionary = [NSMutableDictionary new];   
-    has_changed = NO;
-//    word_list   = NULL;
-  }
-  return self;
+    if ((self = [super init])) {
+        // custom initialization goes here
+        // if error occurrs, [self release] and return nil
+        
+        //	hashTableZone = NXCreateZone(	vm_page_size,
+        //									vm_page_size,
+        //									NO);
+        //    contentsZone  = NXCreateChildZone(	hashTableZone,
+        //										vm_page_size,
+        //										vm_page_size,
+        //										NO);
+        //    NXNameZone(	hashTableZone,
+        //				"PrDict Object hashTableZone");
+        //    NXNameZone(	contentsZone,
+        //				"PrDict Object Contents Viewer Zone");
+        //    hashTable = NXCreateHashTableFromZone(NXStrStructKeyPrototype,
+        //										  10,
+        //										  "PrDict Object",
+        //										  hashTableZone);
+        dictionary = [NSMutableDictionary new];   
+        has_changed = NO;
+        //    word_list   = NULL;
+    }
+
+    return self;
 }
 
 /* Dictionary Methods */
-- (void)setPhone:(NSString*)phoneString partsOfSpeech:(NSString*)posString
-        forWord:(NSString*)aWord;
+- (void)setPhone:(NSString *)phoneString partsOfSpeech:(NSString *)posString forWord:(NSString *)aWord;
 {
-  PrEntry* entry = [[PrEntry alloc] init];
-  
-  entry.phone = phoneString;
-  entry.partsOfSpeech = posString;
-  
-  [dictionary setObject:entry forKey:aWord];
+    PrEntry *entry = [[[PrEntry alloc] init] autorelease];
+    
+    entry.phone = phoneString;
+    entry.partsOfSpeech = posString;
+    
+    [dictionary setObject:entry forKey:aWord];
 	has_changed = YES;
 }
 
-- (void)removeWord:(NSString*)aWord
+- (void)removeWord:(NSString *)aWord;
 {
-  [dictionary removeObjectForKey:aWord];
-  has_changed = YES;
+    [dictionary removeObjectForKey:aWord];
+    has_changed = YES;
 }
 
-- (BOOL)containsWord:(NSString*)aWord
+- (BOOL)containsWord:(NSString *)aWord;
 {
-  return [dictionary objectForKey:aWord] != nil;
+    return [dictionary objectForKey:aWord] != nil;
 }
 
-- (NSString*)phoneForWord:(NSString*)aWord
+- (NSString *)phoneForWord:(NSString *)aWord;
 {
-  return ((PrEntry*)[dictionary objectForKey:aWord]).phone;
+    return ((PrEntry *)[dictionary objectForKey:aWord]).phone;
 }
 
-- (NSString*)partsOfSpeechForWord:(NSString*)aWord
+- (NSString *)partsOfSpeechForWord:(NSString*)aWord;
 {
-  return ((PrEntry*)[dictionary objectForKey:aWord]).partsOfSpeech;
+    return ((PrEntry *)[dictionary objectForKey:aWord]).partsOfSpeech;
 }
 
-- (unsigned)count
+- (unsigned)count;
 {
-  return [dictionary count];
+    return [dictionary count];
 }
 
 
@@ -288,7 +286,7 @@ char *getNameWithoutExtensionOfFile(char *fileName)
  * Returns self if dictionary was saved.
  * If not successful raises an exception.
  */
-- (BOOL)writeToFile:(NSString *)path
+- (BOOL)writeToFile:(NSString *)path;
 {
 //	const char *extension;
 //	
@@ -377,7 +375,7 @@ char *getNameWithoutExtensionOfFile(char *fileName)
   return NO;
 }
 
-- (id)initWithContentsOfFile:(NSString *)path
+- (id)initWithContentsOfFile:(NSString *)path;
 {
 //	const char *extension;
 //	NXStream *volatile stream = NULL;	/* Stream declared volatile because it is used

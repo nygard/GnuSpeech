@@ -71,12 +71,11 @@
 
 - (id)initWithModel:(MModel *)aModel;
 {
-    if ([super initWithWindowNibName:@"SynthesisParameters"] == nil)
-        return nil;
+    if ((self = [super initWithWindowNibName:@"SynthesisParameters"])) {
+        model = [aModel retain];
 
-    model = [aModel retain];
-
-    [self setWindowFrameAutosaveName:@"Synthesis Parameters"];
+        [self setWindowFrameAutosaveName:@"Synthesis Parameters"];
+    }
 
     return self;
 }

@@ -51,25 +51,22 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
 - (id)initWithModel:(MModel *)aModel;
 {
-    NSUInteger index;
-
-    if ([super initWithWindowNibName:@"RuleManager"] == nil)
-        return nil;
-
-    model = [aModel retain];
-
-    matchLists = [[NSMutableArray alloc] init];
-    for (index = 0; index < 4; index++) {
-        NSMutableArray *aPhoneList;
-
-        aPhoneList = [[NSMutableArray alloc] init];
-        [matchLists addObject:aPhoneList];
-        [aPhoneList release];
+    if ((self = [super initWithWindowNibName:@"RuleManager"])) {
+        model = [aModel retain];
+        
+        matchLists = [[NSMutableArray alloc] init];
+        for (NSUInteger index = 0; index < 4; index++) {
+            NSMutableArray *aPhoneList;
+            
+            aPhoneList = [[NSMutableArray alloc] init];
+            [matchLists addObject:aPhoneList];
+            [aPhoneList release];
+        }
+        
+        boolParser = [[MMBooleanParser alloc] initWithModel:model];
+        
+        [self setWindowFrameAutosaveName:@"New Rule Manager"];
     }
-
-    boolParser = [[MMBooleanParser alloc] initWithModel:model];
-
-    [self setWindowFrameAutosaveName:@"New Rule Manager"];
 
     return self;
 }
@@ -541,12 +538,8 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
 - (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)op;
 {
-    if  (tableView == ruleTableView) {
-        NSPasteboard *pasteboard;
-        NSString *availableType;
-
-        pasteboard = [info draggingPasteboard];
-        availableType = [pasteboard availableTypeFromArray:[NSArray arrayWithObject:MRMLocalRuleDragPasteboardType]];
+    if (tableView == ruleTableView) {
+        //NSString *availableType = [[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:MRMLocalRuleDragPasteboardType]];
         //NSLog(@"availableType: %@", availableType);
 
         if (op == NSTableViewDropOn)
