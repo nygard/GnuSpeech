@@ -5,7 +5,6 @@
 #define __TUBE_MODEL_H
 
 #include <Tube/output.h>
-#include <Tube/ring_buffer.h>
 #include <Tube/structs.h>
 #include <Tube/util.h>
 

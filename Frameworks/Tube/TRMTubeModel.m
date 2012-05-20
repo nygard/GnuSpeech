@@ -9,13 +9,14 @@
 #import "TRMInputParameters.h"
 #import "util.h"
 #import "TRMSampleRateConverter.h"
+#import "TRMRingBuffer.h"
 
 // 1 means to compile so that interpolation not done for some control rate parameters
 #define MATCH_DSP 0
 
-void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context);
+void resampleBuffer(TRMRingBuffer *aRingBuffer, void *context);
 
-@interface TRMTubeModel ()
+@interface TRMTubeModel () <TRMRingBufferDelegate>
 @property (readonly) TRMInputParameters *inputParameters;
 
 - (void)initializeMouthCoefficients:(double)coeff;
@@ -38,7 +39,6 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context);
 - (double)bandpassFilter:(double)input;
 
 - (void)initializeConversion:(TRMInputParameters *)inputParameters;
-//- (void)resampleBuffer:(struct _TRMRingBuffer *)ringBuffer :(void *)context;
 - (void)initializeFilter;
 
 @end
@@ -176,11 +176,7 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context);
 {
     [m_inputParameters release];
 
-    if (ringBuffer != NULL) {
-        TRMRingBufferFree(self->ringBuffer);
-        ringBuffer = NULL;
-    }
-    
+    [ringBuffer release];
     [wavetable release];
 
     [m_current.parameters release];
@@ -272,7 +268,7 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context);
                 printf("\nDone throat\n");
             
             // Output sample
-            dataFill(ringBuffer, signal);
+            [ringBuffer dataFill:signal];
             if (verbose)
                 printf("\nDone datafil\n");
             
@@ -286,7 +282,7 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context);
     }
     
     // Be sure to flush source buffer
-    flushBuffer(ringBuffer);
+    [ringBuffer flush];
 }
 
 #pragma mark -
@@ -725,11 +721,10 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context);
     
     // Calculate pad size
     int32_t padSize = (m_sampleRateConverter.sampleRateRatio >= 1.0) ? ZERO_CROSSINGS : (int)((float)ZERO_CROSSINGS / roundedSampleRateRatio) + 1;
-    
-    ringBuffer = TRMRingBufferCreate(padSize);
-    
-    ringBuffer->context = m_sampleRateConverter;
-    ringBuffer->callbackFunction = resampleBuffer;
+
+    ringBuffer = [[TRMRingBuffer alloc] initWithPadSize:padSize];
+
+    ringBuffer.delegate = self;
 
     // Initialize the temporary output file
     m_sampleRateConverter.tempFilePtr = tmpfile();
@@ -765,32 +760,32 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context);
     m_sampleRateConverter.deltaH[FILTER_LIMIT] = 0.0 - m_sampleRateConverter.h[FILTER_LIMIT];
 }
 
-@end
+#pragma mark - TRMRingBufferDelegate
 
 // Converts available portion of the input signal to the new sampling
 // rate, and outputs the samples to the sound struct.
 
-void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context)
+- (void)processDataFromRingBuffer:(TRMRingBuffer *)aRingBuffer;
 {
-    TRMSampleRateConverter *aConverter = (TRMSampleRateConverter *)context;
+    TRMSampleRateConverter *aConverter = m_sampleRateConverter;
     NSCAssert(aConverter != nil, @"sample rate converter must not be nil");
     int32_t endPtr;
 
     // Calculate end pointer
-    endPtr = aRingBuffer->fillPtr - aRingBuffer->padSize;
+    endPtr = aRingBuffer.fillPtr - aRingBuffer.padSize;
     
     // Adjust the end pointer, if less than zero
     if (endPtr < 0)
         endPtr += BUFFER_SIZE;
     
     // Adjust the endpoint, if less then the empty pointer
-    if (endPtr < aRingBuffer->emptyPtr)
+    if (endPtr < aRingBuffer.emptyPtr)
         endPtr += BUFFER_SIZE;
     
     // Upsample loop (slightly more efficient than downsampling)
     if (aConverter.sampleRateRatio >= 1.0) {
         //printf("Upsampling...\n");
-        while (aRingBuffer->emptyPtr < endPtr) {
+        while (aRingBuffer.emptyPtr < endPtr) {
             int32_t index;
             uint32_t filterIndex;
             double output, interpolation, absoluteSampleValue;
@@ -802,11 +797,11 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context)
             interpolation = (double)mValue(aConverter.timeRegister) / (double)M_RANGE;
             
             // Compute the left side of the filter convolution
-            index = aRingBuffer->emptyPtr;
+            index = aRingBuffer.emptyPtr;
             for (filterIndex = lValue(aConverter.timeRegister);
                  filterIndex < FILTER_LENGTH;
-                 RBDecrementIndex(&index), filterIndex += aConverter.filterIncrement) {
-                output += aRingBuffer->buffer[index] * (aConverter.h[filterIndex] + aConverter.deltaH[filterIndex] * interpolation);
+                 [TRMRingBuffer decrementIndex:&index], filterIndex += aConverter.filterIncrement) {
+                output += aRingBuffer.buffer[index] * (aConverter.h[filterIndex] + aConverter.deltaH[filterIndex] * interpolation);
             }
             
             // Adjust values for right side calculation
@@ -814,12 +809,12 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context)
             interpolation = (double)mValue(aConverter.timeRegister) / (double)M_RANGE;
             
             // Compute the right side of the filter convolution
-            index = aRingBuffer->emptyPtr;
-            RBIncrementIndex(&index);
+            index = aRingBuffer.emptyPtr;
+            [TRMRingBuffer incrementIndex:&index];
             for (filterIndex = lValue(aConverter.timeRegister);
                  filterIndex < FILTER_LENGTH;
-                 RBIncrementIndex(&index), filterIndex += aConverter.filterIncrement) {
-                output += aRingBuffer->buffer[index] * (aConverter.h[filterIndex] + aConverter.deltaH[filterIndex] * interpolation);
+                 [TRMRingBuffer incrementIndex:&index], filterIndex += aConverter.filterIncrement) {
+                output += aRingBuffer.buffer[index] * (aConverter.h[filterIndex] + aConverter.deltaH[filterIndex] * interpolation);
             }
             
             // Record maximum sample value
@@ -840,10 +835,10 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context)
             aConverter.timeRegister += aConverter.timeRegisterIncrement;
             
             // Increment the empty pointer, adjusting it and end pointer
-            aRingBuffer->emptyPtr += nValue(aConverter.timeRegister);
+            aRingBuffer.emptyPtr += nValue(aConverter.timeRegister);
             
-            if (aRingBuffer->emptyPtr >= BUFFER_SIZE) {
-                aRingBuffer->emptyPtr -= BUFFER_SIZE;
+            if (aRingBuffer.emptyPtr >= BUFFER_SIZE) {
+                aRingBuffer.emptyPtr -= BUFFER_SIZE;
                 endPtr -= BUFFER_SIZE;
             }
             
@@ -853,7 +848,7 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context)
     } else {
         //printf("Downsampling...\n");
         // Downsampling conversion loop
-        while (aRingBuffer->emptyPtr < endPtr) {
+        while (aRingBuffer.emptyPtr < endPtr) {
             int32_t index;
             uint32_t phaseIndex, impulseIndex;
             double absoluteSampleValue, output, impulse;
@@ -862,15 +857,15 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context)
             output = 0.0;
             
             // Compute P prime
-            phaseIndex = (unsigned int)rint( ((double)fractionValue(aConverter.timeRegister)) * aConverter.sampleRateRatio);
+            phaseIndex = (uint32_t)rint( ((double)fractionValue(aConverter.timeRegister)) * aConverter.sampleRateRatio);
             
             // Compute the left side of the filter convolution
-            index = aRingBuffer->emptyPtr;
+            index = aRingBuffer.emptyPtr;
             while ((impulseIndex = (phaseIndex >> M_BITS)) < FILTER_LENGTH) {
                 impulse = aConverter.h[impulseIndex] + (aConverter.deltaH[impulseIndex] *
                                                          (((double)mValue(phaseIndex)) / (double)M_RANGE));
-                output += (aRingBuffer->buffer[index] * impulse);
-                RBDecrementIndex(&index);
+                output += (aRingBuffer.buffer[index] * impulse);
+                [TRMRingBuffer decrementIndex:&index];
                 phaseIndex += aConverter.phaseIncrement;
             }
             
@@ -878,13 +873,13 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context)
             phaseIndex = (unsigned int)rint( ((double)fractionValue(~aConverter.timeRegister)) * aConverter.sampleRateRatio);
             
             // Compute the right side of the filter convolution
-            index = aRingBuffer->emptyPtr;
-            RBIncrementIndex(&index);
+            index = aRingBuffer.emptyPtr;
+            [TRMRingBuffer incrementIndex:&index];
             while ((impulseIndex = (phaseIndex>>M_BITS)) < FILTER_LENGTH) {
                 impulse = aConverter.h[impulseIndex] + (aConverter.deltaH[impulseIndex] *
                                                          (((double)mValue(phaseIndex)) / (double)M_RANGE));
-                output += (aRingBuffer->buffer[index] * impulse);
-                RBIncrementIndex(&index);
+                output += (aRingBuffer.buffer[index] * impulse);
+                [TRMRingBuffer incrementIndex:&index];
                 phaseIndex += aConverter.phaseIncrement;
             }
             
@@ -903,9 +898,9 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context)
             aConverter.timeRegister += aConverter.timeRegisterIncrement;
             
             // Increment the empty pointer, adjusting it and end pointer
-            aRingBuffer->emptyPtr += nValue(aConverter.timeRegister);
-            if (aRingBuffer->emptyPtr >= BUFFER_SIZE) {
-                aRingBuffer->emptyPtr -= BUFFER_SIZE;
+            aRingBuffer.emptyPtr += nValue(aConverter.timeRegister);
+            if (aRingBuffer.emptyPtr >= BUFFER_SIZE) {
+                aRingBuffer.emptyPtr -= BUFFER_SIZE;
                 endPtr -= BUFFER_SIZE;
             }
             
@@ -914,3 +909,5 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context)
         }
     }
 }
+
+@end
