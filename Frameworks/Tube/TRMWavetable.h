@@ -5,9 +5,15 @@
 
 #include "fir.h"
 
+enum {
+    TRMWaveFormType_Pulse = 0,
+    TRMWaveFormType_Sine  = 1,
+};
+typedef NSUInteger TRMWaveFormType;
+
 @interface TRMWavetable : NSObject
 
-- (id)initWithWaveform:(int32_t)waveForm throttlePulse:(double)tp tnMin:(double)tnMin tnMax:(double)tnMax sampleRate:(double)sampleRate;
+- (id)initWithWaveform:(TRMWaveFormType)waveForm throttlePulse:(double)tp tnMin:(double)tnMin tnMax:(double)tnMax sampleRate:(double)sampleRate;
 
 - (void)update:(double)amplitude;
 - (double)oscillator:(double)frequency;

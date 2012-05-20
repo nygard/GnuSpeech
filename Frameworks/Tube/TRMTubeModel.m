@@ -234,7 +234,7 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context);
             lp_noise = noiseFilter(noise());
             
             // Update the shape of the glottal pulse, if necessary
-            if (data.inputParameters.waveform == PULSE)
+            if (data.inputParameters.waveform == TRMWaveFormType_Pulse)
                 [wavetable update:ax];
             
             // Create glottal pulse (or sine tone)

@@ -5,10 +5,6 @@
 
 #import "structs.h" // For TRMSampleRateConverter
 
-// Waveform types
-#define PULSE                     0
-#define SINE                      1
-
 // Math constants
 #define TWO_PI                    (2.0 * M_PI)
 

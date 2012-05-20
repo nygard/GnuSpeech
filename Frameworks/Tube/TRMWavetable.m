@@ -55,7 +55,7 @@ static double mod0(double value)
 }
 
 // Calculates the initial glottal pulse and stores it in the wavetable, for use in the oscillator.
-- (id)initWithWaveform:(int32_t)waveForm throttlePulse:(double)tp tnMin:(double)tnMin tnMax:(double)tnMax sampleRate:(double)sampleRate;
+- (id)initWithWaveform:(TRMWaveFormType)waveForm throttlePulse:(double)tp tnMin:(double)tnMin tnMax:(double)tnMax sampleRate:(double)sampleRate;
 {
     if ((self = [super init])) {
         int32_t i, j;
@@ -79,7 +79,7 @@ static double mod0(double value)
         m_currentPosition = 0;
         
         //  Initialize the wavetable with either a glottal pulse or sine tone
-        if (waveForm == PULSE) {
+        if (waveForm == TRMWaveFormType_Pulse) {
             //  Calculate rise portion of wave table
             for (i = 0; i < m_tableDiv1; i++) {
                 double x = (double)i / (double)m_tableDiv1;
