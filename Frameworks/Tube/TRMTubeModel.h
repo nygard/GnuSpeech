@@ -5,10 +5,6 @@
 
 #import "structs.h" // For TRMSampleRateConverter
 
-// Function return constants
-#define ERROR                     (-1)
-#define SUCCESS                   0
-
 // Waveform types
 #define PULSE                     0
 #define SINE                      1
