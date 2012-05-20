@@ -72,10 +72,13 @@ $Log: tube.c,v $
 #include <sys/param.h>
 #include <math.h>
 #include <string.h>
-#include "structs.h"
+#include "syn_structs.h"
 #include "structs2.h"
 #include <pthread.h>
 
+
+/*  COMPILE WITH OVERSAMPLING OR PLAIN OSCILLATOR  */
+#define OVERSAMPLING_OSCILLATOR   1
 
 /*  1 MEANS COMPILE SO THAT INTERPOLATION NOT DONE FOR
     SOME CONTROL RATE PARAMETERS  */
@@ -162,6 +165,11 @@ $Log: tube.c,v $
 #define PULSE                     0
 #define SINE                      1
 
+/*  OVERSAMPLING FIR FILTER CHARACTERISTICS  */
+#define FIR_BETA                  .2
+#define FIR_GAMMA                 .1
+#define FIR_CUTOFF                .00000001
+
 /*  PITCH VARIABLES  */
 #define PITCH_BASE                220.0
 #define PITCH_OFFSET              3           /*  MIDDLE C = 0  */
@@ -175,6 +183,9 @@ $Log: tube.c,v $
 // this is a temporary fix only, to try to match dsp synthesizer
 #define VT_SCALE                  0.125     /*  2^(-3)  */
 
+/*  FINAL OUTPUT SCALING, SO THAT .SND FILES APPROX. MATCH DSP OUTPUT  */
+#define OUTPUT_SCALE              0.25
+
 /*  CONSTANTS FOR THE FIR FILTER  */
 #define LIMIT                     200
 #define BETA_OUT_OF_RANGE         1
@@ -184,6 +195,9 @@ $Log: tube.c,v $
 /*  CONSTANTS FOR NOISE GENERATOR  */
 #define FACTOR                    377.0
 #define INITIAL_SEED              0.7892347
+
+/*  MAXIMUM SAMPLE VALUE  */
+#define RANGE_MAX                 32767.0
 
 /*  FUNCTION RETURN CONSTANTS  */
 #define ERROR                     (-1)
@@ -218,9 +232,24 @@ $Log: tube.c,v $
 #define mValue(x)                 ((x) & M_MASK)
 #define fractionValue(x)          ((x) & FRACTION_MASK)
 
+#define BETA                      5.658        /*  kaiser window parameters  */
+#define IzeroEPSILON              1E-21
+
 #define OUTPUT_SRATE_LOW          22050.0      /* not used apparently */
 #define OUTPUT_SRATE_HIGH         44100.0      /* not used apparently */
 #define BUFFER_SIZE               1024                 /*  ring buffer size  */
+
+/*  OUTPUT FILE FORMAT CONSTANTS  */
+#define AU_FILE_FORMAT            0
+#define AIFF_FILE_FORMAT          1
+#define WAVE_FILE_FORMAT          2
+
+/*  SIZE IN BITS PER OUTPUT SAMPLE  */
+#define BITS_PER_SAMPLE           16
+
+/*  BOOLEAN CONSTANTS  */
+#define FALSE                     0
+#define TRUE                      1
 
 extern float PI, PI2;
 
@@ -293,7 +322,7 @@ double throatVol = 6.0;                   /*  throat volume (0 - 48 dB) */
 double tnMax = 40;                       /*  % glottal pulse fall time maximum  */
 double tnMin = 16;                       /*  % glottal pulse fall time minimum  */
 double tp = 35;                          /*  % glottal pulse rise time  */
-BOOL verbose = NO;
+int verbose = FALSE;
 double volume = 60;                      /*  master volume (0 - 60 dB)  */
 int    waveform = 0;                    /*  GS waveform type (0=PULSE, 1=SINE)  */
 
@@ -448,6 +477,7 @@ double oscillator(double frequency);
 double vocalTract(double input, double frication);
 double throat(double input);
 double bandpassFilter(double input);
+//void convertIntToFloat80(unsigned int value, unsigned char buffer[10]);
 double amplitude(double decibelLevel);
 double frequency(double pitch);
 int maximallyFlat(double beta, double gamma, int *np, double *coefficient);
@@ -459,6 +489,7 @@ int increment(int pointer, int modulus);
 int decrement(int pointer, int modulus);
 void initializeConversion(void);
 void initializeFilter(void);
+//double Izero2(double x);
 void initializeBuffer(void);
 void dataFill(double data);
 void dataEmpty(void);
