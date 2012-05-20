@@ -63,7 +63,6 @@
 		01115F881547C381002ABAAF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		01115F8B1547C381002ABAAF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		01115F8E1547C381002ABAAF /* softwareTRM-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "softwareTRM-Prefix.pch"; sourceTree = "<group>"; };
-		01115F8F1547C381002ABAAF /* softwareTRM.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = softwareTRM.1; sourceTree = "<group>"; };
 		01115FA41547C3D3002ABAAF /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/Accelerate.framework; sourceTree = DEVELOPER_DIR; };
 		0172DA13153FDD2F00413F56 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = /System/Library/Frameworks/Accelerate.framework; sourceTree = "<absolute>"; };
 		019CCB8C154BE30C00A9CF7A /* TRMInputParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRMInputParameters.h; sourceTree = "<group>"; };
@@ -129,7 +128,6 @@
 			isa = PBXGroup;
 			children = (
 				01115F8B1547C381002ABAAF /* main.m */,
-				01115F8F1547C381002ABAAF /* softwareTRM.1 */,
 				01115F8D1547C381002ABAAF /* Supporting Files */,
 			);
 			path = softwareTRM;
