@@ -178,7 +178,7 @@
 		63DCD69D09E9988E00E74962 /* GPParamView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GPParamView.m; sourceTree = "<group>"; };
 		63F8B37409DAFD19003644CA /* AboutView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AboutView.h; sourceTree = "<group>"; };
 		63F8B37509DAFD19003644CA /* AboutView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AboutView.m; sourceTree = "<group>"; };
-		63F8B38D09DB164C003644CA /* structs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = structs.h; sourceTree = "<group>"; };
+		63F8B38D09DB164C003644CA /* syn_structs.h */ = {isa = PBXFileReference; fileEncoding = 4; path = syn_structs.h; sourceTree = "<group>"; };
 		63F8C04E09E1E12B003644CA /* Analysis.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Analysis.h; sourceTree = "<group>"; };
 		63F8C04F09E1E12B003644CA /* Analysis.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Analysis.m; sourceTree = "<group>"; };
 		63F8C05209E1E12B003644CA /* AnalysisWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnalysisWindow.h; sourceTree = "<group>"; };
@@ -368,7 +368,7 @@
 				636FD8960F0ED9EC003B1426 /* structs2.h */,
 				32CA4F630368D1EE00C91783 /* Synthesizer_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
-				63F8B38D09DB164C003644CA /* structs.h */,
+				63F8B38D09DB164C003644CA /* syn_structs.h */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
