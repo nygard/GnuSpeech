@@ -371,7 +371,7 @@ static NSString* UnknownPOS = @"j";
 + (BOOL)initIPAKeyboardLayout;
 {
     NSDictionary *properties = [NSDictionary dictionaryWithObjectsAndKeys:(id)kTISTypeKeyboardLayout, kTISPropertyInputSourceType, nil];
-    NSArray *keyboards = (NSArray *)TISCreateInputSourceList((CFDictionaryRef)properties, false);
+    NSArray *keyboards = [(NSArray *)TISCreateInputSourceList((CFDictionaryRef)properties, false) autorelease];
     //NSLog(@"keyboards: %@", keyboards);
     for (id inputSource in keyboards) {
         NSString *name = TISGetInputSourceProperty((TISInputSourceRef)inputSource, kTISPropertyLocalizedName);
@@ -380,7 +380,8 @@ static NSString* UnknownPOS = @"j";
             return YES;
         }
     }
-    
+
+
     // no IPA keyboard layout was found, ref left as NULL
     return NO;
 }

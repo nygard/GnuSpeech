@@ -9,32 +9,34 @@
 	id ttsServerProxy;
 }
 
-//**********************************************************************************************************************
-// Service initialization methods.
-//**********************************************************************************************************************
-
-- (id) init;
+- (id)init;
 {
-	[super init];
-	ttsServerProxy = [[NSConnection rootProxyForConnectionWithRegisteredName:GNUSPEECH_SERVER_REGISTERED_NAME host:nil] retain];
-	[[ttsServerProxy connectionForProxy] enableMultipleThreads];  // required for 10.4 support
-	[ttsServerProxy setProtocolForProxy:@protocol(GnuSpeechServerProtocol)];
+	if ((self = [super init])) {
+        ttsServerProxy = [[NSConnection rootProxyForConnectionWithRegisteredName:GNUSPEECH_SERVER_REGISTERED_NAME host:nil] retain];
+        [[ttsServerProxy connectionForProxy] enableMultipleThreads];  // required for 10.4 support
+        [ttsServerProxy setProtocolForProxy:@protocol(GnuSpeechServerProtocol)];
+    }
+
 	return self;
-	
 }
 
-- (void) applicationDidFinishLaunching:(NSNotification *)notification;
+- (void)dealloc;
+{
+	[ttsServerProxy release];
+	[super dealloc];
+}
+
+#pragma mark -
+
+- (void)applicationDidFinishLaunching:(NSNotification *)notification;
 {
 }
 
-//**********************************************************************************************************************
-// Service provider methods.
-//**********************************************************************************************************************
+#pragma mark - Service provider methods.
 
-- (void) speakText:(NSPasteboard *)pboard userData:(NSString *)userData error:(NSString **)error;
+- (void)speakText:(NSPasteboard *)pboard userData:(NSString *)userData error:(NSString **)error;
 {	
-	NSString * pboardString;
-    NSArray * types = [pboard types];
+    NSArray *types = [pboard types];
 		
     if (![types containsObject:NSStringPboardType]) {
         *error = NSLocalizedString(@"Error: couldn't speak text.",
@@ -42,7 +44,7 @@
         return;
     }
 	
-    pboardString = [pboard stringForType:NSStringPboardType];
+    NSString *pboardString = [pboard stringForType:NSStringPboardType];
     if (!pboardString) {
         *error = NSLocalizedString(@"Error: couldn't speak text.",
 								   @"pboard couldn't give string.");
@@ -56,16 +58,6 @@
 		NSLog(@"%s Could not speak text.", __PRETTY_FUNCTION__);		
 		return;
 	}	
-}
-
-//**********************************************************************************************************************
-// Deallocate memory.
-//**********************************************************************************************************************
-
-- (void) dealloc;
-{
-	[ttsServerProxy release];
-	[super dealloc];
 }
 
 @end

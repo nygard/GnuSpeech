@@ -25,9 +25,9 @@
 
 - (id)init;
 {
-    [super init];
-	
-	textToPhone = [[MMTextToPhone alloc] init];
+    if ((self = [super init])) {
+        textToPhone = [[MMTextToPhone alloc] init];
+    }
 
     return self;
 }
