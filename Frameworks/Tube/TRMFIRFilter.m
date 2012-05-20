@@ -1,9 +1,10 @@
 //  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
+#import "TRMFIRFilter.h"
+
 #include <stdlib.h>
 #include <math.h>
-#include "fir.h"
 
 // Math constants
 #define TWO_PI                    (2.0 * M_PI)
@@ -25,83 +26,123 @@ static void rationalApproximation(double number, int32_t *order, int32_t *numera
 
 // Allocates memory and initializes the coefficients for the FIR filter used in the oversampling oscillator.
 
-TRMFIRFilter *TRMFIRFilterCreate(double beta, double gamma, double cutoff)
+@implementation TRMFIRFilter
 {
-    TRMFIRFilter *newFilter = (TRMFIRFilter *)malloc(sizeof(TRMFIRFilter));
-    if (newFilter == NULL) {
-        fprintf(stderr, "Couldn't malloc() FIRFilter.\n");
-        return NULL;
-    }
+    double *m_FIRData;
+    double *m_FIRCoef;
+    int32_t m_FIRPtr;
+    int32_t m_numberTaps;
+}
 
-    int32_t numberCoefficients;
-    double coefficient[COEFFICIENT_LIMIT+1];
-    
-    // Determine ideal low pass filter coefficients
-    maximallyFlat(beta, gamma, &numberCoefficients, coefficient);
-
-    // Trim low-value coefficients
-    trim(cutoff, &numberCoefficients, coefficient);
-
-    // Determine the number of taps in the filter
-    newFilter->numberTaps = (numberCoefficients * 2) - 1;
-
-    // Allocate memory for data and coefficients
-    newFilter->FIRData = (double *)calloc(newFilter->numberTaps, sizeof(double));
-    if (newFilter->FIRData == NULL) {
-        fprintf(stderr, "calloc() of FIRData failed.\n");
-        free(newFilter);
-        return NULL;
-    }
-
-    newFilter->FIRCoef = (double *)calloc(newFilter->numberTaps, sizeof(double));
-    if (newFilter->FIRCoef == NULL) {
-        fprintf(stderr, "calloc() of FIRCoef failed.\n");
-        free(newFilter->FIRData);
-        free(newFilter);
-        return NULL;
-    }
-
-    // Initialize the coefficients
-    int32_t increment = -1;
-    int32_t pointer = numberCoefficients;
-    for (uint32_t index = 0; index < newFilter->numberTaps; index++) {
-        newFilter->FIRCoef[index] = coefficient[pointer];
-        pointer += increment;
-        if (pointer <= 0) {
-            pointer = 2;
-            increment = 1;
+- (id)initWithBeta:(double)beta gamma:(double)gamma cutoff:(double)cutoff;
+{
+    if ((self = [super init])) {
+        int32_t numberCoefficients;
+        double coefficient[COEFFICIENT_LIMIT+1];
+        
+        // Determine ideal low pass filter coefficients
+        maximallyFlat(beta, gamma, &numberCoefficients, coefficient);
+        
+        // Trim low-value coefficients
+        trim(cutoff, &numberCoefficients, coefficient);
+        
+        // Determine the number of taps in the filter
+        m_numberTaps = (numberCoefficients * 2) - 1;
+        
+        // Allocate memory for data and coefficients
+        m_FIRData = (double *)calloc(m_numberTaps, sizeof(double));
+        if (m_FIRData == NULL) {
+            fprintf(stderr, "calloc() of FIRData failed.\n");
+            [self release];
+            return nil;
         }
-    }
-
-    // Set pointer to first element
-    newFilter->FIRPtr = 0;
-
+        
+        m_FIRCoef = (double *)calloc(m_numberTaps, sizeof(double));
+        if (m_FIRCoef == NULL) {
+            fprintf(stderr, "calloc() of FIRCoef failed.\n");
+            free(m_FIRData);
+            [self release];
+            return nil;
+        }
+        
+        // Initialize the coefficients
+        int32_t increment = -1;
+        int32_t pointer = numberCoefficients;
+        for (uint32_t index = 0; index < m_numberTaps; index++) {
+            m_FIRCoef[index] = coefficient[pointer];
+            pointer += increment;
+            if (pointer <= 0) {
+                pointer = 2;
+                increment = 1;
+            }
+        }
+        
+        // Set pointer to first element
+        m_FIRPtr = 0;
+        
 #if DEBUG
-    printf("\n");
-    for (uint32_t index = 0; index < newFilter->numberTaps; index++)
-        printf("FIRCoef[%-d] = %11.8f\n", index, newFilter->FIRCoef[index]);
+        printf("\n");
+        for (uint32_t index = 0; index < m_numberTaps; index++)
+            printf("FIRCoef[%-d] = %11.8f\n", index, m_FIRCoef[index]);
 #endif
+    }
 
-    return newFilter;
+    return self;
 }
 
-void TRMFIRFilterFree(TRMFIRFilter *filter)
+- (void)dealloc;
 {
-    if (filter == NULL)
-        return;
-
-    if (filter->FIRData != NULL) {
-        free(filter->FIRData);
-        filter->FIRData = NULL;
+    if (m_FIRData != NULL) {
+        free(m_FIRData);
+        m_FIRData = NULL;
     }
 
-    if (filter->FIRCoef != NULL) {
-        free(filter->FIRCoef);
-        filter->FIRCoef = NULL;
+    if (m_FIRCoef != NULL) {
+        free(m_FIRCoef);
+        m_FIRCoef = NULL;
     }
 
-    free(filter);
+    [super dealloc];
 }
+
+#pragma mark -
+
+// Is the linear phase, lowpass FIR filter.
+- (double)filterInput:(double)input needOutput:(int32_t)needOutput;
+{
+    if (needOutput) {
+        double output = 0.0;
+        
+        // Put input sample into data buffer
+        m_FIRData[m_FIRPtr] = input;
+        
+        // Sum the output from all filter taps
+        for (int32_t i = 0; i < m_numberTaps; i++) {
+            output += m_FIRData[m_FIRPtr] * m_FIRCoef[i];
+            m_FIRPtr = increment(m_FIRPtr, m_numberTaps);
+        }
+        
+        // Decrement the data pointer ready for next call
+        m_FIRPtr = decrement(m_FIRPtr, m_numberTaps);
+        
+        // Return the output value
+        //printf("FIRFilter(%g, %d) = %g\n", input, needOutput, output);
+        return output;
+    } else {
+        // Put input sample into data buffer
+        m_FIRData[m_FIRPtr] = input;
+        
+        // Adjust the data pointer, ready for next call
+        m_FIRPtr = decrement(m_FIRPtr, m_numberTaps);
+        
+        //printf("FIRFilter(%g, %d) = %g\n", input, needOutput, 0.0);
+        return 0.0;
+    }
+}
+
+@end
+
+#pragma mark - Supporting C functions
 
 
 // Calculates coefficients for a linear phase lowpass FIR  filter, with beta being the center frequency of the
@@ -194,39 +235,6 @@ void trim(double cutoff, int32_t *numberCoefficients, double *coefficient)
             (*numberCoefficients) = i;
             return;
         }
-    }
-}
-
-// Is the linear phase, lowpass FIR filter.
-double FIRFilter(TRMFIRFilter *filter, double input, int32_t needOutput)
-{
-    if (needOutput) {
-        double output = 0.0;
-        
-        // Put input sample into data buffer
-        filter->FIRData[filter->FIRPtr] = input;
-        
-        // Sum the output from all filter taps
-        for (int32_t i = 0; i < filter->numberTaps; i++) {
-            output += filter->FIRData[filter->FIRPtr] * filter->FIRCoef[i];
-            filter->FIRPtr = increment(filter->FIRPtr, filter->numberTaps);
-        }
-        
-        // Decrement the data pointer ready for next call
-        filter->FIRPtr = decrement(filter->FIRPtr, filter->numberTaps);
-        
-        // Return the output value
-        //printf("FIRFilter(%g, %d) = %g\n", input, needOutput, output);
-        return output;
-    } else {
-        // Put input sample into data buffer
-        filter->FIRData[filter->FIRPtr] = input;
-        
-        // Adjust the data pointer, ready for next call
-        filter->FIRPtr = decrement(filter->FIRPtr, filter->numberTaps);
-        
-        //printf("FIRFilter(%g, %d) = %g\n", input, needOutput, 0.0);
-        return 0.0;
     }
 }
 

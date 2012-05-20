@@ -3,8 +3,6 @@
 
 #import <Foundation/Foundation.h>
 
-#include "fir.h"
-
 enum {
     TRMWaveFormType_Pulse = 0,
     TRMWaveFormType_Sine  = 1,

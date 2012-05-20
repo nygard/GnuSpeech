@@ -4,7 +4,6 @@
 #ifndef __TUBE_MODEL_H
 #define __TUBE_MODEL_H
 
-#include <Tube/fir.h>
 #include <Tube/output.h>
 #include <Tube/ring_buffer.h>
 #include <Tube/structs.h>

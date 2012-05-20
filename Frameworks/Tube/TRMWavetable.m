@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-#import "TRMTubeModel.h" // For PULSE
+#import "TRMFIRFilter.h"
 
 #ifdef GNUSTEP
 #undef USE_VECLIB
@@ -59,8 +59,8 @@ static double mod0(double value)
 {
     if ((self = [super init])) {
         int32_t i, j;
-        
-        m_FIRFilter = TRMFIRFilterCreate(FIR_BETA, FIR_GAMMA, FIR_CUTOFF);
+
+        m_FIRFilter = [[TRMFIRFilter alloc] initWithBeta:FIR_BETA gamma:FIR_GAMMA cutoff:FIR_CUTOFF];
         
         //  Allocate memory for wavetable
         m_wavetable = (double *)calloc(TABLE_LENGTH, sizeof(double));
@@ -110,26 +110,14 @@ static double mod0(double value)
 
 - (void)dealloc;
 {
-    if (m_FIRFilter != NULL) {
-        TRMFIRFilterFree(m_FIRFilter);
-        m_FIRFilter = NULL;
-    }
-    
+    [m_FIRFilter release];
+
     if (m_wavetable != NULL) {
         free(m_wavetable);
         m_wavetable = NULL;
     }
 
     [super dealloc];
-}
-
-void TRMWavetableFree(TRMWavetable *wavetable)
-{
-    if (wavetable == NULL)
-        return;
-
-
-    free(wavetable);
 }
 
 // Rewrites the changeable part of the glottal pulse according to the amplitude.
@@ -210,7 +198,7 @@ void TRMWavetableFree(TRMWavetable *wavetable)
                               (m_wavetable[upperPosition] - m_wavetable[lowerPosition])));
 
         //  Put value through FIR filter
-        output = FIRFilter(m_FIRFilter, interpolatedValue, i);
+        output = [m_FIRFilter filterInput:interpolatedValue needOutput:i];
     }
 
     //  Since we decimate, take only the second output value
