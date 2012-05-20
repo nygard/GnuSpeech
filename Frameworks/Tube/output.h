@@ -4,8 +4,9 @@
 #ifndef __OUTPUT_H
 #define __OUTPUT_H
 
-#import "structs.h" // For TRMSampleRateConverter
 #import "TRMDataList.h"
+
+@class TRMSampleRateConverter;
 
 // Output file format constants
 enum {

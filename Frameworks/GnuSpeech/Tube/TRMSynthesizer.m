@@ -10,6 +10,7 @@
 #import <Tube/TRMInputParameters.h>
 #import <Tube/TRMParameters.h>
 #import <Tube/TRMTubeModel.h>
+#import <Tube/TRMSampleRateConverter.h>
 
 const uint16_t kWAVEFormat_Unknown         = 0x0000;
 const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
@@ -46,7 +47,7 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 
 - (void)dealloc;
 {
-    free(m_inputData);
+    [m_inputData release];
     [m_audioPlayer release];
 	
     [super dealloc];
@@ -196,19 +197,19 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 
 - (NSData *)generateWAVDataWithSampleRateConverter:(TRMSampleRateConverter *)sampleRateConverter;
 {
-    if (sampleRateConverter->maximumSampleValue == 0)
+    if (sampleRateConverter.maximumSampleValue == 0)
         NSBeep();
 
     NSMutableData *sampleData = [[[NSMutableData alloc] init] autorelease];
 
-    double scale = (TRMSampleValue_Maximum / sampleRateConverter->maximumSampleValue) * amplitude(m_inputData.inputParameters.volume);
+    double scale = (TRMSampleValue_Maximum / sampleRateConverter.maximumSampleValue) * amplitude(m_inputData.inputParameters.volume);
 
-    NSLog(@"number of samples:\t%-d\n", sampleRateConverter->numberSamples);
-    NSLog(@"maximum sample value:\t%.4f\n", sampleRateConverter->maximumSampleValue);
+    NSLog(@"number of samples:\t%-d\n", sampleRateConverter.numberSamples);
+    NSLog(@"maximum sample value:\t%.4f\n", sampleRateConverter.maximumSampleValue);
     NSLog(@"scale:\t\t\t%.4f\n", scale);
     
     /*  Rewind the temporary file to beginning  */
-    rewind(sampleRateConverter->tempFilePtr);
+    rewind(sampleRateConverter.tempFilePtr);
 
     if (m_inputData.inputParameters.channels == 2) {
 		// Calculate left and right channel amplitudes.
@@ -223,10 +224,10 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
         printf("left scale:\t\t%.4f\n", leftScale);
         printf("right scale:\t\t%.4f\n", rightScale);
 
-        for (NSUInteger index = 0; index < sampleRateConverter->numberSamples; index++) {
+        for (NSUInteger index = 0; index < sampleRateConverter.numberSamples; index++) {
             double sample;
 
-            fread(&sample, sizeof(sample), 1, sampleRateConverter->tempFilePtr);
+            fread(&sample, sizeof(sample), 1, sampleRateConverter.tempFilePtr);
 
             uint16_t value = (short)rint(sample * leftScale);
             [sampleData appendBytes:&value length:sizeof(value)];
@@ -237,10 +238,10 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 		
     } else {
 		
-        for (NSUInteger index = 0; index < sampleRateConverter->numberSamples; index++) {
+        for (NSUInteger index = 0; index < sampleRateConverter.numberSamples; index++) {
             double sample;
 
-            fread(&sample, sizeof(sample), 1, sampleRateConverter->tempFilePtr);
+            fread(&sample, sizeof(sample), 1, sampleRateConverter.tempFilePtr);
 
             uint16_t value = (short)rint(sample * scale);
             [sampleData appendBytes:&value length:sizeof(value)];

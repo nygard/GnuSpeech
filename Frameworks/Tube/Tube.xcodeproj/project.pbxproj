@@ -37,6 +37,8 @@
 		01AC65880B7BF4D8008E4B93 /* util.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC65780B7BF4D8008E4B93 /* util.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01AC65890B7BF4D8008E4B93 /* TRMWavetable.m in Sources */ = {isa = PBXBuildFile; fileRef = 01AC65790B7BF4D8008E4B93 /* TRMWavetable.m */; };
 		01AC658A0B7BF4D8008E4B93 /* TRMWavetable.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC657A0B7BF4D8008E4B93 /* TRMWavetable.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		01C6719315687CF6008840E9 /* TRMSampleRateConverter.h in Headers */ = {isa = PBXBuildFile; fileRef = 01C6719115687CF6008840E9 /* TRMSampleRateConverter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		01C6719415687CF6008840E9 /* TRMSampleRateConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C6719215687CF6008840E9 /* TRMSampleRateConverter.m */; };
 		697930D80F91911E00E6B2EC /* ChangeLog.txt in Resources */ = {isa = PBXBuildFile; fileRef = 697930D70F91911E00E6B2EC /* ChangeLog.txt */; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
@@ -82,6 +84,8 @@
 		01AC65780B7BF4D8008E4B93 /* util.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = util.h; sourceTree = "<group>"; };
 		01AC65790B7BF4D8008E4B93 /* TRMWavetable.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TRMWavetable.m; sourceTree = "<group>"; };
 		01AC657A0B7BF4D8008E4B93 /* TRMWavetable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TRMWavetable.h; sourceTree = "<group>"; };
+		01C6719115687CF6008840E9 /* TRMSampleRateConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRMSampleRateConverter.h; sourceTree = "<group>"; };
+		01C6719215687CF6008840E9 /* TRMSampleRateConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRMSampleRateConverter.m; sourceTree = "<group>"; };
 		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -192,6 +196,8 @@
 				01AC65710B7BF4D8008E4B93 /* ring_buffer.m */,
 				01AC65720B7BF4D8008E4B93 /* ring_buffer.h */,
 				01AC65730B7BF4D8008E4B93 /* structs.h */,
+				01C6719115687CF6008840E9 /* TRMSampleRateConverter.h */,
+				01C6719215687CF6008840E9 /* TRMSampleRateConverter.m */,
 				019CCB8C154BE30C00A9CF7A /* TRMInputParameters.h */,
 				019CCB8D154BE30C00A9CF7A /* TRMInputParameters.m */,
 				019CCB9A154BE65400A9CF7A /* TRMParameters.h */,
@@ -243,6 +249,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01C6719315687CF6008840E9 /* TRMSampleRateConverter.h in Headers */,
 				0102B0AC15685F81009943D7 /* TRMTubeModel.h in Headers */,
 				019CCB8E154BE30D00A9CF7A /* TRMInputParameters.h in Headers */,
 				019CCB93154BE46B00A9CF7A /* TRMDataList.h in Headers */,
@@ -359,6 +366,7 @@
 				019CCB94154BE46B00A9CF7A /* TRMDataList.m in Sources */,
 				019CCB9D154BE65400A9CF7A /* TRMParameters.m in Sources */,
 				0102B0AD15685F81009943D7 /* TRMTubeModel.m in Sources */,
+				01C6719415687CF6008840E9 /* TRMSampleRateConverter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

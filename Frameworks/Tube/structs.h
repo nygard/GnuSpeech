@@ -60,19 +60,6 @@
 #define OUTPUT_SRATE_LOW          22050.0
 #define OUTPUT_SRATE_HIGH         44100.0
 
-// Variables for sample rate conversion
-typedef struct _TRMSampleRateConverter {
-    double sampleRateRatio;
-    double h[FILTER_LENGTH], deltaH[FILTER_LENGTH];
-    uint32_t timeRegisterIncrement, filterIncrement, phaseIncrement;
-    uint32_t timeRegister;
-
-    // Temporary sample storage values
-    double maximumSampleValue;
-    int32_t numberSamples;
-    FILE *tempFilePtr;
-} TRMSampleRateConverter;
-
 // Oropharynx scattering junction coefficients (between each region)
 #define C1                        TRM_R1     // R1-R2 (S1-S2)
 #define C2                        TRM_R2     // R2-R3 (S2-S3)

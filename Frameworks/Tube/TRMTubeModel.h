@@ -3,9 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "structs.h" // For TRMSampleRateConverter
-
-@class TRMInputParameters, TRMDataList;
+@class TRMInputParameters, TRMDataList, TRMSampleRateConverter;
 
 @interface TRMTubeModel : NSObject
 
@@ -13,6 +11,6 @@
 
 - (void)synthesizeFromDataList:(TRMDataList *)data;
 
-@property (nonatomic, readonly) TRMSampleRateConverter *sampleRateConverter;
+@property (readonly) TRMSampleRateConverter *sampleRateConverter;
 
 @end
