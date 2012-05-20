@@ -32,7 +32,7 @@
 
 NXStream * NXOpenMemory(const char *address, int size, int mode)
 {	
-	return [[[NXStream alloc] init] retain];  // this will grow if required
+	return [[NXStream alloc] init];  // this will grow if required
 }
 
 void NXCloseMemory(NXStream * stream, int option)
