@@ -7,11 +7,12 @@
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
-#include "tube.h"
 #include "util.h"
 
 #import "TRMDataList.h"
 #import "TRMInputParameters.h"
+
+extern BOOL verbose;
 
 static void writeAuFileHeader(int32_t channels, int32_t numberSamples, float outputRate, FILE *outputFile);
 static void writeAiffFileHeader(int32_t channels, int32_t numberSamples, float outputRate, FILE *outputFile);

@@ -4,8 +4,9 @@
 #include <stdlib.h>
 #include <math.h>
 #include "fir.h"
-#include "tube.h"
 #include "wavetable.h"
+
+#import "TRMTubeModel.h" // For PULSE
 
 #ifdef GNUSTEP
 #undef USE_VECLIB

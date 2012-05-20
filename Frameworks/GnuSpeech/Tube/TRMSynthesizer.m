@@ -9,6 +9,7 @@
 #import <Tube/TRMDataList.h>
 #import <Tube/TRMInputParameters.h>
 #import <Tube/TRMParameters.h>
+#import <Tube/TRMTubeModel.h>
 
 const uint16_t kWAVEFormat_Unknown         = 0x0000;
 const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
@@ -155,17 +156,17 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 
 - (void)synthesize;
 {
-    TRMTubeModel *tube = TRMTubeModelCreate(m_inputData.inputParameters);
-    if (tube == NULL) {
+    TRMTubeModel *tube = [[[TRMTubeModel alloc] initWithInputParameters:m_inputData.inputParameters] autorelease];
+    if (tube == nil) {
         NSLog(@"Warning: Failed to create tube model.");
         return;
     }
 
-    synthesize(tube, m_inputData);
+    [tube synthesizeFromDataList:m_inputData];
 
     if (self.shouldSaveToSoundFile) {
 		
-        writeOutputToFile(&(tube->sampleRateConverter), m_inputData, [self.filename UTF8String]);
+        writeOutputToFile(tube.sampleRateConverter, m_inputData, [self.filename UTF8String]);
 
     } else {
 
@@ -176,11 +177,9 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 		// NSSound *sound = [[[NSSound alloc] initWithContentsOfFile:[NSString stringWithUTF8String:tempName] byReference:YES] autorelease];
 		// [sound play];
 
-		[self generateWAVDataWithSampleRateConverter:&(tube->sampleRateConverter)];		
+		[self generateWAVDataWithSampleRateConverter:tube.sampleRateConverter];
 		[self startPlaying:tube];
     }
-
-    TRMTubeModelFree(tube);
 }
 
 // RIFF
@@ -286,7 +285,7 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 - (void)startPlaying:(TRMTubeModel *)tube;
 {
     NSError *error = nil;
-    AVAudioPlayer *audioPlayer = [[AVAudioPlayer alloc] initWithData:[self generateWAVDataWithSampleRateConverter:&(tube->sampleRateConverter)] error:&error];
+    AVAudioPlayer *audioPlayer = [[AVAudioPlayer alloc] initWithData:[self generateWAVDataWithSampleRateConverter:tube.sampleRateConverter] error:&error];
     if (audioPlayer == nil) {
         NSLog(@"error: %@", error);
     } else {

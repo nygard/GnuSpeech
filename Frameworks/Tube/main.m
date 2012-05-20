@@ -4,9 +4,12 @@
 #include <math.h>
 #include <string.h>
 
-#include "tube.h"
 #include "output.h"
 #include "structs.h"
+
+#import "TRMTubeModel.h"
+
+BOOL verbose;
 
 void printInputParameters(TRMDataList *data, const char *inputFile);
 
@@ -104,8 +107,8 @@ int main(int argc, char *argv[])
         }
         
         // Initialize the synthesizer
-        TRMTubeModel *tube = TRMTubeModelCreate(inputData.inputParameters);
-        if (tube == NULL) {
+        TRMTubeModel *tube = [[[TRMTubeModel alloc] initWithInputParameters:inputData.inputParameters] autorelease];
+        if (tube == nil) {
             fprintf(stderr, "Aborting...\n");
             exit(-1);
         }
@@ -123,17 +126,15 @@ int main(int argc, char *argv[])
             printf("\nStarting synthesis\n");
             fflush(stdout);
         }
-        synthesize(tube, inputData);
-        
+        [tube synthesizeFromDataList:inputData];
+
         if (verbose)
             printf("done.\n");
         
-        writeOutputToFile(&(tube->sampleRateConverter), inputData, [outputFile UTF8String]);
+        writeOutputToFile(tube.sampleRateConverter, inputData, [outputFile UTF8String]);
         
         if (verbose)
             printf("\nWrote scaled samples to file:  %s\n", [outputFile UTF8String]);
-        
-        TRMTubeModelFree(tube);
     }
         
     return 0;

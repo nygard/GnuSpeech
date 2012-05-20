@@ -1,13 +1,9 @@
 //  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
-#ifndef __TUBE_H
-#define __TUBE_H
+#import <Foundation/Foundation.h>
 
-#include <stdio.h> // For FILE
-#include "structs.h" // For TRMSampleRateConverter
-
-@class TRMInputParameters, TRMDataList;
+#import "structs.h" // For TRMSampleRateConverter
 
 // Function return constants
 #define ERROR                     (-1)
@@ -21,11 +17,14 @@
 #define PI                        3.14159265358979
 #define TWO_PI                    (2.0 * PI)
 
-extern BOOL verbose;
+@class TRMInputParameters, TRMDataList;
 
-TRMTubeModel *TRMTubeModelCreate(TRMInputParameters *inputParameters);
-void TRMTubeModelFree(TRMTubeModel *model);
+@interface TRMTubeModel : NSObject
 
-void synthesize(TRMTubeModel *tubeModel, TRMDataList *data);
+- (id)initWithInputParameters:(TRMInputParameters *)inputParameters; // Might not even need inputParameters
 
-#endif
+- (void)synthesizeFromDataList:(TRMDataList *)data;
+
+@property (nonatomic, readonly) TRMSampleRateConverter *sampleRateConverter;
+
+@end
