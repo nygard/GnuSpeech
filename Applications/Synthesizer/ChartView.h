@@ -25,7 +25,6 @@
 	NSFont *timesFont;
 	float _xScaleDivs, _xScaleOrigin, _xScaleSteps, _yScaleDivs, _yScaleOrigin, _yScaleSteps;
 	int _xLabelInterval, _yLabelInterval;
-
 }
 
 - (void)setAxesWithScale:(float)xScaleDivs xScaleOrigin:(float)xScaleOrigin xScaleSteps:(float)xScaleSteps

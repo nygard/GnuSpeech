@@ -4,8 +4,5 @@
 #import <Cocoa/Cocoa.h>
 
 @interface AboutView : NSImageView
-{
-
-}
 
 @end

@@ -3,6 +3,8 @@
 
 #import "PitchScale.h"
 
+#import "syn_structs.h"
+
 /*  LOCAL DEFINES  ***********************************************************/
 
 #define VOLUME_MAX         60.0
@@ -36,8 +38,21 @@
 
 
 @implementation PitchScale
+{
+	float horizontalCenter;
+    float verticalCenter;
+    float sharpCenter;
+    float arrowCenter;
+	
+    id background;
+    id foreground;
+	float notePosition;
+	BOOL sharpNeeded;
+	BOOL arrowNeeded;
+	int upDown;
+}
 
-- (id)initWithFrame:(NSRect)frameRect
+- (id)initWithFrame:(NSRect)frameRect;
 {
 	if ((self = [super initWithFrame:frameRect]) != nil) {
 		// Add initialization code here
@@ -48,7 +63,17 @@
 	return self;
 }
 
-- (void)drawRect:(NSRect)rect
+- (void)dealloc;
+{
+    [background release];
+    [foreground release];
+    
+    [super dealloc];
+}
+
+#pragma mark -
+
+- (void)drawRect:(NSRect)rect;
 {
 	NSRect viewRect = [self bounds];
 	[[NSColor whiteColor] set];
@@ -58,27 +83,13 @@
 
 - (NSPoint)graphOrigin;
 {
-    NSPoint graphOrigin;
-	
-	graphOrigin = [self bounds].origin;
+	NSPoint graphOrigin = [self bounds].origin;
 	graphOrigin.x += PSLEFT_MARGIN;
 	graphOrigin.y += PSTOP_BOTTOM_MARGIN;
     return graphOrigin;
 }
 
-- (void)dealloc
-{
-    //  FREE BACKGROUND NXIMAGE
-    [background release];
-    
-    //  FREE FOREGROUND NXIMAGE
-    [foreground release];
-    
-    //  DO REGULAR FREE
-    { [super dealloc]; return; };
-}
-
-- (void)awakeFromNib
+- (void)awakeFromNib;
 {
 //	[self drawPitch:(int)current.glotPitch Cents:(int)((current.glotPitch - (int)current.glotPitch)*100) Volume:current.glotVol];
 	[self drawPitch:GLOT_PITCH_DEF Cents:((GLOT_PITCH_DEF - (int)GLOT_PITCH_DEF)*100) Volume:GLOT_VOL_DEF];
@@ -86,28 +97,21 @@
 
 - (void)drawGrid;
 {
-    NSBezierPath *bezierPath;
-    NSRect bounds;
-    NSPoint graphOrigin;
-    float sectionHeight, sectionWidth;
-    int index;
-	
 	// Draw in best fit grid markers
 	
-	bounds = [self bounds];
-    graphOrigin = [self graphOrigin];
-	sectionHeight = (bounds.size.height - graphOrigin.y - PSTOP_BOTTOM_MARGIN)/_yScaleDivs;
-	sectionWidth = (bounds.size.width - graphOrigin.x - PSRIGHT_MARGIN/_xScaleDivs);
+	NSRect bounds = [self bounds];
+    NSPoint graphOrigin = [self graphOrigin];
+	float sectionHeight = (bounds.size.height - graphOrigin.y - PSTOP_BOTTOM_MARGIN)/_yScaleDivs;
+	float sectionWidth = (bounds.size.width - graphOrigin.x - PSRIGHT_MARGIN/_xScaleDivs);
 	
     [[NSColor blackColor] set];
-	NSPoint aPoint;
 	
 	//	First Y-axis grid lines
 		
-    bezierPath = [[NSBezierPath alloc] init];
+    NSBezierPath *bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:2];
-	for (index = 0; index <= _yScaleDivs; index++) {
-		
+	for (NSUInteger index = 0; index <= _yScaleDivs; index++) {
+        NSPoint aPoint;
 		aPoint.x = graphOrigin.x;
 		if (index==0||index==1||index==7||index==13||index==14) aPoint.x += sectionWidth/4;
 		aPoint.y = graphOrigin.y + index * sectionHeight;
@@ -129,12 +133,11 @@
     [bezierPath stroke];
 	[bezierPath release];
 	
-	//Check if cents-related arrow required to indicate displacement of note higher or lower
+	// Check if cents-related arrow required to indicate displacement of note higher or lower
 
-	if (arrowNeeded == NO) ;
-	else {
-	
-		bezierPath = [[NSBezierPath alloc] init];		
+	if (arrowNeeded == NO) {
+    } else {
+		bezierPath = [[NSBezierPath alloc] init];
 		
 		// Set the arrow tip of down arrow
 		noteRect.size.height = sectionHeight * 1.3;
@@ -143,21 +146,20 @@
 		noteRect.origin.y = ((bounds.size.height/2) + (bounds.size.height - PSTOP_BOTTOM_MARGIN * 2) * notePosition) - noteRect.size.height/2;
 	
 		if (upDown == 0)
-			[bezierPath moveToPoint:NSMakePoint((noteRect.origin.x + noteRect.size.width/2), noteRect.origin.y)];
-			else 	[bezierPath moveToPoint:NSMakePoint((noteRect.origin.x + noteRect.size.width/2), noteRect.origin.y + noteRect.size.height)];
+			[bezierPath moveToPoint:NSMakePoint(noteRect.origin.x + noteRect.size.width / 2, noteRect.origin.y)];
+        else
+            [bezierPath moveToPoint:NSMakePoint(noteRect.origin.x + noteRect.size.width / 2, noteRect.origin.y + noteRect.size.height)];
 
 		// Set the arrow top left corner
 		if (upDown == 0)
-			[bezierPath lineToPoint:NSMakePoint((noteRect.origin.x),
-									   (noteRect.origin.y + noteRect.size.height))];
-			else 	[bezierPath lineToPoint:NSMakePoint(noteRect.origin.x,
-													noteRect.origin.y)];
+			[bezierPath lineToPoint:NSMakePoint(noteRect.origin.x, noteRect.origin.y + noteRect.size.height)];
+        else
+            [bezierPath lineToPoint:NSMakePoint(noteRect.origin.x, noteRect.origin.y)];
 		// Set the arrow top right corner
 		if (upDown == 0)
-			[bezierPath lineToPoint:NSMakePoint((noteRect.origin.x + noteRect.size.width),
-									   (noteRect.origin.y + noteRect.size.height))];
-			else 	[bezierPath lineToPoint:NSMakePoint((noteRect.origin.x + noteRect.size.width),
-													noteRect.origin.y)];
+			[bezierPath lineToPoint:NSMakePoint(noteRect.origin.x + noteRect.size.width, noteRect.origin.y + noteRect.size.height)];
+        else
+            [bezierPath lineToPoint:NSMakePoint(noteRect.origin.x + noteRect.size.width, noteRect.origin.y)];
 		[bezierPath closePath];
 		[bezierPath setLineWidth:1.0];
 		[bezierPath setLineCapStyle:NSButtLineCapStyle];
@@ -165,32 +167,26 @@
 		[bezierPath stroke];
 		[bezierPath fill];
 		[bezierPath release];
-		}
+    }
     
-	//Check if we need to add a sharp sign and draw one if so
+	// Check if we need to add a sharp sign and draw one if so
 	
-	if (sharpNeeded == NO) ;
-	
-
-	
-	else {
-		
+	if (sharpNeeded == NO) {
+    } else {
 		bezierPath = [[NSBezierPath alloc] init];
 		// Set a box to draw it in
 		noteRect.size.height = sectionHeight * 2;
 		noteRect.size.width = sectionHeight * 1;
-		noteRect.origin.x = (bounds.size.width - noteRect.size.width)/4;
-		noteRect.origin.y = ((bounds.size.height/2) + (bounds.size.height - PSTOP_BOTTOM_MARGIN * 2) * notePosition) - noteRect.size.height/2;
+		noteRect.origin.x = (bounds.size.width - noteRect.size.width) / 4;
+		noteRect.origin.y = (bounds.size.height / 2 + (bounds.size.height - PSTOP_BOTTOM_MARGIN * 2) * notePosition) - noteRect.size.height / 2;
 		
 		// Set left vertical line
-		[bezierPath moveToPoint:NSMakePoint((noteRect.origin.x + noteRect.size.width/4), noteRect.origin.y)];
-		[bezierPath lineToPoint:NSMakePoint((noteRect.origin.x + noteRect.size.width/4),
-												(noteRect.origin.y + noteRect.size.height))];
+		[bezierPath moveToPoint:NSMakePoint(noteRect.origin.x + noteRect.size.width/4, noteRect.origin.y)];
+		[bezierPath lineToPoint:NSMakePoint(noteRect.origin.x + noteRect.size.width/4, noteRect.origin.y + noteRect.size.height)];
 		
 		// Set right vertical line
-		[bezierPath moveToPoint:NSMakePoint((noteRect.origin.x + 3 * noteRect.size.width/4), noteRect.origin.y)];
-		[bezierPath lineToPoint:NSMakePoint((noteRect.origin.x + 3 * noteRect.size.width/4),
-											(noteRect.origin.y + noteRect.size.height))];
+		[bezierPath moveToPoint:NSMakePoint(noteRect.origin.x + 3 * noteRect.size.width/4, noteRect.origin.y)];
+		[bezierPath lineToPoint:NSMakePoint(noteRect.origin.x + 3 * noteRect.size.width/4, noteRect.origin.y + noteRect.size.height)];
 		
 		[bezierPath setLineWidth:1.0];
 		[bezierPath stroke];
@@ -199,16 +195,16 @@
 		bezierPath = [[NSBezierPath alloc] init];
 
 
-		float tilt = sectionHeight/5;
+		float tilt = sectionHeight / 5;
 		[bezierPath setLineWidth:3];
 		
 		// Set bottom horizontal line
-		[bezierPath moveToPoint:NSMakePoint((noteRect.origin.x), (noteRect.origin.y + noteRect.size.height/2 - 2 * tilt))];
-		[bezierPath lineToPoint:NSMakePoint((noteRect.origin.x + noteRect.size.width),(noteRect.origin.y + noteRect.size.height/2- tilt))];
+		[bezierPath moveToPoint:NSMakePoint(noteRect.origin.x, noteRect.origin.y + noteRect.size.height / 2 - 2 * tilt)];
+		[bezierPath lineToPoint:NSMakePoint(noteRect.origin.x + noteRect.size.width, noteRect.origin.y + noteRect.size.height / 2 - tilt)];
 		
 		// Set top horizontal line
-		[bezierPath moveToPoint:NSMakePoint((noteRect.origin.x), (noteRect.origin.y + noteRect.size.height/2 + tilt))];
-		[bezierPath lineToPoint:NSMakePoint((noteRect.origin.x + noteRect.size.width),(noteRect.origin.y + noteRect.size.height/2 + 2 * tilt))];
+		[bezierPath moveToPoint:NSMakePoint(noteRect.origin.x, noteRect.origin.y + noteRect.size.height / 2 + tilt)];
+		[bezierPath lineToPoint:NSMakePoint(noteRect.origin.x + noteRect.size.width, noteRect.origin.y + noteRect.size.height / 2 + 2 * tilt)];
 
 		
 		[bezierPath stroke];
@@ -220,7 +216,7 @@
 	
 }	
 
-- (void)drawPitch:(int)pitch Cents:(int)cents Volume:(float)volume
+- (void)drawPitch:(int)pitch Cents:(int)cents Volume:(float)volume;
 {
 	NSLog(@"pitchscale:drawPitch %d, %d, %f", pitch, cents, volume);
 	int position, sharp, makeNotePosition();
@@ -234,18 +230,20 @@
 	
 	if (sharp == 0)
 		sharpNeeded = NO;
-		else sharpNeeded = YES;
-		
-		if (cents == 0) {
-			arrowNeeded = NO;
-			//NSLog(@"Arrow not needed"); **** 
-		}
-		else {
-			arrowNeeded = YES;
-			if (cents > 0) upDown = 1;
-			else upDown = 0;
-			//NSLog(@"Arrow needed, cents, upDown %d %d", cents, upDown); **** 
-		}
+    else
+        sharpNeeded = YES;
+    
+    if (cents == 0) {
+        arrowNeeded = NO;
+        //NSLog(@"Arrow not needed"); **** 
+    } else {
+        arrowNeeded = YES;
+        if (cents > 0)
+            upDown = 1;
+        else
+            upDown = 0;
+        //NSLog(@"Arrow needed, cents, upDown %d %d", cents, upDown); **** 
+    }
 	
 	
     //  DISPLAY THE NOTE, SHARP, AND ARROW  
@@ -305,15 +303,9 @@
 *
 *	purpose:	Returns the staff position and sharp flag for the
 *                       given note number (semitone scale with middle C equal
-										   *                       to 0).
+*                       to 0).
 *			
 *       arguments:      noteNumber, position, sharp
-*                       
-*	internal
-*	functions:	none
-*
-*	library
-*	functions:	none
 *
 ******************************************************************************/
 
@@ -344,7 +336,5 @@ int makeNotePosition(int noteNumber, int *position, int *sharp)
 	
     return (SUCCESS);
 }	 
-
-
 
 @end

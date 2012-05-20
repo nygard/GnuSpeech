@@ -10,6 +10,8 @@
 #include "structs2.h"
 #include <pthread.h>
 
+#define TWO_PI (2*M_PI)
+
 /*	FUNCTIONS TO ALLOW OBJECTIVE-C TO ACCESS THE SYNTHESIS VARIABLES  */
 void setGlotPitch(float value);
 void setGlotVol(float value);

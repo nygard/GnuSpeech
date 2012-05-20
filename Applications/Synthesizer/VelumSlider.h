@@ -2,21 +2,8 @@
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import <Cocoa/Cocoa.h>
-#import "Controller.h"
-
-#define VMAX_SECT_DIAM 3
-#define VMIN_SECT_DIAM 0
 
 @interface VelumSlider : NSView
-{
-	IBOutlet NSTextField *radius;
-	IBOutlet NSTextField *diameter;
-	IBOutlet NSTextField *area;
-	NSRect slide;
-	NSPoint temp;
-	@public float slideWidth;
-	
-}
 
 - (void)mouseDragged:(NSEvent *)event;
 - (void)setSection:(float)value:(int)tag;

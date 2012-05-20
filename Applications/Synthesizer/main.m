@@ -3,13 +3,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-/*  GLOBAL DEFINES  ***********************************************************/
-float PI = 3.14159265358979;
-float PI2 = 6.28318530717959;
-
 int main(int argc, char *argv[])
 {
-	
     return NSApplicationMain(argc,  (const char **) argv);
-	
 }

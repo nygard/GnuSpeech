@@ -8,8 +8,8 @@
 #define MIN_SECT_DIAM 0.1
 
 
-@interface TubeSection : NSView {
-	
+@interface TubeSection : NSView
+{
 	IBOutlet NSTextField *radius;
 	IBOutlet NSTextField *diameter;
 	IBOutlet NSTextField *area;
@@ -20,11 +20,10 @@
 	NSRect slide;
 	NSPoint temp;
 	BOOL status; // State = 0 for setting value; state = 1 for field change input
-	@public float slideHeight;
 
-	
+@public
+    float slideHeight;
 }
-
 
 - (void)mouseDragged:(NSEvent *)event;
 - (void)controlTextDidEndEditing:(NSNotification *) aNotification;
@@ -32,8 +31,5 @@
 - (float)getValue;
 - (void)setSection:(double)value:(int)tag:(BOOL)state;
 - (void)sectionChanged:(float)value;
-
-
-
 
 @end

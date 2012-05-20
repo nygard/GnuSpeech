@@ -5,7 +5,6 @@
 #import "ChartView.h"
 #import "Analysis.h"
 
-@interface Spectrograph : ChartView
 
 #define SGLABEL_MARGIN 3 
 #define SGLEFT_MARGIN 45
@@ -28,26 +27,12 @@
 // DEFAULT FOR SPECTROGRAPH GIRD IS OFF (0)
 #define SGGRID_DISPLAY_DEF 0
 
+@interface Spectrograph : ChartView
 
-{
-	id magnitudeForm;
-	BOOL sgGridDisplay;
-	int envelopeSize;
-	float *spectrographEnvelopeData;
-	float *spectrographScaledData;
-	int drawFlag;
-	float upperThreshold, lowerThreshold;
-	int scaledSpectrographDataExists;
-	int magnitudeScale;
-		
-}
-
-- (void) setSpectrographGrid:(BOOL)spectrographGridState;
-- (void) drawSpectrograph:(float *)data size:(int)size okFlag:(int)flag;
-- (void) readUpperThreshold;
-- (void) readLowerThreshold;
-- (void) setMagnitudeScale:(int)value;
-
-
+- (void)setSpectrographGrid:(BOOL)spectrographGridState;
+- (void)drawSpectrograph:(float *)data size:(int)size okFlag:(int)flag;
+- (void)readUpperThreshold;
+- (void)readLowerThreshold;
+- (void)setMagnitudeScale:(int)value;
 
 @end

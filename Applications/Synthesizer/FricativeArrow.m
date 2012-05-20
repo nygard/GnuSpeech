@@ -16,27 +16,33 @@
 
 
 
-@implementation FricativeArrow
-
 NSRect fricationView;
 BOOL begin;
 
-- (id)initWithFrame:(NSRect)frameRect
+@implementation FricativeArrow
+{
+	NSRect fricationView;
+	float fricationPosition;
+	float fricationValue;
+	float velumConnection;
+	NSBezierPath *downArrow;
+	float scale;
+}
+
+- (id)initWithFrame:(NSRect)frameRect;
 {
 	if ((self = [super initWithFrame:frameRect]) != nil) {
-		// Add initialization code here
-		NSLog(@"success");
 	}
+
 	return self;
 }
 
-- (void)awakeFromNib
+- (void)awakeFromNib;
 {
-	begin=YES;
+	begin = YES;
 }
 
-- (void)drawRect:(NSRect)rect
-
+- (void)drawRect:(NSRect)rect;
 {
 	NSBezierPath *line = [NSBezierPath bezierPath];
 	downArrow = [NSBezierPath bezierPath];
@@ -58,15 +64,16 @@ BOOL begin;
 	[line moveToPoint:start];
 	[line lineToPoint:end];
 	[line stroke];
+
 	// Set the arrow tip of down arrow for fricationPosition
-	[downArrow moveToPoint:NSMakePoint(fricationPosition,
-			fricationView.origin.y)];
+	[downArrow moveToPoint:NSMakePoint(fricationPosition, fricationView.origin.y)];
+
 	// Set the arrow top left corner
-	[downArrow lineToPoint:NSMakePoint((fricationPosition - TOP_ARROW/2),
-			(fricationView.origin.y + fricationView.size.height/2))];
+	[downArrow lineToPoint:NSMakePoint((fricationPosition - TOP_ARROW/2), (fricationView.origin.y + fricationView.size.height/2))];
+
 	// Set the arrow top right corner
-	[downArrow lineToPoint:NSMakePoint((fricationPosition + TOP_ARROW/2),
-			(fricationView.origin.y + fricationView.size.height/2))];
+	[downArrow lineToPoint:NSMakePoint((fricationPosition + TOP_ARROW/2), (fricationView.origin.y + fricationView.size.height/2))];
+
 	[downArrow closePath];
 	[downArrow setLineWidth:2.0];
 	[downArrow setLineCapStyle:NSButtLineCapStyle];
@@ -76,7 +83,7 @@ BOOL begin;
 		
 }
 
-- (void)setFricationPosition:(float)aValue
+- (void)setFricationPosition:(float)aValue;
 {
 	//NSLog(@"aValue scale are %f %f", aValue, scale);
 	fricationPosition = (aValue * scale + TOP_ARROW/2 + CORR);
@@ -84,7 +91,7 @@ BOOL begin;
 	[self setNeedsDisplay:YES];
 }
 
-- (void)mouseDragged:(NSEvent *)event
+- (void)mouseDragged:(NSEvent *)event;
 {
 	//fricationView.origin = [self convertPoint:temp toView:nil];
 	NSPoint mouseloc = [self convertPoint:[event locationInWindow] fromView:nil];
@@ -92,29 +99,25 @@ BOOL begin;
 	//NSLog(@"mouseloc.x is %f", mouseloc.x);
 	if (fricationPosition > (fricationView.origin.x + fricationView.size.width - TOP_ARROW/2)) {
 		fricationPosition = (fricationView.size.width - TOP_ARROW/2);
-	}
-	else {
+	} else {
 		if (fricationPosition < fricationView.origin.x + TOP_ARROW/2) {
 			fricationPosition = TOP_ARROW/2;
-			}
-		}
+        }
+    }
 	
 	fricationValue = ((float)POS_UNITS -1.0 - (fricationPosition - (float)TOP_ARROW/2)/scale + CORR);
 	[self setFricationPosition:(8.0 - fricationValue)];
 	
 	//NSLog(@"fricValue is %f", fricationValue);
 
-	
-	NSNotificationCenter *nc;
-	nc = [NSNotificationCenter defaultCenter];
+	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 	//NSLog(@" Sending notification re slider from FricativeArrow");
 	[nc postNotificationName:@"FricArrowMoved" object:self];
 	
 	[self setNeedsDisplay:YES];
-	
 }
 
-- (float)floatValue
+- (float)floatValue;
 {
 	return (POS_UNITS - fricationValue);
 }

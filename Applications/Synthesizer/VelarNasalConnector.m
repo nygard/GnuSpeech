@@ -4,32 +4,35 @@
 #import "VelarNasalConnector.h"
 
 @implementation VelarNasalConnector
+{
+}
 
 - (id)initWithFrame:(NSRect)frameRect
 {
-	if ((self = [super initWithFrame:frameRect]) != nil) {
-		// Add initialization code here
+	if ((self = [super initWithFrame:frameRect])) {
 	}
+    
 	return self;
 }
 
-- (void)drawRect:(NSRect)rect
+- (void)drawRect:(NSRect)rect;
 {
-	NSBezierPath *line = [NSBezierPath bezierPath];
 	NSRect bounds = [self bounds];
 	[[[NSColor lightGrayColor] colorWithAlphaComponent:0.0] set];
 	[NSBezierPath fillRect:bounds];
-	[[NSColor blackColor] set];
+
 	// Draw connector round edge of view
-	NSPoint start = NSMakePoint(bounds.origin.x, bounds.origin.y);
+	NSPoint start  = NSMakePoint(bounds.origin.x, bounds.origin.y);
 	NSPoint middle = NSMakePoint(bounds.origin.x, bounds.size.height);
-	NSPoint end = NSMakePoint(bounds.size.width, bounds.size.height);
+	NSPoint end    = NSMakePoint(bounds.size.width, bounds.size.height);
+
+	NSBezierPath *line = [NSBezierPath bezierPath];
 	[line setLineWidth:5];
 	[line moveToPoint:start];
 	[line lineToPoint:middle];
 	[line lineToPoint:end];
+	[[NSColor blackColor] set];
 	[line stroke];
-	
 }
 
 @end

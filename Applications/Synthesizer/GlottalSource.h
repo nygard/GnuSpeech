@@ -13,7 +13,7 @@
 #define WAVEFORMTYPE_SINE 1
 
 
-@interface GlottalSource:NSObject
+@interface GlottalSource : NSObject
 {
     id	breathinessField;
     id	breathinessSlider;
@@ -59,7 +59,7 @@
 }
 
 - (void)defaultInstanceVariables;
--(void)handleSynthDefaultsReloaded;
+- (void)handleSynthDefaultsReloaded;
 
 - (void)awakeFromNib;
 //- (void)displayAndSynthesizeIvars;
@@ -67,28 +67,28 @@
 - (void)saveToStream:(NSArchiver *)typedStream;
 //- (void)openFromStream:(NSArchiver *)typedStream;
 
-- (void)breathinessEntered:sender;
-- (void)breathinessSliderMoved:sender;
+- (void)breathinessEntered:(id)sender;
+- (void)breathinessSliderMoved:(id)sender;
 
-- (void)waveformTypeSwitchPushed:sender;
+- (void)waveformTypeSwitchPushed:(id)sender;
 
-- (IBAction)glottalPulseParametersChanged:sender;
-//- (void)riseTimeEntered:sender;
-//- (void)fallTimeMinEntered:sender;
-//- (void)fallTimeMaxEntered:sender;
+- (IBAction)glottalPulseParametersChanged:(id)sender;
+//- (void)riseTimeEntered:(id)sender;
+//- (void)fallTimeMinEntered:(id)sender;
+//- (void)fallTimeMaxEntered:(id)sender;
 
-- (void)frequencyEntered:sender;
-- (void)pitchEntered:sender;
-- (void)pitchSliderMoved:sender;
-- (void)showAmplitudeSwitchPushed:sender;
-- (void)harmonicsSwitchPushed:sender;
-- (void)unitButtonPushed:sender;
-- (void)volumeEntered:sender;
-- (void)volumeSliderMoved:sender;
+- (void)frequencyEntered:(id)sender;
+- (void)pitchEntered:(id)sender;
+- (void)pitchSliderMoved:(id)sender;
+- (void)showAmplitudeSwitchPushed:(id)sender;
+- (void)harmonicsSwitchPushed:(id)sender;
+- (void)unitButtonPushed:(id)sender;
+- (void)volumeEntered:(id)sender;
+- (void)volumeSliderMoved:(id)sender;
 
 - (void)displayWaveformAndHarmonics;
 - (int)glottalVolume;
 
-- (void)windowWillMiniaturize:sender;
+- (void)windowWillMiniaturize:(id)sender;
 
 @end

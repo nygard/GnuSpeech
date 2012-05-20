@@ -17,16 +17,8 @@
 
 extern double Izero2(double x);
 
-@interface AnalysisWindow:NSObject
-{
+@interface AnalysisWindow : NSObject
 
-    float *window;
-    int   windowSize;
-	id spectrum;
-}
-
-- init;
-- (void)dealloc;
 - (void)freeWindow;
 
 - (void)setWindowType:(int)type alpha:(float)alpha beta:(float)beta size:(int)size;

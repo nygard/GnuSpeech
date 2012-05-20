@@ -93,34 +93,6 @@ double currentPosition;
 #define TABLE_MODULUS             (TABLE_LENGTH-1)
 
 
-/*  VARIABLES FOR INTERPOLATION  */
-/*
-static struct _postureRateParameters
-{
-    double glotPitch;
-    double glotPitchDelta;
-    double glotVol;
-    double glotVolDelta;
-    double aspVol;
-    double aspVolDelta;
-    double fricVol;
-    double fricVolDelta;
-    double fricPos;
-    double fricPosDelta;
-    double fricCF;
-    double fricCFDelta;
-    double fricBW;
-    double fricBWDelta;
-    double radius[TOTAL_REGIONS];
-    double radiusDelta[TOTAL_REGIONS];
-    double velum;
-    double velumDelta;
-} current;
-
-static struct _postureRateParameters originalDefaults;
-
-*/
-
 //static void *currentPointer;
 
 #define TOTAL_NASAL_COEFFICIENTS  TOTAL_NASAL_SECTIONS

@@ -4,6 +4,5 @@
 #import <Cocoa/Cocoa.h>
 
 @interface VelarNasalConnector : NSView
-{
-}
+
 @end

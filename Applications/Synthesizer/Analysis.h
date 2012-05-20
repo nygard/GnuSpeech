@@ -61,23 +61,23 @@
 - (void)saveToStream:(NSArchiver *)typedStream;
 - (void)openFromStream:(NSArchiver *)typedStream;
 
-- (void)windowWillMiniaturize:sender;
+- (void)windowWillMiniaturize:(id)sender;
 
 - (void)setAnalysisEnabled:(BOOL)flag;
 - (IBAction)setRunning;
 
-- (void)normalizeSwitchPushed:sender;
-- (void)magnitudeFormEntered:sender;
-- (void)magnitudeScaleSelected:sender;
-- (void)binSizeSelected:sender;
-- (void)doAnalysisButtonPushed:sender;
-- (void)grayLevelSelected:sender;
-- (void)rateFormEntered:sender;
-- (void)spectrographGridPushed:sender;
-- (void)spectrumGridPushed:sender;
-- (void)updateMatrixPushed:sender;
-- (void)windowFormEntered:sender;
-- (void)windowSelected:sender;
+- (void)normalizeSwitchPushed:(id)sender;
+- (void)magnitudeFormEntered:(id)sender;
+- (void)magnitudeScaleSelected:(id)sender;
+- (void)binSizeSelected:(id)sender;
+- (void)doAnalysisButtonPushed:(id)sender;
+- (void)grayLevelSelected:(id)sender;
+- (void)rateFormEntered:(id)sender;
+- (void)spectrographGridPushed:(id)sender;
+- (void)spectrumGridPushed:(id)sender;
+- (void)updateMatrixPushed:(id)sender;
+- (void)windowFormEntered:(id)sender;
+- (void)windowSelected:(id)sender;
 - (void)updateWindow;
 
 //- (void)displayAnalysis;

@@ -27,9 +27,8 @@
 
 
 @interface Harmonics : ChartView
-{
-}
 
 - (void)drawSineScale:(float)amplitude;
 - (void)drawHarmonics;
+
 @end

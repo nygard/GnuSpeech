@@ -4,18 +4,18 @@
 #import "AboutView.h"
 
 @implementation AboutView
-
-- (void)drawRect:(NSRect)rect
 {
-	
+}
+
+- (void)drawRect:(NSRect)rect;
+{
 	NSImage *aboutImage = [NSImage imageNamed:@"AboutSynthesizer.pdf"];
 	
 	NSRect imageRect;
-	NSRect drawingRect;
 	imageRect.origin = NSZeroPoint;
 	imageRect.size = [aboutImage size];
-	drawingRect = imageRect;
-	//NSLog(@"About to draw about image %@", [aboutImage description]);
+
+	NSRect drawingRect = imageRect;
 	[aboutImage drawInRect:drawingRect
 				 fromRect:imageRect
 				operation:NSCompositeSourceOver

@@ -6,11 +6,12 @@
 #import "tube.h"
 
 @implementation Waveform
+{
+}
 
-- (id)initWithFrame:(NSRect)frameRect
+- (id)initWithFrame:(NSRect)frameRect;
 {
 	if ((self = [super initWithFrame:frameRect]) != nil) {
-		// Add initialization code here
 		[self setAxesWithScale:WX_SCALE_DIVS xScaleOrigin:WX_SCALE_ORIGIN xScaleSteps:WX_SCALE_STEPS
 				xLabelInterval:WX_LABEL_INTERVAL yScaleDivs:WY_SCALE_DIVS yScaleOrigin:WY_SCALE_ORIGIN
 				   yScaleSteps:WY_SCALE_STEPS yLabelInterval:WY_LABEL_INTERVAL];
@@ -20,9 +21,7 @@
 
 - (NSPoint)graphOrigin;
 {
-    NSPoint graphOrigin;
-	
-	graphOrigin = [self bounds].origin;
+	NSPoint graphOrigin = [self bounds].origin;
 	graphOrigin.x += WLEFT_MARGIN;
 	graphOrigin.y += WBOTTOM_MARGIN;
     return graphOrigin;
@@ -32,37 +31,29 @@
 - (void)drawGrid;
 {
 	NSLog(@"Drawing Waveform WF:28");
-    NSBezierPath *bezierPath;
-    NSRect bounds;
-    NSPoint graphOrigin;
-    float sectionHeight, sectionWidth;
-    int index;
-	
 	// Draw in best fit grid markers
 	
-	bounds = [self bounds];
-    graphOrigin = [self graphOrigin];
-	sectionHeight = (bounds.size.height - graphOrigin.y - WTOP_MARGIN)/_yScaleDivs;
-	sectionWidth = (bounds.size.width - graphOrigin.x - WRIGHT_MARGIN)/_xScaleDivs;
+	NSRect bounds = [self bounds];
+    NSPoint graphOrigin = [self graphOrigin];
+	float sectionHeight = (bounds.size.height - graphOrigin.y - WTOP_MARGIN)/_yScaleDivs;
+	float sectionWidth = (bounds.size.width - graphOrigin.x - WRIGHT_MARGIN)/_xScaleDivs;
 	
     [[NSColor lightGrayColor] set];
-	NSPoint aPoint;
 	
 	//	First Y-axis grid lines
 	
     [[NSColor lightGrayColor] set];
 	
-    bezierPath = [[NSBezierPath alloc] init];
+    NSBezierPath *bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:1];
-	for (index = 0; index <= _yScaleDivs; index++) {
-		
+	for (NSUInteger index = 0; index <= _yScaleDivs; index++) {
+        NSPoint aPoint;
 		aPoint.x = graphOrigin.x;
 		aPoint.y = graphOrigin.y + index * sectionHeight;
         [bezierPath moveToPoint:aPoint];
 		
         aPoint.x = bounds.size.width - WRIGHT_MARGIN;
         [bezierPath lineToPoint:aPoint];
-		
     }
     [bezierPath stroke];
     [bezierPath release];
@@ -71,26 +62,23 @@
 	
 	bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:1];
-	for (index = 0; index <= WX_SCALE_DIVS; index++) {
-		
+	for (NSUInteger index = 0; index <= WX_SCALE_DIVS; index++) {
+        NSPoint aPoint;
 		aPoint.y = graphOrigin.y;
         aPoint.x = graphOrigin.x + index * sectionWidth;
         [bezierPath moveToPoint:aPoint];
 		
         aPoint.y = bounds.size.height - WTOP_MARGIN;
         [bezierPath lineToPoint:aPoint];
-		
     }
     [bezierPath stroke];
     [bezierPath release];
-	
 }
 
 
 // This method overrides the ChartView method
 
-- (void)drawRect:(NSRect)rect
-
+- (void)drawRect:(NSRect)rect;
 {
 	NSRect viewRect = [self bounds];
 	[[NSColor whiteColor] set];
@@ -98,13 +86,11 @@
 	[self drawGrid];
 	
 	NSBezierPath *bezierPath;
-    int index;
     NSPoint currentPoint;
-    NSRect bounds;
     NSPoint graphOrigin, start;
 	
 	int i;
-    bounds = [self bounds];
+    NSRect bounds = [self bounds];
     graphOrigin.x = (float) WLEFT_MARGIN;
 	graphOrigin.y = (float) WBOTTOM_MARGIN;
 	NSLog(@" Graph origin waveform is %f %f", graphOrigin.x, graphOrigin.y);
@@ -128,7 +114,7 @@
 	start.y = (graphOrigin.y + (bounds.size.height - WBOTTOM_MARGIN - WTOP_MARGIN)/2);
     [bezierPath moveToPoint:start];
 	NSLog(@"Waveform: the wave table value at index 100 is %f", tempFloatWavetable[100]);
-	for (index = 0; index < 512; index++) {
+	for (NSUInteger index = 0; index < 512; index++) {
 		
 		currentPoint.x = graphOrigin.x + ((float) index) * (bounds.size.width - graphOrigin.x - WLEFT_MARGIN - WRIGHT_MARGIN )/512;
 		currentPoint.y = (graphOrigin.y + (bounds.size.height - WBOTTOM_MARGIN - WTOP_MARGIN)/2) + 40 * tempFloatWavetable[index];
@@ -139,24 +125,16 @@
 	[bezierPath stroke];
     [bezierPath release];
 	free(tempFloatWavetable);
-	
-	
 }
 
-- (void)drawSineAmplitude:(float)amplitude
+- (void)drawSineAmplitude:(float)amplitude;
 {
-	
 }
 
-- (void)drawGlottalPulseAmplitude
-
-
+- (void)drawGlottalPulseAmplitude;
 {
 	[self setNeedsDisplay:YES];
 	NSLog(@"Leaving WF: drawGlottalPulseAmplitude");
-	
 }
-
-
 
 @end

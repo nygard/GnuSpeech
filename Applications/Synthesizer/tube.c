@@ -67,6 +67,7 @@ $Log: tube.c,v $
 
 
 /*  HEADER FILES  ************************************************************/
+#import "tube.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/param.h>
@@ -251,8 +252,6 @@ $Log: tube.c,v $
 #define FALSE                     0
 #define TRUE                      1
 
-extern float PI, PI2;
-
 
 /*  REFLECTION AND RADIATION FILTER MEMORY  */
 double a10, b11, a20, a21, b21;
@@ -297,9 +296,30 @@ double breathiness = 2.5;
 int channels = 2;
 
 float controlRate = 100; // ****
-static struct _postureRateParameters current ={-0.0, 0, 60, 0, 0, 0, 60, 0, 8, 0, 5000, 0, 250, 0, 0.8, 1.67, 1.905, 1.985, 0.81, 0.495, 0.73, 1.485, 0,0,0,0,0,0,0,0, 0,0}; // "ee"
+typedef struct
+{
+    double glotPitch;
+    double glotPitchDelta;
+    double glotVol;
+    double glotVolDelta;
+    double aspVol;
+    double aspVolDelta;
+    double fricVol;
+    double fricVolDelta;
+    double fricPos;
+    double fricPosDelta;
+    double fricCF;
+    double fricCFDelta;
+    double fricBW;
+    double fricBWDelta;
+    double radius[TOTAL_REGIONS];
+    double radiusDelta[TOTAL_REGIONS];
+    double velum;
+    double velumDelta;
+} _postureRateParameters;
+static _postureRateParameters current ={-0.0, 0, 60, 0, 0, 0, 60, 0, 8, 0, 5000, 0, 250, 0, 0.8, 1.67, 1.905, 1.985, 0.81, 0.495, 0.73, 1.485, 0,0,0,0,0,0,0,0, 0,0}; // "ee"
 
-static struct _postureRateParameters originalDefaults =  {GLOT_PITCH_DEF, 0.1, GLOT_VOL_DEF, 0.1, 0, 0.1, 0, 0.1, 8, 0.1, 5000, 10, 250, 2, 0.8, 1.67, 1.905, 1.985, 0.81, 0.495, 0.73, 1.485, 0,0,0,0,0,0,0,0, 0,0}; // "ee"
+static _postureRateParameters originalDefaults =  {GLOT_PITCH_DEF, 0.1, GLOT_VOL_DEF, 0.1, 0, 0.1, 0, 0.1, 8, 0.1, 5000, 10, 250, 2, 0.8, 1.67, 1.905, 1.985, 0.81, 0.495, 0.73, 1.485, 0,0,0,0,0,0,0,0, 0,0}; // "ee"
 
 //static void *currentPointer = &current;
 int current_ptr = 1;
@@ -705,7 +725,7 @@ void initializeWavetable(void)
     else {
 	/*  SINE WAVE  */
 	for (i = 0; i < TABLE_LENGTH; i++) {
-	    wavetable[i] = sin( ((double)i/(double)TABLE_LENGTH) * 2.0 * PI );
+	    wavetable[i] = sin( ((double)i/(double)TABLE_LENGTH) * 2.0 * M_PI );
 	}
     }	
 }
@@ -1390,8 +1410,8 @@ void calculateBandpassCoefficients(void)
     double tanValue, cosValue;
 
 
-    tanValue = tan((PI * current.fricBW) / sampleRate);
-    cosValue = cos((2.0 * PI * current.fricCF) / sampleRate);
+    tanValue = tan((M_PI * current.fricBW) / sampleRate);
+    cosValue = cos((2.0 * M_PI * current.fricCF) / sampleRate);
 
     bpBeta = (1.0 - tanValue) / (2.0 * (1.0 + tanValue));
     bpGamma = (0.5 + bpBeta) * cosValue;
@@ -1822,7 +1842,7 @@ int maximallyFlat(double beta, double gamma, int *np, double *coefficient)
 	return(GAMMA_TOO_SMALL);
 
     /*  CALCULATE THE RATIONAL APPROXIMATION TO THE CUT-OFF POINT  */
-    ac = (1.0 + cos(PI2 * beta)) / 2.0;
+    ac = (1.0 + cos(TWO_PI * beta)) / 2.0;
     rationalApproximation(ac, &nt, &numerator, np);
 
     /*  CALCULATE FILTER ORDER  */
@@ -1838,7 +1858,7 @@ int maximallyFlat(double beta, double gamma, int *np, double *coefficient)
     for (i = 2; i <= (*np); i++) {
 	int j;
 	double x, sum = 1.0, y;
-	c[i] = cos(PI2 * ((double)(i-1)/(double)n));
+	c[i] = cos(TWO_PI * ((double)(i-1)/(double)n));
 	x = (1.0 - c[i]) / 2.0;
 	y = x;
 
@@ -2160,7 +2180,7 @@ void initializeFilter(void)
 
     /*  INITIALIZE THE FILTER IMPULSE RESPONSE  */
     h[0] = LP_CUTOFF;
-    x = PI / (double)L_RANGE;
+    x = M_PI / (double)L_RANGE;
     for (i = 1; i < FILTER_LENGTH; i++) {
 	double y = (double)i * x;
 	h[i] = sin(y * LP_CUTOFF) / y;

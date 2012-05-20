@@ -11,7 +11,6 @@
 NSRect slide, section;
 int maxSectionDiam = 147; // This depends on the size in the IB window
 float  rad, diam, lumen, sectionParameter;
-extern float PI;
 
 - (id)initWithFrame:(NSRect)frameRect
 {
@@ -49,7 +48,7 @@ extern float PI;
 	
 	rad = 0.25;
 	diam = rad * 2;
-	lumen = rad * rad * PI;
+	lumen = rad * rad * M_PI;
 	[radius setFloatValue:rad];
 	[diameter setFloatValue:diam];
 	[area setFloatValue:lumen];
@@ -107,19 +106,19 @@ extern float PI;
 	if ( fieldId == 0 && sectionParameter>=MIN_SECT_DIAM/2 && sectionParameter<=MAX_SECT_DIAM/2) {
 		rad = sectionParameter;
 	diam = rad * 2;
-	lumen = (rad * rad * PI);
+	lumen = (rad * rad * M_PI);
 	}
 	else {
 		
 		if (fieldId == 1 && sectionParameter>=MIN_SECT_DIAM && sectionParameter<=MAX_SECT_DIAM) {
 			diam = sectionParameter;
 			rad = diam/2;
-			lumen = (rad * rad * PI);		
+			lumen = (rad * rad * M_PI);		
 		}
 		else {
 			
-			if (fieldId == 2 && sectionParameter>=MIN_SECT_DIAM/2 * MIN_SECT_DIAM/2 * PI && sectionParameter<=MAX_SECT_DIAM/2 * MAX_SECT_DIAM/2 * PI) {
-				rad = sqrt(sectionParameter/PI);
+			if (fieldId == 2 && sectionParameter>=MIN_SECT_DIAM/2 * MIN_SECT_DIAM/2 * M_PI && sectionParameter<=MAX_SECT_DIAM/2 * MAX_SECT_DIAM/2 * M_PI) {
+				rad = sqrt(sectionParameter/M_PI);
 				diam = rad * 2;
 				lumen = sectionParameter;
 				NSLog(@"Area is %f", sectionParameter);
@@ -167,7 +166,7 @@ ident = [NSMutableDictionary dictionaryWithCapacity:1];
 	//NSLog(@" Set slider value %f", value);
 	rad = value;
 	diam = 2 * value;
-	lumen = rad * rad * PI;
+	lumen = rad * rad * M_PI;
 	[radius setFloatValue:rad];
 	[diameter setFloatValue:diam];
 	[area setFloatValue:lumen];

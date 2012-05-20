@@ -8,7 +8,6 @@
 #import "Spectrograph.h"
 #import "Analysis.h"
 
-@interface Spectrum : ChartView
 
 #define SMLEFT_MARGIN 15.0 // ####
 #define SMRIGHT_MARGIN 5
@@ -44,50 +43,17 @@
 
 #define MAX_SAMPLE_SIZE    32768.0          /*  LARGEST SIGNED SHORT INT  */
 
+@interface Spectrum : ChartView
 
-
-{
-	id runButton;
-	id spectrograph;
-	id analysis;
-	id envelopeField;
-	id envelopeSwitch;
-	id graphSwitch;
-	id testSwitch;
-	id analysisWindow;
-	id updateMatrix;
-	id doAnalysisButton;
-	float *analysisData;
-	float *tempData;
-	float *spectrum;
-	BOOL analysisDataExists;
-	BOOL gridDisplay;
-	int samplingWindowSize;
-	float *samplingWindowShape;
-	BOOL normalize;
-	float scale;
-	int normalTestState;
-	int spectralEnvelopeOnOff;	// 0 IS OFF, 1 IS ON
-	int spectrumGraphOnOff;     // 0 IS OFF, 1 IS ON
-	float spectralEnvelopeSpan;	// SPAN SETS # OF SAMPLES EITHER SIDE USED IN AVERAGE DEF
-	int magnitudeScale;
-	int startEnvelope;
-	int endEnvelope;
-
-	
-
-}
-
-- (IBAction) setNormalTestState:sender;
-- (IBAction) setShowSpectralEnvelope:sender;
-- (IBAction) setEnvelopeSmoothingSpan:sender;
-- (IBAction) setShowGraph:sender;
-- (void) setSpectrumGrid:(BOOL)spectrumGridState;
-- (void) freeAnalysisData;
-- (void) normalizeSwitchPushed:sender;
-- (void) setAnalysisBinSize:(int)value;
-- (void) setAnalysisWindowShape:(float *) window;
-- (void) setMagnitudeScale:(int)value;
-
+- (IBAction)setNormalTestState:(id)sender;
+- (IBAction)setShowSpectralEnvelope:(id)sender;
+- (IBAction)setEnvelopeSmoothingSpan:(id)sender;
+- (IBAction)setShowGraph:(id)sender;
+- (void)setSpectrumGrid:(BOOL)spectrumGridState;
+- (void)freeAnalysisData;
+- (void)normalizeSwitchPushed:(id)sender;
+- (void)setAnalysisBinSize:(int)value;
+- (void)setAnalysisWindowShape:(float *)window;
+- (void)setMagnitudeScale:(int)value;
 
 @end

@@ -5,7 +5,6 @@
 #import "ChartView.h"
 #import "syn_structs.h"
 
-@interface Waveform : ChartView
 
 #define WLEFT_MARGIN 5
 #define WRIGHT_MARGIN 5
@@ -22,10 +21,7 @@
 #define WY_SCALE_STEPS 0
 #define WY_LABEL_INTERVAL 1
 
-
-{
-}
-
+@interface Waveform : ChartView
 
 - (void)drawGlottalPulseAmplitude;
 - (void)drawSineAmplitude:(float)amplitude;
