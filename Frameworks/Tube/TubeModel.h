@@ -9,6 +9,5 @@
 #include <Tube/ring_buffer.h>
 #include <Tube/structs.h>
 #include <Tube/util.h>
-#include <Tube/wavetable.h>
 
 #endif

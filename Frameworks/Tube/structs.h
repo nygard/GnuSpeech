@@ -7,7 +7,7 @@
 #include <stdint.h> // For uint8_t, uint32_t, etc.
 #include <stdio.h> // For FILE
 #include "ring_buffer.h"
-#include "wavetable.h"
+#include "TRMWavetable.h"
 
 #import "TRMParameters.h"
 

@@ -133,7 +133,7 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context);
         m_dampingFactor = (1.0 - (inputParameters.lossFactor / 100.0));
         
         // Initialize the wave table
-        wavetable = TRMWavetableCreate(inputParameters.waveform, inputParameters.tp, inputParameters.tnMin, inputParameters.tnMax, sampleRate);
+        wavetable = [[TRMWavetable alloc] initWithWaveform:inputParameters.waveform throttlePulse:inputParameters.tp tnMin:inputParameters.tnMin tnMax:inputParameters.tnMax sampleRate:sampleRate];
         
         // Initialize reflection and radiation filter coefficients for mouth
         [self initializeMouthCoefficients:(nyquist - inputParameters.mouthCoef) / nyquist];
@@ -178,13 +178,11 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context);
         ringBuffer = NULL;
     }
     
-    if (self->wavetable != NULL) {
-        TRMWavetableFree(self->wavetable);
-        wavetable = NULL;
-    }
-    
+    [wavetable release];
+
     [m_current.parameters release];
     [m_current.delta release];
+
 
     [super dealloc];
 }
@@ -237,10 +235,10 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context);
             
             // Update the shape of the glottal pulse, if necessary
             if (data.inputParameters.waveform == PULSE)
-                TRMWavetableUpdate(wavetable, ax);
+                [wavetable update:ax];
             
             // Create glottal pulse (or sine tone)
-            pulse = TRMWavetableOscillator(wavetable, f0);
+            pulse = [wavetable oscillator:f0];
             
             // Create pulsed noise
             pulsed_noise = lp_noise * pulse;
