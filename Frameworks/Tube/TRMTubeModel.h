@@ -5,9 +5,6 @@
 
 #import "structs.h" // For TRMSampleRateConverter
 
-// Math constants
-#define TWO_PI                    (2.0 * M_PI)
-
 @class TRMInputParameters, TRMDataList;
 
 @interface TRMTubeModel : NSObject

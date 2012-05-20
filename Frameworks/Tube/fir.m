@@ -4,7 +4,9 @@
 #include <stdlib.h>
 #include <math.h>
 #include "fir.h"
-#include "TRMTubeModel.h" // for TWO_PI
+
+// Math constants
+#define TWO_PI                    (2.0 * M_PI)
 
 // Constants for the FIR filter
 #define COEFFICIENT_LIMIT         200
