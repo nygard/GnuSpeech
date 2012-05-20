@@ -268,9 +268,12 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
 	(*((double *) getNoseRadius(4))) = (*((double *) getNoseRadiusDefault(4)));
 	[nS5 setValue:(*((double *) getNoseRadiusDefault(5)))];
 	(*((double *) getNoseRadius(5))) = (*((double *) getNoseRadiusDefault(5)));
-	
+
+#if 0
+    // TODO (2012-05-19): Deal with this error.
 	[vS setValue:(*((double *) getVelumRadiusDefault()))];
 	(*((double *) getVelumRadius())) = (*((double *) getVelumRadiusDefault()));
+#endif
 	
 	
 	[self adjustSampleRate];
@@ -396,7 +399,7 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
 	//NSLog(@"Actual tube length after launch is %f", *((double *) getActualTubeLength()));
 
 
-    NSLog(@"buffer size : %d", _bufferSize);
+    NSLog(@"buffer size : %ld", _bufferSize);
 	[self setDefaults];
 
 }
@@ -431,9 +434,9 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
 
     NSLog(@"format:");
     NSLog(@"sample rate: %f", format.mSampleRate);
-    NSLog(@"format id: %d", format.mFormatID);
-    NSLog(@"format flags: %x", format.mFormatFlags);
-    NSLog(@"bytes per packet: %d", format.mBytesPerPacket);
+    NSLog(@"format id: %ld", format.mFormatID);
+    NSLog(@"format flags: %lx", format.mFormatFlags);
+    NSLog(@"bytes per packet: %ld", format.mBytesPerPacket);
 
 
     // we want linear pcm
@@ -878,7 +881,7 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
     /*  GET CURRENT ROUNDED VALUE FROM FIELD  */
     int currentValue = (int)rint([sender doubleValue]);
 	double maxValue = (double)(*((int *) getSampleRate()) / 2.0);
-	NSLog(@"In fricCFFieldEntered, value is %d, maxValue is %f, sample rate %f", currentValue, maxValue, *((int *) getSampleRate()));
+	NSLog(@"In fricCFFieldEntered, value is %d, maxValue is %f, sample rate %d", currentValue, maxValue, *((int *) getSampleRate()));
 	
     /*  CORRECT OUT OF RANGE VALUES  */
     if (currentValue < FRIC_CF_MIN) {

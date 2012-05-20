@@ -3,6 +3,7 @@
 
 #import "GPParamView.h"
 #import "syn_structs.h"
+#import "tube.h"
 
 @implementation GPParamView : ChartView
 - (id)initWithFrame:(NSRect)frameRect

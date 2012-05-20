@@ -10,6 +10,7 @@
 #import "PitchScale.h"
 #import "syn_structs.h"
 #import "GPParamView.h"
+#import "tube.h"
 
 #define FALLTIMEMAX_MIN   5.0
 #define FALLTIMEMAX_MAX   50.0
@@ -353,7 +354,7 @@
 - (void)glottalPulseParametersChanged:sender
 {
 	
-	NSLog(@"Glottal pulse parameter entered %f sender %d", [sender floatValue], [sender indexOfSelectedItem]);
+	//NSLog(@"Glottal pulse parameter entered %f sender %ld", [sender floatValue], [sender indexOfSelectedItem]);
 	
 	int cell = [sender indexOfSelectedItem];
 	NSLog(@"Cell is %d", cell);
@@ -976,7 +977,7 @@
     NSLog(@"In displayWaveformAndHarmonics");
 	if (*((int *) getWaveform()) == WAVEFORMTYPE_GP) {
 	ampl = amplitude((double) volume);
-		NSLog(@"ampl is: %d %d", ampl, volume);//ampl);
+		NSLog(@"ampl is: %g %d", ampl, volume);//ampl);
 		void setGlotVol(float ampl);
 //		if (showAmplitude) {
 	    //#if VARIABLE_GP

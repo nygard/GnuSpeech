@@ -97,6 +97,7 @@ double *getMixOffset();
 double *getActualTubeLength();
 int *getControlPeriod();
 float *getControlRate();
+double * getWavetable(int index);
 int *getSampleRate();
 
 

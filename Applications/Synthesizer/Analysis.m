@@ -482,7 +482,7 @@
 	
     //  RECORD THE BIN SIZE AND CHANGE TITLE DISPLAYED TO SELECTION
     binSize = [[sender selectedItem] tag];
-	NSLog(@"In Analysis.m:491, binSizeSelected is %f, tag is %d", (float)binSize, [[sender selectedItem] tag]);
+	//NSLog(@"In Analysis.m:491, binSizeSelected is %f, tag is %ld", (float)binSize, [[sender selectedItem] tag]);
 	[binSizePopUp setTitle:[sender titleOfSelectedItem]];
 
 
@@ -742,7 +742,7 @@
 #if 0
 - (void)displayAnalysis
 {
-/*    //  SEND ANALYSIS TO DISPLAYS
+    //  SEND ANALYSIS TO DISPLAYS
     //[spectrograph displayAnalysis:analysisDataObject
 		  grayLevel:grayLevel
 		  magnitudeScale:magnitudeScale

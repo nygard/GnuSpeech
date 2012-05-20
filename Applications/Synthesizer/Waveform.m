@@ -3,6 +3,7 @@
 
 #import "Waveform.h"
 #import "syn_structs.h"
+#import "tube.h"
 
 @implementation Waveform
 

@@ -3,6 +3,8 @@
 
 #import "Harmonics.h"
 
+#import "tube.h"
+
 #define VOLUME_MAX  60
 #define LINEAR	0
 #define LOG		1
@@ -141,8 +143,8 @@
 	[bezierPath stroke];
     [bezierPath release];
 	
-    // Draw in best fit grid markers 
-		First Y-axis grid lines */
+    // Draw in best fit grid markers
+    // First Y-axis grid lines
 	
     [[NSColor lightGrayColor] set];
 	
