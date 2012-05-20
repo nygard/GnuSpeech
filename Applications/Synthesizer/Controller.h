@@ -3,7 +3,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CoreAudio/AudioHardware.h>
-#import "structs.h"
+#import "syn_structs.h"
 #import "TubeSection.h"
 #import "FricativeArrow.h"
 #import "Analysis.h"

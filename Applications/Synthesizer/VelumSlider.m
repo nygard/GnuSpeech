@@ -49,9 +49,10 @@ int maxVelumDiam = 50;
 	[area setFloatValue:lumen];
 	slideWidth = diam * maxVelumDiam;
 	[self setNeedsDisplay:YES];
-	[radius setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
-	[diameter setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
-	[area setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
+    // TODO (2012-05-19): Set up number formatters
+	//[radius setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
+	//[diameter setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
+	//[area setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
 	
 	
 }

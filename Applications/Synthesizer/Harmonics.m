@@ -141,7 +141,7 @@
 	[bezierPath stroke];
     [bezierPath release];
 	
-    /* Draw in best fit grid markers 
+    // Draw in best fit grid markers 
 		First Y-axis grid lines */
 	
     [[NSColor lightGrayColor] set];
@@ -234,28 +234,28 @@
 //}
 
 
-/*
+#if 0
 - (void)drawLogGrid
 {
     float verticalIncrement;
     int i, verticalLines;
     NSFont *fontObject1;
 
-    /*  SET UP FONT  
+    //  SET UP FONT  
     fontObject1 = [NSFont fontWithName: FONT size: LOG_FONT_SIZE];
 
-    /*  LOCK FOCUS ON BACKGROUND NXIMAGE  
+    //  LOCK FOCUS ON BACKGROUND NXIMAGE  
     [logGrid lockFocus];
 
-    /*  DRAW WHITE BACKGROUND WITH BORDER  
+    //  DRAW WHITE BACKGROUND WITH BORDER  
     NSDrawWhiteBezel([self bounds] , [self bounds]);
 
-    /*  DRAW LIGHT GRAY ENCLOSURE  
+    //  DRAW LIGHT GRAY ENCLOSURE  
     PSrectangle(NSMinX(activeArea), NSMinY(activeArea),
 		NSWidth(activeArea), NSHeight(activeArea),
 		1.0, NSLightGray);
 
-    /*  DRAW HORIZONTAL LINES  
+    //  DRAW HORIZONTAL LINES  
     verticalLines = (int)(LOG_SCALE_RANGE / 10.0);
     verticalIncrement = NSHeight(activeArea) / (float)verticalLines;
     for (i = 1; i < verticalLines; i++) {
@@ -265,7 +265,7 @@
     }
     PSstroke();
 
-    /*  NUMBER HORIZONTAL LINES  
+    //  NUMBER HORIZONTAL LINES  
     [fontObject1 set];
     PSsetgray(NSBlack);
     for (i = 0; i <= verticalLines; i++) {
@@ -273,21 +273,21 @@
 	float px, py;
 	int numberValue = -(i * 10);
 
-	/*  FORMAT THE NUMBER  
+	//  FORMAT THE NUMBER  
 	sprintf(number, "%-d", numberValue);
 
-	/*  DETERMINE STRING WIDTH  
+	//  DETERMINE STRING WIDTH  
 	PSstringwidth(number, &px, &py);
 
 	PSmoveto(NSMinX(activeArea) - px - NUMBER_MARGIN,
 		 NSMaxY(activeArea) - ((float)i * verticalIncrement)
 		 - LOG_FONT_SIZE / 2.0 + 1.0);
 
-	/*  DRAW THE NUMBER ON THE GRID  
+	//  DRAW THE NUMBER ON THE GRID  
 	PSshow(number);
     }
 
-    /*  UNLOCK FOCUS ON BACKGROUND NXIMAGE  
+    //  UNLOCK FOCUS ON BACKGROUND NXIMAGE  
     [logGrid unlockFocus]; 
 }
 
@@ -295,18 +295,18 @@
 
 - (void)drawSineHarmonics
 {
-    /*  LOCK FOCUS ON NXIMAGE  
+    //  LOCK FOCUS ON NXIMAGE  
     [sineHarmonics lockFocus];
 
-    /*  CLEAR THE NXIMAGE  
+    //  CLEAR THE NXIMAGE  
     [sineHarmonics compositeToPoint:[self bounds].origin operation:NSCompositeClear];
 
-    /*  DRAW THE 1ST HARMONIC  
+    //  DRAW THE 1ST HARMONIC  
     PSsetgray(NSBlack);
     PSrectfill(NSMinX(activeArea) + BAR_MARGIN + 1.0, NSMinY(activeArea),
 	       BAR_WIDTH, NSHeight(activeArea));
 
-    /*  UNLOCK FOCUS ON NXIMAGE  
+    //  UNLOCK FOCUS ON NXIMAGE  
     [sineHarmonics unlockFocus]; 
 }
 
@@ -314,13 +314,13 @@
 
 - (void)drawSineScale:(BOOL)scale
 {
-    /*  RECORD THE SCALE  
+    //  RECORD THE SCALE  
     logScale = scale;
 
-    /*  USE SINE HARMONICS NXIMAGE  
+    //  USE SINE HARMONICS NXIMAGE  
     harmonics = HARMONICS_SINE;
 
-    /*  DISPLAY THE COMBINED IMAGES  
+    //  DISPLAY THE COMBINED IMAGES  
     [self display]; 
 }
 
@@ -332,20 +332,20 @@
     int i, firstDivision, secondDivision;
     double fall, delta;
 
-    /*  RECORD THE SCALE  
+    //  RECORD THE SCALE  
     logScale = scale;
 
-    /*  USE GLOTTAL PULSE HARMONICS NXIMAGE  
+    //  USE GLOTTAL PULSE HARMONICS NXIMAGE  
     harmonics = HARMONICS_GP;
 
-    /*  FILL THE WAVETABLE  
-    /*  CALCULATE TABLE DIVISIONS  
+    //  FILL THE WAVETABLE  
+    //  CALCULATE TABLE DIVISIONS  
     firstDivision = (int)rint((double)(riseTime/100.0 * (double)tableSize));
     delta = (fallTimeMax - fallTimeMin) * amplitude;
     fall = (riseTime + fallTimeMax - delta)/100.0 * (double)tableSize;
     secondDivision = (int)rint((double)fall);
 
-    /*  CALCULATE RISE PORTION  
+    //  CALCULATE RISE PORTION  
     for (i = 0; i < firstDivision; i++) {
 	float x = (float)i / (float)firstDivision;
 	float x2 = x * x;
@@ -353,34 +353,34 @@
 	wavetable[i] = (3.0 * x2) - (2.0 * x3);
     }
 
-    /*  CALCULATE FALL PORTION  
+    //  CALCULATE FALL PORTION  
     for (i = firstDivision; i < secondDivision; i++) {
 	float x = (float)(i - firstDivision) /
 	    (float)(secondDivision - firstDivision);
 	wavetable[i] = 1.0 - (x * x);
     }
 
-    /*  FILL BALANCE WITH ZEROS  
+    //  FILL BALANCE WITH ZEROS  
     for (i = secondDivision; i < tableSize; i++)
 	wavetable[i] = 0.0;
 
-    /*  DO FFT ON WAVETABLE  
+    //  DO FFT ON WAVETABLE  
     realfft(wavetable, tableSize);
 
-    /*  IF LOG DISPLAY, SCALE THE HARMONICS  
+    //  IF LOG DISPLAY, SCALE THE HARMONICS  
     if (logScale) {
 	for (i = 0; i < numberHarmonics; i++)
 	    wavetable[i] = ((log10(wavetable[i]) * 20.0) + LOG_SCALE_RANGE) /
 		            LOG_SCALE_RANGE;
     }
 
-    /*  LOCK FOCUS ON THE GLOTTAL PULSE NXIMAGE  
+    //  LOCK FOCUS ON THE GLOTTAL PULSE NXIMAGE  
     [glottalPulseHarmonics lockFocus];
 
-    /*  CLEAR THE NXIMAGE  
+    //  CLEAR THE NXIMAGE  
     [glottalPulseHarmonics compositeToPoint:[self bounds].origin operation:NSCompositeClear];
 
-    /*  DRAW BAR GRAPH FOR EACH HARMONIC DISPLAYED  
+    //  DRAW BAR GRAPH FOR EACH HARMONIC DISPLAYED  
     {
 	float xStart = NSMinX(activeArea) + BAR_MARGIN + 1.0;
 	float xIncrement = BAR_MARGIN + BAR_WIDTH;
@@ -392,10 +392,10 @@
 	}
     }
 
-    /*  UNLOCK FOCUS ON THE GLOTTAL PULSE  NXIMAGE  
+    //  UNLOCK FOCUS ON THE GLOTTAL PULSE  NXIMAGE  
     [glottalPulseHarmonics unlockFocus];
 
-    /*  DISPLAY THE COMBINED IMAGES  
+    //  DISPLAY THE COMBINED IMAGES  
     [self display]; 
 }
 
@@ -403,14 +403,14 @@
 
 - (void)drawRect:(NSRect)rects
 {
-    /*  COMPOSITE APPROPRIATE BACKGROUND IMAGE  
+    //  COMPOSITE APPROPRIATE BACKGROUND IMAGE  
     if (logScale)
 	[logGrid compositeToPoint:(rects.origin) operation:NSCompositeSourceOver];
     else
 	[linearGrid compositeToPoint:(rects.origin) operation:NSCompositeSourceOver];
 
 
-    /*  COMPOSITE THE FOREGROUND IMAGE OVER THE BACKGROUND  
+    //  COMPOSITE THE FOREGROUND IMAGE OVER THE BACKGROUND  
     if (harmonics == HARMONICS_GP)
 	[glottalPulseHarmonics compositeToPoint:(rects.origin) operation:NSCompositeSourceOver];
     else if (harmonics == HARMONICS_SINE)
@@ -418,7 +418,6 @@
 }
 
 
-*/
-
+#endif
 
 @end

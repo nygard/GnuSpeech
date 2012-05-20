@@ -131,9 +131,10 @@
     //[analysisWindow setFrameAutosaveName:@"analysisWindow"];
 
     /*  SET FORMAT OF FIELDS  */
-    [binSizeFrequency setFloatingPointFormat:NO left:3 right:2];
-    [windowForm setFloatingPointFormat:NO left:3 right:2];
-    [rateForm setFloatingPointFormat:NO left:1 right:1];
+    // TODO (2012-05-19): Set up number formatters
+    //[binSizeFrequency setFloatingPointFormat:NO left:3 right:2];
+    //[windowForm setFloatingPointFormat:NO left:3 right:2];
+    //[rateForm setFloatingPointFormat:NO left:1 right:1];
 
     /*  SET UPDATE RATE  */
     [rateForm setFloatValue:updateRate];
@@ -449,15 +450,17 @@
     /*  DEAL WITH THRESHOLD DISPLAY  */
     switch (magnitudeScale) {
       case LINEAR:
-	[[magnitudeForm cellWithTag:UPPER] setFloatingPointFormat:NO left:1 right:3];
-	[[magnitudeForm cellWithTag:LOWER] setFloatingPointFormat:NO left:1 right:3];
+            // TODO (2012-05-19): Set up number formatters
+            //[[magnitudeForm cellWithTag:UPPER] setFloatingPointFormat:NO left:1 right:3];
+            //[[magnitudeForm cellWithTag:LOWER] setFloatingPointFormat:NO left:1 right:3];
 	[[magnitudeForm cellWithTag:UPPER] setFloatValue:linearUpperThreshold];
 	[[magnitudeForm cellWithTag:LOWER] setFloatValue:linearLowerThreshold];
 	[magnitudeLabel setTextColor:[NSColor lightGrayColor]];
 	break;
       case LOG:
-	[[magnitudeForm cellWithTag:UPPER] setFloatingPointFormat:NO left:2 right:0];
-	[[magnitudeForm cellWithTag:LOWER] setFloatingPointFormat:NO left:2 right:0];
+            // TODO (2012-05-19): Set up number formatters
+            //[[magnitudeForm cellWithTag:UPPER] setFloatingPointFormat:NO left:2 right:0];
+            //[[magnitudeForm cellWithTag:LOWER] setFloatingPointFormat:NO left:2 right:0];
 	[[magnitudeForm cellWithTag:UPPER] setIntValue:logUpperThreshold];
 	[[magnitudeForm cellWithTag:LOWER] setIntValue:logLowerThreshold];
 	[magnitudeLabel setTextColor:[NSColor blackColor]];
@@ -736,7 +739,7 @@
 	return running;
 }
 
-/*
+#if 0
 - (void)displayAnalysis
 {
 /*    //  SEND ANALYSIS TO DISPLAYS
@@ -750,6 +753,6 @@
 
     //[spectrum displayAnalysis:analysisDataObject magnitudeScale:magnitudeScale]; 
 }
-*/
+#endif
 	
 @end

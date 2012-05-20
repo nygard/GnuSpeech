@@ -3,7 +3,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "ChartView.h"
-#import"structs.h"
+#import "syn_structs.h"
 //#import "tube.c"
 
 @interface PitchScale : ChartView

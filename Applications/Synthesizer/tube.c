@@ -576,7 +576,7 @@ int initializeSynthesizer()
 
 	printf("tube.c:555 SampleRate is %f control period is %d control rate is %f \n", controlRate * controlPeriod, controlPeriod, controlRate); //sampleRate);
 	actualTubeLength = (c * TOTAL_SECTIONS * 100.0) / sampleRate;
-	printf("tube.c:557 Actual tube length is %f originalPeriod is %f sampleRate is %f\n", actualTubeLength, originalPeriod, sampleRate);
+	printf("tube.c:557 Actual tube length is %f originalPeriod is %f sampleRate is %u\n", actualTubeLength, originalPeriod, sampleRate);
 	nyquist = (double)sampleRate / 2.0;
     }
     else {

@@ -110,15 +110,15 @@ static const float testWave[1024] = {
 {
 	if ((self = [super initWithFrame:frameRect]) != nil) {
 		// Add initialization code here
-/*		
+#if 0
 		[self setAxesWithScale:SMX_SCALE_DIVS xScaleOrigin:SMX_SCALE_ORIGIN xScaleSteps:SMX_SCALE_STEPS
 				xLabelInterval:SMX_LABEL_INTERVAL yScaleDivs:SMY_SCALE_DIVS yScaleOrigin:SMY_SCALE_ORIGIN
 				   yScaleSteps:SMY_SCALE_STEPS yLabelInterval:SMY_LABEL_INTERVAL];
-/*
+
 		[self setAxesWithScale:SMX_SCALE_DIVS/2 xScaleOrigin:SMX_SCALE_ORIGIN xScaleSteps:SMX_SCALE_STEPS/2
 				xLabelInterval:SMX_LABEL_INTERVAL/2 yScaleDivs:SMY_SCALE_DIVS yScaleOrigin:SMY_SCALE_ORIGIN
 				   yScaleSteps:SMY_SCALE_STEPS yLabelInterval:SMY_LABEL_INTERVAL];
-*/		
+#endif
 		 gridDisplay = YES;
 		analysisDataExists = FALSE;
 		normalize = TRUE;
@@ -131,7 +131,8 @@ static const float testWave[1024] = {
 - (void) awakeFromNib
 {
 	NSLog(@"Spectrum.m:33 waking from nib");
-	[envelopeField setFloatingPointFormat:(BOOL)NO left:(unsigned)1 right:(unsigned)3];
+    // TODO (2012-05-19): Set up number formatters
+	//[envelopeField setFloatingPointFormat:(BOOL)NO left:(unsigned)1 right:(unsigned)3];
 	spectralEnvelopeOnOff = YES;
 	spectralEnvelopeSpan = SPAN_DEF;
 	spectrumGraphOnOff = YES;
@@ -373,7 +374,6 @@ static const float testWave[1024] = {
 	
 		bezierPath = [[NSBezierPath alloc] init];
 		[bezierPath setLineWidth:1];
-		[bezierPath setCachesBezierPath:NO];
 		[[NSColor darkGrayColor] set];
 
 		int xScaleSize = bounds.size.width - SMLEFT_MARGIN - SMRIGHT_MARGIN;
@@ -414,7 +414,6 @@ static const float testWave[1024] = {
 
 		bezierPath = [[NSBezierPath alloc] init];
 		[bezierPath setLineWidth:1];
-		[bezierPath setCachesBezierPath:NO];
 		[[NSColor greenColor] set];
 	
 		int xScaleSize = bounds.size.width - SMLEFT_MARGIN - SMRIGHT_MARGIN;

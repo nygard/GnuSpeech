@@ -4,6 +4,7 @@
 #import "Controller.h"
 #import <CoreAudio/AudioHardware.h>
 #import <math.h>
+#import "tube.h"
 
 #define TONE_FREQ (440.0)
 //#define TONE_FREQ 400.0
@@ -120,13 +121,14 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
 - (void)awakeFromNib;
 {
     NSLog(@"awaking...");
+    // TODO (2012-05-19): Set up number formatters
     [_mainWindow makeKeyAndOrderFront:self];
 	toneFrequency = TONE_FREQ;
-	[toneFrequencyTextField setFloatingPointFormat:(BOOL)NO left:(unsigned)4 right:(unsigned)1];
+	//[toneFrequencyTextField setFloatingPointFormat:(BOOL)NO left:(unsigned)4 right:(unsigned)1];
     [toneFrequencyTextField setFloatValue:toneFrequency];
     [toneFrequencySlider setFloatValue:toneFrequency];
 	//NSLog(@"Tone Frequency is %f", toneFrequency);
-	
+#if 0
 	[tubeLengthField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
 	[temperatureField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
 	
@@ -154,6 +156,7 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
 	[fricPosField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)1];
 	[fricCFField setFloatingPointFormat:(BOOL)NO left:(unsigned)4 right:(unsigned)0];
 	[fricBWField setFloatingPointFormat:(BOOL)NO left:(unsigned)3 right:(unsigned)1];
+#endif
 	[fricativeArrow setFricationPosition:(float)7.0];
 	
 	[self setDefaults];

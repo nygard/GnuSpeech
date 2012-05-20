@@ -2,7 +2,7 @@
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "GPParamView.h"
-#import "structs.h"
+#import "syn_structs.h"
 
 @implementation GPParamView : ChartView
 - (id)initWithFrame:(NSRect)frameRect

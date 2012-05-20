@@ -3,7 +3,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "ChartView.h"
-#import "structs.h"
+#import "syn_structs.h"
 
 @interface Waveform : ChartView
 

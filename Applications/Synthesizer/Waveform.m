@@ -2,7 +2,7 @@
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "Waveform.h"
-#import "structs.h"
+#import "syn_structs.h"
 
 @implementation Waveform
 
@@ -123,7 +123,6 @@
 	
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:1];
-	[bezierPath setCachesBezierPath:NO];
 	start.x = graphOrigin.x;
 	start.y = (graphOrigin.y + (bounds.size.height - WBOTTOM_MARGIN - WTOP_MARGIN)/2);
     [bezierPath moveToPoint:start];

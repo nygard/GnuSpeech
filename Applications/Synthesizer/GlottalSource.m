@@ -8,7 +8,7 @@
 #include <math.h>
 
 #import "PitchScale.h"
-#import "structs.h"
+#import "syn_structs.h"
 #import "GPParamView.h"
 
 #define FALLTIMEMAX_MIN   5.0
@@ -107,6 +107,8 @@
 {
 
     /*  SET FORM FORMATS  */
+    // TODO (2012-05-19): Set up number formatters
+#if 0
     [frequencyField setFloatingPointFormat:NO left:4 right:2];
     [pitchField setFloatingPointFormat:NO left:3 right:2];
     [pitchMaxField setFloatingPointFormat:NO left:4 right:2];
@@ -115,7 +117,7 @@
     [[parameterForm cellAtRow:0 column:0] setFloatingPointFormat:NO left:2 right:1];
     [[parameterForm cellAtRow:1 column:0] setFloatingPointFormat:NO left:2 right:1];
     [[parameterForm cellAtRow:2 column:0] setFloatingPointFormat:NO left:2 right:1];
-
+#endif
     /*  SET SLIDER MIN AND MAX VALUES  */
 	[breathinessSlider setMinValue:BREATHINESS_MIN];
 	[breathinessSlider setMaxValue:BREATHINESS_MAX];

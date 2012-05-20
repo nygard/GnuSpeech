@@ -4,7 +4,7 @@
 #import <AppKit/AppKit.h>
 #import "Harmonics.h"
 #import "Waveform.h"
-#import "structs.h"
+#import "syn_structs.h"
 //#import "tube.c"
 
 
