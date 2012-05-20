@@ -14,8 +14,7 @@
 #define SINE                      1
 
 // Math constants
-#define PI                        3.14159265358979
-#define TWO_PI                    (2.0 * PI)
+#define TWO_PI                    (2.0 * M_PI)
 
 @class TRMInputParameters, TRMDataList;
 

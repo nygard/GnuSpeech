@@ -100,7 +100,7 @@ static double mod0(double value)
         } else {
             //  Sine wave
             for (i = 0; i < TABLE_LENGTH; i++) {
-                m_wavetable[i] = sin( ((double)i / (double)TABLE_LENGTH) * 2.0 * PI );
+                m_wavetable[i] = sin( ((double)i / (double)TABLE_LENGTH) * 2.0 * M_PI );
             }
         }
     }

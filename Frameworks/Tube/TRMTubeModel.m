@@ -554,8 +554,8 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context);
     double tanValue, cosValue;
     
     
-    tanValue = tan((PI * m_current.parameters.fricBW) / localSampleRate);
-    cosValue = cos((2.0 * PI * m_current.parameters.fricCF) / localSampleRate);
+    tanValue = tan((M_PI * m_current.parameters.fricBW) / localSampleRate);
+    cosValue = cos((2.0 * M_PI * m_current.parameters.fricCF) / localSampleRate);
     
     bpBeta = (1.0 - tanValue) / (2.0 * (1.0 + tanValue));
     bpGamma = (0.5 + bpBeta) * cosValue;
@@ -749,7 +749,7 @@ void resampleBuffer(struct _TRMRingBuffer *aRingBuffer, void *context);
     
     // Initialize the filter impulse response
     sampleRateConverter->h[0] = LP_CUTOFF;
-    x = PI / (double)L_RANGE;
+    x = M_PI / (double)L_RANGE;
     for (i = 1; i < FILTER_LENGTH; i++) {
         double y = (double)i * x;
         sampleRateConverter->h[i] = sin(y * LP_CUTOFF) / y;
