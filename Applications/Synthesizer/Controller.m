@@ -62,21 +62,14 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
                      void *inClientData)
 
 {
-    Controller *controller;
-	int size;
-	int sampleCount;
-	float *buf; // , rate;
-
+    Controller *controller = (Controller *)inClientData;
+    int size = outOutputData->mBuffers[0].mDataByteSize;
+    int sampleCount = size / sizeof(float);
+    float *buf = (float *)malloc(sampleCount * sizeof(float));
+    
 	
-    controller = (Controller *)inClientData;
-    size = outOutputData->mBuffers[0].mDataByteSize;
-    sampleCount = size / sizeof(float);
-    buf = (float *)malloc(sampleCount * sizeof(float));
-
-	
-	int i;
 	while (circBuff2Count < 512) ;
-	for (i = 0; i < sampleCount/2; i++) {
+	for (int i = 0; i < sampleCount/2; i++) {
 		buf[2*i] = getCircBuff2();
 		buf[2*i+1] = buf[2*i];
 	}
@@ -95,32 +88,31 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
 
 - (id)init;
 {
-    if ([super init] == nil)
-        return nil;
-
-    _deviceReady = NO;
-    _device = kAudioDeviceUnknown;
-    _isPlaying = NO;
-    toneFrequency = TONE_FREQ;
-	NSNotificationCenter *nc;
-	nc = [NSNotificationCenter defaultCenter];
-	[nc addObserver:self
-		   selector:@selector(sliderMoved:)
-			   name:@"SliderMoved"
-			 object:nil];
+    if ((self = [super init])) {
+        _deviceReady = NO;
+        _device = kAudioDeviceUnknown;
+        _isPlaying = NO;
+        toneFrequency = TONE_FREQ;
+        NSNotificationCenter *nc;
+        nc = [NSNotificationCenter defaultCenter];
+        [nc addObserver:self
+               selector:@selector(sliderMoved:)
+                   name:@"SliderMoved"
+                 object:nil];
 		NSLog(@"Registered Controller as observer with notification centre\n");
-	NSLog(@"We have init");
+        NSLog(@"We have init");
 		[nc addObserver:self selector:@selector(handleFricArrowMoved:)
-			   name:@"FricArrowMoved"
-			 object:nil];
-	NSLog(@"Registered noiseSource as FricArrowMoved notification observer");
+                   name:@"FricArrowMoved"
+                 object:nil];
+        NSLog(@"Registered noiseSource as FricArrowMoved notification observer");
+    }
 
     return self;
 }
 
 - (void)awakeFromNib;
 {
-    NSLog(@"awaking...");
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     // TODO (2012-05-19): Set up number formatters
     [_mainWindow makeKeyAndOrderFront:self];
 	toneFrequency = TONE_FREQ;
@@ -162,16 +154,12 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
 	[self setDefaults];
 
 	initializeSynthesizer();
-
-
 }
 
-- (void)setDefaults
-
+- (void)setDefaults;
 {
-
 	//int initSynthResult;
-	
+
 	*((double *) getLength()) = LENGTH_DEF;
 	*((double *) getTemperature()) = TEMPERATURE_DEF;
 	NSLog(@"Controller.m:180 Temperature is %f", *((double *) getTemperature()));
@@ -279,15 +267,11 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
 	[self adjustSampleRate];
 	
 	NSLog(@"Controller.m:262 Sample rate is %d", (*((int *) getSampleRate())));
-
-
-
 }
 
 
-- (IBAction)saveOutputFile:(id)sender
+- (IBAction)saveOutputFile:(id)sender;
 {
-	
 }
 
 
@@ -303,9 +287,7 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
 
 - (IBAction)updateToneFrequency:(id)sender;
 {
-    float fr;
-
-    fr = [sender floatValue];
+    float fr = [sender floatValue];
     [self setToneFrequency:fr];
     [toneFrequencyTextField setFloatValue:fr];
     [toneFrequencySlider setFloatValue:fr];
@@ -328,7 +310,8 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
 
 	
 	//Make sure the "fixed" parameters get updated (maybe need to change the way they are handled)
-	if (*((int *) getThreadFlag()) == 0) initializeSynthesizer(); //  If it is not already running, this includes starting the synthesize thread which also detaches itself
+	if (*((int *) getThreadFlag()) == 0)
+        initializeSynthesizer(); //  If it is not already running, this includes starting the synthesize thread which also detaches itself
 	//NSLog(@"Controller.m:340 threadFlag is %d", *((int *) getThreadFlag()));
 
     err = AudioDeviceAddIOProc(_device, sineIOProc, (void *)self);
@@ -399,7 +382,7 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
 	//NSLog(@"Actual tube length after launch is %f", *((double *) getActualTubeLength()));
 
 
-    NSLog(@"buffer size : %ld", _bufferSize);
+    NSLog(@"buffer size : %d", _bufferSize);
 	[self setDefaults];
 
 }
@@ -434,9 +417,9 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
 
     NSLog(@"format:");
     NSLog(@"sample rate: %f", format.mSampleRate);
-    NSLog(@"format id: %ld", format.mFormatID);
-    NSLog(@"format flags: %lx", format.mFormatFlags);
-    NSLog(@"bytes per packet: %ld", format.mBytesPerPacket);
+    NSLog(@"format id: %d", format.mFormatID);
+    NSLog(@"format flags: %x", format.mFormatFlags);
+    NSLog(@"bytes per packet: %d", format.mBytesPerPacket);
 
 
     // we want linear pcm
