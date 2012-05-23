@@ -24,7 +24,7 @@
 #define TRM_N6                    5
 #define TOTAL_NASAL_SECTIONS      6
 
-@class TRMInputParameters, TRMDataList, TRMSampleRateConverter;
+@class TRMDataList;
 
 @interface TRMTubeModel : NSObject
 
@@ -35,7 +35,6 @@
 
 - (void)printInputData;
 
-@property (readonly) TRMSampleRateConverter *sampleRateConverter;
 - (NSData *)generateWAVData;
 
 @end

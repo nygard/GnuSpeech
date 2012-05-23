@@ -82,6 +82,7 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 @interface TRMTubeModel ()
 @property (readonly) TRMDataList *inputData;
 @property (nonatomic, readonly) TRMInputParameters *inputParameters;
+@property (readonly) TRMSampleRateConverter *sampleRateConverter;
 
 - (void)initializeMouthCoefficients:(double)coeff;
 - (double)reflectionFilter:(double)input;
