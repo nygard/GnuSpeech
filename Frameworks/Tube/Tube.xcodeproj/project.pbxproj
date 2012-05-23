@@ -20,6 +20,11 @@
 		016B4AB7156CD142006874F4 /* NSData-STExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 016B4AB5156CD142006874F4 /* NSData-STExtensions.h */; };
 		016B4AB8156CD142006874F4 /* NSData-STExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 016B4AB6156CD142006874F4 /* NSData-STExtensions.m */; };
 		016B4ABB156CD859006874F4 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 016B4ABA156CD859006874F4 /* AudioToolbox.framework */; };
+		016B4AD3156CF1EF006874F4 /* TRMDataList.m in Sources */ = {isa = PBXBuildFile; fileRef = 019CCB92154BE46B00A9CF7A /* TRMDataList.m */; };
+		016B4AD4156CF1EF006874F4 /* TRMTubeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0102B0AB15685F81009943D7 /* TRMTubeModel.m */; };
+		016B4AD6156CF1FD006874F4 /* TRMInputParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 019CCB8D154BE30C00A9CF7A /* TRMInputParameters.m */; };
+		016B4AD7156CF1FD006874F4 /* TRMParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 019CCB9B154BE65400A9CF7A /* TRMParameters.m */; };
+		016B4AD8156CF1FD006874F4 /* TRMSampleRateConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C6719215687CF6008840E9 /* TRMSampleRateConverter.m */; };
 		0172DA14153FDD2F00413F56 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0172DA13153FDD2F00413F56 /* Accelerate.framework */; };
 		019CCB8E154BE30D00A9CF7A /* TRMInputParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 019CCB8C154BE30C00A9CF7A /* TRMInputParameters.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		019CCB8F154BE30D00A9CF7A /* TRMInputParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 019CCB8D154BE30C00A9CF7A /* TRMInputParameters.m */; };
@@ -340,6 +345,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				016B4AD6156CF1FD006874F4 /* TRMInputParameters.m in Sources */,
+				016B4AD7156CF1FD006874F4 /* TRMParameters.m in Sources */,
+				016B4AD8156CF1FD006874F4 /* TRMSampleRateConverter.m in Sources */,
+				016B4AD3156CF1EF006874F4 /* TRMDataList.m in Sources */,
+				016B4AD4156CF1EF006874F4 /* TRMTubeModel.m in Sources */,
 				01115FA61547C43E002ABAAF /* main.m in Sources */,
 				01115F941547C399002ABAAF /* TRMFIRFilter.m in Sources */,
 				01115F9A1547C399002ABAAF /* TRMRingBuffer.m in Sources */,
