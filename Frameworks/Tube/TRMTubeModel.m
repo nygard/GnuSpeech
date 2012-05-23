@@ -85,7 +85,7 @@
 - (double)nasalReflectionFilter:(double)input;
 - (double)nasalRadiationFilter:(double)input;
 
-- (void)setControlRateParameters:(TRMParameters *)previous :(TRMParameters *)current;
+- (void)setControlRateParameters:(TRMParameters *)current previous:(TRMParameters *)previous;
 - (void)sampleRateInterpolation;
 - (void)initializeNasalCavity;
 - (void)initializeThroat;
@@ -264,7 +264,7 @@
         }
         
         // Set control rate parameters from input tables
-        [self setControlRateParameters:previous :parameters];
+        [self setControlRateParameters:parameters previous:previous];
         
         
         // Sample rate loop
@@ -413,7 +413,7 @@
 
 // Calculates the current table values, and their associated sample-to-sample delta values.
 
-- (void)setControlRateParameters:(TRMParameters *)previousInput :(TRMParameters *)currentInput;
+- (void)setControlRateParameters:(TRMParameters *)currentInput previous:(TRMParameters *)previousInput;
 {
     int32_t i;
     
