@@ -31,7 +31,6 @@
 		01AC65800B7BF4D8008E4B93 /* output.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC65700B7BF4D8008E4B93 /* output.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01AC65810B7BF4D8008E4B93 /* TRMRingBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 01AC65710B7BF4D8008E4B93 /* TRMRingBuffer.m */; };
 		01AC65820B7BF4D8008E4B93 /* TRMRingBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC65720B7BF4D8008E4B93 /* TRMRingBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		01AC65830B7BF4D8008E4B93 /* structs.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC65730B7BF4D8008E4B93 /* structs.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01AC65860B7BF4D8008E4B93 /* TubeModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC65760B7BF4D8008E4B93 /* TubeModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01AC65870B7BF4D8008E4B93 /* util.m in Sources */ = {isa = PBXBuildFile; fileRef = 01AC65770B7BF4D8008E4B93 /* util.m */; };
 		01AC65880B7BF4D8008E4B93 /* util.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC65780B7BF4D8008E4B93 /* util.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -77,7 +76,6 @@
 		01AC65700B7BF4D8008E4B93 /* output.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = output.h; sourceTree = "<group>"; };
 		01AC65710B7BF4D8008E4B93 /* TRMRingBuffer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TRMRingBuffer.m; sourceTree = "<group>"; };
 		01AC65720B7BF4D8008E4B93 /* TRMRingBuffer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TRMRingBuffer.h; sourceTree = "<group>"; };
-		01AC65730B7BF4D8008E4B93 /* structs.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = structs.h; sourceTree = "<group>"; };
 		01AC65760B7BF4D8008E4B93 /* TubeModel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TubeModel.h; sourceTree = "<group>"; };
 		01AC65770B7BF4D8008E4B93 /* util.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = util.m; sourceTree = "<group>"; };
 		01AC65780B7BF4D8008E4B93 /* util.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = util.h; sourceTree = "<group>"; };
@@ -189,7 +187,6 @@
 				01AC65760B7BF4D8008E4B93 /* TubeModel.h */,
 				01AC656F0B7BF4D8008E4B93 /* output.m */,
 				01AC65700B7BF4D8008E4B93 /* output.h */,
-				01AC65730B7BF4D8008E4B93 /* structs.h */,
 				01AC65780B7BF4D8008E4B93 /* util.h */,
 				01AC65770B7BF4D8008E4B93 /* util.m */,
 				019CCB91154BE46B00A9CF7A /* TRMDataList.h */,
@@ -255,7 +252,6 @@
 				01AC657C0B7BF4D8008E4B93 /* TRMFIRFilter.h in Headers */,
 				01AC65800B7BF4D8008E4B93 /* output.h in Headers */,
 				01AC65820B7BF4D8008E4B93 /* TRMRingBuffer.h in Headers */,
-				01AC65830B7BF4D8008E4B93 /* structs.h in Headers */,
 				01AC65860B7BF4D8008E4B93 /* TubeModel.h in Headers */,
 				01AC65880B7BF4D8008E4B93 /* util.h in Headers */,
 				01AC658A0B7BF4D8008E4B93 /* TRMWavetable.h in Headers */,

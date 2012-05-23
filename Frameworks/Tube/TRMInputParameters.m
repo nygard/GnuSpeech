@@ -3,6 +3,8 @@
 
 #import "TRMInputParameters.h"
 
+#import "TRMTubeModel.h"
+
 @implementation TRMInputParameters
 {
     int32_t outputFileFormat;

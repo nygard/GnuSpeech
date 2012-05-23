@@ -3,8 +3,6 @@
 
 #import <Foundation/Foundation.h>
 
-#define TOTAL_NASAL_SECTIONS 6
-
 @interface TRMInputParameters : NSObject
 
 @property (assign) int32_t outputFileFormat;           // file format (0=AU, 1=AIFF, 2=WAVE)

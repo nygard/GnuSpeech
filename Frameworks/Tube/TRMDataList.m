@@ -5,6 +5,7 @@
 
 #import "TRMInputParameters.h"
 #import "TRMParameters.h"
+#import "TRMTubeModel.h"
 
 @interface TRMDataList ()
 - (BOOL)_parseInputFile:(NSString *)path error:(NSError **)error;

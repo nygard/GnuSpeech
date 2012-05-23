@@ -3,8 +3,6 @@
 
 #import <Foundation/Foundation.h>
 
-#define TOTAL_REGIONS 8
-
 // Control parameters?
 @interface TRMParameters : NSObject
 

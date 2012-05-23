@@ -5,7 +5,6 @@
 #include <string.h>
 
 #include "output.h"
-#include "structs.h"
 
 #import "TRMTubeModel.h"
 

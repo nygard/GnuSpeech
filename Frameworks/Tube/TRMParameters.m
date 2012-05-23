@@ -3,6 +3,8 @@
 
 #import "TRMParameters.h"
 
+#import "TRMTubeModel.h"
+
 @implementation TRMParameters
 {
     double glotPitch;
