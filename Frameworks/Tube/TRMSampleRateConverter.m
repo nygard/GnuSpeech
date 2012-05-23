@@ -9,6 +9,13 @@
 
 @interface TRMSampleRateConverter () <TRMRingBufferDelegate>
 - (void)_initializeFilter;
+
+@property (assign) double sampleRateRatio;
+@property (assign) uint32_t timeRegisterIncrement;
+@property (assign) uint32_t filterIncrement;
+@property (assign) uint32_t phaseIncrement;
+@property (assign) uint32_t timeRegister;
+
 @end
 
 #pragma mark -
@@ -74,28 +81,24 @@
 
 - (void)_initializeFilter;
 {
-    double x, IBeta;
-    int32_t i;
-    
-    
     // Initialize the filter impulse response
     m_h[0] = LP_CUTOFF;
-    x = M_PI / (double)L_RANGE;
-    for (i = 1; i < FILTER_LENGTH; i++) {
-        double y = (double)i * x;
-        m_h[i] = sin(y * LP_CUTOFF) / y;
+    double x = M_PI / (double)L_RANGE;
+    for (NSUInteger index = 1; index < FILTER_LENGTH; index++) {
+        double y = (double)index * x;
+        m_h[index] = sin(y * LP_CUTOFF) / y;
     }
     
     // Apply a Kaiser window to the impulse response
-    IBeta = 1.0 / Izero(BETA);
-    for (i = 0; i < FILTER_LENGTH; i++) {
-        double temp = (double)i / FILTER_LENGTH;
-        m_h[i] *= Izero(BETA * sqrt(1.0 - (temp * temp))) * IBeta;
+    double IBeta = 1.0 / Izero(BETA);
+    for (NSUInteger index = 0; index < FILTER_LENGTH; index++) {
+        double temp = (double)index / FILTER_LENGTH;
+        m_h[index] *= Izero(BETA * sqrt(1.0 - (temp * temp))) * IBeta;
     }
     
     // Initialize the filter impulse response delta values
-    for (i = 0; i < FILTER_LIMIT; i++)
-        m_deltaH[i] = m_h[i+1] - m_h[i];
+    for (NSUInteger index = 0; index < FILTER_LIMIT; index++)
+        m_deltaH[index] = m_h[index+1] - m_h[index];
     m_deltaH[FILTER_LIMIT] = 0.0 - m_h[FILTER_LIMIT];
 }
 
