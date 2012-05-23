@@ -167,7 +167,7 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 
     if (self.shouldSaveToSoundFile) {
 		
-        writeOutputToFile(tube.sampleRateConverter, m_inputData, [self.filename UTF8String]);
+        writeOutputToFile(tube.sampleRateConverter, m_inputData.inputParameters, [self.filename UTF8String]);
 
     } else {
 

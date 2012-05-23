@@ -4,7 +4,7 @@
 #ifndef __OUTPUT_H
 #define __OUTPUT_H
 
-#import "TRMDataList.h"
+#import "TRMInputParameters.h"
 
 @class TRMSampleRateConverter;
 
@@ -23,6 +23,6 @@ typedef NSUInteger TRMSoundFileFormat;
 #define TRMBitsPerSample          16
 
 
-void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMDataList *data, const char *fileName);
+void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMInputParameters *inputParameters, const char *fileName);
 
 #endif

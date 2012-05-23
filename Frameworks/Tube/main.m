@@ -7,6 +7,7 @@
 #include "output.h"
 
 #import "TRMTubeModel.h"
+#import "TRMDataList.h"
 
 BOOL verbose;
 
@@ -130,7 +131,7 @@ int main(int argc, char *argv[])
         if (verbose)
             printf("done.\n");
         
-        writeOutputToFile(tube.sampleRateConverter, inputData, [outputFile UTF8String]);
+        writeOutputToFile(tube.sampleRateConverter, inputData.inputParameters, [outputFile UTF8String]);
         
         if (verbose)
             printf("\nWrote scaled samples to file:  %s\n", [outputFile UTF8String]);
