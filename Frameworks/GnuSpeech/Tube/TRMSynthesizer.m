@@ -166,19 +166,8 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
     [tube synthesizeFromDataList:m_inputData];
 
     if (self.shouldSaveToSoundFile) {
-		
         writeOutputToFile(tube.sampleRateConverter, m_inputData.inputParameters, [self.filename UTF8String]);
-
     } else {
-
-		// The following is used to bypass Core Audio and play from a file instead. -- added by dalmazio, October 19, 2008
-		//
-		// const char *tempName = tempnam("/tmp", NULL);
-		// writeOutputToFile(&(tube->sampleRateConverter), inputData, tempName);
-		// NSSound *sound = [[[NSSound alloc] initWithContentsOfFile:[NSString stringWithUTF8String:tempName] byReference:YES] autorelease];
-		// [sound play];
-
-		[self generateWAVDataWithSampleRateConverter:tube.sampleRateConverter];
 		[self startPlaying:tube];
     }
 }
