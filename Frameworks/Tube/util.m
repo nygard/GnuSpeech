@@ -23,7 +23,7 @@ double speedOfSound(double temperature)
     return 331.4 + (0.6 * temperature);
 }
 
-// Converts dB value to amplitude value
+// Converts dB value (0-60) to amplitude value (0-1)
 double amplitude(double decibelLevel)
 {
     // Convert 0-60 range to -60-0 range
