@@ -11,6 +11,8 @@
 #import <Tube/TRMParameters.h>
 #import <Tube/TRMTubeModel.h>
 #import <Tube/TRMSampleRateConverter.h>
+#import <Tube/TubeModel.h>
+#import <Tube/output.h>
 
 const uint16_t kWAVEFormat_Unknown         = 0x0000;
 const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
@@ -166,7 +168,10 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
     [tube synthesize];
 
     if (self.shouldSaveToSoundFile) {
-        writeOutputToFile(tube.sampleRateConverter, m_inputData.inputParameters, [self.filename UTF8String]);
+        NSError *error = nil;
+        if (![tube saveOutputToFile:self.filename error:&error]) {
+            NSLog(@"Failed to save output: %@", error);
+        }
     } else {
 		[self startPlaying:tube];
     }

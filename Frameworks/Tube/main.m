@@ -4,7 +4,7 @@
 #include <math.h>
 #include <string.h>
 
-#include "output.h"
+//#include "output.h"
 
 #import "TRMTubeModel.h"
 #import "TRMDataList.h"
@@ -126,8 +126,11 @@ int main(int argc, char *argv[])
         if (verbose)
             printf("done.\n");
         
-        writeOutputToFile(tube.sampleRateConverter, inputData.inputParameters, [outputFile UTF8String]);
-        
+        NSError *error = nil;
+        if (![tube saveOutputToFile:outputFile error:&error]) {
+            NSLog(@"Failed to save output: %@", error);
+        }
+
         if (verbose)
             printf("\nWrote scaled samples to file:  %s\n", [outputFile UTF8String]);
     }

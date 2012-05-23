@@ -31,6 +31,7 @@
 - (id)initWithInputData:(TRMDataList *)inputData;
 
 - (void)synthesize;
+- (BOOL)saveOutputToFile:(NSString *)filename error:(NSError **)error;
 
 @property (readonly) TRMSampleRateConverter *sampleRateConverter;
 

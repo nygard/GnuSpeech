@@ -4,7 +4,6 @@
 #ifndef __TUBE_MODEL_H
 #define __TUBE_MODEL_H
 
-#include <Tube/output.h>
 #include <Tube/util.h>
 
 #endif

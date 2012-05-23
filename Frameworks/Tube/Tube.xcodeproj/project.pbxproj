@@ -185,8 +185,8 @@
 			isa = PBXGroup;
 			children = (
 				01AC65760B7BF4D8008E4B93 /* TubeModel.h */,
-				01AC656F0B7BF4D8008E4B93 /* output.m */,
 				01AC65700B7BF4D8008E4B93 /* output.h */,
+				01AC656F0B7BF4D8008E4B93 /* output.m */,
 				01AC65780B7BF4D8008E4B93 /* util.h */,
 				01AC65770B7BF4D8008E4B93 /* util.m */,
 				019CCB91154BE46B00A9CF7A /* TRMDataList.h */,

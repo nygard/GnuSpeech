@@ -7,6 +7,7 @@
 #import "TRMDataList.h"
 #import "TRMInputParameters.h"
 #import "util.h"
+#import "output.h"
 #import "TRMSampleRateConverter.h"
 #include "TRMWavetable.h"
 
@@ -339,6 +340,12 @@
     
     // Be sure to flush source buffer
     [self.sampleRateConverter flush];
+}
+
+- (BOOL)saveOutputToFile:(NSString *)filename error:(NSError **)error;
+{
+    writeOutputToFile(self.sampleRateConverter, self.inputParameters, [filename UTF8String]);
+    return YES;
 }
 
 #pragma mark -
