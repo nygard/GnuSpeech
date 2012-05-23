@@ -87,9 +87,9 @@
 
 - (void)setControlRateParameters:(TRMParameters *)previous :(TRMParameters *)current;
 - (void)sampleRateInterpolation;
-- (void)initializeNasalCavity:(TRMInputParameters *)inputParameters;
-- (void)initializeThroat:(TRMInputParameters *)inputParameters;
-- (void)calculateTubeCoefficients:(TRMInputParameters *)inputParameters;
+- (void)initializeNasalCavity;
+- (void)initializeThroat;
+- (void)calculateTubeCoefficients;
 - (void)setFricationTaps;
 - (void)calculateBandpassCoefficients:(int32_t)sampleRate;
 - (double)vocalTract:(double)input :(double)frication;
@@ -197,12 +197,12 @@
         [self initializeNasalFilterCoefficients:(nyquist - inputParameters.noseCoef) / nyquist];
         
         // Initialize nasal cavity fixed scattering coefficients
-        [self initializeNasalCavity:inputParameters];
+        [self initializeNasalCavity];
         
         // TODO (2004-05-07): nasal?
         
         // Initialize the throat lowpass filter
-        [self initializeThroat:inputParameters];
+        [self initializeThroat];
         
         m_sampleRateConverter = [[TRMSampleRateConverter alloc] initWithInputRate:sampleRate outputRate:inputParameters.outputRate];
         
@@ -274,7 +274,7 @@
             f0 = frequency(m_current.parameters.glotPitch);
             ax = amplitude(m_current.parameters.glotVol);
             ah1 = amplitude(m_current.parameters.aspVol);
-            [self calculateTubeCoefficients:data.inputParameters];
+            [self calculateTubeCoefficients];
             [self setFricationTaps];
             [self calculateBandpassCoefficients:sampleRate];
             
@@ -496,7 +496,7 @@
 
 // Calculates the scattering coefficients for the fixed sections of the nasal cavity.
 
-- (void)initializeNasalCavity:(TRMInputParameters *)inputParameters;
+- (void)initializeNasalCavity;
 {
     int32_t i, j;
     double radA2, radB2;
@@ -504,31 +504,31 @@
     
     // Calculate coefficients for internal fixed sections of nasal cavity
     for (i = TRM_N2, j = NC2; i < TRM_N6; i++, j++) {
-        radA2 = inputParameters.noseRadius[i] * inputParameters.noseRadius[i];
-        radB2 = inputParameters.noseRadius[i+1] * inputParameters.noseRadius[i+1];
+        radA2 = self.inputParameters.noseRadius[i] * self.inputParameters.noseRadius[i];
+        radB2 = self.inputParameters.noseRadius[i+1] * self.inputParameters.noseRadius[i+1];
         nasal_coeff[j] = (radA2 - radB2) / (radA2 + radB2);
     }
     
     // Calculate the fixed coefficient for the nose aperture
-    radA2 = inputParameters.noseRadius[TRM_N6] * inputParameters.noseRadius[TRM_N6];
-    radB2 = inputParameters.apScale * inputParameters.apScale;
+    radA2 = self.inputParameters.noseRadius[TRM_N6] * self.inputParameters.noseRadius[TRM_N6];
+    radB2 = self.inputParameters.apScale * self.inputParameters.apScale;
     nasal_coeff[NC6] = (radA2 - radB2) / (radA2 + radB2);
 }
 
 // Initializes the throat lowpass filter coefficients according to the throatCutoff value, and also the throatGain, according to the throatVol value.
 
-- (void)initializeThroat:(TRMInputParameters *)inputParameters;
+- (void)initializeThroat;
 {
-    ta0 = (inputParameters.throatCutoff * 2.0) / sampleRate;
+    ta0 = (self.inputParameters.throatCutoff * 2.0) / sampleRate;
     tb1 = 1.0 - ta0;
     
-    throatGain = amplitude(inputParameters.throatVol);
+    throatGain = amplitude(self.inputParameters.throatVol);
 }
 
 // Calculates the scattering coefficients for the vocal tract according to the current radii.  Also calculates
 // the coefficients for the reflection/radiation filter pair for the mouth and nose.
 
-- (void)calculateTubeCoefficients:(TRMInputParameters *)inputParameters;
+- (void)calculateTubeCoefficients;
 {
     int32_t i;
     double radA2, radB2, r0_2, r1_2, r2_2, sum;
@@ -543,7 +543,7 @@
     
     // Calculate the coefficient for the mouth aperture
     radA2 = m_current.parameters.radius[TRM_R8] * m_current.parameters.radius[TRM_R8];
-    radB2 = inputParameters.apScale * inputParameters.apScale;
+    radB2 = self.inputParameters.apScale * self.inputParameters.apScale;
     oropharynx_coeff[C8] = (radA2 - radB2) / (radA2 + radB2);
     
     // Calculate alpha coefficients for 3-way junction
@@ -557,7 +557,7 @@
     
     // And first nasal passage coefficient
     radA2 = m_current.parameters.velum * m_current.parameters.velum;
-    radB2 = inputParameters.noseRadius[TRM_N2] * inputParameters.noseRadius[TRM_N2];
+    radB2 = self.inputParameters.noseRadius[TRM_N2] * self.inputParameters.noseRadius[TRM_N2];
     nasal_coeff[NC1] = (radA2 - radB2) / (radA2 + radB2);
 }
 

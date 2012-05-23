@@ -101,7 +101,7 @@ int main(int argc, char *argv[])
         }
         
         TRMDataList *inputData = [[[TRMDataList alloc] initWithContentsOfFile:inputFile error:NULL] autorelease];
-        if (inputData == NULL) {
+        if (inputData == nil) {
             fprintf(stderr, "Aborting...\n");
             exit(-1);
         }
