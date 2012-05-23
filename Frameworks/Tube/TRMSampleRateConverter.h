@@ -14,4 +14,7 @@
 @property (assign) int32_t numberSamples;
 @property (assign) FILE *tempFilePtr;
 
+// The samples are doubles
+@property (nonatomic, readonly) NSData *resampledData;
+
 @end

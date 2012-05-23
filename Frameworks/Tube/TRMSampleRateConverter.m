@@ -63,6 +63,7 @@
     double m_maximumSampleValue;
     int32_t m_numberSamples;
     FILE *m_tempFilePtr;
+    NSOutputStream *m_outputStream;
 
     TRMRingBuffer *m_ringBuffer;
 }
@@ -101,6 +102,9 @@
         
         // Initialize the temporary output file
         m_tempFilePtr = tmpfile();
+        m_outputStream = [[NSOutputStream alloc] initToMemory];
+        [m_outputStream open];
+        NSLog(@"outputStream: %@", m_outputStream);
     }
 
     return self;
@@ -135,6 +139,8 @@
 {
     [m_ringBuffer release];
     fclose(m_tempFilePtr);
+    [m_outputStream close];
+    [m_outputStream release];
 
     [super dealloc];
 }
@@ -225,6 +231,10 @@
             
             // Output the sample to the temporary file
             fwrite((char *)&output, sizeof(output), 1, m_tempFilePtr);
+            {
+                NSInteger result = [m_outputStream write:(void *)&output maxLength:sizeof(output)];
+                NSParameterAssert(result == sizeof(output));
+            }
             
             // Change time register back to original form
             m_timeRegister = ~m_timeRegister;
@@ -291,7 +301,11 @@
             
             // Output the sample to the temporary file
             fwrite((char *)&output, sizeof(output), 1, m_tempFilePtr);
-            
+            {
+                NSInteger result = [m_outputStream write:(void *)&output maxLength:sizeof(output)];
+                NSParameterAssert(result == sizeof(output));
+            }
+
             // Increment the time register
             m_timeRegister += m_timeRegisterIncrement;
             
@@ -318,6 +332,11 @@
 - (void)flush;
 {
     [m_ringBuffer flush];
+}
+
+- (NSData *)outputData;
+{
+    return [m_outputStream propertyForKey:NSStreamDataWrittenToMemoryStreamKey];
 }
 
 @end
