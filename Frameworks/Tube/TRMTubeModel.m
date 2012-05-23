@@ -347,9 +347,68 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
     [self.sampleRateConverter flush];
 }
 
+// Scales the samples stored in the temporary data stream, and writes them to the output file, with the appropriate
+// header.  Also does master volume scaling, and stereo balance scaling, if 2 channels of output.
 - (BOOL)saveOutputToFile:(NSString *)filename error:(NSError **)error;
 {
-    writeOutputToFile(self.sampleRateConverter, self.inputParameters, [filename UTF8String]);
+    //printf("maximumSampleValue: %g\n", sampleRateConverter->maximumSampleValue);
+    
+    // Calculate scaling constant
+    double scale = (TRMSampleValue_Maximum / self.sampleRateConverter.maximumSampleValue) * amplitude(self.inputParameters.volume);
+    
+    /*if (verbose)*/ {
+        printf("\nnumber of samples:\t%-d\n", self.sampleRateConverter.numberSamples);
+        printf("maximum sample value:\t%.4f\n", self.sampleRateConverter.maximumSampleValue);
+        printf("scale:\t\t\t%.4f\n", scale);
+    }
+    
+    // If stereo, calculate left and right scaling constants
+    double leftScale = 1.0, rightScale = 1.0;
+    if (self.inputParameters.channels == 2) {
+		// Calculate left and right channel amplitudes
+		leftScale = -((self.inputParameters.balance / 2.0) - 0.5) * scale * 2.0;
+		rightScale = ((self.inputParameters.balance / 2.0) + 0.5) * scale * 2.0;
+        
+		if (verbose) {
+			printf("left scale:\t\t%.4f\n", leftScale);
+			printf("right scale:\t\t%.4f\n", rightScale);
+		}
+    }
+    
+    NSData *resampledData = [self.sampleRateConverter resampledData];
+    NSInputStream *inputStream = [NSInputStream inputStreamWithData:resampledData];
+    [inputStream open];
+    
+    // Open the output file
+    FILE *outputFileDescriptor = fopen([filename UTF8String], "wb");
+    if (outputFileDescriptor == NULL) {
+        perror("fopen");
+        exit(-1);
+    }
+    
+    // Scale and write out samples to the output file
+    if (self.inputParameters.outputFileFormat == TRMSoundFileFormat_AU) {
+        writeAuFileHeader(self.inputParameters.channels, self.sampleRateConverter.numberSamples, self.inputParameters.outputRate, outputFileDescriptor);
+        if (self.inputParameters.channels == 1)
+            writeSamplesMonoMsb(inputStream, self.sampleRateConverter.numberSamples, scale, outputFileDescriptor);
+        else
+            writeSamplesStereoMsb(inputStream, self.sampleRateConverter.numberSamples, leftScale, rightScale, outputFileDescriptor);
+    } else if (self.inputParameters.outputFileFormat == TRMSoundFileFormat_AIFF) {
+        writeAiffFileHeader(self.inputParameters.channels, self.sampleRateConverter.numberSamples, self.inputParameters.outputRate, outputFileDescriptor);
+        if (self.inputParameters.channels == 1)
+            writeSamplesMonoMsb(inputStream, self.sampleRateConverter.numberSamples, scale, outputFileDescriptor);
+        else
+            writeSamplesStereoMsb(inputStream, self.sampleRateConverter.numberSamples, leftScale, rightScale, outputFileDescriptor);
+    } else if (self.inputParameters.outputFileFormat == TRMSoundFileFormat_WAVE) {
+        writeWaveFileHeader(self.inputParameters.channels, self.sampleRateConverter.numberSamples, self.inputParameters.outputRate, outputFileDescriptor);
+        if (self.inputParameters.channels == 1)
+            writeSamplesMonoLsb(inputStream, self.sampleRateConverter.numberSamples, scale, outputFileDescriptor);
+        else
+            writeSamplesStereoLsb(inputStream, self.sampleRateConverter.numberSamples, leftScale, rightScale, outputFileDescriptor);
+    }
+    
+    fclose(outputFileDescriptor);
+
     return YES;
 }
 

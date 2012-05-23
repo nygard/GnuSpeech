@@ -15,80 +15,14 @@
 
 extern BOOL verbose;
 
-static void writeAuFileHeader(int32_t channels, int32_t numberSamples, float outputRate, FILE *outputFile);
-static void writeAiffFileHeader(int32_t channels, int32_t numberSamples, float outputRate, FILE *outputFile);
-static void writeWaveFileHeader(int32_t channels, int32_t numberSamples, float outputRate, FILE *outputFile);
-static void writeSamplesMonoMsb(NSInputStream *inputStream, int32_t numberSamples, double scale, FILE *outputFile);
-static void writeSamplesMonoLsb(NSInputStream *inputStream, int32_t numberSamples, double scale, FILE *outputFile);
-static void writeSamplesStereoMsb(NSInputStream *inputStream, int32_t numberSamples, double leftScale, double rightScale, FILE *outputFile);
-static void writeSamplesStereoLsb(NSInputStream *inputStream, int32_t numberSamples, double leftScale, double rightScale, FILE *outputFile);
 static size_t fwriteIntMsb(int32_t data, FILE *stream);
 static size_t fwriteIntLsb(int32_t data, FILE *stream);
 static size_t fwriteShortMsb(int32_t data, FILE *stream);
 static size_t fwriteShortLsb(int32_t data, FILE *stream);
 static void convertIntToFloat80(uint32_t value, uint8_t buffer[10]);
 
-// Scales the samples stored in the temporary file, and writes them to the output file, with the appropriate
-// header.  Also does master volume scaling, and stereo balance scaling, if 2 channels of output.
 void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMInputParameters *inputParameters, const char *fileName)
 {
-    //printf("maximumSampleValue: %g\n", sampleRateConverter->maximumSampleValue);
-    
-    // Calculate scaling constant
-    double scale = (TRMSampleValue_Maximum / sampleRateConverter.maximumSampleValue) * amplitude(inputParameters.volume);
-
-    /*if (verbose)*/ {
-        printf("\nnumber of samples:\t%-d\n", sampleRateConverter.numberSamples);
-        printf("maximum sample value:\t%.4f\n", sampleRateConverter.maximumSampleValue);
-        printf("scale:\t\t\t%.4f\n", scale);
-    }
-
-    // If stereo, calculate left and right scaling constants
-    double leftScale = 1.0, rightScale = 1.0;
-    if (inputParameters.channels == 2) {
-		// Calculate left and right channel amplitudes
-		leftScale = -((inputParameters.balance / 2.0) - 0.5) * scale * 2.0;
-		rightScale = ((inputParameters.balance / 2.0) + 0.5) * scale * 2.0;
-
-		if (verbose) {
-			printf("left scale:\t\t%.4f\n", leftScale);
-			printf("right scale:\t\t%.4f\n", rightScale);
-		}
-    }
-    
-    NSData *resampledData = [sampleRateConverter resampledData];
-    NSInputStream *inputStream = [NSInputStream inputStreamWithData:resampledData];
-    [inputStream open];
-
-    // Open the output file
-    FILE *outputFileDescriptor = fopen(fileName, "wb");
-    if (outputFileDescriptor == NULL) {
-        perror("fopen");
-        exit(-1);
-    }
-
-    // Scale and write out samples to the output file
-    if (inputParameters.outputFileFormat == TRMSoundFileFormat_AU) {
-        writeAuFileHeader(inputParameters.channels, sampleRateConverter.numberSamples, inputParameters.outputRate, outputFileDescriptor);
-        if (inputParameters.channels == 1)
-            writeSamplesMonoMsb(inputStream, sampleRateConverter.numberSamples, scale, outputFileDescriptor);
-        else
-            writeSamplesStereoMsb(inputStream, sampleRateConverter.numberSamples, leftScale, rightScale, outputFileDescriptor);
-    } else if (inputParameters.outputFileFormat == TRMSoundFileFormat_AIFF) {
-        writeAiffFileHeader(inputParameters.channels, sampleRateConverter.numberSamples, inputParameters.outputRate, outputFileDescriptor);
-        if (inputParameters.channels == 1)
-            writeSamplesMonoMsb(inputStream, sampleRateConverter.numberSamples, scale, outputFileDescriptor);
-        else
-            writeSamplesStereoMsb(inputStream, sampleRateConverter.numberSamples, leftScale, rightScale, outputFileDescriptor);
-    } else if (inputParameters.outputFileFormat == TRMSoundFileFormat_WAVE) {
-        writeWaveFileHeader(inputParameters.channels, sampleRateConverter.numberSamples, inputParameters.outputRate, outputFileDescriptor);
-        if (inputParameters.channels == 1)
-            writeSamplesMonoLsb(inputStream, sampleRateConverter.numberSamples, scale, outputFileDescriptor);
-        else
-            writeSamplesStereoLsb(inputStream, sampleRateConverter.numberSamples, leftScale, rightScale, outputFileDescriptor);
-    }
-
-    fclose(outputFileDescriptor);
 }
 
 // Writes the header in AU format to the output file.

@@ -22,7 +22,12 @@ typedef NSUInteger TRMSoundFileFormat;
 // Size in bits per output sample
 #define TRMBitsPerSample          16
 
-
-void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMInputParameters *inputParameters, const char *fileName);
+void writeAuFileHeader(int32_t channels, int32_t numberSamples, float outputRate, FILE *outputFile);
+void writeAiffFileHeader(int32_t channels, int32_t numberSamples, float outputRate, FILE *outputFile);
+void writeWaveFileHeader(int32_t channels, int32_t numberSamples, float outputRate, FILE *outputFile);
+void writeSamplesMonoMsb(NSInputStream *inputStream, int32_t numberSamples, double scale, FILE *outputFile);
+void writeSamplesMonoLsb(NSInputStream *inputStream, int32_t numberSamples, double scale, FILE *outputFile);
+void writeSamplesStereoMsb(NSInputStream *inputStream, int32_t numberSamples, double leftScale, double rightScale, FILE *outputFile);
+void writeSamplesStereoLsb(NSInputStream *inputStream, int32_t numberSamples, double leftScale, double rightScale, FILE *outputFile);
 
 #endif
