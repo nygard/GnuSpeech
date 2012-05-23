@@ -202,8 +202,6 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
     NSLog(@"maximum sample value:\t%.4f\n", sampleRateConverter.maximumSampleValue);
     NSLog(@"scale:\t\t\t%.4f\n", scale);
     
-    /*  Rewind the temporary file to beginning  */
-    rewind(sampleRateConverter.tempFilePtr);
     NSData *resampledData = [sampleRateConverter resampledData];
     NSInputStream *inputStream = [NSInputStream inputStreamWithData:resampledData];
     [inputStream open];
@@ -224,11 +222,8 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
         for (NSUInteger index = 0; index < sampleRateConverter.numberSamples; index++) {
             double sample;
 
-            fread(&sample, sizeof(sample), 1, sampleRateConverter.tempFilePtr);
-            {
-                NSInteger result = [inputStream read:(void *)&sample maxLength:sizeof(sample)];
-                NSParameterAssert(result == sizeof(sample));
-            }
+            NSInteger result = [inputStream read:(void *)&sample maxLength:sizeof(sample)];
+            NSParameterAssert(result == sizeof(sample));
 
             uint16_t value = (short)rint(sample * leftScale);
             [sampleData appendBytes:&value length:sizeof(value)];
@@ -240,11 +235,8 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
         for (NSUInteger index = 0; index < sampleRateConverter.numberSamples; index++) {
             double sample;
 
-            fread(&sample, sizeof(sample), 1, sampleRateConverter.tempFilePtr);
-            {
-                NSInteger result = [inputStream read:(void *)&sample maxLength:sizeof(sample)];
-                NSParameterAssert(result == sizeof(sample));
-            }
+            NSInteger result = [inputStream read:(void *)&sample maxLength:sizeof(sample)];
+            NSParameterAssert(result == sizeof(sample));
 
             uint16_t value = (short)rint(sample * scale);
             [sampleData appendBytes:&value length:sizeof(value)];

@@ -18,10 +18,10 @@ extern BOOL verbose;
 static void writeAuFileHeader(int32_t channels, int32_t numberSamples, float outputRate, FILE *outputFile);
 static void writeAiffFileHeader(int32_t channels, int32_t numberSamples, float outputRate, FILE *outputFile);
 static void writeWaveFileHeader(int32_t channels, int32_t numberSamples, float outputRate, FILE *outputFile);
-static void writeSamplesMonoMsb(FILE *tempFile, int32_t numberSamples, double scale, FILE *outputFile);
-static void writeSamplesMonoLsb(FILE *tempFile, int32_t numberSamples, double scale, FILE *outputFile);
-static void writeSamplesStereoMsb(FILE *tempFile, int32_t numberSamples, double leftScale, double rightScale, FILE *outputFile);
-static void writeSamplesStereoLsb(FILE *tempFile, int32_t numberSamples, double leftScale, double rightScale, FILE *outputFile);
+static void writeSamplesMonoMsb(NSInputStream *inputStream, int32_t numberSamples, double scale, FILE *outputFile);
+static void writeSamplesMonoLsb(NSInputStream *inputStream, int32_t numberSamples, double scale, FILE *outputFile);
+static void writeSamplesStereoMsb(NSInputStream *inputStream, int32_t numberSamples, double leftScale, double rightScale, FILE *outputFile);
+static void writeSamplesStereoLsb(NSInputStream *inputStream, int32_t numberSamples, double leftScale, double rightScale, FILE *outputFile);
 static size_t fwriteIntMsb(int32_t data, FILE *stream);
 static size_t fwriteIntLsb(int32_t data, FILE *stream);
 static size_t fwriteShortMsb(int32_t data, FILE *stream);
@@ -55,9 +55,10 @@ void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMInputPara
 			printf("right scale:\t\t%.4f\n", rightScale);
 		}
     }
-
-    // Rewind the temporary file to beginning
-    rewind(sampleRateConverter.tempFilePtr);
+    
+    NSData *resampledData = [sampleRateConverter resampledData];
+    NSInputStream *inputStream = [NSInputStream inputStreamWithData:resampledData];
+    [inputStream open];
 
     // Open the output file
     FILE *outputFileDescriptor = fopen(fileName, "wb");
@@ -70,21 +71,21 @@ void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMInputPara
     if (inputParameters.outputFileFormat == TRMSoundFileFormat_AU) {
         writeAuFileHeader(inputParameters.channels, sampleRateConverter.numberSamples, inputParameters.outputRate, outputFileDescriptor);
         if (inputParameters.channels == 1)
-            writeSamplesMonoMsb(sampleRateConverter.tempFilePtr, sampleRateConverter.numberSamples, scale, outputFileDescriptor);
+            writeSamplesMonoMsb(inputStream, sampleRateConverter.numberSamples, scale, outputFileDescriptor);
         else
-            writeSamplesStereoMsb(sampleRateConverter.tempFilePtr, sampleRateConverter.numberSamples, leftScale, rightScale, outputFileDescriptor);
+            writeSamplesStereoMsb(inputStream, sampleRateConverter.numberSamples, leftScale, rightScale, outputFileDescriptor);
     } else if (inputParameters.outputFileFormat == TRMSoundFileFormat_AIFF) {
         writeAiffFileHeader(inputParameters.channels, sampleRateConverter.numberSamples, inputParameters.outputRate, outputFileDescriptor);
         if (inputParameters.channels == 1)
-            writeSamplesMonoMsb(sampleRateConverter.tempFilePtr, sampleRateConverter.numberSamples, scale, outputFileDescriptor);
+            writeSamplesMonoMsb(inputStream, sampleRateConverter.numberSamples, scale, outputFileDescriptor);
         else
-            writeSamplesStereoMsb(sampleRateConverter.tempFilePtr, sampleRateConverter.numberSamples, leftScale, rightScale, outputFileDescriptor);
+            writeSamplesStereoMsb(inputStream, sampleRateConverter.numberSamples, leftScale, rightScale, outputFileDescriptor);
     } else if (inputParameters.outputFileFormat == TRMSoundFileFormat_WAVE) {
         writeWaveFileHeader(inputParameters.channels, sampleRateConverter.numberSamples, inputParameters.outputRate, outputFileDescriptor);
         if (inputParameters.channels == 1)
-            writeSamplesMonoLsb(sampleRateConverter.tempFilePtr, sampleRateConverter.numberSamples, scale, outputFileDescriptor);
+            writeSamplesMonoLsb(inputStream, sampleRateConverter.numberSamples, scale, outputFileDescriptor);
         else
-            writeSamplesStereoLsb(sampleRateConverter.tempFilePtr, sampleRateConverter.numberSamples, leftScale, rightScale, outputFileDescriptor);
+            writeSamplesStereoLsb(inputStream, sampleRateConverter.numberSamples, leftScale, rightScale, outputFileDescriptor);
     }
 
     fclose(outputFileDescriptor);
@@ -216,13 +217,14 @@ void writeWaveFileHeader(int32_t channels, int32_t numberSamples, float outputRa
 
 // Reads the double f.p. samples in the temporary file, scales them, rounds them to a short (16-bit) integer,
 // and writes them to the output file in big-endian format.
-void writeSamplesMonoMsb(FILE *tempFile, int32_t numberSamples, double scale, FILE *outputFile)
+void writeSamplesMonoMsb(NSInputStream *inputStream, int32_t numberSamples, double scale, FILE *outputFile)
 {
     // Write the samples to file, scaling each sample
     for (int32_t i = 0; i < numberSamples; i++) {
         double sample;
 
-        fread(&sample, sizeof(sample), 1, tempFile);
+        NSInteger result = [inputStream read:(void *)&sample maxLength:sizeof(sample)];
+        NSCAssert(result == sizeof(sample), @"Error reading from input stream");
         fwriteShortMsb((int16_t)rint(sample * scale), outputFile);
         //printf("%8ld: %g -> %hd\n", i, sample, (short)rint(sample * scale));
     }
@@ -230,26 +232,28 @@ void writeSamplesMonoMsb(FILE *tempFile, int32_t numberSamples, double scale, FI
 
 // Reads the double f.p. samples in the temporary file, scales them, rounds them to a short (16-bit) integer,
 // and writes them to the output file in little-endian format.
-void writeSamplesMonoLsb(FILE *tempFile, int32_t numberSamples, double scale, FILE *outputFile)
+void writeSamplesMonoLsb(NSInputStream *inputStream, int32_t numberSamples, double scale, FILE *outputFile)
 {
     // Write the samples to file, scaling each sample
     for (int32_t i = 0; i < numberSamples; i++) {
         double sample;
 
-        fread(&sample, sizeof(sample), 1, tempFile);
+        NSInteger result = [inputStream read:(void *)&sample maxLength:sizeof(sample)];
+        NSCAssert(result == sizeof(sample), @"Error reading from input stream");
         fwriteShortLsb((int16_t)rint(sample * scale), outputFile);
     }
 }
 
 // Reads the double f.p. samples in the temporary file, does stereo scaling, rounds them to a short (16-bit)
 // integer, and writes them to the output file in big-endian format.
-void writeSamplesStereoMsb(FILE *tempFile, int32_t numberSamples, double leftScale, double rightScale, FILE *outputFile)
+void writeSamplesStereoMsb(NSInputStream *inputStream, int32_t numberSamples, double leftScale, double rightScale, FILE *outputFile)
 {
     // Write the samples to file, scaling each sample
     for (int32_t i = 0; i < numberSamples; i++) {
         double sample;
 
-        fread(&sample, sizeof(sample), 1, tempFile);
+        NSInteger result = [inputStream read:(void *)&sample maxLength:sizeof(sample)];
+        NSCAssert(result == sizeof(sample), @"Error reading from input stream");
         fwriteShortMsb((int16_t)rint(sample * leftScale), outputFile);
         fwriteShortMsb((int16_t)rint(sample * rightScale), outputFile);
     }
@@ -257,13 +261,14 @@ void writeSamplesStereoMsb(FILE *tempFile, int32_t numberSamples, double leftSca
 
 // Reads the double f.p. samples in the temporary file, does stereo scaling, rounds them to a short (16-bit)
 // integer, and writes them to the output file in little-endian format.
-void writeSamplesStereoLsb(FILE *tempFile, int32_t numberSamples, double leftScale, double rightScale, FILE *outputFile)
+void writeSamplesStereoLsb(NSInputStream *inputStream, int32_t numberSamples, double leftScale, double rightScale, FILE *outputFile)
 {
     // Write the samples to file, scaling each sample
     for (int32_t i = 0; i < numberSamples; i++) {
         double sample;
 
-        fread(&sample, sizeof(sample), 1, tempFile);
+        NSInteger result = [inputStream read:(void *)&sample maxLength:sizeof(sample)];
+        NSCAssert(result == sizeof(sample), @"Error reading from input stream");
         fwriteShortLsb((int16_t)rint(sample * leftScale), outputFile);
         fwriteShortLsb((int16_t)rint(sample * rightScale), outputFile);
     }
