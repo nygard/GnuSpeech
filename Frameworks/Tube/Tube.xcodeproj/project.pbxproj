@@ -25,6 +25,7 @@
 		016B4AD6156CF1FD006874F4 /* TRMInputParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 019CCB8D154BE30C00A9CF7A /* TRMInputParameters.m */; };
 		016B4AD7156CF1FD006874F4 /* TRMParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 019CCB9B154BE65400A9CF7A /* TRMParameters.m */; };
 		016B4AD8156CF1FD006874F4 /* TRMSampleRateConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C6719215687CF6008840E9 /* TRMSampleRateConverter.m */; };
+		016B4AD9156CF214006874F4 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 016B4ABA156CD859006874F4 /* AudioToolbox.framework */; };
 		0172DA14153FDD2F00413F56 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0172DA13153FDD2F00413F56 /* Accelerate.framework */; };
 		019CCB8E154BE30D00A9CF7A /* TRMInputParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 019CCB8C154BE30C00A9CF7A /* TRMInputParameters.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		019CCB8F154BE30D00A9CF7A /* TRMInputParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 019CCB8D154BE30C00A9CF7A /* TRMInputParameters.m */; };
@@ -106,6 +107,7 @@
 			files = (
 				01115FA51547C3D4002ABAAF /* Accelerate.framework in Frameworks */,
 				01115F891547C381002ABAAF /* Foundation.framework in Frameworks */,
+				016B4AD9156CF214006874F4 /* AudioToolbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
