@@ -174,11 +174,11 @@
     
     // Adjust the end pointer, if less than zero
     if (endPtr < 0)
-        endPtr += BUFFER_SIZE;
+        endPtr += TRMRingBufferSize;
     
     // Adjust the endpoint, if less then the empty pointer
     if (endPtr < ringBuffer.emptyPtr)
-        endPtr += BUFFER_SIZE;
+        endPtr += TRMRingBufferSize;
     
     // Upsample loop (slightly more efficient than downsampling)
     if (m_sampleRateRatio >= 1.0) {
@@ -235,9 +235,9 @@
             // Increment the empty pointer, adjusting it and end pointer
             ringBuffer.emptyPtr += nValue(m_timeRegister);
             
-            if (ringBuffer.emptyPtr >= BUFFER_SIZE) {
-                ringBuffer.emptyPtr -= BUFFER_SIZE;
-                endPtr -= BUFFER_SIZE;
+            if (ringBuffer.emptyPtr >= TRMRingBufferSize) {
+                ringBuffer.emptyPtr -= TRMRingBufferSize;
+                endPtr -= TRMRingBufferSize;
             }
             
             // Clear N part of time register
@@ -297,9 +297,9 @@
             
             // Increment the empty pointer, adjusting it and end pointer
             ringBuffer.emptyPtr += nValue(m_timeRegister);
-            if (ringBuffer.emptyPtr >= BUFFER_SIZE) {
-                ringBuffer.emptyPtr -= BUFFER_SIZE;
-                endPtr -= BUFFER_SIZE;
+            if (ringBuffer.emptyPtr >= TRMRingBufferSize) {
+                ringBuffer.emptyPtr -= TRMRingBufferSize;
+                endPtr -= TRMRingBufferSize;
             }
             
             // Clear N part of time register

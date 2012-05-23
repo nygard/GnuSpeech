@@ -3,7 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-#define BUFFER_SIZE 1024
+#define TRMRingBufferSize (1024)
 
 @protocol TRMRingBufferDelegate;
 
@@ -14,15 +14,12 @@
 @property (weak) id <TRMRingBufferDelegate> delegate;
 
 - (void)dataFill:(double)data;
-- (void)dataEmpty;
-- (void)increment;
-- (void)decrement;
 - (void)flush;
 
 + (void)incrementIndex:(int32_t *)index;
 + (void)decrementIndex:(int32_t *)index;
 
-@property (assign) int32_t padSize;
+@property (readonly) int32_t padSize;
 @property (assign) int32_t fillPtr;
 @property (assign) int32_t emptyPtr;
 @property (nonatomic, readonly) double *buffer;
