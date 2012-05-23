@@ -4,8 +4,6 @@
 #include <math.h>
 #include <string.h>
 
-//#include "output.h"
-
 #import "TRMTubeModel.h"
 #import "TRMDataList.h"
 

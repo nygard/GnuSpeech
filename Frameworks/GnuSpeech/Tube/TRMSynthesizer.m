@@ -11,7 +11,6 @@
 #import <Tube/TRMTubeModel.h>
 #import <Tube/TRMSampleRateConverter.h>
 #import <Tube/TubeModel.h>
-#import <Tube/output.h>
 
 @interface TRMSynthesizer ()
 @property (strong) AVAudioPlayer *audioPlayer;

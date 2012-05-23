@@ -6,7 +6,6 @@
 #import "TRMInputParameters.h"
 #import "TRMParameters.h"
 #import "TRMTubeModel.h"
-#import "output.h"
 #import "TRMWaveTable.h"
 
 @interface TRMDataList ()
