@@ -31,34 +31,6 @@
 #define TRM_N6                    5
 #define TOTAL_NASAL_SECTIONS      6
 
-
-// Sample Rate Conversion Constants
-#define ZERO_CROSSINGS            13                           // Source cutoff frequency
-#define LP_CUTOFF                 (11.0/13.0)                  // 0.846 of Nyquist
-
-#define N_BITS                    16
-#define L_BITS                    8
-#define L_RANGE                   256                          // must be 2^L_BITS
-#define M_BITS                    8
-#define M_RANGE                   256                          // must be 2^M_BITS
-#define FRACTION_BITS             (L_BITS + M_BITS)
-#define FRACTION_RANGE            65536                        // must be 2^FRACTION_BITS
-#define FILTER_LENGTH             (ZERO_CROSSINGS * L_RANGE)
-#define FILTER_LIMIT              (FILTER_LENGTH - 1)
-
-#define N_MASK                    0xFFFF0000
-#define L_MASK                    0x0000FF00
-#define M_MASK                    0x000000FF
-#define FRACTION_MASK             0x0000FFFF
-
-#define nValue(x)                 (((x) & N_MASK) >> FRACTION_BITS)
-#define lValue(x)                 (((x) & L_MASK) >> M_BITS)
-#define mValue(x)                 ((x) & M_MASK)
-#define fractionValue(x)          ((x) & FRACTION_MASK)
-
-#define OUTPUT_SRATE_LOW          22050.0
-#define OUTPUT_SRATE_HIGH         44100.0
-
 // Oropharynx scattering junction coefficients (between each region)
 #define C1                        TRM_R1     // R1-R2 (S1-S2)
 #define C2                        TRM_R2     // R2-R3 (S2-S3)
