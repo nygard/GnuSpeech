@@ -10,6 +10,7 @@
 #import "output.h"
 #import "TRMSampleRateConverter.h"
 #include "TRMWavetable.h"
+#import "NSData-STExtensions.h"
 
 // Oropharynx scattering junction coefficients (between each region)
 #define C1                        TRM_R1     // R1-R2 (S1-S2)
@@ -74,6 +75,9 @@
 
 // 1 means to compile so that interpolation not done for some control rate parameters
 #define MATCH_DSP 0
+
+const uint16_t kWAVEFormat_Unknown         = 0x0000;
+const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 
 @interface TRMTubeModel ()
 @property (readonly) TRMDataList *inputData;
@@ -346,6 +350,106 @@
 {
     writeOutputToFile(self.sampleRateConverter, self.inputParameters, [filename UTF8String]);
     return YES;
+}
+
+#pragma mark - WAV data generation
+
+// RIFF
+#define WAV_CHUNK_ID        0x52494646
+
+// WAVE
+#define WAV_RIFF_TYPE       0x57415645
+
+// fmt
+#define WAV_FORMAT_CHUNK_ID 0x666d7420
+
+// data
+#define WAV_DATA_CHUNK_ID   0x64617461
+
+- (NSData *)generateWAVData;
+{
+    NSParameterAssert(self.sampleRateConverter.maximumSampleValue != 0);
+    
+    NSMutableData *sampleData = [[[NSMutableData alloc] init] autorelease];
+    
+    double scale = (TRMSampleValue_Maximum / self.sampleRateConverter.maximumSampleValue) * amplitude(m_inputData.inputParameters.volume);
+    
+    NSLog(@"number of samples:\t%-d\n", self.sampleRateConverter.numberSamples);
+    NSLog(@"maximum sample value:\t%.4f\n", self.sampleRateConverter.maximumSampleValue);
+    NSLog(@"scale:\t\t\t%.4f\n", scale);
+    
+    NSData *resampledData = [self.sampleRateConverter resampledData];
+    NSInputStream *inputStream = [NSInputStream inputStreamWithData:resampledData];
+    [inputStream open];
+    
+    if (m_inputData.inputParameters.channels == 2) {
+		// Calculate left and right channel amplitudes.
+		//
+		// leftScale = -((inputData->inputParameters.balance / 2.0) - 0.5) * scale * 2.0;
+		// rightScale = ((inputData->inputParameters.balance / 2.0) + 0.5) * scale * 2.0;
+        
+        // This doesn't have the crackling when at all left or all right, but it's not as loud as Mono by default.
+		double leftScale = -((m_inputData.inputParameters.balance / 2.0) - 0.5) * scale;
+		double rightScale = ((m_inputData.inputParameters.balance / 2.0) + 0.5) * scale;
+        
+        printf("left scale:\t\t%.4f\n", leftScale);
+        printf("right scale:\t\t%.4f\n", rightScale);
+        
+        for (NSUInteger index = 0; index < self.sampleRateConverter.numberSamples; index++) {
+            double sample;
+            
+            NSInteger result = [inputStream read:(void *)&sample maxLength:sizeof(sample)];
+            NSParameterAssert(result == sizeof(sample));
+            
+            uint16_t value = (short)rint(sample * leftScale);
+            [sampleData appendBytes:&value length:sizeof(value)];
+            
+            value = (short)rint(sample * rightScale);
+            [sampleData appendBytes:&value length:sizeof(value)];
+        }
+    } else {
+        for (NSUInteger index = 0; index < self.sampleRateConverter.numberSamples; index++) {
+            double sample;
+            
+            NSInteger result = [inputStream read:(void *)&sample maxLength:sizeof(sample)];
+            NSParameterAssert(result == sizeof(sample));
+            
+            uint16_t value = (short)rint(sample * scale);
+            [sampleData appendBytes:&value length:sizeof(value)];
+        }
+    }
+    
+    int frameSize = (int)ceil(m_inputData.inputParameters.channels * ((double)TRMBitsPerSample / 8));
+    int bytesPerSecond = (int)ceil(m_inputData.inputParameters.outputRate * frameSize);
+    
+    NSMutableData *data = [NSMutableData data];
+    uint32_t subChunk1Size = 18;
+    uint32_t subChunk2Size = [sampleData length];
+    uint32_t chunkSize = 4 + (8 + subChunk1Size) + (8 + subChunk2Size);
+    
+    // Header - RIFF type chunk
+    [data appendBigInt32:WAV_CHUNK_ID]; // RIFF
+    [data appendLittleInt32:chunkSize];
+    [data appendBigInt32:WAV_RIFF_TYPE]; // WAVE
+    
+    // Format chunk
+    [data appendBigInt32:WAV_FORMAT_CHUNK_ID]; // fmt
+    [data appendLittleInt32:subChunk1Size];
+    [data appendLittleInt16:kWAVEFormat_UncompressedPCM];
+    [data appendLittleInt16:m_inputData.inputParameters.channels];
+    [data appendLittleInt32:m_inputData.inputParameters.outputRate];
+    [data appendLittleInt32:bytesPerSecond];
+    [data appendLittleInt16:frameSize];
+    [data appendLittleInt16:TRMBitsPerSample];
+    [data appendLittleInt16:0];
+    
+    // Data chunk
+    [data appendBigInt32:WAV_DATA_CHUNK_ID];
+    [data appendLittleInt32:subChunk2Size];
+    
+    [data appendData:sampleData];
+    
+    return [[data copy] autorelease];
 }
 
 - (void)printInputData;

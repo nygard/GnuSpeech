@@ -18,6 +18,8 @@
 		01115FA21547C399002ABAAF /* TRMWavetable.m in Sources */ = {isa = PBXBuildFile; fileRef = 01AC65790B7BF4D8008E4B93 /* TRMWavetable.m */; };
 		01115FA51547C3D4002ABAAF /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01115FA41547C3D3002ABAAF /* Accelerate.framework */; };
 		01115FA61547C43E002ABAAF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 01115F7E1547C35A002ABAAF /* main.m */; };
+		016B4AB7156CD142006874F4 /* NSData-STExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 016B4AB5156CD142006874F4 /* NSData-STExtensions.h */; };
+		016B4AB8156CD142006874F4 /* NSData-STExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 016B4AB6156CD142006874F4 /* NSData-STExtensions.m */; };
 		0172DA14153FDD2F00413F56 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0172DA13153FDD2F00413F56 /* Accelerate.framework */; };
 		019CCB8E154BE30D00A9CF7A /* TRMInputParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 019CCB8C154BE30C00A9CF7A /* TRMInputParameters.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		019CCB8F154BE30D00A9CF7A /* TRMInputParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 019CCB8D154BE30C00A9CF7A /* TRMInputParameters.m */; };
@@ -63,6 +65,8 @@
 		01115F8B1547C381002ABAAF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		01115F8E1547C381002ABAAF /* softwareTRM-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "softwareTRM-Prefix.pch"; sourceTree = "<group>"; };
 		01115FA41547C3D3002ABAAF /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/Accelerate.framework; sourceTree = DEVELOPER_DIR; };
+		016B4AB5156CD142006874F4 /* NSData-STExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData-STExtensions.h"; sourceTree = "<group>"; };
+		016B4AB6156CD142006874F4 /* NSData-STExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData-STExtensions.m"; sourceTree = "<group>"; };
 		0172DA13153FDD2F00413F56 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = /System/Library/Frameworks/Accelerate.framework; sourceTree = "<absolute>"; };
 		019CCB8C154BE30C00A9CF7A /* TRMInputParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRMInputParameters.h; sourceTree = "<group>"; };
 		019CCB8D154BE30C00A9CF7A /* TRMInputParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRMInputParameters.m; sourceTree = "<group>"; };
@@ -184,6 +188,8 @@
 		08FB77AEFE84172EC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				016B4AB5156CD142006874F4 /* NSData-STExtensions.h */,
+				016B4AB6156CD142006874F4 /* NSData-STExtensions.m */,
 				01AC65760B7BF4D8008E4B93 /* TubeModel.h */,
 				01AC65700B7BF4D8008E4B93 /* output.h */,
 				01AC656F0B7BF4D8008E4B93 /* output.m */,
@@ -255,6 +261,7 @@
 				01AC65860B7BF4D8008E4B93 /* TubeModel.h in Headers */,
 				01AC65880B7BF4D8008E4B93 /* util.h in Headers */,
 				01AC658A0B7BF4D8008E4B93 /* TRMWavetable.h in Headers */,
+				016B4AB7156CD142006874F4 /* NSData-STExtensions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -361,6 +368,7 @@
 				019CCB9D154BE65400A9CF7A /* TRMParameters.m in Sources */,
 				0102B0AD15685F81009943D7 /* TRMTubeModel.m in Sources */,
 				01C6719415687CF6008840E9 /* TRMSampleRateConverter.m in Sources */,
+				016B4AB8156CD142006874F4 /* NSData-STExtensions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

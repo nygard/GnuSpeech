@@ -36,5 +36,6 @@
 - (void)printInputData;
 
 @property (readonly) TRMSampleRateConverter *sampleRateConverter;
+- (NSData *)generateWAVData;
 
 @end
