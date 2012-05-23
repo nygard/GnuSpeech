@@ -5,6 +5,8 @@
 #include <stdint.h>
 #include "util.h"
 
+#define IzeroEPSILON              1E-21
+
 // Range of all volume controls
 #define VOL_MAX                   60
 

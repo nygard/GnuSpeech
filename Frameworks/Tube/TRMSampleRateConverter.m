@@ -34,6 +34,8 @@
 #define OUTPUT_SRATE_LOW          22050.0
 #define OUTPUT_SRATE_HIGH         44100.0
 
+#define BETA                      5.658        // Kaiser window parameters
+
 @interface TRMSampleRateConverter () <TRMRingBufferDelegate>
 - (void)_initializeFilter;
 

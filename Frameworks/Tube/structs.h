@@ -4,12 +4,6 @@
 #ifndef __STRUCTS_H
 #define __STRUCTS_H
 
-#include <stdint.h> // For uint8_t, uint32_t, etc.
-#include <stdio.h> // For FILE
-#include "TRMWavetable.h"
-
-#import "TRMParameters.h"
-
 // Oropharynx Regions
 #define TRM_R1          0      //  S1
 #define TRM_R2          1      //  S2

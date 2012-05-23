@@ -9,6 +9,7 @@
 #import "TRMInputParameters.h"
 #import "util.h"
 #import "TRMSampleRateConverter.h"
+#include "TRMWavetable.h"
 
 // 1 means to compile so that interpolation not done for some control rate parameters
 #define MATCH_DSP 0
