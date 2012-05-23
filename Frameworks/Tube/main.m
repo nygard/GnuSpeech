@@ -11,77 +11,6 @@
 
 BOOL verbose;
 
-void printInputParameters(TRMDataList *data, const char *inputFile);
-
-void printInputParameters(TRMDataList *data, const char *inputFile)
-{
-#if 0
-    printf("input file:\t\t%s\n\n", inputFile);
-    
-    /*  ECHO INPUT PARAMETERS  */
-    printf("outputFileFormat:\t");
-    if (data->inputParameters.outputFileFormat == TRMSoundFileFormat_AU)
-        printf("AU\n");
-    else if (data->inputParameters.outputFileFormat == TRMSoundFileFormat_AIFF)
-        printf("AIFF\n");
-    else if (data->inputParameters.outputFileFormat == TRMSoundFileFormat_WAVE)
-        printf("WAVE\n");
-    
-    printf("outputRate:\t\t%.1f Hz\n", data->inputParameters.outputRate);
-    printf("controlRate:\t\t%.2f Hz\n\n", data->inputParameters.controlRate);
-    
-    printf("volume:\t\t\t%.2f dB\n", data->inputParameters.volume);
-    printf("channels:\t\t%-d\n", data->inputParameters.channels);
-    printf("balance:\t\t%+1.2f\n\n", data->inputParameters.balance);
-    
-    printf("waveform:\t\t");
-    if (data->inputParameters.waveform == PULSE)
-        printf("pulse\n");
-    else if (data->inputParameters.waveform == SINE)
-        printf("sine\n");
-    printf("tp:\t\t\t%.2f%%\n", data->inputParameters.tp);
-    printf("tnMin:\t\t\t%.2f%%\n", data->inputParameters.tnMin);
-    printf("tnMax:\t\t\t%.2f%%\n", data->inputParameters.tnMax);
-    printf("breathiness:\t\t%.2f%%\n\n", data->inputParameters.breathiness);
-    
-    printf("nominal tube length:\t%.2f cm\n", data->inputParameters.length);
-    printf("temperature:\t\t%.2f degrees C\n", data->inputParameters.temperature);
-    printf("lossFactor:\t\t%.2f%%\n\n", data->inputParameters.lossFactor);
-    
-    printf("apScale:\t\t%.2f cm\n", data->inputParameters.apScale);
-    printf("mouthCoef:\t\t%.1f Hz\n", data->inputParameters.mouthCoef);
-    printf("noseCoef:\t\t%.1f Hz\n\n", data->inputParameters.noseCoef);
-    
-    for (NSUInteger index = 1; index < TOTAL_NASAL_SECTIONS; index++)
-        printf("n%-d:\t\t\t%.2f cm\n", index, data->inputParameters.noseRadius[index]);
-    
-    printf("\nthroatCutoff:\t\t%.1f Hz\n", data->inputParameters.throatCutoff);
-    printf("throatVol:\t\t%.2f dB\n\n", data->inputParameters.throatVol);
-    
-    printf("modulation:\t\t");
-    if (data->inputParameters.modulation)
-        printf("on\n");
-    else
-        printf("off\n");
-    printf("mixOffset:\t\t%.2f dB\n\n", data->inputParameters.mixOffset);
-    
-    /*  PRINT OUT DERIVED VALUES  */
-    printf("\nactual tube length:\t%.4f cm\n", actualTubeLength);
-    printf("internal sample rate:\t%-d Hz\n", sampleRate);
-    printf("control period:\t\t%-d samples (%.4f seconds)\n\n",
-           controlPeriod, (float)controlPeriod/(float)sampleRate);
-    
-#if DEBUG
-    /*  PRINT OUT WAVE TABLE VALUES  */
-    printf("\n");
-    for (NSUInteger index = 0; index < TABLE_LENGTH; i++)
-        printf("table[%-d] = %.4f\n", index, wavetable[index]);
-#endif
-    
-    [data printControlRateInputTable];
-#endif
-}
-
 int main(int argc, char *argv[])
 {
     @autoreleasepool {
@@ -115,7 +44,8 @@ int main(int argc, char *argv[])
         
         if (verbose) {
             // Print out parameter information
-            printInputParameters(inputData, [inputFile UTF8String]);
+            printf("input file:\t\t%s\n\n", [inputFile UTF8String]);
+            [tube printInputData];
             printf("\nCalculating floating point samples...");
             printf("\nStarting synthesis\n");
             fflush(stdout);

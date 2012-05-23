@@ -33,6 +33,8 @@
 - (void)synthesize;
 - (BOOL)saveOutputToFile:(NSString *)filename error:(NSError **)error;
 
+- (void)printInputData;
+
 @property (readonly) TRMSampleRateConverter *sampleRateConverter;
 
 @end

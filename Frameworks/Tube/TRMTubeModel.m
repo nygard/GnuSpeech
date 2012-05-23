@@ -348,6 +348,18 @@
     return YES;
 }
 
+- (void)printInputData;
+{
+    [self.inputData printInputParameters];
+    
+    // Print out derived values
+    printf("\nactual tube length:\t%.4f cm\n", actualTubeLength);
+    printf("internal sample rate:\t%-d Hz\n", sampleRate);
+    printf("control period:\t\t%-d samples (%.4f seconds)\n\n", controlPeriod, (float)controlPeriod/(float)sampleRate);
+
+    [self.inputData printControlRateInputTable];
+}
+
 #pragma mark -
 
 @synthesize sampleRateConverter = m_sampleRateConverter;
