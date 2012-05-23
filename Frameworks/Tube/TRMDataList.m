@@ -58,7 +58,6 @@
         return NO;
     }
     
-    TRMDataList *dataList = [[[TRMDataList alloc] init] autorelease];
     char line[128];
     
     // Get the output file format
@@ -66,21 +65,21 @@
         fprintf(stderr, "Can't read output file format.\n");
         return NO;
     } else
-        dataList.inputParameters.outputFileFormat = strtol(line, NULL, 10);
+        self.inputParameters.outputFileFormat = strtol(line, NULL, 10);
     
     // Get the output sample rate
     if (fgets(line, 128, fp) == NULL) {
         fprintf(stderr, "Can't read output sample rate.\n");
         return NO;
     } else
-        dataList.inputParameters.outputRate = strtod(line, NULL);
+        self.inputParameters.outputRate = strtod(line, NULL);
     
     // Get the input control rate
     if (fgets(line, 128, fp) == NULL) {
         fprintf(stderr, "Can't read input control rate.\n");
         return NO;
     } else
-        dataList.inputParameters.controlRate = strtod(line, NULL);
+        self.inputParameters.controlRate = strtod(line, NULL);
     
     
     // Get the master volume
@@ -88,21 +87,21 @@
         fprintf(stderr, "Can't read master volume.\n");
         return NO;
     } else
-        dataList.inputParameters.volume = strtod(line, NULL);
+        self.inputParameters.volume = strtod(line, NULL);
     
     // Get the number of sound output channels
     if (fgets(line, 128, fp) == NULL) {
         fprintf(stderr, "Can't read number of sound output channels.\n");
         return NO;
     } else
-        dataList.inputParameters.channels = strtol(line, NULL, 10);
+        self.inputParameters.channels = strtol(line, NULL, 10);
     
     // Get the stereo balance
     if (fgets(line, 128, fp) == NULL) {
         fprintf(stderr, "Can't read stereo balance.\n");
         return NO;
     } else
-        dataList.inputParameters.balance = strtod(line, NULL);
+        self.inputParameters.balance = strtod(line, NULL);
     
     
     // Get the glottal source waveform type
@@ -110,35 +109,35 @@
         fprintf(stderr, "Can't read glottal source waveform type.\n");
         return NO;
     } else
-        dataList.inputParameters.waveform = strtol(line, NULL, 10);
+        self.inputParameters.waveform = strtol(line, NULL, 10);
     
     // Get the glottal pulse rise time (tp)
     if (fgets(line, 128, fp) == NULL) {
         fprintf(stderr, "Can't read glottal pulse rise time (tp).\n");
         return NO;
     } else
-        dataList.inputParameters.tp = strtod(line, NULL);
+        self.inputParameters.tp = strtod(line, NULL);
     
     // Get the glottal pulse fall time minimum (tnMin)
     if (fgets(line, 128, fp) == NULL) {
         fprintf(stderr, "Can't read glottal pulse fall time minimum (tnMin).\n");
         return NO;
     } else
-        dataList.inputParameters.tnMin = strtod(line, NULL);
+        self.inputParameters.tnMin = strtod(line, NULL);
     
     // Get the glottal pulse fall time maximum (tnMax)
     if (fgets(line, 128, fp) == NULL) {
         fprintf(stderr, "Can't read glottal pulse fall time maximum (tnMax).\n");
         return NO;
     } else
-        dataList.inputParameters.tnMax = strtod(line, NULL);
+        self.inputParameters.tnMax = strtod(line, NULL);
     
     // Get the glottal source breathiness
     if (fgets(line, 128, fp) == NULL) {
         fprintf(stderr, "Can't read glottal source breathiness.\n");
         return NO;
     } else
-        dataList.inputParameters.breathiness = strtod(line, NULL);
+        self.inputParameters.breathiness = strtod(line, NULL);
     
     
     // Get the nominal tube length
@@ -146,21 +145,21 @@
         fprintf(stderr, "Can't read nominal tube length.\n");
         return NO;
     } else
-        dataList.inputParameters.length = strtod(line, NULL);
+        self.inputParameters.length = strtod(line, NULL);
     
     // Get the tube temperature
     if (fgets(line, 128, fp) == NULL) {
         fprintf(stderr, "Can't read tube temperature.\n");
         return NO;
     } else
-        dataList.inputParameters.temperature = strtod(line, NULL);
+        self.inputParameters.temperature = strtod(line, NULL);
     
     // Get the junction loss factor
     if (fgets(line, 128, fp) == NULL) {
         fprintf(stderr, "Can't read junction loss factor.\n");
         return NO;
     } else
-        dataList.inputParameters.lossFactor = strtod(line, NULL);
+        self.inputParameters.lossFactor = strtod(line, NULL);
     
     
     // Get the aperture scaling radius
@@ -168,21 +167,21 @@
         fprintf(stderr, "Can't read aperture scaling radius.\n");
         return NO;
     } else
-        dataList.inputParameters.apScale = strtod(line, NULL);
+        self.inputParameters.apScale = strtod(line, NULL);
     
     // Get the mouth aperture coefficient
     if (fgets(line, 128, fp) == NULL) {
         fprintf(stderr, "Can't read mouth aperture coefficient\n");
         return NO;
     } else
-        dataList.inputParameters.mouthCoef = strtod(line, NULL);
+        self.inputParameters.mouthCoef = strtod(line, NULL);
     
     // Get the nose aperture coefficient
     if (fgets(line, 128, fp) == NULL) {
         fprintf(stderr, "Can't read nose aperture coefficient\n");
         return NO;
     } else
-        dataList.inputParameters.noseCoef = strtod(line, NULL);
+        self.inputParameters.noseCoef = strtod(line, NULL);
     
     
     // Get the nose radii
@@ -191,7 +190,7 @@
             fprintf(stderr, "Can't read nose radius %-lu.\n", i);
             return NO;
         } else
-            dataList.inputParameters.noseRadius[i] = strtod(line, NULL);
+            self.inputParameters.noseRadius[i] = strtod(line, NULL);
     }
     
     
@@ -200,14 +199,14 @@
         fprintf(stderr, "Can't read throat lowpass filter cutoff.\n");
         return NO;
     } else
-        dataList.inputParameters.throatCutoff = strtod(line, NULL);
+        self.inputParameters.throatCutoff = strtod(line, NULL);
     
     // Get the throat volume
     if (fgets(line, 128, fp) == NULL) {
         fprintf(stderr, "Can't read throat volume.\n");
         return NO;
     } else
-        dataList.inputParameters.throatVol = strtod(line, NULL);
+        self.inputParameters.throatVol = strtod(line, NULL);
     
     
     // Get the pulse modulation of noise flag
@@ -215,14 +214,14 @@
         fprintf(stderr, "Can't read pulse modulation of noise flag.\n");
         return NO;
     } else
-        dataList.inputParameters.modulation = strtol(line, NULL, 10);
+        self.inputParameters.modulation = strtol(line, NULL, 10);
     
     // Get the noise crossmix offset
     if (fgets(line, 128, fp) == NULL) {
         fprintf(stderr, "Can't read noise crossmix offset.\n");
         return NO;
     } else
-        dataList.inputParameters.mixOffset = strtod(line, NULL);
+        self.inputParameters.mixOffset = strtod(line, NULL);
     
     
     // Get the input table values
@@ -243,12 +242,12 @@
             radius[i] = strtod(ptr, &ptr);
         inputParameters.velum = strtod(ptr, &ptr);
         
-        [dataList.values addObject:inputParameters];
+        [self.values addObject:inputParameters];
     }
     
     // Double up the last input table, to help interpolation calculations    if ([dataList.values count] > 0) {
-    if ([dataList.values count] > 0) {
-        [dataList.values addObject:[dataList.values lastObject]]; // TODO (201-04-28): Should copy object
+    if ([self.values count] > 0) {
+        [self.values addObject:[self.values lastObject]]; // TODO (201-04-28): Should copy object
     }
     
     // Close the input file

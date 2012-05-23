@@ -605,7 +605,7 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
     
     NSMutableData *data = [NSMutableData data];
     uint32_t subChunk1Size = 18;
-    uint32_t subChunk2Size = [sampleData length];
+    uint32_t subChunk2Size = (uint32_t)[sampleData length]; // Loses precision...
     uint32_t chunkSize = 4 + (8 + subChunk1Size) + (8 + subChunk2Size);
     
     // Header - RIFF type chunk
