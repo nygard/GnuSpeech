@@ -235,9 +235,7 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
             value = (short)rint(sample * rightScale);
             [sampleData appendBytes:&value length:sizeof(value)];
         }
-		
     } else {
-		
         for (NSUInteger index = 0; index < sampleRateConverter.numberSamples; index++) {
             double sample;
 
