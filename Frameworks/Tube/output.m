@@ -9,9 +9,7 @@
 #include <math.h>
 #include "util.h"
 
-#import "TRMDataList.h"
-#import "TRMInputParameters.h"
-#import "TRMSampleRateConverter.h"
+#import "TRMTubeModel.h"
 
 extern BOOL verbose;
 
@@ -20,10 +18,6 @@ static size_t fwriteIntLsb(int32_t data, FILE *stream);
 static size_t fwriteShortMsb(int32_t data, FILE *stream);
 static size_t fwriteShortLsb(int32_t data, FILE *stream);
 static void convertIntToFloat80(uint32_t value, uint8_t buffer[10]);
-
-void writeOutputToFile(TRMSampleRateConverter *sampleRateConverter, TRMInputParameters *inputParameters, const char *fileName)
-{
-}
 
 // Writes the header in AU format to the output file.
 void writeAuFileHeader(int32_t channels, int32_t numberSamples, float outputRate, FILE *outputFile)

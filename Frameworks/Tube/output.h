@@ -4,24 +4,6 @@
 #ifndef __OUTPUT_H
 #define __OUTPUT_H
 
-#import "TRMInputParameters.h"
-
-@class TRMSampleRateConverter;
-
-// Output file format constants
-enum {
-    TRMSoundFileFormat_AU   = 0,
-    TRMSoundFileFormat_AIFF = 1,
-    TRMSoundFileFormat_WAVE = 2,
-};
-typedef NSUInteger TRMSoundFileFormat;
-
-// Maximum sample value
-#define TRMSampleValue_Maximum    32767.0
-
-// Size in bits per output sample
-#define TRMBitsPerSample          16
-
 void writeAuFileHeader(int32_t channels, int32_t numberSamples, float outputRate, FILE *outputFile);
 void writeAiffFileHeader(int32_t channels, int32_t numberSamples, float outputRate, FILE *outputFile);
 void writeWaveFileHeader(int32_t channels, int32_t numberSamples, float outputRate, FILE *outputFile);

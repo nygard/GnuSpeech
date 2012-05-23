@@ -20,6 +20,7 @@
 		01115FA61547C43E002ABAAF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 01115F7E1547C35A002ABAAF /* main.m */; };
 		016B4AB7156CD142006874F4 /* NSData-STExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 016B4AB5156CD142006874F4 /* NSData-STExtensions.h */; };
 		016B4AB8156CD142006874F4 /* NSData-STExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 016B4AB6156CD142006874F4 /* NSData-STExtensions.m */; };
+		016B4ABB156CD859006874F4 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 016B4ABA156CD859006874F4 /* AudioToolbox.framework */; };
 		0172DA14153FDD2F00413F56 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0172DA13153FDD2F00413F56 /* Accelerate.framework */; };
 		019CCB8E154BE30D00A9CF7A /* TRMInputParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 019CCB8C154BE30C00A9CF7A /* TRMInputParameters.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		019CCB8F154BE30D00A9CF7A /* TRMInputParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 019CCB8D154BE30C00A9CF7A /* TRMInputParameters.m */; };
@@ -67,6 +68,7 @@
 		01115FA41547C3D3002ABAAF /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/Accelerate.framework; sourceTree = DEVELOPER_DIR; };
 		016B4AB5156CD142006874F4 /* NSData-STExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData-STExtensions.h"; sourceTree = "<group>"; };
 		016B4AB6156CD142006874F4 /* NSData-STExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData-STExtensions.m"; sourceTree = "<group>"; };
+		016B4ABA156CD859006874F4 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = /System/Library/Frameworks/AudioToolbox.framework; sourceTree = "<absolute>"; };
 		0172DA13153FDD2F00413F56 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = /System/Library/Frameworks/Accelerate.framework; sourceTree = "<absolute>"; };
 		019CCB8C154BE30C00A9CF7A /* TRMInputParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRMInputParameters.h; sourceTree = "<group>"; };
 		019CCB8D154BE30C00A9CF7A /* TRMInputParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRMInputParameters.m; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				016B4ABB156CD859006874F4 /* AudioToolbox.framework in Frameworks */,
 				0172DA14153FDD2F00413F56 /* Accelerate.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -219,6 +222,7 @@
 		1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				016B4ABA156CD859006874F4 /* AudioToolbox.framework */,
 				01115FA41547C3D3002ABAAF /* Accelerate.framework */,
 			);
 			name = "Linked Frameworks";

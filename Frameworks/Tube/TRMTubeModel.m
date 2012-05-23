@@ -3,6 +3,7 @@
 
 #import "TRMTubeModel.h"
 
+#import <AudioToolbox/AudioToolbox.h>
 #import "TRMParameters.h"
 #import "TRMDataList.h"
 #import "TRMInputParameters.h"
@@ -75,6 +76,63 @@
 
 // 1 means to compile so that interpolation not done for some control rate parameters
 #define MATCH_DSP 0
+
+NSString *TRMSoundFileFormatDescription(TRMSoundFileFormat format)
+{
+    switch (format) {
+        case TRMSoundFileFormat_AU:   return @"AU";
+        case TRMSoundFileFormat_AIFF: return @"AIFF";
+        case TRMSoundFileFormat_WAVE: return @"WAVE";
+    }
+
+    return @"Unknown";
+}
+
+NSString *TRMSoundFileFormatExtension(TRMSoundFileFormat format)
+{
+    switch (format) {
+        case TRMSoundFileFormat_AU:   return @"au";
+        case TRMSoundFileFormat_AIFF: return @"aiff";
+        case TRMSoundFileFormat_WAVE: return @"wav";
+    }
+    
+    return @"Unknown";
+}
+
+AudioFileTypeID TRMCoreAudioFormatFromSoundFileFormat(TRMSoundFileFormat format)
+{
+    switch (format) {
+        case TRMSoundFileFormat_AU:   return kAudioFileNextType;
+        case TRMSoundFileFormat_AIFF: return kAudioFileAIFFType;
+        case TRMSoundFileFormat_WAVE: return kAudioFileWAVEType;
+    }
+    
+    return 0;
+}
+
+
+NSString *STCoreAudioErrorDescription(OSStatus error)
+{
+    switch (error) {
+        case kAudioFileUnspecifiedError:               return @"An unspecified error has occurred.";
+        case kAudioFileUnsupportedFileTypeError:       return @"The file type is not supported.";
+        case kAudioFileUnsupportedDataFormatError:     return @"The data format is not supported by this file type.";
+        case kAudioFileUnsupportedPropertyError:       return @"The property is not supported.";
+        case kAudioFileBadPropertySizeError:           return @"The size of the property data was not correct.";
+        case kAudioFilePermissionsError:               return @"The operation violated the file permissions. For example, trying to write to a file opened with kAudioFileReadPermission.";
+        case kAudioFileNotOptimizedError:              return @"There are chunks following the audio data chunk that prevent extending the audio data chunk.  The file must be optimized in order to write more audio data.";
+        case kAudioFileInvalidChunkError:              return @"The chunk does not exist in the file or is not supported by the file.";
+        case kAudioFileDoesNotAllow64BitDataSizeError: return @"The a file offset was too large for the file type. AIFF and WAVE have a 32 bit file size limit.";
+        case kAudioFileInvalidPacketOffsetError:       return @"A packet offset was past the end of the file, or not at the end of the file when writing a VBR format, or a corrupt packet size was read when building the packet table.";
+        case kAudioFileInvalidFileError:               return @"The file is malformed, or otherwise not a valid instance of an audio file of its type.";
+        case kAudioFileOperationNotSupportedError:     return @"The operation cannot be performed. For example, setting kAudioFilePropertyAudioDataByteCount to increase the size of the audio data in a file is not a supported operation. Write the data instead.";
+        case kAudioFileEndOfFileError:                 return @"End of file.";
+        case kAudioFilePositionError:                  return @"Invalid file position.";
+        case kAudioFileNotOpenError:                   return @"The file is closed.";
+    }
+
+    return @"Unknown";
+}
 
 const uint16_t kWAVEFormat_Unknown         = 0x0000;
 const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
@@ -378,36 +436,100 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
     NSData *resampledData = [self.sampleRateConverter resampledData];
     NSInputStream *inputStream = [NSInputStream inputStreamWithData:resampledData];
     [inputStream open];
-    
-    // Open the output file
-    FILE *outputFileDescriptor = fopen([filename UTF8String], "wb");
-    if (outputFileDescriptor == NULL) {
-        perror("fopen");
-        exit(-1);
+
+    //NSString *filePath = [filename stringByAppendingPathExtension:TRMSoundFileFormatExtension(self.inputParameters.outputFileFormat)];
+    NSURL *fileURL = [NSURL fileURLWithPath:filename];
+
+    // WAV must be little endian
+    AudioStreamBasicDescription asbd;
+    memset(&asbd, 0, sizeof(asbd));
+    asbd.mSampleRate       = self.inputParameters.outputRate;
+    asbd.mFormatID         = kAudioFormatLinearPCM;
+    asbd.mFormatFlags      = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked;
+    asbd.mBitsPerChannel   = 16;
+    asbd.mChannelsPerFrame = self.inputParameters.channels;
+    asbd.mFramesPerPacket  = 1; // Always 1 for uncompressed formats
+    asbd.mBytesPerFrame    = 2*self.inputParameters.channels;
+    asbd.mBytesPerPacket   = 2*self.inputParameters.channels;
+
+    if (self.inputParameters.outputFileFormat == TRMSoundFileFormat_AU || self.inputParameters.outputFileFormat == TRMSoundFileFormat_AIFF) {
+        asbd.mFormatFlags |= kAudioFormatFlagIsBigEndian;
     }
     
-    // Scale and write out samples to the output file
-    if (self.inputParameters.outputFileFormat == TRMSoundFileFormat_AU) {
-        writeAuFileHeader(self.inputParameters.channels, self.sampleRateConverter.numberSamples, self.inputParameters.outputRate, outputFileDescriptor);
-        if (self.inputParameters.channels == 1)
-            writeSamplesMonoMsb(inputStream, self.sampleRateConverter.numberSamples, scale, outputFileDescriptor);
-        else
-            writeSamplesStereoMsb(inputStream, self.sampleRateConverter.numberSamples, leftScale, rightScale, outputFileDescriptor);
-    } else if (self.inputParameters.outputFileFormat == TRMSoundFileFormat_AIFF) {
-        writeAiffFileHeader(self.inputParameters.channels, self.sampleRateConverter.numberSamples, self.inputParameters.outputRate, outputFileDescriptor);
-        if (self.inputParameters.channels == 1)
-            writeSamplesMonoMsb(inputStream, self.sampleRateConverter.numberSamples, scale, outputFileDescriptor);
-        else
-            writeSamplesStereoMsb(inputStream, self.sampleRateConverter.numberSamples, leftScale, rightScale, outputFileDescriptor);
-    } else if (self.inputParameters.outputFileFormat == TRMSoundFileFormat_WAVE) {
-        writeWaveFileHeader(self.inputParameters.channels, self.sampleRateConverter.numberSamples, self.inputParameters.outputRate, outputFileDescriptor);
-        if (self.inputParameters.channels == 1)
-            writeSamplesMonoLsb(inputStream, self.sampleRateConverter.numberSamples, scale, outputFileDescriptor);
-        else
-            writeSamplesStereoLsb(inputStream, self.sampleRateConverter.numberSamples, leftScale, rightScale, outputFileDescriptor);
+    AudioFileID audioFile;
+    OSStatus audioError = AudioFileCreateWithURL((CFURLRef)(fileURL), TRMCoreAudioFormatFromSoundFileFormat(self.inputParameters.outputFileFormat), &asbd, kAudioFileFlags_EraseFile, &audioFile);
+    //NSLog(@"Error: %@", STCoreAudioErrorDescription(audioError));
+    assert(audioError == noErr);
+
+    // Write the samples to file, scaling each sample
+    if (self.inputParameters.channels == 1) {
+        if (self.inputParameters.outputFileFormat == TRMSoundFileFormat_WAVE) {
+            for (int32_t index = 0; index < self.sampleRateConverter.numberSamples; index++) {
+                double sample;
+                
+                NSInteger result = [inputStream read:(void *)&sample maxLength:sizeof(sample)];
+                NSCAssert(result == sizeof(sample), @"Error reading from input stream");
+                
+                UInt32 sampleByteCount = 2;
+                int16_t sample2 = CFSwapInt16HostToLittle(rint(sample * scale));
+                audioError = AudioFileWriteBytes(audioFile, false, index * 2, &sampleByteCount, &sample2);
+                assert(audioError == noErr);
+            }
+        } else {
+            for (int32_t index = 0; index < self.sampleRateConverter.numberSamples; index++) {
+                double sample;
+                
+                NSInteger result = [inputStream read:(void *)&sample maxLength:sizeof(sample)];
+                NSCAssert(result == sizeof(sample), @"Error reading from input stream");
+                
+                UInt32 sampleByteCount = 2;
+                int16_t sample2 = CFSwapInt16HostToBig(rint(sample * scale));
+                audioError = AudioFileWriteBytes(audioFile, false, index * 2, &sampleByteCount, &sample2);
+                assert(audioError == noErr);
+            }
+        }
+    } else {
+        if (self.inputParameters.outputFileFormat == TRMSoundFileFormat_WAVE) {
+            for (int32_t index = 0; index < self.sampleRateConverter.numberSamples; index++) {
+                double sample;
+                
+                NSInteger result = [inputStream read:(void *)&sample maxLength:sizeof(sample)];
+                NSCAssert(result == sizeof(sample), @"Error reading from input stream");
+                
+                int16_t left  = CFSwapInt16HostToLittle(rint(sample * leftScale));
+                int16_t right = CFSwapInt16HostToLittle(rint(sample * rightScale));
+
+                UInt32 sampleByteCount = 2;
+                audioError = AudioFileWriteBytes(audioFile, false, index * 4, &sampleByteCount, &left);
+                assert(audioError == noErr);
+
+                sampleByteCount = 2;
+                audioError = AudioFileWriteBytes(audioFile, false, index * 4 + 2, &sampleByteCount, &right);
+                assert(audioError == noErr);
+            }
+        } else {
+            for (int32_t index = 0; index < self.sampleRateConverter.numberSamples; index++) {
+                double sample;
+                
+                NSInteger result = [inputStream read:(void *)&sample maxLength:sizeof(sample)];
+                NSCAssert(result == sizeof(sample), @"Error reading from input stream");
+                
+                int16_t left  = CFSwapInt16HostToBig(rint(sample * leftScale));
+                int16_t right = CFSwapInt16HostToBig(rint(sample * rightScale));
+                
+                UInt32 sampleByteCount = 2;
+                audioError = AudioFileWriteBytes(audioFile, false, index * 4, &sampleByteCount, &left);
+                assert(audioError == noErr);
+                
+                sampleByteCount = 2;
+                audioError = AudioFileWriteBytes(audioFile, false, index * 4 + 2, &sampleByteCount, &right);
+                assert(audioError == noErr);
+            }
+        }
     }
-    
-    fclose(outputFileDescriptor);
+
+    audioError = AudioFileClose(audioFile);
+    assert(audioError == noErr);
 
     return YES;
 }
