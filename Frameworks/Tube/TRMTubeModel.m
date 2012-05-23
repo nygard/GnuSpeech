@@ -75,7 +75,8 @@
 #define MATCH_DSP 0
 
 @interface TRMTubeModel ()
-@property (readonly) TRMInputParameters *inputParameters;
+@property (readonly) TRMDataList *inputData;
+@property (nonatomic, readonly) TRMInputParameters *inputParameters;
 
 - (void)initializeMouthCoefficients:(double)coeff;
 - (double)reflectionFilter:(double)input;
@@ -147,15 +148,15 @@
     TRMSampleRateConverter *m_sampleRateConverter;
     TRMWavetable *wavetable;
 
+    TRMDataList *m_inputData;
 
     BOOL verbose;
-    TRMInputParameters *m_inputParameters;
 }
 
-- (id)initWithInputParameters:(TRMInputParameters *)inputParameters;
+- (id)initWithInputData:(TRMDataList *)inputData;
 {
     if ((self = [super init])) {
-        m_inputParameters = [inputParameters retain];
+        m_inputData = [inputData retain];
 
         double nyquist;
 
@@ -165,36 +166,36 @@
         m_current.delta = [[TRMParameters alloc] init];
         
         // Calculate the sample rate, based on nominal tube length and speed of sound
-        if (inputParameters.length > 0.0) {
-            double c = speedOfSound(inputParameters.temperature);
+        if (m_inputData.inputParameters.length > 0.0) {
+            double c = speedOfSound(m_inputData.inputParameters.temperature);
             
-            controlPeriod = rint((c * TOTAL_SECTIONS * 100.0) / (inputParameters.length * inputParameters.controlRate));
-            sampleRate = inputParameters.controlRate * controlPeriod;
+            controlPeriod = rint((c * TOTAL_SECTIONS * 100.0) / (m_inputData.inputParameters.length * m_inputData.inputParameters.controlRate));
+            sampleRate = m_inputData.inputParameters.controlRate * controlPeriod;
             actualTubeLength = (c * TOTAL_SECTIONS * 100.0) / sampleRate;
             nyquist = (double)sampleRate / 2.0;
         } else {
-            fprintf(stderr, "Illegal tube length: %g\n", inputParameters.length);
+            fprintf(stderr, "Illegal tube length: %g\n", m_inputData.inputParameters.length);
             [self release];
             return nil;
         }
         
         // Calculate the breathiness factor
-        breathinessFactor = inputParameters.breathiness / 100.0;
+        breathinessFactor = m_inputData.inputParameters.breathiness / 100.0;
         
         // Calculate crossmix factor
-        crossmixFactor = 1.0 / amplitude(inputParameters.mixOffset);
+        crossmixFactor = 1.0 / amplitude(m_inputData.inputParameters.mixOffset);
         
         // Calculate the damping factor
-        m_dampingFactor = (1.0 - (inputParameters.lossFactor / 100.0));
+        m_dampingFactor = (1.0 - (m_inputData.inputParameters.lossFactor / 100.0));
         
         // Initialize the wave table
-        wavetable = [[TRMWavetable alloc] initWithWaveform:inputParameters.waveform throttlePulse:inputParameters.tp tnMin:inputParameters.tnMin tnMax:inputParameters.tnMax sampleRate:sampleRate];
+        wavetable = [[TRMWavetable alloc] initWithWaveform:m_inputData.inputParameters.waveform throttlePulse:m_inputData.inputParameters.tp tnMin:m_inputData.inputParameters.tnMin tnMax:m_inputData.inputParameters.tnMax sampleRate:sampleRate];
         
         // Initialize reflection and radiation filter coefficients for mouth
-        [self initializeMouthCoefficients:(nyquist - inputParameters.mouthCoef) / nyquist];
+        [self initializeMouthCoefficients:(nyquist - m_inputData.inputParameters.mouthCoef) / nyquist];
         
         // Initialize reflection and radiation filter coefficients for nose
-        [self initializeNasalFilterCoefficients:(nyquist - inputParameters.noseCoef) / nyquist];
+        [self initializeNasalFilterCoefficients:(nyquist - m_inputData.inputParameters.noseCoef) / nyquist];
         
         // Initialize nasal cavity fixed scattering coefficients
         [self initializeNasalCavity];
@@ -204,7 +205,7 @@
         // Initialize the throat lowpass filter
         [self initializeThroat];
         
-        m_sampleRateConverter = [[TRMSampleRateConverter alloc] initWithInputRate:sampleRate outputRate:inputParameters.outputRate];
+        m_sampleRateConverter = [[TRMSampleRateConverter alloc] initWithInputRate:sampleRate outputRate:m_inputData.inputParameters.outputRate];
         
         // These get calculated each time through the synthesize() loop:
         //newTubeModel->bpAlpha = 0.0;
@@ -225,7 +226,7 @@
 
 - (void)dealloc;
 {
-    [m_inputParameters release];
+    [m_inputData release];
 
     [wavetable release];
 
@@ -239,17 +240,22 @@
 
 #pragma mark -
 
-@synthesize inputParameters = m_inputParameters;
+@synthesize inputData = m_inputData;
+
+- (TRMInputParameters *)inputParameters;
+{
+    return self.inputData.inputParameters;
+}
 
 #pragma mark -
 
 // Performs the actual synthesis of sound samples.
-- (void)synthesizeFromDataList:(TRMDataList *)data;
+- (void)synthesize;
 {
     int32_t j;
     double f0, ax, ah1, pulse, lp_noise, pulsed_noise, signal, crossmix;
     
-    if ([data.values count] == 0) {
+    if ([self.inputData.values count] == 0) {
         // No data
         return;
     }
@@ -257,7 +263,7 @@
     // Control rate loop
     TRMParameters *previous = nil;
     
-    for (TRMParameters *parameters in data.values) {
+    for (TRMParameters *parameters in self.inputData.values) {
         if (previous == nil) {
             previous = parameters;
             continue;
@@ -284,7 +290,7 @@
             lp_noise = noiseFilter(noise());
             
             // Update the shape of the glottal pulse, if necessary
-            if (data.inputParameters.waveform == TRMWaveFormType_Pulse)
+            if (self.inputData.inputParameters.waveform == TRMWaveFormType_Pulse)
                 [wavetable update:ax];
             
             // Create glottal pulse (or sine tone)
@@ -297,7 +303,7 @@
             pulse = ax * ((pulse * (1.0 - breathinessFactor)) + (pulsed_noise * breathinessFactor));
             
             // Cross-mix pure noise with pulsed noise
-            if (data.inputParameters.modulation) {
+            if (self.inputData.inputParameters.modulation) {
                 crossmix = ax * crossmixFactor;
                 crossmix = (crossmix < 1.0) ? crossmix : 1.0;
                 signal = (pulsed_noise * crossmix) + (lp_noise * (1.0 - crossmix));

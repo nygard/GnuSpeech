@@ -157,13 +157,13 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 
 - (void)synthesize;
 {
-    TRMTubeModel *tube = [[[TRMTubeModel alloc] initWithInputParameters:m_inputData.inputParameters] autorelease];
+    TRMTubeModel *tube = [[[TRMTubeModel alloc] initWithInputData:m_inputData] autorelease];
     if (tube == nil) {
         NSLog(@"Warning: Failed to create tube model.");
         return;
     }
 
-    [tube synthesizeFromDataList:m_inputData];
+    [tube synthesize];
 
     if (self.shouldSaveToSoundFile) {
         writeOutputToFile(tube.sampleRateConverter, m_inputData.inputParameters, [self.filename UTF8String]);

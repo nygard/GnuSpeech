@@ -28,9 +28,9 @@
 
 @interface TRMTubeModel : NSObject
 
-- (id)initWithInputParameters:(TRMInputParameters *)inputParameters; // Might not even need inputParameters
+- (id)initWithInputData:(TRMDataList *)inputData;
 
-- (void)synthesizeFromDataList:(TRMDataList *)data;
+- (void)synthesize;
 
 @property (readonly) TRMSampleRateConverter *sampleRateConverter;
 

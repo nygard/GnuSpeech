@@ -107,26 +107,21 @@ int main(int argc, char *argv[])
         }
         
         // Initialize the synthesizer
-        TRMTubeModel *tube = [[[TRMTubeModel alloc] initWithInputParameters:inputData.inputParameters] autorelease];
+        TRMTubeModel *tube = [[[TRMTubeModel alloc] initWithInputData:inputData] autorelease];
         if (tube == nil) {
             fprintf(stderr, "Aborting...\n");
             exit(-1);
         }
         
-        // Print out parameter information
-        if (verbose)
+        if (verbose) {
+            // Print out parameter information
             printInputParameters(inputData, [inputFile UTF8String]);
-        
-        if (verbose) {
             printf("\nCalculating floating point samples...");
-            fflush(stdout);
-        }
-        
-        if (verbose) {
             printf("\nStarting synthesis\n");
             fflush(stdout);
         }
-        [tube synthesizeFromDataList:inputData];
+
+        [tube synthesize];
 
         if (verbose)
             printf("done.\n");
