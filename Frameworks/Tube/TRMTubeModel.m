@@ -9,7 +9,7 @@
 #import "TRMInputParameters.h"
 #import "util.h"
 #import "TRMSampleRateConverter.h"
-#include "TRMWavetable.h"
+#import "TRMWavetable.h"
 #import "NSData-STExtensions.h"
 
 // Oropharynx scattering junction coefficients (between each region)
@@ -133,9 +133,6 @@ NSString *STCoreAudioErrorDescription(OSStatus error)
     return @"Unknown";
 }
 
-const uint16_t kWAVEFormat_Unknown         = 0x0000;
-const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
-
 @interface TRMTubeModel ()
 @property (readonly) TRMDataList *inputData;
 @property (nonatomic, readonly) TRMInputParameters *inputParameters;
@@ -222,8 +219,6 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
         m_inputData = [inputData retain];
 
         double nyquist;
-
-        //memset(newTubeModel, 0, sizeof(TRMTubeModel));
         
         m_current.parameters = [[TRMParameters alloc] init];
         m_current.delta = [[TRMParameters alloc] init];
@@ -529,6 +524,9 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 
 #pragma mark - WAV data generation
 
+const uint16_t kWAVEFormat_Unknown         = 0x0000;
+const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
+
 // RIFF
 #define WAV_CHUNK_ID        0x52494646
 
@@ -734,11 +732,11 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
     
     // Frication volume
     m_current.parameters.fricVol   = previousInput.fricVol;
-    current.delta.fricVol          = 0.0;
+    m_current.delta.fricVol        = 0.0;
     
     // Frication position
     m_current.parameters.fricPos   = previousInput.fricPos;
-    current.delta.fricPos          = 0.0;
+    m_current.delta.fricPos        = 0.0;
     
     // Frication center frequency
     m_current.parameters.fricCF    = previousInput.fricCF;
@@ -906,7 +904,7 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
     int32_t prev_ptr = m_prev_ptr;
     double dampingFactor = m_dampingFactor;
     
-    // Upate oropharynx
+    // Update oropharynx
     // Input to top of tube
     
     oropharynx[S1][TOP][current_ptr] = (oropharynx[S1][BOTTOM][prev_ptr] * dampingFactor) + input;
@@ -1013,7 +1011,7 @@ typedef struct {
     double yn1;
     double yn2;
 } TRMBandpassFilter;
-TRMBandpassFilter fricationFilter;
+TRMBandpassFilter fricationBandPassFilter;
 #endif
 
 - (double)bandpassFilter:(double)input;
