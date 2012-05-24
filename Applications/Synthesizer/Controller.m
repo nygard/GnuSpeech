@@ -116,38 +116,38 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
     // TODO (2012-05-19): Set up number formatters
     [_mainWindow makeKeyAndOrderFront:self];
 	toneFrequency = TONE_FREQ;
-	//[toneFrequencyTextField setFloatingPointFormat:(BOOL)NO left:(unsigned)4 right:(unsigned)1];
+	//[toneFrequencyTextField setFloatingPointFormat:NO left:4 right:1];
     [toneFrequencyTextField setFloatValue:toneFrequency];
     [toneFrequencySlider setFloatValue:toneFrequency];
 	//NSLog(@"Tone Frequency is %f", toneFrequency);
 #if 0
-	[tubeLengthField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
-	[temperatureField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
+	[tubeLengthField      setFloatingPointFormat:NO left:2 right:2];
+	[temperatureField     setFloatingPointFormat:NO left:2 right:2];
 	
-	[actualLengthField setFloatingPointFormat:(BOOL)NO left:2 right:4];
-	[sampleRateField setFloatingPointFormat:(BOOL)NO left:6 right:0];
-	[controlPeriodField setFloatingPointFormat:(BOOL)NO left:3 right:0];
+	[actualLengthField    setFloatingPointFormat:NO left:2 right:4];
+	[sampleRateField      setFloatingPointFormat:NO left:6 right:0];
+	[controlPeriodField   setFloatingPointFormat:NO left:3 right:0];
 	
-	[stereoBalanceField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
-	[breathinessField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
-	[lossFactorField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
-	[tpField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
-	[tnMinField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
+	[stereoBalanceField   setFloatingPointFormat:NO left:2 right:2];
+	[breathinessField     setFloatingPointFormat:NO left:2 right:2];
+	[lossFactorField      setFloatingPointFormat:NO left:2 right:2];
+	[tpField              setFloatingPointFormat:NO left:2 right:2];
+	[tnMinField           setFloatingPointFormat:NO left:2 right:2];
 
-	[tnMaxField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
-	[throatCutOff setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
-	[throatVolumeField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
-	[apertureScalingField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
-	[mouthCoefField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
-	[noseCoefField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
-	[mixOffsetField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
-	[glottalVolumeField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
-	[pitchField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
-	[aspVolField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
-	[fricVolField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
-	[fricPosField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)1];
-	[fricCFField setFloatingPointFormat:(BOOL)NO left:(unsigned)4 right:(unsigned)0];
-	[fricBWField setFloatingPointFormat:(BOOL)NO left:(unsigned)3 right:(unsigned)1];
+	[tnMaxField           setFloatingPointFormat:NO left:2 right:2];
+	[throatCutOff         setFloatingPointFormat:NO left:2 right:2];
+	[throatVolumeField    setFloatingPointFormat:NO left:2 right:2];
+	[apertureScalingField setFloatingPointFormat:NO left:2 right:2];
+	[mouthCoefField       setFloatingPointFormat:NO left:2 right:2];
+	[noseCoefField        setFloatingPointFormat:NO left:2 right:2];
+	[mixOffsetField       setFloatingPointFormat:NO left:2 right:2];
+	[glottalVolumeField   setFloatingPointFormat:NO left:2 right:2];
+	[pitchField           setFloatingPointFormat:NO left:2 right:2];
+	[aspVolField          setFloatingPointFormat:NO left:2 right:2];
+	[fricVolField         setFloatingPointFormat:NO left:2 right:2];
+	[fricPosField         setFloatingPointFormat:NO left:2 right:1];
+	[fricCFField          setFloatingPointFormat:NO left:4 right:0];
+	[fricBWField          setFloatingPointFormat:NO left:3 right:1];
 #endif
 	[fricativeArrow setFricationPosition:(float)7.0];
 	

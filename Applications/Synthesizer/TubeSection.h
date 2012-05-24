@@ -23,6 +23,9 @@
 
 @public
     float slideHeight;
+    
+    NSRect section;
+    float  rad, diam, lumen, sectionParameter;
 }
 
 - (void)mouseDragged:(NSEvent *)event;
