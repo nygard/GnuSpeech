@@ -173,7 +173,52 @@ double TRMBandPassFilter_FilterInput(TRMBandPassFilter *filter, double input)
     return output;
 }
 
-#pragma mark - Low Pass Filter
+#pragma mark - Mouth, Nasal filter pairs
+
+typedef struct {
+    // Coefficients
+    double a10;
+    double b11;
+    double a20;
+    double a21;
+    double b21;
+
+    // Reflection filter memory
+    double reflectionY;
+
+    // Radiation filter memory
+    double radiationX;
+    double radiationY;
+} TRMRadiationReflectionFilter;
+
+// Calculates the fixed coefficients for the reflection/radiation filter pair, according to the aperture coefficient.
+void TRMRadiationReflectionFilter_InitWithCoefficient(TRMRadiationReflectionFilter *filter, double coeff)
+{
+    filter->b11 = -coeff;
+    filter->a10 = 1.0 - fabs(filter->b11);
+    
+    filter->a20 = coeff;
+    filter->a21 = filter->b21 = -(filter->a20);
+
+    filter->reflectionY = 0;
+    filter->radiationX = 0;
+    filter->radiationY = 0;
+}
+
+double TRMRadiationReflectionFilter_ReflectionFilterInput(TRMRadiationReflectionFilter *filter, double input)
+{
+    double output = (filter->a10 * input) - (filter->b11 * filter->reflectionY);
+    filter->reflectionY = output;
+    return output;
+}
+
+double TRMRadiationReflectionFilter_RadiationFilterInput(TRMRadiationReflectionFilter *filter, double input)
+{
+    double output = (filter->a20 * input) + (filter->a21 * filter->radiationX) - (filter->b21 * filter->radiationY);
+    filter->radiationX = input;
+    filter->radiationY = output;
+    return output;
+}
 
 #pragma mark -
 
@@ -181,14 +226,6 @@ double TRMBandPassFilter_FilterInput(TRMBandPassFilter *filter, double input)
 @property (readonly) TRMDataList *inputData;
 @property (nonatomic, readonly) TRMInputParameters *inputParameters;
 @property (readonly) TRMSampleRateConverter *sampleRateConverter;
-
-- (void)initializeMouthCoefficients:(double)coeff;
-- (double)reflectionFilter:(double)input;
-- (double)radiationFilter:(double)input;
-
-- (void)initializeNasalFilterCoefficients:(double)coeff;
-- (double)nasalReflectionFilter:(double)input;
-- (double)nasalRadiationFilter:(double)input;
 
 - (void)setControlRateParameters:(TRMParameters *)current previous:(TRMParameters *)previous;
 - (void)sampleRateInterpolation;
@@ -215,12 +252,14 @@ double TRMBandPassFilter_FilterInput(TRMBandPassFilter *filter, double input)
     
     double breathinessFactor;
     
-    // Reflection and radiation filter memory
-    double a10, b11, a20, a21, b21;
-    
-    // Nasal reflection and radiation filter memory
-    double na10, nb11, na20, na21, nb21;
-    
+    // Mouth reflection filter: Is a variable, one-pole lowpass filter,            whose cutoff       is determined by the mouth aperture coefficient.
+    // Mouth radiation filter:  Is a variable, one-zero, one-pole highpass filter, whose cutoff point is determined by the mouth aperture coefficient.
+    TRMRadiationReflectionFilter mouthFilterPair;
+
+    // Nasal reflection filter: Is a one-pole lowpass filter,            used for terminating the end of            the nasal cavity.
+    // Nasal radiation filter:  Is a one-zero, one-pole highpass filter, used for the radiation characteristic from the nasal cavity.
+    TRMRadiationReflectionFilter nasalFilterPair;
+
     // Throad lowpass filter memory, gain
     double tb1, ta0, throatGain;
     
@@ -234,8 +273,8 @@ double TRMBandPassFilter_FilterInput(TRMBandPassFilter *filter, double input)
     double nasal_coeff[TOTAL_NASAL_COEFFICIENTS];
     
     double alpha[TOTAL_ALPHA_COEFFICIENTS];
-    int32_t m_current_ptr;
-    int32_t m_prev_ptr;
+    NSUInteger m_current_ptr;
+    NSUInteger m_prev_ptr;
     
     // Memory for frication taps
     double fricationTap[TOTAL_FRIC_COEFFICIENTS];
@@ -289,11 +328,11 @@ double TRMBandPassFilter_FilterInput(TRMBandPassFilter *filter, double input)
         wavetable = [[TRMWavetable alloc] initWithWaveform:m_inputData.inputParameters.waveform throttlePulse:m_inputData.inputParameters.tp tnMin:m_inputData.inputParameters.tnMin tnMax:m_inputData.inputParameters.tnMax sampleRate:sampleRate];
         
         // Initialize reflection and radiation filter coefficients for mouth
-        [self initializeMouthCoefficients:(nyquist - m_inputData.inputParameters.mouthCoef) / nyquist];
-        
+        TRMRadiationReflectionFilter_InitWithCoefficient(&mouthFilterPair, (nyquist - m_inputData.inputParameters.mouthCoef) / nyquist);
+
         // Initialize reflection and radiation filter coefficients for nose
-        [self initializeNasalFilterCoefficients:(nyquist - m_inputData.inputParameters.noseCoef) / nyquist];
-        
+        TRMRadiationReflectionFilter_InitWithCoefficient(&nasalFilterPair, (nyquist - m_inputData.inputParameters.noseCoef) / nyquist);
+
         // Initialize nasal cavity fixed scattering coefficients
         [self initializeNasalCavity];
         
@@ -308,7 +347,7 @@ double TRMBandPassFilter_FilterInput(TRMBandPassFilter *filter, double input)
         // TODO (2004-05-07): alpha
         
         m_current_ptr = 1;
-        m_prev_ptr = 0;
+        m_prev_ptr    = 0;
         
         // TODO (2004-05-07): fricationTap
 
@@ -687,77 +726,6 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 
 @synthesize sampleRateConverter = m_sampleRateConverter;
 
-#pragma mark -
-
-// Calculates the reflection/radiation filter coefficients for the mouth, according to the mouth aperture coefficient.
-// coeff - mouth aperture coefficient
-
-- (void)initializeMouthCoefficients:(double)coeff;
-{
-    b11 = -coeff;
-    a10 = 1.0 - fabs(b11);
-    
-    a20 = coeff;
-    a21 = b21 = -(a20);
-}
-
-// Is a variable, one-pole lowpass filter, whose cutoff is determined by the mouth aperture coefficient.
-
-- (double)reflectionFilter:(double)input;
-{
-    static double reflectionY = 0.0; // TODO: Remove static!
-    
-    double output = (a10 * input) - (b11 * reflectionY);
-    reflectionY = output;
-    return output;
-}
-
-// Is a variable, one-zero, one-pole, highpass filter, whose cutoff point is determined by the mouth aperture coefficient.
-
-- (double)radiationFilter:(double)input;
-{
-    static double radiationX = 0.0, radiationY = 0.0;
-    
-    double output = (a20 * input) + (a21 * radiationX) - (b21 * radiationY);
-    radiationX = input;
-    radiationY = output;
-    return output;
-}
-
-// Calculates the fixed coefficients for the nasal reflection/radiation filter pair, according to the nose aperture coefficient.
-// coeff - nose aperture coefficient
-
-- (void)initializeNasalFilterCoefficients:(double)coeff;
-{
-    nb11 = -coeff;
-    na10 = 1.0 - fabs(nb11);
-    
-    na20 = coeff;
-    na21 = nb21 = -(na20);
-}
-
-// Is a one-pole lowpass filter, used for terminating the end of the nasal cavity.
-
-- (double)nasalReflectionFilter:(double)input;
-{
-    static double nasalReflectionY = 0.0;
-    
-    double output = (na10 * input) - (nb11 * nasalReflectionY);
-    nasalReflectionY = output;
-    return output;
-}
-
-// Is a one-zero, one-pole highpass filter, used for the radiation characteristic from the nasal cavity.
-
-- (double)nasalRadiationFilter:(double)input;
-{
-    static double nasalRadiationX = 0.0, nasalRadiationY = 0.0;
-    
-    double output = (na20 * input) + (na21 * nasalRadiationX) - (nb21 * nasalRadiationY);
-    nasalRadiationX = input;
-    nasalRadiationY = output;
-    return output;
-}
 
 // Calculates the current table values, and their associated sample-to-sample delta values.
 
@@ -912,11 +880,10 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 {
     double fricationAmplitude = amplitude(m_currentParameters.fricVol);
     
-    
     // Calculate position remainder and complement
     int32_t integerPart = (int32_t)m_currentParameters.fricPos;
-    double complement = m_currentParameters.fricPos - (double)integerPart;
-    double remainder = 1.0 - complement;
+    double complement   = m_currentParameters.fricPos - (double)integerPart;
+    double remainder    = 1.0 - complement;
     
     // Set the frication taps
     for (NSUInteger index = FC1; index < TOTAL_FRIC_COEFFICIENTS; index++) {
@@ -942,12 +909,15 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 - (double)vocalTract:(double)input frication:(double)frication;
 {
     // Increment current and previous pointers
+    // TODO: (2012-05-24) Renamed ptr to index
+    //m_current_ptr = (m_current_ptr + 1) % 2;
+    //m_prev_ptr    = (m_prev_ptr + 1)    % 2;
     if (++(m_current_ptr) > 1) m_current_ptr = 0;
-    if (++(m_prev_ptr) > 1)    m_prev_ptr = 0;
+    if (++(m_prev_ptr)    > 1) m_prev_ptr = 0;
     
-    // copies to shorten code
-    int32_t current_ptr = m_current_ptr;
-    int32_t prev_ptr = m_prev_ptr;
+    // copies to shorten code.  (Except they don't now.)
+    NSUInteger current_ptr = m_current_ptr;
+    NSUInteger prev_ptr    = m_prev_ptr;
     double dampingFactor = m_dampingFactor;
     
     // Update oropharynx
@@ -993,10 +963,10 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
     }
     
     // Reflected signal at mouth goes through a lowpass filter
-    oropharynx[S10][BOTTOM][current_ptr] =  dampingFactor * [self reflectionFilter:oropharynx_coeff[C8] * oropharynx[S10][TOP][prev_ptr]];
+    oropharynx[S10][BOTTOM][current_ptr] =  dampingFactor * TRMRadiationReflectionFilter_ReflectionFilterInput(&mouthFilterPair, oropharynx_coeff[C8] * oropharynx[S10][TOP][prev_ptr]);
     
     // Output from mouth goes through a highpass filter
-    double output = [self radiationFilter:(1.0 + oropharynx_coeff[C8]) * oropharynx[S10][TOP][prev_ptr]];
+    double output = TRMRadiationReflectionFilter_RadiationFilterInput(&mouthFilterPair, (1.0 + oropharynx_coeff[C8]) * oropharynx[S10][TOP][prev_ptr]);
     
     
     // Update nasal cavity
@@ -1007,10 +977,10 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
     }
     
     // Reflected signal at nose goes through a lowpass filter
-    nasal[TRM_N6][BOTTOM][current_ptr] = dampingFactor * [self nasalReflectionFilter:nasal_coeff[NC6] * nasal[TRM_N6][TOP][prev_ptr]];
+    nasal[TRM_N6][BOTTOM][current_ptr] = dampingFactor * TRMRadiationReflectionFilter_ReflectionFilterInput(&nasalFilterPair, nasal_coeff[NC6] * nasal[TRM_N6][TOP][prev_ptr]);
     
     // Outpout from nose goes through a highpass filter
-    output += [self nasalRadiationFilter:(1.0 + nasal_coeff[NC6]) * nasal[TRM_N6][TOP][prev_ptr]];
+    output += TRMRadiationReflectionFilter_RadiationFilterInput(&nasalFilterPair, (1.0 + nasal_coeff[NC6]) * nasal[TRM_N6][TOP][prev_ptr]);
     
     // Return summed output from mouth and nose
     return output;
