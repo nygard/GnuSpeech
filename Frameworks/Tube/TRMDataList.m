@@ -231,16 +231,16 @@
         double *radius = inputParameters.radius;
         
         // Get each parameter
-        inputParameters.glotPitch = strtod(ptr, &ptr);
-        inputParameters.glotVol   = strtod(ptr, &ptr);
-        inputParameters.aspVol    = strtod(ptr, &ptr);
-        inputParameters.fricVol   = strtod(ptr, &ptr);
-        inputParameters.fricPos   = strtod(ptr, &ptr);
-        inputParameters.fricCF    = strtod(ptr, &ptr);
-        inputParameters.fricBW    = strtod(ptr, &ptr);
+        inputParameters.glottalPitch             = strtod(ptr, &ptr);
+        inputParameters.glottalVolume            = strtod(ptr, &ptr);
+        inputParameters.aspirationVolume         = strtod(ptr, &ptr);
+        inputParameters.fricationVolume          = strtod(ptr, &ptr);
+        inputParameters.fricationPosition        = strtod(ptr, &ptr);
+        inputParameters.fricationCenterFrequency = strtod(ptr, &ptr);
+        inputParameters.fricationBandwidth       = strtod(ptr, &ptr);
         for (NSUInteger i = 0; i < TOTAL_REGIONS; i++)
-            radius[i] = strtod(ptr, &ptr);
-        inputParameters.velum = strtod(ptr, &ptr);
+            radius[i]                            = strtod(ptr, &ptr);
+        inputParameters.velum                    = strtod(ptr, &ptr);
         
         [self.values addObject:inputParameters];
     }
@@ -338,13 +338,13 @@
     
     // Actual values
     for (TRMParameters *parameters in self.values) {
-        printf("%.2f", parameters.glotPitch);
-        printf("\t%.2f", parameters.glotVol);
-        printf("\t%.2f", parameters.aspVol);
-        printf("\t%.2f", parameters.fricVol);
-        printf("\t%.2f", parameters.fricPos);
-        printf("\t%.2f", parameters.fricCF);
-        printf("\t%.2f", parameters.fricBW);
+        printf("%.2f",   parameters.glottalPitch);
+        printf("\t%.2f", parameters.glottalVolume);
+        printf("\t%.2f", parameters.aspirationVolume);
+        printf("\t%.2f", parameters.fricationVolume);
+        printf("\t%.2f", parameters.fricationPosition);
+        printf("\t%.2f", parameters.fricationCenterFrequency);
+        printf("\t%.2f", parameters.fricationBandwidth);
         for (NSUInteger index = 0; index < TOTAL_REGIONS; index++)
             printf("\t%.2f", parameters.radius[index]);
         printf("\t%.2f\n", parameters.velum);

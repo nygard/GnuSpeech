@@ -7,22 +7,29 @@
 
 @implementation TRMParameters
 {
-    double glotPitch;
-    double glotVol;
-    double aspVol;
-    double fricVol;
-    double fricPos;
-    double fricCF;
-    double fricBW;
-    double radius[TOTAL_REGIONS];
-    double velum;
+    double m_glottalPitch;
+    double m_glottalVolume;
+    double m_aspirationVolume;
+    double m_fricationVolume;
+    double m_fricationPosition;
+    double m_fricationCenterFrequency;
+    double m_fricationBandwidth;
+    double m_radius[TOTAL_REGIONS];
+    double m_velum;
 }
 
-@synthesize glotPitch, glotVol, aspVol, fricVol, fricPos, fricCF, fricBW, velum;
+@synthesize glottalPitch = m_glottalPitch;
+@synthesize glottalVolume = m_glottalVolume;
+@synthesize aspirationVolume = m_aspirationVolume;
+@synthesize fricationVolume = m_fricationVolume;
+@synthesize fricationPosition = m_fricationPosition;
+@synthesize fricationCenterFrequency = m_fricationCenterFrequency;
+@synthesize fricationBandwidth = m_fricationBandwidth;
+@synthesize velum = m_velum;
 
 - (double *)radius;
 {
-    return radius;
+    return m_radius;
 }
 
 @end

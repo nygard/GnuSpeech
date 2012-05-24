@@ -114,22 +114,22 @@
 - (void)addParameters:(float *)values;
 {
     TRMParameters *inputValues = [[[TRMParameters alloc] init] autorelease];
-    inputValues.glotPitch = values[0];
-    inputValues.glotVol   = values[1];
-    inputValues.aspVol    = values[2];
-    inputValues.fricVol   = values[3];
-    inputValues.fricPos   = values[4];
-    inputValues.fricCF    = values[5];
-    inputValues.fricBW    = values[6];
-    inputValues.radius[0] = values[7];
-    inputValues.radius[1] = values[8];
-    inputValues.radius[2] = values[9];
-    inputValues.radius[3] = values[10];
-    inputValues.radius[4] = values[11];
-    inputValues.radius[5] = values[12];
-    inputValues.radius[6] = values[13];
-    inputValues.radius[7] = values[14];
-    inputValues.velum     = values[15];
+    inputValues.glottalPitch             = values[0];
+    inputValues.glottalVolume            = values[1];
+    inputValues.aspirationVolume         = values[2];
+    inputValues.fricationVolume          = values[3];
+    inputValues.fricationPosition        = values[4];
+    inputValues.fricationCenterFrequency = values[5];
+    inputValues.fricationBandwidth       = values[6];
+    inputValues.radius[0]                = values[7];
+    inputValues.radius[1]                = values[8];
+    inputValues.radius[2]                = values[9];
+    inputValues.radius[3]                = values[10];
+    inputValues.radius[4]                = values[11];
+    inputValues.radius[5]                = values[12];
+    inputValues.radius[6]                = values[13];
+    inputValues.radius[7]                = values[14];
+    inputValues.velum                    = values[15];
     [m_inputData.values addObject:inputValues];
 }
 
