@@ -156,7 +156,7 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 - (void)calculateTubeCoefficients;
 - (void)setFricationTaps;
 - (void)calculateBandpassCoefficients:(int32_t)sampleRate;
-- (double)vocalTract:(double)input :(double)frication;
+- (double)vocalTract:(double)input frication:(double)frication;
 - (double)throat:(double)input;
 - (double)bandpassFilter:(double)input;
 
@@ -269,12 +269,7 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
         [self initializeThroat];
         
         m_sampleRateConverter = [[TRMSampleRateConverter alloc] initWithInputRate:sampleRate outputRate:m_inputData.inputParameters.outputRate];
-        
-        // These get calculated each time through the synthesize() loop:
-        //newTubeModel->bpAlpha = 0.0;
-        //newTubeModel->bpBeta = 0.0;
-        //newTubeModel->bpGamma = 0.0;
-        
+
         // TODO (2004-05-07): oropharynx
         // TODO (2004-05-07): alpha
         
@@ -315,9 +310,6 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 // Performs the actual synthesis of sound samples.
 - (void)synthesize;
 {
-    int32_t j;
-    double f0, ax, ah1, pulse, lp_noise, pulsed_noise, signal, crossmix;
-    
     if ([self.inputData.values count] == 0) {
         // No data
         return;
@@ -335,14 +327,13 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
         // Set control rate parameters from input tables
         [self setControlRateParameters:parameters previous:previous];
         
-        
         // Sample rate loop
-        for (j = 0; j < controlPeriod; j++) {
-            
+        for (NSUInteger j = 0; j < controlPeriod; j++) {
             // Convert parameters here
-            f0 = frequency(m_current.parameters.glotPitch);
-            ax = amplitude(m_current.parameters.glotVol);
-            ah1 = amplitude(m_current.parameters.aspVol);
+            double f0  = frequency(m_current.parameters.glotPitch);
+            double ax  = amplitude(m_current.parameters.glotVol);
+            double ah1 = amplitude(m_current.parameters.aspVol);
+
             [self calculateTubeCoefficients];
             [self setFricationTaps];
             [self calculateBandpassCoefficients:sampleRate];
@@ -350,35 +341,38 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
             
             // Do synthesis here
             // Create low-pass filtered noise
-            lp_noise = noiseFilter(noise());
+            double lp_noise = noiseFilter(noise());
             
             // Update the shape of the glottal pulse, if necessary
             if (self.inputData.inputParameters.waveform == TRMWaveFormType_Pulse)
                 [wavetable update:ax];
             
             // Create glottal pulse (or sine tone)
-            pulse = [wavetable oscillator:f0];
+            double pulse = [wavetable oscillator:f0];
             
             // Create pulsed noise
-            pulsed_noise = lp_noise * pulse;
+            double pulsed_noise = lp_noise * pulse;
             
             // Create noisy glottal pulse
             pulse = ax * ((pulse * (1.0 - breathinessFactor)) + (pulsed_noise * breathinessFactor));
             
+            double signal;
+            
             // Cross-mix pure noise with pulsed noise
             if (self.inputData.inputParameters.modulation) {
-                crossmix = ax * crossmixFactor;
+                double crossmix = ax * crossmixFactor;
                 crossmix = (crossmix < 1.0) ? crossmix : 1.0;
                 signal = (pulsed_noise * crossmix) + (lp_noise * (1.0 - crossmix));
                 if (verbose) {
                     printf("\nSignal = %e", signal);
                     fflush(stdout);
                 }
-            } else
+            } else {
                 signal = lp_noise;
+            }
             
             // Put signal through vocal tract
-            signal = [self vocalTract:((pulse + (ah1 * signal)) * VT_SCALE) :[self bandpassFilter:signal]];
+            signal = [self vocalTract:((pulse + (ah1 * signal)) * VT_SCALE) frication:[self bandpassFilter:signal]];
             
             
             // Put pulse through throat
@@ -725,104 +719,98 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 
 - (void)setControlRateParameters:(TRMParameters *)currentInput previous:(TRMParameters *)previousInput;
 {
-    int32_t i;
-    
     // Glottal pitch
     m_current.parameters.glotPitch = previousInput.glotPitch;
-    m_current.delta.glotPitch = (currentInput.glotPitch - m_current.parameters.glotPitch) / (double)controlPeriod;
+    m_current.delta.glotPitch      = (currentInput.glotPitch - m_current.parameters.glotPitch) / (double)controlPeriod;
     
     // Glottal volume
-    m_current.parameters.glotVol = previousInput.glotVol;
-    m_current.delta.glotVol = (currentInput.glotVol - m_current.parameters.glotVol) / (double)controlPeriod;
+    m_current.parameters.glotVol   = previousInput.glotVol;
+    m_current.delta.glotVol        = (currentInput.glotVol - m_current.parameters.glotVol) / (double)controlPeriod;
     
     // Aspiration volume
-    m_current.parameters.aspVol = previousInput.aspVol;
+    m_current.parameters.aspVol    = previousInput.aspVol;
 #if MATCH_DSP
-    m_current.delta.aspVol = 0.0;
+    m_current.delta.aspVol         = 0.0;
 #else
-    m_current.delta.aspVol = (currentInput.aspVol - m_current.parameters.aspVol) / (double)controlPeriod;
+    m_current.delta.aspVol         = (currentInput.aspVol - m_current.parameters.aspVol) / (double)controlPeriod;
 #endif
     
     // Frication volume
-    m_current.parameters.fricVol = previousInput.fricVol;
+    m_current.parameters.fricVol   = previousInput.fricVol;
 #if MATCH_DSP
-    current.delta.fricVol = 0.0;
+    current.delta.fricVol          = 0.0;
 #else
-    m_current.delta.fricVol = (currentInput.fricVol - m_current.parameters.fricVol) / (double)controlPeriod;
+    m_current.delta.fricVol        = (currentInput.fricVol - m_current.parameters.fricVol) / (double)controlPeriod;
 #endif
     
     // Frication position
-    m_current.parameters.fricPos = previousInput.fricPos;
+    m_current.parameters.fricPos   = previousInput.fricPos;
 #if MATCH_DSP
-    current.delta.fricPos = 0.0;
+    current.delta.fricPos          = 0.0;
 #else
-    m_current.delta.fricPos = (currentInput.fricPos - m_current.parameters.fricPos) / (double)controlPeriod;
+    m_current.delta.fricPos        = (currentInput.fricPos - m_current.parameters.fricPos) / (double)controlPeriod;
 #endif
     
     // Frication center frequency
-    m_current.parameters.fricCF = previousInput.fricCF;
+    m_current.parameters.fricCF    = previousInput.fricCF;
 #if MATCH_DSP
-    m_current.delta.fricCF = 0.0;
+    m_current.delta.fricCF         = 0.0;
 #else
-    m_current.delta.fricCF = (currentInput.fricCF - m_current.parameters.fricCF) / (double)controlPeriod;
+    m_current.delta.fricCF         = (currentInput.fricCF - m_current.parameters.fricCF) / (double)controlPeriod;
 #endif
     
     // Frication bandwidth
-    m_current.parameters.fricBW = previousInput.fricBW;
+    m_current.parameters.fricBW    = previousInput.fricBW;
 #if MATCH_DSP
-    m_current.delta.fricBW = 0.0;
+    m_current.delta.fricBW         = 0.0;
 #else
-    m_current.delta.fricBW = (currentInput.fricBW - m_current.parameters.fricBW) / (double)controlPeriod;
+    m_current.delta.fricBW         = (currentInput.fricBW - m_current.parameters.fricBW) / (double)controlPeriod;
 #endif
     
     // Tube region radii
-    for (i = 0; i < TOTAL_REGIONS; i++) {
-        m_current.parameters.radius[i] = previousInput.radius[i];
-        m_current.delta.radius[i] = (currentInput.radius[i] - m_current.parameters.radius[i]) / (double)controlPeriod;
+    for (NSUInteger index = 0; index < TOTAL_REGIONS; index++) {
+        m_current.parameters.radius[index] = previousInput.radius[index];
+        m_current.delta.radius[index]      = (currentInput.radius[index] - m_current.parameters.radius[index]) / (double)controlPeriod;
     }
     
     // Velum radius
-    m_current.parameters.velum = previousInput.velum;
-    m_current.delta.velum = (currentInput.velum - m_current.parameters.velum) / (double)controlPeriod;
+    m_current.parameters.velum     = previousInput.velum;
+    m_current.delta.velum          = (currentInput.velum - m_current.parameters.velum) / (double)controlPeriod;
 }
 
 // Interpolates table values at the sample rate.
 
 - (void)sampleRateInterpolation;
 {
-    int32_t i;
-    
     m_current.parameters.glotPitch += m_current.delta.glotPitch;
-    m_current.parameters.glotVol += m_current.delta.glotVol;
-    m_current.parameters.aspVol += m_current.delta.aspVol;
-    m_current.parameters.fricVol += m_current.delta.fricVol;
-    m_current.parameters.fricPos += m_current.delta.fricPos;
-    m_current.parameters.fricCF += m_current.delta.fricCF;
-    m_current.parameters.fricBW += m_current.delta.fricBW;
-    for (i = 0; i < TOTAL_REGIONS; i++)
-        m_current.parameters.radius[i] += m_current.delta.radius[i];
-    m_current.parameters.velum += m_current.delta.velum;
+    m_current.parameters.glotVol   += m_current.delta.glotVol;
+    m_current.parameters.aspVol    += m_current.delta.aspVol;
+    m_current.parameters.fricVol   += m_current.delta.fricVol;
+    m_current.parameters.fricPos   += m_current.delta.fricPos;
+    m_current.parameters.fricCF    += m_current.delta.fricCF;
+    m_current.parameters.fricBW    += m_current.delta.fricBW;
+    for (NSUInteger index = 0; index < TOTAL_REGIONS; index++)
+        m_current.parameters.radius[index] += m_current.delta.radius[index];
+    m_current.parameters.velum     += m_current.delta.velum;
 }
 
 // Calculates the scattering coefficients for the fixed sections of the nasal cavity.
 
 - (void)initializeNasalCavity;
 {
-    int32_t i, j;
-    double radA2, radB2;
-    
-    
     // Calculate coefficients for internal fixed sections of nasal cavity
-    for (i = TRM_N2, j = NC2; i < TRM_N6; i++, j++) {
-        radA2 = self.inputParameters.noseRadius[i] * self.inputParameters.noseRadius[i];
-        radB2 = self.inputParameters.noseRadius[i+1] * self.inputParameters.noseRadius[i+1];
+    for (NSUInteger index = TRM_N2, j = NC2; index < TRM_N6; index++, j++) {
+        double radA2 = self.inputParameters.noseRadius[index]   * self.inputParameters.noseRadius[index];
+        double radB2 = self.inputParameters.noseRadius[index+1] * self.inputParameters.noseRadius[index+1];
         nasal_coeff[j] = (radA2 - radB2) / (radA2 + radB2);
     }
-    
-    // Calculate the fixed coefficient for the nose aperture
-    radA2 = self.inputParameters.noseRadius[TRM_N6] * self.inputParameters.noseRadius[TRM_N6];
-    radB2 = self.inputParameters.apScale * self.inputParameters.apScale;
-    nasal_coeff[NC6] = (radA2 - radB2) / (radA2 + radB2);
+
+    {
+        // Calculate the fixed coefficient for the nose aperture
+        double radA2 = self.inputParameters.noseRadius[TRM_N6] * self.inputParameters.noseRadius[TRM_N6];
+        double radB2 = self.inputParameters.apScale            * self.inputParameters.apScale;
+        nasal_coeff[NC6] = (radA2 - radB2) / (radA2 + radB2);
+    }
 }
 
 // Initializes the throat lowpass filter coefficients according to the throatCutoff value, and also the throatGain, according to the throatVol value.
@@ -840,174 +828,135 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 
 - (void)calculateTubeCoefficients;
 {
-    int32_t i;
-    double radA2, radB2, r0_2, r1_2, r2_2, sum;
-    
-    
     // Calcualte coefficients for the oropharynx
-    for (i = 0; i < (TOTAL_REGIONS-1); i++) {
-        radA2 = m_current.parameters.radius[i] * m_current.parameters.radius[i];
-        radB2 = m_current.parameters.radius[i+1] * m_current.parameters.radius[i+1];
-        oropharynx_coeff[i] = (radA2 - radB2) / (radA2 + radB2);
+    for (NSUInteger index = 0; index < (TOTAL_REGIONS-1); index++) {
+        double radA2 = m_current.parameters.radius[index]   * m_current.parameters.radius[index];
+        double radB2 = m_current.parameters.radius[index+1] * m_current.parameters.radius[index+1];
+        oropharynx_coeff[index] = (radA2 - radB2) / (radA2 + radB2);
     }
-    
-    // Calculate the coefficient for the mouth aperture
-    radA2 = m_current.parameters.radius[TRM_R8] * m_current.parameters.radius[TRM_R8];
-    radB2 = self.inputParameters.apScale * self.inputParameters.apScale;
-    oropharynx_coeff[C8] = (radA2 - radB2) / (radA2 + radB2);
+
+    {
+        // Calculate the coefficient for the mouth aperture
+        double radA2 = m_current.parameters.radius[TRM_R8] * m_current.parameters.radius[TRM_R8];
+        double radB2 = self.inputParameters.apScale        * self.inputParameters.apScale;
+        oropharynx_coeff[C8] = (radA2 - radB2) / (radA2 + radB2);
+    }
     
     // Calculate alpha coefficients for 3-way junction
     // Note: Since junction is in middle of region 4, r0_2 = r1_2
-    r0_2 = r1_2 = m_current.parameters.radius[TRM_R4] * m_current.parameters.radius[TRM_R4];
-    r2_2 = m_current.parameters.velum * m_current.parameters.velum;
-    sum = 2.0 / (r0_2 + r1_2 + r2_2);
-    alpha[LEFT] = sum * r0_2;
+    double r0_2 = m_current.parameters.radius[TRM_R4] * m_current.parameters.radius[TRM_R4];
+    double r1_2 = r0_2;
+    double r2_2 = m_current.parameters.velum * m_current.parameters.velum;
+    double sum = 2.0 / (r0_2 + r1_2 + r2_2);
+    alpha[LEFT]  = sum * r0_2;
     alpha[RIGHT] = sum * r1_2;
     alpha[UPPER] = sum * r2_2;
-    
-    // And first nasal passage coefficient
-    radA2 = m_current.parameters.velum * m_current.parameters.velum;
-    radB2 = self.inputParameters.noseRadius[TRM_N2] * self.inputParameters.noseRadius[TRM_N2];
-    nasal_coeff[NC1] = (radA2 - radB2) / (radA2 + radB2);
+
+    {
+        // And first nasal passage coefficient
+        double radA2 = m_current.parameters.velum              * m_current.parameters.velum;
+        double radB2 = self.inputParameters.noseRadius[TRM_N2] * self.inputParameters.noseRadius[TRM_N2];
+        nasal_coeff[NC1] = (radA2 - radB2) / (radA2 + radB2);
+    }
 }
 
 // Sets the frication taps according to the current position and amplitude of frication.
 
 - (void)setFricationTaps;
 {
-    int32_t i, integerPart;
-    double complement, remainder;
     double fricationAmplitude = amplitude(m_current.parameters.fricVol);
     
     
     // Calculate position remainder and complement
-    integerPart = (int)m_current.parameters.fricPos;
-    complement = m_current.parameters.fricPos - (double)integerPart;
-    remainder = 1.0 - complement;
+    int32_t integerPart = (int32_t)m_current.parameters.fricPos;
+    double complement = m_current.parameters.fricPos - (double)integerPart;
+    double remainder = 1.0 - complement;
     
     // Set the frication taps
-    for (i = FC1; i < TOTAL_FRIC_COEFFICIENTS; i++) {
-        if (i == integerPart) {
-            fricationTap[i] = remainder * fricationAmplitude;
-            if ((i+1) < TOTAL_FRIC_COEFFICIENTS)
-                fricationTap[++i] = complement * fricationAmplitude;
+    for (NSUInteger index = FC1; index < TOTAL_FRIC_COEFFICIENTS; index++) {
+        if (index == integerPart) {
+            fricationTap[index] = remainder * fricationAmplitude;
+            if ((index+1) < TOTAL_FRIC_COEFFICIENTS)
+                fricationTap[++index] = complement * fricationAmplitude;
         } else
-            fricationTap[i] = 0.0;
+            fricationTap[index] = 0.0;
     }
     
-#if DEBUG
+#if 0
     printf("fricationTaps:  ");
-    for (i = FC1; i < TOTAL_FRIC_COEFFICIENTS; i++)
-        printf("%.6f  ", tubeModel->fricationTap[i]);
+    for (NSUInteger index = FC1; index < TOTAL_FRIC_COEFFICIENTS; index++)
+        printf("%.6f  ", m_fricationTap[index]);
     printf("\n");
 #endif
-}
-
-// Sets the frication bandpass filter coefficients according to the current center frequency and bandwidth.
-
-// TODO (2004-05-13): I imagine passing this a bandpass filter object (which won't have the sample rate) and the sample rate in the future.
-- (void)calculateBandpassCoefficients:(int32_t)localSampleRate;
-{
-    double tanValue, cosValue;
-    
-    
-    tanValue = tan((M_PI * m_current.parameters.fricBW) / localSampleRate);
-    cosValue = cos((2.0 * M_PI * m_current.parameters.fricCF) / localSampleRate);
-    
-    bpBeta = (1.0 - tanValue) / (2.0 * (1.0 + tanValue));
-    bpGamma = (0.5 + bpBeta) * cosValue;
-    bpAlpha = (0.5 - bpBeta) / 2.0;
 }
 
 // Updates the pressure wave throughout the vocal tract, and returns the summed output of the oral and nasal
 // cavities.  Also injects frication appropriately.
 
-- (double)vocalTract:(double)input :(double)frication;
+- (double)vocalTract:(double)input frication:(double)frication;
 {
-    int32_t i, j, k;
-    double delta, output, junctionPressure;
+    // Increment current and previous pointers
+    if (++(m_current_ptr) > 1) m_current_ptr = 0;
+    if (++(m_prev_ptr) > 1)    m_prev_ptr = 0;
     
     // copies to shorten code
-    int current_ptr, prev_ptr;
-    double dampingFactor;
-    
-    
-    // Increment current and previous pointers
-    if (++(m_current_ptr) > 1)
-        m_current_ptr = 0;
-    if (++(m_prev_ptr) > 1)
-        m_prev_ptr = 0;
-    
-    current_ptr = m_current_ptr;
-    prev_ptr = m_prev_ptr;
-    dampingFactor = m_dampingFactor;
+    int32_t current_ptr = m_current_ptr;
+    int32_t prev_ptr = m_prev_ptr;
+    double dampingFactor = m_dampingFactor;
     
     // Upate oropharynx
     // Input to top of tube
     
-   oropharynx[S1][TOP][current_ptr] = (oropharynx[S1][BOTTOM][prev_ptr] * dampingFactor) + input;
+    oropharynx[S1][TOP][current_ptr] = (oropharynx[S1][BOTTOM][prev_ptr] * dampingFactor) + input;
     
     // Calculate the scattering junctions for S1-S2
     
-    delta = oropharynx_coeff[C1] * (oropharynx[S1][TOP][prev_ptr] - oropharynx[S2][BOTTOM][prev_ptr]);
-    oropharynx[S2][TOP][current_ptr] = (oropharynx[S1][TOP][prev_ptr] + delta) * dampingFactor;
+    double delta = oropharynx_coeff[C1] * (oropharynx[S1][TOP][prev_ptr] - oropharynx[S2][BOTTOM][prev_ptr]);
+    oropharynx[S2][TOP][current_ptr]    = (oropharynx[S1][TOP][prev_ptr]    + delta) * dampingFactor;
     oropharynx[S1][BOTTOM][current_ptr] = (oropharynx[S2][BOTTOM][prev_ptr] + delta) * dampingFactor;
     
     // Calculate the scattering junctions for S2-S3 and S3-S4
     if (verbose)
         printf("\nCalc scattering\n");
-    for (i = S2, j = C2, k = FC1; i < S4; i++, j++, k++) {
+    for (NSUInteger i = S2, j = C2, k = FC1; i < S4; i++, j++, k++) {
         delta = oropharynx_coeff[j] * (oropharynx[i][TOP][prev_ptr] - oropharynx[i+1][BOTTOM][prev_ptr]);
-        oropharynx[i+1][TOP][current_ptr] =
-        ((oropharynx[i][TOP][prev_ptr] + delta) * dampingFactor) +
-        (fricationTap[k] * frication);
-        oropharynx[i][BOTTOM][current_ptr] = (oropharynx[i+1][BOTTOM][prev_ptr] + delta) * dampingFactor;
+        oropharynx[i+1][TOP][current_ptr]  = ((oropharynx[i][TOP][prev_ptr]      + delta) * dampingFactor) + (fricationTap[k] * frication);
+        oropharynx[i][BOTTOM][current_ptr] = ((oropharynx[i+1][BOTTOM][prev_ptr] + delta) * dampingFactor);
     }
     
     // Update 3-way junction between the middle of R4 and nasal cavity
-    junctionPressure = (alpha[LEFT] * oropharynx[S4][TOP][prev_ptr])+
-    (alpha[RIGHT] * oropharynx[S5][BOTTOM][prev_ptr]) +
-    (alpha[UPPER] * nasal[TRM_VELUM][BOTTOM][prev_ptr]);
-    oropharynx[S4][BOTTOM][current_ptr] = (junctionPressure - oropharynx[S4][TOP][prev_ptr]) * dampingFactor;
-    oropharynx[S5][TOP][current_ptr] =
-    ((junctionPressure - oropharynx[S5][BOTTOM][prev_ptr]) * dampingFactor)
-    + (fricationTap[FC3] * frication);
-    nasal[TRM_VELUM][TOP][current_ptr] = (junctionPressure - nasal[TRM_VELUM][BOTTOM][prev_ptr]) * dampingFactor;
+    double junctionPressure = (alpha[LEFT] * oropharynx[S4][TOP][prev_ptr]) + (alpha[RIGHT] * oropharynx[S5][BOTTOM][prev_ptr]) + (alpha[UPPER] * nasal[TRM_VELUM][BOTTOM][prev_ptr]);
+    oropharynx[S4][BOTTOM][current_ptr] = ((junctionPressure - oropharynx[S4][TOP][prev_ptr])      * dampingFactor);
+    oropharynx[S5][TOP][current_ptr]    = ((junctionPressure - oropharynx[S5][BOTTOM][prev_ptr])   * dampingFactor) + (fricationTap[FC3] * frication);
+    nasal[TRM_VELUM][TOP][current_ptr]  = ((junctionPressure - nasal[TRM_VELUM][BOTTOM][prev_ptr]) * dampingFactor);
     
     // Calculate junction between R4 and R5 (S5-S6)
     delta = oropharynx_coeff[C4] * (oropharynx[S5][TOP][prev_ptr] - oropharynx[S6][BOTTOM][prev_ptr]);
-    oropharynx[S6][TOP][current_ptr] =
-    ((oropharynx[S5][TOP][prev_ptr] + delta) * dampingFactor) +
-    (fricationTap[FC4] * frication);
-    oropharynx[S5][BOTTOM][current_ptr] = (oropharynx[S6][BOTTOM][prev_ptr] + delta) * dampingFactor;
+    oropharynx[S6][TOP][current_ptr]    = ((oropharynx[S5][TOP][prev_ptr]    + delta) * dampingFactor) + (fricationTap[FC4] * frication);
+    oropharynx[S5][BOTTOM][current_ptr] = ((oropharynx[S6][BOTTOM][prev_ptr] + delta) * dampingFactor);
     
     // Calculate junction inside R5 (S6-S7) (pure delay with damping)
-    oropharynx[S7][TOP][current_ptr] =
-    (oropharynx[S6][TOP][prev_ptr] * dampingFactor) +
-    (fricationTap[FC5] * frication);
-    oropharynx[S6][BOTTOM][current_ptr] = oropharynx[S7][BOTTOM][prev_ptr] * dampingFactor;
+    oropharynx[S7][TOP][current_ptr]    = (oropharynx[S6][TOP][prev_ptr]    * dampingFactor) + (fricationTap[FC5] * frication);
+    oropharynx[S6][BOTTOM][current_ptr] = (oropharynx[S7][BOTTOM][prev_ptr] * dampingFactor);
     
     // Calculate last 3 internal junctions (S7-S8, S8-S9, S9-S10
-    for (i = S7, j = C5, k = FC6; i < S10; i++, j++, k++) {
+    for (NSUInteger i = S7, j = C5, k = FC6; i < S10; i++, j++, k++) {
         delta = oropharynx_coeff[j] * (oropharynx[i][TOP][prev_ptr] - oropharynx[i+1][BOTTOM][prev_ptr]);
-        oropharynx[i+1][TOP][current_ptr] =
-        ((oropharynx[i][TOP][prev_ptr] + delta) * dampingFactor) +
-        (fricationTap[k] * frication);
-        oropharynx[i][BOTTOM][current_ptr] = (oropharynx[i+1][BOTTOM][prev_ptr] + delta) * dampingFactor;
+        oropharynx[i+1][TOP][current_ptr]  = ((oropharynx[i][TOP][prev_ptr]      + delta) * dampingFactor) + (fricationTap[k] * frication);
+        oropharynx[i][BOTTOM][current_ptr] = ((oropharynx[i+1][BOTTOM][prev_ptr] + delta) * dampingFactor);
     }
     
     // Reflected signal at mouth goes through a lowpass filter
-    oropharynx[S10][BOTTOM][current_ptr] =  dampingFactor *
-    [self reflectionFilter:oropharynx_coeff[C8] * oropharynx[S10][TOP][prev_ptr]];
+    oropharynx[S10][BOTTOM][current_ptr] =  dampingFactor * [self reflectionFilter:oropharynx_coeff[C8] * oropharynx[S10][TOP][prev_ptr]];
     
     // Output from mouth goes through a highpass filter
-    output = [self radiationFilter:(1.0 + oropharynx_coeff[C8]) * oropharynx[S10][TOP][prev_ptr]];
+    double output = [self radiationFilter:(1.0 + oropharynx_coeff[C8]) * oropharynx[S10][TOP][prev_ptr]];
     
     
     // Update nasal cavity
-    for (i = TRM_VELUM, j = NC1; i < TRM_N6; i++, j++) {
+    for (NSUInteger i = TRM_VELUM, j = NC1; i < TRM_N6; i++, j++) {
         delta = nasal_coeff[j] * (nasal[i][TOP][prev_ptr] - nasal[i+1][BOTTOM][prev_ptr]);
-        nasal[i+1][TOP][current_ptr] = (nasal[i][TOP][prev_ptr] + delta) * dampingFactor;
+        nasal[i+1][TOP][current_ptr]  = (nasal[i][TOP][prev_ptr]      + delta) * dampingFactor;
         nasal[i][BOTTOM][current_ptr] = (nasal[i+1][BOTTOM][prev_ptr] + delta) * dampingFactor;
     }
     
@@ -1026,22 +975,50 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 
 - (double)throat:(double)input;
 {
-    static double throatY = 0.0;
+    static double throatY = 0.0; // TODO: (2012-05-24) Remove static
     
     double output = (ta0 * input) + (tb1 * throatY);
     throatY = output;
     return (output * throatGain);
 }
 
+#pragma mark - Frication bandpass filter
+
+// Sets the frication bandpass filter coefficients according to the current center frequency and bandwidth.
+
+// TODO (2004-05-13): I imagine passing this a bandpass filter object (which won't have the sample rate) and the sample rate in the future.
+- (void)calculateBandpassCoefficients:(int32_t)localSampleRate;
+{
+    double tanValue = tan((      M_PI * m_current.parameters.fricBW) / localSampleRate);
+    double cosValue = cos((2.0 * M_PI * m_current.parameters.fricCF) / localSampleRate);
+    
+    bpBeta  = (1.0 - tanValue) / (2.0 * (1.0 + tanValue));
+    bpGamma = (0.5 + bpBeta) * cosValue;
+    bpAlpha = (0.5 - bpBeta) / 2.0;
+}
+
 // Frication bandpass filter, with variable center frequency and bandwidth.
+#if 0
+typedef struct {
+    // Frication bandpass filter memory
+    double bpAlpha;
+    double bpBeta;
+    double bpGamma;
+
+    // Other
+    double xn1; // Init these to 0.
+    double xn2;
+    double yn1;
+    double yn2;
+} TRMBandpassFilter;
+TRMBandpassFilter fricationFilter;
+#endif
 
 - (double)bandpassFilter:(double)input;
 {
-    static double xn1 = 0.0, xn2 = 0.0, yn1 = 0.0, yn2 = 0.0;
-    double output;
+    static double xn1 = 0.0, xn2 = 0.0, yn1 = 0.0, yn2 = 0.0; // TODO: (2012-05-24) Remove static
     
-    
-    output = 2.0 * ((bpAlpha * (input - xn2)) + (bpGamma * yn1) - (bpBeta * yn2));
+    double output = 2.0 * ((bpAlpha * (input - xn2)) + (bpGamma * yn1) - (bpBeta * yn2));
     
     xn2 = xn1;
     xn1 = input;
