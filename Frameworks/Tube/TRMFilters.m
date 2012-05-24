@@ -69,8 +69,7 @@ void TRMLowPassFilter_CalculateCoefficients(TRMLowPassFilter *filter, int32_t sa
     filter->tb1 = 1.0 - filter->ta0;
 }
 
-// Simulates the radiation of sound through the walls of the throat.  Note that this form of the filter
-// uses addition instead of subtraction for the second term, since tb1 has reversed sign.
+// Note that this form of the filter uses addition instead of subtraction for the second term, since tb1 has reversed sign.
 
 double TRMLowPassFilter_FilterInput(TRMLowPassFilter *filter, double input)
 {
@@ -78,3 +77,13 @@ double TRMLowPassFilter_FilterInput(TRMLowPassFilter *filter, double input)
     filter->y = output;
     return output;
 }
+
+#pragma mark - Noise filter
+
+double TRMLowPassFilter2_FilterInput(TRMLowPassFilter2 *filter, double input)
+{
+    double output = input + filter->x;
+    filter->x = input;
+    return output;
+}
+

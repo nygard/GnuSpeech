@@ -164,6 +164,8 @@ NSString *STCoreAudioErrorDescription(OSStatus error)
     double crossmixFactor;              // calculated crossmix factor
     
     double breathinessFactor;
+
+    TRMLowPassFilter2 noiseFilter;             // One-zero lowpass filter.
     
     // Mouth reflection filter: Is a variable, one-pole lowpass filter,            whose cutoff       is determined by the mouth aperture coefficient.
     // Mouth radiation filter:  Is a variable, one-zero, one-pole highpass filter, whose cutoff point is determined by the mouth aperture coefficient.
@@ -173,7 +175,7 @@ NSString *STCoreAudioErrorDescription(OSStatus error)
     // Nasal radiation filter:  Is a one-zero, one-pole highpass filter, used for the radiation characteristic from the nasal cavity.
     TRMRadiationReflectionFilter nasalFilterPair;
 
-    TRMLowPassFilter throatLowPassFilter;
+    TRMLowPassFilter throatLowPassFilter;      // Simulates the radiation of sound through the walls of the throat.
     double m_throatGain;
     
     TRMBandPassFilter fricationBandPassFilter; // Frication bandpass filter, with variable center frequency and bandwidth.
@@ -250,7 +252,10 @@ NSString *STCoreAudioErrorDescription(OSStatus error)
         [self initializeNasalCavity];
         
         // TODO (2004-05-07): nasal?
-        
+
+        // Initialize the noise filter
+        noiseFilter.x = 0;
+
         // Initialize the throat lowpass filter
         TRMLowPassFilter_CalculateCoefficients(&throatLowPassFilter, sampleRate, self.inputParameters.throatCutoff);
         m_throatGain = amplitude(self.inputParameters.throatVol);
@@ -335,7 +340,7 @@ NSString *STCoreAudioErrorDescription(OSStatus error)
             
             // Do synthesis here
             // Create low-pass filtered noise
-            double lp_noise = noiseFilter(noise());
+            double lp_noise = TRMLowPassFilter2_FilterInput(&noiseFilter, noise());
             
             // Update the shape of the glottal pulse, if necessary
             if (self.inputData.inputParameters.waveform == TRMWaveFormType_Pulse)

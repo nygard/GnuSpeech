@@ -39,9 +39,9 @@ void TRMRadiationReflectionFilter_InitWithCoefficient(TRMRadiationReflectionFilt
 double TRMRadiationReflectionFilter_ReflectionFilterInput(TRMRadiationReflectionFilter *filter, double input);
 double TRMRadiationReflectionFilter_RadiationFilterInput(TRMRadiationReflectionFilter *filter, double input);
 
-// Throat lowpass filter memory, gain
+// Throat lowpass filter memory
 typedef struct {
-    // Coefficients, gain
+    // Coefficients
     double tb1;
     double ta0;
     
@@ -54,3 +54,10 @@ typedef struct {
 
 void TRMLowPassFilter_CalculateCoefficients(TRMLowPassFilter *filter, int32_t sampleRate, double cutoff);
 double TRMLowPassFilter_FilterInput(TRMLowPassFilter *filter, double input);
+
+typedef struct {
+    // Filter memory
+    double x;
+} TRMLowPassFilter2;
+
+double TRMLowPassFilter2_FilterInput(TRMLowPassFilter2 *filter, double input);

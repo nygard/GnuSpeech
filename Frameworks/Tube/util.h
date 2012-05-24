@@ -9,6 +9,5 @@ double amplitude(double decibelLevel);
 double frequency(double pitch);
 double Izero(double x);
 double noise(void);
-double noiseFilter(double input);
 
 #endif

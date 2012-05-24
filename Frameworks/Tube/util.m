@@ -81,15 +81,3 @@ double noise(void)
     seed = product - (int)product;
     return (seed - 0.5);
 }
-
-#pragma mark - Noise Filter
-
-// One-zero lowpass filter.
-double noiseFilter(double input)
-{
-    static double noiseX = 0.0;
-
-    double output = input + noiseX;
-    noiseX = input;
-    return output;
-}
