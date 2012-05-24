@@ -63,12 +63,10 @@ double TRMRadiationReflectionFilter_RadiationFilterInput(TRMRadiationReflectionF
 
 #pragma mark - Throat filter
 
-void TRMLowPassFilter_CalculateCoefficients(TRMLowPassFilter *filter, int32_t sampleRate, double cutoff, double volume)
+void TRMLowPassFilter_CalculateCoefficients(TRMLowPassFilter *filter, int32_t sampleRate, double cutoff)
 {
     filter->ta0 = (cutoff * 2.0) / sampleRate;
     filter->tb1 = 1.0 - filter->ta0;
-    
-    filter->gain = amplitude(volume);
 }
 
 // Simulates the radiation of sound through the walls of the throat.  Note that this form of the filter
@@ -78,5 +76,5 @@ double TRMLowPassFilter_FilterInput(TRMLowPassFilter *filter, double input)
 {
     double output = (filter->ta0 * input) + (filter->tb1 * filter->y);
     filter->y = output;
-    return (output * filter->gain);
+    return output;
 }

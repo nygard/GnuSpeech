@@ -174,6 +174,7 @@ NSString *STCoreAudioErrorDescription(OSStatus error)
     TRMRadiationReflectionFilter nasalFilterPair;
 
     TRMLowPassFilter throatLowPassFilter;
+    double m_throatGain;
     
     TRMBandPassFilter fricationBandPassFilter; // Frication bandpass filter, with variable center frequency and bandwidth.
     
@@ -251,7 +252,8 @@ NSString *STCoreAudioErrorDescription(OSStatus error)
         // TODO (2004-05-07): nasal?
         
         // Initialize the throat lowpass filter
-        TRMLowPassFilter_CalculateCoefficients(&throatLowPassFilter, sampleRate, self.inputParameters.throatCutoff, self.inputParameters.throatVol);
+        TRMLowPassFilter_CalculateCoefficients(&throatLowPassFilter, sampleRate, self.inputParameters.throatCutoff);
+        m_throatGain = amplitude(self.inputParameters.throatVol);
 
         m_sampleRateConverter = [[TRMSampleRateConverter alloc] initWithInputRate:sampleRate outputRate:m_inputData.inputParameters.outputRate];
 
@@ -369,7 +371,7 @@ NSString *STCoreAudioErrorDescription(OSStatus error)
             
             
             // Put pulse through throat
-            signal += TRMLowPassFilter_FilterInput(&throatLowPassFilter, pulse * VT_SCALE);
+            signal += TRMLowPassFilter_FilterInput(&throatLowPassFilter, pulse * VT_SCALE) * m_throatGain;
             if (verbose)
                 printf("\nDone throat\n");
             
