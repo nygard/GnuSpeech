@@ -143,8 +143,8 @@ typedef struct {
     double bpBeta;
     double bpGamma;
     
-    // Other
-    double xn1; // Init these to 0.
+    // Filter memory
+    double xn1;
     double xn2;
     double yn1;
     double yn2;
@@ -220,6 +220,38 @@ double TRMRadiationReflectionFilter_RadiationFilterInput(TRMRadiationReflectionF
     return output;
 }
 
+#pragma mark - Throad filter
+
+// Throat lowpass filter memory, gain
+typedef struct {
+    // Coefficients, gain
+    double tb1;
+    double ta0;
+    double gain;
+    
+    // Filter memory
+    double y;
+} TRMLowPassFilter;
+
+void TRMLowPassFilter_CalculateCoefficients(TRMLowPassFilter *filter, int32_t sampleRate, double cutoff, double volume)
+{
+    filter->ta0 = (cutoff * 2.0) / sampleRate;
+    filter->tb1 = 1.0 - filter->ta0;
+    
+    filter->gain = amplitude(volume);
+}
+
+// Simulates the radiation of sound through the walls of the throat.  Note that this form of the filter
+// uses addition instead of subtraction for the second term, since tb1 has reversed sign.
+
+double TRMLowPassFilter_FilterInput(TRMLowPassFilter *filter, double input)
+{
+    double output = (filter->ta0 * input) + (filter->tb1 * filter->y);
+    filter->y = output;
+    return (output * filter->gain);
+}
+
+
 #pragma mark -
 
 @interface TRMTubeModel ()
@@ -230,11 +262,9 @@ double TRMRadiationReflectionFilter_RadiationFilterInput(TRMRadiationReflectionF
 - (void)setControlRateParameters:(TRMParameters *)current previous:(TRMParameters *)previous;
 - (void)sampleRateInterpolation;
 - (void)initializeNasalCavity;
-- (void)initializeThroat;
 - (void)calculateTubeCoefficients;
 - (void)setFricationTaps;
 - (double)vocalTract:(double)input frication:(double)frication;
-- (double)throat:(double)input;
 
 @end
 
@@ -260,8 +290,7 @@ double TRMRadiationReflectionFilter_RadiationFilterInput(TRMRadiationReflectionF
     // Nasal radiation filter:  Is a one-zero, one-pole highpass filter, used for the radiation characteristic from the nasal cavity.
     TRMRadiationReflectionFilter nasalFilterPair;
 
-    // Throad lowpass filter memory, gain
-    double tb1, ta0, throatGain;
+    TRMLowPassFilter throatLowPassFilter;
     
     TRMBandPassFilter fricationBandPassFilter; // Frication bandpass filter, with variable center frequency and bandwidth.
     
@@ -339,8 +368,8 @@ double TRMRadiationReflectionFilter_RadiationFilterInput(TRMRadiationReflectionF
         // TODO (2004-05-07): nasal?
         
         // Initialize the throat lowpass filter
-        [self initializeThroat];
-        
+        TRMLowPassFilter_CalculateCoefficients(&throatLowPassFilter, sampleRate, self.inputParameters.throatCutoff, self.inputParameters.throatVol);
+
         m_sampleRateConverter = [[TRMSampleRateConverter alloc] initWithInputRate:sampleRate outputRate:m_inputData.inputParameters.outputRate];
 
         // TODO (2004-05-07): oropharynx
@@ -456,7 +485,7 @@ double TRMRadiationReflectionFilter_RadiationFilterInput(TRMRadiationReflectionF
             
             
             // Put pulse through throat
-            signal += [self throat:pulse * VT_SCALE];
+            signal += TRMLowPassFilter_FilterInput(&throatLowPassFilter, pulse * VT_SCALE);
             if (verbose)
                 printf("\nDone throat\n");
             
@@ -827,16 +856,6 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
     }
 }
 
-// Initializes the throat lowpass filter coefficients according to the throatCutoff value, and also the throatGain, according to the throatVol value.
-
-- (void)initializeThroat;
-{
-    ta0 = (self.inputParameters.throatCutoff * 2.0) / sampleRate;
-    tb1 = 1.0 - ta0;
-    
-    throatGain = amplitude(self.inputParameters.throatVol);
-}
-
 // Calculates the scattering coefficients for the vocal tract according to the current radii.  Also calculates
 // the coefficients for the reflection/radiation filter pair for the mouth and nose.
 
@@ -984,18 +1003,6 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
     
     // Return summed output from mouth and nose
     return output;
-}
-
-// Simulates the radiation of sound through the walls of the throat.  Note that this form of the filter
-// uses addition instead of subtraction for the second term, since tb1 has reversed sign.
-
-- (double)throat:(double)input;
-{
-    static double throatY = 0.0; // TODO: (2012-05-24) Remove static
-    
-    double output = (ta0 * input) + (tb1 * throatY);
-    throatY = output;
-    return (output * throatGain);
 }
 
 @end
