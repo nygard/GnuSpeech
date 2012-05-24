@@ -220,7 +220,7 @@ double TRMRadiationReflectionFilter_RadiationFilterInput(TRMRadiationReflectionF
     return output;
 }
 
-#pragma mark - Throad filter
+#pragma mark - Throat filter
 
 // Throat lowpass filter memory, gain
 typedef struct {
@@ -232,6 +232,9 @@ typedef struct {
     // Filter memory
     double y;
 } TRMLowPassFilter;
+
+// TODO: (2012-05-24): The gain doesn't seem like it belongs in the filter.
+// TODO: (2012-05-24): Make the noise filter user this.  Think with coefficients of 1 it is the same.
 
 void TRMLowPassFilter_CalculateCoefficients(TRMLowPassFilter *filter, int32_t sampleRate, double cutoff, double volume)
 {
@@ -264,7 +267,7 @@ double TRMLowPassFilter_FilterInput(TRMLowPassFilter *filter, double input)
 - (void)initializeNasalCavity;
 - (void)calculateTubeCoefficients;
 - (void)setFricationTaps;
-- (double)vocalTract:(double)input frication:(double)frication;
+- (double)updateVocalTractWithGlottalPulse:(double)input frication:(double)frication;
 
 @end
 
@@ -302,8 +305,8 @@ double TRMLowPassFilter_FilterInput(TRMLowPassFilter *filter, double input)
     double nasal_coeff[TOTAL_NASAL_COEFFICIENTS];
     
     double alpha[TOTAL_ALPHA_COEFFICIENTS];
-    NSUInteger m_current_ptr;
-    NSUInteger m_prev_ptr;
+    NSUInteger m_currentIndex;
+    NSUInteger m_previousIndex;
     
     // Memory for frication taps
     double fricationTap[TOTAL_FRIC_COEFFICIENTS];
@@ -375,8 +378,8 @@ double TRMLowPassFilter_FilterInput(TRMLowPassFilter *filter, double input)
         // TODO (2004-05-07): oropharynx
         // TODO (2004-05-07): alpha
         
-        m_current_ptr = 1;
-        m_prev_ptr    = 0;
+        m_currentIndex  = 1;
+        m_previousIndex = 0;
         
         // TODO (2004-05-07): fricationTap
 
@@ -481,7 +484,8 @@ double TRMLowPassFilter_FilterInput(TRMLowPassFilter *filter, double input)
             }
             
             // Put signal through vocal tract
-            signal = [self vocalTract:((pulse + (ah1 * signal)) * VT_SCALE) frication:TRMBandPassFilter_FilterInput(&fricationBandPassFilter, signal)];
+            signal = [self updateVocalTractWithGlottalPulse:((pulse + (ah1 * signal)) * VT_SCALE)
+                                                  frication:TRMBandPassFilter_FilterInput(&fricationBandPassFilter, signal)];
             
             
             // Put pulse through throat
@@ -925,81 +929,78 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 // Updates the pressure wave throughout the vocal tract, and returns the summed output of the oral and nasal
 // cavities.  Also injects frication appropriately.
 
-- (double)vocalTract:(double)input frication:(double)frication;
+- (double)updateVocalTractWithGlottalPulse:(double)input frication:(double)frication;
 {
     // Increment current and previous pointers
-    // TODO: (2012-05-24) Renamed ptr to index
-    //m_current_ptr = (m_current_ptr + 1) % 2;
-    //m_prev_ptr    = (m_prev_ptr + 1)    % 2;
-    if (++(m_current_ptr) > 1) m_current_ptr = 0;
-    if (++(m_prev_ptr)    > 1) m_prev_ptr = 0;
+    m_currentIndex  = (m_currentIndex + 1)  % 2;
+    m_previousIndex = (m_previousIndex + 1) % 2;
     
     // copies to shorten code.  (Except they don't now.)
-    NSUInteger current_ptr = m_current_ptr;
-    NSUInteger prev_ptr    = m_prev_ptr;
-    double dampingFactor = m_dampingFactor;
+    NSUInteger currentIndex  = m_currentIndex;
+    NSUInteger previousIndex = m_previousIndex;
+    double dampingFactor     = m_dampingFactor;
     
     // Update oropharynx
     // Input to top of tube
     
-    oropharynx[S1][TOP][current_ptr] = (oropharynx[S1][BOTTOM][prev_ptr] * dampingFactor) + input;
+    oropharynx[S1][TOP][currentIndex] = (oropharynx[S1][BOTTOM][previousIndex] * dampingFactor) + input;
     
     // Calculate the scattering junctions for S1-S2
     
-    double delta = oropharynx_coeff[C1] * (oropharynx[S1][TOP][prev_ptr] - oropharynx[S2][BOTTOM][prev_ptr]);
-    oropharynx[S2][TOP][current_ptr]    = (oropharynx[S1][TOP][prev_ptr]    + delta) * dampingFactor;
-    oropharynx[S1][BOTTOM][current_ptr] = (oropharynx[S2][BOTTOM][prev_ptr] + delta) * dampingFactor;
+    double delta = oropharynx_coeff[C1] * (oropharynx[S1][TOP][previousIndex] - oropharynx[S2][BOTTOM][previousIndex]);
+    oropharynx[S2][TOP][currentIndex]    = (oropharynx[S1][TOP][previousIndex]    + delta) * dampingFactor;
+    oropharynx[S1][BOTTOM][currentIndex] = (oropharynx[S2][BOTTOM][previousIndex] + delta) * dampingFactor;
     
     // Calculate the scattering junctions for S2-S3 and S3-S4
     if (verbose)
         printf("\nCalc scattering\n");
     for (NSUInteger i = S2, j = C2, k = FC1; i < S4; i++, j++, k++) {
-        delta = oropharynx_coeff[j] * (oropharynx[i][TOP][prev_ptr] - oropharynx[i+1][BOTTOM][prev_ptr]);
-        oropharynx[i+1][TOP][current_ptr]  = ((oropharynx[i][TOP][prev_ptr]      + delta) * dampingFactor) + (fricationTap[k] * frication);
-        oropharynx[i][BOTTOM][current_ptr] = ((oropharynx[i+1][BOTTOM][prev_ptr] + delta) * dampingFactor);
+        delta = oropharynx_coeff[j] * (oropharynx[i][TOP][previousIndex] - oropharynx[i+1][BOTTOM][previousIndex]);
+        oropharynx[i+1][TOP][currentIndex]  = ((oropharynx[i][TOP][previousIndex]      + delta) * dampingFactor) + (fricationTap[k] * frication);
+        oropharynx[i][BOTTOM][currentIndex] = ((oropharynx[i+1][BOTTOM][previousIndex] + delta) * dampingFactor);
     }
     
     // Update 3-way junction between the middle of R4 and nasal cavity
-    double junctionPressure = (alpha[LEFT] * oropharynx[S4][TOP][prev_ptr]) + (alpha[RIGHT] * oropharynx[S5][BOTTOM][prev_ptr]) + (alpha[UPPER] * nasal[TRM_VELUM][BOTTOM][prev_ptr]);
-    oropharynx[S4][BOTTOM][current_ptr] = ((junctionPressure - oropharynx[S4][TOP][prev_ptr])      * dampingFactor);
-    oropharynx[S5][TOP][current_ptr]    = ((junctionPressure - oropharynx[S5][BOTTOM][prev_ptr])   * dampingFactor) + (fricationTap[FC3] * frication);
-    nasal[TRM_VELUM][TOP][current_ptr]  = ((junctionPressure - nasal[TRM_VELUM][BOTTOM][prev_ptr]) * dampingFactor);
+    double junctionPressure = (alpha[LEFT] * oropharynx[S4][TOP][previousIndex]) + (alpha[RIGHT] * oropharynx[S5][BOTTOM][previousIndex]) + (alpha[UPPER] * nasal[TRM_VELUM][BOTTOM][previousIndex]);
+    oropharynx[S4][BOTTOM][currentIndex] = ((junctionPressure - oropharynx[S4][TOP][previousIndex])      * dampingFactor);
+    oropharynx[S5][TOP][currentIndex]    = ((junctionPressure - oropharynx[S5][BOTTOM][previousIndex])   * dampingFactor) + (fricationTap[FC3] * frication);
+    nasal[TRM_VELUM][TOP][currentIndex]  = ((junctionPressure - nasal[TRM_VELUM][BOTTOM][previousIndex]) * dampingFactor);
     
     // Calculate junction between R4 and R5 (S5-S6)
-    delta = oropharynx_coeff[C4] * (oropharynx[S5][TOP][prev_ptr] - oropharynx[S6][BOTTOM][prev_ptr]);
-    oropharynx[S6][TOP][current_ptr]    = ((oropharynx[S5][TOP][prev_ptr]    + delta) * dampingFactor) + (fricationTap[FC4] * frication);
-    oropharynx[S5][BOTTOM][current_ptr] = ((oropharynx[S6][BOTTOM][prev_ptr] + delta) * dampingFactor);
+    delta = oropharynx_coeff[C4] * (oropharynx[S5][TOP][previousIndex] - oropharynx[S6][BOTTOM][previousIndex]);
+    oropharynx[S6][TOP][currentIndex]    = ((oropharynx[S5][TOP][previousIndex]    + delta) * dampingFactor) + (fricationTap[FC4] * frication);
+    oropharynx[S5][BOTTOM][currentIndex] = ((oropharynx[S6][BOTTOM][previousIndex] + delta) * dampingFactor);
     
     // Calculate junction inside R5 (S6-S7) (pure delay with damping)
-    oropharynx[S7][TOP][current_ptr]    = (oropharynx[S6][TOP][prev_ptr]    * dampingFactor) + (fricationTap[FC5] * frication);
-    oropharynx[S6][BOTTOM][current_ptr] = (oropharynx[S7][BOTTOM][prev_ptr] * dampingFactor);
+    oropharynx[S7][TOP][currentIndex]    = (oropharynx[S6][TOP][previousIndex]    * dampingFactor) + (fricationTap[FC5] * frication);
+    oropharynx[S6][BOTTOM][currentIndex] = (oropharynx[S7][BOTTOM][previousIndex] * dampingFactor);
     
-    // Calculate last 3 internal junctions (S7-S8, S8-S9, S9-S10
+    // Calculate last 3 internal junctions (S7-S8, S8-S9, S9-S10)
     for (NSUInteger i = S7, j = C5, k = FC6; i < S10; i++, j++, k++) {
-        delta = oropharynx_coeff[j] * (oropharynx[i][TOP][prev_ptr] - oropharynx[i+1][BOTTOM][prev_ptr]);
-        oropharynx[i+1][TOP][current_ptr]  = ((oropharynx[i][TOP][prev_ptr]      + delta) * dampingFactor) + (fricationTap[k] * frication);
-        oropharynx[i][BOTTOM][current_ptr] = ((oropharynx[i+1][BOTTOM][prev_ptr] + delta) * dampingFactor);
+        delta = oropharynx_coeff[j] * (oropharynx[i][TOP][previousIndex] - oropharynx[i+1][BOTTOM][previousIndex]);
+        oropharynx[i+1][TOP][currentIndex]  = ((oropharynx[i][TOP][previousIndex]      + delta) * dampingFactor) + (fricationTap[k] * frication);
+        oropharynx[i][BOTTOM][currentIndex] = ((oropharynx[i+1][BOTTOM][previousIndex] + delta) * dampingFactor);
     }
     
     // Reflected signal at mouth goes through a lowpass filter
-    oropharynx[S10][BOTTOM][current_ptr] =  dampingFactor * TRMRadiationReflectionFilter_ReflectionFilterInput(&mouthFilterPair, oropharynx_coeff[C8] * oropharynx[S10][TOP][prev_ptr]);
+    oropharynx[S10][BOTTOM][currentIndex] =  dampingFactor * TRMRadiationReflectionFilter_ReflectionFilterInput(&mouthFilterPair, oropharynx_coeff[C8] * oropharynx[S10][TOP][previousIndex]);
     
     // Output from mouth goes through a highpass filter
-    double output = TRMRadiationReflectionFilter_RadiationFilterInput(&mouthFilterPair, (1.0 + oropharynx_coeff[C8]) * oropharynx[S10][TOP][prev_ptr]);
+    double output = TRMRadiationReflectionFilter_RadiationFilterInput(&mouthFilterPair, (1.0 + oropharynx_coeff[C8]) * oropharynx[S10][TOP][previousIndex]);
     
     
     // Update nasal cavity
     for (NSUInteger i = TRM_VELUM, j = NC1; i < TRM_N6; i++, j++) {
-        delta = nasal_coeff[j] * (nasal[i][TOP][prev_ptr] - nasal[i+1][BOTTOM][prev_ptr]);
-        nasal[i+1][TOP][current_ptr]  = (nasal[i][TOP][prev_ptr]      + delta) * dampingFactor;
-        nasal[i][BOTTOM][current_ptr] = (nasal[i+1][BOTTOM][prev_ptr] + delta) * dampingFactor;
+        delta = nasal_coeff[j] * (nasal[i][TOP][previousIndex] - nasal[i+1][BOTTOM][previousIndex]);
+        nasal[i+1][TOP][currentIndex]  = (nasal[i][TOP][previousIndex]      + delta) * dampingFactor;
+        nasal[i][BOTTOM][currentIndex] = (nasal[i+1][BOTTOM][previousIndex] + delta) * dampingFactor;
     }
     
     // Reflected signal at nose goes through a lowpass filter
-    nasal[TRM_N6][BOTTOM][current_ptr] = dampingFactor * TRMRadiationReflectionFilter_ReflectionFilterInput(&nasalFilterPair, nasal_coeff[NC6] * nasal[TRM_N6][TOP][prev_ptr]);
+    nasal[TRM_N6][BOTTOM][currentIndex] = dampingFactor * TRMRadiationReflectionFilter_ReflectionFilterInput(&nasalFilterPair, nasal_coeff[NC6] * nasal[TRM_N6][TOP][previousIndex]);
     
-    // Outpout from nose goes through a highpass filter
-    output += TRMRadiationReflectionFilter_RadiationFilterInput(&nasalFilterPair, (1.0 + nasal_coeff[NC6]) * nasal[TRM_N6][TOP][prev_ptr]);
+    // Output from nose goes through a highpass filter
+    output += TRMRadiationReflectionFilter_RadiationFilterInput(&nasalFilterPair, (1.0 + nasal_coeff[NC6]) * nasal[TRM_N6][TOP][previousIndex]);
     
     // Return summed output from mouth and nose
     return output;

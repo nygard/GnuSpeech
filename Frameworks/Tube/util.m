@@ -10,10 +10,6 @@
 // Range of all volume controls
 #define VOL_MAX                   60
 
-// Constants for noise generator
-#define FACTOR                    377.0
-#define INITIAL_SEED              0.7892347
-
 // Pitch variables
 #define PITCH_BASE                220.0
 #define PITCH_OFFSET              3           // Middle C = 0
@@ -70,6 +66,12 @@ double Izero(double x)
     return sum;
 }
 
+#pragma mark - Noise Generator
+
+// Constants for noise generator
+#define FACTOR                    377.0
+#define INITIAL_SEED              0.7892347
+
 // Returns one value of a random sequence.
 double noise(void)
 {
@@ -79,6 +81,8 @@ double noise(void)
     seed = product - (int)product;
     return (seed - 0.5);
 }
+
+#pragma mark - Noise Filter
 
 // One-zero lowpass filter.
 double noiseFilter(double input)
