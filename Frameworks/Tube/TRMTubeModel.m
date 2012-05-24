@@ -7,7 +7,7 @@
 #import "TRMParameters.h"
 #import "TRMDataList.h"
 #import "TRMInputParameters.h"
-#import "util.h"
+#import "TRMUtility.h"
 #import "TRMSampleRateConverter.h"
 #import "TRMWavetable.h"
 #import "NSData-STExtensions.h"

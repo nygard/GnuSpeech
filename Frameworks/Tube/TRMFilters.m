@@ -3,8 +3,6 @@
 
 #import "TRMFilters.h"
 
-#import "util.h"
-
 #pragma mark - Band Pass Filter
 
 // Sets the frication bandpass filter coefficients according to the current center frequency and bandwidth.

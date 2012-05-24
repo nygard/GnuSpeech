@@ -5,12 +5,7 @@
 
 #import <AVFoundation/AVFoundation.h>
 #import "MMSynthesisParameters.h"
-#import <Tube/TRMDataList.h>
-#import <Tube/TRMInputParameters.h>
-#import <Tube/TRMParameters.h>
-#import <Tube/TRMTubeModel.h>
-#import <Tube/TRMSampleRateConverter.h>
-#import <Tube/TubeModel.h>
+#import <Tube/Tube.h>
 
 @interface TRMSynthesizer ()
 @property (strong) AVAudioPlayer *audioPlayer;

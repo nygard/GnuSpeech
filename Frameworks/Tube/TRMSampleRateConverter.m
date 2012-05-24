@@ -4,7 +4,7 @@
 #import "TRMSampleRateConverter.h"
 
 #import "TRMRingBuffer.h"
-#import "util.h"
+#import "TRMUtility.h"
 
 
 // Sample Rate Conversion Constants
