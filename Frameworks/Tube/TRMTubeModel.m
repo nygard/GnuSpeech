@@ -133,6 +133,50 @@ NSString *STCoreAudioErrorDescription(OSStatus error)
     return @"Unknown";
 }
 
+#pragma mark - Filters
+
+#pragma mark - Band Pass Filter
+
+typedef struct {
+    // Bandpass filter memory
+    double bpAlpha;
+    double bpBeta;
+    double bpGamma;
+    
+    // Other
+    double xn1; // Init these to 0.
+    double xn2;
+    double yn1;
+    double yn2;
+} TRMBandPassFilter;
+
+// Sets the frication bandpass filter coefficients according to the current center frequency and bandwidth.
+void TRMBandPassFilter_CalculateCoefficients(TRMBandPassFilter *filter, int32_t sampleRate, double centerFrequency, double bandwidth)
+{
+    double tanValue = tan((      M_PI * bandwidth)       / sampleRate);
+    double cosValue = cos((2.0 * M_PI * centerFrequency) / sampleRate);
+    
+    filter->bpBeta  = (1.0 - tanValue) / (2.0 * (1.0 + tanValue));
+    filter->bpGamma = (0.5 + filter->bpBeta) * cosValue;
+    filter->bpAlpha = (0.5 - filter->bpBeta) / 2.0;
+}
+
+double TRMBandPassFilter_FilterInput(TRMBandPassFilter *filter, double input)
+{
+    double output = 2.0 * ((filter->bpAlpha * (input - filter->xn2)) + (filter->bpGamma * filter->yn1) - (filter->bpBeta * filter->yn2));
+    
+    filter->xn2 = filter->xn1;
+    filter->xn1 = input;
+    filter->yn2 = filter->yn1;
+    filter->yn1 = output;
+    
+    return output;
+}
+
+#pragma mark - Low Pass Filter
+
+#pragma mark -
+
 @interface TRMTubeModel ()
 @property (readonly) TRMDataList *inputData;
 @property (nonatomic, readonly) TRMInputParameters *inputParameters;
@@ -152,10 +196,8 @@ NSString *STCoreAudioErrorDescription(OSStatus error)
 - (void)initializeThroat;
 - (void)calculateTubeCoefficients;
 - (void)setFricationTaps;
-- (void)calculateBandpassCoefficients:(int32_t)sampleRate;
 - (double)vocalTract:(double)input frication:(double)frication;
 - (double)throat:(double)input;
-- (double)bandpassFilter:(double)input;
 
 @end
 
@@ -168,7 +210,7 @@ NSString *STCoreAudioErrorDescription(OSStatus error)
     int32_t sampleRate;
     double actualTubeLength;            // actual length in cm
     
-    double m_dampingFactor;               // calculated damping factor
+    double m_dampingFactor;             // calculated damping factor
     double crossmixFactor;              // calculated crossmix factor
     
     double breathinessFactor;
@@ -182,8 +224,7 @@ NSString *STCoreAudioErrorDescription(OSStatus error)
     // Throad lowpass filter memory, gain
     double tb1, ta0, throatGain;
     
-    // Frication bandpass filter memory
-    double bpAlpha, bpBeta, bpGamma;
+    TRMBandPassFilter fricationBandPassFilter; // Frication bandpass filter, with variable center frequency and bandwidth.
     
     // Memory for tue and tube coefficients
     double oropharynx[TOTAL_SECTIONS][2][2];
@@ -270,6 +311,13 @@ NSString *STCoreAudioErrorDescription(OSStatus error)
         m_prev_ptr = 0;
         
         // TODO (2004-05-07): fricationTap
+
+
+        // Initialize parts of this filter.  The coefficients are set elsewhere.
+        fricationBandPassFilter.xn1 = 0;
+        fricationBandPassFilter.xn2 = 0;
+        fricationBandPassFilter.yn1 = 0;
+        fricationBandPassFilter.yn2 = 0;
     }
 
     return self;
@@ -329,7 +377,7 @@ NSString *STCoreAudioErrorDescription(OSStatus error)
 
             [self calculateTubeCoefficients];
             [self setFricationTaps];
-            [self calculateBandpassCoefficients:sampleRate];
+            TRMBandPassFilter_CalculateCoefficients(&fricationBandPassFilter, sampleRate, m_currentParameters.fricCF, m_currentParameters.fricBW);
             
             
             // Do synthesis here
@@ -365,7 +413,7 @@ NSString *STCoreAudioErrorDescription(OSStatus error)
             }
             
             // Put signal through vocal tract
-            signal = [self vocalTract:((pulse + (ah1 * signal)) * VT_SCALE) frication:[self bandpassFilter:signal]];
+            signal = [self vocalTract:((pulse + (ah1 * signal)) * VT_SCALE) frication:TRMBandPassFilter_FilterInput(&fricationBandPassFilter, signal)];
             
             
             // Put pulse through throat
@@ -978,52 +1026,6 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
     double output = (ta0 * input) + (tb1 * throatY);
     throatY = output;
     return (output * throatGain);
-}
-
-#pragma mark - Frication bandpass filter
-
-// Sets the frication bandpass filter coefficients according to the current center frequency and bandwidth.
-
-// TODO (2004-05-13): I imagine passing this a bandpass filter object (which won't have the sample rate) and the sample rate in the future.
-- (void)calculateBandpassCoefficients:(int32_t)localSampleRate;
-{
-    double tanValue = tan((      M_PI * m_currentParameters.fricBW) / localSampleRate);
-    double cosValue = cos((2.0 * M_PI * m_currentParameters.fricCF) / localSampleRate);
-    
-    bpBeta  = (1.0 - tanValue) / (2.0 * (1.0 + tanValue));
-    bpGamma = (0.5 + bpBeta) * cosValue;
-    bpAlpha = (0.5 - bpBeta) / 2.0;
-}
-
-// Frication bandpass filter, with variable center frequency and bandwidth.
-#if 0
-typedef struct {
-    // Frication bandpass filter memory
-    double bpAlpha;
-    double bpBeta;
-    double bpGamma;
-
-    // Other
-    double xn1; // Init these to 0.
-    double xn2;
-    double yn1;
-    double yn2;
-} TRMBandpassFilter;
-TRMBandpassFilter fricationBandPassFilter;
-#endif
-
-- (double)bandpassFilter:(double)input;
-{
-    static double xn1 = 0.0, xn2 = 0.0, yn1 = 0.0, yn2 = 0.0; // TODO: (2012-05-24) Remove static
-    
-    double output = 2.0 * ((bpAlpha * (input - xn2)) + (bpGamma * yn1) - (bpBeta * yn2));
-    
-    xn2 = xn1;
-    xn1 = input;
-    yn2 = yn1;
-    yn1 = output;
-    
-    return output;
 }
 
 @end
