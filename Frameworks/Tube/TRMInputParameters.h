@@ -3,8 +3,23 @@
 
 #import <Foundation/Foundation.h>
 
-#import "TRMTubeModel.h" // For TRMSoundFileFormat
-#import "TRMWavetable.h" // For TRMWaveFormType
+// Output file format constants
+enum {
+    TRMSoundFileFormat_AU   = 0,
+    TRMSoundFileFormat_AIFF = 1,
+    TRMSoundFileFormat_WAVE = 2,
+};
+typedef NSUInteger TRMSoundFileFormat;
+
+NSString *TRMSoundFileFormatDescription(TRMSoundFileFormat format);
+NSString *TRMSoundFileFormatExtension(TRMSoundFileFormat format);
+
+enum {
+    TRMWaveFormType_Pulse = 0,
+    TRMWaveFormType_Sine  = 1,
+};
+typedef NSUInteger TRMWaveFormType;
+NSString *TRMWaveFormTypeDescription(TRMWaveFormType type);
 
 @interface TRMInputParameters : NSObject
 

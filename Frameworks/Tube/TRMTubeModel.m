@@ -78,27 +78,11 @@
 // 1 means to compile so that interpolation not done for some control rate parameters
 #define MATCH_DSP 0
 
-NSString *TRMSoundFileFormatDescription(TRMSoundFileFormat format)
-{
-    switch (format) {
-        case TRMSoundFileFormat_AU:   return @"AU";
-        case TRMSoundFileFormat_AIFF: return @"AIFF";
-        case TRMSoundFileFormat_WAVE: return @"WAVE";
-    }
+// Maximum sample value
+#define TRMSampleValue_Maximum    32767.0
 
-    return @"Unknown";
-}
-
-NSString *TRMSoundFileFormatExtension(TRMSoundFileFormat format)
-{
-    switch (format) {
-        case TRMSoundFileFormat_AU:   return @"au";
-        case TRMSoundFileFormat_AIFF: return @"aiff";
-        case TRMSoundFileFormat_WAVE: return @"wav";
-    }
-    
-    return @"Unknown";
-}
+// Size in bits per output sample
+#define TRMBitsPerSample          16
 
 AudioFileTypeID TRMCoreAudioFormatFromSoundFileFormat(TRMSoundFileFormat format)
 {

@@ -8,17 +8,6 @@
 
 #import "TRMFIRFilter.h"
 
-NSString *TRMWaveFormTypeDescription(TRMWaveFormType type)
-{
-    switch (type) {
-        case TRMWaveFormType_Pulse: return @"Pulse";
-        case TRMWaveFormType_Sine:  return @"Sine";
-    }
-
-    return @"Unknown";
-}
-
-
 #ifdef GNUSTEP
 #undef USE_VECLIB
 #else

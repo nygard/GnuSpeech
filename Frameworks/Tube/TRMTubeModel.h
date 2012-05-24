@@ -24,23 +24,6 @@
 #define TRM_N6                    5
 #define TOTAL_NASAL_SECTIONS      6
 
-// Output file format constants
-enum {
-    TRMSoundFileFormat_AU   = 0,
-    TRMSoundFileFormat_AIFF = 1,
-    TRMSoundFileFormat_WAVE = 2,
-};
-typedef NSUInteger TRMSoundFileFormat;
-
-NSString *TRMSoundFileFormatDescription(TRMSoundFileFormat format);
-NSString *TRMSoundFileFormatExtension(TRMSoundFileFormat format);
-
-// Maximum sample value
-#define TRMSampleValue_Maximum    32767.0
-
-// Size in bits per output sample
-#define TRMBitsPerSample          16
-
 @class TRMDataList;
 
 @interface TRMTubeModel : NSObject
