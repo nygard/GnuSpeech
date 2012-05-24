@@ -4,7 +4,7 @@
 #ifndef __UTIL_H
 #define __UTIL_H
 
-double speedOfSound(double temperature);
+double speedOfSound_mps(double temperatureCelsius);
 double amplitude(double decibelLevel);
 double frequency(double pitch);
 double Izero(double x);

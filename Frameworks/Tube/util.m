@@ -16,9 +16,10 @@
 #define LOG_FACTOR                3.32193
 
 // Returns the speed of sound according to the value of the temperature (in Celsius degrees).
-double speedOfSound(double temperature)
+// <http://en.wikipedia.org/wiki/Speed_of_sound> shows 331.3 + (0.606 * temperatureCelsius).
+double speedOfSound_mps(double temperatureCelsius)
 {
-    return 331.4 + (0.6 * temperature);
+    return 331.4 + (0.6 * temperatureCelsius);
 }
 
 // Converts dB value (0-60) to amplitude value (0-1)
@@ -48,15 +49,13 @@ double frequency(double pitch)
 // Returns the value for the modified Bessel function of the first kind, order 0, as a double.
 double Izero(double x)
 {
-    double sum, u, halfx, temp;
-    int32_t n;
-
-
-    sum = u = n = 1;
-    halfx = x / 2.0;
+    double sum   = 1;
+    double u     = 1;
+    double n     = 1;
+    double halfx = x / 2.0;
 
     do {
-        temp = halfx / (double)n;
+        double temp = halfx / n;
         n += 1;
         temp *= temp;
         u *= temp;

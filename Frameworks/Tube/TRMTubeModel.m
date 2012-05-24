@@ -219,7 +219,7 @@ NSString *STCoreAudioErrorDescription(OSStatus error)
         
         // Calculate the sample rate, based on nominal tube length and speed of sound
         if (m_inputData.inputParameters.length > 0.0) {
-            double c = speedOfSound(m_inputData.inputParameters.temperature);
+            double c = speedOfSound_mps(m_inputData.inputParameters.temperature);
             
             controlPeriod = rint((c * TOTAL_SECTIONS * 100.0) / (m_inputData.inputParameters.length * m_inputData.inputParameters.controlRate));
             sampleRate = m_inputData.inputParameters.controlRate * controlPeriod;
