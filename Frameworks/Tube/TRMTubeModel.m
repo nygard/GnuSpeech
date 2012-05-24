@@ -12,6 +12,8 @@
 #import "TRMWavetable.h"
 #import "NSData-STExtensions.h"
 
+#import "TRMFilters.h"
+
 // Oropharynx scattering junction coefficients (between each region)
 #define C1                        TRM_R1     // R1-R2 (S1-S2)
 #define C2                        TRM_R2     // R2-R3 (S2-S3)
@@ -132,128 +134,6 @@ NSString *STCoreAudioErrorDescription(OSStatus error)
 
     return @"Unknown";
 }
-
-#pragma mark - Filters
-
-#pragma mark - Band Pass Filter
-
-typedef struct {
-    // Bandpass filter memory
-    double bpAlpha;
-    double bpBeta;
-    double bpGamma;
-    
-    // Filter memory
-    double xn1;
-    double xn2;
-    double yn1;
-    double yn2;
-} TRMBandPassFilter;
-
-// Sets the frication bandpass filter coefficients according to the current center frequency and bandwidth.
-void TRMBandPassFilter_CalculateCoefficients(TRMBandPassFilter *filter, int32_t sampleRate, double centerFrequency, double bandwidth)
-{
-    double tanValue = tan((      M_PI * bandwidth)       / sampleRate);
-    double cosValue = cos((2.0 * M_PI * centerFrequency) / sampleRate);
-    
-    filter->bpBeta  = (1.0 - tanValue) / (2.0 * (1.0 + tanValue));
-    filter->bpGamma = (0.5 + filter->bpBeta) * cosValue;
-    filter->bpAlpha = (0.5 - filter->bpBeta) / 2.0;
-}
-
-double TRMBandPassFilter_FilterInput(TRMBandPassFilter *filter, double input)
-{
-    double output = 2.0 * ((filter->bpAlpha * (input - filter->xn2)) + (filter->bpGamma * filter->yn1) - (filter->bpBeta * filter->yn2));
-    
-    filter->xn2 = filter->xn1;
-    filter->xn1 = input;
-    filter->yn2 = filter->yn1;
-    filter->yn1 = output;
-    
-    return output;
-}
-
-#pragma mark - Mouth, Nasal filter pairs
-
-typedef struct {
-    // Coefficients
-    double a10;
-    double b11;
-    double a20;
-    double a21;
-    double b21;
-
-    // Reflection filter memory
-    double reflectionY;
-
-    // Radiation filter memory
-    double radiationX;
-    double radiationY;
-} TRMRadiationReflectionFilter;
-
-// Calculates the fixed coefficients for the reflection/radiation filter pair, according to the aperture coefficient.
-void TRMRadiationReflectionFilter_InitWithCoefficient(TRMRadiationReflectionFilter *filter, double coeff)
-{
-    filter->b11 = -coeff;
-    filter->a10 = 1.0 - fabs(filter->b11);
-    
-    filter->a20 = coeff;
-    filter->a21 = filter->b21 = -(filter->a20);
-
-    filter->reflectionY = 0;
-    filter->radiationX = 0;
-    filter->radiationY = 0;
-}
-
-double TRMRadiationReflectionFilter_ReflectionFilterInput(TRMRadiationReflectionFilter *filter, double input)
-{
-    double output = (filter->a10 * input) - (filter->b11 * filter->reflectionY);
-    filter->reflectionY = output;
-    return output;
-}
-
-double TRMRadiationReflectionFilter_RadiationFilterInput(TRMRadiationReflectionFilter *filter, double input)
-{
-    double output = (filter->a20 * input) + (filter->a21 * filter->radiationX) - (filter->b21 * filter->radiationY);
-    filter->radiationX = input;
-    filter->radiationY = output;
-    return output;
-}
-
-#pragma mark - Throat filter
-
-// Throat lowpass filter memory, gain
-typedef struct {
-    // Coefficients, gain
-    double tb1;
-    double ta0;
-    double gain;
-    
-    // Filter memory
-    double y;
-} TRMLowPassFilter;
-
-// TODO: (2012-05-24): The gain doesn't seem like it belongs in the filter.
-// TODO: (2012-05-24): Make the noise filter user this.  Think with coefficients of 1 it is the same.
-
-void TRMLowPassFilter_CalculateCoefficients(TRMLowPassFilter *filter, int32_t sampleRate, double cutoff, double volume)
-{
-    filter->ta0 = (cutoff * 2.0) / sampleRate;
-    filter->tb1 = 1.0 - filter->ta0;
-    
-    filter->gain = amplitude(volume);
-}
-
-// Simulates the radiation of sound through the walls of the throat.  Note that this form of the filter
-// uses addition instead of subtraction for the second term, since tb1 has reversed sign.
-
-double TRMLowPassFilter_FilterInput(TRMLowPassFilter *filter, double input)
-{
-    double output = (filter->ta0 * input) + (filter->tb1 * filter->y);
-    filter->y = output;
-    return (output * filter->gain);
-}
-
 
 #pragma mark -
 
