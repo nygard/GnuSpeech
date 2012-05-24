@@ -5,18 +5,9 @@
 
 #import <AVFoundation/AVFoundation.h>
 #import "MMSynthesisParameters.h"
-#import "NSData-STExtensions.h"
-#import <Tube/TRMDataList.h>
-#import <Tube/TRMInputParameters.h>
-#import <Tube/TRMParameters.h>
-#import <Tube/TRMTubeModel.h>
-#import <Tube/TRMSampleRateConverter.h>
-
-const uint16_t kWAVEFormat_Unknown         = 0x0000;
-const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
+#import <Tube/Tube.h>
 
 @interface TRMSynthesizer ()
-- (NSData *)generateWAVDataWithSampleRateConverter:(TRMSampleRateConverter *)sampleRateConverter;
 @property (strong) AVAudioPlayer *audioPlayer;
 
 - (void)startPlaying:(TRMTubeModel *)tube;
@@ -123,22 +114,22 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 - (void)addParameters:(float *)values;
 {
     TRMParameters *inputValues = [[[TRMParameters alloc] init] autorelease];
-    inputValues.glotPitch = values[0];
-    inputValues.glotVol   = values[1];
-    inputValues.aspVol    = values[2];
-    inputValues.fricVol   = values[3];
-    inputValues.fricPos   = values[4];
-    inputValues.fricCF    = values[5];
-    inputValues.fricBW    = values[6];
-    inputValues.radius[0] = values[7];
-    inputValues.radius[1] = values[8];
-    inputValues.radius[2] = values[9];
-    inputValues.radius[3] = values[10];
-    inputValues.radius[4] = values[11];
-    inputValues.radius[5] = values[12];
-    inputValues.radius[6] = values[13];
-    inputValues.radius[7] = values[14];
-    inputValues.velum     = values[15];
+    inputValues.glottalPitch             = values[0];
+    inputValues.glottalVolume            = values[1];
+    inputValues.aspirationVolume         = values[2];
+    inputValues.fricationVolume          = values[3];
+    inputValues.fricationPosition        = values[4];
+    inputValues.fricationCenterFrequency = values[5];
+    inputValues.fricationBandwidth       = values[6];
+    inputValues.radius[0]                = values[7];
+    inputValues.radius[1]                = values[8];
+    inputValues.radius[2]                = values[9];
+    inputValues.radius[3]                = values[10];
+    inputValues.radius[4]                = values[11];
+    inputValues.radius[5]                = values[12];
+    inputValues.radius[6]                = values[13];
+    inputValues.radius[7]                = values[14];
+    inputValues.velum                    = values[15];
     [m_inputData.values addObject:inputValues];
 }
 
@@ -157,141 +148,40 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 
 - (void)synthesize;
 {
-    TRMTubeModel *tube = [[[TRMTubeModel alloc] initWithInputParameters:m_inputData.inputParameters] autorelease];
+    TRMTubeModel *tube = [[[TRMTubeModel alloc] initWithInputData:m_inputData] autorelease];
     if (tube == nil) {
         NSLog(@"Warning: Failed to create tube model.");
         return;
     }
 
-    [tube synthesizeFromDataList:m_inputData];
+    [tube synthesize];
 
     if (self.shouldSaveToSoundFile) {
-		
-        writeOutputToFile(tube.sampleRateConverter, m_inputData, [self.filename UTF8String]);
-
+        NSError *error = nil;
+        if (![tube saveOutputToFile:self.filename error:&error]) {
+            NSLog(@"Failed to save output: %@", error);
+        }
     } else {
-
-		// The following is used to bypass Core Audio and play from a file instead. -- added by dalmazio, October 19, 2008
-		//
-		// const char *tempName = tempnam("/tmp", NULL);
-		// writeOutputToFile(&(tube->sampleRateConverter), inputData, tempName);
-		// NSSound *sound = [[[NSSound alloc] initWithContentsOfFile:[NSString stringWithUTF8String:tempName] byReference:YES] autorelease];
-		// [sound play];
-
-		[self generateWAVDataWithSampleRateConverter:tube.sampleRateConverter];
 		[self startPlaying:tube];
     }
-}
-
-// RIFF
-#define WAV_CHUNK_ID        0x52494646
-
-// WAVE
-#define WAV_RIFF_TYPE       0x57415645
-
-// fmt
-#define WAV_FORMAT_CHUNK_ID 0x666d7420
-
-// data
-#define WAV_DATA_CHUNK_ID   0x64617461
-
-- (NSData *)generateWAVDataWithSampleRateConverter:(TRMSampleRateConverter *)sampleRateConverter;
-{
-    if (sampleRateConverter.maximumSampleValue == 0)
-        NSBeep();
-
-    NSMutableData *sampleData = [[[NSMutableData alloc] init] autorelease];
-
-    double scale = (TRMSampleValue_Maximum / sampleRateConverter.maximumSampleValue) * amplitude(m_inputData.inputParameters.volume);
-
-    NSLog(@"number of samples:\t%-d\n", sampleRateConverter.numberSamples);
-    NSLog(@"maximum sample value:\t%.4f\n", sampleRateConverter.maximumSampleValue);
-    NSLog(@"scale:\t\t\t%.4f\n", scale);
-    
-    /*  Rewind the temporary file to beginning  */
-    rewind(sampleRateConverter.tempFilePtr);
-
-    if (m_inputData.inputParameters.channels == 2) {
-		// Calculate left and right channel amplitudes.
-		//
-		// leftScale = -((inputData->inputParameters.balance / 2.0) - 0.5) * scale * 2.0;
-		// rightScale = ((inputData->inputParameters.balance / 2.0) + 0.5) * scale * 2.0;
-
-        // This doesn't have the crackling when at all left or all right, but it's not as loud as Mono by default.
-		double leftScale = -((m_inputData.inputParameters.balance / 2.0) - 0.5) * scale;
-		double rightScale = ((m_inputData.inputParameters.balance / 2.0) + 0.5) * scale;
-
-        printf("left scale:\t\t%.4f\n", leftScale);
-        printf("right scale:\t\t%.4f\n", rightScale);
-
-        for (NSUInteger index = 0; index < sampleRateConverter.numberSamples; index++) {
-            double sample;
-
-            fread(&sample, sizeof(sample), 1, sampleRateConverter.tempFilePtr);
-
-            uint16_t value = (short)rint(sample * leftScale);
-            [sampleData appendBytes:&value length:sizeof(value)];
-
-            value = (short)rint(sample * rightScale);
-            [sampleData appendBytes:&value length:sizeof(value)];
-        }
-		
-    } else {
-		
-        for (NSUInteger index = 0; index < sampleRateConverter.numberSamples; index++) {
-            double sample;
-
-            fread(&sample, sizeof(sample), 1, sampleRateConverter.tempFilePtr);
-
-            uint16_t value = (short)rint(sample * scale);
-            [sampleData appendBytes:&value length:sizeof(value)];
-        }
-    }
-
-    int frameSize = (int)ceil(m_inputData.inputParameters.channels * ((double)TRMBitsPerSample / 8));
-    int bytesPerSecond = (int)ceil(m_inputData.inputParameters.outputRate * frameSize);
-    
-    NSMutableData *data = [NSMutableData data];
-    uint32_t subChunk1Size = 18;
-    uint32_t subChunk2Size = [sampleData length];
-    uint32_t chunkSize = 4 + (8 + subChunk1Size) + (8 + subChunk2Size);
-    
-    // Header - RIFF type chunk
-    [data appendBigInt32:WAV_CHUNK_ID]; // RIFF
-    [data appendLittleInt32:chunkSize];
-    [data appendBigInt32:WAV_RIFF_TYPE]; // WAVE
-    
-    // Format chunk
-    [data appendBigInt32:WAV_FORMAT_CHUNK_ID]; // fmt
-    [data appendLittleInt32:subChunk1Size];
-    [data appendLittleInt16:kWAVEFormat_UncompressedPCM];
-    [data appendLittleInt16:m_inputData.inputParameters.channels];
-    [data appendLittleInt32:m_inputData.inputParameters.outputRate];
-    [data appendLittleInt32:bytesPerSecond];
-    [data appendLittleInt16:frameSize];
-    [data appendLittleInt16:TRMBitsPerSample];
-    [data appendLittleInt16:0];
-    
-    // Data chunk
-    [data appendBigInt32:WAV_DATA_CHUNK_ID];
-    [data appendLittleInt32:subChunk2Size];
-    
-    [data appendData:sampleData];
-    
-    return [[data copy] autorelease];
 }
 
 @synthesize audioPlayer = m_audioPlayer;
 
 - (void)startPlaying:(TRMTubeModel *)tube;
 {
-    NSError *error = nil;
-    AVAudioPlayer *audioPlayer = [[[AVAudioPlayer alloc] initWithData:[self generateWAVDataWithSampleRateConverter:tube.sampleRateConverter] error:&error] autorelease];
-    if (audioPlayer == nil) {
-        NSLog(@"error: %@", error);
+    NSData *WAVData = [tube generateWAVData];
+    if (WAVData == nil) {
+        NSBeep();
     } else {
-        [self setAudioPlayer:audioPlayer];
-        [audioPlayer play];
+        NSError *error = nil;
+        AVAudioPlayer *audioPlayer = [[[AVAudioPlayer alloc] initWithData:WAVData error:&error] autorelease];
+        if (audioPlayer == nil) {
+            NSLog(@"error: %@", error);
+        } else {
+            [self setAudioPlayer:audioPlayer];
+            [audioPlayer play];
+        }
     }
 }
 

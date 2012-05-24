@@ -108,7 +108,7 @@ static void rationalApproximation(double number, int32_t *order, int32_t *numera
 #pragma mark -
 
 // Is the linear phase, lowpass FIR filter.
-- (double)filterInput:(double)input needOutput:(int32_t)needOutput;
+- (double)filterInput:(double)input needOutput:(BOOL)needOutput;
 {
     if (needOutput) {
         double output = 0.0;

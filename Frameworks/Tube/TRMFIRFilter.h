@@ -3,8 +3,6 @@
 
 #import <Foundation/Foundation.h>
 
-#include <stdint.h> // For int32_t
-
 // Oversampling FIR filter characteristics
 #define FIR_BETA                  .2
 #define FIR_GAMMA                 .1
@@ -15,6 +13,6 @@
 
 - (id)initWithBeta:(double)beta gamma:(double)gamma cutoff:(double)cutoff;
 
-- (double)filterInput:(double)input needOutput:(int32_t)needOutput;
+- (double)filterInput:(double)input needOutput:(BOOL)needOutput;
 
 @end

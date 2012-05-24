@@ -3,18 +3,16 @@
 
 #import <Foundation/Foundation.h>
 
-#define TOTAL_REGIONS 8
-
 // Control parameters?
 @interface TRMParameters : NSObject
 
-@property (assign) double glotPitch;
-@property (assign) double glotVol;
-@property (assign) double aspVol;
-@property (assign) double fricVol;
-@property (assign) double fricPos;
-@property (assign) double fricCF;
-@property (assign) double fricBW;
+@property (assign) double glottalPitch;
+@property (assign) double glottalVolume;
+@property (assign) double aspirationVolume;
+@property (assign) double fricationVolume;
+@property (assign) double fricationPosition;
+@property (assign) double fricationCenterFrequency;
+@property (assign) double fricationBandwidth;
 @property (nonatomic, readonly) double *radius;
 @property (assign) double velum;
 

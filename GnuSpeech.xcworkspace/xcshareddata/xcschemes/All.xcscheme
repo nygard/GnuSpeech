@@ -55,6 +55,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "01115F841547C381002ABAAF"
+               BuildableName = "softwareTRM"
+               BlueprintName = "softwareTRM"
+               ReferencedContainer = "container:Frameworks/Tube/Tube.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "8DD76F960486AA7600D96B5E"
                BuildableName = "GnuTTSServer"
                BlueprintName = "GnuTTSServer"

@@ -6,11 +6,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+@interface TRMRingBuffer ()
+- (void)dataEmpty;
+- (void)increment;
+- (void)decrement;
+@end
+
+#pragma mark -
+
 @implementation TRMRingBuffer
 {
-    double m_buffer[BUFFER_SIZE];
+    double m_buffer[TRMRingBufferSize];
     int32_t m_padSize;
-    int32_t m_fillSize; // Derived from BUFFER_SIZE and padSize.  Remains constant.
+    int32_t m_fillSize; // Derived from TRMRingBufferSize and padSize.  Remains constant.
     
     int32_t m_fillPtr;
     int32_t m_emptyPtr;
@@ -22,11 +30,11 @@
 - (id)initWithPadSize:(int32_t)padSize;
 {
     if ((self = [super init])) {
-        for (int32_t index = 0; index < BUFFER_SIZE; index++)
+        for (int32_t index = 0; index < TRMRingBufferSize; index++)
             m_buffer[index] = 0;
         
         m_padSize = padSize;
-        m_fillSize = BUFFER_SIZE - (2 * m_padSize);
+        m_fillSize = TRMRingBufferSize - (2 * m_padSize);
         
         m_fillPtr = m_padSize;
         m_emptyPtr = 0;
@@ -66,14 +74,14 @@
 
 - (void)increment;
 {
-    if (++(m_fillPtr) >= BUFFER_SIZE)
-        m_fillPtr -= BUFFER_SIZE;
+    if (++(m_fillPtr) >= TRMRingBufferSize)
+        m_fillPtr -= TRMRingBufferSize;
 }
 
 - (void)decrement;
 {
     if (--(m_fillPtr) < 0)
-        m_fillPtr += BUFFER_SIZE;
+        m_fillPtr += TRMRingBufferSize;
 }
 
 // Pads the buffer with zero samples, and flushes it by converting the remaining samples.
@@ -89,14 +97,14 @@
 
 + (void)incrementIndex:(int32_t *)index;
 {
-    if (++(*index) >= BUFFER_SIZE)
-        (*index) -= BUFFER_SIZE;
+    if (++(*index) >= TRMRingBufferSize)
+        (*index) -= TRMRingBufferSize;
 }
 
 + (void)decrementIndex:(int32_t *)index;
 {
     if (--(*index) < 0)
-        (*index) += BUFFER_SIZE;
+        (*index) += TRMRingBufferSize;
 }
 
 #pragma mark -

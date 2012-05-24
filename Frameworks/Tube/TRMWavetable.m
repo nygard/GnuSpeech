@@ -180,25 +180,21 @@ static double mod0(double value)
 //  2X oversampling oscillator
 - (double)oscillator:(double)frequency;  
 {
-    int32_t i, lowerPosition, upperPosition;
-    double interpolatedValue, output;
+    double output;
 
-
-    for (i = 0; i < 2; i++) {
+    for (NSUInteger index = 0; index < 2; index++) {
         //  First increment the table position, depending on frequency
         [self incrementPosition:frequency / 2.0];
 
         //  Find surrounding integer table positions
-        lowerPosition = (int)m_currentPosition;
-        upperPosition = mod0(lowerPosition + 1);
+        int32_t lowerPosition = m_currentPosition;
+        int32_t upperPosition = mod0(lowerPosition + 1);
 
         //  Calculate interpolated table value
-        interpolatedValue = (m_wavetable[lowerPosition] +
-                             ((m_currentPosition - lowerPosition) *
-                              (m_wavetable[upperPosition] - m_wavetable[lowerPosition])));
+        double interpolatedValue = (m_wavetable[lowerPosition] + ((m_currentPosition - lowerPosition) * (m_wavetable[upperPosition] - m_wavetable[lowerPosition])));
 
         //  Put value through FIR filter
-        output = [m_FIRFilter filterInput:interpolatedValue needOutput:i];
+        output = [m_FIRFilter filterInput:interpolatedValue needOutput:(index == 1)];
     }
 
     //  Since we decimate, take only the second output value
@@ -208,20 +204,16 @@ static double mod0(double value)
 //  Plain oscillator
 - (double)oscillator:(double)frequency;
 {
-    int32_t lowerPosition, upperPosition;
-
-
     //  First increment the table position, depending on frequency
     TRMWavetableIncrementPosition(wavetable, frequency);
 
     //  Find surrounding integer table positions
-    lowerPosition = (int)wavetable->currentPosition;
-    upperPosition = mod0(lowerPosition + 1);
+    int32_t lowerPosition = wavetable->currentPosition;
+    int3@_t upperPosition = mod0(lowerPosition + 1);
 
     //  Return interpolated table value
-    return (wavetable->wavetable[lowerPosition] +
-            ((wavetable->currentPosition - lowerPosition) *
-             (wavetable->wavetable[upperPosition] - wavetable->wavetable[lowerPosition])));
+    return (wavetable->wavetable[lowerPosition]
+            + ((wavetable->currentPosition - lowerPosition) * (wavetable->wavetable[upperPosition] - wavetable->wavetable[lowerPosition])));
 }
 #endif
 

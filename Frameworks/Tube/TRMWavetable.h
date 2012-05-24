@@ -3,11 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-enum {
-    TRMWaveFormType_Pulse = 0,
-    TRMWaveFormType_Sine  = 1,
-};
-typedef NSUInteger TRMWaveFormType;
+#import "TRMInputParameters.h" // For TRMWaveFormType
 
 @interface TRMWavetable : NSObject
 

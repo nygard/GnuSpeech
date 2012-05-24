@@ -5,16 +5,15 @@
 
 @interface TRMSampleRateConverter : NSObject
 
-@property (assign) double sampleRateRatio;
-@property (nonatomic, readonly) double *h;
-@property (nonatomic, readonly) double *deltaH;
-@property (assign) uint32_t timeRegisterIncrement;
-@property (assign) uint32_t filterIncrement;
-@property (assign) uint32_t phaseIncrement;
-@property (assign) uint32_t timeRegister;
+- (id)initWithInputRate:(double)inputRate outputRate:(double)outputRate;
+
+- (void)dataFill:(double)data;
+- (void)flush;
 
 @property (assign) double maximumSampleValue;
 @property (assign) int32_t numberSamples;
-@property (assign) FILE *tempFilePtr;
+
+// The samples are doubles
+@property (nonatomic, readonly) NSData *resampledData;
 
 @end

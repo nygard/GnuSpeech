@@ -1,16 +1,14 @@
 //  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
+#include "TRMUtility.h"
+
 #include <math.h>
-#include <stdint.h>
-#include "util.h"
+
+#define IzeroEPSILON              1E-21
 
 // Range of all volume controls
 #define VOL_MAX                   60
-
-// Constants for noise generator
-#define FACTOR                    377.0
-#define INITIAL_SEED              0.7892347
 
 // Pitch variables
 #define PITCH_BASE                220.0
@@ -18,12 +16,13 @@
 #define LOG_FACTOR                3.32193
 
 // Returns the speed of sound according to the value of the temperature (in Celsius degrees).
-double speedOfSound(double temperature)
+// <http://en.wikipedia.org/wiki/Speed_of_sound> shows 331.3 + (0.606 * temperatureCelsius).
+double speedOfSound_mps(double temperatureCelsius)
 {
-    return 331.4 + (0.6 * temperature);
+    return 331.4 + (0.6 * temperatureCelsius);
 }
 
-// Converts dB value to amplitude value
+// Converts dB value (0-60) to amplitude value (0-1)
 double amplitude(double decibelLevel)
 {
     // Convert 0-60 range to -60-0 range
@@ -50,15 +49,13 @@ double frequency(double pitch)
 // Returns the value for the modified Bessel function of the first kind, order 0, as a double.
 double Izero(double x)
 {
-    double sum, u, halfx, temp;
-    int32_t n;
-
-
-    sum = u = n = 1;
-    halfx = x / 2.0;
+    double sum   = 1;
+    double u     = 1;
+    double n     = 1;
+    double halfx = x / 2.0;
 
     do {
-        temp = halfx / (double)n;
+        double temp = halfx / n;
         n += 1;
         temp *= temp;
         u *= temp;
@@ -68,22 +65,21 @@ double Izero(double x)
     return sum;
 }
 
-// Returns one value of a random sequence.
-double noise(void)
-{
-    static double seed = INITIAL_SEED;
+#pragma mark - Noise Generator
 
-    double product = seed * FACTOR;
-    seed = product - (int)product;
-    return (seed - 0.5);
+// Constants for noise generator
+static const double kNoise_Factor = 377.0;
+static const double kNoise_InitialSeed = 0.7892347;
+
+void TRMNoiseGenerator_Init(TRMNoiseGenerator *generator)
+{
+    generator->seed = kNoise_InitialSeed;
 }
 
-// One-zero lowpass filter.
-double noiseFilter(double input)
+// Returns one value of a random sequence.
+double TRMNoiseGenerator_GetSample(TRMNoiseGenerator *generator)
 {
-    static double noiseX = 0.0;
-
-    double output = input + noiseX;
-    noiseX = input;
-    return output;
+    double product = generator->seed * kNoise_Factor;
+    generator->seed = product - (int)product;
+    return (generator->seed - 0.5);
 }

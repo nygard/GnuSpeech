@@ -2,7 +2,6 @@
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import <Foundation/Foundation.h>
-#import <Tube/TubeModel.h>
 
 @class MMSynthesisParameters;
 

@@ -37,14 +37,4 @@
     [self appendBytes:&bytes length:sizeof(bytes)];
 }
 
-- (void)swapNibbles;
-{
-    uint8_t *ptr = [self mutableBytes];
-    for (NSUInteger index = 0; index < [self length]; index++) {
-        uint8_t ch = *ptr;
-        ch = (ch << 4) | (ch >> 4);
-        *ptr++ = ch;
-    }
-}
-
 @end

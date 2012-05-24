@@ -3,17 +3,57 @@
 
 #import "TRMInputParameters.h"
 
+#import "TRMTubeModel.h"
+
+#pragma mark - TRMSoundFileFormat
+
+NSString *TRMSoundFileFormatDescription(TRMSoundFileFormat format)
+{
+    switch (format) {
+        case TRMSoundFileFormat_AU:   return @"AU";
+        case TRMSoundFileFormat_AIFF: return @"AIFF";
+        case TRMSoundFileFormat_WAVE: return @"WAVE";
+    }
+    
+    return @"Unknown";
+}
+
+NSString *TRMSoundFileFormatExtension(TRMSoundFileFormat format)
+{
+    switch (format) {
+        case TRMSoundFileFormat_AU:   return @"au";
+        case TRMSoundFileFormat_AIFF: return @"aiff";
+        case TRMSoundFileFormat_WAVE: return @"wav";
+    }
+    
+    return @"Unknown";
+}
+
+#pragma mark - TRMWaveFormType
+
+NSString *TRMWaveFormTypeDescription(TRMWaveFormType type)
+{
+    switch (type) {
+        case TRMWaveFormType_Pulse: return @"Pulse";
+        case TRMWaveFormType_Sine:  return @"Sine";
+    }
+    
+    return @"Unknown";
+}
+
+#pragma mark -
+
 @implementation TRMInputParameters
 {
-    int32_t outputFileFormat;
+    TRMSoundFileFormat outputFileFormat;
     float outputRate;
     float controlRate;
     
     double volume;
-    int32_t channels;
+    NSUInteger channels;
     double balance;
     
-    int32_t waveform;
+    TRMWaveFormType waveform;
     double tp;
     double tnMin;
     double tnMax;

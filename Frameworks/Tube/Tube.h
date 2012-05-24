@@ -4,8 +4,9 @@
 #ifndef __TUBE_MODEL_H
 #define __TUBE_MODEL_H
 
-#include <Tube/output.h>
-#include <Tube/structs.h>
-#include <Tube/util.h>
+#import <Tube/TRMDataList.h>
+#import <Tube/TRMInputParameters.h>
+#import <Tube/TRMParameters.h>
+#import <Tube/TRMTubeModel.h>
 
 #endif
