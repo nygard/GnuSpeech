@@ -726,44 +726,46 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
     // Glottal volume
     m_current.parameters.glotVol   = previousInput.glotVol;
     m_current.delta.glotVol        = (currentInput.glotVol - m_current.parameters.glotVol) / (double)controlPeriod;
-    
+
+#if MATCH_DSP
     // Aspiration volume
     m_current.parameters.aspVol    = previousInput.aspVol;
-#if MATCH_DSP
     m_current.delta.aspVol         = 0.0;
-#else
-    m_current.delta.aspVol         = (currentInput.aspVol - m_current.parameters.aspVol) / (double)controlPeriod;
-#endif
     
     // Frication volume
     m_current.parameters.fricVol   = previousInput.fricVol;
-#if MATCH_DSP
     current.delta.fricVol          = 0.0;
-#else
-    m_current.delta.fricVol        = (currentInput.fricVol - m_current.parameters.fricVol) / (double)controlPeriod;
-#endif
     
     // Frication position
     m_current.parameters.fricPos   = previousInput.fricPos;
-#if MATCH_DSP
     current.delta.fricPos          = 0.0;
-#else
-    m_current.delta.fricPos        = (currentInput.fricPos - m_current.parameters.fricPos) / (double)controlPeriod;
-#endif
     
     // Frication center frequency
     m_current.parameters.fricCF    = previousInput.fricCF;
-#if MATCH_DSP
     m_current.delta.fricCF         = 0.0;
-#else
-    m_current.delta.fricCF         = (currentInput.fricCF - m_current.parameters.fricCF) / (double)controlPeriod;
-#endif
     
     // Frication bandwidth
     m_current.parameters.fricBW    = previousInput.fricBW;
-#if MATCH_DSP
     m_current.delta.fricBW         = 0.0;
 #else
+    // Aspiration volume
+    m_current.parameters.aspVol    = previousInput.aspVol;
+    m_current.delta.aspVol         = (currentInput.aspVol - m_current.parameters.aspVol) / (double)controlPeriod;
+    
+    // Frication volume
+    m_current.parameters.fricVol   = previousInput.fricVol;
+    m_current.delta.fricVol        = (currentInput.fricVol - m_current.parameters.fricVol) / (double)controlPeriod;
+    
+    // Frication position
+    m_current.parameters.fricPos   = previousInput.fricPos;
+    m_current.delta.fricPos        = (currentInput.fricPos - m_current.parameters.fricPos) / (double)controlPeriod;
+    
+    // Frication center frequency
+    m_current.parameters.fricCF    = previousInput.fricCF;
+    m_current.delta.fricCF         = (currentInput.fricCF - m_current.parameters.fricCF) / (double)controlPeriod;
+    
+    // Frication bandwidth
+    m_current.parameters.fricBW    = previousInput.fricBW;
     m_current.delta.fricBW         = (currentInput.fricBW - m_current.parameters.fricBW) / (double)controlPeriod;
 #endif
     
