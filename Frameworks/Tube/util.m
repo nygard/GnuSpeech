@@ -69,15 +69,18 @@ double Izero(double x)
 #pragma mark - Noise Generator
 
 // Constants for noise generator
-#define FACTOR                    377.0
-#define INITIAL_SEED              0.7892347
+static const double kNoise_Factor = 377.0;
+static const double kNoise_InitialSeed = 0.7892347;
+
+void TRMNoiseGenerator_Init(TRMNoiseGenerator *generator)
+{
+    generator->seed = kNoise_InitialSeed;
+}
 
 // Returns one value of a random sequence.
-double noise(void)
+double TRMNoiseGenerator_GetSample(TRMNoiseGenerator *generator)
 {
-    static double seed = INITIAL_SEED;
-
-    double product = seed * FACTOR;
-    seed = product - (int)product;
-    return (seed - 0.5);
+    double product = generator->seed * kNoise_Factor;
+    generator->seed = product - (int)product;
+    return (generator->seed - 0.5);
 }

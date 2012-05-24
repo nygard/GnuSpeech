@@ -8,6 +8,12 @@ double speedOfSound(double temperature);
 double amplitude(double decibelLevel);
 double frequency(double pitch);
 double Izero(double x);
-double noise(void);
+
+typedef struct {
+    double seed;
+} TRMNoiseGenerator;
+
+void TRMNoiseGenerator_Init(TRMNoiseGenerator *generator);
+double TRMNoiseGenerator_GetSample(TRMNoiseGenerator *generator);
 
 #endif

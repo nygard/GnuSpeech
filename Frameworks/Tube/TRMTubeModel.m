@@ -165,7 +165,8 @@ NSString *STCoreAudioErrorDescription(OSStatus error)
     
     double breathinessFactor;
 
-    TRMLowPassFilter2 noiseFilter;             // One-zero lowpass filter.
+    TRMNoiseGenerator m_noiseGenerator;
+    TRMLowPassFilter2 m_noiseFilter;             // One-zero lowpass filter.
     
     // Mouth reflection filter: Is a variable, one-pole lowpass filter,            whose cutoff       is determined by the mouth aperture coefficient.
     // Mouth radiation filter:  Is a variable, one-zero, one-pole highpass filter, whose cutoff point is determined by the mouth aperture coefficient.
@@ -253,8 +254,10 @@ NSString *STCoreAudioErrorDescription(OSStatus error)
         
         // TODO (2004-05-07): nasal?
 
+        TRMNoiseGenerator_Init(&m_noiseGenerator);
+
         // Initialize the noise filter
-        noiseFilter.x = 0;
+        m_noiseFilter.x = 0;
 
         // Initialize the throat lowpass filter
         TRMLowPassFilter_CalculateCoefficients(&throatLowPassFilter, sampleRate, self.inputParameters.throatCutoff);
@@ -340,7 +343,7 @@ NSString *STCoreAudioErrorDescription(OSStatus error)
             
             // Do synthesis here
             // Create low-pass filtered noise
-            double lp_noise = TRMLowPassFilter2_FilterInput(&noiseFilter, noise());
+            double lp_noise = TRMLowPassFilter2_FilterInput(&m_noiseFilter, TRMNoiseGenerator_GetSample(&m_noiseGenerator));
             
             // Update the shape of the glottal pulse, if necessary
             if (self.inputData.inputParameters.waveform == TRMWaveFormType_Pulse)
