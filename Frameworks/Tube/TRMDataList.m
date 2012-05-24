@@ -265,51 +265,41 @@
 
 - (void)printInputParameters;
 {
-    printf("outputFileFormat:\t");
-    if (self.inputParameters.outputFileFormat == TRMSoundFileFormat_AU)
-        printf("AU\n");
-    else if (self.inputParameters.outputFileFormat == TRMSoundFileFormat_AIFF)
-        printf("AIFF\n");
-    else if (self.inputParameters.outputFileFormat == TRMSoundFileFormat_WAVE)
-        printf("WAVE\n");
+    printf("outputFileFormat:\t%s\n",          [TRMSoundFileFormatDescription(self.inputParameters.outputFileFormat) UTF8String]);
     
-    printf("outputRate:\t\t%.1f Hz\n", self.inputParameters.outputRate);
-    printf("controlRate:\t\t%.2f Hz\n\n", self.inputParameters.controlRate);
+    printf("outputRate:\t\t%.1f Hz\n",         self.inputParameters.outputRate);
+    printf("controlRate:\t\t%.2f Hz\n\n",      self.inputParameters.controlRate);
     
-    printf("volume:\t\t\t%.2f dB\n", self.inputParameters.volume);
-    printf("channels:\t\t%-d\n", self.inputParameters.channels);
-    printf("balance:\t\t%+1.2f\n\n", self.inputParameters.balance);
+    printf("volume:\t\t\t%.2f dB\n",           self.inputParameters.volume);
+    printf("channels:\t\t%-lu\n",              self.inputParameters.channels);
+    printf("balance:\t\t%+1.2f\n\n",           self.inputParameters.balance);
     
-    printf("waveform:\t\t");
-    if (self.inputParameters.waveform == TRMWaveFormType_Pulse)
-        printf("pulse\n");
-    else if (self.inputParameters.waveform == TRMWaveFormType_Sine)
-        printf("sine\n");
-    printf("tp:\t\t\t%.2f%%\n", self.inputParameters.tp);
-    printf("tnMin:\t\t\t%.2f%%\n", self.inputParameters.tnMin);
-    printf("tnMax:\t\t\t%.2f%%\n", self.inputParameters.tnMax);
-    printf("breathiness:\t\t%.2f%%\n\n", self.inputParameters.breathiness);
+    printf("waveform:\t\t%s\n",                [TRMWaveFormTypeDescription(self.inputParameters.waveform) UTF8String]);
+    printf("tp:\t\t\t%.2f%%\n",                self.inputParameters.tp);
+    printf("tnMin:\t\t\t%.2f%%\n",             self.inputParameters.tnMin);
+    printf("tnMax:\t\t\t%.2f%%\n",             self.inputParameters.tnMax);
+    printf("breathiness:\t\t%.2f%%\n\n",       self.inputParameters.breathiness);
     
-    printf("nominal tube length:\t%.2f cm\n", self.inputParameters.length);
+    printf("nominal tube length:\t%.2f cm\n",  self.inputParameters.length);
     printf("temperature:\t\t%.2f degrees C\n", self.inputParameters.temperature);
-    printf("lossFactor:\t\t%.2f%%\n\n", self.inputParameters.lossFactor);
+    printf("lossFactor:\t\t%.2f%%\n\n",        self.inputParameters.lossFactor);
     
-    printf("apScale:\t\t%.2f cm\n", self.inputParameters.apScale);
-    printf("mouthCoef:\t\t%.1f Hz\n", self.inputParameters.mouthCoef);
-    printf("noseCoef:\t\t%.1f Hz\n\n", self.inputParameters.noseCoef);
+    printf("apScale:\t\t%.2f cm\n",            self.inputParameters.apScale);
+    printf("mouthCoef:\t\t%.1f Hz\n",          self.inputParameters.mouthCoef);
+    printf("noseCoef:\t\t%.1f Hz\n\n",         self.inputParameters.noseCoef);
     
     for (NSUInteger index = 1; index < TOTAL_NASAL_SECTIONS; index++)
-        printf("n%-ld:\t\t\t%.2f cm\n", index, self.inputParameters.noseRadius[index]);
+        printf("n%-ld:\t\t\t%.2f cm\n",        index, self.inputParameters.noseRadius[index]);
     
-    printf("\nthroatCutoff:\t\t%.1f Hz\n", self.inputParameters.throatCutoff);
-    printf("throatVol:\t\t%.2f dB\n\n", self.inputParameters.throatVol);
+    printf("\nthroatCutoff:\t\t%.1f Hz\n",     self.inputParameters.throatCutoff);
+    printf("throatVol:\t\t%.2f dB\n\n",        self.inputParameters.throatVol);
     
     printf("modulation:\t\t");
     if (self.inputParameters.modulation)
         printf("on\n");
     else
         printf("off\n");
-    printf("mixOffset:\t\t%.2f dB\n\n", self.inputParameters.mixOffset);
+    printf("mixOffset:\t\t%.2f dB\n\n",        self.inputParameters.mixOffset);
     
 #if DEBUG
     // Print out wave table values

@@ -7,15 +7,15 @@
 
 @implementation TRMInputParameters
 {
-    int32_t outputFileFormat;
+    TRMSoundFileFormat outputFileFormat;
     float outputRate;
     float controlRate;
     
     double volume;
-    int32_t channels;
+    NSUInteger channels;
     double balance;
     
-    int32_t waveform;
+    TRMWaveFormType waveform;
     double tp;
     double tnMin;
     double tnMax;

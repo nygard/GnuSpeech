@@ -44,7 +44,7 @@
 		01AC65870B7BF4D8008E4B93 /* TRMUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 01AC65770B7BF4D8008E4B93 /* TRMUtility.m */; };
 		01AC65880B7BF4D8008E4B93 /* TRMUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC65780B7BF4D8008E4B93 /* TRMUtility.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		01AC65890B7BF4D8008E4B93 /* TRMWavetable.m in Sources */ = {isa = PBXBuildFile; fileRef = 01AC65790B7BF4D8008E4B93 /* TRMWavetable.m */; };
-		01AC658A0B7BF4D8008E4B93 /* TRMWavetable.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC657A0B7BF4D8008E4B93 /* TRMWavetable.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		01AC658A0B7BF4D8008E4B93 /* TRMWavetable.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC657A0B7BF4D8008E4B93 /* TRMWavetable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01C6719315687CF6008840E9 /* TRMSampleRateConverter.h in Headers */ = {isa = PBXBuildFile; fileRef = 01C6719115687CF6008840E9 /* TRMSampleRateConverter.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		01C6719415687CF6008840E9 /* TRMSampleRateConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C6719215687CF6008840E9 /* TRMSampleRateConverter.m */; };
 		697930D80F91911E00E6B2EC /* ChangeLog.txt in Resources */ = {isa = PBXBuildFile; fileRef = 697930D70F91911E00E6B2EC /* ChangeLog.txt */; };

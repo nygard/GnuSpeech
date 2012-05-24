@@ -443,10 +443,10 @@ NSString *STCoreAudioErrorDescription(OSStatus error)
     asbd.mFormatID         = kAudioFormatLinearPCM;
     asbd.mFormatFlags      = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked;
     asbd.mBitsPerChannel   = 16;
-    asbd.mChannelsPerFrame = self.inputParameters.channels;
+    asbd.mChannelsPerFrame = (UInt32)self.inputParameters.channels;
     asbd.mFramesPerPacket  = 1; // Always 1 for uncompressed formats
-    asbd.mBytesPerFrame    = 2*self.inputParameters.channels;
-    asbd.mBytesPerPacket   = 2*self.inputParameters.channels;
+    asbd.mBytesPerFrame    = 2*(UInt32)self.inputParameters.channels;
+    asbd.mBytesPerPacket   = 2*(UInt32)self.inputParameters.channels;
 
     if (self.inputParameters.outputFileFormat == TRMSoundFileFormat_AU || self.inputParameters.outputFileFormat == TRMSoundFileFormat_AIFF) {
         asbd.mFormatFlags |= kAudioFormatFlagIsBigEndian;

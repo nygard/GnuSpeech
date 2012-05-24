@@ -8,6 +8,7 @@ enum {
     TRMWaveFormType_Sine  = 1,
 };
 typedef NSUInteger TRMWaveFormType;
+NSString *TRMWaveFormTypeDescription(TRMWaveFormType type);
 
 @interface TRMWavetable : NSObject
 
