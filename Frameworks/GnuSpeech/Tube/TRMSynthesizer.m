@@ -48,32 +48,32 @@
 
 - (void)setupSynthesisParameters:(MMSynthesisParameters *)synthesisParameters;
 {
-    m_inputData.inputParameters.outputRate    = synthesisParameters.sampleRate;
-    m_inputData.inputParameters.controlRate   = 250;
-    m_inputData.inputParameters.volume        = [synthesisParameters masterVolume];
-    m_inputData.inputParameters.channels      = [synthesisParameters outputChannels] + 1;
-    m_inputData.inputParameters.balance       = [synthesisParameters balance];
-    m_inputData.inputParameters.waveform      = [synthesisParameters glottalPulseShape];
-    m_inputData.inputParameters.tp            = [synthesisParameters tp];
-    m_inputData.inputParameters.tnMin         = [synthesisParameters tnMin];
-    m_inputData.inputParameters.tnMax         = [synthesisParameters tnMax];
-    m_inputData.inputParameters.breathiness   = [synthesisParameters breathiness];
-    m_inputData.inputParameters.length        = [synthesisParameters vocalTractLength];
-    m_inputData.inputParameters.temperature   = [synthesisParameters temperature];
-    m_inputData.inputParameters.lossFactor    = [synthesisParameters lossFactor];
-    m_inputData.inputParameters.apScale       = [synthesisParameters apertureScaling];
-    m_inputData.inputParameters.mouthCoef     = [synthesisParameters mouthCoef];
-    m_inputData.inputParameters.noseCoef      = [synthesisParameters noseCoef];
-    m_inputData.inputParameters.noseRadius[0] = 0; // Give it a predictable value.
-    m_inputData.inputParameters.noseRadius[1] = [synthesisParameters n1];
-    m_inputData.inputParameters.noseRadius[2] = [synthesisParameters n2];
-    m_inputData.inputParameters.noseRadius[3] = [synthesisParameters n3];
-    m_inputData.inputParameters.noseRadius[4] = [synthesisParameters n4];
-    m_inputData.inputParameters.noseRadius[5] = [synthesisParameters n5];
-    m_inputData.inputParameters.throatCutoff  = [synthesisParameters throatCutoff];
-    m_inputData.inputParameters.throatVol     = [synthesisParameters throatVolume];
-    m_inputData.inputParameters.modulation    = [synthesisParameters shouldUseNoiseModulation];
-    m_inputData.inputParameters.mixOffset     = [synthesisParameters mixOffset];
+    m_inputData.inputParameters.outputRate     = synthesisParameters.sampleRate;
+    m_inputData.inputParameters.controlRate    = 250;
+    m_inputData.inputParameters.volume         = [synthesisParameters masterVolume];
+    m_inputData.inputParameters.channels       = [synthesisParameters outputChannels] + 1;
+    m_inputData.inputParameters.balance        = [synthesisParameters balance];
+    m_inputData.inputParameters.waveform       = [synthesisParameters glottalPulseShape];
+    m_inputData.inputParameters.tp             = [synthesisParameters tp];
+    m_inputData.inputParameters.tnMin          = [synthesisParameters tnMin];
+    m_inputData.inputParameters.tnMax          = [synthesisParameters tnMax];
+    m_inputData.inputParameters.breathiness    = [synthesisParameters breathiness];
+    m_inputData.inputParameters.length         = [synthesisParameters vocalTractLength];
+    m_inputData.inputParameters.temperature    = [synthesisParameters temperature];
+    m_inputData.inputParameters.lossFactor     = [synthesisParameters lossFactor];
+    m_inputData.inputParameters.apScale        = [synthesisParameters apertureScaling];
+    m_inputData.inputParameters.mouthCoef      =  [synthesisParameters mouthCoef];
+    m_inputData.inputParameters.noseCoef       = [synthesisParameters noseCoef];
+    m_inputData.inputParameters.noseRadius[0]  = 0; // Give it a predictable value.
+    m_inputData.inputParameters.noseRadius[1]  = [synthesisParameters n1];
+    m_inputData.inputParameters.noseRadius[2]  = [synthesisParameters n2];
+    m_inputData.inputParameters.noseRadius[3]  = [synthesisParameters n3];
+    m_inputData.inputParameters.noseRadius[4]  = [synthesisParameters n4];
+    m_inputData.inputParameters.noseRadius[5]  = [synthesisParameters n5];
+    m_inputData.inputParameters.throatCutoff   = [synthesisParameters throatCutoff];
+    m_inputData.inputParameters.throatVol      = [synthesisParameters throatVolume];
+    m_inputData.inputParameters.usesModulation = [synthesisParameters shouldUseNoiseModulation];
+    m_inputData.inputParameters.mixOffset      = [synthesisParameters mixOffset];
 #if 0
 	// It looks like you need to use an AudioConverter to change the sampling rate.
 	format.mFormatID         = kAudioFormatLinearPCM;

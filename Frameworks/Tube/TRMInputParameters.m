@@ -72,7 +72,7 @@ NSString *TRMWaveFormTypeDescription(TRMWaveFormType type)
     double throatCutoff;
     double throatVol;
     
-    int32_t modulation;
+    BOOL usesModulation;
     double mixOffset;
 }
 
@@ -93,6 +93,6 @@ NSString *TRMWaveFormTypeDescription(TRMWaveFormType type)
 
 @synthesize throatCutoff, throatVol;
 
-@synthesize modulation, mixOffset;
+@synthesize usesModulation, mixOffset;
 
 @end

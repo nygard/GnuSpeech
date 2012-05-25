@@ -214,7 +214,7 @@
         fprintf(stderr, "Can't read pulse modulation of noise flag.\n");
         return NO;
     } else
-        self.inputParameters.modulation = strtol(line, NULL, 10);
+        self.inputParameters.usesModulation = (strtol(line, NULL, 10) != 0);
     
     // Get the noise crossmix offset
     if (fgets(line, 128, fp) == NULL) {
@@ -295,10 +295,7 @@
     printf("throatVol:\t\t%.2f dB\n\n",        self.inputParameters.throatVol);
     
     printf("modulation:\t\t");
-    if (self.inputParameters.modulation)
-        printf("on\n");
-    else
-        printf("off\n");
+    printf("%s\n",                             self.inputParameters.usesModulation ? "on" : "off");
     printf("mixOffset:\t\t%.2f dB\n\n",        self.inputParameters.mixOffset);
     
 #if DEBUG

@@ -330,7 +330,7 @@ NSString *STCoreAudioErrorDescription(OSStatus error)
             double lp_noise = TRMLowPassFilter2_FilterInput(&m_noiseFilter, TRMNoiseGenerator_GetSample(&m_noiseGenerator));
             
             // Update the shape of the glottal pulse, if necessary
-            if (self.inputData.inputParameters.waveform == TRMWaveFormType_Pulse)
+            if (self.inputParameters.waveform == TRMWaveFormType_Pulse)
                 [wavetable update:ax];
             
             // Create glottal pulse (or sine tone)
@@ -345,7 +345,7 @@ NSString *STCoreAudioErrorDescription(OSStatus error)
             double signal;
             
             // Cross-mix pure noise with pulsed noise
-            if (self.inputData.inputParameters.modulation) {
+            if (self.inputParameters.usesModulation) {
                 double crossmix = ax * crossmixFactor;
                 crossmix = (crossmix < 1.0) ? crossmix : 1.0;
                 signal = (pulsed_noise * crossmix) + (lp_noise * (1.0 - crossmix));

@@ -23,7 +23,7 @@ NSString *TRMWaveFormTypeDescription(TRMWaveFormType type);
 
 @interface TRMInputParameters : NSObject
 
-@property (assign) TRMSoundFileFormat outputFileFormat; // file format (0=AU, 1=AIFF, 2=WAVE)
+@property (assign) TRMSoundFileFormat outputFileFormat; // file format
 @property (assign) float outputRate;                    // output sample rate (22.05, 44.1 KHz)
 @property (assign) float controlRate;                   // 1.0-1000.0 input tables/second (Hz)
 
@@ -31,7 +31,7 @@ NSString *TRMWaveFormTypeDescription(TRMWaveFormType type);
 @property (assign) NSUInteger channels;                 // # of sound output channels (1, 2)
 @property (assign) double balance;                      // stereo balance (-1 to +1)
 
-@property (assign) TRMWaveFormType waveform;            // GS waveform type (0=PULSE, 1=SINE)
+@property (assign) TRMWaveFormType waveform;            // GS waveform type
 @property (assign) double tp;                           // % glottal pulse rise time
 @property (assign) double tnMin;                        // % glottal pulse fall time minimum
 @property (assign) double tnMax;                        // % glottal pulse fall time maximum
@@ -50,7 +50,7 @@ NSString *TRMWaveFormTypeDescription(TRMWaveFormType type);
 @property (assign) double throatCutoff;                 // throat lp cutoff (50 - nyquist Hz)
 @property (assign) double throatVol;                    // throat volume (0 - 48 dB)
 
-@property (assign) int32_t modulation;                  // pulse mod. of noise (0=OFF, 1=ON)
+@property (assign) BOOL usesModulation;                 // pulse mod. of noise
 @property (assign) double mixOffset;                    // noise crossmix offset (30 - 60 dB)
 
 @end
