@@ -49,9 +49,6 @@ typedef struct {
     double y;
 } TRMLowPassFilter;
 
-// TODO: (2012-05-24): The gain doesn't seem like it belongs in the filter.
-// TODO: (2012-05-24): Make the noise filter user this.  Think with coefficients of 1 it is the same.
-
 void TRMLowPassFilter_CalculateCoefficients(TRMLowPassFilter *filter, int32_t sampleRate, double cutoff);
 double TRMLowPassFilter_FilterInput(TRMLowPassFilter *filter, double input);
 
