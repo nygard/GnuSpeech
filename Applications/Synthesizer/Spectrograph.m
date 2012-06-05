@@ -1,47 +1,31 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
-//  
-//  Contributors: David Hill
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Spectrograph.m
-//  Synthesizer
-//
-//  Created by David Hill in 2006.
-//
-//  Version: 0.7.4
-//
-////////////////////////////////////////////////////////////////////////////////
+//  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "Spectrograph.h"
 #import "Spectrum.h"
 
 @implementation Spectrograph
+{
+	id magnitudeForm;
+	BOOL sgGridDisplay;
+	int envelopeSize;
+	float *spectrographEnvelopeData;
+	float *spectrographScaledData;
+	int drawFlag;
+	float upperThreshold, lowerThreshold;
+	int scaledSpectrographDataExists;
+	int magnitudeScale;
+}
 
 - (id)initWithFrame:(NSRect)frameRect
 {
 	if ((self = [super initWithFrame:frameRect]) != nil) {
-		// Add initialization code here
 		[self setAxesWithScale:SGX_SCALE_DIVS xScaleOrigin:SGX_SCALE_ORIGIN xScaleSteps:SGX_SCALE_STEPS
 				xLabelInterval:SGX_LABEL_INTERVAL yScaleDivs:SGY_SCALE_DIVS yScaleOrigin:SGY_SCALE_ORIGIN
 				   yScaleSteps:SGY_SCALE_STEPS yLabelInterval:SGY_LABEL_INTERVAL];
 		drawFlag = 0;
 	}
+
 	return self;
 }
 
@@ -49,7 +33,6 @@
 {
 	sgGridDisplay = SGGRID_DISPLAY_DEF;
 	drawFlag = 0;
-
 }
 
 - (void)drawRect:(NSRect)rect
@@ -78,7 +61,6 @@
 	*gray90 = @"90-gray.tif", *gray91 = @"91-gray.tif", *gray92 = @"92-gray.tif", *gray93 = @"93-gray.tif", *gray94 = @"94-gray.tif",
 	*gray95 = @"95-gray.tif", *gray96 = @"96-gray.tif", *gray97 = @"97-gray.tif", *gray98 = @"98-gray.tif",
 	*gray99 = @"99-gray.tif"
-
 	;
 	NSArray *grayScale = [NSArray arrayWithObjects:
 		gray00, gray01, gray02, gray03, gray04, gray05, gray06, gray07, gray08, gray09, gray10, gray11, gray12, gray13,
@@ -198,31 +180,20 @@
 
 - (NSPoint)graphOrigin;
 {
-    NSPoint graphOrigin;
-	
-	graphOrigin = [self bounds].origin;
+	NSPoint graphOrigin = [self bounds].origin;
 	graphOrigin.x += SGLEFT_MARGIN;
 	graphOrigin.y += SGBOTTOM_MARGIN;
     return graphOrigin;
 }
 
-
-	
-
 - (void)drawGrid;
 {
-    NSBezierPath *bezierPath;
-    NSRect bounds;
-    NSPoint graphOrigin;
-    float sectionHeight, sectionWidth;
-    int index;
-	
 	// Draw in best fit grid markers
 	
-	bounds = [self bounds];
-    graphOrigin = [self graphOrigin];
-	sectionHeight = ((float)bounds.size.height - (float)graphOrigin.y - (float)SGTOP_MARGIN - (float)SGBOTTOM_MARGIN)/_yScaleDivs;
-	sectionWidth = ((float)bounds.size.width - (float)graphOrigin.x - (float)SGRIGHT_MARGIN)/_xScaleDivs;
+	NSRect bounds = [self bounds];
+    NSPoint graphOrigin = [self graphOrigin];
+	float sectionHeight = ((float)bounds.size.height - (float)graphOrigin.y - (float)SGTOP_MARGIN - (float)SGBOTTOM_MARGIN)/_yScaleDivs;
+	float sectionWidth = ((float)bounds.size.width - (float)graphOrigin.x - (float)SGRIGHT_MARGIN)/_xScaleDivs;
 	
 	[[NSColor greenColor] set];
 	NSPoint aPoint;
@@ -231,17 +202,15 @@
 	
 	[[NSColor greenColor] set];
 	
-    bezierPath = [[NSBezierPath alloc] init];
+    NSBezierPath *bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:1];
-	for (index = 0; index <= _yScaleDivs; index++) {
-		
+	for (NSUInteger index = 0; index <= _yScaleDivs; index++) {
 		aPoint.x = graphOrigin.x + 12;
 		aPoint.y = graphOrigin.y + index * sectionHeight * SG_YSCALE_FUDGE;
         [bezierPath moveToPoint:aPoint];
 		
         aPoint.x = bounds.size.width - SGRIGHT_MARGIN + 15;
         [bezierPath lineToPoint:aPoint];
-		
     }
     [bezierPath stroke];
     [bezierPath release];
@@ -250,15 +219,13 @@
 	
 	bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:1];
-	for (index = 0; index <= SGX_SCALE_DIVS; index++) {
-		
+	for (NSUInteger index = 0; index <= SGX_SCALE_DIVS; index++) {
 		aPoint.y = graphOrigin.y;
         aPoint.x = graphOrigin.x + index * sectionWidth + SGLABEL_MARGIN + 10;
         [bezierPath moveToPoint:aPoint];
 		
         aPoint.y = ((float)bounds.size.height - (float)SGTOP_MARGIN);
         [bezierPath lineToPoint:aPoint];
-		
     }
     [bezierPath stroke];
     [bezierPath release];
@@ -267,18 +234,11 @@
 
 
 - (void)addLabels;
-
 {
-    NSBezierPath *bezierPath;
-    NSRect bounds;
-    NSPoint graphOrigin;
-    float sectionHeight, sectionWidth, currentYPos;
-	int i;
-	
-	bounds = [self bounds];
-    graphOrigin = [self graphOrigin];
-	sectionHeight = (bounds.size.height - graphOrigin.y - SGTOP_MARGIN - SGBOTTOM_MARGIN) * SG_YSCALE_FUDGE/_yScaleDivs;
-	sectionWidth = (bounds.size.width - graphOrigin.x - SGRIGHT_MARGIN)/_xScaleDivs;
+	NSRect bounds = [self bounds];
+    NSPoint graphOrigin = [self graphOrigin];
+	float sectionHeight = (bounds.size.height - graphOrigin.y - SGTOP_MARGIN - SGBOTTOM_MARGIN) * SG_YSCALE_FUDGE/_yScaleDivs;
+	//float sectionWidth = (bounds.size.width - graphOrigin.x - SGRIGHT_MARGIN) / _xScaleDivs;
 	
 	
 	// First Y-axis labels
@@ -286,38 +246,31 @@
 	[[NSColor greenColor] set];
     [timesFont set];
 	
-    bezierPath = [[NSBezierPath alloc] init];
+    NSBezierPath *bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:1];
 	
-	currentYPos = graphOrigin.y;
+	float currentYPos = graphOrigin.y;
 	
-    for (i = 0; i <= _yScaleDivs; i+=_yLabelInterval) {
-        NSString *label;
-        NSSize labelSize;
-		
+    for (NSUInteger index = 0; index <= _yScaleDivs; index += _yLabelInterval) {
         [bezierPath moveToPoint:NSMakePoint(graphOrigin.x, currentYPos)];
-		currentYPos = graphOrigin.y + i * sectionHeight;
-        label = [NSString stringWithFormat:@"%4.0f-", (int)i * _yScaleSteps + (int)_yScaleOrigin];
-        labelSize = [label sizeWithAttributes:nil];
+		currentYPos = graphOrigin.y + index * sectionHeight;
+        NSString *label = [NSString stringWithFormat:@"%4.0f-", (int)index * _yScaleSteps + (int)_yScaleOrigin];
+        NSSize labelSize = [label sizeWithAttributes:nil];
         [label drawAtPoint:NSMakePoint(SGLEFT_MARGIN - LABEL_MARGIN - labelSize.width, currentYPos - labelSize.height/2) withAttributes:nil];
-		
     }
 	
     [bezierPath stroke];
     [bezierPath release];
-	
-	
 }
 
 
-- (void) setSpectrographGrid:(BOOL)spectrographGridState
+- (void)setSpectrographGrid:(BOOL)spectrographGridState;
 {
 	sgGridDisplay = (int)spectrographGridState;
 	[self setNeedsDisplay:YES];
-
 }
 
-- (void) drawSpectrograph:(float *)data size:(int)size okFlag:(int)flag;
+- (void)drawSpectrograph:(float *)data size:(int)size okFlag:(int)flag;
 {
 	if (spectrographEnvelopeData) free(spectrographEnvelopeData);
 	if (flag == 0) return;
@@ -325,10 +278,9 @@
 	envelopeSize = size;
 	spectrographEnvelopeData = (float *)calloc(size, sizeof(float));
 
-	int i;
-	for (i = 0; i < size; i++) {
-			spectrographEnvelopeData[i] = 100.0 + data[i]/2;
-		}
+	for (NSUInteger index = 0; index < size; index++) {
+        spectrographEnvelopeData[index] = 100.0 + data[index]/2;
+    }
 	
 	drawFlag = flag;
 	scaledSpectrographDataExists = 0;
@@ -336,26 +288,21 @@
 
 }
 
-- (void) readUpperThreshold;
+- (void)readUpperThreshold;
 {
-	
 	upperThreshold = [[magnitudeForm cellAtIndex:0] floatValue];
 	//NSLog(@"Spectrograph.m:334 upperThreshold is %f", upperThreshold);
-	return;
-	
 }
 
-- (void) readLowerThreshold;
+- (void)readLowerThreshold;
 {
 	lowerThreshold = [[magnitudeForm cellAtIndex:1] floatValue];
 	//NSLog(@"Spectrograph.m:344 upperThreshold is %f", lowerThreshold);
-	return;
 }
 
-- (void) setMagnitudeScale:(int)value
+- (void)setMagnitudeScale:(int)value;
 {
 	magnitudeScale = value;
 }
-
 
 @end

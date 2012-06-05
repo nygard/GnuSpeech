@@ -1,34 +1,9 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
-//  
-//  Contributors: David Hill
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Spectrum.m
-//  Synthesizer
-//
-//  Created by David Hill in 2006.
-//
-//  Version: 0.7.4
-//
-////////////////////////////////////////////////////////////////////////////////
+//  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "Spectrum.h"
+
+#import "fft.h"
 
 static const float testWave[1024] = {
 	0.0,0.200278,0.355332,0.458712,0.540701,0.629713,0.721118,0.78768,0.817848,0.836308,0.88137,0.963177,
@@ -132,33 +107,60 @@ static const float testWave[1024] = {
 
 
 @implementation Spectrum
+{
+	id runButton;
+	id spectrograph;
+	id analysis;
+	id envelopeField;
+	id envelopeSwitch;
+	id graphSwitch;
+	id testSwitch;
+	id analysisWindow;
+	id updateMatrix;
+	id doAnalysisButton;
+	float *analysisData;
+	float *tempData;
+	float *spectrum;
+	BOOL analysisDataExists;
+	BOOL gridDisplay;
+	int samplingWindowSize;
+	float *samplingWindowShape;
+	BOOL normalize;
+	float scale;
+	int normalTestState;
+	int spectralEnvelopeOnOff;	// 0 IS OFF, 1 IS ON
+	int spectrumGraphOnOff;     // 0 IS OFF, 1 IS ON
+	float spectralEnvelopeSpan;	// SPAN SETS # OF SAMPLES EITHER SIDE USED IN AVERAGE DEF
+	int magnitudeScale;
+	int startEnvelope;
+	int endEnvelope;
+}
 
-- (id)initWithFrame:(NSRect)frameRect
+- (id)initWithFrame:(NSRect)frameRect;
 {
 	if ((self = [super initWithFrame:frameRect]) != nil) {
-		// Add initialization code here
-/*		
+#if 0
 		[self setAxesWithScale:SMX_SCALE_DIVS xScaleOrigin:SMX_SCALE_ORIGIN xScaleSteps:SMX_SCALE_STEPS
 				xLabelInterval:SMX_LABEL_INTERVAL yScaleDivs:SMY_SCALE_DIVS yScaleOrigin:SMY_SCALE_ORIGIN
 				   yScaleSteps:SMY_SCALE_STEPS yLabelInterval:SMY_LABEL_INTERVAL];
-/*
+
 		[self setAxesWithScale:SMX_SCALE_DIVS/2 xScaleOrigin:SMX_SCALE_ORIGIN xScaleSteps:SMX_SCALE_STEPS/2
 				xLabelInterval:SMX_LABEL_INTERVAL/2 yScaleDivs:SMY_SCALE_DIVS yScaleOrigin:SMY_SCALE_ORIGIN
 				   yScaleSteps:SMY_SCALE_STEPS yLabelInterval:SMY_LABEL_INTERVAL];
-*/		
-		 gridDisplay = YES;
+#endif
+        gridDisplay = YES;
 		analysisDataExists = FALSE;
 		normalize = TRUE;
-		
-		
 	}
+
 	return self;
 }
 
-- (void) awakeFromNib
+- (void)awakeFromNib;
 {
 	NSLog(@"Spectrum.m:33 waking from nib");
-	[envelopeField setFloatingPointFormat:(BOOL)NO left:(unsigned)1 right:(unsigned)3];
+    // TODO (2012-05-19): Set up number formatters
+	//[envelopeField setFloatingPointFormat:(BOOL)NO left:(unsigned)1 right:(unsigned)3];
 	spectralEnvelopeOnOff = YES;
 	spectralEnvelopeSpan = SPAN_DEF;
 	spectrumGraphOnOff = YES;
@@ -170,12 +172,10 @@ static const float testWave[1024] = {
 	samplingWindowSize = 256;
 	magnitudeScale = 1; // DEFAULT 1 GIVES A LOG SCALE, 0 WOULD BE LINEAR
 	analysisDataExists = 0;
-
 }
 
-- (void)drawRect:(NSRect)rect // This method over-rides ChartView
+- (void)drawRect:(NSRect)rect;
 {
-
 	NSRect viewRect = [self bounds];
 	[[NSColor whiteColor] set];
 	[NSBezierPath fillRect:viewRect];
@@ -400,7 +400,6 @@ static const float testWave[1024] = {
 	
 		bezierPath = [[NSBezierPath alloc] init];
 		[bezierPath setLineWidth:1];
-		[bezierPath setCachesBezierPath:NO];
 		[[NSColor darkGrayColor] set];
 
 		int xScaleSize = bounds.size.width - SMLEFT_MARGIN - SMRIGHT_MARGIN;
@@ -441,7 +440,6 @@ static const float testWave[1024] = {
 
 		bezierPath = [[NSBezierPath alloc] init];
 		[bezierPath setLineWidth:1];
-		[bezierPath setCachesBezierPath:NO];
 		[[NSColor greenColor] set];
 	
 		int xScaleSize = bounds.size.width - SMLEFT_MARGIN - SMRIGHT_MARGIN;
@@ -474,23 +472,18 @@ static const float testWave[1024] = {
 	
 	free(tempData);
 	free(spectrum);
-
 }
 
 
 
-- (void) addLabels
+- (void)addLabels;
 {
-    NSBezierPath *bezierPath;
-    NSRect bounds;
-    NSPoint graphOrigin;
-    float sectionHeight, sectionWidth, currentYPos, currentXPos;
-	int i;
+    float currentXPos;
 	
-	bounds = [self bounds];
-    graphOrigin = [self graphOrigin];
-	sectionHeight = (bounds.size.height - graphOrigin.y - TOP_MARGIN)/_yScaleDivs;
-	sectionWidth = (bounds.size.width - graphOrigin.x - RIGHT_MARGIN)/_xScaleDivs;
+	NSRect bounds = [self bounds];
+    NSPoint graphOrigin = [self graphOrigin];
+	float sectionHeight = (bounds.size.height - graphOrigin.y - TOP_MARGIN)/_yScaleDivs;
+	float sectionWidth = (bounds.size.width - graphOrigin.x - RIGHT_MARGIN)/_xScaleDivs;
 	
 	
 	// Add the axis labelling
@@ -500,23 +493,23 @@ static const float testWave[1024] = {
 	//[[NSColor greenColor] set];
     [timesFont set];
 	
-    bezierPath = [[NSBezierPath alloc] init];
+    NSBezierPath *bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:1];
 	[[NSColor greenColor] set];
 	
-	currentYPos = graphOrigin.y;
+	float currentYPos = graphOrigin.y;
 	
-    for (i = 0; i <= _yScaleDivs; i+=_yLabelInterval) {
+    for (NSUInteger index = 0; index <= _yScaleDivs; index += _yLabelInterval) {
         NSString *label;
         NSSize labelSize;
 		
         [bezierPath moveToPoint:NSMakePoint(graphOrigin.x, currentYPos)];
-		currentYPos = graphOrigin.y + i * sectionHeight;
+		currentYPos = graphOrigin.y + index * sectionHeight;
 		if (!magnitudeScale){
-			label = [NSString stringWithFormat:@"%2.1f", i * _yScaleSteps + _yScaleOrigin];
+			label = [NSString stringWithFormat:@"%2.1f", index * _yScaleSteps + _yScaleOrigin];
 		}
 		else {
-			label = [NSString stringWithFormat:@"%3.0f", i * _yScaleSteps + _yScaleOrigin];
+			label = [NSString stringWithFormat:@"%3.0f", index * _yScaleSteps + _yScaleOrigin];
 		}
         labelSize = [label sizeWithAttributes:nil];
         [label drawAtPoint:NSMakePoint(LEFT_MARGIN - LABEL_MARGIN - labelSize.width, currentYPos - labelSize.height/2) withAttributes:nil];
@@ -535,26 +528,19 @@ static const float testWave[1024] = {
     [bezierPath setLineWidth:1];
 	
 	currentXPos = graphOrigin.x;    
-	for (i = 0; i <= _xScaleDivs; i+=_xLabelInterval) {
-		
-        NSString *label;
-        NSSize labelSize;
-		
+	for (NSUInteger index = 0; index <= _xScaleDivs; index+=_xLabelInterval) {
 		[bezierPath moveToPoint:graphOrigin];
-        currentXPos = graphOrigin.x + i * sectionWidth;
-        label = [NSString stringWithFormat:@"%5.0f", i * _xScaleSteps + _xScaleOrigin];
-        labelSize = [label sizeWithAttributes:nil];
+        currentXPos = graphOrigin.x + index * sectionWidth;
+        NSString *label = [NSString stringWithFormat:@"%5.0f", index * _xScaleSteps + _xScaleOrigin];
+        NSSize labelSize = [label sizeWithAttributes:nil];
         [label drawAtPoint:NSMakePoint(currentXPos - labelSize.width/2, BOTTOM_MARGIN - LABEL_MARGIN - labelSize.height) withAttributes:nil];
-		
     }
 	
     [bezierPath stroke];
     [bezierPath release];
-	
-	
 }
 
-- (IBAction) setNormalTestState:sender
+- (IBAction)setNormalTestState:(id)sender;
 {
 	int runButtonState = [runButton state];
 	normalTestState = [[sender selectedCell] tag];
@@ -573,20 +559,20 @@ static const float testWave[1024] = {
 	[self setNeedsDisplay:YES];
 }
 
-- (IBAction) setShowSpectralEnvelope:sender
+- (IBAction)setShowSpectralEnvelope:(id)sender;
 {
 	spectralEnvelopeOnOff = [sender state];
 	NSLog(@"Spectrum.m:273 spectralEnvelopeOnOff state is %d", spectralEnvelopeOnOff);
 	[self setNeedsDisplay:YES];
 }
 
-- (IBAction) setShowGraph:sender
+- (IBAction)setShowGraph:(id)sender;
 {
 	spectrumGraphOnOff = [sender state];
 	[self setNeedsDisplay:YES];
 }
 
-- (IBAction) setEnvelopeSmoothingSpan:sender;
+- (IBAction)setEnvelopeSmoothingSpan:(id)sender;
 {
 	BOOL rangeError = 0;
 	spectralEnvelopeSpan = [sender floatValue];
@@ -601,13 +587,12 @@ static const float testWave[1024] = {
 	if (rangeError) {
 		NSBeep();
 		[sender setFloatValue:spectralEnvelopeSpan];
-    } 
-	else
+    } else
 		[self setNeedsDisplay:YES];
 }
 
 
-- (void) setSpectrumGrid:(BOOL)spectrumGridState
+- (void)setSpectrumGrid:(BOOL)spectrumGridState;
 {
 	gridDisplay = (int)spectrumGridState;
 	NSLog(@"Spectrum.m:535 gridDisplay is %d\n", gridDisplay);
@@ -615,13 +600,13 @@ static const float testWave[1024] = {
 }
 
 
-- (void) freeAnalysisData
+- (void)freeAnalysisData;
 {
 	free(analysisData);
 	analysisDataExists = FALSE;
 }
 
-- (void)normalizeSwitchPushed:sender
+- (void)normalizeSwitchPushed:(id)sender;
 {
     //  RECORD VALUE
     normalize = [sender state];
@@ -631,7 +616,7 @@ static const float testWave[1024] = {
 }
 
 
-- (void) setAnalysisBinSize:(int)value
+- (void)setAnalysisBinSize:(int)value;
 {
 	samplingWindowSize = value;
 	NSLog(@"Spectrum.m:295 samplingWindowSize is %d", samplingWindowSize);
@@ -639,17 +624,16 @@ static const float testWave[1024] = {
 }
 
 
-- (void) setAnalysisWindowShape:(float *)window
+- (void)setAnalysisWindowShape:(float *)window;
 {
 	samplingWindowShape = window;
 	NSLog(@"Spectrum.m:373 samplingWindowShape set");
 	[self setNeedsDisplay:YES];
 }
 
-- (void) setMagnitudeScale:(int)value
+- (void)setMagnitudeScale:(int)value;
 {
 	magnitudeScale = value;
 }
-
 
 @end

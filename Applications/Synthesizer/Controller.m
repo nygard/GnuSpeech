@@ -1,36 +1,10 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
-//  
-//  Contributors: David Hill
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Controller.m
-//  Synthesizer
-//
-//  Created by David Hill in 2006.
-//
-//  Version: 0.7.4
-//
-////////////////////////////////////////////////////////////////////////////////
+//  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "Controller.h"
 #import <CoreAudio/AudioHardware.h>
 #import <math.h>
+#import "tube.h"
 
 #define TONE_FREQ (440.0)
 //#define TONE_FREQ 400.0
@@ -88,21 +62,14 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
                      void *inClientData)
 
 {
-    Controller *controller;
-	int size;
-	int sampleCount;
-	float *buf; // , rate;
-
+    //Controller *controller = (Controller *)inClientData;
+    int size = outOutputData->mBuffers[0].mDataByteSize;
+    int sampleCount = size / sizeof(float);
+    float *buf = (float *)malloc(sampleCount * sizeof(float));
+    
 	
-    controller = (Controller *)inClientData;
-    size = outOutputData->mBuffers[0].mDataByteSize;
-    sampleCount = size / sizeof(float);
-    buf = (float *)malloc(sampleCount * sizeof(float));
-
-	
-	int i;
 	while (circBuff2Count < 512) ;
-	for (i = 0; i < sampleCount/2; i++) {
+	for (int i = 0; i < sampleCount/2; i++) {
 		buf[2*i] = getCircBuff2();
 		buf[2*i+1] = buf[2*i];
 	}
@@ -121,81 +88,78 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
 
 - (id)init;
 {
-    if ([super init] == nil)
-        return nil;
-
-    _deviceReady = NO;
-    _device = kAudioDeviceUnknown;
-    _isPlaying = NO;
-    toneFrequency = TONE_FREQ;
-	NSNotificationCenter *nc;
-	nc = [NSNotificationCenter defaultCenter];
-	[nc addObserver:self
-		   selector:@selector(sliderMoved:)
-			   name:@"SliderMoved"
-			 object:nil];
+    if ((self = [super init])) {
+        _deviceReady = NO;
+        _device = kAudioDeviceUnknown;
+        _isPlaying = NO;
+        toneFrequency = TONE_FREQ;
+        NSNotificationCenter *nc;
+        nc = [NSNotificationCenter defaultCenter];
+        [nc addObserver:self
+               selector:@selector(sliderMoved:)
+                   name:@"SliderMoved"
+                 object:nil];
 		NSLog(@"Registered Controller as observer with notification centre\n");
-	NSLog(@"We have init");
+        NSLog(@"We have init");
 		[nc addObserver:self selector:@selector(handleFricArrowMoved:)
-			   name:@"FricArrowMoved"
-			 object:nil];
-	NSLog(@"Registered noiseSource as FricArrowMoved notification observer");
+                   name:@"FricArrowMoved"
+                 object:nil];
+        NSLog(@"Registered noiseSource as FricArrowMoved notification observer");
+    }
 
     return self;
 }
 
 - (void)awakeFromNib;
 {
-    NSLog(@"awaking...");
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    // TODO (2012-05-19): Set up number formatters
     [_mainWindow makeKeyAndOrderFront:self];
 	toneFrequency = TONE_FREQ;
-	[toneFrequencyTextField setFloatingPointFormat:(BOOL)NO left:(unsigned)4 right:(unsigned)1];
+	//[toneFrequencyTextField setFloatingPointFormat:NO left:4 right:1];
     [toneFrequencyTextField setFloatValue:toneFrequency];
     [toneFrequencySlider setFloatValue:toneFrequency];
 	//NSLog(@"Tone Frequency is %f", toneFrequency);
+#if 0
+	[tubeLengthField      setFloatingPointFormat:NO left:2 right:2];
+	[temperatureField     setFloatingPointFormat:NO left:2 right:2];
 	
-	[tubeLengthField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
-	[temperatureField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
+	[actualLengthField    setFloatingPointFormat:NO left:2 right:4];
+	[sampleRateField      setFloatingPointFormat:NO left:6 right:0];
+	[controlPeriodField   setFloatingPointFormat:NO left:3 right:0];
 	
-	[actualLengthField setFloatingPointFormat:(BOOL)NO left:2 right:4];
-	[sampleRateField setFloatingPointFormat:(BOOL)NO left:6 right:0];
-	[controlPeriodField setFloatingPointFormat:(BOOL)NO left:3 right:0];
-	
-	[stereoBalanceField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
-	[breathinessField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
-	[lossFactorField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
-	[tpField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
-	[tnMinField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
+	[stereoBalanceField   setFloatingPointFormat:NO left:2 right:2];
+	[breathinessField     setFloatingPointFormat:NO left:2 right:2];
+	[lossFactorField      setFloatingPointFormat:NO left:2 right:2];
+	[tpField              setFloatingPointFormat:NO left:2 right:2];
+	[tnMinField           setFloatingPointFormat:NO left:2 right:2];
 
-	[tnMaxField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
-	[throatCutOff setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
-	[throatVolumeField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
-	[apertureScalingField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
-	[mouthCoefField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
-	[noseCoefField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
-	[mixOffsetField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
-	[glottalVolumeField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
-	[pitchField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
-	[aspVolField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
-	[fricVolField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)2];
-	[fricPosField setFloatingPointFormat:(BOOL)NO left:(unsigned)2 right:(unsigned)1];
-	[fricCFField setFloatingPointFormat:(BOOL)NO left:(unsigned)4 right:(unsigned)0];
-	[fricBWField setFloatingPointFormat:(BOOL)NO left:(unsigned)3 right:(unsigned)1];
+	[tnMaxField           setFloatingPointFormat:NO left:2 right:2];
+	[throatCutOff         setFloatingPointFormat:NO left:2 right:2];
+	[throatVolumeField    setFloatingPointFormat:NO left:2 right:2];
+	[apertureScalingField setFloatingPointFormat:NO left:2 right:2];
+	[mouthCoefField       setFloatingPointFormat:NO left:2 right:2];
+	[noseCoefField        setFloatingPointFormat:NO left:2 right:2];
+	[mixOffsetField       setFloatingPointFormat:NO left:2 right:2];
+	[glottalVolumeField   setFloatingPointFormat:NO left:2 right:2];
+	[pitchField           setFloatingPointFormat:NO left:2 right:2];
+	[aspVolField          setFloatingPointFormat:NO left:2 right:2];
+	[fricVolField         setFloatingPointFormat:NO left:2 right:2];
+	[fricPosField         setFloatingPointFormat:NO left:2 right:1];
+	[fricCFField          setFloatingPointFormat:NO left:4 right:0];
+	[fricBWField          setFloatingPointFormat:NO left:3 right:1];
+#endif
 	[fricativeArrow setFricationPosition:(float)7.0];
 	
 	[self setDefaults];
 
 	initializeSynthesizer();
-
-
 }
 
-- (void)setDefaults
-
+- (void)setDefaults;
 {
-
 	//int initSynthResult;
-	
+
 	*((double *) getLength()) = LENGTH_DEF;
 	*((double *) getTemperature()) = TEMPERATURE_DEF;
 	NSLog(@"Controller.m:180 Temperature is %f", *((double *) getTemperature()));
@@ -292,23 +256,22 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
 	(*((double *) getNoseRadius(4))) = (*((double *) getNoseRadiusDefault(4)));
 	[nS5 setValue:(*((double *) getNoseRadiusDefault(5)))];
 	(*((double *) getNoseRadius(5))) = (*((double *) getNoseRadiusDefault(5)));
-	
+
+#if 0
+    // TODO (2012-05-19): Deal with this error.
 	[vS setValue:(*((double *) getVelumRadiusDefault()))];
 	(*((double *) getVelumRadius())) = (*((double *) getVelumRadiusDefault()));
+#endif
 	
 	
 	[self adjustSampleRate];
 	
 	NSLog(@"Controller.m:262 Sample rate is %d", (*((int *) getSampleRate())));
-
-
-
 }
 
 
-- (IBAction)saveOutputFile:(id)sender
+- (IBAction)saveOutputFile:(id)sender;
 {
-	
 }
 
 
@@ -324,9 +287,7 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
 
 - (IBAction)updateToneFrequency:(id)sender;
 {
-    float fr;
-
-    fr = [sender floatValue];
+    float fr = [sender floatValue];
     [self setToneFrequency:fr];
     [toneFrequencyTextField setFloatValue:fr];
     [toneFrequencySlider setFloatValue:fr];
@@ -349,7 +310,8 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
 
 	
 	//Make sure the "fixed" parameters get updated (maybe need to change the way they are handled)
-	if (*((int *) getThreadFlag()) == 0) initializeSynthesizer(); //  If it is not already running, this includes starting the synthesize thread which also detaches itself
+	if (*((int *) getThreadFlag()) == 0)
+        initializeSynthesizer(); //  If it is not already running, this includes starting the synthesize thread which also detaches itself
 	//NSLog(@"Controller.m:340 threadFlag is %d", *((int *) getThreadFlag()));
 
     err = AudioDeviceAddIOProc(_device, sineIOProc, (void *)self);
@@ -419,10 +381,8 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
 	//NSLog(@"Actual tube length after launch is %f", *((double *) getActualTubeLength()));
 	//NSLog(@"Actual tube length after launch is %f", *((double *) getActualTubeLength()));
 
-
     NSLog(@"buffer size : %d", _bufferSize);
 	[self setDefaults];
-
 }
 
 - (void)setupSoundDevice;
@@ -486,80 +446,65 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
     return 44100.0;
 }
 
-
-- (IBAction)runButtonPushed:(id)sender
+- (IBAction)runButtonPushed:(id)sender;
 {
 	if (_isPlaying == false)
-
 		[self playSine:self];
-
-	else [self stopPlaying:sender];
-
+	else
+        [self stopPlaying:sender];
 }
 
 
-- (IBAction)loadDefaultsButtonPushed:(id)sender
+- (IBAction)loadDefaultsButtonPushed:(id)sender;
 {
-	
 	[self setDefaults];
 	NSNotificationCenter *nc;
 	nc = [NSNotificationCenter defaultCenter];
 	//NSLog(@"Sending notification SynthDefaultsReloaded");
 	[nc postNotificationName:@"SynthDefaultsReloaded" object:self];
 	initializeSynthesizer();
-	
 }
 
-- (IBAction)saveToDefaultsButtonPushed:(id)sender
+- (IBAction)saveToDefaultsButtonPushed:(id)sender;
 {
-	
 }
 
-- (IBAction)loadFileButtonPushed:(id)sender
+- (IBAction)loadFileButtonPushed:(id)sender;
 {
-	
 }
 
 
-- (IBAction)glottalWaveformSelected:(id)sender
+- (IBAction)glottalWaveformSelected:(id)sender;
 {
-	
 }
 
-- (IBAction)noisePulseModulationSelected:(id)sender
+- (IBAction)noisePulseModulationSelected:(id)sender;
 {
-	
 }
 
-- (IBAction)samplingRateSelected:(id)sender
+- (IBAction)samplingRateSelected:(id)sender;
 {
-	
 }
 
-- (IBAction)monoStereoSelected:(id)sender
+- (IBAction)monoStereoSelected:(id)sender;
 {
-	
 }
 
-/*
-- (IBAction)tpFieldEntered:(id)sender
+#if 0
+- (IBAction)tpFieldEntered:(id)sender;
 {
-	
 }
 
-- (IBAction)tnMinFieldEntered:(id)sender
+- (IBAction)tnMinFieldEntered:(id)sender;
 {
-	
 }
 
-- (IBAction)tnMaxFieldEntered:(id)sender
+- (IBAction)tnMaxFieldEntered:(id)sender;
 {
-	
 }
+#endif
 
-*/
-
-- (IBAction)tubeLengthFieldEntered:(id)sender
+- (IBAction)tubeLengthFieldEntered:(id)sender;
 {
 	int error = 0;
 	double tempTubeLength = [tubeLengthField doubleValue];
@@ -599,9 +544,8 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
 
 }
 
-- (IBAction)temperatureFieldEntered:(id)sender
+- (IBAction)temperatureFieldEntered:(id)sender;
 {
-
 	int error = 0;
 	double tempTemp = [temperatureField doubleValue];
 	if (tempTemp > MAX_TEMP) {
@@ -638,20 +582,18 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
 	[fricBWSlider setMaxValue:(*((double *) getSampleRate()) / 2.0)];
 	
 	if (error == 1) NSBeep();
-	
 }
 
-- (IBAction)stereoBalanceFieldEntered:(id)sender
+- (IBAction)stereoBalanceFieldEntered:(id)sender;
+{
+}
+
+- (IBAction)breathinessFieldEntered:(id)sender;
 {
 	
 }
 
-- (IBAction)breathinessFieldEntered:(id)sender
-{
-	
-}
-
-- (IBAction)lossFactorFieldEntered:(id)sender
+- (IBAction)lossFactorFieldEntered:(id)sender;
 {
 	
 	BOOL rangeError = NO;
@@ -700,72 +642,60 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
 
 }
 
-- (IBAction)throatCutoffFieldEntered:(id)sender
+- (IBAction)throatCutoffFieldEntered:(id)sender;
 {
-	
 }
 
-- (IBAction)throatVolumeFieldEntered:(id)sender
+- (IBAction)throatVolumeFieldEntered:(id)sender;
 {
-	
 }
 
-- (IBAction)apertureScalingFieldEntered:(id)sender
+- (IBAction)apertureScalingFieldEntered:(id)sender;
 {
-	
 }
 
-- (IBAction)mouthApertureCoefficientFieldEntered:(id)sender
+- (IBAction)mouthApertureCoefficientFieldEntered:(id)sender;
 {
-	
 }
 
-- (IBAction)noseApertureCoefficientFieldEntered:(id)sender
+- (IBAction)noseApertureCoefficientFieldEntered:(id)sender;
 {
-	
 }
 
-- (IBAction)mixOffsetFieldEntered:(id)sender
+- (IBAction)mixOffsetFieldEntered:(id)sender;
 {
-	
 }
 
-- (IBAction)n1RadiusFieldEntered:(id)sender
+- (IBAction)n1RadiusFieldEntered:(id)sender;
 {
-	
 }
 
-- (IBAction)n2RadiusFieldEntered:(id)sender
+- (IBAction)n2RadiusFieldEntered:(id)sender;
 {
-	
 }
 
-- (IBAction)n3RadiusFieldEntered:(id)sender
+- (IBAction)n3RadiusFieldEntered:(id)sender;
 {
-	
 }
 
-- (IBAction)n4RadiusFieldEntered:(id)sender
+- (IBAction)n4RadiusFieldEntered:(id)sender;
 {
-	
 }
 
-- (IBAction)n5RadiusFieldEntered:(id)sender
+- (IBAction)n5RadiusFieldEntered:(id)sender;
 {
-	
 }
 
-- (IBAction)glottalVolumeFieldEntered:(id)sender
+- (IBAction)glottalVolumeFieldEntered:(id)sender;
 {
-	
 }
 
-- (IBAction)pitchFieldEntered:(id)sender
+- (IBAction)pitchFieldEntered:(id)sender;
 {
 	//[pitchScale drawPitch:(int)pitch Cents:(int)cents Volume:(float)volume];
 }
 
-- (IBAction)aspVolFieldEntered:(id)sender
+- (IBAction)aspVolFieldEntered:(id)sender;
 {
 	BOOL rangeError = NO;
 	
@@ -809,7 +739,7 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
 	
 }
 
-- (IBAction)fricVolFieldEntered:(id)sender
+- (IBAction)fricVolFieldEntered:(id)sender;
 {
 	BOOL rangeError = NO;
 	
@@ -849,7 +779,7 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
 	}
 }
 
-- (IBAction)fricPosFieldEntered:(id)sender
+- (IBAction)fricPosFieldEntered:(id)sender;
 {
 	BOOL rangeError = NO;
 	
@@ -894,15 +824,14 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
     } 
 }
 
-- (IBAction)fricCFFieldEntered:(id)sender
+- (IBAction)fricCFFieldEntered:(id)sender;
 {
-	
     BOOL rangeError = NO;
 	
     /*  GET CURRENT ROUNDED VALUE FROM FIELD  */
     int currentValue = (int)rint([sender doubleValue]);
 	double maxValue = (double)(*((int *) getSampleRate()) / 2.0);
-	NSLog(@"In fricCFFieldEntered, value is %d, maxValue is %f, sample rate %f", currentValue, maxValue, *((int *) getSampleRate()));
+	NSLog(@"In fricCFFieldEntered, value is %d, maxValue is %f, sample rate %d", currentValue, maxValue, *((int *) getSampleRate()));
 	
     /*  CORRECT OUT OF RANGE VALUES  */
     if (currentValue < FRIC_CF_MIN) {
@@ -944,7 +873,7 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
 	
 }
 
-- (IBAction)fricBWFieldEntered:(id)sender
+- (IBAction)fricBWFieldEntered:(id)sender;
 {
 	BOOL rangeError = NO;
 	
@@ -994,71 +923,57 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
 }
 
 
-- (IBAction)r1RadiusFieldEntered:(id)sender
+- (IBAction)r1RadiusFieldEntered:(id)sender;
 {
-	
 }
 
-- (IBAction)r2RadiusFieldEntered:(id)sender
+- (IBAction)r2RadiusFieldEntered:(id)sender;
 {
-	
 }
 
-- (IBAction)r3RadiusFieldEntered:(id)sender
+- (IBAction)r3RadiusFieldEntered:(id)sender;
 {
-	
 }
 
-- (IBAction)r4RadiusFieldEntered:(id)sender
+- (IBAction)r4RadiusFieldEntered:(id)sender;
 {
-	
 }
 
-- (IBAction)r5RadiusFieldEntered:(id)sender
+- (IBAction)r5RadiusFieldEntered:(id)sender;
 {
-	
 }
 
-- (IBAction)r6RadiusFieldEntered:(id)sender
+- (IBAction)r6RadiusFieldEntered:(id)sender;
 {
-	
 }
 
-- (IBAction)r7RadiusFieldEntered:(id)sender
+- (IBAction)r7RadiusFieldEntered:(id)sender;
 {
-	
 }
 
-- (IBAction)r8RadiusFieldEntered:(id)sender
+- (IBAction)r8RadiusFieldEntered:(id)sender;
 {
-	
 }
 
 - (IBAction)vRadiusFieldEntered:(id)sender;
 {
-	
 }
 
-/*
-
-- (IBAction)tpSliderMoved:(id)sender
+#if 0
+- (IBAction)tpSliderMoved:(id)sender;
 {
-	
 }
 
-- (IBAction)tnMinSliderMoved:(id)sender
+- (IBAction)tnMinSliderMoved:(id)sender;
 {
-	
 }
 
-- (IBAction)tnMaxSliderMoved:(id)sender
+- (IBAction)tnMaxSliderMoved:(id)sender;
 {
-	
 }
+#endif
 
-*/
-
-- (IBAction)tubeLengthSliderMoved:(id)sender
+- (IBAction)tubeLengthSliderMoved:(id)sender;
 {
 	[tubeLengthField setDoubleValue:[tubeLengthSlider doubleValue]];
 	*((double *) getLength()) = (double) [tubeLengthSlider doubleValue];
@@ -1083,7 +998,7 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
 
 }
 
-- (IBAction)temperatureSliderMoved:(id)sender
+- (IBAction)temperatureSliderMoved:(id)sender;
 {
 	[temperatureField setDoubleValue:[temperatureSlider doubleValue]];
 	*((double *) getTemperature()) = (double) [temperatureSlider doubleValue];
@@ -1107,19 +1022,16 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
 	
 }
 
-- (IBAction)stereoBalanceSliderMoved:(id)sender
+- (IBAction)stereoBalanceSliderMoved:(id)sender;
 {
-	
 }
 
-- (IBAction)breathinessSliderMoved:(id)sender
+- (IBAction)breathinessSliderMoved:(id)sender;
 {
-	
 }
 
-- (IBAction)lossFactorSliderMoved:(id)sender
+- (IBAction)lossFactorSliderMoved:(id)sender;
 {
-	
 	BOOL rangeError = NO;
 	
     /*  GET CURRENT ROUNDED VALUE FROM FIELD  */
@@ -1164,75 +1076,63 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
 
 }
 
-- (IBAction)throatCutoffSliderMoved:(id)sender
+- (IBAction)throatCutoffSliderMoved:(id)sender;
 {
-	
 }
 
-- (IBAction)throatVolumeSliderMoved:(id)sender
+- (IBAction)throatVolumeSliderMoved:(id)sender;
 {
-	
 }
 
-- (IBAction)apertureScalingSliderMoved:(id)sender
+- (IBAction)apertureScalingSliderMoved:(id)sender;
 {
-	
 }
 
-- (IBAction)mouthApertureCoefficientSliderMoved:(id)sender
+- (IBAction)mouthApertureCoefficientSliderMoved:(id)sender;
 {
-	
 }
 
-- (IBAction)noseApertureCoefficientSliderMoved:(id)sender
+- (IBAction)noseApertureCoefficientSliderMoved:(id)sender;
 {
-	
 }
 
-- (IBAction)mixOffsetSliderMoved:(id)sender
+- (IBAction)mixOffsetSliderMoved:(id)sender;
 {
-	
 }
 
-- (IBAction)n1RadiusSliderMoved:(id)sender
+- (IBAction)n1RadiusSliderMoved:(id)sender;
 {
-	
 }
 
-- (IBAction)n2RadiusSliderMoved:(id)sender
+- (IBAction)n2RadiusSliderMoved:(id)sender;
 {
-	
 }
 
-- (IBAction)n3RadiusSliderMoved:(id)sender
+- (IBAction)n3RadiusSliderMoved:(id)sender;
 {
-	
 }
 
-- (IBAction)n4RadiusSliderMoved:(id)sender
+- (IBAction)n4RadiusSliderMoved:(id)sender;
 {
-	
 }
 
-- (IBAction)n5RadiusSliderMoved:(id)sender
+- (IBAction)n5RadiusSliderMoved:(id)sender;
 {
-	
 }
 
-- (IBAction)glottalVolumeSliderMoved:(id)sender
+- (IBAction)glottalVolumeSliderMoved:(id)sender;
 {
-	
 }
 
-/*
-- (IBAction)pitchSliderMoved:(id)sender
+#if 0
+- (IBAction)pitchSliderMoved:(id)sender;
 {
 	*((double *) getGlotPitch()) = (double) [pitchSlider floatValue];
 	NSLog(@"Pitch is now %f", *((double *) getGlotPitch()));
 }
-*/
+#endif
 
-- (IBAction)aspVolSliderMoved:(id)sender
+- (IBAction)aspVolSliderMoved:(id)sender;
 {
 	BOOL rangeError = NO;
 	
@@ -1277,7 +1177,7 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
 	
 }
 
-- (IBAction)fricVolSliderMoved:(id)sender
+- (IBAction)fricVolSliderMoved:(id)sender;
 {
 	BOOL rangeError = NO;
 	
@@ -1322,7 +1222,7 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
     //} 
 }
 
-- (IBAction)fricPosSliderMoved:(id)sender
+- (IBAction)fricPosSliderMoved:(id)sender;
 {
 	BOOL rangeError = NO;
 	
@@ -1371,9 +1271,8 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
 	
 }
 
-- (IBAction)fricCFSliderMoved:(id)sender
+- (IBAction)fricCFSliderMoved:(id)sender;
 {
-	
     BOOL rangeError = NO;
 	
     /*  GET CURRENT ROUNDED VALUE FROM SLIDER  */
@@ -1418,11 +1317,9 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
 		NSBeep();
 		//[sender selectText:self];
     } 
-	
-	
 }
 
-- (IBAction)fricBWSliderMoved:(id)sender
+- (IBAction)fricBWSliderMoved:(id)sender;
 {
 	BOOL rangeError = NO;
 	
@@ -1468,63 +1365,51 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
 		NSBeep();
 		//[sender selectText:self];
     } 
-	
 }
 
-- (IBAction)r1RadiusSliderMoved:(id)sender
+- (IBAction)r1RadiusSliderMoved:(id)sender;
 {
-	
 }
 
-- (IBAction)r2RadiusSliderMoved:(id)sender
+- (IBAction)r2RadiusSliderMoved:(id)sender;
 {
-	
 }
 
-- (IBAction)r3RadiusSliderMoved:(id)sender
+- (IBAction)r3RadiusSliderMoved:(id)sender;
 {
-	
 }
 
-- (IBAction)r4RadiusSliderMoved:(id)sender
+- (IBAction)r4RadiusSliderMoved:(id)sender;
 {
-	
 }
 
-- (IBAction)r5RadiusSliderMoved:(id)sender
+- (IBAction)r5RadiusSliderMoved:(id)sender;
 {
-	
 }
 
-- (IBAction)r6RadiusSliderMoved:(id)sender
+- (IBAction)r6RadiusSliderMoved:(id)sender;
 {
-	
 }
 
-- (IBAction)r7RadiusSliderMoved:(id)sender
+- (IBAction)r7RadiusSliderMoved:(id)sender;
 {
-	
 }
 
-- (IBAction)r8RadiusSliderMoved:(id)sender
+- (IBAction)r8RadiusSliderMoved:(id)sender;
 {
-	
 }
 
-- (IBAction)vSliderMoved:(id)sender
+- (IBAction)vSliderMoved:(id)sender;
 {
-	
 }
-
-- (void)sliderMoved:(NSNotification *)originator
 
 // This method handles the section sliders associated with nose, velum and oropharynx sections
 // based on a notification from the associated slider object which also supplies tag info.  The
 // slider objects that need attention (TubeSection and VelumSlider) post a notification and this
 // method picks it up and deals with it.
 
+- (void)sliderMoved:(NSNotification *)originator;
 {
-
 	int sectionId;
 	float radius;
 	
@@ -1547,149 +1432,122 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
 	}
 }
 
-- (void)setDirtyBit
+- (void)setDirtyBit;
 {
-	
 }
 
 /*  Set methods to link Objective-C code and C modules  */
 
-- (void)csetGlotPitch:(float) value
+- (void)csetGlotPitch:(float)value;
 {
 	setGlotPitch(value);
 }
 
-- (void)csetGlotVol:(float) value
+- (void)csetGlotVol:(float)value;
 {
-	
 }
 
-- (void)csetAspVol:(float) value
+- (void)csetAspVol:(float)value;
 {
-	
 }
 
-- (void)csetFricVol:(float) value
+- (void)csetFricVol:(float)value;
 {
-	
 }
 
-- (void)csetfricPos:(float) value
+- (void)csetfricPos:(float)value;
 {
-	
 }
 
-- (void)csetFricCF:(float) value
+- (void)csetFricCF:(float)value;
 {
-	
 }
 
-- (void)csetFricBW:(float) value
+- (void)csetFricBW:(float)value;
 {
-	
 }
 
-- (void)csetRadius:(float) value: (int) index
+- (void)csetRadius:(float)value:(int)index;
 {
-	
 }
 
-- (void)csetVelum:(float) value
+- (void)csetVelum:(float)value;
 {
-	
 }
 
-- (void)csetVolume:(double) value
+- (void)csetVolume:(double)value;
 {
-	
 }
 
-- (void)csetWaveform:(int) value
+- (void)csetWaveform:(int)value;
 {
-	
 }
 
-- (void)csetTp:(double) value
+- (void)csetTp:(double)value;
 {
-	
 }
 
-- (void)csetTnMin:(double) value
+- (void)csetTnMin:(double)value;
 {
-	
 }
 
-- (void)csetTnMax:(double) value
+- (void)csetTnMax:(double)value;
 {
-	
 }
 
-- (void)csetBreathiness:(double) value
+- (void)csetBreathiness:(double)value;
 {
-	
 }
 
-- (void)csetLength:(double) value
+- (void)csetLength:(double)value;
 {
-	
 }
 
-- (void)csetTemperature:(double) value
+- (void)csetTemperature:(double)value;
 {
-	
 }
 
-- (void)csetLossFactor:(double) value
+- (void)csetLossFactor:(double)value;
 {
-	
 }
 
-- (void)csetApScale:(double) value
+- (void)csetApScale:(double)value;
 {
-	
 }
 
-- (void)csetMouthCoef:(double) value
+- (void)csetMouthCoef:(double)value;
 {
-	
 }
 
-- (void)csetNoseCoef:(double) value
+- (void)csetNoseCoef:(double)value;
 {
-	
 }
 
-- (void)csetNoseRadius:(double) value: (int) index
+- (void)csetNoseRadius:(double)value:(int)index;
 {
-	
 }
 
-- (void)csetThroatCoef:(double) value
+- (void)csetThroatCoef:(double)value;
 {
-	
 }
 
-- (void)csetModulation:(int) value
+- (void)csetModulation:(int)value;
 {
-	
 }
 
-- (void)csetMixOffset:(double) value
+- (void)csetMixOffset:(double)value;
 {
-	
 }
 
-- (void)csetThroatCutoff:(double) value
+- (void)csetThroatCutoff:(double)value;
 {
-	
 }
 
-- (void)csetThroatVolume:(double) value
+- (void)csetThroatVolume:(double)value;
 {
-	
 }
 
-- (void)adjustToNewSampleRate
+- (void)adjustToNewSampleRate;
 {
     int nyquistFrequency;
 	
@@ -1736,7 +1594,7 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
 
 
 
-- (void)adjustSampleRate
+- (void)adjustSampleRate;
 {
     /*  CALCULATE SAMPLE RATE, CONTROL PERIOD, ACTUAL LENGTH  */
     [self calculateSampleRate];
@@ -1760,19 +1618,19 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
 }
 
 
-- (void)injectFricationAt:(float)position
+- (void)injectFricationAt:(float)position;
 {
     /*  DRAW ARROW WHERE FRICATION IS TO BE INJECTED  */
     [fricativeArrow setFricationPosition:position]; 
 }
 
 
-- (void)setTitle:(NSString *)path
+- (void)setTitle:(NSString *)path;
 {
     [_mainWindow setTitleWithRepresentedFilename:path];
 }
 
-- (void)calculateSampleRate
+- (void)calculateSampleRate;
 {
     double c; //, speedOfSound();
 	
@@ -1804,7 +1662,7 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
 		 // *((int *) getControlPeriod()), *((int *) getSampleRate()), *((double *) getLength()));
 }
 
-- (void)handleFricArrowMoved:(NSNotification *)note
+- (void)handleFricArrowMoved:(NSNotification *)note;
 {
 	NSLog(@"Controller.m:1612 Received FricArrowMoved notification: %@", note);
 	
@@ -1834,7 +1692,7 @@ OSStatus sineIOProc (AudioDeviceID inDevice,
 		}
     }
 	
-- (BOOL)tubeRunState
+- (BOOL)tubeRunState;
 {
 	return _isPlaying;
 }

@@ -1,41 +1,13 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
-//  
-//  Contributors: David Hill
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Spectrum.h
-//  Synthesizer
-//
-//  Created by David Hill in 2006.
-//
-//  Version: 0.7.4
-//
-////////////////////////////////////////////////////////////////////////////////
+//  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import <Cocoa/Cocoa.h>
 #import "ChartView.h"
-#import "structs.h"
+#import "syn_structs.h"
 #import "AnalysisWindow.h"
 #import "Spectrograph.h"
 #import "Analysis.h"
 
-@interface Spectrum : ChartView
 
 #define SMLEFT_MARGIN 15.0 // ####
 #define SMRIGHT_MARGIN 5
@@ -71,50 +43,17 @@
 
 #define MAX_SAMPLE_SIZE    32768.0          /*  LARGEST SIGNED SHORT INT  */
 
+@interface Spectrum : ChartView
 
-
-{
-	id runButton;
-	id spectrograph;
-	id analysis;
-	id envelopeField;
-	id envelopeSwitch;
-	id graphSwitch;
-	id testSwitch;
-	id analysisWindow;
-	id updateMatrix;
-	id doAnalysisButton;
-	float *analysisData;
-	float *tempData;
-	float *spectrum;
-	BOOL analysisDataExists;
-	BOOL gridDisplay;
-	int samplingWindowSize;
-	float *samplingWindowShape;
-	BOOL normalize;
-	float scale;
-	int normalTestState;
-	int spectralEnvelopeOnOff;	// 0 IS OFF, 1 IS ON
-	int spectrumGraphOnOff;     // 0 IS OFF, 1 IS ON
-	float spectralEnvelopeSpan;	// SPAN SETS # OF SAMPLES EITHER SIDE USED IN AVERAGE DEF
-	int magnitudeScale;
-	int startEnvelope;
-	int endEnvelope;
-
-	
-
-}
-
-- (IBAction) setNormalTestState:sender;
-- (IBAction) setShowSpectralEnvelope:sender;
-- (IBAction) setEnvelopeSmoothingSpan:sender;
-- (IBAction) setShowGraph:sender;
-- (void) setSpectrumGrid:(BOOL)spectrumGridState;
-- (void) freeAnalysisData;
-- (void) normalizeSwitchPushed:sender;
-- (void) setAnalysisBinSize:(int)value;
-- (void) setAnalysisWindowShape:(float *) window;
-- (void) setMagnitudeScale:(int)value;
-
+- (IBAction)setNormalTestState:(id)sender;
+- (IBAction)setShowSpectralEnvelope:(id)sender;
+- (IBAction)setEnvelopeSmoothingSpan:(id)sender;
+- (IBAction)setShowGraph:(id)sender;
+- (void)setSpectrumGrid:(BOOL)spectrumGridState;
+- (void)freeAnalysisData;
+- (void)normalizeSwitchPushed:(id)sender;
+- (void)setAnalysisBinSize:(int)value;
+- (void)setAnalysisWindowShape:(float *)window;
+- (void)setMagnitudeScale:(int)value;
 
 @end

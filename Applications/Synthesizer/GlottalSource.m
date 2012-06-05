@@ -1,55 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
-//  
-//  Contributors: Adam Fedor, David Hill
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
-////////////////////////////////////////////////////////////////////////////////
-//
-//  GlottalSource.m
-//  Synthesizer
-//
-//  Created by Adam Fedor on 1/18/2003.
-//
-//  Version: 0.7.4
-//
-////////////////////////////////////////////////////////////////////////////////
-
-
-/*  REVISION INFORMATION  *****************************************************
-
-$Author: fedor $
-$Date: 2003/01/18 05:04:50 $
-$Revision: 1.2 $
-$Source: /cvsroot/gnuspeech/gnuspeech/trillium/src/Synthesizer/GlottalSource.m,v $
-$State: Exp $
-
-
-$Log: GlottalSource.m,v $
-Revision 1.2  2003/01/18 05:04:50  fedor
-Port to OpenStep/GNUstep
-
-Revision 1.1  2002/03/21 16:49:54  rao
-Initial import.
-
-# Revision 1.1.1.1  1994/05/20  00:21:40  len
-# Initial archive of TRM interactive Synthesizer.
-#
-
-******************************************************************************/
+//  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 /*  HEADER FILES  ************************************************************/
 #import "GlottalSource.h"
@@ -58,8 +8,9 @@ Initial import.
 #include <math.h>
 
 #import "PitchScale.h"
-#import "structs.h"
+#import "syn_structs.h"
 #import "GPParamView.h"
+#import "tube.h"
 
 #define FALLTIMEMAX_MIN   5.0
 #define FALLTIMEMAX_MAX   50.0
@@ -109,11 +60,9 @@ Initial import.
 
 @implementation GlottalSource
 
-- init
+- (id)init;
 {
-    /*  DO REGULAR INITIALIZATION  */
-    if (self = [super init]) {
-		
+    if ((self = [super init])) {
 		// Register as notification observer for "SynthDefaultsReloaded"
 		NSNotificationCenter *nc;
 		nc = [NSNotificationCenter defaultCenter];
@@ -121,42 +70,38 @@ Initial import.
 			   selector:@selector(handleSynthDefaultsReloaded)
 				   name:@"SynthDefaultsReloaded"
 				 object:nil];
-			NSLog(@"Registered GlottalSource as observer with notification center");
+        NSLog(@"Registered GlottalSource as observer with notification center");
 		
-		}
+    }
 
-			
 	/*  SET INSTANCE VARIABLES TO DEFAULT VALUES  */
 	//[self defaultInstanceVariables];
-	
 
     return self;
 }
 
-
-
-- (void)defaultInstanceVariables
+- (void)defaultInstanceVariables;
 {
     /*  SET INSTANCE VARIABLES TO DEFAULTS  */
-    pitch = PITCH_DEF;
-    cents = CENTS_DEF;
-    unit = UNIT_DEF;
-    breathiness = BREATHINESS_DEF;
-    volume = VOLUME_DEF;
-    waveformType = WAVEFORMTYPE_DEF;
-    showAmplitude = SHOWAMPLITUDE_DEF;
+    pitch          = PITCH_DEF;
+    cents          = CENTS_DEF;
+    unit           = UNIT_DEF;
+    breathiness    = BREATHINESS_DEF;
+    volume         = VOLUME_DEF;
+    waveformType   = WAVEFORMTYPE_DEF;
+    showAmplitude  = SHOWAMPLITUDE_DEF;
     harmonicsScale = HARMONICS_DEF;
-    riseTime = RISETIME_DEF;
-    fallTimeMin = FALLTIMEMIN_DEF;
-    fallTimeMax = FALLTIMEMAX_DEF; 
+    riseTime       = RISETIME_DEF;
+    fallTimeMin    = FALLTIMEMIN_DEF;
+    fallTimeMax    = FALLTIMEMAX_DEF; 
 }
 
 
 
-- (void)awakeFromNib
+- (void)awakeFromNib;
 {
-
-    /*  SET FORM FORMATS  */
+    // TODO (2012-05-19): Set up number formatters
+#if 0
     [frequencyField setFloatingPointFormat:NO left:4 right:2];
     [pitchField setFloatingPointFormat:NO left:3 right:2];
     [pitchMaxField setFloatingPointFormat:NO left:4 right:2];
@@ -165,192 +110,184 @@ Initial import.
     [[parameterForm cellAtRow:0 column:0] setFloatingPointFormat:NO left:2 right:1];
     [[parameterForm cellAtRow:1 column:0] setFloatingPointFormat:NO left:2 right:1];
     [[parameterForm cellAtRow:2 column:0] setFloatingPointFormat:NO left:2 right:1];
-
+#endif
     /*  SET SLIDER MIN AND MAX VALUES  */
 	[breathinessSlider setMinValue:BREATHINESS_MIN];
 	[breathinessSlider setMaxValue:BREATHINESS_MAX];
     [volumeSlider setMinValue:VOLUME_MIN];
     [volumeSlider setMaxValue:VOLUME_MAX];
-	
 }
 
 
-
-//- (void)displayAndSynthesizeIvars
-//{
+#if 0
+- (void)displayAndSynthesizeIvars
+{
     
     /*  INITIALIZE PARAMETER FIELDS  */
-    //[[parameterForm cellAtRow:0 column:0] setFloatValue:riseTime];
-    //[[parameterForm cellAtRow:1 column:0] setFloatValue:fallTimeMin];
-    //[[parameterForm cellAtRow:2 column:0] setFloatValue:fallTimeMax];
-
+    [[parameterForm cellAtRow:0 column:0] setFloatValue:riseTime];
+    [[parameterForm cellAtRow:1 column:0] setFloatValue:fallTimeMin];
+    [[parameterForm cellAtRow:2 column:0] setFloatValue:fallTimeMax];
+    
     /*  SEND GLOTTAL PARAMETERS TO SYNTHESIZER  */
-    //[synthesizer setRiseTime:riseTime fallTimeMin:fallTimeMin fallTimeMax:fallTimeMax];
-
+    [synthesizer setRiseTime:riseTime fallTimeMin:fallTimeMin fallTimeMax:fallTimeMax];
+    
     /*  INITIALIZE SHOW AMPLITUDE SWITCH  */
-    //[showAmplitudeSwitch setIntValue:showAmplitude];
-
+    [showAmplitudeSwitch setIntValue:showAmplitude];
+    
     /*  INITIALIZE HARMONICS SWITCH  */
-    //[harmonicsSwitch selectCellWithTag:harmonicsScale];
+    [harmonicsSwitch selectCellWithTag:harmonicsScale];
     
     /*  INITIALIZE WAVEFORM TYPE SWITCH  */
-    //[waveformTypeSwitch selectCellWithTag:waveformType];
+    [waveformTypeSwitch selectCellWithTag:waveformType];
     
     /*  SEND WAVEFORM PARAMETER TO THE SYNTHESIZER  */
-    //[synthesizer setWaveformType:waveformType];
-
+    [synthesizer setWaveformType:waveformType];
+    
     /*  IF SINE TONE, DISABLE THE PARAMETER FORM, OTHERWISE ENABLE IT  */
-	//NSAttributedString *title;
-	
-    //if (waveformType == WAVEFORMTYPE_SINE) {
-	//[parameterForm setEnabled:NO];
-	//title = [[parameterPercent cellAtRow:0 column:0] attributedTitle]; // setTextColor:[NSColor darkGrayColor]];
-	//NSLog(@"Title of row 0 col 0 has attributes %@", title);
-	//[[parameterPercent cellAtRow:0 column:0] setTextColor:[NSColor darkGrayColor]];
-	//[[parameterPercent cellAtRow:1 column:0] setTextColor:[NSColor darkGrayColor]];
-	//[[parameterPercent cellAtRow:2 column:0] setTextColor:[NSColor darkGrayColor]];
-   // }
-    //else {
-	//[parameterForm setEnabled:YES];
-	//[[parameterPercent cellAtRow:0 column:0] setTextColor:[NSColor blackColor]];
-	//[[parameterPercent cellAtRow:1 column:0] setTextColor:[NSColor blackColor]];
-	//[[parameterPercent cellAtRow:2 column:0] setTextColor:[NSColor blackColor]];
-   // }
-
+    NSAttributedString *title;
+    
+    if (waveformType == WAVEFORMTYPE_SINE) {
+        [parameterForm setEnabled:NO];
+        title = [[parameterPercent cellAtRow:0 column:0] attributedTitle]; // setTextColor:[NSColor darkGrayColor]];
+        NSLog(@"Title of row 0 col 0 has attributes %@", title);
+        [[parameterPercent cellAtRow:0 column:0] setTextColor:[NSColor darkGrayColor]];
+        [[parameterPercent cellAtRow:1 column:0] setTextColor:[NSColor darkGrayColor]];
+        [[parameterPercent cellAtRow:2 column:0] setTextColor:[NSColor darkGrayColor]];
+    }
+    else {
+        [parameterForm setEnabled:YES];
+        [[parameterPercent cellAtRow:0 column:0] setTextColor:[NSColor blackColor]];
+        [[parameterPercent cellAtRow:1 column:0] setTextColor:[NSColor blackColor]];
+        [[parameterPercent cellAtRow:2 column:0] setTextColor:[NSColor blackColor]];
+    }
+    
     /*  INITIALIZE BREATHINESS OBJECTS  */
-    //[breathinessSlider setFloatValue:breathiness];
-    //[breathinessField setFloatValue:breathiness];
-    //[synthesizer setBreathiness:breathiness];
+    [breathinessSlider setFloatValue:breathiness];
+    [breathinessField setFloatValue:breathiness];
+    [synthesizer setBreathiness:breathiness];
     
     /*  INITIALIZE VOLUME OBJECTS  */
-    //[volumeSlider setIntValue:volume];
-    //[volumeField setIntValue:volume];
-    //[synthesizer setSourceVolume:volume];
-
-
+    [volumeSlider setIntValue:volume];
+    [volumeField setIntValue:volume];
+    [synthesizer setSourceVolume:volume];
+    
+    
     /*  INTIALIZE PITCH OBJECTS  */
-    //[unitButton setState:unit];
-    //[self unitButtonPushed:unitButton];
-    //[synthesizer setPitch:normalizedPitch(pitch,cents)];
-
+    [unitButton setState:unit];
+    [self unitButtonPushed:unitButton];
+    [synthesizer setPitch:normalizedPitch(pitch,cents)];
+    
     /*  DISPLAY NOTE IN SCALE  */
-    //[scaleView drawPitch:pitch Cents:cents Volume:volume];
-
+    [scaleView drawPitch:pitch Cents:cents Volume:volume];
+    
     /*  DISPLAY WAVEFORM AND HARMONICS  */
-    //[self displayWaveformAndHarmonics];
+    [self displayWaveformAndHarmonics];
     
     /*  DISPLAY CHANGES TO SUBVIEWS OF WINDOW  */
-    //[glottalSourceWindow displayIfNeeded]; 
-//}
+    [glottalSourceWindow displayIfNeeded];
+}
+#endif
 
 
-
-- (void)saveToStream:(NSArchiver *)typedStream
+- (void)saveToStream:(NSArchiver *)typedStream;
 {
     //  WRITE INSTANCE VARIABLES TO TYPED STREAM
     [typedStream encodeValuesOfObjCTypes:"iiiiiififff", &waveformType, &showAmplitude,
-		 &harmonicsScale, &unit, &pitch, &cents, &breathiness,
-		 &volume, &riseTime, &fallTimeMin, &fallTimeMax]; 
+     &harmonicsScale, &unit, &pitch, &cents, &breathiness,
+     &volume, &riseTime, &fallTimeMin, &fallTimeMax]; 
 }
 
 
-/*
-- (void)openFromStream:(NSArchiver *)typedStream
+#if 0
+- (void)openFromStream:(NSArchiver *)typedStream;
 {
     //  READ INSTANCE VARIABLES FROM TYPED STREAM  
     [typedStream decodeValuesOfObjCTypes:"iiiiiififff", &waveformType, &showAmplitude,
-		&harmonicsScale, &unit, &pitch, &cents, &breathiness,
-		&volume, &riseTime, &fallTimeMin, &fallTimeMax];
-
+     &harmonicsScale, &unit, &pitch, &cents, &breathiness,
+     &volume, &riseTime, &fallTimeMin, &fallTimeMax];
+    
     //  DISPLAY THE NEW VALUES  
     [self displayAndSynthesizeIvars]; 
 }
 
 #ifdef NeXT
-- (void)_openFromStream:(NXTypedStream *)typedStream
+- (void)_openFromStream:(NXTypedStream *)typedStream;
 {
     //  READ INSTANCE VARIABLES FROM TYPED STREAM  
     NXReadTypes(typedStream, "iiiiiififff", &waveformType, &showAmplitude,
-		&harmonicsScale, &unit, &pitch, &cents, &breathiness,
-		&volume, &riseTime, &fallTimeMin, &fallTimeMax);
-
+                &harmonicsScale, &unit, &pitch, &cents, &breathiness,
+                &volume, &riseTime, &fallTimeMin, &fallTimeMax);
+    
     //  DISPLAY THE NEW VALUES  
     [self displayAndSynthesizeIvars]; 
 }
 #endif
-*/
+#endif
 
-
-- (void)breathinessEntered:sender
+- (void)breathinessEntered:(id)sender;
 {
     BOOL rangeError = NO;
-
+    
     /*  GET CURRENT VALUE FROM FIELD  */
     float currentValue = [sender floatValue];
-
+    
     /*  CORRECT OUT OF RANGE VALUES  */
     if (currentValue < BREATHINESS_MIN) {
-	rangeError = YES;
-	currentValue = BREATHINESS_MIN;
+        rangeError = YES;
+        currentValue = BREATHINESS_MIN;
     }
     else if (currentValue > BREATHINESS_MAX) {
-	rangeError = YES;
-	currentValue = BREATHINESS_MAX;
+        rangeError = YES;
+        currentValue = BREATHINESS_MAX;
     }
-
+    
     /*  IF CURRENT VALUE IS DIFFERENT FROM PREVIOUS VALUE, DEAL WITH IT  */
     if (currentValue != breathiness) {
-	/*  SET INSTANCE VARIABLE  */
-	breathiness = currentValue;
-	
-	/*  SET SLIDER TO NEW VALUE  */
-	[breathinessSlider setFloatValue:breathiness];
-
-	/*  SEND BREATHINESS TO SYNTHESIZER  */
-	//[synthesizer setBreathiness:breathiness];
-	*((double *) getBreathiness()) = breathiness;
-
-	/*  SET DIRTY BIT  */
-	[controller setDirtyBit];
+        /*  SET INSTANCE VARIABLE  */
+        breathiness = currentValue;
+        
+        /*  SET SLIDER TO NEW VALUE  */
+        [breathinessSlider setFloatValue:breathiness];
+        
+        /*  SEND BREATHINESS TO SYNTHESIZER  */
+        //[synthesizer setBreathiness:breathiness];
+        *((double *) getBreathiness()) = breathiness;
+        
+        /*  SET DIRTY BIT  */
+        [controller setDirtyBit];
     }
-
+    
     /*  BEEP AND HIGHLIGHT FIELD IF RANGE ERROR  */
     if (rangeError) {
-	NSBeep();
-	[sender setFloatValue:currentValue];
-	[sender selectText:self];
+        NSBeep();
+        [sender setFloatValue:currentValue];
+        [sender selectText:self];
     } 
 }
 
-
-
-- (void)breathinessSliderMoved:sender
+- (void)breathinessSliderMoved:(id)sender;
 {
-    float currentValue;
-    
     /*  SET FIELD TO VALUE  */
     [breathinessField setFloatValue:[sender floatValue]];
-
+    
     /*  GET QUANTIZED VALUE (FROM FIELD)  */
-    currentValue = [breathinessField floatValue];
-
+    float currentValue = [breathinessField floatValue];
+    
     /*  ADJUST SOUND IF VALUE IS DIFFERENT FROM OLD VALUE  */
     if (currentValue != breathiness) {
-	/*  SET BREATHINESS  */
-	breathiness = currentValue;
-	
-	/*  SEND VALUE TO SYNTHESIZER  */
-	//[synthesizer setBreathiness:breathiness];
-	*((double *) getBreathiness()) = breathiness;
-	
-	/*  SET DIRTY BIT  */
-	[controller setDirtyBit];
+        /*  SET BREATHINESS  */
+        breathiness = currentValue;
+        
+        /*  SEND VALUE TO SYNTHESIZER  */
+        //[synthesizer setBreathiness:breathiness];
+        *((double *) getBreathiness()) = breathiness;
+        
+        /*  SET DIRTY BIT  */
+        [controller setDirtyBit];
     } 
 }
 
-
-
-- (void)waveformTypeSwitchPushed:sender
+- (void)waveformTypeSwitchPushed:(id)sender;
 {
     /*  GET THE WAVEFORM TYPE  */
     int selectedType = [[sender selectedCell] tag];
@@ -358,56 +295,55 @@ Initial import.
     
     /*  DEAL WITH SELECTION ONLY IF IT DIFFERS FROM PREVIOUS CHOICE  */
     if (selectedType != *((int *) getWaveform())) {
-	/* SET THE WAVEFORM TYPE  */
-	//*waveform = (int)selectedType;
+        /* SET THE WAVEFORM TYPE  */
+        //*waveform = (int)selectedType;
 		*((int *) getWaveform()) = selectedType;
 		initializeSynthesizer();
 		NSLog(@"Back from synthesizer init");
-	
-	/*  DISPLAY WAVEFORM AND HARMONICS  */
-	//[gpParameterView drawGlottalPulseAmplitude];
+        
+        /*  DISPLAY WAVEFORM AND HARMONICS  */
+        //[gpParameterView drawGlottalPulseAmplitude];
 		//NSLog(@"waveform type switch toggled: selected %d, current type: %d", selectedType, *((int *) getWaveform()));
-
-	/*  IF SINE TONE, DISABLE THE PARAMETER FORM, OTHERWISE ENABLE IT  */
-	if (*((int *) getWaveform()) == WAVEFORMTYPE_SINE) {
-	    [parameterForm setEnabled:NO];
-	    [[parameterPercent cellAtRow:0 column:0] setTextColor:[NSColor darkGrayColor]];
-	    [[parameterPercent cellAtRow:1 column:0] setTextColor:[NSColor darkGrayColor]];
-	    [[parameterPercent cellAtRow:2 column:0] setTextColor:[NSColor darkGrayColor]];
-	}
-	else {
-	    [parameterForm setEnabled:YES];
-	    [[parameterPercent cellAtRow:0 column:0] setTextColor:[NSColor blackColor]];
-	    [[parameterPercent cellAtRow:1 column:0] setTextColor:[NSColor blackColor]];
-	    [[parameterPercent cellAtRow:2 column:0] setTextColor:[NSColor blackColor]];
-	}
-	
-	/*  DISPLAY CHANGES TO SUBVIEWS OF WINDOW  */
-	//[glottalSourceWindow displayIfNeeded];
-	[waveform drawGlottalPulseAmplitude];
-	[harmonics drawHarmonics];
-	[gpParameterView drawGlottalPulseAmplitude];
-	NSLog(@"Back from drawing waveform & harmonics");
-
-	
-	/*  SEND PARAMETER TO THE SYNTHESIZER  */
-	//[synthesizer setWaveformType:waveformType];
-
-	/*  SET DIRTY BIT  */
-	[controller setDirtyBit];
+        
+        /*  IF SINE TONE, DISABLE THE PARAMETER FORM, OTHERWISE ENABLE IT  */
+        if (*((int *) getWaveform()) == WAVEFORMTYPE_SINE) {
+            [parameterForm setEnabled:NO];
+            [[parameterPercent cellAtRow:0 column:0] setTextColor:[NSColor darkGrayColor]];
+            [[parameterPercent cellAtRow:1 column:0] setTextColor:[NSColor darkGrayColor]];
+            [[parameterPercent cellAtRow:2 column:0] setTextColor:[NSColor darkGrayColor]];
+        }
+        else {
+            [parameterForm setEnabled:YES];
+            [[parameterPercent cellAtRow:0 column:0] setTextColor:[NSColor blackColor]];
+            [[parameterPercent cellAtRow:1 column:0] setTextColor:[NSColor blackColor]];
+            [[parameterPercent cellAtRow:2 column:0] setTextColor:[NSColor blackColor]];
+        }
+        
+        /*  DISPLAY CHANGES TO SUBVIEWS OF WINDOW  */
+        //[glottalSourceWindow displayIfNeeded];
+        [waveform drawGlottalPulseAmplitude];
+        [harmonics drawHarmonics];
+        [gpParameterView drawGlottalPulseAmplitude];
+        NSLog(@"Back from drawing waveform & harmonics");
+        
+        
+        /*  SEND PARAMETER TO THE SYNTHESIZER  */
+        //[synthesizer setWaveformType:waveformType];
+        
+        /*  SET DIRTY BIT  */
+        [controller setDirtyBit];
 	}
 }
 
-- (void)glottalPulseParametersChanged:sender
+- (void)glottalPulseParametersChanged:(id)sender;
 {
-	
-	NSLog(@"Glottal pulse parameter entered %f sender %d", [sender floatValue], [sender indexOfSelectedItem]);
+	//NSLog(@"Glottal pulse parameter entered %f sender %ld", [sender floatValue], [sender indexOfSelectedItem]);
 	
 	int cell = [sender indexOfSelectedItem];
 	NSLog(@"Cell is %d", cell);
-
+    
 	if (cell == 0) {
-
+        
 		/*  GET QUANTIZED VALUE */
 		riseTime = [sender floatValue];
 		NSLog(@"Changing glottal pulse rise to %f", riseTime);
@@ -432,134 +368,131 @@ Initial import.
 			[parameterForm selectTextAtRow:1 column:0];
 		}
 		
-
+        
 		*((double *) getTp()) = riseTime;
 	}
-		//[self riseTimeEntered:sender];
-		if (cell == 1) {
-			/*  GET QUANTIZED VALUE */
-			fallTimeMin = [sender floatValue];
-			NSLog(@"Changing glottal pulse min fall time %f to", fallTimeMin);
-
-			
-			/*  MAKE SURE VALUE IS IN RANGE  */
-			if (fallTimeMin < FALLTIMEMIN_MIN) {
-				NSBeep();
-				fallTimeMin = FALLTIMEMIN_MIN;
-				[sender setFloatValue:fallTimeMin];
-				/*  SELECT THE CURRENT PARAMETER FIELD  */
-				[parameterForm selectTextAtRow:1 column:0];
-			}
-			else if (fallTimeMin > FALLTIMEMIN_MAX) {
-				NSBeep();
-				fallTimeMin = FALLTIMEMIN_MAX;
-				[sender setFloatValue:fallTimeMin];
-				/*  SELECT THE CURRENT PARAMETER FIELD  */
-				[parameterForm selectTextAtRow:1 column:0];
-			}
-			else {
-				/*  SELECT THE NEXT PARAMETER FIELD  */
-				[parameterForm selectTextAtRow:2 column:0];
-			}
-					
-			*((double *) getTnMin()) = fallTimeMin;
-
-			/*  DISPLAY WAVEFORM AND HARMONICS  */
-			[self displayWaveformAndHarmonics];
-		}
-		
-		NSLog(@"Cell after section 1 is %d", cell);
-
-		//[self fallTimeMinEntered:sender];
-		if (cell == 2) {
-			
-			fallTimeMax = [sender floatValue];
-			NSLog(@"Changing Glottal Pulse fall time max to %f to", fallTimeMax);
-						
-			/*  MAKE SURE VALUE IS IN RANGE  */
-			if (fallTimeMax < FALLTIMEMAX_MIN) {
-				NSBeep();
-				fallTimeMax = FALLTIMEMAX_MIN;
-
-				[sender setFloatValue:fallTimeMax];
-
-				/*  SELECT THE CURRENT PARAMETER FIELD  */
-				[parameterForm selectTextAtRow:2 column:0];
-			}
-			else if (fallTimeMax > FALLTIMEMAX_MAX) {
-				NSBeep();
-				fallTimeMax = FALLTIMEMAX_MAX;
-				[sender setFloatValue:fallTimeMax];
-				
-				/*  SELECT THE CURRENT PARAMETER FIELD  */
-				[parameterForm selectTextAtRow:2 column:0];
-			}
-			else {
-				/*  SELECT THE NEXT PARAMETER FIELD  */
-				[parameterForm selectTextAtRow:0 column:0];
-			}
-			
-			/*  DISPLAY WAVEFORM AND HARMONICS  */
-			[self displayWaveformAndHarmonics];
-			
-			*((double *) getTnMax()) = fallTimeMax;
-					}
-
-		// RE-INIT SYNTHESIZER & REDRAW GLOTTAL PULSE AND PARAMETERS GRID
-		initializeSynthesizer();
-		[self displayWaveformAndHarmonics];
-		//[gpParameterView drawGlottalPulseAmplitude];
-		[waveform drawGlottalPulseAmplitude];
-
-		
-		/*  SET DIRTY BIT  */
-		[controller setDirtyBit]; 
-		
-		
+    //[self riseTimeEntered:sender];
+    if (cell == 1) {
+        /*  GET QUANTIZED VALUE */
+        fallTimeMin = [sender floatValue];
+        NSLog(@"Changing glottal pulse min fall time %f to", fallTimeMin);
+        
+        
+        /*  MAKE SURE VALUE IS IN RANGE  */
+        if (fallTimeMin < FALLTIMEMIN_MIN) {
+            NSBeep();
+            fallTimeMin = FALLTIMEMIN_MIN;
+            [sender setFloatValue:fallTimeMin];
+            /*  SELECT THE CURRENT PARAMETER FIELD  */
+            [parameterForm selectTextAtRow:1 column:0];
+        }
+        else if (fallTimeMin > FALLTIMEMIN_MAX) {
+            NSBeep();
+            fallTimeMin = FALLTIMEMIN_MAX;
+            [sender setFloatValue:fallTimeMin];
+            /*  SELECT THE CURRENT PARAMETER FIELD  */
+            [parameterForm selectTextAtRow:1 column:0];
+        }
+        else {
+            /*  SELECT THE NEXT PARAMETER FIELD  */
+            [parameterForm selectTextAtRow:2 column:0];
+        }
+        
+        *((double *) getTnMin()) = fallTimeMin;
+        
+        /*  DISPLAY WAVEFORM AND HARMONICS  */
+        [self displayWaveformAndHarmonics];
+    }
+    
+    NSLog(@"Cell after section 1 is %d", cell);
+    
+    //[self fallTimeMinEntered:sender];
+    if (cell == 2) {
+        
+        fallTimeMax = [sender floatValue];
+        NSLog(@"Changing Glottal Pulse fall time max to %f to", fallTimeMax);
+        
+        /*  MAKE SURE VALUE IS IN RANGE  */
+        if (fallTimeMax < FALLTIMEMAX_MIN) {
+            NSBeep();
+            fallTimeMax = FALLTIMEMAX_MIN;
+            
+            [sender setFloatValue:fallTimeMax];
+            
+            /*  SELECT THE CURRENT PARAMETER FIELD  */
+            [parameterForm selectTextAtRow:2 column:0];
+        }
+        else if (fallTimeMax > FALLTIMEMAX_MAX) {
+            NSBeep();
+            fallTimeMax = FALLTIMEMAX_MAX;
+            [sender setFloatValue:fallTimeMax];
+            
+            /*  SELECT THE CURRENT PARAMETER FIELD  */
+            [parameterForm selectTextAtRow:2 column:0];
+        }
+        else {
+            /*  SELECT THE NEXT PARAMETER FIELD  */
+            [parameterForm selectTextAtRow:0 column:0];
+        }
+        
+        /*  DISPLAY WAVEFORM AND HARMONICS  */
+        [self displayWaveformAndHarmonics];
+        
+        *((double *) getTnMax()) = fallTimeMax;
+    }
+    
+    // RE-INIT SYNTHESIZER & REDRAW GLOTTAL PULSE AND PARAMETERS GRID
+    initializeSynthesizer();
+    [self displayWaveformAndHarmonics];
+    //[gpParameterView drawGlottalPulseAmplitude];
+    [waveform drawGlottalPulseAmplitude];
+    
+    
+    /*  SET DIRTY BIT  */
+    [controller setDirtyBit]; 
 }
 
-
-/*
-- (void)riseTimeEntered:sender
+#if 0
+- (void)riseTimeEntered:(id)sender;
 {
     //  GET QUANTIZED VALUE 
-	riseTime = [sender floatValue];
-
-
+    riseTime = [sender floatValue];
+    
+    
     //  MAKE SURE VALUE IS IN RANGE  
-	if (riseTime < RISETIME_MIN) {
-	NSBeep();
-	riseTime = RISETIME_MIN;
-	[sender setFloatValue:riseTime];
-	//  SELECT THE CURRENT PARAMETER FIELD  
-	[parameterForm selectTextAtRow:0 column:0];
-	}
+    if (riseTime < RISETIME_MIN) {
+        NSBeep();
+        riseTime = RISETIME_MIN;
+        [sender setFloatValue:riseTime];
+        //  SELECT THE CURRENT PARAMETER FIELD  
+        [parameterForm selectTextAtRow:0 column:0];
+    }
     else if (riseTime > RISETIME_MAX) {
-	NSBeep();
-	riseTime = RISETIME_MAX;
-	[sender setFloatValue:riseTime];
-	//  SELECT THE CURRENT PARAMETER FIELD
-	[parameterForm selectTextAtRow:0 column:0];
-	}
+        NSBeep();
+        riseTime = RISETIME_MAX;
+        [sender setFloatValue:riseTime];
+        //  SELECT THE CURRENT PARAMETER FIELD
+        [parameterForm selectTextAtRow:0 column:0];
+    }
     else {
-	//  SELECT THE NEXT PARAMETER FIELD
-	[parameterForm selectTextAtRow:1 column:0];
-	}
-	
-	//NSLog(@"Changing pulse rise/fall times %f", riseTime);
-	*((double *) getTp()) = riseTime;
-
+        //  SELECT THE NEXT PARAMETER FIELD
+        [parameterForm selectTextAtRow:1 column:0];
+    }
+    
+    //NSLog(@"Changing pulse rise/fall times %f", riseTime);
+    *((double *) getTp()) = riseTime;
+    
     //  REDISPLAY THE PARAMETER VIEW
     //#if VARIABLE_GP
     //[parameterView drawRiseTime:riseTime fallTimeMin:fallTimeMin fallTimeMax:fallTimeMax];
     //#else
     //[parameterView drawRiseTime:riseTime fallTimeMin:fallTimeMin fallTimeMax:fallTimeMin];
     //#endif
-
+    
     //  DISPLAY WAVEFORM AND HARMONICS
-	[self displayWaveformAndHarmonics];
-	[gpParameterView drawGlottalPulseAmplitude];
-
+    [self displayWaveformAndHarmonics];
+    [gpParameterView drawGlottalPulseAmplitude];
+    
     //  SEND GLOTTAL PARAMETERS TO SYNTHESIZER
     //[synthesizer setRiseTime:riseTime fallTimeMin:fallTimeMin fallTimeMax:fallTimeMax];
     
@@ -567,47 +500,46 @@ Initial import.
     [controller setDirtyBit]; 
 }
 
-
-- (void)fallTimeMinEntered:sender
+- (void)fallTimeMinEntered:(id)sender;
 {
     //  GET QUANTIZED VALUE
     fallTimeMin = [sender floatValue];
-
-
+    
+    
     //  MAKE SURE VALUE IS IN RANGE
     if (fallTimeMin < FALLTIMEMIN_MIN) {
-	NSBeep();
-	fallTimeMin = FALLTIMEMIN_MIN;
-	[sender setFloatValue:fallTimeMin];
-	//  SELECT THE CURRENT PARAMETER FIELD
-	[parameterForm selectTextAtRow:1 column:0];
+        NSBeep();
+        fallTimeMin = FALLTIMEMIN_MIN;
+        [sender setFloatValue:fallTimeMin];
+        //  SELECT THE CURRENT PARAMETER FIELD
+        [parameterForm selectTextAtRow:1 column:0];
     }
-	else if (fallTimeMin > FALLTIMEMIN_MAX) {
-	NSBeep();
-	fallTimeMin = FALLTIMEMIN_MAX;
-	[sender setFloatValue:fallTimeMin];
-	//  SELECT THE CURRENT PARAMETER FIELD
-	[parameterForm selectTextAtRow:1 column:0];
+    else if (fallTimeMin > FALLTIMEMIN_MAX) {
+        NSBeep();
+        fallTimeMin = FALLTIMEMIN_MAX;
+        [sender setFloatValue:fallTimeMin];
+        //  SELECT THE CURRENT PARAMETER FIELD
+        [parameterForm selectTextAtRow:1 column:0];
     }
     else {
-	//  SELECT THE NEXT PARAMETER FIELD
-	[parameterForm selectTextAtRow:2 column:0];
+        //  SELECT THE NEXT PARAMETER FIELD
+        [parameterForm selectTextAtRow:2 column:0];
     }
-
+    
     //  REDISPLAY THE PARAMETER VIEW
     //#if VARIABLE_GP
     //[parameterView drawRiseTime:riseTime fallTimeMin:fallTimeMin fallTimeMax:fallTimeMax];
     //#else
     //[parameterView drawRiseTime:riseTime fallTimeMin:fallTimeMin fallTimeMax:fallTimeMin];
     //#endif
-	
-	*((double *) getTnMin()) = riseTime;
+    
+    *((double *) getTnMin()) = riseTime;
     //  DISPLAY WAVEFORM AND HARMONICS
     [self displayWaveformAndHarmonics];
-	
-	[gpParameterView drawGlottalPulseAmplitude];
-
-
+    
+    [gpParameterView drawGlottalPulseAmplitude];
+    
+    
     //  SEND GLOTTAL PARAMETERS TO SYNTHESIZER
     //[synthesizer setRiseTime:riseTime fallTimeMin:fallTimeMin fallTimeMax:fallTimeMax];
     
@@ -615,106 +547,101 @@ Initial import.
     [controller setDirtyBit]; 
 }
 
-
-
-- (void)fallTimeMaxEntered:sender
+- (void)fallTimeMaxEntered:(id)sender;
 {
-	
+    
     //  GET QUANTIZED VALUE
     //#if VARIABLE_GP
     fallTimeMax = [sender floatValue];
-
-	
-	//NSLog(@"Fall time max is %f", fallTimeMax);
+    
+    
+    //NSLog(@"Fall time max is %f", fallTimeMax);
     //#else
     //fallTimeMax = (float)[sender intValue];
     //#endif
-
+    
     //  MAKE SURE VALUE IS IN RANGE
     if (fallTimeMax < FALLTIMEMAX_MIN) {
-	NSBeep();
-	fallTimeMax = FALLTIMEMAX_MIN;
-	//#if VARIABLE_GP
-	[sender setFloatValue:fallTimeMax];
-	//#else
-	//[sender setIntValue:(int)fallTimeMax];
-	//#endif
-	//  SELECT THE CURRENT PARAMETER FIELD
-	[parameterForm selectTextAtRow:2 column:0];
+        NSBeep();
+        fallTimeMax = FALLTIMEMAX_MIN;
+        //#if VARIABLE_GP
+        [sender setFloatValue:fallTimeMax];
+        //#else
+        //[sender setIntValue:(int)fallTimeMax];
+        //#endif
+        //  SELECT THE CURRENT PARAMETER FIELD
+        [parameterForm selectTextAtRow:2 column:0];
     }
     else if (fallTimeMax > FALLTIMEMAX_MAX) {
-	NSBeep();
-	fallTimeMax = FALLTIMEMAX_MAX;
-	//#if VARIABLE_GP
-	[sender setFloatValue:fallTimeMax];
-	//#else
-	//[sender setIntValue:(int)fallTimeMax];
-	//#endif
-	//  SELECT THE CURRENT PARAMETER FIELD
-	[parameterForm selectTextAtRow:2 column:0];
+        NSBeep();
+        fallTimeMax = FALLTIMEMAX_MAX;
+        //#if VARIABLE_GP
+        [sender setFloatValue:fallTimeMax];
+        //#else
+        //[sender setIntValue:(int)fallTimeMax];
+        //#endif
+        //  SELECT THE CURRENT PARAMETER FIELD
+        [parameterForm selectTextAtRow:2 column:0];
     }
     else {
-	//  SELECT THE NEXT PARAMETER FIELD
-	[parameterForm selectTextAtRow:0 column:0];
-	}
-
+        //  SELECT THE NEXT PARAMETER FIELD
+        [parameterForm selectTextAtRow:0 column:0];
+    }
+    
     //  REDISPLAY THE PARAMETER VIEW
     //#if VARIABLE_GP
     //[parameterView drawRiseTime:riseTime fallTimeMin:fallTimeMin fallTimeMax:fallTimeMax];
     //#else
     //[parameterView drawRiseTime:riseTime fallTimeMin:fallTimeMin fallTimeMax:fallTimeMin];
     //#endif
-
+    
     //  DISPLAY WAVEFORM AND HARMONICS
     [self displayWaveformAndHarmonics];
-	
-	*((double *) getTnMax()) = fallTimeMax;
-	[gpParameterView drawGlottalPulseAmplitude];
-
-
+    
+    *((double *) getTnMax()) = fallTimeMax;
+    [gpParameterView drawGlottalPulseAmplitude];
+    
+    
     //  SEND GLOTTAL PARAMETERS TO SYNTHESIZER
     //[synthesizer setRiseTime:riseTime fallTimeMin:fallTimeMin fallTimeMax:fallTimeMax];
     
     //  SET DIRTY BIT
     [controller setDirtyBit]; 
 }
+#endif
 
-*/
-
-- (void)frequencyEntered:sender
+- (void)frequencyEntered:(id)sender;
 {
     BOOL rangeError = NO;
-
+    
     //  CONVERT FREQUENCY TO PITCH
     double currentPitch = Pitch([sender doubleValue]);
     
     //  CORRECT OUT OF RANGE VALUES
     if (currentPitch < normalizedPitch(PITCH_MIN,CENTS_MIN)) {
-	rangeError = YES;
-	currentPitch = normalizedPitch(PITCH_MIN,CENTS_MIN);
+        rangeError = YES;
+        currentPitch = normalizedPitch(PITCH_MIN,CENTS_MIN);
     }
     else if (currentPitch > normalizedPitch(PITCH_MAX,CENTS_MAX)) {
-	rangeError = YES;
-	currentPitch = normalizedPitch(PITCH_MAX,CENTS_MAX);
+        rangeError = YES;
+        currentPitch = normalizedPitch(PITCH_MAX,CENTS_MAX);
     }
-
+    
     //  SET FREQUENCY TO NEAREST PITCH+CENTS VALUE
     [sender setDoubleValue:frequency(currentPitch)];
     
     //  SET THE VALUE OF THE PITCH FIELD (AND SLIDER, ETC.)
     [pitchField setFloatValue:currentPitch];
     [self pitchEntered:pitchField];
-
+    
     //  BEEP AND SELECT FIELD, IF RANGE ERROR
     if (rangeError) {
-	NSBeep();
-	[sender selectText:self];
+        NSBeep();
+        [sender selectText:self];
     } 
 }
 
-
-
-- (void)pitchEntered:sender
+- (void)pitchEntered:(id)sender;
 {
     //  GET CURRENT VALUE FROM FIELD
     float currentValue = [sender floatValue];
@@ -792,15 +719,13 @@ Initial import.
 	*((double *) getGlotPitch()) = normalizedPitch(pitch,cents);
 	//setGlotPitch(normalizedPitch(pitch,cents));	
 	NSLog(@"GlotPitch is %f", *((double *) getGlotPitch()));
-
-
+    
+    
     //  SET DIRTY BIT
     [controller setDirtyBit]; 
 }
 
-
-
-- (void)pitchSliderMoved:sender
+- (void)pitchSliderMoved:(id)sender;
 {
     //  GET THE CURRENT VALUE OF THE SLIDER
     int currentValue = [sender intValue];
@@ -847,13 +772,11 @@ Initial import.
     [frequencyField setDoubleValue:frequency(normalizedPitch(pitch,cents))]; 
 }
 
-
-
-- (void)showAmplitudeSwitchPushed:sender
+- (void)showAmplitudeSwitchPushed:(id)sender;
 {
     //  SET VALUE FROM STATE OF BUTTON
     showAmplitude = [sender state];
-
+    
     //  DISPLAY WAVEFORM AND HARMONICS
     [self displayWaveformAndHarmonics];
 	NSLog(@"Show amplitude switch redisplay");
@@ -862,171 +785,158 @@ Initial import.
     [controller setDirtyBit]; 
 }
 
-
-
-- (void)harmonicsSwitchPushed:sender
+- (void)harmonicsSwitchPushed:(id)sender;
 {
     //  GET VALUE FROM STATE OF BUTTON
     int selectedValue = [[sender selectedCell] tag];
-
+    
     //  PROCESS ONLY IF NEW VALUE
     if (selectedValue != harmonicsScale) {
-	harmonicsScale = selectedValue;
-	
-/*	//  REDISPLAY HARMONICS  
-	if (waveformType == WAVEFORMTYPE_GP)
-	    #if VARIABLE_GP
-	    [harmonicsView drawGlottalPulseAmplitude:amplitude((double)volume)
-			   RiseTime:riseTime
-			   FallTimeMin:fallTimeMin
-			   FallTimeMax:fallTimeMax
-			   Scale:(BOOL)harmonicsScale];
-	    #else
-	    [waveform drawGlottalPulseAmplitude];
-	    #endif
-    	else if (waveformType == WAVEFORMTYPE_SINE)
-	    [waveform drawSineScale:(BOOL)harmonicsScale];
-*/
-	//  SET DIRTY BIT
-	[controller setDirtyBit];
+        harmonicsScale = selectedValue;
+        
+        /*	//  REDISPLAY HARMONICS  
+         if (waveformType == WAVEFORMTYPE_GP)
+         #if VARIABLE_GP
+         [harmonicsView drawGlottalPulseAmplitude:amplitude((double)volume)
+         RiseTime:riseTime
+         FallTimeMin:fallTimeMin
+         FallTimeMax:fallTimeMax
+         Scale:(BOOL)harmonicsScale];
+         #else
+         [waveform drawGlottalPulseAmplitude];
+         #endif
+         else if (waveformType == WAVEFORMTYPE_SINE)
+         [waveform drawSineScale:(BOOL)harmonicsScale];
+         */
+        //  SET DIRTY BIT
+        [controller setDirtyBit];
     } 
 }
 
-
-
-- (void)unitButtonPushed:sender
+- (void)unitButtonPushed:(id)sender;
 {
     unit = [sender state];
-
+    
     if (unit == UNIT_SEMITONES) {
-	//  RESET PITCH MINIMUM & MAXIMUM FIELDS
-	[pitchMaxField setFloatValue:normalizedPitch(PITCH_MAX,cents)];
-	[pitchMinField setFloatValue:normalizedPitch(PITCH_MIN,cents)];
-
-	//  RESET PITCH SLIDER
-	[pitchSlider setMinValue:PITCH_MIN];
-	[pitchSlider setMaxValue:PITCH_MAX];
-	[pitchSlider setIntValue:pitch];
-
-	//  DISPLAY THE NEW POSITION OF THE SLIDER
-	[pitchSlider displayIfNeeded];
+        //  RESET PITCH MINIMUM & MAXIMUM FIELDS
+        [pitchMaxField setFloatValue:normalizedPitch(PITCH_MAX,cents)];
+        [pitchMinField setFloatValue:normalizedPitch(PITCH_MIN,cents)];
+        
+        //  RESET PITCH SLIDER
+        [pitchSlider setMinValue:PITCH_MIN];
+        [pitchSlider setMaxValue:PITCH_MAX];
+        [pitchSlider setIntValue:pitch];
+        
+        //  DISPLAY THE NEW POSITION OF THE SLIDER
+        [pitchSlider displayIfNeeded];
     }
     else if (unit == UNIT_CENTS) {
-	//  RESET PITCH MINIMUM & MAXIMUM FIELDS
-	[pitchMaxField setFloatValue:normalizedPitch(pitch,CENTS_MAX)];
-	[pitchMinField setFloatValue:normalizedPitch(pitch,CENTS_MIN)];
-
-	//  RESET PITCH SLIDER
-	[pitchSlider setMinValue:CENTS_MIN];
-	[pitchSlider setMaxValue:CENTS_MAX];
-	[pitchSlider setIntValue:cents];
-	
-
-	//  DISPLAY THE NEW POSITION OF THE SLIDER
-	[pitchSlider displayIfNeeded];
+        //  RESET PITCH MINIMUM & MAXIMUM FIELDS
+        [pitchMaxField setFloatValue:normalizedPitch(pitch,CENTS_MAX)];
+        [pitchMinField setFloatValue:normalizedPitch(pitch,CENTS_MIN)];
+        
+        //  RESET PITCH SLIDER
+        [pitchSlider setMinValue:CENTS_MIN];
+        [pitchSlider setMaxValue:CENTS_MAX];
+        [pitchSlider setIntValue:cents];
+        
+        
+        //  DISPLAY THE NEW POSITION OF THE SLIDER
+        [pitchSlider displayIfNeeded];
     }
-
+    
     //  RESET THE PITCH SLIDER
     [self pitchSliderMoved:pitchSlider]; 
 }
 
-
-
-- (void)volumeEntered:sender
+- (void)volumeEntered:(id)sender;
 {
     BOOL rangeError = NO;
-
+    
     //  GET CURRENT ROUNDED VALUE FROM FIELD
     double currentValue = [sender doubleValue];
 	NSLog(@"Volume entered, new volume:, %f", [sender doubleValue]);
-
-
+    
+    
     //  CORRECT OUT OF RANGE VALUES
     if (currentValue < VOLUME_MIN) {
-	rangeError = YES;
-	currentValue = VOLUME_MIN;
+        rangeError = YES;
+        currentValue = VOLUME_MIN;
     }
     else if (currentValue > VOLUME_MAX) {
-	rangeError = YES;
-	currentValue = VOLUME_MAX;
+        rangeError = YES;
+        currentValue = VOLUME_MAX;
     }
-
+    
     //  SET THE FIELD TO THE ROUNDED, CORRECTED VALUE
     [sender setDoubleValue:currentValue];
-
-
-
+    
+    
+    
     //  IF CURRENT VALUE IS DIFFERENT FROM PREVIOUS VALUE, DEAL WITH IT
     if (currentValue != *((double *) getGlotVol())) {
-	//  SET INSTANCE VARIABLE
+        //  SET INSTANCE VARIABLE
 		*((double *) getGlotVol()) = (double)currentValue;
-
-
-	//  SET SLIDER TO NEW VALUE
-	[volumeSlider setDoubleValue:currentValue];
-
-
-	//  SEND VOLUME TO SYNTHESIZER
-	//[synthesizer setSourceVolume:volume];
-	
-	//  SET DIRTY BIT
-	[controller setDirtyBit];
-
+        
+        
+        //  SET SLIDER TO NEW VALUE
+        [volumeSlider setDoubleValue:currentValue];
+        
+        
+        //  SEND VOLUME TO SYNTHESIZER
+        //[synthesizer setSourceVolume:volume];
+        
+        //  SET DIRTY BIT
+        [controller setDirtyBit];
+        
     }
-
+    
     //  BEEP AND HIGHLIGHT FIELD IF RANGE ERROR
     if (rangeError) {
-	NSBeep();
-	[sender selectText:self];
+        NSBeep();
+        [sender selectText:self];
     } 
 }
 
-
-
-- (void)volumeSliderMoved:sender
+- (void)volumeSliderMoved:(id)sender;
 {
     /*  GET CURRENT VALUE FROM SLIDER  */
     double currentValue = [sender doubleValue];
 	NSLog(@"Volume Slider moved, new volume:, %f", [sender doubleValue]);
-
+    
     //  ADJUST SOUND AND DISPLAYS IF VALUE IS DIFFERENT FROM OLD VALUE
     if (currentValue != *((double *) getVolume())) {
-	//  SET VOLUME
-	*((double *) getVolume()) = currentValue;
-	
-	//  SET FIELD TO VALUE
-	[volumeField setDoubleValue:currentValue];
-
-	//  SEND GLOTTAL VOLUME TO SYNTHESIZER
-	// [synthesizer setSourceVolume:volume];
-	*((double *) getGlotVol()) = (double)currentValue;
-
-
-	//  DISPLAY WAVEFORM AND HARMONICS
-	[self displayWaveformAndHarmonics];
-
-	//  DISPLAY NOTE IN SCALE
-	//[scaleView drawPitch:pitch Cents:cents Volume:volume];
-	
-	//  SET DIRTY BIT
-	[controller setDirtyBit];
-
+        //  SET VOLUME
+        *((double *) getVolume()) = currentValue;
+        
+        //  SET FIELD TO VALUE
+        [volumeField setDoubleValue:currentValue];
+        
+        //  SEND GLOTTAL VOLUME TO SYNTHESIZER
+        // [synthesizer setSourceVolume:volume];
+        *((double *) getGlotVol()) = (double)currentValue;
+        
+        
+        //  DISPLAY WAVEFORM AND HARMONICS
+        [self displayWaveformAndHarmonics];
+        
+        //  DISPLAY NOTE IN SCALE
+        //[scaleView drawPitch:pitch Cents:cents Volume:volume];
+        
+        //  SET DIRTY BIT
+        [controller setDirtyBit];
+        
     } 
 }
 
-
-
-- (void)displayWaveformAndHarmonics
-
-
+- (void)displayWaveformAndHarmonics;
 {
-	
     NSLog(@"In displayWaveformAndHarmonics");
 	if (*((int *) getWaveform()) == WAVEFORMTYPE_GP) {
-	ampl = amplitude((double) volume);
-		NSLog(@"ampl is: %d %d", ampl, volume);//ampl);
+        ampl = amplitude((double) volume);
+		NSLog(@"ampl is: %g %d", ampl, volume);//ampl);
 		void setGlotVol(float ampl);
-//		if (showAmplitude) {
+        //		if (showAmplitude) {
 	    //#if VARIABLE_GP
 	    //[waveshapeView drawGlottalPulseAmplitude];
 		//[waveform drawGlottalPulseAmplitude];
@@ -1034,66 +944,60 @@ Initial import.
 	    [waveform drawGlottalPulseAmplitude];
 		[harmonics drawHarmonics];
 		[gpParameterView drawGlottalPulseAmplitude];
-	NSLog(@"Return from redisplay in GS: displayWaveformAndHarmonics");
-				
-//		}
-
+        NSLog(@"Return from redisplay in GS: displayWaveformAndHarmonics");
+    }
 	    //#endif
-/*	else
-	    #if VARIABLE_GP
-	    [waveshapeView drawGlottalPulseAmplitude:ampl Scale:1.0 RiseTime:riseTime FallTimeMin:fallTimeMin FallTimeMax:fallTimeMax];
-	    #else
-	    [waveshapeView drawGlottalPulseAmplitude:ampl Scale:1.0 RiseTime:riseTime FallTimeMin:fallTimeMin FallTimeMax:fallTimeMin];
-	    #endif
-
-		
-		//  SHOW THE HARMONICS
-	#if VARIABLE_GP
-	[harmonicsView drawGlottalPulseAmplitude:ampl
-		       RiseTime:riseTime
-		       FallTimeMin:fallTimeMin
-		       FallTimeMax:fallTimeMax
-		       Scale:(BOOL)harmonicsScale];
-	#else
-	[harmonicsView drawGlottalPulseAmplitude:ampl
-		       RiseTime:riseTime
-		       FallTimeMin:fallTimeMin
-		       FallTimeMax:fallTimeMin
-		       Scale:(BOOL)harmonicsScale];
-	#endif
+#if 0
+    else {
+#if VARIABLE_GP
+        [waveshapeView drawGlottalPulseAmplitude:ampl Scale:1.0 RiseTime:riseTime FallTimeMin:fallTimeMin FallTimeMax:fallTimeMax];
+#else
+        [waveshapeView drawGlottalPulseAmplitude:ampl Scale:1.0 RiseTime:riseTime FallTimeMin:fallTimeMin FallTimeMax:fallTimeMin];
+#endif
+        
+        
+        //  SHOW THE HARMONICS
+#if VARIABLE_GP
+        [harmonicsView drawGlottalPulseAmplitude:ampl
+                                        RiseTime:riseTime
+                                     FallTimeMin:fallTimeMin
+                                     FallTimeMax:fallTimeMax
+                                           Scale:(BOOL)harmonicsScale];
+#else
+        [harmonicsView drawGlottalPulseAmplitude:ampl
+                                        RiseTime:riseTime
+                                     FallTimeMin:fallTimeMin
+                                     FallTimeMax:fallTimeMin
+                                           Scale:(BOOL)harmonicsScale];
+#endif
     }
     else if (waveformType == WAVEFORMTYPE_SINE) {
-	if (showAmplitude)
-	    [waveshapeView drawSineAmplitude:amplitude((double)volume)];
-	else
-	    [waveshapeView drawSineAmplitude:1.0];
-*/
-	
-	//  SHOW THE HARMONICS
-//	[harmonics drawSineScale:(BOOL)harmonicsScale];
+        if (showAmplitude)
+            [waveshapeView drawSineAmplitude:amplitude((double)volume)];
+        else
+            [waveshapeView drawSineAmplitude:1.0];
+        //  SHOW THE HARMONICS
+        //	[harmonics drawSineScale:(BOOL)harmonicsScale];
     }
-    
+#endif
+
     //  SHOW GLOTTAL VOLUME IN NOISE SOURCE WINDOW
     //[noiseSource setGlottalVolume:self]; 
 	//NSLog(@"Leaving displayWaveformAndHarmonics");
 }
 
-
-
-- (int)glottalVolume
+- (int)glottalVolume;
 {
     return volume;
 }
 
-
-
-- (void)windowWillMiniaturize:sender
+- (void)windowWillMiniaturize:(id)sender;
 {
     [sender setMiniwindowTitle:@"Glottis"];
     [sender setMiniwindowImage:[NSImage imageNamed:@"Synthesizer.tiff"]];
 }
 
-- (void)handleSynthDefaultsReloaded
+- (void)handleSynthDefaultsReloaded;
 {
 	initializeSynthesizer();
 	[self displayWaveformAndHarmonics];

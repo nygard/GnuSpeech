@@ -1,54 +1,31 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
-//  
-//  Contributors: David Hill
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Harmonics.m
-//  Synthesizer
-//
-//  Created by David Hill in 2006.
-//
-//  Version: 0.7.4
-//
-////////////////////////////////////////////////////////////////////////////////
+//  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "Harmonics.h"
+
+#import "tube.h"
 
 #define VOLUME_MAX  60
 #define LINEAR	0
 #define LOG		1
 
 @implementation Harmonics
+{
+}
 
 - (id)initWithFrame:(NSRect)frameRect
 {
 	if ((self = [super initWithFrame:frameRect]) != nil) {
-		// Add initialization code here
 		[self setAxesWithScale:HX_SCALE_DIVS xScaleOrigin:HX_SCALE_ORIGIN xScaleSteps:HX_SCALE_STEPS
 				xLabelInterval:HX_LABEL_INTERVAL yScaleDivs:HY_SCALE_DIVS yScaleOrigin:HY_SCALE_ORIGIN
 				   yScaleSteps:HY_SCALE_STEPS yLabelInterval:HY_LABEL_INTERVAL];
 	}
-	return self;
 
+	return self;
 }
 
-- (void)drawRect:(NSRect)rect // This method over-rides the ChartView method
+// This method over-rides the ChartView method
+- (void)drawRect:(NSRect)rect;
 {
 	NSRect viewRect = [self bounds];
 	[[NSColor whiteColor] set];
@@ -57,14 +34,12 @@
 	[self addLabels];
 	//[self drawGraph];
 	
-	NSBezierPath *bezierPath;
     int index;
     NSPoint currentPoint;
-    NSRect bounds;
     NSPoint graphOrigin, start;
 	
 	int i, numberHarmonics;
-    bounds = [self bounds];
+    NSRect bounds = [self bounds];
     graphOrigin.x = (float) HLEFT_MARGIN;
 	graphOrigin.y = (float) HBOTTOM_MARGIN;
 	NSLog(@" Graph origin harmonics is %f %f", graphOrigin.x, graphOrigin.y);
@@ -85,10 +60,9 @@
 	
 	[[NSColor blackColor] set];
 	
-    bezierPath = [[NSBezierPath alloc] init];
+    NSBezierPath *bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:3];
-	start.x = graphOrigin.x;
-	start.y = graphOrigin.y;
+    start = graphOrigin;
     [bezierPath moveToPoint:start];
 	
 	numberHarmonics = (int) (bounds.size.width - HLEFT_MARGIN - HRIGHT_MARGIN) / (BAR_WIDTH + BAR_MARGIN);
@@ -128,9 +102,7 @@
 
 - (NSPoint)graphOrigin;
 {
-    NSPoint graphOrigin;
-	
-	graphOrigin = [self bounds].origin;
+	NSPoint graphOrigin = [self bounds].origin;
 	graphOrigin.x += HLEFT_MARGIN;
 	graphOrigin.y += HBOTTOM_MARGIN;
     return graphOrigin;
@@ -143,7 +115,6 @@
     NSRect bounds;
     NSPoint graphOrigin;
     float sectionHeight, sectionWidth;
-    int index;
 	
 	bounds = [self bounds];
     graphOrigin = [self graphOrigin];
@@ -168,44 +139,34 @@
 	[bezierPath stroke];
     [bezierPath release];
 	
-    /* Draw in best fit grid markers 
-		First Y-axis grid lines */
+    // Draw in best fit grid markers
+    // First Y-axis grid lines
 	
     [[NSColor lightGrayColor] set];
 	
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:1];
-	for (index = 0; index < _yScaleDivs; index++) {
-		
+	for (NSUInteger index = 0; index < _yScaleDivs; index++) {
 		aPoint.x = graphOrigin.x;
 		aPoint.y = graphOrigin.y + index * sectionHeight;
         [bezierPath moveToPoint:aPoint];
 		
         aPoint.x = bounds.size.width - HRIGHT_MARGIN;
         [bezierPath lineToPoint:aPoint];
-		
     }
+
     [bezierPath stroke];
     [bezierPath release];
-	
 }
 	
-	// Add the axis labelling
+#pragma mark - Axis Labels
 
 - (void)addLabels;
-
 {
-    NSBezierPath *bezierPath;
-    NSRect bounds;
-    NSPoint graphOrigin;
-    float sectionHeight, sectionWidth, currentYPos;
-	int i;
-	
-	bounds = [self bounds];
-    graphOrigin = [self graphOrigin];
-	sectionHeight = (bounds.size.height - graphOrigin.y - HTOP_MARGIN)/_yScaleDivs;
-	sectionWidth = (bounds.size.width - graphOrigin.x - HRIGHT_MARGIN)/_xScaleDivs;
-	
+	NSRect bounds = [self bounds];
+    NSPoint graphOrigin = [self graphOrigin];
+	float sectionHeight = (bounds.size.height - graphOrigin.y - HTOP_MARGIN) / _yScaleDivs;
+	//float sectionWidth = (bounds.size.width - graphOrigin.x - HRIGHT_MARGIN) / _xScaleDivs;
 	
 	// First Y-axis labels
 	
@@ -213,43 +174,33 @@
 	NSLog(@"H: Set green colour");
     [timesFont set];
 	
-    bezierPath = [[NSBezierPath alloc] init];
+    NSBezierPath *bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:1];
 	
-	currentYPos = graphOrigin.y;
+	float currentYPos = graphOrigin.y;
 	
-    for (i = 0; i <= _yScaleDivs; i+=_yLabelInterval) {
-        NSString *label;
-        NSSize labelSize;
-		
+    for (NSUInteger index = 0; index <= _yScaleDivs; index += _yLabelInterval) {
         [bezierPath moveToPoint:NSMakePoint(graphOrigin.x, currentYPos)];
-		currentYPos = graphOrigin.y + i * sectionHeight;
-        label = [NSString stringWithFormat:@"%3.0f", (int)i * _yScaleSteps + (int)_yScaleOrigin];
-        labelSize = [label sizeWithAttributes:nil];
+		currentYPos = graphOrigin.y + index  * sectionHeight;
+        NSString *label = [NSString stringWithFormat:@"%3.0f", (int)index  * _yScaleSteps + (int)_yScaleOrigin];
+        NSSize labelSize = [label sizeWithAttributes:nil];
         [label drawAtPoint:NSMakePoint(HLEFT_MARGIN - LABEL_MARGIN - labelSize.width,
 									   currentYPos - labelSize.height/2) withAttributes:nil];
-		
     }
 	
     [bezierPath stroke];
     [bezierPath release];
-	
-
 }
 
 
-- (void)drawSineScale:(float)amplitude
+- (void)drawSineScale:(float)amplitude;
 {
-	
 }
 
-- (void)drawHarmonics
-
-
+- (void)drawHarmonics;
 {
 	[self setNeedsDisplay:YES];
 	NSLog(@"Leaving H: drawHarmonics");
-	
 }
 
 //- (void)drawGraph
@@ -261,93 +212,93 @@
 //}
 
 
-/*
-- (void)drawLogGrid
+#if 0
+- (void)drawLogGrid;
 {
     float verticalIncrement;
     int i, verticalLines;
     NSFont *fontObject1;
-
-    /*  SET UP FONT  
+    
+    //  SET UP FONT  
     fontObject1 = [NSFont fontWithName: FONT size: LOG_FONT_SIZE];
-
-    /*  LOCK FOCUS ON BACKGROUND NXIMAGE  
+    
+    //  LOCK FOCUS ON BACKGROUND NXIMAGE  
     [logGrid lockFocus];
-
-    /*  DRAW WHITE BACKGROUND WITH BORDER  
+    
+    //  DRAW WHITE BACKGROUND WITH BORDER  
     NSDrawWhiteBezel([self bounds] , [self bounds]);
-
-    /*  DRAW LIGHT GRAY ENCLOSURE  
+    
+    //  DRAW LIGHT GRAY ENCLOSURE  
     PSrectangle(NSMinX(activeArea), NSMinY(activeArea),
-		NSWidth(activeArea), NSHeight(activeArea),
-		1.0, NSLightGray);
-
-    /*  DRAW HORIZONTAL LINES  
+                NSWidth(activeArea), NSHeight(activeArea),
+                1.0, NSLightGray);
+    
+    //  DRAW HORIZONTAL LINES  
     verticalLines = (int)(LOG_SCALE_RANGE / 10.0);
     verticalIncrement = NSHeight(activeArea) / (float)verticalLines;
     for (i = 1; i < verticalLines; i++) {
-	PSmoveto(NSMinX(activeArea),
-		 NSMinY(activeArea) + ((float)i * verticalIncrement));
-	PSrlineto(NSWidth(activeArea), 0.0);
+        PSmoveto(NSMinX(activeArea),
+                 NSMinY(activeArea) + ((float)i * verticalIncrement));
+        PSrlineto(NSWidth(activeArea), 0.0);
     }
     PSstroke();
-
-    /*  NUMBER HORIZONTAL LINES  
+    
+    //  NUMBER HORIZONTAL LINES  
     [fontObject1 set];
     PSsetgray(NSBlack);
     for (i = 0; i <= verticalLines; i++) {
-	char number[12];
-	float px, py;
-	int numberValue = -(i * 10);
-
-	/*  FORMAT THE NUMBER  
-	sprintf(number, "%-d", numberValue);
-
-	/*  DETERMINE STRING WIDTH  
-	PSstringwidth(number, &px, &py);
-
-	PSmoveto(NSMinX(activeArea) - px - NUMBER_MARGIN,
-		 NSMaxY(activeArea) - ((float)i * verticalIncrement)
-		 - LOG_FONT_SIZE / 2.0 + 1.0);
-
-	/*  DRAW THE NUMBER ON THE GRID  
-	PSshow(number);
+        char number[12];
+        float px, py;
+        int numberValue = -(i * 10);
+        
+        //  FORMAT THE NUMBER  
+        sprintf(number, "%-d", numberValue);
+        
+        //  DETERMINE STRING WIDTH  
+        PSstringwidth(number, &px, &py);
+        
+        PSmoveto(NSMinX(activeArea) - px - NUMBER_MARGIN,
+                 NSMaxY(activeArea) - ((float)i * verticalIncrement)
+                 - LOG_FONT_SIZE / 2.0 + 1.0);
+        
+        //  DRAW THE NUMBER ON THE GRID  
+        PSshow(number);
     }
-
-    /*  UNLOCK FOCUS ON BACKGROUND NXIMAGE  
+    
+    //  UNLOCK FOCUS ON BACKGROUND NXIMAGE  
     [logGrid unlockFocus]; 
 }
 
 
 
-- (void)drawSineHarmonics
+- (void)drawSineHarmonics;
 {
-    /*  LOCK FOCUS ON NXIMAGE  
+    //  LOCK FOCUS ON NXIMAGE  
     [sineHarmonics lockFocus];
 
-    /*  CLEAR THE NXIMAGE  
+    //  CLEAR THE NXIMAGE  
     [sineHarmonics compositeToPoint:[self bounds].origin operation:NSCompositeClear];
 
-    /*  DRAW THE 1ST HARMONIC  
+    //  DRAW THE 1ST HARMONIC  
     PSsetgray(NSBlack);
     PSrectfill(NSMinX(activeArea) + BAR_MARGIN + 1.0, NSMinY(activeArea),
 	       BAR_WIDTH, NSHeight(activeArea));
 
-    /*  UNLOCK FOCUS ON NXIMAGE  
+    //  UNLOCK FOCUS ON NXIMAGE  
     [sineHarmonics unlockFocus]; 
 }
 
 
 
-- (void)drawSineScale:(BOOL)scale
+- (void)drawSineScale:(BOOL)scale;
 {
-    /*  RECORD THE SCALE  
+    //  RECORD THE SCALE  
     logScale = scale;
 
-    /*  USE SINE HARMONICS NXIMAGE  
+    //  USE SINE HARMONICS NXIMAGE  
     harmonics = HARMONICS_SINE;
 
-    /*  DISPLAY THE COMBINED IMAGES  
+    //  DISPLAY THE COMBINED IMAGES  
     [self display]; 
 }
 
@@ -358,94 +309,92 @@
 {
     int i, firstDivision, secondDivision;
     double fall, delta;
-
-    /*  RECORD THE SCALE  
+    
+    //  RECORD THE SCALE  
     logScale = scale;
-
-    /*  USE GLOTTAL PULSE HARMONICS NXIMAGE  
+    
+    //  USE GLOTTAL PULSE HARMONICS NXIMAGE  
     harmonics = HARMONICS_GP;
-
-    /*  FILL THE WAVETABLE  
-    /*  CALCULATE TABLE DIVISIONS  
+    
+    //  FILL THE WAVETABLE  
+    //  CALCULATE TABLE DIVISIONS  
     firstDivision = (int)rint((double)(riseTime/100.0 * (double)tableSize));
     delta = (fallTimeMax - fallTimeMin) * amplitude;
     fall = (riseTime + fallTimeMax - delta)/100.0 * (double)tableSize;
     secondDivision = (int)rint((double)fall);
-
-    /*  CALCULATE RISE PORTION  
+    
+    //  CALCULATE RISE PORTION  
     for (i = 0; i < firstDivision; i++) {
-	float x = (float)i / (float)firstDivision;
-	float x2 = x * x;
-	float x3 = x * x2;
-	wavetable[i] = (3.0 * x2) - (2.0 * x3);
+        float x = (float)i / (float)firstDivision;
+        float x2 = x * x;
+        float x3 = x * x2;
+        wavetable[i] = (3.0 * x2) - (2.0 * x3);
     }
-
-    /*  CALCULATE FALL PORTION  
+    
+    //  CALCULATE FALL PORTION  
     for (i = firstDivision; i < secondDivision; i++) {
-	float x = (float)(i - firstDivision) /
+        float x = (float)(i - firstDivision) /
 	    (float)(secondDivision - firstDivision);
-	wavetable[i] = 1.0 - (x * x);
+        wavetable[i] = 1.0 - (x * x);
     }
-
-    /*  FILL BALANCE WITH ZEROS  
+    
+    //  FILL BALANCE WITH ZEROS  
     for (i = secondDivision; i < tableSize; i++)
-	wavetable[i] = 0.0;
-
-    /*  DO FFT ON WAVETABLE  
+        wavetable[i] = 0.0;
+    
+    //  DO FFT ON WAVETABLE  
     realfft(wavetable, tableSize);
-
-    /*  IF LOG DISPLAY, SCALE THE HARMONICS  
+    
+    //  IF LOG DISPLAY, SCALE THE HARMONICS  
     if (logScale) {
-	for (i = 0; i < numberHarmonics; i++)
-	    wavetable[i] = ((log10(wavetable[i]) * 20.0) + LOG_SCALE_RANGE) /
-		            LOG_SCALE_RANGE;
+        for (i = 0; i < numberHarmonics; i++)
+            wavetable[i] = ((log10(wavetable[i]) * 20.0) + LOG_SCALE_RANGE) /
+            LOG_SCALE_RANGE;
     }
-
-    /*  LOCK FOCUS ON THE GLOTTAL PULSE NXIMAGE  
+    
+    //  LOCK FOCUS ON THE GLOTTAL PULSE NXIMAGE  
     [glottalPulseHarmonics lockFocus];
-
-    /*  CLEAR THE NXIMAGE  
+    
+    //  CLEAR THE NXIMAGE  
     [glottalPulseHarmonics compositeToPoint:[self bounds].origin operation:NSCompositeClear];
-
-    /*  DRAW BAR GRAPH FOR EACH HARMONIC DISPLAYED  
+    
+    //  DRAW BAR GRAPH FOR EACH HARMONIC DISPLAYED  
     {
-	float xStart = NSMinX(activeArea) + BAR_MARGIN + 1.0;
-	float xIncrement = BAR_MARGIN + BAR_WIDTH;
-	for (i = 0; i < numberHarmonics; i++) {
-	    PSrectfill(xStart + i * xIncrement,
-		       NSMinY(activeArea),
-		       BAR_WIDTH,
-		       NSHeight(activeArea) * wavetable[i]);
-	}
+        float xStart = NSMinX(activeArea) + BAR_MARGIN + 1.0;
+        float xIncrement = BAR_MARGIN + BAR_WIDTH;
+        for (i = 0; i < numberHarmonics; i++) {
+            PSrectfill(xStart + i * xIncrement,
+                       NSMinY(activeArea),
+                       BAR_WIDTH,
+                       NSHeight(activeArea) * wavetable[i]);
+        }
     }
-
-    /*  UNLOCK FOCUS ON THE GLOTTAL PULSE  NXIMAGE  
+    
+    //  UNLOCK FOCUS ON THE GLOTTAL PULSE  NXIMAGE  
     [glottalPulseHarmonics unlockFocus];
-
-    /*  DISPLAY THE COMBINED IMAGES  
+    
+    //  DISPLAY THE COMBINED IMAGES  
     [self display]; 
 }
 
 
 
-- (void)drawRect:(NSRect)rects
+- (void)drawRect:(NSRect)rects;
 {
-    /*  COMPOSITE APPROPRIATE BACKGROUND IMAGE  
+    //  COMPOSITE APPROPRIATE BACKGROUND IMAGE  
     if (logScale)
-	[logGrid compositeToPoint:(rects.origin) operation:NSCompositeSourceOver];
+        [logGrid compositeToPoint:(rects.origin) operation:NSCompositeSourceOver];
     else
-	[linearGrid compositeToPoint:(rects.origin) operation:NSCompositeSourceOver];
-
-
-    /*  COMPOSITE THE FOREGROUND IMAGE OVER THE BACKGROUND  
+        [linearGrid compositeToPoint:(rects.origin) operation:NSCompositeSourceOver];
+    
+    
+    //  COMPOSITE THE FOREGROUND IMAGE OVER THE BACKGROUND  
     if (harmonics == HARMONICS_GP)
-	[glottalPulseHarmonics compositeToPoint:(rects.origin) operation:NSCompositeSourceOver];
+        [glottalPulseHarmonics compositeToPoint:(rects.origin) operation:NSCompositeSourceOver];
     else if (harmonics == HARMONICS_SINE)
-	[sineHarmonics compositeToPoint:(rects.origin) operation:NSCompositeSourceOver];
+        [sineHarmonics compositeToPoint:(rects.origin) operation:NSCompositeSourceOver];
 }
 
-
-*/
-
+#endif
 
 @end

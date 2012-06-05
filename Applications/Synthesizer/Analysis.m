@@ -1,55 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
-//  
-//  Contributors: Adam Fedor, David Hill
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Analysis.m
-//  Synthesizer
-//
-//  Created by Adam Fedor on 1/18/2003.
-//
-//  Version: 0.7.4
-//
-////////////////////////////////////////////////////////////////////////////////
-
-
-/*  REVISION INFORMATION  *****************************************************
-
-$Author: fedor $
-$Date: 2003/01/18 05:04:50 $
-$Revision: 1.2 $
-$Source: /cvsroot/gnuspeech/gnuspeech/trillium/src/Synthesizer/Analysis.m,v $
-$State: Exp $
-
-
-$Log: Analysis.m,v $
-Revision 1.2  2003/01/18 05:04:50  fedor
-Port to OpenStep/GNUstep
-
-Revision 1.1  2002/03/21 16:49:54  rao
-Initial import.
-
-# Revision 1.1.1.1  1994/05/20  00:21:59  len
-# Initial archive of TRM interactive Synthesizer.
-#
-
-******************************************************************************/
+//  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "Analysis.h"
 
@@ -113,65 +63,52 @@ Initial import.
 
 @implementation Analysis
 
-- init
+- (id)init;
 {
-    /*  DO REGULAR INITIALIZATION  */
-    [super init];
-
-    /*  SET DEFAULT INSTANCE VARIABLES  */
-    [self defaultInstanceVariables];
-
-    /*  SOME IVARS ARE SET ONLY AT INIT TIME  */
-    updateMode = UPDATE_MODE_DEF;
-    updateRate = UPDATE_RATE_DEF;
-
-    /*  ALLOCATE A SOUND DATA OBJECT  */
-    //soundDataObject = [[SoundData alloc] init];
-
-    /*  ALLOCATE AN ANALYSIS DATA OBJECT  */
-    //analysisDataObject = [[AnalysisData alloc] init];
-	//NSLog(@"Analysis.m:105 AnalysisData and SoundData objects allocated");
+    if ((self = [super init])) {
+        [self defaultInstanceVariables];
+        
+        /*  SOME IVARS ARE SET ONLY AT INIT TIME  */
+        updateMode = UPDATE_MODE_DEF;
+        updateRate = UPDATE_RATE_DEF;
+        
+        /*  ALLOCATE A SOUND DATA OBJECT  */
+        //soundDataObject = [[SoundData alloc] init];
+        
+        /*  ALLOCATE AN ANALYSIS DATA OBJECT  */
+        //analysisDataObject = [[AnalysisData alloc] init];
+        //NSLog(@"Analysis.m:105 AnalysisData and SoundData objects allocated");
+    }
 
     return self;
 }
 
-
-
-- (void)dealloc
+- (void)dealloc;
 {
-    /*  FREE THE SOUND DATA OBJECT  */
     //[soundDataObject release];
-
-    /*  FREE THE ANALYSIS DATA OBJECT  */
     //[analysisDataObject release];
 
-    /*  DO REGULAR FREE  */
-    [super dealloc]; 
+    [super dealloc];
 }
 
-
-
-- (void)defaultInstanceVariables
+- (void)defaultInstanceVariables;
 {
-    /*  SET DEFAULTS  */
-    normalizeInput = NORMALIZE_INPUT_DEF;
-    binSize = BIN_SIZE_DEF;
-    windowType = WINDOW_TYPE_DEF;
-    alpha = ALPHA_DEF;
-    beta = BETA_DEF;
-    grayLevel = GRAY_LEVEL_DEF;
-    magnitudeScale = MAGNITUDE_SCALE_DEF;
+    normalizeInput       = NORMALIZE_INPUT_DEF;
+    binSize              = BIN_SIZE_DEF;
+    windowType           = WINDOW_TYPE_DEF;
+    alpha                = ALPHA_DEF;
+    beta                 = BETA_DEF;
+    grayLevel            = GRAY_LEVEL_DEF;
+    magnitudeScale       = MAGNITUDE_SCALE_DEF;
     linearUpperThreshold = UPPER_THRESH_LIN_DEF;
     linearLowerThreshold = LOWER_THRESH_LIN_DEF;
-    logUpperThreshold = UPPER_THRESH_LOG_DEF;
-    logLowerThreshold = LOWER_THRESH_LOG_DEF;
-    spectrographGrid = SPECTROGRAPH_GRID_DEF;
-    spectrumGrid = SPECTRUM_GRID_DEF; 
+    logUpperThreshold    = UPPER_THRESH_LOG_DEF;
+    logLowerThreshold    = LOWER_THRESH_LOG_DEF;
+    spectrographGrid     = SPECTROGRAPH_GRID_DEF;
+    spectrumGrid         = SPECTRUM_GRID_DEF; 
 }
 
-
-
-- (void)awakeFromNib
+- (void)awakeFromNib;
 {
     /*  USE OPTIMIZED DRAWING IN THE WINDOW  */
     //[analysisWindow useOptimizedDrawing:YES];
@@ -181,9 +118,10 @@ Initial import.
     //[analysisWindow setFrameAutosaveName:@"analysisWindow"];
 
     /*  SET FORMAT OF FIELDS  */
-    [binSizeFrequency setFloatingPointFormat:NO left:3 right:2];
-    [windowForm setFloatingPointFormat:NO left:3 right:2];
-    [rateForm setFloatingPointFormat:NO left:1 right:1];
+    // TODO (2012-05-19): Set up number formatters
+    //[binSizeFrequency setFloatingPointFormat:NO left:3 right:2];
+    //[windowForm setFloatingPointFormat:NO left:3 right:2];
+    //[rateForm setFloatingPointFormat:NO left:1 right:1];
 
     /*  SET UPDATE RATE  */
     [rateForm setFloatValue:updateRate];
@@ -196,14 +134,11 @@ Initial import.
 	[windowForm setStringValue:@""];
 	
 	NSLog(@"Analysis.m:167 Analysis wake from Nib");
-
 	
 	[self displayAndSynthesizeIvars];
 }
 
-
-
-- (void)displayAndSynthesizeIvars
+- (void)displayAndSynthesizeIvars;
 {
     //  SET INPUT AMPLITUDE NORMALIZE SWITCH
     [normalizeSwitch setState:normalizeInput];
@@ -236,13 +171,9 @@ Initial import.
 	
 	// SET UP INITIAL WINDOW
 	[analysisWindow setWindowType:WINDOW_TYPE_DEF alpha:ALPHA_DEF beta:BETA_DEF size:BIN_SIZE_DEF];
-
-
-
-
 }
 
-- (void)saveToStream:(NSArchiver *)typedStream
+- (void)saveToStream:(NSArchiver *)typedStream;
 {
     /*  WRITE INSTANCE VARIABLES TO TYPED STREAM  */
     [typedStream encodeValuesOfObjCTypes:"ciiffiiffiicc", &normalizeInput, &binSize,
@@ -254,7 +185,7 @@ Initial import.
 
 
 
-- (void)openFromStream:(NSArchiver *)typedStream
+- (void)openFromStream:(NSArchiver *)typedStream;
 {
     /*  READ INSTANCE VARIABLES FROM TYPED STREAM  */
     [typedStream decodeValuesOfObjCTypes:"ciiffiiffiicc", &normalizeInput, &binSize,
@@ -267,84 +198,72 @@ Initial import.
     [self displayAndSynthesizeIvars]; 
 }
 
-
-- (void)windowWillMiniaturize:sender
+- (void)windowWillMiniaturize:sender;
 {
     [sender setMiniwindowImage:[NSImage imageNamed:@"Synthesizer.tiff"]];
 }
 
-
-
-- (void)setAnalysisEnabled:(BOOL)flag
+- (void)setAnalysisEnabled:(BOOL)flag;
 {
-      //  ENABLE/DISABLE BUTTONS ACCORDING TO MODE
+    //  ENABLE/DISABLE BUTTONS ACCORDING TO MODE
     if ([runButton state]) {
 		
-	//  ENABLE UPDATEMATRIX
-	[updateMatrix setEnabled:YES];
+        //  ENABLE UPDATEMATRIX
+        [updateMatrix setEnabled:YES];
 		
-	//  ENABLE/DISABLE BUTTONS ACCORDING TO MODE
-	[self updateMatrixPushed:updateMatrix];
+        //  ENABLE/DISABLE BUTTONS ACCORDING TO MODE
+        [self updateMatrixPushed:updateMatrix];
     }
     else {
-	//  DISABLE ALL UPDATE CONTROLS
-	[updateMatrix setEnabled:NO];
-	[doAnalysisButton setEnabled:NO];
-	[rateForm setEnabled:NO];
-	[rateSecond setTextColor:[NSColor darkGrayColor]];
+        //  DISABLE ALL UPDATE CONTROLS
+        [updateMatrix setEnabled:NO];
+        [doAnalysisButton setEnabled:NO];
+        [rateForm setEnabled:NO];
+        [rateSecond setTextColor:[NSColor darkGrayColor]];
     }
-
+    
     //  DISPLAY CHANGES TO SUBVIEWS OF WINDOW
     //[analysisWindow displayIfNeeded]; 
 }
 
 
-- startContinuousAnalysis
+- (void)startContinuousAnalysis;
 {
     /*  CREATE A TIMED ENTRY, AS LONG AS ONE DOESN'T ALREADY EXIST  */
     if (!timedEntry)
-	timedEntry = [[NSTimer scheduledTimerWithTimeInterval:updateRate 
-			target: self
-			selector: @selector(doAnalysisButtonPushed:)
-			userInfo: nil
-			repeats:YES] 
-			retain];
-
-    return self;
+        timedEntry = [[NSTimer scheduledTimerWithTimeInterval:updateRate 
+                                                       target: self
+                                                     selector: @selector(doAnalysisButtonPushed:)
+                                                     userInfo: nil
+                                                      repeats:YES] 
+                      retain];
 }
 
-
-
-- stopContinuousAnalysis
+- (void)stopContinuousAnalysis;
 {
     //  REMOVE THE TIMED ENTRY, IF IT EXISTS
-    if (timedEntry)
-      {
-	[timedEntry invalidate]; [timedEntry release];
-      }
-
+    if (timedEntry) {
+        [timedEntry invalidate];
+        [timedEntry release];
+    }
+    
     //  SET THE TIMED ENTRY TAG TO NULL
     timedEntry = NULL;
-
-    return self;
 }
 
 
 
-- resetContinuousAnalysis
+- (void)resetContinuousAnalysis;
 {
-    //  STOP THE ANALYSIS
     [self stopContinuousAnalysis];
 
     //  RESTART THE ANALYSIS WITH THE NEW RATE
     [self startContinuousAnalysis];
-
-    return self;
 }
 
 
 
-- (void)setRunning
+- (void)setRunning;
 {
     //  RECORD WHETHER RUNNING OR NOT
     running = [runButton state];  // [controller tubeRunState];
@@ -370,12 +289,9 @@ Initial import.
 		//[updateMatrix setEnabled:NO];
 		[doAnalysisButton setEnabled:NO];		
 	}
-
 }
 
-
-
-- (void)normalizeSwitchPushed:sender
+- (void)normalizeSwitchPushed:(id)sender;
 {
     //  RECORD VALUE
     normalizeInput = [sender state];
@@ -389,7 +305,7 @@ Initial import.
 
 
 
-- (void)magnitudeFormEntered:sender
+- (void)magnitudeFormEntered:(id)sender;
 {
     BOOL rangeError = NO;
     id selectedCell = [sender selectedCell];
@@ -401,119 +317,119 @@ Initial import.
 	/*  GET CURRENT VALUE FROM FIELD  */
 	float currentValue = [selectedCell floatValue];
 
-	/*  CHECK FOR RANGE ERRORS  */
-	if (threshold == UPPER) {
-	    if (currentValue < linearLowerThreshold) {
-		currentValue = linearLowerThreshold;
-		rangeError = YES;
-	    }
-	    else if (currentValue > THRESHOLD_LINEAR_MAX) {
-		currentValue = THRESHOLD_LINEAR_MAX;
-		rangeError = YES;
-	    }
-	    /*  SAVE THE VALUE  */
-	    linearUpperThreshold = currentValue;
-	}
-	else {
-	    if (currentValue < THRESHOLD_LINEAR_MIN) {
-		currentValue = THRESHOLD_LINEAR_MIN;
-		rangeError = YES;
-	    }
-	    else if (currentValue > linearUpperThreshold) {
-		currentValue = linearUpperThreshold;
-		rangeError = YES;
-	    }
-	    /*  SAVE THE VALUE  */
-	    linearLowerThreshold = currentValue;
-	}
+        /*  CHECK FOR RANGE ERRORS  */
+        if (threshold == UPPER) {
+            if (currentValue < linearLowerThreshold) {
+                currentValue = linearLowerThreshold;
+                rangeError = YES;
+            }
+            else if (currentValue > THRESHOLD_LINEAR_MAX) {
+                currentValue = THRESHOLD_LINEAR_MAX;
+                rangeError = YES;
+            }
+            /*  SAVE THE VALUE  */
+            linearUpperThreshold = currentValue;
+        }
+        else {
+            if (currentValue < THRESHOLD_LINEAR_MIN) {
+                currentValue = THRESHOLD_LINEAR_MIN;
+                rangeError = YES;
+            }
+            else if (currentValue > linearUpperThreshold) {
+                currentValue = linearUpperThreshold;
+                rangeError = YES;
+            }
+            /*  SAVE THE VALUE  */
+            linearLowerThreshold = currentValue;
+        }
     }
     else {
-	/*  GET CURRENT (ROUNDED) VALUE FROM FIELD  */
-	int currentValue = (int)rint([sender doubleValue]);
-
-	/*  CHECK FOR RANGE ERRORS  */
-	if (threshold == UPPER) {
-	    if (currentValue < logLowerThreshold) {
-		currentValue = logLowerThreshold;
-		rangeError = YES;
-	    }
-	    else if (currentValue > THRESHOLD_LOG_MAX) {
-		currentValue = THRESHOLD_LOG_MAX;
-		rangeError = YES;
-	    }
-	    /*  SAVE THE VALUE  */
-	    logUpperThreshold = currentValue;
-
-	    /*  DISPLAY ROUNDED VALUE  */
-	    [selectedCell setIntValue:logUpperThreshold];
-	}
-	else {
-	    if (currentValue < THRESHOLD_LOG_MIN) {
-		currentValue = THRESHOLD_LOG_MIN;
-		rangeError = YES;
-	    }
-	    else if (currentValue > logUpperThreshold) {
-		currentValue = logUpperThreshold;
-		rangeError = YES;
-	    }
-	    /*  SAVE THE VALUE  */
-	    logLowerThreshold = currentValue;
-
-	    /*  DISPLAY ROUNDED VALUE  */
-	    [selectedCell setIntValue:logLowerThreshold];
-	}
+        /*  GET CURRENT (ROUNDED) VALUE FROM FIELD  */
+        int currentValue = (int)rint([sender doubleValue]);
+        
+        /*  CHECK FOR RANGE ERRORS  */
+        if (threshold == UPPER) {
+            if (currentValue < logLowerThreshold) {
+                currentValue = logLowerThreshold;
+                rangeError = YES;
+            }
+            else if (currentValue > THRESHOLD_LOG_MAX) {
+                currentValue = THRESHOLD_LOG_MAX;
+                rangeError = YES;
+            }
+            /*  SAVE THE VALUE  */
+            logUpperThreshold = currentValue;
+            
+            /*  DISPLAY ROUNDED VALUE  */
+            [selectedCell setIntValue:logUpperThreshold];
+        }
+        else {
+            if (currentValue < THRESHOLD_LOG_MIN) {
+                currentValue = THRESHOLD_LOG_MIN;
+                rangeError = YES;
+            }
+            else if (currentValue > logUpperThreshold) {
+                currentValue = logUpperThreshold;
+                rangeError = YES;
+            }
+            /*  SAVE THE VALUE  */
+            logLowerThreshold = currentValue;
+            
+            /*  DISPLAY ROUNDED VALUE  */
+            [selectedCell setIntValue:logLowerThreshold];
+        }
     }
-
+    
     /*  DISPLAY  */
     //[self displayAnalysis]; // ****
-
+    
     /*  BEEP AND HIGHLIGHT FIELD IF RANGE ERROR  */
     if (rangeError) {
-	NSBeep();
-	if (magnitudeScale == LINEAR) {
-	    if (threshold == UPPER)
-		[selectedCell setFloatValue:linearUpperThreshold];
-	    else
-		[selectedCell setFloatValue:linearLowerThreshold];
-	}
-	else {
-	    if (threshold == UPPER)
-		[selectedCell setIntValue:logUpperThreshold];
-	    else
-		[selectedCell setIntValue:logLowerThreshold];
-	}
-	[sender selectCellWithTag:threshold];
+        NSBeep();
+        if (magnitudeScale == LINEAR) {
+            if (threshold == UPPER)
+                [selectedCell setFloatValue:linearUpperThreshold];
+            else
+                [selectedCell setFloatValue:linearLowerThreshold];
+        }
+        else {
+            if (threshold == UPPER)
+                [selectedCell setIntValue:logUpperThreshold];
+            else
+                [selectedCell setIntValue:logLowerThreshold];
+        }
+        [sender selectCellWithTag:threshold];
     } 
 	[spectrograph setNeedsDisplay:YES];
 }
 
-
-
-- (void)magnitudeScaleSelected:sender
+- (void)magnitudeScaleSelected:(id)sender;
 {
     /*  RECORD MAGNITUDE SCALE TYPE  */
     magnitudeScale = [[sender selectedItem] tag];
 	NSLog(@"Analysis.m:456 magnitude scale is %d", magnitudeScale);
 	[sender selectItemWithTag:magnitudeScale];
-
+    
     /*  DEAL WITH THRESHOLD DISPLAY  */
     switch (magnitudeScale) {
-      case LINEAR:
-	[[magnitudeForm cellWithTag:UPPER] setFloatingPointFormat:NO left:1 right:3];
-	[[magnitudeForm cellWithTag:LOWER] setFloatingPointFormat:NO left:1 right:3];
-	[[magnitudeForm cellWithTag:UPPER] setFloatValue:linearUpperThreshold];
-	[[magnitudeForm cellWithTag:LOWER] setFloatValue:linearLowerThreshold];
-	[magnitudeLabel setTextColor:[NSColor lightGrayColor]];
-	break;
-      case LOG:
-	[[magnitudeForm cellWithTag:UPPER] setFloatingPointFormat:NO left:2 right:0];
-	[[magnitudeForm cellWithTag:LOWER] setFloatingPointFormat:NO left:2 right:0];
-	[[magnitudeForm cellWithTag:UPPER] setIntValue:logUpperThreshold];
-	[[magnitudeForm cellWithTag:LOWER] setIntValue:logLowerThreshold];
-	[magnitudeLabel setTextColor:[NSColor blackColor]];
-	break;
-      default:
-	break;
+        case LINEAR:
+            // TODO (2012-05-19): Set up number formatters
+            //[[magnitudeForm cellWithTag:UPPER] setFloatingPointFormat:NO left:1 right:3];
+            //[[magnitudeForm cellWithTag:LOWER] setFloatingPointFormat:NO left:1 right:3];
+            [[magnitudeForm cellWithTag:UPPER] setFloatValue:linearUpperThreshold];
+            [[magnitudeForm cellWithTag:LOWER] setFloatValue:linearLowerThreshold];
+            [magnitudeLabel setTextColor:[NSColor lightGrayColor]];
+            break;
+        case LOG:
+            // TODO (2012-05-19): Set up number formatters
+            //[[magnitudeForm cellWithTag:UPPER] setFloatingPointFormat:NO left:2 right:0];
+            //[[magnitudeForm cellWithTag:LOWER] setFloatingPointFormat:NO left:2 right:0];
+            [[magnitudeForm cellWithTag:UPPER] setIntValue:logUpperThreshold];
+            [[magnitudeForm cellWithTag:LOWER] setIntValue:logLowerThreshold];
+            [magnitudeLabel setTextColor:[NSColor blackColor]];
+            break;
+        default:
+            break;
     }
 	[spectrum setMagnitudeScale:magnitudeScale];
 	[spectrograph setMagnitudeScale:magnitudeScale];
@@ -522,14 +438,11 @@ Initial import.
     //[analysisWindow displayIfNeeded]; 
 }
 
-
-
-- (void)binSizeSelected:sender
+- (void)binSizeSelected:(id)sender;
 {
-	
     //  RECORD THE BIN SIZE AND CHANGE TITLE DISPLAYED TO SELECTION
     binSize = [[sender selectedItem] tag];
-	NSLog(@"In Analysis.m:491, binSizeSelected is %f, tag is %d", (float)binSize, [[sender selectedItem] tag]);
+	//NSLog(@"In Analysis.m:491, binSizeSelected is %f, tag is %ld", (float)binSize, [[sender selectedItem] tag]);
 	[binSizePopUp setTitle:[sender titleOfSelectedItem]];
 
 
@@ -547,21 +460,16 @@ Initial import.
 
 }
 
-
-
-- (void)doAnalysisButtonPushed:sender
+- (void)doAnalysisButtonPushed:(id)sender;
 {
 	// RELEASE OLD SOUND DATA
     [spectrum freeAnalysisData];
 	NSLog(@"Analysis.m:514 doAnalysisButton pushed");
 	
-	
 	[spectrum setNeedsDisplay:YES];
 }
 
-
-
-- (void)grayLevelSelected:sender
+- (void)grayLevelSelected:(id)sender;
 {
     /*  RECORD GRAY-LEVEL TYPE  */
     grayLevel = [[sender selectedItem] tag];
@@ -570,50 +478,48 @@ Initial import.
     //[self displayAnalysis]; // ****
 }
 
-
-
-- (void)rateFormEntered:sender
+- (void)rateFormEntered:(id)sender;
 {
     BOOL rangeError = NO;
-
+    
     /*  GET CURRENT VALUE FROM FIELD  */
     float currentValue = [sender floatValue];
 	NSLog(@"Analysis.m:539, Update rate form entered value %f updateRate is %f", currentValue, updateRate);
     
     /*  RETURN IMMEDIATELY IF THE RATE HAS NOT CHANGED  */
     if (currentValue == updateRate)
-	return;
-
+        return;
+    
     /*  CHECK FOR RANGE ERRORS  */
     if (currentValue < UPDATE_RATE_MIN) {
-	currentValue = UPDATE_RATE_MIN;
-	rangeError = YES;
-	NSLog(@"Below minimum update period");
+        currentValue = UPDATE_RATE_MIN;
+        rangeError = YES;
+        NSLog(@"Below minimum update period");
     }
     else if (currentValue > UPDATE_RATE_MAX) {
-	currentValue = UPDATE_RATE_MAX;
-	rangeError = YES;
-	NSLog(@"Exceeded max update period");
+        currentValue = UPDATE_RATE_MAX;
+        rangeError = YES;
+        NSLog(@"Exceeded max update period");
     }
-
+    
     /*  SAVE THE VALUE  */
     updateRate = currentValue;
-
+    
     //  RESET THE CONTINUOUS ANALYSIS RATE, IF CURRENTLY RUNNING
     if ((updateMode == CONTINUOUS_MODE) && [runButton state]) // && analysisEnabled)
-	[self resetContinuousAnalysis];
-
+        [self resetContinuousAnalysis];
+    
     /*  BEEP AND HIGHLIGHT FIELD IF RANGE ERROR  */
     if (rangeError) {
-	NSBeep();
-	[sender setFloatValue:updateRate];
-	//[sender selectText:self];
+        NSBeep();
+        [sender setFloatValue:updateRate];
+        //[sender selectText:self];
     } 
 }
 
 
 
-- (void)spectrographGridPushed:sender
+- (void)spectrographGridPushed:(id)sender;
 {
     /*  RECORD GRID STATUS  */
     spectrographGrid = [sender state];
@@ -624,7 +530,7 @@ Initial import.
 
 
 
-- (void)spectrumGridPushed:sender
+- (void)spectrumGridPushed:(id)sender;
 {
     /*  RECORD GRID STATUS  */
     spectrumGrid = [sender state];
@@ -635,12 +541,12 @@ Initial import.
 
 
 
-- (void)updateMatrixPushed:sender
+- (void)updateMatrixPushed:(id)sender;
 {
     /*  GET THE UPDATE STATE  */
     int currentValue = [[sender selectedCell] tag];
 	NSLog(@"Analysis.m:610 updateMatrix state %d", currentValue);
-
+    
     /*  ENABLE/DISABLE OTHER BUTTONS ACCORDING TO MODE  */
     if (currentValue == SNAPSHOT_MODE) {
 		if ([runButton state]) [doAnalysisButton setEnabled:YES];
@@ -649,7 +555,7 @@ Initial import.
 		[rateForm setEnabled:NO];
 		[rateSecond setTextColor:[NSColor darkGrayColor]];
 		[testSwitch setEnabled:YES];
-		}
+    }
     else {
 		[doAnalysisButton setEnabled:NO];
 		NSLog(@"Analysis.m:626 updateMatrix state %d", currentValue);
@@ -658,86 +564,85 @@ Initial import.
 		[rateSecond setTextColor:[NSColor blackColor]];
 		[testSwitch setEnabled:NO];
 		[self setRunning];
-
+        
     }
-
+    
     /*  DISPLAY CHANGES TO SUBVIEWS OF WINDOW  */
     //[analysisWindow displayIfNeeded];
-
+    
     /*  RETURN IMMEDIATELY, IF NO CHANGE OF MODE  */
     if (currentValue == updateMode)
-	return;
-
+        return;
+    
     /*  RECORD CHANGED UPDATE MODE  */
     updateMode = currentValue;
-
+    
     /*  START OR STOP CONTINUOUS ANALYSIS, IF CURRENTLY RUNNING  */
     if ([runButton state]) {		// WAS 'RUNNING'
-	if (updateMode == CONTINUOUS_MODE)
-	    [self startContinuousAnalysis];
-	else
-	    [self stopContinuousAnalysis];
+        if (updateMode == CONTINUOUS_MODE)
+            [self startContinuousAnalysis];
+        else
+            [self stopContinuousAnalysis];
     } 
 }
 
 
 
-- (void)windowFormEntered:sender
+- (void)windowFormEntered:(id)sender;
 {
     BOOL rangeError = NO;
     /*  GET CURRENT VALUE FROM FIELD  */
     float currentValue = [sender floatValue];
 	NSLog(@"Analysis.m:640 windowFormEntered value %f", currentValue);
-
-
+    
+    
     if (windowType == HAMMING) {
-	/*  CHECK FOR RANGE ERRORS  */
-	if (currentValue < ALPHA_MIN) {
-	    currentValue = ALPHA_MIN;
-	    rangeError = YES;
-	}
-	else if (currentValue > ALPHA_MAX) {
-	    currentValue = ALPHA_MAX;
-	    rangeError = YES;
-	}
-	/*  SAVE THE VALUE  */
-	alpha = currentValue;
+        /*  CHECK FOR RANGE ERRORS  */
+        if (currentValue < ALPHA_MIN) {
+            currentValue = ALPHA_MIN;
+            rangeError = YES;
+        }
+        else if (currentValue > ALPHA_MAX) {
+            currentValue = ALPHA_MAX;
+            rangeError = YES;
+        }
+        /*  SAVE THE VALUE  */
+        alpha = currentValue;
     }
     else {
-	/*  CHECK FOR RANGE ERRORS  */
-	if (currentValue < BETA_MIN) {
-	    currentValue = BETA_MIN;
-	    rangeError = YES;
-	}
-	else if (currentValue > BETA_MAX) {
-	    currentValue = BETA_MAX;
-	    rangeError = YES;
-	}
-	/*  SAVE THE VALUE  */
-	beta = currentValue;
+        /*  CHECK FOR RANGE ERRORS  */
+        if (currentValue < BETA_MIN) {
+            currentValue = BETA_MIN;
+            rangeError = YES;
+        }
+        else if (currentValue > BETA_MAX) {
+            currentValue = BETA_MAX;
+            rangeError = YES;
+        }
+        /*  SAVE THE VALUE  */
+        beta = currentValue;
     }
-
+    
 	//NSLog(@"Analaysis.m:682 alpha is %f, beta is %f", alpha, beta);
 	
     /*  ANALYZE SOUND DATA, PUT INTO ANALYSIS DATA OBJECT  */
     //[analysisDataObject analyzeSoundData:soundDataObject windowSize:binSize windowType:windowType alpha:alpha beta:beta normalizeAmplitude:normalizeInput];
-
+    
     /*  DISPLAY  */
     [spectrum setNeedsDisplay:YES];
-
+    
     /*  BEEP AND HIGHLIGHT FIELD IF RANGE ERROR  */
     if (rangeError) {
-	NSBeep();
-	[sender setFloatValue:currentValue];
-	[sender selectText:self];
+        NSBeep();
+        [sender setFloatValue:currentValue];
+        [sender selectText:self];
     } 
 }
 
 
 
-- (void)windowSelected:sender
+- (void)windowSelected:(id)sender;
 {
-	
     /*  RECORD WINDOW TYPE  */
     windowType = [[sender selectedItem] tag];
 	NSLog(@"Analysis.m:680 windowSelected windowType %d", windowType);
@@ -745,30 +650,29 @@ Initial import.
 	
 }
 
-- (void)updateWindow
+- (void)updateWindow;
 {
-
     /*  DEAL WITH ALPHA OR BETA DISPLAY, IF NECESSARY  */
     switch (windowType) {
-      case HAMMING:
-	[windowForm setEnabled:YES];
-	[windowForm setTitle:@"Alpha:"];
-	[windowForm setFloatValue:alpha];
-	break;
-      case KAISER:
-	[windowForm setEnabled:YES];
-	[windowForm setTitle:@"Beta:"];
-	[windowForm setFloatValue:beta];
-	break;
-      case RECTANGULAR:
-      case TRIANGULAR:
-      case HANNING:
-      case BLACKMAN:
-      default:
-	[windowForm setEnabled:NO];
-	[windowForm setTitle:@"           "];
-	[windowForm setStringValue:@""];
-	break;
+        case HAMMING:
+            [windowForm setEnabled:YES];
+            [windowForm setTitle:@"Alpha:"];
+            [windowForm setFloatValue:alpha];
+            break;
+        case KAISER:
+            [windowForm setEnabled:YES];
+            [windowForm setTitle:@"Beta:"];
+            [windowForm setFloatValue:beta];
+            break;
+        case RECTANGULAR:
+        case TRIANGULAR:
+        case HANNING:
+        case BLACKMAN:
+        default:
+            [windowForm setEnabled:NO];
+            [windowForm setTitle:@"           "];
+            [windowForm setStringValue:@""];
+            break;
     }
     
     /*  ANALYZE SOUND DATA, PUT INTO ANALYSIS DATA OBJECT  */
@@ -780,16 +684,16 @@ Initial import.
 	//[spectrum setNeedsDisplay:YES]; 
 }
 
-- (int)runState
+- (int)runState;
 {
 	running = [runButton state];
 	return running;
 }
 
-/*
+#if 0
 - (void)displayAnalysis
 {
-/*    //  SEND ANALYSIS TO DISPLAYS
+    //  SEND ANALYSIS TO DISPLAYS
     //[spectrograph displayAnalysis:analysisDataObject
 		  grayLevel:grayLevel
 		  magnitudeScale:magnitudeScale
@@ -800,6 +704,6 @@ Initial import.
 
     //[spectrum displayAnalysis:analysisDataObject magnitudeScale:magnitudeScale]; 
 }
-*/
+#endif
 	
 @end

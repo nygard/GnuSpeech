@@ -1,33 +1,5 @@
-/*******************************************************************************
- *
- *  Copyright 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
- *
- *  Contributors: David Hill
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License     
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- *******************************************************************************
- *
- *  tube.c
- *  Synthesizer
- *
- *  Created by David Hill in 2006.
- *
- *  Version: 0.7.4
- *
- ******************************************************************************/
-
+//  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 /*  REVISION INFORMATION  *****************************************************
 $Author: len $
@@ -95,15 +67,19 @@ $Log: tube.c,v $
 
 
 /*  HEADER FILES  ************************************************************/
+#import "tube.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/param.h>
 #include <math.h>
 #include <string.h>
-#include "structs.h"
+#include "syn_structs.h"
 #include "structs2.h"
 #include <pthread.h>
 
+
+/*  COMPILE WITH OVERSAMPLING OR PLAIN OSCILLATOR  */
+#define OVERSAMPLING_OSCILLATOR   1
 
 /*  1 MEANS COMPILE SO THAT INTERPOLATION NOT DONE FOR
     SOME CONTROL RATE PARAMETERS  */
@@ -190,6 +166,11 @@ $Log: tube.c,v $
 #define PULSE                     0
 #define SINE                      1
 
+/*  OVERSAMPLING FIR FILTER CHARACTERISTICS  */
+#define FIR_BETA                  .2
+#define FIR_GAMMA                 .1
+#define FIR_CUTOFF                .00000001
+
 /*  PITCH VARIABLES  */
 #define PITCH_BASE                220.0
 #define PITCH_OFFSET              3           /*  MIDDLE C = 0  */
@@ -203,6 +184,9 @@ $Log: tube.c,v $
 // this is a temporary fix only, to try to match dsp synthesizer
 #define VT_SCALE                  0.125     /*  2^(-3)  */
 
+/*  FINAL OUTPUT SCALING, SO THAT .SND FILES APPROX. MATCH DSP OUTPUT  */
+#define OUTPUT_SCALE              0.25
+
 /*  CONSTANTS FOR THE FIR FILTER  */
 #define LIMIT                     200
 #define BETA_OUT_OF_RANGE         1
@@ -212,6 +196,9 @@ $Log: tube.c,v $
 /*  CONSTANTS FOR NOISE GENERATOR  */
 #define FACTOR                    377.0
 #define INITIAL_SEED              0.7892347
+
+/*  MAXIMUM SAMPLE VALUE  */
+#define RANGE_MAX                 32767.0
 
 /*  FUNCTION RETURN CONSTANTS  */
 #define ERROR                     (-1)
@@ -246,11 +233,24 @@ $Log: tube.c,v $
 #define mValue(x)                 ((x) & M_MASK)
 #define fractionValue(x)          ((x) & FRACTION_MASK)
 
+#define BETA                      5.658        /*  kaiser window parameters  */
+#define IzeroEPSILON              1E-21
+
 #define OUTPUT_SRATE_LOW          22050.0      /* not used apparently */
 #define OUTPUT_SRATE_HIGH         44100.0      /* not used apparently */
 #define BUFFER_SIZE               1024                 /*  ring buffer size  */
 
-extern float PI, PI2;
+/*  OUTPUT FILE FORMAT CONSTANTS  */
+#define AU_FILE_FORMAT            0
+#define AIFF_FILE_FORMAT          1
+#define WAVE_FILE_FORMAT          2
+
+/*  SIZE IN BITS PER OUTPUT SAMPLE  */
+#define BITS_PER_SAMPLE           16
+
+/*  BOOLEAN CONSTANTS  */
+#define FALSE                     0
+#define TRUE                      1
 
 
 /*  REFLECTION AND RADIATION FILTER MEMORY  */
@@ -296,9 +296,30 @@ double breathiness = 2.5;
 int channels = 2;
 
 float controlRate = 100; // ****
-static struct _postureRateParameters current ={-0.0, 0, 60, 0, 0, 0, 60, 0, 8, 0, 5000, 0, 250, 0, 0.8, 1.67, 1.905, 1.985, 0.81, 0.495, 0.73, 1.485, 0,0,0,0,0,0,0,0, 0,0}; // "ee"
+typedef struct
+{
+    double glotPitch;
+    double glotPitchDelta;
+    double glotVol;
+    double glotVolDelta;
+    double aspVol;
+    double aspVolDelta;
+    double fricVol;
+    double fricVolDelta;
+    double fricPos;
+    double fricPosDelta;
+    double fricCF;
+    double fricCFDelta;
+    double fricBW;
+    double fricBWDelta;
+    double radius[TOTAL_REGIONS];
+    double radiusDelta[TOTAL_REGIONS];
+    double velum;
+    double velumDelta;
+} _postureRateParameters;
+static _postureRateParameters current ={-0.0, 0, 60, 0, 0, 0, 60, 0, 8, 0, 5000, 0, 250, 0, 0.8, 1.67, 1.905, 1.985, 0.81, 0.495, 0.73, 1.485, 0,0,0,0,0,0,0,0, 0,0}; // "ee"
 
-static struct _postureRateParameters originalDefaults =  {GLOT_PITCH_DEF, 0.1, GLOT_VOL_DEF, 0.1, 0, 0.1, 0, 0.1, 8, 0.1, 5000, 10, 250, 2, 0.8, 1.67, 1.905, 1.985, 0.81, 0.495, 0.73, 1.485, 0,0,0,0,0,0,0,0, 0,0}; // "ee"
+static _postureRateParameters originalDefaults =  {GLOT_PITCH_DEF, 0.1, GLOT_VOL_DEF, 0.1, 0, 0.1, 0, 0.1, 8, 0.1, 5000, 10, 250, 2, 0.8, 1.67, 1.905, 1.985, 0.81, 0.495, 0.73, 1.485, 0,0,0,0,0,0,0,0, 0,0}; // "ee"
 
 //static void *currentPointer = &current;
 int current_ptr = 1;
@@ -321,7 +342,7 @@ double throatVol = 6.0;                   /*  throat volume (0 - 48 dB) */
 double tnMax = 40;                       /*  % glottal pulse fall time maximum  */
 double tnMin = 16;                       /*  % glottal pulse fall time minimum  */
 double tp = 35;                          /*  % glottal pulse rise time  */
-BOOL verbose = NO;
+int verbose = FALSE;
 double volume = 60;                      /*  master volume (0 - 60 dB)  */
 int    waveform = 0;                    /*  GS waveform type (0=PULSE, 1=SINE)  */
 
@@ -476,6 +497,7 @@ double oscillator(double frequency);
 double vocalTract(double input, double frication);
 double throat(double input);
 double bandpassFilter(double input);
+//void convertIntToFloat80(unsigned int value, unsigned char buffer[10]);
 double amplitude(double decibelLevel);
 double frequency(double pitch);
 int maximallyFlat(double beta, double gamma, int *np, double *coefficient);
@@ -487,6 +509,7 @@ int increment(int pointer, int modulus);
 int decrement(int pointer, int modulus);
 void initializeConversion(void);
 void initializeFilter(void);
+//double Izero2(double x);
 void initializeBuffer(void);
 void dataFill(double data);
 void dataEmpty(void);
@@ -573,7 +596,7 @@ int initializeSynthesizer()
 
 	printf("tube.c:555 SampleRate is %f control period is %d control rate is %f \n", controlRate * controlPeriod, controlPeriod, controlRate); //sampleRate);
 	actualTubeLength = (c * TOTAL_SECTIONS * 100.0) / sampleRate;
-	printf("tube.c:557 Actual tube length is %f originalPeriod is %f sampleRate is %f\n", actualTubeLength, originalPeriod, sampleRate);
+	printf("tube.c:557 Actual tube length is %f originalPeriod is %f sampleRate is %u\n", actualTubeLength, originalPeriod, sampleRate);
 	nyquist = (double)sampleRate / 2.0;
     }
     else {
@@ -702,7 +725,7 @@ void initializeWavetable(void)
     else {
 	/*  SINE WAVE  */
 	for (i = 0; i < TABLE_LENGTH; i++) {
-	    wavetable[i] = sin( ((double)i/(double)TABLE_LENGTH) * 2.0 * PI );
+	    wavetable[i] = sin( ((double)i/(double)TABLE_LENGTH) * 2.0 * M_PI );
 	}
     }	
 }
@@ -1387,8 +1410,8 @@ void calculateBandpassCoefficients(void)
     double tanValue, cosValue;
 
 
-    tanValue = tan((PI * current.fricBW) / sampleRate);
-    cosValue = cos((2.0 * PI * current.fricCF) / sampleRate);
+    tanValue = tan((M_PI * current.fricBW) / sampleRate);
+    cosValue = cos((2.0 * M_PI * current.fricCF) / sampleRate);
 
     bpBeta = (1.0 - tanValue) / (2.0 * (1.0 + tanValue));
     bpGamma = (0.5 + bpBeta) * cosValue;
@@ -1819,7 +1842,7 @@ int maximallyFlat(double beta, double gamma, int *np, double *coefficient)
 	return(GAMMA_TOO_SMALL);
 
     /*  CALCULATE THE RATIONAL APPROXIMATION TO THE CUT-OFF POINT  */
-    ac = (1.0 + cos(PI2 * beta)) / 2.0;
+    ac = (1.0 + cos(TWO_PI * beta)) / 2.0;
     rationalApproximation(ac, &nt, &numerator, np);
 
     /*  CALCULATE FILTER ORDER  */
@@ -1835,7 +1858,7 @@ int maximallyFlat(double beta, double gamma, int *np, double *coefficient)
     for (i = 2; i <= (*np); i++) {
 	int j;
 	double x, sum = 1.0, y;
-	c[i] = cos(PI2 * ((double)(i-1)/(double)n));
+	c[i] = cos(TWO_PI * ((double)(i-1)/(double)n));
 	x = (1.0 - c[i]) / 2.0;
 	y = x;
 
@@ -2157,7 +2180,7 @@ void initializeFilter(void)
 
     /*  INITIALIZE THE FILTER IMPULSE RESPONSE  */
     h[0] = LP_CUTOFF;
-    x = PI / (double)L_RANGE;
+    x = M_PI / (double)L_RANGE;
     for (i = 1; i < FILTER_LENGTH; i++) {
 	double y = (double)i * x;
 	h[i] = sin(y * LP_CUTOFF) / y;

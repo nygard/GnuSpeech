@@ -1,36 +1,9 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright 1991-2009 David R. Hill, Leonard Manzara, Craig Schock
-//  
-//  Contributors: David Hill
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Controller.h
-//  Synthesizer
-//
-//  Created by David Hill in 2006.
-//
-//  Version: 0.7.4
-//
-////////////////////////////////////////////////////////////////////////////////
+//  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import <Cocoa/Cocoa.h>
 #import <CoreAudio/AudioHardware.h>
-#import "structs.h"
+#import "syn_structs.h"
 #import "TubeSection.h"
 #import "FricativeArrow.h"
 #import "Analysis.h"
@@ -365,33 +338,33 @@
 
 /*  METHODS FOR LINKING OBJECTIVE-C CODE TO C MODULES  */
 
-- (void)csetGlotPitch:(float) value;
-- (void)csetGlotVol:(float) value;
-- (void)csetAspVol:(float) value;
-- (void)csetFricVol:(float) value;
-- (void)csetfricPos:(float) value;
-- (void)csetFricCF:(float) value;
-- (void)csetFricBW:(float) value;
-- (void)csetRadius:(float) value: (int) index;
-- (void)csetVelum:(float) value;
-- (void)csetVolume:(double) value;
-- (void)csetWaveform:(int) value;
-- (void)csetTp:(double) value;
-- (void)csetTnMin:(double) value;
-- (void)csetTnMax:(double) value;
-- (void)csetBreathiness:(double) value;
-- (void)csetLength:(double) value;
-- (void)csetTemperature:(double) value;
-- (void)csetLossFactor:(double) value;
-- (void)csetApScale:(double) value;
-- (void)csetMouthCoef:(double) value;
-- (void)csetNoseCoef:(double) value;
-- (void)csetNoseRadius:(double) value: (int) index;
-- (void)csetThroatCoef:(double) value;
-- (void)csetModulation:(int) value;
-- (void)csetMixOffset:(double) value;
-- (void)csetThroatCutoff:(double) value;
-- (void)csetThroatVolume:(double) value;
+- (void)csetGlotPitch:(float)value;
+- (void)csetGlotVol:(float)value;
+- (void)csetAspVol:(float)value;
+- (void)csetFricVol:(float)value;
+- (void)csetfricPos:(float)value;
+- (void)csetFricCF:(float)value;
+- (void)csetFricBW:(float)value;
+- (void)csetRadius:(float)value:(int)index;
+- (void)csetVelum:(float)value;
+- (void)csetVolume:(double)value;
+- (void)csetWaveform:(int)value;
+- (void)csetTp:(double)value;
+- (void)csetTnMin:(double)value;
+- (void)csetTnMax:(double)value;
+- (void)csetBreathiness:(double)value;
+- (void)csetLength:(double)value;
+- (void)csetTemperature:(double)value;
+- (void)csetLossFactor:(double)value;
+- (void)csetApScale:(double)value;
+- (void)csetMouthCoef:(double)value;
+- (void)csetNoseCoef:(double)value;
+- (void)csetNoseRadius:(double)value:(int)index;
+- (void)csetThroatCoef:(double)value;
+- (void)csetModulation:(int)value;
+- (void)csetMixOffset:(double)value;
+- (void)csetThroatCutoff:(double)value;
+- (void)csetThroatVolume:(double)value;
 
 - (void)setTitle:(NSString *)path;
 - (void)adjustSampleRate;
