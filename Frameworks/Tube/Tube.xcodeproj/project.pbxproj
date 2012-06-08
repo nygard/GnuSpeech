@@ -17,6 +17,7 @@
 		01115FA21547C399002ABAAF /* TRMWavetable.m in Sources */ = {isa = PBXBuildFile; fileRef = 01AC65790B7BF4D8008E4B93 /* TRMWavetable.m */; };
 		01115FA51547C3D4002ABAAF /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01115FA41547C3D3002ABAAF /* Accelerate.framework */; };
 		01115FA61547C43E002ABAAF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 01115F7E1547C35A002ABAAF /* main.m */; };
+		0150B56F1581D6600049DEEC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01115F881547C381002ABAAF /* Foundation.framework */; };
 		016B4AB7156CD142006874F4 /* NSData-STExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 016B4AB5156CD142006874F4 /* NSData-STExtensions.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		016B4AB8156CD142006874F4 /* NSData-STExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 016B4AB6156CD142006874F4 /* NSData-STExtensions.m */; };
 		016B4ABB156CD859006874F4 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 016B4ABA156CD859006874F4 /* AudioToolbox.framework */; };
@@ -120,6 +121,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0150B56F1581D6600049DEEC /* Foundation.framework in Frameworks */,
 				016B4ABB156CD859006874F4 /* AudioToolbox.framework in Frameworks */,
 				0172DA14153FDD2F00413F56 /* Accelerate.framework in Frameworks */,
 			);
@@ -479,7 +481,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEPLOYMENT_LOCATION = NO;
@@ -494,7 +496,7 @@
 				INSTALL_PATH = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = "";
+				SDKROOT = macosx;
 				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Debug;
@@ -503,7 +505,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEPLOYMENT_LOCATION = NO;
 				DEPLOYMENT_POSTPROCESSING = NO;
@@ -515,7 +517,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INSTALL_PATH = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = "";
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
