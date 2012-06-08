@@ -66,6 +66,7 @@
 @synthesize linePrefix = m_linePrefix;
 @synthesize lineSuffix = m_lineSuffix;
 @synthesize indentations = m_indentations;
+@synthesize shouldCloseFile = m_shouldCloseFile;
 
 - (void)log:(NSString *)format, ...;
 {
