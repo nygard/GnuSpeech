@@ -43,8 +43,9 @@ static GSPronunciationDictionary * pronunciationDictionary = nil;
 {
     GSSimplePronunciationDictionary *simpleDictionary = [GSSimplePronunciationDictionary mainDictionary];
     GSDBMPronunciationDictionary *dbmDictionary = [GSDBMPronunciationDictionary mainDictionary];
-	
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] initWithDateFormat:@"%Y-%m-%d %H:%M:%S" allowNaturalLanguage:NO];
+
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"%Y-%m-%d %H:%M:%S"];
 	
     //NSLog(@"_createDBMFileIfNecessary: simpleDictionary modificationDate: %@", [dateFormatter stringForObjectValue:[simpleDictionary modificationDate]]);
     //NSLog(@"_createDBMFileIfNecessary: dbmDictionary modificationDate: %@", [dateFormatter stringForObjectValue:[dbmDictionary modificationDate]]);
