@@ -835,9 +835,9 @@
             return [NSString stringWithFormat:@"%lu.", row + 1];
         }
     } else if (tableView == eventTableView) {
-        int eventNumber = row / 2;
+        NSInteger eventNumber = row / 2;
         if ([@"time" isEqual:identifier] == YES) {
-            return [NSNumber numberWithInt:[[[eventList events] objectAtIndex:eventNumber] time]];
+            return [NSNumber numberWithInteger:[[[eventList events] objectAtIndex:eventNumber] time]];
         } else if ([@"flag" isEqual:identifier] == YES) {
             return [NSNumber numberWithBool:[[[eventList events] objectAtIndex:eventNumber] flag]];
         } else {

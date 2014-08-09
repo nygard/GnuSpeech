@@ -526,7 +526,7 @@
 
 #pragma mark - NSOutlineView data source
 
-- (int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item;
+- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item;
 {
    // NSLog(@"-> %s, item: %p", __PRETTY_FUNCTION__, item);
     if (outlineView == equationOutlineView) {

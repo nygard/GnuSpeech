@@ -471,7 +471,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
         [ruleDurationTextFieldCell drawWithFrame:ruleFrame inView:self];
 
         ruleFrame.size.height += 12.0;
-        [ruleIndexTextFieldCell setIntValue:rule->number];
+        [ruleIndexTextFieldCell setIntegerValue:rule->number];
         [ruleIndexTextFieldCell drawWithFrame:ruleFrame inView:self];
 
         aPoint.x = [self scaleXPosition:rule->beat] + 0.5;

@@ -159,7 +159,7 @@
 
         str = [NSString stringWithFormat:@"%lu. %@", ruleIndex + 1, [aRule ruleString]];
         [ruleOutputTextField setStringValue:str];
-        [consumedTokensTextField setIntValue:[aRule numberExpressions] - 1];
+        [consumedTokensTextField setIntegerValue:[aRule numberExpressions] - 1];
 
         [aRule evaluateSymbolEquations:ruleSymbols tempos:tempos postures:testPostures withCache:[[self model] nextCacheTag]];
 

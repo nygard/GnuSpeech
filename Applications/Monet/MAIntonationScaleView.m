@@ -178,7 +178,7 @@
 
         if (((index - zeroSection) % labelSkip) == 0) {
             cellFrame.origin.y = point.y - (labelHeight / 2.0) - labelDescender;
-            [labelTextFieldCell setIntValue:index - zeroSection];
+            [labelTextFieldCell setIntegerValue:index - zeroSection];
             [labelTextFieldCell drawWithFrame:cellFrame inView:self];
         }
     }

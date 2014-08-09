@@ -47,7 +47,7 @@
 - (BOOL)control:(NSControl *)aControl shouldProcessCharacters:(NSString *)characters;
 
 // Browser delegate methods
-- (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(NSInteger)column;
+- (NSInteger)browser:(NSBrowser *)sender numberOfRowsInColumn:(NSInteger)column;
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(NSInteger)row column:(NSInteger)column;
 
 // NSOutlineView data source

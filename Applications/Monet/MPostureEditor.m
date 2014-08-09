@@ -129,7 +129,7 @@
 - (void)updateViews;
 {
     [postureTableView reloadData];
-    [postureTotalTextField setIntValue:[[[self model] postures] count]];
+    [postureTotalTextField setIntegerValue:[[[self model] postures] count]];
     [self _updatePostureDetails];
     [self _updateUseDefaultButtons];
 }
@@ -455,7 +455,7 @@
 - (BOOL)control:(NSControl *)aControl shouldProcessCharacters:(NSString *)characters;
 {
     NSArray *postures;
-    unsigned int count, index;
+    NSUInteger count, index;
     MMPosture *posture;
 
     postures = [[self model] postures];

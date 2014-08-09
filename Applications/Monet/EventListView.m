@@ -326,7 +326,7 @@
         cellFrame.size.height = 18.0;
         cellFrame.size.width = [self scaledWidth:rule->duration] + extraWidth;
 
-        [ruleCell setIntValue:rule->number];
+        [ruleCell setIntegerValue:rule->number];
         [ruleCell drawWithFrame:cellFrame inView:self];
 
         extraWidth = 1.0;

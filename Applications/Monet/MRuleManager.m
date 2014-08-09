@@ -400,14 +400,12 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
     totalCombinations = [[matchLists objectAtIndex:0] count];
     for (index = 1; index < 4; index++) {
-        int matchCount;
-
-        matchCount = [[matchLists objectAtIndex:index] count];
+        NSUInteger matchCount = [[matchLists objectAtIndex:index] count];
         if (matchCount != 0)
             totalCombinations *= matchCount;
     }
 
-    [possibleCombinationsTextField setIntValue:totalCombinations];
+    [possibleCombinationsTextField setIntegerValue:totalCombinations];
 }
 
 #pragma mark - NSTableView data source
@@ -451,7 +449,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
         } else if ([@"rule" isEqual:identifier] == YES) {
             return [rule ruleString];
         } else if ([@"numberOfTokensConsumed" isEqual:identifier] == YES) {
-            return [NSNumber numberWithInt:[rule numberExpressions]];
+            return [NSNumber numberWithInteger:[rule numberExpressions]];
         }
     } else if (tableView == symbolTableView) {
         if ([@"name" isEqual:identifier] == YES) {
@@ -593,10 +591,8 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
 - (BOOL)control:(NSControl *)aControl shouldProcessCharacters:(NSString *)characters;
 {
-    int count, index;
-
-    count = [[model rules] count];
-    index = [characters intValue];
+    NSUInteger count = [[model rules] count];
+    NSUInteger index = [characters intValue];
     if (index > 0 && index <= count) {
         [ruleTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:index - 1] byExtendingSelection:NO];
         [ruleTableView scrollRowToVisible:index - 1];
@@ -608,7 +604,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
 #pragma mark - Browser delegate methods
 
-- (int)browser:(NSBrowser *)sender numberOfRowsInColumn:(NSInteger)column;
+- (NSInteger)browser:(NSBrowser *)sender numberOfRowsInColumn:(NSInteger)column;
 {
     if (sender == match1Browser)
         return [[matchLists objectAtIndex:0] count];

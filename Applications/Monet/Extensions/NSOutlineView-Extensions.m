@@ -29,9 +29,7 @@
     if (anItem == nil)
         [self deselectAll:nil];
     else {
-        int row;
-
-        row = [self rowForItem:anItem];
+        NSInteger row = [self rowForItem:anItem];
         [self selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
         [self scrollRowToVisible:row];
     }
