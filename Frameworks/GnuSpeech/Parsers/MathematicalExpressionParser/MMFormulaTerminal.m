@@ -65,6 +65,8 @@
     // Constant value
     if (symbol == nil)
         return value;
+
+    NSParameterAssert(whichPhone >= 0 && whichPhone < 4);
     
     MMTarget *symbolTarget = [[postures objectAtIndex:whichPhone] targetForSymbol:symbol];
     if (symbolTarget == nil)
@@ -95,6 +97,7 @@
             if (symbol == nil) {
                 [resultString appendFormat:@"%f", value];
             } else {
+                NSParameterAssert(whichPhone >= 0 && whichPhone < 4);
                 [resultString appendFormat:@"%@%lu", [symbol name], whichPhone+1];
             }
             break;
