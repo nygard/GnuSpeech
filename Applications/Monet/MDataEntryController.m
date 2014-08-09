@@ -355,7 +355,7 @@
     [self updateViews];
 }
 
-#pragma mark - NSTableView data source
+#pragma mark - NSTableViewDataSource
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView;
 {
@@ -480,7 +480,7 @@
     }
 }
 
-#pragma mark - NSTableView delegate
+#pragma mark - NSTableViewDelegate
 
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification;
 {
@@ -499,7 +499,7 @@
     }
 }
 
-#pragma mark - NSTextView delegate
+#pragma mark - NSTextViewDelegate
 
 - (void)textDidEndEditing:(NSNotification *)aNotification;
 {
@@ -535,6 +535,8 @@
 
     [newComment release];
 }
+
+#pragma mark -
 
 - (MMCategory *)selectedCategory;
 {

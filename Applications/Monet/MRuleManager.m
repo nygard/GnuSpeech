@@ -408,7 +408,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     [possibleCombinationsTextField setIntegerValue:totalCombinations];
 }
 
-#pragma mark - NSTableView data source
+#pragma mark - NSTableViewDataSource
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView;
 {
@@ -490,7 +490,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     return nil;
 }
 
-#pragma mark - NSTableView delegate
+#pragma mark - NSTableViewDelegate
 
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification;
 {
@@ -602,7 +602,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     return YES;
 }
 
-#pragma mark - Browser delegate methods
+#pragma mark - NSBrowserDelegate
 
 - (NSInteger)browser:(NSBrowser *)sender numberOfRowsInColumn:(NSInteger)column;
 {
@@ -642,7 +642,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     [cell setLeaf:YES];
 }
 
-#pragma mark - NSOutlineView data source
+#pragma mark - NSOutlineViewDataSource
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item;
 {
@@ -737,7 +737,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     return nil;
 }
 
-#pragma mark - NSOutlineView delegate
+#pragma mark - NSOutlineViewDelegate
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item;
 {
@@ -809,7 +809,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     }
 }
 
-#pragma mark - NSTextView delegate
+#pragma mark - NSTextViewDelegate
 
 - (void)textDidEndEditing:(NSNotification *)aNotification;
 {

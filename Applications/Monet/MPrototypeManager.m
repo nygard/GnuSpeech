@@ -524,7 +524,7 @@
     [[NSApp delegate] editSpecialTransition:[self selectedSpecialTransition]];
 }
 
-#pragma mark - NSOutlineView data source
+#pragma mark - NSOutlineViewDataSource
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item;
 {
@@ -709,7 +709,7 @@
     }
 }
 
-#pragma mark - NSOutlineView delegate
+#pragma mark - NSOutlineViewDelegate
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)aNotification;
 {
@@ -748,7 +748,7 @@
     return YES;
 }
 
-#pragma mark - NSTextView delegate
+#pragma mark - NSTextViewDelegate
 
 - (void)textDidEndEditing:(NSNotification *)aNotification;
 {

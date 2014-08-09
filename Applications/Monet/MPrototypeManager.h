@@ -6,7 +6,7 @@
 @class MMEquation, MMFormulaParser, MModel, MMTransition;
 @class SpecialView, TransitionView;
 
-@interface MPrototypeManager : MWindowController
+@interface MPrototypeManager : MWindowController <NSOutlineViewDataSource, NSOutlineViewDelegate>
 
 - (id)initWithModel:(MModel *)aModel;
 
@@ -44,22 +44,6 @@
 - (IBAction)addSpecialTransition:(id)sender;
 - (IBAction)removeSpecialTransition:(id)sender;
 - (IBAction)editSpecialTransition:(id)sender;
-
-// NSOutlineView data source
-- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item;
-- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item;
-- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item;
-- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item;
-- (void)outlineView:(NSOutlineView *)outlineView willDisplayOutlineCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item;
-- (void)outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item;
-
-// NSOutlineView delegate
-- (void)outlineViewSelectionDidChange:(NSNotification *)aNotification;
-- (BOOL)outlineView:(NSOutlineView *)outlineView shouldEditTableColumn:(NSTableColumn *)tableColumn item:(id)item;
-- (BOOL)outlineView:(NSOutlineView *)outlineView shouldExpandItem:(id)item;
-
-// NSTextView delegate
-- (void)textDidEndEditing:(NSNotification *)aNotification;
 
 // Equation usage caching
 - (void)clearEquationUsageCache;

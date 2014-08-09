@@ -184,7 +184,7 @@
     [postureCategoryTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
 }
 
-#pragma mark - NSTableView data source
+#pragma mark - NSTableViewDataSource
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView;
 {
@@ -218,7 +218,7 @@
 {
 }
 
-#pragma mark - NSTableView delegate
+#pragma mark - NSTableViewDelegate
 
 - (BOOL)control:(NSControl *)aControl shouldProcessCharacters:(NSString *)characters;
 {

@@ -5,7 +5,7 @@
 
 @class MModel;
 
-@interface MPostureCategoryController : MWindowController
+@interface MPostureCategoryController : MWindowController <NSTableViewDataSource, NSTableViewDelegate>
 
 - (id)initWithModel:(MModel *)aModel;
 
@@ -17,13 +17,5 @@
 - (void)updateViews;
 - (void)createCategoryColumns;
 - (void)_selectFirstRow;
-
-// NSTableView data source
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView;
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
-- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
-
-// NSTableView delegate
-- (BOOL)control:(NSControl *)aControl shouldProcessCharacters:(NSString *)characters;
 
 @end
