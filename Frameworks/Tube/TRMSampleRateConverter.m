@@ -133,11 +133,7 @@
 
 - (void)dealloc;
 {
-    [m_ringBuffer release];
     [m_outputStream close];
-    [m_outputStream release];
-
-    [super dealloc];
 }
 
 #pragma mark -

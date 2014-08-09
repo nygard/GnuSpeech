@@ -16,25 +16,25 @@ int main(int argc, char *argv[])
         NSString *outputFile = nil;;
         
         if (argc == 3) {
-            inputFile  = [[[NSString alloc] initWithUTF8String:argv[1]] autorelease];
-            outputFile = [[[NSString alloc] initWithUTF8String:argv[2]] autorelease];
+            inputFile  = [[NSString alloc] initWithUTF8String:argv[1]];
+            outputFile = [[NSString alloc] initWithUTF8String:argv[2]];
         } else if ((argc == 4) && (!strcmp("-v", argv[1]))) {
             verbose = YES;
-            inputFile  = [[[NSString alloc] initWithUTF8String:argv[2]] autorelease];
-            outputFile = [[[NSString alloc] initWithUTF8String:argv[3]] autorelease];
+            inputFile  = [[NSString alloc] initWithUTF8String:argv[2]];
+            outputFile = [[NSString alloc] initWithUTF8String:argv[3]];
         } else {
             fprintf(stderr, "Usage:  %s [-v] inputFile outputFile\n", argv[0]);
             exit(-1);
         }
         
-        TRMDataList *inputData = [[[TRMDataList alloc] initWithContentsOfFile:inputFile error:NULL] autorelease];
+        TRMDataList *inputData = [[TRMDataList alloc] initWithContentsOfFile:inputFile error:NULL];
         if (inputData == nil) {
             fprintf(stderr, "Aborting...\n");
             exit(-1);
         }
         
         // Initialize the synthesizer
-        TRMTubeModel *tube = [[[TRMTubeModel alloc] initWithInputData:inputData] autorelease];
+        TRMTubeModel *tube = [[TRMTubeModel alloc] initWithInputData:inputData];
         if (tube == nil) {
             fprintf(stderr, "Aborting...\n");
             exit(-1);

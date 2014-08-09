@@ -194,7 +194,7 @@ NSString *STCoreAudioErrorDescription(OSStatus error)
 - (id)initWithInputData:(TRMDataList *)inputData;
 {
     if ((self = [super init])) {
-        m_inputData = [inputData retain];
+        m_inputData = inputData;
 
         double nyquist;
         
@@ -211,7 +211,6 @@ NSString *STCoreAudioErrorDescription(OSStatus error)
             nyquist = (double)sampleRate / 2.0;
         } else {
             fprintf(stderr, "Illegal tube length: %g\n", m_inputData.inputParameters.length);
-            [self release];
             return nil;
         }
         
@@ -266,20 +265,6 @@ NSString *STCoreAudioErrorDescription(OSStatus error)
     }
 
     return self;
-}
-
-- (void)dealloc;
-{
-    [m_inputData release];
-
-    [wavetable release];
-
-    [m_currentParameters release];
-    [m_currentDelta release];
-
-    [m_sampleRateConverter release];
-
-    [super dealloc];
 }
 
 #pragma mark -
@@ -535,7 +520,7 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
 {
     NSParameterAssert(self.sampleRateConverter.maximumSampleValue != 0);
     
-    NSMutableData *sampleData = [[[NSMutableData alloc] init] autorelease];
+    NSMutableData *sampleData = [[NSMutableData alloc] init];
     
     double scale = (TRMSampleValue_Maximum / self.sampleRateConverter.maximumSampleValue) * amplitude(m_inputData.inputParameters.volume);
     
@@ -614,7 +599,7 @@ const uint16_t kWAVEFormat_UncompressedPCM = 0x0001;
     
     [data appendData:sampleData];
     
-    return [[data copy] autorelease];
+    return [data copy];
 }
 
 - (void)printInputData;

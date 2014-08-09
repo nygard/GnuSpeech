@@ -40,15 +40,6 @@
     return self;
 }
 
-
-- (void)dealloc;
-{
-    [m_inputParameters release];
-    [m_values release];
-
-    [super dealloc];
-}
-
 // TODO (2012-05-19): Turn fprintfs() into returned NSErrors, and return NSErrors in the other cases too.
 - (BOOL)_parseInputFile:(NSString *)path error:(NSError **)error;
 {
@@ -227,7 +218,7 @@
     // Get the input table values
     while (fgets(line, 128, fp)) {
         char *ptr = line;
-        TRMParameters *inputParameters = [[[TRMParameters alloc] init] autorelease];
+        TRMParameters *inputParameters = [[TRMParameters alloc] init];
         double *radius = inputParameters.radius;
         
         // Get each parameter

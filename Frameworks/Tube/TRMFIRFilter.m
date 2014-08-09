@@ -53,7 +53,6 @@ static void rationalApproximation(double number, int32_t *order, int32_t *numera
         m_FIRData = (double *)calloc(m_numberTaps, sizeof(double));
         if (m_FIRData == NULL) {
             fprintf(stderr, "calloc() of FIRData failed.\n");
-            [self release];
             return nil;
         }
         
@@ -61,7 +60,6 @@ static void rationalApproximation(double number, int32_t *order, int32_t *numera
         if (m_FIRCoef == NULL) {
             fprintf(stderr, "calloc() of FIRCoef failed.\n");
             free(m_FIRData);
-            [self release];
             return nil;
         }
         
@@ -101,8 +99,6 @@ static void rationalApproximation(double number, int32_t *order, int32_t *numera
         free(m_FIRCoef);
         m_FIRCoef = NULL;
     }
-
-    [super dealloc];
 }
 
 #pragma mark -

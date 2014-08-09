@@ -65,7 +65,6 @@ static double mod0(double value)
         m_wavetable = (double *)calloc(TABLE_LENGTH, sizeof(double));
         if (m_wavetable == NULL) {
             fprintf(stderr, "Failed to allocate space for wavetable in TRMWavetableCreate.\n");
-            [self release];
             return nil;
         }
         
@@ -109,14 +108,10 @@ static double mod0(double value)
 
 - (void)dealloc;
 {
-    [m_FIRFilter release];
-
     if (m_wavetable != NULL) {
         free(m_wavetable);
         m_wavetable = NULL;
     }
-
-    [super dealloc];
 }
 
 // Rewrites the changeable part of the glottal pulse according to the amplitude.
