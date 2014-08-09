@@ -97,7 +97,7 @@
     MMPosture *aPosture;
     MMRule *aRule;
     MMFRuleSymbols *ruleSymbols = [[[MMFRuleSymbols alloc] init] autorelease];
-    double tempos[4] = {1.0, 1.0, 1.0, 1.0};
+//    double tempos[4] = {1.0, 1.0, 1.0, 1.0};
     NSString *posture1Name, *posture2Name, *posture3Name, *posture4Name;
 
     testCategoryLists = [NSMutableArray array];
@@ -161,7 +161,8 @@
         [ruleOutputTextField setStringValue:str];
         [consumedTokensTextField setIntegerValue:[aRule numberExpressions] - 1];
 
-        [aRule evaluateSymbolEquations:ruleSymbols tempos:tempos postures:testPostures withCache:[[self model] nextCacheTag]];
+        // TODO: (2014-08-09) Fix array.
+        [aRule evaluateSymbolEquationsWithPhonesInArray:nil ruleSymbols:ruleSymbols withCacheTag:[[self model] nextCacheTag]];
 
         [[durationOutputForm cellAtIndex:0] setDoubleValue:ruleSymbols.ruleDuration];
         [[durationOutputForm cellAtIndex:1] setDoubleValue:ruleSymbols.beat];

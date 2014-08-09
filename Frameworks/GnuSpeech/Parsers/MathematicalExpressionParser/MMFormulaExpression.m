@@ -97,29 +97,29 @@
     return 0;
 }
 
-- (double)evaluate:(MMFRuleSymbols *)ruleSymbols postures:(NSArray *)postures tempos:(double *)tempos;
+- (double)evaluateWithPhonesInArray:(NSArray *)phones ruleSymbols:(MMFRuleSymbols *)ruleSymbols;
 {
     switch (self.operation) {
-      case MMFormulaOperation_Add:
-          return [self.left evaluate:ruleSymbols postures:postures tempos:tempos] + [self.right evaluate:ruleSymbols postures:postures tempos:tempos];
-          break;
+        case MMFormulaOperation_Add:
+            return [self.left evaluateWithPhonesInArray:phones ruleSymbols:ruleSymbols] + [self.right evaluateWithPhonesInArray:phones ruleSymbols:ruleSymbols];
+            break;
 
-      case MMFormulaOperation_Subtract:
-          return [self.left evaluate:ruleSymbols postures:postures tempos:tempos] - [self.right evaluate:ruleSymbols postures:postures tempos:tempos];
-          break;
+        case MMFormulaOperation_Subtract:
+            return [self.left evaluateWithPhonesInArray:phones ruleSymbols:ruleSymbols] - [self.right evaluateWithPhonesInArray:phones ruleSymbols:ruleSymbols];
+            break;
 
-      case MMFormulaOperation_Multiply:
-          return [self.left evaluate:ruleSymbols postures:postures tempos:tempos] * [self.right evaluate:ruleSymbols postures:postures tempos:tempos];
-          break;
+        case MMFormulaOperation_Multiply:
+            return [self.left evaluateWithPhonesInArray:phones ruleSymbols:ruleSymbols] * [self.right evaluateWithPhonesInArray:phones ruleSymbols:ruleSymbols];
+            break;
 
-      case MMFormulaOperation_Divide:
-          return [self.left evaluate:ruleSymbols postures:postures tempos:tempos] / [self.right evaluate:ruleSymbols postures:postures tempos:tempos];
-          break;
+        case MMFormulaOperation_Divide:
+            return [self.left evaluateWithPhonesInArray:phones ruleSymbols:ruleSymbols] / [self.right evaluateWithPhonesInArray:phones ruleSymbols:ruleSymbols];
+            break;
 
-      default:
-          return 1.0;
+        default:
+            return 1.0;
     }
-
+    
     return 0.0;
 }
 

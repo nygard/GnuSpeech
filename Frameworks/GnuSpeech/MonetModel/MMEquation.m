@@ -67,21 +67,11 @@
     [formulaParser release];
 }
 
-- (double)evaluate:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag;
+- (double)evaluateWithPhonesInArray:(NSArray *)phones ruleSymbols:(MMFRuleSymbols *)ruleSymbols andCacheWithTag:(NSUInteger)newCacheTag;
 {
     if (newCacheTag != cacheTag) {
         cacheTag = newCacheTag;
-        cacheValue = [formula evaluate:ruleSymbols postures:postures tempos:tempos];
-    }
-
-    return cacheValue;
-}
-
-- (double)evaluate:(MMFRuleSymbols *)ruleSymbols postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag;
-{
-    if (newCacheTag != cacheTag) {
-        cacheTag = newCacheTag;
-        cacheValue = [formula evaluate:ruleSymbols postures:postures];
+        cacheValue = [formula evaluateWithPhonesInArray:phones ruleSymbols:ruleSymbols];
     }
 
     return cacheValue;

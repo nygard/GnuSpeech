@@ -9,6 +9,7 @@
 #import "MMPosture.h"
 #import "MMSymbol.h"
 #import "MMTarget.h"
+#import "MMPhone.h"
 
 #import "MModel.h"
 
@@ -44,34 +45,36 @@
     return 3;
 }
 
-- (double)evaluate:(MMFRuleSymbols *)ruleSymbols postures:(NSArray *)postures tempos:(double *)tempos;
+- (double)evaluateWithPhonesInArray:(NSArray *)phones ruleSymbols:(MMFRuleSymbols *)ruleSymbols;
 {
-    // Duration of the rule itself
+    NSParameterAssert([phones count] < 4);
+
     switch (whichPhone) {
-        case MMPhoneIndex_RuleDuration: return ruleSymbols.ruleDuration;
+        case MMPhoneIndex_RuleDuration: return ruleSymbols.ruleDuration; // Duration of the rule itself
         case MMPhoneIndex_Beat:         return ruleSymbols.beat;
         case MMPhoneIndex_Mark1:        return ruleSymbols.mark1;
         case MMPhoneIndex_Mark2:        return ruleSymbols.mark2;
         case MMPhoneIndex_Mark3:        return ruleSymbols.mark3;
-        case MMPhoneIndex_Tempo0:       return tempos[0];
-        case MMPhoneIndex_Tempo1:       return tempos[1];
-        case MMPhoneIndex_Tempo2:       return tempos[2];
-        case MMPhoneIndex_Tempo3:       return tempos[3];
-            
+        case MMPhoneIndex_Tempo0:       { MMPhone *phone = phones[0]; return phone.tempo; }
+        case MMPhoneIndex_Tempo1:       { MMPhone *phone = phones[1]; return phone.tempo; }
+        case MMPhoneIndex_Tempo2:       { MMPhone *phone = phones[2]; return phone.tempo; }
+        case MMPhoneIndex_Tempo3:       { MMPhone *phone = phones[3]; return phone.tempo; }
+
         default:
             break;
     }
-    
+
     // Constant value
     if (symbol == nil)
         return value;
 
     NSParameterAssert(whichPhone >= 0 && whichPhone < 4);
-    
-    MMTarget *symbolTarget = [[postures objectAtIndex:whichPhone] targetForSymbol:symbol];
+
+    MMPhone *phone = phones[whichPhone];
+    MMTarget *symbolTarget = [phone.posture targetForSymbol:symbol];
     if (symbolTarget == nil)
         return 0.0;
-    
+
     return [symbolTarget value];
 }
 

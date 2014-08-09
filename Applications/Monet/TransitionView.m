@@ -435,7 +435,9 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         for (NSUInteger j = 0; j < [group.objects count]; j++) {
             MMEquation *equation = [group.objects objectAtIndex:j];
             if ([[equation formula] maxPhone] <= type) {
-                double time = [equation evaluate:self.parameters postures:samplePostures andCacheWith:cacheTag];
+                double time = [equation evaluateWithPhonesInArray:nil ruleSymbols:self.parameters andCacheWithTag:cacheTag];
+                // TODO: (2014-08-09) Need to turn samplePostures into array of MMPhones
+//                double time = [equation evaluate:self.parameters postures:samplePostures andCacheWith:cacheTag];
                 //NSLog(@"\t%@", [equation name]);
                 //NSLog(@"\t\ttime = %f", time);
                 //NSLog(@"equation name: %@, formula: %@, time: %f", [equation name], [[equation expression] expressionString], time);
@@ -609,7 +611,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 
 - (void)updateDisplayPoints;
 {
-    double tempos[4] = {1.0, 1.0, 1.0, 1.0};
+//    double tempos[4] = {1.0, 1.0, 1.0, 1.0};
 
     if (transition == nil)
         return;
@@ -626,7 +628,9 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         MMPoint *currentPoint = [currentPoints objectAtIndex:index];
         //NSLog(@"%2d: object class: %@", index, NSStringFromClass([currentPoint class]));
         //NSLog(@"%2d (a): value: %g, freeTime: %g, type: %d, isPhantom: %d", index, [currentPoint value], [currentPoint freeTime], [currentPoint type], [currentPoint isPhantom]);
-        [currentPoint calculatePoints:self.parameters tempos:tempos postures:samplePostures andCacheWith:cacheTag toDisplay:displayPoints];
+        // TODO: (2014-08-09) Fix phone array/samplePostures.  Note that tempos were all 1.0, dealing w/ samples so that should be ok.
+        [currentPoint calculatePointsWithPhonesInArray:nil ruleSymbols:self.parameters andCacheWithTag:cacheTag andAddToDisplay:displayPoints];
+//        [currentPoint calculatePoints:self.parameters tempos:tempos postures:samplePostures andCacheWith:cacheTag toDisplay:displayPoints];
         //NSLog(@"%2d (b): value: %g, freeTime: %g, type: %d, isPhantom: %d", index, [currentPoint value], [currentPoint freeTime], [currentPoint type], [currentPoint isPhantom]);
 
         if ([currentPoint isKindOfClass:[MMSlopeRatio class]])
@@ -1051,8 +1055,11 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         MMEquation *currentExpression = [currentDisplayPoint timeEquation];
         if (currentExpression == nil)
             currentPoint.x = [currentDisplayPoint freeTime];
-        else
-            currentPoint.x = [[currentDisplayPoint timeEquation] evaluate:self.parameters postures:samplePostures andCacheWith:cacheTag];
+        else {
+            // TODO: (2014-08-09) Turn samplePostures into array of MMPhones
+            MMEquation *equation = [currentDisplayPoint timeEquation];
+            currentPoint.x = [equation evaluateWithPhonesInArray:nil ruleSymbols:self.parameters andCacheWithTag:cacheTag];
+        }
 
         currentPoint.x *= timeScale;
         currentPoint.y = (yScale * zeroIndex) + ([currentDisplayPoint value] * yScale / sectionAmount);

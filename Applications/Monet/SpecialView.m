@@ -115,8 +115,10 @@
             CGFloat y = (CGFloat)[currentPoint value];
             if ([currentPoint timeEquation] == nil)
                 eventTime = [currentPoint freeTime];
-            else
-                eventTime = [[currentPoint timeEquation] evaluate:self.parameters postures:self.samplePostures andCacheWith:cacheTag];
+            else {
+                // TODO: (2014-08-09) Fix array.
+                eventTime = [[currentPoint timeEquation] evaluateWithPhonesInArray:nil ruleSymbols:self.parameters andCacheWithTag:cacheTag];
+            }
 
             NSPoint myPoint;
             myPoint.x = graphOrigin.x + timeScale * eventTime;
@@ -203,8 +205,9 @@
         MMEquation *currentExpression = [currentDisplayPoint timeEquation];
         if (currentExpression == nil)
             currentPoint.x = [currentDisplayPoint freeTime];
-        else
-            currentPoint.x = [[currentDisplayPoint timeEquation] evaluate:self.parameters postures:self.samplePostures andCacheWith:cacheTag];
+        else {
+            currentPoint.x = [[currentDisplayPoint timeEquation] evaluateWithPhonesInArray:nil ruleSymbols:self.parameters andCacheWithTag:cacheTag];
+        }
 
         currentPoint.x *= timeScale;
         currentPoint.y = (yScale * self.zeroIndex) + ([currentDisplayPoint value] * yScale / self.sectionAmount);

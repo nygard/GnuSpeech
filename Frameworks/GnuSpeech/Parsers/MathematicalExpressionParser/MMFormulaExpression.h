@@ -24,7 +24,7 @@ typedef NSUInteger MMFormulaOperation;
 // Methods overridden from MMFormulaNode
 - (NSUInteger)precedence;
 
-- (double)evaluate:(MMFRuleSymbols *)ruleSymbols postures:(NSArray *)postures tempos:(double *)tempos;
+- (double)evaluateWithPhonesInArray:(NSArray *)phones ruleSymbols:(MMFRuleSymbols *)ruleSymbols;
 
 - (NSInteger)maxPhone;
 
