@@ -8,7 +8,6 @@
 @interface MRuleManager : MWindowController
 
 - (id)initWithModel:(MModel *)aModel;
-- (void)dealloc;
 
 - (MModel *)model;
 - (void)setModel:(MModel *)newModel;
@@ -16,7 +15,6 @@
 - (NSUndoManager *)undoManager;
 - (MMRule *)selectedRule;
 
-- (void)windowDidLoad;
 - (void)updateViews;
 - (void)expandOutlines;
 - (void)_updateSelectedRuleDetails;

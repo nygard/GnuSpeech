@@ -15,7 +15,6 @@ extern NSString *MAIntonationViewSelectionDidChangeNotification;
 @interface MAIntonationView : NSView
 
 - (id)initWithFrame:(NSRect)frameRect;
-- (void)dealloc;
 
 - (void)setScaleView:(MAIntonationScaleView *)newScaleView;
 

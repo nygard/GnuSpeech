@@ -9,14 +9,11 @@
 @interface MPrototypeManager : MWindowController
 
 - (id)initWithModel:(MModel *)aModel;
-- (void)dealloc;
 
 - (MModel *)model;
 - (void)setModel:(MModel *)newModel;
 
 - (NSUndoManager *)undoManager;
-
-- (void)windowDidLoad;
 
 - (void)updateViews;
 - (void)expandOutlines;
