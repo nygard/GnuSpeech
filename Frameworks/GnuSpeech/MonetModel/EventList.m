@@ -45,13 +45,6 @@ struct _foot {
     NSUInteger last; // Is this the last foot of (the tone group?)
 };
 
-struct _phone {
-    MMPosture *phone;
-    NSUInteger syllable; // TODO (2004-08-12): This isn't used for anything right now.
-    double onset;
-    float ruleTempo;
-};
-
 NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoints";
 
 @interface EventList ()
@@ -121,11 +114,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     double m_multiplier; // Move... somewhere else.
     MMIntonationParameters *m_intonationParameters;
     
-    /* NOTE phones and phoneTempo are separate for Optimization reasons */
     NSMutableArray *_phones;
-//    NSUInteger postureCount;
-//    struct _phone phones[MAXPHONES];
-//    double phoneTempo[MAXPHONES];
 
     NSUInteger footCount;
     struct _foot feet[MAXFEET];
@@ -818,7 +807,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
             [tempPhones removeAllObjects];
             [tempCategoryList removeAllObjects];
 
-            // Rules can match up to four phones.  Should be minimum of two phones.  (Hence postureCount-1 above.)
+            // Rules can match up to four phones.  Should be minimum of two phones.  (Hence [_phones count]-1 above.)
             for (NSUInteger rulePhoneIndex = 0; rulePhoneIndex < 4; rulePhoneIndex++) {
                 NSUInteger actualIndex = index + rulePhoneIndex;
                 if (actualIndex < [_phones count]) {
