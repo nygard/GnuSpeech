@@ -551,14 +551,9 @@ const char *lookup_word(const char *word, short *dict)
 	   *dict = TTS_LETTER_TO_SOUND;
 	    return((const char *)pronunciation);
 	}
-	else {
-	    *dict = TTS_LETTER_TO_SOUND;
-	    return((const char *)degenerate_string(word));
-	}
-		
-	/*  SHOULD NEVER GET HERE, BUT IF YOU DO, RETURN NULL  */
-	*dict = -1;
-	return(NULL);
+
+    *dict = TTS_LETTER_TO_SOUND;
+    return((const char *)degenerate_string(word));
 }
 
 
