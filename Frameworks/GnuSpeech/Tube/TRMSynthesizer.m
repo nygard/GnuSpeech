@@ -136,12 +136,12 @@
 @synthesize shouldSaveToSoundFile = m_shouldSaveToSoundFile;
 @synthesize filename = m_filename;
 
-- (int)fileType;
+- (NSUInteger)fileType;
 {
     return m_inputData.inputParameters.outputFileFormat;
 }
 
-- (void)setFileType:(int)newFileType;
+- (void)setFileType:(NSUInteger)newFileType;
 {
     m_inputData.inputParameters.outputFileFormat = newFileType;
 }

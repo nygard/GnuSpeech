@@ -296,8 +296,8 @@ int init_cache(char *cache_preload_file_path)
 	/*  READ IN DIPHONES, ONE LINE AT A TIME, PRELOAD CACHE  */
 	while ((fgets(buffer,((SYMBOL_LENGTH_MAX+1)*2),fp1) != NULL) && 
 		   (number_of_cache_items < CACHE_SIZE)) {
-		int space_pos = index(buffer,' ') - buffer;
-		int newline_pos = index(buffer,'\n') - buffer;
+		long space_pos = index(buffer,' ') - buffer;
+		long newline_pos = index(buffer,'\n') - buffer;
 		/*  DECODE PHONE1  */
 		phone1[0] = '\0';
 		strncat(phone1,buffer,space_pos);

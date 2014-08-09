@@ -13,7 +13,7 @@
 
 @property (assign) BOOL shouldSaveToSoundFile;
 @property (strong) NSString *filename;
-@property (nonatomic, assign) int fileType;
+@property (nonatomic, assign) NSUInteger fileType;
 
 - (void)synthesize;
 

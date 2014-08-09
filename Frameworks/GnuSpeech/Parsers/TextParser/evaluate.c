@@ -48,26 +48,26 @@
 
 /*  GLOBALS -- LOCAL TO THIS FILE  */
 static char c_char, *input_string, *current_phone, op_cat_string[256];
-static int c_pos, last_char_pos, token, token_available, end_of_input;
+static long c_pos, last_char_pos, token, token_available, end_of_input;
 
 static void e_scan_init(char *input);
-static int evaluate_input(void);
-static int evaluate_line(void);
-static int evaluate_expression(void);
-static int operator(int code);
-static int value(int code);
-static int evaluate_expression_tail(void);
-static int evaluate_negation(void);
-static int evaluate_category_name(void);
-static int e_next_token(void);
+static long evaluate_input(void);
+static long evaluate_line(void);
+static long evaluate_expression(void);
+static long operator(long code);
+static long value(long code);
+static long evaluate_expression_tail(void);
+static long evaluate_negation(void);
+static long evaluate_category_name(void);
+static long e_next_token(void);
 static void e_skip_white(void);
 static void e_advance(void);
-static int e_get_a_token(void);
-static int e_get_operator_or_category(void);
-static void e_match_tokens(int expected_token);
+static long e_get_a_token(void);
+static long e_get_operator_or_category(void);
+static void e_match_tokens(long expected_token);
 
 
-int evaluate(char *rule, char *phone)
+long evaluate(char *rule, char *phone)
 {
 	/*  SET GLOBALS  */
 	current_phone = phone;
@@ -94,9 +94,9 @@ void e_scan_init(char *input)
 
 
 
-int evaluate_input(void)
+long evaluate_input(void)
 {
-	int value_line;
+	long value_line;
 	
 	/*  GET THE NEXT TOKEN  */
 	token = e_next_token();
@@ -111,9 +111,9 @@ int evaluate_input(void)
 
 
 
-int evaluate_line(void)
+long evaluate_line(void)
 {
-	int negative, value_expression;
+	long negative, value_expression;
 	
 	/*  GET THE NEXT TOKEN  */
 	token = e_next_token();
@@ -131,9 +131,9 @@ int evaluate_line(void)
 
 
 
-int evaluate_expression(void)
+long evaluate_expression(void)
 {
-	int value_line, value_category_name, expression_tail;
+	long value_line, value_category_name, expression_tail;
 	
 	/*  GET THE NEXT TOKEN  */
 	token = e_next_token();
@@ -185,7 +185,7 @@ int evaluate_expression(void)
 
 
 
-int operator(int code)
+long operator(long code)
 {
 	if (code < 0)
 		return(code * (-1));
@@ -195,7 +195,7 @@ int operator(int code)
 
 
 
-int value(int code)
+long value(long code)
 {
 	if (code < 0)
 		return(1);
@@ -205,9 +205,9 @@ int value(int code)
 
 
 
-int evaluate_expression_tail(void)
+long evaluate_expression_tail(void)
 {
-	int value_line, operator;
+	long value_line, operator;
 	
 	/*  GET NEXT TOKEN  */
 	token = e_next_token();
@@ -229,7 +229,7 @@ int evaluate_expression_tail(void)
 
 
 
-int evaluate_negation(void)
+long evaluate_negation(void)
 {
 	/*  GET NEXT TOKEN  */
 	token = e_next_token();
@@ -245,7 +245,7 @@ int evaluate_negation(void)
 
 
 
-int evaluate_category_name(void)
+long evaluate_category_name(void)
 {
 	/*  GET A TOKEN  */
 	token = e_next_token();
@@ -257,7 +257,7 @@ int evaluate_category_name(void)
 
 
 
-int e_next_token(void)
+long e_next_token(void)
 {
 	if (!token_available) {
 		token = EMPTY_TOKEN;
@@ -292,7 +292,7 @@ void e_advance(void)
 
 
 
-int e_get_a_token(void)
+long e_get_a_token(void)
 {
 	e_skip_white();
 	
@@ -312,7 +312,7 @@ int e_get_a_token(void)
 
 
 
-int e_get_operator_or_category(void)
+long e_get_operator_or_category(void)
 {
 	int string_index = 0;
 	
@@ -338,7 +338,7 @@ int e_get_operator_or_category(void)
 
 
 
-void e_match_tokens(int expected_token)
+void e_match_tokens(long expected_token)
 {
 	token = e_next_token();
 	token_available = 0;

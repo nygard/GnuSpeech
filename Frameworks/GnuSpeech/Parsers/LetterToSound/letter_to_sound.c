@@ -76,7 +76,7 @@ char *letter_to_sound(char *word)
 {
     char                buffer[MAX_WORD_LENGTH+3];
     static char         pronunciation[MAX_PRONUNCIATION_LENGTH+1];
-    int                 number_of_syllables = 0;
+    long                 number_of_syllables = 0;
 	
 	
     /*  FORMAT WORD  */

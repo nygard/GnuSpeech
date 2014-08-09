@@ -28,4 +28,4 @@
 
 
 /*  GLOBAL FUNCTIONS *********************************************************/
-int syllabify(char *word);
+long syllabify(char *word);

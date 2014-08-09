@@ -47,11 +47,11 @@ typedef char phone_type;
 
 
 /*  GLOBAL FUNCTIONS (LOCAL TO THIS FILE)  ***********************************/
-static int syllable_break(char *cluster);
+static long syllable_break(char *cluster);
 static void create_cv_signature(char *ptr, phone_type *arr);
 static char *add_1_phone(char *t);
 static char *extract_consonant_cluster(char *ptr, phone_type *type);
-static int next_consonant_cluster(phone_type *pt);
+static long next_consonant_cluster(phone_type *pt);
 static int check_cluster(char *p, char **match_array);
 
 
@@ -78,9 +78,9 @@ static int check_cluster(char *p, char **match_array);
  *
  ******************************************************************************/
 
-int syllabify(char *word)
+long syllabify(char *word)
 {
-    int                 i, n, temp, number_of_syllables = 0;
+    long                 i, n, temp, number_of_syllables = 0;
     phone_type          cv_signature[MAX_LEN], *current_type;
     char                *cluster, *ptr;
 	
@@ -135,10 +135,10 @@ int syllabify(char *word)
  *
  ******************************************************************************/
 
-int syllable_break(char *cluster)
+long syllable_break(char *cluster)
 {
     char                *left_cluster, *right_cluster, temp[MAX_LEN];
-    int                 offset, length;
+    long                 offset, length;
 	
 	
     /*  GET LENGTH OF CLUSTER  */
@@ -250,7 +250,7 @@ char *extract_consonant_cluster(char *ptr, phone_type *type)
 {
     char                *newptr;
     static char         ret[2048];  // to fix memory leak
-    int                 offset;
+    long                 offset;
 	
     newptr = ptr;
 	
@@ -296,7 +296,7 @@ char *extract_consonant_cluster(char *ptr, phone_type *type)
  *
  ******************************************************************************/
 
-int next_consonant_cluster(phone_type *pt)
+long next_consonant_cluster(phone_type *pt)
 {
     phone_type         *pt_var, *pt_temp;
 	

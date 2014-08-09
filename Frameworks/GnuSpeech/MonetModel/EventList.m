@@ -749,7 +749,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
         double footTempo;
 
         // TODO (2012-04-23): What does "rus" mean?
-        int rus = feet[i].endPhoneIndex - feet[i].startPhoneIndex + 1;
+        NSUInteger rus = feet[i].endPhoneIndex - feet[i].startPhoneIndex + 1;
 
         /* Apply rhythm model */
         if (feet[i].marked) {
