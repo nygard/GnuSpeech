@@ -48,7 +48,7 @@
 /// This takes an array of 0-4 MMPhone objects, and the rule symbols, and returns the appropriate value.
 - (double)evaluateWithPhonesInArray:(NSArray *)phones ruleSymbols:(MMFRuleSymbols *)ruleSymbols;
 {
-    NSParameterAssert([phones count] < 4);
+    NSParameterAssert([phones count] <= 4);
 
     switch (whichPhone) {
         case MMPhoneIndex_RuleDuration: return ruleSymbols.ruleDuration; // Duration of the rule itself
