@@ -437,7 +437,7 @@ NSString *STCoreAudioErrorDescription(OSStatus error)
     }
     
     AudioFileID audioFile;
-    OSStatus audioError = AudioFileCreateWithURL((CFURLRef)(fileURL), TRMCoreAudioFormatFromSoundFileFormat(self.inputParameters.outputFileFormat), &asbd, kAudioFileFlags_EraseFile, &audioFile);
+    OSStatus audioError = AudioFileCreateWithURL((__bridge CFURLRef)(fileURL), TRMCoreAudioFormatFromSoundFileFormat(self.inputParameters.outputFileFormat), &asbd, kAudioFileFlags_EraseFile, &audioFile);
     //NSLog(@"Error: %@", STCoreAudioErrorDescription(audioError));
     assert(audioError == noErr);
 
