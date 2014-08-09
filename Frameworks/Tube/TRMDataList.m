@@ -16,15 +16,15 @@
 
 @implementation TRMDataList
 {
-    TRMInputParameters *m_inputParameters;
-    NSMutableArray *m_values;
+    TRMInputParameters *_inputParameters;
+    NSMutableArray *_values;
 }
 
 - (id)init;
 {
     if ((self = [super init])) {
-        m_inputParameters = [[TRMInputParameters alloc] init];
-        m_values = [[NSMutableArray alloc] init];
+        _inputParameters = [[TRMInputParameters alloc] init];
+        _values = [[NSMutableArray alloc] init];
     }
     
     return self;
@@ -246,11 +246,6 @@
 
     return YES;
 }
-
-#pragma mark -
-
-@synthesize inputParameters = m_inputParameters;
-@synthesize values = m_values;
 
 #pragma mark -
 
