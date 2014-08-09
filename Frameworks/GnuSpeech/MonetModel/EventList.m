@@ -1311,7 +1311,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     [intonationPoints removeAllObjects];
 
     NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:NSKeyValueChangeRemoval], NSKeyValueChangeKindKey, nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidChangeIntonationPoints object:self userInfo:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidChangeIntonationPoints object:self userInfo:userInfo];
 }
 
 #pragma mark - Intonation
