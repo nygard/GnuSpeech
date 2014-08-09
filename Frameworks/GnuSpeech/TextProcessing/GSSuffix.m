@@ -12,21 +12,12 @@
 - (id)initWithSuffix:(NSString *)aSuffix replacementString:(NSString *)aReplacementString appendedPronunciation:(NSString *)anAppendedPronunciation;
 {
     if ((self = [super init])) {
-        suffix = [aSuffix retain];
-        replacementString = [aReplacementString retain];
-        appendedPronunciation = [anAppendedPronunciation retain];
+        suffix = aSuffix;
+        replacementString = aReplacementString;
+        appendedPronunciation = anAppendedPronunciation;
     }
 
     return self;
-}
-
-- (void)dealloc;
-{
-    [suffix release];
-    [replacementString release];
-    [appendedPronunciation release];
-
-    [super dealloc];
 }
 
 #pragma mark - Debugging

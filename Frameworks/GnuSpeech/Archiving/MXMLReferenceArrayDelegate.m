@@ -18,24 +18,14 @@
 - (id)initWithChildElementName:(NSString *)anElementName referenceAttribute:(NSString *)anAttribute delegate:(id)aDelegate addObjectSelector:(SEL)aSelector;
 {
     if ((self = [super init])) {
-        childElementName = [anElementName retain];
-        referenceAttribute = [anAttribute retain];
-        delegate = [aDelegate retain];
+        childElementName = anElementName;
+        referenceAttribute = anAttribute;
+        delegate = aDelegate;
         addObjectSelector = aSelector;
         references = [[NSMutableArray alloc] init];
     }
 
     return self;
-}
-
-- (void)dealloc;
-{
-    [childElementName release];
-    [referenceAttribute release];
-    [delegate release];
-    [references release];
-
-    [super dealloc];
 }
 
 #pragma mark -

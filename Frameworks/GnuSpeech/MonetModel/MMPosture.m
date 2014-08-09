@@ -74,30 +74,19 @@
     [self addCategory:[self.model categoryWithName:@"phone"]];
 
     for (MMParameter *parameter in [self.model parameters]) {
-        MMTarget *target = [[[MMTarget alloc] initWithValue:[parameter defaultValue] isDefault:YES] autorelease];
+        MMTarget *target = [[MMTarget alloc] initWithValue:[parameter defaultValue] isDefault:YES];
         [self.parameterTargets addObject:target];
     }
 
     for (MMParameter *parameter in [self.model metaParameters]) {
-        MMTarget *target = [[[MMTarget alloc] initWithValue:[parameter defaultValue] isDefault:YES] autorelease];
+        MMTarget *target = [[MMTarget alloc] initWithValue:[parameter defaultValue] isDefault:YES];
         [self.metaParameterTargets addObject:target];
     }
 
     for (MMParameter *parameter in [self.model symbols]) {
-        MMTarget *target = [[[MMTarget alloc] initWithValue:[parameter defaultValue] isDefault:YES] autorelease];
+        MMTarget *target = [[MMTarget alloc] initWithValue:[parameter defaultValue] isDefault:YES];
         [self.symbolTargets addObject:target];
     }
-}
-
-- (void)dealloc;
-{
-    [m_categories release];
-    [m_parameterTargets release];
-    [m_metaParameterTargets release];
-    [m_symbolTargets release];
-    [m_nativeCategory release];
-
-    [super dealloc];
 }
 
 #pragma mark - Debugging
@@ -186,7 +175,7 @@
         MMTarget *target = [dictionary objectForKey:parameter.name];
         if (target == nil) {
             NSLog(@"Warning: no target for parameter %@ in save file, adding default target.", parameter.name);
-            target = [[[MMTarget alloc] initWithValue:parameter.defaultValue isDefault:YES] autorelease];
+            target = [[MMTarget alloc] initWithValue:parameter.defaultValue isDefault:YES];
             [self addParameterTarget:target];
         } else {
             [self addParameterTarget:target];
@@ -216,7 +205,7 @@
         MMTarget *target = [dictionary objectForKey:parameter.name];
         if (target == nil) {
             NSLog(@"Warning: no target for meta parameter %@ in save file, adding default target.", parameter.name);
-            target = [[[MMTarget alloc] initWithValue:parameter.defaultValue isDefault:YES] autorelease];
+            target = [[MMTarget alloc] initWithValue:parameter.defaultValue isDefault:YES];
             [self addMetaParameterTarget:target];
         } else {
             [self addMetaParameterTarget:target];
@@ -246,7 +235,7 @@
         MMTarget *target = [dictionary objectForKey:parameter.name];
         if (target == nil) {
             NSLog(@"Warning: no target for symbol %@ in save file, adding default target.", parameter.name);
-            target = [[[MMTarget alloc] initWithValue:parameter.defaultValue isDefault:YES] autorelease];
+            target = [[MMTarget alloc] initWithValue:parameter.defaultValue isDefault:YES];
             [self addSymbolTarget:target];
         } else {
             [self addSymbolTarget:target];
@@ -369,19 +358,15 @@
     if ([elementName isEqualToString:@"posture-categories"]) {
         MXMLReferenceArrayDelegate *newDelegate = [[MXMLReferenceArrayDelegate alloc] initWithChildElementName:@"category-ref" referenceAttribute:@"name" delegate:self addObjectSelector:@selector(addCategoryWithName:)];
         [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
     } else if ([elementName isEqualToString:@"parameter-targets"]) {
         MXMLDictionaryDelegate *newDelegate = [[MXMLDictionaryDelegate alloc] initWithChildElementName:@"target" class:[MMTarget class] keyAttributeName:@"name" delegate:self addObjectsSelector:@selector(addParameterTargetsFromDictionary:)];
         [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
     } else if ([elementName isEqualToString:@"meta-parameter-targets"]) {
         MXMLDictionaryDelegate *newDelegate = [[MXMLDictionaryDelegate alloc] initWithChildElementName:@"target" class:[MMTarget class] keyAttributeName:@"name" delegate:self addObjectsSelector:@selector(addMetaParameterTargetsFromDictionary:)];
         [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
     } else if ([elementName isEqualToString:@"symbol-targets"]) {
         MXMLDictionaryDelegate *newDelegate = [[MXMLDictionaryDelegate alloc] initWithChildElementName:@"target" class:[MMTarget class] keyAttributeName:@"name" delegate:self addObjectsSelector:@selector(addSymbolTargetsFromDictionary:)];
         [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
     } else {
         [super parser:parser didStartElement:elementName namespaceURI:namespaceURI qualifiedName:qName attributes:attributeDict];
     }

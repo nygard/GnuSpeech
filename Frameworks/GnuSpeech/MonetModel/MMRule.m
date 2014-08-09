@@ -47,22 +47,6 @@
     return self;
 }
 
-- (void)dealloc;
-{
-    NSUInteger index;
-
-    [parameterTransitions release];
-    [metaParameterTransitions release];
-    [symbolEquations release];
-
-    for (index = 0 ; index < 4; index++)
-        [expressions[index] release];
-
-    // TODO (2004-03-05): Release special profiles
-
-    [super dealloc];
-}
-
 #pragma mark - Debugging
 
 - (NSString *)description;
@@ -325,8 +309,6 @@
             [self addStoredSymbolEquation:equation];
         }
     }
-
-    [symbols release];
 }
 
 - (void)setExpression:(MMBooleanNode *)newExpression number:(NSUInteger)index;
@@ -337,8 +319,7 @@
     if (newExpression == expressions[index])
         return;
 
-    [expressions[index] release];
-    expressions[index] = [newExpression retain];
+    expressions[index] = newExpression;
 }
 
 - (NSUInteger)numberExpressions;
@@ -364,7 +345,7 @@
 {
     for (NSUInteger index = 0; index < 4; index++) {
         if (expressions[index] == nil) {
-            expressions[index] = [newExpression retain];
+            expressions[index] = newExpression;
             return;
         }
     }
@@ -382,8 +363,6 @@
     } else {
         [self addBooleanExpression:result];
     }
-
-    [parser release];
 }
 
 - (BOOL)matchRule:(NSArray *)categories;
@@ -482,7 +461,7 @@
 
 - (NSString *)ruleString;
 {
-    NSMutableString *ruleString = [[[NSMutableString alloc] init] autorelease];
+    NSMutableString *ruleString = [[NSMutableString alloc] init];
 
     [expressions[0] appendExpressionToString:ruleString];
     [ruleString appendString:@" >> "];
@@ -691,27 +670,22 @@
     if ([elementName isEqualToString:@"boolean-expressions"]) {
         MXMLStringArrayDelegate *newDelegate = [[MXMLStringArrayDelegate alloc] initWithChildElementName:@"boolean-expression" delegate:self addObjectSelector:@selector(addBooleanExpressionString:)];
         [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
     } else if ([elementName isEqualToString:@"parameter-profiles"]) {
         MXMLReferenceDictionaryDelegate *newDelegate = [[MXMLReferenceDictionaryDelegate alloc] initWithChildElementName:@"parameter-transition" keyAttributeName:@"name" referenceAttributeName:@"transition"
                                                                delegate:self addObjectsSelector:@selector(addParameterTransitionsFromReferenceDictionary:)];
         [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
     } else if ([elementName isEqualToString:@"meta-parameter-profiles"]) {
         MXMLReferenceDictionaryDelegate *newDelegate = [[MXMLReferenceDictionaryDelegate alloc] initWithChildElementName:@"parameter-transition" keyAttributeName:@"name" referenceAttributeName:@"transition"
                                                                delegate:self addObjectsSelector:@selector(addMetaParameterTransitionsFromReferenceDictionary:)];
         [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
     } else if ([elementName isEqualToString:@"special-profiles"]) {
         MXMLReferenceDictionaryDelegate *newDelegate = [[MXMLReferenceDictionaryDelegate alloc] initWithChildElementName:@"parameter-transition" keyAttributeName:@"name" referenceAttributeName:@"transition"
                                                                delegate:self addObjectsSelector:@selector(addSpecialProfilesFromReferenceDictionary:)];
         [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
     } else if ([elementName isEqualToString:@"expression-symbols"]) {
         MXMLReferenceDictionaryDelegate *newDelegate = [[MXMLReferenceDictionaryDelegate alloc] initWithChildElementName:@"symbol-equation" keyAttributeName:@"name" referenceAttributeName:@"equation"
                                                                delegate:self addObjectsSelector:@selector(addSymbolEquationsFromReferenceDictionary:)];
         [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
     } else {
         [super parser:parser didStartElement:elementName namespaceURI:namespaceURI qualifiedName:qName attributes:attributes];
     }

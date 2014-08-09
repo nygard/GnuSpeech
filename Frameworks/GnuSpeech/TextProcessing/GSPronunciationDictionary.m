@@ -23,7 +23,7 @@
 - (id)initWithFilename:(NSString *)aFilename;
 {
     if ((self = [super init])) {
-        m_filename = [aFilename retain];
+        m_filename = aFilename;
         //NSLog(@"filename: %@", m_filename);
         version = nil;
         
@@ -40,16 +40,6 @@
     return self;
 }
 
-- (void)dealloc;
-{
-    [m_filename release];
-    [version release];
-    [suffixOrder release];
-    [suffixes release];
-
-    [super dealloc];
-}
-
 @synthesize filename = m_filename;
 
 - (NSString *)version;
@@ -64,8 +54,7 @@
     if (newVersion == version)
         return;
 
-    [version release];
-    version = [newVersion retain];
+    version = newVersion;
 }
 
 - (NSDate *)modificationDate;
@@ -93,10 +82,10 @@
 
     //NSLog(@" > %s", __PRETTY_FUNCTION__);
 
-    NSData *data = [[[NSData alloc] initWithContentsOfFile:aFilename] autorelease];
+    NSData *data = [[NSData alloc] initWithContentsOfFile:aFilename];
     //NSLog(@"data: %p", data);
     //str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]; // utf-8 fails
-    NSString *str = [[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding] autorelease];
+    NSString *str = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
     NSArray *lines = [str componentsSeparatedByString:@"\n"];
 
     count = [lines count];
@@ -114,7 +103,6 @@
             //NSLog(@"newSuffix: %@", newSuffix);
             [suffixOrder addObject:[newSuffix suffix]];
             [suffixes setObject:newSuffix forKey:[newSuffix suffix]];
-            [newSuffix release];
         }
     }
 

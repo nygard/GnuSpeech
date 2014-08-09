@@ -35,14 +35,6 @@
     return self;
 }
 
-- (void)dealloc;
-{
-    [points release];
-    [slopes release];
-
-    [super dealloc];
-}
-
 #pragma mark - Debugging
 
 - (NSString *)description;
@@ -63,8 +55,7 @@
     if (newList == points)
         return;
 
-    [points release];
-    points = [newList retain];
+    points = newList;
 
     [self updateSlopes];
 }
@@ -93,7 +84,6 @@
         newSlope = [[MMSlope alloc] init];
         [newSlope setSlope:1.0];
         [slopes addObject:newSlope];
-        [newSlope release];
     }
 }
 
@@ -281,13 +271,11 @@
 
         arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"point" class:[MMPoint class] delegate:self addObjectSelector:@selector(addPoint:)];
         [(MXMLParser *)parser pushDelegate:arrayDelegate];
-        [arrayDelegate release];
     } else if ([elementName isEqualToString:@"slopes"]) {
         MXMLArrayDelegate *arrayDelegate;
 
         arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"slope" class:[MMSlope class] delegate:self addObjectSelector:@selector(addSlope:)];
         [(MXMLParser *)parser pushDelegate:arrayDelegate];
-        [arrayDelegate release];
     } else {
         NSLog(@"%@, Unknown element: '%@', skipping", [self shortDescription], elementName);
         [(MXMLParser *)parser skipTree];

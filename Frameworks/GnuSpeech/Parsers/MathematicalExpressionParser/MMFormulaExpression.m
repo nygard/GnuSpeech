@@ -6,8 +6,8 @@
 #import "NSObject-Extensions.h"
 
 @interface MMFormulaExpression ()
-@property (retain) MMFormulaNode *left;
-@property (retain) MMFormulaNode *right;
+@property (strong) MMFormulaNode *left;
+@property (strong) MMFormulaNode *right;
 @end
 
 #pragma mark -
@@ -28,14 +28,6 @@
     }
 
     return self;
-}
-
-- (void)dealloc;
-{
-    [m_left release];
-    [m_right release];
-
-    [super dealloc];
 }
 
 #pragma mark -

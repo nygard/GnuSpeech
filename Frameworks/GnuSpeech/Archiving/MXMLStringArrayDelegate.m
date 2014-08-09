@@ -16,20 +16,12 @@
 - (id)initWithChildElementName:(NSString *)anElementName delegate:(id)aDelegate addObjectSelector:(SEL)aSelector;
 {
     if ((self = [super init])) {
-        childElementName = [anElementName retain];
-        delegate = [aDelegate retain];
+        childElementName = anElementName;
+        delegate = aDelegate;
         addObjectSelector = aSelector;
     }
 
     return self;
-}
-
-- (void)dealloc;
-{
-    [childElementName release];
-    [delegate release];
-
-    [super dealloc];
 }
 
 #pragma mark -
@@ -41,7 +33,6 @@
 
         newDelegate = [[MXMLPCDataDelegate alloc] initWithElementName:childElementName delegate:delegate setSelector:addObjectSelector];
         [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
     } else {
         NSLog(@"Warning: %@: skipping element: %@", NSStringFromClass([self class]), anElementName);
         [(MXMLParser *)parser skipTree];

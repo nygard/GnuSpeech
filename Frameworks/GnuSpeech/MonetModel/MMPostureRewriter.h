@@ -9,7 +9,7 @@
 
 - (id)initWithModel:(MModel *)model;
 
-@property (nonatomic, retain) MModel *model;
+@property (nonatomic, strong) MModel *model;
 
 - (void)resetState;
 - (void)rewriteEventList:(EventList *)eventList withNextPosture:(MMPosture *)nextPosture wordMarker:(BOOL)followsWordMarker;

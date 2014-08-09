@@ -50,7 +50,7 @@ typedef NSInteger MMBooleanParserToken;
 
 + (MMFormulaNode *)parsedExpressionFromString:(NSString *)string model:(MModel *)model;
 {
-    MMFormulaParser *parser = [[[MMFormulaParser alloc] initWithModel:model] autorelease];
+    MMFormulaParser *parser = [[MMFormulaParser alloc] initWithModel:model];
     MMFormulaNode *result = [parser parseString:string];
 
     return result;
@@ -76,17 +76,10 @@ typedef NSInteger MMBooleanParserToken;
 - (id)initWithModel:(MModel *)model;
 {
     if ((self = [super init])) {
-        m_model = [model retain];
+        m_model = model;
     }
 
     return self;
-}
-
-- (void)dealloc;
-{
-    [m_model release];
-
-    [super dealloc];
 }
 
 #pragma mark -
@@ -187,7 +180,7 @@ typedef NSInteger MMBooleanParserToken;
             [self match:MMFormulaParserToken_Add];
             MMFormulaNode *right = [self parseTerm];
 
-            MMFormulaExpression *expr = [[[MMFormulaExpression alloc] init] autorelease];
+            MMFormulaExpression *expr = [[MMFormulaExpression alloc] init];
             [expr setOperation:MMFormulaOperation_Add];
             [expr setOperandOne:result];
             [expr setOperandTwo:right];
@@ -196,7 +189,7 @@ typedef NSInteger MMBooleanParserToken;
             [self match:MMFormulaParserToken_Subtract];
             MMFormulaNode *right = [self parseTerm];
 
-            MMFormulaExpression *expr = [[[MMFormulaExpression alloc] init] autorelease];
+            MMFormulaExpression *expr = [[MMFormulaExpression alloc] init];
             [expr setOperation:MMFormulaOperation_Subtract]; // TODO (2012-04-20): This isn't right.  Use operation, not token
             [expr setOperandOne:result];
             [expr setOperandTwo:right];
@@ -217,7 +210,7 @@ typedef NSInteger MMBooleanParserToken;
             [self match:MMFormulaParserToken_Multiply];
             MMFormulaNode *right = [self parseFactor];
 
-            MMFormulaExpression *expr = [[[MMFormulaExpression alloc] init] autorelease];
+            MMFormulaExpression *expr = [[MMFormulaExpression alloc] init];
             [expr setOperation:MMFormulaOperation_Multiply];
             [expr setOperandOne:result];
             [expr setOperandTwo:right];
@@ -226,7 +219,7 @@ typedef NSInteger MMBooleanParserToken;
             [self match:MMFormulaParserToken_Divide];
             MMFormulaNode *right = [self parseFactor];
 
-            MMFormulaExpression *expr = [[[MMFormulaExpression alloc] init] autorelease];
+            MMFormulaExpression *expr = [[MMFormulaExpression alloc] init];
             [expr setOperation:MMFormulaOperation_Divide];
             [expr setOperandOne:result];
             [expr setOperandTwo:right];
@@ -269,7 +262,7 @@ typedef NSInteger MMBooleanParserToken;
         [result setValue:-[result value]];
     } else {
         if (self.lookahead == MMFormulaParserToken_Constant) {
-            result = [[[MMFormulaTerminal alloc] init] autorelease];
+            result = [[MMFormulaTerminal alloc] init];
             [result setValue:[self.symbolString doubleValue]];
         }
         [self match:MMFormulaParserToken_Constant];
@@ -283,7 +276,7 @@ typedef NSInteger MMBooleanParserToken;
     MMFormulaTerminal *result = nil;
 
     if (self.lookahead == MMFormulaParserToken_Symbol) {
-        result = [[[MMFormulaTerminal alloc] init] autorelease];
+        result = [[MMFormulaTerminal alloc] init];
 
         if ([self.symbolString isEqualToString:@"rd"])            { [result setWhichPhone:MMPhoneIndex_RuleDuration];
         } else if ([self.symbolString isEqualToString:@"beat"])   { [result setWhichPhone:MMPhoneIndex_Beat];

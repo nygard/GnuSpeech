@@ -41,7 +41,7 @@
             if (error != NULL) *error = [NSError errorWithDomain:NSPOSIXErrorDomain code:errno userInfo:nil];
             return nil;
         } else {
-            self.outputFileHandle = [[[NSFileHandle alloc] initWithFileDescriptor:fd closeOnDealloc:YES] autorelease];
+            self.outputFileHandle = [[NSFileHandle alloc] initWithFileDescriptor:fd closeOnDealloc:YES];
             m_shouldCloseFile = YES;
         }
     }
@@ -52,12 +52,6 @@
 - (void)dealloc;
 {
     if (m_shouldCloseFile) [m_outputFileHandle closeFile];
-    [m_outputFileHandle release];
-    [m_linePrefix release];
-    [m_lineSuffix release];
-    [m_indentations release];
-    
-    [super dealloc];
 }
 
 #pragma mark -
@@ -74,7 +68,7 @@
         va_list argList;
         
         va_start(argList, format);
-        NSString *string = [[[NSString alloc] initWithFormat:format arguments:argList] autorelease];
+        NSString *string = [[NSString alloc] initWithFormat:format arguments:argList];
         va_end(argList);
 
         if (self.linePrefix != nil && [string length] > 0) [self.outputFileHandle writeData:[self.linePrefix dataUsingEncoding:NSUTF8StringEncoding]];

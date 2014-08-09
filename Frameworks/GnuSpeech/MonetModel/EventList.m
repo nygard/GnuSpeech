@@ -80,7 +80,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 - (void)_applyFlatIntonation;
 - (void)_applySmoothIntonation;
 
-@property (retain) NSString *phoneString;
+@property (strong) NSString *phoneString;
 @property (assign) NSUInteger duration;
 @property (assign) NSUInteger timeQuantization;
 
@@ -165,21 +165,6 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     return self;
 }
 
-- (void)dealloc;
-{
-    [model release];
-    [phoneString release];
-
-    [events release];
-    [intonationPoints release];
-    [m_intonationParameters release];
-    [m_toneGroups release];
-
-    [_phones release];
-
-    [super dealloc];
-}
-
 #pragma mark -
 
 - (MModel *)model;
@@ -193,8 +178,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
         // TODO (2004-08-19): Maybe it's better just to allocate a new one?  Or create it just before synthesis?
         [self setUp]; // So that we don't have stuff left over from the previous model, which can cause a crash.
 
-        [model release];
-        model = [newModel retain];
+        model = newModel;
     }
 }
 
@@ -368,7 +352,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     [self endCurrentToneGroup];
     [self newFoot];
     
-    MMToneGroup *toneGroup = [[[MMToneGroup alloc] init] autorelease];
+    MMToneGroup *toneGroup = [[MMToneGroup alloc] init];
     toneGroup.startFootIndex = footCount - 1;
     toneGroup.endFootIndex = -1;
     [self.toneGroups addObject:toneGroup];
@@ -436,7 +420,6 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 {
     MMPhone *phone = [[MMPhone alloc] initWithPosture:object];
     [_phones addObject:phone];
-    [phone release];
 }
 
 - (void)replaceCurrentPhoneWith:(MMPosture *)object;
@@ -519,7 +502,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
     // If there are no events yet, we can just add it.
     if ([events count] == 0) {
-        newEvent = [[[Event alloc] init] autorelease];
+        newEvent = [[Event alloc] init];
         newEvent.time = tempTime;
         [events addObject:newEvent];
         return newEvent;
@@ -534,7 +517,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
         // Otherwise we'll need to create an Event at that time and insert it in the proper place.
         if ([[events objectAtIndex:i] time] < tempTime) {
-            newEvent = [[[Event alloc] init] autorelease];
+            newEvent = [[Event alloc] init];
             newEvent.time = tempTime;
             [events insertObject:newEvent atIndex:i+1];
             return newEvent;
@@ -542,7 +525,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     }
 
     // In this case the event should come at the end of the list.
-    newEvent = [[[Event alloc] init] autorelease];
+    newEvent = [[Event alloc] init];
     newEvent.time = tempTime;
     [events insertObject:newEvent atIndex:i+1];
 
@@ -595,10 +578,10 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
     self.phoneString = str;
     
-    MMPostureRewriter *postureRewriter = [[[MMPostureRewriter alloc] initWithModel:self.model] autorelease];
+    MMPostureRewriter *postureRewriter = [[MMPostureRewriter alloc] initWithModel:self.model];
     //[postureRewriter resetState];
 
-    NSScanner *scanner = [[[NSScanner alloc] initWithString:str] autorelease];
+    NSScanner *scanner = [[NSScanner alloc] initWithString:str];
     [scanner setCharactersToBeSkipped:nil];
 
     while ([scanner isAtEnd] == NO) {
@@ -827,9 +810,6 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
             index += [matchedRule numberExpressions] - 1;
         }
-
-        [tempPhones release];
-        [tempCategoryList release];
     }
 
 
@@ -888,7 +868,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
                 // Slopes from 0.02 to 0.035
                 double randomSlope = ((double)random() / (double)0x7fffffff) * 0.015 + 0.02;
 
-                MMIntonationPoint *newIntonationPoint = [[[MMIntonationPoint alloc] init] autorelease];
+                MMIntonationPoint *newIntonationPoint = [[MMIntonationPoint alloc] init];
                 // TODO (2004-08-19): But this will generate extra change notifications.  Try setting the event list for the intonation point in -addIntonationPoint:.
                 MMPhone *phone = _phones[phoneIndex];
                 [newIntonationPoint setSemitone:((phone.onset-startTime) * pretonicDelta) + m_intonationParameters.notionalPitch + randomSemitone];
@@ -905,7 +885,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
                 // Slopes from 0.02 to 0.05
                 double randomSlope = ((double)random() / (double)0x7fffffff) * 0.03 + 0.02;
 
-                MMIntonationPoint *newIntonationPoint = [[[MMIntonationPoint alloc] init] autorelease];
+                MMIntonationPoint *newIntonationPoint = [[MMIntonationPoint alloc] init];
                 [newIntonationPoint setSemitone:m_intonationParameters.pretonicRange + m_intonationParameters.notionalPitch];
                 [newIntonationPoint setOffsetTime:offsetTime];
                 [newIntonationPoint setSlope:randomSlope];
@@ -915,7 +895,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
                 phoneIndex = feet[j].endPhoneIndex;
                 ruleIndex = [self ruleIndexForPostureAtIndex:phoneIndex];
 
-                newIntonationPoint = [[[MMIntonationPoint alloc] init] autorelease];
+                newIntonationPoint = [[MMIntonationPoint alloc] init];
                 [newIntonationPoint setSemitone:m_intonationParameters.pretonicRange + m_intonationParameters.notionalPitch + m_intonationParameters.tonicRange];
                 [newIntonationPoint setOffsetTime:0.0];
                 [newIntonationPoint setSlope:0.0];
@@ -1078,7 +1058,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 {
     NSUInteger cache = [model nextCacheTag];
 
-    MMFRuleSymbols *ruleSymbols = [[[MMFRuleSymbols alloc] init] autorelease];
+    MMFRuleSymbols *ruleSymbols = [[MMFRuleSymbols alloc] init];
     [rule evaluateSymbolEquationsWithPhonesInArray:somePhones ruleSymbols:ruleSymbols withCacheTag:cache];
 
 #if 0
@@ -1278,8 +1258,6 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
         }
     }];
 
-    [logger release];
-
     NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
 
@@ -1303,7 +1281,6 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
     NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:NSKeyValueChangeInsertion], NSKeyValueChangeKindKey, nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidChangeIntonationPoints object:self userInfo:userInfo];
-    [userInfo release];
 }
 
 - (void)removeIntonationPoint:(MMIntonationPoint *)intonationPoint;
@@ -1313,7 +1290,6 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
     NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:NSKeyValueChangeRemoval], NSKeyValueChangeKindKey, nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidChangeIntonationPoints object:self userInfo:userInfo];
-    [userInfo release];
 }
 
 - (void)removeIntonationPointsFromArray:(NSArray *)array;
@@ -1325,7 +1301,6 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
     NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:NSKeyValueChangeRemoval], NSKeyValueChangeKindKey, nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidChangeIntonationPoints object:self userInfo:userInfo];
-    [userInfo release];
 }
 
 - (void)removeAllIntonationPoints;
@@ -1337,7 +1312,6 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
     NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:NSKeyValueChangeRemoval], NSKeyValueChangeKindKey, nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidChangeIntonationPoints object:self userInfo:nil];
-    [userInfo release];
 }
 
 #pragma mark - Intonation
@@ -1438,7 +1412,6 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     }
 
     [self removeIntonationPoint:firstIntonationPoint];
-    [firstIntonationPoint release];
 
     //NSLog(@"<  %s", _cmd);
 }
@@ -1464,7 +1437,6 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 {
     NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:NSKeyValueChangeSetting], NSKeyValueChangeKindKey, nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidChangeIntonationPoints object:self userInfo:userInfo];
-    [userInfo release];
 }
 
 #pragma mark - Other
@@ -1489,8 +1461,6 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
     BOOL result = [[resultString dataUsingEncoding:NSUTF8StringEncoding] writeToFile:filename atomically:YES];
 
-    [resultString release];
-
     return result;
 }
 
@@ -1514,7 +1484,6 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
         NSLog(@"Error: Failed to load file %@, (%@)", filename, [[parser parserError] localizedDescription]);
         //NSRunAlertPanel(@"Error", @"Failed to load file %@, (%@)", @"OK", nil, nil, filename, [[parser parserError] localizedDescription]);
     }
-    [parser release];
 
     return result;
 }
@@ -1538,14 +1507,12 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
             newDelegate = [[MXMLPCDataDelegate alloc] initWithElementName:elementName delegate:self setSelector:@selector(loadStoredPhoneString:)];
             [(MXMLParser *)parser pushDelegate:newDelegate];
-            [newDelegate release];
         } else if([elementName isEqualToString:@"intonation-points"]) {
             MXMLArrayDelegate *newDelegate;
 
             // TODO (2004-08-21): Perhaps not the most efficient, since a notification will go out each time an intonation point is added.  But good enough for now.
             newDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"intonation-point" class:[MMIntonationPoint class] delegate:self addObjectSelector:@selector(addIntonationPoint:)];
             [(MXMLParser *)parser pushDelegate:newDelegate];
-            [newDelegate release];
         } else {
             NSLog(@"starting unknown element: '%@'", elementName);
             [(MXMLParser *)parser skipTree];

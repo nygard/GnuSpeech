@@ -31,13 +31,6 @@
     return self;
 }
 
-- (void)dealloc;
-{
-    [symbol release];
-
-    [super dealloc];
-}
-
 #pragma mark - Superclass methods
 
 - (NSUInteger)precedence;

@@ -42,17 +42,11 @@
 - (id)initWithCapacity:(NSUInteger)capacity;
 {
     if ((self =	[super init])) {
-        streamBuffer = [[[NSMutableString alloc] initWithCapacity:capacity] retain];
+        streamBuffer = [[NSMutableString alloc] initWithCapacity:capacity];
         streamPosition = 0;
     }
 	
 	return self;
-}
-
-- (void)dealloc;
-{
-	[streamBuffer release];
-    [super dealloc];
 }
 
 - (NSMutableString *)buffer;

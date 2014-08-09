@@ -30,13 +30,6 @@
     return self;
 }
 
-- (void)dealloc;
-{
-    [pronunciations release];
-
-    [super dealloc];
-}
-
 #pragma mark -
 
 - (NSDate *)modificationDate;
@@ -97,11 +90,7 @@
 
     //NSLog(@"pronunciation count: %d", [[pronunciations allKeys] count]);
 
-    [str release];
-    [data release];
-
     NSLog(@"%s, self: %@", __PRETTY_FUNCTION__, self);
-
 
     return YES;
 }

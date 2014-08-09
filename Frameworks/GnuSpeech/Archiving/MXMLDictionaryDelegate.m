@@ -18,25 +18,15 @@
 - (id)initWithChildElementName:(NSString *)anElementName class:(Class)aClass keyAttributeName:(NSString *)anAttributeName delegate:(id)aDelegate addObjectsSelector:(SEL)aSelector;
 {
     if ((self = [super init])) {
-        childElementName = [anElementName retain];
+        childElementName = anElementName;
         objectClass = aClass;
-        keyAttributeName = [anAttributeName retain];
-        delegate = [aDelegate retain];
+        keyAttributeName = anAttributeName;
+        delegate = aDelegate;
         addObjectsSelector = aSelector;
         objects = [[NSMutableDictionary alloc] init];
     }
 
     return self;
-}
-
-- (void)dealloc;
-{
-    [childElementName release];
-    [keyAttributeName release];
-    [delegate release];
-    [objects release];
-
-    [super dealloc];
 }
 
 #pragma mark -

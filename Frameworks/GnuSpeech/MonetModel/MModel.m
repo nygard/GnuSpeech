@@ -100,32 +100,15 @@
     return self;
 }
 
-- (void)dealloc;
-{
-    [categories release];
-    [parameters release];
-    [metaParameters release];
-    [symbols release];
-    [postures release];
-    [equationGroups release];
-    [transitionGroups release];
-    [specialTransitionGroups release];
-    [rules release];
-
-    [synthesisParameters release];
-
-    [super dealloc];
-}
-
 #pragma mark -
 
 - (void)_addDefaultRule;
 {
-    MMBooleanParser *boolParser = [[[MMBooleanParser alloc] initWithModel:self] autorelease];
+    MMBooleanParser *boolParser = [[MMBooleanParser alloc] initWithModel:self];
     MMBooleanNode *expr1 = [boolParser parseString:@"phone"];
     MMBooleanNode *expr2 = [boolParser parseString:@"phone"];
 
-    MMRule *rule = [[[MMRule alloc] init] autorelease];
+    MMRule *rule = [[MMRule alloc] init];
     [rule setExpression:expr1 number:0];
     [rule setExpression:expr2 number:1];
     [rule setDefaultsTo:[rule numberExpressions]];
@@ -191,7 +174,7 @@
     
     // Add default posture targets
     for (MMPosture *posture in self.postures) {
-        MMTarget *target = [[[MMTarget alloc] initWithValue:parameter.defaultValue isDefault:YES] autorelease];
+        MMTarget *target = [[MMTarget alloc] initWithValue:parameter.defaultValue isDefault:YES];
         [posture addParameterTarget:target];
     }
 
@@ -202,7 +185,7 @@
 
 - (void)_generateUniqueNameForObject:(MMNamedObject *)object existingObjects:(NSArray *)existingObjects;
 {
-    NSMutableSet *names = [[[NSMutableSet alloc] init] autorelease];
+    NSMutableSet *names = [[NSMutableSet alloc] init];
     for (MMNamedObject *namedObject in existingObjects) {
         if (namedObject.name != nil)
             [names addObject:namedObject.name];
@@ -246,7 +229,7 @@
 
     // Add default posture targets
     for (MMPosture *posture in self.postures) {
-        MMTarget *target = [[[MMTarget alloc] initWithValue:parameter.defaultValue isDefault:YES] autorelease];
+        MMTarget *target = [[MMTarget alloc] initWithValue:parameter.defaultValue isDefault:YES];
         [posture addMetaParameterTarget:target];
     }
     
@@ -283,7 +266,7 @@
     
     // Add default symbol targets
     for (MMPosture *posture in self.postures) {
-        MMTarget *target = [[[MMTarget alloc] initWithValue:symbol.defaultValue isDefault:YES] autorelease];
+        MMTarget *target = [[MMTarget alloc] initWithValue:symbol.defaultValue isDefault:YES];
         [posture addSymbolTarget:target];
     }
 }
@@ -322,7 +305,7 @@
 
 - (void)_generateUniqueNameForPosture:(MMPosture *)newPosture;
 {
-    NSMutableSet *names = [[[NSMutableSet alloc] init] autorelease];
+    NSMutableSet *names = [[NSMutableSet alloc] init];
     for (MMPosture *posture in self.postures) {
         if (posture.name != nil)
             [names addObject:posture.name];
@@ -572,8 +555,6 @@
     //[[resultString dataUsingEncoding:NSUTF8StringEncoding] writeToFile:@"/tmp/out.xml" atomically:YES];
     BOOL result = [[resultString dataUsingEncoding:NSUTF8StringEncoding] writeToFile:aFilename atomically:YES];
 
-    [resultString release];
-
     return result;
 }
 
@@ -659,39 +640,30 @@
     if ([elementName isEqualToString:@"categories"]) {
         MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"category" class:[MMCategory class] delegate:self addObjectSelector:@selector(addCategory:)];
         [(MXMLParser *)parser pushDelegate:arrayDelegate];
-        [arrayDelegate release];
     } else if ([elementName isEqualToString:@"parameters"]) {
         MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"parameter" class:[MMParameter class] delegate:self addObjectSelector:@selector(addParameter:)];
         [(MXMLParser *)parser pushDelegate:arrayDelegate];
-        [arrayDelegate release];
     } else if ([elementName isEqualToString:@"meta-parameters"]) {
         MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"parameter" class:[MMParameter class] delegate:self addObjectSelector:@selector(addMetaParameter:)];
         [(MXMLParser *)parser pushDelegate:arrayDelegate];
-        [arrayDelegate release];
     } else if ([elementName isEqualToString:@"symbols"]) {
         MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"symbol" class:[MMSymbol class] delegate:self addObjectSelector:@selector(addSymbol:)];
         [(MXMLParser *)parser pushDelegate:arrayDelegate];
-        [arrayDelegate release];
     } else if ([elementName isEqualToString:@"postures"]) {
         MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"posture" class:[MMPosture class] delegate:self addObjectSelector:@selector(addPosture:)];
         [(MXMLParser *)parser pushDelegate:arrayDelegate];
-        [arrayDelegate release];
     } else if ([elementName isEqualToString:@"equations"]) {
         MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"equation-group" class:[MMGroup class] delegate:self addObjectSelector:@selector(addEquationGroup:)];
         [(MXMLParser *)parser pushDelegate:arrayDelegate];
-        [arrayDelegate release];
     } else if ([elementName isEqualToString:@"transitions"]) {
         MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"transition-group" class:[MMGroup class] delegate:self addObjectSelector:@selector(addTransitionGroup:)];
         [(MXMLParser *)parser pushDelegate:arrayDelegate];
-        [arrayDelegate release];
     } else if ([elementName isEqualToString:@"special-transitions"]) {
         MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"transition-group" class:[MMGroup class] delegate:self addObjectSelector:@selector(addSpecialTransitionGroup:)];
         [(MXMLParser *)parser pushDelegate:arrayDelegate];
-        [arrayDelegate release];
     } else if ([elementName isEqualToString:@"rules"]) {
         MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"rule" class:[MMRule class] delegate:self addObjectSelector:@selector(_addStoredRule:)];
         [(MXMLParser *)parser pushDelegate:arrayDelegate];
-        [arrayDelegate release];
     } else {
         NSLog(@"starting unknown element: '%@'", elementName);
         [(MXMLParser *)parser skipTree];

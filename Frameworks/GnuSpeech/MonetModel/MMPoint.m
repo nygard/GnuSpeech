@@ -36,13 +36,6 @@
     return self;
 }
 
-- (void)dealloc;
-{
-    [timeEquation release];
-
-    [super dealloc];
-}
-
 #pragma mark -
 
 - (NSString *)description;

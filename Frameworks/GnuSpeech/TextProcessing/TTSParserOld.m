@@ -76,20 +76,13 @@ static NSDictionary *_specialAcronyms = nil;
 - (id)initWithPronunciationDictionary:(GSPronunciationDictionary *)aDictionary;
 {
     if ((self = [super init])) {
-        mainDictionary = [aDictionary retain];
+        mainDictionary = aDictionary;
         //[mainDictionary loadDictionary];
 
         escapeCharacter = '%';
     }
 
     return self;
-}
-
-- (void)dealloc;
-{
-    [mainDictionary release];
-
-    [super dealloc];
 }
 
 #pragma mark -
@@ -119,7 +112,7 @@ static NSDictionary *_specialAcronyms = nil;
 - (NSString *)padCharactersInSet:(NSCharacterSet *)characterSet ofString:(NSString *)aString;
 {
 	unichar ch;
-	NSMutableString *newString = [[[NSMutableString alloc] initWithCapacity:[aString length]*2] autorelease];
+	NSMutableString *newString = [[NSMutableString alloc] initWithCapacity:[aString length]*2];
 
 	for (int i = 0; i < [aString length]; i++) {
 		ch = [aString characterAtIndex:i];
@@ -180,9 +173,6 @@ static NSDictionary *_specialAcronyms = nil;
         break;
     }
 
-    [scanner release];
-    [modeStack release];
-
     NSLog(@"result string: '%@'", resultString);
 }
 
@@ -196,7 +186,7 @@ static NSDictionary *_specialAcronyms = nil;
 // array so they are not rendered. -- dalmazio, Jan. 2009.
 - (NSArray *) filterEmptyStringsFromArray:(NSArray *)theArray;
 {	
-	NSMutableArray *filteredArray = [[[NSMutableArray alloc] initWithCapacity:[theArray count]] autorelease];
+	NSMutableArray *filteredArray = [[NSMutableArray alloc] initWithCapacity:[theArray count]];
 	NSString *item;
 	for (NSUInteger i = 0; i < [theArray count]; i++) {
 		item = [theArray objectAtIndex:i];
@@ -460,7 +450,6 @@ static NSDictionary *_specialAcronyms = nil;
             }
         }
 
-        [scanner release];
     } else {
         NSLog(@"Warning: No pronunciation for: %@", word);
         // Insert a noticable sound to make it obvious that something is missing.

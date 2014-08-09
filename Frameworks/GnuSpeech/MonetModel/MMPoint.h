@@ -15,7 +15,7 @@
 - (double)multiplyValueByFactor:(double)factor;
 - (double)addValue:(double)newValue;
 
-@property (retain) MMEquation *timeEquation;
+@property (strong) MMEquation *timeEquation;
 @property (assign) double freeTime;
 
 - (double)cachedTime;

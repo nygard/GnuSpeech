@@ -20,7 +20,7 @@ typedef NSInteger MMPhoneIndex;
 
 @interface MMFormulaTerminal : MMFormulaNode
 
-@property (retain) MMSymbol *symbol;
+@property (strong) MMSymbol *symbol;
 @property (assign) double value;
 @property (assign) MMPhoneIndex whichPhone;
 

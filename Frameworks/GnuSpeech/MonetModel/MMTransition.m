@@ -34,13 +34,6 @@
     return self;
 }
 
-- (void)dealloc;
-{
-    [points release];
-
-    [super dealloc];
-}
-
 #pragma mark - Debugging
 
 - (NSString *)description;
@@ -58,7 +51,6 @@
     [aPoint setFreeTime:0.0];
     [aPoint setValue:0.0];
     [self addPoint:aPoint];
-    [aPoint release];
 }
 
 @synthesize points;
@@ -192,8 +184,6 @@
                                              nil];
         MXMLArrayDelegate *newDelegate = [[MXMLArrayDelegate alloc] initWithChildElementToClassMapping:elementClassMapping delegate:self addObjectSelector:@selector(addPoint:)];
         [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
-        [elementClassMapping release];
     } else {
         [super parser:parser didStartElement:elementName namespaceURI:namespaceURI qualifiedName:qName attributes:attributeDict];
     }

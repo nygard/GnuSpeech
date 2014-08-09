@@ -239,16 +239,12 @@ void init_parser_module(void)
 {
 	stream2 = NULL;
 	
-	[userDictionary release];
 	userDictionary = nil;
 	
-	[appDictionary release];
 	appDictionary = nil;
 	
-	[mainDictionary release];
 	mainDictionary = nil;
 	
-	[specialAcronymsDictionary release];
 	specialAcronymsDictionary = nil;
 	
 	escape_character = '%';  // default escape character
@@ -320,15 +316,11 @@ int set_dict_data(const int16_t order[4],
 	dictionaryOrder[3] = TTS_EMPTY;
 	
 	/*  COPY POINTER TO DICTIONARIES INTO GLOBAL VARIABLES  */
-	[userDictionary release];
-	[appDictionary release];
-	[mainDictionary release];
-	[specialAcronymsDictionary release];
 	
-	[(userDictionary = userDict) retain];
-	[(appDictionary = appDict) retain];
-	[(mainDictionary = mainDict) retain];
-	[(specialAcronymsDictionary = specialAcronymsDict) retain];
+	userDictionary = userDict;
+	appDictionary = appDict;
+	mainDictionary = mainDict;
+	specialAcronymsDictionary = specialAcronymsDict;
 	
 	/*  COPY ORDER TO GLOBAL VARIABLE, ACCOUNT FOR UNOPENABLE PREDITOR-NOT DICTIONARIES  */
 	j = 0;

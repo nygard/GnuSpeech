@@ -36,14 +36,6 @@
     return self;
 }
 
-- (void)dealloc;
-{
-    [m_inputData release];
-    [m_audioPlayer release];
-	
-    [super dealloc];
-}
-
 #pragma mark -
 
 - (void)setupSynthesisParameters:(MMSynthesisParameters *)synthesisParameters;
@@ -113,7 +105,7 @@
 
 - (void)addParameters:(float *)values;
 {
-    TRMParameters *inputValues = [[[TRMParameters alloc] init] autorelease];
+    TRMParameters *inputValues = [[TRMParameters alloc] init];
     inputValues.glottalPitch             = values[0];
     inputValues.glottalVolume            = values[1];
     inputValues.aspirationVolume         = values[2];
@@ -148,7 +140,7 @@
 
 - (void)synthesize;
 {
-    TRMTubeModel *tube = [[[TRMTubeModel alloc] initWithInputData:m_inputData] autorelease];
+    TRMTubeModel *tube = [[TRMTubeModel alloc] initWithInputData:m_inputData];
     if (tube == nil) {
         NSLog(@"Warning: Failed to create tube model.");
         return;
@@ -175,7 +167,7 @@
         NSBeep();
     } else {
         NSError *error = nil;
-        AVAudioPlayer *audioPlayer = [[[AVAudioPlayer alloc] initWithData:WAVData error:&error] autorelease];
+        AVAudioPlayer *audioPlayer = [[AVAudioPlayer alloc] initWithData:WAVData error:&error];
         if (audioPlayer == nil) {
             NSLog(@"error: %@", error);
         } else {

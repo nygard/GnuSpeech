@@ -19,26 +19,15 @@
                       delegate:(id)aDelegate addObjectsSelector:(SEL)aSelector;
 {
     if ((self = [super init])) {
-        childElementName = [anElementName retain];
-        keyAttributeName = [aKeyAttribute retain];
-        referenceAttributeName = [aReferenceAttribute retain];
-        delegate = [aDelegate retain];
+        childElementName = anElementName;
+        keyAttributeName = aKeyAttribute;
+        referenceAttributeName = aReferenceAttribute;
+        delegate = aDelegate;
         addObjectsSelector = aSelector;
         objects = [[NSMutableDictionary alloc] init];
     }
 
     return self;
-}
-
-- (void)dealloc;
-{
-    [childElementName release];
-    [keyAttributeName release];
-    [referenceAttributeName release];
-    [delegate release];
-    [objects release];
-
-    [super dealloc];
 }
 
 #pragma mark -

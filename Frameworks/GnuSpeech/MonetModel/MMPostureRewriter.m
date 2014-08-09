@@ -12,7 +12,7 @@
 - (void)_setupCategoryNames;
 - (void)_setup;
 
-@property (retain) MMPosture *lastPosture;
+@property (strong) MMPosture *lastPosture;
 
 @end
 
@@ -32,7 +32,7 @@
 - (id)initWithModel:(MModel *)aModel;
 {
     if ((self = [super init])) {
-        model = [aModel retain];
+        model = aModel;
         currentState = 0;
         lastPosture = nil;
 
@@ -43,57 +43,39 @@
     return self;
 }
 
-- (void)dealloc;
-{
-    [model release];
-
-    for (NSUInteger index = 0; index < 15; index++)
-        [categoryNames[index] release];
-
-    for (NSUInteger index = 0; index < 7; index++)
-        [returnPostures[index] release];
-
-    [lastPosture release];
-
-    [super dealloc];
-}
-
 - (void)_setupCategoryNames;
 {
-    categoryNames[0] = [@"stopped" retain];
-    categoryNames[1] = [@"affricate" retain];
-    categoryNames[2] = [@"hlike" retain];
-    categoryNames[3] = [@"vocoid" retain];
-    categoryNames[14] = [@"whistlehack" retain];
+    categoryNames[0] = @"stopped";
+    categoryNames[1] = @"affricate";
+    categoryNames[2] = @"hlike";
+    categoryNames[3] = @"vocoid";
+    categoryNames[14] = @"whistlehack";
 
-    categoryNames[4] = [@"h" retain];
-    categoryNames[5] = [@"h'" retain];
+    categoryNames[4] = @"h";
+    categoryNames[5] = @"h'";
 
-    categoryNames[6] = [@"hv" retain];
-    categoryNames[7] = [@"hv'" retain];
+    categoryNames[6] = @"hv";
+    categoryNames[7] = @"hv'";
 
-    categoryNames[8] = [@"ll" retain];
-    categoryNames[9] = [@"ll'" retain];
+    categoryNames[8] = @"ll";
+    categoryNames[9] = @"ll'";
 
-    categoryNames[10] = [@"s" retain];
-    categoryNames[11] = [@"s'" retain];
+    categoryNames[10] = @"s";
+    categoryNames[11] = @"s'";
 
-    categoryNames[12] = [@"z" retain];
-    categoryNames[13] = [@"z'" retain];
+    categoryNames[12] = @"z";
+    categoryNames[13] = @"z'";
 }
 
 - (void)_setup;
 {
-    for (NSUInteger index = 0; index < 7; index++)
-        [returnPostures[index] release];
-
-    returnPostures[0] = [[model postureWithName:@"qc"] retain];
-    returnPostures[1] = [[model postureWithName:@"qt"] retain];
-    returnPostures[2] = [[model postureWithName:@"qp"] retain];
-    returnPostures[3] = [[model postureWithName:@"qk"] retain];
-    returnPostures[4] = [[model postureWithName:@"gs"] retain];
-    returnPostures[5] = [[model postureWithName:@"qs"] retain];
-    returnPostures[6] = [[model postureWithName:@"qz"] retain];
+    returnPostures[0] = [model postureWithName:@"qc"];
+    returnPostures[1] = [model postureWithName:@"qt"];
+    returnPostures[2] = [model postureWithName:@"qp"];
+    returnPostures[3] = [model postureWithName:@"qk"];
+    returnPostures[4] = [model postureWithName:@"gs"];
+    returnPostures[5] = [model postureWithName:@"qs"];
+    returnPostures[6] = [model postureWithName:@"qz"];
 
     [self resetState];
 }
@@ -106,8 +88,7 @@
 - (void)setModel:(MModel *)newModel;
 {
     if (newModel != model) {
-        [model release];
-        model = [newModel retain];
+        model = newModel;
 
         [self _setup];
     }

@@ -12,6 +12,6 @@
 
 - (id)initWithModel:(MModel *)model;
 
-@property (retain) MModel *model;
+@property (strong) MModel *model;
 
 @end

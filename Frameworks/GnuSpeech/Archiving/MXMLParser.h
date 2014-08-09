@@ -12,7 +12,7 @@
 
 - (id)initWithData:(NSData *)data;
 
-@property (retain) id context;
+@property (strong) id context;
 
 - (void)pushDelegate:(id)newDelegate;
 - (void)popDelegate;

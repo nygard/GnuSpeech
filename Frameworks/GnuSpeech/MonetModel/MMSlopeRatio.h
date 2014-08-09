@@ -14,7 +14,7 @@
 - (void)setPoints:(NSMutableArray *)newList;
 - (void)addPoint:(MMPoint *)newPoint;
 
-@property (retain) NSMutableArray *slopes;
+@property (strong) NSMutableArray *slopes;
 - (void)addSlope:(MMSlope *)newSlope;
 - (void)updateSlopes;
 

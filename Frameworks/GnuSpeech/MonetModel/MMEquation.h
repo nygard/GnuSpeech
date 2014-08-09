@@ -9,7 +9,7 @@
 
 @interface MMEquation : MMGroupedObject
 
-@property (retain) MMFormulaNode *formula;
+@property (strong) MMFormulaNode *formula;
 
 - (void)setFormulaString:(NSString *)formulaString;
 

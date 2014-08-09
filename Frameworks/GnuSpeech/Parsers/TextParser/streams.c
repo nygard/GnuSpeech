@@ -37,7 +37,6 @@ NXStream * NXOpenMemory(const char *address, int size, int mode)
 
 void NXCloseMemory(NXStream * stream, int option)
 {
-	[stream release];
 }
 
 void NXGetMemoryBuffer(NXStream * stream, const char ** streambuf, int * len, int * maxLen)

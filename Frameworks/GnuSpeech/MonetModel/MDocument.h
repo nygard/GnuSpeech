@@ -7,7 +7,7 @@
 
 @interface MDocument : NSObject
 
-@property (retain) MModel *model;
+@property (strong) MModel *model;
 
 - (BOOL)loadFromXMLFile:(NSString *)filename;
 

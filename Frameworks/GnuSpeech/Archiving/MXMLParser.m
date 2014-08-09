@@ -20,14 +20,6 @@
     return self;
 }
 
-- (void)dealloc;
-{
-    [delegateStack release];
-    [context release];
-
-    [super dealloc];
-}
-
 @synthesize context;
 
 - (void)pushDelegate:(id)newDelegate;
@@ -54,7 +46,6 @@
 
     ignoreTreeDelegate = [[MXMLIgnoreTreeDelegate alloc] init];
     [self pushDelegate:ignoreTreeDelegate];
-    [ignoreTreeDelegate release];
 }
 
 @end

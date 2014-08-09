@@ -28,13 +28,6 @@
     return self;
 }
 
-- (void)dealloc;
-{
-    [m_expressions release];
-
-    [super dealloc];
-}
-
 #pragma mark - Debugging
 
 - (NSString *)description;

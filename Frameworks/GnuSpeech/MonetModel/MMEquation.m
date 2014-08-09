@@ -34,13 +34,6 @@
     return self;
 }
 
-- (void)dealloc;
-{
-    [formula release];
-
-    [super dealloc];
-}
-
 #pragma mark - Debugging
 
 - (NSString *)description;
@@ -63,8 +56,6 @@
     NSString *errorString = [formulaParser errorMessage];
     if ([errorString length] > 0)
         NSLog(@"Warning: (%@) error parsing formula: '%@', at %@:'%@', error string: %@", self.name, formulaString, NSStringFromRange([formulaParser errorRange]), [formulaString substringFromIndex:[formulaParser errorRange].location], errorString);
-
-    [formulaParser release];
 }
 
 - (double)evaluateWithPhonesInArray:(NSArray *)phones ruleSymbols:(MMFRuleSymbols *)ruleSymbols andCacheWithTag:(NSUInteger)newCacheTag;

@@ -50,17 +50,10 @@ typedef NSUInteger MMBooleanParserToken;
 - (id)initWithModel:(MModel *)model;
 {
     if ((self = [super init])) {
-        m_model = [model retain];
+        m_model = model;
     }
 
     return self;
-}
-
-- (void)dealloc;
-{
-    [m_model release];
-
-    [super dealloc];
 }
 
 #pragma mark -
@@ -216,7 +209,7 @@ typedef NSUInteger MMBooleanParserToken;
     MMBooleanExpression *resultExpression = nil;
     MMBooleanNode *subExpression = nil;
 
-    resultExpression = [[[MMBooleanExpression alloc] init] autorelease];
+    resultExpression = [[MMBooleanExpression alloc] init];
     resultExpression.operation = MMBooleanOperation_Not;
 
     switch ([self scanNextToken]) {
@@ -253,7 +246,7 @@ typedef NSUInteger MMBooleanParserToken;
     MMBooleanExpression *resultExpression = nil;
     MMBooleanNode *subExpression = nil;
 
-    resultExpression = [[[MMBooleanExpression alloc] init] autorelease];
+    resultExpression = [[MMBooleanExpression alloc] init];
     [resultExpression addSubExpression:operand];
     resultExpression.operation = MMBooleanOperation_And;
 
@@ -306,7 +299,7 @@ typedef NSUInteger MMBooleanParserToken;
     MMBooleanExpression *resultExpression = nil;
     MMBooleanNode *subExpression = nil;
     
-    resultExpression = [[[MMBooleanExpression alloc] init] autorelease];
+    resultExpression = [[MMBooleanExpression alloc] init];
     [resultExpression addSubExpression:operand];
     resultExpression.operation = MMBooleanOperation_Or;
     
@@ -358,7 +351,7 @@ typedef NSUInteger MMBooleanParserToken;
     MMBooleanExpression *resultExpression = nil;
     MMBooleanNode *subExpression = nil;
 
-    resultExpression = [[[MMBooleanExpression alloc] init] autorelease];
+    resultExpression = [[MMBooleanExpression alloc] init];
     [resultExpression addSubExpression:operand];
     resultExpression.operation = MMBooleanOperation_ExclusiveOr;
 
@@ -493,7 +486,7 @@ typedef NSUInteger MMBooleanParserToken;
         [self appendErrorFormat:@"Error, unknown category %@.", self.symbolString];
         return nil;
     } else {
-        MMBooleanTerminal *terminal = [[[MMBooleanTerminal alloc] init] autorelease];
+        MMBooleanTerminal *terminal = [[MMBooleanTerminal alloc] init];
         terminal.category = category;
         if ([self.symbolString hasSuffix:@"*"])
             terminal.shouldMatchAll = YES;

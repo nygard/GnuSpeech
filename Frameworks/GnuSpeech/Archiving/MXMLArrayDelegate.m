@@ -23,19 +23,11 @@
     if ((self = [super init])) {
         classesByChildElementName = [[NSMutableDictionary alloc] init];
         [classesByChildElementName addEntriesFromDictionary:aMapping];
-        delegate = [aDelegate retain];
+        delegate = aDelegate;
         addObjectSelector = aSelector;
     }
 
     return self;
-}
-
-- (void)dealloc;
-{
-    [classesByChildElementName release];
-    [delegate release];
-
-    [super dealloc];
 }
 
 #pragma mark -

@@ -32,13 +32,6 @@
     return self;
 }
 
-- (void)dealloc;
-{
-    [m_objects release];
-
-    [super dealloc];
-}
-
 #pragma mark - Debugging
 
 - (NSString *)description;
@@ -52,7 +45,7 @@
 
 - (NSArray *)objects;
 {
-    return [[m_objects copy] autorelease];
+    return [m_objects copy];
 }
 
 @synthesize mutableObjects = m_objects;

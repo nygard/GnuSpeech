@@ -20,22 +20,13 @@
 - (id)initWithElementName:(NSString *)anElementName delegate:(id)aDelegate setSelector:(SEL)aSetSelector;
 {
     if ((self = [super init])) {
-        elementName = [anElementName retain];
-        delegate = [aDelegate retain];
+        elementName = anElementName;
+        delegate = aDelegate;
         setSelector = aSetSelector;
         string = [[NSMutableString alloc] init];
     }
 
     return self;
-}
-
-- (void)dealloc;
-{
-    [elementName release];
-    [delegate release];
-    [string release];
-
-    [super dealloc];
 }
 
 #pragma mark -
@@ -57,7 +48,6 @@
             NSLog(@"%@ does not respond to selector: %@", delegate, NSStringFromSelector(setSelector));
         }
 
-        [delegate release];
         delegate = nil;
 
         // Popping the delegate (this instance) will most likely deallocate us.

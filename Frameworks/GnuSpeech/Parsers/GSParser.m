@@ -27,15 +27,6 @@ NSString *GSParserSyntaxErrorException = @"GSParserSyntaxErrorException";
     return self;
 }
 
-- (void)dealloc;
-{
-    [scanner release];
-    [symbolString release];
-    [errorMessage release];
-
-    [super dealloc];
-}
-
 #pragma mark -
 
 @synthesize scanner, symbolString, startOfTokenLocation;
@@ -43,9 +34,6 @@ NSString *GSParserSyntaxErrorException = @"GSParserSyntaxErrorException";
 - (id)parseString:(NSString *)aString;
 {
     id result = nil;
-
-    if (scanner != nil)
-        [scanner release];
 
     [errorMessage setString:@""];
 
@@ -61,14 +49,12 @@ NSString *GSParserSyntaxErrorException = @"GSParserSyntaxErrorException";
             result = nil;
         } else {
             nonretained_parseString = nil;
-            [scanner release];
             scanner = nil;
             [localException raise];
         }
     } NS_ENDHANDLER;
 
     nonretained_parseString = nil;
-    [scanner release];
     scanner = nil;
 
     return result;
@@ -108,8 +94,6 @@ NSString *GSParserSyntaxErrorException = @"GSParserSyntaxErrorException";
 
     [errorMessage appendString:str];
     [errorMessage appendString:@"\n"];
-
-    [str release];
 }
 
 @end

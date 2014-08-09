@@ -9,7 +9,7 @@
 // Leaf nodes in a boolean expression tree.
 @interface MMBooleanTerminal : MMBooleanNode
 
-@property (retain) MMCategory *category;
+@property (strong) MMCategory *category;
 
 // Indicates whether the category should match all categories of this type.
 // That is, categories "uh" and "uh'" are of the same class, but are different.

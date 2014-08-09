@@ -11,13 +11,6 @@
     MModel *model;
 }
 
-- (void)dealloc;
-{
-    [model release];
-
-    [super dealloc];
-}
-
 #pragma mark -
 
 @synthesize model;
@@ -28,7 +21,7 @@
         return NO;
     
     NSURL *fileURL = [NSURL fileURLWithPath:filename];
-    MXMLParser *parser = [[[MXMLParser alloc] initWithContentsOfURL:fileURL] autorelease];
+    MXMLParser *parser = [[MXMLParser alloc] initWithContentsOfURL:fileURL];
     [parser pushDelegate:self];
     [parser setShouldResolveExternalEntities:NO];
     BOOL result = [parser parse];
@@ -62,7 +55,6 @@
 
         newModel = [[MModel alloc] init];
         [self setModel:newModel];
-        [newModel release];
 
         [(MXMLParser *)parser setContext:model];
         [(MXMLParser *)parser pushDelegate:model];

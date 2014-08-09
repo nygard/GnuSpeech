@@ -7,14 +7,13 @@
 
 + (id)objectWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 {
-    return [[[[self class] alloc] initWithXMLAttributes:attributes context:context] autorelease];
+    return [[[self class] alloc] initWithXMLAttributes:attributes context:context];
 }
 
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 {
     // This should be implemented by subclasses, and they shouldn't call this method
     NSLog(@"Warning: %s should be implemented by subclasses.", __PRETTY_FUNCTION__);
-    [self release];
 
     return nil;
 }

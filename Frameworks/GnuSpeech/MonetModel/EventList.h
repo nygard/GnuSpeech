@@ -21,7 +21,7 @@ struct _rule {
 
 @interface EventList : NSObject
 
-@property (nonatomic, retain) MModel *model;
+@property (nonatomic, strong) MModel *model;
 @property (weak) id <EventListDelegate> delegate;
 
 @property (assign) BOOL shouldUseMacroIntonation;

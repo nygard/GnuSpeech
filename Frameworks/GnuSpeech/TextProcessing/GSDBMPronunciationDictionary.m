@@ -91,8 +91,6 @@
         dbm_close(db);
         db = NULL;
     }
-
-    [super dealloc];
 }
 
 - (NSDate *)modificationDate;

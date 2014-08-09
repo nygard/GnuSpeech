@@ -30,23 +30,14 @@ static NSDictionary * specialAcronyms;  // static class variable
 - (id)initWithPronunciationDictionary:(GSPronunciationDictionary *)aDictionary;
 {
     if ((self = [super init])) {
-        userDictionary = [aDictionary retain];
-        appDictionary = [aDictionary retain];
-        mainDictionary = [aDictionary retain];	
+        userDictionary = aDictionary;
+        appDictionary = aDictionary;
+        mainDictionary = aDictionary;	
 	
         //[mainDictionary loadDictionary];
     }
 
     return self;
-}
-
-- (void)dealloc;
-{
-    [mainDictionary release];
-    [appDictionary release];
-    [userDictionary release];	
-		
-    [super dealloc];
 }
 
 #pragma mark -
@@ -85,7 +76,7 @@ static NSDictionary * specialAcronyms;  // static class variable
 
 		NSLog(@"parseString: String cannot be converted without information loss.");
 		NSData * lossyInput = [aString dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-		NSString * stringInput = [[[NSString alloc] initWithData:lossyInput encoding:NSASCIIStringEncoding] autorelease];  // this needs to stick around at least as long as 'input'
+		NSString * stringInput = [[NSString alloc] initWithData:lossyInput encoding:NSASCIIStringEncoding];  // this needs to stick around at least as long as 'input'
 		input = [stringInput cStringUsingEncoding:NSASCIIStringEncoding];
 	}
 	

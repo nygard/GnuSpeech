@@ -29,7 +29,6 @@ NSString *GSXMLEscapeGeneralEntities(NSString *string, GSXMLEntityMask entityMas
         }
     } while ([scanner isAtEnd] == NO);
 
-    [scanner release];
     // TODO (2004-03-05): Create entities for characters that can't be represented in the target encoding
 
     return result;

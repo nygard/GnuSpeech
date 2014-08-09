@@ -5,8 +5,8 @@
 
 @interface MMNamedObject : MMObject
 
-@property (retain) NSString *name;
-@property (retain) NSString *comment;
+@property (strong) NSString *name;
+@property (strong) NSString *comment;
 @property (nonatomic, readonly) BOOL hasComment;
 
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;

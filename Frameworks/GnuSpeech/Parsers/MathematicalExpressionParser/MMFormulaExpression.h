@@ -16,8 +16,8 @@ typedef NSUInteger MMFormulaOperation;
 
 @property (assign) MMFormulaOperation operation;
 
-@property (retain) id operandOne;
-@property (retain) id operandTwo;
+@property (strong) id operandOne;
+@property (strong) id operandTwo;
 
 @property (nonatomic, readonly) NSString *operationString;
 

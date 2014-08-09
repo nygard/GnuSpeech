@@ -15,14 +15,6 @@
     NSString *m_comment;
 }
 
-- (void)dealloc;
-{
-    [m_name release];
-    [m_comment release];
-
-    [super dealloc];
-}
-
 #pragma mark -
 
 @synthesize name = m_name;
@@ -50,7 +42,6 @@
     if ([elementName isEqualToString:@"comment"]) {
         MXMLPCDataDelegate *newDelegate = [[MXMLPCDataDelegate alloc] initWithElementName:elementName delegate:self setSelector:@selector(setComment:)];
         [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
     } else {
         NSLog(@"%@, Unknown element: '%@', skipping", self, elementName);
         [(MXMLParser *)parser skipTree];

@@ -76,7 +76,7 @@
     if (bytes == NULL)
         return nil;
 
-    return [[[NSString alloc] initWithBytes:bytes length:strlen(bytes) encoding:NSASCIIStringEncoding] autorelease];
+    return [[NSString alloc] initWithBytes:bytes length:strlen(bytes) encoding:NSASCIIStringEncoding];
 }
 
 // TODO (2004-08-12): A class method would let us pad nil as well...

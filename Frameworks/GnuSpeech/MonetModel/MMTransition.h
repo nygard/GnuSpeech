@@ -11,7 +11,7 @@
 
 - (void)addInitialPoint;
 
-@property (retain) NSMutableArray *points;
+@property (strong) NSMutableArray *points;
 - (void)addPoint:(id)newPoint;
 
 - (BOOL)isTimeInSlopeRatio:(double)aTime;
