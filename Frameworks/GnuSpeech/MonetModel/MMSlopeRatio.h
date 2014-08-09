@@ -22,12 +22,12 @@
 - (double)endTime;
 
 // Used by TransitionView
-- (void)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag toDisplay:(NSMutableArray *)displayList;
+- (void)calculatePointsWithPhonesInArray:(NSArray *)phones ruleSymbols:(MMFRuleSymbols *)ruleSymbols andCacheWithTag:(NSUInteger)newCacheTag andAddToDisplay:(NSMutableArray *)displayList;
 
 // Used by ???
-- (double)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag
-                 baseline:(double)baseline delta:(double)parameterDelta min:(double)min max:(double)max
-              toEventList:(EventList *)eventList atIndex:(NSUInteger)index;
+- (double)calculatePointsWithPhonesInArray:(NSArray *)phones ruleSymbols:(MMFRuleSymbols *)ruleSymbols andCacheWithTag:(NSUInteger)newCacheTag
+                                  baseline:(double)baseline delta:(double)delta min:(double)min max:(double)max
+                         andAddToEventList:(EventList *)eventList atIndex:(NSUInteger)index;
 
 - (double)totalSlopeUnits;
 - (void)displaySlopesInList:(NSMutableArray *)displaySlopes;

@@ -112,6 +112,10 @@
 - (void)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag
               toDisplay:(NSMutableArray *)displayList;
 {
+}
+
+- (void)calculatePointsWithPhonesInArray:(NSArray *)phones ruleSymbols:(MMFRuleSymbols *)ruleSymbols andCacheWithTag:(NSUInteger)newCacheTag andAddToDisplay:(NSMutableArray *)displayList;
+{
     NSUInteger i, numSlopes;
     double temp = 0.0, temp1 = 0.0, intervalTime = 0.0, sum = 0.0, factor = 0.0;
     double baseTime = 0.0, endTime = 0.0, totalTime = 0.0, delta = 0.0;
@@ -122,9 +126,7 @@
     //NSLog(@"%s, count: %d", _cmd, [points count]);
     for (i = 0; i < [points count]; i++) {
         currentPoint = [points objectAtIndex:i];
-        [[currentPoint timeEquation] evaluate:ruleSymbols
-                                       tempos:tempos postures:postures
-                                 andCacheWith:newCacheTag];
+        [[currentPoint timeEquation] evaluateWithPhonesInArray:phones ruleSymbols:ruleSymbols andCacheWithTag:newCacheTag];
         //NSLog(@"\t%d: expr %@ = %g", i, [[[currentPoint expression] expression] expressionString], dummy);
         //NSLog(@"point value: %g, expression value: %g", [currentPoint value], [[currentPoint expression] cacheValue]);
 
@@ -168,9 +170,9 @@
 
 #pragma mark - Used by ???
 
-- (double)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag
-                 baseline:(double)baseline delta:(double)parameterDelta min:(double)min max:(double)max
-              toEventList:(EventList *)eventList atIndex:(NSUInteger)index;
+- (double)calculatePointsWithPhonesInArray:(NSArray *)phones ruleSymbols:(MMFRuleSymbols *)ruleSymbols andCacheWithTag:(NSUInteger)newCacheTag
+                                  baseline:(double)baseline delta:(double)parameterDelta min:(double)min max:(double)max
+                         andAddToEventList:(EventList *)eventList atIndex:(NSUInteger)index;
 {
     double returnValue = 0.0;
     NSUInteger i, numSlopes;
@@ -182,7 +184,7 @@
     /* Calculate the times for all points */
     for (i = 0; i < [points count]; i++) {
         currentPoint = [points objectAtIndex:i];
-        [[currentPoint timeEquation] evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:newCacheTag];
+        [[currentPoint timeEquation] evaluateWithPhonesInArray:phones ruleSymbols:ruleSymbols andCacheWithTag:newCacheTag];
     }
 
     baseTime = [[points objectAtIndex:0] cachedTime];
@@ -220,10 +222,11 @@
     }
 
     for (i = 0; i < [points count]; i++) {
-        returnValue = [[points objectAtIndex:i] calculatePoints:ruleSymbols tempos:tempos postures:postures
-                                                 andCacheWith:newCacheTag baseline:baseline delta:parameterDelta
-                                                 min:min max:max toEventList:eventList atIndex:index];
-    }
+        MMPoint *point = points[i];
+        returnValue = [point calculatePointsWithPhonesInArray:phones ruleSymbols:ruleSymbols andCacheWithTag:newCacheTag
+                                                     baseline:baseline delta:parameterDelta min:min max:max
+                                            andAddToEventList:eventList atIndex:index];
+     }
 
     return returnValue;
 }
