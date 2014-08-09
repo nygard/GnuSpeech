@@ -261,7 +261,7 @@
 
 #pragma mark - NSTableViewDataSource
 
-- (NSUInteger)numberOfRowsInTableView:(NSTableView *)tableView;
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView;
 {
     if (tableView == postureTableView)
         return [[[self model] postures] count];
