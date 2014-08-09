@@ -109,6 +109,8 @@
 		01ACA5E11544A80A00278339 /* MMGroupedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 01ACA5DF1544A80800278339 /* MMGroupedObject.m */; };
 		01B4561115452BE400D00A1A /* MMIntonationParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 01B4560F15452BE400D00A1A /* MMIntonationParameters.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01B4561215452BE400D00A1A /* MMIntonationParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 01B4561015452BE400D00A1A /* MMIntonationParameters.m */; };
+		01E6107C1996A566009CDE09 /* MMPhone.h in Headers */ = {isa = PBXBuildFile; fileRef = 01E6107A1996A566009CDE09 /* MMPhone.h */; };
+		01E6107D1996A566009CDE09 /* MMPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 01E6107B1996A566009CDE09 /* MMPhone.m */; };
 		01F470A915408B7800A604B8 /* Tube.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01F470A815408B7800A604B8 /* Tube.framework */; };
 		69300A3E0FAB841E0041EBFB /* TTSParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 69300A3C0FAB841E0041EBFB /* TTSParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69300A3F0FAB841E0041EBFB /* TTSParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 69300A3D0FAB841E0041EBFB /* TTSParser.m */; };
@@ -306,6 +308,8 @@
 		01AE22D7154109B200AC1015 /* GnuSpeechServerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GnuSpeechServerProtocol.h; sourceTree = "<group>"; };
 		01B4560F15452BE400D00A1A /* MMIntonationParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMIntonationParameters.h; path = MonetModel/MMIntonationParameters.h; sourceTree = "<group>"; };
 		01B4561015452BE400D00A1A /* MMIntonationParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMIntonationParameters.m; path = MonetModel/MMIntonationParameters.m; sourceTree = "<group>"; };
+		01E6107A1996A566009CDE09 /* MMPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMPhone.h; path = MonetModel/MMPhone.h; sourceTree = "<group>"; };
+		01E6107B1996A566009CDE09 /* MMPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMPhone.m; path = MonetModel/MMPhone.m; sourceTree = "<group>"; };
 		01F470A815408B7800A604B8 /* Tube.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Tube.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/GnuSpeech-asltgrlxcnhnopcwrardgfljqcve/Build/Products/Debug/Tube.framework"; sourceTree = "<group>"; };
 		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
@@ -566,6 +570,8 @@
 				0155E4390B7BE8F9008D8879 /* MMTransition.m */,
 				0165043B1543B42700D64E98 /* MMDriftGenerator.h */,
 				0165043C1543B42700D64E98 /* MMDriftGenerator.m */,
+				01E6107A1996A566009CDE09 /* MMPhone.h */,
+				01E6107B1996A566009CDE09 /* MMPhone.m */,
 			);
 			name = "Concrete subclasses";
 			sourceTree = "<group>";
@@ -848,6 +854,7 @@
 				012D53AC0B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h in Headers */,
 				0155E4440B7BE8FA008D8879 /* EventList.h in Headers */,
 				0155E4420B7BE8FA008D8879 /* Event.h in Headers */,
+				01E6107C1996A566009CDE09 /* MMPhone.h in Headers */,
 				01AC65FA0B7BF9B4008E4B93 /* GnuSpeech.h in Headers */,
 				69B1086D0EDD307400DEF197 /* TRMData.h in Headers */,
 				69300A3E0FAB841E0041EBFB /* TTSParser.h in Headers */,
@@ -984,6 +991,7 @@
 				0155E3F10B7BE8AC008D8879 /* MXMLStringArrayDelegate.m in Sources */,
 				0155E4430B7BE8FA008D8879 /* Event.m in Sources */,
 				0155E4450B7BE8FA008D8879 /* EventList.m in Sources */,
+				01E6107D1996A566009CDE09 /* MMPhone.m in Sources */,
 				0155E4470B7BE8FA008D8879 /* MDocument.m in Sources */,
 				0155E4490B7BE8FA008D8879 /* MMCategory.m in Sources */,
 				0155E44B0B7BE8FA008D8879 /* MMEquation.m in Sources */,
