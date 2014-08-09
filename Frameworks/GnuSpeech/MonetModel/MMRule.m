@@ -406,30 +406,11 @@
     NSUInteger count = [symbolEquations count];
     // It is not okay to do these in order -- beat often depends on duration, mark1, mark2, and/or mark3.
 
-    if (count > 0)
-        ruleSymbols.ruleDuration = [(MMEquation *)[symbolEquations objectAtIndex:0] evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:cache];
-    else
-        ruleSymbols.ruleDuration = 0.0;
-
-    if (count > 2)
-        ruleSymbols.mark1 = [(MMEquation *)[symbolEquations objectAtIndex:2] evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:cache];
-    else
-        ruleSymbols.mark1 = 0.0;
-
-    if (count > 3)
-        ruleSymbols.mark2 = [(MMEquation *)[symbolEquations objectAtIndex:3] evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:cache];
-    else
-        ruleSymbols.mark2 = 0.0;
-
-    if (count > 4)
-        ruleSymbols.mark3 = [(MMEquation *)[symbolEquations objectAtIndex:4] evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:cache];
-    else
-        ruleSymbols.mark3 = 0.0;
-
-    if (count > 1)
-        ruleSymbols.beat = [(MMEquation *)[symbolEquations objectAtIndex:1] evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:cache];
-    else
-        ruleSymbols.beat = 0.0;
+    ruleSymbols.ruleDuration = (count > 0) ? [(MMEquation *)[symbolEquations objectAtIndex:0] evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:cache] : 0.0;
+    ruleSymbols.mark1        = (count > 2) ? [(MMEquation *)[symbolEquations objectAtIndex:2] evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:cache] : 0.0;
+    ruleSymbols.mark2        = (count > 3) ? [(MMEquation *)[symbolEquations objectAtIndex:3] evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:cache] : 0.0;
+    ruleSymbols.mark3        = (count > 4) ? [(MMEquation *)[symbolEquations objectAtIndex:4] evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:cache] : 0.0;
+    ruleSymbols.beat         = (count > 1) ? [(MMEquation *)[symbolEquations objectAtIndex:1] evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:cache] : 0.0;
 }
 
 - (NSMutableArray *)parameterTransitions;
