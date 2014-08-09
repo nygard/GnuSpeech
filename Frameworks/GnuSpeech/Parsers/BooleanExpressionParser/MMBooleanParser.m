@@ -25,19 +25,6 @@ enum {
 typedef NSUInteger MMBooleanParserToken;
 
 @interface MMBooleanParser ()
-- (MMCategory *)categoryWithName:(NSString *)name;
-- (MMBooleanParserToken)scanNextToken;
-
-- (MMBooleanNode *)continueParse:(MMBooleanNode *)currentExpression;
-
-// Internal recursive descent parsing methods
-- (MMBooleanNode *)parseNotOperation;
-- (MMBooleanNode *)parseAndOperation:(MMBooleanNode *)operand;
-- (MMBooleanNode *)parseOrOperation:(MMBooleanNode *)operand;
-- (MMBooleanNode *)parseExclusiveOrOperation:(MMBooleanNode *)operand;
-
-- (MMBooleanNode *)leftParen;
-- (MMBooleanNode *)terminalForParsedCategory;
 @end
 
 #pragma mark -

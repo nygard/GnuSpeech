@@ -12,7 +12,6 @@
 #import "MModel.h"
 
 @interface MMBooleanTerminal ()
-- (MMCategory *)findSymbol:(NSString *)searchSymbol inCategories:(NSArray *)categories;
 @end
 
 #pragma mark -

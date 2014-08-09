@@ -54,31 +54,6 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 // Tone groups
 @property (readonly) NSMutableArray *toneGroups;
 @property (nonatomic, readonly) MMToneGroup *currentToneGroup;
-- (void)endCurrentToneGroup;
-- (void)newToneGroup;
-
-// Feet
-- (void)endCurrentFoot;
-- (void)newFoot;
-- (void)setCurrentFootMarked;
-- (void)setCurrentFootLast;
-- (void)setCurrentFootTempo:(double)tempo;
-
-- (void)setFullTimeScale;
-
-// Postures
-- (void)setCurrentPhoneTempo:(double)tempo;
-- (void)setCurrentPhoneRuleTempo:(float)tempo;
-- (void)setCurrentPhoneSyllable;
-- (NSUInteger)ruleIndexForPostureAtIndex:(NSUInteger)postureIndex;
-
-// Events
-- (Event *)eventAtTimeOffset:(double)time;
-- (void)finalEvent:(NSUInteger)number withValue:(double)value;
-
-// Intonation
-- (void)_applyFlatIntonation;
-- (void)_applySmoothIntonation;
 
 @property (strong) NSString *phoneString;
 @property (assign) NSUInteger duration;

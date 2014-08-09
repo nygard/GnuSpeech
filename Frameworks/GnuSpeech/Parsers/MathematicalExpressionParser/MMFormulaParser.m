@@ -27,16 +27,6 @@ typedef NSInteger MMBooleanParserToken;
 
 @property (assign) NSUInteger lookahead;
 
-- (MMBooleanParserToken)scanNextToken;
-- (BOOL)scanNumber;
-
-- (void)match:(MMBooleanParserToken)token;
-- (MMFormulaNode *)parseExpression;
-- (MMFormulaNode *)parseTerm;
-- (MMFormulaNode *)parseFactor;
-
-- (MMFormulaTerminal *)parseNumber;
-- (MMFormulaNode *)parseSymbol;
 @end
 
 #pragma mark -

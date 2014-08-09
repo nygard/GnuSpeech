@@ -9,7 +9,7 @@
 #import "parser_module.h"
 #import "TTS_types.h"  // Required for dictionary ordering definitions.
 
-static NSDictionary * specialAcronyms;  // static class variable
+static NSDictionary *specialAcronyms;  // static class variable
 
 @implementation TTSParser
 {

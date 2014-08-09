@@ -9,9 +9,6 @@
 
 @interface MMPostureRewriter ()
 
-- (void)_setupCategoryNames;
-- (void)_setup;
-
 @property (strong) MMPosture *lastPosture;
 
 @end

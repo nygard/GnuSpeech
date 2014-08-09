@@ -9,9 +9,6 @@
 
 @interface TRMSynthesizer ()
 @property (strong) AVAudioPlayer *audioPlayer;
-
-- (void)startPlaying:(TRMTubeModel *)tube;
-- (void)stopPlaying;
 @end
 
 #pragma mark -

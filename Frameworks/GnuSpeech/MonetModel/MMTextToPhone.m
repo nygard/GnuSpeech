@@ -10,7 +10,6 @@
 static GSPronunciationDictionary * pronunciationDictionary = nil;
 
 @interface MMTextToPhone ()
-+ (void)_createDBMFileIfNecessary;
 @end
 
 #pragma mark -

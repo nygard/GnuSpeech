@@ -21,15 +21,6 @@
 #import "MXMLReferenceArrayDelegate.h"
 
 @interface MMPosture ()
-- (void)_addDefaultValues;
-- (void)addParameterTargetsFromDictionary:(NSDictionary *)dictionary;
-- (void)addMetaParameterTargetsFromDictionary:(NSDictionary *)dictionary;
-- (void)addSymbolTargetsFromDictionary:(NSDictionary *)dictionary;
-- (void)_appendXMLForCategoriesToString:(NSMutableString *)resultString level:(NSUInteger)level;
-- (void)_appendXMLForParameters:(NSArray *)parameters targets:(NSArray *)targets elementName:(NSString *)elementName toString:(NSMutableString *)resultString level:(NSUInteger)level;
-- (void)_appendXMLForParametersToString:(NSMutableString *)resultString level:(NSUInteger)level;
-- (void)_appendXMLForMetaParametersToString:(NSMutableString *)resultString level:(NSUInteger)level;
-- (void)_appendXMLForSymbolsToString:(NSMutableString *)resultString level:(NSUInteger)level;
 @end
 
 #pragma mark -

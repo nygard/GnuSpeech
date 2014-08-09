@@ -24,16 +24,6 @@
 #import "MXMLArrayDelegate.h"
 
 @interface MModel ()
-
-- (void)_addDefaultRule;
-- (void)_generateUniqueNameForObject:(MMNamedObject *)newObject existingObjects:(NSArray *)existingObjects;
-
-- (void)_generateUniqueNameForPosture:(MMPosture *)newPosture;
-- (void)_addStoredRule:(MMRule *)newRule;
-- (void)_appendXMLForEquationsToString:(NSMutableString *)resultString level:(NSUInteger)level;
-- (void)_appendXMLForTransitionsToString:(NSMutableString *)resultString level:(NSUInteger)level;
-- (void)_appendXMLForProtoSpecialsToString:(NSMutableString *)resultString level:(NSUInteger)level;
-
 @end
 
 #pragma mark -
