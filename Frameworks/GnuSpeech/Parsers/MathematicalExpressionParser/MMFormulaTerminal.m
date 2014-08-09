@@ -45,6 +45,7 @@
     return 3;
 }
 
+/// This takes an array of 0-4 MMPhone objects, and the rule symbols, and returns the appropriate value.
 - (double)evaluateWithPhonesInArray:(NSArray *)phones ruleSymbols:(MMFRuleSymbols *)ruleSymbols;
 {
     NSParameterAssert([phones count] < 4);

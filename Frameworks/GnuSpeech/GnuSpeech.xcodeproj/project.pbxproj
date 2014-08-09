@@ -552,6 +552,8 @@
 				0155E41B0B7BE8F9008D8879 /* MMEquation.m */,
 				0155E4240B7BE8F9008D8879 /* MMParameter.h */,
 				0155E4250B7BE8F9008D8879 /* MMParameter.m */,
+				01E6107A1996A566009CDE09 /* MMPhone.h */,
+				01E6107B1996A566009CDE09 /* MMPhone.m */,
 				0155E4260B7BE8F9008D8879 /* MMPoint.h */,
 				0155E4270B7BE8F9008D8879 /* MMPoint.m */,
 				0155E4280B7BE8F9008D8879 /* MMPosture.h */,
@@ -570,8 +572,6 @@
 				0155E4390B7BE8F9008D8879 /* MMTransition.m */,
 				0165043B1543B42700D64E98 /* MMDriftGenerator.h */,
 				0165043C1543B42700D64E98 /* MMDriftGenerator.m */,
-				01E6107A1996A566009CDE09 /* MMPhone.h */,
-				01E6107B1996A566009CDE09 /* MMPhone.m */,
 			);
 			name = "Concrete subclasses";
 			sourceTree = "<group>";

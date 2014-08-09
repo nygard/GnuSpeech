@@ -18,5 +18,12 @@
 @synthesize mark2 = m_mark2;
 @synthesize mark3 = m_mark3;
 
+- (NSString *)description;
+{
+    return [NSString stringWithFormat:@"<%@: %p> duration: %f, beat: %f, mark1: %f, mark2: %f, mark3: %f",
+            NSStringFromClass([self class]), self,
+            self.ruleDuration, self.beat, self.mark1, self.mark2, self.mark3];
+}
+
 @end
 

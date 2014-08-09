@@ -24,4 +24,13 @@
     return self;
 }
 
+#pragma mark - Debugging
+
+- (NSString *)description;
+{
+    return [NSString stringWithFormat:@"<%@: %p>, syllable: %lu, onset: %f, ruleTempo: %f, tempo: %f, posture: %@",
+            NSStringFromClass([self class]), self,
+            self.syllable, self.onset, self.ruleTempo, self.tempo, [self.posture shortDescription]];
+}
+
 @end

@@ -109,6 +109,13 @@
             self.name, self.comment, self.categories, self.parameterTargets, self.metaParameterTargets, self.symbolTargets];
 }
 
+- (NSString *)shortDescription;
+{
+    return [NSString stringWithFormat:@"<%@: %p> name: %@",
+            NSStringFromClass([self class]), self,
+            self.name];
+}
+
 #pragma mark - Superclass methods
 
 // TODO (2004-03-19): Enforce unique names.

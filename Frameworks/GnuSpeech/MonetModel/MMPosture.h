@@ -10,6 +10,8 @@
 
 - (id)initWithModel:(MModel *)model;
 
+- (NSString *)shortDescription;
+
 // Categories
 @property (readonly) MMCategory *nativeCategory;
 @property (readonly) NSMutableArray *categories;
