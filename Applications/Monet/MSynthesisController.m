@@ -146,7 +146,7 @@
         intonationPrintInfo = [[NSPrintInfo alloc] init];
         [intonationPrintInfo setHorizontalPagination:NSAutoPagination];
         [intonationPrintInfo setVerticalPagination:NSFitPagination];
-        [intonationPrintInfo setOrientation:NSLandscapeOrientation];
+        [intonationPrintInfo setOrientation:NSPaperOrientationLandscape];
     }
 	
     return self;
@@ -777,10 +777,10 @@
     NSSize printableSize = [intonationView printableSize];
     NSRect printFrame;
     printFrame.origin = NSZeroPoint;
-    printFrame.size = [NSScrollView frameSizeForContentSize:printableSize hasHorizontalScroller:NO hasVerticalScroller:NO borderType:NSNoCellMask];
-	
+    printFrame.size = [NSScrollView frameSizeForContentSize:printableSize horizontalScrollerClass:nil verticalScrollerClass:nil borderType:NSNoBorder controlSize:NSRegularControlSize scrollerStyle:NSScrollerStyleLegacy];
+
     MAIntonationScrollView *printView = [[MAIntonationScrollView alloc] initWithFrame:printFrame];
-    [printView setBorderType:NSNoCellMask];
+    [printView setBorderType:NSNoBorder];
     [printView setHasHorizontalScroller:NO];
 	
     [[printView documentView] setEventList:eventList];
