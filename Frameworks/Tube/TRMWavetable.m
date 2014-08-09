@@ -23,7 +23,6 @@
 #define TABLE_MODULUS             (TABLE_LENGTH-1)
 
 static double mod0(double value);
-static void TRMWavetableIncrementPosition(TRMWavetable *wavetable, double frequency);
 
 // Returns the modulus of 'value', keeping it in the range 0 -> TABLE_MODULUS.
 static double mod0(double value)
@@ -201,6 +200,9 @@ static double mod0(double value)
     return output;
 }
 #else
+
+static void TRMWavetableIncrementPosition(TRMWavetable *wavetable, double frequency);
+
 //  Plain oscillator
 - (double)oscillator:(double)frequency;
 {
