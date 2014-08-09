@@ -125,14 +125,6 @@ NSString *STCoreAudioErrorDescription(OSStatus error)
 @property (readonly) TRMDataList *inputData;
 @property (nonatomic, readonly) TRMInputParameters *inputParameters;
 @property (readonly) TRMSampleRateConverter *sampleRateConverter;
-
-- (void)setControlRateParameters:(TRMParameters *)current previous:(TRMParameters *)previous;
-- (void)sampleRateInterpolation;
-- (void)initializeNasalCavity;
-- (void)calculateTubeCoefficients;
-- (void)setFricationTaps;
-- (double)updateVocalTractWithGlottalPulse:(double)input frication:(double)frication;
-
 @end
 
 #pragma mark -

@@ -37,7 +37,6 @@
 #define BETA                      5.658        // Kaiser window parameters
 
 @interface TRMSampleRateConverter () <TRMRingBufferDelegate>
-- (void)_initializeFilter;
 
 @property (assign) double sampleRateRatio;
 @property (assign) uint32_t timeRegisterIncrement;

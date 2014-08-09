@@ -34,7 +34,6 @@ static double mod0(double value)
 }
 
 @interface TRMWavetable ()
-- (void)incrementPosition:(double)frequency;
 @end
 
 #pragma mark -

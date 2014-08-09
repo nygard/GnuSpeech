@@ -7,9 +7,6 @@
 #include <stdlib.h>
 
 @interface TRMRingBuffer ()
-- (void)dataEmpty;
-- (void)increment;
-- (void)decrement;
 @end
 
 #pragma mark -

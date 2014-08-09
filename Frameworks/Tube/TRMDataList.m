@@ -9,7 +9,6 @@
 #import "TRMWaveTable.h"
 
 @interface TRMDataList ()
-- (BOOL)_parseInputFile:(NSString *)path error:(NSError **)error;
 @end
 
 #pragma mark -
