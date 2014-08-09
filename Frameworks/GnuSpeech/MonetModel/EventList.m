@@ -809,10 +809,13 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
             [tempPostures removeAllObjects];
             [tempCategoryList removeAllObjects];
 
-            for (NSUInteger j = 0; j < 4; j++) {
-                if (phones[j+index].phone != nil) {
-                    [tempPostures addObject:phones[j+index].phone];
-                    [tempCategoryList addObject:[phones[j+index].phone categories]];
+            // Rules can match up to four phones.  Should be minimum of two phones.  (Hence postureCount-1 above.)
+            for (NSUInteger rulePhoneIndex = 0; rulePhoneIndex < 4; rulePhoneIndex++) {
+                NSUInteger actualIndex = index + rulePhoneIndex;
+                if (actualIndex < postureCount) {
+                    NSParameterAssert(phones[actualIndex].phone != nil);
+                    [tempPostures addObject:phones[actualIndex].phone];
+                    [tempCategoryList addObject:[phones[actualIndex].phone categories]];
                 }
             }
 
