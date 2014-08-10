@@ -444,7 +444,7 @@
 			name = "Text Processing";
 			sourceTree = "<group>";
 		};
-		014185291542B0F1001AE3B5 /* Input data form XML file */ = {
+		014185291542B0F1001AE3B5 /* Input data from XML file */ = {
 			isa = PBXGroup;
 			children = (
 				0155E4160B7BE8F9008D8879 /* MDocument.h */,
@@ -461,7 +461,7 @@
 				01ACA5DF1544A80800278339 /* MMGroupedObject.m */,
 				016503E315436FBA00D64E98 /* Concrete subclasses */,
 			);
-			name = "Input data form XML file";
+			name = "Input data from XML file";
 			sourceTree = "<group>";
 		};
 		0155E37F0B7BE7FD008D8879 /* Extensions */ = {
@@ -511,7 +511,7 @@
 		0155E40F0B7BE8E7008D8879 /* Monet Model */ = {
 			isa = PBXGroup;
 			children = (
-				014185291542B0F1001AE3B5 /* Input data form XML file */,
+				014185291542B0F1001AE3B5 /* Input data from XML file */,
 				0155E4120B7BE8F9008D8879 /* Event.h */,
 				0155E4130B7BE8F9008D8879 /* Event.m */,
 				01B4560F15452BE400D00A1A /* MMIntonationParameters.h */,
