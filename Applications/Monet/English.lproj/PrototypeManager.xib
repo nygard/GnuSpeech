@@ -68,6 +68,7 @@
 							<string key="NSFrame">{{13, 10}, {958, 557}}</string>
 							<reference key="NSSuperview" ref="155440069"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView" ref="881297069"/>
 							<array class="NSMutableArray" key="NSTabViewItems">
 								<object class="NSTabViewItem" id="939495482">
 									<object class="NSMutableString" key="NSIdentifier">
@@ -91,6 +92,7 @@
 																<string key="NSFrameSize">{417, 410}</string>
 																<reference key="NSSuperview" ref="26509757"/>
 																<reference key="NSWindow"/>
+																<reference key="NSNextKeyView" ref="118847964"/>
 																<bool key="NSEnabled">YES</bool>
 																<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 																<bool key="NSControlAllowsExpansionToolTips">YES</bool>
@@ -100,6 +102,7 @@
 																	<string key="NSFrameSize">{417, 17}</string>
 																	<reference key="NSSuperview" ref="149762306"/>
 																	<reference key="NSWindow"/>
+																	<reference key="NSNextKeyView" ref="333870832"/>
 																	<reference key="NSTableView" ref="110593358"/>
 																</object>
 																<object class="_NSCornerView" key="NSCornerView" id="333870832">
@@ -108,6 +111,7 @@
 																	<string key="NSFrame">{{418, 0}, {16, 17}}</string>
 																	<reference key="NSSuperview" ref="581377582"/>
 																	<reference key="NSWindow"/>
+																	<reference key="NSNextKeyView" ref="26509757"/>
 																</object>
 																<array class="NSMutableArray" key="NSTableColumns">
 																	<object class="NSTableColumn" id="684275975">
@@ -264,6 +268,7 @@
 														<string key="NSFrame">{{418, 17}, {15, 410}}</string>
 														<reference key="NSSuperview" ref="581377582"/>
 														<reference key="NSWindow"/>
+														<reference key="NSNextKeyView" ref="884760476"/>
 														<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 														<reference key="NSTarget" ref="581377582"/>
 														<string key="NSAction">_doScroller:</string>
@@ -275,6 +280,7 @@
 														<string key="NSFrame">{{1, 427}, {417, 15}}</string>
 														<reference key="NSSuperview" ref="581377582"/>
 														<reference key="NSWindow"/>
+														<reference key="NSNextKeyView" ref="36110826"/>
 														<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 														<int key="NSsFlags">1</int>
 														<reference key="NSTarget" ref="581377582"/>
@@ -300,7 +306,7 @@
 												<string key="NSFrame">{{20, 48}, {434, 443}}</string>
 												<reference key="NSSuperview" ref="881297069"/>
 												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView" ref="26509757"/>
+												<reference key="NSNextKeyView" ref="149762306"/>
 												<int key="NSsFlags">133170</int>
 												<reference key="NSVScroller" ref="118847964"/>
 												<reference key="NSHScroller" ref="884760476"/>
@@ -318,6 +324,7 @@
 												<string key="NSFrame">{{459, 474}, {114, 17}}</string>
 												<reference key="NSSuperview" ref="881297069"/>
 												<reference key="NSWindow"/>
+												<reference key="NSNextKeyView" ref="1054121911"/>
 												<bool key="NSEnabled">YES</bool>
 												<object class="NSTextFieldCell" key="NSCell" id="195113743">
 													<int key="NSCellFlags">67108864</int>
@@ -354,7 +361,6 @@
 																	<string>Apple PNG pasteboard type</string>
 																	<string>Apple URL pasteboard type</string>
 																	<string>CorePasteboardFlavorType 0x6D6F6F76</string>
-																	<string>CorePasteboardFlavorType 0x75726C20</string>
 																	<string>NSColor pasteboard type</string>
 																	<string>NSFilenamesPboardType</string>
 																	<string>NSStringPboardType</string>
@@ -370,6 +376,7 @@
 																<string key="NSFrameSize">{439, 86}</string>
 																<reference key="NSSuperview" ref="705831340"/>
 																<reference key="NSWindow"/>
+																<reference key="NSNextKeyView" ref="1007539660"/>
 																<object class="NSTextContainer" key="NSTextContainer" id="950980669">
 																	<object class="NSLayoutManager" key="NSLayoutManager">
 																		<object class="NSTextStorage" key="NSTextStorage">
@@ -461,6 +468,7 @@
 														<string key="NSFrame">{{440, 1}, {15, 86}}</string>
 														<reference key="NSSuperview" ref="1054121911"/>
 														<reference key="NSWindow"/>
+														<reference key="NSNextKeyView" ref="694359398"/>
 														<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 														<reference key="NSTarget" ref="1054121911"/>
 														<string key="NSAction">_doScroller:</string>
@@ -472,6 +480,7 @@
 														<string key="NSFrame">{{-100, -100}, {87, 18}}</string>
 														<reference key="NSSuperview" ref="1054121911"/>
 														<reference key="NSWindow"/>
+														<reference key="NSNextKeyView" ref="705831340"/>
 														<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 														<int key="NSsFlags">1</int>
 														<reference key="NSTarget" ref="1054121911"/>
@@ -483,7 +492,7 @@
 												<string key="NSFrame">{{462, 378}, {456, 88}}</string>
 												<reference key="NSSuperview" ref="881297069"/>
 												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView" ref="705831340"/>
+												<reference key="NSNextKeyView" ref="352401883"/>
 												<int key="NSsFlags">133138</int>
 												<reference key="NSVScroller" ref="1007539660"/>
 												<reference key="NSHScroller" ref="352401883"/>
@@ -498,6 +507,7 @@
 												<string key="NSFrame">{{459, 325}, {251, 17}}</string>
 												<reference key="NSSuperview" ref="881297069"/>
 												<reference key="NSWindow"/>
+												<reference key="NSNextKeyView" ref="828326840"/>
 												<bool key="NSEnabled">YES</bool>
 												<object class="NSTextFieldCell" key="NSCell" id="515206332">
 													<int key="NSCellFlags">67108864</int>
@@ -525,6 +535,7 @@
 																<string key="NSFrameSize">{439, 86}</string>
 																<reference key="NSSuperview" ref="290769492"/>
 																<reference key="NSWindow"/>
+																<reference key="NSNextKeyView" ref="633171184"/>
 																<object class="NSTextContainer" key="NSTextContainer" id="675858630">
 																	<object class="NSLayoutManager" key="NSLayoutManager">
 																		<object class="NSTextStorage" key="NSTextStorage">
@@ -581,6 +592,7 @@
 														<string key="NSFrame">{{440, 1}, {15, 86}}</string>
 														<reference key="NSSuperview" ref="828326840"/>
 														<reference key="NSWindow"/>
+														<reference key="NSNextKeyView" ref="747669013"/>
 														<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 														<reference key="NSTarget" ref="828326840"/>
 														<string key="NSAction">_doScroller:</string>
@@ -592,6 +604,7 @@
 														<string key="NSFrame">{{-100, -100}, {87, 18}}</string>
 														<reference key="NSSuperview" ref="828326840"/>
 														<reference key="NSWindow"/>
+														<reference key="NSNextKeyView" ref="290769492"/>
 														<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 														<int key="NSsFlags">1</int>
 														<reference key="NSTarget" ref="828326840"/>
@@ -603,7 +616,7 @@
 												<string key="NSFrame">{{462, 229}, {456, 88}}</string>
 												<reference key="NSSuperview" ref="881297069"/>
 												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView" ref="290769492"/>
+												<reference key="NSNextKeyView" ref="601992027"/>
 												<int key="NSsFlags">133138</int>
 												<reference key="NSVScroller" ref="633171184"/>
 												<reference key="NSHScroller" ref="601992027"/>
@@ -618,6 +631,7 @@
 												<string key="NSFrame">{{764, 342}, {160, 32}}</string>
 												<reference key="NSSuperview" ref="881297069"/>
 												<reference key="NSWindow"/>
+												<reference key="NSNextKeyView" ref="923399489"/>
 												<bool key="NSEnabled">YES</bool>
 												<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 												<int key="NSNumRows">1</int>
@@ -682,6 +696,7 @@
 												<string key="NSFrame">{{459, 204}, {114, 17}}</string>
 												<reference key="NSSuperview" ref="881297069"/>
 												<reference key="NSWindow"/>
+												<reference key="NSNextKeyView" ref="261093487"/>
 												<bool key="NSEnabled">YES</bool>
 												<object class="NSTextFieldCell" key="NSCell" id="1006932733">
 													<int key="NSCellFlags">67108864</int>
@@ -713,7 +728,6 @@
 																	<string>Apple PNG pasteboard type</string>
 																	<string>Apple URL pasteboard type</string>
 																	<string>CorePasteboardFlavorType 0x6D6F6F76</string>
-																	<string>CorePasteboardFlavorType 0x75726C20</string>
 																	<string>NSColor pasteboard type</string>
 																	<string>NSFilenamesPboardType</string>
 																	<string>NSStringPboardType</string>
@@ -729,6 +743,7 @@
 																<string key="NSFrameSize">{439, 146}</string>
 																<reference key="NSSuperview" ref="1060336908"/>
 																<reference key="NSWindow"/>
+																<reference key="NSNextKeyView" ref="31881691"/>
 																<object class="NSTextContainer" key="NSTextContainer" id="1063769260">
 																	<object class="NSLayoutManager" key="NSLayoutManager">
 																		<object class="NSTextStorage" key="NSTextStorage">
@@ -786,6 +801,7 @@
 														<string key="NSFrame">{{440, 1}, {15, 146}}</string>
 														<reference key="NSSuperview" ref="261093487"/>
 														<reference key="NSWindow"/>
+														<reference key="NSNextKeyView" ref="1038143691"/>
 														<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 														<reference key="NSTarget" ref="261093487"/>
 														<string key="NSAction">_doScroller:</string>
@@ -797,6 +813,7 @@
 														<string key="NSFrame">{{-100, -100}, {87, 18}}</string>
 														<reference key="NSSuperview" ref="261093487"/>
 														<reference key="NSWindow"/>
+														<reference key="NSNextKeyView" ref="1060336908"/>
 														<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 														<int key="NSsFlags">1</int>
 														<reference key="NSTarget" ref="261093487"/>
@@ -808,7 +825,7 @@
 												<string key="NSFrame">{{462, 48}, {456, 148}}</string>
 												<reference key="NSSuperview" ref="881297069"/>
 												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView" ref="1060336908"/>
+												<reference key="NSNextKeyView" ref="201227464"/>
 												<int key="NSsFlags">133138</int>
 												<reference key="NSVScroller" ref="31881691"/>
 												<reference key="NSHScroller" ref="201227464"/>
@@ -823,6 +840,7 @@
 												<string key="NSFrame">{{14, 6}, {327, 32}}</string>
 												<reference key="NSSuperview" ref="881297069"/>
 												<reference key="NSWindow"/>
+												<reference key="NSNextKeyView" ref="773575010"/>
 												<bool key="NSEnabled">YES</bool>
 												<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 												<int key="NSNumRows">1</int>
@@ -900,6 +918,7 @@
 										<string key="NSFrame">{{10, 33}, {938, 511}}</string>
 										<reference key="NSSuperview" ref="773575010"/>
 										<reference key="NSWindow"/>
+										<reference key="NSNextKeyView" ref="581377582"/>
 									</object>
 									<string key="NSLabel">Equations</string>
 									<reference key="NSColor" ref="618746425"/>
@@ -911,13 +930,14 @@
 									</object>
 									<object class="NSView" key="NSView" id="916641167">
 										<nil key="NSNextResponder"/>
-										<int key="NSvFlags">256</int>
+										<int key="NSvFlags">274</int>
 										<array class="NSMutableArray" key="NSSubviews">
 											<object class="NSMatrix" id="237337290">
 												<reference key="NSNextResponder" ref="916641167"/>
 												<int key="NSvFlags">256</int>
 												<string key="NSFrame">{{14, 6}, {327, 32}}</string>
 												<reference key="NSSuperview" ref="916641167"/>
+												<reference key="NSNextKeyView" ref="66919115"/>
 												<bool key="NSEnabled">YES</bool>
 												<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 												<int key="NSNumRows">1</int>
@@ -996,6 +1016,7 @@
 												<int key="NSvFlags">265</int>
 												<string key="NSFrame">{{459, 204}, {114, 17}}</string>
 												<reference key="NSSuperview" ref="916641167"/>
+												<reference key="NSNextKeyView" ref="24080877"/>
 												<bool key="NSEnabled">YES</bool>
 												<object class="NSTextFieldCell" key="NSCell" id="811927014">
 													<int key="NSCellFlags">67108864</int>
@@ -1015,13 +1036,14 @@
 												<array class="NSMutableArray" key="NSSubviews">
 													<object class="NSClipView" id="943167630">
 														<reference key="NSNextResponder" ref="897019255"/>
-														<int key="NSvFlags">2304</int>
+														<int key="NSvFlags">2322</int>
 														<array class="NSMutableArray" key="NSSubviews">
 															<object class="NSOutlineView" id="5624784">
 																<reference key="NSNextResponder" ref="943167630"/>
 																<int key="NSvFlags">256</int>
 																<string key="NSFrameSize">{417, 410}</string>
 																<reference key="NSSuperview" ref="943167630"/>
+																<reference key="NSNextKeyView" ref="762702826"/>
 																<bool key="NSEnabled">YES</bool>
 																<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 																<bool key="NSControlAllowsExpansionToolTips">YES</bool>
@@ -1030,6 +1052,7 @@
 																	<int key="NSvFlags">256</int>
 																	<string key="NSFrameSize">{417, 17}</string>
 																	<reference key="NSSuperview" ref="655718926"/>
+																	<reference key="NSNextKeyView" ref="421966069"/>
 																	<reference key="NSTableView" ref="5624784"/>
 																</object>
 																<object class="_NSCornerView" key="NSCornerView" id="421966069">
@@ -1037,6 +1060,7 @@
 																	<int key="NSvFlags">256</int>
 																	<string key="NSFrame">{{418, 0}, {16, 17}}</string>
 																	<reference key="NSSuperview" ref="897019255"/>
+																	<reference key="NSNextKeyView" ref="943167630"/>
 																</object>
 																<array class="NSMutableArray" key="NSTableColumns">
 																	<object class="NSTableColumn" id="357766599">
@@ -1151,6 +1175,7 @@
 														<int key="NSvFlags">256</int>
 														<string key="NSFrame">{{418, 17}, {15, 410}}</string>
 														<reference key="NSSuperview" ref="897019255"/>
+														<reference key="NSNextKeyView" ref="146048943"/>
 														<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 														<reference key="NSTarget" ref="897019255"/>
 														<string key="NSAction">_doScroller:</string>
@@ -1161,6 +1186,7 @@
 														<int key="NSvFlags">256</int>
 														<string key="NSFrame">{{1, 427}, {417, 15}}</string>
 														<reference key="NSSuperview" ref="897019255"/>
+														<reference key="NSNextKeyView" ref="646260837"/>
 														<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 														<int key="NSsFlags">1</int>
 														<reference key="NSTarget" ref="897019255"/>
@@ -1169,7 +1195,7 @@
 													</object>
 													<object class="NSClipView" id="655718926">
 														<reference key="NSNextResponder" ref="897019255"/>
-														<int key="NSvFlags">2304</int>
+														<int key="NSvFlags">2338</int>
 														<array class="NSMutableArray" key="NSSubviews">
 															<reference ref="929021275"/>
 														</array>
@@ -1184,12 +1210,13 @@
 												</array>
 												<string key="NSFrame">{{20, 48}, {434, 443}}</string>
 												<reference key="NSSuperview" ref="916641167"/>
-												<reference key="NSNextKeyView" ref="943167630"/>
+												<reference key="NSNextKeyView" ref="655718926"/>
 												<int key="NSsFlags">133170</int>
 												<reference key="NSVScroller" ref="762702826"/>
 												<reference key="NSHScroller" ref="146048943"/>
 												<reference key="NSContentView" ref="943167630"/>
 												<reference key="NSHeaderClipView" ref="655718926"/>
+												<reference key="NSCornerView" ref="421966069"/>
 												<bytes key="NSScrollAmts">QSAAAEEgAABBmAAAQZgAAA</bytes>
 												<double key="NSMinMagnification">0.25</double>
 												<double key="NSMaxMagnification">4</double>
@@ -1201,13 +1228,14 @@
 												<array class="NSMutableArray" key="NSSubviews">
 													<object class="NSClipView" id="672724913">
 														<reference key="NSNextResponder" ref="24080877"/>
-														<int key="NSvFlags">2304</int>
+														<int key="NSvFlags">2322</int>
 														<array class="NSMutableArray" key="NSSubviews">
 															<object class="NSTextView" id="507491753">
 																<reference key="NSNextResponder" ref="672724913"/>
 																<int key="NSvFlags">2322</int>
 																<string key="NSFrameSize">{439, 146}</string>
 																<reference key="NSSuperview" ref="672724913"/>
+																<reference key="NSNextKeyView" ref="90380759"/>
 																<object class="NSTextContainer" key="NSTextContainer" id="136648622">
 																	<object class="NSLayoutManager" key="NSLayoutManager">
 																		<object class="NSTextStorage" key="NSTextStorage">
@@ -1263,6 +1291,7 @@
 														<int key="NSvFlags">256</int>
 														<string key="NSFrame">{{440, 1}, {15, 146}}</string>
 														<reference key="NSSuperview" ref="24080877"/>
+														<reference key="NSNextKeyView" ref="237337290"/>
 														<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 														<reference key="NSTarget" ref="24080877"/>
 														<string key="NSAction">_doScroller:</string>
@@ -1270,9 +1299,10 @@
 													</object>
 													<object class="NSScroller" id="153757059">
 														<reference key="NSNextResponder" ref="24080877"/>
-														<int key="NSvFlags">256</int>
+														<int key="NSvFlags">-2147483392</int>
 														<string key="NSFrame">{{-100, -100}, {87, 18}}</string>
 														<reference key="NSSuperview" ref="24080877"/>
+														<reference key="NSNextKeyView" ref="672724913"/>
 														<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 														<int key="NSsFlags">1</int>
 														<reference key="NSTarget" ref="24080877"/>
@@ -1283,7 +1313,7 @@
 												</array>
 												<string key="NSFrame">{{462, 48}, {456, 148}}</string>
 												<reference key="NSSuperview" ref="916641167"/>
-												<reference key="NSNextKeyView" ref="672724913"/>
+												<reference key="NSNextKeyView" ref="153757059"/>
 												<int key="NSsFlags">133138</int>
 												<reference key="NSVScroller" ref="90380759"/>
 												<reference key="NSHScroller" ref="153757059"/>
@@ -1297,6 +1327,7 @@
 												<int key="NSvFlags">265</int>
 												<string key="NSFrame">{{462, 229}, {456, 262}}</string>
 												<reference key="NSSuperview" ref="916641167"/>
+												<reference key="NSNextKeyView" ref="778482080"/>
 												<string key="NSClassName">TransitionView</string>
 												<string key="NSExtension">NSView</string>
 											</object>
@@ -1305,6 +1336,7 @@
 												<int key="NSvFlags">265</int>
 												<string key="NSFrame">{{382, 6}, {78, 32}}</string>
 												<reference key="NSSuperview" ref="916641167"/>
+												<reference key="NSNextKeyView" ref="773575010"/>
 												<bool key="NSEnabled">YES</bool>
 												<object class="NSButtonCell" key="NSCell" id="148865554">
 													<int key="NSCellFlags">67108864</int>
@@ -1326,6 +1358,7 @@
 											</object>
 										</array>
 										<string key="NSFrame">{{10, 33}, {938, 511}}</string>
+										<reference key="NSNextKeyView" ref="897019255"/>
 									</object>
 									<string key="NSLabel">Transitions</string>
 									<reference key="NSColor" ref="618746425"/>
@@ -1337,13 +1370,14 @@
 									</object>
 									<object class="NSView" key="NSView" id="692371787">
 										<nil key="NSNextResponder"/>
-										<int key="NSvFlags">256</int>
+										<int key="NSvFlags">274</int>
 										<array class="NSMutableArray" key="NSSubviews">
 											<object class="NSCustomView" id="811819989">
 												<reference key="NSNextResponder" ref="692371787"/>
 												<int key="NSvFlags">265</int>
 												<string key="NSFrame">{{462, 229}, {456, 262}}</string>
 												<reference key="NSSuperview" ref="692371787"/>
+												<reference key="NSNextKeyView" ref="680263445"/>
 												<string key="NSClassName">SpecialView</string>
 												<string key="NSExtension">NSView</string>
 											</object>
@@ -1353,13 +1387,14 @@
 												<array class="NSMutableArray" key="NSSubviews">
 													<object class="NSClipView" id="814587128">
 														<reference key="NSNextResponder" ref="848115458"/>
-														<int key="NSvFlags">2304</int>
+														<int key="NSvFlags">2322</int>
 														<array class="NSMutableArray" key="NSSubviews">
 															<object class="NSTextView" id="834708543">
 																<reference key="NSNextResponder" ref="814587128"/>
 																<int key="NSvFlags">2322</int>
 																<string key="NSFrameSize">{439, 146}</string>
 																<reference key="NSSuperview" ref="814587128"/>
+																<reference key="NSNextKeyView" ref="804612565"/>
 																<object class="NSTextContainer" key="NSTextContainer" id="953464274">
 																	<object class="NSLayoutManager" key="NSLayoutManager">
 																		<object class="NSTextStorage" key="NSTextStorage">
@@ -1415,6 +1450,7 @@
 														<int key="NSvFlags">256</int>
 														<string key="NSFrame">{{440, 1}, {15, 146}}</string>
 														<reference key="NSSuperview" ref="848115458"/>
+														<reference key="NSNextKeyView" ref="508289817"/>
 														<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 														<reference key="NSTarget" ref="848115458"/>
 														<string key="NSAction">_doScroller:</string>
@@ -1422,9 +1458,10 @@
 													</object>
 													<object class="NSScroller" id="820820906">
 														<reference key="NSNextResponder" ref="848115458"/>
-														<int key="NSvFlags">256</int>
+														<int key="NSvFlags">-2147483392</int>
 														<string key="NSFrame">{{-100, -100}, {87, 18}}</string>
 														<reference key="NSSuperview" ref="848115458"/>
+														<reference key="NSNextKeyView" ref="814587128"/>
 														<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 														<int key="NSsFlags">1</int>
 														<reference key="NSTarget" ref="848115458"/>
@@ -1435,7 +1472,7 @@
 												</array>
 												<string key="NSFrame">{{462, 48}, {456, 148}}</string>
 												<reference key="NSSuperview" ref="692371787"/>
-												<reference key="NSNextKeyView" ref="814587128"/>
+												<reference key="NSNextKeyView" ref="820820906"/>
 												<int key="NSsFlags">133138</int>
 												<reference key="NSVScroller" ref="804612565"/>
 												<reference key="NSHScroller" ref="820820906"/>
@@ -1449,6 +1486,7 @@
 												<int key="NSvFlags">265</int>
 												<string key="NSFrame">{{459, 204}, {114, 17}}</string>
 												<reference key="NSSuperview" ref="692371787"/>
+												<reference key="NSNextKeyView" ref="848115458"/>
 												<bool key="NSEnabled">YES</bool>
 												<object class="NSTextFieldCell" key="NSCell" id="585289203">
 													<int key="NSCellFlags">67108864</int>
@@ -1468,13 +1506,14 @@
 												<array class="NSMutableArray" key="NSSubviews">
 													<object class="NSClipView" id="1022047370">
 														<reference key="NSNextResponder" ref="836493256"/>
-														<int key="NSvFlags">2304</int>
+														<int key="NSvFlags">2322</int>
 														<array class="NSMutableArray" key="NSSubviews">
 															<object class="NSOutlineView" id="679390600">
 																<reference key="NSNextResponder" ref="1022047370"/>
 																<int key="NSvFlags">256</int>
 																<string key="NSFrameSize">{417, 410}</string>
 																<reference key="NSSuperview" ref="1022047370"/>
+																<reference key="NSNextKeyView" ref="55064645"/>
 																<bool key="NSEnabled">YES</bool>
 																<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 																<bool key="NSControlAllowsExpansionToolTips">YES</bool>
@@ -1483,6 +1522,7 @@
 																	<int key="NSvFlags">256</int>
 																	<string key="NSFrameSize">{417, 17}</string>
 																	<reference key="NSSuperview" ref="644663313"/>
+																	<reference key="NSNextKeyView" ref="502666033"/>
 																	<reference key="NSTableView" ref="679390600"/>
 																</object>
 																<object class="_NSCornerView" key="NSCornerView" id="502666033">
@@ -1490,6 +1530,7 @@
 																	<int key="NSvFlags">256</int>
 																	<string key="NSFrame">{{418, 0}, {16, 17}}</string>
 																	<reference key="NSSuperview" ref="836493256"/>
+																	<reference key="NSNextKeyView" ref="1022047370"/>
 																</object>
 																<array class="NSMutableArray" key="NSTableColumns">
 																	<object class="NSTableColumn" id="792591184">
@@ -1604,6 +1645,7 @@
 														<int key="NSvFlags">256</int>
 														<string key="NSFrame">{{418, 17}, {15, 410}}</string>
 														<reference key="NSSuperview" ref="836493256"/>
+														<reference key="NSNextKeyView" ref="1005119496"/>
 														<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 														<reference key="NSTarget" ref="836493256"/>
 														<string key="NSAction">_doScroller:</string>
@@ -1614,6 +1656,7 @@
 														<int key="NSvFlags">256</int>
 														<string key="NSFrame">{{1, 427}, {417, 15}}</string>
 														<reference key="NSSuperview" ref="836493256"/>
+														<reference key="NSNextKeyView" ref="811819989"/>
 														<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 														<int key="NSsFlags">1</int>
 														<reference key="NSTarget" ref="836493256"/>
@@ -1622,7 +1665,7 @@
 													</object>
 													<object class="NSClipView" id="644663313">
 														<reference key="NSNextResponder" ref="836493256"/>
-														<int key="NSvFlags">2304</int>
+														<int key="NSvFlags">2338</int>
 														<array class="NSMutableArray" key="NSSubviews">
 															<reference ref="349401570"/>
 														</array>
@@ -1637,12 +1680,13 @@
 												</array>
 												<string key="NSFrame">{{20, 48}, {434, 443}}</string>
 												<reference key="NSSuperview" ref="692371787"/>
-												<reference key="NSNextKeyView" ref="1022047370"/>
+												<reference key="NSNextKeyView" ref="644663313"/>
 												<int key="NSsFlags">133170</int>
 												<reference key="NSVScroller" ref="55064645"/>
 												<reference key="NSHScroller" ref="1005119496"/>
 												<reference key="NSContentView" ref="1022047370"/>
 												<reference key="NSHeaderClipView" ref="644663313"/>
+												<reference key="NSCornerView" ref="502666033"/>
 												<bytes key="NSScrollAmts">QSAAAEEgAABBmAAAQZgAAA</bytes>
 												<double key="NSMinMagnification">0.25</double>
 												<double key="NSMaxMagnification">4</double>
@@ -1653,6 +1697,7 @@
 												<int key="NSvFlags">256</int>
 												<string key="NSFrame">{{14, 6}, {327, 32}}</string>
 												<reference key="NSSuperview" ref="692371787"/>
+												<reference key="NSNextKeyView" ref="932027112"/>
 												<bool key="NSEnabled">YES</bool>
 												<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 												<int key="NSNumRows">1</int>
@@ -1731,6 +1776,7 @@
 												<int key="NSvFlags">265</int>
 												<string key="NSFrame">{{382, 6}, {78, 32}}</string>
 												<reference key="NSSuperview" ref="692371787"/>
+												<reference key="NSNextKeyView" ref="773575010"/>
 												<bool key="NSEnabled">YES</bool>
 												<object class="NSButtonCell" key="NSCell" id="729802211">
 													<int key="NSCellFlags">67108864</int>
@@ -1752,6 +1798,7 @@
 											</object>
 										</array>
 										<string key="NSFrame">{{10, 33}, {938, 511}}</string>
+										<reference key="NSNextKeyView" ref="836493256"/>
 									</object>
 									<string key="NSLabel">Special Transitions</string>
 									<reference key="NSColor" ref="618746425"/>
@@ -1772,7 +1819,7 @@
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
 				<string key="NSMinSize">{984, 595}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
@@ -1787,38 +1834,6 @@
 						<reference key="destination" ref="280251357"/>
 					</object>
 					<int key="connectionID">82</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">equationOutlineView</string>
-						<reference key="source" ref="363567269"/>
-						<reference key="destination" ref="110593358"/>
-					</object>
-					<int key="connectionID">84</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">equationParserMessagesTextView</string>
-						<reference key="source" ref="363567269"/>
-						<reference key="destination" ref="983765910"/>
-					</object>
-					<int key="connectionID">85</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">equationCommentTextView</string>
-						<reference key="source" ref="363567269"/>
-						<reference key="destination" ref="941100455"/>
-					</object>
-					<int key="connectionID">86</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">equationTextView</string>
-						<reference key="source" ref="363567269"/>
-						<reference key="destination" ref="182347353"/>
-					</object>
-					<int key="connectionID">87</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -1853,84 +1868,12 @@
 					<int key="connectionID">91</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">transitionOutlineView</string>
-						<reference key="source" ref="363567269"/>
-						<reference key="destination" ref="5624784"/>
-					</object>
-					<int key="connectionID">92</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">specialTransitionOutlineView</string>
-						<reference key="source" ref="363567269"/>
-						<reference key="destination" ref="679390600"/>
-					</object>
-					<int key="connectionID">93</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">miniTransitionView</string>
-						<reference key="source" ref="363567269"/>
-						<reference key="destination" ref="646260837"/>
-					</object>
-					<int key="connectionID">95</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">editTransition:</string>
 						<reference key="source" ref="363567269"/>
 						<reference key="destination" ref="66919115"/>
 					</object>
 					<int key="connectionID">96</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">miniSpecialTransitionView</string>
-						<reference key="source" ref="363567269"/>
-						<reference key="destination" ref="811819989"/>
-					</object>
-					<int key="connectionID">98</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">removeEquationButtonCell</string>
-						<reference key="source" ref="363567269"/>
-						<reference key="destination" ref="304331234"/>
-					</object>
-					<int key="connectionID">99</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">removeSpecialTransitionButtonCell</string>
-						<reference key="source" ref="363567269"/>
-						<reference key="destination" ref="317815336"/>
-					</object>
-					<int key="connectionID">100</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">removeTransitionButtonCell</string>
-						<reference key="source" ref="363567269"/>
-						<reference key="destination" ref="800016896"/>
-					</object>
-					<int key="connectionID">101</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">specialTransitionCommentTextView</string>
-						<reference key="source" ref="363567269"/>
-						<reference key="destination" ref="834708543"/>
-					</object>
-					<int key="connectionID">102</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">transitionCommentTextView</string>
-						<reference key="source" ref="363567269"/>
-						<reference key="destination" ref="507491753"/>
-					</object>
-					<int key="connectionID">104</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -1998,27 +1941,131 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">addEquationButtonCell</string>
+						<string key="label">_equationOutlineView</string>
+						<reference key="source" ref="363567269"/>
+						<reference key="destination" ref="110593358"/>
+					</object>
+					<int key="connectionID">167</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_addEquationButtonCell</string>
 						<reference key="source" ref="363567269"/>
 						<reference key="destination" ref="509615212"/>
 					</object>
-					<int key="connectionID">123</int>
+					<int key="connectionID">168</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">addSpecialTransitionButtonCell</string>
+						<string key="label">_removeEquationButtonCell</string>
 						<reference key="source" ref="363567269"/>
-						<reference key="destination" ref="889906574"/>
+						<reference key="destination" ref="304331234"/>
 					</object>
-					<int key="connectionID">124</int>
+					<int key="connectionID">169</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">addTransitionButtonCell</string>
+						<string key="label">_equationTextView</string>
+						<reference key="source" ref="363567269"/>
+						<reference key="destination" ref="182347353"/>
+					</object>
+					<int key="connectionID">170</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_equationParserMessagesTextView</string>
+						<reference key="source" ref="363567269"/>
+						<reference key="destination" ref="983765910"/>
+					</object>
+					<int key="connectionID">171</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_equationCommentTextView</string>
+						<reference key="source" ref="363567269"/>
+						<reference key="destination" ref="941100455"/>
+					</object>
+					<int key="connectionID">172</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_transitionOutlineView</string>
+						<reference key="source" ref="363567269"/>
+						<reference key="destination" ref="5624784"/>
+					</object>
+					<int key="connectionID">173</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_addTransitionButtonCell</string>
 						<reference key="source" ref="363567269"/>
 						<reference key="destination" ref="574388531"/>
 					</object>
-					<int key="connectionID">125</int>
+					<int key="connectionID">174</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_removeTransitionButtonCell</string>
+						<reference key="source" ref="363567269"/>
+						<reference key="destination" ref="800016896"/>
+					</object>
+					<int key="connectionID">175</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_miniTransitionView</string>
+						<reference key="source" ref="363567269"/>
+						<reference key="destination" ref="646260837"/>
+					</object>
+					<int key="connectionID">176</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_transitionCommentTextView</string>
+						<reference key="source" ref="363567269"/>
+						<reference key="destination" ref="507491753"/>
+					</object>
+					<int key="connectionID">177</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_specialTransitionOutlineView</string>
+						<reference key="source" ref="363567269"/>
+						<reference key="destination" ref="679390600"/>
+					</object>
+					<int key="connectionID">178</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_addSpecialTransitionButtonCell</string>
+						<reference key="source" ref="363567269"/>
+						<reference key="destination" ref="889906574"/>
+					</object>
+					<int key="connectionID">179</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_removeSpecialTransitionButtonCell</string>
+						<reference key="source" ref="363567269"/>
+						<reference key="destination" ref="317815336"/>
+					</object>
+					<int key="connectionID">180</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_miniSpecialTransitionView</string>
+						<reference key="source" ref="363567269"/>
+						<reference key="destination" ref="811819989"/>
+					</object>
+					<int key="connectionID">181</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_specialTransitionCommentTextView</string>
+						<reference key="source" ref="363567269"/>
+						<reference key="destination" ref="834708543"/>
+					</object>
+					<int key="connectionID">182</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -2175,7 +2222,7 @@
 							<reference key="IBDocumentObject" ref="155440069"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<object class="IBMemberConfiguration" key="NS.key.0" id="361341649">
+									<object class="IBMemberConfiguration" key="NS.key.0" id="1052755389">
 										<dictionary key="IBVariableBindings"/>
 									</object>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
@@ -2186,7 +2233,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -2195,19 +2242,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -2234,7 +2281,7 @@
 							<reference key="IBDocumentObject" ref="773575010"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -2243,7 +2290,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -2252,19 +2299,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -2302,7 +2349,7 @@
 							<reference key="IBDocumentObject" ref="692371787"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -2311,7 +2358,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -2320,19 +2367,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -2359,7 +2406,7 @@
 							<reference key="IBDocumentObject" ref="811819989"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -2368,7 +2415,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -2377,19 +2424,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -2411,7 +2458,7 @@
 							<reference key="IBDocumentObject" ref="848115458"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -2420,7 +2467,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -2429,19 +2476,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -2458,7 +2505,7 @@
 							<reference key="IBDocumentObject" ref="834708543"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -2467,7 +2514,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -2476,19 +2523,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -2508,7 +2555,7 @@
 							<reference key="IBDocumentObject" ref="680263445"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -2517,7 +2564,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -2526,19 +2573,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -2561,7 +2608,7 @@
 							<reference key="IBDocumentObject" ref="836493256"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -2570,7 +2617,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -2579,19 +2626,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -2613,7 +2660,7 @@
 							<reference key="IBDocumentObject" ref="679390600"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -2622,7 +2669,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -2631,19 +2678,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -2705,7 +2752,7 @@
 							<reference key="IBDocumentObject" ref="508289817"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -2714,7 +2761,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -2723,19 +2770,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -2785,7 +2832,7 @@
 							<reference key="IBDocumentObject" ref="932027112"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -2794,7 +2841,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -2803,19 +2850,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -2848,15 +2895,15 @@
 							<reference ref="828326840"/>
 							<reference ref="694359398"/>
 							<reference ref="747669013"/>
-							<reference ref="261093487"/>
 							<reference ref="1038143691"/>
+							<reference ref="261093487"/>
 						</array>
 						<reference key="parent" ref="939495482"/>
 						<object class="IBMemberPropertyStorage" key="memberPropertyStorage">
 							<reference key="IBDocumentObject" ref="881297069"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -2865,7 +2912,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -2874,19 +2921,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -2902,8 +2949,8 @@
 									<reference key="NS.object.4" ref="828326840"/>
 									<reference key="NS.object.5" ref="694359398"/>
 									<reference key="NS.object.6" ref="747669013"/>
-									<reference key="NS.object.7" ref="261093487"/>
-									<reference key="NS.object.8" ref="1038143691"/>
+									<reference key="NS.object.7" ref="1038143691"/>
+									<reference key="NS.object.8" ref="261093487"/>
 								</object>
 							</object>
 						</object>
@@ -2922,7 +2969,7 @@
 							<reference key="IBDocumentObject" ref="581377582"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -2931,7 +2978,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -2940,19 +2987,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -2974,7 +3021,7 @@
 							<reference key="IBDocumentObject" ref="110593358"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -2983,7 +3030,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -2992,19 +3039,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -3063,7 +3110,7 @@
 							<reference key="IBDocumentObject" ref="36110826"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -3072,7 +3119,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -3081,19 +3128,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -3115,7 +3162,7 @@
 							<reference key="IBDocumentObject" ref="1054121911"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -3124,7 +3171,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -3133,19 +3180,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -3162,7 +3209,7 @@
 							<reference key="IBDocumentObject" ref="182347353"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -3171,7 +3218,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -3180,19 +3227,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -3212,7 +3259,7 @@
 							<reference key="IBDocumentObject" ref="923399489"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -3221,7 +3268,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -3230,19 +3277,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -3264,7 +3311,7 @@
 							<reference key="IBDocumentObject" ref="828326840"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -3273,7 +3320,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -3282,19 +3329,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -3311,7 +3358,7 @@
 							<reference key="IBDocumentObject" ref="983765910"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -3320,7 +3367,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -3329,19 +3376,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -3363,7 +3410,7 @@
 							<reference key="IBDocumentObject" ref="694359398"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -3372,7 +3419,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -3381,19 +3428,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -3433,7 +3480,7 @@
 							<reference key="IBDocumentObject" ref="747669013"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -3442,7 +3489,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -3451,19 +3498,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -3485,7 +3532,7 @@
 							<reference key="IBDocumentObject" ref="261093487"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -3494,7 +3541,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -3503,19 +3550,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -3532,7 +3579,7 @@
 							<reference key="IBDocumentObject" ref="941100455"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -3541,7 +3588,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -3550,19 +3597,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -3585,7 +3632,7 @@
 							<reference key="IBDocumentObject" ref="1038143691"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -3594,7 +3641,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -3603,19 +3650,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -3683,7 +3730,7 @@
 							<reference key="IBDocumentObject" ref="916641167"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -3692,7 +3739,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -3701,19 +3748,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -3746,7 +3793,7 @@
 							<reference key="IBDocumentObject" ref="237337290"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -3755,7 +3802,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -3764,19 +3811,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -3826,7 +3873,7 @@
 							<reference key="IBDocumentObject" ref="778482080"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -3835,7 +3882,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -3844,19 +3891,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -3879,7 +3926,7 @@
 							<reference key="IBDocumentObject" ref="897019255"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -3888,7 +3935,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -3897,19 +3944,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -3931,7 +3978,7 @@
 							<reference key="IBDocumentObject" ref="5624784"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -3940,7 +3987,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -3949,19 +3996,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -4022,7 +4069,7 @@
 							<reference key="IBDocumentObject" ref="24080877"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -4031,7 +4078,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -4040,19 +4087,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -4069,7 +4116,7 @@
 							<reference key="IBDocumentObject" ref="507491753"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -4078,7 +4125,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -4087,19 +4134,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -4116,7 +4163,7 @@
 							<reference key="IBDocumentObject" ref="646260837"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -4125,7 +4172,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -4134,19 +4181,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -4166,7 +4213,7 @@
 							<reference key="IBDocumentObject" ref="66919115"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -4175,7 +4222,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -4184,19 +4231,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -4413,7 +4460,7 @@
 							<reference key="IBDocumentObject" ref="804612565"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -4422,7 +4469,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -4431,19 +4478,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -4460,7 +4507,7 @@
 							<reference key="IBDocumentObject" ref="820820906"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -4469,7 +4516,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -4478,19 +4525,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -4507,7 +4554,7 @@
 							<reference key="IBDocumentObject" ref="55064645"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -4516,7 +4563,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -4525,19 +4572,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -4554,7 +4601,7 @@
 							<reference key="IBDocumentObject" ref="1005119496"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -4563,7 +4610,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -4572,19 +4619,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -4601,7 +4648,7 @@
 							<reference key="IBDocumentObject" ref="349401570"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -4610,7 +4657,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -4619,19 +4666,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -4648,7 +4695,7 @@
 							<reference key="IBDocumentObject" ref="118847964"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -4657,7 +4704,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -4666,19 +4713,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -4695,7 +4742,7 @@
 							<reference key="IBDocumentObject" ref="884760476"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -4704,7 +4751,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -4713,19 +4760,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -4742,7 +4789,7 @@
 							<reference key="IBDocumentObject" ref="932703642"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -4751,7 +4798,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -4760,19 +4807,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -4789,7 +4836,7 @@
 							<reference key="IBDocumentObject" ref="1007539660"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -4798,7 +4845,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -4807,19 +4854,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -4836,7 +4883,7 @@
 							<reference key="IBDocumentObject" ref="352401883"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -4845,7 +4892,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -4854,19 +4901,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -4883,7 +4930,7 @@
 							<reference key="IBDocumentObject" ref="633171184"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -4892,7 +4939,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -4901,19 +4948,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -4930,7 +4977,7 @@
 							<reference key="IBDocumentObject" ref="601992027"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -4939,7 +4986,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -4948,19 +4995,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -4977,7 +5024,7 @@
 							<reference key="IBDocumentObject" ref="31881691"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -4986,7 +5033,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -4995,19 +5042,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -5024,7 +5071,7 @@
 							<reference key="IBDocumentObject" ref="201227464"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -5033,7 +5080,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -5042,19 +5089,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -5071,7 +5118,7 @@
 							<reference key="IBDocumentObject" ref="762702826"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -5080,7 +5127,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -5089,19 +5136,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -5118,7 +5165,7 @@
 							<reference key="IBDocumentObject" ref="146048943"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -5127,7 +5174,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -5136,19 +5183,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -5165,7 +5212,7 @@
 							<reference key="IBDocumentObject" ref="929021275"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -5174,7 +5221,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -5183,19 +5230,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -5212,7 +5259,7 @@
 							<reference key="IBDocumentObject" ref="90380759"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -5221,7 +5268,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -5230,19 +5277,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -5259,7 +5306,7 @@
 							<reference key="IBDocumentObject" ref="153757059"/>
 							<dictionary class="NSMutableDictionary" key="IBPropertyValues">
 								<object class="NSMutableDictionary" key="frameOrigin">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">1</int>
@@ -5268,7 +5315,7 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="frameSize">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<object class="NSValue" key="IBPropertyValue">
 											<int key="NS.special">2</int>
@@ -5277,19 +5324,19 @@
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHadAnyAmbiguityOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalHasUninitializedAutolayoutAmbiguityStatus">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
 								</object>
 								<object class="NSMutableDictionary" key="ibExternalWasMisplacedOnLastSave">
-									<reference key="NS.key.0" ref="361341649"/>
+									<reference key="NS.key.0" ref="1052755389"/>
 									<object class="IBMemberPropertyValue" key="NS.object.0">
 										<boolean value="NO" key="IBPropertyValue"/>
 									</object>
@@ -5320,6 +5367,7 @@
 				<string key="138.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="139.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<integer value="1" key="139.IBShouldRemoveOnLegacySave"/>
+				<reference key="14.IBNSViewMetadataGestureRecognizers" ref="0"/>
 				<string key="14.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="140.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<integer value="1" key="140.IBShouldRemoveOnLegacySave"/>
@@ -5437,7 +5485,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">166</int>
+			<int key="maxID">182</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -5608,86 +5656,86 @@
 						</object>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="addEquationButtonCell">NSButtonCell</string>
-						<string key="addSpecialTransitionButtonCell">NSButtonCell</string>
-						<string key="addTransitionButtonCell">NSButtonCell</string>
-						<string key="equationCommentTextView">NSTextView</string>
-						<string key="equationOutlineView">NSOutlineView</string>
-						<string key="equationParserMessagesTextView">NSTextView</string>
-						<string key="equationTextView">NSTextView</string>
-						<string key="miniSpecialTransitionView">SpecialView</string>
-						<string key="miniTransitionView">TransitionView</string>
-						<string key="removeEquationButtonCell">NSButtonCell</string>
-						<string key="removeSpecialTransitionButtonCell">NSButtonCell</string>
-						<string key="removeTransitionButtonCell">NSButtonCell</string>
-						<string key="specialTransitionCommentTextView">NSTextView</string>
-						<string key="specialTransitionOutlineView">NSOutlineView</string>
-						<string key="transitionCommentTextView">NSTextView</string>
-						<string key="transitionOutlineView">NSOutlineView</string>
+						<string key="_addEquationButtonCell">NSButtonCell</string>
+						<string key="_addSpecialTransitionButtonCell">NSButtonCell</string>
+						<string key="_addTransitionButtonCell">NSButtonCell</string>
+						<string key="_equationCommentTextView">NSTextView</string>
+						<string key="_equationOutlineView">NSOutlineView</string>
+						<string key="_equationParserMessagesTextView">NSTextView</string>
+						<string key="_equationTextView">NSTextView</string>
+						<string key="_miniSpecialTransitionView">SpecialView</string>
+						<string key="_miniTransitionView">TransitionView</string>
+						<string key="_removeEquationButtonCell">NSButtonCell</string>
+						<string key="_removeSpecialTransitionButtonCell">NSButtonCell</string>
+						<string key="_removeTransitionButtonCell">NSButtonCell</string>
+						<string key="_specialTransitionCommentTextView">NSTextView</string>
+						<string key="_specialTransitionOutlineView">NSOutlineView</string>
+						<string key="_transitionCommentTextView">NSTextView</string>
+						<string key="_transitionOutlineView">NSOutlineView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="addEquationButtonCell">
-							<string key="name">addEquationButtonCell</string>
+						<object class="IBToOneOutletInfo" key="_addEquationButtonCell">
+							<string key="name">_addEquationButtonCell</string>
 							<string key="candidateClassName">NSButtonCell</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="addSpecialTransitionButtonCell">
-							<string key="name">addSpecialTransitionButtonCell</string>
+						<object class="IBToOneOutletInfo" key="_addSpecialTransitionButtonCell">
+							<string key="name">_addSpecialTransitionButtonCell</string>
 							<string key="candidateClassName">NSButtonCell</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="addTransitionButtonCell">
-							<string key="name">addTransitionButtonCell</string>
+						<object class="IBToOneOutletInfo" key="_addTransitionButtonCell">
+							<string key="name">_addTransitionButtonCell</string>
 							<string key="candidateClassName">NSButtonCell</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="equationCommentTextView">
-							<string key="name">equationCommentTextView</string>
+						<object class="IBToOneOutletInfo" key="_equationCommentTextView">
+							<string key="name">_equationCommentTextView</string>
 							<string key="candidateClassName">NSTextView</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="equationOutlineView">
-							<string key="name">equationOutlineView</string>
+						<object class="IBToOneOutletInfo" key="_equationOutlineView">
+							<string key="name">_equationOutlineView</string>
 							<string key="candidateClassName">NSOutlineView</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="equationParserMessagesTextView">
-							<string key="name">equationParserMessagesTextView</string>
+						<object class="IBToOneOutletInfo" key="_equationParserMessagesTextView">
+							<string key="name">_equationParserMessagesTextView</string>
 							<string key="candidateClassName">NSTextView</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="equationTextView">
-							<string key="name">equationTextView</string>
+						<object class="IBToOneOutletInfo" key="_equationTextView">
+							<string key="name">_equationTextView</string>
 							<string key="candidateClassName">NSTextView</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="miniSpecialTransitionView">
-							<string key="name">miniSpecialTransitionView</string>
+						<object class="IBToOneOutletInfo" key="_miniSpecialTransitionView">
+							<string key="name">_miniSpecialTransitionView</string>
 							<string key="candidateClassName">SpecialView</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="miniTransitionView">
-							<string key="name">miniTransitionView</string>
+						<object class="IBToOneOutletInfo" key="_miniTransitionView">
+							<string key="name">_miniTransitionView</string>
 							<string key="candidateClassName">TransitionView</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="removeEquationButtonCell">
-							<string key="name">removeEquationButtonCell</string>
+						<object class="IBToOneOutletInfo" key="_removeEquationButtonCell">
+							<string key="name">_removeEquationButtonCell</string>
 							<string key="candidateClassName">NSButtonCell</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="removeSpecialTransitionButtonCell">
-							<string key="name">removeSpecialTransitionButtonCell</string>
+						<object class="IBToOneOutletInfo" key="_removeSpecialTransitionButtonCell">
+							<string key="name">_removeSpecialTransitionButtonCell</string>
 							<string key="candidateClassName">NSButtonCell</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="removeTransitionButtonCell">
-							<string key="name">removeTransitionButtonCell</string>
+						<object class="IBToOneOutletInfo" key="_removeTransitionButtonCell">
+							<string key="name">_removeTransitionButtonCell</string>
 							<string key="candidateClassName">NSButtonCell</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="specialTransitionCommentTextView">
-							<string key="name">specialTransitionCommentTextView</string>
+						<object class="IBToOneOutletInfo" key="_specialTransitionCommentTextView">
+							<string key="name">_specialTransitionCommentTextView</string>
 							<string key="candidateClassName">NSTextView</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="specialTransitionOutlineView">
-							<string key="name">specialTransitionOutlineView</string>
+						<object class="IBToOneOutletInfo" key="_specialTransitionOutlineView">
+							<string key="name">_specialTransitionOutlineView</string>
 							<string key="candidateClassName">NSOutlineView</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="transitionCommentTextView">
-							<string key="name">transitionCommentTextView</string>
+						<object class="IBToOneOutletInfo" key="_transitionCommentTextView">
+							<string key="name">_transitionCommentTextView</string>
 							<string key="candidateClassName">NSTextView</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="transitionOutlineView">
-							<string key="name">transitionOutlineView</string>
+						<object class="IBToOneOutletInfo" key="_transitionOutlineView">
+							<string key="name">_transitionOutlineView</string>
 							<string key="candidateClassName">NSOutlineView</string>
 						</object>
 					</dictionary>
