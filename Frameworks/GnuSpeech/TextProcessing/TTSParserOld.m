@@ -606,12 +606,12 @@ static NSDictionary *_specialAcronyms = nil;
 
 - (NSString *)toneGroupStringForPunctuation:(NSString *)str;
 {
-    if ([str isEqualToString:@"."]) {        return TG_STATEMENT;
-    } else if ([str isEqualToString:@"!"]) { return TG_EXCLAMATION;
-    } else if ([str isEqualToString:@"?"]) { return TG_QUESTION;
-    } else if ([str isEqualToString:@","]) { return TG_CONTINUATION;
-    } else if ([str isEqualToString:@";"]) { return TG_HALF_PERIOD;
-    } else if ([str isEqualToString:@":"]) { return TG_CONTINUATION;    }
+    if ([str isEqualToString:@"."])  return TG_STATEMENT;
+    if ([str isEqualToString:@"!"])  return TG_EXCLAMATION;
+    if ([str isEqualToString:@"?"])  return TG_QUESTION;
+    if ([str isEqualToString:@","])  return TG_CONTINUATION;
+    if ([str isEqualToString:@";"])  return TG_HALF_PERIOD;
+    if ([str isEqualToString:@":"])  return TG_CONTINUATION;
 
     return TG_UNDEFINED;
 }
