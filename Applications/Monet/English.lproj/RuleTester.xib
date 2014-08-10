@@ -558,7 +558,7 @@
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
 				<string key="NSMinSize">{540, 343}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
@@ -573,30 +573,6 @@
 						<reference key="destination" ref="74351672"/>
 					</object>
 					<int key="connectionID">33</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">durationOutputForm</string>
-						<reference key="source" ref="701326787"/>
-						<reference key="destination" ref="576150159"/>
-					</object>
-					<int key="connectionID">37</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">ruleOutputTextField</string>
-						<reference key="source" ref="701326787"/>
-						<reference key="destination" ref="897339175"/>
-					</object>
-					<int key="connectionID">40</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">consumedTokensTextField</string>
-						<reference key="source" ref="701326787"/>
-						<reference key="destination" ref="852097068"/>
-					</object>
-					<int key="connectionID">41</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -615,44 +591,68 @@
 					<int key="connectionID">43</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">posture1Form</string>
-						<reference key="source" ref="701326787"/>
-						<reference key="destination" ref="127711494"/>
-					</object>
-					<int key="connectionID">45</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">posture2Form</string>
-						<reference key="source" ref="701326787"/>
-						<reference key="destination" ref="413151110"/>
-					</object>
-					<int key="connectionID">46</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">posture3Form</string>
-						<reference key="source" ref="701326787"/>
-						<reference key="destination" ref="605597729"/>
-					</object>
-					<int key="connectionID">47</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">posture4Form</string>
-						<reference key="source" ref="701326787"/>
-						<reference key="destination" ref="6304675"/>
-					</object>
-					<int key="connectionID">48</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">shiftPosturesLeft:</string>
 						<reference key="source" ref="701326787"/>
 						<reference key="destination" ref="556203897"/>
 					</object>
 					<int key="connectionID">49</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_posture1Form</string>
+						<reference key="source" ref="701326787"/>
+						<reference key="destination" ref="127711494"/>
+					</object>
+					<int key="connectionID">61</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_posture2Form</string>
+						<reference key="source" ref="701326787"/>
+						<reference key="destination" ref="413151110"/>
+					</object>
+					<int key="connectionID">62</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_posture3Form</string>
+						<reference key="source" ref="701326787"/>
+						<reference key="destination" ref="605597729"/>
+					</object>
+					<int key="connectionID">63</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_posture4Form</string>
+						<reference key="source" ref="701326787"/>
+						<reference key="destination" ref="6304675"/>
+					</object>
+					<int key="connectionID">64</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_ruleOutputTextField</string>
+						<reference key="source" ref="701326787"/>
+						<reference key="destination" ref="897339175"/>
+					</object>
+					<int key="connectionID">65</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_consumedTokensTextField</string>
+						<reference key="source" ref="701326787"/>
+						<reference key="destination" ref="852097068"/>
+					</object>
+					<int key="connectionID">66</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_durationOutputForm</string>
+						<reference key="source" ref="701326787"/>
+						<reference key="destination" ref="576150159"/>
+					</object>
+					<int key="connectionID">67</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1590,7 +1590,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">60</int>
+			<int key="maxID">67</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1633,41 +1633,41 @@
 						</object>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="consumedTokensTextField">NSTextField</string>
-						<string key="durationOutputForm">NSForm</string>
-						<string key="posture1Form">NSForm</string>
-						<string key="posture2Form">NSForm</string>
-						<string key="posture3Form">NSForm</string>
-						<string key="posture4Form">NSForm</string>
-						<string key="ruleOutputTextField">NSTextField</string>
+						<string key="_consumedTokensTextField">NSTextField</string>
+						<string key="_durationOutputForm">NSForm</string>
+						<string key="_posture1Form">NSForm</string>
+						<string key="_posture2Form">NSForm</string>
+						<string key="_posture3Form">NSForm</string>
+						<string key="_posture4Form">NSForm</string>
+						<string key="_ruleOutputTextField">NSTextField</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="consumedTokensTextField">
-							<string key="name">consumedTokensTextField</string>
+						<object class="IBToOneOutletInfo" key="_consumedTokensTextField">
+							<string key="name">_consumedTokensTextField</string>
 							<string key="candidateClassName">NSTextField</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="durationOutputForm">
-							<string key="name">durationOutputForm</string>
+						<object class="IBToOneOutletInfo" key="_durationOutputForm">
+							<string key="name">_durationOutputForm</string>
 							<string key="candidateClassName">NSForm</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="posture1Form">
-							<string key="name">posture1Form</string>
+						<object class="IBToOneOutletInfo" key="_posture1Form">
+							<string key="name">_posture1Form</string>
 							<string key="candidateClassName">NSForm</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="posture2Form">
-							<string key="name">posture2Form</string>
+						<object class="IBToOneOutletInfo" key="_posture2Form">
+							<string key="name">_posture2Form</string>
 							<string key="candidateClassName">NSForm</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="posture3Form">
-							<string key="name">posture3Form</string>
+						<object class="IBToOneOutletInfo" key="_posture3Form">
+							<string key="name">_posture3Form</string>
 							<string key="candidateClassName">NSForm</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="posture4Form">
-							<string key="name">posture4Form</string>
+						<object class="IBToOneOutletInfo" key="_posture4Form">
+							<string key="name">_posture4Form</string>
 							<string key="candidateClassName">NSForm</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="ruleOutputTextField">
-							<string key="name">ruleOutputTextField</string>
+						<object class="IBToOneOutletInfo" key="_ruleOutputTextField">
+							<string key="name">_ruleOutputTextField</string>
 							<string key="candidateClassName">NSTextField</string>
 						</object>
 					</dictionary>
