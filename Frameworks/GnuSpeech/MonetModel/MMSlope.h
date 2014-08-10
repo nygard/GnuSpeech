@@ -5,6 +5,8 @@
 
 @interface MMSlope : NSObject
 
+- (id)initWithXMLElement:(NSXMLElement *)element error:(NSError **)error;
+
 @property (assign) double slope;
 @property (assign) double displayTime;
 

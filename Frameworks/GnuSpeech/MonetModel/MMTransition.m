@@ -34,6 +34,45 @@
     return self;
 }
 
+- (id)initWithModel:(MModel *)model XMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    NSParameterAssert([@"transition" isEqualToString:element.name]);
+
+    if ((self = [super initWithXMLElement:element error:error])) {
+        _points = [[NSMutableArray alloc] init];
+
+        NSString *str = [[element attributeForName:@"type"] stringValue];
+        _type = (str != nil) ? MMPhoneTypeFromString(str) : MMPhoneType_Diphone;
+
+        self.model = model;
+
+        // Child element is: point-or-slopes
+        if (![self _loadPointsOrSlopesFromXMLElement:[[element elementsForName:@"point-or-slopes"] firstObject] error:error]) return nil;
+    }
+
+    return self;
+}
+
+- (BOOL)_loadPointsOrSlopesFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    NSParameterAssert([@"point-or-slopes" isEqualToString:element.name]);
+
+    NSArray *children = [element objectsForXQuery:@"point|slope-ratio" error:error];
+    for (NSXMLElement *childElement in children) {
+        if ([@"point" isEqualToString:childElement.name]) {
+            MMPoint *point = [[MMPoint alloc] initWithModel:self.model XMLElement:childElement error:error];
+            if (point != nil)
+                [self addPoint:point];
+        } else {
+            MMSlopeRatio *slopeRatio = [[MMSlopeRatio alloc] initWithModel:self.model XMLElement:childElement error:error];
+            if (slopeRatio != nil)
+                [self addPoint:slopeRatio];
+        }
+    }
+
+    return YES;
+}
+
 #pragma mark - Debugging
 
 - (NSString *)description;
@@ -162,17 +201,6 @@
 }
 
 #if 0
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
-{
-    if ((self = [super initWithXMLAttributes:attributes context:context])) {
-        NSString *str = [attributes objectForKey:@"type"];
-        if (str != nil)
-            self.type = MMPhoneTypeFromString(str);
-    }
-
-    return self;
-}
-
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
 {
     if ([elementName isEqualToString:@"point-or-slopes"]) {
@@ -184,14 +212,6 @@
     } else {
         [super parser:parser didStartElement:elementName namespaceURI:namespaceURI qualifiedName:qName attributes:attributeDict];
     }
-}
-
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
-{
-    if ([elementName isEqualToString:@"transition"])
-        [(MXMLParser *)parser popDelegate];
-    else
-        [NSException raise:@"Unknown close tag" format:@"Unknown closing tag (%@) in %@", elementName, NSStringFromClass([self class])];
 }
 #endif
 

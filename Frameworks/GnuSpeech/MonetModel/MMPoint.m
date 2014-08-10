@@ -36,6 +36,46 @@
     return self;
 }
 
+- (id)initWithModel:(MModel *)model XMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    NSParameterAssert([@"point" isEqualToString:element.name]);
+
+    if ((self = [super init])) {
+        _value = 0.0;
+        _freeTime = 0.0;
+        _timeEquation = nil;
+        _isPhantom = NO;
+        _type = MMPhoneType_Diphone;
+
+        NSString *str;
+
+        str = [[element attributeForName:@"type"] stringValue];
+        if (str != nil)
+            [self setType:MMPhoneTypeFromString(str)];
+
+        str = [[element attributeForName:@"value"] stringValue];
+        if (str != nil)
+            [self setValue:[str doubleValue]];
+
+        str = [[element attributeForName:@"free-time"] stringValue];
+        if (str != nil)
+            [self setFreeTime:[str doubleValue]];
+
+        str = [[element attributeForName:@"time-expression"] stringValue];
+        if (str != nil) {
+            MMEquation *anEquation = [model findEquationWithName:str];
+            [self setTimeEquation:anEquation];
+        }
+
+        str = [[element attributeForName:@"is-phantom"] stringValue];
+        if (str != nil)
+            [self setIsPhantom:GSXMLBoolFromString(str)];
+
+    }
+
+    return self;
+}
+
 #pragma mark -
 
 - (NSString *)description;
@@ -119,54 +159,6 @@
 
     [resultString appendString:@"/>\n"];
 }
-
-#if 0
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
-{
-    if ((self = [self init])) {
-        NSString *str;
-        
-        str = [attributes objectForKey:@"type"];
-        if (str != nil)
-            [self setType:MMPhoneTypeFromString(str)];
-        
-        str = [attributes objectForKey:@"value"];
-        if (str != nil)
-            [self setValue:[str doubleValue]];
-        
-        str = [attributes objectForKey:@"free-time"];
-        if (str != nil)
-            [self setFreeTime:[str doubleValue]];
-        
-        str = [attributes objectForKey:@"time-expression"];
-        if (str != nil) {
-            MMEquation *anEquation;
-            
-            anEquation = [context findEquationWithName:str];
-            [self setTimeEquation:anEquation];
-        }
-        
-        str = [attributes objectForKey:@"is-phantom"];
-        if (str != nil)
-            [self setIsPhantom:GSXMLBoolFromString(str)];
-    }
-
-    return self;
-}
-
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-{
-    if ([elementName isEqualToString:@"point"])
-        [(MXMLParser *)parser popDelegate];
-    else
-        [NSException raise:@"Unknown close tag" format:@"Unknown closing tag (%@) in %@", elementName, NSStringFromClass([self class])];
-}
-
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
-{
-    [(MXMLParser *)parser popDelegate];
-}
-#endif
 
 - (NSComparisonResult)compareByAscendingCachedTime:(MMPoint *)otherPoint;
 {

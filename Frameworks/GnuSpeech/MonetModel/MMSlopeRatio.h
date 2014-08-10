@@ -10,6 +10,8 @@
 
 @interface MMSlopeRatio : NSObject
 
+- (id)initWithModel:(MModel *)model XMLElement:(NSXMLElement *)element error:(NSError **)error;
+
 - (NSMutableArray *)points;
 - (void)setPoints:(NSMutableArray *)newList;
 - (void)addPoint:(MMPoint *)newPoint;

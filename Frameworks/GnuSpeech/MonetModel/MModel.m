@@ -186,6 +186,9 @@
     NSParameterAssert([@"transitions" isEqualToString:element.name]);
 
     for (NSXMLElement *childElement in [element elementsForName:@"transition-group"]) {
+        MMGroup *group = [[MMGroup alloc] initWithModel:self XMLElement:childElement error:error];
+        if (group != nil)
+            [self addTransitionGroup:group];
     }
     
     return YES;
@@ -196,6 +199,9 @@
     NSParameterAssert([@"special-transitions" isEqualToString:element.name]);
 
     for (NSXMLElement *childElement in [element elementsForName:@"transition-group"]) {
+        MMGroup *group = [[MMGroup alloc] initWithModel:self XMLElement:childElement error:error];
+        if (group != nil)
+            [self addSpecialTransitionGroup:group];
     }
     
     return YES;

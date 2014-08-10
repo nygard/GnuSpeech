@@ -6,9 +6,11 @@
 #import "GSXMLFunctions.h" // For MMPhoneType
 #import "MMFRuleSymbols.h"
 
-@class EventList, MMEquation;
+@class EventList, MMEquation, MModel;
 
 @interface MMPoint : NSObject
+
+- (id)initWithModel:(MModel *)model XMLElement:(NSXMLElement *)element error:(NSError **)error;
 
 @property (assign) double value;
 

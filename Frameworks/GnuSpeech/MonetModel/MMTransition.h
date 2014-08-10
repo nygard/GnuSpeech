@@ -9,6 +9,8 @@
 
 @interface MMTransition : MMGroupedObject
 
+- (id)initWithModel:(MModel *)model XMLElement:(NSXMLElement *)element error:(NSError **)error;
+
 - (void)addInitialPoint;
 
 @property (strong) NSMutableArray *points;

@@ -35,6 +35,49 @@
     return self;
 }
 
+- (id)initWithModel:(MModel *)model XMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    NSParameterAssert([@"slope-ratio" isEqualToString:element.name]);
+
+    if ((self = [super init])) {
+        _points = [[NSMutableArray alloc] init];
+        _slopes = [[NSMutableArray alloc] init];
+
+        // Has points and slopes
+        if (![self _loadPointsFromXMLElement:[[element elementsForName:@"points"] firstObject] model:model error:error]) return nil;
+        if (![self _loadSlopesFromXMLElement:[[element elementsForName:@"slopes"] firstObject] model:model error:error]) return nil;
+        // TODO (2004-05-14): Should check to make sure we have an appropriate number of points and slopes.
+    }
+
+    return self;
+}
+
+- (BOOL)_loadPointsFromXMLElement:(NSXMLElement *)element model:(MModel *)model error:(NSError **)error;
+{
+    NSParameterAssert([@"points" isEqualToString:element.name]);
+
+    for (NSXMLElement *childElement in [element elementsForName:@"point"]) {
+        MMPoint *point = [[MMPoint alloc] initWithModel:model XMLElement:childElement error:error];
+        if (point != nil)
+            [self addPoint:point];
+    }
+
+    return YES;
+}
+
+- (BOOL)_loadSlopesFromXMLElement:(NSXMLElement *)element model:(MModel *)model error:(NSError **)error;
+{
+    NSParameterAssert([@"slopes" isEqualToString:element.name]);
+
+    for (NSXMLElement *childElement in [element elementsForName:@"slope"]) {
+        MMSlope *slope = [[MMSlope alloc] initWithXMLElement:childElement error:error];
+        if (slope != nil)
+            [self addSlope:slope];
+    }
+
+    return YES;
+}
+
 #pragma mark - Debugging
 
 - (NSString *)description;
@@ -279,15 +322,6 @@
         NSLog(@"%@, Unknown element: '%@', skipping", [self shortDescription], elementName);
         [(MXMLParser *)parser skipTree];
     }
-}
-
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
-{
-    // TODO (2004-05-14): Should check to make sure we have an appropriate number of points and slopes.
-    if ([elementName isEqualToString:@"slope-ratio"])
-        [(MXMLParser *)parser popDelegate];
-    else
-        [NSException raise:@"Unknown close tag" format:@"Unknown closing tag (%@) in %@", elementName, NSStringFromClass([self class])];
 }
 #endif
 

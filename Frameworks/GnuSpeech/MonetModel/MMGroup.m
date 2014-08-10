@@ -54,6 +54,10 @@
         }
 
         for (NSXMLElement *childElement in [element elementsForName:@"transition"]) {
+            MMTransition *transition = [[MMTransition alloc] initWithModel:model XMLElement:childElement error:error];
+            if (transition != nil) {
+                [self addObject:transition];
+            }
         }
     }
 
