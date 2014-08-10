@@ -93,15 +93,14 @@
 - (IBAction)parseRule:(id)sender;
 {
     NSInteger ruleIndex;
-    NSMutableArray *testPostures, *testCategoryLists;
+    NSMutableArray *testPhones, *testCategoryLists;
     MMPosture *aPosture;
     MMRule *aRule;
     MMFRuleSymbols *ruleSymbols = [[[MMFRuleSymbols alloc] init] autorelease];
-//    double tempos[4] = {1.0, 1.0, 1.0, 1.0};
     NSString *posture1Name, *posture2Name, *posture3Name, *posture4Name;
 
     testCategoryLists = [NSMutableArray array];
-    testPostures = [NSMutableArray array];
+    testPhones = [NSMutableArray array];
 
     posture1Name = [[posture1Form cellAtIndex:0] stringValue];
     posture2Name = [[posture2Form cellAtIndex:0] stringValue];
@@ -121,7 +120,7 @@
         return;
     }
     [testCategoryLists addObject:[aPosture categories]];
-    [testPostures addObject:aPosture];
+    [testPhones addObject:[[MMPhone alloc] initWithPosture:aPosture]];
 
     aPosture = [model postureWithName:posture2Name];
     if (aPosture == nil) {
@@ -129,7 +128,7 @@
         return;
     }
     [testCategoryLists addObject:[aPosture categories]];
-    [testPostures addObject:aPosture];
+    [testPhones addObject:[[MMPhone alloc] initWithPosture:aPosture]];
 
     if ([posture3Name length]) {
         aPosture = [model postureWithName:posture3Name];
@@ -138,7 +137,7 @@
             return;
         }
         [testCategoryLists addObject:[aPosture categories]];
-        [testPostures addObject:aPosture];
+        [testPhones addObject:[[MMPhone alloc] initWithPosture:aPosture]];
     }
 
     if ([posture4Name length]) {
@@ -148,7 +147,7 @@
             return;
         }
         [testCategoryLists addObject:[aPosture categories]];
-        [testPostures addObject:aPosture];
+        [testPhones addObject:[[MMPhone alloc] initWithPosture:aPosture]];
     }
 
     //NSLog(@"TempList count = %d", [testCategoryLists count]);
@@ -161,8 +160,7 @@
         [ruleOutputTextField setStringValue:str];
         [consumedTokensTextField setIntegerValue:[aRule numberExpressions] - 1];
 
-        // TODO: (2014-08-09) Fix array.
-        [aRule evaluateSymbolEquationsWithPhonesInArray:nil ruleSymbols:ruleSymbols withCacheTag:[[self model] nextCacheTag]];
+        [aRule evaluateSymbolEquationsWithPhonesInArray:testPhones ruleSymbols:ruleSymbols withCacheTag:[[self model] nextCacheTag]];
 
         [[durationOutputForm cellAtIndex:0] setDoubleValue:ruleSymbols.ruleDuration];
         [[durationOutputForm cellAtIndex:1] setDoubleValue:ruleSymbols.beat];

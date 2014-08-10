@@ -28,7 +28,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     
     MMTransition *transition;
     
-    NSMutableArray *samplePostures;
+    NSMutableArray *samplePhones;
     NSMutableArray *displayPoints;
     NSMutableArray *displaySlopes;
     NSMutableArray *selectedPoints;
@@ -61,7 +61,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         timesFont = [[NSFont fontWithName:@"Times-Roman" size:12] retain];
         transition = nil;
         
-        samplePostures = [[NSMutableArray alloc] init];
+        samplePhones = [[NSMutableArray alloc] init];
         displayPoints = [[NSMutableArray alloc] init];
         displaySlopes = [[NSMutableArray alloc] init];
         selectedPoints = [[NSMutableArray alloc] init];
@@ -88,7 +88,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     [timesFont release];
     [transition release];
 
-    [samplePostures release];
+    [samplePhones release];
     [displayPoints release];
     [displaySlopes release];
     [selectedPoints release];
@@ -102,7 +102,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 
 #pragma mark -
 
-@synthesize timesFont, samplePostures, displayPoints, displaySlopes, selectedPoints;
+@synthesize timesFont, samplePhones, displayPoints, displaySlopes, selectedPoints;
 
 @synthesize parameters = m_parameters;
 
@@ -153,7 +153,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 // TODO (2004-03-21): I don't think this will catch changes to the "Formula Symbols"... i.e. adding or removing them.
 - (void)_updateFromModel;
 {
-    [samplePostures removeAllObjects];
+    [samplePhones removeAllObjects];
     [displayPoints removeAllObjects];
     [displaySlopes removeAllObjects];
     [selectedPoints removeAllObjects];
@@ -167,11 +167,16 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         [(MMTarget *)[[aPosture symbolTargets] objectAtIndex:3] setValue:33.3333]; // qssb
     }
 
+    MMPhone *phone1 = [[MMPhone alloc] initWithPosture:aPosture];
+    MMPhone *phone2 = [[MMPhone alloc] initWithPosture:aPosture];
+    MMPhone *phone3 = [[MMPhone alloc] initWithPosture:aPosture];
+    MMPhone *phone4 = [[MMPhone alloc] initWithPosture:aPosture];
+
     // We need four postures to show a tetraphone
-    [samplePostures addObject:aPosture];
-    [samplePostures addObject:aPosture];
-    [samplePostures addObject:aPosture];
-    [samplePostures addObject:aPosture];
+    [samplePhones addObject:phone1];
+    [samplePhones addObject:phone2];
+    [samplePhones addObject:phone3];
+    [samplePhones addObject:phone4];
 
     [aPosture release];
 
@@ -435,9 +440,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         for (NSUInteger j = 0; j < [group.objects count]; j++) {
             MMEquation *equation = [group.objects objectAtIndex:j];
             if ([[equation formula] maxPhone] <= type) {
-                double time = [equation evaluateWithPhonesInArray:nil ruleSymbols:self.parameters andCacheWithTag:cacheTag];
-                // TODO: (2014-08-09) Need to turn samplePostures into array of MMPhones
-//                double time = [equation evaluate:self.parameters postures:samplePostures andCacheWith:cacheTag];
+                double time = [equation evaluateWithPhonesInArray:self.samplePhones ruleSymbols:self.parameters andCacheWithTag:cacheTag];
                 //NSLog(@"\t%@", [equation name]);
                 //NSLog(@"\t\ttime = %f", time);
                 //NSLog(@"equation name: %@, formula: %@, time: %f", [equation name], [[equation expression] expressionString], time);
@@ -611,8 +614,6 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 
 - (void)updateDisplayPoints;
 {
-//    double tempos[4] = {1.0, 1.0, 1.0, 1.0};
-
     if (transition == nil)
         return;
 
@@ -628,9 +629,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         MMPoint *currentPoint = [currentPoints objectAtIndex:index];
         //NSLog(@"%2d: object class: %@", index, NSStringFromClass([currentPoint class]));
         //NSLog(@"%2d (a): value: %g, freeTime: %g, type: %d, isPhantom: %d", index, [currentPoint value], [currentPoint freeTime], [currentPoint type], [currentPoint isPhantom]);
-        // TODO: (2014-08-09) Fix phone array/samplePostures.  Note that tempos were all 1.0, dealing w/ samples so that should be ok.
-        [currentPoint calculatePointsWithPhonesInArray:nil ruleSymbols:self.parameters andCacheWithTag:cacheTag andAddToDisplay:displayPoints];
-//        [currentPoint calculatePoints:self.parameters tempos:tempos postures:samplePostures andCacheWith:cacheTag toDisplay:displayPoints];
+        [currentPoint calculatePointsWithPhonesInArray:self.samplePhones ruleSymbols:self.parameters andCacheWithTag:cacheTag andAddToDisplay:displayPoints];
         //NSLog(@"%2d (b): value: %g, freeTime: %g, type: %d, isPhantom: %d", index, [currentPoint value], [currentPoint freeTime], [currentPoint type], [currentPoint isPhantom]);
 
         if ([currentPoint isKindOfClass:[MMSlopeRatio class]])
@@ -1056,9 +1055,8 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         if (currentExpression == nil)
             currentPoint.x = [currentDisplayPoint freeTime];
         else {
-            // TODO: (2014-08-09) Turn samplePostures into array of MMPhones
             MMEquation *equation = [currentDisplayPoint timeEquation];
-            currentPoint.x = [equation evaluateWithPhonesInArray:nil ruleSymbols:self.parameters andCacheWithTag:cacheTag];
+            currentPoint.x = [equation evaluateWithPhonesInArray:self.samplePhones ruleSymbols:self.parameters andCacheWithTag:cacheTag];
         }
 
         currentPoint.x *= timeScale;

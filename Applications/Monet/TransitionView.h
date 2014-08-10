@@ -25,7 +25,7 @@ extern NSString *TransitionViewSelectionDidChangeNotification;
 @property (readonly) NSFont *timesFont;
 @property (nonatomic, assign) NSInteger zeroIndex;
 @property (nonatomic, assign) NSInteger sectionAmount;
-@property (readonly) NSMutableArray *samplePostures;
+@property (readonly) NSMutableArray *samplePhones;
 @property (readonly) NSMutableArray *displayPoints;
 @property (readonly) NSMutableArray *displaySlopes;
 @property (readonly) NSMutableArray *selectedPoints;

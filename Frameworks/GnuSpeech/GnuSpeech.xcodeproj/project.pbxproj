@@ -93,7 +93,7 @@
 		01ACA5E11544A80A00278339 /* MMGroupedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 01ACA5DF1544A80800278339 /* MMGroupedObject.m */; };
 		01B4561115452BE400D00A1A /* MMIntonationParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 01B4560F15452BE400D00A1A /* MMIntonationParameters.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01B4561215452BE400D00A1A /* MMIntonationParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 01B4561015452BE400D00A1A /* MMIntonationParameters.m */; };
-		01E6107C1996A566009CDE09 /* MMPhone.h in Headers */ = {isa = PBXBuildFile; fileRef = 01E6107A1996A566009CDE09 /* MMPhone.h */; };
+		01E6107C1996A566009CDE09 /* MMPhone.h in Headers */ = {isa = PBXBuildFile; fileRef = 01E6107A1996A566009CDE09 /* MMPhone.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01E6107D1996A566009CDE09 /* MMPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 01E6107B1996A566009CDE09 /* MMPhone.m */; };
 		01F470A915408B7800A604B8 /* Tube.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01F470A815408B7800A604B8 /* Tube.framework */; };
 		69300A3E0FAB841E0041EBFB /* TTSParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 69300A3C0FAB841E0041EBFB /* TTSParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -798,7 +798,6 @@
 				012D53AC0B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h in Headers */,
 				0155E4440B7BE8FA008D8879 /* EventList.h in Headers */,
 				0155E4420B7BE8FA008D8879 /* Event.h in Headers */,
-				01E6107C1996A566009CDE09 /* MMPhone.h in Headers */,
 				01AC65FA0B7BF9B4008E4B93 /* GnuSpeech.h in Headers */,
 				69B1086D0EDD307400DEF197 /* TRMData.h in Headers */,
 				69300A3E0FAB841E0041EBFB /* TTSParser.h in Headers */,
@@ -848,6 +847,7 @@
 				69E228660FB13394001B3C04 /* tail.h in Headers */,
 				69E228680FB13394001B3C04 /* vowel_before.h in Headers */,
 				0157785815410A48008C2ECF /* GnuSpeechServerProtocol.h in Headers */,
+				01E6107C1996A566009CDE09 /* MMPhone.h in Headers */,
 				0165043D1543B42700D64E98 /* MMDriftGenerator.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -116,8 +116,7 @@
             if ([currentPoint timeEquation] == nil)
                 eventTime = [currentPoint freeTime];
             else {
-                // TODO: (2014-08-09) Fix array.
-                eventTime = [[currentPoint timeEquation] evaluateWithPhonesInArray:nil ruleSymbols:self.parameters andCacheWithTag:cacheTag];
+                eventTime = [[currentPoint timeEquation] evaluateWithPhonesInArray:self.samplePhones ruleSymbols:self.parameters andCacheWithTag:cacheTag];
             }
 
             NSPoint myPoint;
