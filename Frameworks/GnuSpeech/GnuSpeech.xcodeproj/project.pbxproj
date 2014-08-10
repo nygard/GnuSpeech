@@ -391,10 +391,10 @@
 		012D53A00B7FF9BD001B50FC /* Text Processing */ = {
 			isa = PBXGroup;
 			children = (
-				012D53A10B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h */,
-				012D53A20B7FF9DC001B50FC /* GSDBMPronunciationDictionary.m */,
 				012D53A30B7FF9DC001B50FC /* GSPronunciationDictionary.h */,
 				012D53A40B7FF9DC001B50FC /* GSPronunciationDictionary.m */,
+				012D53A10B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h */,
+				012D53A20B7FF9DC001B50FC /* GSDBMPronunciationDictionary.m */,
 				012D53A50B7FF9DC001B50FC /* GSSimplePronunciationDictionary.h */,
 				012D53A60B7FF9DC001B50FC /* GSSimplePronunciationDictionary.m */,
 				012D53A70B7FF9DC001B50FC /* GSSuffix.h */,

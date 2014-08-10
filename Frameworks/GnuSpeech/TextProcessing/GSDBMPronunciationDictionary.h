@@ -11,11 +11,4 @@
 + (NSString *)mainFilename;
 + (BOOL)createDatabase:(NSString *)filename fromSimpleDictionary:(GSSimplePronunciationDictionary *)simpleDictionary;
 
-- (id)initWithFilename:(NSString *)filename;
-
-- (NSDate *)modificationDate;
-- (BOOL)loadDictionary;
-
-- (NSString *)lookupPronunciationForWord:(NSString *)word;
-
 @end

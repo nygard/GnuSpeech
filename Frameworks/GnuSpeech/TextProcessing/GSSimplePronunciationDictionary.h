@@ -6,12 +6,6 @@
 
 + (id)mainDictionary;
 
-- (id)initWithFilename:(NSString *)filename;
-
-- (NSDate *)modificationDate;
-- (BOOL)loadDictionary;
-
 - (NSDictionary *)pronunciations;
-- (NSString *)lookupPronunciationForWord:(NSString *)word;
 
 @end
