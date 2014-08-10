@@ -212,7 +212,6 @@ static int is_possessive(char *word);
 static void safety_check(NXStream *stream, long *stream_length);
 static void insert_chunk_marker(NXStream *stream, long insert_point, char tg_type);
 static void check_tonic(NXStream *stream, long start_pos, long end_pos);
-static void print_stream(NXStream *stream, long stream_length);
 
 
 
@@ -3273,17 +3272,15 @@ static void check_tonic(NXStream *stream, long start_pos, long end_pos)
  *                       
  *
  ******************************************************************************/
-
+#if 0
 static void print_stream(NXStream *stream, long stream_length)
 {
-	long i;
-	
 	/*  REWIND STREAM TO BEGINNING  */
 	NXSeek(stream, 0, NX_FROMSTART);
 	
 	/*  PRINT LOOP  */
 	printf("stream_length = %-ld\n<begin>", stream_length);
-	for (i = 0; i < stream_length; i++) {
+	for (NSUInteger i = 0; i < stream_length; i++) {
 		char c = NXGetc(stream);
 		switch(c) {
 			case RAW_MODE_BEGIN:
@@ -3323,3 +3320,4 @@ static void print_stream(NXStream *stream, long stream_length)
 	}
 	printf("<end>\n");
 }
+#endif
