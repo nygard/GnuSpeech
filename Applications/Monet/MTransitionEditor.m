@@ -189,9 +189,9 @@
     return item != [selectedEquation group];
 }
 
-- (void)outlineViewSelectionDidChange:(NSNotification *)aNotification;
+- (void)outlineViewSelectionDidChange:(NSNotification *)notification;
 {
-    NSOutlineView *outlineView = [aNotification object];
+    NSOutlineView *outlineView = [notification object];
 
     if (outlineView == _equationOutlineView) {
         MMEquation *selectedEquation = [_equationOutlineView selectedItemOfClass:[MMEquation class]];
@@ -203,16 +203,16 @@
 
 #pragma mark - TransitionViewDelegate
 
-- (void)transitionViewSelectionDidChange:(NSNotification *)aNotification;
+- (void)transitionViewSelectionDidChange:(NSNotification *)notification;
 {
-    if ([aNotification object] == _transitionView) {
+    if ([notification object] == _transitionView) {
         [self _updateSelectedPointDetails];
     }
 }
 
-- (BOOL)transitionView:(TransitionView *)aTransitionView shouldAddPoint:(MMPoint *)aPoint;
+- (BOOL)transitionView:(TransitionView *)transitionView shouldAddPoint:(MMPoint *)point;
 {
-    if ([[_transitionView transition] isTimeInSlopeRatio:[aPoint cachedTime]] == YES) {
+    if ([[_transitionView transition] isTimeInSlopeRatio:[point cachedTime]] == YES) {
         if (NSRunAlertPanel(@"Insert Point", @"Insert Point into Slope Ratio?", @"Insert", @"Don't Insert", nil) == NSAlertDefaultReturn)
             return YES;
         else

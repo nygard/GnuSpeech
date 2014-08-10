@@ -36,10 +36,10 @@
     MModel *_model;
 }
 
-- (id)initWithModel:(MModel *)aModel;
+- (id)initWithModel:(MModel *)model;
 {
     if ((self = [super initWithWindowNibName:@"DataEntry"])) {
-        _model = aModel;
+        _model = model;
 
         [self setWindowFrameAutosaveName:@"Data Entry"];
     }
@@ -467,11 +467,9 @@
 
 #pragma mark - NSTableViewDelegate
 
-- (void)tableViewSelectionDidChange:(NSNotification *)aNotification;
+- (void)tableViewSelectionDidChange:(NSNotification *)notification;
 {
-    NSTableView *tableView;
-
-    tableView = [aNotification object];
+    NSTableView *tableView = [notification object];
 
     if (tableView == _categoryTableView) {
         [self _updateCategoryComment];
@@ -486,16 +484,13 @@
 
 #pragma mark - NSTextViewDelegate
 
-- (void)textDidEndEditing:(NSNotification *)aNotification;
+- (void)textDidEndEditing:(NSNotification *)notification;
 {
-    NSTextView *textView;
-    NSString *newComment;
-
-    textView = [aNotification object];
+    NSTextView *textView = [notification object];
     // NSTextMovement is a key in the user info
     //NSLog(@"[aNotification userInfo]: %@", [aNotification userInfo]);
 
-    newComment = [[textView string] copy];
+    NSString *newComment = [[textView string] copy];
     //NSLog(@"(1) newComment: %@", newComment);
     if ([newComment length] == 0) {
         newComment = nil;

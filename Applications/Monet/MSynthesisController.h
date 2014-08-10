@@ -7,7 +7,7 @@
 
 @interface MSynthesisController : MWindowController
 
-- (id)initWithModel:(MModel *)aModel;
+- (id)initWithModel:(MModel *)model;
 
 @property (nonatomic, strong) MModel *model;
 
@@ -42,10 +42,10 @@
 - (IBAction)printDocument:(id)sender;
 
 // MExtendedTableView delegate
-- (BOOL)control:(NSControl *)aControl shouldProcessCharacters:(NSString *)characters;
+- (BOOL)control:(NSControl *)control shouldProcessCharacters:(NSString *)characters;
 
 // MAIntonationView delegate
-- (void)intonationViewSelectionDidChange:(NSNotification *)aNotification;
+- (void)intonationViewSelectionDidChange:(NSNotification *)notification;
 
 // Intonation Parameters
 - (IBAction)updateSmoothIntonation:(id)sender;

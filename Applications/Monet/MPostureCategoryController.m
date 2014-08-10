@@ -12,10 +12,10 @@
     MModel *_model;
 }
 
-- (id)initWithModel:(MModel *)aModel;
+- (id)initWithModel:(MModel *)model;
 {
     if ((self = [super initWithWindowNibName:@"PostureCategory"])) {
-        _model = aModel;
+        _model = model;
 
         [self setWindowFrameAutosaveName:@"Posture Categories"];
     }
@@ -207,7 +207,7 @@
 
 #pragma mark - NSTableViewDelegate
 
-- (BOOL)control:(NSControl *)aControl shouldProcessCharacters:(NSString *)characters;
+- (BOOL)control:(NSControl *)control shouldProcessCharacters:(NSString *)characters;
 {
     NSArray *postures;
     NSUInteger count, index;

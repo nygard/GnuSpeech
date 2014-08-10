@@ -640,22 +640,22 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     return YES;
 }
 
-- (BOOL)acceptsFirstMouse:(NSEvent *)theEvent;
+- (BOOL)acceptsFirstMouse:(NSEvent *)event;
 {
     return YES;
 }
 
-- (void)mouseDown:(NSEvent *)mouseEvent;
+- (void)mouseDown:(NSEvent *)event;
 {
     if ([self isEnabled] == NO) {
-        [super mouseDown:mouseEvent];
+        [super mouseDown:event];
         return;
     }
 
     // Force this to be first responder, since nothing else seems to work!
     [[self window] makeFirstResponder:self];
 
-    NSPoint hitPoint = [self convertPoint:[mouseEvent locationInWindow] fromView:nil];
+    NSPoint hitPoint = [self convertPoint:[event locationInWindow] fromView:nil];
     //NSLog(@"hitPoint: %@", NSStringFromPoint(hitPoint));
 
     CGFloat startTime, endTime;
@@ -666,7 +666,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     [self _selectionDidChange];
     [self setNeedsDisplay:YES];
 
-    if ([mouseEvent clickCount] == 1) {
+    if ([event clickCount] == 1) {
         if (hitSlope == nil || _flags.shouldDrawSlopes == NO)
             [[self window] endEditingFor:nil];
         else {
@@ -675,7 +675,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         }
 
         //NSLog(@"[mouseEvent modifierFlags]: %x", [mouseEvent modifierFlags]);
-        if ([mouseEvent modifierFlags] & NSAlternateKeyMask) {
+        if ([event modifierFlags] & NSAlternateKeyMask) {
             NSPoint graphOrigin = [self graphOrigin];
             CGFloat yScale = [self sectionHeight];
 
@@ -706,7 +706,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     [self setShouldDrawSelection:YES];
 }
 
-- (void)mouseDragged:(NSEvent *)mouseEvent;
+- (void)mouseDragged:(NSEvent *)event;
 {
     //NSLog(@" > %s", _cmd);
 
@@ -714,7 +714,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         return;
 
     if (_flags.shouldDrawSelection == YES) {
-        NSPoint hitPoint = [self convertPoint:[mouseEvent locationInWindow] fromView:nil];
+        NSPoint hitPoint = [self convertPoint:[event locationInWindow] fromView:nil];
         //NSLog(@"hitPoint: %@", NSStringFromPoint(hitPoint));
         _selectionPoint2 = hitPoint;
         [self setNeedsDisplay:YES];
@@ -725,14 +725,14 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     //NSLog(@"<  %s", _cmd);
 }
 
-- (void)mouseUp:(NSEvent *)mouseEvent;
+- (void)mouseUp:(NSEvent *)event;
 {
     [self setShouldDrawSelection:NO];
 }
 
-- (void)keyDown:(NSEvent *)keyEvent;
+- (void)keyDown:(NSEvent *)event;
 {
-    NSArray *keyEvents = [[NSArray alloc] initWithObjects:keyEvent, nil];
+    NSArray *keyEvents = [[NSArray alloc] initWithObjects:event, nil];
     [self interpretKeyEvents:keyEvents];
 }
 
@@ -869,15 +869,15 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     _editingSlope = newSlope;
 }
 
-- (void)editSlope:(MMSlope *)aSlope startTime:(CGFloat)startTime endTime:(CGFloat)endTime;
+- (void)editSlope:(MMSlope *)slope startTime:(CGFloat)startTime endTime:(CGFloat)endTime;
 {
-    if (aSlope == nil)
+    if (slope == nil)
         return;
 
     NSWindow *window = [self window];
 
     if ([window makeFirstResponder:window] == YES) {
-        [self _setEditingSlope:aSlope];
+        [self _setEditingSlope:slope];
         CGFloat timeScale = [self timeScale];
 
         NSRect rect;
@@ -888,7 +888,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         rect = NSIntegralRect(rect);
         _fieldEditor = [window fieldEditor:YES forObject:self];
 
-        [_fieldEditor setString:[NSString stringWithFormat:@"%0.1f", [aSlope slope]]];
+        [_fieldEditor setString:[NSString stringWithFormat:@"%0.1f", [slope slope]]];
         [_fieldEditor setRichText:NO];
         [_fieldEditor setUsesFontPanel:NO];
         [_fieldEditor setFont:_timesFont];
@@ -916,7 +916,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     }
 }
 
-- (MMSlope *)getSlopeMarkerAtPoint:(NSPoint)aPoint startTime:(CGFloat *)startTime endTime:(CGFloat *)endTime;
+- (MMSlope *)getSlopeMarkerAtPoint:(NSPoint)point startTime:(CGFloat *)startTime endTime:(CGFloat *)endTime;
 {
     CGFloat timeScale = [self timeScale];
 
@@ -926,16 +926,16 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     //if ( (aPoint.y > -21.0) || (aPoint.y < -39.0)) {
 
     NSRect slopeMarkerRect = [self slopeMarkerRect];
-    if (NSPointInRect(aPoint, slopeMarkerRect) == NO) {
+    if (NSPointInRect(point, slopeMarkerRect) == NO) {
         //NSLog(@"Y not in range -21 to -39, returning.");
         //NSLog(@"<  %s", _cmd);
         return nil;
     }
 
-    aPoint.x -= LEFT_MARGIN;
-    aPoint.y -= BOTTOM_MARGIN;
+    point.x -= LEFT_MARGIN;
+    point.y -= BOTTOM_MARGIN;
 
-    CGFloat tempTime = aPoint.x / timeScale;
+    CGFloat tempTime = point.x / timeScale;
 
     //NSLog(@"ClickSlopeMarker Row: %f  Col: %f  time = %f", aPoint.y, aPoint.x, tempTime);
 

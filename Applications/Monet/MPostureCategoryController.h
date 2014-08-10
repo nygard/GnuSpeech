@@ -7,7 +7,7 @@
 
 @interface MPostureCategoryController : MWindowController <NSTableViewDataSource, NSTableViewDelegate>
 
-- (id)initWithModel:(MModel *)aModel;
+- (id)initWithModel:(MModel *)model;
 
 - (MModel *)model;
 - (void)setModel:(MModel *)newModel;

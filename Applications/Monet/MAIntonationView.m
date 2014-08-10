@@ -616,7 +616,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
 #pragma mark - Event handling
 
-- (void)mouseEntered:(NSEvent *)theEvent;
+- (void)mouseEntered:(NSEvent *)event;
 {
 #ifdef PORTING
     NSEvent *nextEvent;
@@ -648,7 +648,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 #endif
 }
 
-- (void)keyDown:(NSEvent *)keyEvent;
+- (void)keyDown:(NSEvent *)event;
 {
     NSString *characters;
     NSUInteger index, length;
@@ -658,7 +658,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
     ruleCount = [_eventList ruleCount];
 
-    characters = [keyEvent characters];
+    characters = [event characters];
     length = [characters length];
     for (index = 0; index < length; index++) {
         NSUInteger pointCount, pointIndex;
@@ -733,7 +733,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     }
 }
 
-- (void)mouseDown:(NSEvent *)mouseEvent;
+- (void)mouseDown:(NSEvent *)event;
 {
     NSPoint hitPoint;
 #if 0
@@ -745,15 +745,15 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     // Force this to be first responder, since nothing else seems to work!
     [[self window] makeFirstResponder:self];
 
-    hitPoint = [self convertPoint:[mouseEvent locationInWindow] fromView:nil];
+    hitPoint = [self convertPoint:[event locationInWindow] fromView:nil];
     //NSLog(@"hitPoint: %@", NSStringFromPoint(hitPoint));
 
     [self setShouldDrawSelection:NO];
     [_selectedPoints removeAllObjects];
     [self _selectionDidChange];
 
-    if ([mouseEvent clickCount] == 1) {
-        if ([mouseEvent modifierFlags] & NSAlternateKeyMask) {
+    if ([event clickCount] == 1) {
+        if ([event modifierFlags] & NSAlternateKeyMask) {
             MMIntonationPoint *newIntonationPoint;
             CGFloat absoluteTime;
             NSUInteger ruleIndex;
@@ -780,7 +780,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     [self setShouldDrawSelection:YES];
 }
 
-- (void)mouseDragged:(NSEvent *)mouseEvent;
+- (void)mouseDragged:(NSEvent *)event;
 {
     NSPoint hitPoint;
 
@@ -789,9 +789,9 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 //    if ([self isEnabled] == NO)
 //        return;
 
-    [self autoscroll:mouseEvent];
+    [self autoscroll:event];
     if (_flags.shouldDrawSelection == YES) {
-        hitPoint = [self convertPoint:[mouseEvent locationInWindow] fromView:nil];
+        hitPoint = [self convertPoint:[event locationInWindow] fromView:nil];
         //NSLog(@"hitPoint: %@", NSStringFromPoint(hitPoint));
         _selectionPoint2 = hitPoint;
         [self setNeedsDisplay:YES];
@@ -973,11 +973,11 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     return [_selectedPoints objectAtIndex:0];
 }
 
-- (void)selectIntonationPoint:(MMIntonationPoint *)anIntonationPoint;
+- (void)selectIntonationPoint:(MMIntonationPoint *)intonationPoint;
 {
     [_selectedPoints removeAllObjects];
-    if (anIntonationPoint != nil)
-        [_selectedPoints addObject:anIntonationPoint];
+    if (intonationPoint != nil)
+        [_selectedPoints addObject:intonationPoint];
     [self _selectionDidChange];
 }
 
@@ -1076,7 +1076,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     return xPosition * _timeScale;
 }
 
-- (void)intonationPointDidChange:(NSNotification *)aNotification;
+- (void)intonationPointDidChange:(NSNotification *)notification;
 {
     [self removeOldSelectedPoints];
     [self setNeedsDisplay:YES];

@@ -44,10 +44,10 @@
     //NSMutableDictionary *_cachedSpecialTransitionUsage;
 }
 
-- (id)initWithModel:(MModel *)aModel;
+- (id)initWithModel:(MModel *)model;
 {
     if ((self = [super initWithWindowNibName:@"PrototypeManager"])) {
-        _model = aModel;
+        _model = model;
         _formulaParser = [[MMFormulaParser alloc] initWithModel:_model];
         
         [self setWindowFrameAutosaveName:@"Prototype Manager"];
@@ -672,9 +672,7 @@
 
 - (void)outlineView:(NSOutlineView *)outlineView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn byItem:(id)item;
 {
-    id identifier;
-
-    identifier = [tableColumn identifier];
+    id identifier = [tableColumn identifier];
 
     if (outlineView == _equationOutlineView) {
         if ([@"name" isEqual:identifier] == YES) {
@@ -691,11 +689,9 @@
 
 #pragma mark - NSOutlineViewDelegate
 
-- (void)outlineViewSelectionDidChange:(NSNotification *)aNotification;
+- (void)outlineViewSelectionDidChange:(NSNotification *)notification;
 {
-    NSOutlineView *outlineView;
-
-    outlineView = [aNotification object];
+    NSOutlineView *outlineView = [notification object];
 
     if (outlineView == _equationOutlineView) {
         [self _updateEquationDetails];
@@ -730,11 +726,9 @@
 
 #pragma mark - NSTextViewDelegate
 
-- (void)textDidEndEditing:(NSNotification *)aNotification;
+- (void)textDidEndEditing:(NSNotification *)notification;
 {
-    NSTextView *textView;
-
-    textView = [aNotification object];
+    NSTextView *textView = [notification object];
     // NSTextMovement is a key in the user info
     //NSLog(@"[aNotification userInfo]: %@", [aNotification userInfo]);
 
@@ -782,32 +776,32 @@
     [_cachedEquationUsage removeAllObjects];
 }
 
-- (NSArray *)usageOfEquation:(MMEquation *)anEquation;
+- (NSArray *)usageOfEquation:(MMEquation *)equation;
 {
-    return [self usageOfEquation:anEquation recache:NO];
+    return [self usageOfEquation:equation recache:NO];
 }
 
-- (NSArray *)usageOfEquation:(MMEquation *)anEquation recache:(BOOL)shouldRecache;
+- (NSArray *)usageOfEquation:(MMEquation *)equation recache:(BOOL)shouldRecache;
 {
     NSString *key;
     NSArray *usage;
 
-    key = [anEquation equationPath];
+    key = [equation equationPath];
     if (shouldRecache == YES)
         [_cachedEquationUsage removeObjectForKey:key];
 
     usage = [_cachedEquationUsage objectForKey:key];
     if (usage == nil) {
-        usage = [[self model] usageOfEquation:anEquation];
+        usage = [[self model] usageOfEquation:equation];
         [_cachedEquationUsage setObject:usage forKey:key];
     }
 
     return usage;
 }
 
-- (BOOL)isEquationUsed:(MMEquation *)anEquation;
+- (BOOL)isEquationUsed:(MMEquation *)equation;
 {
-    return [[self usageOfEquation:anEquation] count] > 0;
+    return [[self usageOfEquation:equation] count] > 0;
 }
 
 #pragma mark - Transition usage caching
@@ -817,33 +811,33 @@
     [_cachedTransitionUsage removeAllObjects];
 }
 
-- (NSArray *)usageOfTransition:(MMTransition *)aTransition;
+- (NSArray *)usageOfTransition:(MMTransition *)transition;
 {
-    return [self usageOfTransition:aTransition recache:NO];
+    return [self usageOfTransition:transition recache:NO];
 }
 
 // TODO (2004-03-22): Could we just cache these in the model?
-- (NSArray *)usageOfTransition:(MMTransition *)aTransition recache:(BOOL)shouldRecache;
+- (NSArray *)usageOfTransition:(MMTransition *)transition recache:(BOOL)shouldRecache;
 {
     NSString *key;
     NSArray *usage;
 
-    key = [aTransition transitionPath];
+    key = [transition transitionPath];
     if (shouldRecache == YES)
         [_cachedTransitionUsage removeObjectForKey:key];
 
     usage = [_cachedTransitionUsage objectForKey:key];
     if (usage == nil) {
-        usage = [[self model] usageOfTransition:aTransition];
+        usage = [[self model] usageOfTransition:transition];
         [_cachedTransitionUsage setObject:usage forKey:key];
     }
 
     return usage;
 }
 
-- (BOOL)isTransitionUsed:(MMTransition *)aTransition;
+- (BOOL)isTransitionUsed:(MMTransition *)transition;
 {
-    return [[self usageOfTransition:aTransition] count] > 0;
+    return [[self usageOfTransition:transition] count] > 0;
 }
 
 - (IBAction)doubleHit:(id)sender;

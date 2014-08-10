@@ -5,9 +5,9 @@
 
 @interface NSBezierPath (Extensions)
 
-+ (void)drawCircleMarkerAtPoint:(NSPoint)aPoint;
-+ (void)drawTriangleMarkerAtPoint:(NSPoint)aPoint;
-+ (void)drawSquareMarkerAtPoint:(NSPoint)aPoint;
-+ (void)highlightMarkerAtPoint:(NSPoint)aPoint;
++ (void)drawCircleMarkerAtPoint:(NSPoint)point;
++ (void)drawTriangleMarkerAtPoint:(NSPoint)point;
++ (void)drawSquareMarkerAtPoint:(NSPoint)point;
++ (void)highlightMarkerAtPoint:(NSPoint)point;
 
 @end

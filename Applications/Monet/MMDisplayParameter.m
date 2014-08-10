@@ -13,10 +13,10 @@
     BOOL _shouldDisplay;
 }
 
-- (id)initWithParameter:(MMParameter *)aParameter;
+- (id)initWithParameter:(MMParameter *)parameter;
 {
     if ((self = [super init])) {
-        _parameter = aParameter;
+        _parameter = parameter;
         _isSpecial = NO;
         _tag = 0;
     }

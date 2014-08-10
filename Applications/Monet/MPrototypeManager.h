@@ -8,7 +8,7 @@
 
 @interface MPrototypeManager : MWindowController <NSOutlineViewDataSource, NSOutlineViewDelegate>
 
-- (id)initWithModel:(MModel *)aModel;
+- (id)initWithModel:(MModel *)model;
 
 - (MModel *)model;
 - (void)setModel:(MModel *)newModel;
@@ -47,15 +47,15 @@
 
 // Equation usage caching
 - (void)clearEquationUsageCache;
-- (NSArray *)usageOfEquation:(MMEquation *)anEquation;
-- (NSArray *)usageOfEquation:(MMEquation *)anEquation recache:(BOOL)shouldRecache;
-- (BOOL)isEquationUsed:(MMEquation *)anEquation;
+- (NSArray *)usageOfEquation:(MMEquation *)equation;
+- (NSArray *)usageOfEquation:(MMEquation *)equation recache:(BOOL)shouldRecache;
+- (BOOL)isEquationUsed:(MMEquation *)equation;
 
 // Transition usage caching
 - (void)clearTransitionUsageCache;
-- (NSArray *)usageOfTransition:(MMTransition *)aTransition;
-- (NSArray *)usageOfTransition:(MMTransition *)aTransition recache:(BOOL)shouldRecache;
-- (BOOL)isTransitionUsed:(MMTransition *)aTransition;
+- (NSArray *)usageOfTransition:(MMTransition *)transition;
+- (NSArray *)usageOfTransition:(MMTransition *)transition recache:(BOOL)shouldRecache;
+- (BOOL)isTransitionUsed:(MMTransition *)transition;
 
 - (IBAction)doubleHit:(id)sender;
 

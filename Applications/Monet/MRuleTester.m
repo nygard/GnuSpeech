@@ -21,10 +21,10 @@
     MModel *_model;
 }
 
-- (id)initWithModel:(MModel *)aModel;
+- (id)initWithModel:(MModel *)model;
 {
     if ((self = [super initWithWindowNibName:@"RuleTester"])) {
-        _model = aModel;
+        _model = model;
 
         [self setWindowFrameAutosaveName:@"Rule Tester"];
     }
@@ -86,8 +86,8 @@
 {
     NSInteger ruleIndex;
     NSMutableArray *testPhones, *testCategoryLists;
-    MMPosture *aPosture;
-    MMRule *aRule;
+    MMPosture *posture;
+    MMRule *rule;
     MMFRuleSymbols *ruleSymbols = [[MMFRuleSymbols alloc] init];
     NSString *posture1Name, *posture2Name, *posture3Name, *posture4Name;
 
@@ -105,54 +105,54 @@
         return;
     }
 
-    aPosture = [_model postureWithName:posture1Name];
-    if (aPosture == nil) {
+    posture = [_model postureWithName:posture1Name];
+    if (posture == nil) {
         [self clearOutput];
         [_ruleOutputTextField setStringValue:[NSString stringWithFormat:@"Unknown posture: \"%@\"", posture1Name]];
         return;
     }
-    [testCategoryLists addObject:[aPosture categories]];
-    [testPhones addObject:[[MMPhone alloc] initWithPosture:aPosture]];
+    [testCategoryLists addObject:[posture categories]];
+    [testPhones addObject:[[MMPhone alloc] initWithPosture:posture]];
 
-    aPosture = [_model postureWithName:posture2Name];
-    if (aPosture == nil) {
+    posture = [_model postureWithName:posture2Name];
+    if (posture == nil) {
         [_ruleOutputTextField setStringValue:[NSString stringWithFormat:@"Unknown posture: \"%@\"", posture2Name]];
         return;
     }
-    [testCategoryLists addObject:[aPosture categories]];
-    [testPhones addObject:[[MMPhone alloc] initWithPosture:aPosture]];
+    [testCategoryLists addObject:[posture categories]];
+    [testPhones addObject:[[MMPhone alloc] initWithPosture:posture]];
 
     if ([posture3Name length]) {
-        aPosture = [_model postureWithName:posture3Name];
-        if (aPosture == nil) {
+        posture = [_model postureWithName:posture3Name];
+        if (posture == nil) {
             [_ruleOutputTextField setStringValue:[NSString stringWithFormat:@"Unknown posture: \"%@\"", posture3Name]];
             return;
         }
-        [testCategoryLists addObject:[aPosture categories]];
-        [testPhones addObject:[[MMPhone alloc] initWithPosture:aPosture]];
+        [testCategoryLists addObject:[posture categories]];
+        [testPhones addObject:[[MMPhone alloc] initWithPosture:posture]];
     }
 
     if ([posture4Name length]) {
-        aPosture = [_model postureWithName:posture4Name];
-        if (aPosture == nil) {
+        posture = [_model postureWithName:posture4Name];
+        if (posture == nil) {
             [_ruleOutputTextField setStringValue:[NSString stringWithFormat:@"Unknown posture: \"%@\"", posture4Name]];
             return;
         }
-        [testCategoryLists addObject:[aPosture categories]];
-        [testPhones addObject:[[MMPhone alloc] initWithPosture:aPosture]];
+        [testCategoryLists addObject:[posture categories]];
+        [testPhones addObject:[[MMPhone alloc] initWithPosture:posture]];
     }
 
     //NSLog(@"TempList count = %d", [testCategoryLists count]);
 
-    aRule = [_model findRuleMatchingCategories:testCategoryLists ruleIndex:&ruleIndex];
-    if (aRule != nil) {
+    rule = [_model findRuleMatchingCategories:testCategoryLists ruleIndex:&ruleIndex];
+    if (rule != nil) {
         NSString *str;
 
-        str = [NSString stringWithFormat:@"%lu. %@", ruleIndex + 1, [aRule ruleString]];
+        str = [NSString stringWithFormat:@"%lu. %@", ruleIndex + 1, [rule ruleString]];
         [_ruleOutputTextField setStringValue:str];
-        [_consumedTokensTextField setIntegerValue:[aRule numberExpressions] - 1];
+        [_consumedTokensTextField setIntegerValue:[rule numberExpressions] - 1];
 
-        [aRule evaluateSymbolEquationsWithPhonesInArray:testPhones ruleSymbols:ruleSymbols withCacheTag:[[self model] nextCacheTag]];
+        [rule evaluateSymbolEquationsWithPhonesInArray:testPhones ruleSymbols:ruleSymbols withCacheTag:[[self model] nextCacheTag]];
 
         [[_durationOutputForm cellAtIndex:0] setDoubleValue:ruleSymbols.ruleDuration];
         [[_durationOutputForm cellAtIndex:1] setDoubleValue:ruleSymbols.beat];

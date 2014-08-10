@@ -69,10 +69,10 @@
     MModel *_model;
 }
 
-- (id)initWithModel:(MModel *)aModel;
+- (id)initWithModel:(MModel *)model;
 {
     if ((self = [super initWithWindowNibName:@"SynthesisParameters"])) {
-        _model = aModel;
+        _model = model;
 
         [self setWindowFrameAutosaveName:@"Synthesis Parameters"];
     }

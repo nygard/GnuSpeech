@@ -7,7 +7,7 @@
 
 @interface MDataEntryController : MWindowController <NSTableViewDataSource, NSTableViewDelegate, NSTextViewDelegate>
 
-- (id)initWithModel:(MModel *)aModel;
+- (id)initWithModel:(MModel *)model;
 
 - (MModel *)model;
 - (void)setModel:(MModel *)newModel;

@@ -318,18 +318,18 @@
     }
 }
 
-- (void)mouseDown:(NSEvent *)theEvent;
+- (void)mouseDown:(NSEvent *)event;
 {
     /* Get information about the original location of the mouse event */
-    NSPoint mouseDownLocation = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+    NSPoint mouseDownLocation = [self convertPoint:[event locationInWindow] fromView:nil];
     CGFloat column = mouseDownLocation.x;
 
     /* Single click mouse events */
-    if ([theEvent clickCount] == 1) {
+    if ([event clickCount] == 1) {
     }
 
     /* Double Click mouse events */
-    if ([theEvent clickCount] == 2) {
+    if ([event clickCount] == 2) {
         _mouseBeingDragged = YES;
         [self lockFocus];
         [self updateScale:(float)column];
@@ -339,19 +339,19 @@
     }
 }
 
-- (void)mouseEntered:(NSEvent *)theEvent;
+- (void)mouseEntered:(NSEvent *)event;
 {
     [[self window] setAcceptsMouseMovedEvents:YES];
 }
 
-- (void)mouseExited:(NSEvent *)theEvent;
+- (void)mouseExited:(NSEvent *)event;
 {
     [[self window] setAcceptsMouseMovedEvents:NO];
 }
 
-- (void)mouseMoved:(NSEvent *)theEvent;
+- (void)mouseMoved:(NSEvent *)event;
 {
-    NSPoint position = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+    NSPoint position = [self convertPoint:[event locationInWindow] fromView:nil];
     CGFloat time = (position.x - 80.0) * _timeScale;
 	CGFloat value = [self parameterValueForYCoord:position.y];
 	

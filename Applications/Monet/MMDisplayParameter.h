@@ -7,7 +7,7 @@
 
 @interface MMDisplayParameter : NSObject
 
-- (id)initWithParameter:(MMParameter *)aParameter;
+- (id)initWithParameter:(MMParameter *)parameter;
 
 @property (readonly) MMParameter *parameter;
 

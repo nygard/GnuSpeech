@@ -7,7 +7,7 @@
 
 @interface MRuleManager : MWindowController <NSTableViewDataSource, NSTableViewDelegate, NSOutlineViewDataSource, NSOutlineViewDelegate, NSBrowserDelegate>
 
-- (id)initWithModel:(MModel *)aModel;
+- (id)initWithModel:(MModel *)model;
 
 - (MModel *)model;
 - (void)setModel:(MModel *)newModel;
@@ -24,12 +24,12 @@
 - (void)_updateSelectedSpecialParameterDetails;
 - (void)_updateSelectedMetaParameterDetails;
 
-- (void)setExpression:(MMBooleanNode *)anExpression atIndex:(NSInteger)index;
+- (void)setExpression:(MMBooleanNode *)expression atIndex:(NSInteger)index;
 - (void)evaluateMatchLists;
 - (void)updateCombinations;
 
 // MExtendedTableView delegate
-- (BOOL)control:(NSControl *)aControl shouldProcessCharacters:(NSString *)characters;
+- (BOOL)control:(NSControl *)control shouldProcessCharacters:(NSString *)characters;
 
 // Actions
 - (IBAction)setExpression:(id)sender;

@@ -35,10 +35,10 @@
     NSFont *_boldControlFont;
 }
 
-- (id)initWithModel:(MModel *)aModel;
+- (id)initWithModel:(MModel *)model;
 {
     if ((self = [super initWithWindowNibName:@"Postures"])) {
-        _model = aModel;
+        _model = model;
 
         [self setWindowFrameAutosaveName:@"Postures"];
     }
@@ -269,9 +269,7 @@
 
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
 {
-    id identifier;
-
-    identifier = [tableColumn identifier];
+    id identifier = [tableColumn identifier];
 
     if (tableView == _postureTableView) {
         MMPosture *posture = [[[self model] postures] objectAtIndex:row];
@@ -345,9 +343,7 @@
 
 - (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
 {
-    id identifier;
-
-    identifier = [tableColumn identifier];
+    id identifier = [tableColumn identifier];
 
     if (tableView == _postureTableView) {
         MMPosture *posture = [[[self model] postures] objectAtIndex:row];
@@ -387,11 +383,9 @@
 
 #pragma mark - NSTableViewDelegate
 
-- (void)tableViewSelectionDidChange:(NSNotification *)aNotification;
+- (void)tableViewSelectionDidChange:(NSNotification *)notification;
 {
-    NSTableView *tableView;
-
-    tableView = [aNotification object];
+    NSTableView *tableView = [notification object];
 
     if (tableView == _postureTableView) {
         [self _updatePostureDetails];
@@ -408,28 +402,25 @@
 {
     // TODO (2004-03-19): Would really prefer to have "isDefaultValue" method in the model.  Plus it could cache the value.
     if (tableView == _parameterTableView || tableView == _metaParameterTableView) {
-        MMParameter *aParameter;
-        MMTarget *aTarget;
+        MMParameter *parameter;
+        MMTarget *target;
 
         if (tableView == _parameterTableView) {
-            aParameter = [[[self model] parameters] objectAtIndex:row];
-            aTarget = [[[self selectedPosture] parameterTargets] objectAtIndex:row];
+            parameter = [[[self model] parameters] objectAtIndex:row];
+            target = [[[self selectedPosture] parameterTargets] objectAtIndex:row];
         } else {
-            aParameter = [[[self model] metaParameters] objectAtIndex:row];
-            aTarget = [[[self selectedPosture] metaParameterTargets] objectAtIndex:row];
+            parameter = [[[self model] metaParameters] objectAtIndex:row];
+            target = [[[self selectedPosture] metaParameterTargets] objectAtIndex:row];
         }
 
-        if ([aTarget value] == [aParameter defaultValue])
+        if ([target value] == [parameter defaultValue])
             [cell setFont:_boldControlFont];
         else
             [cell setFont:_regularControlFont];
     } else if (tableView == _symbolTableView) {
-        MMSymbol *aSymbol;
-        MMTarget *aTarget;
-
-        aSymbol = [[[self model] symbols] objectAtIndex:row];
-        aTarget = [[[self selectedPosture] symbolTargets] objectAtIndex:row];
-        if ([aTarget value] == [aSymbol defaultValue])
+        MMSymbol *symbol = [[[self model] symbols] objectAtIndex:row];
+        MMTarget *target = [[[self selectedPosture] symbolTargets] objectAtIndex:row];
+        if ([target value] == [symbol defaultValue])
             [cell setFont:_boldControlFont];
         else
             [cell setFont:_regularControlFont];
@@ -438,7 +429,7 @@
     }
 }
 
-- (BOOL)control:(NSControl *)aControl shouldProcessCharacters:(NSString *)characters;
+- (BOOL)control:(NSControl *)control shouldProcessCharacters:(NSString *)characters;
 {
     NSArray *postures;
     NSUInteger count, index;
@@ -460,16 +451,13 @@
 
 #pragma mark - NSTextViewDelegate
 
-- (void)textDidEndEditing:(NSNotification *)aNotification;
+- (void)textDidEndEditing:(NSNotification *)notification;
 {
-    NSTextView *textView;
-    NSString *newComment;
-
-    textView = [aNotification object];
+    NSTextView *textView = [notification object];
     // NSTextMovement is a key in the user info
     //NSLog(@"[aNotification userInfo]: %@", [aNotification userInfo]);
 
-    newComment = [[textView string] copy];
+    NSString *newComment = [[textView string] copy];
     //NSLog(@"(1) newComment: %@", newComment);
     if ([newComment length] == 0) {
         newComment = nil;

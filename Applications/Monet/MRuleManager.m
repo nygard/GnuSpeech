@@ -49,10 +49,10 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     MMBooleanParser *_boolParser;
 }
 
-- (id)initWithModel:(MModel *)aModel;
+- (id)initWithModel:(MModel *)model;
 {
     if ((self = [super initWithWindowNibName:@"RuleManager"])) {
-        _model = aModel;
+        _model = model;
         
         _matchLists = [[NSMutableArray alloc] init];
         for (NSUInteger index = 0; index < 4; index++) {
@@ -174,20 +174,19 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
 - (void)_updateSelectedRuleDetails;
 {
-    MMRule *aRule;
     NSString *str;
-    MMBooleanNode *anExpression;
+    MMBooleanNode *expression;
     NSInteger index;
 
-    aRule = [self selectedRule];
+    MMRule *rule = [self selectedRule];
 
     for (index = 0; index < 4; index++) {
-        anExpression = [aRule getExpressionNumber:index];
-        str = [anExpression expressionString];
+        expression = [rule getExpressionNumber:index];
+        str = [expression expressionString];
         if (str == nil)
             str = @"";
         [[_expressionForm cellAtIndex:index] setStringValue:str];
-        [self setExpression:anExpression atIndex:index];
+        [self setExpression:expression atIndex:index];
     }
 
     [self evaluateMatchLists];
@@ -203,11 +202,8 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
 - (void)_updateRuleComment;
 {
-    MMRule *aRule;
-    NSString *str;
-
-    aRule = [self selectedRule];
-    str = [aRule comment];
+    MMRule *rule = [self selectedRule];
+    NSString *str = [rule comment];
     if (str == nil)
         str = @"";
 
@@ -216,38 +212,34 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
 - (void)_updateSelectedSymbolDetails;
 {
-    NSInteger selectedRow;
-    MMEquation *anEquation;
+    MMEquation *equation;
 
     [_symbolTableView reloadData]; // To get changes to values
 
-    selectedRow = [_symbolTableView selectedRow];
+    NSInteger selectedRow = [_symbolTableView selectedRow];
     if (selectedRow == -1)
-        anEquation = nil;
+        equation = nil;
     else
-        anEquation = [[[self selectedRule] symbolEquations] objectAtIndex:selectedRow];
+        equation = [[[self selectedRule] symbolEquations] objectAtIndex:selectedRow];
 
-    if (anEquation == nil) {
+    if (equation == nil) {
         [_symbolEquationOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
         [_symbolEquationOutlineView scrollRowToVisible:0];
     } else {
-        if ([anEquation group] != nil) {
-            [_symbolEquationOutlineView scrollRowForItemToVisible:[anEquation group]];
-            [_symbolEquationOutlineView expandItem:[anEquation group]];
+        if ([equation group] != nil) {
+            [_symbolEquationOutlineView scrollRowForItemToVisible:[equation group]];
+            [_symbolEquationOutlineView expandItem:[equation group]];
         }
-        [_symbolEquationOutlineView selectItem:anEquation];
+        [_symbolEquationOutlineView selectItem:equation];
     }
 }
 
 - (void)_updateSelectedParameterDetails;
 {
-    NSInteger selectedRow;
-    NSArray *transitions;
-
     [_parameterTableView reloadData]; // To get updated values
 
-    selectedRow = [_parameterTableView selectedRow];
-    transitions = [[self selectedRule] parameterTransitions];
+    NSInteger selectedRow = [_parameterTableView selectedRow];
+    NSArray *transitions = [[self selectedRule] parameterTransitions];
     if (selectedRow < [transitions count]) {
         MMTransition *aTransition;
 
@@ -262,29 +254,23 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
 - (void)_updateSelectedSpecialParameterDetails;
 {
-    NSInteger selectedRow;
-    MMTransition *aTransition;
-
     [_specialParameterTableView reloadData]; // To get updated values
 
-    selectedRow = [_specialParameterTableView selectedRow];
-    aTransition = [[self selectedRule] getSpecialProfile:selectedRow];
-    if ([aTransition group] != nil) {
-        [_specialParameterTransitionOutlineView scrollRowForItemToVisible:[aTransition group]];
-        [_specialParameterTransitionOutlineView expandItem:[aTransition group]];
+    NSInteger selectedRow = [_specialParameterTableView selectedRow];
+    MMTransition *transition = [[self selectedRule] getSpecialProfile:selectedRow];
+    if ([transition group] != nil) {
+        [_specialParameterTransitionOutlineView scrollRowForItemToVisible:[transition group]];
+        [_specialParameterTransitionOutlineView expandItem:[transition group]];
     }
-    [_specialParameterTransitionOutlineView selectItem:aTransition];
+    [_specialParameterTransitionOutlineView selectItem:transition];
 }
 
 - (void)_updateSelectedMetaParameterDetails;
 {
-    NSInteger selectedRow;
-    NSArray *transitions;
-
     [_metaParameterTableView reloadData]; // To get updated values
 
-    selectedRow = [_metaParameterTableView selectedRow];
-    transitions = [[self selectedRule] metaParameterTransitions];
+    NSInteger selectedRow = [_metaParameterTableView selectedRow];
+    NSArray *transitions = [[self selectedRule] metaParameterTransitions];
     if (selectedRow < [transitions count]) {
         MMTransition *aTransition;
 
@@ -297,12 +283,12 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     }
 }
 
-- (void)setExpression:(MMBooleanNode *)anExpression atIndex:(NSInteger)index;
+- (void)setExpression:(MMBooleanNode *)expression atIndex:(NSInteger)index;
 {
-    if (anExpression == _expressions[index])
+    if (expression == _expressions[index])
         return;
 
-    _expressions[index] = anExpression;
+    _expressions[index] = expression;
 }
 
 // Align the sub-expressions if one happens to have been removed.
@@ -419,9 +405,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
 {
-    id identifier;
-
-    identifier = [tableColumn identifier];
+    id identifier = [tableColumn identifier];
 
     if (tableView == _ruleTableView) {
         MMRule *rule;
@@ -477,11 +461,9 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
 #pragma mark - NSTableViewDelegate
 
-- (void)tableViewSelectionDidChange:(NSNotification *)aNotification;
+- (void)tableViewSelectionDidChange:(NSNotification *)notification;
 {
-    NSTableView *tableView;
-
-    tableView = [aNotification object];
+    NSTableView *tableView = [notification object];
 
     if (tableView == _ruleTableView) {
         [self _updateSelectedRuleDetails];
@@ -573,7 +555,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
 #pragma mark - MExtendedTableView delegate
 
-- (BOOL)control:(NSControl *)aControl shouldProcessCharacters:(NSString *)characters;
+- (BOOL)control:(NSControl *)control shouldProcessCharacters:(NSString *)characters;
 {
     NSUInteger count = [[_model rules] count];
     NSUInteger index = [characters intValue];
@@ -607,20 +589,20 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(NSInteger)row column:(NSInteger)column;
 {
-    MMPosture *aPosture;
+    MMPosture *posture;
 
     if (sender == _match1Browser) {
-        aPosture = [[_matchLists objectAtIndex:0] objectAtIndex:row];
-        [cell setStringValue:[aPosture name]];
+        posture = [[_matchLists objectAtIndex:0] objectAtIndex:row];
+        [cell setStringValue:[posture name]];
     } else if (sender == _match2Browser) {
-        aPosture = [[_matchLists objectAtIndex:1] objectAtIndex:row];
-        [cell setStringValue:[aPosture name]];
+        posture = [[_matchLists objectAtIndex:1] objectAtIndex:row];
+        [cell setStringValue:[posture name]];
     } else if (sender == _match3Browser) {
-        aPosture = [[_matchLists objectAtIndex:2] objectAtIndex:row];
-        [cell setStringValue:[aPosture name]];
+        posture = [[_matchLists objectAtIndex:2] objectAtIndex:row];
+        [cell setStringValue:[posture name]];
     } else if (sender == _match4Browser) {
-        aPosture = [[_matchLists objectAtIndex:3] objectAtIndex:row];
-        [cell setStringValue:[aPosture name]];
+        posture = [[_matchLists objectAtIndex:3] objectAtIndex:row];
+        [cell setStringValue:[posture name]];
     }
 
     [cell setLeaf:YES];
@@ -699,9 +681,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
 - (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item;
 {
-    id identifier;
-
-    identifier = [tableColumn identifier];
+    id identifier = [tableColumn identifier];
     //NSLog(@"identifier: %@, item: %p, item class: %@", identifier, item, NSStringFromClass([item class]));
 
     if (outlineView == _symbolEquationOutlineView) {
@@ -742,51 +722,37 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldCollapseItem:(id)item;
 {
     if (outlineView == _symbolEquationOutlineView) {
-        MMEquation *selectedEquation;
-
-        selectedEquation = [outlineView selectedItemOfClass:[MMEquation class]];
+        MMEquation *selectedEquation = [outlineView selectedItemOfClass:[MMEquation class]];
         return item != [selectedEquation group];
     } else if (outlineView == _parameterTransitionOutlineView || outlineView == _specialParameterTransitionOutlineView
                || outlineView == _metaParameterTransitionOutlineView) {
-        MMTransition *selectedTransition;
-
-        selectedTransition = [outlineView selectedItemOfClass:[MMTransition class]];
+        MMTransition *selectedTransition = [outlineView selectedItemOfClass:[MMTransition class]];
         return item != [selectedTransition group];
     }
 
     return YES;
 }
 
-- (void)outlineViewSelectionDidChange:(NSNotification *)aNotification;
+- (void)outlineViewSelectionDidChange:(NSNotification *)notification;
 {
-    NSOutlineView *outlineView;
-
-    outlineView = [aNotification object];
+    NSOutlineView *outlineView = [notification object];
 
     if (outlineView == _symbolEquationOutlineView) {
-        MMEquation *selectedEquation;
-
-        selectedEquation = [outlineView selectedItemOfClass:[MMEquation class]];
+        MMEquation *selectedEquation = [outlineView selectedItemOfClass:[MMEquation class]];
         if (selectedEquation != nil) {
             [[[self selectedRule] symbolEquations] replaceObjectAtIndex:[_symbolTableView selectedRow] withObject:selectedEquation];
         }
     } else if (outlineView == _parameterTransitionOutlineView) {
-        MMTransition *selectedTransition;
-
-        selectedTransition = [outlineView selectedItemOfClass:[MMTransition class]];
+        MMTransition *selectedTransition = [outlineView selectedItemOfClass:[MMTransition class]];
         if (selectedTransition != nil) {
             [[[self selectedRule] parameterTransitions] replaceObjectAtIndex:[_parameterTableView selectedRow] withObject:selectedTransition];
         }
     } else if (outlineView == _specialParameterTransitionOutlineView) {
-        MMTransition *selectedTransition;
-
-        selectedTransition = [outlineView selectedItemOfClass:[MMTransition class]];
+        MMTransition *selectedTransition = [outlineView selectedItemOfClass:[MMTransition class]];
         [[self selectedRule] setSpecialProfile:[_specialParameterTableView selectedRow] to:selectedTransition];
         [_specialParameterTableView setNeedsDisplay:YES]; // To update bolded rows
     } else if (outlineView == _metaParameterTransitionOutlineView) {
-        MMTransition *selectedTransition;
-
-        selectedTransition = [outlineView selectedItemOfClass:[MMTransition class]];
+        MMTransition *selectedTransition = [outlineView selectedItemOfClass:[MMTransition class]];
         if (selectedTransition != nil) {
             [[[self selectedRule] metaParameterTransitions] replaceObjectAtIndex:[_metaParameterTableView selectedRow] withObject:selectedTransition];
         }
@@ -795,16 +761,13 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
 #pragma mark - NSTextViewDelegate
 
-- (void)textDidEndEditing:(NSNotification *)aNotification;
+- (void)textDidEndEditing:(NSNotification *)notification;
 {
-    NSTextView *textView;
-    NSString *newStringValue;
-
-    textView = [aNotification object];
+    NSTextView *textView = [notification object];
     // NSTextMovement is a key in the user info
     //NSLog(@"[aNotification userInfo]: %@", [aNotification userInfo]);
 
-    newStringValue = [[textView string] copy];
+    NSString *newStringValue = [[textView string] copy];
 
     //NSLog(@"(1) newStringValue: %@", newStringValue);
     if ([newStringValue length] == 0) {
@@ -813,9 +776,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     //NSLog(@"(2) newStringValue: %@", newStringValue);
 
     if (textView == _ruleCommentTextView) {
-        MMRule *selectedRule;
-
-        selectedRule = [self selectedRule];
+        MMRule *selectedRule = [self selectedRule];
         [selectedRule setComment:newStringValue];
         [_ruleTableView reloadData]; // To update the icon for the row
     }
@@ -833,7 +794,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     NSUInteger i;
     NSInteger tag;
     NSString *expressionString;
-    NSBrowser *aBrowser;
+    NSBrowser *browser;
 
     tag = [[sender selectedCell] tag];
 
@@ -874,36 +835,32 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
     switch (tag) {
       case 0:
-          aBrowser = _match1Browser;
+          browser = _match1Browser;
           break;
       case 1:
-          aBrowser = _match2Browser;
+          browser = _match2Browser;
           break;
       case 2:
-          aBrowser = _match3Browser;
+          browser = _match3Browser;
           break;
       case 3:
-          aBrowser = _match4Browser;
+          browser = _match4Browser;
           break;
       default:
-          aBrowser = nil;
+          browser = nil;
     }
 
-    [aBrowser setTitle:[NSString stringWithFormat:@"Total Matches: %lu", [matchedPhoneList count]] ofColumn:0];
-    [aBrowser loadColumnZero];
+    [browser setTitle:[NSString stringWithFormat:@"Total Matches: %lu", [matchedPhoneList count]] ofColumn:0];
+    [browser loadColumnZero];
     [self updateCombinations];
 }
 
 - (IBAction)addRule:(id)sender;
 {
     MMBooleanNode *exps[4];
-    NSUInteger index;
-    MMRule *newRule;
 
-    for (index = 0; index < 4; index++) {
-        NSString *str;
-
-        str = [[_expressionForm cellAtIndex:index] stringValue];
+    for (NSUInteger index = 0; index < 4; index++) {
+        NSString *str = [[_expressionForm cellAtIndex:index] stringValue];
         if ([str length] == 0)
             exps[index] = nil;
         else {
@@ -917,7 +874,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
     [_errorTextField setStringValue:[_boolParser errorMessage]];
 
-    newRule = [[MMRule alloc] init];
+    MMRule *newRule = [[MMRule alloc] init];
     [newRule setExpression:exps[0] number:0];
     [newRule setExpression:exps[1] number:1];
     [newRule setExpression:exps[2] number:2];
@@ -932,13 +889,9 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 - (IBAction)updateRule:(id)sender;
 {
     MMBooleanNode *exps[4];
-    NSUInteger index;
-    MMRule *selectedRule;
 
-    for (index = 0; index < 4; index++) {
-        NSString *str;
-
-        str = [[_expressionForm cellAtIndex:index] stringValue];
+    for (NSUInteger index = 0; index < 4; index++) {
+        NSString *str = [[_expressionForm cellAtIndex:index] stringValue];
         if ([str length] == 0)
             exps[index] = nil;
         else
@@ -946,7 +899,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     }
 
     [_errorTextField setStringValue:[_boolParser errorMessage]];
-    selectedRule = [self selectedRule];
+    MMRule *selectedRule = [self selectedRule];
     [selectedRule setRuleExpression1:exps[0] exp2:exps[1] exp3:exps[2] exp4:exps[3]];
 
     [_ruleTableView reloadData];
@@ -954,9 +907,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
 - (IBAction)removeRule:(id)sender;
 {
-    MMRule *selectedRule;
-
-    selectedRule = [self selectedRule];
+    MMRule *selectedRule = [self selectedRule];
     if (selectedRule != nil)
         [[[self model] rules] removeObject:selectedRule];
 

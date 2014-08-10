@@ -21,9 +21,7 @@
 
 - (void)windowDidLoad;
 {
-    NSString *path;
-
-    path = [[NSBundle mainBundle] pathForResource:@"ReleaseNotes" ofType:@"html"];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"ReleaseNotes" ofType:@"html"];
     [[_webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:path]]];
 }
 

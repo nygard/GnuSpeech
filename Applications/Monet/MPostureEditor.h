@@ -3,11 +3,11 @@
 
 #import "MWindowController.h"
 
-@class MMCategory, MModel, MMParameter, MMPosture, MMSymbol;
+@class MModel, MMPosture;
 
 @interface MPostureEditor : MWindowController <NSTableViewDataSource, NSTableViewDelegate, NSTextViewDelegate>
 
-- (id)initWithModel:(MModel *)aModel;
+- (id)initWithModel:(MModel *)model;
 
 - (MModel *)model;
 - (void)setModel:(MModel *)newModel;

@@ -4,8 +4,6 @@
 #import <Cocoa/Cocoa.h>
 
 @class MModel, MMTransition;
-@class MDataEntryController, MPostureCategoryController, MPostureEditor, MPrototypeManager, MReleaseNotesController, MRuleManager, MRuleTester;
-@class MSpecialTransitionEditor, MSynthesisController, MSynthesisParameterEditor, MTransitionEditor;
 
 @interface AppController : NSObject
 

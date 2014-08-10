@@ -108,10 +108,10 @@
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaultValues];
 }
 
-- (id)initWithModel:(MModel *)aModel;
+- (id)initWithModel:(MModel *)model;
 {
     if ((self = [super initWithWindowNibName:@"Synthesis"])) {
-        _model = aModel;
+        _model = model;
         _displayParameters = [[NSMutableArray alloc] init];
         [self _updateDisplayParameters];
         
@@ -842,14 +842,14 @@
 
 #pragma mark - MExtendedTableView delegate
 
-- (BOOL)control:(NSControl *)aControl shouldProcessCharacters:(NSString *)characters;
+- (BOOL)control:(NSControl *)control shouldProcessCharacters:(NSString *)characters;
 {
     if ([characters isEqualToString:@" "]) {
         NSInteger selectedRow = [_parameterTableView selectedRow];
         if (selectedRow != -1) {
             [[_displayParameters objectAtIndex:selectedRow] toggleShouldDisplay];
             [self _updateDisplayedParameters];
-            [(MExtendedTableView *)aControl doNotCombineNextKey];
+            [(MExtendedTableView *)control doNotCombineNextKey];
             return NO;
         }
     } else {

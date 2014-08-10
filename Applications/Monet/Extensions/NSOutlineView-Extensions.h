@@ -8,7 +8,7 @@
 - (id)selectedItem;
 - (id)selectedItemOfClass:(Class)aClass;
 
-- (void)selectItem:(id)anItem;
-- (void)scrollRowForItemToVisible:(id)anItem;
+- (void)selectItem:(id)item;
+- (void)scrollRowForItemToVisible:(id)item;
 
 @end

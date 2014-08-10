@@ -35,22 +35,22 @@
 
 #define COMBINE_INTERVAL 0.2
 
-- (void)keyDown:(NSEvent *)keyEvent;
+- (void)keyDown:(NSEvent *)event;
 {
     //NSLog(@" > %s", _cmd);
     //NSLog(@"characters: %@", [keyEvent characters]);
     //NSLog(@"characters ignoring modifiers: %@", [keyEvent charactersIgnoringModifiers]);
     //NSLog(@"character count: %d", [[keyEvent characters] length]);
 
-    if ([keyEvent timestamp] - _lastTimestamp > COMBINE_INTERVAL)
+    if ([event timestamp] - _lastTimestamp > COMBINE_INTERVAL)
         [_combinedCharacters setString:@""];
 
-    _lastTimestamp = [keyEvent timestamp];
-    [_combinedCharacters appendString:[keyEvent characters]];
+    _lastTimestamp = [event timestamp];
+    [_combinedCharacters appendString:[event characters]];
 
     if ([[self delegate] respondsToSelector:@selector(control:shouldProcessCharacters:)] == NO ||
         [(MExtendedTableView *)[self delegate] control:self shouldProcessCharacters:_combinedCharacters] == YES) {
-        [super keyDown:keyEvent];
+        [super keyDown:event];
         [_combinedCharacters setString:@""];
     }
 

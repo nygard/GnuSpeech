@@ -210,12 +210,12 @@
     }
 }
 
-- (void)_loadMonetXMLFile:(NSString *)aFilename;
+- (void)_loadMonetXMLFile:(NSString *)filename;
 {
-    MDocument *document = [[MDocument alloc] initWithXMLFile:aFilename error:NULL];
+    MDocument *document = [[MDocument alloc] initWithXMLFile:filename error:NULL];
     if (document != nil) {
         [self setModel:[document model]];
-        [self setFilename:aFilename];
+        [self setFilename:filename];
     }
 }
 
