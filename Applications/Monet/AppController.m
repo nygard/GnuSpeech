@@ -42,8 +42,6 @@
 
 @implementation AppController
 {
-    IBOutlet NSPanel *_infoPanel;
-
     NSString *_filename;
     MModel *_model;
 
@@ -114,15 +112,6 @@
     //[[self intonationController] saveWindowIsVisibleOnLaunch];
     //[[self intonationParameterEditor] saveWindowIsVisibleOnLaunch];
     [[self releaseNotesController] saveWindowIsVisibleOnLaunch];
-}
-
-- (void)displayInfoPanel:(id)sender;
-{
-    if (_infoPanel == nil) {
-        [NSBundle loadNibNamed:@"Info.nib" owner:self];
-    }
-
-    [_infoPanel makeKeyAndOrderFront:self];
 }
 
 - (IBAction)openFile:(id)sender;

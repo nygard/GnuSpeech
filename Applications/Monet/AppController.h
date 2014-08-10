@@ -14,8 +14,6 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 - (void)applicationWillTerminate:(NSNotification *)notification;
 
-- (void)displayInfoPanel:(id)sender;
-
 - (IBAction)openFile:(id)sender;
 - (IBAction)importTRMData:(id)sender;
 
