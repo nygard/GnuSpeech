@@ -389,6 +389,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 // These are the proto equations
 - (void)drawEquations;
 {
+    if (_transition == nil) return;
     NSArray *groups = [_model equationGroups];
     CGFloat timeScale = [self timeScale];
     NSUInteger type;
@@ -427,6 +428,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 
 - (void)drawPhones;
 {
+    if (_transition == nil) return;
     CGFloat currentTimePoint;
     NSUInteger type;
     NSRect bounds = NSIntegralRect([self bounds]);
