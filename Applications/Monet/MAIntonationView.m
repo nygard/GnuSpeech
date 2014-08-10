@@ -30,73 +30,71 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
 @implementation MAIntonationView
 {
-    NSTextFieldCell *postureTextFieldCell;
-    NSTextFieldCell *ruleIndexTextFieldCell;
-    NSTextFieldCell *ruleDurationTextFieldCell;
-    
-    NSTextFieldCell *labelTextFieldCell;
-    NSTextFieldCell *horizontalAxisLabelTextFieldCell;
-    
-    MAIntonationScaleView *scaleView;
-    
-    NSFont *timesFont;
-    NSFont *timesFontSmall;
-    
-    EventList *eventList;
-    
-    CGFloat timeScale;
-    
-    NSMutableArray *selectedPoints;
-    NSPoint selectionPoint1;
-    NSPoint selectionPoint2;
-    
+    NSTextFieldCell *_postureTextFieldCell;
+    NSTextFieldCell *_ruleIndexTextFieldCell;
+    NSTextFieldCell *_ruleDurationTextFieldCell;
+
+    NSTextFieldCell *_labelTextFieldCell;
+    NSTextFieldCell *_horizontalAxisLabelTextFieldCell;
+
+    MAIntonationScaleView *_scaleView;
+
+    NSFont *_timesFont;
+    NSFont *_timesFontSmall;
+
+    EventList *_eventList;
+
+    CGFloat _timeScale;
+
+    NSMutableArray *_selectedPoints;
+    NSPoint _selectionPoint1;
+    NSPoint _selectionPoint2;
+
     struct {
         unsigned int shouldDrawSelection:1;
         unsigned int shouldDrawSmoothPoints:1;
         unsigned int mouseBeingDragged:1;
-    } flags;
+    } _flags;
     
-    id nonretained_delegate;
+    __weak id _delegate;
 }
 
 - (id)initWithFrame:(NSRect)frameRect;
 {
     if ((self = [super initWithFrame:frameRect])) {
-        postureTextFieldCell = [[NSTextFieldCell alloc] initTextCell:@""];
-        ruleIndexTextFieldCell = [[NSTextFieldCell alloc] initTextCell:@""];
-        [ruleIndexTextFieldCell setFont:[NSFont labelFontOfSize:10.0]];
-        [ruleIndexTextFieldCell setAlignment:NSCenterTextAlignment];
+        _postureTextFieldCell = [[NSTextFieldCell alloc] initTextCell:@""];
+        _ruleIndexTextFieldCell = [[NSTextFieldCell alloc] initTextCell:@""];
+        [_ruleIndexTextFieldCell setFont:[NSFont labelFontOfSize:10.0]];
+        [_ruleIndexTextFieldCell setAlignment:NSCenterTextAlignment];
         
         NSNumberFormatter *durationFormatter = [[NSNumberFormatter alloc] init];
         [durationFormatter setFormat:@"0.##"];
         
-        ruleDurationTextFieldCell = [[NSTextFieldCell alloc] initTextCell:@""];
-        [ruleDurationTextFieldCell setAlignment:NSCenterTextAlignment];
-        [ruleDurationTextFieldCell setFont:[NSFont labelFontOfSize:8.0]];
-        [ruleDurationTextFieldCell setFormatter:durationFormatter];
-        
-        [durationFormatter release];
-        
+        _ruleDurationTextFieldCell = [[NSTextFieldCell alloc] initTextCell:@""];
+        [_ruleDurationTextFieldCell setAlignment:NSCenterTextAlignment];
+        [_ruleDurationTextFieldCell setFont:[NSFont labelFontOfSize:8.0]];
+        [_ruleDurationTextFieldCell setFormatter:durationFormatter];
+
         NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Times" traits:0 weight:0 size:10.0];
-        labelTextFieldCell = [[NSTextFieldCell alloc] initTextCell:@""];
-        [labelTextFieldCell setFont:font];
+        _labelTextFieldCell = [[NSTextFieldCell alloc] initTextCell:@""];
+        [_labelTextFieldCell setFont:font];
         
         font = [[NSFontManager sharedFontManager] fontWithFamily:@"Times" traits:0 weight:0 size:14.0];
-        horizontalAxisLabelTextFieldCell = [[NSTextFieldCell alloc] initTextCell:@""];
-        [horizontalAxisLabelTextFieldCell setFont:font];
-        [horizontalAxisLabelTextFieldCell setStringValue:@"Time (ms)"];
+        _horizontalAxisLabelTextFieldCell = [[NSTextFieldCell alloc] initTextCell:@""];
+        [_horizontalAxisLabelTextFieldCell setFont:font];
+        [_horizontalAxisLabelTextFieldCell setStringValue:@"Time (ms)"];
         
-        timesFont = [[NSFont fontWithName:@"Times-Roman" size:12] retain];
-        timesFontSmall = [[NSFont fontWithName:@"Times-Roman" size:10] retain];
+        _timesFont = [NSFont fontWithName:@"Times-Roman" size:12];
+        _timesFontSmall = [NSFont fontWithName:@"Times-Roman" size:10];
         
-        [postureTextFieldCell setFont:timesFont];
+        [_postureTextFieldCell setFont:_timesFont];
         
-        timeScale = 2.0;
-        flags.mouseBeingDragged = NO;
+        _timeScale = 2.0;
+        _flags.mouseBeingDragged = NO;
         
-        eventList = nil;
+        _eventList = nil;
         
-        selectedPoints = [[NSMutableArray alloc] init];
+        _selectedPoints = [[NSMutableArray alloc] init];
         
         [self setNeedsDisplay:YES];
     }
@@ -107,36 +105,21 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 - (void)dealloc;
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-
-    [postureTextFieldCell release];
-    [ruleIndexTextFieldCell release];
-    [ruleDurationTextFieldCell release];
-    [labelTextFieldCell release];
-    [horizontalAxisLabelTextFieldCell release];
-
-    [scaleView release];
-    [timesFont release];
-    [timesFontSmall release];
-    [eventList release];
-    [selectedPoints release];
-
-    [super dealloc];
 }
 
 #pragma mark -
 
 - (void)setScaleView:(MAIntonationScaleView *)newScaleView;
 {
-    if (newScaleView == scaleView)
+    if (newScaleView == _scaleView)
         return;
 
-    [scaleView release];
-    scaleView = [newScaleView retain];
+    _scaleView = newScaleView;
 
-    [scaleView setSectionCount:SECTION_COUNT];
-    [scaleView setSectionHeight:[self sectionHeight]];
-    [scaleView setZeroSection:ZERO_SECTION];
-    [scaleView setYOrigin:[self graphOrigin].y];
+    [_scaleView setSectionCount:SECTION_COUNT];
+    [_scaleView setSectionHeight:[self sectionHeight]];
+    [_scaleView setZeroSection:ZERO_SECTION];
+    [_scaleView setYOrigin:[self graphOrigin].y];
 }
 
 - (BOOL)acceptsFirstResponder;
@@ -146,19 +129,18 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
 - (void)setEventList:(EventList *)newEventList;
 {
-    if (newEventList == eventList)
+    if (newEventList == _eventList)
         return;
 
     [[NSNotificationCenter defaultCenter] removeObserver:self name:EventListDidChangeIntonationPoints object:nil];
 
-    [eventList release];
-    eventList = [newEventList retain];
+    _eventList = newEventList;
 
-    if (eventList != nil) {
+    if (_eventList != nil) {
         [[NSNotificationCenter defaultCenter] addObserver:self
                                               selector:@selector(intonationPointDidChange:)
                                               name:EventListDidChangeIntonationPoints
-                                              object:eventList];
+                                              object:_eventList];
     }
 
     [self setNeedsDisplay:YES];
@@ -166,51 +148,51 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
 - (BOOL)shouldDrawSelection;
 {
-    return flags.shouldDrawSelection;
+    return _flags.shouldDrawSelection;
 }
 
 - (void)setShouldDrawSelection:(BOOL)newFlag;
 {
-    if (newFlag == flags.shouldDrawSelection)
+    if (newFlag == _flags.shouldDrawSelection)
         return;
 
-    flags.shouldDrawSelection = newFlag;
+    _flags.shouldDrawSelection = newFlag;
     [self setNeedsDisplay:YES];
 }
 
 - (BOOL)shouldDrawSmoothPoints;
 {
-    return flags.shouldDrawSmoothPoints;
+    return _flags.shouldDrawSmoothPoints;
 }
 
 - (void)setShouldDrawSmoothPoints:(BOOL)newFlag;
 {
-    if (newFlag == flags.shouldDrawSmoothPoints)
+    if (newFlag == _flags.shouldDrawSmoothPoints)
         return;
 
-    flags.shouldDrawSmoothPoints = newFlag;
+    _flags.shouldDrawSmoothPoints = newFlag;
     [self setNeedsDisplay:YES];
 }
 
 - (id)delegate;
 {
-    return nonretained_delegate;
+    return _delegate;
 }
 
 - (void)setDelegate:(id)newDelegate;
 {
-    nonretained_delegate = newDelegate;
+    _delegate = newDelegate;
 }
 
 - (CGFloat)minimumWidth;
 {
     CGFloat minimumWidth;
 
-    if ([[eventList events] count] == 0) {
+    if ([[_eventList events] count] == 0) {
         minimumWidth = 0.0;
     } else {
         Event *lastEvent;
-        lastEvent = [[eventList events] lastObject];
+        lastEvent = [[_eventList events] lastObject];
 
         minimumWidth = [self scaleWidth:[lastEvent time]] + RIGHT_MARGIN;
     }
@@ -261,13 +243,13 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     [self drawPostureLabels];
     [self drawIntonationPoints];
 
-    if (flags.shouldDrawSmoothPoints == YES && flags.mouseBeingDragged == NO)
+    if (_flags.shouldDrawSmoothPoints == YES && _flags.mouseBeingDragged == NO)
         [self drawSmoothPoints];
 
-    if (flags.shouldDrawSelection == YES) {
+    if (_flags.shouldDrawSelection == YES) {
         NSRect selectionRect;
 
-        selectionRect = [self rectFormedByPoint:selectionPoint1 andPoint:selectionPoint2];
+        selectionRect = [self rectFormedByPoint:_selectionPoint1 andPoint:_selectionPoint2];
         selectionRect.origin.x += 0.5;
         selectionRect.origin.y += 0.5;
 
@@ -298,7 +280,6 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
     [[NSColor blackColor] set];
     [bezierPath stroke];
-    [bezierPath release];
 
     // Draw semitone grid markers
     bezierPath = [[NSBezierPath alloc] init];
@@ -316,7 +297,6 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
     [[NSColor lightGrayColor] set];
     [bezierPath stroke];
-    [bezierPath release];
 
     // Draw the zero semitone line in black.
     bezierPath = [[NSBezierPath alloc] init];
@@ -334,7 +314,6 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
     [[NSColor blackColor] set];
     [bezierPath stroke];
-    [bezierPath release];
 }
 
 - (void)drawHorizontalScale;
@@ -372,14 +351,14 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
         if (((NSInteger)time % 100) == 0) {
             point.y -= 10;
 
-            [labelTextFieldCell setIntValue:time];
-            cellFrame.size = [labelTextFieldCell cellSize];
+            [_labelTextFieldCell setIntValue:time];
+            cellFrame.size = [_labelTextFieldCell cellSize];
             cellFrame.origin.x = point.x - (cellFrame.size.width / 2.0);
             if (cellFrame.origin.x < 0.0)
                 cellFrame.origin.x = 0.0;
             if (NSMaxX(cellFrame) > NSMaxX(bounds))
                 cellFrame.origin.x = NSMaxX(bounds) - cellFrame.size.width;
-            [labelTextFieldCell drawWithFrame:cellFrame inView:self];
+            [_labelTextFieldCell drawWithFrame:cellFrame inView:self];
 
         } else
             point.y -= 5;
@@ -390,12 +369,11 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
     [[NSColor blackColor] set];
     [bezierPath stroke];
-    [bezierPath release];
 
-    cellFrame.size = [horizontalAxisLabelTextFieldCell cellSize];
+    cellFrame.size = [_horizontalAxisLabelTextFieldCell cellSize];
     cellFrame.origin.y = graphOrigin.y - 10.0 - 12.0 - 20.0;
     cellFrame.origin.x = (bounds.size.width - cellFrame.size.width) / 2.0;
-    [horizontalAxisLabelTextFieldCell drawWithFrame:cellFrame inView:self];
+    [_horizontalAxisLabelTextFieldCell drawWithFrame:cellFrame inView:self];
 }
 
 // Put posture label on the top
@@ -412,15 +390,15 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     bounds = NSIntegralRect([self bounds]);
 
     [[NSColor blackColor] set];
-    [timesFont set];
+    [_timesFont set];
 
-    events = [eventList events];
+    events = [_eventList events];
     count = [events count];
     for (index = 0; index < count; index++) {
-        currentX = ((float)[[events objectAtIndex:index] time] / timeScale);
+        currentX = ((float)[[events objectAtIndex:index] time] / _timeScale);
 
         if ([[events objectAtIndex:index] flag]) {
-            currentPosture = [eventList getPhoneAtIndex:postureIndex++];
+            currentPosture = [_eventList getPhoneAtIndex:postureIndex++];
             if (currentPosture != nil) {
                 //NSLog(@"[currentPosture name]: %@", [currentPosture name]);
                 [[NSColor blackColor] set];
@@ -453,12 +431,12 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     currentX = 0.0;
     extraWidth = 0.0;
 
-    count = [eventList ruleCount];
+    count = [_eventList ruleCount];
     for (index = 0; index < count; index++) {
         NSPoint aPoint;
         NSRect ruleFrame;
 
-        rule = [eventList getRuleAtIndex:index];
+        rule = [_eventList getRuleAtIndex:index];
 
         ruleFrame.origin.x = currentX;
         ruleFrame.origin.y = bounds.size.height - RULE_Y_OFFSET;
@@ -467,12 +445,12 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
         NSFrameRect(ruleFrame);
 
         ruleFrame.size.height = 15.0;
-        [ruleDurationTextFieldCell setDoubleValue:rule->duration];
-        [ruleDurationTextFieldCell drawWithFrame:ruleFrame inView:self];
+        [_ruleDurationTextFieldCell setDoubleValue:rule->duration];
+        [_ruleDurationTextFieldCell drawWithFrame:ruleFrame inView:self];
 
         ruleFrame.size.height += 12.0;
-        [ruleIndexTextFieldCell setIntValue:rule->number];
-        [ruleIndexTextFieldCell drawWithFrame:ruleFrame inView:self];
+        [_ruleIndexTextFieldCell setIntegerValue:rule->number];
+        [_ruleIndexTextFieldCell drawWithFrame:ruleFrame inView:self];
 
         aPoint.x = [self scaleXPosition:rule->beat] + 0.5;
         aPoint.y = graphOrigin.y + SECTION_COUNT * sectionHeight - 1.0;
@@ -492,7 +470,6 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
     [[NSColor darkGrayColor] set];
     [bezierPath stroke];
-    [bezierPath release];
 }
 
 - (void)drawRuleBackground;
@@ -513,9 +490,9 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     ruleFrame.origin.x = 0.0;
     extraWidth = 0.0;
 
-    count = [eventList ruleCount];
+    count = [_eventList ruleCount];
     for (index = 0; index < count; index++) {
-        rule = [eventList getRuleAtIndex:index];
+        rule = [_eventList getRuleAtIndex:index];
 
         ruleFrame.size.width = [self scaleWidth:rule->duration] + extraWidth;
         if ((index % 2) == 1) {
@@ -534,7 +511,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     NSUInteger count, index;
     NSPoint currentPoint;
     NSPoint graphOrigin;
-    NSArray *intonationPoints = [eventList intonationPoints];
+    NSArray *intonationPoints = [_eventList intonationPoints];
     MMIntonationPoint *currentIntonationPoint;
 
     graphOrigin = [self graphOrigin];
@@ -555,13 +532,12 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
         [NSBezierPath drawCircleMarkerAtPoint:currentPoint];
     }
     [bezierPath stroke];
-    [bezierPath release];
 
     [[NSColor blueColor] set];
 
-    count = [selectedPoints count];
+    count = [_selectedPoints count];
     for (index = 0; index < count; index++) {
-        currentIntonationPoint = [selectedPoints objectAtIndex:index];
+        currentIntonationPoint = [_selectedPoints objectAtIndex:index];
         currentPoint.x = [self scaleXPosition:[currentIntonationPoint absoluteTime]];
         currentPoint.y = rint(graphOrigin.y + ([currentIntonationPoint semitone] + ZERO_SECTION) * [self sectionHeight]) + 0.5;
         [NSBezierPath highlightMarkerAtPoint:currentPoint];
@@ -579,7 +555,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     NSUInteger i, j;
     id point1, point2;
     NSBezierPath *bezierPath;
-    NSArray *intonationPoints = [eventList intonationPoints];
+    NSArray *intonationPoints = [_eventList intonationPoints];
     NSPoint graphOrigin;
     NSPoint aPoint;
 
@@ -635,13 +611,12 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
         [[NSColor blackColor] set];
         [bezierPath stroke];
-        [bezierPath release];
     }
 }
 
 #pragma mark - Event handling
 
-- (void)mouseEntered:(NSEvent *)theEvent;
+- (void)mouseEntered:(NSEvent *)event;
 {
 #ifdef PORTING
     NSEvent *nextEvent;
@@ -673,7 +648,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 #endif
 }
 
-- (void)keyDown:(NSEvent *)keyEvent;
+- (void)keyDown:(NSEvent *)event;
 {
     NSString *characters;
     NSUInteger index, length;
@@ -681,14 +656,14 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
     NSUInteger ruleCount;
 
-    ruleCount = [eventList ruleCount];
+    ruleCount = [_eventList ruleCount];
 
-    characters = [keyEvent characters];
+    characters = [event characters];
     length = [characters length];
     for (index = 0; index < length; index++) {
         NSUInteger pointCount, pointIndex;
 
-        pointCount = [selectedPoints count];
+        pointCount = [_selectedPoints count];
 
         ch = [characters characterAtIndex:index];
         //NSLog(@"index: %d, character: %@", index, [characters substringWithRange:NSMakeRange(index, 1)]);
@@ -703,53 +678,53 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
           case NSLeftArrowFunctionKey:
               //NSLog(@"left arrow");
               for (pointIndex = 0; pointIndex < pointCount; pointIndex++) {
-                  if ([[selectedPoints objectAtIndex:pointIndex] ruleIndex] - 1 < 0) {
+                  if ([[_selectedPoints objectAtIndex:pointIndex] ruleIndex] - 1 < 0) {
                       NSBeep();
                       return;
                   }
               }
 
               for (pointIndex = 0; pointIndex < pointCount; pointIndex++)
-                  [[selectedPoints objectAtIndex:pointIndex] decrementRuleIndex];
+                  [[_selectedPoints objectAtIndex:pointIndex] decrementRuleIndex];
               break;
 
           case NSRightArrowFunctionKey:
               //NSLog(@"right arrow");
               for (pointIndex = 0; pointIndex < pointCount; pointIndex++) {
-                  if ([[selectedPoints objectAtIndex:pointIndex] ruleIndex] + 1 >= ruleCount) {
+                  if ([[_selectedPoints objectAtIndex:pointIndex] ruleIndex] + 1 >= ruleCount) {
                       NSBeep();
                       return;
                   }
               }
 
               for (pointIndex = 0; pointIndex < pointCount; pointIndex++)
-                  [[selectedPoints objectAtIndex:pointIndex] incrementRuleIndex];
+                  [[_selectedPoints objectAtIndex:pointIndex] incrementRuleIndex];
               break;
 
           case NSUpArrowFunctionKey:
               //NSLog(@"up arrow");
               for (pointIndex = 0; pointIndex < pointCount; pointIndex++) {
-                  if ([[selectedPoints objectAtIndex:pointIndex] semitone] + 1.0 > 10.0) {
+                  if ([[_selectedPoints objectAtIndex:pointIndex] semitone] + 1.0 > 10.0) {
                       NSBeep();
                       return;
                   }
               }
 
               for (pointIndex = 0; pointIndex < pointCount; pointIndex++)
-                  [[selectedPoints objectAtIndex:pointIndex] incrementSemitone];
+                  [[_selectedPoints objectAtIndex:pointIndex] incrementSemitone];
               break;
 
           case NSDownArrowFunctionKey:
               //NSLog(@"down arrow");
               for (pointIndex = 0; pointIndex < pointCount; pointIndex++) {
-                  if ([[selectedPoints objectAtIndex:pointIndex] semitone] - 1.0 < -20.0) {
+                  if ([[_selectedPoints objectAtIndex:pointIndex] semitone] - 1.0 < -20.0) {
                       NSBeep();
                       return;
                   }
               }
 
               for (pointIndex = 0; pointIndex < pointCount; pointIndex++)
-                  [[selectedPoints objectAtIndex:pointIndex] decrementSemitone];
+                  [[_selectedPoints objectAtIndex:pointIndex] decrementSemitone];
               break;
 
           default:
@@ -758,7 +733,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     }
 }
 
-- (void)mouseDown:(NSEvent *)mouseEvent;
+- (void)mouseDown:(NSEvent *)event;
 {
     NSPoint hitPoint;
 #if 0
@@ -770,43 +745,42 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     // Force this to be first responder, since nothing else seems to work!
     [[self window] makeFirstResponder:self];
 
-    hitPoint = [self convertPoint:[mouseEvent locationInWindow] fromView:nil];
+    hitPoint = [self convertPoint:[event locationInWindow] fromView:nil];
     //NSLog(@"hitPoint: %@", NSStringFromPoint(hitPoint));
 
     [self setShouldDrawSelection:NO];
-    [selectedPoints removeAllObjects];
+    [_selectedPoints removeAllObjects];
     [self _selectionDidChange];
 
-    if ([mouseEvent clickCount] == 1) {
-        if ([mouseEvent modifierFlags] & NSAlternateKeyMask) {
+    if ([event clickCount] == 1) {
+        if ([event modifierFlags] & NSAlternateKeyMask) {
             MMIntonationPoint *newIntonationPoint;
             CGFloat absoluteTime;
             NSUInteger ruleIndex;
             double offsetTime;
 
             absoluteTime = [self convertXPositionToTime:hitPoint.x];
-            [eventList getRuleIndex:&ruleIndex offsetTime:&offsetTime forAbsoluteTime:absoluteTime];
+            [_eventList getRuleIndex:&ruleIndex offsetTime:&offsetTime forAbsoluteTime:absoluteTime];
 
             newIntonationPoint = [[MMIntonationPoint alloc] init];
             [newIntonationPoint setSemitone:[self convertYPositionToSemitone:hitPoint.y]];
             [newIntonationPoint setRuleIndex:ruleIndex];
             [newIntonationPoint setOffsetTime:offsetTime];
-            [eventList addIntonationPoint:newIntonationPoint];
+            [_eventList addIntonationPoint:newIntonationPoint];
 
             [self selectIntonationPoint:newIntonationPoint];
 
-            [newIntonationPoint release];
             return;
         }
     }
 
 
-    selectionPoint1 = hitPoint;
-    selectionPoint2 = hitPoint; // TODO (2004-03-11): Should only do this one they start dragging
+    _selectionPoint1 = hitPoint;
+    _selectionPoint2 = hitPoint; // TODO (2004-03-11): Should only do this one they start dragging
     [self setShouldDrawSelection:YES];
 }
 
-- (void)mouseDragged:(NSEvent *)mouseEvent;
+- (void)mouseDragged:(NSEvent *)event;
 {
     NSPoint hitPoint;
 
@@ -815,14 +789,14 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 //    if ([self isEnabled] == NO)
 //        return;
 
-    [self autoscroll:mouseEvent];
-    if (flags.shouldDrawSelection == YES) {
-        hitPoint = [self convertPoint:[mouseEvent locationInWindow] fromView:nil];
+    [self autoscroll:event];
+    if (_flags.shouldDrawSelection == YES) {
+        hitPoint = [self convertPoint:[event locationInWindow] fromView:nil];
         //NSLog(@"hitPoint: %@", NSStringFromPoint(hitPoint));
-        selectionPoint2 = hitPoint;
+        _selectionPoint2 = hitPoint;
         [self setNeedsDisplay:YES];
 
-        [self selectGraphPointsBetweenPoint:selectionPoint1 andPoint:selectionPoint2];
+        [self selectGraphPointsBetweenPoint:_selectionPoint1 andPoint:_selectionPoint2];
     }
 
     //NSLog(@"<  %s", _cmd);
@@ -841,7 +815,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     //float timeScale;
     NSArray *intonationPoints;
 
-    [selectedPoints removeAllObjects];
+    [_selectedPoints removeAllObjects];
 
     //NSLog(@"%s, cacheTag: %d", _cmd, cacheTag);
     graphOrigin = [self graphOrigin];
@@ -853,7 +827,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
     //NSLog(@"%s, selectionRect: %@", _cmd, NSStringFromRect(selectionRect));
 
-    intonationPoints = [eventList intonationPoints];
+    intonationPoints = [_eventList intonationPoints];
     count = [intonationPoints count];
     //NSLog(@"%d display points", count);
     for (index = 0; index < count; index++) {
@@ -866,7 +840,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
         //NSLog(@"%2d: currentPoint: %@", index, NSStringFromPoint(currentPoint));
         if (NSPointInRect(currentPoint, selectionRect) == YES) {
-            [selectedPoints addObject:currentIntonationPoint];
+            [_selectedPoints addObject:currentIntonationPoint];
         }
     }
 
@@ -877,8 +851,8 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
 - (IBAction)selectAll:(id)sender;
 {
-    [selectedPoints removeAllObjects];
-    [selectedPoints addObjectsFromArray:[eventList intonationPoints]];
+    [_selectedPoints removeAllObjects];
+    [_selectedPoints addObjectsFromArray:[_eventList intonationPoints]];
     [self _selectionDidChange];
 }
 
@@ -888,10 +862,9 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
     // We need to be careful that intermediate notifications don't change the selectedPoints array here.
 
-    points = [[NSArray alloc] initWithArray:selectedPoints];
+    points = [[NSArray alloc] initWithArray:_selectedPoints];
     [self deselectAllPoints];
-    [eventList removeIntonationPointsFromArray:points];
-    [points release];
+    [_eventList removeIntonationPointsFromArray:points];
 }
 
 #ifdef PORTING
@@ -985,26 +958,26 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
 - (void)deselectAllPoints;
 {
-    if ([selectedPoints count] == 0)
+    if ([_selectedPoints count] == 0)
         return;
 
-    [selectedPoints removeAllObjects];
+    [_selectedPoints removeAllObjects];
     [self _selectionDidChange];
 }
 
 - (MMIntonationPoint *)selectedIntonationPoint;
 {
-    if ([selectedPoints count] == 0)
+    if ([_selectedPoints count] == 0)
         return nil;
 
-    return [selectedPoints objectAtIndex:0];
+    return [_selectedPoints objectAtIndex:0];
 }
 
-- (void)selectIntonationPoint:(MMIntonationPoint *)anIntonationPoint;
+- (void)selectIntonationPoint:(MMIntonationPoint *)intonationPoint;
 {
-    [selectedPoints removeAllObjects];
-    if (anIntonationPoint != nil)
-        [selectedPoints addObject:anIntonationPoint];
+    [_selectedPoints removeAllObjects];
+    if (intonationPoint != nil)
+        [_selectedPoints addObject:intonationPoint];
     [self _selectionDidChange];
 }
 
@@ -1052,12 +1025,12 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
 - (CGFloat)scaleXPosition:(CGFloat)xPosition;
 {
-    return floor(xPosition / timeScale);
+    return floor(xPosition / _timeScale);
 }
 
 - (CGFloat)scaleWidth:(CGFloat)width;
 {
-    return floor(width / timeScale);
+    return floor(width / _timeScale);
 }
 
 - (NSRect)rectFormedByPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
@@ -1100,10 +1073,10 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
 - (CGFloat)convertXPositionToTime:(CGFloat)xPosition;
 {
-    return xPosition * timeScale;
+    return xPosition * _timeScale;
 }
 
-- (void)intonationPointDidChange:(NSNotification *)aNotification;
+- (void)intonationPointDidChange:(NSNotification *)notification;
 {
     [self removeOldSelectedPoints];
     [self setNeedsDisplay:YES];
@@ -1114,10 +1087,10 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     NSInteger count, index;
 
     // This is another case where count cannot be unsigned.
-    count = [selectedPoints count];
+    count = [_selectedPoints count];
     for (index = count - 1; index >= 0; index--) {
-        if ([[selectedPoints objectAtIndex:index] eventList] == nil)
-            [selectedPoints removeObjectAtIndex:index];
+        if ([[_selectedPoints objectAtIndex:index] eventList] == nil)
+            [_selectedPoints removeObjectAtIndex:index];
     }
 
     [self setNeedsDisplay:YES];
@@ -1127,8 +1100,8 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 {
     [super setFrame:newFrame];
 
-    [scaleView setSectionHeight:[self sectionHeight]];
-    [scaleView setYOrigin:[self graphOrigin].y];
+    [_scaleView setSectionHeight:[self sectionHeight]];
+    [_scaleView setYOrigin:[self graphOrigin].y];
 }
 
 @end

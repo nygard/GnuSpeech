@@ -6,17 +6,14 @@
 @class MMEquation, MMFormulaParser, MModel, MMTransition;
 @class SpecialView, TransitionView;
 
-@interface MPrototypeManager : MWindowController
+@interface MPrototypeManager : MWindowController <NSOutlineViewDataSource, NSOutlineViewDelegate>
 
-- (id)initWithModel:(MModel *)aModel;
-- (void)dealloc;
+- (id)initWithModel:(MModel *)model;
 
 - (MModel *)model;
 - (void)setModel:(MModel *)newModel;
 
 - (NSUndoManager *)undoManager;
-
-- (void)windowDidLoad;
 
 - (void)updateViews;
 - (void)expandOutlines;
@@ -48,33 +45,17 @@
 - (IBAction)removeSpecialTransition:(id)sender;
 - (IBAction)editSpecialTransition:(id)sender;
 
-// NSOutlineView data source
-- (int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item;
-- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item;
-- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item;
-- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item;
-- (void)outlineView:(NSOutlineView *)outlineView willDisplayOutlineCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item;
-- (void)outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item;
-
-// NSOutlineView delegate
-- (void)outlineViewSelectionDidChange:(NSNotification *)aNotification;
-- (BOOL)outlineView:(NSOutlineView *)outlineView shouldEditTableColumn:(NSTableColumn *)tableColumn item:(id)item;
-- (BOOL)outlineView:(NSOutlineView *)outlineView shouldExpandItem:(id)item;
-
-// NSTextView delegate
-- (void)textDidEndEditing:(NSNotification *)aNotification;
-
 // Equation usage caching
 - (void)clearEquationUsageCache;
-- (NSArray *)usageOfEquation:(MMEquation *)anEquation;
-- (NSArray *)usageOfEquation:(MMEquation *)anEquation recache:(BOOL)shouldRecache;
-- (BOOL)isEquationUsed:(MMEquation *)anEquation;
+- (NSArray *)usageOfEquation:(MMEquation *)equation;
+- (NSArray *)usageOfEquation:(MMEquation *)equation recache:(BOOL)shouldRecache;
+- (BOOL)isEquationUsed:(MMEquation *)equation;
 
 // Transition usage caching
 - (void)clearTransitionUsageCache;
-- (NSArray *)usageOfTransition:(MMTransition *)aTransition;
-- (NSArray *)usageOfTransition:(MMTransition *)aTransition recache:(BOOL)shouldRecache;
-- (BOOL)isTransitionUsed:(MMTransition *)aTransition;
+- (NSArray *)usageOfTransition:(MMTransition *)transition;
+- (NSArray *)usageOfTransition:(MMTransition *)transition recache:(BOOL)shouldRecache;
+- (BOOL)isTransitionUsed:(MMTransition *)transition;
 
 - (IBAction)doubleHit:(id)sender;
 

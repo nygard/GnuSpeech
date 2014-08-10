@@ -7,19 +7,18 @@
 #import "NSString-Extensions.h"
 
 #import "GSXMLFunctions.h"
-#import "MXMLParser.h"
 
 @implementation MMTarget
 {
-    BOOL isDefault;
-    double value;
+    BOOL _isDefault;
+    double _value;
 }
 
 - (id)init;
 {
     if ((self = [super init])) {
-        isDefault = YES;
-        value = 0.0;
+        _isDefault = YES;
+        _value = 0.0;
     }
 
     return self;
@@ -35,16 +34,26 @@
     return self;
 }
 
+- (id)initWithXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    if ((self = [super init])) {
+        _isDefault = NO;
+
+        NSString *str = [[element attributeForName:@"value"] stringValue];
+        _value = (str != nil) ? [str doubleValue] : 0;
+    }
+
+    return self;
+}
+
 #pragma mark - Debugging
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@: %p> isDefault: %d, value: %g", NSStringFromClass([self class]), self, isDefault, value];
+    return [NSString stringWithFormat:@"<%@: %p> isDefault: %d, value: %g", NSStringFromClass([self class]), self, _isDefault, _value];
 }
 
 #pragma mark -
-
-@synthesize value, isDefault;
 
 - (void)setValue:(double)newValue isDefault:(BOOL)shouldBeDefault;
 {
@@ -54,44 +63,19 @@
 
 - (void)changeDefaultValueFrom:(double)oldDefault to:(double)newDefault;
 {
-    if (value == oldDefault) {
-        value = newDefault;
-        isDefault = YES;
+    if (_value == oldDefault) {
+        _value = newDefault;
+        _isDefault = YES;
     }
 }
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     [resultString indentToLevel:level];
-    [resultString appendFormat:@"<target ptr=\"%p\" value=\"%g\"/>", self, value];
-    if (isDefault)
+    [resultString appendFormat:@"<target ptr=\"%p\" value=\"%g\"/>", self, _value];
+    if (_isDefault)
         [resultString appendString:@"<!-- default -->"];
     [resultString appendString:@"\n"];
-}
-
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
-{
-    if ((self = [self init])) {
-        NSString *str = [attributes objectForKey:@"value"];
-        if (str != nil)
-            [self setValue:[str doubleValue]];
-    }
-
-    return self;
-}
-
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-{
-    NSLog(@"%@: skipping element: %@", NSStringFromClass([self class]), elementName);
-    [(MXMLParser *)parser skipTree];
-}
-
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
-{
-    if ([elementName isEqualToString:@"target"])
-        [(MXMLParser *)parser popDelegate];
-    else
-        [NSException raise:@"Unknown close tag" format:@"Unknown closing tag (%@) in %@", elementName, NSStringFromClass([self class])];
 }
 
 @end

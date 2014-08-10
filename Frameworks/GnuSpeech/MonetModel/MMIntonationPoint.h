@@ -9,6 +9,8 @@
 
 @interface MMIntonationPoint : NSObject
 
+- (id)initWithXMLElement:(NSXMLElement *)element error:(NSError **)error;
+
 @property (weak) EventList *eventList;
 
 @property (nonatomic, assign) double semitone;
@@ -32,8 +34,5 @@
 
 // XML - Archiving
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 
 @end

@@ -13,54 +13,139 @@
 #import "MMEquation.h"
 #import "MMSymbol.h"
 #import "MMTransition.h"
-
+#import "MMFRuleSymbols.h"
 #import "MModel.h"
-#import "MXMLParser.h"
-#import "MXMLArrayDelegate.h"
-#import "MXMLPCDataDelegate.h"
-#import "MXMLStringArrayDelegate.h"
-#import "MXMLReferenceDictionaryDelegate.h"
 
 @implementation MMRule
 {
-    NSMutableArray *parameterTransitions; // Of MMTransitions
-    NSMutableArray *metaParameterTransitions; // Of MMTransitions?
-    NSMutableArray *symbolEquations; // Of MMEquations
-    
-    MMTransition *specialProfiles[16]; // TODO (2004-05-16): We should be able to use an NSMutableDictionary here.
-    
-    MMBooleanNode *expressions[4];
+    NSMutableArray *_parameterTransitions; // Of MMTransitions
+    NSMutableArray *_metaParameterTransitions; // Of MMTransitions?
+    NSMutableArray *_symbolEquations; // Of MMEquations
+
+    MMTransition *_specialProfiles[16]; // TODO (2004-05-16): We should be able to use an NSMutableDictionary here.
+
+    MMBooleanNode *_expressions[4];
 }
 
 - (id)init;
 {
     if ((self = [super init])) {
-        parameterTransitions = [[NSMutableArray alloc] init];
-        metaParameterTransitions = [[NSMutableArray alloc] init];
-        symbolEquations = [[NSMutableArray alloc] init];
+        _parameterTransitions = [[NSMutableArray alloc] init];
+        _metaParameterTransitions = [[NSMutableArray alloc] init];
+        _symbolEquations = [[NSMutableArray alloc] init];
         
         /* Zero out expressions and special Profiles */
-        bzero(expressions, sizeof(MMBooleanNode *) * 4);
-        bzero(specialProfiles, sizeof(id) * 16);
+        bzero(_expressions, sizeof(MMBooleanNode *) * 4);
+        bzero(_specialProfiles, sizeof(id) * 16);
     }
 
     return self;
 }
 
-- (void)dealloc;
+- (id)initWithModel:(MModel *)model XMLElement:(NSXMLElement *)element error:(NSError **)error;
 {
-    NSUInteger index;
+    NSParameterAssert([@"rule" isEqualToString:element.name]);
 
-    [parameterTransitions release];
-    [metaParameterTransitions release];
-    [symbolEquations release];
+    if ((self = [super initWithXMLElement:element error:error])) {
+        _parameterTransitions = [[NSMutableArray alloc] init];
+        _metaParameterTransitions = [[NSMutableArray alloc] init];
+        _symbolEquations = [[NSMutableArray alloc] init];
 
-    for (index = 0 ; index < 4; index++)
-        [expressions[index] release];
+        /* Zero out expressions and special Profiles */
+        bzero(_expressions, sizeof(MMBooleanNode *) * 4);
+        bzero(_specialProfiles, sizeof(id) * 16);
 
-    // TODO (2004-03-05): Release special profiles
+        self.model = model;
 
-    [super dealloc];
+        if (![self _loadBooleanExpressionFromXMLElement:    [[element elementsForName:@"boolean-expressions"] firstObject]     error:error]) return nil;
+        if (![self _loadParameterProfilesFromXMLElement:    [[element elementsForName:@"parameter-profiles"] firstObject]      error:error]) return nil;
+        if (![self _loadMetaParameterProfilesFromXMLElement:[[element elementsForName:@"meta-parameter-profiles"] firstObject] error:error]) return nil;
+        if (![self _loadSpecialProfilesFromXMLElement:      [[element elementsForName:@"special-profiles"] firstObject]        error:error]) return nil;
+        if (![self _loadExpressionSymbolsFromXMLElement:    [[element elementsForName:@"expression-symbols"] firstObject]      error:error]) return nil;
+    }
+
+    return self;
+}
+
+- (BOOL)_loadBooleanExpressionFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    if (element == nil) return YES;
+    NSParameterAssert([@"boolean-expressions" isEqualToString:element.name]);
+
+    for (NSXMLElement *childElement in [element elementsForName:@"boolean-expression"]) {
+        NSString *str = [childElement stringValue];
+        [self addBooleanExpressionString:str];
+    }
+
+    return YES;
+}
+
+- (BOOL)_loadParameterProfilesFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    if (element == nil) return YES;
+    NSParameterAssert([@"parameter-profiles" isEqualToString:element.name]);
+
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+
+    for (NSXMLElement *childElement in [element elementsForName:@"parameter-transition"]) {
+        NSString *key = [[childElement attributeForName:@"name"] stringValue];
+        dict[key] = [[childElement attributeForName:@"transition"] stringValue];
+    }
+
+    [self addParameterTransitionsFromReferenceDictionary:dict];
+
+    return YES;
+}
+
+- (BOOL)_loadMetaParameterProfilesFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    if (element == nil) return YES;
+    NSParameterAssert([@"meta-parameter-profiles" isEqualToString:element.name]);
+
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+
+    for (NSXMLElement *childElement in [element elementsForName:@"parameter-transition"]) {
+        NSString *key = [[childElement attributeForName:@"name"] stringValue];
+        dict[key] = [[childElement attributeForName:@"transition"] stringValue];
+    }
+
+    [self addMetaParameterTransitionsFromReferenceDictionary:dict];
+
+    return YES;
+}
+
+- (BOOL)_loadSpecialProfilesFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    if (element == nil) return YES;
+    NSParameterAssert([@"special-profiles" isEqualToString:element.name]);
+
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+
+    for (NSXMLElement *childElement in [element elementsForName:@"parameter-transition"]) {
+        NSString *key = [[childElement attributeForName:@"name"] stringValue];
+        dict[key] = [[childElement attributeForName:@"transition"] stringValue];
+    }
+
+    [self addSpecialProfilesFromReferenceDictionary:dict];
+
+    return YES;
+}
+
+- (BOOL)_loadExpressionSymbolsFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    if (element == nil) return YES;
+    NSParameterAssert([@"expression-symbols" isEqualToString:element.name]);
+
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+
+    for (NSXMLElement *childElement in [element elementsForName:@"symbol-equation"]) {
+        NSString *key = [[childElement attributeForName:@"name"] stringValue];
+        dict[key] = [[childElement attributeForName:@"equation"] stringValue];
+    }
+
+    [self addSymbolEquationsFromReferenceDictionary:dict];
+
+    return YES;
 }
 
 #pragma mark - Debugging
@@ -68,9 +153,9 @@
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"<%@: %p> parameterTransitions: %@, metaParameterTransitions: %@, symbolEquations(%lu): %@, comment: %@, e1: %@, e2: %@, e3: %@, e4: %@",
-            NSStringFromClass([self class]), self, parameterTransitions, metaParameterTransitions, [symbolEquations count], symbolEquations,
-            self.comment, [expressions[0] expressionString], [expressions[1] expressionString], [expressions[2] expressionString],
-            [expressions[3] expressionString]];
+            NSStringFromClass([self class]), self, _parameterTransitions, _metaParameterTransitions, [_symbolEquations count], _symbolEquations,
+            self.comment, [_expressions[0] expressionString], [_expressions[1] expressionString], [_expressions[2] expressionString],
+            [_expressions[3] expressionString]];
 }
 
 #pragma mark -
@@ -83,9 +168,9 @@
     NSUInteger i;
 
     /* Empty out the lists */
-    [parameterTransitions removeAllObjects];
-    [metaParameterTransitions removeAllObjects];
-    [symbolEquations removeAllObjects];
+    [_parameterTransitions removeAllObjects];
+    [_metaParameterTransitions removeAllObjects];
+    [_symbolEquations removeAllObjects];
 
     if ((numPhones < 2) || (numPhones > 4))
         return;
@@ -108,13 +193,13 @@
 
     aParameterList = [self.model parameters];
     for (i = 0; i < [aParameterList count]; i++) {
-        [parameterTransitions addObject:tempEntry];
+        [_parameterTransitions addObject:tempEntry];
     }
 
     /* Alloc lists to point to prototype transition specifiers */
     aParameterList = [self.model metaParameters];
     for (i = 0; i < [aParameterList count]; i++) {
-        [metaParameterTransitions addObject:tempEntry];
+        [_metaParameterTransitions addObject:tempEntry];
     }
 
     switch (numPhones) {
@@ -122,57 +207,57 @@
             defaultDuration = [self.model findEquationWithName:@"DiphoneDefault" inGroupWithName:@"DefaultDurations" ];
             if (defaultDuration == nil)
                 break;
-            [symbolEquations addObject:defaultDuration];
+            [_symbolEquations addObject:defaultDuration];
             
             defaultOnset = [self.model findEquationWithName:@"diBeat" inGroupWithName:@"SymbolDefaults"];
             if (defaultOnset == nil)
                 break;
-            [symbolEquations addObject:defaultOnset];
+            [_symbolEquations addObject:defaultOnset];
             
-            [symbolEquations addObject:defaultDuration]; /* Make the mark1 value == duration */
+            [_symbolEquations addObject:defaultDuration]; /* Make the mark1 value == duration */
             break;
             
         case 3:
             defaultDuration = [self.model findEquationWithName:@"TriphoneDefault" inGroupWithName:@"DefaultDurations"];
             if (defaultDuration == nil)
                 break;
-            [symbolEquations addObject:defaultDuration];
+            [_symbolEquations addObject:defaultDuration];
             
             defaultOnset = [self.model findEquationWithName:@"triBeat" inGroupWithName:@"SymbolDefaults"];
             if (defaultOnset == nil)
                 break;
-            [symbolEquations addObject:defaultOnset];
+            [_symbolEquations addObject:defaultOnset];
             
             anEquation = [self.model findEquationWithName:@"Mark1" inGroupWithName:@"SymbolDefaults"];
             if (anEquation == nil)
                 break;
-            [symbolEquations addObject:anEquation];
+            [_symbolEquations addObject:anEquation];
             
-            [symbolEquations addObject:defaultDuration]; /* Make the  mark2 value == duration */
+            [_symbolEquations addObject:defaultDuration]; /* Make the  mark2 value == duration */
             break;
             
         case 4:
             defaultDuration = [self.model findEquationWithName:@"TetraphoneDefault" inGroupWithName:@"DefaultDurations"];
             if (defaultDuration == nil)
                 break;
-            [symbolEquations addObject:defaultDuration];
+            [_symbolEquations addObject:defaultDuration];
             
             defaultOnset = [self.model findEquationWithName:@"tetraBeat" inGroupWithName:@"SymbolDefaults"]; // TODO (2004-03-24): Not in diphones.monet
             if (defaultOnset == nil)
                 break;
-            [symbolEquations addObject:defaultOnset];
+            [_symbolEquations addObject:defaultOnset];
             
             anEquation = [self.model findEquationWithName:@"Mark1" inGroupWithName:@"SymbolDefaults"];
             if (anEquation == nil)
                 break;
-            [symbolEquations addObject:anEquation];
+            [_symbolEquations addObject:anEquation];
             
             anEquation = [self.model findEquationWithName:@"Mark2" inGroupWithName:@"SymbolDefaults"];
             if  (anEquation == nil)
                 break;
-            [symbolEquations addObject:anEquation];
+            [_symbolEquations addObject:anEquation];
             
-            [symbolEquations addObject:defaultDuration]; /* Make the mark3 value == duration */
+            [_symbolEquations addObject:defaultDuration]; /* Make the mark3 value == duration */
             break;
     }
 }
@@ -194,7 +279,7 @@
     }
 
     if (transition != nil)
-        [parameterTransitions addObject:transition];
+        [_parameterTransitions addObject:transition];
 }
 
 // Warning (building for 10.2 deployment) (2004-04-02): tempEntry might be used uninitialized in this function
@@ -215,22 +300,22 @@
     }
     
     if (transition != nil)
-        [metaParameterTransitions addObject:transition];
+        [_metaParameterTransitions addObject:transition];
 }
 
 - (void)removeParameterAtIndex:(NSUInteger)index;
 {
-    [parameterTransitions removeObjectAtIndex:index];
+    [_parameterTransitions removeObjectAtIndex:index];
 }
 
 - (void)removeMetaParameterAtIndex:(NSUInteger)index;
 {
-    [metaParameterTransitions removeObjectAtIndex:index];
+    [_metaParameterTransitions removeObjectAtIndex:index];
 }
 
 - (void)addStoredParameterTransition:(MMTransition *)aTransition;
 {
-    [parameterTransitions addObject:aTransition];
+    [_parameterTransitions addObject:aTransition];
 }
 
 - (void)addParameterTransitionsFromReferenceDictionary:(NSDictionary *)dict;
@@ -254,7 +339,7 @@
 
 - (void)addStoredMetaParameterTransition:(MMTransition *)aTransition;
 {
-    [metaParameterTransitions addObject:aTransition];
+    [_metaParameterTransitions addObject:aTransition];
 }
 
 - (void)addMetaParameterTransitionsFromReferenceDictionary:(NSDictionary *)dict;
@@ -302,7 +387,7 @@
 
 - (void)addStoredSymbolEquation:(MMEquation *)anEquation;
 {
-    [symbolEquations addObject:anEquation];
+    [_symbolEquations addObject:anEquation];
 }
 
 - (void)addSymbolEquationsFromReferenceDictionary:(NSDictionary *)dict;
@@ -325,8 +410,6 @@
             [self addStoredSymbolEquation:equation];
         }
     }
-
-    [symbols release];
 }
 
 - (void)setExpression:(MMBooleanNode *)newExpression number:(NSUInteger)index;
@@ -334,11 +417,10 @@
     if (index > 3)
         return;
 
-    if (newExpression == expressions[index])
+    if (newExpression == _expressions[index])
         return;
 
-    [expressions[index] release];
-    expressions[index] = [newExpression retain];
+    _expressions[index] = newExpression;
 }
 
 - (NSUInteger)numberExpressions;
@@ -346,7 +428,7 @@
     NSUInteger index;
     
     for (index = 0; index < 4; index++)
-        if (expressions[index] == nil)
+        if (_expressions[index] == nil)
             return index;
 
     return index;
@@ -357,14 +439,14 @@
     if (index > 3)
         return nil;
 
-    return expressions[index];
+    return _expressions[index];
 }
 
 - (void)addBooleanExpression:(MMBooleanNode *)newExpression;
 {
     for (NSUInteger index = 0; index < 4; index++) {
-        if (expressions[index] == nil) {
-            expressions[index] = [newExpression retain];
+        if (_expressions[index] == nil) {
+            _expressions[index] = newExpression;
             return;
         }
     }
@@ -382,14 +464,12 @@
     } else {
         [self addBooleanExpression:result];
     }
-
-    [parser release];
 }
 
 - (BOOL)matchRule:(NSArray *)categories;
 {
     for (NSUInteger index = 0; index < [self numberExpressions]; index++) {
-        if (![expressions[index] evaluateWithCategories:[categories objectAtIndex:index]])
+        if (![_expressions[index] evaluateWithCategories:[categories objectAtIndex:index]])
             return NO;
     }
 
@@ -398,53 +478,34 @@
 
 - (MMEquation *)getSymbolEquation:(int)index;
 {
-    return [symbolEquations objectAtIndex:index];
+    return [_symbolEquations objectAtIndex:index];
 }
 
-- (void)evaluateSymbolEquations:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures withCache:(NSUInteger)cache;
+- (void)evaluateSymbolEquationsWithPhonesInArray:(NSArray *)phones ruleSymbols:(MMFRuleSymbols *)ruleSymbols withCacheTag:(NSUInteger)cache;
 {
-    NSUInteger count = [symbolEquations count];
+    NSUInteger count = [_symbolEquations count];
     // It is not okay to do these in order -- beat often depends on duration, mark1, mark2, and/or mark3.
 
-    if (count > 0)
-        ruleSymbols.ruleDuration = [(MMEquation *)[symbolEquations objectAtIndex:0] evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:cache];
-    else
-        ruleSymbols.ruleDuration = 0.0;
-
-    if (count > 2)
-        ruleSymbols.mark1 = [(MMEquation *)[symbolEquations objectAtIndex:2] evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:cache];
-    else
-        ruleSymbols.mark1 = 0.0;
-
-    if (count > 3)
-        ruleSymbols.mark2 = [(MMEquation *)[symbolEquations objectAtIndex:3] evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:cache];
-    else
-        ruleSymbols.mark2 = 0.0;
-
-    if (count > 4)
-        ruleSymbols.mark3 = [(MMEquation *)[symbolEquations objectAtIndex:4] evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:cache];
-    else
-        ruleSymbols.mark3 = 0.0;
-
-    if (count > 1)
-        ruleSymbols.beat = [(MMEquation *)[symbolEquations objectAtIndex:1] evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:cache];
-    else
-        ruleSymbols.beat = 0.0;
+    ruleSymbols.ruleDuration = (count > 0) ? [(MMEquation *)[_symbolEquations objectAtIndex:0] evaluateWithPhonesInArray:phones ruleSymbols:ruleSymbols andCacheWithTag:cache] : 0.0;
+    ruleSymbols.mark1        = (count > 2) ? [(MMEquation *)[_symbolEquations objectAtIndex:2] evaluateWithPhonesInArray:phones ruleSymbols:ruleSymbols andCacheWithTag:cache] : 0.0;
+    ruleSymbols.mark2        = (count > 3) ? [(MMEquation *)[_symbolEquations objectAtIndex:3] evaluateWithPhonesInArray:phones ruleSymbols:ruleSymbols andCacheWithTag:cache] : 0.0;
+    ruleSymbols.mark3        = (count > 4) ? [(MMEquation *)[_symbolEquations objectAtIndex:4] evaluateWithPhonesInArray:phones ruleSymbols:ruleSymbols andCacheWithTag:cache] : 0.0;
+    ruleSymbols.beat         = (count > 1) ? [(MMEquation *)[_symbolEquations objectAtIndex:1] evaluateWithPhonesInArray:phones ruleSymbols:ruleSymbols andCacheWithTag:cache] : 0.0;
 }
 
 - (NSMutableArray *)parameterTransitions;
 {
-    return parameterTransitions;
+    return _parameterTransitions;
 }
 
 - (NSMutableArray *)metaParameterTransitions;
 {
-    return metaParameterTransitions;
+    return _metaParameterTransitions;
 }
 
 - (NSMutableArray *)symbolEquations;
 {
-    return symbolEquations;
+    return _symbolEquations;
 }
 
 - (MMTransition *)getSpecialProfile:(NSUInteger)index;
@@ -452,7 +513,7 @@
     if (index > 15)
         return nil;
 
-    return specialProfiles[index];
+    return _specialProfiles[index];
 }
 
 - (void)setSpecialProfile:(NSUInteger)index to:(MMTransition *)special;
@@ -460,7 +521,7 @@
     if (index > 15)
         return;
 
-    specialProfiles[index] = special;
+    _specialProfiles[index] = special;
 }
 
 - (BOOL)usesCategory:(MMCategory *)aCategory;
@@ -469,7 +530,7 @@
 
     count = [self numberExpressions];
     for (index = 0; index < count; index++) {
-        if ([expressions[index] usesCategory:aCategory])
+        if ([_expressions[index] usesCategory:aCategory])
             return YES;
     }
 
@@ -478,7 +539,7 @@
 
 - (BOOL)usesEquation:(MMEquation *)anEquation;
 {
-    if ([symbolEquations indexOfObject:anEquation] != NSNotFound)
+    if ([_symbolEquations indexOfObject:anEquation] != NSNotFound)
         return YES;
 
     return NO;
@@ -486,13 +547,13 @@
 
 - (BOOL)usesTransition:(MMTransition *)aTransition;
 {
-    if ([parameterTransitions indexOfObject:aTransition] != NSNotFound)
+    if ([_parameterTransitions indexOfObject:aTransition] != NSNotFound)
         return YES;
-    if ([metaParameterTransitions indexOfObject:aTransition] != NSNotFound)
+    if ([_metaParameterTransitions indexOfObject:aTransition] != NSNotFound)
         return YES;
 
     for (NSUInteger index = 0; index < 16; index++) {
-        if (specialProfiles[index] == aTransition)
+        if (_specialProfiles[index] == aTransition)
             return YES;
     }
 
@@ -501,19 +562,19 @@
 
 - (NSString *)ruleString;
 {
-    NSMutableString *ruleString = [[[NSMutableString alloc] init] autorelease];
+    NSMutableString *ruleString = [[NSMutableString alloc] init];
 
-    [expressions[0] appendExpressionToString:ruleString];
+    [_expressions[0] appendExpressionToString:ruleString];
     [ruleString appendString:@" >> "];
-    [expressions[1] appendExpressionToString:ruleString];
+    [_expressions[1] appendExpressionToString:ruleString];
 
-    NSString *str = [expressions[2] expressionString];
+    NSString *str = [_expressions[2] expressionString];
     if (str != nil) {
         [ruleString appendString:@" >> "];
         [ruleString appendString:str];
     }
 
-    str = [expressions[3] expressionString];
+    str = [_expressions[3] expressionString];
     if (str != nil) {
         [ruleString appendString:@" >> "];
         [ruleString appendString:str];
@@ -533,7 +594,7 @@
     [resultString appendString:@"<boolean-expressions>\n"];
 
     for (index = 0; index < 4; index++) {
-        NSString *str = [expressions[index] expressionString];
+        NSString *str = [_expressions[index] expressionString];
         if (str != nil) {
             [resultString indentToLevel:level + 2];
             [resultString appendFormat:@"<boolean-expression>%@</boolean-expression>\n", GSXMLCharacterData(str)];
@@ -562,9 +623,9 @@
     NSUInteger count, index;
 
     NSArray *mainParameterList = [[self model] parameters];
-    NSParameterAssert([mainParameterList count] == [parameterTransitions count]);
+    NSParameterAssert([mainParameterList count] == [_parameterTransitions count]);
 
-    if ([parameterTransitions count] == 0)
+    if ([_parameterTransitions count] == 0)
         return;
 
     [resultString indentToLevel:level];
@@ -573,7 +634,7 @@
     count = [mainParameterList count];
     for (index = 0; index < count; index++) {
         MMParameter *aParameter = [mainParameterList objectAtIndex:index];
-        MMTransition *aTransition = [parameterTransitions objectAtIndex:index];
+        MMTransition *aTransition = [_parameterTransitions objectAtIndex:index];
 
         [resultString indentToLevel:level + 1];
         [resultString appendFormat:@"<parameter-transition name=\"%@\" transition=\"%@\"/>\n",
@@ -589,9 +650,9 @@
     NSUInteger count, index;
 
     NSArray *mainMetaParameterList = [[self model] metaParameters];
-    NSParameterAssert([mainMetaParameterList count] == [metaParameterTransitions count]);
+    NSParameterAssert([mainMetaParameterList count] == [_metaParameterTransitions count]);
 
-    if ([metaParameterTransitions count] == 0)
+    if ([_metaParameterTransitions count] == 0)
         return;
 
     [resultString indentToLevel:level];
@@ -603,7 +664,7 @@
         MMTransition *aTransition;
 
         aParameter = [mainMetaParameterList objectAtIndex:index];
-        aTransition = [metaParameterTransitions objectAtIndex:index];
+        aTransition = [_metaParameterTransitions objectAtIndex:index];
 
         [resultString indentToLevel:level + 1];
         [resultString appendFormat:@"<parameter-transition name=\"%@\" transition=\"%@\"/>\n",
@@ -623,7 +684,7 @@
 
     count = [mainParameterList count];
     for (index = 0; index < count && index < 16; index++) {
-        if (specialProfiles[index] != nil) {
+        if (_specialProfiles[index] != nil) {
             hasSpecialProfiles = YES;
             break;
         }
@@ -640,7 +701,7 @@
         MMTransition *aTransition;
 
         aParameter = [mainParameterList objectAtIndex:index];
-        aTransition = specialProfiles[index];
+        aTransition = _specialProfiles[index];
 
         if (aTransition != nil) {
             [resultString indentToLevel:level + 1];
@@ -657,18 +718,18 @@
 {
     NSUInteger count, index;
 
-    if ([symbolEquations count] == 0)
+    if ([_symbolEquations count] == 0)
         return;
 
     [resultString indentToLevel:level];
     // TODO (2004-08-15): Rename this to symbol-equations.
     [resultString appendString:@"<expression-symbols>\n"];
 
-    count = [symbolEquations count];
+    count = [_symbolEquations count];
     for (index = 0; index < count; index++) {
         MMEquation *anEquation;
 
-        anEquation = [symbolEquations objectAtIndex:index];
+        anEquation = [_symbolEquations objectAtIndex:index];
 
         [resultString indentToLevel:level + 1];
         [resultString appendFormat:@"<symbol-equation name=\"%@\" equation=\"%@\"/>\n",
@@ -703,45 +764,6 @@
 
     if (oldExpressionCount != [self numberExpressions])
         [self setDefaultsTo:[self numberExpressions]];
-}
-
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributes;
-{
-    if ([elementName isEqualToString:@"boolean-expressions"]) {
-        MXMLStringArrayDelegate *newDelegate = [[MXMLStringArrayDelegate alloc] initWithChildElementName:@"boolean-expression" delegate:self addObjectSelector:@selector(addBooleanExpressionString:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
-    } else if ([elementName isEqualToString:@"parameter-profiles"]) {
-        MXMLReferenceDictionaryDelegate *newDelegate = [[MXMLReferenceDictionaryDelegate alloc] initWithChildElementName:@"parameter-transition" keyAttributeName:@"name" referenceAttributeName:@"transition"
-                                                               delegate:self addObjectsSelector:@selector(addParameterTransitionsFromReferenceDictionary:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
-    } else if ([elementName isEqualToString:@"meta-parameter-profiles"]) {
-        MXMLReferenceDictionaryDelegate *newDelegate = [[MXMLReferenceDictionaryDelegate alloc] initWithChildElementName:@"parameter-transition" keyAttributeName:@"name" referenceAttributeName:@"transition"
-                                                               delegate:self addObjectsSelector:@selector(addMetaParameterTransitionsFromReferenceDictionary:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
-    } else if ([elementName isEqualToString:@"special-profiles"]) {
-        MXMLReferenceDictionaryDelegate *newDelegate = [[MXMLReferenceDictionaryDelegate alloc] initWithChildElementName:@"parameter-transition" keyAttributeName:@"name" referenceAttributeName:@"transition"
-                                                               delegate:self addObjectsSelector:@selector(addSpecialProfilesFromReferenceDictionary:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
-    } else if ([elementName isEqualToString:@"expression-symbols"]) {
-        MXMLReferenceDictionaryDelegate *newDelegate = [[MXMLReferenceDictionaryDelegate alloc] initWithChildElementName:@"symbol-equation" keyAttributeName:@"name" referenceAttributeName:@"equation"
-                                                               delegate:self addObjectsSelector:@selector(addSymbolEquationsFromReferenceDictionary:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
-    } else {
-        [super parser:parser didStartElement:elementName namespaceURI:namespaceURI qualifiedName:qName attributes:attributes];
-    }
-}
-
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
-{
-    if ([elementName isEqualToString:@"rule"])
-        [(MXMLParser *)parser popDelegate];
-    else
-        [NSException raise:@"Unknown close tag" format:@"Unknown closing tag (%@) in %@", elementName, NSStringFromClass([self class])];
 }
 
 @end

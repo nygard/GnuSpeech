@@ -5,14 +5,10 @@
 
 @implementation MMToneGroup
 {
-    NSUInteger m_startFootIndex;
-    NSUInteger m_endFootIndex;
-    MMToneGroupType m_type;
+    NSUInteger _startFootIndex;
+    NSUInteger _endFootIndex;
+    MMToneGroupType _type;
 }
-
-@synthesize startFootIndex = m_startFootIndex;
-@synthesize endFootIndex = m_endFootIndex;
-@synthesize type = m_type;
 
 @end
 

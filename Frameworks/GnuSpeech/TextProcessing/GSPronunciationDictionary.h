@@ -6,25 +6,18 @@
 
 + (id)mainDictionary;
 
-- (id)initWithFilename:(NSString *)aFilename;
+- (id)initWithFilename:(NSString *)filename;
 
 @property (readonly) NSString *filename;
-
-- (NSString *)version;
-- (void)setVersion:(NSString *)newVersion;
-
-- (NSDate *)modificationDate;
+@property (nonatomic, strong) NSString *version;
+@property (nonatomic, readonly) NSDate *modificationDate;
 
 - (void)loadDictionaryIfNecessary;
 - (BOOL)loadDictionary;
 
-- (void)_readSuffixesFromFile:(NSString *)aFilename;
-
-- (NSString *)lookupPronunciationForWord:(NSString *)aWord;
-- (NSString *)pronunciationForWord:(NSString *)aWord;
+- (NSString *)lookupPronunciationForWord:(NSString *)word;
+- (NSString *)pronunciationForWord:(NSString *)word;
 
 - (void)testString:(NSString *)str;
-
-- (NSString *)description;
 
 @end

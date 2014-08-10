@@ -45,54 +45,40 @@ NSString *TRMWaveFormTypeDescription(TRMWaveFormType type)
 
 @implementation TRMInputParameters
 {
-    TRMSoundFileFormat outputFileFormat;
-    float outputRate;
-    float controlRate;
+    TRMSoundFileFormat _outputFileFormat;
+    float _outputRate;
+    float _controlRate;
     
-    double volume;
-    NSUInteger channels;
-    double balance;
+    double _volume;
+    NSUInteger _channels;
+    double _balance;
     
-    TRMWaveFormType waveform;
-    double tp;
-    double tnMin;
-    double tnMax;
-    double breathiness;
+    TRMWaveFormType _waveform;
+    double _tp;
+    double _tnMin;
+    double _tnMax;
+    double _breathiness;
     
-    double length;
-    double temperature;
-    double lossFactor;
+    double _length;
+    double _temperature;
+    double _lossFactor;
     
-    double apScale;
-    double mouthCoef;
-    double noseCoef;
+    double _apScale;
+    double _mouthCoef;
+    double _noseCoef;
     
-    double noseRadius[TOTAL_NASAL_SECTIONS];
+    double _noseRadius[TOTAL_NASAL_SECTIONS];
     
-    double throatCutoff;
-    double throatVol;
+    double _throatCutoff;
+    double _throatVol;
     
-    int32_t modulation;
-    double mixOffset;
+    BOOL _usesModulation;
+    double _mixOffset;
 }
-
-@synthesize outputFileFormat, outputRate, controlRate;
-
-@synthesize volume, channels, balance;
-
-@synthesize waveform, tp, tnMin, tnMax, breathiness;
-
-@synthesize length, temperature, lossFactor;
-
-@synthesize apScale, mouthCoef, noseCoef;
 
 - (double *)noseRadius;
 {
-    return noseRadius;
+    return _noseRadius;
 }
-
-@synthesize throatCutoff, throatVol;
-
-@synthesize modulation, mixOffset;
 
 @end

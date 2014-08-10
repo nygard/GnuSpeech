@@ -39,10 +39,10 @@
         m_synthesizer = [[TRMSynthesizer alloc] init];
 	
         // Now get the model from the diphones XML file.
-        MDocument *document = [[[MDocument alloc] init] autorelease];
-        BOOL result = [document loadFromXMLFile:GNUSPEECH_SERVER_DIPHONES_XML_PATH];
-        if (result)
-            self.model = document.model;
+        MDocument *document = [[MDocument alloc] initWithXMLFile:GNUSPEECH_SERVER_DIPHONES_XML_PATH error:NULL];
+        if (document != nil) {
+            self.model = [document.model autorelease];
+        }
     }
 	
 	return self;

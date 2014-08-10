@@ -3,23 +3,19 @@
 
 #import "MMGroupedObject.h"
 
-#import "MMFRuleSymbols.h"
-
-@class MMFormulaNode;
+@class MMFormulaNode, MMFRuleSymbols;
 
 @interface MMEquation : MMGroupedObject
 
-@property (retain) MMFormulaNode *formula;
+@property (strong) MMFormulaNode *formula;
 
 - (void)setFormulaString:(NSString *)formulaString;
 
-- (double)evaluate:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag;
-- (double)evaluate:(MMFRuleSymbols *)ruleSymbols postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag;
+- (double)evaluateWithPhonesInArray:(NSArray *)phones ruleSymbols:(MMFRuleSymbols *)ruleSymbols andCacheWithTag:(NSUInteger)newCacheTag;
 - (double)cacheValue;
 
 - (NSString *)equationPath;
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 
 @end

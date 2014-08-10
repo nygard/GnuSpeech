@@ -5,10 +5,18 @@
 
 @implementation MMObject
 {
-    __weak MModel *nonretained_model;
+    __weak MModel *_model;
 }
 
-@synthesize model = nonretained_model;
+- (id)initWithXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    if ((self = [super init])) {
+    }
+
+    return self;
+}
+
+#pragma mark -
 
 - (NSUndoManager *)undoManager;
 {

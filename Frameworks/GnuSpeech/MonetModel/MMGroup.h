@@ -7,6 +7,8 @@
 
 @interface MMGroup : MMNamedObject
 
+- (id)initWithModel:(MModel *)model XMLElement:(NSXMLElement *)element error:(NSError **)error;
+
 @property (nonatomic, readonly) NSArray *objects;
 
 // These set the group (if possible) on objects added to the list
@@ -14,8 +16,5 @@
 - (id)objectWithName:(NSString *)name;
 
 - (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(NSUInteger)level;
-
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 
 @end

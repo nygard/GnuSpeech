@@ -19,7 +19,7 @@
 
 - (void)updateScale:(CGFloat)column;
 
-- (void)frameDidChange:(NSNotification *)aNotification;
+- (void)frameDidChange:(NSNotification *)notification;
 - (void)resetTrackingRect;
 
 - (CGFloat)scaledX:(CGFloat)x;

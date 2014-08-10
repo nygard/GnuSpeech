@@ -7,18 +7,27 @@
 #import "NSString-Extensions.h"
 
 #import "GSXMLFunctions.h"
-#import "MXMLParser.h"
-#import "MXMLPCDataDelegate.h"
 
 @implementation MMCategory
 {
-    BOOL m_isNative;
+    BOOL _isNative;
 }
 
 - (id)init;
 {
     if ((self = [super init])) {
-        m_isNative = NO;
+        _isNative = NO;
+    }
+
+    return self;
+}
+
+- (id)initWithXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    NSParameterAssert([@"category" isEqualToString:element.name]);
+
+    if ((self = [super initWithXMLElement:element error:error])) {
+        _isNative = NO;
     }
 
     return self;
@@ -34,8 +43,6 @@
 }
 
 #pragma mark -
-
-@synthesize isNative = m_isNative;
 
 - (NSComparisonResult)compareByAscendingName:(MMCategory *)other;
 {
@@ -58,14 +65,6 @@
         [resultString indentToLevel:level];
         [resultString appendString:@"</category>\n"];
     }
-}
-
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
-{
-    if ([elementName isEqualToString:@"category"])
-        [(MXMLParser *)parser popDelegate];
-    else
-        [NSException raise:@"Unknown close tag" format:@"Unknown closing tag (%@) in %@", elementName, NSStringFromClass([self class])];
 }
 
 @end

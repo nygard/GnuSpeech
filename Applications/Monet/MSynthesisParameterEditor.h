@@ -7,9 +7,9 @@
 
 @interface MSynthesisParameterEditor : MWindowController
 
-- (id)initWithModel:(MModel *)aModel;
+- (id)initWithModel:(MModel *)model;
 
-@property (nonatomic, retain) MModel *model;
+@property (nonatomic, strong) MModel *model;
 
 - (NSUndoManager *)undoManager;
 

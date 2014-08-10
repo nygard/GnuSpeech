@@ -16,8 +16,6 @@
         NSMutableCharacterSet *aSet = [[NSCharacterSet letterCharacterSet] mutableCopy];
         [aSet addCharactersInString:@"'"];
         identifierCharacterSet = [aSet copy];
-
-        [aSet release];
     }
 
     return identifierCharacterSet;

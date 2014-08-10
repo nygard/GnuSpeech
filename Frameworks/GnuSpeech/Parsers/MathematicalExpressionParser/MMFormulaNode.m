@@ -9,26 +9,32 @@
 
 - (NSUInteger)precedence;
 {
-    // Implement in subclasses
+    // Implement in subclasses.
     return 0;
 }
 
-- (double)evaluate:(MMFRuleSymbols *)ruleSymbols postures:(NSArray *)postures;
+- (double)evaluateWithPhonesInArray:(NSArray *)phones ruleSymbols:(MMFRuleSymbols *)ruleSymbols;
 {
-    double tempos[4] = {1.0, 1.0, 1.0, 1.0};
-
-    return [self evaluate:ruleSymbols postures:postures tempos:tempos];
-}
-
-- (double)evaluate:(MMFRuleSymbols *)ruleSymbols postures:(NSArray *)postures tempos:(double *)tempos;
-{
-    // Implement in subclasses
+    // Implement in subclasses.
     return 0;
 }
+
+//- (double)evaluate:(MMFRuleSymbols *)ruleSymbols postures:(NSArray *)postures;
+//{
+//    double tempos[4] = {1.0, 1.0, 1.0, 1.0};
+//
+//    return [self evaluate:ruleSymbols postures:postures tempos:tempos];
+//}
+//
+//- (double)evaluate:(MMFRuleSymbols *)ruleSymbols postures:(NSArray *)postures tempos:(double *)tempos;
+//{
+//    // Implement in subclasses.
+//    return 0;
+//}
 
 - (NSInteger)maxPhone;
 {
-    // Implement in subclasses
+    // Implement in subclasses.
     return 0;
 }
 
@@ -44,7 +50,7 @@
 
 - (void)appendExpressionToString:(NSMutableString *)resultString;
 {
-    // Implement in subclasses
+    // Implement in subclasses.
 }
 
 @end

@@ -15,19 +15,19 @@
 
 @implementation STLogger
 {
-    NSFileHandle *m_outputFileHandle;
-    NSString *m_linePrefix;
-    NSString *m_lineSuffix;
-    NSMutableArray *m_indentations;
-    BOOL m_shouldCloseFile;
+    NSFileHandle *_outputFileHandle;
+    NSString *_linePrefix;
+    NSString *_lineSuffix;
+    NSMutableArray *_indentations;
+    BOOL _shouldCloseFile;
 }
 
 - (id)init;
 {
     if ((self = [super init])) {
-        m_outputFileHandle = [NSFileHandle fileHandleWithStandardOutput];
-        m_indentations = [[NSMutableArray alloc] init];
-        m_shouldCloseFile = NO;
+        _outputFileHandle = [NSFileHandle fileHandleWithStandardOutput];
+        _indentations = [[NSMutableArray alloc] init];
+        _shouldCloseFile = NO;
     }
     
     return self;
@@ -41,8 +41,8 @@
             if (error != NULL) *error = [NSError errorWithDomain:NSPOSIXErrorDomain code:errno userInfo:nil];
             return nil;
         } else {
-            self.outputFileHandle = [[[NSFileHandle alloc] initWithFileDescriptor:fd closeOnDealloc:YES] autorelease];
-            m_shouldCloseFile = YES;
+            self.outputFileHandle = [[NSFileHandle alloc] initWithFileDescriptor:fd closeOnDealloc:YES];
+            _shouldCloseFile = YES;
         }
     }
     
@@ -51,22 +51,10 @@
 
 - (void)dealloc;
 {
-    if (m_shouldCloseFile) [m_outputFileHandle closeFile];
-    [m_outputFileHandle release];
-    [m_linePrefix release];
-    [m_lineSuffix release];
-    [m_indentations release];
-    
-    [super dealloc];
+    if (_shouldCloseFile) [_outputFileHandle closeFile];
 }
 
 #pragma mark -
-
-@synthesize outputFileHandle = m_outputFileHandle;
-@synthesize linePrefix = m_linePrefix;
-@synthesize lineSuffix = m_lineSuffix;
-@synthesize indentations = m_indentations;
-@synthesize shouldCloseFile = m_shouldCloseFile;
 
 - (void)log:(NSString *)format, ...;
 {
@@ -74,7 +62,7 @@
         va_list argList;
         
         va_start(argList, format);
-        NSString *string = [[[NSString alloc] initWithFormat:format arguments:argList] autorelease];
+        NSString *string = [[NSString alloc] initWithFormat:format arguments:argList];
         va_end(argList);
 
         if (self.linePrefix != nil && [string length] > 0) [self.outputFileHandle writeData:[self.linePrefix dataUsingEncoding:NSUTF8StringEncoding]];

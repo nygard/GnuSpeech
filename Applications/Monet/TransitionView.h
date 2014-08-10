@@ -8,11 +8,11 @@
 @class TransitionView;
 
 @protocol TransitionViewNotifications
-- (void)transitionViewSelectionDidChange:(NSNotification *)aNotification;
+- (void)transitionViewSelectionDidChange:(NSNotification *)notification;
 @end
 
 @protocol TransitionViewDelegate
-- (BOOL)transitionView:(TransitionView *)aTransitionView shouldAddPoint:(MMPoint *)aPoint;
+- (BOOL)transitionView:(TransitionView *)transitionView shouldAddPoint:(MMPoint *)point;
 @end
 
 extern NSString *TransitionViewSelectionDidChangeNotification;
@@ -25,13 +25,13 @@ extern NSString *TransitionViewSelectionDidChangeNotification;
 @property (readonly) NSFont *timesFont;
 @property (nonatomic, assign) NSInteger zeroIndex;
 @property (nonatomic, assign) NSInteger sectionAmount;
-@property (readonly) NSMutableArray *samplePostures;
+@property (readonly) NSMutableArray *samplePhones;
 @property (readonly) NSMutableArray *displayPoints;
 @property (readonly) NSMutableArray *displaySlopes;
 @property (readonly) NSMutableArray *selectedPoints;
 @property (nonatomic, readonly) MMFRuleSymbols *parameters;
 
-@property (nonatomic, retain) MModel *model;
+@property (nonatomic, strong) MModel *model;
 
 - (void)_updateFromModel;
 - (void)updateTransitionType;
@@ -51,7 +51,7 @@ extern NSString *TransitionViewSelectionDidChangeNotification;
 @property (assign) BOOL shouldDrawSelection;
 @property (assign) BOOL shouldDrawSlopes;
 
-@property (assign) id delegate;
+@property (weak) IBOutlet id delegate;
 
 // Drawing
 - (void)drawRect:(NSRect)rect;
@@ -66,11 +66,11 @@ extern NSString *TransitionViewSelectionDidChangeNotification;
 
 // Event handling
 - (BOOL)acceptsFirstResponder;
-- (BOOL)acceptsFirstMouse:(NSEvent *)theEvent;
-- (void)mouseDown:(NSEvent *)mouseEvent;
-- (void)mouseDragged:(NSEvent *)mouseEvent;
-- (void)mouseUp:(NSEvent *)mouseEvent;
-- (void)keyDown:(NSEvent *)keyEvent;
+- (BOOL)acceptsFirstMouse:(NSEvent *)event;
+- (void)mouseDown:(NSEvent *)event;
+- (void)mouseDragged:(NSEvent *)event;
+- (void)mouseUp:(NSEvent *)event;
+- (void)keyDown:(NSEvent *)event;
 
 // View geometry
 - (CGFloat)sectionHeight;
@@ -83,8 +83,8 @@ extern NSString *TransitionViewSelectionDidChangeNotification;
 // Slopes
 - (void)drawSlopes;
 - (void)_setEditingSlope:(MMSlope *)newSlope;
-- (void)editSlope:(MMSlope *)aSlope startTime:(CGFloat)startTime endTime:(CGFloat)endTime;
-- (MMSlope *)getSlopeMarkerAtPoint:(NSPoint)aPoint startTime:(CGFloat *)startTime endTime:(CGFloat *)endTime;
+- (void)editSlope:(MMSlope *)slope startTime:(CGFloat)startTime endTime:(CGFloat)endTime;
+- (MMSlope *)getSlopeMarkerAtPoint:(NSPoint)point startTime:(CGFloat *)startTime endTime:(CGFloat *)endTime;
 
 // NSTextView delegate method, used for editing slopes
 - (void)textDidEndEditing:(NSNotification *)notification;

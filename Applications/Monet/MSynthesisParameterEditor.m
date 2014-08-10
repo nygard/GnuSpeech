@@ -10,69 +10,69 @@
 @implementation MSynthesisParameterEditor
 {
     // General
-    IBOutlet NSTextField *masterVolume;
-    IBOutlet NSTextField *length;
-    IBOutlet NSTextField *temperature;
-    IBOutlet NSTextField *balance;
-    IBOutlet NSTextField *breathiness;
-    IBOutlet NSTextField *lossFactor;
-    IBOutlet NSTextField *pitchMean;
-    
-    IBOutlet NSSlider *masterVolumeSlider;
-    IBOutlet NSSlider *lengthSlider;
-    IBOutlet NSSlider *temperatureSlider;
-    IBOutlet NSSlider *balanceSlider;
-    IBOutlet NSSlider *breathinessSlider;
-    IBOutlet NSSlider *lossFactorSlider;
-    IBOutlet NSSlider *pitchMeanSlider;
-    
+    IBOutlet NSTextField *_masterVolume;
+    IBOutlet NSTextField *_length;
+    IBOutlet NSTextField *_temperature;
+    IBOutlet NSTextField *_balance;
+    IBOutlet NSTextField *_breathiness;
+    IBOutlet NSTextField *_lossFactor;
+    IBOutlet NSTextField *_pitchMean;
+
+    IBOutlet NSSlider *_masterVolumeSlider;
+    IBOutlet NSSlider *_lengthSlider;
+    IBOutlet NSSlider *_temperatureSlider;
+    IBOutlet NSSlider *_balanceSlider;
+    IBOutlet NSSlider *_breathinessSlider;
+    IBOutlet NSSlider *_lossFactorSlider;
+    IBOutlet NSSlider *_pitchMeanSlider;
+
     // Nasal Cavity
-    IBOutlet NSTextField *n1;
-    IBOutlet NSTextField *n2;
-    IBOutlet NSTextField *n3;
-    IBOutlet NSTextField *n4;
-    IBOutlet NSTextField *n5;
-    
-    IBOutlet NSSlider *n1Slider;
-    IBOutlet NSSlider *n2Slider;
-    IBOutlet NSSlider *n3Slider;
-    IBOutlet NSSlider *n4Slider;
-    IBOutlet NSSlider *n5Slider;
-    
-    IBOutlet NSTextField *tp;
-    IBOutlet NSTextField *tnMin;
-    IBOutlet NSTextField *tnMax;
-    IBOutlet NSMatrix *waveform;
-    
-    IBOutlet NSSlider *tpSlider;
-    IBOutlet NSSlider *tnMinSlider;
-    IBOutlet NSSlider *tnMaxSlider;
-    
-    IBOutlet NSTextField *throatCutoff;
-    IBOutlet NSTextField *throatVolume;
-    IBOutlet NSTextField *apScale;
-    IBOutlet NSTextField *mouthCoef;
-    IBOutlet NSTextField *noseCoef;
-    IBOutlet NSTextField *mixOffset;
-    IBOutlet NSMatrix *modulation;
-    
-    IBOutlet NSSlider *throatCutoffSlider;
-    IBOutlet NSSlider *throatVolumeSlider;
-    IBOutlet NSSlider *apScaleSlider;
-    IBOutlet NSSlider *mouthCoefSlider;
-    IBOutlet NSSlider *noseCoefSlider;
-    IBOutlet NSSlider *mixOffsetSlider;
-    
-    IBOutlet NSMatrix *stereoMono;
-    IBOutlet NSMatrix *samplingRate;
-    
-    MModel *model;
+    IBOutlet NSTextField *_n1;
+    IBOutlet NSTextField *_n2;
+    IBOutlet NSTextField *_n3;
+    IBOutlet NSTextField *_n4;
+    IBOutlet NSTextField *_n5;
+
+    IBOutlet NSSlider *_n1Slider;
+    IBOutlet NSSlider *_n2Slider;
+    IBOutlet NSSlider *_n3Slider;
+    IBOutlet NSSlider *_n4Slider;
+    IBOutlet NSSlider *_n5Slider;
+
+    IBOutlet NSTextField *_tp;
+    IBOutlet NSTextField *_tnMin;
+    IBOutlet NSTextField *_tnMax;
+    IBOutlet NSMatrix *_waveform;
+
+    IBOutlet NSSlider *_tpSlider;
+    IBOutlet NSSlider *_tnMinSlider;
+    IBOutlet NSSlider *_tnMaxSlider;
+
+    IBOutlet NSTextField *_throatCutoff;
+    IBOutlet NSTextField *_throatVolume;
+    IBOutlet NSTextField *_apScale;
+    IBOutlet NSTextField *_mouthCoef;
+    IBOutlet NSTextField *_noseCoef;
+    IBOutlet NSTextField *_mixOffset;
+    IBOutlet NSMatrix *_modulation;
+
+    IBOutlet NSSlider *_throatCutoffSlider;
+    IBOutlet NSSlider *_throatVolumeSlider;
+    IBOutlet NSSlider *_apScaleSlider;
+    IBOutlet NSSlider *_mouthCoefSlider;
+    IBOutlet NSSlider *_noseCoefSlider;
+    IBOutlet NSSlider *_mixOffsetSlider;
+
+    IBOutlet NSMatrix *_stereoMono;
+    IBOutlet NSMatrix *_samplingRate;
+
+    MModel *_model;
 }
 
-- (id)initWithModel:(MModel *)aModel;
+- (id)initWithModel:(MModel *)model;
 {
     if ((self = [super initWithWindowNibName:@"SynthesisParameters"])) {
-        model = [aModel retain];
+        _model = model;
 
         [self setWindowFrameAutosaveName:@"Synthesis Parameters"];
     }
@@ -80,25 +80,17 @@
     return self;
 }
 
-- (void)dealloc;
-{
-    [model release];
-
-    [super dealloc];
-}
-
 #pragma mark -
 
 - (MModel *)model;
 {
-    return model;
+    return _model;
 }
 
 - (void)setModel:(MModel *)newModel;
 {
-    if (newModel != model) {
-        [model release];
-        model = [newModel retain];
+    if (newModel != _model) {
+        _model = newModel;
 
         [self updateViews];
     }
@@ -113,27 +105,27 @@
 {
     NSNumberFormatter *defaultNumberFormatter = [NSNumberFormatter defaultNumberFormatter];
 
-    [masterVolume setFormatter:defaultNumberFormatter];
-    [length       setFormatter:defaultNumberFormatter];
-    [temperature  setFormatter:defaultNumberFormatter];
-    [balance      setFormatter:defaultNumberFormatter];
-    [breathiness  setFormatter:defaultNumberFormatter];
-    [lossFactor   setFormatter:defaultNumberFormatter];
-    [pitchMean    setFormatter:defaultNumberFormatter];
-    [n1           setFormatter:defaultNumberFormatter];
-    [n2           setFormatter:defaultNumberFormatter];
-    [n3           setFormatter:defaultNumberFormatter];
-    [n4           setFormatter:defaultNumberFormatter];
-    [n5           setFormatter:defaultNumberFormatter];
-    [tp           setFormatter:defaultNumberFormatter];
-    [tnMin        setFormatter:defaultNumberFormatter];
-    [tnMax        setFormatter:defaultNumberFormatter];
-    [throatCutoff setFormatter:defaultNumberFormatter];
-    [throatVolume setFormatter:defaultNumberFormatter];
-    [apScale      setFormatter:defaultNumberFormatter];
-    [mouthCoef    setFormatter:defaultNumberFormatter];
-    [noseCoef     setFormatter:defaultNumberFormatter];
-    [mixOffset    setFormatter:defaultNumberFormatter];
+    [_masterVolume setFormatter:defaultNumberFormatter];
+    [_length       setFormatter:defaultNumberFormatter];
+    [_temperature  setFormatter:defaultNumberFormatter];
+    [_balance      setFormatter:defaultNumberFormatter];
+    [_breathiness  setFormatter:defaultNumberFormatter];
+    [_lossFactor   setFormatter:defaultNumberFormatter];
+    [_pitchMean    setFormatter:defaultNumberFormatter];
+    [_n1           setFormatter:defaultNumberFormatter];
+    [_n2           setFormatter:defaultNumberFormatter];
+    [_n3           setFormatter:defaultNumberFormatter];
+    [_n4           setFormatter:defaultNumberFormatter];
+    [_n5           setFormatter:defaultNumberFormatter];
+    [_tp           setFormatter:defaultNumberFormatter];
+    [_tnMin        setFormatter:defaultNumberFormatter];
+    [_tnMax        setFormatter:defaultNumberFormatter];
+    [_throatCutoff setFormatter:defaultNumberFormatter];
+    [_throatVolume setFormatter:defaultNumberFormatter];
+    [_apScale      setFormatter:defaultNumberFormatter];
+    [_mouthCoef    setFormatter:defaultNumberFormatter];
+    [_noseCoef     setFormatter:defaultNumberFormatter];
+    [_mixOffset    setFormatter:defaultNumberFormatter];
 
     [self updateViews];
 }
@@ -142,75 +134,75 @@
 {
     MMSynthesisParameters *synthesisParameters = [[self model] synthesisParameters];
 
-    [masterVolume setDoubleValue:[synthesisParameters masterVolume]];
-    [length       setDoubleValue:[synthesisParameters vocalTractLength]];
-    [temperature  setDoubleValue:[synthesisParameters temperature]];
-    [balance      setDoubleValue:[synthesisParameters balance]];
-    [breathiness  setDoubleValue:[synthesisParameters breathiness]];
-    [lossFactor   setDoubleValue:[synthesisParameters lossFactor]];
-    [pitchMean    setDoubleValue:[synthesisParameters pitch]];
+    [_masterVolume setDoubleValue:[synthesisParameters masterVolume]];
+    [_length       setDoubleValue:[synthesisParameters vocalTractLength]];
+    [_temperature  setDoubleValue:[synthesisParameters temperature]];
+    [_balance      setDoubleValue:[synthesisParameters balance]];
+    [_breathiness  setDoubleValue:[synthesisParameters breathiness]];
+    [_lossFactor   setDoubleValue:[synthesisParameters lossFactor]];
+    [_pitchMean    setDoubleValue:[synthesisParameters pitch]];
 
-    [masterVolumeSlider setDoubleValue:[synthesisParameters masterVolume]];
-    [lengthSlider       setDoubleValue:[synthesisParameters vocalTractLength]];
-    [temperatureSlider  setDoubleValue:[synthesisParameters temperature]];
-    [balanceSlider      setDoubleValue:[synthesisParameters balance]];
-    [breathinessSlider  setDoubleValue:[synthesisParameters breathiness]];
-    [lossFactorSlider   setDoubleValue:[synthesisParameters lossFactor]];
-    [pitchMeanSlider    setDoubleValue:[synthesisParameters pitch]];
+    [_masterVolumeSlider setDoubleValue:[synthesisParameters masterVolume]];
+    [_lengthSlider       setDoubleValue:[synthesisParameters vocalTractLength]];
+    [_temperatureSlider  setDoubleValue:[synthesisParameters temperature]];
+    [_balanceSlider      setDoubleValue:[synthesisParameters balance]];
+    [_breathinessSlider  setDoubleValue:[synthesisParameters breathiness]];
+    [_lossFactorSlider   setDoubleValue:[synthesisParameters lossFactor]];
+    [_pitchMeanSlider    setDoubleValue:[synthesisParameters pitch]];
 
-    [n1 setDoubleValue:[synthesisParameters n1]];
-    [n2 setDoubleValue:[synthesisParameters n2]];
-    [n3 setDoubleValue:[synthesisParameters n3]];
-    [n4 setDoubleValue:[synthesisParameters n4]];
-    [n5 setDoubleValue:[synthesisParameters n5]];
+    [_n1 setDoubleValue:[synthesisParameters n1]];
+    [_n2 setDoubleValue:[synthesisParameters n2]];
+    [_n3 setDoubleValue:[synthesisParameters n3]];
+    [_n4 setDoubleValue:[synthesisParameters n4]];
+    [_n5 setDoubleValue:[synthesisParameters n5]];
 
-    [n1Slider setDoubleValue:[synthesisParameters n1]];
-    [n2Slider setDoubleValue:[synthesisParameters n2]];
-    [n3Slider setDoubleValue:[synthesisParameters n3]];
-    [n4Slider setDoubleValue:[synthesisParameters n4]];
-    [n5Slider setDoubleValue:[synthesisParameters n5]];
+    [_n1Slider setDoubleValue:[synthesisParameters n1]];
+    [_n2Slider setDoubleValue:[synthesisParameters n2]];
+    [_n3Slider setDoubleValue:[synthesisParameters n3]];
+    [_n4Slider setDoubleValue:[synthesisParameters n4]];
+    [_n5Slider setDoubleValue:[synthesisParameters n5]];
 
-    [tp    setDoubleValue:[synthesisParameters tp]];
-    [tnMin setDoubleValue:[synthesisParameters tnMin]];
-    [tnMax setDoubleValue:[synthesisParameters tnMax]];
+    [_tp    setDoubleValue:[synthesisParameters tp]];
+    [_tnMin setDoubleValue:[synthesisParameters tnMin]];
+    [_tnMax setDoubleValue:[synthesisParameters tnMax]];
 
-    [tpSlider    setDoubleValue:[synthesisParameters tp]];
-    [tnMinSlider setDoubleValue:[synthesisParameters tnMin]];
-    [tnMaxSlider setDoubleValue:[synthesisParameters tnMax]];
+    [_tpSlider    setDoubleValue:[synthesisParameters tp]];
+    [_tnMinSlider setDoubleValue:[synthesisParameters tnMin]];
+    [_tnMaxSlider setDoubleValue:[synthesisParameters tnMax]];
 
-    [throatCutoff setDoubleValue:[synthesisParameters throatCutoff]];
-    [throatVolume setDoubleValue:[synthesisParameters throatVolume]];
-    [apScale      setDoubleValue:[synthesisParameters apertureScaling]];
-    [mouthCoef    setDoubleValue:[synthesisParameters mouthCoef]];
-    [noseCoef     setDoubleValue:[synthesisParameters noseCoef]];
-    [mixOffset    setDoubleValue:[synthesisParameters mixOffset]];
+    [_throatCutoff setDoubleValue:[synthesisParameters throatCutoff]];
+    [_throatVolume setDoubleValue:[synthesisParameters throatVolume]];
+    [_apScale      setDoubleValue:[synthesisParameters apertureScaling]];
+    [_mouthCoef    setDoubleValue:[synthesisParameters mouthCoef]];
+    [_noseCoef     setDoubleValue:[synthesisParameters noseCoef]];
+    [_mixOffset    setDoubleValue:[synthesisParameters mixOffset]];
 
-    [throatCutoffSlider setDoubleValue:[synthesisParameters throatCutoff]];
-    [throatVolumeSlider setDoubleValue:[synthesisParameters throatVolume]];
-    [apScaleSlider      setDoubleValue:[synthesisParameters apertureScaling]];
-    [mouthCoefSlider    setDoubleValue:[synthesisParameters mouthCoef]];
-    [noseCoefSlider     setDoubleValue:[synthesisParameters noseCoef]];
-    [mixOffsetSlider    setDoubleValue:[synthesisParameters mixOffset]];
+    [_throatCutoffSlider setDoubleValue:[synthesisParameters throatCutoff]];
+    [_throatVolumeSlider setDoubleValue:[synthesisParameters throatVolume]];
+    [_apScaleSlider      setDoubleValue:[synthesisParameters apertureScaling]];
+    [_mouthCoefSlider    setDoubleValue:[synthesisParameters mouthCoef]];
+    [_noseCoefSlider     setDoubleValue:[synthesisParameters noseCoef]];
+    [_mixOffsetSlider    setDoubleValue:[synthesisParameters mixOffset]];
 
     if ([synthesisParameters shouldUseNoiseModulation] == YES)
-        [modulation selectCellAtRow:0 column:1];
+        [_modulation selectCellAtRow:0 column:1];
     else
-        [modulation selectCellAtRow:0 column:0];
+        [_modulation selectCellAtRow:0 column:0];
 
     if ([synthesisParameters glottalPulseShape] == MMGlottalPulseShape_Pulse)
-        [waveform selectCellAtRow:0 column:0];
+        [_waveform selectCellAtRow:0 column:0];
     else
-        [waveform selectCellAtRow:0 column:1];
+        [_waveform selectCellAtRow:0 column:1];
 
     if ([synthesisParameters outputChannels] == MMChannels_Mono)
-        [stereoMono selectCellAtRow:0 column:0];
+        [_stereoMono selectCellAtRow:0 column:0];
     else
-        [stereoMono selectCellAtRow:0 column:1];
+        [_stereoMono selectCellAtRow:0 column:1];
 
     if ([synthesisParameters samplingRate] == MMSamplingRate_22050)
-        [samplingRate selectCellAtRow:0 column:0];
+        [_samplingRate selectCellAtRow:0 column:0];
     else
-        [samplingRate selectCellAtRow:0 column:1];
+        [_samplingRate selectCellAtRow:0 column:1];
 }
 
 - (IBAction)revertToDefaults:(id)sender;
@@ -228,168 +220,168 @@
 {
     double value = [sender doubleValue];
     [[[self model] synthesisParameters] setMasterVolume:value];
-    [masterVolume setDoubleValue:value];
-    [masterVolumeSlider setDoubleValue:value];
+    [_masterVolume setDoubleValue:value];
+    [_masterVolumeSlider setDoubleValue:value];
 }
 
 - (IBAction)updateTubeLength:(id)sender;
 {
     double value = [sender doubleValue];
     [[[self model] synthesisParameters] setVocalTractLength:value];
-    [length setDoubleValue:value];
-    [lengthSlider setDoubleValue:value];
+    [_length setDoubleValue:value];
+    [_lengthSlider setDoubleValue:value];
 }
 
 - (IBAction)updateTemperature:(id)sender;
 {
     double value = [sender doubleValue];
     [[[self model] synthesisParameters] setTemperature:value];
-    [temperature setDoubleValue:value];
-    [temperatureSlider setDoubleValue:value];
+    [_temperature setDoubleValue:value];
+    [_temperatureSlider setDoubleValue:value];
 }
 
 - (IBAction)updateBalance:(id)sender;
 {
     double value = [sender doubleValue];
     [[[self model] synthesisParameters] setBalance:value];
-    [balance setDoubleValue:value];
-    [balanceSlider setDoubleValue:value];
+    [_balance setDoubleValue:value];
+    [_balanceSlider setDoubleValue:value];
 }
 
 - (IBAction)updateBreathiness:(id)sender;
 {
     double value = [sender doubleValue];
     [[[self model] synthesisParameters] setBreathiness:value];
-    [breathiness setDoubleValue:value];
-    [breathinessSlider setDoubleValue:value];
+    [_breathiness setDoubleValue:value];
+    [_breathinessSlider setDoubleValue:value];
 }
 
 - (IBAction)updateLossFactor:(id)sender;
 {
     double value = [sender doubleValue];
     [[[self model] synthesisParameters] setLossFactor:value];
-    [lossFactor setDoubleValue:value];
-    [lossFactorSlider setDoubleValue:value];
+    [_lossFactor setDoubleValue:value];
+    [_lossFactorSlider setDoubleValue:value];
 }
 
 - (IBAction)updatePitchMean:(id)sender;
 {
     double value = [sender doubleValue];
     [[[self model] synthesisParameters] setPitch:value];
-    [pitchMean setDoubleValue:value];
-    [pitchMeanSlider setDoubleValue:value];
+    [_pitchMean setDoubleValue:value];
+    [_pitchMeanSlider setDoubleValue:value];
 }
 
 - (IBAction)updateThroatCutoff:(id)sender;
 {
     double value = [sender doubleValue];
     [[[self model] synthesisParameters] setThroatCutoff:value];
-    [throatCutoff setDoubleValue:value];
-    [throatCutoffSlider setDoubleValue:value];
+    [_throatCutoff setDoubleValue:value];
+    [_throatCutoffSlider setDoubleValue:value];
 }
 
 - (IBAction)updateThroatVolume:(id)sender;
 {
     double value = [sender doubleValue];
     [[[self model] synthesisParameters] setThroatVolume:value];
-    [throatVolume setDoubleValue:value];
-    [throatVolumeSlider setDoubleValue:value];
+    [_throatVolume setDoubleValue:value];
+    [_throatVolumeSlider setDoubleValue:value];
 }
 
 - (IBAction)updateAperatureScaling:(id)sender;
 {
     double value = [sender doubleValue];
     [[[self model] synthesisParameters] setApertureScaling:value];
-    [apScale setDoubleValue:value];
-    [apScaleSlider setDoubleValue:value];
+    [_apScale setDoubleValue:value];
+    [_apScaleSlider setDoubleValue:value];
 }
 
 - (IBAction)updateMouthCoef:(id)sender;
 {
     double value = [sender doubleValue];
     [[[self model] synthesisParameters] setMouthCoef:value];
-    [mouthCoef setDoubleValue:value];
-    [mouthCoefSlider setDoubleValue:value];
+    [_mouthCoef setDoubleValue:value];
+    [_mouthCoefSlider setDoubleValue:value];
 }
 
 - (IBAction)updateNoseCoef:(id)sender;
 {
     double value = [sender doubleValue];
     [[[self model] synthesisParameters] setNoseCoef:value];
-    [noseCoef setDoubleValue:value];
-    [noseCoefSlider setDoubleValue:value];
+    [_noseCoef setDoubleValue:value];
+    [_noseCoefSlider setDoubleValue:value];
 }
 
 - (IBAction)updateMixOffset:(id)sender;
 {
     double value = [sender doubleValue];
     [[[self model] synthesisParameters] setMixOffset:value];
-    [mixOffset setDoubleValue:value];
-    [mixOffsetSlider setDoubleValue:value];
+    [_mixOffset setDoubleValue:value];
+    [_mixOffsetSlider setDoubleValue:value];
 }
 
 - (IBAction)updateN1:(id)sender;
 {
     double value = [sender doubleValue];
     [[[self model] synthesisParameters] setN1:value];
-    [n1 setDoubleValue:value];
-    [n1Slider setDoubleValue:value];
+    [_n1 setDoubleValue:value];
+    [_n1Slider setDoubleValue:value];
 }
 
 - (IBAction)updateN2:(id)sender;
 {
     double value = [sender doubleValue];
     [[[self model] synthesisParameters] setN2:value];
-    [n2 setDoubleValue:value];
-    [n2Slider setDoubleValue:value];
+    [_n2 setDoubleValue:value];
+    [_n2Slider setDoubleValue:value];
 }
 
 - (IBAction)updateN3:(id)sender;
 {
     double value = [sender doubleValue];
     [[[self model] synthesisParameters] setN3:value];
-    [n3 setDoubleValue:value];
-    [n3Slider setDoubleValue:value];
+    [_n3 setDoubleValue:value];
+    [_n3Slider setDoubleValue:value];
 }
 
 - (IBAction)updateN4:(id)sender;
 {
     double value = [sender doubleValue];
     [[[self model] synthesisParameters] setN4:value];
-    [n4 setDoubleValue:value];
-    [n4Slider setDoubleValue:value];
+    [_n4 setDoubleValue:value];
+    [_n4Slider setDoubleValue:value];
 }
 
 - (IBAction)updateN5:(id)sender;
 {
     double value = [sender doubleValue];
     [[[self model] synthesisParameters] setN5:value];
-    [n5 setDoubleValue:value];
-    [n5Slider setDoubleValue:value];
+    [_n5 setDoubleValue:value];
+    [_n5Slider setDoubleValue:value];
 }
 
 - (IBAction)updateTp:(id)sender;
 {
     double value = [sender doubleValue];
     [[[self model] synthesisParameters] setTp:value];
-    [tp setDoubleValue:value];
-    [tpSlider setDoubleValue:value];
+    [_tp setDoubleValue:value];
+    [_tpSlider setDoubleValue:value];
 }
 
 - (IBAction)updateTnMin:(id)sender;
 {
     double value = [sender doubleValue];
     [[[self model] synthesisParameters] setTnMin:value];
-    [tnMin setDoubleValue:value];
-    [tnMinSlider setDoubleValue:value];
+    [_tnMin setDoubleValue:value];
+    [_tnMinSlider setDoubleValue:value];
 }
 
 - (IBAction)updateTnMax:(id)sender;
 {
     double value = [sender doubleValue];
     [[[self model] synthesisParameters] setTnMax:value];
-    [tnMax setDoubleValue:value];
-    [tnMaxSlider setDoubleValue:value];
+    [_tnMax setDoubleValue:value];
+    [_tnMaxSlider setDoubleValue:value];
 }
 
 #pragma mark -

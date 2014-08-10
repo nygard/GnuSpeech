@@ -85,70 +85,70 @@
 @implementation TRMData
 {
     // Glottal source parameters
-    int32_t waveform;
-    int32_t showAmplitude;
-    int32_t harmonicsScale;
-    int32_t unit;
-    int32_t pitch;
-    int32_t cents;
-    float breathiness;
-    int32_t glotVol;
-    float tp;
-    float tnMin;
-    float tnMax;
-	
+    int32_t _waveform;
+    int32_t _showAmplitude;
+    int32_t _harmonicsScale;
+    int32_t _unit;
+    int32_t _pitch;
+    int32_t _cents;
+    float _breathiness;
+    int32_t _glotVol;
+    float _tp;
+    float _tnMin;
+    float _tnMax;
+
     // Noise source parameters
-    int32_t fricVol;
-    float fricPos;
-    int32_t fricCF;
-    int32_t fricBW;
-    int32_t NoiseSourceResponseScale;
-    int32_t aspVol;
-    int32_t modulation;
-    int32_t mixOffset;
-	
+    int32_t _fricVol;
+    float _fricPos;
+    int32_t _fricCF;
+    int32_t _fricBW;
+    int32_t _NoiseSourceResponseScale;
+    int32_t _aspVol;
+    int32_t _modulation;
+    int32_t _mixOffset;
+
     // Throat parameters
-    int32_t throatVol;
-    int32_t throatCutoff;
-    int32_t throatResponseScale;
-	
+    int32_t _throatVol;
+    int32_t _throatCutoff;
+    int32_t _throatResponseScale;
+
     // Resonant system parameters
-    double pharynxDiameter[PHARYNX_SECTIONS];
-    double velumDiameter[VELUM_SECTIONS];
-    double oralDiameter[ORAL_SECTIONS];
-    double nasalDiameter[NASAL_SECTIONS];
-    double lossFactor;
-    double apScale;
-    double mouthCoef;
-    double noseCoef;
-    int32_t mouthResponseScale;
-    int32_t noseResponseScale;
-    double temperature;
-    double length;
-    double sampleRate;
-    double actualLength;
-    int32_t controlPeriod;
-	
+    double _pharynxDiameter[PHARYNX_SECTIONS];
+    double _velumDiameter[VELUM_SECTIONS];
+    double _oralDiameter[ORAL_SECTIONS];
+    double _nasalDiameter[NASAL_SECTIONS];
+    double _lossFactor;
+    double _apScale;
+    double _mouthCoef;
+    double _noseCoef;
+    int32_t _mouthResponseScale;
+    int32_t _noseResponseScale;
+    double _temperature;
+    double _length;
+    double _sampleRate;
+    double _actualLength;
+    int32_t _controlPeriod;
+
     // Controller parameters
-    int32_t volume;
-    double balance;
-    int32_t channels;
-    int32_t controlRate;
-	
+    int32_t _volume;
+    double _balance;
+    int32_t _channels;
+    int32_t _controlRate;
+
     // analysis parameters
-    BOOL normalizeInput;
-    int32_t binSize;
-    int32_t windowType;
-    float alpha;
-    float beta;
-    int32_t grayLevel;
-    int32_t magnitudeScale;
-    float linearUpperThreshold;
-    float linearLowerThreshold;
-    int32_t logUpperThreshold;
-    int32_t logLowerThreshold;
-    BOOL spectrographGrid;
-    BOOL spectrumGrid;
+    BOOL _normalizeInput;
+    int32_t _binSize;
+    int32_t _windowType;
+    float _alpha;
+    float _beta;
+    int32_t _grayLevel;
+    int32_t _magnitudeScale;
+    float _linearUpperThreshold;
+    float _linearLowerThreshold;
+    int32_t _logUpperThreshold;
+    int32_t _logLowerThreshold;
+    BOOL _spectrographGrid;
+    BOOL _spectrumGrid;
 }
 
 - (id)init;
@@ -157,80 +157,80 @@
         // Initialize instance variables to reasonable defaults
 
         // Glottal source paraemters
-        waveform       = WAVEFORMTYPE_DEF;
-        showAmplitude  = SHOWAMPLITUDE_DEF;
-        harmonicsScale = HARMONICS_DEF;
-        unit           = UNIT_DEF;
-        pitch          = PITCH_DEF;
-        cents          = CENTS_DEF;
-        breathiness    = BREATHINESS_DEF;
-        glotVol        = VOLUME_DEF;
-        tp             = RISETIME_DEF;
-        tnMin          = FALLTIMEMIN_DEF;
-        tnMax          = FALLTIMEMAX_DEF;
+        _waveform       = WAVEFORMTYPE_DEF;
+        _showAmplitude  = SHOWAMPLITUDE_DEF;
+        _harmonicsScale = HARMONICS_DEF;
+        _unit           = UNIT_DEF;
+        _pitch          = PITCH_DEF;
+        _cents          = CENTS_DEF;
+        _breathiness    = BREATHINESS_DEF;
+        _glotVol        = VOLUME_DEF;
+        _tp             = RISETIME_DEF;
+        _tnMin          = FALLTIMEMIN_DEF;
+        _tnMax          = FALLTIMEMAX_DEF;
         
         // Noise source parameters
-        fricVol                  = FRIC_VOLUME_DEF;
-        fricPos                  = POSITION_DEF;
-        fricCF                   = CENTER_FREQ_DEF;
-        fricBW                   = BANDWIDTH_DEF;
-        NoiseSourceResponseScale = RESPONSE_DEF;
-        aspVol                   = ASP_VOLUME_DEF;
-        modulation               = PULSE_MOD_DEF;
-        mixOffset                = CROSSMIX_DEF;
+        _fricVol                  = FRIC_VOLUME_DEF;
+        _fricPos                  = POSITION_DEF;
+        _fricCF                   = CENTER_FREQ_DEF;
+        _fricBW                   = BANDWIDTH_DEF;
+        _NoiseSourceResponseScale = RESPONSE_DEF;
+        _aspVol                   = ASP_VOLUME_DEF;
+        _modulation               = PULSE_MOD_DEF;
+        _mixOffset                = CROSSMIX_DEF;
         
         // Throat parameters
-        throatVol            = THROAT_VOLUME_DEF;
-        throatCutoff         = CUTOFF_DEF;
-        throatResponseScale  = RESPONSE_DEF;
+        _throatVol            = THROAT_VOLUME_DEF;
+        _throatCutoff         = CUTOFF_DEF;
+        _throatResponseScale  = RESPONSE_DEF;
         
         // Resonant system parameters
-        pharynxDiameter[0]   = PHARYNX_SECTION1_DEF;
-        pharynxDiameter[1]   = PHARYNX_SECTION2_DEF;
-        pharynxDiameter[2]   = PHARYNX_SECTION3_DEF;
-        velumDiameter[0]     = VELUM_SECTION1_DEF;
-        oralDiameter[0]      = ORAL_SECTION1_DEF;
-        oralDiameter[1]      = ORAL_SECTION2_DEF;
-        oralDiameter[2]      = ORAL_SECTION3_DEF;
-        oralDiameter[3]      = ORAL_SECTION4_DEF;
-        oralDiameter[4]      = ORAL_SECTION5_DEF;
-        nasalDiameter[0]     = NASAL_SECTION1_DEF;
-        nasalDiameter[1]     = NASAL_SECTION2_DEF;
-        nasalDiameter[2]     = NASAL_SECTION3_DEF;
-        nasalDiameter[3]     = NASAL_SECTION4_DEF;
-        nasalDiameter[4]     = NASAL_SECTION5_DEF;
-        lossFactor           = LOSS_FACTOR_DEF / 100.0;
-        apScale              = APERTURE_SCALING_DEF;
-        mouthCoef            = FILTER_DEF;
-        noseCoef             = FILTER_DEF;
-        mouthResponseScale   = RESPONSE_DEF;
-        noseResponseScale    = RESPONSE_DEF;
-        length               = LENGTH_DEF;
-        temperature          = TEMPERATURE_DEF;
-        controlPeriod        = CONTROL_PERIOD_DEF;
-        sampleRate           = SAMPLE_RATE_DEF;
-        actualLength         = ACTUAL_LENGTH_DEF;
+        _pharynxDiameter[0]   = PHARYNX_SECTION1_DEF;
+        _pharynxDiameter[1]   = PHARYNX_SECTION2_DEF;
+        _pharynxDiameter[2]   = PHARYNX_SECTION3_DEF;
+        _velumDiameter[0]     = VELUM_SECTION1_DEF;
+        _oralDiameter[0]      = ORAL_SECTION1_DEF;
+        _oralDiameter[1]      = ORAL_SECTION2_DEF;
+        _oralDiameter[2]      = ORAL_SECTION3_DEF;
+        _oralDiameter[3]      = ORAL_SECTION4_DEF;
+        _oralDiameter[4]      = ORAL_SECTION5_DEF;
+        _nasalDiameter[0]     = NASAL_SECTION1_DEF;
+        _nasalDiameter[1]     = NASAL_SECTION2_DEF;
+        _nasalDiameter[2]     = NASAL_SECTION3_DEF;
+        _nasalDiameter[3]     = NASAL_SECTION4_DEF;
+        _nasalDiameter[4]     = NASAL_SECTION5_DEF;
+        _lossFactor           = LOSS_FACTOR_DEF / 100.0;
+        _apScale              = APERTURE_SCALING_DEF;
+        _mouthCoef            = FILTER_DEF;
+        _noseCoef             = FILTER_DEF;
+        _mouthResponseScale   = RESPONSE_DEF;
+        _noseResponseScale    = RESPONSE_DEF;
+        _length               = LENGTH_DEF;
+        _temperature          = TEMPERATURE_DEF;
+        _controlPeriod        = CONTROL_PERIOD_DEF;
+        _sampleRate           = SAMPLE_RATE_DEF;
+        _actualLength         = ACTUAL_LENGTH_DEF;
         
         // Controller parameters
-        volume               = VOLUME_DEF;
-        balance              = BALANCE_DEF;
-        channels             = CHANNELS_DEF;
-        controlRate          = CONTROL_RATE_DEF;
+        _volume               = VOLUME_DEF;
+        _balance              = BALANCE_DEF;
+        _channels             = CHANNELS_DEF;
+        _controlRate          = CONTROL_RATE_DEF;
         
         // Analysis parameters
-        normalizeInput       = NORMALIZE_INPUT_DEF;
-        binSize              = BIN_SIZE_DEF;
-        windowType           = WINDOW_TYPE_DEF;
-        alpha                = ALPHA_DEF;
-        beta                 = BETA_DEF;
-        grayLevel            = GRAY_LEVEL_DEF;
-        magnitudeScale       = MAGNITUDE_SCALE_DEF;
-        linearUpperThreshold = UPPER_THRESH_LIN_DEF;
-        linearLowerThreshold = LOWER_THRESH_LIN_DEF;
-        logUpperThreshold    = UPPER_THRESH_LOG_DEF;
-        logLowerThreshold    = LOWER_THRESH_LOG_DEF;
-        spectrographGrid     = SPECTROGRAPH_GRID_DEF;
-        spectrumGrid         = SPECTRUM_GRID_DEF;
+        _normalizeInput       = NORMALIZE_INPUT_DEF;
+        _binSize              = BIN_SIZE_DEF;
+        _windowType           = WINDOW_TYPE_DEF;
+        _alpha                = ALPHA_DEF;
+        _beta                 = BETA_DEF;
+        _grayLevel            = GRAY_LEVEL_DEF;
+        _magnitudeScale       = MAGNITUDE_SCALE_DEF;
+        _linearUpperThreshold = UPPER_THRESH_LIN_DEF;
+        _linearLowerThreshold = LOWER_THRESH_LIN_DEF;
+        _logUpperThreshold    = UPPER_THRESH_LOG_DEF;
+        _logLowerThreshold    = LOWER_THRESH_LOG_DEF;
+        _spectrographGrid     = SPECTROGRAPH_GRID_DEF;
+        _spectrumGrid         = SPECTRUM_GRID_DEF;
     }
 	
     return self;
@@ -238,23 +238,23 @@
 
 - (float)glotPitch;
 {
-    return (float)pitch + (float)cents / 100.0;
+    return (float)_pitch + (float)_cents / 100.0;
 }
 
 - (void)setGlotPitch:(float)value;
 {
     // Get the pitch and cents values
-    pitch = (int)value;
-    cents = (int)rint((value - (int)value) * 100);
+    _pitch = (int)value;
+    _cents = (int)rint((value - (int)value) * 100);
 	
     // Adjust pitch and cents if cents are out of range
-    if (cents > CENTS_MAX) {
-		pitch += 1;
-		cents -= 100;
+    if (_cents > CENTS_MAX) {
+		_pitch += 1;
+		_cents -= 100;
     }
-    if (cents < CENTS_MIN) {
-		pitch -= 1;
-		cents += 100;
+    if (_cents < CENTS_MIN) {
+		_pitch -= 1;
+		_cents += 100;
     }
 }
 
@@ -262,327 +262,302 @@
 
 - (float)glotVol;
 {
-    return (float)glotVol;
+    return (float)_glotVol;
 }
 
 - (void)setGlotVol:(float)value;
 {
-    glotVol = (int)rint(value);
+    _glotVol = (int)rint(value);
 }
 
 
 
 - (float)aspVol;
 {
-    return (float)aspVol;
+    return (float)_aspVol;
 }
 
 - (void)setAspVol:(float)value;
 {
-    aspVol = (int32_t)rint(value);
+    _aspVol = (int32_t)rint(value);
 }
 
 
 
 - (float)fricVol;
 {
-    return (float)fricVol;
+    return (float)_fricVol;
 }
 
 - (void)setFricVol:(float)value;
 {
-    fricVol = (int32_t)rint(value);
+    _fricVol = (int32_t)rint(value);
 }
 
 
 
-@synthesize fricPos;
 
 
 - (float)fricCF;
 {
-    return (float)fricCF;
+    return (float)_fricCF;
 }
 
 - (void)setFricCF:(float)value;
 {
-    fricCF = (int32_t)rint(value);
+    _fricCF = (int32_t)rint(value);
 }
 
 
 
 - (float)fricBW;
 {
-    return (float)fricBW;
+    return (float)_fricBW;
 }
 
 - (void)setFricBW:(float)value;
 {
-    fricBW = (int32_t)rint(value);
+    _fricBW = (int32_t)rint(value);
 }
 
 
 
 - (float)r1;
 {
-    return pharynxDiameter[0] / 2.0;
+    return _pharynxDiameter[0] / 2.0;
 }
 
 - (void)setR1:(float)value;
 {
-    pharynxDiameter[0] = value * 2.0;
+    _pharynxDiameter[0] = value * 2.0;
 }
 
 
 
 - (float)r2;
 {
-    return pharynxDiameter[1] / 2.0;
+    return _pharynxDiameter[1] / 2.0;
 }
 
 - (void)setR2:(float)value;
 {
-    pharynxDiameter[1] = value * 2.0;
+    _pharynxDiameter[1] = value * 2.0;
 }
 
 
 
 - (float)r3;
 {
-    return pharynxDiameter[2] / 2.0;
+    return _pharynxDiameter[2] / 2.0;
 }
 
 - (void)setR3:(float)value;
 {
-    pharynxDiameter[2] = value * 2.0;
+    _pharynxDiameter[2] = value * 2.0;
 }
 
 
 
 - (float)r4;
 {
-    return oralDiameter[0] / 2.0;
+    return _oralDiameter[0] / 2.0;
 }
 
 - (void)setR4:(float)value;
 {
-    oralDiameter[0] = value * 2.0;
+    _oralDiameter[0] = value * 2.0;
 }
 
 
 
 - (float)r5;
 {
-    return oralDiameter[1] / 2.0;
+    return _oralDiameter[1] / 2.0;
 }
 
 - (void)setR5:(float)value;
 {
-    oralDiameter[1] = value * 2.0;
+    _oralDiameter[1] = value * 2.0;
 }
 
 
 
 - (float)r6;
 {
-    return oralDiameter[2] / 2.0;
+    return _oralDiameter[2] / 2.0;
 }
 
 - (void)setR6:(float)value;
 {
-    oralDiameter[2] = value * 2.0;
+    _oralDiameter[2] = value * 2.0;
 }
 
 
 
 - (float)r7;
 {
-    return oralDiameter[3] / 2.0;
+    return _oralDiameter[3] / 2.0;
 }
 
 - (void)setR7:(float)value;
 {
-    oralDiameter[3] = value * 2.0;
+    _oralDiameter[3] = value * 2.0;
 }
 
 
 
 - (float)r8;
 {
-    return oralDiameter[4] / 2.0;
+    return _oralDiameter[4] / 2.0;
 }
 
 - (void)setR8:(float)value;
 {
-    oralDiameter[4] = value * 2.0;
+    _oralDiameter[4] = value * 2.0;
 }
 
 
 
 - (float)velum;
 {
-    return velumDiameter[0] / 2.0;
+    return _velumDiameter[0] / 2.0;
 }
 
 - (void)setVelum:(float)value;
 {
-    velumDiameter[0] = value * 2.0;
+    _velumDiameter[0] = value * 2.0;
 }
 
-
-
-@synthesize controlRate;
 
 
 - (float)volume;
 {
-    return (float)volume;
+    return (float)_volume;
 }
 
 - (void)setVolume:(float)value;
 {
-    volume = (int32_t)rint(value);
+    _volume = (int32_t)rint(value);
 }
-
-
-
-@synthesize channels;
-@synthesize balance;
-@synthesize waveform;
-@synthesize tp;
-@synthesize tnMin;
-@synthesize tnMax;
-@synthesize breathiness;
-@synthesize length;
-@synthesize temperature;
 
 
 
 - (float)lossFactor;
 {
-    return lossFactor * 100.0;
+    return _lossFactor * 100.0;
 }
 
 - (void)setLossFactor:(float)value;
 {
-    lossFactor = value / 100.0;
+    _lossFactor = value / 100.0;
 }
 
 
 
 - (float)apScale;
 {
-    return apScale / 2.0;
+    return _apScale / 2.0;
 }
 
 - (void)setApScale:(float)value;
 {
-    apScale = value * 2.0;
+    _apScale = value * 2.0;
 }
-
-
-
-@synthesize mouthCoef;
-@synthesize noseCoef;
 
 
 
 - (float)n1;
 {
-    return nasalDiameter[0] / 2.0;
+    return _nasalDiameter[0] / 2.0;
 }
 
 - (void)setN1:(float)value;
 {
-    nasalDiameter[0] = value * 2.0;
+    _nasalDiameter[0] = value * 2.0;
 }
 
 
 
 - (float)n2;
 {
-    return nasalDiameter[1] / 2.0;
+    return _nasalDiameter[1] / 2.0;
 }
 
 - (void)setN2:(float)value;
 {
-    nasalDiameter[1] = value * 2.0;
+    _nasalDiameter[1] = value * 2.0;
 }
 
 
 
 - (float)n3;
 {
-    return nasalDiameter[2] / 2.0;
+    return _nasalDiameter[2] / 2.0;
 }
 
 - (void)setN3:(float)value;
 {
-    nasalDiameter[2] = value * 2.0;
+    _nasalDiameter[2] = value * 2.0;
 }
 
 
 
 - (float)n4;
 {
-    return nasalDiameter[3] / 2.0;
+    return _nasalDiameter[3] / 2.0;
 }
 
 - (void)setN4:(float)value;
 {
-    nasalDiameter[3] = value * 2.0;
+    _nasalDiameter[3] = value * 2.0;
 }
 
 
 
 - (float)n5;
 {
-    return nasalDiameter[4] / 2.0;
+    return _nasalDiameter[4] / 2.0;
 }
 
 - (void)setN5:(float)value;
 {
-    nasalDiameter[4] = value * 2.0;
+    _nasalDiameter[4] = value * 2.0;
 }
 
 
 
 - (float)throatCutoff;
 {
-    return (float)throatCutoff;
+    return (float)_throatCutoff;
 }
 
 - (void)setThroatCutoff:(float)value;
 {
-    throatCutoff = (int32_t)rint(value);
+    _throatCutoff = (int32_t)rint(value);
 }
 
 
 
 - (float)throatVol;
 {
-    return (float)throatVol;
+    return (float)_throatVol;
 }
 
 - (void)setThroatVol:(float)value;
 {
-    throatVol = (int32_t)rint(value);
+    _throatVol = (int32_t)rint(value);
 }
-
-
-
-@synthesize modulation;
 
 
 
 - (float)mixOffset;
 {
-    return (float)mixOffset;
+    return (float)_mixOffset;
 }
 
 - (void)setMixOffset:(float)value;
 {
-    mixOffset = (int32_t)rint(value);
+    _mixOffset = (int32_t)rint(value);
 }
 
 @end

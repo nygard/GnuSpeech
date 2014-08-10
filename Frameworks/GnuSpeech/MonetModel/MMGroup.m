@@ -11,32 +11,55 @@
 #import "MMGroupedObject.h"
 
 #import "GSXMLFunctions.h"
-#import "MXMLParser.h"
-#import "MXMLPCDataDelegate.h"
 
 @interface MMGroup ()
-@property (readonly) NSMutableArray *mutableObjects;
 @end
 
 @implementation MMGroup
 {
-    NSMutableArray *m_objects;
+    NSMutableArray *_objects;
 }
 
 - (id)init;
 {
     if ((self = [super init])) {
-        m_objects = [[NSMutableArray alloc] init];
+        _objects = [[NSMutableArray alloc] init];
     }
     
     return self;
 }
 
-- (void)dealloc;
+- (id)initWithModel:(MModel *)model XMLElement:(NSXMLElement *)element error:(NSError **)error;
 {
-    [m_objects release];
+    NSParameterAssert([@"equation-group" isEqualToString:element.name] || [@"transition-group" isEqualToString:element.name]);
 
-    [super dealloc];
+    if ((self = [super initWithXMLElement:element error:error])) {
+        self.model = model;
+
+        _objects = [[NSMutableArray alloc] init];
+
+        // This will have either equations or transitions, but not a mix.
+        for (NSXMLElement *childElement in [element elementsForName:@"equation"]) {
+            MMEquation *equation = [[MMEquation alloc] initWithXMLElement:childElement error:error];
+            if (equation != nil) {
+                [self addObject:equation];
+
+                // Set the formula after adding it to the group, so that it has access to the model for the symbols
+                NSString *str = [[childElement attributeForName:@"formula"] stringValue];
+                if (str != nil && [str length] > 0)
+                    [equation setFormulaString:str];
+            }
+        }
+
+        for (NSXMLElement *childElement in [element elementsForName:@"transition"]) {
+            MMTransition *transition = [[MMTransition alloc] initWithModel:model XMLElement:childElement error:error];
+            if (transition != nil) {
+                [self addObject:transition];
+            }
+        }
+    }
+
+    return self;
 }
 
 #pragma mark - Debugging
@@ -52,10 +75,8 @@
 
 - (NSArray *)objects;
 {
-    return [[m_objects copy] autorelease];
+    return [_objects copy];
 }
-
-@synthesize mutableObjects = m_objects;
 
 - (void)setModel:(MModel *)newModel;
 {
@@ -69,7 +90,8 @@
 
 - (void)addObject:(MMGroupedObject *)object;
 {
-    [self.mutableObjects addObject:object];
+    NSParameterAssert(self.model != nil);
+    [_objects addObject:object];
 
     object.model = self.model;
     object.group = self;
@@ -77,7 +99,7 @@
 
 - (id)objectWithName:(NSString *)name;
 {
-    for (MMNamedObject *object in self.objects) {
+    for (MMNamedObject *object in _objects) {
         if ([name isEqualToString:object.name])
             return object;
     }
@@ -108,38 +130,6 @@
     
     [resultString indentToLevel:level];
     [resultString appendFormat:@"</%@>\n", elementName];
-}
-
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-{
-    if ([elementName isEqualToString:@"equation"]) {
-        MMEquation *newDelegate = [MMEquation objectWithXMLAttributes:attributeDict context:[(MXMLParser *)parser context]];
-        [self addObject:newDelegate];
-
-        // Set the formula after adding it to the group, so that it has access to the model for the symbols
-        NSString *str = [attributeDict objectForKey:@"formula"];
-        if (str != nil && [str length] > 0)
-            [newDelegate setFormulaString:str];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-    } else if ([elementName isEqualToString:@"transition"]) {
-        MMTransition *newDelegate = [MMTransition objectWithXMLAttributes:attributeDict context:[(MXMLParser *)parser context]];
-        [self addObject:newDelegate];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-    } else {
-        [super parser:parser didStartElement:elementName namespaceURI:namespaceURI qualifiedName:qName attributes:attributeDict];
-    }
-}
-
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
-{
-#if 0
-    if ([elementName isEqualToString:@"posture"])
-        [(MXMLParser *)parser popDelegate];
-    else
-        [NSException raise:@"Unknown close tag" format:@"Unknown closing tag (%@) in %@", elementName, NSStringFromClass([self class])];
-#else
-    [(MXMLParser *)parser popDelegate];
-#endif
 }
 
 @end

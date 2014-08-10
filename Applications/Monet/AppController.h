@@ -4,17 +4,13 @@
 #import <Cocoa/Cocoa.h>
 
 @class MModel, MMTransition;
-@class MDataEntryController, MPostureCategoryController, MPostureEditor, MPrototypeManager, MReleaseNotesController, MRuleManager, MRuleTester;
-@class MSpecialTransitionEditor, MSynthesisController, MSynthesisParameterEditor, MTransitionEditor;
 
 @interface AppController : NSObject
 
-@property (retain) NSString *filename;
+@property (strong) NSString *filename;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 - (void)applicationWillTerminate:(NSNotification *)notification;
-
-- (void)displayInfoPanel:(id)sender;
 
 - (IBAction)openFile:(id)sender;
 - (IBAction)importTRMData:(id)sender;

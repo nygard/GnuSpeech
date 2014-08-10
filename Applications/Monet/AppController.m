@@ -22,9 +22,6 @@
 
 @interface AppController ()
 
-- (void)_loadFile:(NSString *)aFilename;
-- (void)_loadMonetXMLFile:(NSString *)aFilename;
-
 @property (nonatomic, readonly) MDataEntryController *dataEntryController;
 @property (nonatomic, readonly) MPostureCategoryController *postureCategoryController;
 @property (nonatomic, readonly) MPostureEditor *postureEditor;
@@ -42,54 +39,31 @@
 
 @implementation AppController
 {
-    IBOutlet NSPanel *infoPanel;
-    
-    NSString *m_filename;
-    MModel *model;
-    
-    MDataEntryController *dataEntryController;
-    MPostureCategoryController *postureCategoryController;
-    MPostureEditor *postureEditor;
-    MPrototypeManager *prototypeManager;
-    MTransitionEditor *transitionEditor;
-    MSpecialTransitionEditor *specialTransitionEditor;
-    MRuleTester *ruleTester;
-    MRuleManager *ruleManager;
-    MSynthesisParameterEditor *synthesisParameterEditor;
-    MSynthesisController *synthesisController;
-    MReleaseNotesController *releaseNotesController;
+    NSString *_filename;
+    MModel *_model;
+
+    MDataEntryController *_dataEntryController;
+    MPostureCategoryController *_postureCategoryController;
+    MPostureEditor *_postureEditor;
+    MPrototypeManager *_prototypeManager;
+    MTransitionEditor *_transitionEditor;
+    MSpecialTransitionEditor *_specialTransitionEditor;
+    MRuleTester *_ruleTester;
+    MRuleManager *_ruleManager;
+    MSynthesisParameterEditor *_synthesisParameterEditor;
+    MSynthesisController *_synthesisController;
+    MReleaseNotesController *_releaseNotesController;
 }
 
 - (id)init;
 {
     if ((self = [super init])) {
-        m_filename = nil;
-        model = [[MModel alloc] init];
+        _filename = nil;
+        _model = [[MModel alloc] init];
     }
 	
     return self;
 }
-
-- (void)dealloc;
-{
-    [m_filename release];
-    [model release];
-
-    [dataEntryController release];
-    [postureEditor release];
-    [prototypeManager release];
-    [transitionEditor release];
-    [specialTransitionEditor release];
-    [ruleTester release];
-    [ruleManager release];
-    [synthesisParameterEditor release];
-    [synthesisController release];
-    [releaseNotesController release];
-
-    [super dealloc];
-}
-
-@synthesize filename = m_filename;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 {
@@ -135,15 +109,6 @@
     //[[self intonationController] saveWindowIsVisibleOnLaunch];
     //[[self intonationParameterEditor] saveWindowIsVisibleOnLaunch];
     [[self releaseNotesController] saveWindowIsVisibleOnLaunch];
-}
-
-- (void)displayInfoPanel:(id)sender;
-{
-    if (infoPanel == nil) {
-        [NSBundle loadNibNamed:@"Info.nib" owner:self];
-    }
-
-    [infoPanel makeKeyAndOrderFront:self];
 }
 
 - (IBAction)openFile:(id)sender;
@@ -220,22 +185,21 @@
 
 - (void)setModel:(MModel *)newModel;
 {
-    if (newModel == model)
+    if (newModel == _model)
         return;
 
-    [model release];
-    model = [newModel retain];
+    _model = newModel;
 
-    [dataEntryController setModel:model];
-    [postureCategoryController setModel:model];
-    [postureEditor setModel:model];
-    [prototypeManager setModel:model];
-    [transitionEditor setModel:model];
-    [specialTransitionEditor setModel:model];
-    [ruleTester setModel:model];
-    [ruleManager setModel:model];
-    [synthesisParameterEditor setModel:model];
-    [synthesisController setModel:model];
+    [_dataEntryController setModel:_model];
+    [_postureCategoryController setModel:_model];
+    [_postureEditor setModel:_model];
+    [_prototypeManager setModel:_model];
+    [_transitionEditor setModel:_model];
+    [_specialTransitionEditor setModel:_model];
+    [_ruleTester setModel:_model];
+    [_ruleManager setModel:_model];
+    [_synthesisParameterEditor setModel:_model];
+    [_synthesisController setModel:_model];
 }
 
 - (void)_loadFile:(NSString *)aFilename;
@@ -246,16 +210,13 @@
     }
 }
 
-- (void)_loadMonetXMLFile:(NSString *)aFilename;
+- (void)_loadMonetXMLFile:(NSString *)filename;
 {
-    MDocument *document = [[MDocument alloc] init];
-    BOOL result = [document loadFromXMLFile:aFilename];
-    if (result == YES) {
+    MDocument *document = [[MDocument alloc] initWithXMLFile:filename error:NULL];
+    if (document != nil) {
         [self setModel:[document model]];
-        [self setFilename:aFilename];
+        [self setFilename:filename];
     }
-
-    [document release];
 }
 
 - (IBAction)saveDocument:(id)sender;
@@ -271,13 +232,13 @@
             NSString *newFilename;
 
             newFilename = [[self.filename stringByDeletingPathExtension] stringByAppendingPathExtension:@"mxml"];
-            result = [model writeXMLToFile:newFilename comment:nil];
+            result = [_model writeXMLToFile:newFilename comment:nil];
             if (result == YES) {
                 NSLog(@"Renamed file from %@ to %@", [self.filename lastPathComponent], [newFilename lastPathComponent]);
                 [self setFilename:newFilename];
             }
         } else
-            result = [model writeXMLToFile:self.filename comment:nil];
+            result = [_model writeXMLToFile:self.filename comment:nil];
 
         if (result == NO)
             NSRunAlertPanel(@"Save Failed", @"Couldn't save document to %@", @"OK", nil, nil, self.filename);
@@ -299,7 +260,7 @@
 
         NSString *newFilename = [[savePanel URL] path];
 
-        BOOL result = [model writeXMLToFile:newFilename comment:nil];
+        BOOL result = [_model writeXMLToFile:newFilename comment:nil];
 
         if (result == NO)
             NSRunAlertPanel(@"Save Failed", @"Couldn't save document to %@", @"OK", nil, nil, self.filename);
@@ -365,16 +326,16 @@
 
 - (MDataEntryController *)dataEntryController;
 {
-    if (dataEntryController == nil) {
-        dataEntryController = [[MDataEntryController alloc] initWithModel:model];
+    if (_dataEntryController == nil) {
+        _dataEntryController = [[MDataEntryController alloc] initWithModel:_model];
     }
 
-    return dataEntryController;
+    return _dataEntryController;
 }
 
 - (IBAction)showDataEntryWindow:(id)sender;
 {
-    [self.dataEntryController setModel:model];
+    [self.dataEntryController setModel:_model];
     [self.dataEntryController showWindow:self];
 }
 
@@ -382,15 +343,15 @@
 
 - (MPostureCategoryController *)postureCategoryController;
 {
-    if (postureCategoryController == nil)
-        postureCategoryController = [[MPostureCategoryController alloc] initWithModel:model];
+    if (_postureCategoryController == nil)
+        _postureCategoryController = [[MPostureCategoryController alloc] initWithModel:_model];
 
-    return postureCategoryController;
+    return _postureCategoryController;
 }
 
 - (IBAction)showPostureCategoryWindow:(id)sender;
 {
-    [self.postureCategoryController setModel:model];
+    [self.postureCategoryController setModel:_model];
     [self.postureCategoryController showWindow:self];
 }
 
@@ -398,16 +359,16 @@
 
 - (MPostureEditor *)postureEditor;
 {
-    if (postureEditor == nil) {
-        postureEditor = [[MPostureEditor alloc] initWithModel:model];
+    if (_postureEditor == nil) {
+        _postureEditor = [[MPostureEditor alloc] initWithModel:_model];
     }
 
-    return postureEditor;
+    return _postureEditor;
 }
 
 - (IBAction)showPostureEditor:(id)sender;
 {
-    [self.postureEditor setModel:model];
+    [self.postureEditor setModel:_model];
     [self.postureEditor showWindow:self];
 }
 
@@ -415,16 +376,16 @@
 
 - (MPrototypeManager *)prototypeManager;
 {
-    if (prototypeManager == nil) {
-        prototypeManager = [[MPrototypeManager alloc] initWithModel:model];
+    if (_prototypeManager == nil) {
+        _prototypeManager = [[MPrototypeManager alloc] initWithModel:_model];
     }
 
-    return prototypeManager;
+    return _prototypeManager;
 }
 
 - (IBAction)showPrototypeManager:(id)sender;
 {
-    [self.prototypeManager setModel:model];
+    [self.prototypeManager setModel:_model];
     [self.prototypeManager showWindow:self];
 }
 
@@ -432,17 +393,17 @@
 
 - (MTransitionEditor *)transitionEditor;
 {
-    if (transitionEditor == nil) {
-        transitionEditor = [[MTransitionEditor alloc] init];
-        transitionEditor.model = model;
+    if (_transitionEditor == nil) {
+        _transitionEditor = [[MTransitionEditor alloc] init];
+        _transitionEditor.model = _model;
     }
 
-    return transitionEditor;
+    return _transitionEditor;
 }
 
 - (IBAction)showTransitionEditor:(id)sender;
 {
-    [self.transitionEditor setModel:model];
+    [self.transitionEditor setModel:_model];
     [self.transitionEditor showWindow:self];
 }
 
@@ -450,17 +411,17 @@
 
 - (MSpecialTransitionEditor *)specialTransitionEditor;
 {
-    if (specialTransitionEditor == nil) {
-        specialTransitionEditor = [[MSpecialTransitionEditor alloc] init];
-        specialTransitionEditor.model = model;
+    if (_specialTransitionEditor == nil) {
+        _specialTransitionEditor = [[MSpecialTransitionEditor alloc] init];
+        _specialTransitionEditor.model = _model;
     }
 
-    return specialTransitionEditor;
+    return _specialTransitionEditor;
 }
 
 - (IBAction)showSpecialTransitionEditor:(id)sender;
 {
-    [self.specialTransitionEditor setModel:model];
+    [self.specialTransitionEditor setModel:_model];
     [self.specialTransitionEditor showWindow:self];
 }
 
@@ -468,15 +429,15 @@
 
 - (MRuleTester *)ruleTester;
 {
-    if (ruleTester == nil)
-        ruleTester = [[MRuleTester alloc] initWithModel:model];
+    if (_ruleTester == nil)
+        _ruleTester = [[MRuleTester alloc] initWithModel:_model];
 
-    return ruleTester;
+    return _ruleTester;
 }
 
 - (IBAction)showRuleTester:(id)sender;
 {
-    [self.ruleTester setModel:model];
+    [self.ruleTester setModel:_model];
     [self.ruleTester showWindow:self];
 }
 
@@ -484,15 +445,15 @@
 
 - (MRuleManager *)ruleManager;
 {
-    if (ruleManager == nil)
-        ruleManager = [[MRuleManager alloc] initWithModel:model];
+    if (_ruleManager == nil)
+        _ruleManager = [[MRuleManager alloc] initWithModel:_model];
 
-    return ruleManager;
+    return _ruleManager;
 }
 
 - (IBAction)showRuleManager:(id)sender;
 {
-    [self.ruleManager setModel:model];
+    [self.ruleManager setModel:_model];
     [self.ruleManager showWindow:self];
 }
 
@@ -500,15 +461,15 @@
 
 - (MSynthesisParameterEditor *)synthesisParameterEditor;
 {
-    if (synthesisParameterEditor == nil)
-        synthesisParameterEditor = [[MSynthesisParameterEditor alloc] initWithModel:model];
+    if (_synthesisParameterEditor == nil)
+        _synthesisParameterEditor = [[MSynthesisParameterEditor alloc] initWithModel:_model];
 
-    return synthesisParameterEditor;
+    return _synthesisParameterEditor;
 }
 
 - (IBAction)showSynthesisParameterEditor:(id)sender;
 {
-    [self.synthesisParameterEditor setModel:model];
+    [self.synthesisParameterEditor setModel:_model];
     [self.synthesisParameterEditor showWindow:self];
 }
 
@@ -516,15 +477,15 @@
 
 - (MSynthesisController *)synthesisController;
 {
-    if (synthesisController == nil)
-        synthesisController = [[MSynthesisController alloc] initWithModel:model];
+    if (_synthesisController == nil)
+        _synthesisController = [[MSynthesisController alloc] initWithModel:_model];
 
-    return synthesisController;
+    return _synthesisController;
 }
 
 - (IBAction)showSynthesisController:(id)sender;
 {
-    [self.synthesisController setModel:model];
+    [self.synthesisController setModel:_model];
     [self.synthesisController showWindow:self];
 }
 
@@ -532,7 +493,7 @@
 
 - (IBAction)showIntonationWindow:(id)sender;
 {
-    [self.synthesisController setModel:model];
+    [self.synthesisController setModel:_model];
     [self.synthesisController showIntonationWindow:self];
 }
 
@@ -540,7 +501,7 @@
 
 - (IBAction)showIntonationParameterWindow:(id)sender;
 {
-    [self.synthesisController setModel:model];
+    [self.synthesisController setModel:_model];
     [self.synthesisController showIntonationParameterWindow:self];
 }
 
@@ -548,10 +509,10 @@
 
 - (MReleaseNotesController *)releaseNotesController;
 {
-    if (releaseNotesController == nil)
-        releaseNotesController = [[MReleaseNotesController alloc] init];
+    if (_releaseNotesController == nil)
+        _releaseNotesController = [[MReleaseNotesController alloc] init];
 
-    return releaseNotesController;
+    return _releaseNotesController;
 }
 
 - (IBAction)showReleaseNotes:(id)sender;
@@ -563,7 +524,7 @@
 
 - (IBAction)generateXML:(id)sender;
 {
-    [model writeXMLToFile:@"/tmp/out.xml" comment:nil];
+    [_model writeXMLToFile:@"/tmp/out.xml" comment:nil];
 }
 
 - (void)editTransition:(MMTransition *)transition;

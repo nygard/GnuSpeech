@@ -10,7 +10,7 @@
     static NSCharacterSet *characterSet = nil;
 
     if (characterSet == nil)
-        characterSet = [[NSCharacterSet characterSetWithCharactersInString:@"&<>'\""] retain];
+        characterSet = [NSCharacterSet characterSetWithCharactersInString:@"&<>'\""];
 
     return characterSet;
 }
@@ -23,8 +23,6 @@
         NSMutableCharacterSet *aSet = [[NSCharacterSet whitespaceCharacterSet] mutableCopy];
         [aSet addCharactersInString:@"_"];
         characterSet = [aSet copy];
-
-        [aSet release];
     }
 
     return characterSet;
@@ -38,8 +36,6 @@
         NSMutableCharacterSet *aSet = [[NSCharacterSet letterCharacterSet] mutableCopy];
         [aSet addCharactersInString:@"^'#"];
         characterSet = [aSet copy];
-
-        [aSet release];
     }
 
     return characterSet;

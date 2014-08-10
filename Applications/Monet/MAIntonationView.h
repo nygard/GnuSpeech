@@ -15,7 +15,6 @@ extern NSString *MAIntonationViewSelectionDidChangeNotification;
 @interface MAIntonationView : NSView
 
 - (id)initWithFrame:(NSRect)frameRect;
-- (void)dealloc;
 
 - (void)setScaleView:(MAIntonationScaleView *)newScaleView;
 
@@ -29,8 +28,7 @@ extern NSString *MAIntonationViewSelectionDidChangeNotification;
 - (BOOL)shouldDrawSmoothPoints;
 - (void)setShouldDrawSmoothPoints:(BOOL)newFlag;
 
-- (id)delegate;
-- (void)setDelegate:(id)newDelegate;
+@property (weak) id delegate;
 
 - (CGFloat)minimumWidth;
 - (void)resizeWithOldSuperviewSize:(NSSize)oldSize;
@@ -47,11 +45,11 @@ extern NSString *MAIntonationViewSelectionDidChangeNotification;
 - (void)drawSmoothPoints;
 
 // Event handling
-- (void)mouseEntered:(NSEvent *)theEvent;
-- (void)keyDown:(NSEvent *)theEvent;
-- (void)mouseDown:(NSEvent *)theEvent;
-- (void)mouseDragged:(NSEvent *)mouseEvent;
-- (void)mouseUp:(NSEvent *)mouseEvent;
+- (void)mouseEntered:(NSEvent *)event;
+- (void)keyDown:(NSEvent *)event;
+- (void)mouseDown:(NSEvent *)event;
+- (void)mouseDragged:(NSEvent *)event;
+- (void)mouseUp:(NSEvent *)event;
 - (void)selectGraphPointsBetweenPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
 
 // Actions
@@ -64,7 +62,7 @@ extern NSString *MAIntonationViewSelectionDidChangeNotification;
 - (void)deselectAllPoints;
 
 - (MMIntonationPoint *)selectedIntonationPoint;
-- (void)selectIntonationPoint:(MMIntonationPoint *)anIntonationPoint;
+- (void)selectIntonationPoint:(MMIntonationPoint *)intonationPoint;
 - (void)_selectionDidChange;
 
 // View geometry
@@ -81,7 +79,7 @@ extern NSString *MAIntonationViewSelectionDidChangeNotification;
 - (CGFloat)convertYPositionToSemitone:(CGFloat)yPosition;
 - (CGFloat)convertXPositionToTime:(CGFloat)xPosition;
 
-- (void)intonationPointDidChange:(NSNotification *)aNotification;
+- (void)intonationPointDidChange:(NSNotification *)notification;
 - (void)removeOldSelectedPoints;
 
 - (void)setFrame:(NSRect)newFrame;

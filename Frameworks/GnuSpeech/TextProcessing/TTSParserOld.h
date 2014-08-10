@@ -2,7 +2,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef enum {
+typedef enum : NSUInteger{
     TTSInputModeUnknown  = 0,
     TTSInputModeNormal   = 1,
     TTSInputModeRaw      = 2,
@@ -16,15 +16,15 @@ typedef enum {
 
 @interface TTSParserOld : NSObject
 
-- (id)initWithPronunciationDictionary:(GSPronunciationDictionary *)aDictionary;
+- (id)initWithPronunciationDictionary:(GSPronunciationDictionary *)dictionary;
 
-- (NSString *)parseString:(NSString *)aString;
-- (void)markModes:(NSString *)aString;
-- (void)stripPunctuationFromString:(NSString *)aString;
+- (NSString *)parseString:(NSString *)string;
+- (void)markModes:(NSString *)string;
+- (void)stripPunctuationFromString:(NSString *)string;
 
-- (NSString *)padCharactersInSet:(NSCharacterSet *)characterSet ofString:(NSString *)aString;
+- (NSString *)padCharactersInSet:(NSCharacterSet *)characterSet ofString:(NSString *)string;
 
-- (void)finalConversion:(NSString *)aString resultString:(NSMutableString *)resultString;
+- (void)finalConversion:(NSString *)string resultString:(NSMutableString *)resultString;
 - (NSUInteger)stateForWord:(NSString *)word;
 - (void)expandWord:(NSString *)word tonic:(BOOL)isTonic resultString:(NSMutableString *)resultString;
 - (NSString *)degenerateString:(NSString *)word;

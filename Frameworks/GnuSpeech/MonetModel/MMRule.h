@@ -3,11 +3,11 @@
 
 #import "MMNamedObject.h"
 
-#import "MMFRuleSymbols.h"
-
-@class MMBooleanNode, MMCategory, MMEquation, MMTransition;
+@class MMBooleanNode, MMCategory, MMEquation, MMTransition, MMFRuleSymbols;
 
 @interface MMRule : MMNamedObject
+
+- (id)initWithModel:(MModel *)model XMLElement:(NSXMLElement *)element error:(NSError **)error;
 
 - (void)setDefaultsTo:(NSUInteger)numPhones;
 - (void)addDefaultTransitionForLastParameter;
@@ -38,7 +38,7 @@
 - (BOOL)matchRule:(NSArray *)categories;
 
 - (MMEquation *)getSymbolEquation:(int)index;
-- (void)evaluateSymbolEquations:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures withCache:(NSUInteger)cache;
+- (void)evaluateSymbolEquationsWithPhonesInArray:(NSArray *)phones ruleSymbols:(MMFRuleSymbols *)ruleSymbols withCacheTag:(NSUInteger)cache;
 
 - (NSMutableArray *)parameterTransitions;
 - (NSMutableArray *)metaParameterTransitions;
@@ -61,8 +61,5 @@
 
 - (NSString *)symbolNameAtIndex:(NSUInteger)index;
 - (void)setRuleExpression1:(MMBooleanNode *)exp1 exp2:(MMBooleanNode *)exp2 exp3:(MMBooleanNode *)exp3 exp4:(MMBooleanNode *)exp4;
-
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 
 @end

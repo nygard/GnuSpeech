@@ -9,13 +9,13 @@
 #import "parser_module.h"
 #import "TTS_types.h"  // Required for dictionary ordering definitions.
 
-static NSDictionary * specialAcronyms;  // static class variable
+static NSDictionary *specialAcronyms;  // static class variable
 
 @implementation TTSParser
 {
-    GSPronunciationDictionary *mainDictionary;
-	GSPronunciationDictionary *userDictionary;
-	GSPronunciationDictionary *appDictionary;
+    GSPronunciationDictionary *_mainDictionary;
+	GSPronunciationDictionary *_userDictionary;
+	GSPronunciationDictionary *_appDictionary;
 }
 
 + (void)initialize;
@@ -27,12 +27,12 @@ static NSDictionary * specialAcronyms;  // static class variable
     //NSLog(@"specialAcronyms: %@", [specialAcronyms description]);
 }
 
-- (id)initWithPronunciationDictionary:(GSPronunciationDictionary *)aDictionary;
+- (id)initWithPronunciationDictionary:(GSPronunciationDictionary *)dictionary;
 {
     if ((self = [super init])) {
-        userDictionary = [aDictionary retain];
-        appDictionary = [aDictionary retain];
-        mainDictionary = [aDictionary retain];	
+        _userDictionary = dictionary;
+        _appDictionary = dictionary;
+        _mainDictionary = dictionary;	
 	
         //[mainDictionary loadDictionary];
     }
@@ -40,18 +40,9 @@ static NSDictionary * specialAcronyms;  // static class variable
     return self;
 }
 
-- (void)dealloc;
-{
-    [mainDictionary release];
-    [appDictionary release];
-    [userDictionary release];	
-		
-    [super dealloc];
-}
-
 #pragma mark -
 
-- (NSString *)parseString:(NSString *)aString;
+- (NSString *)parseString:(NSString *)string;
 {
 	NSLog(@"> %s", __PRETTY_FUNCTION__);
 
@@ -68,7 +59,7 @@ static NSDictionary * specialAcronyms;  // static class variable
 	order[2] = TTS_APPLICATION_DICTIONARY;
 	order[3] = TTS_MAIN_DICTIONARY;
 	
-	set_dict_data(order, userDictionary, appDictionary, mainDictionary, specialAcronyms);
+	set_dict_data(order, _userDictionary, _appDictionary, _mainDictionary, specialAcronyms);
 		
 	// The contents of aString cannot be losslessly converted if it contains non-ascii information.
 	// In this case NULL is returned. We need to check for this, and then perform lossy conversion
@@ -77,15 +68,15 @@ static NSDictionary * specialAcronyms;  // static class variable
 	const char *input;
 	const char *output;
 	
-	if ([aString canBeConvertedToEncoding:NSASCIIStringEncoding]) {
+	if ([string canBeConvertedToEncoding:NSASCIIStringEncoding]) {
 		
-		input = [aString cStringUsingEncoding:NSASCIIStringEncoding];
+		input = [string cStringUsingEncoding:NSASCIIStringEncoding];
 		
 	} else {  // strip the non-ascii-convertible characters
 
 		NSLog(@"parseString: String cannot be converted without information loss.");
-		NSData * lossyInput = [aString dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-		NSString * stringInput = [[[NSString alloc] initWithData:lossyInput encoding:NSASCIIStringEncoding] autorelease];  // this needs to stick around at least as long as 'input'
+		NSData * lossyInput = [string dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+		NSString * stringInput = [[NSString alloc] initWithData:lossyInput encoding:NSASCIIStringEncoding];  // this needs to stick around at least as long as 'input'
 		input = [stringInput cStringUsingEncoding:NSASCIIStringEncoding];
 	}
 	

@@ -28,10 +28,10 @@ static void rationalApproximation(double number, int32_t *order, int32_t *numera
 
 @implementation TRMFIRFilter
 {
-    double *m_FIRData;
-    double *m_FIRCoef;
-    int32_t m_FIRPtr;
-    int32_t m_numberTaps;
+    double *_FIRData;
+    double *_FIRCoef;
+    int32_t _FIRPtr;
+    int32_t _numberTaps;
 }
 
 - (id)initWithBeta:(double)beta gamma:(double)gamma cutoff:(double)cutoff;
@@ -47,29 +47,27 @@ static void rationalApproximation(double number, int32_t *order, int32_t *numera
         trim(cutoff, &numberCoefficients, coefficient);
         
         // Determine the number of taps in the filter
-        m_numberTaps = (numberCoefficients * 2) - 1;
+        _numberTaps = (numberCoefficients * 2) - 1;
         
         // Allocate memory for data and coefficients
-        m_FIRData = (double *)calloc(m_numberTaps, sizeof(double));
-        if (m_FIRData == NULL) {
+        _FIRData = (double *)calloc(_numberTaps, sizeof(double));
+        if (_FIRData == NULL) {
             fprintf(stderr, "calloc() of FIRData failed.\n");
-            [self release];
             return nil;
         }
         
-        m_FIRCoef = (double *)calloc(m_numberTaps, sizeof(double));
-        if (m_FIRCoef == NULL) {
+        _FIRCoef = (double *)calloc(_numberTaps, sizeof(double));
+        if (_FIRCoef == NULL) {
             fprintf(stderr, "calloc() of FIRCoef failed.\n");
-            free(m_FIRData);
-            [self release];
+            free(_FIRData);
             return nil;
         }
         
         // Initialize the coefficients
         int32_t increment = -1;
         int32_t pointer = numberCoefficients;
-        for (uint32_t index = 0; index < m_numberTaps; index++) {
-            m_FIRCoef[index] = coefficient[pointer];
+        for (uint32_t index = 0; index < _numberTaps; index++) {
+            _FIRCoef[index] = coefficient[pointer];
             pointer += increment;
             if (pointer <= 0) {
                 pointer = 2;
@@ -78,7 +76,7 @@ static void rationalApproximation(double number, int32_t *order, int32_t *numera
         }
         
         // Set pointer to first element
-        m_FIRPtr = 0;
+        _FIRPtr = 0;
         
 #if DEBUG
         printf("\n");
@@ -92,17 +90,15 @@ static void rationalApproximation(double number, int32_t *order, int32_t *numera
 
 - (void)dealloc;
 {
-    if (m_FIRData != NULL) {
-        free(m_FIRData);
-        m_FIRData = NULL;
+    if (_FIRData != NULL) {
+        free(_FIRData);
+        _FIRData = NULL;
     }
 
-    if (m_FIRCoef != NULL) {
-        free(m_FIRCoef);
-        m_FIRCoef = NULL;
+    if (_FIRCoef != NULL) {
+        free(_FIRCoef);
+        _FIRCoef = NULL;
     }
-
-    [super dealloc];
 }
 
 #pragma mark -
@@ -114,26 +110,26 @@ static void rationalApproximation(double number, int32_t *order, int32_t *numera
         double output = 0.0;
         
         // Put input sample into data buffer
-        m_FIRData[m_FIRPtr] = input;
+        _FIRData[_FIRPtr] = input;
         
         // Sum the output from all filter taps
-        for (int32_t i = 0; i < m_numberTaps; i++) {
-            output += m_FIRData[m_FIRPtr] * m_FIRCoef[i];
-            m_FIRPtr = increment(m_FIRPtr, m_numberTaps);
+        for (int32_t i = 0; i < _numberTaps; i++) {
+            output += _FIRData[_FIRPtr] * _FIRCoef[i];
+            _FIRPtr = increment(_FIRPtr, _numberTaps);
         }
         
         // Decrement the data pointer ready for next call
-        m_FIRPtr = decrement(m_FIRPtr, m_numberTaps);
+        _FIRPtr = decrement(_FIRPtr, _numberTaps);
         
         // Return the output value
         //printf("FIRFilter(%g, %d) = %g\n", input, needOutput, output);
         return output;
     } else {
         // Put input sample into data buffer
-        m_FIRData[m_FIRPtr] = input;
+        _FIRData[_FIRPtr] = input;
         
         // Adjust the data pointer, ready for next call
-        m_FIRPtr = decrement(m_FIRPtr, m_numberTaps);
+        _FIRPtr = decrement(_FIRPtr, _numberTaps);
         
         //printf("FIRFilter(%g, %d) = %g\n", input, needOutput, 0.0);
         return 0.0;

@@ -5,10 +5,13 @@
 
 @class MMCategory, MMSymbol, MMTarget;
 
-// Contains informaion for one phone or "posture"
+// Contains informaion for one phone or "posture".
 @interface MMPosture : MMNamedObject
 
 - (id)initWithModel:(MModel *)model;
+- (id)initWithModel:(MModel *)model XMLElement:(NSXMLElement *)element error:(NSError **)error;
+
+- (NSString *)shortDescription;
 
 // Categories
 @property (readonly) MMCategory *nativeCategory;
@@ -37,9 +40,5 @@
 - (NSComparisonResult)compareByAscendingName:(MMPosture *)other;
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
-
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 
 @end

@@ -9,44 +9,54 @@
 #import "GSXMLFunctions.h"
 #import "MModel.h"
 
-#import "MXMLParser.h"
-#import "MXMLPCDataDelegate.h"
-
 #define DEFAULT_VALUE 100.0
 #define DEFAULT_MIN 0.0
 #define DEFAULT_MAX 500.0
 
 @implementation MMSymbol
 {
-    double minimumValue;
-    double maximumValue;
-    double defaultValue;
+    double _minimumValue;
+    double _maximumValue;
+    double _defaultValue;
 }
 
 - (id)init;
 {
     if ((self = [super init])) {
-        minimumValue = DEFAULT_MIN;
-        maximumValue = DEFAULT_MAX;
-        defaultValue = DEFAULT_VALUE;
+        _minimumValue = DEFAULT_MIN;
+        _maximumValue = DEFAULT_MAX;
+        _defaultValue = DEFAULT_VALUE;
     }
 
     return self;
 }
 
-@synthesize minimumValue, maximumValue;
-
-- (double)defaultValue;
+- (id)initWithXMLElement:(NSXMLElement *)element error:(NSError **)error;
 {
-    return defaultValue;
+    NSParameterAssert([@"symbol" isEqualToString:element.name]);
+
+    if ((self = [super initWithXMLElement:element error:error])) {
+        id value;
+
+        value = [[element attributeForName:@"minimum"] stringValue];
+        _minimumValue = (value != nil) ? [value doubleValue] : DEFAULT_MIN;
+
+        value = [[element attributeForName:@"maximum"] stringValue];
+        _maximumValue = (value != nil) ? [value doubleValue] : DEFAULT_MAX;
+
+        value = [[element attributeForName:@"default"] stringValue];
+        _defaultValue = (value != nil) ? [value doubleValue] : DEFAULT_MIN;
+    }
+    
+    return self;
 }
 
 - (void)setDefaultValue:(double)newDefault;
 {
-    if (newDefault != defaultValue)
+    if (newDefault != _defaultValue)
         [[self model] symbol:self willChangeDefaultValue:newDefault];
 
-    defaultValue = newDefault;
+    _defaultValue = newDefault;
 }
 
 - (NSString *)description;
@@ -71,33 +81,6 @@
         [resultString indentToLevel:level];
         [resultString appendString:@"</symbol>\n"];
     }
-}
-
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
-{
-    if ((self = [super initWithXMLAttributes:attributes context:context])) {
-        id value = [attributes objectForKey:@"minimum"];
-        if (value != nil)
-            [self setMinimumValue:[value doubleValue]];
-        
-        value = [attributes objectForKey:@"maximum"];
-        if (value != nil)
-            [self setMaximumValue:[value doubleValue]];
-        
-        value = [attributes objectForKey:@"default"];
-        if (value != nil)
-            [self setDefaultValue:[value doubleValue]];
-    }
-
-    return self;
-}
-
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
-{
-    if ([elementName isEqualToString:@"symbol"])
-        [(MXMLParser *)parser popDelegate];
-    else
-        [NSException raise:@"Unknown close tag" format:@"Unknown closing tag (%@) in %@", elementName, NSStringFromClass([self class])];
 }
 
 @end

@@ -61,8 +61,10 @@ void insert_mark(char **end, char *at)
     if (*at == '|')
 		return;
 	
-    while (temp >= at)
-		temp[1] = *temp--;
+    while (temp >= at) {
+		temp[1] = *temp;
+        temp--;
+    }
 	
     *at = '|';
     (*end)++;

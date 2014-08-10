@@ -14,31 +14,59 @@
 
 #import "MModel.h"
 
-#import "MXMLParser.h"
-#import "MXMLArrayDelegate.h"
-#import "MXMLPCDataDelegate.h"
-
 @implementation MMTransition
 {
-    MMPhoneType type;
-    NSMutableArray *points; // Of MMSlopeRatios and/or MMPoints
+    MMPhoneType _type;
+    NSMutableArray *_points; // Of MMSlopeRatios and/or MMPoints
 }
 
 - (id)init;
 {
     if ((self = [super init])) {
-        type = MMPhoneType_Diphone;
-        points = [[NSMutableArray alloc] init];
+        _type = MMPhoneType_Diphone;
+        _points = [[NSMutableArray alloc] init];
     }
 
     return self;
 }
 
-- (void)dealloc;
+- (id)initWithModel:(MModel *)model XMLElement:(NSXMLElement *)element error:(NSError **)error;
 {
-    [points release];
+    NSParameterAssert([@"transition" isEqualToString:element.name]);
 
-    [super dealloc];
+    if ((self = [super initWithXMLElement:element error:error])) {
+        _points = [[NSMutableArray alloc] init];
+
+        NSString *str = [[element attributeForName:@"type"] stringValue];
+        _type = (str != nil) ? MMPhoneTypeFromString(str) : MMPhoneType_Diphone;
+
+        self.model = model;
+
+        // Child element is: point-or-slopes
+        if (![self _loadPointsOrSlopesFromXMLElement:[[element elementsForName:@"point-or-slopes"] firstObject] error:error]) return nil;
+    }
+
+    return self;
+}
+
+- (BOOL)_loadPointsOrSlopesFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    NSParameterAssert([@"point-or-slopes" isEqualToString:element.name]);
+
+    NSArray *children = [element objectsForXQuery:@"point|slope-ratio" error:error];
+    for (NSXMLElement *childElement in children) {
+        if ([@"point" isEqualToString:childElement.name]) {
+            MMPoint *point = [[MMPoint alloc] initWithModel:self.model XMLElement:childElement error:error];
+            if (point != nil)
+                [self addPoint:point];
+        } else {
+            MMSlopeRatio *slopeRatio = [[MMSlopeRatio alloc] initWithModel:self.model XMLElement:childElement error:error];
+            if (slopeRatio != nil)
+                [self addPoint:slopeRatio];
+        }
+    }
+
+    return YES;
 }
 
 #pragma mark - Debugging
@@ -46,7 +74,7 @@
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"<%@: %p> name: %@, comment: %@, type: %lu, points: %@",
-            NSStringFromClass([self class]), self, self.name, self.comment, type, points];
+            NSStringFromClass([self class]), self, self.name, self.comment, _type, _points];
 }
 
 #pragma mark -
@@ -58,15 +86,12 @@
     [aPoint setFreeTime:0.0];
     [aPoint setValue:0.0];
     [self addPoint:aPoint];
-    [aPoint release];
 }
-
-@synthesize points;
 
 // Can be either an MMPoint or an MMSlopeRatio
 - (void)addPoint:(id)newPoint;
 {
-    [points addObject:newPoint];
+    [_points addObject:newPoint];
 }
 
 // pointTime = [aPoint cachedTime];
@@ -75,9 +100,9 @@
     NSUInteger pointCount, pointIndex;
     id currentPointOrSlopeRatio;
 
-    pointCount = [points count];
+    pointCount = [_points count];
     for (pointIndex = 0; pointIndex < pointCount; pointIndex++) {
-        currentPointOrSlopeRatio = [points objectAtIndex:pointIndex];
+        currentPointOrSlopeRatio = [_points objectAtIndex:pointIndex];
 
         if ([currentPointOrSlopeRatio isKindOfClass:[MMSlopeRatio class]]) {
             if (aTime < [currentPointOrSlopeRatio startTime])
@@ -98,11 +123,11 @@
     id temp, temp1, temp2;
     double pointTime = [aPoint cachedTime];
 
-    for (i = 0; i < [points count]; i++) {
-        temp = [points objectAtIndex:i];
+    for (i = 0; i < [_points count]; i++) {
+        temp = [_points objectAtIndex:i];
         if ([temp isKindOfClass:[MMSlopeRatio class]]) {
             if (pointTime < [temp startTime]) {
-                [points insertObject:aPoint atIndex:i];
+                [_points insertObject:aPoint atIndex:i];
                 return;
             } else if (pointTime < [temp endTime]) { /* Insert point into Slope Ratio */
                 temp1 = [temp points];
@@ -120,31 +145,29 @@
             }
         } else {
             if (pointTime < [temp cachedTime]) {
-                [points insertObject:aPoint atIndex:i];
+                [_points insertObject:aPoint atIndex:i];
                 return;
             }
         }
     }
 
-    [points addObject:aPoint];
+    [_points addObject:aPoint];
 }
-
-@synthesize type;
 
 - (BOOL)isEquationUsed:(MMEquation *)anEquation;
 {
     NSUInteger i, j;
     id temp;
 
-    for (i = 0; i < [points count]; i++) {
-        temp = [points objectAtIndex: i];
+    for (i = 0; i < [_points count]; i++) {
+        temp = [_points objectAtIndex: i];
         if ([temp isKindOfClass:[MMSlopeRatio class]]) {
             temp = [temp points];
             for (j = 0; j < [temp count]; j++)
                 if (anEquation == [[temp objectAtIndex:j] timeEquation])
                     return YES;
         } else
-            if (anEquation == [[points objectAtIndex:i] timeEquation])
+            if (anEquation == [[_points objectAtIndex:i] timeEquation])
                 return YES;
     }
 
@@ -155,14 +178,14 @@
 {
     [resultString indentToLevel:level];
     [resultString appendFormat:@"<transition name=\"%@\" type=\"%@\">\n",
-                  GSXMLAttributeString(self.name, NO), GSXMLAttributeString(MMStringFromPhoneType(type), NO)];
+                  GSXMLAttributeString(self.name, NO), GSXMLAttributeString(MMStringFromPhoneType(_type), NO)];
 
     if (self.comment != nil) {
         [resultString indentToLevel:level + 1];
         [resultString appendFormat:@"<comment>%@</comment>\n", GSXMLCharacterData(self.comment)];
     }
 
-    [points appendXMLToString:resultString elementName:@"point-or-slopes" level:level + 1];
+    [_points appendXMLToString:resultString elementName:@"point-or-slopes" level:level + 1];
 
     [resultString indentToLevel:level];
     [resultString appendFormat:@"</transition>\n"];
@@ -171,40 +194,6 @@
 - (NSString *)transitionPath;
 {
     return [NSString stringWithFormat:@"%@:%@", self.group.name, self.name];
-}
-
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
-{
-    if ((self = [super initWithXMLAttributes:attributes context:context])) {
-        NSString *str = [attributes objectForKey:@"type"];
-        if (str != nil)
-            self.type = MMPhoneTypeFromString(str);
-    }
-
-    return self;
-}
-
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-{
-    if ([elementName isEqualToString:@"point-or-slopes"]) {
-        NSDictionary *elementClassMapping = [[NSDictionary alloc] initWithObjectsAndKeys:[MMPoint class], @"point",
-                                             [MMSlopeRatio class], @"slope-ratio",
-                                             nil];
-        MXMLArrayDelegate *newDelegate = [[MXMLArrayDelegate alloc] initWithChildElementToClassMapping:elementClassMapping delegate:self addObjectSelector:@selector(addPoint:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
-        [elementClassMapping release];
-    } else {
-        [super parser:parser didStartElement:elementName namespaceURI:namespaceURI qualifiedName:qName attributes:attributeDict];
-    }
-}
-
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
-{
-    if ([elementName isEqualToString:@"transition"])
-        [(MXMLParser *)parser popDelegate];
-    else
-        [NSException raise:@"Unknown close tag" format:@"Unknown closing tag (%@) in %@", elementName, NSStringFromClass([self class])];
 }
 
 @end

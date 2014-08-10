@@ -7,7 +7,9 @@
 
 @interface MMObject : NSObject
 
-@property (nonatomic, weak) MModel *model;
+- (id)initWithXMLElement:(NSXMLElement *)element error:(NSError **)error;
+
+@property (weak) MModel *model;
 @property (nonatomic, readonly) NSUndoManager *undoManager;
 
 @end

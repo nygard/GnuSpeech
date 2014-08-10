@@ -10,8 +10,6 @@
 		010DE7331545598D005E337E /* MMToneGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 010DE7311545598D005E337E /* MMToneGroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		010DE7341545598D005E337E /* MMToneGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 010DE7321545598D005E337E /* MMToneGroup.m */; };
 		010DE75A15463851005E337E /* MMFRuleSymbols.m in Sources */ = {isa = PBXBuildFile; fileRef = 010DE75915463851005E337E /* MMFRuleSymbols.m */; };
-		012D539E0B7FF851001B50FC /* NSFileManager-Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 012D539C0B7FF851001B50FC /* NSFileManager-Extensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		012D539F0B7FF851001B50FC /* NSFileManager-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 012D539D0B7FF851001B50FC /* NSFileManager-Extensions.m */; };
 		012D53AC0B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 012D53A10B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		012D53AD0B7FF9DC001B50FC /* GSDBMPronunciationDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 012D53A20B7FF9DC001B50FC /* GSDBMPronunciationDictionary.m */; };
 		012D53AE0B7FF9DC001B50FC /* GSPronunciationDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 012D53A30B7FF9DC001B50FC /* GSPronunciationDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -38,22 +36,6 @@
 		0155E3990B7BE80D008D8879 /* NSString-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E38B0B7BE80D008D8879 /* NSString-Extensions.m */; };
 		0155E3DE0B7BE8AC008D8879 /* GSXMLFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3CA0B7BE8AC008D8879 /* GSXMLFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0155E3DF0B7BE8AC008D8879 /* GSXMLFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3CB0B7BE8AC008D8879 /* GSXMLFunctions.m */; };
-		0155E3E20B7BE8AC008D8879 /* MXMLArrayDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3CE0B7BE8AC008D8879 /* MXMLArrayDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0155E3E30B7BE8AC008D8879 /* MXMLArrayDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3CF0B7BE8AC008D8879 /* MXMLArrayDelegate.m */; };
-		0155E3E40B7BE8AC008D8879 /* MXMLDictionaryDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3D00B7BE8AC008D8879 /* MXMLDictionaryDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0155E3E50B7BE8AC008D8879 /* MXMLDictionaryDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3D10B7BE8AC008D8879 /* MXMLDictionaryDelegate.m */; };
-		0155E3E60B7BE8AC008D8879 /* MXMLIgnoreTreeDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3D20B7BE8AC008D8879 /* MXMLIgnoreTreeDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0155E3E70B7BE8AC008D8879 /* MXMLIgnoreTreeDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3D30B7BE8AC008D8879 /* MXMLIgnoreTreeDelegate.m */; };
-		0155E3E80B7BE8AC008D8879 /* MXMLParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3D40B7BE8AC008D8879 /* MXMLParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0155E3E90B7BE8AC008D8879 /* MXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3D50B7BE8AC008D8879 /* MXMLParser.m */; };
-		0155E3EA0B7BE8AC008D8879 /* MXMLPCDataDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3D60B7BE8AC008D8879 /* MXMLPCDataDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0155E3EB0B7BE8AC008D8879 /* MXMLPCDataDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3D70B7BE8AC008D8879 /* MXMLPCDataDelegate.m */; };
-		0155E3EC0B7BE8AC008D8879 /* MXMLReferenceArrayDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3D80B7BE8AC008D8879 /* MXMLReferenceArrayDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0155E3ED0B7BE8AC008D8879 /* MXMLReferenceArrayDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3D90B7BE8AC008D8879 /* MXMLReferenceArrayDelegate.m */; };
-		0155E3EE0B7BE8AC008D8879 /* MXMLReferenceDictionaryDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3DA0B7BE8AC008D8879 /* MXMLReferenceDictionaryDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0155E3EF0B7BE8AC008D8879 /* MXMLReferenceDictionaryDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3DB0B7BE8AC008D8879 /* MXMLReferenceDictionaryDelegate.m */; };
-		0155E3F00B7BE8AC008D8879 /* MXMLStringArrayDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3DC0B7BE8AC008D8879 /* MXMLStringArrayDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0155E3F10B7BE8AC008D8879 /* MXMLStringArrayDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3DD0B7BE8AC008D8879 /* MXMLStringArrayDelegate.m */; };
 		0155E4420B7BE8FA008D8879 /* Event.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E4120B7BE8F9008D8879 /* Event.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0155E4430B7BE8FA008D8879 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E4130B7BE8F9008D8879 /* Event.m */; };
 		0155E4440B7BE8FA008D8879 /* EventList.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E4140B7BE8F9008D8879 /* EventList.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -109,6 +91,8 @@
 		01ACA5E11544A80A00278339 /* MMGroupedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 01ACA5DF1544A80800278339 /* MMGroupedObject.m */; };
 		01B4561115452BE400D00A1A /* MMIntonationParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 01B4560F15452BE400D00A1A /* MMIntonationParameters.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01B4561215452BE400D00A1A /* MMIntonationParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 01B4561015452BE400D00A1A /* MMIntonationParameters.m */; };
+		01E6107C1996A566009CDE09 /* MMPhone.h in Headers */ = {isa = PBXBuildFile; fileRef = 01E6107A1996A566009CDE09 /* MMPhone.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		01E6107D1996A566009CDE09 /* MMPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 01E6107B1996A566009CDE09 /* MMPhone.m */; };
 		01F470A915408B7800A604B8 /* Tube.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01F470A815408B7800A604B8 /* Tube.framework */; };
 		69300A3E0FAB841E0041EBFB /* TTSParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 69300A3C0FAB841E0041EBFB /* TTSParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69300A3F0FAB841E0041EBFB /* TTSParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 69300A3D0FAB841E0041EBFB /* TTSParser.m */; };
@@ -205,8 +189,6 @@
 		010DE7311545598D005E337E /* MMToneGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMToneGroup.h; path = MonetModel/MMToneGroup.h; sourceTree = "<group>"; };
 		010DE7321545598D005E337E /* MMToneGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMToneGroup.m; path = MonetModel/MMToneGroup.m; sourceTree = "<group>"; };
 		010DE75915463851005E337E /* MMFRuleSymbols.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMFRuleSymbols.m; sourceTree = "<group>"; };
-		012D539C0B7FF851001B50FC /* NSFileManager-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "NSFileManager-Extensions.h"; path = "Extensions/NSFileManager-Extensions.h"; sourceTree = "<group>"; };
-		012D539D0B7FF851001B50FC /* NSFileManager-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSFileManager-Extensions.m"; path = "Extensions/NSFileManager-Extensions.m"; sourceTree = "<group>"; };
 		012D53A10B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GSDBMPronunciationDictionary.h; path = TextProcessing/GSDBMPronunciationDictionary.h; sourceTree = "<group>"; };
 		012D53A20B7FF9DC001B50FC /* GSDBMPronunciationDictionary.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GSDBMPronunciationDictionary.m; path = TextProcessing/GSDBMPronunciationDictionary.m; sourceTree = "<group>"; };
 		012D53A30B7FF9DC001B50FC /* GSPronunciationDictionary.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GSPronunciationDictionary.h; path = TextProcessing/GSPronunciationDictionary.h; sourceTree = "<group>"; };
@@ -233,22 +215,6 @@
 		0155E38B0B7BE80D008D8879 /* NSString-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSString-Extensions.m"; path = "Extensions/NSString-Extensions.m"; sourceTree = "<group>"; };
 		0155E3CA0B7BE8AC008D8879 /* GSXMLFunctions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GSXMLFunctions.h; path = Archiving/GSXMLFunctions.h; sourceTree = "<group>"; };
 		0155E3CB0B7BE8AC008D8879 /* GSXMLFunctions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GSXMLFunctions.m; path = Archiving/GSXMLFunctions.m; sourceTree = "<group>"; };
-		0155E3CE0B7BE8AC008D8879 /* MXMLArrayDelegate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MXMLArrayDelegate.h; path = Archiving/MXMLArrayDelegate.h; sourceTree = "<group>"; };
-		0155E3CF0B7BE8AC008D8879 /* MXMLArrayDelegate.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MXMLArrayDelegate.m; path = Archiving/MXMLArrayDelegate.m; sourceTree = "<group>"; };
-		0155E3D00B7BE8AC008D8879 /* MXMLDictionaryDelegate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MXMLDictionaryDelegate.h; path = Archiving/MXMLDictionaryDelegate.h; sourceTree = "<group>"; };
-		0155E3D10B7BE8AC008D8879 /* MXMLDictionaryDelegate.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MXMLDictionaryDelegate.m; path = Archiving/MXMLDictionaryDelegate.m; sourceTree = "<group>"; };
-		0155E3D20B7BE8AC008D8879 /* MXMLIgnoreTreeDelegate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MXMLIgnoreTreeDelegate.h; path = Archiving/MXMLIgnoreTreeDelegate.h; sourceTree = "<group>"; };
-		0155E3D30B7BE8AC008D8879 /* MXMLIgnoreTreeDelegate.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MXMLIgnoreTreeDelegate.m; path = Archiving/MXMLIgnoreTreeDelegate.m; sourceTree = "<group>"; };
-		0155E3D40B7BE8AC008D8879 /* MXMLParser.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MXMLParser.h; path = Archiving/MXMLParser.h; sourceTree = "<group>"; };
-		0155E3D50B7BE8AC008D8879 /* MXMLParser.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MXMLParser.m; path = Archiving/MXMLParser.m; sourceTree = "<group>"; };
-		0155E3D60B7BE8AC008D8879 /* MXMLPCDataDelegate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MXMLPCDataDelegate.h; path = Archiving/MXMLPCDataDelegate.h; sourceTree = "<group>"; };
-		0155E3D70B7BE8AC008D8879 /* MXMLPCDataDelegate.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MXMLPCDataDelegate.m; path = Archiving/MXMLPCDataDelegate.m; sourceTree = "<group>"; };
-		0155E3D80B7BE8AC008D8879 /* MXMLReferenceArrayDelegate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MXMLReferenceArrayDelegate.h; path = Archiving/MXMLReferenceArrayDelegate.h; sourceTree = "<group>"; };
-		0155E3D90B7BE8AC008D8879 /* MXMLReferenceArrayDelegate.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MXMLReferenceArrayDelegate.m; path = Archiving/MXMLReferenceArrayDelegate.m; sourceTree = "<group>"; };
-		0155E3DA0B7BE8AC008D8879 /* MXMLReferenceDictionaryDelegate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MXMLReferenceDictionaryDelegate.h; path = Archiving/MXMLReferenceDictionaryDelegate.h; sourceTree = "<group>"; };
-		0155E3DB0B7BE8AC008D8879 /* MXMLReferenceDictionaryDelegate.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MXMLReferenceDictionaryDelegate.m; path = Archiving/MXMLReferenceDictionaryDelegate.m; sourceTree = "<group>"; };
-		0155E3DC0B7BE8AC008D8879 /* MXMLStringArrayDelegate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MXMLStringArrayDelegate.h; path = Archiving/MXMLStringArrayDelegate.h; sourceTree = "<group>"; };
-		0155E3DD0B7BE8AC008D8879 /* MXMLStringArrayDelegate.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MXMLStringArrayDelegate.m; path = Archiving/MXMLStringArrayDelegate.m; sourceTree = "<group>"; };
 		0155E4120B7BE8F9008D8879 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Event.h; path = MonetModel/Event.h; sourceTree = "<group>"; };
 		0155E4130B7BE8F9008D8879 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = Event.m; path = MonetModel/Event.m; sourceTree = "<group>"; };
 		0155E4140B7BE8F9008D8879 /* EventList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = EventList.h; path = MonetModel/EventList.h; sourceTree = "<group>"; };
@@ -306,6 +272,8 @@
 		01AE22D7154109B200AC1015 /* GnuSpeechServerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GnuSpeechServerProtocol.h; sourceTree = "<group>"; };
 		01B4560F15452BE400D00A1A /* MMIntonationParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMIntonationParameters.h; path = MonetModel/MMIntonationParameters.h; sourceTree = "<group>"; };
 		01B4561015452BE400D00A1A /* MMIntonationParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMIntonationParameters.m; path = MonetModel/MMIntonationParameters.m; sourceTree = "<group>"; };
+		01E6107A1996A566009CDE09 /* MMPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMPhone.h; path = MonetModel/MMPhone.h; sourceTree = "<group>"; };
+		01E6107B1996A566009CDE09 /* MMPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMPhone.m; path = MonetModel/MMPhone.m; sourceTree = "<group>"; };
 		01F470A815408B7800A604B8 /* Tube.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Tube.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/GnuSpeech-asltgrlxcnhnopcwrardgfljqcve/Build/Products/Debug/Tube.framework"; sourceTree = "<group>"; };
 		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
@@ -423,10 +391,10 @@
 		012D53A00B7FF9BD001B50FC /* Text Processing */ = {
 			isa = PBXGroup;
 			children = (
-				012D53A10B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h */,
-				012D53A20B7FF9DC001B50FC /* GSDBMPronunciationDictionary.m */,
 				012D53A30B7FF9DC001B50FC /* GSPronunciationDictionary.h */,
 				012D53A40B7FF9DC001B50FC /* GSPronunciationDictionary.m */,
+				012D53A10B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h */,
+				012D53A20B7FF9DC001B50FC /* GSDBMPronunciationDictionary.m */,
 				012D53A50B7FF9DC001B50FC /* GSSimplePronunciationDictionary.h */,
 				012D53A60B7FF9DC001B50FC /* GSSimplePronunciationDictionary.m */,
 				012D53A70B7FF9DC001B50FC /* GSSuffix.h */,
@@ -440,7 +408,7 @@
 			name = "Text Processing";
 			sourceTree = "<group>";
 		};
-		014185291542B0F1001AE3B5 /* Input data form XML file */ = {
+		014185291542B0F1001AE3B5 /* Input data from XML file */ = {
 			isa = PBXGroup;
 			children = (
 				0155E4160B7BE8F9008D8879 /* MDocument.h */,
@@ -457,7 +425,7 @@
 				01ACA5DF1544A80800278339 /* MMGroupedObject.m */,
 				016503E315436FBA00D64E98 /* Concrete subclasses */,
 			);
-			name = "Input data form XML file";
+			name = "Input data from XML file";
 			sourceTree = "<group>";
 		};
 		0155E37F0B7BE7FD008D8879 /* Extensions */ = {
@@ -467,8 +435,6 @@
 				0155E3810B7BE80D008D8879 /* NSArray-Extensions.m */,
 				0155E3820B7BE80D008D8879 /* NSCharacterSet-Extensions.h */,
 				0155E3830B7BE80D008D8879 /* NSCharacterSet-Extensions.m */,
-				012D539C0B7FF851001B50FC /* NSFileManager-Extensions.h */,
-				012D539D0B7FF851001B50FC /* NSFileManager-Extensions.m */,
 				0155E3860B7BE80D008D8879 /* NSObject-Extensions.h */,
 				0155E3870B7BE80D008D8879 /* NSObject-Extensions.m */,
 				0155E3880B7BE80D008D8879 /* NSScanner-Extensions.h */,
@@ -484,22 +450,6 @@
 			children = (
 				0155E3CA0B7BE8AC008D8879 /* GSXMLFunctions.h */,
 				0155E3CB0B7BE8AC008D8879 /* GSXMLFunctions.m */,
-				0155E3CE0B7BE8AC008D8879 /* MXMLArrayDelegate.h */,
-				0155E3CF0B7BE8AC008D8879 /* MXMLArrayDelegate.m */,
-				0155E3D00B7BE8AC008D8879 /* MXMLDictionaryDelegate.h */,
-				0155E3D10B7BE8AC008D8879 /* MXMLDictionaryDelegate.m */,
-				0155E3D20B7BE8AC008D8879 /* MXMLIgnoreTreeDelegate.h */,
-				0155E3D30B7BE8AC008D8879 /* MXMLIgnoreTreeDelegate.m */,
-				0155E3D40B7BE8AC008D8879 /* MXMLParser.h */,
-				0155E3D50B7BE8AC008D8879 /* MXMLParser.m */,
-				0155E3D60B7BE8AC008D8879 /* MXMLPCDataDelegate.h */,
-				0155E3D70B7BE8AC008D8879 /* MXMLPCDataDelegate.m */,
-				0155E3D80B7BE8AC008D8879 /* MXMLReferenceArrayDelegate.h */,
-				0155E3D90B7BE8AC008D8879 /* MXMLReferenceArrayDelegate.m */,
-				0155E3DA0B7BE8AC008D8879 /* MXMLReferenceDictionaryDelegate.h */,
-				0155E3DB0B7BE8AC008D8879 /* MXMLReferenceDictionaryDelegate.m */,
-				0155E3DC0B7BE8AC008D8879 /* MXMLStringArrayDelegate.h */,
-				0155E3DD0B7BE8AC008D8879 /* MXMLStringArrayDelegate.m */,
 			);
 			name = Archiving;
 			sourceTree = "<group>";
@@ -507,7 +457,7 @@
 		0155E40F0B7BE8E7008D8879 /* Monet Model */ = {
 			isa = PBXGroup;
 			children = (
-				014185291542B0F1001AE3B5 /* Input data form XML file */,
+				014185291542B0F1001AE3B5 /* Input data from XML file */,
 				0155E4120B7BE8F9008D8879 /* Event.h */,
 				0155E4130B7BE8F9008D8879 /* Event.m */,
 				01B4560F15452BE400D00A1A /* MMIntonationParameters.h */,
@@ -548,6 +498,8 @@
 				0155E41B0B7BE8F9008D8879 /* MMEquation.m */,
 				0155E4240B7BE8F9008D8879 /* MMParameter.h */,
 				0155E4250B7BE8F9008D8879 /* MMParameter.m */,
+				01E6107A1996A566009CDE09 /* MMPhone.h */,
+				01E6107B1996A566009CDE09 /* MMPhone.m */,
 				0155E4260B7BE8F9008D8879 /* MMPoint.h */,
 				0155E4270B7BE8F9008D8879 /* MMPoint.m */,
 				0155E4280B7BE8F9008D8879 /* MMPosture.h */,
@@ -811,18 +763,9 @@
 				0155E3980B7BE80D008D8879 /* NSString-Extensions.h in Headers */,
 				0155E3960B7BE80D008D8879 /* NSScanner-Extensions.h in Headers */,
 				0155E3940B7BE80D008D8879 /* NSObject-Extensions.h in Headers */,
-				012D539E0B7FF851001B50FC /* NSFileManager-Extensions.h in Headers */,
 				0155E3900B7BE80D008D8879 /* NSCharacterSet-Extensions.h in Headers */,
 				0155E38E0B7BE80D008D8879 /* NSArray-Extensions.h in Headers */,
 				0155E46C0B7BE8FA008D8879 /* MMGroup.h in Headers */,
-				0155E3F00B7BE8AC008D8879 /* MXMLStringArrayDelegate.h in Headers */,
-				0155E3EE0B7BE8AC008D8879 /* MXMLReferenceDictionaryDelegate.h in Headers */,
-				0155E3EC0B7BE8AC008D8879 /* MXMLReferenceArrayDelegate.h in Headers */,
-				0155E3EA0B7BE8AC008D8879 /* MXMLPCDataDelegate.h in Headers */,
-				0155E3E80B7BE8AC008D8879 /* MXMLParser.h in Headers */,
-				0155E3E60B7BE8AC008D8879 /* MXMLIgnoreTreeDelegate.h in Headers */,
-				0155E3E40B7BE8AC008D8879 /* MXMLDictionaryDelegate.h in Headers */,
-				0155E3E20B7BE8AC008D8879 /* MXMLArrayDelegate.h in Headers */,
 				0155E4680B7BE8FA008D8879 /* MMTransition.h in Headers */,
 				0155E4660B7BE8FA008D8879 /* MMTarget.h in Headers */,
 				0155E4640B7BE8FA008D8879 /* MMSynthesisParameters.h in Headers */,
@@ -897,6 +840,7 @@
 				69E228660FB13394001B3C04 /* tail.h in Headers */,
 				69E228680FB13394001B3C04 /* vowel_before.h in Headers */,
 				0157785815410A48008C2ECF /* GnuSpeechServerProtocol.h in Headers */,
+				01E6107C1996A566009CDE09 /* MMPhone.h in Headers */,
 				0165043D1543B42700D64E98 /* MMDriftGenerator.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -928,6 +872,9 @@
 /* Begin PBXProject section */
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0600;
+			};
 			buildConfigurationList = 1DEB91B108733DA50010E9CD /* Build configuration list for PBXProject "GnuSpeech" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
@@ -971,16 +918,9 @@
 				0155E3970B7BE80D008D8879 /* NSScanner-Extensions.m in Sources */,
 				0155E3990B7BE80D008D8879 /* NSString-Extensions.m in Sources */,
 				0155E3DF0B7BE8AC008D8879 /* GSXMLFunctions.m in Sources */,
-				0155E3E30B7BE8AC008D8879 /* MXMLArrayDelegate.m in Sources */,
-				0155E3E50B7BE8AC008D8879 /* MXMLDictionaryDelegate.m in Sources */,
-				0155E3E70B7BE8AC008D8879 /* MXMLIgnoreTreeDelegate.m in Sources */,
-				0155E3E90B7BE8AC008D8879 /* MXMLParser.m in Sources */,
-				0155E3EB0B7BE8AC008D8879 /* MXMLPCDataDelegate.m in Sources */,
-				0155E3ED0B7BE8AC008D8879 /* MXMLReferenceArrayDelegate.m in Sources */,
-				0155E3EF0B7BE8AC008D8879 /* MXMLReferenceDictionaryDelegate.m in Sources */,
-				0155E3F10B7BE8AC008D8879 /* MXMLStringArrayDelegate.m in Sources */,
 				0155E4430B7BE8FA008D8879 /* Event.m in Sources */,
 				0155E4450B7BE8FA008D8879 /* EventList.m in Sources */,
+				01E6107D1996A566009CDE09 /* MMPhone.m in Sources */,
 				0155E4470B7BE8FA008D8879 /* MDocument.m in Sources */,
 				0155E4490B7BE8FA008D8879 /* MMCategory.m in Sources */,
 				0155E44B0B7BE8FA008D8879 /* MMEquation.m in Sources */,
@@ -1001,7 +941,6 @@
 				0155E4690B7BE8FA008D8879 /* MMTransition.m in Sources */,
 				0155E46D0B7BE8FA008D8879 /* MMGroup.m in Sources */,
 				0155E4780B7BE92A008D8879 /* TRMSynthesizer.m in Sources */,
-				012D539F0B7FF851001B50FC /* NSFileManager-Extensions.m in Sources */,
 				012D53AD0B7FF9DC001B50FC /* GSDBMPronunciationDictionary.m in Sources */,
 				012D53AF0B7FF9DC001B50FC /* GSPronunciationDictionary.m in Sources */,
 				012D53B10B7FF9DC001B50FC /* GSSimplePronunciationDictionary.m in Sources */,
@@ -1072,6 +1011,7 @@
 		1DEB91AE08733DA50010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
 				DSTROOT = /;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1100,6 +1040,7 @@
 		1DEB91AF08733DA50010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				DSTROOT = /;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1127,25 +1068,36 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEPLOYMENT_LOCATION = NO;
 				DEPLOYMENT_POSTPROCESSING = NO;
 				DSTROOT = "/tmp/$(PROJECT_NAME).dst";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/..\"/**";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INPUT_FILETYPE = sourcecode.c.objc;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
 				INSTALL_PATH = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = "";
+				SDKROOT = macosx;
 				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Debug;
@@ -1154,22 +1106,33 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEPLOYMENT_LOCATION = NO;
 				DEPLOYMENT_POSTPROCESSING = NO;
 				DSTROOT = "/tmp/$(PROJECT_NAME).dst";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/..\"/**";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INPUT_FILETYPE = sourcecode.c.objc;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
 				INSTALL_PATH = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};

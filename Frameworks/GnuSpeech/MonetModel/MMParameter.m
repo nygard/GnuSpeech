@@ -9,25 +9,42 @@
 #import "GSXMLFunctions.h"
 #import "MModel.h"
 
-#import "MXMLParser.h"
-#import "MXMLPCDataDelegate.h"
-
 #define DEFAULT_MIN 100.0
 #define DEFAULT_MAX 1000.0
 
 @implementation MMParameter
 {
-    double m_minimumValue;
-    double m_maximumValue;
-    double m_defaultValue;
+    double _minimumValue;
+    double _maximumValue;
+    double _defaultValue;
 }
 
 - (id)init;
 {
     if ((self = [super init])) {
-        m_minimumValue = DEFAULT_MIN;
-        m_maximumValue = DEFAULT_MAX;
-        m_defaultValue = DEFAULT_MIN;
+        _minimumValue = DEFAULT_MIN;
+        _maximumValue = DEFAULT_MAX;
+        _defaultValue = DEFAULT_MIN;
+    }
+
+    return self;
+}
+
+- (id)initWithXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    NSParameterAssert([@"parameter" isEqualToString:element.name]);
+
+    if ((self = [super initWithXMLElement:element error:error])) {
+        id value;
+
+        value = [[element attributeForName:@"minimum"] stringValue];
+        _minimumValue = (value != nil) ? [value doubleValue] : DEFAULT_MIN;
+
+        value = [[element attributeForName:@"maximum"] stringValue];
+        _maximumValue = (value != nil) ? [value doubleValue] : DEFAULT_MAX;
+
+        value = [[element attributeForName:@"default"] stringValue];
+        _defaultValue = (value != nil) ? [value doubleValue] : DEFAULT_MIN;
     }
 
     return self;
@@ -42,23 +59,13 @@
             self.name, self.comment, self.minimumValue, self.maximumValue, self.defaultValue];
 }
 
-#pragma mark -
-
-@synthesize minimumValue = m_minimumValue;
-@synthesize maximumValue = m_maximumValue;
-@synthesize defaultValue = m_defaultValue;
-
-- (double)defaultValue;
-{
-    return m_defaultValue;
-}
 
 - (void)setDefaultValue:(double)newDefault;
 {
-    if (newDefault != m_defaultValue)
+    if (newDefault != _defaultValue)
         [[self model] parameter:self willChangeDefaultValue:newDefault];
 
-    m_defaultValue = newDefault;
+    _defaultValue = newDefault;
 }
 
 
@@ -78,35 +85,6 @@
         [resultString indentToLevel:level];
         [resultString appendString:@"</parameter>\n"];
     }
-}
-
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
-{
-    if ((self = [super initWithXMLAttributes:attributes context:context])) {
-        id value;
-        
-        value = [attributes objectForKey:@"minimum"];
-        if (value != nil)
-            [self setMinimumValue:[value doubleValue]];
-        
-        value = [attributes objectForKey:@"maximum"];
-        if (value != nil)
-            [self setMaximumValue:[value doubleValue]];
-        
-        value = [attributes objectForKey:@"default"];
-        if (value != nil)
-            [self setDefaultValue:[value doubleValue]];
-    }
-
-    return self;
-}
-
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
-{
-    if ([elementName isEqualToString:@"parameter"])
-        [(MXMLParser *)parser popDelegate];
-    else
-        [NSException raise:@"Unknown close tag" format:@"Unknown closing tag (%@) in %@", elementName, NSStringFromClass([self class])];
 }
 
 @end

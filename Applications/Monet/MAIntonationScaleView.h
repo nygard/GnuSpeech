@@ -6,7 +6,6 @@
 @interface MAIntonationScaleView : NSView
 
 - (id)initWithFrame:(NSRect)frameRect;
-- (void)dealloc;
 
 - (NSUInteger)sectionCount;
 - (void)setSectionCount:(NSUInteger)newSectionCount;

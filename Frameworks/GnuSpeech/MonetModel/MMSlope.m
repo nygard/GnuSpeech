@@ -7,19 +7,39 @@
 #import "NSString-Extensions.h"
 
 #import "GSXMLFunctions.h"
-#import "MXMLParser.h"
 
 @implementation MMSlope
 {
-    double slope;
-    double displayTime;
+    double _slope;
+    double _displayTime;
 }
 
 - (id)init;
 {
     if ((self = [super init])) {
-        slope = 0.0;
-        displayTime = 0;
+        _slope = 0.0;
+        _displayTime = 0;
+    }
+
+    return self;
+}
+
+- (id)initWithXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    NSParameterAssert([@"slope" isEqualToString:element.name]);
+    
+    if ((self = [super init])) {
+        _slope = 0.0;
+        _displayTime = 0;
+
+        NSString *str;
+        str = [[element attributeForName:@"slope"] stringValue];
+        if (str != nil)
+            [self setSlope:[str doubleValue]];
+
+        str = [[element attributeForName:@"display-time"] stringValue];
+        if (str == nil)
+            [self setDisplayTime:[str doubleValue]];
     }
 
     return self;
@@ -30,46 +50,15 @@
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"<%@: %p> slope: %g, displayTime: %g",
-                     NSStringFromClass([self class]), self, slope, displayTime];
+                     NSStringFromClass([self class]), self, _slope, _displayTime];
 }
 
 #pragma mark -
 
-@synthesize slope, displayTime;
-
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     [resultString indentToLevel:level];
-    [resultString appendFormat:@"<slope slope=\"%g\" display-time=\"%g\"/>\n", slope, displayTime];
-}
-
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
-{
-    if ((self = [self init])) {
-        NSString *str = [attributes objectForKey:@"slope"];
-        if (str != nil)
-            [self setSlope:[str doubleValue]];
-        
-        str = [attributes objectForKey:@"display-time"];
-        if (str == nil)
-            [self setDisplayTime:[str doubleValue]];
-    }
-
-    return self;
-}
-
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-{
-    NSLog(@"%@, Unknown element: '%@', skipping", [self shortDescription], elementName);
-    [(MXMLParser *)parser skipTree];
-}
-
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
-{
-    if ([elementName isEqualToString:@"slope"])
-        [(MXMLParser *)parser popDelegate];
-    else
-        [NSException raise:@"Unknown close tag" format:@"Unknown closing tag (%@) in %@", elementName, NSStringFromClass([self class])];
+    [resultString appendFormat:@"<slope slope=\"%g\" display-time=\"%g\"/>\n", _slope, _displayTime];
 }
 
 @end

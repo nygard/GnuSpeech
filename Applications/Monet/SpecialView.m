@@ -61,7 +61,6 @@
     [bezierPath setLineWidth:2];
     [bezierPath appendBezierPathWithRect:NSMakeRect(graphOrigin.x, graphOrigin.y, bounds.size.width - 2 * LEFT_MARGIN, 14 * sectionHeight)];
     [bezierPath stroke];
-    [bezierPath release];
 
     [[NSColor blackColor] set];
     [self.timesFont set];
@@ -88,7 +87,6 @@
     }
 
     [bezierPath stroke];
-    [bezierPath release];
 }
 
 - (void)updateDisplayPoints;
@@ -115,8 +113,9 @@
             CGFloat y = (CGFloat)[currentPoint value];
             if ([currentPoint timeEquation] == nil)
                 eventTime = [currentPoint freeTime];
-            else
-                eventTime = [[currentPoint timeEquation] evaluate:self.parameters postures:self.samplePostures andCacheWith:cacheTag];
+            else {
+                eventTime = [[currentPoint timeEquation] evaluateWithPhonesInArray:self.samplePhones ruleSymbols:self.parameters andCacheWithTag:cacheTag];
+            }
 
             NSPoint myPoint;
             myPoint.x = graphOrigin.x + timeScale * eventTime;
@@ -203,8 +202,9 @@
         MMEquation *currentExpression = [currentDisplayPoint timeEquation];
         if (currentExpression == nil)
             currentPoint.x = [currentDisplayPoint freeTime];
-        else
-            currentPoint.x = [[currentDisplayPoint timeEquation] evaluate:self.parameters postures:self.samplePostures andCacheWith:cacheTag];
+        else {
+            currentPoint.x = [[currentDisplayPoint timeEquation] evaluateWithPhonesInArray:nil ruleSymbols:self.parameters andCacheWithTag:cacheTag];
+        }
 
         currentPoint.x *= timeScale;
         currentPoint.y = (yScale * self.zeroIndex) + ([currentDisplayPoint value] * yScale / self.sectionAmount);

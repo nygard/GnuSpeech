@@ -3,19 +3,18 @@
 
 #import <Foundation/Foundation.h>
 
-#import "GSXMLFunctions.h" // For MMPhoneType
-#import "MMFRuleSymbols.h"
-
-@class EventList, MMEquation;
+@class EventList, MMEquation, MModel, MMFRuleSymbols;
 
 @interface MMPoint : NSObject
+
+- (id)initWithModel:(MModel *)model XMLElement:(NSXMLElement *)element error:(NSError **)error;
 
 @property (assign) double value;
 
 - (double)multiplyValueByFactor:(double)factor;
 - (double)addValue:(double)newValue;
 
-@property (retain) MMEquation *timeEquation;
+@property (strong) MMEquation *timeEquation;
 @property (assign) double freeTime;
 
 - (double)cachedTime;
@@ -23,17 +22,12 @@
 @property (assign) NSUInteger type;
 @property (assign) BOOL isPhantom;
 
-- (void)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag toDisplay:(NSMutableArray *)displayList;
-
-- (double)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag
-                 baseline:(double)baseline delta:(double)delta min:(double)min max:(double)max
-              toEventList:(EventList *)eventList atIndex:(NSUInteger)index;
+- (void)calculatePointsWithPhonesInArray:(NSArray *)phones ruleSymbols:(MMFRuleSymbols *)ruleSymbols andCacheWithTag:(NSUInteger)newCacheTag andAddToDisplay:(NSMutableArray *)displayList;
+- (double)calculatePointsWithPhonesInArray:(NSArray *)phones ruleSymbols:(MMFRuleSymbols *)ruleSymbols andCacheWithTag:(NSUInteger)newCacheTag
+                                  baseline:(double)baseline delta:(double)delta min:(double)min max:(double)max
+                         andAddToEventList:(EventList *)eventList atIndex:(NSUInteger)index;
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
-
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 
 - (NSComparisonResult)compareByAscendingCachedTime:(MMPoint *)otherPoint;
 

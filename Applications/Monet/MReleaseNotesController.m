@@ -7,7 +7,7 @@
 
 @implementation MReleaseNotesController
 {
-    IBOutlet WebView *webView;
+    IBOutlet WebView *_webView;
 }
 
 - (id)init;
@@ -21,10 +21,8 @@
 
 - (void)windowDidLoad;
 {
-    NSString *path;
-
-    path = [[NSBundle mainBundle] pathForResource:@"ReleaseNotes" ofType:@"html"];
-    [[webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:path]]];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"ReleaseNotes" ofType:@"html"];
+    [[_webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:path]]];
 }
 
 @end

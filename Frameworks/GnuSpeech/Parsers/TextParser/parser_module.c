@@ -174,35 +174,35 @@ static NXStream *stream2;
 
 
 /*  GLOBAL FUNCTIONS, LOCAL TO THIS FILE  ************************************/
-static void condition_input(const char *input, char *output, int length, int *output_length);
-static int mark_modes(char *input, char *output, int length, int *output_length);
-static void strip_punctuation(char *buffer, int length, NXStream *stream, long *stream_length);
+static void condition_input(const char *input, char *output, long length, long *output_length);
+static int mark_modes(char *input, char *output, long length, long *output_length);
+static void strip_punctuation(char *buffer, long length, NXStream *stream, long *stream_length);
 static int final_conversion(NXStream *stream1, long stream1_length,
 							NXStream *stream2, long *stream2_length);
-static int get_state(const char *buffer, long *i, long length, int *mode, int *next_mode,
-					 int *current_state, int *next_state, int *raw_mode_flag,
+static int get_state(const char *buffer, long *i, long length, long *mode, long *next_mode,
+					 long *current_state, long *next_state, long *raw_mode_flag,
 					 char *word, NXStream *stream);
 static int set_tone_group(NXStream *stream, long tg_pos, char *word);
 static float convert_silence(char *buffer, NXStream *stream);
-static int another_word_follows(const char *buffer, long i, long length, int mode);
-static int shift_silence(const char *buffer, long i, long length, int mode, NXStream *stream);
+static int another_word_follows(const char *buffer, long i, long length, long mode);
+static int shift_silence(const char *buffer, long i, long length, long mode, NXStream *stream);
 static void insert_tag(NXStream *stream, long insert_point, char *word);
-static void expand_word(char *word, int is_tonic, NXStream *stream);
+static void expand_word(char *word, long is_tonic, NXStream *stream);
 static int expand_raw_mode(const char *buffer, long *j, long length, NXStream *stream);
 static int illegal_token(char *token);
 static int illegal_slash_code(char *code);
 static int expand_tag_number(const char *buffer, long *j, long length, NXStream *stream);
 static int is_mode(char c);
-static int is_isolated(char *buffer, int i, int len);
-static int part_of_number(char *buffer, int i, int len);
-static int number_follows(char *buffer, int i, int len);
-static void delete_ellipsis(char *buffer, int *i, int length);
-static int convert_dash(char *buffer, int *i, int length);
-static int is_telephone_number(char *buffer, int i, int length);
+static int is_isolated(char *buffer, long i, long len);
+static int part_of_number(char *buffer, long i, long len);
+static int number_follows(char *buffer, long i, long len);
+static void delete_ellipsis(char *buffer, long *i, long length);
+static int convert_dash(char *buffer, long *i, long length);
+static int is_telephone_number(char *buffer, long i, long length);
 static int is_punctuation(char c);
-static int word_follows(char *buffer, int i, int length);
-static int expand_abbreviation(char *buffer, int i, int length, NXStream *stream);
-static void expand_letter_mode(char *buffer, int *i, int length, NXStream *stream, int *status);
+static int word_follows(char *buffer, long i, long length);
+static int expand_abbreviation(char *buffer, long i, long length, NXStream *stream);
+static void expand_letter_mode(char *buffer, long *i, long length, NXStream *stream, long *status);
 static int is_all_upper_case(char *word);
 static char *to_lower_case(char *word);
 static const char *is_special_acronym(char *word);
@@ -212,7 +212,6 @@ static int is_possessive(char *word);
 static void safety_check(NXStream *stream, long *stream_length);
 static void insert_chunk_marker(NXStream *stream, long insert_point, char tg_type);
 static void check_tonic(NXStream *stream, long start_pos, long end_pos);
-static void print_stream(NXStream *stream, long stream_length);
 
 
 
@@ -239,16 +238,12 @@ void init_parser_module(void)
 {
 	stream2 = NULL;
 	
-	[userDictionary release];
 	userDictionary = nil;
 	
-	[appDictionary release];
 	appDictionary = nil;
 	
-	[mainDictionary release];
 	mainDictionary = nil;
 	
-	[specialAcronymsDictionary release];
 	specialAcronymsDictionary = nil;
 	
 	escape_character = '%';  // default escape character
@@ -320,15 +315,11 @@ int set_dict_data(const int16_t order[4],
 	dictionaryOrder[3] = TTS_EMPTY;
 	
 	/*  COPY POINTER TO DICTIONARIES INTO GLOBAL VARIABLES  */
-	[userDictionary release];
-	[appDictionary release];
-	[mainDictionary release];
-	[specialAcronymsDictionary release];
 	
-	[(userDictionary = userDict) retain];
-	[(appDictionary = appDict) retain];
-	[(mainDictionary = mainDict) retain];
-	[(specialAcronymsDictionary = specialAcronymsDict) retain];
+	userDictionary = userDict;
+	appDictionary = appDict;
+	mainDictionary = mainDict;
+	specialAcronymsDictionary = specialAcronymsDict;
 	
 	/*  COPY ORDER TO GLOBAL VARIABLE, ACCOUNT FOR UNOPENABLE PREDITOR-NOT DICTIONARIES  */
 	j = 0;
@@ -380,7 +371,7 @@ int set_dict_data(const int16_t order[4],
 int parser(const char *input, const char **output)
 {
 	int error, len, maxlen;
-	int input_length, buffer1_length, buffer2_length;
+	long input_length, buffer1_length, buffer2_length;
 	char *buffer1, *buffer2;
 	NXStream *stream1;
 	long stream1_length, stream2_length;
@@ -551,14 +542,9 @@ const char *lookup_word(const char *word, short *dict)
 	   *dict = TTS_LETTER_TO_SOUND;
 	    return((const char *)pronunciation);
 	}
-	else {
-	    *dict = TTS_LETTER_TO_SOUND;
-	    return((const char *)degenerate_string(word));
-	}
-		
-	/*  SHOULD NEVER GET HERE, BUT IF YOU DO, RETURN NULL  */
-	*dict = -1;
-	return(NULL);
+
+    *dict = TTS_LETTER_TO_SOUND;
+    return((const char *)degenerate_string(word));
 }
 
 
@@ -582,7 +568,7 @@ const char *lookup_word(const char *word, short *dict)
  *
  ******************************************************************************/
 
-static void condition_input(const char *input, char *output, int length, int *output_length)
+static void condition_input(const char *input, char *output, long length, long *output_length)
 {
 	int i, j = 0;
 	
@@ -639,7 +625,7 @@ static void condition_input(const char *input, char *output, int length, int *ou
  *
  ******************************************************************************/
 
-static int mark_modes(char *input, char *output, int length, int *output_length)
+static int mark_modes(char *input, char *output, long length, long *output_length)
 {
 	int i, j = 0, pos, minus, period;
 	int mode_stack[MODE_NEST_MAX], stack_ptr = 0, mode;
@@ -888,9 +874,9 @@ static int mark_modes(char *input, char *output, int length, int *output_length)
  *
  ******************************************************************************/
 
-static void strip_punctuation(char *buffer, int length, NXStream *stream, long *stream_length)
+static void strip_punctuation(char *buffer, long length, NXStream *stream, long *stream_length)
 {
-	int i, mode = NORMAL_MODE, status;
+	long i, mode = NORMAL_MODE, status;
 	
 	/*  DELETE OR CONVERT PUNCTUATION  */
 	for (i = 0; i < length; i++) {
@@ -1123,18 +1109,18 @@ static int final_conversion(NXStream *stream1, long stream1_length,
 							NXStream *stream2, long *stream2_length)
 {
 	long i, last_word_end = UNDEFINED_POSITION, tg_marker_pos = UNDEFINED_POSITION;
-	int mode = NORMAL_MODE, next_mode, prior_tonic = TTS_FALSE, raw_mode_flag = TTS_FALSE;
-	int last_written_state = STATE_BEGIN, current_state, next_state;
+	long mode = NORMAL_MODE, next_mode, prior_tonic = TTS_FALSE, raw_mode_flag = TTS_FALSE;
+	long last_written_state = STATE_BEGIN, current_state, next_state;
 	const char *input;
 	char word[WORD_LENGTH_MAX+1];
-	int length, max_length;
+	long length, max_length;
 	
 	
 	/*  REWIND STREAM2 BACK TO BEGINNING  */
 	NXSeek(stream2, 0, NX_FROMSTART);
 	
 	/*  GET MEMORY BUFFER ASSOCIATED WITH STREAM1  */
-	NXGetMemoryBuffer(stream1, &input, &length, &max_length);
+	NXGetMemoryBuffer(stream1, &input, (int *)&length, (int *)&max_length);
 	
 	/*  MAIN LOOP  */
 	for (i = 0; i < stream1_length; i++) {
@@ -1374,13 +1360,13 @@ static int final_conversion(NXStream *stream1, long stream1_length,
  *
  ******************************************************************************/
 
-static int get_state(const char *buffer, long *i, long length, int *mode, int *next_mode,
-					 int *current_state, int *next_state, int *raw_mode_flag,
+static int get_state(const char *buffer, long *i, long length, long *mode, long *next_mode,
+					 long *current_state, long *next_state, long *raw_mode_flag,
 					 char *word, NXStream *stream)
 {
 	long j;
-	int k, state = 0, current_mode;
-	int *state_buffer[2];
+	long k, state = 0, current_mode;
+	long *state_buffer[2];
 	
 	
 	/*  PUT STATE POINTERS INTO ARRAY  */
@@ -1686,7 +1672,7 @@ static float convert_silence(char *buffer, NXStream *stream)
  *
  ******************************************************************************/
 
-static int another_word_follows(const char *buffer, long i, long length, int mode)
+static int another_word_follows(const char *buffer, long i, long length, long mode)
 {
 	long j;
 	
@@ -1742,7 +1728,7 @@ static int another_word_follows(const char *buffer, long i, long length, int mod
  *
  ******************************************************************************/
 
-static int shift_silence(const char *buffer, long i, long length, int mode, NXStream *stream)
+static int shift_silence(const char *buffer, long i, long length, long mode, NXStream *stream)
 {
 	long j;
 	char word[WORD_LENGTH_MAX+1];
@@ -1874,7 +1860,7 @@ static void insert_tag(NXStream *stream, long insert_point, char *word)
  *
  ******************************************************************************/
 
-static void expand_word(char *word, int is_tonic, NXStream *stream)
+static void expand_word(char *word, long is_tonic, NXStream *stream)
 {
 	short dictionary;
 	const char *pronunciation, *ptr;
@@ -2285,7 +2271,7 @@ static int is_mode(char c)
  *
  ******************************************************************************/
 
-static int is_isolated(char *buffer, int i, int len)
+static int is_isolated(char *buffer, long i, long len)
 {
 	if ( ((i == 0) || (((i-1) >= 0) && (is_mode(buffer[i-1]) || (buffer[i-1] == ' ')))) && 
 		((i == (len-1)) || (((i+1) < len) && (is_mode(buffer[i+1]) || (buffer[i+1] == ' ')))))
@@ -2315,7 +2301,7 @@ static int is_isolated(char *buffer, int i, int len)
  *
  ******************************************************************************/
 
-static int part_of_number(char *buffer, int i, int len)
+static int part_of_number(char *buffer, long i, long len)
 {
 	while( (--i >= 0) && (buffer[i] != ' ') && (buffer[i] != DELETED) && (!is_mode(buffer[i])) )
 		if (isdigit(buffer[i]))
@@ -2349,7 +2335,7 @@ static int part_of_number(char *buffer, int i, int len)
  *
  ******************************************************************************/
 
-static int number_follows(char *buffer, int i, int len)
+static int number_follows(char *buffer, long i, long len)
 {
 	while( (++i < len) && (buffer[i] != ' ') && 
 		  (buffer[i] != DELETED) && (!is_mode(buffer[i])) )
@@ -2380,10 +2366,10 @@ static int number_follows(char *buffer, int i, int len)
  *
  ******************************************************************************/
 
-static void delete_ellipsis(char *buffer, int *i, int length)
+static void delete_ellipsis(char *buffer, long *i, long length)
 {
 	/*  SET POSITION OF FIRST DOT  */
-	int pos1 = *i, pos2, pos3;
+	long pos1 = *i, pos2, pos3;
 	
 	/*  IGNORE ANY WHITE SPACE  */
 	while (((*i+1) < length) && (buffer[*i+1] == ' '))
@@ -2429,10 +2415,10 @@ static void delete_ellipsis(char *buffer, int *i, int length)
  *
  ******************************************************************************/
 
-static int convert_dash(char *buffer, int *i, int length)
+static int convert_dash(char *buffer, long *i, long length)
 {
 	/*  SET POSITION OF INITIAL DASH  */
-	int pos1 = *i;
+	long pos1 = *i;
 	
 	/*  CHECK FOR 2ND DASH  */
 	if (((*i+1) < length) && (buffer[*i+1] == '-')) {
@@ -2469,7 +2455,7 @@ static int convert_dash(char *buffer, int *i, int length)
  *
  ******************************************************************************/
 
-static int is_telephone_number(char *buffer, int i, int length)
+static int is_telephone_number(char *buffer, long i, long length)
 {
 	/*  CHECK FORMAT: (ddd)ddd-dddd  */
 	if ( ((i+12) < length) && 
@@ -2552,9 +2538,9 @@ static int is_punctuation(char c)
  *
  ******************************************************************************/
 
-static int word_follows(char *buffer, int i, int length)
+static int word_follows(char *buffer, long i, long length)
 {
-	int j, mode = NORMAL_MODE;
+	long j, mode = NORMAL_MODE;
 	
 	for (j = (i+1); j < length; j++) {
 		switch(buffer[j]) {
@@ -2627,9 +2613,9 @@ static int word_follows(char *buffer, int i, int length)
  *
  ******************************************************************************/
 
-static int expand_abbreviation(char *buffer, int i, int length, NXStream *stream)
+static int expand_abbreviation(char *buffer, long i, long length, NXStream *stream)
 {
-	int j, k, word_length = 0;
+	long j, k, word_length = 0;
 	char word[5];
 	
 	/*  DELETE PERIOD AFTER SINGLE CHARACTER (EXCEPT p.)  */
@@ -2722,7 +2708,7 @@ static int expand_abbreviation(char *buffer, int i, int length, NXStream *stream
  *
  ******************************************************************************/
 
-static void expand_letter_mode(char *buffer, int *i, int length, NXStream *stream, int *status)
+static void expand_letter_mode(char *buffer, long *i, long length, NXStream *stream, long *status)
 {
 	for ( ; ((*i) < length) && (buffer[*i] != LETTER_MODE_END); (*i)++) {
 		/*  CONVERT LETTER TO WORD OR WORDS  */
@@ -3286,17 +3272,15 @@ static void check_tonic(NXStream *stream, long start_pos, long end_pos)
  *                       
  *
  ******************************************************************************/
-
+#if 0
 static void print_stream(NXStream *stream, long stream_length)
 {
-	long i;
-	
 	/*  REWIND STREAM TO BEGINNING  */
 	NXSeek(stream, 0, NX_FROMSTART);
 	
 	/*  PRINT LOOP  */
 	printf("stream_length = %-ld\n<begin>", stream_length);
-	for (i = 0; i < stream_length; i++) {
+	for (NSUInteger i = 0; i < stream_length; i++) {
 		char c = NXGetc(stream);
 		switch(c) {
 			case RAW_MODE_BEGIN:
@@ -3336,3 +3320,4 @@ static void print_stream(NXStream *stream, long stream_length)
 	}
 	printf("<end>\n");
 }
+#endif

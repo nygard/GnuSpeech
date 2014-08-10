@@ -9,6 +9,4 @@
 
 - (id)init;
 
-- (void)windowDidLoad;
-
 @end

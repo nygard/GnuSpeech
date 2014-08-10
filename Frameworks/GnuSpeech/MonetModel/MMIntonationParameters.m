@@ -5,30 +5,24 @@
 
 @implementation MMIntonationParameters
 {
-    float m_notionalPitch;
-    float m_pretonicRange;
-    float m_pretonicLift;
-    float m_tonicRange;
-    float m_tonicMovement; // TODO (2004-03-30): Apparently not used.
+    float _notionalPitch;
+    float _pretonicRange;
+    float _pretonicLift;
+    float _tonicRange;
+    float _tonicMovement; // TODO (2004-03-30): Apparently not used.
 }
 
 - (id)init;
 {
     if ((self = [super init])) {
-        m_notionalPitch = -1;
-        m_pretonicRange = 2;
-        m_pretonicLift  = -2;
-        m_tonicRange    = -10;
-        m_tonicMovement = -6;
+        _notionalPitch = -1;
+        _pretonicRange = 2;
+        _pretonicLift  = -2;
+        _tonicRange    = -10;
+        _tonicMovement = -6;
     }
     
     return self;
 }
-
-@synthesize notionalPitch = m_notionalPitch;
-@synthesize pretonicRange = m_pretonicRange;
-@synthesize pretonicLift  = m_pretonicLift;
-@synthesize tonicRange    = m_tonicRange;
-@synthesize tonicMovement = m_tonicMovement;
 
 @end

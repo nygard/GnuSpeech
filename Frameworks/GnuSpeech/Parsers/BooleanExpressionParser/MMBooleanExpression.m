@@ -14,25 +14,18 @@
 
 @implementation MMBooleanExpression
 {
-    MMBooleanOperation m_operation;
-    NSMutableArray *m_expressions;
+    MMBooleanOperation _operation;
+    NSMutableArray *_expressions;
 }
 
 - (id)init;
 {
     if ((self = [super init])) {
-        m_operation = MMBooleanOperation_None;
-        m_expressions = [[NSMutableArray alloc] initWithCapacity:4];
+        _operation = MMBooleanOperation_None;
+        _expressions = [[NSMutableArray alloc] initWithCapacity:4];
     }
 
     return self;
-}
-
-- (void)dealloc;
-{
-    [m_expressions release];
-
-    [super dealloc];
 }
 
 #pragma mark - Debugging
@@ -101,9 +94,6 @@
 }
 
 #pragma mark -
-
-@synthesize operation = m_operation;
-@synthesize expressions = m_expressions;
 
 - (void)addSubExpression:(MMBooleanNode *)expression;
 {

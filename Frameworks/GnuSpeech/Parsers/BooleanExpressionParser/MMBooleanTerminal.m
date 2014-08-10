@@ -12,32 +12,24 @@
 #import "MModel.h"
 
 @interface MMBooleanTerminal ()
-- (MMCategory *)findSymbol:(NSString *)searchSymbol inCategories:(NSArray *)categories;
 @end
 
 #pragma mark -
 
 @implementation MMBooleanTerminal
 {
-    MMCategory *m_category;
-    BOOL m_shouldMatchAll;
+    MMCategory *_category;
+    BOOL _shouldMatchAll;
 }
 
 - (id)init;
 {
     if ((self = [super init])) {
-        m_category = nil;
-        m_shouldMatchAll = NO;
+        _category = nil;
+        _shouldMatchAll = NO;
     }
 
     return self;
-}
-
-- (void)dealloc;
-{
-    [m_category release];
-
-    [super dealloc];
 }
 
 #pragma mark - Debugging
@@ -48,11 +40,6 @@
             NSStringFromClass([self class]), self,
             self.category, self.shouldMatchAll];
 }
-
-#pragma mark -
-
-@synthesize category = m_category;
-@synthesize shouldMatchAll = m_shouldMatchAll;
 
 #pragma mark - Superclass methods
 

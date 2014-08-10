@@ -5,9 +5,6 @@
 
 @interface NSObject (Extensions)
 
-+ (id)objectWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
-
 - (NSString *)shortDescription;
 
 @end

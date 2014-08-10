@@ -5,18 +5,19 @@
 
 @implementation MMFRuleSymbols
 {
-    double m_ruleDuration; // 0
-    double m_beat;         // 1
-    double m_mark1;        // 2
-    double m_mark2;        // 3
-    double m_mark3;        // 4
+    double _ruleDuration; // 0
+    double _beat;         // 1
+    double _mark1;        // 2
+    double _mark2;        // 3
+    double _mark3;        // 4
 }
 
-@synthesize ruleDuration = m_ruleDuration;
-@synthesize beat = m_beat;
-@synthesize mark1 = m_mark1;
-@synthesize mark2 = m_mark2;
-@synthesize mark3 = m_mark3;
+- (NSString *)description;
+{
+    return [NSString stringWithFormat:@"<%@: %p> duration: %f, beat: %f, mark1: %f, mark2: %f, mark3: %f",
+            NSStringFromClass([self class]), self,
+            self.ruleDuration, self.beat, self.mark1, self.mark2, self.mark3];
+}
 
 @end
 

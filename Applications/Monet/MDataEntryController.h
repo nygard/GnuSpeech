@@ -5,17 +5,14 @@
 
 @class MMCategory, MModel, MMParameter, MMSymbol;
 
-@interface MDataEntryController : MWindowController
+@interface MDataEntryController : MWindowController <NSTableViewDataSource, NSTableViewDelegate, NSTextViewDelegate>
 
-- (id)initWithModel:(MModel *)aModel;
-- (void)dealloc;
+- (id)initWithModel:(MModel *)model;
 
 - (MModel *)model;
 - (void)setModel:(MModel *)newModel;
 
 - (NSUndoManager *)undoManager;
-
-- (void)windowDidLoad;
 
 - (void)updateViews;
 - (void)_selectFirstRows;
@@ -36,17 +33,6 @@
 
 - (IBAction)addSymbol:(id)sender;
 - (IBAction)removeSymbol:(id)sender;
-
-// NSTableView data source
-- (int)numberOfRowsInTableView:(NSTableView *)tableView;
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
-- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
-
-// NSTableView delegate
-- (void)tableViewSelectionDidChange:(NSNotification *)aNotification;
-
-// NSTextView delegate
-- (void)textDidEndEditing:(NSNotification *)aNotification;
 
 - (MMCategory *)selectedCategory;
 - (MMParameter *)selectedParameter;

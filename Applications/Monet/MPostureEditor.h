@@ -3,19 +3,16 @@
 
 #import "MWindowController.h"
 
-@class MMCategory, MModel, MMParameter, MMPosture, MMSymbol;
+@class MModel, MMPosture;
 
-@interface MPostureEditor : MWindowController
+@interface MPostureEditor : MWindowController <NSTableViewDataSource, NSTableViewDelegate, NSTextViewDelegate>
 
-- (id)initWithModel:(MModel *)aModel;
-- (void)dealloc;
+- (id)initWithModel:(MModel *)model;
 
 - (MModel *)model;
 - (void)setModel:(MModel *)newModel;
 
 - (NSUndoManager *)undoManager;
-
-- (void)windowDidLoad;
 
 - (void)updateViews;
 - (void)_updatePostureDetails;
@@ -29,19 +26,5 @@
 - (IBAction)useDefaultValueForParameter:(id)sender;
 - (IBAction)useDefaultValueForMetaParameter:(id)sender;
 - (IBAction)useDefaultValueForSymbol:(id)sender;
-
-// NSTableView data source
-- (NSUInteger)numberOfRowsInTableView:(NSTableView *)tableView;
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
-- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
-
-// NSTableView delegate
-- (void)tableViewSelectionDidChange:(NSNotification *)aNotification;
-- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
-
-- (BOOL)control:(NSControl *)aControl shouldProcessCharacters:(NSString *)characters;
-
-// NSTextView delegate
-- (void)textDidEndEditing:(NSNotification *)aNotification;
 
 @end

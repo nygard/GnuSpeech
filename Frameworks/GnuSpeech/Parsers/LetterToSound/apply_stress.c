@@ -151,7 +151,7 @@ int apply_stress(char *buffer, char *orthography)
 
 int stress_suffix(char *orthography, int *type)
 {
-    int                 t = 0, a, c;
+    long                 t = 0, a, c;
     char               *b;
 	
     c = strlen(orthography);
@@ -233,7 +233,7 @@ int light(char *sb)
 
 int prefix(char *orthography)
 {
-    int                 t = 0, l, m;
+    long                 t = 0, l, m;
     char               *a;
 	
     m = strlen(orthography);

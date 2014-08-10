@@ -2,12 +2,13 @@
 
 #import "GSDBMPronunciationDictionary.h"
 
-#import "NSFileManager-Extensions.h"
+#include <fcntl.h>
+#include <ndbm.h>
 #import "GSSimplePronunciationDictionary.h"
 
 @implementation GSDBMPronunciationDictionary
 {
-    DBM *db;
+    DBM *_db;
 }
 
 + (NSString *)mainFilename;
@@ -17,44 +18,28 @@
 
 + (id)mainDictionary;
 {
-    static GSDBMPronunciationDictionary *_mainDictionary = nil;
-
-    //NSLog(@" > %s", __PRETTY_FUNCTION__);
+    static GSDBMPronunciationDictionary *_mainDictionary;
 
     if (_mainDictionary == nil) {
-        //NSString *path;
-
         _mainDictionary = [[GSDBMPronunciationDictionary alloc] initWithFilename:[self mainFilename]];
-        //path = [[NSBundle bundleForClass:self] pathForResource:@"2.0eMainDictionary" ofType:@"dict"];
-        //[_mainDictionary loadFromFile:path];
-        //[_mainDictionary loadDictionary];
     }
-
-    //NSLog(@"<  %s", __PRETTY_FUNCTION__);
 
     return _mainDictionary;
 }
 
-+ (BOOL)createDatabase:(NSString *)aFilename fromSimpleDictionary:(GSSimplePronunciationDictionary *)simpleDictionary;
++ (BOOL)createDatabase:(NSString *)filename fromSimpleDictionary:(GSSimplePronunciationDictionary *)simpleDictionary;
 {
-    NSUInteger count, index;
+    [[NSFileManager defaultManager] createDirectoryAtPath:[filename stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:NULL];
 
-    NSDictionary *pronunciations = [simpleDictionary pronunciations];
-    NSArray *allKeys = [pronunciations allKeys];
-
-    [[NSFileManager defaultManager] createDirectoryAtPath:[aFilename stringByDeletingLastPathComponent] attributes:nil createIntermediateDirectories:YES];
-
-    DBM *newDB = dbm_open([aFilename UTF8String], O_RDWR | O_CREAT, 0660);
+    DBM *newDB = dbm_open([filename UTF8String], O_RDWR | O_CREAT, 0660);
     if (newDB == NULL) {
         perror("dbm_open()");
         return NO;
     }
 
-    count = [allKeys count];
-    //NSLog(@"%lu keys", count);
+    NSDictionary *pronunciations = [simpleDictionary pronunciations];
 
-    for (index = 0; index < count; index++) {
-        NSString *key = [allKeys objectAtIndex:index];
+    [[pronunciations allKeys] enumerateObjectsUsingBlock:^(NSString *key, NSUInteger index, BOOL *stop) {
         NSString *value = [pronunciations objectForKey:key];
         //NSLog(@"%5d: key: %@, value: %@", index, key, value);
 
@@ -69,17 +54,17 @@
         int result = dbm_store(newDB, keyDatum, valueDatum, DBM_REPLACE);
         if (result != 0)
             NSLog(@"Could not dbmstore(): index: %5lu, key: %@, value: %@", index, key, value);
-    }
+    }];
 
     dbm_close(newDB);
 
     return YES;
 }
 
-- (id)initWithFilename:(NSString *)aFilename;
+- (id)initWithFilename:(NSString *)filename;
 {
-    if ((self = [super initWithFilename:aFilename])) {
-        db = NULL;
+    if ((self = [super initWithFilename:filename])) {
+        _db = NULL;
     }
 
     return self;
@@ -87,12 +72,10 @@
 
 - (void)dealloc;
 {
-    if (db != NULL) {
-        dbm_close(db);
-        db = NULL;
+    if (_db != NULL) {
+        dbm_close(_db);
+        _db = NULL;
     }
-
-    [super dealloc];
 }
 
 - (NSDate *)modificationDate;
@@ -104,12 +87,12 @@
 - (BOOL)loadDictionary;
 {
     //NSLog(@" > %s, db: %p", __PRETTY_FUNCTION__, db);
-    NSParameterAssert(db == NULL);
+    NSParameterAssert(_db == NULL);
     NSParameterAssert(self.filename != nil);
 
     //NSLog(@"%s, filename: %@", __PRETTY_FUNCTION__, self.filename);
-    db = dbm_open([self.filename UTF8String], O_RDONLY, 0660);
-    if (db == NULL) {
+    _db = dbm_open([self.filename UTF8String], O_RDONLY, 0660);
+    if (_db == NULL) {
         perror("dbm_open()");
         return NO;
     }
@@ -119,14 +102,14 @@
     return YES;
 }
 
-- (NSString *)lookupPronunciationForWord:(NSString *)aWord;
+- (NSString *)lookupPronunciationForWord:(NSString *)word;
 {
     datum keyDatum, valueDatum;
 
-    keyDatum.dptr = (char *)[aWord UTF8String];
+    keyDatum.dptr = (char *)[word UTF8String];
     keyDatum.dsize = strlen(keyDatum.dptr);
 
-    valueDatum = dbm_fetch(db, keyDatum);
+    valueDatum = dbm_fetch(_db, keyDatum);
     if (valueDatum.dptr == NULL)
         return nil;
 

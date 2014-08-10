@@ -29,4 +29,4 @@
 #define  EVAL_NO             0
 #define  EVAL_YES            1
 
-int evaluate(char *rule, char *phone);
+long evaluate(char *rule, char *phone);

@@ -188,14 +188,14 @@ static char *word;
 static char output[OUTPUT_MAX];        /*  STORAGE FOR OUTPUT  */
 
 /*  PARSING STATISTIC VARIABLES  */
-static int
+static long
   word_length, degenerate, integer_digits, fractional_digits, commas,
   mydecimal, dollar, percent, negative, positive, ordinal, myclock, slash,
   left_paren, right_paren, blank, dollar_plural, dollar_nonzero, cents_plural,
   cents_nonzero, telephone, left_zero_pad, right_zero_pad, ordinal_plural,
   frac_left_zero_pad, frac_right_zero_pad, frac_ordinal_triad;
 
-static int
+static long
   commas_pos[COMMAS_MAX], mydecimal_pos, dollar_pos, percent_pos,
   negative_pos[NEGATIVE_MAX], positive_pos,
   integer_digits_pos[INTEGER_DIGITS_MAX],
@@ -304,7 +304,7 @@ char *number_parser(const char *word_ptr, int mode)
 
 void initial_parse()
 {
-    register int i;
+    long i;
 
     /*  PUT NULL BYTE INTO output;  FIND LENGTH OF INPUT WORD  */
     output[0] = '\0';
@@ -478,7 +478,7 @@ void initial_parse()
 
 int error_check(int mode)
 {
-    register int i;
+    long i;
     int atoi();
 
     /*  IF THERE ARE NO DIGITS THEN RETURN  */
@@ -731,7 +731,7 @@ char *
 process_word(mode)
     int mode;
 {
-    register int i;
+    long i;
     int process_triad();
     void process_digit();
 
@@ -864,7 +864,7 @@ process_word(mode)
     }
     /*  PROCESS INTEGERS AS TRIADS, UP TO MAX LENGTH  */
     else if ((integer_digits >= 2) && (integer_digits <= (TRIADS_MAX * 3))) {
-	int digit_index = 0, num_digits, triad_index, index, pause_flag = NP_NO;
+	long digit_index = 0, num_digits, triad_index, index, pause_flag = NP_NO;
 	for (i = 0; i < 3; i++)
 	    triad[i] = '0';
 	index = (int)((integer_digits - 1) / 3.0);
@@ -923,7 +923,7 @@ process_word(mode)
     /*  PROCESS DENOMINATOR OF FRACTIONS  */
     else if (slash) {
 	char ones_digit = '\0', tens_digit = '\0';
-	int  special_flag;
+	long  special_flag;
 
 	if (((integer_digits >= 3) && (fractional_digits >= 3)) ||
 	    (word[integer_digits_pos[integer_digits - 1]] == '0'))
@@ -952,7 +952,7 @@ process_word(mode)
 	                  ordinal_plural, special_flag);
 	else if (fractional_digits >= 2 &&
 	         (fractional_digits <= (TRIADS_MAX * 3))) {
-	    int digit_index = 0, num_digits, triad_index,
+	    long digit_index = 0, num_digits, triad_index,
 	        index, pause_flag = NP_NO;
 	    for (i = 0; i < 3; i++)
 		triad[i] = '0';
@@ -1038,7 +1038,7 @@ process_word(mode)
 
 char *degenerate_string(const char *word)
 {
-    register int word_length, i;
+    long word_length, i;
 
     /*  APPEND NULL BYTE TO OUTPUT;  DETERMINE WORD LENGTH  */
     output[0] = '\0';

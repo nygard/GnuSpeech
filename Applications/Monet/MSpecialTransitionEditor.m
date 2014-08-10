@@ -3,8 +3,6 @@
 
 #import "MSpecialTransitionEditor.h"
 
-#import <GnuSpeech/GnuSpeech.h>
-
 @implementation MSpecialTransitionEditor
 {
 }

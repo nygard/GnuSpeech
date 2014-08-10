@@ -3,14 +3,14 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MMFRuleSymbols.h"
+@class MMFRuleSymbols;
 
 @interface MMFormulaNode : NSObject
 
 @property (nonatomic, readonly) NSUInteger precedence;
 
-- (double)evaluate:(MMFRuleSymbols *)ruleSymbols postures:(NSArray *)postures;
-- (double)evaluate:(MMFRuleSymbols *)ruleSymbols postures:(NSArray *)postures tempos:(double *)tempos;
+/// This takes an array of 0-4 MMPhone objects, and the rule symbols, and returns the appropriate value.
+- (double)evaluateWithPhonesInArray:(NSArray *)phones ruleSymbols:(MMFRuleSymbols *)ruleSymbols;
 
 - (NSInteger)maxPhone;
 

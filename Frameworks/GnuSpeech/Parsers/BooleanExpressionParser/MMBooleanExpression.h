@@ -3,17 +3,16 @@
 
 #import "MMBooleanNode.h"
 
-enum {
+typedef enum : NSUInteger {
     MMBooleanOperation_None        = 0,
     MMBooleanOperation_Not         = 1,
     MMBooleanOperation_Or          = 2,
     MMBooleanOperation_And         = 3,
     MMBooleanOperation_ExclusiveOr = 4,
-};
-typedef NSUInteger MMBooleanOperation;
+} MMBooleanOperation;
 
 
-// Non-leaf node in a boolean expression tree.
+/// Non-leaf node in a boolean expression tree.
 @interface MMBooleanExpression : MMBooleanNode
 
 @property (assign) MMBooleanOperation operation;

@@ -12,7 +12,7 @@
 #import "MMPosture.h"
 #import "MModel.h"
 
-enum {
+typedef enum : NSUInteger {
     MMBooleanParserToken_Operator_Or          = 0,
     MMBooleanParserToken_Operator_Not         = 1,
     MMBooleanParserToken_Operator_ExclusiveOr = 2,
@@ -21,51 +21,28 @@ enum {
     MMBooleanParserToken_RightParenthesis     = 5,
     MMBooleanParserToken_Category             = 6,
     MMBooleanParserToken_End                  = 7,
-};
-typedef NSUInteger MMBooleanParserToken;
+} MMBooleanParserToken;
 
 @interface MMBooleanParser ()
-- (MMCategory *)categoryWithName:(NSString *)name;
-- (MMBooleanParserToken)scanNextToken;
-
-- (MMBooleanNode *)continueParse:(MMBooleanNode *)currentExpression;
-
-// Internal recursive descent parsing methods
-- (MMBooleanNode *)parseNotOperation;
-- (MMBooleanNode *)parseAndOperation:(MMBooleanNode *)operand;
-- (MMBooleanNode *)parseOrOperation:(MMBooleanNode *)operand;
-- (MMBooleanNode *)parseExclusiveOrOperation:(MMBooleanNode *)operand;
-
-- (MMBooleanNode *)leftParen;
-- (MMBooleanNode *)terminalForParsedCategory;
 @end
 
 #pragma mark -
 
 @implementation MMBooleanParser
 {
-    MModel *m_model;
+    MModel *_model;
 }
 
 - (id)initWithModel:(MModel *)model;
 {
     if ((self = [super init])) {
-        m_model = [model retain];
+        _model = model;
     }
 
     return self;
 }
 
-- (void)dealloc;
-{
-    [m_model release];
-
-    [super dealloc];
-}
-
 #pragma mark -
-
-@synthesize model = m_model;
 
 // This strips off the optional "*" suffix before searching.  A "*" will match either a stressed or unstressed posture.  i.e. ee or ee'.
 - (MMCategory *)categoryWithName:(NSString *)name;
@@ -216,7 +193,7 @@ typedef NSUInteger MMBooleanParserToken;
     MMBooleanExpression *resultExpression = nil;
     MMBooleanNode *subExpression = nil;
 
-    resultExpression = [[[MMBooleanExpression alloc] init] autorelease];
+    resultExpression = [[MMBooleanExpression alloc] init];
     resultExpression.operation = MMBooleanOperation_Not;
 
     switch ([self scanNextToken]) {
@@ -253,7 +230,7 @@ typedef NSUInteger MMBooleanParserToken;
     MMBooleanExpression *resultExpression = nil;
     MMBooleanNode *subExpression = nil;
 
-    resultExpression = [[[MMBooleanExpression alloc] init] autorelease];
+    resultExpression = [[MMBooleanExpression alloc] init];
     [resultExpression addSubExpression:operand];
     resultExpression.operation = MMBooleanOperation_And;
 
@@ -306,7 +283,7 @@ typedef NSUInteger MMBooleanParserToken;
     MMBooleanExpression *resultExpression = nil;
     MMBooleanNode *subExpression = nil;
     
-    resultExpression = [[[MMBooleanExpression alloc] init] autorelease];
+    resultExpression = [[MMBooleanExpression alloc] init];
     [resultExpression addSubExpression:operand];
     resultExpression.operation = MMBooleanOperation_Or;
     
@@ -358,7 +335,7 @@ typedef NSUInteger MMBooleanParserToken;
     MMBooleanExpression *resultExpression = nil;
     MMBooleanNode *subExpression = nil;
 
-    resultExpression = [[[MMBooleanExpression alloc] init] autorelease];
+    resultExpression = [[MMBooleanExpression alloc] init];
     [resultExpression addSubExpression:operand];
     resultExpression.operation = MMBooleanOperation_ExclusiveOr;
 
@@ -493,7 +470,7 @@ typedef NSUInteger MMBooleanParserToken;
         [self appendErrorFormat:@"Error, unknown category %@.", self.symbolString];
         return nil;
     } else {
-        MMBooleanTerminal *terminal = [[[MMBooleanTerminal alloc] init] autorelease];
+        MMBooleanTerminal *terminal = [[MMBooleanTerminal alloc] init];
         terminal.category = category;
         if ([self.symbolString hasSuffix:@"*"])
             terminal.shouldMatchAll = YES;

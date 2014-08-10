@@ -8,7 +8,7 @@ extern NSString *GSParserSyntaxErrorException;
 @interface GSParser : NSObject
 
 @property (readonly) NSScanner *scanner;
-@property (retain) NSString *symbolString;
+@property (strong) NSString *symbolString;
 @property (assign) NSUInteger startOfTokenLocation;
 
 - (id)parseString:(NSString *)aString;

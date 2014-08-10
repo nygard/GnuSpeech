@@ -20,119 +20,214 @@
 #import "MMTransition.h"
 #import "TRMData.h"
 
-#import "MXMLParser.h"
-#import "MXMLArrayDelegate.h"
-
 @interface MModel ()
-
-- (void)_addDefaultRule;
-- (void)_generateUniqueNameForObject:(MMNamedObject *)newObject existingObjects:(NSArray *)existingObjects;
-
-- (void)_generateUniqueNameForPosture:(MMPosture *)newPosture;
-- (void)_addStoredRule:(MMRule *)newRule;
-- (void)_appendXMLForEquationsToString:(NSMutableString *)resultString level:(NSUInteger)level;
-- (void)_appendXMLForTransitionsToString:(NSMutableString *)resultString level:(NSUInteger)level;
-- (void)_appendXMLForProtoSpecialsToString:(NSMutableString *)resultString level:(NSUInteger)level;
-
 @end
 
 #pragma mark -
 
 @implementation MModel
 {
-    NSMutableArray *categories; // Keep this list sorted by name
-    NSMutableArray *parameters;
-    NSMutableArray *metaParameters;
-    NSMutableArray *symbols;
-    NSMutableArray *postures; // Keep this list sorted by name
-    
-    NSMutableArray *equationGroups;          // Of MMGroups of MMEquations
-    NSMutableArray *transitionGroups;        // Of MMGroups of MMTransitions
-    NSMutableArray *specialTransitionGroups; // Of MMGroups of MMTransitions
-    
-    NSMutableArray *rules;
-    NSUInteger cacheTag;
-    
+    NSMutableArray *_categories; // Keep this list sorted by name
+    NSMutableArray *_parameters;
+    NSMutableArray *_metaParameters;
+    NSMutableArray *_symbols;
+    NSMutableArray *_postures; // Keep this list sorted by name
+
+    NSMutableArray *_equationGroups;          // Of MMGroups of MMEquations
+    NSMutableArray *_transitionGroups;        // Of MMGroups of MMTransitions
+    NSMutableArray *_specialTransitionGroups; // Of MMGroups of MMTransitions
+
+    NSMutableArray *_rules;
+    NSUInteger _cacheTag;
+
     // This doesn't really belong here, but I'll put it here for now.
-    MMSynthesisParameters *synthesisParameters;
+    MMSynthesisParameters *_synthesisParameters;
 }
 
 - (id)init;
 {
     if ((self = [super init])) {
-        categories = [[NSMutableArray alloc] init];
-        parameters = [[NSMutableArray alloc] init];
-        metaParameters = [[NSMutableArray alloc] init];
-        symbols = [[NSMutableArray alloc] init];
-        postures = [[NSMutableArray alloc] init];
-        
-        equationGroups = [[NSMutableArray alloc] init];
-        transitionGroups = [[NSMutableArray alloc] init];
-        specialTransitionGroups = [[NSMutableArray alloc] init];
-        
-        rules = [[NSMutableArray alloc] init];
-#if 0
-        // And set up some default values:
-        // TODO (2004-05-15): Just load these from a default .monet file
-        {
-            MMSymbol *newSymbol;
-            MMCategory *newCategory;
-            
-            newSymbol = [[MMSymbol alloc] init];
-            [newSymbol setName:@"duration"];
-            [self addSymbol:newSymbol];
-            [newSymbol release];
-            
-            newCategory = [[MMCategory alloc] init];
-            [newCategory setName:@"phone"];
-            [newCategory setComment:@"This is the static phone category.  It cannot be changed or removed."];
-            [self addCategory:newCategory];
-            [newCategory release];
-            
-            [self _addDefaultRule];
-        }
-#endif
-        cacheTag = 1;
-        
-        synthesisParameters = [[MMSynthesisParameters alloc] init];
+        _categories              = [[NSMutableArray alloc] init];
+        _parameters              = [[NSMutableArray alloc] init];
+        _metaParameters          = [[NSMutableArray alloc] init];
+        _symbols                 = [[NSMutableArray alloc] init];
+        _postures                = [[NSMutableArray alloc] init];
+        _equationGroups          = [[NSMutableArray alloc] init];
+        _transitionGroups        = [[NSMutableArray alloc] init];
+        _specialTransitionGroups = [[NSMutableArray alloc] init];
+        _rules                   = [[NSMutableArray alloc] init];
+        _cacheTag                = 1;
+        _synthesisParameters     = [[MMSynthesisParameters alloc] init];
     }
 
     return self;
 }
 
-- (void)dealloc;
+- (id)initWithXMLElement:(NSXMLElement *)element error:(NSError **)error;
 {
-    [categories release];
-    [parameters release];
-    [metaParameters release];
-    [symbols release];
-    [postures release];
-    [equationGroups release];
-    [transitionGroups release];
-    [specialTransitionGroups release];
-    [rules release];
+    NSParameterAssert([@"root" isEqualToString:element.name]);
+    NSParameterAssert([@"1" isEqualToString:[[element attributeForName:@"version"] stringValue]]);
 
-    [synthesisParameters release];
+    if ((self = [super init])) {
+        _categories              = [[NSMutableArray alloc] init];
+        _parameters              = [[NSMutableArray alloc] init];
+        _metaParameters          = [[NSMutableArray alloc] init];
+        _symbols                 = [[NSMutableArray alloc] init];
+        _postures                = [[NSMutableArray alloc] init];
+        _equationGroups          = [[NSMutableArray alloc] init];
+        _transitionGroups        = [[NSMutableArray alloc] init];
+        _specialTransitionGroups = [[NSMutableArray alloc] init];
+        _rules                   = [[NSMutableArray alloc] init];
+        _cacheTag                = 1;
+        _synthesisParameters     = [[MMSynthesisParameters alloc] init];
 
-    [super dealloc];
+        if (![self _loadCategoriesFromXMLElement:        [[element elementsForName:@"categories"] firstObject]          error:error]) return nil;
+        if (![self _loadParametersFromXMLElement:        [[element elementsForName:@"parameters"] firstObject]          error:error]) return nil;
+        if (![self _loadMetaParametersFromXMLElement:    [[element elementsForName:@"meta-parameters"] firstObject]     error:error]) return nil;
+        if (![self _loadSymbolsFromXMLElement:           [[element elementsForName:@"symbols"] firstObject]             error:error]) return nil;
+        if (![self _loadPosturesFromXMLElement:          [[element elementsForName:@"postures"] firstObject]            error:error]) return nil;
+        if (![self _loadEquationsFromXMLElement:         [[element elementsForName:@"equations"] firstObject]           error:error]) return nil;
+        if (![self _loadTransitionsFromXMLElement:       [[element elementsForName:@"transitions"] firstObject]         error:error]) return nil;
+        if (![self _loadSpecialTransitionsFromXMLElement:[[element elementsForName:@"special-transitions"] firstObject] error:error]) return nil;
+        if (![self _loadRulesFromXMLElement:             [[element elementsForName:@"rules"] firstObject]               error:error]) return nil;
+    }
+
+    return self;
+}
+
+- (BOOL)_loadCategoriesFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    NSParameterAssert([@"categories" isEqualToString:element.name]);
+
+    for (NSXMLElement *childElement in [element elementsForName:@"category"]) {
+        MMCategory *category = [[MMCategory alloc] initWithXMLElement:childElement error:error];
+        if (category != nil)
+            [self addCategory:category];
+    }
+
+    return YES;
+}
+
+- (BOOL)_loadParametersFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    NSParameterAssert([@"parameters" isEqualToString:element.name]);
+
+    for (NSXMLElement *childElement in [element elementsForName:@"parameter"]) {
+        MMParameter *parameter = [[MMParameter alloc] initWithXMLElement:childElement error:error];
+        if (parameter != nil)
+            [self addParameter:parameter];
+    }
+    
+    return YES;
+}
+
+- (BOOL)_loadMetaParametersFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    if (element == nil) return YES;
+    NSParameterAssert([@"meta-parameters" isEqualToString:element.name]);
+
+    for (NSXMLElement *childElement in [element elementsForName:@"parameter"]) {
+        MMParameter *parameter = [[MMParameter alloc] initWithXMLElement:childElement error:error];
+        if (parameter != nil)
+            [self addMetaParameter:parameter];
+    }
+    
+    return YES;
+}
+
+- (BOOL)_loadSymbolsFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    NSParameterAssert([@"symbols" isEqualToString:element.name]);
+
+    for (NSXMLElement *childElement in [element elementsForName:@"symbol"]) {
+        MMSymbol *symbol = [[MMSymbol alloc] initWithXMLElement:childElement error:error];
+        if (symbol != nil)
+            [self addSymbol:symbol];
+    }
+    
+    return YES;
+}
+
+- (BOOL)_loadPosturesFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    NSParameterAssert([@"postures" isEqualToString:element.name]);
+
+    for (NSXMLElement *childElement in [element elementsForName:@"posture"]) {
+        MMPosture *posture = [[MMPosture alloc] initWithModel:self XMLElement:childElement error:error];
+        if (posture != nil)
+            [self addPosture:posture];
+    }
+    
+    return YES;
+}
+
+- (BOOL)_loadEquationsFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    NSParameterAssert([@"equations" isEqualToString:element.name]);
+
+    for (NSXMLElement *childElement in [element elementsForName:@"equation-group"]) {
+        MMGroup *group = [[MMGroup alloc] initWithModel:self XMLElement:childElement error:error];
+        if (group != nil)
+            [self addEquationGroup:group];
+    }
+    
+    return YES;
+}
+
+- (BOOL)_loadTransitionsFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    NSParameterAssert([@"transitions" isEqualToString:element.name]);
+
+    for (NSXMLElement *childElement in [element elementsForName:@"transition-group"]) {
+        MMGroup *group = [[MMGroup alloc] initWithModel:self XMLElement:childElement error:error];
+        if (group != nil)
+            [self addTransitionGroup:group];
+    }
+    
+    return YES;
+}
+
+- (BOOL)_loadSpecialTransitionsFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    NSParameterAssert([@"special-transitions" isEqualToString:element.name]);
+
+    for (NSXMLElement *childElement in [element elementsForName:@"transition-group"]) {
+        MMGroup *group = [[MMGroup alloc] initWithModel:self XMLElement:childElement error:error];
+        if (group != nil)
+            [self addSpecialTransitionGroup:group];
+    }
+    
+    return YES;
+}
+
+- (BOOL)_loadRulesFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    NSParameterAssert([@"rules" isEqualToString:element.name]);
+
+    for (NSXMLElement *childElement in [element elementsForName:@"rule"]) {
+        MMRule *rule = [[MMRule alloc] initWithModel:self XMLElement:childElement error:error];
+        if (rule != nil) {
+            [self _addStoredRule:rule];
+        }
+    }
+    
+    return YES;
 }
 
 #pragma mark -
 
 - (void)_addDefaultRule;
 {
-    MMBooleanParser *boolParser = [[[MMBooleanParser alloc] initWithModel:self] autorelease];
+    MMBooleanParser *boolParser = [[MMBooleanParser alloc] initWithModel:self];
     MMBooleanNode *expr1 = [boolParser parseString:@"phone"];
     MMBooleanNode *expr2 = [boolParser parseString:@"phone"];
 
-    MMRule *rule = [[[MMRule alloc] init] autorelease];
+    MMRule *rule = [[MMRule alloc] init];
     [rule setExpression:expr1 number:0];
     [rule setExpression:expr2 number:1];
     [rule setDefaultsTo:[rule numberExpressions]];
     [self addRule:rule];
 }
-
-@synthesize categories, parameters, metaParameters, symbols, postures, equationGroups, transitionGroups, specialTransitionGroups, rules;
 
 #pragma mark - Categories
 
@@ -140,7 +235,7 @@
 {
     [self _generateUniqueNameForObject:category existingObjects:self.categories];
 
-    [categories addObject:category];
+    [_categories addObject:category];
     //[categories sortUsingSelector:@selector(compareByAscendingName:)];
     // TODO (2004-03-18): And post notification of new category.
 }
@@ -163,7 +258,7 @@
         return NO;
     }
 
-    [categories removeObject:category];
+    [_categories removeObject:category];
     return YES;
 }
 
@@ -191,7 +286,7 @@
     
     // Add default posture targets
     for (MMPosture *posture in self.postures) {
-        MMTarget *target = [[[MMTarget alloc] initWithValue:parameter.defaultValue isDefault:YES] autorelease];
+        MMTarget *target = [[MMTarget alloc] initWithValue:parameter.defaultValue isDefault:YES];
         [posture addParameterTarget:target];
     }
 
@@ -202,7 +297,7 @@
 
 - (void)_generateUniqueNameForObject:(MMNamedObject *)object existingObjects:(NSArray *)existingObjects;
 {
-    NSMutableSet *names = [[[NSMutableSet alloc] init] autorelease];
+    NSMutableSet *names = [[NSMutableSet alloc] init];
     for (MMNamedObject *namedObject in existingObjects) {
         if (namedObject.name != nil)
             [names addObject:namedObject.name];
@@ -246,7 +341,7 @@
 
     // Add default posture targets
     for (MMPosture *posture in self.postures) {
-        MMTarget *target = [[[MMTarget alloc] initWithValue:parameter.defaultValue isDefault:YES] autorelease];
+        MMTarget *target = [[MMTarget alloc] initWithValue:parameter.defaultValue isDefault:YES];
         [posture addMetaParameterTarget:target];
     }
     
@@ -278,30 +373,30 @@
 
     [self _generateUniqueNameForObject:symbol existingObjects:self.symbols];
 
-    [symbols addObject:symbol];
+    [_symbols addObject:symbol];
     symbol.model = self;
     
     // Add default symbol targets
     for (MMPosture *posture in self.postures) {
-        MMTarget *target = [[[MMTarget alloc] initWithValue:symbol.defaultValue isDefault:YES] autorelease];
+        MMTarget *target = [[MMTarget alloc] initWithValue:symbol.defaultValue isDefault:YES];
         [posture addSymbolTarget:target];
     }
 }
 
 - (void)removeSymbol:(MMSymbol *)symbol;
 {
-    NSUInteger index = [symbols indexOfObject:symbol];
+    NSUInteger index = [_symbols indexOfObject:symbol];
     if (index != NSNotFound) {
-        for (MMPosture *posture in postures)
+        for (MMPosture *posture in _postures)
             [posture removeSymbolTargetAtIndex:index];
 
-        [symbols removeObject:symbol];
+        [_symbols removeObject:symbol];
     }
 }
 
 - (MMSymbol *)symbolWithName:(NSString *)name;
 {
-    for (MMSymbol *symbol in symbols) {
+    for (MMSymbol *symbol in _symbols) {
         if ([symbol.name isEqual:name])
             return symbol;
     }
@@ -316,13 +411,13 @@
     posture.model = self;
     [self _generateUniqueNameForPosture:posture];
 
-    [postures addObject:posture];
+    [_postures addObject:posture];
     [self sortPostures];
 }
 
 - (void)_generateUniqueNameForPosture:(MMPosture *)newPosture;
 {
-    NSMutableSet *names = [[[NSMutableSet alloc] init] autorelease];
+    NSMutableSet *names = [[NSMutableSet alloc] init];
     for (MMPosture *posture in self.postures) {
         if (posture.name != nil)
             [names addObject:posture.name];
@@ -356,14 +451,14 @@
 
 - (void)removePosture:(MMPosture *)posture;
 {
-    [postures removeObject:posture];
+    [_postures removeObject:posture];
 
     // TODO (2004-03-20): Make sure it isn't used by any rules?
 }
 
 - (void)sortPostures;
 {
-    [postures sortUsingSelector:@selector(compareByAscendingName:)];
+    [_postures sortUsingSelector:@selector(compareByAscendingName:)];
 }
 
 - (MMPosture *)postureWithName:(NSString *)name;
@@ -378,19 +473,19 @@
 
 - (void)addEquationGroup:(MMGroup *)group;
 {
-    [equationGroups addObject:group];
+    [_equationGroups addObject:group];
     group.model = self;
 }
 
 - (void)addTransitionGroup:(MMGroup *)group;
 {
-    [transitionGroups addObject:group];
+    [_transitionGroups addObject:group];
     group.model = self;
 }
 
 - (void)addSpecialTransitionGroup:(MMGroup *)group;
 {
-    [specialTransitionGroups addObject:group];
+    [_specialTransitionGroups addObject:group];
     group.model = self;
 }
 
@@ -509,17 +604,17 @@
 {
     [newRule setModel:self];
     [newRule setDefaultsTo:[newRule numberExpressions]]; // TODO (2004-05-15): Try moving this to the init method.
-    if ([rules count] > 0)
-        [rules insertObject:newRule atIndex:[rules count] - 1];
+    if ([_rules count] > 0)
+        [_rules insertObject:newRule atIndex:[_rules count] - 1];
     else
-        [rules addObject:newRule];
+        [_rules addObject:newRule];
 }
 
 // Used when loading from stored file.
 - (void)_addStoredRule:(MMRule *)newRule;
 {
     [newRule setModel:self];
-    [rules addObject:newRule];
+    [_rules addObject:newRule];
 }
 
 // categoryLists is a list of lists of categories.
@@ -554,25 +649,23 @@
         [resultString appendFormat:@"<!-- %@ -->\n", comment];
     [resultString appendString:@"<root version='1'>\n"];
 
-    [categories appendXMLToString:resultString elementName:@"categories" level:1];
+    [_categories appendXMLToString:resultString elementName:@"categories" level:1];
 
-    [parameters appendXMLToString:resultString elementName:@"parameters" level:1];
-    [metaParameters appendXMLToString:resultString elementName:@"meta-parameters" level:1];
-    [symbols appendXMLToString:resultString elementName:@"symbols" level:1];
-    [postures appendXMLToString:resultString elementName:@"postures" level:1];
+    [_parameters appendXMLToString:resultString elementName:@"parameters" level:1];
+    [_metaParameters appendXMLToString:resultString elementName:@"meta-parameters" level:1];
+    [_symbols appendXMLToString:resultString elementName:@"symbols" level:1];
+    [_postures appendXMLToString:resultString elementName:@"postures" level:1];
 
     [self _appendXMLForEquationsToString:resultString level:1];
     [self _appendXMLForTransitionsToString:resultString level:1];
     [self _appendXMLForProtoSpecialsToString:resultString level:1];
-    [rules appendXMLToString:resultString elementName:@"rules" level:1 numberCommentPrefix:@"Rule"];
+    [_rules appendXMLToString:resultString elementName:@"rules" level:1 numberCommentPrefix:@"Rule"];
 
     [resultString appendString:@"</root>\n"];
 
     //NSLog(@"xml: \n%@", resultString);
     //[[resultString dataUsingEncoding:NSUTF8StringEncoding] writeToFile:@"/tmp/out.xml" atomically:YES];
     BOOL result = [[resultString dataUsingEncoding:NSUTF8StringEncoding] writeToFile:aFilename atomically:YES];
-
-    [resultString release];
 
     return result;
 }
@@ -615,7 +708,7 @@
 
 - (NSUInteger)nextCacheTag;
 {
-    return ++cacheTag;
+    return ++_cacheTag;
 }
 
 - (void)parameter:(MMParameter *)parameter willChangeDefaultValue:(double)newDefaultValue;
@@ -646,61 +739,6 @@
             [[posture.symbolTargets objectAtIndex:symbolIndex] changeDefaultValueFrom:oldDefaultValue to:newDefaultValue];
         }
     }
-}
-
-#pragma mark - Other
-
-@synthesize synthesisParameters;
-
-#pragma mark NSXMLParserDelegate
-
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-{
-    if ([elementName isEqualToString:@"categories"]) {
-        MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"category" class:[MMCategory class] delegate:self addObjectSelector:@selector(addCategory:)];
-        [(MXMLParser *)parser pushDelegate:arrayDelegate];
-        [arrayDelegate release];
-    } else if ([elementName isEqualToString:@"parameters"]) {
-        MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"parameter" class:[MMParameter class] delegate:self addObjectSelector:@selector(addParameter:)];
-        [(MXMLParser *)parser pushDelegate:arrayDelegate];
-        [arrayDelegate release];
-    } else if ([elementName isEqualToString:@"meta-parameters"]) {
-        MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"parameter" class:[MMParameter class] delegate:self addObjectSelector:@selector(addMetaParameter:)];
-        [(MXMLParser *)parser pushDelegate:arrayDelegate];
-        [arrayDelegate release];
-    } else if ([elementName isEqualToString:@"symbols"]) {
-        MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"symbol" class:[MMSymbol class] delegate:self addObjectSelector:@selector(addSymbol:)];
-        [(MXMLParser *)parser pushDelegate:arrayDelegate];
-        [arrayDelegate release];
-    } else if ([elementName isEqualToString:@"postures"]) {
-        MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"posture" class:[MMPosture class] delegate:self addObjectSelector:@selector(addPosture:)];
-        [(MXMLParser *)parser pushDelegate:arrayDelegate];
-        [arrayDelegate release];
-    } else if ([elementName isEqualToString:@"equations"]) {
-        MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"equation-group" class:[MMGroup class] delegate:self addObjectSelector:@selector(addEquationGroup:)];
-        [(MXMLParser *)parser pushDelegate:arrayDelegate];
-        [arrayDelegate release];
-    } else if ([elementName isEqualToString:@"transitions"]) {
-        MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"transition-group" class:[MMGroup class] delegate:self addObjectSelector:@selector(addTransitionGroup:)];
-        [(MXMLParser *)parser pushDelegate:arrayDelegate];
-        [arrayDelegate release];
-    } else if ([elementName isEqualToString:@"special-transitions"]) {
-        MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"transition-group" class:[MMGroup class] delegate:self addObjectSelector:@selector(addSpecialTransitionGroup:)];
-        [(MXMLParser *)parser pushDelegate:arrayDelegate];
-        [arrayDelegate release];
-    } else if ([elementName isEqualToString:@"rules"]) {
-        MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"rule" class:[MMRule class] delegate:self addObjectSelector:@selector(_addStoredRule:)];
-        [(MXMLParser *)parser pushDelegate:arrayDelegate];
-        [arrayDelegate release];
-    } else {
-        NSLog(@"starting unknown element: '%@'", elementName);
-        [(MXMLParser *)parser skipTree];
-    }
-}
-
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
-{
-    //NSLog(@"closing element: '%@'", elementName);
 }
 
 @end

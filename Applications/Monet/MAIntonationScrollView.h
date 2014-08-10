@@ -8,7 +8,6 @@
 @interface MAIntonationScrollView : NSScrollView
 
 - (id)initWithFrame:(NSRect)frameRect;
-- (void)dealloc;
 
 - (void)awakeFromNib;
 - (void)addScaleView;

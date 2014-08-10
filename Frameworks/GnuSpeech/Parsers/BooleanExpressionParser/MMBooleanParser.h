@@ -5,13 +5,13 @@
 
 @class MModel;
 
-// Terminals are MMCategory instances
+// Terminals are MMCategory instances.
 // Some categories are native to a specific phone, and not found in the main category list.
 
 @interface MMBooleanParser : GSParser
 
 - (id)initWithModel:(MModel *)model;
 
-@property (retain) MModel *model;
+@property (strong) MModel *model;
 
 @end

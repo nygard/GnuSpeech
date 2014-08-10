@@ -3,18 +3,17 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MMFRuleSymbols.h"
-#import "EventList.h"
-
-@class MMPoint, MMSlope;
+@class MMPoint, MMSlope, MMFRuleSymbols, EventList, MModel;
 
 @interface MMSlopeRatio : NSObject
+
+- (id)initWithModel:(MModel *)model XMLElement:(NSXMLElement *)element error:(NSError **)error;
 
 - (NSMutableArray *)points;
 - (void)setPoints:(NSMutableArray *)newList;
 - (void)addPoint:(MMPoint *)newPoint;
 
-@property (retain) NSMutableArray *slopes;
+@property (strong) NSMutableArray *slopes;
 - (void)addSlope:(MMSlope *)newSlope;
 - (void)updateSlopes;
 
@@ -22,20 +21,16 @@
 - (double)endTime;
 
 // Used by TransitionView
-- (void)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag toDisplay:(NSMutableArray *)displayList;
+- (void)calculatePointsWithPhonesInArray:(NSArray *)phones ruleSymbols:(MMFRuleSymbols *)ruleSymbols andCacheWithTag:(NSUInteger)newCacheTag andAddToDisplay:(NSMutableArray *)displayList;
 
 // Used by ???
-- (double)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag
-                 baseline:(double)baseline delta:(double)parameterDelta min:(double)min max:(double)max
-              toEventList:(EventList *)eventList atIndex:(NSUInteger)index;
+- (double)calculatePointsWithPhonesInArray:(NSArray *)phones ruleSymbols:(MMFRuleSymbols *)ruleSymbols andCacheWithTag:(NSUInteger)newCacheTag
+                                  baseline:(double)baseline delta:(double)delta min:(double)min max:(double)max
+                         andAddToEventList:(EventList *)eventList atIndex:(NSUInteger)index;
 
 - (double)totalSlopeUnits;
 - (void)displaySlopesInList:(NSMutableArray *)displaySlopes;
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
-
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 
 @end

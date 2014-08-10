@@ -3,58 +3,32 @@
 
 #import "MMNamedObject.h"
 
-#import "GSXMLFunctions.h"
 #import "MModel.h"
-
-#import "MXMLParser.h"
-#import "MXMLPCDataDelegate.h"
 
 @implementation MMNamedObject
 {
-    NSString *m_name;
-    NSString *m_comment;
+    NSString *_name;
+    NSString *_comment;
 }
 
-- (void)dealloc;
+- (id)initWithXMLElement:(NSXMLElement *)element error:(NSError **)error;
 {
-    [m_name release];
-    [m_comment release];
-
-    [super dealloc];
-}
-
-#pragma mark -
-
-@synthesize name = m_name;
-@synthesize comment = m_comment;
-
-- (BOOL)hasComment;
-{
-    return self.comment != nil && [self.comment length] > 0;
-}
-
-#pragma mark - XML Archiving
-
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
-{
-    // TODO (2004-08-12): I'm a little wary of calling init here, since subclasses may want to use a different designated initializer, but I'll try it.
-    if ((self = [self init])) {
-        [self setName:[attributes objectForKey:@"name"]];
+    if ((self = [super initWithXMLElement:element error:error])) {
+        _name = [[element attributeForName:@"name"] stringValue];
+        NSXMLElement *commentElement = [[element elementsForName:@"comment"] firstObject];
+        if (commentElement != nil) {
+            _comment = [commentElement stringValue];
+        }
     }
 
     return self;
 }
 
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
+#pragma mark -
+
+- (BOOL)hasComment;
 {
-    if ([elementName isEqualToString:@"comment"]) {
-        MXMLPCDataDelegate *newDelegate = [[MXMLPCDataDelegate alloc] initWithElementName:elementName delegate:self setSelector:@selector(setComment:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
-    } else {
-        NSLog(@"%@, Unknown element: '%@', skipping", self, elementName);
-        [(MXMLParser *)parser skipTree];
-    }
+    return self.comment != nil && [self.comment length] > 0;
 }
 
 @end

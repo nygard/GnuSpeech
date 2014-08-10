@@ -7,40 +7,37 @@
 #include <stdlib.h>
 
 @interface TRMRingBuffer ()
-- (void)dataEmpty;
-- (void)increment;
-- (void)decrement;
 @end
 
 #pragma mark -
 
 @implementation TRMRingBuffer
 {
-    double m_buffer[TRMRingBufferSize];
-    int32_t m_padSize;
-    int32_t m_fillSize; // Derived from TRMRingBufferSize and padSize.  Remains constant.
-    
-    int32_t m_fillPtr;
-    int32_t m_emptyPtr;
-    int32_t m_fillCounter;
+    double _buffer[TRMRingBufferSize];
+    int32_t _padSize;
+    int32_t _fillSize; // Derived from TRMRingBufferSize and padSize.  Remains constant.
 
-    __weak id <TRMRingBufferDelegate> nonretained_delegate;
+    int32_t _fillPtr;
+    int32_t _emptyPtr;
+    int32_t _fillCounter;
+
+    __weak id <TRMRingBufferDelegate> _delegate;
 }
 
 - (id)initWithPadSize:(int32_t)padSize;
 {
     if ((self = [super init])) {
         for (int32_t index = 0; index < TRMRingBufferSize; index++)
-            m_buffer[index] = 0;
+            _buffer[index] = 0;
         
-        m_padSize = padSize;
-        m_fillSize = TRMRingBufferSize - (2 * m_padSize);
+        _padSize = padSize;
+        _fillSize = TRMRingBufferSize - (2 * _padSize);
         
-        m_fillPtr = m_padSize;
-        m_emptyPtr = 0;
-        m_fillCounter = 0;
+        _fillPtr = _padSize;
+        _emptyPtr = 0;
+        _fillCounter = 0;
 
-        nonretained_delegate = nil;
+        _delegate = nil;
     }
 
     return self;
@@ -49,16 +46,16 @@
 // Fills the ring buffer with a single sample, increments the counters and pointers, and empties the buffer when full.
 - (void)dataFill:(double)data;
 {
-    m_buffer[m_fillPtr] = data;
+    _buffer[_fillPtr] = data;
 
     // Increment the fill pointer, module the buffer size
     [self increment];
 
     // Increment the counter, and empty the buffer if full
-    if (++(m_fillCounter) >= m_fillSize) {
+    if (++(_fillCounter) >= _fillSize) {
         [self dataEmpty];
         // Reset the fill counter
-        m_fillCounter = 0;
+        _fillCounter = 0;
     }
 }
 
@@ -74,21 +71,21 @@
 
 - (void)increment;
 {
-    if (++(m_fillPtr) >= TRMRingBufferSize)
-        m_fillPtr -= TRMRingBufferSize;
+    if (++(_fillPtr) >= TRMRingBufferSize)
+        _fillPtr -= TRMRingBufferSize;
 }
 
 - (void)decrement;
 {
-    if (--(m_fillPtr) < 0)
-        m_fillPtr += TRMRingBufferSize;
+    if (--(_fillPtr) < 0)
+        _fillPtr += TRMRingBufferSize;
 }
 
 // Pads the buffer with zero samples, and flushes it by converting the remaining samples.
 - (void)flush;
 {
     // Pad end of ring buffer with zeros.
-    for (int32_t index = 0; index < (m_padSize * 2); index++)
+    for (int32_t index = 0; index < (_padSize * 2); index++)
         [self dataFill:0.0];
 
     // Flush up to fill pointer - padsize;
@@ -109,14 +106,9 @@
 
 #pragma mark -
 
-@synthesize delegate = nonretained_delegate;
-@synthesize padSize = m_padSize;
-@synthesize fillPtr = m_fillPtr;
-@synthesize emptyPtr = m_emptyPtr;
-
 - (double *)buffer;
 {
-    return m_buffer;
+    return _buffer;
 }
 
 @end

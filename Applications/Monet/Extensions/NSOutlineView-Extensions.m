@@ -15,36 +15,30 @@
 
 - (id)selectedItemOfClass:(Class)aClass;
 {
-    id selectedItem;
-
-    selectedItem = [self selectedItem];
+    id selectedItem = [self selectedItem];
     if ([selectedItem isKindOfClass:aClass] == YES)
         return selectedItem;
 
     return nil;
 }
 
-- (void)selectItem:(id)anItem;
+- (void)selectItem:(id)item;
 {
-    if (anItem == nil)
+    if (item == nil)
         [self deselectAll:nil];
     else {
-        int row;
-
-        row = [self rowForItem:anItem];
+        NSInteger row = [self rowForItem:item];
         [self selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
         [self scrollRowToVisible:row];
     }
 }
 
-- (void)scrollRowForItemToVisible:(id)anItem;
+- (void)scrollRowForItemToVisible:(id)item;
 {
-    NSInteger row;
-
-    if (anItem == nil)
+    if (item == nil)
         return;
 
-    row = [self rowForItem:anItem];
+    NSInteger row = [self rowForItem:item];
     [self scrollRowToVisible:row];
 }
 

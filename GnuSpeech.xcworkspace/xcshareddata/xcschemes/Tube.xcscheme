@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
+   LastUpgradeVersion = "0600"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -38,6 +39,15 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "8DC2EF4F0486A6940098B216"
+            BuildableName = "Tube.framework"
+            BlueprintName = "Tube"
+            ReferencedContainer = "container:Frameworks/Tube/Tube.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>

@@ -9,22 +9,21 @@
 #import "TRMWaveTable.h"
 
 @interface TRMDataList ()
-- (BOOL)_parseInputFile:(NSString *)path error:(NSError **)error;
 @end
 
 #pragma mark -
 
 @implementation TRMDataList
 {
-    TRMInputParameters *m_inputParameters;
-    NSMutableArray *m_values;
+    TRMInputParameters *_inputParameters;
+    NSMutableArray *_values;
 }
 
 - (id)init;
 {
     if ((self = [super init])) {
-        m_inputParameters = [[TRMInputParameters alloc] init];
-        m_values = [[NSMutableArray alloc] init];
+        _inputParameters = [[TRMInputParameters alloc] init];
+        _values = [[NSMutableArray alloc] init];
     }
     
     return self;
@@ -38,15 +37,6 @@
     }
 
     return self;
-}
-
-
-- (void)dealloc;
-{
-    [m_inputParameters release];
-    [m_values release];
-
-    [super dealloc];
 }
 
 // TODO (2012-05-19): Turn fprintfs() into returned NSErrors, and return NSErrors in the other cases too.
@@ -214,7 +204,7 @@
         fprintf(stderr, "Can't read pulse modulation of noise flag.\n");
         return NO;
     } else
-        self.inputParameters.modulation = strtol(line, NULL, 10);
+        self.inputParameters.usesModulation = (strtol(line, NULL, 10) != 0);
     
     // Get the noise crossmix offset
     if (fgets(line, 128, fp) == NULL) {
@@ -227,7 +217,7 @@
     // Get the input table values
     while (fgets(line, 128, fp)) {
         char *ptr = line;
-        TRMParameters *inputParameters = [[[TRMParameters alloc] init] autorelease];
+        TRMParameters *inputParameters = [[TRMParameters alloc] init];
         double *radius = inputParameters.radius;
         
         // Get each parameter
@@ -255,11 +245,6 @@
 
     return YES;
 }
-
-#pragma mark -
-
-@synthesize inputParameters = m_inputParameters;
-@synthesize values = m_values;
 
 #pragma mark -
 
@@ -295,10 +280,7 @@
     printf("throatVol:\t\t%.2f dB\n\n",        self.inputParameters.throatVol);
     
     printf("modulation:\t\t");
-    if (self.inputParameters.modulation)
-        printf("on\n");
-    else
-        printf("off\n");
+    printf("%s\n",                             self.inputParameters.usesModulation ? "on" : "off");
     printf("mixOffset:\t\t%.2f dB\n\n",        self.inputParameters.mixOffset);
     
 #if DEBUG

@@ -6,43 +6,31 @@
 #import "NSObject-Extensions.h"
 
 @interface MMFormulaExpression ()
-@property (retain) MMFormulaNode *left;
-@property (retain) MMFormulaNode *right;
+@property (strong) MMFormulaNode *left;
+@property (strong) MMFormulaNode *right;
 @end
 
 #pragma mark -
 
 @implementation MMFormulaExpression
 {
-    MMFormulaOperation m_operation;
-    MMFormulaNode *m_left;
-    MMFormulaNode *m_right;
+    MMFormulaOperation _operation;
+    MMFormulaNode *_left;
+    MMFormulaNode *_right;
 }
 
 - (id)init;
 {
     if ((self = [super init])) {
-        m_operation = MMFormulaOperation_None;
-        m_left = nil;
-        m_right = nil;
+        _operation = MMFormulaOperation_None;
+        _left = nil;
+        _right = nil;
     }
 
     return self;
 }
 
-- (void)dealloc;
-{
-    [m_left release];
-    [m_right release];
-
-    [super dealloc];
-}
-
 #pragma mark -
-
-@synthesize operation = m_operation;
-@synthesize left = m_left;
-@synthesize right = m_right;
 
 - (id)operandOne;
 {
@@ -85,41 +73,44 @@
 - (NSUInteger)precedence;
 {
     switch (self.operation) {
-      case MMFormulaOperation_Add:
-      case MMFormulaOperation_Subtract:
+        case MMFormulaOperation_Add:
+        case MMFormulaOperation_Subtract:
           return 1;
 
-      case MMFormulaOperation_Multiply:
-      case MMFormulaOperation_Divide:
+        case MMFormulaOperation_Multiply:
+        case MMFormulaOperation_Divide:
           return 2;
+
+        default:
+            break;
     }
 
     return 0;
 }
 
-- (double)evaluate:(MMFRuleSymbols *)ruleSymbols postures:(NSArray *)postures tempos:(double *)tempos;
+- (double)evaluateWithPhonesInArray:(NSArray *)phones ruleSymbols:(MMFRuleSymbols *)ruleSymbols;
 {
     switch (self.operation) {
-      case MMFormulaOperation_Add:
-          return [self.left evaluate:ruleSymbols postures:postures tempos:tempos] + [self.right evaluate:ruleSymbols postures:postures tempos:tempos];
-          break;
+        case MMFormulaOperation_Add:
+            return [self.left evaluateWithPhonesInArray:phones ruleSymbols:ruleSymbols] + [self.right evaluateWithPhonesInArray:phones ruleSymbols:ruleSymbols];
+            break;
 
-      case MMFormulaOperation_Subtract:
-          return [self.left evaluate:ruleSymbols postures:postures tempos:tempos] - [self.right evaluate:ruleSymbols postures:postures tempos:tempos];
-          break;
+        case MMFormulaOperation_Subtract:
+            return [self.left evaluateWithPhonesInArray:phones ruleSymbols:ruleSymbols] - [self.right evaluateWithPhonesInArray:phones ruleSymbols:ruleSymbols];
+            break;
 
-      case MMFormulaOperation_Multiply:
-          return [self.left evaluate:ruleSymbols postures:postures tempos:tempos] * [self.right evaluate:ruleSymbols postures:postures tempos:tempos];
-          break;
+        case MMFormulaOperation_Multiply:
+            return [self.left evaluateWithPhonesInArray:phones ruleSymbols:ruleSymbols] * [self.right evaluateWithPhonesInArray:phones ruleSymbols:ruleSymbols];
+            break;
 
-      case MMFormulaOperation_Divide:
-          return [self.left evaluate:ruleSymbols postures:postures tempos:tempos] / [self.right evaluate:ruleSymbols postures:postures tempos:tempos];
-          break;
+        case MMFormulaOperation_Divide:
+            return [self.left evaluateWithPhonesInArray:phones ruleSymbols:ruleSymbols] / [self.right evaluateWithPhonesInArray:phones ruleSymbols:ruleSymbols];
+            break;
 
-      default:
-          return 1.0;
+        default:
+            return 1.0;
     }
-
+    
     return 0.0;
 }
 

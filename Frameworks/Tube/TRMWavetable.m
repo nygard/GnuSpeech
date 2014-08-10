@@ -23,7 +23,6 @@
 #define TABLE_MODULUS             (TABLE_LENGTH-1)
 
 static double mod0(double value);
-static void TRMWavetableIncrementPosition(TRMWavetable *wavetable, double frequency);
 
 // Returns the modulus of 'value', keeping it in the range 0 -> TABLE_MODULUS.
 static double mod0(double value)
@@ -35,23 +34,22 @@ static double mod0(double value)
 }
 
 @interface TRMWavetable ()
-- (void)incrementPosition:(double)frequency;
 @end
 
 #pragma mark -
 
 @implementation TRMWavetable
 {
-    TRMFIRFilter *m_FIRFilter;
-    double *m_wavetable;
-    
-    int32_t m_tableDiv1;
-    int32_t m_tableDiv2;
-    double m_tnLength;
-    double m_tnDelta;
-    
-    double m_basicIncrement;
-    double m_currentPosition;
+    TRMFIRFilter *_FIRFilter;
+    double *_wavetable;
+
+    int32_t _tableDiv1;
+    int32_t _tableDiv2;
+    double _tnLength;
+    double _tnDelta;
+
+    double _basicIncrement;
+    double _currentPosition;
 }
 
 // Calculates the initial glottal pulse and stores it in the wavetable, for use in the oscillator.
@@ -60,47 +58,46 @@ static double mod0(double value)
     if ((self = [super init])) {
         int32_t i, j;
 
-        m_FIRFilter = [[TRMFIRFilter alloc] initWithBeta:FIR_BETA gamma:FIR_GAMMA cutoff:FIR_CUTOFF];
+        _FIRFilter = [[TRMFIRFilter alloc] initWithBeta:FIR_BETA gamma:FIR_GAMMA cutoff:FIR_CUTOFF];
         
         //  Allocate memory for wavetable
-        m_wavetable = (double *)calloc(TABLE_LENGTH, sizeof(double));
-        if (m_wavetable == NULL) {
+        _wavetable = (double *)calloc(TABLE_LENGTH, sizeof(double));
+        if (_wavetable == NULL) {
             fprintf(stderr, "Failed to allocate space for wavetable in TRMWavetableCreate.\n");
-            [self release];
             return nil;
         }
         
         //  Calculate wave table parameters
-        m_tableDiv1 = rint(TABLE_LENGTH * (tp / 100.0));
-        m_tableDiv2 = rint(TABLE_LENGTH * ((tp + tnMax) / 100.0));
-        m_tnLength = m_tableDiv2 - m_tableDiv1;
-        m_tnDelta = rint(TABLE_LENGTH * ((tnMax - tnMin) / 100.0));
-        m_basicIncrement = (double)TABLE_LENGTH / sampleRate;
-        m_currentPosition = 0;
+        _tableDiv1 = rint(TABLE_LENGTH * (tp / 100.0));
+        _tableDiv2 = rint(TABLE_LENGTH * ((tp + tnMax) / 100.0));
+        _tnLength = _tableDiv2 - _tableDiv1;
+        _tnDelta = rint(TABLE_LENGTH * ((tnMax - tnMin) / 100.0));
+        _basicIncrement = (double)TABLE_LENGTH / sampleRate;
+        _currentPosition = 0;
         
         //  Initialize the wavetable with either a glottal pulse or sine tone
         if (waveForm == TRMWaveFormType_Pulse) {
             //  Calculate rise portion of wave table
-            for (i = 0; i < m_tableDiv1; i++) {
-                double x = (double)i / (double)m_tableDiv1;
+            for (i = 0; i < _tableDiv1; i++) {
+                double x = (double)i / (double)_tableDiv1;
                 double x2 = x * x;
                 double x3 = x2 * x;
-                m_wavetable[i] = (3.0 * x2) - (2.0 * x3);
+                _wavetable[i] = (3.0 * x2) - (2.0 * x3);
             }
             
             //  Calculate fall portion of wave table
-            for (i = m_tableDiv1, j = 0; i < m_tableDiv2; i++, j++) {
-                double x = (double)j / m_tnLength;
-                m_wavetable[i] = 1.0 - (x * x);
+            for (i = _tableDiv1, j = 0; i < _tableDiv2; i++, j++) {
+                double x = (double)j / _tnLength;
+                _wavetable[i] = 1.0 - (x * x);
             }
             
             //  Set closed portion of wave table
-            for (i = m_tableDiv2; i < TABLE_LENGTH; i++)
-                m_wavetable[i] = 0.0;
+            for (i = _tableDiv2; i < TABLE_LENGTH; i++)
+                _wavetable[i] = 0.0;
         } else {
             //  Sine wave
             for (i = 0; i < TABLE_LENGTH; i++) {
-                m_wavetable[i] = sin( ((double)i / (double)TABLE_LENGTH) * 2.0 * M_PI );
+                _wavetable[i] = sin( ((double)i / (double)TABLE_LENGTH) * 2.0 * M_PI );
             }
         }
     }
@@ -110,14 +107,10 @@ static double mod0(double value)
 
 - (void)dealloc;
 {
-    [m_FIRFilter release];
-
-    if (m_wavetable != NULL) {
-        free(m_wavetable);
-        m_wavetable = NULL;
+    if (_wavetable != NULL) {
+        free(_wavetable);
+        _wavetable = NULL;
     }
-
-    [super dealloc];
 }
 
 // Rewrites the changeable part of the glottal pulse according to the amplitude.
@@ -126,8 +119,8 @@ static double mod0(double value)
     int i;
 
     //  Calculate new closure point, based on amplitude
-    double newDiv2 = m_tableDiv2 - rint(amplitude * m_tnDelta);
-    double newTnLength = newDiv2 - m_tableDiv1;
+    double newDiv2 = _tableDiv2 - rint(amplitude * _tnDelta);
+    double newTnLength = newDiv2 - _tableDiv1;
     double j;
 
     //  Recalculate the falling portion of the glottal pulse
@@ -145,7 +138,7 @@ static double mod0(double value)
 
         vDSP_vsqD(aj, 1, ajj, 1, len);
         vDSP_vsmulD(ajj, 1, &scale, aj, 1, len);
-        vDSP_vsubD(aj, 1, one, 1, &(m_wavetable[m_tableDiv1]), 1, len); // The docs seem to be wrong about which one gets subtracted...
+        vDSP_vsubD(aj, 1, one, 1, &(_wavetable[_tableDiv1]), 1, len); // The docs seem to be wrong about which one gets subtracted...
     }
 #else
     {
@@ -159,8 +152,8 @@ static double mod0(double value)
 
     //  Fill in with closed portion of glottal pulse
 #if 1
-    for (i = newDiv2; i < m_tableDiv2; i++)
-        m_wavetable[i] = 0.0;
+    for (i = newDiv2; i < _tableDiv2; i++)
+        _wavetable[i] = 0.0;
 #else
     i = newDiv2;
     if (wavetable->tableDiv2 > i)
@@ -171,7 +164,7 @@ static double mod0(double value)
 // Increments the position in the wavetable according to the desired frequency.
 - (void)incrementPosition:(double)frequency;
 {
-    m_currentPosition = mod0(m_currentPosition + (frequency * m_basicIncrement));
+    _currentPosition = mod0(_currentPosition + (frequency * _basicIncrement));
 }
 
 // A 2X oversampling interpolating wavetable oscillator.
@@ -187,20 +180,23 @@ static double mod0(double value)
         [self incrementPosition:frequency / 2.0];
 
         //  Find surrounding integer table positions
-        int32_t lowerPosition = m_currentPosition;
+        int32_t lowerPosition = _currentPosition;
         int32_t upperPosition = mod0(lowerPosition + 1);
 
         //  Calculate interpolated table value
-        double interpolatedValue = (m_wavetable[lowerPosition] + ((m_currentPosition - lowerPosition) * (m_wavetable[upperPosition] - m_wavetable[lowerPosition])));
+        double interpolatedValue = (_wavetable[lowerPosition] + ((_currentPosition - lowerPosition) * (_wavetable[upperPosition] - _wavetable[lowerPosition])));
 
         //  Put value through FIR filter
-        output = [m_FIRFilter filterInput:interpolatedValue needOutput:(index == 1)];
+        output = [_FIRFilter filterInput:interpolatedValue needOutput:(index == 1)];
     }
 
     //  Since we decimate, take only the second output value
     return output;
 }
 #else
+
+static void TRMWavetableIncrementPosition(TRMWavetable *wavetable, double frequency);
+
 //  Plain oscillator
 - (double)oscillator:(double)frequency;
 {

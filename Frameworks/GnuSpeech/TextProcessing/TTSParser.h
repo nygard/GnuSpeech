@@ -4,8 +4,8 @@
 
 @interface TTSParser : NSObject
 
-- (id)initWithPronunciationDictionary:(GSPronunciationDictionary *)aDictionary;
+- (id)initWithPronunciationDictionary:(GSPronunciationDictionary *)dictionary;
 
-- (NSString *)parseString:(NSString *)aString;  // entry point
+- (NSString *)parseString:(NSString *)string;  // entry point
 
 @end

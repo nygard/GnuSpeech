@@ -13,32 +13,32 @@
 
 @implementation MPostureEditor
 {
-    IBOutlet NSTableView *postureTableView;
-    IBOutlet NSTextField *postureTotalTextField;
-    IBOutlet NSButtonCell *removePostureButtonCell;
-    IBOutlet NSTextView *postureCommentTextView;
-    
-    IBOutlet NSTableView *categoryTableView;
-    
-    IBOutlet NSTableView *parameterTableView;
-    IBOutlet NSButton *useDefaultParameterButton;
-    
-    IBOutlet NSTableView *metaParameterTableView;
-    IBOutlet NSButton *useDefaultMetaParameterButton;
-    
-    IBOutlet NSTableView *symbolTableView;
-    IBOutlet NSButton *useDefaultSymbolButton;
-    
-    MModel *model;
-    
-    NSFont *regularControlFont;
-    NSFont *boldControlFont;
+    IBOutlet NSTableView *_postureTableView;
+    IBOutlet NSTextField *_postureTotalTextField;
+    IBOutlet NSButtonCell *_removePostureButtonCell;
+    IBOutlet NSTextView *_postureCommentTextView;
+
+    IBOutlet NSTableView *_categoryTableView;
+
+    IBOutlet NSTableView *_parameterTableView;
+    IBOutlet NSButton *_useDefaultParameterButton;
+
+    IBOutlet NSTableView *_metaParameterTableView;
+    IBOutlet NSButton *_useDefaultMetaParameterButton;
+
+    IBOutlet NSTableView *_symbolTableView;
+    IBOutlet NSButton *_useDefaultSymbolButton;
+
+    MModel *_model;
+
+    NSFont *_regularControlFont;
+    NSFont *_boldControlFont;
 }
 
-- (id)initWithModel:(MModel *)aModel;
+- (id)initWithModel:(MModel *)model;
 {
     if ((self = [super initWithWindowNibName:@"Postures"])) {
-        model = [aModel retain];
+        _model = model;
 
         [self setWindowFrameAutosaveName:@"Postures"];
     }
@@ -46,32 +46,22 @@
     return self;
 }
 
-- (void)dealloc;
-{
-    [model release];
-    [regularControlFont release];
-    [boldControlFont release];
-
-    [super dealloc];
-}
-
 #pragma mark -
 
 - (MModel *)model;
 {
-    return model;
+    return _model;
 }
 
 - (void)setModel:(MModel *)newModel;
 {
-    if (newModel == model)
+    if (newModel == _model)
         return;
 
-    [model release];
-    model = [newModel retain];
+    _model = newModel;
 
     [self updateViews];
-    [postureTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
+    [_postureTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
 }
 
 - (NSUndoManager *)undoManager;
@@ -85,8 +75,8 @@
     NSButtonCell *checkboxCell;
     MCommentCell *commentImageCell;
 
-    regularControlFont = [[NSFont controlContentFontOfSize:[NSFont systemFontSize]] retain];
-    boldControlFont = [[[NSFontManager sharedFontManager] convertFont:regularControlFont toHaveTrait:NSBoldFontMask] retain];
+    _regularControlFont = [NSFont controlContentFontOfSize:[NSFont systemFontSize]];
+    _boldControlFont = [[NSFontManager sharedFontManager] convertFont:_regularControlFont toHaveTrait:NSBoldFontMask];
 
     defaultNumberFormatter = [NSNumberFormatter defaultNumberFormatter];
 
@@ -96,81 +86,78 @@
     [checkboxCell setImagePosition:NSImageOnly];
     [checkboxCell setEditable:NO];
 
-    [[categoryTableView tableColumnWithIdentifier:@"isMember"] setDataCell:checkboxCell];
-
-    [checkboxCell release];
+    [[_categoryTableView tableColumnWithIdentifier:@"isMember"] setDataCell:checkboxCell];
 
     commentImageCell = [[MCommentCell alloc] initImageCell:nil];
     [commentImageCell setImageAlignment:NSImageAlignCenter];
-    [[postureTableView tableColumnWithIdentifier:@"hasComment"] setDataCell:commentImageCell];
-    [commentImageCell release];
+    [[_postureTableView tableColumnWithIdentifier:@"hasComment"] setDataCell:commentImageCell];
 
-    [postureCommentTextView setFieldEditor:YES];
+    [_postureCommentTextView setFieldEditor:YES];
 
-    [[[parameterTableView tableColumnWithIdentifier:@"value"] dataCell] setFormatter:defaultNumberFormatter];
-    [[[parameterTableView tableColumnWithIdentifier:@"minimum"] dataCell] setFormatter:defaultNumberFormatter];
-    [[[parameterTableView tableColumnWithIdentifier:@"maximum"] dataCell] setFormatter:defaultNumberFormatter];
-    [[[parameterTableView tableColumnWithIdentifier:@"default"] dataCell] setFormatter:defaultNumberFormatter];
+    [[[_parameterTableView tableColumnWithIdentifier:@"value"] dataCell] setFormatter:defaultNumberFormatter];
+    [[[_parameterTableView tableColumnWithIdentifier:@"minimum"] dataCell] setFormatter:defaultNumberFormatter];
+    [[[_parameterTableView tableColumnWithIdentifier:@"maximum"] dataCell] setFormatter:defaultNumberFormatter];
+    [[[_parameterTableView tableColumnWithIdentifier:@"default"] dataCell] setFormatter:defaultNumberFormatter];
 
-    [[[metaParameterTableView tableColumnWithIdentifier:@"value"] dataCell] setFormatter:defaultNumberFormatter];
-    [[[metaParameterTableView tableColumnWithIdentifier:@"minimum"] dataCell] setFormatter:defaultNumberFormatter];
-    [[[metaParameterTableView tableColumnWithIdentifier:@"maximum"] dataCell] setFormatter:defaultNumberFormatter];
-    [[[metaParameterTableView tableColumnWithIdentifier:@"default"] dataCell] setFormatter:defaultNumberFormatter];
+    [[[_metaParameterTableView tableColumnWithIdentifier:@"value"] dataCell] setFormatter:defaultNumberFormatter];
+    [[[_metaParameterTableView tableColumnWithIdentifier:@"minimum"] dataCell] setFormatter:defaultNumberFormatter];
+    [[[_metaParameterTableView tableColumnWithIdentifier:@"maximum"] dataCell] setFormatter:defaultNumberFormatter];
+    [[[_metaParameterTableView tableColumnWithIdentifier:@"default"] dataCell] setFormatter:defaultNumberFormatter];
 
-    [[[symbolTableView tableColumnWithIdentifier:@"value"] dataCell] setFormatter:defaultNumberFormatter];
-    [[[symbolTableView tableColumnWithIdentifier:@"minimum"] dataCell] setFormatter:defaultNumberFormatter];
-    [[[symbolTableView tableColumnWithIdentifier:@"maximum"] dataCell] setFormatter:defaultNumberFormatter];
-    [[[symbolTableView tableColumnWithIdentifier:@"default"] dataCell] setFormatter:defaultNumberFormatter];
+    [[[_symbolTableView tableColumnWithIdentifier:@"value"] dataCell] setFormatter:defaultNumberFormatter];
+    [[[_symbolTableView tableColumnWithIdentifier:@"minimum"] dataCell] setFormatter:defaultNumberFormatter];
+    [[[_symbolTableView tableColumnWithIdentifier:@"maximum"] dataCell] setFormatter:defaultNumberFormatter];
+    [[[_symbolTableView tableColumnWithIdentifier:@"default"] dataCell] setFormatter:defaultNumberFormatter];
 
     [self updateViews];
-    [postureTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
+    [_postureTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
 }
 
 - (void)updateViews;
 {
-    [postureTableView reloadData];
-    [postureTotalTextField setIntValue:[[[self model] postures] count]];
+    [_postureTableView reloadData];
+    [_postureTotalTextField setIntegerValue:[[[self model] postures] count]];
     [self _updatePostureDetails];
     [self _updateUseDefaultButtons];
 }
 
 - (void)_updatePostureDetails;
 {
-    if ([postureTableView numberOfSelectedRows] == 1) {
+    if ([_postureTableView numberOfSelectedRows] == 1) {
         MMPosture *selectedPosture;
         NSString *comment;
 
         selectedPosture = [self selectedPosture];
-        [postureCommentTextView setEditable:YES];
+        [_postureCommentTextView setEditable:YES];
         comment = [selectedPosture comment];
         if (comment == nil)
             comment = @"";
-        [postureCommentTextView setString:comment];
-        [removePostureButtonCell setEnabled:YES];
+        [_postureCommentTextView setString:comment];
+        [_removePostureButtonCell setEnabled:YES];
     } else {
-        [postureCommentTextView setEditable:NO];
-        [postureCommentTextView setString:@""];
-        [removePostureButtonCell setEnabled:NO];
+        [_postureCommentTextView setEditable:NO];
+        [_postureCommentTextView setString:@""];
+        [_removePostureButtonCell setEnabled:NO];
     }
 
-    [categoryTableView reloadData];
-    [parameterTableView reloadData];
-    [metaParameterTableView reloadData];
-    [symbolTableView reloadData];
+    [_categoryTableView reloadData];
+    [_parameterTableView reloadData];
+    [_metaParameterTableView reloadData];
+    [_symbolTableView reloadData];
 }
 
 - (void)_updateUseDefaultButtons;
 {
-    [useDefaultParameterButton setEnabled:[parameterTableView numberOfSelectedRows] == 1];
-    [useDefaultMetaParameterButton setEnabled:[metaParameterTableView numberOfSelectedRows] == 1];
-    [useDefaultSymbolButton setEnabled:[symbolTableView numberOfSelectedRows] == 1];
+    [_useDefaultParameterButton setEnabled:[_parameterTableView numberOfSelectedRows] == 1];
+    [_useDefaultMetaParameterButton setEnabled:[_metaParameterTableView numberOfSelectedRows] == 1];
+    [_useDefaultSymbolButton setEnabled:[_symbolTableView numberOfSelectedRows] == 1];
 }
 
 - (MMPosture *)selectedPosture;
 {
     NSInteger selectedRow;
 
-    selectedRow = [postureTableView selectedRow];
+    selectedRow = [_postureTableView selectedRow];
     if (selectedRow == -1)
         return nil;
 
@@ -188,13 +175,12 @@
     [self updateViews];
 
     index = [[[self model] postures] indexOfObject:newPosture];
-    [newPosture release];
 
-    [postureTableView scrollRowToVisible:index];
+    [_postureTableView scrollRowToVisible:index];
 
     // The row needs to be selected before we start editing it.
-    [postureTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
-    [postureTableView editColumn:[postureTableView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
+    [_postureTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
+    [_postureTableView editColumn:[_postureTableView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
 }
 
 - (IBAction)removePosture:(id)sender;
@@ -214,7 +200,7 @@
     MMParameter *selectedParameter;
     MMTarget *selectedTarget;
 
-    selectedRow = [parameterTableView selectedRow];
+    selectedRow = [_parameterTableView selectedRow];
     selectedParameter = [[[self model] parameters] objectAtIndex:selectedRow];
     NSParameterAssert(selectedParameter != nil);
 
@@ -231,7 +217,7 @@
     MMParameter *selectedParameter;
     MMTarget *selectedTarget;
 
-    selectedRow = [metaParameterTableView selectedRow];
+    selectedRow = [_metaParameterTableView selectedRow];
     selectedParameter = [[[self model] metaParameters] objectAtIndex:selectedRow];
     NSParameterAssert(selectedParameter != nil);
 
@@ -248,7 +234,7 @@
     MMSymbol *selectedSymbol;
     MMTarget *selectedTarget;
 
-    selectedRow = [symbolTableView selectedRow];
+    selectedRow = [_symbolTableView selectedRow];
     selectedSymbol = [[[self model] symbols] objectAtIndex:selectedRow];
     NSParameterAssert(selectedSymbol != nil);
 
@@ -259,23 +245,23 @@
     [self updateViews];
 }
 
-#pragma mark - NSTableView data source
+#pragma mark - NSTableViewDataSource
 
-- (NSUInteger)numberOfRowsInTableView:(NSTableView *)tableView;
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView;
 {
-    if (tableView == postureTableView)
+    if (tableView == _postureTableView)
         return [[[self model] postures] count];
 
-    if (tableView == categoryTableView)
+    if (tableView == _categoryTableView)
         return [[[self model] categories] count];
 
-    if (tableView == parameterTableView)
+    if (tableView == _parameterTableView)
         return [[[self model] parameters] count];
 
-    if (tableView == metaParameterTableView)
+    if (tableView == _metaParameterTableView)
         return [[[self model] metaParameters] count];
 
-    if (tableView == symbolTableView)
+    if (tableView == _symbolTableView)
         return [[[self model] symbols] count];
 
     return 0;
@@ -283,11 +269,9 @@
 
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
 {
-    id identifier;
+    id identifier = [tableColumn identifier];
 
-    identifier = [tableColumn identifier];
-
-    if (tableView == postureTableView) {
+    if (tableView == _postureTableView) {
         MMPosture *posture = [[[self model] postures] objectAtIndex:row];
 
         if ([@"hasComment" isEqual:identifier] == YES) {
@@ -295,7 +279,7 @@
         } else if ([@"name" isEqual:identifier] == YES) {
             return [posture name];
         }
-    } else if (tableView == categoryTableView) {
+    } else if (tableView == _categoryTableView) {
         MMCategory *category = [[[self model] categories] objectAtIndex:row];
 
         if ([@"isMember" isEqual:identifier] == YES) {
@@ -303,11 +287,11 @@
         } else if ([@"name" isEqual:identifier] == YES) {
             return [category name];
         }
-    } else if (tableView == parameterTableView || tableView == metaParameterTableView) {
+    } else if (tableView == _parameterTableView || tableView == _metaParameterTableView) {
         // TODO (2004-03-18): When MMSymbol == MMParameter, we can merge the last three cases.
         MMParameter *parameter;
 
-        if (tableView == parameterTableView)
+        if (tableView == _parameterTableView)
             parameter = [[[self model] parameters] objectAtIndex:row];
         else
             parameter = [[[self model] metaParameters] objectAtIndex:row];
@@ -317,7 +301,7 @@
         } else if ([@"value" isEqual:identifier] == YES) {
             MMTarget *aTarget;
 
-            if (tableView == parameterTableView)
+            if (tableView == _parameterTableView)
                 aTarget = [[[self selectedPosture] parameterTargets] objectAtIndex:row];
             else
                 aTarget = [[[self selectedPosture] metaParameterTargets] objectAtIndex:row];
@@ -332,7 +316,7 @@
         } else if ([@"default" isEqual:identifier] == YES) {
             return [NSNumber numberWithDouble:[parameter defaultValue]];
         }
-    } else if (tableView == symbolTableView) {
+    } else if (tableView == _symbolTableView) {
         MMSymbol *symbol = [[[self model] symbols] objectAtIndex:row];
 
         if ([@"name" isEqual:identifier] == YES) {
@@ -359,17 +343,15 @@
 
 - (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
 {
-    id identifier;
+    id identifier = [tableColumn identifier];
 
-    identifier = [tableColumn identifier];
-
-    if (tableView == postureTableView) {
+    if (tableView == _postureTableView) {
         MMPosture *posture = [[[self model] postures] objectAtIndex:row];
 
         if ([@"name" isEqual:identifier] == YES) {
             [posture setName:object];
         }
-    } else if (tableView == categoryTableView) {
+    } else if (tableView == _categoryTableView) {
         MMCategory *category = [[[self model] categories] objectAtIndex:row];
 
         if ([@"isMember" isEqual:identifier] == YES) {
@@ -378,18 +360,18 @@
             else
                 [[self selectedPosture] removeCategory:category];
         }
-    } else if (tableView == parameterTableView || tableView == metaParameterTableView) {
+    } else if (tableView == _parameterTableView || tableView == _metaParameterTableView) {
         if ([@"value" isEqual:identifier] == YES) {
             MMTarget *aTarget;
 
-            if (tableView == parameterTableView)
+            if (tableView == _parameterTableView)
                 aTarget = [[[self selectedPosture] parameterTargets] objectAtIndex:row];
             else
                 aTarget = [[[self selectedPosture] metaParameterTargets] objectAtIndex:row];
 
             [aTarget setValue:[object doubleValue]];
         }
-    } else if (tableView == symbolTableView) {
+    } else if (tableView == _symbolTableView) {
         if ([@"value" isEqual:identifier] == YES) {
             MMTarget *aTarget;
 
@@ -399,21 +381,19 @@
     }
 }
 
-#pragma mark - NSTableView delegate
+#pragma mark - NSTableViewDelegate
 
-- (void)tableViewSelectionDidChange:(NSNotification *)aNotification;
+- (void)tableViewSelectionDidChange:(NSNotification *)notification;
 {
-    NSTableView *tableView;
+    NSTableView *tableView = [notification object];
 
-    tableView = [aNotification object];
-
-    if (tableView == postureTableView) {
+    if (tableView == _postureTableView) {
         [self _updatePostureDetails];
-    } else if (tableView == parameterTableView) {
+    } else if (tableView == _parameterTableView) {
         [self _updateUseDefaultButtons];
-    } else if (tableView == metaParameterTableView) {
+    } else if (tableView == _metaParameterTableView) {
         [self _updateUseDefaultButtons];
-    } else if (tableView == symbolTableView) {
+    } else if (tableView == _symbolTableView) {
         [self _updateUseDefaultButtons];
     }
 }
@@ -421,41 +401,38 @@
 - (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
 {
     // TODO (2004-03-19): Would really prefer to have "isDefaultValue" method in the model.  Plus it could cache the value.
-    if (tableView == parameterTableView || tableView == metaParameterTableView) {
-        MMParameter *aParameter;
-        MMTarget *aTarget;
+    if (tableView == _parameterTableView || tableView == _metaParameterTableView) {
+        MMParameter *parameter;
+        MMTarget *target;
 
-        if (tableView == parameterTableView) {
-            aParameter = [[[self model] parameters] objectAtIndex:row];
-            aTarget = [[[self selectedPosture] parameterTargets] objectAtIndex:row];
+        if (tableView == _parameterTableView) {
+            parameter = [[[self model] parameters] objectAtIndex:row];
+            target = [[[self selectedPosture] parameterTargets] objectAtIndex:row];
         } else {
-            aParameter = [[[self model] metaParameters] objectAtIndex:row];
-            aTarget = [[[self selectedPosture] metaParameterTargets] objectAtIndex:row];
+            parameter = [[[self model] metaParameters] objectAtIndex:row];
+            target = [[[self selectedPosture] metaParameterTargets] objectAtIndex:row];
         }
 
-        if ([aTarget value] == [aParameter defaultValue])
-            [cell setFont:boldControlFont];
+        if ([target value] == [parameter defaultValue])
+            [cell setFont:_boldControlFont];
         else
-            [cell setFont:regularControlFont];
-    } else if (tableView == symbolTableView) {
-        MMSymbol *aSymbol;
-        MMTarget *aTarget;
-
-        aSymbol = [[[self model] symbols] objectAtIndex:row];
-        aTarget = [[[self selectedPosture] symbolTargets] objectAtIndex:row];
-        if ([aTarget value] == [aSymbol defaultValue])
-            [cell setFont:boldControlFont];
+            [cell setFont:_regularControlFont];
+    } else if (tableView == _symbolTableView) {
+        MMSymbol *symbol = [[[self model] symbols] objectAtIndex:row];
+        MMTarget *target = [[[self selectedPosture] symbolTargets] objectAtIndex:row];
+        if ([target value] == [symbol defaultValue])
+            [cell setFont:_boldControlFont];
         else
-            [cell setFont:regularControlFont];
+            [cell setFont:_regularControlFont];
     } else {
-        [cell setFont:regularControlFont];
+        [cell setFont:_regularControlFont];
     }
 }
 
-- (BOOL)control:(NSControl *)aControl shouldProcessCharacters:(NSString *)characters;
+- (BOOL)control:(NSControl *)control shouldProcessCharacters:(NSString *)characters;
 {
     NSArray *postures;
-    unsigned int count, index;
+    NSUInteger count, index;
     MMPosture *posture;
 
     postures = [[self model] postures];
@@ -463,8 +440,8 @@
     for (index = 0; index < count; index++) {
         posture = [postures objectAtIndex:index];
         if ([[posture name] hasPrefix:characters] == YES) {
-            [postureTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
-            [postureTableView scrollRowToVisible:index];
+            [_postureTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
+            [_postureTableView scrollRowToVisible:index];
             return NO;
         }
     }
@@ -472,32 +449,26 @@
     return YES;
 }
 
-#pragma mark - NSTextView delegate
+#pragma mark - NSTextViewDelegate
 
-- (void)textDidEndEditing:(NSNotification *)aNotification;
+- (void)textDidEndEditing:(NSNotification *)notification;
 {
-    NSTextView *textView;
-    NSString *newComment;
-
-    textView = [aNotification object];
+    NSTextView *textView = [notification object];
     // NSTextMovement is a key in the user info
     //NSLog(@"[aNotification userInfo]: %@", [aNotification userInfo]);
 
-    newComment = [[textView string] copy];
+    NSString *newComment = [[textView string] copy];
     //NSLog(@"(1) newComment: %@", newComment);
     if ([newComment length] == 0) {
-        [newComment release];
         newComment = nil;
     }
     //NSLog(@"(2) newComment: %@", newComment);
 
-    if (textView == postureCommentTextView) {
+    if (textView == _postureCommentTextView) {
         [[self selectedPosture] setComment:newComment];
         // TODO (2004-03-18): Bleck.  Need notification from model that things have changed.
         [self updateViews];
     }
-
-    [newComment release];
 }
 
 @end

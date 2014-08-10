@@ -13,33 +13,33 @@
 
 @implementation MDataEntryController
 {
-    IBOutlet NSTableView *categoryTableView;
-    IBOutlet NSTextField *categoryTotalTextField;
-    IBOutlet NSTextView *categoryCommentTextView;
-    IBOutlet NSButtonCell *removeCategoryButtonCell;
-    
-    IBOutlet NSTableView *parameterTableView;
-    IBOutlet NSTextField *parameterTotalTextField;
-    IBOutlet NSTextView *parameterCommentTextView;
-    IBOutlet NSButtonCell *removeParameterButtonCell;
-    
-    IBOutlet NSTableView *metaParameterTableView;
-    IBOutlet NSTextField *metaParameterTotalTextField;
-    IBOutlet NSTextView *metaParameterCommentTextView;
-    IBOutlet NSButtonCell *removeMetaParameterButtonCell;
-    
-    IBOutlet NSTableView *symbolTableView;
-    IBOutlet NSTextField *symbolTotalTextField;
-    IBOutlet NSTextView *symbolCommentTextView;
-    IBOutlet NSButtonCell *removeSymbolButtonCell;
-    
-    MModel *model;
+    IBOutlet NSTableView *_categoryTableView;
+    IBOutlet NSTextField *_categoryTotalTextField;
+    IBOutlet NSTextView *_categoryCommentTextView;
+    IBOutlet NSButtonCell *_removeCategoryButtonCell;
+
+    IBOutlet NSTableView *_parameterTableView;
+    IBOutlet NSTextField *_parameterTotalTextField;
+    IBOutlet NSTextView *_parameterCommentTextView;
+    IBOutlet NSButtonCell *_removeParameterButtonCell;
+
+    IBOutlet NSTableView *_metaParameterTableView;
+    IBOutlet NSTextField *_metaParameterTotalTextField;
+    IBOutlet NSTextView *_metaParameterCommentTextView;
+    IBOutlet NSButtonCell *_removeMetaParameterButtonCell;
+
+    IBOutlet NSTableView *_symbolTableView;
+    IBOutlet NSTextField *_symbolTotalTextField;
+    IBOutlet NSTextView *_symbolCommentTextView;
+    IBOutlet NSButtonCell *_removeSymbolButtonCell;
+
+    MModel *_model;
 }
 
-- (id)initWithModel:(MModel *)aModel;
+- (id)initWithModel:(MModel *)model;
 {
     if ((self = [super initWithWindowNibName:@"DataEntry"])) {
-        model = [aModel retain];
+        _model = model;
 
         [self setWindowFrameAutosaveName:@"Data Entry"];
     }
@@ -47,27 +47,19 @@
     return self;
 }
 
-- (void)dealloc;
-{
-    [model release];
-
-    [super dealloc];
-}
-
 #pragma mark -
 
 - (MModel *)model;
 {
-    return model;
+    return _model;
 }
 
 - (void)setModel:(MModel *)newModel;
 {
-    if (newModel == model)
+    if (newModel == _model)
         return;
 
-    [model release];
-    model = [newModel retain];
+    _model = newModel;
 
     [self updateViews];
     [self _selectFirstRows];
@@ -92,34 +84,31 @@
     [checkboxCell setImagePosition:NSImageOnly];
     [checkboxCell setEditable:NO];
 
-    [[categoryTableView tableColumnWithIdentifier:@"isUsed"] setDataCell:checkboxCell];
-
-    [checkboxCell release];
+    [[_categoryTableView tableColumnWithIdentifier:@"isUsed"] setDataCell:checkboxCell];
 
     commentImageCell = [[MCommentCell alloc] initImageCell:nil];
     [commentImageCell setImageAlignment:NSImageAlignCenter];
-    [[categoryTableView tableColumnWithIdentifier:@"hasComment"] setDataCell:commentImageCell];
-    [[parameterTableView tableColumnWithIdentifier:@"hasComment"] setDataCell:commentImageCell];
-    [[metaParameterTableView tableColumnWithIdentifier:@"hasComment"] setDataCell:commentImageCell];
-    [[symbolTableView tableColumnWithIdentifier:@"hasComment"] setDataCell:commentImageCell];
-    [commentImageCell release];
+    [[_categoryTableView tableColumnWithIdentifier:@"hasComment"] setDataCell:commentImageCell];
+    [[_parameterTableView tableColumnWithIdentifier:@"hasComment"] setDataCell:commentImageCell];
+    [[_metaParameterTableView tableColumnWithIdentifier:@"hasComment"] setDataCell:commentImageCell];
+    [[_symbolTableView tableColumnWithIdentifier:@"hasComment"] setDataCell:commentImageCell];
 
-    [[[parameterTableView tableColumnWithIdentifier:@"minimum"] dataCell] setFormatter:defaultNumberFormatter];
-    [[[parameterTableView tableColumnWithIdentifier:@"maximum"] dataCell] setFormatter:defaultNumberFormatter];
-    [[[parameterTableView tableColumnWithIdentifier:@"default"] dataCell] setFormatter:defaultNumberFormatter];
+    [[[_parameterTableView tableColumnWithIdentifier:@"minimum"] dataCell] setFormatter:defaultNumberFormatter];
+    [[[_parameterTableView tableColumnWithIdentifier:@"maximum"] dataCell] setFormatter:defaultNumberFormatter];
+    [[[_parameterTableView tableColumnWithIdentifier:@"default"] dataCell] setFormatter:defaultNumberFormatter];
 
-    [[[metaParameterTableView tableColumnWithIdentifier:@"minimum"] dataCell] setFormatter:defaultNumberFormatter];
-    [[[metaParameterTableView tableColumnWithIdentifier:@"maximum"] dataCell] setFormatter:defaultNumberFormatter];
-    [[[metaParameterTableView tableColumnWithIdentifier:@"default"] dataCell] setFormatter:defaultNumberFormatter];
+    [[[_metaParameterTableView tableColumnWithIdentifier:@"minimum"] dataCell] setFormatter:defaultNumberFormatter];
+    [[[_metaParameterTableView tableColumnWithIdentifier:@"maximum"] dataCell] setFormatter:defaultNumberFormatter];
+    [[[_metaParameterTableView tableColumnWithIdentifier:@"default"] dataCell] setFormatter:defaultNumberFormatter];
 
-    [[[symbolTableView tableColumnWithIdentifier:@"minimum"] dataCell] setFormatter:defaultNumberFormatter];
-    [[[symbolTableView tableColumnWithIdentifier:@"maximum"] dataCell] setFormatter:defaultNumberFormatter];
-    [[[symbolTableView tableColumnWithIdentifier:@"default"] dataCell] setFormatter:defaultNumberFormatter];
+    [[[_symbolTableView tableColumnWithIdentifier:@"minimum"] dataCell] setFormatter:defaultNumberFormatter];
+    [[[_symbolTableView tableColumnWithIdentifier:@"maximum"] dataCell] setFormatter:defaultNumberFormatter];
+    [[[_symbolTableView tableColumnWithIdentifier:@"default"] dataCell] setFormatter:defaultNumberFormatter];
 
-    [categoryCommentTextView setFieldEditor:YES];
-    [parameterCommentTextView setFieldEditor:YES];
-    [metaParameterCommentTextView setFieldEditor:YES];
-    [symbolCommentTextView setFieldEditor:YES];
+    [_categoryCommentTextView setFieldEditor:YES];
+    [_parameterCommentTextView setFieldEditor:YES];
+    [_metaParameterCommentTextView setFieldEditor:YES];
+    [_symbolCommentTextView setFieldEditor:YES];
 
     [self updateViews];
     [self _selectFirstRows];
@@ -127,15 +116,15 @@
 
 - (void)updateViews;
 {
-    [categoryTotalTextField setIntValue:[[[self model] categories] count]];
-    [parameterTotalTextField setIntValue:[[[self model] parameters] count]];
-    [metaParameterTotalTextField setIntValue:[[[self model] metaParameters] count]];
-    [symbolTotalTextField setIntValue:[[[self model] symbols] count]];
+    [_categoryTotalTextField setIntegerValue:[[[self model] categories] count]];
+    [_parameterTotalTextField setIntegerValue:[[[self model] parameters] count]];
+    [_metaParameterTotalTextField setIntegerValue:[[[self model] metaParameters] count]];
+    [_symbolTotalTextField setIntegerValue:[[[self model] symbols] count]];
 
-    [categoryTableView reloadData];
-    [parameterTableView reloadData];
-    [metaParameterTableView reloadData];
-    [symbolTableView reloadData];
+    [_categoryTableView reloadData];
+    [_parameterTableView reloadData];
+    [_metaParameterTableView reloadData];
+    [_symbolTableView reloadData];
 
     [self _updateCategoryComment];
     [self _updateParameterComment];
@@ -145,90 +134,90 @@
 
 - (void)_selectFirstRows;
 {
-    [categoryTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
-    [parameterTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
-    [metaParameterTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
-    [symbolTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
+    [_categoryTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
+    [_parameterTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
+    [_metaParameterTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
+    [_symbolTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
 }
 
 // TODO (2004-03-19): This should be _updateCategoryDetails now that it enables/disables the remove button
 - (void)_updateCategoryComment;
 {
-    if ([categoryTableView numberOfSelectedRows] == 1) {
+    if ([_categoryTableView numberOfSelectedRows] == 1) {
         MMCategory *selectedCategory;
         NSString *comment;
 
         selectedCategory = [self selectedCategory];
-        [categoryCommentTextView setEditable:YES];
+        [_categoryCommentTextView setEditable:YES];
         comment = [selectedCategory comment];
         if (comment == nil)
             comment = @"";
-        [categoryCommentTextView setString:comment];
-        [removeCategoryButtonCell setEnabled:YES];
+        [_categoryCommentTextView setString:comment];
+        [_removeCategoryButtonCell setEnabled:YES];
     } else {
-        [categoryCommentTextView setEditable:NO];
-        [categoryCommentTextView setString:@""];
-        [removeCategoryButtonCell setEnabled:NO];
+        [_categoryCommentTextView setEditable:NO];
+        [_categoryCommentTextView setString:@""];
+        [_removeCategoryButtonCell setEnabled:NO];
     }
 }
 
 - (void)_updateParameterComment;
 {
-    if ([parameterTableView numberOfSelectedRows] == 1) {
+    if ([_parameterTableView numberOfSelectedRows] == 1) {
         MMParameter *selectedParameter;
         NSString *comment;
 
         selectedParameter = [self selectedParameter];
-        [parameterCommentTextView setEditable:YES];
+        [_parameterCommentTextView setEditable:YES];
         comment = [selectedParameter comment];
         if (comment == nil)
             comment = @"";
-        [parameterCommentTextView setString:comment];
-        [removeParameterButtonCell setEnabled:YES];
+        [_parameterCommentTextView setString:comment];
+        [_removeParameterButtonCell setEnabled:YES];
     } else {
-        [parameterCommentTextView setEditable:NO];
-        [parameterCommentTextView setString:@""];
-        [removeParameterButtonCell setEnabled:NO];
+        [_parameterCommentTextView setEditable:NO];
+        [_parameterCommentTextView setString:@""];
+        [_removeParameterButtonCell setEnabled:NO];
     }
 }
 
 - (void)_updateMetaParameterComment;
 {
-    if ([metaParameterTableView numberOfSelectedRows] == 1) {
+    if ([_metaParameterTableView numberOfSelectedRows] == 1) {
         MMParameter *selectedMetaParameter;
         NSString *comment;
 
         selectedMetaParameter = [self selectedMetaParameter];
-        [metaParameterCommentTextView setEditable:YES];
+        [_metaParameterCommentTextView setEditable:YES];
         comment = [selectedMetaParameter comment];
         if (comment == nil)
             comment = @"";
-        [metaParameterCommentTextView setString:comment];
-        [removeMetaParameterButtonCell setEnabled:YES];
+        [_metaParameterCommentTextView setString:comment];
+        [_removeMetaParameterButtonCell setEnabled:YES];
     } else {
-        [metaParameterCommentTextView setEditable:NO];
-        [metaParameterCommentTextView setString:@""];
-        [removeMetaParameterButtonCell setEnabled:NO];
+        [_metaParameterCommentTextView setEditable:NO];
+        [_metaParameterCommentTextView setString:@""];
+        [_removeMetaParameterButtonCell setEnabled:NO];
     }
 }
 
 - (void)_updateSymbolComment;
 {
-    if ([symbolTableView numberOfSelectedRows] == 1) {
+    if ([_symbolTableView numberOfSelectedRows] == 1) {
         MMSymbol *selectedSymbol;
         NSString *comment;
 
         selectedSymbol = [self selectedSymbol];
-        [symbolCommentTextView setEditable:YES];
+        [_symbolCommentTextView setEditable:YES];
         comment = [selectedSymbol comment];
         if (comment == nil)
             comment = @"";
-        [symbolCommentTextView setString:comment];
-        [removeSymbolButtonCell setEnabled:YES];
+        [_symbolCommentTextView setString:comment];
+        [_removeSymbolButtonCell setEnabled:YES];
     } else {
-        [symbolCommentTextView setEditable:NO];
-        [symbolCommentTextView setString:@""];
-        [removeSymbolButtonCell setEnabled:NO];
+        [_symbolCommentTextView setEditable:NO];
+        [_symbolCommentTextView setString:@""];
+        [_removeSymbolButtonCell setEnabled:NO];
     }
 }
 
@@ -245,13 +234,12 @@
     [self updateViews];
 
     index = [[[self model] categories] indexOfObject:newCategory];
-    [newCategory release];
 
-    [categoryTableView scrollRowToVisible:index];
+    [_categoryTableView scrollRowToVisible:index];
 
     // The row needs to be selected before we start editing it.
-    [categoryTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
-    [categoryTableView editColumn:[categoryTableView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
+    [_categoryTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
+    [_categoryTableView editColumn:[_categoryTableView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
 }
 
 - (IBAction)removeCategory:(id)sender;
@@ -272,16 +260,15 @@
 
     newParameter = [[MMParameter alloc] init];
     [[self model] addParameter:newParameter];
-    [newParameter release];
 
     [self updateViews];
 
     index = [[[self model] parameters] indexOfObject:newParameter];
-    [parameterTableView scrollRowToVisible:index];
+    [_parameterTableView scrollRowToVisible:index];
 
     // The row needs to be selected before we start editing it.
-    [parameterTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
-    [parameterTableView editColumn:[parameterTableView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
+    [_parameterTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
+    [_parameterTableView editColumn:[_parameterTableView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
 }
 
 - (IBAction)removeParameter:(id)sender;
@@ -302,16 +289,15 @@
 
     newParameter = [[MMParameter alloc] init];
     [[self model] addMetaParameter:newParameter];
-    [newParameter release];
 
     [self updateViews];
 
     index = [[[self model] metaParameters] indexOfObject:newParameter];
-    [metaParameterTableView scrollRowToVisible:index];
+    [_metaParameterTableView scrollRowToVisible:index];
 
     // The row needs to be selected before we start editing it.
-    [metaParameterTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
-    [metaParameterTableView editColumn:[metaParameterTableView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
+    [_metaParameterTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
+    [_metaParameterTableView editColumn:[_metaParameterTableView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
 }
 
 - (IBAction)removeMetaParameter:(id)sender;
@@ -332,16 +318,15 @@
 
     newSymbol = [[MMSymbol alloc] init];
     [[self model] addSymbol:newSymbol];
-    [newSymbol release];
 
     [self updateViews];
 
     index = [[[self model] symbols] indexOfObject:newSymbol];
-    [symbolTableView scrollRowToVisible:index];
+    [_symbolTableView scrollRowToVisible:index];
 
     // The row needs to be selected before we start editing it.
-    [symbolTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
-    [symbolTableView editColumn:[symbolTableView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
+    [_symbolTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
+    [_symbolTableView editColumn:[_symbolTableView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
 }
 
 - (IBAction)removeSymbol:(id)sender;
@@ -355,20 +340,20 @@
     [self updateViews];
 }
 
-#pragma mark - NSTableView data source
+#pragma mark - NSTableViewDataSource
 
-- (int)numberOfRowsInTableView:(NSTableView *)tableView;
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView;
 {
-    if (tableView == categoryTableView)
+    if (tableView == _categoryTableView)
         return [[[self model] categories] count];
 
-    if (tableView == parameterTableView)
+    if (tableView == _parameterTableView)
         return [[[self model] parameters] count];
 
-    if (tableView == metaParameterTableView)
+    if (tableView == _metaParameterTableView)
         return [[[self model] metaParameters] count];
 
-    if (tableView == symbolTableView)
+    if (tableView == _symbolTableView)
         return [[[self model] symbols] count];
 
     return 0;
@@ -380,7 +365,7 @@
 
     identifier = [tableColumn identifier];
 
-    if (tableView == categoryTableView) {
+    if (tableView == _categoryTableView) {
         MMCategory *category = [[[self model] categories] objectAtIndex:row];
 
         if ([@"hasComment" isEqual:identifier] == YES) {
@@ -390,11 +375,11 @@
         } else if ([@"name" isEqual:identifier] == YES) {
             return [category name];
         }
-    } else if (tableView == parameterTableView || tableView == metaParameterTableView) {
+    } else if (tableView == _parameterTableView || tableView == _metaParameterTableView) {
         // TODO (2004-03-18): When MMSymbol == MMParameter, we can merge the last three cases.
         MMParameter *parameter;
 
-        if (tableView == parameterTableView)
+        if (tableView == _parameterTableView)
             parameter = [[[self model] parameters] objectAtIndex:row];
         else
             parameter = [[[self model] metaParameters] objectAtIndex:row];
@@ -410,7 +395,7 @@
         } else if ([@"default" isEqual:identifier] == YES) {
             return [NSNumber numberWithDouble:[parameter defaultValue]];
         }
-    } else if (tableView == symbolTableView) {
+    } else if (tableView == _symbolTableView) {
         MMSymbol *symbol = [[[self model] symbols] objectAtIndex:row];
 
         if ([@"hasComment" isEqual:identifier] == YES) {
@@ -435,17 +420,17 @@
 
     identifier = [tableColumn identifier];
 
-    if (tableView == categoryTableView) {
+    if (tableView == _categoryTableView) {
         MMCategory *category = [[[self model] categories] objectAtIndex:row];
 
         if ([@"name" isEqual:identifier] == YES) {
             // TODO (2004-03-19): Ensure unique name
             [category setName:object];
         }
-    } else if (tableView == parameterTableView || tableView == metaParameterTableView) {
+    } else if (tableView == _parameterTableView || tableView == _metaParameterTableView) {
         MMParameter *parameter;
 
-        if (tableView == parameterTableView)
+        if (tableView == _parameterTableView)
             parameter = [[[self model] parameters] objectAtIndex:row];
         else
             parameter = [[[self model] metaParameters] objectAtIndex:row];
@@ -462,7 +447,7 @@
             // TODO (2004-03-19): Propagate changes to default
             [parameter setDefaultValue:[object doubleValue]];
         }
-    } else if (tableView == symbolTableView) {
+    } else if (tableView == _symbolTableView) {
         MMSymbol *symbol = [[[self model] symbols] objectAtIndex:row];
 
         if ([@"name" isEqual:identifier] == YES) {
@@ -480,67 +465,61 @@
     }
 }
 
-#pragma mark - NSTableView delegate
+#pragma mark - NSTableViewDelegate
 
-- (void)tableViewSelectionDidChange:(NSNotification *)aNotification;
+- (void)tableViewSelectionDidChange:(NSNotification *)notification;
 {
-    NSTableView *tableView;
+    NSTableView *tableView = [notification object];
 
-    tableView = [aNotification object];
-
-    if (tableView == categoryTableView) {
+    if (tableView == _categoryTableView) {
         [self _updateCategoryComment];
-    } else if (tableView == parameterTableView) {
+    } else if (tableView == _parameterTableView) {
         [self _updateParameterComment];
-    } else if (tableView == metaParameterTableView) {
+    } else if (tableView == _metaParameterTableView) {
         [self _updateMetaParameterComment];
-    } else if (tableView == symbolTableView) {
+    } else if (tableView == _symbolTableView) {
         [self _updateSymbolComment];
     }
 }
 
-#pragma mark - NSTextView delegate
+#pragma mark - NSTextViewDelegate
 
-- (void)textDidEndEditing:(NSNotification *)aNotification;
+- (void)textDidEndEditing:(NSNotification *)notification;
 {
-    NSTextView *textView;
-    NSString *newComment;
-
-    textView = [aNotification object];
+    NSTextView *textView = [notification object];
     // NSTextMovement is a key in the user info
     //NSLog(@"[aNotification userInfo]: %@", [aNotification userInfo]);
 
-    newComment = [[textView string] copy];
+    NSString *newComment = [[textView string] copy];
     //NSLog(@"(1) newComment: %@", newComment);
     if ([newComment length] == 0) {
-        [newComment release];
         newComment = nil;
     }
     //NSLog(@"(2) newComment: %@", newComment);
 
-    if (textView == categoryCommentTextView) {
+    if (textView == _categoryCommentTextView) {
         [[self selectedCategory] setComment:newComment];
         // TODO (2004-03-18): Bleck.  Need notification from model that things have changed.
-        [categoryTableView reloadData];
-    } else if (textView == parameterCommentTextView) {
+        [_categoryTableView reloadData];
+    } else if (textView == _parameterCommentTextView) {
         [[self selectedParameter] setComment:newComment];
-        [parameterTableView reloadData];
-    } else if (textView == metaParameterCommentTextView) {
+        [_parameterTableView reloadData];
+    } else if (textView == _metaParameterCommentTextView) {
         [[self selectedMetaParameter] setComment:newComment];
-        [metaParameterTableView reloadData];
-    } else if (textView == symbolCommentTextView) {
+        [_metaParameterTableView reloadData];
+    } else if (textView == _symbolCommentTextView) {
         [[self selectedSymbol] setComment:newComment];
-        [symbolTableView reloadData];
+        [_symbolTableView reloadData];
     }
-
-    [newComment release];
 }
+
+#pragma mark -
 
 - (MMCategory *)selectedCategory;
 {
     NSInteger selectedRow;
 
-    selectedRow = [categoryTableView selectedRow];
+    selectedRow = [_categoryTableView selectedRow];
 
     return [[[self model] categories] objectAtIndex:selectedRow];
 }
@@ -549,7 +528,7 @@
 {
     NSInteger selectedRow;
 
-    selectedRow = [parameterTableView selectedRow];
+    selectedRow = [_parameterTableView selectedRow];
 
     return [[[self model] parameters] objectAtIndex:selectedRow];
 }
@@ -558,7 +537,7 @@
 {
     NSInteger selectedRow;
 
-    selectedRow = [metaParameterTableView selectedRow];
+    selectedRow = [_metaParameterTableView selectedRow];
 
     return [[[self model] metaParameters] objectAtIndex:selectedRow];
 }
@@ -567,7 +546,7 @@
 {
     NSInteger selectedRow;
 
-    selectedRow = [symbolTableView selectedRow];
+    selectedRow = [_symbolTableView selectedRow];
 
     return [[[self model] symbols] objectAtIndex:selectedRow];
 }

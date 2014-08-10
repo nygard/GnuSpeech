@@ -47,7 +47,6 @@
 
 - (id)init;
 - (id)initWithCapacity:(NSUInteger)size;
-- (void)dealloc;
 
 - (NSMutableString *)buffer;
 - (NSUInteger)length;

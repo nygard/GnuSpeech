@@ -6,7 +6,9 @@
 @class MMGroup;
 @class MMCategory, MMEquation, MMParameter, MMPosture, MMRule, MMSymbol, MMSynthesisParameters, MMTransition;
 
-@interface MModel : NSObject <NSXMLParserDelegate>
+@interface MModel : NSObject
+
+- (id)initWithXMLElement:(NSXMLElement *)element error:(NSError **)error;
 
 @property (readonly) NSMutableArray *categories;
 @property (readonly) NSMutableArray *parameters;

@@ -8,30 +8,58 @@
 #import "NSString-Extensions.h"
 
 #import "EventList.h"
-#import "MXMLParser.h"
 
 #define MIDDLEC	261.6255653
 
 @implementation MMIntonationPoint
 {
-    __weak EventList *nonretained_eventList;
+    __weak EventList *_eventList;
     
-    double m_semitone;      // Value of the point in semitones
-    double m_offsetTime;    // Points are timed wrt a beat + this offset
-    double m_slope;         // Slope of point
-    
-    NSUInteger m_ruleIndex; // Index of the rule for the phone which is the focus of this point
+    double _semitone;      // Value of the point in semitones
+    double _offsetTime;    // Points are timed wrt a beat + this offset
+    double _slope;         // Slope of point
+
+    NSUInteger _ruleIndex; // Index of the rule for the phone which is the focus of this point
 }
 
 - (id)init;
 {
     if ((self = [super init])) {
-        nonretained_eventList = nil;
+        _eventList = nil;
 
-        m_semitone = 0.0;
-        m_offsetTime = 0.0;
-        m_slope = 0.0;
-        m_ruleIndex = 0;
+        _semitone = 0.0;
+        _offsetTime = 0.0;
+        _slope = 0.0;
+        _ruleIndex = 0;
+    }
+
+    return self;
+}
+
+- (id)initWithXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    if ((self = [super init])) {
+        _eventList = nil;
+
+        _semitone = 0.0;
+        _offsetTime = 0.0;
+        _slope = 0.0;
+        _ruleIndex = 0;
+
+        NSString *value;
+
+        value = [[element attributeForName:@"offset-time"] stringValue];
+        _offsetTime = (value != nil) ? [value doubleValue] : 0;
+
+        value = [[element attributeForName:@"semitone"] stringValue];
+        _semitone = (value != nil) ? [value doubleValue] : 0;
+
+        value = [[element attributeForName:@"slope"] stringValue];
+        _slope = (value != nil) ? [value doubleValue] : 0;
+
+        value = [[element attributeForName:@"rule-index"] stringValue];
+        _ruleIndex = (value != nil) ? [value intValue] : 0;
+
     }
 
     return self;
@@ -48,59 +76,57 @@
 
 #pragma mark -
 
-@synthesize eventList = nonretained_eventList;
-
 // TODO (2012-04-21): Have event list use kvo to watch for changes.
 
 - (double)semitone;
 {
-    return m_semitone;
+    return _semitone;
 }
 
 - (void)setSemitone:(double)newSemitone;
 {
-    if (newSemitone != m_semitone) {
-        m_semitone = newSemitone;
-        [nonretained_eventList intonationPointDidChange:self];
+    if (newSemitone != _semitone) {
+        _semitone = newSemitone;
+        [_eventList intonationPointDidChange:self];
     }
 }
 
 - (double)offsetTime;
 {
-    return m_offsetTime;
+    return _offsetTime;
 }
 
 - (void)setOffsetTime:(double)newOffsetTime;
 {
-    if (newOffsetTime != m_offsetTime) {
-        m_offsetTime = newOffsetTime;
-        [nonretained_eventList intonationPointTimeDidChange:self];
+    if (newOffsetTime != _offsetTime) {
+        _offsetTime = newOffsetTime;
+        [_eventList intonationPointTimeDidChange:self];
     }
 }
 
 - (double)slope;
 {
-    return m_slope;
+    return _slope;
 }
 
 - (void)setSlope:(double)newSlope;
 {
-    if (newSlope != m_slope) {
-        m_slope = newSlope;
-        [nonretained_eventList intonationPointDidChange:self];
+    if (newSlope != _slope) {
+        _slope = newSlope;
+        [_eventList intonationPointDidChange:self];
     }
 }
 
 - (NSInteger)ruleIndex;
 {
-    return m_ruleIndex;
+    return _ruleIndex;
 }
 
 - (void)setRuleIndex:(NSInteger)newRuleIndex;
 {
-    if (newRuleIndex != m_ruleIndex) {
-        m_ruleIndex = newRuleIndex;
-        [nonretained_eventList intonationPointTimeDidChange:self];
+    if (newRuleIndex != _ruleIndex) {
+        _ruleIndex = newRuleIndex;
+        [_eventList intonationPointTimeDidChange:self];
     }
 }
 
@@ -176,37 +202,6 @@
     [resultString indentToLevel:level];
     [resultString appendFormat:@"<intonation-point offset-time=\"%g\" semitone=\"%g\" slope=\"%g\" rule-index=\"%lu\"/>\n",
                   self.offsetTime, self.semitone, self.slope, self.ruleIndex];
-}
-
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
-{
-    if ((self = [self init])) {
-        NSString *value;
-        
-        value = [attributes objectForKey:@"offset-time"];
-        if (value != nil) self.offsetTime = [value doubleValue];
-        
-        value = [attributes objectForKey:@"semitone"];
-        if (value != nil) self.semitone = [value doubleValue];
-        
-        value = [attributes objectForKey:@"slope"];
-        if (value != nil) self.slope = [value doubleValue];
-        
-        value = [attributes objectForKey:@"rule-index"];
-        if (value != nil) self.ruleIndex = [value intValue];
-    }
-
-    return self;
-}
-
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-{
-    [(MXMLParser *)parser skipTree];
-}
-
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
-{
-    [(MXMLParser *)parser popDelegate];
 }
 
 @end

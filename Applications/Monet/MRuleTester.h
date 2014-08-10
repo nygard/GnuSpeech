@@ -7,15 +7,13 @@
 
 @interface MRuleTester : MWindowController
 
-- (id)initWithModel:(MModel *)aModel;
-- (void)dealloc;
+- (id)initWithModel:(MModel *)model;
 
 - (MModel *)model;
 - (void)setModel:(MModel *)newModel;
 
 - (NSUndoManager *)undoManager;
 
-- (void)windowDidLoad;
 - (void)clearOutput;
 
 // Actions

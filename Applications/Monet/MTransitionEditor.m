@@ -12,24 +12,24 @@
 
 @implementation MTransitionEditor
 {
-    IBOutlet NSTextField *transitionNameTextField;
-    IBOutlet NSPopUpButton *transitionTypePopUpButton;
-    IBOutlet TransitionView *transitionView;
-    IBOutlet NSForm *controlParametersForm;
+    IBOutlet NSTextField *_transitionNameTextField;
+    IBOutlet NSPopUpButton *_transitionTypePopUpButton;
+    IBOutlet TransitionView *_transitionView;
+    IBOutlet NSForm *_controlParametersForm;
     
-    IBOutlet NSOutlineView *equationOutlineView;
-    IBOutlet NSTextField *valueTextField;
-    IBOutlet NSButton *isPhantomSwitch;
+    IBOutlet NSOutlineView *_equationOutlineView;
+    IBOutlet NSTextField *_valueTextField;
+    IBOutlet NSButton *_isPhantomSwitch;
     
-    IBOutlet NSButton *type1Button;
-    IBOutlet NSButton *type2Button;
-    IBOutlet NSButton *type3Button;
+    IBOutlet NSButton *_type1Button;
+    IBOutlet NSButton *_type2Button;
+    IBOutlet NSButton *_type3Button;
     
-    IBOutlet NSTextView *equationTextView;
+    IBOutlet NSTextView *_equationTextView;
     
-    MModel *model;
+    MModel *_model;
     
-    MMTransition *transition;
+    MMTransition *_transition;
 }
 
 - (id)init;
@@ -41,27 +41,19 @@
     return self;
 }
 
-- (void)dealloc;
-{
-    [model release];
-
-    [super dealloc];
-}
-
 #pragma mark -
 
 - (MModel *)model;
 {
-    return model;
+    return _model;
 }
 
 - (void)setModel:(MModel *)newModel;
 {
-    if (newModel != model) {
-        [model release];
-        model = [newModel retain];
+    if (newModel != _model) {
+        _model = newModel;
 
-        [transitionView setModel:model];
+        [_transitionView setModel:_model];
         [self setTransition:nil];
 
         [self updateViews];
@@ -76,54 +68,53 @@
 - (void)windowDidLoad;
 {
     NSNumberFormatter *defaultNumberFormatter = [NSNumberFormatter defaultNumberFormatter];
-    [[valueTextField cell] setFormatter:defaultNumberFormatter];
+    [[_valueTextField cell] setFormatter:defaultNumberFormatter];
 
-    [transitionView setModel:model];
-    [transitionView setTransition:transition];
+    [_transitionView setModel:_model];
+    [_transitionView setTransition:_transition];
 
     [self updateViews];
 }
 
 - (void)updateViews;
 {
-    NSString *name = [transition name];
+    NSString *name = [_transition name];
     if (name == nil)
         name = @"--";
-    [transitionNameTextField setStringValue:name];
+    [_transitionNameTextField setStringValue:name];
 
-    [transitionTypePopUpButton selectItemWithTag:[transition type]];
+    [_transitionTypePopUpButton selectItemWithTag:[_transition type]];
 
-    [[controlParametersForm cellAtIndex:0] setDoubleValue:[transitionView ruleDuration]];
-    [[controlParametersForm cellAtIndex:1] setDoubleValue:[transitionView beatLocation]];
-    [[controlParametersForm cellAtIndex:2] setDoubleValue:[transitionView mark1]];
-    [[controlParametersForm cellAtIndex:3] setDoubleValue:[transitionView mark2]];
-    [[controlParametersForm cellAtIndex:4] setDoubleValue:[transitionView mark3]];
+    [[_controlParametersForm cellAtIndex:0] setDoubleValue:[_transitionView ruleDuration]];
+    [[_controlParametersForm cellAtIndex:1] setDoubleValue:[_transitionView beatLocation]];
+    [[_controlParametersForm cellAtIndex:2] setDoubleValue:[_transitionView mark1]];
+    [[_controlParametersForm cellAtIndex:3] setDoubleValue:[_transitionView mark2]];
+    [[_controlParametersForm cellAtIndex:4] setDoubleValue:[_transitionView mark3]];
 
-    [equationOutlineView reloadData];
+    [_equationOutlineView reloadData];
     [self expandEquations];
 }
 
 - (void)expandEquations;
 {
-    for (MMGroup *group in model.equationGroups) {
-        [equationOutlineView expandItem:group];
+    for (MMGroup *group in _model.equationGroups) {
+        [_equationOutlineView expandItem:group];
     }
 
-    [equationOutlineView sizeToFit];
+    [_equationOutlineView sizeToFit];
 }
 
 - (MMTransition *)transition;
 {
-    return transition;
+    return _transition;
 }
 
 - (void)setTransition:(MMTransition *)newTransition;
 {
-    if (newTransition != transition) {
-        [transition release];
-        transition = [newTransition retain];
+    if (newTransition != _transition) {
+        _transition = newTransition;
 
-        [transitionView setTransition:transition];
+        [_transitionView setTransition:_transition];
 
         [self updateViews];
     }
@@ -134,9 +125,9 @@
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item;
 {
     //NSLog(@"-> %s, item: %p", _cmd, item);
-    if (outlineView == equationOutlineView) {
+    if (outlineView == _equationOutlineView) {
         if (item == nil)
-            return [model.equationGroups count];
+            return [_model.equationGroups count];
         else {
             MMGroup *group = item;
             return [group.objects count];
@@ -148,9 +139,9 @@
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item;
 {
-    if (outlineView == equationOutlineView) {
+    if (outlineView == _equationOutlineView) {
         if (item == nil)
-            return [model.equationGroups objectAtIndex:index];
+            return [_model.equationGroups objectAtIndex:index];
         else {
             MMGroup *group = item;
             return [group.objects objectAtIndex:index];
@@ -162,7 +153,7 @@
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item;
 {
-    if (outlineView == equationOutlineView) {
+    if (outlineView == _equationOutlineView) {
         return [item isKindOfClass:[MMGroup class]];
     }
 
@@ -174,7 +165,7 @@
     id identifier = [tableColumn identifier];
     //NSLog(@"identifier: %@, item: %p, item class: %@", identifier, item, NSStringFromClass([item class]));
 
-    if (outlineView == equationOutlineView) {
+    if (outlineView == _equationOutlineView) {
         if ([@"name" isEqual:identifier] == YES) {
             return [item name];
         }
@@ -187,41 +178,41 @@
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item;
 {
-    return [transitionView selectedPoint] != nil && [item isKindOfClass:[MMEquation class]];
+    return [_transitionView selectedPoint] != nil && [item isKindOfClass:[MMEquation class]];
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldCollapseItem:(id)item;
 {
-    MMEquation *selectedEquation = [equationOutlineView selectedItemOfClass:[MMEquation class]];
+    MMEquation *selectedEquation = [_equationOutlineView selectedItemOfClass:[MMEquation class]];
 
     // Don't allow collapsing the group with the selection, otherwise we lose the selection
     return item != [selectedEquation group];
 }
 
-- (void)outlineViewSelectionDidChange:(NSNotification *)aNotification;
+- (void)outlineViewSelectionDidChange:(NSNotification *)notification;
 {
-    NSOutlineView *outlineView = [aNotification object];
+    NSOutlineView *outlineView = [notification object];
 
-    if (outlineView == equationOutlineView) {
-        MMEquation *selectedEquation = [equationOutlineView selectedItemOfClass:[MMEquation class]];
-        [[transitionView selectedPoint] setTimeEquation:selectedEquation];
+    if (outlineView == _equationOutlineView) {
+        MMEquation *selectedEquation = [_equationOutlineView selectedItemOfClass:[MMEquation class]];
+        [[_transitionView selectedPoint] setTimeEquation:selectedEquation];
         [self _updateSelectedPointDetails];
-        [transitionView setNeedsDisplay:YES];
+        [_transitionView setNeedsDisplay:YES];
     }
 }
 
 #pragma mark - TransitionViewDelegate
 
-- (void)transitionViewSelectionDidChange:(NSNotification *)aNotification;
+- (void)transitionViewSelectionDidChange:(NSNotification *)notification;
 {
-    if ([aNotification object] == transitionView) {
+    if ([notification object] == _transitionView) {
         [self _updateSelectedPointDetails];
     }
 }
 
-- (BOOL)transitionView:(TransitionView *)aTransitionView shouldAddPoint:(MMPoint *)aPoint;
+- (BOOL)transitionView:(TransitionView *)transitionView shouldAddPoint:(MMPoint *)point;
 {
-    if ([[transitionView transition] isTimeInSlopeRatio:[aPoint cachedTime]] == YES) {
+    if ([[_transitionView transition] isTimeInSlopeRatio:[point cachedTime]] == YES) {
         if (NSRunAlertPanel(@"Insert Point", @"Insert Point into Slope Ratio?", @"Insert", @"Don't Insert", nil) == NSAlertDefaultReturn)
             return YES;
         else
@@ -233,58 +224,58 @@
 
 - (void)_updateSelectedPointDetails;
 {
-    MMPoint *selectedPoint = [transitionView selectedPoint];
+    MMPoint *selectedPoint = [_transitionView selectedPoint];
     if (selectedPoint != nil) {
         MMEquation *equation = [selectedPoint timeEquation];
         if (equation == nil) {
-            [equationOutlineView deselectAll:nil];
+            [_equationOutlineView deselectAll:nil];
 
-            [equationTextView setString:[NSString stringWithFormat:@"Fixed: %.3f ms", [selectedPoint freeTime]]];
+            [_equationTextView setString:[NSString stringWithFormat:@"Fixed: %.3f ms", [selectedPoint freeTime]]];
         } else {
             MMGroup *group = [equation group];
-            NSInteger groupRow = [equationOutlineView rowForItem:group];
-            NSInteger row = [equationOutlineView rowForItem:equation];
-            [equationOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
-            if ([equationOutlineView isItemExpanded:group] == NO)
-                [equationOutlineView expandItem:group];
-            [equationOutlineView scrollRowToVisible:groupRow];
-            [equationOutlineView scrollRowToVisible:row];
+            NSInteger groupRow = [_equationOutlineView rowForItem:group];
+            NSInteger row = [_equationOutlineView rowForItem:equation];
+            [_equationOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
+            if ([_equationOutlineView isItemExpanded:group] == NO)
+                [_equationOutlineView expandItem:group];
+            [_equationOutlineView scrollRowToVisible:groupRow];
+            [_equationOutlineView scrollRowToVisible:row];
 
             NSString *str = [[equation formula] expressionString];
             if (str == nil)
                 str = @"";
-            [equationTextView setString:str];
+            [_equationTextView setString:str];
         }
 
         // TODO (2004-03-22): You shouldn't be able to set the value of points in a SlopeRatio (except maybe the first point).
-        [valueTextField setDoubleValue:[selectedPoint value]];
+        [_valueTextField setDoubleValue:[selectedPoint value]];
         switch ([selectedPoint type]) {
           case MMPhoneType_Diphone:
-              [type1Button setState:1];
-              [type2Button setState:0];
-              [type3Button setState:0];
+              [_type1Button setState:1];
+              [_type2Button setState:0];
+              [_type3Button setState:0];
               break;
           case MMPhoneType_Triphone:
-              [type1Button setState:0];
-              [type2Button setState:1];
-              [type3Button setState:0];
+              [_type1Button setState:0];
+              [_type2Button setState:1];
+              [_type3Button setState:0];
               break;
           case MMPhoneType_Tetraphone:
-              [type1Button setState:0];
-              [type2Button setState:0];
-              [type3Button setState:1];
+              [_type1Button setState:0];
+              [_type2Button setState:0];
+              [_type3Button setState:1];
               break;
         }
-        [isPhantomSwitch setState:[selectedPoint isPhantom]];
+        [_isPhantomSwitch setState:[selectedPoint isPhantom]];
     } else {
-        [equationOutlineView deselectAll:nil];
+        [_equationOutlineView deselectAll:nil];
 
-        [valueTextField setStringValue:@""];
-        [type1Button setState:0];
-        [type2Button setState:0];
-        [type3Button setState:0];
-        [isPhantomSwitch setState:0];
-        [equationTextView setString:@""];
+        [_valueTextField setStringValue:@""];
+        [_type1Button setState:0];
+        [_type2Button setState:0];
+        [_type3Button setState:0];
+        [_isPhantomSwitch setState:0];
+        [_equationTextView setString:@""];
     }
 }
 
@@ -292,31 +283,31 @@
 {
     NSInteger tag = [sender tag];
 
-    [type1Button setState:tag == 2];
-    [type2Button setState:tag == 3];
-    [type3Button setState:tag == 4];
-    [[transitionView selectedPoint] setType:tag];
+    [_type1Button setState:tag == 2];
+    [_type2Button setState:tag == 3];
+    [_type3Button setState:tag == 4];
+    [[_transitionView selectedPoint] setType:tag];
 
-    [transitionView setNeedsDisplay:YES];
+    [_transitionView setNeedsDisplay:YES];
     [self _updateSelectedPointDetails];
 }
 
 - (IBAction)setPointValue:(id)sender;
 {
-    [[transitionView selectedPoint] setValue:[valueTextField doubleValue]];
-    [transitionView setNeedsDisplay:YES];
+    [[_transitionView selectedPoint] setValue:[_valueTextField doubleValue]];
+    [_transitionView setNeedsDisplay:YES];
 }
 
 - (IBAction)setPhantom:(id)sender;
 {
-    [[transitionView selectedPoint] setIsPhantom:[isPhantomSwitch state]];
-    [transitionView setNeedsDisplay:YES];
+    [[_transitionView selectedPoint] setIsPhantom:[_isPhantomSwitch state]];
+    [_transitionView setNeedsDisplay:YES];
 }
 
 - (IBAction)setTransitionType:(id)sender;
 {
-    [transition setType:[[transitionTypePopUpButton selectedItem] tag]];
-    [transitionView updateTransitionType];
+    [_transition setType:[[_transitionTypePopUpButton selectedItem] tag]];
+    [_transitionView updateTransitionType];
     [self updateViews]; // To get change in control parameters
 }
 

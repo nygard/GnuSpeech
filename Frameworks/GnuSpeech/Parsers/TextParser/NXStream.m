@@ -42,17 +42,11 @@
 - (id)initWithCapacity:(NSUInteger)capacity;
 {
     if ((self =	[super init])) {
-        streamBuffer = [[[NSMutableString alloc] initWithCapacity:capacity] retain];
+        streamBuffer = [[NSMutableString alloc] initWithCapacity:capacity];
         streamPosition = 0;
     }
 	
 	return self;
-}
-
-- (void)dealloc;
-{
-	[streamBuffer release];
-    [super dealloc];
 }
 
 - (NSMutableString *)buffer;
@@ -170,7 +164,7 @@
 		return;
 	}
 	
-	int buflen = strlen(buf);
+	long buflen = strlen(buf);
 
 	NSRange range;
 	range.location = streamPosition;
@@ -182,7 +176,7 @@
 		
 	} else {
 		
-		int streamBufferLength = [streamBuffer length];
+		NSUInteger streamBufferLength = [streamBuffer length];
 		if (streamPosition > (int)streamBufferLength - (int)range.length) {  // range to write is beyond string bounds; note necessary casts to (int)
 		
 			range.length = streamBufferLength - streamPosition;  // adjust range to be within stream buffer bounds

@@ -14,37 +14,21 @@
 
 #import "MModel.h"
 
-#import "MXMLParser.h"
-
-#import "MXMLDictionaryDelegate.h"
-#import "MXMLPCDataDelegate.h"
-#import "MXMLReferenceArrayDelegate.h"
-
 @interface MMPosture ()
-- (void)_addDefaultValues;
-- (void)addParameterTargetsFromDictionary:(NSDictionary *)dictionary;
-- (void)addMetaParameterTargetsFromDictionary:(NSDictionary *)dictionary;
-- (void)addSymbolTargetsFromDictionary:(NSDictionary *)dictionary;
-- (void)_appendXMLForCategoriesToString:(NSMutableString *)resultString level:(NSUInteger)level;
-- (void)_appendXMLForParameters:(NSArray *)parameters targets:(NSArray *)targets elementName:(NSString *)elementName toString:(NSMutableString *)resultString level:(NSUInteger)level;
-- (void)_appendXMLForParametersToString:(NSMutableString *)resultString level:(NSUInteger)level;
-- (void)_appendXMLForMetaParametersToString:(NSMutableString *)resultString level:(NSUInteger)level;
-- (void)_appendXMLForSymbolsToString:(NSMutableString *)resultString level:(NSUInteger)level;
 @end
 
 #pragma mark -
 
 @implementation MMPosture
 {
-    NSMutableArray *m_categories;           // Of MMCategorys (member of these categories)
-    NSMutableArray *m_parameterTargets;     // Of Targets
-    NSMutableArray *m_metaParameterTargets; // Of Targets
-    NSMutableArray *m_symbolTargets;        // Of Targets (symbol definitions)
+    NSMutableArray *_categories;           // Of MMCategorys (member of these categories)
+    NSMutableArray *_parameterTargets;     // Of Targets
+    NSMutableArray *_metaParameterTargets; // Of Targets
+    NSMutableArray *_symbolTargets;        // Of Targets (symbol definitions)
     
-    MMCategory *m_nativeCategory;
+    MMCategory *_nativeCategory;
 }
 
-// This is now used from -[MMNamedObject initWithXMLAttributes:context:]
 - (id)init;
 {
     return [self initWithModel:nil];
@@ -53,14 +37,14 @@
 - (id)initWithModel:(MModel *)model;
 {
     if ((self = [super init])) {
-        m_categories           = [[NSMutableArray alloc] init];
-        m_parameterTargets     = [[NSMutableArray alloc] init];
-        m_metaParameterTargets = [[NSMutableArray alloc] init];
-        m_symbolTargets        = [[NSMutableArray alloc] init];
+        _categories           = [[NSMutableArray alloc] init];
+        _parameterTargets     = [[NSMutableArray alloc] init];
+        _metaParameterTargets = [[NSMutableArray alloc] init];
+        _symbolTargets        = [[NSMutableArray alloc] init];
         
-        m_nativeCategory = [[MMCategory alloc] init];
-        [m_nativeCategory setIsNative:YES];
-        [m_categories addObject:m_nativeCategory];
+        _nativeCategory = [[MMCategory alloc] init];
+        [_nativeCategory setIsNative:YES];
+        [_categories addObject:_nativeCategory];
         
         self.model = model;
         [self _addDefaultValues];
@@ -69,35 +53,117 @@
     return self;
 }
 
+- (id)initWithModel:(MModel *)model XMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    NSParameterAssert([@"posture" isEqualToString:element.name]);
+
+    if ((self = [super initWithXMLElement:element error:error])) {
+        _categories           = [[NSMutableArray alloc] init];
+        _parameterTargets     = [[NSMutableArray alloc] init];
+        _metaParameterTargets = [[NSMutableArray alloc] init];
+        _symbolTargets        = [[NSMutableArray alloc] init];
+
+        _nativeCategory = [[MMCategory alloc] init];
+        [_nativeCategory setIsNative:YES];
+        [_categories addObject:_nativeCategory];
+
+        self.model = model;
+//        [self _addDefaultValues]; // This needs a model.  But we don't need to add defaults, since we're loading.
+
+        // TODO (2004-08-12): Rename attribute name from "symbol" to "name", so we can use the superclass implementation of this method.  Do this after we start supporting upgrading from previous versions.
+        self.name = [[element attributeForName:@"symbol"] stringValue];
+
+        if (![self _loadPostureCategoriesFromXMLElement:   [[element elementsForName:@"posture-categories"] firstObject]     error:error]) return nil;
+        if (![self _loadParameterTargetsFromXMLElement:    [[element elementsForName:@"parameter-targets"] firstObject]      error:error]) return nil;
+        if (![self _loadMetaParameterTargetsFromXMLElement:[[element elementsForName:@"meta-parameter-targets"] firstObject] error:error]) return nil;
+        if (![self _loadSymbolTargetsFromXMLElement:       [[element elementsForName:@"symbol-targets"] firstObject]         error:error]) return nil;
+    }
+    
+    return self;
+}
+
+- (BOOL)_loadPostureCategoriesFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    NSParameterAssert([@"posture-categories" isEqualToString:element.name]);
+
+    for (NSXMLElement *childElement in [element elementsForName:@"category-ref"]) {
+        NSString *str = [[childElement attributeForName:@"name"] stringValue];
+        [self addCategoryWithName:str];
+    }
+
+    return YES;
+}
+
+- (BOOL)_loadParameterTargetsFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    NSParameterAssert([@"parameter-targets" isEqualToString:element.name]);
+
+    NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+
+    for (NSXMLElement *childElement in [element elementsForName:@"target"]) {
+        NSString *str = [[childElement attributeForName:@"name"] stringValue];
+        MMTarget *target = [[MMTarget alloc] initWithXMLElement:childElement error:error];
+        dictionary[str] = target;
+    }
+
+    [self addParameterTargetsFromDictionary:dictionary];
+
+    return YES;
+}
+
+- (BOOL)_loadMetaParameterTargetsFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    if (element == nil) return YES;
+    NSParameterAssert([@"meta-parameter-targets" isEqualToString:element.name]);
+
+    NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+
+    for (NSXMLElement *childElement in [element elementsForName:@"target"]) {
+        NSString *str = [[childElement attributeForName:@"name"] stringValue];
+        MMTarget *target = [[MMTarget alloc] initWithXMLElement:childElement error:error];
+        dictionary[str] = target;
+    }
+
+    [self addMetaParameterTargetsFromDictionary:dictionary];
+
+    return YES;
+}
+
+- (BOOL)_loadSymbolTargetsFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    NSParameterAssert([@"symbol-targets" isEqualToString:element.name]);
+
+    NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+
+    for (NSXMLElement *childElement in [element elementsForName:@"target"]) {
+        NSString *str = [[childElement attributeForName:@"name"] stringValue];
+        MMTarget *target = [[MMTarget alloc] initWithXMLElement:childElement error:error];
+        dictionary[str] = target;
+    }
+
+    [self addSymbolTargetsFromDictionary:dictionary];
+
+    return YES;
+}
+
 - (void)_addDefaultValues;
 {
     [self addCategory:[self.model categoryWithName:@"phone"]];
 
     for (MMParameter *parameter in [self.model parameters]) {
-        MMTarget *target = [[[MMTarget alloc] initWithValue:[parameter defaultValue] isDefault:YES] autorelease];
+        MMTarget *target = [[MMTarget alloc] initWithValue:[parameter defaultValue] isDefault:YES];
         [self.parameterTargets addObject:target];
     }
 
     for (MMParameter *parameter in [self.model metaParameters]) {
-        MMTarget *target = [[[MMTarget alloc] initWithValue:[parameter defaultValue] isDefault:YES] autorelease];
+        MMTarget *target = [[MMTarget alloc] initWithValue:[parameter defaultValue] isDefault:YES];
         [self.metaParameterTargets addObject:target];
     }
 
     for (MMParameter *parameter in [self.model symbols]) {
-        MMTarget *target = [[[MMTarget alloc] initWithValue:[parameter defaultValue] isDefault:YES] autorelease];
+        MMTarget *target = [[MMTarget alloc] initWithValue:[parameter defaultValue] isDefault:YES];
         [self.symbolTargets addObject:target];
     }
-}
-
-- (void)dealloc;
-{
-    [m_categories release];
-    [m_parameterTargets release];
-    [m_metaParameterTargets release];
-    [m_symbolTargets release];
-    [m_nativeCategory release];
-
-    [super dealloc];
 }
 
 #pragma mark - Debugging
@@ -107,6 +173,13 @@
     return [NSString stringWithFormat:@"<%@: %p> name: %@, comment: %@, categories: %@, parameterTargets: %@, metaParameterTargets: %@, symbolTargets: %@",
             NSStringFromClass([self class]), self,
             self.name, self.comment, self.categories, self.parameterTargets, self.metaParameterTargets, self.symbolTargets];
+}
+
+- (NSString *)shortDescription;
+{
+    return [NSString stringWithFormat:@"<%@: %p> name: %@",
+            NSStringFromClass([self class]), self,
+            self.name];
 }
 
 #pragma mark - Superclass methods
@@ -121,9 +194,6 @@
 }
 
 #pragma mark - Categories
-
-@synthesize nativeCategory = m_nativeCategory;
-@synthesize categories = m_categories;
 
 - (void)addCategory:(MMCategory *)category;
 {
@@ -155,13 +225,12 @@
 
 - (void)addCategoryWithName:(NSString *)name;
 {
+    NSParameterAssert(self.model != nil);
     MMCategory *category = [self.model categoryWithName:name];
     [self addCategory:category];
 }
 
 #pragma mark - Parameter Targets
-
-@synthesize parameterTargets = m_parameterTargets;
 
 - (void)addParameterTarget:(MMTarget *)target;
 {
@@ -179,7 +248,7 @@
         MMTarget *target = [dictionary objectForKey:parameter.name];
         if (target == nil) {
             NSLog(@"Warning: no target for parameter %@ in save file, adding default target.", parameter.name);
-            target = [[[MMTarget alloc] initWithValue:parameter.defaultValue isDefault:YES] autorelease];
+            target = [[MMTarget alloc] initWithValue:parameter.defaultValue isDefault:YES];
             [self addParameterTarget:target];
         } else {
             [self addParameterTarget:target];
@@ -190,8 +259,6 @@
 }
 
 #pragma mark - Meta-parameter Targets
-
-@synthesize metaParameterTargets = m_metaParameterTargets;
 
 - (void)addMetaParameterTarget:(MMTarget *)target;
 {
@@ -209,7 +276,7 @@
         MMTarget *target = [dictionary objectForKey:parameter.name];
         if (target == nil) {
             NSLog(@"Warning: no target for meta parameter %@ in save file, adding default target.", parameter.name);
-            target = [[[MMTarget alloc] initWithValue:parameter.defaultValue isDefault:YES] autorelease];
+            target = [[MMTarget alloc] initWithValue:parameter.defaultValue isDefault:YES];
             [self addMetaParameterTarget:target];
         } else {
             [self addMetaParameterTarget:target];
@@ -220,8 +287,6 @@
 }
 
 #pragma mark - Symbol Targets
-
-@synthesize symbolTargets = m_symbolTargets;
 
 - (void)addSymbolTarget:(MMTarget *)target;
 {
@@ -239,7 +304,7 @@
         MMTarget *target = [dictionary objectForKey:parameter.name];
         if (target == nil) {
             NSLog(@"Warning: no target for symbol %@ in save file, adding default target.", parameter.name);
-            target = [[[MMTarget alloc] initWithValue:parameter.defaultValue isDefault:YES] autorelease];
+            target = [[MMTarget alloc] initWithValue:parameter.defaultValue isDefault:YES];
             [self addSymbolTarget:target];
         } else {
             [self addSymbolTarget:target];
@@ -345,47 +410,6 @@
 - (void)_appendXMLForSymbolsToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     [self _appendXMLForParameters:self.model.symbols targets:self.symbolTargets elementName:@"symbol-targets" toString:resultString level:level];
-}
-
-// TODO (2004-08-12): Rename attribute name from "symbol" to "name", so we can use the superclass implementation of this method.  Do this after we start supporting upgrading from previous versions.
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
-{
-    if ((self = [self initWithModel:nil])) {
-        self.name = [attributes objectForKey:@"symbol"];
-    }
-
-    return self;
-}
-
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-{
-    if ([elementName isEqualToString:@"posture-categories"]) {
-        MXMLReferenceArrayDelegate *newDelegate = [[MXMLReferenceArrayDelegate alloc] initWithChildElementName:@"category-ref" referenceAttribute:@"name" delegate:self addObjectSelector:@selector(addCategoryWithName:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
-    } else if ([elementName isEqualToString:@"parameter-targets"]) {
-        MXMLDictionaryDelegate *newDelegate = [[MXMLDictionaryDelegate alloc] initWithChildElementName:@"target" class:[MMTarget class] keyAttributeName:@"name" delegate:self addObjectsSelector:@selector(addParameterTargetsFromDictionary:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
-    } else if ([elementName isEqualToString:@"meta-parameter-targets"]) {
-        MXMLDictionaryDelegate *newDelegate = [[MXMLDictionaryDelegate alloc] initWithChildElementName:@"target" class:[MMTarget class] keyAttributeName:@"name" delegate:self addObjectsSelector:@selector(addMetaParameterTargetsFromDictionary:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
-    } else if ([elementName isEqualToString:@"symbol-targets"]) {
-        MXMLDictionaryDelegate *newDelegate = [[MXMLDictionaryDelegate alloc] initWithChildElementName:@"target" class:[MMTarget class] keyAttributeName:@"name" delegate:self addObjectsSelector:@selector(addSymbolTargetsFromDictionary:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-        [newDelegate release];
-    } else {
-        [super parser:parser didStartElement:elementName namespaceURI:namespaceURI qualifiedName:qName attributes:attributeDict];
-    }
-}
-
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
-{
-    if ([elementName isEqualToString:@"posture"])
-        [(MXMLParser *)parser popDelegate];
-    else
-        [NSException raise:@"Unknown close tag" format:@"Unknown closing tag (%@) in %@", elementName, NSStringFromClass([self class])];
 }
 
 @end

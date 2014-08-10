@@ -3,12 +3,11 @@
 
 #import <Foundation/Foundation.h>
 
-enum {
+typedef enum : NSUInteger {
     MMPhoneType_Diphone    = 2,
     MMPhoneType_Triphone   = 3,
     MMPhoneType_Tetraphone = 4,
-};
-typedef NSUInteger MMPhoneType;
+} MMPhoneType;
 
 #define GSXMLEntityMask_None        0x00
 #define GSXMLEntityMask_Ampersand   0x01

@@ -12,35 +12,67 @@
 #import "MMEquation.h"
 #import "MMSlope.h"
 
-#import "MXMLParser.h"
-#import "MXMLArrayDelegate.h"
-
 #import "EventList.h"
 
 #pragma mark -
 
 @implementation MMSlopeRatio
 {
-    NSMutableArray *points; // Of MMPoints
-    NSMutableArray *slopes; // Of MMSlopes
+    NSMutableArray *_points; // Of MMPoints
+    NSMutableArray *_slopes; // Of MMSlopes
 }
 
 - (id)init;
 {
     if ((self = [super init])) {
-        points = [[NSMutableArray alloc] init];
-        slopes = [[NSMutableArray alloc] init];
+        _points = [[NSMutableArray alloc] init];
+        _slopes = [[NSMutableArray alloc] init];
     }
 
     return self;
 }
 
-- (void)dealloc;
+- (id)initWithModel:(MModel *)model XMLElement:(NSXMLElement *)element error:(NSError **)error;
 {
-    [points release];
-    [slopes release];
+    NSParameterAssert([@"slope-ratio" isEqualToString:element.name]);
 
-    [super dealloc];
+    if ((self = [super init])) {
+        _points = [[NSMutableArray alloc] init];
+        _slopes = [[NSMutableArray alloc] init];
+
+        // Has points and slopes
+        if (![self _loadPointsFromXMLElement:[[element elementsForName:@"points"] firstObject] model:model error:error]) return nil;
+        if (![self _loadSlopesFromXMLElement:[[element elementsForName:@"slopes"] firstObject] model:model error:error]) return nil;
+        // TODO (2004-05-14): Should check to make sure we have an appropriate number of points and slopes.
+    }
+
+    return self;
+}
+
+- (BOOL)_loadPointsFromXMLElement:(NSXMLElement *)element model:(MModel *)model error:(NSError **)error;
+{
+    NSParameterAssert([@"points" isEqualToString:element.name]);
+
+    for (NSXMLElement *childElement in [element elementsForName:@"point"]) {
+        MMPoint *point = [[MMPoint alloc] initWithModel:model XMLElement:childElement error:error];
+        if (point != nil)
+            [self addPoint:point];
+    }
+
+    return YES;
+}
+
+- (BOOL)_loadSlopesFromXMLElement:(NSXMLElement *)element model:(MModel *)model error:(NSError **)error;
+{
+    NSParameterAssert([@"slopes" isEqualToString:element.name]);
+
+    for (NSXMLElement *childElement in [element elementsForName:@"slope"]) {
+        MMSlope *slope = [[MMSlope alloc] initWithXMLElement:childElement error:error];
+        if (slope != nil)
+            [self addSlope:slope];
+    }
+
+    return YES;
 }
 
 #pragma mark - Debugging
@@ -48,69 +80,69 @@
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"<%@: %p> points: %@, slopes: %@",
-            NSStringFromClass([self class]), self, points, slopes];
+            NSStringFromClass([self class]), self, _points, _slopes];
 }
 
 #pragma mark -
 
 - (NSMutableArray *)points;
 {
-    return points;
+    return _points;
 }
 
 - (void)setPoints:(NSMutableArray *)newList;
 {
-    if (newList == points)
+    if (newList == _points)
         return;
 
-    [points release];
-    points = [newList retain];
+    _points = newList;
 
     [self updateSlopes];
 }
 
 - (void)addPoint:(MMPoint *)newPoint;
 {
-    [points addObject:newPoint];
+    [_points addObject:newPoint];
 }
-
-@synthesize slopes;
 
 - (void)addSlope:(MMSlope *)newSlope;
 {
-    [slopes addObject:newSlope];
+    [_slopes addObject:newSlope];
 }
 
 - (void)updateSlopes;
 {
-    while ([slopes count] > ([points count] - 1)) {
-        [slopes removeLastObject];
+    while ([_slopes count] > ([_points count] - 1)) {
+        [_slopes removeLastObject];
     }
 
-    while ([slopes count] < ([points count] - 1)) {
+    while ([_slopes count] < ([_points count] - 1)) {
         MMSlope *newSlope;
 
         newSlope = [[MMSlope alloc] init];
         [newSlope setSlope:1.0];
-        [slopes addObject:newSlope];
-        [newSlope release];
+        [_slopes addObject:newSlope];
     }
 }
 
 - (double)startTime;
 {
-    return [(MMPoint *)[points objectAtIndex:0] cachedTime];
+    return [(MMPoint *)[_points objectAtIndex:0] cachedTime];
 }
 
 - (double)endTime;
 {
-    return [(MMPoint *)[points lastObject] cachedTime];
+    return [(MMPoint *)[_points lastObject] cachedTime];
 }
 
 #pragma mark - Used by TransitionView
 
 - (void)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag
               toDisplay:(NSMutableArray *)displayList;
+{
+}
+
+- (void)calculatePointsWithPhonesInArray:(NSArray *)phones ruleSymbols:(MMFRuleSymbols *)ruleSymbols andCacheWithTag:(NSUInteger)newCacheTag andAddToDisplay:(NSMutableArray *)displayList;
 {
     NSUInteger i, numSlopes;
     double temp = 0.0, temp1 = 0.0, intervalTime = 0.0, sum = 0.0, factor = 0.0;
@@ -120,32 +152,30 @@
 
     /* Calculate the times for all points */
     //NSLog(@"%s, count: %d", _cmd, [points count]);
-    for (i = 0; i < [points count]; i++) {
-        currentPoint = [points objectAtIndex:i];
-        [[currentPoint timeEquation] evaluate:ruleSymbols
-                                       tempos:tempos postures:postures
-                                 andCacheWith:newCacheTag];
+    for (i = 0; i < [_points count]; i++) {
+        currentPoint = [_points objectAtIndex:i];
+        [[currentPoint timeEquation] evaluateWithPhonesInArray:phones ruleSymbols:ruleSymbols andCacheWithTag:newCacheTag];
         //NSLog(@"\t%d: expr %@ = %g", i, [[[currentPoint expression] expression] expressionString], dummy);
         //NSLog(@"point value: %g, expression value: %g", [currentPoint value], [[currentPoint expression] cacheValue]);
 
         [displayList addObject:currentPoint];
     }
 
-    baseTime = [[points objectAtIndex:0] cachedTime];
-    endTime = [[points lastObject] cachedTime];
+    baseTime = [[_points objectAtIndex:0] cachedTime];
+    endTime = [[_points lastObject] cachedTime];
 
-    startValue = [(MMPoint *)[points objectAtIndex:0] value];
-    delta = [(MMPoint *)[points lastObject] value] - startValue;
+    startValue = [(MMPoint *)[_points objectAtIndex:0] value];
+    delta = [(MMPoint *)[_points lastObject] value] - startValue;
 
     temp = [self totalSlopeUnits];
     totalTime = endTime - baseTime;
 
-    numSlopes = [slopes count];
+    numSlopes = [_slopes count];
     for (i = 1; i < numSlopes+1; i++) {
-        temp1 = [[slopes objectAtIndex:i-1] slope] / temp;	/* Calculate normal slope */
+        temp1 = [[_slopes objectAtIndex:i-1] slope] / temp;	/* Calculate normal slope */
 
         /* Calculate time interval */
-        intervalTime = [[points objectAtIndex:i] cachedTime] - [[points objectAtIndex:i-1] cachedTime];
+        intervalTime = [[_points objectAtIndex:i] cachedTime] - [[_points objectAtIndex:i-1] cachedTime];
 
         /* Apply interval percentage to slope */
         temp1 = temp1 * (intervalTime / totalTime);
@@ -155,22 +185,22 @@
         sum += temp1;
 
         if (i < numSlopes)
-            [(MMPoint *)[points objectAtIndex:i] setValue:temp1];
+            [(MMPoint *)[_points objectAtIndex:i] setValue:temp1];
     }
     factor = delta / sum;
 
     temp = startValue;
-    for (i = 1; i < [points count]-1; i++) {
-        [[points objectAtIndex:i] multiplyValueByFactor:factor];
-        temp = [[points objectAtIndex:i] addValue:temp];
+    for (i = 1; i < [_points count]-1; i++) {
+        [[_points objectAtIndex:i] multiplyValueByFactor:factor];
+        temp = [[_points objectAtIndex:i] addValue:temp];
     }
 }
 
 #pragma mark - Used by ???
 
-- (double)calculatePoints:(MMFRuleSymbols *)ruleSymbols tempos:(double *)tempos postures:(NSArray *)postures andCacheWith:(NSUInteger)newCacheTag
-                 baseline:(double)baseline delta:(double)parameterDelta min:(double)min max:(double)max
-              toEventList:(EventList *)eventList atIndex:(NSUInteger)index;
+- (double)calculatePointsWithPhonesInArray:(NSArray *)phones ruleSymbols:(MMFRuleSymbols *)ruleSymbols andCacheWithTag:(NSUInteger)newCacheTag
+                                  baseline:(double)baseline delta:(double)parameterDelta min:(double)min max:(double)max
+                         andAddToEventList:(EventList *)eventList atIndex:(NSUInteger)index;
 {
     double returnValue = 0.0;
     NSUInteger i, numSlopes;
@@ -180,26 +210,26 @@
     MMPoint *currentPoint;
 
     /* Calculate the times for all points */
-    for (i = 0; i < [points count]; i++) {
-        currentPoint = [points objectAtIndex:i];
-        [[currentPoint timeEquation] evaluate:ruleSymbols tempos:tempos postures:postures andCacheWith:newCacheTag];
+    for (i = 0; i < [_points count]; i++) {
+        currentPoint = [_points objectAtIndex:i];
+        [[currentPoint timeEquation] evaluateWithPhonesInArray:phones ruleSymbols:ruleSymbols andCacheWithTag:newCacheTag];
     }
 
-    baseTime = [[points objectAtIndex:0] cachedTime];
-    endTime = [[points lastObject] cachedTime];
+    baseTime = [[_points objectAtIndex:0] cachedTime];
+    endTime = [[_points lastObject] cachedTime];
 
-    startValue = [(MMPoint *)[points objectAtIndex:0] value];
-    delta = [(MMPoint *)[points lastObject] value] - startValue;
+    startValue = [(MMPoint *)[_points objectAtIndex:0] value];
+    delta = [(MMPoint *)[_points lastObject] value] - startValue;
 
     temp = [self totalSlopeUnits];
     totalTime = endTime - baseTime;
 
-    numSlopes = [slopes count];
+    numSlopes = [_slopes count];
     for (i = 1; i < numSlopes+1; i++) {
-        temp1 = [[slopes objectAtIndex:i-1] slope] / temp;	/* Calculate normal slope */
+        temp1 = [[_slopes objectAtIndex:i-1] slope] / temp;	/* Calculate normal slope */
 
         /* Calculate time interval */
-        intervalTime = [[points objectAtIndex:i] cachedTime] - [[points objectAtIndex:i-1] cachedTime];
+        intervalTime = [[_points objectAtIndex:i] cachedTime] - [[_points objectAtIndex:i-1] cachedTime];
 
         /* Apply interval percentage to slope */
         temp1 = temp1 * (intervalTime / totalTime);
@@ -209,21 +239,22 @@
         sum += temp1;
 
         if (i < numSlopes)
-            [(MMPoint *)[points objectAtIndex:i] setValue:temp1];
+            [(MMPoint *)[_points objectAtIndex:i] setValue:temp1];
     }
     factor = delta / sum;
     temp = startValue;
 
-    for (i = 1; i < [points count]-1; i++) {
-        [[points objectAtIndex:i] multiplyValueByFactor:factor];
-        temp = [[points objectAtIndex:i] addValue:temp];
+    for (i = 1; i < [_points count]-1; i++) {
+        [[_points objectAtIndex:i] multiplyValueByFactor:factor];
+        temp = [[_points objectAtIndex:i] addValue:temp];
     }
 
-    for (i = 0; i < [points count]; i++) {
-        returnValue = [[points objectAtIndex:i] calculatePoints:ruleSymbols tempos:tempos postures:postures
-                                                 andCacheWith:newCacheTag baseline:baseline delta:parameterDelta
-                                                 min:min max:max toEventList:eventList atIndex:index];
-    }
+    for (i = 0; i < [_points count]; i++) {
+        MMPoint *point = _points[i];
+        returnValue = [point calculatePointsWithPhonesInArray:phones ruleSymbols:ruleSymbols andCacheWithTag:newCacheTag
+                                                     baseline:baseline delta:parameterDelta min:min max:max
+                                            andAddToEventList:eventList atIndex:index];
+     }
 
     return returnValue;
 }
@@ -232,8 +263,8 @@
 {
     double temp = 0.0;
 
-    for (NSUInteger i = 0; i < [slopes count]; i++)
-        temp += [[slopes objectAtIndex:i] slope];
+    for (NSUInteger i = 0; i < [_slopes count]; i++)
+        temp += [[_slopes objectAtIndex:i] slope];
 
     return temp;
 }
@@ -241,9 +272,9 @@
 - (void)displaySlopesInList:(NSMutableArray *)displaySlopes;
 {
     //NSLog(@"DisplaySlopesInList: Count = %d", count);
-    for (NSUInteger index = 0; index < [slopes count]; index++) {
-        double tempTime = ([[points objectAtIndex:index] cachedTime] + [[points objectAtIndex:index+1] cachedTime]) / 2.0;
-        MMSlope *currentSlope = [slopes objectAtIndex:index];
+    for (NSUInteger index = 0; index < [_slopes count]; index++) {
+        double tempTime = ([[_points objectAtIndex:index] cachedTime] + [[_points objectAtIndex:index+1] cachedTime]) / 2.0;
+        MMSlope *currentSlope = [_slopes objectAtIndex:index];
         [currentSlope setDisplayTime:tempTime];
         //NSLog(@"TempTime = %f", tempTime);
         [displaySlopes addObject:currentSlope];
@@ -255,49 +286,11 @@
     [resultString indentToLevel:level];
     [resultString appendString:@"<slope-ratio>\n"];
 
-    [points appendXMLToString:resultString elementName:@"points" level:level + 1];
-    [slopes appendXMLToString:resultString elementName:@"slopes" level:level + 1];
+    [_points appendXMLToString:resultString elementName:@"points" level:level + 1];
+    [_slopes appendXMLToString:resultString elementName:@"slopes" level:level + 1];
 
     [resultString indentToLevel:level];
     [resultString appendString:@"</slope-ratio>\n"];
-}
-
-// TODO (2004-05-14): Maybe with a common superclass we wouldn't need to implement this method here.
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
-{
-    if ((self = [self init])) {
-    }
-
-    return self;
-}
-
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-{
-    if ([elementName isEqualToString:@"points"]) {
-        MXMLArrayDelegate *arrayDelegate;
-
-        arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"point" class:[MMPoint class] delegate:self addObjectSelector:@selector(addPoint:)];
-        [(MXMLParser *)parser pushDelegate:arrayDelegate];
-        [arrayDelegate release];
-    } else if ([elementName isEqualToString:@"slopes"]) {
-        MXMLArrayDelegate *arrayDelegate;
-
-        arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"slope" class:[MMSlope class] delegate:self addObjectSelector:@selector(addSlope:)];
-        [(MXMLParser *)parser pushDelegate:arrayDelegate];
-        [arrayDelegate release];
-    } else {
-        NSLog(@"%@, Unknown element: '%@', skipping", [self shortDescription], elementName);
-        [(MXMLParser *)parser skipTree];
-    }
-}
-
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
-{
-    // TODO (2004-05-14): Should check to make sure we have an appropriate number of points and slopes.
-    if ([elementName isEqualToString:@"slope-ratio"])
-        [(MXMLParser *)parser popDelegate];
-    else
-        [NSException raise:@"Unknown close tag" format:@"Unknown closing tag (%@) in %@", elementName, NSStringFromClass([self class])];
 }
 
 @end

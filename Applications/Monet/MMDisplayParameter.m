@@ -7,36 +7,25 @@
 
 @implementation MMDisplayParameter
 {
-    MMParameter *m_parameter;
-    BOOL m_isSpecial;
-    NSUInteger m_tag;
-    BOOL m_shouldDisplay;
+    MMParameter *_parameter;
+    BOOL _isSpecial;
+    NSUInteger _tag;
+    BOOL _shouldDisplay;
 }
 
-- (id)initWithParameter:(MMParameter *)aParameter;
+- (id)initWithParameter:(MMParameter *)parameter;
 {
     if ((self = [super init])) {
-        m_parameter = [aParameter retain];
-        m_isSpecial = NO;
-        m_tag = 0;
+        _parameter = parameter;
+        _isSpecial = NO;
+        _tag = 0;
     }
 
     return self;
 }
 
-- (void)dealloc;
-{
-    [m_parameter release];
-
-    [super dealloc];
-}
 
 #pragma mark -
-
-@synthesize parameter = m_parameter;
-@synthesize isSpecial = m_isSpecial;
-@synthesize tag = m_tag;
-@synthesize shouldDisplay = m_shouldDisplay;
 
 - (void)toggleShouldDisplay;
 {
