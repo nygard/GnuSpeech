@@ -27,12 +27,12 @@ static NSDictionary *specialAcronyms;  // static class variable
     //NSLog(@"specialAcronyms: %@", [specialAcronyms description]);
 }
 
-- (id)initWithPronunciationDictionary:(GSPronunciationDictionary *)aDictionary;
+- (id)initWithPronunciationDictionary:(GSPronunciationDictionary *)dictionary;
 {
     if ((self = [super init])) {
-        _userDictionary = aDictionary;
-        _appDictionary = aDictionary;
-        _mainDictionary = aDictionary;	
+        _userDictionary = dictionary;
+        _appDictionary = dictionary;
+        _mainDictionary = dictionary;	
 	
         //[mainDictionary loadDictionary];
     }
@@ -42,7 +42,7 @@ static NSDictionary *specialAcronyms;  // static class variable
 
 #pragma mark -
 
-- (NSString *)parseString:(NSString *)aString;
+- (NSString *)parseString:(NSString *)string;
 {
 	NSLog(@"> %s", __PRETTY_FUNCTION__);
 
@@ -68,14 +68,14 @@ static NSDictionary *specialAcronyms;  // static class variable
 	const char *input;
 	const char *output;
 	
-	if ([aString canBeConvertedToEncoding:NSASCIIStringEncoding]) {
+	if ([string canBeConvertedToEncoding:NSASCIIStringEncoding]) {
 		
-		input = [aString cStringUsingEncoding:NSASCIIStringEncoding];
+		input = [string cStringUsingEncoding:NSASCIIStringEncoding];
 		
 	} else {  // strip the non-ascii-convertible characters
 
 		NSLog(@"parseString: String cannot be converted without information loss.");
-		NSData * lossyInput = [aString dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+		NSData * lossyInput = [string dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
 		NSString * stringInput = [[NSString alloc] initWithData:lossyInput encoding:NSASCIIStringEncoding];  // this needs to stick around at least as long as 'input'
 		input = [stringInput cStringUsingEncoding:NSASCIIStringEncoding];
 	}

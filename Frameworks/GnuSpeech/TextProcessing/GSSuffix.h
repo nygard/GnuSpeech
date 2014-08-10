@@ -4,7 +4,7 @@
 
 @interface GSSuffix : NSObject
 
-- (id)initWithSuffix:(NSString *)aSuffix replacementString:(NSString *)aReplacementString appendedPronunciation:(NSString *)anAppendedPronunciation;
+- (id)initWithSuffix:(NSString *)suffix replacementString:(NSString *)replacementString appendedPronunciation:(NSString *)appendedPronunciation;
 
 - (NSString *)suffix;
 - (NSString *)replacementString;

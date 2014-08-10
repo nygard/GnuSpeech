@@ -34,16 +34,16 @@
     return _mainDictionary;
 }
 
-+ (BOOL)createDatabase:(NSString *)aFilename fromSimpleDictionary:(GSSimplePronunciationDictionary *)simpleDictionary;
++ (BOOL)createDatabase:(NSString *)filename fromSimpleDictionary:(GSSimplePronunciationDictionary *)simpleDictionary;
 {
     NSUInteger count, index;
 
     NSDictionary *pronunciations = [simpleDictionary pronunciations];
     NSArray *allKeys = [pronunciations allKeys];
 
-    [[NSFileManager defaultManager] createDirectoryAtPath:[aFilename stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:NULL];
+    [[NSFileManager defaultManager] createDirectoryAtPath:[filename stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:NULL];
 
-    DBM *newDB = dbm_open([aFilename UTF8String], O_RDWR | O_CREAT, 0660);
+    DBM *newDB = dbm_open([filename UTF8String], O_RDWR | O_CREAT, 0660);
     if (newDB == NULL) {
         perror("dbm_open()");
         return NO;
@@ -75,9 +75,9 @@
     return YES;
 }
 
-- (id)initWithFilename:(NSString *)aFilename;
+- (id)initWithFilename:(NSString *)filename;
 {
-    if ((self = [super initWithFilename:aFilename])) {
+    if ((self = [super initWithFilename:filename])) {
         _db = NULL;
     }
 
@@ -116,11 +116,11 @@
     return YES;
 }
 
-- (NSString *)lookupPronunciationForWord:(NSString *)aWord;
+- (NSString *)lookupPronunciationForWord:(NSString *)word;
 {
     datum keyDatum, valueDatum;
 
-    keyDatum.dptr = (char *)[aWord UTF8String];
+    keyDatum.dptr = (char *)[word UTF8String];
     keyDatum.dsize = strlen(keyDatum.dptr);
 
     valueDatum = dbm_fetch(_db, keyDatum);

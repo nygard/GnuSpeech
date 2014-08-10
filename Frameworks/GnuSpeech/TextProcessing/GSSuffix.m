@@ -9,12 +9,12 @@
     NSString *_appendedPronunciation;
 }
 
-- (id)initWithSuffix:(NSString *)aSuffix replacementString:(NSString *)aReplacementString appendedPronunciation:(NSString *)anAppendedPronunciation;
+- (id)initWithSuffix:(NSString *)suffix replacementString:(NSString *)replacementString appendedPronunciation:(NSString *)appendedPronunciation;
 {
     if ((self = [super init])) {
-        _suffix = aSuffix;
-        _replacementString = aReplacementString;
-        _appendedPronunciation = anAppendedPronunciation;
+        _suffix = suffix;
+        _replacementString = replacementString;
+        _appendedPronunciation = appendedPronunciation;
     }
 
     return self;

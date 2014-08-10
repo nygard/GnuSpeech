@@ -87,13 +87,13 @@ static NSDictionary *_specialAcronyms = nil;
 
 #pragma mark -
 
-- (NSString *)parseString:(NSString *)aString;
+- (NSString *)parseString:(NSString *)string;
 {
     NSLog(@" > %s", __PRETTY_FUNCTION__);
 
-    NSLog(@"aString: %@", aString);
+    NSLog(@"aString: %@", string);
     NSString *newString = [self padCharactersInSet:[NSCharacterSet punctuationCharacterSet] 
-								ofString:aString];  // temporary fix for punctuation issues -- dalmazio, Jan. 2009
+								ofString:string];  // temporary fix for punctuation issues -- dalmazio, Jan. 2009
 	//[self markModes:aString];
 
     NSMutableString *resultString = [NSMutableString string];
@@ -109,13 +109,13 @@ static NSDictionary *_specialAcronyms = nil;
 
 // Added as a temporary fix for punctuation problems, we pad all characters in the supplied character set (punctuation)
 // with a space character. -- dalmazio, Jan. 2009.
-- (NSString *)padCharactersInSet:(NSCharacterSet *)characterSet ofString:(NSString *)aString;
+- (NSString *)padCharactersInSet:(NSCharacterSet *)characterSet ofString:(NSString *)string;
 {
 	unichar ch;
-	NSMutableString *newString = [[NSMutableString alloc] initWithCapacity:[aString length]*2];
+	NSMutableString *newString = [[NSMutableString alloc] initWithCapacity:[string length]*2];
 
-	for (int i = 0; i < [aString length]; i++) {
-		ch = [aString characterAtIndex:i];
+	for (int i = 0; i < [string length]; i++) {
+		ch = [string characterAtIndex:i];
 		if ([characterSet characterIsMember:ch])
 			[newString appendFormat:@" %C ", ch];
 		else
@@ -126,7 +126,7 @@ static NSDictionary *_specialAcronyms = nil;
 
 
 // TODO (2004-04-28): This wants to embed special characters (-1 through -11) in the output string...  We may need to do this differently, since we want to deal with characters, not bytes.
-- (void)markModes:(NSString *)aString;
+- (void)markModes:(NSString *)string;
 {
     NSString *str;
     NSCharacterSet *escapeCharacterSet = [NSCharacterSet characterSetWithCharactersInString:[NSString stringWithUnichar:_escapeCharacter]];
@@ -136,7 +136,7 @@ static NSDictionary *_specialAcronyms = nil;
     TTSInputMode currentMode = TTSInputModeNormal;
     [modeStack addObject:[NSNumber numberWithInt:currentMode]];
 
-    NSScanner *scanner = [[NSScanner alloc] initWithString:aString];
+    NSScanner *scanner = [[NSScanner alloc] initWithString:string];
     while ([scanner isAtEnd] == NO) {
         if ([scanner scanUpToCharactersFromSet:escapeCharacterSet intoString:&str] == YES)
             [resultString appendString:str];
@@ -176,7 +176,7 @@ static NSDictionary *_specialAcronyms = nil;
     NSLog(@"result string: '%@'", resultString);
 }
 
-- (void)stripPunctuationFromString:(NSString *)aString;
+- (void)stripPunctuationFromString:(NSString *)string;
 {
     NSLog(@" > %s", __PRETTY_FUNCTION__);
     NSLog(@"<  %s", __PRETTY_FUNCTION__);
@@ -184,19 +184,19 @@ static NSDictionary *_specialAcronyms = nil;
 
 // As part of the temporary fix for punctuation issues, we need to filter empty strings from the word string
 // array so they are not rendered. -- dalmazio, Jan. 2009.
-- (NSArray *) filterEmptyStringsFromArray:(NSArray *)theArray;
+- (NSArray *)filterEmptyStringsFromArray:(NSArray *)array;
 {	
-	NSMutableArray *filteredArray = [[NSMutableArray alloc] initWithCapacity:[theArray count]];
+	NSMutableArray *filteredArray = [[NSMutableArray alloc] initWithCapacity:[array count]];
 	NSString *item;
-	for (NSUInteger i = 0; i < [theArray count]; i++) {
-		item = [theArray objectAtIndex:i];
+	for (NSUInteger i = 0; i < [array count]; i++) {
+		item = [array objectAtIndex:i];
 		if (![item isEqualToString:@""])
 			[filteredArray addObject:item];
 	}
 	return filteredArray;
 }
 
-- (void)finalConversion:(NSString *)aString resultString:(NSMutableString *)resultString;
+- (void)finalConversion:(NSString *)string resultString:(NSMutableString *)resultString;
 {
     NSUInteger nextState;
     NSUInteger count, index;
@@ -207,7 +207,7 @@ static NSDictionary *_specialAcronyms = nil;
 
     NSUInteger previousState = TTS_STATE_BEGIN;
 
-	NSArray *words = [self filterEmptyStringsFromArray:[aString componentsSeparatedByString:@" "]];   // temporary fix -- dalmazio, Jan. 2009
+	NSArray *words = [self filterEmptyStringsFromArray:[string componentsSeparatedByString:@" "]];   // temporary fix -- dalmazio, Jan. 2009
 	//words = [aString componentsSeparatedByString:@" "];	
 	
     NSLog(@"words: %@", [words description]);

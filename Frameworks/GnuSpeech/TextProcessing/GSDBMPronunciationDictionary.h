@@ -9,13 +9,13 @@
 @interface GSDBMPronunciationDictionary : GSPronunciationDictionary
 
 + (NSString *)mainFilename;
-+ (BOOL)createDatabase:(NSString *)aFilename fromSimpleDictionary:(GSSimplePronunciationDictionary *)simpleDictionary;
++ (BOOL)createDatabase:(NSString *)filename fromSimpleDictionary:(GSSimplePronunciationDictionary *)simpleDictionary;
 
-- (id)initWithFilename:(NSString *)aFilename;
+- (id)initWithFilename:(NSString *)filename;
 
 - (NSDate *)modificationDate;
 - (BOOL)loadDictionary;
 
-- (NSString *)lookupPronunciationForWord:(NSString *)aWord;
+- (NSString *)lookupPronunciationForWord:(NSString *)word;
 
 @end

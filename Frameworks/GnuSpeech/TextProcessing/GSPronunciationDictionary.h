@@ -6,7 +6,7 @@
 
 + (id)mainDictionary;
 
-- (id)initWithFilename:(NSString *)aFilename;
+- (id)initWithFilename:(NSString *)filename;
 
 @property (readonly) NSString *filename;
 
@@ -18,8 +18,8 @@
 - (void)loadDictionaryIfNecessary;
 - (BOOL)loadDictionary;
 
-- (NSString *)lookupPronunciationForWord:(NSString *)aWord;
-- (NSString *)pronunciationForWord:(NSString *)aWord;
+- (NSString *)lookupPronunciationForWord:(NSString *)word;
+- (NSString *)pronunciationForWord:(NSString *)word;
 
 - (void)testString:(NSString *)str;
 

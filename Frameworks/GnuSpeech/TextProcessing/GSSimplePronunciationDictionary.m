@@ -21,9 +21,9 @@
     return _mainDictionary;
 }
 
-- (id)initWithFilename:(NSString *)aFilename;
+- (id)initWithFilename:(NSString *)filename;
 {
-    if ((self = [super initWithFilename:aFilename])) {
+    if ((self = [super initWithFilename:filename])) {
         _pronunciations = [[NSMutableDictionary alloc] init]; // This is a case where setting the capacity might be a good idea!
     }
 
@@ -101,10 +101,10 @@
     return _pronunciations;
 }
 
-- (NSString *)lookupPronunciationForWord:(NSString *)aWord;
+- (NSString *)lookupPronunciationForWord:(NSString *)word;
 {
     [self loadDictionaryIfNecessary];
-    return [_pronunciations objectForKey:aWord];
+    return [_pronunciations objectForKey:word];
 }
 
 @end

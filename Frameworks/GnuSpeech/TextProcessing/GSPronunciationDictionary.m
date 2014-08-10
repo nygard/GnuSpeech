@@ -20,10 +20,10 @@
     return nil;
 }
 
-- (id)initWithFilename:(NSString *)aFilename;
+- (id)initWithFilename:(NSString *)filename;
 {
     if ((self = [super init])) {
-        _filename = aFilename;
+        _filename = filename;
         //NSLog(@"filename: %@", m_filename);
         _version = nil;
         
@@ -74,13 +74,13 @@
     return NO;
 }
 
-- (void)_readSuffixesFromFile:(NSString *)aFilename;
+- (void)_readSuffixesFromFile:(NSString *)filename;
 {
     NSUInteger count, index;
 
     //NSLog(@" > %s", __PRETTY_FUNCTION__);
 
-    NSData *data = [[NSData alloc] initWithContentsOfFile:aFilename];
+    NSData *data = [[NSData alloc] initWithContentsOfFile:filename];
     //NSLog(@"data: %p", data);
     //str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]; // utf-8 fails
     NSString *str = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
@@ -109,27 +109,27 @@
     //NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
 
-- (NSString *)lookupPronunciationForWord:(NSString *)aWord;
+- (NSString *)lookupPronunciationForWord:(NSString *)word;
 {
     // Implement in subclasses
     return nil;
 }
 
-- (NSString *)pronunciationForWord:(NSString *)aWord;
+- (NSString *)pronunciationForWord:(NSString *)word;
 {
-    NSString *pronunciation = [self lookupPronunciationForWord:aWord];
+    NSString *pronunciation = [self lookupPronunciationForWord:word];
     if (pronunciation == nil) {
         NSUInteger count, index;
 
         count = [_suffixOrder count];
         for (index = 0; index < count; index++) {
             GSSuffix *suffix = [_suffixes objectForKey:[_suffixOrder objectAtIndex:index]];
-            NSRange range = [aWord rangeOfString:[suffix suffix] options:NSAnchoredSearch|NSBackwardsSearch];
+            NSRange range = [word rangeOfString:[suffix suffix] options:NSAnchoredSearch|NSBackwardsSearch];
             if (range.location != NSNotFound) {
                 NSString *newWord;
                 NSString *newPronunciation;
 
-                newWord = [[aWord substringToIndex:range.location] stringByAppendingString:[suffix replacementString]];
+                newWord = [[word substringToIndex:range.location] stringByAppendingString:[suffix replacementString]];
                 newPronunciation = [self lookupPronunciationForWord:newWord];
                 //NSLog(@"newWord: %@, newPronunciation: %@", newWord, newPronunciation);
                 if (newPronunciation != nil)
