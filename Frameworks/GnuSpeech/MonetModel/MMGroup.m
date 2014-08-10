@@ -31,6 +31,35 @@
     return self;
 }
 
+- (id)initWithModel:(MModel *)model XMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    NSParameterAssert([@"equation-group" isEqualToString:element.name] || [@"transition-group" isEqualToString:element.name]);
+
+    if ((self = [super initWithXMLElement:element error:error])) {
+        self.model = model;
+
+        _objects = [[NSMutableArray alloc] init];
+
+        // This will have either equations or transitions, but not a mix.
+        for (NSXMLElement *childElement in [element elementsForName:@"equation"]) {
+            MMEquation *equation = [[MMEquation alloc] initWithXMLElement:childElement error:error];
+            if (equation != nil) {
+                [self addObject:equation];
+
+                // Set the formula after adding it to the group, so that it has access to the model for the symbols
+                NSString *str = [[childElement attributeForName:@"formula"] stringValue];
+                if (str != nil && [str length] > 0)
+                    [equation setFormulaString:str];
+            }
+        }
+
+        for (NSXMLElement *childElement in [element elementsForName:@"transition"]) {
+        }
+    }
+
+    return self;
+}
+
 #pragma mark - Debugging
 
 - (NSString *)description;
@@ -59,6 +88,7 @@
 
 - (void)addObject:(MMGroupedObject *)object;
 {
+    NSParameterAssert(self.model != nil);
     [_objects addObject:object];
 
     object.model = self.model;

@@ -173,6 +173,9 @@
     NSParameterAssert([@"equations" isEqualToString:element.name]);
 
     for (NSXMLElement *childElement in [element elementsForName:@"equation-group"]) {
+        MMGroup *group = [[MMGroup alloc] initWithModel:self XMLElement:childElement error:error];
+        if (group != nil)
+            [self addEquationGroup:group];
     }
     
     return YES;

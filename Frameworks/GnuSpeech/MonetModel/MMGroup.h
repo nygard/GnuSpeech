@@ -7,6 +7,8 @@
 
 @interface MMGroup : MMNamedObject
 
+- (id)initWithModel:(MModel *)model XMLElement:(NSXMLElement *)element error:(NSError **)error;
+
 @property (nonatomic, readonly) NSArray *objects;
 
 // These set the group (if possible) on objects added to the list

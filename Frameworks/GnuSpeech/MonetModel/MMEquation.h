@@ -19,6 +19,5 @@
 - (NSString *)equationPath;
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 
 @end
