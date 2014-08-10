@@ -26,22 +26,6 @@
 @interface MSynthesisController () <NSTableViewDataSource, NSTableViewDelegate, NSComboBoxDelegate, NSTextViewDelegate, EventListDelegate, NSFileManagerDelegate>
 
 @property (readonly) EventList *eventList;
-
-- (void)_updateDisplayParameters;
-- (void)_updateEventColumns;
-- (void)updateViews;
-- (void)_updateDisplayedParameters;
-- (void)_takeIntonationParametersFromUI;
-- (void)_updateSelectedPointDetails;
-
-- (void)synthesize;
-- (NSString *)getAndSyncPhoneString;
-- (void)prepareForSynthesis;
-- (void)continueSynthesis;
-
-- (void)intonationPointDidChange:(NSNotification *)aNotification;
-- (void)saveGraphImagesToPath:(NSString *)basePath;
-
 @property (readonly) TRMSynthesizer *synthesizer;
 @property (strong) STLogger *logger;
 

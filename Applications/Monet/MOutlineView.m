@@ -3,11 +3,6 @@
 
 #import "MOutlineView.h"
 
-@interface MOutlineView ()
-@end
-
-#pragma mark -
-
 @implementation MOutlineView
 {
 }

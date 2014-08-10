@@ -22,9 +22,6 @@
 
 @interface AppController ()
 
-- (void)_loadFile:(NSString *)aFilename;
-- (void)_loadMonetXMLFile:(NSString *)aFilename;
-
 @property (nonatomic, readonly) MDataEntryController *dataEntryController;
 @property (nonatomic, readonly) MPostureCategoryController *postureCategoryController;
 @property (nonatomic, readonly) MPostureEditor *postureEditor;
