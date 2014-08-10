@@ -10,6 +10,7 @@
 #import "MCommentCell.h"
 #import "SpecialView.h"
 #import "TransitionView.h"
+#import "AppController.h"
 
 // TODO (2004-03-23): Implement copy/paste of equations, transitions, special transitions.  Original code didn't copy groups.
 
@@ -455,7 +456,7 @@
 
 - (IBAction)editTransition:(id)sender;
 {
-    [[NSApp delegate] editTransition:[self selectedTransition]];
+    [(AppController *)[NSApp delegate] editTransition:[self selectedTransition]];
 }
 
 #pragma mark - Special Transitions
@@ -521,7 +522,7 @@
 
 - (IBAction)editSpecialTransition:(id)sender;
 {
-    [[NSApp delegate] editSpecialTransition:[self selectedSpecialTransition]];
+    [(AppController *)[NSApp delegate] editSpecialTransition:[self selectedSpecialTransition]];
 }
 
 #pragma mark - NSOutlineViewDataSource
