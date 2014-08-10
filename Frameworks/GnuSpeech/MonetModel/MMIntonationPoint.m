@@ -36,6 +36,35 @@
     return self;
 }
 
+- (id)initWithXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    if ((self = [super init])) {
+        _eventList = nil;
+
+        _semitone = 0.0;
+        _offsetTime = 0.0;
+        _slope = 0.0;
+        _ruleIndex = 0;
+
+        NSString *value;
+
+        value = [[element attributeForName:@"offset-time"] stringValue];
+        _offsetTime = (value != nil) ? [value doubleValue] : 0;
+
+        value = [[element attributeForName:@"semitone"] stringValue];
+        _semitone = (value != nil) ? [value doubleValue] : 0;
+
+        value = [[element attributeForName:@"slope"] stringValue];
+        _slope = (value != nil) ? [value doubleValue] : 0;
+
+        value = [[element attributeForName:@"rule-index"] stringValue];
+        _ruleIndex = (value != nil) ? [value intValue] : 0;
+
+    }
+
+    return self;
+}
+
 #pragma mark - Debugging
 
 // TODO (2012-04-23): Separate this archiving description from a debugging description
@@ -174,38 +203,5 @@
     [resultString appendFormat:@"<intonation-point offset-time=\"%g\" semitone=\"%g\" slope=\"%g\" rule-index=\"%lu\"/>\n",
                   self.offsetTime, self.semitone, self.slope, self.ruleIndex];
 }
-
-#if 0
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
-{
-    if ((self = [self init])) {
-        NSString *value;
-        
-        value = [attributes objectForKey:@"offset-time"];
-        if (value != nil) self.offsetTime = [value doubleValue];
-        
-        value = [attributes objectForKey:@"semitone"];
-        if (value != nil) self.semitone = [value doubleValue];
-        
-        value = [attributes objectForKey:@"slope"];
-        if (value != nil) self.slope = [value doubleValue];
-        
-        value = [attributes objectForKey:@"rule-index"];
-        if (value != nil) self.ruleIndex = [value intValue];
-    }
-
-    return self;
-}
-
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-{
-    [(MXMLParser *)parser skipTree];
-}
-
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
-{
-    [(MXMLParser *)parser popDelegate];
-}
-#endif
 
 @end

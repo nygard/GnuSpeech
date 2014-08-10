@@ -9,6 +9,8 @@
 
 @interface MMIntonationPoint : NSObject
 
+- (id)initWithXMLElement:(NSXMLElement *)element error:(NSError **)error;
+
 @property (weak) EventList *eventList;
 
 @property (nonatomic, assign) double semitone;

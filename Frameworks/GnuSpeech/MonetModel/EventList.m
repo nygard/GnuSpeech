@@ -1419,31 +1419,33 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     return result;
 }
 
-#define PARSE_STATE_INITIAL 0
-#define PARSE_STATE_ROOT 1
-
 - (BOOL)loadIntonationContourFromXMLFile:(NSString *)filename;
 {
-    return NO;
-#if 0
-    _parseState = PARSE_STATE_INITIAL;
-
-    if (filename == nil)
-        return NO;
-    
     NSURL *fileURL = [NSURL fileURLWithPath:filename];
-    MXMLParser *parser = [[MXMLParser alloc] initWithContentsOfURL:fileURL];
-    [(MXMLParser *)parser setContext:self];
-    [parser pushDelegate:self];
-    [parser setShouldResolveExternalEntities:NO];
-    BOOL result = [parser parse];
-    if (result == NO) {
-        NSLog(@"Error: Failed to load file %@, (%@)", filename, [[parser parserError] localizedDescription]);
-        //NSRunAlertPanel(@"Error", @"Failed to load file %@, (%@)", @"OK", nil, nil, filename, [[parser parserError] localizedDescription]);
+    NSError *xmlError;
+    NSXMLDocument *xmlDocument = [[NSXMLDocument alloc] initWithContentsOfURL:fileURL options:0 error:&xmlError];
+    if (xmlDocument == nil) {
+        NSLog(@"%s, error loading xml doc: %@", __PRETTY_FUNCTION__, xmlError);
+        // TODO: (2014-08-09) Set error.
+        return NO;
     }
 
-    return result;
-#endif
+    if (![@"intonation-contour" isEqualToString:[[xmlDocument rootElement] name]]) {
+        NSLog(@"Error: Not an intonation contour.");
+        return NO;
+    }
+
+    NSString *str = [[[[xmlDocument rootElement] elementsForName:@"utterance"] firstObject] stringValue];
+    [self loadStoredPhoneString:str];
+
+    NSXMLElement *element = [[[xmlDocument rootElement] elementsForName:@"intonation-points"] firstObject];
+    for (NSXMLElement *childElement in [element elementsForName:@"intonation-point"]) {
+        MMIntonationPoint *intonationPoint = [[MMIntonationPoint alloc] initWithXMLElement:childElement error:NULL];
+        if (intonationPoint != nil)
+            [self addIntonationPoint:intonationPoint];
+    }
+
+    return YES;
 }
 
 - (void)loadStoredPhoneString:(NSString *)str;
@@ -1452,37 +1454,5 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     [self applyRhythm];
     [self applyRules];
 }
-
-#if 0
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributes;
-{
-    if (_parseState == PARSE_STATE_INITIAL) {
-        if ([elementName isEqualToString:@"intonation-contour"]) {
-            _parseState = PARSE_STATE_ROOT;
-        }
-    } else if (_parseState == PARSE_STATE_ROOT) {
-        if ([elementName isEqualToString:@"utterance"]) {
-            MXMLPCDataDelegate *newDelegate;
-
-            newDelegate = [[MXMLPCDataDelegate alloc] initWithElementName:elementName delegate:self setSelector:@selector(loadStoredPhoneString:)];
-            [(MXMLParser *)parser pushDelegate:newDelegate];
-        } else if([elementName isEqualToString:@"intonation-points"]) {
-            MXMLArrayDelegate *newDelegate;
-
-            // TODO (2004-08-21): Perhaps not the most efficient, since a notification will go out each time an intonation point is added.  But good enough for now.
-            newDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"intonation-point" class:[MMIntonationPoint class] delegate:self addObjectSelector:@selector(addIntonationPoint:)];
-            [(MXMLParser *)parser pushDelegate:newDelegate];
-        } else {
-            NSLog(@"starting unknown element: '%@'", elementName);
-            [(MXMLParser *)parser skipTree];
-        }
-    }
-}
-
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
-{
-    _parseState = PARSE_STATE_INITIAL;
-}
-#endif
 
 @end
