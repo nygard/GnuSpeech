@@ -90,35 +90,4 @@
     }
 }
 
-#if 0
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
-{
-    if ((self = [super initWithXMLAttributes:attributes context:context])) {
-        id value;
-        
-        value = [attributes objectForKey:@"minimum"];
-        if (value != nil)
-            [self setMinimumValue:[value doubleValue]];
-        
-        value = [attributes objectForKey:@"maximum"];
-        if (value != nil)
-            [self setMaximumValue:[value doubleValue]];
-        
-        value = [attributes objectForKey:@"default"];
-        if (value != nil)
-            [self setDefaultValue:[value doubleValue]];
-    }
-
-    return self;
-}
-
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
-{
-    if ([elementName isEqualToString:@"parameter"])
-        [(MXMLParser *)parser popDelegate];
-    else
-        [NSException raise:@"Unknown close tag" format:@"Unknown closing tag (%@) in %@", elementName, NSStringFromClass([self class])];
-}
-#endif
-
 @end

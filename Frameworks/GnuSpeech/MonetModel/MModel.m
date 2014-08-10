@@ -91,6 +91,7 @@
         if (![self _loadMetaParametersFromXMLElement:    [[element elementsForName:@"meta-parameters"] firstObject]     error:error]) return nil;
         NSLog(@"meta parameters: %@", _metaParameters);
         if (![self _loadSymbolsFromXMLElement:           [[element elementsForName:@"symbols"] firstObject]             error:error]) return nil;
+        NSLog(@"symbols: %@", _symbols);
         if (![self _loadPosturesFromXMLElement:          [[element elementsForName:@"postures"] firstObject]            error:error]) return nil;
         if (![self _loadEquationsFromXMLElement:         [[element elementsForName:@"equations"] firstObject]           error:error]) return nil;
         if (![self _loadTransitionsFromXMLElement:       [[element elementsForName:@"transitions"] firstObject]         error:error]) return nil;
@@ -146,6 +147,9 @@
     NSParameterAssert([@"symbols" isEqualToString:element.name]);
 
     for (NSXMLElement *childElement in [element elementsForName:@"symbol"]) {
+        MMSymbol *symbol = [[MMSymbol alloc] initWithXMLElement:childElement error:error];
+        if (symbol != nil)
+            [self addSymbol:symbol];
     }
     
     return YES;
