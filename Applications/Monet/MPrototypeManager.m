@@ -16,44 +16,44 @@
 
 @implementation MPrototypeManager
 {
-    IBOutlet NSOutlineView *equationOutlineView;
-    IBOutlet NSButtonCell *addEquationButtonCell;
-    IBOutlet NSButtonCell *removeEquationButtonCell;
-    IBOutlet NSTextView *equationTextView;
-    IBOutlet NSTextView *equationParserMessagesTextView;
-    IBOutlet NSTextView *equationCommentTextView;
-    
-    IBOutlet NSOutlineView *transitionOutlineView;
-    IBOutlet NSButtonCell *addTransitionButtonCell;
-    IBOutlet NSButtonCell *removeTransitionButtonCell;
-    IBOutlet TransitionView *miniTransitionView;
-    IBOutlet NSTextView *transitionCommentTextView;
-    
-    IBOutlet NSOutlineView *specialTransitionOutlineView;
-    IBOutlet NSButtonCell *addSpecialTransitionButtonCell;
-    IBOutlet NSButtonCell *removeSpecialTransitionButtonCell;
-    IBOutlet SpecialView *miniSpecialTransitionView;
-    IBOutlet NSTextView *specialTransitionCommentTextView;
-    
-    MModel *model;
-    
-    MMFormulaParser *formulaParser;
-    
-    NSMutableDictionary *cachedEquationUsage;
-    NSMutableDictionary *cachedTransitionUsage;
-    //NSMutableDictionary *cachedSpecialTransitionUsage;
+    IBOutlet NSOutlineView *_equationOutlineView;
+    IBOutlet NSButtonCell *_addEquationButtonCell;
+    IBOutlet NSButtonCell *_removeEquationButtonCell;
+    IBOutlet NSTextView *_equationTextView;
+    IBOutlet NSTextView *_equationParserMessagesTextView;
+    IBOutlet NSTextView *_equationCommentTextView;
+
+    IBOutlet NSOutlineView *_transitionOutlineView;
+    IBOutlet NSButtonCell *_addTransitionButtonCell;
+    IBOutlet NSButtonCell *_removeTransitionButtonCell;
+    IBOutlet TransitionView *_miniTransitionView;
+    IBOutlet NSTextView *_transitionCommentTextView;
+
+    IBOutlet NSOutlineView *_specialTransitionOutlineView;
+    IBOutlet NSButtonCell *_addSpecialTransitionButtonCell;
+    IBOutlet NSButtonCell *_removeSpecialTransitionButtonCell;
+    IBOutlet SpecialView *_miniSpecialTransitionView;
+    IBOutlet NSTextView *_specialTransitionCommentTextView;
+
+    MModel *_model;
+
+    MMFormulaParser *_formulaParser;
+
+    NSMutableDictionary *_cachedEquationUsage;
+    NSMutableDictionary *_cachedTransitionUsage;
+    //NSMutableDictionary *_cachedSpecialTransitionUsage;
 }
 
 - (id)initWithModel:(MModel *)aModel;
 {
     if ((self = [super initWithWindowNibName:@"PrototypeManager"])) {
-        model = aModel;
-        formulaParser = [[MMFormulaParser alloc] initWithModel:model];
+        _model = aModel;
+        _formulaParser = [[MMFormulaParser alloc] initWithModel:_model];
         
         [self setWindowFrameAutosaveName:@"Prototype Manager"];
         
-        cachedEquationUsage = [[NSMutableDictionary alloc] init];
-        cachedTransitionUsage = [[NSMutableDictionary alloc] init];
+        _cachedEquationUsage = [[NSMutableDictionary alloc] init];
+        _cachedTransitionUsage = [[NSMutableDictionary alloc] init];
         //cachedSpecialTransitionUsage = [[NSMutableDictionary alloc] init];
     }
 
@@ -62,19 +62,19 @@
 
 - (MModel *)model;
 {
-    return model;
+    return _model;
 }
 
 - (void)setModel:(MModel *)newModel;
 {
-    if (newModel == model)
+    if (newModel == _model)
         return;
 
-    model = newModel;
+    _model = newModel;
 
-    [formulaParser setModel:model];
-    [miniTransitionView setModel:model];
-    [miniSpecialTransitionView setModel:model];
+    [_formulaParser setModel:_model];
+    [_miniTransitionView setModel:_model];
+    [_miniSpecialTransitionView setModel:_model];
 
     [self updateViews];
     [self expandOutlines];
@@ -96,34 +96,34 @@
     [checkboxCell setImagePosition:NSImageOnly];
     [checkboxCell setEditable:NO];
 
-    [[equationOutlineView tableColumnWithIdentifier:@"isUsed"] setDataCell:checkboxCell];
-    [[transitionOutlineView tableColumnWithIdentifier:@"isUsed"] setDataCell:checkboxCell];
-    [[specialTransitionOutlineView tableColumnWithIdentifier:@"isUsed"] setDataCell:checkboxCell];
+    [[_equationOutlineView tableColumnWithIdentifier:@"isUsed"] setDataCell:checkboxCell];
+    [[_transitionOutlineView tableColumnWithIdentifier:@"isUsed"] setDataCell:checkboxCell];
+    [[_specialTransitionOutlineView tableColumnWithIdentifier:@"isUsed"] setDataCell:checkboxCell];
 
     commentImageCell = [[MCommentCell alloc] initImageCell:nil];
     [commentImageCell setImageAlignment:NSImageAlignCenter];
-    [[equationOutlineView tableColumnWithIdentifier:@"hasComment"] setDataCell:commentImageCell];
-    [[transitionOutlineView tableColumnWithIdentifier:@"hasComment"] setDataCell:commentImageCell];
-    [[specialTransitionOutlineView tableColumnWithIdentifier:@"hasComment"] setDataCell:commentImageCell];
+    [[_equationOutlineView tableColumnWithIdentifier:@"hasComment"] setDataCell:commentImageCell];
+    [[_transitionOutlineView tableColumnWithIdentifier:@"hasComment"] setDataCell:commentImageCell];
+    [[_specialTransitionOutlineView tableColumnWithIdentifier:@"hasComment"] setDataCell:commentImageCell];
 
-    [equationOutlineView moveColumn:[equationOutlineView columnWithIdentifier:@"hasComment"] toColumn:0];
-    [transitionOutlineView moveColumn:[transitionOutlineView columnWithIdentifier:@"hasComment"] toColumn:0];
-    [specialTransitionOutlineView moveColumn:[specialTransitionOutlineView columnWithIdentifier:@"hasComment"] toColumn:0];
+    [_equationOutlineView moveColumn:[_equationOutlineView columnWithIdentifier:@"hasComment"] toColumn:0];
+    [_transitionOutlineView moveColumn:[_transitionOutlineView columnWithIdentifier:@"hasComment"] toColumn:0];
+    [_specialTransitionOutlineView moveColumn:[_specialTransitionOutlineView columnWithIdentifier:@"hasComment"] toColumn:0];
 
-    [equationTextView setFieldEditor:YES];
-    [equationCommentTextView setFieldEditor:YES];
-    [transitionCommentTextView setFieldEditor:YES];
-    [specialTransitionCommentTextView setFieldEditor:YES];
+    [_equationTextView setFieldEditor:YES];
+    [_equationCommentTextView setFieldEditor:YES];
+    [_transitionCommentTextView setFieldEditor:YES];
+    [_specialTransitionCommentTextView setFieldEditor:YES];
 
-    [miniTransitionView setModel:model];
-    [miniSpecialTransitionView setModel:model];
+    [_miniTransitionView setModel:_model];
+    [_miniSpecialTransitionView setModel:_model];
 
     // We don't need to allow selection, adding points, editing slopes
-    [miniTransitionView setEnabled:NO];
-    [miniSpecialTransitionView setEnabled:NO];
+    [_miniTransitionView setEnabled:NO];
+    [_miniSpecialTransitionView setEnabled:NO];
 
-    [equationOutlineView setTarget:self];
-    [equationOutlineView setDoubleAction:@selector(doubleHit:)];
+    [_equationOutlineView setTarget:self];
+    [_equationOutlineView setDoubleAction:@selector(doubleHit:)];
 
     [self updateViews];
     [self expandOutlines];
@@ -132,9 +132,9 @@
 - (void)updateViews;
 {
     [self clearEquationUsageCache]; // TODO (2004-03-22): Not sure when I need to do this.
-    [equationOutlineView reloadData];
-    [transitionOutlineView reloadData];
-    [specialTransitionOutlineView reloadData];
+    [_equationOutlineView reloadData];
+    [_transitionOutlineView reloadData];
+    [_specialTransitionOutlineView reloadData];
 
     [self _updateEquationDetails];
     [self _updateTransitionDetails];
@@ -145,152 +145,152 @@
 {
     NSUInteger count, index;
 
-    count = [[model equationGroups] count];
+    count = [[_model equationGroups] count];
     for (index = 0; index < count; index++)
-        [equationOutlineView expandItem:[[model equationGroups] objectAtIndex:index]];
+        [_equationOutlineView expandItem:[[_model equationGroups] objectAtIndex:index]];
 
-    count = [[model transitionGroups] count];
+    count = [[_model transitionGroups] count];
     for (index = 0; index < count; index++)
-        [transitionOutlineView expandItem:[[model transitionGroups] objectAtIndex:index]];
+        [_transitionOutlineView expandItem:[[_model transitionGroups] objectAtIndex:index]];
 
-    count = [[model specialTransitionGroups] count];
+    count = [[_model specialTransitionGroups] count];
     for (index = 0; index < count; index++)
-        [specialTransitionOutlineView expandItem:[[model specialTransitionGroups] objectAtIndex:index]];
+        [_specialTransitionOutlineView expandItem:[[_model specialTransitionGroups] objectAtIndex:index]];
 
     //[equationOutlineView sizeToFit];
-    [transitionOutlineView sizeToFit];
-    [specialTransitionOutlineView sizeToFit];
+    [_transitionOutlineView sizeToFit];
+    [_specialTransitionOutlineView sizeToFit];
 }
 
 - (void)_updateEquationDetails;
 {
-    if ([equationOutlineView numberOfSelectedRows] == 1) {
+    if ([_equationOutlineView numberOfSelectedRows] == 1) {
         id selectedEquationOrGroup;
         NSString *comment;
 
-        selectedEquationOrGroup = [equationOutlineView itemAtRow:[equationOutlineView selectedRow]];
+        selectedEquationOrGroup = [_equationOutlineView itemAtRow:[_equationOutlineView selectedRow]];
         if ([selectedEquationOrGroup isKindOfClass:[NSString class]] == YES) {
-            [equationTextView setEditable:NO];
-            [equationTextView setString:@""];
-            [equationCommentTextView setEditable:NO];
-            [equationCommentTextView setString:@""];
+            [_equationTextView setEditable:NO];
+            [_equationTextView setString:@""];
+            [_equationCommentTextView setEditable:NO];
+            [_equationCommentTextView setString:@""];
 
-            [addEquationButtonCell setEnabled:NO];
-            [removeEquationButtonCell setEnabled:NO];
+            [_addEquationButtonCell setEnabled:NO];
+            [_removeEquationButtonCell setEnabled:NO];
         } else {
-            [equationCommentTextView setEditable:YES];
+            [_equationCommentTextView setEditable:YES];
             comment = [selectedEquationOrGroup comment];
             if (comment == nil)
                 comment = @"";
-            [equationCommentTextView setString:comment];
-            [addEquationButtonCell setEnabled:YES];
-            [removeEquationButtonCell setEnabled:YES];
+            [_equationCommentTextView setString:comment];
+            [_addEquationButtonCell setEnabled:YES];
+            [_removeEquationButtonCell setEnabled:YES];
         }
 
         if ([selectedEquationOrGroup isKindOfClass:[MMEquation class]] == YES) {
             NSString *expressionString;
 
-            [equationTextView setEditable:YES];
+            [_equationTextView setEditable:YES];
             expressionString = [[selectedEquationOrGroup formula] expressionString];
             if (expressionString == nil)
                 expressionString = @"";
-            [equationTextView setString:expressionString];
+            [_equationTextView setString:expressionString];
         } else {
-            [equationTextView setEditable:NO];
-            [equationTextView setString:@""];
+            [_equationTextView setEditable:NO];
+            [_equationTextView setString:@""];
         }
 
-        [equationParserMessagesTextView setString:@""];
+        [_equationParserMessagesTextView setString:@""];
     } else {
-        [equationTextView setEditable:NO];
-        [equationTextView setString:@""];
-        [equationCommentTextView setEditable:NO];
-        [equationCommentTextView setString:@""];
+        [_equationTextView setEditable:NO];
+        [_equationTextView setString:@""];
+        [_equationCommentTextView setEditable:NO];
+        [_equationCommentTextView setString:@""];
 
-        [addEquationButtonCell setEnabled:NO];
-        [removeEquationButtonCell setEnabled:NO];
+        [_addEquationButtonCell setEnabled:NO];
+        [_removeEquationButtonCell setEnabled:NO];
     }
 }
 
 - (void)_updateTransitionDetails;
 {
-    if ([transitionOutlineView numberOfSelectedRows] == 1) {
+    if ([_transitionOutlineView numberOfSelectedRows] == 1) {
         id selectedTransitionOrGroup;
         NSString *comment;
 
-        selectedTransitionOrGroup = [transitionOutlineView itemAtRow:[transitionOutlineView selectedRow]];
+        selectedTransitionOrGroup = [_transitionOutlineView itemAtRow:[_transitionOutlineView selectedRow]];
         if ([selectedTransitionOrGroup isKindOfClass:[NSString class]] == YES) {
-            [transitionCommentTextView setEditable:NO];
-            [transitionCommentTextView setString:@""];
-            [addTransitionButtonCell setEnabled:NO];
-            [removeTransitionButtonCell setEnabled:NO];
+            [_transitionCommentTextView setEditable:NO];
+            [_transitionCommentTextView setString:@""];
+            [_addTransitionButtonCell setEnabled:NO];
+            [_removeTransitionButtonCell setEnabled:NO];
         } else {
-            [transitionCommentTextView setEditable:YES];
+            [_transitionCommentTextView setEditable:YES];
             comment = [selectedTransitionOrGroup comment];
             if (comment == nil)
                 comment = @"";
-            [transitionCommentTextView setString:comment];
-            [addTransitionButtonCell setEnabled:YES];
-            [removeTransitionButtonCell setEnabled:YES];
+            [_transitionCommentTextView setString:comment];
+            [_addTransitionButtonCell setEnabled:YES];
+            [_removeTransitionButtonCell setEnabled:YES];
         }
 
-        [miniTransitionView setTransition:[self selectedTransition]];
+        [_miniTransitionView setTransition:[self selectedTransition]];
     } else {
-        [transitionCommentTextView setEditable:NO];
-        [transitionCommentTextView setString:@""];
-        [addTransitionButtonCell setEnabled:NO];
-        [removeTransitionButtonCell setEnabled:NO];
+        [_transitionCommentTextView setEditable:NO];
+        [_transitionCommentTextView setString:@""];
+        [_addTransitionButtonCell setEnabled:NO];
+        [_removeTransitionButtonCell setEnabled:NO];
 
-        [miniTransitionView setTransition:nil];
+        [_miniTransitionView setTransition:nil];
     }
 }
 
 - (void)_updateSpecialTransitionDetails;
 {
-    if ([specialTransitionOutlineView numberOfSelectedRows] == 1) {
+    if ([_specialTransitionOutlineView numberOfSelectedRows] == 1) {
         id selectedSpecialTransitionOrGroup;
         NSString *comment;
 
-        selectedSpecialTransitionOrGroup = [specialTransitionOutlineView itemAtRow:[specialTransitionOutlineView selectedRow]];
+        selectedSpecialTransitionOrGroup = [_specialTransitionOutlineView itemAtRow:[_specialTransitionOutlineView selectedRow]];
         if ([selectedSpecialTransitionOrGroup isKindOfClass:[NSString class]] == YES) {
-            [specialTransitionCommentTextView setEditable:NO];
-            [specialTransitionCommentTextView setString:@""];
-            [addSpecialTransitionButtonCell setEnabled:NO];
-            [removeSpecialTransitionButtonCell setEnabled:NO];
+            [_specialTransitionCommentTextView setEditable:NO];
+            [_specialTransitionCommentTextView setString:@""];
+            [_addSpecialTransitionButtonCell setEnabled:NO];
+            [_removeSpecialTransitionButtonCell setEnabled:NO];
         } else {
-            [specialTransitionCommentTextView setEditable:YES];
+            [_specialTransitionCommentTextView setEditable:YES];
             comment = [selectedSpecialTransitionOrGroup comment];
             if (comment == nil)
                 comment = @"";
-            [specialTransitionCommentTextView setString:comment];
-            [addSpecialTransitionButtonCell setEnabled:YES];
-            [removeSpecialTransitionButtonCell setEnabled:YES];
+            [_specialTransitionCommentTextView setString:comment];
+            [_addSpecialTransitionButtonCell setEnabled:YES];
+            [_removeSpecialTransitionButtonCell setEnabled:YES];
         }
 
-        [miniSpecialTransitionView setTransition:[self selectedSpecialTransition]];
+        [_miniSpecialTransitionView setTransition:[self selectedSpecialTransition]];
     } else {
-        [specialTransitionCommentTextView setEditable:NO];
-        [specialTransitionCommentTextView setString:@""];
-        [addSpecialTransitionButtonCell setEnabled:NO];
-        [removeSpecialTransitionButtonCell setEnabled:NO];
+        [_specialTransitionCommentTextView setEditable:NO];
+        [_specialTransitionCommentTextView setString:@""];
+        [_addSpecialTransitionButtonCell setEnabled:NO];
+        [_removeSpecialTransitionButtonCell setEnabled:NO];
 
-        [miniSpecialTransitionView setTransition:nil];
+        [_miniSpecialTransitionView setTransition:nil];
     }
 }
 
 - (MMEquation *)selectedEquation;
 {
-    return [equationOutlineView selectedItemOfClass:[MMEquation class]];
+    return [_equationOutlineView selectedItemOfClass:[MMEquation class]];
 }
 
 - (MMTransition *)selectedTransition;
 {
-    return [transitionOutlineView selectedItemOfClass:[MMTransition class]];
+    return [_transitionOutlineView selectedItemOfClass:[MMTransition class]];
 }
 
 - (MMTransition *)selectedSpecialTransition;
 {
-    return [specialTransitionOutlineView selectedItemOfClass:[MMTransition class]];
+    return [_specialTransitionOutlineView selectedItemOfClass:[MMTransition class]];
 }
 
 #pragma mark - Equations
@@ -306,12 +306,12 @@
 
     [self updateViews];
 
-    index = [equationOutlineView rowForItem:newGroup];
-    [equationOutlineView expandItem:newGroup];
+    index = [_equationOutlineView rowForItem:newGroup];
+    [_equationOutlineView expandItem:newGroup];
 
     // The row needs to be selected before we start editing it.
-    [equationOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
-    [equationOutlineView editColumn:[equationOutlineView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
+    [_equationOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
+    [_equationOutlineView editColumn:[_equationOutlineView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
 }
 
 - (IBAction)addEquation:(id)sender;
@@ -319,7 +319,7 @@
     id selectedItem;
     MMGroup *targetGroup;
 
-    selectedItem = [equationOutlineView selectedItem];
+    selectedItem = [_equationOutlineView selectedItem];
     if ([selectedItem isKindOfClass:[MMGroup class]] == YES) {
         targetGroup = selectedItem;
     } else if ([selectedItem isKindOfClass:[MMEquation class]] == YES) {
@@ -335,13 +335,13 @@
         newEquation = [[MMEquation alloc] init];
         newEquation.name = @"Untitled";
         [targetGroup addObject:newEquation];
-        [equationOutlineView reloadItem:targetGroup reloadChildren:YES];
+        [_equationOutlineView reloadItem:targetGroup reloadChildren:YES];
 
-        index = [equationOutlineView rowForItem:newEquation];
+        index = [_equationOutlineView rowForItem:newEquation];
 
         // The row needs to be selected before we start editing it.
-        [equationOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
-        [equationOutlineView editColumn:[equationOutlineView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
+        [_equationOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
+        [_equationOutlineView editColumn:[_equationOutlineView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
     }
 }
 
@@ -356,16 +356,16 @@
     MMFormulaExpression *result;
     NSString *str;
 
-    result = [formulaParser parseString:[equationTextView string]];
+    result = [_formulaParser parseString:[_equationTextView string]];
 
-    str = [formulaParser errorMessage];
+    str = [_formulaParser errorMessage];
     if ([str length] == 0)
         str = @"Equation parsed.";
-    [equationParserMessagesTextView setString:str];
+    [_equationParserMessagesTextView setString:str];
 
     if (result == nil) {
-        [equationTextView setSelectedRange:[formulaParser errorRange]];
-        [[self window] makeFirstResponder:equationTextView];
+        [_equationTextView setSelectedRange:[_formulaParser errorRange]];
+        [[self window] makeFirstResponder:_equationTextView];
     } else {
         [[self selectedEquation] setFormula:result];
     }
@@ -389,12 +389,12 @@
 
     [self updateViews];
 
-    index = [transitionOutlineView rowForItem:newGroup];
-    [transitionOutlineView expandItem:newGroup];
+    index = [_transitionOutlineView rowForItem:newGroup];
+    [_transitionOutlineView expandItem:newGroup];
 
     // The row needs to be selected before we start editing it.
-    [transitionOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
-    [transitionOutlineView editColumn:[transitionOutlineView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
+    [_transitionOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
+    [_transitionOutlineView editColumn:[_transitionOutlineView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
 }
 
 - (IBAction)addTransition:(id)sender;
@@ -402,7 +402,7 @@
     id selectedItem;
     MMGroup *targetGroup;
 
-    selectedItem = [transitionOutlineView selectedItem];
+    selectedItem = [_transitionOutlineView selectedItem];
     if ([selectedItem isKindOfClass:[MMGroup class]] == YES) {
         targetGroup = selectedItem;
     } else if ([selectedItem isKindOfClass:[MMTransition class]] == YES) {
@@ -419,13 +419,13 @@
         newTransition.name = @"Untitled";
         [newTransition addInitialPoint];
         [targetGroup addObject:newTransition];
-        [transitionOutlineView reloadItem:targetGroup reloadChildren:YES];
+        [_transitionOutlineView reloadItem:targetGroup reloadChildren:YES];
 
-        index = [transitionOutlineView rowForItem:newTransition];
+        index = [_transitionOutlineView rowForItem:newTransition];
 
         // The row needs to be selected before we start editing it.
-        [transitionOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
-        [transitionOutlineView editColumn:[transitionOutlineView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
+        [_transitionOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
+        [_transitionOutlineView editColumn:[_transitionOutlineView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
     }
 }
 
@@ -453,12 +453,12 @@
 
     [self updateViews];
 
-    index = [specialTransitionOutlineView rowForItem:newGroup];
-    [specialTransitionOutlineView expandItem:newGroup];
+    index = [_specialTransitionOutlineView rowForItem:newGroup];
+    [_specialTransitionOutlineView expandItem:newGroup];
 
     // The row needs to be selected before we start editing it.
-    [specialTransitionOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
-    [specialTransitionOutlineView editColumn:[specialTransitionOutlineView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
+    [_specialTransitionOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
+    [_specialTransitionOutlineView editColumn:[_specialTransitionOutlineView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
 }
 
 - (IBAction)addSpecialTransition:(id)sender;
@@ -466,7 +466,7 @@
     id selectedItem;
     MMGroup *targetGroup;
 
-    selectedItem = [specialTransitionOutlineView selectedItem];
+    selectedItem = [_specialTransitionOutlineView selectedItem];
     if ([selectedItem isKindOfClass:[MMGroup class]] == YES) {
         targetGroup = selectedItem;
     } else if ([selectedItem isKindOfClass:[MMTransition class]] == YES) {
@@ -483,13 +483,13 @@
         newTransition.name = @"Untitled";
         [newTransition addInitialPoint];
         [targetGroup addObject:newTransition];
-        [specialTransitionOutlineView reloadItem:targetGroup reloadChildren:YES];
+        [_specialTransitionOutlineView reloadItem:targetGroup reloadChildren:YES];
 
-        index = [specialTransitionOutlineView rowForItem:newTransition];
+        index = [_specialTransitionOutlineView rowForItem:newTransition];
 
         // The row needs to be selected before we start editing it.
-        [specialTransitionOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
-        [specialTransitionOutlineView editColumn:[specialTransitionOutlineView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
+        [_specialTransitionOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
+        [_specialTransitionOutlineView editColumn:[_specialTransitionOutlineView columnWithIdentifier:@"name"] row:index withEvent:nil select:YES];
     }
 }
 
@@ -509,27 +509,27 @@
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item;
 {
    // NSLog(@"-> %s, item: %p", __PRETTY_FUNCTION__, item);
-    if (outlineView == equationOutlineView) {
+    if (outlineView == _equationOutlineView) {
         if (item == nil)
-            return [[model equationGroups] count];
+            return [[_model equationGroups] count];
         else if ([item isKindOfClass:[MMEquation class]])
             return [[self usageOfEquation:item] count];
         else {
             MMGroup *group = item;
             return [group.objects count];
         }
-    } else if (outlineView == transitionOutlineView) {
+    } else if (outlineView == _transitionOutlineView) {
         if (item == nil)
-            return [[model transitionGroups] count];
+            return [[_model transitionGroups] count];
         else if ([item isKindOfClass:[MMTransition class]])
             return [[self usageOfTransition:item] count];
         else {
             MMGroup *group = item;
             return [group.objects count];
         }
-    } else if (outlineView == specialTransitionOutlineView) {
+    } else if (outlineView == _specialTransitionOutlineView) {
         if (item == nil)
-            return [[model specialTransitionGroups] count];
+            return [[_model specialTransitionGroups] count];
         else if ([item isKindOfClass:[MMTransition class]])
             return [[self usageOfTransition:item] count];
         else {
@@ -543,27 +543,27 @@
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item;
 {
-    if (outlineView == equationOutlineView) {
+    if (outlineView == _equationOutlineView) {
         if (item == nil)
-            return [[model equationGroups] objectAtIndex:index];
+            return [[_model equationGroups] objectAtIndex:index];
         else if ([item isKindOfClass:[MMEquation class]] == YES)
             return [[self usageOfEquation:item] objectAtIndex:index];
         else {
             MMGroup *group = item;
             return [group.objects objectAtIndex:index];
         }
-    } else if (outlineView == transitionOutlineView) {
+    } else if (outlineView == _transitionOutlineView) {
         if (item == nil)
-            return [[model transitionGroups] objectAtIndex:index];
+            return [[_model transitionGroups] objectAtIndex:index];
         else if ([item isKindOfClass:[MMTransition class]] == YES)
             return [[self usageOfTransition:item] objectAtIndex:index];
         else {
             MMGroup *group = item;
             return [group.objects objectAtIndex:index];
         }
-    } else if (outlineView == specialTransitionOutlineView) {
+    } else if (outlineView == _specialTransitionOutlineView) {
         if (item == nil)
-            return [[model specialTransitionGroups] objectAtIndex:index];
+            return [[_model specialTransitionGroups] objectAtIndex:index];
         else if ([item isKindOfClass:[MMTransition class]] == YES)
             return [[self usageOfTransition:item] objectAtIndex:index];
         else {
@@ -577,11 +577,11 @@
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item;
 {
-    if (outlineView == equationOutlineView) {
+    if (outlineView == _equationOutlineView) {
         return [item isKindOfClass:[MMGroup class]] || ([item isKindOfClass:[MMEquation class]] && [self isEquationUsed:item]);
-    } else if (outlineView == transitionOutlineView) {
+    } else if (outlineView == _transitionOutlineView) {
         return [item isKindOfClass:[MMGroup class]] || ([item isKindOfClass:[MMTransition class]] && [self isTransitionUsed:item]);
-    } else if (outlineView == specialTransitionOutlineView) {
+    } else if (outlineView == _specialTransitionOutlineView) {
         return [item isKindOfClass:[MMGroup class]] || ([item isKindOfClass:[MMTransition class]] && [self isTransitionUsed:item]);
     }
 
@@ -595,7 +595,7 @@
     identifier = [tableColumn identifier];
     //NSLog(@"identifier: %@, item: %p, item class: %@", identifier, item, NSStringFromClass([item class]));
 
-    if (outlineView == equationOutlineView) {
+    if (outlineView == _equationOutlineView) {
         if ([item isKindOfClass:[NSString class]] == YES) {
             if ([@"name" isEqual:identifier] == YES)
                 return item;
@@ -609,7 +609,7 @@
             if ([item isKindOfClass:[MMEquation class]] == YES)
                 return [NSNumber numberWithBool:[self isEquationUsed:item]];
         }
-    } else if (outlineView == transitionOutlineView) {
+    } else if (outlineView == _transitionOutlineView) {
         if ([item isKindOfClass:[NSString class]] == YES) {
             if ([@"name" isEqual:identifier] == YES)
                 return item;
@@ -623,7 +623,7 @@
             if ([item isKindOfClass:[MMTransition class]] == YES)
                 return [NSNumber numberWithBool:[self isTransitionUsed:item]];
         }
-    } else if (outlineView == specialTransitionOutlineView) {
+    } else if (outlineView == _specialTransitionOutlineView) {
         if ([item isKindOfClass:[NSString class]] == YES) {
             if ([@"name" isEqual:identifier] == YES)
                 return item;
@@ -653,14 +653,14 @@
 
     identifier = [tableColumn identifier];
 
-    if (outlineView == equationOutlineView) {
+    if (outlineView == _equationOutlineView) {
         if ([@"isUsed" isEqual:identifier] == YES) {
             if ([item isKindOfClass:[MMEquation class]] == YES)
                 [cell setTransparent:NO];
             else
                 [cell setTransparent:YES];
         }
-    } else if (outlineView == transitionOutlineView || outlineView == specialTransitionOutlineView) {
+    } else if (outlineView == _transitionOutlineView || outlineView == _specialTransitionOutlineView) {
         if ([@"isUsed" isEqual:identifier] == YES) {
             if ([item isKindOfClass:[MMTransition class]] == YES)
                 [cell setTransparent:NO];
@@ -676,12 +676,12 @@
 
     identifier = [tableColumn identifier];
 
-    if (outlineView == equationOutlineView) {
+    if (outlineView == _equationOutlineView) {
         if ([@"name" isEqual:identifier] == YES) {
             if ([item respondsToSelector:@selector(setName:)] == YES)
                 [(MMEquation *)item setName:object];
         }
-    } else if (outlineView == transitionOutlineView || outlineView == specialTransitionOutlineView) {
+    } else if (outlineView == _transitionOutlineView || outlineView == _specialTransitionOutlineView) {
         if ([@"name" isEqual:identifier] == YES) {
             if ([item respondsToSelector:@selector(setName:)] == YES)
                 [(MMTransition *)item setName:object];
@@ -697,11 +697,11 @@
 
     outlineView = [aNotification object];
 
-    if (outlineView == equationOutlineView) {
+    if (outlineView == _equationOutlineView) {
         [self _updateEquationDetails];
-    } else if (outlineView == transitionOutlineView) {
+    } else if (outlineView == _transitionOutlineView) {
         [self _updateTransitionDetails];
-    } else if (outlineView == specialTransitionOutlineView) {
+    } else if (outlineView == _specialTransitionOutlineView) {
         [self _updateSpecialTransitionDetails];
     }
 }
@@ -714,12 +714,12 @@
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldExpandItem:(id)item;
 {
     // This is just a crummy hack.  We really need notification when things that use equations change, so we can recache.
-    if (outlineView == equationOutlineView) {
+    if (outlineView == _equationOutlineView) {
         if ([item isKindOfClass:[MMEquation class]] == YES) {
             NSArray *usage;
 
             usage = [self usageOfEquation:item recache:YES];
-            [equationOutlineView reloadItem:item reloadChildren:YES];
+            [_equationOutlineView reloadItem:item reloadChildren:YES];
             if ([usage count] == 0)
                 return NO;
         }
@@ -738,7 +738,7 @@
     // NSTextMovement is a key in the user info
     //NSLog(@"[aNotification userInfo]: %@", [aNotification userInfo]);
 
-    if (textView == equationTextView) {
+    if (textView == _equationTextView) {
         [self setEquation:nil];
     } else {
         NSString *newStringValue;
@@ -752,24 +752,24 @@
         }
         //NSLog(@"(2) newStringValue: %@", newStringValue);
 
-        if (textView == equationCommentTextView) {
-            selectedItem = [equationOutlineView selectedItem];
+        if (textView == _equationCommentTextView) {
+            selectedItem = [_equationOutlineView selectedItem];
             if ([selectedItem respondsToSelector:@selector(setComment:)] == YES) {
                 [selectedItem setComment:newStringValue];
                 // TODO (2004-03-18): Bleck.  Need notification from model that things have changed.
-                [equationOutlineView reloadItem:selectedItem]; // To show note icon
+                [_equationOutlineView reloadItem:selectedItem]; // To show note icon
             }
-        } else if (textView == transitionCommentTextView) {
-            selectedItem = [transitionOutlineView selectedItem];
+        } else if (textView == _transitionCommentTextView) {
+            selectedItem = [_transitionOutlineView selectedItem];
             if ([selectedItem respondsToSelector:@selector(setComment:)] == YES) {
                 [selectedItem setComment:newStringValue];
-                [transitionOutlineView reloadItem:selectedItem]; // To show note icon
+                [_transitionOutlineView reloadItem:selectedItem]; // To show note icon
             }
-        } else if (textView == specialTransitionCommentTextView) {
-            selectedItem = [specialTransitionOutlineView selectedItem];
+        } else if (textView == _specialTransitionCommentTextView) {
+            selectedItem = [_specialTransitionOutlineView selectedItem];
             if ([selectedItem respondsToSelector:@selector(setComment:)] == YES) {
                 [selectedItem setComment:newStringValue];
-                [specialTransitionOutlineView reloadItem:selectedItem]; // To show note icon
+                [_specialTransitionOutlineView reloadItem:selectedItem]; // To show note icon
             }
         }
     }
@@ -779,7 +779,7 @@
 
 - (void)clearEquationUsageCache;
 {
-    [cachedEquationUsage removeAllObjects];
+    [_cachedEquationUsage removeAllObjects];
 }
 
 - (NSArray *)usageOfEquation:(MMEquation *)anEquation;
@@ -794,12 +794,12 @@
 
     key = [anEquation equationPath];
     if (shouldRecache == YES)
-        [cachedEquationUsage removeObjectForKey:key];
+        [_cachedEquationUsage removeObjectForKey:key];
 
-    usage = [cachedEquationUsage objectForKey:key];
+    usage = [_cachedEquationUsage objectForKey:key];
     if (usage == nil) {
         usage = [[self model] usageOfEquation:anEquation];
-        [cachedEquationUsage setObject:usage forKey:key];
+        [_cachedEquationUsage setObject:usage forKey:key];
     }
 
     return usage;
@@ -814,7 +814,7 @@
 
 - (void)clearTransitionUsageCache;
 {
-    [cachedTransitionUsage removeAllObjects];
+    [_cachedTransitionUsage removeAllObjects];
 }
 
 - (NSArray *)usageOfTransition:(MMTransition *)aTransition;
@@ -830,12 +830,12 @@
 
     key = [aTransition transitionPath];
     if (shouldRecache == YES)
-        [cachedTransitionUsage removeObjectForKey:key];
+        [_cachedTransitionUsage removeObjectForKey:key];
 
-    usage = [cachedTransitionUsage objectForKey:key];
+    usage = [_cachedTransitionUsage objectForKey:key];
     if (usage == nil) {
         usage = [[self model] usageOfTransition:aTransition];
-        [cachedTransitionUsage setObject:usage forKey:key];
+        [_cachedTransitionUsage setObject:usage forKey:key];
     }
 
     return usage;

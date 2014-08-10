@@ -28,8 +28,7 @@ extern NSString *MAIntonationViewSelectionDidChangeNotification;
 - (BOOL)shouldDrawSmoothPoints;
 - (void)setShouldDrawSmoothPoints:(BOOL)newFlag;
 
-- (id)delegate;
-- (void)setDelegate:(id)newDelegate;
+@property (weak) id delegate;
 
 - (CGFloat)minimumWidth;
 - (void)resizeWithOldSuperviewSize:(NSSize)oldSize;

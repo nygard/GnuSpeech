@@ -7,15 +7,15 @@
 
 @implementation MPostureCategoryController
 {
-    IBOutlet NSTableView *postureCategoryTableView;
-    
-    MModel *model;
+    IBOutlet NSTableView *_postureCategoryTableView;
+
+    MModel *_model;
 }
 
 - (id)initWithModel:(MModel *)aModel;
 {
     if ((self = [super initWithWindowNibName:@"PostureCategory"])) {
-        model = aModel;
+        _model = aModel;
 
         [self setWindowFrameAutosaveName:@"Posture Categories"];
     }
@@ -27,15 +27,15 @@
 
 - (MModel *)model;
 {
-    return model;
+    return _model;
 }
 
 - (void)setModel:(MModel *)newModel;
 {
-    if (newModel == model)
+    if (newModel == _model)
         return;
 
-    model = newModel;
+    _model = newModel;
 
     [self updateViews];
     [self _selectFirstRow];
@@ -101,7 +101,7 @@
 - (void)updateViews;
 {
     [self createCategoryColumns];
-    [postureCategoryTableView reloadData];
+    [_postureCategoryTableView reloadData];
 #if 0
     [categoryTotalTextField setIntValue:[[[self model] categories] count]];
     [parameterTotalTextField setIntValue:[[[self model] parameters] count]];
@@ -128,16 +128,16 @@
     NSMutableArray *categories;
 
     // Retain this column because we'll be removing it but want to add it back.
-    postureNameTableColumn = [postureCategoryTableView tableColumnWithIdentifier:@"name"];
+    postureNameTableColumn = [_postureCategoryTableView tableColumnWithIdentifier:@"name"];
 
     // Remove all the table columns
-    tableColumns = [[NSArray alloc] initWithArray:[postureCategoryTableView tableColumns]];
+    tableColumns = [[NSArray alloc] initWithArray:[_postureCategoryTableView tableColumns]];
     count = [tableColumns count];
     for (index = 0; index < count; index++)
-        [postureCategoryTableView removeTableColumn:[tableColumns objectAtIndex:index]];
+        [_postureCategoryTableView removeTableColumn:[tableColumns objectAtIndex:index]];
 
     // Add the posture name column back
-    [postureCategoryTableView addTableColumn:postureNameTableColumn];
+    [_postureCategoryTableView addTableColumn:postureNameTableColumn];
 
     // Now we can add the category columns
     categories = [[self model] categories];
@@ -162,20 +162,20 @@
         [newTableColumn setDataCell:checkboxCell];
 
         [newTableColumn sizeToFit];
-        [postureCategoryTableView addTableColumn:newTableColumn];
+        [_postureCategoryTableView addTableColumn:newTableColumn];
     }
 }
 
 - (void)_selectFirstRow;
 {
-    [postureCategoryTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
+    [_postureCategoryTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
 }
 
 #pragma mark - NSTableViewDataSource
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView;
 {
-    if (tableView == postureCategoryTableView)
+    if (tableView == _postureCategoryTableView)
         return [[[self model] postures] count];
 
     return 0;
@@ -187,7 +187,7 @@
 
     identifier = [tableColumn identifier];
 
-    if (tableView == postureCategoryTableView) {
+    if (tableView == _postureCategoryTableView) {
         MMPosture *posture;
 
         posture = [[[self model] postures] objectAtIndex:row];
@@ -218,8 +218,8 @@
     for (index = 0; index < count; index++) {
         posture = [postures objectAtIndex:index];
         if ([[posture name] hasPrefix:characters] == YES) {
-            [postureCategoryTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
-            [postureCategoryTableView scrollRowToVisible:index];
+            [_postureCategoryTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
+            [_postureCategoryTableView scrollRowToVisible:index];
             return NO;
         }
     }

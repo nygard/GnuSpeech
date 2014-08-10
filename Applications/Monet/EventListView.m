@@ -15,24 +15,24 @@
 
 @implementation EventListView
 {
-    NSFont *timesFont;
-    NSFont *timesFontSmall;
-    
-    EventList *eventList;
-    
-	NSTextField *mouseTimeField;
-	NSTextField *mouseValueField;
-    
-    NSUInteger startingIndex;
-    CGFloat timeScale;
-    BOOL mouseBeingDragged;
-    NSTrackingRectTag trackTag;
-    
-    NSTextFieldCell *ruleCell;
-    NSTextFieldCell *minMaxCell;
-    NSTextFieldCell *parameterNameCell;
-    
-    NSArray *displayParameters;
+    NSFont *_timesFont;
+    NSFont *_timesFontSmall;
+
+    EventList *_eventList;
+
+	NSTextField *_mouseTimeField;
+	NSTextField *_mouseValueField;
+
+    NSUInteger _startingIndex;
+    CGFloat _timeScale;
+    BOOL _mouseBeingDragged;
+    NSTrackingRectTag _trackTag;
+
+    NSTextFieldCell *_ruleCell;
+    NSTextFieldCell *_minMaxCell;
+    NSTextFieldCell *_parameterNameCell;
+
+    NSArray *_displayParameters;
 }
 
 - (id)initWithFrame:(NSRect)frameRect;
@@ -40,38 +40,38 @@
     if ((self = [super initWithFrame:frameRect])) {
         [self allocateGState];
         
-        timesFont = [NSFont fontWithName:@"Times-Roman" size:12];
-        timesFontSmall = [NSFont fontWithName:@"Times-Roman" size:10];
+        _timesFont = [NSFont fontWithName:@"Times-Roman" size:12];
+        _timesFontSmall = [NSFont fontWithName:@"Times-Roman" size:10];
         
-        startingIndex = 0;
-        timeScale = 2.0;
-        mouseBeingDragged = NO;
+        _startingIndex = 0;
+        _timeScale = 2.0;
+        _mouseBeingDragged = NO;
         
-        eventList = nil;
-        trackTag = 0;
+        _eventList = nil;
+        _trackTag = 0;
         
-        ruleCell = [[NSTextFieldCell alloc] initTextCell:@""];
-        [ruleCell setFont:[NSFont labelFontOfSize:10.0]];
-        [ruleCell setAlignment:NSCenterTextAlignment];
-        [ruleCell setBordered:YES];
-        [ruleCell setEnabled:YES];
+        _ruleCell = [[NSTextFieldCell alloc] initTextCell:@""];
+        [_ruleCell setFont:[NSFont labelFontOfSize:10.0]];
+        [_ruleCell setAlignment:NSCenterTextAlignment];
+        [_ruleCell setBordered:YES];
+        [_ruleCell setEnabled:YES];
         
-        minMaxCell = [[NSTextFieldCell alloc] initTextCell:@""];
-        [minMaxCell setControlSize:NSSmallControlSize];
-        [minMaxCell setAlignment:NSRightTextAlignment];
-        [minMaxCell setBordered:NO];
-        [minMaxCell setEnabled:YES];
-        [minMaxCell setFont:timesFontSmall];
-        [minMaxCell setFormatter:[NSNumberFormatter defaultNumberFormatter]];
+        _minMaxCell = [[NSTextFieldCell alloc] initTextCell:@""];
+        [_minMaxCell setControlSize:NSSmallControlSize];
+        [_minMaxCell setAlignment:NSRightTextAlignment];
+        [_minMaxCell setBordered:NO];
+        [_minMaxCell setEnabled:YES];
+        [_minMaxCell setFont:_timesFontSmall];
+        [_minMaxCell setFormatter:[NSNumberFormatter defaultNumberFormatter]];
         
-        parameterNameCell = [[NSTextFieldCell alloc] initTextCell:@""];
-        [parameterNameCell setControlSize:NSSmallControlSize];
-        [parameterNameCell setAlignment:NSLeftTextAlignment];
-        [parameterNameCell setBordered:NO];
-        [parameterNameCell setEnabled:YES];
-        [parameterNameCell setFont:timesFont];
+        _parameterNameCell = [[NSTextFieldCell alloc] initTextCell:@""];
+        [_parameterNameCell setControlSize:NSSmallControlSize];
+        [_parameterNameCell setAlignment:NSLeftTextAlignment];
+        [_parameterNameCell setBordered:NO];
+        [_parameterNameCell setEnabled:YES];
+        [_parameterNameCell setFont:_timesFont];
         
-        displayParameters = nil;
+        _displayParameters = nil;
         
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(frameDidChange:)
@@ -87,29 +87,29 @@
 - (void)dealloc;
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [self removeTrackingRect:trackTag];  // track
+    [self removeTrackingRect:_trackTag];  // track
 }
 
 #pragma mark -
 
 - (void)awakeFromNib;
 {
-    trackTag = [self addTrackingRect:[self bounds] owner:self userData:NULL assumeInside:NO];  // track
+    _trackTag = [self addTrackingRect:[self bounds] owner:self userData:NULL assumeInside:NO];  // track
 }
 
 #pragma mark -
 
 - (NSArray *)displayParameters;
 {
-    return displayParameters;
+    return _displayParameters;
 }
 
 - (void)setDisplayParameters:(NSArray *)newDisplayParameters;
 {
-    if (newDisplayParameters == displayParameters)
+    if (newDisplayParameters == _displayParameters)
         return;
 
-    displayParameters = newDisplayParameters;
+    _displayParameters = newDisplayParameters;
 
     [self setNeedsDisplay:YES];
 }
@@ -121,10 +121,10 @@
 
 - (void)setEventList:(EventList *)newEventList;
 {
-    if (newEventList == eventList)
+    if (newEventList == _eventList)
         return;
 
-    eventList = newEventList;
+    _eventList = newEventList;
 
     [self setNeedsDisplay:YES];
 }
@@ -172,9 +172,9 @@
 	NSUInteger phoneIndex = 0;
 	NSMutableArray *displayList = [[NSMutableArray alloc] init];
 	
-    NSUInteger count = [displayParameters count];
+    NSUInteger count = [_displayParameters count];
     for (NSUInteger index = 0; index < count; index++) {
-        MMDisplayParameter *currentDisplayParameter = [displayParameters objectAtIndex:index];
+        MMDisplayParameter *currentDisplayParameter = [_displayParameters objectAtIndex:index];
         [displayList addObject:currentDisplayParameter];
     }
 
@@ -201,16 +201,16 @@
     [[NSColor blackColor] set];
     for (NSUInteger i = 0; i < j; i++) {
         MMDisplayParameter *displayParameter = [displayList objectAtIndex:i];
-        [parameterNameCell setStringValue:[displayParameter label]];
+        [_parameterNameCell setStringValue:[displayParameter label]];
 
         NSRect cellFrame;
-        cellFrame.size.height = [parameterNameCell cellSize].height;
+        cellFrame.size.height = [_parameterNameCell cellSize].height;
 
         cellFrame.origin.x = 15.0;
         cellFrame.origin.y = bounds.size.height - 50.0 - ((float)(i + 1) * TRACKHEIGHT) + BORDERHEIGHT + (TRACKHEIGHT - BORDERHEIGHT - cellFrame.size.height) / 2;
         cellFrame.size.width = 60.0;
         //cellFrame.size.height = TRACKHEIGHT - BORDERHEIGHT;
-        [parameterNameCell drawWithFrame:cellFrame inView:self];
+        [_parameterNameCell drawWithFrame:cellFrame inView:self];
     }
 
     // Draw min/max parameter values
@@ -223,32 +223,32 @@
         cellFrame.origin.y = bounds.size.height - 50.0 - (float)(i + 1) * TRACKHEIGHT + BORDERHEIGHT - 9.0;
         cellFrame.size.height = 18.0;
         cellFrame.size.width = 75.0;
-        [minMaxCell setIntValue:[aParameter minimumValue]];
-        [minMaxCell drawWithFrame:cellFrame inView:self];
+        [_minMaxCell setIntValue:[aParameter minimumValue]];
+        [_minMaxCell drawWithFrame:cellFrame inView:self];
 
         cellFrame.origin.y = bounds.size.height - 50.0 - (float)i * TRACKHEIGHT - 9.0;
-        [minMaxCell setIntValue:[aParameter maximumValue]];
-        [minMaxCell drawWithFrame:cellFrame inView:self];
+        [_minMaxCell setIntValue:[aParameter maximumValue]];
+        [_minMaxCell drawWithFrame:cellFrame inView:self];
     }
 
     // Draw phones/postures along top
-    [timesFont set];
+    [_timesFont set];
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:1];
 
-    NSArray *events = [eventList events];
+    NSArray *events = [_eventList events];
     for (NSUInteger i = 0; i < [events count]; i++) {
         currentX = [self scaledX:[[events objectAtIndex:i] time]];
 
         if ([[events objectAtIndex:i] flag]) {
-            currentPhone = [eventList getPhoneAtIndex:phoneIndex++];
+            currentPhone = [_eventList getPhoneAtIndex:phoneIndex++];
             if (currentPhone) {
                 [[NSColor blackColor] set];
                 [[currentPhone name] drawAtPoint:NSMakePoint(currentX - 5.0, bounds.size.height - 42.0) withAttributes:nil];
             }
         }
 
-        if (mouseBeingDragged == NO) {
+        if (_mouseBeingDragged == NO) {
             // TODO (2004-03-17): It still goes one pixel below where it should.
             [bezierPath moveToPoint:NSMakePoint(currentX + 0.5, bounds.size.height - (50.0 + 1.0 + (float)j * TRACKHEIGHT))];
             [bezierPath lineToPoint:NSMakePoint(currentX + 0.5, bounds.size.height - 50.0 - 1.0)];
@@ -296,13 +296,13 @@
 {
     NSRect bounds = NSIntegralRect([self bounds]);
 
-    [timesFontSmall set];
+    [_timesFontSmall set];
     CGFloat currentX = 0;
     CGFloat extraWidth = 0.0;
 
-    NSUInteger count = [eventList ruleCount];
+    NSUInteger count = [_eventList ruleCount];
     for (NSUInteger index = 0; index < count; index++) {
-        struct _rule *rule = [eventList getRuleAtIndex:index];
+        struct _rule *rule = [_eventList getRuleAtIndex:index];
 
         NSRect cellFrame;
         cellFrame.origin.x = 80.0 + currentX;
@@ -310,8 +310,8 @@
         cellFrame.size.height = 18.0;
         cellFrame.size.width = [self scaledWidth:rule->duration] + extraWidth;
 
-        [ruleCell setIntegerValue:rule->number];
-        [ruleCell drawWithFrame:cellFrame inView:self];
+        [_ruleCell setIntegerValue:rule->number];
+        [_ruleCell drawWithFrame:cellFrame inView:self];
 
         extraWidth = 1.0;
         currentX += cellFrame.size.width - extraWidth;
@@ -330,11 +330,11 @@
 
     /* Double Click mouse events */
     if ([theEvent clickCount] == 2) {
-        mouseBeingDragged = YES;
+        _mouseBeingDragged = YES;
         [self lockFocus];
         [self updateScale:(float)column];
         [self unlockFocus];
-        mouseBeingDragged = NO;
+        _mouseBeingDragged = NO;
         [self setNeedsDisplay:YES];
     }
 }
@@ -352,26 +352,26 @@
 - (void)mouseMoved:(NSEvent *)theEvent;
 {
     NSPoint position = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-    CGFloat time = (position.x - 80.0) * timeScale;
+    CGFloat time = (position.x - 80.0) * _timeScale;
 	CGFloat value = [self parameterValueForYCoord:position.y];
 	
     if ((position.x < 80.0) || (position.x > [self bounds].size.width - 20.0 - 30.0)) {  // reduced 30.0 from x dimension for aesthetics -- db.
-        [mouseTimeField setStringValue:@"--"];
+        [_mouseTimeField setStringValue:@"--"];
 	} else {
-        [mouseTimeField setIntValue:time];
+        [_mouseTimeField setIntValue:time];
 	}
 	
 	if ((value == FLT_MAX) || (position.y > [self bounds].size.height - 50.0) || (position.y < 50.0)) {  // inverse y coordinates
-		[mouseValueField setStringValue:@"--"];
+		[_mouseValueField setStringValue:@"--"];
 	} else {
-		[mouseValueField setFloatValue:value];
+		[_mouseValueField setFloatValue:value];
 	}
 
 }
 
 - (void)updateScale:(CGFloat)column;
 {
-    CGFloat originalScale = timeScale;
+    CGFloat originalScale = _timeScale;
 
     [[self window] setAcceptsMouseMovedEvents:YES];
     while (1) {
@@ -385,13 +385,13 @@
 
         NSPoint mouseDownLocation = [self convertPoint:[newEvent locationInWindow] fromView:nil];
         CGFloat delta = column - mouseDownLocation.x;
-        timeScale = originalScale + delta / 20.0;
+        _timeScale = originalScale + delta / 20.0;
 
-        if (timeScale > 10.0)
-            timeScale = 10.0;
+        if (_timeScale > 10.0)
+            _timeScale = 10.0;
 
-        if (timeScale < 0.1)
-            timeScale = 0.1;
+        if (_timeScale < 0.1)
+            _timeScale = 0.1;
 
         [self clearView];
         [self drawGrid];
@@ -410,18 +410,18 @@
 
 - (void)resetTrackingRect;
 {
-    [self removeTrackingRect:trackTag];  // track
-    trackTag = [self addTrackingRect:[self bounds] owner:self userData:NULL assumeInside:NO];
+    [self removeTrackingRect:_trackTag];  // track
+    _trackTag = [self addTrackingRect:[self bounds] owner:self userData:NULL assumeInside:NO];
 }
 
 - (CGFloat)scaledX:(CGFloat)x;
 {
-    return rint(80.0 + x / timeScale);
+    return rint(80.0 + x / _timeScale);
 }
 
 - (CGFloat)scaledWidth:(CGFloat)width;
 {
-    return floor(width / timeScale);
+    return floor(width / _timeScale);
 }
 
 // Obtain the parameter value for the y coordinate. Added by dalmazio, April 11, 2009.
@@ -431,8 +431,8 @@
 	CGFloat value = FLT_MAX;
 	NSInteger parameterIndex = (int)floor((bounds.size.height - y - 50.0) / TRACKHEIGHT);
 	
-	if (parameterIndex >= 0 && parameterIndex < [displayParameters count]) {		
-		MMParameter * parameter = [[displayParameters objectAtIndex:parameterIndex] parameter];
+	if (parameterIndex >= 0 && parameterIndex < [_displayParameters count]) {		
+		MMParameter * parameter = [[_displayParameters objectAtIndex:parameterIndex] parameter];
 		CGFloat minValue = [parameter minimumValue];
 		CGFloat maxValue = [parameter maximumValue];
 		
@@ -475,11 +475,11 @@
 {
     CGFloat minimumWidth;
 	
-    if ([[eventList events] count] == 0) {
+    if ([[_eventList events] count] == 0) {
         minimumWidth = 0.0;
     } else {
         Event *lastEvent;
-        lastEvent = [[eventList events] lastObject];		
+        lastEvent = [[_eventList events] lastObject];		
         minimumWidth = 80.0 + 30.0 + 1.0 + [self scaleWidth:[lastEvent time]] + RIGHT_MARGIN;  // added 30.0 to x dimension for aesthetics -- db.
     }
 	
@@ -494,7 +494,7 @@
 // Added by dalmazio, April 11, 2009.
 - (CGFloat)minimumHeight;
 {
-	NSUInteger displayCount = [displayParameters count];
+	NSUInteger displayCount = [_displayParameters count];
 	
 	CGFloat minimumHeight = 50.0 + 30.0 + 1.0 + (displayCount * TRACKHEIGHT) + BORDERHEIGHT;
 
@@ -508,7 +508,7 @@
 // Added by dalmazio, April 11, 2009.
 - (CGFloat)scaleWidth:(CGFloat)width;
 {
-    return floor(width / timeScale);
+    return floor(width / _timeScale);
 }
 
 // Added by dalmazio, April 11, 2009.
@@ -521,12 +521,12 @@
 // Allow access to mouse tracking fields.
 - (void)setMouseTimeField:(NSTextField *)mtField
 {
-	mouseTimeField = mtField;
+	_mouseTimeField = mtField;
 }
 
 - (void)setMouseValueField:(NSTextField *)mvField
 {
-	mouseValueField = mvField;
+	_mouseValueField = mvField;
 }
 
 @end

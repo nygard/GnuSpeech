@@ -5,45 +5,45 @@
 
 @implementation MAIntonationScaleView
 {
-    NSTextFieldCell *labelTextFieldCell;
-    
-    NSTextStorage *textStorage;
-    NSLayoutManager *layoutManager;
-    NSTextContainer *textContainer;
-    NSFont *labelFont;
-    NSFont *axisLabelFont;
-    
-    NSUInteger sectionCount;
-    CGFloat sectionHeight;
-    NSUInteger zeroSection;
-    CGFloat yOrigin;
+    NSTextFieldCell *_labelTextFieldCell;
+
+    NSTextStorage *_textStorage;
+    NSLayoutManager *_layoutManager;
+    NSTextContainer *_textContainer;
+    NSFont *_labelFont;
+    NSFont *_axisLabelFont;
+
+    NSUInteger _sectionCount;
+    CGFloat _sectionHeight;
+    NSUInteger _zeroSection;
+    CGFloat _yOrigin;
 }
 
 - (id)initWithFrame:(NSRect)frameRect;
 {
     if ((self = [super initWithFrame:frameRect])) {
-        labelTextFieldCell = [[NSTextFieldCell alloc] initTextCell:@""];
-        labelFont = [[NSFontManager sharedFontManager] fontWithFamily:@"Times" traits:0 weight:0 size:10.0];
-        [labelTextFieldCell setFont:labelFont];
-        [labelTextFieldCell setAlignment:NSRightTextAlignment];
+        _labelTextFieldCell = [[NSTextFieldCell alloc] initTextCell:@""];
+        _labelFont = [[NSFontManager sharedFontManager] fontWithFamily:@"Times" traits:0 weight:0 size:10.0];
+        [_labelTextFieldCell setFont:_labelFont];
+        [_labelTextFieldCell setAlignment:NSRightTextAlignment];
         
-        axisLabelFont = [[NSFontManager sharedFontManager] fontWithFamily:@"Times" traits:0 weight:0 size:14.0];
-        NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:axisLabelFont, NSFontAttributeName,
+        _axisLabelFont = [[NSFontManager sharedFontManager] fontWithFamily:@"Times" traits:0 weight:0 size:14.0];
+        NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:_axisLabelFont, NSFontAttributeName,
                                     [NSColor blackColor], NSForegroundColorAttributeName,
                                     nil];
         
         
-        textStorage = [[NSTextStorage alloc] initWithString:@"Semitone" attributes:attributes];
-        layoutManager = [[NSLayoutManager alloc] init];
-        textContainer = [[NSTextContainer alloc] init];
-        [layoutManager addTextContainer:textContainer];
-        [textStorage addLayoutManager:layoutManager];
-        [layoutManager setUsesScreenFonts:NO];
+        _textStorage = [[NSTextStorage alloc] initWithString:@"Semitone" attributes:attributes];
+        _layoutManager = [[NSLayoutManager alloc] init];
+        _textContainer = [[NSTextContainer alloc] init];
+        [_layoutManager addTextContainer:_textContainer];
+        [_textStorage addLayoutManager:_layoutManager];
+        [_layoutManager setUsesScreenFonts:NO];
 
-        sectionCount = 20;
-        sectionHeight = 10;
-        zeroSection = 10;
-        yOrigin = 0;
+        _sectionCount = 20;
+        _sectionHeight = 10;
+        _zeroSection = 10;
+        _yOrigin = 0;
     }
 
     return self;
@@ -53,57 +53,57 @@
 
 - (NSUInteger)sectionCount;
 {
-    return sectionCount;
+    return _sectionCount;
 }
 
 - (void)setSectionCount:(NSUInteger)newSectionCount;
 {
-    if (newSectionCount == sectionCount)
+    if (newSectionCount == _sectionCount)
         return;
 
-    sectionCount = newSectionCount;
+    _sectionCount = newSectionCount;
     [self setNeedsDisplay:YES];
 }
 
 - (CGFloat)sectionHeight;
 {
-    return sectionHeight;
+    return _sectionHeight;
 }
 
 - (void)setSectionHeight:(CGFloat)newSectionHeight;
 {
-    if (newSectionHeight == sectionHeight)
+    if (newSectionHeight == _sectionHeight)
         return;
 
-    sectionHeight = newSectionHeight;
+    _sectionHeight = newSectionHeight;
     [self setNeedsDisplay:YES];
 }
 
 - (NSUInteger)zeroSection;
 {
-    return zeroSection;
+    return _zeroSection;
 }
 
 - (void)setZeroSection:(NSUInteger)newZeroSection;
 {
-    if (newZeroSection == zeroSection)
+    if (newZeroSection == _zeroSection)
         return;
 
-    zeroSection = newZeroSection;
+    _zeroSection = newZeroSection;
     [self setNeedsDisplay:YES];
 }
 
 - (CGFloat)yOrigin;
 {
-    return yOrigin;
+    return _yOrigin;
 }
 
 - (void)setYOrigin:(CGFloat)newYOrigin;
 {
-    if (newYOrigin == yOrigin)
+    if (newYOrigin == _yOrigin)
         return;
 
-    yOrigin = newYOrigin;
+    _yOrigin = newYOrigin;
     [self setNeedsDisplay:YES];
 }
 
@@ -121,10 +121,10 @@
     [[NSColor whiteColor] set];
     NSRectFill(rect);
 
-    labelHeight = ceil([labelFont boundingRectForFont].size.height);
-    labelDescender = ceil([labelFont descender]);
+    labelHeight = ceil([_labelFont boundingRectForFont].size.height);
+    labelDescender = ceil([_labelFont descender]);
 
-    while (sectionHeight * labelSkip < labelHeight && labelSkip < sectionCount) {
+    while (_sectionHeight * labelSkip < labelHeight && labelSkip < _sectionCount) {
         labelSkip *= 2;
     }
 
@@ -140,11 +140,11 @@
     [bezierPath setLineCapStyle:NSSquareLineCapStyle];
 
     point.x = NSMaxX(bounds) - 1.0;
-    point.y = yOrigin;
+    point.y = _yOrigin;
     //NSLog(@"point1: %@", NSStringFromPoint(point));
     [bezierPath moveToPoint:point];
 
-    point.y += sectionCount * sectionHeight;
+    point.y += _sectionCount * _sectionHeight;
     //NSLog(@"point2: %@", NSStringFromPoint(point));
     [bezierPath lineToPoint:point];
 
@@ -152,18 +152,18 @@
     [bezierPath stroke];
 
     bezierPath = [[NSBezierPath alloc] init];
-    for (index = 0; index <= sectionCount; index++) {
+    for (index = 0; index <= _sectionCount; index++) {
         point.x = NSMaxX(bounds);
-        point.y = yOrigin + index * sectionHeight + 0.5;
+        point.y = _yOrigin + index * _sectionHeight + 0.5;
         [bezierPath moveToPoint:point];
 
         point.x -= 5.0;
         [bezierPath lineToPoint:point];
 
-        if (((index - zeroSection) % labelSkip) == 0) {
+        if (((index - _zeroSection) % labelSkip) == 0) {
             cellFrame.origin.y = point.y - (labelHeight / 2.0) - labelDescender;
-            [labelTextFieldCell setIntegerValue:index - zeroSection];
-            [labelTextFieldCell drawWithFrame:cellFrame inView:self];
+            [_labelTextFieldCell setIntegerValue:index - _zeroSection];
+            [_labelTextFieldCell drawWithFrame:cellFrame inView:self];
         }
     }
 
@@ -177,22 +177,22 @@
         NSRect boundingRect;
         CGFloat axisLabelHeight;
 
-        axisLabelHeight = ceil([axisLabelFont boundingRectForFont].size.height);
+        axisLabelHeight = ceil([_axisLabelFont boundingRectForFont].size.height);
 
         context = [NSGraphicsContext currentContext];
         transform = [NSAffineTransform transform];
         [transform translateXBy:axisLabelHeight + 10.0 yBy:0.0];
         [transform rotateByDegrees:90.0];
 
-        glyphRange = [layoutManager glyphRangeForTextContainer:textContainer];
-        boundingRect = [layoutManager boundingRectForGlyphRange:glyphRange inTextContainer:textContainer];
+        glyphRange = [_layoutManager glyphRangeForTextContainer:_textContainer];
+        boundingRect = [_layoutManager boundingRectForGlyphRange:glyphRange inTextContainer:_textContainer];
 
-        labelPoint.x = yOrigin + (sectionCount * sectionHeight - boundingRect.size.width) / 2.0;
+        labelPoint.x = _yOrigin + (_sectionCount * _sectionHeight - boundingRect.size.width) / 2.0;
         labelPoint.y = 0.0;
 
         [context saveGraphicsState];
         [transform concat];
-        [layoutManager drawGlyphsForGlyphRange:glyphRange atPoint:labelPoint];
+        [_layoutManager drawGlyphsForGlyphRange:glyphRange atPoint:labelPoint];
         [context restoreGraphicsState];
     }
 }

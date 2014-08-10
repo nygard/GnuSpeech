@@ -8,7 +8,7 @@
 
 @implementation MAIntonationScrollView
 {
-    IBOutlet MAIntonationScaleView *scaleView;
+    IBOutlet MAIntonationScaleView *_scaleView;
 }
 
 #define SCALE_WIDTH 50
@@ -46,10 +46,10 @@
     contentSize = [self contentSize];
 
     scaleFrame = NSMakeRect(0, 0, SCALE_WIDTH, contentSize.height);
-    scaleView = [[MAIntonationScaleView alloc] initWithFrame:scaleFrame];
-    [self addSubview:scaleView];
+    _scaleView = [[MAIntonationScaleView alloc] initWithFrame:scaleFrame];
+    [self addSubview:_scaleView];
 
-    [[self documentView] setScaleView:scaleView];
+    [[self documentView] setScaleView:_scaleView];
 
     [self tile];
 
@@ -68,22 +68,22 @@
     contentFrame.origin = NSZeroPoint;
     contentFrame.size = [self contentSize];
     NSDivideRect(contentFrame, &scaleFrame, &contentFrame, SCALE_WIDTH, NSMinXEdge);
-    [scaleView setFrame:scaleFrame];
-    [scaleView setNeedsDisplay:YES];
+    [_scaleView setFrame:scaleFrame];
+    [_scaleView setNeedsDisplay:YES];
     [[self contentView] setFrame:contentFrame];
     [[self contentView] setNeedsDisplay:YES];
 }
 
 - (NSView *)scaleView;
 {
-    return scaleView;
+    return _scaleView;
 }
 
 - (NSSize)printableSize;
 {
     NSSize scaleViewSize, printableSize;
 
-    scaleViewSize = [scaleView frame].size;
+    scaleViewSize = [_scaleView frame].size;
     printableSize = [[self documentView] frame].size;
     printableSize.width += scaleViewSize.width;
 
