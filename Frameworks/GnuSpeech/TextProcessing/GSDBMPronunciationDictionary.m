@@ -2,6 +2,8 @@
 
 #import "GSDBMPronunciationDictionary.h"
 
+#include <fcntl.h>
+#include <ndbm.h>
 #import "GSSimplePronunciationDictionary.h"
 
 @implementation GSDBMPronunciationDictionary
@@ -16,31 +18,17 @@
 
 + (id)mainDictionary;
 {
-    static GSDBMPronunciationDictionary *_mainDictionary = nil;
-
-    //NSLog(@" > %s", __PRETTY_FUNCTION__);
+    static GSDBMPronunciationDictionary *_mainDictionary;
 
     if (_mainDictionary == nil) {
-        //NSString *path;
-
         _mainDictionary = [[GSDBMPronunciationDictionary alloc] initWithFilename:[self mainFilename]];
-        //path = [[NSBundle bundleForClass:self] pathForResource:@"2.0eMainDictionary" ofType:@"dict"];
-        //[_mainDictionary loadFromFile:path];
-        //[_mainDictionary loadDictionary];
     }
-
-    //NSLog(@"<  %s", __PRETTY_FUNCTION__);
 
     return _mainDictionary;
 }
 
 + (BOOL)createDatabase:(NSString *)filename fromSimpleDictionary:(GSSimplePronunciationDictionary *)simpleDictionary;
 {
-    NSUInteger count, index;
-
-    NSDictionary *pronunciations = [simpleDictionary pronunciations];
-    NSArray *allKeys = [pronunciations allKeys];
-
     [[NSFileManager defaultManager] createDirectoryAtPath:[filename stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:NULL];
 
     DBM *newDB = dbm_open([filename UTF8String], O_RDWR | O_CREAT, 0660);
@@ -49,11 +37,9 @@
         return NO;
     }
 
-    count = [allKeys count];
-    //NSLog(@"%lu keys", count);
+    NSDictionary *pronunciations = [simpleDictionary pronunciations];
 
-    for (index = 0; index < count; index++) {
-        NSString *key = [allKeys objectAtIndex:index];
+    [[pronunciations allKeys] enumerateObjectsUsingBlock:^(NSString *key, NSUInteger index, BOOL *stop) {
         NSString *value = [pronunciations objectForKey:key];
         //NSLog(@"%5d: key: %@, value: %@", index, key, value);
 
@@ -68,7 +54,7 @@
         int result = dbm_store(newDB, keyDatum, valueDatum, DBM_REPLACE);
         if (result != 0)
             NSLog(@"Could not dbmstore(): index: %5lu, key: %@, value: %@", index, key, value);
-    }
+    }];
 
     dbm_close(newDB);
 

@@ -9,11 +9,8 @@
 - (id)initWithFilename:(NSString *)filename;
 
 @property (readonly) NSString *filename;
-
-- (NSString *)version;
-- (void)setVersion:(NSString *)newVersion;
-
-- (NSDate *)modificationDate;
+@property (nonatomic, strong) NSString *version;
+@property (nonatomic, readonly) NSDate *modificationDate;
 
 - (void)loadDictionaryIfNecessary;
 - (BOOL)loadDictionary;
