@@ -25,24 +25,8 @@
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"<%@: %p> suffix: %@, replacementString: %@, appendedPronunciation: %@",
-            NSStringFromClass([self class]), self, _suffix, _replacementString, _appendedPronunciation];
-}
-
-#pragma mark -
-
-- (NSString *)suffix;
-{
-    return _suffix;
-}
-
-- (NSString *)replacementString;
-{
-    return _replacementString;
-}
-
-- (NSString *)appendedPronunciation;
-{
-    return _appendedPronunciation;
+            NSStringFromClass([self class]), self,
+            self.suffix, self.replacementString, self.appendedPronunciation];
 }
 
 @end
