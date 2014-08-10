@@ -33,6 +33,26 @@
     return self;
 }
 
+- (id)initWithXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    NSParameterAssert([@"parameter" isEqualToString:element.name]);
+
+    if ((self = [super initWithXMLElement:element error:error])) {
+        id value;
+
+        value = [[element attributeForName:@"minimum"] stringValue];
+        _minimumValue = (value != nil) ? [value doubleValue] : DEFAULT_MIN;
+
+        value = [[element attributeForName:@"maximum"] stringValue];
+        _maximumValue = (value != nil) ? [value doubleValue] : DEFAULT_MAX;
+
+        value = [[element attributeForName:@"default"] stringValue];
+        _defaultValue = (value != nil) ? [value doubleValue] : DEFAULT_MIN;
+    }
+
+    return self;
+}
+
 #pragma mark - Debugging
 
 - (NSString *)description;

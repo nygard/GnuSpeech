@@ -87,7 +87,9 @@
         if (![self _loadCategoriesFromXMLElement:        [[element elementsForName:@"categories"] firstObject]          error:error]) return nil;
         NSLog(@"categories: %@", _categories);
         if (![self _loadParametersFromXMLElement:        [[element elementsForName:@"parameters"] firstObject]          error:error]) return nil;
+        NSLog(@"parameters: %@", _parameters);
         if (![self _loadMetaParametersFromXMLElement:    [[element elementsForName:@"meta-parameters"] firstObject]     error:error]) return nil;
+        NSLog(@"meta parameters: %@", _metaParameters);
         if (![self _loadSymbolsFromXMLElement:           [[element elementsForName:@"symbols"] firstObject]             error:error]) return nil;
         if (![self _loadPosturesFromXMLElement:          [[element elementsForName:@"postures"] firstObject]            error:error]) return nil;
         if (![self _loadEquationsFromXMLElement:         [[element elementsForName:@"equations"] firstObject]           error:error]) return nil;
@@ -117,19 +119,26 @@
     NSParameterAssert([@"parameters" isEqualToString:element.name]);
 
     for (NSXMLElement *childElement in [element elementsForName:@"parameter"]) {
+        MMParameter *parameter = [[MMParameter alloc] initWithXMLElement:childElement error:error];
+        if (parameter != nil)
+            [self addParameter:parameter];
     }
     
-    return NO;
+    return YES;
 }
 
 - (BOOL)_loadMetaParametersFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
 {
+    if (element == nil) return YES;
     NSParameterAssert([@"meta-parameters" isEqualToString:element.name]);
 
-    for (NSXMLElement *childElement in [element elementsForName:@""]) {
+    for (NSXMLElement *childElement in [element elementsForName:@"parameter"]) {
+        MMParameter *parameter = [[MMParameter alloc] initWithXMLElement:childElement error:error];
+        if (parameter != nil)
+            [self addMetaParameter:parameter];
     }
     
-    return NO;
+    return YES;
 }
 
 - (BOOL)_loadSymbolsFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
@@ -139,7 +148,7 @@
     for (NSXMLElement *childElement in [element elementsForName:@"symbol"]) {
     }
     
-    return NO;
+    return YES;
 }
 
 - (BOOL)_loadPosturesFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
@@ -149,7 +158,7 @@
     for (NSXMLElement *childElement in [element elementsForName:@"posture"]) {
     }
     
-    return NO;
+    return YES;
 }
 
 - (BOOL)_loadEquationsFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
@@ -159,7 +168,7 @@
     for (NSXMLElement *childElement in [element elementsForName:@"equation-group"]) {
     }
     
-    return NO;
+    return YES;
 }
 
 - (BOOL)_loadTransitionsFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
@@ -169,7 +178,7 @@
     for (NSXMLElement *childElement in [element elementsForName:@"transition-group"]) {
     }
     
-    return NO;
+    return YES;
 }
 
 - (BOOL)_loadSpecialTransitionsFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
@@ -179,7 +188,7 @@
     for (NSXMLElement *childElement in [element elementsForName:@"transition-group"]) {
     }
     
-    return NO;
+    return YES;
 }
 
 - (BOOL)_loadRulesFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
@@ -189,7 +198,7 @@
     for (NSXMLElement *childElement in [element elementsForName:@"rule"]) {
     }
     
-    return NO;
+    return YES;
 }
 
 #pragma mark -

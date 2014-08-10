@@ -32,6 +32,8 @@
 
         NSLog(@"root: %@", xmlDocument.rootElement);
         _model = [[MModel alloc] initWithXMLElement:xmlDocument.rootElement error:error];
+
+        [_model writeXMLToFile:@"/tmp/out" comment:@"testing rewrite"];
     }
 
     return self;
