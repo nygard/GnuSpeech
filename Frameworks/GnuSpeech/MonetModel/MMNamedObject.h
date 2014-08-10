@@ -9,7 +9,4 @@
 @property (strong) NSString *comment;
 @property (nonatomic, readonly) BOOL hasComment;
 
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-
 @end

@@ -253,6 +253,7 @@
     [resultString appendString:@"</slope-ratio>\n"];
 }
 
+#if 0
 // TODO (2004-05-14): Maybe with a common superclass we wouldn't need to implement this method here.
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 {
@@ -288,5 +289,6 @@
     else
         [NSException raise:@"Unknown close tag" format:@"Unknown closing tag (%@) in %@", elementName, NSStringFromClass([self class])];
 }
+#endif
 
 @end

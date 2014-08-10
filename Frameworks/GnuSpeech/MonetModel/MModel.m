@@ -50,44 +50,146 @@
 - (id)init;
 {
     if ((self = [super init])) {
-        _categories = [[NSMutableArray alloc] init];
-        _parameters = [[NSMutableArray alloc] init];
-        _metaParameters = [[NSMutableArray alloc] init];
-        _symbols = [[NSMutableArray alloc] init];
-        _postures = [[NSMutableArray alloc] init];
-        
-        _equationGroups = [[NSMutableArray alloc] init];
-        _transitionGroups = [[NSMutableArray alloc] init];
+        _categories              = [[NSMutableArray alloc] init];
+        _parameters              = [[NSMutableArray alloc] init];
+        _metaParameters          = [[NSMutableArray alloc] init];
+        _symbols                 = [[NSMutableArray alloc] init];
+        _postures                = [[NSMutableArray alloc] init];
+        _equationGroups          = [[NSMutableArray alloc] init];
+        _transitionGroups        = [[NSMutableArray alloc] init];
         _specialTransitionGroups = [[NSMutableArray alloc] init];
-        
-        _rules = [[NSMutableArray alloc] init];
-#if 0
-        // And set up some default values:
-        // TODO (2004-05-15): Just load these from a default .monet file
-        {
-            MMSymbol *newSymbol;
-            MMCategory *newCategory;
-            
-            newSymbol = [[MMSymbol alloc] init];
-            [newSymbol setName:@"duration"];
-            [self addSymbol:newSymbol];
-            [newSymbol release];
-            
-            newCategory = [[MMCategory alloc] init];
-            [newCategory setName:@"phone"];
-            [newCategory setComment:@"This is the static phone category.  It cannot be changed or removed."];
-            [self addCategory:newCategory];
-            [newCategory release];
-            
-            [self _addDefaultRule];
-        }
-#endif
-        _cacheTag = 1;
-        
-        _synthesisParameters = [[MMSynthesisParameters alloc] init];
+        _rules                   = [[NSMutableArray alloc] init];
+        _cacheTag                = 1;
+        _synthesisParameters     = [[MMSynthesisParameters alloc] init];
     }
 
     return self;
+}
+
+- (id)initWithXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    NSParameterAssert([@"root" isEqualToString:element.name]);
+    NSParameterAssert([@"1" isEqualToString:[[element attributeForName:@"version"] stringValue]]);
+
+    if ((self = [super init])) {
+        _categories              = [[NSMutableArray alloc] init];
+        _parameters              = [[NSMutableArray alloc] init];
+        _metaParameters          = [[NSMutableArray alloc] init];
+        _symbols                 = [[NSMutableArray alloc] init];
+        _postures                = [[NSMutableArray alloc] init];
+        _equationGroups          = [[NSMutableArray alloc] init];
+        _transitionGroups        = [[NSMutableArray alloc] init];
+        _specialTransitionGroups = [[NSMutableArray alloc] init];
+        _rules                   = [[NSMutableArray alloc] init];
+        _cacheTag                = 1;
+        _synthesisParameters     = [[MMSynthesisParameters alloc] init];
+
+        if (![self _loadCategoriesFromXMLElement:        [[element elementsForName:@"categories"] firstObject]          error:error]) return nil;
+        NSLog(@"categories: %@", _categories);
+        if (![self _loadParametersFromXMLElement:        [[element elementsForName:@"parameters"] firstObject]          error:error]) return nil;
+        if (![self _loadMetaParametersFromXMLElement:    [[element elementsForName:@"meta-parameters"] firstObject]     error:error]) return nil;
+        if (![self _loadSymbolsFromXMLElement:           [[element elementsForName:@"symbols"] firstObject]             error:error]) return nil;
+        if (![self _loadPosturesFromXMLElement:          [[element elementsForName:@"postures"] firstObject]            error:error]) return nil;
+        if (![self _loadEquationsFromXMLElement:         [[element elementsForName:@"equations"] firstObject]           error:error]) return nil;
+        if (![self _loadTransitionsFromXMLElement:       [[element elementsForName:@"transitions"] firstObject]         error:error]) return nil;
+        if (![self _loadSpecialTransitionsFromXMLElement:[[element elementsForName:@"special-transitions"] firstObject] error:error]) return nil;
+        if (![self _loadRulesFromXMLElement:             [[element elementsForName:@"rules"] firstObject]               error:error]) return nil;
+    }
+
+    return self;
+}
+
+- (BOOL)_loadCategoriesFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    NSParameterAssert([@"categories" isEqualToString:element.name]);
+
+    for (NSXMLElement *childElement in [element elementsForName:@"category"]) {
+        MMCategory *category = [[MMCategory alloc] initWithXMLElement:childElement error:error];
+        if (category != nil)
+            [self addCategory:category];
+    }
+
+    return YES;
+}
+
+- (BOOL)_loadParametersFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    NSParameterAssert([@"parameters" isEqualToString:element.name]);
+
+    for (NSXMLElement *childElement in [element elementsForName:@"parameter"]) {
+    }
+    
+    return NO;
+}
+
+- (BOOL)_loadMetaParametersFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    NSParameterAssert([@"meta-parameters" isEqualToString:element.name]);
+
+    for (NSXMLElement *childElement in [element elementsForName:@""]) {
+    }
+    
+    return NO;
+}
+
+- (BOOL)_loadSymbolsFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    NSParameterAssert([@"symbols" isEqualToString:element.name]);
+
+    for (NSXMLElement *childElement in [element elementsForName:@"symbol"]) {
+    }
+    
+    return NO;
+}
+
+- (BOOL)_loadPosturesFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    NSParameterAssert([@"postures" isEqualToString:element.name]);
+
+    for (NSXMLElement *childElement in [element elementsForName:@"posture"]) {
+    }
+    
+    return NO;
+}
+
+- (BOOL)_loadEquationsFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    NSParameterAssert([@"equations" isEqualToString:element.name]);
+
+    for (NSXMLElement *childElement in [element elementsForName:@"equation-group"]) {
+    }
+    
+    return NO;
+}
+
+- (BOOL)_loadTransitionsFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    NSParameterAssert([@"transitions" isEqualToString:element.name]);
+
+    for (NSXMLElement *childElement in [element elementsForName:@"transition-group"]) {
+    }
+    
+    return NO;
+}
+
+- (BOOL)_loadSpecialTransitionsFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    NSParameterAssert([@"special-transitions" isEqualToString:element.name]);
+
+    for (NSXMLElement *childElement in [element elementsForName:@"transition-group"]) {
+    }
+    
+    return NO;
+}
+
+- (BOOL)_loadRulesFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    NSParameterAssert([@"rules" isEqualToString:element.name]);
+
+    for (NSXMLElement *childElement in [element elementsForName:@"rule"]) {
+    }
+    
+    return NO;
 }
 
 #pragma mark -
@@ -617,7 +719,8 @@
     }
 }
 
-#pragma mark NSXMLParserDelegate
+#if 0
+#pragma mark - NSXMLParserDelegate
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
 {
@@ -653,10 +756,6 @@
         [(MXMLParser *)parser skipTree];
     }
 }
-
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
-{
-    //NSLog(@"closing element: '%@'", elementName);
-}
+#endif
 
 @end

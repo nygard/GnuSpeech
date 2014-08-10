@@ -248,9 +248,8 @@
 
 - (void)_loadMonetXMLFile:(NSString *)aFilename;
 {
-    MDocument *document = [[MDocument alloc] init];
-    BOOL result = [document loadFromXMLFile:aFilename];
-    if (result == YES) {
+    MDocument *document = [[MDocument alloc] initWithXMLFile:aFilename error:NULL];
+    if (document != nil) {
         [self setModel:[document model]];
         [self setFilename:aFilename];
     }

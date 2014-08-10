@@ -83,8 +83,6 @@ struct _rule {
 
 - (BOOL)loadIntonationContourFromXMLFile:(NSString *)filename;
 - (void)loadStoredPhoneString:(NSString *)str;
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributes;
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 
 @property (readonly) MMDriftGenerator *driftGenerator;
 

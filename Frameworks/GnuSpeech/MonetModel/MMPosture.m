@@ -325,6 +325,7 @@
     [self _appendXMLForParameters:self.model.symbols targets:self.symbolTargets elementName:@"symbol-targets" toString:resultString level:level];
 }
 
+#if 0
 // TODO (2004-08-12): Rename attribute name from "symbol" to "name", so we can use the superclass implementation of this method.  Do this after we start supporting upgrading from previous versions.
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 {
@@ -361,5 +362,6 @@
     else
         [NSException raise:@"Unknown close tag" format:@"Unknown closing tag (%@) in %@", elementName, NSStringFromClass([self class])];
 }
+#endif
 
 @end

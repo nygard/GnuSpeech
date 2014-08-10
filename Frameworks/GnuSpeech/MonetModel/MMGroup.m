@@ -100,6 +100,7 @@
     [resultString appendFormat:@"</%@>\n", elementName];
 }
 
+#if 0
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
 {
     if ([elementName isEqualToString:@"equation"]) {
@@ -131,5 +132,6 @@
     [(MXMLParser *)parser popDelegate];
 #endif
 }
+#endif
 
 @end

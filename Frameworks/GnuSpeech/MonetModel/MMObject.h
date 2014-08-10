@@ -7,6 +7,8 @@
 
 @interface MMObject : NSObject
 
+- (id)initWithXMLElement:(NSXMLElement *)element error:(NSError **)error;
+
 @property (nonatomic, strong) MModel *model; // TODO: (2014-08-09) This should really be weak, just seeing if this makes a difference in loading crasher.
 @property (nonatomic, readonly) NSUndoManager *undoManager;
 

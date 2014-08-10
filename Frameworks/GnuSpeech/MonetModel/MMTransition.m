@@ -161,6 +161,7 @@
     return [NSString stringWithFormat:@"%@:%@", self.group.name, self.name];
 }
 
+#if 0
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 {
     if ((self = [super initWithXMLAttributes:attributes context:context])) {
@@ -192,5 +193,6 @@
     else
         [NSException raise:@"Unknown close tag" format:@"Unknown closing tag (%@) in %@", elementName, NSStringFromClass([self class])];
 }
+#endif
 
 @end

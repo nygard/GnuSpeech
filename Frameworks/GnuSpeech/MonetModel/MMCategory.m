@@ -24,6 +24,17 @@
     return self;
 }
 
+- (id)initWithXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    NSParameterAssert([@"category" isEqualToString:element.name]);
+
+    if ((self = [super initWithXMLElement:element error:error])) {
+        _isNative = NO;
+    }
+
+    return self;
+}
+
 #pragma mark - Debugging
 
 - (NSString *)description;

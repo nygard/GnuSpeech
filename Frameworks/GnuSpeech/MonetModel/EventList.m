@@ -1453,6 +1453,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     [self applyRules];
 }
 
+#if 0
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributes;
 {
     if (_parseState == PARSE_STATE_INITIAL) {
@@ -1482,5 +1483,6 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 {
     _parseState = PARSE_STATE_INITIAL;
 }
+#endif
 
 @end

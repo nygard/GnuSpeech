@@ -176,6 +176,7 @@
                   self.offsetTime, self.semitone, self.slope, self.ruleIndex];
 }
 
+#if 0
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 {
     if ((self = [self init])) {
@@ -206,5 +207,6 @@
 {
     [(MXMLParser *)parser popDelegate];
 }
+#endif
 
 @end

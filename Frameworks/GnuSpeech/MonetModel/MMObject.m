@@ -8,6 +8,16 @@
     MModel *_model;
 }
 
+- (id)initWithXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    if ((self = [super init])) {
+    }
+
+    return self;
+}
+
+#pragma mark -
+
 - (NSUndoManager *)undoManager;
 {
     return nil;

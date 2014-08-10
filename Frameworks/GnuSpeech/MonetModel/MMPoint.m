@@ -120,6 +120,7 @@
     [resultString appendString:@"/>\n"];
 }
 
+#if 0
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 {
     if ((self = [self init])) {
@@ -165,6 +166,7 @@
 {
     [(MXMLParser *)parser popDelegate];
 }
+#endif
 
 - (NSComparisonResult)compareByAscendingCachedTime:(MMPoint *)otherPoint;
 {

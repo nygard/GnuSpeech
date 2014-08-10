@@ -67,6 +67,7 @@
     [resultString appendString:@"\n"];
 }
 
+#if 0
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
 {
     if ((self = [self init])) {
@@ -91,5 +92,6 @@
     else
         [NSException raise:@"Unknown close tag" format:@"Unknown closing tag (%@) in %@", elementName, NSStringFromClass([self class])];
 }
+#endif
 
 @end
