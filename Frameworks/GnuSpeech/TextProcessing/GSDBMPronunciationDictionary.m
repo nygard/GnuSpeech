@@ -13,7 +13,12 @@
 
 + (NSString *)mainFilename;
 {
-    return [@"~/Library/Application Support/GnuSpeech/pronunciations" stringByExpandingTildeInPath];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+    NSString *basePath = [paths firstObject];
+    NSParameterAssert(basePath != nil);
+    NSString *path = [[basePath stringByAppendingPathComponent:@"GnuSpeech"] stringByAppendingPathComponent:@"pronunciations.db"];
+
+    return path;
 }
 
 + (id)mainDictionary;
@@ -31,7 +36,7 @@
 {
     [[NSFileManager defaultManager] createDirectoryAtPath:[filename stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:NULL];
 
-    DBM *newDB = dbm_open([filename UTF8String], O_RDWR | O_CREAT, 0660);
+    DBM *newDB = dbm_open([[filename stringByDeletingPathExtension] UTF8String], O_RDWR | O_CREAT, 0660);
     if (newDB == NULL) {
         perror("dbm_open()");
         return NO;
@@ -91,7 +96,7 @@
     NSParameterAssert(self.filename != nil);
 
     //NSLog(@"%s, filename: %@", __PRETTY_FUNCTION__, self.filename);
-    _db = dbm_open([self.filename UTF8String], O_RDONLY, 0660);
+    _db = dbm_open([[self.filename stringByDeletingPathExtension] UTF8String], O_RDONLY, 0660);
     if (_db == NULL) {
         perror("dbm_open()");
         return NO;
