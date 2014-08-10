@@ -82,13 +82,9 @@
         _synthesisParameters     = [[MMSynthesisParameters alloc] init];
 
         if (![self _loadCategoriesFromXMLElement:        [[element elementsForName:@"categories"] firstObject]          error:error]) return nil;
-        NSLog(@"categories: %@", _categories);
         if (![self _loadParametersFromXMLElement:        [[element elementsForName:@"parameters"] firstObject]          error:error]) return nil;
-        NSLog(@"parameters: %@", _parameters);
         if (![self _loadMetaParametersFromXMLElement:    [[element elementsForName:@"meta-parameters"] firstObject]     error:error]) return nil;
-        NSLog(@"meta parameters: %@", _metaParameters);
         if (![self _loadSymbolsFromXMLElement:           [[element elementsForName:@"symbols"] firstObject]             error:error]) return nil;
-        NSLog(@"symbols: %@", _symbols);
         if (![self _loadPosturesFromXMLElement:          [[element elementsForName:@"postures"] firstObject]            error:error]) return nil;
         if (![self _loadEquationsFromXMLElement:         [[element elementsForName:@"equations"] firstObject]           error:error]) return nil;
         if (![self _loadTransitionsFromXMLElement:       [[element elementsForName:@"transitions"] firstObject]         error:error]) return nil;
