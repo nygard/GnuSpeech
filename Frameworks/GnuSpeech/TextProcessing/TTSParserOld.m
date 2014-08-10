@@ -41,17 +41,11 @@
 
 TTSInputMode TTSInputModeFromString(NSString *str)
 {
-    if ([str isEqualToString:@"r"] || [str isEqualToString:@"R"]) {
-        return TTSInputModeRaw;
-    } else if ([str isEqualToString:@"l"] || [str isEqualToString:@"L"]) {
-        return TTSInputModeLetter;
-    } else if ([str isEqualToString:@"e"] || [str isEqualToString:@"E"]) {
-        return TTSInputModeEmphasis;
-    } else if ([str isEqualToString:@"t"] || [str isEqualToString:@"T"]) {
-        return TTSInputModeTagging;
-    } else if ([str isEqualToString:@"s"] || [str isEqualToString:@"S"]) {
-        return TTSInputModeSilence;
-    }
+    if ([str isEqualToString:@"r"] || [str isEqualToString:@"R"]) return TTSInputModeRaw;
+    if ([str isEqualToString:@"l"] || [str isEqualToString:@"L"]) return TTSInputModeLetter;
+    if ([str isEqualToString:@"e"] || [str isEqualToString:@"E"]) return TTSInputModeEmphasis;
+    if ([str isEqualToString:@"t"] || [str isEqualToString:@"T"]) return TTSInputModeTagging;
+    if ([str isEqualToString:@"s"] || [str isEqualToString:@"S"]) return TTSInputModeSilence;
 
     return TTSInputModeUnknown;
 }
@@ -91,7 +85,7 @@ static NSDictionary *_specialAcronyms = nil;
 {
     NSLog(@" > %s", __PRETTY_FUNCTION__);
 
-    NSLog(@"aString: %@", string);
+    NSLog(@"string: %@", string);
     NSString *newString = [self padCharactersInSet:[NSCharacterSet punctuationCharacterSet] 
 								ofString:string];  // temporary fix for punctuation issues -- dalmazio, Jan. 2009
 	//[self markModes:aString];
@@ -111,11 +105,10 @@ static NSDictionary *_specialAcronyms = nil;
 // with a space character. -- dalmazio, Jan. 2009.
 - (NSString *)padCharactersInSet:(NSCharacterSet *)characterSet ofString:(NSString *)string;
 {
-	unichar ch;
 	NSMutableString *newString = [[NSMutableString alloc] initWithCapacity:[string length]*2];
 
 	for (int i = 0; i < [string length]; i++) {
-		ch = [string characterAtIndex:i];
+		unichar ch = [string characterAtIndex:i];
 		if ([characterSet characterIsMember:ch])
 			[newString appendFormat:@" %C ", ch];
 		else
@@ -128,7 +121,6 @@ static NSDictionary *_specialAcronyms = nil;
 // TODO (2004-04-28): This wants to embed special characters (-1 through -11) in the output string...  We may need to do this differently, since we want to deal with characters, not bytes.
 - (void)markModes:(NSString *)string;
 {
-    NSString *str;
     NSCharacterSet *escapeCharacterSet = [NSCharacterSet characterSetWithCharactersInString:[NSString stringWithUnichar:_escapeCharacter]];
     NSMutableString *resultString = [NSMutableString string];
 
@@ -138,27 +130,28 @@ static NSDictionary *_specialAcronyms = nil;
 
     NSScanner *scanner = [[NSScanner alloc] initWithString:string];
     while ([scanner isAtEnd] == NO) {
-        if ([scanner scanUpToCharactersFromSet:escapeCharacterSet intoString:&str] == YES)
+        NSString *str;
+        if ([scanner scanUpToCharactersFromSet:escapeCharacterSet intoString:&str])
             [resultString appendString:str];
 
-        if ([scanner scanCharacterFromSet:escapeCharacterSet intoString:NULL] == YES) {
+        if ([scanner scanCharacterFromSet:escapeCharacterSet intoString:NULL]) {
             if (currentMode == TTSInputModeRaw) {
                 NSLog(@"Raw mode, do something...");
             } else {
-                if ([scanner scanCharacterFromSet:escapeCharacterSet intoString:NULL] == YES) {
+                if ([scanner scanCharacterFromSet:escapeCharacterSet intoString:NULL]) {
                     [resultString appendString:[NSString stringWithUnichar:_escapeCharacter]];
                 } else {
                     NSString *modeString;
 
-                    if ([scanner scanCharacterIntoString:&modeString] == YES) {
+                    if ([scanner scanCharacterIntoString:&modeString]) {
                         NSLog(@"scanned mode: '%@'", modeString);
-                        TTSInputMode aMode = TTSInputModeFromString(modeString);
-                        if (aMode == TTSInputModeUnknown) {
+                        TTSInputMode mode = TTSInputModeFromString(modeString);
+                        if (mode == TTSInputModeUnknown) {
                             NSLog(@"Unknown mode, skipping...");
                         } else {
-                            if ([scanner scanCharacterFromString:@"bB" intoString:NULL] == YES) {
+                            if ([scanner scanCharacterFromString:@"bB" intoString:NULL]) {
                                 NSLog(@"begin mode.");
-                            } else if ([scanner scanCharacterFromString:@"eE" intoString:NULL] == YES) {
+                            } else if ([scanner scanCharacterFromString:@"eE" intoString:NULL]) {
                                 NSLog(@"end mode.");
                             } else {
                                 NSLog(@"neither begin nor end mode.");
@@ -186,10 +179,8 @@ static NSDictionary *_specialAcronyms = nil;
 // array so they are not rendered. -- dalmazio, Jan. 2009.
 - (NSArray *)filterEmptyStringsFromArray:(NSArray *)array;
 {	
-	NSMutableArray *filteredArray = [[NSMutableArray alloc] initWithCapacity:[array count]];
-	NSString *item;
-	for (NSUInteger i = 0; i < [array count]; i++) {
-		item = [array objectAtIndex:i];
+    NSMutableArray *filteredArray = [[NSMutableArray alloc] init];
+    for (NSString *item in array) {
 		if (![item isEqualToString:@""])
 			[filteredArray addObject:item];
 	}
@@ -198,8 +189,6 @@ static NSDictionary *_specialAcronyms = nil;
 
 - (void)finalConversion:(NSString *)string resultString:(NSMutableString *)resultString;
 {
-    NSUInteger nextState;
-    NSUInteger count, index;
     BOOL priorTonic = NO;
     NSUInteger toneGroupMarkerLocation = NSNotFound;
     NSUInteger lastWordEndLocation = NSNotFound;
@@ -212,11 +201,11 @@ static NSDictionary *_specialAcronyms = nil;
 	
     NSLog(@"words: %@", [words description]);
 
-    count = [words count];
+    NSUInteger count = [words count];
     if (count == 0) {
         NSLog(@"%s, No words.", __PRETTY_FUNCTION__);
     } else {
-        for (index = 0; index < count; index++) {
+        for (NSUInteger index = 0; index < count; index++) {
             currentWord = [words objectAtIndex:index];
             if (index + 1 < count)
                 nextWord = [words objectAtIndex:index + 1];
@@ -224,7 +213,7 @@ static NSDictionary *_specialAcronyms = nil;
                 nextWord = nil;
 
             NSUInteger currentState = [self stateForWord:currentWord];
-            nextState = [self stateForWord:nextWord];
+            NSUInteger nextState = [self stateForWord:nextWord];
 
             //NSLog(@"previousState: %d, currentState: %d (%@), nextState: %d (%@)", previousState, currentState, currentWord, nextState, nextWord);
 
@@ -489,11 +478,10 @@ static NSDictionary *_specialAcronyms = nil;
 
 - (NSString *)degenerateString:(NSString *)word;
 {
-    NSUInteger length, index;
-
     NSMutableString *resultString = [NSMutableString string];
-    length = [word length];
-    for (index = 0; index < length; index++) {
+
+    NSUInteger length = [word length];
+    for (NSUInteger index = 0; index < length; index++) {
         unichar ch = [word characterAtIndex:index];
         switch (ch) {
             case ' ': [resultString appendString:PR_BLANK];                break;
