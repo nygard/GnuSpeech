@@ -430,7 +430,7 @@
 		[_phoneStringTextView setString:phoneString];
 		[_textStringTextField setTextColor:[NSColor blackColor]];
 	} else {
-		NSString * textStringPhones = [[_textToPhone phoneForText:[_textStringTextField stringValue]] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+		NSString *textStringPhones = [[_textToPhone phoneForText:[_textStringTextField stringValue]] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 		if ([phoneString isEqualToString:textStringPhones]) {
 			[_textStringTextField setTextColor:[NSColor blackColor]];
 			[_phoneStringTextView setTextColor:[NSColor blackColor]];
