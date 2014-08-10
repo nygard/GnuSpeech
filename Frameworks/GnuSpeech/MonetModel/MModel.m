@@ -745,43 +745,4 @@
     }
 }
 
-#if 0
-#pragma mark - NSXMLParserDelegate
-
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-{
-    if ([elementName isEqualToString:@"categories"]) {
-        MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"category" class:[MMCategory class] delegate:self addObjectSelector:@selector(addCategory:)];
-        [(MXMLParser *)parser pushDelegate:arrayDelegate];
-    } else if ([elementName isEqualToString:@"parameters"]) {
-        MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"parameter" class:[MMParameter class] delegate:self addObjectSelector:@selector(addParameter:)];
-        [(MXMLParser *)parser pushDelegate:arrayDelegate];
-    } else if ([elementName isEqualToString:@"meta-parameters"]) {
-        MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"parameter" class:[MMParameter class] delegate:self addObjectSelector:@selector(addMetaParameter:)];
-        [(MXMLParser *)parser pushDelegate:arrayDelegate];
-    } else if ([elementName isEqualToString:@"symbols"]) {
-        MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"symbol" class:[MMSymbol class] delegate:self addObjectSelector:@selector(addSymbol:)];
-        [(MXMLParser *)parser pushDelegate:arrayDelegate];
-    } else if ([elementName isEqualToString:@"postures"]) {
-        MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"posture" class:[MMPosture class] delegate:self addObjectSelector:@selector(addPosture:)];
-        [(MXMLParser *)parser pushDelegate:arrayDelegate];
-    } else if ([elementName isEqualToString:@"equations"]) {
-        MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"equation-group" class:[MMGroup class] delegate:self addObjectSelector:@selector(addEquationGroup:)];
-        [(MXMLParser *)parser pushDelegate:arrayDelegate];
-    } else if ([elementName isEqualToString:@"transitions"]) {
-        MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"transition-group" class:[MMGroup class] delegate:self addObjectSelector:@selector(addTransitionGroup:)];
-        [(MXMLParser *)parser pushDelegate:arrayDelegate];
-    } else if ([elementName isEqualToString:@"special-transitions"]) {
-        MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"transition-group" class:[MMGroup class] delegate:self addObjectSelector:@selector(addSpecialTransitionGroup:)];
-        [(MXMLParser *)parser pushDelegate:arrayDelegate];
-    } else if ([elementName isEqualToString:@"rules"]) {
-        MXMLArrayDelegate *arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"rule" class:[MMRule class] delegate:self addObjectSelector:@selector(_addStoredRule:)];
-        [(MXMLParser *)parser pushDelegate:arrayDelegate];
-    } else {
-        NSLog(@"starting unknown element: '%@'", elementName);
-        [(MXMLParser *)parser skipTree];
-    }
-}
-#endif
-
 @end

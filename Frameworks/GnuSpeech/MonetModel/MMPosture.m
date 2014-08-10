@@ -29,7 +29,6 @@
     MMCategory *_nativeCategory;
 }
 
-// This is now used from -[MMNamedObject initWithXMLAttributes:context:]
 - (id)init;
 {
     return [self initWithModel:nil];

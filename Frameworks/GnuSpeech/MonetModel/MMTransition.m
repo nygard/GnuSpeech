@@ -196,19 +196,4 @@
     return [NSString stringWithFormat:@"%@:%@", self.group.name, self.name];
 }
 
-#if 0
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-{
-    if ([elementName isEqualToString:@"point-or-slopes"]) {
-        NSDictionary *elementClassMapping = [[NSDictionary alloc] initWithObjectsAndKeys:[MMPoint class], @"point",
-                                             [MMSlopeRatio class], @"slope-ratio",
-                                             nil];
-        MXMLArrayDelegate *newDelegate = [[MXMLArrayDelegate alloc] initWithChildElementToClassMapping:elementClassMapping delegate:self addObjectSelector:@selector(addPoint:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-    } else {
-        [super parser:parser didStartElement:elementName namespaceURI:namespaceURI qualifiedName:qName attributes:attributeDict];
-    }
-}
-#endif
-
 @end

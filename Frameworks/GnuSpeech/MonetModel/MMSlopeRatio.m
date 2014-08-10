@@ -293,33 +293,4 @@
     [resultString appendString:@"</slope-ratio>\n"];
 }
 
-#if 0
-// TODO (2004-05-14): Maybe with a common superclass we wouldn't need to implement this method here.
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
-{
-    if ((self = [self init])) {
-    }
-
-    return self;
-}
-
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-{
-    if ([elementName isEqualToString:@"points"]) {
-        MXMLArrayDelegate *arrayDelegate;
-
-        arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"point" class:[MMPoint class] delegate:self addObjectSelector:@selector(addPoint:)];
-        [(MXMLParser *)parser pushDelegate:arrayDelegate];
-    } else if ([elementName isEqualToString:@"slopes"]) {
-        MXMLArrayDelegate *arrayDelegate;
-
-        arrayDelegate = [[MXMLArrayDelegate alloc] initWithChildElementName:@"slope" class:[MMSlope class] delegate:self addObjectSelector:@selector(addSlope:)];
-        [(MXMLParser *)parser pushDelegate:arrayDelegate];
-    } else {
-        NSLog(@"%@, Unknown element: '%@', skipping", [self shortDescription], elementName);
-        [(MXMLParser *)parser skipTree];
-    }
-}
-#endif
-
 @end

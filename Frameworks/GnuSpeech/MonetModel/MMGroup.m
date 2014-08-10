@@ -132,38 +132,4 @@
     [resultString appendFormat:@"</%@>\n", elementName];
 }
 
-#if 0
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-{
-    if ([elementName isEqualToString:@"equation"]) {
-        MMEquation *newDelegate = [MMEquation objectWithXMLAttributes:attributeDict context:[(MXMLParser *)parser context]];
-        [self addObject:newDelegate];
-
-        // Set the formula after adding it to the group, so that it has access to the model for the symbols
-        NSString *str = [attributeDict objectForKey:@"formula"];
-        if (str != nil && [str length] > 0)
-            [newDelegate setFormulaString:str];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-    } else if ([elementName isEqualToString:@"transition"]) {
-        MMTransition *newDelegate = [MMTransition objectWithXMLAttributes:attributeDict context:[(MXMLParser *)parser context]];
-        [self addObject:newDelegate];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-    } else {
-        [super parser:parser didStartElement:elementName namespaceURI:namespaceURI qualifiedName:qName attributes:attributeDict];
-    }
-}
-
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
-{
-#if 0
-    if ([elementName isEqualToString:@"posture"])
-        [(MXMLParser *)parser popDelegate];
-    else
-        [NSException raise:@"Unknown close tag" format:@"Unknown closing tag (%@) in %@", elementName, NSStringFromClass([self class])];
-#else
-    [(MXMLParser *)parser popDelegate];
-#endif
-}
-#endif
-
 @end
