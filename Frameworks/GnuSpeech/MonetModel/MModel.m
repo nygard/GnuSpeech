@@ -212,6 +212,10 @@
     NSParameterAssert([@"rules" isEqualToString:element.name]);
 
     for (NSXMLElement *childElement in [element elementsForName:@"rule"]) {
+        MMRule *rule = [[MMRule alloc] initWithModel:self XMLElement:childElement error:error];
+        if (rule != nil) {
+            [self _addStoredRule:rule];
+        }
     }
     
     return YES;

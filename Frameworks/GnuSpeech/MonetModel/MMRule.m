@@ -47,6 +47,112 @@
     return self;
 }
 
+- (id)initWithModel:(MModel *)model XMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    NSParameterAssert([@"rule" isEqualToString:element.name]);
+
+    if ((self = [super initWithXMLElement:element error:error])) {
+        _parameterTransitions = [[NSMutableArray alloc] init];
+        _metaParameterTransitions = [[NSMutableArray alloc] init];
+        _symbolEquations = [[NSMutableArray alloc] init];
+
+        /* Zero out expressions and special Profiles */
+        bzero(_expressions, sizeof(MMBooleanNode *) * 4);
+        bzero(_specialProfiles, sizeof(id) * 16);
+
+        self.model = model;
+
+        if (![self _loadBooleanExpressionFromXMLElement:    [[element elementsForName:@"boolean-expressions"] firstObject]     error:error]) return nil;
+        if (![self _loadParameterProfilesFromXMLElement:    [[element elementsForName:@"parameter-profiles"] firstObject]      error:error]) return nil;
+        if (![self _loadMetaParameterProfilesFromXMLElement:[[element elementsForName:@"meta-parameter-profiles"] firstObject] error:error]) return nil;
+        if (![self _loadSpecialProfilesFromXMLElement:      [[element elementsForName:@"special-profiles"] firstObject]        error:error]) return nil;
+        if (![self _loadExpressionSymbolsFromXMLElement:    [[element elementsForName:@"expression-symbols"] firstObject]      error:error]) return nil;
+    }
+
+    return self;
+}
+
+- (BOOL)_loadBooleanExpressionFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    if (element == nil) return YES;
+    NSParameterAssert([@"boolean-expressions" isEqualToString:element.name]);
+
+    for (NSXMLElement *childElement in [element elementsForName:@"boolean-expression"]) {
+        NSString *str = [childElement stringValue];
+        [self addBooleanExpressionString:str];
+    }
+
+    return YES;
+}
+
+- (BOOL)_loadParameterProfilesFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    if (element == nil) return YES;
+    NSParameterAssert([@"parameter-profiles" isEqualToString:element.name]);
+
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+
+    for (NSXMLElement *childElement in [element elementsForName:@"parameter-transition"]) {
+        NSString *key = [[childElement attributeForName:@"name"] stringValue];
+        dict[key] = [[childElement attributeForName:@"transition"] stringValue];
+    }
+
+    [self addParameterTransitionsFromReferenceDictionary:dict];
+
+    return YES;
+}
+
+- (BOOL)_loadMetaParameterProfilesFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    if (element == nil) return YES;
+    NSParameterAssert([@"meta-parameter-profiles" isEqualToString:element.name]);
+
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+
+    for (NSXMLElement *childElement in [element elementsForName:@"parameter-transition"]) {
+        NSString *key = [[childElement attributeForName:@"name"] stringValue];
+        dict[key] = [[childElement attributeForName:@"transition"] stringValue];
+    }
+
+    [self addMetaParameterTransitionsFromReferenceDictionary:dict];
+
+    return YES;
+}
+
+- (BOOL)_loadSpecialProfilesFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    if (element == nil) return YES;
+    NSParameterAssert([@"special-profiles" isEqualToString:element.name]);
+
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+
+    for (NSXMLElement *childElement in [element elementsForName:@"parameter-transition"]) {
+        NSString *key = [[childElement attributeForName:@"name"] stringValue];
+        dict[key] = [[childElement attributeForName:@"transition"] stringValue];
+    }
+
+    [self addSpecialProfilesFromReferenceDictionary:dict];
+
+    return YES;
+}
+
+- (BOOL)_loadExpressionSymbolsFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    if (element == nil) return YES;
+    NSParameterAssert([@"expression-symbols" isEqualToString:element.name]);
+
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+
+    for (NSXMLElement *childElement in [element elementsForName:@"symbol-equation"]) {
+        NSString *key = [[childElement attributeForName:@"name"] stringValue];
+        dict[key] = [[childElement attributeForName:@"equation"] stringValue];
+    }
+
+    [self addSymbolEquationsFromReferenceDictionary:dict];
+
+    return YES;
+}
+
 #pragma mark - Debugging
 
 - (NSString *)description;
@@ -664,41 +770,5 @@
     if (oldExpressionCount != [self numberExpressions])
         [self setDefaultsTo:[self numberExpressions]];
 }
-
-#if 0
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributes;
-{
-    if ([elementName isEqualToString:@"boolean-expressions"]) {
-        MXMLStringArrayDelegate *newDelegate = [[MXMLStringArrayDelegate alloc] initWithChildElementName:@"boolean-expression" delegate:self addObjectSelector:@selector(addBooleanExpressionString:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-    } else if ([elementName isEqualToString:@"parameter-profiles"]) {
-        MXMLReferenceDictionaryDelegate *newDelegate = [[MXMLReferenceDictionaryDelegate alloc] initWithChildElementName:@"parameter-transition" keyAttributeName:@"name" referenceAttributeName:@"transition"
-                                                               delegate:self addObjectsSelector:@selector(addParameterTransitionsFromReferenceDictionary:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-    } else if ([elementName isEqualToString:@"meta-parameter-profiles"]) {
-        MXMLReferenceDictionaryDelegate *newDelegate = [[MXMLReferenceDictionaryDelegate alloc] initWithChildElementName:@"parameter-transition" keyAttributeName:@"name" referenceAttributeName:@"transition"
-                                                               delegate:self addObjectsSelector:@selector(addMetaParameterTransitionsFromReferenceDictionary:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-    } else if ([elementName isEqualToString:@"special-profiles"]) {
-        MXMLReferenceDictionaryDelegate *newDelegate = [[MXMLReferenceDictionaryDelegate alloc] initWithChildElementName:@"parameter-transition" keyAttributeName:@"name" referenceAttributeName:@"transition"
-                                                               delegate:self addObjectsSelector:@selector(addSpecialProfilesFromReferenceDictionary:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-    } else if ([elementName isEqualToString:@"expression-symbols"]) {
-        MXMLReferenceDictionaryDelegate *newDelegate = [[MXMLReferenceDictionaryDelegate alloc] initWithChildElementName:@"symbol-equation" keyAttributeName:@"name" referenceAttributeName:@"equation"
-                                                               delegate:self addObjectsSelector:@selector(addSymbolEquationsFromReferenceDictionary:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-    } else {
-        [super parser:parser didStartElement:elementName namespaceURI:namespaceURI qualifiedName:qName attributes:attributes];
-    }
-}
-
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
-{
-    if ([elementName isEqualToString:@"rule"])
-        [(MXMLParser *)parser popDelegate];
-    else
-        [NSException raise:@"Unknown close tag" format:@"Unknown closing tag (%@) in %@", elementName, NSStringFromClass([self class])];
-}
-#endif
 
 @end

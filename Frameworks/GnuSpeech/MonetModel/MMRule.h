@@ -9,6 +9,8 @@
 
 @interface MMRule : MMNamedObject
 
+- (id)initWithModel:(MModel *)model XMLElement:(NSXMLElement *)element error:(NSError **)error;
+
 - (void)setDefaultsTo:(NSUInteger)numPhones;
 - (void)addDefaultTransitionForLastParameter;
 - (void)addDefaultTransitionForLastMetaParameter;
