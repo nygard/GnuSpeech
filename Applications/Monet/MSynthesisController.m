@@ -23,7 +23,7 @@
 #define MDK_SoundOutputDirectory       @"SoundOutputDirectory"
 #define MDK_IntonationContourDirectory @"IntonationContourDirectory"
 
-@interface MSynthesisController () <NSTableViewDataSource, NSTableViewDelegate, NSComboBoxDelegate, NSTextViewDelegate, EventListDelegate>
+@interface MSynthesisController () <NSTableViewDataSource, NSTableViewDelegate, NSComboBoxDelegate, NSTextViewDelegate, EventListDelegate, NSFileManagerDelegate>
 
 @property (readonly) EventList *eventList;
 
