@@ -3,10 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MMFRuleSymbols.h"
-#import "EventList.h"
-
-@class MMPoint, MMSlope;
+@class MMPoint, MMSlope, MMFRuleSymbols, EventList, MModel;
 
 @interface MMSlopeRatio : NSObject
 

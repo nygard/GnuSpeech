@@ -3,9 +3,7 @@
 
 #import "MMGroupedObject.h"
 
-#import "MMFRuleSymbols.h"
-
-@class MMFormulaNode;
+@class MMFormulaNode, MMFRuleSymbols;
 
 @interface MMEquation : MMGroupedObject
 

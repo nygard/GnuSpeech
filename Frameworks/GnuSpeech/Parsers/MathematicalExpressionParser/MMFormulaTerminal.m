@@ -10,6 +10,7 @@
 #import "MMSymbol.h"
 #import "MMTarget.h"
 #import "MMPhone.h"
+#import "MMFRuleSymbols.h"
 
 #import "MModel.h"
 

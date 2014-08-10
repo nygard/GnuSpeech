@@ -18,13 +18,9 @@
 - (void)loadDictionaryIfNecessary;
 - (BOOL)loadDictionary;
 
-- (void)_readSuffixesFromFile:(NSString *)aFilename;
-
 - (NSString *)lookupPronunciationForWord:(NSString *)aWord;
 - (NSString *)pronunciationForWord:(NSString *)aWord;
 
 - (void)testString:(NSString *)str;
-
-- (NSString *)description;
 
 @end

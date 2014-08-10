@@ -5,7 +5,7 @@
 
 @class MModel;
 
-// Terminals are MMCategory instances
+// Terminals are MMCategory instances.
 // Some categories are native to a specific phone, and not found in the main category list.
 
 @interface MMBooleanParser : GSParser

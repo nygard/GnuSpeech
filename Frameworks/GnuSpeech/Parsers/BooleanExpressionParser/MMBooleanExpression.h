@@ -13,7 +13,7 @@ enum {
 typedef NSUInteger MMBooleanOperation;
 
 
-// Non-leaf node in a boolean expression tree.
+/// Non-leaf node in a boolean expression tree.
 @interface MMBooleanExpression : MMBooleanNode
 
 @property (assign) MMBooleanOperation operation;

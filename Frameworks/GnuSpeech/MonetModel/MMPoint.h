@@ -3,10 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "GSXMLFunctions.h" // For MMPhoneType
-#import "MMFRuleSymbols.h"
-
-@class EventList, MMEquation, MModel;
+@class EventList, MMEquation, MModel, MMFRuleSymbols;
 
 @interface MMPoint : NSObject
 

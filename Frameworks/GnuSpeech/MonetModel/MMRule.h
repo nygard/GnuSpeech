@@ -3,9 +3,7 @@
 
 #import "MMNamedObject.h"
 
-#import "MMFRuleSymbols.h"
-
-@class MMBooleanNode, MMCategory, MMEquation, MMTransition;
+@class MMBooleanNode, MMCategory, MMEquation, MMTransition, MMFRuleSymbols;
 
 @interface MMRule : MMNamedObject
 

@@ -5,7 +5,7 @@
 
 @class MMCategory, MMSymbol, MMTarget;
 
-// Contains informaion for one phone or "posture"
+// Contains informaion for one phone or "posture".
 @interface MMPosture : MMNamedObject
 
 - (id)initWithModel:(MModel *)model;
