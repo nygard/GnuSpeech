@@ -51,7 +51,7 @@ extern NSString *TransitionViewSelectionDidChangeNotification;
 @property (assign) BOOL shouldDrawSelection;
 @property (assign) BOOL shouldDrawSlopes;
 
-@property (weak) id delegate;
+@property (weak) IBOutlet id delegate;
 
 // Drawing
 - (void)drawRect:(NSRect)rect;
