@@ -5,7 +5,7 @@
 
 @implementation MMObject
 {
-    MModel *_model;
+    __weak MModel *_model;
 }
 
 - (id)initWithXMLElement:(NSXMLElement *)element error:(NSError **)error;
