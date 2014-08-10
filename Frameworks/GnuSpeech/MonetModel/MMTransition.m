@@ -14,10 +14,6 @@
 
 #import "MModel.h"
 
-#import "MXMLParser.h"
-#import "MXMLArrayDelegate.h"
-#import "MXMLPCDataDelegate.h"
-
 @implementation MMTransition
 {
     MMPhoneType _type;

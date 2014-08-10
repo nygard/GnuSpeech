@@ -8,7 +8,6 @@
 #import "NSString-Extensions.h"
 
 #import "EventList.h"
-#import "MXMLParser.h"
 
 #define MIDDLEC	261.6255653
 

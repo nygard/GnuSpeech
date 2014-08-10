@@ -15,11 +15,6 @@
 #import "MMTransition.h"
 
 #import "MModel.h"
-#import "MXMLParser.h"
-#import "MXMLArrayDelegate.h"
-#import "MXMLPCDataDelegate.h"
-#import "MXMLStringArrayDelegate.h"
-#import "MXMLReferenceDictionaryDelegate.h"
 
 @implementation MMRule
 {

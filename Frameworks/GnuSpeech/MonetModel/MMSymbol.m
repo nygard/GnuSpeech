@@ -9,9 +9,6 @@
 #import "GSXMLFunctions.h"
 #import "MModel.h"
 
-#import "MXMLParser.h"
-#import "MXMLPCDataDelegate.h"
-
 #define DEFAULT_VALUE 100.0
 #define DEFAULT_MIN 0.0
 #define DEFAULT_MAX 500.0

@@ -7,7 +7,6 @@
 #import "NSString-Extensions.h"
 
 #import "GSXMLFunctions.h"
-#import "MXMLParser.h"
 
 @implementation MMTarget
 {

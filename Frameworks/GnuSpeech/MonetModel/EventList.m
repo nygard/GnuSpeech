@@ -21,9 +21,6 @@
 #import "MMSlopeRatio.h"
 #import "MMTarget.h"
 #import "MMTransition.h"
-#import "MXMLParser.h"
-#import "MXMLArrayDelegate.h"
-#import "MXMLPCDataDelegate.h"
 #import "MMIntonationParameters.h"
 #import "MMToneGroup.h"
 #import "MMPhone.h"
@@ -1427,6 +1424,8 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
 - (BOOL)loadIntonationContourFromXMLFile:(NSString *)filename;
 {
+    return NO;
+#if 0
     _parseState = PARSE_STATE_INITIAL;
 
     if (filename == nil)
@@ -1444,6 +1443,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     }
 
     return result;
+#endif
 }
 
 - (void)loadStoredPhoneString:(NSString *)str;

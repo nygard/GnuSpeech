@@ -12,9 +12,6 @@
 #import "MMEquation.h"
 #import "MMSlope.h"
 
-#import "MXMLParser.h"
-#import "MXMLArrayDelegate.h"
-
 #import "EventList.h"
 
 #pragma mark -

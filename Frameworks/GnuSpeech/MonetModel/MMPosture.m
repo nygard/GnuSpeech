@@ -14,12 +14,6 @@
 
 #import "MModel.h"
 
-#import "MXMLParser.h"
-
-#import "MXMLDictionaryDelegate.h"
-#import "MXMLPCDataDelegate.h"
-#import "MXMLReferenceArrayDelegate.h"
-
 @interface MMPosture ()
 @end
 

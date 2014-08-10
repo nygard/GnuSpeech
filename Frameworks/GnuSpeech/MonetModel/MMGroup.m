@@ -11,8 +11,6 @@
 #import "MMGroupedObject.h"
 
 #import "GSXMLFunctions.h"
-#import "MXMLParser.h"
-#import "MXMLPCDataDelegate.h"
 
 @interface MMGroup ()
 @end

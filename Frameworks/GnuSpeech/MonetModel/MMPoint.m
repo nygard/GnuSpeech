@@ -12,7 +12,6 @@
 #import "MMTransition.h"
 
 #import "MModel.h"
-#import "MXMLParser.h"
 
 @implementation MMPoint
 {

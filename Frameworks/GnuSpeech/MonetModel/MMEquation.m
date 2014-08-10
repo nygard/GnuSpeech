@@ -10,8 +10,6 @@
 #import "MMFormulaNode.h"
 #import "MMFormulaParser.h"
 #import "MModel.h"
-#import "MXMLParser.h"
-#import "MXMLPCDataDelegate.h"
 #import "MMGroup.h"
 
 @implementation MMEquation
