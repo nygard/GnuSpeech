@@ -108,11 +108,11 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">webView</string>
+						<string key="label">_webView</string>
 						<reference key="source" ref="192432978"/>
 						<reference key="destination" ref="431336978"/>
 					</object>
-					<int key="connectionID">9</int>
+					<int key="connectionID">12</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -296,7 +296,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">11</int>
+			<int key="maxID">12</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -311,13 +311,13 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">MReleaseNotesController</string>
 					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">webView</string>
+						<string key="NS.key.0">_webView</string>
 						<string key="NS.object.0">WebView</string>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">webView</string>
+						<string key="NS.key.0">_webView</string>
 						<object class="IBToOneOutletInfo" key="NS.object.0">
-							<string key="name">webView</string>
+							<string key="name">_webView</string>
 							<string key="candidateClassName">WebView</string>
 						</object>
 					</object>
