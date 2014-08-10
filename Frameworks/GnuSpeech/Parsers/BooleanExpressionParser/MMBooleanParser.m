@@ -12,7 +12,7 @@
 #import "MMPosture.h"
 #import "MModel.h"
 
-enum {
+typedef enum : NSUInteger {
     MMBooleanParserToken_Operator_Or          = 0,
     MMBooleanParserToken_Operator_Not         = 1,
     MMBooleanParserToken_Operator_ExclusiveOr = 2,
@@ -21,8 +21,7 @@ enum {
     MMBooleanParserToken_RightParenthesis     = 5,
     MMBooleanParserToken_Category             = 6,
     MMBooleanParserToken_End                  = 7,
-};
-typedef NSUInteger MMBooleanParserToken;
+} MMBooleanParserToken;
 
 @interface MMBooleanParser ()
 @end

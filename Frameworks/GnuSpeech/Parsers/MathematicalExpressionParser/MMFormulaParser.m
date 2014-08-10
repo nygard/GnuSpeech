@@ -9,7 +9,8 @@
 #import "MMSymbol.h"
 #import "MModel.h"
 
-enum {
+typedef enum : NSInteger {
+    MMFormulaParserToken_Error            = -1,
     MMFormulaParserToken_Add              = 0,
     MMFormulaParserToken_Subtract         = 1,
     MMFormulaParserToken_Multiply         = 2,
@@ -19,9 +20,7 @@ enum {
     MMFormulaParserToken_Symbol           = 6,
     MMFormulaParserToken_Constant         = 7,
     MMFormulaParserToken_End              = 8,
-    MMFormulaParserToken_Error            = -1,
-};
-typedef NSInteger MMBooleanParserToken;
+} MMBooleanParserToken;
 
 @interface MMFormulaParser ()
 

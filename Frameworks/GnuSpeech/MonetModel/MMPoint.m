@@ -18,7 +18,7 @@
     double _value;             // Value of the point
     double _freeTime;          // Free Floating time
     MMEquation *_timeEquation; // Time of the point
-    MMPhoneType _type;         // Which phone it is targeting
+    NSUInteger _type;         // Which phone it is targeting
     BOOL _isPhantom;           // Phantom point for place marking purposes only
 }
 

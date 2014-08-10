@@ -3,14 +3,13 @@
 
 #import <Foundation/Foundation.h>
 
-enum {
+typedef enum : NSUInteger {
     MMToneGroupType_Statement    = 0,
     MMToneGroupType_Exclamation  = 1,
     MMToneGroupType_Question     = 2,
     MMToneGroupType_Continuation = 3,
     MMToneGroupType_Semicolon    = 4,
-};
-typedef NSUInteger MMToneGroupType;
+} MMToneGroupType;
 
 @interface MMToneGroup : NSObject
 

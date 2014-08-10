@@ -5,7 +5,7 @@
 
 @class MMSymbol;
 
-enum {
+typedef enum : NSInteger {
     MMPhoneIndex_RuleDuration = -2,
     MMPhoneIndex_Beat         = -3,
     MMPhoneIndex_Mark1        = -4,
@@ -15,8 +15,7 @@ enum {
     MMPhoneIndex_Tempo1       = -8,
     MMPhoneIndex_Tempo2       = -9,
     MMPhoneIndex_Tempo3       = -10,
-};
-typedef NSInteger MMPhoneIndex;
+} MMPhoneIndex;
 
 @interface MMFormulaTerminal : MMFormulaNode
 

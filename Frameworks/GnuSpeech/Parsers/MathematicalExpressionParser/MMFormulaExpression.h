@@ -3,14 +3,13 @@
 
 #import "MMFormulaNode.h"
 
-enum {
+typedef enum : NSUInteger {
     MMFormulaOperation_None     = 0,
     MMFormulaOperation_Add      = 1,
     MMFormulaOperation_Subtract = 2,
     MMFormulaOperation_Multiply = 3,
     MMFormulaOperation_Divide   = 4,
-};
-typedef NSUInteger MMFormulaOperation;
+} MMFormulaOperation;
 
 @interface MMFormulaExpression : MMFormulaNode
 

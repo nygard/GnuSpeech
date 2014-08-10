@@ -73,13 +73,16 @@
 - (NSUInteger)precedence;
 {
     switch (self.operation) {
-      case MMFormulaOperation_Add:
-      case MMFormulaOperation_Subtract:
+        case MMFormulaOperation_Add:
+        case MMFormulaOperation_Subtract:
           return 1;
 
-      case MMFormulaOperation_Multiply:
-      case MMFormulaOperation_Divide:
+        case MMFormulaOperation_Multiply:
+        case MMFormulaOperation_Divide:
           return 2;
+
+        default:
+            break;
     }
 
     return 0;

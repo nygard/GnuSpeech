@@ -3,23 +3,20 @@
 
 #import <Foundation/Foundation.h>
 
-enum {
+typedef enum : NSUInteger {
     MMGlottalPulseShape_Pulse = 0,
     MMGlottalPulseShape_Sine  = 1,
-};
-typedef NSUInteger MMGlottalPulseShape;
+} MMGlottalPulseShape;
 
-enum {
+typedef enum : NSUInteger {
     MMSamplingRate_22050 = 0,
     MMSamplingRate_44100 = 1,
-};
-typedef NSUInteger MMSamplingRate;
+} MMSamplingRate;
 
-enum {
+typedef enum : NSUInteger {
     MMChannels_Mono   = 0,
     MMChannels_Stereo = 1,
-};
-typedef NSUInteger MMChannels;
+} MMChannels;
 
 @class STLogger;
 

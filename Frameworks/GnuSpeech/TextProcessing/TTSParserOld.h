@@ -2,7 +2,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef enum {
+typedef enum : NSUInteger{
     TTSInputModeUnknown  = 0,
     TTSInputModeNormal   = 1,
     TTSInputModeRaw      = 2,
