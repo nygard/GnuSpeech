@@ -2,7 +2,6 @@
 
 #import "GSDBMPronunciationDictionary.h"
 
-#import "NSFileManager-Extensions.h"
 #import "GSSimplePronunciationDictionary.h"
 
 @implementation GSDBMPronunciationDictionary
@@ -42,7 +41,7 @@
     NSDictionary *pronunciations = [simpleDictionary pronunciations];
     NSArray *allKeys = [pronunciations allKeys];
 
-    [[NSFileManager defaultManager] createDirectoryAtPath:[aFilename stringByDeletingLastPathComponent] attributes:nil createIntermediateDirectories:YES];
+    [[NSFileManager defaultManager] createDirectoryAtPath:[aFilename stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:NULL];
 
     DBM *newDB = dbm_open([aFilename UTF8String], O_RDWR | O_CREAT, 0660);
     if (newDB == NULL) {

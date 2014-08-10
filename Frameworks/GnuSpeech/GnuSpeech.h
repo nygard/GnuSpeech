@@ -7,7 +7,6 @@
 // Extensions
 #import <GnuSpeech/NSArray-Extensions.h>
 #import <GnuSpeech/NSCharacterSet-Extensions.h>
-#import <GnuSpeech/NSFileManager-Extensions.h>
 #import <GnuSpeech/NSObject-Extensions.h>
 #import <GnuSpeech/NSScanner-Extensions.h>
 #import <GnuSpeech/NSString-Extensions.h>

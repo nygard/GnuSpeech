@@ -10,8 +10,6 @@
 		010DE7331545598D005E337E /* MMToneGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 010DE7311545598D005E337E /* MMToneGroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		010DE7341545598D005E337E /* MMToneGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 010DE7321545598D005E337E /* MMToneGroup.m */; };
 		010DE75A15463851005E337E /* MMFRuleSymbols.m in Sources */ = {isa = PBXBuildFile; fileRef = 010DE75915463851005E337E /* MMFRuleSymbols.m */; };
-		012D539E0B7FF851001B50FC /* NSFileManager-Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 012D539C0B7FF851001B50FC /* NSFileManager-Extensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		012D539F0B7FF851001B50FC /* NSFileManager-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 012D539D0B7FF851001B50FC /* NSFileManager-Extensions.m */; };
 		012D53AC0B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 012D53A10B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		012D53AD0B7FF9DC001B50FC /* GSDBMPronunciationDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 012D53A20B7FF9DC001B50FC /* GSDBMPronunciationDictionary.m */; };
 		012D53AE0B7FF9DC001B50FC /* GSPronunciationDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 012D53A30B7FF9DC001B50FC /* GSPronunciationDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -191,8 +189,6 @@
 		010DE7311545598D005E337E /* MMToneGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMToneGroup.h; path = MonetModel/MMToneGroup.h; sourceTree = "<group>"; };
 		010DE7321545598D005E337E /* MMToneGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMToneGroup.m; path = MonetModel/MMToneGroup.m; sourceTree = "<group>"; };
 		010DE75915463851005E337E /* MMFRuleSymbols.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMFRuleSymbols.m; sourceTree = "<group>"; };
-		012D539C0B7FF851001B50FC /* NSFileManager-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "NSFileManager-Extensions.h"; path = "Extensions/NSFileManager-Extensions.h"; sourceTree = "<group>"; };
-		012D539D0B7FF851001B50FC /* NSFileManager-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSFileManager-Extensions.m"; path = "Extensions/NSFileManager-Extensions.m"; sourceTree = "<group>"; };
 		012D53A10B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GSDBMPronunciationDictionary.h; path = TextProcessing/GSDBMPronunciationDictionary.h; sourceTree = "<group>"; };
 		012D53A20B7FF9DC001B50FC /* GSDBMPronunciationDictionary.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GSDBMPronunciationDictionary.m; path = TextProcessing/GSDBMPronunciationDictionary.m; sourceTree = "<group>"; };
 		012D53A30B7FF9DC001B50FC /* GSPronunciationDictionary.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GSPronunciationDictionary.h; path = TextProcessing/GSPronunciationDictionary.h; sourceTree = "<group>"; };
@@ -439,8 +435,6 @@
 				0155E3810B7BE80D008D8879 /* NSArray-Extensions.m */,
 				0155E3820B7BE80D008D8879 /* NSCharacterSet-Extensions.h */,
 				0155E3830B7BE80D008D8879 /* NSCharacterSet-Extensions.m */,
-				012D539C0B7FF851001B50FC /* NSFileManager-Extensions.h */,
-				012D539D0B7FF851001B50FC /* NSFileManager-Extensions.m */,
 				0155E3860B7BE80D008D8879 /* NSObject-Extensions.h */,
 				0155E3870B7BE80D008D8879 /* NSObject-Extensions.m */,
 				0155E3880B7BE80D008D8879 /* NSScanner-Extensions.h */,
@@ -769,7 +763,6 @@
 				0155E3980B7BE80D008D8879 /* NSString-Extensions.h in Headers */,
 				0155E3960B7BE80D008D8879 /* NSScanner-Extensions.h in Headers */,
 				0155E3940B7BE80D008D8879 /* NSObject-Extensions.h in Headers */,
-				012D539E0B7FF851001B50FC /* NSFileManager-Extensions.h in Headers */,
 				0155E3900B7BE80D008D8879 /* NSCharacterSet-Extensions.h in Headers */,
 				0155E38E0B7BE80D008D8879 /* NSArray-Extensions.h in Headers */,
 				0155E46C0B7BE8FA008D8879 /* MMGroup.h in Headers */,
@@ -948,7 +941,6 @@
 				0155E4690B7BE8FA008D8879 /* MMTransition.m in Sources */,
 				0155E46D0B7BE8FA008D8879 /* MMGroup.m in Sources */,
 				0155E4780B7BE92A008D8879 /* TRMSynthesizer.m in Sources */,
-				012D539F0B7FF851001B50FC /* NSFileManager-Extensions.m in Sources */,
 				012D53AD0B7FF9DC001B50FC /* GSDBMPronunciationDictionary.m in Sources */,
 				012D53AF0B7FF9DC001B50FC /* GSPronunciationDictionary.m in Sources */,
 				012D53B10B7FF9DC001B50FC /* GSSimplePronunciationDictionary.m in Sources */,
