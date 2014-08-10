@@ -24,19 +24,12 @@
 - (id)initWithModel:(MModel *)aModel;
 {
     if ((self = [super initWithWindowNibName:@"RuleTester"])) {
-        model = [aModel retain];
+        model = aModel;
 
         [self setWindowFrameAutosaveName:@"Rule Tester"];
     }
 
     return self;
-}
-
-- (void)dealloc;
-{
-    [model release];
-
-    [super dealloc];
 }
 
 #pragma mark -
@@ -51,8 +44,7 @@
     if (newModel == model)
         return;
 
-    [model release];
-    model = [newModel retain];
+    model = newModel;
 
     [self clearOutput];
 }
@@ -96,7 +88,7 @@
     NSMutableArray *testPhones, *testCategoryLists;
     MMPosture *aPosture;
     MMRule *aRule;
-    MMFRuleSymbols *ruleSymbols = [[[MMFRuleSymbols alloc] init] autorelease];
+    MMFRuleSymbols *ruleSymbols = [[MMFRuleSymbols alloc] init];
     NSString *posture1Name, *posture2Name, *posture3Name, *posture4Name;
 
     testCategoryLists = [NSMutableArray array];

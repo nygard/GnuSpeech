@@ -41,13 +41,6 @@
     return self;
 }
 
-- (void)dealloc;
-{
-    [model release];
-
-    [super dealloc];
-}
-
 #pragma mark -
 
 - (MModel *)model;
@@ -58,8 +51,7 @@
 - (void)setModel:(MModel *)newModel;
 {
     if (newModel != model) {
-        [model release];
-        model = [newModel retain];
+        model = newModel;
 
         [transitionView setModel:model];
         [self setTransition:nil];
@@ -120,8 +112,7 @@
 - (void)setTransition:(MMTransition *)newTransition;
 {
     if (newTransition != transition) {
-        [transition release];
-        transition = [newTransition retain];
+        transition = newTransition;
 
         [transitionView setTransition:transition];
 

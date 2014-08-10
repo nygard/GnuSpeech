@@ -38,21 +38,12 @@
 - (id)initWithModel:(MModel *)aModel;
 {
     if ((self = [super initWithWindowNibName:@"Postures"])) {
-        model = [aModel retain];
+        model = aModel;
 
         [self setWindowFrameAutosaveName:@"Postures"];
     }
 
     return self;
-}
-
-- (void)dealloc;
-{
-    [model release];
-    [regularControlFont release];
-    [boldControlFont release];
-
-    [super dealloc];
 }
 
 #pragma mark -
@@ -67,8 +58,7 @@
     if (newModel == model)
         return;
 
-    [model release];
-    model = [newModel retain];
+    model = newModel;
 
     [self updateViews];
     [postureTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
@@ -85,8 +75,8 @@
     NSButtonCell *checkboxCell;
     MCommentCell *commentImageCell;
 
-    regularControlFont = [[NSFont controlContentFontOfSize:[NSFont systemFontSize]] retain];
-    boldControlFont = [[[NSFontManager sharedFontManager] convertFont:regularControlFont toHaveTrait:NSBoldFontMask] retain];
+    regularControlFont = [NSFont controlContentFontOfSize:[NSFont systemFontSize]];
+    boldControlFont = [[NSFontManager sharedFontManager] convertFont:regularControlFont toHaveTrait:NSBoldFontMask];
 
     defaultNumberFormatter = [NSNumberFormatter defaultNumberFormatter];
 
@@ -98,12 +88,9 @@
 
     [[categoryTableView tableColumnWithIdentifier:@"isMember"] setDataCell:checkboxCell];
 
-    [checkboxCell release];
-
     commentImageCell = [[MCommentCell alloc] initImageCell:nil];
     [commentImageCell setImageAlignment:NSImageAlignCenter];
     [[postureTableView tableColumnWithIdentifier:@"hasComment"] setDataCell:commentImageCell];
-    [commentImageCell release];
 
     [postureCommentTextView setFieldEditor:YES];
 
@@ -188,7 +175,6 @@
     [self updateViews];
 
     index = [[[self model] postures] indexOfObject:newPosture];
-    [newPosture release];
 
     [postureTableView scrollRowToVisible:index];
 
@@ -486,7 +472,6 @@
     newComment = [[textView string] copy];
     //NSLog(@"(1) newComment: %@", newComment);
     if ([newComment length] == 0) {
-        [newComment release];
         newComment = nil;
     }
     //NSLog(@"(2) newComment: %@", newComment);
@@ -496,8 +481,6 @@
         // TODO (2004-03-18): Bleck.  Need notification from model that things have changed.
         [self updateViews];
     }
-
-    [newComment release];
 }
 
 @end

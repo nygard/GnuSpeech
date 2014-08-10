@@ -116,7 +116,7 @@
                                   @"Is that cheese to eat, or is it to put in a mouse trap?",
                                   nil];	
 	
-    NSMutableDictionary *defaultValues = [[[NSMutableDictionary alloc] init] autorelease];
+    NSMutableDictionary *defaultValues = [[NSMutableDictionary alloc] init];
     [defaultValues setObject:defaultUtterances forKey:MDK_DefaultUtterances];
     [defaultValues setObject:[@"~/Desktop" stringByExpandingTildeInPath] forKey:MDK_GraphImagesDirectory];
     [defaultValues setObject:[@"~/Desktop" stringByExpandingTildeInPath] forKey:MDK_SoundOutputDirectory];
@@ -127,7 +127,7 @@
 - (id)initWithModel:(MModel *)aModel;
 {
     if ((self = [super initWithWindowNibName:@"Synthesis"])) {
-        model = [aModel retain];
+        model = aModel;
         displayParameters = [[NSMutableArray alloc] init];
         [self _updateDisplayParameters];
         
@@ -155,18 +155,6 @@
 - (void)dealloc;
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-	
-	[eventListView release];
-	
-    [model release];
-    [displayParameters release];
-    [eventList release];
-    [m_synthesizer release];
-	[textToPhone release];
-	
-    [intonationPrintInfo release];
-	
-    [super dealloc];
 }
 
 #pragma mark -
@@ -182,8 +170,7 @@
 - (void)setModel:(MModel *)newModel;
 {
     if (newModel != model) {
-        [model release];
-        model = [newModel retain];
+        model = newModel;
         
         [eventList setModel:model];
         [intonationRuleTableView reloadData]; // Because EventList doesn't send out a notification yet.
@@ -223,9 +210,7 @@
     [[parameterTableView tableColumnWithIdentifier:@"shouldDisplay"] setDataCell:checkboxCell];
     NSButtonCell *checkboxCell2 = [checkboxCell copy]; // So that making it transparent doesn't affect the other one.
     [[eventTableView tableColumnWithIdentifier:@"flag"] setDataCell:checkboxCell2];
-    [checkboxCell2 release];
 	
-    [checkboxCell release];
 	
     NSNumberFormatter *defaultNumberFormatter = [NSNumberFormatter defaultNumberFormatter];
     [semitoneTextField setFormatter:defaultNumberFormatter];
@@ -274,7 +259,6 @@
         MMDisplayParameter *displayParameter = [[MMDisplayParameter alloc] initWithParameter:currentParameter];
         [displayParameter setTag:currentTag++];
         [displayParameters addObject:displayParameter];
-        [displayParameter release];
     }
 	
     for (index = 0; index < count && index < 16; index++) { // TODO (2004-03-30): Some hardcoded limits exist in Event
@@ -284,7 +268,6 @@
         [displayParameter setIsSpecial:YES];
         [displayParameter setTag:currentTag++];
         [displayParameters addObject:displayParameter];
-        [displayParameter release];
     }
 	
     // TODO (2004-03-30): This used to have Intonation (tag=32).  How did that work?
@@ -321,7 +304,6 @@
 #endif
             [tableColumn setWidth:60.0];
             [eventTableView addTableColumn:tableColumn];
-            [tableColumn release];
         }
     }
 	
@@ -337,7 +319,6 @@
 #endif
         [tableColumn setWidth:60.0];
         [eventTableView addTableColumn:tableColumn];
-        [tableColumn release];
     }
 	
     [eventTableView reloadData];
@@ -359,7 +340,6 @@
             [array addObject:displayParameter];
     }
     [eventListView setDisplayParameters:array];
-    [array release];
 	
     [parameterTableView reloadData];
 }
@@ -638,7 +618,6 @@
             [parms addObject:[displayParameters objectAtIndex:index + offset]];
         }
         [eventListView setDisplayParameters:parms];
-        [parms release];
 		
         NSData *pdfData = [eventListView dataWithPDFInsideRect:[eventListView bounds]];
         NSString *filename1 = [NSString stringWithFormat:@"graph-%lu.pdf", number];
@@ -658,10 +637,7 @@
         NSData *jpegData = [bitmapImageRep representationUsingType:NSJPEGFileType properties:jpegProperties];
         NSString *filename2 = [NSString stringWithFormat:@"graph-%lu.jpg", number];
         [jpegData writeToFile:[basePath stringByAppendingPathComponent:filename2] atomically:YES];
-		
-        [bitmapImageRep release];
-        [image release];
-		
+
         number++;
     }
 	
@@ -675,8 +651,6 @@
     [self.synthesizer setFilename:[basePath stringByAppendingPathComponent:@"output.au"]];
     [self.synthesizer setShouldSaveToSoundFile:YES];
     [self.synthesizer synthesize];
-	
-    [jpegProperties release];
 	
     [self _updateDisplayedParameters];
 	
@@ -792,7 +766,6 @@
     [printOperation setShowsProgressPanel:YES];
 	
     [printOperation runOperation];
-    [printView release];
 }
 
 - (void)intonationPointDidChange:(NSNotification *)aNotification;
@@ -978,7 +951,7 @@
     // Open file and save initial parameters
     if ([parametersStore state]) {
         NSError *error = nil;
-        STLogger *logger = [[[STLogger alloc] initWithOutputToPath:@"/tmp/Monet.parameters" error:&error] autorelease];
+        STLogger *logger = [[STLogger alloc] initWithOutputToPath:@"/tmp/Monet.parameters" error:&error];
         if (logger == nil) {
             NSLog(@"Error logging to file: %@", error);
         } else {

@@ -47,7 +47,7 @@
 - (id)initWithModel:(MModel *)aModel;
 {
     if ((self = [super initWithWindowNibName:@"PrototypeManager"])) {
-        model = [aModel retain];
+        model = aModel;
         formulaParser = [[MMFormulaParser alloc] initWithModel:model];
         
         [self setWindowFrameAutosaveName:@"Prototype Manager"];
@@ -60,17 +60,6 @@
     return self;
 }
 
-- (void)dealloc;
-{
-    [model release];
-    [formulaParser release];
-    [cachedEquationUsage release];
-    [cachedTransitionUsage release];
-    //[cachedSpecialTransitionUsage release];
-
-    [super dealloc];
-}
-
 - (MModel *)model;
 {
     return model;
@@ -81,8 +70,7 @@
     if (newModel == model)
         return;
 
-    [model release];
-    model = [newModel retain];
+    model = newModel;
 
     [formulaParser setModel:model];
     [miniTransitionView setModel:model];
@@ -112,14 +100,11 @@
     [[transitionOutlineView tableColumnWithIdentifier:@"isUsed"] setDataCell:checkboxCell];
     [[specialTransitionOutlineView tableColumnWithIdentifier:@"isUsed"] setDataCell:checkboxCell];
 
-    [checkboxCell release];
-
     commentImageCell = [[MCommentCell alloc] initImageCell:nil];
     [commentImageCell setImageAlignment:NSImageAlignCenter];
     [[equationOutlineView tableColumnWithIdentifier:@"hasComment"] setDataCell:commentImageCell];
     [[transitionOutlineView tableColumnWithIdentifier:@"hasComment"] setDataCell:commentImageCell];
     [[specialTransitionOutlineView tableColumnWithIdentifier:@"hasComment"] setDataCell:commentImageCell];
-    [commentImageCell release];
 
     [equationOutlineView moveColumn:[equationOutlineView columnWithIdentifier:@"hasComment"] toColumn:0];
     [transitionOutlineView moveColumn:[transitionOutlineView columnWithIdentifier:@"hasComment"] toColumn:0];
@@ -323,7 +308,6 @@
 
     index = [equationOutlineView rowForItem:newGroup];
     [equationOutlineView expandItem:newGroup];
-    [newGroup release];
 
     // The row needs to be selected before we start editing it.
     [equationOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
@@ -354,7 +338,6 @@
         [equationOutlineView reloadItem:targetGroup reloadChildren:YES];
 
         index = [equationOutlineView rowForItem:newEquation];
-        [newEquation release];
 
         // The row needs to be selected before we start editing it.
         [equationOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
@@ -408,7 +391,6 @@
 
     index = [transitionOutlineView rowForItem:newGroup];
     [transitionOutlineView expandItem:newGroup];
-    [newGroup release];
 
     // The row needs to be selected before we start editing it.
     [transitionOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
@@ -440,7 +422,6 @@
         [transitionOutlineView reloadItem:targetGroup reloadChildren:YES];
 
         index = [transitionOutlineView rowForItem:newTransition];
-        [newTransition release];
 
         // The row needs to be selected before we start editing it.
         [transitionOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
@@ -474,7 +455,6 @@
 
     index = [specialTransitionOutlineView rowForItem:newGroup];
     [specialTransitionOutlineView expandItem:newGroup];
-    [newGroup release];
 
     // The row needs to be selected before we start editing it.
     [specialTransitionOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
@@ -506,7 +486,6 @@
         [specialTransitionOutlineView reloadItem:targetGroup reloadChildren:YES];
 
         index = [specialTransitionOutlineView rowForItem:newTransition];
-        [newTransition release];
 
         // The row needs to be selected before we start editing it.
         [specialTransitionOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
@@ -769,7 +748,6 @@
 
         //NSLog(@"(1) newStringValue: %@", newStringValue);
         if ([newStringValue length] == 0) {
-            [newStringValue release];
             newStringValue = nil;
         }
         //NSLog(@"(2) newStringValue: %@", newStringValue);
@@ -794,8 +772,6 @@
                 [specialTransitionOutlineView reloadItem:selectedItem]; // To show note icon
             }
         }
-
-        [newStringValue release];
     }
 }
 

@@ -9,7 +9,7 @@
 
 - (id)initWithModel:(MModel *)aModel;
 
-@property (nonatomic, retain) MModel *model;
+@property (nonatomic, strong) MModel *model;
 
 - (NSUndoManager *)undoManager;
 

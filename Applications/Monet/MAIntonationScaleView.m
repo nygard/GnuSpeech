@@ -23,11 +23,11 @@
 {
     if ((self = [super initWithFrame:frameRect])) {
         labelTextFieldCell = [[NSTextFieldCell alloc] initTextCell:@""];
-        labelFont = [[[NSFontManager sharedFontManager] fontWithFamily:@"Times" traits:0 weight:0 size:10.0] retain];
+        labelFont = [[NSFontManager sharedFontManager] fontWithFamily:@"Times" traits:0 weight:0 size:10.0];
         [labelTextFieldCell setFont:labelFont];
         [labelTextFieldCell setAlignment:NSRightTextAlignment];
         
-        axisLabelFont = [[[NSFontManager sharedFontManager] fontWithFamily:@"Times" traits:0 weight:0 size:14.0] retain];
+        axisLabelFont = [[NSFontManager sharedFontManager] fontWithFamily:@"Times" traits:0 weight:0 size:14.0];
         NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:axisLabelFont, NSFontAttributeName,
                                     [NSColor blackColor], NSForegroundColorAttributeName,
                                     nil];
@@ -39,9 +39,7 @@
         [layoutManager addTextContainer:textContainer];
         [textStorage addLayoutManager:layoutManager];
         [layoutManager setUsesScreenFonts:NO];
-        
-        [attributes release];
-        
+
         sectionCount = 20;
         sectionHeight = 10;
         zeroSection = 10;
@@ -49,19 +47,6 @@
     }
 
     return self;
-}
-
-- (void)dealloc;
-{
-    [labelTextFieldCell release];
-
-    [textStorage release];
-    [layoutManager release];
-    [textContainer release];
-    [labelFont release];
-    [axisLabelFont release];
-
-    [super dealloc];
 }
 
 #pragma mark -
@@ -165,7 +150,6 @@
 
     [[NSColor blackColor] set];
     [bezierPath stroke];
-    [bezierPath release];
 
     bezierPath = [[NSBezierPath alloc] init];
     for (index = 0; index <= sectionCount; index++) {
@@ -184,7 +168,6 @@
     }
 
     [bezierPath stroke];
-    [bezierPath release];
 
     {
         NSGraphicsContext *context;

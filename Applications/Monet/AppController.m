@@ -70,25 +70,6 @@
     return self;
 }
 
-- (void)dealloc;
-{
-    [m_filename release];
-    [model release];
-
-    [dataEntryController release];
-    [postureEditor release];
-    [prototypeManager release];
-    [transitionEditor release];
-    [specialTransitionEditor release];
-    [ruleTester release];
-    [ruleManager release];
-    [synthesisParameterEditor release];
-    [synthesisController release];
-    [releaseNotesController release];
-
-    [super dealloc];
-}
-
 @synthesize filename = m_filename;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
@@ -223,8 +204,7 @@
     if (newModel == model)
         return;
 
-    [model release];
-    model = [newModel retain];
+    model = newModel;
 
     [dataEntryController setModel:model];
     [postureCategoryController setModel:model];
@@ -253,8 +233,6 @@
         [self setModel:[document model]];
         [self setFilename:aFilename];
     }
-
-    [document release];
 }
 
 - (IBAction)saveDocument:(id)sender;

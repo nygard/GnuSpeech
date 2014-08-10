@@ -9,7 +9,7 @@
 
 @interface AppController : NSObject
 
-@property (retain) NSString *filename;
+@property (strong) NSString *filename;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 - (void)applicationWillTerminate:(NSNotification *)notification;

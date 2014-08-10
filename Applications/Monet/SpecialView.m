@@ -61,7 +61,6 @@
     [bezierPath setLineWidth:2];
     [bezierPath appendBezierPathWithRect:NSMakeRect(graphOrigin.x, graphOrigin.y, bounds.size.width - 2 * LEFT_MARGIN, 14 * sectionHeight)];
     [bezierPath stroke];
-    [bezierPath release];
 
     [[NSColor blackColor] set];
     [self.timesFont set];
@@ -88,7 +87,6 @@
     }
 
     [bezierPath stroke];
-    [bezierPath release];
 }
 
 - (void)updateDisplayPoints;

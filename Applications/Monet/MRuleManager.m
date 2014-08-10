@@ -52,7 +52,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 - (id)initWithModel:(MModel *)aModel;
 {
     if ((self = [super initWithWindowNibName:@"RuleManager"])) {
-        model = [aModel retain];
+        model = aModel;
         
         matchLists = [[NSMutableArray alloc] init];
         for (NSUInteger index = 0; index < 4; index++) {
@@ -60,7 +60,6 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
             
             aPhoneList = [[NSMutableArray alloc] init];
             [matchLists addObject:aPhoneList];
-            [aPhoneList release];
         }
         
         boolParser = [[MMBooleanParser alloc] initWithModel:model];
@@ -69,17 +68,6 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     }
 
     return self;
-}
-
-- (void)dealloc;
-{
-    [model release];
-    [matchLists release];
-    [regularControlFont release];
-    [boldControlFont release];
-    [boolParser release];
-
-    [super dealloc];
 }
 
 #pragma mark -
@@ -94,8 +82,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     if (newModel == model)
         return;
 
-    [model release];
-    model = [newModel retain];
+    model = newModel;
 
     [boolParser setModel:model];
 
@@ -125,13 +112,12 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 {
     MCommentCell *commentImageCell;
 
-    regularControlFont = [[NSFont controlContentFontOfSize:[NSFont systemFontSize]] retain];
-    boldControlFont = [[[NSFontManager sharedFontManager] convertFont:regularControlFont toHaveTrait:NSBoldFontMask] retain];
+    regularControlFont = [NSFont controlContentFontOfSize:[NSFont systemFontSize]];
+    boldControlFont = [[NSFontManager sharedFontManager] convertFont:regularControlFont toHaveTrait:NSBoldFontMask];
 
     commentImageCell = [[MCommentCell alloc] initImageCell:nil];
     [commentImageCell setImageAlignment:NSImageAlignCenter];
     [[ruleTableView tableColumnWithIdentifier:@"hasComment"] setDataCell:commentImageCell];
-    [commentImageCell release];
 
     [errorTextField setStringValue:@""];
     [possibleCombinationsTextField setIntValue:0];
@@ -316,8 +302,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     if (anExpression == expressions[index])
         return;
 
-    [expressions[index] release];
-    expressions[index] = [anExpression retain];
+    expressions[index] = anExpression;
 }
 
 // Align the sub-expressions if one happens to have been removed.
@@ -573,10 +558,9 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
             row--;
 
         //NSLog(@"row: %d, op: %d, sourceRowIndex: %d", row, op, sourceRowIndex);
-        aRule = [[[[self model] rules] objectAtIndex:sourceRowIndex] retain];
+        aRule = [[[self model] rules] objectAtIndex:sourceRowIndex];
         [[[self model] rules] removeObject:aRule];
         [[[self model] rules] insertObject:aRule atIndex:row];
-        [aRule release];
 
         [ruleTableView reloadData];
         [ruleTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
@@ -824,7 +808,6 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
     //NSLog(@"(1) newStringValue: %@", newStringValue);
     if ([newStringValue length] == 0) {
-        [newStringValue release];
         newStringValue = nil;
     }
     //NSLog(@"(2) newStringValue: %@", newStringValue);
@@ -836,8 +819,6 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
         [selectedRule setComment:newStringValue];
         [ruleTableView reloadData]; // To update the icon for the row
     }
-
-    [newStringValue release];
 }
 
 #pragma mark - Actions
@@ -942,7 +923,6 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     [newRule setExpression:exps[2] number:2];
     [newRule setExpression:exps[3] number:3];
     [[self model] addRule:newRule];
-    [newRule release];
 
     [ruleTableView reloadData];
     [ruleTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[[model rules] count] - 2] byExtendingSelection:NO];

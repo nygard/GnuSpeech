@@ -72,19 +72,12 @@
 - (id)initWithModel:(MModel *)aModel;
 {
     if ((self = [super initWithWindowNibName:@"SynthesisParameters"])) {
-        model = [aModel retain];
+        model = aModel;
 
         [self setWindowFrameAutosaveName:@"Synthesis Parameters"];
     }
 
     return self;
-}
-
-- (void)dealloc;
-{
-    [model release];
-
-    [super dealloc];
 }
 
 #pragma mark -
@@ -97,8 +90,7 @@
 - (void)setModel:(MModel *)newModel;
 {
     if (newModel != model) {
-        [model release];
-        model = [newModel retain];
+        model = newModel;
 
         [self updateViews];
     }

@@ -39,19 +39,12 @@
 - (id)initWithModel:(MModel *)aModel;
 {
     if ((self = [super initWithWindowNibName:@"DataEntry"])) {
-        model = [aModel retain];
+        model = aModel;
 
         [self setWindowFrameAutosaveName:@"Data Entry"];
     }
 
     return self;
-}
-
-- (void)dealloc;
-{
-    [model release];
-
-    [super dealloc];
 }
 
 #pragma mark -
@@ -66,8 +59,7 @@
     if (newModel == model)
         return;
 
-    [model release];
-    model = [newModel retain];
+    model = newModel;
 
     [self updateViews];
     [self _selectFirstRows];
@@ -94,15 +86,12 @@
 
     [[categoryTableView tableColumnWithIdentifier:@"isUsed"] setDataCell:checkboxCell];
 
-    [checkboxCell release];
-
     commentImageCell = [[MCommentCell alloc] initImageCell:nil];
     [commentImageCell setImageAlignment:NSImageAlignCenter];
     [[categoryTableView tableColumnWithIdentifier:@"hasComment"] setDataCell:commentImageCell];
     [[parameterTableView tableColumnWithIdentifier:@"hasComment"] setDataCell:commentImageCell];
     [[metaParameterTableView tableColumnWithIdentifier:@"hasComment"] setDataCell:commentImageCell];
     [[symbolTableView tableColumnWithIdentifier:@"hasComment"] setDataCell:commentImageCell];
-    [commentImageCell release];
 
     [[[parameterTableView tableColumnWithIdentifier:@"minimum"] dataCell] setFormatter:defaultNumberFormatter];
     [[[parameterTableView tableColumnWithIdentifier:@"maximum"] dataCell] setFormatter:defaultNumberFormatter];
@@ -245,7 +234,6 @@
     [self updateViews];
 
     index = [[[self model] categories] indexOfObject:newCategory];
-    [newCategory release];
 
     [categoryTableView scrollRowToVisible:index];
 
@@ -272,7 +260,6 @@
 
     newParameter = [[MMParameter alloc] init];
     [[self model] addParameter:newParameter];
-    [newParameter release];
 
     [self updateViews];
 
@@ -302,7 +289,6 @@
 
     newParameter = [[MMParameter alloc] init];
     [[self model] addMetaParameter:newParameter];
-    [newParameter release];
 
     [self updateViews];
 
@@ -332,7 +318,6 @@
 
     newSymbol = [[MMSymbol alloc] init];
     [[self model] addSymbol:newSymbol];
-    [newSymbol release];
 
     [self updateViews];
 
@@ -513,7 +498,6 @@
     newComment = [[textView string] copy];
     //NSLog(@"(1) newComment: %@", newComment);
     if ([newComment length] == 0) {
-        [newComment release];
         newComment = nil;
     }
     //NSLog(@"(2) newComment: %@", newComment);
@@ -532,8 +516,6 @@
         [[self selectedSymbol] setComment:newComment];
         [symbolTableView reloadData];
     }
-
-    [newComment release];
 }
 
 #pragma mark -

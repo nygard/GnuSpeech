@@ -50,7 +50,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         unsigned int shouldDrawSlopes:1;
     } flags;
     
-    id nonretained_delegate;
+    id __weak nonretained_delegate;
 }
 
 // The size was originally 700 x 380
@@ -58,7 +58,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 {
     if ((self = [super initWithFrame:frameRect])) {
         m_parameters = [[MMFRuleSymbols alloc] init];
-        timesFont = [[NSFont fontWithName:@"Times-Roman" size:12] retain];
+        timesFont = [NSFont fontWithName:@"Times-Roman" size:12];
         transition = nil;
         
         samplePhones = [[NSMutableArray alloc] init];
@@ -80,24 +80,6 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     }
 
     return self;
-}
-
-- (void)dealloc;
-{
-    [m_parameters release];
-    [timesFont release];
-    [transition release];
-
-    [samplePhones release];
-    [displayPoints release];
-    [displaySlopes release];
-    [selectedPoints release];
-
-    [editingSlope release];
-    [textFieldCell release];
-    [model release];
-
-    [super dealloc];
 }
 
 #pragma mark -
@@ -144,8 +126,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     if (newModel == model)
         return;
 
-    [model release];
-    model = [newModel retain];
+    model = newModel;
 
     [self _updateFromModel];
 }
@@ -177,8 +158,6 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     [samplePhones addObject:phone2];
     [samplePhones addObject:phone3];
     [samplePhones addObject:phone4];
-
-    [aPosture release];
 
     [self setNeedsDisplay:YES];
 }
@@ -389,7 +368,6 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     [bezierPath setLineWidth:2];
     [bezierPath appendBezierPathWithRect:NSMakeRect(graphOrigin.x, graphOrigin.y, bounds.size.width - 2 * LEFT_MARGIN, 14 * sectionHeight)];
     [bezierPath stroke];
-    [bezierPath release];
 
     [[NSColor blackColor] set];
     [timesFont set];
@@ -412,7 +390,6 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     }
 
     [bezierPath stroke];
-    [bezierPath release];
 }
 
 // These are the proto equations
@@ -452,7 +429,6 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     }
 
     [bezierPath stroke];
-    [bezierPath release];
 }
 
 - (void)drawPhones;
@@ -505,7 +481,6 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     }
 
     [bezierPath stroke];
-    [bezierPath release];
 }
 
 - (void)drawTransition;
@@ -571,7 +546,6 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 
     [bezierPath lineToPoint:NSMakePoint([self bounds].size.width - LEFT_MARGIN, [self bounds].size.height - BOTTOM_MARGIN - (zeroIndex * yScale))];
     [bezierPath stroke];
-    [bezierPath release];
 
     //[[NSColor redColor] set];
     count = [diphonePoints count];
@@ -597,10 +571,6 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         aPoint = [[tetraphonePoints objectAtIndex:index] pointValue];
         [NSBezierPath drawSquareMarkerAtPoint:aPoint];
     }
-
-    [diphonePoints release];
-    [triphonePoints release];
-    [tetraphonePoints release];
 
 //    for (i = 0; i < [displaySlopes count]; i++) {
 //        currentSlope = [displaySlopes objectAtIndex:i];
@@ -728,8 +698,6 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
                 [selectedPoints addObject:newPoint];
             }
 
-            [newPoint release];
-
             [self _selectionDidChange];
             [self setNeedsDisplay:YES];
             return;
@@ -770,7 +738,6 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 {
     NSArray *keyEvents = [[NSArray alloc] initWithObjects:keyEvent, nil];
     [self interpretKeyEvents:keyEvents];
-    [keyEvents release];
 }
 
 #pragma mark - View geometry
@@ -903,8 +870,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     if (newSlope == editingSlope)
         return;
 
-    [editingSlope release];
-    editingSlope = [newSlope retain];
+    editingSlope = newSlope;
 }
 
 - (void)editSlope:(MMSlope *)aSlope startTime:(CGFloat)startTime endTime:(CGFloat)endTime;
@@ -1132,7 +1098,6 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     [newSlopeRatio updateSlopes];
 
     [tempPoints insertObject:newSlopeRatio atIndex:index];
-    [newSlopeRatio release];
 
     [self setNeedsDisplay:YES];
 }
@@ -1154,8 +1119,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 
     // In case we've changed the type of the transition
     if (newTransition != transition) {
-        [transition release];
-        transition = [newTransition retain];
+        transition = newTransition;
     }
 
     [self updateTransitionType];

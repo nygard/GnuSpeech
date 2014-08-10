@@ -8,14 +8,14 @@
 
 @interface MTransitionEditor : MWindowController <NSOutlineViewDataSource, NSOutlineViewDelegate, TransitionViewDelegate>
 
-@property (nonatomic, retain) MModel *model;
+@property (nonatomic, strong) MModel *model;
 
 - (NSUndoManager *)undoManager;
 
 - (void)updateViews;
 - (void)expandEquations;
 
-@property (nonatomic, retain) MMTransition *transition;
+@property (nonatomic, strong) MMTransition *transition;
 
 - (void)_updateSelectedPointDetails;
 - (IBAction)setType:(id)sender;

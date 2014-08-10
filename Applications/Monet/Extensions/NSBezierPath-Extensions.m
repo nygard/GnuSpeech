@@ -20,7 +20,6 @@
     [bezierPath closePath];
     [bezierPath fill];
     //[bezierPath stroke];
-    [bezierPath release];
 }
 
 + (void)drawTriangleMarkerAtPoint:(NSPoint)aPoint;
@@ -48,7 +47,6 @@
     [bezierPath closePath];
     [bezierPath fill];
     //[bezierPath stroke];
-    [bezierPath release];
 }
 
 + (void)drawSquareMarkerAtPoint:(NSPoint)aPoint;

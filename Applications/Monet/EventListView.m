@@ -40,8 +40,8 @@
     if ((self = [super initWithFrame:frameRect])) {
         [self allocateGState];
         
-        timesFont = [[NSFont fontWithName:@"Times-Roman" size:12] retain];
-        timesFontSmall = [[NSFont fontWithName:@"Times-Roman" size:10] retain];
+        timesFont = [NSFont fontWithName:@"Times-Roman" size:12];
+        timesFontSmall = [NSFont fontWithName:@"Times-Roman" size:10];
         
         startingIndex = 0;
         timeScale = 2.0;
@@ -88,16 +88,6 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self removeTrackingRect:trackTag];  // track
-
-    [timesFont release];
-    [timesFontSmall release];
-    [eventList release];
-    [ruleCell release];
-    [minMaxCell release];
-    [parameterNameCell release];
-    [displayParameters release];
-
-    [super dealloc];
 }
 
 #pragma mark -
@@ -119,8 +109,7 @@
     if (newDisplayParameters == displayParameters)
         return;
 
-    [displayParameters release];
-    displayParameters = [newDisplayParameters retain];
+    displayParameters = newDisplayParameters;
 
     [self setNeedsDisplay:YES];
 }
@@ -135,8 +124,7 @@
     if (newEventList == eventList)
         return;
 
-    [eventList release];
-    eventList = [newEventList retain];
+    eventList = newEventList;
 
     [self setNeedsDisplay:YES];
 }
@@ -202,7 +190,6 @@
     [bezierPath setLineWidth:2];
     [bezierPath appendBezierPathWithRect:NSMakeRect(79.0, 49.0, bounds.size.width - 80.0 - 20.0 - 30.0 + 2.0, bounds.size.height - 50.0 - 50.0 + 2.0)];  // reduced 30.0 from x dimension for aesthetics -- db.
     [bezierPath stroke];
-    [bezierPath release];
 
     /* Draw the space for each Track */
     [[NSColor darkGrayColor] set];
@@ -269,7 +256,6 @@
     }
     [[NSColor lightGrayColor] set];
     [bezierPath stroke];
-    [bezierPath release];
 
 	// Draw bezier curves for each parameter
     bezierPath = [[NSBezierPath alloc] init];
@@ -303,9 +289,7 @@
         }
     }
     [bezierPath stroke];
-    [bezierPath release];
 
-    [displayList release];
 }
 
 - (void)drawRules;

@@ -74,9 +74,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
         [ruleDurationTextFieldCell setAlignment:NSCenterTextAlignment];
         [ruleDurationTextFieldCell setFont:[NSFont labelFontOfSize:8.0]];
         [ruleDurationTextFieldCell setFormatter:durationFormatter];
-        
-        [durationFormatter release];
-        
+
         NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Times" traits:0 weight:0 size:10.0];
         labelTextFieldCell = [[NSTextFieldCell alloc] initTextCell:@""];
         [labelTextFieldCell setFont:font];
@@ -86,8 +84,8 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
         [horizontalAxisLabelTextFieldCell setFont:font];
         [horizontalAxisLabelTextFieldCell setStringValue:@"Time (ms)"];
         
-        timesFont = [[NSFont fontWithName:@"Times-Roman" size:12] retain];
-        timesFontSmall = [[NSFont fontWithName:@"Times-Roman" size:10] retain];
+        timesFont = [NSFont fontWithName:@"Times-Roman" size:12];
+        timesFontSmall = [NSFont fontWithName:@"Times-Roman" size:10];
         
         [postureTextFieldCell setFont:timesFont];
         
@@ -107,20 +105,6 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 - (void)dealloc;
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-
-    [postureTextFieldCell release];
-    [ruleIndexTextFieldCell release];
-    [ruleDurationTextFieldCell release];
-    [labelTextFieldCell release];
-    [horizontalAxisLabelTextFieldCell release];
-
-    [scaleView release];
-    [timesFont release];
-    [timesFontSmall release];
-    [eventList release];
-    [selectedPoints release];
-
-    [super dealloc];
 }
 
 #pragma mark -
@@ -130,8 +114,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     if (newScaleView == scaleView)
         return;
 
-    [scaleView release];
-    scaleView = [newScaleView retain];
+    scaleView = newScaleView;
 
     [scaleView setSectionCount:SECTION_COUNT];
     [scaleView setSectionHeight:[self sectionHeight]];
@@ -151,8 +134,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
     [[NSNotificationCenter defaultCenter] removeObserver:self name:EventListDidChangeIntonationPoints object:nil];
 
-    [eventList release];
-    eventList = [newEventList retain];
+    eventList = newEventList;
 
     if (eventList != nil) {
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -298,7 +280,6 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
     [[NSColor blackColor] set];
     [bezierPath stroke];
-    [bezierPath release];
 
     // Draw semitone grid markers
     bezierPath = [[NSBezierPath alloc] init];
@@ -316,7 +297,6 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
     [[NSColor lightGrayColor] set];
     [bezierPath stroke];
-    [bezierPath release];
 
     // Draw the zero semitone line in black.
     bezierPath = [[NSBezierPath alloc] init];
@@ -334,7 +314,6 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
     [[NSColor blackColor] set];
     [bezierPath stroke];
-    [bezierPath release];
 }
 
 - (void)drawHorizontalScale;
@@ -390,7 +369,6 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
     [[NSColor blackColor] set];
     [bezierPath stroke];
-    [bezierPath release];
 
     cellFrame.size = [horizontalAxisLabelTextFieldCell cellSize];
     cellFrame.origin.y = graphOrigin.y - 10.0 - 12.0 - 20.0;
@@ -492,7 +470,6 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
     [[NSColor darkGrayColor] set];
     [bezierPath stroke];
-    [bezierPath release];
 }
 
 - (void)drawRuleBackground;
@@ -555,7 +532,6 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
         [NSBezierPath drawCircleMarkerAtPoint:currentPoint];
     }
     [bezierPath stroke];
-    [bezierPath release];
 
     [[NSColor blueColor] set];
 
@@ -635,7 +611,6 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
         [[NSColor blackColor] set];
         [bezierPath stroke];
-        [bezierPath release];
     }
 }
 
@@ -795,7 +770,6 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
             [self selectIntonationPoint:newIntonationPoint];
 
-            [newIntonationPoint release];
             return;
         }
     }
@@ -891,7 +865,6 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     points = [[NSArray alloc] initWithArray:selectedPoints];
     [self deselectAllPoints];
     [eventList removeIntonationPointsFromArray:points];
-    [points release];
 }
 
 #ifdef PORTING

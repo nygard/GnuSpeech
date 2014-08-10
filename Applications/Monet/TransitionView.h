@@ -31,7 +31,7 @@ extern NSString *TransitionViewSelectionDidChangeNotification;
 @property (readonly) NSMutableArray *selectedPoints;
 @property (nonatomic, readonly) MMFRuleSymbols *parameters;
 
-@property (nonatomic, retain) MModel *model;
+@property (nonatomic, strong) MModel *model;
 
 - (void)_updateFromModel;
 - (void)updateTransitionType;
@@ -51,7 +51,7 @@ extern NSString *TransitionViewSelectionDidChangeNotification;
 @property (assign) BOOL shouldDrawSelection;
 @property (assign) BOOL shouldDrawSlopes;
 
-@property (assign) id delegate;
+@property (weak) id delegate;
 
 // Drawing
 - (void)drawRect:(NSRect)rect;

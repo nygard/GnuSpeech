@@ -16,7 +16,7 @@
 - (id)initWithParameter:(MMParameter *)aParameter;
 {
     if ((self = [super init])) {
-        m_parameter = [aParameter retain];
+        m_parameter = aParameter;
         m_isSpecial = NO;
         m_tag = 0;
     }
@@ -24,12 +24,6 @@
     return self;
 }
 
-- (void)dealloc;
-{
-    [m_parameter release];
-
-    [super dealloc];
-}
 
 #pragma mark -
 

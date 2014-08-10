@@ -22,19 +22,11 @@
 
         MAIntonationView *intonationView = [[MAIntonationView alloc] initWithFrame:contentFrame];
         [self setDocumentView:intonationView];
-        [intonationView release];
         
         [self addScaleView];
     }
 
     return self;
-}
-
-- (void)dealloc;
-{
-    [scaleView release];
-
-    [super dealloc];
 }
 
 #pragma mark -

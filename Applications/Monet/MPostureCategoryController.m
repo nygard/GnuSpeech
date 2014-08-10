@@ -15,19 +15,12 @@
 - (id)initWithModel:(MModel *)aModel;
 {
     if ((self = [super initWithWindowNibName:@"PostureCategory"])) {
-        model = [aModel retain];
+        model = aModel;
 
         [self setWindowFrameAutosaveName:@"Posture Categories"];
     }
 
     return self;
-}
-
-- (void)dealloc;
-{
-    [model release];
-
-    [super dealloc];
 }
 
 #pragma mark -
@@ -42,8 +35,7 @@
     if (newModel == model)
         return;
 
-    [model release];
-    model = [newModel retain];
+    model = newModel;
 
     [self updateViews];
     [self _selectFirstRow];
@@ -136,18 +128,16 @@
     NSMutableArray *categories;
 
     // Retain this column because we'll be removing it but want to add it back.
-    postureNameTableColumn = [[postureCategoryTableView tableColumnWithIdentifier:@"name"] retain];
+    postureNameTableColumn = [postureCategoryTableView tableColumnWithIdentifier:@"name"];
 
     // Remove all the table columns
     tableColumns = [[NSArray alloc] initWithArray:[postureCategoryTableView tableColumns]];
     count = [tableColumns count];
     for (index = 0; index < count; index++)
         [postureCategoryTableView removeTableColumn:[tableColumns objectAtIndex:index]];
-    [tableColumns release];
 
     // Add the posture name column back
     [postureCategoryTableView addTableColumn:postureNameTableColumn];
-    [postureNameTableColumn release];
 
     // Now we can add the category columns
     categories = [[self model] categories];
@@ -170,12 +160,9 @@
         [checkboxCell setImagePosition:NSImageOnly];
         [checkboxCell setEditable:NO];
         [newTableColumn setDataCell:checkboxCell];
-        [checkboxCell release];
 
         [newTableColumn sizeToFit];
         [postureCategoryTableView addTableColumn:newTableColumn];
-
-        [newTableColumn release];
     }
 }
 

@@ -23,13 +23,6 @@
     return self;
 }
 
-- (void)dealloc;
-{
-    [combinedCharacters release];
-
-    [super dealloc];
-}
-
 #pragma mark -
 
 // This doesn't get init'd when loaded from a nib, so we need to initialize the instance variables here.
