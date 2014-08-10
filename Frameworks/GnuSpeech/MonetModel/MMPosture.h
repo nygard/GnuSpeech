@@ -9,6 +9,7 @@
 @interface MMPosture : MMNamedObject
 
 - (id)initWithModel:(MModel *)model;
+- (id)initWithModel:(MModel *)model XMLElement:(NSXMLElement *)element error:(NSError **)error;
 
 - (NSString *)shortDescription;
 

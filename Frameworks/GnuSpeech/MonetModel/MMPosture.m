@@ -60,6 +60,99 @@
     return self;
 }
 
+- (id)initWithModel:(MModel *)model XMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    NSParameterAssert([@"posture" isEqualToString:element.name]);
+
+    if ((self = [super initWithXMLElement:element error:error])) {
+        _categories           = [[NSMutableArray alloc] init];
+        _parameterTargets     = [[NSMutableArray alloc] init];
+        _metaParameterTargets = [[NSMutableArray alloc] init];
+        _symbolTargets        = [[NSMutableArray alloc] init];
+
+        _nativeCategory = [[MMCategory alloc] init];
+        [_nativeCategory setIsNative:YES];
+        [_categories addObject:_nativeCategory];
+
+        self.model = model;
+//        [self _addDefaultValues]; // This needs a model.  But we don't need to add defaults, since we're loading.
+
+        // TODO (2004-08-12): Rename attribute name from "symbol" to "name", so we can use the superclass implementation of this method.  Do this after we start supporting upgrading from previous versions.
+        self.name = [[element attributeForName:@"symbol"] stringValue];
+
+        if (![self _loadPostureCategoriesFromXMLElement:   [[element elementsForName:@"posture-categories"] firstObject]     error:error]) return nil;
+        if (![self _loadParameterTargetsFromXMLElement:    [[element elementsForName:@"parameter-targets"] firstObject]      error:error]) return nil;
+        if (![self _loadMetaParameterTargetsFromXMLElement:[[element elementsForName:@"meta-parameter-targets"] firstObject] error:error]) return nil;
+        if (![self _loadSymbolTargetsFromXMLElement:       [[element elementsForName:@"symbol-targets"] firstObject]         error:error]) return nil;
+    }
+    
+    return self;
+}
+
+- (BOOL)_loadPostureCategoriesFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    NSParameterAssert([@"posture-categories" isEqualToString:element.name]);
+
+    for (NSXMLElement *childElement in [element elementsForName:@"category-ref"]) {
+        NSString *str = [[childElement attributeForName:@"name"] stringValue];
+        [self addCategoryWithName:str];
+    }
+
+    return YES;
+}
+
+- (BOOL)_loadParameterTargetsFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    NSParameterAssert([@"parameter-targets" isEqualToString:element.name]);
+
+    NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+
+    for (NSXMLElement *childElement in [element elementsForName:@"target"]) {
+        NSString *str = [[childElement attributeForName:@"name"] stringValue];
+        MMTarget *target = [[MMTarget alloc] initWithXMLElement:childElement error:error];
+        dictionary[str] = target;
+    }
+
+    [self addParameterTargetsFromDictionary:dictionary];
+
+    return YES;
+}
+
+- (BOOL)_loadMetaParameterTargetsFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    if (element == nil) return YES;
+    NSParameterAssert([@"meta-parameter-targets" isEqualToString:element.name]);
+
+    NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+
+    for (NSXMLElement *childElement in [element elementsForName:@"target"]) {
+        NSString *str = [[childElement attributeForName:@"name"] stringValue];
+        MMTarget *target = [[MMTarget alloc] initWithXMLElement:childElement error:error];
+        dictionary[str] = target;
+    }
+
+    [self addMetaParameterTargetsFromDictionary:dictionary];
+
+    return YES;
+}
+
+- (BOOL)_loadSymbolTargetsFromXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    NSParameterAssert([@"symbol-targets" isEqualToString:element.name]);
+
+    NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+
+    for (NSXMLElement *childElement in [element elementsForName:@"target"]) {
+        NSString *str = [[childElement attributeForName:@"name"] stringValue];
+        MMTarget *target = [[MMTarget alloc] initWithXMLElement:childElement error:error];
+        dictionary[str] = target;
+    }
+
+    [self addSymbolTargetsFromDictionary:dictionary];
+
+    return YES;
+}
+
 - (void)_addDefaultValues;
 {
     [self addCategory:[self.model categoryWithName:@"phone"]];
@@ -139,6 +232,7 @@
 
 - (void)addCategoryWithName:(NSString *)name;
 {
+    NSParameterAssert(self.model != nil);
     MMCategory *category = [self.model categoryWithName:name];
     [self addCategory:category];
 }
@@ -324,44 +418,5 @@
 {
     [self _appendXMLForParameters:self.model.symbols targets:self.symbolTargets elementName:@"symbol-targets" toString:resultString level:level];
 }
-
-#if 0
-// TODO (2004-08-12): Rename attribute name from "symbol" to "name", so we can use the superclass implementation of this method.  Do this after we start supporting upgrading from previous versions.
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
-{
-    if ((self = [self initWithModel:nil])) {
-        self.name = [attributes objectForKey:@"symbol"];
-    }
-
-    return self;
-}
-
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-{
-    if ([elementName isEqualToString:@"posture-categories"]) {
-        MXMLReferenceArrayDelegate *newDelegate = [[MXMLReferenceArrayDelegate alloc] initWithChildElementName:@"category-ref" referenceAttribute:@"name" delegate:self addObjectSelector:@selector(addCategoryWithName:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-    } else if ([elementName isEqualToString:@"parameter-targets"]) {
-        MXMLDictionaryDelegate *newDelegate = [[MXMLDictionaryDelegate alloc] initWithChildElementName:@"target" class:[MMTarget class] keyAttributeName:@"name" delegate:self addObjectsSelector:@selector(addParameterTargetsFromDictionary:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-    } else if ([elementName isEqualToString:@"meta-parameter-targets"]) {
-        MXMLDictionaryDelegate *newDelegate = [[MXMLDictionaryDelegate alloc] initWithChildElementName:@"target" class:[MMTarget class] keyAttributeName:@"name" delegate:self addObjectsSelector:@selector(addMetaParameterTargetsFromDictionary:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-    } else if ([elementName isEqualToString:@"symbol-targets"]) {
-        MXMLDictionaryDelegate *newDelegate = [[MXMLDictionaryDelegate alloc] initWithChildElementName:@"target" class:[MMTarget class] keyAttributeName:@"name" delegate:self addObjectsSelector:@selector(addSymbolTargetsFromDictionary:)];
-        [(MXMLParser *)parser pushDelegate:newDelegate];
-    } else {
-        [super parser:parser didStartElement:elementName namespaceURI:namespaceURI qualifiedName:qName attributes:attributeDict];
-    }
-}
-
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
-{
-    if ([elementName isEqualToString:@"posture"])
-        [(MXMLParser *)parser popDelegate];
-    else
-        [NSException raise:@"Unknown close tag" format:@"Unknown closing tag (%@) in %@", elementName, NSStringFromClass([self class])];
-}
-#endif
 
 @end

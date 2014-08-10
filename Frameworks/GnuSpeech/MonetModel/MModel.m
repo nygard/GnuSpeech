@@ -160,6 +160,9 @@
     NSParameterAssert([@"postures" isEqualToString:element.name]);
 
     for (NSXMLElement *childElement in [element elementsForName:@"posture"]) {
+        MMPosture *posture = [[MMPosture alloc] initWithModel:self XMLElement:childElement error:error];
+        if (posture != nil)
+            [self addPosture:posture];
     }
     
     return YES;

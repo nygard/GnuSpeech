@@ -7,6 +7,7 @@
 
 - (id)init;
 - (id)initWithValue:(double)newValue isDefault:(BOOL)shouldBeDefault;
+- (id)initWithXMLElement:(NSXMLElement *)element error:(NSError **)error;
 
 @property (assign) double value;
 @property (assign) BOOL isDefault;

@@ -35,6 +35,18 @@
     return self;
 }
 
+- (id)initWithXMLElement:(NSXMLElement *)element error:(NSError **)error;
+{
+    if ((self = [super init])) {
+        _isDefault = NO;
+
+        NSString *str = [[element attributeForName:@"value"] stringValue];
+        _value = (str != nil) ? [str doubleValue] : 0;
+    }
+
+    return self;
+}
+
 #pragma mark - Debugging
 
 - (NSString *)description;
@@ -66,32 +78,5 @@
         [resultString appendString:@"<!-- default -->"];
     [resultString appendString:@"\n"];
 }
-
-#if 0
-- (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;
-{
-    if ((self = [self init])) {
-        NSString *str = [attributes objectForKey:@"value"];
-        if (str != nil)
-            [self setValue:[str doubleValue]];
-    }
-
-    return self;
-}
-
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
-{
-    NSLog(@"%@: skipping element: %@", NSStringFromClass([self class]), elementName);
-    [(MXMLParser *)parser skipTree];
-}
-
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
-{
-    if ([elementName isEqualToString:@"target"])
-        [(MXMLParser *)parser popDelegate];
-    else
-        [NSException raise:@"Unknown close tag" format:@"Unknown closing tag (%@) in %@", elementName, NSStringFromClass([self class])];
-}
-#endif
 
 @end
