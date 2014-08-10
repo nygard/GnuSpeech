@@ -33,9 +33,9 @@ typedef NSInteger MMBooleanParserToken;
 
 @implementation MMFormulaParser
 {
-    MModel *m_model;
-    
-    NSUInteger m_lookahead;
+    MModel *_model;
+
+    NSUInteger _lookahead;
 }
 
 + (MMFormulaNode *)parsedExpressionFromString:(NSString *)string model:(MModel *)model;
@@ -66,16 +66,13 @@ typedef NSInteger MMBooleanParserToken;
 - (id)initWithModel:(MModel *)model;
 {
     if ((self = [super init])) {
-        m_model = model;
+        _model = model;
     }
 
     return self;
 }
 
 #pragma mark -
-
-@synthesize model = m_model;
-@synthesize lookahead = m_lookahead;
 
 - (MMBooleanParserToken)scanNextToken;
 {

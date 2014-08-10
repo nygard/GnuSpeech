@@ -14,27 +14,23 @@
 
 @implementation MMFormulaExpression
 {
-    MMFormulaOperation m_operation;
-    MMFormulaNode *m_left;
-    MMFormulaNode *m_right;
+    MMFormulaOperation _operation;
+    MMFormulaNode *_left;
+    MMFormulaNode *_right;
 }
 
 - (id)init;
 {
     if ((self = [super init])) {
-        m_operation = MMFormulaOperation_None;
-        m_left = nil;
-        m_right = nil;
+        _operation = MMFormulaOperation_None;
+        _left = nil;
+        _right = nil;
     }
 
     return self;
 }
 
 #pragma mark -
-
-@synthesize operation = m_operation;
-@synthesize left = m_left;
-@synthesize right = m_right;
 
 - (id)operandOne;
 {

@@ -9,19 +9,19 @@ NSString *GSParserSyntaxErrorException = @"GSParserSyntaxErrorException";
 
 @implementation GSParser
 {
-    NSString *nonretained_parseString;
-    NSScanner *scanner;
-    NSString *symbolString;
-    
-    NSUInteger startOfTokenLocation;
-    NSRange errorRange;
-    NSMutableString *errorMessage;
+    __weak NSString *_parseString;
+    NSScanner *_scanner;
+    NSString *_symbolString;
+
+    NSUInteger _startOfTokenLocation;
+    NSRange _errorRange;
+    NSMutableString *_errorMessage;
 }
 
 - (id)init;
 {
     if ((self = [super init])) {
-        errorMessage = [[NSMutableString alloc] init];
+        _errorMessage = [[NSMutableString alloc] init];
     }
 
     return self;
@@ -29,33 +29,31 @@ NSString *GSParserSyntaxErrorException = @"GSParserSyntaxErrorException";
 
 #pragma mark -
 
-@synthesize scanner, symbolString, startOfTokenLocation;
-
 - (id)parseString:(NSString *)aString;
 {
     id result = nil;
 
-    [errorMessage setString:@""];
+    [_errorMessage setString:@""];
 
-    nonretained_parseString = aString;
-    scanner = [[NSScanner alloc] initWithString:aString];
-    [scanner setCharactersToBeSkipped:nil];
+    _parseString = aString;
+    _scanner = [[NSScanner alloc] initWithString:aString];
+    [_scanner setCharactersToBeSkipped:nil];
 
     NS_DURING {
         result = [self beginParseString];
     } NS_HANDLER {
         if ([[localException name] isEqualToString:GSParserSyntaxErrorException]) {
-            NSLog(@"Syntax Error: %@ while parsing: %@, remaining part: %@", [self errorMessage], aString, [aString substringFromIndex:errorRange.location]);
+            NSLog(@"Syntax Error: %@ while parsing: %@, remaining part: %@", [self errorMessage], aString, [aString substringFromIndex:_errorRange.location]);
             result = nil;
         } else {
-            nonretained_parseString = nil;
-            scanner = nil;
+            _parseString = nil;
+            _scanner = nil;
             [localException raise];
         }
     } NS_ENDHANDLER;
 
-    nonretained_parseString = nil;
-    scanner = nil;
+    _parseString = nil;
+    _scanner = nil;
 
     return result;
 }
@@ -69,13 +67,13 @@ NSString *GSParserSyntaxErrorException = @"GSParserSyntaxErrorException";
 
 - (NSRange)errorRange;
 {
-    return errorRange;
+    return _errorRange;
 }
 
 - (NSString *)errorMessage;
 {
     // TODO (2004-03-03): Should we return a copy here, since it *is* mutable and used again?
-    return errorMessage;
+    return _errorMessage;
 }
 
 - (void)appendErrorFormat:(NSString *)format, ...;
@@ -83,17 +81,17 @@ NSString *GSParserSyntaxErrorException = @"GSParserSyntaxErrorException";
     va_list args;
 
     // TODO (2004-03-13): Probably need better control over this.  It should start at the beginning of the last token scanned.
-    if ([errorMessage length] == 0) {
-        errorRange.location = startOfTokenLocation;
-        errorRange.length = [scanner scanLocation] - errorRange.location;
+    if ([_errorMessage length] == 0) {
+        _errorRange.location = _startOfTokenLocation;
+        _errorRange.length = [_scanner scanLocation] - _errorRange.location;
     }
 
     va_start(args, format);
     NSString *str = [[NSString alloc] initWithFormat:format arguments:args];
     va_end(args);
 
-    [errorMessage appendString:str];
-    [errorMessage appendString:@"\n"];
+    [_errorMessage appendString:str];
+    [_errorMessage appendString:@"\n"];
 }
 
 @end

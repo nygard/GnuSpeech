@@ -18,35 +18,28 @@
 
 @implementation MMSymbol
 {
-    double minimumValue;
-    double maximumValue;
-    double defaultValue;
+    double _minimumValue;
+    double _maximumValue;
+    double _defaultValue;
 }
 
 - (id)init;
 {
     if ((self = [super init])) {
-        minimumValue = DEFAULT_MIN;
-        maximumValue = DEFAULT_MAX;
-        defaultValue = DEFAULT_VALUE;
+        _minimumValue = DEFAULT_MIN;
+        _maximumValue = DEFAULT_MAX;
+        _defaultValue = DEFAULT_VALUE;
     }
 
     return self;
 }
 
-@synthesize minimumValue, maximumValue;
-
-- (double)defaultValue;
-{
-    return defaultValue;
-}
-
 - (void)setDefaultValue:(double)newDefault;
 {
-    if (newDefault != defaultValue)
+    if (newDefault != _defaultValue)
         [[self model] symbol:self willChangeDefaultValue:newDefault];
 
-    defaultValue = newDefault;
+    _defaultValue = newDefault;
 }
 
 - (NSString *)description;

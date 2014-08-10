@@ -12,13 +12,13 @@
 
 @implementation MMCategory
 {
-    BOOL m_isNative;
+    BOOL _isNative;
 }
 
 - (id)init;
 {
     if ((self = [super init])) {
-        m_isNative = NO;
+        _isNative = NO;
     }
 
     return self;
@@ -34,8 +34,6 @@
 }
 
 #pragma mark -
-
-@synthesize isNative = m_isNative;
 
 - (NSComparisonResult)compareByAscendingName:(MMCategory *)other;
 {

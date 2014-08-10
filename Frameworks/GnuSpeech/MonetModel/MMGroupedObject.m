@@ -7,9 +7,7 @@
 
 @implementation MMGroupedObject
 {
-    __weak MMGroup *nonretained_group;
+    __weak MMGroup *_group;
 }
-
-@synthesize group = nonretained_group;
 
 @end

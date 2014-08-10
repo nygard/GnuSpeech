@@ -5,10 +5,8 @@
 
 @implementation MMObject
 {
-    __weak MModel *nonretained_model;
+    MModel *_model;
 }
-
-@synthesize model = nonretained_model;
 
 - (NSUndoManager *)undoManager;
 {

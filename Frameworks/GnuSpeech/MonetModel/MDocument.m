@@ -8,12 +8,10 @@
 
 @implementation MDocument
 {
-    MModel *model;
+    MModel *_model;
 }
 
 #pragma mark -
-
-@synthesize model;
 
 - (BOOL)loadFromXMLFile:(NSString *)filename;
 {
@@ -56,8 +54,8 @@
         newModel = [[MModel alloc] init];
         [self setModel:newModel];
 
-        [(MXMLParser *)parser setContext:model];
-        [(MXMLParser *)parser pushDelegate:model];
+        [(MXMLParser *)parser setContext:_model];
+        [(MXMLParser *)parser pushDelegate:_model];
     }
 }
 

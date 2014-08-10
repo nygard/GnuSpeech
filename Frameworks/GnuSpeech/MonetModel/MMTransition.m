@@ -20,15 +20,15 @@
 
 @implementation MMTransition
 {
-    MMPhoneType type;
-    NSMutableArray *points; // Of MMSlopeRatios and/or MMPoints
+    MMPhoneType _type;
+    NSMutableArray *_points; // Of MMSlopeRatios and/or MMPoints
 }
 
 - (id)init;
 {
     if ((self = [super init])) {
-        type = MMPhoneType_Diphone;
-        points = [[NSMutableArray alloc] init];
+        _type = MMPhoneType_Diphone;
+        _points = [[NSMutableArray alloc] init];
     }
 
     return self;
@@ -39,7 +39,7 @@
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"<%@: %p> name: %@, comment: %@, type: %lu, points: %@",
-            NSStringFromClass([self class]), self, self.name, self.comment, type, points];
+            NSStringFromClass([self class]), self, self.name, self.comment, _type, _points];
 }
 
 #pragma mark -
@@ -53,12 +53,10 @@
     [self addPoint:aPoint];
 }
 
-@synthesize points;
-
 // Can be either an MMPoint or an MMSlopeRatio
 - (void)addPoint:(id)newPoint;
 {
-    [points addObject:newPoint];
+    [_points addObject:newPoint];
 }
 
 // pointTime = [aPoint cachedTime];
@@ -67,9 +65,9 @@
     NSUInteger pointCount, pointIndex;
     id currentPointOrSlopeRatio;
 
-    pointCount = [points count];
+    pointCount = [_points count];
     for (pointIndex = 0; pointIndex < pointCount; pointIndex++) {
-        currentPointOrSlopeRatio = [points objectAtIndex:pointIndex];
+        currentPointOrSlopeRatio = [_points objectAtIndex:pointIndex];
 
         if ([currentPointOrSlopeRatio isKindOfClass:[MMSlopeRatio class]]) {
             if (aTime < [currentPointOrSlopeRatio startTime])
@@ -90,11 +88,11 @@
     id temp, temp1, temp2;
     double pointTime = [aPoint cachedTime];
 
-    for (i = 0; i < [points count]; i++) {
-        temp = [points objectAtIndex:i];
+    for (i = 0; i < [_points count]; i++) {
+        temp = [_points objectAtIndex:i];
         if ([temp isKindOfClass:[MMSlopeRatio class]]) {
             if (pointTime < [temp startTime]) {
-                [points insertObject:aPoint atIndex:i];
+                [_points insertObject:aPoint atIndex:i];
                 return;
             } else if (pointTime < [temp endTime]) { /* Insert point into Slope Ratio */
                 temp1 = [temp points];
@@ -112,31 +110,29 @@
             }
         } else {
             if (pointTime < [temp cachedTime]) {
-                [points insertObject:aPoint atIndex:i];
+                [_points insertObject:aPoint atIndex:i];
                 return;
             }
         }
     }
 
-    [points addObject:aPoint];
+    [_points addObject:aPoint];
 }
-
-@synthesize type;
 
 - (BOOL)isEquationUsed:(MMEquation *)anEquation;
 {
     NSUInteger i, j;
     id temp;
 
-    for (i = 0; i < [points count]; i++) {
-        temp = [points objectAtIndex: i];
+    for (i = 0; i < [_points count]; i++) {
+        temp = [_points objectAtIndex: i];
         if ([temp isKindOfClass:[MMSlopeRatio class]]) {
             temp = [temp points];
             for (j = 0; j < [temp count]; j++)
                 if (anEquation == [[temp objectAtIndex:j] timeEquation])
                     return YES;
         } else
-            if (anEquation == [[points objectAtIndex:i] timeEquation])
+            if (anEquation == [[_points objectAtIndex:i] timeEquation])
                 return YES;
     }
 
@@ -147,14 +143,14 @@
 {
     [resultString indentToLevel:level];
     [resultString appendFormat:@"<transition name=\"%@\" type=\"%@\">\n",
-                  GSXMLAttributeString(self.name, NO), GSXMLAttributeString(MMStringFromPhoneType(type), NO)];
+                  GSXMLAttributeString(self.name, NO), GSXMLAttributeString(MMStringFromPhoneType(_type), NO)];
 
     if (self.comment != nil) {
         [resultString indentToLevel:level + 1];
         [resultString appendFormat:@"<comment>%@</comment>\n", GSXMLCharacterData(self.comment)];
     }
 
-    [points appendXMLToString:resultString elementName:@"point-or-slopes" level:level + 1];
+    [_points appendXMLToString:resultString elementName:@"point-or-slopes" level:level + 1];
 
     [resultString indentToLevel:level];
     [resultString appendFormat:@"</transition>\n"];

@@ -30,37 +30,37 @@
 
 @implementation MModel
 {
-    NSMutableArray *categories; // Keep this list sorted by name
-    NSMutableArray *parameters;
-    NSMutableArray *metaParameters;
-    NSMutableArray *symbols;
-    NSMutableArray *postures; // Keep this list sorted by name
-    
-    NSMutableArray *equationGroups;          // Of MMGroups of MMEquations
-    NSMutableArray *transitionGroups;        // Of MMGroups of MMTransitions
-    NSMutableArray *specialTransitionGroups; // Of MMGroups of MMTransitions
-    
-    NSMutableArray *rules;
-    NSUInteger cacheTag;
-    
+    NSMutableArray *_categories; // Keep this list sorted by name
+    NSMutableArray *_parameters;
+    NSMutableArray *_metaParameters;
+    NSMutableArray *_symbols;
+    NSMutableArray *_postures; // Keep this list sorted by name
+
+    NSMutableArray *_equationGroups;          // Of MMGroups of MMEquations
+    NSMutableArray *_transitionGroups;        // Of MMGroups of MMTransitions
+    NSMutableArray *_specialTransitionGroups; // Of MMGroups of MMTransitions
+
+    NSMutableArray *_rules;
+    NSUInteger _cacheTag;
+
     // This doesn't really belong here, but I'll put it here for now.
-    MMSynthesisParameters *synthesisParameters;
+    MMSynthesisParameters *_synthesisParameters;
 }
 
 - (id)init;
 {
     if ((self = [super init])) {
-        categories = [[NSMutableArray alloc] init];
-        parameters = [[NSMutableArray alloc] init];
-        metaParameters = [[NSMutableArray alloc] init];
-        symbols = [[NSMutableArray alloc] init];
-        postures = [[NSMutableArray alloc] init];
+        _categories = [[NSMutableArray alloc] init];
+        _parameters = [[NSMutableArray alloc] init];
+        _metaParameters = [[NSMutableArray alloc] init];
+        _symbols = [[NSMutableArray alloc] init];
+        _postures = [[NSMutableArray alloc] init];
         
-        equationGroups = [[NSMutableArray alloc] init];
-        transitionGroups = [[NSMutableArray alloc] init];
-        specialTransitionGroups = [[NSMutableArray alloc] init];
+        _equationGroups = [[NSMutableArray alloc] init];
+        _transitionGroups = [[NSMutableArray alloc] init];
+        _specialTransitionGroups = [[NSMutableArray alloc] init];
         
-        rules = [[NSMutableArray alloc] init];
+        _rules = [[NSMutableArray alloc] init];
 #if 0
         // And set up some default values:
         // TODO (2004-05-15): Just load these from a default .monet file
@@ -82,9 +82,9 @@
             [self _addDefaultRule];
         }
 #endif
-        cacheTag = 1;
+        _cacheTag = 1;
         
-        synthesisParameters = [[MMSynthesisParameters alloc] init];
+        _synthesisParameters = [[MMSynthesisParameters alloc] init];
     }
 
     return self;
@@ -105,15 +105,13 @@
     [self addRule:rule];
 }
 
-@synthesize categories, parameters, metaParameters, symbols, postures, equationGroups, transitionGroups, specialTransitionGroups, rules;
-
 #pragma mark - Categories
 
 - (void)addCategory:(MMCategory *)category;
 {
     [self _generateUniqueNameForObject:category existingObjects:self.categories];
 
-    [categories addObject:category];
+    [_categories addObject:category];
     //[categories sortUsingSelector:@selector(compareByAscendingName:)];
     // TODO (2004-03-18): And post notification of new category.
 }
@@ -136,7 +134,7 @@
         return NO;
     }
 
-    [categories removeObject:category];
+    [_categories removeObject:category];
     return YES;
 }
 
@@ -251,7 +249,7 @@
 
     [self _generateUniqueNameForObject:symbol existingObjects:self.symbols];
 
-    [symbols addObject:symbol];
+    [_symbols addObject:symbol];
     symbol.model = self;
     
     // Add default symbol targets
@@ -263,18 +261,18 @@
 
 - (void)removeSymbol:(MMSymbol *)symbol;
 {
-    NSUInteger index = [symbols indexOfObject:symbol];
+    NSUInteger index = [_symbols indexOfObject:symbol];
     if (index != NSNotFound) {
-        for (MMPosture *posture in postures)
+        for (MMPosture *posture in _postures)
             [posture removeSymbolTargetAtIndex:index];
 
-        [symbols removeObject:symbol];
+        [_symbols removeObject:symbol];
     }
 }
 
 - (MMSymbol *)symbolWithName:(NSString *)name;
 {
-    for (MMSymbol *symbol in symbols) {
+    for (MMSymbol *symbol in _symbols) {
         if ([symbol.name isEqual:name])
             return symbol;
     }
@@ -289,7 +287,7 @@
     posture.model = self;
     [self _generateUniqueNameForPosture:posture];
 
-    [postures addObject:posture];
+    [_postures addObject:posture];
     [self sortPostures];
 }
 
@@ -329,14 +327,14 @@
 
 - (void)removePosture:(MMPosture *)posture;
 {
-    [postures removeObject:posture];
+    [_postures removeObject:posture];
 
     // TODO (2004-03-20): Make sure it isn't used by any rules?
 }
 
 - (void)sortPostures;
 {
-    [postures sortUsingSelector:@selector(compareByAscendingName:)];
+    [_postures sortUsingSelector:@selector(compareByAscendingName:)];
 }
 
 - (MMPosture *)postureWithName:(NSString *)name;
@@ -351,19 +349,19 @@
 
 - (void)addEquationGroup:(MMGroup *)group;
 {
-    [equationGroups addObject:group];
+    [_equationGroups addObject:group];
     group.model = self;
 }
 
 - (void)addTransitionGroup:(MMGroup *)group;
 {
-    [transitionGroups addObject:group];
+    [_transitionGroups addObject:group];
     group.model = self;
 }
 
 - (void)addSpecialTransitionGroup:(MMGroup *)group;
 {
-    [specialTransitionGroups addObject:group];
+    [_specialTransitionGroups addObject:group];
     group.model = self;
 }
 
@@ -482,17 +480,17 @@
 {
     [newRule setModel:self];
     [newRule setDefaultsTo:[newRule numberExpressions]]; // TODO (2004-05-15): Try moving this to the init method.
-    if ([rules count] > 0)
-        [rules insertObject:newRule atIndex:[rules count] - 1];
+    if ([_rules count] > 0)
+        [_rules insertObject:newRule atIndex:[_rules count] - 1];
     else
-        [rules addObject:newRule];
+        [_rules addObject:newRule];
 }
 
 // Used when loading from stored file.
 - (void)_addStoredRule:(MMRule *)newRule;
 {
     [newRule setModel:self];
-    [rules addObject:newRule];
+    [_rules addObject:newRule];
 }
 
 // categoryLists is a list of lists of categories.
@@ -527,17 +525,17 @@
         [resultString appendFormat:@"<!-- %@ -->\n", comment];
     [resultString appendString:@"<root version='1'>\n"];
 
-    [categories appendXMLToString:resultString elementName:@"categories" level:1];
+    [_categories appendXMLToString:resultString elementName:@"categories" level:1];
 
-    [parameters appendXMLToString:resultString elementName:@"parameters" level:1];
-    [metaParameters appendXMLToString:resultString elementName:@"meta-parameters" level:1];
-    [symbols appendXMLToString:resultString elementName:@"symbols" level:1];
-    [postures appendXMLToString:resultString elementName:@"postures" level:1];
+    [_parameters appendXMLToString:resultString elementName:@"parameters" level:1];
+    [_metaParameters appendXMLToString:resultString elementName:@"meta-parameters" level:1];
+    [_symbols appendXMLToString:resultString elementName:@"symbols" level:1];
+    [_postures appendXMLToString:resultString elementName:@"postures" level:1];
 
     [self _appendXMLForEquationsToString:resultString level:1];
     [self _appendXMLForTransitionsToString:resultString level:1];
     [self _appendXMLForProtoSpecialsToString:resultString level:1];
-    [rules appendXMLToString:resultString elementName:@"rules" level:1 numberCommentPrefix:@"Rule"];
+    [_rules appendXMLToString:resultString elementName:@"rules" level:1 numberCommentPrefix:@"Rule"];
 
     [resultString appendString:@"</root>\n"];
 
@@ -586,7 +584,7 @@
 
 - (NSUInteger)nextCacheTag;
 {
-    return ++cacheTag;
+    return ++_cacheTag;
 }
 
 - (void)parameter:(MMParameter *)parameter willChangeDefaultValue:(double)newDefaultValue;
@@ -618,10 +616,6 @@
         }
     }
 }
-
-#pragma mark - Other
-
-@synthesize synthesisParameters;
 
 #pragma mark NSXMLParserDelegate
 

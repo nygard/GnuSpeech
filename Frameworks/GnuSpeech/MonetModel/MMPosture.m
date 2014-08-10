@@ -27,12 +27,12 @@
 
 @implementation MMPosture
 {
-    NSMutableArray *m_categories;           // Of MMCategorys (member of these categories)
-    NSMutableArray *m_parameterTargets;     // Of Targets
-    NSMutableArray *m_metaParameterTargets; // Of Targets
-    NSMutableArray *m_symbolTargets;        // Of Targets (symbol definitions)
+    NSMutableArray *_categories;           // Of MMCategorys (member of these categories)
+    NSMutableArray *_parameterTargets;     // Of Targets
+    NSMutableArray *_metaParameterTargets; // Of Targets
+    NSMutableArray *_symbolTargets;        // Of Targets (symbol definitions)
     
-    MMCategory *m_nativeCategory;
+    MMCategory *_nativeCategory;
 }
 
 // This is now used from -[MMNamedObject initWithXMLAttributes:context:]
@@ -44,14 +44,14 @@
 - (id)initWithModel:(MModel *)model;
 {
     if ((self = [super init])) {
-        m_categories           = [[NSMutableArray alloc] init];
-        m_parameterTargets     = [[NSMutableArray alloc] init];
-        m_metaParameterTargets = [[NSMutableArray alloc] init];
-        m_symbolTargets        = [[NSMutableArray alloc] init];
+        _categories           = [[NSMutableArray alloc] init];
+        _parameterTargets     = [[NSMutableArray alloc] init];
+        _metaParameterTargets = [[NSMutableArray alloc] init];
+        _symbolTargets        = [[NSMutableArray alloc] init];
         
-        m_nativeCategory = [[MMCategory alloc] init];
-        [m_nativeCategory setIsNative:YES];
-        [m_categories addObject:m_nativeCategory];
+        _nativeCategory = [[MMCategory alloc] init];
+        [_nativeCategory setIsNative:YES];
+        [_categories addObject:_nativeCategory];
         
         self.model = model;
         [self _addDefaultValues];
@@ -109,9 +109,6 @@
 
 #pragma mark - Categories
 
-@synthesize nativeCategory = m_nativeCategory;
-@synthesize categories = m_categories;
-
 - (void)addCategory:(MMCategory *)category;
 {
     if (category != nil) {
@@ -148,8 +145,6 @@
 
 #pragma mark - Parameter Targets
 
-@synthesize parameterTargets = m_parameterTargets;
-
 - (void)addParameterTarget:(MMTarget *)target;
 {
     [self.parameterTargets addObject:target];
@@ -178,8 +173,6 @@
 
 #pragma mark - Meta-parameter Targets
 
-@synthesize metaParameterTargets = m_metaParameterTargets;
-
 - (void)addMetaParameterTarget:(MMTarget *)target;
 {
     [self.metaParameterTargets addObject:target];
@@ -207,8 +200,6 @@
 }
 
 #pragma mark - Symbol Targets
-
-@synthesize symbolTargets = m_symbolTargets;
 
 - (void)addSymbolTarget:(MMTarget *)target;
 {

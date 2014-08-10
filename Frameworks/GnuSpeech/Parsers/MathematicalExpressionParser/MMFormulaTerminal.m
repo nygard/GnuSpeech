@@ -15,17 +15,17 @@
 
 @implementation MMFormulaTerminal
 {
-    MMSymbol *symbol;
-    double value;
-    MMPhoneIndex whichPhone; // TODO (2004-03-10): Rename this
+    MMSymbol *_symbol;
+    double _value;
+    MMPhoneIndex _whichPhone; // TODO (2004-03-10): Rename this
 }
 
 - (id)init;
 {
     if ((self = [super init])) {
-        symbol = nil;
-        value = 0.0;
-        whichPhone = -1;
+        _symbol = nil;
+        _value = 0.0;
+        _whichPhone = -1;
     }
 
     return self;
@@ -43,7 +43,7 @@
 {
     NSParameterAssert([phones count] <= 4);
 
-    switch (whichPhone) {
+    switch (_whichPhone) {
         case MMPhoneIndex_RuleDuration: return ruleSymbols.ruleDuration; // Duration of the rule itself
         case MMPhoneIndex_Beat:         return ruleSymbols.beat;
         case MMPhoneIndex_Mark1:        return ruleSymbols.mark1;
@@ -59,13 +59,13 @@
     }
 
     // Constant value
-    if (symbol == nil)
-        return value;
+    if (_symbol == nil)
+        return _value;
 
-    NSParameterAssert(whichPhone >= 0 && whichPhone < 4);
+    NSParameterAssert(_whichPhone >= 0 && _whichPhone < 4);
 
-    MMPhone *phone = phones[whichPhone];
-    MMTarget *symbolTarget = [phone.posture targetForSymbol:symbol];
+    MMPhone *phone = phones[_whichPhone];
+    MMTarget *symbolTarget = [phone.posture targetForSymbol:_symbol];
     if (symbolTarget == nil)
         return 0.0;
 
@@ -79,7 +79,7 @@
 
 - (void)appendExpressionToString:(NSMutableString *)resultString;
 {
-    switch (whichPhone) {
+    switch (_whichPhone) {
         case MMPhoneIndex_RuleDuration: [resultString appendString:@"rd"];     break;
         case MMPhoneIndex_Beat:         [resultString appendString:@"beat"];   break;
         case MMPhoneIndex_Mark1:        [resultString appendString:@"mark1"];  break;
@@ -91,16 +91,14 @@
         case MMPhoneIndex_Tempo3:       [resultString appendString:@"tempo4"]; break;
             
         default:
-            if (symbol == nil) {
-                [resultString appendFormat:@"%f", value];
+            if (_symbol == nil) {
+                [resultString appendFormat:@"%f", _value];
             } else {
-                NSParameterAssert(whichPhone >= 0 && whichPhone < 4);
-                [resultString appendFormat:@"%@%lu", [symbol name], whichPhone+1];
+                NSParameterAssert(_whichPhone >= 0 && _whichPhone < 4);
+                [resultString appendFormat:@"%@%lu", [_symbol name], _whichPhone+1];
             }
             break;
     }
 }
-
-@synthesize symbol, value, whichPhone;
 
 @end

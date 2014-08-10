@@ -60,8 +60,8 @@ static NSDictionary *_specialAcronyms = nil;
 
 @implementation TTSParserOld
 {
-    GSPronunciationDictionary *mainDictionary;
-    unichar escapeCharacter;
+    GSPronunciationDictionary *_mainDictionary;
+    unichar _escapeCharacter;
 }
 
 + (void)initialize;
@@ -76,10 +76,10 @@ static NSDictionary *_specialAcronyms = nil;
 - (id)initWithPronunciationDictionary:(GSPronunciationDictionary *)aDictionary;
 {
     if ((self = [super init])) {
-        mainDictionary = aDictionary;
+        _mainDictionary = aDictionary;
         //[mainDictionary loadDictionary];
 
-        escapeCharacter = '%';
+        _escapeCharacter = '%';
     }
 
     return self;
@@ -129,7 +129,7 @@ static NSDictionary *_specialAcronyms = nil;
 - (void)markModes:(NSString *)aString;
 {
     NSString *str;
-    NSCharacterSet *escapeCharacterSet = [NSCharacterSet characterSetWithCharactersInString:[NSString stringWithUnichar:escapeCharacter]];
+    NSCharacterSet *escapeCharacterSet = [NSCharacterSet characterSetWithCharactersInString:[NSString stringWithUnichar:_escapeCharacter]];
     NSMutableString *resultString = [NSMutableString string];
 
     NSMutableArray *modeStack = [[NSMutableArray alloc] init];
@@ -146,7 +146,7 @@ static NSDictionary *_specialAcronyms = nil;
                 NSLog(@"Raw mode, do something...");
             } else {
                 if ([scanner scanCharacterFromSet:escapeCharacterSet intoString:NULL] == YES) {
-                    [resultString appendString:[NSString stringWithUnichar:escapeCharacter]];
+                    [resultString appendString:[NSString stringWithUnichar:_escapeCharacter]];
                 } else {
                     NSString *modeString;
 
@@ -409,7 +409,7 @@ static NSDictionary *_specialAcronyms = nil;
             pronunciation = [self degenerateString:word];
         // dictionary = TTS_LETTER_TO_SOUND;
     } else {
-        pronunciation = [mainDictionary pronunciationForWord:[word lowercaseString]];
+        pronunciation = [_mainDictionary pronunciationForWord:[word lowercaseString]];
         // TODO (2004-04-29): And that should set the dictionary
     }
     

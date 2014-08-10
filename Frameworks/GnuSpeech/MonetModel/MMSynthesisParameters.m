@@ -125,36 +125,36 @@ MMChannels MMChannelsFromString(NSString *string)
 
 @implementation MMSynthesisParameters
 {
-    double masterVolume;
-    double vocalTractLength;
-    double temperature;
-    double balance;
-    double breathiness;
-    double lossFactor;
-    double pitch;
-    
-    double throatCutoff;
-    double throatVolume;
-    double apertureScaling;
-    double mouthCoef;
-    double noseCoef;
-    double mixOffset;
-    
-    double n1;
-    double n2;
-    double n3;
-    double n4;
-    double n5;
-    
-    double tp;
-    double tnMin;
-    double tnMax;
-    
-    MMGlottalPulseShape glottalPulseShape;
-    BOOL shouldUseNoiseModulation;
-    
-    MMSamplingRate samplingRate;
-    MMChannels outputChannels;
+    double _masterVolume;
+    double _vocalTractLength;
+    double _temperature;
+    double _balance;
+    double _breathiness;
+    double _lossFactor;
+    double _pitch;
+
+    double _throatCutoff;
+    double _throatVolume;
+    double _apertureScaling;
+    double _mouthCoef;
+    double _noseCoef;
+    double _mixOffset;
+
+    double _n1;
+    double _n2;
+    double _n3;
+    double _n4;
+    double _n5;
+
+    double _tp;
+    double _tnMin;
+    double _tnMax;
+
+    MMGlottalPulseShape _glottalPulseShape;
+    BOOL _shouldUseNoiseModulation;
+
+    MMSamplingRate _samplingRate;
+    MMChannels _outputChannels;
 }
 
 + (void)initialize;
@@ -203,74 +203,72 @@ MMChannels MMChannelsFromString(NSString *string)
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
-    masterVolume     = [defaults doubleForKey:MDK_MASTER_VOLUME];
-    vocalTractLength = [defaults doubleForKey:MDK_VOCAL_TRACT_LENGTH];
-    temperature      = [defaults doubleForKey:MDK_TEMPERATURE];
-    balance          = [defaults doubleForKey:MDK_BALANCE];
-    breathiness      = [defaults doubleForKey:MDK_BREATHINESS];
-    lossFactor       = [defaults doubleForKey:MDK_LOSS_FACTOR];
-    pitch            = [defaults doubleForKey:MDK_PITCH];
+    _masterVolume     = [defaults doubleForKey:MDK_MASTER_VOLUME];
+    _vocalTractLength = [defaults doubleForKey:MDK_VOCAL_TRACT_LENGTH];
+    _temperature      = [defaults doubleForKey:MDK_TEMPERATURE];
+    _balance          = [defaults doubleForKey:MDK_BALANCE];
+    _breathiness      = [defaults doubleForKey:MDK_BREATHINESS];
+    _lossFactor       = [defaults doubleForKey:MDK_LOSS_FACTOR];
+    _pitch            = [defaults doubleForKey:MDK_PITCH];
 
-    throatCutoff     = [defaults doubleForKey:MDK_THROAT_CUTTOFF];
-    throatVolume     = [defaults doubleForKey:MDK_THROAT_VOLUME];
-    apertureScaling  = [defaults doubleForKey:MDK_APERTURE_SCALING];
-    mouthCoef        = [defaults doubleForKey:MDK_MOUTH_COEF];
-    noseCoef         = [defaults doubleForKey:MDK_NOSE_COEF];
-    mixOffset        = [defaults doubleForKey:MDK_MIX_OFFSET];
+    _throatCutoff     = [defaults doubleForKey:MDK_THROAT_CUTTOFF];
+    _throatVolume     = [defaults doubleForKey:MDK_THROAT_VOLUME];
+    _apertureScaling  = [defaults doubleForKey:MDK_APERTURE_SCALING];
+    _mouthCoef        = [defaults doubleForKey:MDK_MOUTH_COEF];
+    _noseCoef         = [defaults doubleForKey:MDK_NOSE_COEF];
+    _mixOffset        = [defaults doubleForKey:MDK_MIX_OFFSET];
 
-    n1 = [defaults doubleForKey:MDK_N1];
-    n2 = [defaults doubleForKey:MDK_N2];
-    n3 = [defaults doubleForKey:MDK_N3];
-    n4 = [defaults doubleForKey:MDK_N4];
-    n5 = [defaults doubleForKey:MDK_N5];
+    _n1 = [defaults doubleForKey:MDK_N1];
+    _n2 = [defaults doubleForKey:MDK_N2];
+    _n3 = [defaults doubleForKey:MDK_N3];
+    _n4 = [defaults doubleForKey:MDK_N4];
+    _n5 = [defaults doubleForKey:MDK_N5];
 
-    tp    = [defaults doubleForKey:MDK_TP];
-    tnMin = [defaults doubleForKey:MDK_TN_MIN];
-    tnMax = [defaults doubleForKey:MDK_TN_MAX];
+    _tp    = [defaults doubleForKey:MDK_TP];
+    _tnMin = [defaults doubleForKey:MDK_TN_MIN];
+    _tnMax = [defaults doubleForKey:MDK_TN_MAX];
 
-    glottalPulseShape        = MMGlottalPulseShapeFromString([defaults stringForKey:MDK_GP_SHAPE]);
-    shouldUseNoiseModulation = [defaults boolForKey:MDK_NOISE_MODULATION];
+    _glottalPulseShape        = MMGlottalPulseShapeFromString([defaults stringForKey:MDK_GP_SHAPE]);
+    _shouldUseNoiseModulation = [defaults boolForKey:MDK_NOISE_MODULATION];
 
-    samplingRate   = MMSamplingRateFromString([defaults stringForKey:MDK_SAMPLING_RATE]);
-    outputChannels = MMChannelsFromString([defaults stringForKey:MDK_OUTPUT_CHANNELS]);
+    _samplingRate   = MMSamplingRateFromString([defaults stringForKey:MDK_SAMPLING_RATE]);
+    _outputChannels = MMChannelsFromString([defaults stringForKey:MDK_OUTPUT_CHANNELS]);
 }
 
 - (void)saveAsDefaults;
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
-    [defaults setDouble:masterVolume     forKey:MDK_MASTER_VOLUME];
-    [defaults setDouble:vocalTractLength forKey:MDK_VOCAL_TRACT_LENGTH];
-    [defaults setDouble:temperature      forKey:MDK_TEMPERATURE];
-    [defaults setDouble:balance          forKey:MDK_BALANCE];
-    [defaults setDouble:breathiness      forKey:MDK_BREATHINESS];
-    [defaults setDouble:lossFactor       forKey:MDK_LOSS_FACTOR];
-    [defaults setDouble:pitch            forKey:MDK_PITCH];
+    [defaults setDouble:_masterVolume     forKey:MDK_MASTER_VOLUME];
+    [defaults setDouble:_vocalTractLength forKey:MDK_VOCAL_TRACT_LENGTH];
+    [defaults setDouble:_temperature      forKey:MDK_TEMPERATURE];
+    [defaults setDouble:_balance          forKey:MDK_BALANCE];
+    [defaults setDouble:_breathiness      forKey:MDK_BREATHINESS];
+    [defaults setDouble:_lossFactor       forKey:MDK_LOSS_FACTOR];
+    [defaults setDouble:_pitch            forKey:MDK_PITCH];
 
-    [defaults setDouble:throatCutoff    forKey:MDK_THROAT_CUTTOFF];
-    [defaults setDouble:throatVolume    forKey:MDK_THROAT_VOLUME];
-    [defaults setDouble:apertureScaling forKey:MDK_APERTURE_SCALING];
-    [defaults setDouble:mouthCoef       forKey:MDK_MOUTH_COEF];
-    [defaults setDouble:noseCoef        forKey:MDK_NOSE_COEF];
-    [defaults setDouble:mixOffset       forKey:MDK_MIX_OFFSET];
+    [defaults setDouble:_throatCutoff    forKey:MDK_THROAT_CUTTOFF];
+    [defaults setDouble:_throatVolume    forKey:MDK_THROAT_VOLUME];
+    [defaults setDouble:_apertureScaling forKey:MDK_APERTURE_SCALING];
+    [defaults setDouble:_mouthCoef       forKey:MDK_MOUTH_COEF];
+    [defaults setDouble:_noseCoef        forKey:MDK_NOSE_COEF];
+    [defaults setDouble:_mixOffset       forKey:MDK_MIX_OFFSET];
 
-    [defaults setDouble:n1 forKey:MDK_N1];
-    [defaults setDouble:n2 forKey:MDK_N2];
-    [defaults setDouble:n3 forKey:MDK_N3];
-    [defaults setDouble:n4 forKey:MDK_N4];
-    [defaults setDouble:n5 forKey:MDK_N5];
+    [defaults setDouble:_n1 forKey:MDK_N1];
+    [defaults setDouble:_n2 forKey:MDK_N2];
+    [defaults setDouble:_n3 forKey:MDK_N3];
+    [defaults setDouble:_n4 forKey:MDK_N4];
+    [defaults setDouble:_n5 forKey:MDK_N5];
 
-    [defaults setDouble:tp    forKey:MDK_TP];
-    [defaults setDouble:tnMin forKey:MDK_TN_MIN];
-    [defaults setDouble:tnMax forKey:MDK_TN_MAX];
+    [defaults setDouble:_tp    forKey:MDK_TP];
+    [defaults setDouble:_tnMin forKey:MDK_TN_MIN];
+    [defaults setDouble:_tnMax forKey:MDK_TN_MAX];
 
-    [defaults setObject:MMGlottalPulseShapeName(glottalPulseShape) forKey:MDK_GP_SHAPE];
-    [defaults setBool:shouldUseNoiseModulation                     forKey:MDK_NOISE_MODULATION];
-    [defaults setObject:MMSamplingRateName(samplingRate)           forKey:MDK_SAMPLING_RATE];
-    [defaults setObject:MMChannelsName(outputChannels)             forKey:MDK_OUTPUT_CHANNELS];
+    [defaults setObject:MMGlottalPulseShapeName(_glottalPulseShape) forKey:MDK_GP_SHAPE];
+    [defaults setBool:_shouldUseNoiseModulation                     forKey:MDK_NOISE_MODULATION];
+    [defaults setObject:MMSamplingRateName(_samplingRate)           forKey:MDK_SAMPLING_RATE];
+    [defaults setObject:MMChannelsName(_outputChannels)             forKey:MDK_OUTPUT_CHANNELS];
 }
-
-@synthesize masterVolume, vocalTractLength, temperature, balance, breathiness, lossFactor, pitch, throatCutoff, throatVolume, apertureScaling, mouthCoef, noseCoef, mixOffset, n1, n2, n3, n4, n5, tp, tnMin, tnMax, glottalPulseShape, shouldUseNoiseModulation, samplingRate, outputChannels;
 
 - (double)sampleRate;
 {
@@ -284,29 +282,29 @@ MMChannels MMChannelsFromString(NSString *string)
     [str appendFormat:@"%u\t\t; %@\n",  0,                        @"output file format (0 = AU, 1 = AIFF, 2 = WAVE)"];
     [str appendFormat:@"%g\t\t; %@\n",  self.sampleRate,          @"output sample rate (22050.0, 44100.0)"];
     [str appendFormat:@"%u\t\t; %@\n",  250,                      @"input control rate (1 - 1000 Hz)"];
-    [str appendFormat:@"%f\t; %@\n",    masterVolume,             @"master volume (0 - 60 dB)"];
-    [str appendFormat:@"%lu\t\t; %@\n", outputChannels + 1,       @"number of sound output channels (1 or 2)"];
-    [str appendFormat:@"%f\t; %@\n",    balance,                  @"stereo balance (-1 to +1)"];
-    [str appendFormat:@"%lu\t\t; %@\n", glottalPulseShape,        @"glottal source waveform type (0 = pulse, 1 = sine)"];
-    [str appendFormat:@"%f\t; %@\n",    tp,                       @"glottal pulse rise time (5 - 50 % of GP period)"];
-    [str appendFormat:@"%f\t; %@\n",    tnMin,                    @"glottal pulse fall time minimum (5 - 50 % of GP period)"];
-    [str appendFormat:@"%f\t; %@\n",    tnMax,                    @"glottal pulse fall time maximum (5 - 50 % of GP period)"];
-    [str appendFormat:@"%f\t; %@\n",    breathiness,              @"glottal source breathiness (0 - 10 % of GS amplitude)"];
-    [str appendFormat:@"%f\t; %@\n",    vocalTractLength,         @"nominal tube length (10 - 20 cm)"];
-    [str appendFormat:@"%f\t; %@\n",    temperature,              @"tube temperature (25 - 40 degrees celsius)"];
-    [str appendFormat:@"%f\t; %@\n",    lossFactor,               @"junction loss factor (0 - 5 % of unity gain)"];
-    [str appendFormat:@"%f\t; %@\n",    apertureScaling,          @"aperture scaling radius (3.05 - 12 cm)"];
-    [str appendFormat:@"%f\t; %@\n",    mouthCoef,                @"mouth aperture coefficient (0 - 0.99)"];
-    [str appendFormat:@"%f\t; %@\n",    noseCoef,                 @"nose aperture coefficient (0 - 0.99)"];
-    [str appendFormat:@"%f\t; %@\n",    n1,                       @"radius of nose section 1 (0 - 3 cm)"];
-    [str appendFormat:@"%f\t; %@\n",    n2,                       @"radius of nose section 2 (0 - 3 cm)"];
-    [str appendFormat:@"%f\t; %@\n",    n3,                       @"radius of nose section 3 (0 - 3 cm)"];
-    [str appendFormat:@"%f\t; %@\n",    n4,                       @"radius of nose section 4 (0 - 3 cm)"];
-    [str appendFormat:@"%f\t; %@\n",    n5,                       @"radius of nose section 5 (0 - 3 cm)"];
-    [str appendFormat:@"%f\t; %@\n",    throatCutoff,             @"throat lowpass frequency cutoff (50 - nyquist Hz)"];
-    [str appendFormat:@"%f\t; %@\n",    throatVolume,             @"throat volume (0 - 48 dB)"];
-    [str appendFormat:@"%d\t\t; %@\n",  shouldUseNoiseModulation, @"pulse modulation of noise (0 = off, 1 = on)"];
-    [str appendFormat:@"%f\t; %@",    mixOffset,                @"noise crossmix offset (30 - 60 db)"];
+    [str appendFormat:@"%f\t; %@\n",    _masterVolume,             @"master volume (0 - 60 dB)"];
+    [str appendFormat:@"%lu\t\t; %@\n", _outputChannels + 1,       @"number of sound output channels (1 or 2)"];
+    [str appendFormat:@"%f\t; %@\n",    _balance,                  @"stereo balance (-1 to +1)"];
+    [str appendFormat:@"%lu\t\t; %@\n", _glottalPulseShape,        @"glottal source waveform type (0 = pulse, 1 = sine)"];
+    [str appendFormat:@"%f\t; %@\n",    _tp,                       @"glottal pulse rise time (5 - 50 % of GP period)"];
+    [str appendFormat:@"%f\t; %@\n",    _tnMin,                    @"glottal pulse fall time minimum (5 - 50 % of GP period)"];
+    [str appendFormat:@"%f\t; %@\n",    _tnMax,                    @"glottal pulse fall time maximum (5 - 50 % of GP period)"];
+    [str appendFormat:@"%f\t; %@\n",    _breathiness,              @"glottal source breathiness (0 - 10 % of GS amplitude)"];
+    [str appendFormat:@"%f\t; %@\n",    _vocalTractLength,         @"nominal tube length (10 - 20 cm)"];
+    [str appendFormat:@"%f\t; %@\n",    _temperature,              @"tube temperature (25 - 40 degrees celsius)"];
+    [str appendFormat:@"%f\t; %@\n",    _lossFactor,               @"junction loss factor (0 - 5 % of unity gain)"];
+    [str appendFormat:@"%f\t; %@\n",    _apertureScaling,          @"aperture scaling radius (3.05 - 12 cm)"];
+    [str appendFormat:@"%f\t; %@\n",    _mouthCoef,                @"mouth aperture coefficient (0 - 0.99)"];
+    [str appendFormat:@"%f\t; %@\n",    _noseCoef,                 @"nose aperture coefficient (0 - 0.99)"];
+    [str appendFormat:@"%f\t; %@\n",    _n1,                       @"radius of nose section 1 (0 - 3 cm)"];
+    [str appendFormat:@"%f\t; %@\n",    _n2,                       @"radius of nose section 2 (0 - 3 cm)"];
+    [str appendFormat:@"%f\t; %@\n",    _n3,                       @"radius of nose section 3 (0 - 3 cm)"];
+    [str appendFormat:@"%f\t; %@\n",    _n4,                       @"radius of nose section 4 (0 - 3 cm)"];
+    [str appendFormat:@"%f\t; %@\n",    _n5,                       @"radius of nose section 5 (0 - 3 cm)"];
+    [str appendFormat:@"%f\t; %@\n",    _throatCutoff,             @"throat lowpass frequency cutoff (50 - nyquist Hz)"];
+    [str appendFormat:@"%f\t; %@\n",    _throatVolume,             @"throat volume (0 - 48 dB)"];
+    [str appendFormat:@"%d\t\t; %@\n",  _shouldUseNoiseModulation, @"pulse modulation of noise (0 = off, 1 = on)"];
+    [str appendFormat:@"%f\t; %@",    _mixOffset,                @"noise crossmix offset (30 - 60 db)"];
     
     return str;
 }

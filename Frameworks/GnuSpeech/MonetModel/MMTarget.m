@@ -11,15 +11,15 @@
 
 @implementation MMTarget
 {
-    BOOL isDefault;
-    double value;
+    BOOL _isDefault;
+    double _value;
 }
 
 - (id)init;
 {
     if ((self = [super init])) {
-        isDefault = YES;
-        value = 0.0;
+        _isDefault = YES;
+        _value = 0.0;
     }
 
     return self;
@@ -39,12 +39,10 @@
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@: %p> isDefault: %d, value: %g", NSStringFromClass([self class]), self, isDefault, value];
+    return [NSString stringWithFormat:@"<%@: %p> isDefault: %d, value: %g", NSStringFromClass([self class]), self, _isDefault, _value];
 }
 
 #pragma mark -
-
-@synthesize value, isDefault;
 
 - (void)setValue:(double)newValue isDefault:(BOOL)shouldBeDefault;
 {
@@ -54,17 +52,17 @@
 
 - (void)changeDefaultValueFrom:(double)oldDefault to:(double)newDefault;
 {
-    if (value == oldDefault) {
-        value = newDefault;
-        isDefault = YES;
+    if (_value == oldDefault) {
+        _value = newDefault;
+        _isDefault = YES;
     }
 }
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     [resultString indentToLevel:level];
-    [resultString appendFormat:@"<target ptr=\"%p\" value=\"%g\"/>", self, value];
-    if (isDefault)
+    [resultString appendFormat:@"<target ptr=\"%p\" value=\"%g\"/>", self, _value];
+    if (_isDefault)
         [resultString appendString:@"<!-- default -->"];
     [resultString appendString:@"\n"];
 }

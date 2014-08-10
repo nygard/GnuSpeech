@@ -15,18 +15,17 @@
 #import "MXMLPCDataDelegate.h"
 
 @interface MMGroup ()
-@property (readonly) NSMutableArray *mutableObjects;
 @end
 
 @implementation MMGroup
 {
-    NSMutableArray *m_objects;
+    NSMutableArray *_objects;
 }
 
 - (id)init;
 {
     if ((self = [super init])) {
-        m_objects = [[NSMutableArray alloc] init];
+        _objects = [[NSMutableArray alloc] init];
     }
     
     return self;
@@ -45,10 +44,8 @@
 
 - (NSArray *)objects;
 {
-    return [m_objects copy];
+    return [_objects copy];
 }
-
-@synthesize mutableObjects = m_objects;
 
 - (void)setModel:(MModel *)newModel;
 {
@@ -62,7 +59,7 @@
 
 - (void)addObject:(MMGroupedObject *)object;
 {
-    [self.mutableObjects addObject:object];
+    [_objects addObject:object];
 
     object.model = self.model;
     object.group = self;
@@ -70,7 +67,7 @@
 
 - (id)objectWithName:(NSString *)name;
 {
-    for (MMNamedObject *object in self.objects) {
+    for (MMNamedObject *object in _objects) {
         if ([name isEqualToString:object.name])
             return object;
     }

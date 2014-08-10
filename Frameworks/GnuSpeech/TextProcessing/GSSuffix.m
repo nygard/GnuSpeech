@@ -4,17 +4,17 @@
 
 @implementation GSSuffix
 {
-    NSString *suffix;
-    NSString *replacementString;
-    NSString *appendedPronunciation;
+    NSString *_suffix;
+    NSString *_replacementString;
+    NSString *_appendedPronunciation;
 }
 
 - (id)initWithSuffix:(NSString *)aSuffix replacementString:(NSString *)aReplacementString appendedPronunciation:(NSString *)anAppendedPronunciation;
 {
     if ((self = [super init])) {
-        suffix = aSuffix;
-        replacementString = aReplacementString;
-        appendedPronunciation = anAppendedPronunciation;
+        _suffix = aSuffix;
+        _replacementString = aReplacementString;
+        _appendedPronunciation = anAppendedPronunciation;
     }
 
     return self;
@@ -25,24 +25,24 @@
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"<%@: %p> suffix: %@, replacementString: %@, appendedPronunciation: %@",
-            NSStringFromClass([self class]), self, suffix, replacementString, appendedPronunciation];
+            NSStringFromClass([self class]), self, _suffix, _replacementString, _appendedPronunciation];
 }
 
 #pragma mark -
 
 - (NSString *)suffix;
 {
-    return suffix;
+    return _suffix;
 }
 
 - (NSString *)replacementString;
 {
-    return replacementString;
+    return _replacementString;
 }
 
 - (NSString *)appendedPronunciation;
 {
-    return appendedPronunciation;
+    return _appendedPronunciation;
 }
 
 @end

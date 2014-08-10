@@ -15,19 +15,19 @@
 
 @implementation STLogger
 {
-    NSFileHandle *m_outputFileHandle;
-    NSString *m_linePrefix;
-    NSString *m_lineSuffix;
-    NSMutableArray *m_indentations;
-    BOOL m_shouldCloseFile;
+    NSFileHandle *_outputFileHandle;
+    NSString *_linePrefix;
+    NSString *_lineSuffix;
+    NSMutableArray *_indentations;
+    BOOL _shouldCloseFile;
 }
 
 - (id)init;
 {
     if ((self = [super init])) {
-        m_outputFileHandle = [NSFileHandle fileHandleWithStandardOutput];
-        m_indentations = [[NSMutableArray alloc] init];
-        m_shouldCloseFile = NO;
+        _outputFileHandle = [NSFileHandle fileHandleWithStandardOutput];
+        _indentations = [[NSMutableArray alloc] init];
+        _shouldCloseFile = NO;
     }
     
     return self;
@@ -42,7 +42,7 @@
             return nil;
         } else {
             self.outputFileHandle = [[NSFileHandle alloc] initWithFileDescriptor:fd closeOnDealloc:YES];
-            m_shouldCloseFile = YES;
+            _shouldCloseFile = YES;
         }
     }
     
@@ -51,16 +51,10 @@
 
 - (void)dealloc;
 {
-    if (m_shouldCloseFile) [m_outputFileHandle closeFile];
+    if (_shouldCloseFile) [_outputFileHandle closeFile];
 }
 
 #pragma mark -
-
-@synthesize outputFileHandle = m_outputFileHandle;
-@synthesize linePrefix = m_linePrefix;
-@synthesize lineSuffix = m_lineSuffix;
-@synthesize indentations = m_indentations;
-@synthesize shouldCloseFile = m_shouldCloseFile;
 
 - (void)log:(NSString *)format, ...;
 {

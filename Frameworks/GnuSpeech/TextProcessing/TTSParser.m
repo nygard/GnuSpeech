@@ -13,9 +13,9 @@ static NSDictionary *specialAcronyms;  // static class variable
 
 @implementation TTSParser
 {
-    GSPronunciationDictionary *mainDictionary;
-	GSPronunciationDictionary *userDictionary;
-	GSPronunciationDictionary *appDictionary;
+    GSPronunciationDictionary *_mainDictionary;
+	GSPronunciationDictionary *_userDictionary;
+	GSPronunciationDictionary *_appDictionary;
 }
 
 + (void)initialize;
@@ -30,9 +30,9 @@ static NSDictionary *specialAcronyms;  // static class variable
 - (id)initWithPronunciationDictionary:(GSPronunciationDictionary *)aDictionary;
 {
     if ((self = [super init])) {
-        userDictionary = aDictionary;
-        appDictionary = aDictionary;
-        mainDictionary = aDictionary;	
+        _userDictionary = aDictionary;
+        _appDictionary = aDictionary;
+        _mainDictionary = aDictionary;	
 	
         //[mainDictionary loadDictionary];
     }
@@ -59,7 +59,7 @@ static NSDictionary *specialAcronyms;  // static class variable
 	order[2] = TTS_APPLICATION_DICTIONARY;
 	order[3] = TTS_MAIN_DICTIONARY;
 	
-	set_dict_data(order, userDictionary, appDictionary, mainDictionary, specialAcronyms);
+	set_dict_data(order, _userDictionary, _appDictionary, _mainDictionary, specialAcronyms);
 		
 	// The contents of aString cannot be losslessly converted if it contains non-ascii information.
 	// In this case NULL is returned. We need to check for this, and then perform lossy conversion

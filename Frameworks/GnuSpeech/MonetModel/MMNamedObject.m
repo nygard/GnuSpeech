@@ -11,14 +11,11 @@
 
 @implementation MMNamedObject
 {
-    NSString *m_name;
-    NSString *m_comment;
+    NSString *_name;
+    NSString *_comment;
 }
 
 #pragma mark -
-
-@synthesize name = m_name;
-@synthesize comment = m_comment;
 
 - (BOOL)hasComment;
 {

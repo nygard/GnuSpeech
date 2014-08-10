@@ -16,21 +16,21 @@
 
 @implementation MMPoint
 {
-    double value;             // Value of the point
-    double freeTime;          // Free Floating time
-    MMEquation *timeEquation; // Time of the point
-    MMPhoneType type;         // Which phone it is targeting
-    BOOL isPhantom;           // Phantom point for place marking purposes only
+    double _value;             // Value of the point
+    double _freeTime;          // Free Floating time
+    MMEquation *_timeEquation; // Time of the point
+    MMPhoneType _type;         // Which phone it is targeting
+    BOOL _isPhantom;           // Phantom point for place marking purposes only
 }
 
 - (id)init;
 {
     if ((self = [super init])) {
-        value = 0.0;
-        freeTime = 0.0;
-        timeEquation = nil;
-        isPhantom = NO;
-        type = MMPhoneType_Diphone;
+        _value = 0.0;
+        _freeTime = 0.0;
+        _timeEquation = nil;
+        _isPhantom = NO;
+        _type = MMPhoneType_Diphone;
     }
 
     return self;
@@ -41,41 +41,35 @@
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"<%@: %p> value: %g, freeTime: %g, timeEquation: %@, type: %lu, isPhantom: %d",
-            NSStringFromClass([self class]), self, value, freeTime, timeEquation, type, isPhantom];
+            NSStringFromClass([self class]), self, _value, _freeTime, _timeEquation, _type, _isPhantom];
 }
 
 #pragma mark -
 
-@synthesize value;
-
 - (double)multiplyValueByFactor:(double)factor;
 {
-    value *= factor;
-    return value;
+    _value *= factor;
+    return _value;
 }
 
 - (double)addValue:(double)newValue;
 {
-    value += newValue;
-    return value;
+    _value += newValue;
+    return _value;
 }
-
-@synthesize timeEquation, freeTime;
 
 - (double)cachedTime;
 {
-    if (timeEquation != nil)
-        return [timeEquation cacheValue]; // TODO (2004-03-11): I think this is a little odd.
+    if (_timeEquation != nil)
+        return [_timeEquation cacheValue]; // TODO (2004-03-11): I think this is a little odd.
 
-    return freeTime;
+    return _freeTime;
 }
-
-@synthesize type, isPhantom;
 
 - (void)calculatePointsWithPhonesInArray:(NSArray *)phones ruleSymbols:(MMFRuleSymbols *)ruleSymbols andCacheWithTag:(NSUInteger)newCacheTag andAddToDisplay:(NSMutableArray *)displayList;
 {
-    if (timeEquation != nil)
-        [timeEquation evaluateWithPhonesInArray:phones ruleSymbols:ruleSymbols andCacheWithTag:newCacheTag];
+    if (_timeEquation != nil)
+        [_timeEquation evaluateWithPhonesInArray:phones ruleSymbols:ruleSymbols andCacheWithTag:newCacheTag];
 
     [displayList addObject:self];
 }
@@ -88,14 +82,14 @@
 {
     double time, returnValue;
 
-    if (timeEquation != nil)
-        time = [timeEquation evaluateWithPhonesInArray:phones ruleSymbols:ruleSymbols andCacheWithTag:newCacheTag];
+    if (_timeEquation != nil)
+        time = [_timeEquation evaluateWithPhonesInArray:phones ruleSymbols:ruleSymbols andCacheWithTag:newCacheTag];
     else
-        time = freeTime;
+        time = _freeTime;
 
     //NSLog(@"|%@| = %f tempos: %f %f %f %f", [[postures objectAtIndex:0] symbol], time, tempos[0], tempos[1],tempos[2],tempos[3]);
 
-    returnValue = baseline + ((value / 100.0) * delta);
+    returnValue = baseline + ((_value / 100.0) * delta);
 
     //NSLog(@"Inserting event %d atTime %f  withValue %f", index, time, returnValue);
 
@@ -104,7 +98,7 @@
     else if (returnValue > max)
         returnValue = max;
 
-    if (!isPhantom)
+    if (!_isPhantom)
         [eventList insertEvent:index atTimeOffset:time withValue:returnValue];
 
     return returnValue;
@@ -113,15 +107,15 @@
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     [resultString indentToLevel:level];
-    [resultString appendFormat:@"<point type=\"%@\" value=\"%g\"", MMStringFromPhoneType(type), value];
-    if (timeEquation == nil) {
-        [resultString appendFormat:@" free-time=\"%g\"", freeTime];
+    [resultString appendFormat:@"<point type=\"%@\" value=\"%g\"", MMStringFromPhoneType(_type), _value];
+    if (_timeEquation == nil) {
+        [resultString appendFormat:@" free-time=\"%g\"", _freeTime];
     } else {
-        [resultString appendFormat:@" time-expression=\"%@\"", GSXMLAttributeString([timeEquation name], NO)];
+        [resultString appendFormat:@" time-expression=\"%@\"", GSXMLAttributeString([_timeEquation name], NO)];
     }
 
-    if (isPhantom == YES)
-        [resultString appendFormat:@" is-phantom=\"%@\"", GSXMLBoolAttributeString(isPhantom)];
+    if (_isPhantom == YES)
+        [resultString appendFormat:@" is-phantom=\"%@\"", GSXMLBoolAttributeString(_isPhantom)];
 
     [resultString appendString:@"/>\n"];
 }

@@ -31,21 +31,19 @@ typedef NSUInteger MMBooleanParserToken;
 
 @implementation MMBooleanParser
 {
-    MModel *m_model;
+    MModel *_model;
 }
 
 - (id)initWithModel:(MModel *)model;
 {
     if ((self = [super init])) {
-        m_model = model;
+        _model = model;
     }
 
     return self;
 }
 
 #pragma mark -
-
-@synthesize model = m_model;
 
 // This strips off the optional "*" suffix before searching.  A "*" will match either a stressed or unstressed posture.  i.e. ee or ee'.
 - (MMCategory *)categoryWithName:(NSString *)name;

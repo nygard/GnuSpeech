@@ -11,15 +11,15 @@
 
 @implementation MMSlope
 {
-    double slope;
-    double displayTime;
+    double _slope;
+    double _displayTime;
 }
 
 - (id)init;
 {
     if ((self = [super init])) {
-        slope = 0.0;
-        displayTime = 0;
+        _slope = 0.0;
+        _displayTime = 0;
     }
 
     return self;
@@ -30,17 +30,15 @@
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"<%@: %p> slope: %g, displayTime: %g",
-                     NSStringFromClass([self class]), self, slope, displayTime];
+                     NSStringFromClass([self class]), self, _slope, _displayTime];
 }
 
 #pragma mark -
 
-@synthesize slope, displayTime;
-
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
     [resultString indentToLevel:level];
-    [resultString appendFormat:@"<slope slope=\"%g\" display-time=\"%g\"/>\n", slope, displayTime];
+    [resultString appendFormat:@"<slope slope=\"%g\" display-time=\"%g\"/>\n", _slope, _displayTime];
 }
 
 - (id)initWithXMLAttributes:(NSDictionary *)attributes context:(id)context;

@@ -7,7 +7,7 @@
 
 @implementation GSDBMPronunciationDictionary
 {
-    DBM *db;
+    DBM *_db;
 }
 
 + (NSString *)mainFilename;
@@ -79,7 +79,7 @@
 - (id)initWithFilename:(NSString *)aFilename;
 {
     if ((self = [super initWithFilename:aFilename])) {
-        db = NULL;
+        _db = NULL;
     }
 
     return self;
@@ -87,9 +87,9 @@
 
 - (void)dealloc;
 {
-    if (db != NULL) {
-        dbm_close(db);
-        db = NULL;
+    if (_db != NULL) {
+        dbm_close(_db);
+        _db = NULL;
     }
 }
 
@@ -102,12 +102,12 @@
 - (BOOL)loadDictionary;
 {
     //NSLog(@" > %s, db: %p", __PRETTY_FUNCTION__, db);
-    NSParameterAssert(db == NULL);
+    NSParameterAssert(_db == NULL);
     NSParameterAssert(self.filename != nil);
 
     //NSLog(@"%s, filename: %@", __PRETTY_FUNCTION__, self.filename);
-    db = dbm_open([self.filename UTF8String], O_RDONLY, 0660);
-    if (db == NULL) {
+    _db = dbm_open([self.filename UTF8String], O_RDONLY, 0660);
+    if (_db == NULL) {
         perror("dbm_open()");
         return NO;
     }
@@ -124,7 +124,7 @@
     keyDatum.dptr = (char *)[aWord UTF8String];
     keyDatum.dsize = strlen(keyDatum.dptr);
 
-    valueDatum = dbm_fetch(db, keyDatum);
+    valueDatum = dbm_fetch(_db, keyDatum);
     if (valueDatum.dptr == NULL)
         return nil;
 

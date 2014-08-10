@@ -15,19 +15,19 @@
 
 @implementation TRMSynthesizer
 {
-    TRMDataList *m_inputData;
-    
-    BOOL m_shouldSaveToSoundFile;
-    NSString *m_filename;
-    AVAudioPlayer *m_audioPlayer;
+    TRMDataList *_inputData;
+
+    BOOL _shouldSaveToSoundFile;
+    NSString *_filename;
+    AVAudioPlayer *_audioPlayer;
 }
 
 - (id)init;
 {	
     if ((self = [super init])) {
-        m_inputData = [[TRMDataList alloc] init];
+        _inputData = [[TRMDataList alloc] init];
         
-        m_inputData.inputParameters.outputFileFormat = 0;
+        _inputData.inputParameters.outputFileFormat = 0;
     }
 	
     return self;
@@ -37,32 +37,32 @@
 
 - (void)setupSynthesisParameters:(MMSynthesisParameters *)synthesisParameters;
 {
-    m_inputData.inputParameters.outputRate     = synthesisParameters.sampleRate;
-    m_inputData.inputParameters.controlRate    = 250;
-    m_inputData.inputParameters.volume         = [synthesisParameters masterVolume];
-    m_inputData.inputParameters.channels       = [synthesisParameters outputChannels] + 1;
-    m_inputData.inputParameters.balance        = [synthesisParameters balance];
-    m_inputData.inputParameters.waveform       = [synthesisParameters glottalPulseShape];
-    m_inputData.inputParameters.tp             = [synthesisParameters tp];
-    m_inputData.inputParameters.tnMin          = [synthesisParameters tnMin];
-    m_inputData.inputParameters.tnMax          = [synthesisParameters tnMax];
-    m_inputData.inputParameters.breathiness    = [synthesisParameters breathiness];
-    m_inputData.inputParameters.length         = [synthesisParameters vocalTractLength];
-    m_inputData.inputParameters.temperature    = [synthesisParameters temperature];
-    m_inputData.inputParameters.lossFactor     = [synthesisParameters lossFactor];
-    m_inputData.inputParameters.apScale        = [synthesisParameters apertureScaling];
-    m_inputData.inputParameters.mouthCoef      =  [synthesisParameters mouthCoef];
-    m_inputData.inputParameters.noseCoef       = [synthesisParameters noseCoef];
-    m_inputData.inputParameters.noseRadius[0]  = 0; // Give it a predictable value.
-    m_inputData.inputParameters.noseRadius[1]  = [synthesisParameters n1];
-    m_inputData.inputParameters.noseRadius[2]  = [synthesisParameters n2];
-    m_inputData.inputParameters.noseRadius[3]  = [synthesisParameters n3];
-    m_inputData.inputParameters.noseRadius[4]  = [synthesisParameters n4];
-    m_inputData.inputParameters.noseRadius[5]  = [synthesisParameters n5];
-    m_inputData.inputParameters.throatCutoff   = [synthesisParameters throatCutoff];
-    m_inputData.inputParameters.throatVol      = [synthesisParameters throatVolume];
-    m_inputData.inputParameters.usesModulation = [synthesisParameters shouldUseNoiseModulation];
-    m_inputData.inputParameters.mixOffset      = [synthesisParameters mixOffset];
+    _inputData.inputParameters.outputRate     = synthesisParameters.sampleRate;
+    _inputData.inputParameters.controlRate    = 250;
+    _inputData.inputParameters.volume         = [synthesisParameters masterVolume];
+    _inputData.inputParameters.channels       = [synthesisParameters outputChannels] + 1;
+    _inputData.inputParameters.balance        = [synthesisParameters balance];
+    _inputData.inputParameters.waveform       = [synthesisParameters glottalPulseShape];
+    _inputData.inputParameters.tp             = [synthesisParameters tp];
+    _inputData.inputParameters.tnMin          = [synthesisParameters tnMin];
+    _inputData.inputParameters.tnMax          = [synthesisParameters tnMax];
+    _inputData.inputParameters.breathiness    = [synthesisParameters breathiness];
+    _inputData.inputParameters.length         = [synthesisParameters vocalTractLength];
+    _inputData.inputParameters.temperature    = [synthesisParameters temperature];
+    _inputData.inputParameters.lossFactor     = [synthesisParameters lossFactor];
+    _inputData.inputParameters.apScale        = [synthesisParameters apertureScaling];
+    _inputData.inputParameters.mouthCoef      =  [synthesisParameters mouthCoef];
+    _inputData.inputParameters.noseCoef       = [synthesisParameters noseCoef];
+    _inputData.inputParameters.noseRadius[0]  = 0; // Give it a predictable value.
+    _inputData.inputParameters.noseRadius[1]  = [synthesisParameters n1];
+    _inputData.inputParameters.noseRadius[2]  = [synthesisParameters n2];
+    _inputData.inputParameters.noseRadius[3]  = [synthesisParameters n3];
+    _inputData.inputParameters.noseRadius[4]  = [synthesisParameters n4];
+    _inputData.inputParameters.noseRadius[5]  = [synthesisParameters n5];
+    _inputData.inputParameters.throatCutoff   = [synthesisParameters throatCutoff];
+    _inputData.inputParameters.throatVol      = [synthesisParameters throatVolume];
+    _inputData.inputParameters.usesModulation = [synthesisParameters shouldUseNoiseModulation];
+    _inputData.inputParameters.mixOffset      = [synthesisParameters mixOffset];
 #if 0
 	// It looks like you need to use an AudioConverter to change the sampling rate.
 	format.mFormatID         = kAudioFormatLinearPCM;
@@ -97,7 +97,7 @@
 
 - (void)removeAllParameters;
 {
-    [m_inputData.values removeAllObjects];
+    [_inputData.values removeAllObjects];
 }
 
 - (void)addParameters:(float *)values;
@@ -119,25 +119,22 @@
     inputValues.radius[6]                = values[13];
     inputValues.radius[7]                = values[14];
     inputValues.velum                    = values[15];
-    [m_inputData.values addObject:inputValues];
+    [_inputData.values addObject:inputValues];
 }
-
-@synthesize shouldSaveToSoundFile = m_shouldSaveToSoundFile;
-@synthesize filename = m_filename;
 
 - (NSUInteger)fileType;
 {
-    return m_inputData.inputParameters.outputFileFormat;
+    return _inputData.inputParameters.outputFileFormat;
 }
 
 - (void)setFileType:(NSUInteger)newFileType;
 {
-    m_inputData.inputParameters.outputFileFormat = newFileType;
+    _inputData.inputParameters.outputFileFormat = newFileType;
 }
 
 - (void)synthesize;
 {
-    TRMTubeModel *tube = [[TRMTubeModel alloc] initWithInputData:m_inputData];
+    TRMTubeModel *tube = [[TRMTubeModel alloc] initWithInputData:_inputData];
     if (tube == nil) {
         NSLog(@"Warning: Failed to create tube model.");
         return;
@@ -154,8 +151,6 @@
 		[self startPlaying:tube];
     }
 }
-
-@synthesize audioPlayer = m_audioPlayer;
 
 - (void)startPlaying:(TRMTubeModel *)tube;
 {

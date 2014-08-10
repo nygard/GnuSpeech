@@ -6,7 +6,7 @@
 
 @implementation GSSimplePronunciationDictionary
 {
-    NSMutableDictionary *pronunciations;
+    NSMutableDictionary *_pronunciations;
 }
 
 + (id)mainDictionary;
@@ -24,7 +24,7 @@
 - (id)initWithFilename:(NSString *)aFilename;
 {
     if ((self = [super initWithFilename:aFilename])) {
-        pronunciations = [[NSMutableDictionary alloc] init]; // This is a case where setting the capacity might be a good idea!
+        _pronunciations = [[NSMutableDictionary alloc] init]; // This is a case where setting the capacity might be a good idea!
     }
 
     return self;
@@ -80,8 +80,8 @@
 
             //NSLog(@"word: %@, partOfSpeech: %@, pronunciation: %@, wordType: %@", key, partOfSpeech, value, wordType);
             // Keep the first pronunciation, since that's supposed to be the most common.
-            if ([pronunciations objectForKey:key] == nil) {
-                [pronunciations setObject:value forKey:key];
+            if ([_pronunciations objectForKey:key] == nil) {
+                [_pronunciations setObject:value forKey:key];
             } else {
                 //NSLog(@"Warning: Already have a value for %@", key);
             }
@@ -98,13 +98,13 @@
 - (NSDictionary *)pronunciations;
 {
     [self loadDictionaryIfNecessary];
-    return pronunciations;
+    return _pronunciations;
 }
 
 - (NSString *)lookupPronunciationForWord:(NSString *)aWord;
 {
     [self loadDictionaryIfNecessary];
-    return [pronunciations objectForKey:aWord];
+    return [_pronunciations objectForKey:aWord];
 }
 
 @end

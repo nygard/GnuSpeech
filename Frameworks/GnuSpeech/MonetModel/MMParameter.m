@@ -17,17 +17,17 @@
 
 @implementation MMParameter
 {
-    double m_minimumValue;
-    double m_maximumValue;
-    double m_defaultValue;
+    double _minimumValue;
+    double _maximumValue;
+    double _defaultValue;
 }
 
 - (id)init;
 {
     if ((self = [super init])) {
-        m_minimumValue = DEFAULT_MIN;
-        m_maximumValue = DEFAULT_MAX;
-        m_defaultValue = DEFAULT_MIN;
+        _minimumValue = DEFAULT_MIN;
+        _maximumValue = DEFAULT_MAX;
+        _defaultValue = DEFAULT_MIN;
     }
 
     return self;
@@ -42,23 +42,13 @@
             self.name, self.comment, self.minimumValue, self.maximumValue, self.defaultValue];
 }
 
-#pragma mark -
-
-@synthesize minimumValue = m_minimumValue;
-@synthesize maximumValue = m_maximumValue;
-@synthesize defaultValue = m_defaultValue;
-
-- (double)defaultValue;
-{
-    return m_defaultValue;
-}
 
 - (void)setDefaultValue:(double)newDefault;
 {
-    if (newDefault != m_defaultValue)
+    if (newDefault != _defaultValue)
         [[self model] parameter:self willChangeDefaultValue:newDefault];
 
-    m_defaultValue = newDefault;
+    _defaultValue = newDefault;
 }
 
 

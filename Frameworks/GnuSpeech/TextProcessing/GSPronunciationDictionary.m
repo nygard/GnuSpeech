@@ -6,13 +6,13 @@
 
 @implementation GSPronunciationDictionary
 {
-    NSString *m_filename;
-    NSString *version;
-    
-    NSMutableArray *suffixOrder;
-    NSMutableDictionary *suffixes;
-    
-    BOOL hasBeenLoaded;
+    NSString *_filename;
+    NSString *_version;
+
+    NSMutableArray *_suffixOrder;
+    NSMutableDictionary *_suffixes;
+
+    BOOL _hasBeenLoaded;
 }
 
 + (id)mainDictionary;
@@ -23,38 +23,36 @@
 - (id)initWithFilename:(NSString *)aFilename;
 {
     if ((self = [super init])) {
-        m_filename = aFilename;
+        _filename = aFilename;
         //NSLog(@"filename: %@", m_filename);
-        version = nil;
+        _version = nil;
         
-        suffixOrder = [[NSMutableArray alloc] init];
-        suffixes = [[NSMutableDictionary alloc] init];
+        _suffixOrder = [[NSMutableArray alloc] init];
+        _suffixes = [[NSMutableDictionary alloc] init];
         
         NSBundle *bundle = [NSBundle bundleForClass:[self class]];
         NSString *path = [bundle pathForResource:@"TTSSuffixList" ofType:@"txt"];
         [self _readSuffixesFromFile:path];
         
-        hasBeenLoaded = NO;
+        _hasBeenLoaded = NO;
     }
 
     return self;
 }
 
-@synthesize filename = m_filename;
-
 - (NSString *)version;
 {
     [self loadDictionaryIfNecessary];
 
-    return version;
+    return _version;
 }
 
 - (void)setVersion:(NSString *)newVersion;
 {
-    if (newVersion == version)
+    if (newVersion == _version)
         return;
 
-    version = newVersion;
+    _version = newVersion;
 }
 
 - (NSDate *)modificationDate;
@@ -64,8 +62,8 @@
 
 - (void)loadDictionaryIfNecessary;
 {
-    if (hasBeenLoaded == NO) {
-        hasBeenLoaded = [self loadDictionary];
+    if (_hasBeenLoaded == NO) {
+        _hasBeenLoaded = [self loadDictionary];
         //NSLog(@"%s, hasBeenLoaded: %d", __PRETTY_FUNCTION__, hasBeenLoaded);
     }
 }
@@ -101,8 +99,8 @@
                                                  replacementString:[parts objectAtIndex:1]
                                              appendedPronunciation:[parts objectAtIndex:2]];
             //NSLog(@"newSuffix: %@", newSuffix);
-            [suffixOrder addObject:[newSuffix suffix]];
-            [suffixes setObject:newSuffix forKey:[newSuffix suffix]];
+            [_suffixOrder addObject:[newSuffix suffix]];
+            [_suffixes setObject:newSuffix forKey:[newSuffix suffix]];
         }
     }
 
@@ -123,9 +121,9 @@
     if (pronunciation == nil) {
         NSUInteger count, index;
 
-        count = [suffixOrder count];
+        count = [_suffixOrder count];
         for (index = 0; index < count; index++) {
-            GSSuffix *suffix = [suffixes objectForKey:[suffixOrder objectAtIndex:index]];
+            GSSuffix *suffix = [_suffixes objectForKey:[_suffixOrder objectAtIndex:index]];
             NSRange range = [aWord rangeOfString:[suffix suffix] options:NSAnchoredSearch|NSBackwardsSearch];
             if (range.location != NSNotFound) {
                 NSString *newWord;
@@ -162,7 +160,7 @@
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@>[%p]: suffix count: %lu, version: %@", NSStringFromClass([self class]), self, [suffixOrder count], version];
+    return [NSString stringWithFormat:@"<%@>[%p]: suffix count: %lu, version: %@", NSStringFromClass([self class]), self, [_suffixOrder count], _version];
 }
 
 @end
