@@ -61,7 +61,7 @@ static NSDictionary *specialAcronyms;  // static class variable
 	
 	set_dict_data(order, _userDictionary, _appDictionary, _mainDictionary, specialAcronyms);
 		
-	// The contents of aString cannot be losslessly converted if it contains non-ascii information.
+	// The contents of string cannot be losslessly converted if it contains non-ascii information.
 	// In this case NULL is returned. We need to check for this, and then perform lossy conversion
 	// if required.
 	
