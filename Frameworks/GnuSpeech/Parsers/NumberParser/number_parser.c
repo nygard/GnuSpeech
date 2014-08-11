@@ -290,8 +290,6 @@ void process_digit(char digit, char *output, int ordinal, int ordinal_plural, in
 
 char *number_parser(const char *word_ptr, int mode)
 {
-    int status;
-
     /*  MAKE POINTER TO WORD TO BE PARSED GLOBAL TO THIS FILE  */
     word = (char *)word_ptr;
 
@@ -299,18 +297,18 @@ char *number_parser(const char *word_ptr, int mode)
     initial_parse();
 
     /*  DO ERROR CHECKING OF INPUT  */
-    status = error_check(mode);
+    int status = error_check(mode);
 
     /*  IF NO NUMBERS, RETURN NULL;  IF CONTAINS ERRORS,
      DO CHAR-BY-CHAR SPELLING;  ELSE, PROCESS NORMALLY  */
     if (status == NO_NUMERALS)
-        return (NULL);
+        return NULL;
     else if (status == DEGENERATE)
-        return (degenerate_string(word));
+        return degenerate_string(word);
     else if (status == OK)
-        return (process_word(mode));
+        return process_word(mode);
 
-    return(NULL);
+    return NULL;
 }
 
 
@@ -324,70 +322,66 @@ char *number_parser(const char *word_ptr, int mode)
 
 void initial_parse(void)
 {
-    long i;
-
-    /*  PUT NULL BYTE INTO output;  FIND LENGTH OF INPUT WORD  */
     output[0] = '\0';
     word_length = strlen(word);
 
-    /*  INITIALIZE PARSING VARIABLES  */
     degenerate = integer_digits = fractional_digits = commas = mydecimal = 0;
     dollar = percent = negative = positive = ordinal = myclock = slash = 0;
     telephone = left_paren = right_paren = blank = 0;
     ordinal_plural = NP_YES;
 
     /*  FIND THE POSITION OF THE FOLLOWING CHARACTERS  */
-    for (i = 0; i < word_length; i++) {
-        switch (*(word+i)) {
+    for (long index = 0; index < word_length; index++) {
+        switch (*(word + index)) {
             case ',':
                 if (++commas > COMMAS_MAX)
                     degenerate++;
                 else
-                    *(commas_pos + (commas - 1)) = i;
+                    *(commas_pos + (commas - 1)) = index;
                 break;
             case '.':
                 mydecimal++;
-                mydecimal_pos = i;
+                mydecimal_pos = index;
                 break;
             case '$':
                 dollar++;
-                dollar_pos = i;
+                dollar_pos = index;
                 break;
             case '%':
                 percent++;
-                percent_pos = i;
+                percent_pos = index;
                 break;
             case '-':
                 if (++negative > NEGATIVE_MAX)
                     degenerate++;
                 else
-                    *(negative_pos + (negative - 1)) = i;
+                    *(negative_pos + (negative - 1)) = index;
                 break;
             case '+':
                 positive++;
-                positive_pos = i;
+                positive_pos = index;
                 break;
             case ':':
                 if (++myclock > CLOCK_MAX)
                     degenerate++;
                 else
-                    *(myclock_pos + (myclock - 1)) = i;
+                    *(myclock_pos + (myclock - 1)) = index;
                 break;
             case '/':
                 slash++;
-                slash_pos = i;
+                slash_pos = index;
                 break;
             case '(':
                 left_paren++;
-                left_paren_pos = i;
+                left_paren_pos = index;
                 break;
             case ')':
                 right_paren++;
-                right_paren_pos = i;
+                right_paren_pos = index;
                 break;
             case ' ':
                 blank++;
-                blank_pos = i;
+                blank_pos = index;
                 break;
             case '0':
             case '1':
@@ -403,12 +397,12 @@ void initial_parse(void)
                     if (++fractional_digits > FRACTIONAL_DIGITS_MAX)
                         degenerate++;
                     else
-                        *(fractional_digits_pos + (fractional_digits - 1)) = i;
+                        *(fractional_digits_pos + (fractional_digits - 1)) = index;
                 } else {
                     if (++integer_digits > INTEGER_DIGITS_MAX)
                         degenerate++;
                     else
-                        *(integer_digits_pos + (integer_digits - 1)) = i;
+                        *(integer_digits_pos + (integer_digits - 1)) = index;
                 }
                 break;
             case 's':
@@ -426,8 +420,8 @@ void initial_parse(void)
                 if (++ordinal > 2)
                     degenerate++;
                 else {
-                    char c = *(word + i);
-                    ordinal_pos[ordinal - 1] = i;
+                    char c = *(word + index);
+                    ordinal_pos[ordinal - 1] = index;
                     /*  CONVERT TO UPPER CASE IF NECESSARY  */
                     *(ordinal_buffer + (ordinal - 1)) = ((c >= 'a') && (c <= 'z')) ? c + ('A' - 'a') : c ;
                     *(ordinal_buffer + 2) = '\0';
@@ -440,15 +434,15 @@ void initial_parse(void)
     }
 
     /*  FIND LEFT ZERO PAD FOR INTEGER PART OF WORD  */
-    for (i = 0, left_zero_pad = 0; i < integer_digits; i++) {
-        if (*(word + (*(integer_digits_pos + i))) == '0')
+    for (long index = 0, left_zero_pad = 0; index < integer_digits; index++) {
+        if (*(word + (*(integer_digits_pos + index))) == '0')
             left_zero_pad++;
         else
             break;
     }
     /*  FIND RIGHT ZERO PAD FOR INTEGER PART OF WORD  */
-    for (i = (integer_digits - 1), right_zero_pad = 0; i >= 0; i--) {
-        if (*(word + (*(integer_digits_pos + i))) == '0')
+    for (long index = (integer_digits - 1), right_zero_pad = 0; index >= 0; index--) {
+        if (*(word + (*(integer_digits_pos + index))) == '0')
             right_zero_pad++;
         else
             break;
@@ -458,15 +452,15 @@ void initial_parse(void)
 
 
     /*  FIND LEFT ZERO PAD FOR FRACTIONS  */
-    for (i = 0, frac_left_zero_pad = 0; i < fractional_digits; i++) {
-        if (*(word + (*(fractional_digits_pos + i))) == '0')
+    for (long index = 0, frac_left_zero_pad = 0; index < fractional_digits; index++) {
+        if (*(word + (*(fractional_digits_pos + index))) == '0')
             frac_left_zero_pad++;
         else
             break;
     }
     /*  FIND RIGHT ZERO PAD FOR FRACTIONS  */
-    for (i = (fractional_digits - 1), frac_right_zero_pad = 0; i >= 0; i--) {
-        if (*(word + (*(fractional_digits_pos + i))) == '0')
+    for (long index = (fractional_digits - 1), frac_right_zero_pad = 0; index >= 0; index--) {
+        if (*(word + (*(fractional_digits_pos + index))) == '0')
             frac_right_zero_pad++;
         else
             break;
@@ -481,96 +475,84 @@ void initial_parse(void)
  *
  *      purpose:        Checks the initiallly parsed word for format errors.
  *                      Returns NO_NUMERALS if the word contains no digits,
- *                       DEGENERATE if the word contains errors, OK otherwise.
+ *                      DEGENERATE if the word contains errors, OK otherwise.
  *
  ******************************************************************************/
 
 int error_check(int mode)
 {
-    long i;
+    long index;
 
     /*  IF THERE ARE NO DIGITS THEN RETURN  */
     if ((integer_digits + fractional_digits) == 0)
-        return (NO_NUMERALS);
+        return NO_NUMERALS;
 
     /* IF MODE SET TO FORCE_SPELL, USE degenerate_string()  */
     if (mode == NP_FORCE_SPELL)
-        return (DEGENERATE);
+        return DEGENERATE;
 
-    /*  CANNOT HAVE UNSPECIFIED SYMBOLS, OR ANY MORE THAN ONE OF EACH OF THE
-     FOLLOWING:  . $ % + / ( ) blank  */
-    if (degenerate || mydecimal > 1 || dollar > 1 || percent > 1 ||
-        positive > 1 || slash > 1 || left_paren > 1 ||
-        right_paren > 1 || blank > 1)
-        return (DEGENERATE);
+    /*  CANNOT HAVE UNSPECIFIED SYMBOLS, OR ANY MORE THAN ONE OF EACH OF THE FOLLOWING:  . $ % + / ( ) blank  */
+    if (degenerate || mydecimal > 1 || dollar > 1 || percent > 1 || positive > 1 || slash > 1 || left_paren > 1 || right_paren > 1 || blank > 1)
+        return DEGENERATE;
 
 
     /*  CHECK FOR TOO MANY DIGITS WHEN COMMAS OR ORDINAL USED  */
     if ((integer_digits > (TRIADS_MAX * 3)) && (commas || ordinal))
-        return (DEGENERATE);
+        return DEGENERATE;
 
     /*  MAKE SURE % SIGN AT FAR RIGHT AND THAT THERE IS NO $ SIGN  */
     if (percent && ((percent_pos != (word_length - 1)) || dollar))
-        return (DEGENERATE);
+        return DEGENERATE;
 
     /*  THE + SIGN MUST BE AT THE FAR LEFT OF THE STRING  */
     if (positive && (positive_pos != 0))
-        return (DEGENERATE);
+        return DEGENERATE;
 
-    /*  IF 1 OR MORE (-) SIGNS USED,  MAKE SURE IT IS AT FAR LEFT,
-     OR THAT THE NUMBER CORRESPONDS TO STANDARD TELEPHONE FORMATS  */
+    /*  IF 1 OR MORE (-) SIGNS USED,  MAKE SURE IT IS AT FAR LEFT, OR THAT THE NUMBER CORRESPONDS TO STANDARD TELEPHONE FORMATS  */
     if ((negative == 1) && (negative_pos[0] != 0)) {
-        if ((integer_digits == 7) && (negative_pos[0] == 3) &&
-            (word_length == 8))
+        if ((integer_digits == 7) && (negative_pos[0] == 3) && (word_length == 8)) {
             telephone = SEVEN_DIGIT_CODE;
-        else if ((negative_pos[0] == 9) && (left_paren_pos == 0) &&
-                 (right_paren_pos == 4) && (blank_pos == 5) &&
-                 (word_length == 14) && (integer_digits == 10))
+        } else if ((negative_pos[0] == 9) && (left_paren_pos == 0) && (right_paren_pos == 4) && (blank_pos == 5) && (word_length == 14) && (integer_digits == 10)) {
             telephone = AREA_CODE;
-        else if ((negative_pos[0] == 8) && (left_paren_pos == 0) &&
-                 (right_paren_pos == 4) && (word_length == 13) &&
-                 (integer_digits == 10))
+        } else if ((negative_pos[0] == 8) && (left_paren_pos == 0) && (right_paren_pos == 4) && (word_length == 13) && (integer_digits == 10)) {
             telephone = AREA_CODE;
-        else
-            return (DEGENERATE);
+        } else {
+            return DEGENERATE;
+        }
     } else if (negative == 2) {
-        if ((integer_digits == 10) && (negative_pos[0] == 3) &&
-            (negative_pos[1] == 7) && (word_length == 12))
+        if ((integer_digits == 10) && (negative_pos[0] == 3) && (negative_pos[1] == 7) && (word_length == 12)) {
             telephone = TEN_DIGIT_CODE;
-        else
-            return (DEGENERATE);
+        } else {
+            return DEGENERATE;
+        }
     } else if (negative == 3) {
-        if ((integer_digits == 11) && (negative_pos[0] == 1) &&
-            (negative_pos[1] == 5) && (negative_pos[2] == 9) &&
-            (word_length == 14))
+        if ((integer_digits == 11) && (negative_pos[0] == 1) && (negative_pos[1] == 5) && (negative_pos[2] == 9) && (word_length == 14)) {
             telephone = ELEVEN_DIGIT_CODE;
-        else
-            return (DEGENERATE);
+        } else {
+            return DEGENERATE;
+        }
     }
 
     /*  THE ")", "(", AND blank CHARACTERS LEGAL ONLY WHEN AREA CODE  */
     if ((left_paren || right_paren || blank) && (telephone != AREA_CODE))
-        return (DEGENERATE);
+        return DEGENERATE;
 
-    /*  LEFT ZERO PADS ARE LEGAL ONLY WHEN ONE INTEGER DIGIT, OR IN
-     CLOCK TIMES AND TELEPHONE NUMBERS  */
+    /*  LEFT ZERO PADS ARE LEGAL ONLY WHEN ONE INTEGER DIGIT, OR IN CLOCK TIMES AND TELEPHONE NUMBERS  */
     if (left_zero_pad && (integer_digits > 1) && (!myclock) && (!telephone))
-        return (DEGENERATE);
+        return DEGENERATE;
 
     if (slash) {
         /*  IF FRACTION, CHECK FOR TOO MANY DIGITS IN NUMERATOR OR DENOMINATOR  */
         if ((integer_digits > (TRIADS_MAX * 3)) || (fractional_digits > (TRIADS_MAX * 3)))
-            return (DEGENERATE);
+            return DEGENERATE;
 
         /*  IN FRACTIONS, LEFT ZERO PADS ARE LEGAL ONLY WHEN ONE DIGIT  */
         if (frac_left_zero_pad && (fractional_digits > 1))
-            return (DEGENERATE);
+            return DEGENERATE;
 
-        /*  FRACTIONS MUST HAVE DIGITS IN BOTH NUMERATOR AND DENOMINATOR,
-         AND CANNOT CONTAIN THE . $ , : SIGNS, OR ORDINAL SUFFIXES  */
-        if ((!integer_digits) || (!fractional_digits) ||
-            mydecimal || dollar || commas || myclock || ordinal)
-            return (DEGENERATE);
+        /*  FRACTIONS MUST HAVE DIGITS IN BOTH NUMERATOR AND DENOMINATOR, AND CANNOT CONTAIN THE . $ , : SIGNS, OR ORDINAL SUFFIXES  */
+        if ((!integer_digits) || (!fractional_digits) || mydecimal || dollar || commas || myclock || ordinal)
+            return DEGENERATE;
     }
 
     /*  CHECK FOR LEGAL CLOCK TIME FORMATS;  FILL hour AND minute AND second BUFFERS  */
@@ -579,42 +561,45 @@ int error_check(int mode)
         hour[3] = minute[3] = second[3] = '\0';
         if (integer_digits == 3) {
             if ((word_length != 4) || (myclock_pos[0] != 1))
-                return (DEGENERATE);
-            hour[1] = '0';
-            hour[2] = word[integer_digits_pos[0]];
+                return DEGENERATE;
+            hour[1]   = '0';
+            hour[2]   = word[integer_digits_pos[0]];
             minute[1] = word[integer_digits_pos[1]];
             minute[2] = word[integer_digits_pos[2]];
-            seconds = NP_NO;
+            seconds   = NP_NO;
         } else if (integer_digits == 4) {
             if ((word_length != 5) || (myclock_pos[0] != 2))
-                return (DEGENERATE);
-            hour[1] = word[integer_digits_pos[0]];
-            hour[2] = word[integer_digits_pos[1]];
+                return DEGENERATE;
+            hour[1]   = word[integer_digits_pos[0]];
+            hour[2]   = word[integer_digits_pos[1]];
             minute[1] = word[integer_digits_pos[2]];
             minute[2] = word[integer_digits_pos[3]];
-            seconds = NP_NO;
+            seconds   = NP_NO;
         } else if (integer_digits == 5) {
             if ((word_length != 7) || (myclock_pos[0] != 1) || (myclock_pos[1] != 4))
-                return (DEGENERATE);
-            hour[1] = '0';
-            hour[2] = word[integer_digits_pos[0]];
+                return DEGENERATE;
+            hour[1]   = '0';
+            hour[2]   = word[integer_digits_pos[0]];
             minute[1] = word[integer_digits_pos[1]];
             minute[2] = word[integer_digits_pos[2]];
             second[1] = word[integer_digits_pos[3]];
             second[2] = word[integer_digits_pos[4]];
-            seconds = NP_YES;
+            seconds   = NP_YES;
         } else if (integer_digits == 6) {
             if ((word_length != 8) || (myclock_pos[0] != 2) || (myclock_pos[1] != 5))
-                return (DEGENERATE);
-            hour[1] = word[integer_digits_pos[0]];
-            hour[2] = word[integer_digits_pos[1]];
+                return DEGENERATE;
+            hour[1]   = word[integer_digits_pos[0]];
+            hour[2]   = word[integer_digits_pos[1]];
             minute[1] = word[integer_digits_pos[2]];
             minute[2] = word[integer_digits_pos[3]];
             second[1] = word[integer_digits_pos[4]];
             second[2] = word[integer_digits_pos[5]];
-            seconds = NP_YES;
-        } else
-            return (DEGENERATE);
+            seconds   = NP_YES;
+        } else {
+            return DEGENERATE;
+        }
+
+        // 2014-08-11: This bit of code will never be run.
         {
             int minutes = 0, hours = 0, secs = 0;
             minutes = atoi(minute);
@@ -622,7 +607,7 @@ int error_check(int mode)
             if (seconds)
                 secs = atoi(second);
             if (hours > 24 || minutes > 59 || secs > 59)
-                return (DEGENERATE);
+                return DEGENERATE;
             military = (hours >= 1 && hours <= 12 && (!left_zero_pad)) ? NP_NO : NP_YES;
         }
     }
@@ -630,52 +615,48 @@ int error_check(int mode)
     /*  CHECK THAT COMMAS ARE PROPERLY SPACED  */
     if (commas) {
         if (commas_pos[0] < integer_digits_pos[0])
-            return (DEGENERATE);
-        for (i = 0; i < (commas - 1); i++) {
-            if (commas_pos[i + 1] != (commas_pos[i] + 4))
-                return (DEGENERATE);
+            return DEGENERATE;
+        for (index = 0; index < (commas - 1); index++) {
+            if (commas_pos[index + 1] != (commas_pos[index] + 4))
+                return DEGENERATE;
         }
         if (mydecimal && (mydecimal_pos != (commas_pos[commas - 1] + 4)))
-            return (DEGENERATE);
+            return DEGENERATE;
         if (integer_digits_pos[integer_digits - 1] != (commas_pos[commas - 1] + 3))
-            return (DEGENERATE);
+            return DEGENERATE;
         if ((integer_digits_pos[0] + 3) < commas_pos[0])
-            return (DEGENERATE);
+            return DEGENERATE;
     }
 
     /*  CHECK FOR LEGAL USE OF $ SIGN
-     DETERMINE IF DOLLARS AND CENTS ARE PLURAL AND NONZERO  */
+     *  DETERMINE IF DOLLARS AND CENTS ARE PLURAL AND NONZERO  */
     if (dollar) {
         if ((negative || positive) && (dollar_pos != 1))
-            return (DEGENERATE);
+            return DEGENERATE;
         if ((!negative) && (!positive) && (dollar_pos != 0))
-            return (DEGENERATE);
-        for (i = integer_digits - 1, dollar_plural = dollar_nonzero = NP_NO;
-             i >= 0; i--) {
-            if (word[integer_digits_pos[i]] >= '1') {
+            return DEGENERATE;
+        for (index = integer_digits - 1, dollar_plural = dollar_nonzero = NP_NO; index >= 0; index--) {
+            if (word[integer_digits_pos[index]] >= '1') {
                 dollar_nonzero = NP_YES;
-                if (i == (integer_digits - 1) &&
-                    (word[integer_digits_pos[i]] >= '2')) {
+                if (index == (integer_digits - 1) && (word[integer_digits_pos[index]] >= '2')) {
                     dollar_plural = NP_YES;
                     break;
-                } else if (i < (integer_digits - 1)) {
+                } else if (index < (integer_digits - 1)) {
                     dollar_plural = NP_YES;
                     break;
                 }
             }
         }
-        for (i = 0, cents_plural = NP_YES, cents_nonzero = NP_NO;
-             i < fractional_digits; i++) {
-            if (word[fractional_digits_pos[i]] >= '1') {
+        for (index = 0, cents_plural = NP_YES, cents_nonzero = NP_NO; index < fractional_digits; index++) {
+            if (word[fractional_digits_pos[index]] >= '1') {
                 cents_nonzero = NP_YES;
                 break;
             }
         }
-        if ((fractional_digits == 2) && (word[fractional_digits_pos[0]] == '0')
-            && (word[fractional_digits_pos[1]] == '1'))
+        if ((fractional_digits == 2) && (word[fractional_digits_pos[0]] == '0') && (word[fractional_digits_pos[1]] == '1'))
             cents_plural = NP_NO;
         if ((!dollar_nonzero) && (!cents_nonzero) && (positive || negative))
-            return (DEGENERATE);
+            return DEGENERATE;
     }
 
     /*  CHECK FOR LEGAL USE OF ORDINAL SUFFIXES  */
@@ -686,33 +667,31 @@ int error_check(int mode)
         if (integer_digits >= 2)
             tens_digit = word[integer_digits_pos[integer_digits - 2]];
 
-        if ((ordinal != 2) || (!integer_digits) ||
-            mydecimal || dollar || percent)
-            return (DEGENERATE);
+        if ((ordinal != 2) || (!integer_digits) || mydecimal || dollar || percent)
+            return DEGENERATE;
 
-        if ((ordinal_pos[0] != (word_length - 2)) ||
-            (ordinal_pos[1] != (word_length - 1)))
-            return (DEGENERATE);
+        if ((ordinal_pos[0] != (word_length - 2)) || (ordinal_pos[1] != (word_length - 1)))
+            return DEGENERATE;
 
         if (!strcmp(ordinal_buffer, "ST")) {
             if ((ones_digit != '1') || (tens_digit == '1'))
-                return (DEGENERATE);
+                return DEGENERATE;
         } else if (!strcmp(ordinal_buffer, "ND")) {
             if ((ones_digit != '2') || (tens_digit == '1'))
-                return (DEGENERATE);
+                return DEGENERATE;
         } else if (!strcmp(ordinal_buffer, "RD")) {
             if ((ones_digit != '3') || (tens_digit == '1'))
-                return (DEGENERATE);
+                return DEGENERATE;
         } else if (!strcmp(ordinal_buffer, "TH")) {
-            if (((ones_digit == '1') || (ones_digit == '2') ||
-                 (ones_digit == '3')) && (tens_digit != '1'))
-                return (DEGENERATE);
-        } else
-            return (DEGENERATE);
+            if (((ones_digit == '1') || (ones_digit == '2') || (ones_digit == '3')) && (tens_digit != '1'))
+                return DEGENERATE;
+        } else {
+            return DEGENERATE;
+        }
     }
 
     /*  IF WE GET THIS FAR, THEN THE NUMBER CAN BE PROCESSED NORMALLY  */
-    return (OK);
+    return OK;
 }
 
 
@@ -727,7 +706,7 @@ int error_check(int mode)
 
 char *process_word(int mode)
 {
-    long i;
+    long index;
 
     /*  SPECIAL PROCESSING OF WORD;  EACH RETURNS IMMEDIATELY  */
     /*  PROCESS CLOCK TIMES  */
@@ -760,26 +739,26 @@ char *process_word(int mode)
             else
                 strcat(output, SECONDS);
         }
-        return (output);
+        return output;
     }
     /*  PROCESS TELEPHONE NUMBERS  */
     if (telephone == SEVEN_DIGIT_CODE) {
-        for (i = 0; i < 3; i++)
-            process_digit(*(word + (*(integer_digits_pos + i))), output, NP_NO, NP_NO, NP_NO);
+        for (index = 0; index < 3; index++)
+            process_digit(*(word + (*(integer_digits_pos + index))), output, NP_NO, NP_NO, NP_NO);
         strcat(output, PAUSE);
-        for (i = 3; i < 7; i++)
-            process_digit(*(word + (*(integer_digits_pos + i))), output, NP_NO, NP_NO, NP_NO);
-        return (output);
+        for (index = 3; index < 7; index++)
+            process_digit(*(word + (*(integer_digits_pos + index))), output, NP_NO, NP_NO, NP_NO);
+        return output;
     } else if (telephone == TEN_DIGIT_CODE) {
-        for (i = 0; i < 3; i++)
-            process_digit(*(word + (*(integer_digits_pos + i))), output, NP_NO, NP_NO, NP_NO);
+        for (index = 0; index < 3; index++)
+            process_digit(*(word + (*(integer_digits_pos + index))), output, NP_NO, NP_NO, NP_NO);
         strcat(output, PAUSE);
-        for (i = 3; i < 6; i++)
-            process_digit(*(word + (*(integer_digits_pos + i))), output, NP_NO, NP_NO, NP_NO);
+        for (index = 3; index < 6; index++)
+            process_digit(*(word + (*(integer_digits_pos + index))), output, NP_NO, NP_NO, NP_NO);
         strcat(output, PAUSE);
-        for (i = 6; i < 10; i++)
-            process_digit(*(word + (*(integer_digits_pos + i))), output, NP_NO, NP_NO, NP_NO);
-        return (output);
+        for (index = 6; index < 10; index++)
+            process_digit(*(word + (*(integer_digits_pos + index))), output, NP_NO, NP_NO, NP_NO);
+        return output;
     } else if (telephone == ELEVEN_DIGIT_CODE) {
         process_digit(word[integer_digits_pos[0]], output, NP_NO, NP_NO, NP_NO);
         if ((word[integer_digits_pos[1]] != '0') &&
@@ -789,34 +768,34 @@ char *process_word(int mode)
             strcat(output, HUNDRED);
         } else {
             strcat(output, PAUSE);
-            for (i = 1; i < 4; i++)
-                process_digit(*(word + (*(integer_digits_pos + i))), output, NP_NO, NP_NO, NP_NO);
+            for (index = 1; index < 4; index++)
+                process_digit(*(word + (*(integer_digits_pos + index))), output, NP_NO, NP_NO, NP_NO);
         }
         strcat(output, PAUSE);
-        for (i = 4; i < 7; i++)
-            process_digit(*(word + (*(integer_digits_pos + i))), output, NP_NO, NP_NO, NP_NO);
+        for (index = 4; index < 7; index++)
+            process_digit(*(word + (*(integer_digits_pos + index))), output, NP_NO, NP_NO, NP_NO);
         strcat(output, PAUSE);
-        for (i = 7; i < 11; i++)
-            process_digit(*(word + (*(integer_digits_pos + i))), output, NP_NO, NP_NO, NP_NO);
-        return (output);
+        for (index = 7; index < 11; index++)
+            process_digit(*(word + (*(integer_digits_pos + index))), output, NP_NO, NP_NO, NP_NO);
+        return output;
     } else if (telephone == AREA_CODE) {
         strcat(output, AREA);
         strcat(output, CODE);
-        for (i = 0; i < 3; i++)
-            process_digit(*(word + (*(integer_digits_pos + i))), output, NP_NO, NP_NO, NP_NO);
+        for (index = 0; index < 3; index++)
+            process_digit(*(word + (*(integer_digits_pos + index))), output, NP_NO, NP_NO, NP_NO);
         strcat(output, PAUSE);
-        for (i = 3; i < 6; i++)
-            process_digit(*(word + (*(integer_digits_pos + i))), output, NP_NO, NP_NO, NP_NO);
+        for (index = 3; index < 6; index++)
+            process_digit(*(word + (*(integer_digits_pos + index))), output, NP_NO, NP_NO, NP_NO);
         strcat(output, PAUSE);
-        for (i = 6; i < 10; i++)
-            process_digit(*(word + (*(integer_digits_pos + i))), output, NP_NO, NP_NO, NP_NO);
-        return (output);
+        for (index = 6; index < 10; index++)
+            process_digit(*(word + (*(integer_digits_pos + index))), output, NP_NO, NP_NO, NP_NO);
+        return output;
     }
     /*  PROCESS ZERO DOLLARS AND ZERO CENTS  */
     if (dollar && (!dollar_nonzero) && (!cents_nonzero)) {
         strcat(output, ZERO);
         strcat(output, DOLLARS);
-        return (output);
+        return output;
     }
     /*  PROCESS FOR YEAR IF INTEGER IN RANGE 1000 TO 1999  */
     if ((integer_digits == 4) && (word_length == 4) &&
@@ -837,7 +816,7 @@ char *process_word(int mode)
             triad[2] = word[integer_digits_pos[3]];
             process_triad(triad, output, NP_NO, NP_NO, NP_NO, NP_NO, NP_NO);
         }
-        return (output);
+        return output;
     }
 
 
@@ -850,37 +829,35 @@ char *process_word(int mode)
 
     /*  PROCESS SINGLE INTEGER DIGIT  */
     if (integer_digits == 1) {
-        if ((word[integer_digits_pos[0]] == '0') && dollar)
-            ;
-        else
+        if ((word[integer_digits_pos[0]] == '0') && dollar) {
+            // pass
+        } else {
             process_digit(word[integer_digits_pos[0]], output, ordinal, NP_NO, NP_NO);
+        }
         ordinal_plural = (word[integer_digits_pos[0]] == '1') ? NP_NO : NP_YES;
     }
     /*  PROCESS INTEGERS AS TRIADS, UP TO MAX LENGTH  */
     else if ((integer_digits >= 2) && (integer_digits <= (TRIADS_MAX * 3))) {
         long digit_index = 0, num_digits, triad_index, index, pause_flag = NP_NO;
-        for (i = 0; i < 3; i++)
-            triad[i] = '0';
+        for (index = 0; index < 3; index++)
+            triad[index] = '0';
         index = (int)((integer_digits - 1) / 3.0);
         num_digits = integer_digits - (index * 3);
         triad_index = 3 - num_digits;
 
-        for (i = index; i >= 0; i--) {
+        for (index = index; index >= 0; index--) {
             while (num_digits--)
                 triad[triad_index++] = word[integer_digits_pos[digit_index++]];
 
-            if (process_triad(triad, output, pause_flag,
-                              (ordinal && (ordinal_triad == i)),
-                              right_zero_pad, NP_NO, NP_NO) == NONZERO) {
-                if (ordinal && (ordinal_triad == i))
-                    strcat(output, triad_name[1][i]);
+            if (process_triad(triad, output, pause_flag, (ordinal && (ordinal_triad == index)), right_zero_pad, NP_NO, NP_NO) == NONZERO) {
+                if (ordinal && (ordinal_triad == index))
+                    strcat(output, triad_name[1][index]);
                 else
-                    strcat(output, triad_name[0][i]);
+                    strcat(output, triad_name[0][index]);
                 pause_flag = NP_YES;
             }
-            if ((i == 1) && (word[integer_digits_pos[digit_index]] == '0') &&
-                ((word[integer_digits_pos[digit_index + 1]] != '0') ||
-                 (word[integer_digits_pos[digit_index + 2]] != '0'))) {
+            if ((index == 1) && (word[integer_digits_pos[digit_index]] == '0') &&
+                ((word[integer_digits_pos[digit_index + 1]] != '0') || (word[integer_digits_pos[digit_index + 2]] != '0'))) {
                     strcat(output, AND);
                     pause_flag = NP_NO;
                 }
@@ -890,15 +867,15 @@ char *process_word(int mode)
     }
     /*  PROCESS EXTREMELY LARGE NUMBERS AS STREAM OF SINGLE DIGITS  */
     else if ((integer_digits > (TRIADS_MAX * 3)) && (!commas) && (!ordinal)) {
-        for (i = 0; i < integer_digits; i++)
-            process_digit(*(word + (*(integer_digits_pos + i))), output, NP_NO, NP_NO, NP_NO);
+        for (index = 0; index < integer_digits; index++)
+            process_digit(*(word + (*(integer_digits_pos + index))), output, NP_NO, NP_NO, NP_NO);
     }
 
     /*  APPEND DOLLAR OR DOLLARS IF NEEDED  */
     if (dollar && dollar_nonzero) {
-        if (fractional_digits && (fractional_digits != 2))
-            ;
-        else if (dollar_plural)
+        if (fractional_digits && (fractional_digits != 2)) {
+            // pass
+        } else if (dollar_plural)
             strcat(output, DOLLARS);
         else if (!dollar_plural)
             strcat(output, DOLLAR);
@@ -908,19 +885,17 @@ char *process_word(int mode)
 
     /*  APPEND POINT IF FRACTIONAL DIGITS, NO SLASH,
      AND IF NOT .00 DOLLAR FORMAT  */
-    if (fractional_digits && (!slash) &&
-        ((!dollar) || (dollar && (fractional_digits != 2)))) {
+    if (fractional_digits && (!slash) && ((!dollar) || (dollar && (fractional_digits != 2)))) {
         strcat(output, POINT);
-        for (i = 0; i < fractional_digits; i++)
-            process_digit(word[fractional_digits_pos[i]], output, NP_NO, NP_NO, NP_NO);
+        for (index = 0; index < fractional_digits; index++)
+            process_digit(word[fractional_digits_pos[index]], output, NP_NO, NP_NO, NP_NO);
     }
     /*  PROCESS DENOMINATOR OF FRACTIONS  */
     else if (slash) {
         char ones_digit = '\0', tens_digit = '\0';
         long  special_flag;
 
-        if (((integer_digits >= 3) && (fractional_digits >= 3)) ||
-            (word[integer_digits_pos[integer_digits - 1]] == '0'))
+        if (((integer_digits >= 3) && (fractional_digits >= 3)) || (word[integer_digits_pos[integer_digits - 1]] == '0'))
             strcat(output, PAUSE);
 
         ones_digit = word[fractional_digits_pos[fractional_digits - 1]];
@@ -942,40 +917,35 @@ char *process_word(int mode)
             special_flag = QUARTER_FLAG;
 
         if (fractional_digits == 1)
-            process_digit(ones_digit, output, ordinal,
-                          ordinal_plural, special_flag);
-        else if (fractional_digits >= 2 &&
-                 (fractional_digits <= (TRIADS_MAX * 3))) {
-            long digit_index = 0, num_digits, triad_index,
-            index, pause_flag = NP_NO;
-            for (i = 0; i < 3; i++)
-                triad[i] = '0';
+            process_digit(ones_digit, output, ordinal, ordinal_plural, special_flag);
+        else if (fractional_digits >= 2 && fractional_digits <= (TRIADS_MAX * 3)) {
+            long digit_index = 0, num_digits, triad_index, index, pause_flag = NP_NO;
+            for (index = 0; index < 3; index++)
+                triad[index] = '0';
             index = (int)((fractional_digits - 1) / 3.0);
             num_digits = fractional_digits - (index * 3);
             triad_index = 3 - num_digits;
 
-            for (i = index; i >= 0; i--) {
+            for (index = index; index >= 0; index--) {
                 while (num_digits--)
-                    triad[triad_index++] =
-                    word[fractional_digits_pos[digit_index++]];
+                    triad[triad_index++] = word[fractional_digits_pos[digit_index++]];
 
                 if (process_triad(triad, output, pause_flag,
-                                  (ordinal && (frac_ordinal_triad == i)),
+                                  (ordinal && (frac_ordinal_triad == index)),
                                   frac_right_zero_pad,
-                                  (ordinal_plural && (frac_ordinal_triad == i)),
-                                  (special_flag && (frac_ordinal_triad == i))) == NONZERO) {
-                    if (ordinal_plural && (frac_ordinal_triad == i))
-                        strcat(output, triad_name[2][i]);
-                    else if (ordinal && (frac_ordinal_triad == i))
-                        strcat(output, triad_name[1][i]);
+                                  (ordinal_plural && (frac_ordinal_triad == index)),
+                                  (special_flag && (frac_ordinal_triad == index))) == NONZERO) {
+                    if (ordinal_plural && (frac_ordinal_triad == index))
+                        strcat(output, triad_name[2][index]);
+                    else if (ordinal && (frac_ordinal_triad == index))
+                        strcat(output, triad_name[1][index]);
                     else
-                        strcat(output, triad_name[0][i]);
+                        strcat(output, triad_name[0][index]);
                     pause_flag = NP_YES;
                 }
-                if ((i == 1) &&
-                    (word[fractional_digits_pos[digit_index]] == '0') &&
-                    ((word[fractional_digits_pos[digit_index + 1]] != '0') ||
-                     (word[fractional_digits_pos[digit_index + 2]] != '0'))) {
+                if ((index == 1)
+                    && (word[fractional_digits_pos[digit_index]] == '0')
+                    && ((word[fractional_digits_pos[digit_index + 1]] != '0') || (word[fractional_digits_pos[digit_index + 2]] != '0'))) {
                         strcat(output, AND);
                         pause_flag = NP_NO;
                     }
@@ -1005,8 +975,7 @@ char *process_word(int mode)
     if (percent)
         strcat(output, PERCENT);
 
-    /*  RETURN OUTPUT TO CALLER  */
-    return (output);
+    return output;
 }
 
 
@@ -1022,15 +991,12 @@ char *process_word(int mode)
 
 char *degenerate_string(const char *word)
 {
-    long word_length, i;
-
-    /*  APPEND NULL BYTE TO OUTPUT;  DETERMINE WORD LENGTH  */
     output[0] = '\0';
-    word_length = strlen(word);
+    long word_length = strlen(word);
 
     /*  APPEND PROPER PRONUNCIATION FOR EACH CHARACTER  */
-    for (i = 0; i < word_length; i++) {
-        switch (*(word + i)) {
+    for (NSUInteger index = 0; index < word_length; index++) {
+        switch (*(word + index)) {
             case ' ': strcat(output, BLANK);                break;
             case '!': strcat(output, EXCLAMATION_POINT);    break;
             case '"': strcat(output, DOUBLE_QUOTE);         break;
@@ -1129,7 +1095,7 @@ char *degenerate_string(const char *word)
             default:  strcat(output, UNKNOWN);              break;
         }
     }
-    return (output);
+    return output;
 }
 
 
@@ -1152,28 +1118,28 @@ char *degenerate_string(const char *word)
 int process_triad(char *triad, char *output, int pause, int ordinal, int right_zero_pad, int ordinal_plural, int special_flag)
 {
     /*  IF TRIAD IS 000, RETURN ZERO  */
-    if ((*(triad) == '0') && (*(triad+1) == '0') && (*(triad+2) == '0'))
-        return (0);
+    if ((*(triad) == '0') && (*(triad + 1) == '0') && (*(triad + 2) == '0'))
+        return 0;
 
     /*  APPEND PAUSE IF FLAG SET  */
     if (pause)
         strcat(output, PAUSE);
 
     /*  PROCESS HUNDREDS  */
-        if (*(triad) >= '1') {
-            process_digit(*(triad), output, NP_NO, NP_NO, NP_NO);
-            if (ordinal_plural && (right_zero_pad == 2))
-                strcat(output, HUNDREDTHS);
-            else if (ordinal && (right_zero_pad == 2))
-                strcat(output, HUNDREDTH);
-            else
-                strcat(output, HUNDRED);
-            if ((*(triad+1) != '0') || (*(triad+2) != '0'))
-                strcat(output, AND);
-        }
+    if (*(triad) >= '1') {
+        process_digit(*(triad), output, NP_NO, NP_NO, NP_NO);
+        if (ordinal_plural && (right_zero_pad == 2))
+            strcat(output, HUNDREDTHS);
+        else if (ordinal && (right_zero_pad == 2))
+            strcat(output, HUNDREDTH);
+        else
+            strcat(output, HUNDRED);
+        if ((*(triad + 1) != '0') || (*(triad + 2) != '0'))
+            strcat(output, AND);
+    }
 
     /*  PROCESS TENS  */
-    if (*(triad+1) == '1') {
+    if (*(triad + 1) == '1') {
         if (ordinal_plural && (right_zero_pad == 1) && (*(triad + 2) == '0'))
             strcat(output, TENTHS);
         else if (ordinal && (right_zero_pad == 1) && (*(triad + 2) == '0'))
@@ -1191,7 +1157,7 @@ int process_triad(char *triad, char *output, int pause, int ordinal, int right_z
                 case '9':       strcat(output, NINETEENTHS);    break;
             }
         } else if (ordinal && (right_zero_pad == 0)) {
-            switch (*(triad+2)) {
+            switch (*(triad + 2)) {
                 case '1':       strcat(output, ELEVENTH);       break;
                 case '2':       strcat(output, TWELFTH);        break;
                 case '3':       strcat(output, THIRTEENTH);     break;
@@ -1203,7 +1169,7 @@ int process_triad(char *triad, char *output, int pause, int ordinal, int right_z
                 case '9':       strcat(output, NINETEENTH);     break;
             }
         } else {
-            switch (*(triad+2)) {
+            switch (*(triad + 2)) {
                 case '0':       strcat(output, TEN);            break;
                 case '1':       strcat(output, ELEVEN);         break;
                 case '2':       strcat(output, TWELVE);         break;
@@ -1218,7 +1184,7 @@ int process_triad(char *triad, char *output, int pause, int ordinal, int right_z
         }
     } else if (*(triad+1) >= '2') {
         if (ordinal_plural && (right_zero_pad == 1)) {
-            switch (*(triad+1)) {
+            switch (*(triad + 1)) {
                 case '2':       strcat(output, TWENTIETHS);     break;
                 case '3':       strcat(output, THIRTIETHS);     break;
                 case '4':       strcat(output, FORTIETHS);      break;
@@ -1229,7 +1195,7 @@ int process_triad(char *triad, char *output, int pause, int ordinal, int right_z
                 case '9':       strcat(output, NINETIETHS);     break;
             }
         } else if (ordinal && (right_zero_pad == 1)) {
-            switch (*(triad+1)) {
+            switch (*(triad + 1)) {
                 case '2':       strcat(output, TWENTIETH);      break;
                 case '3':       strcat(output, THIRTIETH);      break;
                 case '4':       strcat(output, FORTIETH);       break;
@@ -1240,7 +1206,7 @@ int process_triad(char *triad, char *output, int pause, int ordinal, int right_z
                 case '9':       strcat(output, NINETIETH);      break;
             }
         } else {
-            switch (*(triad+1)) {
+            switch (*(triad + 1)) {
                 case '2':       strcat(output, TWENTY);         break;
                 case '3':       strcat(output, THIRTY);         break;
                 case '4':       strcat(output, FORTY);          break;
@@ -1254,12 +1220,10 @@ int process_triad(char *triad, char *output, int pause, int ordinal, int right_z
     }
     /*  PROCESS ONES  */
     if (*(triad + 1) != '1' && *(triad + 2) >= '1') {
-        process_digit(*(triad + 2), output, (ordinal && (right_zero_pad == 0)),
-                      (ordinal_plural && (right_zero_pad == 0)), special_flag);
+        process_digit(*(triad + 2), output, (ordinal && (right_zero_pad == 0)), (ordinal_plural && (right_zero_pad == 0)), special_flag);
     }
     
-    /*  RETURN WITH NONZERO VALUE  */
-    return (NONZERO);
+    return NONZERO;
 }
 
 
